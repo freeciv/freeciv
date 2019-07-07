@@ -739,6 +739,8 @@ extras = "\
 ; rmcauses                = events that can remove extra type.\n\
 ;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
 ;                           \"Disappear\"\n\
+; infracost               = Number of infrapoints it costs to place this\n\
+;                           extra. 0 means extra cannot be placed. Default is 1\n\
 ; graphic                 = tag specifying preferred graphic\n\
 ; graphic_alt             = tag for alternate graphic if preferred graphic is\n\
 ;                           not present. Can use eg \"-\" for no alternate\n\

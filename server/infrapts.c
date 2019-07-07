@@ -42,7 +42,7 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
     return;
   }
 
-  if (pplayer->economic.infra_points <= 0) {
+  if (pplayer->economic.infra_points < pextra->infracost) {
     notify_player(pplayer, NULL, E_LOW_ON_FUNDS, ftc_server,
                   _("Cannot place %s for lack of infrapoints."),
                   extra_name_translation(pextra));
@@ -56,7 +56,7 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
     return;
   }
 
-  pplayer->economic.infra_points--;
+  pplayer->economic.infra_points -= pextra->infracost;
   send_player_info_c(pplayer, pplayer->connections);
 
   create_extra(ptile, pextra, pplayer);

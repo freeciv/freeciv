@@ -1710,6 +1710,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 build_time_factor;
   UINT8 removal_time;
   UINT8 removal_time_factor;
+  UINT16 infracost;
   UINT8 defense_bonus;
   EUS eus;
   BV_UNIT_CLASSES native_to;

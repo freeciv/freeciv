@@ -3952,6 +3952,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->build_time_factor = p->build_time_factor;
   pextra->removal_time = p->removal_time;
   pextra->removal_time_factor = p->removal_time_factor;
+  pextra->infracost = p->infracost;
   pextra->defense_bonus = p->defense_bonus;
 
   if (pextra->defense_bonus != 0) {

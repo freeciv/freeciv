@@ -427,7 +427,7 @@ bool player_can_place_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile)
 {
-  return player_can_build_extra(pextra, pplayer, ptile);
+  return pextra->infracost > 0 && player_can_build_extra(pextra, pplayer, ptile);
 }
 
 /************************************************************************//**

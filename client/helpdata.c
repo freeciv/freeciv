@@ -292,6 +292,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
      *      author could express much more simply for the same result */
     {
       int time = -1, factor = -1;
+
       extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
         if (pextra->removal_time == 0) {
           if (factor < 0) {
@@ -331,6 +332,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 
     {
       int time = -1, factor = -1;
+
       extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
         if (pextra->removal_time == 0) {
           if (factor < 0) {
@@ -370,6 +372,7 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
 
     {
       int time = -1, factor = -1;
+
       extra_type_by_rmcause_iterate(ERM_PILLAGE, pextra) {
         if (pextra->removal_time == 0) {
           if (factor < 0) {
@@ -3364,6 +3367,10 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
       }
       CATLSTR(buf, bufsz, reqsbuf);
     }
+  }
+
+  if (pextra->infracost > 0) {
+    cat_snprintf(buf, bufsz, _("Cost: %d\n"), pextra->infracost);
   }
 
   if (buf[group_start] != '\0') {
