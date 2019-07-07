@@ -138,7 +138,8 @@ req2        = "None"
 flags       = ""
 graphic     = "a.fire"
 graphic_alt = "-"
-helptext    = _("With fire, there can be a place to live permanently.");
+helptext    = _("With fire, there can be a place to live permanently.\
+ Allows settlements to grow to size 6.");
 
 [advance_tools]
 name        = _("Tools");

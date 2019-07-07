@@ -74,3 +74,16 @@ value   = 1
 [effect_unhappysize]
 type    = "City_Unhappy_Size"
 value   = 4
+
+; Base max city size of 4
+[effect_city_size_limit_base]
+type    = "Size_Adj"
+value   = 4
+
+[effect_city_size_limit_fire]
+type    = "Size_Adj"
+value   = 2
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Fire", "Player"
+    }
