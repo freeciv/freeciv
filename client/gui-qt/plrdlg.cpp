@@ -465,7 +465,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   if (player_has_embassy(me, pplayer)) {
     etax = QString::number(pplayer->economic.tax) + "%";
     esci = QString::number(pplayer->economic.science) + "%";
-    elux = QString::number(pplayer->economic.science) + "%";
+    elux = QString::number(pplayer->economic.luxury) + "%";
     cult = QString::number(pplayer->client.culture);
   } else {
     etax = _("(Unknown)");
