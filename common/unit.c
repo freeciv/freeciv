@@ -45,6 +45,11 @@ static bool is_real_activity(enum unit_activity activity);
 
 Activity_type_id real_activities[ACTIVITY_LAST];
 
+const Activity_type_id tile_changing_activities[] =
+    { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
+      ACTIVITY_BASE, ACTIVITY_CULTIVATE, ACTIVITY_PLANT, ACTIVITY_TRANSFORM,
+      ACTIVITY_POLLUTION, ACTIVITY_FALLOUT, ACTIVITY_LAST };
+
 struct cargo_iter {
   struct iterator vtable;
   const struct unit_list_link *links[GAME_TRANSPORT_MAX_RECURSIVE];

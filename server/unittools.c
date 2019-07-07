@@ -720,7 +720,7 @@ static int total_activity(struct tile *ptile, enum unit_activity act,
   int total = 0;
   bool tgt_matters = activity_requires_target(act);
 
-  unit_list_iterate (ptile->units, punit) {
+  unit_list_iterate(ptile->units, punit) {
     if (punit->activity == act
         && (!tgt_matters || punit->activity_target == tgt)) {
       total += punit->activity_count;
@@ -822,16 +822,10 @@ void unit_activities_cancel_all_illegal(const struct tile *ptile)
 **************************************************************************/
 static void update_unit_activity(struct unit *punit)
 {
-  const enum unit_activity tile_changing_actions[] =
-    { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
-      ACTIVITY_BASE, ACTIVITY_CULTIVATE, ACTIVITY_PLANT, ACTIVITY_TRANSFORM,
-      ACTIVITY_POLLUTION, ACTIVITY_FALLOUT, ACTIVITY_LAST };
-
   struct player *pplayer = unit_owner(punit);
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
-  int i;
   
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -1008,8 +1002,8 @@ static void update_unit_activity(struct unit *punit)
       } unit_list_iterate_end;
     }
 
-    for (i = 0; tile_changing_actions[i] != ACTIVITY_LAST; i++) {
-      if (tile_changing_actions[i] == activity) {
+    tile_changing_activities_iterate(act) {
+      if (act == activity) {
         /* Some units nearby may not be able to continue their action,
          * such as building irrigation if we removed the only source
          * of water from them. */
@@ -1018,7 +1012,7 @@ static void update_unit_activity(struct unit *punit)
         } adjc_iterate_end;
         break;
       }
-    }
+    } tile_changing_activities_iterate_end;
   }
 
   if (activity == ACTIVITY_FORTIFYING) {

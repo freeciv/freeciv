@@ -272,6 +272,16 @@ extern Activity_type_id real_activities[ACTIVITY_LAST];
   activity_type_list_iterate_end                                            \
 }
 
+extern const Activity_type_id tile_changing_activities[ACTIVITY_LAST];
+
+#define tile_changing_activities_iterate(_act_)                             \
+{                                                                           \
+  activity_type_list_iterate(tile_changing_activities, _act_)
+
+#define tile_changing_activities_iterate_end                                \
+  activity_type_list_iterate_end                                            \
+}
+  
 bool unit_can_help_build_wonder_here(const struct unit *punit);
 bool unit_can_est_trade_route_here(const struct unit *punit);
 enum unit_airlift_result

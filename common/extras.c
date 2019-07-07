@@ -464,6 +464,15 @@ bool player_can_place_extra(const struct extra_type *pextra,
     }
   }
 
+  /* Placing extras is not allowed to tiles where also workers do changes. */
+  unit_list_iterate(ptile->units, punit) {
+    tile_changing_activities_iterate(act) {
+      if (punit->activity == act) {
+        return FALSE;
+      }
+    } tile_changing_activities_iterate_end;
+  } unit_list_iterate_end;
+
   return player_can_build_extra(pextra, pplayer, ptile);
 }
 
