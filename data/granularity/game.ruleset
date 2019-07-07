@@ -36,8 +36,8 @@ name = _("Stub")
 
 ; Summary of the ruleset
 summary = _("\
-This ruleset is meant to be used as starting point for \
-real rulesets, not playable ruleset in itself.\
+Values in this ruleset have a high granularity. Rules are less subject\
+ to integer math pecularities than in standard rulesets.\
 ")
 
 ; Detailed description
