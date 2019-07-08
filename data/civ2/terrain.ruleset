@@ -845,8 +845,8 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           (the last three require a corresponding
 ;                           [resource_*] / [base_*] / [road_*] section)
 ; rmcauses                = events that can remove extra type.
-;                           "CleanPollution", "CleanFallout", "Pillage", or
-;                           "Disappear"
+;                           "CleanPollution", "CleanFallout", "Pillage",
+;                           "Disappear", or "Enter"
 ; infracost               = Number of infrapoints it costs to place this
 ;                           extra. 0 means extra cannot be placed. Default is 1
 ; graphic                 = tag specifying preferred graphic
@@ -1065,7 +1065,7 @@ name           = _("Minor Tribe Village")
 rule_name      = "Hut"
 category       = "Bonus"
 causes         = "Hut"
-;rmcauses       = ""
+rmcauses       = "Enter"
 graphic        = "tx.village"
 graphic_alt    = "-"
 activity_gfx   = "None"

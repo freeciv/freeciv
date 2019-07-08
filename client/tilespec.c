@@ -5378,6 +5378,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
 
 /************************************************************************//**
   Should the given extra be drawn
+  FIXME: Some extras can not be switched
 ****************************************************************************/
 static bool is_extra_drawing_enabled(struct extra_type *pextra)
 {
@@ -5408,7 +5409,7 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
     }
     no_disable = FALSE;
   }
-  if (is_extra_caused_by(pextra, EC_HUT)) {
+  if (is_extra_removed_by(pextra, ERM_ENTER)) {
     if (gui_options.draw_huts) {
       return TRUE;
     }

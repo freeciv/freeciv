@@ -3345,6 +3345,11 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
             _("Placed by map generator.\n"));
   }
 
+  if (is_extra_removed_by(pextra, ERM_ENTER)) {
+    CATLSTR(buf, bufsz,
+            _("Can be explored by certain units.\n"));
+  }
+
   if (is_extra_caused_by(pextra, EC_APPEARANCE)) {
     CATLSTR(buf, bufsz,
             _("May appear spontaneously.\n"));
@@ -3455,6 +3460,19 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                    PL_("Can be cleaned by units (takes %d turn).\n",
                        "Can be cleaned by units (takes %d turns).\n",
                        clean_time), clean_time);
+    }
+  }
+
+  if (requirement_vector_size(&pextra->rmreqs) > 0) {
+    char reqsbuf[8192] = "";
+
+    requirement_vector_iterate(&pextra->rmreqs, preq) {
+      (void) req_text_insert_nl(reqsbuf, sizeof(reqsbuf), pplayer, preq,
+                                VERB_DEFAULT, Q_("?bullet:* "));
+    } requirement_vector_iterate_end;
+    if (reqsbuf[0] != '\0') {
+      CATLSTR(buf, bufsz, _("Requirements to remove:\n"));
+      CATLSTR(buf, bufsz, reqsbuf);
     }
   }
 

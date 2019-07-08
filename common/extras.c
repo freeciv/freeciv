@@ -492,6 +492,7 @@ bool player_can_remove_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
+  /* For huts, it's not checked if player has any non-HUT_NOTHING units */
   return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
                          NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
                          RPT_POSSIBLE);
@@ -499,22 +500,20 @@ bool player_can_remove_extra(const struct extra_type *pextra,
 
 /************************************************************************//**
   Tells if unit can remove extra from tile.
+  Does not examine action requirements if an action is required for it.
 ****************************************************************************/
 bool can_remove_extra(struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile)
 {
-  struct player *pplayer;
 
   if (!can_extra_be_removed(pextra, ptile)) {
     return FALSE;
-  } 
+  }
 
-  pplayer = unit_owner(punit);
-
-  return are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
-                         punit, unit_type_get(punit), NULL, NULL, NULL,
-                         &pextra->rmreqs, RPT_CERTAIN);
+  return are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
+                         ptile, punit, unit_type_get(punit), NULL, NULL,
+                         NULL, &pextra->rmreqs, RPT_CERTAIN);
 }
 
 /************************************************************************//**
@@ -578,6 +577,63 @@ bool extra_conflicting_on_tile(const struct extra_type *pextra,
     }
   } extra_type_iterate_end;
 
+  return FALSE;
+}
+
+/************************************************************************//**
+  Returns TRUE iff an extra on the tile is a hut (removed by entering).
+  The effect of entering is handled by unit_enter_hut() in unittools.c
+****************************************************************************/
+bool hut_on_tile(const struct tile *ptile)
+{
+  extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
+    if (tile_has_extra(ptile, extra)) {
+      return TRUE;
+    }
+  } extra_type_by_rmcause_iterate_end;
+
+  return FALSE;
+}
+
+/************************************************************************//**
+  Returns TRUE iff the unit can enter any hut on the tile.
+  For the unit, tests only its class and its owner.
+****************************************************************************/
+bool unit_can_enter_hut(const struct unit *punit,
+                        const struct tile *ptile)
+{
+  if (HUT_NORMAL != unit_class_get(punit)->hut_behavior) {
+    return FALSE;
+  }
+  extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
+    if (tile_has_extra(ptile, extra)
+    && are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
+                       ptile, NULL, NULL, NULL, NULL, NULL, &extra->rmreqs,
+                       RPT_POSSIBLE)){
+      return TRUE;
+    }
+  } extra_type_by_rmcause_iterate_end;
+  return FALSE;
+}
+
+/************************************************************************//**
+  Returns TRUE iff the unit can enter or frighten any hut on the tile.
+  For the unit, tests only its class and its owner.
+****************************************************************************/
+bool unit_can_displace_hut(const struct unit *punit,
+                           const struct tile *ptile)
+{
+  if (HUT_NOTHING == unit_class_get(punit)->hut_behavior) {
+    return FALSE;
+  }
+  extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
+    if (tile_has_extra(ptile, extra)
+    && are_reqs_active(unit_owner(punit), tile_owner(ptile), NULL, NULL,
+                       ptile, NULL, NULL, NULL, NULL, NULL, &extra->rmreqs,
+                       RPT_POSSIBLE)){
+      return TRUE;
+    }
+  } extra_type_by_rmcause_iterate_end;
   return FALSE;
 }
 

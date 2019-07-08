@@ -737,8 +737,8 @@ extras = "\
 ;                           (the last three require a corresponding\n\
 ;                           [resource_*] / [base_*] / [road_*] section)\n\
 ; rmcauses                = events that can remove extra type.\n\
-;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
-;                           \"Disappear\"\n\
+;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\",\n\
+;                           \"Disappear\", or \"Enter\"\n\
 ; infracost               = Number of infrapoints it costs to place this\n\
 ;                           extra. 0 means extra cannot be placed. Default is 1\n\
 ; graphic                 = tag specifying preferred graphic\n\

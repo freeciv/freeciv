@@ -741,6 +741,8 @@ FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
 #define SPECENUM_VALUE2NAME "CleanFallout"
 #define SPECENUM_VALUE3 ERM_DISAPPEARANCE
 #define SPECENUM_VALUE3NAME "Disappear"
+#define SPECENUM_VALUE4 ERM_ENTER
+#define SPECENUM_VALUE4NAME "Enter"
 #define SPECENUM_COUNT ERM_COUNT
 #define SPECENUM_BITVECTOR bv_rmcauses
 #include "specenum_gen.h"

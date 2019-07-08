@@ -178,12 +178,13 @@ static struct tile *place_starting_unit(struct tile *starttile,
    * other cases, huts are avoided as start positions).  Remove any such hut,
    * and make sure to tell the client, since we may have already sent this
    * tile (with the hut) earlier: */
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
+  /* FIXME: don't remove under a HUT_NOTHING unit */
+  extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       tile_extra_rm_apply(ptile, pextra);
       hut_present = TRUE;
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (hut_present) {
     update_tile_knowledge(ptile);

@@ -462,3 +462,19 @@ const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,
 
   return old_type;
 }
+
+/**********************************************************************//**
+  Adjust freeciv-3.0 ruleset extra definitions to freeciv-3.1
+**************************************************************************/
+void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
+                               struct extra_type *pextra)
+{
+  if (compat->compat_mode && compat->ver_terrain < 20) {
+
+    /* Give remove cause ERM_ENTER for huts */
+    if (is_extra_caused_by(pextra, EC_HUT)) {
+      pextra->rmcauses |= (1 << ERM_ENTER);
+      extra_to_removed_by_list(pextra, ERM_ENTER);
+    }
+  }
+}

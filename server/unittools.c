@@ -2978,17 +2978,23 @@ static bool hut_get_limited(struct unit *punit)
 static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
+  int id = punit->id;
   enum hut_behavior behavior = unit_class_get(punit)->hut_behavior;
   struct tile *ptile = unit_tile(punit);
+  bool hut = FALSE;
 
-  /* FIXME: Should we still run "hut_enter" script when
-   *        hut_behavior is HUT_NOTHING or HUT_FRIGHTEN? */ 
   if (behavior == HUT_NOTHING) {
     return;
   }
 
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
-    if (tile_has_extra(ptile, pextra)) {
+  extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                           NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
+                           RPT_CERTAIN)
+       ) {
+      hut = TRUE;
+      /* FIXME: are all enter-removes extras worth counting? */
       pplayer->server.huts++;
 
       destroy_extra(ptile, pextra);
@@ -2999,21 +3005,23 @@ static void unit_enter_hut(struct unit *punit)
       if (behavior == HUT_FRIGHTEN) {
         script_server_signal_emit("hut_frighten", punit,
                                   extra_rule_name(pextra));
-        return;
-      }
-  
-      /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-      if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+      } else if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+        /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
         (void) hut_get_limited(punit);
-        return;
+      } else {
+        script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
       }
 
-      /* FIXME: Should have parameter for hut extra type */
-      script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
+      /* We need punit for the callbacks, can't continue if the unit died */
+      if (!unit_is_alive(id)) {
+        break;
+      }
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
-  send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
+  if (hut) {
+    send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
+  }
   return;
 }
 
@@ -3985,10 +3993,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   if (unit_lives) {
     /* Is there a hut? */
-    if (tile_has_cause_extra(pdesttile, EC_HUT)) {
-      unit_enter_hut(punit);
-      unit_lives = unit_is_alive(saved_id);
-    }
+    unit_enter_hut(punit);
+    unit_lives = unit_is_alive(saved_id);
   }
 
   conn_list_do_unbuffer(game.est_connections);

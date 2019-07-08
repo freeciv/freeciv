@@ -495,9 +495,8 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 
     /* ...or tiny pleasant hut here! */
     /* FIXME: unhardcode and variate the desire to enter a hut. */
-    if (hut_on_tile(ptile) && !is_barbarian(pplayer)
-        && is_native_tile(unit_type_get(punit), ptile)
-        && unit_class_get(punit)->hut_behavior == HUT_NORMAL) {
+    if (unit_can_enter_hut(punit, ptile) && !is_barbarian(pplayer)
+        && is_native_tile(unit_type_get(punit), ptile)) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
   }

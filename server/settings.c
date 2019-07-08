@@ -1724,7 +1724,8 @@ static struct setting settings[] = {
   GEN_INT("huts", wld.map.server.huts,
           SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
           N_("Amount of huts (bonus extras)"),
-          N_("Huts are tile extras that may be investigated by units. "
+          N_("Huts are tile extras that usually may be investigated by "
+             "units."
              "The server variable's scale is huts per thousand tiles."),
           huts_help, NULL, huts_action,
           MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)

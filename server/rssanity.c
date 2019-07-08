@@ -946,6 +946,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                     "Extras have conflicting or invalid removal requirements!");
       ok = FALSE;
     }
+    if ((requirement_vector_size(&pextra->rmreqs) > 0)
+        && !(pextra->rmcauses
+             & (ERM_ENTER | ERM_CLEANPOLLUTION
+                | ERM_CLEANFALLOUT | ERM_PILLAGE))) {
+      ruleset_error(LOG_WARN,
+                    "Requirements for extra removal defined but not "
+                    "a valid remove cause!");
+    }
   } extra_type_iterate_end;
 
   /* Roads */

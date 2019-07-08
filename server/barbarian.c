@@ -553,12 +553,13 @@ static void try_summon_barbarians(void)
   log_debug("Barbarians are willing to fight");
 
   /* Remove huts in place of uprising */
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
+  /* FIXME: Should we really always do it? */
+  extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(utile, pextra)) {
       tile_extra_rm_apply(utile, pextra);
       hut_present = TRUE;
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (hut_present) {
     update_tile_knowledge(utile);
@@ -595,8 +596,8 @@ static void try_summon_barbarians(void)
         log_debug("Created barbarian unit %s",utype_rule_name(punittype));
       }
     }
- 
-    if (is_native_tile(leader_type, utile)) { 
+
+    if (is_native_tile(leader_type, utile)) {
       (void) create_unit(barbarians, utile,
                          leader_type, 0, 0, -1);
       really_created++;
