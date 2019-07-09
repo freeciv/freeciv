@@ -1265,11 +1265,13 @@ enum unit_activity action_get_activity(const struct action *paction)
     return ACTIVITY_TRANSFORM;
   } else if (action_has_result(paction, ACTION_CONVERT)) {
     return ACTIVITY_CONVERT;
-  } else if (action_has_result(paction, ACTION_PLANT)
-             || action_has_result(paction, ACTION_MINE)) {
+  } else if (action_has_result(paction, ACTION_PLANT)) {
+    return ACTIVITY_PLANT;
+  } else if (action_has_result(paction, ACTION_MINE)) {
     return ACTIVITY_MINE;
-  } else if (action_has_result(paction, ACTION_CULTIVATE)
-             || action_has_result(paction, ACTION_IRRIGATE)) {
+  } else if (action_has_result(paction, ACTION_CULTIVATE)) {
+    return ACTIVITY_CULTIVATE;
+  } else if (action_has_result(paction, ACTION_IRRIGATE)) {
     return ACTIVITY_IRRIGATE;
   } else {
     return ACTIVITY_LAST;
@@ -1302,6 +1304,8 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_GEN_ROAD:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
   case ACTIVITY_TRANSFORM:
     return tile_activity_time(pactivity, tgt_tile, tgt_extra);
   case ACTIVITY_FORTIFYING:

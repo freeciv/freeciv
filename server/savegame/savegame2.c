@@ -651,6 +651,8 @@ static char activity2char(enum unit_activity activity)
     return 'c';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
     return '?';
   case ACTIVITY_LAST:
     break;

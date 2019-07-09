@@ -2724,13 +2724,13 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_CULTIVATE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_IRRIGATE,
+                                                             ACTIVITY_CULTIVATE,
                                                              &target_extra));
     break;
   case ACTION_PLANT:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_MINE,
+                                                             ACTIVITY_PLANT,
                                                              &target_extra));
     break;
   case ACTION_PILLAGE:
@@ -4843,6 +4843,8 @@ void handle_unit_orders(struct player *pplayer,
       case ACTIVITY_MINE:
       case ACTIVITY_IRRIGATE:
       case ACTIVITY_TRANSFORM:
+      case ACTIVITY_CULTIVATE:
+      case ACTIVITY_PLANT:
       case ACTIVITY_CONVERT:
 	/* Simple activities. */
 	break;

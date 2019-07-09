@@ -845,8 +845,12 @@ static char activity2char(enum unit_activity activity)
     return 'r';
   case ACTIVITY_MINE:
     return 'm';
+  case ACTIVITY_PLANT:
+    return 'M';
   case ACTIVITY_IRRIGATE:
     return 'i';
+  case ACTIVITY_CULTIVATE:
+    return 'I';
   case ACTIVITY_FORTIFIED:
     return 'f';
   case ACTIVITY_FORTRESS:
@@ -5296,6 +5300,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       if (tgt != NULL) {
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
       } else {
+        /* TODO: Set ACTIVITY_CULTIVATE */
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
       }
     } else if (activity == ACTIVITY_MINE) {
@@ -5306,6 +5311,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       if (tgt != NULL) {
         set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
       } else {
+        /* TODO: Set ACTIVITY_PLANT */
         set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
       }
     } else {

@@ -458,6 +458,10 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
     return terrain_extra_removal_time(pterrain, activity, tgt) * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
+  case ACTIVITY_CULTIVATE:
+    return pterrain->irrigation_time * ACTIVITY_FACTOR;
+  case ACTIVITY_PLANT:
+    return pterrain->mining_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
   case ACTIVITY_BASE:
@@ -659,7 +663,7 @@ static void tile_mine(struct tile *ptile, struct extra_type *tgt)
 }
 
 /************************************************************************//**
-  Transform (ACTIVITY_TRANSFORM) the tile.  This usually changes the tile's
+  Transform (ACTIVITY_TRANSFORM) the tile. This usually changes the tile's
   terrain type.
 ****************************************************************************/
 static void tile_transform(struct tile *ptile)
@@ -668,6 +672,34 @@ static void tile_transform(struct tile *ptile)
 
   if (pterrain->transform_result != T_NONE) {
     tile_change_terrain(ptile, pterrain->transform_result);
+  }
+}
+
+/************************************************************************//**
+  Plant (ACTIVITY_PLANT) the tile. This usually changes the tile's
+  terrain type.
+****************************************************************************/
+static void tile_plant(struct tile *ptile)
+{
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (pterrain->mining_result != T_NONE
+      && pterrain->mining_result != pterrain) {
+    tile_change_terrain(ptile, pterrain->mining_result);
+  }
+}
+
+/************************************************************************//**
+  Cultivate (ACTIVITY_CULTIVATE) the tile. This usually changes the tile's
+  terrain type.
+****************************************************************************/
+static void tile_cultivate(struct tile *ptile)
+{
+  struct terrain *pterrain = tile_terrain(ptile);
+
+  if (pterrain->irrigation_result != T_NONE
+      && pterrain->irrigation_result != pterrain) {
+    tile_change_terrain(ptile, pterrain->irrigation_result);
   }
 }
 
@@ -692,6 +724,14 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
 
   case ACTIVITY_TRANSFORM:
     tile_transform(ptile);
+    return TRUE;
+
+  case ACTIVITY_CULTIVATE:
+    tile_cultivate(ptile);
+    return TRUE;
+
+  case ACTIVITY_PLANT:
+    tile_plant(ptile);
     return TRUE;
 
   case ACTIVITY_OLD_ROAD:
