@@ -2395,6 +2395,17 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
                           pcity->id, 0);
       pplayer->score.units_built++;
 
+      /* If city has a rally point set, give the unit a move order. */
+      if (pcity->rally_point.length) {
+        punit->has_orders = TRUE;
+        punit->orders.length = pcity->rally_point.length;
+        punit->orders.vigilant = pcity->rally_point.vigilant;
+        punit->orders.list = fc_malloc(pcity->rally_point.length
+                                       * sizeof(struct unit_order));
+	memcpy(punit->orders.list, pcity->rally_point.orders,
+               pcity->rally_point.length * sizeof(struct unit_order));
+      }
+
       /* After we created the unit remove the citizen. This will also
        * rearrange the worker to take into account the extra resources
        * (food) needed. */
@@ -2437,6 +2448,14 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
          * worklist */
         worklist_remove(pwl, 0);
       }
+    }
+
+    if (pcity->rally_point.length && !pcity->rally_point.persistent) {
+      pcity->rally_point.length = 0;
+      pcity->rally_point.persistent = FALSE;
+      pcity->rally_point.vigilant = FALSE;
+      free(pcity->rally_point.orders);
+      pcity->rally_point.orders = NULL;
     }
 
     if (city_exist(saved_city_id)) {

@@ -731,6 +731,15 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
   ESTRING name[MAX_LEN_CITYNAME];
+
+  UINT16 rally_point_length;
+  BOOL rally_point_persistent;
+  BOOL rally_point_vigilant;
+  ORDERS rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
+  DIRECTION rally_point_dirs[MAX_LEN_ROUTE:rally_point_length];
+  ACTIVITY rally_point_activities[MAX_LEN_ROUTE:rally_point_length];
+  ACTION_SUB_TGT rally_point_sub_targets[MAX_LEN_ROUTE:rally_point_length];
+  ACTION_ID rally_point_actions[MAX_LEN_ROUTE:rally_point_length];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
@@ -833,6 +842,18 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   ACTION_ID act_id;
 
   BOOL disturb_player;
+end
+
+PACKET_CITY_RALLY_POINT = 138; cs
+  CITY city_id;
+  UINT16 length;
+  BOOL persistent;
+  BOOL vigilant;
+  ORDERS orders[MAX_LEN_ROUTE:length];
+  DIRECTION dirs[MAX_LEN_ROUTE:length];
+  ACTIVITY activities[MAX_LEN_ROUTE:length];
+  ACTION_SUB_TGT sub_targets[MAX_LEN_ROUTE:length];
+  ACTION_ID actions[MAX_LEN_ROUTE:length];
 end
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet

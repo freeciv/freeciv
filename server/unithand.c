@@ -4782,6 +4782,7 @@ void handle_unit_orders(struct player *pplayer,
   int length = packet->length, i;
   struct unit *punit = player_unit_by_number(pplayer, packet->unit_id);
   struct tile *src_tile = index_to_tile(&(wld.map), packet->src_tile);
+  struct unit_order *order_list;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -4814,283 +4815,14 @@ void handle_unit_orders(struct player *pplayer,
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
-  for (i = 0; i < length; i++) {
-    if (packet->orders[i] < 0 || packet->orders[i] > ORDER_LAST) {
-      log_error("%s() %s (player nb %d) has sent an invalid order %d "
-                "at index %d, truncating", __FUNCTION__,
-                player_name(pplayer), player_number(pplayer),
-                packet->orders[i], i);
-      length = i;
-      break;
-    }
-    switch (packet->orders[i]) {
-    case ORDER_MOVE:
-    case ORDER_ACTION_MOVE:
-      if (!map_untrusted_dir_is_valid(packet->dir[i])) {
-        log_error("handle_unit_orders() %d isn't a valid move direction. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  packet->dir[i], i,
-                  player_name(pplayer), packet->unit_id);
-
-	return;
-      }
-      break;
-    case ORDER_ACTIVITY:
-      switch (packet->activity[i]) {
-      case ACTIVITY_FALLOUT:
-      case ACTIVITY_POLLUTION:
-      case ACTIVITY_PILLAGE:
-      case ACTIVITY_MINE:
-      case ACTIVITY_IRRIGATE:
-      case ACTIVITY_TRANSFORM:
-      case ACTIVITY_CULTIVATE:
-      case ACTIVITY_PLANT:
-      case ACTIVITY_CONVERT:
-	/* Simple activities. */
-	break;
-      case ACTIVITY_FORTIFYING:
-      case ACTIVITY_SENTRY:
-        if (i != length - 1) {
-          /* Only allowed as the last order. */
-          log_error("handle_unit_orders() activity %d is only allowed in "
-                    "the last order. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    packet->activity[i], i,
-                    player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      case ACTIVITY_BASE:
-        if (!is_extra_caused_by(extra_by_number(packet->sub_target[i]),
-                                EC_BASE)) {
-          log_error("handle_unit_orders() %s isn't a base. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->sub_target[i])),
-                    i, player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      case ACTIVITY_GEN_ROAD:
-        if (!is_extra_caused_by(extra_by_number(packet->sub_target[i]),
-                                EC_ROAD)) {
-          log_error("handle_unit_orders() %s isn't a road. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    extra_rule_name(extra_by_number(packet->sub_target[i])),
-                    i, player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      /* Not supported yet. */
-      case ACTIVITY_EXPLORE:
-      case ACTIVITY_IDLE:
-      /* Not set from the client. */
-      case ACTIVITY_GOTO:
-      case ACTIVITY_FORTIFIED:
-      /* Compatiblity, used in savegames. */
-      case ACTIVITY_OLD_ROAD:
-      case ACTIVITY_OLD_RAILROAD:
-      case ACTIVITY_FORTRESS:
-      case ACTIVITY_AIRBASE:
-      /* Unused. */
-      case ACTIVITY_PATROL_UNUSED:
-      case ACTIVITY_LAST:
-      case ACTIVITY_UNKNOWN:
-        log_error("handle_unit_orders() unsupported activity %d. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  packet->activity[i], i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      if (packet->sub_target[i] == EXTRA_NONE
-          && unit_activity_needs_target_from_client(packet->activity[i])) {
-        /* The orders system can't do server side target assignment for
-         * this activity. */
-        log_error("handle_unit_orders() can't assign target for %d. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  packet->activity[i], i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      break;
-    case ORDER_PERFORM_ACTION:
-      if (!action_id_exists(packet->action[i])) {
-        /* Non existing action */
-        log_error("handle_unit_orders() the action %d doesn't exist. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  packet->action[i], i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      if (action_id_distance_inside_max(packet->action[i], 2)) {
-        /* Long range actions aren't supported in unit orders. Clients
-         * should order them performed via the unit_do_action packet.
-         *
-         * Reason: A unit order stores an action's target as the tile it is
-         * located on. The tile is stored as a direction (when the target
-         * is at a tile adjacent to the actor unit tile) or as no
-         * direction (when the target is at the same tile as the actor
-         * unit). The order system will pick a suitable target at the
-         * specified tile during order execution. This makes it impossible
-         * to target something that isn't at or next to the actors tile.
-         * Being unable to exploit the full range of an action handicaps
-         * it.
-         *
-         * A patch that allows a distant target in an order should remove
-         * this check and update the comment in the Qt client's
-         * go_act_menu::create(). */
-
-        log_error("handle_unit_orders() the action %s isn't supported in "
-                  "unit orders. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  action_id_name_translation(packet->action[i]), i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      if (!action_id_distance_inside_max(packet->action[i], 1)
-          && map_untrusted_dir_is_valid(packet->dir[i])) {
-        /* Actor must be on the target tile. */
-        log_error("handle_unit_orders() can't do %s to a neighbor tile. "
-                  "Sent in order number %d from %s to unit number %d.",
-                  action_id_rule_name(packet->action[i]), i,
-                  player_name(pplayer), packet->unit_id);
-
-        return;
-      }
-
-      /* Validate individual actions. */
-      switch ((enum gen_action) packet->action[i]) {
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-        /* Sabotage target is production (-1) or a building. */
-        if (!(packet->sub_target[i] - 1 == -1
-              || improvement_by_number(packet->sub_target[i] - 1))) {
-          /* Sabotage target is invalid. */
-
-          log_error("handle_unit_orders() can't do %s without a target. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    action_id_rule_name(packet->action[i]), i,
-                    player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      case ACTION_SPY_TARGETED_STEAL_TECH:
-      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-        if (packet->sub_target[i] == A_NONE
-            || (!valid_advance_by_number(packet->sub_target[i])
-                && packet->sub_target[i] != A_FUTURE)) {
-          /* Target tech is invalid. */
-
-          log_error("handle_unit_orders() can't do %s without a target. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    action_id_rule_name(packet->action[i]), i,
-                    player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      case ACTION_ROAD:
-      case ACTION_BASE:
-      case ACTION_MINE:
-      case ACTION_IRRIGATE:
-        if (packet->sub_target[i] == EXTRA_NONE
-            || (packet->sub_target[i] < 0
-                || packet->sub_target[i] >= game.control.num_extra_types)
-            || extra_by_number(packet->sub_target[i])->ruledit_disabled) {
-          /* Target extra is invalid. */
-
-          log_error("handle_unit_orders() can't do %s without a target. "
-                    "Sent in order number %d from %s to unit number %d.",
-                    action_id_rule_name(packet->action[i]), i,
-                    player_name(pplayer), packet->unit_id);
-
-          return;
-        }
-        break;
-      case ACTION_ESTABLISH_EMBASSY:
-      case ACTION_ESTABLISH_EMBASSY_STAY:
-      case ACTION_SPY_INVESTIGATE_CITY:
-      case ACTION_INV_CITY_SPEND:
-      case ACTION_SPY_POISON:
-      case ACTION_SPY_POISON_ESC:
-      case ACTION_SPY_STEAL_GOLD:
-      case ACTION_SPY_STEAL_GOLD_ESC:
-      case ACTION_SPY_SABOTAGE_CITY:
-      case ACTION_SPY_SABOTAGE_CITY_ESC:
-      case ACTION_SPY_STEAL_TECH:
-      case ACTION_SPY_STEAL_TECH_ESC:
-      case ACTION_SPY_INCITE_CITY:
-      case ACTION_SPY_INCITE_CITY_ESC:
-      case ACTION_TRADE_ROUTE:
-      case ACTION_MARKETPLACE:
-      case ACTION_HELP_WONDER:
-      case ACTION_SPY_BRIBE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT_ESC:
-      case ACTION_CAPTURE_UNITS:
-      case ACTION_FOUND_CITY:
-      case ACTION_JOIN_CITY:
-      case ACTION_STEAL_MAPS:
-      case ACTION_STEAL_MAPS_ESC:
-      case ACTION_BOMBARD:
-      case ACTION_SPY_NUKE:
-      case ACTION_SPY_NUKE_ESC:
-      case ACTION_NUKE:
-      case ACTION_DESTROY_CITY:
-      case ACTION_EXPEL_UNIT:
-      case ACTION_RECYCLE_UNIT:
-      case ACTION_DISBAND_UNIT:
-      case ACTION_HOME_CITY:
-      case ACTION_UPGRADE_UNIT:
-      case ACTION_ATTACK:
-      case ACTION_SUICIDE_ATTACK:
-      case ACTION_CONQUER_CITY:
-      case ACTION_PARADROP:
-      case ACTION_AIRLIFT:
-      case ACTION_HEAL_UNIT:
-      case ACTION_TRANSFORM_TERRAIN:
-      case ACTION_CULTIVATE:
-      case ACTION_PLANT:
-      case ACTION_PILLAGE:
-      case ACTION_FORTIFY:
-      case ACTION_CONVERT:
-        /* No validation required. */
-        break;
-      /* Invalid action. Should have been caught above. */
-      case ACTION_COUNT:
-        fc_assert_ret_msg(packet->action[i] != ACTION_NONE,
-                          "ACTION_NONE in ORDER_PERFORM_ACTION order. "
-                          "Order number %d from %s to unit number %d.",
-                          i, player_name(pplayer), packet->unit_id);
-      }
-
-      /* Don't validate that the target tile really contains a target or
-       * that the actor player's map think the target tile has one.
-       * The player may target a something from his player map that isn't
-       * there any more, a target he thinks is there even if his player map
-       * doesn't have it or even a target he assumes will be there when the
-       * unit reaches the target tile.
-       *
-       * With that said: The client should probably at least have an
-       * option to only aim city targeted actions at cities. */
-
-      break;
-    case ORDER_FULL_MP:
-      break;
-    case ORDER_LAST:
-      /* An invalid order.  This is handled in execute_orders. */
-      break;
+  if (length) {
+    order_list = create_unit_orders(length, packet->orders, packet->dir,
+                                    packet->activity, packet->sub_target,
+                                    packet->action);
+    if (!order_list) {
+      log_error("received invalid orders from %s for %s (%d).",
+                player_name(pplayer), unit_rule_name(punit), packet->unit_id);
+      return;
     }
   }
 
@@ -5119,14 +4851,8 @@ void handle_unit_orders(struct player *pplayer,
   punit->orders.index = 0;
   punit->orders.repeat = packet->repeat;
   punit->orders.vigilant = packet->vigilant;
-  punit->orders.list
-    = fc_malloc(length * sizeof(*(punit->orders.list)));
-  for (i = 0; i < length; i++) {
-    punit->orders.list[i].order = packet->orders[i];
-    punit->orders.list[i].dir = packet->dir[i];
-    punit->orders.list[i].activity = packet->activity[i];
-    punit->orders.list[i].sub_target = packet->sub_target[i];
-    punit->orders.list[i].action = packet->action[i];
+  if (length) {
+    punit->orders.list = order_list;
   }
 
   if (!packet->repeat) {

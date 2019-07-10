@@ -4640,3 +4640,259 @@ bool unit_can_be_retired(struct unit *punit)
 
   return TRUE;
 }
+
+/**********************************************************************//**
+  Sanity-check unit order arrays from a packet and create a unit_order array
+  from their contents if valid.
+**************************************************************************/
+struct unit_order *create_unit_orders(int length,
+                                      const enum unit_orders *orders,
+                                      const enum direction8 *dir,
+                                      const enum unit_activity *activity,
+                                      const int *sub_target,
+                                      const action_id *action)
+{
+  int i;
+  struct unit_order *unit_orders;
+
+  for (i = 0; i < length; i++) {
+    if (orders[i] < 0 || orders[i] > ORDER_LAST) {
+      log_error("invalid order %d at index %d", orders[i], i);
+      return NULL;
+    }
+    switch (orders[i]) {
+    case ORDER_MOVE:
+    case ORDER_ACTION_MOVE:
+      if (!map_untrusted_dir_is_valid(dir[i])) {
+        log_error("in order %d, invalid move direction %d.", i, dir[i]);
+	return NULL;
+      }
+      break;
+    case ORDER_ACTIVITY:
+      switch (activity[i]) {
+      case ACTIVITY_FALLOUT:
+      case ACTIVITY_POLLUTION:
+      case ACTIVITY_PILLAGE:
+      case ACTIVITY_MINE:
+      case ACTIVITY_IRRIGATE:
+      case ACTIVITY_PLANT:
+      case ACTIVITY_CULTIVATE:
+      case ACTIVITY_TRANSFORM:
+      case ACTIVITY_CONVERT:
+	/* Simple activities. */
+	break;
+      case ACTIVITY_FORTIFYING:
+      case ACTIVITY_SENTRY:
+        if (i != length - 1) {
+          /* Only allowed as the last order. */
+          log_error("activity %d is not allowed at index %d.", activity[i],
+                    i);
+          return NULL;
+        }
+        break;
+      case ACTIVITY_BASE:
+        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+                                EC_BASE)) {
+          log_error("at index %d, %s isn't a base.", i,
+                    extra_rule_name(extra_by_number(sub_target[i])));
+          return NULL;
+        }
+        break;
+      case ACTIVITY_GEN_ROAD:
+        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+                                EC_ROAD)) {
+          log_error("at index %d, %s isn't a road.", i,
+                    extra_rule_name(extra_by_number(sub_target[i])));
+          return NULL;
+        }
+        break;
+      /* Not supported yet. */
+      case ACTIVITY_EXPLORE:
+      case ACTIVITY_IDLE:
+      /* Not set from the client. */
+      case ACTIVITY_GOTO:
+      case ACTIVITY_FORTIFIED:
+      /* Compatiblity, used in savegames. */
+      case ACTIVITY_OLD_ROAD:
+      case ACTIVITY_OLD_RAILROAD:
+      case ACTIVITY_FORTRESS:
+      case ACTIVITY_AIRBASE:
+      /* Unused. */
+      case ACTIVITY_PATROL_UNUSED:
+      case ACTIVITY_LAST:
+      case ACTIVITY_UNKNOWN:
+        log_error("at index %d, unsupported activity %d.", i, activity[i]);
+        return NULL;
+      }
+
+      if (sub_target[i] == EXTRA_NONE
+          && unit_activity_needs_target_from_client(activity[i])) {
+        /* The orders system can't do server side target assignment for
+         * this activity. */
+        log_error("activity %d at index %d requires target.", activity[i],
+                  i);
+        return NULL;
+      }
+
+      break;
+    case ORDER_PERFORM_ACTION:
+      if (!action_id_exists(action[i])) {
+        /* Non-existent action. */
+        log_error("at index %d, the action %d doesn't exist.", i, action[i]);
+        return NULL;
+      }
+
+      if (action_id_distance_inside_max(action[i], 2)) {
+        /* Long range actions aren't supported in unit orders. Clients
+         * should order them performed via the unit_do_action packet.
+         *
+         * Reason: A unit order stores an action's target as the tile it is
+         * located on. The tile is stored as a direction (when the target
+         * is at a tile adjacent to the actor unit tile) or as no
+         * direction (when the target is at the same tile as the actor
+         * unit). The order system will pick a suitable target at the
+         * specified tile during order execution. This makes it impossible
+         * to target something that isn't at or next to the actors tile.
+         * Being unable to exploit the full range of an action handicaps
+         * it.
+         *
+         * A patch that allows a distant target in an order should remove
+         * this check and update the comment in the Qt client's
+         * go_act_menu::create(). */
+        log_error("at index %d, the action %s isn't supported in unit "
+                  "orders.", i, action_id_name_translation(action[i]));
+        return NULL;
+      }
+
+      if (!action_id_distance_inside_max(action[i], 1)
+          && map_untrusted_dir_is_valid(dir[i])) {
+        /* Actor must be on the target tile. */
+        log_error("at index %d, cannot do %s on a neighbor tile.", i,
+                  action_id_rule_name(action[i]));
+        return NULL;
+      }
+
+      /* Validate individual actions. */
+      switch ((enum gen_action) action[i]) {
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+        /* Sabotage target is production (-1) or a building. */
+        if (!(sub_target[i] - 1 == -1
+              || improvement_by_number(sub_target[i] - 1))) {
+          /* Sabotage target is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_SPY_TARGETED_STEAL_TECH:
+      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+        if (sub_target[i] == A_NONE
+            || (!valid_advance_by_number(sub_target[i])
+                && sub_target[i] != A_FUTURE)) {
+          /* Target tech is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_ROAD:
+      case ACTION_BASE:
+      case ACTION_MINE:
+      case ACTION_IRRIGATE:
+        if (sub_target[i] == EXTRA_NONE
+            || (sub_target[i] < 0
+                || sub_target[i] >= game.control.num_extra_types)
+            || extra_by_number(sub_target[i])->ruledit_disabled) {
+          /* Target extra is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_ESTABLISH_EMBASSY_STAY:
+      case ACTION_SPY_INVESTIGATE_CITY:
+      case ACTION_INV_CITY_SPEND:
+      case ACTION_SPY_POISON:
+      case ACTION_SPY_POISON_ESC:
+      case ACTION_SPY_STEAL_GOLD:
+      case ACTION_SPY_STEAL_GOLD_ESC:
+      case ACTION_SPY_SABOTAGE_CITY:
+      case ACTION_SPY_SABOTAGE_CITY_ESC:
+      case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_STEAL_TECH_ESC:
+      case ACTION_SPY_INCITE_CITY:
+      case ACTION_SPY_INCITE_CITY_ESC:
+      case ACTION_TRADE_ROUTE:
+      case ACTION_MARKETPLACE:
+      case ACTION_HELP_WONDER:
+      case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT_ESC:
+      case ACTION_CAPTURE_UNITS:
+      case ACTION_FOUND_CITY:
+      case ACTION_JOIN_CITY:
+      case ACTION_STEAL_MAPS:
+      case ACTION_STEAL_MAPS_ESC:
+      case ACTION_BOMBARD:
+      case ACTION_SPY_NUKE:
+      case ACTION_SPY_NUKE_ESC:
+      case ACTION_NUKE:
+      case ACTION_DESTROY_CITY:
+      case ACTION_EXPEL_UNIT:
+      case ACTION_RECYCLE_UNIT:
+      case ACTION_DISBAND_UNIT:
+      case ACTION_HOME_CITY:
+      case ACTION_UPGRADE_UNIT:
+      case ACTION_ATTACK:
+      case ACTION_SUICIDE_ATTACK:
+      case ACTION_CONQUER_CITY:
+      case ACTION_PARADROP:
+      case ACTION_AIRLIFT:
+      case ACTION_HEAL_UNIT:
+      case ACTION_TRANSFORM_TERRAIN:
+      case ACTION_CULTIVATE:
+      case ACTION_PLANT:
+      case ACTION_PILLAGE:
+      case ACTION_FORTIFY:
+      case ACTION_CONVERT:
+        /* No validation required. */
+        break;
+      /* Invalid action. Should have been caught above. */
+      case ACTION_COUNT:
+        fc_assert_ret_val_msg(action[i] != ACTION_NONE, NULL,
+                              "ACTION_NONE in ORDER_PERFORM_ACTION order. "
+                              "Order number %d.", i);
+      }
+
+      /* Don't validate that the target tile really contains a target or
+       * that the actor player's map think the target tile has one.
+       * The player may target a something from his player map that isn't
+       * there any more, a target he thinks is there even if his player map
+       * doesn't have it or even a target he assumes will be there when the
+       * unit reaches the target tile.
+       *
+       * With that said: The client should probably at least have an
+       * option to only aim city targeted actions at cities. */
+
+      break;
+    case ORDER_FULL_MP:
+      break;
+    case ORDER_LAST:
+      /* An invalid order.  This is handled in execute_orders. */
+      break;
+    }
+  }
+
+  unit_orders = fc_malloc(length * sizeof(*(unit_orders)));
+  for (i = 0; i < length; i++) {
+    unit_orders[i].order = orders[i];
+    unit_orders[i].dir = dir[i];
+    unit_orders[i].activity = activity[i];
+    unit_orders[i].sub_target = sub_target[i];
+    unit_orders[i].action = action[i];
+  }
+
+  return unit_orders;
+}
