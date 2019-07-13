@@ -151,6 +151,7 @@ static void unit_transport_load_tp_status(struct unit *punit,
 static void wipe_unit_full(struct unit *punit, bool transported,
                            enum unit_loss_reason reason,
                            struct player *killer);
+static bool unit_enter_hut(struct unit *punit);
 
 /**************************************************************************
   Returns a unit type that matches the role_tech or role roles.
@@ -2958,23 +2959,26 @@ static bool hut_get_limited(struct unit *punit)
 }
 
 /**************************************************************************
-  Due to the effects in the scripted hut behavior can not be predicted,
-  unit_enter_hut returns nothing.
+  Enter huts in iteration order as long as unit lives.
+  Iff survived to the last one, return TRUE.
 **************************************************************************/
-static void unit_enter_hut(struct unit *punit)
+static bool unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
+  int id = punit->id;
   enum hut_behavior behavior = unit_class_get(punit)->hut_behavior;
   struct tile *ptile = unit_tile(punit);
+  bool hut = FALSE, res = TRUE;
 
   /* FIXME: Should we still run "hut_enter" script when
    *        hut_behavior is HUT_NOTHING or HUT_FRIGHTEN? */ 
   if (behavior == HUT_NOTHING) {
-    return;
+    return TRUE;
   }
 
   extra_type_by_cause_iterate(EC_HUT, pextra) {
     if (tile_has_extra(ptile, pextra)) {
+      hut = TRUE;
       pplayer->server.huts++;
 
       destroy_extra(ptile, pextra);
@@ -2985,22 +2989,25 @@ static void unit_enter_hut(struct unit *punit)
       if (behavior == HUT_FRIGHTEN) {
         script_server_signal_emit("hut_frighten", punit,
                                   extra_rule_name(pextra));
-        return;
-      }
-  
-      /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-      if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+      } else if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+        /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
         (void) hut_get_limited(punit);
-        return;
+      } else {
+        script_server_signal_emit("hut_enter", punit,
+                                  extra_rule_name(pextra));
       }
-
-      /* FIXME: Should have parameter for hut extra type */
-      script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
+      /* We need punit for the callbacks, can't continue if the unit died */
+      if (!unit_is_alive(id)) {
+        res = FALSE;
+        break;
+      }
     }
   } extra_type_by_cause_iterate_end;
 
-  send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
-  return;
+  if (hut) {
+    send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
+  }
+  return res;
 }
 
 /****************************************************************************
@@ -3968,11 +3975,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   }
 
   if (unit_lives) {
-    /* Is there a hut? */
-    if (tile_has_cause_extra(pdesttile, EC_HUT)) {
-      unit_enter_hut(punit);
-      unit_lives = unit_is_alive(saved_id);
-    }
+    /* Entering huts */
+    unit_lives = unit_enter_hut(punit);
   }
 
   conn_list_do_unbuffer(game.est_connections);
