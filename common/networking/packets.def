@@ -477,6 +477,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pml;
+  UINT16 history_interest_pml;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;
   BOOL changable_tax;

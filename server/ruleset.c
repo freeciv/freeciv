@@ -6495,6 +6495,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.culture_migration_pml
       = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_MIGRATION_PML,
                                    "culture.migration_pml");
+    game.info.history_interest_pml
+      = secfile_lookup_int_default(file, RS_DEFAULT_HISTORY_INTEREST_PML,
+                                   "culture.history_interest_pml");
 
     /* section: calendar */
     game.calendar.calendar_skip_0

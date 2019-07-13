@@ -1046,6 +1046,11 @@ victory_min_points = 1000
 ; How big lead relative to second best player is needed for victory
 victory_lead_pct   = 200
 
+; How much existing history grows each turn. This makes older history
+; of the same original value more valuable as newer history, as it has
+; gained more interest.
+history_interest_pml = 0
+
 ; How much each culture point affects the migration
 ; from/to the city. Each culture point count as this many permilles
 ; of a migration point.

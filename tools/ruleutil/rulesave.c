@@ -1153,6 +1153,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.culture_migration_pml,
                    RS_DEFAULT_CULTURE_MIGRATION_PML,
                    "culture.migration_pml", NULL);
+  save_default_int(sfile, game.info.history_interest_pml,
+                   RS_DEFAULT_HISTORY_INTEREST_PML,
+                   "culture.history_interest_pml", NULL);
 
   save_default_bool(sfile, game.calendar.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,
