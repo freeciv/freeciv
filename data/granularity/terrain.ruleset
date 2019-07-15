@@ -201,15 +201,15 @@ ocean_resources = FALSE
 ; helptext	       = optional help text string; should escape all raw
 ;		         newlines so that xgettext parsing works
 
-[terrain_generic]
-name                 = _("Generic")
-graphic              = "generic"
-graphic_alt	     = "grassland"
+[terrain_grassland]
+name                 = _("Grassland")
+graphic              = "grassland"
+graphic_alt	     = "-"
 identifier	     = "g"
 class                = "Land"
 movement_cost        = 1
 defense_bonus        = 0
-food                 = 100
+food                 = 200
 shield               = 100
 trade                = 0
 resources            = "Generic Resource"
@@ -242,7 +242,7 @@ color.r              = 200
 color.g              = 200
 color.b              = 200
 helptext	     = _("\
-This is only possible land terrain.\
+Grasslands afford exceptional agricultural opportunities.\
 ")
 
 [terrain_ocean]
