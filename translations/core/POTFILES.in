@@ -1,6 +1,6 @@
 # List of source files containing translatable strings.
 # (Filenames are sorted alphabetically and relative to top-level directory.)
-ai/default/aicity.c
+ai/default/daicity.c
 ai/default/daidiplomacy.c
 ai/difficulty.c
 ai/handicaps.c
