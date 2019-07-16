@@ -141,6 +141,17 @@ graphic_alt = "-"
 helptext    = _("With fire, there can be a place to live permanently.\
  Allows settlements to grow to size 6.");
 
+[advance_government]
+name        = _("Government");
+req1        = "Cave Painting"
+req2        = "None"
+flags       = ""
+graphic     = "a.government"
+graphic_alt = "-"
+helptext    = _("Knowing basics of governing your people lets you\
+ adjust tax/science/luxury rates more freely.\
+");
+
 [advance_tools]
 name        = _("Tools");
 req1        = "None"
