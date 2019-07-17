@@ -247,6 +247,10 @@ value   = 3
 type    = "Conquest_Tech_Pct"
 value   = 100
 
+[effect_max_rates]
+type    = "Max_Rates"
+value   = 100
+
 [effect_base_unit_upkeep]
 type    = "Upkeep_Factor"
 value   = 1
@@ -404,54 +408,6 @@ reqs    =
 [effect_empire_size_step]
 type    = "Empire_Size_Step"
 value   = 10
-
-[effect_max_rates_0]
-type    = "Max_Rates"
-value   = 100
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Anarchy",   "Player"
-    }
-
-[effect_max_rates_1]
-type    = "Max_Rates"
-value   = 60
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Despotism", "Player"
-    }
-
-[effect_max_rates_2]
-type    = "Max_Rates"
-value   = 70
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Monarchy",  "Player"
-    }
-
-[effect_max_rates_3]
-type    = "Max_Rates"
-value   = 80
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Communism", "Player"
-    }
-
-[effect_max_rates_4]
-type    = "Max_Rates"
-value   = 80
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Republic",  "Player"
-    }
-
-[effect_max_rates_5]
-type    = "Max_Rates"
-value   = 100
-reqs    =
-    { "type",       "name",      "range"
-      "Gov", "Democracy", "Player"
-    }
 
 [effect_martial_law_each_0]
 type    = "Martial_Law_Each"
