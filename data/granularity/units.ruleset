@@ -121,17 +121,17 @@ veteran_move_bonus = 0
 ;
 ; */ <-- avoid gettext warnings
 
-[unitclass_generic]
-name          = _("Generic")
+[unitclass_land]
+name          = _("Land")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = ""
+flags         = "TerrainSpeed"
 
-[unitclass_ship]
-name          = _("Generic Ship")
+[unitclass_sea]
+name          = _("Sea")
 min_speed     = 1
 hp_loss_pct   = 0
-flags         = ""
+flags         = "TerrainSpeed"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -382,7 +382,7 @@ flags         = ""
 
 [unit_nomad]
 name          = _("Nomad")
-class         = "Generic"
+class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"
 graphic       = "u.nomad"
@@ -397,7 +397,7 @@ attack        = 7
 defense       = 7
 hitpoints     = 10
 firepower     = 1
-move_rate     = 1
+move_rate     = 5
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
@@ -414,7 +414,7 @@ helptext      = _("\
 
 [unit_warriors]
 name          = _("Warriors")
-class         = "Generic"
+class         = "Land"
 tech_req      = "Cave Painting"
 obsolete_by   = "None"
 graphic       = "u.warriors"
@@ -429,7 +429,7 @@ attack        = 10
 defense       = 10
 hitpoints     = 10
 firepower     = 1
-move_rate     = 1
+move_rate     = 5
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
@@ -445,7 +445,7 @@ helptext      = _("\
 
 [unit_settlers]
 name          = _("Settlers")
-class         = "Generic"
+class         = "Land"
 tech_req      = "Fire"
 obsolete_by   = "None"
 graphic       = "u.settlers"
@@ -460,7 +460,7 @@ attack        = 0
 defense       = 0
 hitpoints     = 10
 firepower     = 1
-move_rate     = 1
+move_rate     = 5
 vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
@@ -475,7 +475,7 @@ helptext      = _("\
 
 [unit_ship]
 name          = _("Generic Ship")
-class         = "Generic Ship"
+class         = "Sea"
 tech_req      = "Carving"
 obsolete_by   = "None"
 graphic       = "u.warriors"
@@ -490,7 +490,7 @@ attack        = 10
 defense       = 10
 hitpoints     = 10
 firepower     = 1
-move_rate     = 1
+move_rate     = 5
 vision_radius_sq = 2
 transport_cap = 2
 fuel          = 0
