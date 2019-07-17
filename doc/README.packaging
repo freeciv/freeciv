@@ -39,8 +39,6 @@ Updating from 2.6 to 3.0
 * --enable-ipv6 now defaults to strict 'yes' (it used to just 'test')
   One has to explicitly allow IPv4-only builds with --enable-ipv6=test or
   --disable-ipv6.
-* Tex AI module gets statically linked in by default, if threading
-  implementation supports it.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions

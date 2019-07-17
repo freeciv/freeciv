@@ -832,11 +832,7 @@ fi
 AC_ARG_ENABLE([ai-static],
   AS_HELP_STRING([--enable-ai-static], [statically link listed modules to server]),
 [static_modules="${enableval}"],
-[if test "x$thread_cond" = "xtrue" ; then
-  static_modules="classic,tex"
-else
-  static_modules="classic"
-fi])
+[static_modules="classic"])
 
 ai_mod_static_classic=no
 ai_mod_static_threaded=no
