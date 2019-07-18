@@ -3653,9 +3653,15 @@ static bool load_city_name_list(struct section_file *file,
             size_t l = strlen(p);
 
             if (0 < l && 's' == fc_tolower(p[l - 1])) {
+              char saved = p[l - 1];
+
               p[l - 1] = '\0';
+              pterrain = terrain_by_rule_name(p);
+              if (pterrain == NULL) {
+                /* Didn't help, restore for later allowed_terrains check */
+                p[l - 1] = saved;
+              }
             }
-            pterrain = terrain_by_rule_name(p);
           }
 
           /* Nationset may have been devised with a specific set of terrains
