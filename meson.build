@@ -1950,6 +1950,9 @@ executable('freeciv-gtk3.22',
   install: true
   )
 
+install_data('data/gtk3.22_menus.xml',
+             install_dir : join_paths(get_option('datadir'), 'freeciv'))
+
 endif
 
 if get_option('fcmp') != []
