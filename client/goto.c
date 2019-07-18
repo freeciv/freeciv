@@ -1415,7 +1415,8 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     old_tile = new_tile;
   }
 
-  if (p.orders[i - 1] == ORDER_MOVE
+  if (i > 0
+      && p.orders[i - 1] == ORDER_MOVE
       && (is_non_allied_city_tile(old_tile, client_player()) != NULL
           || is_non_allied_unit_tile(old_tile, client_player()) != NULL
           || ((is_allied_city_tile(old_tile, client_player())
