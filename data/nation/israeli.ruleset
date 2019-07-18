@@ -19,7 +19,7 @@ leaders = {
  "Shimon Peres",	"Male"
 }
 ruler_titles = { "government",     "male_title",       "female_title"
-                 "Communism",      _("Kibbutznik %s"), _("?female:Kibbutznik %s")
+                 "Communism",      _("Kibbutznik %s"), _("?female:Kibbutznikit %s")
                  "Despotism",      _("General %s"),    _("?female:General %s")
                  "Fundamentalism", _("Rabbi %s"),      _("?female:Rabbi %s")
 	       }
