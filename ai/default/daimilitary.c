@@ -48,6 +48,7 @@
 #include "infracache.h" /* adv_city */
 
 /* ai */
+#include "aitraits.h"
 #include "difficulty.h"
 #include "handicaps.h"
 
@@ -1414,6 +1415,9 @@ static void adjust_ai_unit_choice(struct city *pcity,
                                      choice->value.utype)) != B_LAST
        && !city_has_building(pcity, improvement_by_number(id))) {
     choice->value.building = improvement_by_number(id);
+    choice->want = choice->want * (0.5 + (ai_trait_get_value(TRAIT_BUILDER,
+                                                             city_owner(pcity))
+                                          / TRAIT_DEFAULT_VALUE / 2));
     choice->type = CT_BUILDING;
     adv_choice_set_use(choice, "veterancy building");
   }
@@ -1537,6 +1541,8 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
           choice->value.building = pimprove;
           /* building_want is hacked by assess_danger */
           choice->want = pcity->server.adv->building_want[wall_id];
+          choice->want = choice->want * (0.5 + (ai_trait_get_value(TRAIT_BUILDER, pplayer)
+                                                / TRAIT_DEFAULT_VALUE / 2));
           if (urgency == 0 && choice->want > 100) {
             choice->want = 100;
           }

@@ -59,6 +59,11 @@ default_government = "Despotism"
 ;aggressive_max = 50
 ;aggressive_default = 50
 
+; Value of trait "builder" defines how much AI wants to build buildings
+;builder_min = 50
+;builder_max = 50
+;builder_default = 50
+
 ; Descriptions of nation sets
 ; These are self-contained subsets of the available nations; one of these
 ; can be chosen in pregame with the "nationset" option. No nations

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,8 @@ extern "C" {
 #define SPECENUM_VALUE1NAME "Trader"
 #define SPECENUM_VALUE2 TRAIT_AGGRESSIVE
 #define SPECENUM_VALUE2NAME "Aggressive"
+#define SPECENUM_VALUE3 TRAIT_BUILDER
+#define SPECENUM_VALUE3NAME "Builder"
 #define SPECENUM_COUNT TRAIT_COUNT
 #include "specenum_gen.h"
 

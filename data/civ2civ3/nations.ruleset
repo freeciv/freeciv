@@ -55,6 +55,11 @@ aggressive_min = 30
 aggressive_max = 90
 aggressive_default = 50
 
+; Value of trait "builder" defines how much AI wants to build buildings
+builder_min = 30
+builder_max = 90
+builder_default = 50
+
 ; Please keep [ruledit] section in sync with these includes
 *include "default/nationlist.ruleset"
 ; This ruleset uses model of two separate barbarian nations

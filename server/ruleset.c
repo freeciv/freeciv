@@ -1029,6 +1029,7 @@ static void ruleset_load_traits(struct trait_limits *out,
     "expansionist",
     "trader",
     "aggressive",
+    "builder",
     NULL
   };
 
