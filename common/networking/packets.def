@@ -466,7 +466,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   AIRLIFTING_STYLE airlifting_style;
   UINT8 angrycitizen;
   SINT16 base_pollution;
-  UINT8 base_tech_cost;
+  UINT16 base_tech_cost;
   UINT8 tech_leak_pct;
   UINT16 border_city_radius_sq;
   UINT8 border_size_effect;
@@ -491,7 +491,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 coolinglevel;
   DIPLOMACY_MODE diplomacy;
   BOOL fogofwar;
-  UINT8 food_cost;
+  UINT16 food_cost;
   UINT32 foodbox;
   UINT8 forced_gold;
   UINT8 forced_luxury;
@@ -510,11 +510,11 @@ PACKET_GAME_INFO = 16; sc, is-info
   REVOLENTYPE revolentype;
   GOVERNMENT default_government_id;
   GOVERNMENT government_during_revolution_id;
-  UINT8 granary_food_inc;
-  UINT8 granary_food_ini[MAX_GRANARY_INIS];
+  UINT16 granary_food_inc;
+  UINT16 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
   PLAYER great_wonder_owners[B_LAST]; diff
-  UINT8 happy_cost;
+  UINT16 happy_cost;
   HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
   UINT16 illness_base_factor;
@@ -530,7 +530,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL killcitizen;
   BOOL killstack;
   BOOL only_killing_makes_veteran;
-  UINT8 min_city_center_output[O_LAST];
+  UINT16 min_city_center_output[O_LAST];
   BOOL muuk_food_wipe;
   BOOL muuk_gold_wipe;
   BOOL muuk_shield_wipe;
@@ -687,7 +687,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   UINT16 history;
   UINT16 culture;
-  UINT16 buy_cost;
+  UINT32 buy_cost;
 
   SINT16 surplus[O_LAST];
   UINT16 waste[O_LAST];
