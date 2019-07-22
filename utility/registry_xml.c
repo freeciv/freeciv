@@ -91,7 +91,10 @@ struct section_file *xmlfile_load(xmlDoc *sec_doc, const char *filename)
               int len = strlen(content);
               char buf[len + 1];
 
-              strncpy(buf, content, sizeof(buf));
+              /* Use of strncpy() here would lead to stringop-overflow
+               * compiler warning as the target length is based on source
+               * length. */
+              strcpy(buf, content);
               if (buf[0] == '"' && buf[len - 1] == '"') {
                 buf[len - 1] = '\0';
               }
