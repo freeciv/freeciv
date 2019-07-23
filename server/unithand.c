@@ -4826,7 +4826,7 @@ void handle_unit_orders(struct player *pplayer,
     }
   }
 
-  /* This must be before old orders are freed. If this is is
+  /* This must be before old orders are freed. If this is
    * settlers on city founding mission, city spot reservation
    * from goto_tile must be freed, and free_unit_orders() loses
    * goto_tile information */
