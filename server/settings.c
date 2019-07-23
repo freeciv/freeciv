@@ -1101,7 +1101,7 @@ static bool mapsize_callback(int value, struct connection *caller,
 {
   if (value == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
       game.map.ysize % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
@@ -1159,7 +1159,7 @@ static bool ysize_callback(int value, struct connection *caller,
     return FALSE;
   } else if (game.map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC &&
              value % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
@@ -1179,7 +1179,7 @@ static bool topology_callback(unsigned value, struct connection *caller,
   if (game.map.server.mapsize == MAPSIZE_XYSIZE &&
       ((value & (TF_ISO)) != 0 || (value & (TF_HEX)) != 0) &&
       game.map.ysize % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
