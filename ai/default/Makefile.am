@@ -16,8 +16,6 @@ AM_CPPFLAGS = \
 libdefaultai_la_SOURCES = \
 		aiair.c		\
 		aiair.h		\
-		aicity.c	\
-		aicity.h	\
 		aidata.c	\
 		aidata.h	\
 		aiferry.c	\
@@ -44,6 +42,8 @@ libdefaultai_la_SOURCES = \
 		aiunit.h	\
 		aidiplomat.c	\
 		aidiplomat.h	\
+		daicity.c	\
+		daicity.h	\
 		daidiplomacy.c	\
 		daidiplomacy.h	\
 		daidomestic.c	\

@@ -66,7 +66,6 @@
 
 /* ai/default */
 #include "aiair.h"
-#include "aicity.h"
 #include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
@@ -77,6 +76,7 @@
 #include "aiparatrooper.h"
 #include "aiplayer.h"
 #include "aitools.h"
+#include "daicity.h"
 #include "daimilitary.h"
 
 #include "aiunit.h"
@@ -495,9 +495,8 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 
     /* ...or tiny pleasant hut here! */
     /* FIXME: unhardcode and variate the desire to enter a hut. */
-    if (hut_on_tile(ptile) && !is_barbarian(pplayer)
-        && is_native_tile(unit_type_get(punit), ptile)
-        && unit_class_get(punit)->hut_behavior == HUT_NORMAL) {
+    if (unit_can_enter_hut(punit, ptile) && !is_barbarian(pplayer)
+        && is_native_tile(unit_type_get(punit), ptile)) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
   }
@@ -1372,6 +1371,11 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
       reserves = (acity_data->invasion.attack
                   - unit_list_size(acity->tile->units));
+
+      if (punit->id == 0) {
+        /* Real unit would add 1 to reserves once built. */
+        reserves++;
+      }
 
       if (0 < reserves && (unit_can_take_over(punit)
                            || 0 < acity_data->invasion.occupy)) {

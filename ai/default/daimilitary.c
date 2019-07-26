@@ -53,7 +53,6 @@
 
 /* ai/default */
 #include "aiair.h"
-#include "aicity.h"
 #include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
@@ -65,6 +64,7 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daicity.h"
 #include "daieffects.h"
 
 #include "daimilitary.h"
@@ -1643,7 +1643,7 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
 
   /* Check if we want a sailing attacker. Have to put sailing first
      before we mung the seamap */
-  punittype = dai_choose_attacker(ait, pcity, TC_LAND, allow_gold_upkeep);
+  punittype = dai_choose_attacker(ait, pcity, TC_OCEAN, allow_gold_upkeep);
   if (punittype) {
     virtualunit = unit_virtual_create(pplayer, pcity, punittype,
                                       do_make_unit_veteran(pcity, punittype));

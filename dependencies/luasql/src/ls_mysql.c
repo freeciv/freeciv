@@ -323,6 +323,17 @@ static int cur_numrows (lua_State *L) {
 
 
 /*
+** Seeks to an arbitrary row in a query result set.
+*/
+static int cur_seek (lua_State *L) {
+	cur_data *cur = getcursor (L);
+	lua_Integer rownum = luaL_checkinteger (L, 2);
+	mysql_data_seek (cur->my_res, rownum);
+	return 0;
+}
+
+
+/*
 ** Create a new Cursor object and push it on top of the stack.
 */
 static int create_cursor (lua_State *L, int conn, MYSQL_RES *result, int cols) {
@@ -592,6 +603,7 @@ static void create_metatables (lua_State *L) {
         {"getcoltypes", cur_getcoltypes},
         {"fetch", cur_fetch},
         {"numrows", cur_numrows},
+        {"seek", cur_seek},
 		{NULL, NULL},
     };
 	luasql_createmeta (L, LUASQL_ENVIRONMENT_MYSQL, environment_methods);
@@ -633,7 +645,6 @@ lua_pushliteral (L, MARIADB_CLIENT_VERSION_STR);
 #else
 lua_pushliteral (L, MYSQL_SERVER_VERSION);
 #endif
-    /*lua_pushliteral (L, MYSQL_SERVER_VERSION);*/
     lua_settable (L, -3);
 	return 1;
 }

@@ -560,6 +560,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->economic.tax     = PLAYER_DEFAULT_TAX_RATE;
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
   pplayer->economic.luxury  = PLAYER_DEFAULT_LUXURY_RATE;
+  pplayer->economic.infra_points = 0;
 
   spaceship_init(&pplayer->spaceship);
 

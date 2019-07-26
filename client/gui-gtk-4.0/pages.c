@@ -1420,7 +1420,7 @@ GtkWidget *create_network_page(void)
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
 
-  button = gtk_button_new_from_icon_name("view-refresh", GTK_ICON_SIZE_BUTTON);
+  button = gtk_button_new_from_icon_name("view-refresh");
   gtk_container_add(GTK_CONTAINER(bbox), button);
   gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",

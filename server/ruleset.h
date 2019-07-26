@@ -40,7 +40,7 @@ typedef void (*rs_conversion_logger)(const char *msg);
 /* functions */
 bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
-                   bool act, bool buffer_script);
+                   bool act, bool buffer_script, bool load_luadata);
 bool reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
 
@@ -88,6 +88,7 @@ char *get_parser_buffer(void);
 #define RS_DEFAULT_CULTURE_VIC_POINTS    1000
 #define RS_DEFAULT_CULTURE_VIC_LEAD      300
 #define RS_DEFAULT_CULTURE_MIGRATION_PML 50
+#define RS_DEFAULT_HISTORY_INTEREST_PML  0
 
 #define RS_DEFAULT_EXTRA_APPEARANCE      15
 #define RS_DEFAULT_EXTRA_DISAPPEARANCE   15

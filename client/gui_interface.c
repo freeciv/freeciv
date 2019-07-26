@@ -583,6 +583,14 @@ bool request_transport(struct unit *pcargo, struct tile *ptile)
 }
 
 /**********************************************************************//**
+  Call update_infra_dialog callback
+**************************************************************************/
+void update_infra_dialog(void)
+{
+  funcs.update_infra_dialog();
+}
+
+/**********************************************************************//**
   Call gui_load_theme callback
 **************************************************************************/
 void gui_load_theme(const char *directory, const char *theme_name)

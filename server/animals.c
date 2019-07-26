@@ -54,12 +54,13 @@ static void place_animal(struct player *plr)
   struct tile *ptile = rand_map_pos(&(wld.map));
   struct unit_type *ptype;
 
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
+  extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)) {
       /* Animals should not displace huts */
+      /* FIXME: might HUT_NOTHING animals appear here? */
       return;
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
   if (unit_list_size(ptile->units) > 0 || tile_city(ptile)) {
     return;

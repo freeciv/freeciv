@@ -53,7 +53,7 @@ extern GtkWidget *      unit_info_label;
 extern GtkWidget *      unit_info_frame;
 extern GtkWidget *      map_horizontal_scrollbar;
 extern GtkWidget *      map_vertical_scrollbar;
-extern GdkWindow *      root_window;
+extern GdkSurface *     root_window;
 
 extern GtkWidget *	toplevel_tabs;
 extern GtkWidget *	top_notebook;

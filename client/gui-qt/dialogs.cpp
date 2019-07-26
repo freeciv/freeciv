@@ -18,7 +18,6 @@
 // Qt
 #include <QApplication>
 #include <QComboBox>
-#include <QDir>
 #include <QGroupBox>
 #include <QHeaderView>
 #include <QImage>
@@ -115,8 +114,8 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void transform_terrain(QVariant data1, QVariant data2);
-static void irrigate_tf(QVariant data1, QVariant data2);
-static void mine_tf(QVariant data1, QVariant data2);
+static void cultivate(QVariant data1, QVariant data2);
+static void plant(QVariant data1, QVariant data2);
 static void pillage(QVariant data1, QVariant data2);
 static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
@@ -222,8 +221,8 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_ATTACK] = attack;
   action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
-  action_function[ACTION_IRRIGATE_TF] = irrigate_tf;
-  action_function[ACTION_MINE_TF] = mine_tf;
+  action_function[ACTION_CULTIVATE] = cultivate;
+  action_function[ACTION_PLANT] = plant;
   action_function[ACTION_PILLAGE] = pillage;
   action_function[ACTION_ROAD] = road;
   action_function[ACTION_BASE] = base;
@@ -2362,31 +2361,31 @@ static void transform_terrain(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action "Irrigate TF" for choice dialog
+  Action "Cultivate" for choice dialog
 ***************************************************************************/
-static void irrigate_tf(QVariant data1, QVariant data2)
+static void cultivate(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
-    request_do_action(ACTION_IRRIGATE_TF,
+    request_do_action(ACTION_CULTIVATE,
                       actor_id, target_id, 0, "");
   }
 }
 
 /***********************************************************************//**
-  Action "Mine TF" for choice dialog
+  Action "Plant" for choice dialog
 ***************************************************************************/
-static void mine_tf(QVariant data1, QVariant data2)
+static void plant(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int target_id = data2.toInt();
 
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
-    request_do_action(ACTION_MINE_TF,
+    request_do_action(ACTION_PLANT,
                       actor_id, target_id, 0, "");
   }
 }
@@ -4251,30 +4250,4 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
     gui()->battlelog_wdg->add_combat_info(huc);
     gui()->battlelog_wdg->show();
   }
-}
-
-/***********************************************************************//**
-  Popup dialog showing given image and text,
-  start playing given sound, stop playing sound when popup is closed.
-  Take all space available to show image if fullsize is set.
-  If there are other the same popups show them in queue.
-***************************************************************************/
-void show_img_play_snd(const char *img_path, const char *snd_path,
-                       const char *desc, bool fullsize)
-{
-  QPixmap *pix = new QPixmap;
-  QString img, snd;
-  hud_img *hi;
-  QDir dir;
-
-  img = dir.absolutePath() + QString("/data/") + QString(img_path);
-  pix->load(img);
-  if (pix->isNull()) {
-    delete pix;
-    return;
-  }
-  snd = dir.absolutePath() + QString("/data/") + QString(snd_path);
-  hi = new hud_img(pix, snd, desc, fullsize,  gui()->mapview_wdg);
-  hi->init();
-
 }

@@ -25,11 +25,11 @@
 /* server */
 #include "notify.h"
 
-/* ai */
-#include "aicity.h"
+/* ai/default */
 #include "aidata.h"
 #include "aiplayer.h"
 #include "aiunit.h"
+#include "daicity.h"
 
 #include "ailog.h"
 

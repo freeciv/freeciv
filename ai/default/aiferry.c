@@ -449,9 +449,11 @@ bool is_boat_free(struct ai_type *ait, struct unit *boat,
    *   are eligible.
    * - Only boats with enough remaining capacity are eligible.
    * - Only units that can travel at sea are eligible.
-   * - Units that require fuel are lose hitpoints are not eligible.
+   * - Units that require fuel, except "Coast" ones, or lose hitpoints are
+   *   not eligible.
    */
   struct unit_class *ferry_class = unit_class_get(boat);
+  struct unit_type *ferry_type = unit_type_get(boat);
   struct unit_ai *boat_data = def_ai_unit_data(boat, ait);
 
   return (can_unit_transport(boat, punit)
@@ -459,11 +461,11 @@ bool is_boat_free(struct ai_type *ait, struct unit *boat,
           && unit_owner(boat) == unit_owner(punit)
           && (boat_data->passenger == FERRY_AVAILABLE
               || boat_data->passenger == punit->id)
-          && (get_transporter_capacity(boat) 
+          && (get_transporter_capacity(boat)
               - get_transporter_occupancy(boat) >= cap)
           && ferry_class->adv.sea_move != MOVE_NONE
-          && !unit_type_get(boat)->fuel
-          && !is_losing_hp(boat));
+          && !is_losing_hp(boat)
+          && (ferry_type->fuel == 0 || utype_has_flag(ferry_type, UTYF_COAST)));
 }
 
 /**********************************************************************//**

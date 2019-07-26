@@ -111,6 +111,7 @@ struct extra_type
   int build_time_factor;
   int removal_time;
   int removal_time_factor;
+  int infracost;
 
   int defense_bonus;
   int appearance_chance;
@@ -213,6 +214,9 @@ bool can_build_extra_base(const struct extra_type *pextra,
 bool player_can_build_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);
+bool player_can_place_extra(const struct extra_type *pextra,
+                            const struct player *pplayer,
+                            const struct tile *ptile);
 
 bool can_remove_extra(struct extra_type *pextra,
                       const struct unit *punit,
@@ -229,9 +233,12 @@ bool is_native_tile_to_extra(const struct extra_type *pextra,
                              const struct tile *ptile);
 bool extra_conflicting_on_tile(const struct extra_type *pextra,
                                const struct tile *ptile);
-/* This macro defines when there is an extra which is removed by entering.
- * FIXME: invent a rmcause for this purpose and use it instead. */
-#define hut_on_tile(ptile) tile_has_cause_extra((ptile), EC_HUT)
+
+bool hut_on_tile(const struct tile *ptile);
+bool unit_can_enter_hut(const struct unit *punit,
+                        const struct tile *ptile);
+bool unit_can_displace_hut(const struct unit *punit,
+                           const struct tile *ptile);
 
 bool extra_has_flag(const struct extra_type *pextra, enum extra_flag_id flag);
 bool is_extra_flag_card_near(const struct tile *ptile,

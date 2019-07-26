@@ -40,6 +40,9 @@
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT
 
+/* Produce debug version */
+#mesondefine FREECIV_DEBUG
+
 /* locale.h available */
 #mesondefine FREECIV_HAVE_LOCALE_H
 

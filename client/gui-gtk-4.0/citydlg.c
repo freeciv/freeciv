@@ -707,7 +707,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
     gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_window(p),
+                  gtk_widget_get_surface(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
@@ -1095,6 +1095,7 @@ static void create_and_append_map_page(struct city_dialog *pdialog)
   }
 }
 
+#ifdef GTK3_DRAG_DROP
 /***********************************************************************//**
   Something dragged to worklist dialog.
 ***************************************************************************/
@@ -1131,6 +1132,7 @@ static void target_drag_data_received(GtkWidget *w,
 
   gtk_drag_finish(context, FALSE, FALSE, time);
 }
+#endif /* GTK3_DRAG_DROP */
 
 /***********************************************************************//**
   Create production page header - what tab this actually is,
@@ -1156,8 +1158,10 @@ static void create_production_header(struct city_dialog *pdialog,
 
   add_worklist_dnd_target(bar);
 
+#ifdef GTK3_DRAG_DROP
   g_signal_connect(bar, "drag_data_received",
                    G_CALLBACK(target_drag_data_received), pdialog);
+#endif /* GTK3_DRAG_DROP */
 
   pdialog->production.buy_command
     = icon_label_button_new("system-run", _("_Buy"));
@@ -1535,9 +1539,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 #ifndef FREECIV_MSWINDOWS
   {
     GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG));
+    GdkTexture *icon = gdk_texture_new_for_pixbuf(pixbuf);
 
     /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(pdialog->shell), pixbuf);
+    gtk_window_set_icon(GTK_WINDOW(pdialog->shell), icon);
     g_object_unref(pixbuf);
   }
 #endif /* FREECIV_MSWINDOWS */
@@ -1618,11 +1623,11 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   g_signal_connect(GTK_DIALOG(pdialog->shell), "response",
                    G_CALLBACK(citydlg_response_callback), pdialog);
 
-  pdialog->prev_command = gtk_button_new_from_icon_name("go-previous", 0);
+  pdialog->prev_command = gtk_button_new_from_icon_name("go-previous");
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                GTK_WIDGET(pdialog->prev_command), 1);
 
-  pdialog->next_command = gtk_button_new_from_icon_name("go-next", 0);
+  pdialog->next_command = gtk_button_new_from_icon_name("go-next");
   gtk_dialog_add_action_widget(GTK_DIALOG(pdialog->shell),
                                GTK_WIDGET(pdialog->next_command), 2);
 
@@ -2926,7 +2931,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if ((pterr->mining_result == pterr
          && univs_have_action_enabler(ACTION_MINE, NULL, &for_terr))
         || (pterr->mining_result != pterr && pterr->mining_result != NULL
-            && univs_have_action_enabler(ACTION_MINE_TF, NULL, &for_terr))) {
+            && univs_have_action_enabler(ACTION_PLANT, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
@@ -2934,7 +2939,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
     if ((pterr->irrigation_result == pterr
          && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr))
         || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
-            && univs_have_action_enabler(ACTION_IRRIGATE_TF, NULL, &for_terr))) {
+            && univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr))) {
       choice_dialog_add(shl, _("Irrigate"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_IRRIGATE), FALSE, NULL);
@@ -3166,7 +3171,7 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  GdkWindow *win;
+  GdkSurface *win;
   GdkSeat *seat;
   GdkModifierType mask;
   struct impr_type *pimprove;
@@ -3179,11 +3184,11 @@ static void impr_callback(GtkTreeView *view, GtkTreePath *path,
 
   gtk_tree_model_get(model, &it, 0, &pimprove, -1);
 
-  win = gtk_widget_get_window(GTK_WIDGET(view));
-  seat = gdk_display_get_default_seat(gdk_window_get_display(win));
+  win = gtk_widget_get_surface(GTK_WIDGET(view));
+  seat = gdk_display_get_default_seat(gdk_surface_get_display(win));
 
-  gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
-                                 NULL, NULL, &mask);
+  gdk_surface_get_device_position(win, gdk_seat_get_pointer(seat),
+                                  NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {
     sell_callback(pimprove, data);

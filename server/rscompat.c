@@ -255,16 +255,16 @@ static void effect_to_enabler(action_id action, struct section_file *file,
 
     if (compat->log_cb != NULL) {
       fc_snprintf(buf, sizeof(buf),
-                  "Converted effect %s to an action enabler. Make sure requirements "
+                  "Converted effect %s in %s to an action enabler. Make sure requirements "
                   "are correctly divided to actor and target requirements.",
-                  type);
+                  type, sec_name);
       compat->log_cb(buf);
     }
   } else if (value < 0) {
     if (compat->log_cb != NULL) {
       fc_snprintf(buf, sizeof(buf),
-                  "%s effect with negative value can't be automatically converted "
-                  "to an action enabler. Do that manually.", type);
+                  "%s effect with negative value in %s can't be automatically converted "
+                  "to an action enabler. Do that manually.", type, sec_name);
       compat->log_cb(buf);
     }
   }
@@ -283,11 +283,11 @@ bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Irrig_TF_Possible")) {
-      effect_to_enabler(ACTION_IRRIGATE_TF, file, sec_name, compat, type);
+      effect_to_enabler(ACTION_CULTIVATE, file, sec_name, compat, type);
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Mining_TF_Possible")) {
-      effect_to_enabler(ACTION_MINE_TF, file, sec_name, compat, type);
+      effect_to_enabler(ACTION_PLANT, file, sec_name, compat, type);
       return TRUE;
     }
     if (!fc_strcasecmp(type, "Mining_Possible")) {
@@ -461,4 +461,20 @@ const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,
   }
 
   return old_type;
+}
+
+/**********************************************************************//**
+  Adjust freeciv-3.0 ruleset extra definitions to freeciv-3.1
+**************************************************************************/
+void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
+                               struct extra_type *pextra)
+{
+  if (compat->compat_mode && compat->ver_terrain < 20) {
+
+    /* Give remove cause ERM_ENTER for huts */
+    if (is_extra_caused_by(pextra, EC_HUT)) {
+      pextra->rmcauses |= (1 << ERM_ENTER);
+      extra_to_removed_by_list(pextra, ERM_ENTER);
+    }
+  }
 }

@@ -5,7 +5,8 @@ MAN_PAGES = 			\
 	freeciv-client.6	\
 	freeciv-modpack.6	\
 	freeciv-manual.6	\
-	freeciv-ruledit.6
+	freeciv-ruledit.6	\
+	freeciv-ruleup.6
 
 MAN_LINKS = 			\
 	freeciv-gtk3.6		\

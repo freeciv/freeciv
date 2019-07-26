@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2016-Jun-07"
+options = "+Freeciv-tilespec-Devel-2019-Jul-03"
 
 ; A simple name for the tileset specified by this file:
 name = "Hex-2"
@@ -141,6 +141,7 @@ files =
   "hex2t/unitcost.spec",
   "hex2t/overlays.spec",
   "trident/units.spec",
+  "trident/extra_units.spec",
   "hex2t/select.spec",
   "hex2t/items.spec",
   "hex2t/grid.spec",

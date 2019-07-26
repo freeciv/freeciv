@@ -11,3 +11,13 @@
 
 -- This file is for lua-functionality for parsing luadata.txt
 -- of this ruleset.
+
+function turn_callback(turn, year)
+  msg = luadata.get_str(string.format("turn_%d.msg", turn))
+  if msg then
+    log.debug("Turn %d msg: %s", turn, msg)
+    notify.event(nil, nil, E.SCRIPT, msg)
+  end
+end
+
+signal.connect('turn_begin', 'turn_callback')

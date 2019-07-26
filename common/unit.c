@@ -462,6 +462,8 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_TRANSFORM:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_CONVERT:
     return FALSE;
@@ -540,8 +542,12 @@ const char *get_activity_text(enum unit_activity activity)
   case ACTIVITY_MINE:
     /* TRANS: Activity name, verb in English */
     return _("Plant");
+  case ACTIVITY_PLANT:
+    return _("Plant");
   case ACTIVITY_IRRIGATE:
     return _("Irrigate");
+  case ACTIVITY_CULTIVATE:
+    return _("Cultivate");
   case ACTIVITY_FORTIFYING:
     return _("Fortifying");
   case ACTIVITY_FORTIFIED:
@@ -882,7 +888,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       /* The call below doesn't support actor tile speculation. */
       fc_assert_msg(unit_tile(punit) == ptile,
                     "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_MINE_TF,
+      return is_action_enabled_unit_on_tile(ACTION_PLANT,
                                             punit, ptile, NULL);
     } else if (pterrain->mining_result == pterrain) {
       /* The call below doesn't support actor tile speculation. */
@@ -890,6 +896,18 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                     "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_MINE, punit,
                                             ptile, target);
+    } else {
+      return FALSE;
+    }
+
+  case ACTIVITY_PLANT:
+    if (pterrain->mining_result != pterrain
+        && pterrain->mining_result != T_NONE) {
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
+      return is_action_enabled_unit_on_tile(ACTION_PLANT,
+                                            punit, ptile, NULL);
     } else {
       return FALSE;
     }
@@ -904,7 +922,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
       /* The call below doesn't support actor tile speculation. */
       fc_assert_msg(unit_tile(punit) == ptile,
                     "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_IRRIGATE_TF,
+      return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
                                             punit, ptile, NULL);
     } else if (pterrain->irrigation_result == pterrain) {
       /* The call below doesn't support actor tile speculation. */
@@ -912,6 +930,18 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                     "Please use action_speculate_unit_on_tile()");
       return is_action_enabled_unit_on_tile(ACTION_IRRIGATE, punit,
                                             ptile, target);
+    } else {
+      return FALSE;
+    }
+
+  case ACTIVITY_CULTIVATE:
+    if (pterrain->irrigation_result != pterrain
+        && pterrain->irrigation_result != T_NONE) {
+      /* The call below doesn't support actor tile speculation. */
+      fc_assert_msg(unit_tile(punit) == ptile,
+                    "Please use action_speculate_unit_on_tile()");
+      return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
+                                            punit, ptile, NULL);
     } else {
       return FALSE;
     }
@@ -1155,6 +1185,8 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_CONVERT:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
     astr_add_line(astr, "%s", get_activity_text(punit->activity));
     return;
   case ACTIVITY_MINE:

@@ -69,6 +69,7 @@ struct player_economic {
   int tax;
   int science;
   int luxury;
+  int infra_points;
 };
 
 #define SPECENUM_NAME player_status

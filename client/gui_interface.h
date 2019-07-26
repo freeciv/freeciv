@@ -136,6 +136,8 @@ struct gui_funcs {
 
   bool (*request_transport)(struct unit *pcargo, struct tile *ptile);
 
+  void (*update_infra_dialog)(void);
+
   void (*gui_load_theme)(const char *directory, const char *theme_name);
   void (*gui_clear_theme)(void);
   char **(*get_gui_specific_themes_directories)(int *count);

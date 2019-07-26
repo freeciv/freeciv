@@ -1345,9 +1345,9 @@ struct player *client_player(void)
   Return the vision of the player on a tile. Client version of
   ./server/maphand/map_is_known_and_seen().
 **************************************************************************/
-static bool client_map_is_known_and_seen(const struct tile *ptile,
-                                         const struct player *pplayer,
-                                         enum vision_layer vlayer)
+bool client_map_is_known_and_seen(const struct tile *ptile,
+                                  const struct player *pplayer,
+                                  enum vision_layer vlayer)
 {
   return dbv_isset(&pplayer->client.tile_vision[vlayer], tile_index(ptile));
 }

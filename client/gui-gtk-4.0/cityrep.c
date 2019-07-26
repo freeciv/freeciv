@@ -1424,7 +1424,7 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 {
   GtkTreeModel *model;
   GtkTreeIter iter;
-  GdkWindow *win;
+  GdkSurface *win;
   GdkSeat *seat;
   GdkModifierType mask;
 
@@ -1434,11 +1434,11 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
     return;
   }
 
-  win = gtk_widget_get_window(GTK_WIDGET(view));
-  seat = gdk_display_get_default_seat(gdk_window_get_display(win));
+  win = gtk_widget_get_surface(GTK_WIDGET(view));
+  seat = gdk_display_get_default_seat(gdk_surface_get_display(win));
 
-  gdk_window_get_device_position(win, gdk_seat_get_pointer(seat),
-                                 NULL, NULL, &mask);
+  gdk_surface_get_device_position(win, gdk_seat_get_pointer(seat),
+                                  NULL, NULL, &mask);
 
   if (!(mask & GDK_CONTROL_MASK)) {
     popup_iterate(model, path, &iter, NULL);

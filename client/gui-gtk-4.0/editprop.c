@@ -4918,7 +4918,7 @@ property_page_new(enum editor_object_type objtype,
   button = gtk_button_new_with_label(_("Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
-      G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
+      G_CALLBACK(gtk_widget_hide), pe->widget);
   gtk_container_add(GTK_CONTAINER(hbox2), button);
 
   /* Now create the properties panel. */
@@ -6153,13 +6153,12 @@ static struct property_editor *property_editor_new(void)
   gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
   gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);
-  gtk_window_set_type_hint(GTK_WINDOW(win), GDK_WINDOW_TYPE_HINT_DIALOG);
+  gtk_window_set_type_hint(GTK_WINDOW(win), GDK_SURFACE_TYPE_HINT_DIALOG);
   gtk_widget_set_margin_start(win, 4);
   gtk_widget_set_margin_end(win, 4);
   gtk_widget_set_margin_top(win, 4);
   gtk_widget_set_margin_bottom(win, 4);
-  g_signal_connect(win, "delete-event",
-                   G_CALLBACK(gtk_widget_hide_on_delete), NULL);
+  gtk_window_set_hide_on_close(GTK_WINDOW(win), TRUE);
   pe->widget = win;
 
   vbox = gtk_grid_new();

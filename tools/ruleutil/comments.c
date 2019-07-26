@@ -59,7 +59,7 @@ bool comments_load(void)
   struct section_file *comment_file;
   const char *fullpath;
 
-  fullpath = fileinfoname(get_data_dirs(), "ruledit/comments.txt");
+  fullpath = fileinfoname(get_data_dirs(), "ruledit/" COMMENTS_FILE_NAME);
 
   if (fullpath == NULL) {
     return FALSE;

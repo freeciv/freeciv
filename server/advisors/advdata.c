@@ -863,8 +863,8 @@ void adv_best_government(struct player *pplayer)
           case ACTION_TRANSFORM_TERRAIN:
             bonus += 1.5;
             break;
-          case ACTION_IRRIGATE_TF:
-          case ACTION_MINE_TF:
+          case ACTION_CULTIVATE:
+          case ACTION_PLANT:
             bonus += 0.3;
             break;
           case ACTION_PILLAGE:

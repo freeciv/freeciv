@@ -824,8 +824,8 @@ static void update_unit_activity(struct unit *punit)
 {
   const enum unit_activity tile_changing_actions[] =
     { ACTIVITY_PILLAGE, ACTIVITY_GEN_ROAD, ACTIVITY_IRRIGATE, ACTIVITY_MINE,
-      ACTIVITY_BASE, ACTIVITY_TRANSFORM, ACTIVITY_POLLUTION,
-      ACTIVITY_FALLOUT, ACTIVITY_LAST };
+      ACTIVITY_BASE, ACTIVITY_CULTIVATE, ACTIVITY_PLANT, ACTIVITY_TRANSFORM,
+      ACTIVITY_POLLUTION, ACTIVITY_FALLOUT, ACTIVITY_LAST };
 
   struct player *pplayer = unit_owner(punit);
   bool unit_activity_done = FALSE;
@@ -854,6 +854,8 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_PILLAGE:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
   case ACTIVITY_TRANSFORM:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
@@ -957,6 +959,8 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
   case ACTIVITY_TRANSFORM:
     if (total_activity_done(ptile, activity, punit->activity_target)) {
       struct terrain *old = tile_terrain(ptile);
@@ -981,6 +985,8 @@ static void update_unit_activity(struct unit *punit)
     update_tile_knowledge(ptile);
     if (ACTIVITY_IRRIGATE == activity
         || ACTIVITY_MINE == activity
+        || ACTIVITY_CULTIVATE == activity
+        || ACTIVITY_PLANT == activity
         || ACTIVITY_TRANSFORM == activity) {
       /* FIXME: As we might probably do the activity again, because of the
        * terrain change cycles, we need to treat these cases separatly.
@@ -2978,17 +2984,23 @@ static bool hut_get_limited(struct unit *punit)
 static void unit_enter_hut(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
+  int id = punit->id;
   enum hut_behavior behavior = unit_class_get(punit)->hut_behavior;
   struct tile *ptile = unit_tile(punit);
+  bool hut = FALSE;
 
-  /* FIXME: Should we still run "hut_enter" script when
-   *        hut_behavior is HUT_NOTHING or HUT_FRIGHTEN? */ 
   if (behavior == HUT_NOTHING) {
     return;
   }
 
-  extra_type_by_cause_iterate(EC_HUT, pextra) {
-    if (tile_has_extra(ptile, pextra)) {
+  extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
+    if (tile_has_extra(ptile, pextra)
+        && are_reqs_active(pplayer, tile_owner(ptile), NULL, NULL, ptile,
+                           NULL, NULL, NULL, NULL, NULL, &pextra->rmreqs,
+                           RPT_CERTAIN)
+       ) {
+      hut = TRUE;
+      /* FIXME: are all enter-removes extras worth counting? */
       pplayer->server.huts++;
 
       destroy_extra(ptile, pextra);
@@ -2999,21 +3011,23 @@ static void unit_enter_hut(struct unit *punit)
       if (behavior == HUT_FRIGHTEN) {
         script_server_signal_emit("hut_frighten", punit,
                                   extra_rule_name(pextra));
-        return;
-      }
-  
-      /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
-      if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+      } else if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
+        /* AI with H_LIMITEDHUTS only gets 25 gold (or barbs if unlucky) */
         (void) hut_get_limited(punit);
-        return;
+      } else {
+        script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
       }
 
-      /* FIXME: Should have parameter for hut extra type */
-      script_server_signal_emit("hut_enter", punit, extra_rule_name(pextra));
+      /* We need punit for the callbacks, can't continue if the unit died */
+      if (!unit_is_alive(id)) {
+        break;
+      }
     }
-  } extra_type_by_cause_iterate_end;
+  } extra_type_by_rmcause_iterate_end;
 
-  send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
+  if (hut) {
+    send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
+  }
   return;
 }
 
@@ -3471,6 +3485,8 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
   case ACTIVITY_IRRIGATE:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_FORTRESS:
   case ACTIVITY_PILLAGE:
@@ -3985,10 +4001,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 
   if (unit_lives) {
     /* Is there a hut? */
-    if (tile_has_cause_extra(pdesttile, EC_HUT)) {
-      unit_enter_hut(punit);
-      unit_lives = unit_is_alive(saved_id);
-    }
+    unit_enter_hut(punit);
+    unit_lives = unit_is_alive(saved_id);
   }
 
   conn_list_do_unbuffer(game.est_connections);
@@ -4625,4 +4639,260 @@ bool unit_can_be_retired(struct unit *punit)
   square_iterate_end;
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Sanity-check unit order arrays from a packet and create a unit_order array
+  from their contents if valid.
+**************************************************************************/
+struct unit_order *create_unit_orders(int length,
+                                      const enum unit_orders *orders,
+                                      const enum direction8 *dir,
+                                      const enum unit_activity *activity,
+                                      const int *sub_target,
+                                      const action_id *action)
+{
+  int i;
+  struct unit_order *unit_orders;
+
+  for (i = 0; i < length; i++) {
+    if (orders[i] < 0 || orders[i] > ORDER_LAST) {
+      log_error("invalid order %d at index %d", orders[i], i);
+      return NULL;
+    }
+    switch (orders[i]) {
+    case ORDER_MOVE:
+    case ORDER_ACTION_MOVE:
+      if (!map_untrusted_dir_is_valid(dir[i])) {
+        log_error("in order %d, invalid move direction %d.", i, dir[i]);
+	return NULL;
+      }
+      break;
+    case ORDER_ACTIVITY:
+      switch (activity[i]) {
+      case ACTIVITY_FALLOUT:
+      case ACTIVITY_POLLUTION:
+      case ACTIVITY_PILLAGE:
+      case ACTIVITY_MINE:
+      case ACTIVITY_IRRIGATE:
+      case ACTIVITY_PLANT:
+      case ACTIVITY_CULTIVATE:
+      case ACTIVITY_TRANSFORM:
+      case ACTIVITY_CONVERT:
+	/* Simple activities. */
+	break;
+      case ACTIVITY_FORTIFYING:
+      case ACTIVITY_SENTRY:
+        if (i != length - 1) {
+          /* Only allowed as the last order. */
+          log_error("activity %d is not allowed at index %d.", activity[i],
+                    i);
+          return NULL;
+        }
+        break;
+      case ACTIVITY_BASE:
+        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+                                EC_BASE)) {
+          log_error("at index %d, %s isn't a base.", i,
+                    extra_rule_name(extra_by_number(sub_target[i])));
+          return NULL;
+        }
+        break;
+      case ACTIVITY_GEN_ROAD:
+        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+                                EC_ROAD)) {
+          log_error("at index %d, %s isn't a road.", i,
+                    extra_rule_name(extra_by_number(sub_target[i])));
+          return NULL;
+        }
+        break;
+      /* Not supported yet. */
+      case ACTIVITY_EXPLORE:
+      case ACTIVITY_IDLE:
+      /* Not set from the client. */
+      case ACTIVITY_GOTO:
+      case ACTIVITY_FORTIFIED:
+      /* Compatiblity, used in savegames. */
+      case ACTIVITY_OLD_ROAD:
+      case ACTIVITY_OLD_RAILROAD:
+      case ACTIVITY_FORTRESS:
+      case ACTIVITY_AIRBASE:
+      /* Unused. */
+      case ACTIVITY_PATROL_UNUSED:
+      case ACTIVITY_LAST:
+      case ACTIVITY_UNKNOWN:
+        log_error("at index %d, unsupported activity %d.", i, activity[i]);
+        return NULL;
+      }
+
+      if (sub_target[i] == EXTRA_NONE
+          && unit_activity_needs_target_from_client(activity[i])) {
+        /* The orders system can't do server side target assignment for
+         * this activity. */
+        log_error("activity %d at index %d requires target.", activity[i],
+                  i);
+        return NULL;
+      }
+
+      break;
+    case ORDER_PERFORM_ACTION:
+      if (!action_id_exists(action[i])) {
+        /* Non-existent action. */
+        log_error("at index %d, the action %d doesn't exist.", i, action[i]);
+        return NULL;
+      }
+
+      if (action_id_distance_inside_max(action[i], 2)) {
+        /* Long range actions aren't supported in unit orders. Clients
+         * should order them performed via the unit_do_action packet.
+         *
+         * Reason: A unit order stores an action's target as the tile it is
+         * located on. The tile is stored as a direction (when the target
+         * is at a tile adjacent to the actor unit tile) or as no
+         * direction (when the target is at the same tile as the actor
+         * unit). The order system will pick a suitable target at the
+         * specified tile during order execution. This makes it impossible
+         * to target something that isn't at or next to the actors tile.
+         * Being unable to exploit the full range of an action handicaps
+         * it.
+         *
+         * A patch that allows a distant target in an order should remove
+         * this check and update the comment in the Qt client's
+         * go_act_menu::create(). */
+        log_error("at index %d, the action %s isn't supported in unit "
+                  "orders.", i, action_id_name_translation(action[i]));
+        return NULL;
+      }
+
+      if (!action_id_distance_inside_max(action[i], 1)
+          && map_untrusted_dir_is_valid(dir[i])) {
+        /* Actor must be on the target tile. */
+        log_error("at index %d, cannot do %s on a neighbor tile.", i,
+                  action_id_rule_name(action[i]));
+        return NULL;
+      }
+
+      /* Validate individual actions. */
+      switch ((enum gen_action) action[i]) {
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+        /* Sabotage target is production (-1) or a building. */
+        if (!(sub_target[i] - 1 == -1
+              || improvement_by_number(sub_target[i] - 1))) {
+          /* Sabotage target is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_SPY_TARGETED_STEAL_TECH:
+      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+        if (sub_target[i] == A_NONE
+            || (!valid_advance_by_number(sub_target[i])
+                && sub_target[i] != A_FUTURE)) {
+          /* Target tech is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_ROAD:
+      case ACTION_BASE:
+      case ACTION_MINE:
+      case ACTION_IRRIGATE:
+        if (sub_target[i] == EXTRA_NONE
+            || (sub_target[i] < 0
+                || sub_target[i] >= game.control.num_extra_types)
+            || extra_by_number(sub_target[i])->ruledit_disabled) {
+          /* Target extra is invalid. */
+          log_error("at index %d, cannot do %s without a target.", i,
+                    action_id_rule_name(action[i]));
+          return NULL;
+        }
+        break;
+      case ACTION_ESTABLISH_EMBASSY:
+      case ACTION_ESTABLISH_EMBASSY_STAY:
+      case ACTION_SPY_INVESTIGATE_CITY:
+      case ACTION_INV_CITY_SPEND:
+      case ACTION_SPY_POISON:
+      case ACTION_SPY_POISON_ESC:
+      case ACTION_SPY_STEAL_GOLD:
+      case ACTION_SPY_STEAL_GOLD_ESC:
+      case ACTION_SPY_SABOTAGE_CITY:
+      case ACTION_SPY_SABOTAGE_CITY_ESC:
+      case ACTION_SPY_STEAL_TECH:
+      case ACTION_SPY_STEAL_TECH_ESC:
+      case ACTION_SPY_INCITE_CITY:
+      case ACTION_SPY_INCITE_CITY_ESC:
+      case ACTION_TRADE_ROUTE:
+      case ACTION_MARKETPLACE:
+      case ACTION_HELP_WONDER:
+      case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT:
+      case ACTION_SPY_SABOTAGE_UNIT_ESC:
+      case ACTION_CAPTURE_UNITS:
+      case ACTION_FOUND_CITY:
+      case ACTION_JOIN_CITY:
+      case ACTION_STEAL_MAPS:
+      case ACTION_STEAL_MAPS_ESC:
+      case ACTION_BOMBARD:
+      case ACTION_SPY_NUKE:
+      case ACTION_SPY_NUKE_ESC:
+      case ACTION_NUKE:
+      case ACTION_DESTROY_CITY:
+      case ACTION_EXPEL_UNIT:
+      case ACTION_RECYCLE_UNIT:
+      case ACTION_DISBAND_UNIT:
+      case ACTION_HOME_CITY:
+      case ACTION_UPGRADE_UNIT:
+      case ACTION_ATTACK:
+      case ACTION_SUICIDE_ATTACK:
+      case ACTION_CONQUER_CITY:
+      case ACTION_PARADROP:
+      case ACTION_AIRLIFT:
+      case ACTION_HEAL_UNIT:
+      case ACTION_TRANSFORM_TERRAIN:
+      case ACTION_CULTIVATE:
+      case ACTION_PLANT:
+      case ACTION_PILLAGE:
+      case ACTION_FORTIFY:
+      case ACTION_CONVERT:
+        /* No validation required. */
+        break;
+      /* Invalid action. Should have been caught above. */
+      case ACTION_COUNT:
+        fc_assert_ret_val_msg(action[i] != ACTION_NONE, NULL,
+                              "ACTION_NONE in ORDER_PERFORM_ACTION order. "
+                              "Order number %d.", i);
+      }
+
+      /* Don't validate that the target tile really contains a target or
+       * that the actor player's map think the target tile has one.
+       * The player may target a something from his player map that isn't
+       * there any more, a target he thinks is there even if his player map
+       * doesn't have it or even a target he assumes will be there when the
+       * unit reaches the target tile.
+       *
+       * With that said: The client should probably at least have an
+       * option to only aim city targeted actions at cities. */
+
+      break;
+    case ORDER_FULL_MP:
+      break;
+    case ORDER_LAST:
+      /* An invalid order.  This is handled in execute_orders. */
+      break;
+    }
+  }
+
+  unit_orders = fc_malloc(length * sizeof(*(unit_orders)));
+  for (i = 0; i < length; i++) {
+    unit_orders[i].order = orders[i];
+    unit_orders[i].dir = dir[i];
+    unit_orders[i].activity = activity[i];
+    unit_orders[i].sub_target = sub_target[i];
+    unit_orders[i].action = action[i];
+  }
+
+  return unit_orders;
 }

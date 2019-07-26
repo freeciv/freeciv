@@ -13,7 +13,8 @@
 #ifndef FC__TEXAICITY_H
 #define FC__TEXAICITY_H
 
-#include "aicity.h"
+/* ai/default */
+#include "daicity.h"
 
 struct city;
 struct texai_req;

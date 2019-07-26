@@ -132,6 +132,8 @@ bool qtg_city_dialog_is_open(struct city *pcity);
 
 bool qtg_request_transport(struct unit *pcargo, struct tile *ptile);
 
+void qtg_update_infra_dialog();
+
 void qtg_gui_load_theme(const char *directory, const char *theme_name);
 void qtg_gui_clear_theme();
 char **qtg_get_gui_specific_themes_directories(int *count);

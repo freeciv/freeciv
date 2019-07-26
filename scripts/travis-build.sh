@@ -30,9 +30,15 @@ update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 update-alternatives --install /usr/bin/python python /usr/bin/python2 1
 update-alternatives --set python /usr/bin/python3
 
+# Setup python3 to use
+update-alternatives --install /usr/bin/python python /usr/bin/python3 2
+update-alternatives --install /usr/bin/python python /usr/bin/python2 1
+update-alternatives --set python /usr/bin/python3
+
 # Configure and build Freeciv
 mkdir build
 cd build
+
 ../autogen.sh CFLAGS="-O3" CXXFLAGS="-O3" --enable-client=gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual --enable-ai-static=classic,threaded,tex,stub --enable-fcdb=sqlite3,mysql --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
 sudo -u travis make install
 echo "Freeciv build successful!"

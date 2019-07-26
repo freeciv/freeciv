@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 09-Jun-19.
+Last minor update was 14-Jun-19.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -53,8 +53,6 @@ out whether your system is suitable.  If in doubt, just try it.
    Development of Freeciv is primarily done with "gcc", the GNU
    project's excellent C compiler.  Releases can be compiled with gcc
    or most other compilers (such as the unbundled Solaris C compiler).
-   Note that there have been reports that gcc with -O3 miscompiled
-   freeciv.
 
  - A "make" program.
 

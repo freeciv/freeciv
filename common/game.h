@@ -136,6 +136,8 @@ struct civ_game {
       int diplchance;
       int diplbulbcost;
       int diplgoldcost;
+      int incite_gold_loss_chance;
+      int incite_gold_capt_chance;
       int dispersion;
       int end_turn;
       bool endspaceship;
@@ -341,6 +343,10 @@ extern struct world wld;
 #define GAME_MIN_GOLD            0
 #define GAME_MAX_GOLD            50000
 
+#define GAME_DEFAULT_INFRA       0
+#define GAME_MIN_INFRA           0
+#define GAME_MAX_INFRA           50000
+
 #define GAME_DEFAULT_START_UNITS  "ccwwx"
 #define GAME_DEFAULT_START_CITY  FALSE
 
@@ -391,6 +397,14 @@ extern struct world wld;
 #define GAME_DEFAULT_DIPLGOLDCOST    0
 #define GAME_MIN_DIPLGOLDCOST        0
 #define GAME_MAX_DIPLGOLDCOST        100
+
+#define GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE    0
+#define GAME_MIN_INCITE_GOLD_LOSS_CHANCE        0
+#define GAME_MAX_INCITE_GOLD_LOSS_CHANCE        100
+
+#define GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE    0
+#define GAME_MIN_INCITE_GOLD_CAPT_CHANCE        0
+#define GAME_MAX_INCITE_GOLD_CAPT_CHANCE        100
 
 #define GAME_DEFAULT_FOGOFWAR        TRUE
 
@@ -705,7 +719,7 @@ extern struct world wld;
 
 /* ruleset settings */
 
-#define RS_MAX_VALUE                             10000
+#define RS_MAX_VALUE                             1000000
 
 /* TRANS: year label (Anno Domini) */
 #define RS_DEFAULT_POS_YEAR_LABEL                N_("AD")
@@ -790,11 +804,11 @@ extern struct world wld;
 
 #define RS_DEFAULT_HAPPY_COST                    2
 #define RS_MIN_HAPPY_COST                        0
-#define RS_MAX_HAPPY_COST                        100
+#define RS_MAX_HAPPY_COST                        10000
 
 #define RS_DEFAULT_FOOD_COST                     2
 #define RS_MIN_FOOD_COST                         0
-#define RS_MAX_FOOD_COST                         100
+#define RS_MAX_FOOD_COST                         10000
 
 #define RS_DEFAULT_CIVIL_WAR_CELEB               -5
 #define RS_DEFAULT_CIVIL_WAR_UNHAPPY             5
@@ -830,7 +844,7 @@ extern struct world wld;
 
 #define RS_DEFAULT_BASE_TECH_COST                20
 #define RS_MIN_BASE_TECH_COST                    0
-#define RS_MAX_BASE_TECH_COST                    200
+#define RS_MAX_BASE_TECH_COST                    20000
 
 #define RS_DEFAULT_FORCE_TRADE_ROUTE             FALSE
 #define RS_DEFAULT_FORCE_CAPTURE_UNITS           FALSE

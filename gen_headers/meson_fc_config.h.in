@@ -21,6 +21,26 @@
 #define INIT_BRACE_BEGIN {
 #define INIT_BRACE_END   }
 
+#define DEFAULT_DATA_PATH ".:data:@FREECIV_STORAGE_DIR@/" DATASUBDIR ":@DATADIR@/freeciv"
+#define DEFAULT_SAVE_PATH ".:@FREECIV_STORAGE_DIR@/saves"
+#define DEFAULT_SCENARIO_PATH ".:data/scenarios:@FREECIV_STORAGE_DIR@/" DATASUBDIR "/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"
+
+#define MPICON_PATH "@DATADIR@/freeciv/misc/mpicon.png"
+
+#define BINDIR "@BINDIR@"
+
+/* Release cycle information */
+#mesondefine IS_DEVEL_VERSION
+
+/* Produce debug version */
+#mesondefine FREECIV_DEBUG
+
+/* enable audio */
+#mesondefine AUDIO_SDL
+
+/* audio via SDL2_mixer */
+#mesondefine AUDIO_SDL2
+
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
 
@@ -137,3 +157,136 @@
 
 /* stdbool.h available */
 #mesondefine HAVE_STDBOOL_H
+
+/* fork() available */
+#mesondefine HAVE_FORK
+
+/* vfork() available */
+#mesondefine HAVE_VFORK
+
+#ifdef HAVE_FORK
+/* fork() is assumed to be a working one when available at all */
+#define HAVE_WORKING_FORK 1
+#endif
+
+#ifdef HAVE_VFORK
+/* vfork() is assumed to be a working one when available at all */
+#define HAVE_WORKING_VFORK 1
+#endif
+
+/* backtrace() available */
+#mesondefine HAVE_BACKTRACE
+
+/* bind() available */
+#mesondefine HAVE_BIND
+
+/* connect() available */
+#mesondefine HAVE_CONNECT
+
+/* fdopen() available */
+#mesondefine HAVE_FDOPEN
+
+/* fileno() available */
+#mesondefine HAVE_FILENO
+
+/* flock() available */
+#mesondefine HAVE_FLOCK
+
+/* ftime() available */
+#mesondefine HAVE_FTIME
+
+/* getaddrinfo() available */
+#mesondefine HAVE_GETADDRINFO
+
+/* gethostbyname() available */
+#mesondefine HAVE_GETHOSTBYNAME
+
+/* getline() available */
+#mesondefine HAVE_GETLINE
+
+/* getnameinfo() available */
+#mesondefine HAVE_GETNAMEINFO
+
+/* getpwuid() available */
+#mesondefine HAVE_GETPWUID
+
+/* gmtime_r() available */
+#mesondefine HAVE_GMTIME_R
+
+/* inet_aton() available */
+#mesondefine HAVE_INET_ATON
+
+/* inet_ntop() available */
+#mesondefine HAVE_INET_NTOP
+
+/* inet_pton() available */
+#mesondefine HAVE_INET_PTON
+
+/* localtime_r() available */
+#mesondefine HAVE_LOCALTIME_R
+
+/* opendir() available */
+#mesondefine HAVE_OPENDIR
+
+/* pclose() available */
+#mesondefine HAVE_PCLOSE
+
+/* popen() available */
+#mesondefine HAVE_POPEN
+
+/* putenv() available */
+#mesondefine HAVE_PUTENV
+
+/* select() available */
+#mesondefine HAVE_SELECT
+
+/* setenv() available */
+#mesondefine HAVE_SETENV
+
+/* snooze() available */
+#mesondefine HAVE_SNOOZE
+
+/* strcasecoll() available */
+#mesondefine HAVE_STRCASECOLL
+
+/* strcasestr() available */
+#mesondefine HAVE_STRCASESTR
+
+/* strcoll() available */
+#mesondefine HAVE_STRCOLL
+
+/* strerror() available */
+#mesondefine HAVE_STRERROR
+
+/* stricoll() available */
+#mesondefine HAVE_STRICOLL
+
+/* strstr() available */
+#mesondefine HAVE_STRSTR
+
+/* uname() available */
+#mesondefine HAVE_UNAME
+
+/* usleep() available */
+#mesondefine HAVE_USLEEP
+
+/* vprintf() available */
+#mesondefine HAVE_VPRINTF
+
+/* vsnprintf() available */
+#mesondefine HAVE_VSNPRINTF
+
+/* _longjmp() available */
+#mesondefine HAVE__LONGJMP
+
+/* _mkdir() available */
+#mesondefine HAVE__MKDIR
+
+/* _setjmp() available */
+#mesondefine HAVE__SETJMP
+
+/* _strcoll() available */
+#mesondefine HAVE__STRCOLL
+
+/* _stricoll() available */
+#mesondefine HAVE__STRICOLL

@@ -76,12 +76,12 @@
 
 #include "tilespec.h"
 
-#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2016-Jun-07 duplicates_ok"
+#define TILESPEC_CAPSTR "+Freeciv-tilespec-Devel-2019-Jul-03 duplicates_ok"
 /*
  * Tilespec capabilities acceptable to this program:
  *
- * +Freeciv-2.4-tilespec
- *    - basic format for Freeciv versions 2.4.x; required
+ * +Freeciv-3.1-tilespec
+ *    - basic format for Freeciv versions 3.1.x; required
  *
  * +Freeciv-tilespec-Devel-YYYY.MMM.DD
  *    - tilespec of the development version at the given data
@@ -92,12 +92,12 @@
  *      "duplicates_ok")
  */
 
-#define SPEC_CAPSTR "+Freeciv-spec-Devel-2019-Mar-09"
+#define SPEC_CAPSTR "+Freeciv-spec-Devel-2019-Jul-03"
 /*
  * Individual spec file capabilities acceptable to this program:
  *
- * +Freeciv-3.0-spec
- *    - basic format for Freeciv versions 3.0.x; required
+ * +Freeciv-3.1-spec
+ *    - basic format for Freeciv versions 3.1.x; required
  */
 
 #define TILESPEC_SUFFIX ".tilespec"
@@ -4774,9 +4774,9 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       const int ox = t->type == TS_ISOMETRIC ? t->normal_tile_width / 3 : 0;
       const int oy = t->type == TS_ISOMETRIC ? -t->normal_tile_height / 3 : 0;
 
-      food = CLIP(0, food, NUM_TILES_DIGITS - 1);
-      shields = CLIP(0, shields, NUM_TILES_DIGITS - 1);
-      trade = CLIP(0, trade, NUM_TILES_DIGITS - 1);
+      food = CLIP(0, food / game.info.granularity, NUM_TILES_DIGITS - 1);
+      shields = CLIP(0, shields / game.info.granularity, NUM_TILES_DIGITS - 1);
+      trade = CLIP(0, trade / game.info.granularity, NUM_TILES_DIGITS - 1);
 
       ADD_SPRITE(t->sprites.city.tile_foodnum[food], TRUE, ox, oy);
       ADD_SPRITE(t->sprites.city.tile_shieldnum[shields], TRUE, ox, oy);
@@ -5378,6 +5378,7 @@ static int fill_goto_sprite_array(const struct tileset *t,
 
 /************************************************************************//**
   Should the given extra be drawn
+  FIXME: Some extras can not be switched
 ****************************************************************************/
 static bool is_extra_drawing_enabled(struct extra_type *pextra)
 {
@@ -5408,7 +5409,7 @@ static bool is_extra_drawing_enabled(struct extra_type *pextra)
     }
     no_disable = FALSE;
   }
-  if (is_extra_caused_by(pextra, EC_HUT)) {
+  if (is_extra_removed_by(pextra, ERM_ENTER)) {
     if (gui_options.draw_huts) {
       return TRUE;
     }

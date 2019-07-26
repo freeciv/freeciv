@@ -466,7 +466,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   AIRLIFTING_STYLE airlifting_style;
   UINT8 angrycitizen;
   SINT16 base_pollution;
-  UINT8 base_tech_cost;
+  UINT16 base_tech_cost;
   UINT8 tech_leak_pct;
   UINT16 border_city_radius_sq;
   UINT8 border_size_effect;
@@ -477,6 +477,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 culture_vic_points;
   UINT16 culture_vic_lead;
   UINT16 culture_migration_pml;
+  UINT16 history_interest_pml;
   /* size limit for cities before they can celebrate */
   UINT8 celebratesize;
   BOOL changable_tax;
@@ -490,7 +491,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 coolinglevel;
   DIPLOMACY_MODE diplomacy;
   BOOL fogofwar;
-  UINT8 food_cost;
+  UINT16 food_cost;
   UINT32 foodbox;
   UINT8 forced_gold;
   UINT8 forced_luxury;
@@ -505,14 +506,15 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 globalwarming;
   GOLD gold;
   GOLD_UPKEEP_STYLE gold_upkeep_style;
+  UINT32 infrapoints;
   REVOLENTYPE revolentype;
   GOVERNMENT default_government_id;
   GOVERNMENT government_during_revolution_id;
-  UINT8 granary_food_inc;
-  UINT8 granary_food_ini[MAX_GRANARY_INIS];
+  UINT16 granary_food_inc;
+  UINT16 granary_food_ini[MAX_GRANARY_INIS];
   UINT8 granary_num_inis;
   PLAYER great_wonder_owners[B_LAST]; diff
-  UINT8 happy_cost;
+  UINT16 happy_cost;
   HAPPYBORDERSTYPE happyborders;
   UINT32 heating;
   UINT16 illness_base_factor;
@@ -528,7 +530,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL killcitizen;
   BOOL killstack;
   BOOL only_killing_makes_veteran;
-  UINT8 min_city_center_output[O_LAST];
+  UINT16 min_city_center_output[O_LAST];
   BOOL muuk_food_wipe;
   BOOL muuk_gold_wipe;
   BOOL muuk_shield_wipe;
@@ -579,6 +581,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   SINT16 civil_war_bonus_celebrating;
   SINT16 civil_war_bonus_unhappy;
   BOOL paradrop_to_transport;
+  UINT16 granularity;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet
@@ -684,7 +687,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   UINT16 history;
   UINT16 culture;
-  UINT16 buy_cost;
+  UINT32 buy_cost;
 
   SINT16 surplus[O_LAST];
   UINT16 waste[O_LAST];
@@ -692,7 +695,11 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UINT16 prod[O_LAST];
   SINT16 citizen_base[O_LAST];
   SINT16 usage[O_LAST];
-  UINT16 food_stock, shield_stock;
+
+  # Food stock can be temporarily negative while server is disbanding
+  # units which drain it by their upkeep.
+  SINT16 food_stock;
+  UINT16 shield_stock;
 
   UINT8 traderoute_count;
 
@@ -725,6 +732,15 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   BV_IMPRS improvements;
   BV_CITY_OPTIONS city_options;
   ESTRING name[MAX_LEN_CITYNAME];
+
+  UINT16 rally_point_length;
+  BOOL rally_point_persistent;
+  BOOL rally_point_vigilant;
+  ORDERS rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
+  DIRECTION rally_point_dirs[MAX_LEN_ROUTE:rally_point_length];
+  ACTIVITY rally_point_activities[MAX_LEN_ROUTE:rally_point_length];
+  ACTION_SUB_TGT rally_point_sub_targets[MAX_LEN_ROUTE:rally_point_length];
+  ACTION_ID rally_point_actions[MAX_LEN_ROUTE:rally_point_length];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
@@ -829,6 +845,18 @@ PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   BOOL disturb_player;
 end
 
+PACKET_CITY_RALLY_POINT = 138; cs
+  CITY city_id;
+  UINT16 length;
+  BOOL persistent;
+  BOOL vigilant;
+  ORDERS orders[MAX_LEN_ROUTE:length];
+  DIRECTION dirs[MAX_LEN_ROUTE:length];
+  ACTIVITY activities[MAX_LEN_ROUTE:length];
+  ACTION_SUB_TGT sub_targets[MAX_LEN_ROUTE:length];
+  ACTION_ID actions[MAX_LEN_ROUTE:length];
+end
+
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
   CITY city_id;
   TILE tile_id;
@@ -868,6 +896,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
 
   GOLD gold;
   PERCENT tax, science,luxury;
+  UINT32 infrapoints;
 
   UINT16 tech_upkeep;
   UINT16 science_cost;
@@ -906,6 +935,11 @@ end
 
 PACKET_PLAYER_CHANGE_GOVERNMENT = 54; cs, dsend
   GOVERNMENT government;
+end
+
+PACKET_PLAYER_PLACE_INFRA = 61; cs, dsend
+  TILE tile;
+  EXTRA extra;
 end
 
 PACKET_PLAYER_ATTRIBUTE_BLOCK = 57; cs
@@ -1702,6 +1736,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   UINT8 build_time_factor;
   UINT8 removal_time;
   UINT8 removal_time_factor;
+  UINT16 infracost;
   UINT8 defense_bonus;
   EUS eus;
   BV_UNIT_CLASSES native_to;
@@ -2018,6 +2053,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
   BOOL   handmade;
   BOOL   allow_ai_type_fallback;
   BOOL   ruleset_locked;
+  STRING datafile[MAX_LEN_NAME];
 
   /* Unused at client side. */
   BOOL   have_resources;
@@ -2278,13 +2314,6 @@ end
 
 PACKET_PLAY_MUSIC = 245; sc, lsend
   STRING tag[MAX_LEN_NAME];
-end
-
-PACKET_SHOW_IMG_PLAY_SOUND = 192; sc, lsend
-  STRING img_path[MAX_LEN_NAME];
-  STRING snd_path[MAX_LEN_NAME];
-  STRING desc[MAX_LEN_NAME];
-  BOOL fullsize;
 end
 
 /*************** Webclient specific packets ****************/

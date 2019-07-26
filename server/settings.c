@@ -1151,7 +1151,7 @@ static bool mapsize_callback(int value, struct connection *caller,
 {
   if (value == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC
       && wld.map.ysize % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
@@ -1209,7 +1209,7 @@ static bool ysize_callback(int value, struct connection *caller,
     return FALSE;
   } else if (wld.map.server.mapsize == MAPSIZE_XYSIZE && MAP_IS_ISOMETRIC
              && value % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
@@ -1229,7 +1229,7 @@ static bool topology_callback(unsigned value, struct connection *caller,
   if (wld.map.server.mapsize == MAPSIZE_XYSIZE
       && ((value & (TF_ISO)) != 0 || (value & (TF_HEX)) != 0)
       && wld.map.ysize % 2 != 0) {
-    /* An isometric map needs a even ysize. Is is calculated automatically
+    /* An isometric map needs a even ysize. It is calculated automatically
      * for all settings but mapsize=XYSIZE. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("For an isometric or hexagonal map the ysize must be "
@@ -1724,7 +1724,8 @@ static struct setting settings[] = {
   GEN_INT("huts", wld.map.server.huts,
           SSET_MAP_ADD, SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
           N_("Amount of huts (bonus extras)"),
-          N_("Huts are tile extras that may be investigated by units. "
+          N_("Huts are tile extras that usually may be investigated by "
+             "units."
              "The server variable's scale is huts per thousand tiles."),
           huts_help, NULL, huts_action,
           MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
@@ -1880,6 +1881,14 @@ static struct setting settings[] = {
              "much gold."), NULL, NULL, NULL,
           GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD)
 
+  GEN_INT("infrapoints", game.info.infrapoints,
+          SSET_GAME_INIT, SSET_ECONOMICS, SSET_VITAL,
+          ALLOW_NONE, ALLOW_BASIC,
+          N_("Starting infrapoints per player"),
+          N_("At the beginning of the game, each player is given this "
+             "many infrapoints."), NULL, NULL, NULL,
+          GAME_MIN_INFRA, GAME_MAX_INFRA, GAME_DEFAULT_INFRA)
+
   GEN_INT("techlevel", game.info.tech,
           SSET_GAME_INIT, SSET_SCIENCE, SSET_VITAL,
           ALLOW_NONE, ALLOW_BASIC,
@@ -1973,6 +1982,27 @@ static struct setting settings[] = {
              "the donor but not received by the recipient."),
           NULL, NULL, NULL,
           GAME_MIN_DIPLGOLDCOST, GAME_MAX_DIPLGOLDCOST, GAME_DEFAULT_DIPLGOLDCOST)
+
+  GEN_INT("incite_gold_loss_chance", game.server.incite_gold_loss_chance,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("Probability of gold loss during inciting revolt"),
+          N_("When unit trying to incite revolt is eliminated, half of the gold "
+             "(or quarter, if unit was caught), prepared to bribe citizens, "
+             "can be lost or captured by enemy."),
+          NULL, NULL, NULL,
+          GAME_MIN_INCITE_GOLD_LOSS_CHANCE, GAME_MAX_INCITE_GOLD_LOSS_CHANCE,
+          GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE)
+
+  GEN_INT("incite_gold_capt_chance", game.server.incite_gold_capt_chance,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+          N_("Probability of gold capture during inciting revolt"),
+          N_("When unit trying to incite revolt is eliminated and lose its "
+             "gold, there is chance that this gold would be captured by "
+             "city defender. Transfer tax would be applied, though. "
+             "This setting is irrevelant, if incite_gold_loss_chance is zero."),
+          NULL, NULL, NULL,
+          GAME_MIN_INCITE_GOLD_CAPT_CHANCE, GAME_MAX_INCITE_GOLD_CAPT_CHANCE,
+          GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE)
 
   GEN_INT("conquercost", game.server.conquercost,
           SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
@@ -2424,10 +2454,12 @@ static struct setting settings[] = {
                  "(TO_ALLIES).\n"
                  "- \"Unlimited units from source city\" (SRC_UNLIMITED): "
                  "note that airlifting from a city doesn't reduce the "
-                 "airlifted counter, but still needs at least 1.\n"
+                 "airlifted counter, but still needs airlift capacity of "
+                 "at least 1.\n"
                  "- \"Unlimited units to destination city\" "
                  "(DEST_UNLIMITED): note that airlifting to a city doesn't "
-                 "reduce the airlifted counter, and doesn't need any."),
+                 "reduce the airlifted counter, and doesn't need any "
+                 "airlift capacity."),
               NULL, NULL, airliftingstyle_name, GAME_DEFAULT_AIRLIFTINGSTYLE)
 
   GEN_INT("diplchance", game.server.diplchance,
@@ -2501,7 +2533,9 @@ static struct setting settings[] = {
            N_("This option controls whether tiles with both unreachable "
               "and reachable units can be attacked. If disabled, any "
               "tile with reachable units can be attacked. If enabled, "
-              "tiles with an unreachable unit in them cannot be attacked."),
+              "tiles with an unreachable unit in them cannot be attacked. "
+              "Some units in some rulesets may override this, never "
+              "protecting reachable units on their tile."),
            NULL, NULL, GAME_DEFAULT_UNRPROTECTS)
 
   GEN_INT("contactturns", game.server.contactturns,

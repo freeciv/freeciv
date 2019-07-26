@@ -939,6 +939,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* barbarians shouldn't enter huts */
+  /* FIXME: use unit_can_displace_hut(punit, ptile) better */
   if (is_barbarian(pplayer) && hut_on_tile(ptile)) {
     return FALSE;
   }

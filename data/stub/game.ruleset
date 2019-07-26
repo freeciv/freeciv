@@ -20,6 +20,12 @@ name = _("Stub")
 ; Versioning of the ruleset
 ;version = ""
 
+; When about to migrate ruleset under a new name in the future version, set
+; alt_dir to the name of that future directory. Then savegames saved with this
+; version of freeciv can find the ruleset from the correct place when loading
+; the savegame to the future version.
+;alt_dir = ""
+
 ; Summary of the ruleset
 summary = _("\
 This ruleset is meant to be used as starting point for \
@@ -153,6 +159,10 @@ paradrop_to_transport    = FALSE
 ;            If still more gold is needed, then random units with gold
 ;            upkeep are disbanded.
 gold_upkeep_style = "City"
+
+; How many points of output one basic unit consists of. Typically you
+; want this to be some 10^n.
+output_granularity = 1
 
 [illness]
 ; Whether plagues (illness) are possible
@@ -371,6 +381,11 @@ victory_min_points = 1000
 
 ; How big lead relative to second best player is needed for victory
 victory_lead_pct   = 200
+
+; How much existing history grows each turn. This makes older history
+; of the same original value more valuable as newer history, as it has
+; gained more interest.
+history_interest_pml = 0
 
 ; How much each culture point affects the migration
 ; from/to the city. Each culture point count as this many permilles

@@ -287,10 +287,10 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
     gtk_window_set_transient_for(GTK_WINDOW(shell),
                                  GTK_WINDOW(parent));
     gtk_window_set_type_hint(GTK_WINDOW(shell),
-                             GDK_WINDOW_TYPE_HINT_DIALOG);
+                             GDK_SURFACE_TYPE_HINT_DIALOG);
   } else {
     gtk_window_set_type_hint(GTK_WINDOW(shell),
-                             GDK_WINDOW_TYPE_HINT_NORMAL);
+                             GDK_SURFACE_TYPE_HINT_NORMAL);
   }
 
   /* Close dialog window on Escape keypress. */
@@ -1061,8 +1061,8 @@ void gui_update_font(const char *font_name, const char *font_value)
   provider = gtk_css_provider_new();
   gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(provider),
                                   str, -1);
-  gtk_style_context_add_provider_for_screen(
-    gtk_widget_get_screen(toplevel), GTK_STYLE_PROVIDER(provider),
+  gtk_style_context_add_provider_for_display(
+    gtk_widget_get_display(toplevel), GTK_STYLE_PROVIDER(provider),
     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   g_free(str);
 }

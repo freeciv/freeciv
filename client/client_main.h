@@ -102,6 +102,9 @@ bool client_is_global_observer(void);
 int client_player_number(void);
 bool client_has_player(void);
 struct player *client_player(void);
+bool client_map_is_known_and_seen(const struct tile *ptile,
+                                  const struct player *pplayer,
+                                  enum vision_layer vlayer);
 void set_seconds_to_turndone(double seconds);
 int get_seconds_to_turndone(void);
 bool is_waiting_turn_change(void);

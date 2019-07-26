@@ -31,6 +31,11 @@ name = _("Experimental ruleset")
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
 
+; When about to migrate ruleset under a new name in the future version, set
+; alt_dir to the name of that future directory. Then savegames saved with this
+; version of freeciv can find the ruleset from the correct place when loading
+; the savegame to the future version.
+;
 ; This ruleset will be renamed as "goldkeep" in a future version.
 ; Set information of the future name so that once someone tries to load
 ; savegame saved with this version to that future version, ruleset is
@@ -176,6 +181,10 @@ paradrop_to_transport    = TRUE
 ;            If still more gold is needed, then random units with gold
 ;            upkeep are disbanded.
 gold_upkeep_style = "Mixed"
+
+; How many points of output one basic unit consists of. Typically you
+; want this to be some 10^n.
+output_granularity = 1
 
 [illness]
 ; Whether plagues (illness) are possible
@@ -378,11 +387,11 @@ ui_name_conquer_city = _("%sConquer City%s")
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
-; /* TRANS: Transform by _Irrigate (3% chance of success). */
-ui_name_irrigate_tf = _("Transform by %sIrrigate%s")
+; /* TRANS: Transform by _Cultivating (3% chance of success). */
+ui_name_cultivate = _("Transform by %sCultivating%s")
 
-; /* TRANS: Transform by _Mine (3% chance of success). */
-ui_name_mine_tf = _("Transform by %sMine%s")
+; /* TRANS: Transform by _Planting (3% chance of success). */
+ui_name_plant = _("Transform by %sPlanting%s")
 
 ; /* TRANS: Pilla_ge (100% chance of success). */
 ui_name_pillage = _("Pilla%sge%s")
@@ -866,15 +875,15 @@ actor_reqs    =
       "UnitFlag",      "Transform",    "Local"
     }
 
-[actionenabler_irrigate_tf]
-action        = "Irrigate TF"
+[actionenabler_cultivate]
+action        = "Cultivate"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
-[actionenabler_mine_tf]
-action        = "Mine TF"
+[actionenabler_plant]
+action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
@@ -1057,6 +1066,11 @@ victory_min_points = 15000
 
 ; How big lead relative to second best player is needed for victory
 victory_lead_pct   = 200
+
+; How much existing history grows each turn. This makes older history
+; of the same original value more valuable as newer history, as it has
+; gained more interest.
+history_interest_pml = 0
 
 ; How much each culture point affects the migration
 ; from/to the city. Each culture point count as this many permilles

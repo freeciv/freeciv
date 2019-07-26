@@ -137,6 +137,10 @@ enum output_type_id {
 #define SPECENUM_VALUE19NAME "Road"
 #define SPECENUM_VALUE20 ACTIVITY_CONVERT
 #define SPECENUM_VALUE20NAME "Convert"
+#define SPECENUM_VALUE21 ACTIVITY_CULTIVATE
+#define SPECENUM_VALUE21NAME "Cultivate"
+#define SPECENUM_VALUE22 ACTIVITY_PLANT
+#define SPECENUM_VALUE22NAME "Plant"
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
@@ -741,6 +745,8 @@ FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);
 #define SPECENUM_VALUE2NAME "CleanFallout"
 #define SPECENUM_VALUE3 ERM_DISAPPEARANCE
 #define SPECENUM_VALUE3NAME "Disappear"
+#define SPECENUM_VALUE4 ERM_ENTER
+#define SPECENUM_VALUE4NAME "Enter"
 #define SPECENUM_COUNT ERM_COUNT
 #define SPECENUM_BITVECTOR bv_rmcauses
 #include "specenum_gen.h"

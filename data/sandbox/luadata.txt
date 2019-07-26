@@ -1,0 +1,17 @@
+; Together with the parser.lua this is an example of custom
+; luadata.txt usage.
+
+[turn_1]
+msg = "Welcome to this game"
+
+[turn_2]
+msg = "So we have played our first turn"
+
+[turn_20]
+msg = "Game has been going for some time. Are you already well prepared to meeting your adversaries?"
+
+[turn_50]
+msg = "Turn 50 already! Have a break."
+
+[turn_400]
+msg = "Often games have been finished already before turn 400. Not this one!"

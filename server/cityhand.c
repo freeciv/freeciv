@@ -22,6 +22,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "mem.h"
 #include "rand.h"
 #include "support.h"
 
@@ -43,6 +44,7 @@
 #include "plrhand.h"
 #include "sanitycheck.h"
 #include "unithand.h"
+#include "unittools.h"
 
 #include "cityhand.h"
 
@@ -513,6 +515,58 @@ void handle_city_options_req(struct player *pplayer, int city_id,
   }
 
   pcity->city_options = options;
+
+  send_city_info(pplayer, pcity);
+}
+
+/**********************************************************************//**
+  Handles a request to set city rally point for new units.
+**************************************************************************/
+void handle_city_rally_point(struct player *pplayer,
+                             const struct packet_city_rally_point *packet)
+{
+  int length = packet->length;
+  struct city *pcity = player_city_by_number(pplayer, packet->city_id);
+  struct unit_order *orders;
+
+  if (NULL == pcity) {
+    /* Probably lost. */
+    log_verbose("handle_city_rally_point() bad city number %d.",
+                packet->city_id);
+    return;
+  }
+
+  if (0 > length || MAX_LEN_ROUTE < length) {
+    /* Shouldn't happen */
+    log_error("handle_city_rally_point() invalid packet length %d (max %d)",
+              length, MAX_LEN_ROUTE);
+    return;
+  }
+
+  pcity->rally_point.length = length;
+
+  if (length == 0) {
+    pcity->rally_point.vigilant = FALSE;
+    pcity->rally_point.persistent = FALSE;
+    if (pcity->rally_point.orders) {
+      free(pcity->rally_point.orders);
+      pcity->rally_point.orders = NULL;
+    }
+  } else {
+    orders = create_unit_orders(length, packet->orders, packet->dirs,
+                                packet->activities, packet->sub_targets,
+                                packet->actions);
+    if (!orders) {
+      pcity->rally_point.length = 0;
+      log_error("invalid rally point orders for city number %d.",
+                packet->city_id);
+      return;
+    }
+
+    pcity->rally_point.persistent = packet->persistent;
+    pcity->rally_point.vigilant = packet->vigilant;
+    pcity->rally_point.orders = orders;
+  }
 
   send_city_info(pplayer, pcity);
 }

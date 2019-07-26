@@ -2324,6 +2324,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
   pplayer->history = pinfo->history;
   pplayer->client.culture = pinfo->culture;
 
+  if (pplayer->economic.infra_points != pinfo->infrapoints) {
+    pplayer->economic.infra_points = pinfo->infrapoints;
+    update_infra_dialog();
+  }
+
   /* Don't use player_iterate or player_slot_count here, because we ignore
    * the real number of players and we want to read all the datas. */
   fc_assert(ARRAY_SIZE(pplayer->ai_common.love) >= ARRAY_SIZE(pinfo->love));
@@ -3947,6 +3952,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->build_time_factor = p->build_time_factor;
   pextra->removal_time = p->removal_time;
   pextra->removal_time_factor = p->removal_time_factor;
+  pextra->infracost = p->infracost;
   pextra->defense_bonus = p->defense_bonus;
 
   if (pextra->defense_bonus != 0) {
@@ -4733,8 +4739,8 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
       case ACTION_TRANSFORM_TERRAIN:
-      case ACTION_IRRIGATE_TF:
-      case ACTION_MINE_TF:
+      case ACTION_CULTIVATE:
+      case ACTION_PLANT:
       case ACTION_PILLAGE:
       case ACTION_ROAD:
       case ACTION_BASE:
@@ -5219,15 +5225,6 @@ void handle_vote_resolve(int vote_no, bool passed)
   vi->passed = passed;
 
   voteinfo_gui_update();
-}
-
-/************************************************************************//**
-  Shows image with text and play music
-****************************************************************************/
-void handle_show_img_play_sound(const char *img_path, const char *snd_path,
-                                const char *desc, bool fullsize)
-{
-  show_img_play_snd(img_path, snd_path, desc, fullsize);
 }
 
 /************************************************************************//**

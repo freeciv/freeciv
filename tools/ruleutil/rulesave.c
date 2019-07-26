@@ -997,6 +997,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                        gold_upkeep_style_name(game.info.gold_upkeep_style),
                        "civstyle.gold_upkeep_style");
   }
+  save_default_int(sfile, game.info.granularity,
+                   1, "civstyle.output_granularity", NULL);
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);
@@ -1151,6 +1153,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.culture_migration_pml,
                    RS_DEFAULT_CULTURE_MIGRATION_PML,
                    "culture.migration_pml", NULL);
+  save_default_int(sfile, game.info.history_interest_pml,
+                   RS_DEFAULT_HISTORY_INTEREST_PML,
+                   "culture.history_interest_pml", NULL);
 
   save_default_bool(sfile, game.calendar.calendar_skip_0,
                     RS_DEFAULT_CALENDAR_SKIP_0,
@@ -2269,6 +2274,9 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     }
     if (pextra->removal_time_factor != 1) {
       secfile_insert_int(sfile, pextra->removal_time_factor, "%s.removal_time_factor", path);
+    }
+    if (pextra->infracost != 1) {
+      secfile_insert_int(sfile, pextra->infracost, "%s.infracost", path);
     }
     if (pextra->defense_bonus != 0) {
       secfile_insert_int(sfile, pextra->defense_bonus, "%s.defense_bonus", path);

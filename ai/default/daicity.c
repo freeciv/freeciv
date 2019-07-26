@@ -64,7 +64,7 @@
 #include "daimilitary.h"
 #include "daieffects.h"
 
-#include "aicity.h"
+#include "daicity.h"
 
 #define LOG_BUY LOG_DEBUG
 #define LOG_EMERGENCY LOG_VERBOSE
@@ -1252,8 +1252,8 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_SUICIDE_ATTACK:
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_IRRIGATE_TF:
-  case ACTION_MINE_TF:
+  case ACTION_CULTIVATE:
+  case ACTION_PLANT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
@@ -1688,7 +1688,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     /* No range found yet. Local is the most narrow range. */
     max_range = REQ_RANGE_LOCAL;
 
-    /* Is is possible to do the action to the city right now?
+    /* Is it possible to do the action to the city right now?
      *
      * (DiplRel requirements are ignored since actor_player is NULL) */
     is_possible = is_action_possible_on_city(act_id, NULL, pcity);

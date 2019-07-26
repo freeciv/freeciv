@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -67,6 +67,8 @@ const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
                                          const char *old_type);
 bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
                              const char *sec_name, struct rscompat_info *compat);
+void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
+                               struct extra_type *pextra);
 
 #ifdef __cplusplus
 }

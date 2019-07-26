@@ -324,9 +324,11 @@ enum {
   TARGET_GTK_TREE_MODEL_ROW
 };
 
+#ifdef GTK3_DRAG_DROP
 static GtkTargetEntry wl_dnd_targets[] = {
   { "GTK_TREE_MODEL_ROW", GTK_TARGET_SAME_APP, TARGET_GTK_TREE_MODEL_ROW },
 };
+#endif /* GTK3_DRAG_DROP */
 
 
 /************************************************************************//**
@@ -334,9 +336,11 @@ static GtkTargetEntry wl_dnd_targets[] = {
 ****************************************************************************/
 void add_worklist_dnd_target(GtkWidget *w)
 {
+#ifdef GTK3_DRAG_DROP
   gtk_drag_dest_set(w, GTK_DEST_DEFAULT_ALL,
                     wl_dnd_targets, G_N_ELEMENTS(wl_dnd_targets),
                     GDK_ACTION_COPY);
+#endif /* GTK3_DRAG_DROP */
 }
 
 /************************************************************************//**
@@ -1134,7 +1138,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 0, 1, 1);
 
-  arrow = gtk_image_new_from_icon_name("pan-start-symbolic", GTK_ICON_SIZE_MENU);
+  arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_prepend), ptr);
@@ -1145,7 +1149,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 1, 1, 1);
 
-  arrow = gtk_image_new_from_icon_name("pan-up-symbolic", GTK_ICON_SIZE_MENU);
+  arrow = gtk_image_new_from_icon_name("pan-up-symbolic");
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_up), ptr);
@@ -1156,7 +1160,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 2, 1, 1);
 
-  arrow = gtk_image_new_from_icon_name("pan-down-symbolic", GTK_ICON_SIZE_MENU);
+  arrow = gtk_image_new_from_icon_name("pan-down-symbolic");
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_bubble_down), ptr);
@@ -1169,7 +1173,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 3, 1, 1);
 
-  arrow = gtk_image_new_from_icon_name("pan-start-symbolic", GTK_ICON_SIZE_MENU);
+  arrow = gtk_image_new_from_icon_name("pan-start-symbolic");
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_append), ptr);
@@ -1182,7 +1186,7 @@ GtkWidget *create_worklist(void)
   gtk_button_set_relief(GTK_BUTTON(button), GTK_RELIEF_NONE);
   gtk_grid_attach(GTK_GRID(table2), button, 0, 4, 1, 1);
 
-  arrow = gtk_image_new_from_icon_name("pan-end-symbolic", GTK_ICON_SIZE_MENU);
+  arrow = gtk_image_new_from_icon_name("pan-end-symbolic");
   gtk_container_add(GTK_CONTAINER(button), arrow);
   g_signal_connect_swapped(button, "clicked",
                            G_CALLBACK(queue_remove), ptr);
@@ -1297,11 +1301,13 @@ void reset_city_worklist(GtkWidget *editor, struct city *pcity)
   g_object_set(ptr->src_col, "visible", TRUE, NULL);
   g_object_set(ptr->dst_col, "visible", TRUE, NULL);
 
+#ifdef GTK3_DRAG_DROP
   gtk_tree_view_enable_model_drag_source(GTK_TREE_VIEW(ptr->src_view),
                                          GDK_BUTTON1_MASK,
                                          wl_dnd_targets,
                                          G_N_ELEMENTS(wl_dnd_targets),
                                          GDK_ACTION_COPY);
+#endif /* GTK3_DRAG_DROP */
 }
 
 /************************************************************************//**

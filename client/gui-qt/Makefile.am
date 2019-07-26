@@ -79,6 +79,7 @@ libgui_qt_la_SOURCES = \
 	helpdlg.h	\
 	hudwidget.cpp	\
 	hudwidget.h	\
+	infradlg.cpp	\
 	inteldlg.cpp	\
 	inteldlg.h	\
 	listener.h	\

@@ -122,7 +122,7 @@ int overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
 int overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
 
 GtkWidget *toplevel;
-GdkWindow *root_window;
+GdkSurface *root_window;
 GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GtkWidget *top_notebook, *bottom_notebook, *right_notebook;
@@ -1696,7 +1696,7 @@ void ui_main(int argc, char **argv)
   gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = gtk_widget_get_window(toplevel);
+  root_window = gtk_widget_get_surface(toplevel);
 
   if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
     migrate_options_from_gtk3_22();
@@ -1750,9 +1750,10 @@ void ui_main(int argc, char **argv)
 #ifndef FREECIV_MSWINDOWS
   {
     GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
+    GdkTexture *icon = gdk_texture_new_for_pixbuf(pixbuf);
 
     /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(toplevel), pixbuf);
+    gtk_window_set_icon(GTK_WINDOW(toplevel), icon);
     g_object_unref(pixbuf);
   }
 #endif /* FREECIV_MSWINDOWS */
@@ -1984,7 +1985,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
     gtk_widget_show(p);
 
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_window(p),
+                  gtk_widget_get_surface(p),
                   GDK_SEAT_CAPABILITY_ALL_POINTING,
                   TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
     gtk_grab_add(p);
@@ -2066,7 +2067,7 @@ void remove_net_input(void)
 {
   g_source_remove(srv_id);
   g_io_channel_unref(srv_channel);
-  gdk_window_set_cursor(root_window, NULL);
+  gtk_widget_set_cursor(toplevel, NULL);
 }
 
 /**********************************************************************//**

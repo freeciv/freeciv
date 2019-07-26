@@ -224,13 +224,13 @@ static gboolean anim_cursor_cb(gpointer data)
   }
 
   if (cursor_type == CURSOR_DEFAULT) {
-    gdk_window_set_cursor(root_window, NULL);
+    gtk_widget_set_cursor(toplevel, NULL);
     cursor_timer_id = 0;
     return FALSE; 
   }
 
-  gdk_window_set_cursor(root_window,
-                fc_cursors[cursor_type][cursor_frame]);
+  gtk_widget_set_cursor(toplevel,
+                        fc_cursors[cursor_type][cursor_frame]);
   control_mouse_cursor(NULL);
   return TRUE;
 }
@@ -324,7 +324,7 @@ struct canvas *get_overview_window(void)
   static struct canvas store;
 
   store.surface = NULL;
-  store.drawable = gdk_cairo_create(gtk_widget_get_window(overview_canvas));
+  store.drawable = gdk_cairo_create(gtk_widget_get_surface(overview_canvas));
 
   return &store;
 #endif /* 0 */
@@ -416,8 +416,9 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
   GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
+
   if (gtk_widget_get_realized(map_canvas) && !mapview_is_frozen()) {
-    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), &rectangle, FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
   }
 }
 
@@ -429,8 +430,9 @@ void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
   GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
+
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), &rectangle, FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
   }
 }
 
@@ -440,7 +442,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 void dirty_all(void)
 {
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), NULL, FALSE);
+    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL);
   }
 }
 
@@ -521,7 +523,7 @@ void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
 /**********************************************************************//**
   Put overlay tile to pixmap
 **************************************************************************/
-void pixmap_put_overlay_tile(GdkWindow *pixmap, float zoom,
+void pixmap_put_overlay_tile(GdkSurface *pixmap, float zoom,
                              int canvas_x, int canvas_y,
                              struct sprite *ssprite)
 {
@@ -624,7 +626,7 @@ void put_cross_overlay_tile(struct tile *ptile)
   float canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    pixmap_put_overlay_tile(gtk_widget_get_window(map_canvas), map_zoom,
+    pixmap_put_overlay_tile(gtk_widget_get_surface(map_canvas), map_zoom,
 			    canvas_x / map_zoom, canvas_y / map_zoom,
 			    get_attention_crosshair_sprite(tileset));
   }
@@ -732,7 +734,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
   struct color *pcolor;
   cairo_t *cr;
   GdkDrawingContext *ctx;
-  GdkWindow *wndw;
+  GdkSurface *wndw;
 
   if (w == 0 || h == 0) {
     return;
@@ -743,7 +745,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
     return;
   }
 
-  wndw = gtk_widget_get_window(map_canvas);
+  wndw = gtk_widget_get_surface(map_canvas);
   ctx = gdk_window_begin_draw_frame(wndw, NULL,
                                     gdk_window_get_clip_region(wndw));
   cr = gdk_drawing_context_get_cairo_context(ctx);
@@ -772,9 +774,10 @@ void tileset_changed(void)
 #ifndef FREECIV_MSWINDOWS
   {
     GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
+    GdkTexture *icon = gdk_texture_new_for_pixbuf(pixbuf);
 
     /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(toplevel), pixbuf);
+    gtk_window_set_icon(GTK_WINDOW(toplevel), icon);
     g_object_unref(pixbuf);
   }
 #endif /* FREECIV_MSWINDOWS */

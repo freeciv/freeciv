@@ -283,6 +283,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.globalwarming    = 0;
   game.info.global_warming   = GAME_DEFAULT_GLOBAL_WARMING;
   game.info.gold             = GAME_DEFAULT_GOLD;
+  game.info.infrapoints      = GAME_DEFAULT_INFRA;
   game.info.revolentype      = GAME_DEFAULT_REVOLENTYPE;
   game.info.default_government_id = G_LAST;
   game.info.government_during_revolution_id = G_LAST;
@@ -359,6 +360,8 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.diplchance        = GAME_DEFAULT_DIPLCHANCE;
     game.server.diplbulbcost      = GAME_DEFAULT_DIPLBULBCOST;
     game.server.diplgoldcost      = GAME_DEFAULT_DIPLGOLDCOST;
+    game.server.incite_gold_loss_chance = GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE;
+    game.server.incite_gold_capt_chance = GAME_DEFAULT_INCITE_GOLD_CAPT_CHANCE;
     game.server.dispersion        = GAME_DEFAULT_DISPERSION;
     game.server.endspaceship      = GAME_DEFAULT_END_SPACESHIP;
     game.server.end_turn          = GAME_DEFAULT_END_TURN;

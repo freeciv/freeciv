@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AICITY_H
-#define FC__AICITY_H
+#ifndef FC__DAICITY_H
+#define FC__DAICITY_H
 
 /* common */
 #include "effects.h" /* enum effect_type */
@@ -107,4 +107,4 @@ Impr_type_id dai_find_source_building(struct city *pcity,
 adv_want dai_city_want(struct player *pplayer, struct city *acity, 
                        struct adv_data *adv, struct impr_type *pimprove);
 
-#endif  /* FC__AICITY_H */
+#endif  /* FC__DAICITY_H */

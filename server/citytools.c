@@ -2496,6 +2496,21 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   packet->steal = pcity->steal;
 
+  packet->rally_point_length = pcity->rally_point.length;
+  if (pcity->rally_point.length) {
+    packet->rally_point_persistent = pcity->rally_point.persistent;
+    packet->rally_point_vigilant = pcity->rally_point.vigilant;
+    for (i = 0; i < pcity->rally_point.length; i++) {
+      packet->rally_point_orders[i] = pcity->rally_point.orders[i].order;
+      packet->rally_point_dirs[i] = pcity->rally_point.orders[i].dir;
+      packet->rally_point_activities[i] = pcity->rally_point.orders[i]
+                                          .activity;
+      packet->rally_point_sub_targets[i] = pcity->rally_point.orders[i]
+                                           .sub_target;
+      packet->rally_point_actions[i] = pcity->rally_point.orders[i].action;
+    }
+  }
+
   BV_CLR_ALL(packet->improvements);
   improvement_iterate(pimprove) {
     if (city_has_building(pcity, pimprove)) {

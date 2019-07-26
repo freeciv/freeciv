@@ -18,6 +18,7 @@
 /* common */
 #include "city.h"
 #include "effects.h"
+#include "game.h"
 #include "player.h"
 
 #include "culture.h"
@@ -35,7 +36,8 @@ int city_culture(const struct city *pcity)
 ****************************************************************************/
 int city_history_gain(const struct city *pcity)
 {
-  return get_city_bonus(pcity, EFT_HISTORY);
+  return get_city_bonus(pcity, EFT_HISTORY)
+    + pcity->history * game.info.history_interest_pml / 1000;
 }
 
 /************************************************************************//**
@@ -58,5 +60,6 @@ int player_culture(const struct player *plr)
 ****************************************************************************/
 int nation_history_gain(const struct player *pplayer)
 {
-  return get_player_bonus(pplayer, EFT_NATION_HISTORY);
+  return get_player_bonus(pplayer, EFT_NATION_HISTORY)
+    + pplayer->history * game.info.history_interest_pml / 1000;
 }

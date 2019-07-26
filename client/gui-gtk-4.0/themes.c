@@ -84,8 +84,8 @@ void gui_clear_theme(void)
     if (default_provider == NULL) {
       default_provider = gtk_css_provider_new();
     }
-    gtk_style_context_add_provider_for_screen(
-        gtk_widget_get_screen(toplevel),
+    gtk_style_context_add_provider_for_display(
+        gtk_widget_get_display(toplevel),
         GTK_STYLE_PROVIDER(default_provider),
         GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
   }

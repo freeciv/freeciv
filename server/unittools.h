@@ -168,4 +168,11 @@ void unit_activities_cancel_all_illegal(const struct tile *ptile);
 
 void unit_get_goods(struct unit *punit);
 
+struct unit_order *create_unit_orders(int length,
+                                      const enum unit_orders *orders,
+                                      const enum direction8 *dir,
+                                      const enum unit_activity *activity,
+                                      const int *sub_target,
+                                      const action_id *action);
+
 #endif  /* FC__UNITTOOLS_H */

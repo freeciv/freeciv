@@ -651,6 +651,8 @@ static char activity2char(enum unit_activity activity)
     return 'c';
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
     return '?';
   case ACTIVITY_LAST:
     break;
@@ -1098,7 +1100,7 @@ static void sg_load_ruleset(struct loaddata *loading)
       sz_strlcpy(game.server.rulesetdir, "classic");
     }
   }
-  if (!load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE)) {
+  if (!load_rulesets(NULL, NULL, FALSE, NULL, TRUE, FALSE, TRUE)) {
     /* Failed to load correct ruleset */
     sg_failure_ret(FALSE, _("Failed to load ruleset"));
   }

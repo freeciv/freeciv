@@ -24,7 +24,7 @@ end
 
 signal.connect("city_destroyed", "city_destroyed_callback")
 
--- Unit enters Hermit`s Nest
+-- Unit enters Hermit`s Place
 function hermit_nest(unit, extra)
   if extra == "Hermit" then
     local chance = random(0, 5)
@@ -43,27 +43,11 @@ function hermit_nest(unit, extra)
                  _("The Hermit has left nothing useful."))
     end
 
-    return false
+    return true
   end
 end
 
 signal.connect("hut_enter", "hermit_nest")
-
--- Horseback riding researched
-function horseback_callback(tech_type, player, source)
-  local img = string.format("%s%s%s", game.rulesetdir(),
-                            "/", "resources/horseman.jpg")
-  local snd = string.format("%s%s%s", game.rulesetdir(),
-                            "/", "resources/horse.ogg")
-  if (tech_type == find.tech_type("Horseback Riding"))
-    then
-    server.showimg_playsnd(player, img, snd,
-                           "Better to run than curse the road", true)
-  end
-  return false
-end
-
-signal.connect('tech_researched', 'horseback_callback')
 
 function hermit_nest_blown(unit, extra)
   if extra == "Hermit" then

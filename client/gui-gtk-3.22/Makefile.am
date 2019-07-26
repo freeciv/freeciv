@@ -58,6 +58,8 @@ libgui_gtk3_22_la_SOURCES = \
 	happiness.h	\
 	helpdlg.c	\
 	helpdlg.h	\
+	infradlg.c	\
+	infradlg.h	\
 	inputdlg.c	\
 	inputdlg.h	\
 	inteldlg.c	\

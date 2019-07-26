@@ -1,0 +1,107 @@
+==============================
+Installing Freeciv with Meson:
+==============================
+
+This file describes how to compile and install Freeciv with the experimental
+Meson build system support. Meson support is still work-in-progress. Fully
+supported official way to compile and install Freeciv is still using
+autotools as described in INSTALL.
+
+
+Prerequisites:
+==============
+
+Freeciv has mostly the same prerequisites no matter if it's built
+with autotools or meson and ninja. The only difference is the requirement
+of the build system itself. Meson build does not need autotools, nor does
+autotools build need meson. See main (autotools) INSTALL file for the
+common prerequisites.
+
+For the meson based build minimum version of meson is 0.44.0.
+
+
+Overview:
+=========
+
+There's two parts in building freeciv. First one needs to configure the
+build, and then execute it.
+
+Build directory is configured with the 'meson' command. This is equivalent
+of running './configure' in autotools based system. Meson does not allow
+configuring the source directory. It always requires separate build directory.
+Just create an empty directory, cd in to it, and run meson with path to
+source directory as parameter. You can also give configure options in this
+phase.
+
+> mkdir build ; cd build
+> meson ../freeciv-3.1.0
+
+You need to configure the build directory just once. As source files get
+updated, you can just execute incremental builds in the build directory.
+You can have multiple build directories configured to use the same source
+directory, typically set up with different configure options. You can
+for example have separate build directories for different kinds of clients.
+
+The build is executed with 'ninja' command. This is equivalent of running
+'make' in autotools based system. It's also used to install freeciv
+
+> ninja
+> ninja install
+
+
+Configure options:
+==================
+
+Configure options are given as '-D<option>=<value>'.
+For example to set freeciv installation prefix as
+'/home/cazfi/freeciv-install':
+
+> meson ../src -Dprefix=/home/cazfi/freeciv-install
+
+You can give configure options when you first set up the build directory
+(like in example above), or you can change configure options for the
+build directory later by 'meson configure' subcommand like this:
+
+> meson configure -Dprefix=/home/cazfi/freeciv-install
+
+You get full list of configure options by running 'meson configure'
+subcommand without any configure options to set
+
+> meson configure
+
+Some of the configure options are implemented by meson itself for
+all meson-based projects. Some options are implemented in freeciv build
+system, and they are specific to freeciv.
+
+
+Notable generic configure options:
+----------------------------------
+
+prefix (string):
+  The directory where Freeciv will be installed. You can install multiple
+  versions of Freeciv in parallel by using different prefix for each.
+  It's also a good idea to use prefix to avoid messing your system directories
+
+debug (boolean):
+  Whether debug version of Freeciv should be built. While this is generic
+  option, some functionality in Freeciv depends on this setting.
+
+
+Freeciv specific configure options:
+-----------------------------------
+
+ack_experimental (boolean):
+  As the official build system for freeciv is still autotools, user
+  has to acknowledge that they are using experimental build system when
+  using meson. This configure options must be set to 'true', or build
+  refuses to start
+
+clients (array):
+  List of clients to build. To disable client build completely, give an
+  empty array ('-Dclients=[]'). Currently only gtk3.22-client build is
+  supported ('-Dclients=gtk3.22'). By default builds gtk3.22-client
+
+fcmp (array):
+  List of freeciv modpack installer UIs to build. To disable their build
+  completely, give an empty array ('-Dfcmp=[]'). Currently gtk3, and cli
+  are supported ('-Dfcmp=gtk3'). By default builds just gtk3 UI.

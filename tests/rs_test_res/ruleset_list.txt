@@ -8,3 +8,4 @@ multiplayer
 sandbox
 stub
 webperimental
+granularity

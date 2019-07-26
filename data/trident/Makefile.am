@@ -11,6 +11,8 @@ pkgdata_DATA =          \
 	earth.spec	\
 	explosions.png	\
 	explosions.spec	\
+	extra_units.png	\
+	extra_units.spec \
 	fog.png		\
 	fog.spec	\
 	grid.png	\

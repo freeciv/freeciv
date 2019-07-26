@@ -74,6 +74,7 @@ libfreeciv_srv_la_SOURCES = \
 		handchat.h	\
 		hand_gen.c	\
 		hand_gen.h	\
+		infrapts.c	\
 		maphand.c	\
 		maphand.h	\
 		meta.c		\

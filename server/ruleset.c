@@ -126,7 +126,7 @@ static struct requirement_vector reqs_list;
 
 static bool load_rulesetdir(const char *rsdir, bool compat_mode,
                             rs_conversion_logger logger,
-                            bool act, bool buffer_script);
+                            bool act, bool buffer_script, bool load_luadata);
 static struct section_file *openload_ruleset_file(const char *whichset,
                                                   const char *rsdir);
 
@@ -3214,6 +3214,8 @@ static bool load_ruleset_terrain(struct section_file *file,
                     filename, extra_rule_name(pextra), &ok);
         pextra->removal_time_factor = secfile_lookup_int_default(file, 1,
                                                                  "%s.removal_time_factor", section);
+        pextra->infracost = secfile_lookup_int_default(file, 1,
+                                                       "%s.infracost", section);
 
         pextra->defense_bonus  = secfile_lookup_int_default(file, 0,
                                                             "%s.defense_bonus",
@@ -3379,6 +3381,8 @@ static bool load_ruleset_terrain(struct section_file *file,
 
         pextra->helptext = lookup_strvec(file, section, "helptext");
       }
+
+      rscompat_extra_adjust_3_1(compat, pextra);
     } extra_type_iterate_end;
   }
 
@@ -4357,9 +4361,15 @@ static bool load_city_name_list(struct section_file *file,
             size_t l = strlen(p);
 
             if (0 < l && 's' == fc_tolower(p[l - 1])) {
+              char saved = p[l - 1];
+
               p[l - 1] = '\0';
+              pterrain = terrain_by_rule_name(p);
+              if (pterrain == NULL) {
+                /* Didn't help, restore for later allowed_terrains check */
+                p[l - 1] = saved;
+              }
             }
-            pterrain = terrain_by_rule_name(p);
           }
 
           /* Nationset may have been devised with a specific set of terrains
@@ -6061,6 +6071,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       ok = FALSE;
     }
 
+    game.info.granularity = secfile_lookup_int_default(file, 1,
+                                                       "civstyle.output_granularity");
+
     /* section: illness */
     game.info.illness_on
       = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,
@@ -6488,6 +6501,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.culture_migration_pml
       = secfile_lookup_int_default(file, RS_DEFAULT_CULTURE_MIGRATION_PML,
                                    "culture.migration_pml");
+    game.info.history_interest_pml
+      = secfile_lookup_int_default(file, RS_DEFAULT_HISTORY_INTEREST_PML,
+                                   "culture.history_interest_pml");
 
     /* section: calendar */
     game.calendar.calendar_skip_0
@@ -7424,6 +7440,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.build_time_factor = e->build_time_factor;
     packet.removal_time = e->removal_time;
     packet.removal_time_factor = e->removal_time_factor;
+    packet.infracost = e->infracost;
     packet.defense_bonus = e->defense_bonus;
     packet.eus = e->eus;
 
@@ -8067,15 +8084,16 @@ static void notify_ruleset_fallback(const char *msg)
 **************************************************************************/
 bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
                    rs_conversion_logger logger,
-                   bool act, bool buffer_script)
+                   bool act, bool buffer_script, bool load_luadata)
 {
   if (load_rulesetdir(game.server.rulesetdir, compat_mode, logger,
-                      act, buffer_script)) {
+                      act, buffer_script, load_luadata)) {
     return TRUE;
   }
 
   if (alt != NULL) {
-    if (load_rulesetdir(alt, compat_mode, logger, act, buffer_script)) {
+    if (load_rulesetdir(alt, compat_mode, logger, act, buffer_script,
+                        load_luadata)) {
       sz_strlcpy(game.server.rulesetdir, alt);
 
       return TRUE;
@@ -8084,7 +8102,7 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
 
   /* Fallback to previous one. */
   if (restore != NULL) {
-    if (load_rulesetdir(restore, compat_mode, logger, act, buffer_script)) {
+    if (load_rulesetdir(restore, compat_mode, logger, act, buffer_script, TRUE)) {
       sz_strlcpy(game.server.rulesetdir, restore);
 
       notify_ruleset_fallback(_("Ruleset couldn't be loaded. Keeping previous one."));
@@ -8099,7 +8117,7 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
   /* Fallback to default one, but not if that's what we tried already */
   if (strcmp(GAME_DEFAULT_RULESETDIR, game.server.rulesetdir)
       && (restore == NULL || strcmp(GAME_DEFAULT_RULESETDIR, restore))) {
-    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, FALSE, NULL, act, buffer_script)) {
+    if (load_rulesetdir(GAME_DEFAULT_RULESETDIR, FALSE, NULL, act, buffer_script, TRUE)) {
       /* We're in sane state as fallback ruleset loading succeeded,
        * but return failure to indicate that this is not what caller
        * wanted. */
@@ -8146,7 +8164,7 @@ void rulesets_deinit(void)
 **************************************************************************/
 static bool load_rulesetdir(const char *rsdir, bool compat_mode,
                             rs_conversion_logger logger,
-                            bool act, bool buffer_script)
+                            bool act, bool buffer_script, bool load_luadata)
 {
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *stylefile, *cityfile, *nationfile, *effectfile, *gamefile;
@@ -8186,7 +8204,11 @@ static bool load_rulesetdir(const char *rsdir, bool compat_mode,
   nationfile = openload_ruleset_file("nations", rsdir);
   effectfile = openload_ruleset_file("effects", rsdir);
   gamefile = openload_ruleset_file("game", rsdir);
-  game.server.luadata = openload_luadata_file(rsdir);
+  if (load_luadata) {
+    game.server.luadata = openload_luadata_file(rsdir);
+  } else {
+    game.server.luadata = NULL;
+  }
 
   if (techfile == NULL
       || buildfile  == NULL

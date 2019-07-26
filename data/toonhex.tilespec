@@ -2,7 +2,7 @@
 [tilespec]
 
 ; Format and options of this tilespec file:
-options = "+Freeciv-tilespec-Devel-2016-Jun-07"
+options = "+Freeciv-tilespec-Devel-2019-Jul-03"
 
 ; A simple name for the tileset specified by this file:
 name = "Toonhex"

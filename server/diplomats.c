@@ -57,6 +57,9 @@ static void diplomat_charge_movement (struct unit *pdiplomat,
                                       struct tile *ptile);
 static bool diplomat_success_vs_defender(struct unit *patt, struct unit *pdef,
                                          struct tile *pdefender_tile);
+static bool diplomat_may_lose_gold(struct player *dec_player,
+                                   struct player *inc_player,
+                                   int revolt_gold);
 static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct player *cplayer,
                                      const struct action *paction,
@@ -799,6 +802,49 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /************************************************************************//**
+  Gold for inciting might get lost.
+
+  - If the provocateur is captured and executed, there is probability
+    that he was carrying bag with some gold, which will be lost.
+  - There is chance, that this gold will be transfered to nation
+    which succesfully defended against inciting revolt.
+
+  Returns TRUE if money is lost, FALSE if not.
+****************************************************************************/
+bool diplomat_may_lose_gold(struct player *dec_player, struct player *inc_player,
+                            int revolt_gold)
+{
+  if (game.server.incite_gold_loss_chance <= 0) {
+    return FALSE;
+  }
+
+  /* Roll the dice. */
+  if (fc_rand (100) < game.server.incite_gold_loss_chance) {
+    notify_player(dec_player, NULL, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("Your %d gold prepared to incite the revolt was lost!"),
+                  revolt_gold);
+    dec_player->economic.gold -= revolt_gold;
+    /* Lost money was pocketed by fraudulent executioners?
+     * Or returned to local authority?
+     * Roll the dice twice. */
+    if (fc_rand (100) < game.server.incite_gold_capt_chance) {
+      inc_player->economic.gold += revolt_gold;
+      notify_player(inc_player, NULL, E_ENEMY_DIPLOMAT_FAILED,
+                    ftc_server,
+                    _("Your security service captured %d gold prepared "
+                      "to incite your town!"), revolt_gold);
+    }
+    /* Update clients. */
+    send_player_all_c(dec_player, NULL);
+    send_player_all_c(inc_player, NULL);
+
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
+/************************************************************************//**
   Incite a city to disaffect.
 
   - Can't incite a city to disaffect if:
@@ -861,6 +907,7 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                                 paction,
                                 pdiplomat, NULL,
                                 pcity->tile)) {
+    diplomat_may_lose_gold(pplayer, cplayer, revolt_cost / 2 );
     return FALSE;
   }
 
@@ -879,6 +926,8 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   nation_adjective_for_player(pplayer),
                   unit_tile_link(pdiplomat),
                   clink);
+
+    diplomat_may_lose_gold(pplayer, cplayer, revolt_cost / 4);
 
     /* This may cause a diplomatic incident */
     action_consequence_caught(paction, pplayer, cplayer, ctile, clink);

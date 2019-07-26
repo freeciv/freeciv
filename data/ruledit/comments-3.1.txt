@@ -495,6 +495,9 @@ utypes = "\
 ;                 do so even if has better odds when defending against it\n\
 ;                 then when attacking it. Applies when the autoattack server\n\
 ;                 setting is enabled.\n\
+; \"NeverProtects\" = doesn\'t protect reachable units on its tile from enemy\n\
+;                 attackers, even if the unreachableprotects server setting\n\
+;                 is enabled and the unit class is unreachable\n\
 ;\n\
 ; Following actions require extra fields:\n\
 ;  \"Attack\" and \"Suicide Attack\"\n\
@@ -734,8 +737,10 @@ extras = "\
 ;                           (the last three require a corresponding\n\
 ;                           [resource_*] / [base_*] / [road_*] section)\n\
 ; rmcauses                = events that can remove extra type.\n\
-;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\", or\n\
-;                           \"Disappear\"\n\
+;                           \"CleanPollution\", \"CleanFallout\", \"Pillage\",\n\
+;                           \"Disappear\", or \"Enter\"\n\
+; infracost               = Number of infrapoints it costs to place this\n\
+;                           extra. 0 means extra cannot be placed. Default is 1\n\
 ; graphic                 = tag specifying preferred graphic\n\
 ; graphic_alt             = tag for alternate graphic if preferred graphic is\n\
 ;                           not present. Can use eg \"-\" for no alternate\n\
@@ -761,7 +766,7 @@ extras = "\
 ;                           any causes indicating it can result from worker\n\
 ;                           activity.\n\
 ;                           If extra is not buildable, it can appear in game\n\
-;                           only if placed in the editor, it\n\'s placed by\n\
+;                           only if placed in the editor, it\'s placed by\n\
 ;                           map generator, or on city tile if the extra\n\
 ;                           also has \"AlwaysOnCityCenter\" flag set.\n\
 ; generated               = Can map generator place the extra? Applicable\n\
@@ -842,6 +847,7 @@ bases = "\
 ;                           (must have \"Base\" in its causes)\n\
 ; gui_type                = How gui should handle this base.\n\
 ;                           Value can be \"Fortress\", \"Airbase\", or \"Other\"\n\
+;                           See also [extraui] section\n\
 ; border_sq               = Base will claim land ownership up to this radius,\n\
 ;                           -1 to disable. If enabled, base cannot exist in\n\
 ;                           city tile.\n\
