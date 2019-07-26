@@ -20,10 +20,10 @@ dependencies="gettext libgtk-3-dev libcurl4-openssl-dev libtool automake autocon
 
 ## Dependencies
 echo "==== Installing Updates and Dependencies ===="
-echo "apt-get update"
-apt-get -y update
-echo "apt-get install dependencies"
-apt-get -y install ${dependencies}
+echo "apt update"
+apt -y update
+echo "apt install dependencies"
+apt -y install ${dependencies}
 
 # Setup python3 to use
 update-alternatives --install /usr/bin/python python /usr/bin/python3 2
