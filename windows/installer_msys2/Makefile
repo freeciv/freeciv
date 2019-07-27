@@ -278,7 +278,8 @@ QT_DLLS := \
 	libpcre2-16-0.dll \
 	libunistring-2.dll \
 	libbrotlidec.dll \
-	libbrotlicommon.dll
+	libbrotlicommon.dll \
+	libdouble-conversion.dll
 
 install-env-qt: install-env-common
 	# add DLLs
@@ -323,7 +324,8 @@ RULEDIT_DLLS := \
 	zlib1.dll \
 	libwinpthread-1.dll \
 	libgraphite2.dll \
-	libpcre-1.dll
+	libpcre-1.dll \
+	libdouble-conversion.dll
 
 install-env-ruledit:
 	# add DLLs
