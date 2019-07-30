@@ -1140,6 +1140,7 @@ client_common = static_library('fc_client_common',
 install_data('data/helpdata.txt',
              'data/hexemplio.tilespec',
              'data/stdmusic.musicspec',
+             'data/stdsounds.soundspec',
              install_dir : join_paths(get_option('datadir'), 'freeciv'))
 
 install_data('data/misc/colors.tilespec',
@@ -1889,6 +1890,26 @@ install_data('data/amplio2/units.png',
 
 install_data('data/stdmusic/CullamBruce-Lockhart--Dawning_Fanfare.ogg',
              install_dir : join_paths(get_option('datadir'), 'freeciv/stdmusic'))
+
+install_data('data/stdsounds/foot3.ogg',
+             'data/stdsounds/illegal.ogg',
+             'data/stdsounds/inh2o.ogg',
+             'data/stdsounds/LrgCan.ogg',
+             'data/stdsounds/LrgExpl.ogg',
+             'data/stdsounds/MedCan.ogg',
+             'data/stdsounds/metbrk.ogg',
+             'data/stdsounds/MgBar1.ogg',
+             'data/stdsounds/MgBar2.ogg',
+             'data/stdsounds/MgHeavy.ogg',
+             'data/stdsounds/Mortar.ogg',
+             'data/stdsounds/SmlExpl.ogg',
+             'data/stdsounds/Splash.ogg',
+             'data/stdsounds/THover.ogg',
+             'data/stdsounds/Tread.ogg',
+             'data/stdsounds/wakeup.ogg',
+             'data/stdsounds/wall01.ogg',
+             'data/stdsounds/woodbrk.ogg',
+             install_dir : join_paths(get_option('datadir'), 'freeciv/stdsounds'))
 
 endif
 
