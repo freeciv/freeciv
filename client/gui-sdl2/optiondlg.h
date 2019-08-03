@@ -24,8 +24,6 @@
 
 #include "optiondlg_g.h"
 
-struct widget *pOptions_Button;
-
 void popup_optiondlg(void);
 void popdown_optiondlg(bool leave_game);
 
