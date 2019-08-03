@@ -73,6 +73,7 @@ extern bool is_unit_move_blocked;
 
 static char *pSuggestedCityName = NULL;
 static struct SMALL_DLG *pNewCity_Dlg = NULL;
+extern struct widget *pOptions_Button;
   
 #ifdef SCALE_MINIMAP
 static struct SMALL_DLG *pScale_MiniMap_Dlg = NULL;
