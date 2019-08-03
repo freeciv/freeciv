@@ -1762,7 +1762,13 @@ static char *mapimg_generate_name(struct mapdef *pmapdef)
   for (layer = mapimg_layer_begin(); layer != mapimg_layer_end();
        layer = mapimg_layer_next(layer)) {
     if (pmapdef->layers[layer]) {
-      cat_snprintf(mapstr, sizeof(mapstr), "%s", mapimg_layer_name(layer));
+      const char *lname = mapimg_layer_name(layer);
+
+      if (lname != NULL) {
+        cat_snprintf(mapstr, sizeof(mapstr), "%s", lname);
+      } else {
+        cat_snprintf(mapstr, sizeof(mapstr), "-");
+      }
     } else {
       cat_snprintf(mapstr, sizeof(mapstr), "-");
     }
