@@ -25,7 +25,6 @@
 /* gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
-#include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_tilespec.h"
 #include "mapview.h"

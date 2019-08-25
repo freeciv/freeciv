@@ -38,7 +38,6 @@
 /* client/gui-sdl2 */
 #include "colors.h"
 #include "graphics.h"
-#include "gui_iconv.h"
 #include "gui_main.h"
 #include "themespec.h"
 #include "unistring.h"

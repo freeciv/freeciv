@@ -28,7 +28,6 @@
 
 /* client/gui-sdl2 */
 #include "colors.h"
-#include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_string.h"
 #include "gui_tilespec.h"
