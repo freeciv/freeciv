@@ -39,8 +39,6 @@ libgui_sdl2_la_SOURCES = \
 	gotodlg.h	\
 	graphics.c	\
 	graphics.h	\
-	gui_iconv.c	\
-	gui_iconv.h	\
 	gui_id.h	\
 	gui_main.c	\
 	gui_main.h	\

@@ -60,7 +60,6 @@
 #include "finddlg.h"
 #include "gotodlg.h"
 #include "graphics.h"
-#include "gui_iconv.h"
 #include "gui_id.h"
 #include "gui_main.h"
 #include "gui_tilespec.h"
