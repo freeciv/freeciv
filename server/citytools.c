@@ -566,21 +566,6 @@ int build_points_left(struct city *pcity)
 }
 
 /************************************************************************//**
-  How many veteran levels will created unit of this type get?
-****************************************************************************/
-int do_make_unit_veteran(struct city *pcity,
-                         const struct unit_type *punittype)
-{
-  int levels = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
-                                  EFT_VETERAN_BUILD);
-  int max_levels = utype_veteran_levels(punittype) - 1;
-
-  levels = CLIP(0, levels, max_levels);
-
-  return levels;
-}
-
-/************************************************************************//**
   Change player that owns a unit and, if appropriate, its home city,
   with verbose output.
   If 'rehome' is not set, only change the player which owns the unit

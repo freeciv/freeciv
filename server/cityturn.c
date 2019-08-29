@@ -2391,7 +2391,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 
     for (i = 0; i < num_units; i++) {
       punit = create_unit(pplayer, pcity->tile, utype,
-                          do_make_unit_veteran(pcity, utype),
+                          city_production_unit_veteran_level(pcity, utype),
                           pcity->id, 0);
       pplayer->score.units_built++;
 
@@ -3246,7 +3246,7 @@ static bool disband_city(struct city *pcity)
   }
 
   (void) create_unit(pplayer, ptile, utype,
-		     do_make_unit_veteran(pcity, utype),
+                    city_production_unit_veteran_level(pcity, utype),
 		     pcity->id, 0);
   pplayer->score.units_built++;
 

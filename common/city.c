@@ -779,6 +779,21 @@ bool city_production_build_units(const struct city *pcity,
   return TRUE;
 }
 
+/************************************************************************//**
+  How many veteran levels will created unit of this type get?
+****************************************************************************/
+int city_production_unit_veteran_level(struct city *pcity,
+                                       const struct unit_type *punittype)
+{
+  int levels = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
+                                  EFT_VETERAN_BUILD);
+  int max_levels = utype_veteran_levels(punittype) - 1;
+
+  levels = CLIP(0, levels, max_levels);
+
+  return levels;
+}
+
 /**********************************************************************//**
  Calculates the turns which are needed to build the requested
  production in the city.  GUI Independent.

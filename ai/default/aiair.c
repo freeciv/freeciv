@@ -474,8 +474,9 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
 
     if (can_city_build_unit_now(pcity, punittype)) {
       struct unit *virtual_unit =
-	unit_virtual_create(pplayer, pcity, punittype,
-                            do_make_unit_veteran(pcity, punittype));
+       unit_virtual_create(
+          pplayer, pcity, punittype,
+          city_production_unit_veteran_level(pcity, punittype));
       int profit = find_something_to_bomb(ait, virtual_unit, NULL, NULL);
 
       if (profit > choice->want) {

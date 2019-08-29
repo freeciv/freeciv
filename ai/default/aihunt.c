@@ -277,12 +277,14 @@ void dai_hunter_choice(struct ai_type *ait, struct player *pplayer,
   }
 
   if (best_sea_hunter) {
-    eval_hunter_want(ait, pplayer, pcity, choice, best_sea_hunter, 
-                     do_make_unit_veteran(pcity, best_sea_hunter));
+    eval_hunter_want(
+      ait, pplayer, pcity, choice, best_sea_hunter,
+      city_production_unit_veteran_level(pcity, best_sea_hunter));
   }
   if (best_land_hunter) {
-    eval_hunter_want(ait, pplayer, pcity, choice, best_land_hunter, 
-                     do_make_unit_veteran(pcity, best_land_hunter));
+    eval_hunter_want(
+      ait, pplayer, pcity, choice, best_land_hunter,
+      city_production_unit_veteran_level(pcity, best_land_hunter));
   }
 }
 

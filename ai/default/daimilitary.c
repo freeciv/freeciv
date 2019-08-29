@@ -1248,7 +1248,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
     def_type = dai_choose_defender_versus(acity, myunit);
     def_owner = city_owner(acity);
     if (1 < move_time && def_type) {
-      def_vet = do_make_unit_veteran(acity, def_type);
+      def_vet = city_production_unit_veteran_level(acity, def_type);
       vulnerability = unittype_def_rating_squared(unit_type_get(myunit), def_type,
                                                   city_owner(acity), ptile,
                                                   FALSE, def_vet);
@@ -1375,7 +1375,7 @@ static void dai_unit_consider_bodyguard(struct ai_type *ait,
   struct city *acity = NULL;
 
   virtualunit = unit_virtual_create(pplayer, pcity, punittype,
-                                    do_make_unit_veteran(pcity, punittype));
+                                    city_production_unit_veteran_level(pcity, punittype));
 
   if (choice->want < 100) {
     const int want = look_for_charge(ait, pplayer, virtualunit, &aunit, &acity);
@@ -1406,7 +1406,7 @@ static void adjust_ai_unit_choice(struct city *pcity,
   /* Sanity */
   if (!is_unit_choice_type(choice->type)
       || utype_has_flag(choice->value.utype, UTYF_CIVILIAN)
-      || do_make_unit_veteran(pcity, choice->value.utype)) {
+      || city_production_unit_veteran_level(pcity, choice->value.utype)) {
     return;
   }
 
@@ -1651,8 +1651,9 @@ struct adv_choice *military_advisor_choose_build(struct ai_type *ait,
      before we mung the seamap */
   punittype = dai_choose_attacker(ait, pcity, TC_OCEAN, allow_gold_upkeep);
   if (punittype) {
-    virtualunit = unit_virtual_create(pplayer, pcity, punittype,
-                                      do_make_unit_veteran(pcity, punittype));
+    virtualunit = unit_virtual_create(
+      pplayer, pcity, punittype,
+      city_production_unit_veteran_level(pcity, punittype));
     choice = kill_something_with(ait, pplayer, pcity, virtualunit, choice);
     unit_virtual_destroy(virtualunit);
   }

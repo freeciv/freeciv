@@ -205,8 +205,9 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
     int want, loss, p_success, p_failure, time_to_dest;
     int gain_incite = 0, gain_theft = 0, gain = 1;
     int incite_cost;
-    struct unit *punit = unit_virtual_create(pplayer, pcity, ut,
-                                             do_make_unit_veteran(pcity, ut));
+    struct unit *punit = unit_virtual_create(
+      pplayer, pcity, ut,
+      city_production_unit_veteran_level(pcity, ut));
 
     pft_fill_unit_parameter(&parameter, punit);
     parameter.omniscience = !has_handicap(pplayer, H_MAP);

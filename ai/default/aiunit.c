@@ -1355,10 +1355,9 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         struct unit_type *def_type = dai_choose_defender_versus(acity, punit);
 
         if (def_type) {
-          int v = unittype_def_rating_squared(punit_type, def_type, aplayer,
-                                              atile, FALSE,
-                                              do_make_unit_veteran(acity,
-                                                                   def_type));
+          int v = unittype_def_rating_squared(
+            punit_type, def_type, aplayer, atile, FALSE,
+            city_production_unit_veteran_level(acity, def_type));
           if (v > vulnerability) {
             /* They can build a better defender! */
             vulnerability = v;

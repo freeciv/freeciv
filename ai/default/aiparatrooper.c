@@ -391,8 +391,9 @@ void dai_choose_paratrooper(struct ai_type *ait,
     }
 
     /* it's worth building that unit? */
-    virtual_unit = unit_virtual_create(pplayer, pcity, u_type,
-                                       do_make_unit_veteran(pcity, u_type));
+    virtual_unit = unit_virtual_create(
+      pplayer, pcity, u_type,
+      city_production_unit_veteran_level(pcity, u_type));
     profit = calculate_want_for_paratrooper(virtual_unit, pcity->tile);
     unit_virtual_destroy(virtual_unit);
 
