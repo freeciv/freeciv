@@ -191,7 +191,7 @@ static action_id get_targeted_action_id(action_id non_tgt_action_id)
 **************************************************************************/
 static int caravan_marketplace_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -212,7 +212,7 @@ static int caravan_marketplace_callback(struct widget *pWidget)
 **************************************************************************/
 static int caravan_establish_trade_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -233,7 +233,7 @@ static int caravan_establish_trade_callback(struct widget *pWidget)
 **************************************************************************/
 static int caravan_help_build_wonder_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -254,7 +254,7 @@ static int caravan_help_build_wonder_callback(struct widget *pWidget)
 **************************************************************************/
 static int unit_recycle_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -279,7 +279,7 @@ static int unit_recycle_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_dlg_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow);
   }
 
@@ -291,7 +291,7 @@ static int diplomat_dlg_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int spy_embassy_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -312,7 +312,7 @@ static int spy_embassy_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_embassy_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -333,7 +333,7 @@ static int diplomat_embassy_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_investigate_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -355,7 +355,7 @@ static int spy_investigate_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_investigate_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -377,7 +377,7 @@ static int diplomat_investigate_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_poison_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -397,7 +397,7 @@ static int spy_poison_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_poison_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -417,7 +417,7 @@ static int spy_poison_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_nuke_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -437,7 +437,7 @@ static int spy_nuke_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_nuke_city_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -457,7 +457,7 @@ static int spy_nuke_city_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int destroy_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -477,7 +477,7 @@ static int destroy_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_gold_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -498,7 +498,7 @@ static int spy_steal_gold_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_gold_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -519,7 +519,7 @@ static int spy_steal_gold_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_maps_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -540,7 +540,7 @@ static int spy_steal_maps_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_maps_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -604,7 +604,7 @@ static int spy_sabotage_esc_request(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_sabotage_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -625,7 +625,7 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_sabotage_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -648,7 +648,7 @@ static int diplomat_sabotage_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_dlg_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pWindow);
   }
 
@@ -660,7 +660,7 @@ static int spy_steal_dlg_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
     fc_assert(is_more_user_input_needed);
@@ -676,7 +676,7 @@ static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int steal_advance = MAX_ID - pWidget->ID;
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
@@ -972,7 +972,7 @@ static int spy_steal_esc_popup(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_steal_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -993,7 +993,7 @@ static int diplomat_steal_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_steal_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -1014,7 +1014,7 @@ static int diplomat_steal_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_incite_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -1036,7 +1036,7 @@ static int diplomat_incite_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_incite_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -1060,7 +1060,7 @@ static int spy_incite_callback(struct widget *pWidget)
 **************************************************************************/
 static int act_sel_keep_moving_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct unit *punit;
 
     if ((punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))
@@ -1079,7 +1079,7 @@ static int act_sel_keep_moving_callback(struct widget *pWidget)
 **************************************************************************/
 static int act_sel_wait_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     key_unit_wait();
 
     /* The dialog was popped down when key_unit_wait() resulted in
@@ -1094,7 +1094,7 @@ static int act_sel_wait_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_bribe_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL !=
          game_unit_by_number(pDiplomat_Dlg->target_ids[ATK_UNIT])) {
@@ -1116,7 +1116,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_sabotage_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int diplomat_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1133,7 +1133,7 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int diplomat_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1150,7 +1150,7 @@ static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
 **************************************************************************/
 static int heal_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1167,7 +1167,7 @@ static int heal_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int capture_units_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = tile_index(pWidget->data.tile);
 
@@ -1184,7 +1184,7 @@ static int capture_units_callback(struct widget *pWidget)
 **************************************************************************/
 static int expel_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1201,7 +1201,7 @@ static int expel_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int bombard_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = tile_index(pWidget->data.tile);
 
@@ -1218,7 +1218,7 @@ static int bombard_callback(struct widget *pWidget)
 **************************************************************************/
 static int join_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -1239,7 +1239,7 @@ static int join_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int found_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
 
     popdown_diplomat_dialog();
@@ -1255,7 +1255,7 @@ static int found_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int transform_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1272,7 +1272,7 @@ static int transform_callback(struct widget *pWidget)
 **************************************************************************/
 static int cultivate_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1289,7 +1289,7 @@ static int cultivate_callback(struct widget *pWidget)
 **************************************************************************/
 static int plant_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1306,7 +1306,7 @@ static int plant_callback(struct widget *pWidget)
 **************************************************************************/
 static int pillage_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
@@ -1324,7 +1324,7 @@ static int pillage_callback(struct widget *pWidget)
 **************************************************************************/
 static int road_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
@@ -1342,7 +1342,7 @@ static int road_callback(struct widget *pWidget)
 **************************************************************************/
 static int base_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
@@ -1360,7 +1360,7 @@ static int base_callback(struct widget *pWidget)
 **************************************************************************/
 static int mine_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
@@ -1378,7 +1378,7 @@ static int mine_callback(struct widget *pWidget)
 **************************************************************************/
 static int irrigate_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
@@ -1396,7 +1396,7 @@ static int irrigate_callback(struct widget *pWidget)
 **************************************************************************/
 static int nuke_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1413,7 +1413,7 @@ static int nuke_callback(struct widget *pWidget)
 **************************************************************************/
 static int attack_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1430,7 +1430,7 @@ static int attack_callback(struct widget *pWidget)
 **************************************************************************/
 static int suicide_attack_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1447,7 +1447,7 @@ static int suicide_attack_callback(struct widget *pWidget)
 **************************************************************************/
 static int paradrop_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.tile->index;
 
@@ -1464,7 +1464,7 @@ static int paradrop_callback(struct widget *pWidget)
 **************************************************************************/
 static int disband_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1481,7 +1481,7 @@ static int disband_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int fortify_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1498,7 +1498,7 @@ static int fortify_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int actor_id = MAX_ID - pWidget->ID;
     int target_id = pWidget->data.unit->id;
 
@@ -1515,7 +1515,7 @@ static int convert_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int home_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -1536,7 +1536,7 @@ static int home_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int upgrade_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct unit *punit;
     struct city *pcity;
 
@@ -1556,7 +1556,7 @@ static int upgrade_callback(struct widget *pWidget)
 **************************************************************************/
 static int airlift_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -1577,7 +1577,7 @@ static int airlift_callback(struct widget *pWidget)
 **************************************************************************/
 static int conquer_city_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_city_by_number(
           pDiplomat_Dlg->target_ids[ATK_CITY])
         && NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)) {
@@ -1598,7 +1598,7 @@ static int conquer_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_diplomat_dialog();
   }
 
@@ -2141,7 +2141,7 @@ void action_selection_close(void)
 **************************************************************************/
 static int sabotage_impr_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int sabotage_improvement = MAX_ID - pWidget->ID;
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
@@ -2420,7 +2420,7 @@ static struct small_diplomat_dialog *pIncite_Dlg = NULL;
 **************************************************************************/
 static int incite_dlg_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pIncite_Dlg->pdialog->pBeginWidgetList, pWindow);
   }
 
@@ -2432,7 +2432,7 @@ static int incite_dlg_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int diplomat_incite_yes_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
         && NULL != game_city_by_number(pIncite_Dlg->target_id)) {
       request_do_action(pIncite_Dlg->act_id, pIncite_Dlg->actor_unit_id,
@@ -2450,7 +2450,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_incite_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_incite_dialog();
   }
 
@@ -2684,7 +2684,7 @@ static struct small_diplomat_dialog *pBribe_Dlg = NULL;
 **************************************************************************/
 static int bribe_dlg_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pBribe_Dlg->pdialog->pBeginWidgetList, pWindow);
   }
 
@@ -2696,7 +2696,7 @@ static int bribe_dlg_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int diplomat_bribe_yes_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
         && NULL != game_unit_by_number(pBribe_Dlg->target_id)) {
       request_do_action(pBribe_Dlg->act_id, pBribe_Dlg->actor_unit_id,
@@ -2713,7 +2713,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_bribe_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_bribe_dialog();
   }
 

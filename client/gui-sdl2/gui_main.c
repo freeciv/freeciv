@@ -120,6 +120,7 @@ static bool autoconnect = FALSE;
 static bool is_map_scrolling = FALSE;
 static enum direction8 scroll_dir;
 
+static struct finger_behavior finger_behavior;
 static struct mouse_button_behavior button_behavior;
 
 static SDL_Event *pNet_User_Event = NULL;
@@ -288,6 +289,57 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
   if (selected_widget) {
     unselect_widget_action();
   }
+
+  return ID_ERROR;
+}
+/**********************************************************************//**
+  Main finger down handler.
+**************************************************************************/
+static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
+                                       void *pData)
+{
+  struct widget *pWidget;
+  /* Touch event coordinates are normalized (0...1). */
+  int x = pTouchEvent->x * main_window_width();
+  int y = pTouchEvent->y * main_window_height();
+
+  if ((pWidget = find_next_widget_at_pos(NULL, x, y)) != NULL) {
+    if (get_wstate(pWidget) != FC_WS_DISABLED) {
+      return widget_pressed_action(pWidget);
+    }
+  } else {
+    /* No visible widget at this position; map pressed. */
+    if (!finger_behavior.counting) {
+      /* Start counting. */
+      finger_behavior.counting = TRUE;
+      finger_behavior.finger_down_ticks = SDL_GetTicks();
+      finger_behavior.event = *pTouchEvent;
+      finger_behavior.hold_state = MB_HOLD_SHORT;
+      finger_behavior.ptile = canvas_pos_to_tile(x, y);
+    }
+  }
+  return ID_ERROR;
+}
+/**********************************************************************//**
+  Main finger release handler.
+**************************************************************************/
+static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
+                                     void *pData)
+{
+  /* Touch event coordinates are normalized (0...1). */
+  int x = pTouchEvent->x * main_window_width();
+  int y = pTouchEvent->y * main_window_height();
+  /* Screen wasn't pressed over a widget. */
+  if (finger_behavior.finger_down_ticks
+      && !find_next_widget_at_pos(NULL, x, y)) {
+    finger_behavior.event = *pTouchEvent;
+    finger_up_on_map(&finger_behavior);
+  }
+
+  finger_behavior.counting = FALSE;
+  finger_behavior.finger_down_ticks = 0;
+
+  is_map_scrolling = FALSE;
 
   return ID_ERROR;
 }
@@ -516,6 +568,10 @@ Uint16 gui_event_loop(void *pData,
                       Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
                       Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
                       Uint16 (*textinput_handler)(char *text, void *pData),
+                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
+                                                      void *pData),
                       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent,
                                                           void *pData),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent,
@@ -717,6 +773,24 @@ Uint16 gui_event_loop(void *pData,
         case SDL_TEXTINPUT:
           if (textinput_handler) {
             ID = textinput_handler(Main.event.text.text, pData);
+          }
+          break;
+
+        case SDL_FINGERDOWN:
+          if (finger_down_handler) {
+            ID = finger_down_handler(&Main.event.tfinger, pData);
+          }
+          break;
+
+        case SDL_FINGERUP:
+          if (finger_up_handler) {
+            ID = finger_up_handler(&Main.event.tfinger, pData);
+          }
+          break;
+
+        case SDL_FINGERMOTION:
+          if (finger_motion_handler) {
+            ID = finger_motion_handler(&Main.event.tfinger, pData);
           }
           break;
 
@@ -984,6 +1058,7 @@ void ui_main(int argc, char *argv[])
 
   /* Main game loop */
   gui_event_loop(NULL, NULL, main_key_down_handler, main_key_up_handler, NULL,
+                 main_finger_down_handler, main_finger_up_handler, NULL,
                  main_mouse_button_down_handler, main_mouse_button_up_handler,
                  main_mouse_motion_handler);
   start_quitting();

@@ -57,7 +57,7 @@ static void popdown_start_menu(void);
 **************************************************************************/
 static int start_new_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_start_menu();
     if (is_server_running() || client_start_server()) {
       /* saved settings are sent in client/options.c load_settable_options() */
@@ -72,7 +72,7 @@ static int start_new_game_callback(struct widget *pWidget)
 **************************************************************************/
 static int load_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     set_client_page(PAGE_LOAD);
   }
 
@@ -84,7 +84,7 @@ static int load_game_callback(struct widget *pWidget)
 **************************************************************************/
 static int join_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     set_client_page(PAGE_NETWORK);
   }
 
@@ -96,7 +96,7 @@ static int join_game_callback(struct widget *pWidget)
 **************************************************************************/
 static int servers_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     bool lan_scan = (pWidget->ID != ID_JOIN_META_GAME);
 
     popdown_start_menu();
@@ -111,7 +111,7 @@ static int servers_callback(struct widget *pWidget)
 **************************************************************************/
 static int options_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     queue_flush();
     popdown_start_menu();
     popup_optiondlg();
@@ -125,7 +125,7 @@ static int options_callback(struct widget *pWidget)
 **************************************************************************/
 static int quit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_start_menu();
   }
 

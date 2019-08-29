@@ -60,10 +60,23 @@
 #define MB_MEDIUM_HOLD_DELAY  500         /* medium hold:  500ms */
 #define MB_LONG_HOLD_DELAY   2000         /* long hold:   2000ms */
 
+/* Predicate for detecting click events. */
+#define PRESSED_EVENT(event) (                                              \
+  (event).button.button == SDL_BUTTON_LEFT                                  \
+  || (event).type == SDL_FINGERDOWN)
+
 enum mouse_button_hold_state {
   MB_HOLD_SHORT,
   MB_HOLD_MEDIUM,
   MB_HOLD_LONG
+};
+
+struct finger_behavior {
+    bool counting;
+    Uint32 finger_down_ticks;
+    enum mouse_button_hold_state hold_state;
+    SDL_TouchFingerEvent event;
+    struct tile *ptile;
 };
 
 struct mouse_button_behavior {
@@ -96,6 +109,10 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
                       Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
                       Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
                       Uint16 (*textinput_handler)(char *text, void *pData),
+                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
+                                                      void *pData),
                       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent,
                                                           void *pData),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent,
