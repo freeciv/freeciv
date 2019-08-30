@@ -99,8 +99,6 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
                                const struct tile *src_tile,
                                const struct tile *dst_tile,
                                const struct civ_map *zmap);
-bool zoc_ok_move(const struct unit *punit, const struct tile *ptile,
-                 const struct civ_map *zmap);
 bool unit_can_move_to_tile(const struct civ_map *nmap,
                            const struct unit *punit,
                            const struct tile *ptile,

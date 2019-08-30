@@ -497,31 +497,6 @@ bool can_step_taken_wrt_to_zoc(const struct unit_type *punittype,
 }
 
 /************************************************************************//**
-  See can_step_take_wrt_to_zoc().  This function is exactly the same but
-  it takes a unit instead of a unittype and player.
-****************************************************************************/
-static bool zoc_ok_move_gen(const struct unit *punit,
-                            const struct tile *src_tile,
-                            const struct tile *dst_tile,
-                            const struct civ_map *zmap)
-{
-  return can_step_taken_wrt_to_zoc(unit_type_get(punit), unit_owner(punit),
-				   src_tile, dst_tile, zmap);
-}
-
-/************************************************************************//**
-  Returns whether the unit can safely move from its current position to
-  the adjacent dst_tile.  This function checks only ZOC.
-
-  See can_step_taken_wrt_to_zoc().
-****************************************************************************/
-bool zoc_ok_move(const struct unit *punit, const struct tile *dst_tile,
-                 const struct civ_map *zmap)
-{
-  return zoc_ok_move_gen(punit, unit_tile(punit), dst_tile, zmap);
-}
-
-/************************************************************************//**
   Returns whether the unit can move from its current tile to the destination
   tile.
 
