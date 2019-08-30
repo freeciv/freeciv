@@ -209,8 +209,9 @@ static bool dai_gothere_bodyguard(struct ai_type *ait,
     if (d_type) {
       /* Enemy really can build something */
       danger +=
-        adv_unittype_att_rating(d_type, do_make_unit_veteran(dcity, d_type), 
-                                SINGLE_MOVE, d_type->hp);
+        adv_unittype_att_rating(
+          d_type, city_production_unit_veteran_level(dcity, d_type),
+          SINGLE_MOVE, d_type->hp);
     }
   }
   danger *= POWER_DIVIDER;
