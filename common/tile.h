@@ -121,8 +121,6 @@ static inline const bv_extras *tile_extras(const struct tile *ptile)
 
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
-void tile_add_base(struct tile *ptile, const struct base_type *pbase);
-void tile_remove_base(struct tile *ptile, const struct base_type *pbase);
 bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
 bool tile_has_base_flag_for_unit(const struct tile *ptile,
                                  const struct unit_type *punittype,
@@ -139,8 +137,6 @@ int tile_extras_class_defense_bonus(const struct tile *ptile,
                                     const struct unit_class *pclass);
 
 bool tile_has_road(const struct tile *ptile, const struct road_type *proad);
-void tile_add_road(struct tile *ptile, const struct road_type *proad);
-void tile_remove_road(struct tile *ptile, const struct road_type *proad);
 bool tile_has_road_flag(const struct tile *ptile, enum road_flag_id flag);
 int tile_roads_output_incr(const struct tile *ptile, enum output_type_id o);
 int tile_roads_output_bonus(const struct tile *ptile, enum output_type_id o);
