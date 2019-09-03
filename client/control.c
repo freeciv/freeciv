@@ -1732,11 +1732,11 @@ void request_unit_non_action_move(struct unit *punit,
   p.dest_tile = tile_index(dest_tile);
 
   p.length = 1;
-  p.orders[0] = ORDER_MOVE;
-  p.dir[0] = dir;
-  p.activity[0] = ACTIVITY_LAST;
-  p.sub_target[0] = -1;
-  p.action[0] = ACTION_NONE;
+  p.orders[0].order = ORDER_MOVE;
+  p.orders[0].dir = dir;
+  p.orders[0].activity = ACTIVITY_LAST;
+  p.orders[0].sub_target = -1;
+  p.orders[0].action = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
 }
@@ -1784,11 +1784,11 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.dest_tile = tile_index(dest_tile);
 
   p.length = 1;
-  p.orders[0] = ORDER_ACTION_MOVE;
-  p.dir[0] = dir;
-  p.activity[0] = ACTIVITY_LAST;
-  p.sub_target[0] = -1;
-  p.action[0] = ACTION_NONE;
+  p.orders[0].order = ORDER_ACTION_MOVE;
+  p.orders[0].dir = dir;
+  p.orders[0].activity = ACTIVITY_LAST;
+  p.orders[0].sub_target = -1;
+  p.orders[0].action = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
 }

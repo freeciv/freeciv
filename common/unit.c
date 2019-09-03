@@ -58,6 +58,19 @@ struct cargo_iter {
 #define CARGO_ITER(iter) ((struct cargo_iter *) (iter))
 
 /**********************************************************************//**
+  Checks unit orders for equality.
+**************************************************************************/
+bool are_unit_orders_equal(const struct unit_order *order1,
+                           const struct unit_order *order2)
+{
+  return order1->order == order2->order
+      && order1->activity == order2->activity
+      && order1->sub_target == order2->sub_target
+      && order1->action == order2->action
+      && order1->dir == order2->dir;
+}
+
+/**********************************************************************//**
   Determines if punit can be airlifted to dest_city now!  So punit needs
   to be in a city now.
   If pdest_city is NULL, just indicate whether it's possible for the unit

@@ -236,6 +236,26 @@ void dio_put_sint16_json(struct json_data_out *dout,
 }
 
 /**********************************************************************//**
+  Insert the given unit_order struct
+**************************************************************************/
+void dio_put_unit_order_json(struct json_data_out *dout,
+                             struct plocation *location,
+                             const struct unit_order *order)
+{
+  if (dout->json) {
+    json_t *obj = json_object();
+    json_object_set_new(obj, "order", json_integer(order->order));
+    json_object_set_new(obj, "activity", json_integer(order->activity));
+    json_object_set_new(obj, "sub_target", json_integer(order->sub_target));
+    json_object_set_new(obj, "action", json_integer(order->action));
+    json_object_set_new(obj, "dir", json_integer(order->dir));
+    plocation_write_data(dout->json, location, obj);
+  } else {
+    dio_put_unit_order_raw(&dout->raw, order);
+  }
+}
+
+/**********************************************************************//**
   Insert worklist information.
 **************************************************************************/
 void dio_put_worklist_json(struct json_data_out *dout,
@@ -379,6 +399,73 @@ bool dio_get_sint32_json(struct connection *pc, struct data_in *din,
   } else {
     return dio_get_sint32_raw(din, dest);
   }
+}
+
+/**********************************************************************//**
+  Retrieve an unit_order
+**************************************************************************/
+bool dio_get_unit_order_json(struct connection *pc, struct data_in *din,
+                             struct plocation *location,
+                             struct unit_order *order)
+{
+  if (pc->json_mode) {
+    struct plocation *loc;
+    int iorder, iactivity, idir; /* These fields are enums */
+
+    /* Orders may be located in a nested field (as items in an array) */
+    loc = location;
+    while (loc->sub_location) {
+      loc = loc->sub_location;
+    }
+
+    loc->sub_location = plocation_field_new("order");
+    if (!dio_get_uint8_json(pc, din, location, &iorder)) {
+      log_packet("Corrupt order.order");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    loc->sub_location->name = "activity";
+    if (!dio_get_uint8_json(pc, din, location, &iactivity)) {
+      log_packet("Corrupt order.activity");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    loc->sub_location->name = "sub_target";
+    if (!dio_get_sint16_json(pc, din, location, &order->sub_target)) {
+      log_packet("Corrupt order.sub_target");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    loc->sub_location->name = "action";
+    if (!dio_get_uint8_json(pc, din, location, &order->action)) {
+      log_packet("Corrupt order.action");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    loc->sub_location->name = "dir";
+    if (!dio_get_uint8_json(pc, din, location, &idir)) {
+      log_packet("Corrupt order.dir");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    /*
+     * FIXME: The values should be checked!
+     */
+    order->order = iorder;
+    order->activity = iactivity;
+    order->dir = idir;
+
+    FC_FREE(loc->sub_location);
+  } else {
+    return dio_get_unit_order_raw(din, order);
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**

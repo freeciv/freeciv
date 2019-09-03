@@ -523,16 +523,17 @@ void handle_city_options_req(struct player *pplayer, int city_id,
   Handles a request to set city rally point for new units.
 **************************************************************************/
 void handle_city_rally_point(struct player *pplayer,
-                             const struct packet_city_rally_point *packet)
+                             int city_id, int length,
+                             bool persistent, bool vigilant,
+                             const struct unit_order *orders)
 {
-  int length = packet->length;
-  struct city *pcity = player_city_by_number(pplayer, packet->city_id);
-  struct unit_order *orders;
+  struct city *pcity = player_city_by_number(pplayer, city_id);
+  struct unit_order *checked_orders;
 
   if (NULL == pcity) {
     /* Probably lost. */
     log_verbose("handle_city_rally_point() bad city number %d.",
-                packet->city_id);
+                city_id);
     return;
   }
 
@@ -553,19 +554,17 @@ void handle_city_rally_point(struct player *pplayer,
       pcity->rally_point.orders = NULL;
     }
   } else {
-    orders = create_unit_orders(length, packet->orders, packet->dirs,
-                                packet->activities, packet->sub_targets,
-                                packet->actions);
-    if (!orders) {
+    checked_orders = create_unit_orders(length, orders);
+    if (!checked_orders) {
       pcity->rally_point.length = 0;
       log_error("invalid rally point orders for city number %d.",
-                packet->city_id);
+                city_id);
       return;
     }
 
-    pcity->rally_point.persistent = packet->persistent;
-    pcity->rally_point.vigilant = packet->vigilant;
-    pcity->rally_point.orders = orders;
+    pcity->rally_point.persistent = persistent;
+    pcity->rally_point.vigilant = vigilant;
+    pcity->rally_point.orders = checked_orders;
   }
 
   send_city_info(pplayer, pcity);

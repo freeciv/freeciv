@@ -1898,6 +1898,7 @@ extern "C" {
 /* common */
 #include "actions.h"
 #include "disaster.h"
+#include "unit.h"
 
 ''')
 

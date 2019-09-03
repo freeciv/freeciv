@@ -247,19 +247,15 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   if (punit->has_orders) {
     int i;
 
+    for (i = 0; i < packet->orders_length; i++) {
+      /* Just an assert. The client doesn't use the action data. */
+      fc_assert(packet->orders[i].order != ORDER_PERFORM_ACTION
+                || action_id_exists(packet->orders[i].action));
+    }
     punit->orders.list
       = fc_malloc(punit->orders.length * sizeof(*punit->orders.list));
-    for (i = 0; i < punit->orders.length; i++) {
-      punit->orders.list[i].order = packet->orders[i];
-      punit->orders.list[i].dir = packet->orders_dirs[i];
-      punit->orders.list[i].activity = packet->orders_activities[i];
-      punit->orders.list[i].sub_target = packet->orders_sub_targets[i];
-      punit->orders.list[i].action = packet->orders_actions[i];
-
-      /* Just an assert. The client doesn't use the action data. */
-      fc_assert(punit->orders.list[i].order != ORDER_PERFORM_ACTION
-                || action_id_exists(punit->orders.list[i].action));
-    }
+    memcpy(punit->orders.list, packet->orders,
+           punit->orders.length * sizeof(*punit->orders.list));
   }
 
   punit->action_decision_want = packet->action_decision_want;

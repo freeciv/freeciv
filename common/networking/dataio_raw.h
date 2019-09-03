@@ -22,6 +22,7 @@ extern "C" {
 #include "support.h"            /* bool type */
 
 struct worklist;
+struct unit_order;
 struct requirement;
 struct act_prob;
 
@@ -140,6 +141,8 @@ bool dio_get_string_raw(struct data_in *din, char *dest, size_t max_dest_size)
     fc__attribute((nonnull (2)));
 bool dio_get_worklist_raw(struct data_in *din, struct worklist *pwl)
     fc__attribute((nonnull (2)));
+bool dio_get_unit_order_raw(struct data_in *din, struct unit_order *order)
+    fc__attribute((nonnull (2)));
 bool dio_get_requirement_raw(struct data_in *din, struct requirement *preq)
     fc__attribute((nonnull (2)));
 bool dio_get_action_probability_raw(struct data_in *din,
@@ -185,6 +188,8 @@ void dio_put_memory_raw(struct raw_data_out *dout, const void *value, size_t siz
 void dio_put_string_raw(struct raw_data_out *dout, const char *value);
 void dio_put_city_map_raw(struct raw_data_out *dout, const char *value);
 void dio_put_worklist_raw(struct raw_data_out *dout, const struct worklist *pwl);
+void dio_put_unit_order_raw(struct raw_data_out *dout,
+                            const struct unit_order *order);
 void dio_put_requirement_raw(struct raw_data_out *dout, const struct requirement *preq);
 void dio_put_action_probability_raw(struct raw_data_out *dout,
                                     const struct act_prob *aprob);

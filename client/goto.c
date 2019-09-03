@@ -1400,34 +1400,34 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     struct tile *new_tile = path->positions[i + 1].tile;
 
     if (same_pos(new_tile, old_tile)) {
-      p.orders[i] = ORDER_FULL_MP;
-      p.dir[i] = DIR8_ORIGIN;
-      p.activity[i] = ACTIVITY_LAST;
-      p.sub_target[i] = -1;
-      p.action[i] = ACTION_NONE;
+      p.orders[i].order = ORDER_FULL_MP;
+      p.orders[i].dir = DIR8_ORIGIN;
+      p.orders[i].activity = ACTIVITY_LAST;
+      p.orders[i].sub_target = -1;
+      p.orders[i].action = ACTION_NONE;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
-      p.orders[i] = orders;
-      p.dir[i] = get_direction_for_step(&(wld.map), old_tile, new_tile);
-      p.activity[i] = ACTIVITY_LAST;
-      p.sub_target[i] = -1;
-      p.action[i] = ACTION_NONE;
+      p.orders[i].order = orders;
+      p.orders[i].dir = get_direction_for_step(&(wld.map), old_tile, new_tile);
+      p.orders[i].activity = ACTIVITY_LAST;
+      p.orders[i].sub_target = -1;
+      p.orders[i].action = ACTION_NONE;
       log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
-                      i, dir_get_name(p.dir[i]),
+                      i, dir_get_name(p.orders[i].dir),
                       TILE_XY(old_tile), TILE_XY(new_tile));
     }
     old_tile = new_tile;
   }
 
   if (i > 0
-      && p.orders[i - 1] == ORDER_MOVE
+      && p.orders[i - 1].order == ORDER_MOVE
       && (is_non_allied_city_tile(old_tile, client_player()) != NULL
           || is_non_allied_unit_tile(old_tile, client_player()) != NULL)) {
     /* Won't be able to perform a regular move to the target tile... */
     if (!final_order) {
       /* ...and no final order exists. Choose what to do when the unit gets
        * there. */
-      p.orders[i - 1] = ORDER_ACTION_MOVE;
+      p.orders[i - 1].order = ORDER_ACTION_MOVE;
     } else {
       /* ...and a final order exist. Can't assume an action move. Did the
        * caller hope that the situation would change before the unit got
@@ -1444,12 +1444,12 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
   if (final_order) {
     /* Append the final order after moving to the target tile. */
-    p.orders[i] = final_order->order;
-    p.dir[i] = final_order->dir;
-    p.activity[i] = (final_order->order == ORDER_ACTIVITY)
+    p.orders[i].order = final_order->order;
+    p.orders[i].dir = final_order->dir;
+    p.orders[i].activity = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
-    p.sub_target[i] = final_order->sub_target;
-    p.action[i] = final_order->action;
+    p.orders[i].sub_target = final_order->sub_target;
+    p.orders[i].action = final_order->action;
     p.length++;
   }
 
@@ -1567,11 +1567,11 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
     }
   } extra_deps_iterate_end;
 
-  p->orders[p->length] = ORDER_ACTIVITY;
-  p->dir[p->length] = DIR8_ORIGIN;
-  p->activity[p->length] = ACTIVITY_GEN_ROAD;
-  p->sub_target[p->length] = extra_index(pextra);
-  p->action[p->length] = ACTION_NONE;
+  p->orders[p->length].order = ORDER_ACTIVITY;
+  p->orders[p->length].dir = DIR8_ORIGIN;
+  p->orders[p->length].activity = ACTIVITY_GEN_ROAD;
+  p->orders[p->length].sub_target = extra_index(pextra);
+  p->orders[p->length].action = ACTION_NONE;
   p->length++;
 
   return TRUE;
@@ -1616,11 +1616,11 @@ void send_connect_route(enum unit_activity activity,
       case ACTIVITY_IRRIGATE:
 	if (!tile_has_extra(old_tile, tgt)) {
 	  /* Assume the unit can irrigate or we wouldn't be here. */
-	  p.orders[p.length] = ORDER_ACTIVITY;
-          p.dir[p.length] = DIR8_ORIGIN;
-	  p.activity[p.length] = ACTIVITY_IRRIGATE;
-          p.sub_target[p.length] = extra_index(tgt);
-          p.action[p.length] = ACTION_NONE;
+	  p.orders[p.length].order = ORDER_ACTIVITY;
+          p.orders[p.length].dir = DIR8_ORIGIN;
+	  p.orders[p.length].activity = ACTIVITY_IRRIGATE;
+          p.orders[p.length].sub_target = extra_index(tgt);
+          p.orders[p.length].action = ACTION_NONE;
 	  p.length++;
 	}
 	break;
@@ -1637,12 +1637,12 @@ void send_connect_route(enum unit_activity activity,
 
         fc_assert(!same_pos(new_tile, old_tile));
 
-        p.orders[p.length] = ORDER_MOVE;
-        p.dir[p.length] = get_direction_for_step(&(wld.map),
-                                                 old_tile, new_tile);
-        p.activity[p.length] = ACTIVITY_LAST;
-        p.sub_target[p.length] = -1;
-        p.action[p.length] = ACTION_NONE;
+        p.orders[p.length].order = ORDER_MOVE;
+        p.orders[p.length].dir = get_direction_for_step(&(wld.map),
+                                                        old_tile, new_tile);
+        p.orders[p.length].activity = ACTIVITY_LAST;
+        p.orders[p.length].sub_target = -1;
+        p.orders[p.length].action = ACTION_NONE;
         p.length++;
 
         old_tile = new_tile;

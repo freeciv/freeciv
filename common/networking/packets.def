@@ -206,6 +206,7 @@ type STRVEC             = STRING
 type WORKLIST           = worklist(struct worklist)
 # string that is URI encoded in the JSON protocol
 type ESTRING            = estring(char)
+type UNIT_ORDER         = unit_order(struct unit_order)
 
 # typedefs for enums
 type ACHIEVEMENT_TYPE   = uint8(enum achievement_type)
@@ -231,7 +232,6 @@ type GUI_TYPE           = uint8(enum gui_type)
 type IMPR_GENUS         = uint8(enum impr_genus_id)
 type KNOWN              = uint8(enum known_type)
 type MOOD               = uint8(enum mood_type)
-type ORDERS             = uint8(enum unit_orders)
 type PHASE_MODE         = uint8(enum phase_mode_type)
 type PLACE_TYPE         = uint8(enum spaceship_place_type)
 type REPORT_TYPE        = uint8(enum report_type)
@@ -736,11 +736,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UINT16 rally_point_length;
   BOOL rally_point_persistent;
   BOOL rally_point_vigilant;
-  ORDERS rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
-  DIRECTION rally_point_dirs[MAX_LEN_ROUTE:rally_point_length];
-  ACTIVITY rally_point_activities[MAX_LEN_ROUTE:rally_point_length];
-  ACTION_SUB_TGT rally_point_sub_targets[MAX_LEN_ROUTE:rally_point_length];
-  ACTION_ID rally_point_actions[MAX_LEN_ROUTE:rally_point_length];
+  UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), cancel(PACKET_WEB_CITY_INFO_ADDITION)
@@ -850,11 +846,7 @@ PACKET_CITY_RALLY_POINT = 138; cs
   UINT16 length;
   BOOL persistent;
   BOOL vigilant;
-  ORDERS orders[MAX_LEN_ROUTE:length];
-  DIRECTION dirs[MAX_LEN_ROUTE:length];
-  ACTIVITY activities[MAX_LEN_ROUTE:length];
-  ACTION_SUB_TGT sub_targets[MAX_LEN_ROUTE:length];
-  ACTION_ID actions[MAX_LEN_ROUTE:length];
+  UNIT_ORDER orders[MAX_LEN_ROUTE:length];
 end
 
 PACKET_WORKER_TASK = 241; cs, sc, lsend, handle-via-packet
@@ -1029,11 +1021,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   BOOL has_orders;
   UINT16 orders_length, orders_index;
   BOOL orders_repeat, orders_vigilant;
-  ORDERS orders[MAX_LEN_ROUTE:orders_length];
-  DIRECTION orders_dirs[MAX_LEN_ROUTE:orders_length];
-  ACTIVITY orders_activities[MAX_LEN_ROUTE:orders_length];
-  ACTION_SUB_TGT orders_sub_targets[MAX_LEN_ROUTE:orders_length];
-  ACTION_ID orders_actions[MAX_LEN_ROUTE:orders_length];
+  UNIT_ORDER orders[MAX_LEN_ROUTE:orders_length];
 
   ACTION_DECISION action_decision_want;
   TILE action_decision_tile;
@@ -1081,11 +1069,7 @@ PACKET_UNIT_ORDERS = 73; cs
 
   UINT16 length;
   BOOL repeat, vigilant;
-  ORDERS orders[MAX_LEN_ROUTE:length];
-  DIRECTION dir[MAX_LEN_ROUTE:length];
-  ACTIVITY activity[MAX_LEN_ROUTE:length];
-  ACTION_SUB_TGT sub_target[MAX_LEN_ROUTE:length];
-  ACTION_ID action[MAX_LEN_ROUTE:length];
+  UNIT_ORDER orders[MAX_LEN_ROUTE:length];
   TILE dest_tile;
 end
 

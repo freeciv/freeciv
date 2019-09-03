@@ -2518,19 +2518,12 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->battlegroup = punit->battlegroup;
   packet->has_orders = punit->has_orders;
   if (punit->has_orders) {
-    int i;
-
     packet->orders_length = punit->orders.length;
     packet->orders_index = punit->orders.index;
     packet->orders_repeat = punit->orders.repeat;
     packet->orders_vigilant = punit->orders.vigilant;
-    for (i = 0; i < punit->orders.length; i++) {
-      packet->orders[i] = punit->orders.list[i].order;
-      packet->orders_dirs[i] = punit->orders.list[i].dir;
-      packet->orders_activities[i] = punit->orders.list[i].activity;
-      packet->orders_sub_targets[i] = punit->orders.list[i].sub_target;
-      packet->orders_actions[i] = punit->orders.list[i].action;
-    }
+    memcpy(packet->orders, punit->orders.list,
+           punit->orders.length * sizeof(struct unit_order));
   } else {
     packet->orders_length = packet->orders_index = 0;
     packet->orders_repeat = packet->orders_vigilant = FALSE;
@@ -4640,30 +4633,26 @@ bool unit_can_be_retired(struct unit *punit)
   from their contents if valid.
 **************************************************************************/
 struct unit_order *create_unit_orders(int length,
-                                      const enum unit_orders *orders,
-                                      const enum direction8 *dir,
-                                      const enum unit_activity *activity,
-                                      const int *sub_target,
-                                      const action_id *action)
+                                      const struct unit_order *orders)
 {
   int i;
   struct unit_order *unit_orders;
 
   for (i = 0; i < length; i++) {
-    if (orders[i] < 0 || orders[i] > ORDER_LAST) {
-      log_error("invalid order %d at index %d", orders[i], i);
+    if (orders[i].order < 0 || orders[i].order > ORDER_LAST) {
+      log_error("invalid order %d at index %d", orders[i].order, i);
       return NULL;
     }
-    switch (orders[i]) {
+    switch (orders[i].order) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
-      if (!map_untrusted_dir_is_valid(dir[i])) {
-        log_error("in order %d, invalid move direction %d.", i, dir[i]);
+      if (!map_untrusted_dir_is_valid(orders[i].dir)) {
+        log_error("in order %d, invalid move direction %d.", i, orders[i].dir);
 	return NULL;
       }
       break;
     case ORDER_ACTIVITY:
-      switch (activity[i]) {
+      switch (orders[i].activity) {
       case ACTIVITY_FALLOUT:
       case ACTIVITY_POLLUTION:
       case ACTIVITY_PILLAGE:
@@ -4679,24 +4668,24 @@ struct unit_order *create_unit_orders(int length,
       case ACTIVITY_SENTRY:
         if (i != length - 1) {
           /* Only allowed as the last order. */
-          log_error("activity %d is not allowed at index %d.", activity[i],
+          log_error("activity %d is not allowed at index %d.", orders[i].activity,
                     i);
           return NULL;
         }
         break;
       case ACTIVITY_BASE:
-        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+        if (!is_extra_caused_by(extra_by_number(orders[i].sub_target),
                                 EC_BASE)) {
           log_error("at index %d, %s isn't a base.", i,
-                    extra_rule_name(extra_by_number(sub_target[i])));
+                    extra_rule_name(extra_by_number(orders[i].sub_target)));
           return NULL;
         }
         break;
       case ACTIVITY_GEN_ROAD:
-        if (!is_extra_caused_by(extra_by_number(sub_target[i]),
+        if (!is_extra_caused_by(extra_by_number(orders[i].sub_target),
                                 EC_ROAD)) {
           log_error("at index %d, %s isn't a road.", i,
-                    extra_rule_name(extra_by_number(sub_target[i])));
+                    extra_rule_name(extra_by_number(orders[i].sub_target)));
           return NULL;
         }
         break;
@@ -4715,28 +4704,28 @@ struct unit_order *create_unit_orders(int length,
       case ACTIVITY_PATROL_UNUSED:
       case ACTIVITY_LAST:
       case ACTIVITY_UNKNOWN:
-        log_error("at index %d, unsupported activity %d.", i, activity[i]);
+        log_error("at index %d, unsupported activity %d.", i, orders[i].activity);
         return NULL;
       }
 
-      if (sub_target[i] == EXTRA_NONE
-          && unit_activity_needs_target_from_client(activity[i])) {
+      if (orders[i].sub_target == EXTRA_NONE
+          && unit_activity_needs_target_from_client(orders[i].activity)) {
         /* The orders system can't do server side target assignment for
          * this activity. */
-        log_error("activity %d at index %d requires target.", activity[i],
+        log_error("activity %d at index %d requires target.", orders[i].activity,
                   i);
         return NULL;
       }
 
       break;
     case ORDER_PERFORM_ACTION:
-      if (!action_id_exists(action[i])) {
+      if (!action_id_exists(orders[i].action)) {
         /* Non-existent action. */
-        log_error("at index %d, the action %d doesn't exist.", i, action[i]);
+        log_error("at index %d, the action %d doesn't exist.", i, orders[i].action);
         return NULL;
       }
 
-      if (action_id_distance_inside_max(action[i], 2)) {
+      if (action_id_distance_inside_max(orders[i].action, 2)) {
         /* Long range actions aren't supported in unit orders. Clients
          * should order them performed via the unit_do_action packet.
          *
@@ -4754,39 +4743,39 @@ struct unit_order *create_unit_orders(int length,
          * this check and update the comment in the Qt client's
          * go_act_menu::create(). */
         log_error("at index %d, the action %s isn't supported in unit "
-                  "orders.", i, action_id_name_translation(action[i]));
+                  "orders.", i, action_id_name_translation(orders[i].action));
         return NULL;
       }
 
-      if (!action_id_distance_inside_max(action[i], 1)
-          && map_untrusted_dir_is_valid(dir[i])) {
+      if (!action_id_distance_inside_max(orders[i].action, 1)
+          && map_untrusted_dir_is_valid(orders[i].dir)) {
         /* Actor must be on the target tile. */
         log_error("at index %d, cannot do %s on a neighbor tile.", i,
-                  action_id_rule_name(action[i]));
+                  action_id_rule_name(orders[i].action));
         return NULL;
       }
 
       /* Validate individual actions. */
-      switch ((enum gen_action) action[i]) {
+      switch ((enum gen_action) orders[i].action) {
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
       case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
         /* Sabotage target is production (-1) or a building. */
-        if (!(sub_target[i] - 1 == -1
-              || improvement_by_number(sub_target[i] - 1))) {
+        if (!(orders[i].sub_target - 1 == -1
+              || improvement_by_number(orders[i].sub_target - 1))) {
           /* Sabotage target is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
-                    action_id_rule_name(action[i]));
+                    action_id_rule_name(orders[i].action));
           return NULL;
         }
         break;
       case ACTION_SPY_TARGETED_STEAL_TECH:
       case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-        if (sub_target[i] == A_NONE
-            || (!valid_advance_by_number(sub_target[i])
-                && sub_target[i] != A_FUTURE)) {
+        if (orders[i].sub_target == A_NONE
+            || (!valid_advance_by_number(orders[i].sub_target)
+                && orders[i].sub_target != A_FUTURE)) {
           /* Target tech is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
-                    action_id_rule_name(action[i]));
+                    action_id_rule_name(orders[i].action));
           return NULL;
         }
         break;
@@ -4794,13 +4783,13 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_BASE:
       case ACTION_MINE:
       case ACTION_IRRIGATE:
-        if (sub_target[i] == EXTRA_NONE
-            || (sub_target[i] < 0
-                || sub_target[i] >= game.control.num_extra_types)
-            || extra_by_number(sub_target[i])->ruledit_disabled) {
+        if (orders[i].sub_target == EXTRA_NONE
+            || (orders[i].sub_target < 0
+                || orders[i].sub_target >= game.control.num_extra_types)
+            || extra_by_number(orders[i].sub_target)->ruledit_disabled) {
           /* Target extra is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
-                    action_id_rule_name(action[i]));
+                    action_id_rule_name(orders[i].action));
           return NULL;
         }
         break;
@@ -4855,7 +4844,7 @@ struct unit_order *create_unit_orders(int length,
         break;
       /* Invalid action. Should have been caught above. */
       case ACTION_COUNT:
-        fc_assert_ret_val_msg(action[i] != ACTION_NONE, NULL,
+        fc_assert_ret_val_msg(orders[i].action != ACTION_NONE, NULL,
                               "ACTION_NONE in ORDER_PERFORM_ACTION order. "
                               "Order number %d.", i);
       }
@@ -4880,13 +4869,7 @@ struct unit_order *create_unit_orders(int length,
   }
 
   unit_orders = fc_malloc(length * sizeof(*(unit_orders)));
-  for (i = 0; i < length; i++) {
-    unit_orders[i].order = orders[i];
-    unit_orders[i].dir = dir[i];
-    unit_orders[i].activity = activity[i];
-    unit_orders[i].sub_target = sub_target[i];
-    unit_orders[i].action = action[i];
-  }
+  memcpy(unit_orders, orders, length * sizeof(*(unit_orders)));
 
   return unit_orders;
 }
