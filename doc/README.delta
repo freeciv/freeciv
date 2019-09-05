@@ -28,6 +28,15 @@ whole array only a list of (index, new value of this index) pairs are
 transferred. The index is 8bit and the end of this pair list is
 denoted by an index of 255.
 
+For fields of struct type (or arrays of struct) the following function
+is used to compare entries, where foo stands for the name of the struct:
+
+  bool are_foo_equal(const struct foo *a, const struct foo *b);
+
+The declaration of this function must be made available to the generated
+code by having it #include the correct header. The includes are hard-
+coded in generate_packets.py.
+
 =========================================================================
   Compression
 =========================================================================
