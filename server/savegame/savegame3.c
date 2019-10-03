@@ -5007,6 +5007,53 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                   "%s.rally_point_sub_tgt_vec", citystr);
     }
   }
+
+  /* Load the city manager parameters. */
+  {
+    bool enabled = secfile_lookup_bool_default(loading->file, FALSE,
+                                               "%s.cma_enabled", citystr);
+    if (enabled) {
+      struct cm_parameter *param = fc_calloc(1, sizeof(struct cm_parameter));
+
+      for (i = 0; i < O_LAST; i++) {
+        param->minimal_surplus[i] = secfile_lookup_int_default(
+            loading->file, 0, "%s.cma_minimal_surplus,%d", citystr, i);
+        param->factor[i] = secfile_lookup_int_default(
+            loading->file, 0, "%s.factor,%d", citystr, i);
+      }
+      param->max_growth = secfile_lookup_bool_default(
+          loading->file, FALSE, "%s.max_growth", citystr);
+      param->require_happy = secfile_lookup_bool_default(
+          loading->file, FALSE, "%s.require_happy", citystr);
+      param->allow_disorder = secfile_lookup_bool_default(
+          loading->file, FALSE, "%s.allow_disorder", citystr);
+      param->allow_specialists = secfile_lookup_bool_default(
+          loading->file, FALSE, "%s.allow_specialists", citystr);
+      param->happy_factor = secfile_lookup_int_default(
+          loading->file, 0, "%s.happy_factor", citystr);
+      pcity->cm_parameter = param;
+    } else {
+      pcity->cm_parameter = NULL;
+      for (i = 0; i < O_LAST; i++) {
+        (void) secfile_entry_lookup(loading->file,
+                                    "%s.cma_minimal_surplus,%d", citystr, i);
+        (void) secfile_entry_lookup(loading->file,
+                                    "%s.cma_factor,%d", citystr, i);
+      }
+      (void) secfile_entry_lookup(loading->file, "%s.cma_max_growth",
+                                  citystr);
+      (void) secfile_entry_lookup(loading->file, "%s.cma_require_happy",
+                                  citystr);
+      (void) secfile_entry_lookup(loading->file, "%s.cma_allow_disorder",
+                                  citystr);
+      (void) secfile_entry_lookup(loading->file, "%s.cma_allow_specialists",
+                                  citystr);
+      (void) secfile_entry_lookup(loading->file, "%s.cma_factor",
+                                  citystr);
+      (void) secfile_entry_lookup(loading->file, "%s.happy_factor",
+                                  citystr);
+    }
+  }
   CALL_FUNC_EACH_AI(city_load, loading->file, pcity, citystr);
 
   return TRUE;
@@ -5343,6 +5390,41 @@ static void sg_save_player_cities(struct savedata *saving,
         secfile_insert_int(saving->file, -1, "%s.rally_point_sub_tgt_vec,%d",
                            buf, j);
       }
+    }
+
+    secfile_insert_bool(saving->file, pcity->cm_parameter != NULL,
+                       "%s.cma_enabled", buf);
+    if (pcity->cm_parameter) {
+      secfile_insert_int_vec(saving->file,
+                             pcity->cm_parameter->minimal_surplus, O_LAST,
+                             "%s.cma_minimal_surplus", buf);
+      secfile_insert_int_vec(saving->file,
+                             pcity->cm_parameter->factor, O_LAST,
+                             "%s.cma_factor", buf);
+      secfile_insert_bool(saving->file, pcity->cm_parameter->max_growth,
+                          "%s.max_growth", buf);
+      secfile_insert_bool(saving->file, pcity->cm_parameter->require_happy,
+                          "%s.require_happy", buf);
+      secfile_insert_bool(saving->file, pcity->cm_parameter->allow_disorder,
+                          "%s.allow_disorder", buf);
+      secfile_insert_bool(saving->file,
+                          pcity->cm_parameter->allow_specialists,
+                         "%s.allow_specialists", buf);
+      secfile_insert_int(saving->file, pcity->cm_parameter->happy_factor,
+                        "%s.happy_factor", buf);
+    } else {
+      int zeros[O_LAST];
+
+      memset(zeros, 0, sizeof(zeros));
+      secfile_insert_int_vec(saving->file, zeros, O_LAST,
+                             "%s.cma_minimal_surplus", buf);
+      secfile_insert_int_vec(saving->file, zeros, O_LAST,
+                             "%s.cma_factor", buf);
+      secfile_insert_bool(saving->file, FALSE, "%s.max_growth", buf);
+      secfile_insert_bool(saving->file, FALSE, "%s.require_happy", buf);
+      secfile_insert_bool(saving->file, FALSE, "%s.allow_disorder", buf);
+      secfile_insert_bool(saving->file, FALSE, "%s.allow_specialists", buf);
+      secfile_insert_int(saving->file, 0, "%s.happy_factor", buf);
     }
 
     i++;

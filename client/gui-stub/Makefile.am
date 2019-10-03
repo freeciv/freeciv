@@ -6,6 +6,7 @@ AM_CPPFLAGS = \
 	-I$(srcdir)/.. \
 	-I$(srcdir)/../include \
 	-I$(top_srcdir)/utility \
+	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/common/networking \
 	-I$(top_srcdir)/dependencies/tinycthread \
         -I$(top_srcdir)/common $(gui_stub_cflags)

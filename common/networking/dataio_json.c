@@ -55,6 +55,9 @@
 #include "tech.h"
 #include "worklist.h"
 
+/* common/aicore */
+#include "cm.h"
+
 #include "dataio.h"
 
 static bool dio_get_bool8_json_internal(json_t *json_packet,
@@ -236,6 +239,43 @@ void dio_put_sint16_json(struct json_data_out *dout,
 }
 
 /**********************************************************************//**
+  Insert the given cm_parameter struct
+**************************************************************************/
+void dio_put_cm_parameter_json(struct json_data_out *dout,
+                               struct plocation *location,
+                               const struct cm_parameter *param)
+{
+  if (dout->json) {
+    json_t *obj = json_object();
+    json_t *min_surplus = json_array();
+    json_t *factor = json_array();
+    int i;
+
+    for (i = 0; i < O_LAST; i++) {
+      json_array_append_new(min_surplus,
+                            json_integer(param->minimal_surplus[i]));
+      json_array_append_new(factor,
+                            json_integer(param->factor[i]));
+    }
+
+    json_object_set_new(obj, "minimal_surplus", min_surplus);
+    json_object_set_new(obj, "factor", factor);
+    json_object_set_new(obj, "max_growth", json_boolean(param->max_growth));
+    json_object_set_new(obj, "require_happy",
+                        json_boolean(param->require_happy));
+    json_object_set_new(obj, "allow_disorder",
+                        json_boolean(param->allow_disorder));
+    json_object_set_new(obj, "allow_specialists",
+                        json_boolean(param->allow_specialists));
+    json_object_set_new(obj, "happy_factor",
+                        json_integer(param->happy_factor));
+    plocation_write_data(dout->json, location, obj);
+  } else {
+    dio_put_cm_parameter_raw(&dout->raw, param);
+  }
+}
+
+/**********************************************************************//**
   Insert the given unit_order struct
 **************************************************************************/
 void dio_put_unit_order_json(struct json_data_out *dout,
@@ -399,6 +439,87 @@ bool dio_get_sint32_json(struct connection *pc, struct data_in *din,
   } else {
     return dio_get_sint32_raw(din, dest);
   }
+}
+
+/**********************************************************************//**
+  Retrieve a cm_parameter
+**************************************************************************/
+bool dio_get_cm_parameter_json(struct connection *pc, struct data_in *din,
+                               struct plocation *location,
+                               struct cm_parameter *param)
+{
+  if (pc->json_mode) {
+    int i;
+
+    cm_init_parameter(param);
+
+    location->sub_location = plocation_field_new("max_growth");
+    if (!dio_get_bool8_json(pc, din, location, &param->max_growth)) {
+      log_packet("Corrupt cm_parameter.max_growth");
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->name = "require_happy";
+    if (!dio_get_bool8_json(pc, din, location, &param->require_happy)) {
+      log_packet("Corrupt cm_parameter.require_happy");
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->name = "allow_disorder";
+    if (!dio_get_bool8_json(pc, din, location, &param->allow_disorder)) {
+      log_packet("Corrupt cm_parameter.allow_disorder");
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->name = "allow_specialists";
+    if (!dio_get_bool8_json(pc, din, location, &param->allow_specialists)) {
+      log_packet("Corrupt cm_parameter.allow_specialists");
+      FC_FREE(location->sub_location);
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->name = "happy_factor";
+    if (!dio_get_uint16_json(pc, din, location, &param->happy_factor)) {
+      log_packet("Corrupt cm_parameter.happy_factor");
+      FC_FREE(location->sub_location);
+      return FALSE;
+    }
+
+    location->sub_location->name = "factor";
+    location->sub_location->sub_location = plocation_elem_new(0);
+    for (i = 0; i < O_LAST; i++) {
+      location->sub_location->sub_location->number = i;
+      if (!dio_get_uint16_json(pc, din, location, &param->factor[i])) {
+        log_packet("Corrupt cm_parameter.factor");
+        FC_FREE(location->sub_location->sub_location);
+        FC_FREE(location->sub_location);
+        return FALSE;
+      }
+    }
+
+    location->sub_location->name = "minimal_surplus";
+    for (i = 0; i < O_LAST; i++) {
+      location->sub_location->sub_location->number = i;
+      if (!dio_get_sint16_json(pc, din, location,
+                               &param->minimal_surplus[i])) {
+        log_packet("Corrupt cm_parameter.minimal_surplus");
+        FC_FREE(location->sub_location->sub_location);
+        FC_FREE(location->sub_location);
+        return FALSE;
+      }
+    }
+
+    FC_FREE(location->sub_location->sub_location);
+    FC_FREE(location->sub_location);
+  } else {
+    return dio_get_cm_parameter_raw(din, param);
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**

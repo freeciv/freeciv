@@ -6,6 +6,7 @@ noinst_LTLIBRARIES = \
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
 	-I$(top_srcdir)/common \
+	-I$(top_srcdir)/common/aicore \
 	-I$(top_srcdir)/dependencies/tinycthread \
 	$(JANSSON_CFLAGS)
 

@@ -3360,6 +3360,10 @@ void destroy_city_virtual(struct city *pcity)
     free(pcity->tile_cache);
   }
 
+  if (pcity->cm_parameter) {
+    free(pcity->cm_parameter);
+  }
+
   if (!is_server()) {
     unit_list_destroy(pcity->client.info_units_supported);
     unit_list_destroy(pcity->client.info_units_present);

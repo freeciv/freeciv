@@ -303,6 +303,8 @@ struct tile_cache; /* defined and only used within city.c */
 
 struct adv_city; /* defined in ./server/advisors/infracache.h */
 
+struct cm_parameter; /* defined in ./common/aicore/cm.h */
+
 struct city {
   char name[MAX_LEN_CITYNAME];
   struct tile *tile; /* May be NULL, should check! */
@@ -399,6 +401,8 @@ struct city {
     bool vigilant;
     struct unit_order *orders;
   } rally_point;
+
+  struct cm_parameter *cm_parameter;
 
   union {
     struct {

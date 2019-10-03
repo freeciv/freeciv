@@ -302,6 +302,54 @@ void apply_cmresult_to_city(struct city *pcity,
 }
 
 /**********************************************************************//**
+  Set default city manager parameter for the city.
+**************************************************************************/
+static void set_default_city_manager(struct cm_parameter *cmp,
+                                     struct city *pcity)
+{
+  cmp->require_happy = FALSE;
+  cmp->allow_disorder = FALSE;
+  cmp->allow_specialists = TRUE;
+
+  /* We used to look at pplayer->ai.xxx_priority to determine the values
+   * to be used here.  However that doesn't work at all because those values
+   * are on a different scale.  Later the ai may wish to adjust its
+   * priorities - this should be done via a separate set of variables. */
+  if (city_size_get(pcity) > 1) {
+    if (city_size_get(pcity) <= game.info.notradesize) {
+      cmp->factor[O_FOOD] = 15;
+    } else {
+      if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+        /* We don't need more food if the granary is full. */
+        cmp->factor[O_FOOD] = 0;
+      } else {
+        cmp->factor[O_FOOD] = 10;
+      }
+    }
+  } else {
+    /* Growing to size 2 is the highest priority. */
+    cmp->factor[O_FOOD] = 20;
+  }
+  cmp->factor[O_SHIELD] = 5;
+  cmp->factor[O_TRADE] = 0; /* Trade only provides gold/science. */
+  cmp->factor[O_GOLD] = 2;
+  cmp->factor[O_LUXURY] = 0; /* Luxury only influences happiness. */
+  cmp->factor[O_SCIENCE] = 2;
+  cmp->happy_factor = 0;
+
+  if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
+    cmp->minimal_surplus[O_FOOD] = 0;
+  } else {
+    cmp->minimal_surplus[O_FOOD] = 1;
+  }
+  cmp->minimal_surplus[O_SHIELD] = 1;
+  cmp->minimal_surplus[O_TRADE] = 0;
+  cmp->minimal_surplus[O_GOLD] = -FC_INFINITY;
+  cmp->minimal_surplus[O_LUXURY] = 0;
+  cmp->minimal_surplus[O_SCIENCE] = 0;
+}
+
+/**********************************************************************//**
   Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
 void auto_arrange_workers(struct city *pcity)
@@ -335,46 +383,12 @@ void auto_arrange_workers(struct city *pcity)
   cm_clear_cache(pcity);
 
   cm_init_parameter(&cmp);
-  cmp.require_happy = FALSE;
-  cmp.allow_disorder = FALSE;
-  cmp.allow_specialists = TRUE;
 
-  /* We used to look at pplayer->ai.xxx_priority to determine the values
-   * to be used here.  However that doesn't work at all because those values
-   * are on a different scale.  Later the ai may wish to adjust its
-   * priorities - this should be done via a separate set of variables. */
-  if (city_size_get(pcity) > 1) {
-    if (city_size_get(pcity) <= game.info.notradesize) {
-      cmp.factor[O_FOOD] = 15;
-    } else {
-      if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
-        /* We don't need more food if the granary is full. */
-        cmp.factor[O_FOOD] = 0;
-      } else {
-        cmp.factor[O_FOOD] = 10;
-      }
-    }
+  if (pcity->cm_parameter) {
+    cm_copy_parameter(&cmp, pcity->cm_parameter);
   } else {
-    /* Growing to size 2 is the highest priority. */
-    cmp.factor[O_FOOD] = 20;
+    set_default_city_manager(&cmp, pcity);
   }
-  cmp.factor[O_SHIELD] = 5;
-  cmp.factor[O_TRADE] = 0; /* Trade only provides gold/science. */
-  cmp.factor[O_GOLD] = 2;
-  cmp.factor[O_LUXURY] = 0; /* Luxury only influences happiness. */
-  cmp.factor[O_SCIENCE] = 2;
-  cmp.happy_factor = 0;
-
-  if (city_granary_size(city_size_get(pcity)) == pcity->food_stock) {
-    cmp.minimal_surplus[O_FOOD] = 0;
-  } else {
-    cmp.minimal_surplus[O_FOOD] = 1;
-  }
-  cmp.minimal_surplus[O_SHIELD] = 1;
-  cmp.minimal_surplus[O_TRADE] = 0;
-  cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
-  cmp.minimal_surplus[O_LUXURY] = 0;
-  cmp.minimal_surplus[O_SCIENCE] = 0;
 
   /* This must be after city_refresh() so that the result gets created for the right
    * city radius */
@@ -382,6 +396,17 @@ void auto_arrange_workers(struct city *pcity)
   cm_query_result(pcity, &cmp, cmr, FALSE);
 
   if (!cmr->found_a_valid) {
+    if (pcity->cm_parameter) {
+      /* If player-defined parameters fail, cancel and notify player. */
+      free(pcity->cm_parameter);
+      pcity->cm_parameter = NULL;
+
+      notify_player(city_owner(pcity), city_tile(pcity),
+                    E_CITY_CMA_RELEASE, ftc_server,
+                    _("The citizen governor can't fulfill the requirements "
+                     "for %s. Passing back control."),
+                    city_link(pcity));
+    }
     /* Drop surpluses and try again. */
     cmp.minimal_surplus[O_FOOD] = 0;
     cmp.minimal_surplus[O_SHIELD] = 0;
