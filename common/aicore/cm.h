@@ -39,6 +39,7 @@ extern "C" {
 /* A description of the goal. */
 struct cm_parameter {
   int minimal_surplus[O_LAST];
+  bool max_growth;
   bool require_happy;
   bool allow_disorder;
   bool allow_specialists;

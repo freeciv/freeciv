@@ -1887,6 +1887,56 @@ static struct cm_state *cm_state_init(struct city *pcity, bool negative_ok)
 }
 
 /************************************************************************//**
+  Find the minimum food surplus needed to grow in the fewest number of turns.
+****************************************************************************/
+static int min_food_surplus_for_fastest_growth(struct cm_state *state)
+{
+  struct city *pcity = state->pcity;
+  int city_radius_sq = city_map_radius_sq_get(pcity);
+  citizens city_size = city_size_get(pcity);
+  int max_surplus = -game.info.food_cost * city_size;
+  bool is_celebrating = base_city_celebrating(pcity);
+  citizens workers = city_size;
+  int food_needed = city_granary_size(city_size) - pcity->food_stock;
+  int min_turns;
+
+  city_map_iterate(city_radius_sq, cindex, x, y) {
+    struct tile *ptile = city_map_to_tile(pcity->tile, city_radius_sq, x, y);
+    if (!ptile) {
+      continue;
+    }
+    if (is_free_worked_index(cindex)) {
+      max_surplus += city_tile_output(pcity, ptile, is_celebrating, O_FOOD);
+    }
+  } city_map_iterate_end;
+
+  if (max_surplus <= 0) {
+    return max_surplus;
+  }
+
+  if (food_needed <= 0) {
+    return 0;
+  }
+
+  tile_type_vector_iterate(&state->lattice_by_prod[O_FOOD], ptype) {
+    int num = tile_vector_size(&ptype->tiles);
+
+    if (ptype->is_specialist || workers < num) {
+      max_surplus += workers * ptype->production[O_FOOD];
+      break;
+    }
+    max_surplus += num * ptype->production[O_FOOD];
+    workers -= num;
+  } tile_type_vector_iterate_end;
+
+  /* min_turns will always be positive because if food_needed or
+   * max_surplus are non-positive, this function returns earlier. */
+  min_turns = (food_needed + max_surplus - 1) / max_surplus;
+
+  return (food_needed + min_turns - 1) / min_turns;
+}
+
+/************************************************************************//**
   Set the parameter for the state.  This is the first step in actually
   solving anything.
 ****************************************************************************/
@@ -1902,6 +1952,12 @@ static void begin_search(struct cm_state *state,
   /* copy the parameter and sort the main lattice by it */
   cm_copy_parameter(&state->parameter, parameter);
   sort_lattice_by_fitness(state, &state->lattice);
+
+  if (parameter->max_growth) {
+    state->parameter.minimal_surplus[O_FOOD] =
+        min_food_surplus_for_fastest_growth(state);
+  }
+
   init_min_production(state);
 
   /* clear out the old solution */
@@ -2041,6 +2097,9 @@ bool cm_are_parameter_equal(const struct cm_parameter *const p1,
   if (p1->happy_factor != p2->happy_factor) {
     return FALSE;
   }
+  if (p1->max_growth != p2->max_growth) {
+    return FALSE;
+  }
 
   return TRUE;
 }
@@ -2068,6 +2127,7 @@ void cm_init_parameter(struct cm_parameter *dest)
   dest->require_happy = FALSE;
   dest->allow_disorder = FALSE;
   dest->allow_specialists = TRUE;
+  dest->max_growth = FALSE;
 }
 
 /************************************************************************//**
@@ -2085,6 +2145,7 @@ void cm_init_emergency_parameter(struct cm_parameter *dest)
   dest->require_happy = FALSE;
   dest->allow_disorder = TRUE;
   dest->allow_specialists = TRUE;
+  dest->max_growth = FALSE;
 }
 
 /************************************************************************//**
