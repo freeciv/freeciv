@@ -1,6 +1,6 @@
 [soundspec]
 ; Format and options of this spec file:
-options = "+Freeciv-soundset-Devel-2019-02-28"
+options = "+Freeciv-3.0-soundset"
 
 [info]
 artists = "\
