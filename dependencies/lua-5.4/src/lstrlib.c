@@ -744,7 +744,7 @@ static int str_find_aux (lua_State *L, int find) {
   const char *p = luaL_checklstring(L, 2, &lp);
   size_t init = posrelatI(luaL_optinteger(L, 3, 1), ls) - 1;
   if (init > ls) {  /* start after string's end? */
-    lua_pushnil(L);  /* cannot find anything */
+    luaL_pushfail(L);  /* cannot find anything */
     return 1;
   }
   /* explicit request or no special characters? */
@@ -779,7 +779,7 @@ static int str_find_aux (lua_State *L, int find) {
       }
     } while (s1++ < ms.src_end && !anchor);
   }
-  lua_pushnil(L);  /* not found */
+  luaL_pushfail(L);  /* not found */
   return 1;
 }
 
@@ -1227,16 +1227,14 @@ static int str_format (lua_State *L) {
           nb = lua_number2strx(L, buff, maxitem, form,
                                   luaL_checknumber(L, arg));
           break;
-        case 'e': case 'E': case 'f':
-        case 'g': case 'G': {
+        case 'f':
+          maxitem = MAX_ITEMF;  /* extra space for '%f' */
+          buff = luaL_prepbuffsize(&b, maxitem);
+          /* FALLTHROUGH */
+        case 'e': case 'E': case 'g': case 'G': {
           lua_Number n = luaL_checknumber(L, arg);
-          if (*(strfrmt - 1) == 'f' && l_mathop(fabs)(n) >= 1e100) {
-            /* 'n' needs more than 99 digits */
-            maxitem = MAX_ITEMF;  /* extra space for '%f' */
-            buff = luaL_prepbuffsize(&b, maxitem);
-          }
           addlenmod(form, LUA_NUMBER_FRMLEN);
-          nb = l_sprintf(buff, maxitem, form, (LUAI_UACNUMBER)n);
+          nb = snprintf(buff, maxitem, form, (LUAI_UACNUMBER)n);
           break;
         }
         case 'p': {

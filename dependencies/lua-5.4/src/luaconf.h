@@ -48,7 +48,7 @@
 ** (It will crash with a limit too high.)
 */
 #if !defined(LUAI_MAXCSTACK)
-#define LUAI_MAXCSTACK		2200
+#define LUAI_MAXCSTACK		2000
 #endif
 
 
@@ -494,7 +494,7 @@
 @@ LUA_UNSIGNED is the unsigned version of LUA_INTEGER.
 **
 @@ LUAI_UACINT is the result of a 'default argument promotion'
-@@ over a lUA_INTEGER.
+@@ over a LUA_INTEGER.
 @@ LUA_INTEGER_FRMLEN is the length modifier for reading/writing integers.
 @@ LUA_INTEGER_FMT is the format for writing integers.
 @@ LUA_MAXINTEGER is the maximum value for a LUA_INTEGER.

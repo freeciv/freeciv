@@ -21,10 +21,10 @@
 
 
 /*
-** The hook table at registry[&HOOKKEY] maps threads to their current
-** hook function. (We only need the unique address of 'HOOKKEY'.)
+** The hook table at registry[HOOKKEY] maps threads to their current
+** hook function.
 */
-static const int HOOKKEY = 0;
+static const char* HOOKKEY = "_HOOKKEY";
 
 
 /*
@@ -65,7 +65,7 @@ static int db_setmetatable (lua_State *L) {
 static int db_getuservalue (lua_State *L) {
   int n = (int)luaL_optinteger(L, 2, 1);
   if (lua_type(L, 1) != LUA_TUSERDATA)
-    lua_pushnil(L);
+    luaL_pushfail(L);
   else if (lua_getiuservalue(L, 1, n) != LUA_TNONE) {
     lua_pushboolean(L, 1);
     return 2;
@@ -80,7 +80,7 @@ static int db_setuservalue (lua_State *L) {
   luaL_checkany(L, 2);
   lua_settop(L, 2);
   if (!lua_setiuservalue(L, 1, n))
-    lua_pushnil(L);
+    luaL_pushfail(L);
   return 1;
 }
 
@@ -159,7 +159,7 @@ static int db_getinfo (lua_State *L) {
   }
   else {  /* stack level */
     if (!lua_getstack(L1, (int)luaL_checkinteger(L, arg + 1), &ar)) {
-      lua_pushnil(L);  /* level out of range */
+      luaL_pushfail(L);  /* level out of range */
       return 1;
     }
   }
@@ -223,7 +223,7 @@ static int db_getlocal (lua_State *L) {
       return 2;
     }
     else {
-      lua_pushnil(L);  /* no name (nor value) */
+      luaL_pushfail(L);  /* no name (nor value) */
       return 1;
     }
   }
@@ -314,7 +314,7 @@ static int db_upvaluejoin (lua_State *L) {
 static void hookf (lua_State *L, lua_Debug *ar) {
   static const char *const hooknames[] =
     {"call", "return", "line", "count", "tail call"};
-  lua_rawgetp(L, LUA_REGISTRYINDEX, &HOOKKEY);
+  lua_getfield(L, LUA_REGISTRYINDEX, HOOKKEY);
   lua_pushthread(L);
   if (lua_rawget(L, -2) == LUA_TFUNCTION) {  /* is there a hook function? */
     lua_pushstring(L, hooknames[(int)ar->event]);  /* push event name */
@@ -367,14 +367,12 @@ static int db_sethook (lua_State *L) {
     count = (int)luaL_optinteger(L, arg + 3, 0);
     func = hookf; mask = makemask(smask, count);
   }
-  if (lua_rawgetp(L, LUA_REGISTRYINDEX, &HOOKKEY) == LUA_TNIL) {
-    lua_createtable(L, 0, 2);  /* create a hook table */
-    lua_pushvalue(L, -1);
-    lua_rawsetp(L, LUA_REGISTRYINDEX, &HOOKKEY);  /* set it in position */
+  if (!luaL_getsubtable(L, LUA_REGISTRYINDEX, HOOKKEY)) {
+    /* table just created; initialize it */
     lua_pushstring(L, "k");
     lua_setfield(L, -2, "__mode");  /** hooktable.__mode = "k" */
     lua_pushvalue(L, -1);
-    lua_setmetatable(L, -2);  /* setmetatable(hooktable) = hooktable */
+    lua_setmetatable(L, -2);  /* metatable(hooktable) = hooktable */
   }
   checkstack(L, L1, 1);
   lua_pushthread(L1); lua_xmove(L1, L, 1);  /* key (thread) */
@@ -391,12 +389,14 @@ static int db_gethook (lua_State *L) {
   char buff[5];
   int mask = lua_gethookmask(L1);
   lua_Hook hook = lua_gethook(L1);
-  if (hook == NULL)  /* no hook? */
-    lua_pushnil(L);
+  if (hook == NULL) {  /* no hook? */
+    luaL_pushfail(L);
+    return 1;
+  }
   else if (hook != hookf)  /* external hook? */
     lua_pushliteral(L, "external hook");
   else {  /* hook table must exist */
-    lua_rawgetp(L, LUA_REGISTRYINDEX, &HOOKKEY);
+    lua_getfield(L, LUA_REGISTRYINDEX, HOOKKEY);
     checkstack(L, L1, 1);
     lua_pushthread(L1); lua_xmove(L1, L, 1);
     lua_rawget(L, -2);   /* 1st result = hooktable[L1] */
@@ -437,6 +437,17 @@ static int db_traceback (lua_State *L) {
 }
 
 
+static int db_setcstacklimit (lua_State *L) {
+  int limit = (int)luaL_checkinteger(L, 1);
+  int res = lua_setcstacklimit(L, limit);
+  if (res == 0)
+    lua_pushboolean(L, 0);
+  else
+    lua_pushinteger(L, res);
+  return 1;
+}
+
+
 static const luaL_Reg dblib[] = {
   {"debug", db_debug},
   {"getuservalue", db_getuservalue},
@@ -454,6 +465,7 @@ static const luaL_Reg dblib[] = {
   {"setmetatable", db_setmetatable},
   {"setupvalue", db_setupvalue},
   {"traceback", db_traceback},
+  {"setcstacklimit", db_setcstacklimit},
   {NULL, NULL}
 };
 

@@ -97,6 +97,9 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
 #define MAXARG_C	((1<<SIZE_C)-1)
 #define OFFSET_sC	(MAXARG_C >> 1)
 
+#define int2sC(i)	((i) + OFFSET_sC)
+#define sC2int(i)	((i) - OFFSET_sC)
+
 
 /* creates a mask with 'n' 1 bits at position 'p' */
 #define MASK1(n,p)	((~((~(Instruction)0)<<(n)))<<(p))
@@ -123,11 +126,11 @@ enum OpMode {iABC, iABx, iAsBx, iAx, isJ};  /* basic instruction formats */
 #define SETARG_A(i,v)	setarg(i, v, POS_A, SIZE_A)
 
 #define GETARG_B(i)	check_exp(checkopm(i, iABC), getarg(i, POS_B, SIZE_B))
-#define GETARG_sB(i)	(GETARG_B(i) - OFFSET_sC)
+#define GETARG_sB(i)	sC2int(GETARG_B(i))
 #define SETARG_B(i,v)	setarg(i, v, POS_B, SIZE_B)
 
 #define GETARG_C(i)	check_exp(checkopm(i, iABC), getarg(i, POS_C, SIZE_C))
-#define GETARG_sC(i)	(GETARG_C(i) - OFFSET_sC)
+#define GETARG_sC(i)	sC2int(GETARG_C(i))
 #define SETARG_C(i,v)	setarg(i, v, POS_C, SIZE_C)
 
 #define TESTARG_k(i)	(cast_int(((i) & (1u << POS_k))))
@@ -214,17 +217,11 @@ OP_SETTABLE,/*	A B C	R(A)[R(B)] := RK(C)				*/
 OP_SETI,/*	A B C	R(A)[B] := RK(C)				*/
 OP_SETFIELD,/*	A B C	R(A)[K(B):string] := RK(C)			*/
 
-OP_NEWTABLE,/*	A B C	R(A) := {} (size = B,C)				*/
+OP_NEWTABLE,/*	A B C	R(A) := {}					*/
 
 OP_SELF,/*	A B C	R(A+1) := R(B); R(A) := R(B)[RK(C):string]	*/
 
-OP_ADDI,/*	A B sC	R(A) := R(B) + C				*/
-OP_SUBI,/*	A B sC	R(A) := R(B) - C				*/
-OP_MULI,/*	A B sC	R(A) := R(B) * C				*/
-OP_MODI,/*	A B sC	R(A) := R(B) % C				*/
-OP_POWI,/*	A B sC	R(A) := R(B) ^ C				*/
-OP_DIVI,/*	A B sC	R(A) := R(B) / C				*/
-OP_IDIVI,/*	A B sC	R(A) := R(B) // C				*/
+OP_ADDI,/*	A B sC	R(A) := R(B) + sC				*/
 
 OP_ADDK,/*	A B C	R(A) := R(B) + K(C)				*/
 OP_SUBK,/*	A B C	R(A) := R(B) - K(C)				*/
@@ -238,8 +235,8 @@ OP_BANDK,/*	A B C	R(A) := R(B) & K(C):integer			*/
 OP_BORK,/*	A B C	R(A) := R(B) | K(C):integer			*/
 OP_BXORK,/*	A B C	R(A) := R(B) ~ K(C):integer			*/
 
-OP_SHRI,/*	A B sC	R(A) := R(B) >> C				*/
-OP_SHLI,/*	A B sC	R(A) := C << R(B)				*/
+OP_SHRI,/*	A B sC	R(A) := R(B) >> sC				*/
+OP_SHLI,/*	A B sC	R(A) := sC << R(B)				*/
 
 OP_ADD,/*	A B C	R(A) := R(B) + R(C)				*/
 OP_SUB,/*	A B C	R(A) := R(B) - R(C)				*/
@@ -254,6 +251,10 @@ OP_BOR,/*	A B C	R(A) := R(B) | R(C)				*/
 OP_BXOR,/*	A B C	R(A) := R(B) ~ R(C)				*/
 OP_SHL,/*	A B C	R(A) := R(B) << R(C)				*/
 OP_SHR,/*	A B C	R(A) := R(B) >> R(C)				*/
+
+OP_MMBIN,/*	A B C	call C metamethod over R(A) and R(B)		*/
+OP_MMBINI,/*	A sB C	call C metamethod over R(A) and sB		*/
+OP_MMBINK,/*	A B C	call C metamethod over R(A) and K(B)		*/
 
 OP_UNM,/*	A B	R(A) := -R(B)					*/
 OP_BNOT,/*	A B	R(A) := ~R(B)					*/
@@ -286,9 +287,9 @@ OP_RETURN,/*	A B C	return R(A), ... ,R(A+B-2)	(see note)	*/
 OP_RETURN0,/*	  	return 						*/
 OP_RETURN1,/*	A 	return R(A)					*/
 
-OP_FORLOOP,/*	A Bx	R(A)+=R(A+2);
-			if R(A) <?= R(A+1) then { pc-=Bx; R(A+3)=R(A) }	*/
-OP_FORPREP,/*	A Bx	R(A)-=R(A+2); pc+=Bx				*/
+OP_FORLOOP,/*	A Bx	update counters; if loop continues then pc-=Bx; */
+OP_FORPREP,/*	A Bx	<check values and prepare counters>;
+                        if not to run then pc+=Bx+1;			*/
 
 OP_TFORPREP,/*	A Bx	create upvalue for R(A + 3); pc+=Bx		*/
 OP_TFORCALL,/*	A C	R(A+4), ... ,R(A+3+C) := R(A)(R(A+1), R(A+2));	*/
@@ -321,10 +322,16 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 
   (*) In OP_RETURN, if (B == 0) then return up to 'top'.
 
-  (*) In OP_SETLIST, if (B == 0) then real B = 'top'; if (C == 0) then
-  next 'instruction' is EXTRAARG(real C).
+  (*) In OP_LOADKX and OP_NEWTABLE, the next instruction is always
+  EXTRAARG.
 
-  (*) In OP_LOADKX, the next 'instruction' is always EXTRAARG.
+  (*) In OP_SETLIST, if (B == 0) then real B = 'top'; if k, then
+  real C = EXTRAARG _ C (the bits of EXTRAARG concatenated with the
+  bits of C).
+
+  (*) In OP_NEWTABLE, B is log2 of the hash size (which is always a
+  power of 2) plus 1, or zero for size zero. If not k, the array size
+  is C. Otherwise, the array size is EXTRAARG _ C.
 
   (*) For comparisons, k specifies what condition the test should accept
   (true or false).
@@ -332,10 +339,9 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
   (*) All 'skips' (pc++) assume that next instruction is a jump.
 
   (*) In instructions OP_RETURN/OP_TAILCALL, 'k' specifies that the
-  function either builds upvalues, which may need to be closed, or is
-  vararg, which must be corrected before returning. When 'k' is true,
-  C > 0 means the function is vararg and (C - 1) is its number of
-  fixed parameters.
+  function builds upvalues, which may need to be closed. C > 0 means
+  the function is vararg, so that its 'func' must be corrected before
+  returning; in this case, (C - 1) is its number of fixed parameters.
 
   (*) In comparisons with an immediate operand, C signals whether the
   original operand was a float.
@@ -350,6 +356,7 @@ OP_EXTRAARG/*	Ax	extra (larger) argument for previous opcode	*/
 ** bit 4: operator is a test (next instruction must be a jump)
 ** bit 5: instruction uses 'L->top' set by previous instruction (when B == 0)
 ** bit 6: instruction sets 'L->top' for next instruction (when C == 0)
+** bit 7: instruction is an MM instruction (call a metamethod)
 */
 
 LUAI_DDEC(const lu_byte luaP_opmodes[NUM_OPCODES];)
@@ -359,6 +366,7 @@ LUAI_DDEC(const lu_byte luaP_opmodes[NUM_OPCODES];)
 #define testTMode(m)	(luaP_opmodes[m] & (1 << 4))
 #define testITMode(m)	(luaP_opmodes[m] & (1 << 5))
 #define testOTMode(m)	(luaP_opmodes[m] & (1 << 6))
+#define testMMMode(m)	(luaP_opmodes[m] & (1 << 7))
 
 /* "out top" (set top for next instruction) */
 #define isOT(i)  \
@@ -368,11 +376,11 @@ LUAI_DDEC(const lu_byte luaP_opmodes[NUM_OPCODES];)
 /* "in top" (uses top from previous instruction) */
 #define isIT(i)		(testITMode(GET_OPCODE(i)) && GETARG_B(i) == 0)
 
-#define opmode(ot,it,t,a,m) (((ot)<<6) | ((it)<<5) | ((t)<<4) | ((a)<<3) | (m))
+#define opmode(mm,ot,it,t,a,m)  \
+    (((mm) << 7) | ((ot) << 6) | ((it) << 5) | ((t) << 4) | ((a) << 3) | (m))
 
 
 /* number of list items to accumulate before a SETLIST instruction */
 #define LFIELDS_PER_FLUSH	50
-
 
 #endif

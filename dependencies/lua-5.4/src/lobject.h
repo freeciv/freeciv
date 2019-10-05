@@ -89,8 +89,8 @@ typedef struct TValue {
 #define righttt(obj)		(ttypetag(obj) == gcvalue(obj)->tt)
 
 #define checkliveness(L,obj) \
-	lua_longassert(!iscollectable(obj) || \
-		(righttt(obj) && (L == NULL || !isdead(G(L),gcvalue(obj)))))
+	((void)L, lua_longassert(!iscollectable(obj) || \
+		(righttt(obj) && (L == NULL || !isdead(G(L),gcvalue(obj))))))
 
 
 /* Macros to set values */
@@ -100,7 +100,7 @@ typedef struct TValue {
 #define setobj(L,obj1,obj2) \
 	{ TValue *io1=(obj1); const TValue *io2=(obj2); \
           io1->value_ = io2->value_; io1->tt_ = io2->tt_; \
-	  (void)L; checkliveness(L,io1); lua_assert(!isreallyempty(io1)); }
+	  checkliveness(L,io1); lua_assert(!isreallyempty(io1)); }
 
 /*
 ** different types of assignments, according to destination
@@ -460,6 +460,7 @@ typedef struct Upvaldesc {
   TString *name;  /* upvalue name (for debug information) */
   lu_byte instack;  /* whether it is in stack (register) */
   lu_byte idx;  /* index of upvalue (in stack or in outer function's list) */
+  lu_byte kind;  /* kind of corresponding variable */
 } Upvaldesc;
 
 
@@ -567,6 +568,7 @@ typedef struct Proto {
 */
 typedef struct UpVal {
   CommonHeader;
+  lu_byte tbc;  /* true if it represents a to-be-closed variable */
   TValue *v;  /* points to stack or to its own value */
   union {
     struct {  /* (when open) */
@@ -577,9 +579,6 @@ typedef struct UpVal {
   } u;
 } UpVal;
 
-
-/* variant for "To Be Closed" upvalues */
-#define LUA_TUPVALTBC	(LUA_TUPVAL | (1 << 4))
 
 
 #define ClosureHeader \
@@ -650,14 +649,14 @@ typedef union Node {
 #define setnodekey(L,node,obj) \
 	{ Node *n_=(node); const TValue *io_=(obj); \
 	  n_->u.key_val = io_->value_; n_->u.key_tt = io_->tt_; \
-	  (void)L; checkliveness(L,io_); }
+	  checkliveness(L,io_); }
 
 
 /* copy a value from a key */
 #define getnodekey(L,obj,node) \
 	{ TValue *io_=(obj); const Node *n_=(node); \
 	  io_->value_ = n_->u.key_val; io_->tt_ = n_->u.key_tt; \
-	  (void)L; checkliveness(L,io_); }
+	  checkliveness(L,io_); }
 
 
 /*
@@ -733,8 +732,6 @@ typedef struct Table {
 /* size of buffer for 'luaO_utf8esc' function */
 #define UTF8BUFFSZ	8
 
-LUAI_FUNC int luaO_int2fb (unsigned int x);
-LUAI_FUNC int luaO_fb2int (int x);
 LUAI_FUNC int luaO_utf8esc (char *buff, unsigned long x);
 LUAI_FUNC int luaO_ceillog2 (unsigned int x);
 LUAI_FUNC int luaO_rawarith (lua_State *L, int op, const TValue *p1,

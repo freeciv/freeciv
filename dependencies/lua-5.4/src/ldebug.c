@@ -465,12 +465,14 @@ static int filterpc (int pc, int jmptarget) {
 
 
 /*
-** try to find last instruction before 'lastpc' that modified register 'reg'
+** Try to find last instruction before 'lastpc' that modified register 'reg'.
 */
 static int findsetreg (const Proto *p, int lastpc, int reg) {
   int pc;
   int setreg = -1;  /* keep last instruction that changed 'reg' */
   int jmptarget = 0;  /* any code before this address is conditional */
+  if (testMMMode(GET_OPCODE(p->code[lastpc])))
+    lastpc--;  /* previous instruction was not actually executed */
   for (pc = 0; pc < lastpc; pc++) {
     Instruction i = p->code[pc];
     OpCode op = GET_OPCODE(i);
@@ -620,24 +622,8 @@ static const char *funcnamefromcode (lua_State *L, CallInfo *ci,
     case OP_SETTABUP: case OP_SETTABLE: case OP_SETI: case OP_SETFIELD:
       tm = TM_NEWINDEX;
       break;
-    case OP_ADDI: case OP_SUBI: case OP_MULI: case OP_MODI:
-    case OP_POWI: case OP_DIVI: case OP_IDIVI: {
-      int offset = GET_OPCODE(i) - OP_ADDI;  /* ORDER OP */
-      tm = cast(TMS, offset + TM_ADD);  /* ORDER TM */
-      break;
-    }
-    case OP_ADDK: case OP_SUBK: case OP_MULK: case OP_MODK:
-    case OP_POWK: case OP_DIVK: case OP_IDIVK:
-    case OP_BANDK: case OP_BORK: case OP_BXORK: {
-      int offset = GET_OPCODE(i) - OP_ADDK;  /* ORDER OP */
-      tm = cast(TMS, offset + TM_ADD);  /* ORDER TM */
-      break;
-    }
-    case OP_ADD: case OP_SUB: case OP_MUL: case OP_MOD:
-    case OP_POW: case OP_DIV: case OP_IDIV: case OP_BAND:
-    case OP_BOR: case OP_BXOR: case OP_SHL: case OP_SHR: {
-      int offset = GET_OPCODE(i) - OP_ADD;  /* ORDER OP */
-      tm = cast(TMS, offset + TM_ADD);  /* ORDER TM */
+    case OP_MMBIN: case OP_MMBINI: case OP_MMBINK: {
+      tm = cast(TMS, GETARG_C(i));
       break;
     }
     case OP_UNM: tm = TM_UNM; break;
@@ -648,8 +634,8 @@ static const char *funcnamefromcode (lua_State *L, CallInfo *ci,
     case OP_LT: case OP_LE: case OP_LTI: case OP_LEI:
       *name = "order";  /* '<=' can call '__lt', etc. */
       return "metamethod";
-    case OP_SHRI: case OP_SHLI:
-      *name = "shift";
+    case OP_CLOSE: case OP_RETURN:
+      *name = "close";
       return "metamethod";
     default:
       return NULL;  /* cannot find a reasonable name */

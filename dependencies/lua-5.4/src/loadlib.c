@@ -56,10 +56,10 @@
 
 
 /*
-** unique key for table in the registry that keeps handles
+** key for table in the registry that keeps handles
 ** for all loaded C libraries
 */
-static const int CLIBS = 0;
+static const char *CLIBS = "_CLIBS";
 
 #define LIB_FAIL	"open"
 
@@ -308,7 +308,7 @@ static void setpath (lua_State *L, const char *fieldname,
       luaL_addchar(&b, *LUA_PATH_SEP);
     }
     luaL_addstring(&b, dft);  /* add default */
-    if (dftmark < path + len - 2) {  /* is there a sufix after ';;'? */
+    if (dftmark < path + len - 2) {  /* is there a suffix after ';;'? */
       luaL_addchar(&b, *LUA_PATH_SEP);
       luaL_addlstring(&b, dftmark + 2, (path + len - 2) - dftmark);
     }
@@ -327,7 +327,7 @@ static void setpath (lua_State *L, const char *fieldname,
 */
 static void *checkclib (lua_State *L, const char *path) {
   void *plib;
-  lua_rawgetp(L, LUA_REGISTRYINDEX, &CLIBS);
+  lua_getfield(L, LUA_REGISTRYINDEX, CLIBS);
   lua_getfield(L, -1, path);
   plib = lua_touserdata(L, -1);  /* plib = CLIBS[path] */
   lua_pop(L, 2);  /* pop CLIBS table and 'plib' */
@@ -340,7 +340,7 @@ static void *checkclib (lua_State *L, const char *path) {
 ** registry.CLIBS[#CLIBS + 1] = plib  -- also keep a list of all libraries
 */
 static void addtoclib (lua_State *L, const char *path, void *plib) {
-  lua_rawgetp(L, LUA_REGISTRYINDEX, &CLIBS);
+  lua_getfield(L, LUA_REGISTRYINDEX, CLIBS);
   lua_pushlightuserdata(L, plib);
   lua_pushvalue(L, -1);
   lua_setfield(L, -3, path);  /* CLIBS[path] = plib */
@@ -408,10 +408,10 @@ static int ll_loadlib (lua_State *L) {
   if (stat == 0)  /* no errors? */
     return 1;  /* return the loaded function */
   else {  /* error; error message is on stack top */
-    lua_pushnil(L);
+    luaL_pushfail(L);
     lua_insert(L, -2);
     lua_pushstring(L, (stat == ERRLIB) ?  LIB_FAIL : "init");
-    return 3;  /* return nil, error message, and where */
+    return 3;  /* return fail, error message, and where */
   }
 }
 
@@ -505,9 +505,9 @@ static int ll_searchpath (lua_State *L) {
                                 luaL_optstring(L, 4, LUA_DIRSEP));
   if (f != NULL) return 1;
   else {  /* error message is on top of the stack */
-    lua_pushnil(L);
+    luaL_pushfail(L);
     lua_insert(L, -2);
-    return 2;  /* return nil + error message */
+    return 2;  /* return fail + error message */
   }
 }
 
@@ -716,12 +716,11 @@ static void createsearcherstable (lua_State *L) {
 ** setting a finalizer to close all libraries when closing state.
 */
 static void createclibstable (lua_State *L) {
-  lua_newtable(L);  /* create CLIBS table */
+  luaL_getsubtable(L, LUA_REGISTRYINDEX, CLIBS);  /* create CLIBS table */
   lua_createtable(L, 0, 1);  /* create metatable for CLIBS */
   lua_pushcfunction(L, gctm);
   lua_setfield(L, -2, "__gc");  /* set finalizer for CLIBS table */
   lua_setmetatable(L, -2);
-  lua_rawsetp(L, LUA_REGISTRYINDEX, &CLIBS);  /* set CLIBS table in registry */
 }
 
 

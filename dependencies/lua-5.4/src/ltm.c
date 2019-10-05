@@ -149,9 +149,6 @@ void luaT_trybinTM (lua_State *L, const TValue *p1, const TValue *p2,
                     StkId res, TMS event) {
   if (!callbinTM(L, p1, p2, res, event)) {
     switch (event) {
-      case TM_CONCAT:
-        luaG_concaterror(L, p1, p2);
-      /* call never returns, but to avoid warnings: *//* FALLTHROUGH */
       case TM_BAND: case TM_BOR: case TM_BXOR:
       case TM_SHL: case TM_SHR: case TM_BNOT: {
         if (ttisnumber(p1) && ttisnumber(p2))
@@ -167,9 +164,16 @@ void luaT_trybinTM (lua_State *L, const TValue *p1, const TValue *p2,
 }
 
 
+void luaT_tryconcatTM (lua_State *L) {
+  StkId top = L->top;
+  if (!callbinTM(L, s2v(top - 2), s2v(top - 1), top - 2, TM_CONCAT))
+    luaG_concaterror(L, s2v(top - 2), s2v(top - 1));
+}
+
+
 void luaT_trybinassocTM (lua_State *L, const TValue *p1, const TValue *p2,
-                                       StkId res, int inv, TMS event) {
-  if (inv)
+                                       int flip, StkId res, TMS event) {
+  if (flip)
     luaT_trybinTM(L, p2, p1, res, event);
   else
     luaT_trybinTM(L, p1, p2, res, event);
@@ -177,10 +181,10 @@ void luaT_trybinassocTM (lua_State *L, const TValue *p1, const TValue *p2,
 
 
 void luaT_trybiniTM (lua_State *L, const TValue *p1, lua_Integer i2,
-                                   int inv, StkId res, TMS event) {
+                                   int flip, StkId res, TMS event) {
   TValue aux;
   setivalue(&aux, i2);
-  luaT_trybinassocTM(L, p1, &aux, res, inv, event);
+  luaT_trybinassocTM(L, p1, &aux, flip, res, event);
 }
 
 
@@ -205,14 +209,14 @@ int luaT_callorderTM (lua_State *L, const TValue *p1, const TValue *p2,
 
 
 int luaT_callorderiTM (lua_State *L, const TValue *p1, int v2,
-                       int inv, int isfloat, TMS event) {
+                       int flip, int isfloat, TMS event) {
   TValue aux; const TValue *p2;
   if (isfloat) {
     setfltvalue(&aux, cast_num(v2));
   }
   else
     setivalue(&aux, v2);
-  if (inv) {  /* arguments were exchanged? */
+  if (flip) {  /* arguments were exchanged? */
     p2 = p1; p1 = &aux;  /* correct them */
   }
   else
