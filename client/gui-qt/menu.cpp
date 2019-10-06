@@ -74,73 +74,12 @@ extern int last_center_enemy_city;
 **************************************************************************/
 void qt_start_turn()
 {
-  gui()->rallies.run();
   real_menus_update();
   show_new_turn_info();
   last_center_enemy = 0;
   last_center_capital = 0;
   last_center_player_city = 0;
   last_center_enemy_city = 0;
-}
-
-/**********************************************************************//**
-  Sends new built units to target tile
-**************************************************************************/
-void qfc_rally_list::run()
-{
-  qfc_rally *rally;
-  struct unit_list *units;
-  struct unit *last_unit;;
-  int max;
-
-  if (rally_list.isEmpty()) {
-    return;
-  }
-
-  foreach (rally, rally_list) {
-    max = 0;
-    last_unit = nullptr;
-
-    if (rally->pcity->turn_last_built == game.info.turn - 1) {
-      units = rally->pcity->units_supported;
-
-      unit_list_iterate(units, punit) {
-        if (punit->id > max) {
-          last_unit = punit;
-          max = punit->id;
-        }
-      } unit_list_iterate_end;
-
-      if (last_unit && rally->pcity->production.kind == VUT_UTYPE) {
-        send_goto_tile(last_unit, rally->ptile);
-      }
-    }
-  }
-}
-
-/**********************************************************************//**
-  Adds rally point
-**************************************************************************/
-void qfc_rally_list::add(qfc_rally* rally)
-{
-  rally_list.append(rally);
-}
-
-/**********************************************************************//**
-  Clears rally point. Returns false if rally was not set for that city.
-**************************************************************************/
-bool qfc_rally_list::clear(city* rcity)
-{
-  qfc_rally *rally;
-
-  foreach (rally, rally_list) {
-    if (rally->pcity == rcity) {
-      rally_list.removeAll(rally);
-      return true;
-    }
-  }
-
-  return false;
 }
 
 /**********************************************************************//**

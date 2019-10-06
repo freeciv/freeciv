@@ -86,15 +86,6 @@ enum delay_order{
 };
 
 /**************************************************************************
-  Struct holding rally point for city
-**************************************************************************/
-struct qfc_rally
-{
-  struct city *pcity;
-  struct tile *ptile;
-};
-
-/**************************************************************************
   Class holding city list for rally points
 **************************************************************************/
 class qfc_rally_list
@@ -104,10 +95,6 @@ public:
     hover_tile = false;
     hover_city = false;
   };
-  void add(qfc_rally* rally);
-  bool clear(struct city *rcity);
-  QList<qfc_rally*> rally_list;
-  void run();
   bool hover_tile;
   bool hover_city;
   struct city *rally_city;

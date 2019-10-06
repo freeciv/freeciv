@@ -240,14 +240,6 @@ void map_view::shortcut_pressed(int key)
       gui()->rallies.hover_tile = true;
       gui()->rallies.rally_city = tile_city(ptile);
 
-      if (gui()->rallies.clear(tile_city(ptile))) {
-        fc_snprintf(text, sizeof(text),
-                    _("Rally point cleared for city %s"),
-                    city_link(tile_city(ptile)));
-        output_window_append(ftc_client, text);
-        gui()->rallies.hover_tile = false;
-        return;
-      }
       fc_snprintf(text, sizeof(text),
                   _("Selected city %s. Now choose rally point."),
                   city_link(tile_city(ptile)));
@@ -261,15 +253,24 @@ void map_view::shortcut_pressed(int key)
   /* Rally point - select tile  - skip */
   if (bt == Qt::LeftButton && gui()->rallies.hover_tile == true) {
     char text[1024];
-    qfc_rally *rally = new qfc_rally;
-    rally->ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    rally->pcity = gui()->rallies.rally_city;
-    fc_snprintf(text, sizeof(text),
-                _("Tile %s set as rally point from city %s."),
-                tile_link(ptile), city_link(rally->pcity));
+
+    struct city *pcity = gui()->rallies.rally_city;
+    fc_assert_ret(pcity != NULL);
+
+    if (send_rally_tile(pcity, ptile)) {
+      fc_snprintf(text, sizeof(text),
+                  _("Tile %s set as rally point from city %s."),
+                  tile_link(ptile), city_link(pcity));
+      output_window_append(ftc_client, text);
+    } else {
+      fc_snprintf(text, sizeof(text),
+                  _("Could not set rally point for city %s."),
+                  city_link(pcity));
+      output_window_append(ftc_client, text);
+    }
+
+    gui()->rallies.rally_city = NULL;
     gui()->rallies.hover_tile = false;
-    gui()->rallies.add(rally);
-    output_window_append(ftc_client, text);
     return;
   }
 
