@@ -96,7 +96,7 @@ void handle_game_load(bool load_successful, const char *filename)
 **************************************************************************/
 static int connect_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     char errbuf[512];
 
     if (connect_to_server(user_name, server_host, server_port,
@@ -131,7 +131,7 @@ static int meta_server_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_meta_server_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     queue_flush();
 
     server_scan_finish(pServer_scan);
@@ -150,7 +150,7 @@ static int exit_meta_server_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int select_meta_servers_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct server *pServer = (struct server *)pWidget->data.ptr;
 
     sz_strlcpy(server_host, pServer->host);
@@ -469,7 +469,7 @@ void popup_connection_dialog(bool lan_scan)
 **************************************************************************/
 static int convert_playername_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL) {
       sz_strlcpy(user_name, pWidget->string_utf8->text);
     } else {
@@ -489,7 +489,7 @@ static int convert_playername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_servername_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL) {
       sz_strlcpy(server_host, pWidget->string_utf8->text);
     } else {
@@ -509,7 +509,7 @@ static int convert_servername_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_portnr_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     char pCharPort[6];
 
     if (pWidget->string_utf8->text != NULL) {
@@ -532,7 +532,7 @@ static int convert_portnr_callback(struct widget *pWidget)
 **************************************************************************/
 static int cancel_connect_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     close_connection_dialog();
     set_client_page(PAGE_MAIN);
   }
@@ -727,6 +727,7 @@ void popup_join_game_dialog()
 static int convert_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.type == SDL_KEYDOWN
+      || Main.event.type == SDL_FINGERDOWN
       || (Main.event.type == SDL_MOUSEBUTTONDOWN
           && Main.event.button.button == SDL_BUTTON_LEFT)) {
     if (pWidget->string_utf8->text != NULL) {
@@ -742,7 +743,7 @@ static int convert_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static int send_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct packet_authentication_reply reply;
 
     sz_strlcpy(reply.password, password);
@@ -902,7 +903,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 **************************************************************************/
 static int convert_first_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL) {
       fc_snprintf(password, MAX_LEN_NAME, "%s", pWidget->string_utf8->text);
       set_wstate(pWidget->prev, FC_WS_NORMAL);
@@ -920,6 +921,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 static int convert_second_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.type == SDL_KEYDOWN
+      || Main.event.type == SDL_FINGERDOWN
       || (Main.event.type == SDL_MOUSEBUTTONDOWN
           && Main.event.button.button == SDL_BUTTON_LEFT)) {
     if (pWidget->string_utf8->text != NULL

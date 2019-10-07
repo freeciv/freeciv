@@ -129,7 +129,7 @@ static int help_dlg_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_help_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_help_dialog();
     flush_dirty();
   }
@@ -142,7 +142,7 @@ static int exit_help_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int change_gov_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_gov_info(MAX_ID - pWidget->ID);
   }
 
@@ -161,7 +161,7 @@ void popup_gov_info(int gov)
 **************************************************************************/
 static int change_impr_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_impr_info(MAX_ID - pWidget->ID);
   }
 
@@ -575,7 +575,7 @@ void popup_impr_info(Impr_type_id impr)
 **************************************************************************/
 static int change_unit_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_unit_info(MAX_ID - pWidget->ID);
   }
 
@@ -1000,7 +1000,7 @@ void popup_unit_info(Unit_type_id type_id)
 **************************************************************************/
 static int change_tech_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_tech_info(MAX_ID - pWidget->ID);
   }
 
@@ -1012,7 +1012,7 @@ static int change_tech_callback(struct widget *pWidget)
 **************************************************************************/
 static int show_tech_tree_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
 
     pStore->show_tree = !pStore->show_tree;
@@ -1622,7 +1622,7 @@ static void redraw_tech_tree_dlg(void)
 **************************************************************************/
 static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
 
     if (pStore->show_full_tree) {

@@ -93,6 +93,9 @@ void enable_main_widgets(void);
 void disable_main_widgets(void);
 bool map_event_handler(SDL_Keysym Key);
 
+void finger_down_on_map(struct finger_behavior *finger_behavior);
+void finger_up_on_map(struct finger_behavior *finger_behavior);
+
 void button_down_on_map(struct mouse_button_behavior *button_behavior);
 void button_up_on_map(struct mouse_button_behavior *button_behavior);
 

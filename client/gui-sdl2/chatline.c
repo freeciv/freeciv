@@ -92,7 +92,7 @@ struct ADVANCED_DLG *pLoadDialog;
 **************************************************************************/
 static int move_load_game_dlg_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pLoadDialog->pBeginWidgetList, pWindow);
   }
 
@@ -129,7 +129,7 @@ void popdown_load_game_dialog(void)
 **************************************************************************/
 static int exit_load_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (get_client_page() == PAGE_LOAD) {
       set_client_page(PAGE_START);
     } else {
@@ -145,7 +145,7 @@ static int exit_load_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int load_selected_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     char *filename = (char*)pWidget->data.ptr;
 
     if (is_server_running()) {
@@ -434,7 +434,7 @@ static int conn_dlg_callback(struct widget *pWindow)
 **************************************************************************/
 static int disconnect_conn_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_conn_list_dialog();
     flush_dirty();
     disconnect_from_server();
@@ -529,7 +529,7 @@ static int input_edit_conn_callback(struct widget *pWidget)
 **************************************************************************/
 static int start_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     send_chat("/start");
   }
 
@@ -541,7 +541,7 @@ static int start_game_callback(struct widget *pWidget)
 **************************************************************************/
 static int select_nation_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_races_dialog(client.conn.playing);
   }
 
@@ -564,7 +564,7 @@ static int server_config_callback(struct widget *pWidget)
 **************************************************************************/
 static int load_game_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
      * widget_redraw(pConnDlg->pLoadGameButton);        
      * flush_dirty(); */

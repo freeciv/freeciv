@@ -59,7 +59,7 @@ static struct SMALL_DLG  *pPlayers_Dlg = NULL;
 **************************************************************************/
 static int exit_players_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_players_dialog();
     flush_dirty();
   }
@@ -105,7 +105,7 @@ static int player_callback(struct widget *pWidget)
 **************************************************************************/
 static int players_window_dlg_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
       select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
       players_dialog_update();
@@ -124,7 +124,7 @@ static int players_window_dlg_callback(struct widget *pWindow)
 **************************************************************************/
 static int toggle_draw_war_status_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -145,7 +145,7 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -166,7 +166,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_peace_status_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -187,7 +187,7 @@ static int toggle_draw_peace_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -208,7 +208,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pPlayer = pPlayers_Dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -610,7 +610,7 @@ static int players_nations_window_dlg_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_players_nations_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_players_nations_dialog();
     flush_dirty();
   }

@@ -413,7 +413,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 **************************************************************************/
 static int std_up_advanced_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
     struct widget *pBegin = up_scroll_widget_list(
                           pDlg->pScroll,
@@ -440,7 +440,7 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int std_down_advanced_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
     struct widget *pBegin = down_scroll_widget_list(
                               pDlg->pScroll,
@@ -467,7 +467,7 @@ static int std_down_advanced_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv_dlg;
     struct widget *pBegin = vertic_scroll_widget_list(
                               pDlg->pScroll,
@@ -1080,7 +1080,7 @@ static struct widget *down_scroll_widget_list(struct ScrollBar *pVscroll,
   pDown.pEndWidgetLIST = pEndWidgetLIST;
   pDown.pVscroll = pVscroll;
 
-  gui_event_loop((void *)&pDown, inside_scroll_down_loop,
+  gui_event_loop((void *)&pDown, inside_scroll_down_loop, NULL, NULL, NULL,
                  NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
   return pDown.pBegin;
@@ -1102,7 +1102,7 @@ static struct widget *up_scroll_widget_list(struct ScrollBar *pVscroll,
   pUp.pEndWidgetLIST = pEndWidgetLIST;
   pUp.pVscroll = pVscroll;
 
-  gui_event_loop((void *)&pUp, inside_scroll_up_loop,
+  gui_event_loop((void *)&pUp, inside_scroll_up_loop, NULL, NULL, NULL,
                  NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
   return pUp.pBegin;
@@ -1131,7 +1131,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   MOVE_STEP_Y = 3;
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL, NULL,
+  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                  scroll_mouse_button_up, scroll_mouse_motion_handler);
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL, NULL);

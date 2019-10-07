@@ -77,7 +77,7 @@ void city_report_dialog_popdown(void)
 **************************************************************************/
 static int city_report_windows_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pCityRep->pBeginWidgetList, pWindow);
   }
 
@@ -89,7 +89,7 @@ static int city_report_windows_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     city_report_dialog_popdown();
   }
 
@@ -101,7 +101,7 @@ static int exit_city_report_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_city_dialog(pWidget->data.city);
   }
 
@@ -113,7 +113,7 @@ static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_worklist_editor(pWidget->data.city, NULL);
   }
 
@@ -125,7 +125,7 @@ static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popup_hurry_production_dialog(pWidget->data.city, NULL);
   }
 
@@ -137,7 +137,7 @@ static int popup_buy_production_from_city_report_callback(struct widget *pWidget
 **************************************************************************/
 static int popup_cma_from_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct city *pCity = game_city_by_number(MAX_ID - pWidget->ID);
 
     /* state is changed before enter this function */
@@ -158,7 +158,7 @@ static int popup_cma_from_city_report_callback(struct widget *pWidget)
 **************************************************************************/
 static int info_city_report_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     set_wstate(pWidget, FC_WS_NORMAL);
     selected_widget = NULL;
     widget_redraw(pWidget);

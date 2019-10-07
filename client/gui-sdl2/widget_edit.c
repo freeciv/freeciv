@@ -771,7 +771,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   {
     /* local loop */  
     Uint16 rety = gui_event_loop((void *)&pEdt, NULL,
-                                 edit_key_down, NULL, edit_textinput,
+                                 edit_key_down, NULL, edit_textinput, NULL, NULL, NULL,
                                  edit_mouse_button_down, NULL, NULL);
 
     if (pEdt.pBeginTextChain == pEdt.pEndTextChain) {
