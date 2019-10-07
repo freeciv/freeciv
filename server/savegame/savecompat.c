@@ -1766,7 +1766,7 @@ static void compat_load_dev(struct loaddata *loading)
         }
       }
 
-      secfile_replace_str_vec(loading->file, modname_new, NUM_ACTIONS,
+      secfile_replace_str_vec(loading->file, modname_new, action_count,
                               "savefile.action_vector");
 
       free(modname_new);
