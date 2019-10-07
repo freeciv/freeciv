@@ -501,7 +501,7 @@ void update_info_label(void)
 **************************************************************************/
 static int focus_units_info_callback(struct widget *pwidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct unit *punit = pwidget->data.unit;
 
     if (punit) {

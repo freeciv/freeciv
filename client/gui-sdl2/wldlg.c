@@ -110,7 +110,7 @@ static int window_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_worklist_editor();
   }
 
@@ -123,7 +123,7 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int ok_worklist_editor_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int i, j;
     struct city *pCity = pEditor->pCity;
 
@@ -182,7 +182,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int rename_worklist_editor_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL) {
       fc_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s",
                   pWidget->string_utf8->text);

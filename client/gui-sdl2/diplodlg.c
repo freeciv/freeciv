@@ -148,7 +148,7 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 **************************************************************************/
 static int remove_clause_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct diplomacy_dialog *pdialog;
 
     if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
@@ -223,7 +223,7 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 **************************************************************************/
 static int cancel_meeting_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
                                               pWidget->data.cont->id1);
   }
@@ -236,7 +236,7 @@ static int cancel_meeting_callback(struct widget *pWidget)
 **************************************************************************/
 static int accept_treaty_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     dsend_packet_diplomacy_accept_treaty_req(&client.conn,
                                              pWidget->data.cont->id1);
   }
@@ -251,7 +251,7 @@ static int accept_treaty_callback(struct widget *pWidget)
 **************************************************************************/
 static int pact_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
@@ -285,7 +285,7 @@ static int pact_callback(struct widget *pWidget)
 **************************************************************************/
 static int vision_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct diplomacy_dialog *pdialog;
 
     if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
@@ -306,7 +306,7 @@ static int vision_callback(struct widget *pWidget)
 **************************************************************************/
 static int embassy_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct diplomacy_dialog *pdialog;
 
     if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
@@ -327,7 +327,7 @@ static int embassy_callback(struct widget *pWidget)
 **************************************************************************/
 static int maps_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
@@ -358,7 +358,7 @@ static int maps_callback(struct widget *pWidget)
 **************************************************************************/
 static int techs_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct diplomacy_dialog *pdialog;
 
     if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
@@ -380,7 +380,7 @@ static int techs_callback(struct widget *pWidget)
 **************************************************************************/
 static int gold_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int amount;
     struct diplomacy_dialog *pdialog;
 
@@ -426,7 +426,7 @@ static int gold_callback(struct widget *pWidget)
 **************************************************************************/
 static int cities_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     struct diplomacy_dialog *pdialog;
 
     if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
@@ -1279,7 +1279,7 @@ static void popdown_sdip_dialog(void)
 **************************************************************************/
 static int sdip_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pSDip_Dlg->pBeginWidgetList, pWindow);
   }
 
@@ -1291,7 +1291,7 @@ static int sdip_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int withdraw_vision_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_sdip_dialog();
 
     dsend_packet_diplomacy_cancel_pact(&client.conn,
@@ -1309,7 +1309,7 @@ static int withdraw_vision_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int cancel_pact_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_sdip_dialog();
 
     dsend_packet_diplomacy_cancel_pact(&client.conn,
@@ -1327,7 +1327,7 @@ static int cancel_pact_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int call_meeting_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_sdip_dialog();
 
     if (can_meet_with_player(pWidget->data.player)) {
@@ -1347,7 +1347,7 @@ static int call_meeting_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int cancel_sdip_dlg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     popdown_sdip_dialog();
     flush_dirty();
   }

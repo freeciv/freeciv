@@ -68,7 +68,7 @@ static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 **************************************************************************/
 static int msg_callback(struct widget *pWidget)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     int message_index = *(int*)pWidget->data.ptr;
 
     pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
@@ -86,7 +86,7 @@ static int msg_callback(struct widget *pWidget)
 **************************************************************************/
 static int move_msg_window_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+  if (PRESSED_EVENT(Main.event)) {
     move_window_group(pMsg_Dlg->pBeginWidgetList, pWindow);
   }
 
