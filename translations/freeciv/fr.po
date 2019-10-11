@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-14 15:19+0200\n"
+"POT-Creation-Date: 2019-10-11 10:58+0200\n"
 "PO-Revision-Date: 2018-06-28 23:35+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -903,7 +903,7 @@ msgstr "Meilleures unités défensives"
 #: client/gui-gtk-3.0/menu.c:1402 client/gui-gtk-3.0/repodlgs.c:1605
 #: client/gui-qt/cityrep.cpp:710 client/gui-qt/menu.cpp:795
 #: client/gui-qt/repodlgs.cpp:736 client/gui-sdl/helpdlg.c:712
-#: client/gui-sdl/mapctrl.c:1619 client/gui-sdl/repodlgs.c:366
+#: client/gui-sdl/mapctrl.c:1620 client/gui-sdl/repodlgs.c:366
 #: client/gui-xaw/menu.c:159 client/gui-xaw/menu.c:220
 #: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:889
 #: client/gui-xaw/repodlgs.c:1084 client/include/helpdlg_g.h:43
@@ -997,7 +997,7 @@ msgstr "Corruption"
 #: client/cityrepdata.c:696 client/gui-gtk-2.0/menu.c:1406
 #: client/gui-gtk-2.0/repodlgs.c:1045 client/gui-gtk-3.0/menu.c:1394
 #: client/gui-gtk-3.0/repodlgs.c:1078 client/gui-qt/menu.cpp:808
-#: client/gui-qt/repodlgs.cpp:1106 client/gui-sdl/mapctrl.c:1404
+#: client/gui-qt/repodlgs.cpp:1106 client/gui-sdl/mapctrl.c:1405
 #: client/gui-xaw/menu.c:224 client/gui-xaw/menu.c:247
 #: client/gui-xaw/repodlgs.c:652 client/gui-xaw/repodlgs.c:780
 #: client/include/helpdlg_g.h:40 data/Freeciv.in:1837 data/helpdata.txt:461
@@ -3421,7 +3421,7 @@ msgstr "Exclure les nations"
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/editprop.c:4208 client/gui-gtk-2.0/plrdlg.c:411
 #: client/gui-gtk-3.0/editprop.c:4238 client/gui-gtk-3.0/plrdlg.c:418
-#: client/gui-sdl/mapctrl.c:1592 client/gui-sdl/plrdlg.c:617
+#: client/gui-sdl/mapctrl.c:1593 client/gui-sdl/plrdlg.c:617
 #: client/gui-xaw/menu.c:222 data/Freeciv.in:3240 data/Freeciv.in:3241
 msgid "Nations"
 msgstr "Nations"
@@ -3612,7 +3612,7 @@ msgid "Unknown"
 msgstr "Ville inconnue"
 
 #: client/gui-gtk-2.0/finddlg.c:72 client/gui-gtk-3.0/finddlg.c:72
-#: client/gui-sdl/finddlg.c:140 client/gui-sdl/mapctrl.c:1604
+#: client/gui-sdl/finddlg.c:140 client/gui-sdl/mapctrl.c:1605
 #: client/gui-xaw/menu.c:130 data/Freeciv.in:1084
 msgid "Find City"
 msgstr "Trouver une ville"
@@ -3741,13 +3741,13 @@ msgstr "Freeciv"
 
 #: client/gui-gtk-2.0/gui_main.c:1268 client/gui-gtk-2.0/gui_main.c:1276
 #: client/gui-gtk-3.0/gui_main.c:1321 client/gui-gtk-3.0/gui_main.c:1329
-#: client/gui-qt/mapview.cpp:963 client/gui-sdl/mapctrl.c:1577
+#: client/gui-qt/mapview.cpp:963 client/gui-sdl/mapctrl.c:1578
 #: data/Freeciv.in:2663
 msgid "Turn Done"
 msgstr "Fin du tour"
 
 #: client/gui-gtk-2.0/gui_main.c:1276 client/gui-gtk-3.0/gui_main.c:1329
-#: client/gui-sdl/mapctrl.c:1577 client/gui-sdl/mapview.c:912
+#: client/gui-sdl/mapctrl.c:1578 client/gui-sdl/mapview.c:912
 msgid "Shift+Return"
 msgstr "Maj+Entrée"
 
@@ -4130,7 +4130,7 @@ msgid "Build New City"
 msgstr "Construire une nouvelle ville"
 
 #: client/gui-gtk-2.0/mapctrl.c:192 client/gui-gtk-3.0/mapctrl.c:193
-#: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2633
+#: client/gui-qt/mapctrl.cpp:52 client/gui-sdl/mapctrl.c:2634
 #: client/gui-xaw/mapctrl.c:90
 msgid "What should we call our new city?"
 msgstr "Comment doit s'appeler la nouvelle ville?"
@@ -5343,7 +5343,7 @@ msgstr "Retirer la vue partagée"
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:530 client/gui-gtk-3.0/repodlgs.c:549
 #: client/gui-qt/menu.cpp:812 client/gui-qt/repodlgs.cpp:439
-#: client/gui-sdl/mapctrl.c:1419 client/gui-sdl/mapview.c:333
+#: client/gui-sdl/mapctrl.c:1420 client/gui-sdl/mapview.c:333
 #: client/gui-sdl/mapview.c:337 client/gui-sdl/mapview.c:343
 #: client/gui-sdl/repodlgs.c:3286 client/gui-xaw/menu.c:226
 #: client/gui-xaw/repodlgs.c:252 client/gui-xaw/repodlgs.c:475
@@ -6072,7 +6072,7 @@ msgstr "Coût : %1, Entretien : %2\n"
 #: client/gui-sdl/connectdlg.c:827 client/gui-sdl/connectdlg.c:1000
 #: client/gui-sdl/dialogs.c:709 client/gui-sdl/dialogs.c:903
 #: client/gui-sdl/dialogs.c:2607 client/gui-sdl/dialogs.c:3496
-#: client/gui-sdl/diplomat_dialog.c:754 client/gui-sdl/mapctrl.c:2623
+#: client/gui-sdl/diplomat_dialog.c:754 client/gui-sdl/mapctrl.c:2624
 #: client/gui-xaw/inputdlg.c:110 data/Freeciv.in:1110 data/Freeciv.in:1166
 #: data/Freeciv.in:1208 data/Freeciv.in:1228 data/Freeciv.in:1265
 #: data/Freeciv.in:1298 data/Freeciv.in:1376 data/Freeciv.in:1571
@@ -6536,7 +6536,7 @@ msgid "Game"
 msgstr "Partie"
 
 #: client/gui-qt/menu.cpp:421 client/gui-qt/pages.cpp:161
-#: client/gui-sdl/mapctrl.c:1655 client/gui-sdl/optiondlg.c:782
+#: client/gui-sdl/mapctrl.c:1656 client/gui-sdl/optiondlg.c:782
 #: client/gui-sdl/optiondlg.c:1348 client/gui-sdl/pages.c:254
 #: data/Freeciv.in:1235
 msgid "Options"
@@ -6750,7 +6750,7 @@ msgid "Work"
 msgstr "Travail"
 
 #: client/gui-qt/menu.cpp:721 client/gui-qt/menu.cpp:1144
-#: client/gui-sdl/mapctrl.c:2603 client/gui-sdl/menu.c:895
+#: client/gui-sdl/mapctrl.c:2604 client/gui-sdl/menu.c:895
 #: client/gui-sdl/menu.c:1092 client/gui-xaw/menu.c:168
 msgid "Build City"
 msgstr "Bâtir une ville"
@@ -7341,7 +7341,7 @@ msgstr ""
 "temps avant\n"
 "croissance"
 
-#: client/gui-sdl/cityrep.c:212 client/gui-sdl/mapctrl.c:1603
+#: client/gui-sdl/cityrep.c:212 client/gui-sdl/mapctrl.c:1604
 msgid "Cities Report"
 msgstr "Rapport sur les villes"
 
@@ -7540,7 +7540,7 @@ msgid "REVOLUTION!"
 msgstr "RÉVOLUTION !"
 
 #: client/gui-sdl/dialogs.c:3034 client/gui-sdl/dialogs.c:3505
-#: client/gui-sdl/mapctrl.c:2613 common/mapimg.c:299
+#: client/gui-sdl/mapctrl.c:2614 common/mapimg.c:299
 msgid "OK"
 msgstr "OK"
 
@@ -7829,72 +7829,72 @@ msgstr ""
 msgid "Their techs that we don't have :"
 msgstr "Leurs technologies que nous n'avons pas :"
 
-#: client/gui-sdl/mapctrl.c:276
+#: client/gui-sdl/mapctrl.c:277
 msgid "Show Unit Info Window"
 msgstr "Afficher la fenêtre d'info. de l'unité"
 
-#: client/gui-sdl/mapctrl.c:333 client/gui-sdl/mapctrl.c:1455
+#: client/gui-sdl/mapctrl.c:334 client/gui-sdl/mapctrl.c:1456
 msgid "Hide Unit Info Window"
 msgstr "Cacher la fenêtre d'information de l'unité"
 
-#: client/gui-sdl/mapctrl.c:387
+#: client/gui-sdl/mapctrl.c:388
 msgid "Show Mini Map"
 msgstr "Afficher la mini-carte"
 
-#: client/gui-sdl/mapctrl.c:465 client/gui-sdl/mapctrl.c:1677
+#: client/gui-sdl/mapctrl.c:466 client/gui-sdl/mapctrl.c:1678
 msgid "Hide Mini Map"
 msgstr "Cacher la mini-carte"
 
-#: client/gui-sdl/mapctrl.c:517
+#: client/gui-sdl/mapctrl.c:518
 msgid "Show Messages (F9)"
 msgstr "Afficher les messages (F9)"
 
-#: client/gui-sdl/mapctrl.c:520
+#: client/gui-sdl/mapctrl.c:521
 msgid "Hide Messages (F9)"
 msgstr "Cacher les messages (F9)"
 
-#: client/gui-sdl/mapctrl.c:676
+#: client/gui-sdl/mapctrl.c:677
 msgid "Scale Mini Map"
 msgstr "Mettre à l'échelle la mini-carte"
 
-#: client/gui-sdl/mapctrl.c:687
+#: client/gui-sdl/mapctrl.c:688
 msgid "Single Tile Width"
 msgstr "Largeur d'un terrain"
 
-#: client/gui-sdl/mapctrl.c:691
+#: client/gui-sdl/mapctrl.c:692
 msgid "Single Tile Height"
 msgstr "Hauteur d'un terrain"
 
-#: client/gui-sdl/mapctrl.c:736 client/gui-sdl/mapctrl.c:1080
+#: client/gui-sdl/mapctrl.c:737 client/gui-sdl/mapctrl.c:1081
 msgid "Exit"
 msgstr "Quitter"
 
-#: client/gui-sdl/mapctrl.c:1034
+#: client/gui-sdl/mapctrl.c:1035
 msgid "Scale Unit Info"
 msgstr "Mettre à l'échelle l'information sur l'unité"
 
-#: client/gui-sdl/mapctrl.c:1044
+#: client/gui-sdl/mapctrl.c:1045
 msgid "Width"
 msgstr "Largeur"
 
-#: client/gui-sdl/mapctrl.c:1048
+#: client/gui-sdl/mapctrl.c:1049
 msgid "Height"
 msgstr "Hauteur"
 
-#: client/gui-sdl/mapctrl.c:1433 client/gui-sdl/mapview.c:313
+#: client/gui-sdl/mapctrl.c:1434 client/gui-sdl/mapview.c:313
 #: client/gui-sdl/mapview.c:316
 msgid "Revolution"
 msgstr "Révolution"
 
-#: client/gui-sdl/mapctrl.c:1604
+#: client/gui-sdl/mapctrl.c:1605
 msgid "or"
 msgstr "ou"
 
-#: client/gui-sdl/mapctrl.c:1630
+#: client/gui-sdl/mapctrl.c:1631
 msgid "Hide Messages"
 msgstr "Cacher les messages"
 
-#: client/gui-sdl/mapctrl.c:1641
+#: client/gui-sdl/mapctrl.c:1642
 msgid "Toggle Mini Map Mode"
 msgstr "Changer le mode de la mini-carte"
 
@@ -13179,7 +13179,7 @@ msgstr "(Cliquez pour plus d'info)"
 msgid "%s People"
 msgstr "%s Personnes"
 
-#: client/text.c:1048 server/gamehand.c:850
+#: client/text.c:1048 server/gamehand.c:859
 #, c-format
 msgid "Year: %s"
 msgstr "Année : %s"
@@ -14777,30 +14777,30 @@ msgstr "nom de joueur inconnu : '%s'"
 msgid "invalid player id: %d"
 msgstr "identifiant de joueur invalide : %d"
 
-#: common/mapimg.c:1859
+#: common/mapimg.c:1865
 #, c-format
 msgid "Turn: %4d - Year: %10s"
 msgstr "Tour : %4d - Année : %10s"
 
-#: common/mapimg.c:2028
+#: common/mapimg.c:2034
 msgid "toolkit not defined"
 msgstr "boîte à outils non définie"
 
-#: common/mapimg.c:2091 common/mapimg.c:2299
+#: common/mapimg.c:2097 common/mapimg.c:2305
 msgid "error generating the file name"
 msgstr "erreur de génération du nom de fichier"
 
-#: common/mapimg.c:2265
+#: common/mapimg.c:2271
 #, c-format
 msgid "error saving map image '%s'"
 msgstr "erreur de sauvegarde de l'image de carte '%s'"
 
-#: common/mapimg.c:2293
+#: common/mapimg.c:2299
 msgid "the ppm toolkit can only create images in the ppm format"
 msgstr "la boîte a outils ppm ne peut créer des images qu'au format ppm"
 
 # AR
-#: common/mapimg.c:2305
+#: common/mapimg.c:2311
 #, c-format
 msgid "could not open file: %s"
 msgstr "impossible d'ouvrir le fichier : %s."
@@ -16531,31 +16531,31 @@ msgstr "Équipe 2"
 msgid "Team 3"
 msgstr "Équipe 3"
 
-#: data/civ1/governments.ruleset:58 data/civ2/governments.ruleset:56
-#: data/classic/governments.ruleset:59 data/experimental/governments.ruleset:61
-#: data/civ2civ3/governments.ruleset:59 data/multiplayer/governments.ruleset:59
+#: data/civ1/governments.ruleset:61 data/civ2/governments.ruleset:59
+#: data/classic/governments.ruleset:62 data/experimental/governments.ruleset:64
+#: data/civ2civ3/governments.ruleset:62 data/multiplayer/governments.ruleset:62
 msgid "Anarchy"
 msgstr "Anarchie"
 
-#: data/civ1/governments.ruleset:63 data/civ2/governments.ruleset:61
-#: data/classic/governments.ruleset:64 data/experimental/governments.ruleset:66
-#: data/civ2civ3/governments.ruleset:64 data/civ2civ3/governments.ruleset:95
-#: data/multiplayer/governments.ruleset:64
+#: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
+#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
+#: data/civ2civ3/governments.ruleset:67 data/civ2civ3/governments.ruleset:98
+#: data/multiplayer/governments.ruleset:67
 #, c-format
 msgid "Warlord %s"
 msgstr "Seigneur de guerre %s"
 
-#: data/civ1/governments.ruleset:64 data/civ2/governments.ruleset:62
-#: data/classic/governments.ruleset:65 data/experimental/governments.ruleset:67
-#: data/civ2civ3/governments.ruleset:65 data/civ2civ3/governments.ruleset:96
-#: data/multiplayer/governments.ruleset:65
+#: data/civ1/governments.ruleset:67 data/civ2/governments.ruleset:65
+#: data/classic/governments.ruleset:68 data/experimental/governments.ruleset:70
+#: data/civ2civ3/governments.ruleset:68 data/civ2civ3/governments.ruleset:99
+#: data/multiplayer/governments.ruleset:68
 #, c-format
 msgid "Warlady %s"
 msgstr "Seigneuresse de guerre %s"
 
-#: data/civ1/governments.ruleset:66 data/civ2/governments.ruleset:64
-#: data/classic/governments.ruleset:67 data/experimental/governments.ruleset:69
-#: data/civ2civ3/governments.ruleset:67 data/multiplayer/governments.ruleset:67
+#: data/civ1/governments.ruleset:69 data/civ2/governments.ruleset:67
+#: data/classic/governments.ruleset:70 data/experimental/governments.ruleset:72
+#: data/civ2civ3/governments.ruleset:70 data/multiplayer/governments.ruleset:70
 msgid ""
 "Anarchy is simply the absence of any recognizable government. Citizens are "
 "disorganized and unproductive, and will spend all income as quickly as "
@@ -16566,9 +16566,9 @@ msgstr ""
 "revenu aussi vite que possible, plutôt que de payer des taxes ou de conduire "
 "des recherches scientifiques."
 
-#: data/civ1/governments.ruleset:71 data/classic/governments.ruleset:72
-#: data/experimental/governments.ruleset:74
-#: data/multiplayer/governments.ruleset:72
+#: data/civ1/governments.ruleset:74 data/classic/governments.ruleset:75
+#: data/experimental/governments.ruleset:77
+#: data/multiplayer/governments.ruleset:75
 msgid ""
 "Anarchy offers slightly less corruption than Despotism, but slightly more "
 "unhappiness."
@@ -16576,33 +16576,33 @@ msgstr ""
 "L'anarchie offre une corruption légèrement moindre que le despotisme, mais "
 "un peu plus de mécontentement."
 
-#: data/civ1/governments.ruleset:79 data/civ2/governments.ruleset:77
-#: data/classic/governments.ruleset:80 data/experimental/governments.ruleset:84
-#: data/civ2civ3/governments.ruleset:124
-#: data/multiplayer/governments.ruleset:80
+#: data/civ1/governments.ruleset:82 data/civ2/governments.ruleset:80
+#: data/classic/governments.ruleset:83 data/experimental/governments.ruleset:87
+#: data/civ2civ3/governments.ruleset:127
+#: data/multiplayer/governments.ruleset:83
 msgid "Despotism"
 msgstr "Despotisme"
-
-#: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
-#: data/classic/governments.ruleset:86 data/experimental/governments.ruleset:90
-#: data/civ2civ3/governments.ruleset:129
-#: data/multiplayer/governments.ruleset:86
-#, c-format
-msgid "Chief %s"
-msgstr "Chef %s"
-
-#: data/civ1/governments.ruleset:86 data/civ2/governments.ruleset:84
-#: data/classic/governments.ruleset:87 data/experimental/governments.ruleset:91
-#: data/civ2civ3/governments.ruleset:130
-#: data/multiplayer/governments.ruleset:87
-#, c-format
-msgid "?female:Chief %s"
-msgstr "Cheftaine %s"
 
 #: data/civ1/governments.ruleset:88 data/civ2/governments.ruleset:86
 #: data/classic/governments.ruleset:89 data/experimental/governments.ruleset:93
 #: data/civ2civ3/governments.ruleset:132
 #: data/multiplayer/governments.ruleset:89
+#, c-format
+msgid "Chief %s"
+msgstr "Chef %s"
+
+#: data/civ1/governments.ruleset:89 data/civ2/governments.ruleset:87
+#: data/classic/governments.ruleset:90 data/experimental/governments.ruleset:94
+#: data/civ2civ3/governments.ruleset:133
+#: data/multiplayer/governments.ruleset:90
+#, c-format
+msgid "?female:Chief %s"
+msgstr "Cheftaine %s"
+
+#: data/civ1/governments.ruleset:91 data/civ2/governments.ruleset:89
+#: data/classic/governments.ruleset:92 data/experimental/governments.ruleset:96
+#: data/civ2civ3/governments.ruleset:135
+#: data/multiplayer/governments.ruleset:92
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law."
@@ -16610,48 +16610,48 @@ msgstr ""
 "Sous un régime despotique, vous êtes le maître absolu de votre peuple. Votre "
 "contrôle sur la population est largement maintenu par la loi martiale."
 
-#: data/civ1/governments.ruleset:91 data/classic/governments.ruleset:92
-#: data/experimental/governments.ruleset:96
-#: data/multiplayer/governments.ruleset:92
+#: data/civ1/governments.ruleset:94 data/classic/governments.ruleset:95
+#: data/experimental/governments.ruleset:99
+#: data/multiplayer/governments.ruleset:95
 msgid ""
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
 "Le despotisme souffre du plus haut niveau de corruption de toutes les formes "
 "de gouvernement."
 
-#: data/civ1/governments.ruleset:99 data/civ1/techs.ruleset:393
-#: data/civ2/governments.ruleset:97 data/civ2/techs.ruleset:489
-#: data/classic/governments.ruleset:100 data/classic/techs.ruleset:497
-#: data/experimental/governments.ruleset:104
-#: data/experimental/techs.ruleset:545 data/civ2civ3/governments.ruleset:154
-#: data/civ2civ3/techs.ruleset:559 data/multiplayer/governments.ruleset:100
+#: data/civ1/governments.ruleset:102 data/civ1/techs.ruleset:393
+#: data/civ2/governments.ruleset:100 data/civ2/techs.ruleset:489
+#: data/classic/governments.ruleset:103 data/classic/techs.ruleset:497
+#: data/experimental/governments.ruleset:107
+#: data/experimental/techs.ruleset:545 data/civ2civ3/governments.ruleset:157
+#: data/civ2civ3/techs.ruleset:559 data/multiplayer/governments.ruleset:103
 #: data/multiplayer/techs.ruleset:505
 msgid "Monarchy"
 msgstr "Monarchie"
-
-#: data/civ1/governments.ruleset:107 data/civ2/governments.ruleset:105
-#: data/classic/governments.ruleset:108
-#: data/experimental/governments.ruleset:112
-#: data/civ2civ3/governments.ruleset:161
-#: data/multiplayer/governments.ruleset:108
-#, c-format
-msgid "King %s"
-msgstr "Roi %s"
-
-#: data/civ1/governments.ruleset:108 data/civ2/governments.ruleset:106
-#: data/classic/governments.ruleset:109
-#: data/experimental/governments.ruleset:113
-#: data/civ2civ3/governments.ruleset:162
-#: data/multiplayer/governments.ruleset:109
-#, c-format
-msgid "Queen %s"
-msgstr "Reine %s"
 
 #: data/civ1/governments.ruleset:110 data/civ2/governments.ruleset:108
 #: data/classic/governments.ruleset:111
 #: data/experimental/governments.ruleset:115
 #: data/civ2civ3/governments.ruleset:164
 #: data/multiplayer/governments.ruleset:111
+#, c-format
+msgid "King %s"
+msgstr "Roi %s"
+
+#: data/civ1/governments.ruleset:111 data/civ2/governments.ruleset:109
+#: data/classic/governments.ruleset:112
+#: data/experimental/governments.ruleset:116
+#: data/civ2civ3/governments.ruleset:165
+#: data/multiplayer/governments.ruleset:112
+#, c-format
+msgid "Queen %s"
+msgstr "Reine %s"
+
+#: data/civ1/governments.ruleset:113 data/civ2/governments.ruleset:111
+#: data/classic/governments.ruleset:114
+#: data/experimental/governments.ruleset:118
+#: data/civ2civ3/governments.ruleset:167
+#: data/multiplayer/governments.ruleset:114
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government."
@@ -16659,48 +16659,48 @@ msgstr ""
 "Sous une Monarchie, le roi ou la reine servent de représentants héréditaires "
 "de votre gouvernement."
 
-#: data/civ1/governments.ruleset:113 data/classic/governments.ruleset:114
-#: data/experimental/governments.ruleset:118
-#: data/multiplayer/governments.ruleset:114
+#: data/civ1/governments.ruleset:116 data/classic/governments.ruleset:117
+#: data/experimental/governments.ruleset:121
+#: data/multiplayer/governments.ruleset:117
 msgid ""
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
 "La Monarchie souffre d'un niveau modéré de corruption, identique à celui "
 "d'une République."
 
-#: data/civ1/governments.ruleset:121 data/civ1/techs.ruleset:165
-#: data/civ2/governments.ruleset:119 data/civ2/techs.ruleset:181
-#: data/classic/governments.ruleset:122 data/classic/techs.ruleset:195
-#: data/experimental/governments.ruleset:126
-#: data/experimental/techs.ruleset:209 data/civ2civ3/governments.ruleset:188
-#: data/civ2civ3/techs.ruleset:212 data/multiplayer/governments.ruleset:122
+#: data/civ1/governments.ruleset:124 data/civ1/techs.ruleset:165
+#: data/civ2/governments.ruleset:122 data/civ2/techs.ruleset:181
+#: data/classic/governments.ruleset:125 data/classic/techs.ruleset:195
+#: data/experimental/governments.ruleset:129
+#: data/experimental/techs.ruleset:209 data/civ2civ3/governments.ruleset:191
+#: data/civ2civ3/techs.ruleset:212 data/multiplayer/governments.ruleset:125
 #: data/multiplayer/techs.ruleset:195
 msgid "Communism"
 msgstr "Communisme"
-
-#: data/civ1/governments.ruleset:128 data/civ2/governments.ruleset:126
-#: data/classic/governments.ruleset:129
-#: data/experimental/governments.ruleset:133
-#: data/civ2civ3/governments.ruleset:195
-#: data/multiplayer/governments.ruleset:129
-#, c-format
-msgid "Comrade %s"
-msgstr "Camarade %s"
-
-#: data/civ1/governments.ruleset:129 data/civ2/governments.ruleset:127
-#: data/classic/governments.ruleset:130
-#: data/experimental/governments.ruleset:134
-#: data/civ2civ3/governments.ruleset:196
-#: data/multiplayer/governments.ruleset:130
-#, c-format
-msgid "?female:Comrade %s"
-msgstr "Camarade %s"
 
 #: data/civ1/governments.ruleset:131 data/civ2/governments.ruleset:129
 #: data/classic/governments.ruleset:132
 #: data/experimental/governments.ruleset:136
 #: data/civ2civ3/governments.ruleset:198
 #: data/multiplayer/governments.ruleset:132
+#, c-format
+msgid "Comrade %s"
+msgstr "Camarade %s"
+
+#: data/civ1/governments.ruleset:132 data/civ2/governments.ruleset:130
+#: data/classic/governments.ruleset:133
+#: data/experimental/governments.ruleset:137
+#: data/civ2civ3/governments.ruleset:199
+#: data/multiplayer/governments.ruleset:133
+#, c-format
+msgid "?female:Comrade %s"
+msgstr "Camarade %s"
+
+#: data/civ1/governments.ruleset:134 data/civ2/governments.ruleset:132
+#: data/classic/governments.ruleset:135
+#: data/experimental/governments.ruleset:139
+#: data/civ2civ3/governments.ruleset:201
+#: data/multiplayer/governments.ruleset:135
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -16711,9 +16711,9 @@ msgstr ""
 "privés. Le Communisme offre un équilibre entre un régime de style militaire "
 "et un régime orienté vers le commerce."
 
-#: data/civ1/governments.ruleset:136 data/classic/governments.ruleset:137
-#: data/experimental/governments.ruleset:141
-#: data/multiplayer/governments.ruleset:137
+#: data/civ1/governments.ruleset:139 data/classic/governments.ruleset:140
+#: data/experimental/governments.ruleset:144
+#: data/multiplayer/governments.ruleset:140
 msgid ""
 "Under Communism, corruption does not vary by distance from the capital; all "
 "cities (including the capital) have a modest amount of corruption."
@@ -16721,33 +16721,33 @@ msgstr ""
 "Sous le communisme, la corruption ne varie pas en fonction de la capitale. "
 "Toutes les villes (y compris la capitale) ont un faible taux de corruption."
 
-#: data/civ1/governments.ruleset:145 data/civ2/governments.ruleset:171
-#: data/classic/governments.ruleset:146
-#: data/experimental/governments.ruleset:150
-#: data/civ2civ3/governments.ruleset:300
-#: data/multiplayer/governments.ruleset:146
+#: data/civ1/governments.ruleset:148 data/civ2/governments.ruleset:174
+#: data/classic/governments.ruleset:149
+#: data/experimental/governments.ruleset:153
+#: data/civ2civ3/governments.ruleset:303
+#: data/multiplayer/governments.ruleset:149
 msgid "Republic"
 msgstr "République"
 
-#: data/civ1/governments.ruleset:152 data/civ2/governments.ruleset:178
-#: data/civ2civ3/governments.ruleset:273 data/nation/byzantium.ruleset:32
+#: data/civ1/governments.ruleset:155 data/civ2/governments.ruleset:181
+#: data/civ2civ3/governments.ruleset:276 data/nation/byzantium.ruleset:32
 #: data/nation/roman.ruleset:53
 #, c-format
 msgid "Consul %s"
 msgstr "Consul %s"
 
-#: data/civ1/governments.ruleset:153 data/civ2/governments.ruleset:179
-#: data/civ2civ3/governments.ruleset:274 data/nation/byzantium.ruleset:32
+#: data/civ1/governments.ruleset:156 data/civ2/governments.ruleset:182
+#: data/civ2civ3/governments.ruleset:277 data/nation/byzantium.ruleset:32
 #: data/nation/roman.ruleset:53
 #, c-format
 msgid "?female:Consul %s"
 msgstr "Consule %s"
 
-#: data/civ1/governments.ruleset:155 data/civ2/governments.ruleset:181
-#: data/classic/governments.ruleset:156
-#: data/experimental/governments.ruleset:160
-#: data/civ2civ3/governments.ruleset:310
-#: data/multiplayer/governments.ruleset:156
+#: data/civ1/governments.ruleset:158 data/civ2/governments.ruleset:184
+#: data/classic/governments.ruleset:159
+#: data/experimental/governments.ruleset:163
+#: data/civ2civ3/governments.ruleset:313
+#: data/multiplayer/governments.ruleset:159
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -16761,37 +16761,37 @@ msgstr ""
 "citoyens sous une République deviennent mécontents facilement, mais en "
 "contrepartie, les libertés supplémentaires développent fortement le commerce."
 
-#: data/civ1/governments.ruleset:167 data/civ1/techs.ruleset:206
-#: data/civ2/governments.ruleset:193 data/civ2/techs.ruleset:223
-#: data/classic/governments.ruleset:168 data/classic/techs.ruleset:237
-#: data/experimental/governments.ruleset:172
-#: data/experimental/techs.ruleset:256 data/civ2civ3/governments.ruleset:338
-#: data/civ2civ3/techs.ruleset:261 data/multiplayer/governments.ruleset:168
+#: data/civ1/governments.ruleset:170 data/civ1/techs.ruleset:206
+#: data/civ2/governments.ruleset:196 data/civ2/techs.ruleset:223
+#: data/classic/governments.ruleset:171 data/classic/techs.ruleset:237
+#: data/experimental/governments.ruleset:175
+#: data/experimental/techs.ruleset:256 data/civ2civ3/governments.ruleset:341
+#: data/civ2civ3/techs.ruleset:261 data/multiplayer/governments.ruleset:171
 #: data/multiplayer/techs.ruleset:237
 msgid "Democracy"
 msgstr "Démocratie"
 
-#: data/civ1/governments.ruleset:174 data/civ2/governments.ruleset:200
-#: data/classic/governments.ruleset:153
-#: data/experimental/governments.ruleset:157
-#: data/civ2civ3/governments.ruleset:307
-#: data/multiplayer/governments.ruleset:153
+#: data/civ1/governments.ruleset:177 data/civ2/governments.ruleset:203
+#: data/classic/governments.ruleset:156
+#: data/experimental/governments.ruleset:160
+#: data/civ2civ3/governments.ruleset:310
+#: data/multiplayer/governments.ruleset:156
 #, c-format
 msgid "President %s"
 msgstr "Président %s"
 
-#: data/civ1/governments.ruleset:175 data/civ2/governments.ruleset:201
-#: data/classic/governments.ruleset:154
-#: data/experimental/governments.ruleset:158
-#: data/civ2civ3/governments.ruleset:308
-#: data/multiplayer/governments.ruleset:154
+#: data/civ1/governments.ruleset:178 data/civ2/governments.ruleset:204
+#: data/classic/governments.ruleset:157
+#: data/experimental/governments.ruleset:161
+#: data/civ2civ3/governments.ruleset:311
+#: data/multiplayer/governments.ruleset:157
 #, c-format
 msgid "?female:President %s"
 msgstr "Présidente %s"
 
-#: data/civ1/governments.ruleset:177 data/classic/governments.ruleset:178
-#: data/experimental/governments.ruleset:182
-#: data/multiplayer/governments.ruleset:178
+#: data/civ1/governments.ruleset:180 data/classic/governments.ruleset:181
+#: data/experimental/governments.ruleset:185
+#: data/multiplayer/governments.ruleset:181
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -16804,7 +16804,7 @@ msgstr ""
 "mécontentement. Il n'y a pas de corruption sous une Démocratie, mais les "
 "citoyens deviennent très insatisfaits pendant les guerres."
 
-#: data/civ1/governments.ruleset:182 data/civ2/governments.ruleset:209
+#: data/civ1/governments.ruleset:185 data/civ2/governments.ruleset:212
 msgid ""
 "Because (happy) citizens of Democracy believe strongly in the government, "
 "their loyalty is unswerving.  Military units of Democratic civilizations "
@@ -17054,10 +17054,10 @@ msgstr ""
 #: data/civ1/nations.ruleset:587 data/civ1/nations.ruleset:968
 #: data/civ2/nations.ruleset:715 data/civ2/nations.ruleset:1102
 #: data/civ2/nations.ruleset:1348 data/civ2/nations.ruleset:1836
-#: data/civ2/nations.ruleset:1906 data/classic/governments.ruleset:175
-#: data/experimental/governments.ruleset:179
-#: data/civ2civ3/governments.ruleset:345
-#: data/multiplayer/governments.ruleset:175
+#: data/civ2/nations.ruleset:1906 data/classic/governments.ruleset:178
+#: data/experimental/governments.ruleset:182
+#: data/civ2civ3/governments.ruleset:348
+#: data/multiplayer/governments.ruleset:178
 #, c-format
 msgid "Prime Minister %s"
 msgstr "Premier Ministre %s"
@@ -17065,10 +17065,10 @@ msgstr "Premier Ministre %s"
 #: data/civ1/nations.ruleset:587 data/civ1/nations.ruleset:968
 #: data/civ2/nations.ruleset:715 data/civ2/nations.ruleset:1102
 #: data/civ2/nations.ruleset:1348 data/civ2/nations.ruleset:1836
-#: data/civ2/nations.ruleset:1906 data/classic/governments.ruleset:176
-#: data/experimental/governments.ruleset:180
-#: data/civ2civ3/governments.ruleset:346
-#: data/multiplayer/governments.ruleset:176
+#: data/civ2/nations.ruleset:1906 data/classic/governments.ruleset:179
+#: data/experimental/governments.ruleset:183
+#: data/civ2civ3/governments.ruleset:349
+#: data/multiplayer/governments.ruleset:179
 #, c-format
 msgid "?female:Prime Minister %s"
 msgstr "Première Ministre %s"
@@ -19738,7 +19738,7 @@ msgstr ""
 "Vous jouez Freeciv avec les règles pour émuler civ2. Ces règles sont assez "
 "proches des règles standard de Freeciv, mais avec quelques ajouts."
 
-#: data/civ2/governments.ruleset:69
+#: data/civ2/governments.ruleset:72
 msgid ""
 "Anarchy offers slightly less corruption and waste than Despotism, but "
 "slightly more unhappiness."
@@ -19746,7 +19746,7 @@ msgstr ""
 "L'anarchie offre légèrement moins de corruption et de gaspillage que le "
 "despotisme, mais un peu plus de mécontentement."
 
-#: data/civ2/governments.ruleset:89
+#: data/civ2/governments.ruleset:92
 msgid ""
 "Despotism suffers the highest level of corruption and waste of all forms of "
 "government."
@@ -19754,7 +19754,7 @@ msgstr ""
 "Le despotisme souffre du plus haut niveau de corruption et de gaspillage de "
 "toutes les formes de gouvernement."
 
-#: data/civ2/governments.ruleset:111
+#: data/civ2/governments.ruleset:114
 msgid ""
 "Monarchy suffers the same small amount of corruption and waste that the "
 "Republic does."
@@ -19762,7 +19762,7 @@ msgstr ""
 "La Monarchie souffre d'un niveau modéré de gaspillage et de corruption "
 "similaire à celui d'une République."
 
-#: data/civ2/governments.ruleset:134
+#: data/civ2/governments.ruleset:137
 msgid ""
 "Under Communism, corruption and waste does not vary by distance from the "
 "capital; all cities (including the capital) have a modest amount of "
@@ -19772,26 +19772,26 @@ msgstr ""
 "de la distance à la capitale; toutes les villes (dont la capitale) ont un "
 "léger taux de corruption."
 
-#: data/civ2/governments.ruleset:143 data/civ2/techs.ruleset:305
-#: data/civ2civ3/governments.ruleset:222
-#: data/multiplayer/governments.ruleset:189 data/multiplayer/techs.ruleset:320
+#: data/civ2/governments.ruleset:146 data/civ2/techs.ruleset:305
+#: data/civ2civ3/governments.ruleset:225
+#: data/multiplayer/governments.ruleset:192 data/multiplayer/techs.ruleset:320
 msgid "Fundamentalism"
 msgstr "Fondamentalisme"
 
-#: data/civ2/governments.ruleset:150 data/civ2civ3/governments.ruleset:229
-#: data/multiplayer/governments.ruleset:196
+#: data/civ2/governments.ruleset:153 data/civ2civ3/governments.ruleset:232
+#: data/multiplayer/governments.ruleset:199
 #, c-format
 msgid "High Priest %s"
 msgstr "Grand Prêtre %s"
 
-#: data/civ2/governments.ruleset:151 data/civ2civ3/governments.ruleset:230
-#: data/multiplayer/governments.ruleset:197
+#: data/civ2/governments.ruleset:154 data/civ2civ3/governments.ruleset:233
+#: data/multiplayer/governments.ruleset:200
 #, c-format
 msgid "High Priestess %s"
 msgstr "Grande Prêtresse %s"
 
-#: data/civ2/governments.ruleset:153 data/civ2civ3/governments.ruleset:232
-#: data/multiplayer/governments.ruleset:199
+#: data/civ2/governments.ruleset:156 data/civ2civ3/governments.ruleset:235
+#: data/multiplayer/governments.ruleset:202
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -19802,8 +19802,8 @@ msgstr ""
 "religieuse, forment des directives strictes pour les actions et les "
 "réactions à la fois des dirigeants et du peuple."
 
-#: data/civ2/governments.ruleset:158 data/civ2civ3/governments.ruleset:237
-#: data/multiplayer/governments.ruleset:204
+#: data/civ2/governments.ruleset:161 data/civ2civ3/governments.ruleset:240
+#: data/multiplayer/governments.ruleset:207
 msgid ""
 "In a fundamentalist society, the people and the rulers are entirely devoted "
 "to their beliefs, and are usually willing to die to preserve them."
@@ -19812,8 +19812,8 @@ msgstr ""
 "entièrement à leurs croyances, et sont habituellement prêts à mourir pour "
 "les préserver."
 
-#: data/civ2/governments.ruleset:162 data/civ2civ3/governments.ruleset:241
-#: data/multiplayer/governments.ruleset:208
+#: data/civ2/governments.ruleset:165 data/civ2civ3/governments.ruleset:244
+#: data/multiplayer/governments.ruleset:211
 msgid ""
 "Improvements that normally convert unhappy citizens to content citizens, "
 "produce `tithes' (gold) equivalent to the number of people they would "
@@ -19823,7 +19823,7 @@ msgstr ""
 "citoyens satisfaits produisent des 'dîmes' (or) équivalentes au nombre de "
 "gens qu'elles auraient converties, et ne nécessitent pas de maintenance."
 
-#: data/civ2/governments.ruleset:203
+#: data/civ2/governments.ruleset:206
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -22090,7 +22090,7 @@ msgstr ""
 "description des différences avec les règles du jeu classiques se trouve dans "
 "README.ruleset_experimental."
 
-#: data/experimental/governments.ruleset:77
+#: data/experimental/governments.ruleset:80
 msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
 msgstr ""
 "Sous un régime anarchique, de la technologie peut être perdue par manque de "
@@ -23210,7 +23210,7 @@ msgstr ""
 "La description détaillée des différences avec les règles du jeu classique "
 "sont disponibles dans le fichier README.ruleset_civ2civ3."
 
-#: data/civ2civ3/governments.ruleset:74
+#: data/civ2civ3/governments.ruleset:77
 #, no-c-format
 msgid ""
 "* Buildings and technologies do not require any upkeep.\n"
@@ -23236,11 +23236,11 @@ msgstr ""
 "* Le gaspillage de base est à 30%. Ceci augmente avec la distance à la "
 "capitale (deux fois moins vite avec la connaissance du Commerce)."
 
-#: data/civ2civ3/governments.ruleset:90
+#: data/civ2civ3/governments.ruleset:93
 msgid "Tribal"
 msgstr "Tribal"
 
-#: data/civ2civ3/governments.ruleset:98
+#: data/civ2civ3/governments.ruleset:101
 msgid ""
 "Under a Tribal government, you are part ruler of your people. Your control "
 "over your citizens is maintained largely by spiritual counsel."
@@ -23248,7 +23248,7 @@ msgstr ""
 "Sous un gouvernement Tribal, vous dirigez partiellement votre peuple. Votre "
 "contrôle sur vos citoyen est largement maintenu par un conseil spirituel."
 
-#: data/civ2civ3/governments.ruleset:101
+#: data/civ2civ3/governments.ruleset:104
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy and strong martial law can be an advantage in wartime."
@@ -23257,7 +23257,7 @@ msgstr ""
 "production. Ses bonus de vétérance et sa loi martiale forte peuvent être un "
 "avantage en temps de guerre."
 
-#: data/civ2civ3/governments.ruleset:107
+#: data/civ2civ3/governments.ruleset:110
 #, no-c-format
 msgid ""
 "* Increases by half the chance of land units getting the next veteran level "
@@ -23285,13 +23285,13 @@ msgstr ""
 "distance à la capitale (deux fois moins vite avec la connaissance du "
 "Commerce)."
 
-#: data/civ2civ3/governments.ruleset:135
+#: data/civ2civ3/governments.ruleset:138
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
 msgstr ""
 "Comparée au Tribalisme, l'économie Despotique est plus orientée vers le "
 "commerce."
 
-#: data/civ2civ3/governments.ruleset:139
+#: data/civ2civ3/governments.ruleset:142
 #, no-c-format
 msgid ""
 "* Your capital city gets a +75% bonus to gold production.\n"
@@ -23314,11 +23314,11 @@ msgstr ""
 "* Le gaspillage de base est à 10%. Il augmente avec la distance à la "
 "capitale (deux fois moins vite avec la connaissance du Commerce)."
 
-#: data/civ2civ3/governments.ruleset:167
+#: data/civ2civ3/governments.ruleset:170
 msgid "Monarchy gives low unit upkeep costs."
 msgstr "La monarchie donne de faibles coûts d'entretien pour les unités."
 
-#: data/civ2civ3/governments.ruleset:171
+#: data/civ2civ3/governments.ruleset:174
 #, no-c-format
 msgid ""
 "* Your capital city gets a +50% bonus to gold production.\n"
@@ -23346,7 +23346,7 @@ msgstr ""
 "* Le gaspillage de base est à 20%. Il augmente avec la distance à la "
 "capitale (deux fois moins vite avec la connaissance du Commerce)."
 
-#: data/civ2civ3/governments.ruleset:203
+#: data/civ2civ3/governments.ruleset:206
 msgid ""
 "Communism is a good government for maximizing shield production, and for "
 "large empires."
@@ -23354,7 +23354,7 @@ msgstr ""
 "Le Communisme est un bon gouvernement pour maximiser la production et pour "
 "de grands empires."
 
-#: data/civ2civ3/governments.ruleset:208
+#: data/civ2civ3/governments.ruleset:211
 #, no-c-format
 msgid ""
 "* City improvements which would normally have an upkeep of 1 gold are free "
@@ -23377,7 +23377,7 @@ msgstr ""
 "à votre capitale.\n"
 "* Il n'y a pas de perte de production."
 
-#: data/civ2civ3/governments.ruleset:245
+#: data/civ2civ3/governments.ruleset:248
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
@@ -23386,7 +23386,7 @@ msgstr ""
 "Fanatiques sont utiles en temps de guerre, mais il a une lourde pénalité en "
 "progrès technologique."
 
-#: data/civ2civ3/governments.ruleset:251
+#: data/civ2civ3/governments.ruleset:254
 #, no-c-format
 msgid ""
 "* Science production is half that of other governments.\n"
@@ -23409,11 +23409,11 @@ msgstr ""
 "* Le gaspillage de base est de 15%. Il augmente avec la distance à la "
 "capitale (deux fois moins vite avec la connaissance du Commerce)."
 
-#: data/civ2civ3/governments.ruleset:266
+#: data/civ2civ3/governments.ruleset:269
 msgid "Federation"
 msgstr "Fédération"
 
-#: data/civ2civ3/governments.ruleset:276
+#: data/civ2civ3/governments.ruleset:279
 msgid ""
 "Federalism is a system in which the power to govern is shared between "
 "national and provincial governments.  This decentralization minimizes the "
@@ -23425,7 +23425,7 @@ msgstr ""
 "décentralisation minimise la corruption et le gaspillage causés par la "
 "distance à la capitale, et évite les mouvements séparatistes."
 
-#: data/civ2civ3/governments.ruleset:283
+#: data/civ2civ3/governments.ruleset:286
 #, no-c-format
 msgid ""
 "* Celebrating cities produce one extra trade point for every tile which is "
@@ -23453,7 +23453,7 @@ msgstr ""
 "* Le gaspillage de base est de 30%, mais n'est pas affecté par la distance à "
 "la capitale."
 
-#: data/civ2civ3/governments.ruleset:319
+#: data/civ2civ3/governments.ruleset:322
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -23484,7 +23484,7 @@ msgstr ""
 "* Le gaspillage de base est de 5%. Il augmente avec la distance à la "
 "capitale (deux fois moins vite avec la connaissance du Commerce)."
 
-#: data/civ2civ3/governments.ruleset:348
+#: data/civ2civ3/governments.ruleset:351
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -23496,7 +23496,7 @@ msgstr ""
 "mécontentement ; les citoyens deviennent très insatisfaits pendant les "
 "guerres."
 
-#: data/civ2civ3/governments.ruleset:355
+#: data/civ2civ3/governments.ruleset:358
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -35025,30 +35025,30 @@ msgstr ""
 "Impossible de charger le fichier de configuration fcdb '%s':\n"
 "%s"
 
-#: server/gamehand.c:191
+#: server/gamehand.c:198
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
 msgstr ""
 "Les unités maritimes au démarrage ne sont pas encore supportées. Personne "
 "n'a de %s."
 
-#: server/gamehand.c:409
+#: server/gamehand.c:416
 #, c-format
 msgid "Didn't find optimal solution for team placement in %d iterations."
 msgstr ""
 "Impossible de trouver une solution optimale de placement des équipes en %d "
 "itérations."
 
-#: server/gamehand.c:826
+#: server/gamehand.c:835
 #, c-format
 msgid "No units placed for %s!"
 msgstr "Pas d'unité placée pour %s !"
 
-#: server/gamehand.c:938
+#: server/gamehand.c:947
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "La limite de temps a dépassé sa valeur maximale, mise au maximum."
 
-#: server/gamehand.c:946
+#: server/gamehand.c:955
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Le timeout est inférieur à zéro, mis à zéro."
 
@@ -35930,17 +35930,17 @@ msgstr "Unités perdues\n"
 msgid "Could not find a readable \"%s.%s\" ruleset file."
 msgstr "Impossible de trouver un fichier de règles lisible \"%s.%s\"."
 
-#: server/ruleset.c:6058
+#: server/ruleset.c:6064
 msgid "Ruleset couldn't be loaded. Keeping previous one."
 msgstr "Les règles du jeu n'ont pas pu être chargée. On garde les précédentes."
 
-#: server/ruleset.c:6076
+#: server/ruleset.c:6082
 msgid "Ruleset couldn't be loaded. Switching to default one."
 msgstr ""
 "Les règles du jeu n'ont pas pu être chargées. On bascule sur celles par "
 "défaut."
 
-#: server/ruleset.c:6116
+#: server/ruleset.c:6122
 msgid "Loading rulesets."
 msgstr "Chargement des différentes règles du jeu."
 
@@ -41184,64 +41184,64 @@ msgstr ""
 "des nations (F3)."
 
 #. TRANS: You can only have one Leader.
-#: server/unithand.c:1538
+#: server/unithand.c:1539
 #, c-format
 msgid "You can only have one %s."
 msgstr "Vous ne pouvez voir qu'un seul %s."
 
 #. TRANS: <unit> ... <unit>
-#: server/unithand.c:1570
+#: server/unithand.c:1571
 #, c-format
 msgid "Your %s succeeded in capturing the %s %s."
 msgstr "Votre %1s a réussi à capturer le %3s %2s."
 
 #. TRANS: <unit> ... <Poles>
-#: server/unithand.c:1576
+#: server/unithand.c:1577
 #, c-format
 msgid "Your %s was captured by the %s."
 msgstr "Votre %s a été capturé par les %s."
 
-#: server/unithand.c:1601
+#: server/unithand.c:1602
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Cette unité est transportée et donc ne peut pas bombarder."
 
 # AR : problème de a/an ?
-#: server/unithand.c:1618
+#: server/unithand.c:1619
 #, c-format
 msgid "%s is not an attack unit."
 msgstr "%s n'est pas une unité d'attaque."
 
-#: server/unithand.c:1622
+#: server/unithand.c:1623
 msgid "You can't attack there since there's an unreachable unit."
 msgstr "Vous ne pouvez pas attaquer ici car il y a une unité inatteignable."
 
-#: server/unithand.c:1626
+#: server/unithand.c:1627
 #, c-format
 msgid "%s can't launch attack from %s."
 msgstr "%s ne peut pas attaquer depuis %s."
 
-#: server/unithand.c:1632
+#: server/unithand.c:1633
 #, c-format
 msgid "%s can't attack to %s."
 msgstr "%s ne peut pas attaquer vers %s."
 
-#: server/unithand.c:1679
+#: server/unithand.c:1680
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Une des unités transportées n'est pas alliée à toutes les unités ou la ville "
 "de la case ciblée."
 
-#: server/unithand.c:1727
+#: server/unithand.c:1728
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "Votre %s aide à la construction de %s à %s (reste %d)."
 
-#: server/unithand.c:1729
+#: server/unithand.c:1730
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "Votre %s aide à la construction de %s à %s (%d en surplus)."
 
-#: server/unithand.c:1787
+#: server/unithand.c:1788
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -41249,17 +41249,17 @@ msgstr ""
 "Désolé, sans ville de rattachement, votre %s ne peut établir une route "
 "commerciale"
 
-#: server/unithand.c:1799
+#: server/unithand.c:1800
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Désolé, votre %s ne peut établir une route commerciale entre %s et %s"
 
-#: server/unithand.c:1834 server/unithand.c:1858
+#: server/unithand.c:1835 server/unithand.c:1859
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Désolé, votre %s ne peut établir une route commerciale ici !"
 
-#: server/unithand.c:1840 server/unithand.c:1864
+#: server/unithand.c:1841 server/unithand.c:1865
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -41267,7 +41267,7 @@ msgstr[0] "      La ville de %s a déjà %d meilleure route commerciale !"
 msgstr[1] "      La ville de %s a déjà %d meilleures routes commerciales !"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:1889
+#: server/unithand.c:1890
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -41278,12 +41278,12 @@ msgid_plural ""
 msgstr[0] "Arrivée de votre %s de %s à %s, rapportant %d lingot et recherche."
 msgstr[1] "Arrivée de votre %s de %s à %s, rapportant %d lingots et recherche."
 
-#: server/unithand.c:1915
+#: server/unithand.c:1916
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Nouvelle route commerciale établie entre %s et %s."
 
-#: server/unithand.c:1921
+#: server/unithand.c:1922
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Les %s ont établi une route commerciale entre leur ville %s et %s."
