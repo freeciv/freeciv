@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-05-14 13:51+0200\n"
-"PO-Revision-Date: 2019-05-15 07:42+0200\n"
+"POT-Creation-Date: 2019-08-05 15:37+0200\n"
+"PO-Revision-Date: 2019-08-05 15:55+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -6767,8 +6767,8 @@ msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
 #, c-format
-msgid "?female:Kibbutznik %s"
-msgstr "Kibbutznik %s"
+msgid "?female:Kibbutznikit %s"
+msgstr "Kibbutznikit %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -12124,7 +12124,17 @@ msgid ""
 "They settled in the northwest of the Iberian Peninsula, where they "
 "established their own kingdom, which was conquered by the Visigoths in 585 "
 "CE."
-msgstr "Les Suèves étaient une confédération tribale antique d'Allemagne de l'Ouest, qui peut avoir été formée par Arioviste pour son expédition en Gaule. Les Suèves comprenaient des tribus germaniques du bassin de l'Elbe appartenant au groupe de langues Hermiioniques, comme le Marcoman et le Quade. Entre le Ier et le IVème siècle EC, ils furent une menace pour Rome, empiétant souvent sur les provinces du Danube de l'Empire. En 405-406 EC, les Suèves furent forcés par les Huns à quitter leurs terres, et la nuit du jour de l'an 405 EC, ils traversèrent le Rhin gelé avec les Vandales et les Alains. Ils se fixèrent au Nord-Ouest de la péninsule ibérique, où ils établirent leur propre royaume, qui fut conquit par les Wisigoths en 585 EC."
+msgstr ""
+"Les Suèves étaient une confédération tribale antique d'Allemagne de l'Ouest, "
+"qui peut avoir été formée par Arioviste pour son expédition en Gaule. Les "
+"Suèves comprenaient des tribus germaniques du bassin de l'Elbe appartenant "
+"au groupe de langues Hermiioniques, comme le Marcoman et le Quade. Entre le "
+"Ier et le IVème siècle EC, ils furent une menace pour Rome, empiétant "
+"souvent sur les provinces du Danube de l'Empire. En 405-406 EC, les Suèves "
+"furent forcés par les Huns à quitter leurs terres, et la nuit du jour de "
+"l'an 405 EC, ils traversèrent le Rhin gelé avec les Vandales et les Alains. "
+"Ils se fixèrent au Nord-Ouest de la péninsule ibérique, où ils établirent "
+"leur propre royaume, qui fut conquit par les Wisigoths en 585 EC."
 
 #: data/nation/surinamese.ruleset:3
 msgid "Surinamese"
