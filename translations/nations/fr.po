@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.4\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-11-15 08:07+0100\n"
-"PO-Revision-Date: 2018-11-12 15:41+0100\n"
+"POT-Creation-Date: 2019-08-05 15:34+0200\n"
+"PO-Revision-Date: 2019-08-06 17:20+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -6767,8 +6767,8 @@ msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
 #, c-format
-msgid "?female:Kibbutznik %s"
-msgstr "Kibbutznik %s"
+msgid "?female:Kibbutznikit %s"
+msgstr "Kibbutznikit %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
