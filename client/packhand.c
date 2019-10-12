@@ -2920,6 +2920,12 @@ void handle_tile_info(const struct packet_tile_info *packet)
     tile_changed = TRUE;
   }
 
+  if (packet->placing < 0) {
+    ptile->placing = NULL;
+  } else {
+    ptile->placing = extra_by_number(packet->placing);
+  }
+
   if (NULL == tile_worked(ptile)
       || tile_worked(ptile)->id != packet->worked) {
     if (IDENTITY_NUMBER_ZERO != packet->worked) {

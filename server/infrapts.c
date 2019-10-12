@@ -59,6 +59,6 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
   pplayer->economic.infra_points -= pextra->infracost;
   send_player_info_c(pplayer, pplayer->connections);
 
-  create_extra(ptile, pextra, pplayer);
+  ptile->placing = pextra;
   update_tile_knowledge(ptile);
 }

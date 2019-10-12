@@ -57,6 +57,7 @@ struct tile {
   struct unit_list *units;
   struct city *worked;			/* NULL for not worked */
   struct player *owner;			/* NULL for not owned */
+  struct extra_type *placing;
   struct player *extras_owner;
   struct tile *claimer;
   char *label;                          /* NULL for no label */
@@ -186,6 +187,8 @@ bool tile_virtual_check(struct tile *vtile);
 void *tile_hash_key(const struct tile *ptile);
 
 bool tile_set_label(struct tile *ptile, const char *label);
+
+bool tile_is_placing(const struct tile *ptile);
 
 #ifdef __cplusplus
 }

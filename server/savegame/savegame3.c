@@ -2885,6 +2885,7 @@ static void sg_load_map_owner(struct loaddata *loading)
   struct player *owner = NULL;
   struct tile *claimer = NULL;
   struct player *eowner = NULL;
+  struct extra_type *placing = NULL;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -2902,9 +2903,13 @@ static void sg_load_map_owner(struct loaddata *loading)
                                              "map.source%04d", y);
     const char *buffer3 = secfile_lookup_str(loading->file,
                                              "map.eowner%04d", y);
+    const char *buffer_placing = secfile_lookup_str_default(loading->file,
+                                                            NULL,
+                                                            "map.placing%04d", y);
     const char *ptr1 = buffer1;
     const char *ptr2 = buffer2;
     const char *ptr3 = buffer3;
+    const char *ptr_placing = buffer_placing;
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
@@ -2914,6 +2919,7 @@ static void sg_load_map_owner(struct loaddata *loading)
       char token1[TOKEN_SIZE];
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
+      char token_placing[TOKEN_SIZE];
       int number;
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -2950,8 +2956,24 @@ static void sg_load_map_owner(struct loaddata *loading)
         eowner = player_by_number(number);
       }
 
+      if (ptr_placing != NULL) {
+        scanin(&ptr_placing, ",", token_placing, sizeof(token_placing));
+        sg_failure_ret(token_placing[0] != '\0',
+                       "Map size not correct (map.placing%d).", y);
+        if (strcmp(token_placing, "-") == 0) {
+          placing = NULL;
+        } else {
+          sg_failure_ret(str_to_int(token_placing, &number),
+                         "Got placing extra %s in (%d, %d).", token_placing, x, y);
+          placing = extra_by_number(number);
+        }
+      } else {
+        placing = NULL;
+      }
+
       map_claim_ownership(ptile, owner, claimer, FALSE);
       tile_claim_bases(ptile, eowner);
+      ptile->placing = placing;
       log_debug("extras_owner(%d, %d) = %s", TILE_XY(ptile), player_name(eowner));
     }
   }
@@ -3036,6 +3058,28 @@ static void sg_save_map_owner(struct savedata *saving)
       }
     }
     secfile_insert_str(saving->file, line, "map.eowner%04d", y);
+  }
+
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
+
+    line[0] = '\0';
+    for (x = 0; x < wld.map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
+
+      if (ptile->placing == NULL) {
+        strcpy(token, "-");
+      } else {
+        fc_snprintf(token, sizeof(token), "%d",
+                    extra_number(ptile->placing));
+      }
+      strcat(line, token);
+      if (x + 1 < wld.map.xsize) {
+        strcat(line, ",");
+      }
+    }
+    secfile_insert_str(saving->file, line, "map.placing%04d", y);
   }
 }
 

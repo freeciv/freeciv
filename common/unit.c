@@ -805,6 +805,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   /* FIXME: Should check also the cases where one of the activities is terrain
    *        change that destroys the target of the other activity */
   if (target != NULL && is_build_activity(activity, ptile)) {
+    if (tile_is_placing(ptile)) {
+      return FALSE;
+    }
+
     unit_list_iterate(ptile->units, tunit) {
       if (is_build_activity(tunit->activity, ptile)
           && !can_extras_coexist(target, tunit->activity_target)) {

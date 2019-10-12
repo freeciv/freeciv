@@ -355,6 +355,7 @@ static void tile_init(struct tile *ptile)
   ptile->units    = unit_list_new();
   ptile->owner    = NULL; /* Not claimed by any player. */
   ptile->extras_owner = NULL;
+  ptile->placing  = NULL;
   ptile->claimer  = NULL;
   ptile->worked   = NULL; /* No city working here. */
   ptile->spec_sprite = NULL;

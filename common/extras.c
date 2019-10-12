@@ -431,6 +431,11 @@ bool player_can_place_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
+  if (ptile->placing != NULL) {
+    /* Already placing something */
+    return FALSE;
+  }
+
   if (game.info.borders != BORDERS_DISABLED) {
     if (tile_owner(ptile) != pplayer) {
       return FALSE;
@@ -438,29 +443,8 @@ bool player_can_place_extra(const struct extra_type *pextra,
   } else {
     struct city *pcity = tile_worked(ptile);
 
-    if (pcity != NULL) {
-      if (city_owner(pcity) != pplayer) {
-        return FALSE;
-      }
-    } else {
-      bool suitable_city = FALSE;
-
-      city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ctile) {
-        pcity = tile_city(ctile);
-
-        if (pcity != NULL && city_owner(pcity) == pplayer) {
-          int dist = map_distance(ptile, ctile);
-
-          if (city_map_radius_sq_get(pcity) <= dist * dist) {
-            suitable_city = TRUE;
-            break;
-          }
-        }
-      } city_tile_iterate_end;
-
-      if (!suitable_city) {
-        return FALSE;
-      }
+    if (pcity == NULL || city_owner(pcity) != pplayer) {
+      return FALSE;
     }
   }
 
