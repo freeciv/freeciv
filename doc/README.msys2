@@ -113,9 +113,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-190727.7z, based on
+msys2-freeciv-win64-191012.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20190524.exe
-with packages updated to 27-Jul-2019 level.
+with packages updated to 12-Oct-2019 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
