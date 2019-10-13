@@ -504,27 +504,21 @@ void reset_unit_table(void)
 **************************************************************************/
 void popup_quit_dialog()
 {
-  hud_message_box ask(gui()->central_wdg);
-  int ret;
+  hud_message_box *ask = new hud_message_box(gui()->central_wdg);
 
-  ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-  ask.setDefaultButton(QMessageBox::Cancel);
-  ask.set_text_title(_("Are you sure you want to quit?"),  _("Quit?"));
-  ret = ask.exec();
-
-  switch (ret) {
-  case QMessageBox::Cancel:
-    return;
-    break;
-  case QMessageBox::Ok:
+  ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask->setDefaultButton(QMessageBox::Cancel);
+  ask->set_text_title(_("Are you sure you want to quit?"),  _("Quit?"));
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_message_box::accepted, [=]() {
     start_quitting();
     if (client.conn.used) {
       disconnect_from_server();
     }
     gui()->write_settings();
     qapp->quit();
-    break;
-  }
+  });
+  ask->show();
 }
 
 /**********************************************************************//**

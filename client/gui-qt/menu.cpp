@@ -3430,7 +3430,7 @@ void mr_menu::save_image()
   int current_width, current_height;
   int full_size_x, full_size_y;
   QString path, storage_path;
-  hud_message_box saved(gui()->central_wdg);
+  hud_message_box *saved = new hud_message_box(gui()->central_wdg);
   bool map_saved;
   QString img_name;
 
@@ -3461,14 +3461,15 @@ void mr_menu::save_image()
   }
   map_saved = mapview.store->map_pixmap.save(img_name, "png");
   map_canvas_resized(current_width, current_height);
-  saved.setStandardButtons(QMessageBox::Ok);
-  saved.setDefaultButton(QMessageBox::Cancel);
+  saved->setStandardButtons(QMessageBox::Ok);
+  saved->setDefaultButton(QMessageBox::Cancel);
+  saved->setAttribute(Qt::WA_DeleteOnClose);
   if (map_saved) {
-    saved.set_text_title("Image saved as:\n" + img_name, _("Success"));
+    saved->set_text_title("Image saved as:\n" + img_name, _("Success"));
   } else {
-    saved.set_text_title(_("Failed to save image of the map"), _("Error"));
+    saved->set_text_title(_("Failed to save image of the map"), _("Error"));
   }
-  saved.exec();
+  saved->show();
 }
 
 /**********************************************************************//**
@@ -3511,24 +3512,21 @@ void mr_menu::save_game_as()
 **************************************************************************/
 void mr_menu::back_to_menu()
 {
-  hud_message_box ask(gui()->central_wdg);
-  int ret;
+  hud_message_box *ask;
 
   if (is_server_running()) {
-    ask.set_text_title(_("Leaving a local game will end it!"), "Leave game");
-    ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-    ask.setDefaultButton(QMessageBox::Cancel);
-    ret = ask.exec();
+    ask = new hud_message_box(gui()->central_wdg);
+    ask->set_text_title(_("Leaving a local game will end it!"), "Leave game");
+    ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+    ask->setDefaultButton(QMessageBox::Cancel);
+    ask->setAttribute(Qt::WA_DeleteOnClose);
 
-    switch (ret) {
-    case QMessageBox::Cancel:
-      break;
-    case QMessageBox::Ok:
+    connect(ask, &hud_message_box::accepted, [=]() {
       if (client.conn.used) {
         disconnect_from_server();
       }
-      break;
-    }
+    });
+    ask->show();
   } else {
     disconnect_from_server();
   }

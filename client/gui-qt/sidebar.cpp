@@ -686,7 +686,8 @@ void side_right_click_diplomacy(void)
                        &fc_sidewidget::some_slot);
     }
 
-    menu->exec(QCursor::pos());
+    menu->setAttribute(Qt::WA_DeleteOnClose);
+    menu->popup(QCursor::pos());
   } else {
     int i;
     i = gui()->gimme_index_of("DDI");
@@ -741,7 +742,8 @@ void side_right_click_science(void)
       QObject::connect(act, &QAction::triggered, gui()->sw_science,
                        &fc_sidewidget::some_slot);
     }
-    menu->exec(QCursor::pos());
+    menu->setAttribute(Qt::WA_DeleteOnClose);
+    menu->popup(QCursor::pos());
   }
 }
 

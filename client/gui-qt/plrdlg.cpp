@@ -347,28 +347,37 @@ void plr_widget::restore_selection()
 **************************************************************************/
 void plr_widget::display_header_menu(const QPoint &)
 {
-  struct player_dlg_column *pcol;
-  QMenu hideshowColumn(this);
-  hideshowColumn.setTitle(_("Column visibility"));
+  QMenu *hideshow_column = new QMenu(this);
+  hideshow_column->setTitle(_("Column visibility"));
   QList<QAction *> actions;
   for (int i = 0; i < list_model->columnCount(); ++i) {
-    QAction *myAct = hideshowColumn.addAction(
+    QAction *myAct = hideshow_column->addAction(
                        list_model->headerData(i, Qt::Horizontal, 
                                               Qt::DisplayRole).toString());
     myAct->setCheckable(true);
     myAct->setChecked(!isColumnHidden(i));
     actions.append(myAct);
   }
-  QAction *act = hideshowColumn.exec(QCursor::pos());
-  if (act) {
-    int col = actions.indexOf(act);
-    Q_ASSERT(col >= 0);
+
+  hideshow_column->setAttribute(Qt::WA_DeleteOnClose);
+  connect(hideshow_column, &QMenu::triggered, this, [=](QAction *act) {
+    int col;
+    struct player_dlg_column *pcol;
+
+    if (!act) {
+      return;
+    }
+
+    col = actions.indexOf(act);
+    fc_assert_ret(col >= 0);
     pcol = &player_dlg_columns[col];
     pcol->show = !pcol->show;
     setColumnHidden(col, !isColumnHidden(col));
     if (!isColumnHidden(col) && columnWidth(col) <= 5)
       setColumnWidth(col, 100);
-  }
+  });
+
+  hideshow_column->popup(QCursor::pos());
 }
 
 /**********************************************************************//**
@@ -758,38 +767,42 @@ void plr_report::req_wiithdrw_vision()
 **************************************************************************/
 void plr_report::toggle_ai_mode()
 {
-  QAction *act;
   QAction *toggle_ai_act;
   QAction *ai_level_act;
-  QMenu ai_menu(this);
+  QMenu *ai_menu = new QMenu(this);
   int level;
 
   toggle_ai_act = new QAction(_("Toggle AI Mode"), nullptr);
-  ai_menu.addAction(toggle_ai_act);
-  ai_menu.addSeparator();
+  ai_menu->addAction(toggle_ai_act);
+  ai_menu->addSeparator();
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(static_cast<ai_level>(level))) {
       QString ln = ai_level_translated_name(static_cast<ai_level>(level));
       ai_level_act = new QAction(ln, nullptr);
       ai_level_act->setData(QVariant::fromValue(level));
-      ai_menu.addAction(ai_level_act);
+      ai_menu->addAction(ai_level_act);
     }
   }
-  act = 0;
-  act = ai_menu.exec(QCursor::pos());
-  if (act == toggle_ai_act) {
-    send_chat_printf("/aitoggle \"%s\"", player_name(plr_wdg->other_player));
-    return;
-  }
-  if (act && act->isVisible()) {
-    level = act->data().toInt();
-    if (is_human(plr_wdg->other_player)) {
-      send_chat_printf("/aitoggle \"%s\"", player_name(plr_wdg->other_player));
+  ai_menu->setAttribute(Qt::WA_DeleteOnClose);
+  connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
+    int level;
+    if (act == toggle_ai_act) {
+      send_chat_printf("/aitoggle \"%s\"",
+                       player_name(plr_wdg->other_player));
+      return;
     }
-    send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(level)),
-                     player_name(plr_wdg->other_player));
-  }
+    if (act && act->isVisible()) {
+      level = act->data().toInt();
+      if (is_human(plr_wdg->other_player)) {
+        send_chat_printf("/aitoggle \"%s\"",
+                         player_name(plr_wdg->other_player));
+      }
+      send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(level)),
+                       player_name(plr_wdg->other_player));
+    }
+  });
 
+  ai_menu->popup(QCursor::pos());
 }
 
 /**********************************************************************//**

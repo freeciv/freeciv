@@ -469,23 +469,11 @@ void city_widget::display_list_menu(const QPoint &)
   QMenu *some_menu;
   QMenu *tmp2_menu;
   QMenu *tmp_menu;
-  hud_message_box ask(gui()->central_wdg);
-  QVariant qvar, qvar2;
-  bool sell_ask;
-  bool need_clear = true;
   bool select_only = false;
   char buf[200];
-  cid id;
-  const char *imprname;
-  enum menu_labels m_state;
-  int sell_count;
   int sell_gold;
-  int sell_ret = QMessageBox::Cancel;
   struct city *pcity;
-  struct impr_type *building;
-  struct universal target;
-  QMenu list_menu(this);
-  QAction *act;
+  QMenu *list_menu;
   QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
                    Q_("?verb:View"), 0);
   sell_gold = 0;
@@ -507,8 +495,9 @@ void city_widget::display_list_menu(const QPoint &)
   if (!can_client_issue_orders()) {
     return;
   }
+  list_menu = new QMenu(this);
   if (!select_only) {
-    some_menu = list_menu.addMenu(_("Production"));
+    some_menu = list_menu->addMenu(_("Production"));
     tmp_menu = some_menu->addMenu(_("Change"));
     fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
                           tmp_menu);
@@ -538,30 +527,45 @@ void city_widget::display_list_menu(const QPoint &)
       worklist_defined = false;
     }
     fill_data(WORKLIST_CHANGE, cma_labels, tmp2_menu);
-    some_menu = list_menu.addMenu(_("Governor"));
+    some_menu = list_menu->addMenu(_("Governor"));
     gen_cma_labels(cma_labels);
     fill_data(CMA, cma_labels, some_menu);
-    some_menu = list_menu.addMenu(_("Sell"));
+    some_menu = list_menu->addMenu(_("Sell"));
     gen_production_labels(SELL, custom_labels, false, false,
                           can_city_sell_universal);
     fill_data(SELL, custom_labels, some_menu);
   }
-  some_menu = list_menu.addMenu(_("Select"));
+  some_menu = list_menu->addMenu(_("Select"));
   gen_select_labels(some_menu);
   if (!select_only) {
-    list_menu.addAction(&cty_view);
+    list_menu->addAction(&cty_view);
     connect(&cty_view, &QAction::triggered, this, &city_widget::city_view);
-    list_menu.addAction(&cty_buy);
+    list_menu->addAction(&cty_buy);
     connect(&cty_buy, &QAction::triggered, this, &city_widget::buy);
-    list_menu.addAction(&cty_center);
+    list_menu->addAction(&cty_center);
     connect(&cty_center, &QAction::triggered, this, &city_widget::center);
   }
-  act = 0;
-  sell_count = 0;
   sell_gold = 0;
-  sell_ask = true;
-  act = list_menu.exec(QCursor::pos());
-  if (act) {
+
+  list_menu->setAttribute(Qt::WA_DeleteOnClose);
+  connect(list_menu, &QMenu::triggered, this, [=](QAction *act) {
+    QVariant qvar, qvar2;
+    enum menu_labels m_state;
+    cid id;
+    struct universal target;
+    char buf[200];
+    const char *imprname;
+    struct impr_type *building;
+    Impr_type_id impr_id;
+    struct city *pcity;
+    int city_id;
+    bool need_clear = true;
+    bool sell_ask = true;
+
+    if (!act) {
+      return;
+    }
+
     qvar2 = act->property("FC");
     m_state = static_cast<menu_labels>(qvar2.toInt());
     qvar = act->data();
@@ -659,22 +663,29 @@ void city_widget::display_list_menu(const QPoint &)
         case SELL:
           building = target.value.building;
           if (sell_ask) {
+            hud_message_box *ask = new hud_message_box(gui()->central_wdg);
             imprname = improvement_name_translation(building);
             fc_snprintf(buf, sizeof(buf),
                         _("Are you sure you want to sell those %s?"),
                         imprname);
             sell_ask = false;
-            ask.setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
-            ask.setDefaultButton(QMessageBox::Cancel);
-            ask.set_text_title(buf, _("Sell?"));
-            sell_ret = ask.exec();
-          }
-          if (sell_ret == QMessageBox::Ok) {
-            if (!pcity->did_sell && city_has_building(pcity, building)) {
-              sell_count++;
-              sell_gold += impr_sell_gold(building);
-              city_sell_improvement(pcity, improvement_number(building));
-            }
+            ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+            ask->setDefaultButton(QMessageBox::Cancel);
+            ask->set_text_title(buf, _("Sell?"));
+            ask->setAttribute(Qt::WA_DeleteOnClose);
+            city_id = pcity->id;
+            impr_id = improvement_number(building);
+            connect(ask, &hud_message_box::accepted, this, [=]() {
+              struct city *pcity = game_city_by_number(city_id);
+              struct impr_type *building = improvement_by_number(impr_id);
+              if (!pcity || !building) {
+                return;
+              }
+              if (!pcity->did_sell && city_has_building(pcity, building)) {
+                city_sell_improvement(pcity, impr_id);
+              }
+            });
+            ask->show();
           }
           break;
         case CMA:
@@ -706,7 +717,8 @@ void city_widget::display_list_menu(const QPoint &)
         }
       }
     }
-  }
+  });
+  list_menu->popup(QCursor::pos());
 }
 
 /***********************************************************************//**
@@ -1110,29 +1122,34 @@ void city_widget::update_model()
 ***************************************************************************/
 void city_widget::display_header_menu(const QPoint &)
 {
-  struct city_report_spec *spec;
-  QMenu hideshowColumn(this);
+  QMenu *hideshow_column = new QMenu(this);
   QList<QAction *> actions;
-  QAction *act;
 
-  hideshowColumn.setTitle(_("Column visibility"));
+  hideshow_column->setTitle(_("Column visibility"));
   for (int i = 0; i < list_model->columnCount(); i++) {
-    QAction *myAct = hideshowColumn.addAction(
+    QAction *myAct = hideshow_column->addAction(
                        list_model->menu_data(i).toString());
     myAct->setCheckable(true);
     myAct->setChecked(!isColumnHidden(i));
     actions.append(myAct);
   }
-  act = hideshowColumn.exec(QCursor::pos());
-  if (act) {
-    int col = actions.indexOf(act);
-    Q_ASSERT(col >= 0);
+  hideshow_column->setAttribute(Qt::WA_DeleteOnClose);
+  connect(hideshow_column, &QMenu::triggered, this, [=](QAction *act) {
+    int col;
+    struct city_report_spec *spec;
+    if (!act) {
+      return;
+    }
+
+    col = actions.indexOf(act);
+    fc_assert_ret(col >= 0);
     setColumnHidden(col, !isColumnHidden(col));
     spec = city_report_specs + col;
     spec->show = !spec->show; 
     if (!isColumnHidden(col) && columnWidth(col) <= 5)
       setColumnWidth(col, 100);
-  }
+  });
+  hideshow_column->popup(QCursor::pos());
 }
 
 /***********************************************************************//**

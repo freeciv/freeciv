@@ -303,22 +303,19 @@ void diplo_wdg::gold_changed2(int val)
 ****************************************************************************/
 void diplo_wdg::show_menu(int player)
 {
-  int city_num;
   int other_player;
   struct player *pgiver, *pother;
-  const struct advance *padv;
   enum diplstate_type ds;
-  QAction *action_menu;
   QAction *all_advancs;
   QAction *some_action;
   QAction *world_map, *sea_map;
   QMap <QString, int>city_list;
   QMap <QString, int>::const_iterator city_iter;
-  QMap <QString, p_advance> adv_list;
-  QMap <QString, p_advance>::const_iterator adv_iter;
+  QMap <QString, Tech_type_id> adv_list;
+  QMap <QString, Tech_type_id>::const_iterator adv_iter;
   QMenu *map_menu, *adv_menu, *city_menu, *pacts_menu;
-  QMenu menu(this);
-  QVariant qvar, tech_var, city_var;
+  QMenu *menu = new QMenu(this);
+  int id;
 
   curr_player = player;
   if (curr_player == player1) {
@@ -330,7 +327,7 @@ void diplo_wdg::show_menu(int player)
   pother = player_by_number(other_player);
 
   /* Maps */
-  map_menu = menu.addMenu(_("Maps"));
+  map_menu = menu->addMenu(_("Maps"));
   world_map = new QAction(_("World-map"), this);
   connect(world_map, &QAction::triggered, this, &diplo_wdg::world_map_clause);
   map_menu->addAction(world_map);
@@ -342,7 +339,7 @@ void diplo_wdg::show_menu(int player)
   if (game.info.trading_tech) {
     const struct research *gresearch = research_get(pgiver);
     const struct research *oresearch = research_get(pother);
-    adv_menu = menu.addMenu(_("Advances"));
+    adv_menu = menu->addMenu(_("Advances"));
     advance_iterate(A_FIRST, padvance) {
       Tech_type_id i = advance_number(padvance);
 
@@ -352,7 +349,7 @@ void diplo_wdg::show_menu(int player)
           && (research_invention_state(oresearch, i) == TECH_UNKNOWN
               || research_invention_state(oresearch, i)
                  == TECH_PREREQS_KNOWN)) {
-        adv_list.insert(advance_name_translation(padvance), padvance);
+        adv_list.insert(advance_name_translation(padvance), i);
       }
     } advance_iterate_end;
 
@@ -366,11 +363,11 @@ void diplo_wdg::show_menu(int player)
     adv_iter = adv_list.constBegin();
     if (adv_list.count() > 0) {
       while (adv_iter != adv_list.constEnd()) {
+        id = adv_iter.value();
         some_action = adv_menu->addAction(adv_iter.key());
-        qvar = qVariantFromValue((void *) adv_iter.value());
-        some_action->setData(qvar);
-        some_action->setProperty("TECH", 1);
-        some_action->setProperty("CITY", 0);
+        connect(some_action, &QAction::triggered, this, [=]() {
+          give_advance(id);
+        });
         adv_iter++;
       }
     } else {
@@ -381,7 +378,7 @@ void diplo_wdg::show_menu(int player)
 
   /* Trading: cities. */
   if (game.info.trading_city) {
-    city_menu = menu.addMenu(_("Cities"));
+    city_menu = menu->addMenu(_("Cities"));
 
     city_list_iterate(pgiver->cities, pcity) {
       if (!is_capital(pcity)) {
@@ -391,10 +388,11 @@ void diplo_wdg::show_menu(int player)
     city_iter = city_list.constBegin();
     if (city_list.count() > 0) {
       while (city_iter != city_list.constEnd()) {
+        id = city_iter.value();
         some_action = city_menu->addAction(city_iter.key());
-        some_action->setData(city_iter.value());
-        some_action->setProperty("TECH", 0);
-        some_action->setProperty("CITY", 1);
+        connect(some_action, &QAction::triggered, this, [=]() {
+          give_city(id);
+        });
         city_iter++;
       }
     } else {
@@ -404,20 +402,20 @@ void diplo_wdg::show_menu(int player)
   some_action = new QAction(_("Give shared vision"), this);
   connect(some_action, &QAction::triggered, this,
           &diplo_wdg::give_shared_vision);
-  menu.addAction(some_action);
+  menu->addAction(some_action);
   if (gives_shared_vision(pgiver, pother)) {
     some_action->setDisabled(true);
   }
   some_action = new QAction(_("Give embassy"), this);
   connect(some_action, &QAction::triggered, this, &diplo_wdg::give_embassy);
-  menu.addAction(some_action);
+  menu->addAction(some_action);
   if (player_has_real_embassy(pother, pgiver)) {
     some_action->setDisabled(true);
   }
 
   /* Pacts */
   if (player_by_number(curr_player) == client_player()) {
-    pacts_menu = menu.addMenu(_("Pacts"));
+    pacts_menu = menu->addMenu(_("Pacts"));
     ds = player_diplstate_get(pgiver, pother)->type;
     some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
     connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_ceasfire);
@@ -440,21 +438,8 @@ void diplo_wdg::show_menu(int player)
   }
 
   /* Check user response for not defined responses in slots */
-  action_menu = 0;
-  action_menu = menu.exec(QCursor::pos());
-  if (action_menu) {
-    qvar = action_menu->data();
-    tech_var = action_menu->property("TECH");
-    city_var = action_menu->property("CITY");
-    if (tech_var.toInt() == 1 && city_var.toInt() == 0) {
-      padv = (advance *) qvar.value < void *>();
-      give_advance(advance_number(padv));
-    }
-    if (tech_var.toInt() == 0 && city_var.toInt() == 1) {
-      city_num = qvar.toInt();
-      give_city(city_num);
-    }
-  }
+  menu->setAttribute(Qt::WA_DeleteOnClose);
+  menu->popup(QCursor::pos());
 }
 
 /************************************************************************//**

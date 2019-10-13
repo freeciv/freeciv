@@ -51,20 +51,24 @@ extern "C" int city_buy_production(struct city *pcity);
 **************************************************************************/
 void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 {
-  hud_input_box ask(gui()->central_wdg);
+  hud_input_box *ask = new hud_input_box(gui()->central_wdg);
   int index = tile_index(unit_tile(punit));
 
-  ask.set_text_title_definput(_("What should we call our new city?"),
-                              _("Build New City"), QString(suggestname));
-  if (ask.exec() == QDialog::Accepted) {
-    QByteArray ask_bytes;
+  ask->set_text_title_definput(_("What should we call our new city?"),
+                               _("Build New City"), suggestname);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_input_box::finished, [=](int result) {
+    if (result == QDialog::Accepted) {
+      QByteArray ask_bytes;
 
-    ask_bytes = ask.input_edit.text().toLocal8Bit();
-    finish_city(index_to_tile(&(wld.map), index),
-                ask_bytes.data());
-  } else {
-    cancel_city(index_to_tile(&(wld.map), index));
-  }
+      ask_bytes = ask->input_edit.text().toLocal8Bit();
+      finish_city(index_to_tile(&(wld.map), index),
+                  ask_bytes.data());
+    } else {
+      cancel_city(index_to_tile(&(wld.map), index));
+    }
+  });
+  ask->show();
 
   return;
 }
