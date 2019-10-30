@@ -55,12 +55,12 @@ struct adv_data {
 
   /* Long-term threats, not to be confused with short-term danger */
   struct {
-    bool invasions;   /* check if we need to consider invasions */
-    bool *continent;  /* non-allied cities on continent? */
-    bool *ocean;      /* non-allied offensive ships in ocean? */
-    bool missile;     /* check for non-allied missiles */
-    int nuclear;      /* nuke check: 0=no, 1=capability, 2=built */
-    bool igwall;      /* enemies have igwall units */
+    bool invasions;      /* check if we need to consider invasions */
+    bool *continent;     /* non-allied cities on continent? */
+    bool *ocean;         /* non-allied offensive ships in ocean? */
+    bool suicide_attack; /* check for non-allied missiles */
+    int nuclear;         /* nuke check: 0=no, 1=capability, 2=built */
+    bool igwall;         /* enemies have igwall units */
   } threats;
 
   /* Keeps track of which continents are fully explored already */
@@ -80,7 +80,7 @@ struct adv_data {
       int coast_strict;
 
       /* Unit can do action counts. */
-      int missiles, paratroopers, airliftable;
+      int suicide_attackers, paratroopers, airliftable;
 
       int byclass[UCL_LAST];
 

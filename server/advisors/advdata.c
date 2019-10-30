@@ -216,7 +216,7 @@ static void count_my_units(struct player *pplayer)
       adv->stats.units.coast_strict++;
     }
     if (utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)) {
-      adv->stats.units.missiles++;
+      adv->stats.units.suicide_attackers++;
     }
     if (unit_can_do_action(punit, ACTION_PARADROP)) {
       adv->stats.units.paratroopers++;
@@ -346,7 +346,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       /* If our enemy builds missiles, worry about missile defence. */
       if (utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)
           && unit_type_get(punit)->attack_strength > 1) {
-        adv->threats.missile = TRUE;
+        adv->threats.suicide_attack = TRUE;
       }
 
       /* If he builds nukes, worry a lot. */

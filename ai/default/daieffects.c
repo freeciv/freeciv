@@ -306,7 +306,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_ENABLE_NUKE:
     /* Treat nuke as a Cruise Missile upgrade */
-    v += 20 + ai->stats.units.missiles * 5;
+    v += 20 + ai->stats.units.suicide_attackers * 5;
     break;
   case EFT_ENABLE_SPACE:
     if (victory_enabled(VC_SPACERACE)) {
