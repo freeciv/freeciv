@@ -77,7 +77,10 @@ struct adv_data {
     /* Counts of specific types of units. */
     struct {
       /* Unit-flag counts. */
-      int coast_strict, missiles, paratroopers, airliftable;
+      int coast_strict;
+
+      /* Unit can do action counts. */
+      int missiles, paratroopers, airliftable;
 
       int byclass[UCL_LAST];
 
