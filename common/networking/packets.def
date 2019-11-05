@@ -287,6 +287,7 @@ type BV_SPACESHIP_STRUCT = bitvector(bv_spaceship_structure)
 # typedefs for IDs
 type EXTRA              = SINT8
 type ACTION_ID          = uint8(action_id)
+type ACTION_TGT         = SINT32
 type ACTION_SUB_TGT     = SINT16
 type BASE               = sint8(Base_type_id)
 type ROAD               = sint8(Road_type_id)
@@ -1071,7 +1072,7 @@ end
 
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   UNIT diplomat_id;
-  UNIT target_id;   # city_id or unit_id
+  ACTION_TGT target_id;   # city_id or unit_id
   ACTION_ID action_type;
 
   BOOL disturb_player;
@@ -1083,7 +1084,7 @@ end
 
 PACKET_UNIT_DO_ACTION = 84; cs, dsend
   UNIT actor_id;
-  SINT32 target_id;   # city_id, unit_id or tile_id
+  ACTION_TGT target_id;   # city_id, unit_id or tile_id
   ACTION_SUB_TGT sub_tgt_id;
   ESTRING name[MAX_LEN_NAME];
   ACTION_ID action_type;
@@ -1091,7 +1092,7 @@ end
 
 PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
   UNIT diplomat_id;
-  UNIT target_id;   # city_id or unit_id
+  ACTION_TGT target_id;   # city_id or unit_id
   GOLD cost;
   ACTION_ID action_type;
 
