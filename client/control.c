@@ -1647,7 +1647,7 @@ void request_do_action(action_id action, int actor_id,
 /**************************************************************************
   Request data for follow up questions about an action the unit can
   perform.
-  - action : The action more details .
+  - action : The action the follow up question is about.
   - actor_id : The unit ID of the acting unit.
   - target_id : The ID of the target unit or city.
 **************************************************************************/
