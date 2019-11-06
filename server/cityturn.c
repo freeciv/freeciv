@@ -1097,11 +1097,25 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
   bool success = TRUE;
   bool known = FALSE;
 
-  fc_assert_ret_val(target->kind == VUT_IMPROVEMENT, FALSE);
-  ptarget = target->value.building;
-  build_reqs = &target->value.building->reqs;
-  tgt_name = city_improvement_name_translation(pcity, ptarget);
-  signal_name = "building_cant_be_built";
+  switch (target->kind) {
+  case VUT_UTYPE:
+    ptarget = target->value.utype;
+    build_reqs = &target->value.utype->build_reqs;
+    tgt_name = utype_name_translation(ptarget);
+    signal_name = "unit_cant_be_built";
+    break;
+  case VUT_IMPROVEMENT:
+    ptarget = target->value.building;
+    build_reqs = &target->value.building->reqs;
+    tgt_name = city_improvement_name_translation(pcity, ptarget);
+    signal_name = "building_cant_be_built";
+    break;
+  default:
+    fc_assert_ret_val((target->kind == VUT_IMPROVEMENT
+                       || target->kind == VUT_UTYPE), FALSE);
+    return FALSE;
+    break;
+  }
 
   requirement_vector_iterate(build_reqs, preq) {
     if (!is_req_active(pplayer, NULL, pcity, NULL, NULL, NULL, NULL,
@@ -1853,17 +1867,7 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
 	/* Nope, we're stuck.  Skip this item from the worklist. */
-        if (ptarget->need_government != NULL
-            && ptarget->need_government != government_of_player(pplayer)) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "it needs %s government. Postponing..."),
-                        city_link(pcity), utype_name_translation(ptarget),
-                        government_name_translation(ptarget->need_government));
-          script_server_signal_emit("unit_cant_be_built", ptarget, pcity,
-                                    "need_government");
-        } else if (ptarget->need_improvement != NULL
+        if (ptarget->need_improvement != NULL
                    && !city_has_building(pcity, ptarget->need_improvement)) {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
@@ -1887,12 +1891,9 @@ static bool worklist_change_build_target(struct player *pplayer,
           script_server_signal_emit("unit_cant_be_built", ptarget, pcity,
                                     "need_tech");
         } else {
-          /* This shouldn't happen, but in case it does... */
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "reason unknown! Postponing..."),
-                        city_link(pcity), utype_name_translation(ptarget));
+          /* Unknown or requirement from vector. */
+          success = worklist_item_postpone_req_vec(&target, pcity, pplayer,
+                                                   saved_id);
         }
         city_checked = FALSE;
 	break;

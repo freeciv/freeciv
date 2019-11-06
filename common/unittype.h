@@ -24,6 +24,7 @@ extern "C" {
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
+#include "requirements.h"
 
 struct astring;         /* Actually defined in "utility/astring.h". */
 struct strvec;          /* Actually defined in "utility/string_vector.h". */
@@ -496,7 +497,7 @@ struct unit_type {
 
   struct advance *require_advance;	/* may be NULL */
   struct impr_type *need_improvement;	/* may be NULL */
-  struct government *need_government;	/* may be NULL */
+  struct requirement_vector build_reqs;
 
   int vision_radius_sq;
   int transport_capacity;

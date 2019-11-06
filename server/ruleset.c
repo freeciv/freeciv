@@ -1869,17 +1869,35 @@ static bool load_ruleset_units(struct section_file *file,
         ok = FALSE;
         break;
       }
+
+      /* Read the government build requirement from the old ruleset format
+       * and put it in unit_type's build_reqs requirement vector.
+       * The build_reqs requirement vector isn't ready to be exposed in the
+       * ruleset yet.
+       * Barbarians can build certain units as long as anyone in the world
+       * has the required tech. Regular players must have the required tech
+       * them self to build the same unit. One way to solve this is to make
+       * unit building an action enabler controlled action with a city (not
+       * unit) actor.
+       * Putting a requirement vector on unit types in the ruleset will
+       * force ruleset authors to change all their unit type build
+       * requirements to a requirement vector. Forcing them to convert their
+       * unit type requirements again in the next version (should building be
+       * switched to an action enabler with a city actor) is not good. */
       if (NULL != section_entry_by_name(psection, "gov_req")) {
         char tmp[200] = "\0";
+        struct government *need_government;
         fc_strlcat(tmp, section_name(psection), sizeof(tmp));
         fc_strlcat(tmp, ".gov_req", sizeof(tmp));
-        u->need_government = lookup_government(file, tmp, filename, NULL);
-        if (u->need_government == NULL) {
+        need_government = lookup_government(file, tmp, filename, NULL);
+        if (need_government == NULL) {
           ok = FALSE;
           break;
         }
-      } else {
-        u->need_government = NULL; /* no requirement */
+        requirement_vector_append(&u->build_reqs, req_from_values(
+                                  VUT_GOVERNMENT, REQ_RANGE_PLAYER,
+                                  FALSE, TRUE, FALSE,
+                                  government_number(need_government)));
       }
 
       if (!load_ruleset_veteran(file, sec_name, &u->veteran,
@@ -6968,9 +6986,13 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.impr_requirement = u->need_improvement
                               ? improvement_number(u->need_improvement)
                               : improvement_count();
-    packet.gov_requirement = u->need_government
-                             ? government_number(u->need_government)
-                             : government_count();
+
+    i = 0;
+    requirement_vector_iterate(&u->build_reqs, req) {
+      packet.build_reqs[i++] = *req;
+    } requirement_vector_iterate_end;
+    packet.build_reqs_count = i;
+
     packet.vision_radius_sq = u->vision_radius_sq;
     packet.transport_capacity = u->transport_capacity;
     packet.hp = u->hp;

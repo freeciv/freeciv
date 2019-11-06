@@ -631,6 +631,24 @@ static void insert_allows(struct universal *psource,
                          improvement_name_translation(pimprove), imprstrs,
                          buf, bufsz, prefix);
   } improvement_iterate_end;
+
+  unit_type_iterate(putype) {
+    static const char *const utstrs[] = {
+      /* TRANS: First %s is a unit type name. */
+      N_("?unittype:Allows %s (with %s but no %s)."),
+      /* TRANS: First %s is a unit type name. */
+      N_("?unittype:Allows %s (with %s)."),
+      /* TRANS: First %s is a unit type name. */
+      N_("?unittype:Allows %s (absent %s)."),
+      /* TRANS: %s is a unit type name. */
+      N_("?unittype:Allows %s."),
+      /* TRANS: %s is a unit type name. */
+      N_("?unittype:Prevents %s.")
+    };
+    insert_allows_single(psource, &putype->build_reqs,
+                         utype_name_translation(putype), utstrs,
+                         buf, bufsz, prefix);
+  } unit_type_iterate_end;
 }
 
 /************************************************************************//**
@@ -1862,11 +1880,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  improvement_name_translation(utype->need_improvement));
   }
 
-  if (utype->need_government) {
-    cat_snprintf(buf, bufsz,
-                 _("* Can only be built with %s as government.\n"),
-                 government_name_translation(utype->need_government));
-  }
+  /* Add requirement text for the unit type itself */
+  requirement_vector_iterate(&utype->build_reqs, preq) {
+    req_text_insert_nl(buf, bufsz, pplayer, preq, VERB_DEFAULT,
+                       Q_("?bullet:* "));
+  } requirement_vector_iterate_end;
 
   if (utype_has_flag(utype, UTYF_CANESCAPE)) {
     CATLSTR(buf, bufsz, _("* Can escape once stack defender is lost.\n"));
@@ -4409,14 +4427,6 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     astr_free(&outputs_and);
 
   } effect_list_iterate_end;
-
-  unit_type_iterate(utype) {
-    if (utype->need_government == gov) {
-      cat_snprintf(buf, bufsz,
-                   _("* Allows you to build %s.\n"),
-                   utype_name_translation(utype));
-    }
-  } unit_type_iterate_end;
 
   /* Action immunity */
   action_iterate(act) {

@@ -3357,7 +3357,9 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
   u->move_rate          = p->move_rate;
   u->require_advance    = advance_by_number(p->tech_requirement);
   u->need_improvement   = improvement_by_number(p->impr_requirement);
-  u->need_government    = government_by_number(p->gov_requirement);
+  for (i = 0; i < p->build_reqs_count; i++) {
+    requirement_vector_append(&u->build_reqs, p->build_reqs[i]);
+  }
   u->vision_radius_sq = p->vision_radius_sq;
   u->transport_capacity = p->transport_capacity;
   u->hp                 = p->hp;

@@ -1399,10 +1399,18 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if (punittype->need_government
-      && punittype->need_government != government_of_player(p)) {
-    return FALSE;
-  }
+  requirement_vector_iterate(&punittype->build_reqs, preq) {
+    if (preq->range < REQ_RANGE_PLAYER) {
+      /* The question *here* is if the *player* can build this unit */
+      continue;
+    }
+    if (!is_req_active(p, NULL,
+                       NULL, NULL, NULL, NULL, punittype, NULL, NULL, NULL,
+                       preq, RPT_CERTAIN)) {
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
   if (research_invention_state(research_get(p),
                                advance_number(punittype->require_advance))
       != TECH_KNOWN) {
@@ -1741,6 +1749,7 @@ void unit_types_init(void)
    * num_unit_types isn't known yet. */
   for (i = 0; i < ARRAY_SIZE(unit_types); i++) {
     unit_types[i].item_number = i;
+    requirement_vector_init(&(unit_types[i].build_reqs));
     unit_types[i].helptext = NULL;
     unit_types[i].veteran = NULL;
     unit_types[i].bonuses = combat_bonus_list_new();
@@ -1756,6 +1765,7 @@ static void unit_type_free(struct unit_type *punittype)
   if (NULL != punittype->helptext) {
     strvec_destroy(punittype->helptext);
     punittype->helptext = NULL;
+    requirement_vector_free(&(punittype->build_reqs));
   }
 
   veteran_system_destroy(punittype->veteran);
