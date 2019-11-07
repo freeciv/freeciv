@@ -30,7 +30,7 @@ format_version=20
      _("Cities")
    }
 
-; Names for custom unit class flags. There can be up to 8 of these.
+; Names for custom unit class flags. There can be up to 12 of these.
 ; name          = rule name; In some circumstances user may see this
 ;                 as part of some sentences, so try to make it descriptive
 ;                 and sensible.
