@@ -125,14 +125,14 @@ static int first_free_unit_class_user_flag(void)
 {
   int flag;
 
-  /* Find the first unused user defined unit type flag. */
+  /* Find the first unused user defined unit class flag. */
   for (flag = 0; flag < MAX_NUM_USER_UCLASS_FLAGS; flag++) {
     if (unit_class_flag_id_name_cb(flag + UCF_USER_FLAG_1) == NULL) {
       return flag;
     }
   }
 
-  /* All unit type user flags are taken. */
+  /* All unit class user flags are taken. */
   return MAX_NUM_USER_UCLASS_FLAGS;
 }
 
