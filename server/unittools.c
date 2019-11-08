@@ -269,7 +269,8 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
 /**************************************************************************
   This is the basic unit versus unit combat routine.
   1) ALOT of modifiers bonuses etc is added to the 2 units rates.
-  2) the combat loop, which continues until one of the units are dead
+  2) the combat loop, which continues until one of the units are dead or
+     EFT_COMBAT_ROUNDS rounds have been fought.
   3) the aftermath, the loser (and potentially the stack which is below it)
      is wiped, and the winner gets a chance of gaining veteran status
 **************************************************************************/
