@@ -404,6 +404,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         && !can_city_build_unit_now(pcity, deftype)
         && can_city_build_unit_later(pcity, deftype)) {
       /* It would be better than current best. Consider researching tech */
+      struct impr_type *building;
       int cost = 0;
       struct advance *itech = deftype->require_advance;
       bool impossible_to_get = FALSE;
@@ -415,10 +416,8 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         cost = research_goal_bulbs_required(presearch,
                                             advance_number(itech));
       }
-      if (deftype->need_improvement 
-          && !can_player_build_improvement_direct(pplayer, deftype->need_improvement)) {
-        struct impr_type *building = deftype->need_improvement;
-
+      if (((building = utype_needs_improvement(deftype, pcity)))
+          && !can_player_build_improvement_direct(pplayer, building)) {
         requirement_vector_iterate(&building->reqs, preq) {
           if (!is_req_active(pplayer, NULL, pcity, building, city_tile(pcity),
                              NULL, deftype, NULL, NULL, NULL, preq, RPT_CERTAIN)) {
@@ -498,6 +497,7 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
       build_unit = iunit;
       break;
     } else if (can_city_build_unit_later(pcity, iunit)) {
+      struct impr_type *building;
       int cost = 0;
 
       if (A_NEVER != itech
@@ -507,10 +507,8 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
         cost = research_goal_bulbs_required(presearch,
                                             advance_number(itech));
       }
-      if (iunit->need_improvement 
-          && !can_player_build_improvement_direct(pplayer, iunit->need_improvement)) {
-        struct impr_type *building = iunit->need_improvement;
-
+      if (((building = utype_needs_improvement(iunit, pcity)))
+          && !can_player_build_improvement_direct(pplayer, building)) {
         requirement_vector_iterate(&building->reqs, preq) {
           if (VUT_ADVANCE == preq->source.kind && preq->present) {
             int iimprtech = advance_number(preq->source.value.advance);

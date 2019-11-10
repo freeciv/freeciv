@@ -1400,6 +1400,28 @@ bool can_player_build_unit_direct(const struct player *p,
   }
 
   requirement_vector_iterate(&punittype->build_reqs, preq) {
+    if (preq->source.kind == VUT_IMPROVEMENT
+        && preq->range == REQ_RANGE_CITY && preq->present) {
+      /* If the unit has a building requirement, we check to see if the
+       * player can build that building.  Note that individual cities may
+       * not have that building, so they still may not be able to build the
+       * unit. */
+      if (is_great_wonder(preq->source.value.building)
+          && (great_wonder_is_built(preq->source.value.building)
+              || great_wonder_is_destroyed(preq->source.value.building))) {
+        /* It's already built great wonder */
+        if (great_wonder_owner(preq->source.value.building) != p) {
+          /* Not owned by this player. Either destroyed or owned by somebody
+           * else. */
+          return FALSE;
+        }
+      } else {
+        if (!can_player_build_improvement_direct(
+                p, preq->source.value.building)) {
+          return FALSE;
+        }
+      }
+    }
     if (preq->range < REQ_RANGE_PLAYER) {
       /* The question *here* is if the *player* can build this unit */
       continue;
@@ -1445,27 +1467,6 @@ bool can_player_build_unit_direct(const struct player *p,
   if (utype_player_already_has_this_unique(p, punittype)) {
     /* A player can only have one unit of each unique unit type. */
     return FALSE;
-  }
-
-  /* If the unit has a building requirement, we check to see if the player
-   * can build that building.  Note that individual cities may not have
-   * that building, so they still may not be able to build the unit. */
-  if (punittype->need_improvement) {
-    if (is_great_wonder(punittype->need_improvement)
-        && (great_wonder_is_built(punittype->need_improvement)
-            || great_wonder_is_destroyed(punittype->need_improvement))) {
-      /* It's already built great wonder */
-      if (great_wonder_owner(punittype->need_improvement) != p) {
-        /* Not owned by this player. Either destroyed or owned by somebody
-         * else. */
-        return FALSE;
-      }
-    } else {
-      if (!can_player_build_improvement_direct(p,
-                                               punittype->need_improvement)) {
-        return FALSE;
-      }
-    }
   }
 
   return TRUE;

@@ -2680,10 +2680,22 @@ static bool save_units_ruleset(const char *filename, const char *name)
         }
       } requirement_vector_iterate_end;
 
-      if (put->need_improvement != NULL) {
-        secfile_insert_str(sfile, improvement_rule_name(put->need_improvement),
-                           "%s.impr_req", path);
-      }
+      /* Extract the improvement requirement from the requirement vector so
+       * it can be written in the old format.
+       * The build_reqs requirement vector isn't ready to be exposed in the
+       * ruleset yet. */
+      requirement_vector_iterate(&put->build_reqs, preq) {
+        if (preq->source.kind == VUT_IMPROVEMENT) {
+          fc_assert_msg(preq->range == REQ_RANGE_CITY,
+                        "can't convert non player range to the rs format");
+          fc_assert_msg(preq->present == TRUE,
+                        "can't convert not present reqs to the rs format");
+          secfile_insert_str(sfile,
+                             universal_rule_name(&preq->source),
+                             "%s.impr_req", path);
+          break;
+        }
+      } requirement_vector_iterate_end;
 
       if (put->obsoleted_by != NULL) {
         secfile_insert_str(sfile, utype_rule_name(put->obsoleted_by),

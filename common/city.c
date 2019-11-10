@@ -878,9 +878,11 @@ bool can_city_build_unit_direct(const struct city *pcity,
     return FALSE;
   }
 
-  /* Check to see if the unit has a building requirement. */
-  if (punittype->need_improvement
-      && !city_has_building(pcity, punittype->need_improvement)) {
+  /* Check unit build requirements. */
+  if (!are_reqs_active(city_owner(pcity), NULL,
+                       pcity, NULL, city_tile(pcity), NULL, punittype,
+                       NULL, NULL, NULL,
+                       &punittype->build_reqs, RPT_CERTAIN)) {
     return FALSE;
   }
 

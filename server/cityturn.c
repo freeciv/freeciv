@@ -1867,19 +1867,8 @@ static bool worklist_change_build_target(struct player *pplayer,
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
 	/* Nope, we're stuck.  Skip this item from the worklist. */
-        if (ptarget->need_improvement != NULL
-                   && !city_has_building(pcity, ptarget->need_improvement)) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "need to have %s first. Postponing..."),
-                        city_link(pcity), utype_name_translation(ptarget),
-                        city_improvement_name_translation(pcity,
-                                                  ptarget->need_improvement));
-          script_server_signal_emit("unit_cant_be_built", ptarget, pcity,
-                                    "need_building");
-        } else if (ptarget->require_advance != NULL
-                   && TECH_KNOWN != research_invention_state
+        if (ptarget->require_advance != NULL
+            && TECH_KNOWN != research_invention_state
                           (research_get(pplayer),
                            advance_number(ptarget->require_advance))) {
           notify_player(pplayer, city_tile(pcity),

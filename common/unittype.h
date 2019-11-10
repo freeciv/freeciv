@@ -494,7 +494,6 @@ struct unit_type {
   int unknown_move_cost; /* See utype_unknown_move_cost(). */
 
   struct advance *require_advance;	/* may be NULL */
-  struct impr_type *need_improvement;	/* may be NULL */
   struct requirement_vector build_reqs;
 
   int vision_radius_sq;

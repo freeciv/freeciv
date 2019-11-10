@@ -1930,12 +1930,24 @@ static bool load_ruleset_units(struct section_file *file,
       struct unit_class *pclass;
       const char *sec_name = section_name(section_list_get(sec, i));
       const char *string;
+      struct impr_type *impr_req = NULL;
 
+      /* Read the building build requirement from the old ruleset format
+       * and put it in unit_type's build_reqs requirement vector.
+       * The build_reqs requirement vector isn't ready to be exposed in the
+       * ruleset yet.
+       * See the comment for gov_req above for why. */
       if (!lookup_building(file, sec_name, "impr_req",
-                           &u->need_improvement, filename,
+                           &impr_req, filename,
                            rule_name_get(&u->name))) {
         ok = FALSE;
         break;
+      }
+      if (impr_req) {
+        requirement_vector_append(&u->build_reqs, req_from_values(
+                                  VUT_IMPROVEMENT, REQ_RANGE_CITY,
+                                  FALSE, TRUE, FALSE,
+                                  improvement_number(impr_req)));
       }
 
       sval = secfile_lookup_str(file, "%s.class", sec_name);
@@ -6983,9 +6995,6 @@ static void send_ruleset_units(struct conn_list *dest)
     packet.tech_requirement = u->require_advance
                               ? advance_number(u->require_advance)
                               : advance_count();
-    packet.impr_requirement = u->need_improvement
-                              ? improvement_number(u->need_improvement)
-                              : improvement_count();
 
     i = 0;
     requirement_vector_iterate(&u->build_reqs, req) {

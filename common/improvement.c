@@ -91,7 +91,7 @@ void improvement_feature_cache_init(void)
   improvement_iterate(pimprove) {
     pimprove->allows_units = FALSE;
     unit_type_iterate(putype) {
-      if (putype->need_improvement == pimprove) {
+      if (requirement_needs_improvement(pimprove, &putype->build_reqs)) {
         pimprove->allows_units = TRUE;
         break;
       }
@@ -395,7 +395,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
   }
 
   unit_type_iterate(ut) {
-    if (ut->need_improvement == pimprove
+    if (requirement_needs_improvement(pimprove, &ut->build_reqs)
         && can_city_build_unit_now(pcity, ut)) {
       return TRUE;
     }

@@ -119,6 +119,9 @@ int unittype_def_rating_squared(const struct unit_type *att_type,
                                 struct tile *ptile, bool fortified, int veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
+struct impr_type *utype_needs_improvement(const struct unit_type *putype,
+                                          const struct city *pcity);
+
 bool is_on_unit_upgrade_path(const struct unit_type *test,
 			     const struct unit_type *base);
 

@@ -1122,7 +1122,7 @@ static void process_attacker_want(struct ai_type *ait,
                    (acity ? city_name_get(acity) : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
-          struct impr_type *impr_req = punittype->need_improvement;
+          struct impr_type *impr_req;
 
           if (can_city_build_unit_now(pcity, punittype)) {
             /* This is a real unit and we really want it */
@@ -1139,7 +1139,8 @@ static void process_attacker_want(struct ai_type *ait,
             best_choice->value.utype = punittype;
             best_choice->want = want;
             best_choice->type = CT_ATTACKER;
-          } else if (NULL == impr_req) {
+          } else if (!((impr_req = utype_needs_improvement(punittype,
+                                                           pcity)))) {
             CITY_LOG(LOG_DEBUG, pcity, "cannot build unit %s",
                      utype_rule_name(punittype));
           } else if (can_city_build_improvement_now(pcity, impr_req)) {
