@@ -3973,7 +3973,7 @@ void city_production_delegate::paint(QPainter *painter,
 
     if ((utype_fuel(target->value.utype)
          && !uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)
-         && !uclass_has_flag(pclass, UCF_CAN_PILLAGE)
+         && !utype_can_do_action(target->value.utype, ACTION_PILLAGE)
          && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
          && !uclass_has_flag(pclass, UCF_ZOC))
         /* FIXME: Assumed to be flying since only missiles can do suicide

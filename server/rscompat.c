@@ -169,6 +169,7 @@ bool rscompat_names(struct rscompat_info *info)
       const char *helptxt;
     } new_class_flags_31[] = {
       { N_("Missile"), N_("Unit is destroyed when it attacks") },
+      { N_("CanPillage"), N_("Can pillage tile improvements.") },
     };
 
     int first_free;
@@ -394,8 +395,8 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler = action_enabler_new();
     enabler->action = ACTION_PILLAGE;
-    e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
-                            UCF_CAN_PILLAGE);
+    e_req = req_from_str("UnitClassFlag", "Local", FALSE, TRUE, FALSE,
+                         "CanPillage");
     requirement_vector_append(&enabler->actor_reqs, e_req);
     action_enabler_add(enabler);
 

@@ -1783,10 +1783,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                 "units on its tile.\n"));
     }
   }
-  if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
-    CATLSTR(buf, bufsz,
-	    _("  * Can pillage tile improvements.\n"));
-  }
   if (uclass_has_flag(pclass, UCF_DOESNT_OCCUPY_TILE)
       && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,

@@ -564,7 +564,6 @@ Actions done by a unit against a tile
 
 "Pillage"           - Pillage extra from tile
  * UI name can be set using ui_name_pillage
- * the actor unit has "CanPillage" unit class flag
  * terrain type must be one where pillaging is possible
 
 "Road"        - Build road at the target tile.

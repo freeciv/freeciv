@@ -60,6 +60,7 @@ class_flags =
   { "name", "helptxt"
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Missile")
+    _("CanPillage")
   }
 
 [veteran_system]
@@ -132,7 +133,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       override this
 ; "CanFortify"        = Unit can fortify at land tiles. Unit type flag
 ;                       "Cant_Fortify" can override this
-; "CanPillage"        = Unit can pillage tile infrastructure
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type

@@ -285,7 +285,6 @@ uclasses = "\
 ;                       override this\n\
 ; \"CanFortify\"        = Unit can fortify at land tiles. Unit type flag\n\
 ;                       \"Cant_Fortify\" can override this\n\
-; \"CanPillage\"        = Unit can pillage tile infrastructure\n\
 ; \"DoesntOccupyTile\"  = Even if this kind of enemy unit is on tile, cities can\n\
 ;                       still work that tile\n\
 ; \"AttackNonNative\"   = Unit can attack units on non-native tiles. Unit type\n\
