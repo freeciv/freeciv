@@ -1175,7 +1175,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
-      if (success && pupdate == ptarget) {
+      if (!success && can_city_build_improvement_later(pcity, ptarget)) {
+        success = TRUE;
 	bool known = FALSE;
 
 	/* Nope, no use.  *sigh*  */
