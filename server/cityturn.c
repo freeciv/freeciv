@@ -1940,17 +1940,24 @@ static bool worklist_change_build_target(struct player *pplayer,
 
       /* Maybe this improvement has been obsoleted by something that
 	 we can build. */
-      if (success && pupdate == ptarget) {
+      if (!success) {
         /* Nope, no use.  *sigh*  */
-        success = worklist_item_postpone_req_vec(&target, pcity, pplayer,
-                                                 saved_id);
 
-        /* Almost all cases emit signal in the end, so city check needed. */
-        if (!city_exist(saved_id)) {
-          /* Some script has removed city */
-          return FALSE;
+        /* Can it be postponed? */
+        if (can_city_build_improvement_later(pcity, ptarget)) {
+          success = worklist_item_postpone_req_vec(&target, pcity, pplayer,
+                                                   saved_id);
+
+          /* Almost all cases emit signal in the end, so city check needed. */
+          if (!city_exist(saved_id)) {
+            /* Some script has removed city */
+            return FALSE;
+          }
+          city_checked = TRUE;
+        } else {
+          /* Can't be built later. */
+          success = FALSE;
         }
-        city_checked = TRUE;
       } else if (success) {
 	/* Hey, we can upgrade the improvement! */
         notify_player(pplayer, city_tile(pcity), E_WORKLIST, ftc_server,
