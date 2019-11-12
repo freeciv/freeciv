@@ -26,7 +26,7 @@ Write manual in wiki format
 \fBfreeciv-manual\fR generates a subset of documentation for
 .IR freeciv-server(6)
 and the game rules of a selected ruleset that it runs. Currently it
-generates 7 files:
+generates 8 files:
 .TP
 .BI "manual1.html"
 Server options
@@ -54,6 +54,10 @@ Governments
 .TP
 .BI "manual7.html"
 Unit types
+
+.TP
+.BI "manual8.html"
+Techs
 
 .SH BUGS
 This tool is currently only really of use to the Freeciv maintainers,
