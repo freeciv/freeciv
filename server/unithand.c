@@ -356,12 +356,6 @@ static bool do_capture_units(struct player *pplayer,
     }
   } unit_list_iterate_end;
 
-  /* Subtract movement point from capturer */
-  punit->moves_left -= SINGLE_MOVE;
-  if (punit->moves_left < 0) {
-    punit->moves_left = 0;
-  }
-
   unit_did_action(punit);
   unit_forget_last_activity(punit);
 
@@ -402,11 +396,6 @@ static bool do_expel_unit(struct player *pplayer,
   /* Where is the actor player? */
   fc_assert_ret_val(pplayer, FALSE);
 
-  /* The price of attempting an expulsion is a single move. Applies before
-   * the player is told if the target has a capital. */
-  actor->moves_left = MAX(0, actor->moves_left - SINGLE_MOVE);
-  send_unit_info(NULL, actor);
-
   target_tile = unit_tile(target);
 
   /* Expel the target unit to his owner's capital. */
@@ -417,6 +406,10 @@ static bool do_expel_unit(struct player *pplayer,
 
   if (pcity == NULL) {
     /* No where to send the expelled unit. */
+
+    /* The price of failing an expulsion is a single move. */
+    actor->moves_left = MAX(0, actor->moves_left - SINGLE_MOVE);
+    send_unit_info(NULL, actor);
 
     /* Notify the actor player. */
     notify_player(pplayer, target_tile, E_UNIT_ACTION_FAILED, ftc_server,
@@ -504,8 +497,6 @@ static bool do_heal_unit(struct player *act_player,
   tgt_unit->hp = MIN(tgt_unit->hp + healing_limit, tgt_hp_max);
   send_unit_info(NULL, tgt_unit);
 
-  /* Healing a unit spends the actor's movement. */
-  act_unit->moves_left = 0;
   send_unit_info(NULL, act_unit);
 
   /* Every call to unit_link() overwrites the previous. Two units are being
@@ -2420,7 +2411,7 @@ bool unit_perform_action(struct player *pplayer,
     }                                                                     \
     success = action_performer;                                           \
     if (success) {                                                        \
-      action_success_actor_consume(paction, actor_id, actor);             \
+      action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \
@@ -2441,7 +2432,7 @@ bool unit_perform_action(struct player *pplayer,
     }                                                                     \
     success = action_performer;                                           \
     if (success) {                                                        \
-      action_success_actor_consume(paction, actor_id, actor);             \
+      action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \
@@ -2466,7 +2457,7 @@ bool unit_perform_action(struct player *pplayer,
     }                                                                     \
     success = action_performer;                                           \
     if (success) {                                                        \
-      action_success_actor_consume(paction, actor_id, actor);             \
+      action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \
@@ -2488,7 +2479,7 @@ bool unit_perform_action(struct player *pplayer,
     }                                                                     \
     success = action_performer;                                           \
     if (success) {                                                        \
-      action_success_actor_consume(paction, actor_id, actor);             \
+      action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \
@@ -2511,7 +2502,7 @@ bool unit_perform_action(struct player *pplayer,
     }                                                                     \
     success = action_performer;                                           \
     if (success) {                                                        \
-      action_success_actor_consume(paction, actor_id, actor);             \
+      action_success_actor_price(paction, actor_id, actor);               \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \
@@ -3381,8 +3372,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
     }
 
   } unit_list_iterate_safe_end;
-
-  punit->moves_left = 0;
 
   unit_did_action(punit);
   unit_forget_last_activity(punit);

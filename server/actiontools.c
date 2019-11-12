@@ -37,8 +37,8 @@ typedef void (*action_notify)(struct player *,
 /**********************************************************************//**
   Wipe an actor if the action it successfully performed consumed it.
 **************************************************************************/
-void action_success_actor_consume(struct action *paction,
-                                  int actor_id, struct unit *actor)
+static void action_success_actor_consume(struct action *paction,
+                                         int actor_id, struct unit *actor)
 {
   if (unit_is_alive(actor_id)
       && utype_is_consumed_by_action(paction, unit_type_get(actor))) {
@@ -53,6 +53,29 @@ void action_success_actor_consume(struct action *paction,
       wipe_unit(actor, ULR_USED, NULL);
     }
   }
+}
+
+/**********************************************************************//**
+  Pay the movement point cost of success.
+**************************************************************************/
+static void action_success_pay_mp(struct action *paction,
+                                  int actor_id, struct unit *actor)
+{
+  if (unit_is_alive(actor_id)) {
+    int spent_mp = unit_pays_mp_for_action(paction, actor);
+    actor->moves_left = MAX(0, actor->moves_left - spent_mp);
+    send_unit_info(NULL, actor);
+  }
+}
+
+/**********************************************************************//**
+  Make the actor that successfully performed the action pay the price.
+**************************************************************************/
+void action_success_actor_price(struct action *paction,
+                                int actor_id, struct unit *actor)
+{
+  action_success_actor_consume(paction, actor_id, actor);
+  action_success_pay_mp(paction, actor_id, actor);
 }
 
 /**********************************************************************//**
