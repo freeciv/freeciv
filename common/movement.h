@@ -22,6 +22,8 @@ extern "C" {
 
 #define SINGLE_MOVE     (terrain_control.move_fragments)
 #define MOVE_COST_IGTER (terrain_control.igter_cost)
+/* packets.def MOVEFRAGS */
+#define MAX_MOVE_FRAGS  65535
 
 struct unit_type;
 struct terrain;

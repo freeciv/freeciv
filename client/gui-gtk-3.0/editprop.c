@@ -1920,7 +1920,7 @@ static bool objbind_get_allowed_value_span(struct objbind *ob,
       switch (propid) {
       case OPID_UNIT_MOVES_LEFT:
         *pmin = 0;
-        *pmax = 65535; /* packets.def MOVEFRAGS */
+        *pmax = MAX_MOVE_FRAGS;
         *pstep = 1;
         *pbig_step = 5;
         return TRUE;
