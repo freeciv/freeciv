@@ -21,6 +21,7 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "movement.h"
 #include "multipliers.h"
 #include "player.h"
 #include "research.h"
@@ -630,6 +631,11 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_RETIRE_PCT:
     num = num_affected_units(peffect, ai);
     v -= amount * num / 20;
+    break;
+  case EFT_ACTION_SUCCESS_MOVE_COST:
+    /* Someone may put MAX_MOVE_FRAGS in this effect to make sure that all
+     * movement is gone. */
+    v -= amount / (adv_want)MAX_MOVE_FRAGS;
     break;
   case EFT_COUNT:
     log_error("Bad effect type.");

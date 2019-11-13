@@ -4284,3 +4284,43 @@ reqs    =
     { "type", "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
+
+[effect_action_success_move_cost_embassy]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Establish Embassy", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_investigate]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Investigate City", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_capture]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 6
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Capture Units", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_expel]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 6
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Expel Unit", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_bombard]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Bombard", "Local", TRUE
+    }

@@ -268,6 +268,10 @@ Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
 that turns out to be illegal.
 
+Action_Success_Actor_Move_Cost
+    The number of move fragments lost when a unit successfully performs an
+action. Evaluated and done after the action is successfully completed.
+
 Casus_Belli_Caught
     Checked when a player is caught trying to do an action. Will cause an
 incident with the intended victim player if the value is 1 or higher. The

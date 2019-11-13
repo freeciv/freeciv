@@ -2451,3 +2451,19 @@ reqs    =
     { "type", "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
+
+[effect_action_success_move_cost_embassy]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Establish Embassy", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_investigate]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Investigate City", "Local", TRUE
+    }

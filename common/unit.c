@@ -2030,22 +2030,14 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
 int unit_pays_mp_for_action(const struct action *paction,
                             const struct unit *punit)
 {
-  if (action_has_result(paction, ACTION_BOMBARD)
-      || action_has_result(paction, ACTION_HEAL_UNIT)) {
-    return MAX_MOVE_FRAGS;
-  }
-
-  if (action_has_result(paction, ACTION_CAPTURE_UNITS)
-      || action_has_result(paction, ACTION_EXPEL_UNIT)) {
-    return SINGLE_MOVE;
-  }
-
-  if (action_has_result(paction, ACTION_ESTABLISH_EMBASSY)
-      || action_has_result(paction, ACTION_SPY_INVESTIGATE_CITY)) {
-    return 1;
-  }
-
-  return 0;
+  return get_target_bonus_effects(NULL,
+                                  unit_owner(punit),
+                                  NULL,
+                                  unit_tile(punit)
+                                    ? tile_city(unit_tile(punit)) : NULL,
+                                  NULL, unit_tile(punit),
+                                  punit, unit_type_get(punit), NULL, NULL,
+                                  paction, EFT_ACTION_SUCCESS_MOVE_COST);
 }
 
 /**********************************************************************//**

@@ -29,6 +29,7 @@
 #include "actions.h"
 #include "effects.h"
 #include "game.h"
+#include "movement.h"
 #include "requirements.h"
 #include "unittype.h"
 
@@ -375,6 +376,65 @@ void rscompat_postprocess(struct rscompat_info *info)
   /* Upgrade existing effects. Done before new effects are added to prevent
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
+
+  if (info->ver_effects < 20) {
+    struct effect *peffect;
+
+    /* Post successful action move fragment loss for "Bombard"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         MAX_MOVE_FRAGS, NULL);
+
+    /* The reduction only applies to "Bombard". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Bombard"));
+
+    /* Post successful action move fragment loss for "Heal Unit"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         MAX_MOVE_FRAGS, NULL);
+
+    /* The reduction only applies to "Heal Unit". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Heal Unit"));
+
+    /* Post successful action move fragment loss for "Expel Unit"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         SINGLE_MOVE, NULL);
+
+    /* The reduction only applies to "Expel Unit". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Expel Unit"));
+
+    /* Post successful action move fragment loss for "Capture Units"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         SINGLE_MOVE, NULL);
+
+    /* The reduction only applies to "Capture Units". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Capture Units"));
+
+    /* Post successful action move fragment loss for "Establish Embassy"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         1, NULL);
+
+    /* The reduction only applies to "Establish Embassy". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Establish Embassy"));
+
+    /* Post successful action move fragment loss for "Investigate City"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         1, NULL);
+
+    /* The reduction only applies to "Investigate City". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Investigate City"));
+
+  }
 
   if (info->ver_units < 20) {
     unit_type_iterate(ptype) {
