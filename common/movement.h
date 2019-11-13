@@ -18,6 +18,7 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include "fc_types.h"
+#include "map.h"
 #include "tile.h"
 
 #define SINGLE_MOVE     (terrain_control.move_fragments)
