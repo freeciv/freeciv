@@ -224,6 +224,9 @@ bool universal_is_relevant_to_requirement(const struct requirement *req,
 #define requirement_fulfilled_by_output_type(_o_, _rqs_)                   \
   universal_fulfills_requirements(FALSE, (_rqs_),                          \
       &(struct universal){.kind = VUT_OTYPE, .value = {.outputtype = (_o_)}})
+#define requirement_fulfilled_by_action(_act_, _rqs_)                      \
+  universal_fulfills_requirements(FALSE, (_rqs_),                          \
+      &(struct universal){.kind = VUT_ACTION, .value = {.action = (_act_)}})
 
 #define requirement_needs_improvement(_imp_, _rqs_)                        \
   universal_fulfills_requirements(TRUE, (_rqs_),                           \
