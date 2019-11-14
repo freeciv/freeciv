@@ -4019,6 +4019,22 @@ static enum req_item_found extra_type_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if an action fulfills a requirement
+**************************************************************************/
+static enum req_item_found action_found(const struct requirement *preq,
+                                        const struct universal *source)
+{
+  fc_assert(source->value.action);
+
+  if (preq->source.kind == VUT_ACTION) {
+    return preq->source.value.action == source->value.action ? ITF_YES
+                                                             : ITF_NO;
+  }
+
+  return ITF_NOT_APPLICABLE;
+}
+
+/**********************************************************************//**
   Find if an output type fulfills a requirement
 **************************************************************************/
 static enum req_item_found output_type_found(const struct requirement *preq,
@@ -4047,6 +4063,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_TERRAIN] = &terrain_type_found;
   universal_found_function[VUT_EXTRA] = &extra_type_found;
   universal_found_function[VUT_OTYPE] = &output_type_found;
+  universal_found_function[VUT_ACTION] = &action_found;
 }
 
 /**************************************************************************
