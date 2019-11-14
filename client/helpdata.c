@@ -2442,6 +2442,25 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        action_get_battle_kind(paction)));
       }
 
+      {
+        struct universal req_pattern[] = {
+          { .kind = VUT_ACTION, .value.action = paction },
+          { .kind = VUT_UTYPE,  .value.utype = utype },
+        };
+        int success_move_frag_cost = effect_value_from_universals(
+            EFT_ACTION_SUCCESS_MOVE_COST,
+            req_pattern, ARRAY_SIZE(req_pattern));
+
+        /* Can't print the exact amount of move fragments. It isn't known.
+         * The action performer function may subtract some movement itself
+         * on top of what EFT_ACTION_SUCCESS_MOVE_COST takes. */
+        if (MAX_MOVE_FRAGS <= success_move_frag_cost) {
+          /* A value this size takes all the actor unit's move fragments. */
+          cat_snprintf(buf, bufsz,
+                       _("  * ends this unit's turn.\n"));
+        }
+      }
+
       if (action_id_get_target_kind(act) != ATK_SELF) {
         /* Distance to target is relevant. */
 
