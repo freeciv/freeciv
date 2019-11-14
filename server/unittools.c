@@ -1203,7 +1203,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     if (move_cost == -1) {
       move_cost = punit->moves_left;
     }
-    unit_move(punit, dst_tile, move_cost, NULL, FALSE, FALSE);
+    unit_move(punit, dst_tile, move_cost, NULL, FALSE, FALSE, FALSE);
 
     return TRUE;
   }
@@ -1266,7 +1266,7 @@ void bounce_unit(struct unit *punit, bool verbose)
      * because the transport is Unreachable and the unit doesn't have it in
      * its embarks field or because "Transport Embark" isn't enabled? Kept
      * like it was to preserve the old rules for now. -- Sveinung */
-    unit_move(punit, ptile, 0, NULL, TRUE, FALSE);
+    unit_move(punit, ptile, 0, NULL, TRUE, FALSE, FALSE);
     return;
   }
 
@@ -2337,7 +2337,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
             /* FIXME: Shouldn't unit_move_handling() be used here? This is
              * the unit escaping by moving itself. It should therefore
              * respect movement rules. */
-            unit_move(vunit, dsttile, move_cost, NULL, FALSE, FALSE);
+            unit_move(vunit, dsttile, move_cost, NULL, FALSE, FALSE, FALSE);
             num_escaped[player_index(vplayer)]++;
             escaped = TRUE;
             unitcount--;
@@ -2781,7 +2781,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city,
 
   unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
             /* Can only airlift to allied and domestic cities */
-            FALSE, FALSE);
+            FALSE, FALSE, FALSE);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2922,7 +2922,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                  && uclass_has_flag(unit_class_get(punit),
                                     UCF_CAN_OCCUPY_CITY)
                  && !unit_has_type_flag(punit, UTYF_CIVILIAN)
-                 && is_non_allied_city_tile(ptile, pplayer)))) {
+                 && is_non_allied_city_tile(ptile, pplayer)),
+                (extra_owner(ptile) == NULL
+                 || pplayers_at_war(extra_owner(ptile), unit_owner(punit)))
+                && tile_has_claimable_base(ptile, unit_type_get(punit)))) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));
@@ -3614,7 +3617,7 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
 **************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
                struct unit *embark_to, bool find_embark_target,
-               bool conquer_city_allowed)
+               bool conquer_city_allowed, bool conquer_extras_allowed)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -3629,7 +3632,6 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   bool unit_lives;
   bool adj;
   enum direction8 facing;
-  struct player *bowner;
 
   /* Some checks. */
   fc_assert_ret_val(punit != NULL, FALSE);
@@ -3696,8 +3698,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   }
 
   /* Claim ownership of fortress? */
-  bowner = extra_owner(pdesttile);
-  if ((bowner == NULL || pplayers_at_war(bowner, pplayer))
+  if (conquer_extras_allowed
       && tile_has_claimable_base(pdesttile, unit_type_get(punit))) {
     /* Yes. We claim *all* bases if there's *any* claimable base(s).
      * Even if original unit cannot claim other kind of bases, the

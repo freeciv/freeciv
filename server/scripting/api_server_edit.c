@@ -183,7 +183,11 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
                                         UCF_CAN_OCCUPY_CITY)
                      && !unit_has_type_flag(punit, UTYF_CIVILIAN)
                      && pplayers_at_war(unit_owner(punit),
-                                        city_owner(pcity))));
+                                        city_owner(pcity))),
+                    (extra_owner(dest) == NULL
+                     || pplayers_at_war(extra_owner(dest),
+                                        unit_owner(punit)))
+                    && tile_has_claimable_base(dest, unit_type_get(punit)));
   if (alive) {
     struct player *owner = unit_owner(punit);
 
@@ -595,7 +599,11 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                                        UCF_CAN_OCCUPY_CITY)
                     && !unit_has_type_flag(punit, UTYF_CIVILIAN)
                     && pplayers_at_war(unit_owner(punit),
-                                       city_owner(pcity))));
+                                       city_owner(pcity))),
+                   (extra_owner(ptile) == NULL
+                    || pplayers_at_war(extra_owner(ptile),
+                                       unit_owner(punit)))
+                   && tile_has_claimable_base(ptile, unit_type_get(punit)));
 }
 
 /*************************************************************************//**

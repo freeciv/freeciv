@@ -454,6 +454,9 @@ ui_name_suicide_attack = _("%sExplode Missile%s")
 ; /* TRANS: _Conquer City (100% chance of success). */
 ui_name_conquer_city = _("%sConquer City%s")
 
+; /* TRANS: _Capture Fortress (100% chance of success). */
+ui_name_conquer_extras = _("%sCapture Fortress%s")
+
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
@@ -1541,6 +1544,25 @@ actor_reqs    =
       "DiplRel",      "Cease-fire", "Local", FALSE
       "DiplRel",      "Peace",      "Local", FALSE
       "DiplRel",      "Never met",  "Local", FALSE
+    }
+
+[actionenabler_claim_extra_war]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",       "range"
+      "MinMoveFrags", "1",          "Local"
+      "DiplRel",      "War",        "Local"
+    }
+
+[actionenabler_claim_extra_unowned]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
     }
 
 [borders]

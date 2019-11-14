@@ -915,6 +915,31 @@ Actions done by a unit against a tile
 
 Actions done by a unit against all extras at a tile
 ===================================================
+"Conquer Extras" - Claim ownership of an extra.
+* UI name can be set using ui_name_conquer_extras
+* the actor unit must be on a tile next to the target.
+* the actor unit has at least one move fragment left (!)
+* the actor unit's current transport, if the actor unit is transported,
+  must be in a city or in a base native to the current transport if the
+  current transport's unit class has the Unreachable unit class flag and
+  the actor's unit type doesn't list the current transport's unit class in
+  disembarks.
+* the actor unit must be able to move to the target tile.
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* one of the target extras must claim territory and be native to the actor
+  unit.
+* the target tile can't contain any city or units not allied to the actor
+  unit.
+* the target tile isn't blocked for the actor unit by some other unit's
+  zone of control (ZOC)
 
 Actions done by a unit to it self
 =================================

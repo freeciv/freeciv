@@ -5610,13 +5610,6 @@ static void sg_load_player_units(struct loaddata *loading,
 
     unit_list_append(plr->units, punit);
     unit_list_prepend(unit_tile(punit)->units, punit);
-
-    /* Claim ownership of fortress? */
-    if ((extra_owner(ptile) == NULL
-         || pplayers_at_war(extra_owner(ptile), plr))
-        && tile_has_claimable_base(ptile, unit_type_get(punit))) {
-      tile_claim_bases(ptile, plr);
-    }
   }
 }
 

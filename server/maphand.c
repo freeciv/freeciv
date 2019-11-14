@@ -1758,7 +1758,7 @@ static void check_units_single_tile(struct tile *ptile)
            * have it in its embarks field or because "Transport Embark"
            * isn't enabled? Kept like it was to preserve the old rules for
            * now. -- Sveinung */
-          unit_alive = unit_move(punit, ptile2, 0, NULL, TRUE, FALSE);
+          unit_alive = unit_move(punit, ptile2, 0, NULL, TRUE, FALSE, FALSE);
           if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }

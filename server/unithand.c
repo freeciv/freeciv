@@ -464,6 +464,38 @@ static bool do_expel_unit(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Claim all ownable extras at tgt_tile.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_conquer_extras(struct player *act_player,
+                              struct unit *act_unit,
+                              struct tile *tgt_tile,
+                              const struct action *paction)
+{
+  bool success;
+  int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
+  struct player *tgt_player = extra_owner(tgt_tile);
+
+  /* Sanity check */
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_tile, FALSE);
+
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE, TRUE);
+
+  success = extra_owner(tgt_tile) == act_player;
+
+  if (success) {
+    /* May cause an incident */
+    action_consequence_success(paction, act_player, tgt_player, tgt_tile,
+                               tile_link(tgt_tile));
+  }
+
+  return success;
+}
+
+/**********************************************************************//**
   Restore some of the target unit's hit points.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -622,7 +654,7 @@ static bool do_disembark(struct player *act_player,
   fc_assert_ret_val(tgt_tile, FALSE);
   fc_assert_ret_val(paction, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE, FALSE);
 
   return TRUE;
 }
@@ -657,7 +689,7 @@ static bool do_unit_embark(struct player *act_player,
   /* Do it. */
   tgt_tile = unit_tile(tgt_unit);
   move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
-  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE, FALSE, FALSE);
 
   return TRUE;
 }
@@ -751,6 +783,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       } unit_list_iterate_end;
     }
     break;
+  case ACTRES_CONQUER_EXTRAS:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -1161,6 +1194,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       }
       break;
     case ACTRES_TRANSPORT_DISEMBARK:
+    case ACTRES_CONQUER_EXTRAS:
       if (target_tile) {
         action_custom = unit_move_to_tile_test(&(wld.map), punit,
                                                punit->activity,
@@ -1413,6 +1447,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((action_has_result_safe(paction, ACTRES_CONQUER_CITY)
+              || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
               || action_has_result_safe(paction,
                                         ACTRES_TRANSPORT_EMBARK)
               || action_has_result_safe(paction,
@@ -3246,6 +3281,11 @@ bool unit_perform_action(struct player *pplayer,
                                                             pcity,
                                                             paction));
     break;
+  case ACTRES_CONQUER_EXTRAS:
+    ACTION_STARTED_UNIT_EXTRAS(action_type, actor_unit, target_tile,
+                               do_conquer_extras(pplayer, actor_unit,
+                                                 target_tile, paction));
+    break;
   case ACTRES_AIRLIFT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_airline(actor_unit, pcity, paction));
@@ -4430,6 +4470,13 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                                    tile_index(def_tile), 0, "",
                                    ACTION_TRANSPORT_DISEMBARK2,
                                    ACT_REQ_RULES))
+        || (tile_has_claimable_base(def_tile, unit_type_get(punit))
+            && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
+                                                punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_CONQUER_EXTRAS,
+                                   ACT_REQ_RULES))
         || (unit_move_handling(punit, def_tile, FALSE, TRUE))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
@@ -4642,7 +4689,7 @@ static bool do_unit_conquer_city(struct player *act_player,
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE, TRUE);
 
   /* The city may have been destroyed during the conquest. */
   success = (!city_exist(tgt_city_id)
@@ -4868,6 +4915,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
               /* Don't override "Transport Embark" */
               NULL, FALSE,
               /* Don't override "Conquer City" */
+              FALSE,
+              /* Don't override "Conquer Extras" */
               FALSE);
 
     return TRUE;

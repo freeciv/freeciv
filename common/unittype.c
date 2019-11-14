@@ -333,6 +333,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_PILLAGE:
   case ACTRES_SPY_ATTACK:
   case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_CONQUER_EXTRAS:
     return TRUE;
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_TRADE_ROUTE:
@@ -1108,6 +1109,11 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
 
   if (action_has_result(paction, ACTRES_CONQUER_CITY)) {
     /* Moves into the city to occupy it. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTRES_CONQUER_EXTRAS)) {
+    /* Moves into the tile with the extras to capture them. */
     return TRUE;
   }
 

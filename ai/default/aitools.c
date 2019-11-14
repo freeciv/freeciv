@@ -920,6 +920,12 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* "Transport Disembark 2". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_TRANSPORT_DISEMBARK2);
+  } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
+             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
+                                                 punit, ptile, NULL)) {
+    /* Choose "Conquer Extras". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_CONQUER_EXTRAS);
   } else {
     /* Other move. */
     (void) unit_move_handling(punit, ptile, FALSE, TRUE);

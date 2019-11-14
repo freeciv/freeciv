@@ -847,7 +847,7 @@ bases = "\
 ;                           -1 to disable. If enabled, base cannot exist in\n\
 ;                           city tile.\n\
 ;                           Base (and border) ownership will change hands if\n\
-;                           an enemy unit occupies the tile.\n\
+;                           an enemy unit does "Conquer Extras" to the tile.\n\
 ; vision_main_sq          = Base will have main layer vision to this radius.\n\
 ;                           Vision initially provided to owner of unit that\n\
 ;                           built base; base will not then change hands unless\n\

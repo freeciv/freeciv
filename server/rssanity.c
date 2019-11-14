@@ -1345,6 +1345,12 @@ bool autoadjust_ruleset_data(void)
        * tile has no units remains hard coded. Kept "just in case" that
        * changes. */
       { ACTRES_CONQUER_CITY, ACTRES_ATTACK },
+
+      /* Hard code that the ability to perform a regular attack blocks
+       * extras conquest. Is redundant as long as the requirement that the
+       * target tile has no non allied units remains hard coded. Kept "just
+       * in case" that changes. */
+      { ACTRES_CONQUER_EXTRAS, ACTRES_ATTACK },
     };
 
     int i;

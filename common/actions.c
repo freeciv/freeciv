@@ -523,8 +523,8 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: a unit must move into a city to
-   * conquer it, move into a transport to embark and move out of a transport
-   * to disembark from it. */
+   * conquer it, move into a transport to embark, move out of a transport
+   * to disembark from it and move into an extra to conquer it. */
   oblig_hard_req_register(req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, 1),
                           FALSE,
@@ -533,6 +533,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CONQUER_CITY,
                           ACTRES_TRANSPORT_DISEMBARK,
                           ACTRES_TRANSPORT_EMBARK,
+                          ACTRES_CONQUER_EXTRAS,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: this eliminates the need to
@@ -1022,6 +1023,11 @@ static void hard_code_actions(void)
   actions[ACTION_CONQUER_CITY2] =
       unit_action_new(ACTION_CONQUER_CITY2, ACTRES_CONQUER_CITY,
                       ATK_CITY, ASTK_NONE,
+                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_EXTRAS] =
+      unit_action_new(ACTION_CONQUER_EXTRAS, ACTRES_CONQUER_EXTRAS,
+                      ATK_EXTRAS, ASTK_NONE,
                       ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_HEAL_UNIT] =
@@ -1975,6 +1981,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
   case ACTRES_CONQUER_CITY:
+  case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -2052,6 +2059,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
   case ACTRES_CONQUER_CITY:
+  case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -2990,6 +2998,33 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
     }
     break;
 
+  case ACTRES_CONQUER_EXTRAS:
+    if (!ignore_third_party) {
+      bool has_target = FALSE;
+
+      extra_type_by_cause_iterate(EC_BASE, pextra) {
+        if (!territory_claiming_base(pextra->data.base)) {
+          /* Hard requirement */
+          continue;
+        }
+
+        if (!is_native_extra_to_uclass(pextra,
+                                       utype_class(actor_unittype))) {
+          /* Hard requirement */
+          continue;
+        }
+
+        has_target = TRUE;
+        break;
+      } extra_type_by_cause_iterate_end;
+
+      if (!has_target) {
+        /* Reason: no extras can be conquered by this unit. */
+        return FALSE;
+      }
+    }
+    break;
+
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -3202,6 +3237,7 @@ action_hard_reqs_actor(enum action_result result,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_CONQUER_CITY:
+  case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -3678,6 +3714,22 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
+    break;
+
+  case ACTRES_CONQUER_EXTRAS:
+    /* Reason: "Conquer Extras" involves moving to the tile. */
+    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+                               FALSE, FALSE)) {
+      return TRI_NO;
+    }
+    /* Reason: Must have something to claim. The more specific restriction
+     * that the base must be native to the actor unit is hard coded in
+     * unit_move(), in action_actor_utype_hard_reqs_ok_full(), in
+     * helptext_extra(), in helptext_unit(), in do_attack() and in
+     * diplomat_bribe(). */
+    if (!tile_has_claimable_base(target_tile, actor_unittype)) {
+      return TRI_NO;
+    }
     break;
 
   case ACTRES_HEAL_UNIT:
@@ -5108,6 +5160,10 @@ action_prob(const action_id wanted_action,
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
+  case ACTRES_CONQUER_EXTRAS:
+    /* No battle is fought first. */
+    chance = ACTPROB_CERTAIN;
+    break;
   case ACTRES_HEAL_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
@@ -6276,6 +6332,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_AIRLIFT:
   case ACTRES_ATTACK:
   case ACTRES_CONQUER_CITY:
+  case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -6677,6 +6734,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_conquer_city";
   case ACTION_CONQUER_CITY2:
     return "ui_name_conquer_city_2";
+  case ACTION_CONQUER_EXTRAS:
+    return "ui_name_conquer_extras";
   case ACTION_HEAL_UNIT:
     return "ui_name_heal_unit";
   case ACTION_TRANSFORM_TERRAIN:
@@ -6900,6 +6959,9 @@ const char *action_ui_name_default(int act)
   case ACTION_CONQUER_CITY2:
     /* TRANS: _Conquer City 2 (100% chance of success). */
     return N_("%sConquer City 2%s");
+  case ACTION_CONQUER_EXTRAS:
+    /* TRANS: _Conquer Extras (100% chance of success). */
+    return N_("%sConquer Extras%s");
   case ACTION_HEAL_UNIT:
     /* TRANS: Heal _Unit (3% chance of success). */
     return N_("Heal %sUnit%s");
@@ -7057,6 +7119,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -7153,6 +7216,7 @@ int action_min_range_default(int act)
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -7242,6 +7306,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -7347,6 +7412,7 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -7459,6 +7525,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -7558,6 +7625,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
     /* actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_SPY_SPREAD_PLAGUE:

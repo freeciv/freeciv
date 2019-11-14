@@ -716,6 +716,17 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                                       ACT_REQ_RULES)))
       /* May have died while trying to disembark. */
       && unit_is_alive(diplomat_id)
+      /* Post bribe extras conquest. */
+      && (!tile_has_claimable_base(victim_tile, unit_type_get(pdiplomat))
+          || !(is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
+                                                pdiplomat, victim_tile,
+                                                NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(victim_tile), 0, "",
+                                      ACTION_CONQUER_EXTRAS,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to conquer extra. */
+      && unit_is_alive(diplomat_id)
       /* Post bribe move. */
       && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE)
       /* May have died while trying to move. */

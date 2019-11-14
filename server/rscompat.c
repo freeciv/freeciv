@@ -866,6 +866,21 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_TRANSPORT_UNLOAD;
     action_enabler_add(enabler);
 
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CONQUER_EXTRAS;
+    e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                            FALSE, TRUE, TRUE, DS_WAR);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CONQUER_EXTRAS;
+    e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                            FALSE, FALSE, TRUE,
+                            CITYT_EXTRAS_OWNED);
+    requirement_vector_append(&enabler->target_reqs, e_req);
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     rscompat_enablers_add_obligatory_hard_reqs();
     action_enablers_iterate(ae) {

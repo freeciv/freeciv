@@ -1294,6 +1294,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_EMBARK:
+  case ACTRES_CONQUER_EXTRAS:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
   }

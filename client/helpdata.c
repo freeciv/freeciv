@@ -3753,14 +3753,6 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
 		  "if this tile is within 3 tiles of a friendly city.\n"));
       }
 
-      if (pbase != NULL) {
-        if (territory_claiming_base(pbase)) {
-          CATLSTR(buf, bufsz,
-                  /* TRANS: indented; preserve leading spaces */
-                  _("  * Can be captured by such units if at war with the "
-                    "nation that currently owns it.\n"));
-        }
-      }
       if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,
                      /* TRANS: indented; preserve leading spaces */
@@ -3768,6 +3760,27 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                        "tile.\n"),
                      pextra->defense_bonus);
       }
+    }
+  }
+
+  if (pbase != NULL && territory_claiming_base(pbase)) {
+    const char *conquerors[utype_count()];
+    int i = 0;
+
+    unit_type_iterate(ut) {
+      if (utype_can_do_action_result(ut, ACTRES_CONQUER_EXTRAS)
+          && is_native_extra_to_uclass(pextra, utype_class(ut))) {
+        conquerors[i++] = utype_name_translation(ut);
+      }
+    } unit_type_iterate_end;
+
+    if (i > 0) {
+      struct astring list = ASTRING_INIT;
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a list of unit types separated by "and". */
+                   _("* Can be conquered by %s.\n"),
+                   astr_build_and_list(&list, conquerors, i));
+      astr_free(&list);
     }
   }
 
