@@ -3732,7 +3732,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
    * and subtract the MPs that had been used before the combat (plus the 
    * points used in the attack itself, for the attacker). -GJW, Glip
    */
-  punit->moves_left = unit_move_rate(punit) - moves_used - SINGLE_MOVE;
+  punit->moves_left = unit_move_rate(punit) - moves_used;
   pdefender->moves_left = unit_move_rate(pdefender) - def_moves_used;
 
   if (punit->moves_left < 0) {
@@ -3756,9 +3756,6 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
     city_reduce_size(pcity, 1, pplayer, "attack");
     city_refresh(pcity);
     send_city_info(NULL, pcity);
-  }
-  if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
-    punit->moves_left = 0;
   }
   if (punit->hp > 0 && pdefender->hp > 0) {
     /* Neither died */

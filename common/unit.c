@@ -2058,7 +2058,9 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
 int unit_pays_mp_for_action(const struct action *paction,
                             const struct unit *punit)
 {
-  return get_target_bonus_effects(NULL,
+  int mpco;
+
+  mpco = get_target_bonus_effects(NULL,
                                   unit_owner(punit),
                                   NULL,
                                   unit_tile(punit)
@@ -2066,6 +2068,16 @@ int unit_pays_mp_for_action(const struct action *paction,
                                   NULL, unit_tile(punit),
                                   punit, unit_type_get(punit), NULL, NULL,
                                   paction, EFT_ACTION_SUCCESS_MOVE_COST);
+
+  if (action_has_result(paction, ACTION_ATTACK)) {
+    if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
+      mpco += MAX_MOVE_FRAGS;
+    } else {
+      mpco += SINGLE_MOVE;
+    }
+  }
+
+  return mpco;
 }
 
 /**********************************************************************//**
