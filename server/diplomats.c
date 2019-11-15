@@ -276,7 +276,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
     }
   } improvement_iterate_end;
 
-  packet.diplomat_id = pdiplomat->id;
+  packet.actor_id = pdiplomat->id;
   packet.city_id = pcity->id;
   packet.act_id = paction->id;
   packet.disturb_player = disturb_player;

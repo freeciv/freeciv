@@ -835,7 +835,7 @@ PACKET_CITY_NAME_SUGGESTION_INFO = 44; sc, dsend, lsend
 end
 
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
-  UNIT diplomat_id;
+  UNIT actor_id;
   CITY city_id;
   BV_IMPRS improvements;
   ACTION_ID act_id;
@@ -1093,7 +1093,7 @@ PACKET_UNIT_UNLOAD = 76; cs, dsend
 end
 
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
-  UNIT diplomat_id;
+  UNIT actor_id;
   ACTION_TGT target_id;   # city_id or unit_id
   ACTION_ID action_type;
 
@@ -1113,7 +1113,7 @@ PACKET_UNIT_DO_ACTION = 84; cs, dsend
 end
 
 PACKET_UNIT_ACTION_ANSWER = 85; sc, dsend
-  UNIT diplomat_id;
+  UNIT actor_id;
   ACTION_TGT target_id;   # city_id or unit_id
   GOLD cost;
   ACTION_ID action_type;
