@@ -2149,12 +2149,12 @@ static void illegal_action(struct player *pplayer,
   Inform the client that something went wrong during a unit diplomat query
 **************************************************************************/
 static void unit_query_impossible(struct connection *pc,
-                                  const int diplomat_id,
+                                  const int actor_id,
                                   const int target_id,
                                   bool disturb_player)
 {
   dsend_packet_unit_action_answer(pc,
-                                  diplomat_id, target_id,
+                                  actor_id, target_id,
                                   0,
                                   ACTION_NONE,
                                   disturb_player);
