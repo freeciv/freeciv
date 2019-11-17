@@ -26,16 +26,35 @@ fi
 for ruleset in $rulesets; do
   resaved="rs_${ruleset}_resaved"
   resaved_path="${tmpdir}/${resaved}"
+  reresaved="resaved_rs_${ruleset}"
+  reresaved_path="${tmpdir}/${reresaved}"
 
   echo "Loading $ruleset and saving it as $resaved"
   @abs_top_builddir@/fcruleup -F -r $ruleset \
       --output "$resaved_path" \
     || exit 1
 
-  echo "Trying to load $ruleset resaved as $resaved"
+  echo "Trying to load $ruleset saved as $resaved"
   FREECIV_DATA_PATH=$tmpdir \
       @abs_top_builddir@/tests/rs_test_res/ruleset_loads.sh "$resaved" \
     || exit 1
+
+  echo "Checking ruleset saving stability for $ruleset"
+
+  echo "Resaving resaved $ruleset"
+  FREECIV_DATA_PATH=$tmpdir @abs_top_builddir@/fcruleup -r "$resaved" \
+      --output "$reresaved_path" \
+    || exit 1
+  if [ ! -d "$reresaved_path" ] ; then
+    echo "Missing $reresaved_path means that resaving must have failed."
+    exit 1
+  fi
+  result="`diff -u \"${resaved_path}\" \"${reresaved_path}\"`"
+  if test "x$result" != "x" ; then
+    echo "$result"
+    echo "Unstable ruleset saving."
+    exit 1
+  fi
 done
 
 rm -rf "${tmpdir}"
