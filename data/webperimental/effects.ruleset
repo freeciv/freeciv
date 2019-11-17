@@ -2667,7 +2667,7 @@ reqs    =
 
 [effect_action_success_move_cost_heal_unit]
 type    = "Action_Success_Actor_Move_Cost"
-value   = 65535
+value   = 3
 reqs    =
     { "type", "name", "range", "present"
       "Action", "Heal Unit", "Local", TRUE
