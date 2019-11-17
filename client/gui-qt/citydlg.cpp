@@ -3349,7 +3349,7 @@ void city_dialog::update_improvements()
       str = city_improvement_name_translation(pcity, target.value.building);
       sprite = get_building_sprite(tileset, target.value.building);
       tooltip = get_tooltip_improvement(target.value.building,
-                                        nullptr, true).trimmed();
+                                        pcity, true).trimmed();
 
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
