@@ -4043,6 +4043,48 @@ static enum req_item_found action_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if a diplrel fulfills a requirement
+**************************************************************************/
+static enum req_item_found diplrel_found(const struct requirement *preq,
+                                         const struct universal *source)
+{
+  if (preq->source.kind == VUT_DIPLREL) {
+    if (preq->source.value.diplrel == source->value.diplrel) {
+      /* The diplrel itself. */
+      return ITF_YES;
+    }
+    if (preq->source.value.diplrel == DRO_FOREIGN
+        && source->value.diplrel < DS_LAST) {
+      /* All diplstate_type values are to foreigners. */
+      return ITF_YES;
+    }
+    if (preq->source.value.diplrel == DRO_HOSTS_EMBASSY
+        && source->value.diplrel == DRO_HOSTS_REAL_EMBASSY) {
+      /* A real embassy is an embassy. */
+      return ITF_YES;
+    }
+    if (preq->source.value.diplrel == DRO_HAS_EMBASSY
+        && source->value.diplrel == DRO_HAS_REAL_EMBASSY) {
+      /* A real embassy is an embassy. */
+      return ITF_YES;
+    }
+    if (preq->source.value.diplrel < DS_LAST
+        && source->value.diplrel < DS_LAST
+        && preq->range == REQ_RANGE_LOCAL) {
+      fc_assert_ret_val(preq->source.value.diplrel != source->value.diplrel,
+                        ITF_YES);
+      /* Can only have one diplstate_type to a specific player. */
+      return ITF_NO;
+    }
+    /* Can't say this diplrel blocks the other diplrel. */
+    return ITF_NOT_APPLICABLE;
+  }
+
+  /* Not relevant. */
+  return ITF_NOT_APPLICABLE;
+}
+
+/**********************************************************************//**
   Find if an output type fulfills a requirement
 **************************************************************************/
 static enum req_item_found output_type_found(const struct requirement *preq,
@@ -4072,6 +4114,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_EXTRA] = &extra_type_found;
   universal_found_function[VUT_OTYPE] = &output_type_found;
   universal_found_function[VUT_ACTION] = &action_found;
+  universal_found_function[VUT_DIPLREL] = &diplrel_found;
 }
 
 /**********************************************************************//**
