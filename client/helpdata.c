@@ -2570,6 +2570,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       }
 
+      i = 0;
       action_iterate(blocker) {
         if (!utype_can_do_action(utype, blocker)) {
           /* Can't block since never legal. */
