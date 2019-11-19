@@ -156,8 +156,8 @@ static void action_consequence_common(const struct action *paction,
 {
   int casus_belli_amount;
 
-  /* The victim gets a casus belli if 1 or above. Everyone gets a casus
-   * belli if 1000 or above. */
+  /* The victim gets a casus belli if CASUS_BELLI_VICTIM or above. Everyone
+   * gets a casus belli if CASUS_BELLI_OUTRAGE or above. */
   casus_belli_amount =
       get_target_bonus_effects(NULL,
                                offender, victim_player,
@@ -169,13 +169,13 @@ static void action_consequence_common(const struct action *paction,
                                paction,
                                eft);
 
-  if (casus_belli_amount >= 1) {
+  if (casus_belli_amount >= CASUS_BELLI_VICTIM) {
     /* In this situation the specified action provides a casus belli
      * against the actor. */
 
     /* International outrage: This isn't just between the offender and the
      * victim. */
-    const bool int_outrage = casus_belli_amount >= 1000;
+    const bool int_outrage = casus_belli_amount >= CASUS_BELLI_OUTRAGE;
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,
