@@ -249,6 +249,19 @@ typedef int Unit_Class_id;
  * cannot use specenum function call direction8_max(). */
 #define DIR8_MAGIC_MAX 8
 
+/* The victim gets a casus belli if EFT_CASUS_BELLI_* is equal to or above
+ * CASUS_BELLI_VICTIM. To change this value you must update the
+ * documentation of each Casus_Belli_* effect in
+ * doc/README.effects, update existing rulesets and add ruleset
+ * compatibility code to server/rscompat.c. */
+#define CASUS_BELLI_VICTIM 1
+/* International outrage: Everyone gets a casus belli if EFT_CASUS_BELLI_*
+ * is equal to or above CASUS_BELLI_OUTRAGE. To change this value you must
+ * update the documentation of each Casus_Belli_* effect in
+ * doc/README.effects, update existing rulesets and add ruleset
+ * compatibility code to server/rscompat.c. */
+#define CASUS_BELLI_OUTRAGE 1000
+
 /* Used in the network protocol. */
 /* server/commands.c must match these */
 #define SPECENUM_NAME ai_level
