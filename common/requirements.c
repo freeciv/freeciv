@@ -3779,7 +3779,10 @@ enum req_item_found
 universal_fulfills_requirement(const struct requirement *preq,
                                const struct universal *source)
 {
-  fc_assert(universal_found_function[source->kind]);
+  fc_assert_ret_val_msg(universal_found_function[source->kind],
+                        ITF_NOT_APPLICABLE,
+                        "No req item found function for %s",
+                        universal_type_rule_name(source));
 
   return (*universal_found_function[source->kind])(preq, source);
 }
@@ -3800,7 +3803,10 @@ bool universal_fulfills_requirements(bool check_necessary,
 {
   bool necessary = FALSE;
 
-  fc_assert(universal_found_function[source->kind]);
+  fc_assert_ret_val_msg(universal_found_function[source->kind],
+                        !check_necessary,
+                        "No req item found function for %s",
+                        universal_type_rule_name(source));
 
   requirement_vector_iterate(reqs, preq) {
     switch ((*universal_found_function[source->kind])(preq, source)) {
