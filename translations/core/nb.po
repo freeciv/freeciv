@@ -11387,6 +11387,39 @@ msgstr "* Kystlinja til dette terrenget er utrygg."
 msgid "* Can be traveled by %s units.\n"
 msgstr " * Kan okkupere tomme fiendtlie byer.\n"
 
+#. TRANS: ...performing this action ... Casus Belli
+#: client/helpdata.c:2506
+#, fuzzy
+msgid "successfully"
+msgstr "gjennomfører du"
+
+#. TRANS: ...performing this action ... Casus Belli
+#: client/helpdata.c:2508
+#, fuzzy
+msgid "getting caught before"
+msgstr "blir du tatt i et forsøk på"
+
+#. TRANS: successfully ... Peace, or Alliance
+#: client/helpdata.c:2550
+#, c-format
+#, fuzzy
+msgid ""
+"  * %s performing this action during %s causes international outrage: the "
+"whole world gets Casus Belli against you.\n"
+msgstr ""
+"  * %s denne handlingen under %s forårsaker du internasjonalt raseri: "
+"hele verden får Casus Belli imot deg.\n"
+
+#. TRANS: successfully ... Peace, or Alliance
+#: client/helpdata.c:2562
+#, c-format
+#, fuzzy
+msgid ""
+"  * %s performing this action during %s gives the victim Casus Belli against "
+"you.\n"
+msgstr ""
+"  * %s denne handlingen under %s får offeret ditt Casus Belli imot deg.\n"
+
 #: client/helpdata.c:2497
 msgid ""
 "* Units on this terrain neither impose zones of control nor are restricted "
