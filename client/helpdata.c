@@ -2527,6 +2527,86 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
 
+      /* The action may be a Casus Belli. */
+      {
+        const struct {
+          const enum effect_type eft;
+          const char *hlp_text;
+        } casus_belli[] = {
+          /* TRANS: ...performing this action ... Casus Belli */
+          { EFT_CASUS_BELLI_SUCCESS, N_("successfully") },
+          /* TRANS: ...performing this action ... Casus Belli */
+          { EFT_CASUS_BELLI_CAUGHT, N_("getting caught before") },
+        };
+
+        struct universal req_pattern[] = {
+          { .kind = VUT_ACTION,  .value.action = paction },
+          { .kind = VUT_DIPLREL, /* value filled in later */ },
+        };
+
+        /* First group by effect (currently getting caught and successfully
+         * performing the action) */
+        for (i = 0; i < ARRAY_SIZE(casus_belli); i++) {
+          int diplrel;
+
+          /* DiplRel list of each Casus Belli size. */
+          const char *victim_diplrel_names[DRO_LAST];
+          const char *outrage_diplrel_names[DRO_LAST];
+          int victim_diplrel_count = 0;
+          int outrage_diplrel_count = 0;
+
+          /* Ignore Team and everything in diplrel_other. */
+          for (diplrel = 0; diplrel < DS_NO_CONTACT; diplrel++) {
+            int casus_belli_amount;
+
+            if (!can_utype_do_act_if_tgt_diplrel(utype, act,
+                                                 diplrel, TRUE)) {
+              /* Can't do the action. Can't give Casus Belli. */
+              continue;
+            }
+
+            req_pattern[1].value.diplrel = diplrel;
+            casus_belli_amount = effect_value_from_universals(
+                casus_belli[i].eft,
+                req_pattern, ARRAY_SIZE(req_pattern));
+
+            if (CASUS_BELLI_OUTRAGE <= casus_belli_amount) {
+              outrage_diplrel_names[outrage_diplrel_count++] =
+                  diplrel_name_translation(diplrel);
+            } else if (CASUS_BELLI_VICTIM <= casus_belli_amount) {
+              victim_diplrel_names[victim_diplrel_count++] =
+                  diplrel_name_translation(diplrel);
+            }
+          }
+
+          /* Then group by Casus Belli size (currently victim and
+           * international outrage) */
+          if (outrage_diplrel_count > 0) {
+            struct astring list = ASTRING_INIT;
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: successfully ... Peace, or Alliance  */
+                         _("  * %s performing this action during %s causes"
+                           " international outrage: the whole world gets "
+                           "Casus Belli against you.\n"),
+                         _(casus_belli[i].hlp_text),
+                         astr_build_or_list(&list, outrage_diplrel_names,
+                                            outrage_diplrel_count));
+            astr_free(&list);
+          }
+          if (victim_diplrel_count > 0) {
+            struct astring list = ASTRING_INIT;
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: successfully ... Peace, or Alliance  */
+                         _("  * %s performing this action during %s gives"
+                           " the victim Casus Belli against you.\n"),
+                         _(casus_belli[i].hlp_text),
+                         astr_build_or_list(&list, victim_diplrel_names,
+                                            victim_diplrel_count));
+            astr_free(&list);
+          }
+        }
+      }
+
       /* Custom action specific information. */
       switch (act) {
       case ACTION_HELP_WONDER:
