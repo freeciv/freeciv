@@ -240,8 +240,6 @@ struct civ_game {
       struct rgbcolor_list *plr_colors;
 
       struct section_file *luadata;
-      int nuke_pop_loss_pct;
-      int nuke_defender_survival_chance_pct;
 
       struct {
         int turns;

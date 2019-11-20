@@ -6416,13 +6416,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_ONLY_KILLING_VETERAN,
                                     "combat_rules.only_killing_makes_veteran");
 
-    game.server.nuke_pop_loss_pct = secfile_lookup_int_default_min_max(file,
+    game.info.nuke_pop_loss_pct = secfile_lookup_int_default_min_max(file,
                                            RS_DEFAULT_NUKE_POP_LOSS_PCT,
                                            RS_MIN_NUKE_POP_LOSS_PCT,
                                            RS_MAX_NUKE_POP_LOSS_PCT,
                                            "combat_rules.nuke_pop_loss_pct");
 
-    game.server.nuke_defender_survival_chance_pct = secfile_lookup_int_default_min_max(file,
+    game.info.nuke_defender_survival_chance_pct = secfile_lookup_int_default_min_max(file,
                                         RS_DEFAULT_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT,
                                         RS_MIN_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT,
                                         RS_MAX_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT,

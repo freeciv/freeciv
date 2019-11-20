@@ -2685,6 +2685,32 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(utype->converted_to),
                      utype->convert_time);
         break;
+      case ACTION_SPY_NUKE:
+      case ACTION_SPY_NUKE_ESC:
+      case ACTION_NUKE:
+        if (game.info.nuke_pop_loss_pct > 0) {
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: percentage */
+                       _("  * %d%% of the population of each city inside"
+                         " the nuclear blast dies.\n"),
+                         game.info.nuke_pop_loss_pct);
+        }
+        if (game.info.nuke_defender_survival_chance_pct > 0) {
+          cat_snprintf(buf, bufsz,
+                       _("  * all units caught in the open by the nuclear"
+                         " blast dies.\n"));
+          cat_snprintf(buf, bufsz,
+                       /* TRANS: percentage */
+                       _("  * a unit caught in the nuclear blast while"
+                         " inside a city has a %d%% chance of survival.\n"),
+                         game.info.nuke_defender_survival_chance_pct);
+        } else {
+          cat_snprintf(buf, bufsz,
+                       _("  * all units caught in the nuclear blast"
+                         " dies.\n"));
+        }
+
+        break;
       default:
         /* No action specific details. */
         break;
