@@ -270,7 +270,8 @@ that turns out to be illegal.
 
 Action_Success_Actor_Move_Cost
     The number of move fragments lost when a unit successfully performs an
-action. Evaluated and done after the action is successfully completed.
+action. Evaluated and done after the action is successfully completed. Added
+on top of any movement fragments the action itself subtracts.
 
 Casus_Belli_Caught
     Checked when a player is caught trying to do an action. Will cause an
