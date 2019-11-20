@@ -2366,6 +2366,32 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       astr_free(&list);
     }
   }
+
+  /* Auto attack immunity. (auto_attack.will_never ruleset setting) */
+  if (server_setting_value_bool_get(
+        server_setting_by_name("autoattack"))) {
+    bool not_an_auto_attacker = TRUE;
+
+    action_auto_perf_iterate(auto_action) {
+      if (auto_action->cause != AAPC_UNIT_MOVED_ADJ) {
+        /* Not relevant for auto attack. */
+        continue;
+      }
+
+      if (requirement_fulfilled_by_unit_type(utype, &auto_action->reqs)) {
+        /* Can be forced to auto attack. */
+        not_an_auto_attacker = FALSE;
+        break;
+      }
+    } action_auto_perf_iterate_end;
+
+    if (not_an_auto_attacker) {
+      CATLSTR(buf, bufsz,
+              _("* Will never be forced (by the autoattack server setting)"
+                " to attack units moving to an adjacent tile.\n"));
+    }
+  }
+
   action_iterate(act) {
     struct action *paction = action_by_number(act);
 
