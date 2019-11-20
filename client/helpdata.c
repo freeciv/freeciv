@@ -2616,6 +2616,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("  * adds %d production.\n"),
                      utype_build_shield_cost_base(utype));
         break;
+      case ACTION_HEAL_UNIT:
+        cat_snprintf(buf, bufsz,
+                     _("  * restores up to 25%% of the target unit's"
+                       " hit points.\n"));
+        break;
       case ACTION_FOUND_CITY:
         if (game.scenario.prevent_new_cities) {
           cat_snprintf(buf, bufsz,
