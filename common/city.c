@@ -629,7 +629,7 @@ Output_type_id output_type_by_identifier(const char *id)
   Output_type_id o;
 
   for (o = 0; o < O_LAST; o++) {
-    if (fc_strcasecmp(output_types[o].name, id) == 0) {
+    if (fc_strcasecmp(output_types[o].id, id) == 0) {
       return o;
     }
   }
