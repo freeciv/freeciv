@@ -3426,7 +3426,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_ACTION:
     return action_rule_name(psource->value.action);
   case VUT_OTYPE:
-    return get_output_name(psource->value.outputtype);
+    return get_output_identifier(psource->value.outputtype);
   case VUT_SPECIALIST:
     return specialist_rule_name(psource->value.specialist);
   case VUT_MINSIZE:
