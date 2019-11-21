@@ -449,6 +449,19 @@ Actions done by a unit against another unit
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
 
+"Transport Alight" - Exit target transport to same tile.
+ * UI name can be set using ui_name_transport_alight
+ * actor must be on the same tile as the target
+ * actor must be transported (!)
+ * actor must be on a livable tile (!)
+ * actor must be at a tile with a city or a refuel extra if it uses fuel or
+   is loosing hp
+ * target must be transporting (!)
+ * target must be in a city or in a native base if the target's unit class
+   has the Unreachable unit class flag and the actor's unit type doesn't
+   list the target's unit class in disembarks.
+ * target must be visible for the actor.
+
 Actions done by a unit against all units at a tile
 ==================================================
 "Capture Units" - steal the target units.

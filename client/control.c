@@ -2029,7 +2029,12 @@ void request_unit_unload(struct unit *pcargo)
       && ptrans
       && can_unit_unload(pcargo, ptrans)
       && can_unit_survive_at_tile(&(wld.map), pcargo, unit_tile(pcargo))) {
-    dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
+    if (unit_owner(pcargo) == client.conn.playing) {
+      request_do_action(ACTION_TRANSPORT_ALIGHT,
+                        pcargo->id, ptrans->id, 0, "");
+    } else {
+      dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
+    }
 
     if (unit_owner(pcargo) == client.conn.playing
         && pcargo->activity == ACTIVITY_SENTRY) {

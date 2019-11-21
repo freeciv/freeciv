@@ -494,6 +494,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     requirement_vector_append(&enabler->actor_reqs, e_req);
     action_enabler_add(enabler);
 
+    enabler = action_enabler_new();
+    enabler->action = ACTION_TRANSPORT_ALIGHT;
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       if (action_enabler_obligatory_reqs_missing(ae)) {

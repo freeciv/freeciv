@@ -348,6 +348,29 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require that "
                           "the target isn't transporting another unit.",
                           ACTION_CAPTURE_UNITS, ACTION_NONE);
+
+  /* Why this is a hard requirement: sanity. */
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          USP_TRANSPORTING),
+                          TRUE,
+                          "All action enablers for %s must require that "
+                          "the target is transporting a unit.",
+                          ACTION_TRANSPORT_ALIGHT, ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          USP_TRANSPORTED),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor is transported.",
+                          ACTION_TRANSPORT_ALIGHT, ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          USP_LIVABLE_TILE),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor is on a livable tile.",
+                          ACTION_TRANSPORT_ALIGHT, ACTION_NONE);
 }
 
 /**********************************************************************//**
@@ -637,6 +660,10 @@ static void hard_code_actions(void)
   actions[ACTION_IRRIGATE] =
       action_new(ACTION_IRRIGATE, ATK_TILE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_ALIGHT] =
+      action_new(ACTION_TRANSPORT_ALIGHT, ATK_UNIT,
+                 FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
 }
 
@@ -1872,6 +1899,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_TRANSPORT_ALIGHT:
     /* No hard unit type requirements. */
     break;
 
@@ -2032,6 +2060,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
+  case ACTION_TRANSPORT_ALIGHT:
     /* No hard unit requirements. */
     break;
 
@@ -2713,6 +2742,17 @@ is_action_possible(const action_id wanted_action,
     pterrain = tile_terrain(actor_tile);
     if (terrain_has_flag(pterrain, TER_NO_FORTIFY)
         && !tile_city(actor_tile)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSPORT_ALIGHT:
+    if (!can_unit_unload(actor_unit, target_unit)) {
+      /* Keep the old rules about Unreachable and disembarks. */
+      return TRI_NO;
+    }
+    if (!can_unit_survive_at_tile(&(wld.map), actor_unit, actor_tile)) {
+      /* Keep the old rules. */
       return TRI_NO;
     }
     break;
@@ -3716,6 +3756,9 @@ action_prob(const action_id wanted_action,
   case ACTION_MINE:
   case ACTION_IRRIGATE:
     chance = ACTPROB_CERTAIN;
+    break;
+  case ACTION_TRANSPORT_ALIGHT:
+    /* TODO */
     break;
   case ACTION_COUNT:
     fc_assert(wanted_action != ACTION_COUNT);
@@ -4964,6 +5007,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_build_mine";
   case ACTION_IRRIGATE:
     return "ui_name_irrigate";
+  case ACTION_TRANSPORT_ALIGHT:
+    return "ui_name_transport_alight";
   case ACTION_COUNT:
     break;
   }
@@ -5144,6 +5189,9 @@ const char *action_ui_name_default(int act)
   case ACTION_IRRIGATE:
     /* TRANS: Build _Irrigation (100% chance of success). */
     return N_("Build %sIrrigation%s");
+  case ACTION_TRANSPORT_ALIGHT:
+    /* TRANS: _Alight (100% chance of success). */
+    return N_("%sAlight%s");
   }
 
   return NULL;

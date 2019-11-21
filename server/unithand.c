@@ -535,6 +535,23 @@ static bool do_heal_unit(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Unload actor unit from target unit.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_alight(struct player *act_player,
+                           struct unit *act_unit,
+                           struct unit *tgt_unit,
+                           const struct action *paction)
+{
+  /* Unload the unit and send out info to clients. */
+  unit_transport_unload_send(act_unit);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -659,6 +676,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
+  case ACTION_TRANSPORT_ALIGHT:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2535,6 +2553,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              do_heal_unit(pplayer, actor_unit, punit,
                                           paction));
+    break;
+  case ACTION_TRANSPORT_ALIGHT:
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_unit_alight(pplayer, actor_unit, punit,
+                                            paction));
     break;
   case ACTION_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
@@ -4745,9 +4768,8 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
     return;
   }
 
-  /* You are allowed to unload a unit if it is yours or if the transporter
-   * is yours. */
-  if (unit_owner(pcargo) != pplayer && unit_owner(ptrans) != pplayer) {
+  /* You are allowed to unload a unit if the transporter is yours. */
+  if (unit_owner(ptrans) != pplayer) {
     return;
   }
 
