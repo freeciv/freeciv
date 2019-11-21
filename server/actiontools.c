@@ -69,6 +69,26 @@ static void action_success_pay_mp(struct action *paction,
 }
 
 /**********************************************************************//**
+  Pay the movement point price of being the target of an action.
+**************************************************************************/
+void action_success_target_pay_mp(struct action *paction,
+                                  int target_id, struct unit *target)
+{
+  if (unit_is_alive(target_id)) {
+    int spent_mp = get_target_bonus_effects(
+        NULL,
+        unit_owner(target), NULL,
+        unit_tile(target) ? tile_city(unit_tile(target)) : NULL,
+        NULL, unit_tile(target), target, unit_type_get(target),
+        NULL, NULL, paction,
+        EFT_ACTION_SUCCESS_TARGET_MOVE_COST);
+
+    target->moves_left = MAX(0, target->moves_left - spent_mp);
+    send_unit_info(NULL, target);
+  }
+}
+
+/**********************************************************************//**
   Make the actor that successfully performed the action pay the price.
 **************************************************************************/
 void action_success_actor_price(struct action *paction,

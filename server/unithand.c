@@ -437,7 +437,7 @@ static bool do_expel_unit(struct player *pplayer,
                 target_link, nation_plural_for_player(pplayer));
 
   /* Being expelled destroys all remaining movement. */
-  if (!teleport_unit_to_city(target, pcity, -1, FALSE)) {
+  if (!teleport_unit_to_city(target, pcity, 0, FALSE)) {
     log_error("Bug in unit expulsion: unit can't teleport.");
 
     return FALSE;
@@ -2458,6 +2458,7 @@ bool unit_perform_action(struct player *pplayer,
     success = action_performer;                                           \
     if (success) {                                                        \
       action_success_actor_price(paction, actor_id, actor);               \
+      action_success_target_pay_mp(paction, target_id, punit);            \
     }                                                                     \
     return success;                                                       \
   } else {                                                                \

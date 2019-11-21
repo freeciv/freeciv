@@ -2657,6 +2657,14 @@ reqs    =
       "Action", "Expel Unit", "Local", TRUE
     }
 
+[effect_action_success_move_cost_expelled]
+type    = "Action_Success_Target_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Expel Unit", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_bombard]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

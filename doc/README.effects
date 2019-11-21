@@ -273,6 +273,13 @@ Action_Success_Actor_Move_Cost
 action. Evaluated and done after the action is successfully completed. Added
 on top of any movement fragments the action itself subtracts.
 
+Action_Success_Target_Move_Cost
+    The number of move fragments subtracted from a unit when someone
+successfully performs an action on it. Evaluated and done after the action
+is successfully completed. Added on top of any movement fragments the
+action itself subtracts. Only supported for actions that targets an
+individual unit. (See doc/README.actions)
+
 Casus_Belli_Caught
     Checked when a player is caught trying to do an action. Will cause an
 incident with the intended victim player if the value is 1 or higher. The

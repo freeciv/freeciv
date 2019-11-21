@@ -32,6 +32,9 @@ void action_consequence_success(const struct action *paction,
                                 const struct tile *victim_tile,
                                 const char *victim_link);
 
+void action_success_target_pay_mp(struct action *paction,
+                                  int target_id, struct unit *target);
+
 void action_success_actor_price(struct action *paction,
                                 int actor_id, struct unit *actor);
 

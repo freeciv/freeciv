@@ -633,6 +633,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     v -= amount * num / 20;
     break;
   case EFT_ACTION_SUCCESS_MOVE_COST:
+  case EFT_ACTION_SUCCESS_TARGET_MOVE_COST:
     /* Someone may put MAX_MOVE_FRAGS in this effect to make sure that all
      * movement is gone. */
     v -= amount / (adv_want)MAX_MOVE_FRAGS;

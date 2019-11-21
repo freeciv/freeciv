@@ -434,6 +434,15 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             TRUE, "Investigate City"));
 
+    /* Post successful action move fragment loss for targets of "Expel Unit"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_TARGET_MOVE_COST,
+                         MAX_MOVE_FRAGS, NULL);
+
+    /* The reduction only applies to "Expel Unit". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Expel Unit"));
+
   }
 
   if (info->ver_units < 20) {

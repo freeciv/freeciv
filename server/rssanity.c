@@ -438,6 +438,27 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
   int one_tile = -1; /* TODO: Determine correct value from effect.
                       *       -1 disables checking */
 
+  if (peffect->type == EFT_ACTION_SUCCESS_TARGET_MOVE_COST) {
+    /* Only unit targets can pay in move fragments. */
+    requirement_vector_iterate(&peffect->reqs, preq) {
+      if (preq->source.kind == VUT_ACTION) {
+        if (action_get_target_kind(preq->source.value.action) != ATK_UNIT) {
+          /* TODO: support for ATK_UNITS could be added. That would require
+           * manually calling action_success_target_pay_mp() in each
+           * supported unit stack targeted action performer (like
+           * action_consequence_success() does) or to have the unit stack
+           * targeted actions return a list of targets. */
+          log_error("The effect Action_Success_Target_Move_Cost has the"
+                    " requirement {%s} but the action %s isn't"
+                    " (single) unit targeted.",
+                    req_to_fstring(preq),
+                    universal_rule_name(&preq->source));
+          return FALSE;
+        }
+      }
+    } requirement_vector_iterate_end;
+  }
+
   return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
                               effect_type_name(peffect->type));
 }

@@ -298,6 +298,8 @@ extern "C" {
 #define SPECENUM_VALUE117NAME "Conquest_Tech_Pct"
 #define SPECENUM_VALUE118 EFT_ACTION_SUCCESS_MOVE_COST
 #define SPECENUM_VALUE118NAME "Action_Success_Actor_Move_Cost"
+#define SPECENUM_VALUE119 EFT_ACTION_SUCCESS_TARGET_MOVE_COST
+#define SPECENUM_VALUE119NAME "Action_Success_Target_Move_Cost"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"
