@@ -2033,7 +2033,8 @@ void request_unit_unload(struct unit *pcargo)
       request_do_action(ACTION_TRANSPORT_ALIGHT,
                         pcargo->id, ptrans->id, 0, "");
     } else {
-      dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
+      request_do_action(ACTION_TRANSPORT_UNLOAD,
+                        ptrans->id, pcargo->id, 0, "");
     }
 
     if (unit_owner(pcargo) == client.conn.playing

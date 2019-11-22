@@ -797,6 +797,20 @@ static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Transport Unload" from choice dialog
+**************************************************************************/
+static void transport_unload_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  request_do_action(ACTION_TRANSPORT_UNLOAD, args->actor_unit_id,
+                    args->target_unit_id, 0, "");
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   User selected "Transport Alight" from choice dialog
 **************************************************************************/
 static void transport_alight_callback(GtkWidget *w, gpointer data)
@@ -2012,6 +2026,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_EXPEL_UNIT] = (GCallback)expel_unit_callback,
   [ACTION_HEAL_UNIT] = (GCallback)heal_unit_callback,
   [ACTION_TRANSPORT_ALIGHT] = (GCallback)transport_alight_callback,
+  [ACTION_TRANSPORT_UNLOAD] = (GCallback)transport_unload_callback,
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,

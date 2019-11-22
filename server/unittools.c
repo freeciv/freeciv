@@ -4842,6 +4842,7 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_FORTIFY:
       case ACTION_CONVERT:
       case ACTION_TRANSPORT_ALIGHT:
+      case ACTION_TRANSPORT_UNLOAD:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

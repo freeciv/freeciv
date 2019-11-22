@@ -702,6 +702,34 @@ bool can_unit_unload(const struct unit *pcargo, const struct unit *ptrans)
 }
 
 /**********************************************************************//**
+  Return TRUE iff the given unit can leave its current transporter without
+  doing any other action or move.
+**************************************************************************/
+bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
+                                    const struct unit *ptrans)
+{
+  if (!pcargo || !ptrans) {
+    return FALSE;
+  }
+
+  fc_assert_ret_val(unit_transport_get(pcargo) == ptrans, FALSE);
+
+  if (is_server()) {
+    return (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_ALIGHT,
+                                           pcargo, ptrans)
+            || is_action_enabled_unit_on_unit(ACTION_TRANSPORT_UNLOAD,
+                                              ptrans, pcargo));
+  } else {
+    return (action_prob_possible(
+              action_prob_vs_unit(pcargo, ACTION_TRANSPORT_ALIGHT, ptrans))
+            || action_prob_possible(
+              action_prob_vs_unit(ptrans, ACTION_TRANSPORT_UNLOAD,
+                                  pcargo)));
+  }
+}
+
+
+/**********************************************************************//**
   Return whether the unit can be paradropped - that is, if the unit is in
   a friendly city or on an airbase special, has enough movepoints left, and
   has not paradropped yet this turn.

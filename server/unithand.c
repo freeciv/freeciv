@@ -552,6 +552,23 @@ static bool do_unit_alight(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Unload target unit from actor unit.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_unload(struct player *act_player,
+                           struct unit *act_unit,
+                           struct unit *tgt_unit,
+                           const struct action *paction)
+{
+  /* Unload the unit and send out info to clients. */
+  unit_transport_unload_send(tgt_unit);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -677,6 +694,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_MINE:
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_UNLOAD:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2557,6 +2575,11 @@ bool unit_perform_action(struct player *pplayer,
   case ACTION_TRANSPORT_ALIGHT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_alight(pplayer, actor_unit, punit,
+                                            paction));
+    break;
+  case ACTION_TRANSPORT_UNLOAD:
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_unit_unload(pplayer, actor_unit, punit,
                                             paction));
     break;
   case ACTION_DISBAND_UNIT:
@@ -4745,44 +4768,6 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
 
   /* Load the unit and send out info to clients. */
   unit_transport_load_send(pcargo, ptrans);
-}
-
-/**********************************************************************//**
-  Handle a client request to unload the given unit from the given
-  transporter.
-**************************************************************************/
-void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
-{
-  struct unit *pcargo = game_unit_by_number(cargo_id);
-  struct unit *ptrans = game_unit_by_number(trans_id);
-
-  if (NULL == pcargo) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_unload() invalid cargo %d", cargo_id);
-    return;
-  }
-
-  if (NULL == ptrans) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_unload() invalid transport %d", trans_id);
-    return;
-  }
-
-  /* You are allowed to unload a unit if the transporter is yours. */
-  if (unit_owner(ptrans) != pplayer) {
-    return;
-  }
-
-  if (!can_unit_unload(pcargo, ptrans)) {
-    return;
-  }
-
-  if (!can_unit_survive_at_tile(&(wld.map), pcargo, unit_tile(pcargo))) {
-    return;
-  }
-
-  /* Unload the unit and send out info to clients. */
-  unit_transport_unload_send(pcargo);
 }
 
 /**********************************************************************//**

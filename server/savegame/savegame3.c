@@ -5936,6 +5936,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_FORTIFY:
           case ACTION_CONVERT:
           case ACTION_TRANSPORT_ALIGHT:
+          case ACTION_TRANSPORT_UNLOAD:
           case ACTION_COUNT:
             /* None of these can take a sub target. */
             fc_assert_msg(order_sub_tgt == -1,

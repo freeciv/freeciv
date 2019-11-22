@@ -135,6 +135,7 @@ static void airlift(QVariant data1, QVariant data2);
 static void conquer_city(QVariant data1, QVariant data2);
 static void heal_unit(QVariant data1, QVariant data2);
 static void transport_alight(QVariant data1, QVariant data2);
+static void transport_unload(QVariant data1, QVariant data2);
 static void keep_moving(QVariant data1, QVariant data2);
 static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
@@ -211,6 +212,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_EXPEL_UNIT] = expel_unit;
   action_function[ACTION_HEAL_UNIT] = heal_unit;
   action_function[ACTION_TRANSPORT_ALIGHT] = transport_alight;
+  action_function[ACTION_TRANSPORT_UNLOAD] = transport_unload;
 
   /* Unit acting against all units at a tile. */
   action_function[ACTION_CAPTURE_UNITS] = capture_units;
@@ -2298,6 +2300,17 @@ static void heal_unit(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_HEAL_UNIT, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Transport Unload" for choice dialog
+***************************************************************************/
+static void transport_unload(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_TRANSPORT_UNLOAD, actor_id, target_id, 0, "");
 }
 
 /***********************************************************************//**

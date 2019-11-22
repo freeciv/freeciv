@@ -159,6 +159,8 @@ extern "C" {
 #define SPECENUM_VALUE54NAME "Build Irrigation"
 #define SPECENUM_VALUE55 ACTION_TRANSPORT_ALIGHT
 #define SPECENUM_VALUE55NAME "Transport Alight"
+#define SPECENUM_VALUE56 ACTION_TRANSPORT_UNLOAD
+#define SPECENUM_VALUE56NAME "Transport Unload"
 #define SPECENUM_BITVECTOR bv_actions
 /* Limited by what values num2char() can store in unit orders in
  * savegames. */

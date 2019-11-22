@@ -297,6 +297,8 @@ bool unit_has_orders(const struct unit *punit);
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans);
 bool can_unit_load(const struct unit *punit, const struct unit *ptrans);
 bool can_unit_unload(const struct unit *punit, const struct unit *ptrans);
+bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
+                                    const struct unit *ptrans);
 bool can_unit_paradrop(const struct unit *punit);
 bool can_unit_change_homecity_to(const struct unit *punit,
 				 const struct city *pcity);

@@ -1089,11 +1089,6 @@ PACKET_UNIT_LOAD = 75; cs, dsend
   TILE transporter_tile;
 end
 
-# Unload the given cargo from the transporter.
-PACKET_UNIT_UNLOAD = 76; cs, dsend
-  UNIT cargo_id, transporter_id;
-end
-
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend
   UNIT actor_id;
   ACTION_TGT target_id;   # city_id or unit_id
