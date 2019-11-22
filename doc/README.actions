@@ -454,8 +454,6 @@ Actions done by a unit against another unit
  * actor must be on the same tile as the target
  * actor must be transported (!)
  * actor must be on a livable tile (!)
- * actor must be at a tile with a city or a refuel extra if it uses fuel or
-   is loosing hp
  * target must be transporting (!)
  * target must be in a city or in a native base if the target's unit class
    has the Unreachable unit class flag and the actor's unit type doesn't
@@ -472,8 +470,6 @@ Actions done by a unit against another unit
    list the actor's unit class in disembarks.
  * target must be transported (!)
  * target must be on a livable tile (!)
- * target must be at a tile with a city or a refuel extra if it uses fuel or
-   is loosing hp
  * target must be visible for the actor.
 
 Actions done by a unit against all units at a tile
