@@ -9,7 +9,7 @@ add_gtk3_env() {
   cp -R $1/share/locale $2/share/ &&
   cp -R $1/share/icons/Adwaita $2/share/icons/ &&
   mkdir -p $2/share/glib-2.0/schemas &&
-  cp -R $1/share/glib-2.0/schemas/gschemas.compiled $2/share/glib-2.0/schemas/ &&
+  cp -R $1/share/glib-2.0/schemas/*.gschema.xml $2/share/glib-2.0/schemas/ &&
   cp $1/bin/libgtk-3-0.dll $2/ &&
   cp $1/bin/libgdk-3-0.dll $2/ &&
   cp $1/bin/libglib-2.0-0.dll $2/ &&
@@ -34,6 +34,7 @@ add_gtk3_env() {
   cp $1/bin/libxml2-2.dll $2/ &&
   cp $1/bin/libharfbuzz-0.dll $2/ &&
   mkdir -p $2/bin &&
+  cp $1/bin/glib-compile-schemas.exe $2/bin/ &&
   cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
   cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
