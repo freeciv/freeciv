@@ -219,6 +219,10 @@ static struct {
   GEN_EV(E_MY_UNIT_DID_HEAL,    E_S_UNIT,       N_("Unit did heal")),
   GEN_EV(E_MY_UNIT_WAS_HEALED,  E_S_UNIT,       N_("Unit was healed")),
   GEN_EV(E_MULTIPLIER,          E_S_NATION,     N_("Multiplier changed")),
+  GEN_EV(E_UNIT_ACTION_ACTOR_SUCCESS,  E_S_UNIT, N_("Your unit did")),
+  GEN_EV(E_UNIT_ACTION_ACTOR_FAILURE,  E_S_UNIT, N_("Your unit failed")),
+  GEN_EV(E_UNIT_ACTION_TARGET_HOSTILE, E_S_UNIT, N_("Unit did to you")),
+  GEN_EV(E_UNIT_ACTION_TARGET_OTHER,   E_S_UNIT, N_("Unit did")),
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };
