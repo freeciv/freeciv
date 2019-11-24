@@ -302,6 +302,9 @@ ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 ; /* TRANS: _Use Court Physician (3% chance of success). */
 ui_name_heal_unit = _("%sUse Court Physician%s")
 
+; /* TRANS: _Use Royal Sapper (3% chance of success). */
+ui_name_surgical_strike_building = _("%sUse Royal Sapper%s")
+
 ; /* TRANS: _Deploy (3% chance of success). */
 ui_name_convert_unit = _("%sDeploy%s")
 
@@ -863,6 +866,15 @@ actor_reqs    =
       "UnitFlag", "AddToCity", "Local", TRUE
       "DiplRel", "Foreign", "Local", FALSE
       "MinMoveFrags", "1", "Local", TRUE
+    }
+
+[actionenabler_royal_sapper]
+action = "Surgical Strike Building"
+actor_reqs    =
+    { "type",     "name",         "range", "present"
+      "UnitFlag", "GameLoss",     "Local", TRUE
+      "DiplRel",  "War",          "Local", TRUE
+      "UnitState", "Transported", "Local", FALSE
     }
 
 [actionenabler_heal]

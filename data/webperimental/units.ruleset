@@ -2355,6 +2355,11 @@ The Leader unit includes a court physician.\
  The unit being healed must be allied or domestic.\
  It must be located at or adjacent to the Leader's tile.\
 "), _("\
+The Leader unit includes a royal sapper.\
+ Using it has a 50% chance of destroying a visible building in an enemy
+ city.\
+ Be careful! This ends the Leader's turn.\
+"), _("\
 Can be converted to a Leader Yacht by performing the 'Deploy' action\
  inside a city once Map Making has been discovered.\
 ")
