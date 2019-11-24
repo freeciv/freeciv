@@ -674,6 +674,29 @@ Actions done by a unit against a tile
  * the build requirements of the target extra (see extra type's reqs) must
    be fulfilled
 
+"Transport Disembark" - Exit transport to target tile.
+* UI name can be set using ui_name_transport_disembark
+* the actor unit must be on a tile next to the target.
+* the actor unit has at least one move fragment left (!)
+* actor must be transported (!)
+* the actor unit's transport must be in a city or in a native base if the
+  transport's unit class has the Unreachable unit class flag and the
+  actor's unit type doesn't list the target's unit class in disembarks.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target city is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* actor unit must be able to exist outside of a transport at the target
+  tile.
+* actor unit must be able to move to the target tile.
+* the target tile isn't blocked for the actor unit by some other unit's
+  zone of control (ZOC)
+* the target tile can't contain any city or units not allied to the actor
+  unit and all its cargo.
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

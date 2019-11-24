@@ -297,13 +297,15 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_CONQUER_CITY, ACTION_NONE);
 
   /* Why this is a hard requirement: a unit must move into a city to
-   * conquer it. */
+   * conquer it and move out of a transport to disembark from it. */
   oblig_hard_req_register(req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, 1),
                           FALSE,
                           "All action enablers for %s must require that "
                           "the actor has a movement point left.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_CONQUER_CITY,
+                          ACTION_TRANSPORT_DISEMBARK1,
+                          ACTION_NONE);
 
   /* Why this is a hard requirement: this eliminates the need to
    * check if units transported by the actor unit can exist at the
@@ -363,7 +365,9 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require that "
                           "the actor is transported.",
-                          ACTION_TRANSPORT_ALIGHT, ACTION_NONE);
+                          ACTION_TRANSPORT_ALIGHT,
+                          ACTION_TRANSPORT_DISEMBARK1,
+                          ACTION_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
                                           USP_LIVABLE_TILE),
@@ -696,6 +700,10 @@ static void hard_code_actions(void)
       action_new(ACTION_TRANSPORT_UNLOAD, ATK_UNIT,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_TRANSPORT_DISEMBARK1] =
+      action_new(ACTION_TRANSPORT_DISEMBARK1, ATK_TILE,
+                 FALSE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 1, 1, FALSE);
 }
 
 /**********************************************************************//**
@@ -1939,6 +1947,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
   case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_DISEMBARK1:
     /* No hard unit type requirements. */
     break;
 
@@ -2045,6 +2054,13 @@ action_hard_reqs_actor(const action_id wanted_action,
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows his unit's cargo and location. */
     if (!unit_can_convert(actor_unit)) {
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSPORT_DISEMBARK1:
+    if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
+      /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
@@ -2798,6 +2814,27 @@ is_action_possible(const action_id wanted_action,
     if (!can_unit_unload(target_unit, actor_unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSPORT_DISEMBARK1:
+    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+                               FALSE, FALSE)) {
+      /* Reason: involves moving to the tile. */
+      return TRI_NO;
+    }
+
+    /* We cannot move a transport into a tile that holds
+     * units or cities not allied with all of our cargo. */
+    if (get_transporter_capacity(actor_unit) > 0) {
+      unit_list_iterate(unit_tile(actor_unit)->units, pcargo) {
+        if (unit_contained_in(pcargo, actor_unit)
+            && (is_non_allied_unit_tile(target_tile, unit_owner(pcargo))
+                || is_non_allied_city_tile(target_tile,
+                                           unit_owner(pcargo)))) {
+           return TRI_NO;
+        }
+      } unit_list_iterate_end;
     }
     break;
 
@@ -3809,6 +3846,9 @@ action_prob(const action_id wanted_action,
     /* TODO */
     break;
   case ACTION_TRANSPORT_UNLOAD:
+    /* TODO */
+    break;
+  case ACTION_TRANSPORT_DISEMBARK1:
     /* TODO */
     break;
   case ACTION_COUNT:
@@ -5064,6 +5104,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport_alight";
   case ACTION_TRANSPORT_UNLOAD:
     return "ui_name_transport_unload";
+  case ACTION_TRANSPORT_DISEMBARK1:
+    return "ui_name_transport_disembark";
   case ACTION_COUNT:
     break;
   }
@@ -5253,6 +5295,9 @@ const char *action_ui_name_default(int act)
   case ACTION_TRANSPORT_UNLOAD:
     /* TRANS: _Unload (100% chance of success). */
     return N_("%sUnload%s");
+  case ACTION_TRANSPORT_DISEMBARK1:
+    /* TRANS: _Disembark (100% chance of success). */
+    return N_("%sDisembark%s");
   }
 
   return NULL;

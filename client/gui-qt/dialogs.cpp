@@ -126,6 +126,7 @@ static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void suicide_attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
+static void disembark1(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
@@ -234,6 +235,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_IRRIGATE] = irrigate;
+  action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
 
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
@@ -2324,6 +2326,21 @@ static void transport_alight(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_TRANSPORT_ALIGHT, actor_id, target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Transport Disembark" for choice dialog
+***************************************************************************/
+static void disembark1(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_TRANSPORT_DISEMBARK1,
+                      actor_id, target_id, 0, "");
+  }
 }
 
 /**********************************************************************//**

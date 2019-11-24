@@ -155,7 +155,15 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
   /* Move */
-  (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
+  if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                     punit, ptile, NULL)) {
+    /* "Transport Disembark". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_TRANSPORT_DISEMBARK1);
+  } else {
+    /* Other move. */
+    (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
+  }
 
   return TRUE;
 }

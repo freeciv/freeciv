@@ -574,6 +574,30 @@ static bool do_unit_unload(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Disembark actor unit from target unit to target tile.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_disembark(struct player *act_player,
+                         struct unit *act_unit,
+                         struct tile *tgt_tile,
+                         const struct action *paction)
+{
+  int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
+
+  /* Sanity checks */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_tile, FALSE);
+  fc_assert_ret_val(paction, FALSE);
+
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -701,6 +725,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_DISEMBARK1:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -1023,6 +1048,17 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       action_custom = MR_OK;
     }
     break;
+  case ACTION_TRANSPORT_DISEMBARK1:
+    if (target_tile) {
+      action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                             punit->activity,
+                                             unit_tile(punit),
+                                             target_tile,
+                                             FALSE, NULL, FALSE);
+    } else {
+      action_custom = MR_OK;
+    }
+    break;
   default:
     action_custom = 0;
     break;
@@ -1246,7 +1282,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && target_tile
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
-  } else if (action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
+  } else if ((action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
+              || action_id_has_result_safe(act_id,
+                                           ACTION_TRANSPORT_DISEMBARK1))
              && action_custom != MR_OK) {
     switch (action_custom) {
     case MR_CANNOT_DISEMBARK:
@@ -2769,6 +2807,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_paradrop(actor_unit, target_tile));
     break;
+  case ACTION_TRANSPORT_DISEMBARK1:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             do_disembark(pplayer, actor_unit,
+                                          target_tile, paction));
+    break;
   case ACTION_TRANSFORM_TERRAIN:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling(actor_unit,
@@ -3808,6 +3851,13 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
          && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
                                 0, "",
                                 ACTION_CONQUER_CITY, ACT_REQ_RULES))
+        || (unit_transported(punit)
+            && is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                              punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_TRANSPORT_DISEMBARK1,
+                                   ACT_REQ_RULES))
         || (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
@@ -4184,7 +4234,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   }
 
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
-                                        embark_to, FALSE)) {
+                                        embark_to, FALSE)
+      /* Don't override "Transport Disembark" */
+      && (embark_to || !unit_transported(punit))) {
     int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
 
     unit_move(punit, pdesttile, move_cost, embark_to,

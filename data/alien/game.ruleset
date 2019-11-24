@@ -381,6 +381,9 @@ ui_name_transport_alight = _("%sAlight%s")
 ; /* TRANS: _Unload (100% chance of success). */
 ui_name_transport_unload = _("%sUnload%s")
 
+; /* TRANS: _Disembark (100% chance of success). */
+ui_name_transport_disembark = _("%sDisembark%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -850,6 +853,14 @@ target_reqs    =
     { "type",      "name",          "range"
       "UnitState", "OnLivableTile", "Local"
       "UnitState", "Transported",   "Local"
+    }
+
+[actionenabler_disembark]
+action        = "Transport Disembark"
+actor_reqs    =
+    { "type",         "name",        "range"
+      "UnitState",    "Transported", "Local"
+      "MinMoveFrags", "1",           "Local"
     }
 
 [borders]

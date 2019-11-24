@@ -502,6 +502,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_TRANSPORT_UNLOAD;
     action_enabler_add(enabler);
 
+    enabler = action_enabler_new();
+    enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     action_enablers_iterate(ae) {
       if (action_enabler_obligatory_reqs_missing(ae)) {
