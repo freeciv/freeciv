@@ -2351,7 +2351,7 @@ The Leader unit includes a court physician.\
  The Leader unit can therefore be used to heal it self or other\
  light weight land units.\
  Healing restores up to 25% of the target unit's hit points.\
- It costs one movement point.\
+ It costs one movement point for both the Leader and the patient.\
  The unit being healed must be allied or domestic.\
  It must be located at or adjacent to the Leader's tile.\
 "), _("\

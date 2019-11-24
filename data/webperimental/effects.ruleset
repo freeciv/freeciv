@@ -2680,3 +2680,11 @@ reqs    =
     { "type", "name", "range", "present"
       "Action", "Heal Unit", "Local", TRUE
     }
+
+[effect_action_success_move_cost_healed]
+type    = "Action_Success_Target_Move_Cost"
+value   = 3
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Heal Unit", "Local", TRUE
+    }
