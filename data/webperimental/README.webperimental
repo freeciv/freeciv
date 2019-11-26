@@ -18,6 +18,11 @@ Differences compared to the classic ruleset are:
 - Spies belonging to the owner of the Manhattan Project can nuke cities.
   - a higher veteran level gives a higher chance of success.
   - agents and spymasters may even escape before the nuke detonates.
+  - doing this to someone you aren't at war with causes international
+    outrage: everyone, not just the victim, gets a Casus Belli against you.
+- Spies can sabotage and poison units and cities you aren't at war with.
+  - doing this to someone you aren't at war with causes international
+    outrage: everyone, not just the victim, gets a Casus Belli against you.
 - Explorers can establish embassies once Writing is discovered.
   This action consumes the explorer.
 - Cities can be founded within enemy borders during war and
