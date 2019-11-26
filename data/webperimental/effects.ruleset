@@ -2595,9 +2595,9 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_unit]
+[effect_incident_success_sabotage_unit_terrorist_state]
 type	= "Casus_Belli_Success"
-value	= 1
+value	= 1000
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Sabotage Unit Escape", "Local", TRUE
@@ -2622,36 +2622,36 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_poison]
+[effect_incident_success_poison_terrorist_state]
 type	= "Casus_Belli_Success"
-value	= 1
+value	= 1000
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Poison City Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_city]
+[effect_incident_success_sabotage_city_terrorist_state]
 type	= "Casus_Belli_Success"
-value	= 1
+value	= 1000
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Sabotage City", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_city_esc]
+[effect_incident_success_sabotage_city_esc_terrorist_state]
 type	= "Casus_Belli_Success"
-value	= 1
+value	= 1000
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Sabotage City Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_tgt_sabotage_city]
+[effect_incident_success_tgt_sabotage_city_terrorist_state]
 type	= "Casus_Belli_Success"
-value	= 1
+value	= 1000
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Targeted Sabotage City Escape", "Local", TRUE
@@ -2680,6 +2680,16 @@ value	= 1
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Suitcase Nuke", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke_terrorist_state]
+type	= "Casus_Belli_Success"
+value	= 1000
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
     }
 
 [effect_incident_success_suitcase_nuke_veteran]
@@ -2688,6 +2698,16 @@ value	= 1
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Suitcase Nuke Escape", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke_veteran_terrorist_state]
+type	= "Casus_Belli_Success"
+value	= 1000
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
     }
 
 ; Double (+100%) buy cost for Great Wonders
