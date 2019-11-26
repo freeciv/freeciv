@@ -474,7 +474,7 @@ static adv_want dai_action_want_vs_city(struct ai_type *ait,
   if (pplayers_at_war(actor_player, target_player)
       && (action_has_result(paction, ACTION_SPY_NUKE_ESC)
           || action_has_result(paction, ACTION_SPY_NUKE))) {
-    utility += 1000;
+    utility += 6500;
   }
 
   if (utype_is_consumed_by_action(paction, unit_type_get(actor_unit))) {
