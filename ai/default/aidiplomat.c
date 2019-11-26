@@ -480,6 +480,21 @@ static adv_want dai_action_want_vs_city(struct ai_type *ait,
   if (utype_is_consumed_by_action(paction, unit_type_get(actor_unit))) {
     /* Choose the non consuming version if possible. */
     utility -= unit_build_shield_cost_base(actor_unit);
+  } else {
+    /* Not going to spend the unit so care about move fragment cost. */
+    adv_want move_fragment_cost;
+
+    /* FIXME: The action performer function may charge more. */
+    /* FIXME: Potentially wrong result if the unit moves as a part of the
+     * action and EFT_ACTION_SUCCESS_MOVE_COST depends on the unit's
+     * location since this is evaluated *before* the unit moves. */
+    move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
+
+    /* Taking MAX_MOVE_FRAGS takes all the move fragments. */
+    move_fragment_cost = MIN(MAX_MOVE_FRAGS, move_fragment_cost);
+
+    /* Losing all movement is seen as losing 2 utility. */
+    utility -= move_fragment_cost / (MAX_MOVE_FRAGS / 2);
   }
 
   return MAX(0, utility);
