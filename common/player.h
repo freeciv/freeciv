@@ -23,6 +23,7 @@ extern "C" {
 /* common */
 #include "city.h"
 #include "connection.h"
+#include "effects.h"
 #include "fc_types.h"
 #include "multipliers.h"
 #include "nation.h"
@@ -182,6 +183,16 @@ struct player_ai {
 #define SPECENUM_VALUE15 DRO_FOREIGN
 #define SPECENUM_VALUE15NAME N_("Is foreign")
 #define SPECENUM_COUNT DRO_LAST
+#include "specenum_gen.h"
+
+#define SPECENUM_NAME casus_belli_range
+#define SPECENUM_VALUE0 CBR_NONE
+#define SPECENUM_VALUE0NAME N_("No Casus Belli")
+#define SPECENUM_VALUE1 CBR_VICTIM_ONLY
+#define SPECENUM_VALUE1NAME N_("Victim Casus Belli")
+#define SPECENUM_VALUE2 CBR_INTERNATIONAL_OUTRAGE
+#define SPECENUM_VALUE2NAME N_("International Outrage")
+#define SPECENUM_COUNT CBR_LAST
 #include "specenum_gen.h"
 
 BV_DEFINE(bv_diplrel_all_reqs,
@@ -486,6 +497,12 @@ bool is_diplrel_to_other(const struct player *pplayer, int diplrel);
 int diplrel_by_rule_name(const char *value);
 const char *diplrel_rule_name(int value);
 const char *diplrel_name_translation(int value);
+
+enum casus_belli_range casus_belli_range_for(const struct player *offender,
+                                             const struct player *tgt_plr,
+                                             const enum effect_type outcome,
+                                             const struct action *paction,
+                                             const struct tile *tgt_tile);
 
 bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req);
 
