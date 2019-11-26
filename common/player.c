@@ -1539,6 +1539,46 @@ const char *diplrel_name_translation(int value)
   }
 }
 
+/**************************************************************************
+  Return the Casus Belli range when offender performs paction to tgt_plr
+  at tgt_tile and the outcome is outcome.
+**************************************************************************/
+enum casus_belli_range casus_belli_range_for(const struct player *offender,
+                                             const struct player *tgt_plr,
+                                             const enum effect_type outcome,
+                                             const struct action *paction,
+                                             const struct tile *tgt_tile)
+{
+  int casus_belli_amount;
+
+  /* The victim gets a casus belli if CASUS_BELLI_VICTIM or above. Everyone
+   * gets a casus belli if CASUS_BELLI_OUTRAGE or above. */
+  casus_belli_amount =
+      get_target_bonus_effects(NULL,
+                               offender, tgt_plr,
+                               tile_city(tgt_tile),
+                               NULL,
+                               tgt_tile,
+                               NULL, NULL,
+                               NULL, NULL,
+                               paction,
+                               outcome);
+
+  if (casus_belli_amount >= CASUS_BELLI_OUTRAGE) {
+    /* International outrage: This isn't just between the offender and the
+     * victim. */
+    return CBR_INTERNATIONAL_OUTRAGE;
+  }
+
+  if (casus_belli_amount >= CASUS_BELLI_VICTIM) {
+    /* In this situation the specified action provides a casus belli
+     * against the actor. */
+    return CBR_VICTIM_ONLY;
+  }
+
+  return CBR_NONE;
+}
+
 /* The number of mutually exclusive requirement sets that
  * diplrel_mess_gen() creates for the DiplRel requirement type. */
 #define DIPLREL_MESS_SIZE (3 + (DRO_LAST * (5 + 4 + 3 + 2 + 1)))

@@ -199,28 +199,18 @@ static void action_consequence_common(const struct action *paction,
                                       const action_notify notify_global,
                                       const enum effect_type eft)
 {
-  int casus_belli_amount;
+  enum casus_belli_range cbr;
 
-  /* The victim gets a casus belli if CASUS_BELLI_VICTIM or above. Everyone
-   * gets a casus belli if CASUS_BELLI_OUTRAGE or above. */
-  casus_belli_amount =
-      get_target_bonus_effects(NULL,
-                               offender, victim_player,
-                               tile_city(victim_tile),
-                               NULL,
-                               victim_tile,
-                               NULL, NULL,
-                               NULL, NULL,
-                               paction,
-                               eft);
+  cbr = casus_belli_range_for(offender, victim_player,
+                              eft, paction, victim_tile);
 
-  if (casus_belli_amount >= CASUS_BELLI_VICTIM) {
+  if (cbr >= CBR_VICTIM_ONLY) {
     /* In this situation the specified action provides a casus belli
      * against the actor. */
 
     /* International outrage: This isn't just between the offender and the
      * victim. */
-    const bool int_outrage = casus_belli_amount >= CASUS_BELLI_OUTRAGE;
+    const bool int_outrage = (cbr == CBR_INTERNATIONAL_OUTRAGE);
 
     /* Notify the involved players by sending them a message. */
     notify_actor(offender, paction, offender, victim_player,

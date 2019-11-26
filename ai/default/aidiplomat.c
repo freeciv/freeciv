@@ -477,6 +477,38 @@ static adv_want dai_action_want_vs_city(struct ai_type *ait,
     utility += 6500;
   }
 
+  {
+    /* FIXME: replace the above per action hard coding of war and not allied
+     * with adjustments to the below utility changes. */
+    int i;
+
+    const enum effect_type casus_belli_eft[] = {
+      EFT_CASUS_BELLI_SUCCESS,
+      EFT_CASUS_BELLI_CAUGHT,
+    };
+
+    for (i = 0; i < ARRAY_SIZE(casus_belli_eft); i++) {
+      switch (casus_belli_range_for(actor_player, target_player,
+                                    casus_belli_eft[i], paction,
+                                    city_tile(target_city))) {
+      case CBR_NONE:
+        /* Noone cares. */
+        break;
+      case CBR_VICTIM_ONLY:
+        /* The victim gets a Casus Belli against me. */
+        utility -= 50;
+        break;
+      case CBR_INTERNATIONAL_OUTRAGE:
+        /* Every other player gets a Casus Belli against me. */
+        utility -= 500;
+        break;
+      case CBR_LAST:
+        fc_assert_msg(FALSE, "Shouldn't happen");
+        break;
+      }
+    }
+  }
+
   if (utype_is_consumed_by_action(paction, unit_type_get(actor_unit))) {
     /* Choose the non consuming version if possible. */
     utility -= unit_build_shield_cost_base(actor_unit);
