@@ -44,6 +44,8 @@ libdefaultai_la_SOURCES = \
 		aiunit.h	\
 		aidiplomat.c	\
 		aidiplomat.h	\
+		daiactions.c	\
+		daiactions.h	\
 		daidiplomacy.c	\
 		daidiplomacy.h	\
 		daidomestic.c	\
