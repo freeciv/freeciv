@@ -66,6 +66,7 @@
 #include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daiactions.h"
 #include "daicity.h"
 #include "daimilitary.h"
 
@@ -85,22 +86,6 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
 static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
                                   struct city **ctarget, int *move_dist,
                                   struct pf_map *pfm);
-
-/**************************************************************************//**
-  Number of improvements that can be sabotaged in pcity.
-******************************************************************************/
-static int count_sabotagable_improvements(struct city *pcity)
-{
-  int count = 0;
-
-  city_built_iterate(pcity, pimprove) {
-    if (pimprove->sabotage > 0) {
-      count++;
-    }
-  } city_built_iterate_end;
-
-  return count;
-}
 
 /**************************************************************************//**
   Number of techs that we don't have and the enemy (tplayer) does.
@@ -325,214 +310,6 @@ void dai_choose_diplomat_offensive(struct ai_type *ait,
 }
 
 /**************************************************************************//**
-  Pick a tech for actor_player to steal from target_player.
-
-  TODO: Make a smarter choice than picking the first stealable tech found.
-******************************************************************************/
-static Tech_type_id
-choose_tech_to_steal(const struct player *actor_player,
-                     const struct player *target_player)
-{
-  const struct research *actor_research = research_get(actor_player);
-  const struct research *target_research = research_get(target_player);
-
-  if (actor_research != target_research) {
-    if (can_see_techs_of_target(actor_player, target_player)) {
-      advance_iterate(A_FIRST, padvance) {
-        Tech_type_id i = advance_number(padvance);
-
-        if (research_invention_state(target_research, i) == TECH_KNOWN
-            && research_invention_gettable(actor_research, i,
-                                           game.info.tech_steal_allow_holes)
-            && (research_invention_state(actor_research, i) == TECH_UNKNOWN
-                || (research_invention_state(actor_research, i)
-                    == TECH_PREREQS_KNOWN))) {
-
-          return i;
-        }
-      } advance_iterate_end;
-    }
-  }
-
-  /* Unable to find a target. */
-  return A_UNSET;
-}
-
-/***********************************************************************//**
-  Returns the utility of having the specified unit perform the specified
-  action to the specified city target.
-***************************************************************************/
-static adv_want dai_action_want_vs_city(struct ai_type *ait,
-                                        struct action *paction,
-                                        struct unit *actor_unit,
-                                        struct city *target_city,
-                                        int count_tech)
-{
-  /* FIXME: This is just a copy of how dai_diplomat_city() used to behave.
-   * Feel free to change the utility values. Feel free to change the old
-   * rules of thumb. Feel free to make it consider Casus Belli, move cost
-   * and other ruleset defined information. Feel free to support other
-   * actions. */
-
-  adv_want utility;
-
-  struct player *actor_player = unit_owner(actor_unit);
-  struct player *target_player = city_owner(target_city);
-
-  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, 0);
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, 0);
-
-  utility = 0;
-
-  /* The unit was always spent */
-  utility += unit_build_shield_cost_base(actor_unit) + 1;
-
-  if (action_has_result(paction, ACTION_ESTABLISH_EMBASSY_STAY)
-      || action_has_result(paction, ACTION_ESTABLISH_EMBASSY)) {
-    utility += 10000;
-  }
-
-  if (!pplayers_allied(actor_player, target_player)
-      && count_tech > 0
-      && (action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)
-          || ((diplomats_unignored_tech_stealings(actor_unit, target_city)
-               == 0)
-              && action_has_result(paction, ACTION_SPY_STEAL_TECH)))) {
-    utility += 9000;
-  }
-
-  if (!pplayers_allied(actor_player, target_player)
-      && count_tech > 0
-      && (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-          || ((diplomats_unignored_tech_stealings(actor_unit, target_city)
-               == 0)
-              && action_has_result(paction,
-                                   ACTION_SPY_TARGETED_STEAL_TECH)))) {
-    Tech_type_id tgt_tech;
-
-    tgt_tech = choose_tech_to_steal(actor_player, target_player);
-
-    /* FIXME: Should probably just try to steal a random tech if no target
-     * is found. */
-    if (tgt_tech != A_UNSET) {
-      /* A tech target can be identified. */
-      utility += 8000;
-    }
-  }
-
-  if (!pplayers_allied(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_INCITE_CITY_ESC)
-          || action_has_result(paction, ACTION_SPY_INCITE_CITY))) {
-    int incite_cost, expenses;
-
-    incite_cost = city_incite_cost(actor_player, target_city);
-    dai_calc_data(actor_player, NULL, &expenses, NULL);
-
-    if (incite_cost <= actor_player->economic.gold - 2 * expenses) {
-      utility += 7000;
-    } else {
-      UNIT_LOG(LOG_DIPLOMAT, actor_unit, "%s too expensive!",
-               city_name_get(target_city));
-    }
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_ESC)
-          || action_has_result(paction, ACTION_SPY_SABOTAGE_CITY))) {
-    utility += 6000;
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-          || action_has_result(paction,
-                               ACTION_SPY_TARGETED_SABOTAGE_CITY))) {
-    int count_impr = count_sabotagable_improvements(target_city);
-
-    if (count_impr > 0) {
-      utility += 5000;
-    }
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_STEAL_GOLD_ESC)
-          || action_has_result(paction, ACTION_SPY_STEAL_GOLD))) {
-    utility += 4000;
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_STEAL_MAPS_ESC)
-          || action_has_result(paction, ACTION_STEAL_MAPS))) {
-    utility += 3000;
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_POISON_ESC)
-          || action_has_result(paction, ACTION_SPY_POISON))) {
-    utility += 2000;
-  }
-
-  if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_NUKE_ESC)
-          || action_has_result(paction, ACTION_SPY_NUKE))) {
-    utility += 6500;
-  }
-
-  {
-    /* FIXME: replace the above per action hard coding of war and not allied
-     * with adjustments to the below utility changes. */
-    int i;
-
-    const enum effect_type casus_belli_eft[] = {
-      EFT_CASUS_BELLI_SUCCESS,
-      EFT_CASUS_BELLI_CAUGHT,
-    };
-
-    for (i = 0; i < ARRAY_SIZE(casus_belli_eft); i++) {
-      switch (casus_belli_range_for(actor_player, target_player,
-                                    casus_belli_eft[i], paction,
-                                    city_tile(target_city))) {
-      case CBR_NONE:
-        /* Noone cares. */
-        break;
-      case CBR_VICTIM_ONLY:
-        /* The victim gets a Casus Belli against me. */
-        utility -= 50;
-        break;
-      case CBR_INTERNATIONAL_OUTRAGE:
-        /* Every other player gets a Casus Belli against me. */
-        utility -= 500;
-        break;
-      case CBR_LAST:
-        fc_assert_msg(FALSE, "Shouldn't happen");
-        break;
-      }
-    }
-  }
-
-  if (utype_is_consumed_by_action(paction, unit_type_get(actor_unit))) {
-    /* Choose the non consuming version if possible. */
-    utility -= unit_build_shield_cost_base(actor_unit);
-  } else {
-    /* Not going to spend the unit so care about move fragment cost. */
-    adv_want move_fragment_cost;
-
-    /* FIXME: The action performer function may charge more. */
-    /* FIXME: Potentially wrong result if the unit moves as a part of the
-     * action and EFT_ACTION_SUCCESS_MOVE_COST depends on the unit's
-     * location since this is evaluated *before* the unit moves. */
-    move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
-
-    /* Taking MAX_MOVE_FRAGS takes all the move fragments. */
-    move_fragment_cost = MIN(MAX_MOVE_FRAGS, move_fragment_cost);
-
-    /* Losing all movement is seen as losing 2 utility. */
-    utility -= move_fragment_cost / (MAX_MOVE_FRAGS / 2);
-  }
-
-  return MAX(0, utility);
-}
-
-/**************************************************************************//**
   Check if something is on our receiving end for some nasty diplomat
   business! Note that punit may die or be moved during this function. We
   must be adjacent to target city.
@@ -546,7 +323,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
 {
   struct action *chosen_action;
   adv_want chosen_action_utility;
-  int sub_tgt_id;
+  int chosen_sub_tgt_id;
   struct player *pplayer = unit_owner(punit);
   struct player *tplayer = city_owner(ctarget);
   int count_tech = count_stealable_techs(pplayer, tplayer);
@@ -563,10 +340,11 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
   /* FIXME: what if it is illegal? */
   chosen_action = NULL;
   chosen_action_utility = -1;
-  sub_tgt_id = 0;
+  chosen_sub_tgt_id = 0;
   action_iterate(act_id) {
     struct action *paction = action_by_number(act_id);
     adv_want action_utility;
+    int sub_tgt_id;
 
     if (action_get_actor_kind(paction) != AAK_UNIT
         || action_get_target_kind(paction) != ATK_CITY) {
@@ -580,32 +358,28 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
       continue;
     }
 
-    action_utility = dai_action_want_vs_city(ait, paction, punit, ctarget,
-                                             count_tech);
+    if (paction->target_complexity == ACT_TGT_COMPL_SIMPLE) {
+      /* No sub target */
+      sub_tgt_id = 0;
+    } else {
+      /* Pick a suitable sub target. */
+      sub_tgt_id = dai_action_choose_sub_tgt_unit_vs_city(paction,
+                                                          punit, ctarget);
+    }
+
+    action_utility = dai_action_value_unit_vs_city(paction, punit,
+                                                   ctarget, sub_tgt_id,
+                                                   count_tech);
 
     if (chosen_action_utility < action_utility) {
       chosen_action = paction;
       chosen_action_utility = action_utility;
+      chosen_sub_tgt_id = sub_tgt_id;
     }
   } action_iterate_end;
 
   if (chosen_action != NULL) {
     /* An action has been selected. */
-
-    if (action_has_result(chosen_action, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-        || action_has_result(chosen_action, ACTION_SPY_TARGETED_STEAL_TECH)) {
-      sub_tgt_id = choose_tech_to_steal(pplayer, tplayer);
-    }
-
-    /* Sabotage a specific city improvement. */
-    if (action_has_result(chosen_action, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-        || action_has_result(chosen_action, ACTION_SPY_TARGETED_SABOTAGE_CITY)) {
-      /* TODO: consider target improvements in stead of always going after
-       * the current production. */
-      int tgt_impr = -1;
-
-      sub_tgt_id = tgt_impr + 1;
-    }
 
     if (action_prob_possible(
           action_prob_vs_city(punit, action_number(chosen_action),
@@ -616,7 +390,7 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
                action_rule_name(chosen_action),
                city_name_get(ctarget));
       unit_do_action(pplayer, punit->id,
-                     ctarget->id, sub_tgt_id, "",
+                     ctarget->id, chosen_sub_tgt_id, "",
                      action_number(chosen_action));
       return;
     }
