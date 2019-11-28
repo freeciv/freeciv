@@ -557,6 +557,29 @@ static bool do_unit_alight(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Have the actor unit board the target unit.
+
+  Assumes that all checks for action legality has been done.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_board(struct player *act_player,
+                          struct unit *act_unit,
+                          struct unit *tgt_unit,
+                          const struct action *paction)
+{
+  if (unit_transported(act_unit)) {
+    unit_transport_unload(act_unit);
+  }
+
+  /* Load the unit and send out info to clients. */
+  unit_transport_load_send(act_unit, tgt_unit);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Unload target unit from actor unit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -726,6 +749,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_BOARD:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -2626,6 +2650,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_unload(pplayer, actor_unit, punit,
                                             paction));
+    break;
+  case ACTION_TRANSPORT_BOARD:
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_unit_board(pplayer, actor_unit, punit,
+                                           paction));
     break;
   case ACTION_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
@@ -4898,7 +4927,6 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
   struct tile *ptile = index_to_tile(&(wld.map), ttile_idx);
   struct tile *ctile;
   struct tile *ttile;
-  bool moves = FALSE;
   bool leave = FALSE;
 
   if (NULL == pcargo) {
@@ -4926,8 +4954,9 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
         || !unit_can_move_to_tile(&(wld.map), pcargo, ttile, FALSE, FALSE)) {
       return;
     }
-
-    moves = TRUE;
+  } else {
+    /* Respect ACTION_TRANSPORT_BOARD rules */
+    return;
   }
 
   if (unit_transported(pcargo)) {
@@ -4951,14 +4980,9 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
     unit_transport_unload(pcargo);
   }
 
-  if (moves) {
-    /* Pre load move. */
-    unit_move_handling(pcargo, ttile, FALSE, TRUE, ptrans);
-    return;
-  }
-
-  /* Load the unit and send out info to clients. */
-  unit_transport_load_send(pcargo, ptrans);
+  /* Pre load move. */
+  unit_move_handling(pcargo, ttile, FALSE, TRUE, ptrans);
+  return;
 }
 
 /**********************************************************************//**

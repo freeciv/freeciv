@@ -274,6 +274,15 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
     effect_handle_split_universal(peffect,
         universal_by_number(VUT_ACTION, ACTION_ATTACK),
         universal_by_number(VUT_ACTION, ACTION_SUICIDE_ATTACK));
+
+    if (peffect->type == EFT_ILLEGAL_ACTION_MOVE_COST) {
+      /* Boarding a transporter became action enabler controlled in
+       * Freeciv 3.1. Old hard coded rules had no punishment for trying to
+       * do this when it is illegal according to the rules. */
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, FALSE,
+                                              "Transport Board"));
+    }
   }
 
   /* Go to the next effect. */
@@ -496,6 +505,10 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler = action_enabler_new();
     enabler->action = ACTION_TRANSPORT_ALIGHT;
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_TRANSPORT_BOARD;
     action_enabler_add(enabler);
 
     enabler = action_enabler_new();

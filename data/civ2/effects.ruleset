@@ -2280,6 +2280,7 @@ reqs	=
     { "type", "name", "range", "present"
       "Action", "Found City", "Local", FALSE
       "Action", "Join City", "Local", FALSE
+      "Action", "Transport Board", "Local", FALSE
     }
 
 ; Allow everyone to declar war on the terrorist nation

@@ -1184,6 +1184,23 @@ static int heal_unit_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Transport Board"
+**************************************************************************/
+static int transport_board_callback(struct widget *pWidget)
+{
+  if (PRESSED_EVENT(Main.event)) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.unit->id;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_TRANSPORT_BOARD,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Transport Unload"
 **************************************************************************/
 static int transport_unload_callback(struct widget *pWidget)
@@ -1742,6 +1759,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_EXPEL_UNIT] = expel_unit_callback,
   [ACTION_TRANSPORT_ALIGHT] = transport_alight_callback,
   [ACTION_TRANSPORT_UNLOAD] = transport_unload_callback,
+  [ACTION_TRANSPORT_BOARD] = transport_board_callback,
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = capture_units_callback,

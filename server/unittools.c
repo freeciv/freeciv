@@ -4845,6 +4845,7 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_TRANSPORT_ALIGHT:
       case ACTION_TRANSPORT_UNLOAD:
       case ACTION_TRANSPORT_DISEMBARK1:
+      case ACTION_TRANSPORT_BOARD:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

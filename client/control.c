@@ -2005,8 +2005,13 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
   if (ptrans
       && can_client_issue_orders()
       && could_unit_load(pcargo, ptrans)) {
-    dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id,
-                           ptile->index);
+    if (same_pos(unit_tile(pcargo), ptile)) {
+      request_do_action(ACTION_TRANSPORT_BOARD,
+                        pcargo->id, ptrans->id, 0, "");
+    } else {
+      dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id,
+                             ptile->index);
+    }
 
     /* Sentry the unit.  Don't request_unit_sentry since this can give a
      * recursive loop. */

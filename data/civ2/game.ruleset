@@ -402,6 +402,9 @@ ui_name_irrigate = _("Build %sIrrigation%s")
 ; /* TRANS: _Alight (100% chance of success). */
 ui_name_transport_alight = _("%sAlight%s")
 
+; /* TRANS: _Board (100% chance of success). */
+ui_name_transport_board = _("%sBoard%s")
+
 ; /* TRANS: _Unload (100% chance of success). */
 ui_name_transport_unload = _("%sUnload%s")
 
@@ -941,6 +944,9 @@ target_reqs    =
     { "type",      "name",         "range"
       "UnitState", "Transporting", "Local"
     }
+
+[actionenabler_board]
+action        = "Transport Board"
 
 [actionenabler_unload]
 action        = "Transport Unload"

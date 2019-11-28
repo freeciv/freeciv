@@ -696,6 +696,10 @@ static void hard_code_actions(void)
       action_new(ACTION_TRANSPORT_ALIGHT, ATK_UNIT,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
+  actions[ACTION_TRANSPORT_BOARD] =
+      action_new(ACTION_TRANSPORT_BOARD, ATK_UNIT,
+                 FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                 0, 0, FALSE);
   actions[ACTION_TRANSPORT_UNLOAD] =
       action_new(ACTION_TRANSPORT_UNLOAD, ATK_UNIT,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
@@ -1946,6 +1950,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_DISEMBARK1:
     /* No hard unit type requirements. */
@@ -2055,6 +2060,15 @@ action_hard_reqs_actor(const action_id wanted_action,
     /* Info leak: The player knows his unit's cargo and location. */
     if (!unit_can_convert(actor_unit)) {
       return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSPORT_BOARD:
+    if (unit_transported(actor_unit)) {
+      if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
+        /* Can't leave current transport. */
+        return TRI_NO;
+      }
     }
     break;
 
@@ -2806,6 +2820,19 @@ is_action_possible(const action_id wanted_action,
   case ACTION_TRANSPORT_ALIGHT:
     if (!can_unit_unload(actor_unit, target_unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_TRANSPORT_BOARD:
+    if (unit_transported(actor_unit)) {
+      if (target_unit == unit_transport_get(actor_unit)) {
+        /* Already inside this transport. */
+        return TRI_NO;
+      }
+    }
+    if (!could_unit_load(actor_unit, target_unit)) {
+      /* Keep the old rules. */
       return TRI_NO;
     }
     break;
@@ -3843,6 +3870,9 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_ALIGHT:
+    /* TODO */
+    break;
+  case ACTION_TRANSPORT_BOARD:
     /* TODO */
     break;
   case ACTION_TRANSPORT_UNLOAD:
@@ -5102,6 +5132,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_irrigate";
   case ACTION_TRANSPORT_ALIGHT:
     return "ui_name_transport_alight";
+  case ACTION_TRANSPORT_BOARD:
+    return "ui_name_transport_board";
   case ACTION_TRANSPORT_UNLOAD:
     return "ui_name_transport_unload";
   case ACTION_TRANSPORT_DISEMBARK1:
@@ -5292,6 +5324,9 @@ const char *action_ui_name_default(int act)
   case ACTION_TRANSPORT_ALIGHT:
     /* TRANS: _Alight (100% chance of success). */
     return N_("%sAlight%s");
+  case ACTION_TRANSPORT_BOARD:
+    /* TRANS: _Board (100% chance of success). */
+    return N_("%sBoard%s");
   case ACTION_TRANSPORT_UNLOAD:
     /* TRANS: _Unload (100% chance of success). */
     return N_("%sUnload%s");
