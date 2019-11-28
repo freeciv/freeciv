@@ -132,6 +132,7 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
 static bool adv_unit_move(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
+  struct unit *ptrans;
   int mcost;
 
   /* if enemy, stop and give a chance for the human player to
@@ -155,14 +156,24 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
   /* Move */
-  if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                     punit, ptile, NULL)) {
+  /* TODO: Differentiate (server side AI) player from server side agent
+   * working for (possibly AI) player by using ACT_REQ_PLAYER and
+   * ACT_REQ_SS_AGENT */
+  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+      && ((ptrans = transporter_for_unit_at(punit, ptile)))
+      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                        punit, ptrans)) {
+      /* "Transport Embark". */
+      unit_do_action(unit_owner(punit), punit->id, ptrans->id,
+                     0, "", ACTION_TRANSPORT_EMBARK);
+    } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                              punit, ptile, NULL)) {
     /* "Transport Disembark". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_TRANSPORT_DISEMBARK1);
   } else {
     /* Other move. */
-    (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
+    (void) unit_move_handling(punit, ptile, FALSE, TRUE);
   }
 
   return TRUE;

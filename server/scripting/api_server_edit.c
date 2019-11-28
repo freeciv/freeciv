@@ -165,9 +165,17 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
   LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
 
   /* Teleport first so destination is revealed even if unit dies */
-  alive = unit_move(punit, dest, 0, NULL,
-                    /* The old call would result in occupation before the
-                     * checks below. */
+  alive = unit_move(punit, dest, 0,
+                    /* Auto embark kept for backward compatibility. I have
+                     * no objection if you see the old behavior as a bug and
+                     * remove auto embarking completely or for transports
+                     * the unit can't legally board. -- Sveinung */
+                    NULL, TRUE,
+                    /* Backwards compatibility for old scripts in rulesets
+                     * and (scenario) savegames. I have no objection if you
+                     * see the old behavior as a bug and remove auto
+                     * conquering completely or for cities the unit can't
+                     * legally conquer. -- Sveinung */
                     ((pcity = tile_city(dest))
                      && (unit_owner(punit)->ai_common.barbarian_type
                          != ANIMAL_BARBARIAN)
@@ -569,9 +577,17 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
   LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
 
-  return unit_move(punit, ptile, movecost, NULL,
+  return unit_move(punit, ptile, movecost,
+                   /* Auto embark kept for backward compatibility. I have
+                    * no objection if you see the old behavior as a bug and
+                    * remove auto embarking completely or for transports
+                    * the unit can't legally board. -- Sveinung */
+                   NULL, TRUE,
                    /* Backwards compatibility for old scripts in rulesets
-                    * and (scenario) savegames. */
+                    * and (scenario) savegames. I have no objection if you
+                    * see the old behavior as a bug and remove auto
+                    * conquering completely or for cities the unit can't
+                    * legally conquer. -- Sveinung */
                    ((pcity = tile_city(ptile))
                     && (unit_owner(punit)->ai_common.barbarian_type
                         != ANIMAL_BARBARIAN)

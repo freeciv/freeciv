@@ -2009,8 +2009,8 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
       request_do_action(ACTION_TRANSPORT_BOARD,
                         pcargo->id, ptrans->id, 0, "");
     } else {
-      dsend_packet_unit_load(&client.conn, pcargo->id, ptrans->id,
-                             ptile->index);
+      request_do_action(ACTION_TRANSPORT_EMBARK,
+                        pcargo->id, ptrans->id, 0, "");
     }
 
     /* Sentry the unit.  Don't request_unit_sentry since this can give a

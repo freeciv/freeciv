@@ -503,6 +503,41 @@ Actions done by a unit against another unit
    transport_cap field.
  * target must be visible to the actor.
 
+"Transport Embark" - Enter target transport on a different tile.
+ * UI name can be set using ui_name_transport_embark
+ * the actor unit must be on a tile next to the target.
+ * the actor unit has at least one move fragment left (!)
+ * the actor unit can't currently be transported by the target unit.
+ * the actor unit's current transport, if the actor unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the actor's unit type doesn't list the current transport's unit class in
+   the disembarks field.
+ * the actor unit's type must be the target tile's terrain animal if the
+   player's nation is an animal barbarian.
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile.
+ * the actor unit doesn't have the "CoastStrict" unit type flag or the
+   target city is on or adjacent to a tile that doesn't have the
+   "UnsafeCoast" terrain flag.
+ * actor unit must be able to move to the target tile.
+ * the actor's unit class must appear in the target unit type's cargo field.
+ * the actor unit unit type must be different from the target unit type
+ * the actor unit or its (recursive) cargo, if it has cargo, must be unable
+   to transport itself, the target unit or the target unit's transporters.
+   See unit_transport_check()
+ * boarding won't cause a situation with more than 5 recursive transports
+ * the target unit must be domestic, allied or on the same team as the
+   actor unit is.
+ * target must be in a city or in a base native to it if the target's unit
+   class has the Unreachable unit class flag and the actor's unit type
+   doesn't list the target's unit class in the embarks field.
+ * the target must be transporting fewer units than its unit type's
+   transport_cap field.
+ * the target tile can't contain any city or units not allied to the actor
+   unit and all its cargo.
+ * target must be visible to the actor.
+
 Actions done by a unit against all units at a tile
 ==================================================
 "Capture Units" - steal the target units.

@@ -1659,10 +1659,22 @@ void remove_city(struct city *pcity)
     unit_activity_handling(punit, ACTIVITY_IDLE);
     moved = FALSE;
     adjc_iterate(&(wld.map), pcenter, tile1) {
+      struct unit *ptrans;
       if (!moved && is_native_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
           /* Move */
-          moved = unit_move_handling(punit, tile1, FALSE, TRUE, NULL);
+          if (!can_unit_survive_at_tile(&(wld.map), punit, tile1)
+              && ((ptrans = transporter_for_unit_at(punit, tile1)))
+              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                                punit, ptrans)) {
+            /* "Transport Embark". */
+            moved = unit_perform_action(unit_owner(punit), punit->id,
+                                        ptrans->id, 0, "",
+                                        ACTION_TRANSPORT_EMBARK,
+                                        ACT_REQ_RULES);
+          } else {
+            moved = unit_move_handling(punit, tile1, FALSE, TRUE);
+          }
           if (moved) {
             notify_player(unit_owner(punit), tile1,
                           E_UNIT_RELOCATED, ftc_server,

@@ -615,7 +615,42 @@ static bool do_disembark(struct player *act_player,
   fc_assert_ret_val(tgt_tile, FALSE);
   fc_assert_ret_val(paction, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Have the actor unit embark the target unit.
+
+  Assumes that all checks for action legality has been done.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_embark(struct player *act_player,
+                           struct unit *act_unit,
+                           struct unit *tgt_unit,
+                           const struct action *paction)
+{
+  struct tile *tgt_tile;
+  int move_cost;
+
+  /* Sanity checks */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_unit, FALSE);
+  fc_assert_ret_val(paction, FALSE);
+
+  if (unit_transported(act_unit)) {
+    /* Assumed to be legal. */
+    unit_transport_unload(act_unit);
+  }
+
+  /* Do it. */
+  tgt_tile = unit_tile(tgt_unit);
+  move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
+  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE, FALSE);
 
   return TRUE;
 }
@@ -750,6 +785,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_EMBARK:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -1072,6 +1108,17 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       action_custom = MR_OK;
     }
     break;
+  case ACTION_TRANSPORT_EMBARK:
+    if (target_unit) {
+      action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                             punit->activity,
+                                             unit_tile(punit),
+                                             unit_tile(target_unit),
+                                             FALSE, NULL, FALSE);
+    } else {
+      action_custom = MR_OK;
+    }
+    break;
   case ACTION_TRANSPORT_DISEMBARK1:
     if (target_tile) {
       action_custom = unit_move_to_tile_test(&(wld.map), punit,
@@ -1307,6 +1354,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
+              || action_id_has_result_safe(act_id,
+                                           ACTION_TRANSPORT_EMBARK)
               || action_id_has_result_safe(act_id,
                                            ACTION_TRANSPORT_DISEMBARK1))
              && action_custom != MR_OK) {
@@ -2656,6 +2705,11 @@ bool unit_perform_action(struct player *pplayer,
                              do_unit_board(pplayer, actor_unit, punit,
                                            paction));
     break;
+  case ACTION_TRANSPORT_EMBARK:
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_unit_embark(pplayer, actor_unit, punit,
+                                            paction));
+    break;
   case ACTION_DISBAND_UNIT:
     /* All consequences are handled by the action system. */
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
@@ -3884,7 +3938,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                                    tile_index(def_tile), 0, "",
                                    ACTION_TRANSPORT_DISEMBARK1,
                                    ACT_REQ_RULES))
-        || (unit_move_handling(punit, def_tile, FALSE, TRUE, NULL))) {
+        || (unit_move_handling(punit, def_tile, FALSE, TRUE))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
       /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
@@ -4057,7 +4111,7 @@ static bool do_unit_conquer_city(struct player *act_player,
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, TRUE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE);
 
   /* The city may have been destroyed during the conquest. */
   success = (!city_exist(tgt_city_id)
@@ -4160,8 +4214,7 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   FIXME: This function needs a good cleaning.
 **************************************************************************/
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
-                        bool igzoc, bool move_do_not_act,
-                        struct unit *embark_to)
+                        bool igzoc, bool move_do_not_act)
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(pdesttile);
@@ -4260,12 +4313,17 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   }
 
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
-                                        embark_to, FALSE)
+                                        NULL, FALSE)
+      /* Don't override "Transport Embark" */
+      && can_unit_exist_at_tile(&(wld.map), punit, pdesttile)
       /* Don't override "Transport Disembark" */
-      && (embark_to || !unit_transported(punit))) {
+      && !unit_transported(punit)) {
     int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
 
-    unit_move(punit, pdesttile, move_cost, embark_to,
+    unit_move(punit, pdesttile, move_cost,
+              /* Don't override "Transport Embark" */
+              NULL, FALSE,
+              /* Don't override "Conquer City" */
               FALSE);
 
     return TRUE;
@@ -4914,75 +4972,6 @@ bool unit_activity_handling_targeted(struct unit *punit,
   }
 
   return TRUE;
-}
-
-/**********************************************************************//**
-  Handle a client request to load the given unit into the given transporter.
-**************************************************************************/
-void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id,
-                      int ttile_idx)
-{
-  struct unit *pcargo = player_unit_by_number(pplayer, cargo_id);
-  struct unit *ptrans = game_unit_by_number(trans_id);
-  struct tile *ptile = index_to_tile(&(wld.map), ttile_idx);
-  struct tile *ctile;
-  struct tile *ttile;
-  bool leave = FALSE;
-
-  if (NULL == pcargo) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_load() invalid cargo %d", cargo_id);
-    return;
-  }
-
-  if (NULL == ptrans) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_load() invalid transport %d", trans_id);
-    return;
-  }
-
-  ttile = unit_tile(ptrans);
-  if (!same_pos(ttile, ptile)) {
-    /* Transport no longer in where client assumed it to be. */
-    return;
-  }
-
-  ctile = unit_tile(pcargo);
-
-  if (!same_pos(ctile, ttile)) {
-    if (pcargo->moves_left <= 0
-        || !unit_can_move_to_tile(&(wld.map), pcargo, ttile, FALSE, FALSE)) {
-      return;
-    }
-  } else {
-    /* Respect ACTION_TRANSPORT_BOARD rules */
-    return;
-  }
-
-  if (unit_transported(pcargo)) {
-    if (!can_unit_unload(pcargo, unit_transport_get(pcargo))) {
-      /* Can't leave current transport */
-      return;
-    }
-
-    leave = TRUE;
-  }
-
-  /* A player may only load their units, but they may be loaded into
-   * other player's transporters, depending on the rules in
-   * could_unit_load(). */
-  if (!could_unit_load(pcargo, ptrans)) {
-    return;
-  }
-
-  /* It's possible. Let's make all the necessary steps. */
-  if (leave) {
-    unit_transport_unload(pcargo);
-  }
-
-  /* Pre load move. */
-  unit_move_handling(pcargo, ttile, FALSE, TRUE, ptrans);
-  return;
 }
 
 /**********************************************************************//**

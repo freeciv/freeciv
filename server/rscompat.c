@@ -282,6 +282,9 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                               FALSE, FALSE,
                                               "Transport Board"));
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, FALSE,
+                                              "Transport Embark"));
     }
   }
 
@@ -509,6 +512,10 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler = action_enabler_new();
     enabler->action = ACTION_TRANSPORT_BOARD;
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_TRANSPORT_EMBARK;
     action_enabler_add(enabler);
 
     enabler = action_enabler_new();

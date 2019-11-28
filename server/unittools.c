@@ -1190,7 +1190,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     if (move_cost == -1) {
       move_cost = punit->moves_left;
     }
-    unit_move(punit, dst_tile, move_cost, NULL, FALSE);
+    unit_move(punit, dst_tile, move_cost, NULL, FALSE, FALSE);
 
     return TRUE;
   }
@@ -1248,7 +1248,12 @@ void bounce_unit(struct unit *punit, bool verbose)
                     _("Moved your %s."),
                     unit_link(punit));
     }
-    unit_move(punit, ptile, 0, NULL, FALSE);
+    /* TODO: should a unit be able to bounce to a transport like is done
+     * below? What if the unit can't legally enter the transport, say
+     * because the transport is Unreachable and the unit doesn't have it in
+     * its embarks field or because "Transport Embark" isn't enabled? Kept
+     * like it was to preserve the old rules for now. -- Sveinung */
+    unit_move(punit, ptile, 0, NULL, TRUE, FALSE);
     return;
   }
 
@@ -2320,8 +2325,15 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           } adjc_iterate_end;
 
           if (dsttile != NULL) {
+            /* TODO: Consider if forcing the unit to perform actions that
+             * includes a move, like "Transport Embark", should be done when
+             * a regular move is illegal or rather than a regular move. If
+             * yes: remember to set action_requester to ACT_REQ_RULES. */
             move_cost = map_move_cost_unit(&(wld.map), vunit, dsttile);
-            unit_move(vunit, dsttile, move_cost, NULL, FALSE);
+            /* FIXME: Shouldn't unit_move_handling() be used here? This is
+             * the unit escaping by moving itself. It should therefore
+             * respect movement rules. */
+            unit_move(vunit, dsttile, move_cost, NULL, FALSE, FALSE);
             num_escaped[player_index(vplayer)]++;
             escaped = TRUE;
             unitcount--;
@@ -2761,7 +2773,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
 
   unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
             /* Can only airlift to allied and domestic cities */
-            FALSE);
+            FALSE, FALSE);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2916,7 +2928,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   /* All ok */
   punit->paradropped = TRUE;
   if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub,
-                NULL,
+                NULL, game.info.paradrop_to_transport,
                 /* A paradrop into a non allied city results in a city
                  * occupation. */
                 /* FIXME: move the following actor requirements to the
@@ -3602,7 +3614,8 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
   Returns TRUE iff unit still alive.
 **************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
-               struct unit *embark_to, bool conquer_city_allowed)
+               struct unit *embark_to, bool find_embark_target,
+               bool conquer_city_allowed)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -3858,8 +3871,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     if (embark_to || !can_unit_survive_at_tile(&(wld.map), punit, pdesttile)) {
       if (embark_to != NULL) {
         ptransporter = embark_to;
-      } else {
+      } else if (find_embark_target) {
+        /* TODO: Consider to stop supporting find_embark_target and make all
+         * callers that wants auto loading set embark_to. */
         ptransporter = transporter_for_unit(punit);
+      } else {
+        ptransporter = NULL;
       }
       if (ptransporter) {
         unit_transport_load_tp_status(punit, ptransporter, FALSE);
@@ -4286,7 +4303,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       log_debug("  moving to %d,%d", TILE_XY(dst_tile));
       res = unit_move_handling(punit, dst_tile, FALSE,
-                               order.order != ORDER_ACTION_MOVE, NULL);
+                               order.order != ORDER_ACTION_MOVE);
       if (!player_unit_by_number(pplayer, unitid)) {
         log_debug("  unit died while moving.");
         /* A player notification should already have been sent. */
@@ -4848,6 +4865,7 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_TRANSPORT_UNLOAD:
       case ACTION_TRANSPORT_DISEMBARK1:
       case ACTION_TRANSPORT_BOARD:
+      case ACTION_TRANSPORT_EMBARK:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

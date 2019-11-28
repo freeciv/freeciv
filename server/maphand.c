@@ -1750,7 +1750,13 @@ static void check_units_single_tile(struct tile *ptile)
                         E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
                         unit_link(punit));
-          unit_alive = unit_move(punit, ptile2, 0, NULL, FALSE);
+          /* TODO: should a unit be able to bounce to a transport like is
+           * done below? What if the unit can't legally enter the transport,
+           * say because the transport is Unreachable and the unit doesn't
+           * have it in its embarks field or because "Transport Embark"
+           * isn't enabled? Kept like it was to preserve the old rules for
+           * now. -- Sveinung */
+          unit_alive = unit_move(punit, ptile2, 0, NULL, TRUE, FALSE);
           if (unit_alive && punit->activity == ACTIVITY_SENTRY) {
             unit_activity_handling(punit, ACTIVITY_IDLE);
           }

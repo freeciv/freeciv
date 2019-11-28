@@ -835,6 +835,7 @@ static void dai_unit_bodyguard_move(struct ai_type *ait,
 **************************************************************************/
 bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
+  struct unit *ptrans;
   struct unit *bodyguard = aiguard_guard_of(ait, punit);
   int sanity = punit->id;
   bool alive;
@@ -879,6 +880,13 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Conquer City". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+             && ((ptrans = transporter_for_unit_at(punit, ptile)))
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                               punit, ptrans)) {
+    /* "Transport Embark". */
+    unit_do_action(unit_owner(punit), punit->id, ptrans->id,
+                   0, "", ACTION_TRANSPORT_EMBARK);
   } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                             punit, ptile, NULL)) {
     /* "Transport Disembark". */
@@ -886,7 +894,7 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
                    0, "", ACTION_TRANSPORT_DISEMBARK1);
   } else {
     /* Other move. */
-    (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
+    (void) unit_move_handling(punit, ptile, FALSE, TRUE);
   }
   alive = (game_unit_by_number(sanity) != NULL);
 
@@ -924,6 +932,7 @@ void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
 bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
   struct unit *bodyguard;
+  struct unit *ptrans;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
   const bool is_plr_ai = is_ai(pplayer);
@@ -973,14 +982,21 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
   /* Move */
-  if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                     punit, ptile, NULL)) {
+  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+      && ((ptrans = transporter_for_unit_at(punit, ptile)))
+      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                     punit, ptrans)) {
+    /* "Transport Embark". */
+    unit_do_action(unit_owner(punit), punit->id, ptrans->id,
+                   0, "", ACTION_TRANSPORT_EMBARK);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                            punit, ptile, NULL)) {
     /* "Transport Disembark". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_TRANSPORT_DISEMBARK1);
   } else {
     /* Other move. */
-    (void) unit_move_handling(punit, ptile, FALSE, TRUE, NULL);
+    (void) unit_move_handling(punit, ptile, FALSE, TRUE);
   }
 
   /* handle the results */

@@ -574,6 +574,17 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Try to move the briber onto the victim's square unless its a city or
    * have other units. */
   if (NULL == pcity && unit_list_size(unit_tile(pvictim)->units) < 2
+      /* Post bribe embark. */
+      && (can_unit_exist_at_tile(&(wld.map), pdiplomat, victim_tile)
+          || !(is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                              pdiplomat, pvictim)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      pvictim->id, 0, "",
+                                      ACTION_TRANSPORT_EMBARK,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to embark. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe disembark. */
       && (!unit_transported(pdiplomat)
           || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                               pdiplomat, victim_tile, NULL)
@@ -584,7 +595,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
       /* May have died while trying to disembark. */
       && unit_is_alive(diplomat_id)
       /* Post bribe move. */
-      && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE, NULL)
+      && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE)
       /* May have died while trying to move. */
       && unit_is_alive(diplomat_id)) {
     pdiplomat->moves_left = 0;
