@@ -403,9 +403,11 @@ Actions done by a unit against a city
  * "Attack" must be impossible
  * the actor unit must be on a tile next to the target.
  * the actor player's nation can't be an animal barbarian. (!)
- * the actor unit's transport must be in a city or in a native base if the
-   transport's unit class has the Unreachable unit class flag and the
-   actor's unit type doesn't list the target's unit class in disembarks.
+ * the actor unit's current transport, if the actor unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the actor's unit type doesn't list the current transport's unit class in
+   disembarks.
  * the actor unit doesn't have the "CoastStrict" unit type flag or the
    target city is on or adjacent to a tile that doesn't have the
    "UnsafeCoast" terrain flag.
