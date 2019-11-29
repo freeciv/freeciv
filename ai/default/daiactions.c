@@ -99,10 +99,13 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
                                        int count_tech)
 {
   /* FIXME: This is just a copy of how dai_diplomat_city() used to behave.
-   * Feel free to change the utility values. Feel free to change the old
-   * rules of thumb. Feel free to make it consider Casus Belli, move cost
-   * and other ruleset defined information. Feel free to support other
-   * actions. */
+   * The utility values are *not* proportional to utility values used for
+   * other tasks in the AI. They should probably be scaled to match unit
+   * the utility of building the unit that can perform the action.
+   * Feel free to adjust the utility values. Feel free to change the old
+   * rules of thumb. Feel free to make it give more weight to Casus Belli,
+   * to move cost and to other ruleset defined information. Feel free to
+   * support other actions. */
 
   adv_want utility;
 
