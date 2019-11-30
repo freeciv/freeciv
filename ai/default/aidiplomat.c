@@ -359,14 +359,9 @@ static void dai_diplomat_city(struct ai_type *ait, struct unit *punit,
       continue;
     }
 
-    if (paction->target_complexity == ACT_TGT_COMPL_SIMPLE) {
-      /* No sub target */
-      sub_tgt_id = 0;
-    } else {
-      /* Pick a suitable sub target. */
-      sub_tgt_id = dai_action_choose_sub_tgt_unit_vs_city(paction,
-                                                          punit, ctarget);
-    }
+    /* Pick a suitable sub target. */
+    sub_tgt_id = dai_action_choose_sub_tgt_unit_vs_city(paction,
+                                                        punit, ctarget);
 
     action_utility = dai_action_value_unit_vs_city(paction, punit,
                                                    ctarget, sub_tgt_id,
