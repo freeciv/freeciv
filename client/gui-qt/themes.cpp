@@ -37,7 +37,6 @@ extern QApplication *current_app();
 extern QApplication *qapp;
 extern QString current_theme;
 static QString def_app_style;
-static QString real_data_dir;
 static QString stylestring;
 
 /*************************************************************************//**
@@ -48,6 +47,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
   QString name;
   QString path;
   QString fake_dir;
+  QString data_dir;
   QDir dir;
   QFile f;
   QString lnb = "LittleFinger";
@@ -57,12 +57,9 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     def_app_style = QApplication::style()->objectName();
   }
 
-  if (real_data_dir.isEmpty()) {
-    real_data_dir = QString(directory);
-  }
-  
-  path = real_data_dir + DIR_SEPARATOR + theme_name + DIR_SEPARATOR;
-  name = dir.absolutePath() + QDir::separator() + real_data_dir;
+  data_dir = QString(directory);
+
+  path = data_dir + DIR_SEPARATOR + theme_name + DIR_SEPARATOR;
   name = path + "resource.qss";
   f.setFileName(name);
 
@@ -73,7 +70,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
     return;
   }
   /* Stylesheet uses UNIX separators */
-  fake_dir = real_data_dir;
+  fake_dir = data_dir;
   fake_dir.replace(QString(DIR_SEPARATOR), "/");
   QTextStream in(&f);
   stylestring = in.readAll();
