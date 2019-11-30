@@ -3158,6 +3158,8 @@ static bool unit_survive_autoattack(struct unit *punit)
       if (action_prob_possible(probability->prob)) {
         probability->unit_id = penemy->id;
         autoattack_prob_list_prepend(autoattack, probability);
+      } else {
+        FC_FREE(probability);
       }
     } unit_list_iterate_end;
   } adjc_iterate_end;
