@@ -409,7 +409,7 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
   { "SHOW_FOG_OF_WAR", N_("Fog of War"), 0, 0,
     G_CALLBACK(show_fog_of_war_callback), MGROUP_SAFE },
-  { "FULL_SCREEN", N_("Fullscreen"), GDK_KEY_KP_Enter, GDK_MOD1_MASK,
+  { "FULL_SCREEN", N_("Fullscreen"), GDK_KEY_Return, GDK_MOD1_MASK,
     G_CALLBACK(full_screen_callback), MGROUP_SAFE },
 
   { "RECALC_BORDERS", N_("Recalculate Borders"), 0, 0,
