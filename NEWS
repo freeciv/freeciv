@@ -10,7 +10,7 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 2.4.x to 2.5.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-2.5.0>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.0>, 2015-03-14)
 
    The main changes in Freeciv 2.5 are the inclusion of the 'civ2civ3'
    ruleset, a new Qt client, and much more flexibility for those creating
@@ -572,7 +572,7 @@ Build/portability
 MAJOR CHANGES FROM 2.3.x to 2.4.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-2.4.0>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.4.0>, 2013-09-14)
 
    As is usual for major releases, 2.4 clients cannot interoperate with
    pre-2.4 servers, and vice versa. Pre-2.4 savegames can however be
@@ -972,7 +972,7 @@ Build/portability
 MAJOR CHANGES FROM 2.2.x to 2.3.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-2.3.0>)
+   (from <http://www.freeciv.org/wiki/NEWS-2.3.0>, 2011-08-08)
 
    As well as many new features, many features from Longturn and some from
    Warclient have been merged into the main codebase for this release.
@@ -1234,7 +1234,7 @@ KNOWN ISSUES
 MAJOR CHANGES from 2.1.x to 2.2.0
 ---------------------------------
 
-  (from <http://www.freeciv.org/wiki/NEWS-2.2.0>)
+  (from <http://www.freeciv.org/wiki/NEWS-2.2.0>, 2010-02-21)
 
      * Built-in editor
      * Expanded ruleset format:
