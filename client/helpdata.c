@@ -2379,7 +2379,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  /* Auto attack immunity. (auto_attack.will_never ruleset setting) */
+  /* Auto attack immunity. (auto_attack.if_attacker ruleset setting) */
   if (server_setting_value_bool_get(
         server_setting_by_name("autoattack"))) {
     bool not_an_auto_attacker = TRUE;

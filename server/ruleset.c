@@ -6169,28 +6169,68 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       /* Auto attack. */
       struct action_auto_perf *auto_perf;
 
+      /* Action auto performers aren't ready to be exposed in the ruleset
+       * yet. The behavior when two action auto performers for the same
+       * cause can fire isn't set in stone yet. How is one of them chosen?
+       * What if all the actions of the chosen action auto performer turned
+       * out to be illegal but one of the other action auto performers that
+       * fired has legal actions? These issues can decide what other action
+       * rules action auto performers can represent in the future. Deciding
+       * should therefore wait until a rule needs action auto performers to
+       * work a certain way. */
+      /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
+       * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
+       * requirement vector to the ruleset. */
+      struct requirement_vector *reqs;
+
       /* A unit moved next to this unit and the autoattack server setting
        * is enabled. */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
       auto_perf->cause = AAPC_UNIT_MOVED_ADJ;
 
-      /* Auto attack happens during war. */
-      requirement_vector_append(&auto_perf->reqs,
-                                req_from_values(VUT_DIPLREL,
-                                                REQ_RANGE_LOCAL,
-                                                FALSE, TRUE, TRUE, DS_WAR));
-
-      /* Needs a movement point to auto attack. */
-      requirement_vector_append(&auto_perf->reqs,
-                                req_from_values(VUT_MINMOVES,
-                                                REQ_RANGE_LOCAL,
-                                                FALSE, TRUE, TRUE, 1));
-
-      /* Internally represented as an action auto performer rule. */
-      if (!load_action_auto_uflag_block(file, auto_perf,
-                                         "auto_attack.will_never",
-                                         filename)) {
+      reqs = lookup_req_list(file, compat,
+                             "auto_attack", "if_attacker",
+                             "auto_attack");
+      if (reqs == NULL) {
         ok = FALSE;
+      }
+
+      requirement_vector_copy(&auto_perf->reqs, reqs);
+
+      if (compat->compat_mode) {
+        enum unit_type_flag_id *protecor_flag;
+        size_t psize;
+
+        if (secfile_entry_lookup(file, "%s", "auto_attack.will_never")) {
+          protecor_flag =
+              secfile_lookup_enum_vec(file, &psize, unit_type_flag_id,
+                                      "%s", "auto_attack.will_never");
+
+          if (!protecor_flag) {
+            /* Entity exists but couldn't read it. */
+            ruleset_error(LOG_ERROR,
+                          "\"%s\": %s: bad unit type flag list.",
+                          filename, "auto_attack.will_never");
+
+            ok = FALSE;
+          }
+        } else {
+          psize = 0;
+          protecor_flag = NULL;
+        }
+
+        if (!rscompat_auto_attack_3_1(compat, auto_perf,
+                                      psize, protecor_flag)) {
+          /* Upgrade failed */
+          ruleset_error(LOG_ERROR,
+                        "\"%s\": %s: failed to upgrade.",
+                        filename, "auto_attack");
+          ok = FALSE;
+        }
+
+        if (psize) {
+          FC_FREE(protecor_flag);
+        }
       }
 
       /* TODO: It would be great if unit_survive_autoattack() could be made

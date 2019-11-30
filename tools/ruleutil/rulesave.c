@@ -789,20 +789,6 @@ static bool save_effects_ruleset(const char *filename, const char *name)
 }
 
 /**********************************************************************//**
-  Auto attack should only require war, remaining movement and the absence
-  of blocking utype flags.
-**************************************************************************/
-static bool unexpected_auto_attack(const struct requirement *req)
-{
-  return !((req->source.kind == VUT_DIPLREL
-            && req->source.value.diplrel == DS_WAR
-            && req->present)
-           || (req->source.kind == VUT_MINMOVES
-               && req->source.value.minmoves == 1
-               && req->present));
-}
-
-/**********************************************************************//**
   Save ui_name of one action.
 **************************************************************************/
 static bool save_action_ui_name(struct section_file *sfile,
@@ -1030,9 +1016,25 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_SLOW_INVASIONS,
                     "global_unit_options.slow_invasions", NULL);
 
-  save_action_auto_uflag_block(sfile, ACTION_AUTO_MOVED_ADJ,
-                               "auto_attack.will_never",
-                               unexpected_auto_attack);
+  {
+    /* Action auto performers aren't ready to be exposed in the ruleset
+     * yet. The behavior when two action auto performers for the same
+     * cause can fire isn't set in stone yet. How is one of them chosen?
+     * What if all the actions of the chosen action auto performer turned
+     * out to be illegal but one of the other action auto performers that
+     * fired has legal actions? These issues can decide what other action
+     * rules action auto performers can represent in the future. Deciding
+     * should therefore wait until a rule needs action auto performers to
+     * work a certain way. */
+    /* Only one action auto performer, ACTION_AUTO_MOVED_ADJ, is caused
+     * by AAPC_UNIT_MOVED_ADJ. It is therefore safe to expose the full
+     * requirement vector to the ruleset. */
+    const struct action_auto_perf *auto_perf =
+        action_auto_perf_by_number(ACTION_AUTO_MOVED_ADJ);
+
+    save_reqs_vector(sfile, &auto_perf->reqs,
+                     "auto_attack", "if_attacker");
+  }
 
   save_default_bool(sfile,
                     action_id_would_be_blocked_by(ACTION_MARKETPLACE,

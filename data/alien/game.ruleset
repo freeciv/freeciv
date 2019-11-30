@@ -242,10 +242,14 @@ nuke_defender_survival_chance_pct = 0
 ; An auto attack may be triggered when another unit moves to an adjacent
 ; tile and the autoattack server setting is enabled. The following details
 ; are ruleset controlled.
-;   will_never - units with this unit type flag will never auto attack.
+;   if_attacker - this requirement vector must be true before a unit even
+;                 considers to auto attack.
 
-; Not a good idea to nuke our own area.
-;will_never = "Nuclear"
+if_attacker =
+    { "type",         "name",    "range", "present"
+      "DiplRel",      "War",     "Local", TRUE
+      "MinMoveFrags", "1",       "Local", TRUE
+    }
 
 [actions]
 ; If force_trade_route is set to TRUE it is illegal for an actor unit to

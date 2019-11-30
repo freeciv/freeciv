@@ -579,6 +579,42 @@ void rscompat_postprocess(struct rscompat_info *info)
 }
 
 /**********************************************************************//**
+  Replace deprecated auto_attack configuration.
+**************************************************************************/
+bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
+                              struct action_auto_perf *auto_perf,
+                              size_t psize,
+                              enum unit_type_flag_id *protecor_flag)
+{
+  int i;
+
+  if (compat->ver_game < 20) {
+    /* Auto attack happens during war. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_values(VUT_DIPLREL,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, DS_WAR));
+
+    /* Needs a movement point to auto attack. */
+    requirement_vector_append(&auto_perf->reqs,
+                              req_from_values(VUT_MINMOVES,
+                                              REQ_RANGE_LOCAL,
+                                              FALSE, TRUE, TRUE, 1));
+
+    for (i = 0; i < psize; i++) {
+      /* Add each protecor_flag as a !present requirement. */
+      requirement_vector_append(&auto_perf->reqs,
+                                req_from_values(VUT_UTFLAG,
+                                                REQ_RANGE_LOCAL,
+                                                FALSE, FALSE, TRUE,
+                                                protecor_flag[i]));
+    }
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Replace deprecated requirement type names with currently valid ones.
 
   The extra arguments are for situation where some, but not all, instances

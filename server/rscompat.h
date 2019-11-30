@@ -58,6 +58,10 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                                            const char *rfor);
 
 /* Functions specific to 3.0 -> 3.1 transition */
+bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
+                              struct action_auto_perf *auto_perf,
+                              size_t psize,
+                              enum unit_type_flag_id *protecor_flag);
 const char *rscompat_req_type_name_3_1(const char *type, const char *range,
                                        bool survives, bool present,
                                        bool quiet, const char *value);
