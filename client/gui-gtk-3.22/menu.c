@@ -247,62 +247,62 @@ static void explode_nuke_callback(GtkMenuItem *item, gpointer data);
 
 static struct menu_entry_info menu_entries[] =
 {
-  { "MENU_GAME", N_("Game"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_OPTIONS", N_("Options"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_EDIT", N_("Edit"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_VIEW", N_("?verb:View"), 0, 0, NULL, MGROUP_SAFE },
-  { "MENU_IMPROVEMENTS", N_("Improvements"), 0, 0,
+  { "MENU_GAME", N_("_Game"), 0, 0, NULL, MGROUP_SAFE },
+  { "MENU_OPTIONS", N_("_Options"), 0, 0, NULL, MGROUP_SAFE },
+  { "MENU_EDIT", N_("_Edit"), 0, 0, NULL, MGROUP_SAFE },
+  { "MENU_VIEW", N_("?verb:_View"), 0, 0, NULL, MGROUP_SAFE },
+  { "MENU_IMPROVEMENTS", N_("_Improvements"), 0, 0,
     NULL, MGROUP_SAFE },
-  { "MENU_CIVILIZATION", N_("Civilization"), 0, 0,
+  { "MENU_CIVILIZATION", N_("C_ivilization"), 0, 0,
     NULL, MGROUP_SAFE },
-  { "MENU_HELP", N_("Help"), 0, 0, NULL, MGROUP_SAFE },
-  { "CLEAR_CHAT_LOGS", N_("Clear Chat Log"), 0, 0,
+  { "MENU_HELP", N_("_Help"), 0, 0, NULL, MGROUP_SAFE },
+  { "CLEAR_CHAT_LOGS", N_("_Clear Chat Log"), 0, 0,
     G_CALLBACK(clear_chat_logs_callback), MGROUP_SAFE },
-  { "SAVE_CHAT_LOGS", N_("Save Chat Log"), 0, 0,
+  { "SAVE_CHAT_LOGS", N_("Save Chat _Log"), 0, 0,
     G_CALLBACK(save_chat_logs_callback), MGROUP_SAFE },
-  { "LOCAL_OPTIONS", N_("Local Client"), 0, 0,
+  { "LOCAL_OPTIONS", N_("_Local Client"), 0, 0,
     G_CALLBACK(local_options_callback), MGROUP_SAFE },
-  { "MESSAGE_OPTIONS", N_("Message"), 0, 0,
+  { "MESSAGE_OPTIONS", N_("_Message"), 0, 0,
     G_CALLBACK(message_options_callback), MGROUP_SAFE },
-  { "SERVER_OPTIONS", N_("Remote Server"), 0, 0,
+  { "SERVER_OPTIONS", N_("_Remote Server"), 0, 0,
     G_CALLBACK(server_options_callback), MGROUP_SAFE },
-  { "SAVE_OPTIONS", N_("Save Options Now"), 0, 0,
+  { "SAVE_OPTIONS", N_("Save Options _Now"), 0, 0,
     G_CALLBACK(save_options_callback), MGROUP_SAFE },
-  { "RELOAD_TILESET", N_("Reload Tileset"),
+  { "RELOAD_TILESET", N_("_Reload Tileset"),
     GDK_KEY_r, GDK_MOD1_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(reload_tileset_callback), MGROUP_SAFE },
-  { "GAME_SAVE", N_("Save Game"), GDK_KEY_s, GDK_CONTROL_MASK,
+  { "GAME_SAVE", N_("_Save Game"), GDK_KEY_s, GDK_CONTROL_MASK,
     G_CALLBACK(save_game_callback), MGROUP_SAFE },
-  { "GAME_SAVE_AS", N_("Save Game As..."), 0, 0,
+  { "GAME_SAVE_AS", N_("Save Game _As..."), 0, 0,
     G_CALLBACK(save_game_as_callback), MGROUP_SAFE },
-  { "MAPIMG_SAVE", N_("Save Map Image"), 0, 0,
+  { "MAPIMG_SAVE", N_("Save Map _Image"), 0, 0,
     G_CALLBACK(save_mapimg_callback), MGROUP_SAFE },
-  { "MAPIMG_SAVE_AS", N_("Save Map Image As..."), 0, 0,
+  { "MAPIMG_SAVE_AS", N_("Save _Map Image As..."), 0, 0,
     G_CALLBACK(save_mapimg_as_callback), MGROUP_SAFE },
-  { "LEAVE", N_("Leave"), 0, 0, G_CALLBACK(leave_callback), MGROUP_SAFE },
-  { "QUIT", N_("Quit"), GDK_KEY_q, GDK_CONTROL_MASK,
+  { "LEAVE", N_("_Leave"), 0, 0, G_CALLBACK(leave_callback), MGROUP_SAFE },
+  { "QUIT", N_("_Quit"), GDK_KEY_q, GDK_CONTROL_MASK,
     G_CALLBACK(quit_callback), MGROUP_SAFE },
-  { "FIND_CITY", N_("Find City"), GDK_KEY_f, GDK_CONTROL_MASK,
+  { "FIND_CITY", N_("_Find City"), GDK_KEY_f, GDK_CONTROL_MASK,
     G_CALLBACK(find_city_callback), MGROUP_SAFE },
-  { "WORKLISTS", N_("Worklists"), GDK_KEY_l, GDK_CONTROL_MASK,
+  { "WORKLISTS", N_("Work_lists"), GDK_KEY_l, GDK_CONTROL_MASK,
     G_CALLBACK(worklists_callback), MGROUP_SAFE },
-  { "CLIENT_LUA_SCRIPT", N_("Client Lua Script"), 0, 0,
+  { "CLIENT_LUA_SCRIPT", N_("Client _Lua Script"), 0, 0,
     G_CALLBACK(client_lua_script_callback), MGROUP_SAFE },
-  { "MAP_VIEW", N_("?noun:View"), GDK_KEY_F1, 0,
+  { "MAP_VIEW", N_("?noun:_View"), GDK_KEY_F1, 0,
     G_CALLBACK(map_view_callback), MGROUP_SAFE },
-  { "REPORT_UNITS", N_("Units"), GDK_KEY_F2, 0,
+  { "REPORT_UNITS", N_("_Units"), GDK_KEY_F2, 0,
     G_CALLBACK(report_units_callback), MGROUP_SAFE },
-  { "REPORT_NATIONS", N_("Nations"), GDK_KEY_F3, 0,
+  { "REPORT_NATIONS", N_("_Nations"), GDK_KEY_F3, 0,
     G_CALLBACK(report_nations_callback), MGROUP_SAFE },
-  { "REPORT_CITIES", N_("Cities"), GDK_KEY_F4, 0,
+  { "REPORT_CITIES", N_("_Cities"), GDK_KEY_F4, 0,
     G_CALLBACK(report_cities_callback), MGROUP_SAFE },
-  { "REPORT_WOW", N_("Wonders of the World"), GDK_KEY_F7, 0,
+  { "REPORT_WOW", N_("_Wonders of the World"), GDK_KEY_F7, 0,
     G_CALLBACK(report_wow_callback), MGROUP_SAFE },
-  { "REPORT_TOP_CITIES", N_("Top Five Cities"), GDK_KEY_F8, 0,
+  { "REPORT_TOP_CITIES", N_("Top _Five Cities"), GDK_KEY_F8, 0,
     G_CALLBACK(report_top_cities_callback), MGROUP_SAFE },
-  { "REPORT_MESSAGES", N_("Messages"), GDK_KEY_F9, 0,
+  { "REPORT_MESSAGES", N_("_Messages"), GDK_KEY_F9, 0,
     G_CALLBACK(report_messages_callback), MGROUP_SAFE },
-  { "REPORT_DEMOGRAPHIC", N_("Demographics"), GDK_KEY_F11, 0,
+  { "REPORT_DEMOGRAPHIC", N_("_Demographics"), GDK_KEY_F11, 0,
     G_CALLBACK(report_demographic_callback), MGROUP_SAFE },
   { "HELP_OVERVIEW", N_("?help:Overview"), 0, 0,
     G_CALLBACK(help_overview_callback), MGROUP_SAFE },
@@ -356,160 +356,165 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(help_copying_callback), MGROUP_SAFE },
   { "HELP_ABOUT", N_("About Freeciv"), 0, 0,
     G_CALLBACK(help_about_callback), MGROUP_SAFE },
-  { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on Exit"), 0, 0,
+  { "SAVE_OPTIONS_ON_EXIT", N_("Save Options on _Exit"), 0, 0,
     G_CALLBACK(save_options_on_exit_callback), MGROUP_SAFE },
-  { "EDIT_MODE", N_("Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
+  { "EDIT_MODE", N_("_Editing Mode"), GDK_KEY_e, GDK_CONTROL_MASK,
     G_CALLBACK(edit_mode_callback), MGROUP_SAFE },
-  { "SHOW_CITY_OUTLINES", N_("City Outlines"), GDK_KEY_y, GDK_CONTROL_MASK,
+  { "SHOW_CITY_OUTLINES", N_("Cit_y Outlines"), GDK_KEY_y, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_outlines_callback), MGROUP_SAFE },
   { "SHOW_CITY_OUTPUT", N_("City Output"), GDK_KEY_w, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_output_callback), MGROUP_SAFE },
-  { "SHOW_MAP_GRID", N_("Map Grid"), GDK_KEY_g, GDK_CONTROL_MASK,
+  { "SHOW_MAP_GRID", N_("Map _Grid"), GDK_KEY_g, GDK_CONTROL_MASK,
     G_CALLBACK(show_map_grid_callback), MGROUP_SAFE },
-  { "SHOW_NATIONAL_BORDERS", N_("National Borders"), GDK_KEY_b, GDK_CONTROL_MASK,
+  { "SHOW_NATIONAL_BORDERS", N_("National _Borders"), GDK_KEY_b, GDK_CONTROL_MASK,
     G_CALLBACK(show_national_borders_callback), MGROUP_SAFE },
   { "SHOW_NATIVE_TILES", N_("Native Tiles"), GDK_KEY_n, GDK_CONTROL_MASK | GDK_SHIFT_MASK,
     G_CALLBACK(show_native_tiles_callback), MGROUP_SAFE },
   { "SHOW_CITY_FULL_BAR", N_("City Full Bar"), 0, 0,
     G_CALLBACK(show_city_full_bar_callback), MGROUP_SAFE },
-  { "SHOW_CITY_NAMES", N_("City Names"), GDK_KEY_n, GDK_CONTROL_MASK,
+  { "SHOW_CITY_NAMES", N_("City _Names"), GDK_KEY_n, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_names_callback), MGROUP_SAFE },
-  { "SHOW_CITY_GROWTH", N_("City Growth"), GDK_KEY_r, GDK_CONTROL_MASK,
+  { "SHOW_CITY_GROWTH", N_("City G_rowth"), GDK_KEY_r, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_growth_callback), MGROUP_SAFE },
-  { "SHOW_CITY_PRODUCTIONS", N_("City Production Levels"), GDK_KEY_p, GDK_CONTROL_MASK,
+  { "SHOW_CITY_PRODUCTIONS", N_("City _Production Levels"), GDK_KEY_p, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_productions_callback), MGROUP_SAFE },
   { "SHOW_CITY_BUY_COST", N_("City Buy Cost"), 0, 0,
     G_CALLBACK(show_city_buy_cost_callback), MGROUP_SAFE },
-  { "SHOW_CITY_TRADE_ROUTES", N_("City Traderoutes"), GDK_KEY_d, GDK_CONTROL_MASK,
+  { "SHOW_CITY_TRADE_ROUTES", N_("City Tra_deroutes"), GDK_KEY_d, GDK_CONTROL_MASK,
     G_CALLBACK(show_city_trade_routes_callback), MGROUP_SAFE },
-  { "SHOW_TERRAIN", N_("Terrain"), 0, 0,
+  { "SHOW_TERRAIN", N_("_Terrain"), 0, 0,
     G_CALLBACK(show_terrain_callback), MGROUP_SAFE },
-  { "SHOW_COASTLINE", N_("Coastline"), 0, 0,
+  { "SHOW_COASTLINE", N_("C_oastline"), 0, 0,
     G_CALLBACK(show_coastline_callback), MGROUP_SAFE },
-  { "SHOW_PATHS", N_("Paths"), 0, 0,
+  { "SHOW_PATHS", N_("_Paths"), 0, 0,
     G_CALLBACK(show_road_rails_callback), MGROUP_SAFE },
-  { "SHOW_IRRIGATION", N_("Irrigation"), 0, 0,
+  { "SHOW_IRRIGATION", N_("_Irrigation"), 0, 0,
     G_CALLBACK(show_irrigation_callback), MGROUP_SAFE },
-  { "SHOW_MINES", N_("Mines"), 0, 0,
+  { "SHOW_MINES", N_("_Mines"), 0, 0,
     G_CALLBACK(show_mine_callback), MGROUP_SAFE },
-  { "SHOW_BASES", N_("Bases"), 0, 0,
+  { "SHOW_BASES", N_("_Bases"), 0, 0,
     G_CALLBACK(show_bases_callback), MGROUP_SAFE },
-  { "SHOW_RESOURCES", N_("Resources"), 0, 0,
+  { "SHOW_RESOURCES", N_("_Resources"), 0, 0,
     G_CALLBACK(show_resources_callback), MGROUP_SAFE },
-  { "SHOW_HUTS", N_("Huts"), 0, 0,
+  { "SHOW_HUTS", N_("_Huts"), 0, 0,
     G_CALLBACK(show_huts_callback), MGROUP_SAFE },
-  { "SHOW_POLLUTION", N_("Pollution & Fallout"), 0, 0,
+  { "SHOW_POLLUTION", N_("Po_llution & Fallout"), 0, 0,
     G_CALLBACK(show_pollution_callback), MGROUP_SAFE },
-  { "SHOW_CITIES", N_("Cities"), 0, 0,
+  { "SHOW_CITIES", N_("Citi_es"), 0, 0,
     G_CALLBACK(show_cities_callback), MGROUP_SAFE },
-  { "SHOW_UNITS", N_("Units"), 0, 0,
+  { "SHOW_UNITS", N_("_Units"), 0, 0,
     G_CALLBACK(show_units_callback), MGROUP_SAFE },
   { "SHOW_UNIT_SOLID_BG", N_("Unit Solid Background"), 0, 0,
     G_CALLBACK(show_unit_solid_bg_callback), MGROUP_SAFE },
   { "SHOW_UNIT_SHIELDS", N_("Unit shields"), 0, 0,
     G_CALLBACK(show_unit_shields_callback), MGROUP_SAFE },
-  { "SHOW_FOCUS_UNIT", N_("Focus Unit"), 0, 0,
+  { "SHOW_FOCUS_UNIT", N_("Focu_s Unit"), 0, 0,
     G_CALLBACK(show_focus_unit_callback), MGROUP_SAFE },
-  { "SHOW_FOG_OF_WAR", N_("Fog of War"), 0, 0,
+  { "SHOW_FOG_OF_WAR", N_("Fog of _War"), 0, 0,
     G_CALLBACK(show_fog_of_war_callback), MGROUP_SAFE },
-  { "FULL_SCREEN", N_("Fullscreen"), GDK_KEY_Return, GDK_MOD1_MASK,
+  { "FULL_SCREEN", N_("_Fullscreen"), GDK_KEY_Return, GDK_MOD1_MASK,
     G_CALLBACK(full_screen_callback), MGROUP_SAFE },
 
-  { "RECALC_BORDERS", N_("Recalculate Borders"), 0, 0,
+  { "RECALC_BORDERS", N_("Recalculate _Borders"), 0, 0,
     G_CALLBACK(recalc_borders_callback), MGROUP_EDIT },
-  { "TOGGLE_FOG", N_("Toggle Fog of War"), GDK_KEY_m, GDK_CONTROL_MASK,
+  { "TOGGLE_FOG", N_("Toggle Fog of _War"), GDK_KEY_m, GDK_CONTROL_MASK,
     G_CALLBACK(toggle_fog_callback), MGROUP_EDIT },
   { "SCENARIO_PROPERTIES", N_("Game/Scenario Properties"), 0, 0,
     G_CALLBACK(scenario_properties_callback), MGROUP_EDIT },
   { "SAVE_SCENARIO", N_("Save Scenario"), 0, 0,
     G_CALLBACK(save_scenario_callback), MGROUP_EDIT },
 
-  { "CENTER_VIEW", N_("Center View"), GDK_KEY_c, 0,
+  { "CENTER_VIEW", N_("_Center View"), GDK_KEY_c, 0,
     G_CALLBACK(center_view_callback), MGROUP_PLAYER },
-  { "REPORT_ECONOMY", N_("Economy"), GDK_KEY_F5, 0,
+  { "REPORT_ECONOMY", N_("_Economy"), GDK_KEY_F5, 0,
     G_CALLBACK(report_economy_callback), MGROUP_PLAYER },
-  { "REPORT_RESEARCH", N_("Research"), GDK_KEY_F6, 0,
+  { "REPORT_RESEARCH", N_("_Research"), GDK_KEY_F6, 0,
     G_CALLBACK(report_research_callback), MGROUP_PLAYER },
-  { "POLICIES", N_("Policies..."), GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+  { "POLICIES", N_("_Policies..."),
+    GDK_KEY_p, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(multiplier_callback), MGROUP_PLAYER },
-  { "REPORT_SPACESHIP", N_("Spaceship"), GDK_KEY_F12, 0,
+  { "REPORT_SPACESHIP", N_("_Spaceship"), GDK_KEY_F12, 0,
     G_CALLBACK(report_spaceship_callback), MGROUP_PLAYER },
-  { "REPORT_ACHIEVEMENTS", N_("Achievements"), GDK_KEY_asterisk, 0,
+  { "REPORT_ACHIEVEMENTS", N_("_Achievements"), GDK_KEY_asterisk, 0,
     G_CALLBACK(report_achievements_callback), MGROUP_PLAYER },
 
-  { "MENU_SELECT", N_("Select"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_UNIT", N_("Unit"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_WORK", N_("Work"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_COMBAT", N_("Combat"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_BUILD_BASE", N_("Build Base"), 0, 0, NULL, MGROUP_UNIT },
-  { "MENU_BUILD_PATH", N_("Build Path"), 0, 0, NULL, MGROUP_UNIT },
-  { "SELECT_SINGLE", N_("Single Unit (Unselect Others)"), GDK_KEY_z, 0,
+  { "MENU_SELECT", N_("_Select"), 0, 0, NULL, MGROUP_UNIT },
+  { "MENU_UNIT", N_("_Unit"), 0, 0, NULL, MGROUP_UNIT },
+  { "MENU_WORK", N_("_Work"), 0, 0, NULL, MGROUP_UNIT },
+  { "MENU_COMBAT", N_("_Combat"), 0, 0, NULL, MGROUP_UNIT },
+  { "MENU_BUILD_BASE", N_("Build _Base"), 0, 0, NULL, MGROUP_UNIT },
+  { "MENU_BUILD_PATH", N_("Build _Path"), 0, 0, NULL, MGROUP_UNIT },
+  { "SELECT_SINGLE", N_("_Single Unit (Unselect Others)"), GDK_KEY_z, 0,
     G_CALLBACK(select_single_callback), MGROUP_UNIT },
-  { "SELECT_ALL_ON_TILE", N_("All On Tile"), GDK_KEY_v, 0,
+  { "SELECT_ALL_ON_TILE", N_("_All On Tile"), GDK_KEY_v, 0,
     G_CALLBACK(select_all_on_tile_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE_TILE", N_("Same Type on Tile"), GDK_KEY_v, GDK_SHIFT_MASK,
+  { "SELECT_SAME_TYPE_TILE", N_("Same Type on _Tile"),
+    GDK_KEY_v, GDK_SHIFT_MASK,
     G_CALLBACK(select_same_type_tile_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE_CONT", N_("Same Type on Continent"), GDK_KEY_c, GDK_SHIFT_MASK,
+  { "SELECT_SAME_TYPE_CONT", N_("Same Type on _Continent"),
+    GDK_KEY_c, GDK_SHIFT_MASK,
     G_CALLBACK(select_same_type_cont_callback), MGROUP_UNIT },
-  { "SELECT_SAME_TYPE", N_("Same Type Everywhere"), GDK_KEY_x, GDK_SHIFT_MASK,
+  { "SELECT_SAME_TYPE", N_("Same Type _Everywhere"), GDK_KEY_x, GDK_SHIFT_MASK,
     G_CALLBACK(select_same_type_callback), MGROUP_UNIT },
   { "SELECT_DLG", N_("Unit Selection Dialog"), 0, 0,
     G_CALLBACK(select_dialog_callback), MGROUP_UNIT },
-  { "UNIT_WAIT", N_("Wait"), GDK_KEY_w, 0,
+  { "UNIT_WAIT", N_("_Wait"), GDK_KEY_w, 0,
     G_CALLBACK(unit_wait_callback), MGROUP_UNIT },
-  { "UNIT_DONE", N_("Done"), GDK_KEY_space, 0,
+  { "UNIT_DONE", N_("_Done"), GDK_KEY_space, 0,
     G_CALLBACK(unit_done_callback), MGROUP_UNIT },
-  { "UNIT_GOTO", N_("Go to"), GDK_KEY_g, 0,
+  { "UNIT_GOTO", N_("_Go to"), GDK_KEY_g, 0,
     G_CALLBACK(unit_goto_callback), MGROUP_UNIT },
-  { "UNIT_GOTO_CITY", N_("Go to/Airlift to City"), GDK_KEY_t, 0,
+  { "UNIT_GOTO_CITY", N_("Go _to/Airlift to City..."), GDK_KEY_t, 0,
     G_CALLBACK(unit_goto_city_callback), MGROUP_UNIT },
-  { "UNIT_RETURN", N_("Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
+  { "UNIT_RETURN", N_("_Return to Nearest City"), GDK_KEY_g, GDK_SHIFT_MASK,
     G_CALLBACK(unit_return_callback), MGROUP_UNIT },
-  { "UNIT_EXPLORE", N_("Auto Explore"), GDK_KEY_x, 0,
+  { "UNIT_EXPLORE", N_("Auto E_xplore"), GDK_KEY_x, 0,
     G_CALLBACK(unit_explore_callback), MGROUP_UNIT },
-  { "UNIT_PATROL", N_("Patrol"), GDK_KEY_q, 0,
+  { "UNIT_PATROL", N_("_Patrol"), GDK_KEY_q, 0,
     G_CALLBACK(unit_patrol_callback), MGROUP_UNIT },
-  { "UNIT_SENTRY", N_("Sentry"), GDK_KEY_s, 0,
+  { "UNIT_SENTRY", N_("_Sentry"), GDK_KEY_s, 0,
     G_CALLBACK(unit_sentry_callback), MGROUP_UNIT },
-  { "UNIT_UNSENTRY", N_("Unsentry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
+  { "UNIT_UNSENTRY", N_("Uns_entry All On Tile"), GDK_KEY_s, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unsentry_callback), MGROUP_UNIT },
-  { "UNIT_LOAD", N_("Load"), GDK_KEY_l, 0,
+  { "UNIT_LOAD", N_("_Load"), GDK_KEY_l, 0,
     G_CALLBACK(unit_load_callback), MGROUP_UNIT },
-  { "UNIT_UNLOAD", N_("Unload"), GDK_KEY_u, 0,
+  { "UNIT_UNLOAD", N_("_Unload"), GDK_KEY_u, 0,
     G_CALLBACK(unit_unload_callback), MGROUP_UNIT },
-  { "UNIT_UNLOAD_TRANSPORTER", N_("Unload All From Transporter"), GDK_KEY_t, GDK_SHIFT_MASK,
+  { "UNIT_UNLOAD_TRANSPORTER", N_("U_nload All From Transporter"),
+    GDK_KEY_t, GDK_SHIFT_MASK,
     G_CALLBACK(unit_unload_transporter_callback), MGROUP_UNIT },
-  { "UNIT_HOMECITY", N_("Set Home City"), GDK_KEY_h, 0,
+  { "UNIT_HOMECITY", N_("Set _Home City"), GDK_KEY_h, 0,
     G_CALLBACK(unit_homecity_callback), MGROUP_UNIT },
-  { "UNIT_UPGRADE", N_("Upgrade"), GDK_KEY_u, GDK_SHIFT_MASK,
+  { "UNIT_UPGRADE", N_("Upgr_ade"), GDK_KEY_u, GDK_SHIFT_MASK,
     G_CALLBACK(unit_upgrade_callback), MGROUP_UNIT },
-  { "UNIT_CONVERT", N_("Convert"), GDK_KEY_o, GDK_SHIFT_MASK,
+  { "UNIT_CONVERT", N_("C_onvert"), GDK_KEY_o, GDK_SHIFT_MASK,
     G_CALLBACK(unit_convert_callback), MGROUP_UNIT },
-  { "UNIT_DISBAND", N_("Disband"), GDK_KEY_d, GDK_SHIFT_MASK,
+  { "UNIT_DISBAND", N_("_Disband"), GDK_KEY_d, GDK_SHIFT_MASK,
     G_CALLBACK(unit_disband_callback), MGROUP_UNIT },
-  { "BUILD_CITY", N_("Build City"), GDK_KEY_b, 0,
+  { "BUILD_CITY", N_("_Build City"), GDK_KEY_b, 0,
     G_CALLBACK(build_city_callback), MGROUP_UNIT },
-  { "GO_BUILD_CITY", N_("Go to and Build city"), GDK_KEY_b, GDK_SHIFT_MASK,
+  { "GO_BUILD_CITY", N_("Go _to and Build city"), GDK_KEY_b, GDK_SHIFT_MASK,
     G_CALLBACK(go_build_city_callback), MGROUP_UNIT },
-  { "AUTO_SETTLER", N_("Auto Settler"), GDK_KEY_a, 0,
+  { "AUTO_SETTLER", N_("_Auto Settler"), GDK_KEY_a, 0,
     G_CALLBACK(auto_settle_callback), MGROUP_UNIT },
-  { "BUILD_ROAD", N_("Build Road"), GDK_KEY_r, 0,
+  { "BUILD_ROAD", N_("Build _Road"), GDK_KEY_r, 0,
     G_CALLBACK(build_road_callback), MGROUP_UNIT },
-  { "BUILD_IRRIGATION", N_("Build Irrigation"), GDK_KEY_i, 0,
+  { "BUILD_IRRIGATION", N_("Build _Irrigation"), GDK_KEY_i, 0,
     G_CALLBACK(build_irrigation_callback), MGROUP_UNIT },
-  { "BUILD_MINE", N_("Build Mine"), GDK_KEY_m, 0,
+  { "BUILD_MINE", N_("Build _Mine"), GDK_KEY_m, 0,
     G_CALLBACK(build_mine_callback), MGROUP_UNIT },
-  { "CONNECT_ROAD", N_("Connect With Road"), GDK_KEY_r, GDK_SHIFT_MASK,
+  { "CONNECT_ROAD", N_("Connect With Roa_d"), GDK_KEY_r, GDK_SHIFT_MASK,
     G_CALLBACK(connect_road_callback), MGROUP_UNIT },
-  { "CONNECT_RAIL", N_("Connect With Rail"), GDK_KEY_l, GDK_SHIFT_MASK,
+  { "CONNECT_RAIL", N_("Connect With Rai_l"), GDK_KEY_l, GDK_SHIFT_MASK,
     G_CALLBACK(connect_rail_callback), MGROUP_UNIT },
-  { "CONNECT_IRRIGATION", N_("Connect With Irrigation"), GDK_KEY_i, GDK_SHIFT_MASK,
+  { "CONNECT_IRRIGATION", N_("Connect With Irri_gation"),
+    GDK_KEY_i, GDK_SHIFT_MASK,
     G_CALLBACK(connect_irrigation_callback), MGROUP_UNIT },
-  { "TRANSFORM_TERRAIN", N_("Transform Terrain"), GDK_KEY_o, 0,
+  { "TRANSFORM_TERRAIN", N_("Transf_orm Terrain"), GDK_KEY_o, 0,
     G_CALLBACK(transform_terrain_callback), MGROUP_UNIT },
-  { "CLEAN_POLLUTION", N_("Clean Pollution"), GDK_KEY_p, 0,
+  { "CLEAN_POLLUTION", N_("Clean _Pollution"), GDK_KEY_p, 0,
     G_CALLBACK(clean_pollution_callback), MGROUP_UNIT },
-  { "CLEAN_FALLOUT", N_("Clean Nuclear Fallout"), GDK_KEY_n, 0,
+  { "CLEAN_FALLOUT", N_("Clean _Nuclear Fallout"), GDK_KEY_n, 0,
     G_CALLBACK(clean_fallout_callback), MGROUP_UNIT },
   { "FORTIFY", N_("Fortify"), GDK_KEY_f, 0,
     G_CALLBACK(fortify_callback), MGROUP_UNIT },
@@ -517,18 +522,19 @@ static struct menu_entry_info menu_entries[] =
     G_CALLBACK(build_fortress_callback), MGROUP_UNIT },
   { "BUILD_AIRBASE", N_("Build Airbase"), GDK_KEY_e, GDK_SHIFT_MASK,
     G_CALLBACK(build_airbase_callback), MGROUP_UNIT },
-  { "DO_PILLAGE", N_("Pillage"), GDK_KEY_p, GDK_SHIFT_MASK,
+  { "DO_PILLAGE", N_("_Pillage"), GDK_KEY_p, GDK_SHIFT_MASK,
     G_CALLBACK(do_pillage_callback), MGROUP_UNIT },
-  { "DIPLOMAT_ACTION", N_("Do..."), GDK_KEY_d, 0,
+  { "DIPLOMAT_ACTION", N_("_Do..."), GDK_KEY_d, 0,
     G_CALLBACK(diplomat_action_callback), MGROUP_UNIT },
-  { "EXPLODE_NUKE", N_("Explode Nuke"), GDK_KEY_n, GDK_SHIFT_MASK,
+  { "EXPLODE_NUKE", N_("Explode _Nuclear"), GDK_KEY_n, GDK_SHIFT_MASK,
     G_CALLBACK(explode_nuke_callback), MGROUP_UNIT },
 
-  { "MENU_GOVERNMENT", N_("Government"), 0, 0,
+  { "MENU_GOVERNMENT", N_("_Government"), 0, 0,
     NULL, MGROUP_PLAYING },
-  { "TAX_RATE", N_("Tax Rates"), GDK_KEY_t, GDK_CONTROL_MASK,
+  { "TAX_RATE", N_("_Tax Rates..."), GDK_KEY_t, GDK_CONTROL_MASK,
     G_CALLBACK(tax_rate_callback), MGROUP_PLAYING },
-  { "START_REVOLUTION", N_("Revolution"), GDK_KEY_r, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
+  { "START_REVOLUTION", N_("_Revolution..."),
+    GDK_KEY_r, GDK_SHIFT_MASK | GDK_CONTROL_MASK,
     G_CALLBACK(government_callback), MGROUP_PLAYING },
   { NULL }
 };
@@ -1817,6 +1823,7 @@ static void menu_entry_init(GtkBuildable *item)
   if (info != NULL) {
     gtk_menu_item_set_label(GTK_MENU_ITEM(item),
                             Q_(info->name));
+    gtk_menu_item_set_use_underline(GTK_MENU_ITEM(item), TRUE);
     if (info->cb != NULL) {
       g_signal_connect(item, "activate", info->cb, NULL);
     }
@@ -2316,7 +2323,7 @@ void real_menus_update(void)
       menus_rename("BUILD_CITY", _("Add to City"));
     } else {
       /* refresh default order */
-      menus_rename("BUILD_CITY", _("Build City"));
+      menus_rename("BUILD_CITY", _("_Build City"));
     }
   }
 
@@ -2344,7 +2351,7 @@ void real_menus_update(void)
       menus_rename("BUILD_ROAD", road_item);
     }
   } else {
-    menus_rename("BUILD_ROAD", _("Build Road"));
+    menus_rename("BUILD_ROAD", _("Build _Road"));
   }
 
   if (units_all_same_type) {
@@ -2353,7 +2360,7 @@ void real_menus_update(void)
       can_upgrade_unittype(client_player(), unit_type_get(punit));
     if (to_unittype) {
       /* TRANS: %s is a unit type. */
-      fc_snprintf(acttext, sizeof(acttext), _("Upgrade to %s"),
+      fc_snprintf(acttext, sizeof(acttext), _("Upgr_ade to %s"),
                   utype_name_translation(
                     can_upgrade_unittype(client_player(),
                                          unit_type_get(punit))));
@@ -2366,7 +2373,7 @@ void real_menus_update(void)
   if ('\0' != acttext[0]) {
     menus_rename("UNIT_UPGRADE", acttext);
   } else {
-    menus_rename("UNIT_UPGRADE", _("Upgrade"));
+    menus_rename("UNIT_UPGRADE", _("Upgr_ade"));
   }
 
   if (units_can_convert(punits)) {
@@ -2374,7 +2381,7 @@ void real_menus_update(void)
     if (units_all_same_type) {
       struct unit *punit = unit_list_get(punits, 0);
       /* TRANS: %s is a unit type. */
-      fc_snprintf(acttext, sizeof(acttext), _("Convert to %s"),
+      fc_snprintf(acttext, sizeof(acttext), _("C_onvert to %s"),
                   utype_name_translation(unit_type_get(punit)->converted_to));
     } else {
       acttext[0] = '\0';
@@ -2386,7 +2393,7 @@ void real_menus_update(void)
   if ('\0' != acttext[0]) {
     menus_rename("UNIT_CONVERT", acttext);
   } else {
-    menus_rename("UNIT_CONVERT", _("Convert"));
+    menus_rename("UNIT_CONVERT", _("C_onvert"));
   }
 
   if (units_all_same_tile) {
@@ -2416,10 +2423,10 @@ void real_menus_update(void)
         snprintf(irrtext, sizeof(irrtext), _("Build %s"),
                  extra_name_translation(pextra));
       } else {
-        sz_strlcpy(irrtext, _("Build Irrigation"));
+        sz_strlcpy(irrtext, _("Build _Irrigation"));
       }
     } else {
-      sz_strlcpy(irrtext, _("Build Irrigation"));
+      sz_strlcpy(irrtext, _("Build _Irrigation"));
     }
 
     if (pterrain->mining_result != T_NONE
@@ -2444,24 +2451,24 @@ void real_menus_update(void)
         snprintf(mintext, sizeof(mintext), _("Build %s"),
                  extra_name_translation(pextra));
       } else {
-        sz_strlcpy(mintext, _("Build Mine"));
+        sz_strlcpy(mintext, _("Build _Mine"));
       }
     } else {
-      sz_strlcpy(mintext, _("Build Mine"));
+      sz_strlcpy(mintext, _("Build _Mine"));
     }
 
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_result != pterrain) {
-      fc_snprintf(transtext, sizeof(transtext), _("Transform to %s"),
+      fc_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
                   get_tile_change_menu_text(unit_tile(first),
                                             ACTIVITY_TRANSFORM));
     } else {
-      sz_strlcpy(transtext, _("Transform Terrain"));
+      sz_strlcpy(transtext, _("Transf_orm Terrain"));
     }
   } else {
-    sz_strlcpy(irrtext, _("Build Irrigation"));
-    sz_strlcpy(mintext, _("Build Mine"));
-    sz_strlcpy(transtext, _("Transform Terrain"));
+    sz_strlcpy(irrtext, _("Build _Irrigation"));
+    sz_strlcpy(mintext, _("Build _Mine"));
+    sz_strlcpy(transtext, _("Transf_orm Terrain"));
   }
 
   menus_rename("BUILD_IRRIGATION", irrtext);
@@ -2469,9 +2476,9 @@ void real_menus_update(void)
   menus_rename("TRANSFORM_TERRAIN", transtext);
 
   if (units_have_type_flag(punits, UTYF_PARATROOPERS, TRUE)) {
-    menus_rename("CLEAN_POLLUTION", _("Drop Paratrooper"));
+    menus_rename("CLEAN_POLLUTION", _("Drop _Paratrooper"));
   } else {
-    menus_rename("CLEAN_POLLUTION", _("Clean Pollution"));
+    menus_rename("CLEAN_POLLUTION", _("Clean _Pollution"));
   }
 }
 
