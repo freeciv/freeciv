@@ -609,6 +609,11 @@ bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
                                                 FALSE, FALSE, TRUE,
                                                 protecor_flag[i]));
     }
+
+    auto_perf->alternatives[0] = ACTION_CAPTURE_UNITS;
+    auto_perf->alternatives[1] = ACTION_BOMBARD;
+    auto_perf->alternatives[2] = ACTION_ATTACK;
+    auto_perf->alternatives[3] = ACTION_SUICIDE_ATTACK;
   }
 
   return TRUE;

@@ -6197,6 +6197,16 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       requirement_vector_copy(&auto_perf->reqs, reqs);
 
+      if (!load_action_auto_actions(file, auto_perf,
+                                    "auto_attack.attack_actions",
+                                    filename)) {
+        /* Failed to load auto attack actions */
+        ruleset_error(LOG_ERROR,
+                      "\"%s\": %s: failed load %s.",
+                      filename, "auto_attack", "attack_actions");
+        ok = FALSE;
+      }
+
       if (compat->compat_mode) {
         enum unit_type_flag_id *protecor_flag;
         size_t psize;
@@ -6232,13 +6242,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           FC_FREE(protecor_flag);
         }
       }
-
-      /* TODO: It would be great if unit_survive_autoattack() could be made
-       * flexible enough to also handle diplomatic actions etc. */
-      auto_perf->alternatives[0] = ACTION_CAPTURE_UNITS;
-      auto_perf->alternatives[1] = ACTION_BOMBARD;
-      auto_perf->alternatives[2] = ACTION_ATTACK;
-      auto_perf->alternatives[3] = ACTION_SUICIDE_ATTACK;
     }
 
     /* section: actions */

@@ -1032,6 +1032,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
     const struct action_auto_perf *auto_perf =
         action_auto_perf_by_number(ACTION_AUTO_MOVED_ADJ);
 
+    save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
+                             "auto_attack.attack_actions");
+
     save_reqs_vector(sfile, &auto_perf->reqs,
                      "auto_attack", "if_attacker");
   }

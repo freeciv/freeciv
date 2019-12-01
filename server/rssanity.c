@@ -1140,6 +1140,30 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     } action_enabler_list_iterate_end;
   } action_iterate_end;
 
+  /* Auto attack */
+  {
+    struct action_auto_perf *auto_perf;
+
+    auto_perf = action_auto_perf_slot_number(ACTION_AUTO_MOVED_ADJ);
+
+    action_auto_perf_actions_iterate(auto_perf, act_id) {
+      struct action *paction = action_by_number(act_id);
+
+      if (!(action_has_result(paction, ACTION_CAPTURE_UNITS)
+            || action_has_result(paction, ACTION_BOMBARD)
+            || action_has_result(paction, ACTION_ATTACK)
+            || action_has_result(paction, ACTION_SUICIDE_ATTACK))) {
+        /* Only allow changing the order of the old auto attack actions for
+         * now. Other actions need more testing and fixing of issues caused
+         * by a worst case action probability of 0%. */
+        ruleset_error(LOG_ERROR, "auto_attack: %s not supported in"
+                                 " attack_actions.",
+                      action_rule_name(paction));
+        ok = FALSE;
+      }
+    } action_auto_perf_actions_iterate_end;
+  }
+
   /* There must be basic city style for each nation style to start with */
   styles_iterate(pstyle) {
     if (basic_city_style_for_style(pstyle) < 0) {

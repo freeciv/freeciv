@@ -243,8 +243,12 @@ nuke_defender_survival_chance_pct = 0
 ; An auto attack may be triggered when another unit moves to an adjacent
 ; tile and the autoattack server setting is enabled. The following details
 ; are ruleset controlled.
-;   if_attacker - this requirement vector must be true before a unit even
-;                 considers to auto attack.
+;   attack_actions - the actions to try during an auto attack in the order
+;                    they should be tried.
+;   if_attacker    - this requirement vector must be true before a unit even
+;                    considers to auto attack.
+
+attack_actions= "Capture Units", "Bombard", "Attack", "Suicide Attack"
 
 if_attacker =
     { "type",         "name",    "range", "present"
