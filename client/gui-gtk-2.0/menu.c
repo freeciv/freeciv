@@ -2491,13 +2491,13 @@ void real_menus_update(void)
 
   if (units_can_do_action(punits, ACTION_PARADROP, TRUE)) {
     menus_rename(unit_group, "CLEAN_POLLUTION",
-                 action_id_name_translation(ACTION_PARADROP));
+                 action_get_ui_name_mnemonic(ACTION_PARADROP, "_"));
   } else {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Clean _Pollution"));
   }
 
   menus_rename(unit_group, "EXPLODE_NUKE",
-               action_id_name_translation(ACTION_NUKE));
+               action_get_ui_name_mnemonic(ACTION_NUKE, "_"));
   menus_rename(unit_group, "UNIT_HOMECITY",
                action_get_ui_name_mnemonic(ACTION_HOME_CITY, "_"));
 }
