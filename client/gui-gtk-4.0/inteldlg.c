@@ -182,7 +182,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
   shell = gtk_dialog_new_with_buttons(NULL,
                                       NULL,
                                       0,
-                                      _("Close"),
+                                      _("_Close"),
                                       GTK_RESPONSE_CLOSE,
                                       NULL);
   pdialog->shell = shell;

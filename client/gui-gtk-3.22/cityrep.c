@@ -1163,15 +1163,15 @@ static void create_city_report_dialog(bool make_modal)
                     city_total_buy_cost_label);
 
   w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("Buy"), CITY_BUY);
+                            _("_Buy"), CITY_BUY);
   city_buy_command = w;
 
   w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("Inspect"), CITY_POPUP);
+                            _("_Inspect"), CITY_POPUP);
   city_popup_command = w;
 
   w = gui_dialog_add_button(city_dialog_shell, NULL,
-                            _("Center"), CITY_CENTER);
+                            _("Cen_ter"), CITY_CENTER);
   city_center_command = w;
 
   gui_dialog_set_default_response(city_dialog_shell,

@@ -140,7 +140,7 @@ static void create_goto_dialog(void)
   dshell = gtk_dialog_new_with_buttons(_("Goto/Airlift Unit"),
                                        NULL,
                                        0,
-                                       _("Cancel"),
+                                       _("_Cancel"),
                                        GTK_RESPONSE_CANCEL,
                                        _("Air_lift"),
                                        CMD_AIRLIFT,

@@ -217,13 +217,13 @@ static GtkWidget *create_worklists_report(void)
   shell = gtk_dialog_new_with_buttons(_("Edit worklists"),
                                       NULL,
                                       0,
-                                      _("New"),
+                                      _("_New"),
                                       WORKLISTS_NEW,
-                                      _("Delete"),
+                                      _("_Delete"),
                                       WORKLISTS_DELETE,
-                                      _("Properties"),
+                                      _("_Properties"),
                                       WORKLISTS_PROPERTIES,
-                                      _("Close"),
+                                      _("_Close"),
                                       WORKLISTS_CLOSE,
                                       NULL);
   setup_dialog(shell, toplevel);
@@ -400,7 +400,7 @@ static void popup_worklist(struct global_worklist *pgwl)
     shell = gtk_dialog_new_with_buttons(global_worklist_name(pgwl),
                                         GTK_WINDOW(worklists_shell),
                                         GTK_DIALOG_DESTROY_WITH_PARENT,
-                                        _("Close"),
+                                        _("_Close"),
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
     gtk_window_set_role(GTK_WINDOW(shell), "worklist");

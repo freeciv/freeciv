@@ -337,7 +337,7 @@ GtkWidget *create_main_page(void)
   gtk_grid_attach(GTK_GRID(table), button, 1, 1, 1, 1);
   g_signal_connect(button, "clicked", open_settings, NULL);
 
-  button = icon_label_button_new("application-exit", _("Exit"));
+  button = icon_label_button_new("application-exit", _("E_xit"));
   gtk_size_group_add_widget(size, button);
   g_object_unref(size);
   gtk_grid_attach(GTK_GRID(table), button, 1, 2, 1, 1);
@@ -450,9 +450,9 @@ static void save_dialog_file_chooser_popup(const char *title,
 
   /* Create the chooser */
   filechoose = gtk_file_chooser_dialog_new(title, GTK_WINDOW(toplevel), action,
-                                           _("Cancel"), GTK_RESPONSE_CANCEL,
+                                           _("_Cancel"), GTK_RESPONSE_CANCEL,
                                            (action == GTK_FILE_CHOOSER_ACTION_SAVE) ?
-                                           _("Save") : _("Open"),
+                                           _("_Save") : _("_Open"),
                                            GTK_RESPONSE_OK, NULL);
   setup_dialog(filechoose, toplevel);
   gtk_window_set_position(GTK_WINDOW(filechoose), GTK_WIN_POS_MOUSE);
@@ -579,9 +579,9 @@ static GtkWidget *save_dialog_new(const char *title, const char *savelabel,
   /* Shell. */
   shell = gtk_dialog_new_with_buttons(title, NULL, 0,
                                       _("_Browse..."), SD_RES_BROWSE,
-                                      _("Delete"), SD_RES_DELETE,
-                                      _("Cancel"), GTK_RESPONSE_CANCEL,
-                                      _("Save"), SD_RES_SAVE,
+                                      _("_Delete"), SD_RES_DELETE,
+                                      _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                      _("_Save"), SD_RES_SAVE,
                                       NULL);
   g_object_set_data_full(G_OBJECT(shell), "save_dialog", pdialog,
                          (GDestroyNotify) free);
@@ -1417,7 +1417,7 @@ GtkWidget *create_network_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(update_network_lists), NULL);
 
-  button = gtk_button_new_with_label(_("Cancel"));
+  button = gtk_button_new_with_mnemonic(_("_Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(main_callback), NULL);
@@ -2792,7 +2792,7 @@ GtkWidget *create_start_page(void)
   toolkit_view = inputline_toolkit_view_new();
   gtk_container_add(GTK_CONTAINER(box), toolkit_view);
 
-  button = gtk_button_new_with_label(_("Cancel"));
+  button = gtk_button_new_with_mnemonic(_("_Cancel"));
   inputline_toolkit_view_append_button(toolkit_view, button);
   g_signal_connect(button, "clicked", G_CALLBACK(main_callback), NULL);
 
@@ -2949,12 +2949,12 @@ GtkWidget *create_load_page(void)
   g_signal_connect(button, "clicked",
                    G_CALLBACK(load_browse_callback), NULL);
 
-  button = gtk_button_new_with_label(_("Cancel"));
+  button = gtk_button_new_with_mnemonic(_("_Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(main_callback), NULL);
 
-  button = gtk_button_new_with_label(_("OK"));
+  button = gtk_button_new_with_mnemonic(_("_OK"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(load_callback), NULL);
@@ -3289,12 +3289,12 @@ GtkWidget *create_scenario_page(void)
   g_signal_connect(button, "clicked",
       G_CALLBACK(scenario_browse_callback), NULL);
 
-  button = gtk_button_new_with_label(_("Cancel"));
+  button = gtk_button_new_with_mnemonic(_("_Cancel"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(main_callback), NULL);
 
-  button = gtk_button_new_with_label(_("OK"));
+  button = gtk_button_new_with_mnemonic(_("_OK"));
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(scenario_callback), NULL);

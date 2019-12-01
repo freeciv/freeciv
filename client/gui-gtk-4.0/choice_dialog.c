@@ -172,7 +172,7 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
 
   fc_snprintf(name, sizeof(name), "button%d", nbuttons);
 
-  button = gtk_button_new_with_label(label);
+  button = gtk_button_new_with_mnemonic(label);
   gtk_container_add(GTK_CONTAINER(bbox), button);
   g_object_set_data(G_OBJECT(dshell), name, button);
 

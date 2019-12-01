@@ -227,7 +227,7 @@ struct spaceship_dialog *create_spaceship_dialog(struct player *pplayer)
   gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(top_notebook), NULL, TRUE);
   gui_dialog_set_title(pdialog->shell, player_name(pplayer));
 
-  gui_dialog_add_button(pdialog->shell, "window-close", _("Close"),
+  gui_dialog_add_button(pdialog->shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
   gui_dialog_add_button(pdialog->shell, NULL, _("_Launch"),
                         GTK_RESPONSE_ACCEPT);

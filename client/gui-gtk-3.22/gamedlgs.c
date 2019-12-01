@@ -314,16 +314,16 @@ static GtkWidget *create_multiplier_dialog(void)
     shell = gtk_dialog_new_with_buttons(_("Change policies"),
                                         NULL,
                                         0,
-                                        _("Cancel"),
+                                        _("_Cancel"),
                                         GTK_RESPONSE_CANCEL,
-                                        _("OK"),
+                                        _("_OK"),
                                         GTK_RESPONSE_OK,
                                         NULL);
   } else {
     shell = gtk_dialog_new_with_buttons(_("Policies"),
                                         NULL,
                                         0,
-                                        _("Close"),
+                                        _("_Close"),
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
   }
@@ -407,9 +407,9 @@ static GtkWidget *create_rates_dialog(void)
   shell = gtk_dialog_new_with_buttons(_("Select tax, luxury and science rates"),
                                       NULL,
                                       0,
-                                      _("Cancel"),
+                                      _("_Cancel"),
                                       GTK_RESPONSE_CANCEL,
-                                      _("OK"),
+                                      _("_OK"),
                                       GTK_RESPONSE_OK,
                                       NULL);
   setup_dialog(shell, toplevel);
