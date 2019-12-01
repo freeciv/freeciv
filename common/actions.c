@@ -4830,6 +4830,10 @@ struct act_prob action_prob_fall_back(const struct act_prob *ap1,
   out.max = my_ap1.max + (((ACTPROB_VAL_MAX - my_ap1.max) * my_ap2.max)
                           / ACTPROB_VAL_MAX);
 
+  /* Cap at 100%. */
+  out.min = MIN(out.min, ACTPROB_VAL_MAX);
+  out.max = MIN(out.max, ACTPROB_VAL_MAX);
+
   return out;
 }
 
