@@ -4893,7 +4893,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_container_set_border_width(GTK_CONTAINER(hbox2), 4);
   gtk_container_add(GTK_CONTAINER(vbox2), hbox2);
 
-  button = gtk_button_new_with_label(_("Close"));
+  button = gtk_button_new_with_mnemonic(_("_Close"));
   gtk_size_group_add_widget(sizegroup, button);
   g_signal_connect_swapped(button, "clicked",
       G_CALLBACK(gtk_widget_hide_on_delete), pe->widget);
@@ -4964,7 +4964,7 @@ property_page_new(enum editor_object_type objtype,
   gtk_grid_set_column_spacing(GTK_GRID(hbox2), 4);
   gtk_container_add(GTK_CONTAINER(vbox), hbox2);
 
-  button = gtk_button_new_with_label(_("Refresh"));
+  button = gtk_button_new_with_mnemonic(_("_Refresh"));
   gtk_size_group_add_widget(sizegroup, button);
   gtk_widget_set_tooltip_text(button,
       _("Pressing this button will reset all modified properties of "
@@ -4974,7 +4974,7 @@ property_page_new(enum editor_object_type objtype,
                    G_CALLBACK(property_page_refresh_button_clicked), pp);
   gtk_container_add(GTK_CONTAINER(hbox2), button);
 
-  button = gtk_button_new_with_label(_("Apply"));
+  button = gtk_button_new_with_mnemonic(_("_Apply"));
   gtk_size_group_add_widget(sizegroup, button);
   gtk_widget_set_tooltip_text(button,
       _("Pressing this button will send all modified properties of "

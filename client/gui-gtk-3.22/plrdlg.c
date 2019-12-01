@@ -425,7 +425,7 @@ void create_players_dialog(void)
   /* TRANS: Nations report title */
   gui_dialog_set_title(players_dialog_shell, _("Nations"));
 
-  gui_dialog_add_button(players_dialog_shell, "window-close", _("Close"),
+  gui_dialog_add_button(players_dialog_shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
 
   gui_dialog_set_default_size(players_dialog_shell, -1, 270);

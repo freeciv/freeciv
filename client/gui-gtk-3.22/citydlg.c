@@ -1631,7 +1631,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   }
 
   close_command = gtk_dialog_add_button(GTK_DIALOG(pdialog->shell),
-                                        _("Close"), GTK_RESPONSE_CLOSE);
+                                        _("_Close"), GTK_RESPONSE_CLOSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(pdialog->shell),
 	GTK_RESPONSE_CLOSE);
@@ -2942,7 +2942,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_FALLOUT), FALSE, NULL);
     }
 
-    choice_dialog_add(shl, _("Cancel"), 0, 0, FALSE, NULL);
+    choice_dialog_add(shl, _("_Cancel"), 0, 0, FALSE, NULL);
     choice_dialog_end(shl);
 
     g_signal_connect(shl, "destroy", G_CALLBACK(workertask_dlg_destroy),
