@@ -108,7 +108,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
   gui_dialog_new(&shell, GTK_NOTEBOOK(bottom_notebook), NULL, TRUE);
   gui_dialog_set_title(shell, caption);
 
-  gui_dialog_add_button(shell, "window-close", _("Close"),
+  gui_dialog_add_button(shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
   gui_dialog_set_default_response(shell, GTK_RESPONSE_CLOSE);
 
@@ -200,7 +200,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   
   if (ptile == NULL) {
     shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
-                                        _("Close"), GTK_RESPONSE_CLOSE,
+                                        _("_Close"), GTK_RESPONSE_CLOSE,
                                         NULL);
   } else {
     struct city *pcity = tile_city(ptile);
@@ -209,12 +209,12 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
       shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
                                           _("Goto _Location"), 1,
                                           _("I_nspect City"), 2,
-                                          _("Close"), GTK_RESPONSE_CLOSE,
+                                          _("_Close"), GTK_RESPONSE_CLOSE,
                                           NULL);
     } else {
       shell = gtk_dialog_new_with_buttons(headline, NULL, 0,
                                           _("Goto _Location"), 1,
-                                          _("Close"), GTK_RESPONSE_CLOSE,
+                                          _("_Close"), GTK_RESPONSE_CLOSE,
                                           NULL);
     }
   }
@@ -251,7 +251,7 @@ void popup_connect_msg(const char *headline, const char *message)
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
   gtk_widget_show(label);
 
-  gtk_dialog_add_button(GTK_DIALOG(shell), _("Close"),GTK_RESPONSE_CLOSE);
+  gtk_dialog_add_button(GTK_DIALOG(shell), _("_Close"),GTK_RESPONSE_CLOSE);
 
   g_signal_connect(shell, "response", G_CALLBACK(notify_connect_msg_response),
                    NULL);
@@ -860,11 +860,11 @@ static void create_races_dialog(struct player *pplayer)
   shell = gtk_dialog_new_with_buttons(title,
                                       NULL,
                                       0,
-                                      _("Cancel"),
+                                      _("_Cancel"),
                                       GTK_RESPONSE_CANCEL,
                                       _("_Random Nation"),
                                       GTK_RESPONSE_NO, /* arbitrary */
-                                      _("Ok"),
+                                      _("_OK"),
                                       GTK_RESPONSE_ACCEPT,
                                       NULL);
   races_shell = shell;

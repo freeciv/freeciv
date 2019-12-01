@@ -69,8 +69,8 @@ GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
   shell = gtk_dialog_new_with_buttons(dialogname,
                                       parent,
                                       GTK_DIALOG_DESTROY_WITH_PARENT,
-                                      _("Cancel"), GTK_RESPONSE_CANCEL,
-                                      _("OK"), GTK_RESPONSE_OK,
+                                      _("_Cancel"), GTK_RESPONSE_CANCEL,
+                                      _("_OK"), GTK_RESPONSE_OK,
                                       NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
   setup_dialog(shell, GTK_WIDGET(parent));
