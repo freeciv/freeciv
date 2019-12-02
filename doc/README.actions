@@ -495,7 +495,7 @@ Actions done by a unit against another unit
    See unit_transport_check()
  * boarding won't cause a situation with more than 5 recursive transports
  * the target unit must be domestic, allied or on the same team as the
-   actor unit is.
+   actor unit is. (!)
  * target must be in a city or in a base native to it if the target's unit
    class has the Unreachable unit class flag and the actor's unit type
    doesn't list the target's unit class in the embarks field.
@@ -528,7 +528,7 @@ Actions done by a unit against another unit
    See unit_transport_check()
  * boarding won't cause a situation with more than 5 recursive transports
  * the target unit must be domestic, allied or on the same team as the
-   actor unit is.
+   actor unit is. (!)
  * target must be in a city or in a base native to it if the target's unit
    class has the Unreachable unit class flag and the actor's unit type
    doesn't list the target's unit class in the embarks field.

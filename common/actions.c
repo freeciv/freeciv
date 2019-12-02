@@ -220,6 +220,49 @@ static void hard_code_oblig_hard_reqs(void)
                           "domestic target.",
                           ACTION_UPGRADE_UNIT, ACTION_NONE);
 
+  /* Why this is a hard requirement: The code expects that only domestic and
+   * allied transports can be boarded. */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DS_ARMISTICE),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic or allied target.",
+                          ACTION_TRANSPORT_EMBARK,
+                          ACTION_TRANSPORT_BOARD,
+                          ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DS_WAR),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic or allied target.",
+                          ACTION_TRANSPORT_EMBARK,
+                          ACTION_TRANSPORT_BOARD,
+                          ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DS_CEASEFIRE),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic or allied target.",
+                          ACTION_TRANSPORT_EMBARK,
+                          ACTION_TRANSPORT_BOARD,
+                          ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DS_PEACE),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic or allied target.",
+                          ACTION_TRANSPORT_EMBARK,
+                          ACTION_TRANSPORT_BOARD,
+                          ACTION_NONE);
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE, DS_NO_CONTACT),
+                          FALSE,
+                          "All action enablers for %s must require a "
+                          "domestic or allied target.",
+                          ACTION_TRANSPORT_EMBARK,
+                          ACTION_TRANSPORT_BOARD,
+                          ACTION_NONE);
+
   /* Why this is a hard requirement:
    * - Preserve semantics of CanFortify unit class flag and the Cant_Fortify
    *   unit type flag.
