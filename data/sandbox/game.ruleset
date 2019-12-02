@@ -1790,6 +1790,14 @@ flags = "Depletes"
 
 [clause_advance]
 type = "Advance"
+giver_reqs =
+    { "type", "name", "range"
+      "Tech", "Writing", "Player"
+    }
+receiver_reqs =
+    { "type", "name", "range"
+      "Tech", "Writing", "Player"
+    }
 
 [clause_gold]
 type = "Gold"
