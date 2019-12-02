@@ -965,8 +965,8 @@ Pollution from production is likely to start becoming important as \
 your civilization becomes more industrialized, giving you buildings \
 such as Factory and Power Plant which boost production. Replacing a \
 Power Plant with cleaner forms of energy -- a Hydro Plant / Hoover \
-Dam, Nuclear Plant, or Solar Plant -- will reduce pollution from \
-production, as will a Recycling Center.\
+Dam or Nuclear Plant -- will reduce pollution from production, as \
+will a Recycling Center.\
 "), _("\
 The city's population starts adding to pollution with the discovery of \
 Industrialization, and Automobile, Mass Production, and Plastics make \
@@ -1115,9 +1115,9 @@ Once you learn the Railroad technology, you may upgrade your roads\
  to railroads. Units expend no movement points when moving along a\
  railroad; you may ride a railroad indefinitely. (As may your enemies!)\
 "), _("\
-A railroad also increases by half (rounding down) all resources produced\
- by a tile. A tile whose road is upgraded to a railroad retains any trade\
- bonus from the road as well.\
+A railroad also increases by half (rounding down) all kinds of resources\
+ produced by a tile. A tile whose road is upgraded to a railroad retains\
+ any trade bonus from the road as well.\
 ")
 
 [extra_river]
@@ -1136,7 +1136,7 @@ buildable      = FALSE
 native_to      = "Land"
 flags          = "NaturalDefense"
 helptext       = _("\
-Grassland tile may have a River on it.\
+A grassland tile may have a River on it.\
 "), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
