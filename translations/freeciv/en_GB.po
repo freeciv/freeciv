@@ -67,7 +67,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.5.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2018-07-20 00:34+0100\n"
-"PO-Revision-Date: 2018-06-27 23:44+0100\n"
+"PO-Revision-Date: 2019-12-02 21:15+0000\n"
 "Last-Translator: Jacob Nevins <0jacobnk.fcdev@chiark.greenend.org.uk>\n"
 "Language-Team: \n"
 "Language: en_GB\n"
@@ -15820,7 +15820,7 @@ msgstr ""
 
 #: client/options.c:3175
 msgid "Wake up sequence"
-msgstr "m"
+msgstr "Wake up sequence"
 
 #: client/options.c:3176
 msgid ""
