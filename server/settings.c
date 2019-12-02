@@ -5244,15 +5244,3 @@ enum setting_default_level setting_get_setdef(const struct setting *pset)
 {
   return pset->setdef;
 }
-
-/************************************************************************//**
-  Compatibility function. In the very old times there was no concept of
-  'default' value outside setting initialization, all values were handled
-  like we now want to handle non-default ones.
-****************************************************************************/
-void settings_consider_all_changed(void)
-{
-  settings_iterate(SSET_ALL, pset) {
-    pset->setdef = SETDEF_CHANGED;
-  } settings_iterate_end;
-}
