@@ -727,7 +727,7 @@ sound		= "b_temple"
 sound_alt	= "b_generic"
 helptext	= _("\
 Makes one unhappy citizen content.  The Mysticism advance doubles\
- this effect, as does Oracle wonder.  With both Mysticism and the Oracle,\
+ this effect, as does the Oracle wonder.  With both Mysticism and the Oracle,\
  4 citizens are made content.  Does not affect citizens made unhappy by military\
  activity.\
 "), _("\
