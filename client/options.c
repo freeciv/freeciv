@@ -4122,6 +4122,7 @@ struct server_option {
   bool desired_sent;
   bool is_changeable;
   bool is_visible;
+  enum setting_default_level setdef;
 
   union {
     /* OT_BOOLEAN type option. */
@@ -4320,6 +4321,7 @@ void handle_server_setting_const
 ****************************************************************************/
 #define handle_server_setting_common(psoption, packet)                      \
   psoption->is_changeable = packet->is_changeable;                          \
+  psoption->setdef = packet->setdef;                                        \
   if (psoption->is_visible != packet->is_visible) {                         \
     if (psoption->is_visible) {                                             \
       need_gui_remove = TRUE;                                               \

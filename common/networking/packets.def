@@ -259,6 +259,7 @@ type TR_BONUS_TYPE      = uint8(enum traderoute_bonus_type)
 type GOODS_SELECTION    = uint8(enum goods_selection_method)
 type EUS                = uint8(enum extra_unit_seen_type)
 type VLAYER             = uint8(enum vision_layer)
+type SETDEFLVL          = uint8(enum setting_default_level)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -1940,6 +1941,7 @@ PACKET_SERVER_SETTING_BOOL = 166; sc, handle-via-packet, is-info
   BOOL is_visible;
   BOOL is_changeable;
   BOOL initial_setting;
+  SETDEFLVL setdef;
 
   BOOL val;
   BOOL default_val;
@@ -1950,6 +1952,7 @@ PACKET_SERVER_SETTING_INT = 167; sc, handle-via-packet, is-info
   BOOL is_visible;
   BOOL is_changeable;
   BOOL initial_setting;
+  SETDEFLVL setdef;
 
   SINT32 val;
   SINT32 default_val;
@@ -1962,6 +1965,7 @@ PACKET_SERVER_SETTING_STR = 168; sc, handle-via-packet, is-info
   BOOL is_visible;
   BOOL is_changeable;
   BOOL initial_setting;
+  SETDEFLVL setdef;
 
   STRING val[MAX_LEN_PACKET];
   STRING default_val[MAX_LEN_PACKET];
@@ -1972,6 +1976,7 @@ PACKET_SERVER_SETTING_ENUM = 169; sc, handle-via-packet, is-info
   BOOL is_visible;
   BOOL is_changeable;
   BOOL initial_setting;
+  SETDEFLVL setdef;
 
   SINT8 val;
   SINT8 default_val;
@@ -1985,6 +1990,7 @@ PACKET_SERVER_SETTING_BITWISE = 170; sc, handle-via-packet, is-info
   BOOL is_visible;
   BOOL is_changeable;
   BOOL initial_setting;
+  SETDEFLVL setdef;
 
   UINT16 val;
   UINT16 default_val;

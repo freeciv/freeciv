@@ -980,6 +980,8 @@ enum spaceship_place_type {
 typedef float adv_want;
 #define ADV_WANT_PRINTF "%f"
 
+enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
