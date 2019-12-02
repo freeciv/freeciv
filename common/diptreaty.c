@@ -193,6 +193,15 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
+  if (!are_reqs_active(pfrom, pto,
+                      NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                      &clause_infos[type].giver_reqs, RPT_POSSIBLE)
+      || !are_reqs_active(pto, pfrom,
+                          NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                          &clause_infos[type].receiver_reqs, RPT_POSSIBLE)) {
+    return FALSE;
+  }
+
   clause_list_iterate(ptreaty->clauses, old_clause) {
     if (old_clause->type == type
         && old_clause->from == pfrom
@@ -242,6 +251,8 @@ void clause_infos_init(void)
   for (i = 0; i < CLAUSE_COUNT; i++) {
     clause_infos[i].type = i;
     clause_infos[i].enabled = FALSE;
+    requirement_vector_init(&(clause_infos[i].giver_reqs));
+    requirement_vector_init(&(clause_infos[i].receiver_reqs));
   }
 }
 
@@ -250,6 +261,12 @@ void clause_infos_init(void)
 **************************************************************************/
 void clause_infos_free(void)
 {
+  int i;
+
+  for (i = 0; i < CLAUSE_COUNT; i++) {
+    requirement_vector_free(&(clause_infos[i].giver_reqs));
+    requirement_vector_free(&(clause_infos[i].receiver_reqs));
+  }
 }
 
 /**********************************************************************//**

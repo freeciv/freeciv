@@ -192,6 +192,21 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity = NULL;
 
+      if (pclause->from == pplayer) {
+        struct clause_info *info = clause_info_get(pclause->type);
+
+        if (!are_reqs_active(pplayer, pother,
+                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                             &(info->giver_reqs), RPT_POSSIBLE)
+            || !are_reqs_active(pother, pplayer,
+                                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                                &(info->receiver_reqs), RPT_POSSIBLE)) {
+          log_error("Requirements of a clause between %s and %s not fullfilled",
+                    player_name(pplayer), player_name(pother));
+          return;
+        }
+      }
+
       if (pclause->from == pplayer || is_pact_clause(pclause->type)) {
 	switch (pclause->type) {
 	case CLAUSE_EMBASSY:
@@ -331,6 +346,28 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct city *pcity;
+
+      if (pclause->from == pother) {
+        struct clause_info *info = clause_info_get(pclause->type);
+
+        if (!are_reqs_active(pother, pplayer,
+                             NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                             &(info->giver_reqs), RPT_POSSIBLE)
+            || !are_reqs_active(pplayer, pother,
+                                NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                                &(info->receiver_reqs), RPT_POSSIBLE)) {
+          notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
+                        _("Clause requirements are no longer fulfilled. "
+                          "Treaty with %s canceled!"),
+                        nation_plural_for_player(pother));
+          notify_player(pother, NULL, E_DIPLOMACY, ftc_server,
+                        _("Clause requirements are no longer fulfilled. "
+                          "Treaty with %s canceled!"),
+                        nation_plural_for_player(pplayer));
+          return;
+        }
+      }
+
       if (pclause->from == pother) {
 	switch (pclause->type) {
 	case CLAUSE_CITY:

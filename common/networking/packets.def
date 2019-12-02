@@ -1852,6 +1852,10 @@ end
 PACKET_RULESET_CLAUSE = 512; sc, lsend
   CLAUSE type;
   BOOL   enabled;
+  UINT8  giver_reqs_count;
+  REQUIREMENT giver_reqs[MAX_NUM_REQS:giver_reqs_count];
+  UINT8  receiver_reqs_count;
+  REQUIREMENT receiver_reqs[MAX_NUM_REQS:receiver_reqs_count];
 end
 
 /**************************************************************************

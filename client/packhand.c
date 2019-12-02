@@ -4393,10 +4393,21 @@ void handle_ruleset_style(const struct packet_ruleset_style *p)
 void handle_ruleset_clause(const struct packet_ruleset_clause *p)
 {
   struct clause_info *info = clause_info_get(p->type);
+  int i;
 
   fc_assert_ret_msg(NULL != info, "Bad clause %d.", p->type);
 
   info->enabled = p->enabled;
+
+  for (i = 0; i < p->giver_reqs_count; i++) {
+    requirement_vector_append(&info->giver_reqs, p->giver_reqs[i]);
+  }
+  fc_assert(info->giver_reqs.size == p->giver_reqs_count);
+
+  for (i = 0; i < p->receiver_reqs_count; i++) {
+    requirement_vector_append(&info->receiver_reqs, p->receiver_reqs[i]);
+  }
+  fc_assert(info->receiver_reqs.size == p->receiver_reqs_count);
 }
 
 /************************************************************************//**

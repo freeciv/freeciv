@@ -6906,6 +6906,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                                              "%s.type", sec_name);
         enum clause_type type = clause_type_by_name(clause_name, fc_strcasecmp);
         struct clause_info *info;
+        struct requirement_vector *reqs;
 
         if (!clause_type_is_valid(type)) {
           ruleset_error(LOG_ERROR, "\"%s\" unknown clause type \"%s\".",
@@ -6922,6 +6923,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           ok = FALSE;
           break;
         }
+
+        reqs = lookup_req_list(file, compat, sec_name, "giver_reqs", clause_name);
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&info->giver_reqs, reqs);
+
+        reqs = lookup_req_list(file, compat, sec_name, "receiver_reqs", clause_name);
+        if (reqs == NULL) {
+          ok = FALSE;
+          break;
+        }
+        requirement_vector_copy(&info->receiver_reqs, reqs);
 
         info->enabled = TRUE;
       }
@@ -7965,9 +7980,22 @@ static void send_ruleset_clauses(struct conn_list *dest)
 
   for (i = 0; i < CLAUSE_COUNT; i++) {
     struct clause_info *info = clause_info_get(i);
+    int j;
 
     packet.type = i;
     packet.enabled = info->enabled;
+
+    j = 0;
+    requirement_vector_iterate(&info->giver_reqs, preq) {
+      packet.giver_reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.giver_reqs_count = j;
+
+    j = 0;
+    requirement_vector_iterate(&info->receiver_reqs, preq) {
+      packet.receiver_reqs[j++] = *preq;
+    } requirement_vector_iterate_end;
+    packet.receiver_reqs_count = j;
 
     lsend_packet_ruleset_clause(dest, &packet);
   }

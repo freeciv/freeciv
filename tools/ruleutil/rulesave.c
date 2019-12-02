@@ -1338,6 +1338,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
       secfile_insert_str(sfile, clause_type_name(info->type),
                          "%s.type", path);
+      save_reqs_vector(sfile, &(info->giver_reqs), path, "giver_reqs");
+      save_reqs_vector(sfile, &(info->receiver_reqs), path, "receiver_reqs");
     }
   }
 
