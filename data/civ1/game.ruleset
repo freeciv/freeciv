@@ -191,6 +191,14 @@ improvement_factor = 1
 unit_factor = 2
 total_factor = 100
 
+[global_unit_options]
+; Shore landing style
+;  FALSE - normal movement
+;  TRUE  - (default) slow invasions by removing all
+;          movement points from ground units moving
+;          from ocean tile to land
+slow_invasions = FALSE
+
 [combat_rules]
 ; If tired_attack is set to TRUE, units that attack with less than a single
 ; move point (per move_fragments in terrain.ruleset) will have their attack
@@ -752,11 +760,15 @@ target_reqs    =
 [actionenabler_disembark]
 action        = "Transport Disembark"
 actor_reqs    =
-    { "type",         "name",        "range"
-      "UnitState",    "Transported", "Local"
-      "MinMoveFrags", "1",           "Local"
+    { "type",         "name",        "range", "present"
+      "UnitState",    "Transported", "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
+      ; use "Transport Alight" from inside the city
+      "CityTile",     "Center",      "Local", FALSE
     }
 
+; TODO: was transferring from a transport to a transport on an adjacent tile
+; legal?
 [actionenabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
@@ -767,6 +779,11 @@ actor_reqs    =
       "DiplRel",      "Cease-fire", "Local", FALSE
       "DiplRel",      "Peace",      "Local", FALSE
       "DiplRel",      "Never met",  "Local", FALSE
+    }
+target_reqs    =
+    { "type",     "name",   "range", "present"
+      ; use "Transport Board" from inside the city
+      "CityTile", "Center", "Local", FALSE
     }
 
 [borders]

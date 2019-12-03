@@ -1423,3 +1423,29 @@ reqs    =
     { "type", "name", "range"
       "BuildingGenus", "GreatWonder", "Local"
     }
+
+; Civilization I took all remaining move fragments when a land unit
+; disembarked from a ship. It didn't take all remaining more fragments when
+; the same land unit alighted a ship in the city it was in.
+; Correct this rule if I'm wrong.
+[effect_action_success_move_cost_disembark]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Transport Disembark", "Local", TRUE
+    }
+
+; Civilization 1 took all remaining move fragments when a land unit
+; embarked to a ship. It didn't take all remaining more fragments when the
+; same land unit boarded a ship in the city it was in.
+; Correct this rule if I'm wrong.
+; TODO: was transferring from a transport to a transport on an adjacent tile
+; legal? What was it's move cost?
+[effect_action_success_move_cost_embark]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Transport Embark", "Local", TRUE
+    }
