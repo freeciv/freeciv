@@ -644,6 +644,12 @@ bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
 bool utype_is_consumed_by_action(const struct action *paction,
                                  const struct unit_type *utype);
 
+bool utype_is_moved_to_tgt_by_action(const struct action *paction,
+                                     const struct unit_type *utype);
+
+bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
+                                        const struct unit_type *utype);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 

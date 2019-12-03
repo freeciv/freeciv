@@ -254,6 +254,13 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
      * location since this is evaluated *before* the unit moves. */
     move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
 
+    if (utype_pays_for_regular_move_to_tgt(paction,
+                                           unit_type_get(actor_unit))) {
+      /* Add the cost from the move. */
+      move_fragment_cost += map_move_cost_unit(&(wld.map), actor_unit,
+                                               city_tile(target_city));
+    }
+
     /* Taking MAX_MOVE_FRAGS takes all the move fragments. */
     move_fragment_cost = MIN(MAX_MOVE_FRAGS, move_fragment_cost);
 

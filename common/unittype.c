@@ -869,6 +869,135 @@ bool utype_is_consumed_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff successfully performing the specified action always will
+  move the actor unit of the specified type to the target's tile.
+**************************************************************************/
+bool utype_is_moved_to_tgt_by_action(const struct action *paction,
+                                     const struct unit_type *utype)
+{
+  switch (paction->id) {
+  case ACTION_EXPEL_UNIT:
+  case ACTION_HEAL_UNIT:
+  case ACTION_FORTIFY:
+  case ACTION_CONVERT:
+  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_BOARD:
+  case ACTION_DESTROY_CITY:
+  case ACTION_HOME_CITY:
+  case ACTION_UPGRADE_UNIT:
+  case ACTION_STRIKE_BUILDING:
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_BOMBARD:
+  case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_CULTIVATE:
+  case ACTION_PLANT:
+  case ACTION_PILLAGE:
+  case ACTION_ROAD:
+  case ACTION_BASE:
+  case ACTION_MINE:
+  case ACTION_IRRIGATE:
+    /* Stays at the tile were it was. */
+    return FALSE;
+  case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
+  case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_DISEMBARK2:
+    /* A "regular" move. Does it charge the move cost of a regular move?
+     * Update utype_pays_for_regular_move_to_tgt() if yes. */
+    return TRUE;
+  case ACTION_AIRLIFT:
+  case ACTION_PARADROP:
+    /* A teleporting move. */
+    return TRUE;
+  case ACTION_SPY_BRIBE_UNIT:
+    /* Tries a forced move if the target unit is alone at its tile and not
+     * in a city. Takes all movement if the forced move fails. */
+    return FALSE;
+  case ACTION_ATTACK:
+    /* Tries a forced move if the target unit's tile has no non allied units
+     * and the occupychance dice roll tells it to move. */
+    return FALSE;
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_DISBAND_UNIT:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_POISON:
+  case ACTION_INV_CITY_SPEND:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_STEAL_MAPS:
+  case ACTION_SPY_NUKE:
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+  case ACTION_HELP_WONDER:
+  case ACTION_RECYCLE_UNIT:
+  case ACTION_JOIN_CITY:
+  case ACTION_FOUND_CITY:
+  case ACTION_SUICIDE_ATTACK:
+  case ACTION_NUKE:
+    /* The actor unit is spent. */
+    fc_assert(paction->actor_consuming_always);
+    return FALSE;
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_POISON_ESC:
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_SPY_INCITE_CITY_ESC:
+  case ACTION_SPY_STEAL_TECH_ESC:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+  case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_STEAL_MAPS_ESC:
+  case ACTION_SPY_NUKE_ESC:
+    /* May die, may be teleported to a safe city. */
+    return FALSE;
+  }
+
+  fc_assert_msg(FALSE, "Should not reach this code.");
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Returns TRUE iff successfully performing the specified action always
+  will cost the actor unit of the specified type the move fragments it
+  would take to perform a regular move to the target's tile. This cost
+  is added to the cost of successfully performing the action.
+**************************************************************************/
+bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
+                                        const struct unit_type *utype)
+{
+  if (!utype_is_moved_to_tgt_by_action(paction, utype)) {
+    /* Not even a move. */
+    return FALSE;
+  }
+
+  if (action_has_result(paction, ACTION_CONQUER_CITY)
+      || action_has_result(paction, ACTION_CONQUER_CITY2)) {
+    /* Moves into the city to occupy it. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTION_TRANSPORT_DISEMBARK1)
+      || action_has_result(paction, ACTION_TRANSPORT_DISEMBARK2)) {
+    /* Moves out of the transport to disembark. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTION_TRANSPORT_EMBARK)) {
+    /* Moves into the transport to embark. */
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns the number of shields it takes to build this unit type.
 **************************************************************************/
 int utype_build_shield_cost(const struct city *pcity,
