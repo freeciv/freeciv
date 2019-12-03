@@ -182,11 +182,17 @@ const char *tileset_description(struct tileset *t)
   return NULL;
 }
 
+/**************************************************************************
+  Mostly a client stub.
+**************************************************************************/
 enum client_states client_state(void)
 {
   return C_S_INITIAL;
 }
 
+/**************************************************************************
+  Mostly a client stub.
+**************************************************************************/
 bool client_nation_is_in_current_set(const struct nation_type *pnation)
 {
   /* Currently, there is no way to select a nation set for freeciv-manual.
