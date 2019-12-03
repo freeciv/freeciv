@@ -321,7 +321,7 @@ struct unit_class {
 /* can be found in hut */
 #define SPECENUM_VALUE69 L_HUT
 #define SPECENUM_VALUE69NAME N_("?unitflag:Hut")
-/* can be found in hut, global tech required */
+/* can be found in hut, tech required */
 #define SPECENUM_VALUE70 L_HUT_TECH
 #define SPECENUM_VALUE70NAME N_("?unitflag:HutTech")
 /* is created in Partisan circumstances */
