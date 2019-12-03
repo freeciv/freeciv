@@ -1266,6 +1266,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_COUNT:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,

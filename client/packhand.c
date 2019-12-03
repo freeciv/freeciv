@@ -4701,6 +4701,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_TRANSPORT_EMBARK:
       case ACTION_TRANSPORT_UNLOAD:
       case ACTION_TRANSPORT_DISEMBARK1:
+      case ACTION_TRANSPORT_DISEMBARK2:
         /* Not interesting. */
         break;
       case ACTION_CAPTURE_UNITS:

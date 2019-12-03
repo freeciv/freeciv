@@ -285,6 +285,16 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
       effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
                                               FALSE, FALSE,
                                               "Transport Embark"));
+
+      /* Disembarking became action enabler controlled in Freeciv 3.1. Old
+       * hard coded rules had no punishment for trying to do those when it
+       * is illegal according to the rules. */
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, FALSE,
+                                              "Transport Disembark"));
+      effect_req_append(peffect, req_from_str("Action", "Local", FALSE,
+                                              FALSE, FALSE,
+                                              "Transport Disembark 2"));
     }
   }
 

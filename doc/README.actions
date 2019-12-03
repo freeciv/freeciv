@@ -758,6 +758,11 @@ Actions done by a unit against a tile
 * the target tile can't contain any city or units not allied to the actor
   unit and all its cargo.
 
+"Transport Disembark 2" - Exit transport to target tile.
+* UI name can be set using ui_name_transport_disembark_2
+* A copy of "Transport Disembark".
+* See "Transport Disembark" for everything else.
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

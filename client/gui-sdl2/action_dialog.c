@@ -1269,6 +1269,23 @@ static int disembark1_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User clicked "Transport Disembark 2"
+**************************************************************************/
+static int disembark2_callback(struct widget *pWidget)
+{
+  if (PRESSED_EVENT(Main.event)) {
+    int actor_id = MAX_ID - pWidget->ID;
+    int target_id = pWidget->data.tile->index;
+
+    popdown_diplomat_dialog();
+    request_do_action(ACTION_TRANSPORT_DISEMBARK2,
+                      actor_id, target_id, 0, "");
+  }
+
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Capture Units"
 **************************************************************************/
 static int capture_units_callback(struct widget *pWidget)
@@ -1798,6 +1815,7 @@ static const act_func af_map[ACTION_COUNT] = {
   [ACTION_MINE] = mine_callback,
   [ACTION_IRRIGATE] = irrigate_callback,
   [ACTION_TRANSPORT_DISEMBARK1] = disembark1_callback,
+  [ACTION_TRANSPORT_DISEMBARK2] = disembark2_callback,
 
   /* Unit acting with no target except itself. */
   [ACTION_DISBAND_UNIT] = disband_unit_callback,
