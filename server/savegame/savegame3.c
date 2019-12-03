@@ -1311,6 +1311,10 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
+  /* Remove all aifill players. Correct number of them get created later
+   * with correct skill level etc. */
+  (void) aifill(0);
+
   if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
     const char *req_caps;
     req_caps = secfile_lookup_str_default(loading->file, "",
@@ -2405,10 +2409,6 @@ static void sg_load_scenario(struct loaddata *loading)
                  "players are %s).",
                  server_states_name(loading->server_state),
                  game.scenario.players ? "saved" : "not saved");
-
-  /* Remove all defined players. They are recreated with the skill level
-   * defined by the scenario. */
-  (void) aifill(0);
 }
 
 /************************************************************************//**
