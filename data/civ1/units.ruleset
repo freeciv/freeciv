@@ -129,9 +129,6 @@ hp_loss_pct   = 0
 flags         = "TerrainSpeed", "DamageSlows", "CanOccupyCity", "BuildAnywhere",
                 "CollectRansom", "ZOC", "CanFortify", "CanPillage",
                 "TerrainDefense", "KillCitizen"
-helptext      = _("\
-  * Can be airlifted from a suitable city.\
-")
 
 [unitclass_sea]
 ; /* TRANS: Unit class: used adjectivally */
