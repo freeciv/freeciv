@@ -63,9 +63,24 @@ struct _GtkPixcommPrivate
   cairo_surface_t *surface;
 };
 
+#if GLIB_MAJOR_VERSION == 2 && GLIB_MINOR_VERSION < 38
+#define OLD_GLIB_PRIVATE_API
+#endif
+
+#ifdef OLD_GLIB_PRIVATE_API
+
 #define GTK_PIXCOMM_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_PIXCOMM, GtkPixcommPrivate))
 
 G_DEFINE_TYPE (GtkPixcomm, gtk_pixcomm, GTK_TYPE_WIDGET)
+
+#else  /* OLD_GLIB_PRIVATE_API */
+
+#define GTK_PIXCOMM_GET_PRIVATE(obj) ( \
+   (GtkPixcommPrivate *) gtk_pixcomm_get_instance_private((GtkPixcomm *)(obj)))
+
+G_DEFINE_TYPE_WITH_PRIVATE (GtkPixcomm, gtk_pixcomm, GTK_TYPE_WIDGET)
+
+#endif /* OLD_GLIB_PRIVATE_API */
 
 /***************************************************************************
   Initialize pixcomm class
@@ -81,7 +96,10 @@ gtk_pixcomm_class_init(GtkPixcommClass *klass)
   widget_class->draw = gtk_pixcomm_draw;
   widget_class->get_preferred_width = gtk_pixcomm_get_preferred_width;
   widget_class->get_preferred_height = gtk_pixcomm_get_preferred_height;
+
+#ifdef OLD_GLIB_PRIVATE_API
   g_type_class_add_private (widget_class, sizeof(GtkPixcommPrivate));
+#endif
 }
 
 /***************************************************************************
