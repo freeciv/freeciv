@@ -813,7 +813,7 @@ void fc_client::browse_saves(void)
   current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
                                               _("Open Save File"),
                                               QDir::homePath(), str);
-  if (current_file.isEmpty() ==  false) {
+  if (!current_file.isEmpty()) {
     start_from_save();
   }
 }
@@ -846,7 +846,7 @@ void fc_client::browse_scenarios(void)
   current_file = QFileDialog::getOpenFileName(gui()->central_wdg,
                                               _("Open Scenario File"),
                                               QDir::homePath(), str);
-  if (current_file.isEmpty() == false) {
+  if (!current_file.isEmpty()) {
     start_scenario();
   }
 }
@@ -1088,7 +1088,7 @@ void fc_client::start_scenario()
     client_start_server();
     send_chat("/detach");
   }
-  if (is_server_running()) {
+  if (is_server_running() && !current_file.isEmpty()) {
     send_chat_printf("/load %s", current_file.toLocal8Bit().data());
     switch_page(PAGE_GAME + 1);
   }
@@ -1103,7 +1103,7 @@ void fc_client::start_from_save()
     client_start_server();
     send_chat("/detach");
   }
-  if (is_server_running()) {
+  if (is_server_running() && !current_file.isEmpty()) {
     send_chat_printf("/load %s", current_file.toLocal8Bit().data());
     switch_page(PAGE_GAME + 1);
   }
