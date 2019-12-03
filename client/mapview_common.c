@@ -382,7 +382,7 @@ static bool nuke_animation(struct animation *anim, double time_gone)
   if (time_gone > 1.0) {
     update_map_canvas_visible();
 
-    return FALSE;
+    return TRUE;
   }
 
   return FALSE;
