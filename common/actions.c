@@ -193,6 +193,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_SPY_BRIBE_UNIT,
                           ACTION_CAPTURE_UNITS,
                           ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
                           ACTION_NONE);
 
   /* Why this is a hard requirement: there is a hard requirement that
@@ -317,7 +318,9 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require that "
                           "the actor doesn't have the NonMil utype flag.",
                           ACTION_ATTACK, ACTION_SUICIDE_ATTACK,
-                          ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
+                          ACTION_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of
    * CanOccupyCity unit class flag. */
@@ -327,7 +330,9 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require that "
                           "the actor has the CanOccupyCity uclass flag.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
+                          ACTION_NONE);
 
   /* Why this is a hard requirement: Consistency with ACTION_ATTACK.
    * Assumed by other locations in the Freeciv code. Examples:
@@ -337,7 +342,9 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require that "
                           "the actor is at war with the target.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
+                          ACTION_NONE);
 
   /* Why this is a hard requirement: a unit must move into a city to
    * conquer it, move into a transport to embark and move out of a transport
@@ -348,6 +355,7 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require that "
                           "the actor has a movement point left.",
                           ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
                           ACTION_TRANSPORT_DISEMBARK1,
                           ACTION_TRANSPORT_DISEMBARK2,
                           ACTION_TRANSPORT_EMBARK,
@@ -374,7 +382,9 @@ static void hard_code_oblig_hard_reqs(void)
                           TRUE,
                           "All action enablers for %s must require that "
                           "the target city is empty.",
-                          ACTION_CONQUER_CITY, ACTION_NONE);
+                          ACTION_CONQUER_CITY,
+                          ACTION_CONQUER_CITY2,
+                          ACTION_NONE);
 
   /* Why this is a hard requirement: Assumed in the code. Corner case
    * where diplomacy prevents a transported unit to go to the target
@@ -463,7 +473,9 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
                               TRUE,
                               "All action enablers for %s must require a "
                               "non animal player actor.",
-                              ACTION_CONQUER_CITY, ACTION_NONE);
+                              ACTION_CONQUER_CITY,
+                              ACTION_CONQUER_CITY2,
+                              ACTION_NONE);
     }
   } nations_iterate_end;
 }
@@ -693,6 +705,10 @@ static void hard_code_actions(void)
                  1, 1, FALSE);
   actions[ACTION_CONQUER_CITY] =
       action_new(ACTION_CONQUER_CITY, ATK_CITY,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 1, 1, FALSE);
+  actions[ACTION_CONQUER_CITY2] =
+      action_new(ACTION_CONQUER_CITY2, ATK_CITY,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                  1, 1, FALSE);
   actions[ACTION_HEAL_UNIT] =
@@ -2002,6 +2018,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_AIRLIFT:
   case ACTION_STRIKE_BUILDING:
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
@@ -2179,6 +2196,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_SUICIDE_ATTACK:
   case ACTION_STRIKE_BUILDING:
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
@@ -2667,6 +2685,7 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
     /* Reason: "Conquer City" involves moving into the city. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
                                FALSE, TRUE)) {
@@ -3940,6 +3959,7 @@ action_prob(const action_id wanted_action,
     /* TODO */
     break;
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
@@ -5206,6 +5226,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_surgical_strike_building";
   case ACTION_CONQUER_CITY:
     return "ui_name_conquer_city";
+  case ACTION_CONQUER_CITY2:
+    return "ui_name_conquer_city_2";
   case ACTION_HEAL_UNIT:
     return "ui_name_heal_unit";
   case ACTION_TRANSFORM_TERRAIN:
@@ -5390,6 +5412,9 @@ const char *action_ui_name_default(int act)
   case ACTION_CONQUER_CITY:
     /* TRANS: _Conquer City (100% chance of success). */
     return N_("%sConquer City%s");
+  case ACTION_CONQUER_CITY2:
+    /* TRANS: _Conquer City 2 (100% chance of success). */
+    return N_("%sConquer City 2%s");
   case ACTION_HEAL_UNIT:
     /* TRANS: Heal _Unit (3% chance of success). */
     return N_("Heal %sUnit%s");

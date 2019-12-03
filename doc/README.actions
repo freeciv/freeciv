@@ -422,6 +422,11 @@ Actions done by a unit against a city
  * the target must be foreign (!)
  * the target city contains 0 units (!)
 
+"Conquer City 2" - Conquer the target city.
+* UI name can be set using ui_name_conquer_city_2
+* A copy of "Conquer City".
+* See "Conquer City" for everything else.
+
 "Surgical Strike Building" - Destroy a specific building or the production.
  * UI name can be set using ui_name_surgical_strike_building
  * actor must be aware that the target exists

@@ -6273,6 +6273,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
                ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_CAPTURE_UNITS);
       }
 
       /* Forbid exploding nuclear or attacking when it is legal to
@@ -6290,6 +6292,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_BOMBARD);
         BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
                ACTION_BOMBARD);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_BOMBARD);
       }
 
       /* Forbid attacking when it is legal to do explode nuclear. */
@@ -6304,6 +6308,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
                ACTION_NUKE);
         BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+               ACTION_NUKE);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                ACTION_NUKE);
       }
 

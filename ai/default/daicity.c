@@ -1190,6 +1190,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
   /* The ai will never destroy his own city to keep it out of enemy
    * hands. If it starts supporting it this value should change. */
   case ACTION_DESTROY_CITY:

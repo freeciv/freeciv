@@ -880,6 +880,12 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Conquer City". */
     unit_do_action(unit_owner(punit), punit->id, tcity->id,
                    0, "", ACTION_CONQUER_CITY);
+  } else if ((tcity = tile_city(ptile))
+             && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY2,
+                                               punit, tcity)) {
+    /* Choose "Conquer City 2". */
+    unit_do_action(unit_owner(punit), punit->id, tcity->id,
+                   0, "", ACTION_CONQUER_CITY2);
   } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
              && ((ptrans = transporter_for_unit_at(punit, ptile)))
              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,

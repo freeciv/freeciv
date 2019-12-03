@@ -605,6 +605,23 @@ static void conquer_city_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected "Conquer City 2" from choice dialog.
+**************************************************************************/
+static void conquer_city2_callback(GtkWidget *w, gpointer data)
+{
+  struct action_data *args = (struct action_data *)data;
+
+  if (NULL != game_unit_by_number(args->actor_unit_id)
+      && NULL != game_city_by_number(args->target_city_id)) {
+    request_do_action(ACTION_CONQUER_CITY2, args->actor_unit_id,
+                      args->target_city_id, 0, "");
+  }
+
+  gtk_widget_destroy(act_sel_dialog);
+  free(args);
+}
+
+/**********************************************************************//**
   Returns a string with how many shields remains of the current production.
   This is useful as custom information on the help build wonder button.
 **************************************************************************/
@@ -2098,6 +2115,7 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_AIRLIFT] = (GCallback)airlift_callback,
   [ACTION_STRIKE_BUILDING] = (GCallback)spy_request_strike_bld_list,
   [ACTION_CONQUER_CITY] = (GCallback)conquer_city_callback,
+  [ACTION_CONQUER_CITY2] = (GCallback)conquer_city2_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,

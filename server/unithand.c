@@ -771,6 +771,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_HEAL_UNIT:
   case ACTION_STRIKE_BUILDING:
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -1099,6 +1100,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     action_custom = unit_attack_units_at_tile_result(punit, target_tile);
     break;
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
     if (target_city) {
       action_custom = unit_move_to_tile_test(&(wld.map), punit,
                                              punit->activity,
@@ -1356,6 +1358,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
+              || action_id_has_result_safe(act_id, ACTION_CONQUER_CITY2)
               || action_id_has_result_safe(act_id,
                                            ACTION_TRANSPORT_EMBARK)
               || action_id_has_result_safe(act_id,
@@ -2848,6 +2851,8 @@ bool unit_perform_action(struct player *pplayer,
                                              pcity, requester));
     break;
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
+    /* Difference is caused by the ruleset. ("Fake generalized" actions) */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_conquer_city(pplayer, actor_unit,
                                                   pcity, paction));
@@ -3937,6 +3942,12 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
          && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
                                 0, "",
                                 ACTION_CONQUER_CITY, ACT_REQ_RULES))
+        || ((pcity = tile_city(def_tile))
+            && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY2,
+                                              punit, pcity)
+            && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
+                                   0, "",
+                                   ACTION_CONQUER_CITY2, ACT_REQ_RULES))
         || (unit_transported(punit)
             && is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                               punit, def_tile, NULL)

@@ -4852,6 +4852,7 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_ATTACK:
       case ACTION_SUICIDE_ATTACK:
       case ACTION_CONQUER_CITY:
+      case ACTION_CONQUER_CITY2:
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
