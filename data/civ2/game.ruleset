@@ -188,25 +188,12 @@ unit_factor = 2
 total_factor = 100
 
 [global_unit_options]
-
-; Explanation: Civ 2 allowed fast units to use any remaining movement after
-; disembarking. Boarding a ship spent every movement point the land unit
-; had.
-;
-; Freeciv doesn`t support removing all movement points when a unit boards a
-; ship. If slow_invasions is set to FALSE a fast unit will be allowed to
-; board a ship, be moved by it, disembark and keep moving in the same turn.
-; That would have been impossible in Civ 2. If it is set to TRUE
-; strategies that involves loading fast units on a ship, waiting a turn and
-; then unloading them so they can act (attack, spy, etc) the same turn will
-; be broken.
-;
 ; Shore landing style
 ;  FALSE - normal movement
 ;  TRUE  - (default) slow invasions by removing all
 ;          movement points from ground units moving
 ;          from ocean tile to land
-slow_invasions = TRUE
+slow_invasions = FALSE
 
 [combat_rules]
 ; If tired_attack is set to TRUE, units that attack with less than a single
@@ -989,6 +976,8 @@ actor_reqs    =
       "MinMoveFrags", "1",           "Local"
     }
 
+; TODO: was transferring from a transport to a transport on an adjacent tile
+; legal?
 [actionenabler_embark]
 action        = "Transport Embark"
 actor_reqs    =
@@ -999,6 +988,11 @@ actor_reqs    =
       "DiplRel",      "Cease-fire", "Local", FALSE
       "DiplRel",      "Peace",      "Local", FALSE
       "DiplRel",      "Never met",  "Local", FALSE
+    }
+target_reqs    =
+    { "type",     "name",   "range", "present"
+      ; use "Transport Board" from inside the city
+      "CityTile", "Center", "Local", FALSE
     }
 
 [borders]

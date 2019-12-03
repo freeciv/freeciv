@@ -2453,6 +2453,20 @@ reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
+; Civilization II took all remaining move fragments when a land unit
+; embarked to a ship. It didn't take all remaining more fragments when the
+; same land unit boarded a ship in the city it was in. It didn't take all
+; remaining move fragments when disembarking. Correct this rule if I'm wrong.
+; TODO: was transferring from a transport to a transport on an adjacent tile
+; legal? What was it's move cost?
+[effect_action_success_move_cost_embark]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Transport Embark", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_embassy]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 1
