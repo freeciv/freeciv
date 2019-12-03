@@ -288,7 +288,7 @@ FC_STATIC_ASSERT(UTYF_LAST_USER_FLAG < UTYF_MAX, too_many_unit_flags);
 /* can be found in hut */
 #define SPECENUM_VALUE55 L_HUT
 #define SPECENUM_VALUE55NAME N_("?unitflag:Hut")
-/* can be found in hut, global tech required */
+/* can be found in hut, tech required */
 #define SPECENUM_VALUE56 L_HUT_TECH
 #define SPECENUM_VALUE56NAME N_("?unitflag:HutTech")
 /* is created in Partisan circumstances */
