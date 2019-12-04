@@ -1153,9 +1153,10 @@ bool sanity_check_ruleset_data(bool ignore_retired)
             || action_has_result(paction, ACTION_BOMBARD)
             || action_has_result(paction, ACTION_ATTACK)
             || action_has_result(paction, ACTION_SUICIDE_ATTACK))) {
-        /* Only allow changing the order of the old auto attack actions for
-         * now. Other actions need more testing and fixing of issues caused
-         * by a worst case action probability of 0%. */
+        /* Only allow removing and changing changing the order of old auto
+         * attack actions for now. Other actions need more testing and
+         * fixing of issues caused by a worst case action probability of
+         * 0%. */
         ruleset_error(LOG_ERROR, "auto_attack: %s not supported in"
                                  " attack_actions.",
                       action_rule_name(paction));
