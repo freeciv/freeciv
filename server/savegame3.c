@@ -1298,8 +1298,11 @@ static void sg_load_savefile(struct loaddata *loading)
 
   if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
     const char *req_caps;
+
     req_caps = secfile_lookup_str_default(loading->file, "",
                                           "scenario.ruleset_caps");
+    strncpy(game.scenario.req_caps, req_caps, sizeof(game.scenario.req_caps) - 1);
+    game.scenario.req_caps[sizeof(game.scenario.req_caps) - 1] = '\0';
 
     if (!has_capabilities(req_caps, game.ruleset_capabilities)) {
       /* Current ruleset lacks required capabilities. */
@@ -2391,6 +2394,12 @@ static void sg_save_scenario(struct savedata *saving)
   if (game.scenario.allow_ai_type_fallback) {
     secfile_insert_bool(saving->file, game.scenario.allow_ai_type_fallback,
                         "scenario.allow_ai_type_fallback");
+  }
+  secfile_insert_bool(saving->file, game.scenario.ruleset_locked,
+                      "scenario.ruleset_locked");
+  if (!game.scenario.ruleset_locked && game.scenario.req_caps[0] != '\0') {
+    secfile_insert_str(saving->file, game.scenario.req_caps,
+                       "scenario.ruleset_caps");
   }
 }
 

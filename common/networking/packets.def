@@ -2009,6 +2009,7 @@ PACKET_SCENARIO_INFO = 180; sc, handle-via-packet, handle-per-conn
 
   /* Unused at client side. */
   BOOL   have_resources;
+  STRING req_caps[257];
 end
 
 PACKET_SCENARIO_DESCRIPTION = 13; sc, handle-per-conn
