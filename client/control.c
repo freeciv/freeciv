@@ -3356,11 +3356,35 @@ void key_unit_irrigate(void)
 }
 
 /**********************************************************************//**
+  Handle user 'cultivate' input
+**************************************************************************/
+void key_unit_cultivate(void)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_do_activity(punit, ACTIVITY_CULTIVATE)) {
+      request_new_unit_activity(punit, ACTIVITY_CULTIVATE);
+    }
+  } unit_list_iterate_end;
+}
+
+/**********************************************************************//**
   Handle user 'build mine' input
 **************************************************************************/
 void key_unit_mine(void)
 {
   key_unit_extra(ACTIVITY_MINE, EC_MINE);
+}
+
+/**********************************************************************//**
+  Handle user 'plant' input
+**************************************************************************/
+void key_unit_plant(void)
+{
+  unit_list_iterate(get_units_in_focus(), punit) {
+    if (can_unit_do_activity(punit, ACTIVITY_PLANT)) {
+      request_new_unit_activity(punit, ACTIVITY_PLANT);
+    }
+  } unit_list_iterate_end;
 }
 
 /**********************************************************************//**

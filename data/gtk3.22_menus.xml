@@ -351,7 +351,13 @@
               <object class="GtkMenuItem" id="BUILD_IRRIGATION" />
             </child>
             <child>
+              <object class="GtkMenuItem" id="CULTIVATE" />
+            </child>
+            <child>
               <object class="GtkMenuItem" id="BUILD_MINE" />
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="PLANT" />
             </child>
             <child>
               <object class="GtkSeparatorMenuItem" />

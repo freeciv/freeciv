@@ -48,7 +48,9 @@ enum munit {
   DISBAND,
   CONVERT,
   MINE,
+  PLANT,
   IRRIGATION,
+  CULTIVATE,
   TRANSFORM,
   PILLAGE,
   BUILD,
@@ -316,7 +318,9 @@ private slots:
   void slot_auto_settler();
   void slot_build_road();
   void slot_build_irrigation();
+  void slot_cultivate();
   void slot_build_mine();
+  void slot_plant();
   void slot_conn_road();
   void slot_conn_rail();
   void slot_conn_irrigation();
