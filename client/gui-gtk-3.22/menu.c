@@ -2280,8 +2280,12 @@ void real_menus_update(void)
                                             unit_can_est_trade_route_here)));
   menu_entry_set_sensitive("BUILD_IRRIGATION",
                            can_units_do_activity(punits, ACTIVITY_IRRIGATE));
+  menu_entry_set_sensitive("CULTIVATE",
+                           can_units_do_activity(punits, ACTIVITY_CULTIVATE));
   menu_entry_set_sensitive("BUILD_MINE",
                            can_units_do_activity(punits, ACTIVITY_MINE));
+  menu_entry_set_sensitive("PLANT",
+                           can_units_do_activity(punits, ACTIVITY_PLANT));
   menu_entry_set_sensitive("TRANSFORM_TERRAIN",
                            can_units_do_activity(punits, ACTIVITY_TRANSFORM));
   menu_entry_set_sensitive("FORTIFY",
