@@ -65,11 +65,11 @@ AC_DEFUN([FC_QT5_GENERIC],
   if test "x$qt5_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
     AC_MSG_CHECKING([for Qt >= 5.2])
-    FC_QT52_CHECK
+    FC_QT5_VERSION_CHECK
   fi
 
   AC_LANG_POP([C++])
-  if test "x$fc_qt52" = "xyes" ; then
+  if test "x$fc_qt5_min_ver" = "xyes" ; then
     AC_MSG_RESULT([ok])
     FC_QT5_VALIDATE_MOC([fc_qt5_usable=true], [fc_qt5_usable=false])
   else
@@ -106,8 +106,8 @@ AC_DEFUN([FC_QT5_COMPILETEST],
 ])
 
 dnl Check if the included version of Qt is at least Qt5.2
-dnl Output: fc_qt52=yes|no
-AC_DEFUN([FC_QT52_CHECK],
+dnl Output: fc_qt5_min_ver=yes|no
+AC_DEFUN([FC_QT5_VERSION_CHECK],
 [
   CPPFLAGS_SAVE="$CPPFLAGS"
   CPPFLAGS="$CPPFLAGS $FC_QT5_CPPFLAGS"
@@ -121,8 +121,8 @@ AC_DEFUN([FC_QT52_CHECK],
         fail
       #endif
     ]])],
-    [fc_qt52=yes],
-    [fc_qt52=no])
+    [fc_qt5_min_ver=yes],
+    [fc_qt5_min_ver=no])
   LIBS="$LIBS_SAVE"
   CPPFLAGS="${CPPFLAGS_SAVE}"
   CXXFLAGS="${CXXFLAGS_SAVE}"
