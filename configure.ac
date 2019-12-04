@@ -175,7 +175,6 @@ AM_CONDITIONAL(SERVER, test x$server = xyes)
 
 dnl Host type variable defaults
 MINGW=no
-AMIGA=no
 
 dnl Settings specific to host OS
 case "$host_os" in
@@ -701,7 +700,6 @@ case "$host_os" in
     ;;
 
   *amigaos*)
-    AMIGA=yes
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Amiga])
     ;;
 
