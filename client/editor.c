@@ -1531,21 +1531,23 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
       } extra_type_by_cause_iterate_end;
       break;
     case EBT_BASE:
-     extra_type_iterate(pextra) {
+      extra_type_iterate(pextra) {
         if (tile_has_extra(ptile, pextra)
             && is_extra_caused_by(pextra, EC_BASE)) {
           tile_add_extra(vtile, pextra);
           copied = TRUE;
         }
       } extra_type_iterate_end;
+      break;
     case EBT_ROAD:
-     extra_type_iterate(pextra) {
+      extra_type_iterate(pextra) {
         if (tile_has_extra(ptile, pextra)
             && is_extra_caused_by(pextra, EC_ROAD)) {
           tile_add_extra(vtile, pextra);
           copied = TRUE;
         }
       } extra_type_iterate_end;
+      break;
     case EBT_UNIT:
       unit_list_iterate(ptile->units, punit) {
         if (!punit) {
