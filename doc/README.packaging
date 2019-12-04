@@ -28,6 +28,8 @@ Updating from 3.0 to 3.1
   the official autotools one
 * Tex AI module gets statically linked in by default, if threading
   implementation supports it.
+* Minimum Qt5 requirement for Qt-client, Qt modpack installer, and
+  Ruledit is 5.11.
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
