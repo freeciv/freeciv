@@ -16,7 +16,7 @@
 #endif
 
 
-//Qt
+// Qt
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QGridLayout>
@@ -150,7 +150,7 @@ fc_shortcut default_shortcuts[] = {
      | Qt::ShiftModifier, _("Reload theme") },
   {SC_RELOAD_TILESET, Qt::Key_F6, Qt::AllButtons, Qt::ControlModifier
     | Qt::ShiftModifier, _("Reload tileset") },
-  {SC_SHOW_FULLBAR, Qt::Key_F, Qt::AllButtons, Qt::ControlModifier,
+  {SC_SHOW_FULLBAR, Qt::Key_S, Qt::AllButtons, Qt::ControlModifier,
     _("Toggle city full bar visibility") },
   {SC_ZOOM_IN, Qt::Key_Plus, Qt::AllButtons, Qt::NoModifier,
     _("Reload zoomed in tileset") },

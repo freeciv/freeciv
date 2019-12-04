@@ -1623,11 +1623,11 @@ Unit Orders:\n\
   G: return unit to nearest friendly city\n\
   h: set unit's (h)omecity  (to city on current tile)\n\
   i: build (i)rrigation or convert terrain  (settler/worker units)\n\
-  I: connect current and target tile with (I)rrigation\n\
-  I: set an (I)rrigation waypoint  (when connecting with irrigation)\n\
+  Ctrl+I: connect current and target tile with (I)rrigation\n\
+  Ctrl+I: set an (I)rrigation waypoint  (when connecting with irrigation)\n\
   l: (l)oad unit on transporter\n\
-  L: connect current and target tile with rai(L)\n\
-  L: set a rai(L) waypoint  (when connecting with rail)\n\
+  Ctrl+L: connect current and target tile with rai(L)\n\
+  Ctrl+L: set a rai(L) waypoint  (when connecting with rail)\n\
   m: build (m)ine or convert terrain  (settler/worker units)\n\
   n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
@@ -1640,8 +1640,8 @@ Unit Orders:\n\
   q: add a patrol waypoint  (when in patrol mode)\n\
   r: build (r)oad/railroad  (settler/worker units)\n\
   r: establish trade (r)oute  (caravan units)\n\
-  R: connect current and target tile with (R)oad\n\
-  R: set a (R)oad waypoint  (when connecting with road)\n\
+  Ctrl+R: connect current and target tile with (R)oad\n\
+  Ctrl+R: set a (R)oad waypoint  (when connecting with road)\n\
   s: (s)entry unit\n\
   S: un(S)entry all units on tile\n\
   t: unit go (t)o/airlift to city\n\
@@ -1685,7 +1685,7 @@ Main Map (Keys):\n\
   Ctrl-G: show/hide map grid lines\n\
   Ctrl-N: show/hide city names\n\
   Ctrl-P: show/hide city production\n\
-  Ctrl-R: show/hide city growth\n\
+  Ctrl-F: show/hide city growth\n\
   Ctrl-W: show/hide city output\n\
   Ctrl-Y: show/hide city outlines\n\
 "), _("\
@@ -1763,7 +1763,7 @@ Dialogs and Reports:\n\
     F11: open Demographics\n\
     F12: open Spaceship\n\
 \n\
-        Ctrl-F: open Find City dialog\n\
+        Ctrl-S: open Find City dialog\n\
         Ctrl-L: open Worklists dialog\n\
         Ctrl-T: open Tax/Lux/Sci Rates dialog\n\
   Shift-Ctrl-R: open Revolution dialog\n\

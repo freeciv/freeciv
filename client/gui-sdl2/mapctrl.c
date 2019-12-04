@@ -1716,11 +1716,11 @@ void popup_minimap_window(void)
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
-                                "F4", _("or"), _("Find City"), "Ctrl+F");
+                                "F4", _("or"), _("Find City"), "Ctrl+S");
   pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
   pWidget->info_label->style |= SF_CENTER;
   pWidget->action = cities_action_callback;
-  pWidget->key = SDLK_f;
+  pWidget->key = SDLK_s;
   pWidget->mod = KMOD_CTRL;
 
   add_to_gui_list(ID_CITIES, pWidget);
@@ -2587,8 +2587,13 @@ bool map_event_handler(SDL_Keysym key)
         }
         return FALSE;
 
-        /* show city growth Ctrl+r */
-      case SDLK_r:
+        /* show city growth Ctrl+f */
+        /* show bases - Ctrl+Shift+f */
+      case SDLK_f:
+        if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
+          request_toggle_bases();
+        }
+
         if (LCTRL || RCTRL) {
           key_city_growth_toggle();
         }
@@ -2632,13 +2637,6 @@ bool map_event_handler(SDL_Keysym key)
       case SDLK_m:
         if (LCTRL || RCTRL) {
           key_mines_toggle();
-        }
-        return FALSE;
-
-        /* show bases - Ctrl+Shift+f */
-      case SDLK_f:
-        if ((LCTRL || RCTRL) && (LSHIFT || RSHIFT)) {
-          request_toggle_bases();
         }
         return FALSE;
 

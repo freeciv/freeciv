@@ -553,7 +553,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Connect irrigation */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Irrigation"), "Shift+I");
+  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Irrigation"),
+              "Ctrl+I");
   pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -561,7 +562,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_i;
-  pBuf->mod = KMOD_SHIFT;
+  pBuf->mod = KMOD_CTRL;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_IRRIGATE, pBuf);
   /* --------- */
 
@@ -572,7 +573,7 @@ void create_units_order_widgets(void)
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Connect With %s (%s)"),
                 extra_name_translation(road_extra_get(proad)),
-                "Shift+R");
+                "Ctrl+R");
     pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
                             | WF_WIDGET_HAS_INFO_LABEL);
@@ -580,7 +581,7 @@ void create_units_order_widgets(void)
     pBuf->action = unit_order_callback;
     pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
     pBuf->key = SDLK_r;
-    pBuf->mod = KMOD_SHIFT;
+    pBuf->mod = KMOD_CTRL;
     add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
   }
   /* --------- */
@@ -591,7 +592,7 @@ void create_units_order_widgets(void)
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Connect With %s (%s)"),
                 extra_name_translation(road_extra_get(prail)),
-                "Shift+L");
+                "Ctrl+L");
     pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
                             | WF_WIDGET_HAS_INFO_LABEL);
@@ -599,7 +600,7 @@ void create_units_order_widgets(void)
     pBuf->action = unit_order_callback;
     pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
     pBuf->key = SDLK_l;
-    pBuf->mod = KMOD_SHIFT;
+    pBuf->mod = KMOD_CTRL;
     add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
   }
   /* --------- */

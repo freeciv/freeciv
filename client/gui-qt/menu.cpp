@@ -1064,7 +1064,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Growth"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_growth);
-  act->setShortcut(QKeySequence(tr("ctrl+r")));
+  act->setShortcut(QKeySequence(tr("ctrl+f")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_city_growth);
   act = menu->addAction(_("City Production Levels"));
   act->setCheckable(true);
@@ -1265,16 +1265,16 @@ void mr_menu::setup_menus()
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_mine);
   menu->addSeparator();
   act = menu->addAction(_("Connect With Road"));
-  act->setShortcut(QKeySequence(tr("shift+r")));
+  act->setShortcut(QKeySequence(tr("ctrl+r")));
   menu_list.insertMulti(CONNECT_ROAD, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_conn_road);
   act = menu->addAction(_("Connect With Railroad"));
   menu_list.insertMulti(CONNECT_RAIL, act);
-  act->setShortcut(QKeySequence(tr("shift+l")));
+  act->setShortcut(QKeySequence(tr("ctrl+l")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_conn_rail);
   act = menu->addAction(_("Connect With Irrigation"));
   menu_list.insertMulti(CONNECT_IRRIGATION, act);
-  act->setShortcut(QKeySequence(tr("shift+i")));
+  act->setShortcut(QKeySequence(tr("ctrl+i")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_conn_irrigation);
   menu->addSeparator();
   act = menu->addAction(_("Transform Terrain"));
