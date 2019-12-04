@@ -1568,13 +1568,30 @@ bool is_clean_activity(enum unit_activity activity)
 }
 
 /**********************************************************************//**
+  Returns true if given activity changes terrain.
+  ACTIVITY_IRRIGATE and ACTIVITY_PLANT return FALSE as their primary
+  purpose is to build extras.
+**************************************************************************/
+bool is_terrain_change_activity(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_CULTIVATE:
+  case ACTIVITY_PLANT:
+  case ACTIVITY_TRANSFORM:
+    return TRUE;
+  default:
+    return FALSE;
+  }
+}
+
+/**********************************************************************//**
   Returns true if given activity affects tile.
 **************************************************************************/
 bool is_tile_activity(enum unit_activity activity)
 {
   return is_build_activity(activity, NULL)
     || is_clean_activity(activity)
-    || activity == ACTIVITY_TRANSFORM;
+    || is_terrain_change_activity(activity);
 }
 
 /**********************************************************************//**

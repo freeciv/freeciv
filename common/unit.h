@@ -306,17 +306,17 @@ bool can_unit_change_homecity(const struct unit *punit);
 const char *get_activity_text(enum unit_activity activity);
 bool can_unit_continue_current_activity(struct unit *punit);
 bool can_unit_do_activity(const struct unit *punit,
-			  enum unit_activity activity);
+                          enum unit_activity activity);
 bool can_unit_do_activity_targeted(const struct unit *punit,
-				   enum unit_activity activity,
+                                   enum unit_activity activity,
                                    struct extra_type *target);
 bool can_unit_do_activity_targeted_at(const struct unit *punit,
-				      enum unit_activity activity,
-				      struct extra_type *target,
-				      const struct tile *ptile);
+                                      enum unit_activity activity,
+                                      struct extra_type *target,
+                                      const struct tile *ptile);
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
-				enum unit_activity new_activity,
+                                enum unit_activity new_activity,
                                 struct extra_type *new_target);
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base);
@@ -325,20 +325,20 @@ void set_unit_activity_road(struct unit *punit,
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
-			      enum unit_activity activity,
-			      const struct tile *ptile,
+                              enum unit_activity activity,
+                              const struct tile *ptile,
                               struct extra_type *tgt);
 bool activity_requires_target(enum unit_activity activity);
 bool can_unit_do_autosettlers(const struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity,
-			      const struct tile *ptile);
+                              const struct tile *ptile);
 bv_extras get_unit_tile_pillage_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool unit_can_do_action(const struct unit *punit,
                         const action_id act_id);
 bool is_square_threatened(const struct player *pplayer,
-			  const struct tile *ptile, bool omniscient);
+                          const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
@@ -359,17 +359,17 @@ struct player *unit_nationality(const struct unit *punit);
 void unit_tile_set(struct unit *punit, struct tile *ptile);
 
 struct unit *is_allied_unit_tile(const struct tile *ptile,
-				 const struct player *pplayer);
+                                 const struct player *pplayer);
 struct unit *is_enemy_unit_tile(const struct tile *ptile,
-				const struct player *pplayer);
+                                const struct player *pplayer);
 struct unit *is_non_allied_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer);
+                                     const struct player *pplayer);
 struct unit *is_other_players_unit_tile(const struct tile *ptile,
-					const struct player *pplayer);
+                                        const struct player *pplayer);
 struct unit *is_non_attack_unit_tile(const struct tile *ptile,
-				     const struct player *pplayer);
+                                     const struct player *pplayer);
 struct unit *unit_occupies_tile(const struct tile *ptile,
-				const struct player *pplayer);
+                                const struct player *pplayer);
 
 bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
                const struct civ_map *zmap);
@@ -378,11 +378,12 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
 bool is_build_activity(enum unit_activity activity, const struct tile *ptile);
 bool is_clean_activity(enum unit_activity activity);
+bool is_terrain_change_activity(enum unit_activity activity);
 bool is_tile_activity(enum unit_activity activity);
 
 struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
-				 int veteran_level);
+                                 int veteran_level);
 void unit_virtual_destroy(struct unit *punit);
 bool unit_is_virtual(const struct unit *punit);
 void free_unit_orders(struct unit *punit);
