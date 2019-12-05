@@ -2086,13 +2086,7 @@ int unit_pays_mp_for_action(const struct action *paction,
                                   punit, unit_type_get(punit), NULL, NULL,
                                   paction, EFT_ACTION_SUCCESS_MOVE_COST);
 
-  if (action_has_result(paction, ACTION_ATTACK)) {
-    if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
-      mpco += MAX_MOVE_FRAGS;
-    } else {
-      mpco += SINGLE_MOVE;
-    }
-  }
+  mpco += utype_pays_mp_for_action_base(paction, unit_type_get(punit));
 
   return mpco;
 }

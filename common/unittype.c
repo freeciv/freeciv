@@ -1000,6 +1000,68 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
 }
 
 /**********************************************************************//**
+  Returns the amount of movement points successfully performing the
+  specified action will consume in the actor unit type without taking
+  effects or regular moves into account.
+**************************************************************************/
+int utype_pays_mp_for_action_base(const struct action *paction,
+                                  const struct unit_type *putype)
+{
+  int mpco = 0;
+
+  if (action_has_result(paction, ACTION_ATTACK)) {
+    if (utype_has_flag(putype, UTYF_ONEATTACK)) {
+      mpco += MAX_MOVE_FRAGS;
+    } else {
+      mpco += SINGLE_MOVE;
+    }
+  }
+
+  return mpco;
+}
+
+/**********************************************************************//**
+  Returns an estimate of the amount of movement points successfully
+  performing the specified action will consume in the actor unit type.
+**************************************************************************/
+int utype_pays_mp_for_action_estimate(const struct action *paction,
+                                      const struct unit_type *putype,
+                                      const struct player *act_player,
+                                      const struct tile *act_tile,
+                                      const struct tile *tgt_tile)
+{
+  const struct tile *post_action_tile;
+  int mpco = utype_pays_mp_for_action_base(paction, putype);
+
+  if (utype_is_moved_to_tgt_by_action(paction, putype)) {
+    post_action_tile = tgt_tile;
+  } else {
+    /* FIXME: Not 100% true. May escape, have a probability for moving to
+     * target tile etc. */
+    post_action_tile = act_tile;
+  }
+
+  if (utype_pays_for_regular_move_to_tgt(paction, putype)) {
+    /* Add the cost from the move. */
+    mpco += map_move_cost(&(wld.map), act_player, putype,
+                          act_tile, tgt_tile);
+  }
+
+  /* FIXME: Probably wrong result if the effect
+   * EFT_ACTION_SUCCESS_MOVE_COST depends on unit state. Add unit state
+   * parameters? */
+  mpco += get_target_bonus_effects(NULL,
+                                  act_player,
+                                  NULL,
+                                  tile_city(post_action_tile),
+                                  NULL, tgt_tile,
+                                  NULL, putype, NULL, NULL,
+                                  paction, EFT_ACTION_SUCCESS_MOVE_COST);
+
+  return mpco;
+}
+
+/**********************************************************************//**
   Returns the number of shields it takes to build this unit type.
 **************************************************************************/
 int utype_build_shield_cost(const struct city *pcity,

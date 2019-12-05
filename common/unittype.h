@@ -650,6 +650,15 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
 bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
                                         const struct unit_type *utype);
 
+int utype_pays_mp_for_action_base(const struct action *paction,
+                                  const struct unit_type *putype);
+
+int utype_pays_mp_for_action_estimate(const struct action *paction,
+                                      const struct unit_type *putype,
+                                      const struct player *act_player,
+                                      const struct tile *act_tile,
+                                      const struct tile *tgt_tile);
+
 /* Functions to operate on various flag and roles. */
 typedef bool (*role_unit_callback)(struct unit_type *ptype, void *data);
 

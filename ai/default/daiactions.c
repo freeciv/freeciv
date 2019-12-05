@@ -246,19 +246,32 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
     utility -= unit_build_shield_cost_base(actor_unit);
   } else {
     /* Not going to spend the unit so care about move fragment cost. */
+
     adv_want move_fragment_cost;
 
-    /* FIXME: The action performer function may charge more. */
-    /* FIXME: Potentially wrong result if the unit moves as a part of the
-     * action and EFT_ACTION_SUCCESS_MOVE_COST depends on the unit's
-     * location since this is evaluated *before* the unit moves. */
-    move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
+    struct unit_type *actor_utype = unit_type_get(actor_unit);
 
-    if (utype_pays_for_regular_move_to_tgt(paction,
-                                           unit_type_get(actor_unit))) {
-      /* Add the cost from the move. */
-      move_fragment_cost += map_move_cost_unit(&(wld.map), actor_unit,
-                                               city_tile(target_city));
+    /* FIXME: The action performer function may charge more. */
+    if (utype_is_moved_to_tgt_by_action(paction, actor_utype)) {
+      /* FIXME: doesn't catch all moved by action kinds. */
+
+      struct tile *actor_tile = unit_tile(actor_unit);
+      struct tile *target_tile = city_tile(target_city);
+
+      move_fragment_cost = utype_pays_mp_for_action_estimate(paction,
+                                                             actor_utype,
+                                                             actor_player,
+                                                             actor_tile,
+                                                             target_tile);
+    } else {
+      move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
+
+      if (utype_pays_for_regular_move_to_tgt(paction,
+                                             unit_type_get(actor_unit))) {
+        /* Add the cost from the move. */
+        move_fragment_cost += map_move_cost_unit(&(wld.map), actor_unit,
+                                                 city_tile(target_city));
+      }
     }
 
     /* Taking MAX_MOVE_FRAGS takes all the move fragments. */
