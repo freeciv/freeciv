@@ -1153,7 +1153,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
             || action_has_result(paction, ACTION_BOMBARD)
             || action_has_result(paction, ACTION_ATTACK)
             || action_has_result(paction, ACTION_SUICIDE_ATTACK))) {
-        /* Only allow removing and changing changing the order of old auto
+        /* Only allow removing and changing the order of old auto
          * attack actions for now. Other actions need more testing and
          * fixing of issues caused by a worst case action probability of
          * 0%. */
