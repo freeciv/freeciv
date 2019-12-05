@@ -1623,12 +1623,14 @@ Unit Orders:\n\
   G: return unit to nearest friendly city\n\
   h: set unit's (h)omecity  (to city on current tile)\n\
   i: build (i)rrigation or convert terrain  (settler/worker units)\n\
+  I: change terrain by cultivating\n\
   Ctrl+I: connect current and target tile with (I)rrigation\n\
   Ctrl+I: set an (I)rrigation waypoint  (when connecting with irrigation)\n\
   l: (l)oad unit on transporter\n\
   Ctrl+L: connect current and target tile with rai(L)\n\
   Ctrl+L: set a rai(L) waypoint  (when connecting with rail)\n\
   m: build (m)ine or convert terrain  (settler/worker units)\n\
+  M: change terrain by planting\n\
   n: clean (n)uclear fallout\n\
   N: explode (N)uclear\n\
   o: transf(o)rm terrain  (engineer unit)\n\
