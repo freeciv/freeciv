@@ -344,6 +344,11 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     }
 
     client_info.gui = get_gui_type();
+#ifdef EMERGENCY_VERSION
+    client_info.emerg_version = EMERGENCY_VERSION;
+#else
+    client_info.emerg_version = 0;
+#endif
     strncpy(client_info.distribution, FREECIV_DISTRIBUTOR,
             sizeof(client_info.distribution));
     send_packet_client_info(&client.conn, &client_info);
@@ -351,7 +356,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
     /* we could always use hack, verify we're local */
 #ifdef FREECIV_DEBUG
     if (!hackless || is_server_running())
-#endif
+#endif /* FREECIV_DEBUG */
     {
       send_client_wants_hack(challenge_file);
     }

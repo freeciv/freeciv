@@ -297,10 +297,13 @@ void srv_init(void)
   Handle client info packet
 **************************************************************************/
 void handle_client_info(struct connection *pc, enum gui_type gui,
-                        const char *distribution)
+                        int emerg_version, const char *distribution)
 {
   pc->client_gui = gui;
   log_debug("%s's client has %s gui.", pc->username, gui_type_name(gui));
+  if (emerg_version > 0) {
+    log_debug("It's emergency release .%d", emerg_version);
+  }
   if (strcmp(distribution, "")) {
     log_debug("It comes from %s distribution.", distribution);
   }

@@ -333,8 +333,8 @@ void reject_new_connection(const char *msg, struct connection *pconn)
 }
 
 /**************************************************************************
- Returns FALSE if the clients gets rejected and the connection should be
- closed. Returns TRUE if the client get accepted.
+  Returns FALSE if the clients gets rejected and the connection should be
+  closed. Returns TRUE if the client get accepted.
 **************************************************************************/
 bool handle_login_request(struct connection *pconn, 
                           struct packet_server_join_req *req)

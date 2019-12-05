@@ -1245,6 +1245,7 @@ end
 
 PACKET_CLIENT_INFO = 119; cs, handle-per-conn
   GUI_TYPE gui;
+  UINT32 emerg_version;
   STRING distribution[MAX_LEN_NAME];
 end
 
