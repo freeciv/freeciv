@@ -2122,6 +2122,7 @@ PACKET_EDIT_TILE_EXTRA = 202; cs, handle-per-conn, dsend
   TILE tile; key
   EXTRA extra_type_id;
   BOOL removal;
+  PLAYER eowner;
   UINT8 size;
 end
 
@@ -2143,6 +2144,7 @@ PACKET_EDIT_TILE = 206; cs, handle-per-conn, handle-via-packet
   RESOURCE resource;
   TERRAIN terrain;
   NATION startpos_nation;
+  PLAYER eowner;
   STRING label[MAX_LEN_NAME];
 end
 
