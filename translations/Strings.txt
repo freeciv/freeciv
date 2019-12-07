@@ -22,7 +22,8 @@ _("?vertag:windows-S3_0")
 Generated version header
 
 /* TRANS: part of revision based version number string
-          "(modified r25000)" */
+          "(modified 855bfb8e2f)" (the second 'word' is a git hash)
+          (Preserve the trailing space.) */
 _("modified ")
 
 
