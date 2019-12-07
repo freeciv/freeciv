@@ -18,6 +18,9 @@ but wars are fought over the silliest things ...
 - C++-style comments (i.e., // comments) are forbidden in C code.
   They should be used for single-line comments in C++ code.
 
+- C++11 Lambda Expressions are allowed in C++ code, and encouraged for short
+  callbacks in Qt slot connections.
+
 - Declaring variables in the middle of the scope is forbidden
   (unless you are using C99 dynamic arrays and you need to check the size
    of the array before you declare it).
