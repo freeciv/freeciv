@@ -778,12 +778,14 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
              || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
+                    /* TRANS: Paris was expecting ... Your Spy was caught */
                     _("%s was expecting your attempt to steal technology "
                       "again. Your %s was caught and executed."),
                     city_link(pcity),
                     unit_tile_link(pdiplomat));
       notify_player(cplayer, city_tile(pcity),
                     E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                    /* TRANS: The Belgian Spy ... from Paris */
                     _("The %s %s failed to steal technology again from %s. "
                       "We were prepared for the attempt."),
                     nation_adjective_for_player(pplayer),
@@ -792,12 +794,14 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     } else {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
+                    /* TRANS: Your Spy was caught ... from %s. */
                     _("Your %s was caught in the attempt of"
                       " stealing technology from %s."),
                     unit_tile_link(pdiplomat),
                     city_link(pcity));
       notify_player(cplayer, city_tile(pcity),
                     E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                    /* TRANS: The Belgian Spy ... from Paris */
                     _("The %s %s failed to steal technology from %s."),
                     nation_adjective_for_player(pplayer),
                     unit_tile_link(pdiplomat),

@@ -3688,6 +3688,7 @@ const char *universal_name_translation(const struct universal *psource,
                  textcalfrag(psource->value.mincalfrag));
     return buf;
   case VUT_TOPO:
+    /* TRANS: topology name */
     cat_snprintf(buf, bufsz, _("%s map"),
                  _(topo_flag_name(psource->value.topo_property)));
     return buf;
