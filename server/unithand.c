@@ -1061,6 +1061,9 @@ static void illegal_action(struct player *pplayer,
 
         notify_player(pplayer, unit_tile(actor),
                       E_UNIT_ILLEGAL_ACTION, ftc_server,
+                      /* TRANS: action name.
+                       * "Your Spy can't do Steal Gold from Ocean.
+                       * Only Explorer or Partisan can do Steal Gold ..." */
                       _("Your %s can't do %s from %s. "
                         "Only %s can do %s from a non livable tile."),
                       unit_name_translation(actor),
@@ -1073,6 +1076,8 @@ static void illegal_action(struct player *pplayer,
       } else {
         notify_player(pplayer, unit_tile(actor),
                       E_UNIT_ILLEGAL_ACTION, ftc_server,
+                      /* TRANS: action name.
+                       * "Your Spy can't do Steal Gold from Ocean." */
                       _("Your %s can't do %s from %s."),
                       unit_name_translation(actor),
                       action_id_name_translation(stopped_action),
@@ -1083,6 +1088,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_BAD_TERRAIN_TGT:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy can't do Industrial Sabotage to Mountains." */
                   _("Your %s can't do %s to %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action),
@@ -1091,6 +1098,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_IS_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy can't do Industrial Sabotage while ..." */
                   _("Your %s can't do %s while being transported."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
@@ -1098,6 +1107,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_IS_NOT_TRANSPORTED:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy can't do Industrial Sabotage while ..." */
                   _("Your %s can't do %s while not being transported."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
@@ -1105,6 +1116,9 @@ static void illegal_action(struct player *pplayer,
   case ANEK_NO_WAR:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy can't do Industrial Sabotage while you
+                   * aren't at war with Prester John." */
                   _("Your %s can't do %s while you"
                     " aren't at war with %s."),
                   unit_name_translation(actor),
@@ -1114,7 +1128,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_NATION_TGT:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  /* TRANS: Riflemen... Expel Unit... Pirate... Migrants */
+                  /* TRANS: action name.
+                   * "Riflemen... Bribe Enemy Unit... Pirate Migrants." */
                   _("Your %s can't do %s to %s %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action),
@@ -1125,6 +1140,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_LOW_MP:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy has ... to Bribe Enemy Unit." */
                   _("Your %s has too few moves left to %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
@@ -1132,6 +1149,8 @@ static void illegal_action(struct player *pplayer,
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy was unable to Bribe Enemy Unit." */
                   _("Your %s was unable to %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
