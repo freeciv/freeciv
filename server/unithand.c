@@ -1814,8 +1814,8 @@ void illegal_action_msg(struct player *pplayer,
                       unit_name_translation(actor),
                       action_id_name_translation(stopped_action),
                       terrain_name_translation(explnat->no_act_terrain),
-                      action_id_name_translation(stopped_action),
-                      astr_build_or_list(&astr, types, i));
+                      astr_build_or_list(&astr, types, i),
+                      action_id_name_translation(stopped_action));
 
         astr_free(&astr);
       } else {
