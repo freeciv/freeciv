@@ -1685,7 +1685,7 @@ Main Map (Keys):\n\
   Ctrl-G: show/hide map grid lines\n\
   Ctrl-N: show/hide city names\n\
   Ctrl-P: show/hide city production\n\
-  Ctrl-F: show/hide city growth\n\
+  Ctrl-O: show/hide city growth\n\
   Ctrl-W: show/hide city output\n\
   Ctrl-Y: show/hide city outlines\n\
 "), _("\
@@ -1763,7 +1763,7 @@ Dialogs and Reports:\n\
     F11: open Demographics\n\
     F12: open Spaceship\n\
 \n\
-        Ctrl-S: open Find City dialog\n\
+        Ctrl-F: open Find City dialog\n\
         Ctrl-L: open Worklists dialog\n\
         Ctrl-T: open Tax/Lux/Sci Rates dialog\n\
   Shift-Ctrl-R: open Revolution dialog\n\

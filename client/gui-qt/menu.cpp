@@ -1064,7 +1064,7 @@ void mr_menu::setup_menus()
   act = menu->addAction(_("City Growth"));
   act->setCheckable(true);
   act->setChecked(gui_options.draw_city_growth);
-  act->setShortcut(QKeySequence(tr("ctrl+f")));
+  act->setShortcut(QKeySequence(tr("ctrl+o")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_city_growth);
   act = menu->addAction(_("City Production Levels"));
   act->setCheckable(true);
