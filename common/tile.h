@@ -58,6 +58,7 @@ struct tile {
   struct city *worked;			/* NULL for not worked */
   struct player *owner;			/* NULL for not owned */
   struct extra_type *placing;
+  int infra_turns;
   struct player *extras_owner;
   struct tile *claimer;
   char *label;                          /* NULL for no label */

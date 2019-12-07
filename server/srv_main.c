@@ -1226,9 +1226,14 @@ static void begin_phase(bool is_new_phase)
           ptile->placing = NULL;
         } else {
           if (is_player_phase(owner, game.info.phase)) {
-            create_extra(ptile, ptile->placing, owner);
-            update_tile_knowledge(ptile);
-            ptile->placing = NULL;
+            fc_assert(ptile->infra_turns > 0);
+
+            ptile->infra_turns--;
+            if (ptile->infra_turns <= 0) {
+              create_extra(ptile, ptile->placing, owner);
+              update_tile_knowledge(ptile);
+              ptile->placing = NULL;
+            }
           }
         }
       }

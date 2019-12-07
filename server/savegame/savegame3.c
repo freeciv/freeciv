@@ -2891,9 +2891,7 @@ static void sg_save_map_startpos(struct savedata *saving)
 static void sg_load_map_owner(struct loaddata *loading)
 {
   int x, y;
-  struct player *owner = NULL;
   struct tile *claimer = NULL;
-  struct player *eowner = NULL;
   struct extra_type *placing = NULL;
 
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -2904,7 +2902,7 @@ static void sg_load_map_owner(struct loaddata *loading)
     return;
   }
 
-  /* Owner and ownership source are stored as plain numbers */
+  /* Owner, ownership source, and infra turns are stored as plain numbers */
   for (y = 0; y < wld.map.ysize; y++) {
     const char *buffer1 = secfile_lookup_str(loading->file,
                                              "map.owner%04d", y);
@@ -2915,10 +2913,14 @@ static void sg_load_map_owner(struct loaddata *loading)
     const char *buffer_placing = secfile_lookup_str_default(loading->file,
                                                             NULL,
                                                             "map.placing%04d", y);
+    const char *buffer_turns = secfile_lookup_str_default(loading->file,
+                                                          NULL,
+                                                          "map.infra_turns%04d", y);
     const char *ptr1 = buffer1;
     const char *ptr2 = buffer2;
     const char *ptr3 = buffer3;
     const char *ptr_placing = buffer_placing;
+    const char *ptr_turns = buffer_turns;
 
     sg_failure_ret(buffer1 != NULL, "%s", secfile_error());
     sg_failure_ret(buffer2 != NULL, "%s", secfile_error());
@@ -2929,6 +2931,10 @@ static void sg_load_map_owner(struct loaddata *loading)
       char token2[TOKEN_SIZE];
       char token3[TOKEN_SIZE];
       char token_placing[TOKEN_SIZE];
+      char token_turns[TOKEN_SIZE];
+      struct player *owner = NULL;
+      struct player *eowner = NULL;
+      int turns;
       int number;
       struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
 
@@ -2980,9 +2986,21 @@ static void sg_load_map_owner(struct loaddata *loading)
         placing = NULL;
       }
 
+      if (ptr_turns != NULL) {
+        scanin(&ptr_turns, ",", token_turns, sizeof(token_turns));
+        sg_failure_ret(token_turns[0] != '\0',
+                       "Map size not correct (map.infra_turns%d).", y);
+        sg_failure_ret(str_to_int(token_turns, &number),
+                       "Got infra_turns %s in (%d, %d).", token_turns, x, y);
+        turns = number;
+      } else {
+        turns = 1;
+      }
+
       map_claim_ownership(ptile, owner, claimer, FALSE);
       tile_claim_bases(ptile, eowner);
       ptile->placing = placing;
+      ptile->infra_turns = turns;
       log_debug("extras_owner(%d, %d) = %s", TILE_XY(ptile), player_name(eowner));
     }
   }
@@ -3089,6 +3107,28 @@ static void sg_save_map_owner(struct savedata *saving)
       }
     }
     secfile_insert_str(saving->file, line, "map.placing%04d", y);
+  }
+
+  for (y = 0; y < wld.map.ysize; y++) {
+    char line[wld.map.xsize * TOKEN_SIZE];
+
+    line[0] = '\0';
+    for (x = 0; x < wld.map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      struct tile *ptile = native_pos_to_tile(&(wld.map), x, y);
+
+      if (ptile->placing != NULL) {
+        fc_snprintf(token, sizeof(token), "%d",
+                    ptile->infra_turns);
+      } else {
+        fc_snprintf(token, sizeof(token), "0"); 
+      }
+      strcat(line, token);
+      if (x + 1 < wld.map.xsize) {
+        strcat(line, ",");
+      }
+    }
+    secfile_insert_str(saving->file, line, "map.infra_turns%04d", y);
   }
 }
 
