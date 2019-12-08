@@ -45,7 +45,8 @@ static void input_dialog_response(GtkDialog *shell, gint response,
   struct input_dialog_data *cb = data;
 
   cb->response_callback(cb->response_cli_data,
-                        response, gtk_entry_get_text(GTK_ENTRY(winput)));
+                        response,
+                        gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(winput))));
 
   /* Any response is final */
   gtk_widget_destroy(GTK_WIDGET(shell));
@@ -92,7 +93,7 @@ GtkWidget *input_dialog_create(GtkWindow *parent, const char *dialogname,
 
   input = gtk_entry_new();
   gtk_container_add(GTK_CONTAINER(label), input);
-  gtk_entry_set_text(GTK_ENTRY(input), postinputtest);
+  gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(input)), postinputtest, -1);
   gtk_entry_set_activates_default(GTK_ENTRY(input), TRUE);
   g_object_set_data(G_OBJECT(shell), "iinput", input);
 

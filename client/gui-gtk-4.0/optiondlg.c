@@ -711,10 +711,11 @@ static inline void option_dialog_option_str_set(struct option *poption,
                                                 const char *string)
 {
   if (NULL != option_str_values(poption)) {
-    gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN
-                       (option_get_gui_data(poption)))), string);
+    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN
+                                          (option_get_gui_data(poption))))), string, -1);
   } else {
-    gtk_entry_set_text(GTK_ENTRY(option_get_gui_data(poption)), string);
+    gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(option_get_gui_data(poption))),
+                              string, -1);
   }
 }
 
@@ -896,10 +897,12 @@ static void option_dialog_option_apply(struct option *poption)
 
   case OT_STRING:
     if (NULL != option_str_values(poption)) {
-      (void) option_str_set(poption, gtk_entry_get_text
-                            (GTK_ENTRY(gtk_bin_get_child(GTK_BIN(w)))));
+      (void) option_str_set(poption, gtk_entry_buffer_get_text(
+                                        gtk_entry_get_buffer(
+                                           GTK_ENTRY(gtk_bin_get_child(GTK_BIN(w))))));
     } else {
-      (void) option_str_set(poption, gtk_entry_get_text(GTK_ENTRY(w)));
+      (void) option_str_set(poption, gtk_entry_buffer_get_text(
+                                                 gtk_entry_get_buffer(GTK_ENTRY(w))));
     }
     break;
 

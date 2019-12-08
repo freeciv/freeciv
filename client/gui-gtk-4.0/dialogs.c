@@ -516,6 +516,8 @@ static void select_nation(int nation,
                           const char *leadername, bool is_male,
                           int style_id)
 {
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
+
   selected_nation = nation;
 
   /* Refresh the available leaders. */
@@ -525,8 +527,7 @@ static void select_nation(int nation,
 
     /* Select leader name and sex. */
     if (leadername) {
-      gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))),
-                         leadername);
+      gtk_entry_buffer_set_text(buffer, leadername, -1);
       /* Assume is_male is valid too. */
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[is_male]),
                                    TRUE);
@@ -577,8 +578,7 @@ static void select_nation(int nation,
   } else {
     /* No nation selected. Blank properties and make controls insensitive. */
     /* Leader name */
-    gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))),
-                       "");
+    gtk_entry_buffer_set_text(buffer, "", -1);
     /* Leader sex (*shrug*) */
     gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(races_sex[0]), TRUE);
     /* City style */
@@ -1334,7 +1334,7 @@ static void races_leader_callback(void)
   const gchar *name;
 
   name =
-    gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
+    gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader)))));
 
   if (selected_nation != -1
       &&(pleader = nation_leader_by_name(nation_by_number(selected_nation),
@@ -1406,7 +1406,8 @@ static void races_response(GtkWidget *w, gint response, gpointer data)
       return;
     }
 
-    s = gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader))));
+    s = gtk_entry_buffer_get_text(gtk_entry_get_buffer(
+                                      GTK_ENTRY(gtk_bin_get_child(GTK_BIN(races_leader)))));
 
     /* Perform a minimum of sanity test on the name. */
     /* This could call is_allowed_player_name if it were available. */

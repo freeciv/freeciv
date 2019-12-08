@@ -2869,7 +2869,7 @@ static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata)
 
   op = userdata;
   pp = objprop_get_property_page(op);
-  value.data.v_const_string = gtk_entry_get_text(entry);
+  value.data.v_const_string = gtk_entry_buffer_get_text(gtk_entry_get_buffer(entry));
 
   property_page_change_value(pp, op, &value);  
 }
@@ -3191,9 +3191,10 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_TILE_LABEL:
     entry = objprop_get_child_widget(op, "entry");
     if (pv) {
-      gtk_entry_set_text(GTK_ENTRY(entry), pv->data.v_string);
+      gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(entry)),
+                                pv->data.v_string, -1);
     } else {
-      gtk_entry_set_text(GTK_ENTRY(entry), "");
+      gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(entry)), "", -1);
     }
     gtk_widget_set_sensitive(entry, pv != NULL);
     break;
@@ -4670,7 +4671,7 @@ static void property_page_quick_find_entry_changed(GtkWidget *entry,
   bool matched;
 
   pp = userdata;
-  text = gtk_entry_get_text(GTK_ENTRY(entry));
+  text = gtk_entry_buffer_get_text(gtk_entry_get_buffer(GTK_ENTRY(entry)));
   pf = property_filter_new(text);
 
   property_page_objprop_iterate(pp, op) {

@@ -258,11 +258,13 @@ static void luaconsole_input_return(GtkEntry *w, gpointer data)
 {
   const char *theinput;
   struct luaconsole_data *pdialog = luaconsole_dialog_get();
+  GtkEntryBuffer *buffer;
 
   fc_assert_ret(pdialog);
   fc_assert_ret(pdialog->history_list);
 
-  theinput = gtk_entry_get_text(w);
+  buffer = gtk_entry_get_buffer(w);
+  theinput = gtk_entry_buffer_get_text(buffer);
 
   if (*theinput) {
     luaconsole_printf(ftc_luaconsole_input, "(input)> %s", theinput);
@@ -280,7 +282,7 @@ static void luaconsole_input_return(GtkEntry *w, gpointer data)
     pdialog->history_pos = -1;
   }
 
-  gtk_entry_set_text(w, "");
+  gtk_entry_buffer_set_text(buffer, "", -1);
 }
 
 /*************************************************************************//**
@@ -354,6 +356,7 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
 {
   struct luaconsole_data *pdialog = luaconsole_dialog_get();
   guint keyval;
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(w));
 
   fc_assert_ret_val(pdialog, FALSE);
   fc_assert_ret_val(pdialog->history_list, FALSE);
@@ -362,8 +365,8 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
   switch (keyval) {
   case GDK_KEY_Up:
     if (pdialog->history_pos < genlist_size(pdialog->history_list) - 1) {
-      gtk_entry_set_text(GTK_ENTRY(w), genlist_get(pdialog->history_list,
-                                                   ++pdialog->history_pos));
+      gtk_entry_buffer_set_text(buffer, genlist_get(pdialog->history_list,
+                                                    ++pdialog->history_pos), -1);
       gtk_editable_set_position(GTK_EDITABLE(w), -1);
     }
     return TRUE;
@@ -374,10 +377,10 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
     }
 
     if (pdialog->history_pos >= 0) {
-      gtk_entry_set_text(GTK_ENTRY(w), genlist_get(pdialog->history_list,
-                                                   pdialog->history_pos));
+      gtk_entry_buffer_set_text(buffer, genlist_get(pdialog->history_list,
+                                                    pdialog->history_pos), -1);
     } else {
-      gtk_entry_set_text(GTK_ENTRY(w), "");
+      gtk_entry_buffer_set_text(buffer, "", -1);
     }
     gtk_editable_set_position(GTK_EDITABLE(w), -1);
     return TRUE;

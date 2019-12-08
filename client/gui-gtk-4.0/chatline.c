@@ -140,9 +140,10 @@ static bool is_plain_public_message(const char *s)
 static void inputline_return(GtkEntry *w, gpointer data)
 {
   const char *theinput;
+  GtkEntryBuffer *buffer = gtk_entry_get_buffer(w);
 
-  theinput = gtk_entry_get_text(w);
-  
+  theinput = gtk_entry_buffer_get_text(buffer);
+
   if (*theinput) {
     if (client_state() == C_S_RUNNING
         && GUI_GTK_OPTION(allied_chat_only)
@@ -167,7 +168,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
     history_pos=-1;
   }
 
-  gtk_entry_set_text(w, "");
+  gtk_entry_buffer_set_text(buffer, "", -1);
 }
 
 /**********************************************************************//**
@@ -382,13 +383,15 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
   } else {
     /* Chatline history controls. */
     guint keyval;
+    GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(w));
 
     gdk_event_get_keyval(ev, &keyval);
     switch (keyval) {
     case GDK_KEY_Up:
       if (history_pos < genlist_size(history_list) - 1) {
-        gtk_entry_set_text(GTK_ENTRY(w),
-                           genlist_get(history_list, ++history_pos));
+        gtk_entry_buffer_set_text(buffer,
+                                  genlist_get(history_list, ++history_pos),
+                                  -1);
         gtk_editable_set_position(GTK_EDITABLE(w), -1);
       }
       return TRUE;
@@ -399,10 +402,11 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
       }
 
       if (history_pos >= 0) {
-        gtk_entry_set_text(GTK_ENTRY(w),
-                           genlist_get(history_list, history_pos));
+        gtk_entry_buffer_set_text(buffer,
+                                  genlist_get(history_list, history_pos),
+                                  -1);
       } else {
-        gtk_entry_set_text(GTK_ENTRY(w), "");
+        gtk_entry_buffer_set_text(buffer, "", -1);
       }
       gtk_editable_set_position(GTK_EDITABLE(w), -1);
       return TRUE;
