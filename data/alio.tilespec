@@ -131,7 +131,8 @@ layer_order =
   "FocusUnit",  ; The focused unit(s).
   "Goto",       ; Goto turn count and intermediate points, *not* goto lines.
   "WorkerTask", ; The unit task indicators ("G", "S", ...).
-  "Editor"      ; Editor stuff (selected tile and start points).
+  "Editor",     ; Editor stuff (selected tile and start points).
+  "InfraWork"   ; Icons for the extras being placed.
 
 ; This is special because it gets freed and reloaded as required:
 main_intro_file    = "misc/intro"

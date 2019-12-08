@@ -6024,6 +6024,18 @@ int fill_sprite_array(struct tileset *t,
     }
     break;
 
+  case LAYER_INFRAWORK:
+    if (ptile != NULL && ptile->placing != NULL) {
+      const int id = extra_index(ptile->placing);
+
+      if (t->sprites.extras[id].activity != NULL) {
+        ADD_SPRITE(t->sprites.extras[id].activity,
+                   TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                   FULL_TILE_Y_OFFSET + t->activity_offset_y);
+      }
+    }
+    break;
+
   case LAYER_COUNT:
     fc_assert(FALSE);
     break;
@@ -6870,6 +6882,7 @@ bool tileset_layer_in_category(enum mapview_layer layer,
   case LAYER_GOTO:
   case LAYER_WORKERTASK:
   case LAYER_EDITOR:
+  case LAYER_INFRAWORK:
     return FALSE;
   case LAYER_COUNT:
     break; /* and fail below */

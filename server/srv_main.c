@@ -1231,8 +1231,8 @@ static void begin_phase(bool is_new_phase)
             ptile->infra_turns--;
             if (ptile->infra_turns <= 0) {
               create_extra(ptile, ptile->placing, owner);
-              update_tile_knowledge(ptile);
               ptile->placing = NULL;
+              update_tile_knowledge(ptile);
             }
           }
         }

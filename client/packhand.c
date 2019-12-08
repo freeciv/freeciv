@@ -2926,9 +2926,17 @@ void handle_tile_info(const struct packet_tile_info *packet)
   }
 
   if (packet->placing < 0) {
-    ptile->placing = NULL;
+    if (ptile->placing != NULL) {
+      tile_changed = TRUE;
+      ptile->placing = NULL;
+    }
   } else {
+    struct extra_type *old = ptile->placing;
+
     ptile->placing = extra_by_number(packet->placing);
+    if (ptile->placing != old) {
+      tile_changed = TRUE;
+    }
   }
 
   if (NULL == tile_worked(ptile)
