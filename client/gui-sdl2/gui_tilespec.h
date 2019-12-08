@@ -126,6 +126,8 @@ struct Theme {
   SDL_Surface *OFortify_Icon;
   SDL_Surface *OSentry_Icon;
   SDL_Surface *OIrrigation_Icon;
+  SDL_Surface *OCultivate_Icon;
+  SDL_Surface *OPlant_Icon;
   SDL_Surface *ORoad_Icon;
   SDL_Surface *ORailRoad_Icon;
   SDL_Surface *OPillage_Icon;

@@ -328,6 +328,8 @@ void tilespec_setup_theme(void)
   load_order_theme_surface(pBuf, OPlantForest_Icon, "theme.order_plant_forest");
   load_order_theme_surface(pBuf, OMine_Icon, "theme.order_build_mining");
   load_order_theme_surface(pBuf, OIrrigation_Icon, "theme.order_irrigation");
+  load_order_theme_surface(pBuf, OCultivate_Icon, "theme.order_cutdown_forest");
+  load_order_theme_surface(pBuf, OPlant_Icon, "theme.order_plant_forest");
   load_order_theme_surface(pBuf, ODone_Icon, "theme.order_done");
   load_order_theme_surface(pBuf, ODisband_Icon, "theme.order_disband");
   load_order_theme_surface(pBuf, OFortify_Icon, "theme.order_fortify");

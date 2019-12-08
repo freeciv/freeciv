@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -89,7 +89,9 @@ enum GUI_ID {
   ID_UNIT_ORDER_ROAD,
   ID_UNIT_ORDER_TRADE_ROUTE,
   ID_UNIT_ORDER_IRRIGATE,
+  ID_UNIT_ORDER_CULTIVATE,
   ID_UNIT_ORDER_MINE,
+  ID_UNIT_ORDER_PLANT,
   ID_UNIT_ORDER_TRANSFORM,
   ID_UNIT_ORDER_FORTRESS,
   ID_UNIT_ORDER_FORTIFY,
