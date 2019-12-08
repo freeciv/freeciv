@@ -40,6 +40,9 @@
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT
 
+/* mkstemp() available */
+#define HAVE_MKSTEMP
+
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
