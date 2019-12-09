@@ -2072,13 +2072,9 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_UPGRADE_UNIT] = (GCallback)upgrade_callback,
   [ACTION_AIRLIFT] = (GCallback)airlift_callback,
   [ACTION_STRIKE_BUILDING] = (GCallback)spy_request_strike_bld_list,
-  [ACTION_CONQUER_CITY] = (GCallback)simple_action_callback,
-  [ACTION_CONQUER_CITY2] = (GCallback)simple_action_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
-  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)simple_action_callback,
-  [ACTION_SPY_SABOTAGE_UNIT_ESC] = (GCallback)simple_action_callback,
   [ACTION_EXPEL_UNIT] = (GCallback)expel_unit_callback,
   [ACTION_HEAL_UNIT] = (GCallback)heal_unit_callback,
   [ACTION_TRANSPORT_ALIGHT] = (GCallback)transport_alight_callback,
@@ -2088,7 +2084,6 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,
-  [ACTION_BOMBARD] = (GCallback)simple_action_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
@@ -2104,11 +2099,8 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_BASE] = (GCallback)base_callback,
   [ACTION_MINE] = (GCallback)mine_callback,
   [ACTION_IRRIGATE] = (GCallback)irrigate_callback,
-  [ACTION_TRANSPORT_DISEMBARK1] = (GCallback)simple_action_callback,
-  [ACTION_TRANSPORT_DISEMBARK2] = (GCallback)simple_action_callback,
 
   /* Unit acting with no target except itself. */
-  [ACTION_DISBAND_UNIT] = (GCallback)simple_action_callback,
   [ACTION_FORTIFY] = (GCallback)fortify_callback,
   [ACTION_CONVERT] = (GCallback)convert_unit_callback,
 };
@@ -2124,6 +2116,7 @@ static void action_entry(GtkWidget *shl,
 {
   const gchar *label;
   const gchar *tooltip;
+  GCallback cb;
 
   if (get_targeted_action_id(act_id) != ACTION_NONE
       && action_prob_possible(act_probs[
@@ -2134,9 +2127,11 @@ static void action_entry(GtkWidget *shl,
   }
 
   if (af_map[act_id] == NULL) {
-    /* This client doesn't support ordering this action from the
-     * action selection dialog. */
-    return;
+    /* No special call back function needed for this action. */
+    cb = (GCallback)simple_action_callback;
+  } else {
+    /* Special action specific callback function specified. */
+    cb = af_map[act_id];
   }
 
   /* Don't show disabled actions. */
@@ -2152,7 +2147,7 @@ static void action_entry(GtkWidget *shl,
                                 act_probs[act_id]);
 
   action_button_map[act_id] = choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, label, af_map[act_id], GINT_TO_POINTER(act_num),
+  choice_dialog_add(shl, label, cb, GINT_TO_POINTER(act_num),
                     FALSE, tooltip);
 }
 
