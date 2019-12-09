@@ -309,6 +309,80 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
+  User selected an action from the choice dialog that needs details from
+  the server.
+**************************************************************************/
+static void request_action_details_callback(GtkWidget *w, gpointer data)
+{
+  int actor_id, target_id;
+  struct action *paction;
+
+  struct action_data *args = act_sel_dialog_data;
+
+  bool failed = FALSE;
+
+  /* Data */
+  args->act_id = GPOINTER_TO_INT(data);
+  paction = action_by_number(args->act_id);
+
+  /* Actor */
+  fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
+  actor_id = args->actor_unit_id;
+  if (NULL == game_unit_by_number(actor_id)) {
+    /* Probably dead. */
+    failed = TRUE;
+  }
+
+  /* Target */
+  target_id = IDENTITY_NUMBER_ZERO;
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    target_id = args->target_city_id;
+    if (NULL == game_city_by_number(target_id)) {
+      /* Probably destroyed. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNIT:
+    target_id = args->target_unit_id;
+    if (NULL == game_unit_by_number(target_id)) {
+      /* Probably dead. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+    target_id = args->target_tile_id;
+    if (NULL == index_to_tile(&(wld.map), target_id)) {
+      /* TODO: Should this be possible at all? If not: add assertion. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_SELF:
+    target_id = IDENTITY_NUMBER_ZERO;
+    break;
+  case ATK_COUNT:
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    failed = TRUE;
+  }
+
+  /* Send request. */
+  if (!failed) {
+    request_action_details(paction->id, actor_id, target_id);
+  }
+
+  /* Wait for the server's reply before moving on to the next unit that
+   * needs to know what action to take. */
+  is_more_user_input_needed = TRUE;
+
+  /* Clean up. */
+  gtk_widget_destroy(act_sel_dialog);
+  /* No client side follow up questions. */
+  act_sel_dialog_data = NULL;
+  FC_FREE(args);
+}
+
+/**********************************************************************//**
   User selected build city from the choice dialog
 **************************************************************************/
 static void found_city_callback(GtkWidget *w, gpointer data)
@@ -470,27 +544,6 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
 
   /* The user have answered the follow up question. Move on. */
   diplomat_queue_handle_secondary();
-}
-
-/**********************************************************************//**
-  Ask the server how much the bribe is
-**************************************************************************/
-static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_unit_by_number(args->target_unit_id)) {
-    request_action_details(ACTION_SPY_BRIBE_UNIT, args->actor_unit_id,
-                           args->target_unit_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
 }
 
 /**********************************************************************//**
@@ -935,76 +988,6 @@ static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  Requests up-to-date list of improvements, the return of
-  which will trigger the popup_sabotage_dialog() function.
-**************************************************************************/
-static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY,
-                           args->actor_unit_id,
-                           args->target_city_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  Requests up-to-date list of improvements, the return of
-  which will trigger the popup_sabotage_dialog() function.
-  (Escape version)
-**************************************************************************/
-static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_action_details(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
-                           args->actor_unit_id,
-                           args->target_city_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  Requests list of improvements for strike building, the return of which
-  will trigger the popup_sabotage_dialog() function.
-**************************************************************************/
-static void spy_request_strike_bld_list(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_action_details(ACTION_STRIKE_BUILDING,
-                           args->actor_unit_id,
-                           args->target_city_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   Pops-up the Spy sabotage dialog, upon return of list of
   available improvements requested by the above function.
 **************************************************************************/
@@ -1018,48 +1001,6 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                                       actor->id, pcity->id, 0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
-}
-
-/**********************************************************************//**
-  Ask the server how much the revolt is going to cost us
-**************************************************************************/
-static void diplomat_incite_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_action_details(ACTION_SPY_INCITE_CITY, args->actor_unit_id,
-                           args->target_city_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  Ask the server how much the revolt is going to cost us
-**************************************************************************/
-static void spy_incite_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_action_details(ACTION_SPY_INCITE_CITY_ESC, args->actor_unit_id,
-                           args->target_city_id);
-  }
-
-  /* Wait for the server's reply before moving on to the next unit that
-   * needs to know what action to take. */
-  is_more_user_input_needed = TRUE;
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
 }
 
 /**********************************************************************//**
@@ -1388,18 +1329,18 @@ static void act_sel_close_callback(GtkWidget *w,
 static const GCallback af_map[ACTION_COUNT] = {
   /* Unit acting against a city target. */
   [ACTION_SPY_TARGETED_SABOTAGE_CITY] =
-      (GCallback)spy_request_sabotage_list,
+      (GCallback)request_action_details_callback,
   [ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
-      (GCallback)spy_request_sabotage_esc_list,
+      (GCallback)request_action_details_callback,
   [ACTION_SPY_TARGETED_STEAL_TECH] = (GCallback)spy_steal_popup,
   [ACTION_SPY_TARGETED_STEAL_TECH_ESC] = (GCallback)spy_steal_esc_popup,
-  [ACTION_SPY_INCITE_CITY] = (GCallback)diplomat_incite_callback,
-  [ACTION_SPY_INCITE_CITY_ESC] = (GCallback)spy_incite_callback,
+  [ACTION_SPY_INCITE_CITY] = (GCallback)request_action_details_callback,
+  [ACTION_SPY_INCITE_CITY_ESC] = (GCallback)request_action_details_callback,
   [ACTION_UPGRADE_UNIT] = (GCallback)upgrade_callback,
-  [ACTION_STRIKE_BUILDING] = (GCallback)spy_request_strike_bld_list,
+  [ACTION_STRIKE_BUILDING] = (GCallback)request_action_details_callback,
 
   /* Unit acting against a unit target. */
-  [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
+  [ACTION_SPY_BRIBE_UNIT] = (GCallback)request_action_details_callback,
 
   /* Unit acting against all units at a tile. */
   /* No special callback functions needed for any unit stack targeted
