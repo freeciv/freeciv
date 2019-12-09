@@ -9,13 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2018.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2019.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-03-18 03:26+0500\n"
-"PO-Revision-Date: 2018-03-18 01:02+0500\n"
+"POT-Creation-Date: 2019-12-09 13:43+0500\n"
+"PO-Revision-Date: 2019-12-09 10:12+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -27,9 +28,14 @@ msgstr ""
 "X-Poedit-Language: Russian\n"
 "X-Generator: Lokalize 2.0\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/req_edit.cpp:130
 msgid "Close"
 msgstr "Закрыть"
+
+#: tools/ruledit/conversion_log.cpp:46
+msgid "Old ruleset to a new format"
+msgstr "Преобразование набора в новый формат"
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -73,7 +79,7 @@ msgstr "В одно время можно редактировать тольк�
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:123
+#: tools/ruledit/ruledit_qt.cpp:125
 #, c-format
 msgid ""
 "%s%s\n"
@@ -82,75 +88,75 @@ msgstr ""
 "%s%s\n"
 "commit: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:134
+#: tools/ruledit/ruledit_qt.cpp:136
 msgid "Give ruleset to use as starting point."
 msgstr "Выберите набор правил, который будет стартовым."
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Начать редактирование"
 
-#: tools/ruledit/ruledit_qt.cpp:156
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Параметры"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Открытия"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
 msgstr "Соединения"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Goods"
 msgstr "Товары"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Enablers"
 msgstr "Действия"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Nations"
 msgstr "Народы"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Welcome to freeciv-ruledit"
 msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:215
 msgid "Ruleset loaded"
 msgstr "Набор правил загружен"
 
-#: tools/ruledit/ruledit_qt.cpp:224
+#: tools/ruledit/ruledit_qt.cpp:236
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:303
+#: tools/ruledit/ruledit_qt.cpp:315
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:319
+#: tools/ruledit/ruledit_qt.cpp:331
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:323
+#: tools/ruledit/ruledit_qt.cpp:335
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -200,19 +206,19 @@ msgstr "Добавить Включатель"
 msgid "Remove this Enabler"
 msgstr "Удалить этот Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:238
+#: tools/ruledit/tab_enablers.cpp:240
 msgid "Obligatory hard requirements"
 msgstr "Жёсткие обязательные требования"
 
-#: tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:243
 msgid "Changing action to %1 will modify enabler requirements. Continue?"
 msgstr "Смена действия на %1 изменит требования включателя. Продолжить?"
 
-#: tools/ruledit/tab_enablers.cpp:275
+#: tools/ruledit/tab_enablers.cpp:277
 msgid "Enabler (target)"
 msgstr "Действие (цель)"
 
-#: tools/ruledit/tab_enablers.cpp:286
+#: tools/ruledit/tab_enablers.cpp:288
 msgid "Enabler (actor)"
 msgstr "Деятель"
 
@@ -400,22 +406,22 @@ msgstr "Добавить Требование"
 msgid "Delete Requirement"
 msgstr "Удалить Требование"
 
-#: tools/ruledit/validity.c:65
+#: tools/ruledit/validity.c:50
 msgid "Effect"
 msgstr "Эффект"
 
-#: tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:122
 msgid "Action Enabler"
 msgstr "Включатель Действия"
 
-#: tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:142
 msgid "Music Style"
 msgstr "Стиль музыки"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:256
 msgid "Conflicting extra"
 msgstr "Конфликтующее сооружение"
 
-#: tools/ruledit/validity.c:271
+#: tools/ruledit/validity.c:259
 msgid "Hidden extra"
 msgstr "Скрытое сооружение"
