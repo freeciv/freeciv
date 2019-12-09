@@ -230,6 +230,85 @@ static action_id get_targeted_action_id(action_id non_tgt_action_id)
 }
 
 /**********************************************************************//**
+  User selected an action from the choice dialog and the action has no
+  special needs.
+**************************************************************************/
+static void simple_action_callback(GtkWidget *w, gpointer data)
+{
+  int actor_id, target_id, sub_target;
+  struct action *paction;
+
+  struct action_data *args = act_sel_dialog_data;
+
+  bool failed = FALSE;
+
+  /* Data */
+  args->act_id = GPOINTER_TO_INT(data);
+  paction = action_by_number(args->act_id);
+
+  /* Actor */
+  fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
+  actor_id = args->actor_unit_id;
+  if (NULL == game_unit_by_number(actor_id)) {
+    /* Probably dead. */
+    failed = TRUE;
+  }
+
+  /* Target */
+  target_id = IDENTITY_NUMBER_ZERO;
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    target_id = args->target_city_id;
+    if (NULL == game_city_by_number(target_id)) {
+      /* Probably destroyed. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNIT:
+    target_id = args->target_unit_id;
+    if (NULL == game_unit_by_number(target_id)) {
+      /* Probably dead. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+    target_id = args->target_tile_id;
+    if (NULL == index_to_tile(&(wld.map), target_id)) {
+      /* TODO: Should this be possible at all? If not: add assertion. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_SELF:
+    target_id = IDENTITY_NUMBER_ZERO;
+    break;
+  case ATK_COUNT:
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    failed = TRUE;
+  }
+
+  /* Sub target. */
+  if (paction->target_complexity == ACT_TGT_COMPL_SIMPLE) {
+    sub_target = IDENTITY_NUMBER_ZERO;
+  } else {
+    /* Sub targets aren't validated yet. */
+    fc_assert(paction->target_complexity == ACT_TGT_COMPL_SIMPLE);
+    sub_target = args->value;
+  }
+
+  /* Send request. */
+  if (!failed) {
+    request_do_action(paction->id, actor_id, target_id, sub_target, "");
+  }
+
+  /* Clean up. */
+  gtk_widget_destroy(act_sel_dialog);
+  /* No follow up questions. */
+  act_sel_dialog_data = NULL;
+  FC_FREE(args);
+}
+
+/**********************************************************************//**
   User selected build city from the choice dialog
 **************************************************************************/
 static void found_city_callback(GtkWidget *w, gpointer data)
@@ -591,40 +670,6 @@ static void airlift_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected "Conquer City" from choice dialog.
-**************************************************************************/
-static void conquer_city_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_do_action(ACTION_CONQUER_CITY, args->actor_unit_id,
-                      args->target_city_id, 0, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Conquer City 2" from choice dialog.
-**************************************************************************/
-static void conquer_city2_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != game_city_by_number(args->target_city_id)) {
-    request_do_action(ACTION_CONQUER_CITY2, args->actor_unit_id,
-                      args->target_city_id, 0, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   Returns a string with how many shields remains of the current production.
   This is useful as custom information on the help build wonder button.
 **************************************************************************/
@@ -789,34 +834,6 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected unit sabotaging from choice dialog
-**************************************************************************/
-static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  request_do_action(ACTION_SPY_SABOTAGE_UNIT, args->actor_unit_id,
-                    args->target_unit_id, 0, "");
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Sabotage Unit Escape" from choice dialog
-**************************************************************************/
-static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  request_do_action(ACTION_SPY_SABOTAGE_UNIT_ESC, args->actor_unit_id,
-                    args->target_unit_id, 0, "");
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   User selected "Transport Board" from choice dialog
 **************************************************************************/
 static void transport_board_callback(GtkWidget *w, gpointer data)
@@ -873,40 +890,6 @@ static void transport_alight_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected "Transport Disembark" from the choice dialog
-**************************************************************************/
-static void disembark1_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK1, args->actor_unit_id,
-                      args->target_tile_id, 0, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Transport Disembark 2" from the choice dialog
-**************************************************************************/
-static void disembark2_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
-    request_do_action(ACTION_TRANSPORT_DISEMBARK2, args->actor_unit_id,
-                      args->target_tile_id, 0, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   User selected "Heal Unit" from choice dialog
 **************************************************************************/
 static void heal_unit_callback(GtkWidget *w, gpointer data)
@@ -949,20 +932,6 @@ static void expel_unit_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected disband unit from choice dialog
-**************************************************************************/
-static void disband_unit_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  request_do_action(ACTION_DISBAND_UNIT, args->actor_unit_id,
-                    args->target_unit_id, 0, "");
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   User selected "Fortify" from choice dialog
 **************************************************************************/
 static void fortify_callback(GtkWidget *w, gpointer data)
@@ -985,20 +954,6 @@ static void convert_unit_callback(GtkWidget *w, gpointer data)
 
   request_do_action(ACTION_CONVERT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected bombard from choice dialog
-**************************************************************************/
-static void bombard_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  request_do_action(ACTION_BOMBARD, args->actor_unit_id,
-                    args->target_tile_id, 0, "");
 
   gtk_widget_destroy(act_sel_dialog);
   free(args);
@@ -2117,13 +2072,13 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_UPGRADE_UNIT] = (GCallback)upgrade_callback,
   [ACTION_AIRLIFT] = (GCallback)airlift_callback,
   [ACTION_STRIKE_BUILDING] = (GCallback)spy_request_strike_bld_list,
-  [ACTION_CONQUER_CITY] = (GCallback)conquer_city_callback,
-  [ACTION_CONQUER_CITY2] = (GCallback)conquer_city2_callback,
+  [ACTION_CONQUER_CITY] = (GCallback)simple_action_callback,
+  [ACTION_CONQUER_CITY2] = (GCallback)simple_action_callback,
 
   /* Unit acting against a unit target. */
   [ACTION_SPY_BRIBE_UNIT] = (GCallback)diplomat_bribe_callback,
-  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)spy_sabotage_unit_callback,
-  [ACTION_SPY_SABOTAGE_UNIT_ESC] = (GCallback)spy_sabotage_unit_esc_callback,
+  [ACTION_SPY_SABOTAGE_UNIT] = (GCallback)simple_action_callback,
+  [ACTION_SPY_SABOTAGE_UNIT_ESC] = (GCallback)simple_action_callback,
   [ACTION_EXPEL_UNIT] = (GCallback)expel_unit_callback,
   [ACTION_HEAL_UNIT] = (GCallback)heal_unit_callback,
   [ACTION_TRANSPORT_ALIGHT] = (GCallback)transport_alight_callback,
@@ -2133,7 +2088,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against all units at a tile. */
   [ACTION_CAPTURE_UNITS] = (GCallback)capture_units_callback,
-  [ACTION_BOMBARD] = (GCallback)bombard_callback,
+  [ACTION_BOMBARD] = (GCallback)simple_action_callback,
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
@@ -2149,11 +2104,11 @@ static const GCallback af_map[ACTION_COUNT] = {
   [ACTION_BASE] = (GCallback)base_callback,
   [ACTION_MINE] = (GCallback)mine_callback,
   [ACTION_IRRIGATE] = (GCallback)irrigate_callback,
-  [ACTION_TRANSPORT_DISEMBARK1] = (GCallback)disembark1_callback,
-  [ACTION_TRANSPORT_DISEMBARK2] = (GCallback)disembark2_callback,
+  [ACTION_TRANSPORT_DISEMBARK1] = (GCallback)simple_action_callback,
+  [ACTION_TRANSPORT_DISEMBARK2] = (GCallback)simple_action_callback,
 
   /* Unit acting with no target except itself. */
-  [ACTION_DISBAND_UNIT] = (GCallback)disband_unit_callback,
+  [ACTION_DISBAND_UNIT] = (GCallback)simple_action_callback,
   [ACTION_FORTIFY] = (GCallback)fortify_callback,
   [ACTION_CONVERT] = (GCallback)convert_unit_callback,
 };
