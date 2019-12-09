@@ -9,13 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2018.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2019.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-03 11:08+0000\n"
-"PO-Revision-Date: 2018-03-17 03:38+0500\n"
+"POT-Creation-Date: 2019-12-09 13:21+0500\n"
+"PO-Revision-Date: 2019-12-09 13:14+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -340,7 +341,7 @@ msgid ""
 msgstr ""
 "Султанат Ачех располагался на западной оконечности острова Суматра и в "
 "течение XVI—XVII веков был серьёзной региональной силой, контролировавшей "
-"большую часть торговли через Малакский пролив. Ачех был порабощён "
+"бóльшую часть торговли через Малакский пролив. Ачех был порабощён "
 "голландцами после серии кровопролитных Ачехских войн 1873—1903 гг."
 
 #: data/nation/acehnese.ruleset:27 data/nation/bruneian.ruleset:24
@@ -988,8 +989,7 @@ msgstr "Бейлиф %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -1009,13 +1009,13 @@ msgstr "Бейлиф %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Епископ %s"
@@ -4076,7 +4076,7 @@ msgid ""
 msgstr ""
 "Команчи (или Нумуну) — этническая группа коренных американцев, чья "
 "историческая область обитания включала в себя восток Нью-Мексико, юг "
-"Колорадо, северо-восток Аризоны, юг Канзаса, Оклахому и большую часть северо-"
+"Колорадо, северо-восток Аризоны, юг Канзаса, Оклахому и бóльшую часть северо-"
 "западного Техаса."
 
 #: data/nation/comorian.ruleset:3
@@ -4210,7 +4210,7 @@ msgid ""
 msgstr ""
 "Демократическая Республика Конго (ДР Конго, столица — Киншаса) — большая "
 "центральноафриканская страна (не путайте с Конго, столица Браззавилль). "
-"Благодаря (или назло) богатству природными ресурсами, страна большую часть "
+"Благодаря (или назло) богатству природными ресурсами, страна бóльшую часть "
 "современной истории пролежала в руинах. В 1885 году Конго была подарена в "
 "качестве личного владения, Свободного Государства Конго, Леопользу II, "
 "королю Бельгии, который превратил её в бойню. Как минимум 20% населения "
@@ -4255,7 +4255,7 @@ msgid ""
 "Genoa sold its claim to France, after which a French invasion force defeated "
 "the Corsicans and Corsica was incorporated into France."
 msgstr ""
-"Большую часть своей истории средиземноморский остров Корсика принадлежал "
+"Бóльшую часть своей истории средиземноморский остров Корсика принадлежал "
 "разным странам. Греки, этруски, римляне, вандалы, вестготы, византийцы, "
 "сарацины, ломбардийцы, паписты и генуэзцы в разное время устанавливали на "
 "острове свою власть. XVIII век увидел войну за независимость, вдохновлённую "
@@ -4341,7 +4341,7 @@ msgid ""
 msgstr ""
 "Кри — наибольшая народность коренных жителей Канады, насчитывающая более 200 "
 "тысяч человек и говорящая на алгонкинском языке и называющая себя «иинуу», "
-"что означает «люди». Изначально индейцы-кри населяли большую часть "
+"что означает «люди». Изначально индейцы-кри населяли бóльшую часть "
 "современных провинций Квебек, Лабрадор, Альберта, Саскачеван, Онтарио и "
 "Манитоба."
 
@@ -6082,10 +6082,10 @@ msgid ""
 "brutal civil wars of the 20th century until a peace agreement was signed in "
 "1996."
 msgstr ""
-"Сердце древней страны майя, Гватемала была завоёвана испанцами в XVI веке. "
+"Сердце древней страны майя, Гватемала, была завоёвана испанцами в XVI веке. "
 "Она стала независимой в 1821 году, но оставалась частью конфедерации "
 "государств Центральной Америки до её распада в 1840 году. Страна пребывала в "
-"политическом беспорядке большую часть своей истории и пережила одну из самых "
+"политическом беспорядке бóльшую часть своей истории и пережила одну из самых "
 "жестоких гражданских войн XX века, закончившуюся подписанием мирного "
 "договора только в 1996 году."
 
@@ -7503,7 +7503,7 @@ msgstr ""
 "Александра Македонского — переняв его у завоёванного ими Греко-бактрийского "
 "царства; основной религией страны был буддизм. В период расцвета Кушанская "
 "империя была одной из крупнейших мировых держав, охватывающей значительную "
-"часть Средней Азии, территорию современного Афганистана, большую часть "
+"часть Средней Азии, территорию современного Афганистана, бóльшую часть "
 "Пакистана и север Индии. Кушаны имели торговые и дипломатические отношения с "
 "Римом и Ханьским Китаем. В IV веке ослабевшее царство было завоёвано "
 "персидской династией Сасанидов, а в V веке остатки кушанского мира были "
@@ -8995,7 +8995,7 @@ msgstr ""
 "Великая Моравия была уничтожена в результате венгерского вторжения из "
 "восточных степей. После поражения мадьяр от Священной Римской Империи, "
 "Моравия была преобразована в княжество, бывшее в личной унии с Богемией "
-"большую часть своей истории."
+"бóльшую часть своей истории."
 
 #: data/nation/mordvin.ruleset:3
 msgid "Mordvin"
@@ -9937,8 +9937,8 @@ msgstr ""
 "В начале XIV века Осман, лидер небольшого тюркского племени в западной "
 "Анатолии, завоевал все соседние племена. Столетие спустя Византийская "
 "Империя пала под турецким натиском, и это открыло доступ Османской империи в "
-"Европу. Османы завоевали большую часть юго-восточной Европы, весь исламский "
-"арабский мир, а также Египет и большую часть Северной Африки. Османская "
+"Европу. Османы завоевали бóльшую часть юго-восточной Европы, весь исламский "
+"арабский мир, а также Египет и бóльшую часть Северной Африки. Османская "
 "Империя, крупнейшая держава этого региона, распалась после Первой Мировой "
 "войны."
 
@@ -10898,7 +10898,7 @@ msgid ""
 "and Sahrawi Polisario rebels have been fighting each other since 1975."
 msgstr ""
 "Сахрави (дословно «люди из пустыни») — жители Западной Сахары, бывшей "
-"испанской колонии. В настоящее время большую часть территории страны "
+"испанской колонии. В настоящее время бóльшую часть территории страны "
 "контролирует Марокко, но международным сообществом это расценивается как "
 "незаконная оккупация. Боевые действия между марокканской армией и "
 "национальным фронтом Полисарио ведутся с перерывами начиная с 1975 года."
@@ -11614,7 +11614,7 @@ msgid ""
 msgstr ""
 "Шаны — народность в Юго-Восточной Азии, родственная лаосцам. В 1287 году, "
 "после падения под ударами монголов контролировавшегося Бирмой Королевства "
-"Баган, государства шанов контролировали большую часть территории современных "
+"Баган, государства шанов контролировали бóльшую часть территории современных "
 "Мьянмы, Лаоса, Таиланда, а также китайской провинции Юньнань."
 
 #: data/nation/shawnee.ruleset:3
@@ -12219,7 +12219,7 @@ msgstr "Свевы"
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
-"included the Germanic tribes from the the Elbe river basin belonging to the "
+"included the Germanic tribes from the Elbe river basin belonging to the "
 "Herminonic language group, such as the Marcomanni and Quadi. Between the "
 "first and fourth centuries CE they were a threat to Rome, often encroaching "
 "on the Danube provinces of the empire. In 405-406 CE the Suebians were "
@@ -12230,11 +12230,11 @@ msgid ""
 "CE."
 msgstr ""
 "Свевы (свебы) — собирательное название населения полиэтничной Восточной "
-"Германии, занимавшего в I в. до н.э. — II веке н.э. территорию от Эльбы, до "
-"верхнего Рейна. В 58 году до н.э. римский полководец Юлий Цезарь нанёс "
+"Германии, занимавшего в I в. до н.э. — II веке н.э. бассейн верхнего Рейна "
+"вплоть до Эльбы. В 58 году до н.э. римский полководец Юлий Цезарь нанёс "
 "поражение свевам во главе с Ариовистом, перешедшим около 71 до н.э. Рейн и "
-"пытавшимся обосноваться в юго-восточной части Галлии. В течение I—IV вв. н."
-"э. свевы были непрерывной угрозой Риму, неоднократно набегая на придунайские "
+"пытавшимся обосноваться в юго-восточной части Галлии. В течение I—IV веков "
+"свевы были непрерывной угрозой Риму, неоднократно набегая на придунайские "
 "провинции империи. Зимой 405—406 гг. под натиском гуннов свевы вместе с "
 "вандалами и аланами были вынуждены оставить свои земли — перейдя замёрзший "
 "Рейн, они вышли из-под удара. В дальнейшем свевы мигрировали на северо-"
