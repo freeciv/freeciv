@@ -45,6 +45,19 @@ extern "C" {
 #include "specenum_gen.h"
 
 /* Values used in the network protocol. */
+#define SPECENUM_NAME action_sub_target_kind
+#define SPECENUM_VALUE0 ASTK_NONE
+#define SPECENUM_VALUE0NAME N_("nothing")
+#define SPECENUM_VALUE1 ASTK_BUILDING
+#define SPECENUM_VALUE1NAME N_("buildings in")
+#define SPECENUM_VALUE2 ASTK_TECH
+#define SPECENUM_VALUE2NAME N_("techs from")
+#define SPECENUM_VALUE3 ASTK_EXTRA
+#define SPECENUM_VALUE3NAME N_("extras on")
+#define SPECENUM_COUNT ASTK_COUNT
+#include "specenum_gen.h"
+
+/* Values used in the network protocol. */
 /* Names used in file formats but not normally shown to users. */
 #define SPECENUM_NAME gen_action
 #define SPECENUM_VALUE0 ACTION_ESTABLISH_EMBASSY
@@ -257,6 +270,7 @@ struct action
   action_id id;
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
+  enum action_sub_target_kind sub_target_kind;
 
   bool hostile; /* TODO: Should this be a scale in stead? */
 
@@ -447,6 +461,10 @@ enum action_target_kind action_get_target_kind(
     const struct action *paction);
 #define action_id_get_target_kind(act_id)                                 \
   action_get_target_kind(action_by_number(act_id))
+enum action_sub_target_kind action_get_sub_target_kind(
+    const struct action *paction);
+#define action_id_get_sub_target_kind(act_id)                             \
+  action_get_sub_target_kind(action_by_number(act_id))
 
 enum action_battle_kind action_get_battle_kind(const struct action *pact);
 

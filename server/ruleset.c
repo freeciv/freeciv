@@ -7713,6 +7713,7 @@ static void send_ruleset_actions(struct conn_list *dest)
 
     packet.act_kind = action_by_number(act)->actor_kind;
     packet.tgt_kind = action_by_number(act)->target_kind;
+    packet.sub_tgt_kind = action_id_get_sub_target_kind(act);
 
     packet.min_distance = action_by_number(act)->min_distance;
     packet.max_distance = action_by_number(act)->max_distance;

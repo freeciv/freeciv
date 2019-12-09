@@ -249,6 +249,7 @@ type ACTION_AUTO_CAUSE  = uint8(enum action_auto_perf_cause)
 type ACTION_DECISION    = uint8(enum action_decision)
 type ACTOR_KIND         = uint8(enum action_actor_kind)
 type TARGET_KIND        = uint8(enum action_target_kind)
+type SUB_TARGET_KIND    = uint8(enum action_sub_target_kind)
 type UNIT_DATA_TYPE     = uint8(enum unit_ss_data_type)
 type REVOLENTYPE        = uint8(enum revolen_type)
 type HAPPYBORDERSTYPE   = uint8(enum happyborders_type)
@@ -1802,6 +1803,7 @@ PACKET_RULESET_ACTION = 246; sc, lsend
 
   ACTOR_KIND  act_kind;
   TARGET_KIND tgt_kind;
+  SUB_TARGET_KIND sub_tgt_kind;
 
   SINT32 min_distance;
   SINT32 max_distance;

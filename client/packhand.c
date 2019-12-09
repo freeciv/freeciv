@@ -4108,6 +4108,7 @@ void handle_ruleset_action(const struct packet_ruleset_action *p)
 
   act->actor_kind  = p->act_kind;
   act->target_kind = p->tgt_kind;
+  act->sub_target_kind = p->sub_tgt_kind;
 
   act->min_distance = p->min_distance;
   act->max_distance = p->max_distance;
