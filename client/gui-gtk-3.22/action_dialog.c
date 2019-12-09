@@ -87,6 +87,9 @@ struct action_data {
   int value;
 };
 
+/* TODO: maybe this should be in the dialog itself? */
+static struct action_data *act_sel_dialog_data;
+
 /**********************************************************************//**
   Create a new action data structure that can be stored in the
   dialogs.
@@ -231,7 +234,7 @@ static action_id get_targeted_action_id(action_id non_tgt_action_id)
 **************************************************************************/
 static void found_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   dsend_packet_city_name_suggestion_req(&client.conn,
                                         args->actor_unit_id);
@@ -245,7 +248,7 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void pillage_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -262,7 +265,7 @@ static void pillage_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void road_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
@@ -280,7 +283,7 @@ static void road_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void base_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
@@ -298,7 +301,7 @@ static void base_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void mine_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
@@ -316,7 +319,7 @@ static void mine_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void irrigate_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)
@@ -334,7 +337,7 @@ static void irrigate_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void transform_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -351,7 +354,7 @@ static void transform_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void cultivate_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -368,7 +371,7 @@ static void cultivate_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void plant_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -385,7 +388,7 @@ static void plant_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void nuke_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -402,7 +405,7 @@ static void nuke_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void paradrop_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -419,7 +422,7 @@ static void paradrop_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void attack_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -436,7 +439,7 @@ static void attack_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void suicide_attack_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -453,7 +456,7 @@ static void suicide_attack_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void join_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -470,7 +473,7 @@ static void join_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -487,7 +490,7 @@ static void caravan_marketplace_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -504,7 +507,7 @@ static void caravan_establish_trade_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -521,7 +524,7 @@ static void caravan_help_build_wonder_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void recycle_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_RECYCLE_UNIT, args->actor_unit_id,
                     args->target_city_id, 0, "");
@@ -535,7 +538,7 @@ static void recycle_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void home_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -554,7 +557,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 {
   struct unit *punit;
 
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if ((punit = game_unit_by_number(args->actor_unit_id))
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -575,7 +578,7 @@ static void upgrade_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void airlift_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -592,7 +595,7 @@ static void airlift_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void conquer_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -609,7 +612,7 @@ static void conquer_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void conquer_city2_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -664,7 +667,7 @@ static void bribe_response(GtkWidget *w, gint response, gpointer data)
 **************************************************************************/
 static void diplomat_bribe_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_unit_by_number(args->target_unit_id)) {
@@ -722,7 +725,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
 **************************************************************************/
 static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -739,7 +742,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void diplomat_sabotage_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -756,7 +759,7 @@ static void diplomat_sabotage_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_investigate_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_city_by_number(args->target_city_id)
       && NULL != game_unit_by_number(args->actor_unit_id)) {
@@ -773,7 +776,7 @@ static void spy_investigate_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_city_by_number(args->target_city_id)
       && NULL != game_unit_by_number(args->actor_unit_id)) {
@@ -790,7 +793,7 @@ static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -804,7 +807,7 @@ static void spy_sabotage_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_SPY_SABOTAGE_UNIT_ESC, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -818,7 +821,7 @@ static void spy_sabotage_unit_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void transport_board_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_TRANSPORT_BOARD, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -832,7 +835,7 @@ static void transport_board_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void embark_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_TRANSPORT_EMBARK, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -846,7 +849,7 @@ static void embark_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void transport_unload_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_TRANSPORT_UNLOAD, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -860,7 +863,7 @@ static void transport_unload_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void transport_alight_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_TRANSPORT_ALIGHT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -874,7 +877,7 @@ static void transport_alight_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void disembark1_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -891,7 +894,7 @@ static void disembark1_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void disembark2_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
@@ -908,7 +911,7 @@ static void disembark2_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void heal_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_HEAL_UNIT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -922,7 +925,7 @@ static void heal_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void capture_units_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_CAPTURE_UNITS, args->actor_unit_id,
                     args->target_tile_id, 0, "");
@@ -936,7 +939,7 @@ static void capture_units_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void expel_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_EXPEL_UNIT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -950,7 +953,7 @@ static void expel_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void disband_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_DISBAND_UNIT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -964,7 +967,7 @@ static void disband_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void fortify_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_FORTIFY, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -978,7 +981,7 @@ static void fortify_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void convert_unit_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_CONVERT, args->actor_unit_id,
                     args->target_unit_id, 0, "");
@@ -992,7 +995,7 @@ static void convert_unit_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void bombard_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   request_do_action(ACTION_BOMBARD, args->actor_unit_id,
                     args->target_tile_id, 0, "");
@@ -1006,7 +1009,7 @@ static void bombard_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_embassy_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1023,7 +1026,7 @@ static void spy_embassy_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1040,7 +1043,7 @@ static void diplomat_embassy_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1057,7 +1060,7 @@ static void spy_steal_gold_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_gold_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1074,7 +1077,7 @@ static void spy_steal_gold_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_maps_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1091,7 +1094,7 @@ static void spy_steal_maps_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_maps_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1108,7 +1111,7 @@ static void spy_steal_maps_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_poison_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1125,7 +1128,7 @@ static void spy_poison_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_poison_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1142,7 +1145,7 @@ static void spy_poison_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1159,7 +1162,7 @@ static void spy_nuke_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_nuke_city_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1176,7 +1179,7 @@ static void spy_nuke_city_esc_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void destroy_city_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1193,7 +1196,7 @@ static void destroy_city_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1210,7 +1213,7 @@ static void diplomat_steal_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void diplomat_steal_esc_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1612,8 +1615,8 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
 **************************************************************************/
 static void spy_steal_popup(GtkWidget *w, gpointer data)
 {
-  ((struct action_data *)data)->act_id = ACTION_SPY_TARGETED_STEAL_TECH;
-  spy_steal_popup_shared(w, data);
+  act_sel_dialog_data->act_id = ACTION_SPY_TARGETED_STEAL_TECH;
+  spy_steal_popup_shared(w, act_sel_dialog_data);
 }
 
 /**********************************************************************//**
@@ -1622,8 +1625,8 @@ static void spy_steal_popup(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 {
-  ((struct action_data *)data)->act_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
-  spy_steal_popup_shared(w, data);
+  act_sel_dialog_data->act_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
+  spy_steal_popup_shared(w, act_sel_dialog_data);
 }
 
 /**********************************************************************//**
@@ -1632,7 +1635,7 @@ static void spy_steal_esc_popup(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1656,7 +1659,7 @@ static void spy_request_sabotage_list(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1679,7 +1682,7 @@ static void spy_request_sabotage_esc_list(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_request_strike_bld_list(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1717,7 +1720,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 **************************************************************************/
 static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1738,7 +1741,7 @@ static void diplomat_incite_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void spy_incite_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   if (NULL != game_unit_by_number(args->actor_unit_id)
       && NULL != game_city_by_number(args->target_city_id)) {
@@ -1866,7 +1869,7 @@ static void tgt_unit_change_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void act_sel_new_unit_tgt_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   struct unit *punit;
   struct unit *tunit;
@@ -1937,7 +1940,7 @@ static void tgt_extra_change_callback(GtkWidget *dlg, gint arg)
 **************************************************************************/
 static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   struct unit *act_unit;
   struct extra_type *tgt_extra;
@@ -2000,7 +2003,7 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void act_sel_location_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   struct unit *punit;
 
@@ -2016,7 +2019,7 @@ static void act_sel_location_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   struct unit *punit;
   struct tile *ptile;
@@ -2036,7 +2039,7 @@ static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void act_sel_wait_callback(GtkWidget *w, gpointer data)
 {
-  struct action_data *args = (struct action_data *)data;
+  struct action_data *args = act_sel_dialog_data;
 
   key_unit_wait();
 
@@ -2061,7 +2064,7 @@ static void act_sel_destroy_callback(GtkWidget *w, gpointer data)
 static void act_sel_cancel_callback(GtkWidget *w, gpointer data)
 {
   gtk_widget_destroy(act_sel_dialog);
-  free(data);
+  free(act_sel_dialog_data);
 }
 
 /**********************************************************************//**
@@ -2072,7 +2075,7 @@ static void act_sel_close_callback(GtkWidget *w,
                                    gpointer data)
 {
   gtk_widget_destroy(act_sel_dialog);
-  free(data);
+  free(act_sel_dialog_data);
 }
 
 /* Mapping from an action to the function to call when its button is
@@ -2162,7 +2165,7 @@ static void action_entry(GtkWidget *shl,
                          action_id act_id,
                          const struct act_prob *act_probs,
                          const gchar *custom,
-                         struct action_data *handler_args)
+                         action_id act_num)
 {
   const gchar *label;
   const gchar *tooltip;
@@ -2194,7 +2197,7 @@ static void action_entry(GtkWidget *shl,
                                 act_probs[act_id]);
 
   action_button_map[act_id] = choice_dialog_get_number_of_buttons(shl);
-  choice_dialog_add(shl, label, af_map[act_id], handler_args,
+  choice_dialog_add(shl, label, af_map[act_id], GINT_TO_POINTER(act_num),
                     FALSE, tooltip);
 }
 
@@ -2205,7 +2208,7 @@ static void action_entry_update(GtkWidget *shl,
                                 action_id act_id,
                                 const struct act_prob *act_probs,
                                 const gchar *custom,
-                                struct action_data *handler_args)
+                                action_id act_num)
 {
   const gchar *label;
   const gchar *tooltip;
@@ -2248,7 +2251,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   int button_id;
 
-  struct action_data *data =
+  act_sel_dialog_data =
       act_data(ACTION_ANY, /* Not decided yet */
                actor_unit->id,
                (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
@@ -2332,7 +2335,7 @@ void popup_action_selection(struct unit *actor_unit,
       action_entry(shl, act, act_probs,
                    act == ACTION_HELP_WONDER ?
                      city_prod_remaining(target_city) : NULL,
-                   data);
+                   act);
     }
   } action_iterate_end;
 
@@ -2341,7 +2344,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs, NULL, act);
     }
   } action_iterate_end;
 
@@ -2350,7 +2353,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNITS) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs, NULL, act);
     }
   } action_iterate_end;
 
@@ -2359,7 +2362,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs, NULL, act);
     }
   } action_iterate_end;
 
@@ -2368,7 +2371,7 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs, NULL, act);
     }
   } action_iterate_end;
 
@@ -2378,7 +2381,7 @@ void popup_action_selection(struct unit *actor_unit,
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("_Keep moving"),
                       (GCallback)act_sel_keep_moving_callback,
-                      data, FALSE, NULL);
+                      GINT_TO_POINTER(ACTION_NONE), FALSE, NULL);
   }
 
   if (target_unit != NULL
@@ -2387,7 +2390,7 @@ void popup_action_selection(struct unit *actor_unit,
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Change unit target"),
                       (GCallback)act_sel_new_unit_tgt_callback,
-                      data, TRUE, NULL);
+                      GINT_TO_POINTER(ACTION_NONE), TRUE, NULL);
   }
 
   if (target_extra != NULL) {
@@ -2395,25 +2398,28 @@ void popup_action_selection(struct unit *actor_unit,
         choice_dialog_get_number_of_buttons(shl);
     choice_dialog_add(shl, _("Change extra target"),
                       (GCallback)act_sel_new_extra_tgt_callback,
-                      data, TRUE, NULL);
+                      GINT_TO_POINTER(ACTION_NONE), TRUE, NULL);
   }
 
   action_button_map[BUTTON_LOCATION] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("Show Location"),
-                    (GCallback)act_sel_location_callback, data,
+                    (GCallback)act_sel_location_callback,
+                    GINT_TO_POINTER(ACTION_NONE),
                     TRUE, NULL);
 
   action_button_map[BUTTON_WAIT] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("_Wait"),
-                    (GCallback)act_sel_wait_callback, data,
+                    (GCallback)act_sel_wait_callback,
+                    GINT_TO_POINTER(ACTION_NONE),
                     TRUE, NULL);
 
   action_button_map[BUTTON_CANCEL] =
       choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, _("_Cancel"),
-                    (GCallback)act_sel_cancel_callback, data,
+                    (GCallback)act_sel_cancel_callback,
+                    GINT_TO_POINTER(ACTION_NONE),
                     FALSE, NULL);
 
   choice_dialog_end(shl);
@@ -2424,7 +2430,8 @@ void popup_action_selection(struct unit *actor_unit,
   g_signal_connect(shl, "destroy",
                    G_CALLBACK(act_sel_destroy_callback), NULL);
   g_signal_connect(shl, "delete_event",
-                   G_CALLBACK(act_sel_close_callback), data);
+                   G_CALLBACK(act_sel_close_callback),
+                   GINT_TO_POINTER(ACTION_NONE));
 
   /* Give follow up questions access to action probabilities. */
   client_unit_init_act_prob_cache(actor_unit);
@@ -2518,8 +2525,6 @@ void action_selection_refresh(struct unit *actor_unit,
                               struct extra_type *target_extra,
                               const struct act_prob *act_probs)
 {
-  struct action_data *data;
-
   if (act_sel_dialog == NULL) {
     fc_assert_msg(act_sel_dialog != NULL,
                   "The action selection dialog should have been open");
@@ -2532,12 +2537,19 @@ void action_selection_refresh(struct unit *actor_unit,
     return;
   }
 
-  data = act_data(ACTION_ANY, /* Not decided yet */
-                  actor_unit->id,
-                  (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
-                  (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
-                  (target_tile) ? target_tile->index : TILE_INDEX_NONE,
-                  target_extra ? target_extra->id : EXTRA_NONE);
+  /* A new target may have appeared. */
+  if (target_city) {
+    act_sel_dialog_data->target_city_id = target_city->id;
+  }
+  if (target_unit) {
+    act_sel_dialog_data->target_unit_id = target_unit->id;
+  }
+  if (target_tile) {
+    act_sel_dialog_data->target_tile_id = target_tile->index;
+  }
+  if (target_extra) {
+    act_sel_dialog_data->value = target_extra->id;
+  }
 
   action_iterate(act) {
     const gchar *custom;
@@ -2557,10 +2569,10 @@ void action_selection_refresh(struct unit *actor_unit,
 
     if (BUTTON_NOT_THERE == action_button_map[act]) {
       /* Add the button (unless its probability is 0). */
-      action_entry(act_sel_dialog, act, act_probs, custom, data);
+      action_entry(act_sel_dialog, act, act_probs, custom, act);
     } else {
       /* Update the existing button. */
-      action_entry_update(act_sel_dialog, act, act_probs, custom, data);
+      action_entry_update(act_sel_dialog, act, act_probs, custom, act);
     }
   } action_iterate_end;
 
