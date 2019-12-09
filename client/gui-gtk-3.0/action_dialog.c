@@ -84,7 +84,9 @@ struct action_data {
   int target_city_id;
   int target_unit_id;
   int target_tile_id;
-  int value;
+  int target_building_id;
+  int target_tech_id;
+  int target_extra_id;
 };
 
 /* TODO: maybe this should be in the dialog itself? */
@@ -99,7 +101,9 @@ static struct action_data *act_data(action_id act_id,
                                     int target_city_id,
                                     int target_unit_id,
                                     int target_tile_id,
-                                    int value)
+                                    int target_building_id,
+                                    int target_tech_id,
+                                    int tgt_extra_id)
 {
   struct action_data *data = fc_malloc(sizeof(*data));
 
@@ -108,7 +112,9 @@ static struct action_data *act_data(action_id act_id,
   data->target_city_id = target_city_id;
   data->target_unit_id = target_unit_id;
   data->target_tile_id = target_tile_id;
-  data->value = value;
+  data->target_building_id = target_building_id;
+  data->target_tech_id = target_tech_id;
+  data->target_extra_id = tgt_extra_id;
 
   return data;
 }
@@ -288,12 +294,39 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
   }
 
   /* Sub target. */
-  if (paction->target_complexity == ACT_TGT_COMPL_SIMPLE) {
-    sub_target = IDENTITY_NUMBER_ZERO;
-  } else {
-    /* Sub targets aren't validated yet. */
-    fc_assert(paction->target_complexity == ACT_TGT_COMPL_SIMPLE);
-    sub_target = args->value;
+  sub_target = IDENTITY_NUMBER_ZERO;
+  if (paction->target_complexity != ACT_TGT_COMPL_SIMPLE) {
+    switch (action_get_sub_target_kind(paction)) {
+    case ASTK_BUILDING:
+      sub_target = args->target_building_id;
+      /* sub_target encodes current production as -1 */
+      if ((sub_target - 1) != -1
+          && NULL == improvement_by_number(sub_target - 1)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_TECH:
+      sub_target = args->target_tech_id;
+      if (NULL == valid_advance_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_EXTRA:
+      sub_target = args->target_extra_id;
+      if (NULL == extra_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_NONE:
+    case ASTK_COUNT:
+      /* Shouldn't happen. */
+      fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+      failed = TRUE;
+      break;
+    }
   }
 
   /* Send request. */
@@ -397,95 +430,6 @@ static void found_city_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  User selected "Pillage" from the choice dialog
-**************************************************************************/
-static void pillage_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)) {
-    request_do_action(ACTION_PILLAGE, args->actor_unit_id,
-                      args->target_tile_id, args->value, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Road" from the choice dialog
-**************************************************************************/
-static void road_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
-      && NULL != extra_by_number(args->value)) {
-    request_do_action(ACTION_ROAD, args->actor_unit_id,
-                      args->target_tile_id, args->value, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Build Base" from the choice dialog
-**************************************************************************/
-static void base_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
-      && NULL != extra_by_number(args->value)) {
-    request_do_action(ACTION_BASE, args->actor_unit_id,
-                      args->target_tile_id, args->value, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Build Mine" from the choice dialog
-**************************************************************************/
-static void mine_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
-      && NULL != extra_by_number(args->value)) {
-    request_do_action(ACTION_MINE, args->actor_unit_id,
-                      args->target_tile_id, args->value, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
-  User selected "Build Irrigation" from the choice dialog
-**************************************************************************/
-static void irrigate_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  if (NULL != game_unit_by_number(args->actor_unit_id)
-      && NULL != index_to_tile(&(wld.map), args->target_tile_id)
-      && NULL != extra_by_number(args->value)) {
-    request_do_action(ACTION_IRRIGATE, args->actor_unit_id,
-                      args->target_tile_id, args->value, "");
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   User selected "Upgrade Unit" from choice dialog.
 **************************************************************************/
 static void upgrade_callback(GtkWidget *w, gpointer data)
@@ -580,7 +524,9 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(bribe_response),
-                   act_data(paction->id, actor->id, 0, punit->id, 0, cost));
+                   act_data(paction->id, actor->id,
+                            0, punit->id, 0,
+                            0, 0, 0));
 }
 
 /**********************************************************************//**
@@ -591,19 +537,19 @@ static void spy_advances_response(GtkWidget *w, gint response,
 {
   struct action_data *args = (struct action_data *)data;
 
-  if (response == GTK_RESPONSE_ACCEPT && args->value > 0) {
+  if (response == GTK_RESPONSE_ACCEPT && args->target_tech_id > 0) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      if (args->value == A_UNSET) {
+      if (args->target_tech_id == A_UNSET) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(args->act_id),
                           args->actor_unit_id, args->target_city_id,
-                          args->value, "");
+                          args->target_tech_id, "");
       } else {
         /* This is the targeted version. */
         request_do_action(args->act_id,
                           args->actor_unit_id, args->target_city_id,
-                          args->value, "");
+                          args->target_tech_id, "");
       }
     }
   }
@@ -628,12 +574,12 @@ static void spy_advances_callback(GtkTreeSelection *select,
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
-    gtk_tree_model_get(model, &it, 1, &(args->value), -1);
+    gtk_tree_model_get(model, &it, 1, &(args->target_tech_id), -1);
     
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
       GTK_RESPONSE_ACCEPT, TRUE);
   } else {
-    args->value = 0;
+    args->target_tech_id = 0;
 	  
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_tech_shell),
       GTK_RESPONSE_ACCEPT, FALSE);
@@ -762,7 +708,7 @@ static void create_advances_list(struct player *pplayer,
   g_signal_connect(spy_tech_shell, "response",
                    G_CALLBACK(spy_advances_response), args);
   
-  args->value = 0;
+  args->target_tech_id = 0;
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
@@ -774,21 +720,21 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
 {
   struct action_data *args = (struct action_data *)data;
 
-  if (response == GTK_RESPONSE_ACCEPT && args->value > -2) {
+  if (response == GTK_RESPONSE_ACCEPT && args->target_building_id > -2) {
     if (NULL != game_unit_by_number(args->actor_unit_id)
         && NULL != game_city_by_number(args->target_city_id)) {
-      if (args->value == B_LAST) {
+      if (args->target_building_id == B_LAST) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(args->act_id),
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->value + 1, "");
+                          args->target_building_id + 1, "");
       } else {
         /* This is the targeted version. */
         request_do_action(args->act_id,
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->value + 1, "");
+                          args->target_building_id + 1, "");
       }
     }
   }
@@ -812,12 +758,12 @@ static void spy_improvements_callback(GtkTreeSelection *select, gpointer data)
   GtkTreeIter it;
 
   if (gtk_tree_selection_get_selected(select, &model, &it)) {
-    gtk_tree_model_get(model, &it, 1, &(args->value), -1);
+    gtk_tree_model_get(model, &it, 1, &(args->target_building_id), -1);
     
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
       GTK_RESPONSE_ACCEPT, TRUE);
   } else {
-    args->value = -2;
+    args->target_building_id = -2;
 	  
     gtk_dialog_set_response_sensitive(GTK_DIALOG(spy_sabotage_shell),
       GTK_RESPONSE_ACCEPT, FALSE);
@@ -933,7 +879,7 @@ static void create_improvements_list(struct player *pplayer,
   g_signal_connect(spy_sabotage_shell, "response",
                    G_CALLBACK(spy_improvements_response), args);
 
-  args->value = -2;
+  args->target_building_id = -2;
 	  
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
@@ -1004,7 +950,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   if (!spy_sabotage_shell) {
     create_improvements_list(client.conn.playing, pcity,
                              act_data(paction->id,
-                                      actor->id, pcity->id, 0, 0, 0));
+                                      actor->id, pcity->id, 0, 0,
+                                      0, 0, 0));
     gtk_window_present(GTK_WINDOW(spy_sabotage_shell));
   }
 }
@@ -1070,7 +1017,9 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   gtk_window_present(GTK_WINDOW(shell));
   
   g_signal_connect(shell, "response", G_CALLBACK(incite_response),
-                   act_data(paction->id, actor->id, pcity->id, 0, 0, cost));
+                   act_data(paction->id, actor->id,
+                            pcity->id, 0, 0,
+                            0, 0, 0));
 }
 
 /**********************************************************************//**
@@ -1200,7 +1149,7 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
 
   if ((act_unit = game_unit_by_number(args->actor_unit_id))
       && (tgt_tile = index_to_tile(&(wld.map), args->target_tile_id))
-      && (tgt_extra = extra_by_number(args->value))) {
+      && (tgt_extra = extra_by_number(args->target_extra_id))) {
     bv_extras potential_targets;
 
     /* Start with the extras at the tile */
@@ -1354,11 +1303,6 @@ static const GCallback af_map[ACTION_COUNT] = {
 
   /* Unit acting against a tile. */
   [ACTION_FOUND_CITY] = (GCallback)found_city_callback,
-  [ACTION_PILLAGE] = (GCallback)pillage_callback,
-  [ACTION_ROAD] = (GCallback)road_callback,
-  [ACTION_BASE] = (GCallback)base_callback,
-  [ACTION_MINE] = (GCallback)mine_callback,
-  [ACTION_IRRIGATE] = (GCallback)irrigate_callback,
 
   /* Unit acting with no target except itself. */
   /* No special callback functions needed for any self targeted actions. */
@@ -1466,6 +1410,8 @@ void popup_action_selection(struct unit *actor_unit,
                (target_city) ? target_city->id : IDENTITY_NUMBER_ZERO,
                (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                (target_tile) ? target_tile->index : TILE_INDEX_NONE,
+               /* No target_building or target_tech supplied. (Dec 2019) */
+               B_LAST + 1, A_UNSET,
                target_extra ? target_extra->id : EXTRA_NONE);
 
   /* Could be caused by the server failing to reply to a request for more
@@ -1756,8 +1702,9 @@ void action_selection_refresh(struct unit *actor_unit,
   if (target_tile) {
     act_sel_dialog_data->target_tile_id = target_tile->index;
   }
+  /* No target_building or target_tech supplied. (Dec 2019) */
   if (target_extra) {
-    act_sel_dialog_data->value = target_extra->id;
+    act_sel_dialog_data->target_extra_id = target_extra->id;
   }
 
   action_iterate(act) {
