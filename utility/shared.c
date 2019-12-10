@@ -2355,7 +2355,7 @@ static size_t extract_escapes(const char *format, char *escapes,
 {
   static const char format_escapes[] = {
     '*', 'd', 'i', 'o', 'u', 'x', 'X', 'e', 'E', 'f',
-    'F', 'g', 'G', 'a', 'A', 'c', 's', 'p', 'n',
+    'F', 'g', 'G', 'a', 'A', 'c', 's', 'p', 'n', '\0'
   };
   bool reordered = FALSE;
   size_t num = 0;
