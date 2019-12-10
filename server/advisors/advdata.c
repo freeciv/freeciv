@@ -257,9 +257,13 @@ bool is_adv_data_phase_open(struct player *pplayer)
 bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct adv_data *adv = pplayer->server.adv;
-  int i;
-  int nuke_units;
   bool danger_of_nukes;
+  static action_id nuke_actions[] = {
+    /* Conventional nukes */
+    ACTION_NUKE, ACTION_NUKE_CITY, ACTION_NUKE_UNITS,
+    /* TODO: worry about spy nuking too? */
+    ACTION_NONE
+  };
 
   fc_assert_ret_val(adv != NULL, FALSE);
 
@@ -270,7 +274,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
   TIMING_LOG(AIT_AIDATA, TIMER_START);
 
-  nuke_units = num_role_units(action_id_get_role(ACTION_NUKE));
   danger_of_nukes = FALSE;
 
   /*** Threats ***/
@@ -350,20 +353,27 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
 
       /* If he builds nukes, worry a lot. */
-      if (unit_can_do_action(punit, ACTION_NUKE)) {
-        danger_of_nukes = TRUE;
-      }
+      action_list_iterate(nuke_actions, act_id) {
+        if (unit_can_do_action(punit, act_id)) {
+          danger_of_nukes = TRUE;
+        }
+      } action_list_iterate_end;
     } unit_list_iterate_end;
 
     /* Check for nuke capability */
-    for (i = 0; i < nuke_units; i++) {
-      struct unit_type *nuke =
-          get_role_unit(action_id_get_role(ACTION_NUKE), i);
+    action_list_iterate(nuke_actions, act_id) {
+      int i;
+      int nuke_units = num_role_units(action_id_get_role(act_id));
 
-      if (can_player_build_unit_direct(aplayer, nuke)) { 
-        adv->threats.nuclear = 1;
+      for (i = 0; i < nuke_units; i++) {
+        struct unit_type *nuke =
+            get_role_unit(action_id_get_role(act_id), i);
+
+        if (can_player_build_unit_direct(aplayer, nuke)) {
+          adv->threats.nuclear = 1;
+        }
       }
-    }
+    } action_list_iterate_end;
   } players_iterate_end;
 
   /* Increase from fear to terror if opponent actually has nukes */
@@ -894,6 +904,8 @@ void adv_best_government(struct player *pplayer)
           case ACTION_SPY_NUKE:
           case ACTION_SPY_NUKE_ESC:
           case ACTION_NUKE:
+          case ACTION_NUKE_CITY:
+          case ACTION_NUKE_UNITS:
           case ACTION_DESTROY_CITY:
           case ACTION_EXPEL_UNIT:
           case ACTION_STRIKE_BUILDING:

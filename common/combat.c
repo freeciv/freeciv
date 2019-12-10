@@ -125,9 +125,9 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
   /* 1. Can we attack _anything_ ? */
   if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
         || utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)
-        /* Needed because ACTION_NUKE uses this when evaluating its hard
-         * requirements. */
-        || utype_can_do_action(unit_type_get(punit), ACTION_NUKE))) {
+        /* Needed because ACTION_NUKE_UNITS uses this when evaluating its
+         * hard requirements. */
+        || utype_can_do_action(unit_type_get(punit), ACTION_NUKE_UNITS))) {
     return ATT_NON_ATTACK;
   }
 

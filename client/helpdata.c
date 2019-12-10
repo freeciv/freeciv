@@ -1323,17 +1323,30 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   /* (Great wonders are in their own help section explaining their
    * uniqueness, so we don't mention it here.) */
 
-  if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
-      && num_role_units(action_id_get_role(ACTION_NUKE)) > 0) {
-    struct unit_type *u = get_role_unit(action_id_get_role(ACTION_NUKE), 0);
+  if (building_has_effect(pimprove, EFT_ENABLE_NUKE)) {
+    static action_id nuke_actions[] = {
+      /* Manhattan dependent nukes */
+      ACTION_NUKE, ACTION_NUKE_CITY, ACTION_NUKE_UNITS,
+      ACTION_NONE
+    };
+    struct unit_type *u = NULL;
 
-    cat_snprintf(buf, bufsz,
-		 /* TRANS: 'Allows all players with knowledge of atomic
-		  * power to build nuclear units.' */
-		 _("* Allows all players with knowledge of %s "
-		   "to build %s units.\n"),
-                 advance_name_translation(u->require_advance),
-		 utype_name_translation(u));
+    action_list_iterate(nuke_actions, act_id) {
+      if (num_role_units(action_id_get_role(act_id)) > 0) {
+        u = get_role_unit(action_id_get_role(act_id), 0);
+        break;
+      }
+    } action_list_iterate_end;
+
+    if (u) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: 'Allows all players with knowledge of atomic
+                    * power to build nuclear units.' */
+                   _("* Allows all players with knowledge of %s "
+                     "to build %s units.\n"),
+                   advance_name_translation(u->require_advance),
+                   utype_name_translation(u));
+    }
   }
 
   insert_allows(&source, buf + strlen(buf), bufsz - strlen(buf),
@@ -2729,6 +2742,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       case ACTION_SPY_NUKE:
       case ACTION_SPY_NUKE_ESC:
       case ACTION_NUKE:
+      case ACTION_NUKE_CITY:
+      case ACTION_NUKE_UNITS:
         if (game.info.nuke_pop_loss_pct > 0) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: percentage */

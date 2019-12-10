@@ -275,6 +275,15 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
         universal_by_number(VUT_ACTION, ACTION_ATTACK),
         universal_by_number(VUT_ACTION, ACTION_SUICIDE_ATTACK));
 
+    /* "Nuke City" and "Nuke Units" has been split from "Explode Nuclear".
+     * "Explode Nuclear" is now only about exploding at the current tile. */
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_NUKE),
+        universal_by_number(VUT_ACTION, ACTION_NUKE_CITY));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_NUKE),
+        universal_by_number(VUT_ACTION, ACTION_NUKE_UNITS));
+
     if (peffect->type == EFT_ILLEGAL_ACTION_MOVE_COST) {
       /* Boarding a transporter became action enabler controlled in
        * Freeciv 3.1. Old hard coded rules had no punishment for trying to
@@ -564,6 +573,64 @@ void rscompat_postprocess(struct rscompat_info *info)
 
         /* Add after the action was changed. */
         action_enabler_add(enabler);
+      }
+
+      /* "Explode Nuclear"'s adjacent tile attack is split to "Nuke City"
+       * and "Nuke Units". */
+      if (ae->action == ACTION_NUKE) {
+        /* The old rule is represented with three action enablers:
+         * 1) "Explode Nuclear" against the actors own tile.
+         * 2) "Nuke City" against adjacent enemy cities.
+         * 3) "Nuke Units" against adjacent enemy unit stacks. */
+
+        struct action_enabler *city;
+        struct action_enabler *units;
+
+        /* Against city targets. */
+        city = action_enabler_copy(ae);
+        city->action = ACTION_NUKE_CITY;
+
+        /* Against unit stack targets. */
+        units = action_enabler_copy(ae);
+        units->action = ACTION_NUKE_UNITS;
+
+        /* "Explode Nuclear" required this to target an adjacent tile. */
+        /* While this isn't a real move (because of enemy city/units) at
+         * target tile it pretends to be one. */
+        requirement_vector_append(&city->actor_reqs,
+                                  req_from_values(VUT_MINMOVES,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, FALSE, 1));
+        requirement_vector_append(&units->actor_reqs,
+                                  req_from_values(VUT_MINMOVES,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, FALSE, 1));
+
+        /* Be slightly stricter about the relationship to target unit stacks
+         * than "Explode Nuclear" was before it would target an adjacent
+         * tile. I think the intention was that you shouldn't nuke your
+         * friends and allies. */
+        requirement_vector_append(&city->actor_reqs,
+                                  req_from_values(VUT_DIPLREL,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, FALSE,
+                                                  DS_WAR));
+        requirement_vector_append(&units->actor_reqs,
+                                  req_from_values(VUT_DIPLREL,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, TRUE, FALSE,
+                                                  DS_WAR));
+
+        /* Only display one nuke action at once. */
+        requirement_vector_append(&units->target_reqs,
+                                  req_from_values(VUT_CITYTILE,
+                                                  REQ_RANGE_LOCAL,
+                                                  FALSE, FALSE, FALSE,
+                                                  CITYT_CENTER));
+
+        /* Add after the action was changed. */
+        action_enabler_add(city);
+        action_enabler_add(units);
       }
     } action_enablers_iterate_end;
 

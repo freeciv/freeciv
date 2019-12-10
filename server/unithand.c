@@ -704,16 +704,10 @@ static struct player *need_war_player_hlp(const struct unit *actor,
    * requirement. */
   switch ((enum gen_action)act) {
   case ACTION_BOMBARD:
-  case ACTION_NUKE:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
     /* Target is tile or unit stack but a city (or unit) can block it. */
-    if ((!action_id_has_result_safe(act, ACTION_NUKE)
-         || unit_tile(actor) != target_tile)
-        && target_tile) {
-      /* This isn't nuking the actor's own tile so hard coded restrictions
-       * do apply. */
-
+    if (target_tile) {
       struct city *tcity;
       struct unit *tunit;
 
@@ -760,6 +754,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
+  case ACTION_NUKE:
+  case ACTION_NUKE_CITY:
+  case ACTION_NUKE_UNITS:
   case ACTION_DESTROY_CITY:
   case ACTION_EXPEL_UNIT:
   case ACTION_RECYCLE_UNIT:
@@ -1087,13 +1084,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   case ACTION_AIRLIFT:
     action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
     break;
-  case ACTION_NUKE:
-    if (target_tile != unit_tile(punit)) {
-      /* unit_attack_units_at_tile_result() matters for neighbor tiles. */
-      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
-    } else {
-      action_custom = ATT_OK;
-    }
+  case ACTION_NUKE_UNITS:
+    action_custom = unit_attack_units_at_tile_result(punit, target_tile);
     break;
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
@@ -1318,7 +1310,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        city_size_get(target_city)
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
-  } else if ((action_id_has_result_safe(act_id, ACTION_NUKE)
+  } else if ((action_id_has_result_safe(act_id, ACTION_NUKE_UNITS)
               || action_id_has_result_safe(act_id, ACTION_SUICIDE_ATTACK)
               || action_id_has_result_safe(act_id, ACTION_ATTACK))
              && action_custom != ATT_OK) {
@@ -2928,6 +2920,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_airline(actor_unit, pcity));
     break;
+  case ACTION_NUKE_CITY:
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             unit_nuke(pplayer, actor_unit, city_tile(pcity),
+                                       paction));
+    break;
   case ACTION_CAPTURE_UNITS:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
@@ -2943,6 +2940,11 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
+    break;
+  case ACTION_NUKE_UNITS:
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              unit_nuke(pplayer, actor_unit, target_tile,
+                                        paction));
     break;
   case ACTION_FOUND_CITY:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,

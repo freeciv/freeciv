@@ -348,6 +348,12 @@ ui_name_join_city = _("%sAdd to City%s")
 ; /* TRANS: Explode _Nuclear (100% chance of success). */
 ui_name_explode_nuclear = _("Explode %sNuclear%s")
 
+; /* TRANS: Explode _Nuclear (100% chance of success). */
+ui_name_nuke_city = _("Explode %sNuclear%s")
+
+; /* TRANS: Explode _Nuclear (100% chance of success). */
+ui_name_nuke_units = _("Explode %sNuclear%s")
+
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
 
@@ -710,6 +716,28 @@ action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "Nuclear", "Local", TRUE
+    }
+
+[actionenabler_nuke_city]
+action="Nuke City"
+actor_reqs=
+    { "type",         "name",    "range"
+      "UnitFlag",     "Nuclear", "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "War",     "Local"
+    }
+
+[actionenabler_nuke_units]
+action="Nuke Units"
+actor_reqs=
+    { "type",         "name",    "range"
+      "UnitFlag",     "Nuclear", "Local"
+      "MinMoveFrags", "1",       "Local"
+      "DiplRel",      "War",     "Local"
+    }
+target_reqs=
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", FALSE
     }
 
 [actionenabler_attack_native]

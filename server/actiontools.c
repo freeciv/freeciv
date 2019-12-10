@@ -45,7 +45,9 @@ static void action_success_actor_consume(struct action *paction,
     if (action_has_result(paction, ACTION_DISBAND_UNIT)
         || action_has_result(paction, ACTION_RECYCLE_UNIT)) {
       wipe_unit(actor, ULR_DISBANDED, NULL);
-    } else if (action_has_result(paction, ACTION_NUKE)) {
+    } else if (action_has_result(paction, ACTION_NUKE)
+               || action_has_result(paction, ACTION_NUKE_CITY)
+               || action_has_result(paction, ACTION_NUKE_UNITS)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
     } else if (action_has_result(paction, ACTION_SUICIDE_ATTACK)) {
       wipe_unit(actor, ULR_MISSILE, NULL);
@@ -138,6 +140,8 @@ static enum incident_type action_to_incident(const struct action *paction)
   /* Action id is currently the action's only result. */
   switch ((enum gen_action)paction->id) {
   case ACTION_NUKE:
+  case ACTION_NUKE_CITY:
+  case ACTION_NUKE_UNITS:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
     return INCIDENT_NUCLEAR;

@@ -2609,6 +2609,22 @@ reqs	=
       "Action", "Explode Nuclear", "Local", TRUE
     }
 
+[effect_incident_success_explode_nuke_city]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke City", "Local", TRUE
+    }
+
+[effect_incident_success_explode_nuke_units]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke Units", "Local", TRUE
+    }
+
 [effect_incident_success_suitcase_nuke]
 type	= "Casus_Belli_Success"
 value	= 1

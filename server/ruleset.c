@@ -6267,6 +6267,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+               ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+               ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
@@ -6285,6 +6289,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       if (force_bombard) {
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+               ACTION_BOMBARD);
+        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+               ACTION_BOMBARD);
+        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
                ACTION_BOMBARD);
         BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
                ACTION_BOMBARD);
@@ -6311,6 +6319,22 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_NUKE);
         BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                ACTION_NUKE);
+        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+               ACTION_NUKE_CITY);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_NUKE_CITY);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+               ACTION_NUKE_CITY);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_NUKE_CITY);
+        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+               ACTION_NUKE_UNITS);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_NUKE_UNITS);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+               ACTION_NUKE_UNITS);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_NUKE_UNITS);
       }
 
       /* If the "Poison City" action or the "Poison City Escape" action

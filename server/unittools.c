@@ -4843,6 +4843,8 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_SPY_NUKE:
       case ACTION_SPY_NUKE_ESC:
       case ACTION_NUKE:
+      case ACTION_NUKE_CITY:
+      case ACTION_NUKE_UNITS:
       case ACTION_DESTROY_CITY:
       case ACTION_EXPEL_UNIT:
       case ACTION_RECYCLE_UNIT:

@@ -940,6 +940,8 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_FOUND_CITY:
   case ACTION_SUICIDE_ATTACK:
   case ACTION_NUKE:
+  case ACTION_NUKE_CITY:
+  case ACTION_NUKE_UNITS:
     /* The actor unit is spent. */
     fc_assert(paction->actor_consuming_always);
     return FALSE;
@@ -1508,7 +1510,9 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if (utype_can_do_action(punittype, ACTION_NUKE)
+  if ((utype_can_do_action(punittype, ACTION_NUKE_CITY)
+       || utype_can_do_action(punittype, ACTION_NUKE_UNITS)
+       || utype_can_do_action(punittype, ACTION_NUKE))
       && get_player_bonus(p, EFT_ENABLE_NUKE) <= 0) {
     return FALSE;
   }

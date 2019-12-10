@@ -2525,6 +2525,22 @@ reqs	=
       "Action", "Explode Nuclear", "Local", TRUE
     }
 
+[effect_incident_success_explode_nuke_city]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke City", "Local", TRUE
+    }
+
+[effect_incident_success_explode_nuke_units]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke Units", "Local", TRUE
+    }
+
 ; Double (+100%) buy cost for Great Wonders
 [effect_great_wonder_buy_cost]
 type    = "Building_Buy_Cost_Pct"
