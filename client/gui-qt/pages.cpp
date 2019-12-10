@@ -177,8 +177,8 @@ void fc_client::create_main_page(void)
     strncpy(msgbuf, _("Qt client"), sizeof(msgbuf) - 1);
   }
 
-  painter.drawText(main_graphics.width()-fm.width(msgbuf)-10,
-                   main_graphics.height()-fm.descent(), msgbuf);
+  painter.drawText(main_graphics.width() - fm.horizontalAdvance (msgbuf)
+                   -10, main_graphics.height() - fm.descent(), msgbuf);
   free_main_pic->setPixmap(main_graphics);
   pages_layout[PAGE_MAIN]->addWidget(free_main_pic,
                                      row++, 0, 1, 2, Qt::AlignCenter);

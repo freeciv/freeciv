@@ -1094,7 +1094,7 @@ void city_widget::update_model()
       sl = str.split('\n');
       width = 0;
       foreach (s, sl) {
-        width = qMax(width, fm.width(s));
+        width = qMax(width, fm.horizontalAdvance(s));
       }
       header()->resizeSection(j, width + 10);
     }

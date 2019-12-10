@@ -865,7 +865,7 @@ void notify_dialog::calc_size(int &x, int &y)
   str_list << qcaption << qheadline;
 
   for (i = 0; i < str_list.count(); i++) {
-    x = qMax(x, fm.width(str_list.at(i)));
+    x = qMax(x, fm.horizontalAdvance(str_list.at(i)));
     y = y + 3 + fm.height();
   }
   x = x + 15;
@@ -4180,7 +4180,7 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
       info_font.setPointSize(i);
     }
     QFontMetrics qfm(info_font);
-    if (10 + qfm.width(str2) < width()) {
+    if (10 + qfm.horizontalAdvance(str2) < width()) {
       break;
     }
   }

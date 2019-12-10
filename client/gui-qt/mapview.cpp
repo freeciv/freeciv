@@ -1372,7 +1372,7 @@ void info_tile::calc_size()
   str_list = str.split("\n");
 
   foreach(str, str_list) {
-    w = qMax(w, fm.width(str));
+    w = qMax(w, fm.horizontalAdvance(str));
   }
   setFixedHeight(str_list.count() * (fm.height() + 5));
   setFixedWidth(w + 10);
