@@ -1292,7 +1292,7 @@ pvictim to NULL and account for !pvictim in create_advances_list. -- Syela */
     free(args);
   }
 
-  /* Wait for the server's reply before moving on to the next unit that
+  /* Wait for the player's reply before moving on to the next unit that
    * needs to know what action to take. */
   is_more_user_input_needed = TRUE;
 
