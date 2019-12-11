@@ -1247,6 +1247,13 @@ static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data)
 
     cmd_status[USDLG_CMD_CENTER] = TRUE;
     break;
+
+  default:
+    fc_assert(FALSE);
+    for (cmd_id = 0; cmd_id < USDLG_CMD_LAST; cmd_id++) {
+      cmd_status[cmd_id] = FALSE;
+    }
+    break;
   }
 
   /* Set widget status. */
