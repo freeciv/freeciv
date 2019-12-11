@@ -1011,22 +1011,21 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
   case A_FUTURE:
     if (pplayer) {
       const int no = player_research_get(pplayer)->future_tech;
-      char buffer[256];
       const char *name;
 
       name = strvec_get(future_rule_name, no);
-      if (name != NULL) {
-        /* Already stored in string vector. */
-        return name;
+      if (name == NULL) {
+        char buffer[256];
+
+        /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+        fc_snprintf(buffer, sizeof(buffer), "%s %d",
+                    advance_rule_name(&advances[tech]),
+                    no + 1);
+        name = future_set_name(future_rule_name, no, buffer);
       }
 
-      /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
-      fc_snprintf(buffer, sizeof(buffer), "%s %d",
-                  advance_rule_name(&advances[tech]),
-                  no + 1);
-      name = future_set_name(future_rule_name, no, buffer);
       fc_assert(name != NULL);
-      fc_assert(name != buffer);
+
       return name;
     } else {
       return advance_rule_name(&advances[tech]);
@@ -1056,20 +1055,19 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
   case A_FUTURE:
     if (pplayer) {
       const int no = player_research_get(pplayer)->future_tech;
-      char buffer[256];
       const char *name;
 
       name = strvec_get(future_name_translation, no);
-      if (name != NULL) {
-        /* Already stored in string vector. */
-        return name;
+      if (name == NULL) {
+        char buffer[256];
+
+        /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
+        fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"), no + 1);
+        name = future_set_name(future_name_translation, no, buffer);
       }
 
-      /* NB: 'presearch->future_tech == 0' means "Future Tech. 1". */
-      fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"), no + 1);
-      name = future_set_name(future_name_translation, no, buffer);
       fc_assert(name != NULL);
-      fc_assert(name != buffer);
+
       return name;
     } else {
       return advance_name_translation(&advances[tech]);
