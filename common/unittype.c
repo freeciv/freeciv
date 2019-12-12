@@ -887,6 +887,7 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_STRIKE_BUILDING:
+  case ACTION_STRIKE_PRODUCTION:
   case ACTION_CAPTURE_UNITS:
   case ACTION_BOMBARD:
   case ACTION_TRANSFORM_TERRAIN:
@@ -923,6 +924,7 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_DISBAND_UNIT:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
   case ACTION_SPY_POISON:
   case ACTION_INV_CITY_SPEND:
   case ACTION_ESTABLISH_EMBASSY_STAY:
@@ -948,6 +950,7 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_ESTABLISH_EMBASSY:

@@ -2148,6 +2148,27 @@ static action_id get_non_targeted_action_id(action_id tgt_action_id)
   }
 }
 
+/**********************************************************************//**
+  Get the production targeted version of an action so it, if enabled, can
+  appear in the target selection dialog.
+**************************************************************************/
+static action_id get_production_targeted_action_id(action_id tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch ((enum gen_action)tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC;
+  case ACTION_STRIKE_BUILDING:
+    return ACTION_STRIKE_PRODUCTION;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
+  }
+}
+
 /***********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
@@ -3322,12 +3343,17 @@ static void spy_sabotage(QVariant data1, QVariant data2)
     if (data2.toInt() == B_LAST) {
       /* This is the untargeted version. */
       request_do_action(get_non_targeted_action_id(act_id),
-                        diplomat_id, diplomat_target_id, data2.toInt() + 1,
+                        diplomat_id, diplomat_target_id, data2.toInt(),
+                        "");
+    } else if (data2.toInt() == -1) {
+      /* This is the city production version. */
+      request_do_action(get_production_targeted_action_id(act_id),
+                        diplomat_id, diplomat_target_id, data2.toInt(),
                         "");
     } else {
       /* This is the targeted version. */
       request_do_action(act_id, diplomat_id,
-                        diplomat_target_id, data2.toInt() + 1, "");
+                        diplomat_target_id, data2.toInt(), "");
     }
   }
 }
@@ -3361,8 +3387,13 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   actor_and_target.append(paction->id);
   qv1 = QVariant::fromValue(actor_and_target);
 
-  func = spy_sabotage;
-  cd->add_item(QString(_("City Production")), func, qv1, -1);
+  if (action_prob_possible(actor->client.act_prob_cache[
+                           get_production_targeted_action_id(
+                               paction->id)])) {
+    func = spy_sabotage;
+    cd->add_item(QString(_("City Production")), func, qv1, -1);
+  }
+
   city_built_iterate(tcity, pimprove) {
     if (pimprove->sabotage > 0) {
       func = spy_sabotage;

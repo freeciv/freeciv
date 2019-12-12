@@ -891,6 +891,8 @@ void adv_best_government(struct player *pplayer)
           case ACTION_SPY_SABOTAGE_CITY_ESC:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
           case ACTION_SPY_STEAL_TECH:
           case ACTION_SPY_STEAL_TECH_ESC:
           case ACTION_SPY_TARGETED_STEAL_TECH:
@@ -909,6 +911,7 @@ void adv_best_government(struct player *pplayer)
           case ACTION_DESTROY_CITY:
           case ACTION_EXPEL_UNIT:
           case ACTION_STRIKE_BUILDING:
+          case ACTION_STRIKE_PRODUCTION:
             /* Being a target of this is usually undesireable */
             /* TODO: Individual and well balanced values. */
             bonus += 0.1;

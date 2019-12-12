@@ -735,6 +735,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_STEAL_TECH_ESC:
   case ACTION_SPY_TARGETED_STEAL_TECH:
@@ -767,6 +769,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_AIRLIFT:
   case ACTION_HEAL_UNIT:
   case ACTION_STRIKE_BUILDING:
+  case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -2795,7 +2798,14 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
-                                               sub_tgt_id - 1, paction));
+                                               sub_tgt_id, paction));
+    break;
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
+    /* Difference is caused by data in the action structure. */
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             diplomat_sabotage(pplayer, actor_unit, pcity,
+                                               -1, paction));
     break;
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
@@ -2913,7 +2923,15 @@ bool unit_perform_action(struct player *pplayer,
                              do_unit_strike_city_building(pplayer,
                                                           actor_unit,
                                                           pcity,
-                                                          sub_tgt_id - 1,
+                                                          sub_tgt_id,
+                                                          paction));
+    break;
+  case ACTION_STRIKE_PRODUCTION:
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             do_unit_strike_city_building(pplayer,
+                                                          actor_unit,
+                                                          pcity,
+                                                          -1,
                                                           paction));
     break;
   case ACTION_AIRLIFT:

@@ -4728,6 +4728,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SUICIDE_ATTACK:
       case ACTION_CONQUER_CITY:
       case ACTION_CONQUER_CITY2:
+      case ACTION_STRIKE_PRODUCTION:
         /* An attack. */
         if (attack_action == ACTION_NONE) {
           /* No previous attack action found. */
@@ -4749,6 +4750,8 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SPY_SABOTAGE_CITY_ESC:
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:
       case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
       case ACTION_SPY_STEAL_TECH:
       case ACTION_SPY_STEAL_TECH_ESC:
       case ACTION_SPY_TARGETED_STEAL_TECH:

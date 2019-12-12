@@ -160,6 +160,27 @@ static action_id get_non_targeted_action_id(action_id tgt_action_id)
 }
 
 /**********************************************************************//**
+  Get the production targeted version of an action so it, if enabled, can
+  appear in the target selection dialog.
+**************************************************************************/
+static action_id get_production_targeted_action_id(action_id tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch ((enum gen_action)tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC;
+  case ACTION_STRIKE_BUILDING:
+    return ACTION_STRIKE_PRODUCTION;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
+  }
+}
+
+/**********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 **************************************************************************/
@@ -2312,12 +2333,17 @@ static int sabotage_impr_callback(struct widget *pWidget)
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(act_id),
                           diplomat_id, diplomat_target_id,
-                          sabotage_improvement + 1, "");
+                          sabotage_improvement, "");
+      } else if (sabotage_improvement == -1) {
+        /* This is the city production version. */
+        request_do_action(get_production_targeted_action_id(act_id),
+                          diplomat_id, diplomat_target_id,
+                          sabotage_improvement, "");
       } else {
         /* This is the targeted version. */
         request_do_action(act_id,
                           diplomat_id, diplomat_target_id,
-                          sabotage_improvement + 1, "");
+                          sabotage_improvement, "");
       }
     }
 
@@ -2390,23 +2416,27 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  create_active_iconlabel(pBuf, pWindow->dst, pstr,
-                          _("City Production"), sabotage_impr_callback);
-  pBuf->data.cont = pCont;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  set_wflag(pBuf, WF_FREE_DATA);
-  add_to_gui_list(MAX_ID - 1000, pBuf);
+  if (action_prob_possible(actor->client.act_prob_cache[
+                           get_production_targeted_action_id(
+                               paction->id)])) {
+    create_active_iconlabel(pBuf, pWindow->dst, pstr,
+                            _("City Production"), sabotage_impr_callback);
+    pBuf->data.cont = pCont;
+    set_wstate(pBuf, FC_WS_NORMAL);
+    set_wflag(pBuf, WF_FREE_DATA);
+    add_to_gui_list(MAX_ID - 1000, pBuf);
 
-  area.w = MAX(area.w, pBuf->size.w);
-  area.h += pBuf->size.h;
+    area.w = MAX(area.w, pBuf->size.w);
+    area.h += pBuf->size.h;
 
-  /* separator */
-  pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
+    /* separator */
+    pBuf = create_iconlabel(NULL, pWindow->dst, NULL, WF_FREE_THEME);
 
-  add_to_gui_list(ID_SEPARATOR, pBuf);
-  area.h += pBuf->next->size.h;
+    add_to_gui_list(ID_SEPARATOR, pBuf);
+    area.h += pBuf->next->size.h;
 
-  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
+    pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
+  }
 
   /* ------------------ */
   n = 0;

@@ -284,6 +284,15 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
         universal_by_number(VUT_ACTION, ACTION_NUKE),
         universal_by_number(VUT_ACTION, ACTION_NUKE_UNITS));
 
+    /* Production or building targeted actions have been split in one action
+     * for each target. */
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_SPY_TARGETED_SABOTAGE_CITY),
+        universal_by_number(VUT_ACTION, ACTION_SPY_SABOTAGE_CITY_PRODUCTION));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC),
+        universal_by_number(VUT_ACTION, ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC));
+
     if (peffect->type == EFT_ILLEGAL_ACTION_MOVE_COST) {
       /* Boarding a transporter became action enabler controlled in
        * Freeciv 3.1. Old hard coded rules had no punishment for trying to
@@ -631,6 +640,30 @@ void rscompat_postprocess(struct rscompat_info *info)
         /* Add after the action was changed. */
         action_enabler_add(city);
         action_enabler_add(units);
+      }
+
+      /* "Targeted Sabotage City" is split in a production targeted and a
+       * building targeted version. */
+      if (ae->action == ACTION_SPY_TARGETED_SABOTAGE_CITY) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+
+        enabler->action = ACTION_SPY_SABOTAGE_CITY_PRODUCTION;
+
+        /* Add after the action was changed. */
+        action_enabler_add(enabler);
+      }
+
+      /* "Targeted Sabotage City Escape" is split in a production targeted
+       * and a building targeted version. */
+      if (ae->action == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC) {
+        /* The old rule is represented with two action enablers. */
+        enabler = action_enabler_copy(ae);
+
+        enabler->action = ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC;
+
+        /* Add after the action was changed. */
+        action_enabler_add(enabler);
       }
     } action_enablers_iterate_end;
 

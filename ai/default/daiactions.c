@@ -186,6 +186,18 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
+      && (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_PRODUCTION)
+          || action_has_result(paction,
+                               ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC))) {
+    int count_impr = count_sabotagable_improvements(target_city);
+
+    if (count_impr > 0) {
+      /* Usually better odds than already built buildings. */
+      utility += 5010;
+    }
+  }
+
+  if (pplayers_at_war(actor_player, target_player)
       && (action_has_result(paction, ACTION_SPY_STEAL_GOLD_ESC)
           || action_has_result(paction, ACTION_SPY_STEAL_GOLD))) {
     utility += 4000;
@@ -309,9 +321,9 @@ int dai_action_choose_sub_tgt_unit_vs_city(struct action *paction,
 
   if (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
       || action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY)) {
-    /* Start with the city production. */
+    /* Invalid */
     int tgt_impr = -1;
-    int tgt_impr_vul = 100;
+    int tgt_impr_vul = 0;
 
     city_built_iterate(target_city, pimprove) {
       /* How vulnerable the target building is. */
@@ -337,7 +349,9 @@ int dai_action_choose_sub_tgt_unit_vs_city(struct action *paction,
       }
     } city_built_iterate_end;
 
-    return tgt_impr + 1;
+    if (tgt_impr > -1) {
+      return tgt_impr;
+    }
   }
 
   /* No sub target specified. */

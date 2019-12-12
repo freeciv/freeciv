@@ -5906,9 +5906,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_TARGETED_SABOTAGE_CITY:
           case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
           case ACTION_STRIKE_BUILDING:
-            /* Sub target is production (-1) or a building. */
-            if (!(order_sub_tgt - 1 == -1
-                  || improvement_by_number(order_sub_tgt - 1))) {
+            /* Sub target is a building. */
+            if (!improvement_by_number(order_sub_tgt)) {
               /* Sub target is invalid. */
               log_sg("Cannot find building %d for %s to %s",
                      order_sub_tgt, unit_rule_name(punit),
@@ -5949,6 +5948,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_SPY_STEAL_GOLD_ESC:
           case ACTION_SPY_SABOTAGE_CITY:
           case ACTION_SPY_SABOTAGE_CITY_ESC:
+          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
           case ACTION_SPY_STEAL_TECH:
           case ACTION_SPY_STEAL_TECH_ESC:
           case ACTION_SPY_INCITE_CITY:
@@ -5980,6 +5981,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
           case ACTION_AIRLIFT:
           case ACTION_ATTACK:
           case ACTION_SUICIDE_ATTACK:
+          case ACTION_STRIKE_PRODUCTION:
           case ACTION_CONQUER_CITY:
           case ACTION_CONQUER_CITY2:
           case ACTION_HEAL_UNIT:

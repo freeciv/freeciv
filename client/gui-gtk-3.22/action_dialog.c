@@ -213,6 +213,27 @@ static action_id get_non_targeted_action_id(action_id tgt_action_id)
 }
 
 /**********************************************************************//**
+  Get the production targeted version of an action so it, if enabled, can
+  appear in the target selection dialog.
+**************************************************************************/
+static action_id get_production_targeted_action_id(action_id tgt_action_id)
+{
+  /* Don't add an action mapping here unless the non targeted version is
+   * selectable in the targeted version's target selection dialog. */
+  switch ((enum gen_action)tgt_action_id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION;
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    return ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC;
+  case ACTION_STRIKE_BUILDING:
+    return ACTION_STRIKE_PRODUCTION;
+  default:
+    /* No non targeted version found. */
+    return ACTION_NONE;
+  }
+}
+
+/**********************************************************************//**
   Get the targeted version of an action so it, if enabled, can hide the
   non targeted action in the action selection dialog.
 **************************************************************************/
@@ -725,13 +746,19 @@ static void spy_improvements_response(GtkWidget *w, gint response, gpointer data
         request_do_action(get_non_targeted_action_id(args->act_id),
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->target_building_id + 1, "");
+                          args->target_building_id, "");
+      } else if (args->target_building_id == -1) {
+        /* This is the city production version. */
+        request_do_action(get_production_targeted_action_id(args->act_id),
+                          args->actor_unit_id,
+                          args->target_city_id,
+                          args->target_building_id, "");
       } else {
         /* This is the targeted version. */
         request_do_action(args->act_id,
                           args->actor_unit_id,
                           args->target_city_id,
-                          args->target_building_id + 1, "");
+                          args->target_building_id, "");
       }
     }
   }
@@ -836,8 +863,12 @@ static void create_improvements_list(struct player *pplayer,
   gtk_container_add(GTK_CONTAINER(vbox), sw);
 
   /* Now populate the list */
-  gtk_list_store_append(store, &it);
-  gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
+  if (action_prob_possible(actor_unit->client.act_prob_cache[
+                           get_production_targeted_action_id(
+                               args->act_id)])) {
+    gtk_list_store_append(store, &it);
+    gtk_list_store_set(store, &it, 0, _("City Production"), 1, -1, -1);
+  }
 
   city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {

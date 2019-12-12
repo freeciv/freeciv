@@ -327,6 +327,9 @@ ui_name_sabotage_city_escape = _("%sSabotage City Escape%s")
 ; /* TRANS: Industrial _Sabotage (3% chance of success). */
 ui_name_targeted_sabotage_city_escape = _("Industrial %sSabotage%s")
 
+; /* TRANS: Industrial _Sabotage Production (3% chance of success). */
+ui_name_sabotage_city_production_escape = _("Industrial %sSabotage Production%s")
+
 ; /* TRANS: Incite a _Revolt (3% chance of success). */
 ui_name_incite_city = _("Incite a %sRevolt%s")
 
@@ -502,6 +505,18 @@ actor_reqs    =
 
 [actionenabler_sabotage_city_target]
 action = "Targeted Sabotage City Escape"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+    }
+
+[actionenabler_sabotage_city_production]
+action = "Sabotage City Production Escape"
 actor_reqs    =
     { "type",         "name",          "range", "present"
       "DiplRel",      "Alliance",      "Local", FALSE
@@ -911,6 +926,15 @@ actor_reqs    =
 
 [actionenabler_royal_sapper]
 action = "Surgical Strike Building"
+actor_reqs    =
+    { "type",     "name",         "range", "present"
+      "UnitFlag", "GameLoss",     "Local", TRUE
+      "DiplRel",  "War",          "Local", TRUE
+      "UnitState", "Transported", "Local", FALSE
+    }
+
+[actionenabler_royal_sapper_erm_on_city_production]
+action = "Surgical Strike Production"
 actor_reqs    =
     { "type",     "name",         "range", "present"
       "UnitFlag", "GameLoss",     "Local", TRUE
