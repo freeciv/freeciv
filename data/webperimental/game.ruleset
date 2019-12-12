@@ -933,15 +933,6 @@ actor_reqs    =
       "UnitState", "Transported", "Local", FALSE
     }
 
-[actionenabler_royal_sapper_erm_on_city_production]
-action = "Surgical Strike Production"
-actor_reqs    =
-    { "type",     "name",         "range", "present"
-      "UnitFlag", "GameLoss",     "Local", TRUE
-      "DiplRel",  "War",          "Local", TRUE
-      "UnitState", "Transported", "Local", FALSE
-    }
-
 [actionenabler_heal]
 action = "Heal Unit"
 actor_reqs    =

@@ -2751,26 +2751,10 @@ reqs    =
       "Action", "Surgical Strike Building", "Local", TRUE
     }
 
-[effect_action_success_move_cost_royal_sapper2]
-type    = "Action_Success_Actor_Move_Cost"
-value   = 65535
-reqs    =
-    { "type", "name", "range", "present"
-      "Action", "Surgical Strike Production", "Local", TRUE
-    }
-
 [effect_strike_half_chance]
 type	= "Action_Odds_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Surgical Strike Building", "Local", TRUE
-    }
-
-[effect_strike_half_chance2]
-type	= "Action_Odds_Pct"
-value	= -50
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Surgical Strike Production", "Local", TRUE
     }
