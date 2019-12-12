@@ -274,15 +274,35 @@ int dai_action_choose_sub_tgt_unit_vs_city(struct action *paction,
 
   if (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
       || action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY)) {
-    int count_impr = count_sabotagable_improvements(target_city);
+    /* Start with the city production. */
+    int tgt_impr = -1;
+    int tgt_impr_vul = 100;
 
-    if (count_impr > 0) {
-      /* TODO: consider target improvements in stead of always going after
-       * the current production. */
-      int tgt_impr = -1;
+    city_built_iterate(target_city, pimprove) {
+      /* How vulnerable the target building is. */
+      int impr_vul = pimprove->sabotage;
 
-      return tgt_impr + 1;
-    }
+      impr_vul -= (impr_vul
+                   * get_city_bonus(target_city, EFT_SABOTEUR_RESISTANT)
+                   / 100);
+
+      /* Can't be better than 100% */
+      impr_vul = MAX(impr_vul, 100);
+
+      /* Swap if better or equal probability of sabotage than
+       * production. */
+      /* TODO: More complex "better" than "listed later" and better or equal
+       * probability of success. It would probably be best to use utility
+       * like the rest of the Freeciv AI does. Building value *
+       * vulnerability + value from circumstances like an attacker that
+       * would like to get rid of a City Wall? */
+      if (impr_vul >= tgt_impr_vul) {
+        tgt_impr = improvement_number(pimprove);
+        tgt_impr_vul = impr_vul;
+      }
+    } city_built_iterate_end;
+
+    return tgt_impr + 1;
   }
 
   /* No sub target specified. */
