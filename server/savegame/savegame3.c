@@ -4961,7 +4961,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
     pcity->rally_point.length = len;
     if (len > 0) {
       const char *rally_orders, *rally_dirs, *rally_activities;
-      const char *rally_actions;
 
       pcity->rally_point.orders
         = fc_malloc(len * sizeof(*(pcity->rally_point.orders)));
@@ -4981,9 +4980,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
       rally_activities
         = secfile_lookup_str_default(loading->file, "",
                                      "%s.rally_point_activities", citystr);
-      rally_actions
-        = secfile_lookup_str_default(loading->file, "",
-                                     "%s.rally_point_actions", citystr);
 
       for (i = 0; i < len; i++) {
         struct unit_order *order = &pcity->rally_point.orders[i];
@@ -5000,20 +4996,20 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
         order->dir = char2dir(rally_dirs[i]);
         order->activity = char2activity(rally_activities[i]);
 
-        if (rally_actions[i] == '?') {
-          order->action = ACTION_NONE;
-        } else {
-          unconverted = char2num(rally_actions[i]);
+        unconverted = secfile_lookup_int_default(loading->file, ACTION_NONE,
+                                                 "%s.rally_point_action_vec,%d",
+                                                 citystr, i);
 
-          if (unconverted >= 0 && unconverted < loading->action.size) {
-            /* Look up what action id the unconverted number represents. */
-            order->action = loading->action.order[unconverted];
-          } else {
+        if (unconverted >= 0 && unconverted < loading->action.size) {
+          /* Look up what action id the unconverted number represents. */
+          order->action = loading->action.order[unconverted];
+        } else {
+          if (order->order == ORDER_PERFORM_ACTION) {
             log_sg("Invalid action id in order for city rally point %d",
                    pcity->id);
-
-            order->action = ACTION_NONE;
           }
+
+          order->action = ACTION_NONE;
         }
 
         order->sub_target
@@ -5034,7 +5030,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                   citystr);
       (void) secfile_entry_lookup(loading->file, "%s.rally_point_activities",
                                   citystr);
-      (void) secfile_entry_lookup(loading->file, "%s.rally_point_actions",
+      (void) secfile_entry_lookup(loading->file, "%s.rally_point_action_vec",
                                   citystr);
       (void) secfile_entry_lookup(loading->file,
                                   "%s.rally_point_sub_tgt_vec", citystr);
@@ -5284,7 +5280,7 @@ static void sg_save_player_cities(struct savedata *saving,
     if (pcity->rally_point.length) {
       int len = pcity->rally_point.length;
       char orders[len + 1], dirs[len + 1], activities[len + 1];
-      char actions[len + 1];
+      int actions[len];
       int sub_targets[len];
 
       secfile_insert_bool(saving->file, pcity->rally_point.persistent,
@@ -5297,7 +5293,7 @@ static void sg_save_player_cities(struct savedata *saving,
         dirs[j] = '?';
         activities[j] = '?';
         sub_targets[j] = -1;
-        actions[j] = '?';
+        actions[j] = -1;
         switch (pcity->rally_point.orders[j].order) {
         case ORDER_MOVE:
         case ORDER_ACTION_MOVE:
@@ -5309,7 +5305,7 @@ static void sg_save_player_cities(struct savedata *saving,
             = activity2char(pcity->rally_point.orders[j] .activity);
           break;
         case ORDER_PERFORM_ACTION:
-          actions[j] = num2char(pcity->rally_point.orders[j].action);
+          actions[j] = pcity->rally_point.orders[j].action;
           sub_targets[j] = pcity->rally_point.orders[j].sub_target;
           if (direction8_is_valid(pcity->rally_point.orders[j].dir)) {
             /* The action target is on another tile. */
@@ -5321,17 +5317,24 @@ static void sg_save_player_cities(struct savedata *saving,
           break;
         }
       }
-      orders[len] = dirs[len] = activities[len] = actions[len] = '\0';
+      orders[len] = dirs[len] = activities[len] = '\0';
 
       secfile_insert_str(saving->file, orders, "%s.rally_point_orders", buf);
       secfile_insert_str(saving->file, dirs, "%s.rally_point_dirs", buf);
       secfile_insert_str(saving->file, activities,
                          "%s.rally_point_activities", buf);
-      secfile_insert_str(saving->file, actions, "%s.rally_point_actions",
-                         buf);
+
+      secfile_insert_int_vec(saving->file, actions, len,
+                             "%s.rally_point_action_vec", buf);
+      /* Fill in dummy values for order targets so the registry will save
+       * the unit table in a tabular format. */
+      for (j = len; j < rally_point_max_length; j++) {
+        secfile_insert_int(saving->file, -1, "%s.rally_point_action_vec,%d",
+                           buf, j);
+      }
+
       secfile_insert_int_vec(saving->file, sub_targets, len,
                              "%s.rally_point_sub_tgt_vec", buf);
-
       /* Fill in dummy values for order targets so the registry will save
        * the unit table in a tabular format. */
       for (j = len; j < rally_point_max_length; j++) {
@@ -5350,14 +5353,21 @@ static void sg_save_player_cities(struct savedata *saving,
       secfile_insert_str(saving->file, "-", "%s.rally_point_dirs", buf);
       secfile_insert_str(saving->file, "-", "%s.rally_point_activities",
                          buf);
-      secfile_insert_str(saving->file, "-", "%s.rally_point_actions", buf);
+
+      /* Fill in dummy values for order targets so the registry will save
+       * the unit table in a tabular format. */
+
+      /* The start of a vector has no number. */
+      secfile_insert_int(saving->file, -1, "%s.rally_point_action_vec",
+                         buf);
+      for (j = 1; j < rally_point_max_length; j++) {
+        secfile_insert_int(saving->file, -1, "%s.rally_point_action_vec,%d",
+                           buf, j);
+      }
 
       /* The start of a vector has no number. */
       secfile_insert_int(saving->file, -1, "%s.rally_point_sub_tgt_vec",
                          buf);
-
-      /* Fill in dummy values for order targets so the registry will save
-       * the unit table in a tabular format. */
       for (j = 1; j < rally_point_max_length; j++) {
         secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec,%d", buf, j);
       }
@@ -5800,7 +5810,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                          "%s.orders_length", unitstr);
     if (len > 0) {
       const char *orders_unitstr, *dir_unitstr, *act_unitstr;
-      const char *action_unitstr;
 
       punit->orders.list = fc_malloc(len * sizeof(*(punit->orders.list)));
       punit->orders.length = len;
@@ -5823,9 +5832,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
       act_unitstr
         = secfile_lookup_str_default(loading->file, "",
                                      "%s.activity_list", unitstr);
-      action_unitstr
-        = secfile_lookup_str_default(loading->file, "",
-                                     "%s.action_list", unitstr);
 
       punit->has_orders = TRUE;
       for (j = 0; j < len; j++) {
@@ -5834,9 +5840,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
         int order_sub_tgt;
 
         if (orders_unitstr[j] == '\0' || dir_unitstr[j] == '\0'
-#ifndef FREECIV_DEV_SAVE_COMPAT_3_0
-            || action_unitstr[j] == '\0'
-#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
             || act_unitstr[j] == '\0') {
           log_sg("Invalid unit orders.");
           free_unit_orders(punit);
@@ -5846,24 +5849,19 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
 
-        if (
-#ifdef FREECIV_DEV_SAVE_COMPAT_3_0
-                         action_unitstr[0] == '\0'
-                         ||
-#endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
-                         action_unitstr[j] == '?') {
-          order->action = ACTION_NONE;
+        unconverted = secfile_lookup_int_default(loading->file, ACTION_NONE,
+                                                 "%s.action_vec,%d",
+                                                 unitstr, j);
+
+        if (unconverted >= 0 && unconverted < loading->action.size) {
+          /* Look up what action id the unconverted number represents. */
+          order->action = loading->action.order[unconverted];
         } else {
-          unconverted = char2num(action_unitstr[j]);
-
-          if (unconverted >= 0 && unconverted < loading->action.size) {
-            /* Look up what action id the unconverted number represents. */
-            order->action = loading->action.order[unconverted];
-          } else {
+          if (order->order == ORDER_PERFORM_ACTION) {
             log_sg("Invalid action id in order for unit %d", punit->id);
-
-            order->action = ACTION_NONE;
           }
+
+          order->action = ACTION_NONE;
         }
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_0
@@ -6245,7 +6243,7 @@ static void sg_save_player_units(struct savedata *saving,
       int len = punit->orders.length;
       char orders_buf[len + 1], dir_buf[len + 1];
       char act_buf[len + 1];
-      char action_buf[len + 1];
+      int action_buf[len];
       int sub_tgt_vec[len];
 
       last_order = len;
@@ -6263,7 +6261,7 @@ static void sg_save_player_units(struct savedata *saving,
         dir_buf[j] = '?';
         act_buf[j] = '?';
         sub_tgt_vec[j] = -1;
-        action_buf[j] = '?';
+        action_buf[j] = -1;
         switch (punit->orders.list[j].order) {
         case ORDER_MOVE:
         case ORDER_ACTION_MOVE:
@@ -6274,7 +6272,7 @@ static void sg_save_player_units(struct savedata *saving,
           act_buf[j] = activity2char(punit->orders.list[j].activity);
           break;
         case ORDER_PERFORM_ACTION:
-          action_buf[j] = num2char(punit->orders.list[j].action);
+          action_buf[j] = punit->orders.list[j].action;
           sub_tgt_vec[j] = punit->orders.list[j].sub_target;
           if (direction8_is_valid(punit->orders.list[j].dir)) {
             /* The action target is on another tile. */
@@ -6287,15 +6285,21 @@ static void sg_save_player_units(struct savedata *saving,
         }
       }
       orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
-      action_buf[len] = '\0';
 
       secfile_insert_str(saving->file, orders_buf, "%s.orders_list", buf);
       secfile_insert_str(saving->file, dir_buf, "%s.dir_list", buf);
       secfile_insert_str(saving->file, act_buf, "%s.activity_list", buf);
-      secfile_insert_str(saving->file, action_buf, "%s.action_list", buf);
+
+      secfile_insert_int_vec(saving->file, action_buf, len,
+                             "%s.action_vec", buf);
+      /* Fill in dummy values for order targets so the registry will save
+       * the unit table in a tabular format. */
+      for (j = last_order; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.action_vec,%d", buf, j);
+      }
+
       secfile_insert_int_vec(saving->file, sub_tgt_vec, len,
                              "%s.sub_tgt_vec", buf);
-
       /* Fill in dummy values for order targets so the registry will save
        * the unit table in a tabular format. */
       for (j = last_order; j < longest_order; j++) {
@@ -6313,13 +6317,18 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_str(saving->file, "-", "%s.orders_list", buf);
       secfile_insert_str(saving->file, "-", "%s.dir_list", buf);
       secfile_insert_str(saving->file, "-", "%s.activity_list", buf);
-      secfile_insert_str(saving->file, "-", "%s.action_list", buf);
-
-      /* The start of a vector has no number. */
-      secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec", buf);
 
       /* Fill in dummy values for order targets so the registry will save
        * the unit table in a tabular format. */
+
+      /* The start of a vector has no number. */
+      secfile_insert_int(saving->file, -1, "%s.action_vec", buf);
+      for (j = 1; j < longest_order; j++) {
+        secfile_insert_int(saving->file, -1, "%s.action_vec,%d", buf, j);
+      }
+
+      /* The start of a vector has no number. */
+      secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec", buf);
       for (j = 1; j < longest_order; j++) {
         secfile_insert_int(saving->file, -1, "%s.sub_tgt_vec,%d", buf, j);
       }

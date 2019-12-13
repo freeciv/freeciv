@@ -221,18 +221,6 @@ static const char num_chars[] =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-+";
 
 /************************************************************************//**
-  Converts number in to single character. This works to values up to ~70.
-****************************************************************************/
-char num2char(unsigned int num)
-{
-  if (num >= strlen(num_chars)) {
-    return '?';
-  }
-
-  return num_chars[num];
-}
-
-/************************************************************************//**
   Converts single character into numerical value. This is not hex conversion.
 ****************************************************************************/
 int char2num(char ch)
@@ -246,19 +234,6 @@ int char2num(char ch)
 
   return pch - num_chars;
 }
-
-/* Assert that num2char() can encode the values it is being used to encode.
- * Done here rather than in the save game writing code since static
- * assertions needs a constant expression. */
-
-/* Encoding actions in savegames with num2char() limits the number of
- * actions.
- * Note: <= is the correct operator. MAX_NUM_ACTIONS is number of
- * actions (the last action id + 1). strlen(num_chars) is the
- * number of chars (the last char position + 1). The assert is
- * supposed to be true. */
-FC_STATIC_STRLEN_ASSERT(MAX_NUM_ACTIONS <= strlen(num_chars),
-                        can_not_encode_all_actions);
 
 /************************************************************************//**
   Return the special with the given name, or S_LAST.
@@ -1388,6 +1363,63 @@ static void compat_load_030100(struct loaddata *loading,
   sg_check_ret();
 
   log_debug("Upgrading data from savegame to version 3.1.0");
+
+  /* Actions are now stored by number. */
+  player_slots_iterate(pslot) {
+    int unit;
+    int units_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of units the player has. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+
+    for (unit = 0; unit < units_num; unit++) {
+      const char *action_unitstr;
+      int order_len;
+
+      order_len = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.u%d.orders_length",
+                                             plrno, unit);
+
+      if ((action_unitstr = secfile_lookup_str_default(loading->file, "",
+                                                       "player%d.u%d.action_list",
+                                                       plrno, unit))) {
+        int order_num;
+
+        if (order_len > strlen(action_unitstr)) {
+          order_len = strlen(action_unitstr);
+        }
+
+        for (order_num = 0; order_num < order_len; order_num++) {
+          int unconverted_action_id;
+
+          if (action_unitstr[order_num] == '?') {
+            unconverted_action_id = -1;
+          } else {
+            unconverted_action_id = char2num(action_unitstr[order_num]);
+          }
+
+          if (order_num == 0) {
+            /* The start of a vector has no number. */
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.u%d.action_vec",
+                               plrno, unit);
+          } else {
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.u%d.action_vec,%d",
+                               plrno, unit, order_num);
+          }
+        }
+      }
+    }
+  } player_slots_iterate_end;
 }
 
 /************************************************************************//**
@@ -1772,6 +1804,118 @@ static void compat_load_dev(struct loaddata *loading)
       free(modname_new);
     }
   }
+
+  /* Actions are now stored by number. */
+  player_slots_iterate(pslot) {
+    int unit;
+    int units_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of units the player has. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+
+    for (unit = 0; unit < units_num; unit++) {
+      const char *action_unitstr;
+      int order_len;
+
+      order_len = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.u%d.orders_length",
+                                             plrno, unit);
+
+      if ((action_unitstr = secfile_lookup_str_default(loading->file, "",
+                                                       "player%d.u%d.action_list",
+                                                       plrno, unit))) {
+        int order_num;
+
+        if (order_len > strlen(action_unitstr)) {
+          order_len = strlen(action_unitstr);
+        }
+
+        for (order_num = 0; order_num < order_len; order_num++) {
+          int unconverted_action_id;
+
+          if (action_unitstr[order_num] == '?') {
+            unconverted_action_id = -1;
+          } else {
+            unconverted_action_id = char2num(action_unitstr[order_num]);
+          }
+
+          if (order_num == 0) {
+            /* The start of a vector has no number. */
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.u%d.action_vec",
+                               plrno, unit);
+          } else {
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.u%d.action_vec,%d",
+                               plrno, unit, order_num);
+          }
+        }
+      }
+    }
+  } player_slots_iterate_end;
+  player_slots_iterate(pslot) {
+    int city;
+    int city_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of cities the player has. */
+    city_num = secfile_lookup_int_default(loading->file, 0,
+                                          "player%d.ncities",
+                                          plrno);
+
+    for (city = 0; city < city_num; city++) {
+      const char *action_citystr;
+      int order_len;
+
+      order_len = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.c%d.rally_point_length",
+                                             plrno, city);
+
+      if ((action_citystr = secfile_lookup_str_default(loading->file, "",
+                                                       "player%d.c%d.rally_point_actions",
+                                                       plrno, city))) {
+        int order_num;
+
+        if (order_len > strlen(action_citystr)) {
+          order_len = strlen(action_citystr);
+        }
+
+        for (order_num = 0; order_num < order_len; order_num++) {
+          int unconverted_action_id;
+
+          if (action_citystr[order_num] == '?') {
+            unconverted_action_id = -1;
+          } else {
+            unconverted_action_id = char2num(action_citystr[order_num]);
+          }
+
+          if (order_num == 0) {
+            /* The start of a vector has no number. */
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.c%d.rally_point_action_vec",
+                               plrno, city);
+          } else {
+            secfile_insert_int(loading->file, unconverted_action_id,
+                               "player%d.c%d.rally_point_action_vec,%d",
+                               plrno, city, order_num);
+          }
+        }
+      }
+    }
+  } player_slots_iterate_end;
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }

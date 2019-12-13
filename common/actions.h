@@ -191,8 +191,6 @@ extern "C" {
 #define SPECENUM_VALUE64 ACTION_TRANSPORT_EMBARK
 #define SPECENUM_VALUE64NAME "Transport Embark"
 #define SPECENUM_BITVECTOR bv_actions
-/* Limited by what values num2char() can store in unit orders in
- * savegames. */
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
