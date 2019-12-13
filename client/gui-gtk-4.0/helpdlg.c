@@ -727,7 +727,7 @@ static void create_help_dialog(void)
   g_signal_connect(help_tree_collapse, "clicked",
 		   G_CALLBACK(help_tech_tree_collapse_callback), help_tree);
 
-  help_tree_buttons_hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+  help_tree_buttons_hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_expand);
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
   gtk_container_add(GTK_CONTAINER(help_box), help_tree_buttons_hbox);

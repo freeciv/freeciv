@@ -128,8 +128,7 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
   dlabel = gtk_label_new(text);
   gtk_container_add(GTK_CONTAINER(vbox), dlabel);
 
-  bbox = gtk_button_box_new(GTK_ORIENTATION_VERTICAL);
-  gtk_box_set_spacing(GTK_BOX(bbox), 2);
+  bbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 2);
   gtk_container_add(GTK_CONTAINER(vbox), bbox);
   
   g_object_set_data(G_OBJECT(dshell), "bbox", bbox);
