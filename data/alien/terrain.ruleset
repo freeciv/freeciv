@@ -140,6 +140,10 @@ ocean_resources = TRUE
 ;                        terrain rule_name -- transformation changes to that
 ;                          terrain
 ; transform_time       = time to transform; if 0, cannot transform
+; placing_time         = time for 'placing' an extra; if 0, cannot place
+;                        Nonzero values only affect extras with build_time 0.
+;                        Such extras can modify time with build_time_factor.
+;                        Default is 1.
 ; pillage_time         = time to pillage extra from the tile (0 = impossible)
 ;                        Nonzero values only affect extras with removal_time 0.
 ; clean_pollution_time = time for 'clean pollution' activity (0 = impossible)

@@ -1654,6 +1654,7 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
 
   TERRAIN transform_result;
   UINT8 transform_time;
+  UINT8 placing_time;
   UINT8 clean_pollution_time;
   UINT8 clean_fallout_time;
   UINT8 pillage_time;

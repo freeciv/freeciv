@@ -208,6 +208,8 @@ struct terrain {
   int mining_shield_incr;
   int mining_time;
 
+  int placing_time;
+
   struct terrain *transform_result;
   int transform_time;
   int clean_pollution_time;

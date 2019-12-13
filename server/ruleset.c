@@ -2998,6 +2998,11 @@ static bool load_ruleset_terrain(struct section_file *file,
         ok = FALSE;
         break;
       }
+
+      pterrain->placing_time = 1; /* default */
+      lookup_time(file, &pterrain->placing_time,
+                  tsection, "placing_time", filename, NULL, &ok);
+
       pterrain->pillage_time = 1; /* default */
       lookup_time(file, &pterrain->pillage_time,
                   tsection, "pillage_time", filename, NULL, &ok);
@@ -7428,6 +7433,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.transform_result = (pterrain->transform_result
 			       ? terrain_number(pterrain->transform_result)
 			       : terrain_count());
+    packet.placing_time = pterrain->placing_time;
     packet.pillage_time = pterrain->pillage_time;
     packet.transform_time = pterrain->transform_time;
     packet.clean_pollution_time = pterrain->clean_pollution_time;

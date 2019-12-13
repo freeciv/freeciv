@@ -436,6 +436,11 @@ bool player_can_place_extra(const struct extra_type *pextra,
     return FALSE;
   }
 
+  if (tile_terrain(ptile)->placing_time <= 0) {
+    /* Can't place to this terrain */
+    return FALSE;
+  }
+
   if (game.info.borders != BORDERS_DISABLED) {
     if (tile_owner(ptile) != pplayer) {
       return FALSE;

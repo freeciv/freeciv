@@ -64,8 +64,7 @@ void handle_player_place_infra(struct player *pplayer, int tile, int extra)
   if (pextra->build_time > 0) {
     ptile->infra_turns = pextra->build_time;
   } else {
-    /* FIXME: Should have terrain specific placing time */
-    ptile->infra_turns = 1;
+    ptile->infra_turns = tile_terrain(ptile)->placing_time * pextra->build_time_factor;
   }
 
   /* update_tile_knowledge() would not know to send the tile
