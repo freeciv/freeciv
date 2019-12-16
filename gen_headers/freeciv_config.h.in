@@ -32,6 +32,9 @@
 /* Month next version will be released */
 #undef FREECIV_RELEASE_MONTH
 
+/* Use C11 threads as thread implementation */
+#undef FREECIV_HAVE_C11_THREADS
+
 /* Use pthreads as thread implementation */
 #undef FREECIV_HAVE_PTHREAD
 

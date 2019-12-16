@@ -823,6 +823,19 @@ if test "x$fctinycthr" = "xyes" ; then
   AC_MSG_RESULT([tinycthread])
 fi
 
+if test "x$thread_impl" = "xnone" ; then
+  libs_save="$LIBS"
+  LIBS="$LIBS -lpthread"
+  AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <threads.h>]],
+    [[return thrd_create(NULL, NULL, NULL);]])],
+    [AC_DEFINE([FREECIV_HAVE_C11_THREADS], [1], [Use C11 threads as thread implementation])
+    thread_impl=c11
+    AC_MSG_RESULT([C11])
+    AC_DEFINE([FREECIV_HAVE_THREAD_COND], [1], [Has thread condition variable implementation])
+    thread_cond=true],
+    [LIBS="$libs_save"])
+fi
+
 if test x$crosser != xyes && test "x$thread_impl" = "xnone" ; then
   FC_C_FLAGS([-pthread], [], [CFLAGS])
   FC_LD_FLAGS([-pthread], [], [LIBS])
