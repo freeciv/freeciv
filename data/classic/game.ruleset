@@ -365,14 +365,14 @@ ui_name_found_city = _("%sBuild City%s")
 ; /* TRANS: _Add to City (100% chance of success). */
 ui_name_join_city = _("%sAdd to City%s")
 
-; /* TRANS: Explode _Nuclear (100% chance of success). */
-ui_name_explode_nuclear = _("Explode %sNuclear%s")
+; /* TRANS: Explode _Nuclear In Place (100% chance of success). */
+ui_name_explode_nuclear = _("Explode %sNuclear In Place%s")
 
-; /* TRANS: Explode _Nuclear (100% chance of success). */
-ui_name_nuke_city = _("Explode %sNuclear%s")
+; /* TRANS: _Nuke City (100% chance of success). */
+ui_name_nuke_city = _("%sNuke City%s")
 
-; /* TRANS: Explode _Nuclear (100% chance of success). */
-ui_name_nuke_units = _("Explode %sNuclear%s")
+; /* TRANS: _Nuke Units (100% chance of success). */
+ui_name_nuke_units = _("%sNuke Units%s")
 
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
