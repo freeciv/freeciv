@@ -252,10 +252,10 @@ static bool effect_handle_split_universal(struct effect *peffect,
 {
   if (universal_is_mentioned_by_requirements(&peffect->reqs, &original)) {
     /* Copy the old effect. */
-    effect_copy(peffect);
+    struct effect *peffect_copy = effect_copy(peffect);
 
     /* Replace the original requirement with the separated requirement. */
-    return universal_replace_in_req_vec(&peffect->reqs,
+    return universal_replace_in_req_vec(&peffect_copy->reqs,
                                         &original, &separated);
   }
 
