@@ -1526,7 +1526,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->shell = gtk_dialog_new();
   gtk_window_set_title(GTK_WINDOW(pdialog->shell), city_name_get(pcity));
   setup_dialog(pdialog->shell, toplevel);
-  gtk_window_set_role(GTK_WINDOW(pdialog->shell), "city");
 
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(city_destroy_callback), pdialog);
