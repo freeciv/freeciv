@@ -1538,12 +1538,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   /* keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
   {
-    GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG));
-    GdkTexture *icon = gdk_texture_new_for_pixbuf(pixbuf);
-
-    /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(pdialog->shell), icon);
-    g_object_unref(pixbuf);
+    gtk_window_set_icon_name(GTK_WINDOW(pdialog->shell), "citydlg");
   }
 #endif /* FREECIV_MSWINDOWS */
 
