@@ -1368,7 +1368,7 @@ static void dai_go_to_war(struct ai_type *ait, struct player *pplayer,
   in which time the AI will refuse to make treaties. This is to make
   the AI more stubborn.
 ***********************************************************************/
-void static war_countdown(struct ai_type *ait, struct player *pplayer,
+static void war_countdown(struct ai_type *ait, struct player *pplayer,
                           struct player *target,
                           int countdown, enum war_reason reason)
 {

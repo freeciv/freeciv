@@ -176,7 +176,7 @@ char fc_tolower(char c);
 
 const char *fc_basename(const char *path);
 
-static bool inline is_bigendian(void)
+static inline bool is_bigendian(void)
 {
 #ifdef WORDS_BIGENDIAN 
   return TRUE;

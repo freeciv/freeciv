@@ -3473,7 +3473,7 @@ static bool tileset_setup_unit_direction(struct tileset *t,
 /**********************************************************************
   Try to setup all unit type sprites from single tag
 ***********************************************************************/
-bool static tileset_setup_unit_type_from_tag(struct tileset *t,
+static bool tileset_setup_unit_type_from_tag(struct tileset *t,
                                              int uidx, const char *tag)
 {
   bool has_icon, facing_sprites = TRUE;

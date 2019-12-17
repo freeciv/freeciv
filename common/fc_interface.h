@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -51,7 +51,7 @@ struct functions {
   void (*gui_color_free)(struct color *pcolor);
 };
 
-const extern struct functions *fc_funcs;
+extern const struct functions *fc_funcs;
 
 struct functions *fc_interface_funcs(void);
 void fc_interface_init(void);
