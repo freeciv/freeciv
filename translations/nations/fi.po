@@ -26,7 +26,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.5\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2018-07-17 09:22+0100\n"
-"PO-Revision-Date: 2017-09-24 01:02+0300\n"
+"PO-Revision-Date: 2019-12-17 21:15+0000\n"
 "Last-Translator: Markus Linnakangas <markus.linnakangas@luukku.com>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -4501,15 +4501,7 @@ msgstr "kujavien"
 msgid "?plural:Cuyavians"
 msgstr "kujavit"
 
-# Markus (mlinnaka): I think the English description is incorrect regarding
-# Masovia being to the west and Greater poland to the east of Cuyavia. Finnish
-# translation is more correct than original.
 #: data/nation/cuyavian.ruleset:6
-#, fuzzy
-#| msgid ""
-#| "Cuyavia is a historical region in Northern-Central Poland, bordered to "
-#| "the West by Masovia, on the East by Greater Poland and on the North by "
-#| "Pomerania."
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
 "East by Masovia, on the West by Greater Poland and on the North by Pomerania."
