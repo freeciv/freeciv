@@ -54,6 +54,8 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("techs from")
 #define SPECENUM_VALUE3 ASTK_EXTRA
 #define SPECENUM_VALUE3NAME N_("extras on")
+#define SPECENUM_VALUE4 ASTK_EXTRA_NOT_THERE
+#define SPECENUM_VALUE4NAME N_("create extras on")
 #define SPECENUM_COUNT ASTK_COUNT
 #include "specenum_gen.h"
 

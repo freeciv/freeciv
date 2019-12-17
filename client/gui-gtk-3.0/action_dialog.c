@@ -335,6 +335,8 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
       }
       break;
     case ASTK_EXTRA:
+    case ASTK_EXTRA_NOT_THERE:
+      /* TODO: validate if the extra is there? */
       sub_target = args->target_extra_id;
       if (NULL == extra_by_number(sub_target)) {
         /* Did the ruleset change? */

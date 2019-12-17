@@ -760,7 +760,7 @@ static void hard_code_actions(void)
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_ROAD] =
-      action_new(ACTION_ROAD, ATK_TILE, ASTK_EXTRA,
+      action_new(ACTION_ROAD, ATK_TILE, ASTK_EXTRA_NOT_THERE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_CONVERT] =
@@ -768,15 +768,15 @@ static void hard_code_actions(void)
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_BASE] =
-      action_new(ACTION_BASE, ATK_TILE, ASTK_EXTRA,
+      action_new(ACTION_BASE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_MINE] =
-      action_new(ACTION_MINE, ATK_TILE, ASTK_EXTRA,
+      action_new(ACTION_MINE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_IRRIGATE] =
-      action_new(ACTION_IRRIGATE, ATK_TILE, ASTK_EXTRA,
+      action_new(ACTION_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
                  FALSE, ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_TRANSPORT_ALIGHT] =
