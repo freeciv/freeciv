@@ -400,8 +400,12 @@ bool client_start_server(void)
 #ifdef FREECIV_WEB
       execvp("./server/freeciv-web", argv);
 #else  /* FREECIV_WEB */
+#ifdef MESON_BUILD
+      execvp("./freeciv-server", argv);
+#else  /* MESON_BUILD */
       execvp("./fcser", argv);
       execvp("./server/freeciv-server", argv);
+#endif /* MESON_BUILD */
 #endif /* FREECIV_WEB */
 #endif /* FREECIV_DEBUG */
 #ifdef FREECIV_WEB
