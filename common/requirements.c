@@ -218,6 +218,7 @@ struct universal universal_by_rule_name(const char *kind,
     if (source.value.specialist) {
       return source;
     }
+    break;
   case VUT_MINSIZE:
     source.value.minsize = atoi(value);
     if (source.value.minsize > 0) {
