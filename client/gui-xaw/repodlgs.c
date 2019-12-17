@@ -189,7 +189,7 @@ void create_science_dialog(bool make_modal)
 {
   Widget science_form;
   Widget  close_command;
-  const static char *tech_list_names_ptrs[A_LAST + 1];
+  static const char *tech_list_names_ptrs[A_LAST + 1];
   Dimension width;
   char rate_text[128];
   char current_text[512];
