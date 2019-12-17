@@ -4199,20 +4199,20 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_ALIGHT:
-    /* TODO */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_BOARD:
-    /* TODO */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_EMBARK:
-    /* TODO */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_UNLOAD:
-    /* TODO */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
-    /* TODO */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_USER_ACTION1:
     /* TODO */
