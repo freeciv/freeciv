@@ -21,7 +21,10 @@
 #define FC__FREECIV_CONFIG_H
 
 /* Use pthreads as thread implementation */
-#define FREECIV_HAVE_PTHREAD
+#mesondefine FREECIV_HAVE_PTHREAD
+
+/* Use tinycthread as thread implementation */
+#mesondefine FREECIV_HAVE_TINYCTHR
 
 /* Has thread condition variable implementation */
 #define FREECIV_HAVE_THREAD_COND

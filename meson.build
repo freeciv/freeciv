@@ -5,6 +5,8 @@ if not get_option('ack_experimental')
   error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.')
 endif
 
+host_system = host_machine.system()
+
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
 
@@ -140,6 +142,12 @@ foreach func : priv_functions
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
+
+if host_system == 'windows'
+  pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
+else
+  pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+endif
 
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
