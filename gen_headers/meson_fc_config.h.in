@@ -29,6 +29,8 @@
 
 #define BINDIR "@BINDIR@"
 
+#define _GNU_SOURCE
+
 /* Release cycle information */
 #mesondefine IS_DEVEL_VERSION
 
