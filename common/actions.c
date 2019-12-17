@@ -1079,7 +1079,7 @@ enum action_target_kind action_get_target_kind(
 enum action_sub_target_kind action_get_sub_target_kind(
     const struct action *paction)
 {
-  fc_assert_ret_val_msg(paction, ATK_COUNT, "Action doesn't exist.");
+  fc_assert_ret_val_msg(paction, ASTK_COUNT, "Action doesn't exist.");
 
   return paction->sub_target_kind;
 }
