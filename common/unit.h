@@ -272,7 +272,7 @@ extern Activity_type_id real_activities[ACTIVITY_LAST];
   activity_type_list_iterate_end                                            \
 }
 
-extern const Activity_type_id tile_changing_activities[ACTIVITY_LAST];
+extern const Activity_type_id tile_changing_activities[];
 
 #define tile_changing_activities_iterate(_act_)                             \
 {                                                                           \
