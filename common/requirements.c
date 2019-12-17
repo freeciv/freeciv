@@ -230,6 +230,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     if (source->value.min_techs > 0) {
       return;
     }
+    break;
   case VUT_ACTION:
     source->value.action = action_by_rule_name(value);
     if (source->value.action != NULL) {
@@ -247,6 +248,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     if (source->value.specialist) {
       return;
     }
+    break;
   case VUT_MINSIZE:
     source->value.minsize = atoi(value);
     if (source->value.minsize > 0) {
@@ -306,6 +308,7 @@ void universal_value_from_str(struct universal *source, const char *value)
       /* More range checking done later, in sanity_check_req_individual() */
       return;
     }
+    break;
   case VUT_TOPO:
     source->value.topo_property = topo_flag_by_name(value, fc_strcasecmp);
     if (topo_flag_is_valid(source->value.topo_property)) {
