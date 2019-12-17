@@ -691,7 +691,7 @@ Actions done by a unit against a tile
  * UI name can be set using ui_name_pillage
  * terrain type must be one where pillaging is possible
 
-"Road"        - Build road at the target tile.
+"Build Road"        - Build road at the target tile.
  * UI name can be set using ui_name_road
  * actor must be on the same tile as the target.
  * the actor unit has the "Settlers" unit type flag

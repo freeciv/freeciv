@@ -2553,7 +2553,7 @@ static void pillage(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action "Road" for choice dialog
+  Action "Build Road" for choice dialog
 ***************************************************************************/
 static void road(QVariant data1, QVariant data2)
 {

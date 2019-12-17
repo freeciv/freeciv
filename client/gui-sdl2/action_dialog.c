@@ -1464,7 +1464,7 @@ static int pillage_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
-  User clicked "Road"
+  User clicked "Build Road"
 **************************************************************************/
 static int road_callback(struct widget *pWidget)
 {
