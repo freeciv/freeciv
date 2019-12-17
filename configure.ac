@@ -1137,15 +1137,15 @@ if test "x$req_fcmp_qt" = "xyes" ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
 
    if test "x$cxx_works" = "xyes" ; then
-     FC_QT5
+     FC_QT([qt5])
 
-     if test "x$fc_qt5_usable" = "xtrue" ; then
+     if test "x$fc_qt_usable" = "xtrue" ; then
        fcmp_qt=yes
        fcmp_list="$fcmp_list qt"
 
-       mp_qt_cppflags=$FC_QT5_CPPFLAGS
-       mp_qt_cxxflags=$FC_QT5_CXXFLAGS
-       mp_qt_libs=$FC_QT5_LIBS
+       mp_qt_cppflags=$FC_QT_CPPFLAGS
+       mp_qt_cxxflags=$FC_QT_CXXFLAGS
+       mp_qt_libs=$FC_QT_LIBS
 
        if test "x$modinst" = "xauto" ; then
          modinst=found
@@ -1203,15 +1203,16 @@ AC_ARG_ENABLE([ruledit],
 esac], [ruledit=test])
 if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
   if test "x$cxx_works" = "xyes" ; then
-    FC_QT5
+    qt_ver="Qt5"
+    FC_QT([$qt_ver])
 
-    if test "x$fc_qt5_usable" = "xtrue" ; then
-      ruledit_cppflags=$FC_QT5_CPPFLAGS
-      ruledit_cxxflags=$FC_QT5_CXXFLAGS
-      ruledit_libs=$FC_QT5_LIBS
+    if test "x$fc_qt_usable" = "xtrue" ; then
+      ruledit_cppflags=$FC_QT_CPPFLAGS
+      ruledit_cxxflags=$FC_QT_CXXFLAGS
+      ruledit_libs=$FC_QT_LIBS
       ruledit=yes
     elif test "x$ruledit" = "xyes" ; then
-      AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
+      AC_MSG_ERROR([$qt_ver not found for building freeciv-ruledit])
     fi
   elif test "x$ruledit" = "xyes" ; then
     AC_MSG_ERROR([No working C++ compiler found for building freeciv-ruledit])

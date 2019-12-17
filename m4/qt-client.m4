@@ -9,22 +9,23 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
    test "x$client" = "xauto" ; then
 
   if test "x$cxx_works" = "xyes" ; then
+    qt_ver="Qt5"
 
-    FC_QT5
+    FC_QT([$qt_ver])
 
-    if test x$fc_qt5_usable = xtrue ; then
-      gui_qt_cppflags=$FC_QT5_CPPFLAGS
-      gui_qt_cxxflags=$FC_QT5_CXXFLAGS
-      gui_qt_libs=$FC_QT5_LIBS
+    if test x$fc_qt_usable = xtrue ; then
+      gui_qt_cppflags=$FC_QT_CPPFLAGS
+      gui_qt_cxxflags=$FC_QT_CXXFLAGS
+      gui_qt_libs=$FC_QT_LIBS
     else
-      qt_fail_reason="Missing Qt5 development files"
+      qt_fail_reason="Missing $qt_ver development files"
     fi
 
   else
      qt_fail_reason="C++ compiler does not work"
   fi
 
-  if test "x$fc_qt5_usable" = "xtrue" ; then
+  if test "x$fc_qt_usable" = "xtrue" ; then
     gui_qt=yes
     if test "x$client" = "xauto" ; then
       client=yes
