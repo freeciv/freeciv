@@ -32,7 +32,7 @@ extern "C" {
 #include <threads.h>
 #define FREECIV_C11_THR
 #endif /* FREECIV_HAVE_C11_THREADS */
-#endif /* FREECIV_hAVE_TINYCTHR */
+#endif /* FREECIV_HAVE_TINYCTHR */
 
 #ifdef FREECIV_C11_THR
 
