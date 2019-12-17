@@ -5,15 +5,15 @@
 # Tomasz Węgrzanowski <maniek@beer.com> 2000
 # Zbigniew Baniewski <zb@ispid.com.pl> 2002
 # Mateusz Stefek <matusik_s@o2.pl> 2002
-# Hubert Kowalewski <hubkow@gmail.com> 2010 - 2017
+# Hubert Kowalewski <hubkow@users.sourceforge.net> 2010 - 2019
 # **************************************************************************
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (nations) S2_5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-03 11:08+0000\n"
-"PO-Revision-Date: 2018-02-26 12:10+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
+"POT-Creation-Date: 2018-01-30 15:24+0200\n"
+"PO-Revision-Date: 2019-12-03 15:22+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: polski <hubkow@users.sourceforge.net>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2;\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -167,7 +167,7 @@ msgstr "Abisyński"
 
 #: data/nation/abyssinian.ruleset:4
 msgid "?plural:Abyssinians"
-msgstr "?plural:Absyńczycy"
+msgstr "?plural:Abisyńczycy"
 
 #: data/nation/abyssinian.ruleset:6
 msgid ""
@@ -970,8 +970,7 @@ msgstr "?female:Baliw %s"
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
 #: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
-#: data/nation/chiapanec.ruleset:34
-#: data/nation/congolesebrazzaville.ruleset:28
+#: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
 #: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
 #: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
@@ -991,13 +990,13 @@ msgstr "?female:Baliw %s"
 #: data/nation/panamanian.ruleset:30 data/nation/riograndense.ruleset:21
 #: data/nation/romansh.ruleset:29 data/nation/saintlucian.ruleset:24
 #: data/nation/savoyard.ruleset:32 data/nation/saxon.ruleset:22
-#: data/nation/schleswig-holsteinian.ruleset:27
-#: data/nation/silesian.ruleset:23 data/nation/slovenian.ruleset:19
-#: data/nation/thuringian.ruleset:43 data/nation/transylvanian.ruleset:28
-#: data/nation/uruguayan.ruleset:24 data/nation/venezuelan.ruleset:34
-#: data/nation/vincentian.ruleset:25 data/nation/volgagerman.ruleset:38
-#: data/nation/westindian.ruleset:24 data/nation/wuerttembergian.ruleset:24
-#: data/nation/yucatecan.ruleset:31 data/nation/zimbabwean.ruleset:26
+#: data/nation/schleswig-holsteinian.ruleset:27 data/nation/silesian.ruleset:23
+#: data/nation/slovenian.ruleset:19 data/nation/thuringian.ruleset:43
+#: data/nation/transylvanian.ruleset:28 data/nation/uruguayan.ruleset:24
+#: data/nation/venezuelan.ruleset:34 data/nation/vincentian.ruleset:25
+#: data/nation/volgagerman.ruleset:38 data/nation/westindian.ruleset:24
+#: data/nation/wuerttembergian.ruleset:24 data/nation/yucatecan.ruleset:31
+#: data/nation/zimbabwean.ruleset:26
 #, c-format
 msgid "Bishop %s"
 msgstr "Biskup %s"
@@ -4329,7 +4328,7 @@ msgid ""
 "wars with Turkey."
 msgstr ""
 "W wiekach XV-XVIII Tatarzy Krymscy stworzyli feudalne państwo na Półwyspie "
-"Krymskim. Najeżdżali oni Polskę i Rosję, co doprowadziło do wojen z Turcją. "
+"Krymskim. Najeżdżali oni Polskę i Rosję, co doprowadziło do wojen z Turcją."
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -4715,7 +4714,7 @@ msgstr ""
 #: data/nation/soviet.ruleset:27
 #, c-format
 msgid "Enemy of the People %s"
-msgstr "Wróg Ludu %s."
+msgstr "Wróg Ludu %s"
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
@@ -7859,8 +7858,8 @@ msgid ""
 "unambiguous (\"Time flies like an arrow. Fruit flies like a banana.\"), "
 "culturally neutral and simple to learn."
 msgstr ""
-"Lożbanistan to fikcyjne państwom, którego mieszkańcy posługują się językiem "
-"lojba (wym. \"lożba\"). Lojba to sztuczny język, jednoznaczny syntaktycznie, "
+"Lożbanistan to fikcyjne państwo, którego mieszkańcy posługują się językiem "
+"Lojba (wym. \"lożba\"). Lojba to sztuczny język, jednoznaczny syntaktycznie, "
 "neutralny kulturowo i prosty do nauczenia się."
 
 #: data/nation/lorrain.ruleset:3
