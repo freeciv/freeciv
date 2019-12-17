@@ -1,19 +1,19 @@
 # Polish translations for Freeciv
-# Hubert Kowalewski <hubkow@gmail.com> 2013 - 2014
+# Hubert Kowalewski <hubkow@users.sourceforge.net> 2010 - 2019
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2018-03-24 11:23+0000\n"
-"PO-Revision-Date: 2018-02-15 16:37+0100\n"
-"Last-Translator: Hubert Kowalewski <hubkow@gmail.com>\n"
+"POT-Creation-Date: 2019-12-02 23:20+0000\n"
+"PO-Revision-Date: 2019-12-03 15:43+0100\n"
+"Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:100
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
@@ -22,7 +22,7 @@ msgstr "Zamknij"
 
 #: tools/ruledit/conversion_log.cpp:46
 msgid "Old ruleset to a new format"
-msgstr ""
+msgstr "Stary zestaw zasad na nowy format"
 
 #: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:63
 msgid "Type:"
@@ -37,12 +37,12 @@ msgstr "Wartość:"
 msgid "Requirements"
 msgstr "Wymagania"
 
-#: tools/ruledit/effect_edit.cpp:172
+#: tools/ruledit/effect_edit.cpp:173
 #, fuzzy, c-format
 msgid "Effect #%d: %s"
 msgstr "Efekt"
 
-#: tools/ruledit/effect_edit.cpp:265
+#: tools/ruledit/effect_edit.cpp:266
 #, c-format
 msgid "%s effect #%d"
 msgstr ""
@@ -59,32 +59,35 @@ msgstr "Usuwam %s"
 msgid "Needed by %s"
 msgstr "Wymagane przez %s"
 
-#: tools/ruledit/ruledit.cpp:114
-msgid "Failed to load comments.txt"
+#. TRANS: 'Failed to load comments-x.y.txt' where x.y is
+#. * freeciv version
+#: tools/ruledit/ruledit.cpp:116
+#, fuzzy, c-format
+msgid "Failed to load %s."
 msgstr "Nie udało się wczytać comments.txt"
 
-#: tools/ruledit/ruledit.cpp:148
+#: tools/ruledit/ruledit.cpp:150
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
-#: tools/ruledit/ruledit.cpp:150
+#: tools/ruledit/ruledit.cpp:152
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:153
+#: tools/ruledit/ruledit.cpp:155
 msgid "ruleset RULESET"
 msgstr "ruleset ZESTAW ZASAD"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:156
 msgid "Ruleset to use as the starting point."
 msgstr "Zestaw zasad będący punktem wyjścia."
 
-#: tools/ruledit/ruledit.cpp:167
+#: tools/ruledit/ruledit.cpp:169
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Można edytować tylko jeden zestaw zasad na raz.\n"
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:176
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
@@ -143,8 +146,9 @@ msgid "Terrains"
 msgstr "Tereny"
 
 #: tools/ruledit/ruledit_qt.cpp:178
+#, fuzzy
 msgid "Multipliers"
-msgstr ""
+msgstr "?stat:Mnożniki"
 
 #: tools/ruledit/ruledit_qt.cpp:180
 msgid "Nations"
@@ -192,15 +196,15 @@ msgstr "Nazwa"
 msgid "Effects"
 msgstr "Efekt"
 
-#: tools/ruledit/tab_building.cpp:93
+#: tools/ruledit/tab_building.cpp:92
 msgid "Add Building"
 msgstr "Dodaj budynek"
 
-#: tools/ruledit/tab_building.cpp:98
+#: tools/ruledit/tab_building.cpp:97
 msgid "Remove this Building"
 msgstr "Usuń ten budynek"
 
-#: tools/ruledit/tab_building.cpp:175
+#: tools/ruledit/tab_building.cpp:174
 msgid "A building with that rule name already exists!"
 msgstr "Budynek o tej nazwie reguły już istnieje!"
 
@@ -224,31 +228,31 @@ msgstr "Dodaj aktywator"
 msgid "Remove this Enabler"
 msgstr "Usuń ten aktywator"
 
-#: tools/ruledit/tab_enablers.cpp:238
+#: tools/ruledit/tab_enablers.cpp:240
 msgid "Obligatory hard requirements"
 msgstr "Obowiązkowe twarde wymagania"
 
-#: tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:243
 msgid "Changing action to %1 will modify enabler requirements. Continue?"
 msgstr "Zmienienie akcji na %1 zmieni wymagania aktywatora. Kontynuować?"
 
-#: tools/ruledit/tab_enablers.cpp:275
+#: tools/ruledit/tab_enablers.cpp:277
 msgid "Enabler (target)"
 msgstr "Aktywator (cel)"
 
-#: tools/ruledit/tab_enablers.cpp:286
+#: tools/ruledit/tab_enablers.cpp:288
 msgid "Enabler (actor)"
 msgstr "Aktywator (agent)"
 
-#: tools/ruledit/tab_good.cpp:94
+#: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
 msgstr "Dodaj dobro"
 
-#: tools/ruledit/tab_good.cpp:99
+#: tools/ruledit/tab_good.cpp:98
 msgid "Remove this Good"
 msgstr "Usuń to dobro"
 
-#: tools/ruledit/tab_good.cpp:177
+#: tools/ruledit/tab_good.cpp:176
 msgid "A good with that rule name already exists!"
 msgstr "Gracz o tej nazwie już bierze udział w grze!"
 
@@ -350,9 +354,8 @@ msgid "?stat:Goods"
 msgstr "Dobra"
 
 #: tools/ruledit/tab_misc.cpp:172
-#, fuzzy
 msgid "?stat:Multipliers"
-msgstr "Style"
+msgstr "?stat:Mnożniki"
 
 #: tools/ruledit/tab_misc.cpp:180
 msgid "Refresh Stats"
@@ -373,7 +376,7 @@ msgstr ""
 #: tools/ruledit/tab_multiplier.cpp:88
 #, fuzzy
 msgid "Add Multiplier"
-msgstr "Dodaj budynek"
+msgstr "?stat:Mnożniki"
 
 #: tools/ruledit/tab_multiplier.cpp:93
 #, fuzzy
@@ -425,15 +428,15 @@ msgstr "Technologia o tej nazwie reguły istnieje!"
 msgid "Edit Unit"
 msgstr "Edytuj jednostkę"
 
-#: tools/ruledit/tab_unit.cpp:94
+#: tools/ruledit/tab_unit.cpp:93
 msgid "Add Unit"
 msgstr "Dodaj jednostkę"
 
-#: tools/ruledit/tab_unit.cpp:99
+#: tools/ruledit/tab_unit.cpp:98
 msgid "Remove this Unit"
 msgstr "Usuń tą jednostkę"
 
-#: tools/ruledit/tab_unit.cpp:176
+#: tools/ruledit/tab_unit.cpp:175
 msgid "A unit type with that rule name already exists!"
 msgstr "Typ jednostki o tej nazwie reguły już istnieje!"
 
@@ -449,23 +452,23 @@ msgstr "Dodaj wymaganie"
 msgid "Delete Requirement"
 msgstr "Usuń wymaganie"
 
-#: tools/ruledit/validity.c:65 tools/ruledit/validity.c:323
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:311
 msgid "Effect"
 msgstr "Efekt"
 
-#: tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:122
 msgid "Action Enabler"
 msgstr "Aktywator czynności"
 
-#: tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:142
 msgid "Music Style"
 msgstr "Styl muzyki"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:256
 msgid "Conflicting extra"
 msgstr "Niezgodne usprawnienie"
 
-#: tools/ruledit/validity.c:271
+#: tools/ruledit/validity.c:259
 msgid "Hidden extra"
 msgstr "Ukryte usprawnienie"
 
