@@ -5,6 +5,7 @@ AC_ARG_VAR([MOCCMD], [QT 5 moc command (autodetected it if not set)])
 AC_DEFUN([FC_QT5],
 [
   if test "x$fc_qt5_usable" = "x" ; then
+    FC_QT5_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=0x050200"
     case $host_os in 
     darwin*) FC_QT5_DARWIN;;
     *) FC_QT5_GENERIC;;
