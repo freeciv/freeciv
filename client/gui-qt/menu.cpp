@@ -300,7 +300,7 @@ void trade_generator::calculate()
 
   for (i = 0; i < 100; i++) {
     tdone = true;
-    qSort(cities.begin(), cities.end(), tradecity_rand);
+    std::sort(cities.begin(), cities.end(), tradecity_rand);
     lines.clear();
     foreach (tc, cities) {
       tc->pos_cities.clear();
