@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-11 10:58+0200\n"
+"POT-Creation-Date: 2019-12-17 12:25+0000\n"
 "PO-Revision-Date: 2018-06-28 23:35+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -3957,7 +3957,7 @@ msgstr "Bonus (N/P/C) :"
 #: client/gui-qt/repodlgs.cpp:582 client/gui-sdl/gui_tilespec.c:371
 #: client/gui-sdl/helpdlg.c:817 client/gui-sdl/mapview.c:334
 #: client/gui-xaw/helpdlg.c:825 client/gui-xaw/helpdlg.c:870
-#: client/gui-xaw/helpdlg.c:889 common/tech.c:1217 common/tech.c:1220
+#: client/gui-xaw/helpdlg.c:889 common/tech.c:1215 common/tech.c:1218
 #: tools/civmanual.c:460
 msgid "?tech:None"
 msgstr "Aucune"
@@ -4111,7 +4111,7 @@ msgstr "Rapport sur l'étranger : empire %s"
 
 #. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-3.0/inteldlg.c:403
-#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1227
+#: client/gui-qt/plrdlg.cpp:434 common/tech.c:1225
 msgid "(Unknown)"
 msgstr "(Inconnu)"
 
@@ -14992,12 +14992,12 @@ msgstr "équipe %s"
 msgid "team %d"
 msgstr "équipe %d"
 
-#: common/tech.c:1069
+#: common/tech.c:1065
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Techno. Future %d"
 
-#: common/tech.c:1223
+#: common/tech.c:1221
 msgid "Future Tech."
 msgstr "Techno. Future"
 
