@@ -1,10 +1,120 @@
 =========================
-Welcome to Freeciv 2.5.11
+Welcome to Freeciv 2.5.12
 =========================
 
 The changes in the 2.5.x series are summarised below.
 For changes prior to 2.5, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.5.11 to 2.5.12
+-----------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.5.12>, 2019-12-18)
+
+   2.5.12 is a bugfix release. It is expected to be the final release in
+   the 2.5 series.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Vision-providing bases, such as buoys, could in some circumstances
+       remove visibility from tiles, perhaps preventing the owner's cities
+       from working them, in the presence of autosettlers. HRM#797698
+       HRM#781551
+     * When a unit such as a Leader was cargo on a transport that was lost
+       with its home city, it could be 'saved' by teleporting to the site
+       of that city. This could leave an illegal stack of non-allied units
+       on the same tile (Leader and city's conqueror), and prevent the
+       Leader teleporting to a more distant, safe city. HRM#761808
+     * A few resources could be added to the map even when none were
+       requested. HRM#763879
+     * Global warming and nuclear winter had a small chance of occurring
+       even when the client displayed the chance as 0%. HRM#763882
+     * Cities produced pollution slightly too often. HRM#763881
+     * When gaining free Future Techs (for instance from Darwin's Voyage),
+       some messages showed the wrong Future Tech number. HRM#761977
+     * Historians were never reporting on the "LARGEST Civilizations"
+       (with the most citizens), by mistake. HRM#763883
+     * Historians failed to take angry citizens into account when
+       reporting on the "HAPPIEST Civilizations". HRM#763884
+     * The end-game score for an arrived spaceship included population in
+       habitation modules that weren't actually attached to the spaceship
+       at launch. HRM#757442
+     * Fix a possible network protocol warning when units are starving.
+       HRM#661865
+
+Changes affecting other rulesets / modders
+
+     * In rulesets which allow capturing units, it's no longer allowed to
+       capture a transport which is carrying units. (Previously this was
+       allowed, but left the game in a broken state.) HRM#772516
+     * Fix longstanding bug in rulesets with 129 or more unit types; if
+       any of the later units was an upgrade or conversion target, the
+       client would not allow the action. HRM#763984
+     * In rulesets with nation-specific starting units, care is now taken
+       to place them on tiles they can exist on, and clear any huts from
+       their tile. HRM#767129
+     * Rulesets which defined a unit type without any tech_req could crash
+       the server, rather than giving an error message. HRM#816374
+     * Rulesets which used default/nationlist.ruleset could not define a
+       default_government outside the standard set defined by
+       nationlist.ruleset. HRM#764299
+     * Fix inability to use default/nationlist.ruleset in a custom ruleset
+       lacking standard plural-named terrains such as 'Hills'. HRM#827555
+     * Some improvements to unit debugging (/debug unit). HRM#760368
+       HRM#760370
+     * Coding style clean up to supplied default.lua script. HRM#822189
+
+General
+
+     * Fix a rare compression failure which could stop communication
+       between client and server. HRM#746878 HRM#747319
+     * Slightly improved diagnostics for missing sound files. HRM#799291
+     * Tweak format of comments in various output files. HRM#761206
+     * Various internal changes which should only affect developers.
+       HRM#767074 HRM#800781 HRM#801661 HRM#848260 HRM#823695
+
+Clients
+
+     * When setting up single-player games, the client's AI level control
+       no longer gets out of sync with the server state. HRM#765061
+     * In the city dialog, clicking on the middle tile to rearrange
+       workers could fail to update the city dialog map display.
+       HRM#736822
+     * (Gtk3) If you pressed Escape when prompted for the name of a new
+       city, the relevant unit could subsequently not respond to the
+       (B)uild City command at all. Hitting Escape when renaming a city
+       could also lead to trouble. HRM#689225
+     * (Gtk3) Happiness tooltips from the city dialog could appear in the
+       wrong place. HRM#768105
+     * (SDL) Fix a possible crash on closing the client. HRM#824593
+
+Help / Documentation
+
+     * Miscellaneous improvements to in-game text and user documentation.
+       HRM#744655 HRM#744672 HRM#760366
+     * Miscellaneous changes to developer/install/ruleset docs. HRM#744666
+       HRM#692480 HRM#741552 HRM#850289
+
+Translations
+
+     * Updated translations:
+          + Complete translations: French, Catalan, Russian, Polish,
+            Spanish, British English.
+          + Incomplete translations: Finnish (100% core, 93% nations).
+
+Build/portability
+
+     * Fix building SDL client with Freetype ≥ 2.9.1. HRM#824994
+     * Fix building Gtk3 client with Glib ≥ 2.61.2. HRM#850605
+     * Fix Qt build issue on Cygwin. HRM#820604
+     * Fix some compiler warnings with GCC 8/9/10. HRM#765910 HRM#801655
+       HRM#830116 HRM#851727 HRM#851728 HRM#851873
+     * Fix a warning with the wasm toolchain. HRM#829535
+     * Fix possible modpack installer build failure on some platforms.
+       HRM#767468
 
 
 CHANGES FROM 2.5.10 to 2.5.11
