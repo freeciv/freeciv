@@ -1,10 +1,293 @@
 ========================
-Welcome to Freeciv 2.6.0
+Welcome to Freeciv 2.6.1
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.0 to 2.6.1
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.1>, 2019-12-19)
+
+   2.6.1 is mostly a bugfix release.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Vision-providing bases, such as buoys, could in some circumstances
+       remove visibility from tiles, perhaps preventing the owner's cities
+       from working them, in the presence of autosettlers. HRM#797698
+       HRM#781551
+     * Various automatic processes in cities at turn change, such as
+       rearranging workers when a settler is built, no longer interrupt
+       rapture growth before the player can intervene. HRM#771536
+     * A warning is now displayed every turn when units are at risk of
+       being disbanded due to an armistice turning into a peace treaty.
+       HRM#764959
+     * All players are now warned the turn before a game is due to end due
+       to a spaceship arriving, or due to the endturn server setting.
+       HRM#764421 HRM#764956
+     * Stop displaying "wonder will be finished next turn" messages for
+       obsolete wonders. HRM#764965
+     * If a city starts to build an improvement from the worklist whose
+       requirements are not yet met (for instance, its technology is not
+       yet known), it will now be left on the worklist, rather than
+       purged. The city will accumulate production points until the
+       requirements are met or the player intervenes. (This is a
+       longstanding feature, but has been broken for a long time.)
+       HRM#846514
+     * If a player used /away to set up caretaker AI, any worker tasks the
+       player had set (by right-clicking on the city map) would be
+       forgotten. HRM#685283
+     * Cities produced pollution slightly too often. HRM#763881
+     * When your attempt to steal technology fails, you're now told if it
+       is because you already stole from that city. HRM#801810
+     * The dispersion server setting on hex maps now uses a hexagonal
+       distribution, rather than a square one. HRM#767131
+     * Historians failed to take angry citizens into account when
+       reporting on the "HAPPIEST Civilizations". HRM#763884
+     * Fix a possible network protocol warning when units are starving.
+       HRM#661865
+     * Increased the amount of culture points required for cultural
+       victory in rulesets where that is possible: civ2civ3 (disabled by
+       default), experimental, and sandbox (disabled by default).
+       HRM#766716
+     * Being the first to gain an achievement no longer gives you double
+       the usual culture bonus for that achievement. (Affects civ2civ3 and
+       sandbox rulesets.) HRM#763885
+     * Fix unconfirmed server trouble in rulesets with a "Land Ahoy"
+       achievement (civ2civ3, experimental, sandbox). HRM#823174
+     * Improvements to civ1 ruleset fidelity:
+          + Remove all restrictions on tax rates. HRM#827329
+          + Only Artillery and Bombers should ignore City Walls, not other
+            aircraft. HRM#822926
+          + The Great Wall did not prevent population loss in cities it
+            protected. HRM#822929
+          + Railroads can no longer be built on city centre tiles (and do
+            not appear there automatically), for behaviour closer to the
+            original. HRM#803249
+          + Forests can no longer be planted on river tiles. HRM#825239
+          + Online help claimed that land units could be airlifted; they
+            can't. HRM#850673
+
+Changes affecting other rulesets / modders
+
+     * In rulesets which allow capturing units, it's no longer allowed to
+       capture a transport which is carrying units. (Previously this was
+       allowed, but left the game in a broken state.) HRM#772516
+     * In rulesets with nation-specific starting units, care is now taken
+       to place them on tiles they can exist on, and clear any huts from
+       their tile. HRM#767129
+     * A unit entering a tile containing multiple hut-like extras is now
+       handled more correctly. HRM#824708
+     * If a unit entered a tile containing an extra with cause 'Hut', then
+       any other extras on the tile with category "Bonus" would also be
+       treated as more huts, even if they didn't have cause 'Hut'. (For
+       example, this would affect Ruins in supplied rulesets, except that
+       it's not possible for Hut and Ruins to end up on the same tile by
+       the operation of standard game rules.) HRM#782719
+     * The game editor didn't allow changing research bulbs if the player
+       was researching Future Tech at the time. HRM#765089
+     * Copying and pasting tiles in the game editor would accidentally
+       paste the same units three times. HRM#850947
+     * Rulesets which defined a unit type without any tech_req could crash
+       the server, rather than giving an error message. HRM#816374
+     * Fix inability to use default/nationlist.ruleset in a custom ruleset
+       lacking standard plural-named terrains such as 'Hills'. HRM#827555
+     * Calling the Lua API function (City):inspire_partisans from the
+       client could crash it, due to incomplete game knowledge. Now this
+       function returns false if determining the answer requires knowledge
+       that is not available in the caller's context. HRM#797679
+     * Coding style clean up to supplied default.lua script. HRM#822189
+     * The included Lua engine has been upgraded from 5.3.4 to 5.3.5.
+       HRM#765936
+
+Changes affecting server operators
+
+     * If control of a player was delegated over a game load/save cycle,
+       ending the delegation would not restore control to the original
+       owner. HRM#772657
+     * If a fixed random seed (gameseed) was set, second and subsequent
+       games started on a single server would not honour it. HRM#761219
+     * Included Luasql has been upgraded from 2.3.5 to 2.4.0. HRM#801775
+
+Low-level changes
+
+General
+
+     * Various changes to pathfinding, affecting how goto paths are drawn
+       in the client as well as the actual paths chosen by units. Notably,
+       the "Turns to target" shown for goto paths now indicates how many
+       turns before the unit can act again, as it did in 2.5. Other
+       changes affect fueled units, including a fix for a possible
+       infinite loop. HRM#763893 HRM#657396 HRM#824278 HRM#824099
+       HRM#824100 HRM#824102 HRM#765079
+     * Saving a map image could cause a crash with a high number of
+       players on a crowded map. HRM#707912
+     * Tweaked the categorisation of the event cache settings. HRM#778665
+     * Slightly improved diagnostics for missing sound files. HRM#799291
+     * Various internal changes which should only affect developers.
+       HRM#735284 HRM#656441 HRM#656443 HRM#735289 HRM#767074 HRM#768652
+       HRM#755356 HRM#776786 HRM#778025 HRM#780526 HRM#780300 HRM#800781
+       HRM#800852 HRM#801661 HRM#801777 HRM#819537 HRM#821112 HRM#821128
+       HRM#821847 HRM#824076 HRM#828263 HRM#846809 HRM#847090 HRM#848027
+       HRM#823695 HRM#820981 HRM#851193
+
+AI
+
+     * The AI is now more likely to build sea attacker units. HRM#825073
+     * The AI now attaches some (small) value to gaining culture points.
+       HRM#767726
+     * The AI now values getting an embassy from diplomacy, in rulesets
+       like civ2civ3 where that reduces research costs. HRM#767838
+     * Fix possible regression in AI's ability to build defending units
+       when under threat. (Also, a server crash when started with
+       --debug 4.) HRM#764974
+     * AI is now more likely to build attacker units that will make a
+       difference to the goal of conquering a specific city. HRM#825074
+     * Speed-up for threaded AI. HRM#804448
+     * Fix some failures to fully initialise AI state on loading a
+       savegame. Could possibly affect ferries. HRM#804394 HRM#804440
+
+Clients
+
+     * When setting up single-player games, the client's AI level control
+       no longer gets out of sync with the server state. HRM#765061
+     * A forced tileset specified like freeciv-gtk3 --tiles amplio2 could
+       be ignored when starting a scenario game. HRM#765923
+     * Try to make the city outline display for city-founding units more
+       accurate for some custom rulesets. HRM#746187
+     * Fix possible trouble when ordering a unit to take an action on its
+       current tile, such as building a city. HRM#827156
+     * (Gtk3/3.22) If you pressed Escape when prompted for the name of a
+       new city, the relevant unit could subsequently not respond to the
+       (B)uild City command at all. Hitting Escape when renaming a city
+       could also lead to trouble. HRM#689225
+     * (Gtk3/3.22) Happiness tooltips from the city dialog could appear in
+       the wrong place. HRM#768105
+     * (Gtk3/3.22) The client no longer permanently consumes a lot of CPU
+       after witnessing a nuclear explosion. HRM#850672
+     * (Gtk3.22) Various keyboard shortcuts (such as Ctrl+S for save) were
+       missing or wrong. Now they are consistent with other Gtk clients
+       and the help. HRM#850291 HRM#850292 HRM#850293
+     * (Gtk3.22) Menus and other UI elements now support keyboard
+       navigation with Alt+key combinations, as in the other Gtk clients.
+       HRM#850295 HRM#850297
+     * (Gtk3.22) Fix a possible crash at startup. HRM#769012
+     * (SDL) It was not possible to start a revolution with some rulesets,
+       such as civ2civ3 with its default settings. HRM#794114
+     * (SDL) Fix a possible crash on closing the client. HRM#824593
+     * (SDL2) Fix a client crash. HRM#824589
+     * (SDL2) The SDL2 client now treats touch events similarly to
+       pressing the left mouse button. HRM#831742
+     * (Qt) Many improvements to the Qt client:
+          + If the ruleset allows building multiple road or base types in
+            the current situation, the Qt client now allows choosing
+            which, like other clients. HRM#684336
+          + Zoom changes:
+               o The map zoom level no longer affects the city dialog, the
+                 resolution of units in the current list, etc. HRM#769214
+                 HRM#769212
+               o Option to control whether text size is scaled with the
+                 map view. HRM#769204
+          + Speed up startup and zooming. HRM#768847
+          + On the Nations report, show "Science: (Unknown)" rather than
+            "Science: 0%" if the information isn't known (due to lack of
+            an embassy, etc). HRM#769585 HRM#825218
+          + Fix various choices made on first run:
+               o Huge fonts could be chosen on small displays. HRM#766497
+               o Better default city dialog layout. HRM#767092
+          + Virtual cities used for trade planning are now always shown,
+            even if trade route drawing is disabled. HRM#767094
+          + Adding a city to trade planning no longer has the side effect
+            of opening its dialog. HRM#767095
+          + Prevent observers attempting to rename cities or change their
+            governor. HRM#769796
+          + Look for themes in all data directories on the path, not just
+            the first. HRM#782349 HRM#850290
+          + With iso-hex tilesets, units were drawn too big. HRM#770253
+          + Show technology icons in more places. HRM#771722
+          + Tweak city dialog layout. HRM#770355
+          + Clicking 'Load' with selecting a savegame to load caused a
+            hang. HRM#778016
+          + Fix an assertion failure in the city dialog. HRM#847688
+          + Fix a warning when leaving a game with a meeting dialog open.
+            HRM#769764
+          + Other minor fixes. HRM#771721 HRM#767837
+     * Fix various various client memory leaks. HRM#767983
+
+Tools
+
+     * Fixes to the experimental ruleset editor:
+          + When saving a ruleset using root_reqs for techs, techs which
+            implicitly inherited root_reqs from others were saved with
+            explicit root_reqs. HRM#758958
+          + When saving a ruleset while the system language was not
+            English, the resulting ruleset could fail to load due to its
+            OutputType requirements erroneously being translated.
+            HRM#848260
+     * Changes to the freeciv-manual tool:
+          + Now includes minimal documentation of unit types. HRM#840873
+          + Fix assertion failure. HRM#763694
+
+Tilesets / Art
+
+     * The Hexemplio city graphics for Asian, Babylonian, and Tropical
+       city styles were wrong. HRM#774184
+
+Help / Documentation
+
+     * Miscellaneous improvements to in-game text and user documentation.
+       HRM#763957 HRM#804379 HRM#734377 HRM#821646 HRM#825210 HRM#824129
+       HRM#829168 HRM#851510 HRM#852070
+     * Miscellaneous changes to developer/install/ruleset docs. HRM#765121
+       HRM#767203 HRM#767841 HRM#692480 HRM#769401 HRM#785520 HRM#785647
+       HRM#802774 HRM#769391 HRM#817952 HRM#741552 HRM#819966 HRM#820664
+       HRM#821817 HRM#821798 HRM#821848 HRM#824117 HRM#834328 HRM#850289
+     * Invisible changes to assist localization. HRM#765598 HRM#851518
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Polish, Russian.
+          + Incomplete translations: French (99.9% core, 100% nations,
+            100% ruledit), Catalan (99.7% core, 99.9% nations, 100%
+            ruledit), Finnish (99.5% core, 91% nations, 98.2% ruledit),
+            Spanish (94% core, 99.9% nations, 18% ruledit), British
+            English (95.3% core, 100% nations, 100% ruledit).
+
+Build/portability
+
+     * Fix failure to find glibtoolize on Mac OS. HRM#714899
+     * Fix deprecation warnings when building Gtk3 clients with Gtk+ 3.24
+       and later. HRM#771103
+     * Fix some compiler warnings with GCC 8/9/10. HRM#765910 HRM#801655
+       HRM#825241 HRM#830116 HRM#851727 HRM#851728 HRM#851873
+     * Fix widespread function pointer casting abuse that prevented
+       building with Emscripten. HRM#775057
+     * Fix a warning with the wasm toolchain. HRM#829535
+     * Fix building SDL client with Freetype ≥ 2.9.1. (SDL2 client was not
+       affected.) HRM#754206
+     * The SDL2 client build could fail to complain gracefully about
+       too-old Freetype2. HRM#765927
+     * Fix possible configure failure to disable building of SDL2 client
+       when SDL2 development files not present (upstream bz 4544).
+       HRM#850938
+     * Fix Qt build issue on Cygwin. HRM#820604
+     * In Windows Gtk3.22 installers built with msys2, the modpack
+       installer could not be launched. HRM#781746
+     * Fix possible modpack installer build failure on some platforms.
+       HRM#767468
+     * Make the Gtk2 client's appdata XML format less out-of-date.
+       HRM#767187
+     * Some developer scripts now require a binary called python3;
+       however, this is not required just to build from the distribution
+       tarball. (The underlying scripts would still run in Python 2 or 3
+       for now, but their #! line refers to python3.) HRM#842994
 
 
 CHANGES FROM 2.6.0-RC2 to 2.6.0
