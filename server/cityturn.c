@@ -2637,8 +2637,11 @@ static struct unit *sell_random_unit(struct player *pplayer,
   cargo = unit_list_new();
 
   /* Check if unit is transporting other units from punitlist,
-   * and sell one of those (recursively) instead. */
-  unit_list_iterate(unit_transport_cargo(punit), pcargo) {
+   * and sell one of those (recursively) instead.
+   * Note that in case of recursive transports we have to iterate
+   * also through those middle transports that themselves are not in
+   * punitlist. */
+  unit_cargo_iterate(punit, pcargo) {
     /* Optimization, do not iterate over punitlist
      * if we are sure that pcargo is not in it. */
     if (pcargo->server.upkeep_payed[O_GOLD] > 0) {
@@ -2648,9 +2651,12 @@ static struct unit *sell_random_unit(struct player *pplayer,
         }
       } unit_list_iterate_end;
     }
-  } unit_list_iterate_end;
+  } unit_cargo_iterate_end;
 
   if (unit_list_size(cargo) > 0) {
+    /* Recursively sell. Note that cargo list has both
+     * leaf units and middle transports in case of
+     * recursive transports. */
     struct unit *ret = sell_random_unit(pplayer, cargo);
 
     unit_list_destroy(cargo);
