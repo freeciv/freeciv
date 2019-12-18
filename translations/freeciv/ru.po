@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-09 13:37+0500\n"
+"POT-Creation-Date: 2019-12-17 13:56+0000\n"
 "PO-Revision-Date: 2019-12-09 13:14+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -7001,7 +7001,7 @@ msgstr "Закрыть"
 #: client/gui-gtk-3.22/citydlg.c:2945 client/gui-gtk-3.22/dialogs.c:863
 #: client/gui-gtk-3.22/editgui.c:1017 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
-#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:72
+#: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:80
 #: client/gui-gtk-3.22/luaconsole.c:317 client/gui-gtk-3.22/messagedlg.c:73
 #: client/gui-gtk-3.22/optiondlg.c:328 client/gui-gtk-3.22/optiondlg.c:360
 #: client/gui-gtk-3.22/pages.c:453 client/gui-gtk-3.22/pages.c:583
@@ -7016,7 +7016,7 @@ msgstr "(_l) Очистить"
 
 #: client/gui-gtk-3.22/chatline.c:1138 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1016 client/gui-gtk-3.22/gamedlgs.c:319
-#: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/inputdlg.c:73
+#: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
 #: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2954
 #: client/gui-gtk-3.22/pages.c:3288
@@ -16958,7 +16958,7 @@ msgstr[2] ""
 msgid "No units to disband!"
 msgstr "Некого расформировывать!"
 
-#: client/text.c:1312 server/unithand.c:1685
+#: client/text.c:1312 server/unithand.c:1704
 #, c-format
 msgid "%s refuses to disband!"
 msgstr "Соединение %s отказывается расформировываться!"
@@ -18806,7 +18806,7 @@ msgstr "Технология будущего"
 msgid "members of %s"
 msgstr "Игроки из команды '%s'"
 
-#: common/research.c:282
+#: common/research.c:278
 #, c-format
 msgid "Future Tech. %d"
 msgstr "Технология будущего %d"
@@ -18933,18 +18933,19 @@ msgstr "Улучшение с флагом \"%s\""
 msgid "After %s"
 msgstr "По наступлении %s"
 
-#: common/requirements.c:3392
+#. TRANS: topology name
+#: common/requirements.c:3393
 #, c-format
 msgid "%s map"
 msgstr "Карта с флагом %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:3397
+#: common/requirements.c:3398
 #, c-format
 msgid "%s possible"
 msgstr "Можно строить %s"
 
-#: common/requirements.c:3401
+#: common/requirements.c:3402
 msgid "City center"
 msgstr "Центральное поле города"
 
@@ -36821,28 +36822,29 @@ msgid "?vertag:win32-S2_6"
 msgstr "win32-S2_6"
 
 #. TRANS: part of revision based version number string
-#. "(modified r25000)"
-#: translations/Strings.txt:24
+#. "(modified 855bfb8e2f)" (the second 'word' is a git hash)
+#. (Preserve the trailing space.)
+#: translations/Strings.txt:25
 msgid "modified "
 msgstr "modified "
 
 #. TRANS: Modpack subtype, "isometric"
-#: translations/Strings.txt:30
+#: translations/Strings.txt:31
 msgid "iso"
 msgstr "изом."
 
 #. TRANS: Modpack subtype
-#: translations/Strings.txt:32
+#: translations/Strings.txt:33
 msgid "hex"
 msgstr "гекс."
 
 #. TRANS: Modpack subtype, isometric hex
-#: translations/Strings.txt:34
+#: translations/Strings.txt:35
 msgid "hex & iso"
 msgstr "гекс. и изом."
 
 #. TRANS: Modpack subtype, overhead tileset
-#: translations/Strings.txt:36
+#: translations/Strings.txt:37
 msgid "overhead"
 msgstr "планарный"
 
@@ -40573,7 +40575,8 @@ msgstr "Вашему %sу удалось подкупить соединение
 msgid "Your %s was bribed by the %s."
 msgstr "Ваше соединение %s было подкуплено народом %s."
 
-#: server/diplomats.c:647
+#. TRANS: Paris was expecting ... Your Spy was caught
+#: server/diplomats.c:648
 #, c-format
 msgid ""
 "%s was expecting your attempt to steal technology again. Your %s was caught "
@@ -40582,7 +40585,8 @@ msgstr ""
 "В городе %s ожидали Вашу очередную попытку украсть технологию. Ваш %s был "
 "пойман и казнён."
 
-#: server/diplomats.c:653
+#. TRANS: The Belgian Spy ... from Paris
+#: server/diplomats.c:655
 #, c-format
 msgid ""
 "The %s %s failed to steal technology again from %s. We were prepared for the "
@@ -40591,116 +40595,118 @@ msgstr ""
 "%2$s народа %1$s снова не смог украсть технологию из города %3$s. Мы были "
 "готовы к этой попытке."
 
-#: server/diplomats.c:661
+#. TRANS: Your Spy was caught ... from %s.
+#: server/diplomats.c:664
 #, c-format
 msgid "Your %s was caught in the attempt of stealing technology from %s."
 msgstr "Ваш %s был пойман при попытке похитить технологию из города %s."
 
-#: server/diplomats.c:667
+#. TRANS: The Belgian Spy ... from Paris
+#: server/diplomats.c:671
 #, c-format
 msgid "The %s %s failed to steal technology from %s."
 msgstr "%2$s народа %1$s не смог украсть технологию из города %3$s."
 
-#: server/diplomats.c:685
+#: server/diplomats.c:689
 #, c-format
 msgid "No new technology found in %s."
 msgstr "В городе %s не было найдено новых технологий."
 
-#: server/diplomats.c:754
+#: server/diplomats.c:758
 #, c-format
 msgid "You don't have enough gold to subvert %s."
 msgstr "У Вас не хватает золота, чтобы перетянуть на свою сторону город %s."
 
-#: server/diplomats.c:771
+#: server/diplomats.c:775
 #, c-format
 msgid "Your %s was caught in the attempt of inciting a revolt!"
 msgstr "Ваш %s был схвачен при попытке устроить революцию!"
 
-#: server/diplomats.c:775
+#: server/diplomats.c:779
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
 msgstr "Вы уличили %2$sа народа %1$s в подстрекательстве к бунту города %3$s!"
 
-#: server/diplomats.c:798
+#: server/diplomats.c:802
 #, c-format
 msgid "Revolt incited in %s, you now rule the city!"
 msgstr "Революция в %s, город теперь Ваш!"
 
-#: server/diplomats.c:801
+#: server/diplomats.c:805
 #, c-format
 msgid "%s has revolted, %s influence suspected."
 msgstr "В городе %s произошёл бунт, в подстрекательстве подозреваются %s."
 
-#: server/diplomats.c:888
+#: server/diplomats.c:892
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "Ваш %s был пойман при попытке промышленного саботажа!"
 
-#: server/diplomats.c:893
+#: server/diplomats.c:897
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Вы уличили %2$sа народа %1$s в попытке саботажа в городе %3$s!"
 
-#: server/diplomats.c:924
+#: server/diplomats.c:928
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "Ваш %s не смог найти ни одного объекта для саботажа в городе %s."
 
-#: server/diplomats.c:981
+#: server/diplomats.c:985
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "Невозможно саботировать здание %s!"
 
-#: server/diplomats.c:992
+#: server/diplomats.c:996
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "Ваш %1$s не смог найти в городе %3$s здание %2$s для саботажа."
 
-#: server/diplomats.c:1017
+#: server/diplomats.c:1021
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "Ваш %s успешно сорвал производство (%s) в городе %s."
 
-#: server/diplomats.c:1024
+#: server/diplomats.c:1028
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "В городе %2$s было сорвано производство (%1$s), подозреваются %3$s."
 
-#: server/diplomats.c:1047
+#: server/diplomats.c:1051
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "Ваш %s был пойман при попытке саботажа!"
 
-#: server/diplomats.c:1051
+#: server/diplomats.c:1055
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr ""
 "Вы поймали %2$sа народа %1$s при попытке саботажа здания %3$s в городе %4$s!"
 
-#: server/diplomats.c:1065
+#: server/diplomats.c:1069
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "Ваш %s уничтожил здание %s в городе %s."
 
-#: server/diplomats.c:1071
+#: server/diplomats.c:1075
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "%s уничтожили здание %s в городе %s."
 
-#: server/diplomats.c:1154
+#: server/diplomats.c:1158
 #, c-format
 msgid "Your %s was caught attempting to steal gold!"
 msgstr "Ваш %s был схвачен при попытке воровства денег!"
 
 #. TRANS: nation, unit, city
-#: server/diplomats.c:1159
+#: server/diplomats.c:1163
 #, c-format
 msgid "You caught %s %s attempting to steal your gold in %s!"
 msgstr ""
 "Вы схватили %2$sа народа %1$s, пытавшегося похитить деньги из города %3$s!"
 
 #. TRANS: unit, gold, city
-#: server/diplomats.c:1201
+#: server/diplomats.c:1205
 #, c-format
 msgid "Your %s stole %d gold from %s."
 msgid_plural "Your %s stole %d gold from %s."
@@ -40709,7 +40715,7 @@ msgstr[1] "Ваш %s украл %d золота из города %s."
 msgstr[2] "Ваш %s украл %d золотых из города %s."
 
 #. TRANS: gold, city, nation
-#: server/diplomats.c:1206
+#: server/diplomats.c:1210
 #, c-format
 msgid "%d gold stolen from %s, %s suspected."
 msgid_plural "%d gold stolen from %s, %s suspected."
@@ -40718,75 +40724,75 @@ msgstr[1] "Из города %2$s было украдено %1$d золотых;
 msgstr[2] "Из города %2$s было украдено %1$d золотых; подозреваются %3$s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1358
+#: server/diplomats.c:1362
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "Вражеский %s был устранён Вашим %sом."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1365
+#: server/diplomats.c:1369
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "Ваш %s погиб, защищая город %s от %sа."
 
 #. TRANS: <nation adj> <unit> ... <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1372
+#: server/diplomats.c:1376
 #, c-format
 msgid "A %s %s has been eliminated defending %s against a %s."
 msgstr "%2$s народа %1$s погиб, защищая город %3$s от %4$sа."
 
 #. TRANS: ... <unit> ... <nation adj> <city>
 #. * TRANS: ... <diplomat>
-#: server/diplomats.c:1379
+#: server/diplomats.c:1383
 #, c-format
 msgid "Your %s has been eliminated defending %s %s against a %s."
 msgstr "Ваш %1$s погиб, защищая город %3$s народа %2$s от %4$sа."
 
 #. TRANS: <unit> ... <diplomat>
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1388 server/diplomats.c:1399
+#: server/diplomats.c:1392 server/diplomats.c:1403
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "Ваш %s погиб, защищаясь от %sа."
 
 #. TRANS: <nation adj> <unit> ... <diplomat>
-#: server/diplomats.c:1393
+#: server/diplomats.c:1397
 #, c-format
 msgid "A %s %s has been eliminated defending against a %s."
 msgstr "%2$s народа %1$s погиб, защищаясь %3$sа."
 
-#: server/diplomats.c:1421
+#: server/diplomats.c:1425
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "Ваш %s был уничтожен защищавшимся %sом."
 
-#: server/diplomats.c:1427
+#: server/diplomats.c:1431
 #, c-format
 msgid "Eliminated a %s %s while infiltrating %s."
 msgstr "%2$s народа %1$s был уничтожен при попытке проникновения в город %3$s."
 
-#: server/diplomats.c:1432
+#: server/diplomats.c:1436
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "%2$s народа %1$s уничтожил %4$sа народа %3$s при попытке проникновения в "
 "город %5$s."
 
-#: server/diplomats.c:1437
+#: server/diplomats.c:1441
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating %s."
 msgstr ""
 "Ваш %1$s уничтожил %3$sа народа %2$s при попытке проникновения в город %4$s."
 
-#: server/diplomats.c:1445
+#: server/diplomats.c:1449
 #, c-format
 msgid "Eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "%2$s народа %1$s был уничтожен при попытке проникновения в расположение "
 "наших войск."
 
-#: server/diplomats.c:1450
+#: server/diplomats.c:1454
 #, c-format
 msgid "A %s %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
@@ -40794,25 +40800,25 @@ msgstr ""
 "расположение наших войск."
 
 #. TRANS: ... <unit> ... <diplomat>
-#: server/diplomats.c:1456
+#: server/diplomats.c:1460
 #, c-format
 msgid "Your %s eliminated a %s %s while infiltrating our troops."
 msgstr ""
 "Ваш %1$s уничтожил %3$sа народа %2$s при его попытке проникновения в "
 "расположение наших войск."
 
-#: server/diplomats.c:1544
+#: server/diplomats.c:1548
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Ваш %s успешно завершил свою миссию и вернулся невредимым в %s."
 
-#: server/diplomats.c:1563
+#: server/diplomats.c:1567
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "Ваш %s был схвачен после выполнения своей миссии в городе %s."
 
-#: server/diplomats.c:1569
+#: server/diplomats.c:1573
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "Ваш %s был схвачен после выполнения своей миссии."
@@ -47507,7 +47513,7 @@ msgstr "Это соединение перевозится, так что не �
 msgid "This unit cannot act when it isn't being transported."
 msgstr "Это соединение не может действовать, не будучи перевозимым."
 
-#: server/unithand.c:833 server/unithand.c:2619
+#: server/unithand.c:833 server/unithand.c:2638
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
@@ -47536,164 +47542,183 @@ msgstr ""
 "Ваше соединение %s потеряло %s ходов при попытке выполнить некорректное "
 "действие."
 
-#: server/unithand.c:1064
+#. TRANS: action name.
+#. * "Your Spy can't do Steal Gold from Ocean.
+#. * Only Explorer or Partisan can do Steal Gold ..."
+#: server/unithand.c:1067
 #, c-format
 msgid "Your %s can't do %s from %s. Only %s can do %s from a non livable tile."
 msgstr ""
 "Ваше соединение %s не может %s с рельефа %s. Только %s могут %s с "
 "необитаемого рельефа."
 
-#: server/unithand.c:1076
+#. TRANS: action name.
+#. * "Your Spy can't do Steal Gold from Ocean."
+#: server/unithand.c:1081
 #, c-format
 msgid "Your %s can't do %s from %s."
 msgstr "Ваше соединение %s не может %s с поля с рельефом %s."
 
-#: server/unithand.c:1086
+#. TRANS: action name.
+#. * "Your Spy can't do Industrial Sabotage to Mountains."
+#: server/unithand.c:1093
 #, c-format
 msgid "Your %s can't do %s to %s."
 msgstr "Ваше соединение %s не может %s на поле с рельефом %s."
 
-#: server/unithand.c:1094
+#. TRANS: action name.
+#. * "Your Spy can't do Industrial Sabotage while ..."
+#: server/unithand.c:1103
 #, c-format
 msgid "Your %s can't do %s while being transported."
 msgstr "Ваше соединение %s не может %s во время своей транспортировки."
 
-#: server/unithand.c:1101
+#. TRANS: action name.
+#. * "Your Spy can't do Industrial Sabotage while ..."
+#: server/unithand.c:1112
 #, c-format
 msgid "Your %s can't do %s while not being transported."
 msgstr "Ваше соединение %s не может %s, если оно не перевозится."
 
-#: server/unithand.c:1108
+#. TRANS: action name.
+#. * "Your Spy can't do Industrial Sabotage while you
+#. * aren't at war with Prester John."
+#: server/unithand.c:1122
 #, c-format
 msgid "Your %s can't do %s while you aren't at war with %s."
 msgstr ""
 "Ваше соединение %s не может %s, поскольку Вы не находитесь в состоянии войны "
 "с игроком %s."
 
-#. TRANS: Riflemen... Expel Unit... Pirate... Migrants
-#: server/unithand.c:1118
+#. TRANS: action name.
+#. * "Riflemen... Bribe Enemy Unit... Pirate Migrants."
+#: server/unithand.c:1133
 #, c-format
 msgid "Your %s can't do %s to %s %s."
 msgstr "Ваше соединение %1$s не может %2$s соединение %4$s народа %3$s."
 
-#: server/unithand.c:1128
+#. TRANS: action name.
+#. * "Your Spy has ... to Bribe Enemy Unit."
+#: server/unithand.c:1145
 #, c-format
 msgid "Your %s has too few moves left to %s."
 msgstr "У Вашего соединения %s не осталось достаточно ходов, чтобы %s."
 
-#: server/unithand.c:1135
+#. TRANS: action name.
+#. * "Your Spy was unable to Bribe Enemy Unit."
+#: server/unithand.c:1154
 #, c-format
 msgid "Your %s was unable to %s."
 msgstr "Ваш %s не смог %s."
 
 #. TRANS: <tile-terrain>.
-#: server/unithand.c:1727
+#: server/unithand.c:1746
 #, c-format
 msgid "Can't build a city on %s."
 msgstr "Невозможно основать город на поле с рельефом %s."
 
 #. TRANS: <unit> ... <tile-terrain>.
-#: server/unithand.c:1733
+#: server/unithand.c:1752
 #, c-format
 msgid "%s can't build a city on %s."
 msgstr "%s не могут построить город на поле с рельефом %s."
 
-#: server/unithand.c:1738
+#: server/unithand.c:1757
 msgid "Can't build a city inside foreign borders."
 msgstr "Нельзя основать город внутри чужих границ."
 
-#: server/unithand.c:1742
+#: server/unithand.c:1761
 msgid "Can't place a city there because another city is too close."
 msgstr ""
 "Невозможно построить город, так как другой город находится слишком близко."
 
-#: server/unithand.c:1751
+#: server/unithand.c:1770
 msgid "Cities cannot be built in this scenario."
 msgstr "В этом сценарии невозможно основывать новые города."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1755
+#: server/unithand.c:1774
 #, c-format
 msgid "Only %s can build a city."
 msgstr "Только %s могут строить город."
 
-#: server/unithand.c:1759
+#: server/unithand.c:1778
 msgid "Can't build a city."
 msgstr "Невозможно основать город."
 
 #. TRANS: %s is list of units separated by "or".
-#: server/unithand.c:1770
+#: server/unithand.c:1789
 #, c-format
 msgid "Only %s can add to a city."
 msgstr "Только %s могут увеличивать размер города."
 
-#: server/unithand.c:1774
+#: server/unithand.c:1793
 msgid "Can't add to a city."
 msgstr "Невозможно присоединиться к городу."
 
-#: server/unithand.c:1780
+#: server/unithand.c:1799
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr "У соединения %s не осталось ходов, чтобы присоединиться к городу %s."
 
-#: server/unithand.c:1785
+#: server/unithand.c:1804
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr "У соединения %s не осталось ходов, чтобы построить город."
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
-#: server/unithand.c:1791
+#: server/unithand.c:1810
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
 msgstr "Город %s принадлежит народу %s, %s не могут к нему присоединиться."
 
-#: server/unithand.c:1798
+#: server/unithand.c:1817
 #, c-format
 msgid "%s is too big to add %s."
 msgstr "Город %s слишком велик, чтобы %s могли к нему присоединиться."
 
-#: server/unithand.c:1803
+#: server/unithand.c:1822
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr ""
 "Городу %s требуется построить здание для дальнейшего роста, поэтому %s не "
 "могут к нему присоединиться."
 
-#: server/unithand.c:1813
+#: server/unithand.c:1832
 #, c-format
 msgid "Can't add %s to %s."
 msgstr "Невозможно присоединить %s к %s."
 
-#: server/unithand.c:1838
+#: server/unithand.c:1857
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "%s были добавлены для помощи в росте городу %s."
 
 #. TRANS: Your Bomber bombards the English Rifleman.
-#: server/unithand.c:2160
+#: server/unithand.c:2179
 #, c-format
 msgid "Your %s bombards the %s %s."
 msgstr "Ваш %1$s подверг бомбардировке соединение %3$s народа %2$s."
 
 #. TRANS: Your Rifleman is bombarded by the French Bomber.
-#: server/unithand.c:2168
+#: server/unithand.c:2187
 #, c-format
 msgid "Your %s is bombarded by the %s %s."
 msgstr ""
 "Ваше соединение %1$s подверглось бомбардировке соединением %3$s народа %2$s."
 
-#: server/unithand.c:2241
+#: server/unithand.c:2260
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Ваша %s была сбита системой ПРО противника. Какая потеря!"
 
-#: server/unithand.c:2244
+#: server/unithand.c:2263
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "Ядерная атака на город %s была предотвращена Вашей системой ПРО."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:2341
+#: server/unithand.c:2360
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr ""
@@ -47701,91 +47726,91 @@ msgstr ""
 "%3$s народа %2$s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:2351
+#: server/unithand.c:2370
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr ""
 "Ваше соединение %1$s не смогло уничтожить соединение %3$s народа %2$s и "
 "погибло!"
 
-#: server/unithand.c:2429
+#: server/unithand.c:2448
 msgid "This type of troops cannot take over a city."
 msgstr "Этот тип войск не может захватить город."
 
 #. TRANS: %s is a list of units separated by "or".
-#: server/unithand.c:2449
+#: server/unithand.c:2468
 #, c-format
 msgid "Only %s can conquer from a non-native tile."
 msgstr "Только %s могут захватить город атакой с неподходящего рельефа."
 
-#: server/unithand.c:2454
+#: server/unithand.c:2473
 msgid "Cannot conquer from a non-native tile."
 msgstr "Не может захватить город атакой с неподходящего рельефа."
 
-#: server/unithand.c:2461 server/unittools.c:2733 server/unittools.c:2741
+#: server/unithand.c:2480 server/unittools.c:2733 server/unittools.c:2741
 #: server/unittools.c:2771
 msgid "Cannot attack unless you declare war first."
 msgstr "Невозможно атаковать пока не объявлена война."
 
-#: server/unithand.c:2466
+#: server/unithand.c:2485
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr ""
 "Соединение %s может передвинуться только в Вашу собственную зону контроля."
 
-#: server/unithand.c:2472
+#: server/unithand.c:2491
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "Соединение %s не может отходить настолько далеко от берега."
 
-#: server/unithand.c:2479 server/unittools.c:2749 server/unittools.c:2779
+#: server/unithand.c:2498 server/unittools.c:2749 server/unittools.c:2779
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Невозможно вторгаться, пока не Вы не разорвали мирный договор с %s."
 
-#: server/unithand.c:2487
+#: server/unithand.c:2506
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
 "Соединение %s не может высадиться на поле вне города без наличия на нём "
 "базы, подходящей для типа %s."
 
-#: server/unithand.c:2496
+#: server/unithand.c:2515
 #, c-format
 msgid "Terrain is unsuitable for %s units."
 msgstr "Рельеф не подходит для соединений класса %s."
 
-#: server/unithand.c:2546
+#: server/unithand.c:2565
 msgid "This unit has no moves left."
 msgstr "Это соединение больше не имеет ходов."
 
-#: server/unithand.c:2655
+#: server/unithand.c:2674
 msgid "This unit is being transported, and so cannot bombard."
 msgstr ""
 "Это соединение уже было перемещено и не может быть сброшено на парашюте."
 
-#: server/unithand.c:2672
+#: server/unithand.c:2691
 #, c-format
 msgid "%s is not an attack unit."
 msgstr "Соединение %s не может атаковать."
 
-#: server/unithand.c:2676
+#: server/unithand.c:2695
 msgid "You can't attack there since there's an unreachable unit."
 msgstr ""
 "Вы не можете атаковать в этом направлении, так как там находится "
 "недостижимое соединение."
 
-#: server/unithand.c:2680
+#: server/unithand.c:2699
 #, c-format
 msgid "%s can't launch attack from %s."
 msgstr "Соединение %s не может начать атаку с рельефа %s."
 
-#: server/unithand.c:2686
+#: server/unithand.c:2705
 #, c-format
 msgid "%s can't attack to %s."
 msgstr "Соединение %s не может атаковать поле с рельефом %s."
 
-#: server/unithand.c:2733
+#: server/unithand.c:2752
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Перевозимое соединение не является союзником всех соединений или города на "
@@ -47794,34 +47819,34 @@ msgstr ""
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * remaining). You can reorder '4' and 'remaining' in the actual
 #. * format string.
-#: server/unithand.c:2777
+#: server/unithand.c:2796
 msgid "remaining"
 msgstr "осталось"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * surplus). You can reorder '4' and 'surplus' in the actual
 #. * format string.
-#: server/unithand.c:2782
+#: server/unithand.c:2801
 msgid "surplus"
 msgstr "избыток"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen
 #. * (4 surplus).
-#: server/unithand.c:2791
+#: server/unithand.c:2810
 #, c-format
 msgid "Your %s helps build the %s in %s (%d %s)."
 msgstr "Ваш %1$s помог строить Чудо %2$s в городе %3$s (%5$s — %4$d)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
-#: server/unithand.c:2811
+#: server/unithand.c:2830
 #, c-format
 msgid "Help building the %s in %s received from %s %s (%d %s)."
 msgstr ""
 "Из города %4$s народа %3$s в %2$s прибыла помощь в строительстве Чуда %1$s "
 "(%6$s — %5$d)."
 
-#: server/unithand.c:2860
+#: server/unithand.c:2879
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -47829,18 +47854,18 @@ msgstr ""
 "Извините, Ваш %s не может установить торговый путь, потому что у него нет "
 "родного города."
 
-#: server/unithand.c:2872
+#: server/unithand.c:2891
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr ""
 "Извините, Ваш %s не может установить торговый путь между городами %s и %s."
 
-#: server/unithand.c:2908 server/unithand.c:2932
+#: server/unithand.c:2927 server/unithand.c:2951
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Извините, Ваш %s не может установить здесь торговый путь!"
 
-#: server/unithand.c:2914 server/unithand.c:2938
+#: server/unithand.c:2933 server/unithand.c:2957
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -47849,13 +47874,13 @@ msgstr[1] "      Город %s уже имеет %d лучших торговы�
 msgstr[2] "      Город %s уже имеет %d лучших торговых путей!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm.
-#: server/unithand.c:2967
+#: server/unithand.c:2986
 #, c-format
 msgid "Your %s from %s has arrived in %s."
 msgstr "Ваш %s из города %s прибыл в %s."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:2976
+#: server/unithand.c:2995
 #, c-format
 msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold."
 msgid_plural ""
@@ -47865,7 +47890,7 @@ msgstr[1] "Ваш %s из города %s прибыл в %s. Выручка с�
 msgstr[2] "Ваш %s из города %s прибыл в %s. Выручка составила %d в золоте."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:2990
+#: server/unithand.c:3009
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in research."
@@ -47882,7 +47907,7 @@ msgstr[2] ""
 "исследованиях."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ...
-#: server/unithand.c:3004
+#: server/unithand.c:3023
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -47900,12 +47925,12 @@ msgstr[2] ""
 "Ваш %s из города %s прибыл в %s. Выручка составила %d в золоте и научных "
 "исследованиях."
 
-#: server/unithand.c:3041
+#: server/unithand.c:3060
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Между городами %s и %s был установлен новый торговый путь."
 
-#: server/unithand.c:3047
+#: server/unithand.c:3066
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "%s установили торговый путь между городами %s и %s."
