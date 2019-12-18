@@ -1665,6 +1665,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       /* Not supported. */
       break;
     }
+    break;
 
   case VUT_MINCULTURE:
     switch (preq->range) {
@@ -1866,6 +1867,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       /* Not supported. */
       break;
     }
+    break;
 
   case VUT_AI_LEVEL:
     if (preq->range != REQ_RANGE_PLAYER) {
