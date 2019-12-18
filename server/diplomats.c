@@ -478,6 +478,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   int bribe_cost;
   int diplomat_id = pdiplomat->id;
   struct city *pcity;
+  bool bounce;
 
   /* Fetch target unit's player.  Sanity checks. */
   fc_assert_ret_val(pvictim, FALSE);
@@ -555,8 +556,9 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* The unit may have been on a tile shared with a city or a unit
    * it no longer can share a tile with. */
   pcity = tile_city(unit_tile(pvictim));
-  if ((NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer))
-      || 1 < unit_list_size(unit_tile(pvictim)->units)) {
+  bounce = ((NULL != pcity && !pplayers_allied(city_owner(pcity), pplayer))
+            || 1 < unit_list_size(unit_tile(pvictim)->units));
+  if (bounce) {
     bounce_unit(pvictim, TRUE);
   }
 
@@ -571,9 +573,9 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
     return TRUE;
   }
 
-  /* Try to move the briber onto the victim's square unless its a city or
-   * have other units. */
-  if (NULL == pcity && unit_list_size(unit_tile(pvictim)->units) < 2
+  /* Try to move the briber onto the victim's square unless the victim has
+   * been bounced because it couldn't share tile with a unit or city. */
+  if (!bounce
       /* Post bribe embark. */
       && (can_unit_exist_at_tile(&(wld.map), pdiplomat, victim_tile)
           || !(is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
