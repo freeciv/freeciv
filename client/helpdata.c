@@ -2102,6 +2102,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       /* Not supported. */
       break;
     }
+    break;
 
   case VUT_MINCULTURE:
     switch (preq->range) {
@@ -2303,6 +2304,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       /* Not supported. */
       break;
     }
+    break;
 
   case VUT_AI_LEVEL:
     if (preq->range != REQ_RANGE_PLAYER) {
