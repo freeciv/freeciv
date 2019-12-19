@@ -2493,10 +2493,10 @@ static struct unit *sell_random_unit(struct player *pplayer,
   int gold_upkeep, r;
   struct unit_list *cargo;
 
-  fc_assert_ret_val(pplayer != NULL, FALSE);
+  fc_assert_ret_val(pplayer != NULL, NULL);
 
   if (!punitlist || unit_list_size(punitlist) == 0) {
-    return FALSE;
+    return NULL;
   }
 
   r = fc_rand(unit_list_size(punitlist));
