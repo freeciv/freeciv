@@ -104,7 +104,7 @@ void qtg_gui_load_theme(const char *directory, const char *theme_name)
 *****************************************************************************/
 void qtg_gui_clear_theme()
 {
-  if (!load_theme(gui_options.gui_qt_default_theme_name)) {
+  if (!load_theme(FC_QT_DEFAULT_THEME_NAME)) {
     /* TRANS: No full stop after the URL, could cause confusion. */
     log_fatal(_("No Qt-client theme was found. For instructions on how to "
                 "get one, please visit %s"), WIKI_URL);
