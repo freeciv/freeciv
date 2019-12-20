@@ -21,8 +21,8 @@ Updating from 2.5 to 2.6
 * Minimum qt requirement for building qt-client and freeciv-ruledit is 5.2.
 * There's new gtk3.22-client that has gtk+-3.22 as requirement. It can be
   built with --enable-client=gtk3.22. This client suits better for
-  systems with gtk+-3.22 than the gtk3-client compatible with much older
-  gtk+ versions.
+  systems with gtk+-3.22 or gtk+-3.24 than the gtk3-client compatible with
+  much older gtk+ versions.
 * There's new experimental sdl2-client. It can be built with
   --enable-client=sdl2
 * Development of ruleset editor, freeciv-ruledit, has begun.
