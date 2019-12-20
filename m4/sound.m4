@@ -1,6 +1,6 @@
 AC_DEFUN([FC_CHECK_SOUND],[
  AC_ARG_ENABLE([sdl-mixer],
-   AS_HELP_STRING([--enable-sdl-mixer], [use the SDL mixer [sdl2]]),
+   AS_HELP_STRING([--enable-sdl-mixer=no/sdl2], [use the SDL mixer [sdl2]]),
   [case "${enableval}" in
    no)  USE_SOUND_SDL=no ;;
    yes|sdl|sdl2) USE_SOUND_SDL=sdl2 ;;
