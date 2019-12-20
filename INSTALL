@@ -379,7 +379,8 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    Qt-client is written in C++, so you need appropriate compiler.
    In Freeciv development, g++ has been used.
 
- - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers
+ - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
+   At least version 5.2 is required.
 
 
 2. Generating Makefiles
