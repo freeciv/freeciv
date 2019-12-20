@@ -8,4 +8,9 @@ compiler:
 python:
   - "3.7"
 
-script: "sudo bash ./scripts/travis-build.sh"  
+jobs:
+  include:
+  - name: "normal"
+  - name: "dist"
+
+script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"
