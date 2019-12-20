@@ -9,7 +9,7 @@ AC_DEFUN([FC_SDL2_CLIENT],
      test "x$client" = "xauto" ; then
     if test "x$SDL_mixer" = "xsdl" ; then
       if test "x$gui_sdl2" = "xyes"; then
-        AC_MSG_ERROR([specified client 'sdl2' not configurable (cannot use SDL_mixer with it))])
+        AC_MSG_ERROR([specified client 'sdl2' not configurable (cannot use SDL_mixer with it. Try --enable-sdl-mixer=sdl2))])
       fi
       sdl2_found=no
     else
