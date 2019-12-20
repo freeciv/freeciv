@@ -7,14 +7,7 @@ AC_DEFUN([FC_SDL2_CLIENT],
 [
   if test "x$gui_sdl2" = "xyes" || test "x$client" = "xall" ||
      test "x$client" = "xauto" ; then
-    if test "x$SDL_mixer" = "xsdl" ; then
-      if test "x$gui_sdl2" = "xyes"; then
-        AC_MSG_ERROR([specified client 'sdl2' not configurable (cannot use SDL_mixer with it))])
-      fi
-      sdl2_found=no
-    else
-      AM_PATH_SDL2([2.0.0], [sdl2_found="yes"], [sdl2_found="no"])
-    fi
+    AM_PATH_SDL2([2.0.0], [sdl2_found="yes"], [sdl2_found="no"])
     if test "$sdl2_found" = yes; then
       gui_sdl2_cflags="$SDL2_CFLAGS"
       gui_sdl2_libs="$SDL2_LIBS"
