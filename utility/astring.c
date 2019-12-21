@@ -162,7 +162,7 @@ char *astr_to_str(struct astring *astr)
 ****************************************************************************/
 void astr_reserve(struct astring *astr, size_t n)
 {
-  int n1;
+  unsigned int n1;
   bool was_null = (astr->n == 0);
 
   fc_assert_ret(NULL != astr);
