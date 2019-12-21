@@ -1384,6 +1384,7 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       fc_assert_msg(FALSE,
                     "Fair island generator failed to allocated "
                     "start positions!");
+      break;
     case MAPGEN_SCENARIO:
     case MAPGEN_RANDOM:
       mode = game.map.server.startpos;
@@ -3515,6 +3516,7 @@ static bool map_generate_fair_islands(void)
       switch (game.map.server.team_placement) {
       case TEAM_PLACEMENT_DISABLED:
         fc_assert(game.map.server.team_placement != TEAM_PLACEMENT_DISABLED);
+        break;
       case TEAM_PLACEMENT_CLOSEST:
       case TEAM_PLACEMENT_CONTINENT:
         for (j = 0; j < game.map.num_iterate_outwards_indices; j++) {
