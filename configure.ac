@@ -1458,11 +1458,14 @@ if test "x$sys_tolua_cmd" = "xtrue" || test "x$sys_tolua_cmd" = "xtest" ; then
   if test "x$TOLUA" = "xnotfound" ; then
     if test "x$sys_tolua_cmd" = "xtest" ; then
       TOLUA="\$(top_builddir)/dependencies/tolua-5.2/src/bin/tolua$EXEEXT"
+      sys_tolua_cmd=false
     else
       AC_MSG_WARN([tolua command not found])
       TOLUA="unavailable"
     fi
     feature_systolua_cmd=missing
+  else
+    sys_tolua_cmd=true
   fi
 elif test "x$sys_tolua_cmd" != "xfalse" ; then
   TOLUA=$sys_tolua_cmd
@@ -1476,6 +1479,8 @@ TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.2/include"
 TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.2/src/lib/libtolua.la"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
+
+AM_CONDITIONAL([SYS_TOLUA_CMD], [test "x$sys_tolua_cmd" != "xfalse"])
 
 dnl The BeOS sys/uio.h is broken.  This kludges it out of existence.
 dnl (This still causes lots of spurious changes to fc_config.h on BeOS.)
