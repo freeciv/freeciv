@@ -1,7 +1,5 @@
-if SYS_TOLUA_CMD
-CMD_SUBDIR=
-else
-CMD_SUBDIR=bin
-endif
+SUBDIRS = lib
 
-SUBDIRS = lib $(CMD_SUBDIR)
+if !SYS_TOLUA_CMD
+SUBDIRS += bin
+endif
