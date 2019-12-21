@@ -1251,6 +1251,8 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_DISBAND_UNIT:
   case ACTION_CAPTURE_UNITS:
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
   case ACTION_FOUND_CITY:
   case ACTION_NUKE:
   case ACTION_NUKE_UNITS:

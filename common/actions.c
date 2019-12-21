@@ -210,7 +210,8 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           "All action enablers for %s must require a "
                           "target the actor is at war with.",
-                          ACTION_BOMBARD, ACTION_ATTACK,
+                          ACTION_BOMBARD, ACTION_BOMBARD2, ACTION_BOMBARD3,
+                          ACTION_ATTACK,
                           ACTION_SUICIDE_ATTACK, ACTION_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
@@ -631,6 +632,30 @@ static void hard_code_actions(void)
                   * another tile. */
                  1,
                  /* Overwritten by the ruleset's bombard_max_range */
+                 1,
+                 FALSE);
+  actions[ACTION_BOMBARD2] =
+      action_new(ACTION_BOMBARD2,
+                 /* FIXME: Target is actually Units + City */
+                 ATK_UNITS, ASTK_NONE,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 /* A single domestic unit at the target tile will make the
+                  * action illegal. It must therefore be performed from
+                  * another tile. */
+                 1,
+                 /* Overwritten by the ruleset's bombard_2_max_range */
+                 1,
+                 FALSE);
+  actions[ACTION_BOMBARD3] =
+      action_new(ACTION_BOMBARD3,
+                 /* FIXME: Target is actually Units + City */
+                 ATK_UNITS, ASTK_NONE,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 /* A single domestic unit at the target tile will make the
+                  * action illegal. It must therefore be performed from
+                  * another tile. */
+                 1,
+                 /* Overwritten by the ruleset's bombard_3_max_range */
                  1,
                  FALSE);
   actions[ACTION_SPY_NUKE] =
@@ -1972,6 +1997,8 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
     break;
 
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
     if (actor_unittype->bombard_rate <= 0) {
       /* Reason: Can't bombard if it never fires. */
       return FALSE;
@@ -2238,6 +2265,8 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_NUKE:
@@ -2616,6 +2645,8 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
     /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
@@ -3939,6 +3970,8 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
@@ -4335,7 +4368,9 @@ action_prob_vs_units_full(const struct unit* actor_unit,
 
   if ((action_id_has_result_safe(act_id, ACTION_ATTACK)
        || action_id_has_result_safe(act_id, ACTION_SUICIDE_ATTACK)
-       || action_id_has_result_safe(act_id, ACTION_BOMBARD))
+       || action_id_has_result_safe(act_id, ACTION_BOMBARD)
+       || action_id_has_result_safe(act_id, ACTION_BOMBARD2)
+       || action_id_has_result_safe(act_id, ACTION_BOMBARD3))
       && tile_city(target_tile) != NULL
       && !pplayers_at_war(city_owner(tile_city(target_tile)),
                           unit_owner(actor_unit))) {
@@ -5258,6 +5293,10 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_join_city";
   case ACTION_BOMBARD:
     return "ui_name_bombard";
+  case ACTION_BOMBARD2:
+    return "ui_name_bombard_2";
+  case ACTION_BOMBARD3:
+    return "ui_name_bombard_3";
   case ACTION_SPY_NUKE:
     return "ui_name_suitcase_nuke";
   case ACTION_SPY_NUKE_ESC:
@@ -5442,6 +5481,12 @@ const char *action_ui_name_default(int act)
   case ACTION_BOMBARD:
     /* TRANS: B_ombard (100% chance of success). */
     return N_("B%sombard%s");
+  case ACTION_BOMBARD2:
+    /* TRANS: B_ombard 2 (100% chance of success). */
+    return N_("B%sombard 2%s");
+  case ACTION_BOMBARD3:
+    /* TRANS: B_ombard 3 (100% chance of success). */
+    return N_("B%sombard 3%s");
   case ACTION_SPY_NUKE:
     /* TRANS: Suitcase _Nuke (100% chance of success). */
     return N_("Suitcase %sNuke%s");

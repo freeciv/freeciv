@@ -1151,6 +1151,8 @@ bool sanity_check_ruleset_data(bool ignore_retired)
 
       if (!(action_has_result(paction, ACTION_CAPTURE_UNITS)
             || action_has_result(paction, ACTION_BOMBARD)
+            || action_has_result(paction, ACTION_BOMBARD2)
+            || action_has_result(paction, ACTION_BOMBARD3)
             || action_has_result(paction, ACTION_ATTACK)
             || action_has_result(paction, ACTION_SUICIDE_ATTACK))) {
         /* Only allow removing and changing the order of old auto

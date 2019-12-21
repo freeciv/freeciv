@@ -2699,6 +2699,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_pop_value(utype));
         break;
       case ACTION_BOMBARD:
+      case ACTION_BOMBARD2:
+      case ACTION_BOMBARD3:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %d is bombard rate. */
                      _("  * %d per turn.\n"),

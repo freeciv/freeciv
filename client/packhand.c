@@ -4721,6 +4721,8 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
         break;
       case ACTION_CAPTURE_UNITS:
       case ACTION_BOMBARD:
+      case ACTION_BOMBARD2:
+      case ACTION_BOMBARD3:
       case ACTION_NUKE:
       case ACTION_NUKE_CITY:
       case ACTION_NUKE_UNITS:

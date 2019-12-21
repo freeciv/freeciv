@@ -408,14 +408,16 @@ Actions done by a unit against a city
 "Nuke City" - Detonate in the target city. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_city
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible.
  * the actor unit must be on a tile next to the target.
 
 "Conquer City" - Conquer the target city.
  * UI name can be set using ui_name_conquer_city
  * actor must be aware that the target exists
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible
  * if force_explode_nuclear is true "Explode Nuclear", "Nuke Units" and
    "Nuke City" must be impossible
  * "Attack" must be impossible
@@ -584,10 +586,25 @@ Actions done by a unit against all units at a tile
  * target can't be in a city the actor player isn't at war with.
  * target owner must be at war with actor. (!)
 
+"Bombard 2" - bombard the units (and city) at the tile without killing them.
+ * UI name can be set using ui_name_bombard_2
+ * actor must be on a tile next to the target or, if bombard_2_max_range
+   allows it, futher away.
+ * A copy of "Bombard".
+ * See "Bombard" for everything else.
+
+"Bombard 3" - bombard the units (and city) at the tile without killing them.
+ * UI name can be set using ui_name_bombard_3
+ * actor must be on a tile next to the target or, if bombard_3_max_range
+   allows it, futher away.
+ * A copy of "Bombard".
+ * See "Bombard" for everything else.
+
 "Attack"
  * UI name can be set using ui_name_attack
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible
  * if force_explode_nuclear is true "Explode Nuclear", "Nuke Units" and
    "Nuke City" must be impossible
  * the actor must be on the tile next to the target.
@@ -610,7 +627,8 @@ Actions done by a unit against all units at a tile
  * UI name can be set using ui_name_suicide_attack
  * spends the actor unit
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible
  * if force_explode_nuclear is true "Explode Nuclear", "Nuke Units" and
    "Nuke City" must be impossible
  * the actor must be on the tile next to the target.
@@ -632,7 +650,8 @@ Actions done by a unit against all units at a tile
 "Nuke Units" - Detonate at the target unit stack. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_units
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible
  * the actor must be on the tile next to the target.
  * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
@@ -655,7 +674,8 @@ Actions done by a unit against a tile
 "Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.
  * UI name can be set using ui_name_explode_nuclear
  * if force_capture_units is true "Capture Units" must be impossible
- * if force_bombard is true "Bombard" must be impossible
+ * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
+   impossible
  * actor must be on the same tile as the target
 
 "Paradrop Unit" - move the actor unit to the target tile.

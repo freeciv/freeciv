@@ -855,10 +855,20 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CAPTURE_UNITS);
   } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
-                                        punit, ptile)) {
-    /* Choose bombard. */
+                                             punit, ptile)) {
+    /* Choose "Bombard". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_BOMBARD);
+  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD2,
+                                             punit, ptile)) {
+    /* Choose "Bombard 2". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_BOMBARD2);
+  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD3,
+                                             punit, ptile)) {
+    /* Choose "Bombard 3". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_BOMBARD3);
   } else if (is_action_enabled_unit_on_units(ACTION_NUKE_UNITS,
                                              punit, ptile)) {
     /* Choose "Nuke Units". */

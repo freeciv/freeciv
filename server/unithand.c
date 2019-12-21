@@ -704,6 +704,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
    * requirement. */
   switch ((enum gen_action)act) {
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
     /* Target is tile or unit stack but a city (or unit) can block it. */
@@ -2949,6 +2951,9 @@ bool unit_perform_action(struct player *pplayer,
                                                target_tile, paction));
     break;
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
+    /* Difference is caused by the ruleset. ("Fake generalized" actions) */
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               unit_bombard(actor_unit, target_tile,
                                            paction));

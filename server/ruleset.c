@@ -5754,6 +5754,49 @@ static bool load_action_ui_name(struct section_file *file, int act,
 }
 
 /**********************************************************************//**
+  Load max range of an action
+**************************************************************************/
+static bool load_action_range_max(struct section_file *file, action_id act,
+                                  const char *entry_name)
+{
+  struct entry *pentry;
+  int max_range;
+
+  pentry = secfile_entry_lookup(file, "%s", entry_name);
+
+  if (!pentry) {
+    max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
+  } else {
+    switch (entry_type(pentry)) {
+    case ENTRY_INT:
+      if (entry_int_get(pentry, &max_range)) {
+        break;
+      }
+      /* Fall through to error handling. */
+    case ENTRY_STR:
+      {
+        const char *custom;
+
+        if (entry_str_get(pentry, &custom)
+            && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
+          max_range = ACTION_DISTANCE_UNLIMITED;
+          break;
+        }
+      }
+      /* Fall through to error handling. */
+    default:
+      ruleset_error(LOG_ERROR, "Bad %s", entry_name);
+      action_by_number(act)->max_distance = RS_DEFAULT_BOMBARD_MAX_RANGE;
+      return FALSE;
+      break;
+    }
+  }
+
+  action_by_number(act)->max_distance = max_range;
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6270,6 +6313,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       if (force_capture_units) {
         BV_SET(action_by_number(ACTION_BOMBARD)->blocked_by,
                ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_BOMBARD2)->blocked_by,
+               ACTION_CAPTURE_UNITS);
+        BV_SET(action_by_number(ACTION_BOMBARD3)->blocked_by,
+               ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                ACTION_CAPTURE_UNITS);
         BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
@@ -6307,6 +6354,34 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                ACTION_BOMBARD);
         BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                ACTION_BOMBARD);
+        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_BOMBARD2);
+        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+               ACTION_BOMBARD3);
+        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+               ACTION_BOMBARD3);
       }
 
       /* Forbid attacking when it is legal to do explode nuclear. */
@@ -6353,41 +6428,17 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
       /* Allow setting max distance for bombardment before generalized
        * actions. */
-      {
-        struct entry *pentry;
-        int max_range;
-
-        pentry = secfile_entry_lookup(file, "actions.bombard_max_range");
-
-        if (!pentry) {
-          max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
-        } else {
-          switch (entry_type(pentry)) {
-          case ENTRY_INT:
-            if (entry_int_get(pentry, &max_range)) {
-              break;
-            }
-            /* Fall through to error handling. */
-          case ENTRY_STR:
-            {
-              const char *custom;
-
-              if (entry_str_get(pentry, &custom)
-                  && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
-                max_range = ACTION_DISTANCE_UNLIMITED;
-                break;
-              }
-            }
-            /* Fall through to error handling. */
-          default:
-            ruleset_error(LOG_ERROR, "Bad actions.bombard_max_range");
-            ok = FALSE;
-            max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
-            break;
-          }
-        }
-
-        action_by_number(ACTION_BOMBARD)->max_distance = max_range;
+      if (!load_action_range_max(file, ACTION_BOMBARD,
+                                 "actions.bombard_max_range")) {
+        ok = FALSE;
+      }
+      if (!load_action_range_max(file, ACTION_BOMBARD2,
+                                 "actions.bombard_2_max_range")) {
+        ok = FALSE;
+      }
+      if (!load_action_range_max(file, ACTION_BOMBARD3,
+                                 "actions.bombard_3_max_range")) {
+        ok = FALSE;
       }
 
       action_iterate(act_id) {

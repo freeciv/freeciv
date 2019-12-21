@@ -890,6 +890,8 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CAPTURE_UNITS:
   case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
