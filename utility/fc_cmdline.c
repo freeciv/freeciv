@@ -166,7 +166,7 @@ static size_t fc_strcspn(const char *s, const char *reject)
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
                const char *delimiterset)
 {
-  int token;
+  unsigned int token;
 
   fc_assert_ret_val(NULL != str, -1);
 
