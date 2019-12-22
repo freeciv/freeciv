@@ -96,6 +96,7 @@ endforeach
 priv_functions = [
   'fork',
   'vfork',
+  'iconv',
   'backtrace',
   'bind',
   'connect',

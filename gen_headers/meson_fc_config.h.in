@@ -176,6 +176,11 @@
 #define HAVE_WORKING_VFORK 1
 #endif
 
+/* iconv() available */
+#mesondefine HAVE_ICONV
+
+#define ICONV_CONST const
+
 /* backtrace() available */
 #mesondefine HAVE_BACKTRACE
 
