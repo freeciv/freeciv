@@ -557,7 +557,7 @@ fc_shortcuts_dialog::~fc_shortcuts_dialog()
 }
 
 /**************************************************************************
-  Inits shortut dialog layout
+  Inits shortcut dialog layout
 **************************************************************************/
 void fc_shortcuts_dialog::init()
 {
