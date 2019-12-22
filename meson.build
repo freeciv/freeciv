@@ -160,7 +160,16 @@ configure_file(input : 'gen_headers/meson_freeciv_config.h.in',
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
 
-common_inc = include_directories('dependencies/lua-5.4/src',
+if meson.is_cross_build()
+  cross_inc_path = meson.get_cross_property('cross_inc_path')
+  cross_lib_path = meson.get_cross_property('cross_lib_path')
+else
+  cross_inc_path = []
+  cross_lib_path = []
+endif
+
+common_inc = include_directories(cross_inc_path,
+  'dependencies/lua-5.4/src',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
   'common/aicore')
@@ -403,11 +412,11 @@ common_lib = library('freeciv',
   sources: [specenum, pack_common,
             tolua_com_a, tolua_com_z, tolua_game, tolua_signal],
   link_whole: fc_deps,
-  dependencies: [c_compiler.find_library('libicuuc'),
+  dependencies: [c_compiler.find_library('libicuuc', dirs: cross_lib_path),
                  c_compiler.find_library('m'),
-                 c_compiler.find_library('z'),
-                 c_compiler.find_library('libcurl'),
-                 c_compiler.find_library('libsqlite3'),
+                 c_compiler.find_library('z', dirs: cross_lib_path),
+                 c_compiler.find_library('libcurl', dirs: cross_lib_path),
+                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
                  dependency('threads')],
   install : true
   )
@@ -1150,8 +1159,8 @@ client_common = static_library('fc_client_common',
   include_directories: client_inc,
   link_with: [common_lib],
   dependencies: [c_compiler.find_library('m'),
-                 c_compiler.find_library('libSDL2'),
-                 c_compiler.find_library('libSDL2_mixer')]
+                 c_compiler.find_library('libSDL2', dirs: cross_lib_path),
+                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
   )
 
 install_data('data/helpdata.txt',
@@ -2011,7 +2020,7 @@ executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
   include_directories: tool_inc,
   dependencies: [gtk322_dep,
-                 c_compiler.find_library('libsqlite3')],
+                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
   link_with: [common_lib, fcmp_common],
   install: true
   )
@@ -2023,7 +2032,7 @@ if get_option('fcmp').contains('cli')
 executable('freeciv-mp-cli',
   'tools/fcmp/mpcli.c',
   include_directories: tool_inc,
-  dependencies: [c_compiler.find_library('libsqlite3')],
+  dependencies: [c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
   link_with: [common_lib, fcmp_common],
   install: true
   )
