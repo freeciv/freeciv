@@ -75,9 +75,8 @@ int fcmp_parse_cmdline(int argc, char *argv[])
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
                   _("debug NUM"),
-                  _("Set debug log level (%d to %d, or "
-                    "%d:file1,min,max:...)"), LOG_FATAL, LOG_DEBUG,
-                  LOG_DEBUG);
+                  _("Set debug log level (one of f,e,w,n,v,d, or "
+                    "d:file1,min,max:...)"));
 #else  /* FREECIV_DEBUG */
       cmdhelp_add(help, "d",
                   /* TRANS: "debug" is exactly what user must type, do not translate. */
