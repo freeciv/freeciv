@@ -102,7 +102,7 @@ void connection_close(struct connection *pconn, const char *reason)
   allocating more memory if needed.
 **************************************************************************/
 static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
-					   int extra_space)
+                                           int extra_space)
 {
   /* room for more? */
   if (buf->nsize - buf->ndata < extra_space) {
@@ -114,6 +114,7 @@ static bool buffer_ensure_free_extra_space(struct socket_packet_buffer *buf,
     }
     buf->data = (unsigned char *) fc_realloc(buf->data, buf->nsize);
   }
+
   return TRUE;
 }
 
@@ -136,31 +137,32 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
 
   log_debug("try reading %d bytes", buffer->nsize - buffer->ndata);
   didget = fc_readsocket(sock, (char *) (buffer->data + buffer->ndata),
-			 buffer->nsize - buffer->ndata);
+                         buffer->nsize - buffer->ndata);
 
   if (didget > 0) {
-    buffer->ndata+=didget;
+    buffer->ndata += didget;
     log_debug("didget:%d", didget);
     return didget;
-  }
-  else if (didget == 0) {
+  } else if (didget == 0) {
     log_debug("EOF on socket read");
     return -2;
   }
+
 #ifdef NONBLOCKING_SOCKETS
   else if (errno == EWOULDBLOCK || errno == EAGAIN) {
     log_debug("EGAIN on socket read");
     return 0;
   }
-#endif
+#endif /* NONBLOCKING_SOCKETS */
+
   return -1;
 }
 
 /**********************************************************************//**
-  write wrapper function -vasc
+  Write wrapper function -vasc
 **************************************************************************/
 static int write_socket_data(struct connection *pc,
-			     struct socket_packet_buffer *buf, int limit)
+                             struct socket_packet_buffer *buf, int limit)
 {
   int start, nput, nblock;
 
@@ -168,7 +170,7 @@ static int write_socket_data(struct connection *pc,
     return 0;
   }
 
-  for (start=0; buf->ndata-start>limit;) {
+  for (start = 0; buf->ndata-start > limit;) {
     fd_set writefs, exceptfs;
     fc_timeval tv;
 
@@ -179,13 +181,13 @@ static int write_socket_data(struct connection *pc,
 
     tv.tv_sec = 0; tv.tv_usec = 0;
 
-    if (fc_select(pc->sock+1, NULL, &writefs, &exceptfs, &tv) <= 0) {
+    if (fc_select(pc->sock + 1, NULL, &writefs, &exceptfs, &tv) <= 0) {
       if (errno != EINTR) {
-	break;
+        break;
       } else {
-	/* EINTR can happen sometimes, especially when compiling with -pg.
-	 * Generally we just want to run select again. */
-	continue;
+        /* EINTR can happen sometimes, especially when compiling with -pg.
+         * Generally we just want to run select again. */
+        continue;
       }
     }
 
@@ -200,10 +202,10 @@ static int write_socket_data(struct connection *pc,
       if ((nput = fc_writesocket(pc->sock, 
                                  (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
-	if (errno == EWOULDBLOCK || errno == EAGAIN) {
-	  break;
-	}
-#endif
+        if (errno == EWOULDBLOCK || errno == EAGAIN) {
+          break;
+        }
+#endif /* NONBLOCKING_SOCKETS */
         connection_close(pc, _("lagging connection"));
         return -1;
       }
@@ -217,12 +219,12 @@ static int write_socket_data(struct connection *pc,
     pc->last_write = timer_renew(pc->last_write, TIMER_USER, TIMER_ACTIVE);
     timer_start(pc->last_write);
   }
+
   return 0;
 }
 
-
 /**********************************************************************//**
-  flush'em
+  Flush'em
 **************************************************************************/
 void flush_connection_send_buffer_all(struct connection *pc)
 {
@@ -236,7 +238,7 @@ void flush_connection_send_buffer_all(struct connection *pc)
 }
 
 /**********************************************************************//**
-  flush'em
+  Flush'em
 **************************************************************************/
 #ifndef FREECIV_JSON_CONNECTION
 static void flush_connection_send_buffer_packets(struct connection *pc)
@@ -274,6 +276,7 @@ static bool add_connection_data(struct connection *pconn,
 
   memcpy(buf->data + buf->ndata, data, len);
   buf->ndata += len;
+
   return TRUE;
 }
 
@@ -347,19 +350,23 @@ void connection_do_unbuffer(struct connection *pc)
 }
 
 /**********************************************************************//**
-  Convenience functions to buffer/unbuffer a list of connections:
+  Convenience functions to buffer a list of connections.
 **************************************************************************/
 void conn_list_do_buffer(struct conn_list *dest)
 {
-  conn_list_iterate(dest, pconn)
+  conn_list_iterate(dest, pconn) {
     connection_do_buffer(pconn);
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 }
+
+/**********************************************************************//**
+  Convenience functions to unbuffer a list of connections.
+**************************************************************************/
 void conn_list_do_unbuffer(struct conn_list *dest)
 {
-  conn_list_iterate(dest, pconn)
+  conn_list_iterate(dest, pconn) {
     connection_do_unbuffer(pconn);
-  conn_list_iterate_end;
+  } conn_list_iterate_end;
 }
 
 /**********************************************************************//**
@@ -421,6 +428,7 @@ struct connection *conn_by_number(int id)
     }
   }
   conn_list_iterate_end;
+
   return NULL;
 }
 
@@ -436,6 +444,7 @@ struct socket_packet_buffer *new_socket_packet_buffer(void)
   buf->do_buffer_sends = 0;
   buf->nsize = 10*MAX_LEN_PACKET;
   buf->data = (unsigned char *)fc_malloc(buf->nsize);
+
   return buf;
 }
 
@@ -482,11 +491,12 @@ const char *conn_description(const struct connection *pconn)
   }
   if (NULL != pconn->playing) {
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
-		 player_name(pconn->playing));
+                 player_name(pconn->playing));
   }
   if (pconn->observer) {
     sz_strlcat(buffer, _(" (observer)"));
   }
+
   return buffer;
 }
 
@@ -522,6 +532,7 @@ int get_next_request_id(int old_request_id)
     result = 2;
   }
   fc_assert(0 != result);
+
   return result;
 }
 
@@ -532,7 +543,7 @@ void free_compression_queue(struct connection *pc)
 {
 #ifdef USE_COMPRESSION
   byte_vector_free(&pc->compression.queue);
-#endif
+#endif /* USE_COMPRESSION */
 }
 
 /**********************************************************************//**
@@ -603,7 +614,7 @@ void connection_common_init(struct connection *pconn)
 #ifdef USE_COMPRESSION
   byte_vector_init(&pconn->compression.queue);
   pconn->compression.frozen_level = 0;
-#endif
+#endif /* USE_COMPRESSION */
 }
 
 /**********************************************************************//**
@@ -643,6 +654,7 @@ void connection_common_close(struct connection *pconn)
 void conn_set_capability(struct connection *pconn, const char *capability)
 {
   fc_assert(strlen(capability) < sizeof(pconn->capability));
+
   sz_strlcpy(pconn->capability, capability);
   pconn->phs.handlers = packet_handlers_get(capability);
 }
@@ -690,7 +702,7 @@ bool conn_compression_frozen(const struct connection *pconn)
 {
 #ifdef USE_COMPRESSION
   return 0 < pconn->compression.frozen_level;
-#else
+#else  /* USE_COMPRESSION */
   return FALSE;
 #endif /* USE_COMPRESSION */
 }
@@ -811,7 +823,7 @@ bool conn_pattern_match(const struct conn_pattern *ppattern,
     break;
   case CPT_IP:
     if (is_server()) {
-      test =  pconn->server.ipaddr;
+      test = pconn->server.ipaddr;
     }
     break;
   }
@@ -836,6 +848,7 @@ bool conn_pattern_list_match(const struct conn_pattern_list *plist,
       return TRUE;
     }
   } conn_pattern_list_iterate_end;
+
   return FALSE;
 }
 
