@@ -240,6 +240,12 @@ tolua_signal = custom_target('tolua_signal',
                                        '-H', '@OUTPUT1@',
                                        files('common/scriptcore/tolua_signal.pkg')])
 
+if host_system == 'windows'
+  tinycthr_files = files('dependencies/tinycthread/tinycthread.c')
+else
+  tinycthr_files = files()
+endif
+
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
   'dependencies/lua-5.4/src/lapi.c',
@@ -281,6 +287,7 @@ fc_deps = static_library('fc_dependencies',
   'dependencies/tolua-5.2/src/lib/tolua_to.c',
   'dependencies/luasql/src/luasql.c',
   'dependencies/luasql/src/ls_sqlite3.c',
+  tinycthr_files,
   sources: verhdr,
   include_directories : common_inc
   )
