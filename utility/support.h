@@ -100,6 +100,14 @@ extern "C" {
 #define fc__warn_unused_result
 #endif
 
+/* TODO: C++17 compilers (also other than g++) could use [[fallthrough]]
+   for C++ code */
+#if defined(__GNUC__)
+#define fc__fallthrough __attribute__((fallthrough))
+#else
+#define fc__fallthrough
+#endif
+
 #ifdef FREECIV_MSWINDOWS
 typedef long int fc_errno;
 #else
