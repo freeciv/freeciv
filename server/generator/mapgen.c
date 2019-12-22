@@ -1481,9 +1481,9 @@ static void adjust_terrain_param(void)
   mountain_pct = mount_factor * wld.map.server.steepness * 90;
 
   /* 27 % if wetness == 50 & */
-  forest_pct = factor * (wld.map.server.wetness * 40 + 700) ; 
-  jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL) /
-               (MAX_COLATITUDE * 2);
+  forest_pct = factor * (wld.map.server.wetness * 40 + 700);
+  jungle_pct = forest_pct * (MAX_COLATITUDE - TROPICAL_LEVEL)
+    / (MAX_COLATITUDE * 2);
   forest_pct -= jungle_pct;
 
   /* 3 - 11 % */
@@ -1493,7 +1493,7 @@ static void adjust_terrain_param(void)
   swamp_pct = factor * MAX(0, (wld.map.server.wetness * 12 - 150
                                + wld.map.server.temperature * 10));
   desert_pct = factor * MAX(0, (wld.map.server.temperature * 15 - 250
-                                + (100 - wld.map.server.wetness) * 10)) ;
+                                + (100 - wld.map.server.wetness) * 10));
 }
 
 /**********************************************************************//**
@@ -1505,14 +1505,14 @@ static bool near_safe_tiles(struct tile *ptile)
   square_iterate(&(wld.map), ptile, 1, tile1) {
     if (!terrain_has_flag(tile_terrain(tile1), TER_UNSAFE_COAST)) {
       return TRUE;
-    }	
+    }
   } square_iterate_end;
 
   return FALSE;
 }
 
 /**********************************************************************//**
-  this function spreads out huts on the map, a position can be used for a
+  This function spreads out huts on the map, a position can be used for a
   hut if there isn't another hut close and if it's not on the ocean.
 **************************************************************************/
 static void make_huts(int number)
