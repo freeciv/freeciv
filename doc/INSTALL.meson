@@ -17,7 +17,7 @@ of the build system itself. Meson build does not need autotools, nor does
 autotools build need meson. See main (autotools) INSTALL file for the
 common prerequisites.
 
-For the meson based build minimum version of meson is 0.44.0.
+For the meson based build minimum version of meson is 0.48.0.
 
 
 Overview:
