@@ -73,8 +73,8 @@ void cm_result_destroy(struct cm_result *result);
  * the actual city setting.
  */
 void cm_query_result(struct city *pcity,
-		     const struct cm_parameter *const parameter,
-		     struct cm_result *result, bool negative_ok);
+                     const struct cm_parameter *const parameter,
+                     struct cm_result *result, bool negative_ok);
 
 /*
  * Call this function if the city has changed. To be safe call it
@@ -84,9 +84,9 @@ void cm_clear_cache(struct city *pcity);
 
 /***************** utility methods *************************************/
 bool cm_are_parameter_equal(const struct cm_parameter *const p1,
-			    const struct cm_parameter *const p2);
+                            const struct cm_parameter *const p2);
 void cm_copy_parameter(struct cm_parameter *dest,
-		       const struct cm_parameter *const src);
+                       const struct cm_parameter *const src);
 void cm_init_parameter(struct cm_parameter *dest);
 void cm_init_emergency_parameter(struct cm_parameter *dest);
 
