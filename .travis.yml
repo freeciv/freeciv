@@ -12,5 +12,13 @@ jobs:
   include:
   - name: "normal"
   - name: "dist"
+  - name: "meson"
+    addons:
+      apt:
+        sources:
+        - sourceline: 'ppa:kvilhaugsvik/backports'
+        packages:
+        - meson
+        - libtolua-dev
 
 script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"

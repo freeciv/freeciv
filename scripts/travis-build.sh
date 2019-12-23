@@ -40,6 +40,14 @@ make -s -j$(nproc) dist
 echo "Freeciv distribution build successful!"
 ;;
 
+"meson")
+mkdir build
+cd build
+meson .. -Dprefix=${HOME}/freeciv/ -Dack_experimental=true
+ninja
+ninja install
+;;
+
 *)
 # Configure and build Freeciv
 mkdir build
