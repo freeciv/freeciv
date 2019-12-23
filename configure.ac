@@ -787,6 +787,14 @@ AC_SUBST([UTILITY_CFLAGS])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
 
+dnl Should we build experimental versions of Qt programs
+AC_ARG_WITH([qt5x],
+  AS_HELP_STRING([--with-qt5x], [build experimental versions of Qt programs]),
+[case "${withval}" in
+ yes) qt_ver="Qt6" ;;
+ *)   qt_ver="Qt5" ;;
+esac], [qt_ver="Qt5"])
+
 AC_ARG_ENABLE([crosser],
   AS_HELP_STRING([--enable-crosser], [build version to be used with crosser environment]),
 [case "${enableval}" in
@@ -1137,7 +1145,7 @@ if test "x$req_fcmp_qt" = "xyes" ||
    test "x$modinst" = "xauto" || test "x$modinst" = "xall" ; then
 
    if test "x$cxx_works" = "xyes" ; then
-     FC_QT([qt5])
+     FC_QT([$qt_ver])
 
      if test "x$fc_qt_usable" = "xtrue" ; then
        fcmp_qt=yes
@@ -1203,7 +1211,6 @@ AC_ARG_ENABLE([ruledit],
 esac], [ruledit=test])
 if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
   if test "x$cxx_works" = "xyes" ; then
-    qt_ver="Qt5"
     FC_QT([$qt_ver])
 
     if test "x$fc_qt_usable" = "xtrue" ; then

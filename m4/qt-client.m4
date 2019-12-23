@@ -9,7 +9,6 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
    test "x$client" = "xauto" ; then
 
   if test "x$cxx_works" = "xyes" ; then
-    qt_ver="Qt5"
 
     FC_QT([$qt_ver])
 
