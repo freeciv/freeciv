@@ -79,7 +79,7 @@ echo "----------------------------------"
 if ! (
 cd meson-build-${SETUP}
 
-if ! meson --cross-file=cross.txt ../../.. ; then
+if ! meson --cross-file=cross.txt ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
 fi
