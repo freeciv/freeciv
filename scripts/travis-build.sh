@@ -15,16 +15,6 @@ set -e
 
 uname -a
 
-# Based on fresh install of Ubuntu 14.04
-dependencies="gettext libgtk-3-dev libcurl4-openssl-dev libtool automake autoconf autotools-dev language-pack-en python3.7 liblzma-dev libicu-dev libsqlite3-dev qt5-default libsdl2-mixer-dev libsdl2-gfx-dev libsdl2-image-dev libsdl2-ttf-dev libmysqlclient-dev"
-
-## Dependencies
-echo "==== Installing Updates and Dependencies ===="
-echo "apt update"
-apt -y update
-echo "apt install dependencies"
-apt -y install ${dependencies}
-
 # Setup python3 to use
 update-alternatives --install /usr/bin/python python /usr/bin/python3 2
 update-alternatives --install /usr/bin/python python /usr/bin/python2 1

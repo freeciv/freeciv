@@ -11,7 +11,49 @@ python:
 jobs:
   include:
   - name: "normal"
+    addons:
+      apt:
+        packages:
+        - gettext
+        - libgtk-3-dev
+        - libcurl4-openssl-dev
+        - libtool
+        - automake
+        - autoconf
+        - autotools-dev
+        - language-pack-en
+        - python3.7
+        - liblzma-dev
+        - libicu-dev
+        - libsqlite3-dev
+        - qt5-default
+        - libsdl2-mixer-dev
+        - libsdl2-gfx-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libmysqlclient-dev
   - name: "dist"
+    addons:
+      apt:
+        packages:
+        - gettext
+        - libgtk-3-dev
+        - libcurl4-openssl-dev
+        - libtool
+        - automake
+        - autoconf
+        - autotools-dev
+        - language-pack-en
+        - python3.7
+        - liblzma-dev
+        - libicu-dev
+        - libsqlite3-dev
+        - qt5-default
+        - libsdl2-mixer-dev
+        - libsdl2-gfx-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libmysqlclient-dev
   - name: "meson"
     addons:
       apt:
@@ -20,5 +62,23 @@ jobs:
         packages:
         - meson
         - libtolua-dev
+        - gettext
+        - libgtk-3-dev
+        - libcurl4-openssl-dev
+        - libtool
+        - automake
+        - autoconf
+        - autotools-dev
+        - language-pack-en
+        - python3.7
+        - liblzma-dev
+        - libicu-dev
+        - libsqlite3-dev
+        - qt5-default
+        - libsdl2-mixer-dev
+        - libsdl2-gfx-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libmysqlclient-dev
 
 script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"
