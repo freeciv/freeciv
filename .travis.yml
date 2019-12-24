@@ -13,6 +13,8 @@ jobs:
   - name: "normal"
     addons:
       apt:
+        sources:
+        - sourceline: 'ppa:kvilhaugsvik/backports'
         packages:
         - gettext
         - libgtk-3-dev
