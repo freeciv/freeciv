@@ -450,7 +450,7 @@ static void dai_reevaluate_building(struct city *pcity, adv_want *value,
     return;
   }
 
-  *value = MAX(*value, 100 + MAX(0, urgency)); /* default */
+  *value = MAX(*value, 100 + urgency); /* default */
 
   if (urgency > 0 && danger > defense * 2) {
     *value += 100;
