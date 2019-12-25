@@ -93,8 +93,8 @@ struct inputfile {
   fz_FILE *fp;			/* read from this */
   bool at_eof;			/* flag for end-of-file */
   struct astring cur_line;	/* data from current line */
-  int cur_line_pos;		/* position in current line */
-  int line_num;			/* line number from file in cur_line */
+  unsigned int cur_line_pos;    /* position in current line */
+  unsigned int line_num;        /* line number from file in cur_line */
   struct astring token;		/* data returned to user */
   struct astring partial;	/* used in accumulating multi-line strings;
 				   used only in get_token_value, but put
@@ -184,8 +184,6 @@ static bool inf_sanity_check(struct inputfile *inf)
   fc_assert_ret_val(NULL != inf, FALSE);
   fc_assert_ret_val(INF_MAGIC == inf->magic, FALSE);
   fc_assert_ret_val(NULL != inf->fp, FALSE);
-  fc_assert_ret_val(0 <= inf->line_num, FALSE);
-  fc_assert_ret_val(0 <= inf->cur_line_pos, FALSE);
   fc_assert_ret_val(FALSE == inf->at_eof
                     || TRUE == inf->at_eof, FALSE);
   fc_assert_ret_val(FALSE == inf->in_string
@@ -318,6 +316,7 @@ void inf_close(struct inputfile *inf)
 static bool have_line(struct inputfile *inf)
 {
   fc_assert_ret_val(inf_sanity_check(inf), FALSE);
+
   return !astr_empty(&inf->cur_line);
 }
 
@@ -328,6 +327,7 @@ static bool at_eol(struct inputfile *inf)
 {
   fc_assert_ret_val(inf_sanity_check(inf), TRUE);
   fc_assert_ret_val(inf->cur_line_pos <= astr_len(&inf->cur_line), TRUE);
+
   return (inf->cur_line_pos >= astr_len(&inf->cur_line));
 }
 
