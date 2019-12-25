@@ -24,8 +24,7 @@ case $1 in
 "dist")
 mkdir build
 cd build
-../autogen.sh --disable-client --disable-fcmp --disable-ruledit
-make
+../autogen.sh --disable-client --disable-fcmp --disable-ruledit --disable-server
 make -s -j$(nproc) dist
 echo "Freeciv distribution build successful!"
 ;;
