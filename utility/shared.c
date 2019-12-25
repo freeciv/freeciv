@@ -169,7 +169,7 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
   ptr = &buf[sizeof(buf)];
   *(--ptr) = '\0';
 
-  while (mantissa != 0 && exponent >= 0) {
+  while (mantissa != 0) {
     int dig;
 
     if (ptr <= buf + seplen) {
