@@ -1461,10 +1461,10 @@ bool map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 static void adjust_terrain_param(void)
 {
   int polar = 2 * ICE_BASE_LEVEL * game.map.server.landpercent / MAX_COLATITUDE;
-  float factor = (100.0 - polar - game.map.server.steepness * 0.8 ) / 10000;
+  float mount_factor = (100.0 - polar - 30 * 0.8) / 10000;
+  float factor = (100.0 - polar - game.map.server.steepness * 0.8) / 10000;
 
-
-  mountain_pct = factor * game.map.server.steepness * 90;
+  mountain_pct = mount_factor * game.map.server.steepness * 90;
 
   /* 27 % if wetness == 50 & */
   forest_pct = factor * (game.map.server.wetness * 40 + 700) ; 
