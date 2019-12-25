@@ -960,7 +960,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
     gtk_progress_bar_set_show_text(GTK_PROGRESS_BAR(bar), TRUE);
     pdialog->overview.production_bar = bar;
     gtk_container_add(GTK_CONTAINER(production_combo), bar);
-    gtk_combo_box_set_wrap_width(GTK_COMBO_BOX(production_combo), 3);
 
     gtk_progress_bar_set_text(GTK_PROGRESS_BAR(bar), _("%d/%d %d turns"));
 
