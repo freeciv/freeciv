@@ -56,14 +56,18 @@ static bool fc_has_capability(const char *cap, const char *capstr,
     if (*capstr == '+') {
       capstr++;
     }
-    if ((next-capstr == cap_len) && strncmp(cap, capstr, cap_len)==0) {
+
+    fc_assert(next >= capstr);
+
+    if (((size_t)(next - capstr) == cap_len)
+        && strncmp(cap, capstr, cap_len) == 0) {
       return TRUE;
     }
     if (*next == '\0') {
       return FALSE;
     }
 
-    capstr = next+1;
+    capstr = next + 1;
   }
 }
 
