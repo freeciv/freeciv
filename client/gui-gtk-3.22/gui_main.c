@@ -1223,6 +1223,8 @@ static void setup_widgets(void)
   gtk_container_add(GTK_CONTAINER(vgrid), ahbox);
   gtk_widget_set_hexpand(ahbox, FALSE);
   avbox = detached_widget_fill(ahbox);
+  gtk_widget_set_vexpand(avbox, TRUE);
+  gtk_widget_set_valign(avbox, GTK_ALIGN_FILL);
 
   /* Info on player's civilization, when game is running. */
   frame = gtk_frame_new("");
