@@ -896,6 +896,8 @@ int research_total_bulbs_required(const struct research *presearch,
       break;
     }
 
+    fc_assert(presearch != NULL);
+    fc__fallthrough; /* No break; Fallback to using preset cost. */
   case TECH_COST_CLASSIC:
   case TECH_COST_CLASSIC_PRESET:
   case TECH_COST_EXPERIMENTAL:
