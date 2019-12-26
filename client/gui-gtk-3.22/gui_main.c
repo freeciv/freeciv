@@ -1148,6 +1148,8 @@ static void setup_widgets(void)
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook), page, NULL);
 
   top_vbox = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(top_vbox),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_grid_set_row_spacing(GTK_GRID(top_vbox), 5);
   hgrid = gtk_grid_new();
 
@@ -1241,6 +1243,8 @@ static void setup_widgets(void)
   main_frame_civ_name = frame;
 
   vgrid = gtk_grid_new();
+  gtk_orientable_set_orientation(GTK_ORIENTABLE(vgrid),
+                                 GTK_ORIENTATION_VERTICAL);
   gtk_container_add(GTK_CONTAINER(frame), vgrid);
   gtk_widget_set_hexpand(vgrid, TRUE);
 
