@@ -3266,7 +3266,7 @@ static bool disband_city(struct city *pcity)
     /* What should we do when we try to disband our only city? */
     notify_player(pplayer, ptile, E_CITY_CANTBUILD, ftc_server,
                   _("%s can't build %s yet, "
-                    "and we can't disband our only city."),
+                    "as we can't disband our only city."),
                   city_link(pcity), utype_name_translation(utype));
     script_server_signal_emit("unit_cant_be_built", utype, pcity,
                               "pop_cost");

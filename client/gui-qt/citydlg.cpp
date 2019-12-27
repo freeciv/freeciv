@@ -2580,7 +2580,7 @@ void city_dialog::cma_slider(int value)
 }
 
 /************************************************************************//**
-  Received signal about changed qcheckbox - disband at size 1
+  Received signal about changed qcheckbox - allow disbanding city
 ****************************************************************************/
 void city_dialog::disband_state_changed(int state)
 {
@@ -2673,7 +2673,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
 
   wl_save = list_menu.addAction(_("Save worklist"));
   options_menu = list_menu.addMenu(_("Options"));
-  disband = options_menu->addAction(_("Disband at size 1"));
+  disband = options_menu->addAction(_("Allow disbanding city"));
   disband->setCheckable(true);
   disband->setChecked(is_city_option_set(pcity, CITYO_DISBAND));
 
