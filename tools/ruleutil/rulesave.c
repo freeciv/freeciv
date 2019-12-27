@@ -808,7 +808,8 @@ static bool save_action_ui_name(struct section_file *sfile,
   Save max range of an action.
 **************************************************************************/
 static bool save_action_max_range(struct section_file *sfile,
-                                  action_id act, const char *entry_name)
+                                  action_id act,
+                                  int default_value, const char *entry_name)
 {
   if (action_by_number(act)->max_distance
       == ACTION_DISTANCE_UNLIMITED) {
@@ -816,7 +817,7 @@ static bool save_action_max_range(struct section_file *sfile,
                               "actions.%s", entry_name);
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
-                            RS_DEFAULT_BOMBARD_MAX_RANGE,
+                            default_value,
                             "actions.%s", entry_name);
   }
 }
@@ -1086,9 +1087,18 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
-  save_action_max_range(sfile, ACTION_BOMBARD, "bombard_max_range");
-  save_action_max_range(sfile, ACTION_BOMBARD2, "bombard_2_max_range");
-  save_action_max_range(sfile, ACTION_BOMBARD3, "bombard_3_max_range");
+  save_action_max_range(sfile, ACTION_BOMBARD,
+                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        "bombard_max_range");
+  save_action_max_range(sfile, ACTION_BOMBARD2,
+                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        "bombard_2_max_range");
+  save_action_max_range(sfile, ACTION_BOMBARD3,
+                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        "bombard_3_max_range");
+  save_action_max_range(sfile, ACTION_NUKE,
+                        RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
+                        "explode_nuclear_max_range");
 
   action_iterate(act_id) {
     save_action_ui_name(sfile,

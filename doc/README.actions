@@ -676,7 +676,8 @@ Actions done by a unit against a tile
  * if force_capture_units is true "Capture Units" must be impossible
  * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
    impossible
- * actor must be on the same tile as the target
+ * actor must be on the same tile as the target unless
+   explode_nuclear_max_range allows it to be further away.
 
 "Paradrop Unit" - move the actor unit to the target tile.
  * UI name can be set using ui_name_paradrop_unit

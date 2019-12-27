@@ -670,7 +670,10 @@ static void hard_code_actions(void)
       action_new(ACTION_NUKE,
                  ATK_TILE, ASTK_NONE,
                  TRUE, ACT_TGT_COMPL_SIMPLE,  TRUE, TRUE,
-                 0, 0, TRUE);
+                 0,
+                 /* Overwritten by the ruleset's explode_nuclear_max_range */
+                 0,
+                 TRUE);
   actions[ACTION_NUKE_CITY] =
       action_new(ACTION_NUKE_CITY,
                  ATK_CITY, ASTK_NONE,

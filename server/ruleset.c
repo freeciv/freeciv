@@ -5757,7 +5757,7 @@ static bool load_action_ui_name(struct section_file *file, int act,
   Load max range of an action
 **************************************************************************/
 static bool load_action_range_max(struct section_file *file, action_id act,
-                                  const char *entry_name)
+                                  int default_value, const char *entry_name)
 {
   struct entry *pentry;
   int max_range;
@@ -5765,7 +5765,7 @@ static bool load_action_range_max(struct section_file *file, action_id act,
   pentry = secfile_entry_lookup(file, "%s", entry_name);
 
   if (!pentry) {
-    max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
+    max_range = default_value;
   } else {
     const char *custom;
 
@@ -5778,7 +5778,7 @@ static bool load_action_range_max(struct section_file *file, action_id act,
       max_range = ACTION_DISTANCE_UNLIMITED;
     } else {
       ruleset_error(LOG_ERROR, "Bad %s", entry_name);
-      action_by_number(act)->max_distance = RS_DEFAULT_BOMBARD_MAX_RANGE;
+      action_by_number(act)->max_distance = default_value;
       return FALSE;
     }
   }
@@ -6420,15 +6420,23 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       /* Allow setting max distance for bombardment before generalized
        * actions. */
       if (!load_action_range_max(file, ACTION_BOMBARD,
+                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
                                  "actions.bombard_max_range")) {
         ok = FALSE;
       }
       if (!load_action_range_max(file, ACTION_BOMBARD2,
+                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
                                  "actions.bombard_2_max_range")) {
         ok = FALSE;
       }
       if (!load_action_range_max(file, ACTION_BOMBARD3,
+                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
                                  "actions.bombard_3_max_range")) {
+        ok = FALSE;
+      }
+      if (!load_action_range_max(file, ACTION_NUKE,
+                                 RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
+                                 "actions.explode_nuclear_max_range")) {
         ok = FALSE;
       }
 

@@ -851,6 +851,7 @@ extern struct world wld;
 
 #define RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK     FALSE
 #define RS_DEFAULT_BOMBARD_MAX_RANGE             1
+#define RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE     0
 
 #define RS_ACTION_NO_MAX_DISTANCE                "unlimited"
 
