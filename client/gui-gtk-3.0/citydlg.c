@@ -1354,7 +1354,8 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
     N_("Gold")
   };
 
-  static const char *disband_label = N_("Disband if build settler at size 1");
+  static const char *disband_label
+    = N_("Allow unit production to disband city");
 
   static const char *misc_whichtab_label[NUM_PAGES] = {
     N_("Overview page"),
@@ -1447,7 +1448,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
   gtk_widget_set_sensitive(button, can_client_issue_orders());
   
-  /* the disband-if-size-1 button */
+  /* the disband-city-on-unit-production button */
   button = gtk_check_button_new_with_mnemonic(_(disband_label));
   pdialog->misc.disband_on_settler = button;
   gtk_container_add(GTK_CONTAINER(vbox2), button);

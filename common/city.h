@@ -47,7 +47,7 @@ enum production_class_type {
  * Used in the network protocol.
  */
 #define SPECENUM_NAME city_options
-/* If building a settler at size 1 disbands the city */
+/* If unit production (e.g. settler) is allowed to disband a small city */
 #define SPECENUM_VALUE0 CITYO_DISBAND
 #define SPECENUM_VALUE0NAME "Disband"
 /* If new citizens are science specialists */
