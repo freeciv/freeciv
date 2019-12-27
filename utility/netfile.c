@@ -56,6 +56,10 @@ static CURL *netfile_init_handle(void)
   error_buf_curl[0] = '\0';
   curl_easy_setopt(handle, CURLOPT_ERRORBUFFER, error_buf_curl);
 
+#if defined(FREECIV_MSWINDOWS) && !defined(CROSSER)
+  curl_easy_setopt(handle, CURLOPT_CAINFO, "./ssl/certs/ca-bundle.crt");
+#endif /* FREECIV_MSWINDOWS, !CROSSER */
+
   return handle;
 }
 

@@ -222,6 +222,8 @@ COMMON_DLLS := \
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
+	mkdir -p install-$(WINARCH)-$(GUI)/ssl/certs
+	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
