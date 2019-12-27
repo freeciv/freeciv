@@ -698,7 +698,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
     gtk_container_add(GTK_CONTAINER(p), frame);
 
     label = gtk_label_new(buf);
-    gtk_widget_set_name(label, "city_info_label");
+    gtk_widget_set_name(label, "city_label");
     gtk_widget_set_margin_start(label, 4);
     gtk_widget_set_margin_end(label, 4);
     gtk_widget_set_margin_top(label, 4);
