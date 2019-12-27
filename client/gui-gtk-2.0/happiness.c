@@ -155,6 +155,8 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_container_add(GTK_CONTAINER(p), frame);
 
     label = gtk_label_new(buf);
+    /* FIXME: there is no font option corresponding to this style name.
+     * Remove?: */
     gtk_widget_set_name(label, "city_happiness_label");
     gtk_misc_set_padding(GTK_MISC(label), 4, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
