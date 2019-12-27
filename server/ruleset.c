@@ -5767,28 +5767,19 @@ static bool load_action_range_max(struct section_file *file, action_id act,
   if (!pentry) {
     max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
   } else {
-    switch (entry_type(pentry)) {
-    case ENTRY_INT:
-      if (entry_int_get(pentry, &max_range)) {
-        break;
-      }
-      /* Fall through to error handling. */
-    case ENTRY_STR:
-      {
-        const char *custom;
+    const char *custom;
 
-        if (entry_str_get(pentry, &custom)
-            && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
-          max_range = ACTION_DISTANCE_UNLIMITED;
-          break;
-        }
-      }
-      /* Fall through to error handling. */
-    default:
+    if (entry_type(pentry) == ENTRY_INT
+        && entry_int_get(pentry, &max_range)) {
+      /* max_range already assigned */
+    } else if (entry_type(pentry) == ENTRY_STR
+               && entry_str_get(pentry, &custom)
+               && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
+      max_range = ACTION_DISTANCE_UNLIMITED;
+    } else {
       ruleset_error(LOG_ERROR, "Bad %s", entry_name);
       action_by_number(act)->max_distance = RS_DEFAULT_BOMBARD_MAX_RANGE;
       return FALSE;
-      break;
     }
   }
 
