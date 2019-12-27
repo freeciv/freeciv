@@ -1535,7 +1535,7 @@ Freeciv*cityoptnewcittriggle.fromHoriz:   cityoptnewcitlabel
 ! Have to be specific to override above toggle defaults:
 Freeciv*cityoptpopup*cityoptnewcittriggle.label:       Scientists
 
-Freeciv*cityoptdisbandlabel.label:      _("Disband if build settler at size 1:")
+Freeciv*cityoptdisbandlabel.label:      _("Allow unit production to disband city:")
 Freeciv*cityoptdisbandlabel.fromVert:   cityoptnewcitlabel
 
 Freeciv*cityoptdisbandtoggle.fromVert:  cityoptnewcitlabel

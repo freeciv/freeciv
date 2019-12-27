@@ -941,7 +941,7 @@ static void create_city_options_widget_list(struct city *pCity)
   char cBuf[80];
 
   fc_snprintf(cBuf, sizeof(cBuf),
-	      _("Disband if build\nsettler at size 1"));
+	      _("Allow unit production\nto disband city"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
   pStr->fgcol = *get_theme_color(COLOR_THEME_CHECKBOX_LABEL_TEXT);

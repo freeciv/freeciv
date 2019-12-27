@@ -138,10 +138,11 @@ the above list.\
 "), _("\
  3. Deciding which units to build first.\
 \n\n\
-    After building one or two Warrior units, start building \
-Settlers.  Settlers are best put to use founding new cities; \
-while they can also build agricultural improvements (see the \
-next section), it is better to use Workers for this when \
+    After building one or two Warrior units, start building Settlers.  \
+Settlers take city population, but if you picked a good city site, \
+your city should be big enough by now.  Settlers are best put to use \
+founding new cities; while they can also build agricultural improvements \
+(see the next section), it is better to use Workers for this when \
 available, as unlike Settlers, Workers do not consume food from \
 their parent city.  Keep in mind that a large population increases \
 both the amount of productivity and your civilization's research \
@@ -495,6 +496,14 @@ appear in their city when complete -- units appear on the map while \
 improvements and wonders are added to their city's list of structures. \
 Any leftover production points remain available to be applied towards \
 the next project.\
+"), _("\
+Some units, such as Settlers, are built from city population as well \
+as production points; the city size will reduce when the unit is built. \
+By default, a city will not finish building a unit that would take \
+all of the city's remaining population; in this case, production points \
+will continue to accumulate until the city is of sufficient size. You \
+can allow a city to be disbanded from the city's dialog; however, you \
+cannot disband your last city this way.\
 "), _("\
 In the classic ruleset, a city can build at most one product per turn, \
 regardless of its production surplus. However, in some rulesets, \
