@@ -210,6 +210,8 @@ COMMON_DLLS := \
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix /bin/, $(COMMON_DLLS)) install-$(GUI)
+	mkdir -p install-$(GUI)/ssl/certs
+	cp /mingw32/ssl/certs/ca-bundle.crt install-$(GUI)/ssl/certs/
 
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
