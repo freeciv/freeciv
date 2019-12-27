@@ -656,7 +656,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEventButton *ev,
     gtk_container_add(GTK_CONTAINER(p), frame);
 
     label = gtk_label_new(buf);
-    gtk_widget_set_name(label, "city_info_label");
+    gtk_widget_set_name(label, "city_label");
     gtk_misc_set_padding(GTK_MISC(label), 4, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show_all(p);
