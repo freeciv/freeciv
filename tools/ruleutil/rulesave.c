@@ -818,7 +818,7 @@ static bool save_action_max_range(struct section_file *sfile,
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
                             default_value,
-                            "actions.%s", entry_name);
+                            "actions", entry_name);
   }
 }
 
