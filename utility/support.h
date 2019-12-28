@@ -101,7 +101,7 @@ extern "C" {
 
 /* TODO: C++17 compilers (also other than g++) could use [[fallthrough]]
    for C++ code */
-#if defined(__GNUC__)
+#if defined(__GNUC__) && __GNUC__ >= 7
 #define fc__fallthrough __attribute__((fallthrough))
 #else
 #define fc__fallthrough
