@@ -1111,7 +1111,9 @@ conflicts      = "Mine"
 helptext       = _("\
 Once Refrigeration is known, irrigation systems can be upgraded to \
 farmland by irrigating them a second time; if the city working the tile \
-has a Supermarket, a farmland tile provides 50% more food.\
+has a Supermarket, a farmland tile provides 50% more food. (Hence, \
+farmland is only useful on tiles which with irrigation yield 2 or more \
+food.)\
 "), _("\
 Like irrigation, farmland is incompatible with mines.\
 ")
