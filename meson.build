@@ -135,7 +135,9 @@ priv_functions = [
   '_mkdir',
   '_setjmp',
   '_strcoll',
-  '_stricoll'
+  '_stricoll',
+  'fcntl',
+  'ioctl'
   ]
 
 foreach func : priv_functions

@@ -300,3 +300,13 @@
 
 /* _stricoll() available */
 #mesondefine HAVE__STRICOLL
+
+/* fcntl() available */
+#mesondefine HAVE_FCNTL
+
+/* ioctl() available */
+#mesondefine HAVE_IOCTL
+
+#if defined(HAVE_FCNTL) || defined(HAVE_IOCTL)
+#define NONBLOCKING_SOCKETS 1
+#endif
