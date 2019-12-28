@@ -28,8 +28,13 @@ tilesets, so substitutes may be used.
 Main features relative to civ2civ3 ruleset
 ------------------------------------------
 
-Nuke Upkeep:
-If nuke upkeep cannot be paid, they explode in place.
+Nukes:
+The Nuclear has lost its Explode Nuclear In Place ability. It can still do
+Nuke Units and Nuke City.
+The new unit type ICBM has been added. It requires Fusion Power.
+ICBM can do Nuke Target Tile - targeting any tile at the map no matter how
+distant.
+If ICBM upkeep cannot be paid, they explode in place.
 
 Airlifting:
 Light weight units can be airlifted once Flight is known. Medium weight

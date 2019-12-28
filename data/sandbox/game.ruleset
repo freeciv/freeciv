@@ -254,11 +254,12 @@ nuke_defender_survival_chance_pct = 0
 attack_actions= "Capture Units", "Bombard", "Attack", "Suicide Attack"
 
 if_attacker =
-    { "type",         "name",    "range", "present"
-      "DiplRel",      "War",     "Local", TRUE
-      "MinMoveFrags", "1",       "Local", TRUE
+    { "type",         "name",      "range", "present"
+      "DiplRel",      "War",       "Local", TRUE
+      "MinMoveFrags", "1",         "Local", TRUE
       ; Not a good idea to nuke our own area.
-      "UnitFlag",     "Nuclear", "Local", FALSE
+      "UnitFlag",     "Nuclear",   "Local", FALSE
+      "UnitFlag",     "NuclearOP", "Local", FALSE
     }
 
 [actions]
@@ -313,7 +314,7 @@ bombard_3_max_range = 1
 ; adjacent to the actor unit. The special value "unlimited" lifts the
 ; maximum distance restriction. The maximum distance can`t be smaller than
 ; the minimum distance.
-explode_nuclear_max_range = 0
+explode_nuclear_max_range = "unlimited"
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action. A Freeciv client
@@ -402,8 +403,8 @@ ui_name_bombard = _("%sBombard%s")
 ; /* TRANS: Destroy _City (100% chance of success). */
 ui_name_destroy_city = _("Destroy %sCity%s")
 
-; /* TRANS: Explode _Nuclear In Place (100% chance of success). */
-ui_name_explode_nuclear = _("Explode %sNuclear In Place%s")
+; /* TRANS: _Nuke Target Tile (100% chance of success). */
+ui_name_explode_nuclear = _("%sNuke Target Tile%s")
 
 ; /* TRANS: _Nuke City (100% chance of success). */
 ui_name_nuke_city = _("%sNuke City%s")
@@ -917,7 +918,7 @@ target_reqs    =
 action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
-      "UnitFlag", "Nuclear", "Local", TRUE
+      "UnitFlag", "NuclearOP", "Local", TRUE
     }
 
 [actionenabler_nuke_city]

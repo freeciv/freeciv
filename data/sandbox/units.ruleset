@@ -41,6 +41,7 @@ flags =
     _("Cities")
     _("AddToCity")
     _("Nuclear")
+    _("NuclearOP")
     _("Infra"), _("Can build infrastructure.")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
@@ -2209,7 +2210,64 @@ On impact, the blast will destroy any unit in an area 3 tiles wide\
 Nuclear fallout reduces tile output and increases the risk of global\
  nuclear winter; see the help on Fallout.\
 "), _("\
-Make sure that the upkeep (gold and shield) of your Nuclear is payed.\
+TIP:  You may be involved in a situation where you've invaded an\
+ enemy country en masse, but the enemy cities are too strong.\
+ Before using a Nuclear unit, assemble a gang of cleanup units\
+ next to the city and have them ready to fix the fallout on the\
+ same turn it occurs! This minimizes the chance of nuclear winter.\
+ Eco-friendly nukes!\
+")
+
+[unit_ICBM]
+name          = _("ICBM")
+class         = "Missile"
+tech_req      = "Fusion Power"
+obsolete_by   = "None"
+graphic       = "u.icbm"
+graphic_alt   = "u.nuclear"
+sound_move    = "m_nuclear"
+sound_move_alt = "m_generic"
+sound_fight   = "f_nuclear"
+sound_fight_alt = "f_generic"
+build_cost    = 180
+pop_cost      = 0
+attack        = 99
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+move_rate     = 0
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 1
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+flags         = "FieldUnit", "OneAttack", "NuclearOP", "HasNoZOC"
+; No veteran levels (level name is never displayed)
+veteran_names = _("green")
+veteran_base_raise_chance = 0
+veteran_work_raise_chance = 0
+veteran_power_fact = 100
+veteran_move_bonus = 0
+roles         = ""
+helptext      = _("\
+You can build Nuclear units when you have the required advance, and\
+ the Manhattan Project wonder has been built by any player.\
+"), _("\
+Has unlimited range but 0 moves. Specify the target tile by selecting\
+ the ICBM, ordering `Do...` (or by pressing `d`) and then clicking at the\
+ target tile.\
+"), _("\
+On impact, the blast will destroy any unit in an area 3 tiles wide\
+ (3x3 squares for rectangular grids), including friendly units.\
+ Any city within the blast area loses half its population, and\
+ land tiles within the blast area are subject to nuclear fallout.\
+"), _("\
+Nuclear fallout reduces tile output and increases the risk of global\
+ nuclear winter; see the help on Fallout.\
+"), _("\
+Make sure that the upkeep (gold and shield) of your ICBM is payed.\
  A non maintained nuke will detonate in place.\
 "), _("\
 TIP:  You may be involved in a situation where you've invaded an\
