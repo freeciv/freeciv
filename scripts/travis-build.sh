@@ -15,11 +15,6 @@ set -e
 
 uname -a
 
-# Setup python3 to use
-update-alternatives --install /usr/bin/python python /usr/bin/python3 2
-update-alternatives --install /usr/bin/python python /usr/bin/python2 1
-update-alternatives --set python /usr/bin/python3
-
 case $1 in
 "dist")
 mkdir build
