@@ -843,3 +843,22 @@ Actions done by a unit to it self
  * actor unit's converted form must be able to exist at its current
    location.
  * actor unit's converted form must have room for its current cargo.
+
+Ruleset defined actions
+=======================
+User actions are "blank". The ruleset does everything they do. The following
+ruleset variables allows user action number n to be further customized:
+ * ui_name_user_action_n
+   The UI name shown to the user in the action selection dialog.
+ * user_action_n_target_kind
+   The kind of target the action is done to. See target_reqs.
+   Legal values: "individual cities", "individual units", "unit stacks",
+                 "tiles" or "itself"
+ * user_action_n_min_range and user_action_n_max_range
+   What distance from the actor to the target is permitted for the action.
+ * user_action_n_actor_consuming_always
+   TRUE if Freeciv should make sure that the actor is spent after the action
+   is successfully done.
+
+The current ruleset defined actions are "User Action 1", "User Action 2" and
+"User Action 3".

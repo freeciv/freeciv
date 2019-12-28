@@ -6420,23 +6420,77 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       /* Allow setting max distance for bombardment before generalized
        * actions. */
       if (!load_action_range_max(file, ACTION_BOMBARD,
-                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
                                  "actions.bombard_max_range")) {
         ok = FALSE;
       }
       if (!load_action_range_max(file, ACTION_BOMBARD2,
-                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
                                  "actions.bombard_2_max_range")) {
         ok = FALSE;
       }
       if (!load_action_range_max(file, ACTION_BOMBARD3,
-                                 RS_DEFAULT_BOMBARD_MAX_RANGE,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
                                  "actions.bombard_3_max_range")) {
         ok = FALSE;
       }
       if (!load_action_range_max(file, ACTION_NUKE,
                                  RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
                                  "actions.explode_nuclear_max_range")) {
+        ok = FALSE;
+      }
+
+      action_by_number(ACTION_USER_ACTION1)->actor_consuming_always
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                                      "actions.user_action_1_actor_consuming_always");
+      action_by_number(ACTION_USER_ACTION1)->target_kind
+        = secfile_lookup_enum_default(file,
+                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
+                                      action_target_kind,
+                                      "actions.user_action_1_target_kind");
+      action_by_number(ACTION_USER_ACTION1)->min_distance
+        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
+                                     "actions.user_action_1_min_range");
+      if (!load_action_range_max(file, ACTION_USER_ACTION1,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
+                                 "actions.user_action_1_max_range")) {
+        ok = FALSE;
+      }
+
+      action_by_number(ACTION_USER_ACTION2)->actor_consuming_always
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                                      "actions.user_action_2_actor_consuming_always");
+      action_by_number(ACTION_USER_ACTION2)->target_kind
+        = secfile_lookup_enum_default(file,
+                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
+                                      action_target_kind,
+                                      "actions.user_action_2_target_kind");
+      action_by_number(ACTION_USER_ACTION2)->min_distance
+        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
+                                     "actions.user_action_2_min_range");
+      if (!load_action_range_max(file, ACTION_USER_ACTION2,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
+                                 "actions.user_action_2_max_range")) {
+        ok = FALSE;
+      }
+
+      action_by_number(ACTION_USER_ACTION3)->actor_consuming_always
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                                      "actions.user_action_3_actor_consuming_always");
+      action_by_number(ACTION_USER_ACTION3)->target_kind
+        = secfile_lookup_enum_default(file,
+                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
+                                      action_target_kind,
+                                      "actions.user_action_3_target_kind");
+      action_by_number(ACTION_USER_ACTION3)->min_distance
+        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
+                                     "actions.user_action_3_min_range");
+      if (!load_action_range_max(file, ACTION_USER_ACTION3,
+                                 RS_DEFAULT_ACTION_MAX_RANGE,
+                                 "actions.user_action_3_max_range")) {
         ok = FALSE;
       }
 

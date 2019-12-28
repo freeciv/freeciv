@@ -790,6 +790,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
     /* No special help. */
     break;
   case ACTION_COUNT:
@@ -3036,6 +3039,31 @@ bool unit_perform_action(struct player *pplayer,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_IRRIGATE,
                                                              &target_extra));
+    break;
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
+    /* 100% ruleset defined. */
+    switch (action_get_target_kind(paction)) {
+    case ATK_CITY:
+      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity, TRUE);
+      break;
+    case ATK_UNIT:
+      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit, TRUE);
+      break;
+    case ATK_UNITS:
+      ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile, TRUE);
+      break;
+    case ATK_TILE:
+      ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile, TRUE);
+      break;
+    case ATK_SELF:
+      ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
+      break;
+    case ATK_COUNT:
+      fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+      break;
+    }
     break;
   case ACTION_COUNT:
     log_error("handle_unit_do_action() %s (%d) ordered to perform an "

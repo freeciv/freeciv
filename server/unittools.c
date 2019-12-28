@@ -4874,6 +4874,9 @@ struct unit_order *create_unit_orders(int length,
       case ACTION_TRANSPORT_DISEMBARK2:
       case ACTION_TRANSPORT_BOARD:
       case ACTION_TRANSPORT_EMBARK:
+      case ACTION_USER_ACTION1:
+      case ACTION_USER_ACTION2:
+      case ACTION_USER_ACTION3:
         /* No validation required. */
         break;
       /* Invalid action. Should have been caught above. */

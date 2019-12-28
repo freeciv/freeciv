@@ -929,6 +929,12 @@ void adv_best_government(struct player *pplayer)
              * doesn't separate based on who the actor is. */
             break;
 
+          case ACTION_USER_ACTION1:
+          case ACTION_USER_ACTION2:
+          case ACTION_USER_ACTION3:
+            /* Ruleset defined */
+            break;
+
           case ACTION_ESTABLISH_EMBASSY:
           case ACTION_ESTABLISH_EMBASSY_STAY:
           case ACTION_TRADE_ROUTE:

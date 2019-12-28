@@ -1243,6 +1243,12 @@ static int action_target_neg_util(action_id act_id,
     /* TODO: Individual and well balanced values */
     return -1;
 
+  /* Ruleset defined actions. We have no idea what they do. */
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
+    return 0;
+
   /* Shouldn't happen. */
   case ACTION_SPY_BRIBE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT:

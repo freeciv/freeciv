@@ -964,6 +964,11 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_SPY_NUKE_ESC:
     /* May die, may be teleported to a safe city. */
     return FALSE;
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
+    /* Could be moved by Lua or something */
+    return FALSE;
   }
 
   fc_assert_msg(FALSE, "Should not reach this code.");

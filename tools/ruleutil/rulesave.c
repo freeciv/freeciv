@@ -1088,17 +1088,65 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     "actions.poison_empties_food_stock", NULL);
 
   save_action_max_range(sfile, ACTION_BOMBARD,
-                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
                         "bombard_max_range");
   save_action_max_range(sfile, ACTION_BOMBARD2,
-                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
                         "bombard_2_max_range");
   save_action_max_range(sfile, ACTION_BOMBARD3,
-                        RS_DEFAULT_BOMBARD_MAX_RANGE,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
                         "bombard_3_max_range");
   save_action_max_range(sfile, ACTION_NUKE,
                         RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
                         "explode_nuclear_max_range");
+
+  save_default_bool(sfile,
+                    action_by_number(ACTION_USER_ACTION1)->actor_consuming_always,
+                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                    "actions", "user_action_1_actor_consuming_always");
+  secfile_insert_enum(sfile,
+                      action_by_number(ACTION_USER_ACTION1)->target_kind,
+                      action_target_kind,
+                      "actions.user_action_1_target_kind");
+  save_default_int(sfile,
+                   action_by_number(ACTION_USER_ACTION1)->min_distance,
+                   RS_DEFAULT_ACTION_MIN_RANGE,
+                   "actions", "user_action_1_min_range");
+  save_action_max_range(sfile, ACTION_USER_ACTION1,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
+                        "user_action_1_max_range");
+
+  save_default_bool(sfile,
+                    action_by_number(ACTION_USER_ACTION2)->actor_consuming_always,
+                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                    "actions", "user_action_2_actor_consuming_always");
+  secfile_insert_enum(sfile,
+                      action_by_number(ACTION_USER_ACTION2)->target_kind,
+                      action_target_kind,
+                      "actions.user_action_2_target_kind");
+  save_default_int(sfile,
+                   action_by_number(ACTION_USER_ACTION2)->min_distance,
+                   RS_DEFAULT_ACTION_MIN_RANGE,
+                   "actions", "user_action_2_min_range");
+  save_action_max_range(sfile, ACTION_USER_ACTION2,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
+                        "user_action_2_max_range");
+
+  save_default_bool(sfile,
+                    action_by_number(ACTION_USER_ACTION3)->actor_consuming_always,
+                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                    "actions", "user_action_3_actor_consuming_always");
+  secfile_insert_enum(sfile,
+                      action_by_number(ACTION_USER_ACTION3)->target_kind,
+                      action_target_kind,
+                      "actions.user_action_3_target_kind");
+  save_default_int(sfile,
+                   action_by_number(ACTION_USER_ACTION3)->min_distance,
+                   RS_DEFAULT_ACTION_MIN_RANGE,
+                   "actions", "user_action_3_min_range");
+  save_action_max_range(sfile, ACTION_USER_ACTION3,
+                        RS_DEFAULT_ACTION_MAX_RANGE,
+                        "user_action_3_max_range");
 
   action_iterate(act_id) {
     save_action_ui_name(sfile,
