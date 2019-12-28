@@ -39,19 +39,11 @@ DLLPATH_PREFIX=/$(ARCHDIR)/bin/
 # Make rules
 #
 
-# by default build all installers that are buildable with current msys2 environment
+# by default build all installers.
 all: gtk3.22-installer sdl2-installer ruledit-installer qt-installer
 
 gtk3.22-installer:
 	make GUI=gtk3.22 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3.22
-
-# These are what can be built in current official environment version
-buildable-win32: gtk3.22-installer sdl2-installer ruledit-installer qt-installer
-
-buildable-win64: gtk3.22-installer sdl2-installer ruledit-installer qt-installer
-
-# See comments on 'snapshot' target why this wrapping is needed
-buildable: buildable-$(WINARCH)
 
 sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
@@ -64,11 +56,10 @@ ruledit-installer:
 
 # Autogen.sh here will make ./win_arch.sh to work.
 # The $(WINACRH) value we got for this run is not good. The new run
-# launched from this target will pick correct value, and can make 'buildable' target
-# to depend on correct arch version.
+# launched from this target will pick correct value.
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project" buildable
+	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project" all
 
 
 # configure Freeciv
