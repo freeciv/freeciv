@@ -219,6 +219,11 @@ else
         exit 1
       fi ;;
     qt)
+      if ! cp freeciv-ruledit.cmd $INSTDIR/
+      then
+        echo "Adding cmd-file failed!" >&2
+        exit 1
+      fi
       if ! add_qt_env $DLLSPATH $INSTDIR ; then
         echo "Copying Qt environment failed!" >&2
         exit 1
