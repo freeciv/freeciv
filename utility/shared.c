@@ -587,6 +587,39 @@ bool str_to_int(const char *str, int *pint)
 }
 
 /****************************************************************************
+  Convert 'str' to it's unsigned int reprentation if possible. 'pint' can be NULL,
+  then it will only test 'str' only contains an unsigned integer number.
+****************************************************************************/
+bool str_to_uint(const char *str, unsigned int *pint)
+{
+  const char *start;
+
+  fc_assert_ret_val(NULL != str, FALSE);
+
+  while (fc_isspace(*str)) {
+    /* Skip leading spaces. */
+    str++;
+  }
+
+  start = str;
+  if ('+' == *str) {
+    /* Handle sign. */
+    str++;
+  }
+  while (fc_isdigit(*str)) {
+    /* Digits. */
+    str++;
+  }
+
+  while (fc_isspace(*str)) {
+    /* Ignore trailing spaces. */
+    str++;
+  }
+
+  return ('\0' == *str && (NULL == pint || 1 == sscanf(start, "%u", pint)));
+}
+
+/****************************************************************************
   Convert 'str' to it's float reprentation if possible. 'pfloat' can be NULL,
   then it will only test 'str' only contains a floating point number.
 ****************************************************************************/
