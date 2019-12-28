@@ -27,7 +27,7 @@ echo "Freeciv distribution build successful!"
 "meson")
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/ -Dack_experimental=true
+meson .. -Dprefix=${HOME}/freeciv/ -Dack_experimental=true -Dfcmp='gtk3','cli'
 ninja
 ninja install
 ;;
