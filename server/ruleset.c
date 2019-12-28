@@ -7787,9 +7787,13 @@ static void send_ruleset_actions(struct conn_list *dest)
   struct packet_ruleset_action packet;
 
   action_iterate(act) {
+    struct action *paction = action_by_number(act);
+
     packet.id = act;
     sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
     packet.quiet = action_by_number(act)->quiet;
+
+    packet.actor_consuming_always = paction->actor_consuming_always;
 
     packet.act_kind = action_by_number(act)->actor_kind;
     packet.tgt_kind = action_by_number(act)->target_kind;
