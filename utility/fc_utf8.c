@@ -273,7 +273,7 @@ bool fc_utf8_validate(const char *utf8_string, const char **end)
 bool fc_utf8_validate_len(const char *utf8_string, size_t byte_len,
                           const char **end)
 {
-  char size;
+  unsigned char size;
 
   fc_assert_ret_val(NULL != utf8_string, FALSE);
 
@@ -301,6 +301,7 @@ bool fc_utf8_validate_len(const char *utf8_string, size_t byte_len,
   if (NULL != end) {
     *end = utf8_string;
   }
+
   return TRUE;
 }
 
@@ -320,6 +321,7 @@ char *fc_utf8_validate_trunc(char *utf8_string)
   if (!fc_utf8_validate(utf8_string, (const char **) &end)) {
     *end = '\0';
   }
+
   return utf8_string;
 }
 
@@ -612,7 +614,7 @@ int fc_utf8_vsnprintf_rep(char *str, size_t n, const char *format,
     return ret;
   } else {
     (void) fc_utf8_validate_rep_len(end, n - (end - str));
-    return (-1 == ret ? -1 : strlen(str));
+    return ((-1 == ret) ? -1 : (int)strlen(str));
   }
 }
 
@@ -642,7 +644,8 @@ int cat_utf8_snprintf_trunc(char *str, size_t n, const char *format, ...)
   va_start(args, format);
   ret = fc_utf8_vsnprintf_trunc(str + len, n - len, format, args);
   va_end(args);
-  return (-1 == ret ? -1 : ret + len);
+
+  return ((-1 == ret) ? -1 : (int)(ret + len));
 }
 
 /************************************************************************//**
@@ -671,5 +674,6 @@ int cat_utf8_snprintf_rep(char *str, size_t n, const char *format, ...)
   va_start(args, format);
   ret = fc_utf8_vsnprintf_rep(str + len, n - len, format, args);
   va_end(args);
-  return (-1 == ret ? -1 : ret + len);
+
+  return ((-1 == ret) ? -1 : (int)(ret + len));
 }
