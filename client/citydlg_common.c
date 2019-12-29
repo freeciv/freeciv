@@ -490,12 +490,12 @@ void get_city_dialog_output_text(const struct city *pcity,
         struct city *trade_city = game_city_by_number(pcity->trade[i]);
         /* TRANS: "unknown" location */
         const char *name = trade_city ? city_name_get(trade_city) : _("(unknown)");
+        int value = pcity->trade_value[i]
+                    * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100;
 
-        cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"),
-                     pcity->trade_value[i]
-                     * (100 + get_city_bonus(pcity, EFT_TRADEROUTE_PCT)) / 100,
+        cat_snprintf(buf, bufsz, _("%+4d : Trade route with %s\n"), value,
                      name);
-        total += pcity->trade_value[i];
+        total += value;
       }
     }
   } else if (otype == O_GOLD) {
