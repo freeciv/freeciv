@@ -171,7 +171,7 @@ else
 endif
 
 common_inc = include_directories(cross_inc_path,
-  'dependencies/lua-5.4/src',
+  'dependencies/lua-5.4/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
   'common/aicore')
