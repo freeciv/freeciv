@@ -199,7 +199,7 @@ governments = "\
 ; ruler_female_title = The default female ruler title for the government type.\n\
 ;                      See above ruler_male_title.\n\
 ; helptext     = optional help text string; should escape all raw newlines\n\
-;	         so that xgettext parsing works\n\
+;                so that xgettext parsing works\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
@@ -328,7 +328,7 @@ utypes = "\
 ;                 for no alternate graphic.\n\
 ; tech_req      = required advance, names from techs.ruleset, or special:\n\
 ;                 \"None\" => available from start\n\
-; impr_req	= required city improvement, names from buildings.ruleset\n\
+; impr_req      = required city improvement, names from buildings.ruleset\n\
 ; gov_req       = required government, names from governments.ruleset\n\
 ; obsolete_by   = can be upgraded to and made obsolete by another unit by name\n\
 ; build_cost    = production shields required to build\n\
@@ -387,12 +387,12 @@ utypes = "\
 ; veteran_move_bonus =\n\
 ;\n\
 ; roles         = special role strings\n\
-; sound_move	= optional sound effect when the unit moves\n\
+; sound_move    = optional sound effect when the unit moves\n\
 ; sound_move_alt= optional alternative sound effect if above not\n\
-;		  supported in client\n\
-; sound_fight	= optional sound effect when the unit fights\n\
+;                 supported in client\n\
+; sound_fight   = optional sound effect when the unit fights\n\
 ; sound_fight_alt = optional alternative sound effect if above not\n\
-;		    supported in client\n\
+;                   supported in client\n\
 ; helptext        = optional help text string; should escape all raw newlines\n\
 ;                   so that xgettext parsing works\n\
 ;\n\
@@ -425,19 +425,19 @@ utypes = "\
 ;\n\
 ; \"IgZOC\"       = ignore Zones of Control (ZOC) even if unit class has\n\
 ;                 \"ZOC\" flag\n\
-; \"HasNoZOC\"	= unit has no Zone of Control (ZOC), thus any unit can move\n\
-;		  around it freely\n\
-; \"NonMil\"	= a non-military unit: no attacks; no martial law; can enter\n\
+; \"HasNoZOC\"  = unit has no Zone of Control (ZOC), thus any unit can move\n\
+;                 around it freely\n\
+; \"NonMil\"    = a non-military unit: no attacks; no martial law; can enter\n\
 ;                 peaceful borders; DoesntOccupyTile\n\
 ; \"IgTer\"       = use constant move cost defined in igter_cost (terrain.ruleset)\n\
 ;                 rather than terrain/road etc cost, unless terrain cost is\n\
 ;                 less\n\
-; \"OneAttack\"	= can only make a single attack, regardless of movement points\n\
-; \"FieldUnit\"	= cause unhappiness even when not being aggressive\n\
+; \"OneAttack\" = can only make a single attack, regardless of movement points\n\
+; \"FieldUnit\" = cause unhappiness even when not being aggressive\n\
 ; \"BeachLander\" = won\'t lose all its movement when moving from non-native\n\
 ;                 terrain to native terrain even if slow_invasions is on.\n\
-; \"Settlers\"	= can irrigate and build roads\n\
-; \"Diplomat\"	= can defend against diplomat actions (see diplchance\n\
+; \"Settlers\"  = can irrigate and build roads\n\
+; \"Diplomat\"  = can defend against diplomat actions (see diplchance\n\
 ;                 server option)\n\
 ; \"Spy\"       = strong in diplomatic battles. _Must_ be \"Diplomat\" also\n\
 ; \"CoastStrict\" = (sea only) cannot leave coast\n\
@@ -449,21 +449,21 @@ utypes = "\
 ; \"Fanatic\"   = can only be built by governments that allow them\n\
 ;                 (see civ2/governments.ruleset, Fundamentalism government)\n\
 ; \"Unique\"    = a player can only have one of these units in the game at\n\
-;		  the same time; barbarians cannot use this at present\n\
+;                 the same time; barbarians cannot use this at present\n\
 ; \"GameLoss\"  = losing one of these units means you lose the game, but it\n\
-;		  is produced without homecity and upkeep\n\
+;                 is produced without homecity and upkeep\n\
 ; \"EvacuateFirst\" = the game will try to rescue units with this flag before\n\
 ;                 it tries to rescue units without it when their transport\n\
 ;                 is destroyed. Think of the Birkenhead drill (\"women and\n\
 ;                 children first\"). Replace \"women and children\" with\n\
 ;                 \"units with the EvacuateFirst unit type flag\".\n\
 ; \"SuperSpy\"  = this unit always wins diplomatic contests, that is, unless\n\
-;		  it encounters another SuperSpy, in which case defender wins;\n\
-;		  can also be used on non-diplomat units, in which case it can\n\
-;		  protect cities from diplomats; also 100% spy survival chance\n\
+;                 it encounters another SuperSpy, in which case defender wins;\n\
+;                 can also be used on non-diplomat units, in which case it can\n\
+;                 protect cities from diplomats; also 100% spy survival chance\n\
 ; \"NoHome\"    = this unit has no homecity and will be free of all upkeep, and\n\
-;		  therefore will not revolt along with its city of origin should\n\
-;		  it be incited\n\
+;                 therefore will not revolt along with its city of origin should\n\
+;                 it be incited\n\
 ; \"NoVeteran\"   = this unit cannot gain veteran levels through experience\n\
 ;                 (as if both base_raise_chance and work_raise_chance were zero);\n\
 ;                 it can still gain veterancy through Veteran_Build, etc\n\
@@ -471,9 +471,9 @@ utypes = "\
 ; \"NoBuild\"     = this unit cannot be built\n\
 ; \"BadWallAttacker\" = the firepower of this unit is set to 1 if\n\
 ;                 attacking a city\n\
-;		  defended by a city wall (or other city building defense)\n\
+;                 defended by a city wall (or other city building defense)\n\
 ; \"BadCityDefender\" = if attacked while in a city, firepower is set to 1\n\
-;		  and firepower of attacker is doubled (the Pearl Harbour\n\
+;                 and firepower of attacker is doubled (the Pearl Harbour\n\
 ;                 rule)\n\
 ; \"BarbarianOnly\" = only barbarians can build this unit\n\
 ; \"Shield2Gold\" = Switch from shield upkeep to gold upkeep possible\n\
@@ -977,8 +977,8 @@ musicstyles = "\
 ;\n\
 ; music_peaceful = Music to play when nation in peaceful mood\n\
 ; music_combat   = Music to play when nation in combat mood\n\
-; reqs		 = requirements to activate the style (see effects.ruleset\n\
-;		   and README.effects for help on requirements)\n\
+; reqs           = requirements to activate the style (see effects.ruleset\n\
+;                  and README.effects for help on requirements)\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
@@ -1128,7 +1128,7 @@ specialists = "\
 ;                 plain tag is used instead.\n\
 ; graphic_alt   = fallback graphic tag in case the specialist graphic isn't\n\
 ;                 found.\n\
-; reqs	        = requirements to have the specialist pick (see\n\
+; reqs          = requirements to have the specialist pick (see\n\
 ;                 effects.ruleset and README.effects for help on requirements)\n\
 ; helptext      = optional help text string; should escape all raw newlines\n\
 ;                 so that xgettext parsing works\n\
