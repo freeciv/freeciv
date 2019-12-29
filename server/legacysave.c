@@ -3301,7 +3301,7 @@ static void game_load_internal(struct section_file *file)
 
   tmp_server_state = server_states_invalid();
   if ((pentry = secfile_entry_lookup(file, "game.server_state"))) {
-    switch (entry_type(pentry)) {
+    switch (entry_type_get(pentry)) {
     case ENTRY_STR:
       /* New in 2.2: server_state as string; see srv_main.h */
       {
@@ -3346,7 +3346,7 @@ static void game_load_internal(struct section_file *file)
     case ENTRY_FILEREFERENCE:
       break;
     case ENTRY_ILLEGAL:
-      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;
     }
   }

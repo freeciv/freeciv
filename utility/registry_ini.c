@@ -972,7 +972,7 @@ struct entry *secfile_insert_bool_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_BOOL == entry_type(pentry)) {
+      if (ENTRY_BOOL == entry_type_get(pentry)) {
         if (!entry_bool_set(pentry, value)) {
           return NULL;
         }
@@ -1059,7 +1059,7 @@ struct entry *secfile_insert_int_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_INT == entry_type(pentry)) {
+      if (ENTRY_INT == entry_type_get(pentry)) {
         if (!entry_int_set(pentry, value)) {
           return NULL;
         }
@@ -1146,7 +1146,7 @@ struct entry *secfile_insert_float_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_FLOAT == entry_type(pentry)) {
+      if (ENTRY_FLOAT == entry_type_get(pentry)) {
         if (!entry_float_set(pentry, value)) {
           return NULL;
         }
@@ -1252,7 +1252,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_STR == entry_type(pentry)) {
+      if (ENTRY_STR == entry_type_get(pentry)) {
         if (!entry_str_set(pentry, str)) {
           return NULL;
         }
@@ -1385,7 +1385,7 @@ struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_STR == entry_type(pentry)) {
+      if (ENTRY_STR == entry_type_get(pentry)) {
         if (!entry_str_set(pentry, str)) {
           return NULL;
         }
@@ -1506,7 +1506,7 @@ struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_STR == entry_type(pentry)) {
+      if (ENTRY_STR == entry_type_get(pentry)) {
         if (!entry_str_set(pentry, str)) {
           return NULL;
         }
@@ -1636,7 +1636,7 @@ struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
   if (allow_replace) {
     pentry = section_entry_by_name(psection, ent_name);
     if (NULL != pentry) {
-      if (ENTRY_STR == entry_type(pentry)) {
+      if (ENTRY_STR == entry_type_get(pentry)) {
         if (!entry_str_set(pentry, str)) {
           return NULL;
         }
@@ -3211,7 +3211,7 @@ struct section *entry_section(const struct entry *pentry)
 /**************************************************************************
   Returns the type of this entry or ENTRY_ILLEGAL or error.
 **************************************************************************/
-enum entry_type entry_type(const struct entry *pentry)
+enum entry_type entry_type_get(const struct entry *pentry)
 {
   return (NULL != pentry ? pentry->type : ENTRY_ILLEGAL);
 }

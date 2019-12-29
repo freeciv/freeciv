@@ -358,7 +358,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
     name = NULL;
-    switch (entry_type(pentry)) {
+    switch (entry_type_get(pentry)) {
     case ENTRY_BOOL:
       {
         bool val;
@@ -383,16 +383,16 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       (void) entry_str_get(pentry, &name);
       break;
     case ENTRY_FLOAT:
-      fc_assert(entry_type(pentry) != ENTRY_FLOAT);
+      fc_assert(entry_type_get(pentry) != ENTRY_FLOAT);
       ruleset_error(LOG_ERROR,
                     "\"%s\": trying to have an floating point entry as a requirement name in '%s.%s%d'.",
                     filename, sec, sub, j);
       break;
     case ENTRY_FILEREFERENCE:
-      fc_assert(entry_type(pentry) != ENTRY_FILEREFERENCE);
+      fc_assert(entry_type_get(pentry) != ENTRY_FILEREFERENCE);
       break;
     case ENTRY_ILLEGAL:
-      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;
     }
     if (NULL == name) {
@@ -6108,7 +6108,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         if (!pentry) {
           max_range = RS_DEFAULT_BOMBARD_MAX_RANGE;
         } else {
-          switch (entry_type(pentry)) {
+          switch (entry_type_get(pentry)) {
           case ENTRY_INT:
             if (entry_int_get(pentry, &max_range)) {
               break;
