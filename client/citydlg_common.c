@@ -676,7 +676,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
   } effect_list_iterate_end;
   effect_list_destroy(plist);
 
-  cat_snprintf(buf, bufsz, _("==== : Adds up to\n"));
+  cat_snprintf(buf, bufsz, _("===== : Adds up to\n"));
   cat_snprintf(buf, bufsz, _("%5.1f : Total chance for a plague"),
                ((float)(illness) / 10.0));
 }
