@@ -3309,6 +3309,9 @@ static void game_load_internal(struct section_file *file)
     case ENTRY_FLOAT:
     case ENTRY_FILEREFERENCE:
       break;
+    case ENTRY_ILLEGAL:
+      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      break;
     }
   }
   if (!server_states_is_valid(tmp_server_state)) {
