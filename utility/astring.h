@@ -66,6 +66,8 @@ void astr_clear(struct astring *astr)
 void astr_set(struct astring *astr, const char *format, ...)
      fc__attribute((__format__(__printf__, 2, 3)))
      fc__attribute((nonnull (1, 2)));
+void astr_vadd(struct astring *astr, const char *format, va_list ap)
+     fc__attribute((nonnull (1, 2)));
 void astr_add(struct astring *astr, const char *format, ...)
      fc__attribute((__format__(__printf__, 2, 3)))
      fc__attribute((nonnull (1, 2)));
