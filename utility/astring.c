@@ -194,11 +194,11 @@ void astr_clear(struct astring *astr)
   astr->str[0] = '\0';
 }
 
-/****************************************************************************
-  Add the text to the string.
+/************************************************************************//**
+  Helper: add the text to the specified place in the string.
 ****************************************************************************/
-static void astr_vadd(struct astring *astr, size_t at,
-                      const char *format, va_list ap)
+static inline void astr_vadd_at(struct astring *astr, size_t at,
+                                const char *format, va_list ap)
 {
   char *buffer;
   size_t buffer_size;
@@ -227,10 +227,17 @@ void astr_set(struct astring *astr, const char *format, ...)
   va_list args;
 
   va_start(args, format);
-  astr_vadd(astr, 0, format, args);
+  astr_vadd_at(astr, 0, format, args);
   va_end(args);
 }
 
+/************************************************************************//**
+  Add the text to the string (varargs version).
+****************************************************************************/
+void astr_vadd(struct astring *astr, const char *format, va_list ap)
+{
+  astr_vadd_at(astr, astr_len(astr), format, ap);
+}
 
 /****************************************************************************
   Add the text to the string.
@@ -240,7 +247,7 @@ void astr_add(struct astring *astr, const char *format, ...)
   va_list args;
 
   va_start(args, format);
-  astr_vadd(astr, astr_len(astr), format, args);
+  astr_vadd_at(astr, astr_len(astr), format, args);
   va_end(args);
 }
 
@@ -254,10 +261,10 @@ void astr_add_line(struct astring *astr, const char *format, ...)
 
   va_start(args, format);
   if (0 < len) {
-    astr_vadd(astr, len + 1, format, args);
+    astr_vadd_at(astr, len + 1, format, args);
     astr->str[len] = '\n';
   } else {
-    astr_vadd(astr, len, format, args);
+    astr_vadd_at(astr, len, format, args);
   }
   va_end(args);
 }
