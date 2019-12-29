@@ -1057,8 +1057,8 @@ static void compat_load_020600(struct loaddata *loading,
   /* Build [research]. */
   {
     const struct {
-      const char *entry_name;
-      enum entry_type entry_type;
+      const char *name;
+      enum entry_type type;
     } entries[] = {
       { "goal_name", ENTRY_STR },
       { "techs", ENTRY_INT },
@@ -1112,40 +1112,40 @@ static void compat_load_020600(struct loaddata *loading,
 
       /* Move entries. */
       for (j = 0; j < ARRAY_SIZE(entries); j++) {
-        switch (entries[j].entry_type) {
+        switch (entries[j].type) {
         case ENTRY_BOOL:
           if (secfile_lookup_bool(loading->file, &bval,
                                   "player%d.research.%s",
-                                  plrno, entries[j].entry_name)) {
+                                  plrno, entries[j].name)) {
             secfile_insert_bool(loading->file, bval, "research.r%d.%s",
-                                i, entries[j].entry_name);
+                                i, entries[j].name);
           }
           break;
         case ENTRY_INT:
           if (secfile_lookup_int(loading->file, &ival,
                                  "player%d.research.%s",
-                                 plrno, entries[j].entry_name)) {
+                                 plrno, entries[j].name)) {
             secfile_insert_int(loading->file, ival, "research.r%d.%s",
-                               i, entries[j].entry_name);
+                               i, entries[j].name);
           }
           break;
         case ENTRY_STR:
           if ((sval = secfile_lookup_str(loading->file,
                                          "player%d.research.%s",
-                                         plrno, entries[j].entry_name))) {
+                                         plrno, entries[j].name))) {
             secfile_insert_str(loading->file, sval, "research.r%d.%s",
-                               i, entries[j].entry_name);
+                               i, entries[j].name);
           }
           break;
         case ENTRY_FLOAT:
-          sg_failure_ret(entries[j].entry_type != ENTRY_FLOAT,
+          sg_failure_ret(entries[j].type != ENTRY_FLOAT,
                          "Research related entry marked as float.");
           break;
         case ENTRY_FILEREFERENCE:
-          fc_assert(entries[j].entry_type != ENTRY_FILEREFERENCE);
+          fc_assert(entries[j].type != ENTRY_FILEREFERENCE);
           break;
         case ENTRY_ILLEGAL:
-          fc_assert(entries[j].entry_type != ENTRY_ILLEGAL);
+          fc_assert(entries[j].type != ENTRY_ILLEGAL);
           break;
         }
       }
