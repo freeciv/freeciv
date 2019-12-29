@@ -22,7 +22,7 @@
   Description of the file format:
   (This is based on a format by the original authors, with
   various incremental extensions. --dwp)
-  
+
   - Whitespace lines are ignored, as are lines where the first
   non-whitespace character is ';' (comment lines).
   Optionally '#' can also be used for comments.
@@ -32,7 +32,7 @@
   includes the named file at that point.  (The '*' must be the
   first character on the line.) The file is found by looking in
   FREECIV_DATA_PATH.  Non-infinite recursive includes are allowed.
-  
+
   - A line with "[name]" labels the start of a section with
   that name; one of these must be the first non-comment line in
   the file.  Any spaces within the brackets are included in the
@@ -121,7 +121,7 @@
   In principle it could be a good idea to represent the data
   as a table (2-d array) internally, but the current method
   seems sufficient and relatively simple...
-  
+
   There is a limited ability to save data in tabular:
   So long as the section_file is constructed in an expected way,
   tabular data (with no missing or extra values) can be saved
@@ -3186,6 +3186,10 @@ void entry_destroy(struct entry *pentry)
   case ENTRY_FILEREFERENCE:
     free(pentry->string.value);
     break;
+
+  case ENTRY_ILLEGAL:
+    fc_assert(pentry->type != ENTRY_ILLEGAL);
+    break;
   }
 
   /* Common free. */
@@ -3205,11 +3209,11 @@ struct section *entry_section(const struct entry *pentry)
 }
 
 /**************************************************************************
-  Returns the type of this entry or -1 or error.
+  Returns the type of this entry or ENTRY_ILLEGAL or error.
 **************************************************************************/
 enum entry_type entry_type(const struct entry *pentry)
 {
-  return (NULL != pentry ? pentry->type : -1);
+  return (NULL != pentry ? pentry->type : ENTRY_ILLEGAL);
 }
 
 /**************************************************************************
@@ -3539,6 +3543,9 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
     break;
   case ENTRY_FILEREFERENCE:
     fz_fprintf(fs, "*%s*", pentry->string.value);
+    break;
+  case ENTRY_ILLEGAL:
+    fc_assert(pentry->type != ENTRY_ILLEGAL);
     break;
   }
 }
