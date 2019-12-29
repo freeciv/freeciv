@@ -72,7 +72,9 @@ extern "C" {
  * for instance. */
 #define Qn_(String) skip_intl_qualifier_prefix(String)
 
-const char *skip_intl_qualifier_prefix(const char *str);
+const char *skip_intl_qualifier_prefix(const char *str)
+            fc__attribute((__format_arg__(1)));
+
 char *capitalized_string(const char *str);
 void free_capitalized(char *str);
 void capitalization_opt_in(void);
