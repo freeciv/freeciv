@@ -31,6 +31,7 @@ flags =
     _("Transform")
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
+    _("SupplyLines"), _("Can slow down (take 1 MP from) an enemy unit by disrupting its supply lines.")
     _("Consensus"), _("Undisbandable when your bureaucracy has a veto.")
     _("Unbribable")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
@@ -902,7 +903,7 @@ uk_food       = 1
 uk_gold       = 1
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "IgTer", "Capturer"
+flags         = "IgTer", "Capturer", "SupplyLines"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Alpine Troops are highly mobile units as well as\
@@ -936,7 +937,7 @@ uk_food       = 1
 uk_gold       = 1
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "IgTer", "IgZOC", "Capturer"
+flags         = "IgTer", "IgZOC", "Capturer", "SupplyLines"
 roles         = "DefendGood", "DefendGoodStartUnit", "Partisan", "BarbarianTech"
 helptext      = _("\
 Partisans are guerilla fighters who are experts\
@@ -979,7 +980,7 @@ uk_food       = 1
 uk_gold       = 0
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "Fanatic", "AddToCity", "Capturer"
+flags         = "Fanatic", "AddToCity", "Capturer", "SupplyLines"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 Fanatics are warriors extremely devoted to a higher cause.\
@@ -1016,7 +1017,7 @@ uk_food       = 1
 uk_gold       = 1
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "Marines", "Capturer"
+flags         = "Marines", "Capturer", "SupplyLines"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild", "BarbarianSeaTech"
 helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
@@ -1049,7 +1050,7 @@ uk_food       = 1
 uk_gold       = 1
 embarks       = "Helicopter"
 disembarks    = "Helicopter"
-flags         = "Paratroopers", "Capturer"
+flags         = "Paratroopers", "Capturer", "SupplyLines"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Paratroopers are experts at airborne attacks. From a friendly city, \
@@ -2418,7 +2419,7 @@ uk_food       = 0
 uk_gold       = 1
 vision_layer  = "Stealth"
 flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC",
-                "Spy", "Provoking"
+                "Spy", "Provoking", "SupplyLines"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),

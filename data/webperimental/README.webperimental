@@ -80,3 +80,6 @@ Differences compared to the classic ruleset are:
   - J.S. Bach's Cathedral makes two unhappy citizens content in allied
     cities too.
   - A. Smith's Trading Co. pays for your allies' 1 upkeep buildings too.
+- Some units can disrupt the supply lines of enemy units. This removes 1 MP
+  from the target unit at the cost of one move fragment for the unit doing
+  the disrupting.

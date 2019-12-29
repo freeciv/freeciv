@@ -2719,6 +2719,22 @@ reqs    =
       "Action", "Expel Unit", "Local", TRUE
     }
 
+[effect_action_success_move_cost_disrupt]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 1
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "User Action 1", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_disrupted]
+type    = "Action_Success_Target_Move_Cost"
+value   = 3
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "User Action 1", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_bombard]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

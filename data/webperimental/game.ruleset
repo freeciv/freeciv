@@ -480,12 +480,13 @@ ui_name_transport_embark = _("%sEmbark%s")
 
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
-; Example: set up "User Action 1"
-;ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
-;user_action_1_target_kind            = "individual units"
-;user_action_1_min_range              = 1
-;user_action_1_max_range              = 3
-;user_action_1_actor_consuming_always = FALSE
+
+; /* TRANS: _Disrupt Supply Lines (100% chance of success). */
+ui_name_user_action_1                = _("%sDisrupt Supply Lines%s")
+user_action_1_target_kind            = "individual units"
+user_action_1_min_range              = 1
+user_action_1_max_range              = 3
+user_action_1_actor_consuming_always = FALSE
 
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
@@ -508,6 +509,34 @@ quiet_actions = "Heal Unit"
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
+
+[actionenabler_disrupt_supply_normal]
+action = "User Action 1"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "SupplyLines",   "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "Transported",   "Local", FALSE
+      "MinMoveFrags", "1",             "Local", TRUE
+    }
+target_reqs  =
+    { "type",         "name", "range", "present"
+      "MinMoveFrags", "1",    "Local", TRUE
+    }
+
+[actionenabler_disrupt_supply_marines]
+action = "User Action 1"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "SupplyLines",   "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitFlag",     "Marines",       "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+    }
+target_reqs  =
+    { "type",         "name", "range", "present"
+      "MinMoveFrags", "1",    "Local", TRUE
+    }
 
 [actionenabler_sabotage_city]
 action = "Sabotage City"

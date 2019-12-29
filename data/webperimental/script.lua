@@ -96,3 +96,36 @@ function place_map_labels()
 end
 
 signal.connect("map_generated", "place_map_labels")
+
+-- Only notifications needs Lua
+function notify_unit_unit(action, actor, target)
+  -- Notify actor
+  notify.event(actor.owner, target.tile,
+               E.UNIT_ACTION_ACTOR_SUCCESS,
+               -- /* TRANS: Your Marines does Disrupt Supply Lines to American Armor. */
+               _("Your %s does %s to %s %s."),
+               actor.utype:name_translation(),
+               action:name_translation(),
+               target.owner.nation:name_translation(),
+               target.utype:name_translation())
+
+  -- Notify target
+  notify.event(target.owner, actor.tile,
+               E.UNIT_ACTION_TARGET_HOSTILE,
+               -- /* TRANS: German Paratroopers does Disrupt Supply Lines to your Armor. */
+               _("%s %s does %s to your %s."),
+               actor.owner.nation:name_translation(),
+               actor.utype:name_translation(),
+               action:name_translation(),
+               target.utype:name_translation())
+end
+
+-- Handle unit targeted unit action start
+function action_started_unit_unit_callback(action, actor, target)
+  if action:rule_name() == "User Action 1" then
+    -- Disrupt Supply Lines
+    notify_unit_unit(action, actor, target)
+  end
+end
+
+signal.connect("action_started_unit_unit", "action_started_unit_unit_callback")

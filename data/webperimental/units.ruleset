@@ -37,6 +37,7 @@ flags =
     _("Airbase")
     _("Transform")
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
+    _("SupplyLines"), _("Can slow down (take 1 MP from) an enemy unit by disrupting its supply lines.")
     _("Horse"), _("Attack value halved when attacking Pikemen.")
     _("Helicopter"), _("Defends very badly against Fighters.")
     _("Unbribable")
@@ -806,7 +807,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgTer", "IgZOC", "BorderPolice", "LightWeight"
+flags         = "IgTer", "IgZOC", "BorderPolice", "LightWeight", "SupplyLines"
 roles         = "DefendGood", "DefendGoodStartUnit", "Partisan", "BarbarianTech"
 helptext      = _("\
 Partisans are guerilla fighters who are experts\
@@ -846,7 +847,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgTer", "BorderPolice", "LightWeight"
+flags         = "IgTer", "BorderPolice", "LightWeight", "SupplyLines"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 Alpine Troops are highly mobile units as well as\
@@ -910,7 +911,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Marines", "BorderPolice", "LightWeight"
+flags         = "Marines", "BorderPolice", "LightWeight", "SupplyLines"
 roles         = "DefendOk", "DefendOkStartUnit", "BarbarianSeaTech"
 helptext      = _("\
 Marines are infantry who are experts at marine warfare.\
@@ -941,7 +942,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "Paratroopers", "BorderPolice", "LightWeight"
+flags         = "Paratroopers", "BorderPolice", "LightWeight", "SupplyLines"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Paratroopers are experts at airborne attacks. \
@@ -2142,7 +2143,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy",
-                "Expellable", "LightWeight", "Provoking"
+                "Expellable", "LightWeight", "Provoking", "SupplyLines"
 veteran_names =
 ; /* TRANS: Spy veteran level */
   _("?spy_level:informant"),
