@@ -1103,18 +1103,7 @@ struct tile *city_tile(const struct city *pcity)
 {
   return pcity->tile;
 }
-#endif
-
-
-/*****************************************************************************
-  Get the city size.
-*****************************************************************************/
-citizens city_size_get(const struct city *pcity)
-{
-  fc_assert_ret_val(pcity != NULL, 0);
-
-  return pcity->size;
-}
+#endif /* city_tile */
 
 /*****************************************************************************
   Add a (positive or negative) value to the city size. As citizens is an
