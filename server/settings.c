@@ -2382,11 +2382,14 @@ static struct setting settings[] = {
           /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls how far citizens may look for a "
              "suitable migration destination when deciding which city "
-             "to migrate to. The value is added to the current city radius "
-             "and compared to the distance between the two cities. If "
-             "the distance is lower or equal, migration is possible. This "
-             "setting has no effect unless migration is activated by the "
-             "'migration' setting."),
+             "to migrate to. The value is added to the candidate target "
+             "city's radius and compared to the distance between the "
+             "two cities. If the distance is lower or equal, migration "
+             "is possible. (So with a setting of 0, citizens will only "
+             "consider migrating if their city's center is within the "
+             "destination city's working radius.) This setting has no "
+             "effect unless migration is enabled by the 'migration' "
+             "setting."),
           NULL, NULL, NULL, GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
           GAME_DEFAULT_MGR_DISTANCE)
 
