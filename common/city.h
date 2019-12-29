@@ -530,7 +530,16 @@ const char *city_name_get(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
 struct tile *city_tile(const struct city *pcity);
 
-citizens city_size_get(const struct city *pcity);
+/**********************************************************************//**
+  Get the city size.
+**************************************************************************/
+static inline citizens city_size_get(const struct city *pcity)
+{
+  fc_assert_ret_val(pcity != NULL, 0);
+
+  return pcity->size;
+}
+
 void city_size_add(struct city *pcity, int add);
 void city_size_set(struct city *pcity, citizens size);
 
