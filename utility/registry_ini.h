@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -618,7 +618,8 @@ enum entry_type {
   ENTRY_INT,
   ENTRY_FLOAT,
   ENTRY_STR,
-  ENTRY_FILEREFERENCE
+  ENTRY_FILEREFERENCE,
+  ENTRY_ILLEGAL
 };
 
 void entry_destroy(struct entry *pentry);

@@ -429,6 +429,10 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       break;
     case ENTRY_FILEREFERENCE:
       fc_assert(entry_type(pentry) != ENTRY_FILEREFERENCE);
+      break;
+    case ENTRY_ILLEGAL:
+      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      break;
     }
     if (NULL == name) {
       ruleset_error(LOG_ERROR,
