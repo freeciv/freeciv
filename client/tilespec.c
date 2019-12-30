@@ -5781,15 +5781,16 @@ int fill_sprite_array(struct tileset *t,
     /* City size.  Drawing this under fog makes it hard to read. */
     if (pcity && gui_options.draw_cities && !gui_options.draw_full_citybar) {
       bool warn = FALSE;
+      unsigned int size = city_size_get(pcity);
 
-      ADD_SPRITE(t->sprites.city.size[city_size_get(pcity) % 10],
+      ADD_SPRITE(t->sprites.city.size[size % 10],
                  FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-      if (10 <= city_size_get(pcity)) {
-        ADD_SPRITE(t->sprites.city.size_tens[(city_size_get(pcity) / 10)
+      if (10 <= size) {
+        ADD_SPRITE(t->sprites.city.size_tens[(size / 10)
                    % 10], FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-        if (100 <= city_size_get(pcity)) {
+        if (100 <= size) {
           struct sprite *sprite =
-              t->sprites.city.size_hundreds[(city_size_get(pcity) / 100) % 10];
+              t->sprites.city.size_hundreds[(size / 100) % 10];
 
           if (NULL != sprite) {
             ADD_SPRITE(sprite, FALSE,
@@ -5797,7 +5798,7 @@ int fill_sprite_array(struct tileset *t,
           } else {
             warn = TRUE;
           }
-          if (1000 <= city_size_get(pcity)) {
+          if (1000 <= size) {
             warn = TRUE;
           }
         }
@@ -5810,7 +5811,7 @@ int fill_sprite_array(struct tileset *t,
         if (0 != strcmp(last_reported, t->name)) {
           log_normal(_("Tileset \"%s\" doesn't support big cities size, "
                        "such as %d. Size not displayed as expected."),
-                     t->name, city_size_get(pcity));
+                     t->name, size);
           sz_strlcpy(last_reported, t->name);
         }
       }
