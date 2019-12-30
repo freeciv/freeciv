@@ -21,7 +21,7 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
-size_t utf8_strlen(const char *pstr);
+size_t utf8_strlen(const unsigned char *pstr);
 char **create_new_line_utf8strs(const char *pstr);
 
 #endif /* FC__UTF8STRING_H */
