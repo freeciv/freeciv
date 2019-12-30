@@ -397,7 +397,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       return NULL;
     }
     name = NULL;
-    switch (entry_type(pentry)) {
+    switch (entry_type_get(pentry)) {
     case ENTRY_BOOL:
       {
         bool val;
@@ -422,16 +422,16 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       (void) entry_str_get(pentry, &name);
       break;
     case ENTRY_FLOAT:
-      fc_assert(entry_type(pentry) != ENTRY_FLOAT);
+      fc_assert(entry_type_get(pentry) != ENTRY_FLOAT);
       ruleset_error(LOG_ERROR,
                     "\"%s\": trying to have an floating point entry as a requirement name in '%s.%s%d'.",
                     filename, sec, sub, j);
       break;
     case ENTRY_FILEREFERENCE:
-      fc_assert(entry_type(pentry) != ENTRY_FILEREFERENCE);
+      fc_assert(entry_type_get(pentry) != ENTRY_FILEREFERENCE);
       break;
     case ENTRY_ILLEGAL:
-      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;
     }
     if (NULL == name) {
@@ -5773,10 +5773,10 @@ static bool load_action_range_max(struct section_file *file, action_id act)
   } else {
     const char *custom;
 
-    if (entry_type(pentry) == ENTRY_INT
+    if (entry_type_get(pentry) == ENTRY_INT
         && entry_int_get(pentry, &max_range)) {
       /* max_range already assigned */
-    } else if (entry_type(pentry) == ENTRY_STR
+    } else if (entry_type_get(pentry) == ENTRY_STR
                && entry_str_get(pentry, &custom)
                && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
       max_range = ACTION_DISTANCE_UNLIMITED;

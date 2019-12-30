@@ -1500,7 +1500,7 @@ static void compat_load_dev(struct loaddata *loading)
                                                      plrno, i);
 
         /* If did buy is an integer value, make it boolean instead */
-        if (did_buy != NULL && entry_type(did_buy) == ENTRY_INT) {
+        if (did_buy != NULL && entry_type_get(did_buy) == ENTRY_INT) {
           int val;
 
           entry_int_get(did_buy, &val);
@@ -1539,7 +1539,8 @@ static void compat_load_dev(struct loaddata *loading)
     }
 
     convert_entry = secfile_entry_lookup(loading->file, "game.phase_mode");
-    if (convert_entry != NULL && entry_type(convert_entry) == ENTRY_INT) {
+    if (convert_entry != NULL
+        && entry_type_get(convert_entry) == ENTRY_INT) {
       int nval;
 
       entry_int_get(convert_entry, &nval);
@@ -1548,7 +1549,8 @@ static void compat_load_dev(struct loaddata *loading)
                           "game.phase_mode");
     }
     convert_entry = secfile_entry_lookup(loading->file, "game.phase_mode_stored");
-    if (convert_entry != NULL && entry_type(convert_entry) == ENTRY_INT) {
+    if (convert_entry != NULL
+        && entry_type_get(convert_entry) == ENTRY_INT) {
       int nval;
 
       entry_int_get(convert_entry, &nval);

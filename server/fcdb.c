@@ -130,11 +130,11 @@ static bool fcdb_load_config(const char *filename)
   entry_list_iterate(section_entries(secfile_section_by_name(secfile,
                                                              "fcdb")),
                      pentry) {
-    if (entry_type(pentry) == ENTRY_STR) {
+    if (entry_type_get(pentry) == ENTRY_STR) {
       const char *value;
 #ifndef FREECIV_NDEBUG
       bool entry_str_get_success =
-#endif
+#endif /* FREECIV_NDEBUG */
         entry_str_get(pentry, &value);
 
       fc_assert(entry_str_get_success);

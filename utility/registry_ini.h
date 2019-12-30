@@ -625,7 +625,7 @@ enum entry_type {
 void entry_destroy(struct entry *pentry);
 
 struct section *entry_section(const struct entry *pentry);
-enum entry_type entry_type(const struct entry *pentry);
+enum entry_type entry_type_get(const struct entry *pentry);
 int entry_path(const struct entry *pentry, char *buf, size_t buf_len);
 
 const char *entry_name(const struct entry *pentry);

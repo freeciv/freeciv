@@ -5474,7 +5474,7 @@ static void settable_options_load(struct section_file *sf)
   entries = section_entries(psection);
   entry_list_iterate(entries, pentry) {
     string = NULL;
-    switch (entry_type(pentry)) {
+    switch (entry_type_get(pentry)) {
     case ENTRY_BOOL:
       if (entry_bool_get(pentry, &bval)) {
         fc_strlcpy(buf, bval ? "enabled" : "disabled", sizeof(buf));
@@ -5498,7 +5498,7 @@ static void settable_options_load(struct section_file *sf)
       /* Not supported yet */
       break;
     case ENTRY_ILLEGAL:
-      fc_assert(entry_type(pentry) != ENTRY_ILLEGAL);
+      fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;
     }
 
