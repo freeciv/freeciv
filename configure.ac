@@ -772,6 +772,17 @@ if test x$crosser = xyes && test x$MINGW != xyes ; then
   AC_MSG_ERROR([--enable-crosser is Windows build specific option])
 fi
 
+AC_ARG_WITH([cacert-path],
+  AS_HELP_STRING([--with-cacert-path], [path to ca cert bundle]),
+[case "${withval}" in
+ yes) AC_MSG_ERROR([Path must be given for --with-cacert-path]) ;;
+ *)   custom_cacert_path="${withval}" ;;
+esac])
+
+if test "x$custom_cacert_path" != "x" ; then
+  AC_DEFINE_UNQUOTED([CUSTOM_CACERT_PATH], ["$custom_cacert_path"], [Path to CA cert bundle])
+fi
+
 AC_ARG_WITH([tinycthread],
   AS_HELP_STRING([--with-tinycthread], [build and use tinycthread as thread implementation]),
   [fctinycthr=${withval}], [fctinycthr=no])
