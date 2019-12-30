@@ -314,3 +314,6 @@
 #if defined(HAVE_FCNTL) || defined(HAVE_IOCTL)
 #define NONBLOCKING_SOCKETS 1
 #endif
+
+/* Custom path to CA cert bundle */
+#mesondefine CUSTOM_CACERT_PATH

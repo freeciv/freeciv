@@ -105,3 +105,8 @@ fcmp (array):
   List of freeciv modpack installer UIs to build. To disable their build
   completely, give an empty array ('-Dfcmp=[]'). Currently gtk3, and cli
   are supported ('-Dfcmp=gtk3'). By default builds just gtk3 UI.
+
+cacert-path (string):
+  Custom path to CA cert bundle. If this is empty, default path will be used.
+  This affects mostly downloading custom modpacks with modpack installer from
+  an 'https' URL.

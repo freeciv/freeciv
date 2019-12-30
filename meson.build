@@ -155,6 +155,11 @@ else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
 endif
 
+if get_option('cacert-path') != ''
+  priv_conf_data.set('CUSTOM_CACERT_PATH',
+                     '"' + get_option('cacert-path') + '"')
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
