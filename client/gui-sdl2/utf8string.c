@@ -32,7 +32,7 @@
 /**********************************************************************//**
   Return number of characters in UTF-8 string
 **************************************************************************/
-size_t utf8_strlen(const char *pstr)
+size_t utf8_strlen(const unsigned char *pstr)
 {
   size_t ret = 0;
   int i = 0;
