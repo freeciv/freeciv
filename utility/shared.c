@@ -1729,7 +1729,7 @@ bool make_dir(const char *pathname)
     dir = strchr(dir, DIR_SEPARATOR_CHAR);
     /* We set the current / with 0, and restore it afterwards */
     if (dir) {
-      *dir = 0;
+      *dir = '\0';
     }
 
 #ifdef FREECIV_MSWINDOWS
