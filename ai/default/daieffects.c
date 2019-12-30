@@ -549,12 +549,14 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     v += amount * 10;
     break;
   case EFT_MIGRATION_PCT:
-    /* consider all foreign cities within the set distance */
-    iterate_outward(city_tile(pcity), game.server.mgr_distance + 1, ptile) {
+    /* Consider all foreign cities within set distance */
+    iterate_outward(city_tile(pcity),
+                    game.server.mgr_distance + (int)sqrt(MAX(city_map_radius_sq_get(pcity), 0)),
+                    ptile) {
       struct city *acity = tile_city(ptile);
 
       if (!acity || acity == pcity || city_owner(acity) == pplayer) {
-        /* no city, the city in the center or own city */
+        /* No city, the city in the center, or our own city */
         continue;
       }
 
