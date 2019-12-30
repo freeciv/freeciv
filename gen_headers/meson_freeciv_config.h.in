@@ -49,6 +49,9 @@
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
+/* Winsock available */
+#mesondefine FREECIV_HAVE_WINSOCK
+
 /* locale.h available */
 #mesondefine FREECIV_HAVE_LOCALE_H
 
@@ -87,5 +90,12 @@
 
 /* stdbool.h available */
 #mesondefine FREECIV_HAVE_STDBOOL_H
+
+/* winsock2.h available */
+#mesondefine FREECIV_HAVE_WINSOCK2_H
+
+#ifdef FREECIV_HAVE_WINSOCK2_H
+#define FREECIV_HAVE_WINSOCK2 1
+#endif
 
 #endif /* FC__FREECIV_CONFIG_H */

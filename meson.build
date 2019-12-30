@@ -48,7 +48,8 @@ pub_headers = [
   'sys/select.h',
   'netinet/in.h',
   'dirent.h',
-  'stdbool.h'
+  'stdbool.h',
+  'winsock2.h'
   ]
 
 priv_headers = [
@@ -148,6 +149,7 @@ endforeach
 
 if host_system == 'windows'
   pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
+  pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
 else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
 endif
