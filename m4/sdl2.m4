@@ -7,7 +7,7 @@
 #
 # Changelog:
 # * also look for SDL2.framework under Mac OS X
-# * Taken to Freeciv from SDL release 2.0.8 - modified to work together with sdl1.2
+# * Taken to Freeciv from SDL release 2.0.10 - modified to work together with sdl1.2
 
 # serial 1.0.2
 
