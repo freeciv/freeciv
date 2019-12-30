@@ -148,6 +148,7 @@ foreach func : priv_functions
 endforeach
 
 if host_system == 'windows'
+  pub_conf_data.set('FREECIV_MSWINDOWS', 1)
   pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
   pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
 else

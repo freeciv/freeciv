@@ -43,6 +43,9 @@
 /* IPv6 Support built in */
 #define FREECIV_IPV6_SUPPORT
 
+/* MS Windows host */
+#mesondefine FREECIV_MSWINDOWS
+
 /* mkstemp() available */
 #define HAVE_MKSTEMP
 
