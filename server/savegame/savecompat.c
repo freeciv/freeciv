@@ -1661,7 +1661,7 @@ static void compat_load_dev(struct loaddata *loading)
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_1
 
   if (game_version < 3009200) {
-    /* Before version number bump to 3.0.92 */
+    /* Before version number bump to 3.0.92, beginning of 2020 */
 
     /* Renamed actions. */
     loading->action.size = secfile_lookup_int_default(loading->file, 0,
@@ -1924,6 +1924,11 @@ static void compat_load_dev(struct loaddata *loading)
       }
     } player_slots_iterate_end;
   } /* Version < 3.0.92 */
+
+  if (game_version < 3009300) {
+    /* Before version number bump to 3.0.93 */
+
+  } /* Version < 3.0.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
