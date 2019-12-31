@@ -14,7 +14,7 @@
 freeciv-mp-gtk2, freeciv-mp-gtk3, freeciv-mp-qt, freeciv-mp-cli \
 \- Custom content installers for the Freeciv game
 .SH SYNOPSIS
-.B freeciv-modpack \
+.B freeciv-mp-XXX \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-h|\-\-help ] \
 [ \-i|\-\-install \fIURL\fP ] \
@@ -45,14 +45,21 @@ means. It takes care of installing the files in the correct place
 under the user's home directory for this version of Freeciv; it does
 not install anything for system-wide use.
 
+.B freeciv-mp-cli
+is a version of the modpack installer usable from command line. By default
+it lists modpacks from the default list or from list specified with
+\fI\-\-List\fP. One can then run it again by giving appropriate
+URL from the list for \fI\-\-install\fP parameter.
+
 This manual page only lists the command line arguments. For details
-regarding the options when using
-.B freeciv-modpack
-see the documentation at
+regarding the operation of
+.B freeciv-mp-XXX
+see README.modpack_installer in the Freeciv distribution, and the
+documentation at
 .UR @WIKI_URL@
 the Freeciv website
 .UE
-as well as the documentation which is part of the Freeciv distribution.
+.
 .SH OPTIONS
 All options have a short
 form (single hyphen and single letter) and a long form (double hyphen
@@ -97,11 +104,20 @@ installs files to the following subdirectories of the user's home directory
 \(bu
 .I .freeciv/@DATASUBDIR@/
 
-.B freeciv-mp-cli
-is version of the modpack installer usable from command line. By default
-it lists modpacks from the default list or from list specified with
-\fI\-\-List\fP. One can then run it again by giving appropriate
-URL from the list for \fI\-\-install\fP parameter.
+The modpack installer maintains a record of installed modpack names and
+versions in these files:
+
+\(bu
+.I .freeciv/scenarios/.control/modpacks.db
+
+\(bu
+.I .freeciv/@DATASUBDIR@/.control/modpacks.db
+
+This information is used for display, and for deciding whether any new
+modpacks' dependencies are already satisfied. It is not used by the
+other Freeciv programs, and can fairly safely be removed if it gets out
+of sync with the actual state of installed modpacks. These are text
+files whose format is subject to change.
 
 .SH ENVIRONMENT
 .B freeciv modpack installer

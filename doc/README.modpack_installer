@@ -1,0 +1,383 @@
+===========================================================================
+ Modpack installer tool
+===========================================================================
+
+Installing modpacks
+-------------------
+
+The modpack installer is a simple tool to download custom Freeciv
+content called "modpacks" from the Internet, and automatically install
+them into the correct location to be used by the Freeciv client and
+server.
+
+A "modpack" can consist of one or more of:
+ - 'rulesets' for game rules
+ - 'scenarios' for game maps (with or without players/cities/etc)
+ - 'tilesets' for game graphics
+ - 'soundsets' or 'musicsets' for sound effects and in-game music
+
+Depending which client you installed, you will probably have one modpack
+installer tool called something like 'freeciv-mp-gtk3' or
+'freeciv-mp-qt' -- these different versions have the same features.
+There may also be a command-line-only tool called 'freeciv-mp-cli',
+which is mainly useful for headless game servers.
+
+In standard Freeciv builds, when you start the graphical modpack
+installer, it will show a list of modpacks from modpack.freeciv.org,
+curated by the Freeciv developers. You can select one and press
+"Install modpack"; the tool will download the files for the selected
+modpack, and any other modpacks it depends on, and install them ready
+for the main Freeciv programs to use.
+
+You can also point the installer at modpacks or lists on other servers:
+
+ * If someone has given you an individual modpack URL (ending in
+   '.mpdl'), you can paste it into the "Modpack URL" box, and when
+   you press "Install modpack", the modpack will immediately be
+   downloaded and installed.
+   (If you have been given a URL ending up '.modpack', that is
+   probably for an older version of Freeciv.)
+
+ * If someone has given you a URL for a list of modpacks (probably
+   ending in '.list') and you want to browse them with the standard
+   Freeciv modpack installer build, you need to start the tool with
+   that URL on its command line, for instance:
+
+     freeciv-mp-gtk3.exe --List http://example.com/3.0/my-modpacks.list
+
+   (note the capital letter in '--List')
+
+(The tool has some other command-line options, but most users will not
+need to use them. Use --help for a list of them.)
+
+Once you have installed a modpack, how you use it depends on the modpack
+type:
+
+ - Scenarios (maps) should be listed under 'Start scenario game' from
+   the client start page, or from the game server prompt via
+   '/list scenarios'.
+   (For network play, scenarios need only be installed on the game
+   server.)
+
+ - Rulesets should appear on the 'Ruleset' drop-down from the client's
+   'Start new game' page. On the game server, you can load a ruleset
+   with '/read <name>' or failing that perhaps '/set rulesetdir <name>'.
+   (For network play, rulesets need only be installed on the game
+   server.)
+
+ - Tilesets should appear for selection in the local client options, in
+   the appropriate topology-specific 'Tileset' drop-down under 'Graphics'.
+   (Tilesets should be installed on the game client machine.)
+
+ - Soundsets and musicsets should appear in the dropdowns on the 'Sound'
+   page of the local client options.
+   (These should be installed on the game client machine.)
+
+With standard Freeciv builds, modpacks get installed into a per-user
+area, not into the main Freeciv installation. So you shouldn't need any
+special permissions to download them, and if you uninstall the Freeciv
+game, any modpacks you downloaded are likely to remain on your system.
+Conversely, if you delete downloaded modpacks by hand, the standard
+rulesets, tilesets etc supplied with Freeciv won't be touched.
+
+The precise location where files are downloaded to depends on your build
+and platform. For Unix systems is is likely to be under the hidden
+'.freeciv' directory in your home directory. It is likely to be near
+where the Freeciv client stores its saved games.
+
+Most modpacks are specific to a particular major version of Freeciv; for
+instance, while a 2.6 ruleset or tileset can be used with all Freeciv
+2.6.x releases, it cannot be used as-is with any 3.0.x release. So, most
+modpacks are installed in a specific directory for the major version,
+such as ~/.freeciv/3.0/ on Unix. (The modpack installer displays which
+version it will install for at the top of its window.)
+
+An exception to this is scenario maps; scenarios created for one version
+of Freeciv can usually be loaded in later versions, so they are
+installed in a version-independent location (typically
+~/.freeciv/scenarios/ on Unix).
+
+Once a modpack is installed, there is no uninstall action, and if you
+remove the files by hand, the installer will still consider the modpack
+to be installed; the installer maintains its own database
+(.control/modpacks.db) listing which modpack versions are installed, but
+does not keep track of which files were installed by which modpack. If
+the database gets of of sync with reality (or is deleted), it's
+harmless for already installed modpacks and the main Freeciv programs
+(which do not consult the database), but can confuse the modpack
+installer's dependency tracking later.
+
+Modpacks consist mostly of data files read by the Freeciv engine; they
+do not contain compiled binary code (and are thus platform-independent).
+Rulesets can contain code in the form of Lua scripts, but this is
+executed in a sandbox to prevent obvious security exploits. Modpacks are
+installed to a specific area and cannot overwrite arbitrary files on
+your system. Nevertheless, you should only install modpacks from sources
+you trust.
+
+
+Serving modpacks for the installer
+----------------------------------
+
+The rest of this document discusses how to set up a web server so that
+users can download modpacks you publish. (If you just want to install
+modpacks, you need not read on.)
+
+To host modpacks, you just need a web server that can host plain static
+files; you do not need to run any custom code or frameworks on that web
+server, just to publish files with a specific layout, detailed below.
+(You can browse http://modpack.freeciv.org/ for some working examples of
+modpack trees.)
+
+Unlike some previous versions, all the standard Windows Freeciv 3.0.x
+builds should be able to access modpacks hosted at https (secure)
+URLs, as well as plain http.
+
+On the modpack server, there are up to three layers of files required:
+  1. modpack.list: A list of available modpacks (optional, advanced).
+  2. *.mpdl: A control file for an individual modpack.
+  3. The individual files comprising the modpack.
+
+Each of these layers is described in detail below.
+
+Each layer refers to files in the next layer down. References can be
+with relative URLs (so that a modpack or set of modpacks can be moved
+without changing any file contents), or with absolute URLs (so that the
+different layers can be hosted on different web servers).
+
+Almost all of these file formats are specific to one major version of
+Freeciv; this document only describes the formats for the major version
+of Freeciv it is shipped with. If you wanted to publish modpacks for
+both 2.6.x and 3.0.x, you would publish two sets of modpack control
+files, and perhaps two different modpack.list files.
+
+
+1. modpack.list, a list of modpacks
+
+(Advanced usage only -- most publishers can skip to the next section)
+
+This is only needed if you want to let users browse a list of available
+modpacks before choosing one to install. To look at your modpack.list
+instead of the standard one, users will usually have to start the
+modpack installer with non-standard arguments (see above).
+
+If you build and distribute your own Freeciv binaries, you can customise
+the default modpack list URL with MODPACK_LIST_URL in the project
+definition file; see doc/README.packaging for details about that file.
+
+(You could even build and distribute just the modpack installer -- once
+installed, in principle there's nothing stopping the standard Freeciv
+client/server using modpacks installed by it -- but you would need to
+take care that the data paths used by your modpack installer build were
+the same as those used by the standard builds, since getting the paths
+right is most of the point of the modpack installer.)
+
+modpack.list is a file in Freeciv's "spec-file" format, the same as is
+used for rulespecs, tilespecs, etc; see those for examples of the
+general syntax.
+
+Here's an example:
+
+[info]
+options = "+Freeciv-3.0-modlist"
+message = "2019-12-31: updated Mappamundi tileset. Happy new year!"
+
+[modpacks]
+list =
+{ "name", "version", "type", "subtype", "license", "URL", "notes"
+  "Ancients", "3.0-0", "Modpack", "-", "GPLv2+", "./ancients.mpdl"
+  "Survivors", "3.0r6", "Scenario", "iso", "GPLv2+", "./survivors-3.0r6.mpdl", "Installs custom ruleset and two world maps"
+  "Mappamundi", "20191231", "Tileset", "iso", "MIT", "http://otherserver.example.com/mappamundi-20191231.mpdl"
+}
+
+Here's what's in the [info] section:
+ - "options" should be exactly as shown here.
+ - "message" is displayed on the status line when the modpack installer
+   starts up. Should be kept to one line.
+
+The [modpacks] section is a header line, followed by a list of modpack
+lines.
+The header line ("name, "version", etc) should usually be left as shown
+here, and followed by one line for each modpack:
+ - "name", "version", "type":
+     These three fields should match those in the .mpdl file which
+     "URL" links to.
+ - "subtype":
+     Optional free text. For tilesets or scenarios, conventionally
+     indicates the map topology with one of "overhead", "iso", "hex",
+     or "hex & iso" (and these will be localised). Otherwise "-".
+ - "license":
+     Free text summarising the distribution terms for the modpack
+     content (by naming a well-known license, not quoting the full
+     license text!)
+ - "URL":
+     The URL to a .mpdl file for the individual modpack.
+     Either a relative URL starting "./" (in which case it's relative to
+     the URL of modpack.list) or an absolute URL (which can be on some
+     other web server).
+ - "notes":
+     Optional free text; usually shown as a tooltip.
+
+
+2. *.mpdl control file, defining an individual modpack
+
+This is the core control file for a modpack, specifying what files it
+contains, where to download them from, and where they are installed.
+
+Most modpack authors will just publish the URL of an .mpdl file
+directly, for users to give to the modpack installer tool. (There
+doesn't have to be a modpack.list file anywhere that refers to the
+.mpdl file.)
+
+Again, this is a file in Freeciv's "spec-file" format, the same as is
+used for modpacks like rulespecs, tilespecs, etc; see those for examples
+of the general syntax. Its filename must end in ".mpdl".
+
+Here is an example of a .mpdl file:
+
+[info]
+options = "+Freeciv-3.0-mpdl"
+baseURL = "./ancients-6f88ee23de"
+name    = "Ancients"
+type    = "Modpack"
+version = "3.0-0"
+
+[dependencies]
+list =
+{ "modpack", "URL", "type", "version"
+  "Ancients-tiles", "./ancients-tiles.mpdl", "Tileset", "3.0-0"
+}
+
+[files]
+list =
+{ "src", "dest"
+  "ancients/ancients.serv", "ancients.serv"
+  "ancients/game.ruleset"
+  ; ...
+}
+
+The [info] section has overall control information:
+ - "options": must be exactly as shown in the example.
+ - "name":
+     A short name for the modpack. This is used for version and
+     dependency tracking, so should not contain minor version
+     information, and should not change once a modpack has been
+     released for a given major version of Freeciv. Case-insensitive.
+ - "version":
+     Textual version information. If another modpack uses this one as a
+     dependency, this string is subject to version number comparison
+     (using the rules of Freeciv's 'cvercmp' library, which should give
+     sensible results for most version numbering schemes).
+ - "type":
+     This must be one of the following:
+      - "Ruleset" (foo.serv, foo/*.ruleset, foo/*.lua, etc)
+      - "Tileset" (foo.tilespec, foo/*.png, etc)
+      - "Soundset" (foo.soundspec, foo/*.ogg, etc)
+      - "Musicset" (foo.musicspec, foo/*.ogg, etc)
+      - "Scenario" (foo.sav; installed to a version-independent location)
+      - "Modpack": conventionally used for modpacks that contain more
+        than one of the above kinds of material
+      - "Group": contains no files but only depends on other modpacks
+     At the moment, only "Scenario" causes special behavior.
+ - "baseURL":
+     URL to prepend to the "src" filenames in the [files] section.
+     May be relative to the .mpdl file (starting with "./"), or
+     absolute (in which case the files can be on some web server
+     different to where the .mpdl file lives).
+
+The [files] section lists the individual files comprising your modpack.
+(It must list every file individually; any files in the same directory
+on the webserver that are not listed will not be downloaded.)
+After the header, each line can contain two strings:
+ - "src"
+     Mandatory. Path of file on webserver, relative to "baseURL",
+     and also by default installation path.
+ - "dest"
+     Optional. Normally, "src" is also used as the path (relative to the
+     installation root) for the file to be installed on the user's
+     system. If for some reason you need the installation path for some
+     file to be different, specify it here.
+     Usually, the path under "src" will be fine for this, in which case
+     there is no need to have a "dest" string on the line.
+     Path components should be separated with forward slashes ('/').
+
+In the example, the first file would be downloaded from
+  ./ancients-6f88ee23de/ancients/ancients.serv
+(relative to the URL of the .mpdl file), and installed in
+  ancients.serv
+in the relevant path of the user's system.
+
+Some advice on the structure of files in modpacks:
+
+ * You should generally install files in a directory named after the
+   modpack, with a few exceptions (.serv, .tilespec, .soundspec, and
+   .musicspec files must be installed to the top level, and should
+   reference files in your subdirectory).
+
+   Individual files' and directories' install names should usually not
+   embed version numbers, dates, etc, so that when a new version of
+   modpack X is installed, it cleanly overwrites the old version, rather
+   than leaving both cluttering up the user's installation.
+ 
+ * The modpack installer does not stop different modpacks overwriting
+   each other's files, so published modpacks should be disciplined about
+   namespace usage. If you've derived from someone else's modpack, you
+   should probably give your derivative new filenames, so that both can
+   be installed simultaneously.
+
+ * There is no 'white-out' facility to delete files from a user's
+   installation -- if a newer version of a modpack has fewer files than
+   an old one, the old file will persist in some users' installations,
+   so your modpacks should be designed to be tolerant of that.
+
+ * At the moment, there is no restriction on what kind of files a given
+   "type" can install, but modpacks should stick to installing the
+   advertised kinds of content. It's OK to install extra files such as
+   documentation in any case (LICENSE/COPYING, README.txt, etc).
+
+ * If your modpack contains a ruleset, you should usually install a
+   .serv file at the top level (which can be a one-line file consisting
+   of "rulesetdir <name>", as this is needed for the server to enumerate
+   the available rulesets.
+
+The [dependencies] section is optional, and not normally needed
+(although "Group" type modpacks should have a [dependencies] section
+and no [files] section). If your modpack requires another one that can
+also be installed separately (for instance, a scenario that needs a
+specific ruleset), you can specify it here. After the header, each
+line consists of:
+ - "modpack":
+     What the dependency modpack calls itself when installed (that is,
+     "name" from its .mpdl file).
+ - "URL":
+     URL to download modpack if needed. Can be relative or absolute.
+ - "type":
+     Must match "type" from dependency's .mpdl file.
+ - "version":
+     Minimum version of dependency (as declared in its .mpdl file).
+     Subject to version number comparison algorithm.
+If the modpack installer thinks the required version, or a newer
+version, of the dependency is already installed, it will do nothing,
+otherwise it will download the dependency modpack (and any of its own
+dependencies, recursively).
+
+
+3. Individual modpack files
+
+These are the files comprising the modpack (*.ruleset, *.png, etc), that
+will be copied verbatim to the user's Freeciv data directory and read by
+the Freeciv client and server. The modpack installer does not modify the
+files in any way.
+
+The files must be hosted individually on the web server; the modpack
+installer tool cannot unpack any archives such as .zip files.
+(Individual scenarios can be compressed, e.g. .sav.gz, as the Freeciv
+engine can uncompress these files.)
+
+Because the *.mpdl file can change the file paths / names on download,
+the layout on the modpack server doesn't have to correspond with the
+installed layout. An individual file can be shared between multiple
+modpacks, if you want.
+
+How to write modpacks is beyond the scope of this document -- see
+README.rulesets, README.graphics, etc for some clues.
