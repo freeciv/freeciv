@@ -2168,6 +2168,7 @@ install_data(
   'doc/README.fcdb',
   'doc/README.governor',
   'doc/README.graphics',
+  'doc/README.modpack_installer',
   'doc/README.msys2',
   'doc/README.nations',
   'doc/README.packaging',
