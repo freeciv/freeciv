@@ -1659,266 +1659,271 @@ static void compat_load_dev(struct loaddata *loading)
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_0 */
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_1
-  /* Renamed actions. */
-  loading->action.size = secfile_lookup_int_default(loading->file, 0,
-                                                    "savefile.action_size");
-  if (loading->action.size) {
-    const char **modname;
-    int j;
 
-    modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
-                                     "savefile.action_vector");
+  if (game_version < 3009200) {
+    /* Before version number bump to 3.0.92 */
 
-    for (j = 0; j < loading->action.size; j++) {
-      if (fc_strcasecmp(modname[j], "Targeted Steal Tech Escape") == 0) {
-        secfile_replace_str(loading->file, "Targeted Steal Tech Escape Expected",
-                            "savefile.action_vector,%d", j);
-      } else if (fc_strcasecmp(modname[j], "Steal Tech Escape") == 0) {
-        secfile_replace_str(loading->file, "Steal Tech Escape Expected",
-                            "savefile.action_vector,%d", j);
-      }
-    }
-
-    free(modname);
-  }
-
-  /* Old unit order tgt_vec refers to order sub targets */
-  player_slots_iterate(pslot) {
-    int unit;
-    int units_num;
-    int plrno = player_slot_index(pslot);
-
-    if (secfile_section_lookup(loading->file, "player%d", plrno)
-        == NULL) {
-      continue;
-    }
-
-    /* Number of units the player has. */
-    units_num = secfile_lookup_int_default(loading->file, 0,
-                                           "player%d.nunits",
-                                           plrno);
-
-    for (unit = 0; unit < units_num; unit++) {
-      size_t old_tgt_size;
-      int *old_tgt_vec;
-
-      if ((old_tgt_vec = secfile_lookup_int_vec(loading->file, &old_tgt_size,
-                                                "player%d.u%d.tgt_vec",
-                                                plrno, unit))) {
-        secfile_insert_int_vec(loading->file, old_tgt_vec, old_tgt_size,
-                               "player%d.u%d.sub_tgt_vec", plrno, unit);
-        free(old_tgt_vec);
-      }
-    }
-  } player_slots_iterate_end;
-
-  /* Unit order extra sub targets was for a while stored separate from tech
-   * and building sub targets. */
-  player_slots_iterate(pslot) {
-    int unit;
-    int units_num;
-    int plrno = player_slot_index(pslot);
-
-    if (secfile_section_lookup(loading->file, "player%d", plrno)
-        == NULL) {
-      continue;
-    }
-
-    /* Number of units the player has. */
-    units_num = secfile_lookup_int_default(loading->file, 0,
-                                           "player%d.nunits",
-                                           plrno);
-
-    for (unit = 0; unit < units_num; unit++) {
-      size_t extra_vec_size;
-      int *extra_vec;
-
-      if ((extra_vec = secfile_lookup_int_vec(loading->file,
-                                              &extra_vec_size,
-                                              "player%d.u%d.extra_vec",
-                                              plrno, unit))) {
-        int order_num;
-
-        for (order_num = 0; order_num < extra_vec_size; order_num++) {
-          if (extra_vec[order_num] != -1) {
-            if (order_num) {
-              secfile_replace_int(loading->file, extra_vec[order_num],
-                                  "player%d.u%d.sub_tgt_vec,%d",
-                                  plrno, unit, order_num);
-            } else {
-              secfile_replace_int(loading->file, extra_vec[order_num],
-                                  "player%d.u%d.sub_tgt_vec",
-                                  plrno, unit);
-            }
-          }
-        }
-        free(extra_vec);
-      }
-    }
-  } player_slots_iterate_end;
-
-  player_slots_iterate(pslot) {
-    int plrno = player_slot_index(pslot);
-    int history;
-
-    history = secfile_lookup_int_default(loading->file, 0,
-                                         "player%d.culture",
-                                         plrno);
-
-    if (history > 0) {
-      /* Savefile had player history value saved to field named 'culture'.
-       * Save it to 'history'. */
-      secfile_insert_int(loading->file, history, "player%d.history", plrno);
-    }
-  } player_slots_iterate_end;
-
-  {
-    int action_count;
-
-    action_count = secfile_lookup_int_default(loading->file, 0,
-                                              "savefile.action_size");
-    if (action_count > 0) {
+    /* Renamed actions. */
+    loading->action.size = secfile_lookup_int_default(loading->file, 0,
+                                                      "savefile.action_size");
+    if (loading->action.size) {
       const char **modname;
-      const char **modname_new;
-      const char *plant_name = "Plant";
-      const char *cultivate_name = "Cultivate";
       int j;
 
       modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
                                        "savefile.action_vector");
 
-      modname_new = fc_calloc(action_count, sizeof(*modname_new));
-
-      for (j = 0; j < action_count; j++) {
-        const char *aname = modname[j];
-
-        if (!fc_strcasecmp("Mine TF", aname)) {
-          modname_new[j] = plant_name;
-        } else if (!fc_strcasecmp("Irrigate TF", aname)) {
-          modname_new[j] = cultivate_name;
-        } else {
-          modname_new[j] = aname;
+      for (j = 0; j < loading->action.size; j++) {
+        if (fc_strcasecmp(modname[j], "Targeted Steal Tech Escape") == 0) {
+          secfile_replace_str(loading->file, "Targeted Steal Tech Escape Expected",
+                              "savefile.action_vector,%d", j);
+        } else if (fc_strcasecmp(modname[j], "Steal Tech Escape") == 0) {
+          secfile_replace_str(loading->file, "Steal Tech Escape Expected",
+                              "savefile.action_vector,%d", j);
         }
       }
 
-      secfile_replace_str_vec(loading->file, modname_new, action_count,
-                              "savefile.action_vector");
-
-      free(modname_new);
-    }
-  }
-
-  /* Actions are now stored by number. */
-  player_slots_iterate(pslot) {
-    int unit;
-    int units_num;
-    int plrno = player_slot_index(pslot);
-
-    if (secfile_section_lookup(loading->file, "player%d", plrno)
-        == NULL) {
-      continue;
+      free(modname);
     }
 
-    /* Number of units the player has. */
-    units_num = secfile_lookup_int_default(loading->file, 0,
-                                           "player%d.nunits",
+    /* Old unit order tgt_vec refers to order sub targets */
+    player_slots_iterate(pslot) {
+      int unit;
+      int units_num;
+      int plrno = player_slot_index(pslot);
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno)
+          == NULL) {
+        continue;
+      }
+
+      /* Number of units the player has. */
+      units_num = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.nunits",
+                                             plrno);
+
+      for (unit = 0; unit < units_num; unit++) {
+        size_t old_tgt_size;
+        int *old_tgt_vec;
+
+        if ((old_tgt_vec = secfile_lookup_int_vec(loading->file, &old_tgt_size,
+                                                  "player%d.u%d.tgt_vec",
+                                                  plrno, unit))) {
+          secfile_insert_int_vec(loading->file, old_tgt_vec, old_tgt_size,
+                                 "player%d.u%d.sub_tgt_vec", plrno, unit);
+          free(old_tgt_vec);
+        }
+      }
+    } player_slots_iterate_end;
+
+    /* Unit order extra sub targets was for a while stored separate from tech
+     * and building sub targets. */
+    player_slots_iterate(pslot) {
+      int unit;
+      int units_num;
+      int plrno = player_slot_index(pslot);
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno)
+          == NULL) {
+        continue;
+      }
+
+      /* Number of units the player has. */
+      units_num = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.nunits",
+                                             plrno);
+
+      for (unit = 0; unit < units_num; unit++) {
+        size_t extra_vec_size;
+        int *extra_vec;
+
+        if ((extra_vec = secfile_lookup_int_vec(loading->file,
+                                                &extra_vec_size,
+                                                "player%d.u%d.extra_vec",
+                                                plrno, unit))) {
+          int order_num;
+
+          for (order_num = 0; order_num < extra_vec_size; order_num++) {
+            if (extra_vec[order_num] != -1) {
+              if (order_num) {
+                secfile_replace_int(loading->file, extra_vec[order_num],
+                                    "player%d.u%d.sub_tgt_vec,%d",
+                                    plrno, unit, order_num);
+              } else {
+                secfile_replace_int(loading->file, extra_vec[order_num],
+                                    "player%d.u%d.sub_tgt_vec",
+                                    plrno, unit);
+              }
+            }
+          }
+          free(extra_vec);
+        }
+      }
+    } player_slots_iterate_end;
+
+    player_slots_iterate(pslot) {
+      int plrno = player_slot_index(pslot);
+      int history;
+
+      history = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.culture",
                                            plrno);
 
-    for (unit = 0; unit < units_num; unit++) {
-      const char *action_unitstr;
-      int order_len;
+      if (history > 0) {
+        /* Savefile had player history value saved to field named 'culture'.
+         * Save it to 'history'. */
+        secfile_insert_int(loading->file, history, "player%d.history", plrno);
+      }
+    } player_slots_iterate_end;
 
-      order_len = secfile_lookup_int_default(loading->file, 0,
-                                             "player%d.u%d.orders_length",
-                                             plrno, unit);
+    {
+      int action_count;
 
-      if ((action_unitstr = secfile_lookup_str_default(loading->file, "",
-                                                       "player%d.u%d.action_list",
-                                                       plrno, unit))) {
-        int order_num;
+      action_count = secfile_lookup_int_default(loading->file, 0,
+                                                "savefile.action_size");
+      if (action_count > 0) {
+        const char **modname;
+        const char **modname_new;
+        const char *plant_name = "Plant";
+        const char *cultivate_name = "Cultivate";
+        int j;
 
-        if (order_len > strlen(action_unitstr)) {
-          order_len = strlen(action_unitstr);
+        modname = secfile_lookup_str_vec(loading->file, &loading->action.size,
+                                         "savefile.action_vector");
+
+        modname_new = fc_calloc(action_count, sizeof(*modname_new));
+
+        for (j = 0; j < action_count; j++) {
+          const char *aname = modname[j];
+
+          if (!fc_strcasecmp("Mine TF", aname)) {
+            modname_new[j] = plant_name;
+          } else if (!fc_strcasecmp("Irrigate TF", aname)) {
+            modname_new[j] = cultivate_name;
+          } else {
+            modname_new[j] = aname;
+          }
         }
 
-        for (order_num = 0; order_num < order_len; order_num++) {
-          int unconverted_action_id;
+        secfile_replace_str_vec(loading->file, modname_new, action_count,
+                                "savefile.action_vector");
 
-          if (action_unitstr[order_num] == '?') {
-            unconverted_action_id = -1;
-          } else {
-            unconverted_action_id = char2num(action_unitstr[order_num]);
+        free(modname_new);
+      }
+    }
+
+    /* Actions are now stored by number. */
+    player_slots_iterate(pslot) {
+      int unit;
+      int units_num;
+      int plrno = player_slot_index(pslot);
+
+      if (secfile_section_lookup(loading->file, "player%d", plrno)
+          == NULL) {
+        continue;
+      }
+
+      /* Number of units the player has. */
+      units_num = secfile_lookup_int_default(loading->file, 0,
+                                             "player%d.nunits",
+                                             plrno);
+
+      for (unit = 0; unit < units_num; unit++) {
+        const char *action_unitstr;
+        int order_len;
+
+        order_len = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.u%d.orders_length",
+                                               plrno, unit);
+
+        if ((action_unitstr = secfile_lookup_str_default(loading->file, "",
+                                                         "player%d.u%d.action_list",
+                                                         plrno, unit))) {
+          int order_num;
+
+          if (order_len > strlen(action_unitstr)) {
+            order_len = strlen(action_unitstr);
           }
 
-          if (order_num == 0) {
-            /* The start of a vector has no number. */
-            secfile_insert_int(loading->file, unconverted_action_id,
-                               "player%d.u%d.action_vec",
-                               plrno, unit);
-          } else {
-            secfile_insert_int(loading->file, unconverted_action_id,
-                               "player%d.u%d.action_vec,%d",
-                               plrno, unit, order_num);
+          for (order_num = 0; order_num < order_len; order_num++) {
+            int unconverted_action_id;
+
+            if (action_unitstr[order_num] == '?') {
+              unconverted_action_id = -1;
+            } else {
+              unconverted_action_id = char2num(action_unitstr[order_num]);
+            }
+
+            if (order_num == 0) {
+              /* The start of a vector has no number. */
+              secfile_insert_int(loading->file, unconverted_action_id,
+                                 "player%d.u%d.action_vec",
+                                 plrno, unit);
+            } else {
+              secfile_insert_int(loading->file, unconverted_action_id,
+                                 "player%d.u%d.action_vec,%d",
+                                 plrno, unit, order_num);
+            }
           }
         }
       }
-    }
-  } player_slots_iterate_end;
-  player_slots_iterate(pslot) {
-    int city;
-    int city_num;
-    int plrno = player_slot_index(pslot);
+    } player_slots_iterate_end;
+    player_slots_iterate(pslot) {
+      int city;
+      int city_num;
+      int plrno = player_slot_index(pslot);
 
-    if (secfile_section_lookup(loading->file, "player%d", plrno)
-        == NULL) {
-      continue;
-    }
+      if (secfile_section_lookup(loading->file, "player%d", plrno)
+          == NULL) {
+        continue;
+      }
 
-    /* Number of cities the player has. */
-    city_num = secfile_lookup_int_default(loading->file, 0,
-                                          "player%d.ncities",
-                                          plrno);
+      /* Number of cities the player has. */
+      city_num = secfile_lookup_int_default(loading->file, 0,
+                                            "player%d.ncities",
+                                            plrno);
 
-    for (city = 0; city < city_num; city++) {
-      const char *action_citystr;
-      int order_len;
+      for (city = 0; city < city_num; city++) {
+        const char *action_citystr;
+        int order_len;
 
-      order_len = secfile_lookup_int_default(loading->file, 0,
-                                             "player%d.c%d.rally_point_length",
-                                             plrno, city);
+        order_len = secfile_lookup_int_default(loading->file, 0,
+                                               "player%d.c%d.rally_point_length",
+                                               plrno, city);
 
-      if ((action_citystr = secfile_lookup_str_default(loading->file, "",
-                                                       "player%d.c%d.rally_point_actions",
-                                                       plrno, city))) {
-        int order_num;
+        if ((action_citystr = secfile_lookup_str_default(loading->file, "",
+                                                         "player%d.c%d.rally_point_actions",
+                                                         plrno, city))) {
+          int order_num;
 
-        if (order_len > strlen(action_citystr)) {
-          order_len = strlen(action_citystr);
-        }
-
-        for (order_num = 0; order_num < order_len; order_num++) {
-          int unconverted_action_id;
-
-          if (action_citystr[order_num] == '?') {
-            unconverted_action_id = -1;
-          } else {
-            unconverted_action_id = char2num(action_citystr[order_num]);
+          if (order_len > strlen(action_citystr)) {
+            order_len = strlen(action_citystr);
           }
 
-          if (order_num == 0) {
-            /* The start of a vector has no number. */
-            secfile_insert_int(loading->file, unconverted_action_id,
-                               "player%d.c%d.rally_point_action_vec",
-                               plrno, city);
-          } else {
-            secfile_insert_int(loading->file, unconverted_action_id,
-                               "player%d.c%d.rally_point_action_vec,%d",
-                               plrno, city, order_num);
+          for (order_num = 0; order_num < order_len; order_num++) {
+            int unconverted_action_id;
+
+            if (action_citystr[order_num] == '?') {
+              unconverted_action_id = -1;
+            } else {
+              unconverted_action_id = char2num(action_citystr[order_num]);
+            }
+
+            if (order_num == 0) {
+              /* The start of a vector has no number. */
+              secfile_insert_int(loading->file, unconverted_action_id,
+                                 "player%d.c%d.rally_point_action_vec",
+                                 plrno, city);
+            } else {
+              secfile_insert_int(loading->file, unconverted_action_id,
+                                 "player%d.c%d.rally_point_action_vec,%d",
+                                 plrno, city, order_num);
+            }
           }
         }
       }
-    }
-  } player_slots_iterate_end;
+    } player_slots_iterate_end;
+  } /* Version < 3.0.92 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
