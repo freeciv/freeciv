@@ -742,7 +742,7 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Waste:"),
     N_("Culture:"),
     N_("Pollution:"),
-    N_("Plague Risk:")
+    N_("Plague risk:")
   };
   static bool output_label_done;
 
@@ -1813,7 +1813,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
-    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f%%",
                 (float)illness / 10.0);
   }
 
