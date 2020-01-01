@@ -1875,6 +1875,7 @@ void handle_unit_get_actions(struct connection *pc,
           /* The target extra may have been set here. */
           target_extra_id = target_extra->id;
         }
+        break;
       case ATK_UNITS:
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
