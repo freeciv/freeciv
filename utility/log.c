@@ -89,7 +89,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 {
   const char *c;
   int n = 0;                    /* number of filenames */
-  int level;
+  unsigned int level;
   int ln;
   int first_len = -1;
 #ifdef FREECIV_DEBUG
@@ -110,14 +110,14 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
   if (n == 0) {
     /* Global log level. */
-    if (!str_to_int(level_str, &level)) {
-      level = -1;
-      for (ln = 0; log_level_names[ln] != NULL && level < 0; ln++) {
+    if (!str_to_uint(level_str, &level)) {
+      level = LOG_DEBUG + 1;
+      for (ln = 0; log_level_names[ln] != NULL && level > LOG_DEBUG; ln++) {
         if (!fc_strncasecmp(level_str, log_level_names[ln], strlen(level_str))) {
           level = ln;
         }
       }
-      if (level < 0) {
+      if (level > LOG_DEBUG) {
         fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
         return FALSE;
       }
