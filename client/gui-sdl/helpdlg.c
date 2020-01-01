@@ -1264,7 +1264,9 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   } unit_type_iterate_end;
 
   buffer[0] = '\0';
-  helptext_advance(buffer, sizeof(buffer), client.conn.playing, "", tech);
+  if (tech != A_NONE) {
+    helptext_advance(buffer, sizeof(buffer), client.conn.playing, "", tech);
+  }
   if (buffer[0] != '\0') {
     SDL_String16 *pStr = create_str16_from_char(buffer, adj_font(12));
 
