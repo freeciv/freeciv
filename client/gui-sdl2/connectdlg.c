@@ -726,10 +726,7 @@ void popup_join_game_dialog()
 **************************************************************************/
 static int convert_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL) {
       fc_snprintf(password, MAX_LEN_NAME, "%s", pWidget->string_utf8->text);
     }
@@ -920,10 +917,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static int convert_second_passwd_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pWidget->string_utf8->text != NULL
         && !strncmp(password, pWidget->string_utf8->text, MAX_LEN_NAME)) {
       set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */

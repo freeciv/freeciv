@@ -486,10 +486,7 @@ static int notify_dialog_window_callback(struct widget *pWindow)
 **************************************************************************/
 static int exit_notify_dialog_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
     if (pNotifyDlg) {
       popdown_window_group_dialog(pNotifyDlg->pBeginWidgetList,
                                   pNotifyDlg->pEndWidgetList);

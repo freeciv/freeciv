@@ -62,10 +62,12 @@
 #define MB_MEDIUM_HOLD_DELAY  500         /* medium hold:  500ms */
 #define MB_LONG_HOLD_DELAY   2000         /* long hold:   2000ms */
 
-/* Predicate for detecting click events. */
+/* Predicate for detecting basic widget activation events. */
 #define PRESSED_EVENT(event) (                                              \
-  (event).button.button == SDL_BUTTON_LEFT                                  \
-  || (event).type == SDL_FINGERDOWN)
+  (event).type == SDL_KEYDOWN                                               \
+  || (event).type == SDL_FINGERDOWN                                         \
+  || ((event).type == SDL_MOUSEBUTTONDOWN                                   \
+      && (event).button.button == SDL_BUTTON_LEFT))
 
 enum mouse_button_hold_state {
   MB_HOLD_SHORT,

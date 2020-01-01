@@ -239,7 +239,7 @@ static int main_optiondlg_callback(struct widget *pWindow)
 ****************************************************************************/
 static int back_callback(struct widget *pWidget)
 {
-  if (NULL == option_dialog || Main.event.button.button != SDL_BUTTON_LEFT) {
+  if (NULL == option_dialog || !PRESSED_EVENT(Main.event)) {
     return -1;
   }
 
