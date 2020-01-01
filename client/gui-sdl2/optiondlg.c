@@ -1084,40 +1084,46 @@ static int edit_worklist_callback(struct widget *widget)
     return -1;
   }
 
-  switch (Main.event.button.button) {
-  case SDL_BUTTON_LEFT:
+  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (Main.event.button.button) {
+    case SDL_BUTTON_LEFT:
+      /* Edit. */
+      option_dialog->worklist.edited_name = widget;
+      popup_worklist_editor(NULL, pgwl);
+      break;
+
+    case SDL_BUTTON_RIGHT:
+      {
+        /* Delete. */
+        struct ADVANCED_DLG *advanced = option_dialog->advanced;
+        bool scroll = (NULL != advanced->pActiveWidgetList);
+
+        global_worklist_destroy(pgwl);
+        del_widget_from_vertical_scroll_widget_list(advanced, widget);
+
+        /* Find if there was scrollbar hide. */
+        if (scroll && advanced->pActiveWidgetList == NULL) {
+          int len = advanced->pScroll->pUp_Left_Button->size.w;
+
+          widget = advanced->pEndActiveWidgetList->next;
+          do {
+            widget = widget->prev;
+            widget->size.w += len;
+            FREESURFACE(widget->gfx);
+          } while (widget != advanced->pBeginActiveWidgetList);
+        }
+
+        redraw_group(option_dialog->begin_widget_list,
+                     option_dialog->end_widget_list, 0);
+        widget_mark_dirty(option_dialog->end_widget_list);
+        flush_dirty();
+      }
+      break;
+    }
+  } else if (PRESSED_EVENT(Main.event)) {
     /* Edit. */
     option_dialog->worklist.edited_name = widget;
     popup_worklist_editor(NULL, pgwl);
-    break;
-
-  case SDL_BUTTON_RIGHT:
-    {
-      /* Delete. */
-      struct ADVANCED_DLG *advanced = option_dialog->advanced;
-      bool scroll = (NULL != advanced->pActiveWidgetList);
-
-      global_worklist_destroy(pgwl);
-      del_widget_from_vertical_scroll_widget_list(advanced, widget);
-
-      /* Find if there was scrollbar hide. */
-      if (scroll && advanced->pActiveWidgetList == NULL) {
-        int len = advanced->pScroll->pUp_Left_Button->size.w;
-
-        widget = advanced->pEndActiveWidgetList->next;
-        do {
-          widget = widget->prev;
-          widget->size.w += len;
-          FREESURFACE(widget->gfx);
-        } while (widget != advanced->pBeginActiveWidgetList);
-      }
-
-      redraw_group(option_dialog->begin_widget_list,
-                   option_dialog->end_widget_list, 0);
-      widget_mark_dirty(option_dialog->end_widget_list);
-      flush_dirty();
-    }
-    break;
   }
 
   return -1;
