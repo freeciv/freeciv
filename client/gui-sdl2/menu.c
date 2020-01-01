@@ -86,10 +86,7 @@ static struct widget *pOrder_Trade_Button;
 **************************************************************************/
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
     struct unit *pUnit = head_of_units_in_focus();
 
     set_wstate(pOrder_Widget, FC_WS_SELECTED);

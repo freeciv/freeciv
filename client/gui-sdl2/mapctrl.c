@@ -200,10 +200,7 @@ static int cities_action_callback(struct widget *pButton)
 **************************************************************************/
 static int end_turn_callback(struct widget *pButton)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
     widget_redraw(pButton);
     widget_flush(pButton);
     disable_focus_animation();
@@ -2739,10 +2736,7 @@ static int newcity_name_edit_callback(struct widget *pEdit)
 **************************************************************************/
 static int newcity_ok_callback(struct widget *ok_button)
 {
-  if (Main.event.type == SDL_KEYDOWN
-      || Main.event.type == SDL_FINGERDOWN
-      || (Main.event.type == SDL_MOUSEBUTTONDOWN
-          && Main.event.button.button == SDL_BUTTON_LEFT)) {
+  if (PRESSED_EVENT(Main.event)) {
 
     finish_city(ok_button->data.tile, pNewCity_Dlg->pBeginWidgetList->string_utf8->text);
 

@@ -319,10 +319,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     case WT_I_BUTTON:
     case WT_ICON:
     case WT_ICON2:
-      if (Main.event.type == SDL_KEYDOWN
-          || Main.event.type == SDL_FINGERDOWN
-          || (Main.event.type == SDL_MOUSEBUTTONDOWN
-              && Main.event.button.button == SDL_BUTTON_LEFT)) {
+      if (PRESSED_EVENT(Main.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -340,10 +337,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
 
     case WT_EDIT:
     {
-      if (Main.event.type == SDL_KEYDOWN
-          || Main.event.type == SDL_FINGERDOWN
-          || (Main.event.type == SDL_MOUSEBUTTONDOWN
-              && Main.event.button.button == SDL_BUTTON_LEFT)) {
+      if (PRESSED_EVENT(Main.event)) {
         bool ret, loop = (get_wflags(pWidget) & WF_EDIT_LOOP);
         enum Edit_Return_Codes change;
 
@@ -370,10 +364,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     }
     case WT_VSCROLLBAR:
     case WT_HSCROLLBAR:
-      if (Main.event.type == SDL_KEYDOWN
-          || Main.event.type == SDL_FINGERDOWN
-          || (Main.event.type == SDL_MOUSEBUTTONDOWN
-              && Main.event.button.button == SDL_BUTTON_LEFT)) {
+      if (PRESSED_EVENT(Main.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -388,10 +379,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
       break;
     case WT_CHECKBOX:
     case WT_TCHECKBOX:
-      if (Main.event.type == SDL_KEYDOWN
-          || Main.event.type == SDL_FINGERDOWN
-          || (Main.event.type == SDL_MOUSEBUTTONDOWN
-              && Main.event.button.button == SDL_BUTTON_LEFT)) {
+      if (PRESSED_EVENT(Main.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -408,10 +396,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
       }
       break;
     case WT_COMBO:
-      if (Main.event.type == SDL_KEYDOWN
-          || Main.event.type == SDL_FINGERDOWN
-          || (Main.event.type == SDL_MOUSEBUTTONDOWN
-              && Main.event.button.button == SDL_BUTTON_LEFT)) {
+      if (PRESSED_EVENT(Main.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         combo_popup(pWidget);
       } else {
