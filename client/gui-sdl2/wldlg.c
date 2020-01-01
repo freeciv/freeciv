@@ -1394,7 +1394,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
 
-      if (is_improvement_redundant(pCity, pImprove)) {
+      if (pCity && is_improvement_redundant(pCity, pImprove)) {
         pstr->style |= TTF_STYLE_STRIKETHROUGH;
       }
 
