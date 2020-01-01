@@ -32,6 +32,23 @@ ninja
 ninja install
 ;;
 
+"os_x")
+# gcc is an alias for clang on OS X
+
+export PATH="/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include $CPPFLAGS"
+export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib"
+export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+mkdir build
+cd build
+../autogen.sh \
+ --enable-client=gtk3.22 \
+ --enable-freeciv-manual
+make
+make install
+;;
+
 *)
 # Configure and build Freeciv
 mkdir build

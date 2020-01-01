@@ -1,5 +1,4 @@
 sudo: required
-dist: bionic
 
 language: c
 
@@ -11,6 +10,7 @@ python:
 jobs:
   include:
   - name: "normal"
+    dist: bionic
     addons:
       apt:
         sources:
@@ -35,6 +35,7 @@ jobs:
         - libsdl2-ttf-dev
         - libmysqlclient-dev
   - name: "dist"
+    dist: bionic
     addons:
       apt:
         packages:
@@ -49,6 +50,7 @@ jobs:
         - libicu-dev
         - libsqlite3-dev
   - name: "meson"
+    dist: bionic
     addons:
       apt:
         sources:
@@ -74,5 +76,23 @@ jobs:
         - libsdl2-image-dev
         - libsdl2-ttf-dev
         - libmysqlclient-dev
+  - name: "os_x"
+    os: osx
+    osx_image: xcode11.3
+    addons:
+      homebrew:
+        packages:
+          - autoconf
+          - automake
+          - gettext
+          - libtool
+          - pkg-config
+          - atk
+          - freetype
+          - gettext
+          - glib
+          - gtk+3
+          - icu4c
+          - pango
 
 script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"
