@@ -160,7 +160,10 @@ static int cities_action_callback(struct widget *pButton)
   set_wstate(pButton, FC_WS_DISABLED);
   widget_redraw(pButton);
   widget_mark_dirty(pButton);
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
+  if (Main.event.type == SDL_KEYDOWN) {
+    /* Ctrl-F keyboard shortcut */
+    popup_find_dialog();
+  } else if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
     switch(Main.event.button.button) {
 #if 0      
       case SDL_BUTTON_LEFT:
@@ -177,10 +180,8 @@ static int cities_action_callback(struct widget *pButton)
         city_report_dialog_popup(FALSE);
       break;
     }
-  } else {
-    popup_find_dialog();
   }
-    
+
   return -1;
 }
 
@@ -1204,23 +1205,25 @@ static int minimap_window_callback(struct widget *pWidget)
 
 static int unit_info_window_callback(struct widget *pWidget)
 {
-  switch(Main.event.button.button) {
+  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (Main.event.button.button) {
 #if 0    
     case SDL_BUTTON_LEFT:
       
-    break;
+      break;
 #endif
     case SDL_BUTTON_MIDDLE:
       request_center_focus_unit();
-    break;
+      break;
     case SDL_BUTTON_RIGHT:
 #ifdef SCALE_UNITINFO
       popup_unitinfo_scale_dialog();
 #endif
-    break;
+      break;
     default:
       key_unit_wait();
-    break;
+      break;
+    }
   }
   
   return -1;
