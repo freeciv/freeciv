@@ -94,5 +94,9 @@ jobs:
           - gtk+3
           - icu4c
           - pango
+          - sdl2_gfx
+          - sdl2_image
+          - sdl2_mixer
+          - sdl2_ttf
 
 script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"

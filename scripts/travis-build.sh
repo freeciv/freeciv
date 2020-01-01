@@ -43,7 +43,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
 mkdir build
 cd build
 ../autogen.sh \
- --enable-client=gtk3.22 \
+ --enable-client=gtk3.22,sdl2 \
  --enable-freeciv-manual
 make
 make install
