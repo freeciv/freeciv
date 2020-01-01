@@ -1829,8 +1829,9 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   }
 
   /* 
-   * Special style stuff for granary, growth and pollution below. The
-   * "4" below is arbitrary. 3 turns should be enough of a warning.
+   * Special style stuff for granary, growth, pollution, and plague below.
+   * For starvation, the "4" below is arbitrary. 3 turns should be enough
+   * of a warning.
    */
   color = (granaryturns > -4 && granaryturns < 0) ? &red : NULL;
   gtk_widget_override_color(info_label[GRANARY], GTK_STATE_FLAG_NORMAL, color);
@@ -1843,7 +1844,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   color = (pcity->pollution >= 10) ? &red : NULL;
   gtk_widget_override_color(info_label[POLLUTION], GTK_STATE_FLAG_NORMAL, color);
 
-  /* illness is in tenth of percent, i.e 100 != 10.0% */
+  /* illness is in tenth of percent, i.e 100 == 10.0% */
   color = (illness >= 100) ? &red : NULL;
   gtk_widget_override_color(info_label[ILLNESS], GTK_STATE_FLAG_NORMAL, color);
 }
