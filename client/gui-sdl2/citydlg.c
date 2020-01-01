@@ -1935,7 +1935,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
     }
 
     dest.x = pCityWindow->size.x + adj_size(10);
-    dest.y += pIcons->pPollution->h + adj_size(30);
+    dest.y += pIcons->pPollution->h + adj_size(3);
 
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), _("Pollution: none"));
@@ -1950,6 +1950,21 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     FREESURFACE(pSurf);
   }
+
+  if (game.info.illness_on) {
+    int risk_pml = city_illness_calc(pCity, NULL, NULL, NULL, NULL);
+
+    fc_snprintf(cBuf, sizeof(cBuf), _("Plague risk: %.1f%%"),
+		(double)risk_pml / 10.0);
+  } else {
+    fc_snprintf(cBuf, sizeof(cBuf), _("Plague risk: none"));
+  }
+
+  copy_chars_to_utf8_str(pstr, cBuf);
+  pSurf = create_text_surf_from_utf8(pstr);
+  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  dest.y += pSurf->h + adj_size(3);
+  FREESURFACE(pSurf);
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Trade routes: "));
 
