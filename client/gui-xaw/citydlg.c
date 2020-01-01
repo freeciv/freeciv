@@ -217,7 +217,7 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
     } else {
       illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
       /* illness is in tenth of percent */
-      fc_snprintf(buf, sizeof(buf), "%4.1f",
+      fc_snprintf(buf, sizeof(buf), "%4.1f%%",
                   (float)illness / 10.0);
     }
   }
@@ -225,7 +225,7 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
   fc_snprintf(retbuf, n, _("Corruption:   %4d\n"
                            "Waste:        %4d\n"
                            "Pollution:    %4d\n"
-                           "Plague Risk:  %s"),
+                           "Plague risk:  %s"),
               corruption, waste, pollution, buf);
 }
 

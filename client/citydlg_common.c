@@ -637,11 +637,11 @@ void get_city_dialog_illness_text(const struct city *pcity,
   illness = city_illness_calc(pcity, &ill_base, &ill_size, &ill_trade,
                               &ill_pollution);
 
-  cat_snprintf(buf, bufsz, _("%+5.1f : Risk from overcrowding\n"),
+  cat_snprintf(buf, bufsz, _("%+5.1f%% : Risk from overcrowding\n"),
                ((float)(ill_size) / 10.0));
-  cat_snprintf(buf, bufsz, _("%+5.1f : Risk from trade\n"),
+  cat_snprintf(buf, bufsz, _("%+5.1f%% : Risk from trade\n"),
                ((float)(ill_trade) / 10.0));
-  cat_snprintf(buf, bufsz, _("%+5.1f : Risk from pollution\n"),
+  cat_snprintf(buf, bufsz, _("%+5.1f%% : Risk from pollution\n"),
                ((float)(ill_pollution) / 10.0));
 
   plist = effect_list_new();
@@ -670,14 +670,14 @@ void get_city_dialog_illness_text(const struct city *pcity,
     }
 
     cat_snprintf(buf, bufsz,
-                 (delta > 0) ? _("%+5.1f : Bonus from %s\n")
-                             : _("%+5.1f : Risk from %s\n"),
+                 (delta > 0) ? _("%+5.1f%% : Bonus from %s\n")
+                             : _("%+5.1f%% : Risk from %s\n"),
                  -(0.1 * ill_base * delta / 100), buf2);
   } effect_list_iterate_end;
   effect_list_destroy(plist);
 
-  cat_snprintf(buf, bufsz, _("===== : Adds up to\n"));
-  cat_snprintf(buf, bufsz, _("%5.1f : Total chance for a plague"),
+  cat_snprintf(buf, bufsz, _("====== : Adds up to\n"));
+  cat_snprintf(buf, bufsz, _("%5.1f%% : Plague chance per turn"),
                ((float)(illness) / 10.0));
 }
 
