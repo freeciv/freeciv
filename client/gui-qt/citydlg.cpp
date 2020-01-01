@@ -1505,7 +1505,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   info_list << _("Food:") << _("Prod:") << _("Trade:") << _("Gold:")
             << _("Luxury:") << _("Science:") << _("Granary:")
             << _("Change in:") << _("Corruption:") << _("Waste:")
-            << _("Culture:") << _("Pollution:") << _("Plague Risk:")
+            << _("Culture:") << _("Pollution:") << _("Plague risk:")
             << _("Tech Stolen:");
   info_nr = info_list.count();
   info_wdg->setFont(*small_font);
@@ -3019,7 +3019,7 @@ void city_dialog::update_info_label()
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
-    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f%%",
                 (float) illness / 10.0);
   }
   if (pcity->steal) {
