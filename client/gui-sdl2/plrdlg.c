@@ -74,27 +74,32 @@ static int player_callback(struct widget *pWidget)
 {
   struct player *pPlayer = pWidget->data.player;
 
-  switch(Main.event.button.button) {
+  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (Main.event.button.button) {
 #if 0
-      case SDL_BUTTON_LEFT:
+    case SDL_BUTTON_LEFT:
 
-        break;
-      case SDL_BUTTON_MIDDLE:
+      break;
+    case SDL_BUTTON_MIDDLE:
 
-        break;
+      break;
 #endif /* 0 */
     case SDL_BUTTON_RIGHT:
       if (can_intel_with_player(pPlayer)) {
-	popdown_players_dialog();
+        popdown_players_dialog();
         popup_intel_dialog(pPlayer);
-	return -1;
+        return -1;
       }
-    break;
+      break;
     default:
       popdown_players_dialog();
       popup_diplomacy_dialog(pPlayer);
       return -1;
-    break;
+      break;
+    }
+  } else if (PRESSED_EVENT(Main.event)) {
+    popdown_players_dialog();
+    popup_diplomacy_dialog(pPlayer);
   }
 
   return -1;
@@ -626,27 +631,33 @@ static int player_nation_callback(struct widget *pWidget)
   struct player *pPlayer = pWidget->data.player;
 
   popdown_players_nations_dialog();
-  switch(Main.event.button.button) {
+  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (Main.event.button.button) {
 #if 0
-  case SDL_BUTTON_LEFT:
+    case SDL_BUTTON_LEFT:
 
-    break;
-  case SDL_BUTTON_MIDDLE:
+      break;
+    case SDL_BUTTON_MIDDLE:
 
-    break;
+      break;
 #endif /* 0 */
-  case SDL_BUTTON_RIGHT:
-    if (can_intel_with_player(pPlayer)) {
-      popup_intel_dialog(pPlayer);
-    } else {
-      flush_dirty();
+    case SDL_BUTTON_RIGHT:
+      if (can_intel_with_player(pPlayer)) {
+        popup_intel_dialog(pPlayer);
+      } else {
+        flush_dirty();
+      }
+      break;
+    default:
+      if (pPlayer != client.conn.playing) {
+        popup_diplomacy_dialog(pPlayer);
+      }
+      break;
     }
-    break;
-  default:
+  } else if (PRESSED_EVENT(Main.event)) {
     if (pPlayer != client.conn.playing) {
       popup_diplomacy_dialog(pPlayer);
     }
-    break;
   }
 
   return -1;
