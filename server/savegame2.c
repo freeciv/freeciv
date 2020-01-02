@@ -407,7 +407,7 @@ void savegame2_load(struct section_file *file)
   sg_load_random(loading);
   /* [settings] */
   sg_load_settings(loading);
-  /* [ruldata] */
+  /* [ruledata] */
   sg_load_ruledata(loading);
   /* [players] (basic data) */
   sg_load_players_basic(loading);
@@ -438,7 +438,10 @@ void savegame2_load(struct section_file *file)
 
   if (!sg_success) {
     log_error("Failure loading savegame!");
-    game_reset();
+    /* Try to get the server back to a vaguely sane state */
+    server_game_free();
+    server_game_init(FALSE);
+    load_rulesets(NULL, FALSE, NULL, TRUE, FALSE);
   }
 }
 
@@ -1093,10 +1096,12 @@ static Tech_type_id technology_load(struct section_file *file,
 ****************************************************************************/
 static void sg_load_ruleset(struct loaddata *loading)
 {
+  const char *ruleset = secfile_lookup_str_default(loading->file,
+                                                   GAME_DEFAULT_RULESETDIR,
+                                                   "savefile.rulesetdir");
+
   /* Load ruleset. */
-  sz_strlcpy(game.server.rulesetdir,
-             secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
-                                        "savefile.rulesetdir"));
+  sz_strlcpy(game.server.rulesetdir, ruleset);
   if (!strcmp("default", game.server.rulesetdir)) {
     int version;
 
@@ -1110,10 +1115,13 @@ static void sg_load_ruleset(struct loaddata *loading)
       /* 'default' is the old name of the classic ruleset */
       sz_strlcpy(game.server.rulesetdir, "classic");
     }
+    log_verbose("Savegame specified ruleset '%s'. Really loading '%s'.",
+                ruleset, game.server.rulesetdir);
   }
   if (!load_rulesets(NULL, FALSE, NULL, TRUE, FALSE)) {
     /* Failed to load correct ruleset */
-    sg_failure_ret(FALSE, _("Failed to load ruleset"));
+    sg_failure_ret(FALSE, _("Failed to load ruleset '%s' needed for savegame."),
+                   ruleset);
   }
 }
 
@@ -1458,6 +1466,9 @@ static void sg_load_ruledata(struct loaddata *loading)
 {
   int i;
   const char *name;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 
   for (i = 0;
        (name = secfile_lookup_str_default(loading->file, NULL,
@@ -4877,6 +4888,9 @@ static void sg_load_treaties(struct loaddata *loading)
   const char *plr0;
   struct treaty_list *treaties = get_all_treaties();
 
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
   for (tidx = 0; (plr0 = secfile_lookup_str_default(loading->file, NULL,
                                                     "treaty%d.plr0", tidx)) != NULL ;
        tidx++) {
@@ -4959,6 +4973,9 @@ static void sg_load_history(struct loaddata *loading)
 {
   struct history_report *hist = history_report_get();
   int turn;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 
   turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
 

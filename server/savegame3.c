@@ -468,7 +468,7 @@ void savegame3_load(struct section_file *file)
   sg_load_random(loading);
   /* [settings] */
   sg_load_settings(loading);
-  /* [ruldata] */
+  /* [ruledata] */
   sg_load_ruledata(loading);
   /* [players] (basic data) */
   sg_load_players_basic(loading);
@@ -499,7 +499,10 @@ void savegame3_load(struct section_file *file)
 
   if (!sg_success) {
     log_error("Failure loading savegame!");
-    game_reset();
+    /* Try to get the server back to a vaguely sane state */
+    server_game_free();
+    server_game_init(FALSE);
+    load_rulesets(NULL, FALSE, NULL, TRUE, FALSE);
   }
 }
 
@@ -1261,6 +1264,7 @@ static void sg_load_savefile(struct loaddata *loading)
 {
   int i;
   const char *terr_name;
+  const char *ruleset = NULL;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1275,21 +1279,32 @@ static void sg_load_savefile(struct loaddata *loading)
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
   if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
+    ruleset = secfile_lookup_str_default(loading->file,
+                                         GAME_DEFAULT_RULESETDIR,
+                                         "savefile.rulesetdir");
+
     /* Load ruleset. */
-    sz_strlcpy(game.server.rulesetdir,
-               secfile_lookup_str_default(loading->file, GAME_DEFAULT_RULESETDIR,
-                                          "savefile.rulesetdir"));
+    sz_strlcpy(game.server.rulesetdir, ruleset);
     if (!strcmp("default", game.server.rulesetdir)) {
       /* Here 'default' really means current default.
        * Saving happens with real ruleset name, so savegames containing this
        * are special scenarios. */
       sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+      log_verbose("Savegame specified ruleset '%s'. Really loading '%s'.",
+                  ruleset, game.server.rulesetdir);
     }
   }
 
   if (!load_rulesets(NULL, FALSE, NULL, TRUE, FALSE)) {
     /* Failed to load correct ruleset */
-    sg_failure_ret(FALSE, "Failed to load ruleset");
+    if (ruleset) {
+      sg_failure_ret(FALSE,
+                     _("Failed to load ruleset '%s' needed for savegame."),
+                     ruleset);
+    } else {
+      sg_failure_ret(FALSE, _("Failed to load ruleset '%s'."),
+                     game.server.rulesetdir);
+    }
   }
 
   /* Remove all aifill players. Correct number of them get created later
@@ -1824,6 +1839,9 @@ static void sg_load_ruledata(struct loaddata *loading)
 {
   int i;
   const char *name;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 
   for (i = 0;
        (name = secfile_lookup_str_default(loading->file, NULL,
@@ -6520,7 +6538,7 @@ static void sg_load_researches(struct loaddata *loading)
 
   vlist_research = NULL;
   /* Check status and return if not OK (sg_success != TRUE). */
-   sg_check_ret();
+  sg_check_ret();
 
   /* Initialize all researches. */
   researches_iterate(pinitres) {
@@ -6710,6 +6728,9 @@ static void sg_load_treaties(struct loaddata *loading)
   const char *plr0;
   struct treaty_list *treaties = get_all_treaties();
 
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
   for (tidx = 0; (plr0 = secfile_lookup_str_default(loading->file, NULL,
                                                     "treaty%d.plr0", tidx)) != NULL ;
        tidx++) {
@@ -6819,6 +6840,9 @@ static void sg_load_history(struct loaddata *loading)
 {
   struct history_report *hist = history_report_get();
   int turn;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 
   turn = secfile_lookup_int_default(loading->file, -2, "history.turn");
 
