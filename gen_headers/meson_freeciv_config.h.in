@@ -17,6 +17,10 @@
  * other autotools projects. This is meant to be usable for external
  * projects building against some freeciv components. */
 
+/* This header file is shipped in some binary distributions.
+ * It is included purely for reference as to how the executables were built,
+ * and changing it will have no functional effect on pre-built binaries. */
+
 #ifndef FC__FREECIV_CONFIG_H
 #define FC__FREECIV_CONFIG_H
 

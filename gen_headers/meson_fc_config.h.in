@@ -2,6 +2,10 @@
 #include "freeciv_config.h"
 #include "version_gen.h"
 
+/* This header file is shipped in some binary distributions.
+ * It is included purely for reference as to how the executables were built,
+ * and changing it will have no functional effect on pre-built binaries. */
+
 #define MESON_BUILD
 
 #define LOCALEDIR "@LOCALEDIR@"
