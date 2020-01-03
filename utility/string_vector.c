@@ -379,7 +379,7 @@ const char *const *strvec_data(const struct strvec *psv)
 **************************************************************************/
 bool strvec_index_valid(const struct strvec *psv, size_t svindex)
 {
-  return svindex >= 0 && svindex < psv->size;
+  return svindex < psv->size;
 }
 
 /**************************************************************************
