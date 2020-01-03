@@ -44,6 +44,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "srv_main.h"
+#include "stdinhand.h"
 #include "unittools.h"
 
 /* server/advisors */
@@ -77,8 +78,6 @@ struct team_placement_state {
 #define SPECPQ_DATA_TYPE struct team_placement_state *
 #define SPECPQ_PRIORITY_TYPE long
 #include "specpq.h"
-
-static struct strvec *ruleset_choices = NULL;
 
 /****************************************************************************
   Get role_id for given role character
@@ -1057,32 +1056,30 @@ const char *new_challenge_filename(struct connection *pc)
 **************************************************************************/
 static void send_ruleset_choices(struct connection *pc)
 {
+  struct strvec *ruleset_choices;
   struct packet_ruleset_choices packet;
-  size_t i;
+  size_t i = 0;
 
-  if (ruleset_choices == NULL) {
-    /* This is only read once per server invocation.  Add a new ruleset
-     * and you have to restart the server. */
-    ruleset_choices = fileinfolist(get_data_dirs(), RULESET_SUFFIX);
-  }
+  ruleset_choices = get_init_script_choices();
 
-  packet.ruleset_count = MIN(MAX_NUM_RULESETS, strvec_size(ruleset_choices));
-  for (i = 0; i < packet.ruleset_count; i++) {
-    sz_strlcpy(packet.rulesets[i], strvec_get(ruleset_choices, i));
-  }
+  strvec_iterate(ruleset_choices, s) {
+    const int maxlen = sizeof packet.rulesets[i];
+    if (i >= MAX_NUM_RULESETS) {
+      log_verbose("Can't send more than %d ruleset names to client, "
+                  "skipping some", MAX_NUM_RULESETS);
+      break;
+    }
+    if (fc_strlcpy(packet.rulesets[i], s, maxlen) < maxlen) {
+      i++;
+    } else {
+      log_verbose("Ruleset name '%s' too long to send to client, skipped", s);
+    }
+  } strvec_iterate_end;
+  packet.ruleset_count = i;
 
   send_packet_ruleset_choices(pc, &packet);
-}
 
-/************************************************************************** 
-  Free list of ruleset choices.
-**************************************************************************/
-void ruleset_choices_free(void)
-{
-  if (ruleset_choices != NULL) {
-    strvec_destroy(ruleset_choices);
-    ruleset_choices = NULL;
-  }
+  strvec_destroy(ruleset_choices);
 }
 
 /**************************************************************************** 

@@ -1786,7 +1786,6 @@ void server_quit(void)
   generator_free();
   close_connections_and_socket();
   rulesets_deinit();
-  ruleset_choices_free();
   timing_log_free();
   registry_module_close();
   fc_destroy_mutex(&game.server.mutexes.city_list);

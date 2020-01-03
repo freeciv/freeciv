@@ -1213,6 +1213,17 @@ static bool read_init_script_real(struct connection *caller,
   }
 }
 
+/**********************************************************************//**
+  Return a list of init scripts found on the data path.
+  Caller should free.
+  These are conventionally scripts that load rulesets (generally
+  containing just a 'rulesetdir' command).
+**************************************************************************/
+struct strvec *get_init_script_choices(void)
+{
+  return fileinfolist(get_data_dirs(), RULESET_SUFFIX);
+}
+
 /**************************************************************************
   Write current settings to new init script.
 
@@ -6378,6 +6389,29 @@ void show_players(struct connection *caller)
 }
 
 /****************************************************************************
+  List rulesets (strictly, .serv init script files that conventionally
+  accompany rulesets).
+****************************************************************************/
+static void show_rulesets(struct connection *caller)
+{
+  struct strvec *serv_list;
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT,
+            /* TRANS: don't translate text between '' */
+            _("List of rulesets available with '%sread' command:"),
+	    (caller ? "/" : ""));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  serv_list = get_init_script_choices();
+  strvec_iterate(serv_list, s) {
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", s);
+  } strvec_iterate_end;
+  strvec_destroy(serv_list);
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/****************************************************************************
   List scenarios. We look both in the DATA_PATH and DATA_PATH/scenario
 ****************************************************************************/
 static void show_scenarios(struct connection *caller)
@@ -6514,26 +6548,28 @@ static void show_colors(struct connection *caller)
   '/list' arguments
 **************************************************************************/
 #define SPECENUM_NAME list_args
-#define SPECENUM_VALUE0     LIST_COLORS
-#define SPECENUM_VALUE0NAME "colors"
-#define SPECENUM_VALUE1     LIST_CONNECTIONS
-#define SPECENUM_VALUE1NAME "connections"
-#define SPECENUM_VALUE2     LIST_DELEGATIONS
-#define SPECENUM_VALUE2NAME "delegations"
-#define SPECENUM_VALUE3     LIST_IGNORE
-#define SPECENUM_VALUE3NAME "ignored users"
-#define SPECENUM_VALUE4     LIST_MAPIMG
-#define SPECENUM_VALUE4NAME "map image definitions"
-#define SPECENUM_VALUE5     LIST_PLAYERS
-#define SPECENUM_VALUE5NAME "players"
-#define SPECENUM_VALUE6     LIST_SCENARIOS
-#define SPECENUM_VALUE6NAME "scenarios"
-#define SPECENUM_VALUE7     LIST_NATIONSETS
-#define SPECENUM_VALUE7NAME "nationsets"
-#define SPECENUM_VALUE8     LIST_TEAMS
-#define SPECENUM_VALUE8NAME "teams"
-#define SPECENUM_VALUE9     LIST_VOTES
-#define SPECENUM_VALUE9NAME "votes"
+#define SPECENUM_VALUE0      LIST_COLORS
+#define SPECENUM_VALUE0NAME  "colors"
+#define SPECENUM_VALUE1      LIST_CONNECTIONS
+#define SPECENUM_VALUE1NAME  "connections"
+#define SPECENUM_VALUE2      LIST_DELEGATIONS
+#define SPECENUM_VALUE2NAME  "delegations"
+#define SPECENUM_VALUE3      LIST_IGNORE
+#define SPECENUM_VALUE3NAME  "ignored users"
+#define SPECENUM_VALUE4      LIST_MAPIMG
+#define SPECENUM_VALUE4NAME  "map image definitions"
+#define SPECENUM_VALUE5      LIST_PLAYERS
+#define SPECENUM_VALUE5NAME  "players"
+#define SPECENUM_VALUE6      LIST_RULESETS
+#define SPECENUM_VALUE6NAME  "rulesets"
+#define SPECENUM_VALUE7      LIST_SCENARIOS
+#define SPECENUM_VALUE7NAME  "scenarios"
+#define SPECENUM_VALUE8      LIST_NATIONSETS
+#define SPECENUM_VALUE8NAME  "nationsets"
+#define SPECENUM_VALUE9      LIST_TEAMS
+#define SPECENUM_VALUE9NAME  "teams"
+#define SPECENUM_VALUE10     LIST_VOTES
+#define SPECENUM_VALUE10NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -6587,6 +6623,9 @@ static bool show_list(struct connection *caller, char *arg)
     return TRUE;
   case LIST_PLAYERS:
     show_players(caller);
+    return TRUE;
+  case LIST_RULESETS:
+    show_rulesets(caller);
     return TRUE;
   case LIST_SCENARIOS:
     show_scenarios(caller);

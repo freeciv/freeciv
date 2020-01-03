@@ -93,11 +93,13 @@ static struct command commands[] = {
              "list ignored users\n"
              "list map image definitions\n"
              "list players\n"
+             "list rulesets\n"
              "list scenarios\n"
              "list nationsets\n"
              "list teams\n"
              "list votes\n"),
    N_("Show a list of various things."),
+   /* TRANS: don't translate text in '' */
    N_("Show a list of:\n"
       " - the player colors,\n"
       " - connections to the server,\n"
@@ -105,6 +107,7 @@ static struct command commands[] = {
       " - your ignore list,\n"
       " - the list of defined map images,\n"
       " - the list of the players in the game,\n"
+      " - the available rulesets (for 'read' command),\n"
       " - the available scenarios,\n"
       " - the available nation sets in this ruleset,\n"
       " - the teams of players or\n"
