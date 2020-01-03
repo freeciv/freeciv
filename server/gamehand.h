@@ -32,6 +32,4 @@ void increase_timeout_because_unit_moved(void);
 
 const char *new_challenge_filename(struct connection *pc);
 
-void ruleset_choices_free(void);
-
 #endif  /* FC__GAMEHAND_H */
