@@ -6421,7 +6421,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                                       "actions.poison_empties_food_stock");
 
-      /* Allow setting max distance for bombardment before generalized
+      /* Allow setting max distance for some actions before generalized
        * actions. */
       if (!load_action_range_max(file, ACTION_BOMBARD,
                                  RS_DEFAULT_ACTION_MAX_RANGE,
