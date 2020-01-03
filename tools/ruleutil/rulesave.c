@@ -808,18 +808,42 @@ static bool save_action_ui_name(struct section_file *sfile,
   Save max range of an action.
 **************************************************************************/
 static bool save_action_max_range(struct section_file *sfile,
-                                  action_id act,
-                                  int default_value, const char *entry_name)
+                                  action_id act)
 {
   if (action_by_number(act)->max_distance
       == ACTION_DISTANCE_UNLIMITED) {
     return secfile_insert_str(sfile, RS_ACTION_NO_MAX_DISTANCE,
-                              "actions.%s", entry_name);
+                              "actions.%s",
+                              action_max_range_ruleset_var_name(act));
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
-                            default_value,
-                            "actions", entry_name);
+                            action_max_range_default(act),
+                            "actions",
+                            action_max_range_ruleset_var_name(act));
   }
+}
+
+/**********************************************************************//**
+  Save range of an action.
+**************************************************************************/
+static bool save_action_range(struct section_file *sfile, action_id act)
+{
+  if (action_min_range_ruleset_var_name(act) != NULL) {
+    /* Min range can be loaded from the ruleset. */
+    save_default_int(sfile,
+                     action_by_number(act)->min_distance,
+                     action_min_range_default(act),
+                     "actions", action_min_range_ruleset_var_name(act));
+  }
+
+  if (action_max_range_ruleset_var_name(act) != NULL) {
+    /* Max range can be loaded from the ruleset. */
+    if (!save_action_max_range(sfile, act)) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -1087,18 +1111,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
-  save_action_max_range(sfile, ACTION_BOMBARD,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "bombard_max_range");
-  save_action_max_range(sfile, ACTION_BOMBARD2,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "bombard_2_max_range");
-  save_action_max_range(sfile, ACTION_BOMBARD3,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "bombard_3_max_range");
-  save_action_max_range(sfile, ACTION_NUKE,
-                        RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
-                        "explode_nuclear_max_range");
+  save_action_range(sfile, ACTION_BOMBARD);
+  save_action_range(sfile, ACTION_BOMBARD2);
+  save_action_range(sfile, ACTION_BOMBARD3);
+  save_action_range(sfile, ACTION_NUKE);
 
   save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION1)->actor_consuming_always,
@@ -1108,13 +1124,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       action_by_number(ACTION_USER_ACTION1)->target_kind,
                       action_target_kind,
                       "actions.user_action_1_target_kind");
-  save_default_int(sfile,
-                   action_by_number(ACTION_USER_ACTION1)->min_distance,
-                   RS_DEFAULT_ACTION_MIN_RANGE,
-                   "actions", "user_action_1_min_range");
-  save_action_max_range(sfile, ACTION_USER_ACTION1,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "user_action_1_max_range");
+  save_action_range(sfile, ACTION_USER_ACTION1);
 
   save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION2)->actor_consuming_always,
@@ -1124,13 +1134,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       action_by_number(ACTION_USER_ACTION2)->target_kind,
                       action_target_kind,
                       "actions.user_action_2_target_kind");
-  save_default_int(sfile,
-                   action_by_number(ACTION_USER_ACTION2)->min_distance,
-                   RS_DEFAULT_ACTION_MIN_RANGE,
-                   "actions", "user_action_2_min_range");
-  save_action_max_range(sfile, ACTION_USER_ACTION2,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "user_action_2_max_range");
+  save_action_range(sfile, ACTION_USER_ACTION2);
 
   save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION3)->actor_consuming_always,
@@ -1140,13 +1144,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                       action_by_number(ACTION_USER_ACTION3)->target_kind,
                       action_target_kind,
                       "actions.user_action_3_target_kind");
-  save_default_int(sfile,
-                   action_by_number(ACTION_USER_ACTION3)->min_distance,
-                   RS_DEFAULT_ACTION_MIN_RANGE,
-                   "actions", "user_action_3_min_range");
-  save_action_max_range(sfile, ACTION_USER_ACTION3,
-                        RS_DEFAULT_ACTION_MAX_RANGE,
-                        "user_action_3_max_range");
+  save_action_range(sfile, ACTION_USER_ACTION3);
 
   action_iterate(act_id) {
     save_action_ui_name(sfile,

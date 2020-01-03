@@ -553,6 +553,11 @@ const char *action_get_tool_tip(const action_id act_id,
 const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
 
+const char *action_min_range_ruleset_var_name(int act);
+int action_min_range_default(int act);
+const char *action_max_range_ruleset_var_name(int act);
+int action_max_range_default(int act);
+
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
 

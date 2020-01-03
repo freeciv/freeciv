@@ -5760,16 +5760,16 @@ static bool load_action_ui_name(struct section_file *file, int act,
 /**********************************************************************//**
   Load max range of an action
 **************************************************************************/
-static bool load_action_range_max(struct section_file *file, action_id act,
-                                  int default_value, const char *entry_name)
+static bool load_action_range_max(struct section_file *file, action_id act)
 {
   struct entry *pentry;
   int max_range;
 
-  pentry = secfile_entry_lookup(file, "%s", entry_name);
+  pentry = secfile_entry_lookup(file, "actions.%s",
+                                action_max_range_ruleset_var_name(act));
 
   if (!pentry) {
-    max_range = default_value;
+    max_range = action_max_range_default(act);
   } else {
     const char *custom;
 
@@ -5781,13 +5781,37 @@ static bool load_action_range_max(struct section_file *file, action_id act,
                && !fc_strcasecmp(custom, RS_ACTION_NO_MAX_DISTANCE)) {
       max_range = ACTION_DISTANCE_UNLIMITED;
     } else {
-      ruleset_error(LOG_ERROR, "Bad %s", entry_name);
-      action_by_number(act)->max_distance = default_value;
+      ruleset_error(LOG_ERROR, "Bad actions.%s",
+                    action_max_range_ruleset_var_name(act));
+      action_by_number(act)->max_distance = action_max_range_default(act);
       return FALSE;
     }
   }
 
   action_by_number(act)->max_distance = max_range;
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Load range of an action
+**************************************************************************/
+static bool load_action_range(struct section_file *file, action_id act)
+{
+  if (action_max_range_ruleset_var_name(act) != NULL) {
+    /* Max range can be loaded from the ruleset. */
+    if (!load_action_range_max(file, act)) {
+      return FALSE;
+    }
+  }
+
+  if (action_min_range_ruleset_var_name(act) != NULL) {
+    /* Min range can be loaded from the ruleset. */
+    action_by_number(act)->min_distance
+      = secfile_lookup_int_default(file, action_min_range_default(act),
+                                   "actions.%s",
+                                   action_min_range_ruleset_var_name(act));
+  }
+
   return TRUE;
 }
 
@@ -6421,28 +6445,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                                       "actions.poison_empties_food_stock");
 
-      /* Allow setting max distance for some actions before generalized
+      /* Allow setting required distance for some actions before generalized
        * actions. */
-      if (!load_action_range_max(file, ACTION_BOMBARD,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.bombard_max_range")) {
-        ok = FALSE;
-      }
-      if (!load_action_range_max(file, ACTION_BOMBARD2,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.bombard_2_max_range")) {
-        ok = FALSE;
-      }
-      if (!load_action_range_max(file, ACTION_BOMBARD3,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.bombard_3_max_range")) {
-        ok = FALSE;
-      }
-      if (!load_action_range_max(file, ACTION_NUKE,
-                                 RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE,
-                                 "actions.explode_nuclear_max_range")) {
-        ok = FALSE;
-      }
+      action_iterate(act_id) {
+        if (!load_action_range(file, act_id)) {
+          ok = FALSE;
+        }
+      } action_iterate_end;
 
       action_by_number(ACTION_USER_ACTION1)->actor_consuming_always
         = secfile_lookup_bool_default(file,
@@ -6453,14 +6462,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_USER_ACTION_TARGET_KIND,
                                       action_target_kind,
                                       "actions.user_action_1_target_kind");
-      action_by_number(ACTION_USER_ACTION1)->min_distance
-        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
-                                     "actions.user_action_1_min_range");
-      if (!load_action_range_max(file, ACTION_USER_ACTION1,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.user_action_1_max_range")) {
-        ok = FALSE;
-      }
 
       action_by_number(ACTION_USER_ACTION2)->actor_consuming_always
         = secfile_lookup_bool_default(file,
@@ -6471,14 +6472,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_USER_ACTION_TARGET_KIND,
                                       action_target_kind,
                                       "actions.user_action_2_target_kind");
-      action_by_number(ACTION_USER_ACTION2)->min_distance
-        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
-                                     "actions.user_action_2_min_range");
-      if (!load_action_range_max(file, ACTION_USER_ACTION2,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.user_action_2_max_range")) {
-        ok = FALSE;
-      }
 
       action_by_number(ACTION_USER_ACTION3)->actor_consuming_always
         = secfile_lookup_bool_default(file,
@@ -6489,14 +6482,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_USER_ACTION_TARGET_KIND,
                                       action_target_kind,
                                       "actions.user_action_3_target_kind");
-      action_by_number(ACTION_USER_ACTION3)->min_distance
-        = secfile_lookup_int_default(file, RS_DEFAULT_ACTION_MIN_RANGE,
-                                     "actions.user_action_3_min_range");
-      if (!load_action_range_max(file, ACTION_USER_ACTION3,
-                                 RS_DEFAULT_ACTION_MAX_RANGE,
-                                 "actions.user_action_3_max_range")) {
-        ok = FALSE;
-      }
 
       action_iterate(act_id) {
         load_action_ui_name(file, act_id,
