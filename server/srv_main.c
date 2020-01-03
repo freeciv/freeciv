@@ -1755,7 +1755,6 @@ void server_quit(void)
   generator_free();
   close_connections_and_socket();
   rulesets_deinit();
-  ruleset_choices_free();
   CALL_FUNC_EACH_AI(module_close);
   timing_log_free();
   registry_module_close();
