@@ -797,7 +797,7 @@ dnl Should we build experimental versions of Qt programs
 AC_ARG_WITH([qt5x],
   AS_HELP_STRING([--with-qt5x], [build experimental versions of Qt programs]),
 [case "${withval}" in
- yes) qt_ver="Qt6" ;;
+ yes) qt_ver="Qt5x" ;;
  *)   qt_ver="Qt5" ;;
 esac], [qt_ver="Qt5"])
 
