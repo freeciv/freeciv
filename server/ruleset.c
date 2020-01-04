@@ -5816,6 +5816,24 @@ static bool load_action_range(struct section_file *file, action_id act)
 }
 
 /**********************************************************************//**
+  Load kind of an action
+**************************************************************************/
+static bool load_action_kind(struct section_file *file, action_id act)
+{
+  if (action_target_kind_ruleset_var_name(act) != NULL) {
+    /* Target kind can be loaded from the ruleset. */
+    action_by_number(act)->target_kind
+      = secfile_lookup_enum_default(file,
+                                    RS_DEFAULT_USER_ACTION_TARGET_KIND,
+                                    action_target_kind,
+                                    "actions.%s",
+                                    action_target_kind_ruleset_var_name(act));
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6451,37 +6469,25 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         if (!load_action_range(file, act_id)) {
           ok = FALSE;
         }
+        if (!load_action_kind(file, act_id)) {
+          ok = FALSE;
+        }
       } action_iterate_end;
 
       action_by_number(ACTION_USER_ACTION1)->actor_consuming_always
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                                       "actions.user_action_1_actor_consuming_always");
-      action_by_number(ACTION_USER_ACTION1)->target_kind
-        = secfile_lookup_enum_default(file,
-                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
-                                      action_target_kind,
-                                      "actions.user_action_1_target_kind");
 
       action_by_number(ACTION_USER_ACTION2)->actor_consuming_always
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                                       "actions.user_action_2_actor_consuming_always");
-      action_by_number(ACTION_USER_ACTION2)->target_kind
-        = secfile_lookup_enum_default(file,
-                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
-                                      action_target_kind,
-                                      "actions.user_action_2_target_kind");
 
       action_by_number(ACTION_USER_ACTION3)->actor_consuming_always
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                                       "actions.user_action_3_actor_consuming_always");
-      action_by_number(ACTION_USER_ACTION3)->target_kind
-        = secfile_lookup_enum_default(file,
-                                      RS_DEFAULT_USER_ACTION_TARGET_KIND,
-                                      action_target_kind,
-                                      "actions.user_action_3_target_kind");
 
       action_iterate(act_id) {
         load_action_ui_name(file, act_id,

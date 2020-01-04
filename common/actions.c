@@ -6034,3 +6034,98 @@ int action_max_range_default(int act)
   fc_assert(act >= 0 && act < ACTION_COUNT);
   return 0;
 }
+
+/**********************************************************************//**
+  Return target kind ruleset variable name for the action or NULL if min
+  range can't be set in the ruleset.
+
+  TODO: make actions generic and put target_kind in a field of the action.
+**************************************************************************/
+const char *action_target_kind_ruleset_var_name(int act)
+{
+  switch ((enum gen_action)act) {
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+  case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
+  case ACTION_TRADE_ROUTE:
+  case ACTION_MARKETPLACE:
+  case ACTION_HELP_WONDER:
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_EXPEL_UNIT:
+  case ACTION_FOUND_CITY:
+  case ACTION_JOIN_CITY:
+  case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
+  case ACTION_NUKE_CITY:
+  case ACTION_NUKE_UNITS:
+  case ACTION_DESTROY_CITY:
+  case ACTION_RECYCLE_UNIT:
+  case ACTION_DISBAND_UNIT:
+  case ACTION_HOME_CITY:
+  case ACTION_UPGRADE_UNIT:
+  case ACTION_PARADROP:
+  case ACTION_AIRLIFT:
+  case ACTION_ATTACK:
+  case ACTION_SUICIDE_ATTACK:
+  case ACTION_STRIKE_BUILDING:
+  case ACTION_STRIKE_PRODUCTION:
+  case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
+  case ACTION_HEAL_UNIT:
+  case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_CULTIVATE:
+  case ACTION_PLANT:
+  case ACTION_PILLAGE:
+  case ACTION_FORTIFY:
+  case ACTION_ROAD:
+  case ACTION_CONVERT:
+  case ACTION_BASE:
+  case ACTION_MINE:
+  case ACTION_IRRIGATE:
+  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
+  case ACTION_NUKE:
+    /* Target kind is not ruleset changeable */
+    return NULL;
+  case ACTION_USER_ACTION1:
+    return "user_action_1_target_kind";
+  case ACTION_USER_ACTION2:
+    return "user_action_2_target_kind";
+  case ACTION_USER_ACTION3:
+    return "user_action_3_target_kind";
+  case ACTION_COUNT:
+    break;
+  }
+
+  fc_assert(act >= 0 && act < ACTION_COUNT);
+  return NULL;
+}

@@ -847,6 +847,30 @@ static bool save_action_range(struct section_file *sfile, action_id act)
 }
 
 /**********************************************************************//**
+  Save details of an action.
+**************************************************************************/
+static bool save_action_kind(struct section_file *sfile, action_id act)
+{
+  if (action_target_kind_ruleset_var_name(act) != NULL) {
+    /* Target kind can be loaded from the ruleset. */
+    if ((action_by_number(act)->target_kind
+         == RS_DEFAULT_USER_ACTION_TARGET_KIND)
+        && action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+      /* Don't save the default for actions that aren't enabled. */
+      return TRUE;
+    }
+
+    secfile_insert_enum(sfile,
+                        action_by_number(act)->target_kind,
+                        action_target_kind,
+                        "actions.%s",
+                        action_target_kind_ruleset_var_name(act));
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Save game.ruleset
 **************************************************************************/
 static bool save_game_ruleset(const char *filename, const char *name)
@@ -1120,30 +1144,21 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     action_by_number(ACTION_USER_ACTION1)->actor_consuming_always,
                     RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                     "actions", "user_action_1_actor_consuming_always");
-  secfile_insert_enum(sfile,
-                      action_by_number(ACTION_USER_ACTION1)->target_kind,
-                      action_target_kind,
-                      "actions.user_action_1_target_kind");
+  save_action_kind(sfile, ACTION_USER_ACTION1);
   save_action_range(sfile, ACTION_USER_ACTION1);
 
   save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION2)->actor_consuming_always,
                     RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                     "actions", "user_action_2_actor_consuming_always");
-  secfile_insert_enum(sfile,
-                      action_by_number(ACTION_USER_ACTION2)->target_kind,
-                      action_target_kind,
-                      "actions.user_action_2_target_kind");
+  save_action_kind(sfile, ACTION_USER_ACTION2);
   save_action_range(sfile, ACTION_USER_ACTION2);
 
   save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION3)->actor_consuming_always,
                     RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                     "actions", "user_action_3_actor_consuming_always");
-  secfile_insert_enum(sfile,
-                      action_by_number(ACTION_USER_ACTION3)->target_kind,
-                      action_target_kind,
-                      "actions.user_action_3_target_kind");
+  save_action_kind(sfile, ACTION_USER_ACTION3);
   save_action_range(sfile, ACTION_USER_ACTION3);
 
   action_iterate(act_id) {
