@@ -158,6 +158,7 @@ client/gui-qt/repodlgs.cpp
 client/gui-qt/shortcuts.cpp
 client/gui-qt/sidebar.cpp
 client/gui-qt/spaceshipdlg.cpp
+client/gui-qt/themes.cpp
 client/gui-qt/voteinfo_bar.cpp
 client/gui-sdl2/action_dialog.c
 client/gui-sdl2/chatline.c
