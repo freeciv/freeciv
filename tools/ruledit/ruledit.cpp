@@ -20,6 +20,8 @@
 /* ANSI */
 #include <stdlib.h>
 
+#include <signal.h>
+
 #ifdef FREECIV_MSWINDOWS
 #include <windows.h>
 #endif
@@ -53,6 +55,8 @@ static int re_parse_cmdline(int argc, char *argv[]);
 
 struct ruledit_arguments reargs;
 
+static int fatal_assertions = -1;
+
 /**************************************************************************
   Main entry point for freeciv-ruledit
 **************************************************************************/
@@ -85,7 +89,7 @@ int main(int argc, char **argv)
 
   registry_module_init();
 
-  log_init(NULL, loglevel, NULL, NULL, -1);
+  log_init(NULL, loglevel, NULL, NULL, fatal_assertions);
 
   /* Initialize command line arguments. */
   reargs.ruleset = NULL;
@@ -152,6 +156,12 @@ static int re_parse_cmdline(int argc, char *argv[])
                   /* TRANS: argument (don't translate) VALUE (translate) */
                   R__("ruleset RULESET"),
                   R__("Ruleset to use as the starting point."));
+#ifndef FREECIV_NDEBUG
+      cmdhelp_add(help, "F",
+                  /* TRANS: "Fatal" is exactly what user must type, do not translate. */
+                  _("Fatal [SIGNAL]"),
+                  _("Raise a signal on failed assertion"));
+#endif /* FREECIV_NDEBUG */
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
       cmdhelp_display(help, TRUE, TRUE, TRUE);
@@ -168,6 +178,19 @@ static int re_parse_cmdline(int argc, char *argv[])
       } else {
         reargs.ruleset = option;
       }
+#ifndef FREECIV_NDEBUG
+    } else if (is_option("--Fatal", argv[i])) {
+      if (i + 1 >= argc || '-' == argv[i + 1][0]) {
+        fatal_assertions = SIGABRT;
+      } else if (str_to_int(argv[i + 1], &fatal_assertions)) {
+        i++;
+      } else {
+        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+                   argv[i + 1]);
+        fc_fprintf(stderr, _("Try using --help.\n"));
+        exit(EXIT_FAILURE);
+      }
+#endif /* FREECIV_NDEBUG */
     } else if (is_option("--", argv[i])) {
       ui_separator = TRUE;
     } else {
