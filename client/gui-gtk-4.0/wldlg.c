@@ -403,7 +403,6 @@ static void popup_worklist(struct global_worklist *pgwl)
                                         _("_Close"),
                                         GTK_RESPONSE_CLOSE,
                                         NULL);
-    gtk_window_set_role(GTK_WINDOW(shell), "worklist");
     gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
     g_signal_connect(shell, "response", G_CALLBACK(worklist_response), NULL);
     gtk_window_set_default_size(GTK_WINDOW(shell), 500, 400);

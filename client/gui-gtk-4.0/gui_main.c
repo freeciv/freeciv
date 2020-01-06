@@ -1726,7 +1726,6 @@ void ui_main(int argc, char **argv)
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_handler), NULL);
 
-  gtk_window_set_role(GTK_WINDOW(toplevel), "toplevel");
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_surface(toplevel);
