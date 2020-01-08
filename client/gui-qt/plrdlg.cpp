@@ -421,6 +421,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   bool entry_exist = false;
   struct player *me;
   Tech_type_id tech_id;
+  bool global_observer = client_is_global_observer();
 
   other_player = NULL;
   intel_str.clear();
@@ -462,7 +463,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           + QString::number(research->client.researching_cost) + ")";
     break;
   }
-  if (player_has_embassy(me, pplayer)) {
+  if (global_observer || player_has_embassy(me, pplayer)) {
     etax = QString::number(pplayer->economic.tax) + "%";
     esci = QString::number(pplayer->economic.science) + "%";
     elux = QString::number(pplayer->economic.luxury) + "%";
@@ -473,7 +474,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     elux = _("(Unknown)");
     cult = _("(Unknown)");
   }
-  if (could_intel_with_player(me, pplayer)) {
+  if (global_observer || could_intel_with_player(me, pplayer)) {
     egold = QString::number(pplayer->economic.gold);
     egov = QString(government_name_for_player(pplayer));
   } else {
@@ -517,7 +518,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       }
       state = player_diplstate_get(pplayer, other);
       if (static_cast<int>(state->type) == i
-          && could_intel_with_player(me, pplayer)) {
+          && (global_observer || could_intel_with_player(me, pplayer))) {
         if (added == false) {
           ally_str = ally_str  + QString("<b>")
                      + QString(diplstate_type_translated_name(
@@ -537,7 +538,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
   }
   my_research = research_get(me);
-  if (!client_is_global_observer()) {
+  if (!global_observer) {
     if (player_has_embassy(me, pplayer) && me != pplayer) {
       a = 0;
       b = 0;
