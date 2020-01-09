@@ -542,7 +542,7 @@ static void diplomacy_main_response(struct gui_dialog *dlg, int response,
   switch (response) {
   default:
     log_error("unhandled response in %s: %d", __FUNCTION__, response);
-    /* No break. */
+    fc__fallthrough; /* No break. */
   case GTK_RESPONSE_DELETE_EVENT:   /* GTK: delete the widget. */
   case RESPONSE_CANCEL_MEETING_ALL: /* Cancel all meetings. */
     dialog_list_iterate(dialog_list, adialog) {
@@ -606,7 +606,7 @@ static void diplomacy_response(struct gui_dialog *dlg, int response,
 
   default:
     log_error("unhandled response in %s: %d", __FUNCTION__, response);
-    /* No break. */
+    fc__fallthrough; /* No break. */
   case GTK_RESPONSE_DELETE_EVENT:   /* GTK: delete the widget. */
   case GTK_RESPONSE_CANCEL:         /* GTK: cancel button. */
   case RESPONSE_CANCEL_MEETING:     /* Cancel meetings. */

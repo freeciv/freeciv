@@ -368,7 +368,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       v -= 30 * c * ai->food_priority;
       break;
     }
-    /* there not being a break here is deliberate, mind you */
+    fc__fallthrough; /* there not being a break here is deliberate, mind you */
   case EFT_SIZE_ADJ:
     if (get_city_bonus(pcity, EFT_SIZE_UNLIMIT) <= 0) {
       const int aqueduct_size = get_city_bonus(pcity, EFT_SIZE_ADJ);

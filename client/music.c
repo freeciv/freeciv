@@ -59,7 +59,7 @@ void start_style_music(void)
       switch (client.conn.playing->client.mood) {
       case MOOD_COUNT:
         fc_assert(client.conn.playing->client.mood != MOOD_COUNT);
-        /* No break but use default tag */
+        fc__fallthrough; /* No break but use default tag */
       case MOOD_PEACEFUL:
         tag = pms->music_peaceful;
         break;

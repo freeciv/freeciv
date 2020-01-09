@@ -1450,12 +1450,16 @@ void log_civ_score_now(void)
 
   players_iterate(pplayer) {
     struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
+
     if (plrdata->name == NULL && GOOD_PLAYER(pplayer)) {
       switch (game.server.scoreloglevel) {
       case SL_HUMANS:
         if (is_ai(pplayer)) {
           break;
         }
+
+        fc__fallthrough; /* No break - continue to actual implementation
+                          * in SL_ALL case if reached here */
       case SL_ALL:
         fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
               player_number(pplayer), player_name(pplayer));
@@ -1474,6 +1478,9 @@ void log_civ_score_now(void)
           /* If a human player toggled into AI mode, don't break. */
           break;
         }
+
+        fc__fallthrough; /* No break - continue to actual implementation
+                          * in SL_ALL case if reached here */
       case SL_ALL:
         if (strcmp(plrdata->name, player_name(pplayer)) != 0) {
           log_debug("player names does not match '%s' != '%s'", plrdata->name,

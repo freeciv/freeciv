@@ -2409,6 +2409,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     break;
   case MED_MODE:
     color = *get_theme_color(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
+    fc__fallthrough; /* No break, continue to setting default h & w */
   default:
     h = adj_size(200);
     w = adj_size(100);

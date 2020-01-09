@@ -3147,6 +3147,7 @@ static bool setting_is_free_to_change(const struct setting *pset,
     /* The special case didn't make it legal to change the setting. Don't
      * give up. It could still be legal. Fall through so the non special
      * cases are checked too. */
+    fc__fallthrough;
 
   case SSET_MAP_ADD:
   case SSET_PLAYERS:
