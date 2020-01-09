@@ -1405,6 +1405,7 @@ const struct rgbcolor *player_preferred_color(struct player *pplayer)
   } else {
     /* Modes indexing into game-defined player colors */
     int colorid;
+
     switch (game.server.plrcolormode) {
     case PLRCOL_PLR_SET: /* player color (set) */
     case PLRCOL_PLR_RANDOM: /* player color (random) */
@@ -1413,7 +1414,7 @@ const struct rgbcolor *player_preferred_color(struct player *pplayer)
     default:
       log_error("Invalid value for 'game.server.plrcolormode' (%d)!",
                 game.server.plrcolormode);
-      /* no break - using 'PLRCOL_PLR_ORDER' as fallback */
+      fc__fallthrough; /* no break - using 'PLRCOL_PLR_ORDER' as fallback */
     case PLRCOL_PLR_ORDER: /* player color (ordered) */
       colorid = player_number(pplayer) % playercolor_count();
       break;
@@ -1421,6 +1422,7 @@ const struct rgbcolor *player_preferred_color(struct player *pplayer)
       colorid = team_number(pplayer->team) % playercolor_count();
       break;
     }
+
     return playercolor_get(colorid);
   }
 }

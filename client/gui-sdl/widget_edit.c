@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -411,9 +411,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
       /* exit from loop */
       return ED_RETURN;
     case SDLK_KP6:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
+      if (Key.mod & KMOD_NUM) {
+        goto INPUT;
       }
+      fc__fallthrough; /* No break, handle as SDLK_RIGHT */
     case SDLK_RIGHT:
     {
       /* move cursor right */
@@ -430,9 +431,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     }
     break;
     case SDLK_KP4:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
+      if (Key.mod & KMOD_NUM) {
+        goto INPUT;
       }
+      fc__fallthrough; /* No break, handle as SDLK_LEFT */
     case SDLK_LEFT:
     {
       /* move cursor left */
@@ -451,9 +453,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     }
     break;
     case SDLK_KP7:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
-      }  
+      if (Key.mod & KMOD_NUM) {
+        goto INPUT;
+      }
+      fc__fallthrough; /* No break, handle as SDLK_HOME */
     case SDLK_HOME:
     {
       /* move cursor to begin of chain (and edit field) */
@@ -463,9 +466,10 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
     }
     break;
     case SDLK_KP1:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
+      if (Key.mod & KMOD_NUM) {
+        goto INPUT;
       }
+      fc__fallthrough; /* No break, handle as SDLK_END */
     case SDLK_END:
     {
 	/* move cursor to end of chain (and edit field) */
@@ -503,16 +507,17 @@ static Uint16 edit_key_down(SDL_keysym Key, void *pData)
 	  FC_FREE(pEdt->pInputChain->prev);
 	  pEdt->pBeginTextChain = pEdt->pInputChain;
 	}
-	
+
 	pEdt->ChainLen--;
 	Redraw = TRUE;
       }
     }
     break;
     case SDLK_KP_PERIOD:
-      if(Key.mod & KMOD_NUM) {
-	goto INPUT;
-      }  
+      if (Key.mod & KMOD_NUM) {
+        goto INPUT;
+      }
+      fc__fallthrough; /* No break, handle as SDLK_DELETE */
     case SDLK_DELETE:
     {
 	/* del element of chain */

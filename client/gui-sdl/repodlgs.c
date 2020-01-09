@@ -2337,7 +2337,8 @@ static struct SMALL_DLG *pScienceDlg = NULL;
 
 static struct ADVANCED_DLG *pChangeTechDlg = NULL;
 
-SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode)
+SDL_Surface *create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
+                                      enum tech_info_mode mode)
 {
   struct unit_type *pUnit = NULL;
   SDL_Surface *pSurf, *pText, *pTmp, *pTmp2;
@@ -2355,6 +2356,7 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
       break;
     case MED_MODE:
       color = *get_theme_color(COLOR_THEME_SCIENCEDLG_MED_TECHICON_BG);
+      fc__fallthrough; /* No break, continue to setting default h & w */
     default:
       h = adj_size(200);
       w = adj_size(100);
@@ -2362,12 +2364,11 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   }
 
   pText = create_text_surf_smaller_that_w(pStr, adj_size(100 - 4));
-  
+
   /* create label surface */
   pSurf = create_surf_alpha(w, h, SDL_SWSURFACE);
-  
-  if (tech_id == research_get(client_player())->researching)
-  {
+
+  if (tech_id == research_get(client_player())->researching) {
     color.unused = 180;
   } else {
     color.unused = 128;
@@ -2377,11 +2378,10 @@ SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id,
   putframe(pSurf,
            0,0, pSurf->w - 1, pSurf->h - 1,
            get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
-  
+
   pTmp = get_tech_icon(tech_id);
-  
-  if (mode == SMALL_MODE)
-  {
+
+  if (mode == SMALL_MODE) {
     /* draw name tech text */ 
     dst.x = adj_size(35) + (pSurf->w - pText->w - adj_size(35)) / 2;
     dst.y = (pSurf->h - pText->h) / 2;

@@ -235,7 +235,7 @@ void techs_precalc_data(void)
       if (-1 != padvance->cost) {
         continue;
       }
-      /* No break. */
+      fc__fallthrough; /* No break. */
     case TECH_COST_CLASSIC:
       padvance->cost = game.info.base_tech_cost * (1.0 + num_reqs)
                        * sqrt(1.0 + num_reqs) / 2;
@@ -244,7 +244,7 @@ void techs_precalc_data(void)
       if (-1 != padvance->cost) {
         continue;
       }
-      /* No break. */
+      fc__fallthrough; /* No break. */
     case TECH_COST_EXPERIMENTAL:
       padvance->cost = game.info.base_tech_cost * ((num_reqs) * (num_reqs)
                            / (1 + sqrt(sqrt(num_reqs + 1))) - 0.5);
