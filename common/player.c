@@ -1223,7 +1223,7 @@ int player_get_expected_income(const struct player *pplayer)
     case GOLD_UPKEEP_NATION:
       /* Nation pays for buildings (and units). */
       income -= city_total_impr_gold_upkeep(pcity);
-      /* No break. */
+      fc__fallthrough; /* No break. */
     case GOLD_UPKEEP_MIXED:
       /* Nation pays for units. */
       income -= city_total_unit_gold_upkeep(pcity);

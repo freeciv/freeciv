@@ -1650,7 +1650,7 @@ static void explain_why_no_action_enabled(struct unit *punit,
     /* If an action blocked another action the blocking action must be
      * possible. */
     fc_assert(explnat->kind != ANEK_ACTION_BLOCKS);
-    /* Fall through to unknown cause. */
+    fc__fallthrough; /* Fall through to unknown cause. */
   case ANEK_UNKNOWN:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("No action possible."));

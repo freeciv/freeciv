@@ -2056,7 +2056,7 @@ bool wildcard_fit_string(const char *pattern, const char *test)
       break;
     case '\\':
       pattern++;
-      /* break; not missing. */
+      fc__fallthrough; /* No break */
     default:
       if (*pattern != *test) {
         return FALSE;

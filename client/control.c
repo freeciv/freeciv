@@ -2966,7 +2966,7 @@ void key_cancel_action(void)
     if (goto_pop_waypoint()) {
       break;
     }
-    /* else fall through: */
+    fc__fallthrough; /* else fall through: */
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
     clear_hover_state();
