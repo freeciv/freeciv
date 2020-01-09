@@ -2221,6 +2221,7 @@ void mr_menu::menus_sensitive()
         if (units_can_do_action(punits, ACTION_DISBAND_UNIT, true)) {
           i.value()->setEnabled(true);
         }
+        break;
 
       case CONNECT_RAIL:
         proad = road_by_compat_special(ROCO_RAILROAD);
