@@ -600,7 +600,7 @@ void genlist_sort(struct genlist *pgenlist,
   const size_t n = genlist_size(pgenlist);
   void **sortbuf;
   struct genlist_link *myiter;
-  int i;
+  unsigned int i;
 
   if (n <= 1) {
     return;
@@ -611,7 +611,7 @@ void genlist_sort(struct genlist *pgenlist,
   for (i = 0; i < n; i++, myiter = myiter->next) {
     sortbuf[i] = myiter->dataptr;
   }
-  
+
   qsort(sortbuf, n, sizeof(*sortbuf), compar);
 
   myiter = genlist_head(pgenlist);
