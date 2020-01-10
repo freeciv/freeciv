@@ -295,7 +295,7 @@ void option_dialog::set_bool(struct option *poption, bool value)
   QCheckBox *c;
 
   c = reinterpret_cast<QCheckBox *>(option_get_gui_data(poption));
-  if (value == true) {
+  if (value) {
     c->setCheckState(Qt::Checked);
   } else {
     c->setCheckState(Qt::Unchecked);
@@ -345,7 +345,7 @@ void option_dialog::set_font(struct option* poption, QString s)
   qApp->processEvents();
   qp = reinterpret_cast<QPushButton *>(option_get_gui_data(poption));
   ql = s.split(",");
-  if (s.isEmpty() == false) {
+  if (!s.isEmpty()) {
     qp->setText(ql[0] + " " + ql[1]);
     qp->setFont(*fp);
   }

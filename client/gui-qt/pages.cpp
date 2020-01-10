@@ -444,7 +444,8 @@ void fc_client::set_status_bar(QString message, int timeout)
 void fc_client::clear_status_bar()
 {
   QString str;
-  if (status_bar_queue.isEmpty() == false) {
+
+  if (!status_bar_queue.isEmpty()) {
     str = status_bar_queue.takeFirst();
     status_bar_label->setText(str);
     QTimer::singleShot(2000, this, SLOT(clear_status_bar()));
@@ -1238,9 +1239,9 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         pl_str = QString("player") + QString::number(i);
         if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
                                        pl_str.toLocal8Bit().data(), true))) {
-          if ((sbool = secfile_lookup_bool_default(sf, true,
+          if (!(sbool = secfile_lookup_bool_default(sf, true,
                                        "player%d.unassigned_user",
-                                       i)) == false) {
+                                       i))) {
               curr_player = i;
               break;
           }
@@ -1449,7 +1450,7 @@ void fc_client::update_scenarios_page(void)
           }
         }
 
-        if (found == true) {
+        if (found) {
           sl = item->data(Qt::UserRole).toStringList();
           found_ver = sl.at(3).toInt();
           if (found_ver < fcver) {
@@ -1854,7 +1855,7 @@ void fc_client::update_buttons()
     }
   } else {
     text = _("Start");
-    if (can_client_access_hack() && client.conn.observer == TRUE) {
+    if (can_client_access_hack() && client.conn.observer) {
       sensitive = true;
       players_iterate(plr) {
         if (!plr->ai_controlled) {
@@ -2080,7 +2081,7 @@ void fc_client::update_sidebar_tooltips()
     max = 100;
   }
 
-  if (client_is_global_observer() == false) {
+  if (!client_is_global_observer()) {
     sw_science->set_tooltip(science_dialog_text());
     str = QString(nation_plural_for_player(client_player()));
     str = str + '\n' + get_info_label_text(false);
@@ -2126,12 +2127,12 @@ void center_next_enemy_city()
   players_iterate(pplayer) {
     if (pplayer != client_player()) {
       city_list_iterate(pplayer->cities, pcity) {
-        if (first_tile == false) {
+        if (!first_tile) {
           first_tile = true;
           ptile = pcity->tile;
           first_id = pcity->id;
         }
-        if ((last_center_enemy_city == 0) || center_next == true) {
+        if ((last_center_enemy_city == 0) || center_next) {
           last_center_enemy_city = pcity->id;
           center_tile_mapcanvas(pcity->tile);
           return;
@@ -2162,12 +2163,12 @@ void center_next_player_city()
   players_iterate(pplayer) {
     if (pplayer == client_player()) {
       city_list_iterate(pplayer->cities, pcity) {
-        if (first_tile == false) {
+        if (!first_tile) {
           first_tile = true;
           ptile = pcity->tile;
           first_id = pcity->id;
         }
-        if ((last_center_player_city == 0) || center_next == true) {
+        if ((last_center_player_city == 0) || center_next) {
           last_center_player_city = pcity->id;
           center_tile_mapcanvas(pcity->tile);
           return;
@@ -2202,12 +2203,12 @@ void center_next_player_capital()
       if (capital == nullptr) {
         continue;
       }
-        if (first_tile == false) {
+        if (!first_tile) {
           first_tile = true;
           ptile = capital->tile;
           first_id = capital->id;
         }
-        if ((last_center_player_city == 0) || center_next == true) {
+        if ((last_center_player_city == 0) || center_next) {
           last_center_player_city = capital->id;
           center_tile_mapcanvas(capital->tile);
           put_cross_overlay_tile(capital->tile);
@@ -2253,12 +2254,12 @@ void cycle_enemy_units()
   players_iterate(pplayer) {
     if (pplayer != client_player()) {
       unit_list_iterate(pplayer->units, punit) {
-        if (first_tile == false) {
+        if (!first_tile) {
           first_tile = true;
           ptile = punit->tile;
           first_id = punit->id;
         }
-        if ((last_center_enemy == 0) || center_next == true) {
+        if ((last_center_enemy == 0) || center_next) {
           last_center_enemy = punit->id;
           center_tile_mapcanvas(punit->tile);
           return;

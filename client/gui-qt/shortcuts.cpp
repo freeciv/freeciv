@@ -280,7 +280,7 @@ void fc_shortcuts::init_default(bool read)
   if (read) {
     suc = read_shortcuts();
   }
-  if (suc == false) {
+  if (!suc) {
     for (i = 0 ; i < num_shortcuts; i++) {
       s = new fc_shortcut();
       s->id = default_shortcuts[i].id;
@@ -368,7 +368,7 @@ void fc_shortcut_popup::closeEvent(QCloseEvent *ev)
 {
   fc_sc_button *scp;
   if (sc != nullptr) {
-    if (check_if_exist() == false) {
+    if (!check_if_exist()) {
       scp = reinterpret_cast<fc_sc_button *>(parentWidget());
       scp->setText(shortcut_to_string(scp->sc));
       fc_shortcuts::sc()->set_shortcut(sc);
@@ -400,10 +400,10 @@ bool fc_shortcut_popup::check_if_exist()
       }
       id++;
     }
-    if (desc.isEmpty() == true) {
+    if (desc.isEmpty()) {
       desc = gui()->menu_bar->shortcut_exist(sc);
     }
-    if (desc.isEmpty() == false) {
+    if (!desc.isEmpty()) {
       fc_sc_button *fsb;
       fsb = qobject_cast<fc_sc_button*>(parentWidget());
       fsb->show_info(desc);

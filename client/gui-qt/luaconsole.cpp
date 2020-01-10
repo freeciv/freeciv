@@ -74,11 +74,12 @@ void real_luaconsole_append(const char *astring,
 void qload_lua_script()
 {
   QString str;
+
   str = QString(_("Lua scripts")) + QString(" (*.lua)");
   qlua_filename = QFileDialog::getOpenFileName(gui()->central_wdg,
                                               _("Load lua script"),
                                               QDir::homePath(), str);
-  if (qlua_filename.isEmpty() == false) {
+  if (!qlua_filename.isEmpty()) {
     script_client_do_file(qlua_filename.toLocal8Bit().constData());
   }
 }
@@ -88,7 +89,7 @@ void qload_lua_script()
 ***************************************************************************/
 void qreload_lua_script()
 {
-  if (qlua_filename.isEmpty() == false) {
+  if (!qlua_filename.isEmpty()) {
     script_client_do_file(qlua_filename.toLocal8Bit().constData());
   }
 }

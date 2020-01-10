@@ -340,7 +340,7 @@ void map_view::find_place(int pos_x, int pos_y, int &w, int &h, int wdth,
    */
 
   for (i = 0; i < widgets.count(); i++) {
-    if (widgets[i]->isVisible() == false) {
+    if (!widgets[i]->isVisible()) {
       continue;
     }
     x = widgets[i]->pos().x();
@@ -405,7 +405,7 @@ void move_widget::put_to_corner()
 ****************************************************************************/
 void move_widget::mouseMoveEvent(QMouseEvent *event)
 {
-  if(gui()->interface_locked == false) {
+  if (!gui()->interface_locked) {
     parentWidget()->move(event->globalPos() - point);
   }
 }
@@ -415,7 +415,7 @@ void move_widget::mouseMoveEvent(QMouseEvent *event)
 ****************************************************************************/
 void move_widget::mousePressEvent(QMouseEvent* event)
 {
-  if (gui()->interface_locked == false) {
+  if (!gui()->interface_locked) {
     point = event->globalPos() - parentWidget()->geometry().topLeft();
   }
   update();
@@ -826,7 +826,7 @@ void minimap_thread::run()
 **************************************************************************/
 void minimap_view::update_image()
 {
-  if (isHidden() == true ) {
+  if (isHidden()) {
     return;
   }
   thread.render(scale_factor, width(), height());

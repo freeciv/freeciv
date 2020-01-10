@@ -800,7 +800,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tooltip_text = tt_text.trimmed();
       tooltip_rect = rttp->rect;
       tooltip_pos = event->globalPos();
-      if (QToolTip::isVisible() == false && timer_active == false) {
+      if (!QToolTip::isVisible() && !timer_active) {
         timer_active = true;
         QTimer::singleShot(500, this, SLOT(show_tooltip()));
       }
@@ -1171,7 +1171,7 @@ void real_science_report_dialog_update(void *unused)
    str = " ";
  }
 
-  if (blk == true) {
+  if (blk) {
     gui()->sw_science->keep_blinking = true;
     gui()->sw_science->set_custom_labels(str);
     gui()->sw_science->sblink();
@@ -1702,7 +1702,7 @@ void economy_report_dialog_popup(bool raise)
     i = gui()->gimme_index_of("ECO");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
-    if (w->isVisible() == true) {
+    if (w->isVisible()) {
       gui()->game_tab_widget->setCurrentIndex(0);
       return;
     }

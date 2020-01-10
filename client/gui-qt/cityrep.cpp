@@ -499,7 +499,7 @@ void city_widget::display_list_menu(const QPoint &)
   if (!can_client_issue_orders()) {
     return;
   }
-  if (select_only == false) {
+  if (!select_only) {
     some_menu = list_menu.addMenu(_("Production"));
     tmp_menu = some_menu->addMenu(_("Change"));
     fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
@@ -540,7 +540,7 @@ void city_widget::display_list_menu(const QPoint &)
   }
   some_menu = list_menu.addMenu(_("Select"));
   gen_select_labels(some_menu);
-  if (select_only == false) {
+  if (!select_only) {
     list_menu.addAction(&cty_view);
     connect(&cty_view, &QAction::triggered, this, &city_widget::city_view);
     list_menu.addAction(&cty_buy);
@@ -1263,7 +1263,7 @@ void city_report_dialog_popup(bool raise)
     i = gui()->gimme_index_of("CTS");
     fc_assert(i != -1);
     w = gui()->game_tab_widget->widget(i);
-    if (w->isVisible() == true) {
+    if (w->isVisible()) {
       gui()->game_tab_widget->setCurrentIndex(0);
       return;
     }

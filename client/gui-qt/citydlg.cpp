@@ -680,7 +680,7 @@ unit_item::unit_item(QWidget *parent, struct unit *punit,
   img = unit_pixmap->map_pixmap.toImage();
   crop = zealous_crop_rect(img);
   cropped_img = img.copy(crop);
-  if (tileset_is_isometric(tileset) == true) {
+  if (tileset_is_isometric(tileset)) {
     unit_img = cropped_img.scaledToHeight(tileset_unit_width(get_tileset())
                                           * isosize, Qt::SmoothTransformation);
   } else {
@@ -2041,10 +2041,10 @@ void city_dialog::change_production(bool next)
 ****************************************************************************/
 void city_dialog::update_happiness_button()
 {
-  if (happines_shown == false) {
-    happiness_button->setToolTip(_("Show happiness information"));
-  } else {
+  if (happines_shown) {
     happiness_button->setToolTip(_("Show city production"));
+  } else {
+    happiness_button->setToolTip(_("Show happiness information"));
   }
 }
 
@@ -2055,7 +2055,7 @@ void city_dialog::show_happiness()
 {
   setUpdatesEnabled(false);
 
-  if (happines_shown == false) {
+  if (!happines_shown) {
     leftbot_layout->replaceWidget(prod_unit_splitter,
                                   happiness_widget,
                                   Qt::FindDirectChildrenOnly);
@@ -2180,7 +2180,7 @@ void city_dialog::hideEvent(QHideEvent *event)
 ****************************************************************************/
 void city_dialog::showEvent(QShowEvent *event)
 {
-  if (gui()->qt_settings.city_geometry.isNull() == false) {
+  if (!gui()->qt_settings.city_geometry.isNull()) {
     restoreGeometry(gui()->qt_settings.city_geometry);
     prod_unit_splitter->restoreState(gui()->qt_settings.city_splitter1);
     central_left_splitter->restoreState(gui()->qt_settings.city_splitter2);
@@ -2409,7 +2409,7 @@ void city_dialog::update_sliders()
   QVariant qvar;
   QLabel *label;
 
-  if (cma_is_city_under_agent(pcity, &param) == false) {
+  if (!cma_is_city_under_agent(pcity, &param)) {
     if (cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
       return;
     }
@@ -3948,7 +3948,7 @@ void city_production_delegate::paint(QPainter *painter,
 
   qvar = index.data();
 
-  if (qvar.isValid() == false) {
+  if (!qvar.isValid()) {
     return;
   }
 
@@ -3977,7 +3977,7 @@ void city_production_delegate::paint(QPainter *painter,
         && !uclass_has_flag(pclass, UCF_CAN_FORTIFY)
         && !uclass_has_flag(pclass, UCF_ZOC))
         || uclass_has_flag(pclass, UCF_MISSILE)) {
-      if (is_sea == true) {
+      if (is_sea) {
         is_sea = false;
       }
       is_flying = true;
@@ -4042,7 +4042,7 @@ void city_production_delegate::paint(QPainter *painter,
 
   painter->restore();
 
-  if (free_sprite == TRUE) {
+  if (free_sprite) {
     qtg_free_sprite(sprite);
   }
 }
@@ -4202,7 +4202,7 @@ void city_production_model::populate()
         str = utype_name_translation(renegade->value.utype);
         sh.setX(qMax(sh.x(), fm.width(str)));
 
-        if (show_units == true) {
+        if (show_units) {
           pi = new production_item(renegade, this);
           city_target_list << pi;
         }
@@ -4382,7 +4382,7 @@ void production_widget::prod_selected(const QItemSelection &sl,
   index = indexes.at(0);
   qvar = index.data(Qt::UserRole);
 
-  if (qvar.isValid() == false) {
+  if (!qvar.isValid()) {
     return;
   }
 

@@ -210,7 +210,7 @@ void qfc_dialog::paintEvent(QPaintEvent *event)
 ***************************************************************************/
 void qfc_dialog::mouseMoveEvent(QMouseEvent *event)
 {
-  if (moving_now == true) {
+  if (moving_now) {
     move(event->globalPos() - point);
   }
 }
@@ -1392,7 +1392,7 @@ void choice_dialog::next_unit()
       new_target = ptgt;
       first = false;
     }
-    if (break_next == true) {
+    if (break_next) {
       new_target = ptgt;
       break;
     }
@@ -2950,7 +2950,7 @@ void units_select::create_pixmap()
 
   update_units();
   if (unit_list.count() > 0) {
-  if (tileset_is_isometric(tileset) == false) {
+  if (!tileset_is_isometric(tileset)) {
     item_size.setWidth(tileset_unit_width(tileset));
     item_size.setHeight(tileset_unit_width(tileset));
   } else {
@@ -2986,7 +2986,7 @@ void units_select::create_pixmap()
     img = unit_pixmap->map_pixmap.toImage();
     crop = zealous_crop_rect(img);
     cropped_img = img.copy(crop);
-    if (tileset_is_isometric(tileset) == false) {
+    if (!tileset_is_isometric(tileset)) {
       img = cropped_img.scaled(tileset_unit_width(tileset),
                                tileset_unit_width(tileset),
                                Qt::KeepAspectRatio,
@@ -3160,7 +3160,7 @@ void units_select::paint(QPainter *painter, QPaintEvent *event)
       painter->drawText(10, height() - 5, str2);
     }
     /* draw scroll */
-    if (more == true) {
+    if (more) {
       int maxl = ((unit_count - 1) / 4) + 1;
       float page_height = 3.0f / maxl;
       float page_start = (static_cast<float>(show_line)) / maxl;
@@ -3252,7 +3252,7 @@ void units_select::wheelEvent(QWheelEvent *event)
 {
   int nr;
 
-  if (more == false && utile == NULL) {
+  if (!more && utile == NULL) {
     return;
   }
   nr = qCeil(static_cast<qreal>(unit_list_size(utile->units)) / 4) - 3;
@@ -3356,7 +3356,7 @@ void qtg_popup_combat_info(int attacker_unit_id, int defender_unit_id,
                            int attacker_hp, int defender_hp,
                            bool make_winner_veteran)
 {
-  if (gui()->qt_settings.show_battle_log == true) {
+  if (gui()->qt_settings.show_battle_log) {
     hud_unit_combat* huc = new hud_unit_combat(attacker_unit_id,
                                               defender_unit_id,
                                               attacker_hp, defender_hp,

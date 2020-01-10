@@ -435,7 +435,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   pplayer = reinterpret_cast<player *>(qvar.value<void *>());
   selected_player = pplayer;
   other_player = pplayer;
-  if (pplayer->is_alive == false) {
+  if (!pplayer->is_alive) {
     plr->update_report(false);
     return;
   }
@@ -512,7 +512,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       state = player_diplstate_get(pplayer, other);
       if (static_cast<int>(state->type) == i
           && (global_observer || could_intel_with_player(me, pplayer))) {
-        if (added == false) {
+        if (!added) {
           ally_str = ally_str  + QString("<b>")
                      + QString(diplstate_type_translated_name(
                                  static_cast<diplstate_type>(i)))
@@ -701,7 +701,7 @@ void plr_report::init()
 **************************************************************************/
 void plr_report::call_meeting()
 {
-  if (meet_but->isEnabled() == true) {
+  if (meet_but->isEnabled()) {
     req_meeeting();
   }
 }
@@ -766,7 +766,7 @@ void plr_report::toggle_ai_mode()
   }
   if (act && act->isVisible()) {
     level = act->data().toInt();
-    if (plr_wdg->other_player->ai_controlled == false) {
+    if (!plr_wdg->other_player->ai_controlled) {
       send_chat_printf("/aitoggle \"%s\"", player_name(plr_wdg->other_player));
     }
     send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(level)),
@@ -797,7 +797,7 @@ void plr_report::update_report(bool update_selection)
   int player_count = 0;
   
   /* Force updating selected player information */
-  if (update_selection == true) {
+  if (update_selection) {
     qmi = plr_wdg->currentIndex();
     if (qmi.isValid()) {
       plr_wdg->clearSelection();
@@ -842,7 +842,7 @@ void plr_report::update_report(bool update_selection)
       && !players_on_same_team(client_player(), other_player)) {
     withdraw_but->setEnabled(true);
   }
-  if (can_meet_with_player(other_player) == true) {
+  if (can_meet_with_player(other_player)) {
     meet_but->setEnabled(true);
   }
   plr_wdg->restore_selection();
@@ -866,7 +866,7 @@ void popup_players_dialog(bool raise)
 
     i = gui()->gimme_index_of("PLR");
     w = gui()->game_tab_widget->widget(i);
-    if (w->isVisible() == true) {
+    if (w->isVisible()) {
       gui()->game_tab_widget->setCurrentIndex(0);
       return;
     }

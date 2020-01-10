@@ -45,8 +45,9 @@ const char **gfx_fileextensions(void)
   gfx_ext = QImageReader::supportedImageFormats();
 
   gfx_array_extensions = new const char *[gfx_ext.count()];
-  while (gfx_ext.isEmpty() == false) {
+  while (!gfx_ext.isEmpty()) {
     char *ext;
+
     cp = gfx_ext.takeFirst();
     ext = static_cast<char *>(fc_malloc(sizeof(cp)));
     strncpy(ext, cp.data(), sizeof(cp));

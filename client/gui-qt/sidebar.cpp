@@ -206,7 +206,7 @@ void fc_sidewidget::paint(QPainter *painter, QPaintEvent *event)
 ***************************************************************************/
 void fc_sidewidget::enterEvent(QEvent *event)
 {
-  if (hover == false) {
+  if (!hover) {
     hover = true;
     update_final_pixmap();
     QWidget::enterEvent(event);
@@ -311,7 +311,7 @@ void fc_sidewidget::wheelEvent(QWheelEvent *event)
 void fc_sidewidget::sblink()
 {
   if (keep_blinking) {
-    if (timer->isActive() == false) {
+    if (!timer->isActive()) {
       timer->start();
     }
     blink = !blink;
@@ -338,11 +338,11 @@ void fc_sidewidget::some_slot()
   act = qobject_cast<QAction *>(sender());
   qvar = act->data();
 
-  if (qvar.isValid() == false) {
+  if (!qvar.isValid()) {
     return;
   }
 
-  if (act->property("scimenu") == true) {
+  if (act->property("scimenu").toBool()) {
     dsend_packet_player_research(&client.conn, qvar.toInt());
     return;
   }
@@ -391,7 +391,7 @@ void fc_sidewidget::update_final_pixmap()
   pen.setColor(QColor(232, 255, 0));
   p.setPen(pen);
 
-  if (standard == SW_TAX && client_is_global_observer() == false) {
+  if (standard == SW_TAX && !client_is_global_observer()) {
     pos = 0;
     int d, modulo;
     sprite = get_tax_sprite(tileset, O_GOLD);
@@ -448,7 +448,7 @@ void fc_sidewidget::update_final_pixmap()
   }
 
   p.setPen(palette().color(QPalette::Text));
-  if (custom_label.isEmpty() == false) {
+  if (!custom_label.isEmpty()) {
     p.setFont(*info_font);
     p.drawText(0, 0, width(), height(), Qt::AlignLeft | Qt::TextWordWrap,
                custom_label);
@@ -551,7 +551,7 @@ void fc_sidebar::resize_me(int hght, bool force)
   w = (100 * screen_hres) / 1920;
   w = qMax(w, 80);
 
-  if (force == false && w == width() && h == height()) {
+  if (!force && w == width() && h == height()) {
     return;
   }
 
@@ -603,7 +603,7 @@ void side_finish_turn(bool nothing)
 ***************************************************************************/
 void side_rates_wdg(bool nothing)
 {
-  if (client_is_observer() == false) {
+  if (!client_is_observer()) {
     popup_rates_dialog();
   }
 }
@@ -678,7 +678,7 @@ void side_right_click_diplomacy(void)
       menu->addAction(eiskalt);
     } players_iterate_end
 
-    if (client_is_global_observer() == false) {
+    if (!client_is_global_observer()) {
       eiskalt = new QAction(_("Observe globally"), gui()->mapview_wdg);
       eiskalt->setData(-1);
       menu->addAction(eiskalt);
@@ -708,7 +708,7 @@ void side_right_click_science(void)
   QList<qlist_item> curr_list;
   qlist_item item;
 
-  if (client_is_observer() == false) {
+  if (!client_is_observer()) {
     struct research *research = research_get(client_player());
 
     advance_index_iterate(A_FIRST, i) {
@@ -763,7 +763,7 @@ void side_left_click_science(bool nothing)
   } else {
     i = gui()->gimme_index_of("SCI");
     w = gui()->game_tab_widget->widget(i);
-    if (w->isVisible() == true) {
+    if (w->isVisible()) {
       gui()->game_tab_widget->setCurrentIndex(0);
       return;
     }

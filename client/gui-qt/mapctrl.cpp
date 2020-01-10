@@ -178,13 +178,13 @@ void map_view::keyPressEvent(QKeyEvent * event)
       return;
     case Qt::Key_Escape:
       key_cancel_action();
-      if (gui()->infotab->chat_maximized == true) {
+      if (gui()->infotab->chat_maximized) {
         gui()->infotab->restore_chat();
       }
       return;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-      if (gui()->infotab->chat_maximized == false) {
+      if (!gui()->infotab->chat_maximized) {
         gui()->infotab->maximize_chat();
         gui()->infotab->chtwdg->chat_line->setFocus();
       }
@@ -224,7 +224,7 @@ void map_view::shortcut_pressed(int key)
   /* Trade Generator - skip */
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod
-      && gui()->trade_gen.hover_city == true) {
+      && gui()->trade_gen.hover_city) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     gui()->trade_gen.add_tile(ptile);
     gui()->mapview_wdg->repaint();
@@ -233,8 +233,9 @@ void map_view::shortcut_pressed(int key)
 
   /* Rally point - select city - skip */
   if (bt == sc->mouse && md == sc->mod
-      && gui()->rallies.hover_city == true) {
+      && gui()->rallies.hover_city) {
     char text[1024];
+
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
       gui()->rallies.hover_tile = true;
@@ -259,7 +260,7 @@ void map_view::shortcut_pressed(int key)
   }
 
   /* Rally point - select tile  - skip */
-  if (bt == Qt::LeftButton && gui()->rallies.hover_tile == true) {
+  if (bt == Qt::LeftButton && gui()->rallies.hover_tile) {
     char text[1024];
     qfc_rally *rally = new qfc_rally;
     rally->ptile = canvas_pos_to_tile(pos.x(), pos.y());
@@ -273,7 +274,7 @@ void map_view::shortcut_pressed(int key)
     return;
   }
 
-  if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order == true) {
+  if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     gui()->menu_bar->set_tile_for_order(ptile);
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
@@ -281,10 +282,10 @@ void map_view::shortcut_pressed(int key)
     gui()->menu_bar->delayed_order = false;
     return;
   }
-  if (bt == Qt::LeftButton  && gui()->infotab->chat_maximized == true) {
+  if (bt == Qt::LeftButton  && gui()->infotab->chat_maximized) {
     gui()->infotab->restore_chat();
   }
-  if (bt  == Qt::LeftButton && gui()->menu_bar->quick_airlifting == true) {
+  if (bt  == Qt::LeftButton && gui()->menu_bar->quick_airlifting) {
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
       multiairlift(tile_city(ptile), gui()->menu_bar->airlift_type_id);
@@ -295,7 +296,7 @@ void map_view::shortcut_pressed(int key)
     return;
   }
   /* Check configured shortcuts */
-  if (gui()->menu_bar->delayed_order == false) {
+  if (!gui()->menu_bar->delayed_order) {
     sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_SELECT);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {
@@ -404,7 +405,7 @@ void map_view::shortcut_pressed(int key)
   }
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
-    if (goto_is_active() == false) {
+    if (!goto_is_active()) {
       stored_autocenter = gui_options.auto_center_on_unit;
       gui_options.auto_center_on_unit = false;
       action_button_pressed(pos.x(), pos.y(), SELECT_FOCUS);
@@ -445,17 +446,17 @@ void map_view::shortcut_released(Qt::MouseButton bt)
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod) {
-    if (gui()->trade_gen.hover_city == true
-        || gui()->rallies.hover_city == true) {
+    if (gui()->trade_gen.hover_city
+        || gui()->rallies.hover_city) {
       gui()->trade_gen.hover_city = false;
       gui()->rallies.hover_city = false;
       return;
     }
-    if (menu_click == true) {
+    if (menu_click) {
       menu_click = false;
       return;
     }
-    if (keyboardless_goto_active == false || goto_is_active() == true) {
+    if (!keyboardless_goto_active || goto_is_active()) {
       action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
       gui_options.auto_center_on_unit = stored_autocenter;
     }

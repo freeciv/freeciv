@@ -200,11 +200,12 @@ void help_dialog::showEvent(QShowEvent *event)
 {
   QList<int> sizes;
 
-  if (gui()->qt_settings.help_geometry.isNull() == false) {
+  if (!gui()->qt_settings.help_geometry.isNull()) {
     restoreGeometry(gui()->qt_settings.help_geometry);
     splitter->restoreState(gui()->qt_settings.help_splitter1);
   } else {
     QRect rect = QApplication::desktop()->screenGeometry();
+
     resize((rect.width() * 3) / 5, (rect.height() * 3) / 6);
     sizes << rect.width() / 10 << rect.width() / 3;
     splitter->setSizes(sizes);
@@ -327,7 +328,7 @@ void help_dialog::make_tree()
         break;
       }
 
-      if (icon.isNull() == false) {
+      if (!icon.isNull()) {
         item->setIcon(0, icon);
       }
 
@@ -416,7 +417,7 @@ void help_dialog::item_changed(QTreeWidgetItem *item, QTreeWidgetItem *prev)
 
   help_wdg->set_topic(topics_map[item]);
 
-  if (update_history == true) {
+  if (update_history) {
     history_pos++;
     item_history.append(item);
   } else {
@@ -1020,7 +1021,7 @@ void help_widget::set_topic_building(const help_item *topic,
       break;
     } requirement_vector_iterate_end;
 
-    if (s1.isEmpty() == false) {
+    if (!s1.isEmpty()) {
       tb = new QLabel(this);
       str = _("Requirement:");
       str = "<b>" + str + "</b> " + s1;
@@ -1043,7 +1044,7 @@ void help_widget::set_topic_building(const help_item *topic,
 
     str = _("Obsolete by:");
     str = "<b>" + str + "</b> " + s2;
-    if (s2.isEmpty() == false) {
+    if (!s2.isEmpty()) {
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
