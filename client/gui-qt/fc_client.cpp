@@ -144,7 +144,7 @@ void fc_client::init()
   // General part not related to any single page
   menu_bar = new mr_menu();
   corner_wid = new fc_corner(this);
-  if (gui_options.gui_qt_show_titlebar == false) {
+  if (!gui_options.gui_qt_show_titlebar) {
     menu_bar->setCornerWidget(corner_wid);
   }
   setMenuBar(menu_bar);
@@ -180,7 +180,7 @@ void fc_client::init()
   // PAGE_GAME
   gui_options.gui_qt_allied_chat_only = true;
   path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
-  if (path.isEmpty() == false) {
+  if (!path.isEmpty()) {
     QSettings::setPath(QSettings::NativeFormat, QSettings::UserScope, path);
   }
   pages[PAGE_GAME] = new QWidget(central_wdg);
@@ -356,7 +356,7 @@ void fc_client::switch_page(int new_pg)
     update_load_page();
     break;
   case PAGE_GAME:
-    if (gui_options.gui_qt_show_titlebar == false) {
+    if (!gui_options.gui_qt_show_titlebar) {
       setWindowFlags(Qt::Window | Qt::CustomizeWindowHint);
     }
     showMaximized();
@@ -592,7 +592,7 @@ void fc_client::read_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
               "freeciv-qt-client");
-  if (s.contains("Fonts-set") == false) {
+  if (!s.contains("Fonts-set")) {
     configure_fonts();
   }
   if (s.contains("Chat-fx-size")) {
@@ -799,7 +799,7 @@ void fc_client::popdown_unit_sel()
 void fc_client::remove_repo_dlg(QString str)
 {
   /* if app is closing opened_repo_dlg is already deleted */
-  if (is_closing() == false) {
+  if (!is_closing()) {
     opened_repo_dlgs.remove(str);
   }
 }
@@ -897,7 +897,7 @@ void fc_corner::close_fc()
 ****************************************************************************/
 void fc_corner::maximize()
 {
-  if (mw->isMaximized() == false) {
+  if (!mw->isMaximized()) {
     mw->showMaximized();
   } else {
     mw->showNormal();
@@ -999,7 +999,7 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
                                  + DIR_SEPARATOR
                                  + id + ".png").toLocal8Bit().data()));
 
-  if (status == false) {
+  if (!status) {
     str = str + "icons" + DIR_SEPARATOR;
     pm->load(fileinfoname(get_data_dirs(), QString(str
                           + id + ".png").toLocal8Bit().data()));

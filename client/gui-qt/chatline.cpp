@@ -327,11 +327,10 @@ void chatwdg::state_changed(int state)
 ***************************************************************************/
 void chatwdg::toggle_size()
 {
-  if (gui()->infotab->chat_maximized == true) {
+  if (gui()->infotab->chat_maximized) {
     gui()->infotab->restore_chat();
     return;
-  }
-  if (gui()->infotab->chat_maximized == false) {
+  } else {
     gui()->infotab->maximize_chat();
     chat_line->setFocus();
   }

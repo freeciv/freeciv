@@ -315,7 +315,7 @@ void trade_generator::calculate()
       tc->curr_tr_cities.clear();
       tc->done = false;
       foreach (ttc, cities) {
-        if (have_cities_trade_route(tc->city, ttc->city) == false
+        if (!have_cities_trade_route(tc->city, ttc->city)
             && can_establish_trade_route(tc->city, ttc->city)) {
           tc->poss_trade_num++;
           tc->pos_cities.append(ttc->city);
@@ -399,8 +399,8 @@ void trade_generator::discard()
 
   for (int i = j; i > -j; i--) {
     while ((tc = find_most_free())) {
-      if (discard_one(tc) == false) {
-        if (discard_any(tc, i) == false) {
+      if (!discard_one(tc)) {
+        if (!discard_any(tc, i)) {
           break;
         }
       }
@@ -558,7 +558,7 @@ void qfc_units_list::clear()
 **************************************************************************/
 void real_menus_init(void)
 {
-  if (game.client.ruleset_ready == false) {
+  if (!game.client.ruleset_ready) {
     return;
   }
   gui()->menu_bar->clear();
@@ -578,7 +578,7 @@ void real_menus_update(void)
 {
   if (C_S_RUNNING <= client_state()) {
     gui()->menuBar()->setVisible(true);
-    if (is_waiting_turn_change() == false) {
+    if (!is_waiting_turn_change()) {
       gui()->menu_bar->menus_sensitive();
       gui()->menu_bar->update_airlift_menu();
       gui()->menu_bar->update_roads_menu();
@@ -1947,12 +1947,12 @@ void mr_menu::menus_sensitive()
         }
         break;
       case NOT_4_OBS:
-        if (client_is_observer() == false) {
+        if (!client_is_observer()) {
           i.value()->setEnabled(true);
         }
         break;
       case MULTIPLIERS:
-        if (client_is_observer() == false && multiplier_count() > 0) {
+        if (!client_is_observer() && multiplier_count() > 0) {
           i.value()->setEnabled(true);
           i.value()->setVisible(true);
         } else {
@@ -1974,7 +1974,7 @@ void mr_menu::menus_sensitive()
     }
   }
 
-  if (can_client_issue_orders() == false || get_num_units_in_focus() == 0) {
+  if (!can_client_issue_orders() || get_num_units_in_focus() == 0) {
     return;
   }
 
@@ -3445,15 +3445,15 @@ void mr_menu::save_image()
   }
   map_canvas_resized(full_size_x, full_size_y);
   img_name = QString("FreeCiv-Turn%1").arg(game.info.turn);
-  if (client_has_player() == true) {
+  if (client_has_player()) {
     img_name = img_name + "-"
                 + QString(nation_plural_for_player(client_player()));
   }
   storage_path = freeciv_storage_dir();
   path = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-  if (storage_path.isEmpty() == false && QDir(storage_path).isReadable()) {
+  if (!storage_path.isEmpty() && QDir(storage_path).isReadable()) {
     img_name = storage_path + DIR_SEPARATOR + img_name;
-  } else if (path.isEmpty() == false) {
+  } else if (!path.isEmpty()) {
     img_name = path + DIR_SEPARATOR + img_name;
   } else {
     img_name = QStandardPaths::writableLocation(QStandardPaths::HomeLocation)
@@ -3498,7 +3498,7 @@ void mr_menu::save_game_as()
   current_file = QFileDialog::getSaveFileName(gui()->central_wdg,
                                               _("Save Game As..."),
                                               location, str);
-  if (current_file.isEmpty() == false) {
+  if (!current_file.isEmpty()) {
     send_save_game(current_file.toLocal8Bit().data());
   }
 }

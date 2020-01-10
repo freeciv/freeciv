@@ -153,23 +153,23 @@ void configure_fonts()
      << "Ubuntu" << "Noto Sans" << "DejaVu Sans" << "Luxi Sans"
      << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
   font_name = configure_font(fonts::default_font, sl, max);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_default,
                font_name.toLocal8Bit().data(), 512);
   }
   font_name = configure_font(fonts::help_label, sl, max);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_help_label,
                font_name.toLocal8Bit().data(), 512);
   }
   font_name = configure_font(fonts::city_names, sl, smaller, true);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_city_names,
                font_name.toLocal8Bit().data(), 512);
   }
   /* default for help text */
   font_name = configure_font(fonts::help_text, sl, default_size);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_help_text,
                font_name.toLocal8Bit().data(), 512);
   }
@@ -180,25 +180,25 @@ void configure_fonts()
       << "Source Code Pro [ADBO]"
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
   font_name = configure_font(fonts::notify_label, sl, default_size);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_notify_label,
                font_name.toLocal8Bit().data(), 512);
   }
   font_name = configure_font(fonts::comment_label, sl, default_size);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_comment_label,
                font_name.toLocal8Bit().data(), 512);
   }
 
   /* the same font for city label but smaller */
   font_name = configure_font(fonts::city_label, sl, smaller);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_city_label,
                font_name.toLocal8Bit().data(), 512);
   }
   /* standard for chat */
   font_name = configure_font(fonts::chatline, sl, default_size);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_chatline,
                font_name.toLocal8Bit().data(), 512);
   }
@@ -208,7 +208,7 @@ void configure_fonts()
   sl  <<  "Segoe Print" << "Papyrus" << "Vladimir Script"
       << "Comic Sans MS" << "Droid Sans" << "Noto Sans";
   font_name = configure_font(fonts::help_title, sl, max, true);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_help_title,
                font_name.toLocal8Bit().data(), 512);
   }
@@ -218,7 +218,7 @@ void configure_fonts()
       << "Droid Sans" << "Noto Sans";
   font_name = configure_font(fonts::city_productions, sl, default_size,
                              true);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_city_productions,
                font_name.toLocal8Bit().data(), 512);
   }
@@ -227,7 +227,7 @@ void configure_fonts()
   sl  << "Papyrus" << "Segoe Script" << "Comic Sans MS"
       << "Droid Sans" << "Noto Sans" << "Ubuntu";
   font_name = configure_font(fonts::reqtree_text, sl, max, true);
-  if (font_name.isEmpty() == false) {
+  if (!font_name.isEmpty()) {
     fc_strlcpy(gui_options.gui_qt_font_reqtree_text,
                font_name.toLocal8Bit().data(), 512);
   }
