@@ -347,7 +347,7 @@ void apply_titlebar(struct option *poption)
     return;
   }
 
-  if (val == true) {
+  if (val) {
     w = new QWidget();
     gui()->setWindowFlags(flags);
     delete gui()->corner_wid;

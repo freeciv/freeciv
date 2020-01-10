@@ -161,7 +161,7 @@ char **qtg_get_useable_themes_in_directory(const char *directory, int *count)
   foreach(str, sl) {
     f.setFileName(name + DIR_SEPARATOR + str
                   + DIR_SEPARATOR + "resource.qss");
-    if (f.exists() == false) {
+    if (!f.exists()) {
       continue;
     }
     theme_list << str;
