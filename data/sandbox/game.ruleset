@@ -517,8 +517,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
     }
 target_reqs  =
-    { "type",         "name", "range", "present"
-      "MinMoveFrags", "1",    "Local", TRUE
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "UnitClass",    "Sea",        "Local", FALSE
+      "UnitClass",    "Trireme",    "Local", FALSE
+      "UnitClass",    "Air",        "Local", FALSE
+      "UnitClass",    "Helicopter", "Local", FALSE
+      "UnitClass",    "Missile",    "Local", FALSE
     }
 
 [actionenabler_disrupt_supply_marines]
@@ -531,8 +536,13 @@ actor_reqs    =
       "MinMoveFrags", "1",             "Local", TRUE
     }
 target_reqs  =
-    { "type",         "name", "range", "present"
-      "MinMoveFrags", "1",    "Local", TRUE
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "UnitClass",    "Sea",        "Local", FALSE
+      "UnitClass",    "Trireme",    "Local", FALSE
+      "UnitClass",    "Air",        "Local", FALSE
+      "UnitClass",    "Helicopter", "Local", FALSE
+      "UnitClass",    "Missile",    "Local", FALSE
     }
 
 [actionenabler_sabotage_city]
