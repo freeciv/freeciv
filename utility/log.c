@@ -57,8 +57,8 @@ static int fc_fatal_assertions = -1;
 struct log_fileinfo {
   char *name;
   enum log_level level;
-  int min;
-  int max;
+  unsigned int min;
+  unsigned int max;
 };
 static int log_num_files = 0;
 static struct log_fileinfo *log_files = NULL;
@@ -164,13 +164,13 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
       d = strchr(d + 1, ',');
       if (d && *pc != '\0' && d[1] != '\0') {
         d[0] = '\0';
-        if (!str_to_int(pc, &pfile->min)) {
-          fc_fprintf(stderr, _("Not an integer: '%s'\n"), pc);
+        if (!str_to_uint(pc, &pfile->min)) {
+          fc_fprintf(stderr, _("Not an unsigned integer: '%s'\n"), pc);
           ret = FALSE;
           goto out;
         }
-        if (!str_to_int(d + 1, &pfile->max)) {
-          fc_fprintf(stderr, _("Not an integer: '%s'\n"), d + 1);
+        if (!str_to_uint(d + 1, &pfile->max)) {
+          fc_fprintf(stderr, _("Not an unsigned integer: '%s'\n"), d + 1);
           ret = FALSE;
           goto out;
         }
