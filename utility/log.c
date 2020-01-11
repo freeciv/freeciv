@@ -125,7 +125,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
         log_deprecation( _("Do not provide log level with a numerical value."
             " Use one of the levels Fatal, Error, Warning, Normal, Verbose, Debug") );
     }
-    if (level >= LOG_FATAL && level <= max_level) {
+    if (level <= max_level) {
       if (NULL != ret_level) {
         *ret_level = level;
       }
@@ -157,7 +157,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   if (level > LOG_DEBUG) {
     level = c[0] - '0';
     if (c[1] == ':') {
-      if (level < LOG_FATAL || level > max_level) {
+      if (level > max_level) {
         fc_fprintf(stderr, _("Bad log level %c in \"%s\".\n"),
                    c[0], level_str);
         return FALSE;
