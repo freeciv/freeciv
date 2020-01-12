@@ -90,6 +90,24 @@ but wars are fought over the silliest things ...
         break;
       }
 
+  - If case of a switch is supposed to continue to the next case,
+    explicitly mark it so by using fc__fallthrough; This also avoids
+    compiler warning about missing break; when such warnings are enabled.
+
+      switch (value) {
+      case MY_VALUE1:
+        do_some_stuff(value);
+
+        fc__fallthrough; /* break; intentionally left out */
+      case MY_VALUE2:
+        {
+          int value2 = value + 5;
+
+          do_some_other_stuff(value2);
+        }
+        break;
+      }
+
   - In the rare case that you actually use goto, the label should be all
     capitals and "out-dented" in the block in which it is contained:
 
