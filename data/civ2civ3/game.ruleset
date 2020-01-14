@@ -1083,8 +1083,8 @@ type           = "Multicultural"
 unique         = FALSE
 value          = 2
 culture        = 100
-first_msg      = _("You're the first nation with a city containing 2 different nationalities!")
-cons_msg       = _("One of your cities has 2 different nationalities!")
+first_msg      = _("You're the first nation to have citizens of multiple nationalities!")
+cons_msg       = _("Your nation now has citizens of multiple nationalities!")
 
 [achievement_metropolis]
 name           = _("Metropolis")

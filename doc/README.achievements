@@ -1,5 +1,5 @@
-Achivements are something player can gain in game by reaching
-set goals. Achivements active in the ruleset are defined in
+Achievements are something player can gain in game by reaching
+set goals. Achievements active in the ruleset are defined in
 game.ruleset.
 
 Depending on whether achievement is defined unique or not,
@@ -21,7 +21,7 @@ Spaceship
 
 Multicultural
     Achievement is granted when player has citizens of at least
-    <value> different nationalities.
+    <value> different nationalities (across all their cities).
 
 Cultured_City
     Achievement is granted when player has a city with at least
