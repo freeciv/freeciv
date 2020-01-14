@@ -28,6 +28,7 @@
 
 /* common */
 #include "city.h"
+#include "culture.h"
 #include "game.h"
 #include "map.h"
 #include "specialist.h"
@@ -160,8 +161,14 @@ static const char *cr_entry_culture(const struct city *pcity,
 static const char *cr_entry_history(const struct city *pcity,
                                     const void *data)
 {
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->history);
+  static char buf[20];
+  int perturn = city_history_gain(pcity);
+
+  if (perturn != 0) {
+    fc_snprintf(buf, sizeof(buf), "%3d (%+d)", pcity->history, perturn);
+  } else {
+    fc_snprintf(buf, sizeof(buf), "%3d", pcity->history);
+  }
   return buf;
 }
 
@@ -758,7 +765,8 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(science) },
   { FALSE, 3, 1, NULL, N_("?Culture:Clt"), N_("Culture (History+Performance)"),
     NULL, FUNC_TAG(culture) },
-  { FALSE, 3, 1, NULL, N_("?History:Hst"), N_("Culture: History"),
+  { FALSE, 3, 1, NULL, N_("?History:Hst"),
+    N_("Culture: History (and gain per turn)"),
     NULL, FUNC_TAG(history) },
   { FALSE, 3, 1, NULL, N_("?Performance:Prf"), N_("Culture: Performance"),
     NULL, FUNC_TAG(performance) },

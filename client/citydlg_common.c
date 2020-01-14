@@ -23,6 +23,7 @@
 
 /* common */
 #include "city.h"
+#include "culture.h"
 #include "game.h"
 #include "specialist.h"
 #include "unitlist.h"
@@ -979,7 +980,9 @@ void get_city_dialog_culture_text(const struct city *pcity,
 
   buf[0] = '\0';
 
-  city_sum_add(sum, pcity->history, Q_("?city_culture:History"));
+  /* XXX: no way to check whether client's idea of gain/turn is accurate */
+  city_sum_add(sum, pcity->history, Q_("?city_culture:History (%+d/turn)"),
+               city_history_gain(pcity));
 
   plist = effect_list_new();
 
