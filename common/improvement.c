@@ -76,7 +76,7 @@ static void improvement_free(struct impr_type *p)
 /***************************************************************
  Frees the memory associated with all improvements.
 ***************************************************************/
-void improvements_free()
+void improvements_free(void)
 {
   improvement_iterate(p) {
     improvement_free(p);

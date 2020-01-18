@@ -136,12 +136,8 @@ PixcommClassRec pixcommClassRec = {
 WidgetClass pixcommWidgetClass = (WidgetClass) &pixcommClassRec;
 
 /* ARGSUSED */
-static void 
-Notify(w,event,params,num_params)
-Widget w;
-XEvent *event;
-String *params;         /* unused */
-Cardinal *num_params;   /* unused */
+static void Notify(Widget w, XEvent *event, String *params /* unused */,
+                   Cardinal *num_params /* unused */)
 {
   PixcommWidget pw = (PixcommWidget)w; 
 

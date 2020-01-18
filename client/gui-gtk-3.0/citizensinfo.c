@@ -264,7 +264,7 @@ static struct citizens_dialog
 /*****************************************************************************
   Initialize citizens dialog
 *****************************************************************************/
-void citizens_dialog_init()
+void citizens_dialog_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -272,7 +272,7 @@ void citizens_dialog_init()
 /*****************************************************************************
   Free resources allocated for citizens dialog
 *****************************************************************************/
-void citizens_dialog_done()
+void citizens_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }

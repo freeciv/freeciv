@@ -561,7 +561,7 @@ void audio_play_track(const char *const tag, char *const alt_tag)
 /**************************************************************************
   Stop sound. Music should die down in a few seconds.
 **************************************************************************/
-void audio_stop()
+void audio_stop(void)
 {
   plugins[selected_plugin].stop();
 }
@@ -569,7 +569,7 @@ void audio_stop()
 /**************************************************************************
   Stop looping sound. Music should die down in a few seconds.
 **************************************************************************/
-void audio_stop_usage()
+void audio_stop_usage(void)
 {
   switching_usage = TRUE;
   plugins[selected_plugin].stop();
@@ -578,7 +578,7 @@ void audio_stop_usage()
 /**************************************************************************
   Stop looping sound. Music should die down in a few seconds.
 **************************************************************************/
-double audio_get_volume()
+double audio_get_volume(void)
 {
   return plugins[selected_plugin].get_volume();
 }
@@ -594,7 +594,7 @@ void audio_set_volume(double volume)
 /**************************************************************************
   Call this at end of program only.
 **************************************************************************/
-void audio_shutdown()
+void audio_shutdown(void)
 {
   /* avoid infinite loop at end of game */
   audio_stop();
@@ -617,7 +617,7 @@ void audio_shutdown()
   Returns a string which list all available plugins. You don't have to
   free the string.
 **************************************************************************/
-const char *audio_get_all_plugin_names()
+const char *audio_get_all_plugin_names(void)
 {
   static char buffer[100];
   int i;

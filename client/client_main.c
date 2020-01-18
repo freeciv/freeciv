@@ -1045,7 +1045,7 @@ void client_remove_all_cli_conn(void)
 /**************************************************************************
   Send attribute block.
 **************************************************************************/
-void send_attribute_block_request()
+void send_attribute_block_request(void)
 {
   send_packet_player_attribute_block(&client.conn);
 }

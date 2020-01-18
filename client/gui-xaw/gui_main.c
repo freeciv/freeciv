@@ -547,7 +547,7 @@ void ui_main(int argc, char *argv[])
 /**************************************************************************
   Do any necessary UI-specific cleanup
 **************************************************************************/
-void ui_exit()
+void ui_exit(void)
 {
 }
 

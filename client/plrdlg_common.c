@@ -334,7 +334,7 @@ int player_dlg_default_sort_column(void)
 /****************************************************************************
   Translate all titles
 ****************************************************************************/
-void init_player_dlg_common()
+void init_player_dlg_common(void)
 {
   int i;
 

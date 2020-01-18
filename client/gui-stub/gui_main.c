@@ -128,7 +128,7 @@ void gui_options_extra_init(void)
 /**************************************************************************
   Do any necessary UI-specific cleanup
 **************************************************************************/
-void gui_ui_exit()
+void gui_ui_exit(void)
 {
   /* PORTME */
 }

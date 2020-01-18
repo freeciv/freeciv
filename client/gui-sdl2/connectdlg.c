@@ -543,7 +543,7 @@ static int cancel_connect_dlg_callback(struct widget *pWidget)
 /**************************************************************************
   Open dialog for joining to game.
 **************************************************************************/
-void popup_join_game_dialog()
+void popup_join_game_dialog(void)
 {
   char pCharPort[6];
   struct widget *pBuf, *pWindow;

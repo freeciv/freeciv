@@ -1064,7 +1064,7 @@ void ui_main(int argc, char *argv[])
 /**************************************************************************
   Do any necessary UI-specific cleanup
 **************************************************************************/
-void ui_exit()
+void ui_exit(void)
 {
 
 #if defined UNDER_CE && defined SMALL_SCREEN

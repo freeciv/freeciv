@@ -95,7 +95,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p);
 /****************************************************************
   Initialize intelligenze dialogs
 *****************************************************************/
-void intel_dialog_init()
+void intel_dialog_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -103,7 +103,7 @@ void intel_dialog_init()
 /****************************************************************
   Free resources allocated for intelligenze dialogs
 *****************************************************************/
-void intel_dialog_done()
+void intel_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }

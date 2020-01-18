@@ -366,7 +366,7 @@ const char *tech_flag_helptxt(enum tech_flag_id id)
  resources, when we can check that it is not the one style without fixed
  costs.
 **************************************************************************/
-bool techs_have_fixed_costs()
+bool techs_have_fixed_costs(void)
 {
   return (game.info.tech_leakage == TECH_LEAKAGE_NONE
           && game.info.tech_cost_style != TECH_COST_CIV1CIV2);

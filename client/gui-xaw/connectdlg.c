@@ -877,7 +877,7 @@ void really_close_connection_dialog(void)
 /**************************************************************************
   Closes and destroys the dialog.
 **************************************************************************/
-void close_connection_dialog()
+void close_connection_dialog(void)
 {
   connectdlg_serverlist_destroy();
   connectdlg_destroy();

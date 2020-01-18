@@ -3466,7 +3466,7 @@ void nationset_changed(void)
   In the nation selection dialog, make already-taken nations unavailable.
   This information is contained in the packet_nations_used packet.
 **************************************************************************/
-void races_toggles_set_sensitive()
+void races_toggles_set_sensitive(void)
 {
   struct NAT *pSetup;
   bool change = FALSE;
