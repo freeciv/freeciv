@@ -3780,7 +3780,8 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   unit_type_iterate(u) {
     if (u->need_improvement == pimprove) {
-      if (A_NEVER != u->require_advance) {
+      if (valid_advance(u->require_advance)
+          && advance_by_number(A_NONE) != u->require_advance) {
 	cat_snprintf(buf, bufsz, _("* Allows %s (with %s).\n"),
 		     utype_name_translation(u),
                      advance_name_translation(u->require_advance));
