@@ -354,7 +354,7 @@ static void show_main_page(void)
 /**************************************************************************
   Close start menu
 **************************************************************************/
-static void popdown_start_menu()
+static void popdown_start_menu(void)
 {
   if (pStartMenu) {
     popdown_window_group_dialog(pStartMenu->pBeginWidgetList,

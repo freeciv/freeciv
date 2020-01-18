@@ -83,7 +83,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
 /**************************************************************************
   Initialize cma front end system
 **************************************************************************/
-void cma_fe_init()
+void cma_fe_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -91,7 +91,7 @@ void cma_fe_init()
 /**************************************************************************
   Free resources allocated for cma front end system
 **************************************************************************/
-void cma_fe_done()
+void cma_fe_done(void)
 {
   dialog_list_destroy(dialog_list);
 }

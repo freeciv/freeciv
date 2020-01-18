@@ -84,7 +84,7 @@ static void spaceship_dialog_update_info(struct spaceship_dialog *pdialog);
 /****************************************************************
   Initialize spaceship dialogs
 *****************************************************************/
-void spaceship_dialog_init()
+void spaceship_dialog_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -92,7 +92,7 @@ void spaceship_dialog_init()
 /****************************************************************
   Free resources allocated for spaceship dialogs
 *****************************************************************/
-void spaceship_dialog_done()
+void spaceship_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }

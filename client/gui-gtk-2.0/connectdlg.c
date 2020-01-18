@@ -55,7 +55,7 @@ void really_close_connection_dialog(void)
  close and destroy the dialog but only if we don't have a local
  server running (that we started).
 **************************************************************************/
-void close_connection_dialog() 
+void close_connection_dialog(void) 
 {   
   if (!is_server_running()) {
     really_close_connection_dialog();

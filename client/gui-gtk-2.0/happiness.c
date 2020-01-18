@@ -82,7 +82,7 @@ static gboolean show_happiness_button_release(GtkWidget *w,
 /****************************************************************
   Create happiness dialog
 *****************************************************************/
-void happiness_dialog_init()
+void happiness_dialog_init(void)
 {
   dialog_list = dialog_list_new();
 }
@@ -90,7 +90,7 @@ void happiness_dialog_init()
 /****************************************************************
   Remove happiness dialog
 *****************************************************************/
-void happiness_dialog_done()
+void happiness_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }
