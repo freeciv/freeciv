@@ -1734,7 +1734,7 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
-  citizen_bar_width = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) + 2;
+  citizen_bar_width = (num_citizens - 1) * width + tileset_small_sprite_width(tileset);
   citizen_bar_height = tileset_small_sprite_height(tileset);
 
   cr = cairo_create(pdialog->citizen_surface);
