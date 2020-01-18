@@ -1741,6 +1741,9 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
     cairo_rectangle(cr, i * width, 0, width, citizen_bar_height);
     cairo_fill(cr);
   }
+  cairo_rectangle(cr, i * width, 0, width * (NUM_CITIZENS_SHOWN - i), citizen_bar_height);
+  cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
+  cairo_fill(cr);
 
   cairo_destroy(cr);
 
