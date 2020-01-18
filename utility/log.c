@@ -146,15 +146,15 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
 
 #ifdef FREECIV_DEBUG
   c = level_str;
-  level = -1;
+  level = LOG_DEBUG + 1;
   if (first_len > 0) {
-    for (ln = 0; log_level_names[ln] != NULL && level < 0; ln++) {
+    for (ln = 0; log_level_names[ln] != NULL && level > LOG_DEBUG; ln++) {
       if (!fc_strncasecmp(level_str, log_level_names[ln], first_len)) {
         level = ln;
       }
     }
   }
-  if (level < 0) {
+  if (level > LOG_DEBUG) {
     level = c[0] - '0';
     if (c[1] == ':') {
       if (level < LOG_FATAL || level > max_level) {
