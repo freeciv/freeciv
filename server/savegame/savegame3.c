@@ -6017,6 +6017,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
             punit->orders.list = NULL;
             punit->has_orders = FALSE;
           }
+        } else {
+          if (order_sub_tgt != -1) {
+            log_sg("Unexpected sub_target %d (expected %d) for order type %d",
+                   order_sub_tgt, -1, order->order);
+          }
+          order->sub_target = -1;
         }
       }
     } else {
