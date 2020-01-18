@@ -38,7 +38,7 @@
   Close and destroy the dialog. But only if we don't have a local
   server running (that we started).
 **************************************************************************/
-void gui_close_connection_dialog()
+void gui_close_connection_dialog(void)
 {
   /* PORTME */
 }

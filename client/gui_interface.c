@@ -381,7 +381,7 @@ void real_conn_list_dialog_update(void *unused)
 /**********************************************************************//**
   Call close_connection_dialog callback
 **************************************************************************/
-void close_connection_dialog()
+void close_connection_dialog(void)
 {
   funcs.close_connection_dialog();
 }
@@ -545,7 +545,7 @@ void popdown_city_dialog(struct city *pcity)
 /**********************************************************************//**
   Call popdown_all_city_dialogs callback
 **************************************************************************/
-void popdown_all_city_dialogs()
+void popdown_all_city_dialogs(void)
 {
   funcs.popdown_all_city_dialogs();
 }
@@ -553,7 +553,7 @@ void popdown_all_city_dialogs()
 /**********************************************************************//**
   Call handmade_scenario_warning callback
 **************************************************************************/
-bool handmade_scenario_warning()
+bool handmade_scenario_warning(void)
 {
   return funcs.handmade_scenario_warning();
 }

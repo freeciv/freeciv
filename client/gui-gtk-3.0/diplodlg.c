@@ -1123,7 +1123,7 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 /************************************************************************//**
   Initialize diplomacy dialog
 ****************************************************************************/
-void diplomacy_dialog_init()
+void diplomacy_dialog_init(void)
 {
   dialog_list = dialog_list_new();
   dipl_main = NULL;
@@ -1132,7 +1132,7 @@ void diplomacy_dialog_init()
 /************************************************************************//**
   Free resources allocated for diplomacy dialog
 ****************************************************************************/
-void diplomacy_dialog_done()
+void diplomacy_dialog_done(void)
 {
   dialog_list_destroy(dialog_list);
 }
