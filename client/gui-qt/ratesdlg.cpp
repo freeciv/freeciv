@@ -152,11 +152,11 @@ multipler_rates_dialog::multipler_rates_dialog(QWidget *parent,
     slider = new QSlider(Qt::Horizontal, this);
     slider->setMinimum(mult_to_scale(pmul, pmul->start));
     slider->setMaximum(mult_to_scale(pmul, pmul->stop));
-    slider->setValue(val);
+    slider->setValue(mult_to_scale(pmul, val));
     connect(slider, &QAbstractSlider::valueChanged,
             this, &multipler_rates_dialog::slot_set_value);
     slider_list.append(slider);
-    label = new QLabel(QString::number(val));
+    label = new QLabel(QString::number(mult_to_scale(pmul, val)));
     hb->addWidget(slider);
     hb->addWidget(label);
     group_box->setLayout(hb);
