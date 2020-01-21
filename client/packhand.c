@@ -2329,6 +2329,7 @@ void handle_player_info(const struct packet_player_info *pinfo)
     city_report_dialog_update();
     multipliers_dialog_update();
     update_info_label();
+    menus_update();
   }
 
   upgrade_canvas_clipboard();
@@ -2413,12 +2414,12 @@ void handle_research_info(const struct packet_research_info *packet)
       }
       science_report_dialog_update();
       if (tech_changed) {
-        /* If we just learned bridge building and focus is on a settler
-         * on a river the road menu item will remain disabled unless we
-         * do this. (applies in other cases as well.) */
-        if (0 < get_num_units_in_focus()) {
-          menus_update();
-        }
+        /* Some ways a new or lost tech can affect menus:
+         *  - If tech is needed for certain governments, the government
+         *    switching menus need updating.
+         *  - If we just learned/lost bridge building and focus is on a
+         *    worker on a river, the road menu item needs updating. */
+        menus_update();
         /* If we got a new tech the tech tree news an update. */
         science_report_dialog_redraw();
       }
