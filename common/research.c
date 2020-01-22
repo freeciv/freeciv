@@ -146,6 +146,7 @@ const char *research_rule_name(const struct research *presearch)
 
 /****************************************************************************
   Returns the name of the research owner: a player name or a team name.
+  For most uses you probably want research_pretty_name() instead.
 ****************************************************************************/
 const char *research_name_translation(const struct research *presearch)
 {

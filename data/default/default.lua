@@ -45,8 +45,8 @@ function _deflua_hut_get_tech(unit)
                  owner.nation:plural_translation(),
                  tech:name_translation())
     notify.research_embassies(owner, E.TECH_EMBASSY,
-                 -- /* TRANS: first %s is leader or team name */
-                 _("%s has acquired %s from ancient scrolls of wisdom."),
+                 -- /* TRANS: first %s is nation plural or team name */
+                 _("The %s have acquired %s from ancient scrolls of wisdom."),
                  owner:research_name_translation(),
                  tech:name_translation())
     return true

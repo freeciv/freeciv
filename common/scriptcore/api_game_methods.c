@@ -451,10 +451,14 @@ const char *api_methods_research_rule_name(lua_State *L, Player *pplayer)
 *****************************************************************************/
 const char *api_methods_research_name_translation(lua_State *L, Player *pplayer)
 {
+  static char buf[MAX_LEN_MSG];
+
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
 
-  return research_name_translation(research_get(pplayer));
+  (void) research_pretty_name(research_get(pplayer), buf, ARRAY_SIZE(buf));
+
+  return buf;
 }
 
 /*****************************************************************************
