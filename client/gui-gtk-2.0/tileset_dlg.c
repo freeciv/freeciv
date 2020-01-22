@@ -58,9 +58,9 @@ void popup_tileset_suggestion_dialog(void)
   dialog = gtk_dialog_new_with_buttons(_("Preferred tileset"),
                                        NULL,
                                        0,
-                                       _("Load tileset"),
+                                       _("_Load tileset"),
                                        GTK_RESPONSE_YES,
-                                       _("Keep current tileset"),
+                                       _("_Keep current tileset"),
                                        GTK_RESPONSE_NO,
                                        NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_YES);
