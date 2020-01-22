@@ -60,9 +60,9 @@ void popup_soundset_suggestion_dialog(void)
   dialog = gtk_dialog_new_with_buttons(_("Preferred soundset"),
                                        NULL,
                                        0,
-                                       _("Load soundset"),
+                                       _("_Load soundset"),
                                        GTK_RESPONSE_YES,
-                                       _("Keep current soundset"),
+                                       _("_Keep current soundset"),
                                        GTK_RESPONSE_NO,
                                        NULL);
   setup_dialog(dialog, toplevel);
