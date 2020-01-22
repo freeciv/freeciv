@@ -58,8 +58,8 @@ function building_built_handler(btype, city)
       -- default.lua informs the embassies when the tech source is a hut.
       -- They should therefore be informed about the source here too.
       notify.research_embassies(player, E.TECH_EMBASSY,
-                                -- /* TRANS: 1st %s is leader or team name */
-                                _("%s gains %s from %s."),
+                                -- /* TRANS: 1st %s is nation or team name */
+                                _("The %s gain %s from %s."),
                                 player:research_name_translation(),
                                 gained:name_translation(),
                                 darw_btype:name_translation())
@@ -132,8 +132,8 @@ function tech_researched_handler(tech, player, how)
     -- default.lua informs the embassies when the tech source is a hut.
     -- They should therefore be informed about the source here too.
     notify.research_embassies(player, E.TECH_EMBASSY,
-            -- /* TRANS: first %s is leader or team name */
-            _("Great philosophers from all the world join %s: they get %s as an immediate advance."),
+            -- /* TRANS: first %s is nation plural or team name */
+            _("Great philosophers from all the world join the %s: they get %s as an immediate advance."),
             player:research_name_translation(),
             gained:name_translation())
   end
