@@ -31,6 +31,7 @@
 #include "citizens.h"
 #include "clientutils.h"
 #include "combat.h"
+#include "culture.h"
 #include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
 #include "government.h"
@@ -1002,6 +1003,14 @@ const char *get_info_label_text_popup(void)
     } else {
       fc_assert(upkeep == 0);
       astr_add_line(&str, _("Bulbs per turn: %d"), perturn);
+    }
+    {
+      int history_perturn = nation_history_gain(client.conn.playing);
+      city_list_iterate(client.conn.playing->cities, pcity) {
+        history_perturn += city_history_gain(pcity);
+      } city_list_iterate_end;
+      astr_add_line(&str, _("Culture: %d (%+d/turn)"),
+                    player_culture(client.conn.playing), history_perturn);
     }
   }
 
