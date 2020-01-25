@@ -114,9 +114,9 @@ void popup_musicset_suggestion_dialog(void)
   dialog = gtk_dialog_new_with_buttons(_("Preferred musicset"),
                                        NULL,
                                        0,
-                                       _("Load musicset"),
+                                       _("_Load musicset"),
                                        GTK_RESPONSE_YES,
-                                       _("Keep current musicset"),
+                                       _("_Keep current musicset"),
                                        GTK_RESPONSE_NO,
                                        NULL);
   gtk_dialog_set_default_response(GTK_DIALOG(dialog), GTK_RESPONSE_YES);
