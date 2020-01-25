@@ -598,7 +598,7 @@ void races_dialog::update_nationset_combo()
   if (popt) {
     s = nation_set_by_setting_value(option_str_get(popt));
     qnation_set->setCurrentIndex(nation_set_index(s));
-    qnation_set->setToolTip(nation_set_description(s));
+    qnation_set->setToolTip(_(nation_set_description(s)));
   }
 }
 
