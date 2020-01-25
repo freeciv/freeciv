@@ -297,9 +297,10 @@ const char *action_get_ui_name_mnemonic(int act_id,
 
 /**************************************************************************
   Get the UI name ready to show the action in the UI. It is possible to
-  add a client specific mnemonic. Success probability information is
-  interpreted and added to the text. A custom text can be inserted before
-  the probability information.
+  add a client specific mnemonic; it is assumed that if the mnemonic
+  appears in the action name it can be escaped by doubling.
+  Success probability information is interpreted and added to the text.
+  A custom text can be inserted before the probability information.
 **************************************************************************/
 const char *action_prepare_ui_name(int act_id, const char* mnemonic,
                                    const struct act_prob prob,
@@ -396,8 +397,32 @@ const char *action_prepare_ui_name(int act_id, const char* mnemonic,
 
   fc_assert_msg(actions[act_id], "Action %d don't exist.", act_id);
 
-  astr_set(&str, _(actions[act_id]->ui_name), mnemonic,
-           astr_str(&chance));
+  /* Escape any instances of the mnemonic in the action's UI format string.
+   * (Assumes any mnemonic can be escaped by doubling, and that they are
+   * unlikely to appear in a format specifier. True for clients seen so
+   * far: Gtk's _ and Qt's &) */
+  {
+    struct astring fmtstr = ASTRING_INIT;
+    const char *ui_name = _(actions[act_id]->ui_name);
+
+    if (mnemonic[0] != '\0') {
+      const char *hit;
+
+      fc_assert(!strchr(mnemonic, '%'));
+      while ((hit = strstr(ui_name, mnemonic))) {
+        astr_add(&fmtstr, "%.*s%s%s", (int)(hit - ui_name), ui_name,
+                 mnemonic, mnemonic);
+        ui_name = hit + strlen(mnemonic);
+      }
+    }
+    astr_add(&fmtstr, "%s", ui_name);
+
+    /* Use the modified format string */
+    astr_set(&str, astr_str(&fmtstr), mnemonic,
+             astr_str(&chance));
+
+    astr_free(&fmtstr);
+  }
 
   return astr_str(&str);
 }
