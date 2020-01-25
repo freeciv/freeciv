@@ -1845,11 +1845,11 @@ sabotage	= 0
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Reduces the unhappiness caused by aggressively deployed military \
-units owned by the city by 1 -- in other words, it neutralizes the \
-unhappiness caused by a single military unit (except under Democracy, \
-where a single unit makes two citizens unhappy). Each city also avoids \
-one shield of upkeep for units.\
+Reduces by 1 the unhappiness caused by one aggressively deployed \
+military unit per city -- in other words, in each city it neutralizes \
+the unhappiness caused by a single military unit (except under \
+Democracy, where it just halves the unhappiness from that unit). \
+Each city also avoids one shield of upkeep for units.\
 ")
 
 [building_temple_of_artemis]
