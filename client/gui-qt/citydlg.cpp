@@ -2484,7 +2484,8 @@ void city_dialog::update_cma_tab()
     cma_result_pix->setPixmap(pix);
     cma_result_pix->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     /* TRANS: %1 is custom string chosen by player */
-    cma_result->setText(QString(_("<h3>Governor Enabled<br>(%1)</h3>")).arg(s));
+    cma_result->setText(QString(_("<h3>Governor Enabled<br>(%1)</h3>"))
+                        .arg(s.toHtmlEscaped()));
     cma_result->setAlignment(Qt::AlignCenter);
   } else {
     pix = style()->standardPixmap(QStyle::SP_DialogCancelButton);
@@ -3748,6 +3749,9 @@ bool fc_tooltip::eventFilter(QObject *obj, QEvent *ev)
   return false;
 }
 
+/**************************************************************************
+  'text' is assumed to have already been HTML-escaped if necessary
+**************************************************************************/
 QString bold(QString text)
 {
   return QString("<b>" + text + "</b>");
@@ -3781,13 +3785,13 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
   str = _("Obsolete by:");
   str = str + " " + s2;
   def_str = "<p style='white-space:pre'><b>"
-            + QString(improvement_name_translation(building))
+            + QString(improvement_name_translation(building)).toHtmlEscaped()
             + "</b>\n";
   def_str += QString(_("Cost: %1, Upkeep: %2\n"))
              .arg(impr_build_shield_cost(building))
-             .arg(upkeep);
+             .arg(upkeep).toHtmlEscaped();
   if (s1.compare(s2) != 0) {
-    def_str = def_str + str + "\n";
+    def_str = def_str + str.toHtmlEscaped() + "\n";
   }
   def_str = def_str + "\n";
   if (ext) {
@@ -3798,7 +3802,7 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
     str = cut_helptext(str);
     str = split_text(str, true);
     str = str.trimmed();
-    def_str = def_str + str;
+    def_str = def_str + str.toHtmlEscaped();
   }
   return def_str;
 }
@@ -3815,40 +3819,45 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
   struct unit_type *obsolete;
   struct advance *tech;
 
-  def_str = "<b>" + QString(utype_name_translation(unit)) + "</b>\n";
+  def_str = "<b>"
+    + QString(utype_name_translation(unit)).toHtmlEscaped()
+    + "</b>\n";
   obsolete = unit->obsoleted_by;
   if (obsolete) {
     tech = obsolete->require_advance;
     obsolete_str = QString("</td></tr><tr><td colspan=\"3\">");
     if (tech && tech != advance_by_number(0)) {
+      /* TRANS: this and nearby literal strings are interpreted
+       * as (Qt) HTML */
       obsolete_str = obsolete_str + QString(_("Obsoleted by %1 (%2)."))
-                                      .arg(utype_name_translation(obsolete))
-                                      .arg(advance_name_translation(tech));
+          .arg(utype_name_translation(obsolete))
+          .arg(advance_name_translation(tech)).toHtmlEscaped();
     } else {
       obsolete_str = obsolete_str + QString(_("Obsoleted by %1."))
-                     .arg(utype_name_translation(obsolete));
+          .arg(utype_name_translation(obsolete)).toHtmlEscaped();
     }
   }
   def_str += "<table width=\"100\%\"><tr><td>"
              + bold(QString(_("Attack:"))) + " "
-             + QString::number(unit->attack_strength)
+             + QString::number(unit->attack_strength).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Defense:"))) + " "
-             + QString::number(unit->defense_strength)
+             + QString::number(unit->defense_strength).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Move:"))) + " "
-             + QString(move_points_text(unit->move_rate, TRUE))
+             + QString(move_points_text(unit->move_rate, TRUE)).toHtmlEscaped()
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Cost:"))) + " "
-             + QString::number(utype_build_shield_cost(unit))
+             + QString::number(utype_build_shield_cost(unit)).toHtmlEscaped()
              + QString("</td><td colspan=\"2\">")
              + bold(QString(_("Basic Upkeep:")))
-             + " " + QString(helptext_unit_upkeep_str(unit))
+             + " " + QString(helptext_unit_upkeep_str(unit)).toHtmlEscaped()
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Hitpoints:"))) + " "
-             + QString::number(unit->hp)
+             + QString::number(unit->hp).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("FirePower:"))) + " "
-             + QString::number(unit->firepower)
+             + QString::number(unit->firepower).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Vision:"))) + " "
              + QString::number((int) sqrt((double) unit->vision_radius_sq))
+               .toHtmlEscaped()
              + obsolete_str
              + QString("</td></tr></table><p style='white-space:pre'>");
   if (ext) {
@@ -3860,7 +3869,7 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
                         buf2, unit);
     str = cut_helptext(str);
     str = split_text(str, true);
-    str = str.trimmed();
+    str = str.trimmed().toHtmlEscaped();
     def_str = def_str + str;
   }
   return def_str;
@@ -3898,7 +3907,7 @@ QString get_tooltip(QVariant qvar)
   ret_str = cut_helptext(str);
   ret_str = split_text(ret_str, true);
   ret_str = ret_str.trimmed();
-  ret_str = def_str + ret_str;
+  ret_str = def_str + ret_str.toHtmlEscaped();
 
   return ret_str;
 }

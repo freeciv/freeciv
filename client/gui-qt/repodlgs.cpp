@@ -131,6 +131,7 @@ unittype_item::unittype_item(QWidget *parent,
   upgrade_button.setVisible(false);
   connect(&upgrade_button, &QAbstractButton::pressed, this, &unittype_item::upgrade_units);
   hbox_top->addWidget(&upgrade_button, 0, Qt::AlignLeft);
+  label_info_unit.setTextFormat(Qt::PlainText);
   hbox_top->addWidget(&label_info_unit);
   vbox_main->addLayout(hbox_top);
   vbox->addWidget(&label_info_active);
@@ -774,7 +775,8 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
         tt_text = QString(buffer);
         def_str = "<p style='white-space:pre'><b>"
                   + QString(advance_name_translation(
-                            advance_by_number(rttp->tech_id))) + "</b>\n";
+                            advance_by_number(rttp->tech_id))).toHtmlEscaped()
+                  + "</b>\n";
       } else if (rttp->timpr != nullptr) {
         def_str = get_tooltip_improvement(rttp->timpr, nullptr);
         tt_text = helptext_building(buffer, sizeof(buffer),
@@ -791,12 +793,13 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
         tt_text = QString(buffer);
         tt_text = cut_helptext(tt_text);
         def_str = "<p style='white-space:pre'><b>"
-                  + QString(government_name_translation(rttp->tgov)) + "</b>\n";
+            + QString(government_name_translation(rttp->tgov)).toHtmlEscaped()
+            + "</b>\n";
       } else {
         return;
       }
       tt_text = split_text(tt_text, true);
-      tt_text = def_str + tt_text;
+      tt_text = def_str + tt_text.toHtmlEscaped();
       tooltip_text = tt_text.trimmed();
       tooltip_rect = rttp->rect;
       tooltip_pos = event->globalPos();

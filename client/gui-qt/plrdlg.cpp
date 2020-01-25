@@ -480,25 +480,29 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   }
   /** Formatting rich text */
   intel_str =
+    /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
     QString("<table><tr><td><b>") + _("Nation") + QString("</b></td><td>")
-    + QString(nation_adjective_for_player(pplayer))
+    + QString(nation_adjective_for_player(pplayer)).toHtmlEscaped()
     + QString("</td><tr><td><b>") + _("Ruler:") + QString("</b></td><td>")
     + QString(ruler_title_for_player(pplayer, tbuf, sizeof(tbuf)))
+      .toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Government:")
-    + QString("</b></td><td>") + egov
+    + QString("</b></td><td>") + egov.toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Capital:")
     + QString("</b></td><td>")
     + QString(((!pcity) ? _("(Unknown)") : city_name_get(pcity)))
+      .toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Gold:")
-    + QString("</b></td><td>") + egold
+    + QString("</b></td><td>") + egold.toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Tax:")
-    + QString("</b></td><td>") + etax
+    + QString("</b></td><td>") + etax.toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Science:")
-    + QString("</b></td><td>") + esci
+    + QString("</b></td><td>") + esci.toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Luxury:")
-    + QString("</b></td><td>") + elux
+    + QString("</b></td><td>") + elux.toHtmlEscaped()
     + QString("</td></tr><tr><td><b>") + _("Researching:")
-    + QString("</b></td><td>") + res + QString("</td></table>");
+    + QString("</b></td><td>") + res.toHtmlEscaped()
+    + QString("</td></table>");
 
   for (int i = 0; i < static_cast<int>(DS_LAST); i++) {
     added = false;
@@ -517,13 +521,16 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           ally_str = ally_str  + QString("<b>")
                      + QString(diplstate_type_translated_name(
                                  static_cast<diplstate_type>(i)))
+                       .toHtmlEscaped()
                      + ": "  + QString("</b>") + nl;
           added = true;
         }
         if (gives_shared_vision(pplayer, other)) {
           ally_str = ally_str + "(◐‿◑)";
         }
-        ally_str = ally_str + nation_plural_for_player(other) + ", ";
+        ally_str = ally_str
+          + QString(nation_plural_for_player(other)).toHtmlEscaped()
+          + ", ";
         entry_exist = true;
       }
     } players_iterate_alive_end;
@@ -537,7 +544,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       a = 0;
       b = 0;
       techs_known = QString(_("<b>Techs unknown by %1:</b>")).
-                    arg(nation_plural_for_player(pplayer));
+                    arg(QString(nation_plural_for_player(pplayer))
+                        .toHtmlEscaped());
       techs_unknown = QString(_("<b>Techs unknown by you :</b>"));
 
       advance_iterate(A_FIRST, padvance) {
@@ -559,11 +567,13 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       sorted_list_a.sort(Qt::CaseInsensitive);
       sorted_list_b.sort(Qt::CaseInsensitive);
       foreach (res, sorted_list_a) {
-        techs_known = techs_known + QString("<i>") + res + ","
+        techs_known = techs_known + QString("<i>")
+                      + res.toHtmlEscaped() + ","
                       + QString("</i>") + sp;
       }
       foreach (res, sorted_list_b) {
-        techs_unknown = techs_unknown + QString("<i>") + res + ","
+        techs_unknown = techs_unknown + QString("<i>")
+                        + res.toHtmlEscaped() + ","
                         + QString("</i>") + sp;
       }
       if (a == 0) {
@@ -582,7 +592,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
   } else {
     tech_str = QString(_("<b>Techs known by %1:</b>")).
-               arg(nation_plural_for_player(pplayer));
+               arg(QString(nation_plural_for_player(pplayer)).toHtmlEscaped());
     advance_iterate(A_FIRST, padvance) {
       tech_id = advance_number(padvance);
       if (research_invention_state(research, tech_id) == TECH_KNOWN) {
@@ -591,7 +601,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     } advance_iterate_end;
     sorted_list_a.sort(Qt::CaseInsensitive);
     foreach (res, sorted_list_a) {
-      tech_str = tech_str + QString("<i>") + res + ","
+      tech_str = tech_str + QString("<i>") + res.toHtmlEscaped() + ","
                     + QString("</i>") + sp;
     }
   }

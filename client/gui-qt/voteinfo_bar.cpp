@@ -146,10 +146,11 @@ void pregamevote::update_vote()
       label_text->setText(buf);
     } else {
       label_text->setText(QString(_("<b>%1 called a vote for:</b>")).
-                          arg(vi->user));
+                          arg(QString(vi->user).toHtmlEscaped()));
     }
     label_vote_text->setText(QString("</b><p style=\"color:"
-                                     " red\"> %1</p></b>").arg(vi->desc));
+                                     " red\"> %1</p></b>")
+        .arg(QString(vi->desc).toHtmlEscaped()));
     voters->setText(QString(" /%1").arg(vi->num_voters));
   } else {
     label_text->setText("");

@@ -316,7 +316,7 @@ races_dialog::races_dialog(struct player *pplayer,
 
   description = new QTextEdit;
   description->setReadOnly(true);
-  description->setText(_("Choose nation"));
+  description->setPlainText(_("Choose nation"));
   no_name->setTitle(_("Your leader name"));
 
   /**
@@ -587,7 +587,7 @@ void races_dialog::nation_selected(const QItemSelection &selected,
   selected_nation = qvar.toInt();
 
   helptext_nation(buf, sizeof(buf), nation_by_number(selected_nation), NULL);
-  description->setText(buf);
+  description->setPlainText(buf);
   leader_name->clear();
   if (client.conn.playing == tplayer) {
     leader_name->addItem(client.conn.playing->name, true);

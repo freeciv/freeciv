@@ -1224,14 +1224,14 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
       integer = secfile_lookup_int_default(sf, -1, "game.turn");
       if (integer >= 0) {
         final_str = QString("<b>") + _("Turn") + ":</b> "
-                    + QString::number(integer) + "<br>";
+                    + QString::number(integer).toHtmlEscaped() + "<br>";
       }
       if ((sf = secfile_load_section(current_file.toLocal8Bit().data(),
                                      "players", TRUE))) {
         integer = secfile_lookup_int_default(sf, -1, "players.nplayers");
         if (integer >= 0) {
           final_str = final_str + "<b>" + _("Players") + ":</b>" + " "
-                      + QString::number(integer) + "<br>";
+                      + QString::number(integer).toHtmlEscaped() + "<br>";
         }
         num_players = integer;
       }
@@ -1260,25 +1260,25 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
                                            curr_player);
         if (sname) {
           final_str = final_str + "<b>" + _("Nation") + ":</b> "
-                      + QString(sname) + "<br>";
+                      + QString(sname).toHtmlEscaped() + "<br>";
         }
         integer = secfile_lookup_int_default(sf, -1, "player%d.ncities",
                                              curr_player);
         if (integer >= 0) {
           final_str = final_str + "<b>" + _("Cities") + ":</b> "
-                      + QString::number(integer) + "<br>";
+                      + QString::number(integer).toHtmlEscaped() + "<br>";
         }
         integer = secfile_lookup_int_default(sf, -1, "player%d.nunits",
                                              curr_player);
         if (integer >= 0) {
           final_str = final_str + "<b>" + _("Units") + ":</b> "
-                      + QString::number(integer) + "<br>";
+                      + QString::number(integer).toHtmlEscaped() + "<br>";
         }
         integer = secfile_lookup_int_default(sf, -1, "player%d.gold",
                                              curr_player);
         if (integer >= 0) {
           final_str = final_str + "<b>" + _("Gold") + ":</b> "
-                      + QString::number(integer) + "<br>";
+                      + QString::number(integer).toHtmlEscaped() + "<br>";
         }
         nat_x = 0;
         for (nat_y = 0; nat_y > -1; nat_y++) {
@@ -1341,7 +1341,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
                                              curr_player);
           if (sname) {
             final_str = final_str + "<b>" + _("Researching") + ":</b> "
-                        + QString(sname);
+                        + QString(sname).toHtmlEscaped();
           }
         }
       }
@@ -1464,20 +1464,21 @@ void fc_client::update_scenarios_page(void)
         }
         item->setText(QString(pfile->name));
         format = QString("<br>") + QString(_("Format:")) + " "
-                 + version;
+                 + version.toHtmlEscaped();
         if (sauthors) {
           st = QString("\n") + QString("<b>") + _("Authors: ")
-               + QString("</b>") + QString(sauthors);
+               + QString("</b>") + QString(sauthors).toHtmlEscaped();
         } else {
           st = "";
         }
         sl << "<b>"
            + QString(sname && strlen(sname) ? Q_(sname) : pfile->name)
+             .toHtmlEscaped()
            + "</b>"
-           << pfile->fullname
+           << QString(pfile->fullname).toHtmlEscaped()
            << QString(NULL != sdescription && '\0' != sdescription[0]
-                      ? Q_(sdescription) : "") + st + format
-           << QString::number(fcver);
+                      ? Q_(sdescription) : "").toHtmlEscaped() + st + format
+           << QString::number(fcver).toHtmlEscaped();
         sl.replaceInStrings("\n", "<br>");
         item->setData(Qt::UserRole, sl);
         if (add_item) {
