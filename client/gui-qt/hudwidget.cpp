@@ -647,6 +647,7 @@ void hud_units::update_actions(unit_list *punits)
                                       " +%1 units", num-1))
                                   .arg(snum.toLocal8Bit().data());
   }
+  text_label.setTextFormat(Qt::PlainText);
   text_label.setText(text_str);
   font.setPixelSize((text_label.height() * 9) / 10);
   text_label.setFont(font);
