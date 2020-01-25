@@ -474,7 +474,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     elux = _("(Unknown)");
     cult = _("(Unknown)");
   }
-  if (global_observer || could_intel_with_player(me, pplayer)) {
+  if (global_observer || pplayer == me
+      || could_intel_with_player(me, pplayer)) {
     egold = QString::number(pplayer->economic.gold);
     egov = QString(government_name_for_player(pplayer));
   } else {
