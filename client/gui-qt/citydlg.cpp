@@ -3038,7 +3038,9 @@ void city_dialog::update_info_label()
 
     if (j != GROWTH && j != GRANARY && j != WASTE && j != CORRUPTION
         && j != STEAL) {
-      qlt[i]->setToolTip(QString(buf[2 * i + 1]));
+      qlt[i]->setToolTip("<pre>"
+                         + QString(buf[2 * i + 1]).toHtmlEscaped()
+                         + "</pre>");
     }
   }
 }
