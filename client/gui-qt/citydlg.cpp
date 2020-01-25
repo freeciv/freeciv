@@ -3560,7 +3560,9 @@ void city_dialog::update_title()
 {
   QString buf;
 
-  lcity_name->setText(QString(city_name_get(pcity)));
+  // Defeat keyboard shortcut mnemonics
+  lcity_name->setText(QString(city_name_get(pcity))
+                      .replace("&", "&&"));
 
   if (city_unhappy(pcity)) {
     /* TRANS: city dialog title */

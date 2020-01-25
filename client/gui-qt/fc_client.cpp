@@ -1202,7 +1202,9 @@ void pregame_options::update_buttons()
   // Update the "Select Nation" button
   if (pplayer != nullptr) {
     if (pplayer->nation != nullptr) {
-      nation->setText(nation_adjective_for_player(pplayer));
+      // Defeat keyboard shortcut mnemonics
+      nation->setText(QString(nation_adjective_for_player(pplayer))
+                      .replace("&", "&&"));
       psprite = get_nation_shield_sprite(tileset, pplayer->nation);
       pixmap = psprite->pm;
       nation->setIconSize(pixmap->size());
