@@ -688,14 +688,14 @@ static void create_help_dialog(void)
   col = gtk_tree_view_column_new();
 
   rend = gtk_cell_renderer_text_new();
-  g_object_set(rend, "weight", "bold", NULL);
+  g_object_set(rend, "weight", PANGO_WEIGHT_BOLD, NULL);
   gtk_tree_view_column_pack_start(col, rend, TRUE);
   gtk_tree_view_column_set_attributes(col, rend,
 				      "text", 0,
 				      "background-rgba", 3,
 				      NULL);
   rend = gtk_cell_renderer_text_new();
-  g_object_set(rend, "weight", "bold", "xalign", 1.0, NULL);
+  g_object_set(rend, "weight", PANGO_WEIGHT_BOLD, "xalign", 1.0, NULL);
   gtk_tree_view_column_pack_start(col, rend, FALSE);
   gtk_tree_view_column_set_attributes(col, rend,
 				      "text", 1,
