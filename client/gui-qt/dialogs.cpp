@@ -2788,7 +2788,9 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
           && research_invention_state(vresearch, i) == TECH_KNOWN
           && research_invention_state(presearch, i) != TECH_KNOWN) {
         func = spy_steal_something;
-        str = research_advance_name_translation(presearch, i);
+        // Defeat keyboard shortcut mnemonics
+        str = QString(research_advance_name_translation(presearch, i))
+              .replace("&", "&&");
         cd->add_item(str, func, qv1, i);
       }
     } advance_index_iterate_end;
@@ -2798,7 +2800,7 @@ static void spy_steal_shared(QVariant data1, QVariant data2,
       astr_set(&stra, _("At %s's Discretion"),
                unit_name_translation(actor_unit));
       func = spy_steal_something;
-      str = astr_str(&stra);
+      str = QString(astr_str(&stra)).replace("&", "&&");
       cd->add_item(str, func, qv1, A_UNSET);
     }
 
@@ -3425,7 +3427,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   city_built_iterate(tcity, pimprove) {
     if (pimprove->sabotage > 0) {
       func = spy_sabotage;
-      str = city_improvement_name_translation(tcity, pimprove);
+      // Defeat keyboard shortcut mnemonics
+      str = QString(city_improvement_name_translation(tcity, pimprove))
+            .replace("&", "&&");
       qv2 = nr;
       cd->add_item(str, func, qv1, improvement_number(pimprove));
       nr++;
@@ -3437,7 +3441,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
     astr_set(&stra, _("At %s's Discretion"),
              unit_name_translation(actor));
     func = spy_sabotage;
-    str = astr_str(&stra);
+    str = QString(astr_str(&stra)).replace("&", "&&");
     cd->add_item(str, func, qv1, B_LAST);
   }
 
@@ -3471,7 +3475,8 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
     BV_CLR(extras, what);
 
     func = pillage_something;
-    str = extra_name_translation(tgt);
+    // Defeat keyboard shortcut mnemonics
+    str = QString(extra_name_translation(tgt)).replace("&", "&&");
     qv1 = what;
     cd->add_item(str, func, qv1, qv2);
   }
