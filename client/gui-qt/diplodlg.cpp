@@ -102,6 +102,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   label3 = new QLabel;
   text = "<b><h3><center>"
          + QString(nation_plural_for_player(player_by_number(initiated_from)))
+           .toHtmlEscaped()
          + "</center></h3></b>";
   colr = get_player_color(tileset, player_by_number(initiated_from));
   text = "<style>h3{background-color: "
@@ -113,6 +114,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   label4 = new QLabel;
   text = "<b><h3><center>"
          + QString(nation_plural_for_player(player_by_number(counterpart)))
+           .toHtmlEscaped()
          + "</center></h3></b></body>";
   colr = get_player_color(tileset, player_by_number(counterpart));
   text = "<style>h3{background-color: "
@@ -136,7 +138,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   }
   text = ruler_title_for_player(player_by_number(initiated_from),
                                 plr_buf, sizeof(plr_buf));
-  text = "<b><center>" + text + "</center></b>";
+  text = "<b><center>" + text.toHtmlEscaped() + "</center></b>";
   label->setText(text);
   plr1_accept = new QLabel;
   layout->addWidget(plr1_label, 1, 0);
@@ -155,7 +157,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from): QWidget()
   }
   text2 = ruler_title_for_player(player_by_number(counterpart),
                                  plr_buf, sizeof(plr_buf));
-  text2 = "<b><center>" + text2 + "</center></b>";
+  text2 = "<b><center>" + text2.toHtmlEscaped() + "</center></b>";
   label2->setText(text2);
   plr2_accept = new QLabel;
   layout->addWidget(plr2_label, 6, 0);
