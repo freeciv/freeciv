@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014-2019
+# French translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014-2020
+# This file is distributed under the same license as the Freeciv package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-07-29 09:02+0200\n"
-"PO-Revision-Date: 2019-08-05 15:48+0200\n"
+"POT-Creation-Date: 2020-01-06 07:46+0100\n"
+"PO-Revision-Date: 2020-01-06 07:51+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -63,33 +63,51 @@ msgstr "Nécessaire pour %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:116
+#: tools/ruledit/ruledit.cpp:120
 #, c-format
 msgid "Failed to load %s."
 msgstr "Impossible de charger %s."
 
-#: tools/ruledit/ruledit.cpp:150
+#: tools/ruledit/ruledit.cpp:154
 msgid "Print a summary of the options"
 msgstr "Imprimer un résumé des options"
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print the version number"
 msgstr "Imprimer le numéro de version"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:155
+#: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
 msgstr "ruleset REGLES-DU-JEU"
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:160
 msgid "Ruleset to use as the starting point."
 msgstr "Les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit.cpp:169
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:164
+msgid "Fatal [SIGNAL]"
+msgstr "Fatal [SIGNAL]"
+
+#: tools/ruledit/ruledit.cpp:165
+msgid "Raise a signal on failed assertion"
+msgstr "Lever un signal sur une assertion échouée"
+
+#: tools/ruledit/ruledit.cpp:179
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Ne peut éditer qu'une règle du jeu à la fois.\n"
 
-#: tools/ruledit/ruledit.cpp:176
+#: tools/ruledit/ruledit.cpp:190
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr "Numéro de signal invalide \"%s\".\n"
+
+#: tools/ruledit/ruledit.cpp:192
+msgid "Try using --help.\n"
+msgstr "Essayez d'utiliser --help.\n"
+
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
