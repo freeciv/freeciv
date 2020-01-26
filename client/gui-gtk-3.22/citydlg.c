@@ -805,6 +805,43 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     gtk_grid_attach(GTK_GRID(table), ebox, 1, i, 1, 1);
   }
 
+  /*
+   * Allow special highlighting of emergencies for granary etc by
+   * city_dialog_update_information().
+   */
+  {
+    /* This will persist, and can be shared between overview and happiness
+     * pages. */
+    static GtkCssProvider *emergency_provider = NULL;
+
+    if (emergency_provider == NULL) {
+      emergency_provider = gtk_css_provider_new();
+
+      gtk_css_provider_load_from_data(emergency_provider,
+                                      ".emergency {\n"
+                                      "  color: rgba(255, 0.0, 0.0, 255);\n"
+                                      "}",
+                                      -1, NULL);
+    }
+
+    /* GRANARY */
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[6]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    /* GROWTH */
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[7]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    /* POLLUTION */
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[11]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    /* ILLNESS */
+    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[12]),
+                                   GTK_STYLE_PROVIDER(emergency_provider),
+                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+  }
+
   gtk_widget_show_all(table);
 
   return table;
@@ -1765,7 +1802,6 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   char buf[NUM_INFO_FIELDS][512];
   struct city *pcity = pdialog->pcity;
   int granaryturns;
-  static GtkCssProvider *emergency_provider = NULL;
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
@@ -1828,34 +1864,11 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   }
 
   /*
-   * Special style stuff for granary, growth, pollution, and plague below.
+   * Make use of the emergency-indicating styles set up for certain labels
+   * in create_city_info_table().
    */
-
-  if (emergency_provider == NULL) {
-    emergency_provider = gtk_css_provider_new();
-
-    gtk_css_provider_load_from_data(emergency_provider,
-                                    ".emergency {\n color: rgba(255, 0.0, 0.0, 255);\n}",
-                                    -1, NULL);
-
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[GRANARY]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[GROWTH]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[POLLUTION]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-    gtk_style_context_add_provider(gtk_widget_get_style_context(info_label[ILLNESS]),
-                                   GTK_STYLE_PROVIDER(emergency_provider),
-                                   GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-  }
-
-  /*
-   * For starvation, the "4" below is arbitrary. 3 turns should be enough
-   * of a warning.
-   */
+  /* For starvation, the "4" below is arbitrary. 3 turns should be enough
+   * of a warning. */
   if (granaryturns > -4 && granaryturns < 0) {
     gtk_style_context_add_class(gtk_widget_get_style_context(info_label[GRANARY]), "emergency");
   } else {
