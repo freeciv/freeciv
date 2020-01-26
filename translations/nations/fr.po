@@ -1,4 +1,3 @@
-# translation of fr.po to Français
 # French translations for Freeciv
 # Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
@@ -8,7 +7,8 @@
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
 # Pepeto <pepeto69 gmail.com>, 2007-2010
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2014
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2010-2020
+# This file is distributed under the same license as the Freeciv package.
 #
 #
 msgid ""

@@ -1,11 +1,11 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014.
+# French translations for Freeciv
+# Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold.
+# Igx, The Dreaming Drummer... <igx31 hotmail.com>, 2014-2020
+# This file is distributed under the same license as the Freeciv package.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freeciv 2.6\n"
+"Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
 "POT-Creation-Date: 2019-07-21 14:29+0100\n"
 "PO-Revision-Date: 2018-06-28 23:44+0200\n"
