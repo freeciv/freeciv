@@ -384,6 +384,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
+cargo         = "Generic"
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
