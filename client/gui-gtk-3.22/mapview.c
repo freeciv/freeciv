@@ -94,6 +94,8 @@ void update_turn_done_button(bool do_restore)
                                       "}\n",
                                       -1, NULL);
 
+      /* Turn Done button is persistent, so we only need to do this
+       * once too. */
       gtk_style_context_add_provider(scontext,
                                      GTK_STYLE_PROVIDER(tdb_provider),
                                      GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
