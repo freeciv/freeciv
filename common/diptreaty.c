@@ -179,17 +179,7 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
     return FALSE;
   }
 
-  if (!clause_infos[type].enabled) {
-    return FALSE;
-  }
-
-  if (!game.info.trading_gold && type == CLAUSE_GOLD) {
-    return FALSE;
-  }
-  if (!game.info.trading_tech && type == CLAUSE_ADVANCE) {
-    return FALSE;
-  }
-  if (!game.info.trading_city && type == CLAUSE_CITY) {
+  if (!clause_enabled(type, pfrom, pto)) {
     return FALSE;
   }
 
@@ -279,3 +269,32 @@ struct clause_info *clause_info_get(enum clause_type type)
   return &clause_infos[type];
 }
 
+/**********************************************************************//**
+  Is clause enabled in this game?
+  Currently this does not consider clause requirements that may change
+  during the game, but returned value is constant for the given clause type
+  thought the game. Try not to rely on that, though, as the goal is to
+  change this so that also non-constant requirements will be considered
+  in the future.
+**************************************************************************/
+bool clause_enabled(enum clause_type type, struct player *from,
+                    struct player *to)
+{
+  struct clause_info *info = &clause_infos[type];
+
+  if (!info->enabled) {
+    return FALSE;
+  }
+
+  if (!game.info.trading_gold && type == CLAUSE_GOLD) {
+    return FALSE;
+  }
+  if (!game.info.trading_tech && type == CLAUSE_ADVANCE) {
+    return FALSE;
+  }
+  if (!game.info.trading_city && type == CLAUSE_CITY) {
+    return FALSE;
+  }
+
+  return TRUE;
+}

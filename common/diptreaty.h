@@ -98,6 +98,9 @@ void clause_infos_init(void);
 void clause_infos_free(void);
 struct clause_info *clause_info_get(enum clause_type type);
 
+bool clause_enabled(enum clause_type type, struct player *from,
+                    struct player *to);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
