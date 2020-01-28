@@ -1650,6 +1650,109 @@ int main(int argc, char **argv)
 }
 
 /**********************************************************************//**
+  Migrate gtk3 client specific options from gtk2 client options.
+**************************************************************************/
+static void migrate_options_from_gtk2(void)
+{
+  log_normal(_("Migrating options from gtk2 to gtk3 client"));
+
+#define MIGRATE_OPTION(opt) gui_options.gui_gtk3_##opt = gui_options.gui_gtk2_##opt;
+#define MIGRATE_STR_OPTION(opt) \
+  strncpy(gui_options.gui_gtk3_##opt, gui_options.gui_gtk2_##opt,      \
+          sizeof(gui_options.gui_gtk3_##opt));
+
+  /* Default theme name is never migrated */
+  /* Fullscreen not migrated as gtk3-client differs from gtk2-client in a way that
+   * user is likely to want default even if gtk2-client setting differs. */
+  MIGRATE_OPTION(map_scrollbars);
+  MIGRATE_OPTION(dialogs_on_top);
+  MIGRATE_OPTION(show_task_icons);
+  MIGRATE_OPTION(enable_tabs);
+  MIGRATE_OPTION(show_chat_message_time);
+  MIGRATE_OPTION(new_messages_go_to_top);
+  MIGRATE_OPTION(show_message_window_buttons);
+  MIGRATE_OPTION(metaserver_tab_first);
+  MIGRATE_OPTION(allied_chat_only);
+  MIGRATE_OPTION(message_chat_location);
+  MIGRATE_OPTION(small_display_layout);
+  MIGRATE_OPTION(mouse_over_map_focus);
+  MIGRATE_OPTION(chatline_autocompletion);
+  MIGRATE_OPTION(citydlg_xsize);
+  MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(popup_tech_help);
+
+  MIGRATE_STR_OPTION(font_city_label);
+  MIGRATE_STR_OPTION(font_notify_label);
+  MIGRATE_STR_OPTION(font_spaceship_label);
+  MIGRATE_STR_OPTION(font_help_label);
+  MIGRATE_STR_OPTION(font_help_link);
+  MIGRATE_STR_OPTION(font_help_text);
+  MIGRATE_STR_OPTION(font_chatline);
+  MIGRATE_STR_OPTION(font_beta_label);
+  MIGRATE_STR_OPTION(font_small);
+  MIGRATE_STR_OPTION(font_comment_label);
+  MIGRATE_STR_OPTION(font_city_names);
+  MIGRATE_STR_OPTION(font_city_productions);
+  MIGRATE_STR_OPTION(font_reqtree_text);
+
+#undef MIGRATE_OPTION
+#undef MIGRATE_STR_OPTION
+
+  gui_options.gui_gtk3_migrated_from_gtk2 = TRUE;
+}
+
+/**********************************************************************//**
+  Migrate gtk3.22 client specific options from gtk3 client options.
+**************************************************************************/
+static void migrate_options_from_gtk3(void)
+{
+  log_normal(_("Migrating options from gtk3 to gtk3.22 client"));
+
+#define MIGRATE_OPTION(opt) gui_options.gui_gtk3_22_##opt = gui_options.gui_gtk3_##opt;
+#define MIGRATE_STR_OPTION(opt) \
+  strncpy(gui_options.gui_gtk3_22_##opt, gui_options.gui_gtk3_##opt,      \
+          sizeof(gui_options.gui_gtk3_22_##opt));
+
+  /* Default theme name is never migrated */
+  MIGRATE_OPTION(fullscreen);
+  MIGRATE_OPTION(map_scrollbars);
+  MIGRATE_OPTION(dialogs_on_top);
+  MIGRATE_OPTION(show_task_icons);
+  MIGRATE_OPTION(enable_tabs);
+  MIGRATE_OPTION(show_chat_message_time);
+  MIGRATE_OPTION(new_messages_go_to_top);
+  MIGRATE_OPTION(show_message_window_buttons);
+  MIGRATE_OPTION(metaserver_tab_first);
+  MIGRATE_OPTION(allied_chat_only);
+  MIGRATE_OPTION(message_chat_location);
+  MIGRATE_OPTION(small_display_layout);
+  MIGRATE_OPTION(mouse_over_map_focus);
+  MIGRATE_OPTION(chatline_autocompletion);
+  MIGRATE_OPTION(citydlg_xsize);
+  MIGRATE_OPTION(citydlg_ysize);
+  MIGRATE_OPTION(popup_tech_help);
+
+  MIGRATE_STR_OPTION(font_city_label);
+  MIGRATE_STR_OPTION(font_notify_label);
+  MIGRATE_STR_OPTION(font_spaceship_label);
+  MIGRATE_STR_OPTION(font_help_label);
+  MIGRATE_STR_OPTION(font_help_link);
+  MIGRATE_STR_OPTION(font_help_text);
+  MIGRATE_STR_OPTION(font_chatline);
+  MIGRATE_STR_OPTION(font_beta_label);
+  MIGRATE_STR_OPTION(font_small);
+  MIGRATE_STR_OPTION(font_comment_label);
+  MIGRATE_STR_OPTION(font_city_names);
+  MIGRATE_STR_OPTION(font_city_productions);
+  MIGRATE_STR_OPTION(font_reqtree_text);
+
+#undef MIGRATE_OPTION
+#undef MIGRATE_STR_OPTION
+
+  gui_options.gui_gtk3_22_migrated_from_gtk3 = TRUE;
+}
+
+/**********************************************************************//**
   Migrate gtk3x client specific options from gtk3.22 client options.
 **************************************************************************/
 static void migrate_options_from_gtk3_22(void)
@@ -1731,6 +1834,12 @@ void ui_main(int argc, char **argv)
   root_window = gtk_widget_get_surface(toplevel);
 
   if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
+    if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
+      if (!gui_options.gui_gtk3_migrated_from_gtk2) {
+        migrate_options_from_gtk2();
+      }
+      migrate_options_from_gtk3();
+    }
     migrate_options_from_gtk3_22();
   }
 
@@ -1738,7 +1847,7 @@ void ui_main(int argc, char **argv)
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
   }
 
-  gtk_window_set_title(GTK_WINDOW (toplevel), _("Freeciv"));
+  gtk_window_set_title(GTK_WINDOW(toplevel), _("Freeciv"));
 
   g_signal_connect(toplevel, "delete_event",
                    G_CALLBACK(quit_dialog_callback), NULL);
