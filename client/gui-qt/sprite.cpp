@@ -44,7 +44,7 @@ const char **gfx_fileextensions(void)
 
   gfx_ext = QImageReader::supportedImageFormats();
 
-  gfx_array_extensions = new const char *[gfx_ext.count()];
+  gfx_array_extensions = new const char *[gfx_ext.count() + 1];
   while (!gfx_ext.isEmpty()) {
     char *ext;
 
@@ -54,6 +54,7 @@ const char **gfx_fileextensions(void)
     gfx_array_extensions[j] = ext;
     j++;
   }
+  gfx_array_extensions[j] = NULL;
 
   return gfx_array_extensions;
 }
