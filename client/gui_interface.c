@@ -102,14 +102,6 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 }
 
 /**************************************************************************
-  Call adjust_default_options callback
-**************************************************************************/
-void adjust_default_options(void)
-{
-  funcs.adjust_default_options();
-}
-
-/**************************************************************************
   Call is_view_supported callback
 **************************************************************************/
 bool is_view_supported(enum ts_type type)
