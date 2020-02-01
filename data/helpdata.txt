@@ -361,7 +361,8 @@ following sections.\
 Improvements can be built by issuing one of several orders to a suitable \
 unit while on a suitable tile: \"mine\", \"irrigate\", \"road\", or \
 \"build base\" (although whether the order builds an improvement of the \
-same name is up to the ruleset).\
+same name is up to the ruleset). Terrain alterations can also be \
+requested from the city map (see the help on Cities).\
 "), _("\
 Terrain can sometimes be permanently converted into a type more suitable \
 to the player's needs, although this usually takes longer than adding \
@@ -717,6 +718,15 @@ assigned when a city grows; you may want to inspect cities that have \
 just grown and adjust the role in which the new citizen has been \
 placed. You can set different priorities for a city with the Citizen \
 Governor; see its help section.\
+"), _("\
+You can also request tile alterations from the city map, as an \
+alternative to explicitly instructing units to make them. In clients \
+which support it, right-clicking on a city map tile gives a menu of \
+changes which can be made to that tile, such as irrigation and \
+building roads (see the section on Terrain Alterations); you can \
+select one improvement per tile at a time. These 'worker tasks' will \
+be carried out by any units capable of them that are in 'auto settler' \
+mode.\
 "), _("\
 Citizens have a nationality distinct from that of the state they \
 inhabit. When a city grows due to food surplus, new citizens take \
