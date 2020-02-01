@@ -221,6 +221,8 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 
 static void free_unit_table(void);
 
+static void adjust_default_options(void);
+
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
@@ -1798,6 +1800,9 @@ void ui_main(int argc, char **argv)
     }
     migrate_options_from_gtk3();
   }
+  if (gui_options.first_boot) {
+    adjust_default_options();
+  }
 
   if (GUI_GTK_OPTION(fullscreen)) {
     gtk_window_fullscreen(GTK_WINDOW(toplevel));
@@ -2451,7 +2456,7 @@ struct video_mode *resolution_request_get(void)
 /**************************************************************************
   Make dynamic adjustments to first-launch default options.
 **************************************************************************/
-void adjust_default_options(void)
+static void adjust_default_options(void)
 {
   int scr_height = screen_height();
 
