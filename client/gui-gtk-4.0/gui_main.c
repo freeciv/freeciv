@@ -1720,6 +1720,14 @@ static void migrate_options_from_gtk3(void)
           sizeof(gui_options.gui_gtk3_22_##opt));
 
   /* Default theme name is never migrated */
+
+  /* Simulate gui-gtk3's migrate_options_from_2_5() */
+  if (!gui_options.gui_gtk3_migrated_from_2_5) {
+    log_normal(_("Migrating gtk3-client options from freeciv-2.5 options."));
+    gui_options.gui_gtk3_fullscreen = gui_options.migrate_fullscreen;
+    gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+  }
+
   MIGRATE_OPTION(fullscreen);
   MIGRATE_OPTION(map_scrollbars);
   MIGRATE_OPTION(dialogs_on_top);
@@ -1839,17 +1847,29 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_surface(toplevel);
 
-  if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
-    if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
-      if (!gui_options.gui_gtk3_migrated_from_gtk2) {
-        migrate_options_from_gtk2();
-      }
-      migrate_options_from_gtk3();
-    }
-    migrate_options_from_gtk3_22();
-  }
   if (gui_options.first_boot) {
     adjust_default_options();
+    /* We're using fresh defaults for this version of this client,
+     * so prevent any future migrations from other clients / versions */
+    GUI_GTK_OPTION(migrated_from_gtk3_22) = TRUE;
+    /* Avoid also marking previous Gtk clients as migrated, so that
+     * they can have their own run of their adjust_default_options() if
+     * they are ever run (as a side effect of Gtk2->Gtk3 migration). */
+  } else {
+    if (!GUI_GTK_OPTION(migrated_from_gtk3_22)) {
+      if (!gui_options.gui_gtk3_22_migrated_from_gtk3) {
+        if (!gui_options.gui_gtk3_migrated_from_gtk2) {
+          migrate_options_from_gtk2();
+          /* We want a fresh look at screen-size-related options after Gtk2 */
+          adjust_default_options();
+          /* We don't ever want to consider pre-2.6 fullscreen option again
+           * (even for gui-gtk3) */
+          gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+        }
+        migrate_options_from_gtk3();
+      }
+      migrate_options_from_gtk3_22();
+    }
   }
 
   if (GUI_GTK_OPTION(fullscreen)) {
