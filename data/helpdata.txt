@@ -1133,8 +1133,8 @@ of the terrain it occupies.\
 "),
 ; hardcoded in defense_multiplication(); unit "CanFortify" / "Cant_Fortify"
 _("\
- - If the defender is a land unit, and is either fortified or \
-inside a city, its strength is multiplied by 1.5.\
+ - If the defender is fortified, or is of a type that could fortify \
+and is inside a city, its strength is multiplied by 1.5.\
 "), _("\
  - Ruleset-specific bonuses are applied:\
 "),
