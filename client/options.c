@@ -5900,7 +5900,9 @@ void options_load(void)
     sf = secfile_new(TRUE);
     secfile_insert_str(sf, VERSION_STRING, "client.version");
 
+    client_option_adjust_defaults();
     create_default_cma_presets();
+    gui_options.first_boot = TRUE;
     save_cma_presets(sf);
 
     /* FIXME: need better messages */
