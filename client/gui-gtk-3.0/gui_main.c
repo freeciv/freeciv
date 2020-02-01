@@ -2377,10 +2377,13 @@ void adjust_default_options(void)
     if (scr_height <= 480) {
       /* Freeciv is practically unusable outside fullscreen mode in so
        * small display */
+      log_verbose("Changing default to fullscreen due to very small screen");
       gui_options.gui_gtk3_fullscreen = TRUE;
-    } else if (scr_height >= 1024) {
-      /* This is no small display */
-      gui_options.gui_gtk3_small_display_layout = FALSE;
+    }
+    if (scr_height < 1024) {
+      /* This is a small display */
+      log_verbose("Defaulting to small widget layout due to small screen");
+      gui_options.gui_gtk3_small_display_layout = TRUE;
     }
   }
 }
