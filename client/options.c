@@ -209,7 +209,7 @@ struct client_options gui_options = {
   .gui_gtk2_metaserver_tab_first = FALSE,
   .gui_gtk2_allied_chat_only = FALSE,
   .gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk2_small_display_layout = TRUE,
+  .gui_gtk2_small_display_layout = FALSE,
   .gui_gtk2_mouse_over_map_focus = FALSE,
   .gui_gtk2_chatline_autocompletion = TRUE,
   .gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
@@ -242,7 +242,7 @@ struct client_options gui_options = {
   .gui_gtk3_metaserver_tab_first = FALSE,
   .gui_gtk3_allied_chat_only = FALSE,
   .gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk3_small_display_layout = TRUE,
+  .gui_gtk3_small_display_layout = FALSE,
   .gui_gtk3_mouse_over_map_focus = FALSE,
   .gui_gtk3_chatline_autocompletion = TRUE,
   .gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
@@ -277,7 +277,7 @@ struct client_options gui_options = {
   .gui_gtk3_22_metaserver_tab_first = FALSE,
   .gui_gtk3_22_allied_chat_only = FALSE,
   .gui_gtk3_22_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk3_22_small_display_layout = TRUE,
+  .gui_gtk3_22_small_display_layout = FALSE,
   .gui_gtk3_22_mouse_over_map_focus = FALSE,
   .gui_gtk3_22_chatline_autocompletion = TRUE,
   .gui_gtk3_22_citydlg_xsize = GUI_GTK3_22_CITYDLG_DEFAULT_XSIZE,
@@ -312,7 +312,7 @@ struct client_options gui_options = {
   .gui_gtk4_metaserver_tab_first = FALSE,
   .gui_gtk4_allied_chat_only = FALSE,
   .gui_gtk4_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk4_small_display_layout = TRUE,
+  .gui_gtk4_small_display_layout = FALSE,
   .gui_gtk4_mouse_over_map_focus = FALSE,
   .gui_gtk4_chatline_autocompletion = TRUE,
   .gui_gtk4_citydlg_xsize = GUI_GTK4_CITYDLG_DEFAULT_XSIZE,
@@ -2436,7 +2436,7 @@ static struct client_option client_options[] = {
                   GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout, NULL, NULL,
-                  COC_INTERFACE, GUI_GTK2, TRUE, NULL),
+                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion, NULL, NULL,
@@ -2600,7 +2600,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK3, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
@@ -2821,7 +2821,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3_22, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK3_22, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_22_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
@@ -3042,7 +3042,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3x, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK3x, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk4_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
