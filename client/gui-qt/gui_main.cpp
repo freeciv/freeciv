@@ -146,13 +146,11 @@ static bool parse_options(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_2_5()
 {
-  if (!gui_options.first_boot) {
-    log_normal(_("Migrating Qt-client options from freeciv-2.5 options."));
+  log_normal(_("Migrating Qt-client options from freeciv-2.5 options."));
 
-    gui_options.gui_qt_fullscreen = gui_options.migrate_fullscreen;
+  gui_options.gui_qt_fullscreen = gui_options.migrate_fullscreen;
 
-    gui_options.gui_qt_migrated_from_2_5 = TRUE;
-  }
+  gui_options.gui_qt_migrated_from_2_5 = TRUE;
 }
 
 /**************************************************************************
@@ -171,7 +169,11 @@ void qtg_ui_main(int argc, char *argv[])
     qpm = get_icon_sprite(tileset, ICON_FREECIV)->pm;
     app_icon = ::QIcon(*qpm);
     qapp->setWindowIcon(app_icon);
-    if (!gui_options.gui_qt_migrated_from_2_5) {
+    if (gui_options.first_boot) {
+      /* We're using fresh defaults for this version of this client,
+       * so prevent any future migrations from other versions */
+      gui_options.gui_qt_migrated_from_2_5 = TRUE;
+    } else if (!gui_options.gui_qt_migrated_from_2_5) {
       migrate_options_from_2_5();
     }
     if (!load_theme(gui_options.gui_qt_default_theme_name)) {
