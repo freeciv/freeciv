@@ -2378,27 +2378,62 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 }
 
 /**************************************************************************
-  Return width of the default screen
+  Return dimensions of primary monitor, if any
+  (in 'application pixels')
+**************************************************************************/
+static bool monitor_size(GdkRectangle *rect_p)
+{
+  GdkDisplay *display;
+  GdkMonitor *monitor;
+
+  display = gdk_display_get_default();
+  if (!display) {
+    return FALSE;
+  }
+
+  monitor = gdk_display_get_primary_monitor(display);
+  if (!monitor) {
+    return FALSE;
+  }
+
+  gdk_monitor_get_geometry(monitor, rect_p);
+  return TRUE;
+}
+
+/**************************************************************************
+  Return width of the primary monitor
 **************************************************************************/
 int screen_width(void)
 {
+  GdkRectangle rect;
+
   if (vmode.width > 0) {
     return vmode.width;
   }
 
-  return 0;
+  if (monitor_size(&rect)) {
+    return rect.width;
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
-  Return height of the default screen
+  Return height of the primary monitor
 **************************************************************************/
 int screen_height(void)
 {
+  GdkRectangle rect;
+
   if (vmode.height > 0) {
     return vmode.height;
   }
 
-  return 0;
+  if (monitor_size(&rect)) {
+    return rect.height;
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
