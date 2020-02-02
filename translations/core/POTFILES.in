@@ -335,6 +335,7 @@ data/hex2t.tilespec
 data/hexemplio.tilespec
 data/isophex.tilespec
 data/isotrident.tilespec
+data/toonhex.tilespec
 data/trident.tilespec
 data/scenarios/british-isles.sav
 data/scenarios/earth-large.sav
