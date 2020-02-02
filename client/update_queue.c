@@ -230,7 +230,7 @@ void update_queue_thaw(void)
     update_queue_has_idle_callback = TRUE;
     add_idle_callback(update_unqueue, NULL);
   } else if (0 > update_queue_frozen_level) {
-    log_error("update_queue_frozen_level < 0, reparing...");
+    log_error("update_queue_frozen_level < 0, repairing...");
     update_queue_frozen_level = 0;
   }
 }
