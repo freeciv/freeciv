@@ -117,7 +117,7 @@ layer_order =
   "Grid1",      ; Grid layer for isometric tilesets.
   "City1",      ; City and walls.
   "Special2",   ; 2nd layer for extras with "3Layers" and "Single2" styles.
-  "Fog",        ; Fog of war (on tiles one knows but doesn't see).
+  "Fog",        ; Fog of war (on tiles one knows but doesn`t see).
   "Unit",       ; Units except the selected one(s).
   "Special3",   ; 3rd layer for extras with "3Layers" style, and base flags.
   "City2",      ; City size when the city bar is disabled.
