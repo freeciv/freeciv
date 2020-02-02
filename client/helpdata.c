@@ -6289,6 +6289,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
     if (action_immune_government(gov, act)) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: action name ... action target
+                    * ("individual units", etc) */
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
                    action_id_name_translation(act),
