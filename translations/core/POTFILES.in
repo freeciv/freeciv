@@ -372,12 +372,12 @@ data/nation/turk.ruleset
 data/nation/viking.ruleset
 data/nation/zulu.ruleset
 data/alio.tilespec
-data/cimpletoon.tilespec
-data/isotrident.tilespec
 data/amplio2.tilespec
-data/isophex.tilespec
-data/hexemplio.tilespec
+data/cimpletoon.tilespec
 data/hex2t.tilespec
+data/hexemplio.tilespec
+data/isophex.tilespec
+data/isotrident.tilespec
 data/trident.tilespec
 data/scenarios/british-isles.sav
 data/scenarios/earth-large.sav
