@@ -484,7 +484,7 @@ output. In the classic ruleset, most units require production points \
 as upkeep, and demand them from their home city, although under \
 autocratic regimes each city supports a few units for free. If city \
 production drops too low, the units that cannot be supported are \
-automatically disbanded. Most types of unit can also be disbanded at \
+automatically disbanded. You can also disband most types of unit at \
 any time. If a unit is disbanded while in a city, half of its production \
 cost will usually be put towards that city's surplus.\
 "), _("\
@@ -1017,7 +1017,7 @@ generate = " Wonders"
 [help_units]
 name = _("Units")
 text = _("\
-Units both offer mobility to your civilization and supply the violence \
+Units provide both the mobility your civilization needs, and the violence \
 with which it will survive and expand. The available units may be \
 classified as military units, whose talents are those of defense and \
 aggression, and a few noncombatants which support expansion, \

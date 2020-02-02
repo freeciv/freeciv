@@ -1146,8 +1146,8 @@ static void illegal_action(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   /* TRANS: action name.
-                   * "Your Spy has ... to Bribe Enemy Unit." */
-                  _("Your %s has too few moves left to %s."),
+                   * "Your Spy has ... to do Bribe Enemy Unit." */
+                  _("Your %s has too few moves left to do %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
     break;
@@ -1155,8 +1155,8 @@ static void illegal_action(struct player *pplayer,
     notify_player(pplayer, unit_tile(actor),
                   E_UNIT_ILLEGAL_ACTION, ftc_server,
                   /* TRANS: action name.
-                   * "Your Spy was unable to Bribe Enemy Unit." */
-                  _("Your %s was unable to %s."),
+                   * "Your Spy was unable to do Bribe Enemy Unit." */
+                  _("Your %s was unable to do %s."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
     break;
