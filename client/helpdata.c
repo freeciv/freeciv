@@ -2827,10 +2827,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Requires %s map.\n"),
                    _(topo_flag_name(preq->source.value.topo_property)));
     } else {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Prevented on %s map.\n"),
                    _(topo_flag_name(preq->source.value.topo_property)));
     }

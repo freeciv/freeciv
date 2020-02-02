@@ -15,7 +15,8 @@ priority = 3
 ;version = ""
 
 ; Summary and full description of the tileset.
-summary = _("Tileset combining Hexemplio's terrains and Cimpletoon's units with orientation.")
+summary = _("Large iso-hex tileset combining Hexemplio's terrains \
+and Cimpletoon's units with orientation.")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 

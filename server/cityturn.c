@@ -1810,6 +1810,8 @@ static bool worklist_change_build_target(struct player *pplayer,
               if (preq->present) {
                 notify_player(pplayer, city_tile(pcity),
                               E_CITY_CANTBUILD, ftc_server,
+                              /* TRANS: third %s is topology flag name
+                               * ("WrapX", "ISO", etc) */
                               _("%s can't build %s from the worklist; "
                                 "only available in worlds with %s map."),
                               city_link(pcity),

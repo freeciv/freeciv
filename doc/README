@@ -214,14 +214,15 @@ Client:
   - isotrident: An isometric tileset similar in shape to the one in Civ 2.
   - cimpletoon: amplio2 with alternative units that display direction they
                 are facing.
-  - trident: a Civ 1-style tileset with 30x30 tiles.
-  - hexemplio: an isometric hexagonal tileset with larger tiles derived
+  - trident: a Civ 1-style ('overhead') tileset with 30x30 tiles.
+  - hexemplio: an iso-hexagonal tileset with larger tiles derived
                from amplio2
   - toonhex: tileset combining hexemplio tiles with cimpletoon units
-  - isophex: an isometric hexagonal tileset
-  - hex2t: an overhead hexagonal tileset
+  - isophex: an iso-hexagonal tileset
+  - hex2t: a hexagonal tileset
 
-  In this release the amplio2 tileset is the default tileset.
+  In this release, each map topology has its own default tileset; with
+  default settings, amplio2 is the default tileset.
   To try another one, for instance the trident tileset, start the
   client with:
 

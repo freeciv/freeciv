@@ -12,7 +12,7 @@ priority = 30
 ;version = ""
 
 ; Summary and full description of the tileset.
-summary = _("Default tileset, for isometric view.")
+summary = _("Large isometric tileset.")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 
