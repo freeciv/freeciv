@@ -2411,10 +2411,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     fc_strlcat(buf, prefix, bufsz);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Requires %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     } else {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Prevented on %s map."),
                    _(topo_flag_name(preq->source.value.topo_property)));
     }

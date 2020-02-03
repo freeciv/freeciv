@@ -12,7 +12,7 @@ priority = 3
 ;version = ""
 
 ; Summary and full description of the tileset.
-summary = _("Isometric alternative of the small hex tiles.")
+summary = _("Small iso-hex tileset.")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 
