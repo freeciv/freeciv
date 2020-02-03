@@ -1,0 +1,77 @@
+[nation_liege]
+
+name   = _("Liegean")
+plural = _("?plural:Liegeans")
+groups = "Modern", "European"
+legend = _("Liege was constituted in ecclesiastic principalty in 985,\
+ when Bishop Notger was granted the control of several cities in current Belgium.\
+ As a federated state of the Holy Roman Empire, it was characterized\
+ with large civil liberties for which liegean struggled strongly for.\
+ It lasted until 1792, when the recently formed Republic of Liege voted\
+ the union with revolutionary France.\
+ Liege played later a major role in the Belgian independance.")
+
+leaders = {
+ "name",                   "sex"
+ "Notger",                 "Male"
+ "Wazon",                  "Male"
+ "Albert de Cuyck",        "Male"
+ "Érard de la Marck",      "Male"
+ "Jean-Nicolas Bassenge",  "Male"
+ "Joseph Bologne",         "Male"
+ "Julienne de Cornillon",  "Female"
+ "Théroigne de Méricourt", "Female"
+}
+
+ruler_titles = {
+ "government",      "male_title",           "female_title"
+ "Monarchy",        _("Prince %s"),         _("?female:Princess %s")
+ "Democracy",       _("Prime Minister %s"), _("?female:Prime Ministress %s")
+ "Fundamentalism",  _("Prince-Bishop %s"),  _("Mother Superior %s")
+ "Republic",        _("Regent %s"),         _("Regent %s")
+}
+
+flag     = "luik"
+flag_alt = "belgium"
+style    = "Celtic"
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+conflicts_with = "belgian", "walloon", "flemish"
+civilwar_nations = "belgian", "walloon", "flemish"
+
+cities =
+ "Liège",
+ "Tongeren",
+ "Huy",
+ "Dinant",
+ "Maastricht",
+ "Bouillon",
+ "Ciney",
+ "Thuin",
+ "Fosses-la-Ville",
+ "Couvin",
+ "Châtelet",
+ "Sint-Truiden",
+ "Visé",
+ "Waremme",
+ "Borgloon",
+ "Hasselt",
+ "Maaseik",
+ "Bilzen",
+ "Beringen",
+ "Herk-de-Stad",
+ "Bree",
+ "Stokkem",
+ "Hamont",
+ "Peer",
+ "Verviers",
+ "Seraing",
+ "Herstal",
+ "Ans",
+ "Chaudfontaine",
+ "Fexhe",
+ "Awans",
+ "Waroux",
+ "Amay"

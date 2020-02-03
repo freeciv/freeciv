@@ -1307,6 +1307,7 @@ nations = [
   'liburnian',
   'libyan',
   'liechtensteiner',
+  'liege',
   'ligurian',
   'lipkatatar',
   'lippe',

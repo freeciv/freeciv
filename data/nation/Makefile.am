@@ -289,6 +289,7 @@ pkgdata_DATA = \
 		liburnian.ruleset \
 		libyan.ruleset \
 		liechtensteiner.ruleset \
+		liege.ruleset \
 		ligurian.ruleset \
 		lippe.ruleset \
 		lipkatatar.ruleset \
