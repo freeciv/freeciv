@@ -239,7 +239,7 @@ void map_view::shortcut_pressed(int key)
     ptile = canvas_pos_to_tile(pos.x(), pos.y());
     if (tile_city(ptile)) {
       gui()->rallies.hover_tile = true;
-      gui()->rallies.rally_city = tile_city(ptile);
+      gui()->rallies.rally_city = tile_city(ptile)->id;
 
       if (gui()->rallies.clear(tile_city(ptile))) {
         fc_snprintf(text, sizeof(text),
@@ -262,12 +262,29 @@ void map_view::shortcut_pressed(int key)
   /* Rally point - select tile  - skip */
   if (bt == Qt::LeftButton && gui()->rallies.hover_tile) {
     char text[1024];
+    int city_id = gui()->rallies.rally_city;
+    struct tile *ptile;
+    struct city *pcity = game_city_by_number(city_id);
+
+    if (pcity == nullptr) {
+      output_window_append(ftc_client, _("This city doesn't exist!"));
+      gui()->rallies.hover_tile = false;
+      return;
+    }
+
+    ptile = canvas_pos_to_tile(pos.x(), pos.y());
+    if (ptile == nullptr) {
+      output_window_append(ftc_client, _("There is no tile here!"));
+      gui()->rallies.hover_tile = false;
+      return;
+    }
+
     qfc_rally *rally = new qfc_rally;
-    rally->ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    rally->pcity = gui()->rallies.rally_city;
+    rally->city_id = city_id;
+    rally->tile_index = ptile->index;
     fc_snprintf(text, sizeof(text),
                 _("Tile %s set as rally point from city %s."),
-                tile_link(ptile), city_link(rally->pcity));
+                tile_link(ptile), city_link(pcity));
     gui()->rallies.hover_tile = false;
     gui()->rallies.add(rally);
     output_window_append(ftc_client, text);
