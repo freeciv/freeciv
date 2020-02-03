@@ -1416,7 +1416,7 @@ static struct setting settings[] = {
 
   GEN_BITWISE("topology", wld.map.topology_id, SSET_MAP_SIZE,
               SSET_GEOLOGY, SSET_VITAL, ALLOW_NONE, ALLOW_BASIC,
-              N_("Map topology index"),
+              N_("Map topology"),
 #ifdef FREECIV_WEB
               /* TRANS: Freeciv-web version of the help text. */
               N_("Freeciv-web maps are always two-dimensional. They may wrap "
@@ -1427,16 +1427,17 @@ static struct setting settings[] = {
               N_("Freeciv maps are always two-dimensional. They may wrap at "
                  "the north-south and east-west directions to form a flat "
                  "map, a cylinder, or a torus (donut). Individual tiles may "
-                 "be rectangular or hexagonal, with either a classic or "
-                 "isometric alignment - this should be set based on the "
-                 "tileset being used.\n"
-                 "Classic rectangular:       Isometric rectangular:\n"
+                 "be rectangular or hexagonal, with either an overhead "
+                 "(\"classic\") or isometric alignment.\n"
+                 "To play with a particular topology, clients will need a "
+                 "matching tileset.\n"
+                 "Overhead rectangular:      Isometric rectangular:\n"
                  "      _________               /\\/\\/\\/\\/\\\n"
                  "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
                  "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
                  "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
                  "                             \\/\\/\\/\\/\\/\n"
-                 "Hex tiles:                 Iso-hex:\n"
+                 "Hex:                       Iso-hex:\n"
                  "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
                  "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
                  "  \\/\\/\\/\\/\\/\\/\\"

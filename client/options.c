@@ -1923,7 +1923,7 @@ static struct client_option client_options[] = {
    * leave it to tilespec code that can handle tileset priority. */
   GEN_STR_LIST_OPTION(default_tileset_square_name, N_("Tileset (Square)"),
                       N_("Select the tileset used with Square based maps. "
-                         "This may change currently active tileset, if "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
@@ -1931,15 +1931,15 @@ static struct client_option client_options[] = {
                       get_tileset_list, tilespec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_tileset_hex_name, N_("Tileset (Hex)"),
                       N_("Select the tileset used with Hex maps. "
-                         "This may change currently active tileset, if "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, TF_HEX),
-  GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Isometric Hex)"),
-                      N_("Select the tileset used with Isometric Hex maps. "
-                         "This may change currently active tileset, if "
+  GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Iso-Hex)"),
+                      N_("Select the tileset used with Iso-Hex maps. "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
