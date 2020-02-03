@@ -89,7 +89,9 @@ void qfc_rally_list::run()
 {
   qfc_rally *rally;
   struct unit_list *units;
-  struct unit *last_unit;;
+  struct unit *last_unit;
+  struct city *pcity;
+  struct tile *ptile;
   int max;
 
   if (rally_list.isEmpty()) {
@@ -100,8 +102,10 @@ void qfc_rally_list::run()
     max = 0;
     last_unit = nullptr;
 
-    if (rally->pcity->turn_last_built == game.info.turn - 1) {
-      units = rally->pcity->units_supported;
+    pcity = game_city_by_number(rally->city_id);
+    ptile = index_to_tile(rally->tile_index);
+    if (pcity && ptile && pcity->turn_last_built == game.info.turn - 1) {
+      units = pcity->units_supported;
 
       unit_list_iterate(units, punit) {
         if (punit->id > max) {
@@ -110,8 +114,8 @@ void qfc_rally_list::run()
         }
       } unit_list_iterate_end;
 
-      if (last_unit && rally->pcity->production.kind == VUT_UTYPE) {
-        send_goto_tile(last_unit, rally->ptile);
+      if (last_unit && pcity->production.kind == VUT_UTYPE) {
+        send_goto_tile(last_unit, ptile);
       }
     }
   }
@@ -132,8 +136,10 @@ bool qfc_rally_list::clear(city* rcity)
 {
   qfc_rally *rally;
 
+  fc_assert_ret_val(rcity != nullptr, false);
+
   foreach (rally, rally_list) {
-    if (rally->pcity == rcity) {
+    if (rally->city_id == rcity->id) {
       rally_list.removeAll(rally);
       return true;
     }
