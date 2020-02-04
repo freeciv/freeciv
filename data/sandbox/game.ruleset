@@ -316,6 +316,13 @@ bombard_3_max_range = 1
 ; the minimum distance.
 explode_nuclear_max_range = "unlimited"
 
+; The maximum distance from the actor unit to the target of the "Airlift Unit"
+; action. The value 1 means that the targets must be on a tile adjacent to
+; the actor unit. The special value "unlimited" lifts the maximum distance
+; restriction. The maximum distance can`t be smaller than the minimum
+; distance.
+airlift_max_range = "unlimited"
+
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action. A Freeciv client
 ; that supports mnemonics will replace it with the in-band signal that marks

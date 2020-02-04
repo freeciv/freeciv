@@ -727,7 +727,9 @@ static void hard_code_actions(void)
   actions[ACTION_AIRLIFT] =
       action_new(ACTION_AIRLIFT, ATK_CITY, ASTK_NONE,
                  FALSE, ACT_TGT_COMPL_SIMPLE, TRUE, TRUE,
-                 1, ACTION_DISTANCE_UNLIMITED,
+                 1,
+                 /* Overwritten by the ruleset's airlift_max_range. */
+                 ACTION_DISTANCE_UNLIMITED,
                  FALSE);
   actions[ACTION_ATTACK] =
       action_new(ACTION_ATTACK,
@@ -5919,7 +5921,6 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
-  case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
   case ACTION_STRIKE_BUILDING:
@@ -5953,6 +5954,8 @@ const char *action_max_range_ruleset_var_name(int act)
     return "bombard_3_max_range";
   case ACTION_NUKE:
     return "explode_nuclear_max_range";
+  case ACTION_AIRLIFT:
+      return "airlift_max_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_max_range";
   case ACTION_USER_ACTION2:
@@ -6015,7 +6018,6 @@ int action_max_range_default(int act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
-  case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
   case ACTION_STRIKE_BUILDING:
@@ -6048,6 +6050,8 @@ int action_max_range_default(int act)
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTION_NUKE:
     return RS_DEFAULT_EXPLODE_NUCLEAR_MAX_RANGE;
+  case ACTION_AIRLIFT:
+    return ACTION_DISTANCE_UNLIMITED;
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

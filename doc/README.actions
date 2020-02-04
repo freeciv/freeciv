@@ -394,6 +394,7 @@ Actions done by a unit against a city
 
 "Airlift Unit" - Airlift actor unit to target city.
  * UI name can be set using ui_name_airlift_unit
+ * max legal distance to the target can be set using airlift_max_range
  * actor must be aware that the target exists
  * the actor unit isn't transporting another unit (!)
  * the actor unit isn't inside the target city
