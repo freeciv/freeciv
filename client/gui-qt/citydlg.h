@@ -41,7 +41,7 @@ class QTabWidget;
 class QVariant;
 class QVBoxLayout;
 
-#define NUM_INFO_FIELDS 14
+#define NUM_INFO_FIELDS 15
 
 // common
 #include "unittype.h"

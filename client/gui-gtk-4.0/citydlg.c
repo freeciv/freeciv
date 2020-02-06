@@ -111,7 +111,7 @@ enum { OVERVIEW_PAGE, MAP_PAGE, BUILDINGS_PAGE, WORKLIST_PAGE,
 };
 
 #define NUM_CITIZENS_SHOWN 30
-#define NUM_INFO_FIELDS 14      /* number of fields in city_info */
+#define NUM_INFO_FIELDS 15      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
@@ -633,7 +633,8 @@ static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev,
 
 enum { FIELD_FOOD, FIELD_SHIELD, FIELD_TRADE, FIELD_GOLD, FIELD_LUXURY,
        FIELD_SCIENCE, FIELD_GRANARY, FIELD_GROWTH, FIELD_CORRUPTION,
-       FIELD_WASTE, FIELD_CULTURE, FIELD_POLLUTION, FIELD_ILLNESS
+       FIELD_WASTE, FIELD_CULTURE, FIELD_POLLUTION, FIELD_ILLNESS,
+       FIELD_STEAL, FIELD_AIRLIFT,
 };
 
 /***********************************************************************//**
@@ -680,6 +681,9 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
       break;
     case FIELD_ILLNESS:
       get_city_dialog_illness_text(pdialog->pcity, buf, sizeof(buf));
+      break;
+    case FIELD_AIRLIFT:
+      get_city_dialog_airlift_text(pdialog->pcity, buf, sizeof(buf));
       break;
     default:
       return TRUE;
@@ -742,7 +746,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
     N_("Culture:"),
     N_("Pollution:"),
     N_("Plague risk:"),
-    N_("Tech Stolen:")
+    N_("Tech Stolen:"),
+    N_("Airlift:"),
   };
   static bool output_label_done;
 
@@ -1804,7 +1809,7 @@ static void city_dialog_update_information(GtkWidget **info_label,
 
   enum { FOOD, SHIELD, TRADE, GOLD, LUXURY, SCIENCE,
          GRANARY, GROWTH, CORRUPTION, WASTE, CULTURE,
-         POLLUTION, ILLNESS, STEAL
+         POLLUTION, ILLNESS, STEAL, AIRLIFT,
   };
 
   /* fill the buffers with the necessary info */
@@ -1861,6 +1866,8 @@ static void city_dialog_update_information(GtkWidget **info_label,
   } else {
     fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("Not stolen"));
   }
+
+  get_city_dialog_airlift_value(pcity, buf[AIRLIFT], sizeof(buf[AIRLIFT]));
 
   /* stick 'em in the labels */
   for (i = 0; i < NUM_INFO_FIELDS; i++) {

@@ -1506,7 +1506,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
             << _("Luxury:") << _("Science:") << _("Granary:")
             << _("Change in:") << _("Corruption:") << _("Waste:")
             << _("Culture:") << _("Pollution:") << _("Plague risk:")
-            << _("Tech Stolen:");
+            << _("Tech Stolen:") << _("Airlift:");
   info_nr = info_list.count();
   info_wdg->setFont(*small_font);
   info_grid_layout->setSpacing(0);
@@ -2950,7 +2950,8 @@ void city_dialog::update_info_label()
 
   enum { FOOD = 0, SHIELD = 2, TRADE = 4, GOLD = 6, LUXURY = 8, SCIENCE = 10,
          GRANARY = 12, GROWTH = 14, CORRUPTION = 16, WASTE = 18,
-         CULTURE = 20, POLLUTION = 22, ILLNESS = 24, STEAL = 26
+         CULTURE = 20, POLLUTION = 22, ILLNESS = 24, STEAL = 26,
+         AIRLIFT = 28,
        };
 
   /* fill the buffers with the necessary info */
@@ -3028,6 +3029,10 @@ void city_dialog::update_info_label()
   } else {
     fc_snprintf(buf[STEAL], sizeof(buf[STEAL]), _("Not stolen"));
   }
+
+  get_city_dialog_airlift_value(pcity, buf[AIRLIFT], sizeof(buf[AIRLIFT]));
+  get_city_dialog_airlift_text(pcity,
+                               buf[AIRLIFT + 1], sizeof(buf[AIRLIFT + 1]));
 
   get_city_dialog_output_text(pcity, O_FOOD, buffer, sizeof(buffer));
 
