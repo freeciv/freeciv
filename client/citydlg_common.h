@@ -60,6 +60,11 @@ void get_city_dialog_culture_text(const struct city *pcity,
                                   char *buf, size_t bufsz);
 void get_city_dialog_illness_text(const struct city *pcity,
                                   char *buf, size_t bufsz);
+void get_city_dialog_airlift_text(const struct city *pcity,
+                                  char *buf, size_t bufsz);
+
+void get_city_dialog_airlift_value(const struct city *pcity,
+                                   char *buf, size_t bufsz);
 
 int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
                            enum citizen_category *categories);
