@@ -44,7 +44,7 @@ static void tileset_suggestion_callback(GtkWidget *dlg, gint arg)
   if (arg == GTK_RESPONSE_YES) {
     /* User accepted tileset loading */
     sz_strlcpy(forced_tileset_name, game.control.preferred_tileset);
-    if (!tilespec_reread(game.control.preferred_tileset, FALSE, 1.0)) {
+    if (!tilespec_reread(game.control.preferred_tileset, TRUE, 1.0)) {
       tileset_error(LOG_ERROR, _("Can't load requested tileset %s."),
                     game.control.preferred_tileset);
     }
