@@ -131,7 +131,8 @@ enum unit_airlift_result
        * or no airport).
        *
        * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-       * is not handled here because it always needs an airport to airlift.
+       * is not handled here because it applies only when the source city
+       * has at least one remaining airlift.
        * See also do_airline() in server/unittools.h. */
       return AR_SRC_NO_FLIGHTS;
     } /* else, there is capacity; continue to other checks */
