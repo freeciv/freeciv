@@ -1780,7 +1780,8 @@ action_hard_reqs_actor(const action_id wanted_action,
          * or no airport).
          *
          * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-         * is not handled here because it always needs an airport to airlift.
+         * is not handled here because it applies only when the source city
+         * has at least one remaining airlift.
          * See also do_airline() in server/unittools.h. */
         return TRI_NO;
       }
