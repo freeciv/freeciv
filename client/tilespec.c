@@ -1331,7 +1331,9 @@ bool tilespec_reread(const char *new_tileset_name,
   }
 
   if (game_fully_initialized) {
-    tileset_background_init(tileset);
+    if (game.client.ruleset_ready) {
+      tileset_background_init(tileset);
+    } /* else we'll get round to it on PACKET_RULESET_GAME */
     players_iterate(pplayer) {
       tileset_player_init(tileset, pplayer);
     } players_iterate_end;
