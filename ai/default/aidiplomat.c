@@ -427,6 +427,8 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_POISON_ESC)
               || utype_can_do_action(unit_type_get(punit),
+                                     ACTION_SPY_SPREAD_PLAGUE)
+              || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_STEAL_GOLD)
               || utype_can_do_action(unit_type_get(punit),
                                      ACTION_SPY_STEAL_GOLD_ESC)

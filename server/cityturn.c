@@ -3164,16 +3164,7 @@ static void update_city_activity(struct city *pcity)
         = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
 
       if (city_illness_check(pcity)) {
-        notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
-                      _("%s has been struck by a plague! Population lost!"), 
-                      city_link(pcity));
-        city_reduce_size(pcity, 1, NULL, "plague");
-        pcity->turn_plague = game.info.turn;
-
-        /* recalculate illness */
-        pcity->server.illness
-          = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade),
-                              NULL);
+        city_illness_strike(pcity);
       }
     }
 

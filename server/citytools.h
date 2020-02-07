@@ -70,6 +70,8 @@ void establish_trade_route(struct city *pc1, struct city *pc2);
 struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *proute,
                                        bool announce, bool source_gone);
 
+void city_illness_strike(struct city *pcity);
+
 void do_sell_building(struct player *pplayer, struct city *pcity,
                       struct impr_type *pimprove, const char *reason);
 bool building_removed(struct city *pcity, const struct impr_type *pimprove,

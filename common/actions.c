@@ -581,6 +581,10 @@ static void hard_code_actions(void)
       action_new(ACTION_SPY_STEAL_GOLD_ESC, ATK_CITY, ASTK_NONE,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                  0, 1, FALSE);
+  actions[ACTION_SPY_SPREAD_PLAGUE] =
+      action_new(ACTION_SPY_SPREAD_PLAGUE, ATK_CITY, ASTK_NONE,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 0, 1, FALSE);
   actions[ACTION_TRADE_ROUTE] =
       action_new(ACTION_TRADE_ROUTE, ATK_CITY, ASTK_NONE,
                  FALSE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
@@ -2115,6 +2119,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -2301,6 +2306,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -3102,6 +3108,9 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
+  case ACTION_SPY_SPREAD_PLAGUE:
+    /* Enabling this action with illness_on = FALSE prevents spread. */
+    break;
   case ACTION_SPY_INVESTIGATE_CITY:
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_POISON:
@@ -3939,6 +3948,9 @@ action_prob(const action_id wanted_action,
     /* TODO */
     break;
   case ACTION_SPY_STEAL_GOLD_ESC:
+    /* TODO */
+    break;
+  case ACTION_SPY_SPREAD_PLAGUE:
     /* TODO */
     break;
   case ACTION_STEAL_MAPS:
@@ -5346,6 +5358,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_steal_gold";
   case ACTION_SPY_STEAL_GOLD_ESC:
     return "ui_name_steal_gold_escape";
+  case ACTION_SPY_SPREAD_PLAGUE:
+    return "ui_name_spread_plague";
   case ACTION_STEAL_MAPS:
     return "ui_name_steal_maps";
   case ACTION_STEAL_MAPS_ESC:
@@ -5530,6 +5544,9 @@ const char *action_ui_name_default(int act)
   case ACTION_SPY_STEAL_GOLD_ESC:
     /* TRANS: Steal _Gold and Escape (100% chance of success). */
     return N_("Steal %sGold and Escape%s");
+  case ACTION_SPY_SPREAD_PLAGUE:
+    /* TRANS: Spread _Plague (100% chance of success). */
+    return N_("Spread %sPlague%s");
   case ACTION_STEAL_MAPS:
     /* TRANS: Steal _Maps (100% chance of success). */
     return N_("Steal %sMaps%s");
@@ -5717,6 +5734,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_TRADE_ROUTE:
@@ -5809,6 +5827,7 @@ int action_min_range_default(int act)
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_TRADE_ROUTE:
@@ -5903,6 +5922,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_TRADE_ROUTE:
@@ -6002,6 +6022,7 @@ int action_max_range_default(int act)
   case ACTION_SPY_STEAL_GOLD_ESC:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
@@ -6097,6 +6118,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_INV_CITY_SPEND:
   case ACTION_SPY_STEAL_GOLD:
   case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_STEAL_MAPS:
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_TRADE_ROUTE:

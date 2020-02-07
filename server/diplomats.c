@@ -166,6 +166,118 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /************************************************************************//**
+  Spread a plague to the target city.
+
+  - Check for infiltration success.  Our infector may not survive this.
+  - Check for basic success.  Again, our infector may not survive this.
+  - If successful, strikes the city with illness.
+
+  - The infector may be captured and executed, or escape to a nearby city.
+
+  'act_player' is the player who tries to infect 'tgt_city' with its unit
+  'act_unit'.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+****************************************************************************/
+bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
+                       struct city *tgt_city, const struct action *paction)
+{
+  struct player *tgt_player;
+  struct tile *tgt_tile;
+
+  const char *tgt_city_link;
+
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+
+  /* Sanity check: The target city still exists. */
+  fc_assert_ret_val(tgt_city, FALSE);
+
+  /* Who to infect. */
+  tgt_player = city_owner(tgt_city);
+
+  /* Sanity check: The target player still exists. */
+  fc_assert_ret_val(tgt_player, FALSE);
+
+  tgt_tile = city_tile(tgt_city);
+  tgt_city_link = city_link(tgt_city);
+
+  log_debug("spread plague: unit: %d", act_unit->id);
+
+  /* Battle all units capable of diplomatic defense. */
+  if (!diplomat_infiltrate_tile(act_player, tgt_player,
+                                paction,
+                                act_unit, NULL, tgt_tile)) {
+    return FALSE;
+  }
+
+  log_debug("spread plague: infiltrated");
+
+  /* The infector may get caught while trying to spread a plague in the
+   * city. */
+  if (diplomat_was_caught(act_player, act_unit, tgt_city, tgt_player,
+                          paction)) {
+    notify_player(act_player, tgt_tile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  /* TRANS: unit, action */
+                  _("Your %s was caught attempting to do %s!"),
+                  unit_tile_link(act_unit),
+                  action_name_translation(paction));
+    notify_player(tgt_player, tgt_tile, E_ENEMY_DIPLOMAT_FAILED,
+                  ftc_server,
+                  /* TRANS: nation, unit, action, city */
+                  _("You caught %s %s attempting to do %s in %s!"),
+                  nation_adjective_for_player(act_player),
+                  unit_tile_link(act_unit),
+                  action_name_translation(paction),
+                  tgt_city_link);
+
+    /* This may cause a diplomatic incident */
+    action_consequence_caught(paction, act_player,
+                              tgt_player, tgt_tile, tgt_city_link);
+
+    /* Execute the caught infector. */
+    wipe_unit(act_unit, ULR_CAUGHT, tgt_player);
+
+    return FALSE;
+  }
+
+  log_debug("spread plague: succeeded");
+
+  /* Commit bio-terrorism. */
+  city_illness_strike(tgt_city);
+
+  /* Update the clients. */
+  city_refresh(tgt_city);
+  send_city_info(NULL, tgt_city);
+
+  /* Notify everyone involved. */
+  notify_player(act_player, tgt_tile, E_UNIT_ACTION_ACTOR_SUCCESS,
+                ftc_server,
+                /* TRANS: unit, action, city */
+                _("Your %s did %s to %s."),
+                unit_link(act_unit), action_name_translation(paction),
+                tgt_city_link);
+  notify_player(tgt_player, tgt_tile, E_UNIT_ACTION_TARGET_HOSTILE,
+                ftc_server,
+                /* TRANS: action, city, nation */
+                _("%s done to %s, %s suspected."),
+                action_name_translation(paction), tgt_city_link,
+                nation_plural_for_player(act_player));
+
+  /* This may cause a diplomatic incident. */
+  action_consequence_success(paction, act_player,
+                             tgt_player, tgt_tile, tgt_city_link);
+
+  /* Try to escape. */
+  diplomat_escape_full(act_player, act_unit, TRUE,
+                       tgt_tile, tgt_city_link, paction);
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Investigate a city.
 
   - It costs some minimal movement to investigate a city.

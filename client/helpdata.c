@@ -1694,6 +1694,9 @@ static bool utype_may_do_escape_action(struct unit_type *utype)
 {
   return utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
       || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
+      || (utype_can_do_action(utype, ACTION_SPY_SPREAD_PLAGUE)
+          && !utype_is_consumed_by_action(
+            action_by_number(ACTION_SPY_SPREAD_PLAGUE), utype))
       || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
       || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
       || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_ESC)

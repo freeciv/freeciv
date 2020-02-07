@@ -218,6 +218,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
   unit_list_iterate(pplayer->units, punit) {
     if ((unit_can_do_action(punit, ACTION_SPY_POISON)
          || unit_can_do_action(punit, ACTION_SPY_POISON_ESC)
+         || unit_can_do_action(punit, ACTION_SPY_SPREAD_PLAGUE)
          || unit_can_do_action(punit, ACTION_SPY_SABOTAGE_CITY)
          || unit_can_do_action(punit, ACTION_SPY_SABOTAGE_CITY_ESC)
          || unit_can_do_action(punit, ACTION_SPY_TARGETED_SABOTAGE_CITY)

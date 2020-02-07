@@ -695,6 +695,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
     }
     if (utype_can_do_action(parameter->utype, ACTION_SPY_POISON)
         || utype_can_do_action(parameter->utype, ACTION_SPY_POISON_ESC)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_SPREAD_PLAGUE)
         || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT)
         || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
         || utype_can_do_action(parameter->utype, ACTION_SPY_BRIBE_UNIT)

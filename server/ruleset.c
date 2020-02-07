@@ -6494,6 +6494,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         }
       } action_iterate_end;
 
+      action_by_number(ACTION_SPY_SPREAD_PLAGUE)->actor_consuming_always
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                                      "actions.spread_plague_actor_consuming_always");
+
       action_by_number(ACTION_USER_ACTION1)->actor_consuming_always
         = secfile_lookup_bool_default(file,
                                       RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,

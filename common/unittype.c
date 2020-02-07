@@ -949,6 +949,10 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
     /* The actor unit is spent. */
     fc_assert(paction->actor_consuming_always);
     return FALSE;
+  case ACTION_SPY_SPREAD_PLAGUE:
+    /* May die, may be teleported to a safe city. May be spent by the
+     * ruleset setting the action's actor_consuming_always to TRUE */
+    return FALSE;
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:

@@ -2769,6 +2769,24 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
   }
 }
 
+/**********************************************************************//**
+  Give the city a plague.
+**************************************************************************/
+void city_illness_strike(struct city *pcity)
+{
+  notify_player(city_owner(pcity), city_tile(pcity), E_CITY_PLAGUE,
+                ftc_server,
+                _("%s has been struck by a plague! Population lost!"),
+                city_link(pcity));
+  city_reduce_size(pcity, 1, NULL, "plague");
+  pcity->turn_plague = game.info.turn;
+
+  /* recalculate illness */
+  pcity->server.illness
+    = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade),
+                        NULL);
+}
+
 /************************************************************************//**
   Sell the improvement from the city, and give the player the owner.  Not
   all buildings can be sold.

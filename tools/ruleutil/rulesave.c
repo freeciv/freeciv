@@ -1141,6 +1141,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_action_range(sfile, ACTION_NUKE);
 
   save_default_bool(sfile,
+                    action_by_number(ACTION_SPY_SPREAD_PLAGUE)->actor_consuming_always,
+                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                    "actions", "spread_plague_actor_consuming_always");
+
+  save_default_bool(sfile,
                     action_by_number(ACTION_USER_ACTION1)->actor_consuming_always,
                     RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
                     "actions", "user_action_1_actor_consuming_always");

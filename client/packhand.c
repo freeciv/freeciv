@@ -4757,6 +4757,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SPY_POISON_ESC:
       case ACTION_SPY_STEAL_GOLD:
       case ACTION_SPY_STEAL_GOLD_ESC:
+      case ACTION_SPY_SPREAD_PLAGUE:
       case ACTION_SPY_SABOTAGE_CITY:
       case ACTION_SPY_SABOTAGE_CITY_ESC:
       case ACTION_SPY_TARGETED_SABOTAGE_CITY:

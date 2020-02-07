@@ -26,6 +26,8 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
                             bool disturb_player);
 bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
                 struct city *pcity, const struct action *paction);
+bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
+                       struct city *tgt_city, const struct action *paction);
 bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
                        struct unit *pvictim,
                        const struct action *paction);

@@ -305,8 +305,8 @@ Action_Odds_Pct
     "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
     "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
     "Targeted Sabotage City", "Targeted Sabotage City Escape",
-    "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech" and
-    "Targeted Steal Tech Escape Expected".
+    "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech",
+    "Targeted Steal Tech Escape Expected" and "Spread Plague".
 
 Size_Adj
     Increase maximum size of a city by amount.
