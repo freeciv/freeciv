@@ -2451,7 +2451,10 @@ A Spy can also be used to:\n\
  stolen from (although cities become more resistant each time they\
  are stolen from);\n\
  - sabotage predetermined city targets (with a reduced chance of\
- success).\
+ success);\n\
+ - release plague in an enemy city if it has a Research Lab\
+ and the Spy's owner knows Medicine.\
+ Be careful! Plague spreads along trade routes.\
 "), _("\
 A Spy that survives the more aggressive actions (sabotage, theft,\
  inciting rebellion, and poisoning) escapes to the safety of the\

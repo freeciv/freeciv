@@ -524,6 +524,10 @@ ui_name_transport_embark = _("%sEmbark%s")
 ; /* TRANS: Eliminate _Spy (100% chance of success). */
 ui_name_spy_attack = _("Eliminate %sSpy%s")
 
+; /* TRANS: Release _Plague (100% chance of success). */
+ui_name_spread_plague = _("Release %sPlague%s")
+spread_plague_actor_consuming_always = TRUE
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 
@@ -775,6 +779,25 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range"
       "MinSize", "2", "City"
+    }
+
+[actionenabler_release_plague_from_bio_lab]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Tech",         "Medicine",      "Player", TRUE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+      "Building", "Research Lab", "City"
     }
 
 [actionenabler_incite_city]

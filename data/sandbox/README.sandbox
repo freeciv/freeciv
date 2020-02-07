@@ -148,7 +148,8 @@ Tech trading requirement
 Treaties cannot have tech clauses before both sides know Writing.
 
 Plague
-Double probability for a plague spreading along a trade route.
+Double probability for a plague spreading along a trade route. Enemy spies
+can release plague samples found in a target city's Research Lab.
 
 Disrupt Supply Lines
 Some units can disrupt the supply lines of enemy units. This removes 1 MP

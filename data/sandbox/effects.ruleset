@@ -4269,6 +4269,26 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
+; A successful release endangers every player connected by trade routes.
+; Who cares that it was done during war against someone else?
+[effect_release_plague_incident_success]
+type	= "Casus_Belli_Success"
+value	= 1000
+reqs	=
+    { "type",    "name",          "range", "present"
+      "Action",  "Spread Plague", "Local", TRUE
+    }
+
+; An attempted release can be brushed under the rug internationally.
+[effect_release_plague_incident_caught]
+type	= "Casus_Belli_Caught"
+value	= 1
+reqs	=
+    { "type",    "name",          "range", "present"
+      "Action",  "Spread Plague", "Local", TRUE
+      "DiplRel", "War",           "Local", FALSE
+    }
+
 [effect_incident_success_sabotage_city]
 type	= "Casus_Belli_Success"
 value	= 1
