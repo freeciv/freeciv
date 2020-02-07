@@ -976,10 +976,15 @@ void notify_goto::inspect_city()
 void races_dialog::nationset_changed(int index)
 {
   QString rule_name;
-  char *rn;
+  QByteArray rn_bytes;
+  const char *rn;
   struct option *poption = optset_option_by_name(server_optset, "nationset");
+
   rule_name = qnation_set->currentData().toString();
-  rn = rule_name.toLocal8Bit().data();
+  rn_bytes = rule_name.toLocal8Bit(); /* Hold QByteArray in a variable to
+                                       * extend its, and data() buffer's,
+                                       * lifetime */
+  rn = rn_bytes.data();
   if (nation_set_by_setting_value(option_str_get(poption))
       != nation_set_by_rule_name(rn)) {
     option_str_set(poption, rn);
