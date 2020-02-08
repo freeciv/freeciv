@@ -936,6 +936,7 @@ static void populate_unit_image_table(void)
    * in reset_unit_table. */
   unit_image = gtk_image_new();
   g_object_ref(unit_image);
+  gtk_widget_set_size_request(unit_image, tileset_tile_width(tileset), -1);
   gtk_grid_attach(GTK_GRID(table), unit_image, 0, 0, 1, 1);
   g_signal_connect(unit_image, "button_press_event",
                    G_CALLBACK(select_unit_image_callback), 
@@ -946,6 +947,8 @@ static void populate_unit_image_table(void)
     for (i = 0; i < num_units_below; i++) {
       unit_below_image[i] = gtk_image_new();
       g_object_ref(unit_below_image[i]);
+      gtk_widget_set_size_request(unit_below_image[i],
+                                  tileset_tile_width(tileset), -1);
       g_signal_connect(unit_below_image[i],
                        "button_press_event",
                        G_CALLBACK(select_unit_image_callback),
