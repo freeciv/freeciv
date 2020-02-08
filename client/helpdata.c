@@ -1744,42 +1744,53 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (uclass_has_flag(pclass, UCF_CAN_OCCUPY_CITY)
       && !utype_has_flag(utype, UTYF_CIVILIAN)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
   }
   if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Speed is not affected by terrain.\n"));
   }
   if (!uclass_has_flag(pclass, UCF_TERRAIN_DEFENSE)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Does not get defense bonuses from terrain.\n"));
   }
   if (!uclass_has_flag(pclass, UCF_ZOC)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Not subject to zones of control.\n"));
   } else if (!utype_has_flag(utype, UTYF_IGZOC)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Subject to zones of control.\n"));
   }
   if (uclass_has_flag(pclass, UCF_DAMAGE_SLOWS)) {
+    /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
   }
   if (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
       && !utype_has_flag(utype, UTYF_CANT_FORTIFY)) {
     if (utype->defense_strength > 0) {
       CATLSTR(buf, bufsz,
+              /* TRANS: indented unit class property, preserve leading spaces */
               /* xgettext:no-c-format */
               _("  * Gets a 50% defensive bonus while in cities.\n"));
       CATLSTR(buf, bufsz,
+              /* TRANS: indented unit class property, preserve leading spaces */
               /* xgettext:no-c-format */
               _("  * May fortify, granting a 50% defensive bonus when not in "
                 "a city.\n"));
     } else {
       CATLSTR(buf, bufsz,
+              /* TRANS: indented unit class property, preserve leading spaces */
               _("  * May fortify to stay put.\n"));
     }
   }
   if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
+            /* TRANS: indented unit class property, preserve leading spaces */
 	    _("  * Is unreachable. Most units cannot attack this one.\n"));
     if (utype_has_flag(utype, UTYF_NEVER_PROTECTS)) {
       CATLSTR(buf, bufsz,
+              /* TRANS: indented twice; preserve leading spaces */
 	      _("    * Doesn't prevent enemy units from attacking other "
                 "units on its tile.\n"));
     }
@@ -1787,10 +1798,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (uclass_has_flag(pclass, UCF_DOESNT_OCCUPY_TILE)
       && !utype_has_flag(utype, UTYF_CIVILIAN)) {
     CATLSTR(buf, bufsz,
+            /* TRANS: indented unit class property, preserve leading spaces */
 	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
   if (can_attack_non_native(utype)) {
     CATLSTR(buf, bufsz,
+            /* TRANS: indented unit class property, preserve leading spaces */
 	    _("  * Can attack units on non-native tiles.\n"));
   }
   for (flagid = UCF_USER_FLAG_1; flagid <= UCF_LAST_USER_FLAG; flagid++) {
@@ -1798,6 +1811,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       const char *helptxt = unit_class_flag_helptxt(flagid);
 
       if (helptxt != NULL) {
+        /* TRANS: indented unit class property, preserve leading spaces */
         CATLSTR(buf, bufsz, Q_("?bullet:  * "));
         CATLSTR(buf, bufsz, _(helptxt));
         CATLSTR(buf, bufsz, "\n");
@@ -1894,9 +1908,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Can only be built in games where new cities "
                           "are allowed.\n"));
     if (game.scenario.prevent_new_cities) {
+      /* TRANS: indented; preserve leading spaces */
       CATLSTR(buf, bufsz, _("  - New cities are not allowed in the current "
                             "game.\n"));
     } else {
+      /* TRANS: indented; preserve leading spaces */
       CATLSTR(buf, bufsz, _("  - New cities are allowed in the current "
                             "game.\n"));
     }
@@ -2015,11 +2031,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           /* At least one type of cargo can load onto us freely.
            * The specific exceptions will be documented in cargo help. */
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Some cargo cannot be loaded except in a city or a "
                     "base native to this transport.\n"));
         } else {
           /* No exceptions */
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Cargo cannot be loaded except in a city or a "
                     "base native to this transport.\n"));
         }
@@ -2028,11 +2046,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         if (has_unrestricted_unload) {
           /* At least one type of cargo can unload from us freely. */
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Some cargo cannot be unloaded except in a city or a "
                     "base native to this transport.\n"));
         } else {
           /* No exceptions */
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Cargo cannot be unloaded except in a city or a "
                     "base native to this transport.\n"));
         }
@@ -2290,12 +2310,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* A non-military unit:\n"));
     CATLSTR(buf, bufsz,
+            /* TRANS: indented; preserve leading spaces */
             _("  * Cannot attack.\n"));
     CATLSTR(buf, bufsz,
+            /* TRANS: indented; preserve leading spaces */
             _("  * Doesn't impose martial law.\n"));
     CATLSTR(buf, bufsz,
+            /* TRANS: indented; preserve leading spaces */
             _("  * Can enter foreign territory regardless of peace treaty.\n"));
     CATLSTR(buf, bufsz,
+            /* TRANS: indented; preserve leading spaces */
             _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
   if (utype_has_flag(utype, UTYF_FIELDUNIT)) {
@@ -2872,21 +2896,25 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       if (utype_can_do_action(utype, ACTION_ATTACK)
           || utype->defense_strength > 0) {
         CATLSTR(buf, bufsz,
+                /* TRANS: indented; preserve leading spaces */
                 _("  * Veterans have increased strength in combat.\n"));
       }
       /* SUPERSPY always wins/escapes */
       if (utype_has_flag(utype, UTYF_DIPLOMAT)
           && !utype_has_flag(utype, UTYF_SUPERSPY)) {
         CATLSTR(buf, bufsz,
+                /* TRANS: indented; preserve leading spaces */
                 _("  * Veterans have improved chances in diplomatic "
                   "contests.\n"));
         if (utype_may_do_escape_action(utype)) {
           CATLSTR(buf, bufsz,
+                /* TRANS: indented; preserve leading spaces */
                   _("  * Veterans are more likely to survive missions.\n"));
         }
       }
       if (utype_has_flag(utype, UTYF_SETTLERS)) {
         CATLSTR(buf, bufsz,
+                /* TRANS: indented; preserve leading spaces */
                 _("  * Veterans work faster.\n"));
       }
     }
@@ -2984,6 +3012,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
       if (!techs_have_fixed_costs()
           && research_invention_reachable(presearch, i)) {
         CATLSTR(buf, bufsz,
+                /* TRANS: preserve leading space */
                 _(" This number may vary depending on what "
                   "other players research.\n"));
       } else {
@@ -3714,6 +3743,7 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
 
       if (extra_has_flag(pextra, EF_NATIVE_TILE)) {
         CATLSTR(buf, bufsz,
+                /* TRANS: indented; preserve leading spaces */
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
@@ -3721,17 +3751,20 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
         if (base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
           /* "3 tiles" is hardcoded in is_friendly_city_near() */
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Such units situated here are not considered aggressive "
                     "if this tile is within 3 tiles of a friendly city.\n"));
         }
         if (territory_claiming_base(pbase)) {
           CATLSTR(buf, bufsz,
+                  /* TRANS: indented; preserve leading spaces */
                   _("  * Can be captured by such units if at war with the "
                     "nation that currently owns it.\n"));
         }
       }
       if (pextra->defense_bonus) {
         cat_snprintf(buf, bufsz,
+                     /* TRANS: indented; preserve leading spaces */
                      _("  * Such units get a %d%% defense bonus on this "
                        "tile.\n"),
                      pextra->defense_bonus);

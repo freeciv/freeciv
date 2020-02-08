@@ -279,15 +279,19 @@ const char *popup_info_text(struct tile *ptile)
       int count = unit_list_size(ptile->units);
 
       if (count > 0) {
+        /* TRANS: preserve leading space */
         astr_add(&str, PL_(" | Occupied with %d unit.",
                                 " | Occupied with %d units.", count), count);
       } else {
+        /* TRANS: preserve leading space */
         astr_add(&str, _(" | Not occupied."));
       }
     } else {
       if (city_is_occupied(pcity)) {
+        /* TRANS: preserve leading space */
         astr_add(&str, _(" | Occupied."));
       } else {
+        /* TRANS: preserve leading space */
         astr_add(&str, _(" | Not occupied."));
       }
     }

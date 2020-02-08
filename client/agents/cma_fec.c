@@ -345,6 +345,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
     fc_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
                 city_size_get(pcity) - cm_result_specialists(result),
                 specialists_string(result->specialists),
+                /* TRANS: preserve leading space */
                 result->happy ? _(" happy") : "");
 
     fc_snprintf(buf[7], BUFFER_SIZE, "%s",
