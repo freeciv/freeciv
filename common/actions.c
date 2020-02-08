@@ -459,7 +459,7 @@ const char *action_get_tool_tip(const int act_id,
              (double)prob.max / ACTPROB_VAL_1_PCT,
              prob.max - prob.min > 1 ?
                /* TRANS: explanation used in the action probability tooltip
-                * above. */
+                * above. Preserve leading space. */
                _(" (This is the most precise interval I can calculate "
                  "given the information our nation has access to.)") :
                "");

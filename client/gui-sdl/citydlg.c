@@ -3587,18 +3587,22 @@ static void rebuild_citydlg_title_str(struct widget *pWindow,
               population_to_text(city_population(pCity)));
 
   if (city_unhappy(pCity)) {
+    /* TRANS: preserve leading space */
     fc_strlcat(cBuf, _(" - DISORDER"), sizeof(cBuf));
   } else {
     if (city_celebrating(pCity)) {
+      /* TRANS: preserve leading space */
       fc_strlcat(cBuf, _(" - celebrating"), sizeof(cBuf));
     } else {
       if (city_happy(pCity)) {
+        /* TRANS: preserve leading space */
 	fc_strlcat(cBuf, _(" - happy"), sizeof(cBuf));
       }
     }
   }
 
   if (cma_is_city_under_agent(pCity, NULL)) {
+    /* TRANS: preserve leading space */
     fc_strlcat(cBuf, _(" - under Citizen Governor control."), sizeof(cBuf));
   }
   

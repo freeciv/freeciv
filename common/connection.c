@@ -473,17 +473,21 @@ const char *conn_description(const struct connection *pconn)
     sz_strlcpy(buffer, "server");
   }
   if (NULL != pconn->closing_reason) {
-    /* TRANS: Appending the reason why a connection has closed. */
+    /* TRANS: Appending the reason why a connection has closed.
+     * Preserve leading space. */
     cat_snprintf(buffer, sizeof(buffer), _(" (%s)"), pconn->closing_reason);
   } else if (!pconn->established) {
+    /* TRANS: preserve leading space. */
     sz_strlcat(buffer, _(" (connection incomplete)"));
     return buffer;
   }
   if (NULL != pconn->playing) {
+    /* TRANS: preserve leading space. */
     cat_snprintf(buffer, sizeof(buffer), _(" (player %s)"),
 		 player_name(pconn->playing));
   }
   if (pconn->observer) {
+    /* TRANS: preserve leading space. */
     sz_strlcat(buffer, _(" (observer)"));
   }
   return buffer;

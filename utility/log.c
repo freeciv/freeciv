@@ -417,6 +417,7 @@ static void log_real(enum log_level level, bool print_from_where,
                       repeated-prev), repeated-prev);
       if (repeated > 2) {
         cat_snprintf(buf, sizeof(buf), 
+                     /* TRANS: preserve leading space */
                      PL_(" (total %d repeat)",
                          " (total %d repeats)",
                          repeated), repeated);

@@ -2817,12 +2817,12 @@ void change_build_target(struct player *pplayer, struct city *pcity,
   switch (event) {
     case E_WORKLIST:
       /* TRANS: Possible 'source' of the production change
-       * (in "<city> is building ..." sentence). */
+       * (in "<city> is building ..." sentence). Preserve leading space. */
       source = _(" from the worklist");
       break;
     case E_IMP_AUTO:
       /* TRANS: Possible 'source' of the production change
-       * (in "<city> is building ..." sentence). */
+       * (in "<city> is building ..." sentence). Preserve leading space. */
       source = _(" as suggested by the advisor");
       break;
     default:

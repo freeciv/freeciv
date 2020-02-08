@@ -1133,7 +1133,7 @@ void unit_select_dialog_popup(struct tile *ptile)
 
       /* calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus)) {
-          /* TRANS: "CtW" = "Chance to Win" */
+          /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
           cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                att_chance, def_chance);
       }
@@ -1893,7 +1893,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
           /* calculate chance to win */
           if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
-            /* TRANS: "CtW" = "Chance to Win" */
+            /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
             cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                att_chance, def_chance);
 	  }
@@ -2021,6 +2021,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
 	    /* calculate chance to win */
             if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
+              /* TRANS: preserve leading space */
               cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                  att_chance, def_chance);
 	    }
