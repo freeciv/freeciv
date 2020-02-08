@@ -643,6 +643,7 @@ void hud_units::update_actions(unit_list *punits)
                                       " (Selected %1 units)", n))
                .arg(n);
   } else if (num > 1) {
+    /* TRANS: preserve leading space */
     text_str = text_str + QString(PL_(" +%1 unit",
                                       " +%1 units", num-1))
                                   .arg(snum.toLocal8Bit().data());
