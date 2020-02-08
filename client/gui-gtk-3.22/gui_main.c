@@ -914,6 +914,8 @@ static void populate_unit_image_table(void)
   gtk_widget_add_events(unit_image, GDK_BUTTON_PRESS_MASK);
   g_object_ref(unit_image);
   unit_image_button = gtk_event_box_new();
+  gtk_widget_set_size_request(unit_image_button,
+                              tileset_tile_width(tileset), -1);
   gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_image_button), FALSE);
   g_object_ref(unit_image_button);
   gtk_container_add(GTK_CONTAINER(unit_image_button), unit_image);
@@ -930,6 +932,8 @@ static void populate_unit_image_table(void)
       gtk_widget_add_events(unit_below_image[i], GDK_BUTTON_PRESS_MASK);
       unit_below_image_button[i] = gtk_event_box_new();
       g_object_ref(unit_below_image_button[i]);
+      gtk_widget_set_size_request(unit_below_image_button[i],
+                                  tileset_tile_width(tileset), -1);
       gtk_event_box_set_visible_window(GTK_EVENT_BOX(unit_below_image_button[i]), FALSE);
       gtk_container_add(GTK_CONTAINER(unit_below_image_button[i]),
                         unit_below_image[i]);
