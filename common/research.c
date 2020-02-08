@@ -173,7 +173,8 @@ int research_pretty_name(const struct research *presearch, char *buf,
       char buf2[buf_len];
 
       team_pretty_name(pteam, buf2, sizeof(buf2));
-      /* TRANS: e.g. "members of team 1", or even "members of team Red". */
+      /* TRANS: e.g. "members of team 1", or even "members of team Red".
+       * Used in many places where a nation plural might be used. */
       return fc_snprintf(buf, buf_len, _("members of %s"), buf2);
     } else {
       pplayer = player_list_front(team_members(pteam));

@@ -1520,13 +1520,11 @@ int main(int argc, char **argv)
 **************************************************************************/
 static void migrate_options_from_2_5(void)
 {
-  if (!gui_options.first_boot) {
-    log_normal(_("Migrating gtk2-client options from freeciv-2.5 options."));
+  log_normal(_("Migrating gtk2-client options from freeciv-2.5 options."));
 
-    gui_options.gui_gtk2_fullscreen = gui_options.migrate_fullscreen;
+  gui_options.gui_gtk2_fullscreen = gui_options.migrate_fullscreen;
 
-    gui_options.gui_gtk2_migrated_from_2_5 = TRUE;
-  }
+  gui_options.gui_gtk2_migrated_from_2_5 = TRUE;
 }
 
 /**************************************************************************
@@ -1567,8 +1565,14 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = toplevel->window;
 
-  if (!gui_options.gui_gtk2_migrated_from_2_5) {
-    migrate_options_from_2_5();
+  if (gui_options.first_boot) {
+    /* We're using fresh defaults for this version of this client,
+     * so prevent any future migrations from other versions */
+    gui_options.gui_gtk2_migrated_from_2_5 = TRUE;
+  } else {
+    if (!gui_options.gui_gtk2_migrated_from_2_5) {
+      migrate_options_from_2_5();
+    }
   }
 
   if (gui_options.gui_gtk2_fullscreen) {
@@ -2191,12 +2195,4 @@ void insert_client_build_info(char *outbuf, size_t outlen)
                gtk_major_version, gtk_minor_version, gtk_micro_version,
                GLIB_MAJOR_VERSION, GLIB_MINOR_VERSION, GLIB_MICRO_VERSION,
                glib_major_version, glib_minor_version, glib_micro_version);
-}
-
-/**************************************************************************
-  Make dynamic adjustments to first-launch default options.
-**************************************************************************/
-void adjust_default_options(void)
-{
-  /* Nothing in case of this gui */
 }

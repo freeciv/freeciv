@@ -2827,10 +2827,12 @@ static bool insert_requirement(char *buf, size_t bufsz,
     CATLSTR(buf, bufsz, prefix);
     if (preq->present) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Requires %s map.\n"),
                    _(topo_flag_name(preq->source.value.topo_property)));
     } else {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: topology flag name ("WrapX", "ISO", etc) */
                    _("Prevented on %s map.\n"),
                    _(topo_flag_name(preq->source.value.topo_property)));
     }
@@ -6289,6 +6291,8 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
     if (action_immune_government(gov, act)) {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: action name ... action target
+                    * ("individual units", etc) */
                    _("* Makes it impossible to do the action \'%s\'"
                      " to your %s.\n"),
                    action_id_name_translation(act),

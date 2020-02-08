@@ -12,7 +12,7 @@ priority = 5
 ;version = ""
 
 ; Summary and full description of the tileset.
-summary = _("Small hex tiles")
+summary = _("Small hex tileset.")
 ;description = ""
 
 ; TODO: add more overall information fields on tiles, 

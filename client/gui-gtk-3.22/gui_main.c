@@ -221,6 +221,8 @@ static void allied_chat_button_toggled(GtkToggleButton *button,
 
 static void free_unit_table(void);
 
+static void adjust_default_options(void);
+
 /****************************************************************************
   Called by the tileset code to set the font size that should be used to
   draw the city names and productions.
@@ -1670,8 +1672,13 @@ static void migrate_options_from_gtk2(void)
           sizeof(gui_options.gui_gtk3_##opt));
 
   /* Default theme name is never migrated */
-  /* Fullscreen not migrated as gtk3-client differs from gtk2-client in a way that
-   * user is likely to want default even if gtk2-client setting differs. */
+  /* 'fullscreen' and 'small_display_layout' not migrated, as
+   * (unlike Gtk2), Gtk3-client tries to pick better defaults for
+   * these in fresh installations based on screen size (see
+   * adjust_default_options()); so user is probably better served by
+   * getting this adaptive default than whatever they had for Gtk2.
+   * Since 'fullscreen' isn't migrated, we don't need to worry about
+   * preserving gui_gtk2_migrated_from_2_5 either. */
   MIGRATE_OPTION(map_scrollbars);
   MIGRATE_OPTION(dialogs_on_top);
   MIGRATE_OPTION(show_task_icons);
@@ -1682,7 +1689,6 @@ static void migrate_options_from_gtk2(void)
   MIGRATE_OPTION(metaserver_tab_first);
   MIGRATE_OPTION(allied_chat_only);
   MIGRATE_OPTION(message_chat_location);
-  MIGRATE_OPTION(small_display_layout);
   MIGRATE_OPTION(mouse_over_map_focus);
   MIGRATE_OPTION(chatline_autocompletion);
   MIGRATE_OPTION(citydlg_xsize);
@@ -1722,6 +1728,14 @@ static void migrate_options_from_gtk3(void)
           sizeof(GUI_GTK_OPTION(opt)));
 
   /* Default theme name is never migrated */
+
+  /* Simulate gui-gtk3's migrate_options_from_2_5() */
+  if (!gui_options.gui_gtk3_migrated_from_2_5) {
+    log_normal(_("Migrating gtk3-client options from freeciv-2.5 options."));
+    gui_options.gui_gtk3_fullscreen = gui_options.migrate_fullscreen;
+    gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+  }
+
   MIGRATE_OPTION(fullscreen);
   MIGRATE_OPTION(map_scrollbars);
   MIGRATE_OPTION(dialogs_on_top);
@@ -1792,11 +1806,26 @@ void ui_main(int argc, char **argv)
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_window(toplevel);
 
-  if (!GUI_GTK_OPTION(migrated_from_gtk3)) {
-    if (!gui_options.gui_gtk3_migrated_from_gtk2) {
-      migrate_options_from_gtk2();
+  if (gui_options.first_boot) {
+    adjust_default_options();
+    /* We're using fresh defaults for this version of this client,
+     * so prevent any future migrations from other clients / versions */
+    GUI_GTK_OPTION(migrated_from_gtk3) = TRUE;
+    /* Avoid also marking gtk3 as migrated, so that it can have its own
+     * run of its adjust_default_options() if it is ever run (as a
+     * side effect of Gtk2->Gtk3 migration). */
+  } else {
+    if (!GUI_GTK_OPTION(migrated_from_gtk3)) {
+      if (!gui_options.gui_gtk3_migrated_from_gtk2) {
+        migrate_options_from_gtk2();
+        /* We want a fresh look at screen-size-related options after Gtk2 */
+        adjust_default_options();
+        /* We don't ever want to consider pre-2.6 fullscreen option again
+         * (even for gui-gtk3) */
+        gui_options.gui_gtk3_migrated_from_2_5 = TRUE;
+      }
+      migrate_options_from_gtk3();
     }
-    migrate_options_from_gtk3();
   }
 
   if (GUI_GTK_OPTION(fullscreen)) {
@@ -2378,27 +2407,62 @@ void insert_client_build_info(char *outbuf, size_t outlen)
 }
 
 /**************************************************************************
-  Return width of the default screen
+  Return dimensions of primary monitor, if any
+  (in 'application pixels')
+**************************************************************************/
+static bool monitor_size(GdkRectangle *rect_p)
+{
+  GdkDisplay *display;
+  GdkMonitor *monitor;
+
+  display = gdk_display_get_default();
+  if (!display) {
+    return FALSE;
+  }
+
+  monitor = gdk_display_get_primary_monitor(display);
+  if (!monitor) {
+    return FALSE;
+  }
+
+  gdk_monitor_get_geometry(monitor, rect_p);
+  return TRUE;
+}
+
+/**************************************************************************
+  Return width of the primary monitor
 **************************************************************************/
 int screen_width(void)
 {
+  GdkRectangle rect;
+
   if (vmode.width > 0) {
     return vmode.width;
   }
 
-  return 0;
+  if (monitor_size(&rect)) {
+    return rect.width;
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
-  Return height of the default screen
+  Return height of the primary monitor
 **************************************************************************/
 int screen_height(void)
 {
+  GdkRectangle rect;
+
   if (vmode.height > 0) {
     return vmode.height;
   }
 
-  return 0;
+  if (monitor_size(&rect)) {
+    return rect.height;
+  } else {
+    return 0;
+  }
 }
 
 /**************************************************************************
@@ -2416,7 +2480,7 @@ struct video_mode *resolution_request_get(void)
 /**************************************************************************
   Make dynamic adjustments to first-launch default options.
 **************************************************************************/
-void adjust_default_options(void)
+static void adjust_default_options(void)
 {
   int scr_height = screen_height();
 
@@ -2426,10 +2490,13 @@ void adjust_default_options(void)
     if (scr_height <= 480) {
       /* Freeciv is practically unusable outside fullscreen mode in so
        * small display */
+      log_verbose("Changing default to fullscreen due to very small screen");
       GUI_GTK_OPTION(fullscreen) = TRUE;
-    } else if (scr_height >= 1024) {
-      /* This is no small display */
-      GUI_GTK_OPTION(small_display_layout) = FALSE;
+    }
+    if (scr_height < 1024) {
+      /* This is a small display */
+      log_verbose("Defaulting to small widget layout due to small screen");
+      GUI_GTK_OPTION(small_display_layout) = TRUE;
     }
   }
 }

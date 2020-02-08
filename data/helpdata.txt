@@ -350,7 +350,8 @@ following sections.\
 Improvements can be built by issuing one of several orders to a suitable \
 unit while on a suitable tile: \"mine\", \"irrigate\", \"road\", or \
 \"build base\" (although whether the order builds an improvement of the \
-same name is up to the ruleset).\
+same name is up to the ruleset). Terrain alterations can also be \
+requested from the city map (see the help on Cities).\
 "), _("\
 Terrain can sometimes be permanently converted into a type more suitable \
 to the player's needs, although this usually takes longer than adding \
@@ -483,7 +484,7 @@ output. In the classic ruleset, most units require production points \
 as upkeep, and demand them from their home city, although under \
 autocratic regimes each city supports a few units for free. If city \
 production drops too low, the units that cannot be supported are \
-automatically disbanded. Most types of unit can also be disbanded at \
+automatically disbanded. You can also disband most types of unit at \
 any time. If a unit is disbanded while in a city, half of its production \
 cost will usually be put towards that city's surplus.\
 "), _("\
@@ -696,6 +697,15 @@ assigned when a city grows; you may want to inspect cities that have \
 just grown and adjust the role in which the new citizen has been \
 placed. You can set different priorities for a city with the Citizen \
 Governor; see its help section.\
+"), _("\
+You can also request tile alterations from the city map, as an \
+alternative to explicitly instructing units to make them. In clients \
+which support it, right-clicking on a city map tile gives a menu of \
+changes which can be made to that tile, such as irrigation and \
+building roads (see the section on Terrain Alterations); you can \
+select one improvement per tile at a time. These 'worker tasks' will \
+be carried out by any units capable of them that are in 'auto settler' \
+mode.\
 "), _("\
 Citizens have a nationality distinct from that of the state they \
 inhabit. When a city grows due to food surplus, new citizens take \
@@ -1007,7 +1017,7 @@ generate = " Wonders"
 [help_units]
 name = _("Units")
 text = _("\
-Units both offer mobility to your civilization and supply the violence \
+Units provide both the mobility your civilization needs, and the violence \
 with which it will survive and expand. The available units may be \
 classified as military units, whose talents are those of defense and \
 aggression, and a few noncombatants which support expansion, \
@@ -1123,8 +1133,8 @@ of the terrain it occupies.\
 "),
 ; hardcoded in defense_multiplication(); unit "CanFortify" / "Cant_Fortify"
 _("\
- - If the defender is a land unit, and is either fortified or \
-inside a city, its strength is multiplied by 1.5.\
+ - If the defender is fortified, or is of a type that could fortify \
+and is inside a city, its strength is multiplied by 1.5.\
 "), _("\
  - Ruleset-specific bonuses are applied:\
 "),

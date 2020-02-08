@@ -297,7 +297,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 
-/* Changing these values will break map_init_topology. */
+/* Changing these values will break map_init_topology.
+ * Changing the names will break file format compatibility. */
 #define SPECENUM_NAME topo_flag
 #define SPECENUM_BITWISE
 #define SPECENUM_VALUE0 TF_WRAPX

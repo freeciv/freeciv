@@ -1349,21 +1349,22 @@ static struct setting settings[] = {
 
   GEN_BITWISE("topology", game.map.topology_id, SSET_MAP_SIZE,
               SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-              N_("Map topology index"),
+              N_("Map topology"),
               /* TRANS: do not edit the ugly ASCII art */
               N_("Freeciv maps are always two-dimensional. They may wrap at "
                  "the north-south and east-west directions to form a flat "
                  "map, a cylinder, or a torus (donut). Individual tiles may "
-                 "be rectangular or hexagonal, with either a classic or "
-                 "isometric alignment - this should be set based on the "
-                 "tileset being used.\n"
-                 "Classic rectangular:       Isometric rectangular:\n"
+                 "be rectangular or hexagonal, with either an overhead "
+                 "(\"classic\") or isometric alignment.\n"
+                 "To play with a particular topology, clients will need a "
+                 "matching tileset.\n"
+                 "Overhead rectangular:      Isometric rectangular:\n"
                  "      _________               /\\/\\/\\/\\/\\\n"
                  "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
                  "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
                  "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
                  "                             \\/\\/\\/\\/\\/\n"
-                 "Hex tiles:                 Iso-hex:\n"
+                 "Hex:                       Iso-hex:\n"
                  "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
                  "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
                  "  \\/\\/\\/\\/\\/\\/\\"
@@ -2382,11 +2383,14 @@ static struct setting settings[] = {
           /* TRANS: Do not translate 'migration' setting name. */
           N_("This setting controls how far citizens may look for a "
              "suitable migration destination when deciding which city "
-             "to migrate to. The value is added to the current city radius "
-             "and compared to the distance between the two cities. If "
-             "the distance is lower or equal, migration is possible. This "
-             "setting has no effect unless migration is activated by the "
-             "'migration' setting."),
+             "to migrate to. The value is added to the candidate target "
+             "city's radius and compared to the distance between the "
+             "two cities. If the distance is lower or equal, migration "
+             "is possible. (So with a setting of 0, citizens will only "
+             "consider migrating if their city's center is within the "
+             "destination city's working radius.) This setting has no "
+             "effect unless migration is enabled by the 'migration' "
+             "setting."),
           NULL, NULL, NULL, GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
           GAME_DEFAULT_MGR_DISTANCE)
 

@@ -398,12 +398,13 @@ data/nation/tupi.ruleset
 data/nation/turk.ruleset
 data/nation/viking.ruleset
 data/nation/zulu.ruleset
-data/cimpletoon.tilespec
-data/isotrident.tilespec
 data/amplio2.tilespec
-data/isophex.tilespec
-data/hexemplio.tilespec
+data/cimpletoon.tilespec
 data/hex2t.tilespec
+data/hexemplio.tilespec
+data/isophex.tilespec
+data/isotrident.tilespec
+data/toonhex.tilespec
 data/trident.tilespec
 data/scenarios/british-isles-85x80-v2.80.sav
 data/scenarios/earth-160x90-v2.sav

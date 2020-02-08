@@ -13,9 +13,8 @@ priority = 30
 
 ; Summary and full description of the tileset.
 summary = _("\
-Cimpletoon mostly uses Amplio2 sprites, but has unit sprites of its own. \
-Unlike most tilesets, Cimpletoon's unit sprites show the direction the \
-unit is facing.\
+Variant of Amplio2 isometric tileset with unit sprites showing the \
+direction the unit is facing.\
 ")
 ;description = ""
 

@@ -205,7 +205,7 @@ struct client_options gui_options = {
   .gui_gtk2_metaserver_tab_first = FALSE,
   .gui_gtk2_allied_chat_only = FALSE,
   .gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk2_small_display_layout = TRUE,
+  .gui_gtk2_small_display_layout = FALSE,
   .gui_gtk2_mouse_over_map_focus = FALSE,
   .gui_gtk2_chatline_autocompletion = TRUE,
   .gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
@@ -238,7 +238,7 @@ struct client_options gui_options = {
   .gui_gtk3_metaserver_tab_first = FALSE,
   .gui_gtk3_allied_chat_only = FALSE,
   .gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk3_small_display_layout = TRUE,
+  .gui_gtk3_small_display_layout = FALSE,
   .gui_gtk3_mouse_over_map_focus = FALSE,
   .gui_gtk3_chatline_autocompletion = TRUE,
   .gui_gtk3_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
@@ -273,7 +273,7 @@ struct client_options gui_options = {
   .gui_gtk3_22_metaserver_tab_first = FALSE,
   .gui_gtk3_22_allied_chat_only = FALSE,
   .gui_gtk3_22_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk3_22_small_display_layout = TRUE,
+  .gui_gtk3_22_small_display_layout = FALSE,
   .gui_gtk3_22_mouse_over_map_focus = FALSE,
   .gui_gtk3_22_chatline_autocompletion = TRUE,
   .gui_gtk3_22_citydlg_xsize = GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
@@ -1233,7 +1233,6 @@ static const char *client_option_help_text(const struct option *poption);
 static int client_option_category(const struct option *poption);
 static bool client_option_is_changeable(const struct option *poption);
 static struct option *client_option_next(const struct option *poption);
-static void client_option_adjust_defaults(void);
 
 static const struct option_common_vtable client_option_common_vtable = {
   .number = client_option_number,
@@ -1926,7 +1925,7 @@ static struct client_option client_options[] = {
    * leave it to tilespec code that can handle tileset priority. */
   GEN_STR_LIST_OPTION(default_tileset_overhead_name, N_("Tileset (Overhead)"),
                       N_("Select the tileset used with Overhead maps. "
-                         "This may change currently active tileset, if "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
@@ -1934,7 +1933,7 @@ static struct client_option client_options[] = {
                       get_tileset_list, tilespec_reread_callback, 0),
   GEN_STR_LIST_OPTION(default_tileset_iso_name, N_("Tileset (Isometric)"),
                       N_("Select the tileset used with Isometric maps. "
-                         "This may change currently active tileset, if "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
@@ -1942,15 +1941,15 @@ static struct client_option client_options[] = {
                       get_tileset_list, tilespec_reread_callback, TF_ISO),
   GEN_STR_LIST_OPTION(default_tileset_hex_name, N_("Tileset (Hex)"),
                       N_("Select the tileset used with Hex maps. "
-                         "This may change currently active tileset, if "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
                       COC_GRAPHICS, GUI_STUB, "",
                       get_tileset_list, tilespec_reread_callback, TF_HEX),
-  GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Isometric Hex)"),
-                      N_("Select the tileset used with Isometric Hex maps. "
-                         "This may change currently active tileset, if "
+  GEN_STR_LIST_OPTION(default_tileset_isohex_name, N_("Tileset (Iso-Hex)"),
+                      N_("Select the tileset used with Iso-Hex maps. "
+                         "This may change the currently active tileset, if "
                          "you are playing on such a map, in which "
                          "case this is the same as using the -t "
                          "command-line parameter."),
@@ -2468,7 +2467,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK2, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
@@ -2675,7 +2674,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK3, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
@@ -2896,7 +2895,7 @@ static struct client_option client_options[] = {
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
                      "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3_22, TRUE, NULL),
+                     "effect."), COC_INTERFACE, GUI_GTK3_22, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_22_mouse_over_map_focus,
                   N_("Mouse over the map widget selects it automatically"),
                   N_("If this option is enabled, then the map will be "
@@ -5726,7 +5725,6 @@ void options_load(void)
   name = get_last_option_file_name(&allow_digital_boolean);
   if (!name) {
     log_normal(_("Didn't find the option file. Creating a new one."));
-    client_option_adjust_defaults();
     options_fully_initialized = TRUE;
     create_default_cma_presets();
     gui_options.first_boot = TRUE;
@@ -5739,6 +5737,7 @@ void options_load(void)
     secfile_insert_str(sf, VERSION_STRING, "client.version");
 
     create_default_cma_presets();
+    gui_options.first_boot = TRUE;
     save_cma_presets(sf);
 
     /* FIXME: need better messages */
@@ -5775,10 +5774,10 @@ void options_load(void)
     secfile_lookup_bool_default(sf, gui_options.gui_sdl2_migrated_from_sdl,
                                 "%s.migration_sdl2_from_sdl", prefix);
   gui_options.gui_gtk2_migrated_from_2_5 =
-    secfile_lookup_bool_default(sf, gui_options.gui_gtk3_migrated_from_2_5,
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk2_migrated_from_2_5,
                                 "%s.migration_gtk2_from_2_5", prefix);
   gui_options.gui_gtk3_migrated_from_2_5 =
-    secfile_lookup_bool_default(sf, gui_options.gui_gtk2_migrated_from_2_5,
+    secfile_lookup_bool_default(sf, gui_options.gui_gtk3_migrated_from_2_5,
                                 "%s.migration_gtk3_from_2_5", prefix);
   gui_options.gui_qt_migrated_from_2_5 =
     secfile_lookup_bool_default(sf, gui_options.gui_qt_migrated_from_2_5,
@@ -6216,14 +6215,6 @@ static void menu_music_enable_callback(struct option *poption)
       stop_menu_music();
     }
   }
-}
-
-/****************************************************************************
-  Make dynamic adjustments to first-launch default options.
-****************************************************************************/
-static void client_option_adjust_defaults(void)
-{
-  adjust_default_options();
 }
 
 /****************************************************************************

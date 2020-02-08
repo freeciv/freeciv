@@ -1008,6 +1008,7 @@ void get_city_dialog_culture_text(const struct city *pcity,
     }
 
     value = (peffect->value * mul) / 100;
+    /* TRANS: text describing source of culture bonus ("Library+Republic") */
     city_sum_add_if_nonzero(sum, value, Q_("?city_culture:%s"), buf2);
   } effect_list_iterate_end;
   effect_list_destroy(plist);

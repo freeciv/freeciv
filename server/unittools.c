@@ -2913,10 +2913,26 @@ static bool unit_enter_hut(struct unit *punit)
 ****************************************************************************/
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans)
 {
+  bv_player can_see_unit;
+
   fc_assert_ret(punit != NULL);
   fc_assert_ret(ptrans != NULL);
 
+  BV_CLR_ALL(can_see_unit);
+  players_iterate(pplayer) {
+    if (can_player_see_unit(pplayer, punit)) {
+      BV_SET(can_see_unit, player_index(pplayer));
+    }
+  } players_iterate_end;
+
   unit_transport_load(punit, ptrans, FALSE);
+
+  players_iterate(pplayer) {
+    if (BV_ISSET(can_see_unit, player_index(pplayer))
+        && !can_player_see_unit(pplayer, punit)) {
+      unit_goes_out_of_sight(pplayer, punit);
+    }
+  } players_iterate_end;
 
   send_unit_info(NULL, punit);
   send_unit_info(NULL, ptrans);

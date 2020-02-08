@@ -1331,7 +1331,9 @@ bool tilespec_reread(const char *new_tileset_name,
   }
 
   if (game_fully_initialized) {
-    tileset_background_init(tileset);
+    if (game.client.ruleset_ready) {
+      tileset_background_init(tileset);
+    } /* else we'll get round to it on PACKET_RULESET_GAME */
     players_iterate(pplayer) {
       tileset_player_init(tileset, pplayer);
     } players_iterate_end;
@@ -1887,6 +1889,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose,
   t->ts_topo_idx = ts_topology_index(topo);
 
   if (!is_view_supported(t->type)) {
+    /* TRANS: "Overhead" or "Isometric" */
     log_normal(_("Client does not support %s tilesets."),
                _(ts_type_name(t->type)));
     log_normal(_("Using default tileset instead."));

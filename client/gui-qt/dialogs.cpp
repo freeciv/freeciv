@@ -2518,7 +2518,8 @@ void popup_tileset_suggestion_dialog(void)
   ask.exec();
   if (ask.clickedButton() == ok_button) {
     sz_strlcpy(forced_tileset_name, game.control.preferred_tileset);
-    if (!tilespec_reread(game.control.preferred_tileset, FALSE, gui()->map_scale)) {
+    if (!tilespec_reread(game.control.preferred_tileset, true,
+                         gui()->map_scale)) {
       tileset_error(LOG_ERROR, _("Can't load requested tileset %s."),
                     game.control.preferred_tileset);
     }

@@ -92,8 +92,8 @@ enum delay_order{
 **************************************************************************/
 struct qfc_rally
 {
-  struct city *pcity;
-  struct tile *ptile;
+  int city_id;
+  int tile_index;
 };
 
 /**************************************************************************
@@ -112,7 +112,7 @@ public:
   void run();
   bool hover_tile;
   bool hover_city;
-  struct city *rally_city;
+  int rally_city;
 };
 
 void multiairlift(struct city *acity, Unit_type_id ut);

@@ -433,6 +433,7 @@ int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len)
 {
   if (NULL != pteam) {
     if (NULL != pteam->slot->defined_name) {
+      /* TRANS: %s is ruleset-chosen team name (e.g. "Red") */
       return fc_snprintf(buf, buf_len, _("team %s"),
                          team_slot_name_translation(pteam->slot));
     } else {
