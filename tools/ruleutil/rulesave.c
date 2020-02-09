@@ -871,6 +871,29 @@ static bool save_action_kind(struct section_file *sfile, action_id act)
 }
 
 /**********************************************************************//**
+  Save if an action always will consume the actor.
+**************************************************************************/
+static bool save_action_actor_consuming_always(struct section_file *sfile,
+                                               action_id act)
+{
+  if (action_actor_consuming_always_ruleset_var_name(act) != NULL) {
+    /* Actor consumption can be loaded from the ruleset. */
+    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+      /* Don't save value for actions that aren't enabled. */
+      return TRUE;
+    }
+
+    save_default_bool(sfile,
+                      action_by_number(act)->actor_consuming_always,
+                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
+                      "actions",
+                      action_actor_consuming_always_ruleset_var_name(act));
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Save game.ruleset
 **************************************************************************/
 static bool save_game_ruleset(const char *filename, const char *name)
@@ -1140,29 +1163,17 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_action_range(sfile, ACTION_BOMBARD3);
   save_action_range(sfile, ACTION_NUKE);
 
-  save_default_bool(sfile,
-                    action_by_number(ACTION_SPY_SPREAD_PLAGUE)->actor_consuming_always,
-                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                    "actions", "spread_plague_actor_consuming_always");
+  save_action_actor_consuming_always(sfile, ACTION_SPY_SPREAD_PLAGUE);
 
-  save_default_bool(sfile,
-                    action_by_number(ACTION_USER_ACTION1)->actor_consuming_always,
-                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                    "actions", "user_action_1_actor_consuming_always");
+  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION1);
   save_action_kind(sfile, ACTION_USER_ACTION1);
   save_action_range(sfile, ACTION_USER_ACTION1);
 
-  save_default_bool(sfile,
-                    action_by_number(ACTION_USER_ACTION2)->actor_consuming_always,
-                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                    "actions", "user_action_2_actor_consuming_always");
+  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION2);
   save_action_kind(sfile, ACTION_USER_ACTION2);
   save_action_range(sfile, ACTION_USER_ACTION2);
 
-  save_default_bool(sfile,
-                    action_by_number(ACTION_USER_ACTION3)->actor_consuming_always,
-                    RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                    "actions", "user_action_3_actor_consuming_always");
+  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION3);
   save_action_kind(sfile, ACTION_USER_ACTION3);
   save_action_range(sfile, ACTION_USER_ACTION3);
 

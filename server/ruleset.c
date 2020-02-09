@@ -5854,6 +5854,23 @@ static bool load_action_kind(struct section_file *file, action_id act)
 }
 
 /**********************************************************************//**
+  Load if the action always consumes the actor
+**************************************************************************/
+static bool load_action_actor_consuming_always(struct section_file *file,
+                                               action_id act)
+{
+  if (action_actor_consuming_always_ruleset_var_name(act) != NULL) {
+    /* Actor consumption can be loaded from the ruleset. */
+    action_by_number(act)->actor_consuming_always
+      = secfile_lookup_bool_default(
+          file, RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS, "actions.%s",
+          action_actor_consuming_always_ruleset_var_name(act));
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6492,29 +6509,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         if (!load_action_kind(file, act_id)) {
           ok = FALSE;
         }
-      } action_iterate_end;
-
-      action_by_number(ACTION_SPY_SPREAD_PLAGUE)->actor_consuming_always
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                                      "actions.spread_plague_actor_consuming_always");
-
-      action_by_number(ACTION_USER_ACTION1)->actor_consuming_always
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                                      "actions.user_action_1_actor_consuming_always");
-
-      action_by_number(ACTION_USER_ACTION2)->actor_consuming_always
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                                      "actions.user_action_2_actor_consuming_always");
-
-      action_by_number(ACTION_USER_ACTION3)->actor_consuming_always
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_ACTION_ACTOR_CONSUMING_ALWAYS,
-                                      "actions.user_action_3_actor_consuming_always");
-
-      action_iterate(act_id) {
+        if (!load_action_actor_consuming_always(file, act_id)) {
+          ok = FALSE;
+        }
         load_action_ui_name(file, act_id,
                             action_ui_name_ruleset_var_name(act_id));
       } action_iterate_end;
