@@ -148,7 +148,7 @@ static void pbar_callback(int downloaded, int max)
 
 
 struct msg_data {
-  const char *msg;
+  char *msg;
 };
 
 /**************************************************************************
@@ -160,6 +160,7 @@ static gboolean msg_main_thread(gpointer user_data)
 
   msg_callback(data->msg);
 
+  FC_FREE(data->msg);
   FC_FREE(data);
 
   return FALSE;
@@ -172,7 +173,7 @@ static void msg_dl_thread(const char *msg)
 {
   struct msg_data *data = fc_malloc(sizeof(*data));
 
-  data->msg = msg;
+  data->msg = fc_strdup(msg);
 
   gdk_threads_add_idle(msg_main_thread, data);
 }
