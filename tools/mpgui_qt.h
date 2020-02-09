@@ -61,12 +61,12 @@ class mpgui : public QObject
     void refresh_list_versions_thr();
 
   signals:
-    void display_msg_thr_signal(const char *msg);
+    void display_msg_thr_signal(QString msg);
     void progress_thr_signal(int downloaded, int max);
     void refresh_list_versions_thr_signal();
 
   public slots:
-    void display_msg(const char *msg);
+    void display_msg(QString msg);
     void progress(int downloaded, int max);
     void refresh_list_versions();
 
