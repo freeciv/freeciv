@@ -9,10 +9,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Freeciv S2_6 (nations)\n"
+"Project-Id-Version: Freeciv S3_0 (nations)\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-08-04 15:24+0100\n"
-"PO-Revision-Date: 2019-12-03 15:21+0100\n"
+"POT-Creation-Date: 2019-12-02 22:32+0000\n"
+"PO-Revision-Date: 2020-02-10 17:55+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: polski <hubkow@users.sourceforge.net>\n"
 "Language: pl\n"
@@ -408,7 +408,7 @@ msgstr ""
 "powstanie niepodległej Republiki Acre. Boliwia zrzekła się roszczeń "
 "terytorialnych w traktacie z Petropolis w 1903, a potem Acre zostało "
 "przyłączone do Brazylii. Stan jest jednym z najważniejszych na świecie "
-"producentów kaczuku. [Słowa \"acreński\" oraz \"Acreńczyk\" to neologizmy "
+"producentów kauczuku. [Słowa \"acreński\" oraz \"Acreńczyk\" to neologizmy "
 "wymyślone na potrzeby Freeciv - przyp. tłumacza.]"
 
 #: data/nation/acrean.ruleset:31
@@ -3197,7 +3197,7 @@ msgstr ""
 
 #: data/nation/canari.ruleset:3
 msgid "Cañari"
-msgstr "Kanarski"
+msgstr "Kanarczycy"
 
 #: data/nation/canari.ruleset:6
 msgid "?plural:Cañaris"
@@ -4299,7 +4299,7 @@ msgid ""
 "wars with Turkey."
 msgstr ""
 "W wiekach XV-XVIII Tatarzy Krymscy stworzyli feudalne państwo na Półwyspie "
-"Krymskim. Najeżdżali oni Polskę i Rosję, co doprowadziło do wojen z Turcją."
+"Krymskim. Najeżdżali oni Polskę i Rosję, co doprowadziło do wojen z Turcją. "
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -4685,7 +4685,7 @@ msgstr ""
 #: data/nation/soviet.ruleset:27
 #, c-format
 msgid "Enemy of the People %s"
-msgstr "Wróg Ludu %s"
+msgstr "Wróg Ludu %s."
 
 #: data/nation/eastgerman.ruleset:27 data/nation/northkorean.ruleset:23
 #: data/nation/soviet.ruleset:27
@@ -5772,11 +5772,11 @@ msgstr ""
 
 #: data/nation/gokturk.ruleset:3
 msgid "Göktürk"
-msgstr "Turkucki"
+msgstr "Turkuci"
 
 #: data/nation/gokturk.ruleset:6
 msgid "?plural:Göktürks"
-msgstr "Turkuci"
+msgstr "?plural:Turkuci"
 
 #: data/nation/gokturk.ruleset:8
 msgid ""
@@ -6647,12 +6647,12 @@ msgstr ""
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "Kibbutznik %s"
-msgstr "Kibbutznik %s"
+msgstr "Kibucnik %s"
 
 #: data/nation/israeli.ruleset:22
 #, c-format
 msgid "?female:Kibbutznikit %s"
-msgstr "?female:Kibbutznikit %s"
+msgstr "?female:Kibucniczka %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -8456,7 +8456,7 @@ msgstr ""
 
 #: data/nation/metis.ruleset:3
 msgid "Métis"
-msgstr "Metyski"
+msgstr "Metysi"
 
 #: data/nation/metis.ruleset:6
 msgid "?plural:Métis"
@@ -9242,11 +9242,11 @@ msgstr ""
 
 #: data/nation/nimiipuu.ruleset:3
 msgid "Nimíipuu"
-msgstr "Nimíipuuński"
+msgstr "Nimíipuu"
 
 #: data/nation/nimiipuu.ruleset:6
 msgid "?plural:Nimíipuu"
-msgstr "?plural:Nimíipuuńczycy"
+msgstr "?plural:Nimíipuu"
 
 #: data/nation/nimiipuu.ruleset:8
 msgid ""
@@ -14310,6 +14310,41 @@ msgstr ""
 #~ "Zapotekiem był się  pierwszy rdzenny prezydent Meksyku Benito Ju"
 #~ "\\303\\241rez."
 
+#~ msgid ""
+#~ "Cuyavia is a historical region in Northern-Central Poland, bordered to "
+#~ "the West by Masovia, on the East by Greater Poland and on the North by "
+#~ "Pomerania."
+#~ msgstr ""
+#~ "Kujawy to historyczny region północno-środkowej Polski, sąsiadujący z "
+#~ "Mazowszem (od wschodu), Wielkopolską (od zachodu) i z Pomorzem (od "
+#~ "północy)."
+
+#~ msgid ""
+#~ "The Suebians were an ancient West Germanic tribal confederation, which "
+#~ "may have been formed by Ariovistus for his expedition to Gaul. The "
+#~ "Suebians included the Germanic tribes from the the Elbe river basin "
+#~ "belonging to the Herminonic language group, such as the Marcomanni and "
+#~ "Quadi. Between the first and fourth centuries CE they were a threat to "
+#~ "Rome, often encroaching on the Danube provinces of the empire. In 405-406 "
+#~ "CE the Suebians were forced to leave their lands by the Huns and during "
+#~ "New Year's night in 405 CE they crossed the frozen Rhine together with "
+#~ "the Vandals and the Alans. They settled in the northwest of the Iberian "
+#~ "Peninsula, where they established their own kingdom, which was conquered "
+#~ "by the Visigoths in 585 CE."
+#~ msgstr ""
+#~ "Swebowie byli starożytnym związkiem ludów zachodniogermańskich, który "
+#~ "mógł powstać pod wodzą Ariowista na jego ekspedycję do Galii. Swebowie "
+#~ "obejmowali plemiona germańskie z dorzecza Łaby. Między I a IV w. n.e. "
+#~ "zagrażali oni Rzymowi i wkraczali często do naddunajskich prowincji "
+#~ "Cesarstwa. W latach 405-406 Swebowie zostali zmuszeniu przez Hunów do "
+#~ "opuszczenia swych ziem i w noworoczną noc roku 405 wraz z Wandalami i "
+#~ "Alanami przekroczyli zamarznięty Ren. Osiedlili się północno-zachodniej "
+#~ "części Półwyspu Iberyjskiego, gdzie założyli królestwo podbite w roku 585 "
+#~ "przez Wizygotów."
+
+#~ msgid "American"
+#~ msgstr "Amerykański"
+
 #~ msgid "Canari"
 #~ msgstr "Kanarski"
 
@@ -14319,14 +14354,1748 @@ msgstr ""
 #~ msgid "Metis"
 #~ msgstr "Metyski"
 
-#~ msgid "American"
-#~ msgstr "Amerykański"
-
 #~ msgid "?female:Mother Superior %s"
 #~ msgstr "?female:Najwyższa Matka %s"
 
 #~ msgid "?female:Shaykha %s"
 #~ msgstr "?female:Szamanka  %s"
+
+#~ msgid "President %s"
+#~ msgstr "Prezydent %s"
+
+#~ msgid "?female:President %s"
+#~ msgstr "?female:Prezydent %s"
+
+#~ msgid "?nationgroup:Ancient"
+#~ msgstr "?nationgroup:Starożytne"
+
+#~ msgid "?nationgroup:Modern"
+#~ msgstr "?nationgroup:Współczesne"
+
+#~ msgid "?plural:Americans"
+#~ msgstr "?plural:Amerykanie"
+
+#~ msgid ""
+#~ "Formally named the United States of America.  Independent from Great "
+#~ "Britain after a revolution in 1776-1783 AD."
+#~ msgstr ""
+#~ "Oficjalna nazwa to Stany Zjednoczone Ameryki Północnej. Uniezależniły się "
+#~ "one od Wielkiej Brytanii po wojnie w latach 1776-1783."
+
+#~ msgid "Aztec"
+#~ msgstr "Aztecki"
+
+#~ msgid "?plural:Aztecs"
+#~ msgstr "?plural:Aztekowie"
+
+#~ msgid ""
+#~ "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
+#~ "control of the Toltec-derived civilizations of Central Mexico during the "
+#~ "15th century, reviving the practice of human sacrifice. They were "
+#~ "conquered by the Spanish under Cortes in 1521."
+#~ msgstr ""
+#~ "Aztekowie to lud z pustyni Sonoran, posługujący się językiem Nahuatl. W "
+#~ "XV w. podbili i panowali nad większością tolteckich kultur Środkowego "
+#~ "Meksyku. Zasłynęli z obrzędu składania ofiar z ludzi. Ich imperium "
+#~ "zostało podbite przez Hiszpanów pod wodzą Cortesa w 1521."
+
+#~ msgid "Babylonian"
+#~ msgstr "Babiloński"
+
+#~ msgid "?plural:Babylonians"
+#~ msgstr "?plural:Babilończycy"
+
+#~ msgid ""
+#~ "Babylon was the dominant city of Mesopotamia from the 18th to 7th "
+#~ "centuries BC under a succession of peoples including Amorites, Kassites, "
+#~ "Assyrians, and Chaldeans."
+#~ msgstr ""
+#~ "Babilon był najważniejszym miastem starożytnej Mezopotamii. W wiekach "
+#~ "XVIII-VII p.n.e. znajdował się kolejno pod rządami Amorytów, Kasytów, "
+#~ "Asyryjczyków i Partów. Aleksander Wielki miał zamiar uczynić Babilon "
+#~ "stolicą swojego imperium."
+
+#~ msgid "%s Lugal"
+#~ msgstr "%s Lugal"
+
+#~ msgid "?female:%s Lugal"
+#~ msgstr "?female:%s Lugal"
+
+#~ msgid "%s Ensi"
+#~ msgstr "%s Ensi"
+
+#~ msgid "?female:%s Ensi"
+#~ msgstr "?female:%s Ensi"
+
+#~ msgid "Chinese"
+#~ msgstr "Chiński"
+
+#~ msgid "?plural:Chinese"
+#~ msgstr "?plural:Chińczycy"
+
+#~ msgid ""
+#~ "China is the oldest major civilization that is still in existence today, "
+#~ "with written records dating back over 3,500 years. After first being "
+#~ "unified by the Qin dynasty in 221 BC, China alternated between periods of "
+#~ "unity and disunity, and was occasionally conquered by external "
+#~ "ethnicities. Today, the People's Republic of China, established by the "
+#~ "Communists in 1949, occupies the mainland, while the former Nationalist "
+#~ "government of the Republic of China governs the island of Taiwan."
+#~ msgstr ""
+#~ "Chiny są, obok Egiptu, Mezopotamii i Indii, jedną z najstarszych "
+#~ "cywilizacji świata; najdawniejsze wzmianki o niej pochodzą sprzed 3 500 "
+#~ "lat. Chiny zostały po raz pierwszy zjednoczone przez dynastię Qin w roku "
+#~ "221 p.n.e. W kolejnych stuleciach, Chiny często przechodziły okresy "
+#~ "zjednoczeń i podziałów. Dzisiejsza Chińska Republika Ludowa została "
+#~ "utworzona przez komunistów w 1949, a poprzednie nacjonalistyczne władze "
+#~ "uciekły tuż po wojnie domowej na wyspę Tajwan."
+
+#~ msgid "Chairperson %s"
+#~ msgstr "Przewodnicząca %s"
+
+#~ msgid "Egyptian"
+#~ msgstr "Egipski"
+
+#~ msgid "?plural:Egyptians"
+#~ msgstr "?plural:Egipcjanie"
+
+#~ msgid ""
+#~ "Egypt was the second-oldest of the world's civilizations.  Since ancient "
+#~ "times it has been unusually urbanized, supporting a large population on "
+#~ "silt deposited by the annual floodings of the Nile."
+#~ msgstr ""
+#~ "Egipt to druga najstarsza cywilizacja świata. Już od czasów starożytnych "
+#~ "kraj był niezwykle zurbanizowany, a ludność utrzymywała się z upraw na "
+#~ "glebach mułowych nanoszonych przez Nil podczas corocznych wylewów."
+
+#~ msgid "English"
+#~ msgstr "Angielski"
+
+#~ msgid "?plural:English"
+#~ msgstr "?plural:Anglicy"
+
+#~ msgid ""
+#~ "England was unified by Alfred the Great of Wessex in the late 9th "
+#~ "century, only to be conquered by William of Normandy a century later, in "
+#~ "the last successful invasion of the country."
+#~ msgstr ""
+#~ "Anglia została zjednoczona w IX w. przez Alfreda Wielkiego z Wessex, ale "
+#~ "już wiek później podbił ją Wilhelm z Normandii; był to ostatni udany "
+#~ "podbój tego kraju."
+
+#~ msgid "French"
+#~ msgstr "Francuski"
+
+#~ msgid "?plural:French"
+#~ msgstr "?plural:Francuzi"
+
+#~ msgid ""
+#~ "France has long been a major power in Europe. French conquerors like "
+#~ "Emperor Napoleon and King Charlemagne united large parts of Europe under "
+#~ "the French flag."
+#~ msgstr ""
+#~ "Francja jest od dawna znaczącą siłą w Europie. Francuscy zdobywcy, tacy "
+#~ "jak Karol Wielki i Napoleon Bonaparte, jednoczyli ogromne połacie "
+#~ "kontynentu pod francuską flagą."
+
+#~ msgid "?female:Premier %s"
+#~ msgstr "?female:Premier %s"
+
+#~ msgid "German"
+#~ msgstr "Niemiecki"
+
+#~ msgid "?plural:Germans"
+#~ msgstr "?plural:Niemcy"
+
+#~ msgid ""
+#~ "Germany was united in 1871 by the Prussian military force. After World "
+#~ "War I it became a republic, but fell into Nazism in 1933 and started "
+#~ "World War II. After the war it was split into two states, which reunited "
+#~ "in 1990 at the end of the Cold War."
+#~ msgstr ""
+#~ "Niemcy zostały zjednoczone w 1871 roku w wyniku pruskiej ofensywy "
+#~ "militarnej. Po I Wojnie Światowej stały się republiką, ale już w 1933 do "
+#~ "władzy doszli naziści, którzy rozpętali II Wojnę Światową. W okresie "
+#~ "zimnej wojny Niemcy były podzielone na dwa państwa. Ponowne zjednoczenie "
+#~ "nastąpiło w roku 1990."
+
+#~ msgid "Greek"
+#~ msgstr "Grecki"
+
+#~ msgid "?plural:Greeks"
+#~ msgstr "?plural:Grecy"
+
+#~ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
+#~ msgstr ""
+#~ "Starożytna cywilizacja grecka, pomiędzy okresem mykeńskim a podbojem "
+#~ "rzymskim."
+
+#~ msgid "Indian"
+#~ msgstr "Hinduski"
+
+#~ msgid "?plural:Indians"
+#~ msgstr "?plural:Hindusi"
+
+#~ msgid "Mongol"
+#~ msgstr "Mongolski"
+
+#~ msgid "?plural:Mongols"
+#~ msgstr "?plural:Mongołowie"
+
+#~ msgid ""
+#~ "In the centuries after their unification by Chinggis Khan, the Mongols "
+#~ "conquered the largest empire in human history, encompassing most of the "
+#~ "continent of Asia. They became notorious for their utter ruthlessness in "
+#~ "warfare."
+#~ msgstr ""
+#~ "Po zjednoczeniu przez Czyngis-chana, Mongołowie panowali nad największym "
+#~ "imperium w dziejach świata. Obejmowało ono prawie całą Azję. Zasłynęli z "
+#~ "bezwzględności wobec swoich wrogów."
+
+#~ msgid "Roman"
+#~ msgstr "Rzymski"
+
+#~ msgid "?plural:Romans"
+#~ msgstr "?plural:Rzymianie"
+
+#~ msgid ""
+#~ "Rome was, in legend, founded by Romulus in 753 BC. At its height, Rome "
+#~ "controlled nearly all of Europe, northern Africa and Mesopotamia."
+#~ msgstr ""
+#~ "Legenda głosi, że Rzym został założony przez Romulusa w 753 r. p.n.e. W "
+#~ "czasach rozkwitu Rzym kontrolował niemal całą Europę, północną Afrykę i "
+#~ "Mezopotamię."
+
+#~ msgid "Imperator %s"
+#~ msgstr "Cesarz %s"
+
+#~ msgid "Imperatrix %s"
+#~ msgstr "Cesarzowa %s"
+
+#~ msgid "Russian"
+#~ msgstr "Rosyjski"
+
+#~ msgid "?plural:Russians"
+#~ msgstr "?plural:Rosjanie"
+
+#~ msgid ""
+#~ "According to legend, Slavic and Finnic tribes of Novgorod invited in the "
+#~ "year 862 the Varangian (Viking) king Rurik to bring order to their land. "
+#~ "Rurik established Kievan Rus' in this realm, the first Russian state. By "
+#~ "the 11th century, Kievan Rus' had disintegrated into lesser princedoms, "
+#~ "which were once again united into one state by Ivan III in the 15th "
+#~ "century. After decisive victory over Sweden and large territorial gains, "
+#~ "Peter I pronounced the Russian Empire in 1721. The Russian Empire lasted "
+#~ "until 1917 when a socialist revolution dethroned the last Russian "
+#~ "emperor. After USSR dissolution in 1991 Russia appeared on world map "
+#~ "again, now as a federative republic."
+#~ msgstr ""
+#~ "Legenda głosi, że w 863 roku słowiańskie i fińskie plemiona z Nowogrodu "
+#~ "zaprosiły wikińskiego króla Ruryka, by zaprowadził porządek na ich "
+#~ "ziemiach. Ruryk założył Ruś Kijowską, pierwsze państwo ruskie. Do XI w. "
+#~ "Ruś Kijowska rozpadła się mniejsze księstwa, zjednoczone ponownie w XV w. "
+#~ "przez Iwana III. Po wielkim zwycięstwie nad Szwedami, kraj znacznie "
+#~ "powiększył swoje terytorium, a car Piotr I proklamował powstanie Imperium "
+#~ "Rosyjskiego w 1721 roku. Imperium przetrwało do 1917, kiedy to rewolucja "
+#~ "bolszewicka obaliła ostatniego cara. Po upadku ZSRR w 1991 roku Rosja "
+#~ "ponownie pojawiła się mapie świata, tym razem jako federacja państw."
+
+#~ msgid "Zulu"
+#~ msgstr "Zuluski"
+
+#~ msgid "?plural:Zulus"
+#~ msgstr "?plural:Zulusi"
+
+#~ msgid ""
+#~ "The Zulus are a warlike Bantu people who migrated from west-central "
+#~ "Africa into southern Africa beginning in the early 1700s, conquering the "
+#~ "native Khoisan peoples and clashing with European settlers."
+#~ msgstr ""
+#~ "Zulusi to wojowniczy szczep z grupy Bantu, który na początku XVIII w. "
+#~ "wyruszył ze środkowo-zachodniej Afryki na podbój południowej części "
+#~ "kontynentu. Podporządkował tam sobie lud Khoisan i starł się z "
+#~ "Europejskimi osadnikami."
+
+#~ msgid "Barbarian"
+#~ msgstr "Barbarzyński"
+
+#~ msgid "?plural:Barbarians"
+#~ msgstr "?plural:Barbarzyńcy"
+
+#~ msgid ""
+#~ "Since the dawn of civilization, barbarians have been a threat to cultured "
+#~ "peoples everywhere."
+#~ msgstr ""
+#~ "Odkąd świat światem, barbarzyńcy zagrażali wszystkim cywilizowanym ludom."
+
+#~ msgid "Pirate"
+#~ msgstr "Piracki"
+
+#~ msgid "?plural:Pirates"
+#~ msgstr "?plural:Piraci"
+
+#~ msgid ""
+#~ "As long as honest men have sailed the seas, pirates have been a scourge "
+#~ "of them and of all coastal dwelling peoples."
+#~ msgstr ""
+#~ "Gdy pierwsi uczciwi ludzie wyruszyli w morskie podróże, ich śladem "
+#~ "ruszyli piraci, nękając żeglarzy i mieszkańców nadbrzeżnych wiosek."
+
+#~ msgid "High Priest %s"
+#~ msgstr "Najwyższy Kapłan %s"
+
+#~ msgid "High Priestess %s"
+#~ msgstr "Najwyższa Kapłanka %s"
+
+#~ msgid ""
+#~ "Fundamentalism is a form of government organized around a central set of "
+#~ "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
+#~ "for actions and reactions of both the rulers and the people."
+#~ msgstr ""
+#~ "Fundamentalizm to ustrój opierający się na zasadach, najczęściej "
+#~ "religijnych, które kierują wszystkimi poczynaniami rządzących i poddanych."
+
+#~ msgid ""
+#~ "In a fundamentalist society, the people and the rulers are entirely "
+#~ "devoted to their beliefs, and are usually willing to die to preserve them."
+#~ msgstr ""
+#~ "W społeczeństwach fundamentalistycznych ludzie są ślepo oddani swoim "
+#~ "przekonaniom i zazwyczaj są gotowi umrzeć za to, w co wierzą."
+
+#~ msgid ""
+#~ "Improvements that normally convert unhappy citizens to content citizens, "
+#~ "produce `tithes' (gold) equivalent to the number of people they would "
+#~ "convert, and require no maintenance."
+#~ msgstr ""
+#~ "Obiekty, które normalnie zmieniają niezadowolonym mieszkańców w "
+#~ "zadowolonych, tworzą \"datki\" (złoto) odpowiadające liczbie osób, które "
+#~ "by uszczęśliwiły i nie wymagają utrzymywania."
+
+#~ msgid ""
+#~ "Under Democracy, citizens govern directly by voting on issues. Democracy "
+#~ "offers the highest possible level of trade, but also offers the most "
+#~ "potential for unhappiness.  There is no corruption or waste during "
+#~ "Democracy, but citizens become very upset during wars."
+#~ msgstr ""
+#~ "Demokracja to ustrój, w którym obywatele rządzą bezpośrednio, głosując w "
+#~ "referendach nad różnymi sprawami. Demokracja charakteryzuje się "
+#~ "najwyższym poziomem handlu, lecz mieszkańcy łatwo stają się "
+#~ "niezadowoleni. Nie występuje korupcja ani straty, lecz obywatele są "
+#~ "bardzo niezadowoleni podczas wojny."
+
+#~ msgid ""
+#~ "The Carthaginians, descendants of Phoenician traders, ran a naval empire "
+#~ "in the Mediterranean from the 5th to 2nd centuries BC. Carthage was "
+#~ "destroyed by Rome in 146 BC."
+#~ msgstr ""
+#~ "Kartagina została założona przez kupców fenickich. W wiekach V-II p.n.e. "
+#~ "była imperium morskim Morza Śródziemnego, lecz w roku 146 p.n.e. została "
+#~ "zniszczona przez Rzymian."
+
+#~ msgid "Celtic"
+#~ msgstr "Celtycki"
+
+#~ msgid "?plural:Celts"
+#~ msgstr "?plural:Celtowie"
+
+#~ msgid ""
+#~ "The Celts were an Indo-European ethno-linguistic complex in Western "
+#~ "Europe, probably originating from the area between the upper Rhine and "
+#~ "upper Danube, from the Urnfield culture and the western group of the "
+#~ "Hallstatt culture. The Celts were known as cruel and savage warriors who "
+#~ "terrorized the ancient civilized peoples of Europe and Asia Minor. The "
+#~ "Celts colonized much of Europe and had a large influence on the "
+#~ "development of European civilization."
+#~ msgstr ""
+#~ "Celtowie byli indoeuropejską grupą językowo-etniczną zamieszkującą tereny "
+#~ "zachodniej Europy. Wywodzili się najprawdopodobniej z obszaru pomiędzy "
+#~ "górnym Renem a górnym Dunajem, z kultur Urnfield i Hallstatt. Celtowie "
+#~ "wsławili się jako okrutni i srodzy wojownicy terroryzujący cywilizowane "
+#~ "ludy Europy i Azji Mniejszej. Skolonizowali oni ogromne obszary Europy i "
+#~ "mieli duży wpływ na kształtowanie się kultury kontynentu."
+
+#~ msgid "Japanese"
+#~ msgstr "Japoński"
+
+#~ msgid "?plural:Japanese"
+#~ msgstr "?plural:Japończycy"
+
+#~ msgid ""
+#~ "According to traditional Japanese mythology, Japan was founded in the 7th "
+#~ "century BC by the ancestral Emperor Jimmu."
+#~ msgstr ""
+#~ "Japońska mitologia głosi, że Japonię założył w VII w. p.n.e. niebiański "
+#~ "Cesarz Jimmu."
+
+#~ msgid "Shogun %s"
+#~ msgstr "Szogun %s"
+
+#~ msgid "?female:Shogun %s"
+#~ msgstr "?female:Szogun %s"
+
+#~ msgid "Persian"
+#~ msgstr "Perski"
+
+#~ msgid "?plural:Persians"
+#~ msgstr "?plural:Persowie"
+
+#~ msgid ""
+#~ "The first Persian (Achaemenid) Empire lasted from 550 BC to 330 BC; the "
+#~ "second (Sassanid) from 226 AD to 642 AD."
+#~ msgstr ""
+#~ "Pierwsze Imperium Perskie, pod rządami Achemenidów, istniało w latach "
+#~ "550-330 p.n.e. Drugie, rządzone przez Sasanidów, rozwijało się w okresie "
+#~ "226-642 n.e."
+
+#~ msgid "Sioux"
+#~ msgstr "Siuksowie"
+
+#~ msgid "?plural:Sioux"
+#~ msgstr "?plural:Siuksowie"
+
+#~ msgid ""
+#~ "The Sioux was a North American nation that fought several decisive "
+#~ "battles against the United States. It consisted of three distinct groups "
+#~ "of tribes: the Lakota, the Dakota and the Nakota."
+#~ msgstr ""
+#~ "Siuksowie byli narodem Ameryki Północnej, który walczył w kilku ważnych "
+#~ "bitwach z armią Stanów Zjednoczonych. W jego skład wchodziły trzy rdzenne "
+#~ "ludy: Lakoci, Dakoci i Nakoci."
+
+#~ msgid "Spanish"
+#~ msgstr "Hiszpański"
+
+#~ msgid "?plural:Spanish"
+#~ msgstr "?plural:Hiszpanie"
+
+#~ msgid ""
+#~ "The modern Spanish nation was formed when the rulers of the kingdoms of "
+#~ "Castile and Aragon led the recapture of the Iberian peninsula from the "
+#~ "Moslems. The Reconquista was completed in 1492, the same year Columbus "
+#~ "sailed. Spain then went on to create an empire on which the sun never set."
+#~ msgstr ""
+#~ "Za początki historii współczesnej Hiszpanii uważa się walki królestw "
+#~ "Kastylii i Aragonii prowadzone w celu odbicia półwyspu Iberyjskiego z rąk "
+#~ "muzułmanów. Tzw. Rekonkwista zakończyła się powodzeniem w 1492, w tym "
+#~ "samym roku, w którym Kolumb odbył podróż do Ameryki. W kolejnym stuleciu "
+#~ "Hiszpania stworzyła imperium, nad którym nigdy nie zachodziło słońce."
+
+#~ msgid "?female:Cardinal %s"
+#~ msgstr "?female:Kardynał %s"
+
+#~ msgid "Viking"
+#~ msgstr "Wikiński"
+
+#~ msgid "?plural:Vikings"
+#~ msgstr "?plural:Wikingowie"
+
+#~ msgid ""
+#~ "The Vikings raided and traded along the coasts of Europe between 800 AD "
+#~ "and 1100 AD. Viking raiders eventually became the rulers of Normandy, "
+#~ "Russia, and a short-lived kingdom in Sicily."
+#~ msgstr ""
+#~ "W latach 800-1100 n.e. Wikingowie podbijali i prowadzili handel z "
+#~ "nadbrzeżnymi regionami Europy. Opanowali Normandią, Rosją i krótko "
+#~ "istniejącym królestwem na Sycylii."
+
+#~ msgid "%s Jarl"
+#~ msgstr "%s Jarl"
+
+#~ msgid "?female:%s Jarl"
+#~ msgstr "?female:%s Jarl"
+
+#~ msgid ""
+#~ "The United States of America achieved its independence from Great Britain "
+#~ "after a revolution in 1776-1783 CE. Its constitution was proclaimed in "
+#~ "1789, making the country one of the first modern representative "
+#~ "republics. The United States then started to expand its territory, first "
+#~ "on the North American mainland and later also overseas. By the 20th "
+#~ "century the country had become a world superpower; its cultural, economic "
+#~ "and political influence on the rest of the world is enormous."
+#~ msgstr ""
+#~ "Stany Zjednoczone Ameryki Północnej (USA) uniezależniły się od Wielkiej "
+#~ "Brytanii po rewolucji w latach 1776-1783. W roku 1789 proklamowały "
+#~ "konstytucję, co uczyniło z nich pierwszą współczesną republikę. USA "
+#~ "zaczęły następnie poszerzać terytorium, najpierw na kontynencie "
+#~ "amerykańskim, a potem również na obszarach zamorskich. W XX wieku kraj "
+#~ "stał się globalną potęgą; wywiera ogromny wpływ na światową kulturę, "
+#~ "gospodarkę i politykę."
+
+#~ msgid "Apache"
+#~ msgstr "Apacze"
+
+#~ msgid "?plural:Apaches"
+#~ msgstr "?plural:Apacze"
+
+#~ msgid ""
+#~ "The Apaches are a group of Athabascan speaking Indian tribes living in "
+#~ "Arizona, New Mexico and Oklahoma. Apache groups include the Western, "
+#~ "Chiricahua, Mescalero, Jicarilla, Lipan and Plains Apache. They came from "
+#~ "the Far North around 1000 CE. The Apache are known as fierce warriors. In "
+#~ "the 19th century it took the United States half a century to subdue them."
+#~ msgstr ""
+#~ "Apacze to grupa szczepów indiańskich zamieszkujących stany Arizona, Nowy "
+#~ "Meksyk i Oklahoma. Posługują się one językami atapaskańskimi, a w ich "
+#~ "skład wchodzą plemiona Chiricahua, Mescalero, Jicarilla, Lipan and Apacze "
+#~ "Preriowi. Przybyli z dalekiej północy ok. roku 1000 n.e. Apacze zasłynęli "
+#~ "jako groźni wojownicy; w XIX w. wojska Stanów Zjednoczonych walczyły z "
+#~ "nimi przez pół stulecia, nim wreszcie ich poskromiły."
+
+#~ msgid "Arab"
+#~ msgstr "Arabski"
+
+#~ msgid "?plural:Arabs"
+#~ msgstr "?plural:Arabowie"
+
+#~ msgid "The Arab/Islamic civilization of 622 to 1495 CE."
+#~ msgstr "Cywilizacja Arabska/Islamska z lat 622 n.e. - 1495 n.e."
+
+#~ msgid "Austrian"
+#~ msgstr "Austriacki"
+
+#~ msgid "?plural:Austrians"
+#~ msgstr "?plural:Austriacy"
+
+#~ msgid ""
+#~ "The origins of Austria date back to the time of the Roman Empire when a "
+#~ "Celtic kingdom was conquered by the Romans in approximately 15 BCE, and "
+#~ "later became Noricum, a Roman province, in the mid 1st century CE - an "
+#~ "area which mostly encloses today's Austria. In 788 CE, the Frankish king "
+#~ "Charlemagne conquered the area, and introduced Christianity. Under the "
+#~ "native Habsburg dynasty, Austria became one of the great powers of "
+#~ "Europe. In 1867, the Austrian Empire was reformed into Austria-Hungary. "
+#~ "The Austro-Hungarian Empire collapsed in 1918 with the end of World War "
+#~ "I. After establishing the First Austrian Republic in 1919, Austria joined "
+#~ "Nazi Germany in the Anschluss in 1938. This lasted until the end of World "
+#~ "War II in 1945, after which Austria was occupied by the Allies."
+#~ msgstr ""
+#~ "Początki Austrii sięgają czasów Imperium Rzymskiego, gdy około 15 r. p.n."
+#~ "e. celtyckie królestwo zostało podbite przez Rzymian. W połowie I w. n.e. "
+#~ "stało się ono prowincją rzymską o nazwie Noricum, które obejmowało tereny "
+#~ "dzisiejszej Austrii. W 788 r. obszar został podbity przez Karola "
+#~ "Wielkiego, który wprowadził tam chrześcijaństwo. Pod rządami lokalnej "
+#~ "dynastii Habsburgów, Austria stała się jednym w największych mocarstw "
+#~ "Europy. W 1867 państwo przekształciło się w Austro-Węgry. Imperium upadło "
+#~ "po I Wojnie Światowej w roku 1918. Rok później ustanowiono pierwszą "
+#~ "Republikę Austrii, która w 1938 przyłączyła się do nazistowskich Niemiec "
+#~ "(był to tzw. \"Anschluss\"). Po zakończeniu II Wojny Światowej Austria "
+#~ "znajdowała się pod okupacją aliantów."
+
+#~ msgid "Archduke %s"
+#~ msgstr "Arcyksiążę %s"
+
+#~ msgid "Archduchess %s"
+#~ msgstr "Arcyksiężna %s"
+
+#~ msgid "Kaiser %s"
+#~ msgstr "Cesarz %s"
+
+#~ msgid "Kaiserin %s"
+#~ msgstr "Cesarzowa %s"
+
+#~ msgid ""
+#~ "Babylon was the dominant city of Mesopotamia from the 18th to 7th "
+#~ "centuries BCE under a succession of peoples including Amorites, Kassites, "
+#~ "Assyrians, and Chaldeans."
+#~ msgstr ""
+#~ "Babilon był najważniejszym miastem starożytnej Mezopotamii. W wiekach "
+#~ "XVIII-VII p.n.e. znajdował się kolejno pod rządami Amorytów, Kasytów, "
+#~ "Asyryjczyków i Partów. Aleksander Wielki miał zamiar uczynić Babilon "
+#~ "stolicą swojego imperium."
+
+#~ msgid "Brazilian"
+#~ msgstr "Brazylijski"
+
+#~ msgid "?plural:Brazilians"
+#~ msgstr "?plural:Brazylijczycy"
+
+#~ msgid ""
+#~ "Brazil was founded as a colony of Portugal but became independent in 1822 "
+#~ "as a result of Portugal's occupation by Napoleonic France. The country "
+#~ "was first established as an empire under the exiled Portuguese royal "
+#~ "family. The empire lasted until the establishment of a republican "
+#~ "government in 1889."
+#~ msgstr ""
+#~ "Brazylia była kiedyś portugalską kolonią, lecz w 1822 uzyskała "
+#~ "niepodległość, gdy Portugalia była okupowana przez Napoleona. Początkowo "
+#~ "w Brazylii założono imperium rządzone przez portugalską rodzinę królewską "
+#~ "na wygnaniu. Imperium przetrwało do roku 1889, kiedy kraj zmienił się w "
+#~ "republikę."
+
+#~ msgid "Byzantine"
+#~ msgstr "Bizantyjski"
+
+#~ msgid "?plural:Byzantines"
+#~ msgstr "?plural:Bizantyjczycy"
+
+#~ msgid ""
+#~ "At the time of the decline of the old Roman empire, the Emperor "
+#~ "Constantine moved the empire's capital to Byzantium and formed a new "
+#~ "empire mostly known as the Eastern Roman empire or the Byzantine empire. "
+#~ "This empire lasted until 1453 when its capital fell to the Ottomans. At "
+#~ "the time of Justinian I, the Byzantines controlled nearly all of the "
+#~ "Middle East, northern Africa, Italy, and parts of Spain."
+#~ msgstr ""
+#~ "W czasach upadku Imperium Rzymskiego, cesarz Konstantyn przeniósł stolicę "
+#~ "do Bizancjum, tworząc tym samym nowe imperium znane jako Wschodnie "
+#~ "Cesarstwo Rzymskie lub Bizancjum. Przetrwało ono aż do roku 1453, w "
+#~ "którym to zostało podbite przez Osmanów. W czasach Justyniana I, "
+#~ "Bizancjum kontrolowało prawie cały Bliski Wschód, północną Afrykę, Włochy "
+#~ "oraz część Hiszpanii."
+
+#~ msgid ""
+#~ "The Carthaginians, descendants of Phoenician traders, ran a naval empire "
+#~ "in the Mediterranean from the 5th to 2nd centuries BCE. Carthage was "
+#~ "destroyed by Rome in 146 BCE."
+#~ msgstr ""
+#~ "Kartagina została założona przez kupców fenickich. W wiekach V-II p.n.e. "
+#~ "była imperium morskim Morza Śródziemnego, lecz w roku 146 p.n.e. została "
+#~ "zniszczona przez Rzymian."
+
+#~ msgid "Cherokee"
+#~ msgstr "Czirokeski"
+
+#~ msgid "?plural:Cherokees"
+#~ msgstr "?plural:Czirokezi"
+
+#~ msgid ""
+#~ "The Cherokee nation is the largest Native American nation in North "
+#~ "America today."
+#~ msgstr ""
+#~ "Lud Czirokezów to największa grupa etniczna wśród rdzennych mieszkańców "
+#~ "współczesnej Ameryki Północnej."
+
+#~ msgid ""
+#~ "China is the oldest major civilization that is still in existence today, "
+#~ "with written records dating back over 3,500 years. After first being "
+#~ "unified by the Qin dynasty in 221 BCE, China alternated between periods "
+#~ "of unity and disunity, and was occasionally conquered by external "
+#~ "ethnicities. Today, the People's Republic of China, established by the "
+#~ "Communists in 1949, occupies the mainland, while the former Nationalist "
+#~ "government of the Republic of China governs the island of Taiwan."
+#~ msgstr ""
+#~ "Chiny są, obok Egiptu, Mezopotamii i Indii, jedną z najstarszych "
+#~ "cywilizacji świata; najdawniejsze wzmianki o niej pochodzą sprzed 3 500 "
+#~ "lat. Chiny zostały po raz pierwszy zjednoczone przez dynastię Qin w roku "
+#~ "221 p.n.e. W kolejnych stuleciach, Chiny często przechodziły okresy "
+#~ "zjednoczeń i podziałów. Dzisiejsza Chińska Republika Ludowa została "
+#~ "utworzona przez komunistów w 1949, a poprzednie nacjonalistyczne władze "
+#~ "uciekły tuż po wojnie domowej na wyspę Tajwan."
+
+#~ msgid "Danish"
+#~ msgstr "Duński"
+
+#~ msgid "?plural:Danes"
+#~ msgstr "?plural:Duńczycy"
+
+#~ msgid ""
+#~ "The founding of the Danish kingdom is generally assigned to the reign of "
+#~ "Harald Blatand, who unified what is now Denmark between 958 CE and 988 CE."
+#~ msgstr ""
+#~ "Założenie królestwa Danii przypisywane jest zazwyczaj Haraldowi "
+#~ "Blåtlandowi, który zjednoczył ziemie dzisiejszej Danii w latach 958-988."
+
+#~ msgid "Dutch"
+#~ msgstr "Holenderski"
+
+#~ msgid "?plural:Dutch"
+#~ msgstr "?plural:Holendrzy"
+
+#~ msgid ""
+#~ "When the Holy Roman Emperor sentenced the entire population to death, the "
+#~ "people of the Netherlands revolted and declared themselves independent, "
+#~ "forming the Union of Utrecht in 1579. The Netherlands grew to be a "
+#~ "dominant maritime and economic power in the 17th century."
+#~ msgstr ""
+#~ "Gdy Święte Cesarstwo Rzymskie skazało całą ludność na śmierć, Holendrzy "
+#~ "zbuntowali się i ogłosili niepodległość, zawierając w 1578 unię "
+#~ "utrechcką. Holandia rosła w siłę i w XVII w. stała się potęga morską i "
+#~ "gospodarczą."
+
+#~ msgid "Ethiopian"
+#~ msgstr "Etiopski"
+
+#~ msgid "?plural:Ethiopians"
+#~ msgstr "?plural:Etiopczycy"
+
+#~ msgid ""
+#~ "Ethiopia is the oldest nation in Africa and the only one to remain "
+#~ "independent during European colonialism."
+#~ msgstr ""
+#~ "Etiopczycy to najstarszy naród w Afryce i jedyny, który oparł się "
+#~ "europejskiej kolonizacji i zachował niepodległość."
+
+#~ msgid ""
+#~ "France has long been a major power in Europe. French conquerors like "
+#~ "Emperor Napoleon and King Charlemagne united large parts of Europe under "
+#~ "the French flag. The country also built the world's second largest "
+#~ "colonial empire. The French kingdom first came into existence when it "
+#~ "grew out of the western part of the Frankish empire during the High "
+#~ "Middle Ages. France - and indeed the world - was shaken on its "
+#~ "foundations by the French Revolution of 1789."
+#~ msgstr ""
+#~ "Francja od wielu lat jest europejską potęgą. Francuscy zdobywcy jak "
+#~ "Napoleon Bonaparte i Karol Wielki zjednoczyli olbrzymie połacie Europy "
+#~ "pod francuską flagą. Kraj był także drugą największą potęgą kolonialną. "
+#~ "Królestwo francuskie powstało w zachodniej części imperium frankijskiego "
+#~ "w okresie średniowiecza. W 1789 roku krajem - a w efekcie również całym "
+#~ "światem - wstrząsnęła Rewolucja Francuska."
+
+#~ msgid "Citizen %s"
+#~ msgstr "Obywatel %s"
+
+#~ msgid "?female:Citizen %s"
+#~ msgstr "?female:Obywatelka %s"
+
+#~ msgid "Hittite"
+#~ msgstr "Hetycki"
+
+#~ msgid "?plural:Hittites"
+#~ msgstr "?plural:Hetyci"
+
+#~ msgid ""
+#~ "The Hittite kingdom lasted from about 1680 BCE to about 1180 BCE. They "
+#~ "were the first civilization to discover iron working. At its height, they "
+#~ "controlled central Anatolia, north-western Syria and Mesopotamia down to "
+#~ "Babylon."
+#~ msgstr ""
+#~ "Królestwo Hetytów istniało w latach 1680-1180 p.n.e. Zasłynęli oni jako "
+#~ "cywilizacja, która odkryła obróbkę żelaza. W szczytowym okresie, panowali "
+#~ "nad środkową Anatolią, północno-zachodnią Syrią i Mezopotamią aż po "
+#~ "Babilon."
+
+#~ msgid "Hunnic"
+#~ msgstr "Huński"
+
+#~ msgid "?plural:Huns"
+#~ msgstr "?plural:Hunowie"
+
+#~ msgid ""
+#~ "The European Huns were an ancient tribal confederation who first appeared "
+#~ "in the 4th century. The Huns inhabited the Eurasian steppes and were "
+#~ "known as formidable horse archers. In the fifth century CE they created a "
+#~ "powerful military empire under the leadership of Attila, famous for his "
+#~ "campaigns against the Roman Empire. Attila died in 453, and the empire "
+#~ "fell apart one year later. The origins of the Huns are still a matter of "
+#~ "dispute; they have long been associated with the Xiongnu mentioned in "
+#~ "Chinese sources, but that link has still not been unequivocally proven. "
+#~ "Hunnic ethnic relations and language are likewise controversial."
+#~ msgstr ""
+#~ "Europejscy Hunowie byli grupą starożytnych plemion, która uformowała się "
+#~ "w IV wieku. Hunowie zamieszkiwali stepy Eurazji i byli znani jako groźni "
+#~ "konni łucznicy. W V wieku stworzyli potężne imperium wojskowe pod wodzą "
+#~ "Atylli, który wsławił się kampaniami przeciwko Rzymowi. Atylla zmarł w "
+#~ "453 roku, a jego państwo rozpadło się rok później. Pochodzenie Hunów "
+#~ "nadal nie jest do końca jasne. Przez długi czas byli kojarzeni z ludem "
+#~ "Xiongnu wspominanym z chińskich źródłach, lecz powiązanie to nie zostało "
+#~ "do tej pory jednoznacznie potwierdzone. Pochodzenie ich języka jest "
+#~ "równie kontrowersyjne."
+
+#~ msgid "Inca"
+#~ msgstr "Inkaski"
+
+#~ msgid "?plural:Incas"
+#~ msgstr "?plural:Inkowie"
+
+#~ msgid ""
+#~ "The Inca were an Amerind people of the Northern Andes who conquered an "
+#~ "empire stretching along the west coast of South America from what is now "
+#~ "southern Chile nearly to the Equator. They had the bad timing to do it "
+#~ "just a few decades before the Spanish conquistadors arrived in their part "
+#~ "of the world in the 1530s CE. In that short time frame, the Inca were "
+#~ "able to build over 15,000 km of roads throughout their realm. Their state "
+#~ "was the largest in the Americas prior to the Spanish conquest and was "
+#~ "maintained through a complex, hierarchical and pragmatic administrative "
+#~ "system. They were, however, wracked as many kingdoms have been by crises "
+#~ "of succession. When the Spanish arrived, the Inca were in the middle of "
+#~ "one such crisis - the war between Atawallpa and Waskhar. They were the "
+#~ "sons of the late ruler Wayna Qhapaq, who had died from disease - likely "
+#~ "smallpox - that was sweeping through the land."
+#~ msgstr ""
+#~ "Inkowie to indiański lud z obszaru północnych Andów. Stworzyli oni "
+#~ "imperium ciągnące się wzdłuż zachodniego brzegu Ameryki Południowej "
+#~ "(tereny dzisiejszego Chile) prawie po równik. Nie mieli jednak szczęścia, "
+#~ "gdyż ich państwo powstało zaledwie kilka dekad przed przybyciem "
+#~ "hiszpańskich konkwistadorów w latach 30-tych XVI w. Jednak zanim to "
+#~ "nastąpiło, Inkowie wybudowali w swym kraju przeszło 15 000 km dróg. "
+#~ "Imperium inkaskie było największym państwem obu Ameryk epoki "
+#~ "prekolumbijskiej i mogło być skutecznie zarządzane dzięki "
+#~ "skomplikowanemu, hierarchicznemu i pragmatycznemu systemowi "
+#~ "administracji. Niestety, jak wiele królestw, również to nękane było "
+#~ "konfliktami sukcesyjnymi. Hiszpanie zastali kraj pogrążony w jednym z "
+#~ "takich konfliktów - w wojnie pomiędzy Atallawpa a Washkarem. Byli oni "
+#~ "synami króla zmarłego w wyniku choroby (prawdopodobnie ospy) szalejącej "
+#~ "wówczas w całej krainie."
+
+#~ msgid "Inka %s"
+#~ msgstr "Inka %s"
+
+#~ msgid "Qoya %s"
+#~ msgstr "Qoya %s"
+
+#~ msgid "Sapa Inka %s"
+#~ msgstr "Sapa Inka %s"
+
+#~ msgid "Sapa Qoya %s"
+#~ msgstr "Sapa Qoya %s"
+
+#~ msgid ""
+#~ "The Republic of India was created in 1950 following a non-violent "
+#~ "independence movement led by Mahatma Gandhi. With more than a billion "
+#~ "inhabitants it is the world's second most populous country as well as the "
+#~ "world's largest democracy."
+#~ msgstr ""
+#~ "Republika Indii powstała w 1950 roku dzięki pokojowemu ruchowi "
+#~ "niepodległościowemu przewodzonemu przez Mahatmę Ghandiego. Indie liczą "
+#~ "sobie ponad miliard mieszkańców, co czyni z nich drugi najludniejszy kraj "
+#~ "świata i największe państwo demokratyczne."
+
+#~ msgid "Indonesian"
+#~ msgstr "Indonezyjski"
+
+#~ msgid "?plural:Indonesians"
+#~ msgstr "?plural:Indonezyjczycy"
+
+#~ msgid ""
+#~ "Indonesia is a large country on the Malay Archipelago with central "
+#~ "government on the island of Java. The country has a Muslim majority and "
+#~ "is one of the most populous in the world."
+#~ msgstr ""
+#~ "Indonezja to wielki kraj położony na Archipelagu Malajskim, którego "
+#~ "stolica znajduje się na wyspie Jawa. Jest to jedno z najbardziej ludnych "
+#~ "państw świata, a większość mieszkańców stanowią muzułmanie."
+
+#~ msgid "Iroquois"
+#~ msgstr "Irokeski"
+
+#~ msgid "?plural:Iroquois"
+#~ msgstr "?plural:Irokezi"
+
+#~ msgid ""
+#~ "The Iroquois Confederacy - known as Haudenosaunee in their own language - "
+#~ "was a North American group of nations with common language and culture. "
+#~ "They were based in what is now upstate New York and consisted originally "
+#~ "of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The "
+#~ "confederacy had a written constitution and a currency system making them "
+#~ "the most advanced state in North America upon the arrival of the "
+#~ "Europeans."
+#~ msgstr ""
+#~ "Konfederacja Irokeska - przez samych Irokezów zwana Haudenosaunee - była "
+#~ "grupą północnoamerykańskich plemion połączonych wspólnym językiem i "
+#~ "kulturą. Zamieszkiwali okolice dzisiejszego Nowego Jorku, a w skład "
+#~ "konfederacji wchodziło początkowo pięć plemion: Mohawkowie, Oneidowie, "
+#~ "Onandagowie, Kajugowie i Senekowie. Państwo Irokezów miało własną "
+#~ "konstytucję i walutę, przez co uważane jest za najbardziej zaawansowane "
+#~ "cywilizacyjnie w Ameryce Północnej sprzed przybycia Europejczyków."
+
+#~ msgid ""
+#~ "The Italian nation was unified in 1870 CE after decades of campaigning by "
+#~ "indigenous nationalists. It was a monarchy under the House of Savoy until "
+#~ "1922, then a fascist state until 1945 after which democracy was restored "
+#~ "by the World War II victors."
+#~ msgstr ""
+#~ "Naród włoski zjednoczył się w roku 1870 po dekadach kampanii prowadzonych "
+#~ "przez miejscowych  nacjonalistów. Do roku 1922 Włochy były monarchią pod "
+#~ "dynastią sabaudzką, później dyktaturą faszystowską, a demokracja "
+#~ "przywrócona została przez zwycięzców II Wojny Światowej."
+
+#~ msgid "Duce %s"
+#~ msgstr "Duce %s"
+
+#~ msgid "Ducezza %s"
+#~ msgstr "Ducezza %s"
+
+#~ msgid ""
+#~ "According to traditional Japanese mythology, Japan was founded in the 7th "
+#~ "century BCE by the ancestral Emperor Jimmu."
+#~ msgstr ""
+#~ "Japońska mitologia głosi, że Japonię założył w VII w. p.n.e. niebiański "
+#~ "Cesarz Jimmu."
+
+#~ msgid "Khmer"
+#~ msgstr "Khmerowie"
+
+#~ msgid "?plural:Khmers"
+#~ msgstr "?plural:Khmerowie"
+
+#~ msgid ""
+#~ "The Khmer Empire, established in 802 CE, dominated Southeast Asia for "
+#~ "many centuries during the Middle Ages. Heavily influenced by Indian "
+#~ "culture, the Khmers were great builders who erected innumerable stone "
+#~ "temples to Hindu deities. The Khmers today are the majority ethnicity of "
+#~ "Cambodia."
+#~ msgstr ""
+#~ "Imperum Khmerów, ustanowione w roku 802 n.e., kontrolowało południowo-"
+#~ "wschodnią Azję przez wiele stuleci średniowiecza. Khmerowie byli pod "
+#~ "silnym wpływem kultury hinduskiej i dali się poznać jako znakomici "
+#~ "budowniczowie, którzy wznieśli wiele kamiennych świątyń poświęconych "
+#~ "hinduskim bóstwom. Dzisiaj Khmerowie są największą grupą etniczną "
+#~ "Kambodży."
+
+#~ msgid "Korean"
+#~ msgstr "Koreański"
+
+#~ msgid "?plural:Koreans"
+#~ msgstr "?plural:Koreańczycy"
+
+#~ msgid ""
+#~ "According to legend, the first Korean kingdom was founded in prehistory "
+#~ "by the ancestral Tangun in southern Manchuria. The Korean kingdoms were "
+#~ "united in 668 by king Munmu. Today the Korean peninsula is divided into "
+#~ "two states, North and South Korea, as a result of the stalemate after the "
+#~ "Korean war in 1953."
+#~ msgstr ""
+#~ "Legenda głosi, że pierwsze koreańskie królestwo założone zostało w "
+#~ "południowej Mandżurii przez niebiańskiego Tanguna jeszcze w czasach "
+#~ "prehistorycznych. Królestwa koreańskie zjednoczył król Munmu w roku 668. "
+#~ "Dzisiaj półwysep koreański podzielony jest pomiędzy dwa kraje, Koreę "
+#~ "Północną i Południową, tkwiące w klinczu po wojnie z 1953 roku."
+
+#~ msgid "Mali"
+#~ msgstr "Maliański"
+
+#~ msgid "?plural:Malis"
+#~ msgstr "?plural:Maliańczycy"
+
+#~ msgid ""
+#~ "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
+#~ "millennia. In medieval times, the region was home to a succession of "
+#~ "empires called the Sahelian kingdoms. Of these, the Islamic Mali Empire "
+#~ "was the most influential. This empire reigned from the 14th to the 17th "
+#~ "century and was famed for its wealth and benevolent kings. The modern "
+#~ "Republic of Mali derives its name from this empire."
+#~ msgstr ""
+#~ "Przez wiele stuleciu Afryka subsaharyjska była tyglem wielu kultur i grup "
+#~ "etnicznych. W średniowieczu powstało tu kilka państw zwanych królestwami "
+#~ "sahelskimi. Największym i najbrdziej wpływowym z nich było Islamskie "
+#~ "Imperium Mali. Istniało ono w od XIV do XVII wieku i słynęło z bogactwa "
+#~ "oraz łagodnych władców. Współczesna Republika Mali wzięła swoją nazwę od "
+#~ "tego państwa. [Słowa \"maliański\" oraz \"Maliańczycy\" to neologizmy "
+#~ "wymyślone na potrzeby Freeciv - przyp. tłumacza.]"
+
+#~ msgid "Mayan"
+#~ msgstr "Majański"
+
+#~ msgid "?plural:Mayas"
+#~ msgstr "?plural:Majowie"
+
+#~ msgid ""
+#~ "The Mayans were a Mesoamerican civilization. They are famous for building "
+#~ "great pyramids and palaces in the jungle."
+#~ msgstr ""
+#~ "Majowie to lud zamieszkujący Amerykę Środkową. Są znani z tego, że "
+#~ "budowali ogromne piramidy i Pałace w środku dżungli."
+
+#~ msgid ""
+#~ "The first Persian (Achaemenid) Empire lasted from 550 BCE to 330 BCE; the "
+#~ "second (Sassanid) from 226 CE to 642 CE."
+#~ msgstr ""
+#~ "Pierwsze Imperium Perskie, pod rządami Achemenidów, istniało w latach "
+#~ "550-330 p.n.e. Drugie, rządzone przez Sasanidów, rozwijało się w okresie "
+#~ "226-642 n.e."
+
+#~ msgid "Polish"
+#~ msgstr "Polski"
+
+#~ msgid "?plural:Poles"
+#~ msgstr "?plural:Polacy"
+
+#~ msgid ""
+#~ "The Polish state was formed about a millennium ago, and reached its "
+#~ "Golden Age near the end of the 16th century."
+#~ msgstr ""
+#~ "Państwo polskie zostało założone ponad tysiąc lat temu. Swój złoty wiek "
+#~ "osiągnęło w XVI wieku."
+
+#~ msgid "Polynesian"
+#~ msgstr "Polinezyjski"
+
+#~ msgid "?plural:Polynesian"
+#~ msgstr "?plural:Polinezyjczycy"
+
+#~ msgid ""
+#~ "Polynesian culture stretches from Hawaii to New Zealand to Easter Island "
+#~ "and covers all the islands in between."
+#~ msgstr ""
+#~ "Kultura polinezyjska obejmuje obszar rozciągający się od Hawajów do Nowej "
+#~ "Zelandii oraz Wyspy Wielkanocnej i obejmuje wszystkie wyspy wewnątrz tego "
+#~ "trójkąta."
+
+#~ msgid "Portuguese"
+#~ msgstr "Portugalski"
+
+#~ msgid "?plural:Portuguese"
+#~ msgstr "?plural:Portugalczycy"
+
+#~ msgid ""
+#~ "Portugal founded the first of the great mercantile empires in the 1400s "
+#~ "on the shipbuilding advances funded by Prince Henry the Navigator."
+#~ msgstr ""
+#~ "Portugalia założyła pierwsze imperium handlowe w XV wieku, dzięki flocie "
+#~ "utworzonej przez księcia Henryka Żeglarza."
+
+#~ msgid ""
+#~ "Rome was, in legend, founded by Romulus in 753 BCE. At its height, Rome "
+#~ "controlled much of Europe, northern Africa and the Near East. Roman "
+#~ "culture adopted much of the civilizations it conquered, such as the "
+#~ "Greeks and Etruscans, and forms one of the bases of the Western culture. "
+#~ "Even today, Roman influence in fields such as law, philosophy and "
+#~ "language remains enormous. The Roman civilization spanned more than a "
+#~ "millennium; first as a kingdom, later as a republic and then from 27 BCE "
+#~ "onward as an empire. The empire was split in the 4th century CE. The "
+#~ "Western Roman Empire fell in 476 CE, the Eastern Roman or Byzantine "
+#~ "Empire survived almost a thousand years more; its capital Constantinople "
+#~ "fell to the Turks in 1453."
+#~ msgstr ""
+#~ "Legenda powiada, że Rzym został założony przez Romulusa w 753 r. p.n.e. W "
+#~ "szczytowym okresie Rzym kontrolował dużą część Europy, północną Afrykę i "
+#~ "Bliski Wschód. Kultura rzymska przyswoiła wiele elementów z kultur "
+#~ "podbijanych ludów, na przykład Greków czy Etrusków, i stała się podstawą "
+#~ "kultury zachodniej. Nawet dziś wpływ kultury rzymskiej w dziedzinie "
+#~ "prawa, filozofii i języka jest trudny do przecenienia. Państwo rzymskie "
+#~ "przetrwało ponad tysiąc lat: najpierw było królestwem, potem republiką, a "
+#~ "od 27 r. p.n.e. cesarstwem. W IV w. n.e. imperium rozpadło się na "
+#~ "Cesarstwo Zachodniorzymskie, które upadło w 476 roku, oraz Cesarstwo "
+#~ "Wschodniorzymskie (zwane też Bizantyńskim), które przetrwało przez "
+#~ "kolejne tysiąc lat. Stolica tego drugiego, Konstantynopol, została "
+#~ "zdobyta przez Turków w 1453 roku."
+
+#~ msgid ""
+#~ "Russia is the largest country in the world, occupying a huge part of both "
+#~ "Europe and Asia. According to legend, Slavic tribes of Novgorod invited "
+#~ "the Varangian (Viking) king Oleg to bring order to their land. Oleg "
+#~ "established the Kievan Rus' in this realm, the first Russian state. By "
+#~ "the 11th century, the Kievan Rus' had disintegrated into lesser "
+#~ "princedoms, which were once again united into one state by Ivan III in "
+#~ "the 15th century. After a decisive victory over Sweden and large "
+#~ "territorial gains, Peter I pronounced the Russian Empire in 1721. The "
+#~ "Russian Empire lasted until 1917 when a socialist revolution dethroned "
+#~ "the last Russian emperor. After the dissolution of the USSR in 1991 "
+#~ "Russia appeared on the world map again, now as a federal republic."
+#~ msgstr ""
+#~ "Rosja jest największym państwem na świecie, zajmuje ogromne obszary "
+#~ "Europy i Azji. Legenda głosi, że w 863 roku słowiańskie i fińskie "
+#~ "plemiona z Nowogrodu zaprosiły wikińskiego króla Ruryka, by zaprowadził "
+#~ "porządek na ich ziemiach. Ruryk założył Ruś Kijowską, pierwsze państwo "
+#~ "ruskie. Do XI wieku Ruś Kijowska rozpadła się mniejsze księstwa, "
+#~ "zjednoczone ponownie w XV wieku przez Iwana III. Po wielkim zwycięstwie "
+#~ "nad Szwedami, kraj znacznie powiększył swoje terytorium, a car Piotr I "
+#~ "proklamował powstanie Imperium Rosyjskiego w 1721 roku. Imperium "
+#~ "przetrwało do 1917, kiedy to rewolucja bolszewicka obaliła ostatniego "
+#~ "cara. Po upadku ZSRR w 1991 roku Rosja ponownie pojawiła się mapie "
+#~ "świata, tym razem jako federacja państw."
+
+#~ msgid "Songhai"
+#~ msgstr "Songhajski"
+
+#~ msgid "?plural:Songhai"
+#~ msgstr "?plural:Songhajowie"
+
+#~ msgid ""
+#~ "The Songhai people established a state in the 11th century CE centered on "
+#~ "the city of Gao. Following the decline of the Mali empire a few hundred "
+#~ "years later, the Songhai established an empire of their own which "
+#~ "eventually grew to become one of the largest in the history of Africa. "
+#~ "The rulers of Songhai became known for their wealth as well as their "
+#~ "devotion to the Muslim faith."
+#~ msgstr ""
+#~ "W XI w. n.e. Songhajowie założyli państwo skupione wokół miasta Gao. "
+#~ "Kilka stuleci później, po upadku imperium Mali, Songhajowie stworzyli "
+#~ "własne imperium, które z czasem stało się największym krajem w dziejach "
+#~ "Afryki. Władcy państwa songhajskiego znani byli ze swego bogactwa i "
+#~ "przywiązania do wiary muzułmańskiej."
+
+#~ msgid "Sumerian"
+#~ msgstr "Sumeryjski"
+
+#~ msgid "?plural:Sumerians"
+#~ msgstr "?plural:Sumerowie"
+
+#~ msgid ""
+#~ "Sumer controlled southern Mesopotamia until the rise of Babylonia. "
+#~ "Tablets of Sumerian writing some 5500 years old have been found, pre-"
+#~ "dating every other writing in history."
+#~ msgstr ""
+#~ "Sumerowie władali w południowej Mezopotamii aż do powstania Babilonii. "
+#~ "Najstarsze tabliczki z pismem sumeryjskim pochodzą sprzed ok. 5 500 lat, "
+#~ "co czyni je najstarszymi zapiskami w historii."
+
+#~ msgid "Swedish"
+#~ msgstr "Szwedzki"
+
+#~ msgid "?plural:Swedes"
+#~ msgstr "?plural:Szwedzi"
+
+#~ msgid ""
+#~ "The Kingdom of Sweden was christianized and consolidated as a political "
+#~ "entity by the 12th century CE. The country rose to prominence as one of "
+#~ "the great powers of Europe in the 17th century, following substantial "
+#~ "military conquests by the so called Warrior Kings. However, due to a "
+#~ "worsening economy and several disastrous defeats to Russia, Sweden soon "
+#~ "lost most of its gained territory. The country has not been involved in "
+#~ "an armed conflict since 1814."
+#~ msgstr ""
+#~ "Królestwo Szwecji zostało ochrzczone i zunifikowane jako byt polityczny "
+#~ "do końca XII wieku. Państwo wzrastało i w XVII w. było już jednym ze "
+#~ "znaczących mocarstw europejskich, zwłaszcza po podbojach dokonanych przez "
+#~ "tzw. Królów-Wojowników. Jednak wkrótce po tym, kryzys ekonomiczny i kilka "
+#~ "ciężkich porażek militarnych w starciach z Rosją sprawiły, że Szwecja "
+#~ "utraciła większość zdobyczy terytorialnych. Kraj nie zaangażował się w "
+#~ "żaden konflikt zbrojny od 1814 roku."
+
+#~ msgid "Taino"
+#~ msgstr "Tainowie"
+
+#~ msgid "?plural:Taino"
+#~ msgstr "?plural:Tainowie"
+
+#~ msgid ""
+#~ "Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico, "
+#~ "Jamaica, and other Caribbean islands who gave us the root words for "
+#~ "hurricane, tobacco, potato, canoe, barbeque, hammock, and yucca. They "
+#~ "were a matrilineal people, and the first that Columbus came into contact "
+#~ "with in 1492. Though numbering the hundreds of thousands, if not "
+#~ "millions, throughout the Caribbean, the Taino fell victim to slavery and "
+#~ "disease, and their population declined rapidly as a result. Spanish "
+#~ "accounts paint them as a peaceful people compared to their Carib "
+#~ "neighbors to the south. Their dugout canoes, which were often nearly as "
+#~ "long as Columbus' ships, ferried traders between islands. Recent genetic "
+#~ "studies show that roughly half of Puerto Ricans have Taino maternal "
+#~ "descent."
+#~ msgstr ""
+#~ "Tainowie to mieszkańcy wysp Bahama, Kuby, Haiti, Puerto Rico, Jamajki "
+#~ "oraz innych karaibskich wysp, z których pochodzą słowa \"huragan\", "
+#~ "\"tabaka\", \"hamak\" i \"juka\". Był to lud matrylinearny i byli oni "
+#~ "pierwszymi ludźmi, których zobaczył Kolumb, gdy wpłynął na te wody w 1492 "
+#~ "roku. Choć na całych Karaibach były ich setki tysięcy, jeśli nie miliony, "
+#~ "Tainowie padli ofiarą handlarzy niewolników i chorób, a ich populacja "
+#~ "szybko się zmniejszyła. Hiszpańskie podania opisują ich jako ludzi "
+#~ "pokojowych, zwłaszcza w porównaniu z ich południowymi sąsiadami. Czółna "
+#~ "Tainów, które bywały niemal tak długie jak statki Kolumba, przewoziły "
+#~ "handlarzy pomiędzy wyspami. Ostatnie badania genetyczne ujawniły, że "
+#~ "około połowa Portorykańczyków ma przodków wśród Tainów."
+
+#~ msgid "Thai"
+#~ msgstr "Tajski"
+
+#~ msgid "?plural:Thai"
+#~ msgstr "?plural:Tajlandczycy"
+
+#~ msgid ""
+#~ "The Thai kingdom was the only country in Southeast Asia to preserve its "
+#~ "independence through the colonial era of the 18th and 19th centuries CE."
+#~ msgstr ""
+#~ "Królestwo Tajlandii, jako jedyne państwo w południowo-wschodniej Azji, "
+#~ "zachowało niepodległość w czasach kolonizacji Europejczyków w XVIII i XIX "
+#~ "wieku."
+
+#~ msgid "Tupi"
+#~ msgstr "Tupi"
+
+#~ msgid "?plural:Tupi"
+#~ msgstr "?plural:Tupi"
+
+#~ msgid ""
+#~ "The Tupi are a native Brazilian people related to the Guarani who "
+#~ "inhabited the modern Brazilian states of Paraiba, Pernambuco, Ceara, Rio "
+#~ "Grande do Norte, Alagoas, Sergipe and others as well. Their chiefdoms "
+#~ "were destroyed through Portuguese slave-raids, the creation of mission-"
+#~ "villages, and disease. The Tupi intermarried with African slaves and "
+#~ "Europeans alike and a great many Brazilian place names are derived from "
+#~ "Tupi words. "
+#~ msgstr ""
+#~ "Tupi to rdzenne plemię amazońskie spokrewnione z Guarani, zamieszkujące "
+#~ "dzisiejsze brazylijskie stany Paraiba, Pernambuco, Ceara, Rio Grande do "
+#~ "Norte, Alagoas, Sergipe i inne. Ich państewka zostały zniszczone przez "
+#~ "rajdy portugalskich handlarzy niewolników, ekspansję wiosek misjonarskich "
+#~ "oraz choroby. Tupi wchodzili w związki małżeńskie zarówno z afrykańskimi "
+#~ "niewolnikami jak i Europejczykami, a wiele nazw miejsc w Brazylii "
+#~ "pochodzi z ich języka."
+
+#~ msgid "Turkish"
+#~ msgstr "Turecki"
+
+#~ msgid "?plural:Turks"
+#~ msgstr "?plural:Turcy"
+
+#~ msgid ""
+#~ "Modern Turkey is the successor state of the Ottoman Empire, which "
+#~ "collapsed and was dismembered by the victors in World War I after backing "
+#~ "the Central Powers. The country was subsequently reformed and secularized "
+#~ "by Kemal Mustapha, the hero of the defense of Gallipoli."
+#~ msgstr ""
+#~ "Współczesna Turcja to spadkobierczyni Imperium Osmańskiego. Upadło ono "
+#~ "ostatecznie po I Wojnie Światowej, w której popierało Państwa Centralne. "
+#~ "Kraj został zreformowany i zsekularyzowany przez Kemala Mustafę, bohatera "
+#~ "obrony Gallipoli."
+
+#~ msgid ""
+#~ "The Vikings raided and traded along the coasts of Europe between 800 CE "
+#~ "and 1100 CE. Viking raiders eventually became the rulers of Normandy, "
+#~ "Russia, and a short-lived kingdom in Sicily."
+#~ msgstr ""
+#~ "W latach 800-1100 n.e. Wikingowie podbijali i prowadzili handel z "
+#~ "nadbrzeżnymi regionami Europy. Opanowali Normandią, Rosją i krótko "
+#~ "istniejącym królestwem na Sycylii."
+
+#~ msgid "Nation's Legend"
+#~ msgstr "Legenda narodu"
+
+#~ msgid "Mosotho"
+#~ msgstr "Sotyjski"
+
+#~ msgid ""
+#~ "A Bantu people in Southern Africa, the ancestors of the Basotho first "
+#~ "arrived in the region by the end of the first millennium AD. The Basotho "
+#~ "first formed a unified polity in the early 19th century under king "
+#~ "Moshoeshoe I. The Mosotho kings sought protection from the British "
+#~ "against Boer incursions and in 1869 their country turned into the British "
+#~ "protectorate of Basutoland. Although surrounded by South Africa on all "
+#~ "sides, that country's apartheid policies prevented its intgration into "
+#~ "South Africa. In 1966 Basutoland became the independent Kingdom of "
+#~ "Lesotho."
+#~ msgstr ""
+#~ "Lesotho stało się po raz pierwszy jednolitym bytem politycznym we "
+#~ "wczesnym wieku XIX za panowania króla Moshoeshoe I, który zjednoczył "
+#~ "klany sotyjskie. Moshoeshoe zwrócił się do Brytyjczyków po obronę przed "
+#~ "Burami i w 1869 roku kraj stał się protektoratem brytyjskim pod nazwą "
+#~ "Basutoland. Choć kraj był otoczony przez Republikę Południowej Afryki, "
+#~ "polityka apartheidu nie pozwoliła mu wchłonąć Basutolandu, który w 1966 "
+#~ "roku stał się niezawisłym Królestwem Lesotho."
+
+#~ msgid "Motswana"
+#~ msgstr "Botswański"
+
+#~ msgid "Mother Superior"
+#~ msgstr "Najwyższa Matka"
+
+#~ msgid "Amir Al-Muminin %s"
+#~ msgstr "Amir Al-Muminin %s"
+
+#~ msgid "Amirat Al-Muminin %s"
+#~ msgstr "Amirat Al-Muminin %s"
+
+#~ msgid "Al-Andalus"
+#~ msgstr "Andaluski"
+
+#~ msgid "?plural:Al-Andalus"
+#~ msgstr "?plural:Andalusowie"
+
+#~ msgid "Sheik %s"
+#~ msgstr "Szejk  %s"
+
+#~ msgid "Malik %s"
+#~ msgstr "Malik %s"
+
+#~ msgid "Malika %s"
+#~ msgstr "Malika %s"
+
+#~ msgid "Presidente %s"
+#~ msgstr "Presidente %s"
+
+#~ msgid "Presidenta %s"
+#~ msgstr "Presidenta %s"
+
+#~ msgid "Mallku %s"
+#~ msgstr "Mallku %s"
+
+#~ msgid "Ttalla %s"
+#~ msgstr "Ttalla %s"
+
+#~ msgid "?title:Leader %s"
+#~ msgstr "?title:Przywódca %s"
+
+#~ msgid "Liberator %s"
+#~ msgstr "Wyzwoliciel %s"
+
+#~ msgid "?female:Liberator %s"
+#~ msgstr "?female:Wyzwolicielka %s"
+
+#~ msgid "Mwami %s"
+#~ msgstr "Mwami  %s"
+
+#~ msgid "Mwamikazi %s"
+#~ msgstr "Mwamikazi %s"
+
+#~ msgid "Basileus %s"
+#~ msgstr "Basileus %s"
+
+#~ msgid "Basilissa %s"
+#~ msgstr "Basilissa %s"
+
+#~ msgid "Father %s"
+#~ msgstr "Ojciec %s"
+
+#~ msgid "Mother %s"
+#~ msgstr "Matka %s"
+
+#~ msgid ""
+#~ "The Confederate States of America was a splinter nation of the United "
+#~ "States during the American Civil War. It was formed in 1861 by six "
+#~ "Southern states but had to abandon their claims of independence a few "
+#~ "years later after several military defeats by United States troops."
+#~ msgstr ""
+#~ "Skonfederowane Stany Ameryki to kraj, który odłączył się od Stanów "
+#~ "Zjednoczonych podczas wojny secesyjnej. Powstały w 1861 na bazie sześciu "
+#~ "południowych stanów, lecz utraciły niezależność po dotkliwych porażkach "
+#~ "militarnych zadanych przez wojska Północy."
+
+#~ msgid "Thane %s"
+#~ msgstr "Thane %s"
+
+#~ msgid "Ratu %s"
+#~ msgstr "Ratu %s"
+
+#~ msgid "Adi %s"
+#~ msgstr "Adi %s"
+
+#~ msgid "Potestate %s"
+#~ msgstr "Protestata %s"
+
+#~ msgid "?female:Potestate %s"
+#~ msgstr "?female:Protestatka %s"
+
+#~ msgid "Don %s"
+#~ msgstr "Don %s"
+
+#~ msgid "Dona %s"
+#~ msgstr "Doña %s"
+
+#~ msgid "Mencey %s"
+#~ msgstr "Mency %s"
+
+#~ msgid "?female:Mencey %s"
+#~ msgstr "?female:Mencey %s"
+
+#~ msgid "Kikmongwi %s"
+#~ msgstr "Kikmongwi %s"
+
+#~ msgid "?female:Kikmongwi %s"
+#~ msgstr "?female:Kikmongwi %s"
+
+#~ msgid ""
+#~ "The nation of Israel was founded in 1948 as a scattered collection of "
+#~ "cantons in British Palestine, and has gradually expanded through winning "
+#~ "a series of wars launched against it in 1948, 1967 and 1973."
+#~ msgstr ""
+#~ "Państwo Izrael zostało utworzone w 1948 r. z terytoriów Palestyny, "
+#~ "będącej wówczas pod kontrolą Wielkiej Brytanii. Jego obszar powiększał "
+#~ "się stopniowo dzięki zwycięskim wojnom w latach 1948, 1967 i 1973."
+
+#~ msgid "?female:Duce %s"
+#~ msgstr "?female:Duce %s"
+
+#~ msgid "Manikongo %s"
+#~ msgstr "Manikongo %s"
+
+#~ msgid "?female:Manikongo %s"
+#~ msgstr "?female:Manikongo %s"
+
+#~ msgid "Mirza %s"
+#~ msgstr "Mirza %s"
+
+#~ msgid "?female:Mirza %s"
+#~ msgstr "?female:Mirza %s"
+
+#~ msgid "Great Duke %s"
+#~ msgstr "Wielki Książę %s"
+
+#~ msgid "Great Duchess %s"
+#~ msgstr "Wielka Księżna %s"
+
+#~ msgid "Tun %s"
+#~ msgstr "Tun %s"
+
+#~ msgid "?female:Tun %s"
+#~ msgstr "?female:Tun %s"
+
+#~ msgid "Toqui %s"
+#~ msgstr "Toqui %s"
+
+#~ msgid "?female:Toqui %s"
+#~ msgstr "?female:Toqui %s"
+
+#~ msgid "Ajaw %s"
+#~ msgstr "Ajaw %s"
+
+#~ msgid "?female:Ajaw %s"
+#~ msgstr "?female:Ajaw %s"
+
+#~ msgid "Friar %s"
+#~ msgstr "Brat %s"
+
+#~ msgid "?Female:Bailiff %s"
+#~ msgstr "?female:Baliw %s"
+
+#~ msgid "Perfect %s"
+#~ msgstr "Doskonały %s"
+
+#~ msgid "Perfectae %s"
+#~ msgstr "Doskonała %s"
+
+#~ msgid "Corrector %s"
+#~ msgstr "Corrector %s"
+
+#~ msgid "Correctrix %s"
+#~ msgstr "Correctrix %s"
+
+#~ msgid "The Papuans are a Melanesian people on the island of New Guinea."
+#~ msgstr "Papuasi to melanezyjski lud zamieszkujący Nową Gwineę."
+
+#~ msgid "%s Basha"
+#~ msgstr "%s Basza"
+
+#~ msgid "?female:%s Basha"
+#~ msgstr "?female:%s Basza"
+
+#~ msgid "?female:Mwami %s"
+#~ msgstr "?female:Mwami %s"
+
+#~ msgid "Noaidi %s"
+#~ msgstr "Noaidi %s"
+
+#~ msgid "?female:Noaidi %s"
+#~ msgstr "?female:Noaidi %s"
+
+#~ msgid "Chogyal %s"
+#~ msgstr "Chogyal %s"
+
+#~ msgid "?female:Chogyal %s"
+#~ msgstr "?female:Chogyal %s"
+
+#~ msgid "Encik %s"
+#~ msgstr "Encik %s"
+
+#~ msgid "?female:Encik %s"
+#~ msgstr "?female:Encik %s"
+
+#~ msgid "Datu %s"
+#~ msgstr "Datu %s"
+
+#~ msgid "?female:Datu %s"
+#~ msgstr "?female:Datu %s"
+
+#~ msgid ""
+#~ "Texas is second largest and second most populous state of the USA, famous "
+#~ "for its \"larger than life\" cowboy mentality."
+#~ msgstr ""
+#~ "Teksas to największy pod względem ludności i powierzchni stan USA. Znany "
+#~ "z \"kowbojskiej\" mentalności mieszkańców."
+
+#~ msgid "%s Beg"
+#~ msgstr "%s Beg"
+
+#~ msgid "?female:%s Beg"
+#~ msgstr "?female:%s Beg"
+
+#~ msgid "?female:Chairperson %s"
+#~ msgstr "?female:Przewodnicząca %s"
+
+#~ msgid ""
+#~ "Venezuela is the northernmost country in South America. Having been a "
+#~ "Spanish colony since the 16th century, the country gained independence on "
+#~ "July 5th 1811 under the leadership of El Libertador Simon Bolivar - The "
+#~ "Liberator."
+#~ msgstr ""
+#~ "Wenezuela to najbardziej na północ wysunięty kraj Ameryki Południowej. Od "
+#~ "XVI w. był kolonią hiszpańską, a niepodległość uzyskał 5 lipca 1811 roku "
+#~ "pod wodzą El Libertador Simóna Bolivara - \"Wyzwoliciela\"."
+
+#~ msgid "Dictador %s"
+#~ msgstr "Dictador %s"
+
+#~ msgid "Dictadora %s"
+#~ msgstr "Dictadora %s"
+
+#~ msgid "Magister Militium %s"
+#~ msgstr "Magister Militium %s"
+
+#~ msgid "Magistra Militium %s"
+#~ msgstr "Magistra Militium %s"
+
+#~ msgid "Nipa"
+#~ msgstr "Nipa"
+
+#~ msgid "?female:Nipa"
+#~ msgstr "?female:Nipa"
+
+#~ msgid "Nipsa"
+#~ msgstr "Nipsa"
+
+#~ msgid "?female:Nipsa"
+#~ msgstr "?female:Nipsa"
+
+#~ msgid "He'a"
+#~ msgstr "He'a"
+
+#~ msgid "?female:He'a"
+#~ msgstr "?female:He'a"
+
+#~ msgid "Malka"
+#~ msgstr "Malka"
+
+#~ msgid "Malikta"
+#~ msgstr "Malikta"
+
+#~ msgid ""
+#~ "Austria means Eastern Realm, given its position as the far east territory "
+#~ "of the medieval Holy Roman Empire."
+#~ msgstr ""
+#~ "Nazwa Austrii oznacza Wschodnią Rzeszę. Wynika to z faktu, że był to "
+#~ "najbardziej na wschód wysunięty teren Świętego Cesarstwa Rzymskiego."
+
+#~ msgid "Tlahtoani"
+#~ msgstr "Tlahtoani"
+
+#~ msgid "Cihualahtoani"
+#~ msgstr "Cihualahtoani"
+
+#~ msgid ""
+#~ "The Basques have lived since times immemorial by the western foothills of "
+#~ "the Pyrenees. By maintaining their age-old cultural traditions, and "
+#~ "keeping their historic identity alive, the Basques provide a link with "
+#~ "man's distant past. Euskara, the language spoken by the Basque people, is "
+#~ "probably the oldest living language in Europe."
+#~ msgstr ""
+#~ "Od niepamiętnych czasów, Baskowie zamieszkiwali zachodnie podnóża "
+#~ "Pirenejów. Pielęgnują oni swoją kulturę i tożsamość etniczną, przez co "
+#~ "zachowują pamięć o odległej przeszłości ludu. Posługują się Euskarą - "
+#~ "prawdopodobnie najstarszym żyjącym językiem Europy."
+
+#~ msgid "Lehendakari"
+#~ msgstr "Lehendakari"
+
+#~ msgid "?female:Lehendakari"
+#~ msgstr "?female:Lehendakari"
+
+#~ msgid "Ban"
+#~ msgstr "Ban"
+
+#~ msgid "Dug"
+#~ msgstr "Dug"
+
+#~ msgid "Dugez"
+#~ msgstr "Dugez"
+
+#~ msgid "Roue"
+#~ msgstr "Roue"
+
+#~ msgid "Rouanez"
+#~ msgstr "Rouanez"
+
+#~ msgid "Drugariat"
+#~ msgstr "Drugariat"
+
+#~ msgid "Drugarkata"
+#~ msgstr "Drugarkara"
+
+#~ msgid "Sveta Maika"
+#~ msgstr "Sveta Maika"
+
+#~ msgid "Bohmugyi"
+#~ msgstr "Bohmugyi"
+
+#~ msgid "?female:Bohmugyi"
+#~ msgstr "?female:Bohmugyi"
+
+#~ msgid "Reina"
+#~ msgstr "Królowa"
+
+#~ msgid "Arquebisbe"
+#~ msgstr "Arcybiskup"
+
+#~ msgid "Gran Bruixa"
+#~ msgstr "Gran Bruixa"
+
+#
+#~ msgid "Chile is located on the south-western coast of South America."
+#~ msgstr ""
+#~ "Chile jest położone na południowo-zachodnim wybrzeżu Ameryki Południowej."
+
+#~ msgid "Dowager"
+#~ msgstr "Dziedziczka"
+
+#~ msgid "Uchimaahkaan"
+#~ msgstr "Uchimaahkaan"
+
+#~ msgid "Uchimaahkaaniskweu"
+#~ msgstr "Uchimaahkaaniskweu"
+
+#~ msgid "Pope"
+#~ msgstr "Papież"
+
+#~ msgid "Don"
+#~ msgstr "Don"
+
+#~ msgid "Maharajadhiraja"
+#~ msgstr "Maharanidhirani"
+
+#~ msgid "Maharanidhirani"
+#~ msgstr "Maharanidhirani"
+
+#~ msgid ""
+#~ "The Inuit people inhabit northern Canada and Greenland. Legend says that "
+#~ "the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the "
+#~ "west coast of Greenland in the 10th century. All Inuit of today are "
+#~ "descendents of the Thule culture."
+#~ msgstr ""
+#~ "Inuici, zwani też Eskimosami, zamieszkują północną Kanadę i Grenlandię. "
+#~ "Legenda mówi, że Wielki Szaman Qitdlarssuaq przyprowadził swoich ludzi do "
+#~ "Thule (Qaanaaq) na zachodzie Grenlandii w X w. Wszyscy Inuici są dziś "
+#~ "spadkobiercami kultury Thule."
+
+#~ msgid "Raiis Jomhoor"
+#~ msgstr "Raiis Jomhoor"
+
+#~ msgid "?female:Raiis Jomhoor"
+#~ msgstr "?female:Raiis Jomhoor"
+
+#~ msgid "Mai"
+#~ msgstr "Mai"
+
+#~ msgid "?female:Mai"
+#~ msgstr "?female:Mai"
+
+#~ msgid "Great Khan"
+#~ msgstr "Wielki Chan"
+
+#~ msgid "Great Khatan"
+#~ msgstr "Wielki Khatan"
+
+#~ msgid "Nabongo"
+#~ msgstr "Nabongo"
+
+#~ msgid "?female:Nabongo"
+#~ msgstr "?female:Nabongo"
+
+#~ msgid "Prince"
+#~ msgstr "Książę"
+
+#~ msgid "Mahapatih"
+#~ msgstr "Mahapatih"
+
+#~ msgid "?female:Mahapatih"
+#~ msgstr "?female:Mahapatih"
+
+#~ msgid "?female:Warlord"
+#~ msgstr "?female:Wódz"
+
+#~ msgid ""
+#~ "Mexico borrows its name from the Mexica people, another name for the "
+#~ "Aztecs."
+#~ msgstr "Nazwa Meksyku pochodzi od \"Mexico\" - innej nazwy Azteków."
+
+#~ msgid "Doamna"
+#~ msgstr "Doamna"
+
+#~ msgid "Gospodarynya"
+#~ msgstr "Gospodarina"
+
+#~ msgid "Tovaras"
+#~ msgstr "Tovarasa"
+
+#~ msgid "Tovarasa"
+#~ msgstr "Tovarasa"
+
+#~ msgid "Chaabat"
+#~ msgstr "Chaabat"
+
+#~ msgid "?female:Chaabat"
+#~ msgstr "?female:Chaabat"
+
+#~ msgid "Hakan"
+#~ msgstr "Hakan"
+
+#~ msgid "Milk"
+#~ msgstr "Milk"
+
+#~ msgid "Milkot"
+#~ msgstr "Milkot"
+
+#~ msgid "Prymas"
+#~ msgstr "Prezydent"
+
+#~ msgid "?female:Elector"
+#~ msgstr "?female:Wybrana"
+
+#~ msgid "Caconzi"
+#~ msgstr "Caconzi"
+
+#~ msgid "?female:Caconzi"
+#~ msgstr "?female:Caconzi"
+
+#~ msgid "Noaydde"
+#~ msgstr "Noaydde"
+
+#~ msgid "Datu"
+#~ msgstr "Datu"
+
+#~ msgid "Ngwenyama"
+#~ msgstr "Ngwenyama"
+
+#~ msgid "Indovuzaki"
+#~ msgstr "Indovuzaki"
+
+#~ msgid ""
+#~ "Switzerland is a federation of cantons, some of which have more than 700 "
+#~ "years of history as a confederacy."
+#~ msgstr ""
+#~ "Szwajcaria jest federacją kantonów; niektóre z nich pozostają w niej już "
+#~ "od ponad siedmiuset lat."
+
+#~ msgid "?female:Cacike"
+#~ msgstr "?female:Kacyk"
+
+#~ msgid "Hankwa"
+#~ msgstr "Hankwa"
+
+#~ msgid "?female:Hankwa"
+#~ msgstr "?female:Hankwa"
+
+#~ msgid ""
+#~ "When the Chinese nationalists lost the armed struggle against the Chinese "
+#~ "communists, the nationalist government evacuated to the island of Taiwan "
+#~ "where they formed the Republic of China."
+#~ msgstr ""
+#~ "Gdy chińscy nacjonaliści przegrali walkę z komunistami, zbiegli na wyspę "
+#~ "Tajwan, gdzie założyli Republikę Chińską."
+
+#~ msgid ""
+#~ "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
+#~ "Tajikistan got independence from the Soviet Union in 1991."
+#~ msgstr ""
+#~ "Tadżykowie to naród środkowej Azji. W XIX w. zostali podbici przez "
+#~ "Imperium Rosyjskie, a Tadżykistan stał się niepodległym państwem w 1991 "
+#~ "roku."
+
+#~ msgid "Rhesos"
+#~ msgstr "Rhesos"
+
+#~ msgid "Lant"
+#~ msgstr "Lant"
+
+#~ msgid "Lantsa"
+#~ msgstr "Lantsa"
+
+#~ msgid "Morubixaba"
+#~ msgstr "Morubixaba"
+
+#~ msgid "?female:Morubixaba"
+#~ msgstr "?female:Morubixaba"
+
+#~ msgid ""
+#~ "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
+#~ "Turkmenistan got independence from the Soviet Union in 1991."
+#~ msgstr ""
+#~ "Turmeni to naród środkowej Azji, podbity w XIX w. przez Imperium "
+#~ "Rosyjskie. Turkmenistan zyskał niepodległość od Związku Radzieckiego w "
+#~ "1991 roku."
+
+#~ msgid "Governador"
+#~ msgstr "Gubernator"
+
+#~ msgid "Governadora"
+#~ msgstr "Gubernator"
 
 #, fuzzy
 #~ msgid "Jiliri"
@@ -14619,6 +16388,9 @@ msgstr ""
 
 #~ msgid "Venezuela"
 #~ msgstr "Wenezuelski"
+
+#~ msgid "Qween"
+#~ msgstr "Królowa"
 
 #~ msgid ""
 #~ "The nation of Bosnia & Herzegovina was created following the exceedingly "
