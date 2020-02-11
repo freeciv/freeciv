@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-07-21 14:29+0100\n"
-"PO-Revision-Date: 2017-09-22 22:42+0300\n"
+"POT-Creation-Date: 2020-02-11 17:53+0200\n"
+"PO-Revision-Date: 2020-02-11 17:54+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -225,10 +225,8 @@ msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
 #: tools/ruledit/tab_misc.cpp:145
-#, fuzzy
-#| msgid "?stat:Styles"
 msgid "?stat:Multipliers"
-msgstr "Tyylejä"
+msgstr "Kertoimia"
 
 #: tools/ruledit/tab_misc.cpp:202
 msgid "Ruleset saved"
