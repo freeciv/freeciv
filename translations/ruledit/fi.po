@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2017-09-16 02:20+0300\n"
-"PO-Revision-Date: 2017-09-22 22:48+0300\n"
+"POT-Creation-Date: 2020-02-11 17:56+0200\n"
+"PO-Revision-Date: 2020-02-11 18:00+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -29,9 +29,14 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/req_edit.cpp:130
 msgid "Close"
 msgstr "Sulje"
+
+#: tools/ruledit/conversion_log.cpp:46
+msgid "Old ruleset to a new format"
+msgstr "Vanha sääntökokoelma uuteen muotoon"
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -46,37 +51,55 @@ msgstr "%s poistetaan"
 msgid "Needed by %s"
 msgstr "%s tarvitsee"
 
-#: tools/ruledit/ruledit.cpp:114
+#: tools/ruledit/ruledit.cpp:118
 msgid "Failed to load comments.txt"
 msgstr "Kommenttitiedoston comments.txt lataaminen epäonnistui."
 
-#: tools/ruledit/ruledit.cpp:148
+#: tools/ruledit/ruledit.cpp:152
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
-#: tools/ruledit/ruledit.cpp:150
+#: tools/ruledit/ruledit.cpp:154
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:153
+#: tools/ruledit/ruledit.cpp:157
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNTÖKOKOELMA"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:158
 msgid "Ruleset to use as the starting point."
 msgstr "Lähtökohtana käytettävä sääntökokoelma."
 
-#: tools/ruledit/ruledit.cpp:167
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:162
+msgid "Fatal [SIGNAL]"
+msgstr "Fatal [SIGNAALI]"
+
+#: tools/ruledit/ruledit.cpp:163
+msgid "Raise a signal on failed assertion"
+msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
+
+#: tools/ruledit/ruledit.cpp:177
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Voi yhtä sääntökokoelmaa voidaan muokata samanaikaisesti.\n"
 
-#: tools/ruledit/ruledit.cpp:174
+#: tools/ruledit/ruledit.cpp:188
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
+
+#: tools/ruledit/ruledit.cpp:190
+msgid "Try using --help.\n"
+msgstr "Kokeile parametriä --help.\n"
+
+#: tools/ruledit/ruledit.cpp:197
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:123
+#: tools/ruledit/ruledit_qt.cpp:125
 #, c-format
 msgid ""
 "%s%s\n"
@@ -85,75 +108,75 @@ msgstr ""
 "%s%s\n"
 "revisiotunniste: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:134
+#: tools/ruledit/ruledit_qt.cpp:136
 msgid "Give ruleset to use as starting point."
 msgstr "Anna sääntökokoelma lähtökohdaksi."
 
-#: tools/ruledit/ruledit_qt.cpp:146
+#: tools/ruledit/ruledit_qt.cpp:148
 msgid "Start editing"
 msgstr "Aloita muokkaus"
 
-#: tools/ruledit/ruledit_qt.cpp:156
+#: tools/ruledit/ruledit_qt.cpp:158
 msgid "Misc"
 msgstr "Sekalaiset"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:160
 msgid "Tech"
 msgstr "Teknologiat"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:162
 msgid "Buildings"
 msgstr "Rakennukset"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:164
 msgid "Units"
 msgstr "Yksiköt"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:166
 msgid "Goods"
 msgstr "Artikkelit"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:168
 msgid "Governments"
 msgstr "Hallitusmuodot"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:170
 msgid "Enablers"
 msgstr "Mahdollistimet"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:172
 msgid "Extras"
 msgstr "Ekstrat"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:174
 msgid "Terrains"
 msgstr "Maastotyypit"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:176
 msgid "Nations"
 msgstr "Kansat"
 
-#: tools/ruledit/ruledit_qt.cpp:183
+#: tools/ruledit/ruledit_qt.cpp:185
 msgid "Welcome to freeciv-ruledit"
 msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
-#: tools/ruledit/ruledit_qt.cpp:203
+#: tools/ruledit/ruledit_qt.cpp:215
 msgid "Ruleset loaded"
 msgstr "Sääntökokoelma ladattu"
 
-#: tools/ruledit/ruledit_qt.cpp:224
+#: tools/ruledit/ruledit_qt.cpp:236
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:303
+#: tools/ruledit/ruledit_qt.cpp:315
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:319
+#: tools/ruledit/ruledit_qt.cpp:331
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:323
+#: tools/ruledit/ruledit_qt.cpp:335
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
@@ -203,19 +226,21 @@ msgstr "Lisää mahdollistin"
 msgid "Remove this Enabler"
 msgstr "Poista tämä mahdollistin"
 
-#: tools/ruledit/tab_enablers.cpp:238
+#: tools/ruledit/tab_enablers.cpp:240
 msgid "Obligatory hard requirements"
 msgstr "Pakolliset vaatimukset"
 
-#: tools/ruledit/tab_enablers.cpp:241
+#: tools/ruledit/tab_enablers.cpp:243
 msgid "Changing action to %1 will modify enabler requirements. Continue?"
-msgstr "Jos toiminnaksi vaihdetaan %1, myös mahdollistimien vaatimuksia muutetaan. Tehdäänkö näin?"
+msgstr ""
+"Jos toiminnaksi vaihdetaan %1, myös mahdollistimien vaatimuksia muutetaan. "
+"Tehdäänkö näin?"
 
-#: tools/ruledit/tab_enablers.cpp:275
+#: tools/ruledit/tab_enablers.cpp:277
 msgid "Enabler (target)"
 msgstr "Mahdollistin (kohde)"
 
-#: tools/ruledit/tab_enablers.cpp:286
+#: tools/ruledit/tab_enablers.cpp:288
 msgid "Enabler (actor)"
 msgstr "Mahdollistin (toimija)"
 
@@ -319,11 +344,15 @@ msgstr "Kulkuväyliä"
 msgid "?stat:Goods"
 msgstr "Artikkeleita"
 
-#: tools/ruledit/tab_misc.cpp:168
+#: tools/ruledit/tab_misc.cpp:164
+msgid "?stat:Multipliers"
+msgstr "Kertoimia"
+
+#: tools/ruledit/tab_misc.cpp:172
 msgid "Refresh Stats"
 msgstr "Päivitä tilastot"
 
-#: tools/ruledit/tab_misc.cpp:231
+#: tools/ruledit/tab_misc.cpp:235
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
@@ -399,22 +428,22 @@ msgstr "Lisää vaatimus"
 msgid "Delete Requirement"
 msgstr "Poista vaatimus"
 
-#: tools/ruledit/validity.c:65
+#: tools/ruledit/validity.c:50
 msgid "Effect"
 msgstr "Vaikutus"
 
-#: tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:122
 msgid "Action Enabler"
 msgstr "Toiminnan mahdollistin"
 
-#: tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:142
 msgid "Music Style"
 msgstr "Musiikkityyli"
 
-#: tools/ruledit/validity.c:268
+#: tools/ruledit/validity.c:256
 msgid "Conflicting extra"
 msgstr "Konfliktaava ruutulisä"
 
-#: tools/ruledit/validity.c:271
+#: tools/ruledit/validity.c:259
 msgid "Hidden extra"
 msgstr "Kätketty ruutulisä"
