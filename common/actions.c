@@ -3020,7 +3020,7 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
     }
 
     if (!(unit_has_type_flag(punit, UTYF_DIPLOMAT)
-        || unit_has_type_flag(punit, UTYF_SUPERSPY))) {
+          || unit_has_type_flag(punit, UTYF_SUPERSPY))) {
       /* The unit can't defend. */
       continue;
     }
