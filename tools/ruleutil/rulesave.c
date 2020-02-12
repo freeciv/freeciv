@@ -1158,28 +1158,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
-  save_action_range(sfile, ACTION_BOMBARD);
-  save_action_range(sfile, ACTION_BOMBARD2);
-  save_action_range(sfile, ACTION_BOMBARD3);
-  save_action_range(sfile, ACTION_NUKE);
-
-  save_action_actor_consuming_always(sfile, ACTION_SPY_SPREAD_PLAGUE);
-
-  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION1);
-  save_action_kind(sfile, ACTION_USER_ACTION1);
-  save_action_range(sfile, ACTION_USER_ACTION1);
-
-  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION2);
-  save_action_kind(sfile, ACTION_USER_ACTION2);
-  save_action_range(sfile, ACTION_USER_ACTION2);
-
-  save_action_actor_consuming_always(sfile, ACTION_USER_ACTION3);
-  save_action_kind(sfile, ACTION_USER_ACTION3);
-  save_action_range(sfile, ACTION_USER_ACTION3);
-
   action_iterate(act_id) {
     save_action_ui_name(sfile,
                         act_id, action_ui_name_ruleset_var_name(act_id));
+    save_action_kind(sfile, act_id);
+    save_action_range(sfile, act_id);
+    save_action_actor_consuming_always(sfile, act_id);
   } action_iterate_end;
 
   i = 0;
