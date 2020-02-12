@@ -4206,6 +4206,15 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
+[effect_incident_success_spy_attack]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Spy Attack", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
 [effect_incident_success_incite]
 type	= "Casus_Belli_Success"
 value	= 1

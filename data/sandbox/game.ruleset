@@ -482,6 +482,9 @@ ui_name_transport_disembark = _("%sDisembark%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+; /* TRANS: Eliminate _Spy (100% chance of success). */
+ui_name_spy_attack = _("Eliminate %sSpy%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 
@@ -805,6 +808,22 @@ target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Center", "Local", FALSE
       "MinHitPoints", "2", "Local", TRUE
+    }
+
+[actionenabler_eliminate_spy]
+action = "Spy Attack"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+    "UnitFlag", "Spy", "Local", TRUE
+    "UnitState", "OnLivableTile", "Local", TRUE
+    "MinMoveFrags", "1", "Local", TRUE
+    "DiplRel", "Alliance", "Local", FALSE
+    "DiplRel", "Team", "Local", FALSE
+    "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "CityTile", "Center", "Local", FALSE
     }
 
 [actionenabler_traderoute]

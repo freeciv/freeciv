@@ -48,6 +48,10 @@ Airport allows a city to airlift one more unit per turn.
 Map Stealing:
 Spies can steal other player's world map
 
+Spy elimination:
+A Spy can eliminate non allied spies and diplomats out in the open without
+also trying to perform any other action.
+
 Border Vision:
 Border Vision is gained mid-game once Electricity is known
 
