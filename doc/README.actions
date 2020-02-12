@@ -418,7 +418,8 @@ Actions done by a unit against a city
  * if force_capture_units is true "Capture Units" must be impossible
  * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
    impossible.
- * the actor unit must be on a tile next to the target.
+ * the actor unit must be on a tile next to the target unless
+   nuke_city_max_range allows it to be further away.
 
 "Conquer City" - Conquer the target city.
  * UI name can be set using ui_name_conquer_city
@@ -660,7 +661,8 @@ Actions done by a unit against all units at a tile
  * if force_capture_units is true "Capture Units" must be impossible
  * if force_bombard is true "Bombard", "Bombard 2" and "Bombard 3" must be
    impossible
- * the actor must be on the tile next to the target.
+ * the actor unit must be on a tile next to the target unless
+   nuke_units_max_range allows it to be further away.
  * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
    true:

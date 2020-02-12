@@ -320,6 +320,20 @@ bombard_3_max_range = 1
 ; the minimum distance.
 explode_nuclear_max_range = 0
 
+; The maximum distance from the actor unit to the target of the
+; "Nuke City" action. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+nuke_city_max_range = 1
+
+; The maximum distance from the actor unit to the target of the
+; "Nuke Units" action. The value 1 means that the tile must be a tile
+; adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+nuke_units_max_range = 1
+
 ; The maximum distance from the actor unit to the target of the "Airlift Unit"
 ; action. The value 1 means that the targets must be on a tile adjacent to
 ; the actor unit. The special value "unlimited" lifts the maximum distance
