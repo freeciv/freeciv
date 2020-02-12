@@ -791,6 +791,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_SPY_ATTACK:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
@@ -2983,6 +2984,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               unit_nuke(pplayer, actor_unit, target_tile,
                                         paction));
+    break;
+  case ACTION_SPY_ATTACK:
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              spy_attack(pplayer, actor_unit, target_tile,
+                                         paction));
     break;
   case ACTION_FOUND_CITY:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,

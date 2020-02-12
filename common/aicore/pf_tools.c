@@ -699,6 +699,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
         || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT)
         || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
         || utype_can_do_action(parameter->utype, ACTION_SPY_BRIBE_UNIT)
+        || utype_can_do_action(parameter->utype, ACTION_SPY_ATTACK)
         || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_CITY)
         || utype_can_do_action(parameter->utype,
                                ACTION_SPY_SABOTAGE_CITY_ESC)

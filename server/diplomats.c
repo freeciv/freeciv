@@ -738,6 +738,51 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /************************************************************************//**
+  Diplomatic battle.
+
+  - Check for infiltration success. The entire point of this action.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+****************************************************************************/
+bool spy_attack(struct player *act_player, struct unit *act_unit,
+                struct tile *tgt_tile, const struct action *paction)
+{
+  int act_unit_id;
+  struct player *tgt_player = NULL;
+
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+
+  act_unit_id = act_unit->id;
+
+  /* Do the diplomatic battle against a diplomatic defender. */
+  diplomat_infiltrate_tile(act_player, NULL,
+                           paction,
+                           act_unit, NULL, tgt_tile,
+                           &tgt_player);
+
+  /* Sanity check: the defender had an owner. */
+  fc_assert_ret_val(tgt_player != NULL, TRUE);
+
+  if (!unit_is_alive(act_unit_id)) {
+    /* action_consequence_caught() is handled in
+     * diplomat_infiltrate_tile() */
+
+    /* The action was to start a diplomatic battle. */
+    return TRUE;
+  }
+
+  /* This may cause a diplomatic incident. */
+  action_consequence_success(paction, act_player,
+                             tgt_player, tgt_tile, tile_link(tgt_tile));
+
+  /* The action was to start a diplomatic battle. */
+  return TRUE;
+}
+
+/************************************************************************//**
   Returns the amount of tech thefts from a city not ignored by the
   EFT_STEALINGS_IGNORE effect.
 ****************************************************************************/

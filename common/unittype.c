@@ -900,6 +900,7 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
   case ACTION_BASE:
   case ACTION_MINE:
   case ACTION_IRRIGATE:
+  case ACTION_SPY_ATTACK:
     /* Stays at the tile were it was. */
     return FALSE;
   case ACTION_CONQUER_CITY:

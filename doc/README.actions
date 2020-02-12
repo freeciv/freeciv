@@ -669,6 +669,11 @@ Actions done by a unit against all units at a tile
    - it is in a city
    - it is on a tile with a native Extra
 
+"Spy Attack" - trigger a diplomatic battle to eliminate tile defenders.
+ * UI name can be set using ui_name_spy_attack
+ * the actor must be on the tile next to the target.
+ * the target tile must have at least 1 diplomatic defender.
+
 Actions done by a unit against a tile
 =====================================
 "Found City" - Found a city at the target tile.

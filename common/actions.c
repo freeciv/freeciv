@@ -837,6 +837,11 @@ static void hard_code_actions(void)
       action_new(ACTION_TRANSPORT_EMBARK, ATK_UNIT, ASTK_NONE,
                  FALSE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                  1, 1, FALSE);
+  actions[ACTION_SPY_ATTACK] =
+      action_new(ACTION_SPY_ATTACK,
+                 ATK_UNITS, ASTK_NONE,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 1, 1, FALSE);
   actions[ACTION_USER_ACTION1] =
       action_new(ACTION_USER_ACTION1,
                  /* Overwritten by the ruleset */
@@ -1126,6 +1131,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
     return ABK_STANDARD;
+  case ACTION_SPY_ATTACK:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_STEAL_GOLD:
@@ -2167,6 +2173,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_SPY_ATTACK:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
@@ -2361,6 +2368,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_SPY_ATTACK:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
@@ -3106,6 +3114,44 @@ is_action_possible(const action_id wanted_action,
            return TRI_NO;
         }
       } unit_list_iterate_end;
+    }
+    break;
+
+  case ACTION_SPY_ATTACK:
+    {
+      bool found;
+
+      if (!can_player_see_hypotetic_units_at(actor_player, target_tile)) {
+        /* May have a hidden diplomatic defender. */
+        return TRI_MAYBE;
+      }
+
+      found = FALSE;
+      unit_list_iterate(target_tile->units, punit) {
+        struct player *uplayer = unit_owner(punit);
+
+        if (uplayer == actor_player) {
+          /* Won't defend against its owner. */
+          continue;
+        }
+
+        if (unit_has_type_flag(punit, UTYF_SUPERSPY)) {
+          /* This unbeatable diplomatic defender will defend before any
+           * that can be beaten. */
+          found = FALSE;
+          break;
+        }
+
+        if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
+          /* Found a beatable diplomatic defender. */
+          found = TRUE;
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (!found) {
+        return TRI_NO;
+      }
     }
     break;
 
@@ -3971,6 +4017,10 @@ action_prob(const action_id wanted_action,
   case ACTION_SPY_BRIBE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
+    break;
+  case ACTION_SPY_ATTACK:
+    /* All uncertainty comes from potential diplomatic battles. */
+    chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     /* TODO */
@@ -5458,6 +5508,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport_disembark";
   case ACTION_TRANSPORT_DISEMBARK2:
     return "ui_name_transport_disembark_2";
+  case ACTION_SPY_ATTACK:
+    return "ui_name_spy_attack";
   case ACTION_USER_ACTION1:
     return "ui_name_user_action_1";
   case ACTION_USER_ACTION2:
@@ -5692,6 +5744,9 @@ const char *action_ui_name_default(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
     /* TRANS: _Disembark 2 (100% chance of success). */
     return N_("%sDisembark 2%s");
+  case ACTION_SPY_ATTACK:
+    /* TRANS: _Eliminate Diplomat (100% chance of success). */
+    return N_("%sEliminate Diplomat%s");
   case ACTION_USER_ACTION1:
     /* TRANS: _User Action 1 (100% chance of success). */
     return N_("%sUser Action 1%s");
@@ -5786,6 +5841,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
+  case ACTION_SPY_ATTACK:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -5879,6 +5935,7 @@ int action_min_range_default(int act)
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
+  case ACTION_SPY_ATTACK:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -5969,6 +6026,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_SPY_ATTACK:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_BOMBARD:
@@ -6067,6 +6125,7 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_SPY_ATTACK:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -6170,6 +6229,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
+  case ACTION_SPY_ATTACK:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -6266,6 +6326,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
   case ACTION_NUKE:
+  case ACTION_SPY_ATTACK:
     /* actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_SPY_SPREAD_PLAGUE:
