@@ -1149,6 +1149,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
+  case ACTION_SPY_SPREAD_PLAGUE:
     return ABK_DIPLOMATIC;
   default:
     return ABK_NONE;
