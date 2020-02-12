@@ -1187,9 +1187,12 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
   See diplomat_infiltrate_tile() in server/diplomats.c
 **************************************************************************/
 static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
-                                          const struct unit *pvictim)
+                                          const struct unit *pvictim,
+                                          const struct tile *tgt_tile)
 {
-  unit_list_iterate(unit_tile(pvictim)->units, punit) {
+  fc_assert_ret_val(tgt_tile, ACTPROB_NOT_KNOWN);
+
+  unit_list_iterate(tgt_tile->units, punit) {
     if (unit_owner(punit) == unit_owner(pattacker)) {
       /* Won't defend against its owner. */
       continue;
@@ -1295,11 +1298,11 @@ action_prob(const enum gen_action wanted_action,
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit);
+    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
   case ACTION_SPY_BRIBE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit);;
+    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
   case ACTION_SPY_SABOTAGE_CITY:
     /* TODO */
