@@ -1879,7 +1879,9 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
   - Return TRUE if the infiltrator succeeds.
 
   'pplayer' is the player who tries to do a spy/diplomat action on 'ptile'
-  with the unit 'pdiplomat' against 'cplayer'.
+  with the unit 'pdiplomat' against 'cplayer'. If 'cplayer' is NULL the
+  owner of the chosen defender, if a defender can be chosen, gets its
+  role.
 ****************************************************************************/
 static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct player *cplayer,
@@ -1937,8 +1939,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                       link_unit, link_diplomat);
 
         if (pcity) {
-          if (uplayer == cplayer) {
-            notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+          if (uplayer == cplayer || cplayer == NULL) {
+            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                           /* TRANS: <unit> ... <city> ... <diplomat> */
                           _("Your %s has been eliminated defending %s"
                             " against a %s."), link_unit, link_city,
@@ -1960,8 +1962,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                           link_city, link_diplomat);
           }
         } else {
-          if (uplayer == cplayer) {
-            notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+          if (uplayer == cplayer || cplayer == NULL) {
+            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                           /* TRANS: <unit> ... <diplomat> */
                           _("Your %s has been eliminated defending "
                             "against a %s."), link_unit, link_diplomat);
@@ -2002,8 +2004,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                       link_diplomat, link_unit);
 
         if (pcity) {
-          if (uplayer == cplayer) {
-            notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+          if (uplayer == cplayer || cplayer == NULL) {
+            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                           _("Eliminated a %s %s while infiltrating %s."),
                           nation_adjective_for_player(pplayer),
                           link_diplomat, link_city);
@@ -2020,8 +2022,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                           link_diplomat, link_city);
           }
         } else {
-          if (uplayer == cplayer) {
-            notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+          if (uplayer == cplayer || cplayer == NULL) {
+            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                           _("Eliminated a %s %s while infiltrating our troops."),
                           nation_adjective_for_player(pplayer),
                           link_diplomat);
@@ -2069,7 +2071,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
 
         fc_assert(victim_link != NULL);
 
-        action_consequence_caught(paction, pplayer, cplayer,
+        action_consequence_caught(paction, pplayer, uplayer,
                                   ptile, victim_link);
 
         wipe_unit(pdiplomat, ULR_ELIMINATED, uplayer);
