@@ -457,6 +457,20 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
         }
       }
     } requirement_vector_iterate_end;
+  } else if (peffect->type == EFT_ACTION_SUCCESS_MOVE_COST) {
+    /* Only unit actors can pay in move fragments. */
+    requirement_vector_iterate(&peffect->reqs, preq) {
+      if (preq->source.kind == VUT_ACTION && preq->present) {
+        if (action_get_actor_kind(preq->source.value.action) != AAK_UNIT) {
+          log_error("The effect Action_Success_Actor_Move_Cost has the"
+                    " requirement {%s} but the action %s isn't"
+                    " performed by a unit.",
+                    req_to_fstring(preq),
+                    universal_rule_name(&preq->source));
+          return FALSE;
+        }
+      }
+    } requirement_vector_iterate_end;
   }
 
   return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
