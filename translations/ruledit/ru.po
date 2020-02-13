@@ -5,18 +5,18 @@
 #
 #  Translators:
 #
+#
 #   Dmitriy Genzel <dg@cs.brown.edu>, 2001-2006.
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2019.
-#
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2019, 2020.
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-07-21 14:29+0100\n"
-"PO-Revision-Date: 2019-12-09 10:12+0500\n"
+"POT-Creation-Date: 2020-02-13 12:57+0500\n"
+"PO-Revision-Date: 2020-02-13 10:52+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
