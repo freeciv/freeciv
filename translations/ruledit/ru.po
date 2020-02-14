@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2019.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2020.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-09 13:51+0500\n"
-"PO-Revision-Date: 2019-12-09 10:12+0500\n"
+"POT-Creation-Date: 2020-02-14 16:21+0500\n"
+"PO-Revision-Date: 2020-02-13 10:52+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -74,33 +74,51 @@ msgstr "Требуется для %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:116
+#: tools/ruledit/ruledit.cpp:120
 #, c-format
 msgid "Failed to load %s."
 msgstr "Ошибка загрузки файла %s."
 
-#: tools/ruledit/ruledit.cpp:150
+#: tools/ruledit/ruledit.cpp:154
 msgid "Print a summary of the options"
 msgstr "Выдать список возможных ключей командной строки"
 
-#: tools/ruledit/ruledit.cpp:152
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print the version number"
 msgstr "Вывести номер версии"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:155
+#: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
 msgstr "ruleset НАБОРПРАВИЛ"
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:160
 msgid "Ruleset to use as the starting point."
 msgstr "Набор правил, который будет стартовым."
 
-#: tools/ruledit/ruledit.cpp:169
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:164
+msgid "Fatal [SIGNAL]"
+msgstr "Fatal [СИГНАЛ]"
+
+#: tools/ruledit/ruledit.cpp:165
+msgid "Raise a signal on failed assertion"
+msgstr "Выдать сигнал СИГНАЛ при некорректном параметре"
+
+#: tools/ruledit/ruledit.cpp:179
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "В одно время можно редактировать только один набор правил.\n"
 
-#: tools/ruledit/ruledit.cpp:176
+#: tools/ruledit/ruledit.cpp:190
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr "Неверный номер сигнала: \"%s\".\n"
+
+#: tools/ruledit/ruledit.cpp:192
+msgid "Try using --help.\n"
+msgstr "Попробуйте использовать --help.\n"
+
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
