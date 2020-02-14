@@ -19,7 +19,11 @@ case $1 in
 "dist")
 mkdir build
 cd build
-../autogen.sh --disable-client --disable-fcmp --disable-ruledit --disable-server
+../autogen.sh \
+ --disable-client \
+ --disable-fcmp \
+ --disable-ruledit \
+ --disable-server
 make -s -j$(nproc) dist
 echo "Freeciv distribution build successful!"
 ;;
@@ -53,7 +57,16 @@ make install
 # Configure and build Freeciv
 mkdir build
 cd build
-../autogen.sh CFLAGS="-O3" CXXFLAGS="-O3" --enable-client=gtk3.22,gtk3,qt,sdl2,stub --enable-fcmp=cli,gtk3,qt --enable-freeciv-manual --enable-ai-static=classic,threaded,tex,stub --enable-fcdb=sqlite3,mysql --prefix=${HOME}/freeciv/ && make -s -j$(nproc)
+../autogen.sh \
+ CFLAGS="-O3" \
+ CXXFLAGS="-O3" \
+ --enable-client=gtk3.22,gtk3,qt,sdl2,stub \
+ --enable-fcmp=cli,gtk3,qt \
+ --enable-freeciv-manual \
+ --enable-ai-static=classic,threaded,tex,stub \
+ --enable-fcdb=sqlite3,mysql \
+ --prefix=${HOME}/freeciv/
+make -s -j$(nproc)
 sudo -u travis make install
 echo "Freeciv build successful!"
 
