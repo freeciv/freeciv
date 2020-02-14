@@ -3281,7 +3281,7 @@ void mr_menu::save_image()
     full_size_y = full_size_y / 2;
   }
   map_canvas_resized(full_size_x, full_size_y);
-  img_name = QString("FreeCiv-Turn%1").arg(game.info.turn);
+  img_name = QString("Freeciv-Turn%1").arg(game.info.turn);
   if (client_has_player()) {
     img_name = img_name + "-"
                 + QString(nation_plural_for_player(client_player()));
