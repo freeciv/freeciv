@@ -1,10 +1,246 @@
 ========================
-Welcome to Freeciv 2.6.1
+Welcome to Freeciv 2.6.2
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.1 to 2.6.2
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.2>, 2020-02-15)
+
+   2.6.2 mainly fixes bugs in the clients.
+
+Server / General
+
+Changes affecting players (supplied rulesets)
+
+     * Fix Great Library sometimes granting technologies too soon (in
+       rulesets where it grants techs known by other players). If
+       team-pooled research is enabled (the default), and a team of
+       multiple players learned a tech, the Great Library could grant the
+       tech to its owner too soon, due to counting the individual players
+       knowing the technology, rather than counting the teams. HRM#817118
+     * Fix a possible crash when running out of money in rulesets with
+       recursive transports and gold upkeep. HRM#852938
+     * Changed how the 'steepness' setting generates mountains --
+       increasing 'steepness' did not always increase the mountain
+       percentage. The behavior with the default value (30) is unchanged,
+       but with different values map generation will come out differently.
+       HRM#767003
+     * Players witnessing a non-allied cargo unit loading onto a transport
+       on the same tile were left with a 'ghost' of the cargo unit visible
+       in their client. HRM#858214 HRM#847413
+     * In the 'experimental' ruleset, a Spy bribing a unit that wasn't
+       alone on its tile could give a spurious "not an attack unit"
+       message. HRM#765938
+     * Some messages about other players gaining techs described the other
+       player as "Team 2" even if their team only had a single member.
+       HRM#855670
+     * The 'Multicultural' achievement in some rulesets was misdescribed.
+       (It counts citizen nationalities across your whole civilization,
+       not just a single city.) HRM#855938
+
+Changes affecting other rulesets / modders
+
+     * Fix various trouble with Lua script signals emitted when a city
+       completed its production. (The precise sequence of events at this
+       time has changed slightly.) HRM#853935
+          + A unit whose creation disbanded a city didn't emit the
+            'unit_built' signal.
+          + Trouble if certain script handlers triggered at this point
+            caused the city to be destroyed.
+     * The grammar of the string returned by the Lua function
+       (Player):research_name_translation() has changed (from a singular
+       proper noun to a plural common noun), so scripts using this
+       function probably need to adjust their strings. (It is commonly
+       used when granting techs.) HRM#855670
+     * When a Traderoute_Pct effect was in use, the client's breakdown of
+       trade in the city dialog could become confused, and include a
+       spurious '(unknown)' term. The final trade value was displayed
+       correctly. HRM#854306
+     * If a ruleset used a custom action name with the '&' or '_'
+       characters, it could have been misdisplayed in clients; now such a
+       name is handled better. HRM#857339
+     * Fix a crash on loading a ruleset with a particular (unlikely)
+       malformed 'Specialist' requirement. HRM#852927
+     * Apply an upstream bugfix to our copy of Lua 5.3.5 (bug #4).
+       HRM#853700
+
+Changes affecting server operators
+
+     * A new command '/list rulesets' lists all the rulesets known to the
+       server (strictly, all the .serv files that could be /read).
+       HRM#854630
+
+General
+
+     * Failure to load a savegame (for instance, due to not having its
+       ruleset installed) is now handled better. HRM#854623
+     * Various internal changes which should only affect developers.
+       HRM#852857 HRM#852918 HRM#852936 HRM#852996 HRM#853037 HRM#853412
+       HRM#853540 HRM#852923 HRM#853422 HRM#853705 HRM#853704 HRM#854081
+       HRM#853520 HRM#854093 HRM#854307 HRM#854367 HRM#854295 HRM#854328
+       HRM#854096 HRM#854615 HRM#854739 HRM#855389 HRM#856478 HRM#856477
+       HRM#855482 HRM#857337 HRM#852856 HRM#854090 HRM#854474 HRM#855537
+       HRM#858243
+
+AI
+
+     * When deciding whether to encourage migration, the AI was not
+       considering all the foreign cities from which citizens could
+       migrate to its own. (This affected the 'Migration_Pct' effect, used
+       for instance in the 'experimental' ruleset.) HRM#854301
+
+Clients
+
+     * When a new tech allows a new government type, sometimes the menu
+       item to switch to it was not immediately made sensitive, preventing
+       switching to that government. HRM#856629
+     * When drawing a path, user-set waypoint markers sometimes weren't
+       displayed. HRM#856946
+     * Nation culture, and culture points gained per turn, are now visible
+       in the civilization popup and city dialog breakdown. HRM#857083
+       HRM#857084
+     * The client could crash when loading a new tileset any time after a
+       game had started. HRM#858069
+     * If the tileset was overridden by a ruleset, there could be trouble
+       including invisible borders and assertion failures on the console.
+       HRM#858072
+     * Fix various bugs with migrating client settings from previous
+       Freeciv or library versions. The most likely manifestation was the
+       full-screen setting being reset on the first or second run of a new
+       client. HRM#858207 HRM#857675 HRM#858208
+     * The precise meaning of 'plague risk' (percentage chance of plague
+       per turn) has been clarified in the UI: HRM#854478. It's also now
+       visible in the SDL clients: HRM#854479.
+     * Remove possible duplicate descriptions in city dialog sum
+       breakdowns, and other cosmetic tweaks. HRM#856260 HRM#856256
+       HRM#859209
+     * (Gtk) and (Qt) The city sum popups now use a fixed-width font.
+       HRM#854005 HRM#857341 HRM#854303
+     * Fixes to all the Gtk clients:
+          + The Gtk clients no longer default to arranging widgets for
+            small displays (although Gtk3/3.22 may enable this setting for
+            fresh installations if the screen resolution is small, see
+            below). HRM#858179
+          + Fix console messages about "out of range for property
+            'weight'". HRM#857203
+          + The popups when rulesets ask to override
+            tileset/soundset/musicset choice are now keyboard-accessible.
+            HRM#857082 HRM#857239
+     * Fixes to the Gtk3 and Gtk3.22 clients:
+          + The vote bar could be displayed in the wrong location, wasting
+            a lot of screen space, in some configurations including the
+            default: if "Arrange widgets for small displays" was set, or
+            if "Messages and Chat reports location" was set to "Merged".
+            HRM#656550
+          + The overview map, etc, were erroneously displayed on the right
+            if "Arrange widgets for small displays" was set. Now they are
+            on the left, as with other clients/configurations. HRM#853922
+          + Stop the worklist source task list jumping around annoyingly
+            when adding an item to the worklist. HRM#706351
+          + These clients now try to adapt layout settings to screen size
+            on the first run; they always intended to, but it should now
+            actually work. (If you have already run a client, your
+            existing settings for that client won't be changed.)
+            HRM#765941 HRM#858203 HRM#858202
+     * Fixes specific to the Gtk3.22 client:
+          + The red highlighting of emergencies on the city dialog was
+            only shown the first time such a dialog was opened. HRM#856484
+          + Fix detach handles on the main game view being too wide:
+            HRM#854002. (The Gtk3 client is still affected by this, on
+            some systems: HRM#853912.)
+          + Stop the main view changing size when different size unit
+            stacks were focused (visible mainly with large hex tilesets).
+            HRM#858871
+          + If migrating straight from the Gtk2 client to Gtk3.22
+            (skipping Gtk3), client settings were not migrated. HRM#856682
+     * Fixes to the Qt client:
+          + Since 2.6.1, the client could sometimes fail to load its theme
+            properly: some parts of the interface would be unthemed, and
+            the main sidebar icons would go white when hovered over.
+            HRM#853130 HRM#853140
+          + The Nations report showed the player's own gold and government
+            as 'unknown'. HRM#857334
+          + Opening the Nations report as a global observer would crash
+            the client. HRM#855199
+          + Opening the Policies dialog could display current values
+            wrongly, and cause them to be changed even if you touched
+            nothing. HRM#855486
+          + The client could crash if, while choosing a rally point,
+            either the original city was destroyed or a target tile off
+            the edge of the map was selected. HRM#830553
+          + Fix trouble after entering the 'pick nation' dialog.
+            HRM#858212
+          + The 'Disband' menu item was sometimes available when it
+            wouldn't have worked. HRM#855366
+          + Rulesets and user input containing '&' characters, or
+            HTML-like markup, could be displayed incorrectly. HRM#857340
+            HRM#857342
+          + The client could crash if loading a malformed tileset with
+            missing graphics files. HRM#857808
+     * (SDL/2) Fix assertion failure messages when first opening help
+       browser. HRM#854468
+     * Fixes to the SDL2 client (regressions from the SDL client):
+          + Many keyboard shortcuts didn't work. HRM#854476
+          + Some right/middle-click actions were unavailable. HRM#854477
+          + Fix a crash when editing global worklists. HRM#854475
+     * Various other tiny improvements to some or all clients. HRM#853923
+       HRM#853921 HRM#856465 HRM#854366
+
+Tools
+
+     * Fix possible crashes or other trouble in the GUI modpack
+       installers, particularly after a failed download. HRM#858823
+     * Add a README for the modpack installer tool,
+       doc/README.modpack_installer. This describes what it's for, how to
+       use it, and how to publish modpacks that it can use. HRM#854464
+
+Help / Documentation
+
+     * Clarified the civ2civ3 ruleset help for the Statue of Zeus. (All
+       its effects benefit all the owner's cities.) HRM#856984
+     * Add a description of the new 'worker tasks' feature. HRM#657405
+     * Units with population cost are documented better, and the relevant
+       city option is better described. HRM#853987
+     * Miscellaneous other improvements to in-game text and user
+       documentation. HRM#854105 HRM#854117 HRM#856473 HRM#763061
+       HRM#854305 HRM#689474 HRM#858226
+     * Miscellaneous changes to developer/install/ruleset docs. HRM#853321
+       HRM#853326 HRM#853526
+
+Translations
+
+     * Updated translations:
+          + Complete translations: Catalan, French, Polish, Russian.
+          + Incomplete translations: Finnish (100% core, 91% nations, 100%
+            ruledit), British English (95.6% core, 100% nations, 100%
+            ruledit).
+     * The Qt client always displayed nation set descriptions in English.
+       HRM#857331
+     * Windows installers now don't mangle the language name "Norwegian
+       Bokmål". HRM#852637 HRM#681314
+
+Build/portability
+
+     * The Windows builds now correctly support https URLs (as well as
+       http) for fetching modpacks, etc. (Both the standard msys1 builds
+       and msys2 builds.) HRM#853960 HRM#833269
+     * New configure option --with-cacert-path, to control where Curl
+       finds the CA certificates for https etc. HRM#854259
+     * Improve configure-time documentation/diagnostics relating to SDL
+       and SDL_mixer versions. HRM#853364 HRM#853375
+     * Don't attempt to build the tolua executable if
+       --enable-sys-tolua-cmd is specified -- it's unnecessary, and caused
+       trouble on some platforms. HRM#853406
+     * The configure script could give a spurious message 'unary operator
+       expected' on platforms including Mac OS X. HRM#854668
+     * The Windows msys1 builds are now based on our
+       gnuwin32-2020-01-02.7z package. HRM#851511 HRM#852637
 
 
 CHANGES FROM 2.6.0 to 2.6.1
