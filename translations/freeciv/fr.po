@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-02-12 07:33+0100\n"
+"POT-Creation-Date: 2020-02-11 09:19+0000\n"
 "PO-Revision-Date: 2020-02-13 09:57+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -26030,7 +26030,10 @@ msgid ""
 "Together with a Library, a Research Lab increases the science production of "
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
-msgstr "Avec une Bibliothèque, un Laboratoire de Recherche accroît de 200% la recherche scientifique d'une ville. Avec une Bibliothèque et une Université, un Laboratoire de Recherche accroît la recherche dans une ville de 450%."
+msgstr ""
+"Avec une Bibliothèque, un Laboratoire de Recherche accroît de 200% la "
+"recherche scientifique d'une ville. Avec une Bibliothèque et une Université, "
+"un Laboratoire de Recherche accroît la recherche dans une ville de 450%."
 
 #: data/classic/buildings.ruleset:897 data/experimental/buildings.ruleset:953
 #: data/multiplayer/buildings.ruleset:874
@@ -26074,7 +26077,9 @@ msgstr ""
 msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
-msgstr "Après la construction d'une Bibliothèque, une Université augmente de 250% la recherche scientifique d'une ville."
+msgstr ""
+"Après la construction d'une Bibliothèque, une Université augmente de 250% la "
+"recherche scientifique d'une ville."
 
 #: data/classic/buildings.ruleset:1168 data/experimental/buildings.ruleset:1230
 msgid ""
@@ -26098,7 +26103,9 @@ msgstr ""
 msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
-msgstr "Accroît la recherche scientifique de 100% dans chaque ville équipée d'une Université."
+msgstr ""
+"Accroît la recherche scientifique de 100% dans chaque ville équipée d'une "
+"Université."
 
 #: data/classic/buildings.ruleset:1497 data/experimental/buildings.ruleset:1559
 msgid ""
@@ -26127,12 +26134,17 @@ msgid ""
 "The amount of stored food lost when one of your cities grows or shrinks is "
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
-msgstr "La quantité de nourriture perdue, pour une ville qui grandit ou rapetisse, sera réduite de 25%. Cela aide les villes à grandir plus rapidement et à mieux résister aux famines. Effet cumulatif avec les Greniers."
+msgstr ""
+"La quantité de nourriture perdue, pour une ville qui grandit ou rapetisse, "
+"sera réduite de 25%. Cela aide les villes à grandir plus rapidement et à "
+"mieux résister aux famines. Effet cumulatif avec les Greniers."
 
 #: data/classic/buildings.ruleset:1659 data/experimental/buildings.ruleset:1721
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%."
-msgstr "Augmente la production de science de 100% dans chaque ville avec un Laboratoire de Recherche. "
+msgstr ""
+"Augmente la production de science de 100% dans chaque ville avec un "
+"Laboratoire de Recherche. "
 
 #: data/classic/buildings.ruleset:1727 data/experimental/buildings.ruleset:1789
 msgid ""
@@ -26159,7 +26171,10 @@ msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
-msgstr "Ceci n'est pas un bâtiment normal. À la place, positionner la production d'une ville à Capitalisation signifie que ses points de production sont converties en taxes générées (argent, pièces !)."
+msgstr ""
+"Ceci n'est pas un bâtiment normal. À la place, positionner la production "
+"d'une ville à Capitalisation signifie que ses points de production sont "
+"converties en taxes générées (argent, pièces !)."
 
 #: data/classic/cities.ruleset:66 data/experimental/cities.ruleset:68
 #: data/multiplayer/cities.ruleset:65
@@ -26173,7 +26188,9 @@ msgstr ""
 #: data/multiplayer/cities.ruleset:78
 msgid ""
 "Each tax collector produces three extra gold for your treasury per turn."
-msgstr "Chaque collecteur de taxes produit 3 lingots supplémentaires pour votre trésorerie chaque tour."
+msgstr ""
+"Chaque collecteur de taxes produit 3 lingots supplémentaires pour votre "
+"trésorerie chaque tour."
 
 #: data/classic/game.ruleset:25
 msgid "Classic ruleset"
@@ -26253,7 +26270,9 @@ msgstr "Âge Électrique"
 msgid ""
 "Allows Settlers, Workers and Engineers to build fortresses, and to build oil "
 "wells on Desert tiles."
-msgstr "Permet aux Colons, Travailleurs et Ingénieurs de construire des Forteresses, et de construire des Puits de Pétrole sur les cases de Désert."
+msgstr ""
+"Permet aux Colons, Travailleurs et Ingénieurs de construire des Forteresses, "
+"et de construire des Puits de Pétrole sur les cases de Désert."
 
 #: data/classic/techs.ruleset:384 data/experimental/techs.ruleset:419
 #: data/civ2civ3/techs.ruleset:116 data/multiplayer/techs.ruleset:393
@@ -26269,12 +26288,16 @@ msgstr ""
 #: data/classic/techs.ruleset:606 data/experimental/techs.ruleset:665
 #: data/multiplayer/techs.ruleset:614
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr "Permet aux Travailleurs et Ingénieurs de construire des Bases Aériennes et des Bouées."
+msgstr ""
+"Permet aux Travailleurs et Ingénieurs de construire des Bases Aériennes et "
+"des Bouées."
 
 #: data/classic/techs.ruleset:615 data/experimental/techs.ruleset:675
 #: data/multiplayer/techs.ruleset:623
 msgid "Allows Settlers, Workers and Engineers to upgrade roads to railroads."
-msgstr "Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les Routes en Chemins de Fer."
+msgstr ""
+"Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les Routes en "
+"Chemins de Fer."
 
 #: data/classic/techs.ruleset:636 data/experimental/techs.ruleset:698
 #: data/multiplayer/techs.ruleset:642
@@ -26289,7 +26312,9 @@ msgstr ""
 msgid ""
 "Allows Settlers, Workers and Engineers to upgrade irrigation systems to "
 "farmland."
-msgstr "Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les systèmes d'Irrigation en Champs."
+msgstr ""
+"Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les systèmes "
+"d'Irrigation en Champs."
 
 #: data/classic/terrain.ruleset:25 data/experimental/terrain.ruleset:27
 #: data/multiplayer/terrain.ruleset:25
@@ -26340,7 +26365,9 @@ msgstr "Les Lacs sont d'importantes retenues d'eau douce."
 msgid ""
 "Shallow oceans are mostly found near coastlines, and are often rich sources "
 "of food and other resources."
-msgstr "Les Océans peu profonds sont principalement situés près des côtes, et sont souvent de riches sources de nourriture et autres ressources."
+msgstr ""
+"Les Océans peu profonds sont principalement situés près des côtes, et sont "
+"souvent de riches sources de nourriture et autres ressources."
 
 #: data/classic/terrain.ruleset:325 data/experimental/terrain.ruleset:323
 #: data/civ2civ3/terrain.ruleset:326 data/multiplayer/terrain.ruleset:321
@@ -26354,17 +26381,23 @@ msgstr "Océan Profond"
 msgid ""
 "Deep oceans cover much of the world away from coastlines, and only seaworthy "
 "units (not including Triremes) can travel on them."
-msgstr "Les Océans Profonds couvrent la plus grande partie du monde, loin des côtes, et seules les unités marines (sauf les Trirèmes) peuvent voyager dessus."
+msgstr ""
+"Les Océans Profonds couvrent la plus grande partie du monde, loin des côtes, "
+"et seules les unités marines (sauf les Trirèmes) peuvent voyager dessus."
 
 #: data/classic/terrain.ruleset:411 data/experimental/terrain.ruleset:405
 #: data/multiplayer/terrain.ruleset:403
 msgid "Oil wells can be built when Refining is known."
-msgstr "Les Puits de Pétrole peuvent être construits lorsque la technologie Raffinage est connue."
+msgstr ""
+"Les Puits de Pétrole peuvent être construits lorsque la technologie "
+"Raffinage est connue."
 
 #: data/classic/terrain.ruleset:459 data/experimental/terrain.ruleset:451
 #: data/multiplayer/terrain.ruleset:449
 msgid "Oil wells can be built when Construction is known."
-msgstr "Les Puits de Pétrole peuvent être construits quand la technologie Construction est connue."
+msgstr ""
+"Les Puits de Pétrole peuvent être construits quand la technologie "
+"Construction est connue."
 
 #: data/classic/terrain.ruleset:1030 data/experimental/terrain.ruleset:1006
 #: data/multiplayer/terrain.ruleset:1004
@@ -26384,13 +26417,21 @@ msgid ""
 "lake, or river tile, or another tile with an irrigation system, must share "
 "an edge (not just a corner) with the target tile. However, once irrigated, "
 "land remains so even if the water source is removed."
-msgstr "Construire un système d'Irrigation sur une case convenable lui fait produire une nourriture supplémentaire chaque tour. Ceci nécessite une source d'eau proche : une case d'Océan ou de Rivière ou une autre case dotée d'un système d'Irrigation doit avoir un côté (et pas seulement un coin) en commun avec la case ciblée. Cependant, une fois irriguée, la terre le restera même si la source d'eau disparait."
+msgstr ""
+"Construire un système d'Irrigation sur une case convenable lui fait produire "
+"une nourriture supplémentaire chaque tour. Ceci nécessite une source d'eau "
+"proche : une case d'Océan ou de Rivière ou une autre case dotée d'un système "
+"d'Irrigation doit avoir un côté (et pas seulement un coin) en commun avec la "
+"case ciblée. Cependant, une fois irriguée, la terre le restera même si la "
+"source d'eau disparait."
 
 #: data/classic/terrain.ruleset:1153 data/experimental/terrain.ruleset:1129
 #: data/civ2civ3/terrain.ruleset:1173 data/multiplayer/terrain.ruleset:1127
 #: data/sandbox/terrain.ruleset:1173
 msgid "Building irrigation on a tile with a mine or oil well will destroy it."
-msgstr "Construire une Irrigation sur une case avec une Mine ou un Puits de Pétrole le détruira."
+msgstr ""
+"Construire une Irrigation sur une case avec une Mine ou un Puits de Pétrole "
+"le détruira."
 
 #: data/classic/terrain.ruleset:1155 data/experimental/terrain.ruleset:1131
 #: data/civ2civ3/terrain.ruleset:1175 data/multiplayer/terrain.ruleset:1129
@@ -26401,7 +26442,14 @@ msgid ""
 "make cities count as a water source for further irrigation. Irrigation can "
 "be built on the city tile simply to allow building further irrigation "
 "elsewhere, but will not give the tile any further bonus."
-msgstr "Les cases de centre-ville gagnent le bonus d'Irrigation de leur terrain automatiquement s'il n'y a pas de Mine ou de Puits de Pétrole en conflit sur la case. Cependant, cela ne fait pas que les villes comptent comme une source d'eau pour une Irrigation ultérieure. Une Irrigation peut être construite sur une case de ville simplement pour permettre de construire une Irrigation supplémentaire ailleurs, mais ne donnera pas de nouveau bonus à la case."
+msgstr ""
+"Les cases de centre-ville gagnent le bonus d'Irrigation de leur terrain "
+"automatiquement s'il n'y a pas de Mine ou de Puits de Pétrole en conflit sur "
+"la case. Cependant, cela ne fait pas que les villes comptent comme une "
+"source d'eau pour une Irrigation ultérieure. Une Irrigation peut être "
+"construite sur une case de ville simplement pour permettre de construire une "
+"Irrigation supplémentaire ailleurs, mais ne donnera pas de nouveau bonus à "
+"la case."
 
 #: data/classic/terrain.ruleset:1193 data/experimental/terrain.ruleset:1169
 #: data/civ2civ3/terrain.ruleset:1215 data/multiplayer/terrain.ruleset:1167
@@ -26415,19 +26463,28 @@ msgid ""
 "Oil wells behave like mines (giving an extra production point), but require "
 "more technology. Oil wells can be built on Desert with knowledge of "
 "Construction, and on Glacier with knowledge of Refining."
-msgstr "Les Puits de Pétrole se comportent comme des mines (en donnant un point de production supplémentaire), mais nécessitent plus de technologie. Des Puits de Pétrole peuvent être construits dans le Désert avec la connaissance de la Construction, et sur un Glacier avec la connaissance de Raffinerie."
+msgstr ""
+"Les Puits de Pétrole se comportent comme des mines (en donnant un point de "
+"production supplémentaire), mais nécessitent plus de technologie. Des Puits "
+"de Pétrole peuvent être construits dans le Désert avec la connaissance de la "
+"Construction, et sur un Glacier avec la connaissance de Raffinerie."
 
 #: data/classic/terrain.ruleset:1215 data/experimental/terrain.ruleset:1191
 #: data/multiplayer/terrain.ruleset:1189
 msgid "Building an oil well on an irrigated tile will destroy the irrigation."
-msgstr "Construire un Puits de Pétrole sur une case irriguée détruira l'Irrigation."
+msgstr ""
+"Construire un Puits de Pétrole sur une case irriguée détruira l'Irrigation."
 
 #: data/classic/terrain.ruleset:1237 data/experimental/terrain.ruleset:1213
 msgid ""
 "Pollution appears on land tiles around cities with high production or "
 "population, or when a Mfg. Plant suffers an industrial accident. It halves "
 "all output from its tile, and contributes to the risk of global warming."
-msgstr "La pollution apparaît sur les cases terrestres autour des villes ayant une production ou une population élevée, ou quand une Usine subit un accident industriel. Elle réduit de moitié toutes les productions de sa case, et contribue au risque de réchauffement climatique."
+msgstr ""
+"La pollution apparaît sur les cases terrestres autour des villes ayant une "
+"production ou une population élevée, ou quand une Usine subit un accident "
+"industriel. Elle réduit de moitié toutes les productions de sa case, et "
+"contribue au risque de réchauffement climatique."
 
 #: data/classic/terrain.ruleset:1242 data/experimental/terrain.ruleset:1218
 #: data/multiplayer/terrain.ruleset:1216
@@ -26463,14 +26520,19 @@ msgstr ""
 #: data/civ2civ3/terrain.ruleset:1391 data/multiplayer/terrain.ruleset:1308
 #: data/sandbox/terrain.ruleset:1391
 msgid "Like irrigation, farmland is incompatible with mines and oil wells."
-msgstr "Comme l'Irrigation, les Champs sont incompatibles avec les Mines et les Puits de Pétrole."
+msgstr ""
+"Comme l'Irrigation, les Champs sont incompatibles avec les Mines et les "
+"Puits de Pétrole."
 
 #: data/classic/terrain.ruleset:1357
 msgid ""
 "Nuclear fallout can appear on land tiles when a Nuclear unit is detonated, "
 "or when a city's Nuclear Plant has an accident. It halves all output from "
 "its tile."
-msgstr "Des retombées nucléaires peuvent apparaître sur des cases terrestres quand on fait exploser un Missile Nucléaire, ou quand la Centrale Nucléaire d'une ville a un accident. Elle réduit de moitié toutes les productions de sa case."
+msgstr ""
+"Des retombées nucléaires peuvent apparaître sur des cases terrestres quand "
+"on fait exploser un Missile Nucléaire, ou quand la Centrale Nucléaire d'une "
+"ville a un accident. Elle réduit de moitié toutes les productions de sa case."
 
 #: data/classic/terrain.ruleset:1361 data/experimental/terrain.ruleset:1336
 #: data/civ2civ3/terrain.ruleset:1417 data/multiplayer/terrain.ruleset:1333
@@ -26479,12 +26541,18 @@ msgid ""
 "Every tile with nuclear fallout also increases the risk of global nuclear "
 "winter. If nuclear winter occurs, land across the globe changes into desert, "
 "tundra, and ice, and lakes and oceans freeze."
-msgstr "Toute case avec des retombées nucléaires augmente également le risque d'hiver nucléaire global. Si un hiver nucléaire se produit, du terrain sur tout le globe se change en Désert, en Toundra et en Glacier, et les Lacs et les Océans gèlent."
+msgstr ""
+"Toute case avec des retombées nucléaires augmente également le risque "
+"d'hiver nucléaire global. Si un hiver nucléaire se produit, du terrain sur "
+"tout le globe se change en Désert, en Toundra et en Glacier, et les Lacs et "
+"les Océans gèlent."
 
 #: data/classic/terrain.ruleset:1365 data/experimental/terrain.ruleset:1340
 #: data/multiplayer/terrain.ruleset:1337
 msgid "Settlers, Workers, and Engineers can clean up nuclear fallout."
-msgstr "Les Colons, les Travailleurs et les Ingénieurs peuvent décontaminer les retombées nucléaires."
+msgstr ""
+"Les Colons, les Travailleurs et les Ingénieurs peuvent décontaminer les "
+"retombées nucléaires."
 
 #: data/classic/terrain.ruleset:1392 data/experimental/terrain.ruleset:1367
 #: data/multiplayer/terrain.ruleset:1364
@@ -26493,7 +26561,12 @@ msgid ""
 "effects, a land unit remaining in a fortress for a whole turn without moving "
 "recovers a quarter of its hit points. With Invention, fortresses gain "
 "watchtowers from which land units can see further afield."
-msgstr "Les Forteresses améliorent la défense des unités terrestres en dehors des villes. Entre autres effets, une unité terrestre qui reste sans bouger dans une Forteresse pendant un tour complet récupère un quart de ses points de vie. Avec Invention, les Forteresses gagnent des tours de guet, à partir desquelles les unités terrestres peuvent voir des territoires plus lointains."
+msgstr ""
+"Les Forteresses améliorent la défense des unités terrestres en dehors des "
+"villes. Entre autres effets, une unité terrestre qui reste sans bouger dans "
+"une Forteresse pendant un tour complet récupère un quart de ses points de "
+"vie. Avec Invention, les Forteresses gagnent des tours de guet, à partir "
+"desquelles les unités terrestres peuvent voir des territoires plus lointains."
 
 #: data/classic/terrain.ruleset:1428 data/experimental/terrain.ruleset:1403
 #: data/civ2civ3/terrain.ruleset:1584 data/multiplayer/terrain.ruleset:1400
@@ -26507,7 +26580,9 @@ msgstr "Bouée"
 msgid ""
 "Buoys may be built in the ocean (by units on a sea-going vessel) to allow "
 "their owner to see the surrounding tiles."
-msgstr "Des Bouées peuvent être construites sur l'Océan (par des unités à bord d'un navire) pour permettre à leur propriétaire de voir les cases alentours."
+msgstr ""
+"Des Bouées peuvent être construites sur l'Océan (par des unités à bord d'un "
+"navire) pour permettre à leur propriétaire de voir les cases alentours."
 
 #: data/classic/terrain.ruleset:1455 data/experimental/terrain.ruleset:1430
 #: data/civ2civ3/terrain.ruleset:1612 data/multiplayer/terrain.ruleset:1427
@@ -26531,7 +26606,11 @@ msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (unless they are on a river tile and "
 "you do not yet know Bridge Building)."
-msgstr "Construire une Route sur une case avec Rivière nécessite la connaissance de Construction de Ponts. Les centres-villes gagnent automatiquement des Routes (à moins qu'ils ne soient sur une case de Rivière et que vous ne connaissiez pas encore Construction de Ponts)."
+msgstr ""
+"Construire une Route sur une case avec Rivière nécessite la connaissance de "
+"Construction de Ponts. Les centres-villes gagnent automatiquement des Routes "
+"(à moins qu'ils ne soient sur une case de Rivière et que vous ne connaissiez "
+"pas encore Construction de Ponts)."
 
 #: data/classic/units.ruleset:34 data/experimental/units.ruleset:37
 #: data/civ2civ3/units.ruleset:33 data/multiplayer/units.ruleset:34
@@ -26574,7 +26653,10 @@ msgstr ""
 msgid ""
 "Settlers can also perform most of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
-msgstr "Les Colons peuvent également effectuer la plupart des altérations de terrain des Travailleurs (mais ne peuvent pas construire de Bases Aériennes ou de Bouées)."
+msgstr ""
+"Les Colons peuvent également effectuer la plupart des altérations de terrain "
+"des Travailleurs (mais ne peuvent pas construire de Bases Aériennes ou de "
+"Bouées)."
 
 #: data/classic/units.ruleset:442 data/experimental/units.ruleset:456
 #: data/civ2civ3/units.ruleset:507 data/multiplayer/units.ruleset:442
@@ -26588,14 +26670,19 @@ msgstr "Travailleurs"
 msgid ""
 "Workers have the ability to improve terrain tiles. See the help on Terrain "
 "and Terrain Alterations for the effects of their actions."
-msgstr "Les Travailleurs peuvent améliorer des cases de terrain. Voir l'aide sur le Terrain et les Altérations de Terrain pour les effets de leurs actions."
+msgstr ""
+"Les Travailleurs peuvent améliorer des cases de terrain. Voir l'aide sur le "
+"Terrain et les Altérations de Terrain pour les effets de leurs actions."
 
 #: data/classic/units.ruleset:477 data/experimental/units.ruleset:496
 #: data/multiplayer/units.ruleset:477
 msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
-msgstr "Les Travailleurs peuvent construire des Bases Aériennes et des Bouées, ce qui est impossible aux Colons. Les Travailleurs doivent être sur un bateau pour construire des Bouées."
+msgstr ""
+"Les Travailleurs peuvent construire des Bases Aériennes et des Bouées, ce "
+"qui est impossible aux Colons. Les Travailleurs doivent être sur un bateau "
+"pour construire des Bouées."
 
 #: data/classic/units.ruleset:515 data/experimental/units.ruleset:539
 #: data/multiplayer/units.ruleset:515
@@ -26606,7 +26693,14 @@ msgid ""
 "into Desert, or even Ocean into Swamp in some circumstances (when on board "
 "an ocean-going vessel, on a tile surrounded by sufficient existing land). "
 "See the Terrain Alterations section for more details."
-msgstr "Les Ingénieurs sont similaires aux Travailleurs, mais ils travaillent et se déplacent deux fois plus vite. Ils peuvent aussi accomplir des transformations de terrain majeures, ce dont les Travailleurs et les Colons ne sont pas capables, comme convertir la Toundra en Désert, ou même l'Océan en Marécages dans certains cas (quand ils sont sur un bateau, sur une case entourée de suffisament de terres). Voir la section sur les Altérations de Terrain pour plus de détails."
+msgstr ""
+"Les Ingénieurs sont similaires aux Travailleurs, mais ils travaillent et se "
+"déplacent deux fois plus vite. Ils peuvent aussi accomplir des "
+"transformations de terrain majeures, ce dont les Travailleurs et les Colons "
+"ne sont pas capables, comme convertir la Toundra en Désert, ou même l'Océan "
+"en Marécages dans certains cas (quand ils sont sur un bateau, sur une case "
+"entourée de suffisament de terres). Voir la section sur les Altérations de "
+"Terrain pour plus de détails."
 
 #: data/classic/units.ruleset:523 data/experimental/units.ruleset:547
 #: data/multiplayer/units.ruleset:523
@@ -26632,7 +26726,10 @@ msgstr ""
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
-msgstr "La Trirème est votre première unité navale. Elle peut faire navire de transport et a des capacités offensives rudimentaires mais ne peut pas entrer sur des cases d'Océan Profond."
+msgstr ""
+"La Trirème est votre première unité navale. Elle peut faire navire de "
+"transport et a des capacités offensives rudimentaires mais ne peut pas "
+"entrer sur des cases d'Océan Profond."
 
 #: data/classic/units.ruleset:1503 data/experimental/units.ruleset:1530
 #: data/multiplayer/units.ruleset:1601
@@ -26649,7 +26746,12 @@ msgid ""
 "squares for rectangular grids), including friendly units. Any city within "
 "the blast area loses half its population, and land tiles within the blast "
 "area are subject to nuclear fallout."
-msgstr "À l'impact, l'explosion détruira toute unité sur 3 cases (3×3 carrés pour les grilles rectangulaires), y compris les unités amicales. Toute ville incluse dans l'explosion perd la moité de sa population, et les cases terrestres dans la zone de l'explosion sont sujettes aux retombées nucléaires."
+msgstr ""
+"À l'impact, l'explosion détruira toute unité sur 3 cases (3×3 carrés pour "
+"les grilles rectangulaires), y compris les unités amicales. Toute ville "
+"incluse dans l'explosion perd la moité de sa population, et les cases "
+"terrestres dans la zone de l'explosion sont sujettes aux retombées "
+"nucléaires."
 
 #: data/classic/units.ruleset:1922 data/experimental/units.ruleset:1950
 #: data/civ2civ3/units.ruleset:2135 data/multiplayer/units.ruleset:2020
@@ -26657,7 +26759,9 @@ msgstr "À l'impact, l'explosion détruira toute unité sur 3 cases (3×3 carré
 msgid ""
 "Nuclear fallout reduces tile output and increases the risk of global nuclear "
 "winter; see the help on Fallout."
-msgstr "Les retombées nucléaires réduisent la production de la case et augmentent le risque d'hiver nucléaire global ; voir l'aide sur les Retombées."
+msgstr ""
+"Les retombées nucléaires réduisent la production de la case et augmentent le "
+"risque d'hiver nucléaire global ; voir l'aide sur les Retombées."
 
 #: data/classic/units.ruleset:1929 data/experimental/units.ruleset:1957
 #: data/multiplayer/units.ruleset:2027
@@ -26667,7 +26771,14 @@ msgid ""
 "Nuclear unit, assemble a gang of Settlers, Workers, and/or Engineers next to "
 "the city and have them ready to fix the fallout on the same turn it occurs!  "
 "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
-msgstr "ASTUCE 2 : Vous pouvez vous retrouver dans une situation où vous avez massivement envahi un pays adverse, mais où les villes ennemies sont trop fortes. Avant d'utiliser un Missile Nucléaire, rassemblez un groupe de Colons, de Travailleurs et/ou d'Ingénieurs à côté de la ville et faites qu'ils soient prêts à nettoyer les retombées dans le tour même où elles se produisent ! Ceci minimise le risque de réchauffement climatique. Une attaque nucléaire écologique, en quelque sorte !"
+msgstr ""
+"ASTUCE 2 : Vous pouvez vous retrouver dans une situation où vous avez "
+"massivement envahi un pays adverse, mais où les villes ennemies sont trop "
+"fortes. Avant d'utiliser un Missile Nucléaire, rassemblez un groupe de "
+"Colons, de Travailleurs et/ou d'Ingénieurs à côté de la ville et faites "
+"qu'ils soient prêts à nettoyer les retombées dans le tour même où elles se "
+"produisent ! Ceci minimise le risque de réchauffement climatique. Une "
+"attaque nucléaire écologique, en quelque sorte !"
 
 #. TRANS: diplomatic rank.
 #: data/classic/units.ruleset:1966 data/experimental/units.ruleset:1994
@@ -26708,14 +26819,25 @@ msgid ""
 "in this case, either your unit or the defending unit will die (if you go up "
 "against the Leader you will always die). If the defending unit dies, you "
 "lose one movement point and may try again."
-msgstr "Les Diplomates peuvent aussi réaliser un nombre d'actions dans les villes d'un autre joueur, bien que chaque Diplomate ne puisse tenter qu'une seule action. La plupart de ces actions ont un risque d'échec. De plus, tout Diplomate ou Espion ennemi dans la ville s'opposera aux actions hostiles, comme le fera le Dirigeant ennemi dans les parties avec Dirigeants ; dans ce cas, une unité mourra - soit votre unité, soit celle qui défend (si vous vous opposez au Dirigeant, c'est toujours votre unité qui mourra). Si l'unité défendante meurt, vous perdez un point de mouvement et pouvez réessayer."
+msgstr ""
+"Les Diplomates peuvent aussi réaliser un nombre d'actions dans les villes "
+"d'un autre joueur, bien que chaque Diplomate ne puisse tenter qu'une seule "
+"action. La plupart de ces actions ont un risque d'échec. De plus, tout "
+"Diplomate ou Espion ennemi dans la ville s'opposera aux actions hostiles, "
+"comme le fera le Dirigeant ennemi dans les parties avec Dirigeants ; dans ce "
+"cas, une unité mourra - soit votre unité, soit celle qui défend (si vous "
+"vous opposez au Dirigeant, c'est toujours votre unité qui mourra). Si "
+"l'unité défendante meurt, vous perdez un point de mouvement et pouvez "
+"réessayer."
 
 #: data/classic/units.ruleset:2040 data/experimental/units.ruleset:2068
 #: data/multiplayer/units.ruleset:2138
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
-msgstr "Les Diplomates construits sous un gouvernement Communiste commencent au premier niveau de vétérance (secrétaire)."
+msgstr ""
+"Les Diplomates construits sous un gouvernement Communiste commencent au "
+"premier niveau de vétérance (secrétaire)."
 
 #. TRANS: Spy veteran level
 #: data/classic/units.ruleset:2073 data/experimental/units.ruleset:2101
@@ -26750,7 +26872,9 @@ msgstr "maître espion"
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
-msgstr "Les Espions construits sous un gouvernement Communiste commencent au premier niveau de vétérance (contact)."
+msgstr ""
+"Les Espions construits sous un gouvernement Communiste commencent au premier "
+"niveau de vétérance (contact)."
 
 #: data/classic/units.ruleset:2144 data/experimental/units.ruleset:2172
 msgid ""
@@ -26762,7 +26886,17 @@ msgid ""
 "regardless of whether you own both cities or only one of them; if you only "
 "own one city, trade in each city is doubled, but you only get the benefit "
 "from one end of the route."
-msgstr "Les Caravanes peuvent établir des routes commerciales avec vos propres villes ou celles d'autres nations (même ennemies) en voyageant jusqu'à elles. Le revenu continu d'une route est doublé si les villes concernées sont situés sur des continents différents, et doublé encore si les villes proviennent de civilisations différentes. La dernière condition signifie que le bénéfice net d'une route commerciale pour votre civilisation est le même, que vous possédiez une seule ville ou les deux ; si vous n'en possédez qu'une, alors le commerce dans chacune d'elles est doublé, mais vous ne bénéficiez de l'avantage que d'une seule des extrémités de la route commerciale."
+msgstr ""
+"Les Caravanes peuvent établir des routes commerciales avec vos propres "
+"villes ou celles d'autres nations (même ennemies) en voyageant jusqu'à "
+"elles. Le revenu continu d'une route est doublé si les villes concernées "
+"sont situés sur des continents différents, et doublé encore si les villes "
+"proviennent de civilisations différentes. La dernière condition signifie que "
+"le bénéfice net d'une route commerciale pour votre civilisation est le même, "
+"que vous possédiez une seule ville ou les deux ; si vous n'en possédez "
+"qu'une, alors le commerce dans chacune d'elles est doublé, mais vous ne "
+"bénéficiez de l'avantage que d'une seule des extrémités de la route "
+"commerciale."
 
 #: data/classic/units.ruleset:2153 data/experimental/units.ruleset:2181
 msgid ""
@@ -26808,7 +26942,11 @@ msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
-msgstr "Le SDCA (Système de Détection et de Commandement Aéroporté, plus connu sous l'acronyme anglais AWACS - Airborne Warning and Control System) est un avion avec un radar perfectionné qui peut localiser les unités ennemies sur une grande étendue."
+msgstr ""
+"Le SDCA (Système de Détection et de Commandement Aéroporté, plus connu sous "
+"l'acronyme anglais AWACS - Airborne Warning and Control System) est un avion "
+"avec un radar perfectionné qui peut localiser les unités ennemies sur une "
+"grande étendue."
 
 #: data/experimental/buildings.ruleset:108
 msgid ""
@@ -26854,22 +26992,30 @@ msgid ""
 "A Genetic Laboratory allows the genetic optimization of plants and animals. "
 "The food output is increased by 25% if the city size exceeds 20."
 msgstr ""
-"Des médicaments peuvent être recherchés dans un Laboratoire Génétique. Le risque d'épidémies dans la ville est réduit.\n"
-"Un Laboratoire Génétique permet l'optimisation génétique des plantes et des animaux. La production de nourriture augmente de 25% si la taille de la ville dépasse 20."
+"Des médicaments peuvent être recherchés dans un Laboratoire Génétique. Le "
+"risque d'épidémies dans la ville est réduit.\n"
+"Un Laboratoire Génétique permet l'optimisation génétique des plantes et des "
+"animaux. La production de nourriture augmente de 25% si la taille de la "
+"ville dépasse 20."
 
 #: data/experimental/buildings.ruleset:583
 #: data/experimental/buildings.ruleset:1106
 msgid ""
 "If a metropolis (city size > 30) has a Mass Transit and a Super Highway the "
 "city radius is further increased."
-msgstr "Si une métropole (taille > 30) dispose de Transports en Commun et d'Autoroutes, le rayon de la ville est encore augmenté."
+msgstr ""
+"Si une métropole (taille > 30) dispose de Transports en Commun et "
+"d'Autoroutes, le rayon de la ville est encore augmenté."
 
 #: data/experimental/buildings.ruleset:927
 msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
-msgstr "Permet à une ville de dépasser une taille de 12. Un Aqueduc est d'abord requis pour qu'une ville dépasse une taille de 8. Les Égouts diminuent encore les risques d'épidémie."
+msgstr ""
+"Permet à une ville de dépasser une taille de 12. Un Aqueduc est d'abord "
+"requis pour qu'une ville dépasse une taille de 8. Les Égouts diminuent "
+"encore les risques d'épidémie."
 
 #: data/experimental/buildings.ruleset:1159
 msgid "The work of the priests also reduces the effect of plague in the city."
@@ -26974,7 +27120,8 @@ msgstr "Vous apercevez votre première côte étrangère."
 
 #: data/experimental/governments.ruleset:81
 msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
-msgstr "Sous Anarchie, une technologie ne peut être perdue par manque de maintien."
+msgstr ""
+"Sous Anarchie, une technologie ne peut être perdue par manque de maintien."
 
 #: data/experimental/governments.ruleset:220
 #: data/sandbox/governments.ruleset:430
@@ -26996,13 +27143,18 @@ msgstr ""
 #: data/experimental/techs.ruleset:796
 msgid ""
 "Allows Settlers, Workers and Engineers to upgrade railroads with maglev."
-msgstr "Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les Chemins de Fer en Maglev."
+msgstr ""
+"Permet aux Colons, Travailleurs et Ingénieurs d'améliorer les Chemins de Fer "
+"en Maglev."
 
 #: data/experimental/terrain.ruleset:1333 data/multiplayer/terrain.ruleset:1330
 msgid ""
 "Nuclear fallout can appear on land tiles when a Nuclear unit is detonated. "
 "It halves all output from its tile."
-msgstr "Des retombées nucléaires peuvent apparaître sur des cases terrestres quand on fait exploser un Missile Nucléaire. Elles réduisent de moitié toutes les productions de sa case."
+msgstr ""
+"Des retombées nucléaires peuvent apparaître sur des cases terrestres quand "
+"on fait exploser un Missile Nucléaire. Elles réduisent de moitié toutes les "
+"productions de sa case."
 
 #: data/experimental/terrain.ruleset:1476
 msgid ""
@@ -27010,14 +27162,22 @@ msgid ""
 "units such as Catapults and Freight to travel through otherwise difficult "
 "terrain such as Mountains and Forest. On some terrain, roads also provide a "
 "trade bonus."
-msgstr "Les Routes permettent à vos unité terrestres de se déplacer plus rapidement, et permettent aux unités Terrestres Lourdes comme les Catapultes et le Frêt de se déplacer sur des terrains qui sont autrement difficiles, comme les Montagnes ou la Forêt. Sur certains terrains, les Routes donnent aussi un bonus de commerce."
+msgstr ""
+"Les Routes permettent à vos unité terrestres de se déplacer plus rapidement, "
+"et permettent aux unités Terrestres Lourdes comme les Catapultes et le Frêt "
+"de se déplacer sur des terrains qui sont autrement difficiles, comme les "
+"Montagnes ou la Forêt. Sur certains terrains, les Routes donnent aussi un "
+"bonus de commerce."
 
 #: data/experimental/terrain.ruleset:1511 data/civ2civ3/terrain.ruleset:1695
 #: data/sandbox/terrain.ruleset:1697
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
 "railroads. Units travel considerably faster along railroads than along roads."
-msgstr "Une fois que vous connaissez la technologie Chemin de Fer, vous pouvez améliorer vos Routes en Chemins de Fer. Les unités se déplacent nettement plus vite sur des Chemins de Fer que sur des Routes."
+msgstr ""
+"Une fois que vous connaissez la technologie Chemin de Fer, vous pouvez "
+"améliorer vos Routes en Chemins de Fer. Les unités se déplacent nettement "
+"plus vite sur des Chemins de Fer que sur des Routes."
 
 #: data/experimental/terrain.ruleset:1525 data/civ2civ3/terrain.ruleset:1709
 #: data/sandbox/terrain.ruleset:1711
@@ -27029,21 +27189,30 @@ msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land units expend no movement points when riding a "
 "maglev; you may ride indefinitely. (As may your enemies!)"
-msgstr "Avec la technologie suffisante, vous pouvez construire des systèmes de lévitation magnétique sur vos Chemins de Fer. Les unités ne dépensent pas de points de mouvement quand elles se déplacent le long d'un Maglev ; vous pouvez vous déplacer indéfiniment dessus (et vos ennemis aussi !)."
+msgstr ""
+"Avec la technologie suffisante, vous pouvez construire des systèmes de "
+"lévitation magnétique sur vos Chemins de Fer. Les unités ne dépensent pas de "
+"points de mouvement quand elles se déplacent le long d'un Maglev ; vous "
+"pouvez vous déplacer indéfiniment dessus (et vos ennemis aussi !)."
 
 #: data/experimental/terrain.ruleset:1551
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land units for "
 "which the maglev system is unsuitable, and they continue to provide "
 "production and trade bonuses."
-msgstr "Vos Chemins de Fer habituels sont toujours utilisés pour transporter les unités Terrestres Lourdes, qui ne conviennent pas au Maglev, et ils continuent de fournir des bonus de production et de commerce."
+msgstr ""
+"Vos Chemins de Fer habituels sont toujours utilisés pour transporter les "
+"unités Terrestres Lourdes, qui ne conviennent pas au Maglev, et ils "
+"continuent de fournir des bonus de production et de commerce."
 
 #: data/experimental/terrain.ruleset:1555 data/civ2civ3/terrain.ruleset:1741
 #: data/sandbox/terrain.ruleset:1743
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
 "you learn about Superconductors."
-msgstr "Les centres-villes avec des Chemins de Fer sont automatiquement améliorés en Maglev quand vous découvrez les Supraconducteurs."
+msgstr ""
+"Les centres-villes avec des Chemins de Fer sont automatiquement améliorés en "
+"Maglev quand vous découvrez les Supraconducteurs."
 
 #: data/experimental/terrain.ruleset:1577
 #, no-c-format
@@ -27062,13 +27231,21 @@ msgid ""
 "heavy Big Land units such as Catapults and Freight may travel along them "
 "through otherwise difficult terrain. Triremes may also travel up rivers "
 "(although later boats cannot)."
-msgstr "Les unité terrestres peuvent longer les Rivières pour se déplacer plus rapidement (mais pas en diagonale), et les unités Terrestres Lourdes comme les Catapultes et le Frêt peuvent les parcourir pour traverser des terrains qui seraient sinon inaccessibles. Les Trirèmes peuvent également remonter les Rivières (bien que les bateaux ultérieurs ne le puissent plus)."
+msgstr ""
+"Les unité terrestres peuvent longer les Rivières pour se déplacer plus "
+"rapidement (mais pas en diagonale), et les unités Terrestres Lourdes comme "
+"les Catapultes et le Frêt peuvent les parcourir pour traverser des terrains "
+"qui seraient sinon inaccessibles. Les Trirèmes peuvent également remonter "
+"les Rivières (bien que les bateaux ultérieurs ne le puissent plus)."
 
 #: data/experimental/terrain.ruleset:1586
 msgid ""
 "Roads, railroads, and maglev can only be built on River tiles if your "
 "civilization has learned Bridge Building technology."
-msgstr "Les Routes, les Chemins de fer et le Maglev ne peuvent être construits sur les cases possédant une Rivière que si votre civilisation a appris la technologie Construction de Ponts."
+msgstr ""
+"Les Routes, les Chemins de fer et le Maglev ne peuvent être construits sur "
+"les cases possédant une Rivière que si votre civilisation a appris la "
+"technologie Construction de Ponts."
 
 #. TRANS: "Big Land" is a unit class, like Land or Sea. Big Land units
 #. TRANS: cannot move into rough terrain. Unit class names are used
@@ -27083,7 +27260,10 @@ msgstr "Terrestre Lourde"
 msgid ""
 "Settlers can also perform some of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
-msgstr "Les Colons peuvent également effectuer certaines des altérations de terrain dont sont capables les Travailleurs (mais ne peuvent pas construire de Bases Aériennes ou de Bouées)."
+msgstr ""
+"Les Colons peuvent également effectuer certaines des altérations de terrain "
+"dont sont capables les Travailleurs (mais ne peuvent pas construire de Bases "
+"Aériennes ou de Bouées)."
 
 #. TRANS: Worker veteran level
 #: data/experimental/units.ruleset:483 data/experimental/units.ruleset:529
@@ -27111,7 +27291,10 @@ msgid ""
 " - You must know about Communism and Gunpowder.\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
-"Un certain nombre de Partisans apparaissent spontanément lors de la capture d'une de vos villes - ils prennent alors automatiquement des positions défensives dans la campagne environnante - mais seulement sous ces conditions :\n"
+"Un certain nombre de Partisans apparaissent spontanément lors de la capture "
+"d'une de vos villes - ils prennent alors automatiquement des positions "
+"défensives dans la campagne environnante - mais seulement sous ces "
+"conditions :\n"
 " - La Guérilla doit être connue par au moins un joueur.\n"
 " - Au moins les trois quarts des citoyens doivent avoir votre nationalité.\n"
 " - Vous devez connaître le Communisme et la Poudre à Canon.\n"
@@ -27139,20 +27322,30 @@ msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, and unlike later boats can travel on "
 "rivers, but it may not enter deep ocean tiles."
-msgstr "La Trirème est votre première unité navale. Elle peut faire office de navire de transport et a des capacités offensives rudimentaires et, contrairement aux bateaux ultérieurs, peut naviguer sur les Rivières, mais elle ne peut pas entrer sur les cases d'Océan Profond."
+msgstr ""
+"La Trirème est votre première unité navale. Elle peut faire office de navire "
+"de transport et a des capacités offensives rudimentaires et, contrairement "
+"aux bateaux ultérieurs, peut naviguer sur les Rivières, mais elle ne peut "
+"pas entrer sur les cases d'Océan Profond."
 
 #: data/experimental/units.ruleset:2221
 msgid ""
 "The Freight is twice as fast alternative to the Caravan, but unable to move "
 "at all outside flat terrains and roads."
-msgstr "Le Fret est une alternative deux fois plus rapide à la Caravane, mais ne peut pas se déplacer en dehors des terrains plats et des Routes."
+msgstr ""
+"Le Fret est une alternative deux fois plus rapide à la Caravane, mais ne "
+"peut pas se déplacer en dehors des terrains plats et des Routes."
 
 #: data/experimental/units.ruleset:2256
 msgid ""
 "An explorer can be ordered to remain in a foreign city as an ambassador "
 "after Writing is discovered. This gives permanent contact with the city's "
 "owner, as well as intelligence on their tax rates and technology."
-msgstr "On peut ordonner à un Explorateur de rester dans une ville étrangère en tant qu'ambassadeur une fois que l'Écriture est découverte. Ceci donne un contact permanent avec le possesseur de la ville, ainsi que la connaissance de son taux de taxes et de technologie."
+msgstr ""
+"On peut ordonner à un Explorateur de rester dans une ville étrangère en tant "
+"qu'ambassadeur une fois que l'Écriture est découverte. Ceci donne un contact "
+"permanent avec le possesseur de la ville, ainsi que la connaissance de son "
+"taux de taxes et de technologie."
 
 #: data/civ2civ3/buildings.ruleset:82 data/sandbox/buildings.ruleset:82
 msgid ""
@@ -27160,7 +27353,12 @@ msgid ""
 "Airlifting instantly transports the unit from one city to another and will "
 "use all of the unit's movement points. A unit must have some movement points "
 "left to be airlifted, and cannot carry cargo."
-msgstr "Deux villes ayant des Aéroports peuvent aéropoter une unité par tour (dont des avions). L'aéroportage transporte instantanément l'unité d'une ville à l'autre et consomme tous les points de mouvement de l'unité. Une unité doit avoir des points de déplacements restant pour pouvoir être transportée, et ne doit pas transporter une autre unité."
+msgstr ""
+"Deux villes ayant des Aéroports peuvent aéropoter une unité par tour (dont "
+"des avions). L'aéroportage transporte instantanément l'unité d'une ville à "
+"l'autre et consomme tous les points de mouvement de l'unité. Une unité doit "
+"avoir des points de déplacements restant pour pouvoir être transportée, et "
+"ne doit pas transporter une autre unité."
 
 #: data/civ2civ3/buildings.ruleset:109 data/civ2civ3/buildings.ruleset:145
 #: data/civ2civ3/buildings.ruleset:182 data/sandbox/buildings.ruleset:109
@@ -27168,7 +27366,9 @@ msgstr "Deux villes ayant des Aéroports peuvent aéropoter une unité par tour 
 msgid ""
 "Allows a city to grow larger than size 8. (A Sewer System is required for a "
 "city to grow larger than size 16.)"
-msgstr "Permet à une ville de dépasser la taille de 8. Des Égouts sont également requis pour qu'une ville dépasse la taille de 16."
+msgstr ""
+"Permet à une ville de dépasser la taille de 8. Des Égouts sont également "
+"requis pour qu'une ville dépasse la taille de 16."
 
 #: data/civ2civ3/buildings.ruleset:114 data/civ2civ3/buildings.ruleset:150
 #: data/civ2civ3/buildings.ruleset:187 data/sandbox/buildings.ruleset:114
@@ -27191,13 +27391,19 @@ msgstr ""
 msgid ""
 "Starting at size 5, growing cities incur an increasing risk of plague due to "
 "overcrowding; an Aqueduct reduces that base chance by 30%."
-msgstr "À partir de la taille 5, les villes en croissance subissent un risque d'épidémie qui augmente à cause de la surpopulation ; un Aqueduc diminue ce risque de base de 30%."
+msgstr ""
+"À partir de la taille 5, les villes en croissance subissent un risque "
+"d'épidémie qui augmente à cause de la surpopulation ; un Aqueduc diminue ce "
+"risque de base de 30%."
 
 #: data/civ2civ3/buildings.ruleset:123 data/sandbox/buildings.ruleset:123
 msgid ""
 "Building an Aqueduct in a city without access to a lake or river requires "
 "knowledge of Construction, and it costs more to build and maintain."
-msgstr "Construire un Aqueduc dans une ville qui n'a pas accès à un Lac ou à une Rivière nécessite la connaissance de Construction, et il sera plus coûteux à construire et à maintenir."
+msgstr ""
+"Construire un Aqueduc dans une ville qui n'a pas accès à un Lac ou à une "
+"Rivière nécessite la connaissance de Construction, et il sera plus coûteux à "
+"construire et à maintenir."
 
 #: data/civ2civ3/buildings.ruleset:129 data/sandbox/buildings.ruleset:129
 msgid "Aqueduct, Lake"
@@ -27207,7 +27413,9 @@ msgstr "Aqueduc, Lac"
 msgid ""
 "Aqueducts in cities with access to a lake require no special technology and "
 "are cheap to build and maintain."
-msgstr "Les Aqueducs dans les villes avec accès à un Lac ne nécessitent pas de technologie particulière, et sont peu chers à construire et à maintenir."
+msgstr ""
+"Les Aqueducs dans les villes avec accès à un Lac ne nécessitent pas de "
+"technologie particulière, et sont peu chers à construire et à maintenir."
 
 #: data/civ2civ3/buildings.ruleset:165 data/sandbox/buildings.ruleset:165
 msgid "Aqueduct, River"
@@ -27217,7 +27425,9 @@ msgstr "Aqueduc, Rivière"
 msgid ""
 "Aqueducts in cities with access to a river require no special technology and "
 "are cheap to build and maintain."
-msgstr "Les Aqueducs dans les villes avec accès à une Rivière ne nécessitent pas de technologie particulière, et sont peu chers à construire et à maintenir."
+msgstr ""
+"Les Aqueducs dans les villes avec accès à une Rivière ne nécessitent pas de "
+"technologie particulière, et sont peu chers à construire et à maintenir."
 
 #: data/civ2civ3/buildings.ruleset:220 data/sandbox/buildings.ruleset:220
 #, no-c-format
@@ -27252,7 +27462,14 @@ msgid ""
 "larger than size 8), but are ineffective against airborne and sea units. "
 "City Walls also prevent the loss of population which occurs when a defending "
 "unit is defeated by a land unit."
-msgstr "Les Remparts facilitent la défense de la ville. Ils ajoutent un bonus de 100% à la défense intrinsèque des unités présentes dans la ville contre les unités terrestres (ce qui fait une augmentation de deux tiers pour les petites villes, ou de moitié pour les villes plus grandes que la taille 8), mais ils sont sans effet contre les unités aériennes et maritimes. Les Remparts empêchent également la perte de population lorsqu'une unité défensive est vaincue par une unité terrestre."
+msgstr ""
+"Les Remparts facilitent la défense de la ville. Ils ajoutent un bonus de "
+"100% à la défense intrinsèque des unités présentes dans la ville contre les "
+"unités terrestres (ce qui fait une augmentation de deux tiers pour les "
+"petites villes, ou de moitié pour les villes plus grandes que la taille 8), "
+"mais ils sont sans effet contre les unités aériennes et maritimes. Les "
+"Remparts empêchent également la perte de population lorsqu'une unité "
+"défensive est vaincue par une unité terrestre."
 
 #: data/civ2civ3/buildings.ruleset:384 data/sandbox/buildings.ruleset:384
 #, no-c-format
@@ -27277,7 +27494,11 @@ msgid ""
 "Halves all kinds of waste in a city (corruption, production waste, and food "
 "waste). In your capital, corruption and production waste is eliminated. A "
 "Granary together with a Courthouse in a city will eliminate food waste."
-msgstr "Réduit de moitié toutes les formes de pertes dans une ville (corruption, gaspillage de production et gâchis de nourriture). Dans votre capitale, la corruption et le gaspillage sont éliminés. Un Grenier associé à un Tribunal dans une même ville éliminera le gâchis de nourriture."
+msgstr ""
+"Réduit de moitié toutes les formes de pertes dans une ville (corruption, "
+"gaspillage de production et gâchis de nourriture). Dans votre capitale, la "
+"corruption et le gaspillage sont éliminés. Un Grenier associé à un Tribunal "
+"dans une même ville éliminera le gâchis de nourriture."
 
 #: data/civ2civ3/buildings.ruleset:437 data/sandbox/buildings.ruleset:437
 msgid ""
@@ -27293,7 +27514,9 @@ msgstr ""
 msgid ""
 "Increases the shield production in a city by 25%, or 50% with an electrical "
 "plant of any kind in the same city."
-msgstr "Augmente la production dans une ville de 25%, ou de 50% s'il y a une Centrale électrique quelconque dans la même ville."
+msgstr ""
+"Augmente la production dans une ville de 25%, ou de 50% s'il y a une "
+"Centrale électrique quelconque dans la même ville."
 
 #: data/civ2civ3/buildings.ruleset:464 data/sandbox/buildings.ruleset:464
 msgid ""
@@ -27310,7 +27533,13 @@ msgid ""
 "cities to grow faster and more easily withstand famine. With a Granary this "
 "is extended to cities of size 4 and above. (10 food points is half what a "
 "small city needs to grow, but more points are needed for later growth steps.)"
-msgstr "Quand une petite ville grandit ou se réduit, 10 points de nourriture sont conservés ; cela permet aux villes de grandir plus vite et de résister plus facilement à la famine. Avec un Grenier, ceci est étendu aux villes de taille 4 et plus (10 points de nourriture sont la moitié de ce qu'une petite ville a besoin pour s'agrandir, mais plus de points sont nécessaires pour les étapes de croissance ultérieures)."
+msgstr ""
+"Quand une petite ville grandit ou se réduit, 10 points de nourriture sont "
+"conservés ; cela permet aux villes de grandir plus vite et de résister plus "
+"facilement à la famine. Avec un Grenier, ceci est étendu aux villes de "
+"taille 4 et plus (10 points de nourriture sont la moitié de ce qu'une petite "
+"ville a besoin pour s'agrandir, mais plus de points sont nécessaires pour "
+"les étapes de croissance ultérieures)."
 
 #: data/civ2civ3/buildings.ruleset:493 data/sandbox/buildings.ruleset:493
 msgid ""
@@ -27325,7 +27554,9 @@ msgstr ""
 msgid ""
 "TIP: to maximise the speed with which a city grows, you should build a "
 "Granary before it grows larger than size 4."
-msgstr "CONSEIL : pour maximiser la vitesse à laquelle une ville s'agrandit, vous devriez construire un Grenier avant qu'elle ne dépasse la taille 4."
+msgstr ""
+"CONSEIL : pour maximiser la vitesse à laquelle une ville s'agrandit, vous "
+"devriez construire un Grenier avant qu'elle ne dépasse la taille 4."
 
 #: data/civ2civ3/buildings.ruleset:520 data/sandbox/buildings.ruleset:520
 msgid ""
@@ -27349,7 +27580,14 @@ msgid ""
 "over the level without any of these improvements; an electrical plant, "
 "Factory, and Mfg. Plant together give a 100% production bonus. The extra "
 "production may lead to the city generating more pollution."
-msgstr "Tout type de Centrale électrique augmente les effets sur la production d'une Fabrique et d'une Usine de 25% chacune. De ce fait, une Centrale électique associée à une Fabrique ou une Usine donne un bonus de production de 50% au dessus du niveau de ce qu'il serait sans aucun de ces bâtiments. Ensemble, une Centrale électrique, une Fabrique et une Usine donnent un bonus de production de 100%. La production supplémentaire peut entraîner la ville à générer plus de pollution."
+msgstr ""
+"Tout type de Centrale électrique augmente les effets sur la production d'une "
+"Fabrique et d'une Usine de 25% chacune. De ce fait, une Centrale électique "
+"associée à une Fabrique ou une Usine donne un bonus de production de 50% au "
+"dessus du niveau de ce qu'il serait sans aucun de ces bâtiments. Ensemble, "
+"une Centrale électrique, une Fabrique et une Usine donnent un bonus de "
+"production de 100%. La production supplémentaire peut entraîner la ville à "
+"générer plus de pollution."
 
 #: data/civ2civ3/buildings.ruleset:557 data/sandbox/buildings.ruleset:557
 #, no-c-format
@@ -27391,14 +27629,20 @@ msgid ""
 "Increases the shield production in a city by an additional 25%, or 50% with "
 "an electrical plant of any kind in the same city; this effect is cumulative "
 "with that of a Factory."
-msgstr "Augmente la production dans une ville de 25% supplémentaires, ou de 50% s'il y a une Centrale électrique quelconque dans la même ville. Cet effet se cumule avec celui d'une Fabrique."
+msgstr ""
+"Augmente la production dans une ville de 25% supplémentaires, ou de 50% s'il "
+"y a une Centrale électrique quelconque dans la même ville. Cet effet se "
+"cumule avec celui d'une Fabrique."
 
 #: data/civ2civ3/buildings.ruleset:660 data/sandbox/buildings.ruleset:660
 msgid ""
 "With sufficient shield production, cities with a Manufacturing Plant can "
 "produce up to two units each turn (but only single units of types which cost "
 "population)."
-msgstr "Avec une production suffisante, les villes avec une Usine peuvent produire jusqu'à deux unités par tour (mais une seule unité des types qui ont un coût en population)."
+msgstr ""
+"Avec une production suffisante, les villes avec une Usine peuvent produire "
+"jusqu'à deux unités par tour (mais une seule unité des types qui ont un coût "
+"en population)."
 
 #: data/civ2civ3/buildings.ruleset:664 data/sandbox/buildings.ruleset:664
 msgid ""
@@ -27427,7 +27671,11 @@ msgid ""
 "Every Ocean or Lake tile worked by the city yields one extra shield "
 "resource, as well as any Deep Ocean tile containing an oil platform. The "
 "city needs to be next to a water tile to build this improvement."
-msgstr "Toute case d'Océan ou de Lac travaillée par la ville fournit une ressource de production supplémentaire, ainsi que toute case d'Océan Profond qui possède une plateforme pétrolière. La ville doit être à côté d'une case d'eau pour construire cette amélioration."
+msgstr ""
+"Toute case d'Océan ou de Lac travaillée par la ville fournit une ressource "
+"de production supplémentaire, ainsi que toute case d'Océan Profond qui "
+"possède une plateforme pétrolière. La ville doit être à côté d'une case "
+"d'eau pour construire cette amélioration."
 
 #: data/civ2civ3/buildings.ruleset:737 data/sandbox/buildings.ruleset:737
 msgid ""
@@ -27458,7 +27706,9 @@ msgstr ""
 msgid ""
 "Under Despotism the city containing the palace gains a +75% gold bonus, and "
 "under Monarchy a +50% gold bonus."
-msgstr "Sous un Despotisme, la ville qui contient le Palais gagne un bonus d'or de 75%, et 50% sous une Monarchie."
+msgstr ""
+"Sous un Despotisme, la ville qui contient le Palais gagne un bonus d'or de "
+"75%, et 50% sous une Monarchie."
 
 #: data/civ2civ3/buildings.ruleset:786 data/sandbox/buildings.ruleset:786
 msgid "Ecclesiastical Palace"
@@ -27545,7 +27795,9 @@ msgstr ""
 msgid ""
 "Doubles the intrinsic defense strength of units within a city when defending "
 "against aircraft (including helicopters)."
-msgstr "Double la défense intrinsèque des unités à l'intérieur d'une ville lorsqu'elle se défend contre des unités aériennes (dont les Hélicoptères)."
+msgstr ""
+"Double la défense intrinsèque des unités à l'intérieur d'une ville "
+"lorsqu'elle se défend contre des unités aériennes (dont les Hélicoptères)."
 
 #: data/civ2civ3/buildings.ruleset:999 data/sandbox/buildings.ruleset:999
 msgid ""
@@ -27555,7 +27807,14 @@ msgid ""
 "exploded) within range, is shot down and simply has no effect. Also, doubles "
 "the intrinsic defense strength of units in the city when defending against "
 "conventional missiles."
-msgstr "Protège une ville et ses environs (jusqu'à 2 cases) des attaques des Missiles Nucléaires des autres nations. Un Missile Nucléaire qui n'est pas à vous ni à un membre de votre équipe et qui attaque une ville avec une Défense SDI ou qui attaque une unité (ou explose délibérément) à portée est détruit et n'a simplement pas d'effet. De plus, double la défense intrinsèque des unités de la ville lorsqu'elles se défendent contre des missiles conventionnels."
+msgstr ""
+"Protège une ville et ses environs (jusqu'à 2 cases) des attaques des "
+"Missiles Nucléaires des autres nations. Un Missile Nucléaire qui n'est pas à "
+"vous ni à un membre de votre équipe et qui attaque une ville avec une "
+"Défense SDI ou qui attaque une unité (ou explose délibérément) à portée est "
+"détruit et n'a simplement pas d'effet. De plus, double la défense "
+"intrinsèque des unités de la ville lorsqu'elles se défendent contre des "
+"missiles conventionnels."
 
 #: data/civ2civ3/buildings.ruleset:1027 data/sandbox/buildings.ruleset:1027
 #, no-c-format
@@ -27596,7 +27855,11 @@ msgid ""
 "Each tile around the city with roads and without farmland, that is already "
 "generating some trade, produces one extra trade resource. The same applies "
 "to the city center tile (even if it is receiving a farmland bonus)."
-msgstr "Chaque case autour de la ville avec une Route, mais sans Champs, qui produit déjà du commerce génère une ressource de commerce en plus. La même chose s'applique à la case de centre-ville (même si elle reçoit un bonus de Champs)."
+msgstr ""
+"Chaque case autour de la ville avec une Route, mais sans Champs, qui produit "
+"déjà du commerce génère une ressource de commerce en plus. La même chose "
+"s'applique à la case de centre-ville (même si elle reçoit un bonus de "
+"Champs)."
 
 #: data/civ2civ3/buildings.ruleset:1220 data/sandbox/buildings.ruleset:1220
 #, no-c-format
@@ -27644,7 +27907,11 @@ msgid ""
 "The total bonus is 100% if a Library and a University are present together "
 "in the same city, increasing to 200% once the Great Library and Isaac "
 "Newton's College have both been built."
-msgstr "Le bonus total est de 100% si une Bibliothèque et une Université sont présentes simultanément dans la même ville, augmenté à 200% une fois que la Grande Bibliothèque et le Collège d'Isaac Newton ont tous deux été construits."
+msgstr ""
+"Le bonus total est de 100% si une Bibliothèque et une Université sont "
+"présentes simultanément dans la même ville, augmenté à 200% une fois que la "
+"Grande Bibliothèque et le Collège d'Isaac Newton ont tous deux été "
+"construits."
 
 #: data/civ2civ3/buildings.ruleset:1323 data/sandbox/buildings.ruleset:1323
 msgid ""
@@ -27708,7 +27975,13 @@ msgid ""
 "of plague (by 10% of the base chance); with knowledge of Medicine, any of "
 "your cities with an Aqueduct and a Sewer System will be entirely free of "
 "plague."
-msgstr "Cette réussite technologique sensationnelle rend heureux un habitant satisfait dans chacune de vos villes (2 revenus de luxe supplémentaire par ville). Elle réduit encore votre risque d'épidémie (de 10% du risque de base) ; avec la connaissance de la Médecine, n'importe laquelle de vos villes avec un Aqueduc et des Égouts sera entièrement affranchie des épidémies."
+msgstr ""
+"Cette réussite technologique sensationnelle rend heureux un habitant "
+"satisfait dans chacune de vos villes (2 revenus de luxe supplémentaire par "
+"ville). Elle réduit encore votre risque d'épidémie (de 10% du risque de "
+"base) ; avec la connaissance de la Médecine, n'importe laquelle de vos "
+"villes avec un Aqueduc et des Égouts sera entièrement affranchie des "
+"épidémies."
 
 #: data/civ2civ3/buildings.ruleset:1453 data/sandbox/buildings.ruleset:1453
 msgid ""
@@ -27847,7 +28120,10 @@ msgstr ""
 msgid ""
 "Gives all your sea units 1 additional movement point. The chance of a sea "
 "unit getting the next veteran level after a battle increases by half."
-msgstr "Donne un point de mouvement supplémentaire à toutes vos unités maritimes. La chance qu'une unité martime atteigne le niveau de vétéran suivant après une bataille est augmenté de moitié."
+msgstr ""
+"Donne un point de mouvement supplémentaire à toutes vos unités maritimes. La "
+"chance qu'une unité martime atteigne le niveau de vétéran suivant après une "
+"bataille est augmenté de moitié."
 
 #: data/civ2civ3/buildings.ruleset:1776 data/sandbox/buildings.ruleset:1776
 msgid ""
@@ -27863,7 +28139,10 @@ msgid ""
 "Doubles the base effect of Cathedrals. This makes 3 additional unhappy "
 "citizens content in each city with a Cathedral; however, it does not affect "
 "citizens made unhappy by aggression."
-msgstr "Double l'effet des Cathédrales. Ceci rend satisfaits 3 citoyens mécontents supplémentaires dans chaque ville dotée d'une Cathédrale. Cependant, cela n'affecte pas les citoyens rendus mécontents à cause de l'agressivité."
+msgstr ""
+"Double l'effet des Cathédrales. Ceci rend satisfaits 3 citoyens mécontents "
+"supplémentaires dans chaque ville dotée d'une Cathédrale. Cependant, cela "
+"n'affecte pas les citoyens rendus mécontents à cause de l'agressivité."
 
 #: data/civ2civ3/buildings.ruleset:1806 data/sandbox/buildings.ruleset:1806
 msgid "Mausoleum of Mausolos"
@@ -27944,7 +28223,9 @@ msgstr ""
 msgid ""
 "Completion of this wonder permanently doubles the effect of Research Labs "
 "for every player."
-msgstr "L'achèvement de cette merveille double de façon permanente l'effet des Laboratoires de Recherche pour tous les joueurs."
+msgstr ""
+"L'achèvement de cette merveille double de façon permanente l'effet des "
+"Laboratoires de Recherche pour tous les joueurs."
 
 #: data/civ2civ3/buildings.ruleset:1950 data/sandbox/buildings.ruleset:1950
 msgid ""
@@ -28006,7 +28287,10 @@ msgid ""
 "Also, if any player's city is in disorder for more than two turns in a row, "
 "that player's government falls (even for governments other than Republic and "
 "Democracy)."
-msgstr "De plus, si une ville d'un joueur reste en désordre civil pendant plus de 2 tours d'affilée, le gouvernement de ce joueur s'effondrera (même pour les gouvernements autres que la République et la Démocratie)."
+msgstr ""
+"De plus, si une ville d'un joueur reste en désordre civil pendant plus de 2 "
+"tours d'affilée, le gouvernement de ce joueur s'effondrera (même pour les "
+"gouvernements autres que la République et la Démocratie)."
 
 #: data/civ2civ3/buildings.ruleset:2054 data/sandbox/buildings.ruleset:2054
 msgid ""
@@ -28042,7 +28326,10 @@ msgstr ""
 msgid ""
 "Each tax collector produces two extra gold for your treasury per turn, "
 "increasing to three once any player has built A.Smith's Trading Co."
-msgstr "Chaque collecteur de taxes produit deux lingots supplémentaires pour votre trésorerie chaque tour, augmenté à trois une fois qu'un joueur quelconque a construit la Société de Commerce de A. Smith."
+msgstr ""
+"Chaque collecteur de taxes produit deux lingots supplémentaires pour votre "
+"trésorerie chaque tour, augmenté à trois une fois qu'un joueur quelconque a "
+"construit la Société de Commerce de A. Smith."
 
 #: data/civ2civ3/game.ruleset:25
 msgid "Civ2Civ3 ruleset"
@@ -28118,7 +28405,8 @@ msgstr "Ville cultivée"
 
 #: data/civ2civ3/game.ruleset:712 data/sandbox/game.ruleset:720
 msgid "Your nation is the first with a city of 1000 culture points!"
-msgstr "Votre nation est la première avec une ville de 1000 points de culture !"
+msgstr ""
+"Votre nation est la première avec une ville de 1000 points de culture !"
 
 #: data/civ2civ3/game.ruleset:713 data/sandbox/game.ruleset:721
 msgid "One of your cities has 1000 culture points!"
@@ -28156,12 +28444,25 @@ msgid ""
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
 "* Les bâtiments et les technologies ne nécessitent pas d'entretien.\n"
-"* Chaque case travaillée qui donne plus de 2 points de nourriture, de production ou de commerce subira une pénalité de -1, à moins que la ville qui la travaille ne soit en fête (les villes en deçà de la taille 3 n'entrent pas en fête).\n"
-"* Chaque ville peut entretenir gratuitement deux unités ; les unités supplémentaires coûtent chacune un point de production par tour.\n"
-"* Les unités militaires ne causent pas de mécontentement, même lorsqu'elles sont déployées agressivement.\n"
-"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités militaires à l'intérieur d'une ville forceront chacune un citoyen mécontent à devenir satisfait.\n"
-"* Vous n'avez aucun contrôle sur les niveaux de taxe. La moitié du revenu commercial est simplement perdu pour votre économie (moins si vous avez des bâtiments qui promeuvent le luxe), et le reste part entièrement en luxe. La corruption conventionnelle augmente avec la distance à votre capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Le gaspillage de production de base est de 30%. Ceci augmente avec la distance à votre capitale (deux fois moins vite avec la connaissance du Commerce)."
+"* Chaque case travaillée qui donne plus de 2 points de nourriture, de "
+"production ou de commerce subira une pénalité de -1, à moins que la ville "
+"qui la travaille ne soit en fête (les villes en deçà de la taille 3 "
+"n'entrent pas en fête).\n"
+"* Chaque ville peut entretenir gratuitement deux unités ; les unités "
+"supplémentaires coûtent chacune un point de production par tour.\n"
+"* Les unités militaires ne causent pas de mécontentement, même lorsqu'elles "
+"sont déployées agressivement.\n"
+"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités "
+"militaires à l'intérieur d'une ville forceront chacune un citoyen mécontent "
+"à devenir satisfait.\n"
+"* Vous n'avez aucun contrôle sur les niveaux de taxe. La moitié du revenu "
+"commercial est simplement perdu pour votre économie (moins si vous avez des "
+"bâtiments qui promeuvent le luxe), et le reste part entièrement en luxe. La "
+"corruption conventionnelle augmente avec la distance à votre capitale (deux "
+"fois moins vite avec la connaissance des Corporations).\n"
+"* Le gaspillage de production de base est de 30%. Ceci augmente avec la "
+"distance à votre capitale (deux fois moins vite avec la connaissance du "
+"Commerce)."
 
 #: data/civ2civ3/governments.ruleset:100 data/sandbox/governments.ruleset:100
 msgid "Tribal"
@@ -28180,7 +28481,10 @@ msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy can be an advantage in wartime, but it lacks the martial law of "
 "other early governments."
-msgstr "Comparée au Despotisme, l'économie Tribale est plus orientée vers la production. Ses bonus de vétérance peuvent être un avantage en temps de guerre, mais il lui manque la loi martiale des autres gouvernements précoces."
+msgstr ""
+"Comparée au Despotisme, l'économie Tribale est plus orientée vers la "
+"production. Ses bonus de vétérance peuvent être un avantage en temps de "
+"guerre, mais il lui manque la loi martiale des autres gouvernements précoces."
 
 #: data/civ2civ3/governments.ruleset:118 data/sandbox/governments.ruleset:118
 #, no-c-format
@@ -28201,13 +28505,23 @@ msgid ""
 "* There is no base level of production waste, but an increasing amount with "
 "distance from the capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Augmente de moitié la chance des unités terrestres de gagner un niveau de vétérance après une bataille.\n"
-"* Chaque case travaillée qui donne plus de 2 points de nourriture, de production ou de commerce subira une pénalité de -1, à moins que la ville qui la travaille ne soit en fête (les villes en dessous de la taille 3 n'entrent pas en fête).\n"
+"* Augmente de moitié la chance des unités terrestres de gagner un niveau de "
+"vétérance après une bataille.\n"
+"* Chaque case travaillée qui donne plus de 2 points de nourriture, de "
+"production ou de commerce subira une pénalité de -1, à moins que la ville "
+"qui la travaille ne soit en fête (les villes en dessous de la taille 3 "
+"n'entrent pas en fête).\n"
 "* Chaque ville gagne un citoyen satisfait supplémentaire.\n"
-"* Chaque ville peut entretenir gratuitement deux unités ; les unités supplémentaires coûtent chacune un point de production par tour.\n"
-"* Contrairement aux gouvernements ultérieurs, les unités militaires ne causent pas de mécontentement, même si elles sont déployées agressivement.\n"
-"* La corruption de base est de 30% (la plus élevée de tous les gouvernements). Elle augmente avec la distance à la capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Il n'y a pas de niveau de base pour le gaspillage de production, mais une quantité qui augmente avec la distance à la capitale (deux fois moins vite avec la connaissance du Commerce)."
+"* Chaque ville peut entretenir gratuitement deux unités ; les unités "
+"supplémentaires coûtent chacune un point de production par tour.\n"
+"* Contrairement aux gouvernements ultérieurs, les unités militaires ne "
+"causent pas de mécontentement, même si elles sont déployées agressivement.\n"
+"* La corruption de base est de 30% (la plus élevée de tous les "
+"gouvernements). Elle augmente avec la distance à la capitale (deux fois "
+"moins vite avec la connaissance des Corporations).\n"
+"* Il n'y a pas de niveau de base pour le gaspillage de production, mais une "
+"quantité qui augmente avec la distance à la capitale (deux fois moins vite "
+"avec la connaissance du Commerce)."
 
 #: data/civ2civ3/governments.ruleset:151 data/sandbox/governments.ruleset:151
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
@@ -28234,13 +28548,24 @@ msgid ""
 "* Base production waste is 10%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Vos centres de gouvernement (les villes avec un Palais et un Palais Écclésiastique) gagnent un bonus de production d'or de +75%.\n"
-"* Chaque case travaillée qui donne plus de 2 points de nourriture, de production ou de commerce subira une pénalité de -1, à moins que la ville qui la travaille ne soit en fête (les villes en dessous de la taille 3 n'entreront pas en fête).\n"
-"* Chaque ville peut entretenir gratuitement deux unités ; les unités supplémentaires coûtent chacune un lingot par tour.\n"
-"* Contrairement aux gouvernements ultérieurs, les unités militaires ne causent pas de mécontentement, même déployées agressivement.\n"
-"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités militaires à l'intérieur d'une ville obligeront chacune un citoyen mécontent à devenir satisfait.\n"
-"* La corruption de base est de 20%. Elle augmente avec la distance à la capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Le gaspillage de production de base est de 10%. Il augmente avec la distance à la capitale (deux fois moins vite avec la connaissance du Commerce)."
+"* Vos centres de gouvernement (les villes avec un Palais et un Palais "
+"Écclésiastique) gagnent un bonus de production d'or de +75%.\n"
+"* Chaque case travaillée qui donne plus de 2 points de nourriture, de "
+"production ou de commerce subira une pénalité de -1, à moins que la ville "
+"qui la travaille ne soit en fête (les villes en dessous de la taille 3 "
+"n'entreront pas en fête).\n"
+"* Chaque ville peut entretenir gratuitement deux unités ; les unités "
+"supplémentaires coûtent chacune un lingot par tour.\n"
+"* Contrairement aux gouvernements ultérieurs, les unités militaires ne "
+"causent pas de mécontentement, même déployées agressivement.\n"
+"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités "
+"militaires à l'intérieur d'une ville obligeront chacune un citoyen mécontent "
+"à devenir satisfait.\n"
+"* La corruption de base est de 20%. Elle augmente avec la distance à la "
+"capitale (deux fois moins vite avec la connaissance des Corporations).\n"
+"* Le gaspillage de production de base est de 10%. Il augmente avec la "
+"distance à la capitale (deux fois moins vite avec la connaissance du "
+"Commerce)."
 
 #: data/civ2civ3/governments.ruleset:189 data/sandbox/governments.ruleset:189
 msgid "Monarchy gives low unit upkeep costs."
@@ -28264,13 +28589,23 @@ msgid ""
 "* Base production waste is 20%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
-"* Vos centres de gouvernement (villes avec Palais et Palais Écclésiastique) gagnent un bonus de production d'or de +50%.\n"
-"* Les villes en fête produisent un point de commerce en plus pour toutes les cases qui produisent déjà du commerce (les villes de taille inférieure à 3 n'entrent pas en fête).\n"
-"* Chaque ville peut entretenir gratuitement trois unités (le maximum possible) ; les unités supplémentaires coûtent chacune un lingot par tour.\n"
-"* Chaque ville tolère jusqu'à trois unités déployées agressivement ; chaque unité supplémentaire rend un citoyen mécontent.\n"
-"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités militaires à l'intérieur d'une ville forceront chacune 1 citoyen mécontent à devenir satisfait.\n"
-"* La corruption de base est de 10%. Elle augmente avec la distance à la capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Le gaspillage de production de base est de 20%. Il augmente avec la distance à la capitale (deux fois moins vite avec la connaissance du Commerce)."
+"* Vos centres de gouvernement (villes avec Palais et Palais Écclésiastique) "
+"gagnent un bonus de production d'or de +50%.\n"
+"* Les villes en fête produisent un point de commerce en plus pour toutes les "
+"cases qui produisent déjà du commerce (les villes de taille inférieure à 3 "
+"n'entrent pas en fête).\n"
+"* Chaque ville peut entretenir gratuitement trois unités (le maximum "
+"possible) ; les unités supplémentaires coûtent chacune un lingot par tour.\n"
+"* Chaque ville tolère jusqu'à trois unités déployées agressivement ; chaque "
+"unité supplémentaire rend un citoyen mécontent.\n"
+"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités "
+"militaires à l'intérieur d'une ville forceront chacune 1 citoyen mécontent à "
+"devenir satisfait.\n"
+"* La corruption de base est de 10%. Elle augmente avec la distance à la "
+"capitale (deux fois moins vite avec la connaissance des Corporations).\n"
+"* Le gaspillage de production de base est de 20%. Il augmente avec la "
+"distance à la capitale (deux fois moins vite avec la connaissance du "
+"Commerce)."
 
 #: data/civ2civ3/governments.ruleset:228 data/sandbox/governments.ruleset:228
 msgid ""
@@ -28295,18 +28630,28 @@ msgid ""
 "* Base corruption is 30%, but is not affected by distance to the capital.\n"
 "* There is no production waste."
 msgstr ""
-"* Les améliorations de ville qui auraient normalement un coût d'entretien de 1 lingot sont entretenues gratuitement.\n"
-"* Chaque ville peut entretenir gratuitement trois unités (le maximum possible) ; les unités supplémentaires coûtent chacune une production par tour.\n"
-"* Chaque ville tolère jusqu'à trois unités déployées agressivement ; chaque unité supplémentaire rend un citoyen mécontent.\n"
-"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités militaires à l'intérieur d'une ville forceront chacune 2 citoyens mécontents à devenir satisfaits (le maximum possible).\n"
-"* La corruption de base est de 30%, mais elle n'est pas affectée par la distance à la capitale.\n"
+"* Les améliorations de ville qui auraient normalement un coût d'entretien de "
+"1 lingot sont entretenues gratuitement.\n"
+"* Chaque ville peut entretenir gratuitement trois unités (le maximum "
+"possible) ; les unités supplémentaires coûtent chacune une production par "
+"tour.\n"
+"* Chaque ville tolère jusqu'à trois unités déployées agressivement ; chaque "
+"unité supplémentaire rend un citoyen mécontent.\n"
+"* Les unités militaires imposent la loi martiale. Jusqu'à 3 unités "
+"militaires à l'intérieur d'une ville forceront chacune 2 citoyens mécontents "
+"à devenir satisfaits (le maximum possible).\n"
+"* La corruption de base est de 30%, mais elle n'est pas affectée par la "
+"distance à la capitale.\n"
 "* Il n'y a pas de gaspillage de production."
 
 #: data/civ2civ3/governments.ruleset:273 data/sandbox/governments.ruleset:273
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
-msgstr "Le Fondamentalisme est un gouvernement pour maximiser l'or, et ses Fanatiques sont utiles en temps de guerre, mais il a une lourde pénalité en progrès technologique."
+msgstr ""
+"Le Fondamentalisme est un gouvernement pour maximiser l'or, et ses "
+"Fanatiques sont utiles en temps de guerre, mais il a une lourde pénalité en "
+"progrès technologique."
 
 #: data/civ2civ3/governments.ruleset:279 data/sandbox/governments.ruleset:279
 #, no-c-format
@@ -28403,12 +28748,20 @@ msgid ""
 "* Base production waste is 5%. This increases with distance from the capital "
 "(half as fast with knowledge of Trade)."
 msgstr ""
-"* Les villes produisent un point de commerce supplémentaire pour chaque case terrestre travaillée qui en produit déjà.\n"
-"* Les villes en fête produisent encore un point de commerce supplémentaire pour chaque case travaillée (terrestre ou maritime) qui en produit déjà (les villes de taille inférieure à 3 n'entrent pas en fête).\n"
-"* Chaque ville peut supporter une unité gratuitement ; les unités supplémentaires coûtent chacune une unité de production par tour.\n"
-"* Chaque ville tolère une seule unité militaire déployée agressivement ; chaque unité supplémentaire rend mécontent un citoyen.\n"
-"* La corruption de base est de 25%. Elle augmente avec la distance à la capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Le gaspillage de production de base est de 5%. Il augmente avec la distance à la capitale (deux fois moins vite avec la connaissance du Commerce)."
+"* Les villes produisent un point de commerce supplémentaire pour chaque case "
+"terrestre travaillée qui en produit déjà.\n"
+"* Les villes en fête produisent encore un point de commerce supplémentaire "
+"pour chaque case travaillée (terrestre ou maritime) qui en produit déjà (les "
+"villes de taille inférieure à 3 n'entrent pas en fête).\n"
+"* Chaque ville peut supporter une unité gratuitement ; les unités "
+"supplémentaires coûtent chacune une unité de production par tour.\n"
+"* Chaque ville tolère une seule unité militaire déployée agressivement ; "
+"chaque unité supplémentaire rend mécontent un citoyen.\n"
+"* La corruption de base est de 25%. Elle augmente avec la distance à la "
+"capitale (deux fois moins vite avec la connaissance des Corporations).\n"
+"* Le gaspillage de production de base est de 5%. Il augmente avec la "
+"distance à la capitale (deux fois moins vite avec la connaissance du "
+"Commerce)."
 
 #: data/civ2civ3/governments.ruleset:380 data/sandbox/governments.ruleset:380
 msgid ""
@@ -28439,12 +28792,20 @@ msgid ""
 "capital (half as fast with knowledge of Trade).\n"
 "* Has a senate that may prevent declaration of war."
 msgstr ""
-"* Les villes produisent un point de commerce supplémentaire pour chaque case terrestre travaillée qui en produit déjà.\n"
-"* Les villes en fête produisent encore un point de commerce supplémentaire pour chaque case travaillée (terrestre ou maritime) qui en produit déjà (les villes de taille inférieure à 3 n'entrent pas en fête).\n"
-"* Chaque ville peut supporter une unité gratuitement ; les unités supplémentaires coûtent chacune deux lingots par tour.\n"
-"* Chaque ville tolère une seule unité militaire déployée agressivement ; chaque unité supplémentaire rend mécontent deux citoyens.\n"
-"* La corruption de base est de 5%. Elle augmente avec la distance à la capitale (deux fois moins vite avec la connaissance des Corporations).\n"
-"* Le gaspillage de production de base est de 25%. Il augmente avec la distance à la capitale (deux fois moins vite avec la connaissance du Commerce).\n"
+"* Les villes produisent un point de commerce supplémentaire pour chaque case "
+"terrestre travaillée qui en produit déjà.\n"
+"* Les villes en fête produisent encore un point de commerce supplémentaire "
+"pour chaque case travaillée (terrestre ou maritime) qui en produit déjà (les "
+"villes de taille inférieure à 3 n'entrent pas en fête).\n"
+"* Chaque ville peut supporter une unité gratuitement ; les unités "
+"supplémentaires coûtent chacune deux lingots par tour.\n"
+"* Chaque ville tolère une seule unité militaire déployée agressivement ; "
+"chaque unité supplémentaire rend mécontent deux citoyens.\n"
+"* La corruption de base est de 5%. Elle augmente avec la distance à la "
+"capitale (deux fois moins vite avec la connaissance des Corporations).\n"
+"* Le gaspillage de production de base est de 25%. Il augmente avec la "
+"distance à la capitale (deux fois moins vite avec la connaissance du "
+"Commerce).\n"
 "* A un sénat qui peut empêcher une déclaration de guerre."
 
 #: data/civ2civ3/script.lua:176 data/sandbox/script.lua:176
@@ -48591,85 +48952,66 @@ msgstr "erreur %d (compilation sans strerror)"
 #~ msgid "Isometric alternative of the small hex tiles."
 #~ msgstr "Alternative isométriques aux petites tuiles hexagonales."
 
-#, c-format
 #~ msgid "%+4d : Citizens\n"
 #~ msgstr "%+4d : Habitants\n"
 
-#, c-format
 #~ msgid "%+4d : Bonus from %s (%+d%%)\n"
 #~ msgstr "%+4d : Bonus de %s (%+d%%)\n"
 
-#, c-format
 #~ msgid "%+4d : Loss from %s (%+d%%)\n"
 #~ msgstr "%+4d : Perte de %s (%+d%%)\n"
 
-#, c-format
 #~ msgid "%+4d : Size penalty\n"
 #~ msgstr "%+4d : Pénalité de taille\n"
 
-#, c-format
 #~ msgid "%+4d : Waste%s\n"
 #~ msgstr "%+4d : Gaspillage%s\n"
 
-#, c-format
 #~ msgid "%+4d : Corruption%s\n"
 #~ msgstr "%+4d : Corruption%s\n"
 
-#, c-format
 #~ msgid "%+4d : Disorder\n"
 #~ msgstr "%+4d : Désordre\n"
 
-#, c-format
 #~ msgid "%+4d : Used\n"
 #~ msgstr "%+4d : Utilisé\n"
 
-#, c-format
 #~ msgid "%+4d : (unknown)\n"
 #~ msgstr "%+4d : (inconnu)\n"
 
 #~ msgid "==== : Adds up to\n"
 #~ msgstr "==== : Donnant un total de\n"
 
-#, c-format
 #~ msgid "%4d : Total surplus"
 #~ msgstr "%4d : Surplus total"
 
-#, c-format
 #~ msgid "%+5.1f%% : Risk from overcrowding\n"
 #~ msgstr "%+5.1f%% : Risque dû à la surpopulation\n"
 
-#, c-format
 #~ msgid "%+5.1f%% : Risk from trade\n"
 #~ msgstr "%+5.1f%% : Risque dû au commerce\n"
 
-#, c-format
 #~ msgid "%+5.1f%% : Risk from pollution\n"
 #~ msgstr "%+5.1f%% : Risque dû à la pollution\n"
 
-#, c-format
 #~ msgid "%+5.1f%% : Bonus from %s\n"
 #~ msgstr "%+5.1f%% : Bonus de %s\n"
 
-#, c-format
 #~ msgid "%+5.1f%% : Risk from %s\n"
 #~ msgstr "%+5.1f%% : Risque dû à %s\n"
 
 #~ msgid "====== : Adds up to\n"
 #~ msgstr "====== : Donnant un total de\n"
 
-#, c-format
 #~ msgid "%4d : History\n"
 #~ msgstr "%4d : Histoire\n"
 
-#, c-format
 #~ msgid "%4d : %s\n"
 #~ msgstr "%4d : %s\n"
 
-#, c-format
 #~ msgid "%4d : (unknown)\n"
 #~ msgstr "%4d : (inconnu)\n"
 
-#, c-format
 #~ msgid "%4d : Total culture"
 #~ msgstr "%4d : Culture totale"
 
