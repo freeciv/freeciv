@@ -17,12 +17,13 @@ VERSION_LABEL="-dev"
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=0
 #
-# 2) Development from version number bump to first beta:
+# 2) Development from version number bump to entering beta mode:
 #   - IS_DEVEL_VERSION=1
 #   - IS_FREEZE_VERSION=1
 #   - IS_BETA_VERSION=0
 #
-# 3) Development from first beta to first RC:
+# 3) Development during beta mode, starting latest from beta1,
+#    until first RC:
 #   - IS_DEVEL_VERSION=0
 #   - IS_FREEZE_VERSION=0
 #   - IS_BETA_VERSION=1
