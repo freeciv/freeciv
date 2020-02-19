@@ -2456,7 +2456,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2,
-                  GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  GUI_GTK_MSGCHAT_MERGED,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -2663,7 +2663,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3,
-                  GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  GUI_GTK_MSGCHAT_MERGED,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk3_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -2884,7 +2884,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3_22,
-                  GUI_GTK_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  GUI_GTK_MSGCHAT_MERGED,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk3_22_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -5799,8 +5799,19 @@ void options_load(void)
    * options. The equivalent "new" option will override these, if set. */
 
   /* Removed in 2.3 */
-  /* Note: this overrides the previously specified default for
-   * gui_gtk2_message_chat_location */
+  /* The effect of this migration:
+   *  - If there's no rc-file, we don't reach this code at all;
+   *  - An existing 2.3-or-later rc-file will almost certainly have a
+   *    setting for the new option name, that will be read later and
+   *    override this calculation, which will thus have no effect;
+   *  - An existing pre-2.3 rc-file will use this migration to
+   *    override the gui_gtk2_message_chat_location option's hardcoded
+   *    default with the old user options;
+   *  - If an rc-file exists but is so old as to pre-date the existence
+   *    of these 'old' options, then the 'FALSE' default(s) here will
+   *    take effect, overriding the hardcoded default. (If the rc-file
+   *    pre-dates the options mentioned, it most likely pre-dates the
+   *    behaviour too, so this is usually the right answer.) */
   /* gtk3 client never had the old form of this option. The overridden
    * gui_gtk2_ value will be propagated to gui_gtk3_ later by
    * migrate_options_from_gtk2() if necessary. */
