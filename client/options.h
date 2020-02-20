@@ -218,7 +218,6 @@ struct client_options
   bool gui_gtk2_show_message_window_buttons;
   bool gui_gtk2_metaserver_tab_first;
   bool gui_gtk2_allied_chat_only;
-  int gui_gtk2_message_chat_location; /* enum GUI_GTK_MSGCHAT_* */
   bool gui_gtk2_mouse_over_map_focus;
   bool gui_gtk2_chatline_autocompletion;
   int gui_gtk2_citydlg_xsize;

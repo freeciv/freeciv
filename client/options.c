@@ -208,7 +208,6 @@ struct client_options gui_options = {
   .gui_gtk2_show_message_window_buttons = TRUE,
   .gui_gtk2_metaserver_tab_first = FALSE,
   .gui_gtk2_allied_chat_only = FALSE,
-  .gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
   .gui_gtk2_mouse_over_map_focus = FALSE,
   .gui_gtk2_chatline_autocompletion = TRUE,
   .gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
@@ -240,7 +239,7 @@ struct client_options gui_options = {
   .gui_gtk3_show_message_window_buttons = TRUE,
   .gui_gtk3_metaserver_tab_first = FALSE,
   .gui_gtk3_allied_chat_only = FALSE,
-  .gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
+  .gui_gtk3_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE,
   .gui_gtk3_small_display_layout = FALSE,
   .gui_gtk3_mouse_over_map_focus = FALSE,
   .gui_gtk3_chatline_autocompletion = TRUE,
@@ -275,7 +274,7 @@ struct client_options gui_options = {
   .gui_gtk3_22_show_message_window_buttons = TRUE,
   .gui_gtk3_22_metaserver_tab_first = FALSE,
   .gui_gtk3_22_allied_chat_only = FALSE,
-  .gui_gtk3_22_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
+  .gui_gtk3_22_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE,
   .gui_gtk3_22_small_display_layout = FALSE,
   .gui_gtk3_22_mouse_over_map_focus = FALSE,
   .gui_gtk3_22_chatline_autocompletion = TRUE,
@@ -310,7 +309,7 @@ struct client_options gui_options = {
   .gui_gtk4_show_message_window_buttons = TRUE,
   .gui_gtk4_metaserver_tab_first = FALSE,
   .gui_gtk4_allied_chat_only = FALSE,
-  .gui_gtk4_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
+  .gui_gtk4_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE,
   .gui_gtk4_small_display_layout = FALSE,
   .gui_gtk4_mouse_over_map_focus = FALSE,
   .gui_gtk4_chatline_autocompletion = TRUE,
@@ -2427,10 +2426,6 @@ static struct client_option client_options[] = {
                   COC_NETWORK, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_allied_chat_only, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
-  GEN_ENUM_OPTION(gui_gtk2_message_chat_location, NULL, NULL,
-                  COC_INTERFACE, GUI_GTK2,
-                  GUI_GTK_MSGCHAT_MERGED,
-                  gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion, NULL, NULL,
@@ -2583,7 +2578,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3,
-                  GUI_GTK_MSGCHAT_MERGED,
+                  GUI_GTK_MSGCHAT_SEPARATE,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk3_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -2804,7 +2799,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3_22,
-                  GUI_GTK_MSGCHAT_MERGED,
+                  GUI_GTK_MSGCHAT_SEPARATE,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk3_22_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -3025,7 +3020,7 @@ static struct client_option client_options[] = {
                      "allows a larger map view on small screens.\n"
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK3x,
-                  GUI_GTK_MSGCHAT_MERGED,
+                  GUI_GTK_MSGCHAT_SEPARATE,
                   gui_gtk_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk4_small_display_layout,
                   N_("Arrange widgets for small displays"),
@@ -5965,34 +5960,6 @@ void options_load(void)
 
   /* Backwards compatibility for removed options replaced by entirely "new"
    * options. The equivalent "new" option will override these, if set. */
-
-  /* Removed in 2.3 */
-  /* The effect of this migration:
-   *  - If there's no rc-file, we don't reach this code at all;
-   *  - An existing 2.3-or-later rc-file will almost certainly have a
-   *    setting for the new option name, that will be read later and
-   *    override this calculation, which will thus have no effect;
-   *  - An existing pre-2.3 rc-file will use this migration to
-   *    override the gui_gtk2_message_chat_location option's hardcoded
-   *    default with the old user options;
-   *  - If an rc-file exists but is so old as to pre-date the existence
-   *    of these 'old' options, then the 'FALSE' default(s) here will
-   *    take effect, overriding the hardcoded default. (If the rc-file
-   *    pre-dates the options mentioned, it most likely pre-dates the
-   *    behaviour too, so this is usually the right answer.) */
-  /* gtk3 client never had the old form of this option. The overridden
-   * gui_gtk2_ value will be propagated to gui_gtk3_ later by
-   * migrate_options_from_gtk2() if necessary. */
-  if (secfile_lookup_bool_default(sf, FALSE,
-                                  "%s.gui_gtk2_merge_notebooks", prefix)) {
-    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED;
-  } else if (secfile_lookup_bool_default(sf, FALSE,
-                                         "%s.gui_gtk2_split_bottom_notebook",
-                                         prefix)) {
-    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SPLIT;
-  } else {
-    gui_options.gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_SEPARATE;
-  }
 
   /* Renamed in 2.6 */
   gui_options.popup_actor_arrival = secfile_lookup_bool_default(sf, TRUE,
