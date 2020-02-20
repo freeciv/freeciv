@@ -195,9 +195,9 @@ struct client_options gui_options = {
   .zoom_set = FALSE,
   .zoom_default_level = 1.0,
 
-/* gui-gtk-2.0 client specific options. */
+/* gui-gtk-2.0 client specific options.
+ * These are still kept just so users can migrate them to gtk3-client */
   .gui_gtk2_default_theme_name = FC_GTK2_DEFAULT_THEME_NAME,
-  .gui_gtk2_fullscreen = FALSE,
   .gui_gtk2_map_scrollbars = FALSE,
   .gui_gtk2_dialogs_on_top = TRUE,
   .gui_gtk2_show_task_icons = TRUE,
@@ -209,7 +209,6 @@ struct client_options gui_options = {
   .gui_gtk2_metaserver_tab_first = FALSE,
   .gui_gtk2_allied_chat_only = FALSE,
   .gui_gtk2_message_chat_location = GUI_GTK_MSGCHAT_MERGED,
-  .gui_gtk2_small_display_layout = FALSE,
   .gui_gtk2_mouse_over_map_focus = FALSE,
   .gui_gtk2_chatline_autocompletion = TRUE,
   .gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
@@ -2407,8 +2406,6 @@ static struct client_option client_options[] = {
 
   /* gui-gtk-2.0 client specific options.
    * These are still kept just so users can migrate them to gtk3-client */
-  GEN_BOOL_OPTION(gui_gtk2_fullscreen, NULL, NULL,
-                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_dialogs_on_top, NULL, NULL,
@@ -2434,8 +2431,6 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_GTK2,
                   GUI_GTK_MSGCHAT_MERGED,
                   gui_gtk_message_chat_location_name, NULL),
-  GEN_BOOL_OPTION(gui_gtk2_small_display_layout, NULL, NULL,
-                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion, NULL, NULL,
