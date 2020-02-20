@@ -1676,11 +1676,11 @@ static void migrate_options_from_gtk2(void)
           sizeof(gui_options.gui_gtk3_##opt));
 
   /* Default theme name is never migrated */
-  /* 'fullscreen' and 'small_display_layout' not migrated, as
-   * (unlike Gtk2), Gtk3-client tries to pick better defaults for
-   * these in fresh installations based on screen size (see
+  /* 'fullscreen', 'small_display_layout', and 'message_chat_location'
+   * not migrated, as (unlike Gtk2), Gtk3-client tries to pick better
+   * defaults for these in fresh installations based on screen size (see
    * adjust_default_options()); so user is probably better served by
-   * getting this adaptive default than whatever they had for Gtk2.
+   * getting these adaptive defaults than whatever they had for Gtk2.
    * Since 'fullscreen' isn't migrated, we don't need to worry about
    * preserving gui_gtk2_migrated_from_2_5 either. */
   MIGRATE_OPTION(map_scrollbars);
@@ -1692,7 +1692,6 @@ static void migrate_options_from_gtk2(void)
   MIGRATE_OPTION(show_message_window_buttons);
   MIGRATE_OPTION(metaserver_tab_first);
   MIGRATE_OPTION(allied_chat_only);
-  MIGRATE_OPTION(message_chat_location);
   MIGRATE_OPTION(mouse_over_map_focus);
   MIGRATE_OPTION(chatline_autocompletion);
   MIGRATE_OPTION(citydlg_xsize);
@@ -2501,6 +2500,8 @@ static void adjust_default_options(void)
       /* This is a small display */
       log_verbose("Defaulting to small widget layout due to small screen");
       GUI_GTK_OPTION(small_display_layout) = TRUE;
+      log_verbose("Defaulting to merged messages/chat due to small screen");
+      GUI_GTK_OPTION(message_chat_location) = GUI_GTK_MSGCHAT_MERGED;
     }
   }
 }
