@@ -4741,7 +4741,7 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   for (i = 0; i < length; i++) {
-    if (packet->orders[i] < 0 || packet->orders[i] > ORDER_LAST) {
+    if (packet->orders[i] > ORDER_LAST) {
       log_error("%s() %s (player nb %d) has sent an invalid order %d "
                 "at index %d, truncating", __FUNCTION__,
                 player_name(pplayer), player_number(pplayer),

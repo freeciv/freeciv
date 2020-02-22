@@ -121,7 +121,7 @@ enum trade_route_type cities_trade_route_type(const struct city *pcity1,
 *************************************************************************/
 int trade_route_type_trade_pct(enum trade_route_type type)
 {
-  if (type < 0 || type >= TRT_LAST) {
+  if (type >= TRT_LAST) {
     return 0;
   }
 

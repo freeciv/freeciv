@@ -503,7 +503,7 @@ static bool is_real_activity(enum unit_activity activity)
 {
   /* ACTIVITY_FORTRESS, ACTIVITY_AIRBASE, ACTIVITY_OLD_ROAD, and
    * ACTIVITY_OLD_RAILROAD are deprecated */
-  return (0 <= activity && activity < ACTIVITY_LAST)
+  return (activity < ACTIVITY_LAST)
           && activity != ACTIVITY_FORTRESS
           && activity != ACTIVITY_AIRBASE
           && activity != ACTIVITY_OLD_ROAD
