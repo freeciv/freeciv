@@ -234,6 +234,7 @@ struct gui_layer *add_gui_layer(int width, int height);
 void remove_gui_layer(struct gui_layer *gui_layer);
 
 void screen_rect_to_layer_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect);
+void layer_rect_to_screen_rect(struct gui_layer *gui_layer, SDL_Rect *dest_rect);
 
 /* ---------- */
 
