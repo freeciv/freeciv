@@ -166,8 +166,8 @@ void remove_gui_layer(struct gui_layer *gui_layer)
   }
 }
 
-/**************************************************************************
-  Adjust dest_rect according to gui_layer.
+/**********************************************************************//**
+  Translate dest_rect from global screen to gui_layer's coordinates.
 **************************************************************************/
 void screen_rect_to_layer_rect(struct gui_layer *gui_layer,
                                SDL_Rect *dest_rect)
@@ -175,6 +175,18 @@ void screen_rect_to_layer_rect(struct gui_layer *gui_layer,
   if (gui_layer) {
     dest_rect->x = dest_rect->x - gui_layer->dest_rect.x;
     dest_rect->y = dest_rect->y - gui_layer->dest_rect.y;
+  }
+}
+
+/**********************************************************************//**
+  Translate dest_rect from gui_layer's to global screen coordinates.
+**************************************************************************/
+void layer_rect_to_screen_rect(struct gui_layer *gui_layer,
+                               SDL_Rect *dest_rect)
+{
+  if (gui_layer) {
+    dest_rect->x = dest_rect->x + gui_layer->dest_rect.x;
+    dest_rect->y = dest_rect->y + gui_layer->dest_rect.y;
   }
 }
 
