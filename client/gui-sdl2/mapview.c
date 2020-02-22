@@ -316,11 +316,13 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(sol));
   widget_redraw(pBuf);
+  widget_mark_dirty(pBuf);
 
   pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
   FREESURFACE(pBuf->theme);
   pBuf->theme = adj_surf(GET_SURF(flake));
   widget_redraw(pBuf);
+  widget_mark_dirty(pBuf);
 
   pBuf = get_revolution_widget();
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);
