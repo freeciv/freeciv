@@ -143,9 +143,12 @@ struct widget {
   Uint32 state_types_flags;	/* "packed" widget info */
 
   SDL_Rect size;		/* size.w and size.h are the size of widget   
-				   size.x and size.y are the draw pozitions. */
+				   size.x and size.y are the draw positions
+				   (relative to dst) */
   
-  SDL_Rect area;                /* position and size of the area the widget resides in */
+  SDL_Rect area;                /* position (relative to dst) and size of the
+                                   area the widget resides in (or, for
+                                   WT_WINDOW, the client area inside it) */
   
   SDLKey key;			/* key alliased with this widget */
   Uint16 mod;			/* SHIFT, CTRL, ALT, etc */

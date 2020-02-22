@@ -216,9 +216,12 @@ struct main {
 extern struct main Main;
 
 /* GUI layer */
+/* A gui_layer is a surface with its own origin. Each widget belongs
+ * to a gui_layer. gui_layers are stored in an array Main.guis
+ * (a "window manager"). */
 
 struct gui_layer {
-  SDL_Rect dest_rect;  /* only x and y are used */
+  SDL_Rect dest_rect;  /* origin: only x and y are used */
   SDL_Surface *surface;
 };
 
