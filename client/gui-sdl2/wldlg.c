@@ -968,10 +968,12 @@ static void refresh_production_label(int stock)
   pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->area.x +
     (adj_size(130) - pEditor->pProduction_Name->size.w)/2;
 
-  area.x = pEditor->pEndWidgetList->area.x;
+  /* Can't just widget_mark_dirty(), as it may have reduced in size */
+  area.x = pEditor->pEndWidgetList->area.x;  /* left edge of client area */
   area.y = pEditor->pProduction_Name->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pProduction_Name->size.h;
+  layer_rect_to_screen_rect(pEditor->pEndWidgetList->dst, &area);
 
   if (get_wflags(pEditor->pProduction_Name) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pEditor->pProduction_Name);
@@ -1026,10 +1028,12 @@ static void refresh_worklist_count_label(void)
 
   widget_redraw(pEditor->pWorkList_Counter);
 
-  area.x = pEditor->pEndWidgetList->area.x;
+  /* Can't just widget_mark_dirty(), as it may have reduced in size */
+  area.x = pEditor->pEndWidgetList->area.x;  /* left edge of client area */
   area.y = pEditor->pWorkList_Counter->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pWorkList_Counter->size.h;
+  layer_rect_to_screen_rect(pEditor->pEndWidgetList->dst, &area);
   dirty_sdl_rect(&area);
 }
 
