@@ -4717,7 +4717,7 @@ property_page_new(enum editor_object_type objtype,
   const char *attr_type_str, *name, *tooltip;
   gchar *title;
 
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
+  if (!(objtype < NUM_OBJTYPES)) {
     return NULL;
   }
 
@@ -6091,7 +6091,7 @@ static bool property_editor_add_page(struct property_editor *pe,
     return FALSE;
   }
 
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
+  if (!(objtype < NUM_OBJTYPES)) {
     return FALSE;
   }
 
@@ -6117,7 +6117,7 @@ static struct property_page *
 property_editor_get_page(struct property_editor *pe,
                          enum editor_object_type objtype)
 {
-  if (!pe || !(0 <= objtype && objtype < NUM_OBJTYPES)) {
+  if (!pe || !(objtype < NUM_OBJTYPES)) {
     return NULL;
   }
 
@@ -6227,7 +6227,7 @@ void property_editor_popup(struct property_editor *pe,
   gtk_widget_show_all(pe->widget);
 
   gtk_window_present(GTK_WINDOW(pe->widget));
-  if (0 <= objtype && objtype < NUM_OBJTYPES) {
+  if (objtype < NUM_OBJTYPES) {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pe->notebook), objtype);
   }
 }
@@ -6258,7 +6258,7 @@ void property_editor_handle_object_changed(struct property_editor *pe,
     return;
   }
 
-  if (!(0 <= objtype && objtype < NUM_OBJTYPES)) {
+  if (!(objtype < NUM_OBJTYPES)) {
     return;
   }
 

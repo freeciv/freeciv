@@ -153,7 +153,7 @@ static void tool_init(enum editor_tool_type ett, const char *name,
 {
   struct editor_tool *tool;
 
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
 
@@ -273,7 +273,7 @@ void editor_set_tool(enum editor_tool_type ett)
     return;
   }
 
-  if (!(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
 
@@ -298,8 +298,8 @@ enum editor_tool_type editor_get_tool(void)
 void editor_tool_set_mode(enum editor_tool_type ett,
                           enum editor_tool_mode etm)
 {
-  if (editor == NULL || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)
-      || !(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)
+  if (editor == NULL || !(ett < NUM_EDITOR_TOOL_TYPES)
+      || !(etm < NUM_EDITOR_TOOL_MODES)
       || !editor_tool_has_mode(ett, etm)) {
     return;
   }
@@ -313,8 +313,8 @@ void editor_tool_set_mode(enum editor_tool_type ett,
 bool editor_tool_has_mode(enum editor_tool_type ett,
                           enum editor_tool_mode etm)
 {
-  if (editor == NULL || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)
-      || !(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)) {
+  if (editor == NULL || !(ett < NUM_EDITOR_TOOL_TYPES)
+      || !(etm < NUM_EDITOR_TOOL_MODES)) {
     return FALSE;
   }
 
@@ -334,7 +334,7 @@ bool editor_tool_has_mode(enum editor_tool_type ett,
 ****************************************************************************/
 enum editor_tool_mode editor_tool_get_mode(enum editor_tool_type ett)
 {
-  if (editor == NULL || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (editor == NULL || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return NUM_EDITOR_TOOL_MODES;
   }
   return editor->tools[ett].mode;
@@ -358,7 +358,7 @@ bool editor_is_active(void)
 ****************************************************************************/
 bool editor_tool_is_usable(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
 
@@ -384,7 +384,7 @@ bool editor_tool_is_usable(enum editor_tool_type ett)
 ****************************************************************************/
 bool editor_tool_has_value(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_VALUE;
@@ -396,7 +396,7 @@ bool editor_tool_has_value(enum editor_tool_type ett)
 ****************************************************************************/
 void editor_tool_set_value(enum editor_tool_type ett, int value)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)
       || !editor_tool_has_value(ett)) {
     return;
   }
@@ -408,7 +408,7 @@ void editor_tool_set_value(enum editor_tool_type ett, int value)
 ****************************************************************************/
 int editor_tool_get_value(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)
       || !editor_tool_has_value(ett)) {
     return 0;
   }
@@ -1158,7 +1158,7 @@ void editor_apply_tool_to_selection(void)
 ****************************************************************************/
 const char *editor_tool_get_name(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return "";
   }
 
@@ -1206,7 +1206,7 @@ const char *editor_tool_get_value_name(enum editor_tool_type emt, int value)
 ****************************************************************************/
 bool editor_tool_has_size(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_SIZE;
@@ -1217,7 +1217,7 @@ bool editor_tool_has_size(enum editor_tool_type ett)
 ****************************************************************************/
 int editor_tool_get_size(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return 1;
   }
   return editor->tools[ett].size;
@@ -1228,7 +1228,7 @@ int editor_tool_get_size(enum editor_tool_type ett)
 ****************************************************************************/
 void editor_tool_set_size(enum editor_tool_type ett, int size)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
   editor->tools[ett].size = MAX(1, size);
@@ -1240,7 +1240,7 @@ void editor_tool_set_size(enum editor_tool_type ett, int size)
 ****************************************************************************/
 bool editor_tool_has_count(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_COUNT;
@@ -1251,7 +1251,7 @@ bool editor_tool_has_count(enum editor_tool_type ett)
 ****************************************************************************/
 int editor_tool_get_count(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return 1;
   }
   return editor->tools[ett].count;
@@ -1262,7 +1262,7 @@ int editor_tool_get_count(enum editor_tool_type ett)
 ****************************************************************************/
 void editor_tool_set_count(enum editor_tool_type ett, int count)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
   editor->tools[ett].count = MAX(1, count);
@@ -1276,7 +1276,7 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
 {
   const struct editor_sprites *sprites;
 
-  if (!tileset || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!tileset || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return NULL;
   }
 
@@ -1326,7 +1326,7 @@ struct sprite *editor_tool_get_sprite(enum editor_tool_type ett)
 ****************************************************************************/
 const char *editor_tool_get_tooltip(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)
       || !editor->tools[ett].tooltip) {
     return "";
   }
@@ -1340,7 +1340,7 @@ const char *editor_tool_get_tooltip(enum editor_tool_type ett)
 ****************************************************************************/
 int editor_tool_get_applied_player(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return -1;
   }
   return editor->tools[ett].applied_player_no;
@@ -1352,7 +1352,7 @@ int editor_tool_get_applied_player(enum editor_tool_type ett)
 void editor_tool_set_applied_player(enum editor_tool_type ett,
                                     int player_no)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
   editor->tools[ett].applied_player_no = player_no;
@@ -1364,7 +1364,7 @@ void editor_tool_set_applied_player(enum editor_tool_type ett,
 ****************************************************************************/
 bool editor_tool_has_applied_player(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_APPLIED_PLAYER;
@@ -1376,7 +1376,7 @@ bool editor_tool_has_applied_player(enum editor_tool_type ett)
 ****************************************************************************/
 bool editor_tool_has_value_erase(enum editor_tool_type ett)
 {
-  if (!editor || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!editor || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
   return editor->tools[ett].flags & ETF_HAS_VALUE_ERASE;

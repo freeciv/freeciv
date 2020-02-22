@@ -137,7 +137,7 @@ static void refresh_all_buttons(struct editbar *eb)
     gtk_widget_set_sensitive(tb, editor_tool_has_mode(ett, i));
   }
 
-  if (0 <= ett && ett < NUM_EDITOR_TOOL_TYPES
+  if (ett < NUM_EDITOR_TOOL_TYPES
       && eb->tool_buttons[ett] != NULL) {
     tb = eb->tool_buttons[ett];
     disable_gobject_callback(G_OBJECT(tb),
@@ -159,7 +159,7 @@ static void editbar_mode_button_toggled(GtkToggleButton *tb,
   enum editor_tool_type ett;
 
   etm = GPOINTER_TO_INT(userdata);
-  if (!(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)) {
+  if (!(etm < NUM_EDITOR_TOOL_MODES)) {
     return;
   }
 
@@ -176,7 +176,7 @@ static void editbar_mode_button_toggled(GtkToggleButton *tb,
 ****************************************************************************/
 static void try_to_set_editor_tool(enum editor_tool_type ett)
 {
-  if (!(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
 
@@ -360,7 +360,7 @@ static bool editgui_run_tool_selection(enum editor_tool_type ett)
   int res = -1;
   
   eb = editgui_get_editbar();
-  if (eb == NULL || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (eb == NULL || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return FALSE;
   }
 
@@ -413,7 +413,7 @@ static void editbar_add_tool_button(struct editbar *eb,
   struct sprite *sprite;
   int i;
 
-  if (!eb || !(0 <= ett && ett < NUM_EDITOR_TOOL_TYPES)) {
+  if (!eb || !(ett < NUM_EDITOR_TOOL_TYPES)) {
     return;
   }
 
@@ -483,7 +483,7 @@ static void editbar_add_mode_button(struct editbar *eb,
   struct sprite *sprite;
   const char *tooltip;
 
-  if (!eb || !(0 <= etm && etm < NUM_EDITOR_TOOL_MODES)) {
+  if (!eb || !(etm < NUM_EDITOR_TOOL_MODES)) {
     return;
   }
 

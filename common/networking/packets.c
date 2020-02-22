@@ -514,8 +514,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
   dio_get_type_raw(&din, pc->packet_header.type, &utype.itype);
   utype.type = utype.itype;
 
-  if (utype.type < 0
-      || utype.type >= PACKET_LAST
+  if (utype.type >= PACKET_LAST
       || (receive_handler = pc->phs.handlers->receive[utype.type]) == NULL) {
     log_verbose("Received unsupported packet type %d (%s). The connection "
                 "will be closed now.",

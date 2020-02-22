@@ -335,8 +335,7 @@ static inline bool SPECENUM_FOO(_is_valid)(enum SPECENUM_NAME enumerator)
   FC_STATIC_ASSERT(ARRAY_SIZE(valid) == SPECENUM_SIZE,
                    valid_array_size_check);
 
-  return (enumerator >= 0
-          && enumerator < ARRAY_SIZE(valid)
+  return (enumerator < ARRAY_SIZE(valid)
           && valid[enumerator]);
 #endif /* SPECENUM_BITWISE */
 }
@@ -481,7 +480,7 @@ static inline const char *SPECENUM_FOO(_name)(enum SPECENUM_NAME enumerator)
     }
   }
 #else
-  if (enumerator >= 0 && enumerator < ARRAY_SIZE(names)) {
+  if (enumerator < ARRAY_SIZE(names)) {
     return names[enumerator];
   }
 #endif /* SPECENUM_BITWISE */
@@ -588,7 +587,7 @@ SPECENUM_FOO(_translated_name)(enum SPECENUM_NAME enumerator)
     }
   }
 #else
-  if (enumerator >= 0 && enumerator < ARRAY_SIZE(names)) {
+  if (enumerator < ARRAY_SIZE(names)) {
     return names[enumerator];
   }
 #endif /* SPECENUM_BITWISE */

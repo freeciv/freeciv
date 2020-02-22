@@ -940,7 +940,7 @@ int num_present_units_in_city(struct city *pcity)
   Handles a chat or event message.
 **************************************************************************/
 void handle_event(const char *featured_text, struct tile *ptile,
-                  enum event_type event, int turn, int phase, int conn_id)
+		  enum event_type event, int turn, int phase, int conn_id)
 {
   char plain_text[MAX_LEN_MSG];
   struct text_tag_list *tags;
@@ -952,13 +952,13 @@ void handle_event(const char *featured_text, struct tile *ptile,
   if (!event_type_is_valid(event))  {
     /* Server may have added a new event; leave as MW_OUTPUT */
     log_verbose("Unknown event type %d!", event);
-  } else if (event >= 0)  {
+  } else {
     where = messages_where[event];
   }
 
   /* Get the original text. */
   featured_text_to_plain_text(featured_text, plain_text,
-                              sizeof(plain_text), &tags, conn_id != -1);
+			      sizeof(plain_text), &tags, conn_id != -1);
 
   /* Display link marks when an user is pointed us something. */
   if (conn_id != -1) {
