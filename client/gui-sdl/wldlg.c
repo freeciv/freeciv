@@ -982,17 +982,15 @@ static void refresh_worklist_count_label(void)
 {
   char cBuf[64];
   SDL_Rect area;
-  int external_entries;
+  int len = worklist_length(&pEditor->worklist_copy);
 
   if (pEditor->pCity != NULL) {
-    external_entries = 1; /* Current production */
-  } else {
-    external_entries = 0;
+    len += 1;  /* External entry from current production */
   }
 
-  /* TRANS: length of worklist */
-  fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
-              worklist_length(&pEditor->worklist_copy) + external_entries);
+  fc_snprintf(cBuf, sizeof(cBuf),
+              /* TRANS: length of worklist */
+              PL_("( %d entry )", "( %d entries )", len), len);
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
   widget_undraw(pEditor->pWorkList_Counter);
@@ -1044,7 +1042,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   bool advanced_tech;
   bool can_build, can_eventually_build;
   SDL_Rect area;
-  int external_entries;
+  int len;
 
   if (pEditor) {
     return;
@@ -1070,6 +1068,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     return;
   }
 
+  len = worklist_length(&pEditor->worklist_copy);
   advanced_tech = (pCity == NULL);
 
   /* --------------- */
@@ -1094,10 +1093,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   /* ---------------- */
   if (pCity) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name_get(pCity));
-    external_entries = 1; /* Current production */
+    len += 1;  /* External entry from current production */
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(gwl));
-    external_entries = 0;
   }
 
   pStr = create_str16_from_char(cBuf, adj_font(12));
@@ -1108,9 +1106,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
 
-  /* TRANS: length of worklist */
-  fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
-              worklist_length(&pEditor->worklist_copy) + external_entries);
+  fc_snprintf(cBuf, sizeof(cBuf),
+              /* TRANS: length of worklist */
+              PL_("( %d entry )", "( %d entries )", len), len);
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
@@ -1740,7 +1738,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   
   /* worklist */
   /* pEditor->pWork->pScroll->count: including production */
-  if (pCity || (worklist_length(&pEditor->worklist_copy) > 0)) {
+  if (len > 0) {
     /* FIXME */
     setup_vertical_widgets_position(1,
       area.x + adj_size(2), area.y + adj_size(152)/* +
