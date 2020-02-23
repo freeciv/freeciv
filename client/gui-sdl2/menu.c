@@ -790,7 +790,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Transform Tile */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Transform Tile"), "O");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OTransform_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -803,7 +804,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Mine */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Mine"), "M");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OMine_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -817,7 +819,8 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build Irrigation */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Irrigation"), "I");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OIrrigation_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -831,8 +834,8 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Establish Trade route */
-  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_id_name_translation(ACTION_TRADE_ROUTE), "R");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OTrade_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -846,20 +849,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build (Rail-)Road */
-  /* TRANS: "Build Road (R) 999 turns" */
-  if (proad != NULL) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                extra_name_translation(road_extra_get(proad)), "R", 999,
-                PL_("turn", "turns", 999));
-  } else if (prail != NULL) {
-    /* TRANS: "Build Railroad (R) 999 turns" */
-    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                extra_name_translation(road_extra_get(prail)), "R", 999,
-                PL_("turn", "turns", 999));
-  } else {
-    cBuf[0] = '\0';
-  }
-
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->ORoad_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -886,11 +877,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Add to City / Build New City */
-  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_id_name_translation(ACTION_JOIN_CITY), "B");
-  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_id_name_translation(ACTION_FOUND_CITY), "B");
-
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OBuildCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
