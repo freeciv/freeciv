@@ -620,41 +620,32 @@ const char *get_infrastructure_text(bv_extras extras)
 }
 
 /****************************************************************************
-  Returns the highest-priority (best) infrastructure (man-made extra) to
-  be pillaged from the terrain set.  May return NULL if nothing
-  better is available.
+  Returns the highest-priority (best) extra to be pillaged from the
+  terrain set.  May return NULL if nothing is available.
 ****************************************************************************/
 struct extra_type *get_preferred_pillage(bv_extras extras)
 {
-  extra_type_by_cause_iterate_rev(EC_IRRIGATION, pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
-      return pextra;
-    }
-  } extra_type_by_cause_iterate_rev_end;
+  /* Semi-arbitrary preference order reflecting previous behavior */
+  static const enum extra_cause prefs[] = {
+    EC_IRRIGATION,
+    EC_MINE,
+    EC_BASE,
+    EC_ROAD,
+    EC_HUT,
+    EC_POLLUTION,
+    EC_FALLOUT,
+    EC_NONE
+  };
+  int i;
 
-  extra_type_by_cause_iterate_rev(EC_MINE, pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
-      return pextra;
-    }
-  } extra_type_by_cause_iterate_rev_end;
-
-  extra_type_by_cause_iterate_rev(EC_BASE, pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
-      return pextra;
-    }
-  } extra_type_by_cause_iterate_rev_end;
-
-  extra_type_by_cause_iterate_rev(EC_ROAD, pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
-      return pextra;
-    }
-  } extra_type_by_cause_iterate_rev_end;
-
-  extra_type_by_cause_iterate_rev(EC_NONE, pextra) {
-    if (is_extra_removed_by(pextra, ERM_PILLAGE) && BV_ISSET(extras, extra_index(pextra))) {
-      return pextra;
-    }
-  } extra_type_by_cause_iterate_rev_end;
+  for (i = 0; i < ARRAY_SIZE(prefs); i++) {
+    extra_type_by_cause_iterate_rev(prefs[i], pextra) {
+      if (is_extra_removed_by(pextra, ERM_PILLAGE)
+          && BV_ISSET(extras, extra_index(pextra))) {
+        return pextra;
+      }
+    } extra_type_by_cause_iterate_rev_end;
+  }
 
   return NULL;
 }
