@@ -396,8 +396,6 @@ void create_units_order_widgets(void)
 {
   struct widget *pBuf = NULL;
   char cBuf[128];
-  Uint16 *unibuf;  
-  size_t len = 0;
   struct road_type *proad;
   struct road_type *prail;
 
@@ -793,7 +791,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Transform Tile */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Transform Tile"), "O");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OTransform_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -806,7 +805,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Mine */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Mine"), "M");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OMine_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -820,22 +820,23 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Irrigation */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Irrigation"), "I");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OIrrigation_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->key = SDLK_i;
   pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->key = SDLK_i;
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, pBuf);
 
   pOrder_Irrigation_Button = pBuf;
   /* --------- */
 
-  /* Form Trade route */
-  fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
-              action_id_name_translation(ACTION_TRADE_ROUTE), "R");
+  /* Establish Trade route */
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OTrade_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -849,30 +850,14 @@ void create_units_order_widgets(void)
   /* --------- */    
 
   /* Build (Rail-)Road */
-  /* TRANS: "Build Railroad (R) 999 turns" */
-  if (prail != NULL) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                extra_name_translation(road_extra_get(prail)), "R", 999,
-                PL_("turn", "turns", 999));
-    len = strlen(cBuf);
-  }
-  /* TRANS: "Build Road (R) 999 turns" */
-  if (proad != NULL) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                extra_name_translation(road_extra_get(proad)), "R", 999,
-                PL_("turn", "turns", 999));
-    len = MAX(len, strlen(cBuf));
-  }
-
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->ORoad_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len = (len + 1) * sizeof(Uint16);
-  unibuf = fc_calloc(1, len);
-  convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_ROAD, pBuf);
 
@@ -893,20 +878,14 @@ void create_units_order_widgets(void)
   /* --------- */  
 
   /* Add to City / Build New City */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Add to City"), "B");
-  len = strlen(cBuf);
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build City"), "B");
-  len = MAX(len, strlen(cBuf));
-
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OBuildCity_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len = (len + 1) * sizeof(Uint16);
-  unibuf = fc_calloc(1, len);
-  convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, pBuf);
   
