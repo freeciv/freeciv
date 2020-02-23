@@ -1065,8 +1065,6 @@ void real_menus_update(void)
       struct city *pCity = tile_city(pTile);
       struct terrain *pTerrain = tile_terrain(pTile);
       struct base_type *pbase;
-      struct extra_type *pextra = next_extra_for_tile(pTile, EC_ROAD,
-                                                      unit_owner(pUnit), pUnit);
 
       if (!counter) {
 	local_show(ID_UNIT_ORDER_GOTO);
@@ -1100,11 +1098,14 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
-      if (pextra != NULL) {
+      if (can_unit_do_activity(pUnit, ACTIVITY_GEN_ROAD)) {
+        struct extra_type *pextra = next_extra_for_tile(pTile, EC_ROAD,
+                                                        unit_owner(pUnit),
+                                                        pUnit);
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
-        time = tile_activity_time(ACTIVITY_GEN_ROAD, pTile, road_extra_get(proad));
+        time = tile_activity_time(ACTIVITY_GEN_ROAD, pTile, pextra);
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1154,28 +1155,39 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
-        time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit), NULL);
+        if (is_build_activity(ACTIVITY_IRRIGATE, pTile)) {
+          /* Activity results in extra */
+          struct extra_type *pextra = next_extra_for_tile(pTile, EC_IRRIGATION,
+                                                          unit_owner(pUnit),
+                                                          pUnit);
 
-        if (!strcmp(terrain_rule_name(pTerrain), "Forest")
-            || !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
-          /* set Crop Forest Icon */
-          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-                      _("Cut Down to"),
-                      terrain_name_translation(pTerrain->irrigation_result),
-                      "I", time , PL_("turn", "turns", time));
-          pOrder_Irrigation_Button->theme = current_theme->OCutDownForest_Icon;
-        } else if (!strcmp(terrain_rule_name(pTerrain), "Swamp")) {
-          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-                      _("Irrigate to"),
-                      terrain_name_translation(pTerrain->irrigation_result),
-                      "I", time , PL_("turn", "turns", time));
-          pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
-        } else {
-          /* set Irrigation Icon */
-          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-                      _("Build Irrigation"), "I", time , 
+          time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit),
+                                    pextra);
+          /* TRANS: "Build Irrigation (I) 5 turns" */
+          fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                      extra_name_translation(pextra), "I", time,
                       PL_("turn", "turns", time));
           pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
+        } else {
+          /* Activity results in terrain change */
+          time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit), NULL);
+
+          /* FIXME: get rid of this ruleset-specific hardcoding */
+          if (!strcmp(terrain_rule_name(pTerrain), "Forest")
+              || !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
+            /* set Crop Forest Icon */
+            fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
+                        _("Cut Down to"),
+                        terrain_name_translation(pTerrain->irrigation_result),
+                        "I", time , PL_("turn", "turns", time));
+            pOrder_Irrigation_Button->theme = current_theme->OCutDownForest_Icon;
+          } else {
+            /* TRANS: "Change to Grassland (I) 10 turns" */
+            fc_snprintf(cBuf, sizeof(cBuf), _("Change to %s (%s) %d %s"),
+                        terrain_name_translation(pTerrain->irrigation_result),
+                        "I", time , PL_("turn", "turns", time));
+            pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
+          }
         }
 
         copy_chars_to_utf8_str(pOrder_Irrigation_Button->info_label, cBuf);
@@ -1185,32 +1197,41 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
-        time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), NULL);
+        if (is_build_activity(ACTIVITY_MINE, pTile)) {
+          /* Activity results in extra */
+          struct extra_type *pextra = next_extra_for_tile(pTile, EC_MINE,
+                                                          unit_owner(pUnit),
+                                                          pUnit);
 
-        /* FIXME: THIS CODE IS WRONG */
-        if (!strcmp(terrain_rule_name(pTerrain), "Forest")) {
-	  /* set Irrigate Icon -> make swamp */
-          fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-                      _("Irrigate to"),
-                      terrain_name_translation(pTerrain->mining_result),
-                      "M", time , PL_("turn", "turns", time));
-          pOrder_Mine_Button->theme = current_theme->OIrrigation_Icon;
-        } else if (!strcmp(terrain_rule_name(pTerrain), "Jungle")
-                   || !strcmp(terrain_rule_name(pTerrain), "Plains")
-                   || !strcmp(terrain_rule_name(pTerrain), "Grassland")
-                   || !strcmp(terrain_rule_name(pTerrain), "Swamp")) {
-          /* set Forest Icon -> plant Forrest*/
-          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-                      _("Plant Forest"), "M", time,
-                      PL_("turn", "turns", time));
-          pOrder_Mine_Button->theme = current_theme->OPlantForest_Icon;
-
-        } else {
-          /* set Mining Icon */
-          fc_snprintf(cBuf, sizeof(cBuf),"%s (%s) %d %s",
-                      _("Build Mine"), "M", time,
+          time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), pextra);
+          /* TRANS: "Build Mine (M) 5 turns" */
+          fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                      extra_name_translation(pextra), "M", time,
                       PL_("turn", "turns", time));
           pOrder_Mine_Button->theme = current_theme->OMine_Icon;
+        } else {
+          /* Activity results in terrain change */
+          time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), NULL);
+
+          /* FIXME: get rid of this ruleset-specific hardcoding */
+          if (!strcmp(terrain_rule_name(pTerrain->mining_result), "Forest")) {
+            /* set Forest Icon -> plant Forest */
+            fc_snprintf(cBuf, sizeof(cBuf), "%s (%s) %d %s",
+                        _("Plant Forest"), "M", time,
+                        PL_("turn", "turns", time));
+            pOrder_Mine_Button->theme = current_theme->OPlantForest_Icon;
+          } else {
+            /* TRANS: "Change to Swamp (M) 10 turns" */
+            fc_snprintf(cBuf, sizeof(cBuf), _("Change to %s (%s) %d %s"),
+                        terrain_name_translation(pTerrain->mining_result),
+                        "M", time , PL_("turn", "turns", time));
+            if (!strcmp(terrain_rule_name(pTerrain->mining_result), "Swamp")) {
+              /* set Irrigate Icon -> make swamp */
+              pOrder_Mine_Button->theme = current_theme->OIrrigation_Icon;
+            } else {
+              pOrder_Mine_Button->theme = current_theme->OPlantForest_Icon;
+            }
+          }
         }
 
         copy_chars_to_utf8_str(pOrder_Mine_Button->info_label, cBuf);
@@ -1220,6 +1241,7 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
+        /* Activity always results in terrain change */
         time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit), NULL);
         fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
                     _("Transform to"),
