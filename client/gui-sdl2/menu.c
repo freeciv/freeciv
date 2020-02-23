@@ -66,6 +66,10 @@ extern struct widget *pOptions_Button;
 static struct widget *pBeginOrderWidgetList;
 static struct widget *pEndOrderWidgetList;
 
+static struct widget *pOrder_Fallout_Button;
+static struct widget *pOrder_Pollution_Button;
+static struct widget *pOrder_Airbase_Button;
+static struct widget *pOrder_Fortress_Button;
 static struct widget *pOrder_Build_AddTo_City_Button;
 static struct widget *pOrder_Mine_Button;
 static struct widget *pOrder_Irrigation_Button;
@@ -714,7 +718,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Clean Nuclear Fallout */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Nuclear Fallout"), "N");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OFallout_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -722,6 +727,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_n;
+  pOrder_Fallout_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_FALLOUT, pBuf);
   /* --------- */
 
@@ -738,7 +744,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Clean Pollution */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Pollution"), "P");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OPollution_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -746,11 +753,13 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_p;
+  pOrder_Pollution_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_POLLUTION, pBuf);
   /* --------- */
 
   /* Build Airbase */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Airbase"), "Shift+E");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OAirBase_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -759,6 +768,7 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_e;
   pBuf->mod = KMOD_SHIFT;
+  pOrder_Airbase_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_AIRBASE, pBuf);
   /* --------- */
 
@@ -775,7 +785,8 @@ void create_units_order_widgets(void)
   /* --------- */
 
   /* Build Fortress */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Fortress"), "Shift+F");
+  /* Label will be replaced by real_menus_update() before it's seen */
+  fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
   pBuf = create_themeicon(current_theme->OFortress_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
@@ -784,6 +795,7 @@ void create_units_order_widgets(void)
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_f;
   pBuf->mod = KMOD_SHIFT;
+  pOrder_Fortress_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_FORTRESS, pBuf);
   /* --------- */
 
@@ -1235,11 +1247,19 @@ void real_menus_update(void)
         set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, unit_tile(pUnit));
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, pTile);
       if (pbase != NULL) {
-        local_show(ID_UNIT_ORDER_FORTRESS);
+        struct extra_type *pextra = base_extra_get(pbase);
+
+        time = turns_to_activity_done(pTile, ACTIVITY_BASE, pextra, pUnit);
+        /* TRANS: "Build Fortress (Shift+F) 5 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                    extra_name_translation(pextra), "Shift+F", time,
+                    PL_("turn", "turns", time));
+        copy_chars_to_utf8_str(pOrder_Fortress_Button->info_label, cBuf);
+        clear_wflag(pOrder_Fortress_Button, WF_HIDDEN);
       } else {
-        local_hide(ID_UNIT_ORDER_FORTRESS);
+        set_wflag(pOrder_Fortress_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
@@ -1248,17 +1268,37 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, unit_tile(pUnit));
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, pTile);
       if (pbase != NULL) {
-        local_show(ID_UNIT_ORDER_AIRBASE);
+        struct extra_type *pextra = base_extra_get(pbase);
+
+        time = turns_to_activity_done(pTile, ACTIVITY_BASE, pextra, pUnit);
+        /* TRANS: "Build Airbase (Shift+E) 5 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                    extra_name_translation(pextra), "Shift+E", time,
+                    PL_("turn", "turns", time));
+        copy_chars_to_utf8_str(pOrder_Airbase_Button->info_label, cBuf);
+        clear_wflag(pOrder_Airbase_Button, WF_HIDDEN);
       } else {
-        local_hide(ID_UNIT_ORDER_AIRBASE);
+        set_wflag(pOrder_Airbase_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_POLLUTION)) {
-        local_show(ID_UNIT_ORDER_POLLUTION);
+        struct extra_type *pextra = prev_extra_in_tile(pTile,
+                                                       ERM_CLEANPOLLUTION,
+                                                       unit_owner(pUnit),
+                                                       pUnit);
+
+        time = turns_to_activity_done(pTile, ACTIVITY_POLLUTION, pextra,
+                                      pUnit);
+        /* TRANS: "Clean Pollution (P) 3 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
+                    extra_name_translation(pextra), "P", time,
+                    PL_("turn", "turns", time));
+        copy_chars_to_utf8_str(pOrder_Pollution_Button->info_label, cBuf);
+        clear_wflag(pOrder_Pollution_Button, WF_HIDDEN);
       } else {
-        local_hide(ID_UNIT_ORDER_POLLUTION);
+        set_wflag(pOrder_Pollution_Button, WF_HIDDEN);
       }
 
       if (can_unit_paradrop(pUnit)) {
@@ -1268,9 +1308,21 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_FALLOUT)) {
-        local_show(ID_UNIT_ORDER_FALLOUT);
+        struct extra_type *pextra = prev_extra_in_tile(pTile,
+                                                       ERM_CLEANFALLOUT,
+                                                       unit_owner(pUnit),
+                                                       pUnit);
+
+        time = turns_to_activity_done(pTile, ACTIVITY_FALLOUT, pextra,
+                                      pUnit);
+        /* TRANS: "Clean Fallout (N) 3 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
+                    extra_name_translation(pextra), "N", time,
+                    PL_("turn", "turns", time));
+        copy_chars_to_utf8_str(pOrder_Fallout_Button->info_label, cBuf);
+        clear_wflag(pOrder_Fallout_Button, WF_HIDDEN);
       } else {
-        local_hide(ID_UNIT_ORDER_FALLOUT);
+        set_wflag(pOrder_Fallout_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
