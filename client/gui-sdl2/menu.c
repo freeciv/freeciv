@@ -35,6 +35,7 @@
 #include "log.h"
 
 /* common */
+#include "clientutils.h"
 #include "game.h"
 #include "road.h"
 #include "traderoutes.h"
@@ -1099,7 +1100,7 @@ void real_menus_update(void)
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
-        time = tile_activity_time(ACTIVITY_GEN_ROAD, pTile, pextra);
+        time = turns_to_activity_done(pTile, ACTIVITY_GEN_ROAD, pextra, pUnit);
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1154,8 +1155,8 @@ void real_menus_update(void)
                                                           unit_owner(pUnit),
                                                           pUnit);
 
-          time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit),
-                                    pextra);
+          time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
+                                        pextra, pUnit);
           /* TRANS: "Build Irrigation (I) 5 turns" */
           fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                       extra_name_translation(pextra), "I", time,
@@ -1163,7 +1164,8 @@ void real_menus_update(void)
           pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
         } else {
           /* Activity results in terrain change */
-          time = tile_activity_time(ACTIVITY_IRRIGATE, unit_tile(pUnit), NULL);
+          time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
+                                        NULL, pUnit);
 
           /* FIXME: get rid of this ruleset-specific hardcoding */
           if (!strcmp(terrain_rule_name(pTerrain), "Forest")
@@ -1196,7 +1198,7 @@ void real_menus_update(void)
                                                           unit_owner(pUnit),
                                                           pUnit);
 
-          time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), pextra);
+          time = turns_to_activity_done(pTile, ACTIVITY_MINE, pextra, pUnit);
           /* TRANS: "Build Mine (M) 5 turns" */
           fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                       extra_name_translation(pextra), "M", time,
@@ -1204,7 +1206,7 @@ void real_menus_update(void)
           pOrder_Mine_Button->theme = current_theme->OMine_Icon;
         } else {
           /* Activity results in terrain change */
-          time = tile_activity_time(ACTIVITY_MINE, unit_tile(pUnit), NULL);
+          time = turns_to_activity_done(pTile, ACTIVITY_MINE, NULL, pUnit);
 
           /* FIXME: get rid of this ruleset-specific hardcoding */
           if (!strcmp(terrain_rule_name(pTerrain->mining_result), "Forest")) {
@@ -1235,7 +1237,7 @@ void real_menus_update(void)
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
         /* Activity always results in terrain change */
-        time = tile_activity_time(ACTIVITY_TRANSFORM, unit_tile(pUnit), NULL);
+        time = turns_to_activity_done(pTile, ACTIVITY_TRANSFORM, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
                     _("Transform to"),
                     terrain_name_translation(pTerrain->transform_result),

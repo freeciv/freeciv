@@ -42,8 +42,14 @@ struct actcalc {
 
 /************************************************************************//**
   Calculate completion time for all unit activities on tile.
+  If pmodunit is supplied, take into account the effect if it changed to
+  doing new_act on new_tgt instead of whatever it's currently doing (if
+  anything).
 ****************************************************************************/
-static void calc_activity(struct actcalc *calc, const struct tile *ptile)
+static void calc_activity(struct actcalc *calc, const struct tile *ptile,
+                          const struct unit *pmodunit,
+                          Activity_type_id new_act,
+                          const struct extra_type *new_tgt)
 {
   /* This temporary working state is a bit big to allocate on the stack */
   struct {
@@ -59,8 +65,14 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile)
 
   memset(calc, 0, sizeof(*calc));
 
+  /* Contributions from real units */
   unit_list_iterate(ptile->units, punit) {
     Activity_type_id act = punit->activity;
+
+    if (punit == pmodunit) {
+      /* We'll account for this one later */
+      continue;
+    }
 
     if (is_build_activity(act, ptile)) {
       int eidx = extra_index(punit->activity_target);
@@ -80,6 +92,36 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile)
       t->activity_units[act] += get_activity_rate(punit);
     }
   } unit_list_iterate_end;
+
+  /* Hypothetical contribution from pmodunit, if it changed to specified
+   * activity/target */
+  if (pmodunit) {
+    if (is_build_activity(new_act, ptile)) {
+      int eidx = extra_index(new_tgt);
+
+      if (new_act == pmodunit->changed_from
+          && new_tgt == pmodunit->changed_from_target) {
+        t->extra_total[eidx][new_act] += pmodunit->changed_from_count;
+      }
+      t->extra_total[eidx][new_act] += get_activity_rate_this_turn(pmodunit);
+      t->extra_units[eidx][new_act] += get_activity_rate(pmodunit);
+    } else if (is_clean_activity(new_act)) {
+      int eidx = extra_index(new_tgt);
+
+      if (new_act == pmodunit->changed_from
+          && new_tgt == pmodunit->changed_from_target) {
+        t->rmextra_total[eidx][new_act] += pmodunit->changed_from_count;
+      }
+      t->rmextra_total[eidx][new_act] += get_activity_rate_this_turn(pmodunit);
+      t->rmextra_units[eidx][new_act] += get_activity_rate(pmodunit);
+    } else {
+      if (new_act == pmodunit->changed_from) {
+        t->activity_total[new_act] += pmodunit->changed_from_count;
+      }
+      t->activity_total[new_act] += get_activity_rate_this_turn(pmodunit);
+      t->activity_units[new_act] += get_activity_rate(pmodunit);
+    }
+  }
 
   /* Turn activity counts into turn estimates */
   activity_type_iterate(act) {
@@ -136,6 +178,41 @@ static void calc_activity(struct actcalc *calc, const struct tile *ptile)
 }
 
 /************************************************************************//**
+  How many turns until the activity 'act' on target 'tgt' at 'ptile' would
+  be complete, taking into account existing units and possible contribution
+  from 'pmodunit' if it were also to help with the activity ('pmodunit' may
+  be NULL to just account for current activities).
+****************************************************************************/
+int turns_to_activity_done(const struct tile *ptile,
+                           Activity_type_id act,
+                           const struct extra_type *tgt,
+                           const struct unit *pmodunit)
+{
+  struct actcalc *calc = malloc(sizeof(struct actcalc));
+  int turns;
+
+  /* Calculate time for _all_ tile activities */
+  /* XXX: this is quite expensive */
+  calc_activity(calc, ptile, pmodunit, act, tgt);
+
+  /* ...and extract just the one we want. */
+  if (is_build_activity(act, ptile)) {
+    int tgti = extra_index(tgt);
+
+    turns = calc->extra_turns[tgti][act];
+  } else if (is_clean_activity(act)) {
+    int tgti = extra_index(tgt);
+
+    turns = calc->rmextra_turns[tgti][act];
+  } else {
+    turns = calc->activity_turns[act];
+  }
+
+  FC_FREE(calc);
+  return turns;
+}
+
+/************************************************************************//**
   Creates the activity progress text for the given tile.
 ****************************************************************************/
 const char *concat_tile_activity_text(struct tile *ptile)
@@ -146,7 +223,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
 
   astr_clear(&str);
 
-  calc_activity(calc, ptile);
+  calc_activity(calc, ptile, NULL, ACTIVITY_LAST, NULL);
 
   activity_type_iterate(i) {
     if (is_build_activity(i, ptile)) {
