@@ -110,7 +110,7 @@ struct Theme {
   SDL_Surface *ODisband_Icon;
   SDL_Surface *OWait_Icon;
   SDL_Surface *ODone_Icon;
-  SDL_Surface *OAutoAtt_Icon;
+  SDL_Surface *OAutoAtt_Icon; /* currently unused */
   SDL_Surface *OAutoExp_Icon;
   SDL_Surface *OAutoSett_Icon;
   SDL_Surface *OAutoConnect_Icon;
