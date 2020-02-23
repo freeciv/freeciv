@@ -760,6 +760,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_e;
+  pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_AIRBASE, pBuf);
   /* --------- */
 
@@ -784,6 +785,7 @@ void create_units_order_widgets(void)
   pBuf->action = unit_order_callback;
   pBuf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_f;
+  pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_FORTRESS, pBuf);
   /* --------- */
 
