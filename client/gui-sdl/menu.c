@@ -62,7 +62,6 @@ extern struct widget *pOptions_Button;
 static struct widget *pBeginOrderWidgetList;
 static struct widget *pEndOrderWidgetList;
   
-static struct widget *pOrder_Automate_Unit_Button;
 static struct widget *pOrder_Build_AddTo_City_Button;
 static struct widget *pOrder_Mine_Button;
 static struct widget *pOrder_Irrigation_Button;
@@ -398,7 +397,7 @@ void create_units_order_widgets(void)
   struct widget *pBuf = NULL;
   char cBuf[128];
   Uint16 *unibuf;  
-  size_t len;
+  size_t len = 0;
   struct road_type *proad;
   struct road_type *prail;
 
@@ -620,25 +619,16 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_AUTO_EXPLORE, pBuf);
   /* --------- */
 
-  /* Auto-Attack / Auto-Settler */
-  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
-  len = strlen(cBuf);
+  /* Auto-Settler */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
-  len = MAX(len, strlen(cBuf));
-
   pBuf = create_themeicon(current_theme->OAutoSett_Icon, Main.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  len = (len + 1) * sizeof(Uint16);
-  unibuf = fc_calloc(1, len);
-  convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_a;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
-  
-  pOrder_Automate_Unit_Button = pBuf;
   /* --------- */
 
   /* Wake Up Others */
@@ -1354,24 +1344,9 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_autosettlers(pUnit)) {
-	if (unit_has_type_flag(pUnit, UTYF_SETTLERS)) {
-	  if(pOrder_Automate_Unit_Button->theme != current_theme->OAutoSett_Icon) {
-	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
-	    pOrder_Automate_Unit_Button->theme = current_theme->OAutoSett_Icon;
-            copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
-                                   cBuf);
-	  }
-	} else {
-	  if(pOrder_Automate_Unit_Button->theme != current_theme->OAutoAtt_Icon) {
-	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
-	    pOrder_Automate_Unit_Button->theme = current_theme->OAutoAtt_Icon;
-            copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
-                                   cBuf);
-	  }
-	}
-	clear_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
+	local_show(ID_UNIT_ORDER_AUTO_SETTLER);
       } else {
-	set_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);
+	local_hide(ID_UNIT_ORDER_AUTO_SETTLER);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_EXPLORE)) {
