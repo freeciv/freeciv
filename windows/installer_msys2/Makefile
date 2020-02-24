@@ -193,8 +193,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc64.dll \
-	libicudt64.dll \
+	libicuuc65.dll \
+	libicudt65.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -257,9 +257,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin64.dll \
-	libicuuc64.dll \
-	libicudt64.dll \
+	libicuin65.dll \
+	libicuuc65.dll \
+	libicudt65.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \

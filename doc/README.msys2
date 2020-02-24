@@ -64,7 +64,6 @@ using MSYS2 from http://msys2.github.io
  - automake
  - libtool
  - autoconf
- - python
 
 2.1.2) Arch-specific packages needed for building freeciv
 
@@ -113,9 +112,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-191012.7z, based on
+msys2-freeciv-win64-200224.7z, based on
 https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20190524.exe
-with packages updated to 12-Oct-2019 level.
+with packages updated to 24-Feb-2020 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
@@ -132,7 +131,6 @@ Following packages have been installed:
 - automake
 - libtool
 - autoconf
-- python
 - gdb
 - mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-icu
