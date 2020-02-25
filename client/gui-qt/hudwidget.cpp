@@ -993,10 +993,8 @@ int unit_actions::update_actions()
     actions.append(a);
     if (pterrain->mining_result != T_NONE
         && pterrain->mining_result != pterrain) {
-      if (!strcmp(terrain_rule_name(pterrain), "Jungle")
-          || !strcmp(terrain_rule_name(pterrain), "Plains")
-          || !strcmp(terrain_rule_name(pterrain), "Grassland")
-          || !strcmp(terrain_rule_name(pterrain), "Swamp")) {
+      /* FIXME get rid of this ruleset-specific hardcoding */
+      if (!strcmp(terrain_rule_name(pterrain->mining_result), "Forest")) {
         a->set_pixmap(fc_icons::instance()->get_pixmap("plantforest"));
       } else {
         a->set_pixmap(fc_icons::instance()->get_pixmap("transform"));
@@ -1012,6 +1010,7 @@ int unit_actions::update_actions()
     a->action_shortcut = SC_BUILDIRRIGATION;
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
+      /* FIXME get rid of this ruleset-specific hardcoding */
       if ((!strcmp(terrain_rule_name(pterrain), "Forest") ||
            !strcmp(terrain_rule_name(pterrain), "Jungle"))) {
         a->set_pixmap(fc_icons::instance()->get_pixmap("chopchop"));
@@ -1039,8 +1038,7 @@ int unit_actions::update_actions()
       if (can_build_road(proad, current_unit, unit_tile(current_unit))) {
         ok = true;
       }
-    }
-    extra_type_by_cause_iterate_end;
+    } extra_type_by_cause_iterate_end;
     if (ok) {
       a = new hud_action(this);
       a->action_shortcut = SC_BUILDROAD;
