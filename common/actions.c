@@ -24,9 +24,9 @@
 #include "game.h"
 #include "map.h"
 #include "movement.h"
-#include "unit.h"
 #include "research.h"
 #include "tile.h"
+#include "unit.h"
 
 /* Values used to interpret action probabilities.
  *
