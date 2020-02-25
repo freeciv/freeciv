@@ -29,9 +29,9 @@
 #include "game.h"
 #include "map.h"
 #include "movement.h"
-#include "unit.h"
 #include "research.h"
 #include "tile.h"
+#include "unit.h"
 
 /* Custom data type for obligatory hard action requirements. */
 struct obligatory_req {
