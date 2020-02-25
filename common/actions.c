@@ -4119,10 +4119,12 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_SPY_NUKE:
-    /* TODO */
-    break;
   case ACTION_SPY_NUKE_ESC:
-    /* TODO */
+    /* TODO: not implemented yet because:
+     * - possible diplomatic battle could be handled with
+     *   ap_diplomat_battle() so not a problem.
+     * - dice roll diplchance * Action_Odds_Pct has no action probability
+     *   calculation function yet. */
     break;
   case ACTION_NUKE:
     /* TODO */
