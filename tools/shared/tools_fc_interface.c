@@ -66,6 +66,7 @@ void fc_interface_init_tool(void)
   funcs->server_setting_name_get = server_ss_name_get;
   funcs->server_setting_type_get = server_ss_type_get;
   funcs->server_setting_val_bool_get = server_ss_val_bool_get;
+  funcs->server_setting_val_int_get = server_ss_val_int_get;
 
   /* Not used. Set to dummy functions. */
   funcs->player_tile_vision_get = tool_player_tile_vision_get;
