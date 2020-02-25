@@ -1297,7 +1297,8 @@ action_prob(const enum gen_action wanted_action,
 
   switch (wanted_action) {
   case ACTION_SPY_POISON:
-    /* TODO */
+    /* All uncertainty comes from potential diplomatic battles. */
+    chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
     break;
   case ACTION_SPY_STEAL_GOLD:
     /* TODO */
