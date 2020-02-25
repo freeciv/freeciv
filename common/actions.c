@@ -4227,13 +4227,13 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTION_USER_ACTION1:
-    /* TODO */
-    break;
   case ACTION_USER_ACTION2:
-    /* TODO */
-    break;
   case ACTION_USER_ACTION3:
-    /* TODO */
+    /* Accommodate ruleset authors that wishes to roll the dice in Lua.
+     * Would be ACTPROB_CERTAIN if not for that. */
+    /* TODO: maybe allow the ruleset author to give a probability from
+     * Lua? */
+    chance = ACTPROB_NOT_IMPLEMENTED;
     break;
   case ACTION_COUNT:
     fc_assert(wanted_action != ACTION_COUNT);
