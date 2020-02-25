@@ -103,6 +103,7 @@ server_setting_id server_ss_by_name(const char *name);
 const char *server_ss_name_get(server_setting_id id);
 enum sset_type server_ss_type_get(server_setting_id id);
 bool server_ss_val_bool_get(server_setting_id id);
+int server_ss_val_int_get(server_setting_id id);
 
 bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);

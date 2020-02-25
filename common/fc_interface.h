@@ -35,6 +35,7 @@ struct functions {
   const char *(*server_setting_name_get)(server_setting_id id);
   enum sset_type (*server_setting_type_get)(server_setting_id id);
   bool (*server_setting_val_bool_get)(server_setting_id id);
+  int (*server_setting_val_int_get)(server_setting_id id);
   void (*create_extra)(struct tile *ptile, struct extra_type *pextra,
                        struct player *pplayer);
   void (*destroy_extra)(struct tile *ptile, struct extra_type *pextra);
