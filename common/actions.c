@@ -4172,10 +4172,17 @@ action_prob(const action_id wanted_action,
     }
     break;
   case ACTION_STRIKE_BUILDING:
-    /* TODO */
+    /* TODO: not implemented yet because:
+     * - dice roll 100% * Action_Odds_Pct has no action probability
+     *   calculation function yet.
+     * - sub target building may be missing. May be missing without player
+     *   knowledge if it isn't visible. See is_improvement_visible() and
+     *   can_player_see_city_internals(). */
     break;
   case ACTION_STRIKE_PRODUCTION:
-    /* TODO */
+    /* TODO: not implemented yet because:
+     * - dice roll 100% * Action_Odds_Pct has no action probability
+     *   calculation function yet. */
     break;
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
