@@ -698,6 +698,12 @@ struct act_prob action_prob_new_certain(void);
 #define ACTPROB_NOT_IMPLEMENTED action_prob_new_not_impl()
 #define ACTPROB_NOT_KNOWN action_prob_new_unknown()
 
+int action_dice_roll_odds(const struct player *act_player,
+                          const struct unit *act_unit,
+                          const struct city *tgt_city,
+                          const struct player *tgt_player,
+                          const struct action *paction);
+
 bool
 action_actor_utype_hard_reqs_ok(const action_id wanted_action,
                                 const struct unit_type *actor_unittype);

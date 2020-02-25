@@ -1834,22 +1834,9 @@ static bool diplomat_was_caught(struct player *act_player,
                                 struct player *tgt_player,
                                 const struct action *act)
 {
-  int odds;
-
-  /* Take the odds from the diplchance setting. */
-  odds = game.server.diplchance;
-
-  /* Let the Action_Odds_Pct effect modify the odds. The advantage of doing
-   * it this way in stead of rolling twice is that Action_Odds_Pct can
-   * increase the odds. */
-  odds += ((odds
-            * get_target_bonus_effects(NULL,
-                                       act_player, tgt_player,
-                                       tgt_city, NULL, NULL,
-                                       act_unit, unit_type_get(act_unit),
-                                       NULL, NULL, act,
-                                       EFT_ACTION_ODDS_PCT))
-           / 100);
+  int odds = action_dice_roll_odds(act_player, act_unit,
+                                   tgt_city, tgt_player,
+                                   act);
 
   /* Roll the dice. */
   return fc_rand (100) >= odds;

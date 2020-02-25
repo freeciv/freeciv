@@ -4142,17 +4142,9 @@ static bool do_unit_strike_city_building(const struct player *act_player,
 
   /* The surgical strike may miss. */
   {
-    int odds = 100;
-
-    /* Let the Action_Odds_Pct effect modify the odds. */
-    odds += ((odds
-              * get_target_bonus_effects(NULL,
-                                         act_player, tgt_player,
-                                         tgt_city, NULL, NULL,
-                                         act_unit, unit_type_get(act_unit),
-                                         NULL, NULL, paction,
-                                         EFT_ACTION_ODDS_PCT))
-             / 100);
+    int odds = action_dice_roll_odds(act_player, act_unit,
+                                     tgt_city, tgt_player,
+                                     paction);
 
     /* Roll the dice. */
     if (fc_rand(100) >= odds) {
