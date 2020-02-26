@@ -4142,12 +4142,10 @@ static bool do_unit_strike_city_building(const struct player *act_player,
 
   /* The surgical strike may miss. */
   {
-    int odds = action_dice_roll_odds(act_player, act_unit,
-                                     tgt_city, tgt_player,
-                                     paction);
-
     /* Roll the dice. */
-    if (fc_rand(100) >= odds) {
+    if (action_failed_dice_roll(act_player, act_unit,
+                                tgt_city, tgt_player,
+                                paction)) {
       /* Notify the player. */
       notify_player(act_player, city_tile(tgt_city),
                     E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,

@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "rand.h"
+
 /* common */
 #include "actions.h"
 
@@ -1111,4 +1114,22 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   } action_auto_perf_actions_iterate_end;
 
   return out;
+}
+
+/************************************************************************//**
+  Returns TRUE iff the spy/diplomat was caught outside of a diplomatic
+  battle.
+****************************************************************************/
+bool action_failed_dice_roll(const struct player *act_player,
+                             const struct unit *act_unit,
+                             const struct city *tgt_city,
+                             const struct player *tgt_player,
+                             const struct action *paction)
+{
+  int odds = action_dice_roll_odds(act_player, act_unit,
+                                   tgt_city, tgt_player,
+                                   paction);
+
+  /* Roll the dice. */
+  return fc_rand (100) >= odds;
 }

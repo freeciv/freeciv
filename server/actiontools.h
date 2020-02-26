@@ -83,4 +83,10 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            const struct unit *target_unit,
                            const struct extra_type *target_extra);
 
+bool action_failed_dice_roll(const struct player *act_player,
+                             const struct unit *act_unit,
+                             const struct city *tgt_city,
+                             const struct player *tgt_player,
+                             const struct action *paction);
+
 #endif /* FC__ACTIONTOOLS_H */
