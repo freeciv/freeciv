@@ -8,23 +8,23 @@
 # autores del juego, escribiendo *en inglés* a <freeciv-dev@freeciv.org>.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015.
+# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
-"PO-Revision-Date: 2015-08-07 13:28+0200\n"
-"Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
-"Language-Team: Spanish <>\n"
+"POT-Creation-Date: 2020-02-15 15:53+0000\n"
+"PO-Revision-Date: 2020-02-27 00:06+0100\n"
+"Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
+"Language-Team: Español; Castellano <>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.4\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
@@ -35,7 +35,7 @@ msgstr "Cerrar"
 #: tools/ruledit/requirers_dlg.cpp:68
 #, c-format
 msgid "Needed by %s"
-msgstr ""
+msgstr "Necesitado por %s"
 
 #: tools/ruledit/ruledit.cpp:135
 msgid "Print a summary of the options"
@@ -48,15 +48,15 @@ msgstr "Imprimir el número de versión"
 #. TRANS: argument (don't translate) VALUE (translate)
 #: tools/ruledit/ruledit.cpp:140
 msgid "ruleset RULESET"
-msgstr ""
+msgstr "ruleset RULESET"
 
 #: tools/ruledit/ruledit.cpp:141
 msgid "Ruleset to use as the starting point."
-msgstr ""
+msgstr "Conjunto de reglas para usar como punto de partida."
 
 #: tools/ruledit/ruledit.cpp:154
 msgid "Can only edit one ruleset at a time.\n"
-msgstr ""
+msgstr "Solo puedes editar un conjunto de reglas a la vez.\n"
 
 #: tools/ruledit/ruledit.cpp:161
 #, c-format
@@ -74,21 +74,19 @@ msgstr ""
 
 #: tools/ruledit/ruledit_qt.cpp:126
 msgid "Give ruleset to use as starting point."
-msgstr ""
+msgstr "Proporcione un conjunto de reglas para usar como punto de partida."
 
 #: tools/ruledit/ruledit_qt.cpp:138
-#, fuzzy
 msgid "Start editing"
-msgstr "Posiciones de Inicio"
+msgstr "Comience a editar"
 
 #: tools/ruledit/ruledit_qt.cpp:148
 msgid "Misc"
-msgstr ""
+msgstr "Misc"
 
 #: tools/ruledit/ruledit_qt.cpp:150
-#, fuzzy
 msgid "Tech"
-msgstr "_Tecno"
+msgstr "Tecnologías"
 
 #: tools/ruledit/ruledit_qt.cpp:152
 msgid "Buildings"
@@ -103,37 +101,33 @@ msgid "Nations"
 msgstr "Naciones"
 
 #: tools/ruledit/ruledit_qt.cpp:165
-#, fuzzy
 msgid "Welcome to freeciv-ruledit"
-msgstr "Bienvenido a Freeciv"
+msgstr "Bienvenido a freeciv-ruledit"
 
 #: tools/ruledit/ruledit_qt.cpp:185
-#, fuzzy
 msgid "Ruleset loaded"
-msgstr "Ruleset"
+msgstr "Ruleset cargado"
 
 #: tools/ruledit/ruledit_qt.cpp:201
 msgid "Ruleset loading failed!"
-msgstr ""
+msgstr "Falló la carga del ruleset!"
 
 #: tools/ruledit/ruledit_qt.cpp:245
-#, fuzzy
 msgid "Freeciv Ruleset Editor"
-msgstr "Lista de Servidores Freeciv"
+msgstr "Editor de Ruleset de Freeciv"
 
 #: tools/ruledit/ruledit_qt.cpp:261
 msgid "Are you sure you want to quit?"
-msgstr ""
+msgstr "¿Estás seguro de que quieres salir?"
 
 #: tools/ruledit/ruledit_qt.cpp:265
 msgid "Quit?"
-msgstr ""
+msgstr "Salir?"
 
 #: tools/ruledit/tab_building.cpp:61 tools/ruledit/tab_tech.cpp:61
 #: tools/ruledit/tab_unit.cpp:61
-#, fuzzy
 msgid "Rule Name"
-msgstr "Nombre del jugador:"
+msgstr "Nombre de la Regla"
 
 #: tools/ruledit/tab_building.cpp:69 tools/ruledit/tab_tech.cpp:69
 #: tools/ruledit/tab_unit.cpp:69
@@ -141,166 +135,141 @@ msgid "Name"
 msgstr "Nombre"
 
 #: tools/ruledit/tab_building.cpp:152
-#, fuzzy
 msgid "A building with that rule name already exists!"
-msgstr "Ya existe una ciudad llamada %s."
+msgstr "¡Ya existe un edificio con ese nombre de regla!"
 
 #: tools/ruledit/tab_misc.cpp:61
-#, fuzzy
 msgid "Ruleset name"
-msgstr "Ruleset"
+msgstr "Nombre del Ruleset"
 
 #: tools/ruledit/tab_misc.cpp:66
-#, fuzzy
 msgid "Ruleset version"
-msgstr "Versión de _Ruleset:"
+msgstr "Versión de Ruleset"
 
 #: tools/ruledit/tab_misc.cpp:71
-#, fuzzy
 msgid "Save to directory"
-msgstr "Graba las partidas en el directorio DIR"
+msgstr "Guarda al directorio"
 
 #: tools/ruledit/tab_misc.cpp:78
-#, fuzzy
 msgid "Save now"
-msgstr "Guardar el Escenario"
+msgstr "Guardar ahora"
 
 #: tools/ruledit/tab_misc.cpp:85
-#, fuzzy
 msgid "?stat:Terrains"
-msgstr "Terreno"
+msgstr "Terrenos"
 
 #: tools/ruledit/tab_misc.cpp:89
-#, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "Recursos"
 
 #: tools/ruledit/tab_misc.cpp:93
-#, fuzzy
 msgid "?stat:Techs"
-msgstr "_Tecno"
+msgstr "Tecnologías"
 
 #: tools/ruledit/tab_misc.cpp:97
-#, fuzzy
 msgid "?stat:Unit Classes"
-msgstr "Unidad Perdidas\n"
+msgstr "Clases de unidades"
 
 #: tools/ruledit/tab_misc.cpp:101
-#, fuzzy
 msgid "?stat:Unit Types"
-msgstr "Tipo de unidad"
+msgstr "Tipos de unidades"
 
 #: tools/ruledit/tab_misc.cpp:105
-#, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "Instalaciones"
 
 #: tools/ruledit/tab_misc.cpp:109
-#, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "Naciones"
 
 #: tools/ruledit/tab_misc.cpp:113
-#, fuzzy
 msgid "?stat:Styles"
-msgstr "Estilo de las ciudade_s:"
+msgstr "Estilos"
 
 #: tools/ruledit/tab_misc.cpp:117
-#, fuzzy
 msgid "?stat:Specialists"
-msgstr " Especialistas"
+msgstr "Especialistas"
 
 #: tools/ruledit/tab_misc.cpp:121
-#, fuzzy
 msgid "?stat:Governments"
 msgstr "Gobiernos"
 
 #: tools/ruledit/tab_misc.cpp:125
-#, fuzzy
 msgid "?stat:Disasters"
-msgstr "Desastre"
+msgstr "Desastres"
 
 #: tools/ruledit/tab_misc.cpp:129
 msgid "?stat:Achievements"
-msgstr ""
+msgstr "Logros"
 
 #: tools/ruledit/tab_misc.cpp:133
 msgid "?stat:Extras"
-msgstr ""
+msgstr "Extras"
 
 #: tools/ruledit/tab_misc.cpp:137
-#, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "Bases"
 
 #: tools/ruledit/tab_misc.cpp:141
-#, fuzzy
 #| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "Caminos"
 
 #: tools/ruledit/tab_misc.cpp:145
-#, fuzzy
 msgid "?stat:Multipliers"
-msgstr "Estilo de las ciudade_s:"
+msgstr "Multiplicadores"
 
 #: tools/ruledit/tab_misc.cpp:202
-#, fuzzy
 msgid "Ruleset saved"
-msgstr "Ruleset"
+msgstr "Ruleset guardado"
 
 #: tools/ruledit/tab_nation.cpp:49
-#, fuzzy
 msgid "Use nationlist"
-msgstr "%d enemigo nacionalista"
+msgstr "Usa lista de naciones"
 
 #: tools/ruledit/tab_nation.cpp:53
-#, fuzzy
 msgid "Nationlist"
-msgstr "Conjunto de Naciones"
+msgstr "Lista de naciones"
 
 #: tools/ruledit/tab_tech.cpp:80
 msgid "Req1"
-msgstr ""
+msgstr "Req1"
 
 #: tools/ruledit/tab_tech.cpp:89
 msgid "Req2"
-msgstr ""
+msgstr "Req2"
 
 #: tools/ruledit/tab_tech.cpp:97
 msgid "Root Req"
-msgstr ""
+msgstr "Root Req"
 
 #: tools/ruledit/tab_tech.cpp:182
 msgid "Never"
 msgstr "Nunca"
 
 #: tools/ruledit/tab_tech.cpp:318
-#, fuzzy
 msgid "A tech with that rule name already exists!"
-msgstr "Ya existe una ciudad llamada %s."
+msgstr "¡Ya existe una tecnología con ese nombre de regla!"
 
 #: tools/ruledit/tab_unit.cpp:152
-#, fuzzy
 msgid "A unit type with that rule name already exists!"
-msgstr "Ya existe una ciudad llamada %s."
+msgstr "¡Ya existe un tipo de unidad con ese nombre de regla!"
 
 #: tools/ruledit/validity.c:64
 msgid "Effect"
-msgstr ""
+msgstr "Efecto"
 
 #: tools/ruledit/validity.c:125
-#, fuzzy
 msgid "Action Enabler"
-msgstr "Habilitado"
+msgstr "Habilitador de acción"
 
 #: tools/ruledit/validity.c:145
 msgid "Music Style"
-msgstr ""
+msgstr "Estilo de música"
 
 #, fuzzy
 #~ msgid "Add Building"

@@ -8,23 +8,23 @@
 # autores del juego, escribiendo *en inglés* a <freeciv-dev@freeciv.org>.
 # David Pérez Serrada <dperezs@nexo.es>, 1999.
 # Miguel Lobo <miguel@miguell.cjb.net>, 2000 - 2003.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
-# Jordi Negrevernis i Font <jorneg4@hotmail.com>, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018.
+# Jordi Negrevernis <jorneg4@gmail.com>, 2005, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2018, 2020.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
-"PO-Revision-Date: 2018-08-29 20:58+0200\n"
-"Last-Translator: Jordi Negrevernis i Font <jorneg4@hotmail.com>\n"
-"Language-Team: Spanish <kde-i18n-doc@kde.org>\n"
+"POT-Creation-Date: 2020-02-15 15:53+0000\n"
+"PO-Revision-Date: 2020-02-26 23:52+0100\n"
+"Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
+"Language-Team: Español; Castellano <>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 1.5\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -6731,10 +6731,10 @@ msgid "Kibbutznik %s"
 msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 #| msgid "?female:Kibbutznik %s"
 msgid "?female:Kibbutznikit %s"
-msgstr "Kibbutznik %s"
+msgstr "Kibbutznikit %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
