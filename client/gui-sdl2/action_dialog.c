@@ -1927,7 +1927,7 @@ static void action_entry(const action_id act,
 
   set_wstate(pBuf, FC_WS_NORMAL);
 
-  add_to_gui_list(MAX_ID - act_unit->id, pBuf);
+  add_to_gui_list(MAX_ID - act, pBuf);
 
   area->w = MAX(area->w, pBuf->size.w);
   area->h += pBuf->size.h;
