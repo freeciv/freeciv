@@ -1328,7 +1328,10 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNITS] = TILE_INDEX_NONE;
   target_id[ATK_TILE] = TILE_INDEX_NONE;
-  target_extra_id = EXTRA_NONE;
+  sub_target_id[ASTK_BUILDING] = B_LAST;
+  sub_target_id[ASTK_TECH] = A_UNSET;
+  sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
+  sub_target_id[ASTK_EXTRA_NOT_THERE] = EXTRA_NONE;
 
   targeted_unit = nullptr;
   /* No buttons are added yet. */
@@ -1573,8 +1576,8 @@ void choice_dialog::update_dialog(const struct act_prob *act_probs)
   unit_skip->setParent(nullptr);
   action_selection_refresh(game_unit_by_number(unit_id), nullptr,
                            targeted_unit, targeted_unit->tile,
-                           (target_extra_id != EXTRA_NONE
-                              ? extra_by_number(target_extra_id)
+                           (sub_target_id[ASTK_EXTRA] != EXTRA_NONE
+                              ? extra_by_number(sub_target_id[ASTK_EXTRA])
                               : NULL),
                            act_probs);
   layout->addLayout(unit_skip);
@@ -2035,10 +2038,16 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_TILE] = TILE_INDEX_NONE;
   }
 
+  /* No target building or target tech supplied. (Feb 2020) */
+  cd->sub_target_id[ASTK_BUILDING] = B_LAST;
+  cd->sub_target_id[ASTK_TECH] = A_UNSET;
+
   if (target_extra) {
-    cd->target_extra_id = extra_number(target_extra);
+    cd->sub_target_id[ASTK_EXTRA] = extra_number(target_extra);
+    cd->sub_target_id[ASTK_EXTRA_NOT_THERE] = extra_number(target_extra);
   } else {
-    cd->target_extra_id = EXTRA_NONE;
+    cd->sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
+    cd->sub_target_id[ASTK_EXTRA_NOT_THERE] = EXTRA_NONE;
   }
 
   /* Unit acting against a city */
@@ -3741,7 +3750,7 @@ int action_selection_target_extra(void)
   choice_dialog *cd = gui()->get_diplo_dialog();
 
   if (cd != NULL) {
-    return cd->target_extra_id;
+    return cd->sub_target_id[ASTK_EXTRA];
   } else {
     return EXTRA_NONE;
   }

@@ -282,7 +282,7 @@ public:
   Choice_dialog_button *get_identified_button(const int id);
   int unit_id;
   int target_id[ATK_COUNT];
-  int target_extra_id;
+  int sub_target_id[ASTK_COUNT];
   struct unit* targeted_unit;
   void update_dialog(const struct act_prob *act_probs);
 public slots:
