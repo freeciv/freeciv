@@ -181,29 +181,6 @@ static action_id get_production_targeted_action_id(action_id tgt_action_id)
 }
 
 /**********************************************************************//**
-  Get the targeted version of an action so it, if enabled, can hide the
-  non targeted action in the action selection dialog.
-**************************************************************************/
-static action_id get_targeted_action_id(action_id non_tgt_action_id)
-{
-  /* Don't add an action mapping here unless the non targeted version is
-   * selectable in the targeted version's target selection dialog. */
-  switch ((enum gen_action)non_tgt_action_id) {
-  case ACTION_SPY_SABOTAGE_CITY:
-    return ACTION_SPY_TARGETED_SABOTAGE_CITY;
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-    return ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC;
-  case ACTION_SPY_STEAL_TECH:
-    return ACTION_SPY_TARGETED_STEAL_TECH;
-  case ACTION_SPY_STEAL_TECH_ESC:
-    return ACTION_SPY_TARGETED_STEAL_TECH_ESC;
-  default:
-    /* No targeted version found. */
-    return ACTION_NONE;
-  }
-}
-
-/**********************************************************************//**
   User interacted with diplomat dialog.
 **************************************************************************/
 static int diplomat_dlg_window_callback(struct widget *pWindow)
@@ -923,13 +900,6 @@ static void action_entry(const action_id act,
   utf8_str *pstr;
   const char *ui_name;
   act_func cb;
-
-  if (get_targeted_action_id(act) != ACTION_NONE
-      && action_prob_possible(act_probs[get_targeted_action_id(act)])) {
-    /* The player can select the untargeted version from the target
-     * selection dialog. */
-    return;
-  }
 
   if (af_map[act] == NULL) {
     /* No special call back function needed for this action. */
