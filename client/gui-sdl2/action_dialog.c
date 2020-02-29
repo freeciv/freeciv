@@ -756,7 +756,7 @@ static int spy_steal_popup_shared(struct widget *pWidget)
 {
   const struct research *presearch, *vresearch;
   struct city *pVcity = pWidget->data.city;
-  int id = MAX_ID - pWidget->ID;
+  int id = pDiplomat_Dlg->actor_unit_id;
   struct player *pVictim = NULL;
   struct CONTAINER *pCont;
   struct widget *pBuf = NULL;
@@ -1159,7 +1159,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
 static int spy_sabotage_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int diplomat_id = MAX_ID - pWidget->ID;
+    int diplomat_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1176,7 +1176,7 @@ static int spy_sabotage_unit_callback(struct widget *pWidget)
 static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int diplomat_id = MAX_ID - pWidget->ID;
+    int diplomat_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1193,7 +1193,7 @@ static int spy_sabotage_unit_esc_callback(struct widget *pWidget)
 static int heal_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1210,7 +1210,7 @@ static int heal_unit_callback(struct widget *pWidget)
 static int transport_embark_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1227,7 +1227,7 @@ static int transport_embark_callback(struct widget *pWidget)
 static int transport_board_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1244,7 +1244,7 @@ static int transport_board_callback(struct widget *pWidget)
 static int transport_unload_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1261,7 +1261,7 @@ static int transport_unload_callback(struct widget *pWidget)
 static int transport_alight_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1278,7 +1278,7 @@ static int transport_alight_callback(struct widget *pWidget)
 static int disembark1_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1295,7 +1295,7 @@ static int disembark1_callback(struct widget *pWidget)
 static int disembark2_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1312,7 +1312,7 @@ static int disembark2_callback(struct widget *pWidget)
 static int capture_units_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = tile_index(pWidget->data.tile);
 
     popdown_diplomat_dialog();
@@ -1329,7 +1329,7 @@ static int capture_units_callback(struct widget *pWidget)
 static int expel_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1346,7 +1346,7 @@ static int expel_unit_callback(struct widget *pWidget)
 static int bombard_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = tile_index(pWidget->data.tile);
 
     popdown_diplomat_dialog();
@@ -1384,7 +1384,7 @@ static int join_city_callback(struct widget *pWidget)
 static int found_city_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
 
     popdown_diplomat_dialog();
     dsend_packet_city_name_suggestion_req(&client.conn,
@@ -1400,7 +1400,7 @@ static int found_city_callback(struct widget *pWidget)
 static int transform_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1417,7 +1417,7 @@ static int transform_callback(struct widget *pWidget)
 static int cultivate_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1434,7 +1434,7 @@ static int cultivate_callback(struct widget *pWidget)
 static int plant_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1451,7 +1451,7 @@ static int plant_callback(struct widget *pWidget)
 static int pillage_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
@@ -1469,7 +1469,7 @@ static int pillage_callback(struct widget *pWidget)
 static int road_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
@@ -1487,7 +1487,7 @@ static int road_callback(struct widget *pWidget)
 static int base_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
@@ -1505,7 +1505,7 @@ static int base_callback(struct widget *pWidget)
 static int mine_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
@@ -1523,7 +1523,7 @@ static int mine_callback(struct widget *pWidget)
 static int irrigate_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
     int sub_target_id = pDiplomat_Dlg->target_extra_id;
 
@@ -1541,7 +1541,7 @@ static int irrigate_callback(struct widget *pWidget)
 static int nuke_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1558,7 +1558,7 @@ static int nuke_callback(struct widget *pWidget)
 static int attack_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1575,7 +1575,7 @@ static int attack_callback(struct widget *pWidget)
 static int suicide_attack_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1592,7 +1592,7 @@ static int suicide_attack_callback(struct widget *pWidget)
 static int paradrop_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
 
     popdown_diplomat_dialog();
@@ -1609,7 +1609,7 @@ static int paradrop_callback(struct widget *pWidget)
 static int disband_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1626,7 +1626,7 @@ static int disband_unit_callback(struct widget *pWidget)
 static int fortify_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
@@ -1643,7 +1643,7 @@ static int fortify_callback(struct widget *pWidget)
 static int convert_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    int actor_id = MAX_ID - pWidget->ID;
+    int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.unit->id;
 
     popdown_diplomat_dialog();
