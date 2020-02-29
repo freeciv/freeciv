@@ -52,7 +52,7 @@ typedef int (*act_func)(struct widget *);
 struct diplomat_dialog {
   int actor_unit_id;
   int target_ids[ATK_COUNT];
-  int target_extra_id;
+  int sub_target_id[ASTK_COUNT];
   action_id act_id;
   struct ADVANCED_DLG *pdialog;
 };
@@ -1453,7 +1453,7 @@ static int pillage_callback(struct widget *pWidget)
   if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
-    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+    int sub_target_id = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_PILLAGE, actor_id,
@@ -1471,7 +1471,7 @@ static int road_callback(struct widget *pWidget)
   if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
-    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+    int sub_target_id = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_ROAD, actor_id,
@@ -1489,7 +1489,7 @@ static int base_callback(struct widget *pWidget)
   if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
-    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+    int sub_target_id = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_BASE, actor_id,
@@ -1507,7 +1507,7 @@ static int mine_callback(struct widget *pWidget)
   if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
-    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+    int sub_target_id = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_MINE, actor_id,
@@ -1525,7 +1525,7 @@ static int irrigate_callback(struct widget *pWidget)
   if (PRESSED_EVENT(Main.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
     int target_id = pWidget->data.tile->index;
-    int sub_target_id = pDiplomat_Dlg->target_extra_id;
+    int sub_target_id = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 
     popdown_diplomat_dialog();
     request_do_action(ACTION_IRRIGATE, actor_id,
@@ -2062,10 +2062,17 @@ void popup_action_selection(struct unit *actor_unit,
 
   pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
 
+  /* No target building or target tech supplied. (Feb 2020) */
+  pDiplomat_Dlg->sub_target_id[ASTK_BUILDING] = B_LAST;
+  pDiplomat_Dlg->sub_target_id[ASTK_TECH] = A_UNSET;
+
   if (target_extra) {
-    pDiplomat_Dlg->target_extra_id = extra_number(target_extra);
+    pDiplomat_Dlg->sub_target_id[ASTK_EXTRA] = extra_number(target_extra);
+    pDiplomat_Dlg->sub_target_id[ASTK_EXTRA_NOT_THERE]
+        = extra_number(target_extra);
   } else {
-    pDiplomat_Dlg->target_extra_id = EXTRA_NONE;
+    pDiplomat_Dlg->sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
+    pDiplomat_Dlg->sub_target_id[ASTK_EXTRA_NOT_THERE] = EXTRA_NONE;
   }
 
   pDiplomat_Dlg->target_ids[ATK_SELF] = actor_unit->id;
@@ -2280,7 +2287,7 @@ int action_selection_target_extra(void)
     return EXTRA_NONE;
   }
 
-  return pDiplomat_Dlg->target_extra_id;
+  return pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
 }
 
 /**********************************************************************//**
