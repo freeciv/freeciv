@@ -320,9 +320,7 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
     switch (action_get_sub_target_kind(paction)) {
     case ASTK_BUILDING:
       sub_target = args->target_building_id;
-      /* sub_target encodes current production as -1 */
-      if ((sub_target - 1) != -1
-          && NULL == improvement_by_number(sub_target - 1)) {
+      if (NULL == improvement_by_number(sub_target)) {
         /* Did the ruleset change? */
         failed = TRUE;
       }
@@ -1444,7 +1442,7 @@ void popup_action_selection(struct unit *actor_unit,
                (target_unit) ? target_unit->id : IDENTITY_NUMBER_ZERO,
                (target_tile) ? target_tile->index : TILE_INDEX_NONE,
                /* No target_building or target_tech supplied. (Dec 2019) */
-               B_LAST + 1, A_UNSET,
+               B_LAST, A_UNSET,
                target_extra ? target_extra->id : EXTRA_NONE);
 
   /* Could be caused by the server failing to reply to a request for more
