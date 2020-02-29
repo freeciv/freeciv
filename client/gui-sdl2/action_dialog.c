@@ -2060,6 +2060,7 @@ void popup_action_selection(struct unit *actor_unit,
     pDiplomat_Dlg->target_ids[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   }
 
+  pDiplomat_Dlg->target_ids[ATK_UNITS] = tile_index(target_tile);
   pDiplomat_Dlg->target_ids[ATK_TILE] = tile_index(target_tile);
 
   /* No target building or target tech supplied. (Feb 2020) */
