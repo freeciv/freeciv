@@ -1696,6 +1696,111 @@ static int upgrade_callback(struct widget *pWidget)
 }
 
 /**********************************************************************//**
+  User selected an action from the choice dialog and the action has no
+  special needs.
+**************************************************************************/
+static int simple_action_callback(struct widget *pWidget)
+{
+  int actor_id, target_id, sub_target;
+  struct action *paction;
+
+  bool failed = FALSE;
+
+  if (!PRESSED_EVENT(Main.event)) {
+    return -1;
+  }
+
+  /* Data */
+  paction = action_by_number(MAX_ID - pWidget->ID);
+
+  /* Actor */
+  fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
+  actor_id = pDiplomat_Dlg->actor_unit_id;
+  if (NULL == game_unit_by_number(actor_id)) {
+    /* Probably dead. */
+    failed = TRUE;
+  }
+
+  /* Target */
+  target_id = IDENTITY_NUMBER_ZERO;
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    target_id = pDiplomat_Dlg->target_ids[ATK_CITY];
+    if (NULL == game_city_by_number(target_id)) {
+      /* Probably destroyed. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNIT:
+    target_id = pDiplomat_Dlg->target_ids[ATK_UNIT];
+    if (NULL == game_unit_by_number(target_id)) {
+      /* Probably dead. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+    target_id = pDiplomat_Dlg->target_ids[ATK_TILE];
+    if (NULL == index_to_tile(&(wld.map), target_id)) {
+      /* TODO: Should this be possible at all? If not: add assertion. */
+      failed = TRUE;
+    }
+    break;
+  case ATK_SELF:
+    target_id = IDENTITY_NUMBER_ZERO;
+    break;
+  case ATK_COUNT:
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
+    failed = TRUE;
+  }
+
+  /* Sub target. */
+  sub_target = IDENTITY_NUMBER_ZERO;
+  if (paction->target_complexity != ACT_TGT_COMPL_SIMPLE) {
+    switch (action_get_sub_target_kind(paction)) {
+    case ASTK_BUILDING:
+      sub_target = pDiplomat_Dlg->sub_target_id[ASTK_BUILDING];
+      if (NULL == improvement_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_TECH:
+      sub_target = pDiplomat_Dlg->sub_target_id[ASTK_TECH];
+      if (NULL == valid_advance_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_EXTRA:
+    case ASTK_EXTRA_NOT_THERE:
+      /* TODO: validate if the extra is there? */
+      sub_target = pDiplomat_Dlg->sub_target_id[ASTK_EXTRA];
+      if (NULL == extra_by_number(sub_target)) {
+        /* Did the ruleset change? */
+        failed = TRUE;
+      }
+      break;
+    case ASTK_NONE:
+    case ASTK_COUNT:
+      /* Shouldn't happen. */
+      fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+      failed = TRUE;
+      break;
+    }
+  }
+
+  /* Send request. */
+  if (!failed) {
+    request_do_action(paction->id, actor_id, target_id, sub_target, "");
+  }
+
+  /* Clean up. */
+  popdown_diplomat_dialog();
+  return -1;
+}
+
+/**********************************************************************//**
   User clicked "Airlift Unit"
 **************************************************************************/
 static int airlift_callback(struct widget *pWidget)
@@ -1882,6 +1987,7 @@ static void action_entry(const action_id act,
   struct widget *pBuf;
   utf8_str *pstr;
   const char *ui_name;
+  act_func cb;
 
   if (get_targeted_action_id(act) != ACTION_NONE
       && action_prob_possible(act_probs[get_targeted_action_id(act)])) {
@@ -1891,9 +1997,11 @@ static void action_entry(const action_id act,
   }
 
   if (af_map[act] == NULL) {
-    /* This client doesn't support ordering this action from the
-     * action selection dialog. */
-    return;
+    /* No special call back function needed for this action. */
+    cb = simple_action_callback;
+  } else {
+    /* Special action specific callback function specified. */
+    cb = af_map[act];
   }
 
   /* Don't show disabled actions */
@@ -1905,7 +2013,7 @@ static void action_entry(const action_id act,
                                    act_probs[act], custom);
 
   create_active_iconlabel(pBuf, pWindow->dst, pstr,
-                          ui_name, af_map[act]);
+                          ui_name, cb);
 
   switch (action_id_get_target_kind(act)) {
   case ATK_CITY:
