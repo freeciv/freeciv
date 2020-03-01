@@ -641,7 +641,7 @@ static void fog_sprite(struct sprite *sprite)
   int x, y;
   GdkPixbuf *fogged;
   guchar *pixel;
-  const int bright = 65; /* Brightness percentage */
+  const int bright = 65; /* Fogged brightness %age compared to unfogged */
 
   if (sprite->pixmap) {
     fogged = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
@@ -652,7 +652,7 @@ static void fog_sprite(struct sprite *sprite)
     fogged = gdk_pixbuf_copy(sprite->pixbuf);
   }
 
-  /* Iterate over all pixels, reducing brightness by 50%. */
+  /* Iterate over all pixels, reducing brightness of R/G/B components. */
   for (x = 0; x < sprite->width; x++) {
     for (y = 0; y < sprite->height; y++) {
       pixel = gdk_pixbuf_get_pixels(fogged)
