@@ -4675,7 +4675,7 @@ struct unit_order *create_unit_orders(int length,
   struct unit_order *unit_orders;
 
   for (i = 0; i < length; i++) {
-    if (orders[i].order < 0 || orders[i].order > ORDER_LAST) {
+    if (orders[i].order > ORDER_LAST) {
       log_error("invalid order %d at index %d", orders[i].order, i);
       return NULL;
     }
