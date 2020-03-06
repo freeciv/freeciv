@@ -1844,7 +1844,7 @@ static void do_disband_alternative(void *p)
   int last_request_id_used;
   struct client_disband_unit_data *next;
   struct client_disband_unit_data *data = p;
-  const int act = disband_unit_alternatives[data->alt];
+  int act;
 
   fc_assert_ret(can_client_issue_orders());
 
@@ -1864,6 +1864,8 @@ static void do_disband_alternative(void *p)
                  unit_name_translation(punit));
     return;
   }
+
+  act = disband_unit_alternatives[data->alt];
 
   /* Prepare the data for the next try in case this try fails. */
   next = fc_malloc(sizeof(struct client_disband_unit_data));
