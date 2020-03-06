@@ -4160,7 +4160,8 @@ action_prob(const action_id wanted_action,
     /* TODO */
     break;
   case ACTION_AIRLIFT:
-    /* TODO */
+    /* Possible when not blocked by is_action_possible() */
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
