@@ -1684,9 +1684,11 @@ void show_new_turn_info()
         + QString::number(research->client.researching_cost) + ")";
   }
   s = s + "\n" + science_dialog_text() + "\n";
-  s = s + QString(_("Gold: %1 (+%2)"))
+  /* TRANS: current gold, then loss/gain per turn */
+  s = s + QString(_("Gold: %1 (%2)"))
       .arg(client.conn.playing->economic.gold)
-      .arg(player_get_expected_income(client.conn.playing));
+      .arg(QString().sprintf("%+d",
+                             player_get_expected_income(client.conn.playing)));
   ht = new hud_text(s, 5, gui()->mapview_wdg);
   ht->show_me();
 }
