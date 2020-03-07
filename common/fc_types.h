@@ -333,6 +333,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE4NAME "HasHomeCity"
 #define SPECENUM_VALUE5 USP_NATIVE_TILE
 #define SPECENUM_VALUE5NAME "OnNativeTile"
+#define SPECENUM_VALUE6 USP_NATIVE_EXTRA
+#define SPECENUM_VALUE6NAME "InNativeExtra"
 #define SPECENUM_COUNT USP_COUNT
 #include "specenum_gen.h"
 

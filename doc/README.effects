@@ -103,7 +103,7 @@ CityTile is either "Center" (city center) or "Claimed" (owned).
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
-"OnDomesticTile" or "HasHomeCity".
+"InNativeExtra", "OnDomesticTile" or "HasHomeCity".
 MinMoveFargs is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
 if enabled (see [calendar].fragments in game.ruleset).
@@ -643,5 +643,7 @@ The UnitState requirement type
                and safe tiles.
 "OnLivableTile" is fulfilled if the unit is on a tile where it can exist
                 outside of a transport.
+"InNativeExtra" is fulfilled if the unit is on a tile with an extra native
+                to it.
 "OnDomesticTile" is fulfilled if the unit is on a tile owned by its player.
 "HasHomeCity" is fulfilled if the unit has a home city.
