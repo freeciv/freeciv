@@ -24,7 +24,7 @@ add_gtk3_env() {
   cp $1/bin/libpango-1.0-0.dll $2/ &&
   cp $1/bin/libpangocairo-1.0-0.dll $2/ &&
   cp $1/bin/libpcre-1.dll $2/ &&
-  cp $1/bin/libffi-6.dll $2/ &&
+  cp $1/bin/libffi-7.dll $2/ &&
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
   cp $1/bin/libpangowin32-1.0-0.dll $2/ &&
