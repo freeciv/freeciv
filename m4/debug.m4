@@ -54,12 +54,11 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
 
   FC_C_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
               -Wformat -Wformat-security -Wnested-externs \
-              -Wshadow -Wold-style-declaration -Wold-style-definition],
+              -Wshadow -Wold-style-declaration],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
     FC_CXX_FLAGS([-Werror -Wmissing-prototypes -Wmissing-declarations \
-                  -Wformat -Wformat-security -Wold-style-declaration \
-                  -Wold-style-definition],
+                  -Wformat -Wformat-security -Wold-style-declaration],
                  [], [EXTRA_DEBUG_CXXFLAGS])
   fi
 
