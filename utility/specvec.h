@@ -114,7 +114,9 @@ static inline void SPECVEC_FOO(_vector_copy) (SPECVEC_VECTOR *to,
 					      const SPECVEC_VECTOR *from)
 {
   SPECVEC_FOO(_vector_reserve) (to, from->size);
-  memcpy(to->p, from->p, from->size * sizeof(*to->p));
+  if (from->size > 0) {
+    memcpy(to->p, from->p, from->size * sizeof(*to->p));
+  }
 }
 
 static inline void SPECVEC_FOO(_vector_free) (SPECVEC_VECTOR *tthis)
