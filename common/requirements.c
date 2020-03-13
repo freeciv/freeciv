@@ -3400,7 +3400,18 @@ const char *universal_name_translation(const struct universal *psource,
                  Q_(terrain_alteration_name(psource->value.terrainalter)));
     return buf;
   case VUT_CITYTILE:
-    fc_strlcat(buf, _("City center"), bufsz);
+    switch (psource->value.citytile) {
+    case CITYT_CENTER:
+      fc_strlcat(buf, _("City center"), bufsz);
+      break;
+    case CITYT_CLAIMED:
+      fc_strlcat(buf, _("Tile claimed"), bufsz);
+      break;
+    case CITYT_LAST:
+      fc_assert(psource->value.citytile != CITYT_LAST);
+      fc_strlcat(buf, "error", bufsz);
+      break;
+    }
     return buf;
   case VUT_COUNT:
     break;
