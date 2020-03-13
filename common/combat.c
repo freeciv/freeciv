@@ -768,6 +768,57 @@ struct unit *get_attacker(const struct unit *defender,
   return bestatt;
 }
 
+/**********************************************************************//**
+  Returns the defender of the tile in a diplomatic battle or NULL if no
+  diplomatic defender could be found.
+  @param act_unit the diplomatic attacker, trying to perform an action.
+  @param pvictim  unit that should be excluded as a defender.
+  @param tgt_tile the tile to defend.
+  @return the defender or NULL if no diplomatic defender could be found.
+**************************************************************************/
+struct unit *get_diplomatic_defender(const struct unit *act_unit,
+                                     const struct unit *pvictim,
+                                     const struct tile *tgt_tile)
+{
+  fc_assert_ret_val(act_unit, NULL);
+  fc_assert_ret_val(tgt_tile, NULL);
+
+  unit_list_iterate(tgt_tile->units, punit) {
+    if (unit_owner(punit) == unit_owner(act_unit)) {
+      /* I can't confirm if we won't deny that we weren't involved.
+       * (Won't defend against its owner.) */
+      continue;
+    }
+
+    if (punit == pvictim
+        && !unit_has_type_flag(punit, UTYF_SUPERSPY)) {
+      /* The victim unit is defenseless unless it's a SuperSpy.
+       * Rationalization: A regular diplomat don't mind being bribed. A
+       * SuperSpy is high enough up the chain that accepting a bribe is
+       * against his own interests. */
+      continue;
+    }
+
+    if (!(unit_has_type_flag(punit, UTYF_DIPLOMAT)
+          || unit_has_type_flag(punit, UTYF_SUPERSPY))) {
+      /* A UTYF_SUPERSPY unit may not actually be a spy, but a superboss
+       * which we cannot allow puny diplomats from getting the better
+       * of. UTYF_SUPERSPY vs UTYF_SUPERSPY in a diplomatic contest always
+       * kills the attacker. */
+
+      /* The unit can't defend in a diplomatic battle. */
+      continue;
+    }
+
+    /* The first potential defender found is chosen. No priority is given
+     * to the best defender. */
+    return punit;
+  } unit_list_iterate_end;
+
+  /* No diplomatic defender found. */
+  return NULL;
+}
+
 /*******************************************************************//**
   Is it a city/fortress/air base or will the whole stack die in an attack
 ***********************************************************************/

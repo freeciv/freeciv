@@ -25,6 +25,7 @@
 
 /* common */
 #include "base.h"
+#include "combat.h"
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -1911,6 +1912,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                                      struct tile *ptile,
                                      struct player **defender_owner)
 {
+  struct unit *punit;
   char link_city[MAX_LEN_LINK] = "";
   char link_diplomat[MAX_LEN_LINK];
   char link_unit[MAX_LEN_LINK];
@@ -1921,190 +1923,166 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
     sz_strlcpy(link_city, city_link(pcity));
   }
 
-  /* We don't need a _safe iterate since no transporters should be
-   * destroyed. */
-  unit_list_iterate(ptile->units, punit) {
+  if ((punit = get_diplomatic_defender(pdiplomat, pvictim, ptile))) {
     struct player *uplayer = unit_owner(punit);
 
-    /* I can't confirm if we won't deny that we weren't involved. */
-    if (uplayer == pplayer) {
-      continue;
+    if (defender_owner != NULL) {
+      /* Some action performers may want to know defender player. */
+      *defender_owner = uplayer;
     }
 
-    if (punit == pvictim
-        && !unit_has_type_flag(punit, UTYF_SUPERSPY)) {
-      /* The victim unit is defenseless unless it's a SuperSpy.
-       * Rationalization: A regular diplomat don't mind being bribed. A
-       * SuperSpy is high enough up the chain that accepting a bribe is
-       * against his own interests. */
-      continue;
-    }
+    if (diplomat_success_vs_defender(pdiplomat, punit, ptile)) {
+      /* Defending Spy/Diplomat dies. */
 
-    if (unit_has_type_flag(punit, UTYF_DIPLOMAT)
-        || unit_has_type_flag(punit, UTYF_SUPERSPY)) {
-      /* A UTYF_SUPERSPY unit may not actually be a spy, but a superboss
-       * which we cannot allow puny diplomats from getting the better
-       * of. UTYF_SUPERSPY vs UTYF_SUPERSPY in a diplomatic contest always
-       * kills the attacker. */
+      /* N.B.: *_link() always returns the same pointer. */
+      sz_strlcpy(link_unit, unit_tile_link(punit));
+      sz_strlcpy(link_diplomat, unit_link(pdiplomat));
 
-      if (defender_owner != NULL) {
-        /* Some action performers may want to know defender player. */
-        *defender_owner = uplayer;
-      }
+      notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                    /* TRANS: <unit> ... <diplomat> */
+                    _("An enemy %s has been eliminated by your %s."),
+                    link_unit, link_diplomat);
 
-      if (diplomat_success_vs_defender(pdiplomat, punit, ptile)) {
-        /* Defending Spy/Diplomat dies. */
-
-        /* N.B.: *_link() always returns the same pointer. */
-        sz_strlcpy(link_unit, unit_tile_link(punit));
-        sz_strlcpy(link_diplomat, unit_link(pdiplomat));
-
-        notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                      /* TRANS: <unit> ... <diplomat> */
-                      _("An enemy %s has been eliminated by your %s."),
-                      link_unit, link_diplomat);
-
-        if (pcity) {
-          if (uplayer == cplayer || cplayer == NULL) {
-            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: <unit> ... <city> ... <diplomat> */
-                          _("Your %s has been eliminated defending %s"
-                            " against a %s."), link_unit, link_city,
-                          link_diplomat);
-          } else {
-            notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: <nation adj> <unit> ... <city>
-                           * TRANS: ... <diplomat> */
-                          _("A %s %s has been eliminated defending %s "
-                            "against a %s."),
-                          nation_adjective_for_player(uplayer),
-                          link_unit, link_city, link_diplomat);
-            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: ... <unit> ... <nation adj> <city>
-                           * TRANS: ... <diplomat> */
-                          _("Your %s has been eliminated defending %s %s "
-                            "against a %s."), link_unit,
-                          nation_adjective_for_player(cplayer),
-                          link_city, link_diplomat);
-          }
+      if (pcity) {
+        if (uplayer == cplayer || cplayer == NULL) {
+          notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <unit> ... <city> ... <diplomat> */
+                        _("Your %s has been eliminated defending %s"
+                          " against a %s."), link_unit, link_city,
+                        link_diplomat);
         } else {
-          if (uplayer == cplayer || cplayer == NULL) {
-            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: <unit> ... <diplomat> */
-                          _("Your %s has been eliminated defending "
-                            "against a %s."), link_unit, link_diplomat);
-          } else {
-            notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: <nation adj> <unit> ... <diplomat> */
-                          _("A %s %s has been eliminated defending "
-                            "against a %s."),
-                          nation_adjective_for_player(uplayer),
-                          link_unit, link_diplomat);
-            notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: ... <unit> ... <diplomat> */
-                          _("Your %s has been eliminated defending "
-                            "against a %s."), link_unit, link_diplomat);
-          }
+          notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <nation adj> <unit> ... <city>
+                                         * TRANS: ... <diplomat> */
+                        _("A %s %s has been eliminated defending %s "
+                          "against a %s."),
+                        nation_adjective_for_player(uplayer),
+                        link_unit, link_city, link_diplomat);
+          notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: ... <unit> ... <nation adj> <city>
+                                         * TRANS: ... <diplomat> */
+                        _("Your %s has been eliminated defending %s %s "
+                          "against a %s."), link_unit,
+                        nation_adjective_for_player(cplayer),
+                        link_city, link_diplomat);
         }
-
-        pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
-
-        /* Attacking unit became more experienced? */
-        if (maybe_make_veteran(pdiplomat)) {
-          notify_unit_experience(pdiplomat);
-        }
-        send_unit_info(NULL, pdiplomat);
-        wipe_unit(punit, ULR_ELIMINATED, pplayer);
-        return FALSE;
       } else {
-        /* Attacking Spy/Diplomat dies. */
-
-        const char *victim_link;
-
-        /* N.B.: *_link() always returns the same pointer. */
-        sz_strlcpy(link_unit, unit_link(punit));
-        sz_strlcpy(link_diplomat, unit_tile_link(pdiplomat));
-
-        notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
-                      _("Your %s was eliminated by a defending %s."),
-                      link_diplomat, link_unit);
-
-        if (pcity) {
-          if (uplayer == cplayer || cplayer == NULL) {
-            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Eliminated a %s %s while infiltrating %s."),
-                          nation_adjective_for_player(pplayer),
-                          link_diplomat, link_city);
-          } else {
-            notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("A %s %s eliminated a %s %s while infiltrating "
-                            "%s."), nation_adjective_for_player(uplayer),
-                          link_unit, nation_adjective_for_player(pplayer),
-                          link_diplomat, link_city);
-            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Your %s eliminated a %s %s while infiltrating "
-                            "%s."), link_unit,
-                          nation_adjective_for_player(pplayer),
-                          link_diplomat, link_city);
-          }
+        if (uplayer == cplayer || cplayer == NULL) {
+          notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <unit> ... <diplomat> */
+                        _("Your %s has been eliminated defending "
+                          "against a %s."), link_unit, link_diplomat);
         } else {
-          if (uplayer == cplayer || cplayer == NULL) {
-            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("Eliminated a %s %s while infiltrating our troops."),
-                          nation_adjective_for_player(pplayer),
-                          link_diplomat);
-          } else {
-            notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          _("A %s %s eliminated a %s %s while infiltrating our "
-                            "troops."), nation_adjective_for_player(uplayer),
-                          link_unit, nation_adjective_for_player(pplayer),
-                          link_diplomat);
-            notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
-                          /* TRANS: ... <unit> ... <diplomat> */
-                          _("Your %s eliminated a %s %s while infiltrating our "
-                            "troops."), link_unit,
-                          nation_adjective_for_player(pplayer),
-                          link_diplomat);
-          }
+          notify_player(cplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: <nation adj> <unit> ... <diplomat> */
+                        _("A %s %s has been eliminated defending "
+                          "against a %s."),
+                        nation_adjective_for_player(uplayer),
+                        link_unit, link_diplomat);
+          notify_player(uplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: ... <unit> ... <diplomat> */
+                        _("Your %s has been eliminated defending "
+                          "against a %s."), link_unit, link_diplomat);
         }
-
-	/* Defending unit became more experienced? */
-	if (maybe_make_veteran(punit)) {
-	  notify_unit_experience(punit);
-	}
-
-        victim_link = NULL;
-
-        switch (action_get_target_kind(paction)) {
-        case ATK_CITY:
-          victim_link = city_link(pcity);
-          break;
-        case ATK_UNIT:
-        case ATK_UNITS:
-          victim_link = pvictim ? unit_tile_link(pvictim)
-                                : tile_link(ptile);
-          break;
-        case ATK_TILE:
-          victim_link = tile_link(ptile);
-          break;
-        case ATK_SELF:
-          /* How did a self targeted action end up here? */
-          fc_assert(action_get_target_kind(paction) != ATK_SELF);
-          break;
-        case ATK_COUNT:
-          break;
-        }
-
-        fc_assert(victim_link != NULL);
-
-        action_consequence_caught(paction, pplayer, uplayer,
-                                  ptile, victim_link);
-
-        wipe_unit(pdiplomat, ULR_ELIMINATED, uplayer);
-        return FALSE;
       }
+
+      pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
+
+      /* Attacking unit became more experienced? */
+      if (maybe_make_veteran(pdiplomat)) {
+        notify_unit_experience(pdiplomat);
+      }
+      send_unit_info(NULL, pdiplomat);
+      wipe_unit(punit, ULR_ELIMINATED, pplayer);
+      return FALSE;
+    } else {
+      /* Attacking Spy/Diplomat dies. */
+
+      const char *victim_link;
+
+      /* N.B.: *_link() always returns the same pointer. */
+      sz_strlcpy(link_unit, unit_link(punit));
+      sz_strlcpy(link_diplomat, unit_tile_link(pdiplomat));
+
+      notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                    _("Your %s was eliminated by a defending %s."),
+                    link_diplomat, link_unit);
+
+      if (pcity) {
+        if (uplayer == cplayer || cplayer == NULL) {
+          notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("Eliminated a %s %s while infiltrating %s."),
+                        nation_adjective_for_player(pplayer),
+                        link_diplomat, link_city);
+        } else {
+          notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("A %s %s eliminated a %s %s while infiltrating "
+                          "%s."), nation_adjective_for_player(uplayer),
+                        link_unit, nation_adjective_for_player(pplayer),
+                        link_diplomat, link_city);
+          notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("Your %s eliminated a %s %s while infiltrating "
+                          "%s."), link_unit,
+                        nation_adjective_for_player(pplayer),
+                        link_diplomat, link_city);
+        }
+      } else {
+        if (uplayer == cplayer || cplayer == NULL) {
+          notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("Eliminated a %s %s while infiltrating our troops."),
+                        nation_adjective_for_player(pplayer),
+                        link_diplomat);
+        } else {
+          notify_player(cplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        _("A %s %s eliminated a %s %s while infiltrating our "
+                          "troops."), nation_adjective_for_player(uplayer),
+                        link_unit, nation_adjective_for_player(pplayer),
+                        link_diplomat);
+          notify_player(uplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
+                        /* TRANS: ... <unit> ... <diplomat> */
+                        _("Your %s eliminated a %s %s while infiltrating our "
+                          "troops."), link_unit,
+                        nation_adjective_for_player(pplayer),
+                        link_diplomat);
+        }
+      }
+
+      /* Defending unit became more experienced? */
+      if (maybe_make_veteran(punit)) {
+        notify_unit_experience(punit);
+      }
+
+      victim_link = NULL;
+
+      switch (action_get_target_kind(paction)) {
+      case ATK_CITY:
+        victim_link = city_link(pcity);
+        break;
+      case ATK_UNIT:
+      case ATK_UNITS:
+        victim_link = pvictim ? unit_tile_link(pvictim)
+                              : tile_link(ptile);
+        break;
+      case ATK_TILE:
+        victim_link = tile_link(ptile);
+        break;
+      case ATK_SELF:
+        /* How did a self targeted action end up here? */
+        fc_assert(action_get_target_kind(paction) != ATK_SELF);
+        break;
+      case ATK_COUNT:
+        break;
+      }
+
+      fc_assert(victim_link != NULL);
+
+      action_consequence_caught(paction, pplayer, uplayer,
+                                ptile, victim_link);
+
+      wipe_unit(pdiplomat, ULR_ELIMINATED, uplayer);
+      return FALSE;
     }
-  } unit_list_iterate_end;
+  }
 
   return TRUE;
 }

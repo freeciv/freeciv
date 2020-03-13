@@ -80,6 +80,10 @@ struct unit *get_defender(const struct unit *attacker,
 struct unit *get_attacker(const struct unit *defender,
 			  const struct tile *ptile);
 
+struct unit *get_diplomatic_defender(const struct unit *act_unit,
+                                     const struct unit *pvictim,
+                                     const struct tile *tgt_tile);
+
 bool is_stack_vulnerable(const struct tile *ptile);
 
 int combat_bonus_against(const struct combat_bonus_list *list,
