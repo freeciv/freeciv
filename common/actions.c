@@ -4594,7 +4594,8 @@ int action_dice_roll_odds(const struct player *act_player,
                                        EFT_ACTION_ODDS_PCT))
            / 100);
 
-  return odds;
+  /* Odds are between 0% and 100%. */
+  return CLIP(0, odds, 100);
 }
 
 /**********************************************************************//**
