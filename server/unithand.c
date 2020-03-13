@@ -4153,7 +4153,8 @@ static bool do_unit_strike_city_production(const struct player *act_player,
       /* Notify the player. */
       notify_player(act_player, city_tile(tgt_city),
                     E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
-                    _("Your %s failed to %s in %s."),
+                    /* TRANS: unit, action, city */
+                    _("Your %s failed to do %s in %s."),
                     unit_link(act_unit),
                     action_name_translation(paction),
                     city_link(tgt_city));
@@ -4228,7 +4229,8 @@ static bool do_unit_strike_city_building(const struct player *act_player,
       /* Notify the player. */
       notify_player(act_player, city_tile(tgt_city),
                     E_UNIT_ACTION_ACTOR_FAILURE, ftc_server,
-                    _("Your %s failed to %s in %s."),
+                    /* TRANS: unit, action, city */
+                    _("Your %s failed to do %s in %s."),
                     unit_link(act_unit),
                     action_name_translation(paction),
                     city_link(tgt_city));
