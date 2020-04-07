@@ -24,6 +24,7 @@
 #include <QMessageBox>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QPainterPath>
 #include <QRadioButton>
 #include <QRect>
 #include <QSignalMapper>
