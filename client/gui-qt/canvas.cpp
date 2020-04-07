@@ -18,6 +18,7 @@
 // Qt
 #include <QFontMetrics>
 #include <QPainter>
+#include <QPainterPath>
 
 // qt-client
 #include "canvas.h"
