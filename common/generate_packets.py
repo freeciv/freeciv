@@ -284,6 +284,7 @@ class Field:
       differ = (%(array_size_o)s != %(array_size_u)s);
       if (!differ) {
         int i;
+
         for (i = 0; i < %(array_size_u)s; i++) {
           if (%(c)s) {
             differ = TRUE;
