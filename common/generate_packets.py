@@ -284,6 +284,7 @@ class Field:
       differ = (%(array_size_o)s != %(array_size_u)s);
       if (!differ) {
         int i;
+
         for (i = 0; i < %(array_size_u)s; i++) {
           if (%(c)s) {
             differ = TRUE;
@@ -2111,7 +2112,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 bool server_handle_packet(enum packet_type type, const void *packet,
                           struct player *pplayer, struct connection *pconn)
 {
-  switch(type) {
+  switch (type) {
 ''')
     for p in packets:
         if "cs" not in p.dirs: continue
@@ -2166,7 +2167,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
     
 bool client_handle_packet(enum packet_type type, const void *packet)
 {
-  switch(type) {
+  switch (type) {
 ''')
     for p in packets:
         if "sc" not in p.dirs: continue
