@@ -285,8 +285,9 @@ class Field:
         return '''
     {
       differ = (%(array_size_o)s != %(array_size_u)s);
-      if(!differ) {
+      if (!differ) {
         int i;
+
         for (i = 0; i < %(array_size_u)s; i++) {
           if (%(c)s) {
             differ = TRUE;
@@ -306,7 +307,7 @@ class Field:
            not self.is_array:
             b="packet->%(name)s"%self.get_dict(vars())
             return '''%s
-  if(differ) {
+  if (differ) {
     different++;
   }
   if (%s) {
@@ -413,7 +414,7 @@ class Field:
       fc_assert(%(array_size_u)s < 255);
 
       for (i = 0; i < %(array_size_u)s; i++) {
-        if(old->%(name)s[i] != real_packet->%(name)s[i]) {
+        if (old->%(name)s[i] != real_packet->%(name)s[i]) {
           dio_put_uint8(&dout, i);
           %(c)s
         }
@@ -700,7 +701,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
     log_test(\"%(name)s %%d out of %%d got discarded\",
       stats_%(name)s_discarded, stats_%(name)s_sent);
     for (i = 0; i < %(bits)d; i++) {
-      if(stats_%(name)s_counters[i] > 0) {
+      if (stats_%(name)s_counters[i] > 0) {
         log_test(\"  %%4d / %%4d: %%2d = %%s\",
           stats_%(name)s_counters[i],
           (stats_%(name)s_sent - stats_%(name)s_discarded),
@@ -1224,7 +1225,7 @@ class Packet:
 
         return '''%(send_prototype)s
 {
-  if(!pc->used) {
+  if (!pc->used) {
     log_error("WARNING: trying to send data to the closed connection %%s",
               conn_description(pc));
     return -1;
@@ -1855,7 +1856,7 @@ bool client_handle_packet(enum packet_type type, const void *packet);
 bool server_handle_packet(enum packet_type type, const void *packet,
                           struct player *pplayer, struct connection *pconn)
 {
-  switch(type) {
+  switch (type) {
 ''')
     for p in packets:
         if "cs" not in p.dirs: continue
@@ -1910,7 +1911,7 @@ bool server_handle_packet(enum packet_type type, const void *packet,
     
 bool client_handle_packet(enum packet_type type, const void *packet)
 {
-  switch(type) {
+  switch (type) {
 ''')
     for p in packets:
         if "sc" not in p.dirs: continue

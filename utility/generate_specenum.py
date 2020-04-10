@@ -32,7 +32,7 @@ def make_header(file):
  *                       DO NOT CHANGE THIS FILE                           *
  **************************************************************************/
 
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2009
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ def make_header(file):
 def make_documentation(file):
     file.write('''
 /*
- * Include this file to define tools to manage enumerators.  First of all,
+ * Include this file to define tools to manage enumerators. First of all,
  * before including this file, you *MUST* define the following macros:
  * - SPECENUM_NAME: is the name of the enumeration (e.g. 'foo' for defining
  * 'enum foo').
@@ -62,7 +62,7 @@ def make_documentation(file):
  * - SPECENUM_BITWISE: defines if the enumeration should be like
  * [1, 2, 4, 8, etc...] instead of the default of [0, 1, 2, 3, etc...].
  * - SPECENUM_ZERO: can be defined only if SPECENUM_BITWISE was also defined.
- * It defines a 0 value.  Note that if you don't declare this value, 0 passed
+ * It defines a 0 value. Note that if you don't declare this value, 0 passed
  * to the 'foo_is_valid()' function will return 0.
  * - SPECENUM_COUNT: a name for the maximum enumeration number plus 1. For
  * enums where every element from 0 to the maximum is defined, this is the
