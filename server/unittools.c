@@ -1538,11 +1538,15 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
                          - game.server.upgrade_veteran_loss, 0);
   }
 
-  /* Scale HP and MP, rounding down.  Be careful with integer arithmetic,
-   * and don't kill the unit.  unit_move_rate is used to take into account
+  /* Scale HP and MP, rounding down. Be careful with integer arithmetic,
+   * and don't kill the unit. unit_move_rate() is used to take into account
    * global effects like Magellan's Expedition. */
   punit->hp = MAX(punit->hp * unit_type_get(punit)->hp / old_hp, 1);
-  punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
+  if (old_mr == 0) {
+    punit->moves_left = unit_move_rate(punit);
+  } else {
+    punit->moves_left = punit->moves_left * unit_move_rate(punit) / old_mr;
+  }
 
   unit_forget_last_activity(punit);
 
