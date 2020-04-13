@@ -2842,12 +2842,6 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
    * ane_kind, explain_why_no_action_enabled(), etc)
    */
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-    if (NULL != is_non_attack_city_tile(ptile, pplayer)) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("Cannot attack unless you declare war first."));
-      return FALSE;
-    }
-
     unit_list_iterate(ptile->units, pother) {
       if (can_player_see_unit(pplayer, pother)
           && pplayers_non_attack(pplayer, unit_owner(pother))) {
