@@ -233,7 +233,8 @@ void effect_edit::fill_active()
 **************************************************************************/
 void effect_edit::effect_type_menu(QAction *action)
 {
-  enum effect_type type = effect_type_by_name(action->text().toUtf8().data(),
+  QByteArray en_bytes = action->text().toUtf8();
+  enum effect_type type = effect_type_by_name(en_bytes.data(),
                                               fc_strcasecmp);
 
   if (selected != nullptr) {
@@ -262,8 +263,10 @@ void effect_edit::edit_reqs()
 {
   if (selected != nullptr) {
     char buf[128];
+    QByteArray en_bytes;
 
-    fc_snprintf(buf, sizeof(buf), R__("%s effect #%d"), name.toUtf8().data(),
+    en_bytes = name.toUtf8();
+    fc_snprintf(buf, sizeof(buf), R__("%s effect #%d"), en_bytes.data(),
                 selected_nbr);
 
     ui->open_req_edit(QString::fromUtf8(buf), &selected->reqs);

@@ -159,7 +159,10 @@ void tab_unit::select_unit()
   QList<QListWidgetItem *> select_list = unit_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_utype_info(unit_type_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray un_bytes;
+
+    un_bytes = select_list.at(0)->text().toUtf8();
+    update_utype_info(unit_type_by_rule_name(un_bytes.data()));
   }
 }
 
@@ -169,9 +172,13 @@ void tab_unit::select_unit()
 void tab_unit::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     unit_type_iterate(ptype) {
       if (ptype != selected && !ptype->ruledit_disabled) {
-        if (!strcmp(utype_rule_name(ptype), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(utype_rule_name(ptype), rname_bytes.data())) {
           ui->display_msg(R__("A unit type with that rule name already "
                               "exists!"));
           return;
@@ -183,9 +190,11 @@ void tab_unit::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

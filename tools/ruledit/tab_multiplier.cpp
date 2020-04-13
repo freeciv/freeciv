@@ -155,7 +155,10 @@ void tab_multiplier::select_multiplier()
   QList<QListWidgetItem *> select_list = mpr_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_multiplier_info(multiplier_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray mn_bytes;
+
+    mn_bytes = select_list.at(0)->text().toUtf8();
+    update_multiplier_info(multiplier_by_rule_name(mn_bytes.data()));
   }
 }
 
@@ -165,9 +168,13 @@ void tab_multiplier::select_multiplier()
 void tab_multiplier::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     multipliers_iterate(pmul) {
       if (pmul != selected && !pmul->ruledit_disabled) {
-        if (!strcmp(multiplier_rule_name(pmul), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(multiplier_rule_name(pmul), rname_bytes.data())) {
           ui->display_msg(R__("A multiplier with that rule name already exists!"));
           return;
         }
@@ -178,9 +185,11 @@ void tab_multiplier::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

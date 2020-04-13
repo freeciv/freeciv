@@ -159,7 +159,10 @@ void tab_extras::select_extra()
   QList<QListWidgetItem *> select_list = extra_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_extra_info(extra_type_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray en_bytes;
+
+    en_bytes = select_list.at(0)->text().toUtf8();
+    update_extra_info(extra_type_by_rule_name(en_bytes.data()));
   }
 }
 
@@ -169,9 +172,13 @@ void tab_extras::select_extra()
 void tab_extras::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     extra_type_iterate(pextra) {
       if (pextra != selected && !pextra->ruledit_disabled) {
-        if (!strcmp(extra_rule_name(pextra), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(extra_rule_name(pextra), rname_bytes.data())) {
           ui->display_msg(R__("An extra with that rule name already exists!"));
           return;
         }
@@ -182,9 +189,11 @@ void tab_extras::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

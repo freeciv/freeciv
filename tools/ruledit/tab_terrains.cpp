@@ -155,7 +155,10 @@ void tab_terrains::select_terrain()
   QList<QListWidgetItem *> select_list = terrain_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_terrain_info(terrain_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray tn_bytes;
+
+    tn_bytes = select_list.at(0)->text().toUtf8();
+    update_terrain_info(terrain_by_rule_name(tn_bytes.data()));
   }
 }
 
@@ -165,9 +168,13 @@ void tab_terrains::select_terrain()
 void tab_terrains::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     terrain_type_iterate(pterr) {
       if (pterr != selected && !pterr->ruledit_disabled) {
-        if (!strcmp(terrain_rule_name(pterr), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(terrain_rule_name(pterr), rname_bytes.data())) {
           ui->display_msg(R__("A terrain with that rule name already exists!"));
           return;
         }
@@ -178,9 +185,11 @@ void tab_terrains::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

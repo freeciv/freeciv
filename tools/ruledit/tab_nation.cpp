@@ -84,7 +84,10 @@ void tab_nation::flush_widgets()
   FC_FREE(ui->data.nationlist);
 
   if (via_include->isChecked()) {
-    ui->data.nationlist = fc_strdup(nationlist->text().toUtf8().data());
+    QByteArray nln_bytes;
+
+    nln_bytes = nationlist->text().toUtf8();
+    ui->data.nationlist = fc_strdup(nln_bytes.data());
   } else {
     ui->data.nationlist = NULL;
   }
@@ -102,8 +105,11 @@ void tab_nation::nationlist_toggle(bool checked)
       ui->data.nationlist = fc_strdup("default/nationlist.ruleset");
     }
   } else {
+    QByteArray nln_bytes;
+
     FC_FREE(ui->data.nationlist_saved);
-    ui->data.nationlist_saved = fc_strdup(nationlist->text().toUtf8().data());
+    nln_bytes = nationlist->text().toUtf8();
+    ui->data.nationlist_saved = fc_strdup(nln_bytes.data());
     ui->data.nationlist = NULL;
   }
 

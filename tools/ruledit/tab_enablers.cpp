@@ -223,8 +223,10 @@ void tab_enabler::add_now()
 void tab_enabler::edit_type(QAction *action)
 {
   struct action *paction;
+  QByteArray an_bytes;
 
-  paction = action_by_rule_name(action->text().toUtf8().data());
+  an_bytes = action->text().toUtf8();
+  paction = action_by_rule_name(an_bytes.data());
 
   if (selected != nullptr && paction != nullptr) {
     /* Store the old action so it can be changed back. */

@@ -160,7 +160,10 @@ void tab_good::select_good()
   QList<QListWidgetItem *> select_list = good_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_good_info(goods_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray gn_bytes;
+
+    gn_bytes = select_list.at(0)->text().toUtf8();
+    update_good_info(goods_by_rule_name(gn_bytes.data()));
   }
 }
 
@@ -170,9 +173,13 @@ void tab_good::select_good()
 void tab_good::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     goods_type_iterate(pgood) {
       if (pgood != selected && !pgood->ruledit_disabled) {
-        if (!strcmp(goods_rule_name(pgood), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(goods_rule_name(pgood), rname_bytes.data())) {
           ui->display_msg(R__("A good with that rule name already exists!"));
           return;
         }
@@ -183,9 +190,11 @@ void tab_good::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

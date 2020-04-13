@@ -3294,7 +3294,10 @@ void mr_menu::tileset_custom_load()
   layout->addWidget(label);
 
   foreach (s, sl) {
-    poption = optset_option_by_name(client_optset, s.toLocal8Bit().data());
+    QByteArray on_bytes;
+
+    on_bytes = s.toLocal8Bit();
+    poption = optset_option_by_name(client_optset, on_bytes.data());
     tlset_list = get_tileset_list(poption);
     strvec_iterate(tlset_list, value) {
       but = new QPushButton(value);
@@ -3313,9 +3316,11 @@ void mr_menu::tileset_custom_load()
 void mr_menu::load_new_tileset()
 {
   QPushButton *but;
+  QByteArray tn_bytes;
 
   but = qobject_cast<QPushButton *>(sender());
-  tilespec_reread(but->text().toLocal8Bit().data(), true, 1.0f);
+  tn_bytes = but->text().toLocal8Bit();
+  tilespec_reread(tn_bytes.data(), true, 1.0f);
   gui()->map_scale = 1.0f;
   but->parentWidget()->close();
 }
@@ -3511,7 +3516,10 @@ void mr_menu::save_game_as()
                                               _("Save Game As..."),
                                               location, str);
   if (!current_file.isEmpty()) {
-    send_save_game(current_file.toLocal8Bit().data());
+    QByteArray cf_bytes;
+
+    cf_bytes = current_file.toLocal8Bit();
+    send_save_game(cf_bytes.data());
   }
 }
 

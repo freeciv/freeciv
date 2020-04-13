@@ -261,7 +261,8 @@ void req_edit::fill_active()
 **************************************************************************/
 void req_edit::req_type_menu(QAction *action)
 {
-  enum universals_n univ = universals_n_by_name(action->text().toUtf8().data(),
+  QByteArray un_bytes = action->text().toUtf8();
+  enum universals_n univ = universals_n_by_name(un_bytes.data(),
                                                 fc_strcasecmp);
 
   if (selected != nullptr) {
@@ -277,7 +278,8 @@ void req_edit::req_type_menu(QAction *action)
 **************************************************************************/
 void req_edit::req_range_menu(QAction *action)
 {
-  enum req_range range = req_range_by_name(action->text().toUtf8().data(),
+  QByteArray un_bytes = action->text().toUtf8();
+  enum req_range range = req_range_by_name(un_bytes.data(),
                                            fc_strcasecmp);
 
   if (selected != nullptr) {
@@ -309,7 +311,9 @@ void req_edit::req_present_menu(QAction *action)
 void req_edit::univ_value_enum_menu(QAction *action)
 {
   if (selected != nullptr) {
-    universal_value_from_str(&selected->source, action->text().toUtf8().data());
+    QByteArray un_bytes = action->text().toUtf8();
+
+    universal_value_from_str(&selected->source, un_bytes.data());
 
     refresh();
   }
@@ -321,8 +325,10 @@ void req_edit::univ_value_enum_menu(QAction *action)
 void req_edit::univ_value_edit()
 {
   if (selected != nullptr) {
+    QByteArray num_bytes = edit_value_nbr_field->text().toUtf8();
+
     universal_value_from_str(&selected->source,
-                             edit_value_nbr_field->text().toUtf8().data());
+                             num_bytes.data());
 
     refresh();
   }

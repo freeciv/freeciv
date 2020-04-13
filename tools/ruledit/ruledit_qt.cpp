@@ -212,9 +212,12 @@ static void conversion_log_cb(const char *msg)
 **************************************************************************/
 void ruledit_gui::launch_now()
 {
+  QByteArray rn_bytes;
+
   convlog = new conversion_log();
 
-  sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
+  rn_bytes = ruleset_select->text().toUtf8();
+  sz_strlcpy(game.server.rulesetdir, rn_bytes.data());
 
   if (load_rulesets(NULL, NULL, TRUE, conversion_log_cb, FALSE, TRUE, TRUE)) {
     display_msg(R__("Ruleset loaded"));

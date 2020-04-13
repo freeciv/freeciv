@@ -159,7 +159,10 @@ void tab_gov::select_gov()
   QList<QListWidgetItem *> select_list = gov_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_gov_info(government_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray gn_bytes;
+
+    gn_bytes = select_list.at(0)->text().toUtf8();
+    update_gov_info(government_by_rule_name(gn_bytes.data()));
   }
 }
 
@@ -169,9 +172,13 @@ void tab_gov::select_gov()
 void tab_gov::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     governments_iterate(pgov) {
       if (pgov != selected && !pgov->ruledit_disabled) {
-        if (!strcmp(government_rule_name(pgov), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(government_rule_name(pgov), rname_bytes.data())) {
           ui->display_msg(R__("A government with that rule name already "
                               "exists!"));
           return;
@@ -183,9 +190,11 @@ void tab_gov::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }
