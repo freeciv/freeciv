@@ -528,6 +528,8 @@ Actions done by a unit against a tile
    - the actor unit must be able to exist outside a transport on the target
      tile if the target tile doesn't have a visible transport the actor unit
      is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
 
 Actions done by a unit to it self
 =================================

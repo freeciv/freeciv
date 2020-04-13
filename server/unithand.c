@@ -578,6 +578,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
                                           const struct city *target_city,
                                           const struct unit *target_unit)
 {
+  struct player *actor_player = unit_owner(actor);
+
   if (action_id_get_actor_kind(act) != AAK_UNIT) {
     /* No unit can ever do this action so it isn't relevant. */
     return NULL;
@@ -616,6 +618,19 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
     break;
 
+  case ACTION_PARADROP:
+    /* Target is a tile but a city or unit can block it. */
+    if (target_tile
+        && map_is_known_and_seen(target_tile, actor_player, V_MAIN)) {
+      /* Seen tile unit savers */
+
+      struct city *tcity;
+
+      if ((tcity = is_non_attack_city_tile(target_tile, actor_player))) {
+        return city_owner(tcity);
+      }
+    }
+    break;
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -653,7 +668,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
-  case ACTION_PARADROP:
   case ACTION_AIRLIFT:
   case ACTION_HEAL_UNIT:
   case ACTION_CONQUER_CITY:

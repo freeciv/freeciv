@@ -2269,6 +2269,12 @@ is_action_possible(const action_id wanted_action,
               || !unit_could_load_at(actor_unit, target_tile))) {
         return TRI_NO;
       }
+
+      /* Reason: Keep the old rules. Be merciful. */
+      /* Info leak: The player sees the target tile. */
+      if (is_non_attack_city_tile(target_tile, actor_player)) {
+        return TRI_NO;
+      }
     }
 
     /* Reason: Keep paratroopers_range working. */
