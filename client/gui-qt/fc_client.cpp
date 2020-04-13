@@ -963,20 +963,25 @@ QIcon fc_icons::get_icon(const QString &id)
 {
   QIcon icon;
   QString str;
+  QByteArray pn_bytes;
+  QByteArray png_bytes;
 
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
   /* Try custom icon from theme */
+  pn_bytes = str.toLocal8Bit();
+  png_bytes = QString(pn_bytes.data() + current_theme + DIR_SEPARATOR
+                      + id + ".png").toLocal8Bit();
   icon.addFile(fileinfoname(get_data_dirs(),
-                            QString(str.toLocal8Bit().data() + current_theme
-                                    + DIR_SEPARATOR
-                                    + id + ".png").toLocal8Bit().data()));
+                            png_bytes.data()));
   str = str + "icons" + DIR_SEPARATOR;
   /* Try icon from icons dir */
   if (icon.isNull()) {
-  icon.addFile(fileinfoname(get_data_dirs(),
-                            QString(str.toLocal8Bit().data()
-                                    + id + ".png").toLocal8Bit().data()));
+    pn_bytes = str.toLocal8Bit();
+    png_bytes = QString(pn_bytes.data() + id + ".png").toLocal8Bit();
+    icon.addFile(fileinfoname(get_data_dirs(),
+                              png_bytes.data()));
   }
+
   return QIcon(icon);
 }
 
@@ -988,23 +993,25 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
   QPixmap *pm;
   bool status;
   QString str;
+  QByteArray png_bytes;
 
   pm = new QPixmap;
   if (QPixmapCache::find(id, pm)) {
     return pm;
   }
   str = QString("themes") + DIR_SEPARATOR + "gui-qt" + DIR_SEPARATOR;
+  png_bytes = QString(str + current_theme + DIR_SEPARATOR
+                      + id + ".png").toLocal8Bit();
   status = pm->load(fileinfoname(get_data_dirs(),
-                                 QString(str + current_theme
-                                 + DIR_SEPARATOR
-                                 + id + ".png").toLocal8Bit().data()));
+                                 png_bytes.data()));
 
   if (!status) {
     str = str + "icons" + DIR_SEPARATOR;
-    pm->load(fileinfoname(get_data_dirs(), QString(str
-                          + id + ".png").toLocal8Bit().data()));
+    png_bytes = QString(str + id + ".png").toLocal8Bit();
+    pm->load(fileinfoname(get_data_dirs(), png_bytes.data()));
   }
   QPixmapCache::insert(id, *pm);
+
   return pm;
 }
 
@@ -1014,11 +1021,14 @@ QPixmap* fc_icons::get_pixmap(const QString &id)
 QString fc_icons::get_path(const QString &id)
 {
   QString str;
-  
+  QByteArray png_bytes;
+
   str = QString("themes") + DIR_SEPARATOR + "gui-qt"
         + DIR_SEPARATOR + "icons" + DIR_SEPARATOR;
+  png_bytes = QString(str + id + ".png").toLocal8Bit();
+
   return fileinfoname(get_data_dirs(),
-                      QString(str + id + ".png").toLocal8Bit().data());
+                      png_bytes.data());
 }
 
 /****************************************************************************
@@ -1265,7 +1275,10 @@ void pregame_options::ailevel_change(int i)
 void pregame_options::ruleset_change(int i)
 {
   if (!cruleset->currentText().isEmpty()) {
-    set_ruleset(cruleset->currentText().toLocal8Bit().data());
+    QByteArray rn_bytes;
+
+    rn_bytes = cruleset->currentText().toLocal8Bit();
+    set_ruleset(rn_bytes.data());
   }
 }
 

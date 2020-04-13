@@ -179,7 +179,10 @@ void ruledit_gui::setup(QWidget *central_in)
 **************************************************************************/
 void ruledit_gui::launch_now()
 {
-  sz_strlcpy(game.server.rulesetdir, ruleset_select->text().toUtf8().data());
+  QByteArray rn_bytes;
+
+  rn_bytes = ruleset_select->text().toUtf8();
+  sz_strlcpy(game.server.rulesetdir, rn_bytes.data());
 
   if (load_rulesets(NULL, FALSE, TRUE)) {
     display_msg(R__("Ruleset loaded"));

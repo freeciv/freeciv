@@ -643,10 +643,13 @@ void hud_units::update_actions(unit_list *punits)
                                       " (Selected %1 units)", n))
                .arg(n);
   } else if (num > 1) {
+    QByteArray ut_bytes;
+
+    ut_bytes = snum.toLocal8Bit();
     /* TRANS: preserve leading space */
     text_str = text_str + QString(PL_(" +%1 unit",
                                       " +%1 units", num-1))
-                                  .arg(snum.toLocal8Bit().data());
+                                  .arg(ut_bytes.data());
   }
   text_label.setTextFormat(Qt::PlainText);
   text_label.setText(text_str);
