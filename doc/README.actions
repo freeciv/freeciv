@@ -707,6 +707,10 @@ Actions done by a unit against a tile
  * the actor unit has paratroopers_mr_req moves left
  * the actor unit isn't transporting another unit (!)
  * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
 
 "Transform Terrain" - Transform tile terrain type.
  * UI name can be set using ui_name_transform_terrain

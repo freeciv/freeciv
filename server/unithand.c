@@ -1178,6 +1178,15 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                  TER_NO_CITIES)) {
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
     explnat->no_act_terrain = tile_terrain(target_tile);
+  } else if (action_id_has_result_safe(act_id, ACTION_PARADROP)
+             && target_tile
+             && map_is_known_and_seen(target_tile, unit_owner(punit),
+                                      V_MAIN)
+             && (!can_unit_exist_at_tile(&(wld.map), punit, target_tile)
+                 && (!game.info.paradrop_to_transport
+                     || !unit_could_load_at(punit, target_tile)))) {
+    explnat->kind = ANEK_BAD_TERRAIN_TGT;
+    explnat->no_act_terrain = tile_terrain(target_tile);
   } else if (target_tile
              && does_terrain_block_action(act_id, TRUE,
                  punit, tile_terrain(target_tile))) {
