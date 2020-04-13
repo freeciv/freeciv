@@ -2816,6 +2816,13 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
 
+
+  /* Hard requirements */
+  /* FIXME: hard requirements belong in common/actions's
+   * is_action_possible() and the explanation texts belong in
+   * server/unithand's action not enabled system (expl_act_not_enabl(),
+   * ane_kind, explain_why_no_action_enabled(), etc)
+   */
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
     if (!can_unit_exist_at_tile(punit, ptile)
         && (!game.info.paradrop_to_transport
@@ -2879,20 +2886,23 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
                     player_name(plrtile->owner));
       return FALSE;
     }
+  }
 
-    /* Safe terrain, really? Not transformed since player last saw it. */
-    if (!can_unit_exist_at_tile(punit, ptile)
-        && (!game.info.paradrop_to_transport
-            || !unit_could_load_at(punit, ptile))) {
-      map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
-      notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
-                    _("Your %s paradropped into the %s and was lost."),
-                    unit_tile_link(punit),
-                    terrain_name_translation(tile_terrain(ptile)));
-      pplayer->score.units_lost++;
-      server_remove_unit(punit, ULR_NONNATIVE_TERR);
-      return TRUE;
-    }
+
+  /* Kill the unit when the landing goes wrong. */
+
+  /* Safe terrain, really? Not transformed since player last saw it. */
+  if (!can_unit_exist_at_tile(punit, ptile)
+      && (!game.info.paradrop_to_transport
+          || !unit_could_load_at(punit, ptile))) {
+    map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
+    notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
+                  _("Your %s paradropped into the %s and was lost."),
+                  unit_tile_link(punit),
+                  terrain_name_translation(tile_terrain(ptile)));
+    pplayer->score.units_lost++;
+    server_remove_unit(punit, ULR_NONNATIVE_TERR);
+    return TRUE;
   }
 
   if (is_non_attack_city_tile(ptile, pplayer)
@@ -2910,6 +2920,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     server_remove_unit(punit, ULR_KILLED);
     return TRUE;
   }
+
 
   /* All ok */
   punit->paradropped = TRUE;
@@ -2929,6 +2940,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     fc_assert(can_unit_exist_at_tile(punit, unit_tile(punit))
               || unit_transported(punit));
   }
+
   return TRUE;
 }
 
