@@ -268,6 +268,7 @@ void mpgui::setup(QWidget *central, struct fcmp_params *params)
 void mpgui::display_msg(QString msg)
 {
   QByteArray msg_bytes = msg.toLocal8Bit();
+
   log_verbose("%s", msg_bytes.data());
   msg_dspl->setText(msg);
 }
@@ -332,11 +333,13 @@ void mpgui::refresh_list_versions()
     int type_int;
     const char *new_inst;
     enum modpack_type type;
+    QByteArray name_bytes;
 
     name_str = mplist_table->item(i, ML_COL_NAME)->text();
     type_int = mplist_table->item(i, ML_TYPE)->text().toInt();
     type = (enum modpack_type) type_int;
-    new_inst = get_installed_version(name_str.toUtf8().data(), type);
+    name_bytes = name_str.toUtf8();
+    new_inst = get_installed_version(name_bytes.data(), type);
 
     if (new_inst == nullptr) {
       new_inst = _("Not installed");

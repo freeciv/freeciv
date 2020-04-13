@@ -172,16 +172,19 @@ void tab_misc::refresh()
 void tab_misc::save_now()
 {
   char nameUTF8[MAX_LEN_NAME];
+  QByteArray ba_bytes;
 
   ui->flush_widgets();
 
-  strncpy(nameUTF8, name->text().toUtf8().data(), sizeof(nameUTF8) - 1);
+  ba_bytes = name->text().toUtf8();
+  strncpy(nameUTF8, ba_bytes.data(), sizeof(nameUTF8) - 1);
 
   if (nameUTF8[0] != '\0') {
     strncpy(game.control.name, nameUTF8, sizeof(game.control.name));
   }
 
-  strncpy(game.control.version, version->text().toUtf8().data(),
+  ba_bytes = version->text().toUtf8();
+  strncpy(game.control.version, ba_bytes.data(),
           sizeof(game.control.version) - 1);
 
   if (!sanity_check_ruleset_data()) {
@@ -196,7 +199,8 @@ void tab_misc::save_now()
     }
   }
 
-  save_ruleset(savedir->text().toUtf8().data(), nameUTF8,
+  ba_bytes = savedir->text().toUtf8();
+  save_ruleset(ba_bytes.data(), nameUTF8,
                &(ui->data));
 
   ui->display_msg(R__("Ruleset saved"));

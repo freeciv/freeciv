@@ -656,6 +656,7 @@ void races_dialog::leader_selected(int index)
 ***************************************************************************/
 void races_dialog::ok_pressed()
 {
+  QByteArray ln_bytes;
 
   if (selected_nation == -1) {
     return;
@@ -681,9 +682,10 @@ void races_dialog::ok_pressed()
                          _("Nation has been chosen by other player"));
     return;
   }
+  ln_bytes = leader_name->currentText().toUtf8();
   dsend_packet_nation_select_req(&client.conn, player_number(tplayer),
                                  selected_nation, selected_sex,
-                                 leader_name->currentText().toUtf8().data(),
+                                 ln_bytes.data(),
                                  selected_style);
   close();
   deleteLater();
@@ -729,6 +731,9 @@ void notify_dialog::restart()
 {
   QString s, q;
   int i;
+  QByteArray capt_bytes;
+  QByteArray hl_bytes;
+  QByteArray qb_bytes;
 
   for (i = 0; i < qlist.size(); ++i) {
     s = qlist.at(i);
@@ -737,9 +742,12 @@ void notify_dialog::restart()
       q = q + QChar('\n');
     }
   }
-  popup_notify_dialog(qcaption.toLocal8Bit().data(),
-                      qheadline.toLocal8Bit().data(),
-                      q.toLocal8Bit().data());
+  capt_bytes = qcaption.toLocal8Bit();
+  hl_bytes = qheadline.toLocal8Bit();
+  qb_bytes = q.toLocal8Bit();
+  popup_notify_dialog(capt_bytes.data(),
+                      hl_bytes.data(),
+                      qb_bytes.data());
   close();
   destroy();
 }
@@ -1877,6 +1885,7 @@ static void action_entry(choice_dialog *cd,
 {
   QString title;
   QString tool_tip;
+  QByteArray cust_bytes;
 
   if (act == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
@@ -1899,10 +1908,11 @@ static void action_entry(choice_dialog *cd,
     return;
   }
 
+  cust_bytes = custom.toUtf8();
   title = QString(action_prepare_ui_name(act, "&",
                                          act_probs[act],
                                          custom != "" ?
-                                             custom.toUtf8().data() :
+                                             cust_bytes.data() :
                                              NULL));
 
   tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
@@ -1921,6 +1931,7 @@ static void action_entry_update(Choice_dialog_button *button,
 {
   QString title;
   QString tool_tip;
+  QByteArray cust_bytes;
 
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
@@ -1928,10 +1939,11 @@ static void action_entry_update(Choice_dialog_button *button,
   button->setData1(data1);
   button->setData2(data2);
   /* The probability may have changed. */
+  cust_bytes = custom.toUtf8();
   title = QString(action_prepare_ui_name(act, "&",
                                          act_probs[act],
                                          custom != "" ?
-                                             custom.toUtf8().data() :
+                                             cust_bytes.data() :
                                              NULL));
 
   tool_tip = QString(action_get_tool_tip(act, act_probs[act]));

@@ -2255,7 +2255,10 @@ void city_dialog::city_rename()
   ask.set_text_title_definput(_("What should we rename the city to?"),
                               _("Rename City"), city_name_get(pcity));
   if (ask.exec() == QDialog::Accepted) {
-    ::city_rename(pcity, ask.input_edit.text().toLocal8Bit().data());
+    QByteArray ask_bytes;
+
+    ask_bytes = ask.input_edit.text().toLocal8Bit();
+    ::city_rename(pcity, ask_bytes.data());
   }
 }
 
@@ -2298,7 +2301,10 @@ void city_dialog::save_cma()
                               _("Name new preset"),
                               _("new preset"));
   if (ask.exec() == QDialog::Accepted) {
-    text = ask.input_edit.text().toLocal8Bit().data();
+    QByteArray ask_bytes;
+
+    ask_bytes = ask.input_edit.text().toLocal8Bit();
+    text = ask_bytes.data();
     if (!text.isEmpty()) {
       param.allow_disorder = false;
       param.allow_specialists = true;
@@ -2310,7 +2316,8 @@ void city_dialog::save_cma()
         param.factor[i] = slider_tab[2 * i + 1]->value();
       }
 
-      cmafec_preset_add(text.toLocal8Bit().data(), &param);
+      ask_bytes = text.toLocal8Bit();
+      cmafec_preset_add(ask_bytes.data(), &param);
       update_cma_tab();
     }
   }
@@ -3554,9 +3561,13 @@ void city_dialog::save_worklist()
                               _("Save current worklist"),
                               _("New worklist"));
   if (ask.exec() == QDialog::Accepted) {
-    text = ask.input_edit.text().toLocal8Bit().data();
+    QByteArray ask_bytes;
+
+    ask_bytes = ask.input_edit.text().toLocal8Bit();
+    text = ask_bytes.data();
     if (!text.isEmpty()) {
-      gw = global_worklist_new(text.toLocal8Bit().data());
+      ask_bytes = text.toLocal8Bit();
+      gw = global_worklist_new(ask_bytes.data());
       city_get_queue(pcity, &queue);
       global_worklist_set(gw, &queue);
     }

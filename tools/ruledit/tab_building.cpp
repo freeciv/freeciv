@@ -136,7 +136,10 @@ void tab_building::select_bldg()
   QList<QListWidgetItem *> select_list = bldg_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_bldg_info(improvement_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray bn_bytes;
+
+    bn_bytes = select_list.at(0)->text().toUtf8();
+    update_bldg_info(improvement_by_rule_name(bn_bytes.data()));
   }
 }
 
@@ -146,9 +149,13 @@ void tab_building::select_bldg()
 void tab_building::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     improvement_iterate(pimpr) {
       if (pimpr != selected && !pimpr->disabled) {
-        if (!strcmp(improvement_rule_name(pimpr), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(improvement_rule_name(pimpr), rname_bytes.data())) {
           ui->display_msg(R__("A building with that rule name already "
                               "exists!"));
           return;
@@ -160,9 +167,11 @@ void tab_building::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }

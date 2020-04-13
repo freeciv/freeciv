@@ -42,9 +42,11 @@
 void mpqt_worker::run()
 {
   const char *errmsg;
+  QByteArray url_bytes;
 
-  errmsg = download_modpack(URL.toUtf8().data(),
-			    fcmp, msg_callback, pb_callback);
+  url_bytes = URL.toUtf8();
+  errmsg = download_modpack(url_bytes.data(),
+                            fcmp, msg_callback, pb_callback);
 
   if (errmsg != nullptr) {
     msg_callback(errmsg);

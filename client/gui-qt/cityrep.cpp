@@ -40,11 +40,14 @@ bool city_sort_model::lessThan(const QModelIndex &left,
   QVariant qleft;
   QVariant qright;
   int i;
+  QByteArray l_bytes;
+  QByteArray r_bytes;
 
   qleft = sourceModel()->data(left);
   qright = sourceModel()->data(right);
-  i = cityrepfield_compare(qleft.toString().toLocal8Bit().data(),
-                           qright.toString().toLocal8Bit().data());
+  l_bytes = qleft.toString().toLocal8Bit();
+  r_bytes = qright.toString().toLocal8Bit();
+  i = cityrepfield_compare(l_bytes.data(), r_bytes.data());
 
   if (i >= 0) {
     return true;
