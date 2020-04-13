@@ -78,7 +78,11 @@ void edit_utype::refresh()
 **************************************************************************/
 void edit_utype::req_menu(QAction *action)
 {
-  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+  struct advance *padv;
+  QByteArray an_bytes;
+
+  an_bytes = action->text().toUtf8();
+  padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != nullptr) {
     utype->require_advance = padv;

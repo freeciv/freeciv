@@ -143,6 +143,7 @@ void configure_fonts()
   qreal screen_size = screen->geometry().width() / physical_dpi + 5;
   qreal scale = (physical_dpi * screen_size / (logical_dpi * 27))
                 / screen->devicePixelRatio();
+  QByteArray fn_bytes;
 
   max = qRound(scale * 16);
   smaller = qRound(scale * 12);
@@ -154,24 +155,28 @@ void configure_fonts()
      << "Lucida Sans" << "Trebuchet MS" << "Times New Roman";
   font_name = configure_font(fonts::default_font, sl, max);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_default,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   font_name = configure_font(fonts::help_label, sl, max);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_help_label,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   font_name = configure_font(fonts::city_names, sl, smaller, true);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_city_names,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   /* default for help text */
   font_name = configure_font(fonts::help_text, sl, default_size);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_help_text,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   sl.clear();
 
@@ -181,26 +186,30 @@ void configure_fonts()
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
   font_name = configure_font(fonts::notify_label, sl, default_size);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_notify_label,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   font_name = configure_font(fonts::comment_label, sl, default_size);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_comment_label,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
 
   /* the same font for city label but smaller */
   font_name = configure_font(fonts::city_label, sl, smaller);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_city_label,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   /* standard for chat */
   font_name = configure_font(fonts::chatline, sl, default_size);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_chatline,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
 
   /* help title */
@@ -209,8 +218,9 @@ void configure_fonts()
       << "Comic Sans MS" << "Droid Sans" << "Noto Sans";
   font_name = configure_font(fonts::help_title, sl, max, true);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_help_title,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   /* City production */
   sl.clear();
@@ -219,8 +229,9 @@ void configure_fonts()
   font_name = configure_font(fonts::city_productions, sl, default_size,
                              true);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_city_productions,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
   /* Reqtree */
   sl.clear();
@@ -228,8 +239,9 @@ void configure_fonts()
       << "Droid Sans" << "Noto Sans" << "Ubuntu";
   font_name = configure_font(fonts::reqtree_text, sl, max, true);
   if (!font_name.isEmpty()) {
+    fn_bytes = font_name.toLocal8Bit();
     fc_strlcpy(gui_options.gui_qt_font_reqtree_text,
-               font_name.toLocal8Bit().data(), 512);
+               fn_bytes.data(), 512);
   }
 }
 
@@ -245,12 +257,16 @@ QString configure_font(QString font_name, QStringList sl, int size,
 
   foreach (str, sl)  {
     if (database.families().contains(str)) {
+      QByteArray fn_bytes;
+
       f = new QFont(str, size);
       if (bold) {
         f->setBold(true);
       }
       fc_font::instance()->set_font(font_name, f);
-      return f->toString().toLocal8Bit().data();
+      fn_bytes = f->toString().toLocal8Bit();
+
+      return fn_bytes.data();
     }
   }
   return QString();

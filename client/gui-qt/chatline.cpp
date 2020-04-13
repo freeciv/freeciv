@@ -556,10 +556,14 @@ QString apply_tags(QString str, const struct text_tag_list *tags,
   QByteArray qba;
   QColor qc;
   QMultiMap <int, QString> mm;
+  QByteArray str_bytes;
+
   if (tags == NULL) {
     return str;
   }
-  qba = str.toLocal8Bit().data();
+  str_bytes = str.toLocal8Bit();
+  qba = str_bytes.data();
+
   text_tag_list_iterate(tags, ptag) {
     if ((text_tag_stop_offset(ptag) == FT_OFFSET_UNSET)) {
       stop = qba.count();

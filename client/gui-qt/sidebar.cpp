@@ -355,8 +355,11 @@ void fc_sidewidget::some_slot()
   obs_player = reinterpret_cast<struct player *>(qvar.value<void *>());
   if (obs_player != nullptr) {
     QString s;
+    QByteArray cn_bytes;
+
     s = QString("/observe \"%1\"").arg(obs_player->name);
-    send_chat(s.toLocal8Bit().data());
+    cn_bytes = s.toLocal8Bit();
+    send_chat(cn_bytes.data());
   }
 }
 

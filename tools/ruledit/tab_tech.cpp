@@ -241,7 +241,10 @@ void tab_tech::select_tech()
   QList<QListWidgetItem *> select_list = tech_list->selectedItems();
 
   if (!select_list.isEmpty()) {
-    update_tech_info(advance_by_rule_name(select_list.at(0)->text().toUtf8().data()));
+    QByteArray tn_bytes;
+
+    tn_bytes = select_list.at(0)->text().toUtf8();
+    update_tech_info(advance_by_rule_name(tn_bytes.data()));
   }
 }
 
@@ -280,7 +283,11 @@ void tab_tech::root_req_jump()
 **************************************************************************/
 void tab_tech::req1_menu(QAction *action)
 {
-  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+  struct advance *padv;
+  QByteArray an_bytes;
+
+  an_bytes = action->text().toUtf8();
+  padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != 0 && selected != 0) {
     selected->require[AR_ONE] = padv;
@@ -294,7 +301,11 @@ void tab_tech::req1_menu(QAction *action)
 **************************************************************************/
 void tab_tech::req2_menu(QAction *action)
 {
-  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+  struct advance *padv;
+  QByteArray an_bytes;
+
+  an_bytes = action->text().toUtf8();
+  padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != 0 && selected != 0) {
     selected->require[AR_TWO] = padv;
@@ -308,7 +319,11 @@ void tab_tech::req2_menu(QAction *action)
 **************************************************************************/
 void tab_tech::root_req_menu(QAction *action)
 {
-  struct advance *padv = advance_by_rule_name(action->text().toUtf8().data());
+  struct advance *padv;
+  QByteArray an_bytes;
+
+  an_bytes = action->text().toUtf8();
+  padv = advance_by_rule_name(an_bytes.data());
 
   if (padv != 0 && selected != 0) {
     selected->require[AR_ROOT] = padv;
@@ -323,10 +338,14 @@ void tab_tech::root_req_menu(QAction *action)
 void tab_tech::name_given()
 {
   if (selected != nullptr) {
+    QByteArray name_bytes;
+    QByteArray rname_bytes;
+
     advance_iterate(A_FIRST, padv) {
       if (padv != selected
           && padv->require[AR_ONE] != A_NEVER) {
-        if (!strcmp(advance_rule_name(padv), rname->text().toUtf8().data())) {
+        rname_bytes = rname->text().toUtf8();
+        if (!strcmp(advance_rule_name(padv), rname_bytes.data())) {
           ui->display_msg(R__("A tech with that rule name already exists!"));
           return;
         }
@@ -337,9 +356,11 @@ void tab_tech::name_given()
       name->setText(rname->text());
     }
 
+    name_bytes = name->text().toUtf8();
+    rname_bytes = rname->text().toUtf8();
     names_set(&(selected->name), 0,
-              name->text().toUtf8().data(),
-              rname->text().toUtf8().data());
+              name_bytes.data(),
+              rname_bytes.data());
     refresh();
   }
 }
