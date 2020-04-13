@@ -2824,15 +2824,6 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
    * ane_kind, explain_why_no_action_enabled(), etc)
    */
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-    if (!can_unit_exist_at_tile(punit, ptile)
-        && (!game.info.paradrop_to_transport
-            || !unit_could_load_at(punit, ptile))) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("This unit cannot paradrop into %s."),
-                    terrain_name_translation(tile_terrain(ptile)));
-      return FALSE;
-    }
-
     if (NULL != is_non_attack_city_tile(ptile, pplayer)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("Cannot attack unless you declare war first."));

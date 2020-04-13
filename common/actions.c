@@ -2259,6 +2259,18 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
+    if (plr_sees_tile(actor_player, target_tile)) {
+      /* Check for seen stuff that may kill the player. */
+
+      /* Reason: Keep the old rules. Be merciful. */
+      /* Info leak: The player sees the target tile. */
+      if (!can_unit_exist_at_tile(actor_unit, target_tile)
+          && (!game.info.paradrop_to_transport
+              || !unit_could_load_at(actor_unit, target_tile))) {
+        return TRI_NO;
+      }
+    }
+
     /* Reason: Keep paratroopers_range working. */
     /* Info leak: The player knows the location of the actor and of the
      * target tile. */
