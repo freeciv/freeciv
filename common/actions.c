@@ -34,14 +34,23 @@
 #include "tile.h"
 #include "unit.h"
 
-/* Custom data type for obligatory hard action requirements. */
-struct obligatory_req {
+/* Custom data types for obligatory hard action requirements. */
+
+/* A contradiction to an obligatory hard requirement. */
+struct action_enabler_contradiction {
   /* A requirement that contradicts the obligatory hard requirement. */
-  struct requirement contradiction;
+  struct requirement req;
 
   /* Is the obligatory hard requirement in the action enabler's target
    * requirement vector? If FALSE it is in its actor requirement vector. */
   bool is_target;
+};
+
+/* An obligatory hard action requirement */
+struct obligatory_req {
+  /* The requirement is fulfilled if the action enabler doesn't contradict
+   * this. */
+  struct action_enabler_contradiction contra;
 
   /* The error message to show when the hard obligatory requirement is
    * missing. Must be there. */
@@ -142,8 +151,8 @@ static void oblig_hard_req_register(struct requirement contradiction,
   fc_assert_ret(error_message);
 
   /* Pack the obligatory hard requirement. */
-  oreq.contradiction = contradiction;
-  oreq.is_target = is_target;
+  oreq.contra.req = contradiction;
+  oreq.contra.is_target = is_target;
   oreq.error_msg = error_message;
 
   /* Add the obligatory hard requirement to each action it applies to. */
@@ -1710,10 +1719,10 @@ action_enabler_obligatory_reqs_missing(struct action_enabler *enabler)
     struct requirement_vector *ae_vec;
 
     /* Select action enabler requirement vector. */
-    ae_vec = (obreq->is_target ? &enabler->target_reqs :
-                                 &enabler->actor_reqs);
+    ae_vec = (obreq->contra.is_target ? &enabler->target_reqs :
+                                        &enabler->actor_reqs);
 
-    if (!does_req_contradicts_reqs(&obreq->contradiction, ae_vec)) {
+    if (!does_req_contradicts_reqs(&obreq->contra.req, ae_vec)) {
       /* Sanity check: doesn't return NULL when a problem is detected. */
       fc_assert_ret_val(obreq->error_msg,
                         "Missing obligatory hard requirement for %s.");
@@ -1749,19 +1758,19 @@ bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
     struct requirement_vector *ae_vec;
 
     /* Select action enabler requirement vector. */
-    ae_vec = (obreq->is_target ? &enabler->target_reqs :
-                                 &enabler->actor_reqs);
+    ae_vec = (obreq->contra.is_target ? &enabler->target_reqs :
+                                        &enabler->actor_reqs);
 
-    if (!does_req_contradicts_reqs(&obreq->contradiction, ae_vec)) {
+    if (!does_req_contradicts_reqs(&obreq->contra.req, ae_vec)) {
       struct requirement missing;
 
       /* Change the requirement from what should conflict to what is
        * wanted. */
-      missing.present = !obreq->contradiction.present;
-      missing.source = obreq->contradiction.source;
-      missing.range = obreq->contradiction.range;
-      missing.survives = obreq->contradiction.survives;
-      missing.quiet = obreq->contradiction.quiet;
+      missing.present = !obreq->contra.req.present;
+      missing.source = obreq->contra.req.source;
+      missing.range = obreq->contra.req.range;
+      missing.survives = obreq->contra.req.survives;
+      missing.quiet = obreq->contra.req.quiet;
 
       /* Insert the missing requirement. */
       requirement_vector_append(ae_vec, missing);
