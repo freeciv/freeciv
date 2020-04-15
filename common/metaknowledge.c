@@ -146,7 +146,7 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Is an evalutaion of the requirement accurate when pow_player evaluates
+  Is an evaluation of the requirement accurate when pow_player evaluates
   it?
 
   TODO: Move the data to a data file. That will
