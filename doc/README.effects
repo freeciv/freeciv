@@ -99,6 +99,9 @@ DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported" or "OnLivableTile".
 MinMoveFargs is the minimum move fragments the unit must have left.
+Nationality is fulfilled by any citizens of the given nationality
+present in the city.
+
 
 Effect types
 ============
