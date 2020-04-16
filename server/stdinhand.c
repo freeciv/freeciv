@@ -32,6 +32,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "rand.h"
 #include "registry.h"
 #include "support.h"            /* fc__attribute, bool type, etc. */
 #include "timing.h"
@@ -159,6 +160,8 @@ static char setting_status(struct connection *caller,
 static bool player_name_check(const char* name, char *buf, size_t buflen);
 static bool playercolor_command(struct connection *caller,
                                 char *str, bool check);
+static bool playernation_command(struct connection *caller,
+                                 char *str, bool check);
 static bool mapimg_command(struct connection *caller, char *arg, bool check);
 static const char *mapimg_accessor(int i);
 
@@ -4136,6 +4139,133 @@ static bool playercolor_command(struct connection *caller,
 }
 
 /**********************************************************************//**
+  /playernation command handler.
+**************************************************************************/
+static bool playernation_command(struct connection *caller,
+                                 char *str, bool check)
+{
+  enum m_pre_result match_result;
+  struct player *pplayer;
+  struct nation_type *pnation;
+  struct nation_style *pstyle;
+  bool is_male = FALSE;
+  int ntokens = 0;
+  char *token[5];
+
+  ntokens = get_tokens(str, token, 5, TOKEN_DELIMITERS);
+
+  if (ntokens == 0) {
+    cmd_reply(CMD_PLAYERNATION, caller, C_SYNTAX,
+              _("At least one argument needed. See '/help playernation'."));
+    free_tokens(token, ntokens);
+    return FALSE;
+  }
+
+  if (game_was_started()) {
+    cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+              _("Can only set player nation before game starts."));
+    free_tokens(token, ntokens);
+    return FALSE;
+  }
+
+  pplayer = player_by_name_prefix(token[0], &match_result);
+  if (!pplayer) {
+    cmd_reply_no_such_player(CMD_PLAYERNATION, caller, token[0], match_result);
+    free_tokens(token, ntokens);
+    return FALSE;
+  }
+
+  if (ntokens == 1) {
+    if (!check) {
+      player_set_nation(pplayer, NO_NATION_SELECTED);
+
+      cmd_reply(CMD_PLAYERNATION, caller, C_OK,
+                _("Nation of player %s reset."), player_name(pplayer));
+      send_player_info_c(pplayer, game.est_connections);
+    }
+  } else {
+    pnation = nation_by_rule_name(token[1]);
+    if (pnation == NO_NATION_SELECTED) {
+      cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+                _("Unrecognized nation: %s."), token[1]);
+      free_tokens(token, ntokens);
+      return FALSE;
+    }
+
+    if (!client_can_pick_nation(pnation)) {
+      cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+                _("%s nation is not available for user selection."),
+                token[1]);
+      free_tokens(token, ntokens);
+      return FALSE;
+    }
+
+    if (pnation->player && pnation->player != pplayer) {
+      cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+                _("%s nation is already in use."), token[1]);
+      free_tokens(token, ntokens);
+      return FALSE;
+    }
+
+    if (ntokens < 3) {
+      cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+             /* TRANS: Nation resetting form of /playernation does not require sex */
+                _("Player sex must be given when setting nation."));
+      free_tokens(token, ntokens);
+      return FALSE;
+    }
+
+    if (!strcmp(token[2], "0")) {
+      is_male = FALSE;
+    } else if (!strcmp(token[2], "1")) {
+      is_male = TRUE;
+    } else {
+      cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+                _("Unrecognized gender: %s, expecting 1 or 0."), token[2]);
+      free_tokens(token, ntokens);
+      return FALSE;
+    }
+
+    if (ntokens > 4) {
+      pstyle = style_by_rule_name(token[4]);
+      if (!pstyle) {
+        cmd_reply(CMD_PLAYERNATION, caller, C_FAIL,
+                  _("Unrecognized style: %s."), token[4]);
+        free_tokens(token, ntokens);
+        return FALSE;
+      }
+    } else {
+      pstyle = style_of_nation(pnation);
+    }
+
+    if (!check) {
+      char error_buf[256];
+
+      player_set_nation(pplayer, pnation);
+      pplayer->style = pstyle;
+      pplayer->is_male = is_male;
+
+      if (ntokens > 3) {
+        if (!server_player_set_name_full(caller, pplayer, pnation, token[3],
+                                         error_buf, sizeof(error_buf))) {
+          cmd_reply(CMD_PLAYERNATION, caller, C_WARNING, "%s", error_buf);
+        }
+      } else {
+        server_player_set_name(pplayer, token[0]);
+      }
+      cmd_reply(CMD_PLAYERNATION, caller, C_OK,
+                _("Nation of player %s set to [%s]."), player_name(pplayer),
+                nation_rule_name(pnation));
+      send_player_info_c(pplayer, game.est_connections);
+    }
+  }
+
+  free_tokens(token, ntokens);
+
+  return TRUE;
+}
+
+/**************************************************************************
   Handle quit command
 **************************************************************************/
 static bool quit_game(struct connection *caller, bool check)
@@ -4450,6 +4580,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return unignore_command(caller, arg, check);
   case CMD_PLAYERCOLOR:
     return playercolor_command(caller, arg, check);
+  case CMD_PLAYERNATION:
+    return playernation_command(caller, arg, check);
   case CMD_NUM:
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
