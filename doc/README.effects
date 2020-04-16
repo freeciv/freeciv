@@ -107,6 +107,8 @@ UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
 MinMoveFargs is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
 if enabled (see [calendar].fragments in game.ruleset).
+Nationality is fulfilled by any citizens of the given nationality
+present in the city.
 ServerSetting is if a Boolean server setting is enabled. The setting must be
 visible to all players and affect the game rules.
 
