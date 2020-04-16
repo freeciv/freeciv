@@ -476,7 +476,7 @@ void help_widget::setup_ui()
   box_wdg->setFrameShadow(QFrame::Raised);
 
   title_label = new QLabel(box_wdg);
-  title_label->setProperty(fonts::help_title, "true");
+  title_label->setProperty(fonts::default_font, "true");
   group_layout->addWidget(title_label);
 
   text_browser = new QTextBrowser(this);
@@ -555,7 +555,7 @@ void help_widget::update_fonts()
 
   l = findChildren<QWidget *>();
 
-  f = fc_font::instance()->get_font(fonts::help_label);
+  f = fc_font::instance()->get_font(fonts::notify_label);
   for (int i = 0; i < l.size(); ++i) {
     if (l.at(i)->property(fonts::help_label).isValid()) {
       l.at(i)->setFont(*f);
@@ -567,9 +567,9 @@ void help_widget::update_fonts()
       l.at(i)->setFont(*f);
     }
   }
-  f = fc_font::instance()->get_font(fonts::help_title);
+  f = fc_font::instance()->get_font(fonts::default_font);
   for (int i = 0; i < l.size(); ++i) {
-    if (l.at(i)->property(fonts::help_title).isValid()) {
+    if (l.at(i)->property(fonts::default_font).isValid()) {
       l.at(i)->setFont(*f);
     }
   }
@@ -1244,7 +1244,7 @@ QLayout *help_widget::create_terrain_widget(const QString &title,
   label = new QLabel(title);
   label->setTextFormat(Qt::PlainText);
   layout->addWidget(label, 0, 1, Qt::AlignBottom);
-  label->setProperty(fonts::help_title, "true");
+  label->setProperty(fonts::default_font, "true");
 
   label = new QLabel(legend);
   label->setTextFormat(Qt::PlainText);

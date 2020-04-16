@@ -1350,7 +1350,7 @@ void mapview_thaw(void)
 info_tile::info_tile(struct tile *ptile, QWidget *parent): QLabel(parent)
 {
   setParent(parent);
-  info_font = *fc_font::instance()->get_font(fonts::comment_label);
+  info_font = *fc_font::instance()->get_font(fonts::notify_label);
   itile = ptile;
   calc_size();
 }
@@ -1425,7 +1425,7 @@ void info_tile::paintEvent(QPaintEvent *event)
 **************************************************************************/
 void info_tile::update_font(const QString &name, const QFont &font)
 {
-  if (name == fonts::comment_label) {
+  if (name == fonts::notify_label) {
     info_font = font;
     calc_size();
     update();

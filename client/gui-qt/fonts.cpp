@@ -63,7 +63,7 @@ void fc_font::drop()
 QFont *fc_font::get_font(QString name)
 {
   /**
-   * example: get_font("gui_qt_font_city_label")
+   * example: get_font("gui_qt_font_notify_label")
    */
 
   if (font_map.contains(name)) {
@@ -83,7 +83,6 @@ void fc_font::init_fonts()
 
   /**
    * default font names are:
-   * gui_qt_font_city_label
    * gui_qt_font_notify_label and so on.
    * (full list is in options.c in client dir)
    */
@@ -158,12 +157,6 @@ void configure_fonts()
     fc_strlcpy(gui_options.gui_qt_font_default,
                fn_bytes.data(), 512);
   }
-  font_name = configure_font(fonts::help_label, sl, max);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_help_label,
-               fn_bytes.data(), 512);
-  }
   font_name = configure_font(fonts::city_names, sl, smaller, true);
   if (!font_name.isEmpty()) {
     fn_bytes = font_name.toLocal8Bit();
@@ -179,7 +172,7 @@ void configure_fonts()
   }
   sl.clear();
 
-  /* notify and comment */
+  /* notify */
   sl  <<  "Cousine" << "Liberation Mono" << "Source Code Pro"
       << "Source Code Pro [ADBO]"
       << "Noto Mono" << "Ubuntu Mono" << "Courier New";
@@ -189,20 +182,7 @@ void configure_fonts()
     fc_strlcpy(gui_options.gui_qt_font_notify_label,
                fn_bytes.data(), 512);
   }
-  font_name = configure_font(fonts::comment_label, sl, default_size);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_comment_label,
-               fn_bytes.data(), 512);
-  }
 
-  /* the same font for city label but smaller */
-  font_name = configure_font(fonts::city_label, sl, smaller);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_city_label,
-               fn_bytes.data(), 512);
-  }
   /* standard for chat */
   font_name = configure_font(fonts::chatline, sl, default_size);
   if (!font_name.isEmpty()) {
@@ -211,16 +191,6 @@ void configure_fonts()
                fn_bytes.data(), 512);
   }
 
-  /* help title */
-  sl.clear();
-  sl  <<  "Segoe Print" << "Papyrus" << "Vladimir Script"
-      << "Comic Sans MS" << "Droid Sans" << "Noto Sans";
-  font_name = configure_font(fonts::help_title, sl, max, true);
-  if (!font_name.isEmpty()) {
-    fn_bytes = font_name.toLocal8Bit();
-    fc_strlcpy(gui_options.gui_qt_font_help_title,
-               fn_bytes.data(), 512);
-  }
   /* City production */
   sl.clear();
   sl  << "Arimo" << "Play" <<  "Tinos" << "Ubuntu" << "Times New Roman"

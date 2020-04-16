@@ -370,18 +370,11 @@ struct client_options
   bool gui_qt_allied_chat_only;
   bool gui_qt_sidebar_left;
   char gui_qt_default_theme_name[512];
-  char gui_qt_font_city_label[512];
   char gui_qt_font_default[512];
   char gui_qt_font_notify_label[512];
-  char gui_qt_font_spaceship_label[512];
   char gui_qt_font_help_label[512];
-  char gui_qt_font_help_link[512];
   char gui_qt_font_help_text[512];
-  char gui_qt_font_help_title[512];
   char gui_qt_font_chatline[512];
-  char gui_qt_font_beta_label[512];
-  char gui_qt_font_small[512];
-  char gui_qt_font_comment_label[512];
   char gui_qt_font_city_names[512];
   char gui_qt_font_city_productions[512];
   char gui_qt_font_reqtree_text[512];

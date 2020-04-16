@@ -1471,7 +1471,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
           *supp_unit_wdg,  *curr_impr_wdg;;
 
   int h = 2 * fm.height() + 2;
-  small_font = fc_font::instance()->get_font(fonts::city_label);
+  small_font = fc_font::instance()->get_font(fonts::notify_label);
   zoom = 1.0;
 
   happines_shown = false;
@@ -1515,11 +1515,11 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   for (iter = 0; iter < info_nr; iter++) {
     ql = new QLabel(info_list[iter], info_wdg);
     ql->setFont(*small_font);
-    ql->setProperty(fonts::city_label, "true");
+    ql->setProperty(fonts::notify_label, "true");
     info_grid_layout->addWidget(ql, iter, 0);
     qlt[iter] = new QLabel(info_wdg);
     qlt[iter]->setFont(*small_font);
-    qlt[iter]->setProperty(fonts::city_label, "true");
+    qlt[iter]->setProperty(fonts::notify_label, "true");
     info_grid_layout->addWidget(qlt[iter], iter, 1);
     info_grid_layout->setRowStretch(iter, 0);
   }
@@ -1818,7 +1818,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
     gridl->addWidget(lab_table[i], i, 1, 1, 1);
     lab2 = new QLabel(this);
     lab2->setFont(*small_font);
-    lab2->setProperty(fonts::city_label, "true");
+    lab2->setProperty(fonts::notify_label, "true");
     lab2->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     lab2->setText(info_list.at(i));
     gridl->addWidget(lab2, i, 0, 1, 1);
@@ -1878,11 +1878,11 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   str_list << _("Food") << _("Shield") << _("Trade") << _("Gold")
            << _("Luxury") << _("Science") << _("Celebrate");
   some_label = new QLabel(_("Minimal Surplus"));
-  some_label->setFont(*fc_font::instance()->get_font(fonts::city_label));
+  some_label->setFont(*fc_font::instance()->get_font(fonts::notify_label));
   some_label->setAlignment(Qt::AlignRight);
   slider_grid->addWidget(some_label, 0, 0, 1, 3);
   some_label = new QLabel(_("Priority"));
-  some_label->setFont(*fc_font::instance()->get_font(fonts::city_label));
+  some_label->setFont(*fc_font::instance()->get_font(fonts::notify_label));
   some_label->setAlignment(Qt::AlignCenter);
   slider_grid->addWidget(some_label, 0, 3, 1, 2);
 
@@ -3684,10 +3684,10 @@ void city_font_update()
 
   l = city_dlg->findChildren<QLabel *>();
 
-  f = fc_font::instance()->get_font(fonts::city_label);
+  f = fc_font::instance()->get_font(fonts::notify_label);
 
   for (int i = 0; i < l.size(); ++i) {
-    if (l.at(i)->property(fonts::city_label).isValid()) {
+    if (l.at(i)->property(fonts::notify_label).isValid()) {
       l.at(i)->setFont(*f);
     }
   }
