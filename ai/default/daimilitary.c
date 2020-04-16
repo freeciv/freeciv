@@ -1035,7 +1035,13 @@ static void process_attacker_want(struct ai_type *ait,
             && uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
             && acity_data->invasion.attack > 0
             && acity_data->invasion.occupy == 0) {
-          desire = acity_data->worth * 10;
+          int owner_size = city_list_size(city_owner(acity)->cities);
+          float finishing_factor = 1;
+
+          if (owner_size <= FINISH_HIM_CITY_COUNT) {
+            finishing_factor = (2 - (float)owner_size / FINISH_HIM_CITY_COUNT);
+          }
+          desire = acity_data->worth * 10 * finishing_factor;
         } else {
           desire = 0;
         }
@@ -1234,8 +1240,14 @@ static void kill_something_with(struct ai_type *ait, struct player *pplayer,
       }
     }
     if (unit_can_take_over(myunit) || acity_data->invasion.occupy > 0) {
-      /* bonus for getting the city */
-      benefit += acity_data->worth / 3;
+      /* Bonus for getting the city */
+      int owner_size = city_list_size(city_owner(acity)->cities);
+      float finishing_factor = 1;
+
+      if (owner_size <= FINISH_HIM_CITY_COUNT) {
+        finishing_factor = (2 - (float)owner_size / FINISH_HIM_CITY_COUNT);
+      }
+      benefit += acity_data->worth * finishing_factor / 3;
     }
 
     /* end dealing with cities */

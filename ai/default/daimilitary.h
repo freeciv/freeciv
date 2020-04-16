@@ -20,6 +20,10 @@
 /* server/advisors */
 #include "advchoice.h"
 
+/* When an enemy has this or lower number of cities left, try harder
+   to finish him off. */
+#define FINISH_HIM_CITY_COUNT              5
+
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
                                              struct unit *attacker);
 void military_advisor_choose_tech(struct player *pplayer,
