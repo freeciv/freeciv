@@ -165,8 +165,7 @@ static bool insert_veteran_help(char *outbuf, size_t outlen,
       CATLSTR(outbuf, outlen, intro);
       CATLSTR(outbuf, outlen, "\n\n");
     }
-    /* raise_chance and work_raise_chance don't get to the client, so we
-     * can't report them */
+    /* TODO: Report raise_chance and work_raise_chance */
     CATLSTR(outbuf, outlen,
             /* TRANS: Header for fixed-width veteran level table.
              * TRANS: Translators cannot change column widths :(
