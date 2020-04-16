@@ -25,6 +25,10 @@
 #define AI_HANDICAP_DISTANCE_LIMIT         6  //TODO: 20 for non-web
 #endif /* FREECIV_WEB */
 
+/* When an enemy has this or lower number of cities left, try harder
+   to finish him off. */
+#define FINISH_HIM_CITY_COUNT              5
+
 typedef struct unit_list *(player_unit_list_getter)(struct player *pplayer);
 
 struct unit_type *dai_choose_defender_versus(struct city *pcity,
