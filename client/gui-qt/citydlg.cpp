@@ -3788,7 +3788,7 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
   QString s1, s2, str;
   const char *req = skip_intl_qualifier_prefix(_("?tech:None"));
 
-  if (pcity !=  nullptr) {
+  if (pcity != nullptr) {
     upkeep = QString::number(city_improvement_upkeep(pcity, building));
   } else {
     upkeep = QString::number(building->upkeep);
@@ -3805,9 +3805,17 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
   def_str = "<p style='white-space:pre'><b>"
             + QString(improvement_name_translation(building)).toHtmlEscaped()
             + "</b>\n";
-  def_str += QString(_("Cost: %1, Upkeep: %2\n"))
-             .arg(impr_build_shield_cost(pcity,building))
-             .arg(upkeep).toHtmlEscaped();
+  if (pcity != nullptr) {
+    def_str += QString(_("Cost: %1, Upkeep: %2\n"))
+               .arg(impr_build_shield_cost(pcity, building))
+               .arg(upkeep).toHtmlEscaped();
+  } else {
+    int base_cost = MAX(building->build_cost * game.info.shieldbox / 100, 1);
+
+    def_str += QString(_("Base Cost: %1, Upkeep: %2\n"))
+               .arg(base_cost)
+               .arg(upkeep).toHtmlEscaped();
+  }
   if (s1.compare(s2) != 0) {
     def_str = def_str + str.toHtmlEscaped() + "\n";
   }
