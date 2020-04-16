@@ -93,6 +93,7 @@ GUI="$2"
 case $GUI in
   gtk3.22)
     GUINAME="GTK3.22"
+    MPGUI="gtk3"
     FCMP="gtk3" ;;
   qt)
     GUINAME="Qt"
@@ -225,7 +226,7 @@ else
     then
       exit 1
     fi
-  elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+  elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP $MPGUI > Freeciv-$SETUP-$VERREV-$GUI.nsi
   then
     exit 1
   fi
