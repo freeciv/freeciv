@@ -242,9 +242,9 @@ real_package_name "autoheader" "ftp://ftp.gnu.org/pub/gnu/autoconf/" 2 65 || DIE
 AUTOHEADER=$REALPKGNAME
 
 # automake and aclocal version numbers must be kept in sync
-real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 3 || DIE=1
+real_package_name "automake" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 4 || DIE=1
 AUTOMAKE=$REALPKGNAME
-real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 3 || DIE=1
+real_package_name "aclocal" "ftp://ftp.gnu.org/pub/gnu/automake/" 1 11 4 || DIE=1
 ACLOCAL=$REALPKGNAME
 real_package_name "libtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 ||
 real_package_name "glibtoolize" "ftp://ftp.gnu.org/pub/gnu/libtool/" 2 2 "" "0" || DIE=1
