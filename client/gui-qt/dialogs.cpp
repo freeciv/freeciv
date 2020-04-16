@@ -2946,7 +2946,6 @@ units_select::~units_select()
 void units_select::create_pixmap()
 {
   int a;
-  int rate, f;
   int x, y, i;
   QFontMetrics fm(info_font);
   QImage cropped_img;
@@ -2958,7 +2957,6 @@ void units_select::create_pixmap()
   QPixmap *pixp;
   QPixmap *tmp_pix;
   QRect crop;
-  QString str;
   struct canvas *unit_pixmap;
   struct unit *punit;
   float isosize;
@@ -3043,22 +3041,29 @@ void units_select::create_pixmap()
     }
     punit = unit_list.at(i);
     Q_ASSERT(punit != NULL);
-    rate = unit_type_get(punit)->move_rate;
-    f = ((punit->fuel) - 1);
+
     if (i == highligh_num) {
       p.drawPixmap(x, y, *h_pix);
       p.drawPixmap(x, y, *tmp_pix);
     } else {
       p.drawPixmap(x, y, *tmp_pix);
     }
-    str = QString(move_points_text(punit->moves_left, false));
-    if (utype_fuel(unit_type_get(punit))) {
-      str = str + "(" + QString(move_points_text((rate * f)
-            + punit->moves_left, false)) + ")";
+
+    if (client_is_global_observer() || unit_owner(punit) == client.conn.playing) {
+      int rate, f;
+      QString str;
+
+      rate = unit_type_get(punit)->move_rate;
+      f = ((punit->fuel) - 1);
+      str = QString(move_points_text(punit->moves_left, false));
+      if (utype_fuel(unit_type_get(punit))) {
+        str = str + "(" + QString(move_points_text((rate * f)
+                                                   + punit->moves_left, false)) + ")";
+      }
+      /* TRANS: MP = Movement points */
+      str = QString(_("MP:")) + str;
+      p.drawText(x, y + item_size.height() - 4, str);
     }
-    /* TRANS: MP = Movement points */
-    str = QString(_("MP:")) + str;
-    p.drawText(x, y + item_size.height() - 4, str);
 
     x = x + item_size.width();
     delete tmp_pix;
