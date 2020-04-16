@@ -1206,18 +1206,16 @@ Debugging and Profiling
 ===========================================================================
 
 Debugging has to be activated on compile time by adding the option
-'--enable-debug=no/some/yes/checks' to the configure script. The different
-options have the following meaning:
+'--enable-debug=no/some/yes/checks' to the configure script. See m4/debug.m4
+for exact compiler flags each value sets. The different
+values have roughly the following meaning:
 
   no:     no debugging enabled(FREECIV_NDEBUG and NDEBUG are defined)
           additional compiler flags for optimisation (-O3 -fomit-frame-pointer)
   some:   default build (neither FREECIV_NDEBUG nor FREECIV_DEBUG is defined)
   yes:    debugging enable (FREECIV_DEBUG is defined)
           debugging log level available (4, log_debug())
-          additional compiler flags:
-            -Werror -Wmissing-prototypes -Wmissing-declarations
-            -Wformat -Wformat-security -Wnested-externs 
-            -Wl,--no-add-needed
+          more compiler warning flags than with lower debug levels
   checks: same as 'yes' but with one additional compiler check:
             -Wstrict-prototypes
           This is OK for the server and most clients but in the case
