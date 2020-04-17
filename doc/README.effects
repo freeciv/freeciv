@@ -104,7 +104,7 @@ DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
 "OnDomesticTile" or "HasHomeCity".
-MinMoveFargs is the minimum move fragments the unit must have left.
+MinMoveFrags is the minimum move fragments the unit must have left.
 MinCalFrag is the minimum sub-year division the calendar must have reached,
 if enabled (see [calendar].fragments in game.ruleset).
 Nationality is fulfilled by any citizens of the given nationality
