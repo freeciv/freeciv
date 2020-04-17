@@ -3012,7 +3012,6 @@ static int get_playable_nation_count(void)
   } nations_iterate_end;
 
   return playable_nation_count;
-  
 }
 
 /**************************************************************************
@@ -3027,7 +3026,7 @@ void popup_races_dialog(struct player *pplayer)
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
-  SDL_Surface *pMain_Bg, *pText_Name, *pText_Class;
+  SDL_Surface *pMain_Bg, *pText_Name;
   SDL_Rect dst;
   float zoom;
   struct NAT *pSetup;
@@ -3076,8 +3075,7 @@ void popup_races_dialog(struct player *pplayer)
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   /* fill list */
-  pText_Class = NULL;
-    
+
   nations_iterate(pNation) {
 
     if (!is_nation_playable(pNation) || !is_nation_pickable(pNation)) {
@@ -3087,53 +3085,39 @@ void popup_races_dialog(struct player *pplayer)
     pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
 
     pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
-          
+
     copy_chars_to_string16(pStr, nation_plural_translation(pNation));
     change_ptsize16(pStr, adj_font(12));
     pText_Name = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
-    
-#if 0      
-    if (pNation->legend && *(pNation->legend) != '\0') {
-      copy_chars_to_string16(pStr, pNation->legend);
-      change_ptsize16(pStr, adj_font(10));
-      pText_Class = create_text_surf_smaller_that_w(pStr, pTmp_Surf->w - adj_size(4));
-    }
-#endif /* 0 */
-    
+
     dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
     len = pTmp_Surf_zoomed->h +
-	    adj_size(10) + pText_Name->h + (pText_Class ? pText_Class->h : 0);
+            adj_size(10) + pText_Name->h;
     dst.y = (pTmp_Surf->h - len) / 2;
     alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
-    
+
     dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
     alphablit(pText_Name, NULL, pTmp_Surf, &dst);
     dst.y += pText_Name->h;
     FREESURFACE(pText_Name);
-    
-    if (pText_Class) {
-      dst.x = (pTmp_Surf->w - pText_Class->w) / 2;
-      alphablit(pText_Class, NULL, pTmp_Surf, &dst);
-      FREESURFACE(pText_Class);
-    }
-    
+
     pWidget = create_icon2(pTmp_Surf, pWindow->dst,
     			(WF_RESTORE_BACKGROUND|WF_FREE_THEME));
-    
+
     set_wstate(pWidget, FC_WS_NORMAL);
-    
+
     pWidget->action = nation_button_callback;
 
     w = MAX(w, pWidget->size.w);
     h = MAX(h, pWidget->size.h);
 
     add_to_gui_list(MAX_ID - nation_index(pNation), pWidget);
-    
+
     if (nation_index(pNation) > (TARGETS_ROW * TARGETS_COL - 1)) {
       set_wflag(pWidget, WF_HIDDEN);
     }
-    
+
   } nations_iterate_end;
   
   FREESURFACE(pMain_Bg);
