@@ -820,8 +820,9 @@ static struct cityresult *settler_map_iterate(struct ai_type *ait,
     /* Reduce want by settler cost. Easier than amortize, but still
      * weeds out very small wants. ie we create a threshold here. */
     /* We also penalise here for using a boat (either virtual or real)
-     * it's crude but what isn't? */
-    cr->result -= unit_build_shield_cost_base(punit) + boat_cost;
+     * it's crude but what isn't?
+     * Settler gets used, boat can make multiple trips. */
+    cr->result -= unit_build_shield_cost_base(punit) + boat_cost / 3;
 
     /* Find best spot */
     if ((!best && cr->result > 0)
