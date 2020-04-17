@@ -235,7 +235,7 @@ bool is_city_channel_tile(const struct unit_class *punitclass,
 /************************************************************************//**
   Return TRUE iff a unit of the given unit type can "exist" at this location.
   This means it can physically be present on the tile (without the use of a
-  transporter). See also can_unit_survive_at_tile.
+  transporter). See also can_unit_survive_at_tile().
 ****************************************************************************/
 bool can_exist_at_tile(const struct civ_map *nmap,
                        const struct unit_type *utype,
@@ -264,7 +264,7 @@ bool can_exist_at_tile(const struct civ_map *nmap,
 /************************************************************************//**
   Return TRUE iff the unit can "exist" at this location.  This means it can
   physically be present on the tile (without the use of a transporter).  See
-  also can_unit_survive_at_tile.
+  also can_unit_survive_at_tile().
 ****************************************************************************/
 bool can_unit_exist_at_tile(const struct civ_map *nmap,
                             const struct unit *punit,
@@ -431,11 +431,11 @@ bool is_native_near_tile(const struct civ_map *nmap,
 /************************************************************************//**
   Return TRUE iff the unit can "survive" at this location.  This means it can
   not only be physically present at the tile but will be able to survive
-  indefinitely on its own (without a transporter).  Units that require fuel
+  indefinitely on its own (without a transporter). Units that require fuel
   or have a danger of drowning are examples of non-survivable units.  See
   also can_unit_exist_at_tile().
 
-  (This function could be renamed as unit_wants_transporter.)
+  (This function could be renamed as unit_wants_transporter().)
 ****************************************************************************/
 bool can_unit_survive_at_tile(const struct civ_map *nmap,
                               const struct unit *punit,
@@ -451,6 +451,11 @@ bool can_unit_survive_at_tile(const struct civ_map *nmap,
 
   if (tile_has_refuel_extra(ptile, unit_type_get(punit))) {
     /* Unit can always survive at refueling base */
+    return TRUE;
+  }
+
+  if (unit_has_type_flag(punit, UTYF_COAST) && is_safe_ocean(nmap, ptile)) {
+    /* Refueling coast */
     return TRUE;
   }
 
