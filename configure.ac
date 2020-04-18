@@ -750,16 +750,21 @@ CPPFLAGS="$CPPFLAGS -DBINDIR=\"\\\"$bindir\\\"\""
 
 COMMON_LIBS="${COMMON_LIBS} -lm"
 
-dnl Check for zlib
-AC_CHECK_LIB([z], [gzgets],
-  [AC_DEFINE([FREECIV_HAVE_LIBZ], [1], [zlib is available])
-UTILITY_LIBS="${UTILITY_LIBS} -lz"
-COMMON_LIBS="$COMMON_LIBS -lz"], 
-  AC_MSG_ERROR([Could not find zlib library.]))
+if test "x$emscripten" != "xyes" ; then
+  dnl Check for zlib
+  AC_CHECK_LIB([z], [gzgets],
+    [AC_DEFINE([FREECIV_HAVE_LIBZ], [1], [zlib is available])
+  UTILITY_LIBS="${UTILITY_LIBS} -lz"
+  COMMON_LIBS="$COMMON_LIBS -lz"],
+    AC_MSG_ERROR([Could not find zlib library.]))
 
-AC_CHECK_HEADER(zlib.h, , 
-  AC_MSG_ERROR([zlib found but not zlib.h.
+  AC_CHECK_HEADER([zlib.h], [],
+    AC_MSG_ERROR([zlib found but not zlib.h.
 You may need to install a zlib devel package.]))
+else
+  CFLAGS="$CFLAGS -s USE_ZLIB=1"
+  CXXFLAGS="$CXXFLAGS -s USE_ZLIB=1"
+fi
 
 AC_PATH_PROG(GZIP, gzip, "no")
 if test "$GZIP" = "no"; then
