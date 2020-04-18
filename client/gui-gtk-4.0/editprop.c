@@ -437,7 +437,7 @@ static void objprop_set_extviewer(struct objprop *op,
 static struct extviewer *objprop_get_extviewer(struct objprop *op);
 static void objprop_refresh_widget(struct objprop *op,
                                    struct objbind *ob);
-static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata);
+static void objprop_widget_text_changed(GtkText *text, gpointer userdata);
 static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
                                                gpointer userdata);
 static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
@@ -2859,9 +2859,9 @@ static bool objprop_is_readonly(const struct objprop *op)
 }
 
 /************************************************************************//**
-  Callback for entry widget 'changed' signal.
+  Callback for text widget 'changed' signal.
 ****************************************************************************/
-static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata)
+static void objprop_widget_text_changed(GtkText *text, gpointer userdata)
 {
   struct objprop *op;
   struct property_page *pp;
@@ -2869,7 +2869,7 @@ static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata)
 
   op = userdata;
   pp = objprop_get_property_page(op);
-  value.data.v_const_string = gtk_entry_buffer_get_text(gtk_entry_get_buffer(entry));
+  value.data.v_const_string = gtk_entry_buffer_get_text(gtk_text_get_buffer(text));
 
   property_page_change_value(pp, op, &value);  
 }
@@ -2913,7 +2913,7 @@ static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
 ****************************************************************************/
 static void objprop_setup_widget(struct objprop *op)
 {
-  GtkWidget *hbox, *hbox2, *label, *image, *entry, *spin, *button;
+  GtkWidget *hbox, *hbox2, *label, *image, *text, *spin, *button;
   struct extviewer *ev = NULL;
   enum object_property_ids propid;
 
@@ -2985,14 +2985,14 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_PLAYER_NAME:
   case OPID_GAME_SCENARIO_NAME:
   case OPID_TILE_LABEL:
-    entry = gtk_entry_new();
-    gtk_widget_set_hexpand(entry, TRUE);
-    gtk_widget_set_halign(entry, GTK_ALIGN_END);
-    gtk_entry_set_width_chars(GTK_ENTRY(entry), 8);
-    g_signal_connect(entry, "changed",
-        G_CALLBACK(objprop_widget_entry_changed), op);
-    gtk_container_add(GTK_CONTAINER(hbox), entry);
-    objprop_set_child_widget(op, "entry", entry);
+    text = gtk_text_new();
+    gtk_widget_set_hexpand(text, TRUE);
+    gtk_widget_set_halign(text, GTK_ALIGN_END);
+    gtk_editable_set_width_chars(GTK_EDITABLE(text), 8);
+    g_signal_connect(text, "changed",
+        G_CALLBACK(objprop_widget_text_changed), op);
+    gtk_container_add(GTK_CONTAINER(hbox), text);
+    objprop_set_child_widget(op, "text", text);
     return;
 
   case OPID_UNIT_MOVES_LEFT:
@@ -3087,7 +3087,7 @@ static void objprop_setup_widget(struct objprop *op)
 static void objprop_refresh_widget(struct objprop *op,
                                    struct objbind *ob)
 {
-  GtkWidget *w, *label, *image, *entry, *spin, *button;
+  GtkWidget *w, *label, *image, *text, *spin, *button;
   struct extviewer *ev;
   struct propval *pv;
   bool modified;
@@ -3189,14 +3189,14 @@ static void objprop_refresh_widget(struct objprop *op,
   case OPID_PLAYER_NAME:
   case OPID_GAME_SCENARIO_NAME:
   case OPID_TILE_LABEL:
-    entry = objprop_get_child_widget(op, "entry");
+    text = objprop_get_child_widget(op, "text");
     if (pv) {
-      gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(entry)),
+      gtk_entry_buffer_set_text(gtk_text_get_buffer(GTK_TEXT(text)),
                                 pv->data.v_string, -1);
     } else {
-      gtk_entry_buffer_set_text(gtk_entry_get_buffer(GTK_ENTRY(entry)), "", -1);
+      gtk_entry_buffer_set_text(gtk_text_get_buffer(GTK_TEXT(text)), "", -1);
     }
-    gtk_widget_set_sensitive(entry, pv != NULL);
+    gtk_widget_set_sensitive(text, pv != NULL);
     break;
 
   case OPID_UNIT_MOVES_LEFT:

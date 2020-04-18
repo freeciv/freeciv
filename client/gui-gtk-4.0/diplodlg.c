@@ -750,7 +750,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-    gtk_entry_set_width_chars(GTK_ENTRY(spin), 16);
+    gtk_editable_set_width_chars(GTK_EDITABLE(spin), 16);
     gtk_grid_attach(GTK_GRID(table), spin, 1, 0, 1, 1);
     g_object_set_data(G_OBJECT(spin), "plr", plr0);
     g_signal_connect_after(spin, "value-changed",
@@ -835,7 +835,7 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
     spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1,
                                           1.0);
     gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-    gtk_entry_set_width_chars(GTK_ENTRY(spin), 16);
+    gtk_editable_set_width_chars(GTK_EDITABLE(spin), 16);
     gtk_grid_attach(GTK_GRID(table), spin, 1, 0, 1, 1);
     g_object_set_data(G_OBJECT(spin), "plr", plr1);
     g_signal_connect_after(spin, "value-changed",
