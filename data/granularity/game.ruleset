@@ -68,7 +68,7 @@ global_init_buildings=""
 
 [civstyle]
 ; Value added to city pollution
-base_pollution   = -20
+base_pollution   = -2000
 
 ; Cost in luxuries of making one citizen happier
 happy_cost       = 200
