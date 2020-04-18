@@ -320,7 +320,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 **************************************************************************/
 void create_line_at_mouse_pos(void)
 {
-  int x, y;
+  double x, y;
   GdkSeat *seat = gdk_display_get_default_seat(gtk_widget_get_display(toplevel));
   GdkDevice *pointer = gdk_seat_get_pointer(seat);
   GdkSurface *window;
@@ -345,7 +345,7 @@ void create_line_at_mouse_pos(void)
 **************************************************************************/
 void update_rect_at_mouse_pos(void)
 {
-  int x, y;
+  double x, y;
   GdkSurface *window;
   GdkDevice *pointer;
   GdkModifierType mask;
