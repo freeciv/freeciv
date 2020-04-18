@@ -106,8 +106,6 @@ static gboolean quit_dialog_callback(void)
                                       GTK_BUTTONS_YES_NO,
       _("Modpack installation in progress.\nAre you sure you want to quit?"));
 
-      gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
-
       g_signal_connect(dialog, "response", 
                        G_CALLBACK(quit_dialog_response), NULL);
       g_signal_connect(dialog, "destroy",
@@ -562,11 +560,50 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 }
 
 /**********************************************************************//**
+  Run the gui
+**************************************************************************/
+static void activate_gui(GtkApplication* app, gpointer data)
+{
+  GtkWidget *toplevel;
+
+  toplevel = gtk_application_window_new(app);
+
+  gtk_widget_realize(toplevel);
+  gtk_widget_set_name(toplevel, "Freeciv-modpack");
+  gtk_window_set_title(GTK_WINDOW(toplevel),
+                       _("Freeciv modpack installer (gtk3x)"));
+
+#if 0
+    /* Keep the icon of the executable on Windows */
+#ifndef FREECIV_MSWINDOWS
+  {
+    /* Unlike main client, this only works if installed. Ignore any
+     * errors loading the icon. */
+    GError *err;
+
+    (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
+                                         &err);
+  }
+#endif /* FREECIV_MSWINDOWS */
+#endif /* 0 */
+
+  g_signal_connect(toplevel, "delete_event",
+                   G_CALLBACK(quit_dialog_callback), NULL);
+
+  modinst_setup_widgets(toplevel);
+
+  gtk_widget_show(toplevel);
+
+  if (fcmp.autoinstall != NULL) {
+    gui_download_modpack(fcmp.autoinstall);
+  }
+}
+
+/**********************************************************************//**
   Entry point of the freeciv-modpack program
 **************************************************************************/
 int main(int argc, char *argv[])
 {
-  GtkWidget *toplevel;
   int ui_options;
 
   fcmp_init();
@@ -592,44 +629,15 @@ int main(int argc, char *argv[])
   }
 
   if (ui_options != -1) {
+    GtkApplication *app;
 
     load_install_info_lists(&fcmp);
 
     gtk_init();
 
-    toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-
-    gtk_widget_realize(toplevel);
-    gtk_widget_set_name(toplevel, "Freeciv-modpack");
-    gtk_window_set_title(GTK_WINDOW(toplevel),
-                         _("Freeciv modpack installer (gtk3x)"));
-
-#if 0
-    /* Keep the icon of the executable on Windows */
-#ifndef FREECIV_MSWINDOWS
-    {
-      /* Unlike main client, this only works if installed. Ignore any
-       * errors loading the icon. */
-      GError *err;
-
-      (void) gtk_window_set_icon_from_file(GTK_WINDOW(toplevel), MPICON_PATH,
-                                           &err);
-    }
-#endif /* FREECIV_MSWINDOWS */
-#endif /* 0 */
-
-    g_signal_connect(toplevel, "delete_event",
-                     G_CALLBACK(quit_dialog_callback), NULL);
-
-    modinst_setup_widgets(toplevel);
-
-    gtk_widget_show(toplevel);
-
-    if (fcmp.autoinstall != NULL) {
-      gui_download_modpack(fcmp.autoinstall);
-    }
-
-    gtk_main();
+    app = gtk_application_new(NULL, 0);
+    g_signal_connect(app, "activate", G_CALLBACK(activate_gui), NULL);
+    g_application_run(G_APPLICATION(app), 0, NULL);
 
     close_mpdbs();
   }
