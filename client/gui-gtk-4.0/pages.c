@@ -1421,15 +1421,13 @@ GtkWidget *create_network_page(void)
   gtk_container_add(GTK_CONTAINER(hbox), sw);
 
 
-  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+  bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   g_object_set(bbox, "margin", 2, NULL);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_container_add(GTK_CONTAINER(sbox), bbox);
 
   button = gtk_button_new_from_icon_name("view-refresh");
   gtk_container_add(GTK_CONTAINER(bbox), button);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
       G_CALLBACK(update_network_lists), NULL);
 
@@ -2965,15 +2963,13 @@ GtkWidget *create_load_page(void)
   gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_container_add(GTK_CONTAINER(sbox), sw);
 
-  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
+  bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_widget_set_hexpand(bbox, TRUE);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_container_add(GTK_CONTAINER(box), bbox);
 
   button = gtk_button_new_with_mnemonic(_("_Browse..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
                    G_CALLBACK(load_browse_callback), NULL);
 
@@ -3309,14 +3305,12 @@ GtkWidget *create_scenario_page(void)
   gtk_container_add(GTK_CONTAINER(descbox), versionbox);
   gtk_grid_attach(GTK_GRID(sbox), descbox, 1, 0, 1, 2);
 
-  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
+  bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 12);
   gtk_container_add(GTK_CONTAINER(vbox), bbox);
 
   button = gtk_button_new_with_mnemonic(_("_Browse..."));
   gtk_container_add(GTK_CONTAINER(bbox), button);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
   g_signal_connect(button, "clicked",
       G_CALLBACK(scenario_browse_callback), NULL);
 

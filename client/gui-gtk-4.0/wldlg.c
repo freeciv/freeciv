@@ -1216,14 +1216,12 @@ GtkWidget *create_worklist(void)
   gtk_grid_attach(GTK_GRID(table), label, 0, 0, 1, 1);
 
   /* add bottom menu and buttons. */
-  bbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
+  bbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_box_set_spacing(GTK_BOX(bbox), 10);
   gtk_container_add(GTK_CONTAINER(editor), bbox);
 
   menubar = gtk_aux_menu_bar_new();
   gtk_container_add(GTK_CONTAINER(bbox), menubar);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), menubar, TRUE);
 
   menu = gtk_menu_new();
 

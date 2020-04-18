@@ -306,8 +306,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
   g_signal_connect(view, "key-press-event",
                    G_CALLBACK(cma_preset_key_pressed_callback), pdialog);
 
-  hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   button = icon_label_button_new("document-new", _("Ne_w"));
@@ -435,16 +434,13 @@ struct cma_dialog *create_cma_dialog(struct city *pcity, bool tiny)
 
   /* buttons */
 
-  hbox = gtk_button_box_new(GTK_ORIENTATION_HORIZONTAL);
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(hbox), GTK_BUTTONBOX_EDGE);
+  hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 2);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   button = icon_label_button_new("help-browser", _("Help"));
   g_signal_connect(button, "clicked",
                    G_CALLBACK(help_callback), NULL);
   gtk_container_add(GTK_CONTAINER(hbox), button);
-  gtk_button_box_set_child_non_homogeneous(GTK_BUTTON_BOX(hbox),
-                                           button, TRUE);
 
   pdialog->active_command = gtk_toggle_button_new();
   gtk_button_set_use_underline(GTK_BUTTON(pdialog->active_command), TRUE);
