@@ -60,6 +60,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/po.m4			\
 		m4/postgres.m4			\
 		m4/progtest.m4			\
+		m4/qt.m4			\
 		m4/qt5.m4			\
 		m4/qt6.m4			\
 		m4/qt5-darwin.m4		\

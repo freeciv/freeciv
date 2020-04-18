@@ -1,7 +1,5 @@
 # Detect Qt5 headers and libraries and set flag variables
 
-AC_ARG_VAR([MOCCMD], [QT 5 moc command (autodetected it if not set)])
-
 AC_DEFUN([FC_QT5],
 [
   if test "x$fc_qt5_usable" = "x" ; then
