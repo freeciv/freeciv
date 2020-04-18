@@ -1381,13 +1381,15 @@ void fc_client::update_load_page(void)
   show_preview->setChecked(gui_options.gui_qt_show_preview);
   fileinfo_list_iterate(files, pfile) {
     QTableWidgetItem *item;
+    QDateTime dt;
+
     item = new QTableWidgetItem();
     item->setData(Qt::UserRole, pfile->fullname);
     saves_load->insertRow(row);
     item->setText(pfile->name);
     saves_load->setItem(row, 0, item);
     item = new QTableWidgetItem();
-    QDateTime dt = QDateTime::fromTime_t(pfile->mtime);
+    dt = QDateTime::fromSecsSinceEpoch(pfile->mtime);
     item->setText(dt.toString(Qt::TextDate));
     saves_load->setItem(row, 1, item);
     row++;
