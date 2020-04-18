@@ -94,7 +94,7 @@ void choice_dialog_button_move_to_the_end(GtkWidget *cd,
   GtkWidget *button = choice_dialog_get_nth_button(cd, number);
   GtkWidget *bbox = g_object_get_data(G_OBJECT(cd), "bbox");
 
-  gtk_box_reorder_child(GTK_BOX(bbox), button, -1);
+  gtk_box_reorder_child_after(GTK_BOX(bbox), button, NULL);
 }
 
 /*******************************************************************//**
