@@ -2601,6 +2601,60 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       }
     }
 
+  case VUT_CITYSTATUS:
+    if (preq->source.value.citystatus == CITYS_LAST) {
+      break;
+    } else {
+      static char *city_property = NULL;
+
+      switch (preq->source.value.citystatus) {
+      case CITYS_OWNED_BY_ORIGINAL:
+        city_property = "owned by original";
+        break;
+      case CITYS_LAST:
+        fc_assert(preq->source.value.citystatus != CITYS_LAST);
+        break;
+      }
+
+      switch (preq->range) {
+      case REQ_RANGE_CITY:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          /* TRANS: city property ("owned by original", etc) */
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Applies only to %s cities"),
+                       city_property);
+        } else {
+          /* TRANS: city property ("owned by original", etc) */
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Does not apply to %s cities"),
+                       city_property);
+        }
+        return TRUE;
+      case REQ_RANGE_TRADEROUTE:
+        fc_strlcat(buf, prefix, bufsz);
+        if (preq->present) {
+          /* TRANS: city property ("owned by original", etc) */
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Applies only to %s cities or "
+                                      "their trade partners."), city_property);
+        } else {
+          /* TRANS: city property ("owned by original", etc) */
+          cat_snprintf(buf, bufsz, Q_("?cityprop:Does not apply to %s cities or "
+                                      "their trade partners."), city_property);
+        }
+        return TRUE;
+      case REQ_RANGE_LOCAL:
+      case REQ_RANGE_ADJACENT:
+      case REQ_RANGE_CADJACENT:
+      case REQ_RANGE_CONTINENT:
+      case REQ_RANGE_PLAYER:
+      case REQ_RANGE_TEAM:
+      case REQ_RANGE_ALLIANCE:
+      case REQ_RANGE_WORLD:
+      case REQ_RANGE_COUNT:
+        /* Not supported. */
+        break;
+      }
+    }
+
   case VUT_COUNT:
     break;
   }

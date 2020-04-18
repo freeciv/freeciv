@@ -89,6 +89,7 @@ TerrainClass:    Local, Adjacent, CAdjacent, Traderoute, City
 TerrainFlag:     Local, Adjacent, CAdjacent, Traderoute, City
 TerrainAlter:    Local
 CityTile:        Local, Adjacent, CAdjacent
+CityStatus:      City, Traderoute
 Style:           Player
 UnitState:       Local
 MinMoveFrags:    Local
@@ -100,6 +101,7 @@ MinSize is the minimum size of a city required.
 AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
 CityTile is either "Center" (city center) or "Claimed" (owned).
+CityStatus is "OwnedByOriginal"
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",

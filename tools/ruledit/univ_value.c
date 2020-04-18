@@ -115,6 +115,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_CITYTILE:
     src->value.citytile = CITYT_CENTER;
     return TRUE;
+  case VUT_CITYSTATUS:
+    src->value.citystatus = CITYS_OWNED_BY_ORIGINAL;
+    return TRUE;
   case VUT_GOOD:
     if (game.control.num_goods_types <= 0) {
       return FALSE;
@@ -343,6 +346,11 @@ void universal_kind_values(struct universal *univ,
   case VUT_CITYTILE:
     for (i = 0; i < CITYT_LAST; i++) {
       cb(citytile_type_name(i), univ->value.citytile == i, data);
+    }
+    break;
+  case VUT_CITYSTATUS:
+    for (i = 0; i < CITYS_LAST; i++) {
+      cb(citystatus_type_name(i), univ->value.citystatus == i, data);
     }
     break;
   case VUT_ACHIEVEMENT:

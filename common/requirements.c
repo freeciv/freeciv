@@ -334,6 +334,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_CITYSTATUS:
+    source->value.citystatus = citystatus_type_by_name(value, fc_strcasecmp);
+    if (source->value.citystatus != CITYS_LAST) {
+      return;
+    }
+    break;
   case VUT_COUNT:
     break;
   }
@@ -525,6 +531,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_CITYTILE:
     source.value.citytile = value;
     return source;
+  case VUT_CITYSTATUS:
+    source.value.citystatus = value;
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -640,6 +649,8 @@ int universal_number(const struct universal *source)
     return source->value.terrainalter;
   case VUT_CITYTILE:
     return source->value.citytile;
+  case VUT_CITYSTATUS:
+    return source->value.citystatus;
   case VUT_COUNT:
     break;
   }
@@ -728,6 +739,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_MINSIZE:
       case VUT_MINCULTURE:
       case VUT_NATIONALITY:
+      case VUT_CITYSTATUS:
         req.range = REQ_RANGE_CITY;
         break;
       case VUT_GOVERNMENT:
@@ -787,6 +799,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINSIZE:
     case VUT_NATIONALITY:
     case VUT_GOOD:
+    case VUT_CITYSTATUS:
       invalid = (req.range != REQ_RANGE_CITY
                  && req.range != REQ_RANGE_TRADEROUTE);
       break;
@@ -903,6 +916,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_SERVERSETTING:
     case VUT_TERRAINALTER:
     case VUT_CITYTILE:
+    case VUT_CITYSTATUS:
     case VUT_TERRFLAG:
     case VUT_NATIONALITY:
     case VUT_BASEFLAG:
@@ -2728,6 +2742,53 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
 }
 
 /**********************************************************************//**
+  Is city with specific status in range. If city is NULL, any city will do.
+**************************************************************************/
+static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
+                                               enum req_range range,
+                                               enum citystatus_type citystatus)
+{
+  if (citystatus == CITYS_OWNED_BY_ORIGINAL) {
+    switch (range) {
+    case REQ_RANGE_CITY:
+      return city_owner(target_city) == target_city->original;
+    case REQ_RANGE_TRADEROUTE:
+      {
+        bool found = FALSE;
+
+        trade_partners_iterate(target_city, trade_partner) {
+          if (city_owner(trade_partner) == trade_partner->original) {
+            found = TRUE;
+            break;
+          }
+        } trade_partners_iterate_end;
+
+        return BOOL_TO_TRISTATE(found);
+      }
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus.", range);
+
+    return TRI_MAYBE;
+  } else {
+    /* Not implemented */
+    log_error("is_req_active(): citystatus %d not supported.",
+              citystatus);
+    return TRI_MAYBE;
+  }
+}
+
+/**********************************************************************//**
   Has achievement been claimed by someone in range.
 **************************************************************************/
 static enum fc_tristate
@@ -3094,6 +3155,15 @@ bool is_req_active(const struct player *target_player,
                                   req->source.value.citytile);
     }
     break;
+  case VUT_CITYSTATUS:
+    if (target_city == NULL) {
+      eval = TRI_MAYBE;
+    } else {
+      eval = is_citystatus_in_range(target_city,
+                                    req->range,
+                                    req->source.value.citystatus);
+    }
+    break;
   case VUT_COUNT:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
@@ -3170,6 +3240,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_SPECIALIST:	/* Only so long as it's at local range only */
   case VUT_AI_LEVEL:
   case VUT_CITYTILE:
+  case VUT_CITYSTATUS:  /* We don't *want* owner of our city to change */
   case VUT_STYLE:
   case VUT_TOPO:
   case VUT_SERVERSETTING:
@@ -3338,6 +3409,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.terrainalter == psource2->value.terrainalter;
   case VUT_CITYTILE:
     return psource1->value.citytile == psource2->value.citytile;
+  case VUT_CITYSTATUS:
+    return psource1->value.citystatus == psource2->value.citystatus;
   case VUT_COUNT:
     break;
   }
@@ -3359,6 +3432,8 @@ const char *universal_rule_name(const struct universal *psource)
     return "(none)";
   case VUT_CITYTILE:
     return citytile_type_name(psource->value.citytile);
+  case VUT_CITYSTATUS:
+    return citystatus_type_name(psource->value.citystatus);
   case VUT_MINYEAR:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minyear);
 
@@ -3725,6 +3800,17 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case CITYT_LAST:
       fc_assert(psource->value.citytile != CITYT_LAST);
+      fc_strlcat(buf, "error", bufsz);
+      break;
+    }
+    return buf;
+  case VUT_CITYSTATUS:
+    switch (psource->value.citystatus) {
+    case CITYS_OWNED_BY_ORIGINAL:
+      fc_strlcat(buf, _("Owned by original"), bufsz);
+      break;
+    case CITYS_LAST:
+      fc_assert(psource->value.citystatus != CITYS_LAST);
       fc_strlcat(buf, "error", bufsz);
       break;
     }

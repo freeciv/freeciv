@@ -303,7 +303,7 @@ typedef int Unit_Class_id;
 #include "specenum_gen.h"
 
 /*
- * Citytile requirement types. 
+ * CityTile requirement types.
  *
  * Used in the network protocol
  */
@@ -313,6 +313,17 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE1 CITYT_CLAIMED
 #define SPECENUM_VALUE1NAME "Claimed"
 #define SPECENUM_COUNT CITYT_LAST
+#include "specenum_gen.h"
+
+/*
+ * CityStatus requirement types.
+ *
+ * Used in the network protocol
+ */
+#define SPECENUM_NAME citystatus_type
+#define SPECENUM_VALUE0 CITYS_OWNED_BY_ORIGINAL
+#define SPECENUM_VALUE0NAME "OwnedByOriginal"
+#define SPECENUM_COUNT CITYS_LAST
 #include "specenum_gen.h"
 
 /*
@@ -403,6 +414,7 @@ typedef union {
 
   enum ai_level ai_level;
   enum citytile_type citytile;
+  enum citystatus_type citystatus;
   int minsize;
   int minculture;
   int minyear;
@@ -526,6 +538,8 @@ typedef union {
 #define SPECENUM_VALUE41NAME "MinCalFrag"
 #define SPECENUM_VALUE42 VUT_SERVERSETTING
 #define SPECENUM_VALUE42NAME "ServerSetting"
+#define SPECENUM_VALUE43 VUT_CITYSTATUS
+#define SPECENUM_VALUE43NAME "CityStatus"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
