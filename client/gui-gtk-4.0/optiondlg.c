@@ -342,7 +342,8 @@ static void option_color_select_callback(GtkButton *button, gpointer data)
 
   chooser = gtk_color_chooser_widget_new();
   g_object_set_data(G_OBJECT(dialog), "chooser", chooser);
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))), chooser);
+  gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dialog))),
+                             chooser, NULL);
   if (current_color) {
     gtk_color_chooser_set_rgba(GTK_COLOR_CHOOSER(chooser), current_color);
   }
@@ -389,8 +390,8 @@ option_dialog_new(const char *name, const struct option_set *poptset)
   g_signal_connect(pdialog->shell, "destroy",
                    G_CALLBACK(option_dialog_destroy_callback), pdialog);
 
-  gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell))),
-                     pdialog->notebook);
+  gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell))),
+                             pdialog->notebook, NULL);
 
   /* Add the options. */
   options_iterate(poptset, poption) {
