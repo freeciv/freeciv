@@ -1,17 +1,17 @@
-# Try to configure the GTK+-3.x client (gui-gtk-4.0)
+# Try to configure the GTK-3x client (gui-gtk-4.0)
 
 # FC_GTK3X_CLIENT
-# Test for GTK+-3.94 libraries needed for gui-gtk-4.0
+# Test for GTK-3.96 libraries needed for gui-gtk-4.0
 
 AC_DEFUN([FC_GTK3X_CLIENT],
 [
   # Add check "x$client" = "xauto"  when this becomes supported client
   if test "x$gui_gtk3x" = "xyes" ||
      test "x$client" = "xall" ; then
-    PKG_CHECK_MODULES([GTK3X], [gtk+-4.0 >= 3.94.0],
+    PKG_CHECK_MODULES([GTK3X], [gtk4 >= 3.96.0],
       [
         GTK3X_CFLAGS="$GTK3X_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_94"
-        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_56"
+        GTK3X_CFLAGS="$GTK3X_CFLAGS -DGLIB_VERSION_MIN_REQUIRED=GLIB_VERSION_2_60"
         gui_gtk3x=yes
         if test "x$client" = "xauto" ; then
           client=yes
@@ -25,7 +25,7 @@ AC_DEFUN([FC_GTK3X_CLIENT],
         fi
       ],
       [
-        FC_NO_CLIENT([gtk3x], [GTK+-3.9x libraries not found])
+        FC_NO_CLIENT([gtk3x], [GTK-3.9x libraries not found])
       ])
   fi
 ])
