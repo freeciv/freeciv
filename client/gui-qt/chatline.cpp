@@ -505,7 +505,7 @@ int chatwdg::default_size(int lines)
 
   qtb = chat_output->document()->firstBlock();
   /* Count all lines in all text blocks layouts
-   * document()->lineCount returns numer of lines without wordwrap */
+   * document()->lineCount returns number of lines without wordwrap */
 
   while (qtb.isValid()) {
     line_count = line_count + qtb.layout()->lineCount();
