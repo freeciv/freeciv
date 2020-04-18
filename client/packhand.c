@@ -2931,14 +2931,17 @@ void handle_tile_info(const struct packet_tile_info *packet)
     if (ptile->placing != NULL) {
       tile_changed = TRUE;
       ptile->placing = NULL;
+      ptile->infra_turns = 0;
     }
   } else {
     struct extra_type *old = ptile->placing;
 
     ptile->placing = extra_by_number(packet->placing);
-    if (ptile->placing != old) {
+    if (ptile->placing != old
+        || ptile->infra_turns != packet->place_turn - game.info.turn) {
       tile_changed = TRUE;
     }
+    ptile->infra_turns = packet->place_turn - game.info.turn;
   }
 
   if (NULL == tile_worked(ptile)
