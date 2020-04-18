@@ -1921,12 +1921,8 @@ void ui_main(int argc, char **argv)
   /* keep the icon of the executable on Windows (see PR#36491) */
 #ifndef FREECIV_MSWINDOWS
   {
-    GdkPixbuf *pixbuf = sprite_get_pixbuf(get_icon_sprite(tileset, ICON_FREECIV));
-    GdkTexture *icon = gdk_texture_new_for_pixbuf(pixbuf);
-
     /* Only call this after tileset_load_tiles is called. */
-    gtk_window_set_icon(GTK_WINDOW(toplevel), icon);
-    g_object_unref(pixbuf);
+    gtk_window_set_icon_name(GTK_WINDOW(toplevel), "freeciv");
   }
 #endif /* FREECIV_MSWINDOWS */
 
