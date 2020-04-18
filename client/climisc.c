@@ -603,7 +603,7 @@ static int target_get_section(struct universal target)
 }
 
 /**********************************************************************//**
-  Helper for name_and_sort_items.
+  Helper for name_and_sort_items().
 **************************************************************************/
 static int fc_cmp(const void *p1, const void *p2)
 {
@@ -650,7 +650,11 @@ void name_and_sort_items(struct universal *targets, int num_targets,
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
       } else {
-        cost = impr_build_shield_cost(pcity, target.value.building);
+        if (pcity != NULL) {
+          cost = impr_build_shield_cost(pcity, target.value.building);
+        } else {
+          cost = MAX(target.value.building->build_cost * game.info.shieldbox / 100, 1);
+        }
       }
     }
 
