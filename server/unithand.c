@@ -742,6 +742,13 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       if ((tcity = is_non_attack_city_tile(target_tile, actor_player))) {
         return city_owner(tcity);
       }
+
+      unit_list_iterate(target_tile->units, pother) {
+        if (can_player_see_unit(actor_player, pother)
+            && pplayers_non_attack(actor_player, unit_owner(pother))) {
+          return unit_owner(pother);
+        }
+      } unit_list_iterate_end;
     }
     break;
   case ACTION_ESTABLISH_EMBASSY:
