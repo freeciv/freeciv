@@ -472,6 +472,21 @@ static bool effect_list_sanity_cb(struct effect *peffect, void *data)
         }
       }
     } requirement_vector_iterate_end;
+  } else if (peffect->type == EFT_ACTION_ODDS_PCT) {
+    /* Catch trying to set Action_Odds_Pct for non supported actions. */
+    requirement_vector_iterate(&peffect->reqs, preq) {
+      if (preq->source.kind == VUT_ACTION && preq->present) {
+        if (action_dice_roll_initial_odds(preq->source.value.action)
+            == ACTION_ODDS_PCT_DICE_ROLL_NA) {
+          log_error("The effect Action_Odds_Pct has the"
+                    " requirement {%s} but the action %s doesn't"
+                    " roll the dice to see if it fails.",
+                    req_to_fstring(preq),
+                    universal_rule_name(&preq->source));
+          return FALSE;
+        }
+      }
+    } requirement_vector_iterate_end;
   }
 
   return sanity_check_req_vec(&peffect->reqs, TRUE, one_tile,
