@@ -530,6 +530,8 @@ Actions done by a unit against a tile
      is able to load into on landing
    - the target tile can't contain a city belonging to a player the actor
      has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
 
 Actions done by a unit to it self
 =================================
