@@ -2802,6 +2802,11 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
   }
 
   if (is_non_attack_city_tile(ptile, pplayer)
+      || (is_non_allied_city_tile(ptile, pplayer)
+          && (pplayer->ai_common.barbarian_type == ANIMAL_BARBARIAN
+              || !uclass_has_flag(unit_class_get(punit),
+                               UCF_CAN_OCCUPY_CITY)
+              || unit_has_type_flag(punit, UTYF_CIVILIAN)))
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
