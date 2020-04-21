@@ -1807,6 +1807,49 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_MINFOREIGNPCT:
+    switch (preq->range) {
+    case REQ_RANGE_CITY:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("At least %d%% of the citizens of the city "
+                       "must be foreign."),
+                     preq->source.value.minforeignpct);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Less than %d%% of the citizens of the city "
+                       "must be foreign."),
+                     preq->source.value.minforeignpct);
+      }
+      return TRUE;
+    case REQ_RANGE_TRADEROUTE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("At least %d%% of the citizens of the city "
+                       "or some trade partner must be foreign."),
+                     preq->source.value.minforeignpct);
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Less than %d%% of the citizens of the city "
+                       "and each trade partner must be foreign."),
+                      preq->source.value.minforeignpct);
+      }
+      return TRUE;
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+    break;
+
   case VUT_MAXTILEUNITS:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

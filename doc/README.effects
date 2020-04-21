@@ -83,6 +83,7 @@ Age (of city):   City
 Age (of player): Player
 MinSize:         Traderoute, City
 MinCulture:      World, Alliance, Team, Player, Traderoute, City
+MinForeignPct:   Traderoute, City
 AI:              Player
 MaxUnitsOnTile:  Local, Adjacent, CAdjacent
 TerrainClass:    Local, Adjacent, CAdjacent, Traderoute, City

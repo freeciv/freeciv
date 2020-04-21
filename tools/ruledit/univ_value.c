@@ -169,6 +169,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_MINCULTURE:
     src->value.minculture = 0;
     return TRUE;
+  case VUT_MINFOREIGNPCT:
+    src->value.minforeignpct = 0;
+    return TRUE;
   case VUT_UNITSTATE:
     src->value.unit_state = USP_TRANSPORTED;
     return TRUE;
@@ -410,6 +413,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_MINCALFRAG:
   case VUT_MAXTILEUNITS:
   case VUT_MINCULTURE:
+  case VUT_MINFOREIGNPCT:
   case VUT_MINMOVES:
   case VUT_MINVETERAN:
   case VUT_MINHP:

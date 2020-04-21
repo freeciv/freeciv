@@ -261,6 +261,12 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
+  case VUT_MINFOREIGNPCT:
+    source->value.minforeignpct = atoi(value);
+    if (source->value.minforeignpct > 0) {
+      return;
+    }
+    break;
   case VUT_AI_LEVEL:
     source->value.ai_level = ai_level_by_name(value, fc_strcasecmp);
     if (ai_level_is_valid(source->value.ai_level)) {
@@ -495,6 +501,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_MINCULTURE:
     source.value.minculture = value;
     return source;
+  case VUT_MINFOREIGNPCT:
+    source.value.minforeignpct = value;
+    return source;
   case VUT_AI_LEVEL:
     source.value.ai_level = value;
     return source;
@@ -625,6 +634,8 @@ int universal_number(const struct universal *source)
     return source->value.minsize;
   case VUT_MINCULTURE:
     return source->value.minculture;
+  case VUT_MINFOREIGNPCT:
+    return source->value.minforeignpct;
   case VUT_AI_LEVEL:
     return source->value.ai_level;
   case VUT_MAXTILEUNITS:
@@ -738,6 +749,7 @@ struct requirement req_from_str(const char *type, const char *range,
         break;
       case VUT_MINSIZE:
       case VUT_MINCULTURE:
+      case VUT_MINFOREIGNPCT:
       case VUT_NATIONALITY:
       case VUT_CITYSTATUS:
         req.range = REQ_RANGE_CITY;
@@ -797,6 +809,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = (req.range != REQ_RANGE_PLAYER);
       break;
     case VUT_MINSIZE:
+    case VUT_MINFOREIGNPCT:
     case VUT_NATIONALITY:
     case VUT_GOOD:
     case VUT_CITYSTATUS:
@@ -908,6 +921,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_SPECIALIST:
     case VUT_MINSIZE:
     case VUT_MINCULTURE:
+    case VUT_MINFOREIGNPCT:
     case VUT_AI_LEVEL:
     case VUT_TERRAINCLASS:
     case VUT_MINYEAR:
@@ -1642,6 +1656,58 @@ static enum fc_tristate is_minculture_in_range(const struct city *target_city,
       }
     } players_iterate_alive_end;
     return TRI_NO;
+  case REQ_RANGE_LOCAL:
+  case REQ_RANGE_CADJACENT:
+  case REQ_RANGE_ADJACENT:
+  case REQ_RANGE_CONTINENT:
+  case REQ_RANGE_COUNT:
+    break;
+  }
+
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
+
+  return TRI_MAYBE;
+}
+
+/**********************************************************************//**
+  Is city with at least min_foreign_pct foreigners in range?
+**************************************************************************/
+static enum fc_tristate
+is_minforeignpct_in_range(const struct city *target_city, enum req_range range,
+                          int min_foreign_pct)
+{
+  int foreign_pct;
+
+  switch (range) {
+  case REQ_RANGE_CITY:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    foreign_pct = citizens_nation_foreign(target_city) * 100
+      / city_size_get(target_city);
+    return BOOL_TO_TRISTATE(foreign_pct >= min_foreign_pct);
+  case REQ_RANGE_TRADEROUTE:
+    if (!target_city) {
+      return TRI_MAYBE;
+    }
+    foreign_pct = citizens_nation_foreign(target_city) * 100
+      / city_size_get(target_city);
+    if (foreign_pct >= min_foreign_pct) {
+      return TRI_YES;
+    } else {
+      trade_partners_iterate(target_city, trade_partner) {
+        foreign_pct = citizens_nation_foreign(trade_partner) * 100
+          / city_size_get(trade_partner); 
+        if (foreign_pct >= min_foreign_pct) {
+          return TRI_YES;
+        }
+      } trade_partners_iterate_end;
+      return TRI_MAYBE;
+    }
+  case REQ_RANGE_PLAYER:
+  case REQ_RANGE_TEAM:
+  case REQ_RANGE_ALLIANCE:
+  case REQ_RANGE_WORLD:
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_CADJACENT:
   case REQ_RANGE_ADJACENT:
@@ -3092,6 +3158,10 @@ bool is_req_active(const struct player *target_player,
     eval = is_minculture_in_range(target_city, target_player, req->range,
                                   req->source.value.minculture);
     break;
+  case VUT_MINFOREIGNPCT:
+    eval = is_minforeignpct_in_range(target_city, req->range,
+                                     req->source.value.minforeignpct);
+    break;
   case VUT_AI_LEVEL:
     if (target_player == NULL) {
       eval = TRI_MAYBE;
@@ -3256,6 +3326,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_IMPR_GENUS:
   case VUT_MINSIZE:
   case VUT_MINCULTURE:
+  case VUT_MINFOREIGNPCT:
   case VUT_MINTECHS:
   case VUT_NATIONALITY:
   case VUT_DIPLREL:
@@ -3385,6 +3456,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.minsize == psource2->value.minsize;
   case VUT_MINCULTURE:
     return psource1->value.minculture == psource2->value.minculture;
+  case VUT_MINFOREIGNPCT:
+    return psource1->value.minforeignpct == psource2->value.minforeignpct;
   case VUT_AI_LEVEL:
     return psource1->value.ai_level == psource2->value.ai_level;
   case VUT_MAXTILEUNITS:
@@ -3519,6 +3592,10 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_MINCULTURE:
     fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minculture);
+
+    return buffer;
+  case VUT_MINFOREIGNPCT:
+    fc_snprintf(buffer, sizeof(buffer), "%d", psource->value.minforeignpct);
 
     return buffer;
   case VUT_AI_LEVEL:
@@ -3724,6 +3801,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_MINCULTURE:
     cat_snprintf(buf, bufsz, _("Culture %d"),
 		 psource->value.minculture);
+    return buf;
+  case VUT_MINFOREIGNPCT:
+    cat_snprintf(buf, bufsz, _("%d%% Foreigners"),
+		 psource->value.minforeignpct);
     return buf;
   case VUT_AI_LEVEL:
     /* TRANS: "Hard AI" */

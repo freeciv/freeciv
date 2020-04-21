@@ -1489,6 +1489,29 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
           success = FALSE;
         }
         break;
+      case VUT_MINFOREIGNPCT:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "city must have %d%% foreign population. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        preq->source.value.minforeignpct);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_minforeignpct");
+        } else {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "city must have %d%% native population. Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        100 - preq->source.value.minforeignpct);
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_minforeignpct");
+        }
+        break;
       case VUT_MINTECHS:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

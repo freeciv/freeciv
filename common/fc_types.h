@@ -417,6 +417,7 @@ typedef union {
   enum citystatus_type citystatus;
   int minsize;
   int minculture;
+  int minforeignpct;
   int minyear;
   int mincalfrag;
   Output_type_id outputtype;
@@ -540,6 +541,8 @@ typedef union {
 #define SPECENUM_VALUE42NAME "ServerSetting"
 #define SPECENUM_VALUE43 VUT_CITYSTATUS
 #define SPECENUM_VALUE43NAME "CityStatus"
+#define SPECENUM_VALUE44 VUT_MINFOREIGNPCT
+#define SPECENUM_VALUE44NAME "MinForeignPct"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

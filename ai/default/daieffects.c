@@ -759,6 +759,10 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
     /* No way to remove once present. */
     return preq->present;
 
+  case VUT_MINFOREIGNPCT:
+    /* No way to add once lost. */
+    return !preq->present;
+
   case VUT_NATION:
   case VUT_NATIONGROUP:
   case VUT_AI_LEVEL:
