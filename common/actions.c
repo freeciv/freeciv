@@ -5178,22 +5178,15 @@ struct act_prob action_prob_fall_back(const struct act_prob *ap1,
 }
 
 /**********************************************************************//**
-  Returns the odds of an action not failing its dice roll.
+  Returns the initial odds of an action not failing its dice roll.
 **************************************************************************/
-int action_dice_roll_odds(const struct player *act_player,
-                          const struct unit *act_unit,
-                          const struct city *tgt_city,
-                          const struct player *tgt_player,
-                          const struct action *paction)
+int action_dice_roll_initial_odds(const struct action *paction)
 {
-  int odds = 0;
-
   switch ((enum gen_action)paction->id) {
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
     /* No initial odds. */
-    odds = 100;
-    break;
+    return 100;
   case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_STEAL_TECH:
   case ACTION_SPY_STEAL_TECH_ESC:
@@ -5213,10 +5206,9 @@ int action_dice_roll_odds(const struct player *act_player,
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
-    /* Take the odds from the diplchance setting. */
-    odds = server_setting_value_int_get(
+    /* Take the initial odds from the diplchance setting. */
+    return server_setting_value_int_get(
                server_setting_by_name("diplchance"));
-    break;
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -5273,10 +5265,30 @@ int action_dice_roll_odds(const struct player *act_player,
   case ACTION_USER_ACTION3:
   case ACTION_COUNT:
     /* No additional dice roll. */
-    odds = 0;
-    fc_assert(odds != 0);
     break;
   }
+
+  /* The odds of the action not being stopped by its dice roll when the dice
+   * isn't thrown is 100%. ACTION_ODDS_PCT_DICE_ROLL_NA is above 100% */
+  return ACTION_ODDS_PCT_DICE_ROLL_NA;
+}
+
+/**********************************************************************//**
+  Returns the odds of an action not failing its dice roll.
+**************************************************************************/
+int action_dice_roll_odds(const struct player *act_player,
+                          const struct unit *act_unit,
+                          const struct city *tgt_city,
+                          const struct player *tgt_player,
+                          const struct action *paction)
+{
+  int odds = action_dice_roll_initial_odds(paction);
+
+  fc_assert_action_msg(odds >= 0 && odds <= 100,
+                       odds = 100,
+                       "Bad initial odds for action number %d."
+                       " Does it roll the dice at all?",
+                       paction->id);
 
   /* Let the Action_Odds_Pct effect modify the odds. The advantage of doing
    * it this way in stead of rolling twice is that Action_Odds_Pct can
