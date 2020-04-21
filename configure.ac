@@ -125,7 +125,15 @@ AC_ARG_ENABLE([fcdb],
   AS_HELP_STRING([--enable-fcdb[=no/all/mysql/odbc/postgres/sqlite3]],
                  [database backends [sqlite3](no, or list)]),
 [databases=${enableval}],
-[databases=sqlite3])
+[if test "x$emscripten" != "xyes" ; then
+  databases=sqlite3
+else
+  databases=no
+fi])
+
+if test "x$emscripten" = "xyes" && test "x$databases" != "xno" ; then
+  AC_MSG_ERROR([fcdb not supported with emscripten])
+fi
 
 for db in $(echo $databases | $SED 's/,/ /g') ; do
   if test "x$db" = "xall" ; then
