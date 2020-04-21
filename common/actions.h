@@ -570,6 +570,9 @@ struct act_prob action_prob_new_certain(void);
 #define ACTPROB_NOT_IMPLEMENTED action_prob_new_not_impl()
 #define ACTPROB_NOT_KNOWN action_prob_new_unknown()
 
+/* ACTION_ODDS_PCT_DICE_ROLL_NA must be above 100%. */
+#define ACTION_ODDS_PCT_DICE_ROLL_NA 110
+int action_dice_roll_initial_odds(const struct action *paction);
 int action_dice_roll_odds(const struct player *act_player,
                           const struct unit *act_unit,
                           const struct city *tgt_city,
