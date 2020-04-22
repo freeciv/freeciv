@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,11 +64,12 @@ class mr_idle : public QObject
 public:
   mr_idle();
   ~mr_idle();
-  void add_callback(call_me_back* cb);
-  QQueue<call_me_back*> callback_list;
+
+  void add_callback(call_me_back *cb);
 private slots:
   void idling();
 private:
+  QQueue<call_me_back*> callback_list;
   QTimer timer;
 };
 

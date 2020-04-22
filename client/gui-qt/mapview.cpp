@@ -159,7 +159,7 @@ mr_idle::mr_idle()
 **************************************************************************/
 mr_idle::~mr_idle()
 {
-  call_me_back* cb;
+  call_me_back *cb;
 
   while (!callback_list.isEmpty()) {
     cb = callback_list.dequeue();
@@ -172,7 +172,7 @@ mr_idle::~mr_idle()
 **************************************************************************/
 void mr_idle::idling()
 {
-  call_me_back* cb;
+  call_me_back *cb;
 
   while (!callback_list.isEmpty()) {
     cb = callback_list.dequeue();
@@ -184,7 +184,7 @@ void mr_idle::idling()
 /**************************************************************************
   Adds one callback to execute later
 **************************************************************************/
-void mr_idle::add_callback(call_me_back* cb)
+void mr_idle::add_callback(call_me_back *cb)
 {
   callback_list.enqueue(cb);
 }
