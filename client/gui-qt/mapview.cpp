@@ -164,7 +164,7 @@ mr_idle::~mr_idle()
 }
 
 /**********************************************************************//**
-  Slot used to execute 1 callback from callabcks stored in idle list
+  Slot used to execute 1 callback from callbacks stored in idle list
 **************************************************************************/
 void mr_idle::idling()
 {
