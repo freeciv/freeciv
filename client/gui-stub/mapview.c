@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -265,4 +265,12 @@ void overview_size_changed(void)
 void update_overview_scroll_window_pos(int x, int y)
 {
   /* TODO: PORTME. */
+}
+
+/**************************************************************************
+  New turn callback
+**************************************************************************/
+void gui_start_turn(void)
+{
+  /* PORTME */
 }

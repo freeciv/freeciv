@@ -35,8 +35,6 @@ class QSignalMapper;
 class QScrollArea;
 struct fc_shortcut;
 
-void qt_start_turn();
-
 /** used for indicating menu about current option - for renaming
  * and enabling, disabling */
 enum munit {
