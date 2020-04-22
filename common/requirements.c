@@ -1726,7 +1726,7 @@ is_minforeignpct_in_range(const struct city *target_city, enum req_range range,
 **************************************************************************/
 static enum fc_tristate
 is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
-                       int maxUnits)
+                       int max_units)
 {
   /* TODO: if can't see V_INVIS -> TRI_MAYBE */
   switch (range) {
@@ -1734,16 +1734,16 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    return BOOL_TO_TRISTATE(unit_list_size(target_tile->units) <= maxUnits);
+    return BOOL_TO_TRISTATE(unit_list_size(target_tile->units) <= max_units);
   case REQ_RANGE_CADJACENT:
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    if (unit_list_size(target_tile->units) <= maxUnits) {
+    if (unit_list_size(target_tile->units) <= max_units) {
       return TRI_YES;
     }
     cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
-      if (unit_list_size(adjc_tile->units) <= maxUnits) {
+      if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
     } cardinal_adjc_iterate_end;
@@ -1752,11 +1752,11 @@ is_tile_units_in_range(const struct tile *target_tile, enum req_range range,
     if (!target_tile) {
       return TRI_MAYBE;
     }
-    if (unit_list_size(target_tile->units) <= maxUnits) {
+    if (unit_list_size(target_tile->units) <= max_units) {
       return TRI_YES;
     }
     adjc_iterate(&(wld.map), target_tile, adjc_tile) {
-      if (unit_list_size(adjc_tile->units) <= maxUnits) {
+      if (unit_list_size(adjc_tile->units) <= max_units) {
         return TRI_YES;
       }
     } adjc_iterate_end;
