@@ -12,15 +12,6 @@ esac], [enable_debug=some])
 dnl -g is added by AC_PROG_CC if the compiler understands it
 
 dnl ==========================================================================
-dnl Always
-FC_C_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
-           [], [EXTRA_DEBUG_CFLAGS])
-if test "x$cxx_works" = "xyes" ; then
-  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
-               [], [EXTRA_DEBUG_CXXFLAGS])
-fi
-
-dnl ==========================================================================
 dnl debug level == no
 if test "x$enable_debug" = "xno"; then
   AC_DEFINE([NDEBUG], [1], [No debugging support at all])
@@ -76,6 +67,17 @@ if test "x$enable_debug" = "xchecks"; then
   dnl temporary fixing the problem by patching this file to compile freeciv
   dnl with this option set
   FC_C_FLAGS([-Wstrict-prototypes], [], [EXTRA_DEBUG_CFLAGS])
+fi
+
+dnl ==========================================================================
+dnl Always
+dnl This must be last so that the specific flags here override likes of
+dnl -Wall set earlier, and not the other way around.
+FC_C_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
+           [], [EXTRA_DEBUG_CFLAGS])
+if test "x$cxx_works" = "xyes" ; then
+  FC_CXX_FLAGS([-Wno-tautological-compare -Wno-nonnull-compare],
+               [], [EXTRA_DEBUG_CXXFLAGS])
 fi
 
 ])
