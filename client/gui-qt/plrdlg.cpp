@@ -448,11 +448,11 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     res = _("(Unknown)");
     break;
   case A_UNSET:
-      if (player_has_embassy(me, pplayer)) {
-        res = _("(none)");
-      } else {
-        res = _("(Unknown)");
-      }
+    if (global_observer || player_has_embassy(me, pplayer)) {
+      res = _("(none)");
+    } else {
+      res = _("(Unknown)");
+    }
     break;
   default:
     res = QString(research_advance_name_translation(research,
