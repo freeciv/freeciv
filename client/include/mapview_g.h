@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -36,6 +36,8 @@ GUI_FUNC_PROTO(void, update_turn_done_button, bool do_restore)
 GUI_FUNC_PROTO(void, update_city_descriptions, void)
 GUI_FUNC_PROTO(void, set_indicator_icons, struct sprite *bulb, struct sprite *sol,
                struct sprite *flake, struct sprite *gov)
+
+GUI_FUNC_PROTO(void, start_turn, void)
 
 GUI_FUNC_PROTO(void, overview_size_changed, void)
 GUI_FUNC_PROTO(void, update_overview_scroll_window_pos, int x, int y)

@@ -126,6 +126,7 @@ struct gui_funcs {
                             int attacker_hp, int defender_hp,
                             bool make_winner_veteran);
   void (*update_timeout_label)(void);
+  void (*start_turn)(void);
   void (*real_city_dialog_popup)(struct city *pcity);
   void (*real_city_dialog_refresh)(struct city *pcity);
   void (*popdown_city_dialog)(struct city *pcity);

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,8 +34,6 @@ class QPushButton;
 class QSignalMapper;
 class QScrollArea;
 struct fc_shortcut;
-
-void qt_start_turn();
 
 /** used for indicating menu about current option - for renaming
  * and enabling, disabling */
