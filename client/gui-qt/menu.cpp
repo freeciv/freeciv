@@ -64,23 +64,6 @@ extern QApplication *qapp;
 
 static bool tradecity_rand(const trade_city *t1, const trade_city *t2);
 static void enable_interface(bool enable);
-extern int last_center_enemy;
-extern int last_center_capital;
-extern int last_center_player_city;
-extern int last_center_enemy_city;
-
-/**********************************************************************//**
-  New turn callback
-**************************************************************************/
-void qt_start_turn()
-{
-  real_menus_update();
-  show_new_turn_info();
-  last_center_enemy = 0;
-  last_center_capital = 0;
-  last_center_player_city = 0;
-  last_center_enemy_city = 0;
-}
 
 /**********************************************************************//**
   Constructor for trade city used to trade calculation

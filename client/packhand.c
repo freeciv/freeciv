@@ -132,6 +132,8 @@ static struct {
 
 extern const char forced_tileset_name[];
 
+static int last_turn = 0;
+
 /************************************************************************//**
   Called below, and by client/client_main.c client_game_free()
 ****************************************************************************/
@@ -1266,6 +1268,11 @@ void handle_new_year(int year, int fragments, int turn)
   }
 
   agents_new_turn();
+
+  if (last_turn != turn) {
+    start_turn();
+    last_turn = turn;
+  }
 }
 
 /************************************************************************//**

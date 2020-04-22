@@ -266,3 +266,11 @@ void update_overview_scroll_window_pos(int x, int y)
 {
   /* TODO: PORTME. */
 }
+
+/************************************************************************//**
+  New turn callback
+****************************************************************************/
+void gui_start_turn(void)
+{
+  /* PORTME */
+}
