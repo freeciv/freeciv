@@ -106,6 +106,7 @@ void setup_gui_funcs(void)
 
   funcs->popup_combat_info = gui_popup_combat_info;
   funcs->update_timeout_label = gui_update_timeout_label;
+  funcs->start_turn = gui_start_turn;
   funcs->real_city_dialog_popup = gui_real_city_dialog_popup;
   funcs->real_city_dialog_refresh = gui_real_city_dialog_refresh;
   funcs->popdown_city_dialog = gui_popdown_city_dialog;

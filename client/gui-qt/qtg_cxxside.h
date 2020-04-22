@@ -123,6 +123,7 @@ void qtg_editgui_tileset_changed();
 void qtg_editgui_popdown_all();
 
 void qtg_update_timeout_label();
+void qtg_start_turn();
 void qtg_real_city_dialog_popup(struct city *pcity);
 void qtg_real_city_dialog_refresh(struct city *pcity);
 void qtg_popdown_city_dialog(struct city *pcity);

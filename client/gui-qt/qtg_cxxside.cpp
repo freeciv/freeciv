@@ -94,6 +94,7 @@ void setup_gui_funcs()
 
   funcs->popup_combat_info = qtg_popup_combat_info;
   funcs->update_timeout_label = qtg_update_timeout_label;
+  funcs->start_turn = qtg_start_turn;
   funcs->real_city_dialog_popup = qtg_real_city_dialog_popup;
   funcs->real_city_dialog_refresh = qtg_real_city_dialog_refresh;
   funcs->popdown_city_dialog = qtg_popdown_city_dialog;

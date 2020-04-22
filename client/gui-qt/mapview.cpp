@@ -58,7 +58,11 @@ extern QApplication *qapp;
 #define MAX_DIRTY_RECTS 20
 static int num_dirty_rects = 0;
 static QRect dirty_rects[MAX_DIRTY_RECTS];
-static int last_turn = 0;
+
+extern int last_center_enemy;
+extern int last_center_capital;
+extern int last_center_player_city;
+extern int last_center_enemy_city;
 
 /**************************************************************************
   Check if point x, y is in area (px -> pxe, py - pye)
@@ -1082,10 +1086,6 @@ void qtg_update_timeout_label(void)
 {
   gui()->sw_endturn->set_custom_labels(QString(get_timeout_label_text()));
   gui()->sw_endturn->update_final_pixmap();
-  if (last_turn != game.info.turn) {
-    qt_start_turn();
-  }
-  last_turn = game.info.turn;
 }
 
 /****************************************************************************
@@ -1437,4 +1437,17 @@ void info_tile::update_font(const QString &name, const QFont &font)
     calc_size();
     update();
   }
+}
+
+/**************************************************************************
+  New turn callback
+**************************************************************************/
+void qtg_start_turn()
+{
+  gui()->rallies.run();
+  show_new_turn_info();
+  last_center_enemy = 0;
+  last_center_capital = 0;
+  last_center_player_city = 0;
+  last_center_enemy_city = 0;
 }
