@@ -490,26 +490,27 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;removal_time   = 0
 ;helptext       = _("")
 
-;[extra_groad]
-;name           = _("Generic Road")
-;category       = "Infra"
-;causes         = "Road"
+[extra_path]
+name           = _("Path")
+category       = "Infra"
+causes         = "Road"
 ;rmcauses       = ""
-;graphic        = "road.generic"
-;graphic_alt    = "-"
-;activity_gfx   = "unit.groad"
-;act_gfx_alt    = "-"
-;act_gfx_alt2   = "-"
-;rmact_gfx      = "None"
-;rmact_gfx_alt  = "-"
-;buildable      = FALSE
+infracost      = 5
+graphic        = "road.road"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+buildable      = TRUE
 ;reqs           =
 ;    { "type", "name", "range"
 ; No requirements
 ;    }
-;build_time     = 0
-;removal_time   = 0
-;helptext       = _("")
+build_time     = 0
+removal_time   = 0
+helptext       = _("Path is the simplest road type, buildable from the beginning.")
 
 [extra_gresource]
 name           = _("Generic Resource")
@@ -614,14 +615,13 @@ rmact_gfx_alt  = "-"
 ;
 ; */ <-- avoid gettext warnings
 
-; [road_groad]
-; extra          = "Generic Road"
-; move_cost      = 1
-; food_incr      = 0
-; shield_incr    = 0
-; trade_incr     = 0
-; food_bonus     = 0
-; shield_bonus   = 0
-; trade_bonus    = 0
-; compat_special = "None"
-; flags          = ""
+[road_path]
+extra          = "Path"
+move_cost      = 1
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 0
+food_bonus     = 0
+shield_bonus   = 0
+trade_bonus    = 0
+compat_special = "None"
