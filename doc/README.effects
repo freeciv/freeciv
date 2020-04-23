@@ -591,6 +591,10 @@ National_History
     Value is how much history type (cumulative) culture, not tied to any any
     specific city, nation produces.
 
+Infra_Points
+    City increases owner's infra points by value each turn. If overall points
+    are negative after all cities have been processed, they are set to 0.
+
 
 Details about requirement types
 ===============================

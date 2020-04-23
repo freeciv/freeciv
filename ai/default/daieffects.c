@@ -645,6 +645,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       v -= move_fragment_cost / (adv_want)MAX_MOVE_FRAGS;
     }
     break;
+  case EFT_INFRA_POINTS:
+    v += amount * ai->infra_priority;
+    break;
   case EFT_COUNT:
     log_error("Bad effect type.");
     break;

@@ -112,6 +112,7 @@ struct adv_data {
   int unhappy_priority;
   int angry_priority;
   int pollution_priority;
+  int infra_priority;
 
   /* Government data */
   adv_want *government_want;

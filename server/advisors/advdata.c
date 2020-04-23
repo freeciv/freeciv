@@ -481,6 +481,7 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
   adv->unhappy_priority = TRADE_WEIGHTING; /* danger */
   adv->angry_priority = TRADE_WEIGHTING * 3; /* grave danger */
   adv->pollution_priority = POLLUTION_WEIGHTING;
+  adv->infra_priority = INFRA_WEIGHTING;
 
   /* Research want */
   if (is_future_tech(research_get(pplayer)->researching)

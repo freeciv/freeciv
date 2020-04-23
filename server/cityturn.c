@@ -616,6 +616,10 @@ void update_city_activities(struct player *pplayer)
       cities[r] = cities[--i];
     }
 
+    if (pplayer->economic.infra_points < 0) {
+      pplayer->economic.infra_points = 0;
+    }
+
     if (pplayer->economic.gold < 0) {
       switch (game.info.gold_upkeep_style) {
       case GOLD_UPKEEP_CITY:
@@ -3203,6 +3207,8 @@ static void update_city_activity(struct city *pcity)
     pcity->did_buy = FALSE;
     pcity->airlift = city_airlift_max(pcity);
     update_bulbs(pplayer, pcity->prod[O_SCIENCE], FALSE);
+
+    pplayer->economic.infra_points += get_city_bonus(pcity, EFT_INFRA_POINTS);
 
     /* Update the treasury. */
     pplayer->economic.gold += pcity->prod[O_GOLD];
