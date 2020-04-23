@@ -134,7 +134,7 @@ static int num_affected_units(const struct effect *peffect,
   given the number of cities in range (c).
 **************************************************************************/
 adv_want dai_effect_value(struct player *pplayer, struct government *gov,
-                          const struct adv_data *ai, const struct city *pcity,
+                          const struct adv_data *adv, const struct city *pcity,
                           const bool capital, int turns,
                           const struct effect *peffect, const int c,
                           const int nplayers)
@@ -295,23 +295,23 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_AIRLIFT:
     /* FIXME: We need some smart algorithm here. The below is 
      * totally braindead. */
-    v += c + MIN(ai->stats.units.airliftable, 13);
+    v += c + MIN(adv->stats.units.airliftable, 13);
     break;
   case EFT_ANY_GOVERNMENT:
-    if (!can_change_to_government(pplayer, ai->goal.govt.gov)) {
-      v += MIN(MIN(ai->goal.govt.val, 65),
+    if (!can_change_to_government(pplayer, adv->goal.govt.gov)) {
+      v += MIN(MIN(adv->goal.govt.val, 65),
                research_goal_unknown_techs(research_get(pplayer),
-                                           ai->goal.govt.req) * 10);
+                                           adv->goal.govt.req) * 10);
     }
     break;
   case EFT_ENABLE_NUKE:
     /* Treat nuke as a Cruise Missile upgrade */
-    v += 20 + ai->stats.units.suicide_attackers * 5;
+    v += 20 + adv->stats.units.suicide_attackers * 5;
     break;
   case EFT_ENABLE_SPACE:
     if (victory_enabled(VC_SPACERACE)) {
       v += 10;
-      if (ai->dipl.production_leader == pplayer) {
+      if (adv->dipl.production_leader == pplayer) {
 	v += 150;
       }
     }
@@ -344,13 +344,13 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_NO_ANARCHY:
     break;  /* Useless for AI */
   case EFT_NUKE_PROOF:
-    if (ai->threats.nuclear) {
+    if (adv->threats.nuclear) {
       v += city_size_get(pcity) * unit_list_size(pcity->tile->units)
            * (capital + 1) * amount / 100;
     }
     break;
   case EFT_REVEAL_MAP:
-    if (!ai->explore.land_done || !ai->explore.sea_done) {
+    if (!adv->explore.land_done || !adv->explore.sea_done) {
       v += 10;
     }
     break;
@@ -366,7 +366,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       }
     } else {
       /* Effect trying to remove unlimit. */
-      v -= 30 * c * ai->food_priority;
+      v -= 30 * c * adv->food_priority;
       break;
     }
     fc__fallthrough; /* there not being a break here is deliberate, mind you */
@@ -384,7 +384,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       }
 
       if (amount > 0 && !city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
-	v += extra_food * ai->food_priority * amount;
+	v += extra_food * adv->food_priority * amount;
 	if (city_size_get(pcity) == aqueduct_size) {
 	  v += 30 * extra_food;
 	}
@@ -398,8 +398,8 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     if (victory_enabled(VC_SPACERACE)
 	/* If someone has started building spaceship already or
 	 * we have chance to win a spacerace */
-	&& (ai->dipl.spacerace_leader
-	    || ai->dipl.production_leader == pplayer)) {
+	&& (adv->dipl.spacerace_leader
+	    || adv->dipl.production_leader == pplayer)) {
       v += 140;
     }
     break;
@@ -408,40 +408,40 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     /* Uhm, problem: City Wall has -50% here!! */
     break;
   case EFT_MOVE_BONUS:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += (8 * v * amount + num);
     break;
   case EFT_UNIT_NO_LOSE_POP:
     v += unit_list_size(pcity->tile->units) * 2;
     break;
   case EFT_HP_REGEN:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += (5 * c + num);
     break;
   case EFT_VETERAN_COMBAT:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += (2 * c + num);
     break;
   case EFT_VETERAN_BUILD:
     /* FIXME: check other reqs (e.g., unitflag) */
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += amount * (3 * c + num);
     break;
   case EFT_UPGRADE_UNIT:
     if (amount == 1) {
-      v += ai->stats.units.upgradeable * 2;
+      v += adv->stats.units.upgradeable * 2;
     } else if (amount == 2) {
-      v += ai->stats.units.upgradeable * 3;
+      v += adv->stats.units.upgradeable * 3;
     } else {
-      v += ai->stats.units.upgradeable * 4;
+      v += adv->stats.units.upgradeable * 4;
     }
     break;
   case EFT_UNIT_BRIBE_COST_PCT:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += ((2 * c + num) * amount) / 400;
     break;
   case EFT_ATTACK_BONUS:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v += (num + 4) * amount / 200;
     break;
   case EFT_DEFEND_BONUS:
@@ -467,12 +467,12 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
 
     if (affects_sea_capable_units) {
       if (is_ocean_tile(pcity->tile)) {
-        v += ai->threats.ocean[-tile_continent(pcity->tile)]
+        v += adv->threats.ocean[-tile_continent(pcity->tile)]
           ? amount / 6 : amount / 25;
       } else {
         adjc_iterate(&(wld.map), pcity->tile, tile2) {
           if (is_ocean_tile(tile2)) {
-            if (ai->threats.ocean[-tile_continent(tile2)]) {
+            if (adv->threats.ocean[-tile_continent(tile2)]) {
               v += amount / 6;
               break;
             }
@@ -480,21 +480,21 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
         } adjc_iterate_end;
       }
     }
-    v += (amount / 25 + ai->threats.invasions - 1) * c; /* for wonder */
+    v += (amount / 25 + adv->threats.invasions - 1) * c; /* for wonder */
     if (capital || affects_land_capable_units) {
       Continent_id place = tile_continent(pcity->tile);
 
-      if ((place && ai->threats.continent[place])
+      if ((place && adv->threats.continent[place])
           || capital
-          || (ai->threats.invasions
+          || (adv->threats.invasions
               /* FIXME: This ignores riverboats on some rulesets.
                         We should analyze rulesets when game starts
                         and have relevant checks here. */
               && is_terrain_class_near_tile(pcity->tile, TC_OCEAN))) {
-        if (place && ai->threats.continent[place]) {
+        if (place && adv->threats.continent[place]) {
           v += amount * 4 / 5;
         } else {
-          v += amount / (!ai->threats.igwall ? (18 - capital * 6) : 18);
+          v += amount / (!adv->threats.igwall ? (18 - capital * 6) : 18);
         }
       }
     }
@@ -512,7 +512,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     break;
   case EFT_UPGRADE_PRICE_PCT:
     /* This is based on average base upgrade price of 50. */
-    v -= ai->stats.units.upgradeable * amount / 2;
+    v -= adv->stats.units.upgradeable * amount / 2;
     break;
   /* Currently not supported for building AI - wait for modpack users */
   case EFT_CITY_UNHAPPY_SIZE:
@@ -632,7 +632,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     v -= amount / 80;
     break;
   case EFT_RETIRE_PCT:
-    num = num_affected_units(peffect, ai);
+    num = num_affected_units(peffect, adv);
     v -= amount * num / 20;
     break;
   case EFT_ACTION_SUCCESS_MOVE_COST:
@@ -646,7 +646,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
     }
     break;
   case EFT_INFRA_POINTS:
-    v += amount * ai->infra_priority;
+    v += amount * adv->infra_priority;
     break;
   case EFT_COUNT:
     log_error("Bad effect type.");

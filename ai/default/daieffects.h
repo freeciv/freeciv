@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 #define FC__DAI_EFFECTS_H
 
 adv_want dai_effect_value(struct player *pplayer, struct government *gov,
-                          const struct adv_data *ai, const struct city *pcity,
+                          const struct adv_data *adv, const struct city *pcity,
                           const bool capital, int turns,
                           const struct effect *peffect, const int c,
                           const int nplayers);
