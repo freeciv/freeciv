@@ -15,6 +15,8 @@
 #include <fc_config.h>
 #endif
 
+#ifndef __EMSCRIPTEN__
+
 #include <curl/curl.h>
 
 #ifdef FREECIV_MSWINDOWS
@@ -280,3 +282,5 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 
   return TRUE;
 }
+
+#endif /* __EMSCRIPTEN__ */

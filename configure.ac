@@ -599,10 +599,13 @@ PKG_PROG_PKG_CONFIG
 if test "x$PKG_CONFIG" = "x" ; then
   AC_MSG_ERROR([pkg-config not found])
 fi
-PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],,
-    [AC_MSG_ERROR([libcurl development files required])])
-UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
-UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"
+
+if test "x$emscripten" != "xyes" ; then
+  PKG_CHECK_MODULES([CURL], [libcurl >= 7.15.4],,
+      [AC_MSG_ERROR([libcurl development files required])])
+  UTILITY_CFLAGS="${UTILITY_CFLAGS} ${CURL_CFLAGS}"
+  UTILITY_LIBS="${UTILITY_LIBS} ${CURL_LIBS}"
+fi
 
 AC_ARG_ENABLE([xml-registry],
   AS_HELP_STRING([--enable-xml-registry], [build xml-backend for registry (WIP)]),
@@ -1065,13 +1068,21 @@ dnl freeciv-modpack checks
 AC_ARG_ENABLE([fcmp],
   AS_HELP_STRING([--enable-fcmp=no/yes/gtk3/gtk3x/qt/cli/all/auto], [build freeciv-modpack-program [auto]]),
 [fc_mp=${enableval}],
-[fc_mp=auto])
+[if test "x$emscripten" = "xyes" ; then
+  fc_mp=no
+else
+  fc_mp=auto
+fi])
 
 fcmp_cli=no
 fcmp_gtk3=no
 fcmp_gtk3x=no
 fcmp_qt=no
 fcmp_list=
+
+if test "x$fc_mp" != "xno" && test "x$emscripten" = "xyes" ; then
+  AC_MSG_ERROR([fcmp not supported with emscripten])
+fi
 
 if test "x$fc_mp" = "xcli" ; then
   dnl Only cli requested -> no gui needed
