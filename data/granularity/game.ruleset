@@ -444,10 +444,10 @@ actor_reqs    =
 
 [borders]
 ; Base border radius from city.
-radius_sq_city = 0
+radius_sq_city = 2
 
 ; Border radius square increased by this amount / point of city size
-size_effect    = 0
+size_effect    = 1
 
 ; Difference between city workable area and area permanently claimed by
 ; city (these tiles cannot be stolen by stronger border sources).
