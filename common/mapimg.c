@@ -1164,6 +1164,7 @@ const struct strvec *mapimg_get_format_list(void)
            format = imageformat_next(format)) {
         if (toolkit->formats & format) {
           char str_format[64];
+
           fc_snprintf(str_format, sizeof(str_format), "%s|%s",
                       imagetool_name(tool), imageformat_name(format));
           strvec_append(format_list, str_format);
@@ -1422,7 +1423,7 @@ bool mapimg_create(struct mapdef *pmapdef, bool force, const char *savename,
 /****************************************************************************
   Create images which shows all map colors (playercolor, terrain colors). One
   image is created for each supported toolkit and image format. The filename
-  will be <basename as used for savegames>-colortest-<tookit>.<format>.
+  will be <basename as used for savegames>-colortest-<toolkit>.<format>.
 ****************************************************************************/
 bool mapimg_colortest(const char *savename, const char *path)
 {
@@ -1504,11 +1505,16 @@ bool mapimg_colortest(const char *savename, const char *path)
          format = imageformat_next(format)) {
       if (toolkit->formats & format) {
         char buf[128];
+        const char *tname = imagetool_name(tool);
 
         /* Set the image format. */
         pmapdef->format = format;
 
-        fc_snprintf(buf, sizeof(buf), "colortest-%s", imagetool_name(tool));
+        if (tname != NULL) {
+          fc_snprintf(buf, sizeof(buf), "colortest-%s", tname);
+        } else {
+          fc_snprintf(buf, sizeof(buf), "colortest");
+        }
         /* filename for color test */
         generate_save_name(savename, mapimgfile, sizeof(mapimgfile), buf);
 
