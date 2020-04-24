@@ -162,7 +162,13 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
 
   balanced_cost = build_cost_balanced(unit_type_get(punit));
 
-  sortie_time = (unit_has_type_flag(punit, UTYF_ONEATTACK) ? 1 : 0);
+  sortie_time = (utype_pays_mp_for_action_estimate(
+                 action_by_number(ACTION_ATTACK),
+                 unit_type_get(punit), unit_owner(punit),
+                 /* Assume that dst_tile is closer to the tile the actor
+                  * unit will attack from than its current tile. */
+                 dst_tile,
+                 dst_tile) >= MAX_MOVE_FRAGS ? 1 : 0);
 
   profit = kill_desire(victim_cost, unit_attack, unit_cost, victim_defence, 1) 
     - SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING;
