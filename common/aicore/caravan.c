@@ -207,7 +207,8 @@ static void caravan_search_from(const struct unit *caravan,
                                 int turns_before, int moves_left_before,
                                 bool omniscient,
                                 search_callback callback,
-                                void *callback_data) {
+                                void *callback_data)
+{
   struct pf_map *pfm;
   struct pf_parameter pfparam;
   int end_time;
@@ -606,6 +607,7 @@ static void caravan_evaluate_withtransit(const struct unit *caravan,
   data.param = param;
   caravan_result_init(result, game_city_by_number(caravan->homecity),
                       dest, 0);
+  data.result = result;
   caravan_search_from(caravan, param, unit_tile(caravan), 0,
                       caravan->moves_left, omniscient, cewt_callback, &data);
 }
