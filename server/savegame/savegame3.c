@@ -4670,6 +4670,12 @@ static void sg_load_player_cities(struct loaddata *loading,
                        "Unknown workertask target %s", str);
       } else {
         ptask->tgt = NULL;
+
+        if (ptask->act == ACTIVITY_IRRIGATE) {
+          ptask->act = ACTIVITY_CULTIVATE;
+        } else if (ptask->act == ACTIVITY_MINE) {
+          ptask->act = ACTIVITY_MINE;
+        }
       }
 
       ptask->want = secfile_lookup_int_default(loading->file, 1,
@@ -5297,7 +5303,7 @@ static void sg_save_player_cities(struct savedata *saving,
         case ORDER_ACTIVITY:
           sub_targets[j] = pcity->rally_point.orders[j].sub_target;
           activities[j]
-            = activity2char(pcity->rally_point.orders[j] .activity);
+            = activity2char(pcity->rally_point.orders[j].activity);
           break;
         case ORDER_PERFORM_ACTION:
           actions[j] = pcity->rally_point.orders[j].action;
@@ -5576,8 +5582,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       if (tgt != NULL) {
         set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, tgt);
       } else {
-        /* TODO: Set ACTIVITY_CULTIVATE */
-        set_unit_activity_targeted(punit, ACTIVITY_IRRIGATE, NULL);
+        set_unit_activity(punit, ACTIVITY_CULTIVATE);
       }
     } else if (activity == ACTIVITY_MINE) {
       struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
@@ -5587,8 +5592,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
       if (tgt != NULL) {
         set_unit_activity_targeted(punit, ACTIVITY_MINE, tgt);
       } else {
-        /* TODO: Set ACTIVITY_PLANT */
-        set_unit_activity_targeted(punit, ACTIVITY_MINE, NULL);
+        set_unit_activity(punit, ACTIVITY_PLANT);
       }
     } else {
       set_unit_activity(punit, activity);
