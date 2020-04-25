@@ -152,8 +152,10 @@ if host_system == 'windows'
   pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)
   pub_conf_data.set('FREECIV_HAVE_WINSOCK', 1)
   priv_conf_data.set('ALWAYS_ROOT', 1)
+  ws2_dep = c_compiler.find_library('ws2_32')
 else
   pub_conf_data.set('FREECIV_HAVE_PTHREAD', 1)
+  ws2_dep = []
 endif
 
 if get_option('cacert-path') != ''
@@ -428,7 +430,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 dependency('threads')],
+                 ws2_dep, dependency('threads')],
   install : true
   )
 
