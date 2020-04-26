@@ -201,7 +201,7 @@ struct ai_type
     void (*unit_got)(struct unit *punit);
 
     /* Called for player AI type when unit changes type. */
-    void (*unit_transformed)(struct unit *punit, struct unit_type *old_type);
+    void (*unit_transformed)(struct unit *punit, const struct unit_type *old_type);
 
     /* Called for player AI type when player loses control of unit. */
     void (*unit_lost)(struct unit *punit);

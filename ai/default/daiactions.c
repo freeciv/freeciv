@@ -265,8 +265,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
     /* Not going to spend the unit so care about move fragment cost. */
 
     adv_want move_fragment_cost;
-
-    struct unit_type *actor_utype = unit_type_get(actor_unit);
+    const struct unit_type *actor_utype = unit_type_get(actor_unit);
 
     /* FIXME: The action performer function may charge more. */
     if (utype_is_moved_to_tgt_by_action(paction, actor_utype)) {

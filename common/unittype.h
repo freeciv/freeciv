@@ -503,8 +503,8 @@ struct unit_type {
   struct combat_bonus_list *bonuses;
 
 #define U_NOT_OBSOLETED (NULL)
-  struct unit_type *obsoleted_by;
-  struct unit_type *converted_to;
+  const struct unit_type *obsoleted_by;
+  const struct unit_type *converted_to;
   int convert_time;
   int fuel;
 
@@ -567,7 +567,7 @@ Unit_type_id utype_count(void);
 Unit_type_id utype_index(const struct unit_type *punittype);
 Unit_type_id utype_number(const struct unit_type *punittype);
 
-struct unit_type *unit_type_get(const struct unit *punit);
+const struct unit_type *unit_type_get(const struct unit *punit);
 struct unit_type *utype_by_number(const Unit_type_id id);
 
 struct unit_type *unit_type_by_rule_name(const char *name);
@@ -632,11 +632,11 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int prop,
                                      const bool is_there);
 
-bool utype_may_act_move_frags(struct unit_type *punit_type,
+bool utype_may_act_move_frags(const struct unit_type *punit_type,
                               const action_id act_id,
                               const int move_fragments);
 
-bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
+bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
                                  const action_id act_id,
                                  const enum citytile_type prop,
                                  const bool is_there);
@@ -753,8 +753,8 @@ int utype_upkeep_cost(const struct unit_type *ut, struct player *pplayer,
                       Output_type_id otype);
 int utype_happy_cost(const struct unit_type *ut, const struct player *pplayer);
 
-struct unit_type *can_upgrade_unittype(const struct player *pplayer,
-				       struct unit_type *punittype);
+const struct unit_type *can_upgrade_unittype(const struct player *pplayer,
+                                             const struct unit_type *punittype);
 int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to);
@@ -771,7 +771,7 @@ bool can_player_build_unit_now(const struct player *p,
 
 #define utype_fuel(ptype) (ptype)->fuel
 
-bool utype_is_cityfounder(struct unit_type *utype);
+bool utype_is_cityfounder(const struct unit_type *utype);
 
 /* Initialization and iteration */
 void unit_types_init(void);

@@ -97,8 +97,8 @@ static void get_units_report_data(struct units_entry *entries,
 
   city_list_iterate(client.conn.playing->cities, pCity) {
     if (VUT_UTYPE == pCity->production.kind) {
-      struct unit_type *pUnitType = pCity->production.value.utype;
-      Unit_type_id uti = utype_index(pUnitType);
+      const struct unit_type *punittype = pCity->production.value.utype;
+      Unit_type_id uti = utype_index(punittype);
       int num_units;
 
       /* Account for build slots in city */
@@ -183,7 +183,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
     struct unit_type *ut1;
-    struct unit_type *ut2;
+    const struct unit_type *ut2;
     int value;
     char tBuf[128], cBuf[128];
     struct widget *pBuf = NULL, *pWindow;

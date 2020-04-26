@@ -370,7 +370,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   switch (target->kind) {
   case VUT_UTYPE:
   {
-    struct unit_type *ptype = target->value.utype;
+    const struct unit_type *ptype = target->value.utype;
 
     fc_strlcpy(buf[1], utype_values_string(ptype), column_size);
     fc_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(pcity, ptype));
@@ -379,7 +379,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   case VUT_IMPROVEMENT:
   {
     struct player *pplayer = pcity ? city_owner(pcity) : client.conn.playing;
-    struct impr_type *pimprove = target->value.building;
+    const struct impr_type *pimprove = target->value.building;
 
     /* Total & turns left meaningless on capitalization */
     if (improvement_has_flag(pimprove, IF_GOLD)) {

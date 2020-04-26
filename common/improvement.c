@@ -197,7 +197,7 @@ struct impr_type *improvement_by_number(const Impr_type_id id)
      tech_req to A_LAST; [was not in current 2007-07-27]
    - it is a space part, and the spacerace is not enabled.
 **************************************************************************/
-struct impr_type *valid_improvement(struct impr_type *pimprove)
+const struct impr_type *valid_improvement(const struct impr_type *pimprove)
 {
   if (NULL == pimprove) {
     return NULL;
@@ -220,7 +220,7 @@ struct impr_type *valid_improvement(struct impr_type *pimprove)
 
   In addition to valid_improvement(), tests for id is out of range.
 **************************************************************************/
-struct impr_type *valid_improvement_by_number(const Impr_type_id id)
+const struct impr_type *valid_improvement_by_number(const Impr_type_id id)
 {
   return valid_improvement(improvement_by_number(id));
 }
@@ -387,7 +387,7 @@ bool improvement_obsolete(const struct player *pplayer,
   Returns TRUE iff improvement provides units buildable in city
 **************************************************************************/
 static bool impr_provides_buildable_units(const struct city *pcity,
-                                          struct impr_type *pimprove)
+                                          const struct impr_type *pimprove)
 {
   /* Fast check */
   if (!pimprove->allows_units) {
@@ -408,7 +408,7 @@ static bool impr_provides_buildable_units(const struct city *pcity,
   Returns TRUE iff improvement provides extras buildable in city
 **************************************************************************/
 static bool impr_provides_buildable_extras(const struct city *pcity,
-                                           struct impr_type *pimprove)
+                                           const struct impr_type *pimprove)
 {
 
   /* Fast check */
@@ -434,7 +434,7 @@ static bool impr_provides_buildable_extras(const struct city *pcity,
   Returns TRUE iff improvement prevents a disaster in city
 **************************************************************************/
 static bool impr_prevents_disaster(const struct city *pcity,
-                                   struct impr_type *pimprove)
+                                   const struct impr_type *pimprove)
 {
   /* Fast check */
   if (!pimprove->prevents_disaster) {
@@ -458,7 +458,7 @@ static bool impr_prevents_disaster(const struct city *pcity,
          has or can gain that tech or unit, protection is still claimed.
 **************************************************************************/
 static bool impr_protects_vs_actions(const struct city *pcity,
-                                     struct impr_type *pimprove)
+                                     const struct impr_type *pimprove)
 {
   /* Fast check */
   if (!pimprove->protects_vs_actions) {
@@ -486,7 +486,7 @@ static bool impr_protects_vs_actions(const struct city *pcity,
   this city (i.e. Wonders)).
 **************************************************************************/
 static bool improvement_has_side_effects(const struct city *pcity,
-                                         struct impr_type *pimprove)
+                                         const struct impr_type *pimprove)
 {
     /* FIXME: There should probably also be a test as to whether
      *        the improvement *enables* an action (somewhere else),
@@ -502,7 +502,7 @@ static bool improvement_has_side_effects(const struct city *pcity,
   Returns TRUE iff improvement provides some effect (good or bad).
 **************************************************************************/
 static bool improvement_has_effects(const struct city *pcity,
-                                    struct impr_type *pimprove)
+                                    const struct impr_type *pimprove)
 {
   struct universal source = { .kind = VUT_IMPROVEMENT,
                               .value = { .building = pimprove } };
@@ -530,7 +530,7 @@ static bool improvement_has_effects(const struct city *pcity,
   producing units under the current government might under another).
 **************************************************************************/
 bool is_improvement_productive(const struct city *pcity,
-                               struct impr_type *pimprove)
+                               const struct impr_type *pimprove)
 {
     return (!improvement_obsolete(city_owner(pcity), pimprove, pcity)
             && (improvement_has_flag(pimprove, IF_GOLD)
@@ -551,7 +551,7 @@ bool is_improvement_productive(const struct city *pcity,
   of its special units.)
 **************************************************************************/
 bool is_improvement_redundant(const struct city *pcity,
-                              struct impr_type *pimprove)
+                              const struct impr_type *pimprove)
 {
   /* A capitalization production is never redundant. */
   if (improvement_has_flag(pimprove, IF_GOLD)) {
@@ -574,7 +574,7 @@ bool is_improvement_redundant(const struct city *pcity,
    is obsolete.
 **************************************************************************/
 bool can_player_build_improvement_direct(const struct player *p,
-					 struct impr_type *pimprove)
+                                         const struct impr_type *pimprove)
 {
   bool space_part = FALSE;
 
@@ -645,10 +645,10 @@ bool can_player_build_improvement_now(const struct player *p,
 /**********************************************************************//**
   Whether player can _eventually_ build given building somewhere -- i.e.,
   returns TRUE if building is available with current tech OR will be
-  available with future tech.  Returns FALSE if building is obsolete.
+  available with future tech. Returns FALSE if building is obsolete.
 **************************************************************************/
 bool can_player_build_improvement_later(const struct player *p,
-					struct impr_type *pimprove)
+                                        const struct impr_type *pimprove)
 {
   if (!valid_improvement(pimprove)) {
     return FALSE;
@@ -936,7 +936,7 @@ struct city *city_from_small_wonder(const struct player *pplayer,
 /**********************************************************************//**
   Return TRUE iff the improvement can be sold.
 **************************************************************************/
-bool can_sell_building(struct impr_type *pimprove)
+bool can_sell_building(const struct impr_type *pimprove)
 {
   return (valid_improvement(pimprove) && is_improvement(pimprove));
 }
@@ -945,7 +945,7 @@ bool can_sell_building(struct impr_type *pimprove)
   Return TRUE iff the city can sell the given improvement.
 **************************************************************************/
 bool can_city_sell_building(const struct city *pcity,
-			    struct impr_type *pimprove)
+                            const struct impr_type *pimprove)
 {
   return (city_has_building(pcity, pimprove) && is_improvement(pimprove));
 }
@@ -957,7 +957,7 @@ bool can_city_sell_building(const struct city *pcity,
 **************************************************************************/
 enum test_result test_player_sell_building_now(struct player *pplayer,
                                                struct city *pcity,
-                                               struct impr_type *pimprove)
+                                               const struct impr_type *pimprove)
 {
   /* Check if player can sell anything from this city */
   if (pcity->owner != pplayer) {
@@ -977,12 +977,11 @@ enum test_result test_player_sell_building_now(struct player *pplayer,
   return TR_SUCCESS;
 }
 
-
 /**********************************************************************//**
   Try to find a sensible replacement building, based on other buildings
   that may have caused this one to become obsolete.
 **************************************************************************/
-struct impr_type *improvement_replacement(const struct impr_type *pimprove)
+const struct impr_type *improvement_replacement(const struct impr_type *pimprove)
 {
   requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
     if (pobs->source.kind == VUT_IMPROVEMENT && pobs->present) {

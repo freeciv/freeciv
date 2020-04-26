@@ -265,9 +265,9 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
   Idea: one paratrooper can scare/protect all cities in his range
 *****************************************************************************/
 static int calculate_want_for_paratrooper(struct unit *punit,
-				          struct tile *ptile_city)
+                                          struct tile *ptile_city)
 {
-  struct unit_type* u_type = unit_type_get(punit);
+  const struct unit_type* u_type = unit_type_get(punit);
   int range = u_type->paratroopers_range;
   int profit = 0;
   struct player* pplayer = unit_owner(punit);

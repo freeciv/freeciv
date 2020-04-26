@@ -122,7 +122,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   GtkWidget *default_option = NULL;
   GtkWidget *first_option = NULL;
   struct sprite *spr;
-  struct unit_type *actor_type = unit_type_get(actor);
+  const struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,

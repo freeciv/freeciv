@@ -481,7 +481,7 @@ cid cid_encode(struct universal target)
 /**********************************************************************//**
   Encode a CID for the target unit type.
 **************************************************************************/
-cid cid_encode_unit(struct unit_type *punittype)
+cid cid_encode_unit(const struct unit_type *punittype)
 {
   struct universal target = {
     .kind = VUT_UTYPE,
@@ -493,7 +493,7 @@ cid cid_encode_unit(struct unit_type *punittype)
 /**********************************************************************//**
   Encode a CID for the target building.
 **************************************************************************/
-cid cid_encode_building(struct impr_type *pimprove)
+cid cid_encode_building(const struct impr_type *pimprove)
 {
   struct universal target = {
     .kind = VUT_IMPROVEMENT,
@@ -537,7 +537,7 @@ bool city_unit_supported(const struct city *pcity,
                          const struct universal *target)
 {
   if (VUT_UTYPE == target->kind) {
-    struct unit_type *tvtype = target->value.utype;
+    const struct unit_type *tvtype = target->value.utype;
 
     unit_list_iterate(pcity->units_supported, punit) {
       if (unit_type_get(punit) == tvtype) {
@@ -556,7 +556,7 @@ bool city_unit_present(const struct city *pcity,
                        const struct universal *target)
 {
   if (VUT_UTYPE == target->kind) {
-    struct unit_type *tvtype = target->value.utype;
+    const struct unit_type *tvtype = target->value.utype;
 
     unit_list_iterate(pcity->tile->units, punit) {
       if (unit_type_get(punit) == tvtype) {

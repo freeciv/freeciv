@@ -812,7 +812,7 @@ static bool lookup_building_list(struct section_file *file,
 static bool lookup_unit_type(struct section_file *file,
                              const char *prefix,
                              const char *entry,
-                             struct unit_type **result,
+                             const struct unit_type **result,
                              const char *filename,
                              const char *description)
 {

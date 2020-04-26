@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,7 +57,7 @@ void audio_stop(void);
 void audio_stop_usage(void);
 void audio_restart(const char *soundset_name, const char *musicset_name);
 
-void audio_play_sound(const char *const tag, char *const alt_tag);
+void audio_play_sound(const char *const tag, const char *const alt_tag);
 void audio_play_music(const char *const tag, char *const alt_tag,
                       enum music_usage usage);
 void audio_play_track(const char *const tag, char *const alt_tag);

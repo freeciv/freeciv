@@ -81,7 +81,7 @@
 #include "specvec.h"
 
 #define SPECVEC_TAG impr
-#define SPECVEC_TYPE struct impr_type *
+#define SPECVEC_TYPE const struct impr_type *
 #include "specvec.h"
 
 /* Iterate over cities within a certain range around a given city
@@ -379,8 +379,8 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
     if (pcity->owner == punit->owner) {
       /* Only upgrade units you own, not allied ones */
 
-      struct unit_type *old_type = unit_type_get(punit);
-      struct unit_type *punittype = can_upgrade_unittype(pplayer, old_type);
+      const struct unit_type *old_type = unit_type_get(punit);
+      const struct unit_type *punittype = can_upgrade_unittype(pplayer, old_type);
 
       if (military && !IS_ATTACKER(old_type)) {
         /* Only upgrade military units this round */
@@ -1308,7 +1308,7 @@ static int action_target_neg_util(action_id act_id,
 static bool adjust_wants_for_reqs(struct ai_type *ait,
                                   struct player *pplayer,
                                   struct city *pcity,
-                                  struct impr_type *pimprove,
+                                  const struct impr_type *pimprove,
                                   const adv_want v)
 {
   bool all_met = TRUE;
@@ -1364,7 +1364,7 @@ static bool adjust_wants_for_reqs(struct ai_type *ait,
     int i;
 
     for (i = 0; i < n_needed_improvements; i++) {
-      struct impr_type *needed_impr = *impr_vector_get(&needed_improvements, i);
+      const struct impr_type *needed_impr = *impr_vector_get(&needed_improvements, i);
       /* TODO: increase the want for the needed_impr,
        * if we can build it now */
       /* Recurse */
@@ -2009,14 +2009,14 @@ void dai_consider_wonder_city(struct ai_type *ait, struct city *pcity, bool *res
 **************************************************************************/
 Impr_type_id dai_find_source_building(struct city *pcity,
                                       enum effect_type effect_type,
-                                      struct unit_type *utype)
+                                      const struct unit_type *utype)
 {
   int greatest_value = 0;
-  struct impr_type *best_building = NULL;
+  const struct impr_type *best_building = NULL;
 
   effect_list_iterate(get_effects(effect_type), peffect) {
     if (peffect->value > greatest_value) {
-      struct impr_type *building = NULL;
+      const struct impr_type *building = NULL;
       bool wrong_unit = FALSE;
 
       requirement_vector_iterate(&peffect->reqs, preq) {

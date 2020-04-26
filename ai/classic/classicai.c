@@ -324,7 +324,7 @@ static void cai_ferry_init_ferry(struct unit *ferry)
 /**********************************************************************//**
   Call default ai with classic ai type as parameter.
 **************************************************************************/
-static void cai_ferry_transformed(struct unit *ferry, struct unit_type *old)
+static void cai_ferry_transformed(struct unit *ferry, const struct unit_type *old)
 {
   struct ai_type *deftype = classic_ai_get_self();
 

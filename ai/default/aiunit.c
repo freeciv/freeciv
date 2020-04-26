@@ -187,7 +187,7 @@ static void dai_airlift(struct ai_type *ait, struct player *pplayer)
       if (pcity) {
         struct ai_city *city_data = def_ai_city_data(pcity, ait);
         struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
-        struct unit_type *ptype = unit_type_get(punit);
+        const struct unit_type *ptype = unit_type_get(punit);
 
         if (city_data->urgency == 0
             && city_data->danger - DEFENSE_POWER(ptype) < comparison
@@ -276,7 +276,7 @@ static int unit_att_rating_squared(const struct unit *punit)
 static int unit_def_rating(const struct unit *attacker,
                            const struct unit *defender)
 {
-  struct unit_type *def_type = unit_type_get(defender);
+  const struct unit_type *def_type = unit_type_get(defender);
   
   return (get_total_defense_power(attacker, defender)
           * (attacker->id != 0 ? defender->hp : def_type->hp)
@@ -735,8 +735,8 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 
     /* Consider unit bodyguard. */
     unit_list_iterate(ptile->units, buddy) {
-      struct unit_type *ptype = unit_type_get(punit);
-      struct unit_type *buddy_type = unit_type_get(buddy);
+      const struct unit_type *ptype = unit_type_get(punit);
+      const struct unit_type *buddy_type = unit_type_get(buddy);
 
       /* TODO: allied unit bodyguard? */
       if (!dai_can_unit_type_follow_unit_type(ptype, buddy_type, ait)
@@ -819,8 +819,8 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
 /**********************************************************************//**
   See if the follower can follow the followee
 **************************************************************************/
-bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
-                                        struct unit_type *followee,
+bool dai_can_unit_type_follow_unit_type(const struct unit_type *follower,
+                                        const struct unit_type *followee,
                                         struct ai_type *ait)
 {
   struct unit_type_ai *utai = utype_ai_data(follower, ait);
@@ -840,7 +840,7 @@ bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
 static void dai_military_findjob(struct ai_type *ait,
                                  struct player *pplayer, struct unit *punit)
 {
-  struct unit_type *punittype = unit_type_get(punit);
+  const struct unit_type *punittype = unit_type_get(punit);
   struct unit_ai *unit_data;
 
   CHECK_UNIT(punit);
@@ -1098,17 +1098,17 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            struct tile **pdest_tile, struct pf_path **ppath,
                            struct pf_map **pferrymap,
                            struct unit **pferryboat,
-                           struct unit_type **pboattype, int *pmove_time)
+                           const struct unit_type **pboattype, int *pmove_time)
 {
   const int attack_value = adv_unit_att_rating(punit);    /* basic attack. */
   struct pf_parameter parameter;
   struct pf_map *punit_map, *ferry_map;
   struct pf_position pos;
   struct unit_class *punit_class = unit_class_get(punit);
-  struct unit_type *punit_type = unit_type_get(punit);
+  const struct unit_type *punit_type = unit_type_get(punit);
   struct tile *punit_tile = unit_tile(punit);
   /* Type of our boat (a future one if ferryboat == NULL). */
-  struct unit_type *boattype = NULL;
+  const struct unit_type *boattype = NULL;
   struct unit *ferryboat = NULL;
   struct city *pcity;
   struct ai_city *acity_data;
@@ -1188,7 +1188,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   /* Second, calculate in units on their way there, and mark targets for
    * invasion */
   unit_list_iterate(pplayer->units, aunit) {
-    struct unit_type *atype;
+    const struct unit_type *atype;
 
     if (aunit == punit) {
       continue;
@@ -2314,7 +2314,7 @@ static void dai_manage_hitpoint_recovery(struct ai_type *ait,
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(unit_tile(punit));
   struct city *safe = NULL;
-  struct unit_type *punittype = unit_type_get(punit);
+  const struct unit_type *punittype = unit_type_get(punit);
 
   CHECK_UNIT(punit);
 
@@ -2691,7 +2691,7 @@ static void dai_set_defenders(struct ai_type *ait, struct player *pplayer)
           break;
         }
       } else {
-        struct unit_type *btype = unit_type_get(best);
+        const struct unit_type *btype = unit_type_get(best);
 
         if ((martless_unhappy < mart_each * count
              || count >= mart_max || mart_each <= 0)
@@ -2761,10 +2761,10 @@ void dai_manage_units(struct ai_type *ait, struct player *pplayer)
   specified type the specified city. Returns FALSE if no new improvement
   will make it possible or if no improvement is needed.
 **************************************************************************/
-struct impr_type *utype_needs_improvement(const struct unit_type *putype,
-                                          const struct city *pcity)
+const struct impr_type *utype_needs_improvement(const struct unit_type *putype,
+                                                const struct city *pcity)
 {
-  struct impr_type *impr_req = NULL;
+  const struct impr_type *impr_req = NULL;
 
   requirement_vector_iterate(&putype->build_reqs, preq) {
     if (is_req_active(city_owner(pcity), NULL,

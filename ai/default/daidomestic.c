@@ -136,7 +136,7 @@ static void dai_choose_help_wonder(struct ai_type *ait,
   /* Check if wonder needs a little help. */
   if (build_points_left(wonder_city)
       > utype_build_shield_cost_base(unit_type) * caravans) {
-    struct impr_type *wonder = wonder_city->production.value.building;
+    const struct impr_type *wonder = wonder_city->production.value.building;
     adv_want want = wonder_city->server.adv->building_want[improvement_index(wonder)];
     int dist = city_data->distance_to_wonder_city /
                unit_type->move_rate;

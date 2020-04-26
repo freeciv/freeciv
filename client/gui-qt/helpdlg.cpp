@@ -862,7 +862,8 @@ void help_widget::set_topic_unit(const help_item *topic,
   int upkeep, max_upkeep;
   struct advance *tech;
   struct canvas *canvas;
-  struct unit_type *obsolete, *utype, *max_utype;
+  const struct unit_type *obsolete;
+  struct unit_type *utype, *max_utype;
   QList<int> list;
   QString str;
 

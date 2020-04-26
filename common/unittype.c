@@ -120,12 +120,11 @@ struct unit_type *utype_by_number(const Unit_type_id id)
 /**********************************************************************//**
   Return the unit type for this unit.
 **************************************************************************/
-struct unit_type *unit_type_get(const struct unit *punit)
+const struct unit_type *unit_type_get(const struct unit *punit)
 {
   fc_assert_ret_val(NULL != punit, NULL);
   return punit->utype;
 }
-
 
 /**********************************************************************//**
   Returns the upkeep of a unit of this type under the given government.
@@ -732,7 +731,7 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
   would be a good idea to cache the (merged) ranges of move fragments
   where a unit of the given type can perform the specified action.
 **************************************************************************/
-bool utype_may_act_move_frags(struct unit_type *punit_type,
+bool utype_may_act_move_frags(const struct unit_type *punit_type,
                               const action_id act_id,
                               const int move_fragments)
 {
@@ -798,7 +797,7 @@ bool utype_may_act_move_frags(struct unit_type *punit_type,
   Note: Values aren't cached. If a performance critical user appears it
   would be a good idea to cache the result.
 **************************************************************************/
-bool utype_may_act_tgt_city_tile(struct unit_type *punit_type,
+bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
                                  const action_id act_id,
                                  const enum citytile_type prop,
                                  const bool is_there)
@@ -1329,11 +1328,11 @@ bool role_units_translations(struct astring *astr, int flag, bool alts)
   Return whether this player can upgrade this unit type (to any other
   unit type).  Returns NULL if no upgrade is possible.
 **************************************************************************/
-struct unit_type *can_upgrade_unittype(const struct player *pplayer,
-				       struct unit_type *punittype)
+const struct unit_type *can_upgrade_unittype(const struct player *pplayer,
+                                             const struct unit_type *punittype)
 {
-  struct unit_type *upgrade = punittype;
-  struct unit_type *best_upgrade = NULL;
+  const struct unit_type *upgrade = punittype;
+  const struct unit_type *best_upgrade = NULL;
 
   /* For some reason this used to check
    * can_player_build_unit_direct() for the unittype
@@ -2487,7 +2486,7 @@ void set_unit_move_type(struct unit_class *puclass)
 /**********************************************************************//**
   Is cityfounder type
 **************************************************************************/
-bool utype_is_cityfounder(struct unit_type *utype)
+bool utype_is_cityfounder(const struct unit_type *utype)
 {
   if (game.scenario.prevent_new_cities) {
     /* No unit is allowed to found new cities */

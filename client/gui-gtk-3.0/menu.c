@@ -2410,7 +2410,7 @@ void real_menus_update(void)
 
   if (units_all_same_type) {
     struct unit *punit = unit_list_get(punits, 0);
-    struct unit_type *to_unittype =
+    const struct unit_type *to_unittype =
       can_upgrade_unittype(client_player(), unit_type_get(punit));
     if (to_unittype) {
       /* TRANS: %s is a unit type. */

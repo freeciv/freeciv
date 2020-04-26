@@ -338,8 +338,8 @@ static void dai_hunter_try_launch(struct ai_type *ait,
         unit_list_iterate(ptile->units, victim) {
           enum diplstate_type ds =
 	    player_diplstate_get(pplayer, unit_owner(victim))->type;
-          struct unit_type *ptype;
-          struct unit_type *victim_type;
+          const struct unit_type *ptype;
+          const struct unit_type *victim_type;
 
           if (ds != DS_WAR) {
             continue;
@@ -399,7 +399,7 @@ static void dai_hunter_juiciness(struct player *pplayer, struct unit *punit,
   *stackcost = 0;
 
   unit_list_iterate(unit_tile(target)->units, sucker) {
-    struct unit_type *suck_type = unit_type_get(sucker);
+    const struct unit_type *suck_type = unit_type_get(sucker);
 
     *stackthreat += ATTACK_POWER(suck_type);
     if (unit_has_type_flag(sucker, UTYF_GAMELOSS)) {

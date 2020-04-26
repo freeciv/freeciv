@@ -557,21 +557,21 @@ bool city_is_occupied(const struct city *pcity);
 /* city related improvement and unit functions */
 
 int city_improvement_upkeep(const struct city *pcity,
-			    const struct impr_type *pimprove);
+                            const struct impr_type *pimprove);
 
 bool can_city_build_improvement_direct(const struct city *pcity,
-				       struct impr_type *pimprove);
+                                       const struct impr_type *pimprove);
 bool can_city_build_improvement_later(const struct city *pcity,
-				      struct impr_type *pimprove);
+                                      const struct impr_type *pimprove);
 bool can_city_build_improvement_now(const struct city *pcity,
-				    struct impr_type *pimprove);
+                                    const struct impr_type *pimprove);
 
 bool can_city_build_unit_direct(const struct city *pcity,
-				const struct unit_type *punittype);
+                                const struct unit_type *punittype);
 bool can_city_build_unit_later(const struct city *pcity,
-			       const struct unit_type *punittype);
+                               const struct unit_type *punittype);
 bool can_city_build_unit_now(const struct city *pcity,
-			     const struct unit_type *punittype);
+                             const struct unit_type *punittype);
 
 bool can_city_build_direct(const struct city *pcity,
                            const struct universal *target);
@@ -584,7 +584,7 @@ int city_unit_slots_available(const struct city *pcity);
 bool city_can_use_specialist(const struct city *pcity,
 			     Specialist_type_id type);
 bool city_has_building(const struct city *pcity,
-		       const struct impr_type *pimprove);
+                       const struct impr_type *pimprove);
 bool is_capital(const struct city *pcity);
 bool is_gov_center(const struct city *pcity);
 bool city_got_defense_effect(const struct city *pcity,
@@ -617,7 +617,7 @@ void city_choose_build_default(struct city *pcity);
 /* textual representation of buildings */
 
 const char *city_improvement_name_translation(const struct city *pcity,
-					      struct impr_type *pimprove);
+					      const struct impr_type *pimprove);
 const char *city_production_name_translation(const struct city *pcity);
 
 /* city map functions */

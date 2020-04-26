@@ -118,15 +118,15 @@ void unit_assign_specific_activity_target(struct unit *punit,
 void unit_forget_last_activity(struct unit *punit);
 
 /* creation/deletion/upgrading */
-void transform_unit(struct unit *punit, struct unit_type *to_unit,
+void transform_unit(struct unit *punit, const struct unit_type *to_unit,
                     bool has_to_pay);
 struct unit *create_unit(struct player *pplayer, struct tile *ptile,
-			 struct unit_type *punittype,
-			 int veteran_level, int homecity_id, int moves_left);
+                         const struct unit_type *punittype,
+                         int veteran_level, int homecity_id, int moves_left);
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
-			      struct unit_type *punittype, int veteran_level,
-			      int homecity_id, int moves_left, int hp_left,
-			      struct unit *ptrans);
+                              const struct unit_type *punittype, int veteran_level,
+                              int homecity_id, int moves_left, int hp_left,
+                              struct unit *ptrans);
 void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
                struct player *killer);
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet);

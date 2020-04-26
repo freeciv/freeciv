@@ -652,7 +652,7 @@ Output_type_id output_type_by_identifier(const char *id)
   Return the extended name of the building.
 **************************************************************************/
 const char *city_improvement_name_translation(const struct city *pcity,
-					      struct impr_type *pimprove)
+					      const struct impr_type *pimprove)
 {
   static char buffer[256];
   const char *state = NULL;
@@ -728,7 +728,7 @@ int city_production_build_shield_cost(const struct city *pcity)
 bool city_production_build_units(const struct city *pcity,
                                  bool add_production, int *num_units)
 {
-  struct unit_type *utype;
+  const struct unit_type *utype;
   struct universal target;
   int build_slots = city_build_slots(pcity);
   int shields_left = pcity->shield_stock;
@@ -809,7 +809,7 @@ int city_production_turns_to_build(const struct city *pcity,
   it is obsolete.
 **************************************************************************/
 bool can_city_build_improvement_direct(const struct city *pcity,
-                                       struct impr_type *pimprove)
+                                       const struct impr_type *pimprove)
 {
   if (!can_player_build_improvement_direct(city_owner(pcity), pimprove)) {
     return FALSE;
@@ -829,7 +829,7 @@ bool can_city_build_improvement_direct(const struct city *pcity,
   the building is obsolete.
 **************************************************************************/
 bool can_city_build_improvement_now(const struct city *pcity,
-                                    struct impr_type *pimprove)
+                                    const struct impr_type *pimprove)
 {  
   if (!can_city_build_improvement_direct(pcity, pimprove)) {
     return FALSE;
@@ -846,7 +846,7 @@ bool can_city_build_improvement_now(const struct city *pcity,
   returns FALSE if improvement can never possibly be built in this city.
 **************************************************************************/
 bool can_city_build_improvement_later(const struct city *pcity,
-                                      struct impr_type *pimprove)
+                                      const struct impr_type *pimprove)
 {
   /* Can the _player_ ever build this improvement? */
   if (!can_player_build_improvement_later(city_owner(pcity), pimprove)) {
@@ -1433,7 +1433,7 @@ bool city_can_be_built_here(const struct tile *ptile,
   TODO: Get rid of this together with CB_BAD_BORDERS.
   Maybe get rid of it before if the problem above is solved.
 **************************************************************************/
-static bool city_on_foreign_tile_is_legal(struct unit_type *punit_type)
+static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
 {
   struct requirement tile_is_claimed;
   struct requirement tile_is_foreign;
@@ -2875,7 +2875,7 @@ inline void set_city_production(struct city *pcity)
 int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
 {
   struct city *pcity;
-  struct unit_type *ut;
+  const struct unit_type *ut;
   struct player *plr;
   int happy_cost;
 

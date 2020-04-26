@@ -1266,7 +1266,7 @@ const struct help_item *help_iter_next(void)
   user_text, if non-NULL, will be appended to the text.
 ****************************************************************************/
 char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
-                        const char *user_text, struct impr_type *pimprove)
+                        const char *user_text, const struct impr_type *pimprove)
 {
   bool reqs = FALSE;
   struct universal source = {
@@ -1661,7 +1661,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   Is unit type ever able to build an extra
 ****************************************************************************/
 static bool help_is_extra_buildable(struct extra_type *pextra,
-                                    struct unit_type *ptype)
+                                    const struct unit_type *ptype)
 {
   if (!pextra->buildable) {
     return FALSE;
@@ -1676,7 +1676,7 @@ static bool help_is_extra_buildable(struct extra_type *pextra,
   Is unit type ever able to clean out an extra
 ****************************************************************************/
 static bool help_is_extra_cleanable(struct extra_type *pextra,
-                                    struct unit_type *ptype)
+                                    const struct unit_type *ptype)
 {
   return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
                          NULL, ptype, NULL, NULL, NULL, &pextra->rmreqs,
@@ -1689,7 +1689,7 @@ static bool help_is_extra_cleanable(struct extra_type *pextra,
 
   See diplomat_escape() for more.
 ****************************************************************************/
-static bool utype_may_do_escape_action(struct unit_type *utype)
+static bool utype_may_do_escape_action(const struct unit_type *utype)
 {
   return utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
       || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
@@ -1714,7 +1714,7 @@ static bool utype_may_do_escape_action(struct unit_type *utype)
   pplayer may be NULL.
 ****************************************************************************/
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
-                    const char *user_text, struct unit_type *utype)
+                    const char *user_text, const struct unit_type *utype)
 {
   bool has_vet_levels;
   int flagid;
@@ -4042,7 +4042,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
   effect_list_iterate(get_req_source_effects(&source), peffect) {
     Output_type_id output_type = O_LAST;
     struct unit_class *unitclass = NULL;
-    struct unit_type *unittype = NULL;
+    const struct unit_type *unittype = NULL;
     enum unit_type_flag_id unitflag = unit_type_flag_id_invalid();
     struct strvec *outputs = strvec_new();
     struct astring outputs_or = ASTRING_INIT;
@@ -4661,7 +4661,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 /************************************************************************//**
   Returns pointer to static string with eg: "1 shield, 1 unhappy"
 ****************************************************************************/
-char *helptext_unit_upkeep_str(struct unit_type *utype)
+char *helptext_unit_upkeep_str(const struct unit_type *utype)
 {
   static char buf[128];
   int any = 0;

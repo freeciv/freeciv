@@ -154,7 +154,8 @@ static bool sanity_check_req_individual(struct requirement *preq,
      * It can't be done in req_from_str(), as we may not have
      * loaded all building information at that time. */
     {
-      struct impr_type *pimprove = preq->source.value.building;
+      const struct impr_type *pimprove = preq->source.value.building;
+
       if (preq->range == REQ_RANGE_WORLD && !is_great_wonder(pimprove)) {
         log_error("%s: World-ranged requirement not supported for "
                   "%s (only great wonders supported)", list_for,
@@ -868,7 +869,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   num_utypes = game.control.num_unit_types;
   unit_type_iterate(putype) {
     int chain_length = 0;
-    struct unit_type *upgraded = putype;
+    const struct unit_type *upgraded = putype;
 
     while (upgraded != NULL) {
       upgraded = upgraded->obsoleted_by;

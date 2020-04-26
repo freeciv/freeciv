@@ -515,7 +515,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   } unit_type_iterate_end;
 
   unit_list_iterate(ptile->units, punit) {
-    struct unit_type *def = unit_type_get(punit);
+    const struct unit_type *def = unit_type_get(punit);
 
     if (unit_has_type_flag(punit, UTYF_DIPLOMAT)) {
       city_data->has_diplomat = TRUE;
@@ -577,7 +577,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       int move_time;
       unsigned int vulnerability;
       int defbonus_pct;
-      struct unit_type *utype = unit_type_get(punit);
+      const struct unit_type *utype = unit_type_get(punit);
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
 #ifdef FREECIV_WEB
@@ -927,13 +927,13 @@ bool dai_process_defender_want(struct ai_type *ait, struct player *pplayer,
 static void process_attacker_want(struct ai_type *ait,
                                   struct city *pcity,
                                   int value,
-                                  struct unit_type *victim_unit_type,
+                                  const struct unit_type *victim_unit_type,
                                   struct player *victim_player,
                                   int veteran, struct tile *ptile,
                                   struct adv_choice *best_choice,
                                   struct pf_map *ferry_map,
                                   struct unit *boat,
-                                  struct unit_type *boattype)
+                                  const struct unit_type *boattype)
 {
   struct player *pplayer = city_owner(pcity);
   const struct research *presearch = research_get(pplayer);
@@ -942,7 +942,7 @@ static void process_attacker_want(struct ai_type *ait,
   struct pf_parameter parameter;
   struct pf_map *pfm;
   struct pf_position pos;
-  struct unit_type *orig_utype = best_choice->value.utype;
+  const struct unit_type *orig_utype = best_choice->value.utype;
   int victim_count = 1;
   int needferry = 0;
   bool unhap = dai_assess_military_unhappiness(pcity);
@@ -1130,7 +1130,7 @@ static void process_attacker_want(struct ai_type *ait,
                    (acity ? city_name_get(acity) : utype_rule_name(victim_unit_type)),
                    TILE_XY(ptile));
         } else if (want > best_choice->want) {
-          struct impr_type *impr_req;
+          const struct impr_type *impr_req;
 
           if (can_city_build_unit_now(pcity, punittype)) {
             /* This is a real unit and we really want it */
@@ -1193,7 +1193,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
   int benefit;
   /* Defender of the target city/tile */
   struct unit *pdef; 
-  struct unit_type *def_type;
+  const struct unit_type *def_type;
   struct player *def_owner;
   int def_vet; /* Is the defender veteran? */
   /* Target coordinates */
@@ -1203,7 +1203,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
   /* Our target */
   struct city *acity;
   /* Type of the boat (real or a future one) */
-  struct unit_type *boattype;
+  const struct unit_type *boattype;
   struct pf_map *ferry_map = NULL;
   int move_time;
   struct adv_choice *best_choice;

@@ -555,7 +555,7 @@ void city_widget::display_list_menu(const QPoint &)
     struct universal target;
     char buf[200];
     const char *imprname;
-    struct impr_type *building;
+    const struct impr_type *building;
     Impr_type_id impr_id;
     struct city *pcity;
     int city_id;

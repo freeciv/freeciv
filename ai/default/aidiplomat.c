@@ -638,7 +638,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     int newval, bestval = 0, cost;
     struct unit *pvictim = is_other_players_unit_tile(ptile, pplayer);
     int sanity = punit->id;
-    struct unit_type *ptype;
+    const struct unit_type *ptype;
 
     if (pos.total_MC > punit->moves_left) {
       /* Didn't find anything within range. */
@@ -657,7 +657,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
     /* Calculate if enemy is a threat */
     /* First find best defender on our tile */
     unit_list_iterate(ptile->units, aunit) {
-      struct unit_type *atype = unit_type_get(aunit);
+      const struct unit_type *atype = unit_type_get(aunit);
 
       newval = DEFENSE_POWER(atype);
       if (bestval < newval) {

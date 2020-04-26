@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -46,12 +46,12 @@ void get_economy_report_data(struct improvement_entry *entries,
  * char* arrays like some other common functions but that means updating all
  * client simultaneously and I simply can't */
 void get_economy_report_units_data(struct unit_entry *entries,
-				   int *num_entries_used, int *total_cost);
+                                   int *num_entries_used, int *total_cost);
 
-void sell_all_improvements(struct impr_type *pimprove, bool redundant_only,
-			   char *message, size_t message_sz);
-void disband_all_units(struct unit_type *punittype, bool in_cities_only,
-		       char *message, size_t message_sz);
+void sell_all_improvements(const struct impr_type *pimprove, bool redundant_only,
+                           char *message, size_t message_sz);
+void disband_all_units(const struct unit_type *punittype, bool in_cities_only,
+                       char *message, size_t message_sz);
 
 #ifdef __cplusplus
 }

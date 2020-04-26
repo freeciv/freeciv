@@ -468,7 +468,7 @@ void upgrade_canvas_clipboard(void)
     return;
   }
   if (VUT_UTYPE == clipboard.kind)  {
-    struct unit_type *u =
+    const struct unit_type *u =
       can_upgrade_unittype(client.conn.playing, clipboard.value.utype);
 
     if (u)  {

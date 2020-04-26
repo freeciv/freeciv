@@ -1549,7 +1549,7 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
 ****************************************************************************/
 bool send_rally_tile(struct city *pcity, struct tile *ptile)
 {
-  struct unit_type *putype;
+  const struct unit_type *putype;
   struct unit *punit;
 
   struct pf_parameter parameter;

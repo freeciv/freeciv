@@ -398,13 +398,13 @@ enum req_problem_type {
 typedef union {
   struct advance *advance;
   struct government *govern;
-  struct impr_type *building;
+  const struct impr_type *building;
   struct nation_type *nation;
   struct nation_type *nationality;
   struct specialist *specialist;
   struct terrain *terrain;
   struct unit_class *uclass;
-  struct unit_type *utype;
+  const struct unit_type *utype;
   struct extra_type *extra;
   struct achievement *achievement;
   struct nation_group *nationgroup;

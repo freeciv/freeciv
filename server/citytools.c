@@ -1650,7 +1650,7 @@ void remove_city(struct city *pcity)
   /* make sure ships are not left on land when city is removed. */
   unit_list_iterate_safe(pcenter->units, punit) {
     bool moved;
-    struct unit_type *punittype = unit_type_get(punit);
+    const struct unit_type *punittype = unit_type_get(punit);
 
     if (is_native_tile(punittype, pcenter)) {
       continue;
@@ -2875,7 +2875,7 @@ void city_units_upkeep(const struct city *pcity)
 {
   int free_uk[O_LAST];
   int cost;
-  struct unit_type *ut;
+  const struct unit_type *ut;
   struct player *plr;
   bool update;
 

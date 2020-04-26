@@ -100,11 +100,11 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
 static bool city_build_building(struct player *pplayer, struct city *pcity);
 static bool city_build_unit(struct player *pplayer, struct city *pcity);
 static bool city_build_stuff(struct player *pplayer, struct city *pcity);
-static struct impr_type *building_upgrades_to(struct city *pcity,
-					      struct impr_type *pimprove);
+static const struct impr_type *building_upgrades_to(struct city *pcity,
+                                                    const struct impr_type *pimprove);
 static void upgrade_building_prod(struct city *pcity);
-static struct unit_type *unit_upgrades_to(struct city *pcity,
-					  struct unit_type *id);
+static const struct unit_type *unit_upgrades_to(struct city *pcity,
+                                                const struct unit_type *id);
 static void upgrade_unit_prod(struct city *pcity);
 
 /* Helper struct for associating a building to a city. */
@@ -433,7 +433,7 @@ void auto_arrange_workers(struct city *pcity)
 static void city_global_turn_notify(struct conn_list *dest)
 {
   cities_iterate(pcity) {
-    struct impr_type *pimprove = pcity->production.value.building;
+    const struct impr_type *pimprove = pcity->production.value.building;
 
     if (VUT_IMPROVEMENT == pcity->production.kind
         && is_great_wonder(pimprove)
@@ -455,7 +455,7 @@ static void city_turn_notify(const struct city *pcity,
                              struct conn_list *dest,
                              const struct player *cache_for_player)
 {
-  struct impr_type *pimprove = pcity->production.value.building;
+  const struct impr_type *pimprove = pcity->production.value.building;
   struct packet_chat_msg packet;
   int turns_growth, turns_granary;
 
@@ -880,7 +880,7 @@ static bool city_increase_size(struct city *pcity, struct player *nationality)
   bool rapture_grow = city_rapture_grow(pcity); /* check before size increase! */
   struct tile *pcenter = city_tile(pcity);
   struct player *powner = city_owner(pcity);
-  struct impr_type *pimprove = pcity->production.value.building;
+  const struct impr_type *pimprove = pcity->production.value.building;
   int saved_id = pcity->id;
 
   if (!city_can_grow_to(pcity, city_size_get(pcity) + 1)) {
@@ -1093,9 +1093,9 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                            struct player *pplayer,
                                            int saved_id)
 {
-  void *ptarget;
+  const void *ptarget;
   const char *tgt_name;
-  struct requirement_vector *build_reqs;
+  const struct requirement_vector *build_reqs;
   const char *signal_name;
 
   bool success = TRUE;
@@ -1891,8 +1891,8 @@ static bool worklist_change_build_target(struct player *pplayer,
     switch (target.kind) {
     case VUT_UTYPE:
     {
-      struct unit_type *ptarget = target.value.utype;
-      struct unit_type *pupdate = unit_upgrades_to(pcity, ptarget);
+      const struct unit_type *ptarget = target.value.utype;
+      const struct unit_type *pupdate = unit_upgrades_to(pcity, ptarget);
 
       /* Maybe we can just upgrade the target to what the city /can/ build. */
       if (U_NOT_OBSOLETED == pupdate) {
@@ -1952,8 +1952,8 @@ static bool worklist_change_build_target(struct player *pplayer,
     }
     case VUT_IMPROVEMENT:
     {
-      struct impr_type *ptarget = target.value.building;
-      struct impr_type *pupdate = building_upgrades_to(pcity, ptarget);
+      const struct impr_type *ptarget = target.value.building;
+      const struct impr_type *pupdate = building_upgrades_to(pcity, ptarget);
 
       /* If the city can never build this improvement, drop it. */
       success = can_city_build_improvement_later(pcity, pupdate);
@@ -2086,11 +2086,11 @@ void choose_build_target(struct player *pplayer, struct city *pcity)
   we can build.  Returns NULL if we can't upgrade at all (including if the
   original building is unbuildable).
 **************************************************************************/
-static struct impr_type *building_upgrades_to(struct city *pcity,
-					      struct impr_type *pimprove)
+static const struct impr_type *building_upgrades_to(struct city *pcity,
+                                                    const struct impr_type *pimprove)
 {
-  struct impr_type *check = pimprove;
-  struct impr_type *best_upgrade = NULL;
+  const struct impr_type *check = pimprove;
+  const struct impr_type *best_upgrade = NULL;
 
   if (!can_city_build_improvement_direct(pcity, check)) {
     return NULL;
@@ -2109,8 +2109,8 @@ static struct impr_type *building_upgrades_to(struct city *pcity,
 **************************************************************************/
 static void upgrade_building_prod(struct city *pcity)
 {
-  struct impr_type *producing = pcity->production.value.building;
-  struct impr_type *upgrading = building_upgrades_to(pcity, producing);
+  const struct impr_type *producing = pcity->production.value.building;
+  const struct impr_type *upgrading = building_upgrades_to(pcity, producing);
 
   if (upgrading && can_city_build_improvement_now(pcity, upgrading)) {
     notify_player(city_owner(pcity), city_tile(pcity),
@@ -2132,11 +2132,11 @@ static void upgrade_building_prod(struct city *pcity)
 
   FIXME: this function is a duplicate of can_upgrade_unittype.
 **************************************************************************/
-static struct unit_type *unit_upgrades_to(struct city *pcity,
-					  struct unit_type *punittype)
+static const struct unit_type *unit_upgrades_to(struct city *pcity,
+                                                const struct unit_type *punittype)
 {
-  struct unit_type *check = punittype;
-  struct unit_type *best_upgrade = U_NOT_OBSOLETED;
+  const struct unit_type *check = punittype;
+  const struct unit_type *best_upgrade = U_NOT_OBSOLETED;
 
   if (!can_city_build_unit_direct(pcity, punittype)) {
     return U_NOT_OBSOLETED;
@@ -2155,8 +2155,8 @@ static struct unit_type *unit_upgrades_to(struct city *pcity,
 **************************************************************************/
 static void upgrade_unit_prod(struct city *pcity)
 {
-  struct unit_type *producing = pcity->production.value.utype;
-  struct unit_type *upgrading = unit_upgrades_to(pcity, producing);
+  const struct unit_type *producing = pcity->production.value.utype;
+  const struct unit_type *upgrading = unit_upgrades_to(pcity, producing);
 
   if (upgrading && can_city_build_unit_direct(pcity, upgrading)) {
     notify_player(city_owner(pcity), city_tile(pcity),
@@ -2237,7 +2237,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 {
   bool space_part;
   int mod;
-  struct impr_type *pimprove = pcity->production.value.building;
+  const struct impr_type *pimprove = pcity->production.value.building;
   int saved_id = pcity->id;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
@@ -2378,7 +2378,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   Returns the new unit (if it survived scripts).
 **************************************************************************/
 static struct unit *city_create_unit(struct city *pcity,
-                                     struct unit_type *utype)
+                                     const struct unit_type *utype)
 {
   struct player *pplayer = city_owner(pcity);
   struct unit *punit;
@@ -2418,7 +2418,7 @@ static struct unit *city_create_unit(struct city *pcity,
 **************************************************************************/
 static bool city_build_unit(struct player *pplayer, struct city *pcity)
 {
-  struct unit_type *utype;
+  const struct unit_type *utype;
   struct worklist *pwl = &pcity->worklist;
   int unit_shield_cost, num_units, i;
   int saved_city_id = pcity->id;
@@ -3313,7 +3313,7 @@ static bool disband_city(struct city *pcity)
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
   struct city *rcity=NULL;
-  struct unit_type *utype = pcity->production.value.utype;
+  const struct unit_type *utype = pcity->production.value.utype;
   struct unit *punit;
   int saved_id = pcity->id;
 

@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -96,8 +96,8 @@ struct city *find_nearest_safe_city(struct unit *punit);
 int look_for_charge(struct ai_type *ait, struct player *pplayer,
                     struct unit *punit,
                     struct unit **aunit, struct city **acity);
-bool dai_can_unit_type_follow_unit_type(struct unit_type *follower,
-                                        struct unit_type *followee,
+bool dai_can_unit_type_follow_unit_type(const struct unit_type *follower,
+                                        const struct unit_type *followee,
                                         struct ai_type *ait);
 
 bool find_beachhead(const struct player *pplayer, struct pf_map *ferry_map,
@@ -109,7 +109,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            struct tile **pdest_tile, struct pf_path **ppath,
                            struct pf_map **pferrymap,
                            struct unit **pferryboat,
-                           struct unit_type **pboattype,
+                           const struct unit_type **pboattype,
                            int *pmove_time);
 
 int build_cost_balanced(const struct unit_type *punittype);
@@ -119,8 +119,8 @@ int unittype_def_rating_squared(const struct unit_type *att_type,
                                 struct tile *ptile, bool fortified, int veteran);
 int kill_desire(int benefit, int attack, int loss, int vuln, int attack_count);
 
-struct impr_type *utype_needs_improvement(const struct unit_type *putype,
-                                          const struct city *pcity);
+const struct impr_type *utype_needs_improvement(const struct unit_type *putype,
+                                                const struct city *pcity);
 
 bool is_on_unit_upgrade_path(const struct unit_type *test,
 			     const struct unit_type *base);

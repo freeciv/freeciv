@@ -311,7 +311,7 @@ static void texwai_ferry_init_ferry(struct unit *ferry)
   Call default ai with tex ai type as parameter.
 **************************************************************************/
 static void texwai_ferry_transformed(struct unit *ferry,
-                                     struct unit_type *old)
+                                     const struct unit_type *old)
 {
   TEXAI_AIT;
   TEXAI_DFUNC(dai_ferry_transformed, ferry, old);

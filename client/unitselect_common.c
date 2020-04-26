@@ -115,7 +115,7 @@ struct usdata_hash *usdlg_data_new(const struct tile *ptile)
      * units (ACTIVITY_IDLE). */
     if (!unit_transported(punit)) {
       struct usdata *data;
-      struct unit_type *ptype = unit_type_get(punit);
+      const struct unit_type *ptype = unit_type_get(punit);
 
       usdata_hash_lookup(ushash, utype_index(ptype), &data);
 
@@ -152,7 +152,7 @@ static void usdlg_data_add_unit(struct usdata_hash *ushash,
 {
   struct usdata *data;
   enum unit_activity act;
-  struct unit_type *ptype = unit_type_get(punit);
+  const struct unit_type *ptype = unit_type_get(punit);
 
   fc_assert_ret(ushash);
   fc_assert_ret(punit);

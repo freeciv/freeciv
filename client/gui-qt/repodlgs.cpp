@@ -206,7 +206,7 @@ void unittype_item::upgrade_units()
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
   int price;
   QString s2;
-  struct unit_type *upgrade;
+  const struct unit_type *upgrade;
   const Unit_type_id type = utype_number(utype);
 
   upgrade = can_upgrade_unittype(client_player(), utype);
@@ -1388,7 +1388,7 @@ void eco_report::selection_changed(const QItemSelection & sl,
   int i;
   QVariant qvar;
   struct universal selected;
-  struct impr_type *pimprove;
+  const struct impr_type *pimprove;
   disband_button->setEnabled(false);
   sell_button->setEnabled(false);
   sell_redun_button->setEnabled(false);
@@ -1471,7 +1471,7 @@ void eco_report::sell_buildings()
   struct universal selected;
   char buf[1024];
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
-  struct impr_type *pimprove;
+  const struct impr_type *pimprove;
   Impr_type_id impr_id;
 
   selected = cid_decode(uid);
@@ -1516,7 +1516,7 @@ void eco_report::sell_redundant()
   char buf[1024];
   QString s;
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
-  struct impr_type *pimprove;
+  const struct impr_type *pimprove;
   Impr_type_id impr_id;
 
   selected = cid_decode(uid);

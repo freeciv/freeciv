@@ -785,7 +785,7 @@ pft_fill_unit_default_parameter(struct pf_parameter *parameter,
                                 const struct unit *punit)
 {
   const struct unit *ptrans = unit_transport_get(punit);
-  struct unit_type *ptype = unit_type_get(punit);
+  const struct unit_type *ptype = unit_type_get(punit);
 
   pft_fill_default_parameter(parameter, ptype);
 

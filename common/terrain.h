@@ -216,7 +216,7 @@ struct terrain {
   int clean_fallout_time;
   int pillage_time;
 
-  struct unit_type *animal;
+  const struct unit_type *animal;
 
   /* May be NULL if the transformation is impossible. */
   struct terrain *warmer_wetter_result, *warmer_drier_result;

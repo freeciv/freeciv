@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2002 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 struct pf_path;
 struct pft_amphibious;
 
-bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait);
+bool dai_is_ferry_type(const struct unit_type *pferry, struct ai_type *ait);
 bool dai_is_ferry(struct unit *pferry, struct ai_type *ait);
 
 /* 
@@ -45,7 +45,7 @@ int aiferry_avail_boats(struct ai_type *ait, struct player *pplayer);
 void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry);
 void dai_ferry_lost(struct ai_type *ait, struct unit *punit);
 void dai_ferry_transformed(struct ai_type *ait, struct unit *ferry,
-                           struct unit_type *old);
+                           const struct unit_type *old);
 
 /*
  * Release the boat reserved in punit's ai.ferryboat field.

@@ -1600,7 +1600,7 @@ bool is_tile_activity(enum unit_activity activity)
   to set tile and homecity yourself.
 **************************************************************************/
 struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
-                                 struct unit_type *punittype,
+                                 const struct unit_type *punittype,
                                  int veteran_level)
 {
   /* Make sure that contents of unit structure are correctly initialized,
@@ -1926,8 +1926,8 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
                                            bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
-                                                       unit_type_get(punit));
+  const struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
+                                                             unit_type_get(punit));
   struct city *pcity;
   int cost;
 
@@ -1975,7 +1975,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
 **************************************************************************/
 bool unit_can_convert(const struct unit *punit)
 {
-  struct unit_type *tgt = unit_type_get(punit)->converted_to;
+  const struct unit_type *tgt = unit_type_get(punit)->converted_to;
 
   if (tgt == NULL) {
     return FALSE;
@@ -2002,9 +2002,9 @@ enum unit_upgrade_result unit_upgrade_info(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
   enum unit_upgrade_result result = unit_upgrade_test(punit, FALSE);
   int upgrade_cost;
-  struct unit_type *from_unittype = unit_type_get(punit);
-  struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
-                                                       unit_type_get(punit));
+  const struct unit_type *from_unittype = unit_type_get(punit);
+  const struct unit_type *to_unittype = can_upgrade_unittype(pplayer,
+                                                             unit_type_get(punit));
   char tbuf[MAX_LEN_MSG];
 
   fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
@@ -2097,7 +2097,7 @@ int unit_pays_mp_for_action(const struct action *paction,
 **************************************************************************/
 bool is_losing_hp(const struct unit *punit)
 {
-  struct unit_type *punittype = unit_type_get(punit);
+  const struct unit_type *punittype = unit_type_get(punit);
 
   return get_unit_bonus(punit, EFT_UNIT_RECOVER)
     < (punittype->hp *

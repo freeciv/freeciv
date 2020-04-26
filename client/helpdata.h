@@ -44,9 +44,9 @@ void help_iter_start(void);
 const struct help_item *help_iter_next(void);
 
 char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
-                        const char *user_text, struct impr_type *pimprove);
+                        const char *user_text, const struct impr_type *pimprove);
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
-                    const char *user_text, struct unit_type *utype);
+                    const char *user_text, const struct unit_type *utype);
 void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                       const char *user_text, int i);
 void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
@@ -62,7 +62,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 void helptext_nation(char *buf, size_t bufsz, struct nation_type *pnation,
                      const char *user_text);
 
-char *helptext_unit_upkeep_str(struct unit_type *punittype);
+char *helptext_unit_upkeep_str(const struct unit_type *punittype);
 const char *helptext_road_bonus_str(const struct terrain *pterrain,
                                     const struct road_type *proad);
 const char *helptext_extra_for_terrain_str(struct extra_type *pextra,

@@ -1135,7 +1135,7 @@ bool dai_choose_role_unit(struct ai_type *ait, struct player *pplayer,
 void dai_build_adv_override(struct ai_type *ait, struct city *pcity,
                             struct adv_choice *choice)
 {
-  struct impr_type *chosen;
+  const struct impr_type *chosen;
   int want;
 
   if (choice->type == CT_NONE) {

@@ -370,7 +370,7 @@ void dai_manage_tech(struct ai_type *ait, struct player *pplayer)
 struct unit_type *dai_wants_defender_against(struct ai_type *ait,
                                              struct player *pplayer,
                                              struct city *pcity,
-                                             struct unit_type *att, int want)
+                                             const struct unit_type *att, int want)
 {
   struct research *presearch = research_get(pplayer);
   int best_avl_def = 0;
@@ -404,7 +404,7 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         && !can_city_build_unit_now(pcity, deftype)
         && can_city_build_unit_later(pcity, deftype)) {
       /* It would be better than current best. Consider researching tech */
-      struct impr_type *building;
+      const struct impr_type *building;
       int cost = 0;
       struct advance *itech = deftype->require_advance;
       bool impossible_to_get = FALSE;
@@ -497,7 +497,7 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
       build_unit = iunit;
       break;
     } else if (can_city_build_unit_later(pcity, iunit)) {
-      struct impr_type *building;
+      const struct impr_type *building;
       int cost = 0;
 
       if (A_NEVER != itech

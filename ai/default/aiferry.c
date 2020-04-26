@@ -149,7 +149,7 @@ static void aiferry_print_stats(struct ai_type *ait, struct player *pplayer)
 /**********************************************************************//**
   Should unit type be considered a ferry?
 **************************************************************************/
-bool dai_is_ferry_type(struct unit_type *pferry, struct ai_type *ait)
+bool dai_is_ferry_type(const struct unit_type *pferry, struct ai_type *ait)
 {
   struct unit_type_ai *utai = utype_ai_data(pferry, ait);
 
@@ -190,7 +190,7 @@ void dai_ferry_init_ferry(struct ai_type *ait, struct unit *ferry)
   Update ferry system when unit is transformed.
 **************************************************************************/
 void dai_ferry_transformed(struct ai_type *ait, struct unit *ferry,
-                           struct unit_type *old)
+                           const struct unit_type *old)
 {
   bool old_f = dai_is_ferry_type(old, ait);
   bool new_f = dai_is_ferry(ferry, ait);
@@ -453,7 +453,7 @@ bool is_boat_free(struct ai_type *ait, struct unit *boat,
    *   not eligible.
    */
   struct unit_class *ferry_class = unit_class_get(boat);
-  struct unit_type *ferry_type = unit_type_get(boat);
+  const struct unit_type *ferry_type = unit_type_get(boat);
   struct unit_ai *boat_data = def_ai_unit_data(boat, ait);
 
   return (can_unit_transport(boat, punit)
@@ -1076,12 +1076,12 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
   int sanity = punit->id;
   struct unit_ai *unit_data;
   int bossid;
-  struct unit_type *ptype;
+  const struct unit_type *ptype;
 
   CHECK_UNIT(punit);
 
   /* Try to recover hitpoints if we are in a city, before we do anything */
-  if (punit->hp < unit_type_get(punit)->hp 
+  if (punit->hp < unit_type_get(punit)->hp
       && (pcity = tile_city(unit_tile(punit)))) {
     UNIT_LOG(LOGLEVEL_FERRY, punit, "waiting in %s to recover hitpoints", 
              city_name_get(pcity));

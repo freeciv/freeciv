@@ -338,7 +338,7 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (punit && !pcity) {
     struct player *owner = unit_owner(punit);
-    struct unit_type *ptype = unit_type_get(punit);
+    const struct unit_type *ptype = unit_type_get(punit);
 
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
@@ -505,7 +505,7 @@ const char *unit_description(struct unit *punit)
   struct city *pcity =
       player_city_by_number(owner, punit->homecity);
   struct city *pcity_near = get_nearest_city(punit, &pcity_near_dist);
-  struct unit_type *ptype = unit_type_get(punit);
+  const struct unit_type *ptype = unit_type_get(punit);
   static struct astring str = ASTRING_INIT;
   const struct player *pplayer = client_player();
 
@@ -1267,15 +1267,15 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
     unit_list_iterate(punits, punit) {
       if (unit_owner(punit) == client_player()
           && UU_OK == unit_upgrade_test(punit, FALSE)) {
-	struct unit_type *from_unittype = unit_type_get(punit);
-	struct unit_type *to_unittype = can_upgrade_unittype(client.conn.playing,
-							     from_unittype);
-	int cost = unit_upgrade_price(unit_owner(punit),
-					   from_unittype, to_unittype);
+        const struct unit_type *from_unittype = unit_type_get(punit);
+        const struct unit_type *to_unittype = can_upgrade_unittype(client.conn.playing,
+                                                                   from_unittype);
+        int cost = unit_upgrade_price(unit_owner(punit),
+                                      from_unittype, to_unittype);
 
-	num_upgraded++;
-	upgrade_cost += cost;
-	min_upgrade_cost = MIN(min_upgrade_cost, cost);
+        num_upgraded++;
+        upgrade_cost += cost;
+        min_upgrade_cost = MIN(min_upgrade_cost, cost);
       }
     } unit_list_iterate_end;
     if (num_upgraded == 0) {

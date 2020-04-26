@@ -133,7 +133,7 @@ struct autoattack_prob {
 static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
-static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
+static bool try_to_save_unit(struct unit *punit, const struct unit_type *pttype,
                              bool helpless, bool teleporting,
                              const struct city *pexclcity);
 static void wakeup_neighbor_sentries(struct unit *punit);
@@ -404,8 +404,8 @@ static void do_upgrade_effects(struct player *pplayer)
      * available candidates. */
     int candidate_to_upgrade = fc_rand(unit_list_size(candidates));
     struct unit *punit = unit_list_get(candidates, candidate_to_upgrade);
-    struct unit_type *type_from = unit_type_get(punit);
-    struct unit_type *type_to = can_upgrade_unittype(pplayer, type_from);
+    const struct unit_type *type_from = unit_type_get(punit);
+    const struct unit_type *type_to = can_upgrade_unittype(pplayer, type_from);
 
     transform_unit(punit, type_to, TRUE);
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
@@ -773,7 +773,8 @@ void notify_unit_experience(struct unit *punit)
 **************************************************************************/
 static void unit_convert(struct unit *punit)
 {
-  struct unit_type *to_type, *from_type;
+  const struct unit_type *to_type;
+  const struct unit_type *from_type;
 
   from_type = unit_type_get(punit);
   to_type = from_type->converted_to;
@@ -1519,11 +1520,11 @@ bool is_airunit_refuel_point(const struct tile *ptile,
 
   Note that this function is strongly tied to unit.c:test_unit_upgrade().
 **************************************************************************/
-void transform_unit(struct unit *punit, struct unit_type *to_unit,
+void transform_unit(struct unit *punit, const struct unit_type *to_unit,
                     bool is_free)
 {
   struct player *pplayer = unit_owner(punit);
-  struct unit_type *old_type = punit->utype;
+  const struct unit_type *old_type = punit->utype;
   int old_mr = unit_move_rate(punit);
   int old_hp = unit_type_get(punit)->hp;
 
@@ -1576,7 +1577,7 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
   Wrapper of the below
 **************************************************************************/
 struct unit *create_unit(struct player *pplayer, struct tile *ptile, 
-			 struct unit_type *type, int veteran_level, 
+                         const struct unit_type *type, int veteran_level, 
                          int homecity_id, int moves_left)
 {
   return create_unit_full(pplayer, ptile, type, veteran_level, homecity_id, 
@@ -1603,7 +1604,7 @@ void unit_get_goods(struct unit *punit)
   If moves_left is less than zero, unit will get max moves.
 **************************************************************************/
 struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
-                              struct unit_type *type, int veteran_level, 
+                              const struct unit_type *type, int veteran_level, 
                               int homecity_id, int moves_left, int hp_left,
                               struct unit *ptrans)
 {
@@ -1830,7 +1831,7 @@ static void server_remove_unit(struct unit *punit,
 **************************************************************************/
 static void unit_lost_with_transport(const struct player *pplayer,
                                      struct unit *pcargo,
-                                     struct unit_type *ptransport,
+                                     const struct unit_type *ptransport,
                                      struct player *killer)
 {
   notify_player(pplayer, unit_tile(pcargo), E_UNIT_LOST_MISC, ftc_server,
@@ -1858,7 +1859,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
 {
   struct tile *ptile = unit_tile(punit);
   struct player *pplayer = unit_owner(punit);
-  struct unit_type *putype_save = unit_type_get(punit); /* for notify messages */
+  const struct unit_type *putype_save = unit_type_get(punit); /* for notify messages */
   struct unit_list *helpless = unit_list_new();
   struct unit_list *imperiled = unit_list_new();
   struct unit_list *unsaved = unit_list_new();
@@ -2050,7 +2051,7 @@ void wipe_unit(struct unit *punit, enum unit_loss_reason reason,
   Note that despite being saved from drowning, teleporting the units to
   "safety" may have killed them in the end.
 **************************************************************************/
-static bool try_to_save_unit(struct unit *punit, struct unit_type *pttype,
+static bool try_to_save_unit(struct unit *punit, const struct unit_type *pttype,
                              bool helpless, bool teleporting,
                              const struct city *pexclcity)
 {
@@ -3385,8 +3386,8 @@ static bool unit_move_consequences(struct unit *punit,
   int homecity_id_end_pos = punit->homecity;
   struct player *pplayer_start_pos = unit_owner(punit);
   struct player *pplayer_end_pos = pplayer_start_pos;
-  struct unit_type *type_start_pos = unit_type_get(punit);
-  struct unit_type *type_end_pos = type_start_pos;
+  const struct unit_type *type_start_pos = unit_type_get(punit);
+  const struct unit_type *type_end_pos = type_start_pos;
   bool refresh_homecity_start_pos = FALSE;
   bool refresh_homecity_end_pos = FALSE;
   int saved_id = punit->id;

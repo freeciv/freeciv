@@ -4257,13 +4257,13 @@ static int fill_unit_sprite_array(const struct tileset *t,
 {
   struct drawn_sprite *save_sprs = sprs;
   int ihp;
-  struct unit_type *ptype = unit_type_get(punit);
+  const struct unit_type *ptype = unit_type_get(punit);
 
   if (backdrop) {
     if (!gui_options.solid_color_behind_units) {
       ADD_SPRITE(get_unit_nation_flag_sprite(t, punit), TRUE,
-		 FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
-		 FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
+                 FULL_TILE_X_OFFSET + t->unit_flag_offset_x,
+                 FULL_TILE_Y_OFFSET + t->unit_flag_offset_y);
     } else {
       /* Taken care of in the LAYER_BACKGROUND. */
     }
@@ -6327,7 +6327,7 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
   Return the sprite for the building/improvement.
 ****************************************************************************/
 struct sprite *get_building_sprite(const struct tileset *t,
-                                   struct impr_type *pimprove)
+                                   const struct impr_type *pimprove)
 {
   fc_assert_ret_val(NULL != pimprove, NULL);
   return t->sprites.building[improvement_index(pimprove)];

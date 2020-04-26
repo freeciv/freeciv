@@ -354,7 +354,7 @@ static void pixmap_put_x(QPixmap *pix)
 /************************************************************************//**
   Improvement item constructor
 ****************************************************************************/
-impr_item::impr_item(QWidget *parent, impr_type *building,
+impr_item::impr_item(QWidget *parent, const impr_type *building,
                      struct city *city): QLabel(parent)
 {
   setParent(parent);
@@ -3783,7 +3783,7 @@ QString bold(QString text)
   Returns improvement properties to append in tooltip
   ext is used to get extra info from help
 ****************************************************************************/
-QString get_tooltip_improvement(impr_type *building, struct city *pcity,
+QString get_tooltip_improvement(const impr_type *building, struct city *pcity,
                                 bool ext)
 {
   QString def_str;
@@ -3840,18 +3840,18 @@ QString get_tooltip_improvement(impr_type *building, struct city *pcity,
   Returns unit properties to append in tooltip
   ext is used to get extra info from help
 ****************************************************************************/
-QString get_tooltip_unit(struct unit_type *unit, bool ext)
+QString get_tooltip_unit(const struct unit_type *utype, bool ext)
 {
   QString def_str;
   QString obsolete_str;
   QString str;
-  struct unit_type *obsolete;
+  const struct unit_type *obsolete;
   struct advance *tech;
 
   def_str = "<b>"
-    + QString(utype_name_translation(unit)).toHtmlEscaped()
+    + QString(utype_name_translation(utype)).toHtmlEscaped()
     + "</b>\n";
-  obsolete = unit->obsoleted_by;
+  obsolete = utype->obsoleted_by;
   if (obsolete) {
     tech = obsolete->require_advance;
     obsolete_str = QString("</td></tr><tr><td colspan=\"3\">");
@@ -3868,25 +3868,25 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
   }
   def_str += "<table width=\"100\%\"><tr><td>"
              + bold(QString(_("Attack:"))) + " "
-             + QString::number(unit->attack_strength).toHtmlEscaped()
+             + QString::number(utype->attack_strength).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Defense:"))) + " "
-             + QString::number(unit->defense_strength).toHtmlEscaped()
+             + QString::number(utype->defense_strength).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Move:"))) + " "
-             + QString(move_points_text(unit->move_rate, TRUE)).toHtmlEscaped()
+             + QString(move_points_text(utype->move_rate, TRUE)).toHtmlEscaped()
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Cost:"))) + " "
-             + QString::number(utype_build_shield_cost_base(unit))
+             + QString::number(utype_build_shield_cost_base(utype))
                .toHtmlEscaped()
              + QString("</td><td colspan=\"2\">")
              + bold(QString(_("Basic Upkeep:")))
-             + " " + QString(helptext_unit_upkeep_str(unit)).toHtmlEscaped()
+             + " " + QString(helptext_unit_upkeep_str(utype)).toHtmlEscaped()
              + QString("</td></tr><tr><td>")
              + bold(QString(_("Hitpoints:"))) + " "
-             + QString::number(unit->hp).toHtmlEscaped()
+             + QString::number(utype->hp).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("FirePower:"))) + " "
-             + QString::number(unit->firepower).toHtmlEscaped()
+             + QString::number(utype->firepower).toHtmlEscaped()
              + QString("</td><td>") + bold(QString(_("Vision:"))) + " "
-             + QString::number((int) sqrt((double) unit->vision_radius_sq))
+             + QString::number((int) sqrt((double) utype->vision_radius_sq))
                .toHtmlEscaped()
              + obsolete_str
              + QString("</td></tr></table><p style='white-space:pre'>");
@@ -3896,12 +3896,13 @@ QString get_tooltip_unit(struct unit_type *unit, bool ext)
 
     buf2[0] = '\0';
     str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
-                        buf2, unit);
+                        buf2, utype);
     str = cut_helptext(str);
     str = split_text(str, true);
     str = str.trimmed().toHtmlEscaped();
     def_str = def_str + str;
   }
+
   return def_str;
 };
 

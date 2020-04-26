@@ -2580,7 +2580,7 @@ static enum fc_tristate is_diplrel_in_range(const struct player *target_player,
 **************************************************************************/
 static enum fc_tristate is_unittype_in_range(const struct unit_type *target_unittype,
                                              enum req_range range, bool survives,
-                                             struct unit_type *punittype)
+                                             const struct unit_type *punittype)
 {
   /* If no target_unittype is given, we allow the req to be met.  This is
    * to allow querying of certain effect types (like the presence of city

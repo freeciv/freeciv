@@ -644,7 +644,7 @@ bool goods_has_flag(const struct goods_type *pgood, enum goods_flag_id flag)
 bool goods_can_be_provided(struct city *pcity, struct goods_type *pgood,
                            struct unit *punit)
 {
-  struct unit_type *ptype;
+  const struct unit_type *ptype;
 
   if (punit != NULL) {
     ptype = unit_type_get(punit);

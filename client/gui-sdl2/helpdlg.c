@@ -882,7 +882,7 @@ void popup_unit_info(Unit_type_id type_id)
                                                     adj_font(12), 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {
-    struct unit_type *utype = pUnitType->obsoleted_by;
+    const struct unit_type *utype = pUnitType->obsoleted_by;
 
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pWindow->dst,
                                                     utype_name_translation(utype),

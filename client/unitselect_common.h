@@ -22,7 +22,7 @@ struct unit_list;
 struct tile;
 
 struct usdata {
-  struct unit_type *utype;
+  const struct unit_type *utype;
   struct unit_list *units[SELLOC_COUNT][ACTIVITY_LAST];
 };
 

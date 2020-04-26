@@ -370,7 +370,7 @@ struct sprite *get_nation_shield_sprite(const struct tileset *t,
                                         const struct nation_type *nation);
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech);
 struct sprite *get_building_sprite(const struct tileset *t,
-                                   struct impr_type *pimprove);
+                                   const struct impr_type *pimprove);
 struct sprite *get_government_sprite(const struct tileset *t,
                                      const struct government *gov);
 struct sprite *get_unittype_sprite(const struct tileset *t,

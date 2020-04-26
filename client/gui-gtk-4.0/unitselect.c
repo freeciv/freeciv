@@ -157,7 +157,7 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
                              enum unit_select_location_mode loc);
 static void usdlg_tab_append_utype(GtkTreeStore *store,
                                    enum unit_select_location_mode loc,
-                                   struct unit_type *putype,
+                                   const struct unit_type *putype,
                                    GtkTreeIter *it);
 static void usdlg_tab_append_activity(GtkTreeStore *store,
                                       enum unit_select_location_mode loc,
@@ -680,7 +680,7 @@ static bool usdlg_tab_update(struct unit_select_dialog *pdialog,
 *****************************************************************************/
 static void usdlg_tab_append_utype(GtkTreeStore *store,
                                    enum unit_select_location_mode loc,
-                                   struct unit_type *putype,
+                                   const struct unit_type *putype,
                                    GtkTreeIter *it)
 {
   GdkPixbuf *pix;

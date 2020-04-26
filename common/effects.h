@@ -359,7 +359,7 @@ int effect_value_from_universals(enum effect_type type,
                                  struct universal *unis, size_t n_unis);
 
 bool is_building_replaced(const struct city *pcity,
-			  struct impr_type *pimprove,
+                          const struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
 
 /* functions to know the bonuses a certain effect is granting */
@@ -424,7 +424,7 @@ bool building_has_effect(const struct impr_type *pimprove,
 int get_current_construction_bonus(const struct city *pcity,
                                    enum effect_type effect_type,
                                    const enum req_problem_type prob_type);
-int get_potential_improvement_bonus(struct impr_type *pimprove,
+int get_potential_improvement_bonus(const struct impr_type *pimprove,
                                     const struct city *pcity,
                                     enum effect_type effect_type,
                                     const enum req_problem_type prob_type);

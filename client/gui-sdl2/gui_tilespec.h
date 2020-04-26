@@ -239,7 +239,7 @@ static inline SDL_Surface *get_sample_city_surface(int city_style)
   return GET_SURF(get_sample_city_sprite(tileset, city_style));
 }
 
-static inline SDL_Surface *get_building_surface(struct impr_type *pimprove)
+static inline SDL_Surface *get_building_surface(const struct impr_type *pimprove)
 {
   return GET_SURF(get_building_sprite(tileset, pimprove));
 }

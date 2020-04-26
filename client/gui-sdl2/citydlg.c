@@ -380,7 +380,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     char cBuf[80];
     struct widget *pBuf, *pWindow = pCityDlg->pEndCityWidgetList;
     struct unit *punit;
-    struct unit_type *pUType;
+    const struct unit_type *putype;
     Uint16 i = 0, hh = 0;
     SDL_Rect area;
 
@@ -401,7 +401,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     unselect_widget_action();
     disable_city_dlg_widgets();
 
-    pUType = unit_type_get(punit);
+    putype = unit_type_get(punit);
 
     /* window */
     fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit commands"));
@@ -420,7 +420,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
     fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(punit));
     pstr = create_utf8_from_char(cBuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pBuf = create_iconlabel(adj_surf(get_unittype_surface(pUType, punit->facing)),
+    pBuf = create_iconlabel(adj_surf(get_unittype_surface(putype, punit->facing)),
                             pWindow->dst, pstr, WF_FREE_THEME);
     area.w = MAX(area.w, pBuf->size.w);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -507,7 +507,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       }
       /* ----- */
 
-      if (can_upgrade_unittype(client.conn.playing, pUType)) {
+      if (can_upgrade_unittype(client.conn.playing, putype)) {
         /* Upgrade unit */
         pBuf = create_icon_button_from_chars(NULL, pWindow->dst,
                                              _("Upgrade unit"), adj_font(12), 0);
@@ -681,7 +681,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   struct widget *pEnd = NULL;
   struct widget *pWindow = pCityDlg->pEndCityWidgetList;
   struct city *pHome_City;
-  struct unit_type *pUType;
+  const struct unit_type *putype;
   SDL_Surface *pSurf;
   utf8_str *pstr;
   char cBuf[256];
@@ -708,18 +708,18 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   unit_list_iterate(pList, pUnit) {
     const char *vetname;
 
-    pUType = unit_type_get(pUnit);
-    vetname = utype_veteran_name_translation(pUType, pUnit->veteran);
+    putype = unit_type_get(pUnit);
+    vetname = utype_veteran_name_translation(putype, pUnit->veteran);
     pHome_City = game_city_by_number(pUnit->homecity);
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
-                utype_name_translation(pUType),
-                pUType->attack_strength,
-                pUType->defense_strength,
-                move_points_text(pUType->move_rate, FALSE),
+                utype_name_translation(putype),
+                putype->attack_strength,
+                putype->defense_strength,
+                move_points_text(putype->move_rate, FALSE),
                 (vetname != NULL ? "\n" : ""),
                 (vetname != NULL ? vetname : ""),
                 unit_activity_text(pUnit),
-                pUnit->hp, pUType->hp,
+                pUnit->hp, putype->hp,
                 pHome_City ? pHome_City->name : Q_("?homecity:None"));
 
     if (pCityDlg->page == SUPPORTED_UNITS_PAGE) {
@@ -3189,15 +3189,15 @@ static void redraw_city_dialog(struct city *pCity)
 
   /* draw productions shields progress */
   if (VUT_UTYPE == pCity->production.kind) {
-    struct unit_type *pUnitType = pCity->production.value.utype;
+    const struct unit_type *punittype = pCity->production.value.utype;
 
-    cost = utype_build_shield_cost(pCity, pUnitType);
+    cost = utype_build_shield_cost(pCity, punittype);
     count = cost / 10;
 
-    copy_chars_to_utf8_str(pstr, utype_name_translation(pUnitType));
+    copy_chars_to_utf8_str(pstr, utype_name_translation(punittype));
     pBuf = create_text_surf_from_utf8(pstr);
 
-    pBuf2 = get_unittype_surface(pUnitType, direction8_invalid());
+    pBuf2 = get_unittype_surface(punittype, direction8_invalid());
     pBuf2 = zoomSurface(pBuf2, DEFAULT_ZOOM * ((float)32 / pBuf2->h),
                         DEFAULT_ZOOM * ((float)32 / pBuf2->h), 1);
 
@@ -3211,9 +3211,9 @@ static void redraw_city_dialog(struct city *pCity)
     dest.x += pBuf2->w + adj_size(5);
 
   } else {
-    struct impr_type *pImprove = pCity->production.value.building;
+    const struct impr_type *pimprove = pCity->production.value.building;
 
-    if (improvement_has_flag(pImprove, IF_GOLD)) {
+    if (improvement_has_flag(pimprove, IF_GOLD)) {
 
       if (pCityDlg->pBuy_Button
           && get_wstate(pCityDlg->pBuy_Button) != FC_WS_DISABLED) {
@@ -3232,11 +3232,11 @@ static void redraw_city_dialog(struct city *pCity)
         widget_redraw(pCityDlg->pBuy_Button);
       }
 
-      cost = impr_build_shield_cost(pCity, pImprove);
+      cost = impr_build_shield_cost(pCity, pimprove);
       count = cost / 10;
     }
 
-    copy_chars_to_utf8_str(pstr, improvement_name_translation(pImprove));
+    copy_chars_to_utf8_str(pstr, improvement_name_translation(pimprove));
     pBuf = create_text_surf_from_utf8(pstr);
 
     pBuf2 = get_building_surface(pCity->production.value.building);

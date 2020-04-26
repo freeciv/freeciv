@@ -74,7 +74,7 @@ static bool is_unit_reachable_by_unit(const struct unit *defender,
                                       const struct unit *attacker)
 {
   struct unit_class *dclass = unit_class_get(defender);
-  struct unit_type *atype = unit_type_get(attacker);
+  const struct unit_type *atype = unit_type_get(attacker);
 
   return BV_ISSET(atype->targets, uclass_index(dclass));
 }
@@ -640,7 +640,7 @@ int get_total_defense_power(const struct unit *attacker,
 int get_fortified_defense_power(const struct unit *attacker,
                                 const struct unit *defender)
 {
-  struct unit_type *att_type = NULL;
+  const struct unit_type *att_type = NULL;
 
   if (attacker != NULL) {
     att_type = unit_type_get(attacker);

@@ -579,7 +579,7 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
 void handle_edit_unit(struct connection *pc,
                       const struct packet_edit_unit *packet)
 {
-  struct unit_type *putype;
+  const struct unit_type *putype;
   struct unit *punit;
   int id;
   bool changed = FALSE;

@@ -67,7 +67,7 @@
 struct sell_data {
   int count;                    /* Number of cities. */
   int gold;                     /* Amount of gold. */
-  struct impr_type *target;     /* The target for selling. */
+  const struct impr_type *target;     /* The target for selling. */
 };
 
 enum city_operation_type {
@@ -617,7 +617,7 @@ static void select_impr_or_unit_callback(GtkWidget *wdg, gpointer data)
     case CO_SELL:
       fc_assert_action(target.kind == VUT_IMPROVEMENT, break);
       {
-        struct impr_type *building = target.value.building;
+        const struct impr_type *building = target.value.building;
         struct sell_data sd = { 0, 0, building };
         GtkWidget *w;
         gint res;
