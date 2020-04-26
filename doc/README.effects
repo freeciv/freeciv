@@ -90,7 +90,7 @@ TerrainClass:    Local, Adjacent, CAdjacent, Traderoute, City
 TerrainFlag:     Local, Adjacent, CAdjacent, Traderoute, City
 TerrainAlter:    Local
 CityTile:        Local, Adjacent, CAdjacent
-CityStatus:      City, Traderoute
+CityStatus:      Traderoute, City
 Style:           Player
 UnitState:       Local
 MinMoveFrags:    Local
