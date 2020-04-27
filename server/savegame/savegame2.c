@@ -4317,6 +4317,12 @@ static bool sg_load_player_unit(struct loaddata *loading,
           }
         }
       }
+
+      if (!unit_order_list_is_sane(punit->orders.length,
+                                   punit->orders.list)) {
+        log_sg("Invalid unit orders for unit %d.", punit->id);
+        free_unit_orders(punit);
+      }
     } else {
       punit->has_orders = FALSE;
       punit->orders.list = NULL;
