@@ -4915,7 +4915,7 @@ struct unit_order *create_unit_orders(int length,
     case ORDER_FULL_MP:
       break;
     case ORDER_LAST:
-      /* An invalid order.  This is handled in execute_orders. */
+      /* An invalid order.  This is handled above. */
       break;
     }
   }
