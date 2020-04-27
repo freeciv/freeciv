@@ -4075,11 +4075,7 @@ static inline bool player_is_watching(struct unit *punit, const bool fresh)
 ****************************************************************************/
 bool execute_orders(struct unit *punit, const bool fresh)
 {
-  struct tile *dst_tile;
-  struct city *tgt_city;
-  struct unit *tgt_unit;
   struct act_prob prob;
-  int tgt_id;
   bool performed;
   const char *name;
   bool res, last_order;
@@ -4102,6 +4098,11 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
   while (TRUE) {
     struct unit_order order;
+
+    struct tile *dst_tile;
+    struct city *tgt_city;
+    struct unit *tgt_unit;
+    int tgt_id;
 
     if (punit->done_moving) {
       log_debug("  stopping because we're done this turn");
