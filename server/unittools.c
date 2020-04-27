@@ -4664,26 +4664,23 @@ bool unit_can_be_retired(struct unit *punit)
 }
 
 /**********************************************************************//**
-  Sanity-check unit order arrays from a packet and create a unit_order array
-  from their contents if valid.
+  Returns TRUE iff the unit order array is sane.
 **************************************************************************/
-struct unit_order *create_unit_orders(int length,
-                                      const struct unit_order *orders)
+bool unit_order_list_is_sane(int length, const struct unit_order *orders)
 {
   int i;
-  struct unit_order *unit_orders;
 
   for (i = 0; i < length; i++) {
     if (orders[i].order > ORDER_LAST) {
       log_error("invalid order %d at index %d", orders[i].order, i);
-      return NULL;
+      return FALSE;
     }
     switch (orders[i].order) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
       if (!map_untrusted_dir_is_valid(orders[i].dir)) {
         log_error("in order %d, invalid move direction %d.", i, orders[i].dir);
-	return NULL;
+        return FALSE;
       }
       break;
     case ORDER_ACTIVITY:
@@ -4705,7 +4702,7 @@ struct unit_order *create_unit_orders(int length,
           /* Only allowed as the last order. */
           log_error("activity %d is not allowed at index %d.", orders[i].activity,
                     i);
-          return NULL;
+          return FALSE;
         }
         break;
       case ACTIVITY_BASE:
@@ -4713,7 +4710,7 @@ struct unit_order *create_unit_orders(int length,
                                 EC_BASE)) {
           log_error("at index %d, %s isn't a base.", i,
                     extra_rule_name(extra_by_number(orders[i].sub_target)));
-          return NULL;
+          return FALSE;
         }
         break;
       case ACTIVITY_GEN_ROAD:
@@ -4721,7 +4718,7 @@ struct unit_order *create_unit_orders(int length,
                                 EC_ROAD)) {
           log_error("at index %d, %s isn't a road.", i,
                     extra_rule_name(extra_by_number(orders[i].sub_target)));
-          return NULL;
+          return FALSE;
         }
         break;
       /* Not supported yet. */
@@ -4740,7 +4737,7 @@ struct unit_order *create_unit_orders(int length,
       case ACTIVITY_LAST:
       case ACTIVITY_UNKNOWN:
         log_error("at index %d, unsupported activity %d.", i, orders[i].activity);
-        return NULL;
+        return FALSE;
       }
 
       if (orders[i].sub_target == EXTRA_NONE
@@ -4749,7 +4746,7 @@ struct unit_order *create_unit_orders(int length,
          * this activity. */
         log_error("activity %d at index %d requires target.", orders[i].activity,
                   i);
-        return NULL;
+        return FALSE;
       }
 
       break;
@@ -4757,7 +4754,7 @@ struct unit_order *create_unit_orders(int length,
       if (!action_id_exists(orders[i].action)) {
         /* Non-existent action. */
         log_error("at index %d, the action %d doesn't exist.", i, orders[i].action);
-        return NULL;
+        return FALSE;
       }
 
       if (action_id_distance_inside_max(orders[i].action, 2)) {
@@ -4779,7 +4776,7 @@ struct unit_order *create_unit_orders(int length,
          * go_act_menu::create(). */
         log_error("at index %d, the action %s isn't supported in unit "
                   "orders.", i, action_id_name_translation(orders[i].action));
-        return NULL;
+        return FALSE;
       }
 
       if (!action_id_distance_inside_max(orders[i].action, 1)
@@ -4787,7 +4784,7 @@ struct unit_order *create_unit_orders(int length,
         /* Actor must be on the target tile. */
         log_error("at index %d, cannot do %s on a neighbor tile.", i,
                   action_id_rule_name(orders[i].action));
-        return NULL;
+        return FALSE;
       }
 
       /* Validate sub target. */
@@ -4798,7 +4795,7 @@ struct unit_order *create_unit_orders(int length,
           /* Sub target is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
                     action_id_rule_name(orders[i].action));
-          return NULL;
+          return FALSE;
         }
         break;
       case ASTK_TECH:
@@ -4809,7 +4806,7 @@ struct unit_order *create_unit_orders(int length,
           /* Target tech is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
                     action_id_rule_name(orders[i].action));
-          return NULL;
+          return FALSE;
         }
         break;
       case ASTK_EXTRA:
@@ -4822,7 +4819,7 @@ struct unit_order *create_unit_orders(int length,
           /* Target extra is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
                     action_id_rule_name(orders[i].action));
-          return NULL;
+          return FALSE;
         }
         break;
       case ASTK_NONE:
@@ -4832,7 +4829,7 @@ struct unit_order *create_unit_orders(int length,
       case ASTK_COUNT:
         fc_assert_ret_val_msg(
             action_id_get_sub_target_kind(orders[i].action) != ASTK_COUNT,
-            NULL,
+            FALSE,
             "Bad action %d in order number %d.", orders[i].action, i);
       }
 
@@ -4853,6 +4850,22 @@ struct unit_order *create_unit_orders(int length,
       /* An invalid order.  This is handled above. */
       break;
     }
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Sanity-check unit order arrays from a packet and create a unit_order array
+  from their contents if valid.
+**************************************************************************/
+struct unit_order *create_unit_orders(int length,
+                                      const struct unit_order *orders)
+{
+  struct unit_order *unit_orders;
+
+  if (!unit_order_list_is_sane(length, orders)) {
+    return NULL;
   }
 
   unit_orders = fc_malloc(length * sizeof(*(unit_orders)));
