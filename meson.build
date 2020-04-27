@@ -1952,9 +1952,13 @@ install_data('data/stdsounds/foot3.ogg',
 
 endif
 
-gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22')
+gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
 
 if get_option('clients').contains('gtk3.22')
+
+if not gtk322_dep.found()
+  error('gtk+-3.0 >= 3.22 required for gtk3.22-client, but not found')
+endif
 
 executable('freeciv-gtk3.22',
   'client/gui-gtk-3.22/action_dialog.c',
@@ -2028,6 +2032,10 @@ fcmp_common = static_library('fcmp_common',
 endif
 
 if get_option('fcmp').contains('gtk3')
+
+if not gtk322_dep.found()
+  error('gtk+-3.0 required for gtk3 modpack installer, but not found')
+endif
 
 executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
