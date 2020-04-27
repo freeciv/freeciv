@@ -721,14 +721,6 @@ void go_act_menu::create()
         continue;
       }
 
-      if (action_id_distance_inside_max(act_id, 2)) {
-        /* The order system doesn't support actions that can be done to a
-         * target that isn't at or next to the actor unit's tile.
-         *
-         * Full explanation in handle_unit_orders(). */
-        continue;
-      }
-
 #define ADD_OLD_SHORTCUT(wanted_action_id, sc_id)                         \
   if (act_id == wanted_action_id) {                                    \
     item->setShortcut(QKeySequence(shortcut_to_string(                    \

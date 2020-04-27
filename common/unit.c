@@ -65,6 +65,7 @@ bool are_unit_orders_equal(const struct unit_order *order1,
 {
   return order1->order == order2->order
       && order1->activity == order2->activity
+      && order1->target == order2->target
       && order1->sub_target == order2->sub_target
       && order1->action == order2->action
       && order1->dir == order2->dir;

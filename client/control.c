@@ -1105,12 +1105,6 @@ void request_unit_goto(enum unit_orders last_order,
     /* An action has been specified. */
     fc_assert_ret(action_id_exists(act_id));
 
-    /* The order system doesn't support actions that can be done to a
-     * target that isn't at or next to the actor unit's tile.
-     *
-     * Full explanation in handle_unit_orders(). */
-    fc_assert_ret(!action_id_distance_inside_max(act_id, 2));
-
     unit_list_iterate(punits, punit) {
       if (!unit_can_do_action(punit, act_id)) {
         /* This unit can't perform the action specified in the last
@@ -1522,6 +1516,7 @@ void request_unit_return(struct unit *punit)
       order.order = ORDER_ACTIVITY;
       order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_SENTRY;
+      order.target = NO_TARGET;
       order.sub_target = NO_TARGET;
       order.action = ACTION_NONE;
       send_goto_path(punit, path, &order);
@@ -1737,6 +1732,7 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0].order = ORDER_MOVE;
   p.orders[0].dir = dir;
   p.orders[0].activity = ACTIVITY_LAST;
+  p.orders[0].target = NO_TARGET;
   p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 
@@ -1790,6 +1786,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
                        ? ORDER_ACTION_MOVE : ORDER_MOVE);
   p.orders[0].dir = dir;
   p.orders[0].activity = ACTIVITY_LAST;
+  p.orders[0].target = NO_TARGET;
   p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 

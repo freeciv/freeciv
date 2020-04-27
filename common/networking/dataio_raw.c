@@ -542,6 +542,7 @@ void dio_put_unit_order_raw(struct raw_data_out *dout,
 {
   dio_put_uint8_raw(dout, order->order);
   dio_put_uint8_raw(dout, order->activity);
+  dio_put_sint32_raw(dout, order->target);
   dio_put_sint16_raw(dout, order->sub_target);
   dio_put_uint8_raw(dout, order->action);
   dio_put_sint8_raw(dout, order->dir);
@@ -882,6 +883,7 @@ bool dio_get_unit_order_raw(struct data_in *din, struct unit_order *order)
 
   if (!dio_get_uint8_raw(din, &iorder)
       || !dio_get_uint8_raw(din, &iactivity)
+      || !dio_get_sint32_raw(din, &order->target)
       || !dio_get_sint16_raw(din, &order->sub_target)
       || !dio_get_uint8_raw(din, &order->action)
       || !dio_get_sint8_raw(din, &idir)) {

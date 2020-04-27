@@ -4246,6 +4246,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
         order->order = char2order(orders_unitstr[j]);
         order->dir = char2dir(dir_unitstr[j]);
         order->activity = char2activity(act_unitstr[j]);
+        /* Target, if needed, is set in compat_post_load_030100() */
+        order->target = NO_TARGET;
         order->sub_target = NO_TARGET;
 
         if (order->order == ORDER_LAST

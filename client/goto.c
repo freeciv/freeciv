@@ -1392,6 +1392,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
       order_list[i].order = ORDER_FULL_MP;
       order_list[i].dir = DIR8_ORIGIN;
       order_list[i].activity = ACTIVITY_LAST;
+      order_list[i].target = NO_TARGET;
       order_list[i].sub_target = NO_TARGET;
       order_list[i].action = ACTION_NONE;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
@@ -1399,6 +1400,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
       order_list[i].order = orders;
       order_list[i].dir = get_direction_for_step(&(wld.map), old_tile, new_tile);
       order_list[i].activity = ACTIVITY_LAST;
+      order_list[i].target = NO_TARGET;
       order_list[i].sub_target = NO_TARGET;
       order_list[i].action = ACTION_NONE;
       log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
@@ -1437,6 +1439,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
     order_list[i].dir = final_order->dir;
     order_list[i].activity = (final_order->order == ORDER_ACTIVITY)
       ? final_order->activity : ACTIVITY_LAST;
+    order_list[i].target = final_order->target;
     order_list[i].sub_target = final_order->sub_target;
     order_list[i].action = final_order->action;
     (*length)++;
@@ -1715,6 +1718,7 @@ void send_connect_route(enum unit_activity activity,
 	  p.orders[p.length].order = ORDER_ACTIVITY;
           p.orders[p.length].dir = DIR8_ORIGIN;
 	  p.orders[p.length].activity = ACTIVITY_IRRIGATE;
+          p.orders[p.length].target = NO_TARGET;
           p.orders[p.length].sub_target = extra_index(tgt);
           p.orders[p.length].action = ACTION_NONE;
 	  p.length++;
@@ -1737,6 +1741,7 @@ void send_connect_route(enum unit_activity activity,
         p.orders[p.length].dir = get_direction_for_step(&(wld.map),
                                                         old_tile, new_tile);
         p.orders[p.length].activity = ACTIVITY_LAST;
+        p.orders[p.length].target = NO_TARGET;
         p.orders[p.length].sub_target = NO_TARGET;
         p.orders[p.length].action = ACTION_NONE;
         p.length++;
@@ -1882,6 +1887,7 @@ void send_goto_route(void)
       struct unit_order order;
       int last_order_dir;
       struct tile *on_tile;
+      int last_order_target = NO_TARGET;
 
       if (path->length > 1
           && ((on_tile = path->positions[path->length - 2].tile))
@@ -1904,9 +1910,15 @@ void send_goto_route(void)
         last_order_dir = DIR8_ORIGIN;
       }
 
+      if (action_id_exists(goto_last_action)) {
+        last_order_target = tgt_tile->index;
+        last_order_dir = DIR8_ORIGIN;
+      }
+
       order.order = goto_last_order;
       order.dir = last_order_dir;
       order.activity = ACTIVITY_LAST;
+      order.target = last_order_target;
       order.sub_target = goto_last_sub_tgt;
       order.action = goto_last_action;
 

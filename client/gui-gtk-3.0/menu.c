@@ -2743,14 +2743,6 @@ void real_menus_init(void)
           continue;
         }
 
-        if (action_id_distance_inside_max(act_id, 2)) {
-          /* The order system doesn't support actions that can be done to a
-           * target that isn't at or next to the actor unit's tile.
-           *
-           * Full explanation in handle_unit_orders(). */
-          continue;
-        }
-
         /* Create and add the menu item. It will be hidden or shown based on
          * unit type.  */
         item = gtk_menu_item_new_with_mnemonic(

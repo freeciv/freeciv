@@ -4393,13 +4393,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     case ORDER_PERFORM_ACTION:
       log_debug("  orders: doing action %d", order.action);
 
-      if (!direction8_is_valid(order.dir)) {
-        /* The target of the action is on the actor's tile. */
-        dst_tile = unit_tile(punit);
-      } else {
-        /* The target of the action is on a tile next to the actor. */
-        dst_tile = mapstep(&(wld.map), unit_tile(punit), order.dir);
-      }
+      dst_tile = index_to_tile(&(wld.map), order.target);
 
       if (dst_tile == NULL) {
         /* Could be at the edge of the map while trying to target a tile
@@ -4792,34 +4786,17 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
 
       paction = action_by_number(orders[i].action);
 
-      if (action_id_distance_inside_max(orders[i].action, 2)) {
-        /* Long range actions aren't supported in unit orders. Clients
-         * should order them performed via the unit_do_action packet.
-         *
-         * Reason: A unit order stores an action's target as the tile it is
-         * located on. The tile is stored as a direction (when the target
-         * is at a tile adjacent to the actor unit tile) or as no
-         * direction (when the target is at the same tile as the actor
-         * unit). The order system will pick a suitable target at the
-         * specified tile during order execution. This makes it impossible
-         * to target something that isn't at or next to the actors tile.
-         * Being unable to exploit the full range of an action handicaps
-         * it.
-         *
-         * A patch that allows a distant target in an order should remove
-         * this check and update the comment in the Qt client's
-         * go_act_menu::create(). */
-        log_error("at index %d, the action %s isn't supported in unit "
-                  "orders.", i, action_id_name_translation(orders[i].action));
+      /* Validate main target. */
+      if (index_to_tile(&(wld.map), orders[i].target) == NULL) {
+        log_error("at index %d, invalid tile target %d for the action %d.",
+                  i, orders[i].target, orders[i].action);
         return FALSE;
       }
 
-      if (!action_id_distance_inside_max(orders[i].action, 1)
-          && map_untrusted_dir_is_valid(orders[i].dir)) {
-        /* Actor must be on the target tile. */
-        log_error("at index %d, cannot do %s on a neighbor tile.", i,
-                  action_id_rule_name(orders[i].action));
-        return FALSE;
+      if (orders[i].dir != DIR8_ORIGIN) {
+        log_error("at index %d, the action %d sets the outdated target"
+                  " specification dir.",
+                  i, orders[i].action);
       }
 
       /* Validate sub target. */

@@ -286,6 +286,7 @@ void dio_put_unit_order_json(struct json_data_out *dout,
     json_t *obj = json_object();
     json_object_set_new(obj, "order", json_integer(order->order));
     json_object_set_new(obj, "activity", json_integer(order->activity));
+    json_object_set_new(obj, "target", json_integer(order->target));
     json_object_set_new(obj, "sub_target", json_integer(order->sub_target));
     json_object_set_new(obj, "action", json_integer(order->action));
     json_object_set_new(obj, "dir", json_integer(order->dir));
@@ -549,6 +550,13 @@ bool dio_get_unit_order_json(struct connection *pc, struct data_in *din,
     loc->sub_location->name = "activity";
     if (!dio_get_uint8_json(pc, din, location, &iactivity)) {
       log_packet("Corrupt order.activity");
+      FC_FREE(loc->sub_location);
+      return FALSE;
+    }
+
+    loc->sub_location->name = "target";
+    if (!dio_get_sint32_json(pc, din, location, &order->target)) {
+      log_packet("Corrupt order.target");
       FC_FREE(loc->sub_location);
       return FALSE;
     }

@@ -20,6 +20,7 @@
 #include "log.h"
 
 /* common */
+#include "map.h"
 #include "specialist.h"
 
 /* server */
@@ -1550,6 +1551,45 @@ static void compat_load_030100(struct loaddata *loading,
   insert_server_side_agent(loading, format_class);
 }
 
+/**********************************************************************//**
+  Upgrade unit action order target encoding.
+**************************************************************************/
+static void upgrade_unit_order_targets(struct unit *act_unit)
+{
+  int i;
+  struct tile *current_tile;
+  struct tile *tgt_tile;
+
+  current_tile = unit_tile(act_unit);
+  for (i = act_unit->orders.index; i < act_unit->orders.length; i++) {
+    struct unit_order *order = &act_unit->orders.list[i];
+
+    if (order->order == ORDER_PERFORM_ACTION
+        && order->target != NO_TARGET) {
+      /* The target is already specified in the new format. */
+      tgt_tile = index_to_tile(&(wld.map), order->target);
+      fc_assert(tgt_tile != NULL);
+      return;
+    }
+
+    if (!direction8_is_valid(order->dir)) {
+      /* The target of the action is on the actor's tile. */
+      tgt_tile = current_tile;
+    } else {
+      /* The target of the action is on a tile next to the actor. */
+      tgt_tile = mapstep(&(wld.map), current_tile, order->dir);
+    }
+
+    if (order->order == ORDER_PERFORM_ACTION) {
+      order->target = tgt_tile->index;
+      /* Leave no traces. */
+      order->dir = DIR8_ORIGIN;
+    }
+
+    current_tile = tgt_tile;
+  }
+}
+
 /************************************************************************//*
   Correct the server side agent information.
 ***************************************************************************/
@@ -1628,6 +1668,13 @@ static void compat_post_load_030100(struct loaddata *loading,
 
   /* Explicit server side agent was new in 3.1 */
   upgrade_server_side_agent(loading);
+
+  /* Unit order action target isn't dir anymore */
+  players_iterate_alive(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      upgrade_unit_order_targets(punit);
+    } unit_list_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /************************************************************************//**
@@ -1920,6 +1967,13 @@ static void compat_load_dev(struct loaddata *loading)
 
     /* Explicit server side agent was new in 3.1 */
     insert_server_side_agent(loading, SAVEGAME_3);
+
+    /* Unit order action target isn't dir anymore */
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        upgrade_unit_order_targets(punit);
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
   } /* Version < 3.0.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
