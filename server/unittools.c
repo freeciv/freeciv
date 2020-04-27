@@ -4518,7 +4518,10 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
       break;
     case ORDER_LAST:
-      cancel_orders(punit, "  client sent invalid order!");
+      /* Should be caught when loading the unit orders from the savegame or
+       * when receiving the unit orders from the client. */
+      fc_assert_msg(order.order != ORDER_LAST, "Invalid order: last.");
+      cancel_orders(punit, "  invalid order!");
       notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
                     _("Your %s has invalid orders."),
                     unit_link(punit));
