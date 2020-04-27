@@ -5884,10 +5884,9 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                                    unitstr, j);
 
         if (order->order == ORDER_PERFORM_ACTION) {
-          switch ((enum gen_action)order->action) {
-          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-          case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-          case ACTION_STRIKE_BUILDING:
+          /* Validate sub target */
+          switch (action_id_get_sub_target_kind(order->action)) {
+          case ASTK_BUILDING:
             /* Sub target is a building. */
             if (!improvement_by_number(order_sub_tgt)) {
               /* Sub target is invalid. */
@@ -5899,8 +5898,8 @@ static bool sg_load_player_unit(struct loaddata *loading,
               order->sub_target = order_sub_tgt;
             }
             break;
-          case ACTION_SPY_TARGETED_STEAL_TECH:
-          case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+          case ASTK_TECH:
+            /* Sub target is a technology. */
             if (order_sub_tgt == A_NONE
                 || (!valid_advance_by_number(order_sub_tgt)
                     && order_sub_tgt != A_FUTURE)) {
@@ -5912,83 +5911,21 @@ static bool sg_load_player_unit(struct loaddata *loading,
               order->sub_target = order_sub_tgt;
             }
             break;
-          case ACTION_PILLAGE:
-          case ACTION_ROAD:
-          case ACTION_BASE:
-          case ACTION_MINE:
-          case ACTION_IRRIGATE:
+          case ASTK_EXTRA:
+          case ASTK_EXTRA_NOT_THERE:
             /* These take an extra. */
             action_wants_extra = TRUE;
             break;
-          case ACTION_ESTABLISH_EMBASSY:
-          case ACTION_ESTABLISH_EMBASSY_STAY:
-          case ACTION_SPY_INVESTIGATE_CITY:
-          case ACTION_INV_CITY_SPEND:
-          case ACTION_SPY_POISON:
-          case ACTION_SPY_POISON_ESC:
-          case ACTION_SPY_SPREAD_PLAGUE:
-          case ACTION_SPY_STEAL_GOLD:
-          case ACTION_SPY_STEAL_GOLD_ESC:
-          case ACTION_SPY_SABOTAGE_CITY:
-          case ACTION_SPY_SABOTAGE_CITY_ESC:
-          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-          case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-          case ACTION_SPY_STEAL_TECH:
-          case ACTION_SPY_STEAL_TECH_ESC:
-          case ACTION_SPY_INCITE_CITY:
-          case ACTION_SPY_INCITE_CITY_ESC:
-          case ACTION_TRADE_ROUTE:
-          case ACTION_MARKETPLACE:
-          case ACTION_HELP_WONDER:
-          case ACTION_SPY_BRIBE_UNIT:
-          case ACTION_SPY_SABOTAGE_UNIT:
-          case ACTION_SPY_SABOTAGE_UNIT_ESC:
-          case ACTION_CAPTURE_UNITS:
-          case ACTION_FOUND_CITY:
-          case ACTION_JOIN_CITY:
-          case ACTION_STEAL_MAPS:
-          case ACTION_STEAL_MAPS_ESC:
-          case ACTION_BOMBARD:
-          case ACTION_BOMBARD2:
-          case ACTION_BOMBARD3:
-          case ACTION_SPY_NUKE:
-          case ACTION_SPY_NUKE_ESC:
-          case ACTION_NUKE:
-          case ACTION_NUKE_CITY:
-          case ACTION_NUKE_UNITS:
-          case ACTION_DESTROY_CITY:
-          case ACTION_EXPEL_UNIT:
-          case ACTION_RECYCLE_UNIT:
-          case ACTION_DISBAND_UNIT:
-          case ACTION_HOME_CITY:
-          case ACTION_UPGRADE_UNIT:
-          case ACTION_PARADROP:
-          case ACTION_AIRLIFT:
-          case ACTION_ATTACK:
-          case ACTION_SUICIDE_ATTACK:
-          case ACTION_STRIKE_PRODUCTION:
-          case ACTION_CONQUER_CITY:
-          case ACTION_CONQUER_CITY2:
-          case ACTION_HEAL_UNIT:
-          case ACTION_TRANSFORM_TERRAIN:
-          case ACTION_CULTIVATE:
-          case ACTION_PLANT:
-          case ACTION_FORTIFY:
-          case ACTION_CONVERT:
-          case ACTION_TRANSPORT_ALIGHT:
-          case ACTION_TRANSPORT_UNLOAD:
-          case ACTION_TRANSPORT_DISEMBARK1:
-          case ACTION_TRANSPORT_DISEMBARK2:
-          case ACTION_TRANSPORT_BOARD:
-          case ACTION_TRANSPORT_EMBARK:
-          case ACTION_SPY_ATTACK:
-          case ACTION_USER_ACTION1:
-          case ACTION_USER_ACTION2:
-          case ACTION_USER_ACTION3:
-          case ACTION_COUNT:
+          case ASTK_NONE:
             /* None of these can take a sub target. */
             fc_assert_msg(order_sub_tgt == -1,
                           "Specified sub target for action %d unsupported.",
+                          order->action);
+            order->sub_target = -1;
+            break;
+          case ASTK_COUNT:
+            fc_assert_msg(order_sub_tgt == -1,
+                          "Bad action action %d.",
                           order->action);
             order->sub_target = -1;
             break;

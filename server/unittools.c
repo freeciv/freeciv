@@ -4790,11 +4790,9 @@ struct unit_order *create_unit_orders(int length,
         return NULL;
       }
 
-      /* Validate individual actions. */
-      switch ((enum gen_action) orders[i].action) {
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-      case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-      case ACTION_STRIKE_BUILDING:
+      /* Validate sub target. */
+      switch (action_id_get_sub_target_kind(orders[i].action)) {
+      case ASTK_BUILDING:
         /* Sub target is a building. */
         if (!improvement_by_number(orders[i].sub_target)) {
           /* Sub target is invalid. */
@@ -4803,8 +4801,8 @@ struct unit_order *create_unit_orders(int length,
           return NULL;
         }
         break;
-      case ACTION_SPY_TARGETED_STEAL_TECH:
-      case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+      case ASTK_TECH:
+        /* Sub target is a technology. */
         if (orders[i].sub_target == A_NONE
             || (!valid_advance_by_number(orders[i].sub_target)
                 && orders[i].sub_target != A_FUTURE)) {
@@ -4814,10 +4812,9 @@ struct unit_order *create_unit_orders(int length,
           return NULL;
         }
         break;
-      case ACTION_ROAD:
-      case ACTION_BASE:
-      case ACTION_MINE:
-      case ACTION_IRRIGATE:
+      case ASTK_EXTRA:
+      case ASTK_EXTRA_NOT_THERE:
+        /* Sub target is an extra. */
         if (orders[i].sub_target == EXTRA_NONE
             || (orders[i].sub_target < 0
                 || orders[i].sub_target >= game.control.num_extra_types)
@@ -4828,79 +4825,15 @@ struct unit_order *create_unit_orders(int length,
           return NULL;
         }
         break;
-      case ACTION_ESTABLISH_EMBASSY:
-      case ACTION_ESTABLISH_EMBASSY_STAY:
-      case ACTION_SPY_INVESTIGATE_CITY:
-      case ACTION_INV_CITY_SPEND:
-      case ACTION_SPY_POISON:
-      case ACTION_SPY_POISON_ESC:
-      case ACTION_SPY_SPREAD_PLAGUE:
-      case ACTION_SPY_STEAL_GOLD:
-      case ACTION_SPY_STEAL_GOLD_ESC:
-      case ACTION_SPY_SABOTAGE_CITY:
-      case ACTION_SPY_SABOTAGE_CITY_ESC:
-      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-      case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-      case ACTION_SPY_STEAL_TECH:
-      case ACTION_SPY_STEAL_TECH_ESC:
-      case ACTION_SPY_INCITE_CITY:
-      case ACTION_SPY_INCITE_CITY_ESC:
-      case ACTION_TRADE_ROUTE:
-      case ACTION_MARKETPLACE:
-      case ACTION_HELP_WONDER:
-      case ACTION_SPY_BRIBE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT:
-      case ACTION_SPY_SABOTAGE_UNIT_ESC:
-      case ACTION_CAPTURE_UNITS:
-      case ACTION_FOUND_CITY:
-      case ACTION_JOIN_CITY:
-      case ACTION_STEAL_MAPS:
-      case ACTION_STEAL_MAPS_ESC:
-      case ACTION_BOMBARD:
-      case ACTION_BOMBARD2:
-      case ACTION_BOMBARD3:
-      case ACTION_SPY_NUKE:
-      case ACTION_SPY_NUKE_ESC:
-      case ACTION_NUKE:
-      case ACTION_NUKE_CITY:
-      case ACTION_NUKE_UNITS:
-      case ACTION_DESTROY_CITY:
-      case ACTION_EXPEL_UNIT:
-      case ACTION_RECYCLE_UNIT:
-      case ACTION_DISBAND_UNIT:
-      case ACTION_HOME_CITY:
-      case ACTION_UPGRADE_UNIT:
-      case ACTION_ATTACK:
-      case ACTION_SUICIDE_ATTACK:
-      case ACTION_STRIKE_PRODUCTION:
-      case ACTION_CONQUER_CITY:
-      case ACTION_CONQUER_CITY2:
-      case ACTION_PARADROP:
-      case ACTION_AIRLIFT:
-      case ACTION_HEAL_UNIT:
-      case ACTION_TRANSFORM_TERRAIN:
-      case ACTION_CULTIVATE:
-      case ACTION_PLANT:
-      case ACTION_PILLAGE:
-      case ACTION_FORTIFY:
-      case ACTION_CONVERT:
-      case ACTION_TRANSPORT_ALIGHT:
-      case ACTION_TRANSPORT_UNLOAD:
-      case ACTION_TRANSPORT_DISEMBARK1:
-      case ACTION_TRANSPORT_DISEMBARK2:
-      case ACTION_TRANSPORT_BOARD:
-      case ACTION_TRANSPORT_EMBARK:
-      case ACTION_SPY_ATTACK:
-      case ACTION_USER_ACTION1:
-      case ACTION_USER_ACTION2:
-      case ACTION_USER_ACTION3:
+      case ASTK_NONE:
         /* No validation required. */
         break;
-      /* Invalid action. Should have been caught above. */
-      case ACTION_COUNT:
-        fc_assert_ret_val_msg(orders[i].action != ACTION_NONE, NULL,
-                              "ACTION_NONE in ORDER_PERFORM_ACTION order. "
-                              "Order number %d.", i);
+      /* Invalid action? */
+      case ASTK_COUNT:
+        fc_assert_ret_val_msg(
+            action_id_get_sub_target_kind(orders[i].action) != ASTK_COUNT,
+            NULL,
+            "Bad action %d in order number %d.", orders[i].action, i);
       }
 
       /* Don't validate that the target tile really contains a target or
