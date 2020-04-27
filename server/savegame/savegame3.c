@@ -682,39 +682,9 @@ static enum unit_orders char2order(char order)
   case 'w':
   case 'W':
     return ORDER_FULL_MP;
-  case 'b':
-  case 'B':
-    /* This order isn't supposed to show up in version 3 save games. */
-    log_error("Corrupt save game: build city ordered the old way.");
-
-    return ORDER_LAST;
   case 'a':
   case 'A':
     return ORDER_ACTIVITY;
-  case 'd':
-  case 'D':
-    /* This order isn't supposed to show up in version 3 save games. */
-    log_error("Corrupt save game: disband unit ordered the old way.");
-
-    return ORDER_LAST;
-  case 'u':
-  case 'U':
-    /* This order isn't supposed to show up in version 3 save games. */
-    log_error("Corrupt save game: help build wonder ordered the old way.");
-
-    return ORDER_LAST;
-  case 't':
-  case 'T':
-    /* This order isn't supposed to show up in version 3 save games. */
-    log_error("Corrupt save game: trade route ordered the old way.");
-
-    return ORDER_LAST;
-  case 'h':
-  case 'H':
-    /* This order isn't supposed to show up in version 3 save games. */
-    log_error("Corrupt save game: change home city ordered the old way.");
-
-    return ORDER_LAST;
   case 'x':
   case 'X':
     return ORDER_ACTION_MOVE;
