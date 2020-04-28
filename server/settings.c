@@ -4421,7 +4421,7 @@ static void setting_game_restore(struct setting *pset)
     break;
 
   case SST_COUNT:
-    res = NULL;
+    res = FALSE;
     break;
   }
 
