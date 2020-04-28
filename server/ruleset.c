@@ -3274,7 +3274,7 @@ static bool load_ruleset_terrain(struct section_file *file,
                     filename, extra_rule_name(pextra), &ok);
         pextra->removal_time_factor = secfile_lookup_int_default(file, 1,
                                                                  "%s.removal_time_factor", section);
-        pextra->infracost = secfile_lookup_int_default(file, 1,
+        pextra->infracost = secfile_lookup_int_default(file, 0,
                                                        "%s.infracost", section);
 
         pextra->defense_bonus  = secfile_lookup_int_default(file, 0,

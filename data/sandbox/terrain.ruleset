@@ -1056,7 +1056,7 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ;                           "CleanPollution", "CleanFallout", "Pillage",
 ;                           "Disappear", or "Enter"
 ; infracost               = Number of infrapoints it costs to place this
-;                           extra. 0 means extra cannot be placed. Default is 1
+;                           extra. 0, the default, means extra cannot be placed.
 ; graphic                 = tag specifying preferred graphic
 ; graphic_alt             = tag for alternate graphic if preferred graphic is
 ;                           not present. Can use eg "-" for no alternate
