@@ -98,6 +98,9 @@
 /* stdbool.h available */
 #mesondefine FREECIV_HAVE_STDBOOL_H
 
+/* Readline support */
+#mesondefine FREECIV_HAVE_LIBREADLINE
+
 /* winsock2.h available */
 #mesondefine FREECIV_HAVE_WINSOCK2_H
 
