@@ -660,7 +660,7 @@ void help_widget::add_info_progress(const QString &text, int progress,
 
   wdg = new QWidget();
   layout = new QGridLayout(wdg);
-  layout->setMargin(0);
+  layout->setContentsMargins(0, 0, 0, 0);
   layout->setVerticalSpacing(0);
 
   label = new QLabel(text, wdg);

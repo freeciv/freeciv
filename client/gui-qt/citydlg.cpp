@@ -1518,7 +1518,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
   info_nr = info_list.count();
   info_wdg->setFont(*small_font);
   info_grid_layout->setSpacing(0);
-  info_grid_layout->setMargin(0);
+  info_grid_layout->setContentsMargins(0, 0, 0, 0);
 
   for (iter = 0; iter < info_nr; iter++) {
     ql = new QLabel(info_list[iter], info_wdg);
