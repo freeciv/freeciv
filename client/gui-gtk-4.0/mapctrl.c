@@ -56,7 +56,6 @@
 
 #include "mapctrl.h"
 
-struct tmousepos { int x, y; };
 extern gint cur_x, cur_y;
 
 /**********************************************************************//**
@@ -72,53 +71,12 @@ static gboolean popit_button_release(GtkWidget *w, GdkEvent *ev)
 }
 
 /**********************************************************************//**
-  Put the popup on a smart position, after the real size of the widget is
-  known: left of the cursor if within the right half of the map, and vice
-  versa; displace the popup so as not to obscure it by the mouse cursor;
-  stay always within the map if possible. 
-**************************************************************************/
-static void popupinfo_positioning_callback(GtkWidget *w, GtkAllocation *alloc, 
-					   gpointer data)
-{
-  struct tmousepos *mousepos = data;
-  float x, y;
-  struct tile *ptile;
-
-  ptile = canvas_pos_to_tile(mousepos->x, mousepos->y);
-  if (tile_to_canvas_pos(&x, &y, ptile)) {
-    gint minx, miny, maxy;
-
-    gdk_surface_get_origin(gtk_widget_get_surface(map_canvas), &minx, &miny);
-    maxy = miny + gtk_widget_get_allocated_height(map_canvas);
-
-    if (x > mapview.width / 2) {
-      /* right part of the map */
-      x += minx;
-      y += miny + (tileset_tile_height(tileset) - alloc->height) / 2;
-
-      y = CLIP(miny, y, maxy - alloc->height);
-
-      gtk_window_move(GTK_WINDOW(w), x - alloc->width, y);
-    } else {
-      /* left part of the map */
-      x += minx + tileset_tile_width(tileset);
-      y += miny + (tileset_tile_height(tileset) - alloc->height) / 2;
-
-      y = CLIP(miny, y, maxy - alloc->height);
-
-      gtk_window_move(GTK_WINDOW(w), x, y);
-    }
-  }
-}
-
-/**********************************************************************//**
   Popup a label with information about the tile, unit, city, when the user
   used the middle mouse button on the map.
 **************************************************************************/
 static void popit(GdkEvent *ev, struct tile *ptile)
 {
   GtkWidget *p;
-  static struct tmousepos mousepos;
   struct unit *punit;
 
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
@@ -147,12 +105,6 @@ static void popit(GdkEvent *ev, struct tile *ptile)
 
 
     gdk_event_get_coords(ev, &e_x, &e_y);
-    mousepos.x = e_x;
-    mousepos.y = e_y;
-
-    g_signal_connect(p, "size-allocate",
-                     G_CALLBACK(popupinfo_positioning_callback),
-                     &mousepos);
 
     gtk_widget_show(p);
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
