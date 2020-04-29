@@ -17,6 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
 #include "fc_types.h"
 #include "unittype.h"
 
@@ -45,26 +46,26 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
 enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *punit,
                                                          const struct tile *ptile);
 bool can_unit_attack_tile(const struct unit *punit,
-			  const struct tile *ptile);
+                          const struct tile *ptile);
 
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
 
 void get_modified_firepower(const struct unit *attacker,
-			    const struct unit *defender,
-			    int *att_fp, int *def_fp);
+                            const struct unit *defender,
+                            int *att_fp, int *def_fp);
 double unit_win_chance(const struct unit *attacker,
-		       const struct unit *defender);
+                       const struct unit *defender);
 
 bool unit_really_ignores_citywalls(const struct unit *punit);
 struct city *sdi_try_defend(const struct player *owner,
-			       const struct tile *ptile);
+                            const struct tile *ptile);
 
 int get_attack_power(const struct unit *punit);
 int base_get_attack_power(const struct unit_type *punittype,
-			  int veteran, int moves_left);
+                          int veteran, int moves_left);
 int base_get_defense_power(const struct unit *punit);
 int get_total_defense_power(const struct unit *attacker,
-			    const struct unit *defender);
+                            const struct unit *defender);
 int get_fortified_defense_power(const struct unit *attacker,
                                 struct unit *defender);
 int get_virtual_defense_power(const struct unit_type *attacker,
@@ -73,12 +74,12 @@ int get_virtual_defense_power(const struct unit_type *attacker,
                               struct tile *ptile,
                               bool fortified, int veteran);
 int get_total_attack_power(const struct unit *attacker,
-			   const struct unit *defender);
+                           const struct unit *defender);
 
 struct unit *get_defender(const struct unit *attacker,
-			  const struct tile *ptile);
+                          const struct tile *ptile);
 struct unit *get_attacker(const struct unit *defender,
-			  const struct tile *ptile);
+                          const struct tile *ptile);
 
 struct unit *get_diplomatic_defender(const struct unit *act_unit,
                                      const struct unit *pvictim,
