@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QRadioButton>
 #include <QRect>
+#include <QScreen>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QSplitter>
@@ -2193,7 +2194,9 @@ void city_dialog::showEvent(QShowEvent *event)
     central_left_splitter->restoreState(gui()->qt_settings.city_splitter2);
     central_splitter->restoreState(gui()->qt_settings.city_splitter3);
   } else {
-    QRect rect = QApplication::desktop()->screenGeometry();
+    QList<QScreen *> screens = QGuiApplication::screens();
+    QRect rect = screens[0]->availableGeometry();
+
     resize((rect.width() * 4) / 5, (rect.height() * 5) / 6);
   }
 }

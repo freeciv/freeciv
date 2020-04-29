@@ -21,6 +21,7 @@
 #include <QGroupBox>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QScreen>
 #include <QVBoxLayout>
 
 // common
@@ -246,12 +247,13 @@ int scale_to_mult(const struct multiplier *pmul, int scale)
 **************************************************************************/
 void popup_rates_dialog(void)
 {
+  QList<QScreen *> screens = QGuiApplication::screens();
+  QRect rect = screens[0]->availableGeometry();
   QPoint p;
-  QRect rect;
+  tax_rates_dialog *trd;
 
   p = QCursor::pos();
-  rect = QApplication::desktop()->availableGeometry();
-  tax_rates_dialog *trd = new tax_rates_dialog(gui()->central_wdg);
+  trd = new tax_rates_dialog(gui()->central_wdg);
   p.setY(p.y() - trd->height() / 2);
   if (p.y() < 50) {
     p.setY(50);
