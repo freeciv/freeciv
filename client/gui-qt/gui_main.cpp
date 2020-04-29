@@ -560,12 +560,8 @@ void popup_quit_dialog()
 **************************************************************************/
 void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 {
-  /* There's separate entry about Qt in help menu.
-   * Should we enable this regardless? As then to place to find such information
-   * would be standard over clients. */
+  /* There's also an separate entry about Qt in help menu. */
 
-  /*
   cat_snprintf(outbuf, outlen, _("\nBuilt against Qt %s, using %s"),
                QT_VERSION_STR, qVersion());
-  */
 }
