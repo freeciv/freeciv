@@ -814,7 +814,7 @@ static bool save_action_max_range(struct section_file *sfile,
       == ACTION_DISTANCE_UNLIMITED) {
     return secfile_insert_str(sfile, RS_ACTION_NO_MAX_DISTANCE,
                               "actions.%s",
-                              action_max_range_ruleset_var_name(act));
+                              action_max_range_ruleset_var_name(act)) != NULL;
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
                             action_max_range_default(act),
