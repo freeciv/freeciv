@@ -213,7 +213,6 @@ class fc_client : public QMainWindow,
   QTimer *update_info_timer;
 
   QStatusBar *status_bar;
-  QSignalMapper *switch_page_mapper;
   QLabel *status_bar_label;
   info_tile *info_tile_wdg;
   choice_dialog *opened_dialog;

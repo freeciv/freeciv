@@ -37,7 +37,6 @@ class QGridLayout;
 class QGroupBox;
 class QItemSelection;
 class QRadioButton;
-class QSignalMapper;
 class QTableView;
 class QTableWidget;
 class QTextEdit;
@@ -259,7 +258,6 @@ class choice_dialog: public QWidget
 {
   Q_OBJECT
   QPushButton *target_unit_button;
-  QSignalMapper *signal_mapper;
   QVBoxLayout *layout;
   QHBoxLayout *unit_skip;
   QList<Choice_dialog_button *> buttons_list;

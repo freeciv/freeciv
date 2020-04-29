@@ -25,7 +25,6 @@
 #include <QHeaderView>
 #include <QLineEdit>
 #include <QPainter>
-#include <QSignalMapper>
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QTableWidget>
@@ -208,18 +207,21 @@ void fc_client::create_main_page(void)
       break;
     case 1:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 0);
-      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
-      switch_page_mapper->setMapping(button, PAGE_SCENARIO);
+      QObject::connect(button, &QPushButton::clicked, [this]() {
+        switch_page(PAGE_SCENARIO);
+      });
       break;
     case 2:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 3, 0);
-      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
-      switch_page_mapper->setMapping(button, PAGE_LOAD);
+      QObject::connect(button, &QPushButton::clicked, [this]() {
+        switch_page(PAGE_LOAD);
+      });
       break;
     case 3:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 1, 1);
-      connect(button, SIGNAL(clicked()), switch_page_mapper, SLOT(map()));
-      switch_page_mapper->setMapping(button, PAGE_NETWORK);
+      QObject::connect(button, &QPushButton::clicked, [this]() {
+        switch_page(PAGE_NETWORK);
+      });
       break;
     case 4:
       pages_layout[PAGE_MAIN]->addWidget(button, row + 2, 1);
@@ -389,9 +391,9 @@ void fc_client::create_network_page(void)
   page_network_grid_layout->addWidget(network_button, 5, 0);
 
   network_button = new QPushButton(_("Cancel"));
-  connect(network_button, SIGNAL(clicked()), switch_page_mapper,
-          SLOT(map()));
-  switch_page_mapper->setMapping(network_button, PAGE_MAIN);
+  QObject::connect(network_button, &QPushButton::clicked, [this]() {
+    switch_page(PAGE_MAIN);
+  });
   page_network_grid_layout->addWidget(network_button, 5, 2, 1, 1);
 
   network_button = new QPushButton(_("Connect"));
@@ -522,14 +524,13 @@ void fc_client::create_load_page()
   but->setText(_("Browse..."));
   but->setIcon(QApplication::style()->standardIcon(QStyle::SP_DirIcon));
   connect(but, &QAbstractButton::clicked, this, &fc_client::browse_saves);
-  pages_layout[PAGE_LOAD]->addWidget (but, 3, 0);
+  pages_layout[PAGE_LOAD]->addWidget(but, 3, 0);
 
   but = new QPushButton;
   but->setText(_("Cancel"));
   but->setIcon(QApplication::style()->standardIcon(
                                       QStyle::SP_DialogCancelButton));
   connect(but, &QAbstractButton::clicked, this, &fc_client::slot_disconnect);
-  switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_LOAD]->addWidget(but, 3, 2);
 
   but = new QPushButton;
@@ -597,7 +598,6 @@ void fc_client::create_scenario_page()
   but->setIcon(QApplication::style()->standardIcon(
                                         QStyle::SP_DialogCancelButton));
   connect(but, &QAbstractButton::clicked, this, &fc_client::slot_disconnect);
-  switch_page_mapper->setMapping(but, PAGE_MAIN);
   pages_layout[PAGE_SCENARIO]->addWidget(but, 4, 3);
 
   pages_layout[PAGE_SCENARIO]->setColumnStretch(2, 10);
@@ -1923,7 +1923,6 @@ void fc_client::start_page_menu(QPoint pos)
   bool need_empty_team;
   const char *level_cmd, *level_name;
   int level, count;
-  QSignalMapper *player_menu_mapper;
   player *selected_player;
   QVariant qvar, qvar2;
 
@@ -1952,7 +1951,7 @@ void fc_client::start_page_menu(QPoint pos)
   if (qvar == 1) {
     selected_player = (player *) qvar2.value < void *>();
   }
-  player_menu_mapper = new QSignalMapper;
+
   players_iterate(pplayer) {
     if (selected_player && selected_player == pplayer) {
       splayer = QString(pplayer->name);
@@ -1961,26 +1960,26 @@ void fc_client::start_page_menu(QPoint pos)
         str = QString(_("Observe"));
         action = new QAction(str, start_players_tree);
         str = "/observe " + sp;
-        connect(action, SIGNAL(triggered()), player_menu_mapper,
-                SLOT(map()));
-        player_menu_mapper->setMapping(action, str);
+        QObject::connect(action, &QAction::triggered, [this,str]() {
+          send_fake_chat_message(str);
+        });
         menu->addAction(action);
 
         if (ALLOW_CTRL <= client.conn.access_level) {
           str = QString(_("Remove player"));
           action = new QAction(str, start_players_tree);
           str = "/remove " + sp;
-          connect(action, SIGNAL(triggered()), player_menu_mapper,
-                  SLOT(map()));
-          player_menu_mapper->setMapping(action, str);
+          QObject::connect(action, &QAction::triggered, [this,str]() {
+            send_fake_chat_message(str);
+          });
           menu->addAction(action);
         }
         str = QString(_("Take this player"));
         action = new QAction(str, start_players_tree);
         str = "/take " + sp;
-        connect(action, SIGNAL(triggered()), player_menu_mapper,
-                SLOT(map()));
-        player_menu_mapper->setMapping(action, str);
+        QObject::connect(action, &QAction::triggered, [this,str]() {
+          send_fake_chat_message(str);
+        });
         menu->addAction(action);
       }
 
@@ -1988,9 +1987,9 @@ void fc_client::start_page_menu(QPoint pos)
         str = QString(_("Pick nation"));
         action = new QAction(str, start_players_tree);
         str = "PICK:" + QString(player_name(pplayer));  /* PICK is a key */
-        connect(action, SIGNAL(triggered()), player_menu_mapper,
-                SLOT(map()));
-        player_menu_mapper->setMapping(action, str);
+        QObject::connect(action, &QAction::triggered, [this,str]() {
+          send_fake_chat_message(str);
+        });
         menu->addAction(action);
       }
 
@@ -2008,9 +2007,9 @@ void fc_client::start_page_menu(QPoint pos)
               level_cmd = ai_level_cmd(static_cast < ai_level > (level));
               action = new QAction(QString(level_name), start_players_tree);
               str = "/" + QString(level_cmd) + " " + sp;
-              connect(action, SIGNAL(triggered()), player_menu_mapper,
-                      SLOT(map()));
-              player_menu_mapper->setMapping(action, str);
+              QObject::connect(action, &QAction::triggered, [this,str]() {
+                send_fake_chat_message(str);
+              });
               submenu_AI->addAction(action);
             }
           }
@@ -2038,9 +2037,9 @@ void fc_client::start_page_menu(QPoint pos)
           action = new QAction(str, start_players_tree);
           str = "/team" + sp + " \"" + QString(team_slot_rule_name(tslot))
               + "\"";
-          connect(action, SIGNAL(triggered()),
-                  player_menu_mapper, SLOT(map()));
-          player_menu_mapper->setMapping(action, str);
+          QObject::connect(action, &QAction::triggered, [this,str]() {
+            send_fake_chat_message(str);
+          });
           submenu_team->addAction(action);
         } team_slots_iterate_end;
       }
@@ -2049,18 +2048,17 @@ void fc_client::start_page_menu(QPoint pos)
         str = QString(_("Aitoggle player"));
         action = new QAction(str, start_players_tree);
         str = "/aitoggle " + sp;
-        connect(action, SIGNAL(triggered()), player_menu_mapper,
-                SLOT(map()));
-        player_menu_mapper->setMapping(action, str);
+        QObject::connect(action, &QAction::triggered, [this,str]() {
+          send_fake_chat_message(str);
+        });
         menu->addAction(action);
       }
-      connect(player_menu_mapper, SIGNAL(mapped(const QString &)),
-              this, SLOT(send_fake_chat_message(const QString &)));
+
       menu->popup(global_pos);
       return;
     }
   } players_iterate_end;
-  delete player_menu_mapper;
+
 }
 
 /**********************************************************************//**

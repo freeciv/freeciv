@@ -21,7 +21,6 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QScrollArea>
-#include <QSignalMapper>
 #include <QStandardPaths>
 #include <QVBoxLayout>
 
@@ -532,8 +531,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   Creates a new government menu.
 **************************************************************************/
 gov_menu::gov_menu(QWidget* parent) :
-  QMenu(_("Government"), parent),
-  gov_mapper(new QSignalMapper())
+  QMenu(_("Government"), parent)
 {
   // Register ourselves to get updates for free.
   instances << this;
@@ -545,7 +543,6 @@ gov_menu::gov_menu(QWidget* parent) :
 **************************************************************************/
 gov_menu::~gov_menu()
 {
-  delete gov_mapper;
   qDeleteAll(actions);
   instances.remove(this);
 }
@@ -564,8 +561,6 @@ void gov_menu::create() {
     action->deleteLater();
   }
   actions.clear();
-  gov_mapper->deleteLater();
-  gov_mapper = new QSignalMapper();
 
   gov_count = government_count();
   actions.reserve(gov_count + 1);
@@ -586,11 +581,11 @@ void gov_menu::create() {
       // We need to keep track of the gov <-> action mapping to be able to
       // set enabled/disabled depending on available govs.
       actions.append(action);
-      connect(action, SIGNAL(triggered()), gov_mapper, SLOT(map()));
-      gov_mapper->setMapping(action, i);
+      QObject::connect(action, &QAction::triggered, [this,i]() {
+        change_gov(i);
+      });
     }
   }
-  connect(gov_mapper, SIGNAL(mapped(int)), this, SLOT(change_gov(int)));
 }
 
 /**********************************************************************//**
@@ -667,8 +662,6 @@ void gov_menu::update_all()
 go_act_menu::go_act_menu(QWidget* parent)
   : QMenu(_("Go to and..."), parent)
 {
-  go_act_mapper = new QSignalMapper(this);
-
   /* Will need auto updates etc. */
   instances << this;
 }
@@ -697,10 +690,6 @@ void go_act_menu::reset()
 
   /* Clear menu item to action ID mapping. */
   items.clear();
-
-  /* Reset the Qt signal mapper */
-  go_act_mapper->deleteLater();
-  go_act_mapper = new QSignalMapper(this);
 }
 
 /**********************************************************************//**
@@ -758,13 +747,11 @@ void go_act_menu::create()
       ADD_OLD_SHORTCUT(ACTION_JOIN_CITY, SC_GOJOINCITY);
       ADD_OLD_SHORTCUT(ACTION_NUKE, SC_NUKE);
 
-      connect(item, SIGNAL(triggered()),
-              go_act_mapper, SLOT(map()));
-      go_act_mapper->setMapping(item, act_id);
+      QObject::connect(item, &QAction::triggered, [this,act_id]() {
+        start_go_act(act_id);
+      });
     } action_iterate_end;
   }
-
-  connect(go_act_mapper, SIGNAL(mapped(int)), this, SLOT(start_go_act(int)));
 }
 
 /**********************************************************************//**
@@ -1211,7 +1198,6 @@ void mr_menu::setup_menus()
   act->setShortcut(QKeySequence(tr("shift+e")));
   connect(act, &QAction::triggered, this, &mr_menu::slot_unit_airbase);
   bases_menu = menu->addMenu(_("Build Base"));
-  build_bases_mapper = new QSignalMapper(this);
   menu->addSeparator();
   act = menu->addAction(_("Pillage"));
   menu_list.insertMulti(PILLAGE, act);
@@ -1244,7 +1230,6 @@ void mr_menu::setup_menus()
                    fc_shortcuts::sc()->get_shortcut(SC_BUILDROAD))));
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_road);
   roads_menu = menu->addMenu(_("Build Path"));
-  build_roads_mapper = new QSignalMapper(this);
   act = menu->addAction(_("Build Irrigation"));
   act->setShortcut(QKeySequence(shortcut_to_string(
                    fc_shortcuts::sc()->get_shortcut(SC_BUILDIRRIGATION))));
@@ -1513,117 +1498,139 @@ void mr_menu::setup_menus()
   /* Help Menu */
   menu = this->addMenu(_("Help"));
 
-  signal_help_mapper = new QSignalMapper(this);
-  connect(signal_help_mapper, SIGNAL(mapped(const QString &)),
-          this, SLOT(slot_help(const QString &)));
-
   act = menu->addAction(Q_(HELP_OVERVIEW_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_OVERVIEW_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_OVERVIEW_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_PLAYING_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_PLAYING_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_PLAYING_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_TERRAIN_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_TERRAIN_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_TERRAIN_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_ECONOMY_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_ECONOMY_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_ECONOMY_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_CITIES_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_CITIES_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_CITIES_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_IMPROVEMENTS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_IMPROVEMENTS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_IMPROVEMENTS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_WONDERS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_WONDERS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_WONDERS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_UNITS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_UNITS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_UNITS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_COMBAT_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_COMBAT_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_COMBAT_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_ZOC_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_ZOC_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_ZOC_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_GOVERNMENT_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_GOVERNMENT_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_GOVERNMENT_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_ECONOMY_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_ECONOMY_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_ECONOMY_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_DIPLOMACY_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_DIPLOMACY_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_DIPLOMACY_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_TECHS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_TECHS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_TECHS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_SPACE_RACE_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_SPACE_RACE_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_SPACE_RACE_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_IMPROVEMENTS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_IMPROVEMENTS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_IMPROVEMENTS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_RULESET_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_RULESET_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_RULESET_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_NATIONS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_NATIONS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_NATIONS_ITEM);
+  });
 
   menu->addSeparator();
 
   act = menu->addAction(Q_(HELP_CONNECTING_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_CONNECTING_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_CONNECTING_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_CONTROLS_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_CONTROLS_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_CONTROLS_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_CMA_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_CMA_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_CMA_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_CHATLINE_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_CHATLINE_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_CHATLINE_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_WORKLIST_EDITOR_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_WORKLIST_EDITOR_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_WORKLIST_EDITOR_ITEM);
+  });
 
   menu->addSeparator();
 
   act = menu->addAction(Q_(HELP_LANGUAGES_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_LANGUAGES_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_LANGUAGES_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_COPYING_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_COPYING_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_COPYING_ITEM);
+  });
 
   act = menu->addAction(Q_(HELP_ABOUT_ITEM));
-  connect(act, SIGNAL(triggered()), signal_help_mapper, SLOT(map()));
-  signal_help_mapper->setMapping(act, HELP_ABOUT_ITEM);
+  QObject::connect(act, &QAction::triggered, [this]() {
+    slot_help(HELP_ABOUT_ITEM);
+  });
 
   menus = this->findChildren<QMenu*>();
   for (i = 0; i < menus.count(); i++) {
@@ -1764,7 +1771,6 @@ void mr_menu::update_roads_menu()
     removeAction(act);
     act->deleteLater();
   }
-  build_roads_mapper->removeMappings(this);
   roads_menu->clear();
   roads_menu->setDisabled(true);
   if (client_is_observer()) {
@@ -1774,13 +1780,16 @@ void mr_menu::update_roads_menu()
   punits = get_units_in_focus();
   extra_type_by_cause_iterate(EC_ROAD, pextra) {
     if (pextra->buildable) {
+      int road_id;
+
       // Defeat keyboard shortcut mnemonics
       act = roads_menu->addAction(QString(extra_name_translation(pextra))
                                   .replace("&", "&&"));
-      act->setData(pextra->id);
-      connect(act, SIGNAL(triggered()),
-              build_roads_mapper, SLOT(map()));
-      build_roads_mapper->setMapping(act, pextra->id);
+      road_id = pextra->id;
+      act->setData(road_id);
+      QObject::connect(act, &QAction::triggered, [this,road_id]() {
+        slot_build_path(road_id);
+      });
       if (can_units_do_activity_targeted(punits,
         ACTIVITY_GEN_ROAD, pextra)) {
         act->setEnabled(true);
@@ -1790,8 +1799,7 @@ void mr_menu::update_roads_menu()
       }
     }
   } extra_type_by_cause_iterate_end;
-  connect(build_roads_mapper, SIGNAL(mapped(int)), this,
-          SLOT(slot_build_path(int)));
+
   if (enabled) {
     roads_menu->setEnabled(true);
   }
@@ -1810,7 +1818,6 @@ void mr_menu::update_bases_menu()
     removeAction(act);
     act->deleteLater();
   }
-  build_bases_mapper->removeMappings(this);
   bases_menu->clear();
   bases_menu->setDisabled(true);
 
@@ -1821,13 +1828,16 @@ void mr_menu::update_bases_menu()
   punits = get_units_in_focus();
   extra_type_by_cause_iterate(EC_BASE, pextra) {
     if (pextra->buildable) {
+      int base_id;
+
       // Defeat keyboard shortcut mnemonics
       act = bases_menu->addAction(QString(extra_name_translation(pextra))
                                   .replace("&", "&&"));
-      act->setData(pextra->id);
-      connect(act, SIGNAL(triggered()),
-              build_bases_mapper, SLOT(map()));
-      build_bases_mapper->setMapping(act, pextra->id);
+      base_id = pextra->id;
+      act->setData(base_id);
+      QObject::connect(act, &QAction::triggered, [this,base_id]() {
+        slot_build_base(base_id);
+      });
       if (can_units_do_activity_targeted(punits, ACTIVITY_BASE, pextra)) {
         act->setEnabled(true);
         enabled = true;
@@ -1836,8 +1846,7 @@ void mr_menu::update_bases_menu()
       }
     }
   } extra_type_by_cause_iterate_end;
-  connect(build_bases_mapper, SIGNAL(mapped(int)), this,
-          SLOT(slot_build_base(int)));
+
   if (enabled) {
     bases_menu->setEnabled(true);
   }

@@ -25,7 +25,6 @@
 #include <QResizeEvent>
 #include <QScrollBar>
 #include <QSettings>
-#include <QSignalMapper>
 #include <QSocketNotifier>
 #include <QSpinBox>
 #include <QStackedLayout>
@@ -154,7 +153,7 @@ void fc_client::init()
   status_bar->addWidget(status_bar_label, 1);
   set_status_bar(_("Welcome to Freeciv"));
   create_cursors();
-  switch_page_mapper = new QSignalMapper(this);
+
   // PAGE_MAIN
   pages[PAGE_MAIN] = new QWidget(central_wdg);
   page = PAGE_MAIN;
@@ -211,8 +210,6 @@ void fc_client::init()
   central_wdg->setLayout(central_layout);
   setCentralWidget(central_wdg);
 
-  connect(switch_page_mapper, SIGNAL(mapped( int)),
-                this, SLOT(switch_page(int)));
   resize(pages[PAGE_MAIN]->minimumSizeHint());
   setVisible(true);
 

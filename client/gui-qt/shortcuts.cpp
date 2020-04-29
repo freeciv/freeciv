@@ -25,7 +25,6 @@
 #include <QLineEdit>
 #include <QScrollArea>
 #include <QSettings>
-#include <QSignalMapper>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -596,37 +595,41 @@ void fc_shortcuts_dialog::init()
   scroll->setWidget(widget);
   main_layout->addWidget(scroll);
 
-  signal_map = new QSignalMapper;
   button_box = new QDialogButtonBox();
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogCancelButton),
                         _("Cancel"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_CANCEL);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_CANCEL);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogResetButton),
                         _("Reset"));
   button_box->addButton(but, QDialogButtonBox::ResetRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_RESET);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_RESET);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogApplyButton),
                         _("Apply"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_APPLY);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_APPLY);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
                         _("Save"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_SAVE);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_SAVE);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogOkButton),
                         _("Ok"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_OK);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_OK);
+  });
 
   main_layout->addWidget(button_box);
   setLayout(main_layout);
@@ -634,7 +637,6 @@ void fc_shortcuts_dialog::init()
   size.setWidth(size.width() + 10
                 + style()->pixelMetric(QStyle::PM_ScrollBarExtent));
   resize(size);
-  connect(signal_map, SIGNAL(mapped(int)), this, SLOT(apply_option(int)));
   setAttribute(Qt::WA_DeleteOnClose);
 }
 

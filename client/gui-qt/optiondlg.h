@@ -29,7 +29,6 @@ class Qdialog;
 class QVBoxLayout;
 class QTabWidget;
 class QDialogButtonBox;
-class QSignalMapper;
 class QWidget;
 class QString;
 
@@ -46,7 +45,6 @@ class option_dialog : public qfc_dialog
   QDialogButtonBox *button_box;
   QList <QString> categories;
   QMap <QString, QWidget *> widget_map;
-  QSignalMapper *signal_map;
 
 public:
    option_dialog(const QString &name, const option_set *options,

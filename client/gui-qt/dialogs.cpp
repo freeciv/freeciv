@@ -27,7 +27,6 @@
 #include <QPainterPath>
 #include <QRadioButton>
 #include <QRect>
-#include <QSignalMapper>
 #include <QTableWidgetItem>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -1321,7 +1320,6 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   QLabel *l = new QLabel(text);
 
   setProperty("themed_choice", true);
-  signal_mapper = new QSignalMapper(this);
   layout = new QVBoxLayout(this);
   run_on_close = run_on_close_in;
 
@@ -1356,7 +1354,6 @@ choice_dialog::~choice_dialog()
 {
   buttons_list.clear();
   action_button_map.clear();
-  delete signal_mapper;
   gui()->set_diplo_dialog(NULL);
 
   if (run_on_close) {
@@ -1370,7 +1367,6 @@ choice_dialog::~choice_dialog()
 ***************************************************************************/
 void choice_dialog::set_layout()
 {
-
   targeted_unit = game_unit_by_number(target_id[ATK_UNIT]);
 
   if ((game_unit_by_number(unit_id)) && targeted_unit
@@ -1405,8 +1401,6 @@ void choice_dialog::set_layout()
     connect(next, &QAbstractButton::clicked, this, &choice_dialog::next_unit);
   }
 
-  connect(signal_mapper, SIGNAL(mapped(const int &)),
-           this, SLOT(execute_action(const int &)));
   setLayout(layout);
 }
 
@@ -1419,8 +1413,12 @@ void choice_dialog::add_item(QString title, pfcn_void func, QVariant data1,
 {
    Choice_dialog_button *button = new Choice_dialog_button(title, func,
                                                            data1, data2);
-   connect(button, SIGNAL(clicked()), signal_mapper, SLOT(map()));
-   signal_mapper->setMapping(button, buttons_list.count());
+   int action = buttons_list.count();
+
+   QObject::connect(button, &QPushButton::clicked, [=]() {
+     execute_action(action);
+   });
+
    buttons_list.append(button);
 
    if (!tool_tip.isEmpty()) {
@@ -1640,9 +1638,6 @@ void choice_dialog::stack_button(Choice_dialog_button *button)
    * before unstack_all_buttons() is called. */
   layout->removeWidget(button);
 
-  /* The old mappings may not be valid after reinsertion. */
-  signal_mapper->removeMappings(button);
-
   /* Synchronize the list with the layout. */
   buttons_list.removeAll(button);
 }
@@ -1655,9 +1650,6 @@ void choice_dialog::unstack_all_buttons()
 {
   while (!last_buttons_stack.isEmpty()) {
     Choice_dialog_button *button = last_buttons_stack.takeLast();
-
-    /* Restore mapping. */
-    signal_mapper->setMapping(button, buttons_list.count());
 
     /* Reinsert the button below the other buttons. */
     buttons_list.append(button);

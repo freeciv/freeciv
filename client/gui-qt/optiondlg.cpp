@@ -29,7 +29,6 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QScrollArea>
-#include <QSignalMapper>
 #include <QSpinBox>
 
 // utility
@@ -133,43 +132,48 @@ option_dialog::option_dialog(const QString & name,
   curr_options = options;
   setWindowTitle(name);
   tab_widget = new QTabWidget;
-  signal_map = new QSignalMapper;
 
   button_box = new QDialogButtonBox();
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogCancelButton),
                         _("Cancel"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_CANCEL);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_CANCEL);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogResetButton),
                         _("Reset"));
   button_box->addButton(but, QDialogButtonBox::ResetRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_RESET);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_RESET);
+  });
 
   but = new QPushButton(QIcon::fromTheme("view-refresh"), _("Refresh"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_REFRESH);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_REFRESH);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogApplyButton),
                         _("Apply"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_APPLY);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_APPLY);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogSaveButton),
                         _("Save"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_SAVE);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_SAVE);
+  });
 
   but = new QPushButton(style()->standardIcon(QStyle::SP_DialogOkButton),
                         _("Ok"));
   button_box->addButton(but, QDialogButtonBox::ActionRole);
-  connect(but, SIGNAL(clicked()), signal_map, SLOT(map()));
-  signal_map->setMapping(but, RESPONSE_OK);
+  QObject::connect(but, &QPushButton::clicked, [this]() {
+    apply_option(RESPONSE_OK);
+  });
 
   main_layout = new QVBoxLayout;
   main_layout->addWidget(tab_widget);
@@ -178,7 +182,6 @@ option_dialog::option_dialog(const QString & name,
   main_layout->addWidget(button_box);
   setLayout(main_layout);
 
-  connect(signal_map, SIGNAL(mapped(int)), this, SLOT(apply_option(int)));
   setAttribute(Qt::WA_DeleteOnClose);
 }
 
