@@ -315,7 +315,7 @@ void get_city_dialog_production(struct city *pcity,
  Pretty sprints the info about a production (name, info, cost, turns
  to build) into a single text string.
 
- This is very similar to get_city_dialog_production_row; the
+ This is very similar to get_city_dialog_production_row(); the
  difference is that instead of placing the data into an array of
  strings it all goes into one long string.  This means it can be used
  by frontends that do not use a tabled structure, but it also gives
@@ -359,7 +359,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 /**********************************************************************//**
   Pretty sprints the info about a production in 4 columns (name, info,
   cost, turns to build). The columns must each have a size of
-  column_size bytes.  City may be NULL.
+  column_size bytes. City may be NULL.
 **************************************************************************/
 void get_city_dialog_production_row(char *buf[], size_t column_size,
                                     struct universal *target,
@@ -420,8 +420,13 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
         }
       }
 
-      fc_snprintf(buf[2], column_size, "%d",
-                  impr_build_shield_cost(pcity, pimprove));
+      if (pcity != NULL) {
+        fc_snprintf(buf[2], column_size, "%d",
+                    impr_build_shield_cost(pcity, pimprove));
+      } else {
+        fc_snprintf(buf[2], column_size, "%d",
+                    impr_base_build_shield_cost(pimprove));
+      }
     }
     break;
   }

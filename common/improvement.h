@@ -114,6 +114,7 @@ bool improvement_has_flag(const struct impr_type *pimprove,
 /* Ancillary routines */
 int impr_build_shield_cost(const struct city *pcity,
                            const struct impr_type *pimprove);
+int impr_base_build_shield_cost(const struct impr_type *pimprove);
 int impr_buy_gold_cost(const struct city *pcity, const struct impr_type *pimprove,
                        int shields_in_stock);
 int impr_sell_gold(const struct impr_type *pimprove);

@@ -244,6 +244,17 @@ const char *improvement_rule_name(const struct impr_type *pimprove)
 }
 
 /**********************************************************************//**
+  Returns the base number of shields it takes to build this improvement.
+  This one does not take city specific bonuses in to account.
+**************************************************************************/
+int impr_base_build_shield_cost(const struct impr_type *pimprove)
+{
+  int base = pimprove->build_cost;
+
+  return MAX(base * game.info.shieldbox / 100, 1);
+}
+
+/**********************************************************************//**
   Returns the number of shields it takes to build this improvement.
 **************************************************************************/
 int impr_build_shield_cost(const struct city *pcity,
