@@ -106,7 +106,10 @@ if test "x$fc_cv_malloc_zero_ok" = "xtrue" ; then
   AC_DEFINE([MALLOC_ZERO_OK], [1], [It's ok to call malloc() for zero bytes])
 fi
 
-FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
+if test "x$emscripten" != "xyes" ; then
+  dnl Not needed in emscripten build as both users - fcdb and fcmp - are disabled
+  FC_CHECK_SQLITE3([], [AC_MSG_ERROR([sqlite3 not found])])
+fi
 
 dnl set default values
 fcdb_all=no
