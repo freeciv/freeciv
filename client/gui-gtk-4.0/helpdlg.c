@@ -169,8 +169,6 @@ void popup_help_dialog_typed(const char *item, enum help_page_type htype)
 {
   if (!help_dialog_shell) {
     create_help_dialog();
-    set_relative_window_position(GTK_WINDOW(toplevel),
-                                 GTK_WINDOW(help_dialog_shell), 10, 10);
   }
   gtk_window_present(GTK_WINDOW(help_dialog_shell));
 

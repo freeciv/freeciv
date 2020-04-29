@@ -22,7 +22,6 @@ GtkWidget *icon_label_button_new(const gchar *icon_name,
                                  const gchar *label_text);
 void gtk_stockbutton_set_label(GtkWidget *button, const gchar *label_text);
 void gtk_expose_now(GtkWidget *w);
-void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py);
 
 void intl_slist(int n, const char **s, bool *done);
 

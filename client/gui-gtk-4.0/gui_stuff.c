@@ -55,22 +55,6 @@ void gtk_expose_now(GtkWidget *w)
 }
 
 /**********************************************************************//**
-  Set window position relative to reference window
-**************************************************************************/
-void set_relative_window_position(GtkWindow *ref, GtkWindow *w, int px, int py)
-{
-  gint x, y, width, height;
-
-  gtk_window_get_position(ref, &x, &y);
-  gtk_window_get_size(ref, &width, &height);
-
-  x += px * width / 100;
-  y += py * height / 100;
-
-  gtk_window_move(w, x, y);
-}
-
-/**********************************************************************//**
   Create new icon button with label
 **************************************************************************/
 GtkWidget *icon_label_button_new(const gchar *icon_name,
