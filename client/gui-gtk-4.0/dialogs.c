@@ -110,7 +110,6 @@ void popup_notify_dialog(const char *caption, const char *headline,
 
   gui_dialog_add_button(shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
-  gui_dialog_set_default_response(shell, GTK_RESPONSE_CLOSE);
 
   vbox = gtk_grid_new();
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),

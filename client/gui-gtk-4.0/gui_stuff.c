@@ -701,7 +701,6 @@ GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
   GtkWidget *button;
 
   button = icon_label_button_new(icon_name, text);
-  gtk_widget_set_can_default(button, TRUE);
   gui_dialog_pack_button(dlg, button, response);
 
   return button;
@@ -717,32 +716,6 @@ GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
   gtk_size_group_add_widget(gui_action, widget);
 
   return widget;
-}
-
-/**********************************************************************//**
-  Changes the default dialog response.
-**************************************************************************/
-void gui_dialog_set_default_response(struct gui_dialog *dlg, int response)
-{
-  GList *children;
-  GList *list;
-
-  children = gtk_container_get_children(GTK_CONTAINER(dlg->action_area));
-
-  for (list = children; list; list = g_list_next(list)) {
-    GtkWidget *button = list->data;
-
-    if (GTK_IS_BUTTON(button)) {
-      gpointer data = g_object_get_data(G_OBJECT(button),
-	  "gui-dialog-response-data");
-
-      if (response == GPOINTER_TO_INT(data)) {
-	gtk_widget_grab_default(button);
-      }
-    }
-  }
-
-  g_list_free(children);
 }
 
 /**********************************************************************//**

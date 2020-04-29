@@ -77,8 +77,6 @@ void popup_find_dialog(void)
     gui_dialog_add_button(find_dialog_shell, NULL, _("_Cancel"),
                           GTK_RESPONSE_CANCEL);
 
-    gui_dialog_set_default_response(find_dialog_shell, GTK_RESPONSE_ACCEPT);
-
     gui_dialog_response_set_callback(find_dialog_shell, find_response);
 
     g_signal_connect(find_dialog_shell->vbox, "destroy",

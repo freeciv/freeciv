@@ -503,8 +503,6 @@ static struct Diplomacy_notebook *diplomacy_main_create(void)
     /* Responces for _all_ meetings. */
     gui_dialog_response_set_callback(dipl_main->dialog,
                                      diplomacy_main_response);
-    gui_dialog_set_default_response(dipl_main->dialog,
-                                    RESPONSE_CANCEL_MEETING_ALL);
 
     dipl_box = dipl_main->dialog->vbox;
     gtk_container_add(GTK_CONTAINER(dipl_box), dipl_sw);
@@ -658,7 +656,6 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   /* Responces for one meeting. */
   gui_dialog_response_set_callback(pdialog->dialog, diplomacy_response);
-  gui_dialog_set_default_response(pdialog->dialog, RESPONSE_CANCEL_MEETING);
 
   /* Label for the new meeting. */
   buf = g_strdup_printf("%s", nation_plural_for_player(plr1));

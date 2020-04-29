@@ -102,17 +102,16 @@ void dlg_tab_provider_prepare(void);
 
 void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
                     gpointer user_data, bool check_top);
-void gui_dialog_set_default_response(struct gui_dialog *dlg, int response);
 GtkWidget *gui_dialog_add_button(struct gui_dialog *dlg,
                                  const char *icon_name,
                                  const char *text, int response);
 GtkWidget *gui_dialog_add_widget(struct gui_dialog *dlg,
-				 GtkWidget *widget);
+                                 GtkWidget *widget);
 void gui_dialog_set_default_size(struct gui_dialog *dlg,
-    int width, int height);
+                                 int width, int height);
 void gui_dialog_set_title(struct gui_dialog *dlg, const char *title);
 void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
-    int response, bool setting);
+                                       int response, bool setting);
 void gui_dialog_show_all(struct gui_dialog *dlg);
 void gui_dialog_present(struct gui_dialog *dlg);
 void gui_dialog_raise(struct gui_dialog *dlg);

@@ -582,9 +582,6 @@ void create_players_dialog(void)
 
   real_players_dialog_update(NULL);
 
-  gui_dialog_set_default_response(players_dialog_shell,
-    GTK_RESPONSE_CLOSE);
-
   gtk_tree_view_focus(GTK_TREE_VIEW(players_list));
 }
 

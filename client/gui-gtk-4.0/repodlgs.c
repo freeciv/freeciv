@@ -565,7 +565,6 @@ static void science_report_init(struct science_report *preport)
 
   gui_dialog_add_button(preport->shell, "window-close", _("_Close"),
                         GTK_RESPONSE_CLOSE);
-  gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
 
   vbox = GTK_CONTAINER(preport->shell->vbox);
   group = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
@@ -1177,7 +1176,6 @@ static void economy_report_init(struct economy_report *preport)
                                  ERD_RES_SELL_REDUNDANT);
   gtk_widget_set_sensitive(button, FALSE);
 
-  gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(preport->shell,
                                    economy_report_command_callback);
 
@@ -1695,7 +1693,6 @@ static void units_report_init(struct units_report *preport)
                                  _("Find _Nearest"), URD_RES_NEAREST);
   gtk_widget_set_sensitive(button, FALSE);
 
-  gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
   gui_dialog_response_set_callback(preport->shell,
                                    units_report_command_callback);
 
