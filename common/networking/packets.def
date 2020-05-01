@@ -1517,6 +1517,7 @@ PACKET_RULESET_TERRAIN_CONTROL = 146; sc, lsend
   MOVEFRAGS move_fragments;
   MOVEFRAGS igter_cost;
   BOOL pythagorean_diagonal;
+  BOOL infrapoints;
   STRING gui_type_base0[MAX_LEN_NAME];
   STRING gui_type_base1[MAX_LEN_NAME];
 end

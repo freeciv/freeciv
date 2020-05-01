@@ -28,8 +28,15 @@
 ****************************************************************************/
 void handle_player_place_infra(struct player *pplayer, int tile, int extra)
 {
-  struct tile *ptile = index_to_tile(&(wld.map), tile);
-  struct extra_type *pextra = extra_by_number(extra);
+  struct tile *ptile;
+  struct extra_type *pextra;
+
+  if (!terrain_control.infrapoints) {
+    return;
+  }
+
+  ptile = index_to_tile(&(wld.map), tile);
+  pextra = extra_by_number(extra);
 
   if (ptile == NULL || pextra == NULL) {
     return;

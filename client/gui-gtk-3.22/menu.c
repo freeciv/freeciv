@@ -2149,7 +2149,7 @@ void real_menus_update(void)
   menu_entry_set_sensitive("EDIT_MODE",
                            can_conn_enable_editing(&client.conn));
   editgui_refresh();
-  menu_entry_set_sensitive("INFRA_DLG", game.info.infrapoints > 0);
+  menu_entry_set_sensitive("INFRA_DLG", terrain_control.infrapoints);
 
   {
     char road_buf[500];
