@@ -301,7 +301,7 @@ static int unit_def_rating_squared(const struct unit *attacker,
 **************************************************************************/
 int unittype_def_rating_squared(const struct unit_type *att_type,
                                 const struct unit_type *def_type,
-                                const struct player *def_player,
+                                struct player *def_player,
                                 struct tile *ptile, bool fortified,
                                 int veteran)
 {

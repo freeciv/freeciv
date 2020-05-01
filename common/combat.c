@@ -533,13 +533,14 @@ May be called with a non-existing att_type to avoid any unit type
 effects.
 ***********************************************************************/
 static int defense_multiplication(const struct unit_type *att_type,
-                                  const struct unit_type *def_type,
+                                  const struct unit *def,
                                   const struct player *def_player,
                                   const struct tile *ptile,
-                                  int defensepower, bool fortified)
+                                  int defensepower)
 {
   struct city *pcity = tile_city(ptile);
   int mod;
+  const struct unit_type *def_type = unit_type_get(def);
 
   fc_assert_ret_val(NULL != def_type, 0);
 
@@ -566,7 +567,7 @@ static int defense_multiplication(const struct unit_type *att_type,
   defensepower +=
     defensepower * tile_extras_defense_bonus(ptile, def_type) / 100;
 
-  if ((pcity || fortified)
+  if ((pcity || def->activity == ACTIVITY_FORTIFIED)
       && uclass_has_flag(utype_class(def_type), UCF_CAN_FORTIFY)
       && !utype_has_flag(def_type, UTYF_CANT_FORTIFY)) {
     defensepower = (defensepower * 3) / 2;
@@ -580,15 +581,17 @@ static int defense_multiplication(const struct unit_type *att_type,
  depend on the attacker.
 ***********************************************************************/
 int get_virtual_defense_power(const struct unit_type *att_type,
-			      const struct unit_type *def_type,
-			      const struct player *def_player,
-			      const struct tile *ptile,
-			      bool fortified, int veteran)
+                              const struct unit_type *def_type,
+                              struct player *def_player,
+                              struct tile *ptile,
+                              bool fortified, int veteran)
 {
   int defensepower = def_type->defense_strength;
   int db;
   const struct veteran_level *vlevel;
   struct unit_class *defclass;
+  struct unit *vdef;
+  int def;
 
   fc_assert_ret_val(def_type != NULL, 0);
 
@@ -602,6 +605,12 @@ int get_virtual_defense_power(const struct unit_type *att_type,
 
   defclass = utype_class(def_type);
 
+  vdef = unit_virtual_create(def_player, NULL, def_type, veteran);
+  unit_tile_set(vdef, ptile);
+  if (fortified) {
+    vdef->activity = ACTIVITY_FORTIFIED;
+  }
+
   db = POWER_FACTOR;
   if (uclass_has_flag(defclass, UCF_TERRAIN_DEFENSE)) {
     db += tile_terrain(ptile)->defense_bonus / (100 / POWER_FACTOR);
@@ -612,9 +621,12 @@ int get_virtual_defense_power(const struct unit_type *att_type,
     defensepower = defensepower * defclass->non_native_def_pct / 100;
   }
 
-  return defense_multiplication(att_type, def_type, def_player,
-                                ptile, defensepower,
-                                fortified);
+  def = defense_multiplication(att_type, vdef, def_player,
+                               ptile, defensepower);
+
+  unit_virtual_destroy(vdef);
+
+  return def;
 }
 
 /*******************************************************************//**
@@ -626,10 +638,9 @@ int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender)
 {
   return defense_multiplication(unit_type_get(attacker),
-                                unit_type_get(defender),
+                                defender,
                                 unit_owner(defender), unit_tile(defender),
-                                get_defense_power(defender),
-                                defender->activity == ACTIVITY_FORTIFIED);
+                                get_defense_power(defender));
 }
 
 /*******************************************************************//**
@@ -638,18 +649,26 @@ int get_total_defense_power(const struct unit *attacker,
   bonuses.
 ***********************************************************************/
 int get_fortified_defense_power(const struct unit *attacker,
-                                const struct unit *defender)
+                                struct unit *defender)
 {
   const struct unit_type *att_type = NULL;
+  enum unit_activity real_act;
+  int def;
 
   if (attacker != NULL) {
     att_type = unit_type_get(attacker);
   }
 
-  return defense_multiplication(att_type, unit_type_get(defender),
-                                unit_owner(defender), unit_tile(defender),
-                                get_defense_power(defender),
-                                TRUE);
+  real_act = defender->activity;
+  defender->activity = ACTIVITY_FORTIFIED;
+
+  def = defense_multiplication(att_type, defender,
+                               unit_owner(defender), unit_tile(defender),
+                               get_defense_power(defender));
+
+  defender->activity = real_act;
+
+  return def;
 }
 
 /*******************************************************************//**

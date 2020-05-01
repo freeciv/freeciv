@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -66,12 +66,12 @@ int base_get_defense_power(const struct unit *punit);
 int get_total_defense_power(const struct unit *attacker,
 			    const struct unit *defender);
 int get_fortified_defense_power(const struct unit *attacker,
-                                const struct unit *defender);
+                                struct unit *defender);
 int get_virtual_defense_power(const struct unit_type *attacker,
-			      const struct unit_type *defender,
-			      const struct player *defending_player,
-			      const struct tile *ptile,
-			      bool fortified, int veteran);
+                              const struct unit_type *defender,
+                              struct player *defending_player,
+                              struct tile *ptile,
+                              bool fortified, int veteran);
 int get_total_attack_power(const struct unit *attacker,
 			   const struct unit *defender);
 
