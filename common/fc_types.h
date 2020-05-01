@@ -94,53 +94,55 @@ enum output_type_id {
 };
 
 /* Changing this enum will break savegame and network compatability. */
+/* When changing this, also update list of valid requirement "Activity" values in
+ * doc/README.effects. */
 #define SPECENUM_NAME unit_activity
 #define SPECENUM_VALUE0 ACTIVITY_IDLE
-#define SPECENUM_VALUE0NAME "Idle"
+#define SPECENUM_VALUE0NAME N_("Idle")
 #define SPECENUM_VALUE1 ACTIVITY_POLLUTION
-#define SPECENUM_VALUE1NAME "Pollution"
+#define SPECENUM_VALUE1NAME N_("Pollution")
 #define SPECENUM_VALUE2 ACTIVITY_OLD_ROAD
 #define SPECENUM_VALUE2NAME "Unused Road"
 #define SPECENUM_VALUE3 ACTIVITY_MINE
-#define SPECENUM_VALUE3NAME "Mine"
+#define SPECENUM_VALUE3NAME N_("Mine")
 #define SPECENUM_VALUE4 ACTIVITY_IRRIGATE
-#define SPECENUM_VALUE4NAME "Irrigate"
+#define SPECENUM_VALUE4NAME N_("Irrigate")
 #define SPECENUM_VALUE5 ACTIVITY_FORTIFIED
-#define SPECENUM_VALUE5NAME "Fortified"
+#define SPECENUM_VALUE5NAME N_("Fortified")
 #define SPECENUM_VALUE6 ACTIVITY_FORTRESS
-#define SPECENUM_VALUE6NAME "Fortress"
+#define SPECENUM_VALUE6NAME N_("Fortress")
 #define SPECENUM_VALUE7 ACTIVITY_SENTRY
-#define SPECENUM_VALUE7NAME "Sentry"
+#define SPECENUM_VALUE7NAME N_("Sentry")
 #define SPECENUM_VALUE8 ACTIVITY_OLD_RAILROAD
 #define SPECENUM_VALUE8NAME "Unused Railroad"
 #define SPECENUM_VALUE9 ACTIVITY_PILLAGE
-#define SPECENUM_VALUE9NAME "Pillage"
+#define SPECENUM_VALUE9NAME N_("Pillage")
 #define SPECENUM_VALUE10 ACTIVITY_GOTO
-#define SPECENUM_VALUE10NAME "Goto"
+#define SPECENUM_VALUE10NAME N_("Goto")
 #define SPECENUM_VALUE11 ACTIVITY_EXPLORE
-#define SPECENUM_VALUE11NAME "Explore"
+#define SPECENUM_VALUE11NAME N_("Explore")
 #define SPECENUM_VALUE12 ACTIVITY_TRANSFORM
-#define SPECENUM_VALUE12NAME "Transform"
+#define SPECENUM_VALUE12NAME N_("Transform")
 #define SPECENUM_VALUE13 ACTIVITY_UNKNOWN
 #define SPECENUM_VALUE13NAME "Unused"
 #define SPECENUM_VALUE14 ACTIVITY_AIRBASE
 #define SPECENUM_VALUE14NAME "Unused Airbase"
 #define SPECENUM_VALUE15 ACTIVITY_FORTIFYING
-#define SPECENUM_VALUE15NAME "Fortifying"
+#define SPECENUM_VALUE15NAME N_("Fortifying")
 #define SPECENUM_VALUE16 ACTIVITY_FALLOUT
-#define SPECENUM_VALUE16NAME "Fallout"
+#define SPECENUM_VALUE16NAME N_("Fallout")
 #define SPECENUM_VALUE17 ACTIVITY_PATROL_UNUSED
 #define SPECENUM_VALUE17NAME "Unused Patrol"
 #define SPECENUM_VALUE18 ACTIVITY_BASE
-#define SPECENUM_VALUE18NAME "Base"
+#define SPECENUM_VALUE18NAME N_("Base")
 #define SPECENUM_VALUE19 ACTIVITY_GEN_ROAD
-#define SPECENUM_VALUE19NAME "Road"
+#define SPECENUM_VALUE19NAME N_("Road")
 #define SPECENUM_VALUE20 ACTIVITY_CONVERT
-#define SPECENUM_VALUE20NAME "Convert"
+#define SPECENUM_VALUE20NAME N_("Convert")
 #define SPECENUM_VALUE21 ACTIVITY_CULTIVATE
-#define SPECENUM_VALUE21NAME "Cultivate"
+#define SPECENUM_VALUE21NAME N_("Cultivate")
 #define SPECENUM_VALUE22 ACTIVITY_PLANT
-#define SPECENUM_VALUE22NAME "Plant"
+#define SPECENUM_VALUE22NAME N_("Plant")
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
@@ -438,6 +440,7 @@ typedef union {
   int diplrel;                          /* enum diplstate_type or
                                            enum diplrel_other */
   enum ustate_prop unit_state;
+  enum unit_activity activity;
   enum impr_genus_id impr_genus;
   int minmoves;
   int max_tile_units;
@@ -548,6 +551,8 @@ typedef union {
 #define SPECENUM_VALUE43NAME "CityStatus"
 #define SPECENUM_VALUE44 VUT_MINFOREIGNPCT
 #define SPECENUM_VALUE44NAME "MinForeignPct"
+#define SPECENUM_VALUE45 VUT_ACTIVITY
+#define SPECENUM_VALUE45NAME "Activity"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

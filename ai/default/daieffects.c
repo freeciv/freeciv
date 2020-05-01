@@ -788,6 +788,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_MAXTILEUNITS:
   case VUT_STYLE:
   case VUT_UNITSTATE:
+  case VUT_ACTIVITY:
   case VUT_MINMOVES:
   case VUT_MINVETERAN:
   case VUT_MINHP:

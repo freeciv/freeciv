@@ -175,6 +175,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_UNITSTATE:
     src->value.unit_state = USP_TRANSPORTED;
     return TRUE;
+  case VUT_ACTIVITY:
+    src->value.activity = ACTIVITY_IDLE;
+    return TRUE;
   case VUT_MINMOVES:
     src->value.minmoves = 0;
     return TRUE;
@@ -373,6 +376,11 @@ void universal_kind_values(struct universal *univ,
     for (i = 0; i < USP_COUNT; i++) {
       cb(ustate_prop_name(i), univ->value.unit_state == i, data);
     }
+    break;
+  case VUT_ACTIVITY:
+    activity_type_iterate(act) {
+      cb(unit_activity_name(act), univ->value.activity == act, data);
+    } activity_type_iterate_end;
     break;
   case VUT_NATIONGROUP:
     nation_groups_iterate(pgroup) {

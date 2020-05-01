@@ -1699,6 +1699,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
       case VUT_UCFLAG:
       case VUT_MINVETERAN:
       case VUT_UNITSTATE:
+      case VUT_ACTIVITY:
       case VUT_MINMOVES:
       case VUT_MINHP:
       case VUT_ACTION:
