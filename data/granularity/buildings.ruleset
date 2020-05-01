@@ -61,23 +61,23 @@ format_version=20
 ;
 ; */ <-- avoid gettext warnings
 
-[building_generic]
-name		= _("Generic")
-genus		= "Improvement"
+[building_throne]
+name		= _("Throne")
+genus		= "SmallWonder"
 reqs	=
     { "type", "name", "range"
 ; No requirements
     }
-graphic	= "b.barracks"
-graphic_alt	= "-"
+graphic         = "b.throne"
+graphic_alt	= "b.palace"
 obsolete_by     =
     { "type", "name", "range"
     }
-build_cost	= 10000
+build_cost	= 1000
 upkeep		= 0
 sabotage	= 100
-sound		= "b_barracks"
+sound		= "b_palace"
 sound_alt	= "b_generic"
 helptext	= _("\
-This is the only building you can build.\
+City with your throne is your capital city.\
 ")

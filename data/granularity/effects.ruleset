@@ -95,3 +95,19 @@ reqs	=
     { "type", "name", "range"
       "Tech", "Government", "Player"
     }
+
+[effect_capital]
+type    = "Capital_City"
+value	= 1
+reqs	=
+    { "type", "name", "range"
+      "Building", "Throne", "City"
+    }
+
+[effect_throne_infra]
+type    = "Infra_Points"
+value	= 2
+reqs	=
+    { "type", "name", "range"
+      "Building", "Throne", "City"
+    }
