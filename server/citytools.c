@@ -2734,58 +2734,6 @@ struct trade_route *remove_trade_route(struct city *pc1, struct trade_route *pro
   return back_route;
 }
 
-/************************************************************************//**
-  Remove/cancel the city's least valuable trade routes.
-****************************************************************************/
-static void remove_smallest_trade_routes(struct city *pcity)
-{
-  struct trade_route_list *smallest = trade_route_list_new();
-
-  (void) city_trade_removable(pcity, smallest);
-  trade_route_list_iterate(smallest, proute) {
-    struct trade_route *back;
-
-    back = remove_trade_route(pcity, proute, TRUE, FALSE);
-    free(proute);
-    free(back);
-  } trade_route_list_iterate_end;
-  trade_route_list_destroy(smallest);
-}
-
-/************************************************************************//**
-  Establish a trade route.
-****************************************************************************/
-void establish_trade_route(struct city *pc1, struct city *pc2)
-{
-  struct trade_route *proute;
-
-  if (city_num_trade_routes(pc1) >= max_trade_routes(pc1)) {
-    remove_smallest_trade_routes(pc1);
-  }
-
-  if (city_num_trade_routes(pc2) >= max_trade_routes(pc2)) {
-    remove_smallest_trade_routes(pc2);
-  }
-
-  proute = fc_malloc(sizeof(struct trade_route));
-  proute->partner = pc2->id;
-  proute->dir = RDIR_FROM;
-  trade_route_list_append(pc1->routes, proute);
-
-  proute = fc_malloc(sizeof(struct trade_route));
-  proute->partner = pc1->id;
-  proute->dir = RDIR_TO;
-  trade_route_list_append(pc2->routes, proute);
-
-  /* recalculate illness due to trade */
-  if (game.info.illness_on) {
-    pc1->server.illness = city_illness_calc(pc1, NULL, NULL,
-                                            &(pc1->illness_trade), NULL);
-    pc2->server.illness = city_illness_calc(pc2, NULL, NULL,
-                                            &(pc2->illness_trade), NULL);
-  }
-}
-
 /**********************************************************************//**
   Give the city a plague.
 **************************************************************************/
