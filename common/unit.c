@@ -560,8 +560,9 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Pollution");
   case ACTIVITY_MINE:
     /* TRANS: Activity name, verb in English */
-    return _("Plant");
+    return _("Mine");
   case ACTIVITY_PLANT:
+    /* TRANS: Activity name, verb in English */
     return _("Plant");
   case ACTIVITY_IRRIGATE:
     return _("Irrigate");
