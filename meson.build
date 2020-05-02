@@ -153,6 +153,11 @@ if readline_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
 endif
 
+if c_compiler.compiles('''#include <netinet/in.h>
+int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
+  priv_conf_data.set('HAVE_IP_MREQN', 1)
+endif
+
 if host_system == 'windows'
   pub_conf_data.set('FREECIV_MSWINDOWS', 1)
   pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)

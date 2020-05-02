@@ -51,7 +51,7 @@
 #mesondefine ALWAYS_ROOT
 
 /* struct ip_mreqn available */
-#define HAVE_IP_MREQN 1
+#mesondefine HAVE_IP_MREQN
 
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
