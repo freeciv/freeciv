@@ -2572,11 +2572,13 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
     log_error("Trying to update bad city (wrong location) "
               "at %i,%i for player %s",
               TILE_XY(pcity->tile), player_name(pplayer));
+    fc_assert(pdcity->location == pcenter);
     pdcity->location = pcenter;   /* ?? */
   } else if (pdcity->identity != pcity->id) {
     log_error("Trying to update old city (wrong identity) "
               "at %i,%i for player %s",
               TILE_XY(city_tile(pcity)), player_name(pplayer));
+    fc_assert(pdcity->identity == pcity->id);
     pdcity->identity = pcity->id;   /* ?? */
   } else if (pdcity->occupied == occupied
              && pdcity->walls == walls
