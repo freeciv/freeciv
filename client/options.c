@@ -1833,7 +1833,7 @@ static struct client_option client_options[] = {
                      "on the previous run. You should enable "
                      "saving options on exit too, so that the automatic "
                      "updates to the options get saved too."),
-                  COC_NETWORK, GUI_STUB, NULL, NULL),
+                  COC_NETWORK, GUI_STUB, FALSE, NULL),
   GEN_STR_OPTION(default_server_host,
                  N_("Server"),
                  N_("This is the default server hostname that will be used "
