@@ -96,8 +96,8 @@ static bool is_flush_queued = FALSE;
 /**********************************************************************//**
   Flush the mapcanvas part of the buffer(s) to the screen.
 **************************************************************************/
-void flush_mapcanvas(int canvas_x, int canvas_y,
-                     int pixel_width, int pixel_height)
+static void flush_mapcanvas(int canvas_x, int canvas_y,
+                            int pixel_width, int pixel_height)
 {
   SDL_Rect rect = {canvas_x, canvas_y, pixel_width, pixel_height};
 

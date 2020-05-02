@@ -44,8 +44,6 @@ GUI_FUNC_PROTO(void, update_overview_scroll_window_pos, int x, int y)
 GUI_FUNC_PROTO(void, get_overview_area_dimensions, int *width, int *height)
 GUI_FUNC_PROTO(struct canvas *, get_overview_window, void)
 
-GUI_FUNC_PROTO(void, flush_mapcanvas, int canvas_x, int canvas_y,
-               int pixel_width, int pixel_height)
 GUI_FUNC_PROTO(void, dirty_rect, int canvas_x, int canvas_y,
                int pixel_width, int pixel_height)
 GUI_FUNC_PROTO(void, dirty_all, void)

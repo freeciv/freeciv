@@ -139,16 +139,6 @@ struct canvas *get_overview_window(void)
 }
 
 /************************************************************************//**
-  Flush the given part of the canvas buffer (if there is one) to the
-  screen.
-****************************************************************************/
-void flush_mapcanvas(int canvas_x, int canvas_y,
-                     int pixel_width, int pixel_height)
-{
-  /* PORTME */
-}
-
-/************************************************************************//**
   Mark the rectangular region as "dirty" so that we know to flush it
   later.
 ****************************************************************************/
@@ -168,7 +158,7 @@ void dirty_all(void)
 
 /************************************************************************//**
   Flush all regions that have been previously marked as dirty.  See
-  dirty_rect and dirty_all.  This function is generally called after we've
+  dirty_rect() and dirty_all(). This function is generally called after we've
   processed a batch of drawing operations.
 ****************************************************************************/
 void flush_dirty(void)
@@ -178,7 +168,7 @@ void flush_dirty(void)
 
 /************************************************************************//**
   Do any necessary synchronization to make sure the screen is up-to-date.
-  The canvas should have already been flushed to screen via flush_dirty -
+  The canvas should have already been flushed to screen via flush_dirty() -
   all this function does is make sure the hardware has caught up.
 ****************************************************************************/
 void gui_flush(void)

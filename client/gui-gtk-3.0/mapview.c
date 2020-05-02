@@ -397,19 +397,6 @@ gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data)
 }
 
 /**********************************************************************//**
-  Flush the given part of the canvas buffer (if there is one) to the
-  screen.
-**************************************************************************/
-void flush_mapcanvas(int canvas_x, int canvas_y,
-                     int pixel_width, int pixel_height)
-{
-  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
-  if (gtk_widget_get_realized(map_canvas) && !mapview_is_frozen()) {
-    gdk_window_invalidate_rect(gtk_widget_get_window(map_canvas), &rectangle, FALSE);
-  }
-}
-
-/**********************************************************************//**
   Mark the rectangular region as "dirty" so that we know to flush it
   later.
 **************************************************************************/

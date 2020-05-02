@@ -1123,8 +1123,8 @@ struct canvas *get_overview_window(void)
   Flush the given part of the canvas buffer (if there is one) to the
   screen.
 **************************************************************************/
-void flush_mapcanvas(int canvas_x, int canvas_y,
-                     int pixel_width, int pixel_height)
+static void flush_mapcanvas(int canvas_x, int canvas_y,
+                            int pixel_width, int pixel_height)
 {
   gui()->mapview_wdg->repaint(canvas_x, canvas_y, pixel_width, pixel_height);
 }
@@ -1174,6 +1174,7 @@ void flush_dirty(void)
                     gui()->mapview_wdg->height());
   } else {
     int i;
+
     for (i = 0; i < num_dirty_rects; i++) {
       flush_mapcanvas(dirty_rects[i].x(), dirty_rects[i].y(),
                       dirty_rects[i].width(), dirty_rects[i].height());
