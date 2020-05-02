@@ -54,7 +54,7 @@
 *****************************************************************************/
 bool api_edit_unleash_barbarians(lua_State *L, Tile *ptile)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 2, Tile, FALSE);
 
   return unleash_barbarians(ptile);
