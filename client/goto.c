@@ -1403,14 +1403,14 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
       p.orders[i] = ORDER_FULL_MP;
       p.dir[i] = DIR8_ORIGIN;
       p.activity[i] = ACTIVITY_LAST;
-      p.sub_target[i] = -1;
+      p.sub_target[i] = NO_TARGET;
       p.action[i] = ACTION_NONE;
       log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
       p.orders[i] = orders;
       p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
-      p.sub_target[i] = -1;
+      p.sub_target[i] = NO_TARGET;
       p.action[i] = ACTION_NONE;
       log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
                       i, dir_get_name(p.dir[i]),
@@ -1640,7 +1640,7 @@ void send_connect_route(enum unit_activity activity,
 	p.orders[p.length] = ORDER_MOVE;
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
         p.activity[p.length] = ACTIVITY_LAST;
-        p.sub_target[p.length] = -1;
+        p.sub_target[p.length] = NO_TARGET;
         p.action[p.length] = ACTION_NONE;
 	p.length++;
 

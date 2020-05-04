@@ -5616,7 +5616,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
                           "Specified sub target for action %d unsupported.",
                           order->action);
 
-            order->sub_target = -1;
+            order->sub_target = NO_TARGET;
 
             break;
           }
