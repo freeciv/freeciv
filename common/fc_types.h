@@ -147,6 +147,11 @@ enum output_type_id {
 /* Happens at once, not during turn change. */
 #define ACT_TIME_INSTANTANEOUS (-1)
 
+/* Symbol used to flag no (sub) target of an action or for an activity.
+ * IDENTITY_NUMBER_ZERO can't be used since 0 is a valid identity for
+ * certain (sub) targets. */
+#define NO_TARGET (-1)
+
 enum adv_unit_task { AUT_NONE, AUT_AUTO_SETTLER, AUT_BUILD_CITY };
 
 typedef signed short Continent_id;

@@ -1522,7 +1522,7 @@ void request_unit_return(struct unit *punit)
       order.order = ORDER_ACTIVITY;
       order.dir = DIR8_ORIGIN;
       order.activity = ACTIVITY_SENTRY;
-      order.sub_target = -1;
+      order.sub_target = NO_TARGET;
       order.action = ACTION_NONE;
       send_goto_path(punit, path, &order);
     } else {
@@ -1737,7 +1737,7 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0].order = ORDER_MOVE;
   p.orders[0].dir = dir;
   p.orders[0].activity = ACTIVITY_LAST;
-  p.orders[0].sub_target = -1;
+  p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);
@@ -1789,7 +1789,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.orders[0].order = ORDER_ACTION_MOVE;
   p.orders[0].dir = dir;
   p.orders[0].activity = ACTIVITY_LAST;
-  p.orders[0].sub_target = -1;
+  p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 
   send_packet_unit_orders(&client.conn, &p);

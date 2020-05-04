@@ -5263,7 +5263,7 @@ static void sg_save_player_cities(struct savedata *saving,
         orders[j] = order2char(pcity->rally_point.orders[j].order);
         dirs[j] = '?';
         activities[j] = '?';
-        sub_targets[j] = -1;
+        sub_targets[j] = NO_TARGET;
         actions[j] = -1;
         switch (pcity->rally_point.orders[j].order) {
         case ORDER_MOVE:
@@ -5891,13 +5891,13 @@ static bool sg_load_player_unit(struct loaddata *loading,
             fc_assert_msg(order_sub_tgt == -1,
                           "Specified sub target for action %d unsupported.",
                           order->action);
-            order->sub_target = -1;
+            order->sub_target = NO_TARGET;
             break;
           case ASTK_COUNT:
             fc_assert_msg(order_sub_tgt == -1,
                           "Bad action action %d.",
                           order->action);
-            order->sub_target = -1;
+            order->sub_target = NO_TARGET;
             break;
           }
         }
@@ -5935,7 +5935,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
             log_sg("Unexpected sub_target %d (expected %d) for order type %d",
                    order_sub_tgt, -1, order->order);
           }
-          order->sub_target = -1;
+          order->sub_target = NO_TARGET;
         }
       }
 
