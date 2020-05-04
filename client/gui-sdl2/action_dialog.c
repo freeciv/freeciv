@@ -780,7 +780,7 @@ static int simple_action_callback(struct widget *pWidget)
   }
 
   /* Sub target. */
-  sub_target = IDENTITY_NUMBER_ZERO;
+  sub_target = NO_TARGET;
   if (paction->target_complexity != ACT_TGT_COMPL_SIMPLE) {
     switch (action_get_sub_target_kind(paction)) {
     case ASTK_BUILDING:
