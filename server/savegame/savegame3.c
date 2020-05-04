@@ -5863,7 +5863,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
               log_sg("Cannot find building %d for %s to %s",
                      order_sub_tgt, unit_rule_name(punit),
                      action_id_name_translation(order->action));
-              order->sub_target = 0;
+              order->sub_target = B_LAST;
             } else {
               order->sub_target = order_sub_tgt;
             }
