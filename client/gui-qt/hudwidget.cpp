@@ -993,41 +993,30 @@ int unit_actions::update_actions()
 
 
   if (can_unit_do_activity(current_unit, ACTIVITY_MINE)) {
-    struct terrain *pterrain = tile_terrain(unit_tile(current_unit));
-
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDMINE;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("mine"));
     actions.append(a);
-    if (pterrain->mining_result != T_NONE
-        && pterrain->mining_result != pterrain) {
-      /* FIXME get rid of this ruleset-specific hardcoding */
-      if (!strcmp(terrain_rule_name(pterrain->mining_result), "Forest")) {
-        a->set_pixmap(fc_icons::instance()->get_pixmap("plantforest"));
-      } else {
-        a->set_pixmap(fc_icons::instance()->get_pixmap("transform"));
-      }
-    } else {
-      a->set_pixmap(fc_icons::instance()->get_pixmap("mine"));
-    }
+  }
+
+  if (can_unit_do_activity(current_unit, ACTIVITY_PLANT)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_PLANT;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("plantforest"));
+    actions.append(a);
   }
 
   if (can_unit_do_activity(current_unit, ACTIVITY_IRRIGATE)) {
-    struct terrain *pterrain = tile_terrain(unit_tile(current_unit));
-
     a = new hud_action(this);
     a->action_shortcut = SC_BUILDIRRIGATION;
-    if (pterrain->irrigation_result != T_NONE
-        && pterrain->irrigation_result != pterrain) {
-      /* FIXME get rid of this ruleset-specific hardcoding */
-      if ((!strcmp(terrain_rule_name(pterrain), "Forest")
-           || !strcmp(terrain_rule_name(pterrain), "Jungle"))) {
-        a->set_pixmap(fc_icons::instance()->get_pixmap("chopchop"));
-      } else {
-        a->set_pixmap(fc_icons::instance()->get_pixmap("transform"));
-      }
-    } else {
-      a->set_pixmap(fc_icons::instance()->get_pixmap("irrigation"));
-    }
+    a->set_pixmap(fc_icons::instance()->get_pixmap("irrigation"));
+    actions.append(a);
+  }
+
+  if (can_unit_do_activity(current_unit, ACTIVITY_CULTIVATE)) {
+    a = new hud_action(this);
+    a->action_shortcut = SC_CULTIVATE;
+    a->set_pixmap(fc_icons::instance()->get_pixmap("chopchop"));
     actions.append(a);
   }
 
