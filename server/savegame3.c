@@ -5550,7 +5550,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
               /* Sabotage sub target is invalid. */
               log_sg("Cannot find building %d for %s to sabotage",
                      order_sub_tgt, unit_rule_name(punit));
-              order->sub_target = 0;
+              order->sub_target = B_LAST;
             } else {
               order->sub_target = order_sub_tgt;
             }
