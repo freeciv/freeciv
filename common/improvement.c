@@ -255,6 +255,26 @@ int impr_base_build_shield_cost(const struct impr_type *pimprove)
 }
 
 /**********************************************************************//**
+  Returns estimate of the number of shields it takes to build this improvement.
+  pplayer and ptile can be NULL, but that might reduce quality of the
+  estimate.
+**************************************************************************/
+int impr_estimate_build_shield_cost(const struct player *pplayer,
+                                    const struct tile *ptile,
+                                    const struct impr_type *pimprove)
+{
+  int base = pimprove->build_cost
+    * (100 +
+       get_target_bonus_effects(NULL,
+                                pplayer, NULL, NULL, pimprove,
+                                ptile, NULL, NULL, NULL, NULL,
+                                NULL,
+                                EFT_IMPR_BUILD_COST_PCT)) / 100;
+
+  return MAX(base * game.info.shieldbox / 100, 1);
+}
+
+/**********************************************************************//**
   Returns the number of shields it takes to build this improvement.
 **************************************************************************/
 int impr_build_shield_cost(const struct city *pcity,

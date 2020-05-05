@@ -3816,10 +3816,10 @@ QString get_tooltip_improvement(const impr_type *building, struct city *pcity,
                .arg(impr_build_shield_cost(pcity, building))
                .arg(upkeep).toHtmlEscaped();
   } else {
-    int base_cost = MAX(building->build_cost * game.info.shieldbox / 100, 1);
+    int cost_est = impr_estimate_build_shield_cost(client.conn.playing, NULL, building);
 
-    def_str += QString(_("Base Cost: %1, Upkeep: %2\n"))
-               .arg(base_cost)
+    def_str += QString(_("Cost Estimate: %1, Upkeep: %2\n"))
+               .arg(cost_est)
                .arg(upkeep).toHtmlEscaped();
   }
   if (s1.compare(s2) != 0) {

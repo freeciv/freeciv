@@ -425,7 +425,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
                     impr_build_shield_cost(pcity, pimprove));
       } else {
         fc_snprintf(buf[2], column_size, "%d",
-                    impr_base_build_shield_cost(pimprove));
+                    impr_estimate_build_shield_cost(pplayer, NULL, pimprove));
       }
     }
     break;
