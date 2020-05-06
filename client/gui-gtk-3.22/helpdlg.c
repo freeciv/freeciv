@@ -96,10 +96,10 @@ static int	  help_history_pos;
 
 
 static const char *help_ilabel_name[6] =
-{ N_("Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
+{ N_("Base Cost:"), NULL, N_("Upkeep:"), NULL, N_("Requirement:"), NULL };
 
 static const char *help_wlabel_name[6] =
-{ N_("Cost:"), NULL, N_("Requirement:"), NULL, N_("Obsolete by:"), NULL };
+{ N_("Base Cost:"), NULL, N_("Requirement:"), NULL, N_("Obsolete by:"), NULL };
 
 static const char *help_ulabel_name[5][5] =
 {
@@ -796,7 +796,7 @@ static void help_update_improvement(const struct help_item *pitem,
     const char *req = skip_intl_qualifier_prefix(REQ_LABEL_NONE);
     char req_buf[512];
 
-    sprintf(buf, "%d", impr_build_shield_cost(NULL, imp));
+    sprintf(buf, "%d", impr_base_build_shield_cost(imp));
     gtk_label_set_text(GTK_LABEL(help_ilabel[1]), buf);
     sprintf(buf, "%d", imp->upkeep);
     gtk_label_set_text(GTK_LABEL(help_ilabel[3]), buf);
@@ -846,7 +846,7 @@ static void help_update_wonder(const struct help_item *pitem,
     int i;
     char req_buf[512];
 
-    sprintf(buf, "%d", impr_build_shield_cost(NULL, imp));
+    sprintf(buf, "%d", impr_base_build_shield_cost(imp));
     gtk_label_set_text(GTK_LABEL(help_wlabel[1]), buf);
 
     /* FIXME: this should show ranges, negated reqs, and all the

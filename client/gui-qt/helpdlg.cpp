@@ -1002,9 +1002,9 @@ void help_widget::set_topic_building(const help_item *topic,
     if (spr) {
       add_info_pixmap(spr->pm);
     }
-    str = _("Cost:");
+    str = _("Base Cost:");
     str = "<b>" + str + "</b>" + " "
-          + QString::number(impr_build_shield_cost(NULL, itype))
+          + QString::number(impr_base_build_shield_cost(itype))
             .toHtmlEscaped();
     add_info_label(str);
     if (!is_great_wonder(itype)) {
