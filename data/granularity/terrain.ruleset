@@ -214,7 +214,7 @@ class                = "Land"
 movement_cost        = 5
 defense_bonus        = 0
 food                 = 200
-shield               = 100
+shield               = 0
 trade                = 0
 resources            = "Generic Resource"
 road_food_incr_pct   = 0
@@ -247,6 +247,50 @@ color.g              = 200
 color.b              = 200
 helptext	     = _("\
 Grasslands afford exceptional agricultural opportunities.\
+")
+
+[terrain_forest]
+name                 = _("Forest")
+graphic              = "forest"
+graphic_alt	     = "-"
+identifier	     = "f"
+class                = "Land"
+movement_cost        = 15
+defense_bonus        = 30
+food                 = 100
+shield               = 100
+trade                = 0
+resources            = "Generic Resource"
+road_food_incr_pct   = 0
+road_shield_incr_pct = 0
+road_trade_incr_pct  = 0
+base_time            = 1
+road_time            = 1
+irrigation_result    = "no"
+irrigation_food_incr = 1
+irrigation_time      = 5
+mining_result        = "no"
+mining_shield_incr   = 0
+mining_time          = 10
+transform_result     = "no"
+transform_time       = 24
+pillage_time         = 1
+clean_pollution_time = 3
+clean_fallout_time   = 3
+animal               = "None"
+warmer_wetter_result = "no"
+warmer_drier_result  = "no"
+cooler_wetter_result = "no"
+cooler_drier_result  = "no"
+native_to            = "Land"
+flags                = "CanHaveRiver"
+property_temperate   = 50
+property_foliage     = 50
+color.r              = 43
+color.g              = 107
+color.b              = 19
+helptext	     = _("\
+Forest provides easily harvested resources.\
 ")
 
 [terrain_ocean]
