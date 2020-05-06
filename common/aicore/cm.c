@@ -2037,8 +2037,8 @@ static void cm_find_best_solution(struct cm_state *state,
     loop_count++;
 
     if (loop_count > max_count) {
-      log_error("Did not find a cm solution in %d iterations for %s.",
-                max_count, city_name_get(state->pcity));
+      log_warn("Did not find a cm solution in %d iterations for %s.",
+               max_count, city_name_get(state->pcity));
       result->aborted = TRUE;
       break;
     }
