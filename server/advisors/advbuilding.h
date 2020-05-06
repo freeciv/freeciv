@@ -15,6 +15,7 @@
 
 /* server/advisors */
 #include "advchoice.h"
+#include "city.h"
 
 #define FOOD_WEIGHTING 30
 #define SHIELD_WEIGHTING 17

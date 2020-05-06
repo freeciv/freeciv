@@ -13,6 +13,7 @@
 #ifndef FC__ADVCHOICE_H
 #define FC__ADVCHOICE_H
 
+#include "fc_types.h" 
 /* Uncomment to have choice information tracked */
 /* #define ADV_CHOICE_TRACK */
 
