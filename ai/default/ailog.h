@@ -17,6 +17,9 @@
 #include "log.h"
 #include "support.h"
  
+/* server */
+#include "srv_log.h"
+
 /* Change these and remake to watch logs from a specific 
    part of the AI code. */
 #define LOGLEVEL_TECH LOG_DEBUG
