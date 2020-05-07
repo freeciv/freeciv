@@ -36,6 +36,7 @@ struct adv_choice {
   bool need_boat;     /* unit being built wants a boat */
 #ifdef ADV_CHOICE_TRACK
   char *use;
+  bool log_if_chosen;
 #endif /* ADV_CHOICE_TRACK */
 };
 

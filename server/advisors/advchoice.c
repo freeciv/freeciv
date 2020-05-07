@@ -36,6 +36,7 @@ void adv_init_choice(struct adv_choice *choice)
   choice->need_boat = FALSE;
 #ifdef ADV_CHOICE_TRACK
   choice->use = NULL;
+  choice->log_if_chosen = FALSE;
 #endif /* ADV_CHOICE_TRACK */
 }
 
@@ -135,6 +136,7 @@ void adv_choice_copy(struct adv_choice *dest, struct adv_choice *src)
     } else {
       dest->use = NULL;
     }
+    dest->log_if_chosen = src->log_if_chosen;
   }
 }
 

@@ -312,6 +312,16 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
 
     ADV_CHOICE_ASSERT(city_data->choice);
 
+#ifdef ADV_CHOICE_TRACK
+    if (city_data->choice.log_if_chosen) {
+      log_normal("%s wants %s for %s with desire " ADV_WANT_PRINTF ".",
+                 city_name_get(pcity),
+                 dai_choice_rule_name(&city_data->choice),
+                 city_data->choice.use,
+                 city_data->choice.want);
+    }
+#endif /* ADV_CHOICE_TRACK */
+
     CITY_LOG(LOG_DEBUG, pcity, "wants %s with desire " ADV_WANT_PRINTF ".",
 	     dai_choice_rule_name(&city_data->choice),
 	     city_data->choice.want);
