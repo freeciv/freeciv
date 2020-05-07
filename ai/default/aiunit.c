@@ -1129,6 +1129,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
   int want;             /* Want (amortized) of the operaton. */
   int best = 0;         /* Best of all wants. */
   struct tile *goto_dest_tile = NULL;
+  bool can_occupy;
 
   /* Very preliminary checks. */
   *pdest_tile = punit_tile;
@@ -1283,6 +1284,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
     }
   }
 
+  can_occupy = unit_can_take_over(punit);
+
   players_iterate(aplayer) {
     /* For the virtual unit case, which is when we are called to evaluate
      * which units to build, we want to calculate in danger and which
@@ -1373,7 +1376,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         reserves++;
       }
 
-      if (0 < reserves && (unit_can_take_over(punit)
+      if (0 < reserves && (can_occupy
                            || 0 < acity_data->invasion.occupy)) {
         /* There are units able to occupy the city after all defenders
          * are killed! */
@@ -1387,23 +1390,23 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       /* AI was not sending enough reinforcements to totally wipe out a city
        * and conquer it in one turn.
        * This variable enables total carnage. -- Syela */
-      victim_count = unit_list_size(atile->units) + 1;
+      victim_count = unit_list_size(atile->units);
 
-      if (!unit_can_take_over(punit) && NULL == pdefender) {
+      if (!can_occupy && NULL == pdefender) {
         /* Nothing there to bash and we can't occupy!
          * Not having this check caused warships yoyoing */
         want = 0;
       } else if (10 < move_time) {
         /* Too far! */
         want = 0;
-      } else if (unit_can_take_over(punit)
-                 && 0 < acity_data->invasion.attack
-                 && 0 == acity_data->invasion.occupy) {
+      } else if (can_occupy && 0 == acity_data->invasion.occupy
+                 && (0 < acity_data->invasion.attack
+                     || victim_count == 0)) {
         /* Units able to occupy really needed there! */
         want = bcost * SHIELD_WEIGHTING;
       } else {
         want = kill_desire(benefit, attack, bcost + acity_data->bcost,
-                           vulnerability, victim_count);
+                           vulnerability, victim_count + 1);
       }
       want -= move_time * (unhap ? SHIELD_WEIGHTING + 2 * TRADE_WEIGHTING 
                            : SHIELD_WEIGHTING);
