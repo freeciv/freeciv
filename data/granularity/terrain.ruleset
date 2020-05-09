@@ -554,6 +554,7 @@ buildable      = TRUE
 ;    }
 build_time     = 0
 removal_time   = 0
+flags          = "AutoOnCityCenter"
 helptext       = _("Path is the simplest road type, buildable from the beginning.")
 
 [extra_gresource]
