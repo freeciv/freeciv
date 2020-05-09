@@ -218,13 +218,20 @@ else
   esac
 
   if test "x$GUI" = "xsdl2" ; then
-    if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi
+    if ! ./create-freeciv-sdl2-nsi.sh $INSTDIR $VERREV $SETUP > Freeciv-$SETUP-$VERREV-$GUI.nsi helpers/uninstaller-helper-gtk3.sh
     then
       exit 1
     fi
-  elif ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP $MPGUI > Freeciv-$SETUP-$VERREV-$GUI.nsi
-  then
-    exit 1
+  else
+    if test "x$GUI" = "xgtk3.22" ; then
+      UNINSTALLER="helpers/uninstaller-helper-gtk3.sh"
+    else
+      UNINSTALLER=""
+    fi
+    if ! ./create-freeciv-gtk-qt-nsi.sh $INSTDIR $VERREV $GUI $GUINAME $SETUP $MPGUI > Freeciv-$SETUP-$VERREV-$GUI.nsi $UNINSTALLER
+    then
+      exit 1
+    fi
   fi
 
   mkdir -p Output
