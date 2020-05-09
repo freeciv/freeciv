@@ -41,7 +41,8 @@ dist_noinst_DATA = \
 		installer_cross/freeciv-ruledit.cmd		\
 		installer_cross/licenses/COPYING.installer	\
 		installer_cross/helpers/installer-helper-gtk3.cmd \
-		installer_cross/helpers/installer-helper-qt.cmd
+		installer_cross/helpers/installer-helper-qt.cmd \
+		installer_cross/helpers/uninstaller-helper-gtk3.sh
 
 if MINGW
 nodist_noinst_DATA = 		\

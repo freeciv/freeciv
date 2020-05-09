@@ -1,6 +1,11 @@
 #!/bin/sh
 
-# ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win>
+# ./create-freeciv-sdl2-nsi.sh <Freeciv files directory> <version> <win32|win64|win> [unistall setup script]
+
+if test "x$4" != "x" && ! test -x "$4" ; then
+  echo "$4 not an executable script" >&2
+  exit 1
+fi
 
 cat <<EOF
 ; Freeciv Windows installer script
@@ -327,6 +332,10 @@ while read -r name
 do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
+
+if test "x$4" != "x" ; then
+  $4
+fi
 
 cat <<EOF
 

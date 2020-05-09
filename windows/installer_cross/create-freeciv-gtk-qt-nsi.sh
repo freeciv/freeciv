@@ -1,11 +1,16 @@
 #!/bin/sh
 
-# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3|qt> <GTK+3|Qt> <win32|win64|win> [mp gui]
+# ./create-freeciv-gtk-qt-nsi.sh <Freeciv files directory> <version> <gtk3|qt> <GTK+3|Qt> <win32|win64|win> [mp gui] [unistall setup script]
 
 if test "x$6" != "x" ; then
   MPGUI_ID="$6"
 else
   MPGUI_ID="$3"
+fi
+
+if test "x$7" != "x" && ! test -x "$7" ; then
+  echo "$7 not an executable script" >&2
+  exit 1
 fi
 
 cat <<EOF
@@ -316,6 +321,10 @@ while read -r name
 do
 echo "  RMDir \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
+
+if test "x$7" != "x" ; then
+  $7
+fi
 
 cat <<EOF
 
