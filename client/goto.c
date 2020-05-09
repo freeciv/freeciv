@@ -1556,6 +1556,9 @@ bool send_rally_tile(struct city *pcity, struct tile *ptile)
   struct pf_map *pfm;
   struct pf_path *path;
 
+  fc_assert_ret_val(pcity != NULL, FALSE);
+  fc_assert_ret_val(ptile != NULL, FALSE);
+
   /* Create a virtual unit of the type being produced by the city. */
   if (pcity->production.kind != VUT_UTYPE) {
     /* Can only give orders to units. */

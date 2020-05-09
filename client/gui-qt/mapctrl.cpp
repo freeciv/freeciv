@@ -260,7 +260,7 @@ void map_view::shortcut_pressed(int key)
   }
 
   /* Rally point - select tile  - skip */
-  if (bt == Qt::LeftButton && gui()->rallies.hover_tile) {
+  if (bt == Qt::LeftButton && gui()->rallies.hover_tile && ptile != NULL) {
     char text[1024];
 
     struct city *pcity = gui()->rallies.rally_city;
