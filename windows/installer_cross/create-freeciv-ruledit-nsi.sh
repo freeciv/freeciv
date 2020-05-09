@@ -286,6 +286,14 @@ do
 echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
 done
 
+find $1 -type l |
+grep -v '/$' |
+sed 's|[^/]*||' |
+while read -r name
+do
+echo "  Delete \"\$INSTDIR$name\"" | sed 's,/,\\,g'
+done
+
 find $1 -depth -type d |
 grep -v '/$' |
 sed 's|[^/]*||' |
