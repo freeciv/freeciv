@@ -472,7 +472,8 @@ ais = static_library('fc_ai',
   'ai/default/daidomestic.c',
   'ai/default/daieffects.c',
   'ai/default/daimilitary.c',
-  include_directories: [server_inc, include_directories('ai/default')]
+  include_directories: [server_inc, include_directories('ai/default')],
+  sources: [verhdr]
   )
 
 server_lib = static_library('fc_server',
