@@ -2437,9 +2437,10 @@ reqs    =
       "Building", "Palace", "City"
     }
 
+; Make it main capital -> value higher than that of Ecclesiastical Palace
 [effect_palace_3]
 type    = "Capital_City"
-value   = 1
+value   = 2
 reqs    =
     { "type", "name", "range"
       "Building", "Palace", "City"
@@ -2521,6 +2522,15 @@ reqs    =
 
 [effect_ecclesiastical_palace_gov_center]
 type    = "Gov_Center"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Building", "Ecclesiastical Palace", "City", TRUE
+      "Building", "Palace", "City", FALSE
+    }
+
+[effect_ecclesiastical_palace_secondary_capital]
+type    = "Capital_City"
 value	= 1
 reqs	=
     { "type", "name", "range", "present"
