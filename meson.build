@@ -562,7 +562,7 @@ executable('freeciv-server',
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
   dependencies: [c_compiler.find_library('m'),
-                 readline_dep],
+                 ws2_dep, readline_dep],
   install: true
   )
 
@@ -2022,7 +2022,7 @@ executable('freeciv-gtk3.22',
   'client/gui-gtk-3.22/voteinfo_bar.c',
   'client/gui-gtk-3.22/wldlg.c',
   include_directories: client_inc,
-  dependencies: gtk322_dep,
+  dependencies: [gtk322_dep, ws2_dep],
   link_with: client_common,
   install: true
   )
@@ -2085,7 +2085,7 @@ executable('freeciv-ruleup',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
   dependencies: [c_compiler.find_library('m'),
-                 readline_dep],
+                 ws2_dep, readline_dep],
   install: true
   )
 
@@ -2096,7 +2096,7 @@ executable('freeciv-manual',
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
   dependencies: [c_compiler.find_library('m'),
-                 readline_dep],
+                 ws2_dep, readline_dep],
   install: true
   )
 
