@@ -48,7 +48,7 @@
 *****************************************************************************/
 int api_methods_game_turn(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_STATE(L, 0);
 
   return game.info.turn;
 }
@@ -58,7 +58,7 @@ int api_methods_game_turn(lua_State *L)
 *****************************************************************************/
 int api_methods_game_year(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_STATE(L, 0);
 
   return game.info.year;
 }
@@ -68,7 +68,7 @@ int api_methods_game_year(lua_State *L)
 *****************************************************************************/
 int api_methods_game_year_fragment(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_STATE(L, 0);
 
   return game.info.fragment_count;
 }
@@ -78,7 +78,7 @@ int api_methods_game_year_fragment(lua_State *L)
 *****************************************************************************/
 const char *api_methods_game_year_text(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
 
   return calendar_text();
 }
@@ -88,7 +88,7 @@ const char *api_methods_game_year_text(lua_State *L)
 *****************************************************************************/
 int api_methods_game_turn_deprecated(lua_State *L)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_STATE(L, 0);
 
   log_deprecation("Deprecated: lua construct \"game:turn\", deprecated since \"3.0\", used. "
                   "Use \"game:current_turn\" instead.");
@@ -189,14 +189,13 @@ const char
   return improvement_name_translation(pbuilding);
 }
 
-
 /*************************************************************************//**
   Return TRUE iff city has building
 *****************************************************************************/
 bool api_methods_city_has_building(lua_State *L, City *pcity,
                                    Building_Type *building)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, building, 3, Building_Type, FALSE);
 
@@ -296,7 +295,7 @@ int api_methods_city_culture_get(lua_State *L, City *pcity)
 *****************************************************************************/
 bool api_methods_is_city_happy(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
   return city_happy(pcity);
@@ -307,7 +306,7 @@ bool api_methods_is_city_happy(lua_State *L, City *pcity)
 *****************************************************************************/
 bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
   return city_unhappy(pcity);
@@ -318,7 +317,7 @@ bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
 *****************************************************************************/
 bool api_methods_is_city_celebrating(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
   return city_celebrating(pcity);
@@ -329,7 +328,7 @@ bool api_methods_is_city_celebrating(lua_State *L, City *pcity)
 *****************************************************************************/
 bool api_methods_is_gov_center(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
   return is_gov_center(pcity);
@@ -340,7 +339,7 @@ bool api_methods_is_gov_center(lua_State *L, City *pcity)
 *****************************************************************************/
 bool api_methods_is_capital(lua_State *L, City *pcity)
 {
-  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
   return is_capital(pcity);
@@ -369,7 +368,6 @@ const char *api_methods_government_name_translation(lua_State *L,
 
   return government_name_translation(pgovernment);
 }
-
 
 /*************************************************************************//**
   Return rule name for Nation_Type
@@ -414,8 +412,8 @@ const char *api_methods_player_controlling_gui(lua_State *L, Player *pplayer)
 {
   struct connection *conn = NULL;
 
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
 
   conn_list_iterate(pplayer->connections, pconn) {
     if (!pconn->observer) {
@@ -519,7 +517,7 @@ int api_methods_player_culture_get(lua_State *L, Player *pplayer)
 bool api_methods_player_has_flag(lua_State *L, Player *pplayer, const char *flag)
 {
   enum plr_flag_id flag_val;
-  
+
   LUASCRIPT_CHECK_STATE(L, 0);
   LUASCRIPT_CHECK_SELF(L, pplayer, 0);
 
@@ -550,8 +548,8 @@ bool api_methods_player_shares_research(lua_State *L, Player *pplayer,
 *****************************************************************************/
 const char *api_methods_research_rule_name(lua_State *L, Player *pplayer)
 {
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
 
   return research_rule_name(research_get(pplayer));
 }
@@ -563,8 +561,8 @@ const char *api_methods_research_name_translation(lua_State *L, Player *pplayer)
 {
   static char buf[MAX_LEN_MSG];
 
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_SELF(L, pplayer, FALSE);
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pplayer, NULL);
 
   (void) research_pretty_name(research_get(pplayer), buf, ARRAY_SIZE(buf));
 
@@ -873,7 +871,7 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
 bool api_methods_enemy_tile(lua_State *L, Tile *ptile, Player *against)
 {
   struct city *pcity;
-  
+
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, ptile, FALSE);
 
