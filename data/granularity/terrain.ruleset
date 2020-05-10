@@ -267,8 +267,8 @@ road_trade_incr_pct  = 0
 base_time            = 1
 road_time            = 1
 irrigation_result    = "no"
-irrigation_food_incr = 1
-irrigation_time      = 5
+irrigation_food_incr = 0
+irrigation_time      = 0
 mining_result        = "no"
 mining_shield_incr   = 0
 mining_time          = 10
@@ -497,21 +497,27 @@ ui_name_base_airbase = _("?gui_type:Build Type B Base")
 ;
 ; */ <-- avoid gettext warnings
 
-;[extra_generic]
-;name           = _("Generic")
-;category       = "Infra"
+[extra_irrigation]
+name           = _("Irrigation")
+category       = "Infra"
 ;causes         = ""
 ;rmcauses       = ""
-;graphic        = "tx.generic"
-;graphic_alt    = "-"
-;activity_gfx   = "unit.generic"
-;act_gfx_alt    = "-"
-;act_gfx_alt2   = "-"
-;rmact_gfx      = "None"
-;rmact_gfx_alt  = "-"
-;build_time     = 0
-;removal_time   = 0
-;helptext       = _("")
+infracost      = 25
+graphic        = "tx.irrigation"
+graphic_alt    = "-"
+activity_gfx   = "unit.irrigation"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+buildable      = TRUE
+reqs           =
+    { "type", "name",        "range"
+      "Tech", "Agriculture", "Player"
+    }
+build_time     = 3
+removal_time   = 0
+helptext       = _("Irrigation increases tile food production.")
 
 ;[extra_gbase]
 ;name           = _("Generic Base")

@@ -148,3 +148,11 @@ reqs    =
       "Tech",       "Tools",  "Player", FALSE
       "OutputType", "Shield", "Local",  TRUE
     }
+
+[effect_irrigation]
+type    = "Irrigation_Pct"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Extra", "Irrigation", "Local"
+    }
