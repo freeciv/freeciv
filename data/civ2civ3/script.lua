@@ -339,3 +339,15 @@ function place_map_labels()
 end
 
 signal.connect("map_generated", "place_map_labels")
+
+function turn_callback(turn, year)
+  if turn == 1 then
+    notify.event(nil, nil, E.SCRIPT,
+_("Welcome to civ2civ3, the new default ruleset in freeciv-3.0.\n\
+(If you'd like rules more similar to ones in previous versions,\
+start a new game with 'classic' ruleset.)\
+"))
+  end
+end
+
+signal.connect('turn_begin', 'turn_callback')
