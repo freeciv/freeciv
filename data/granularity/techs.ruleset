@@ -122,6 +122,15 @@ graphic     = "a.agriculture"
 graphic_alt = "-"
 helptext    = _("Agriculture allows placing irrigation.")
 
+[advance_animal_taming]
+name        = _("Animal Taming")
+req1        = "Cave Painting"
+req2        = "None"
+flags       = ""
+graphic     = "a.animal_taming"
+graphic_alt = "-"
+;helptext    =
+
 [advance_carving]
 name        = _("Carving");
 req1        = "Tools"
@@ -160,6 +169,15 @@ graphic_alt = "-"
 helptext    = _("Knowing basics of governing your people lets you\
  adjust tax/science/luxury rates more freely.\
 ");
+
+[advance_horseback_riding]
+name        = _("Horseback Riding")
+req1        = "Animal Taming"
+req2        = "None"
+flags       = ""
+graphic     = "a.horseback_riding"
+graphic_alt = "-"
+;helptext    =
 
 [advance_road_building]
 name        = _("Road Building")

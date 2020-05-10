@@ -425,13 +425,76 @@ vision_radius_sq = 2
 transport_cap = 0
 fuel          = 0
 uk_happy      = 0
-uk_shield     = 0
+uk_shield     = 100
 uk_food       = 0
 uk_gold       = 0
 ;flags         =
 roles         = "Firstbuild"
 helptext      = _("\
   Warriors are the first unit specialized in war.\
+")
+
+[unit_hunters]
+name          = _("Hunters")
+class         = "Land"
+tech_req      = "Animal Taming"
+obsolete_by   = "None"
+graphic       = "u.hunters"
+graphic_alt   = "u.warriors"
+sound_move    = "m_hunters"
+sound_move_alt = "m_generic"
+sound_fight   = "f_hunters"
+sound_fight_alt = "f_generic"
+build_cost    = 1500
+pop_cost      = 0
+attack        = 20
+defense       = 10
+hitpoints     = 10
+firepower     = 1
+move_rate     = 5
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 50
+uk_food       = 0
+uk_gold       = 0
+;flags         =
+;roles         =
+helptext      = _("\
+Hunters and their dogs can mostly provide upkeep for themselves, not requiring\
+ it from their homecity.\
+")
+
+[unit_horsemen]
+name          = _("Horsemen")
+class         = "Land"
+tech_req      = "Horseback Riding"
+obsolete_by   = "None"
+graphic       = "u.horsemen"
+graphic_alt   = "-"
+sound_move    = "m_horsemen"
+sound_move_alt = "m_generic"
+sound_fight   = "f_horsemen"
+sound_fight_alt = "f_generic"
+build_cost    = 1500
+pop_cost      = 0
+attack        = 20
+defense       = 10
+hitpoints     = 10
+firepower     = 1
+move_rate     = 10
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+;flags         =
+;roles         =
+helptext      = _("\
+Horsemen are the first fast unit.\
 ")
 
 [unit_settlers]
