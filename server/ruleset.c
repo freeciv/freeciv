@@ -7103,6 +7103,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         info->enabled = TRUE;
       }
     }
+    section_list_destroy(sec);
   }
 
   /* secfile_check_unused() is not here, but only after also settings section
