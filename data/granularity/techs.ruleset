@@ -161,6 +161,15 @@ helptext    = _("Knowing basics of governing your people lets you\
  adjust tax/science/luxury rates more freely.\
 ");
 
+[advance_road_building]
+name        = _("Road Building")
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.road_building"
+graphic_alt = "-"
+helptext    = _("Allows build actual roads.")
+
 [advance_tools]
 name        = _("Tools");
 req1        = "None"
