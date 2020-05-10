@@ -151,6 +151,25 @@ reqs    =
       "UnitClass", "Big Land", "Local"
     }
 
+[effect_fortified]
+type    = "Fortify_Defense_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "Activity", "Fortified", "Local"
+    }
+
+[effect_city_fortified]
+type    = "Fortify_Defense_Bonus"
+value   = 50
+reqs    =
+    { "type",          "name",         "range", "present"
+      "CityTile",      "Center",       "Local", TRUE
+      "Activity",      "Fortified",    "Local", FALSE
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+    }
+
 ; Nuclear power gives +1 moves to sea units
 [effect_nuclear_powered_boats]
 type    = "Move_Bonus"

@@ -128,6 +128,25 @@ reqs    =
       "UnitClass", "Land", "Local"
     }
 
+[effect_fortified]
+type    = "Fortify_Defense_Bonus"
+value   = 50
+reqs    =
+    { "type", "name", "range"
+      "Activity", "Fortified", "Local"
+    }
+
+[effect_city_fortified]
+type    = "Fortify_Defense_Bonus"
+value   = 50
+reqs    =
+    { "type",          "name",         "range", "present"
+      "CityTile",      "Center",       "Local", TRUE
+      "Activity",      "Fortified",    "Local", FALSE
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+    }
+
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 type    = "City_Vision_Radius_Sq"

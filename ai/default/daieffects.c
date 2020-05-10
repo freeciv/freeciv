@@ -499,6 +499,13 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
       }
     }
     break;
+  case EFT_FORTIFY_DEFENSE_BONUS:
+    num = num_affected_units(peffect, adv);
+    v += (num + 4) * amount / 250; /* Divisor 250 is a bit bigger than one for
+                                    * EFT_ATTACK_BONUS that is always active.
+                                    * Fortify bonus applies only in special case that
+                                    * unit is fortified. */
+    break;
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
       if (is_ai(aplayer)) {

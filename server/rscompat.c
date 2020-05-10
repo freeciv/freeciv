@@ -483,6 +483,29 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             TRUE, "Expel Unit"));
 
+    /* Fortifying rules have been unhardcoded to effects. */
+    peffect = effect_new(EFT_FORTIFY_DEFENSE_BONUS, 50, NULL);
+
+    /* Unit actually fortified. This does not need checks for unit class or
+     * type flags for unit's ability to fortify as it would not be fortified
+     * if it can't. */
+    effect_req_append(peffect, req_from_str("Activity", "Local", FALSE, TRUE,
+                                            FALSE, "Fortified"));
+
+    /* Fortify bonus in cities */
+    peffect = effect_new(EFT_FORTIFY_DEFENSE_BONUS, 50, NULL);
+
+    /* City center */
+    effect_req_append(peffect, req_from_str("CityTile", "Local", FALSE, TRUE,
+                                            FALSE, "Center"));
+    /* Not cumulative with regular fortified bonus */
+    effect_req_append(peffect, req_from_str("Activity", "Local", FALSE, FALSE,
+                                            FALSE, "Fortified"));
+    /* Unit flags */
+    effect_req_append(peffect, req_from_str("UnitClassFlag", "Local", FALSE, TRUE,
+                                            FALSE, "CanFortify"));
+    effect_req_append(peffect, req_from_str("UnitTypeFlag", "Local", FALSE, FALSE,
+                                            FALSE, "Cant_Fortify"));
   }
 
   if (info->ver_units < 20) {
