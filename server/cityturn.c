@@ -3032,13 +3032,12 @@ static void check_pollution(struct city *pcity)
 /**********************************************************************//**
   Returns the cost to incite a city. This depends on the size of the city,
   the number of happy, unhappy and angry citizens, whether it is
-  celebrating, how close it is to the capital, how many units it has and
+  celebrating, how close it is to a capital, how many units it has and
   upkeeps, presence of courthouse, its buildings and wonders, and who
   originally built it.
 **************************************************************************/
 int city_incite_cost(struct player *pplayer, struct city *pcity)
 {
-  struct city *capital;
   int dist, size;
   double cost; /* Intermediate values can get very large */
 
@@ -3076,14 +3075,17 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Distance from capital */
-  capital = player_capital(city_owner(pcity));
-  if (capital) {
-    int tmp = map_distance(capital->tile, pcity->tile);
-    dist = MIN(32, tmp);
-  } else {
-    /* No capital? Take max penalty! */
-    dist = 32;
-  }
+  /* Max penalty. Applied if there is no capital, or it's even further away. */
+  dist = 32;
+  city_list_iterate(city_owner(pcity)->cities, capital) {
+    if (is_capital(capital)) {
+      int tmp = map_distance(capital->tile, pcity->tile);
+
+      if (tmp < dist) {
+        dist = tmp;
+      }
+    }
+  } city_list_iterate_end;
 
   size = MAX(1, city_size_get(pcity)
                 + pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]
