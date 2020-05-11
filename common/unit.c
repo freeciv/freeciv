@@ -869,15 +869,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_MINE:
     if (pterrain->mining_result != pterrain
         && pterrain->mining_result != T_NONE) {
-      if (target != NULL) {
-        return FALSE;
-      }
-
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_PLANT,
-                                            punit, ptile, NULL);
+      return FALSE;
     } else if (pterrain->mining_result == pterrain) {
       /* The call below doesn't support actor tile speculation. */
       fc_assert_msg(unit_tile(punit) == ptile,
@@ -903,15 +895,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_IRRIGATE:
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE) {
-      if (target != NULL) {
-        return FALSE;
-      }
-
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
-                                            punit, ptile, NULL);
+      return FALSE;
     } else if (pterrain->irrigation_result == pterrain) {
       /* The call below doesn't support actor tile speculation. */
       fc_assert_msg(unit_tile(punit) == ptile,
@@ -1507,8 +1491,6 @@ bool is_clean_activity(enum unit_activity activity)
 
 /**********************************************************************//**
   Returns true if given activity changes terrain.
-  ACTIVITY_IRRIGATE and ACTIVITY_PLANT return FALSE as their primary
-  purpose is to build extras.
 **************************************************************************/
 bool is_terrain_change_activity(enum unit_activity activity)
 {
