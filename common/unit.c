@@ -1449,23 +1449,9 @@ bool unit_being_aggressive(const struct unit *punit)
 **************************************************************************/
 bool is_build_activity(enum unit_activity activity, const struct tile *ptile)
 {
-  struct terrain *pterr = NULL;
-
-  if (ptile != NULL) {
-    pterr = tile_terrain(ptile);
-  }
-
   switch (activity) {
   case ACTIVITY_MINE:
-    if (pterr != NULL && pterr->mining_result != pterr) {
-      return FALSE;
-    }
-    return TRUE;
   case ACTIVITY_IRRIGATE:
-    if (pterr != NULL && pterr->irrigation_result != pterr) {
-      return FALSE;
-    }
-    return TRUE;
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
     return TRUE;
