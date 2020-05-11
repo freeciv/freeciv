@@ -4447,7 +4447,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool igzoc, bool move_do_not_act)
 {
   struct player *pplayer = unit_owner(punit);
-  struct city *pcity = tile_city(pdesttile);
 
   /*** Phase 1: Basic checks ***/
 
@@ -4485,56 +4484,57 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
    * client will probably use the list of potentially legal actions, if any,
    * to pop up an action selection dialog. See handle_unit_action_query()
    *
-   * If the AI has used a goto to send an actor to a target do not
-   * pop up a dialog in the client.
-   * For tiles occupied by allied cities or units, keep moving if
-   * move_do_not_act tells us to, or if the unit is on goto and the tile
-   * is not the final destination. */
+   * If move_do_not_act is TRUE the move is never interpreted as an attempt
+   * to perform an enabler controlled action.
+   * Examples of where this is useful is for AI moves, goto, when the player
+   * attempts to move to a tile occupied by potential targets like allied
+   * cities or units and during rule forced moves.
+   *
+   * A move is not interpreted as an attempted action because the unit is
+   * able to do a self targeted action.
+   *
+   * A move is not interpreted as an attempted action because an action
+   * with rare_pop_up set to TRUE is legal unless the unit is unable to
+   * perform a regular move to the tile.
+   *
+   * An attempted move to a tile a unit can't move to is always interpreted
+   * as trying to perform an action (unless move_do_not_act is TRUE) */
   if (!move_do_not_act) {
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
                                                      igzoc, FALSE);
-    struct extra_type *textra = action_tgt_tile_extra(punit, pdesttile,
-                                                      can_not_move);
-    struct tile *ttile = action_tgt_tile(punit, pdesttile, textra,
-                                         can_not_move);
+    bool one_action_may_be_legal
+        =  action_tgt_unit(punit, pdesttile, can_not_move)
+        || action_tgt_city(punit, pdesttile, can_not_move)
+        || action_tgt_tile_units(punit, pdesttile, can_not_move)
+        /* A legal action with an extra sub target is a legal action */
+        || action_tgt_tile_extra(punit, pdesttile, can_not_move)
+        /* Tile target actions with extra sub targets are handled above */
+        || action_tgt_tile(punit, pdesttile, NULL, can_not_move);
 
-    /* Consider to pop up the action selection dialog if a potential city,
-     * unit or units target exists at the destination tile. A tile target
-     * will only trigger the pop up if it may be legal. */
-    if ((0 < unit_list_size(pdesttile->units) || pcity || ttile)) {
-      /* A target (unit or city) exists at the tile. If a target is an ally
-       * it still looks like a target since move_do_not_act isn't set.
-       * Assume that the intention is to do an action. */
+    if (one_action_may_be_legal || can_not_move) {
+      /* There is a target punit, from the player's point of view, may be
+       * able to act against OR punit can't do any non action move. The
+       * client should therefore ask what action(s) the unit can perform
+       * to any targets at pdesttile.
+       *
+       * In the first case the unit needs a decision about what action, if
+       * any at all, to take. Asking what actions the unit can perform
+       * will return a list of actions that may, from the players point of
+       * view, be possible. The client can then show this list to the
+       * player or, if configured to do so, make the choice it self.
+       *
+       * In the last case the player may need an explanation about why no
+       * action could be taken. Asking what actions the unit can perform
+       * will provide this explanation. */
+      punit->action_decision_want = ACT_DEC_ACTIVE;
+      punit->action_decision_tile = pdesttile;
+      send_unit_info(player_reply_dest(pplayer), punit);
 
-      if ((action_tgt_unit(punit, pdesttile, can_not_move)
-           || action_tgt_city(punit, pdesttile, can_not_move)
-           || action_tgt_tile_units(punit, pdesttile, can_not_move)
-           || ttile || textra)
-          || can_not_move) {
-        /* There is a target punit, from the player's point of view, may be
-         * able to act against OR punit can't do any non action move. The
-         * client should therefore ask what action(s) the unit can perform
-         * to any targets at pdesttile.
-         *
-         * In the first case the unit needs a decision about what action, if
-         * any at all, to take. Asking what actions the unit can perform
-         * will return a list of actions that may, from the players point of
-         * view, be possible. The client can then show this list to the
-         * player or, if configured to do so, make the choice it self.
-         *
-         * In the last case the player may need an explanation about why no
-         * action could be taken. Asking what actions the unit can perform
-         * will provide this explanation. */
-        punit->action_decision_want = ACT_DEC_ACTIVE;
-        punit->action_decision_tile = pdesttile;
-        send_unit_info(player_reply_dest(pplayer), punit);
-
-        /* The move wasn't done because the unit wanted the player to
-         * decide what to do or because the unit couldn't move to the
-         * target tile. */
-        return FALSE;
-      }
+      /* The move wasn't done because the unit wanted the player to
+       * decide what to do or because the unit couldn't move to the
+       * target tile. */
+      return FALSE;
     }
   }
 
