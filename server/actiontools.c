@@ -736,55 +736,10 @@ struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
 
 /**********************************************************************//**
   Returns the tile iff it, from the point of view of the owner of the
-  actor unit, looks like each unit on it is an ATK_UNITS target for the
-  actor unit.
-
-  Returns NULL if the player knows that the actor unit can't do any
-  ATK_UNITS action to all units at the target tile.
-
-  If the owner of the actor unit doesn't have the knowledge needed to know
-  for sure if the unit can act the tile will be returned.
-
-  If the only action(s) that can be performed against a target has the
-  rare_pop_up property the target will only be considered valid if the
-  accept_all_actions argument is TRUE.
-**************************************************************************/
-struct tile *action_tgt_tile_units(struct unit *actor,
-                                   struct tile *target,
-                                   bool accept_all_actions)
-{
-  if (actor == NULL || target == NULL) {
-    /* Can't do any actions if actor or target are missing. */
-    return NULL;
-  }
-
-  action_iterate(act) {
-    if (!(action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_UNITS)) {
-      /* Not a relevant action. */
-      continue;
-    }
-
-    if (action_id_is_rare_pop_up(act) && !accept_all_actions) {
-      /* Not relevant since not accepted here. */
-      continue;
-    }
-
-    if (action_prob_possible(action_prob_vs_units(actor, act, target))) {
-      /* One action is enough. */
-      return target;
-    }
-  } action_iterate_end;
-
-  return NULL;
-}
-
-/**********************************************************************//**
-  Returns the tile iff it, from the point of view of the owner of the
   actor unit, looks like a target tile.
 
   Returns NULL if the player knows that the actor unit can't do any
-  ATK_TILE action to the tile.
+  action (that specifies its target as a tile) to the tile.
 
   If the owner of the actor unit doesn't have the knowledge needed to know
   for sure if the unit can act the tile will be returned.
@@ -804,8 +759,9 @@ struct tile *action_tgt_tile(struct unit *actor,
   }
 
   action_iterate(act) {
-    if (!(action_id_get_actor_kind(act) == AAK_UNIT
-        && action_id_get_target_kind(act) == ATK_TILE)) {
+    struct act_prob prob;
+
+    if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not a relevant action. */
       continue;
     }
@@ -815,8 +771,25 @@ struct tile *action_tgt_tile(struct unit *actor,
       continue;
     }
 
-    if (action_prob_possible(action_prob_vs_tile(actor, act, target,
-                                                 target_extra))) {
+    switch (action_id_get_target_kind(act)) {
+    case ATK_TILE:
+      prob = action_prob_vs_tile(actor, act, target, target_extra);
+      break;
+    case ATK_UNITS:
+      prob = action_prob_vs_units(actor, act, target);
+      break;
+    case ATK_CITY:
+    case ATK_UNIT:
+    case ATK_SELF:
+      /* Target not specified by tile. */
+      continue;
+    case ATK_COUNT:
+      /* Invalid target kind */
+      fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
+      continue;
+    }
+
+    if (action_prob_possible(prob)) {
       /* The actor unit may be able to do this action to the target
        * tile. */
       return target;
@@ -934,10 +907,7 @@ action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                                             TRUE));                        \
   tgt_unit = (target_unit ? target_unit                                    \
                           : action_tgt_unit(actor, unit_tile(actor),       \
-                                            TRUE));                        \
-  tgt_units = (target_tile                                                 \
-               ? target_tile                                               \
-               : action_tgt_tile_units(actor, unit_tile(actor), TRUE));
+                                            TRUE));
 
 /**********************************************************************//**
   Make the specified actor unit perform an action because of cause.
@@ -962,7 +932,6 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   const struct city *tgt_city;
   const struct tile *tgt_tile;
   const struct unit *tgt_unit;
-  const struct tile *tgt_units;
 
   const struct action_auto_perf *autoperf
       = action_auto_perf_unit_sel(cause, actor, other_player, output);
@@ -990,9 +959,9 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
 
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
-        if (tgt_units
-            && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
-          perform_action_to(act, actor, tgt_units->index, EXTRA_NONE);
+        if (tgt_tile
+            && is_action_enabled_unit_on_units(act, actor, tgt_tile)) {
+          perform_action_to(act, actor, tgt_tile->index, EXTRA_NONE);
         }
         break;
       case ATK_TILE:
@@ -1053,7 +1022,6 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   const struct city *tgt_city;
   const struct tile *tgt_tile;
   const struct unit *tgt_unit;
-  const struct tile *tgt_units;
 
   const struct action_auto_perf *autoperf
       = action_auto_perf_unit_sel(cause, actor, other_player, output);
@@ -1076,9 +1044,9 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
 
       switch (action_id_get_target_kind(act)) {
       case ATK_UNITS:
-        if (tgt_units
-            && is_action_enabled_unit_on_units(act, actor, tgt_units)) {
-          current = action_prob_vs_units(actor, act, tgt_units);
+        if (tgt_tile
+            && is_action_enabled_unit_on_units(act, actor, tgt_tile)) {
+          current = action_prob_vs_units(actor, act, tgt_tile);
         }
         break;
       case ATK_TILE:

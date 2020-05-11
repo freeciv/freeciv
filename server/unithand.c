@@ -4506,7 +4506,6 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     bool one_action_may_be_legal
         =  action_tgt_unit(punit, pdesttile, can_not_move)
         || action_tgt_city(punit, pdesttile, can_not_move)
-        || action_tgt_tile_units(punit, pdesttile, can_not_move)
         /* A legal action with an extra sub target is a legal action */
         || action_tgt_tile_extra(punit, pdesttile, can_not_move)
         /* Tile target actions with extra sub targets are handled above */
