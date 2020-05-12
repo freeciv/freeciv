@@ -970,6 +970,7 @@ action        = "Transform Terrain"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Transform",    "Local"
+      "UnitFlag",      "Settlers",     "Local"
     }
 
 [actionenabler_cultivate]

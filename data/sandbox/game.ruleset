@@ -1251,6 +1251,7 @@ actor_reqs    =
     { "type",          "name",         "range"
       "Tech",          "Fusion Power", "Player"
       "UnitFlag",      "Transform",    "Local"
+      "UnitFlag",      "Settlers",     "Local"
     }
 
 [actionenabler_cultivate]

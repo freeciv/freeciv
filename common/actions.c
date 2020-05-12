@@ -311,6 +311,23 @@ static void hard_code_oblig_hard_reqs(void)
                           "flag.",
                           ACTION_FORTIFY, ACTION_NONE);
 
+  /* Why this is a hard requirement: Preserve semantics of the Settlers
+   * unit type flag. */
+  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          UTYF_SETTLERS),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has the Settlers utype flag.",
+                          ACTION_TRANSFORM_TERRAIN,
+                          ACTION_CULTIVATE,
+                          ACTION_PLANT,
+                          ACTION_ROAD,
+                          ACTION_BASE,
+                          ACTION_MINE,
+                          ACTION_IRRIGATE,
+                          ACTION_NONE);
+
   /* Why this is a hard requirement: Preserve semantics of NoHome
    * flag. Need to replace other uses in game engine before this can
    * be demoted to a regular unit flag. */
@@ -2101,19 +2118,6 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_CULTIVATE:
-  case ACTION_PLANT:
-  case ACTION_ROAD:
-  case ACTION_BASE:
-  case ACTION_MINE:
-  case ACTION_IRRIGATE:
-    if (!utype_has_flag(actor_unittype, UTYF_SETTLERS)) {
-      /* Reason: Must have "Settlers" flag. */
-      return FALSE;
-    }
-    break;
-
   case ACTION_CONVERT:
     if (!actor_unittype->converted_to) {
       /* Reason: must be able to convert to something. */
@@ -2178,6 +2182,13 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
   case ACTION_FORTIFY:
+  case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_CULTIVATE:
+  case ACTION_PLANT:
+  case ACTION_ROAD:
+  case ACTION_BASE:
+  case ACTION_MINE:
+  case ACTION_IRRIGATE:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
   case ACTION_TRANSPORT_ALIGHT:
