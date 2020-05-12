@@ -1345,10 +1345,20 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                   ACTION_CONVERT,
                                   punit, unit_home(punit), ptile,
                                   omniscient_cheat));
+  case ACTIVITY_POLLUTION:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_CLEAN_POLLUTION,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
+  case ACTIVITY_FALLOUT:
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_CLEAN_FALLOUT,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
-  case ACTIVITY_POLLUTION:
-  case ACTIVITY_FALLOUT:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
   case ACTIVITY_EXPLORE:

@@ -1166,8 +1166,12 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
     extra_type_re_active_iterate(pextra) {
       if (BV_ISSET(potential_targets, extra_number(pextra))) {
         /* This extra is at the tile. Can anything be done to it? */
-        if (!(is_extra_removed_by(pextra, ERM_PILLAGE)
-              && unit_can_do_action(act_unit, ACTION_PILLAGE))) {
+        if (!((is_extra_removed_by(pextra, ERM_PILLAGE)
+               && unit_can_do_action(act_unit, ACTION_PILLAGE))
+              || (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
+                  && unit_can_do_action(act_unit, ACTION_CLEAN_POLLUTION))
+              || (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
+                  && unit_can_do_action(act_unit, ACTION_CLEAN_FALLOUT)))) {
           /* TODO: add more extra removal actions as they appear. */
           BV_CLR(potential_targets, extra_number(pextra));
         }

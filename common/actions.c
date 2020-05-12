@@ -326,6 +326,8 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_BASE,
                           ACTION_MINE,
                           ACTION_IRRIGATE,
+                          ACTION_CLEAN_POLLUTION,
+                          ACTION_CLEAN_FALLOUT,
                           ACTION_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of NoHome
@@ -814,6 +816,14 @@ static void hard_code_actions(void)
                  0, 0, FALSE);
   actions[ACTION_PILLAGE] =
       action_new(ACTION_PILLAGE, ATK_TILE, ASTK_EXTRA,
+                 FALSE, ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                 0, 0, FALSE);
+  actions[ACTION_CLEAN_POLLUTION] =
+      action_new(ACTION_CLEAN_POLLUTION, ATK_TILE, ASTK_EXTRA,
+                 FALSE, ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                 0, 0, FALSE);
+  actions[ACTION_CLEAN_FALLOUT] =
+      action_new(ACTION_CLEAN_FALLOUT, ATK_TILE, ASTK_EXTRA,
                  FALSE, ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
                  0, 0, FALSE);
   actions[ACTION_FORTIFY] =
@@ -1549,6 +1559,10 @@ enum unit_activity action_get_activity(const struct action *paction)
     return ACTIVITY_GEN_ROAD;
   } else if (action_has_result(paction, ACTION_PILLAGE)) {
     return ACTIVITY_PILLAGE;
+  } else if (action_has_result(paction, ACTION_CLEAN_POLLUTION)) {
+    return ACTIVITY_POLLUTION;
+  } else if (action_has_result(paction, ACTION_CLEAN_FALLOUT)) {
+    return ACTIVITY_FALLOUT;
   } else if (action_has_result(paction, ACTION_TRANSFORM_TERRAIN)) {
     return ACTIVITY_TRANSFORM;
   } else if (action_has_result(paction, ACTION_CONVERT)) {
@@ -2181,6 +2195,8 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
@@ -2382,6 +2398,8 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_BASE:
@@ -3073,6 +3091,86 @@ is_action_possible(const action_id wanted_action,
           return TRI_NO;
         }
       }
+    }
+    break;
+
+  case ACTION_CLEAN_POLLUTION:
+    {
+      const struct extra_type *pextra;
+
+      pterrain = tile_terrain(target_tile);
+      if (pterrain->clean_pollution_time == 0) {
+        return TRI_NO;
+      }
+
+      if (target_extra != NULL) {
+        pextra = target_extra;
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = prev_extra_in_tile(target_tile,
+                                    ERM_CLEANPOLLUTION,
+                                    actor_player,
+                                    actor_unit);
+        if (pextra == NULL) {
+          /* No available pollution extras */
+          return TRI_NO;
+        }
+      }
+
+      if (!is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)) {
+        return TRI_NO;
+      }
+
+      if (!can_remove_extra(pextra, actor_unit, target_tile)) {
+        return TRI_NO;
+      }
+
+      if (tile_has_extra(target_tile, pextra)) {
+        return TRI_YES;
+      }
+
+      return TRI_NO;
+    }
+    break;
+
+  case ACTION_CLEAN_FALLOUT:
+    {
+      const struct extra_type *pextra;
+
+      pterrain = tile_terrain(target_tile);
+      if (pterrain->clean_fallout_time == 0) {
+        return TRI_NO;
+      }
+
+      if (target_extra != NULL) {
+        pextra = target_extra;
+      } else {
+        /* TODO: Make sure that all callers set target so that
+         * we don't need this fallback. */
+        pextra = prev_extra_in_tile(target_tile,
+                                    ERM_CLEANFALLOUT,
+                                    actor_player,
+                                    actor_unit);
+        if (pextra == NULL) {
+          /* No available pollution extras */
+          return TRI_NO;
+        }
+      }
+
+      if (!is_extra_removed_by(pextra, ERM_CLEANFALLOUT)) {
+        return TRI_NO;
+      }
+
+      if (!can_remove_extra(pextra, actor_unit, target_tile)) {
+        return TRI_NO;
+      }
+
+      if (tile_has_extra(target_tile, pextra)) {
+        return TRI_YES;
+      }
+
+      return TRI_NO;
     }
     break;
 
@@ -4238,6 +4336,8 @@ action_prob(const action_id wanted_action,
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -5258,6 +5358,8 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -5661,6 +5763,10 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_plant";
   case ACTION_PILLAGE:
     return "ui_name_pillage";
+  case ACTION_CLEAN_POLLUTION:
+    return "ui_name_clean_pollution";
+  case ACTION_CLEAN_FALLOUT:
+    return "ui_name_clean_fallout";
   case ACTION_FORTIFY:
     return "ui_name_fortify";
   case ACTION_ROAD:
@@ -5885,6 +5991,12 @@ const char *action_ui_name_default(int act)
   case ACTION_PILLAGE:
     /* TRANS: Pilla_ge (100% chance of success). */
     return N_("Pilla%sge%s");
+  case ACTION_CLEAN_POLLUTION:
+    /* TRANS: Clean _Pollution (100% chance of success). */
+    return N_("Clean %sPollution%s");
+  case ACTION_CLEAN_FALLOUT:
+    /* TRANS: Clean _Fallout (100% chance of success). */
+    return N_("Clean %sFallout%s");
   case ACTION_FORTIFY:
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
@@ -6002,6 +6114,8 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -6096,6 +6210,8 @@ int action_min_range_default(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -6189,6 +6305,8 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -6290,6 +6408,8 @@ int action_max_range_default(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -6393,6 +6513,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
@@ -6490,6 +6612,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:

@@ -122,6 +122,8 @@ static void transform_terrain(QVariant data1, QVariant data2);
 static void cultivate(QVariant data1, QVariant data2);
 static void plant(QVariant data1, QVariant data2);
 static void pillage(QVariant data1, QVariant data2);
+static void clean_pollution(QVariant data1, QVariant data2);
+static void clean_fallout(QVariant data1, QVariant data2);
 static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
@@ -246,6 +248,8 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_CULTIVATE] = cultivate;
   action_function[ACTION_PLANT] = plant;
   action_function[ACTION_PILLAGE] = pillage;
+  action_function[ACTION_CLEAN_POLLUTION] = clean_pollution;
+  action_function[ACTION_CLEAN_FALLOUT] = clean_fallout;
   action_function[ACTION_ROAD] = road;
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
@@ -2560,6 +2564,46 @@ static void pillage(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
     request_do_action(ACTION_PILLAGE,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Clean Pollution" for choice dialog
+***************************************************************************/
+static void clean_pollution(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_CLEAN_POLLUTION,
+                      actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(),
+                      "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Clean Fallout" for choice dialog
+***************************************************************************/
+static void clean_fallout(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_CLEAN_FALLOUT,
                       actor_id, target_id,
                       /* FIXME: will cause problems if more than
                        * one action selection dialog at a time

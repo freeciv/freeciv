@@ -533,6 +533,20 @@ void rscompat_postprocess(struct rscompat_info *info)
     action_enabler_add(enabler);
 
     enabler = action_enabler_new();
+    enabler->action = ACTION_CLEAN_FALLOUT;
+    e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                            UTYF_SETTLERS);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CLEAN_POLLUTION;
+    e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
+                            UTYF_SETTLERS);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
     enabler->action = ACTION_FORTIFY;
     e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UCF_CAN_FORTIFY);

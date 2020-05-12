@@ -804,6 +804,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_CONVERT:
   case ACTION_ROAD:
@@ -3069,6 +3071,18 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              unit_activity_handling_targeted(actor_unit,
                                                              ACTIVITY_PILLAGE,
+                                                             &target_extra));
+    break;
+  case ACTION_CLEAN_POLLUTION:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_POLLUTION,
+                                                             &target_extra));
+    break;
+  case ACTION_CLEAN_FALLOUT:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_activity_handling_targeted(actor_unit,
+                                                             ACTIVITY_FALLOUT,
                                                              &target_extra));
     break;
   case ACTION_ROAD:

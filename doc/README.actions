@@ -735,6 +735,32 @@ Actions done by a unit against a tile
  * UI name can be set using ui_name_pillage
  * terrain type must be one where pillaging is possible
 
+"Clean Pollution"   - clean extra from the target tile.
+ * UI name can be set using ui_name_clean_pollution
+ * actor must be on the same tile as the target.
+ * the actor unit has the "Settlers" unit type flag (!)
+ * the target extra must be present at the target tile
+ * the terrain of the target tile must have a non 0 clean_pollution_time
+ * the target extra must have the CleanPollution removal cause
+ * the target extra's rmreqs must be fulfilled
+ * the target extra can't have the AlwaysOnCityCenter extra flag if the
+   target tile has a city
+ * the target extra can't have the AutoOnCityCenter extra flag if the
+   target tile has a city and the city's owner can rebuild it
+
+"Clean Fallout"     - clean extra from the target tile.
+ * UI name can be set using ui_name_clean_fallout
+ * actor must be on the same tile as the target.
+ * the actor unit has the "Settlers" unit type flag (!)
+ * the target extra must be present at the target tile
+ * the terrain of the target tile must have a non 0 clean_fallout_time
+ * the target extra must have the CleanFallout removal cause
+ * the target extra's rmreqs must be fulfilled
+ * the target extra can't have the AlwaysOnCityCenter extra flag if the
+   target tile has a city
+ * the target extra can't have the AutoOnCityCenter extra flag if the
+   target tile has a city and the city's owner can rebuild it
+
 "Build Road"        - Build road at the target tile.
  * UI name can be set using ui_name_road
  * actor must be on the same tile as the target.

@@ -1272,6 +1272,8 @@ static int action_target_neg_util(action_id act_id,
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
   case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
   case ACTION_ROAD:
   case ACTION_CONVERT:

@@ -4805,6 +4805,8 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_CULTIVATE:
       case ACTION_PLANT:
       case ACTION_PILLAGE:
+      case ACTION_CLEAN_POLLUTION:
+      case ACTION_CLEAN_FALLOUT:
       case ACTION_ROAD:
       case ACTION_BASE:
       case ACTION_MINE:
