@@ -218,7 +218,7 @@ bool player_can_place_extra(const struct extra_type *pextra,
                             const struct player *pplayer,
                             const struct tile *ptile);
 
-bool can_remove_extra(struct extra_type *pextra,
+bool can_remove_extra(const struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile);
 bool player_can_remove_extra(const struct extra_type *pextra,
