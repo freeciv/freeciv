@@ -504,7 +504,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* Unit flags */
     effect_req_append(peffect, req_from_str("UnitClassFlag", "Local", FALSE, TRUE,
                                             FALSE, "CanFortify"));
-    effect_req_append(peffect, req_from_str("UnitTypeFlag", "Local", FALSE, FALSE,
+    effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, FALSE,
                                             FALSE, "Cant_Fortify"));
   }
 
