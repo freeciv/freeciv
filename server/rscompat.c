@@ -57,6 +57,7 @@ int rscompat_check_capabilities(struct section_file *file,
 {
   const char *datafile_options;
   bool ok = FALSE;
+  int format;
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
     log_fatal("\"%s\": ruleset capability problem:", filename);
@@ -96,7 +97,17 @@ int rscompat_check_capabilities(struct section_file *file,
     }
   }
 
-  return secfile_lookup_int_default(file, 1, "datafile.format_version");
+  if (!secfile_lookup_int(file, &format, "datafile.format_version")) {
+    log_error("\"%s\": lacking legal format_version field", filename);
+    ruleset_error(LOG_ERROR, "%s", secfile_error());
+
+    return 0;
+  } else if (format == 0) {
+    log_error("\"%s\": Illegal format_version value", filename);
+    ruleset_error(LOG_ERROR, "Format version error");
+  }
+
+  return format;
 }
 
 /**********************************************************************//**
