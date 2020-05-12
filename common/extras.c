@@ -455,7 +455,7 @@ bool player_can_remove_extra(const struct extra_type *pextra,
 /****************************************************************************
   Tells if unit can remove extra from tile.
 ****************************************************************************/
-bool can_remove_extra(struct extra_type *pextra,
+bool can_remove_extra(const struct extra_type *pextra,
                       const struct unit *punit,
                       const struct tile *ptile)
 {
