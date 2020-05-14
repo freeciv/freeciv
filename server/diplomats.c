@@ -1688,7 +1688,7 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   log_debug("steal some maps: succeeded");
 
   /* Steal it. */
-  give_distorted_map(tgt_player, act_player, 1, 1, TRUE);
+  give_distorted_map(tgt_player, act_player, 50, TRUE);
 
   /* Notify everyone involved. */
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_MAP, ftc_server,

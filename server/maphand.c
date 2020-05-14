@@ -2494,20 +2494,19 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
 }
 
 /**********************************************************************//**
-  Give player pto the map of pfrom, but do some random damage; good to bad
-  is the ratio of tiles revealed to tiles not revealed, e.g., calling
-  give_distorted_map(pfrom, pto, 1, 1, TRUE) reveals half the map on
-  average. If reveal_cities is TRUE tiles with cities are always revealed.
+  Transfer (random parts of) player pfrom's world map to pto.
+  @param pfrom         player that is the source of the map
+  @param pto           player that receives the map
+  @param prob          probability for the transfer each known tile
+  @param reveal_cities if the map of all known cities should be transferred
 **************************************************************************/
 void give_distorted_map(struct player *pfrom, struct player *pto,
-                        int good, int bad, bool reveal_cities)
+                        int prob, bool reveal_cities)
 {
-  int all = good + bad;
-
   buffer_shared_vision(pto);
 
   whole_map_iterate(&(wld.map), ptile) {
-    if (fc_rand(all) >= bad) {
+    if (fc_rand(100) < prob) {
       give_tile_info_from_player_to_player(pfrom, pto, ptile);
     } else if (reveal_cities && NULL != tile_city(ptile)) {
       give_tile_info_from_player_to_player(pfrom, pto, ptile);
