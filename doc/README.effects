@@ -275,6 +275,13 @@ Thiefs_Share_Pm
 "Steal Gold Escape" actions that is lost before it reaches the player
 ordering it. Evaluated against the actor unit.
 
+Maps_Stolen_Pct
+    The probability (in percent) that the map of a tile is stolen in the
+actions "Steal Maps" and "Steal Maps Escape".
+DiplRel reqs are unit owner to city owner.
+Requirements evaluated against tile or city not supported.
+Default value: 100%
+
 Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
 that turns out to be illegal.

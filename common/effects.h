@@ -304,6 +304,8 @@ extern "C" {
 #define SPECENUM_VALUE120NAME "Infra_Points"
 #define SPECENUM_VALUE121 EFT_FORTIFY_DEFENSE_BONUS
 #define SPECENUM_VALUE121NAME "Fortify_Defense_Bonus"
+#define SPECENUM_VALUE122 EFT_MAPS_STOLEN_PCT
+#define SPECENUM_VALUE122NAME "Maps_Stolen_Pct"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

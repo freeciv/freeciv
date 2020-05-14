@@ -4153,6 +4153,14 @@ reqs	=
       "Action", "Steal Maps Escape", "Local", TRUE
     }
 
+[effect_steal_maps_pct]
+type	= "Maps_Stolen_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Maps Escape", "Local", TRUE
+    }
+
 [effect_incident_caught_steal_tech]
 type	= "Casus_Belli_Caught"
 value	= 1

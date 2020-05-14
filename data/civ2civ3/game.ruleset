@@ -288,6 +288,11 @@ force_explode_nuclear = TRUE
 ; or "Poison City Escape" will empty the food stock.
 poison_empties_food_stock = FALSE
 
+; If steal_maps_reveals_all_cities is set to TRUE a successful "Steal Maps"
+; or "Steal Maps Escape" will transfer the map for all tiles containing a
+; city.
+;steal_maps_reveals_all_cities = TRUE
+
 ; The maximum distance from the actor unit to the target of the "Bombard"
 ; action. The value 1 means that the targets must be on a tile adjacent to
 ; the actor unit. The special value "unlimited" lifts the maximum distance

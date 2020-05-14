@@ -1623,6 +1623,8 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   struct player *tgt_player;
   struct tile *tgt_tile;
 
+  int normal_tile_prob;
+
   const char *tgt_city_link;
 
   /* Sanity check: The actor still exists. */
@@ -1688,7 +1690,31 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
   log_debug("steal some maps: succeeded");
 
   /* Steal it. */
-  give_distorted_map(tgt_player, act_player, 50, TRUE);
+  normal_tile_prob = 100
+      + get_target_bonus_effects(NULL,
+                                 act_player, tgt_player,
+                                 /* Decide once requests from ruleset
+                                  * authors arrive. Could be target city or
+                                  * - with a refactoring - the city at the
+                                  * tile that may be transferred. */
+                                 NULL,
+                                 NULL,
+                                 /* Decide once requests from ruleset
+                                  * authors arrive. Could be actor unit
+                                  * tile, target city tile or even - with a
+                                  * refactoring - the tile that may be
+                                  * transferred. */
+                                 NULL,
+                                 act_unit, unit_type_get(act_unit),
+                                 NULL, NULL, paction,
+                                 EFT_MAPS_STOLEN_PCT);
+  give_distorted_map(tgt_player, act_player,
+                     normal_tile_prob,
+                     /* Could - with a refactoring where EFT_MAPS_STOLEN_PCT
+                      * is evaulated for each tile and the city sent to it
+                      * is the tile to transfer's city - be moved into
+                      * EFT_MAPS_STOLEN_PCT. */
+                     game.info.steal_maps_reveals_all_cities);
 
   /* Notify everyone involved. */
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_MAP, ftc_server,

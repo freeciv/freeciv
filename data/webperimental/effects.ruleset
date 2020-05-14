@@ -2476,6 +2476,14 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
+[effect_steal_maps_pct]
+type	= "Maps_Stolen_Pct"
+value	= -50
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Steal Maps Escape", "Local", TRUE
+    }
+
 [effect_illegal_action_move_cost_base]
 type	= "Illegal_Action_Move_Cost"
 value	= 1

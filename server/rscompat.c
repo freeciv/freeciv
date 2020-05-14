@@ -506,6 +506,10 @@ void rscompat_postprocess(struct rscompat_info *info)
                                             FALSE, "CanFortify"));
     effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, FALSE,
                                             FALSE, "Cant_Fortify"));
+
+    /* The probability that "Steal Maps" and "Steal Maps Escape" steals the
+     * map of a tile has moved to the ruleset. */
+    peffect = effect_new(EFT_MAPS_STOLEN_PCT, -50, NULL);
   }
 
   if (info->ver_units < 20) {

@@ -6506,6 +6506,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                                       "actions.poison_empties_food_stock");
 
+      /* If the "Steal Maps" action or the "Steal Maps Escape" action always
+       * will reveal all cities when successful. */
+      game.info.steal_maps_reveals_all_cities
+        = secfile_lookup_bool_default(file,
+                                      RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
+                                      "actions.steal_maps_reveals_all_cities");
+
       /* Allow setting required distance for some actions before generalized
        * actions. */
       action_iterate(act_id) {

@@ -1158,6 +1158,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
 
+  save_default_bool(sfile, game.info.steal_maps_reveals_all_cities,
+                    RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
+                    "actions.steal_maps_reveals_all_cities", NULL);
+
   action_iterate(act_id) {
     save_action_ui_name(sfile,
                         act_id, action_ui_name_ruleset_var_name(act_id));
