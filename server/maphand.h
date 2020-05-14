@@ -138,7 +138,7 @@ void create_extra(struct tile *ptile, struct extra_type *pextra,
                   struct player *pplayer);
 void destroy_extra(struct tile *ptile, struct extra_type *pextra);
 
-void give_distorted_map(struct player *pfrom, struct player *pto, int good,
-                        int bad, bool reveal_cities);
+void give_distorted_map(struct player *pfrom, struct player *pto,
+                        int prob, bool reveal_cities);
 
 #endif  /* FC__MAPHAND_H */

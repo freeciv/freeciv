@@ -2150,7 +2150,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     int n;
 
     /* give map */
-    give_distorted_map(pvictim, pvictor, 1, 1, TRUE);
+    give_distorted_map(pvictim, pvictor, 50, TRUE);
 
     log_debug("victim has money: %d", pvictim->economic.gold);
     pvictor->economic.gold += ransom; 
