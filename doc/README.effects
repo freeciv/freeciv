@@ -307,15 +307,17 @@ gives every other player a casus belli against the actor.
 
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
-    risk: the actor may get caught before he can perform it. This effect
-    modifies the actor's odds. A positive value helps him. A negative value
-    makes it more probable that he will get caught. Currently supports the
-    actions "Incite City", "Incite City Escape", "Steal Gold",
-    "Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
-    "Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
-    "Targeted Sabotage City", "Targeted Sabotage City Escape",
-    "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech",
-    "Targeted Steal Tech Escape Expected" and "Spread Plague".
+risk: the actor may get caught before he can perform it. This effect
+modifies the actor's odds. A positive value helps him. A negative value
+makes it more probable that he will get caught. Currently supports the
+actions "Incite City", "Incite City Escape", "Steal Gold",
+"Steal Gold Escape", "Steal Maps", "Steal Maps Escape", "Suitcase Nuke",
+"Suitcase Nuke Escape", "Sabotage City", "Sabotage City Escape",
+"Targeted Sabotage City", "Targeted Sabotage City Escape",
+"Sabotage City Production", "Sabotage City Production Escape",
+"Surgical Strike Building", "Surgical Strike Production",
+"Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech",
+"Targeted Steal Tech Escape Expected" and "Spread Plague".
 
 Size_Adj
     Increase maximum size of a city by amount.
