@@ -2161,6 +2161,22 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
 }
 
 /**********************************************************************//**
+  Calculate how expensive it is to bribe the units on a tile.
+**************************************************************************/
+int units_bribe_cost(struct tile *ptile, struct player *briber)
+{
+  int cost = 0;
+
+  fc_assert_ret_val(ptile != NULL, 0);
+
+  unit_list_iterate(ptile->units, punit) {
+    cost += unit_bribe_cost(punit, briber);
+  } unit_list_iterate_end;
+
+  return cost;
+}
+
+/**********************************************************************//**
   Load pcargo onto ptrans. Returns TRUE on success.
 **************************************************************************/
 bool unit_transport_load(struct unit *pcargo, struct unit *ptrans, bool force)

@@ -202,6 +202,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTION_SPY_INCITE_CITY,
                           ACTION_SPY_INCITE_CITY_ESC,
                           ACTION_SPY_BRIBE_UNIT,
+                          ACTION_SPY_BRIBE_UNITS,
                           ACTION_CAPTURE_UNITS,
                           ACTION_CONQUER_CITY,
                           ACTION_CONQUER_CITY2,
@@ -536,6 +537,14 @@ static void hard_code_actions(void)
       action_new(ACTION_SPY_BRIBE_UNIT, ATK_UNIT, ASTK_NONE,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
                  0, 1, FALSE);
+  actions[ACTION_SPY_BRIBE_UNITS] =
+      action_new(ACTION_SPY_BRIBE_UNITS, ATK_UNITS, ASTK_NONE,
+                 TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                 /* A single domestic unit at the target tile will make the
+                  * action illegal. It must therefore be performed from
+                  * another tile. */
+                 1, 1,
+                 FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       action_new(ACTION_SPY_SABOTAGE_CITY, ATK_CITY, ASTK_NONE,
                  TRUE, ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
@@ -1186,6 +1195,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
   case ACTION_SPY_INCITE_CITY:
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_STEAL_MAPS:
@@ -2171,6 +2181,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS:
@@ -2366,6 +2377,7 @@ action_hard_reqs_actor(const action_id wanted_action,
   case ACTION_SPY_INCITE_CITY_ESC:
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS:
@@ -2561,6 +2573,7 @@ is_action_possible(const action_id wanted_action,
   switch ((enum gen_action)wanted_action) {
   case ACTION_CAPTURE_UNITS:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see
@@ -2579,9 +2592,9 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    /* FIXME: Capture Unit may want to look for more than one unique unit
-     * of the same kind at the target tile. Currently caught by sanity
-     * check in do_capture_units(). */
+    /* FIXME: Capture and Bribe Units may want to look for more than one
+     * unique unit of the same kind at the target tile. Currently caught by
+     * sanity check in do_capture_units() and diplomat_bribe_units(). */
 
     break;
 
@@ -4151,6 +4164,7 @@ action_prob(const action_id wanted_action,
     chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
@@ -5330,6 +5344,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS:
@@ -5655,6 +5670,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_sabotage_unit_escape";
   case ACTION_SPY_BRIBE_UNIT:
     return "ui_name_bribe_unit";
+  case ACTION_SPY_BRIBE_UNITS:
+    return "ui_name_spy_bribe_units";
   case ACTION_SPY_SABOTAGE_CITY:
     return "ui_name_sabotage_city";
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -5828,6 +5845,9 @@ const char *action_ui_name_default(int act)
   case ACTION_SPY_BRIBE_UNIT:
     /* TRANS: Bribe Enemy _Unit (3% chance of success). */
     return N_("Bribe Enemy %sUnit%s");
+  case ACTION_SPY_BRIBE_UNITS:
+    /* TRANS: _Bribe Units (100% chance of success). */
+    return N_("%sBribe Units%s");
   case ACTION_SPY_SABOTAGE_CITY:
     /* TRANS: _Sabotage City (3% chance of success). */
     return N_("%sSabotage City%s");
@@ -6064,6 +6084,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6160,6 +6181,7 @@ int action_min_range_default(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6258,6 +6280,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6361,6 +6384,7 @@ int action_max_range_default(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6463,6 +6487,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:
@@ -6563,6 +6588,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
   case ACTION_SPY_TARGETED_SABOTAGE_CITY:

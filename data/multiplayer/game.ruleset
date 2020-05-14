@@ -351,6 +351,9 @@ ui_name_sabotage_unit_escape = _("%sSabotage Enemy Unit%s")
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
+; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
+ui_name_bribe_units = _("%sBribe Enemy Units%s")
+
 ; /* TRANS: _Sabotage City (3% chance of success). */
 ui_name_sabotage_city = _("%sSabotage City%s")
 
@@ -714,6 +717,24 @@ target_reqs    =
       "CityTile", "Center", "Local", FALSE
       "Gov", "Democracy", "Player", FALSE
       "MaxUnitsOnTile", "1", "Local", TRUE
+    }
+
+[actionenabler_bribe_units]
+action = "Bribe Units"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Diplomat", "Local", TRUE
+      "DiplRel", "Alliance", "Local", FALSE
+      "DiplRel", "Team", "Local", FALSE
+      "UnitState", "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Unbribable", "Local", FALSE
+      "CityTile", "Center", "Local", FALSE
+      "Gov", "Democracy", "Player", FALSE
     }
 
 [actionenabler_sabotage_unit]

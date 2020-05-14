@@ -870,6 +870,7 @@ void adv_best_government(struct player *pplayer)
             bonus += 4;
             break;
           case ACTION_SPY_BRIBE_UNIT:
+          case ACTION_SPY_BRIBE_UNITS:
             bonus += 2;
             break;
           case ACTION_TRANSFORM_TERRAIN:

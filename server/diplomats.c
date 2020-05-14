@@ -568,6 +568,221 @@ bool spy_sabotage_unit(struct player *pplayer, struct unit *pdiplomat,
 }
 
 /************************************************************************//**
+  Move to target tile after successful diplomat bribery by embarking,
+  disembarking, or moving normally.
+
+  Returns TRUE if the diplomat is alive but movement was unsuccessful,
+  otherwise FALSE. 
+****************************************************************************/
+static bool post_bribe_move(struct unit *pdiplomat, struct tile *tgt_tile,
+                            struct unit *ptransport)
+{
+  int diplomat_id = pdiplomat->id;
+
+  /* Post bribe embark. */
+  if ((can_unit_exist_at_tile(&(wld.map), pdiplomat, tgt_tile)
+       || !(ptransport
+            && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                              pdiplomat, ptransport)
+            && unit_perform_action(unit_owner(pdiplomat), diplomat_id,
+                                   ptransport->id, 0, "",
+                                   ACTION_TRANSPORT_EMBARK, ACT_REQ_RULES)))
+      /* May have died while trying to embark. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe disembark. */
+      && (!unit_transported(pdiplomat)
+          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                              pdiplomat, tgt_tile, NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(tgt_tile), 0, "",
+                                      ACTION_TRANSPORT_DISEMBARK1,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to disembark. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe disembark 2. */
+      && (!unit_transported(pdiplomat)
+          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
+                                              pdiplomat, tgt_tile, NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(tgt_tile), 0, "",
+                                      ACTION_TRANSPORT_DISEMBARK2,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to disembark. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe move. */
+      && !unit_move_handling(pdiplomat, tgt_tile, FALSE, TRUE)
+      /* May have died while trying to move. */
+      && unit_is_alive(diplomat_id)) {
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/************************************************************************//**
+  Bribe units on tile.
+  
+  - Can't bribe units if:
+    - Player doesn't have enough gold for all units on the tile.
+  - Otherwise, the units will be bribed.
+
+  - A successful briber will try to move onto the victim's square.
+
+  Returns TRUE if action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+****************************************************************************/
+bool diplomat_bribe_units(struct player *pplayer, struct unit *pdiplomat,
+                          struct tile *tgt_tile,
+                          const struct action *paction)
+{
+  int bribe_cost;
+  int diplomat_id = pdiplomat->id;
+  struct city *pcity = tile_city(tgt_tile);
+  struct unit *ptransport = NULL;
+  bv_unit_types unique_on_tile;
+
+  /* Sanity check: The actor still exists. */
+  fc_assert_ret_val(pplayer, FALSE);
+  fc_assert_ret_val(pdiplomat, FALSE);
+
+  /* Sanity checks: ensure that the target tile only has foreign units and
+   * bribe won't give the actor more than one of a unique unit type. */
+  BV_CLR_ALL(unique_on_tile);
+  unit_list_iterate(tgt_tile->units, to_bribe) {
+    bool unique_conflict = FALSE;
+    if (unit_owner(to_bribe) == pplayer) {
+      /* Nothing to do to a domestic target. */
+      return FALSE;
+    }
+
+    /* Check what the player already has. */
+    if (utype_player_already_has_this_unique(pplayer,
+                                             unit_type_get(to_bribe))) {
+      /* The player already has a unit of this kind. */
+      unique_conflict = TRUE;
+    }
+
+    if (utype_has_flag(unit_type_get(to_bribe), UTYF_UNIQUE)) {
+      /* The type of the units at the tile must also be checked. Two allied
+       * players can both have their unique unit at the same tile.
+       * Capturing them both would give the actor two units of a kind that
+       * is supposed to be unique. */
+
+      if (BV_ISSET(unique_on_tile, utype_index(unit_type_get(to_bribe)))) {
+        /* There is another unit of the same kind at this tile. */
+        unique_conflict = TRUE;
+      } else {
+        /* Remember the unit type in case another unit of the same kind is
+         * encountered later. */
+        BV_SET(unique_on_tile, utype_index(unit_type_get(to_bribe)));
+      }
+    }
+
+    if (unique_conflict) {
+      log_debug("bribe units: already got unique unit");
+      notify_player(pplayer, tgt_tile, E_UNIT_ILLEGAL_ACTION, ftc_server,
+                    /* TRANS: You can only have one Leader. */
+                    _("You can only have one %s."),
+                    unit_link(to_bribe));
+
+      return FALSE;
+    }
+  } unit_list_iterate_end;
+
+  /* Get bribe cost, ignoring any previously saved value. */
+  bribe_cost = units_bribe_cost(tgt_tile, pplayer);
+
+  /* If player doesn't have enough gold, can't bribe. */
+  if (pplayer->economic.gold < bribe_cost) {
+    notify_player(pplayer, unit_tile(pdiplomat),
+                  E_MY_DIPLOMAT_FAILED, ftc_server,
+                  _("You don't have enough gold to bribe the units at %s."),
+                  tile_link(tgt_tile));
+    log_debug("bribe units: not enough gold");
+    return FALSE;
+  }
+
+  log_debug("bribe units: enough gold");
+
+  /* Diplomatic battle against any diplomatic defenders. */
+  if (!diplomat_infiltrate_tile(pplayer, NULL,
+                                paction,
+                                pdiplomat, NULL,
+                                tgt_tile,
+                                NULL)) {
+    return FALSE;
+  }
+
+  /* Bribe cost may have changed after diplomatic defenders eliminated. */
+  bribe_cost = units_bribe_cost(tgt_tile, pplayer);
+
+  log_debug("bribe units: succeeded");
+
+  unit_list_iterate(tgt_tile->units, to_bribe) {
+    struct player *uplayer = unit_owner(to_bribe);
+    const char *victim_link;
+
+    to_bribe = unit_change_owner(to_bribe, pplayer, pdiplomat->homecity,
+                                 ULR_BRIBED);
+    /* As unit_change_owner() currently remove the old unit and
+     * replace by a new one (with a new id), we want to make link to
+     * the new unit. */
+    victim_link = unit_link(to_bribe);
+
+    /* Notify players */
+    notify_player(pplayer, tgt_tile, E_MY_DIPLOMAT_BRIBE, ftc_server,
+                  /* TRANS: <unit> ... <unit> */
+                  _("Your %s succeeded in bribing the %s %s."),
+                  unit_link(pdiplomat), nation_adjective_for_player(uplayer),
+                  victim_link);
+    notify_player(uplayer, tgt_tile, E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                  /* TRANS: <unit> ... <Poles> */
+                  _("Your %s was bribed by the %s."),
+                  victim_link,
+                  nation_plural_for_player(pplayer));
+
+    /* May cause an incident */
+    action_consequence_success(paction, pplayer,
+                               unit_owner(to_bribe),
+                               tgt_tile, victim_link);
+
+    if (pcity) {
+      /* The captured unit is in a city. Bounce it. */
+      bounce_unit(to_bribe, TRUE);
+    }
+  } unit_list_iterate_end;
+
+  /* This costs! */
+  pplayer->economic.gold -= bribe_cost;
+
+  if (!unit_is_alive(diplomat_id)) {
+    return TRUE;
+  }
+
+  /* Check for a transport for diplomat to embark onto after bribing. */
+  unit_list_iterate(tgt_tile->units, to_bribe) {
+    if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                       pdiplomat, to_bribe)) {
+      ptransport = to_bribe;
+      break;
+    }
+  } unit_list_iterate_end;
+
+  /* Try to move the briber onto the target tile. */
+  if (pcity || post_bribe_move(pdiplomat, tgt_tile, ptransport)) {
+    pdiplomat->moves_left = 0;
+  }
+  if (NULL != player_unit_by_number(pplayer, diplomat_id)) {
+    send_unit_info(NULL, pdiplomat);
+  }
+
+  /* Update clients. */
+  send_player_all_c(pplayer, NULL);
+
+  return TRUE;
+}
+
+/************************************************************************//**
   Bribe an enemy unit.
   
   - Can't bribe a unit if:
@@ -686,41 +901,7 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* Try to move the briber onto the victim's square unless the victim has
    * been bounced because it couldn't share tile with a unit or city. */
-  if (!bounce
-      /* Post bribe embark. */
-      && (can_unit_exist_at_tile(&(wld.map), pdiplomat, victim_tile)
-          || !(is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
-                                              pdiplomat, pvictim)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      pvictim->id, 0, "",
-                                      ACTION_TRANSPORT_EMBARK,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to embark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe disembark. */
-      && (!unit_transported(pdiplomat)
-          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                              pdiplomat, victim_tile, NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_TRANSPORT_DISEMBARK1,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to disembark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe disembark 2. */
-      && (!unit_transported(pdiplomat)
-          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
-                                              pdiplomat, victim_tile, NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_TRANSPORT_DISEMBARK2,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to disembark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe move. */
-      && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE)
-      /* May have died while trying to move. */
-      && unit_is_alive(diplomat_id)) {
+  if (!bounce && post_bribe_move(pdiplomat, victim_tile, pvictim)) {
     pdiplomat->moves_left = 0;
   }
   if (NULL != player_unit_by_number(pplayer, diplomat_id)) {

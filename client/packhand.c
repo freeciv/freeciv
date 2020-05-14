@@ -4784,6 +4784,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_MARKETPLACE:
       case ACTION_HELP_WONDER:
       case ACTION_SPY_BRIBE_UNIT:
+      case ACTION_SPY_BRIBE_UNITS:
       case ACTION_SPY_SABOTAGE_UNIT:
       case ACTION_SPY_SABOTAGE_UNIT_ESC:
       case ACTION_SPY_ATTACK:

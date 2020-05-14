@@ -107,6 +107,7 @@ static void diplomat_investigate(QVariant data1, QVariant data2);
 static void diplomat_sabotage(QVariant data1, QVariant data2);
 static void diplomat_sabotage_esc(QVariant data1, QVariant data2);
 static void diplomat_bribe(QVariant data1, QVariant data2);
+static void diplomat_bribe_units(QVariant data1, QVariant data2);
 static void caravan_marketplace(QVariant data1, QVariant data2);
 static void caravan_establish_trade(QVariant data1, QVariant data2);
 static void caravan_help_build(QVariant data1, QVariant data2);
@@ -222,6 +223,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
 
   /* Unit acting against a unit target. */
   action_function[ACTION_SPY_BRIBE_UNIT] = diplomat_bribe;
+  action_function[ACTION_SPY_BRIBE_UNITS] = diplomat_bribe_units;
   action_function[ACTION_SPY_SABOTAGE_UNIT] = spy_sabotage_unit;
   action_function[ACTION_SPY_SABOTAGE_UNIT_ESC] = spy_sabotage_unit_esc;
   action_function[ACTION_EXPEL_UNIT] = expel_unit;
@@ -2312,6 +2314,24 @@ static void diplomat_bribe(QVariant data1, QVariant data2)
     is_more_user_input_needed = TRUE;
 
     request_action_details(ACTION_SPY_BRIBE_UNIT, diplomat_id,
+                           diplomat_target_id);
+  }
+}
+
+/***********************************************************************//**
+  Action bribe units for choice dialog
+***************************************************************************/
+static void diplomat_bribe_units(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(diplomat_id)
+      && NULL != index_to_tile(&(wld.map), diplomat_target_id)) {
+    /* Wait for the server's reply before moving on to the next queued diplomat. */
+    is_more_user_input_needed = TRUE;
+
+    request_action_details(ACTION_SPY_BRIBE_UNITS, diplomat_id,
                            diplomat_target_id);
   }
 }

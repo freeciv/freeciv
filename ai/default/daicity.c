@@ -1252,6 +1252,7 @@ static int action_target_neg_util(action_id act_id,
 
   /* Shouldn't happen. */
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_SPY_ATTACK:

@@ -776,6 +776,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTION_MARKETPLACE:
   case ACTION_HELP_WONDER:
   case ACTION_SPY_BRIBE_UNIT:
+  case ACTION_SPY_BRIBE_UNITS:
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
   case ACTION_CAPTURE_UNITS: /* Only foreign is a hard req. */
@@ -2465,6 +2466,7 @@ void handle_unit_action_query(struct connection *pc,
   struct unit *pactor = player_unit_by_number(pplayer, actor_id);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
+  struct tile *ptile = index_to_tile(&(wld.map), target_id);
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -2496,6 +2498,21 @@ void handle_unit_action_query(struct connection *pc,
       illegal_action(pplayer, pactor, action_type,
                      punit ? unit_owner(punit) : NULL,
                      NULL, NULL, punit, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
+      return;
+    }
+    break;
+  case ACTION_SPY_BRIBE_UNITS:
+    if (ptile
+        && is_action_enabled_unit_on_units(action_type,
+                                          pactor, ptile)) {
+      dsend_packet_unit_action_answer(pc,
+                                      actor_id, target_id,
+                                      units_bribe_cost(ptile, pplayer),
+                                      action_type, disturb_player);
+    } else {
+      illegal_action(pplayer, pactor, action_type, NULL,
+                     ptile, NULL, NULL, disturb_player, ACT_REQ_PLAYER);
       unit_query_impossible(pc, actor_id, target_id, disturb_player);
       return;
     }
@@ -2786,6 +2803,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              diplomat_bribe(pplayer, actor_unit, punit,
                                             paction));
+    break;
+  case ACTION_SPY_BRIBE_UNITS:
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              diplomat_bribe_units(pplayer, actor_unit,
+                                                   target_tile, paction));
     break;
   case ACTION_SPY_SABOTAGE_UNIT:
   case ACTION_SPY_SABOTAGE_UNIT_ESC:
