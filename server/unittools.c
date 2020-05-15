@@ -4674,6 +4674,8 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
   int i;
 
   for (i = 0; i < length; i++) {
+    struct action *paction;
+
     if (orders[i].order > ORDER_LAST) {
       log_error("invalid order %d at index %d", orders[i].order, i);
       return FALSE;
@@ -4760,6 +4762,8 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
         return FALSE;
       }
 
+      paction = action_by_number(orders[i].action);
+
       if (action_id_distance_inside_max(orders[i].action, 2)) {
         /* Long range actions aren't supported in unit orders. Clients
          * should order them performed via the unit_do_action packet.
@@ -4834,6 +4838,24 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
             action_id_get_sub_target_kind(orders[i].action) != ASTK_COUNT,
             FALSE,
             "Bad action %d in order number %d.", orders[i].action, i);
+      }
+
+      /* Some action orders are sane only in the last order. */
+      if (i != length - 1) {
+        /* If the unit is dead, */
+        if (utype_is_consumed_by_action(paction, NULL)
+            /* or if Freeciv has no idea where the unit will end up after it
+             * has performed this action, */
+            || !(utype_is_unmoved_by_action(paction, NULL)
+                 || utype_is_moved_to_tgt_by_action(paction, NULL))
+            /* or if the unit will end up standing still, */
+            || action_has_result(paction, ACTION_FORTIFY)) {
+          /* than having this action in the middle of a unit's orders is
+           * probably wrong. */
+          log_error("action %d is not allowed at index %d.",
+                    orders[i].action, i);
+          return FALSE;
+        }
       }
 
       /* Don't validate that the target tile really contains a target or
