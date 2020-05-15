@@ -4790,6 +4790,8 @@ void handle_unit_orders(struct player *pplayer,
   }
 
   for (i = 0; i < length; i++) {
+    struct action *paction;
+
     if (packet->orders[i] > ORDER_LAST) {
       log_error("%s() %s (player nb %d) has sent an invalid order %d "
                 "at index %d, truncating", __FUNCTION__,
@@ -4900,6 +4902,8 @@ void handle_unit_orders(struct player *pplayer,
 
         return;
       }
+
+      paction = action_by_number(packet->action[i]);
 
       if (action_id_distance_inside_max(packet->action[i], 2)) {
         /* Long range actions aren't supported in unit orders. Clients
@@ -5019,6 +5023,29 @@ void handle_unit_orders(struct player *pplayer,
                           "ACTION_NONE in ORDER_PERFORM_ACTION order. "
                           "Order number %d from %s to unit number %d.",
                           i, player_name(pplayer), packet->unit_id);
+      }
+
+      /* Some action orders are sane only in the last order. */
+      if (i != length - 1) {
+        /* White list actions that can appear in the middle of orders. */
+        if (!(action_has_result(paction, ACTION_CAPTURE_UNITS)
+              || action_has_result(paction, ACTION_BOMBARD)
+              || action_has_result(paction, ACTION_DESTROY_CITY)
+              || action_has_result(paction, ACTION_EXPEL_UNIT)
+              || action_has_result(paction, ACTION_HOME_CITY)
+              || action_has_result(paction, ACTION_UPGRADE_UNIT)
+              || action_has_result(paction, ACTION_PARADROP)
+              || action_has_result(paction, ACTION_AIRLIFT)
+              || action_has_result(paction, ACTION_CONQUER_CITY)
+              || action_has_result(paction, ACTION_HEAL_UNIT))) {
+          /* If the unit is dead or if Freeciv has no idea where the unit
+           * will end up after it has performed this action, than having
+           * this action in the middle of a unit's orders is probably
+           * wrong. */
+          log_error("action %d is not allowed at index %d.",
+                    packet->action[i], i);
+          return;
+        }
       }
 
       /* Don't validate that the target tile really contains a target or

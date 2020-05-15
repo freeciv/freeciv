@@ -5620,6 +5620,32 @@ static bool sg_load_player_unit(struct loaddata *loading,
 
             break;
           }
+
+          /* Some action orders are sane only in the last order. */
+          if (j != len - 1) {
+            struct action *paction = action_by_number(order->action);
+
+            /* White list actions that can appear in the middle of orders. */
+            if (!(action_has_result(paction, ACTION_CAPTURE_UNITS)
+                  || action_has_result(paction, ACTION_BOMBARD)
+                  || action_has_result(paction, ACTION_DESTROY_CITY)
+                  || action_has_result(paction, ACTION_EXPEL_UNIT)
+                  || action_has_result(paction, ACTION_HOME_CITY)
+                  || action_has_result(paction, ACTION_UPGRADE_UNIT)
+                  || action_has_result(paction, ACTION_PARADROP)
+                  || action_has_result(paction, ACTION_AIRLIFT)
+                  || action_has_result(paction, ACTION_CONQUER_CITY)
+                  || action_has_result(paction, ACTION_HEAL_UNIT))) {
+              /* If the unit is dead or if Freeciv has no idea where the unit
+               * will end up after it has performed this action, than having
+               * this action in the middle of a unit's orders is probably
+               * wrong. */
+              log_error("action %d is not allowed at index %d.",
+                        order->action, j);
+              free_unit_orders(punit);
+              break;
+            }
+          }
         } else {
           if (order_sub_tgt < 0 || order_sub_tgt >= loading->extra.size) {
             if (order_sub_tgt != EXTRA_NONE) {
