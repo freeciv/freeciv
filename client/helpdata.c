@@ -2529,6 +2529,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
 
+      if (!utype_is_consumed_by_action(paction, utype)
+          && paction->actor.is_unit.moves_actor == MAK_ESCAPE) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: said about an action. %s is a unit type
+                      * name. */
+                     _("  * the %s may be captured while trying to"
+                       " escape after completing the mission.\n"),
+                     utype_name_translation(utype));
+      }
+
       {
         struct universal req_pattern[] = {
           { .kind = VUT_ACTION, .value.action = paction },
