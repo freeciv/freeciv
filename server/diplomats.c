@@ -2161,6 +2161,8 @@ static void diplomat_escape_full(struct player *pplayer,
   int escapechance;
   struct city *spyhome;
 
+  fc_assert(paction->actor.is_unit.moves_actor == MAK_ESCAPE);
+
   /* Veteran level's power factor's effect on escape chance is relative to
    * unpromoted unit's power factor */
   {

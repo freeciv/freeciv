@@ -243,6 +243,22 @@ extern "C" {
 #define SPECENUM_COUNT ABK_COUNT
 #include "specenum_gen.h"
 
+/* Describes how a unit sucessfully performing an action will move it. */
+#define SPECENUM_NAME moves_actor_kind
+#define SPECENUM_VALUE0 MAK_STAYS
+#define SPECENUM_VALUE0NAME N_("stays")
+#define SPECENUM_VALUE1 MAK_REGULAR
+#define SPECENUM_VALUE1NAME N_("regular")
+#define SPECENUM_VALUE2 MAK_TELEPORT
+#define SPECENUM_VALUE2NAME N_("teleport")
+#define SPECENUM_VALUE3 MAK_ESCAPE
+#define SPECENUM_VALUE3NAME N_("escape")
+#define SPECENUM_VALUE4 MAK_FORCED
+#define SPECENUM_VALUE4NAME N_("forced")
+#define SPECENUM_VALUE5 MAK_UNREPRESENTABLE
+#define SPECENUM_VALUE5NAME N_("unrepresentable")
+#include "specenum_gen.h"
+
 /* Who ordered the action to be performed? */
 #define SPECENUM_NAME action_requester
 /* The player ordered it directly. */
@@ -342,6 +358,10 @@ struct action
 
       /* The unitwaittime setting blocks this action when done too soon. */
       bool unitwaittime_controlled;
+
+      /* How successfully performing the specified action always will move
+       * the actor unit of the specified type. */
+      enum moves_actor_kind moves_actor;
     } is_unit;
   } actor;
 };
