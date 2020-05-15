@@ -305,17 +305,6 @@ struct action
   /* Sub target policy. */
   enum act_tgt_compl target_complexity;
 
-  /* A unit's ability to perform this action will pop up the action
-   * selection dialog before the player asks for it only in exceptional
-   * cases.
-   *
-   * The motivation for setting rare_pop_up is to minimize player
-   * annoyance and mistakes. Getting a pop up every time a unit moves is
-   * annoying. An unexpected offer to do something that in many cases is
-   * destructive can lead the player's muscle memory to perform the wrong
-   * action. */
-  bool rare_pop_up;
-
   /* Limits on the distance on the map between the actor and the target.
    * The action is legal iff the distance is min_distance, max_distance or
    * a value in between. */
@@ -328,9 +317,6 @@ struct action
    * disables this action. */
   bool quiet;
 
-  /* The unitwaittime setting blocks this action when done too soon. */
-  bool unitwaittime_controlled;
-
   /* Actions that blocks this action. The action will be illegal if any
    * bloking action is legal. */
   bv_actions blocked_by;
@@ -340,6 +326,24 @@ struct action
    * (depending on luck, the presence of a flag, etc) but not in other
    * cases. */
   bool actor_consuming_always;
+
+  union {
+    struct {
+      /* A unit's ability to perform this action will pop up the action
+       * selection dialog before the player asks for it only in exceptional
+       * cases.
+       *
+       * The motivation for setting rare_pop_up is to minimize player
+       * annoyance and mistakes. Getting a pop up every time a unit moves is
+       * annoying. An unexpected offer to do something that in many cases is
+       * destructive can lead the player's muscle memory to perform the
+       * wrong action. */
+      bool rare_pop_up;
+
+      /* The unitwaittime setting blocks this action when done too soon. */
+      bool unitwaittime_controlled;
+    } is_unit;
+  } actor;
 };
 
 struct action_enabler

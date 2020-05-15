@@ -2656,7 +2656,7 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
-  if (paction->unitwaittime_controlled
+  if (paction->actor.is_unit.unitwaittime_controlled
       && !unit_can_do_action_now(actor_unit)) {
     /* Action not possible due to unitwaittime setting. */
     return FALSE;
