@@ -647,6 +647,9 @@ bool utype_is_consumed_by_action(const struct action *paction,
 bool utype_is_moved_to_tgt_by_action(const struct action *paction,
                                      const struct unit_type *utype);
 
+bool utype_is_unmoved_by_action(const struct action *paction,
+                                const struct unit_type *utype);
+
 bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
                                         const struct unit_type *utype);
 

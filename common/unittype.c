@@ -907,6 +907,46 @@ bool utype_is_moved_to_tgt_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff successfully performing the specified action never will
+  move the actor unit from its current tile.
+**************************************************************************/
+bool utype_is_unmoved_by_action(const struct action *paction,
+                                const struct unit_type *utype)
+{
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
+
+  if (paction->actor_consuming_always) {
+    /* Dead counts as moved off the board */
+    return FALSE;
+  }
+
+  switch (paction->actor.is_unit.moves_actor) {
+  case MAK_STAYS:
+    /* Stays at the tile were it was. */
+    return TRUE;
+  case MAK_REGULAR:
+    /* A "regular" move. Does it charge the move cost of a regular move?
+     * Update utype_pays_for_regular_move_to_tgt() if yes. */
+    return FALSE;
+  case MAK_TELEPORT:
+    /* A teleporting move. */
+    return FALSE;
+  case MAK_FORCED:
+    /* Tries a forced move under certain conditions. */
+    return FALSE;
+  case MAK_ESCAPE:
+    /* May die, may be teleported to a safe city. */
+    return FALSE;
+  case MAK_UNREPRESENTABLE:
+    /* Too complex to determine. */
+    return FALSE;
+  }
+
+  fc_assert_msg(FALSE, "Should not reach this code.");
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff successfully performing the specified action always
   will cost the actor unit of the specified type the move fragments it
   would take to perform a regular move to the target's tile. This cost
