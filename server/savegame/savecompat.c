@@ -1468,7 +1468,7 @@ static void compat_post_load_030100(struct loaddata *loading,
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  /* "Attack" was split in "Suicide Attack" and "Attack" in 3.1. */
+  /* Action orders were new in 3.0 */
   if (format_class == SAVEGAME_3) {
     /* Only 3.0 savegames may have "Attack" action orders. */
     players_iterate_alive(pplayer) {
@@ -1483,11 +1483,36 @@ static void compat_post_load_030100(struct loaddata *loading,
                          || punit->orders.list != NULL, continue);
 
         for (i = 0; i < punit->orders.length; i++) {
+          /* "Attack" was split in "Suicide Attack" and "Attack" in 3.1. */
           if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
               && punit->orders.list[i].action == ACTION_ATTACK
               && !unit_can_do_action(punit, ACTION_ATTACK)
               && unit_can_do_action(punit, ACTION_SUICIDE_ATTACK)) {
             punit->orders.list[i].action = ACTION_SUICIDE_ATTACK;
+          }
+
+          /* Production targeted actions were split from building targeted
+           * actions in 3.1. The building sub target encoding changed. */
+          if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
+              && ((punit->orders.list[i].action
+                   == ACTION_SPY_TARGETED_SABOTAGE_CITY)
+                  || (punit->orders.list[i].action
+                      == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC))) {
+            punit->orders.list[i].sub_target -= 1;
+          }
+          if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
+              && (punit->orders.list[i].action
+                  == ACTION_SPY_TARGETED_SABOTAGE_CITY)
+              && punit->orders.list[i].sub_target == -1) {
+            punit->orders.list[i].action
+                = ACTION_SPY_SABOTAGE_CITY_PRODUCTION;
+          }
+          if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
+              && (punit->orders.list[i].action
+                  == ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
+              && punit->orders.list[i].sub_target == -1) {
+            punit->orders.list[i].action
+                = ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC;
           }
         }
       } unit_list_iterate_end;
