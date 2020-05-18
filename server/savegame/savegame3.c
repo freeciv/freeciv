@@ -6022,12 +6022,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
           order->sub_target = NO_TARGET;
         }
       }
-
-      if (!unit_order_list_is_sane(punit->orders.length,
-                                   punit->orders.list)) {
-        log_sg("Invalid unit orders for unit %d.", punit->id);
-        free_unit_orders(punit);
-      }
     } else {
       punit->has_orders = FALSE;
       punit->orders.list = NULL;
@@ -7470,6 +7464,16 @@ static void sg_load_sanitycheck(struct loaddata *loading)
                player_name(pplayer), utype_name_translation(ut));
       }
     } unit_type_iterate_end;
+  } players_iterate_end;
+
+  players_iterate(pplayer) {
+    unit_list_iterate_safe(pplayer->units, punit) {
+      if (!unit_order_list_is_sane(punit->orders.length,
+                                   punit->orders.list)) {
+        log_sg("Invalid unit orders for unit %d.", punit->id);
+        free_unit_orders(punit);
+      }
+    } unit_list_iterate_safe_end;
   } players_iterate_end;
 
   if (0 == strlen(server.game_identifier)
