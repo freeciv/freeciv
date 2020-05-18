@@ -151,3 +151,7 @@ Disrupt Supply Lines
 Some units can disrupt the supply lines of enemy units. This removes 1 MP
 from the target unit at the cost of one move fragment for the unit doing the
 disrupting.
+
+Casus belli
+Staring to do Pillage to a tile gives the tile owner (not the extra owner) a
+casus belli against you.
