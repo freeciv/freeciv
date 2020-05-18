@@ -1467,6 +1467,32 @@ static void compat_post_load_030100(struct loaddata *loading,
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  /* "Attack" was split in "Suicide Attack" and "Attack" in 3.1. */
+  if (format_class == SAVEGAME_3) {
+    /* Only 3.0 savegames may have "Attack" action orders. */
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        int i;
+
+        if (!punit->has_orders) {
+          continue;
+        }
+
+        fc_assert_action(punit->orders.length == 0
+                         || punit->orders.list != NULL, continue);
+
+        for (i = 0; i < punit->orders.length; i++) {
+          if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
+              && punit->orders.list[i].action == ACTION_ATTACK
+              && !unit_can_do_action(punit, ACTION_ATTACK)
+              && unit_can_do_action(punit, ACTION_SUICIDE_ATTACK)) {
+            punit->orders.list[i].action = ACTION_SUICIDE_ATTACK;
+          }
+        }
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
+  }
 }
 
 /************************************************************************//**
