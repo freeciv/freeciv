@@ -1661,6 +1661,7 @@ void free_unit_orders(struct unit *punit)
     free(punit->orders.list);
     punit->orders.list = NULL;
   }
+  punit->orders.length = 0;
   punit->has_orders = FALSE;
 }
 
