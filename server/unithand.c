@@ -5230,6 +5230,14 @@ bool unit_activity_handling_targeted(struct unit *punit,
       set_unit_activity_targeted(punit, new_activity, *new_target);
       send_unit_info(NULL, punit);    
       unit_activity_dependencies(punit, old_activity, old_target);
+
+      if (new_activity == ACTIVITY_PILLAGE) {
+        action_consequence_success(action_by_number(ACTION_PILLAGE),
+                                   unit_owner(punit),
+                                   tile_owner(unit_tile(punit)),
+                                   unit_tile(punit),
+                                   tile_link(unit_tile(punit)));
+      }
     }
   }
 
