@@ -114,7 +114,11 @@ one much worse effect (the number of players required to gain an advance
 is increased).
 
 Airlift
-    Allow airlift to/from a city.
+    Allow airlift to/from a city. The value tells how many units per
+    turn can be airlifted, unless server setting 'airlifttingstyle' sets
+    the number unlimited for either source or destination city. If airlifts
+    are set to unlimited, they are enabled by any positive value of this
+    effect.
 
 Any_Government
     Allow changing to any form of government regardless of tech prerequisites.
