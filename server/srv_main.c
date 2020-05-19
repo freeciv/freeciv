@@ -1305,7 +1305,7 @@ static void end_phase(void)
     research_get(pplayer)->got_tech = FALSE;
   } phase_players_iterate_end;
 
-  phase_players_iterate(pplayer) {
+  alive_phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
 
@@ -1324,7 +1324,7 @@ static void end_phase(void)
      * check for finished research */
     update_bulbs(pplayer, -player_tech_upkeep(pplayer), TRUE);
     flush_packets();
-  } phase_players_iterate_end;
+  } alive_phase_players_iterate_end;
 
   /* Some player/global effect may have changed cities' vision range */
   phase_players_iterate(pplayer) {
