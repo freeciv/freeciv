@@ -35,6 +35,7 @@
 /* server */
 #include "citytools.h"
 #include "srv_log.h"
+#include "unithand.h"
 #include "unittools.h"
 
 /* server/advisors */
@@ -370,8 +371,15 @@ static void dai_hunter_try_launch(struct ai_type *ait,
       pf_map_destroy(pfm);
       if (sucker) {
         if (unit_transported(missile)) {
-          unit_transport_unload_send(missile);
+          struct unit *ptrans = unit_transport_get(missile);
+
+          if (is_action_enabled_unit_on_unit(ACTION_TRANSPORT_ALIGHT,
+                                             missile, ptrans)) {
+            unit_do_action(unit_owner(punit), punit->id, ptrans->id,
+                           0, "", ACTION_TRANSPORT_ALIGHT);
+          }
         }
+
         missile->goto_tile = unit_tile(sucker);
         if (dai_unit_goto(ait, missile, unit_tile(sucker))) {
           /* We survived; did they? */
