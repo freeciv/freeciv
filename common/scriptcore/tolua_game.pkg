@@ -62,6 +62,7 @@ struct Unit {
 
 struct Tile {
   Terrain *terrain;
+  Player *owner;
 
   const int index @ id;
 };
