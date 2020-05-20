@@ -958,12 +958,12 @@ void dai_unit_move_or_attack(struct ai_type *ait, struct unit *punit,
 **************************************************************************/
 bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
 {
+  struct action *paction;
   struct unit *bodyguard;
-  struct unit *ptrans;
+  struct unit *ptrans = NULL;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
   const bool is_plr_ai = is_ai(pplayer);
-  int mcost;
 
   CHECK_UNIT(punit);
   fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
@@ -996,36 +996,74 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
+  /* Select move kind. */
+  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+      && ((ptrans = transporter_for_unit_at(punit, ptile)))
+      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                        punit, ptrans)) {
+    /* "Transport Embark". */
+    paction = action_by_number(ACTION_TRANSPORT_EMBARK);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                            punit, ptile, NULL)) {
+    /* "Transport Disembark". */
+    paction = action_by_number(ACTION_TRANSPORT_DISEMBARK1);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
+                                            punit, ptile, NULL)) {
+    /* "Transport Disembark 2". */
+    paction = action_by_number(ACTION_TRANSPORT_DISEMBARK2);
+  } else {
+    /* Other move. */
+    paction = NULL;
+  }
+
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  mcost = map_move_cost_unit(&(wld.map), punit, ptile);
-  if (punit->moves_left <= mcost
-      && unit_move_rate(punit) > mcost
-      && adv_danger_at(punit, ptile)
-      && !adv_danger_at(punit,  unit_tile(punit))) {
-    UNIT_LOG(LOG_DEBUG, punit, "ending move early to stay out of trouble");
-    return FALSE;
+  {
+    int mcost = map_move_cost_unit(&(wld.map), punit, ptile);
+
+    if (paction) {
+      struct tile *from_tile;
+
+      /* Ugly hack to understand the OnNativeTile unit state requirements
+       * used in the Action_Success_Actor_Move_Cost effect. */
+      fc_assert(utype_is_moved_to_tgt_by_action(paction,
+                                                unit_type_get(punit)));
+      from_tile = unit_tile(punit);
+      punit->tile = ptile;
+
+      mcost += unit_pays_mp_for_action(paction, punit);
+
+      punit->tile = from_tile;
+    }
+
+    if (punit->moves_left <= mcost
+        && unit_move_rate(punit) > mcost
+        && adv_danger_at(punit, ptile)
+        && !adv_danger_at(punit, unit_tile(punit))) {
+      UNIT_LOG(LOG_DEBUG, punit,
+               "ending move early to stay out of trouble");
+      return FALSE;
+    }
   }
 
   /* go */
   unit_activity_handling(punit, ACTIVITY_IDLE);
   /* Move */
-  if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
-      && ((ptrans = transporter_for_unit_at(punit, ptile)))
-      && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
-                                     punit, ptrans)) {
-    /* "Transport Embark". */
-    unit_do_action(unit_owner(punit), punit->id, ptrans->id,
-                   0, "", ACTION_TRANSPORT_EMBARK);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                            punit, ptile, NULL)) {
-    /* "Transport Disembark". */
+  if (paction && ptrans
+      && action_has_result(paction, ACTION_TRANSPORT_EMBARK)) {
+      /* "Transport Embark". */
+      unit_do_action(unit_owner(punit), punit->id, ptrans->id,
+                     0, "", action_number(paction));
+    } else if (paction
+               /* TODO: ACTION_TRANSPORT_DISEMBARK1 and
+                * ACTION_TRANSPORT_DISEMBARK2 has the same result. Work
+                * around that action id currently is the same as action
+                * result. */
+               && (action_has_result(paction, ACTION_TRANSPORT_DISEMBARK1)
+                   || action_has_result(paction,
+                                        ACTION_TRANSPORT_DISEMBARK2))) {
+    /* "Transport Disembark" or "Transport Disembark 2". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                   0, "", ACTION_TRANSPORT_DISEMBARK1);
-  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
-                                            punit, ptile, NULL)) {
-     /* "Transport Disembark 2". */
-     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
-                    0, "", ACTION_TRANSPORT_DISEMBARK2);
+                   0, "", action_number(paction));
   } else {
     /* Other move. */
     (void) unit_move_handling(punit, ptile, FALSE, TRUE);
