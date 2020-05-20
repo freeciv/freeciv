@@ -1017,7 +1017,13 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  {
+  if (paction == NULL /* Regular move */
+      /* TODO: ACTION_TRANSPORT_DISEMBARK1 and ACTION_TRANSPORT_DISEMBARK2
+       * has the same result. Work around the fact that action id currently
+       * is the same as action result. */
+      || action_has_result(paction, ACTION_TRANSPORT_DISEMBARK1)
+      || action_has_result(paction, ACTION_TRANSPORT_DISEMBARK2)) {
+    /* The unit will have to move it self rather than being moved. */
     int mcost = map_move_cost_unit(&(wld.map), punit, ptile);
 
     if (paction) {
