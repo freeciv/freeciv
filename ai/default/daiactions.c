@@ -264,30 +264,36 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   } else {
     /* Not going to spend the unit so care about move fragment cost. */
 
-    adv_want move_fragment_cost;
+    adv_want move_fragment_cost = 0;
     const struct unit_type *actor_utype = unit_type_get(actor_unit);
 
-    /* FIXME: The action performer function may charge more. */
+    if (utype_pays_for_regular_move_to_tgt(paction,
+                                           unit_type_get(actor_unit))) {
+      /* Add the cost from the move. */
+      move_fragment_cost += map_move_cost_unit(&(wld.map), actor_unit,
+                                               city_tile(target_city));
+    }
+
+    /* Note: The action performer function may charge more independently. */
     if (utype_is_moved_to_tgt_by_action(paction, actor_utype)) {
-      /* FIXME: doesn't catch all moved by action kinds. */
+      struct tile *from_tile;
 
-      struct tile *actor_tile = unit_tile(actor_unit);
-      struct tile *target_tile = city_tile(target_city);
-
-      move_fragment_cost = utype_pays_mp_for_action_estimate(paction,
-                                                             actor_utype,
-                                                             actor_player,
-                                                             actor_tile,
-                                                             target_tile);
+      /* Ugly hack to understand the OnNativeTile unit state requirements
+       * used in the Action_Success_Actor_Move_Cost effect. */
+      from_tile = unit_tile(actor_unit);
+      actor_unit->tile = city_tile(target_city);
+      move_fragment_cost += unit_pays_mp_for_action(paction, actor_unit);
+      actor_unit->tile = from_tile;
+    } else if (utype_is_unmoved_by_action(paction,
+                                          unit_type_get(actor_unit))) {
+      /* Should be accurate unless the action charges more. */
+      move_fragment_cost += unit_pays_mp_for_action(paction, actor_unit);
     } else {
-      move_fragment_cost = unit_pays_mp_for_action(paction, actor_unit);
-
-      if (utype_pays_for_regular_move_to_tgt(paction,
-                                             unit_type_get(actor_unit))) {
-        /* Add the cost from the move. */
-        move_fragment_cost += map_move_cost_unit(&(wld.map), actor_unit,
-                                                 city_tile(target_city));
-      }
+      /* Don't know where the actor unit will end up. Hope that it will be
+       * in a location similar to its current location or that any
+       * Action_Success_Actor_Move_Cost don't check unit relation to its
+       * tile. */
+      move_fragment_cost += unit_pays_mp_for_action(paction, actor_unit);
     }
 
     /* Taking MAX_MOVE_FRAGS takes all the move fragments. */
