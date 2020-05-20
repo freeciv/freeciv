@@ -1094,6 +1094,8 @@ const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
     astr_free(&fmtstr);
   }
 
+  astr_free(&chance);
+
   return astr_str(&str);
 }
 
