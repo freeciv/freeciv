@@ -734,6 +734,19 @@ Actions done by a unit against a tile
 "Pillage"           - Pillage extra from tile
  * UI name can be set using ui_name_pillage
  * terrain type must be one where pillaging is possible
+ * the target extra must be present at the target tile
+ * the terrain of the target tile must have a non 0 pillage_time
+ * no other unit can be pillaging the target extra
+ * the target extra must have the Pillage removal cause
+ * the target extra's rmreqs must be fulfilled
+ * the target extra can't be a dependency of another extra present at the
+   target tile
+ * the target extra can't have the AlwaysOnCityCenter extra flag if the
+   target tile has a city
+ * the target extra can't have the AutoOnCityCenter extra flag if the
+   target tile has a city and the city's owner can rebuild it
+ * the target extra must be the rule chosen extra if the civstyle section's
+   pillage_select is FALSE
 
 "Clean Pollution"   - clean extra from the target tile.
  * UI name can be set using ui_name_clean_pollution
