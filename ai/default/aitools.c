@@ -1021,8 +1021,8 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
     /* "Transport Disembark". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_TRANSPORT_DISEMBARK1);
-  } if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
-                                       punit, ptile, NULL)) {
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
+                                            punit, ptile, NULL)) {
      /* "Transport Disembark 2". */
      unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                     0, "", ACTION_TRANSPORT_DISEMBARK2);
