@@ -42,6 +42,7 @@
 #include "gui_stuff.h"
 #include "mapview.h"
 #include "packhand.h"
+#include "text.h"
 
 /* client/gui-gtk-3.0 */
 #include "citydlg.h"
@@ -444,25 +445,6 @@ static void conquer_city_callback(GtkWidget *w, gpointer data)
   free(args);
 }
 
-
-/**************************************************************************
-  Returns a string with how many shields remains of the current production.
-  This is useful as custom information on the help build wonder button.
-**************************************************************************/
-static const gchar *city_prod_remaining(struct city* destcity)
-{
-  if (destcity == NULL
-      || city_owner(destcity) != client.conn.playing) {
-    /* Can't give remaining production for a foreign or non existing
-     * city. */
-    return NULL;
-  }
-
-  return g_strdup_printf(_("%d remaining"),
-                         impr_build_shield_cost(
-                           destcity->production.value.building)
-                         - destcity->shield_stock);
-}
 
 /**********************************************************************
   User responded to bribe dialog
@@ -1724,7 +1706,7 @@ static const GCallback af_map[ACTION_COUNT] = {
 static void action_entry(GtkWidget *shl,
                          action_id act_id,
                          const struct act_prob *act_probs,
-                         const gchar *custom,
+                         const char *custom,
                          struct action_data *handler_args)
 {
   const gchar *label;
@@ -1767,7 +1749,7 @@ static void action_entry(GtkWidget *shl,
 static void action_entry_update(GtkWidget *shl,
                                 action_id act_id,
                                 const struct act_prob *act_probs,
-                                const gchar *custom,
+                                const char *custom,
                                 struct action_data *handler_args)
 {
   const gchar *label;
@@ -1889,8 +1871,10 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(shl, act, act_probs,
-                   act == ACTION_HELP_WONDER ?
-                     city_prod_remaining(target_city) : NULL,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
                    data);
     }
   } action_iterate_end;
@@ -1900,7 +1884,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   data);
     }
   } action_iterate_end;
 
@@ -1909,7 +1898,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNITS) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   data);
     }
   } action_iterate_end;
 
@@ -1918,7 +1912,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   data);
     }
   } action_iterate_end;
 
@@ -1927,7 +1926,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
-      action_entry(shl, act, act_probs, NULL, data);
+      action_entry(shl, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   data);
     }
   } action_iterate_end;
 
@@ -2074,20 +2078,17 @@ void action_selection_refresh(struct unit *actor_unit,
                   0);
 
   action_iterate(act) {
-    const gchar *custom;
+    const char *custom;
 
     if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }
 
-    if (action_prob_possible(act_probs[act])
-        && act == ACTION_HELP_WONDER) {
-      /* Add information about how far along the wonder is. */
-      custom = city_prod_remaining(target_city);
-    } else {
-      custom = NULL;
-    }
+    custom = get_act_sel_action_custom_text(action_by_number(act),
+                                            act_probs[act],
+                                            actor_unit,
+                                            target_city);
 
     if (BUTTON_NOT_THERE == action_button_map[act]) {
       /* Add the button (unless its probability is 0). */
