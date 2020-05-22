@@ -53,6 +53,10 @@ const char *format_duration(int duration);
 const char *get_ping_time_text(const struct player *pplayer);
 const char *get_score_text(const struct player *pplayer);
 const char *get_report_title(const char *report_name);
+const char *get_act_sel_action_custom_text(struct action *paction,
+                                           const struct act_prob prob,
+                                           const struct unit *actor_unit,
+                                           const struct city *target_city);
 
 const char *text_happiness_buildings(const struct city *pcity);
 const char *text_happiness_nationality(const struct city *pcity);

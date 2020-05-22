@@ -153,7 +153,7 @@ static void pillage_something(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd,
                          action_id act,
                          const struct act_prob *act_probs,
-                         QString custom,
+                         const char *custom,
                          QVariant data1, QVariant data2);
 
 
@@ -1893,25 +1893,6 @@ void action_selection_no_longer_in_progress_gui_specific(int actor_id)
 }
 
 /***********************************************************************//**
-  Returns a string with how many shields remains of the current production.
-  This is useful as custom information on the help build wonder button.
-***************************************************************************/
-static QString city_prod_remaining(struct city *target_city)
-{
-  if (target_city == nullptr
-      || city_owner(target_city) != client.conn.playing) {
-    /* Can't give remaining production for a foreign or non existing
-     * city. */
-    return "";
-  }
-
-  return QString(_("%1 remaining")).arg(
-        impr_build_shield_cost(target_city,
-                               target_city->production.value.building)
-        - target_city->shield_stock);
-}
-
-/***********************************************************************//**
   Popup a dialog that allows the player to select what action a unit
   should take.
 ***************************************************************************/
@@ -2064,8 +2045,10 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(cd, act, act_probs,
-                   act == ACTION_HELP_WONDER ?
-                     city_prod_remaining(target_city) : "",
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
                    qv1, qv2);
     }
   } action_iterate_end;
@@ -2078,7 +2061,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
-      action_entry(cd, act, act_probs, "", qv1, qv2);
+      action_entry(cd, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2090,7 +2078,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNITS) {
-      action_entry(cd, act, act_probs, "", qv1, qv2);
+      action_entry(cd, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2102,7 +2095,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
-      action_entry(cd, act, act_probs, "", qv1, qv2);
+      action_entry(cd, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2114,7 +2112,12 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_SELF) {
-      action_entry(cd, act, act_probs, "", qv1, qv2);
+      action_entry(cd, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   qv1, qv2);
     }
   } action_iterate_end;
 
@@ -2198,12 +2201,11 @@ static action_id get_production_targeted_action_id(action_id tgt_action_id)
 static void action_entry(choice_dialog *cd,
                          action_id act,
                          const struct act_prob *act_probs,
-                         QString custom,
+                         const char *custom,
                          QVariant data1, QVariant data2)
 {
   QString title;
   QString tool_tip;
-  QByteArray cust_bytes;
 
   if (!af_map.contains(act)) {
     /* The Qt client doesn't support ordering this action from the
@@ -2216,12 +2218,9 @@ static void action_entry(choice_dialog *cd,
     return;
   }
 
-  cust_bytes = custom.toUtf8();
   title = QString(action_prepare_ui_name(act, "&",
                                          act_probs[act],
-                                         custom != "" ?
-                                             cust_bytes.data() :
-                                             NULL));
+                                         custom));
 
   tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
 
@@ -2234,12 +2233,11 @@ static void action_entry(choice_dialog *cd,
 static void action_entry_update(Choice_dialog_button *button,
                                 action_id act,
                                 const struct act_prob *act_probs,
-                                QString custom,
+                                const char *custom,
                                 QVariant data1, QVariant data2)
 {
   QString title;
   QString tool_tip;
-  QByteArray cust_bytes;
 
   /* An action that just became impossible has its button disabled.
    * An action that became possible again must be reenabled. */
@@ -2247,12 +2245,9 @@ static void action_entry_update(Choice_dialog_button *button,
   button->setData1(data1);
   button->setData2(data2);
   /* The probability may have changed. */
-  cust_bytes = custom.toUtf8();
   title = QString(action_prepare_ui_name(act, "&",
                                          act_probs[act],
-                                         custom != "" ?
-                                             cust_bytes.data() :
-                                             NULL));
+                                         custom));
 
   tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
 
@@ -3843,20 +3838,17 @@ void action_selection_refresh(struct unit *actor_unit,
   }
 
   action_iterate(act) {
-    QString custom;
+    const char *custom;
 
     if (action_id_get_actor_kind(act) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }
 
-    if (action_prob_possible(act_probs[act])
-        && act == ACTION_HELP_WONDER) {
-      /* Add information about how far along the wonder is. */
-      custom = city_prod_remaining(target_city);
-    } else {
-      custom = "";
-    }
+    custom = get_act_sel_action_custom_text(action_by_number(act),
+                                            act_probs[act],
+                                            actor_unit,
+                                            target_city);
 
     /* Put the target id in qv2. */
     switch (action_id_get_target_kind(act)) {
