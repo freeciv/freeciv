@@ -2110,6 +2110,7 @@ void real_menus_update(void)
   bool units_all_same_tile = TRUE, units_all_same_type = TRUE;
   GtkMenu *menu;
   char acttext[128], irrtext[128], mintext[128], transtext[128];
+  char cultext[128], plantext[128];
   struct terrain *pterrain;
   bool conn_possible;
   struct road_type *proad;
@@ -2466,12 +2467,8 @@ void real_menus_update(void)
     struct unit *first = unit_list_get(punits, 0);
 
     pterrain = tile_terrain(unit_tile(first));
-    if (pterrain->irrigation_result != T_NONE
-        && pterrain->irrigation_result != pterrain) {
-      fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s"),
-                  get_tile_change_menu_text(unit_tile(first),
-                                            ACTIVITY_IRRIGATE));
-    } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+
+    if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
       struct extra_type *pextra = NULL;
 
       /* FIXME: this overloading doesn't work well with multiple focus
@@ -2495,11 +2492,16 @@ void real_menus_update(void)
       sz_strlcpy(irrtext, _("Build _Irrigation"));
     }
 
-    if (pterrain->mining_result != T_NONE
-        && pterrain->mining_result != pterrain) {
-      fc_snprintf(mintext, sizeof(mintext), _("Change to %s"),
-                  get_tile_change_menu_text(unit_tile(first), ACTIVITY_MINE));
-    } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+    if (pterrain->irrigation_result != T_NONE
+        && pterrain->irrigation_result != pterrain) {
+      fc_snprintf(cultext, sizeof(cultext), _("Change to %s"),
+                  get_tile_change_menu_text(unit_tile(first),
+                                            ACTIVITY_CULTIVATE));
+    } else {
+      sz_strlcpy(cultext, _("_Cultivate"));
+    }
+
+    if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
       struct extra_type *pextra = NULL;
 
       /* FIXME: this overloading doesn't work well with multiple focus
@@ -2523,6 +2525,14 @@ void real_menus_update(void)
       sz_strlcpy(mintext, _("Build _Mine"));
     }
 
+    if (pterrain->mining_result != T_NONE
+        && pterrain->mining_result != pterrain) {
+      fc_snprintf(plantext, sizeof(plantext), _("Change to %s"),
+                  get_tile_change_menu_text(unit_tile(first), ACTIVITY_PLANT));
+    } else {
+      sz_strlcpy(plantext, _("_Plant"));
+    }
+
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_result != pterrain) {
       fc_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
@@ -2533,12 +2543,16 @@ void real_menus_update(void)
     }
   } else {
     sz_strlcpy(irrtext, _("Build _Irrigation"));
+    sz_strlcpy(cultext, _("_Cultivate"));
     sz_strlcpy(mintext, _("Build _Mine"));
+    sz_strlcpy(plantext, _("_Plant"));
     sz_strlcpy(transtext, _("Transf_orm Terrain"));
   }
 
   menus_rename("BUILD_IRRIGATION", irrtext);
+  menus_rename("CULTIVATE", cultext);
   menus_rename("BUILD_MINE", mintext);
+  menus_rename("PLANT", plantext);
   menus_rename("TRANSFORM_TERRAIN", transtext);
 
   if (units_can_do_action(punits, ACTION_PARADROP, TRUE)) {
