@@ -1670,6 +1670,63 @@ const char *get_report_title(const char *report_name)
   return astr_str(&str);
 }
 
+/**********************************************************************//**
+  Returns custom part of the action selection dialog button text for the
+  specified action (given that the action is possible).
+**************************************************************************/
+const char *get_act_sel_action_custom_text(struct action *paction,
+                                           const struct act_prob prob,
+                                           const struct unit *actor_unit,
+                                           const struct city *target_city)
+{
+  static struct astring custom = ASTRING_INIT;
+
+  struct city *actor_homecity = unit_home(actor_unit);
+
+  if (!action_prob_possible(prob)) {
+    /* No info since impossible. */
+    return NULL;
+  }
+
+  fc_assert_ret_val((action_get_target_kind(paction) != ATK_CITY
+                     || target_city != NULL),
+                    NULL);
+
+  if (paction->id == ACTION_TRADE_ROUTE) {
+    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                     target_city,
+                                                     TRUE);
+
+    astr_set(&custom,
+             /* TRANS: Estimated one time bonus and recurring revenue for
+              * the Establish Trade _Route action. */
+             _("%d one time bonus + %d trade"),
+             revenue,
+             trade_between_cities(actor_homecity, target_city));
+  } else if (paction->id == ACTION_MARKETPLACE) {
+    int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
+                                                     target_city,
+                                                     FALSE);
+
+    astr_set(&custom,
+             /* TRANS: Estimated one time bonus for the Enter Marketplace
+              * action. */
+             _("%d one time bonus"), revenue);
+  } else if (paction->id == ACTION_HELP_WONDER
+             && city_owner(target_city) == client.conn.playing) {
+    /* Can only give remaining production for domestic and existing
+     * cities. */
+    astr_set(&custom, _("%d remaining"),
+             impr_build_shield_cost(target_city->production.value.building)
+             - target_city->shield_stock);
+  } else {
+    /* No info to add. */
+    return NULL;
+  }
+
+  return astr_str(&custom);
+}
+
 /****************************************************************************
   Describing buildings that affect happiness.
 ****************************************************************************/

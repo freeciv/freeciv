@@ -32,6 +32,7 @@
 #include "client_main.h"
 #include "climisc.h"
 #include "control.h"
+#include "text.h"
 
 /* client/gui-sdl2 */
 #include "citydlg.h"
@@ -823,7 +824,6 @@ static const act_func af_map[ACTION_COUNT] = {
 **************************************************************************/
 static void action_entry(const enum gen_action act,
                          const struct act_prob *act_probs,
-                         const char *custom,
                          struct unit *act_unit,
                          struct city *tgt_city,
                          struct unit *tgt_unit,
@@ -833,6 +833,11 @@ static void action_entry(const enum gen_action act,
   struct widget *pBuf;
   utf8_str *pstr;
   const char *ui_name;
+
+  const char *custom = get_act_sel_action_custom_text(action_by_number(act),
+                                                      act_probs[act],
+                                                      act_unit,
+                                                      tgt_city);
 
   if (act == ACTION_SPY_SABOTAGE_CITY
       && action_prob_possible(
@@ -881,57 +886,6 @@ static void action_entry(const enum gen_action act,
 }
 
 /**************************************************************************
-  Return custom text for the specified action (given that the aciton is
-  possible).
-**************************************************************************/
-static const char *action_custom_text(const int act_id,
-                                      const struct act_prob prob,
-                                      const struct city *actor_homecity,
-                                      const struct city *target_city)
-{
-  static struct astring custom = ASTRING_INIT;
-
-  if (!action_prob_possible(prob)) {
-    /* No info since impossible. */
-    return NULL;
-  }
-
-  switch (act_id) {
-  case ACTION_TRADE_ROUTE:
-    {
-      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                       target_city,
-                                                       TRUE);
-
-      astr_set(&custom,
-               /* TRANS: Estimated one time bonus and recurring revenue for
-                * the Establish Trade _Route action. */
-               _("%d one time bonus + %d trade"),
-               revenue,
-               trade_between_cities(actor_homecity, target_city));
-      break;
-    }
-  case ACTION_MARKETPLACE:
-    {
-      int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
-                                                       target_city,
-                                                       FALSE);
-
-      astr_set(&custom,
-               /* TRANS: Estimated one time bonus for the Enter Marketplace
-                * action. */
-               _("%d one time bonus"), revenue);
-      break;
-    }
-  default:
-    /* No info to add. */
-    return NULL;
-  }
-
-  return astr_str(&custom);
-}
-
-/**************************************************************************
   Popup a dialog that allows the player to select what action a unit
   should take.
 **************************************************************************/
@@ -944,7 +898,6 @@ void popup_action_selection(struct unit *actor_unit,
   struct widget *pWindow = NULL, *pBuf = NULL;
   utf8_str *pstr;
   SDL_Rect area;
-  struct city *actor_homecity;
 
   fc_assert_ret_msg(!pDiplomat_Dlg, "Diplomat dialog already open");
 
@@ -957,8 +910,6 @@ void popup_action_selection(struct unit *actor_unit,
   is_more_user_input_needed = FALSE;
 
   is_unit_move_blocked = TRUE;
-
-  actor_homecity = game_city_by_number(actor_unit->homecity);
 
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor_unit->id;
@@ -1010,8 +961,6 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_CITY) {
       action_entry(act, act_probs,
-                   action_custom_text(act, act_probs[act],
-                                      actor_homecity, target_city),
                    actor_unit, target_city, NULL,
                    pWindow, &area);
     }
@@ -1023,7 +972,6 @@ void popup_action_selection(struct unit *actor_unit,
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_UNIT) {
       action_entry(act, act_probs,
-                   NULL,
                    actor_unit, NULL, target_unit,
                    pWindow, &area);
     }
