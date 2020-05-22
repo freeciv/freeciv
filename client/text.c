@@ -1717,7 +1717,8 @@ const char *get_act_sel_action_custom_text(struct action *paction,
              /* TRANS: Estimated one time bonus for the Enter Marketplace
               * action. */
              _("%d one time bonus"), revenue);
-  } else if (action_has_result(paction, ACTION_HELP_WONDER)
+  } else if ((action_has_result(paction, ACTION_HELP_WONDER)
+              || action_has_result(paction, ACTION_RECYCLE_UNIT))
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
      * cities. */
