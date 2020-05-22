@@ -139,3 +139,12 @@ reqs    =
       "Action",    "Transport Disembark 2", "Local", TRUE
       "UnitState", "OnNativeTile",          "Local", TRUE
     }
+
+[effect_no_tools]
+type    = "Output_Bonus"
+value   = -50
+reqs    =
+    { "type",       "name",   "range", "present"
+      "Tech",       "Tools",  "Player", FALSE
+      "OutputType", "Shield", "Local",  TRUE
+    }

@@ -159,4 +159,5 @@ req2        = "None"
 flags       = ""
 graphic     = "a.tools"
 graphic_alt = "-"
-helptext    = _("Anything can be done with right tools.");
+helptext    = _("Anything can be done with right tools.\
+ Allows more efficient use of production resources.");
