@@ -1721,10 +1721,8 @@ const char *get_act_sel_action_custom_text(struct action *paction,
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
      * cities. */
-    astr_set(&custom, _("%d remaining"),
-             impr_build_shield_cost(target_city,
-                                    target_city->production.value.building)
-             - target_city->shield_stock);
+    int cost = city_production_build_shield_cost(target_city);
+    astr_set(&custom, _("%d remaining"), cost - target_city->shield_stock);
   } else {
     /* No info to add. */
     return NULL;
