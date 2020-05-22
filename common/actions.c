@@ -1402,6 +1402,41 @@ const char *action_get_ui_name_mnemonic(action_id act_id,
 }
 
 /**********************************************************************//**
+  Returns a text representation of the action probability prob unless it
+  is a signal. Returns NULL if prob is a signal.
+**************************************************************************/
+static const char *action_prob_to_text(const struct act_prob prob)
+{
+  static struct astring chance = ASTRING_INIT;
+
+  /* How to interpret action probabilities like prob is documented in
+   * fc_types.h */
+  if (action_prob_is_signal(prob)) {
+    fc_assert(action_prob_not_impl(prob)
+              || action_prob_not_relevant(prob));
+
+    /* Unknown because of missing server support or should not exits. */
+    return NULL;
+  }
+
+  if (prob.min == prob.max) {
+    /* Only one probability in range. */
+
+    /* TRANS: the probability that an action will succeed. Given in
+     * percentage. Resolution is 0.5%. */
+    astr_set(&chance, _("%.1f%%"), (double)prob.max / ACTPROB_VAL_1_PCT);
+  } else {
+    /* TRANS: the interval (end points included) where the probability of
+     * the action's success is. Given in percentage. Resolution is 0.5%. */
+    astr_set(&chance, _("[%.1f%%, %.1f%%]"),
+             (double)prob.min / ACTPROB_VAL_1_PCT,
+             (double)prob.max / ACTPROB_VAL_1_PCT);
+  }
+
+  return astr_str(&chance);
+}
+
+/**********************************************************************//**
   Get the UI name ready to show the action in the UI. It is possible to
   add a client specific mnemonic; it is assumed that if the mnemonic
   appears in the action name it can be escaped by doubling.
@@ -1440,30 +1475,7 @@ const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
     return astr_str(&str);
   }
 
-  /* How to interpret action probabilities like prob is documented in
-   * fc_types.h */
-  if (action_prob_is_signal(prob)) {
-    fc_assert(action_prob_not_impl(prob)
-              || action_prob_not_relevant(prob));
-
-    /* Unknown because of missing server support or should not exits. */
-    probtxt = NULL;
-  } else {
-    if (prob.min == prob.max) {
-      /* Only one probability in range. */
-
-      /* TRANS: the probability that an action will succeed. Given in
-       * percentage. Resolution is 0.5%. */
-      astr_set(&chance, _("%.1f%%"), (double)prob.max / ACTPROB_VAL_1_PCT);
-    } else {
-      /* TRANS: the interval (end points included) where the probability of
-       * the action's success is. Given in percentage. Resolution is 0.5%. */
-      astr_set(&chance, _("[%.1f%%, %.1f%%]"),
-               (double)prob.min / ACTPROB_VAL_1_PCT,
-               (double)prob.max / ACTPROB_VAL_1_PCT);
-    }
-    probtxt = astr_str(&chance);
-  }
+  probtxt = action_prob_to_text(prob);
 
   /* Format the info part of the action's UI name. */
   if (probtxt != NULL && custom != NULL) {
