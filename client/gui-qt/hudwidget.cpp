@@ -1558,8 +1558,9 @@ bool unit_hud_selector::island_filter(struct unit *punit)
     }
   }
 
-  if (main_continent->isChecked() && player_capital(client_player())) {
-    island = player_capital(client_player())->tile->continent;
+  if (main_continent->isChecked()
+      && player_primary_capital(client_player())) {
+    island = player_primary_capital(client_player())->tile->continent;
   } else if (this_continent->isChecked() && cunit) {
     island = cunit->tile->continent;
   }

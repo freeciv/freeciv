@@ -3036,11 +3036,12 @@ void key_cancel_action(void)
 }
 
 /**********************************************************************//**
-  Center the mapview on the player's capital, or print a failure message.
+  Center the mapview on the player's named capital,
+  or print a failure message.
 **************************************************************************/
 void key_center_capital(void)
 {
-  struct city *capital = player_capital(client_player());
+  struct city *capital = player_primary_capital(client_player());
 
   if (capital)  {
     /* Center on the tile, and pop up the crosshair overlay. */

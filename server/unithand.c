@@ -409,8 +409,9 @@ static bool do_expel_unit(struct player *pplayer,
 
   target_tile = unit_tile(target);
 
-  /* Expel the target unit to his owner's capital. */
-  pcity = player_capital(uplayer);
+  /* Expel the target unit to his owner's primary capital. */
+  /* TODO: Could be also nearest secondary capital */
+  pcity = player_primary_capital(uplayer);
 
   /* N.B: unit_link() always returns the same pointer. */
   sz_strlcpy(target_link, unit_link(target));
@@ -4011,7 +4012,7 @@ static bool unit_do_destroy_city(struct player *act_player,
   /* Save city ID. */
   tgt_city_id = tgt_city->id;
 
-  capital = (player_capital(tgt_player) == tgt_city);
+  capital = (player_primary_capital(tgt_player) == tgt_city);
 
   if (capital
       && (tgt_player->spaceship.state == SSHIP_STARTED

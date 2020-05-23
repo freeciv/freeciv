@@ -233,7 +233,7 @@ void update_intel_dialog(struct player *p)
   SDL_Rect dst;
   char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
   int n = 0, count = 0, col;
-  struct city *pCapital;
+  struct city *pcapital;
   SDL_Rect area;
   struct research *research;
 
@@ -315,7 +315,7 @@ void update_intel_dialog(struct player *p)
 
     /* ---------- */
 
-    pCapital = player_capital(p);
+    pcapital = player_primary_capital(p);
     research = research_get(p);
     change_ptsize_utf8(pstr, adj_font(10));
     pstr->style &= ~TTF_STYLE_BOLD;
@@ -333,7 +333,7 @@ void update_intel_dialog(struct player *p)
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
+                  NULL != pcapital ? city_name_get(pcapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax,
                   p->economic.science, p->economic.luxury, p->client.culture);
       break;
@@ -347,7 +347,7 @@ void update_intel_dialog(struct player *p)
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
+                  NULL != pcapital ? city_name_get(pcapital) : _("(unknown)"),
                   p->economic.gold, p->economic.tax, p->economic.science,
                   p->economic.luxury,
                   research_advance_name_translation(research,

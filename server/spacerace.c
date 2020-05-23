@@ -168,7 +168,7 @@ void handle_spaceship_launch(struct player *pplayer)
   struct player_spaceship *ship = &pplayer->spaceship;
   int arrival;
 
-  if (!player_capital(pplayer)) {
+  if (!player_primary_capital(pplayer)) {
     notify_player(pplayer, NULL, E_SPACESHIP, ftc_server,
                   _("You need to have a capital in order to launch "
                     "your spaceship."));

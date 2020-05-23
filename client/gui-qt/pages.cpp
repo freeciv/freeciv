@@ -2127,9 +2127,9 @@ void fc_client::update_sidebar_tooltips()
     fc_snprintf(buf, sizeof(buf), _("Income: %d    Total Costs: %d"),
                 tax, building_total + unit_total);
     sw_economy->set_tooltip(buf);
-    if (player_capital(client_player())) {
+    if (player_primary_capital(client_player())) {
       sw_cities->set_tooltip(text_happiness_cities(
-                                          player_capital(client_player())));
+                                     player_primary_capital(client_player())));
     }
   } else {
     sw_tax->set_tooltip("");
@@ -2225,7 +2225,7 @@ void center_next_player_capital()
 
   players_iterate(pplayer) {
     if (pplayer != client_player()) {
-      capital = player_capital(pplayer);
+      capital = player_primary_capital(pplayer);
       if (capital == nullptr) {
         continue;
       }

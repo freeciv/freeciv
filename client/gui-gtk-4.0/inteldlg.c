@@ -390,7 +390,7 @@ void update_intel_dialog(struct player *p)
           buf = g_strdup(government_name_for_player(p));
           break;
         case LABEL_CAPITAL:
-          pcity = player_capital(p);
+          pcity = player_primary_capital(p);
           /* TRANS: "unknown" location */
           buf = g_strdup((!pcity) ? _("(unknown)") : city_name_get(pcity));
           break;

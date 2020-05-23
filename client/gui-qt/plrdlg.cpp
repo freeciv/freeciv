@@ -425,7 +425,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   QStringList sorted_list_a;
   QStringList sorted_list_b;
   struct player *pplayer;
-  int a , b;
+  int a, b;
   bool added;
   bool entry_exist = false;
   struct player *me;
@@ -451,7 +451,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     return;
   }
   me = client_player();
-  pcity = player_capital(pplayer);
+  pcity = player_primary_capital(pplayer);
   research = research_get(pplayer);
 
   switch (research->researching) {

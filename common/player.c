@@ -1251,9 +1251,9 @@ bool player_knows_techs_with_flag(const struct player *pplayer,
 }
 
 /*******************************************************************//**
-  Locate the player capital city, (NULL Otherwise) 
+  Locate the player's primary capital city, (NULL Otherwise)
 ***********************************************************************/
-struct city *player_capital(const struct player *pplayer)
+struct city *player_primary_capital(const struct player *pplayer)
 {
   struct city *capital;
 
