@@ -110,3 +110,7 @@ cacert-path (string):
   Custom path to CA cert bundle. If this is empty, default path will be used.
   This affects mostly downloading custom modpacks with modpack installer from
   an 'https' URL.
+
+json-protocol (boolean):
+  Build json-protocol support in. Json-protocol is an alternative to the default
+  raw-protocol between freeciv server and client.

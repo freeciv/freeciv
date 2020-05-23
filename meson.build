@@ -174,6 +174,16 @@ if get_option('cacert-path') != ''
                      '"' + get_option('cacert-path') + '"')
 endif
 
+if get_option('json-protocol')
+  if not c_compiler.has_header('jansson.h')
+    error('json-protocol requires jansson.h header, but it is not found')
+  endif
+  pub_conf_data.set('FREECIV_JSON_CONNECTION', 1)
+  jansson_dep = c_compiler.find_library('jansson')
+else
+  jansson_dep = []
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
@@ -442,7 +452,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 ws2_dep, dependency('threads')],
+                 ws2_dep, jansson_dep, dependency('threads')],
   install : true
   )
 

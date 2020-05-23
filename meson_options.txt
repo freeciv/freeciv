@@ -19,3 +19,8 @@ option('cacert-path',
        type: 'string',
        value: '',
        description: 'Custom path to CA cert bundle')
+
+option('json-protocol',
+       type: 'boolean',
+       value: false,
+       description: 'Build in json-protocol support')

@@ -108,4 +108,10 @@
 #define FREECIV_HAVE_WINSOCK2 1
 #endif
 
+/* jansson network protocol in use */
+#mesondefine FREECIV_JSON_CONNECTION
+
+/* Json Connection TCP Port; Default of the raw-protocol + 1000 */
+#define FREECIV_JSON_PORT 6556
+
 #endif /* FC__FREECIV_CONFIG_H */
