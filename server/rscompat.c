@@ -847,7 +847,7 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
       paction->quiet = TRUE;
       /* Make what is happening clear. */
       /* TRANS: _Conquer City from non native (100% chance of success). */
-      sz_strlcpy(paction->ui_name, N_("%Conquer City from non native%s"));
+      sz_strlcpy(paction->ui_name, N_("%sConquer City from non native%s"));
 
 
       /* Enablers for disembark */
