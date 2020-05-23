@@ -79,6 +79,8 @@ echo "----------------------------------"
 if ! (
 cd meson-build-${SETUP}
 
+export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
+
 if ! meson --cross-file=cross.txt ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
