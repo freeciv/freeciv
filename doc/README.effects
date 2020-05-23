@@ -548,6 +548,13 @@ Upgrade_Price_Pct
     player level. You cannot adjust upgrade costs for certain unit type or
     for units upgraded in certain city.
 
+Unit_Shield_Value_Pct
+    Increase the unit's value in shields by amount percent. When this effect
+is used to determine how many shields the player gets for the actions
+"Recycle Unit" and "Help Wonder" it gets access to unit state. When it is
+used to influence the gold cost of "Upgrade Unit" it only has access to unit
+type.
+
 Retire_Pct
     The chance that unit gets retired (removed) when turn changes.
     Retirement only happens if there are no enemy units or cities within

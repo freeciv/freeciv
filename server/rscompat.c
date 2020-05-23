@@ -523,6 +523,18 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The probability that "Steal Maps" and "Steal Maps Escape" steals the
      * map of a tile has moved to the ruleset. */
     peffect = effect_new(EFT_MAPS_STOLEN_PCT, -50, NULL);
+
+    /* The rule that "Recycle Unit"'s unit shield value is 50% has moved to
+     * the ruleset. */
+    peffect = effect_new(EFT_UNIT_SHIELD_VALUE_PCT, -50, NULL);
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            FALSE, "Recycle Unit"));
+
+    /* The rule that "Upgrade Unit"'s current unit shield value is 50% when
+     * calculating unit upgrade price has moved to the ruleset. */
+    peffect = effect_new(EFT_UNIT_SHIELD_VALUE_PCT, -50, NULL);
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            FALSE, "Upgrade Unit"));
   }
 
   if (info->ver_units < 20) {

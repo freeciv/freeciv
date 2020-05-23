@@ -3358,7 +3358,7 @@ static bool unit_do_recycle(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity, FALSE);
 
-  shields = unit_disband_shields(punit);
+  shields = unit_shield_value(punit, unit_type_get(punit), paction);
 
   /* Add the shields from recycling the unit to the city's current
    * production. */
@@ -4660,6 +4660,7 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                                       const struct action *paction)
 {
   const char *work;
+  int shields;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -4668,8 +4669,10 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity_dest, FALSE);
 
-  pcity_dest->shield_stock += unit_build_shield_cost_base(punit);
-  pcity_dest->caravan_shields += unit_build_shield_cost_base(punit);
+  shields = unit_shield_value(punit, unit_type_get(punit), paction);
+
+  pcity_dest->shield_stock += shields;
+  pcity_dest->caravan_shields += shields;
 
   conn_list_do_buffer(pplayer->connections);
 

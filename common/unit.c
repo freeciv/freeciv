@@ -209,6 +209,50 @@ bool unit_has_orders(const struct unit *punit)
 }
 
 /**********************************************************************//**
+  Returns how many shields the unit (type) is worth.
+  @param punit     the unit. Can be NULL if punittype is set.
+  @param punittype the unit's type. Can be NULL iff punit is set.
+  @param paction   the action the unit does when valued.
+  @return the unit's value in shields.
+**************************************************************************/
+int unit_shield_value(const struct unit *punit,
+                      const struct unit_type *punittype,
+                      const struct action *paction)
+{
+  int value;
+
+  bool has_unit;
+  const struct player *act_player;
+
+  has_unit = punit != NULL;
+
+  if (has_unit && punittype == NULL) {
+    punittype = unit_type_get(punit);
+  }
+
+  fc_assert_ret_val(punittype != NULL, 0);
+  fc_assert(punit == NULL || unit_type_get(punit) == punittype);
+  fc_assert_ret_val(paction != NULL, 0);
+
+  act_player = has_unit ? unit_owner(punit) : NULL;
+  /* TODO: determine if tile and city should be where the unit currently is
+   * located or the target city. Those two may differ. Wait for ruleset
+   * author feed back. */
+
+  value = utype_build_shield_cost_base(punittype);
+  value += ((value
+             * get_target_bonus_effects(NULL,
+                                        act_player, NULL,
+                                        NULL, NULL, NULL,
+                                        punit, punittype,
+                                        NULL, NULL, paction,
+                                        EFT_UNIT_SHIELD_VALUE_PCT))
+            / 100);
+
+  return value;
+}
+
+/**********************************************************************//**
   Return TRUE unless it is known to be imposible to disband this unit at
   its current position to get full shields for building a wonder.
 **************************************************************************/

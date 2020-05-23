@@ -361,12 +361,14 @@ Actions done by a unit against a city
 
 "Help Wonder" - Add the shields used to build the actor to the target city.
  * UI name can be set using ui_name_help_wonder
+ * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
  * target city must need the extra shields to complete its production.
 
 "Recycle Unit" - Add half the shields used to build the unit to target
  * UI name can be set using ui_name_recycle_unit
+ * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * "Help Wonder" must be impossible
  * actor must be on the same tile as the target or on the tile next to it.
@@ -393,6 +395,7 @@ Actions done by a unit against a city
 
 "Upgrade Unit" - Upgrade the actor unit using the target's facilities.
  * UI name can be set using ui_name_upgrade_unit.
+ * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * actor must be on the same tile as the target.
  * actor player must have enough gold to pay for the upgrade.

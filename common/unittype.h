@@ -741,9 +741,6 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
                                int vlist_move, int vlist_raise,
                                int vlist_wraise);
 
-int unit_disband_shields(const struct unit *punit);
-int utype_disband_shields(const struct unit_type *punittype);
-
 int unit_pop_value(const struct unit *punit);
 int utype_pop_value(const struct unit_type *punittype);
 

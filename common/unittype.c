@@ -1126,22 +1126,6 @@ int utype_buy_gold_cost(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Returns the number of shields received when this unit type is disbanded.
-**************************************************************************/
-int utype_disband_shields(const struct unit_type *punittype)
-{
-  return utype_build_shield_cost_base(punittype) / 2;
-}
-
-/**********************************************************************//**
-  Returns the number of shields received when this unit is disbanded.
-**************************************************************************/
-int unit_disband_shields(const struct unit *punit)
-{
-  return utype_disband_shields(unit_type_get(punit));
-}
-
-/**********************************************************************//**
   How much city shrinks when it builds unit of this type.
 **************************************************************************/
 int utype_pop_value(const struct unit_type *punittype)
@@ -1327,7 +1311,12 @@ int unit_upgrade_price(const struct player *pplayer,
                        const struct unit_type *from,
                        const struct unit_type *to)
 {
-  int missing = utype_build_shield_cost_base(to) - utype_disband_shields(from);
+  /* Upgrade price is only payed for "Upgrade Unit" so it is safe to hard
+   * code the action ID for now. paction will have to become a parameter
+   * before generalized actions appears. */
+  const struct action *paction = action_by_number(ACTION_UPGRADE_UNIT);
+  int missing = (utype_build_shield_cost_base(to)
+                 - unit_shield_value(NULL, from, paction));
   int base_cost = 2 * missing + (missing * missing) / 20;
 
   return base_cost
