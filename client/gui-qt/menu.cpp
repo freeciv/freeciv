@@ -524,6 +524,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
   tile_apply_activity(newtile, activity, NULL);
   text = tile_get_info_text(newtile, FALSE, 0);
   tile_virtual_destroy(newtile);
+
   return text;
 }
 
@@ -2000,16 +2001,8 @@ void mr_menu::menus_sensitive()
           struct unit *punit = unit_list_get(punits, 0);
 
           pterrain = tile_terrain(unit_tile(punit));
-          if (pterrain->mining_result != T_NONE
-              && pterrain->mining_result != pterrain) {
-            // Defeat keyboard shortcut mnemonics
-            i.value()->setText(
-              /* TRANS: Transform terrain to specific type */
-              QString(_("Transform to %1"))
-              .arg(QString(get_tile_change_menu_text
-                           (unit_tile(punit), ACTIVITY_MINE)))
-              .replace("&", "&&"));
-          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+
+          if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus
@@ -2045,15 +2038,8 @@ void mr_menu::menus_sensitive()
           struct unit *punit = unit_list_get(punits, 0);
 
           pterrain = tile_terrain(unit_tile(punit));
-          if (pterrain->irrigation_result != T_NONE
-              && pterrain->irrigation_result != pterrain) {
-            i.value()->setText(
-              /* TRANS: Transform terrain to specific type */
-              QString(_("Transform to %1"))
-              .arg(QString(get_tile_change_menu_text
-                           (unit_tile(punit), ACTIVITY_IRRIGATE)))
-              .replace("&", "&&"));
-          } else if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
+
+          if (units_have_type_flag(punits, UTYF_SETTLERS, TRUE)) {
             struct extra_type *pextra = NULL;
 
             /* FIXME: this overloading doesn't work well with multiple focus
@@ -2085,11 +2071,47 @@ void mr_menu::menus_sensitive()
         if (can_units_do_activity(punits, ACTIVITY_CULTIVATE)) {
           i.value()->setEnabled(true);
         }
+        if (units_all_same_tile) {
+          struct unit *punit = unit_list_get(punits, 0);
+
+          pterrain = tile_terrain(unit_tile(punit));
+          if (pterrain->irrigation_result != T_NONE
+              && pterrain->irrigation_result != pterrain) {
+            i.value()->setText(
+              /* TRANS: Transform terrain to specific type */
+              QString(_("Cultivate to %1"))
+              .arg(QString(get_tile_change_menu_text
+                           (unit_tile(punit), ACTIVITY_CULTIVATE)))
+              .replace("&", "&&"));
+          } else {
+            i.value()->setText(QString(_("Cultivate")));
+          }
+        } else {
+          i.value()->setText(QString(_("Cultivate")));
+        }
         break;
 
       case PLANT:
         if (can_units_do_activity(punits, ACTIVITY_PLANT)) {
           i.value()->setEnabled(true);
+        }
+        if (units_all_same_tile) {
+          struct unit *punit = unit_list_get(punits, 0);
+
+          pterrain = tile_terrain(unit_tile(punit));
+          if (pterrain->mining_result != T_NONE
+              && pterrain->mining_result != pterrain) {
+            i.value()->setText(
+              /* TRANS: Transform terrain to specific type */
+              QString(_("Plant to %1"))
+              .arg(QString(get_tile_change_menu_text
+                           (unit_tile(punit), ACTIVITY_PLANT)))
+              .replace("&", "&&"));
+          } else {
+            i.value()->setText(QString(_("Plant")));
+          }
+        } else {
+          i.value()->setText(QString(_("Plant")));
         }
         break;
 
