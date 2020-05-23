@@ -122,7 +122,8 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
 static bool unit_do_recycle(struct player *pplayer,
                             struct unit *punit,
-                            struct city *pcity);
+                            struct city *pcity,
+                            const struct action *paction);
 static bool do_unit_help_build_wonder(struct player *pplayer,
                                       struct unit *punit,
                                       struct city *pcity_dest,
@@ -2682,7 +2683,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_RECYCLE_UNIT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             unit_do_recycle(pplayer, actor_unit, pcity));
+                             unit_do_recycle(pplayer, actor_unit, pcity,
+                                             paction));
     break;
   case ACTION_HOME_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -2884,7 +2886,8 @@ static bool do_unit_change_homecity(struct unit *punit,
 **************************************************************************/
 static bool unit_do_recycle(struct player *pplayer,
                             struct unit *punit,
-                            struct city *pcity)
+                            struct city *pcity,
+                            const struct action *paction)
 {
   int shields;
 
