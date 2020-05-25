@@ -380,8 +380,16 @@ static void increase_maxbuycost(struct player *pplayer, int new_value)
 **************************************************************************/
 static void dai_upgrade_units(struct city *pcity, int limit, bool military)
 {
+  action_id upgrade_actions[MAX_NUM_ACTIONS];
   struct player *pplayer = city_owner(pcity);
   int expenses;
+
+  {
+    /* Find upgrade unit actions */
+    int i = 0;
+    action_list_add_all_by_result(upgrade_actions, &i, ACTRES_UPGRADE_UNIT);
+    action_list_end(upgrade_actions, i);
+  }
 
   dai_calc_data(pplayer, NULL, &expenses, NULL);
 
@@ -400,7 +408,12 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
         continue;
       }
 
-      if (punittype) {
+      if (punittype == NULL) {
+        continue;
+      }
+
+      action_list_iterate(upgrade_actions, act_id) {
+        const struct action *paction = action_by_number(act_id);
         int cost = unit_upgrade_price(pplayer, old_type, punittype);
         int real_limit = limit;
 
@@ -419,11 +432,11 @@ static void dai_upgrade_units(struct city *pcity, int limit, bool military)
                    military ? "military" : "civilian");
           unit_do_action(city_owner(pcity), punit->id,
                          pcity->id, 0, "",
-                         ACTION_UPGRADE_UNIT);
+                         paction->id);
         } else {
           increase_maxbuycost(pplayer, cost);
         }
-      }
+      } action_list_iterate_end;
     }
   } unit_list_iterate_end;
 }
