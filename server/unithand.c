@@ -138,10 +138,8 @@ static bool unit_do_destroy_city(struct player *act_player,
                                  struct city *tgt_city,
                                  const struct action *paction);
 static bool do_unit_change_homecity(struct unit *punit,
-                                    struct city *pcity);
-static bool do_unit_upgrade(struct player *pplayer,
-                            struct unit *punit, struct city *pcity,
-                            enum action_requester ordered_by);
+                                    struct city *pcity,
+                                    const struct action *paction);
 static bool do_attack(struct unit *actor_unit, struct tile *target_tile,
                       const struct action *paction);
 static bool do_unit_strike_city_production(const struct player *act_player,
@@ -236,7 +234,8 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 **************************************************************************/
 static bool do_unit_upgrade(struct player *pplayer,
                             struct unit *punit, struct city *pcity,
-                            enum action_requester ordered_by)
+                            enum action_requester ordered_by,
+                            const struct action *paction)
 {
   char buf[512];
 
@@ -2968,12 +2967,13 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_HOME_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             do_unit_change_homecity(actor_unit, pcity));
+                             do_unit_change_homecity(actor_unit, pcity,
+                                                     paction));
     break;
   case ACTION_UPGRADE_UNIT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_unit_upgrade(pplayer, actor_unit,
-                                             pcity, requester));
+                                             pcity, requester, paction));
     break;
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
@@ -2999,7 +2999,7 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_AIRLIFT:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             do_airline(actor_unit, pcity));
+                             do_airline(actor_unit, pcity, paction));
     break;
   case ACTION_NUKE_CITY:
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -3047,7 +3047,7 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_PARADROP:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_paradrop(actor_unit, target_tile));
+                             do_paradrop(actor_unit, target_tile, paction));
     break;
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
@@ -3257,7 +3257,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   Returns TRUE iff the action could be done, FALSE if it couldn't.
 **************************************************************************/
 static bool do_unit_change_homecity(struct unit *punit,
-                                    struct city *pcity)
+                                    struct city *pcity,
+                                    const struct action *paction)
 {
   const char *giver = NULL;
 

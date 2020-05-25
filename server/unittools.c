@@ -2767,7 +2767,8 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
   Go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have its moves set to 0
 **************************************************************************/
-bool do_airline(struct unit *punit, struct city *pdest_city)
+bool do_airline(struct unit *punit, struct city *pdest_city,
+                const struct action *paction)
 {
   struct city *psrc_city = tile_city(unit_tile(punit));
 
@@ -2831,7 +2832,8 @@ void do_explore(struct unit *punit)
   in the case where the drop was succesful, but the unit was killed by
   barbarians in a hut.
 **************************************************************************/
-bool do_paradrop(struct unit *punit, struct tile *ptile)
+bool do_paradrop(struct unit *punit, struct tile *ptile,
+                 const struct action *paction)
 {
   struct player *pplayer = unit_owner(punit);
 
