@@ -150,9 +150,11 @@ void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit);
 
 /* doing a unit activity */
 void do_nuclear_explosion(struct player *pplayer, struct tile *ptile);
-bool do_airline(struct unit *punit, struct city *city2);
+bool do_airline(struct unit *punit, struct city *city2,
+                const struct action *paction);
 void do_explore(struct unit *punit);
-bool do_paradrop(struct unit *punit, struct tile *ptile);
+bool do_paradrop(struct unit *punit, struct tile *ptile,
+                 const struct action *paction);
 void unit_transport_load_send(struct unit *punit, struct unit *ptrans);
 void unit_transport_unload_send(struct unit *punit);
 bool unit_move(struct unit *punit, struct tile *ptile, int move_cost,
