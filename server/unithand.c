@@ -172,6 +172,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
   const struct unit_type *to_unittype;
   struct unit_type *from_unittype = utype_by_number(uti);
   int number_of_upgraded_units = 0;
+  struct action *paction = action_by_number(ACTION_UPGRADE_UNIT);
 
   if (NULL == from_unittype) {
     /* Probably died or bribed. */
@@ -196,9 +197,9 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
     if (unit_type_get(punit) == from_unittype) {
       struct city *pcity = tile_city(unit_tile(punit));
 
-      if (is_action_enabled_unit_on_city(ACTION_UPGRADE_UNIT, punit, pcity)
+      if (is_action_enabled_unit_on_city(paction->id, punit, pcity)
           && unit_perform_action(pplayer, punit->id, pcity->id, 0, "",
-                                 ACTION_UPGRADE_UNIT, ACT_REQ_SS_AGENT)) {
+                                 paction->id, ACT_REQ_SS_AGENT)) {
         number_of_upgraded_units++;
       } else if (UU_NO_MONEY == unit_upgrade_test(punit, FALSE)) {
         break;
