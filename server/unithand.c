@@ -157,6 +157,11 @@ static bool do_unit_conquer_city(struct player *act_player,
                                  struct unit *act_unit,
                                  struct city *tgt_city,
                                  struct action *paction);
+static bool do_action_activity(struct unit *punit,
+                               const struct action *paction);
+static bool do_action_activity_targeted(struct unit *punit,
+                                        const struct action *paction,
+                                        struct extra_type **new_target);
 
 /**********************************************************************//**
   Upgrade all units of a given type.
@@ -2831,14 +2836,13 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_FORTIFY:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_FORTIFYING,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_CONVERT:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
-                             unit_activity_handling(actor_unit,
-                                                    ACTIVITY_CONVERT));
+                             do_action_activity(actor_unit, paction));
     break;
   case ACTION_SPY_SABOTAGE_CITY:
   case ACTION_SPY_SABOTAGE_CITY_ESC:
@@ -3054,62 +3058,61 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_TRANSFORM_TERRAIN:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling(actor_unit,
-                                                    ACTIVITY_TRANSFORM));
+                             do_action_activity(actor_unit, paction));
     break;
   case ACTION_CULTIVATE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_CULTIVATE,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_PLANT:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_PLANT,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_PILLAGE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_PILLAGE,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_CLEAN_POLLUTION:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_POLLUTION,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_CLEAN_FALLOUT:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_FALLOUT,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_ROAD:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_GEN_ROAD,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_BASE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_BASE,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_MINE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_MINE,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_IRRIGATE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_activity_handling_targeted(actor_unit,
-                                                             ACTIVITY_IRRIGATE,
-                                                             &target_extra));
+                             do_action_activity_targeted(actor_unit,
+                                                         paction,
+                                                         &target_extra));
     break;
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
@@ -5180,6 +5183,22 @@ static void unit_activity_dependencies(struct unit *punit,
 }
 
 /**********************************************************************//**
+  Perform an action that is an activity.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_action_activity(struct unit *punit,
+                               const struct action *paction)
+{
+  enum unit_activity new_activity = action_get_activity(paction);
+
+  fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
+
+  return unit_activity_handling(punit, new_activity);
+}
+
+/**********************************************************************//**
   Handle request for changing activity.
 **************************************************************************/
 bool unit_activity_handling(struct unit *punit,
@@ -5205,6 +5224,23 @@ bool unit_activity_handling(struct unit *punit,
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Perform an action that is an activity.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_action_activity_targeted(struct unit *punit,
+                                        const struct action *paction,
+                                        struct extra_type **new_target)
+{
+  enum unit_activity new_activity = action_get_activity(paction);
+
+  fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
+
+  return unit_activity_handling_targeted(punit, new_activity, new_target);
 }
 
 /**********************************************************************//**
