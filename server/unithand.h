@@ -87,6 +87,8 @@ enum ane_kind {
   ANEK_TGT_IS_UNIQUE_ACT_HAS,
   /* Explanation: the target tile is unknown. */
   ANEK_TGT_TILE_UNKNOWN,
+  /* Explanation: the actor player can't afford performing this action. */
+  ANEK_ACT_NOT_ENOUGH_MONEY,
   /* Explanation: the action is blocked by another action. */
   ANEK_ACTION_BLOCKS,
   /* Explanation not detected. */

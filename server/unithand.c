@@ -98,6 +98,9 @@ struct ane_expl {
 
     /* The required distance. */
     int distance;
+
+    /* The required amount of gold. */
+    int gold_needed;
   };
 };
 
@@ -872,6 +875,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
 {
   struct player *must_war_player;
   struct action *blocker;
+  const struct player *act_player = unit_owner(punit);
+  struct unit_type *act_utype = unit_type_get(punit);
   struct player *tgt_player = NULL;
   struct ane_expl *explnat = fc_malloc(sizeof(struct ane_expl));
   bool can_exist = can_unit_exist_at_tile(punit, unit_tile(punit));
@@ -962,6 +967,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
      * Detects that the target tile is claimed by a foreigner even when it
      * is legal to found a city on an unclaimed or domestic tile. */
     action_custom = city_build_here_test(target_tile, punit);
+    break;
+  case ACTION_UPGRADE_UNIT:
+    action_custom = unit_upgrade_test(punit, FALSE);
     break;
   case ACTION_AIRLIFT:
     action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
@@ -1244,6 +1252,12 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     /* Please add a check for any new action forbidding scenario setting
      * above this comment. */
     explnat->kind = ANEK_SCENARIO_DISABLED;
+  } else if (action_id_has_result_safe(act_id, ACTION_UPGRADE_UNIT)
+             && action_custom == UU_NO_MONEY) {
+    explnat->kind = ANEK_ACT_NOT_ENOUGH_MONEY;
+    explnat->gold_needed = unit_upgrade_price(act_player, act_utype,
+                                              can_upgrade_unittype(
+                                                  act_player, act_utype));
   } else if (action_id_exists(act_id)
              && (blocker = action_is_blocked_by(act_id, punit,
                                                 target_tile, target_city,
@@ -1480,6 +1494,32 @@ static void explain_why_no_action_enabled(struct unit *punit,
                   _("%s can't do anything to an unknown target tile."),
                   unit_name_translation(punit));
     break;
+  case ANEK_ACT_NOT_ENOUGH_MONEY:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  /* TRANS: Spy ... 154 */
+                  _("You can't afford having your %s do anything."
+                    " %d gold needed."),
+                  unit_name_translation(punit), explnat->gold_needed);
+    break;
+    {
+      char tbuf[MAX_LEN_MSG];
+
+      /* TRANS: Used below. Separate so treasury content too can determine
+       * if this is plural. */
+      fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                              "Treasury contains %d gold.",
+                                              pplayer->economic.gold),
+                  pplayer->economic.gold);
+
+      notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                    /* TRANS: "Spy can't do anything. 154 gold may help.
+                     * Treasury contains 100 gold." */
+                    PL_("%s can't do anything. %d gold may help. %s",
+                        "%s can't do anything. %d gold may help. %s",
+                        explnat->gold_needed),
+                    unit_name_translation(punit),
+                    explnat->gold_needed, tbuf);
+    }
   case ANEK_TRIREME_MOVE:
     notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
                   _("%s cannot move that far from the coast line."),
@@ -2105,6 +2145,29 @@ void illegal_action_msg(struct player *pplayer,
                   _("%s can't do %s to an unknown tile."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
+    break;
+  case ANEK_ACT_NOT_ENOUGH_MONEY:
+    {
+      char tbuf[MAX_LEN_MSG];
+
+      /* TRANS: Used below. Separate so treasury content too can determine
+       * if this is plural. */
+      fc_snprintf(tbuf, ARRAY_SIZE(tbuf), PL_("Treasury contains %d gold.",
+                                              "Treasury contains %d gold.",
+                                              pplayer->economic.gold),
+                  pplayer->economic.gold);
+
+      notify_player(pplayer, unit_tile(actor),
+                    event, ftc_server,
+                    /* TRANS: "Spy can't do Bribe Unit for 154 gold.
+                     * Treasury contains 100 gold." */
+                    PL_("%s can't do %s for %d gold. %s",
+                        "%s can't do %s for %d gold. %s",
+                        explnat->gold_needed),
+                    unit_name_translation(actor),
+                    action_id_name_translation(stopped_action),
+                    explnat->gold_needed, tbuf);
+    }
     break;
   case ANEK_TRIREME_MOVE:
     notify_player(pplayer, target_tile, event, ftc_server,
