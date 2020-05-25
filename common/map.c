@@ -874,7 +874,7 @@ int tile_move_cost_ptrs(const struct unit *punit,
       cardinal_move = (ALL_DIRECTIONS_CARDINAL() || is_move_cardinal(t1, t2));
     }
     if (!cardinal_move) {
-      return (int) (cost * 1.41421356f);
+      return cost * 181 >> 7; /* == (int) (cost * 1.41421356f) if cost < 99 */
     }
   }
 
