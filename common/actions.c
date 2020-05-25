@@ -1886,6 +1886,7 @@ is_action_possible(const action_id wanted_action,
   bool can_see_tgt_unit;
   bool can_see_tgt_tile;
   enum fc_tristate out;
+  struct action *paction;
 
   fc_assert_msg((action_id_get_target_kind(wanted_action) == ATK_CITY
                  && target_city != NULL)
@@ -1898,6 +1899,8 @@ is_action_possible(const action_id wanted_action,
                     && target_unit != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_SELF),
                 "Missing target!");
+
+  paction = action_by_number(wanted_action);
 
   /* Only check requirement against the target unit if the actor can see it
    * or if the evaluator is omniscient. The game checking the rules is
@@ -1913,16 +1916,16 @@ is_action_possible(const action_id wanted_action,
                       || plr_sees_tile(actor_player, target_tile));
 
   /* Info leak: The player knows where his unit is. */
-  if (action_id_get_target_kind(wanted_action) != ATK_SELF
-      && !action_id_distance_accepted(wanted_action,
-                                      real_map_distance(actor_tile,
-                                                        target_tile))) {
+  if (action_get_target_kind(paction) != ATK_SELF
+      && !action_distance_accepted(paction,
+                                   real_map_distance(actor_tile,
+                                                     target_tile))) {
     /* The distance between the actor and the target isn't inside the
      * action's accepted range. */
     return TRI_NO;
   }
 
-  switch (action_id_get_target_kind(wanted_action)) {
+  switch (action_get_target_kind(paction)) {
   case ATK_UNIT:
     /* The Freeciv code for all actions that is controlled by action
      * enablers and targets a unit assumes that the acting
@@ -1952,7 +1955,7 @@ is_action_possible(const action_id wanted_action,
     /* No special player knowledge checks. */
     break;
   case ATK_COUNT:
-    fc_assert(action_id_get_target_kind(wanted_action) != ATK_COUNT);
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);
     break;
   }
 
