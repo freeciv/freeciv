@@ -4093,8 +4093,7 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                  * (4 surplus). */
                 _("Your %s helps build the %s in %s (%d %s)."),
                 unit_link(punit),
-                improvement_name_translation(
-                  pcity_dest->production.value.building),
+                city_production_name_translation(pcity_dest),
                 city_link(pcity_dest), 
                 abs(build_points_left(pcity_dest)),
                 work);
@@ -4112,8 +4111,7 @@ static bool do_unit_help_build_wonder(struct player *pplayer,
                    * from Persian Caravan (4 surplus). */
                   _("Help building the %s in %s received from %s %s "
                     "(%d %s)."),
-                  improvement_name_translation(
-                    pcity_dest->production.value.building),
+                  city_production_name_translation(pcity_dest),
                   city_link(pcity_dest),
                   nation_adjective_for_player(pplayer),
                   unit_link(punit),
