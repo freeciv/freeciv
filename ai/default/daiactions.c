@@ -108,6 +108,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
    * support other actions. */
 
   adv_want utility;
+  bool expected_kills;
 
   struct player *actor_player = unit_owner(actor_unit);
   struct player *target_player = city_owner(target_city);
@@ -116,6 +117,10 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, 0);
 
   utility = 0;
+
+  /* If tech theft is impossible when expected. */
+  expected_kills = utype_is_consumed_by_action(paction,
+                                               unit_type_get(actor_unit));
 
   /* The unit was always spent */
   utility += unit_build_shield_cost_base(actor_unit) + 1;
@@ -127,20 +132,21 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
 
   if (!pplayers_allied(actor_player, target_player)
       && count_tech > 0
+      && (!expected_kills
+          || (diplomats_unignored_tech_stealings(actor_unit, target_city)
+              == 0))
       && (action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)
-          || ((diplomats_unignored_tech_stealings(actor_unit, target_city)
-               == 0)
-              && action_has_result(paction, ACTION_SPY_STEAL_TECH)))) {
+          || action_has_result(paction, ACTION_SPY_STEAL_TECH))) {
     utility += 9000;
   }
 
   if (!pplayers_allied(actor_player, target_player)
       && count_tech > 0
+      && (!expected_kills
+          || (diplomats_unignored_tech_stealings(actor_unit, target_city)
+              == 0))
       && (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-          || ((diplomats_unignored_tech_stealings(actor_unit, target_city)
-               == 0)
-              && action_has_result(paction,
-                                   ACTION_SPY_TARGETED_STEAL_TECH)))) {
+          || action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH))) {
     Tech_type_id tgt_tech = sub_tgt_id;
 
     /* FIXME: Should probably just try to steal a random tech if no target

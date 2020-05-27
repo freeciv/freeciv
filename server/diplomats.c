@@ -832,6 +832,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   int count;
   int times;
   Tech_type_id tech_stolen;
+  bool expected_kills;
 
   /* We have to check arguments. They are sent to us by a client,
      so we cannot trust them */
@@ -848,6 +849,10 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     /* Nothing to do to a domestic target. */
     return FALSE;
   }
+
+  /* Currently based on if unit is consumed or not. */
+  expected_kills = utype_is_consumed_by_action(paction,
+                                               unit_type_get(pdiplomat));
 
   if (action_has_result(paction, ACTION_SPY_STEAL_TECH)
       || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)) {
@@ -904,9 +909,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (times > 0
-      && !(action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-           || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
+  if (times > 0 && expected_kills) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     log_debug("steal-tech: difficulty: impossible");
@@ -932,9 +935,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
 
   if (count > 0) {
     /* Failed to steal a tech. */
-    if (times > 0
-        && !(action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-             || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC))) {
+    if (times > 0 && expected_kills) {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     /* TRANS: Paris was expecting ... Your Spy was caught */
