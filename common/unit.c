@@ -328,6 +328,16 @@ bool unit_can_do_action(const struct unit *punit,
 }
 
 /**********************************************************************//**
+  Return TRUE iff this unit can do any enabler controlled action with the
+  specified action result.
+**************************************************************************/
+bool unit_can_do_action_result(const struct unit *punit,
+                               enum action_result result)
+{
+  return utype_can_do_action_result(unit_type_get(punit), result);
+}
+
+/**********************************************************************//**
   Return TRUE iff this tile is threatened from any unit within 2 tiles.
 **************************************************************************/
 bool is_square_threatened(const struct player *pplayer,

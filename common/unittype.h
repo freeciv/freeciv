@@ -611,6 +611,8 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
 bool utype_may_act_at_all(const struct unit_type *putype);
 bool utype_can_do_action(const struct unit_type *putype,
                          const action_id act_id);
+bool utype_can_do_action_result(const struct unit_type *putype,
+                                enum action_result result);
 bool utype_acts_hostile(const struct unit_type *putype);
 
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,

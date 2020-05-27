@@ -340,6 +340,8 @@ bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool unit_can_do_action(const struct unit *punit,
                         const action_id act_id);
+bool unit_can_do_action_result(const struct unit *punit,
+                               enum action_result result);
 bool is_square_threatened(const struct player *pplayer,
                           const struct tile *ptile, bool omniscient);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
