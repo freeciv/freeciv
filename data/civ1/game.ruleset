@@ -509,21 +509,6 @@ target_reqs    =
       "MaxUnitsOnTile", "0",             "Local", TRUE
     }
 
-[actionenabler_conquer_city_att_from_non_native]
-action = "Conquer City"
-actor_reqs    =
-    { "type",          "name",          "range", "present"
-      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
-      "UnitFlag",      "NonMil",        "Local", FALSE
-      "DiplRel",       "War",           "Local", TRUE
-      "MinMoveFrags",  "1",             "Local", TRUE
-      "UnitClass",     "Sea",           "Local", TRUE
-    }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
-    }
-
 [actionenabler_change_home_city]
 action = "Home City"
 actor_reqs    =
