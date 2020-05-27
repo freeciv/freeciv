@@ -1691,20 +1691,31 @@ static bool help_is_extra_cleanable(struct extra_type *pextra,
 ****************************************************************************/
 static bool utype_may_do_escape_action(const struct unit_type *utype)
 {
-  return utype_can_do_action(utype, ACTION_SPY_POISON_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
-      || (utype_can_do_action(utype, ACTION_SPY_SPREAD_PLAGUE)
-          && !utype_is_consumed_by_action(
-            action_by_number(ACTION_SPY_SPREAD_PLAGUE), utype))
-      || utype_can_do_action(utype, ACTION_SPY_STEAL_TECH_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_STEAL_GOLD_ESC)
-      || utype_can_do_action(utype, ACTION_STEAL_MAPS_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_INCITE_CITY_ESC)
-      || utype_can_do_action(utype, ACTION_SPY_NUKE_ESC);
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+
+    if (action_get_actor_kind(paction) != AAK_UNIT) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (!utype_can_do_action(utype, paction->id)) {
+      /* Can't do it. */
+      continue;
+    }
+
+    if (utype_is_consumed_by_action(paction, utype)) {
+      /* No escape when dead. */
+      continue;
+    }
+
+    if (paction->actor.is_unit.moves_actor == MAK_ESCAPE) {
+      /* Survives and escapes. */
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
 }
 
 /************************************************************************//**
