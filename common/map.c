@@ -783,10 +783,19 @@ int tile_move_cost_ptrs(const struct civ_map *nmap,
     return SINGLE_MOVE;
 
   } else if (!is_native_tile_to_class(pclass, t2)) {
-    /* Loading to transport or entering port.
-     * UTYF_IGTER units get move benefit. */
-    return (utype_has_flag(punittype, UTYF_IGTER)
-            ? MOVE_COST_IGTER : SINGLE_MOVE);
+    if (tile_city(t2) == NULL) {
+      /* Loading to transport. */
+
+      /* UTYF_IGTER units get move benefit. */
+      return (utype_has_flag(punittype, UTYF_IGTER)
+              ? MOVE_COST_IGTER : SINGLE_MOVE);
+    } else {
+      /* Entering port. (Could be "Conquer City") */
+
+      /* UTYF_IGTER units get move benefit. */
+      return (utype_has_flag(punittype, UTYF_IGTER)
+              ? MOVE_COST_IGTER : SINGLE_MOVE);
+    }
 
   } else if (!is_native_tile_to_class(pclass, t1)) {
     if (tile_city(t1) == NULL) {
