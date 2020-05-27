@@ -365,6 +365,7 @@ Actions done by a unit against a city
 
 "Help Wonder" - Add the shields used to build the actor to the target city.
  * UI name can be set using ui_name_help_wonder
+ * max legal distance to the target can be set using help_wonder_max_range
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * actor must be on the same tile as the target or on the tile next to it.
@@ -372,6 +373,7 @@ Actions done by a unit against a city
 
 "Recycle Unit" - Add half the shields used to build the unit to target
  * UI name can be set using ui_name_recycle_unit
+ * max legal distance to the target can be set using recycle_unit_max_range
  * adjustable with the Unit_Shield_Value_Pct effect
  * actor must be aware that the target exists
  * "Help Wonder" must be impossible

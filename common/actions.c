@@ -6344,7 +6344,6 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_STEAL_MAPS_ESC:
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
-  case ACTION_HELP_WONDER:
   case ACTION_CAPTURE_UNITS:
   case ACTION_EXPEL_UNIT:
   case ACTION_FOUND_CITY:
@@ -6352,7 +6351,6 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_DESTROY_CITY:
-  case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
@@ -6385,6 +6383,10 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SPY_ATTACK:
     /* Max range is not ruleset changeable */
     return NULL;
+  case ACTION_HELP_WONDER:
+    return "help_wonder_max_range";
+  case ACTION_RECYCLE_UNIT:
+    return "recycle_unit_max_range";
   case ACTION_BOMBARD:
     return "bombard_max_range";
   case ACTION_BOMBARD2:
@@ -6447,7 +6449,6 @@ int action_max_range_default(int act)
   case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_TRADE_ROUTE:
   case ACTION_MARKETPLACE:
-  case ACTION_HELP_WONDER:
   case ACTION_CAPTURE_UNITS:
   case ACTION_EXPEL_UNIT:
   case ACTION_FOUND_CITY:
@@ -6455,7 +6456,6 @@ int action_max_range_default(int act)
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
   case ACTION_DESTROY_CITY:
-  case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
@@ -6488,6 +6488,9 @@ int action_max_range_default(int act)
   case ACTION_SPY_ATTACK:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
+    return RS_DEFAULT_ACTION_MAX_RANGE;
+  case ACTION_HELP_WONDER:
+  case ACTION_RECYCLE_UNIT:
     return RS_DEFAULT_ACTION_MAX_RANGE;
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
