@@ -960,14 +960,12 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
     return FALSE;
   }
 
-  if (action_has_result(paction, ACTION_CONQUER_CITY)
-      || action_has_result(paction, ACTION_CONQUER_CITY2)) {
+  if (action_has_result(paction, ACTRES_CONQUER_CITY)) {
     /* Moves into the city to occupy it. */
     return TRUE;
   }
 
-  if (action_has_result(paction, ACTION_TRANSPORT_DISEMBARK1)
-      || action_has_result(paction, ACTION_TRANSPORT_DISEMBARK2)) {
+  if (action_has_result(paction, ACTRES_TRANSPORT_DISEMBARK)) {
     /* Moves out of the transport to disembark. */
     return TRUE;
   }
@@ -990,7 +988,8 @@ int utype_pays_mp_for_action_base(const struct action *paction,
 {
   int mpco = 0;
 
-  if (action_has_result(paction, ACTION_ATTACK)) {
+  if (action_has_result(paction, ACTRES_ATTACK)
+      && !utype_is_consumed_by_action(paction, putype)) {
     if (utype_has_flag(putype, UTYF_ONEATTACK)) {
       mpco += MAX_MOVE_FRAGS;
     } else {

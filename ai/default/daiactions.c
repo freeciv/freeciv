@@ -125,8 +125,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   /* The unit was always spent */
   utility += unit_build_shield_cost_base(actor_unit) + 1;
 
-  if (action_has_result(paction, ACTION_ESTABLISH_EMBASSY_STAY)
-      || action_has_result(paction, ACTION_ESTABLISH_EMBASSY)) {
+  if (action_has_result(paction, ACTRES_ESTABLISH_EMBASSY)) {
     utility += 10000;
   }
 
@@ -135,8 +134,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
       && (!expected_kills
           || (diplomats_unignored_tech_stealings(actor_unit, target_city)
               == 0))
-      && (action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)
-          || action_has_result(paction, ACTION_SPY_STEAL_TECH))) {
+      && action_has_result(paction, ACTRES_SPY_STEAL_TECH)) {
     utility += 9000;
   }
 
@@ -145,8 +143,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
       && (!expected_kills
           || (diplomats_unignored_tech_stealings(actor_unit, target_city)
               == 0))
-      && (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-          || action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH))) {
+      && action_has_result(paction, ACTRES_SPY_TARGETED_STEAL_TECH)) {
     Tech_type_id tgt_tech = sub_tgt_id;
 
     /* FIXME: Should probably just try to steal a random tech if no target
@@ -158,8 +155,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (!pplayers_allied(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_INCITE_CITY_ESC)
-          || action_has_result(paction, ACTION_SPY_INCITE_CITY))) {
+      && (action_has_result(paction, ACTRES_SPY_INCITE_CITY))) {
     int incite_cost, expenses;
 
     incite_cost = city_incite_cost(actor_player, target_city);
@@ -174,15 +170,13 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_ESC)
-          || action_has_result(paction, ACTION_SPY_SABOTAGE_CITY))) {
+      && (action_has_result(paction, ACTRES_SPY_SABOTAGE_CITY))) {
     utility += 6000;
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-          || action_has_result(paction,
-                               ACTION_SPY_TARGETED_SABOTAGE_CITY))) {
+      && (action_has_result(paction,
+                            ACTRES_SPY_TARGETED_SABOTAGE_CITY))) {
     int count_impr = count_sabotagable_improvements(target_city);
 
     if (count_impr > 0) {
@@ -192,9 +186,8 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_PRODUCTION)
-          || action_has_result(paction,
-                               ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC))) {
+      && (action_has_result(paction,
+                            ACTRES_SPY_SABOTAGE_CITY_PRODUCTION))) {
     int count_impr = count_sabotagable_improvements(target_city);
 
     if (count_impr > 0) {
@@ -204,14 +197,12 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_STEAL_GOLD_ESC)
-          || action_has_result(paction, ACTION_SPY_STEAL_GOLD))) {
+      && (action_has_result(paction, ACTRES_SPY_STEAL_GOLD))) {
     utility += 4000;
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_STEAL_MAPS_ESC)
-          || action_has_result(paction, ACTION_STEAL_MAPS))) {
+      && (action_has_result(paction, ACTRES_STEAL_MAPS))) {
     utility += 3000;
   }
 
@@ -221,14 +212,12 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_POISON_ESC)
-          || action_has_result(paction, ACTION_SPY_POISON))) {
+      && (action_has_result(paction, ACTRES_SPY_POISON))) {
     utility += 2000;
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && (action_has_result(paction, ACTION_SPY_NUKE_ESC)
-          || action_has_result(paction, ACTION_SPY_NUKE))) {
+      && (action_has_result(paction, ACTRES_SPY_NUKE))) {
     utility += 6500;
   }
 
@@ -326,8 +315,7 @@ int dai_action_choose_sub_tgt_unit_vs_city(struct action *paction,
   fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, 0);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, 0);
 
-  if (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-      || action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH)) {
+  if (action_has_result(paction, ACTRES_SPY_TARGETED_STEAL_TECH)) {
     Tech_type_id tgt_tech;
 
     tgt_tech = choose_tech_to_steal(actor_player, target_player);
@@ -335,8 +323,7 @@ int dai_action_choose_sub_tgt_unit_vs_city(struct action *paction,
     return tgt_tech;
   }
 
-  if (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-      || action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY)) {
+  if (action_has_result(paction, ACTRES_SPY_TARGETED_SABOTAGE_CITY)) {
     /* Invalid */
     int tgt_impr = -1;
     int tgt_impr_vul = 0;

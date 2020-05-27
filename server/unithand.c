@@ -1356,8 +1356,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
   } else if ((action_id_has_result_safe(act_id, ACTION_NUKE_UNITS)
-              || action_id_has_result_safe(act_id, ACTION_SUICIDE_ATTACK)
-              || action_id_has_result_safe(act_id, ACTION_ATTACK))
+              || action_id_has_result_safe(act_id, ACTRES_ATTACK))
              && action_custom != ATT_OK) {
     switch (action_custom) {
     case ATT_NON_ATTACK:
@@ -1394,14 +1393,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && target_tile
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
-  } else if ((action_id_has_result_safe(act_id, ACTION_CONQUER_CITY)
-              || action_id_has_result_safe(act_id, ACTION_CONQUER_CITY2)
+  } else if ((action_id_has_result_safe(act_id, ACTRES_CONQUER_CITY)
               || action_id_has_result_safe(act_id,
                                            ACTION_TRANSPORT_EMBARK)
               || action_id_has_result_safe(act_id,
-                                           ACTION_TRANSPORT_DISEMBARK2)
-              || action_id_has_result_safe(act_id,
-                                           ACTION_TRANSPORT_DISEMBARK1))
+                                           ACTRES_TRANSPORT_DISEMBARK))
              && action_custom != MR_OK) {
     switch (action_custom) {
     case MR_CANNOT_DISEMBARK:

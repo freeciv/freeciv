@@ -379,8 +379,7 @@ void spy_send_sabotage_list(struct connection *pc, struct unit *pdiplomat,
   /* Send city improvements info to player. */
   BV_CLR_ALL(packet.improvements);
 
-  if (action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-      || action_has_result(paction, ACTION_SPY_TARGETED_SABOTAGE_CITY)) {
+  if (action_has_result(paction, ACTRES_SPY_TARGETED_SABOTAGE_CITY)) {
     /* Can see hidden buildings. */
     improvement_iterate(ptarget) {
       if (city_has_building(pcity, ptarget)) {
@@ -854,8 +853,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   expected_kills = utype_is_consumed_by_action(paction,
                                                unit_type_get(pdiplomat));
 
-  if (action_has_result(paction, ACTION_SPY_STEAL_TECH)
-      || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)) {
+  if (action_has_result(paction, ACTRES_SPY_STEAL_TECH)) {
     /* Can't choose target. Will steal a random tech. */
     technology = A_UNSET;
   }
@@ -865,8 +863,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   if (technology == A_NONE
       || (technology != A_FUTURE
           && !(technology == A_UNSET
-               && (action_has_result(paction, ACTION_SPY_STEAL_TECH)
-                   || action_has_result(paction, ACTION_SPY_STEAL_TECH_ESC)))
+               && action_has_result(paction, ACTRES_SPY_STEAL_TECH))
           && !valid_advance_by_number(technology))) {
     return FALSE;
   }
@@ -916,8 +913,7 @@ bool diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   } else {
     /* Determine difficulty. */
     count = 1;
-    if (action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH)
-        || action_has_result(paction, ACTION_SPY_TARGETED_STEAL_TECH_ESC)) {
+    if (action_has_result(paction, ACTRES_SPY_TARGETED_STEAL_TECH)) {
       /* Targeted steal tech is more difficult. */
       count++;
     }
@@ -1274,8 +1270,7 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: count of improvements: %d", count);
 
   /* Determine the target (-1 is production). */
-  if (action_has_result(paction, ACTION_SPY_SABOTAGE_CITY)
-      || action_has_result(paction, ACTION_SPY_SABOTAGE_CITY_ESC)) {
+  if (action_has_result(paction, ACTRES_SPY_SABOTAGE_CITY)) {
     /*
      * Pick random:
      * 50/50 chance to pick production or some improvement.

@@ -52,7 +52,7 @@ static void action_success_actor_consume(struct action *paction,
                || action_has_result(paction, ACTION_NUKE_CITY)
                || action_has_result(paction, ACTION_NUKE_UNITS)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
-    } else if (action_has_result(paction, ACTION_SUICIDE_ATTACK)) {
+    } else if (action_has_result(paction, ACTRES_ATTACK)) {
       wipe_unit(actor, ULR_MISSILE, NULL);
     } else {
       wipe_unit(actor, ULR_USED, NULL);

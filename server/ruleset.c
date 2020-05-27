@@ -7883,6 +7883,7 @@ static void send_ruleset_actions(struct conn_list *dest)
     sz_strlcpy(packet.ui_name, action_by_number(act)->ui_name);
     packet.quiet = action_by_number(act)->quiet;
 
+    packet.result = paction->result;
     packet.actor_consuming_always = paction->actor_consuming_always;
 
     packet.act_kind = action_by_number(act)->actor_kind;

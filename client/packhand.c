@@ -4127,6 +4127,7 @@ void handle_ruleset_action(const struct packet_ruleset_action *p)
   sz_strlcpy(act->ui_name, p->ui_name);
   act->quiet = p->quiet;
 
+  act->result = p->result;
   act->actor_consuming_always = p->actor_consuming_always;
 
   act->actor_kind  = p->act_kind;
