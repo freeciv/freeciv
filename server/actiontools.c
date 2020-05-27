@@ -45,12 +45,12 @@ static void action_success_actor_consume(struct action *paction,
 {
   if (unit_is_alive(actor_id)
       && utype_is_consumed_by_action(paction, unit_type_get(actor))) {
-    if (action_has_result(paction, ACTION_DISBAND_UNIT)
-        || action_has_result(paction, ACTION_RECYCLE_UNIT)) {
+    if (action_has_result(paction, ACTRES_DISBAND_UNIT)
+        || action_has_result(paction, ACTRES_RECYCLE_UNIT)) {
       wipe_unit(actor, ULR_DISBANDED, NULL);
-    } else if (action_has_result(paction, ACTION_NUKE)
-               || action_has_result(paction, ACTION_NUKE_CITY)
-               || action_has_result(paction, ACTION_NUKE_UNITS)) {
+    } else if (action_has_result(paction, ACTRES_NUKE)
+               || action_has_result(paction, ACTRES_NUKE_CITY)
+               || action_has_result(paction, ACTRES_NUKE_UNITS)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
     } else if (action_has_result(paction, ACTRES_ATTACK)) {
       wipe_unit(actor, ULR_MISSILE, NULL);

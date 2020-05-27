@@ -2559,7 +2559,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
         /* FIXME: move paratroopers_range to the action and remove this
          * variable once actions are generalized. */
-        int relative_max = action_has_result(paction, ACTION_PARADROP) ?
+        int relative_max = action_has_result(paction, ACTRES_PARADROP) ?
               MIN(paction->max_distance, utype->paratroopers_range) :
               paction->max_distance;
 

@@ -201,7 +201,7 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
    * working for (possibly AI) player by using ACT_REQ_PLAYER and
    * ACT_REQ_SS_AGENT */
   if (paction && ptrans
-      && action_has_result(paction, ACTION_TRANSPORT_EMBARK)) {
+      && action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
       /* "Transport Embark". */
       unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                      0, "", action_number(paction));

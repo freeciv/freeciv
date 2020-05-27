@@ -1182,7 +1182,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     action_auto_perf_actions_iterate(auto_perf, act_id) {
       struct action *paction = action_by_number(act_id);
 
-      if (!(action_has_result(paction, ACTION_CAPTURE_UNITS)
+      if (!(action_has_result(paction, ACTRES_CAPTURE_UNITS)
             || action_has_result(paction, ACTRES_BOMBARD)
             || action_has_result(paction, ACTRES_ATTACK))) {
         /* Only allow removing and changing the order of old auto

@@ -1695,7 +1695,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
                      || target_city != NULL),
                     NULL);
 
-  if (action_has_result(paction, ACTION_TRADE_ROUTE)) {
+  if (action_has_result(paction, ACTRES_TRADE_ROUTE)) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      actor_unit->carrying,
@@ -1707,7 +1707,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
              _("%d one time bonus + %d trade"),
              revenue,
              trade_base_between_cities(actor_homecity, target_city));
-  } else if (action_has_result(paction, ACTION_MARKETPLACE)) {
+  } else if (action_has_result(paction, ACTRES_MARKETPLACE)) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      actor_unit->carrying,
@@ -1717,8 +1717,8 @@ const char *get_act_sel_action_custom_text(struct action *paction,
              /* TRANS: Estimated one time bonus for the Enter Marketplace
               * action. */
              _("%d one time bonus"), revenue);
-  } else if ((action_has_result(paction, ACTION_HELP_WONDER)
-              || action_has_result(paction, ACTION_RECYCLE_UNIT))
+  } else if ((action_has_result(paction, ACTRES_HELP_WONDER)
+              || action_has_result(paction, ACTRES_RECYCLE_UNIT))
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
      * cities. */

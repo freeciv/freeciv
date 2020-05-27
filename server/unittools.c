@@ -4483,7 +4483,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
-      if (action_id_has_result_safe(order.action, ACTION_FOUND_CITY)) {
+      if (action_id_has_result_safe(order.action, ACTRES_FOUND_CITY)) {
         /* This action needs a name. */
         name = city_name_suggestion(pplayer, unit_tile(punit));
       } else {
@@ -4859,7 +4859,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
             || !(utype_is_unmoved_by_action(paction, NULL)
                  || utype_is_moved_to_tgt_by_action(paction, NULL))
             /* or if the unit will end up standing still, */
-            || action_has_result(paction, ACTION_FORTIFY)) {
+            || action_has_result(paction, ACTRES_FORTIFY)) {
           /* than having this action in the middle of a unit's orders is
            * probably wrong. */
           log_error("action %d is not allowed at index %d.",

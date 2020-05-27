@@ -956,9 +956,9 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
     break;
   case HOVER_GOTO:
   case HOVER_PATROL:
-    if (action_id_has_result_safe(goto_last_action, ACTION_NUKE_UNITS)
-        || action_id_has_result_safe(goto_last_action, ACTION_NUKE_CITY)
-        || action_id_has_result_safe(goto_last_action, ACTION_NUKE)) {
+    if (action_id_has_result_safe(goto_last_action, ACTRES_NUKE_UNITS)
+        || action_id_has_result_safe(goto_last_action, ACTRES_NUKE_CITY)
+        || action_id_has_result_safe(goto_last_action, ACTRES_NUKE)) {
       /* TODO: consider doing the same for other actor consuming actions. */
       /* We only want targets reachable immediatly... */
       parameter->move_rate = 0;

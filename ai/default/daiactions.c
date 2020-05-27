@@ -207,7 +207,7 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
   }
 
   if (pplayers_at_war(actor_player, target_player)
-      && action_has_result(paction, ACTION_SPY_SPREAD_PLAGUE)) {
+      && action_has_result(paction, ACTRES_SPY_SPREAD_PLAGUE)) {
     utility += 2500;
   }
 

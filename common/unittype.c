@@ -970,7 +970,7 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
     return TRUE;
   }
 
-  if (action_has_result(paction, ACTION_TRANSPORT_EMBARK)) {
+  if (action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
     /* Moves into the transport to embark. */
     return TRUE;
   }

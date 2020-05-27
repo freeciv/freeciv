@@ -1051,7 +1051,7 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
   unit_activity_handling(punit, ACTIVITY_IDLE);
   /* Move */
   if (paction && ptrans
-      && action_has_result(paction, ACTION_TRANSPORT_EMBARK)) {
+      && action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
       /* "Transport Embark". */
       unit_do_action(unit_owner(punit), punit->id, ptrans->id,
                      0, "", action_number(paction));

@@ -220,27 +220,6 @@ extern "C" {
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
 
-/* Fake having the action_result enum */
-#define ACTRES_ESTABLISH_EMBASSY ACTION_ESTABLISH_EMBASSY
-#define ACTRES_SPY_INVESTIGATE_CITY ACTION_SPY_INVESTIGATE_CITY
-#define ACTRES_SPY_POISON ACTION_SPY_POISON
-#define ACTRES_SPY_STEAL_GOLD ACTION_SPY_STEAL_GOLD
-#define ACTRES_SPY_SABOTAGE_CITY ACTION_SPY_SABOTAGE_CITY
-#define ACTRES_SPY_TARGETED_SABOTAGE_CITY ACTION_SPY_TARGETED_SABOTAGE_CITY
-#define ACTRES_SPY_SABOTAGE_CITY_PRODUCTION ACTION_SPY_SABOTAGE_CITY_PRODUCTION
-#define ACTRES_SPY_STEAL_TECH ACTION_SPY_STEAL_TECH
-#define ACTRES_SPY_TARGETED_STEAL_TECH ACTION_SPY_TARGETED_STEAL_TECH
-#define ACTRES_SPY_INCITE_CITY ACTION_SPY_INCITE_CITY
-#define ACTRES_SPY_SABOTAGE_UNIT ACTION_SPY_SABOTAGE_UNIT
-#define ACTRES_STEAL_MAPS ACTION_STEAL_MAPS
-#define ACTRES_BOMBARD ACTION_BOMBARD
-#define ACTRES_SPY_NUKE ACTION_SPY_NUKE
-#define ACTRES_ATTACK ACTION_ATTACK
-#define ACTRES_CONQUER_CITY ACTION_CONQUER_CITY
-#define ACTRES_TRANSPORT_DISEMBARK ACTION_TRANSPORT_DISEMBARK1
-/* All consequences are handled as (ruleset) action data. */
-#define ACTRES_NONE ACTION_USER_ACTION1
-
 /* Fake action id used in searches to signal "any action at all". */
 #define ACTION_ANY ACTION_COUNT
 
@@ -334,7 +313,7 @@ struct action
 {
   action_id id;
 
-  enum gen_action result;
+  enum action_result result;
 
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
@@ -559,7 +538,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact);
 int action_number(const struct action *action);
 
 bool action_has_result(const struct action *paction,
-                       enum gen_action result);
+                       enum action_result result);
 #define action_has_result_safe(paction, result)                           \
   (paction && action_has_result(paction, result))
 #define action_id_has_result_safe(act_id, result)                         \
