@@ -604,6 +604,26 @@ void action_consequence_success(const struct action *paction,
                             EFT_CASUS_BELLI_SUCCESS);
 }
 
+/**************************************************************************
+  Take care of any consequences (like casus belli) of successfully
+  completing the given action.
+
+  victim_player can be NULL
+**************************************************************************/
+void action_consequence_complete(const struct action *paction,
+                                 struct player *offender,
+                                 struct player *victim_player,
+                                 const struct tile *victim_tile,
+                                 const char *victim_link)
+{
+  action_consequence_common(paction, offender,
+                            victim_player, victim_tile, victim_link,
+                            notify_actor_success,
+                            notify_victim_success,
+                            notify_global_success,
+                            EFT_CASUS_BELLI_COMPLETE);
+}
+
 /**********************************************************************//**
   Returns TRUE iff, from the point of view of the owner of the actor unit,
   it looks like the actor unit may be able to do any action to the target

@@ -893,14 +893,10 @@ static void update_unit_activity(struct unit *punit)
   case ACTIVITY_PILLAGE:
     if (total_activity_done(ptile, ACTIVITY_PILLAGE, 
                             punit->activity_target)) {
-      struct player *victim = tile_owner(ptile); /* Owner before fortress gets destroyed */
-
       destroy_extra(ptile, punit->activity_target);
       unit_activity_done = TRUE;
 
       bounce_units_on_terrain_change(ptile);
-
-      call_incident(INCIDENT_PILLAGE, unit_owner(punit), victim);
 
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
@@ -1022,6 +1018,7 @@ static void update_unit_activity(struct unit *punit)
         >= action_id_get_act_time(ACTION_FORTIFY,
                                   punit, ptile, punit->activity_target)) {
       set_unit_activity(punit, ACTIVITY_FORTIFIED);
+      unit_activity_done = TRUE;
     }
   }
 
@@ -1031,6 +1028,21 @@ static void update_unit_activity(struct unit *punit)
                                   punit, ptile, punit->activity_target)) {
       unit_convert(punit);
       set_unit_activity(punit, ACTIVITY_IDLE);
+      unit_activity_done = TRUE;
+    }
+  }
+
+  if (unit_activity_done) {
+    if (activity == ACTIVITY_PILLAGE) {
+      /* Casus Belli for when the action is completed. */
+      /* TODO: is it more logical to put Casus_Belli_Success here, change
+       * Casus_Belli_Complete to Casus_Belli_Successful_Beginning and
+       * trigger it when an activity successfully has began? */
+      action_consequence_complete(action_by_number(ACTION_PILLAGE),
+                                  unit_owner(punit),
+                                  tile_owner(unit_tile(punit)),
+                                  unit_tile(punit),
+                                  tile_link(unit_tile(punit)));
     }
   }
 }
@@ -4274,6 +4286,9 @@ bool execute_orders(struct unit *punit, const bool fresh)
           send_unit_info(NULL, punit);
 
           if (activity == ACTIVITY_PILLAGE) {
+            /* Casus Belli for when the action successfully begins. */
+            /* TODO: is it more logical to change Casus_Belli_Complete to
+             * Casus_Belli_Successful_Beginning and trigger it here? */
             action_consequence_success(action_by_number(ACTION_PILLAGE),
                                        unit_owner(punit),
                                        tile_owner(unit_tile(punit)),

@@ -316,6 +316,15 @@ incident gives the intended victim a casus belli against the actor player.
 A value of 1000 or higher is international outrage. International outrage
 gives every other player a casus belli against the actor.
 
+Casus_Belli_Complete
+    Checked when a player completes an action that takes several turns
+against another player. Will cause an incident with the intended victim
+player if the value is 1 or higher. The incident gives the intended victim
+a casus belli against the actor player. A value of 1000 or higher is
+international outrage. International outrage gives every other player a
+casus belli against the actor.
+Only "Pillage" is currently supported.
+
 Action_Odds_Pct
     Modifies the odds of an action being successful. Some actions have a
 risk: the actor may get caught before he can perform it. This effect

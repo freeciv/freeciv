@@ -5300,6 +5300,9 @@ bool unit_activity_handling_targeted(struct unit *punit,
       unit_activity_dependencies(punit, old_activity, old_target);
 
       if (new_activity == ACTIVITY_PILLAGE) {
+        /* Casus Belli for when the activity successfully begins. */
+        /* TODO: is it more logical to change Casus_Belli_Complete to
+         * Casus_Belli_Successful_Beginning and trigger it here? */
         action_consequence_success(action_by_number(ACTION_PILLAGE),
                                    unit_owner(punit),
                                    tile_owner(unit_tile(punit)),
