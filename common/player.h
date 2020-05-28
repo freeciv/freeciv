@@ -186,20 +186,6 @@ struct player_ai {
 #define SPECENUM_COUNT DRO_LAST
 #include "specenum_gen.h"
 
-/* How "large" a Casus Belli is. */
-#define SPECENUM_NAME casus_belli_range
-/* No one gets a Casus Belli. */
-#define SPECENUM_VALUE0 CBR_NONE
-#define SPECENUM_VALUE0NAME N_("No Casus Belli")
-/* Only the victim player gets a Casus Belli. */
-#define SPECENUM_VALUE1 CBR_VICTIM_ONLY
-#define SPECENUM_VALUE1NAME N_("Victim Casus Belli")
-/* Every other player, including the victim, gets a Casus Belli. */
-#define SPECENUM_VALUE2 CBR_INTERNATIONAL_OUTRAGE
-#define SPECENUM_VALUE2NAME N_("International Outrage")
-#define SPECENUM_COUNT CBR_LAST
-#include "specenum_gen.h"
-
 BV_DEFINE(bv_diplrel_all_reqs,
           /* Reserve a location for each possible DiplRel requirement. */
           ((DRO_LAST - 1) * 2) * REQ_RANGE_COUNT);
