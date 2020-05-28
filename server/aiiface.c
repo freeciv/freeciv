@@ -230,10 +230,20 @@ void ai_init(void)
 /**********************************************************************//**
   Call incident function of victim.
 **************************************************************************/
-void call_incident(enum incident_type type, struct player *violator,
-                   struct player *victim)
+void call_incident(enum incident_type type, enum casus_belli_range scope,
+                   const struct action *paction,
+                   struct player *violator, struct player *victim)
 {
-  CALL_PLR_AI_FUNC(incident, victim, type, violator, victim);
+  if (scope == CBR_VICTIM_ONLY) {
+    CALL_PLR_AI_FUNC(incident, victim,
+                     type, scope, paction, victim, violator, victim);
+  } else {
+    fc_assert(scope == CBR_INTERNATIONAL_OUTRAGE);
+    players_iterate(receiver) {
+      CALL_PLR_AI_FUNC(incident, victim,
+                       type, scope, paction, receiver, violator, victim);
+    }
+  } players_iterate_end;
 }
 
 /**********************************************************************//**

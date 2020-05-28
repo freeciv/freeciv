@@ -136,59 +136,6 @@ static void action_give_casus_belli(struct player *offender,
 }
 
 /**********************************************************************//**
-  Returns the kind of diplomatic incident an action may cause.
-**************************************************************************/
-static enum incident_type action_to_incident(const struct action *paction)
-{
-  switch (paction->result) {
-  case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
-  case ACTRES_NUKE_UNITS:
-  case ACTRES_SPY_NUKE:
-    return INCIDENT_NUCLEAR;
-  case ACTRES_PILLAGE:
-    return INCIDENT_PILLAGE;
-  default:
-    /* FIXME: Some actions are neither nuclear nor diplomat. */
-    return INCIDENT_DIPLOMAT;
-  }
-}
-
-/**********************************************************************//**
-  Notify the players controlled by the built in AI.
-**************************************************************************/
-static void action_notify_ai(const struct action *paction,
-                             struct player *offender,
-                             struct player *victim_player)
-{
-  const enum incident_type incident = action_to_incident(paction);
-
-  /* Notify the victim player. */
-  call_incident(incident, offender, victim_player);
-
-  if (incident == INCIDENT_NUCLEAR) {
-    /* Tell the world. */
-    if (offender == victim_player) {
-      players_iterate(oplayer) {
-        if (victim_player != oplayer) {
-          call_incident(INCIDENT_NUCLEAR_SELF, offender, oplayer);
-        }
-      } players_iterate_end;
-    } else {
-      players_iterate(oplayer) {
-        if (victim_player != oplayer) {
-          call_incident(INCIDENT_NUCLEAR_NOT_TARGET, offender, oplayer);
-        }
-      } players_iterate_end;
-    }
-  }
-
-  /* TODO: Should incident be called when the ai gets a casus belli because
-   * of something done to a third party? If yes: should a new incident kind
-   * be used? */
-}
-
-/**********************************************************************//**
   Take care of any consequences (like casus belli) of the given action
   when the situation was as specified.
 
@@ -236,7 +183,7 @@ static void action_consequence_common(const struct action *paction,
     action_give_casus_belli(offender, victim_player, int_outrage);
 
     /* Notify players controlled by the built in AI. */
-    action_notify_ai(paction, offender, victim_player);
+    call_incident(INCIDENT_ACTION, cbr, paction, offender, victim_player);
 
     /* Update the clients. */
     send_player_all_c(offender, NULL);

@@ -805,7 +805,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     }
   }
   if (new_type == DS_WAR) {
-    call_incident(INCIDENT_WAR, pplayer, pplayer2);
+    call_incident(INCIDENT_WAR, CBR_VICTIM_ONLY, NULL, pplayer, pplayer2);
 
     enter_war(pplayer, pplayer2);
   }

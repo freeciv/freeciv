@@ -1884,31 +1884,59 @@ bool dai_on_war_footing(struct ai_type *ait, struct player *pplayer)
 **********************************************************************/
 /* AI attitude call-backs */
 void dai_incident(struct ai_type *ait, enum incident_type type,
+                  enum casus_belli_range scope,
+                  const struct action *paction,
+                  struct player *receiver,
                   struct player *violator, struct player *victim)
 {
+  /* TODO: Splitting up the functions called below to only change the
+   * receiver's data would probably be a good idea. */
+  /* TODO: Handle international outrage. */
+
+  /* Keep the functions called below working as before. */
+  if (receiver != victim) {
+    return;
+  }
+
   switch (type) {
-    case INCIDENT_DIPLOMAT:
-      dai_incident_diplomat(violator, victim);
-      break;
-    case INCIDENT_WAR:
-      dai_incident_war(violator, victim);
-      break;
-    case INCIDENT_PILLAGE:
+  case INCIDENT_ACTION:
+    if (action_has_result(paction, ACTRES_PILLAGE)) {
       dai_incident_pillage(violator, victim);
-      break;
-    case INCIDENT_NUCLEAR:
+    } else if (action_has_result(paction, ACTRES_NUKE)
+               || action_has_result(paction, ACTRES_NUKE_CITY)
+               || action_has_result(paction, ACTRES_NUKE_UNITS)
+               || action_has_result(paction, ACTRES_SPY_NUKE)) {
+      /* Tell the victim */
       dai_incident_nuclear(violator, victim);
-      break;
-    case INCIDENT_NUCLEAR_NOT_TARGET:
-      dai_incident_nuclear_not_target(violator, victim);
-      break;
-    case INCIDENT_NUCLEAR_SELF:
-      dai_incident_nuclear_self(violator, victim);
-      break;
-    case INCIDENT_LAST:
-      /* Assert that always fails, but with meaningfull message */
-      fc_assert(type != INCIDENT_LAST);
-      break;
+
+      /* Tell the world. */
+      if (violator == victim) {
+        players_iterate(oplayer) {
+          if (victim != oplayer) {
+            dai_incident_nuclear_self(violator, oplayer);
+          }
+        } players_iterate_end;
+      } else {
+        players_iterate(oplayer) {
+          if (victim != oplayer) {
+            dai_incident_nuclear_not_target(violator, oplayer);
+          }
+        } players_iterate_end;
+      }
+    } else {
+      /* FIXME: Some actions are neither nuclear, pillage nor diplomat. */
+      dai_incident_diplomat(violator, victim);
+    }
+    break;
+  case INCIDENT_WAR:
+    if (receiver == victim) {
+      dai_incident_war(violator, victim);
+    }
+    break;
+  case INCIDENT_LAST:
+    /* Assert that always fails, but with meaningfull message */
+    fc_assert(type != INCIDENT_LAST);
+    break;
   }
 }
 

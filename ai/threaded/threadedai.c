@@ -480,11 +480,14 @@ static void twai_diplomacy_first_contact(struct player *pplayer,
 /**********************************************************************//**
   Call default ai with threaded ai type as parameter.
 **************************************************************************/
-static void twai_incident(enum incident_type type, struct player *violator,
-                          struct player *victim)
+static void twai_incident(enum incident_type type,
+                          enum casus_belli_range scope,
+                          const struct action *paction,
+                          struct player *receiver,
+                          struct player *violator, struct player *victim)
 {
   TAI_AIT;
-  TAI_DFUNC(dai_incident, type, violator, victim);
+  TAI_DFUNC(dai_incident, type, scope, paction, receiver, violator, victim);
 }
 
 /**********************************************************************//**

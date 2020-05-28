@@ -43,9 +43,7 @@ struct section_file;
 struct adv_data;
 
 enum incident_type {
-  INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
-  INCIDENT_NUCLEAR, INCIDENT_NUCLEAR_NOT_TARGET,
-  INCIDENT_NUCLEAR_SELF, INCIDENT_LAST
+  INCIDENT_ACTION = 0, INCIDENT_WAR, INCIDENT_LAST
 };
 
 struct ai_type
@@ -275,8 +273,10 @@ struct ai_type
 
     /* Called for player AI type of the victim when someone does some violation
      * against him/her. */
-    void (*incident)(enum incident_type type, struct player *violator,
-                     struct player *victim);
+    void (*incident)(enum incident_type type, enum casus_belli_range scope,
+                     const struct action *paction,
+                     struct player *receiver,
+                     struct player *violator, struct player *victim);
 
     /* Called for player AI type of city owner when logging requires city debug
      * information. */

@@ -514,12 +514,15 @@ static void cai_diplomacy_first_contact(struct player *pplayer,
 /**********************************************************************//**
   Call default ai with classic ai type as parameter.
 **************************************************************************/
-static void cai_incident(enum incident_type type, struct player *violator,
-                         struct player *victim)
+static void cai_incident(enum incident_type type,
+                         enum casus_belli_range scope,
+                         const struct action *paction,
+                         struct player *receiver,
+                         struct player *violator, struct player *victim)
 {
   struct ai_type *deftype = classic_ai_get_self();
 
-  dai_incident(deftype, type, violator, victim);
+  dai_incident(deftype, type, scope, paction, receiver, violator, victim);
 }
 
 /**********************************************************************//**

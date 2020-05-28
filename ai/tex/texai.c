@@ -489,11 +489,15 @@ static void texwai_diplomacy_first_contact(struct player *pplayer,
 /**********************************************************************//**
   Call default ai with tex ai type as parameter.
 **************************************************************************/
-static void texwai_incident(enum incident_type type, struct player *violator,
-                            struct player *victim)
+static void texwai_incident(enum incident_type type,
+                            enum casus_belli_range scope,
+                            const struct action *paction,
+                            struct player *receiver,
+                            struct player *violator, struct player *victim)
 {
   TEXAI_AIT;
-  TEXAI_DFUNC(dai_incident, type, violator, victim);
+  TEXAI_DFUNC(dai_incident, type, scope, paction,
+              receiver, violator, victim);
 }
 
 /**********************************************************************//**
