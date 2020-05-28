@@ -140,15 +140,13 @@ static void action_give_casus_belli(struct player *offender,
 **************************************************************************/
 static enum incident_type action_to_incident(const struct action *paction)
 {
-  /* Action id is currently the action's only result. */
-  switch ((enum gen_action)paction->id) {
-  case ACTION_NUKE:
-  case ACTION_NUKE_CITY:
-  case ACTION_NUKE_UNITS:
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
+  switch (paction->result) {
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_SPY_NUKE:
     return INCIDENT_NUCLEAR;
-  case ACTION_PILLAGE:
+  case ACTRES_PILLAGE:
     return INCIDENT_PILLAGE;
   default:
     /* FIXME: Some actions are neither nuclear nor diplomat. */
