@@ -107,7 +107,7 @@ CityStatus is "OwnedByOriginal"
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",
-"InNativeExtra", "OnDomesticTile" or "HasHomeCity".
+"InNativeExtra", "OnDomesticTile", "MovedThisTurn" or "HasHomeCity".
 Activity is "Idle", "Pollution", "Mine", "Irrigate", "Fortified", "Fortress", "Sentry",
 "Pillage", "Goto", "Explore", "Transform", "Fortifying", "Fallout", "Base", "Road",
 "Convert", "Cultivate", or "Plant".
@@ -684,4 +684,5 @@ The UnitState requirement type
 "InNativeExtra" is fulfilled if the unit is on a tile with an extra native
                 to it.
 "OnDomesticTile" is fulfilled if the unit is on a tile owned by its player.
+"MovedThisTurn" is fulfilled if the unit has moved this turn.
 "HasHomeCity" is fulfilled if the unit has a home city.

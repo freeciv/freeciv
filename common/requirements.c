@@ -2697,6 +2697,8 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
         tile_has_native_base(unit_tile(target_unit),
                              unit_type_get(target_unit)));
     break;
+  case USP_MOVED_THIS_TURN:
+    return BOOL_TO_TRISTATE(target_unit->moved);
   case USP_COUNT:
     fc_assert_msg(uprop != USP_COUNT, "Invalid unit state property.");
     /* Invalid property is unknowable. */
@@ -3782,6 +3784,11 @@ const char *universal_name_translation(const struct universal *psource,
                    /* TRANS: unit state. (appears in strings like
                     * "Missile+In native extra") */
                    _("In native extra"));
+      break;
+    case USP_MOVED_THIS_TURN:
+      /* TRANS: unit state. (appears in strings like
+       * "Missile+Has moved this turn") */
+      cat_snprintf(buf, bufsz, _("Has moved this turn"));
       break;
     case USP_COUNT:
       fc_assert_msg(psource->value.unit_state != USP_COUNT,
