@@ -751,7 +751,7 @@ int action_dice_roll_odds(const struct player *act_player,
                           const struct action *paction);
 
 bool
-action_actor_utype_hard_reqs_ok(const action_id wanted_action,
+action_actor_utype_hard_reqs_ok(enum action_result result,
                                 const struct unit_type *actor_unittype);
 
 /* Reasoning about actions */

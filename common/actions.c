@@ -2223,20 +2223,18 @@ struct action *action_is_blocked_by(const action_id act_id,
    * explain why it is a hard requirement in a comment.
 **************************************************************************/
 bool
-action_actor_utype_hard_reqs_ok(const action_id wanted_action,
+action_actor_utype_hard_reqs_ok(enum action_result result,
                                 const struct unit_type *actor_unittype)
 {
-  switch ((enum gen_action)wanted_action) {
-  case ACTION_JOIN_CITY:
+  switch (result) {
+  case ACTRES_JOIN_CITY:
     if (utype_pop_value(actor_unittype) <= 0) {
       /* Reason: Must have population to add. */
       return FALSE;
     }
     break;
 
-  case ACTION_BOMBARD:
-  case ACTION_BOMBARD2:
-  case ACTION_BOMBARD3:
+  case ACTRES_BOMBARD:
     if (actor_unittype->bombard_rate <= 0) {
       /* Reason: Can't bombard if it never fires. */
       return FALSE;
@@ -2249,108 +2247,86 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
 
     break;
 
-  case ACTION_UPGRADE_UNIT:
+  case ACTRES_UPGRADE_UNIT:
     if (actor_unittype->obsoleted_by == U_NOT_OBSOLETED) {
       /* Reason: Nothing to upgrade to. */
       return FALSE;
     }
     break;
 
-  case ACTION_ATTACK:
-  case ACTION_SUICIDE_ATTACK:
+  case ACTRES_ATTACK:
     if (actor_unittype->attack_strength <= 0) {
       /* Reason: Can't attack without strength. */
       return FALSE;
     }
     break;
 
-  case ACTION_CONVERT:
+  case ACTRES_CONVERT:
     if (!actor_unittype->converted_to) {
       /* Reason: must be able to convert to something. */
       return FALSE;
     }
     break;
 
-  case ACTION_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_UNLOAD:
     if (actor_unittype->transport_capacity < 1) {
       /* Reason: can't transport anything to unload. */
       return FALSE;
     }
     break;
 
-  case ACTION_ESTABLISH_EMBASSY:
-  case ACTION_ESTABLISH_EMBASSY_STAY:
-  case ACTION_SPY_INVESTIGATE_CITY:
-  case ACTION_INV_CITY_SPEND:
-  case ACTION_SPY_POISON:
-  case ACTION_SPY_POISON_ESC:
-  case ACTION_SPY_STEAL_GOLD:
-  case ACTION_SPY_STEAL_GOLD_ESC:
-  case ACTION_SPY_SPREAD_PLAGUE:
-  case ACTION_SPY_SABOTAGE_CITY:
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_STEAL_TECH_ESC:
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-  case ACTION_SPY_INCITE_CITY:
-  case ACTION_SPY_INCITE_CITY_ESC:
-  case ACTION_TRADE_ROUTE:
-  case ACTION_MARKETPLACE:
-  case ACTION_HELP_WONDER:
-  case ACTION_SPY_BRIBE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
-  case ACTION_CAPTURE_UNITS:
-  case ACTION_FOUND_CITY:
-  case ACTION_STEAL_MAPS:
-  case ACTION_STEAL_MAPS_ESC:
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE:
-  case ACTION_NUKE_CITY:
-  case ACTION_NUKE_UNITS:
-  case ACTION_DESTROY_CITY:
-  case ACTION_EXPEL_UNIT:
-  case ACTION_RECYCLE_UNIT:
-  case ACTION_DISBAND_UNIT:
-  case ACTION_HOME_CITY:
-  case ACTION_PARADROP:
-  case ACTION_AIRLIFT:
-  case ACTION_STRIKE_BUILDING:
-  case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_HEAL_UNIT:
-  case ACTION_PILLAGE:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
-  case ACTION_FORTIFY:
-  case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_CULTIVATE:
-  case ACTION_PLANT:
-  case ACTION_ROAD:
-  case ACTION_BASE:
-  case ACTION_MINE:
-  case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_BOARD:
-  case ACTION_TRANSPORT_EMBARK:
-  case ACTION_TRANSPORT_ALIGHT:
-  case ACTION_TRANSPORT_DISEMBARK1:
-  case ACTION_TRANSPORT_DISEMBARK2:
-  case ACTION_SPY_ATTACK:
-  case ACTION_USER_ACTION1:
-  case ACTION_USER_ACTION2:
-  case ACTION_USER_ACTION3:
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_FOUND_CITY:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_PARADROP:
+  case ACTRES_AIRLIFT:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_FORTIFY:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_ROAD:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DISEMBARK:
+  case ACTRES_SPY_ATTACK:
+  case ACTRES_NONE:
     /* No hard unit type requirements. */
-    break;
-
-  case ACTION_COUNT:
-    fc_assert_ret_val(wanted_action != ACTION_COUNT, FALSE);
     break;
   }
 
@@ -2366,7 +2342,7 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   omniscient.
 **************************************************************************/
 static enum fc_tristate
-action_hard_reqs_actor(const action_id wanted_action,
+action_hard_reqs_actor(enum action_result result,
                        const struct player *actor_player,
                        const struct city *actor_city,
                        const struct impr_type *actor_building,
@@ -2378,16 +2354,16 @@ action_hard_reqs_actor(const action_id wanted_action,
                        const bool omniscient,
                        const struct city *homecity)
 {
-  if (!action_actor_utype_hard_reqs_ok(wanted_action, actor_unittype)) {
+  if (!action_actor_utype_hard_reqs_ok(result, actor_unittype)) {
     /* Info leak: The actor player knows the type of his unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
     return TRI_NO;
   }
 
-  switch ((enum gen_action)wanted_action) {
-  case ACTION_TRADE_ROUTE:
-  case ACTION_MARKETPLACE:
+  switch (result) {
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
     /* It isn't possible to establish a trade route from a non existing
      * city. The Freeciv code assumes this applies to Enter Marketplace
      * too. */
@@ -2398,7 +2374,7 @@ action_hard_reqs_actor(const action_id wanted_action,
 
     break;
 
-  case ACTION_PARADROP:
+  case ACTRES_PARADROP:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if his unit already has paradropped this
      * turn. */
@@ -2415,7 +2391,7 @@ action_hard_reqs_actor(const action_id wanted_action,
 
     break;
 
-  case ACTION_AIRLIFT:
+  case ACTRES_AIRLIFT:
     {
       const struct city *psrc_city = tile_city(actor_tile);
 
@@ -2449,7 +2425,7 @@ action_hard_reqs_actor(const action_id wanted_action,
     }
     break;
 
-  case ACTION_CONVERT:
+  case ACTRES_CONVERT:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows his unit's cargo and location. */
     if (!unit_can_convert(actor_unit)) {
@@ -2457,8 +2433,8 @@ action_hard_reqs_actor(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSPORT_BOARD:
-  case ACTION_TRANSPORT_EMBARK:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
     if (unit_transported(actor_unit)) {
       if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
         /* Can't leave current transport. */
@@ -2467,87 +2443,63 @@ action_hard_reqs_actor(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSPORT_DISEMBARK1:
-  case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTRES_TRANSPORT_DISEMBARK:
     if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
 
-  case ACTION_ESTABLISH_EMBASSY:
-  case ACTION_ESTABLISH_EMBASSY_STAY:
-  case ACTION_SPY_INVESTIGATE_CITY:
-  case ACTION_INV_CITY_SPEND:
-  case ACTION_SPY_POISON:
-  case ACTION_SPY_POISON_ESC:
-  case ACTION_SPY_STEAL_GOLD:
-  case ACTION_SPY_STEAL_GOLD_ESC:
-  case ACTION_SPY_SPREAD_PLAGUE:
-  case ACTION_SPY_SABOTAGE_CITY:
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_STEAL_TECH_ESC:
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-  case ACTION_SPY_INCITE_CITY:
-  case ACTION_SPY_INCITE_CITY_ESC:
-  case ACTION_HELP_WONDER:
-  case ACTION_SPY_BRIBE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
-  case ACTION_CAPTURE_UNITS:
-  case ACTION_FOUND_CITY:
-  case ACTION_JOIN_CITY:
-  case ACTION_STEAL_MAPS:
-  case ACTION_STEAL_MAPS_ESC:
-  case ACTION_BOMBARD:
-  case ACTION_BOMBARD2:
-  case ACTION_BOMBARD3:
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE:
-  case ACTION_NUKE_CITY:
-  case ACTION_NUKE_UNITS:
-  case ACTION_DESTROY_CITY:
-  case ACTION_EXPEL_UNIT:
-  case ACTION_RECYCLE_UNIT:
-  case ACTION_DISBAND_UNIT:
-  case ACTION_HOME_CITY:
-  case ACTION_UPGRADE_UNIT:
-  case ACTION_ATTACK:
-  case ACTION_SUICIDE_ATTACK:
-  case ACTION_STRIKE_BUILDING:
-  case ACTION_STRIKE_PRODUCTION:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
-  case ACTION_HEAL_UNIT:
-  case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_CULTIVATE:
-  case ACTION_PLANT:
-  case ACTION_PILLAGE:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
-  case ACTION_FORTIFY:
-  case ACTION_ROAD:
-  case ACTION_BASE:
-  case ACTION_MINE:
-  case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
-  case ACTION_TRANSPORT_UNLOAD:
-  case ACTION_SPY_ATTACK:
-  case ACTION_USER_ACTION1:
-  case ACTION_USER_ACTION2:
-  case ACTION_USER_ACTION3:
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_FOUND_CITY:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_BOMBARD:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_ATTACK:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_FORTIFY:
+  case ACTRES_ROAD:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_SPY_ATTACK:
+  case ACTRES_NONE:
     /* No hard unit requirements. */
-    break;
-
-  case ACTION_COUNT:
-    fc_assert_ret_val(wanted_action != ACTION_COUNT, TRI_NO);
     break;
   }
 
@@ -2681,7 +2633,7 @@ is_action_possible(const action_id wanted_action,
   }
 
   /* Actor specific hard requirements. */
-  out = action_hard_reqs_actor(wanted_action,
+  out = action_hard_reqs_actor(paction->result,
                                actor_player, actor_city, actor_building,
                                actor_tile, actor_unit, actor_unittype,
                                actor_output, actor_specialist,
@@ -2693,9 +2645,9 @@ is_action_possible(const action_id wanted_action,
   }
 
   /* Hard requirements for individual actions. */
-  switch ((enum gen_action)wanted_action) {
-  case ACTION_CAPTURE_UNITS:
-  case ACTION_SPY_BRIBE_UNIT:
+  switch (paction->result) {
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_SPY_BRIBE_UNIT:
     /* Why this is a hard requirement: Can't transfer a unique unit if the
      * actor player already has one. */
     /* Info leak: This is only checked for when the actor player can see
@@ -2720,8 +2672,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_ESTABLISH_EMBASSY:
-  case ACTION_ESTABLISH_EMBASSY_STAY:
+  case ACTRES_ESTABLISH_EMBASSY:
     /* Why this is a hard requirement: There is currently no point in
      * establishing an embassy when a real embassy already exists.
      * (Possible exception: crazy hack using the Lua callback
@@ -2734,8 +2685,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
     /* Info leak: The actor player knowns who's techs he can see. */
@@ -2745,8 +2695,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_SPY_STEAL_GOLD:
-  case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTRES_SPY_STEAL_GOLD:
     /* If actor_unit can do the action the actor_player can see how much
      * gold target_player have. Not requireing it is therefore pointless.
      */
@@ -2756,8 +2705,8 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_TRADE_ROUTE:
-  case ACTION_MARKETPLACE:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
     {
       /* Checked in action_hard_reqs_actor() */
       fc_assert_ret_val(homecity != NULL, TRI_NO);
@@ -2772,7 +2721,7 @@ is_action_possible(const action_id wanted_action,
 
       /* There are more restrictions on establishing a trade route than on
        * entering the market place. */
-      if (wanted_action == ACTION_TRADE_ROUTE
+      if (action_has_result(paction, ACTRES_TRADE_ROUTE)
           && !can_establish_trade_route(homecity, target_city)) {
         return TRI_NO;
       }
@@ -2780,8 +2729,8 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_HELP_WONDER:
-  case ACTION_RECYCLE_UNIT:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_RECYCLE_UNIT:
     /* It is only possible to help the production if the production needs
      * the help. (If not it would be possible to add shields for something
      * that can't legally receive help if it is build later) */
@@ -2800,7 +2749,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_FOUND_CITY:
+  case ACTRES_FOUND_CITY:
     if (game.scenario.prevent_new_cities) {
       /* Reason: allow scenarios to disable city founding. */
       /* Info leak: the setting is public knowledge. */
@@ -2865,7 +2814,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_JOIN_CITY:
+  case ACTRES_JOIN_CITY:
     {
       int new_pop;
 
@@ -2894,9 +2843,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_BOMBARD:
-  case ACTION_BOMBARD2:
-  case ACTION_BOMBARD3:
+  case ACTRES_BOMBARD:
     /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
@@ -2907,7 +2854,7 @@ is_action_possible(const action_id wanted_action,
     break;
 
 
-  case ACTION_NUKE_UNITS:
+  case ACTRES_NUKE_UNITS:
     if (unit_attack_units_at_tile_result(actor_unit, target_tile)
         != ATT_OK) {
       /* Unreachable. */
@@ -2916,7 +2863,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_HOME_CITY:
+  case ACTRES_HOME_CITY:
     /* Reason: can't change to what is. */
     /* Info leak: The player knows his unit's current home city. */
     if (homecity != NULL && homecity->id == target_city->id) {
@@ -2934,7 +2881,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_UPGRADE_UNIT:
+  case ACTRES_UPGRADE_UNIT:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows his unit's type. He knows if he can
      * build the unit type upgraded to. If the upgrade happens in a foreign
@@ -2953,7 +2900,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_PARADROP:
+  case ACTRES_PARADROP:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if he knows the target tile. */
     if (!plr_knows_tile(actor_player, target_tile)) {
@@ -2998,7 +2945,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_AIRLIFT:
+  case ACTRES_AIRLIFT:
     /* Reason: Keep the old rules. */
     /* Info leak: same as test_unit_can_airlift_to() */
     switch (test_unit_can_airlift_to(omniscient ? NULL : actor_player,
@@ -3021,16 +2968,14 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_ATTACK:
-  case ACTION_SUICIDE_ATTACK:
+  case ACTRES_ATTACK:
     /* Reason: Keep the old rules. */
     if (!can_unit_attack_tile(actor_unit, target_tile)) {
       return TRI_NO;
     }
     break;
 
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
+  case ACTRES_CONQUER_CITY:
     /* Reason: "Conquer City" involves moving into the city. */
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
                                FALSE, TRUE)) {
@@ -3039,7 +2984,7 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTION_HEAL_UNIT:
+  case ACTRES_HEAL_UNIT:
     /* Reason: It is not the healthy who need a doctor, but the sick. */
     /* Info leak: the actor can see the target's HP. */
     if (!(target_unit->hp < target_unittype->hp)) {
@@ -3047,7 +2992,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSFORM_TERRAIN:
+  case ACTRES_TRANSFORM_TERRAIN:
     pterrain = tile_terrain(target_tile);
     if (pterrain->transform_result == T_NONE
         || pterrain == pterrain->transform_result
@@ -3059,7 +3004,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_CULTIVATE:
+  case ACTRES_CULTIVATE:
     pterrain = tile_terrain(target_tile);
     if (pterrain->irrigation_result == pterrain
         || pterrain->irrigation_result == T_NONE) {
@@ -3073,7 +3018,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_PLANT:
+  case ACTRES_PLANT:
     pterrain = tile_terrain(target_tile);
     if (pterrain->mining_result == pterrain
         || pterrain->mining_result == T_NONE) {
@@ -3087,7 +3032,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_ROAD:
+  case ACTRES_ROAD:
     if (target_extra == NULL) {
       return TRI_NO;
     }
@@ -3100,7 +3045,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_BASE:
+  case ACTRES_BASE:
     if (target_extra == NULL) {
       return TRI_NO;
     }
@@ -3114,7 +3059,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_MINE:
+  case ACTRES_MINE:
     if (target_extra == NULL) {
       return TRI_NO;
     }
@@ -3137,7 +3082,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_IRRIGATE:
+  case ACTRES_IRRIGATE:
     if (target_extra == NULL) {
       return TRI_NO;
     }
@@ -3161,7 +3106,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_PILLAGE:
+  case ACTRES_PILLAGE:
     pterrain = tile_terrain(target_tile);
     if (pterrain->pillage_time == 0) {
       return TRI_NO;
@@ -3229,7 +3174,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_POLLUTION:
     {
       const struct extra_type *pextra;
 
@@ -3269,7 +3214,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_CLEAN_FALLOUT:
+  case ACTRES_CLEAN_FALLOUT:
     {
       const struct extra_type *pextra;
 
@@ -3309,7 +3254,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_FORTIFY:
+  case ACTRES_FORTIFY:
     if (actor_unit->activity == ACTIVITY_FORTIFIED) {
       return TRI_NO;
     }
@@ -3320,14 +3265,14 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_ALIGHT:
     if (!can_unit_unload(actor_unit, target_unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
 
-  case ACTION_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_BOARD:
     if (unit_transported(actor_unit)) {
       if (target_unit == unit_transport_get(actor_unit)) {
         /* Already inside this transport. */
@@ -3340,15 +3285,14 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_UNLOAD:
     if (!can_unit_unload(target_unit, actor_unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
       return TRI_NO;
     }
     break;
 
-  case ACTION_TRANSPORT_DISEMBARK1:
-  case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTRES_TRANSPORT_DISEMBARK:
     if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
                                FALSE, FALSE)) {
       /* Reason: involves moving to the tile. */
@@ -3369,7 +3313,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_TRANSPORT_EMBARK:
+  case ACTRES_TRANSPORT_EMBARK:
     if (unit_transported(actor_unit)) {
       if (target_unit == unit_transport_get(actor_unit)) {
         /* Already inside this transport. */
@@ -3399,7 +3343,7 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_SPY_ATTACK:
+  case ACTRES_SPY_ATTACK:
     {
       bool found;
 
@@ -3437,44 +3381,29 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTION_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_SPREAD_PLAGUE:
     /* Enabling this action with illness_on = FALSE prevents spread. */
     break;
-  case ACTION_SPY_INVESTIGATE_CITY:
-  case ACTION_INV_CITY_SPEND:
-  case ACTION_SPY_POISON:
-  case ACTION_SPY_POISON_ESC:
-  case ACTION_SPY_SABOTAGE_CITY:
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_STEAL_TECH_ESC:
-  case ACTION_SPY_INCITE_CITY:
-  case ACTION_SPY_INCITE_CITY_ESC:
-  case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
-  case ACTION_STEAL_MAPS:
-  case ACTION_STEAL_MAPS_ESC:
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE:
-  case ACTION_NUKE_CITY:
-  case ACTION_DESTROY_CITY:
-  case ACTION_EXPEL_UNIT:
-  case ACTION_DISBAND_UNIT:
-  case ACTION_CONVERT:
-  case ACTION_STRIKE_BUILDING:
-  case ACTION_STRIKE_PRODUCTION:
-  case ACTION_USER_ACTION1:
-  case ACTION_USER_ACTION2:
-  case ACTION_USER_ACTION3:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_CONVERT:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_NONE:
     /* No known hard coded requirements. */
-    break;
-  case ACTION_COUNT:
-    fc_assert(action_id_exists(wanted_action));
     break;
   }
 
@@ -5642,6 +5571,7 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
   const struct tile *actor_tile = unit_tile(actor_unit);
   const struct city *actor_city = tile_city(actor_tile);
   const struct unit_type *actor_unittype = unit_type_get(actor_unit);
+  const struct action *paction = action_by_number(act_id);
 
   enum fc_tristate result;
 
@@ -5652,7 +5582,7 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
     return FALSE;
   }
 
-  result = action_hard_reqs_actor(act_id,
+  result = action_hard_reqs_actor(paction->result,
                                   actor_player, actor_city, NULL,
                                   actor_tile, actor_unit, actor_unittype,
                                   NULL, NULL, FALSE,

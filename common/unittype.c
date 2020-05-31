@@ -278,8 +278,9 @@ static void unit_can_act_cache_set(struct unit_type *putype)
   /* See if the unit type can do an action controlled by generalized action
    * enablers */
   action_enablers_iterate(enabler) {
+    const struct action *paction = action_by_number(enabler->action);
     if (action_id_get_actor_kind(enabler->action) == AAK_UNIT
-        && action_actor_utype_hard_reqs_ok(enabler->action, putype)
+        && action_actor_utype_hard_reqs_ok(paction->result, putype)
         && requirement_fulfilled_by_unit_type(putype,
                                               &(enabler->actor_reqs))) {
       log_debug("act_cache: %s can %s",
