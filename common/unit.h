@@ -321,10 +321,6 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity);
 void set_unit_activity_targeted(struct unit *punit,
                                 enum unit_activity new_activity,
                                 struct extra_type *new_target);
-void set_unit_activity_base(struct unit *punit,
-                            Base_type_id base);
-void set_unit_activity_road(struct unit *punit,
-                            Road_type_id road);
 int get_activity_rate(const struct unit *punit);
 int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,

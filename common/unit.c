@@ -1095,34 +1095,6 @@ void set_unit_activity_targeted(struct unit *punit,
 }
 
 /**********************************************************************//**
-  Assign a new base building task to unit
-**************************************************************************/
-void set_unit_activity_base(struct unit *punit,
-                            Base_type_id base)
-{
-  set_unit_activity_internal(punit, ACTIVITY_BASE);
-  punit->activity_target = base_extra_get(base_by_number(base));
-  if (ACTIVITY_BASE == punit->changed_from
-      && punit->activity_target == punit->changed_from_target) {
-    punit->activity_count = punit->changed_from_count;
-  }
-}
-
-/**********************************************************************//**
-  Assign a new road building task to unit
-**************************************************************************/
-void set_unit_activity_road(struct unit *punit,
-                            Road_type_id road)
-{
-  set_unit_activity_internal(punit, ACTIVITY_GEN_ROAD);
-  punit->activity_target = road_extra_get(road_by_number(road));
-  if (ACTIVITY_GEN_ROAD == punit->changed_from
-      && punit->activity_target == punit->changed_from_target) {
-    punit->activity_count = punit->changed_from_count;
-  }
-}
-
-/**********************************************************************//**
   Return whether any units on the tile are doing this activity.
 **************************************************************************/
 bool is_unit_activity_on_tile(enum unit_activity activity,
