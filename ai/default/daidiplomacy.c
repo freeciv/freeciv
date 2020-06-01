@@ -80,13 +80,21 @@ static bool diplomacy_verbose = TRUE;
 #define TURNS_BEFORE_TARGET 15
 
 static void dai_incident_war(struct player *violator, struct player *victim);
-static void dai_incident_diplomat(struct player *violator, struct player *victim);
-static void dai_incident_nuclear(struct player *violator, struct player *victim);
-static void dai_incident_nuclear_not_target(struct player *violator,
-                                           struct player *victim);
-static void dai_incident_nuclear_self(struct player *violator,
-				      struct player *victim);
-static void dai_incident_pillage(struct player *violator, struct player *victim);
+static void dai_incident_diplomat(struct player *receiver,
+                                  const struct player *violator,
+                                  const struct player *victim);
+static void dai_incident_nuclear(struct player *receiver,
+                                 const struct player *violator,
+                                 const struct player *victim);
+static void dai_incident_nuclear_not_target(struct player *receiver,
+                                            const struct player *violator,
+                                            const struct player *victim);
+static void dai_incident_nuclear_self(struct player *receiver,
+                                      const struct player *violator,
+                                      const struct player *victim);
+static void dai_incident_pillage(struct player *receiver,
+                                 const struct player *violator,
+                                 const struct player *victim);
 static void clear_old_treaty(struct player *pplayer, struct player *aplayer);
 
 /******************************************************************//**
@@ -1889,43 +1897,29 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
                   struct player *receiver,
                   struct player *violator, struct player *victim)
 {
-  /* TODO: Splitting up the functions called below to only change the
-   * receiver's data would probably be a good idea. */
-  /* TODO: Handle international outrage. */
-
-  /* Keep the functions called below working as before. */
-  if (receiver != victim) {
+  if (!is_ai(receiver) || violator == receiver) {
     return;
   }
 
   switch (type) {
   case INCIDENT_ACTION:
     if (action_has_result(paction, ACTRES_PILLAGE)) {
-      dai_incident_pillage(violator, victim);
+      dai_incident_pillage(receiver, violator, victim);
     } else if (action_has_result(paction, ACTRES_NUKE)
                || action_has_result(paction, ACTRES_NUKE_CITY)
                || action_has_result(paction, ACTRES_NUKE_UNITS)
                || action_has_result(paction, ACTRES_SPY_NUKE)) {
-      /* Tell the victim */
-      dai_incident_nuclear(violator, victim);
-
-      /* Tell the world. */
-      if (violator == victim) {
-        players_iterate(oplayer) {
-          if (victim != oplayer) {
-            dai_incident_nuclear_self(violator, oplayer);
-          }
-        } players_iterate_end;
+      if (receiver == victim) {
+        /* Tell the victim */
+        dai_incident_nuclear(receiver, violator, victim);
+      } else if (violator == victim) {
+        dai_incident_nuclear_self(receiver, violator, victim);
       } else {
-        players_iterate(oplayer) {
-          if (victim != oplayer) {
-            dai_incident_nuclear_not_target(violator, oplayer);
-          }
-        } players_iterate_end;
+        dai_incident_nuclear_not_target(receiver, violator, victim);
       }
     } else {
       /* FIXME: Some actions are neither nuclear, pillage nor diplomat. */
-      dai_incident_diplomat(violator, victim);
+      dai_incident_diplomat(receiver, violator, victim);
     }
     break;
   case INCIDENT_WAR:
@@ -1941,68 +1935,58 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
 }
 
 /******************************************************************//**
-  Nuclear strike against victim. Victim may be NULL.
+  Nuclear strike against victim.
 **********************************************************************/
-static void dai_incident_nuclear(struct player *violator, struct player *victim)
+static void dai_incident_nuclear(struct player *receiver,
+                                 const struct player *violator,
+                                 const struct player *victim)
 {
-  if (!is_ai(victim)) {
-    return;
-  }
+  fc_assert_ret(receiver == victim);
 
   if (violator == victim) {
     return;
   }
 
-  if (victim != NULL) {
-    victim->ai_common.love[player_index(violator)] -= 3 * MAX_AI_LOVE / 10;
-  }
+  receiver->ai_common.love[player_index(violator)] -= 3 * MAX_AI_LOVE / 10;
 }
 
 /******************************************************************//**
   Nuclear strike against someone else.
 **********************************************************************/
-static void dai_incident_nuclear_not_target(struct player *violator,
-                                            struct player *victim)
+static void dai_incident_nuclear_not_target(struct player *receiver,
+                                            const struct player *violator,
+                                            const struct player *victim)
 {
-  if (!is_ai(victim)) {
-    return;
-  }
+  fc_assert_ret(receiver != victim);
 
-  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+  receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
 }
 
 /******************************************************************//**
   Somebody else than victim did nuclear strike against self.
 **********************************************************************/
-static void dai_incident_nuclear_self(struct player *violator,
-                                      struct player *victim)
+static void dai_incident_nuclear_self(struct player *receiver,
+                                      const struct player *violator,
+                                      const struct player *victim)
 {
-  if (!is_ai(victim)) {
-    return;
-  }
+  fc_assert_ret(receiver != victim);
+  fc_assert_ret(violator == victim);
 
-  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
+  receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
 }
 
 /******************************************************************//**
   Diplomat caused an incident.
 **********************************************************************/
-static void dai_incident_diplomat(struct player *violator,
-                                  struct player *victim)
+static void dai_incident_diplomat(struct player *receiver,
+                                  const struct player *violator,
+                                  const struct player *victim)
 {
-  players_iterate(pplayer) {
-    if (!is_ai(pplayer)) {
-      continue;
-    }
-
-    if (pplayer != violator) {
-      /* Dislike backstabbing bastards */
-      pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 100;
-      if (victim == pplayer) {
-        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 7;
-      }
-    }
-  } players_iterate_end;
+  /* Dislike backstabbing bastards */
+  receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 100;
+  if (victim == receiver) {
+    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 7;
+  }
 }
 
 /******************************************************************//**
@@ -2054,7 +2038,9 @@ static void dai_incident_war(struct player *violator, struct player *victim)
 /******************************************************************//**
   Violator pillaged something on victims territory
 **********************************************************************/
-static void dai_incident_pillage(struct player *violator, struct player *victim)
+static void dai_incident_pillage(struct player *receiver,
+                                 const struct player *violator,
+                                 const struct player *victim)
 {
   if (violator == victim) {
     return;
@@ -2062,5 +2048,9 @@ static void dai_incident_pillage(struct player *violator, struct player *victim)
   if (victim == NULL) {
     return;
   }
-  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
+  if (receiver == victim) {
+    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
+  } else {
+    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 200;
+  }
 }
