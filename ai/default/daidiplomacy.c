@@ -80,9 +80,11 @@ static bool diplomacy_verbose = TRUE;
 #define TURNS_BEFORE_TARGET 15
 
 static void dai_incident_war(struct player *violator, struct player *victim);
-static void dai_incident_diplomat(struct player *receiver,
-                                  const struct player *violator,
-                                  const struct player *victim);
+static void dai_incident_simple(struct player *receiver,
+                                const struct player *violator,
+                                const struct player *victim,
+                                enum casus_belli_range scope,
+                                int how_bad);
 static void dai_incident_nuclear(struct player *receiver,
                                  const struct player *violator,
                                  const struct player *victim);
@@ -92,9 +94,6 @@ static void dai_incident_nuclear_not_target(struct player *receiver,
 static void dai_incident_nuclear_self(struct player *receiver,
                                       const struct player *violator,
                                       const struct player *victim);
-static void dai_incident_pillage(struct player *receiver,
-                                 const struct player *violator,
-                                 const struct player *victim);
 static void clear_old_treaty(struct player *pplayer, struct player *aplayer);
 
 /******************************************************************//**
@@ -1903,12 +1902,13 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
 
   switch (type) {
   case INCIDENT_ACTION:
-    if (action_has_result(paction, ACTRES_PILLAGE)) {
-      dai_incident_pillage(receiver, violator, victim);
-    } else if (action_has_result(paction, ACTRES_NUKE)
-               || action_has_result(paction, ACTRES_NUKE_CITY)
-               || action_has_result(paction, ACTRES_NUKE_UNITS)
-               || action_has_result(paction, ACTRES_SPY_NUKE)) {
+    /* Feel free the change how the action results are grouped and how bad
+     * the ai considers each group. */
+    switch (paction->result) {
+    case ACTRES_SPY_NUKE:
+    case ACTRES_NUKE:
+    case ACTRES_NUKE_CITY:
+    case ACTRES_NUKE_UNITS:
       if (receiver == victim) {
         /* Tell the victim */
         dai_incident_nuclear(receiver, violator, victim);
@@ -1917,9 +1917,93 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       } else {
         dai_incident_nuclear_not_target(receiver, violator, victim);
       }
-    } else {
-      /* FIXME: Some actions are neither nuclear, pillage nor diplomat. */
-      dai_incident_diplomat(receiver, violator, victim);
+      break;
+    case ACTRES_ESTABLISH_EMBASSY:
+    case ACTRES_SPY_INVESTIGATE_CITY:
+      /* Snoping */
+      dai_incident_simple(receiver, violator, victim, scope, 2);
+      break;
+    case ACTRES_SPY_STEAL_GOLD:
+    case ACTRES_SPY_STEAL_TECH:
+    case ACTRES_SPY_TARGETED_STEAL_TECH:
+    case ACTRES_STEAL_MAPS:
+      /* Theft */
+      dai_incident_simple(receiver, violator, victim, scope, 5);
+      break;
+    case ACTRES_EXPEL_UNIT:
+      /* Unit position loss */
+      dai_incident_simple(receiver, violator, victim, scope, 1);
+      break;
+    case ACTRES_SPY_SABOTAGE_UNIT:
+      /* Unit weakening */
+      dai_incident_simple(receiver, violator, victim, scope, 3);
+      break;
+    case ACTRES_SPY_BRIBE_UNIT:
+    case ACTRES_CAPTURE_UNITS:
+    case ACTRES_BOMBARD:
+    case ACTRES_ATTACK:
+    case ACTRES_SPY_ATTACK:
+      /* Unit loss */
+      dai_incident_simple(receiver, violator, victim, scope, 5);
+      break;
+    case ACTRES_SPY_INCITE_CITY:
+    case ACTRES_DESTROY_CITY:
+    case ACTRES_CONQUER_CITY:
+      /* City loss */
+      dai_incident_simple(receiver, violator, victim, scope, 10);
+      break;
+    case ACTRES_SPY_SABOTAGE_CITY:
+    case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+    case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+    case ACTRES_STRIKE_BUILDING:
+    case ACTRES_STRIKE_PRODUCTION:
+      /* Building loss */
+      dai_incident_simple(receiver, violator, victim, scope, 5);
+      break;
+    case ACTRES_SPY_POISON:
+    case ACTRES_SPY_SPREAD_PLAGUE:
+      /* Population loss */
+      dai_incident_simple(receiver, violator, victim, scope, 5);
+      break;
+    case ACTRES_FOUND_CITY:
+      /* Terrain loss */
+      dai_incident_simple(receiver, violator, victim, scope, 4);
+      break;
+    case ACTRES_PILLAGE:
+      /* Extra loss */
+      dai_incident_simple(receiver, violator, victim, scope, 2);
+      break;
+    case ACTRES_TRADE_ROUTE:
+    case ACTRES_MARKETPLACE:
+    case ACTRES_HELP_WONDER:
+    case ACTRES_JOIN_CITY:
+    case ACTRES_RECYCLE_UNIT:
+    case ACTRES_DISBAND_UNIT:
+    case ACTRES_HOME_CITY:
+    case ACTRES_UPGRADE_UNIT:
+    case ACTRES_PARADROP:
+    case ACTRES_AIRLIFT:
+    case ACTRES_HEAL_UNIT:
+    case ACTRES_TRANSFORM_TERRAIN:
+    case ACTRES_CULTIVATE:
+    case ACTRES_PLANT:
+    case ACTRES_CLEAN_POLLUTION:
+    case ACTRES_CLEAN_FALLOUT:
+    case ACTRES_FORTIFY:
+    case ACTRES_ROAD:
+    case ACTRES_CONVERT:
+    case ACTRES_BASE:
+    case ACTRES_MINE:
+    case ACTRES_IRRIGATE:
+    case ACTRES_TRANSPORT_ALIGHT:
+    case ACTRES_TRANSPORT_UNLOAD:
+    case ACTRES_TRANSPORT_DISEMBARK:
+    case ACTRES_TRANSPORT_BOARD:
+    case ACTRES_TRANSPORT_EMBARK:
+    case ACTRES_NONE:
+      /* Various */
+      dai_incident_simple(receiver, violator, victim, scope, 1);
+      break;
     }
     break;
   case INCIDENT_WAR:
@@ -1975,17 +2059,26 @@ static void dai_incident_nuclear_self(struct player *receiver,
   receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
 }
 
-/******************************************************************//**
-  Diplomat caused an incident.
-**********************************************************************/
-static void dai_incident_diplomat(struct player *receiver,
-                                  const struct player *violator,
-                                  const struct player *victim)
+/**********************************************************************//**
+  Some action caused an incident.
+**************************************************************************/
+static void dai_incident_simple(struct player *receiver,
+                                const struct player *violator,
+                                const struct player *victim,
+                                enum casus_belli_range scope,
+                                int how_bad)
 {
-  /* Dislike backstabbing bastards */
-  receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 100;
+  int displeasure = how_bad * MAX_AI_LOVE;
   if (victim == receiver) {
-    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 7;
+    if (scope == CBR_INTERNATIONAL_OUTRAGE) {
+      /* Trust the ruleset author */
+      displeasure = displeasure * 2;
+    }
+    receiver->ai_common.love[player_index(violator)] -= displeasure / 35;
+  } else if (violator == victim) {
+    receiver->ai_common.love[player_index(violator)] -= displeasure / 1000;
+  } else {
+    receiver->ai_common.love[player_index(violator)] -= displeasure / 500;
   }
 }
 
@@ -2033,24 +2126,4 @@ static void dai_incident_war(struct player *violator, struct player *victim)
       }
     }
   } players_iterate_end;
-}
-
-/******************************************************************//**
-  Violator pillaged something on victims territory
-**********************************************************************/
-static void dai_incident_pillage(struct player *receiver,
-                                 const struct player *violator,
-                                 const struct player *victim)
-{
-  if (violator == victim) {
-    return;
-  }
-  if (victim == NULL) {
-    return;
-  }
-  if (receiver == victim) {
-    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
-  } else {
-    receiver->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 200;
-  }
 }
