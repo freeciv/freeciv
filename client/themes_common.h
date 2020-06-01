@@ -23,7 +23,7 @@ extern "C" {
 void init_themes(void);
 struct strvec;
 const struct strvec *get_themes_list(const struct option *poption);
-bool load_theme(const char* theme_name);
+bool load_theme(const char *theme_name);
 void theme_reread_callback(struct option *option);
 
 #ifdef __cplusplus

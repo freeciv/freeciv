@@ -1372,7 +1372,7 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
   static const char *disband_label
     = N_("Allow unit production to disband city");
 
-  static const char* misc_whichtab_label[NUM_PAGES] = {
+  static const char *misc_whichtab_label[NUM_PAGES] = {
     N_("Overview page"),
     N_("Production page"),
     N_("Happiness page"),
@@ -1991,7 +1991,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
     for (item = 0; item < targets_used; item++) {
       if (can_city_build_now(pcity, &items[item].item)) {
-        const char* name;
+        const char *name;
         struct sprite* sprite;
         GdkPixbuf *pix;
         struct universal target = items[item].item;

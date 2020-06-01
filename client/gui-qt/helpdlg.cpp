@@ -1524,7 +1524,7 @@ void help_widget::set_topic_nation(const help_item *topic,
   Creates goods help page.
 **************************************************************************/
 void help_widget::set_topic_goods(const help_item* topic,
-                                  const char* title)
+                                  const char *title)
 {
   char buffer[MAX_HELP_TEXT_SIZE];
   struct goods_type *pgood = goods_by_translated_name(title);

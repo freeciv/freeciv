@@ -298,7 +298,7 @@ static void sg_roads_set(bv_extras *extras, char ch, struct road_type **idx);
 static struct extra_type *char2resource(char c);
 static struct terrain *char2terrain(char ch);
 static Tech_type_id technology_load(struct section_file *file,
-                                    const char* path, int plrno);
+                                    const char *path, int plrno);
 
 static void sg_load_ruleset(struct loaddata *loading);
 static void sg_load_savefile(struct loaddata *loading);
@@ -1046,10 +1046,10 @@ static struct terrain *char2terrain(char ch)
   is too old) load from path.
 ****************************************************************************/
 static Tech_type_id technology_load(struct section_file *file,
-                                    const char* path, int plrno)
+                                    const char *path, int plrno)
 {
   char path_with_name[128];
-  const char* name;
+  const char *name;
   struct advance *padvance;
 
   fc_snprintf(path_with_name, sizeof(path_with_name),

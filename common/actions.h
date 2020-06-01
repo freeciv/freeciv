@@ -590,8 +590,8 @@ const char *action_id_rule_name(action_id act_id);
 const char *action_name_translation(const struct action *action);
 const char *action_id_name_translation(action_id act_id);
 const char *action_get_ui_name_mnemonic(action_id act_id,
-                                        const char* mnemonic);
-const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
+                                        const char *mnemonic);
+const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
 const char *action_get_tool_tip(const action_id act_id,

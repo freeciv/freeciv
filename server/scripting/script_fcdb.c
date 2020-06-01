@@ -199,7 +199,7 @@ static int md5sum(lua_State *L)
 {
    int n = lua_gettop(L);
    char sum[MD5_HEX_BYTES + 1];
-   const char* plaintext;
+   const char *plaintext;
    size_t len;
 
    if (n != 1 || lua_type(L, -1) != LUA_TSTRING) {

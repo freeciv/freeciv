@@ -308,9 +308,9 @@ static char sg_extras_get(bv_extras extras, struct extra_type *presource,
 static struct terrain *char2terrain(char ch);
 static char terrain2char(const struct terrain *pterrain);
 static Tech_type_id technology_load(struct section_file *file,
-                                    const char* path, int plrno);
+                                    const char *path, int plrno);
 static void technology_save(struct section_file *file,
-                            const char* path, int plrno, Tech_type_id tech);
+                            const char *path, int plrno, Tech_type_id tech);
 
 static void sg_load_savefile(struct loaddata *loading);
 static void sg_save_savefile(struct savedata *saving);
@@ -1138,10 +1138,10 @@ static char terrain2char(const struct terrain *pterrain)
   is too old) load from path.
 ****************************************************************************/
 static Tech_type_id technology_load(struct section_file *file,
-                                    const char* path, int plrno)
+                                    const char *path, int plrno)
 {
   char path_with_name[128];
-  const char* name;
+  const char *name;
   struct advance *padvance;
 
   fc_snprintf(path_with_name, sizeof(path_with_name),
@@ -1174,10 +1174,10 @@ static Tech_type_id technology_load(struct section_file *file,
   Save technology in secfile entry called path_name.
 ****************************************************************************/
 static void technology_save(struct section_file *file,
-                            const char* path, int plrno, Tech_type_id tech)
+                            const char *path, int plrno, Tech_type_id tech)
 {
   char path_with_name[128];
-  const char* name;
+  const char *name;
 
   fc_snprintf(path_with_name, sizeof(path_with_name),
               "%s_name", path);
@@ -1614,7 +1614,7 @@ static void sg_save_savefile(struct savedata *saving)
   secfile_insert_int(saving->file, improvement_count(),
                      "savefile.improvement_size");
   if (improvement_count() > 0) {
-    const char* buf[improvement_count()];
+    const char *buf[improvement_count()];
 
     improvement_iterate(pimprove) {
       buf[improvement_index(pimprove)] = improvement_rule_name(pimprove);
@@ -1630,7 +1630,7 @@ static void sg_save_savefile(struct savedata *saving)
   secfile_insert_int(saving->file, game.control.num_tech_types,
                      "savefile.technology_size");
   if (game.control.num_tech_types > 0) {
-    const char* buf[game.control.num_tech_types];
+    const char *buf[game.control.num_tech_types];
 
     buf[A_NONE] = "A_NONE";
     advance_iterate(A_FIRST, a) {

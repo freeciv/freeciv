@@ -1453,7 +1453,7 @@ const char *action_id_name_translation(action_id act_id)
   Get the action name with a mnemonic ready to display in the UI.
 **************************************************************************/
 const char *action_get_ui_name_mnemonic(action_id act_id,
-                                        const char* mnemonic)
+                                        const char *mnemonic)
 {
   return action_prepare_ui_name(act_id, mnemonic, ACTPROB_NA, NULL);
 }
@@ -1500,15 +1500,15 @@ static const char *action_prob_to_text(const struct act_prob prob)
   Success probability information is interpreted and added to the text.
   A custom text can be inserted before the probability information.
 **************************************************************************/
-const char *action_prepare_ui_name(action_id act_id, const char* mnemonic,
+const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
-                                   const char* custom)
+                                   const char *custom)
 {
   static struct astring str = ASTRING_INIT;
   static struct astring chance = ASTRING_INIT;
 
   /* Text representation of the probability. */
-  const char* probtxt;
+  const char *probtxt;
 
   if (!actions_are_ready()) {
     /* Could be a client who haven't gotten the ruleset yet */

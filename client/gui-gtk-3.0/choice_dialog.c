@@ -69,7 +69,7 @@ void choice_dialog_button_set_sensitive(GtkWidget *cd, int button,
   Set label for choice dialog button.
 ***********************************************************************/
 void choice_dialog_button_set_label(GtkWidget *cd, int number,
-                                    const char* label)
+                                    const char *label)
 {
   GtkWidget* button = choice_dialog_get_nth_button(cd, number);
   gtk_button_set_label(GTK_BUTTON(button), label);
@@ -79,7 +79,7 @@ void choice_dialog_button_set_label(GtkWidget *cd, int number,
   Set tool tip for choice dialog button.
 ***********************************************************************/
 void choice_dialog_button_set_tooltip(GtkWidget *cd, int number,
-                                      const char* tool_tip)
+                                      const char *tool_tip)
 {
   GtkWidget* button = choice_dialog_get_nth_button(cd, number);
   gtk_widget_set_tooltip_text(button, tool_tip);

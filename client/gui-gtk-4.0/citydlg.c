@@ -2037,7 +2037,7 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
 
     for (item = 0; item < targets_used; item++) {
       if (can_city_build_now(pcity, &items[item].item)) {
-        const char* name;
+        const char *name;
         struct sprite* sprite;
         GdkPixbuf *pix;
         struct universal target = items[item].item;

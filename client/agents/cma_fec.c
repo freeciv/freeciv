@@ -424,7 +424,7 @@ void create_default_cma_presets(void)
      .happy_factor = 0
    }
  };
- const char* names[ARRAY_SIZE(parameters)] = {
+ const char *names[ARRAY_SIZE(parameters)] = {
    N_("?cma:Very happy"),
    N_("?cma:Prefer food"),
    N_("?cma:Prefer production"),

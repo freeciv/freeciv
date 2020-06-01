@@ -1661,7 +1661,7 @@ void free_multicast_group(void)
   This may fail if the path is too long.  It is better to use
   interpret_tilde_alloc.
 ****************************************************************************/
-void interpret_tilde(char* buf, size_t buf_size, const char* filename)
+void interpret_tilde(char *buf, size_t buf_size, const char *filename)
 {
   if (filename[0] == '~' && filename[1] == DIR_SEPARATOR_CHAR) {
     fc_snprintf(buf, buf_size, "%s" DIR_SEPARATOR "%s", user_home_dir(), filename + 2);
@@ -1678,7 +1678,7 @@ void interpret_tilde(char* buf, size_t buf_size, const char* filename)
   The new path is returned in buf, as a newly allocated buffer.  The new
   path will always be allocated and written, even if there is no ~ present.
 ****************************************************************************/
-char *interpret_tilde_alloc(const char* filename)
+char *interpret_tilde_alloc(const char *filename)
 {
   if (filename[0] == '~' && filename[1] == DIR_SEPARATOR_CHAR) {
     const char *home = user_home_dir();

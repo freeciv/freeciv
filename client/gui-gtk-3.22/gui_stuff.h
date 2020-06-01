@@ -73,7 +73,7 @@ struct gui_dialog
   GtkWidget *action_area;
 
   /* private. */
-  char* title;
+  char *title;
   enum gui_dialog_type type;
   int id;
   int return_dialog_id;

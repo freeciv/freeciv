@@ -157,7 +157,7 @@ static bool fcdb_command(struct connection *caller, char *arg, bool check);
 static const char *fcdb_accessor(int i);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
-static bool player_name_check(const char* name, char *buf, size_t buflen);
+static bool player_name_check(const char *name, char *buf, size_t buflen);
 static bool playercolor_command(struct connection *caller,
                                 char *str, bool check);
 static bool playernation_command(struct connection *caller,
@@ -183,7 +183,7 @@ static bool is_restricted(struct connection *caller)
   Check the player name. Returns TRUE if the player name is valid else
   an error message is saved in 'buf'.
 **************************************************************************/
-static bool player_name_check(const char* name, char *buf, size_t buflen)
+static bool player_name_check(const char *name, char *buf, size_t buflen)
 {
   size_t len = strlen(name);
 

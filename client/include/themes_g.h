@@ -15,10 +15,11 @@
 
 #include "gui_proto_constructor.h"
 
-GUI_FUNC_PROTO(void, gui_load_theme, const char* directory, const char* theme_name)
+GUI_FUNC_PROTO(void, gui_load_theme, const char *directory,
+               const char *theme_name)
 GUI_FUNC_PROTO(void, gui_clear_theme, void)
 GUI_FUNC_PROTO(char**, get_gui_specific_themes_directories, int *count)
-GUI_FUNC_PROTO(char**, get_useable_themes_in_directory, const char* directory,
-               int* count)
+GUI_FUNC_PROTO(char**, get_useable_themes_in_directory,
+               const char *directory, int* count)
 
 #endif /* FC__THEMES_G_H */
