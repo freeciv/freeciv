@@ -1819,8 +1819,39 @@ static void compat_load_dev(struct loaddata *loading)
 ****************************************************************************/
 static void compat_post_load_dev(struct loaddata *loading)
 {
+  int game_version;
+
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
+
+  if (!secfile_lookup_int(loading->file, &game_version, "scenario.game_version")) {
+    game_version = 2060000;
+  }
+
+  if (game_version < 3009300) {
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        int i;
+
+        if (!punit->has_orders) {
+          continue;
+        }
+
+        fc_assert_action(punit->orders.length == 0
+                         || punit->orders.list != NULL, continue);
+
+        for (i = 0; i < punit->orders.length; i++) {
+          /* "Attack" was split in "Suicide Attack" and "Attack" in 3.1. */
+          if (punit->orders.list[i].order == ORDER_PERFORM_ACTION
+              && punit->orders.list[i].action == ACTION_ATTACK
+              && !unit_can_do_action(punit, ACTION_ATTACK)
+              && unit_can_do_action(punit, ACTION_SUICIDE_ATTACK)) {
+            punit->orders.list[i].action = ACTION_SUICIDE_ATTACK;
+          }
+        }
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
+  } /* Version < 3.0.93 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
