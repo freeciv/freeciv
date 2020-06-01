@@ -1571,6 +1571,7 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->moved = FALSE;
 
   punit->ai_controlled = FALSE;
+  punit->ssa_controller = SSA_NONE;
   punit->paradropped = FALSE;
   punit->done_moving = FALSE;
 

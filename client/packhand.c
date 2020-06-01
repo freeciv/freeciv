@@ -221,6 +221,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   }
 
   punit->ai_controlled = packet->ai;
+  punit->ssa_controller = packet->ssa_controller;
   punit->fuel = packet->fuel;
   punit->goto_tile = index_to_tile(&(wld.map), packet->goto_tile);
   punit->paradropped = packet->paradropped;
@@ -1583,8 +1584,10 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
     unit_change_battlegroup(punit, packet_unit->battlegroup);
-    if (punit->ai_controlled != packet_unit->ai_controlled) {
+    if (punit->ai_controlled != packet_unit->ai_controlled
+        || punit->ssa_controller != packet_unit->ssa_controller) {
       punit->ai_controlled = packet_unit->ai_controlled;
+      punit->ssa_controller = packet_unit->ssa_controller;
       repaint_unit = TRUE;
       /* AI is set:     may change focus */
       /* AI is cleared: keep focus */

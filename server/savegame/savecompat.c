@@ -1387,6 +1387,94 @@ static void compat_load_030000(struct loaddata *loading,
   secfile_replace_int(loading->file, num_settings, "settings.set_count");
 }
 
+/************************************************************************//*
+  Insert server side agent information.
+***************************************************************************/
+static void insert_server_side_agent(struct loaddata *loading,
+                                     enum sgf_version format_class)
+{
+  int ssa_size;
+
+  if (format_class == SAVEGAME_2) {
+    /* Handled in savegame2 */
+    return;
+  }
+
+  ssa_size = secfile_lookup_int_default(loading->file, 0,
+                                        "savefile.server_side_agent_size");
+
+  if (ssa_size != 0) {
+    /* Already inserted. */
+    return;
+  }
+
+  /* Add server side agent order. */
+  secfile_insert_int(loading->file, SSA_COUNT,
+                     "savefile.server_side_agent_size");
+  if (SSA_COUNT > 0) {
+    const char **modname;
+    int i;
+    int j;
+
+    i = 0;
+    modname = fc_calloc(SSA_COUNT, sizeof(*modname));
+
+    for (j = 0; j < SSA_COUNT; j++) {
+      modname[i++] = server_side_agent_name(j);
+    }
+
+    secfile_insert_str_vec(loading->file, modname,
+                           SSA_COUNT,
+                           "savefile.server_side_agent_list");
+    free(modname);
+  }
+
+  /* Insert server_side_agent unit field. */
+  player_slots_iterate(pslot) {
+    int unit;
+    int units_num;
+    int plrno = player_slot_index(pslot);
+
+    if (secfile_section_lookup(loading->file, "player%d", plrno)
+        == NULL) {
+      continue;
+    }
+
+    /* Number of units the player has. */
+    units_num = secfile_lookup_int_default(loading->file, 0,
+                                           "player%d.nunits",
+                                           plrno);
+
+    for (unit = 0; unit < units_num; unit++) {
+      bool ai;
+
+      if (secfile_section_lookup(loading->file,
+                                 "player%d.u%d.server_side_agent",
+                                 plrno, unit)
+          != NULL) {
+        /* Already updated? */
+        continue;
+      }
+
+      ai = secfile_lookup_bool_default(loading->file, FALSE,
+                                       "player%d.u%d.ai",
+                                       plrno, unit);
+
+      if (ai) {
+        /* Autosettler and Auotexplore are separated by
+         * compat_post_load_030100() when set to SSA_AUTOSETTLER */
+        secfile_insert_int(loading->file, SSA_AUTOSETTLER,
+                           "player%d.u%d.server_side_agent",
+                           plrno, unit);
+      } else {
+        secfile_insert_int(loading->file, SSA_NONE,
+                           "player%d.u%d.server_side_agent",
+                           plrno, unit);
+      }
+    }
+  } player_slots_iterate_end;
+}
+
 /************************************************************************//**
   Translate savegame secfile data from 3.0.x to 3.1.0 format.
   Note that even after 2.6 savegame has gone through all the compatibility
@@ -1457,6 +1545,25 @@ static void compat_load_030100(struct loaddata *loading,
       }
     }
   } player_slots_iterate_end;
+
+  /* Explicit server side agent was new in 3.1 */
+  insert_server_side_agent(loading, format_class);
+}
+
+/************************************************************************//*
+  Correct the server side agent information.
+***************************************************************************/
+static void upgrade_server_side_agent(struct loaddata *loading)
+{
+  players_iterate_alive(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      if (punit->ssa_controller == SSA_AUTOSETTLER) {
+        if (punit->activity == ACTIVITY_EXPLORE) {
+          punit->ssa_controller = SSA_NONE;
+        }
+      }
+    } unit_list_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /************************************************************************//**
@@ -1518,6 +1625,9 @@ static void compat_post_load_030100(struct loaddata *loading,
       } unit_list_iterate_end;
     } players_iterate_alive_end;
   }
+
+  /* Explicit server side agent was new in 3.1 */
+  upgrade_server_side_agent(loading);
 }
 
 /************************************************************************//**
@@ -1808,6 +1918,8 @@ static void compat_load_dev(struct loaddata *loading)
   if (game_version < 3009300) {
     /* Before version number bump to 3.0.93 */
 
+    /* Explicit server side agent was new in 3.1 */
+    insert_server_side_agent(loading, SAVEGAME_3);
   } /* Version < 3.0.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
@@ -1851,6 +1963,9 @@ static void compat_post_load_dev(struct loaddata *loading)
         }
       } unit_list_iterate_end;
     } players_iterate_alive_end;
+
+    /* Explicit server side agent was new in 3.1 */
+    upgrade_server_side_agent(loading);
   } /* Version < 3.0.93 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */

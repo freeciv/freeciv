@@ -585,6 +585,8 @@ static struct loaddata *loaddata_new(struct section_file *file)
   loading->action.size = -1;
   loading->act_dec.order = NULL;
   loading->act_dec.size = -1;
+  loading->ssa.order = NULL;
+  loading->ssa.size = -1;
 
   loading->server_state = S_S_INITIAL;
   loading->rstate = fc_rand_state();
@@ -632,6 +634,10 @@ static void loaddata_destroy(struct loaddata *loading)
 
   if (loading->act_dec.order != NULL) {
     free(loading->act_dec.order);
+  }
+
+  if (loading->ssa.order != NULL) {
+    free(loading->ssa.order);
   }
 
   if (loading->worked_tiles != NULL) {
@@ -1538,6 +1544,33 @@ static void sg_load_savefile(struct loaddata *loading)
     free(modname);
   }
 
+  /* Load server side agent order. */
+  loading->ssa.size
+      = secfile_lookup_int_default(loading->file, 0,
+                                   "savefile.server_side_agent_size");
+
+  sg_failure_ret(loading->ssa.size > 0,
+                 "Failed to load server side agent order: %s",
+                 secfile_error());
+
+  if (loading->ssa.size) {
+    const char **modname;
+    int j;
+
+    modname = secfile_lookup_str_vec(loading->file, &loading->ssa.size,
+                                     "savefile.server_side_agent_list");
+
+    loading->ssa.order = fc_calloc(loading->ssa.size,
+                                   sizeof(*loading->ssa.order));
+
+    for (j = 0; j < loading->ssa.size; j++) {
+      loading->ssa.order[j] = server_side_agent_by_name(modname[j],
+                                                        fc_strcasecmp);
+    }
+
+    free(modname);
+  }
+
   terrain_type_iterate(pterr) {
     pterr->identifier_load = '\0';
   } terrain_type_iterate_end;
@@ -1814,6 +1847,26 @@ static void sg_save_savefile(struct savedata *saving)
     secfile_insert_str_vec(saving->file, modname,
                            ACT_DEC_COUNT,
                            "savefile.action_decision_vector");
+    free(modname);
+  }
+
+  /* Save server side agent order in the savegame. */
+  secfile_insert_int(saving->file, SSA_COUNT,
+                     "savefile.server_side_agent_size");
+  if (SSA_COUNT > 0) {
+    const char **modname;
+    int j;
+
+    i = 0;
+    modname = fc_calloc(SSA_COUNT, sizeof(*modname));
+
+    for (j = 0; j < SSA_COUNT; j++) {
+      modname[i++] = server_side_agent_name(j);
+    }
+
+    secfile_insert_str_vec(saving->file, modname,
+                           SSA_COUNT,
+                           "savefile.server_side_agent_list");
     free(modname);
   }
 
@@ -5790,6 +5843,21 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                       &punit->ai_controlled,
                                       "%s.ai", unitstr), FALSE,
                   "%s", secfile_error());
+  unconverted
+   = secfile_lookup_int_default(loading->file, 0,
+                                "%s.server_side_agent",
+                                unitstr);
+  if (unconverted >= 0 && unconverted < loading->ssa.size) {
+    /* Look up what server side agent the unconverted number represents. */
+    punit->ssa_controller = loading->ssa.order[unconverted];
+  } else {
+    log_sg("Invalid server side agent %d for unit %d",
+           unconverted, punit->id);
+
+    punit->ssa_controller = SSA_NONE;
+    punit->ai_controlled = FALSE;
+  }
+
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->hp,
                                      "%s.hp", unitstr), FALSE,
                   "%s", secfile_error());
@@ -6184,6 +6252,8 @@ static void sg_save_player_units(struct savedata *saving,
 
     secfile_insert_bool(saving->file, punit->ai_controlled,
                         "%s.ai", buf);
+    secfile_insert_int(saving->file, punit->ssa_controller,
+                        "%s.server_side_agent", buf);
 
     /* Save AI data of the unit. */
     CALL_FUNC_EACH_AI(unit_save, saving->file, punit, buf);
@@ -7475,6 +7545,20 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       }
     } unit_list_iterate_safe_end;
   } players_iterate_end;
+
+  players_iterate(pplayer) {
+    unit_list_iterate_safe(pplayer->units, punit) {
+      if (punit->activity == ACTIVITY_EXPLORE) {
+        /* Not handled as a side agent yet. */
+        continue;
+      }
+      if (punit->ai_controlled && punit->ssa_controller == SSA_NONE) {
+        log_sg("Invalid server side agent for unit %d.", punit->id);
+        punit->ai_controlled = FALSE;
+      }
+    } unit_list_iterate_safe_end;
+  } players_iterate_end;
+
 
   if (0 == strlen(server.game_identifier)
       || !is_base64url(server.game_identifier)) {

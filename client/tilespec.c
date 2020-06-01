@@ -4343,12 +4343,15 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  if (punit->ai_controlled && punit->activity != ACTIVITY_EXPLORE) {
-    if (is_military_unit(punit)) {
-      ADD_SPRITE_FULL(t->sprites.unit.auto_attack);
-    } else {
-      ADD_SPRITE_FULL(t->sprites.unit.auto_settler);
-    }
+  switch (punit->ssa_controller) {
+  case SSA_NONE:
+    break;
+  case SSA_AUTOSETTLER:
+    ADD_SPRITE_FULL(t->sprites.unit.auto_settler);
+    break;
+  default:
+    ADD_SPRITE_FULL(t->sprites.unit.auto_attack);
+    break;
   }
 
   if (unit_has_orders(punit)) {

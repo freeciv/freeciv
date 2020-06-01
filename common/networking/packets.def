@@ -236,6 +236,7 @@ type MOOD               = uint8(enum mood_type)
 type PHASE_MODE         = uint8(enum phase_mode_type)
 type PLACE_TYPE         = uint8(enum spaceship_place_type)
 type REPORT_TYPE        = uint8(enum report_type)
+type SERVER_SIDE_AGENT  = uint8(enum server_side_agent)
 type SSET_CLASS         = uint8(enum sset_class)
 type SSET_TYPE          = uint8(enum sset_type)
 type ROAD_COMPAT        = uint8(enum road_compat)
@@ -1017,7 +1018,9 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UINT8 upkeep[O_LAST];
 
   UINT8 veteran;
-  BOOL ai, paradropped;
+  BOOL ai;
+  SERVER_SIDE_AGENT ssa_controller;
+  BOOL paradropped;
   BOOL occupied, transported, done_moving;
   BOOL stay;
 
@@ -1091,9 +1094,9 @@ PACKET_UNIT_ORDERS = 73; cs
   TILE dest_tile;
 end
 
-# Enable autosettlers for a unit.  Only works for settler units naturally.
-PACKET_UNIT_AUTOSETTLERS = 74; cs, dsend
+PACKET_UNIT_SERVER_SIDE_AGENT_SET = 74; cs, dsend
   UNIT unit_id;
+  SERVER_SIDE_AGENT agent;
 end
 
 PACKET_UNIT_ACTION_QUERY = 82; cs, handle-per-conn, dsend

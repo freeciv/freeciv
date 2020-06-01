@@ -1154,15 +1154,16 @@ void auto_settlers_player(struct player *pplayer)
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if ((punit->ai_controlled || is_ai(pplayer))
+    if ((punit->ssa_controller == SSA_AUTOSETTLER || is_ai(pplayer))
         && (unit_type_get(punit)->adv.worker
             || unit_is_cityfounder(punit))
         && !unit_has_orders(punit)
         && punit->moves_left > 0) {
-      log_debug("%s %s at (%d, %d) is ai controlled.",
+      log_debug("%s %s at (%d, %d) is controlled by server side agent %s.",
                 nation_rule_name(nation_of_player(pplayer)),
                 unit_rule_name(punit),
-                TILE_XY(unit_tile(punit)));
+                TILE_XY(unit_tile(punit)),
+                server_side_agent_name(SSA_AUTOSETTLER));
       if (punit->activity == ACTIVITY_SENTRY) {
         unit_activity_handling(punit, ACTIVITY_IDLE);
       }

@@ -1987,7 +1987,8 @@ void request_unit_convert(struct unit *punit)
 void request_unit_autosettlers(const struct unit *punit)
 {
   if (punit && can_unit_do_autosettlers(punit)) {
-    dsend_packet_unit_autosettlers(&client.conn, punit->id);
+    dsend_packet_unit_server_side_agent_set(&client.conn, punit->id,
+                                            SSA_AUTOSETTLER);
   } else if (punit) {
     create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
                  _("Only settler units can be put into auto mode."));

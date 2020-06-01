@@ -3468,6 +3468,7 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   }
 
   punit->ai_controlled = FALSE;
+  punit->ssa_controller = SSA_NONE;
   punit->goto_tile = NULL;
 
   if (activity == ACTIVITY_GOTO) {
@@ -5146,7 +5147,9 @@ void handle_unit_sscs_set(struct player *pplayer,
 /**********************************************************************//**
   Handle request to set unit to autosettler mode.
 **************************************************************************/
-void handle_unit_autosettlers(struct player *pplayer, int unit_id)
+void handle_unit_server_side_agent_set(struct player *pplayer,
+                                       int unit_id,
+                                       enum server_side_agent agent)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
 
@@ -5160,7 +5163,8 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
     return;
   }
 
-  punit->ai_controlled = TRUE;
+  punit->ai_controlled = agent != SSA_NONE;
+  punit->ssa_controller = agent;
   send_unit_info(NULL, punit);
 }
 
@@ -5195,6 +5199,7 @@ static void unit_activity_dependencies(struct unit *punit,
     case ACTIVITY_EXPLORE:
       /* Restore unit's control status */
       punit->ai_controlled = FALSE;
+      punit->ssa_controller = SSA_NONE;
       break;
     default: 
       ; /* do nothing */
@@ -5202,6 +5207,7 @@ static void unit_activity_dependencies(struct unit *punit,
     break;
   case ACTIVITY_EXPLORE:
     punit->ai_controlled = TRUE;
+    punit->ssa_controller = SSA_NONE;
     set_unit_activity(punit, ACTIVITY_EXPLORE);
     send_unit_info(NULL, punit);
     break;
@@ -5382,6 +5388,7 @@ void handle_unit_orders(struct player *pplayer,
   /* Make sure that the unit won't keep its old ai_controlled state after
    * it has recieved new orders from the client. */
   punit->ai_controlled = FALSE;
+  punit->ssa_controller = SSA_NONE;
 
   if (length == 0) {
     fc_assert(!unit_has_orders(punit));

@@ -4130,6 +4130,13 @@ static bool sg_load_player_unit(struct loaddata *loading,
                                       &punit->ai_controlled,
                                       "%s.ai", unitstr), FALSE,
                   "%s", secfile_error());
+  if (punit->ai_controlled) {
+    /* Autosettler and Auotexplore are separated by
+     * compat_post_load_030100() when set to SSA_AUTOSETTLER */
+    punit->ssa_controller = SSA_AUTOSETTLER;
+  } else {
+    punit->ssa_controller = SSA_NONE;
+  }
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->hp,
                                      "%s.hp", unitstr), FALSE,
                   "%s", secfile_error());

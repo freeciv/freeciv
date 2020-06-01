@@ -113,6 +113,15 @@ struct unit_order {
 #define SPECENUM_VALUE2 USSDT_BATTLE_GROUP
 #include "specenum_gen.h"
 
+/* Used in the network protocol */
+#define SPECENUM_NAME server_side_agent
+#define SPECENUM_VALUE0 SSA_NONE
+#define SPECENUM_VALUE0NAME N_("None")
+#define SPECENUM_VALUE1 SSA_AUTOSETTLER
+#define SPECENUM_VALUE1NAME N_("Autosettlers")
+#define SPECENUM_COUNT SSA_COUNT
+#include "specenum_gen.h"
+
 struct unit;
 struct unit_list;
 
@@ -151,6 +160,7 @@ struct unit {
   struct extra_type *changed_from_target;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
+  enum server_side_agent ssa_controller;
   bool moved;
   bool paradropped;
 
