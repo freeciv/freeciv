@@ -126,6 +126,7 @@ struct client_options gui_options = {
   .popup_new_cities = TRUE,
   .popup_actor_arrival = TRUE,
   .popup_attack_actions = TRUE,
+  .popup_last_move_to_allied = TRUE,
   .keyboardless_goto = TRUE,
   .enable_cursor_changes = TRUE,
   .separate_unit_selection = FALSE,
@@ -2239,6 +2240,19 @@ static struct client_option client_options[] = {
                      "action is legal and no other interesting action are. "
                      "This allows you to change your mind or to select an "
                      "uninteresting action."),
+                  COC_INTERFACE, GUI_STUB, TRUE, NULL),
+  GEN_BOOL_OPTION(popup_last_move_to_allied,
+                  N_("Pop up actions last move to allied"),
+                  N_("If this option is enabled the final move in a unit's"
+                     " orders to a tile with allied units or cities it can"
+                     " perform an action to is interpreted as an attempted"
+                     " action. This makes the action selection dialog pop up"
+                     " while the unit is at the adjacent tile."
+                     " This can, in cases where the action requires that"
+                     " the actor unit has moves left, save a turn."
+                     " The down side is that the unit remains adjacent to"
+                     " rather than inside the protection of an allied city"
+                     " or unit stack."),
                   COC_INTERFACE, GUI_STUB, TRUE, NULL),
   GEN_BOOL_OPTION(enable_cursor_changes, N_("Enable cursor changing"),
                   N_("This option controls whether the client should "

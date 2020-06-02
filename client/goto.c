@@ -1787,6 +1787,12 @@ static bool order_wants_direction(enum unit_orders order, action_id act_id,
       return TRUE;
     }
 
+    if (gui_options.popup_last_move_to_allied) {
+      /* Prefer efficiency over safety among allies. */
+      fc_assert_ret_val(action_id_distance_accepted(act_id, 1), FALSE);
+      return TRUE;
+    }
+
     return FALSE;
   default:
     return FALSE;
@@ -1847,8 +1853,8 @@ void send_goto_route(void)
      * selection dialog rather than moving to the last tile if it contains
      * a domestic, allied or team mate city, unit or unit stack. This can,
      * in cases where the action requires movement left, save a turn. */
-    /* TODO: Should this be a client option? */
-    if (goto_last_order == ORDER_LAST
+    if (gui_options.popup_last_move_to_allied
+        && goto_last_order == ORDER_LAST
         && ((is_allied_city_tile(tgt_tile, client_player())
              || is_allied_unit_tile(tgt_tile, client_player()))
             && (can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),

@@ -1786,7 +1786,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.dest_tile = tile_index(dest_tile);
 
   p.length = 1;
-  p.orders[0].order = ORDER_ACTION_MOVE;
+  p.orders[0].order = (gui_options.popup_last_move_to_allied
+                       ? ORDER_ACTION_MOVE : ORDER_MOVE);
   p.orders[0].dir = dir;
   p.orders[0].activity = ACTIVITY_LAST;
   p.orders[0].sub_target = NO_TARGET;
