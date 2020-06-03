@@ -4720,6 +4720,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
 
   for (i = 0; i < length; i++) {
     struct action *paction;
+    struct extra_type *pextra;
 
     if (orders[i].order > ORDER_LAST) {
       log_error("invalid order %d at index %d", orders[i].order, i);
@@ -4850,10 +4851,19 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
         if (orders[i].sub_target == EXTRA_NONE
             || (orders[i].sub_target < 0
                 || orders[i].sub_target >= game.control.num_extra_types)
-            || extra_by_number(orders[i].sub_target)->ruledit_disabled) {
+            || !(pextra = extra_by_number(orders[i].sub_target))
+            || pextra->ruledit_disabled) {
           /* Target extra is invalid. */
           log_error("at index %d, cannot do %s without a target.", i,
                     action_id_rule_name(orders[i].action));
+          return FALSE;
+        }
+        if (!(action_removes_extra(paction, pextra)
+              || action_creates_extra(paction, pextra))) {
+          /* Target extra is irrelevant for the action. */
+          log_error("at index %d, cannot do %s to %s.", i,
+                    action_id_rule_name(orders[i].action),
+                    extra_rule_name(pextra));
           return FALSE;
         }
         break;
