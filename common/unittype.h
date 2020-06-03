@@ -600,6 +600,11 @@ void set_user_unit_type_flag_name(enum unit_type_flag_id id, const char *name,
                                   const char *helptxt);
 const char *unit_type_flag_helptxt(enum unit_type_flag_id id);
 
+bool utype_can_create_extra(const struct unit_type *putype,
+                            const struct extra_type *pextra);
+bool utype_can_remove_extra(const struct unit_type *putype,
+                            const struct extra_type *pextra);
+
 bool unit_can_take_over(const struct unit *punit);
 bool utype_can_take_over(const struct unit_type *punittype);
 

@@ -1142,26 +1142,14 @@ static void act_sel_new_extra_tgt_callback(GtkWidget *w, gpointer data)
     extra_type_re_active_iterate(pextra) {
       if (BV_ISSET(potential_targets, extra_number(pextra))) {
         /* This extra is at the tile. Can anything be done to it? */
-        if (!((is_extra_removed_by(pextra, ERM_PILLAGE)
-               && unit_can_do_action(act_unit, ACTION_PILLAGE))
-              || (is_extra_removed_by(pextra, ERM_CLEANPOLLUTION)
-                  && unit_can_do_action(act_unit, ACTION_CLEAN_POLLUTION))
-              || (is_extra_removed_by(pextra, ERM_CLEANFALLOUT)
-                  && unit_can_do_action(act_unit, ACTION_CLEAN_FALLOUT)))) {
-          /* TODO: add more extra removal actions as they appear. */
+        if (!utype_can_remove_extra(unit_type_get(act_unit),
+                                    pextra)) {
           BV_CLR(potential_targets, extra_number(pextra));
         }
       } else {
         /* This extra isn't at the tile yet. Can it be created? */
-        if (pextra->buildable
-            && ((is_extra_caused_by(pextra, EC_IRRIGATION)
-                 && unit_can_do_action(act_unit, ACTION_IRRIGATE))
-                || (is_extra_caused_by(pextra, EC_MINE)
-                    && unit_can_do_action(act_unit, ACTION_MINE))
-                || (is_extra_caused_by(pextra, EC_BASE)
-                    && unit_can_do_action(act_unit, ACTION_BASE))
-                || (is_extra_caused_by(pextra, EC_ROAD)
-                    && unit_can_do_action(act_unit, ACTION_ROAD)))) {
+        if (utype_can_create_extra(unit_type_get(act_unit),
+                                   pextra)) {
           BV_SET(potential_targets, extra_number(pextra));
         }
       }
