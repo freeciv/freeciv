@@ -2880,9 +2880,7 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_FORTIFY:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
-                             do_action_activity_targeted(actor_unit,
-                                                         paction,
-                                                         &target_extra));
+                             do_action_activity(actor_unit, paction));
     break;
   case ACTION_CONVERT:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
@@ -3107,15 +3105,11 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTION_CULTIVATE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_action_activity_targeted(actor_unit,
-                                                         paction,
-                                                         &target_extra));
+                             do_action_activity(actor_unit, paction));
     break;
   case ACTION_PLANT:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_action_activity_targeted(actor_unit,
-                                                         paction,
-                                                         &target_extra));
+                             do_action_activity(actor_unit, paction));
     break;
   case ACTION_PILLAGE:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
@@ -5229,6 +5223,7 @@ static bool do_action_activity(struct unit *punit,
   enum unit_activity new_activity = action_get_activity(paction);
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
+  fc_assert_ret_val(!activity_requires_target(new_activity), FALSE);
 
   return unit_activity_handling(punit, new_activity);
 }
@@ -5274,6 +5269,8 @@ static bool do_action_activity_targeted(struct unit *punit,
   enum unit_activity new_activity = action_get_activity(paction);
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
+  fc_assert_ret_val(activity_requires_target(new_activity),
+                    unit_activity_handling(punit, new_activity));
 
   return unit_activity_handling_targeted(punit, new_activity, new_target);
 }
