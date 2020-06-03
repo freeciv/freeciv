@@ -1671,11 +1671,12 @@ static bool order_recursive_roads(struct tile *ptile, struct extra_type *pextra,
     }
   } extra_deps_iterate_end;
 
-  p->orders[p->length].order = ORDER_ACTIVITY;
+  p->orders[p->length].order = ORDER_PERFORM_ACTION;
   p->orders[p->length].dir = DIR8_ORIGIN;
-  p->orders[p->length].activity = ACTIVITY_GEN_ROAD;
+  p->orders[p->length].activity = ACTIVITY_LAST;
+  p->orders[p->length].target = ptile->index;
   p->orders[p->length].sub_target = extra_index(pextra);
-  p->orders[p->length].action = ACTION_NONE;
+  p->orders[p->length].action = ACTION_ROAD;
   p->length++;
 
   return TRUE;
@@ -1720,12 +1721,12 @@ void send_connect_route(enum unit_activity activity,
       case ACTIVITY_IRRIGATE:
 	if (!tile_has_extra(old_tile, tgt)) {
 	  /* Assume the unit can irrigate or we wouldn't be here. */
-	  p.orders[p.length].order = ORDER_ACTIVITY;
+          p.orders[p.length].order = ORDER_PERFORM_ACTION;
           p.orders[p.length].dir = DIR8_ORIGIN;
-	  p.orders[p.length].activity = ACTIVITY_IRRIGATE;
-          p.orders[p.length].target = NO_TARGET;
+          p.orders[p.length].activity = ACTIVITY_LAST;
+          p.orders[p.length].target = old_tile->index;
           p.orders[p.length].sub_target = extra_index(tgt);
-          p.orders[p.length].action = ACTION_NONE;
+          p.orders[p.length].action = ACTION_IRRIGATE;
 	  p.length++;
 	}
 	break;
