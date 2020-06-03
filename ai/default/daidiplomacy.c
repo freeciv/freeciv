@@ -1900,6 +1900,10 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     return;
   }
 
+  /* Can only handle victim only and international incidents. */
+  fc_assert_ret(scope == CBR_VICTIM_ONLY
+                || scope == CBR_INTERNATIONAL_OUTRAGE);
+
   switch (type) {
   case INCIDENT_ACTION:
     /* Feel free the change how the action results are grouped and how bad
