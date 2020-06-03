@@ -1392,16 +1392,47 @@ static void unit_goto_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
 {
-  struct action *action = data;
+  int sub_target = NO_TARGET;
+  struct action *paction = g_object_get_data(G_OBJECT(item), "end_action");
 
-  /* This menu doesn't support specifying a detailed target (think
-   * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-   * action order. */
-  fc_assert_ret_msg(!action_requires_details(action->id),
-                    "Underspecified target for %s.",
-                    action_id_name_translation(action->id));
+  fc_assert_ret(paction != NULL);
 
-  request_unit_goto(ORDER_PERFORM_ACTION, action->id, -1);
+  switch (action_get_sub_target_kind(paction)) {
+  case ASTK_BUILDING:
+    {
+      struct impr_type *pbuilding = g_object_get_data(G_OBJECT(item),
+                                                      "end_building");
+      fc_assert_ret(pbuilding != NULL);
+      sub_target = improvement_number(pbuilding);
+    }
+    break;
+  case ASTK_TECH:
+    {
+      struct advance *ptech = g_object_get_data(G_OBJECT(item),
+                                                "end_tech");
+      fc_assert_ret(ptech != NULL);
+      sub_target = advance_number(ptech);
+    }
+    break;
+  case ASTK_EXTRA:
+  case ASTK_EXTRA_NOT_THERE:
+    {
+      struct extra_type *pextra = g_object_get_data(G_OBJECT(item),
+                                                    "end_extra");
+      fc_assert_ret(pextra != NULL);
+      sub_target = extra_number(pextra);
+    }
+    break;
+  case ASTK_NONE:
+    sub_target = NO_TARGET;
+    break;
+  case ASTK_COUNT:
+    /* Should not exits */
+    fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
+    break;
+  }
+
+  request_unit_goto(ORDER_PERFORM_ACTION, paction->id, sub_target);
 }
 
 /************************************************************************//**
@@ -2750,31 +2781,78 @@ void real_menus_init(void)
           continue;
         }
 
-        if (action_requires_details(act_id)) {
-          /* This menu doesn't support specifying a detailed target (think
-           * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-           * action order. */
-          continue;
-        }
-
         /* Create and add the menu item. It will be hidden or shown based on
          * unit type.  */
         item = gtk_menu_item_new_with_mnemonic(
               action_get_ui_name_mnemonic(act_id, "_"));
         g_object_set_data(G_OBJECT(item), "end_action", paction);
-        g_signal_connect(item, "activate",
-                         G_CALLBACK(unit_goto_and_callback), paction);
+
+        if (action_id_has_complex_target(act_id)) {
+          GtkWidget *sub_target_menu = gtk_menu_new();
+
+#define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
+  GtkWidget *sub_item = gtk_menu_item_new_with_label(_sub_target_name_);   \
+  g_object_set_data(G_OBJECT(sub_item), "end_action", paction);            \
+  g_object_set_data(G_OBJECT(sub_item), _sub_target_key_, _sub_target_);   \
+  g_signal_connect(sub_item, "activate",                                   \
+                   G_CALLBACK(unit_goto_and_callback), paction);           \
+  gtk_menu_shell_append(GTK_MENU_SHELL(sub_target_menu), sub_item);        \
+  gtk_widget_show(sub_item);
+
+          switch (action_get_sub_target_kind(paction)) {
+          case ASTK_BUILDING:
+            improvement_iterate(pimpr) {
+              CREATE_SUB_ITEM(pimpr, "end_building",
+                              improvement_name_translation(pimpr));
+            } improvement_iterate_end;
+            break;
+          case ASTK_TECH:
+            advance_iterate(A_FIRST, ptech) {
+              CREATE_SUB_ITEM(ptech, "end_tech",
+                              advance_name_translation(ptech));
+            } advance_iterate_end;
+            break;
+          case ASTK_EXTRA:
+          case ASTK_EXTRA_NOT_THERE:
+            extra_type_iterate(pextra) {
+              if (!(action_creates_extra(paction, pextra)
+                    || action_removes_extra(paction, pextra))) {
+                /* Not relevant */
+                continue;
+              }
+              CREATE_SUB_ITEM(pextra, "end_extra",
+                              extra_name_translation(pextra));
+            } extra_type_iterate_end;
+            break;
+          case ASTK_NONE:
+            /* Should not be here. */
+            fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+            break;
+          case ASTK_COUNT:
+            /* Should not exits */
+            fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
+            break;
+          }
+
+#undef CREATE_SUB_ITEM
+
+          gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), sub_target_menu);
+        } else {
+          g_signal_connect(item, "activate",
+                           G_CALLBACK(unit_goto_and_callback), paction);
 
 #define ADD_OLD_ACCELERATOR(wanted_action_id, accel_key, accel_mods)      \
   if (act_id == wanted_action_id) {                                    \
     menu_unit_goto_and_add_accel(item, act_id, accel_key, accel_mods); \
   }
 
-        /* Add the keyboard shortcuts for "Go to and..." menu items that
-         * existed independently before the "Go to and..." menu arrived. */
-        ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
-        ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
-        ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
+          /* Add the keyboard shortcuts for "Go to and..." menu items that
+           * existed independently before the "Go to and..." menu arrived.
+           */
+          ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
+          ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
+          ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
+        }
 
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
