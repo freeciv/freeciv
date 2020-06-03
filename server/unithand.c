@@ -104,6 +104,11 @@ struct ane_expl {
   };
 };
 
+static bool unit_activity_internal(struct unit *punit,
+                                   enum unit_activity new_activity);
+static bool unit_activity_targeted_internal(struct unit *punit,
+                                            enum unit_activity new_activity,
+                                            struct extra_type **new_target);
 static void illegal_action(struct player *pplayer,
                            struct unit *actor,
                            action_id stopped_action,
@@ -5225,7 +5230,7 @@ static bool do_action_activity(struct unit *punit,
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(!activity_requires_target(new_activity), FALSE);
 
-  return unit_activity_handling(punit, new_activity);
+  return unit_activity_internal(punit, new_activity);
 }
 
 /**********************************************************************//**
@@ -5244,16 +5249,34 @@ bool unit_activity_handling(struct unit *punit,
     /* Assume untargeted pillaging if no target specified */
     unit_activity_handling_targeted(punit, new_activity, &target);
   } else if (can_unit_do_activity(punit, new_activity)) {
-    enum unit_activity old_activity = punit->activity;
-    struct extra_type *old_target = punit->activity_target;
-
     free_unit_orders(punit);
-    set_unit_activity(punit, new_activity);
-    send_unit_info(NULL, punit);
-    unit_activity_dependencies(punit, old_activity, old_target);
+    unit_activity_internal(punit, new_activity);
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Handle request for changing activity.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool unit_activity_internal(struct unit *punit,
+                                   enum unit_activity new_activity)
+{
+  if (!can_unit_do_activity(punit, new_activity)) {
+    return FALSE;
+  } else {
+    enum unit_activity old_activity = punit->activity;
+    struct extra_type *old_target = punit->activity_target;
+
+    set_unit_activity(punit, new_activity);
+    send_unit_info(NULL, punit);
+    unit_activity_dependencies(punit, old_activity, old_target);
+
+    return TRUE;
+  }
 }
 
 /**********************************************************************//**
@@ -5270,9 +5293,9 @@ static bool do_action_activity_targeted(struct unit *punit,
 
   fc_assert_ret_val(new_activity != ACTIVITY_LAST, FALSE);
   fc_assert_ret_val(activity_requires_target(new_activity),
-                    unit_activity_handling(punit, new_activity));
+                    unit_activity_internal(punit, new_activity));
 
-  return unit_activity_handling_targeted(punit, new_activity, new_target);
+  return unit_activity_targeted_internal(punit, new_activity, new_target);
 }
 
 /**********************************************************************//**
@@ -5285,11 +5308,30 @@ bool unit_activity_handling_targeted(struct unit *punit,
   if (!activity_requires_target(new_activity)) {
     unit_activity_handling(punit, new_activity);
   } else if (can_unit_do_activity_targeted(punit, new_activity, *new_target)) {
+    free_unit_orders(punit);
+    unit_activity_targeted_internal(punit, new_activity, new_target);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Handle request for targeted activity.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool unit_activity_targeted_internal(struct unit *punit,
+                                            enum unit_activity new_activity,
+                                            struct extra_type **new_target)
+{
+  if (!can_unit_do_activity_targeted(punit, new_activity, *new_target)) {
+    return FALSE;
+  } else {
     enum unit_activity old_activity = punit->activity;
     struct extra_type *old_target = punit->activity_target;
     enum unit_activity stored_activity = new_activity;
 
-    free_unit_orders(punit);
     unit_assign_specific_activity_target(punit,
                                          &new_activity, new_target);
     if (new_activity != stored_activity
@@ -5313,9 +5355,9 @@ bool unit_activity_handling_targeted(struct unit *punit,
                                    tile_link(unit_tile(punit)));
       }
     }
-  }
 
-  return TRUE;
+    return TRUE;
+  }
 }
 
 /**********************************************************************//**
