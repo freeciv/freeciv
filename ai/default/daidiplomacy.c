@@ -2060,7 +2060,16 @@ static void dai_incident_nuclear_self(struct player *receiver,
 }
 
 /**********************************************************************//**
-  Some action caused an incident.
+  Called when someone caused an incident to make the receiver lose AI love.
+  Make the victim angry at the violator. Twice as angry if this was bad
+  enough to cause International Outrage.
+  Make the rest of the world a bit angry if the violator did this to him
+  self. Twice as angry if the violator did it to someone else.
+  @param receiver the player that receives information about the incident
+  @param violator the player that caused the incident
+  @param victim the victim of the incident
+  @param scope the range of the Casus Belli that caused this
+  @param how_bad a badness score for the incident
 **************************************************************************/
 static void dai_incident_simple(struct player *receiver,
                                 const struct player *violator,
@@ -2071,7 +2080,8 @@ static void dai_incident_simple(struct player *receiver,
   int displeasure = how_bad * MAX_AI_LOVE;
   if (victim == receiver) {
     if (scope == CBR_INTERNATIONAL_OUTRAGE) {
-      /* Trust the ruleset author */
+      /* The ruleset finds this bad enough to cause International Outrage.
+       * Trust the ruleset author. Double the displeasure. */
       displeasure = displeasure * 2;
     }
     receiver->ai_common.love[player_index(violator)] -= displeasure / 35;
