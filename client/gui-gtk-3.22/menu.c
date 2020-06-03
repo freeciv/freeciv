@@ -2537,6 +2537,25 @@ static void menu_unit_goto_and_add_accel(GtkWidget *item, action_id act_id,
   }
 }
 
+/************************************************************************//**
+  Recursively remove previous entries in a menu and its sub menus.
+****************************************************************************/
+static void menu_remove_previous_entries(GtkMenu *menu)
+{
+  GList *list, *iter;
+  GtkWidget *sub_menu;
+
+  list = gtk_container_get_children(GTK_CONTAINER(menu));
+  for (iter = list; NULL != iter; iter = g_list_next(iter)) {
+    if ((sub_menu = gtk_menu_item_get_submenu(iter->data)) != NULL) {
+      menu_remove_previous_entries(GTK_MENU(sub_menu));
+      gtk_widget_destroy(sub_menu);
+    }
+    gtk_widget_destroy(GTK_WIDGET(iter->data));
+  }
+  g_list_free(list);
+}
+
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
@@ -2655,16 +2674,11 @@ void real_menus_init(void)
 
   /* Initialize the Go to and... actions. */
   if ((menu = find_menu("<MENU>/GOTO_AND"))) {
-    GList *list, *iter;
     GtkWidget *item;
     int tgt_kind_group;
 
     /* Remove previous action entries. */
-    list = gtk_container_get_children(GTK_CONTAINER(menu));
-    for (iter = list; NULL != iter; iter = g_list_next(iter)) {
-      gtk_widget_destroy(GTK_WIDGET(iter->data));
-    }
-    g_list_free(list);
+    menu_remove_previous_entries(menu);
 
     /* Add the new action entries grouped by target kind. */
     for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
