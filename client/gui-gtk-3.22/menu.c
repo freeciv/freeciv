@@ -1385,16 +1385,33 @@ static void unit_goto_callback(GtkMenuItem *item, gpointer data)
 **************************************************************************/
 static void unit_goto_and_callback(GtkMenuItem *item, gpointer data)
 {
-  struct action *action = data;
+  int sub_target = NO_TARGET;
+  struct action *paction = g_object_get_data(G_OBJECT(item), "end_action");
 
-  /* This menu doesn't support specifying a detailed target (think
-   * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-   * action order. */
-  fc_assert_ret_msg(!action_requires_details(action->id),
-                    "Underspecified target for %s.",
-                    action_id_name_translation(action->id));
+  fc_assert_ret(paction != NULL);
 
-  request_unit_goto(ORDER_PERFORM_ACTION, action->id, -1);
+  switch (paction->id) {
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+    {
+      struct impr_type *pbuilding = g_object_get_data(G_OBJECT(item),
+                                                      "end_building");
+      fc_assert_ret(pbuilding != NULL);
+      sub_target = improvement_number(pbuilding) + 1;
+    }
+    break;
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+    {
+      struct advance *ptech = g_object_get_data(G_OBJECT(item),
+                                                "end_tech");
+      fc_assert_ret(ptech != NULL);
+      sub_target = advance_number(ptech);
+    }
+    break;
+  }
+
+  request_unit_goto(ORDER_PERFORM_ACTION, paction->id, sub_target);
 }
 
 /****************************************************************
@@ -2695,13 +2712,6 @@ void real_menus_init(void)
           continue;
         }
 
-        if (action_requires_details(act_id)) {
-          /* This menu doesn't support specifying a detailed target (think
-           * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-           * action order. */
-          continue;
-        }
-
         if (action_id_distance_inside_max(act_id, 2)) {
           /* The order system doesn't support actions that can be done to a
            * target that isn't at or next to the actor unit's tile.
@@ -2715,19 +2725,55 @@ void real_menus_init(void)
         item = gtk_menu_item_new_with_mnemonic(
               action_get_ui_name_mnemonic(act_id, "_"));
         g_object_set_data(G_OBJECT(item), "end_action", paction);
-        g_signal_connect(item, "activate",
-                         G_CALLBACK(unit_goto_and_callback), paction);
+
+        if (action_requires_details(act_id)) {
+          GtkWidget *sub_target_menu = gtk_menu_new();
+
+#define CREATE_SUB_ITEM(_sub_target_, _sub_target_key_, _sub_target_name_) \
+  GtkWidget *sub_item = gtk_menu_item_new_with_label(_sub_target_name_);   \
+  g_object_set_data(G_OBJECT(sub_item), "end_action", paction);            \
+  g_object_set_data(G_OBJECT(sub_item), _sub_target_key_, _sub_target_);   \
+  g_signal_connect(sub_item, "activate",                                   \
+                   G_CALLBACK(unit_goto_and_callback), paction);           \
+  gtk_menu_shell_append(GTK_MENU_SHELL(sub_target_menu), sub_item);        \
+  gtk_widget_show(sub_item);
+
+          switch (paction->id) {
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+          case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+            improvement_iterate(pimpr) {
+              CREATE_SUB_ITEM(pimpr, "end_building",
+                              improvement_name_translation(pimpr));
+            } improvement_iterate_end;
+            break;
+          case ACTION_SPY_TARGETED_STEAL_TECH:
+          case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+            advance_iterate(A_FIRST, ptech) {
+              CREATE_SUB_ITEM(ptech, "end_tech",
+                              advance_name_translation(ptech));
+            } advance_iterate_end;
+            break;
+          }
+
+#undef CREATE_SUB_ITEM
+
+          gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), sub_target_menu);
+        } else {
+          g_signal_connect(item, "activate",
+                           G_CALLBACK(unit_goto_and_callback), paction);
 
 #define ADD_OLD_ACCELERATOR(wanted_action_id, accel_key, accel_mods)      \
   if (act_id == wanted_action_id) {                                    \
     menu_unit_goto_and_add_accel(item, act_id, accel_key, accel_mods); \
   }
 
-        /* Add the keyboard shortcuts for "Go to and..." menu items that
-         * existed independently before the "Go to and..." menu arrived. */
-        ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
-        ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
-        ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
+          /* Add the keyboard shortcuts for "Go to and..." menu items that
+           * existed independently before the "Go to and..." menu arrived.
+           */
+          ADD_OLD_ACCELERATOR(ACTION_FOUND_CITY, GDK_KEY_b, GDK_SHIFT_MASK);
+          ADD_OLD_ACCELERATOR(ACTION_JOIN_CITY, GDK_KEY_j, GDK_SHIFT_MASK);
+          ADD_OLD_ACCELERATOR(ACTION_NUKE, GDK_KEY_n, GDK_SHIFT_MASK);
+        }
 
         gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
         gtk_widget_show(item);
