@@ -4441,6 +4441,22 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
+      if (action_get_sub_target_kind(oaction) == ASTK_EXTRA_NOT_THERE
+          && pextra != NULL
+          && action_creates_extra(oaction, pextra)
+          && tile_has_extra(dst_tile, pextra)) {
+        /* Already there. Move on to the next order. */
+        break;
+      }
+
+      if (action_get_sub_target_kind(oaction) == ASTK_EXTRA
+          && pextra != NULL
+          && action_removes_extra(oaction, pextra)
+          && !tile_has_extra(dst_tile, pextra)) {
+        /* Already not there. Move on to the next order. */
+        break;
+      }
+
       /* No target selected. */
       tgt_id = -1;
 
