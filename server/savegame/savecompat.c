@@ -1552,6 +1552,64 @@ static void compat_load_030100(struct loaddata *loading,
 }
 
 /**********************************************************************//**
+  Upgrade unit activity orders to unit action orders.
+**************************************************************************/
+static void unit_order_activity_to_action(struct unit *act_unit)
+{
+  int i;
+
+  for (i = 0; i < act_unit->orders.length; i++) {
+    struct unit_order *order = &act_unit->orders.list[i];
+
+    if (order->order != ORDER_ACTIVITY) {
+      continue;
+    }
+
+    switch (order->activity) {
+    case ACTIVITY_FALLOUT:
+    case ACTIVITY_POLLUTION:
+    case ACTIVITY_MINE:
+    case ACTIVITY_IRRIGATE:
+    case ACTIVITY_PLANT:
+    case ACTIVITY_CULTIVATE:
+    case ACTIVITY_TRANSFORM:
+    case ACTIVITY_CONVERT:
+    case ACTIVITY_FORTIFYING:
+    case ACTIVITY_BASE:
+    case ACTIVITY_GEN_ROAD:
+    case ACTIVITY_PILLAGE:
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
+        if (action_get_activity(paction) == order->activity) {
+          order->order = ORDER_PERFORM_ACTION;
+          order->action = action_number(paction);
+          order->activity = ACTIVITY_LAST;
+          break;
+        }
+      } action_iterate_end;
+      break;
+    case ACTIVITY_SENTRY:
+      /* Not an action */
+      break;
+    case ACTIVITY_EXPLORE:
+    case ACTIVITY_IDLE:
+    case ACTIVITY_GOTO:
+    case ACTIVITY_FORTIFIED:
+    case ACTIVITY_OLD_ROAD:
+    case ACTIVITY_OLD_RAILROAD:
+    case ACTIVITY_FORTRESS:
+    case ACTIVITY_AIRBASE:
+    case ACTIVITY_PATROL_UNUSED:
+    case ACTIVITY_LAST:
+    case ACTIVITY_UNKNOWN:
+      log_error("Activity %d is not supposed to appear in unit orders",
+                order->activity);
+      break;
+    }
+  }
+}
+
+/**********************************************************************//**
   Upgrade unit action order target encoding.
 **************************************************************************/
 static void upgrade_unit_order_targets(struct unit *act_unit)
@@ -1668,6 +1726,13 @@ static void compat_post_load_030100(struct loaddata *loading,
 
   /* Explicit server side agent was new in 3.1 */
   upgrade_server_side_agent(loading);
+
+  /* Some activities should only be ordered in action orders. */
+  players_iterate_alive(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      unit_order_activity_to_action(punit);
+    } unit_list_iterate_end;
+  } players_iterate_alive_end;
 
   /* Unit order action target isn't dir anymore */
   players_iterate_alive(pplayer) {
@@ -2013,6 +2078,13 @@ static void compat_post_load_dev(struct loaddata *loading)
 
     /* Explicit server side agent was new in 3.1 */
     upgrade_server_side_agent(loading);
+
+    /* Some activities should only be ordered in action orders. */
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        unit_order_activity_to_action(punit);
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
 
     /* Unit order action target isn't dir anymore */
     players_iterate_alive(pplayer) {

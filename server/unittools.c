@@ -4134,7 +4134,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
   int unitid = punit->id;
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
-  enum unit_activity activity;
 
   fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
@@ -4191,10 +4190,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       || action_id_exists(order.action)),
                      continue);
 
-    pextra = (order.sub_target == EXTRA_NONE ?
-                NULL :
-                extra_by_number(order.sub_target));
-
     switch (order.order) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
@@ -4245,76 +4240,17 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
       break;
     case ORDER_ACTIVITY:
-      activity = order.activity;
       {
-        if (pextra == NULL && activity_requires_target(order.activity)) {
-          /* Try to find a target extra before giving up this order or, if
-           * serious enough, all orders. */
+        enum unit_activity activity = order.activity;
 
-          enum unit_activity new_activity = order.activity;
+        fc_assert(activity == ACTIVITY_SENTRY);
 
-          unit_assign_specific_activity_target(punit,
-                                               &new_activity, &pextra);
-
-          if (new_activity != order.activity) {
-            /* At the time this code was written the only possible activity
-             * change from unit_assign_specific_activity_target() was from
-             * ACTIVITY_PILLAGE to ACTIVITY_IDLE. That would only happen
-             * when a target extra couldn't be found. -- Sveinung */
-            fc_assert_msg((order.activity == ACTIVITY_PILLAGE
-                           && new_activity == ACTIVITY_IDLE),
-                          "Skipping an order when canceling all orders may"
-                          " have been the correct thing to do.");
-
-            /* Already removed, let's continue. */
-            break;
-          }
-
-          /* Should have given up or, if supported, changed the order's
-           * activity to the activity suggested by
-           * unit_activity_handling_targeted() before this line was
-           * reached.
-           * Remember that unit_activity_handling_targeted() has the power
-           * to change the order's target extra directly. */
-          fc_assert_msg(new_activity == order.activity,
-                        "Activity not updated. Target may have changed.");
-
-          /* Should have found a target or given up before reaching this
-           * line. */
-          fc_assert_msg((pextra != NULL
-                         || !activity_requires_target(order.activity)),
-                        "Activity requires a target. No target found.");
-        }
-
-        if (can_unit_do_activity_targeted(punit, activity, pextra)) {
+        if (can_unit_do_activity(punit, activity)) {
           punit->done_moving = TRUE;
-          set_unit_activity_targeted(punit, activity, pextra);
+          set_unit_activity(punit, activity);
           send_unit_info(NULL, punit);
 
-          if (activity == ACTIVITY_PILLAGE) {
-            /* Casus Belli for when the action successfully begins. */
-            /* TODO: is it more logical to change Casus_Belli_Complete to
-             * Casus_Belli_Successful_Beginning and trigger it here? */
-            action_consequence_success(action_by_number(ACTION_PILLAGE),
-                                       unit_owner(punit),
-                                       tile_owner(unit_tile(punit)),
-                                       unit_tile(punit),
-                                       tile_link(unit_tile(punit)));
-          }
           break;
-        } else {
-          if ((activity == ACTIVITY_BASE
-               || activity == ACTIVITY_GEN_ROAD
-               || activity == ACTIVITY_IRRIGATE
-               || activity == ACTIVITY_MINE)
-              && tile_has_extra(unit_tile(punit), pextra)) {
-            break; /* Already built, let's continue. */
-          } else if ((activity == ACTIVITY_POLLUTION
-                      || activity == ACTIVITY_FALLOUT
-                      || activity == ACTIVITY_PILLAGE)
-                     && !tile_has_extra(unit_tile(punit), pextra)) {
-            break; /* Already removed, let's continue. */
-          }
         }
       }
 
@@ -4752,6 +4688,17 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       break;
     case ORDER_ACTIVITY:
       switch (orders[i].activity) {
+      case ACTIVITY_SENTRY:
+        if (i != length - 1) {
+          /* Only allowed as the last order. */
+          log_error("activity %d is not allowed at index %d.", orders[i].activity,
+                    i);
+          return FALSE;
+        }
+        break;
+      /* Replaced by action orders */
+      case ACTIVITY_BASE:
+      case ACTIVITY_GEN_ROAD:
       case ACTIVITY_FALLOUT:
       case ACTIVITY_POLLUTION:
       case ACTIVITY_PILLAGE:
@@ -4761,34 +4708,11 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_CULTIVATE:
       case ACTIVITY_TRANSFORM:
       case ACTIVITY_CONVERT:
-	/* Simple activities. */
-	break;
       case ACTIVITY_FORTIFYING:
-      case ACTIVITY_SENTRY:
-        if (i != length - 1) {
-          /* Only allowed as the last order. */
-          log_error("activity %d is not allowed at index %d.", orders[i].activity,
-                    i);
-          return FALSE;
-        }
-        break;
-      case ACTIVITY_BASE:
-        if (!is_extra_caused_by(extra_by_number(orders[i].sub_target),
-                                EC_BASE)) {
-          log_error("at index %d, %s isn't a base.", i,
-                    extra_rule_name(extra_by_number(orders[i].sub_target)));
-          return FALSE;
-        }
-        break;
-      case ACTIVITY_GEN_ROAD:
-        if (!is_extra_caused_by(extra_by_number(orders[i].sub_target),
-                                EC_ROAD)) {
-          log_error("at index %d, %s isn't a road.", i,
-                    extra_rule_name(extra_by_number(orders[i].sub_target)));
-          return FALSE;
-        }
-        break;
-      /* Not supported yet. */
+        log_error("at index %d, use action rather than activity %d.",
+                  i, orders[i].activity);
+        return FALSE;
+      /* Not supported. */
       case ACTIVITY_EXPLORE:
       case ACTIVITY_IDLE:
       /* Not set from the client. */
