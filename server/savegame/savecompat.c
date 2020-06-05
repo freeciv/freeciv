@@ -1967,13 +1967,6 @@ static void compat_load_dev(struct loaddata *loading)
 
     /* Explicit server side agent was new in 3.1 */
     insert_server_side_agent(loading, SAVEGAME_3);
-
-    /* Unit order action target isn't dir anymore */
-    players_iterate_alive(pplayer) {
-      unit_list_iterate(pplayer->units, punit) {
-        upgrade_unit_order_targets(punit);
-      } unit_list_iterate_end;
-    } players_iterate_alive_end;
   } /* Version < 3.0.93 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
@@ -2020,6 +2013,13 @@ static void compat_post_load_dev(struct loaddata *loading)
 
     /* Explicit server side agent was new in 3.1 */
     upgrade_server_side_agent(loading);
+
+    /* Unit order action target isn't dir anymore */
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        upgrade_unit_order_targets(punit);
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
   } /* Version < 3.0.93 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
