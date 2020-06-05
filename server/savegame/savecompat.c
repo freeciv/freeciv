@@ -1825,6 +1825,9 @@ static void compat_load_dev(struct loaddata *loading)
         } else if (fc_strcasecmp(modname[j], "Steal Tech Escape") == 0) {
           secfile_replace_str(loading->file, "Steal Tech Escape Expected",
                               "savefile.action_vector,%d", j);
+        } else if (fc_strcasecmp(modname[j], "Road") == 0) {
+          secfile_replace_str(loading->file, "Build Road",
+                              "savefile.action_vector,%d", j);
         }
       }
 
