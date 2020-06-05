@@ -969,6 +969,10 @@ static void goto_fill_parameter_full(struct goto_map *goto_map,
       goto_map->patrol.return_path = NULL;
     }
     break;
+  case HOVER_GOTO_SEL_TGT:
+    fc_assert_msg(hover_state != HOVER_GOTO_SEL_TGT,
+                  "Path finding during target selection");
+    break;
   case HOVER_NONE:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
@@ -1895,7 +1899,7 @@ void send_goto_route(void)
       struct tile *on_tile;
       int last_order_target = NO_TARGET;
 
-      if (path->length > 1
+      if (path->length > 1 && goto_last_tgt == NO_TARGET
           && ((on_tile = path->positions[path->length - 2].tile))
           && order_wants_direction(goto_last_order, goto_last_action,
                                    tgt_tile)
@@ -1909,15 +1913,17 @@ void send_goto_route(void)
         /* The last path direction is now spent. */
         pf_path_backtrack(path, on_tile);
       } else {
-        fc_assert(!order_demands_direction(goto_last_order,
-                                           goto_last_action));
+        fc_assert(goto_last_tgt != NO_TARGET
+                  || !order_demands_direction(goto_last_order,
+                                              goto_last_action));
 
-        /* Target the tile the actor is standing on. */
+        /* Target the tile the actor is standing on or goto_last_tgt. */
         last_order_dir = DIR8_ORIGIN;
       }
 
       if (action_id_exists(goto_last_action)) {
-        last_order_target = tgt_tile->index;
+        last_order_target = (goto_last_tgt == NO_TARGET
+                             ? tgt_tile->index : goto_last_tgt);
         last_order_dir = DIR8_ORIGIN;
       }
 

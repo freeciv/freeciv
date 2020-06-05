@@ -91,6 +91,7 @@ enum unit_activity connect_activity;
 struct extra_type *connect_tgt;
 
 action_id goto_last_action;
+int goto_last_tgt;
 int goto_last_sub_tgt;
 enum unit_orders goto_last_order; /* Last order for goto */
 
@@ -284,6 +285,7 @@ void unit_register_battlegroup(struct unit *punit)
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
                      struct extra_type *tgt,
+                     int last_tgt,
                      int last_sub_tgt,
                      action_id action,
                      enum unit_orders order)
@@ -291,9 +293,17 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   fc_assert_ret((punits && unit_list_size(punits) > 0)
                 || state == HOVER_NONE);
   fc_assert_ret(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
-  fc_assert_ret(state == HOVER_GOTO || order == ORDER_LAST);
-  fc_assert_ret(state == HOVER_GOTO || action == ACTION_NONE);
-  exit_goto_state();
+  fc_assert_ret((state == HOVER_GOTO || state == HOVER_GOTO_SEL_TGT)
+                || order == ORDER_LAST);
+  fc_assert_ret((state == HOVER_GOTO || state == HOVER_GOTO_SEL_TGT)
+                || action == ACTION_NONE);
+
+  if (!((hover_state == HOVER_GOTO || hover_state == HOVER_GOTO_SEL_TGT)
+        && (state == HOVER_GOTO || state == HOVER_GOTO_SEL_TGT))) {
+    /* Exit goto unless this is a switch between goto states */
+    exit_goto_state();
+  }
+
   hover_state = state;
   connect_activity = activity;
   if (tgt) {
@@ -303,6 +313,7 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
   }
   goto_last_order = order;
   goto_last_action = action;
+  goto_last_tgt = last_tgt;
   goto_last_sub_tgt = last_sub_tgt;
 }
 
@@ -313,7 +324,7 @@ void clear_hover_state(void)
 {
   set_hover_state(NULL, HOVER_NONE,
                   ACTIVITY_LAST, NULL,
-                  -1, ACTION_NONE, ORDER_LAST);
+                  NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
 }
 
 /**********************************************************************//**
@@ -1138,15 +1149,17 @@ void request_unit_goto(enum unit_orders last_order,
     } unit_list_iterate_end;
   }
 
-  if (hover_state != HOVER_GOTO) {
+  if (hover_state != HOVER_GOTO && hover_state != HOVER_GOTO_SEL_TGT) {
     set_hover_state(punits, HOVER_GOTO, ACTIVITY_LAST, NULL,
-                    sub_tgt_id, act_id, last_order);
+                    NO_TARGET, sub_tgt_id, act_id, last_order);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
     control_mouse_cursor(NULL);
   } else {
     fc_assert_ret(goto_is_active());
+    /* Adding a long range action in the middle isn't handled yet */
+    fc_assert_ret(hover_state != HOVER_GOTO_SEL_TGT);
     goto_add_waypoint();
   }
 }
@@ -1263,6 +1276,7 @@ void control_mouse_cursor(struct tile *ptile)
     mouse_cursor_type = CURSOR_PARADROP;
     break;
   case HOVER_ACT_SEL_TGT:
+  case HOVER_GOTO_SEL_TGT:
     /* Select a tile to target / find targets on. */
     mouse_cursor_type = CURSOR_SELECT;
     break;
@@ -1445,7 +1459,8 @@ void request_unit_connect(enum unit_activity activity,
           && (activity == ACTIVITY_GEN_ROAD
               || activity == ACTIVITY_IRRIGATE))) {
     set_hover_state(punits, HOVER_CONNECT,
-                    activity, tgt, -1, ACTION_NONE, ORDER_LAST);
+                    activity, tgt, NO_TARGET, NO_TARGET,
+                    ACTION_NONE, ORDER_LAST);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
     update_unit_info_label(punits);
@@ -2105,7 +2120,7 @@ void request_unit_paradrop(struct unit_list *punits)
                  _("Click on a tile to paradrop to it."));
 
     set_hover_state(punits, HOVER_PARADROP, ACTIVITY_LAST, NULL,
-                    -1, ACTION_NONE, ORDER_LAST);
+                    NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
     update_unit_info_label(punits);
   } else {
     create_event(offender, E_BAD_COMMAND, ftc_client,
@@ -2126,7 +2141,7 @@ void request_unit_patrol(void)
 
   if (hover_state != HOVER_PATROL) {
     set_hover_state(punits, HOVER_PATROL, ACTIVITY_LAST, NULL,
-                    -1, ACTION_NONE, ORDER_LAST);
+                    NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
     update_unit_info_label(punits);
     enter_goto_state(punits);
     create_line_at_mouse_pos();
@@ -2719,6 +2734,10 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
     case HOVER_ACT_SEL_TGT:
       do_unit_act_sel_vs(ptile);
       break;
+    case HOVER_GOTO_SEL_TGT:
+      fc_assert(action_id_exists(goto_last_action));
+      do_unit_goto(ptile);
+      break;
     }
 
     clear_hover_state();
@@ -2900,7 +2919,12 @@ static struct unit *quickselect(struct tile *ptile,
 **************************************************************************/
 void do_unit_goto(struct tile *ptile)
 {
-  if (hover_state != HOVER_GOTO) {
+  fc_assert_ret(hover_state == HOVER_GOTO
+                || hover_state == HOVER_GOTO_SEL_TGT);
+  fc_assert_ret(goto_is_active());
+
+  if (hover_state == HOVER_GOTO_SEL_TGT) {
+    send_goto_route();
     return;
   }
 
@@ -2958,9 +2982,15 @@ void do_unit_connect(struct tile *ptile,
 **************************************************************************/
 void key_cancel_action(void)
 {
+  struct unit_list *punits = get_units_in_focus();
   cancel_tile_hiliting();
 
   switch (hover_state) {
+  case HOVER_GOTO_SEL_TGT:
+    set_hover_state(punits, HOVER_GOTO, connect_activity, connect_tgt,
+                    goto_last_tgt, goto_last_sub_tgt,
+                    goto_last_action, goto_last_order);
+    break;
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
@@ -3115,6 +3145,34 @@ void key_unit_action_select_tgt(void)
     update_unit_info_label(punits);
 
     return;
+  } else if (hover_state == HOVER_GOTO_SEL_TGT) {
+    fc_assert(action_id_exists(goto_last_action));
+
+    /* We don't support long range actions in the middle of orders yet so
+     * send it at once. */
+    send_goto_route();
+
+    /* Target tile selected. Clean up hover state. */
+    clear_hover_state();
+    update_unit_info_label(punits);
+
+    return;
+  } else if (hover_state == HOVER_GOTO
+             && action_id_exists(goto_last_action)) {
+    struct action *paction = action_by_number(goto_last_action);
+
+    create_event(unit_tile(unit_list_get(punits, 0)), E_BEGINNER_HELP,
+                 ftc_client,
+                 /* TRANS: Perform action inside a goto. */
+                 _("Click on a tile to do %s against it."),
+                 action_name_translation(paction));
+
+    set_hover_state(punits, HOVER_GOTO_SEL_TGT,
+                    connect_activity, connect_tgt,
+                    goto_last_tgt, goto_last_sub_tgt,
+                    goto_last_action, goto_last_order);
+
+    return;
   }
 
   create_event(unit_tile(unit_list_get(punits, 0)), E_BEGINNER_HELP,
@@ -3124,7 +3182,7 @@ void key_unit_action_select_tgt(void)
                  "Press 'd' again to act against own tile."));
 
   set_hover_state(punits, HOVER_ACT_SEL_TGT, ACTIVITY_LAST, NULL,
-                  EXTRA_NONE, ACTION_NONE, ORDER_LAST);
+                  NO_TARGET, NO_TARGET, ACTION_NONE, ORDER_LAST);
 }
 
 /**********************************************************************//**

@@ -28,7 +28,8 @@ enum cursor_hover_state {
   HOVER_PARADROP,
   HOVER_CONNECT,
   HOVER_PATROL,
-  HOVER_ACT_SEL_TGT
+  HOVER_ACT_SEL_TGT,
+  HOVER_GOTO_SEL_TGT,
 };
 
 /* Selecting unit from a stack without popup. */
@@ -47,6 +48,7 @@ extern enum cursor_hover_state hover_state;
 extern enum unit_activity connect_activity;
 extern struct extra_type *connect_tgt;
 extern action_id goto_last_action;
+extern int goto_last_tgt;
 extern int goto_last_sub_tgt;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
@@ -71,6 +73,7 @@ void control_mouse_cursor(struct tile *ptile);
 void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
                      enum unit_activity connect_activity,
                      struct extra_type *tgt,
+                     int last_tgt,
                      int goto_last_sub_tgt,
                      action_id goto_last_action,
                      enum unit_orders goto_last_order);

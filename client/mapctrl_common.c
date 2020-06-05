@@ -484,7 +484,9 @@ void release_goto_button(int canvas_x, int canvas_y)
 {
   struct tile *ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
-  if (keyboardless_goto_active && hover_state == HOVER_GOTO && ptile) {
+  if (keyboardless_goto_active
+      && (hover_state == HOVER_GOTO || hover_state == HOVER_GOTO_SEL_TGT)
+      && ptile) {
     do_unit_goto(ptile);
     clear_hover_state();
     update_unit_info_label(get_units_in_focus());
@@ -656,6 +658,7 @@ void update_turn_done_button_state(void)
 void update_line(int canvas_x, int canvas_y)
 {
   struct tile *ptile;
+  struct unit_list *punits;
 
   switch (hover_state) {
   case HOVER_GOTO:
@@ -664,6 +667,15 @@ void update_line(int canvas_x, int canvas_y)
     ptile = canvas_pos_to_tile(canvas_x, canvas_y);
 
     is_valid_goto_draw_line(ptile);
+    break;
+  case HOVER_GOTO_SEL_TGT:
+    ptile = canvas_pos_to_tile(canvas_x, canvas_y);
+    punits = get_units_in_focus();
+
+    set_hover_state(punits, hover_state, connect_activity, connect_tgt,
+                    ptile->index, goto_last_sub_tgt,
+                    goto_last_action, goto_last_order);
+    break;
   case HOVER_NONE:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
@@ -677,6 +689,7 @@ void update_line(int canvas_x, int canvas_y)
 void overview_update_line(int overview_x, int overview_y)
 {
   struct tile *ptile;
+  struct unit_list *punits;
   int x, y;
 
   switch (hover_state) {
@@ -687,6 +700,16 @@ void overview_update_line(int overview_x, int overview_y)
     ptile = map_pos_to_tile(&(wld.map), x, y);
 
     is_valid_goto_draw_line(ptile);
+    break;
+  case HOVER_GOTO_SEL_TGT:
+    overview_to_map_pos(&x, &y, overview_x, overview_y);
+    ptile = map_pos_to_tile(&(wld.map), x, y);
+    punits = get_units_in_focus();
+
+    set_hover_state(punits, hover_state, connect_activity, connect_tgt,
+                    ptile->index, goto_last_sub_tgt,
+                    goto_last_action, goto_last_order);
+    break;
   case HOVER_NONE:
   case HOVER_PARADROP:
   case HOVER_ACT_SEL_TGT:
