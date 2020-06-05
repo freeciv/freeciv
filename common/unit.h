@@ -119,6 +119,8 @@ struct unit_order {
 #define SPECENUM_VALUE0NAME N_("None")
 #define SPECENUM_VALUE1 SSA_AUTOSETTLER
 #define SPECENUM_VALUE1NAME N_("Autosettlers")
+#define SPECENUM_VALUE2 SSA_AUTOEXPLORE
+#define SPECENUM_VALUE2NAME N_("Autoexplore")
 #define SPECENUM_COUNT SSA_COUNT
 #include "specenum_gen.h"
 
@@ -159,7 +161,6 @@ struct unit {
   int changed_from_count;
   struct extra_type *changed_from_target;
 
-  bool ai_controlled; /* 0: not automated; 1: automated */
   enum server_side_agent ssa_controller;
   bool moved;
   bool paradropped;

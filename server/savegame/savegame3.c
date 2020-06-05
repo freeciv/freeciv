@@ -5861,10 +5861,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
   /* Load AI data of the unit. */
   CALL_FUNC_EACH_AI(unit_load, loading->file, punit, unitstr);
 
-  sg_warn_ret_val(secfile_lookup_bool(loading->file,
-                                      &punit->ai_controlled,
-                                      "%s.ai", unitstr), FALSE,
-                  "%s", secfile_error());
   unconverted
    = secfile_lookup_int_default(loading->file, 0,
                                 "%s.server_side_agent",
@@ -5877,7 +5873,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
            unconverted, punit->id);
 
     punit->ssa_controller = SSA_NONE;
-    punit->ai_controlled = FALSE;
   }
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->hp,
@@ -6276,8 +6271,6 @@ static void sg_save_player_units(struct savedata *saving,
       secfile_insert_int(saving->file, 0, "%s.goto_y", buf);
     }
 
-    secfile_insert_bool(saving->file, punit->ai_controlled,
-                        "%s.ai", buf);
     secfile_insert_int(saving->file, punit->ssa_controller,
                         "%s.server_side_agent", buf);
 
@@ -7576,20 +7569,6 @@ static void sg_load_sanitycheck(struct loaddata *loading)
       }
     } unit_list_iterate_safe_end;
   } players_iterate_end;
-
-  players_iterate(pplayer) {
-    unit_list_iterate_safe(pplayer->units, punit) {
-      if (punit->activity == ACTIVITY_EXPLORE) {
-        /* Not handled as a side agent yet. */
-        continue;
-      }
-      if (punit->ai_controlled && punit->ssa_controller == SSA_NONE) {
-        log_sg("Invalid server side agent for unit %d.", punit->id);
-        punit->ai_controlled = FALSE;
-      }
-    } unit_list_iterate_safe_end;
-  } players_iterate_end;
-
 
   if (0 == strlen(server.game_identifier)
       || !is_base64url(server.game_identifier)) {

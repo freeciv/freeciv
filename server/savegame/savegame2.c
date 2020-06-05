@@ -3750,6 +3750,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   const char *facing_str;
   enum tile_special_type cfspe;
   int natnbr;
+  bool ai_controlled;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->id, "%s.id",
                                      unitstr), FALSE, "%s", secfile_error());
@@ -4127,10 +4128,10 @@ static bool sg_load_player_unit(struct loaddata *loading,
   CALL_FUNC_EACH_AI(unit_load, loading->file, punit, unitstr);
 
   sg_warn_ret_val(secfile_lookup_bool(loading->file,
-                                      &punit->ai_controlled,
+                                      &ai_controlled,
                                       "%s.ai", unitstr), FALSE,
                   "%s", secfile_error());
-  if (punit->ai_controlled) {
+  if (ai_controlled) {
     /* Autosettler and Auotexplore are separated by
      * compat_post_load_030100() when set to SSA_AUTOSETTLER */
     punit->ssa_controller = SSA_AUTOSETTLER;

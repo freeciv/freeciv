@@ -3484,18 +3484,13 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     return;
   }
 
+  if (activity == ACTIVITY_EXPLORE) {
+    /* Please use unit_server_side_agent_set. */
+    return;
+  }
+
   /* The activity can now be set. */
   unit_activity_handling_targeted(punit, activity, &activity_target);
-
-  if (activity == ACTIVITY_EXPLORE) {
-    /* Exploring is handled here explicitly, since the player expects to
-     * see an immediate response from setting a unit to auto-explore.
-     * Handling it deeper in the code leads to some tricky recursive loops -
-     * see PR#2631. */
-    if (punit->moves_left > 0) {
-      do_explore(punit);
-    }
-  }
 }
 
 /**********************************************************************//**
@@ -5185,9 +5180,28 @@ void handle_unit_server_side_agent_set(struct player *pplayer,
     return;
   }
 
-  if (unit_server_side_agent_set(pplayer, punit, agent)) {
-    /* Give the new agent a blank slate */
-    unit_plans_clear(punit);
+  /* Set the state or exit */
+  if (!unit_server_side_agent_set(pplayer, punit, agent)) {
+    return;
+  }
+
+  /* Give the new agent a blank slate */
+  unit_plans_clear(punit);
+
+  if (agent == SSA_AUTOEXPLORE) {
+    if (!unit_activity_internal(punit, ACTIVITY_EXPLORE)) {
+      /* Should have been caught above */
+      fc_assert(FALSE);
+      punit->ssa_controller = SSA_NONE;
+    }
+
+    /* Exploring is handled here explicitly, since the player expects to
+     * see an immediate response from setting a unit to auto-explore.
+     * Handling it deeper in the code leads to some tricky recursive loops -
+     * see PR#2631. */
+    if (punit->moves_left > 0) {
+      do_explore(punit);
+    }
   }
 }
 
@@ -5206,6 +5220,11 @@ bool unit_server_side_agent_set(struct player *pplayer,
       return FALSE;
     }
     break;
+  case SSA_AUTOEXPLORE:
+    if (!can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {
+      return FALSE;
+    }
+    break;
   case SSA_NONE:
     /* Always possible. */
     break;
@@ -5214,7 +5233,6 @@ bool unit_server_side_agent_set(struct player *pplayer,
     break;
   }
 
-  punit->ai_controlled = agent != SSA_NONE;
   punit->ssa_controller = agent;
 
   send_unit_info(NULL, punit);
@@ -5252,7 +5270,6 @@ static void unit_activity_dependencies(struct unit *punit,
       }
     case ACTIVITY_EXPLORE:
       /* Restore unit's control status */
-      punit->ai_controlled = FALSE;
       punit->ssa_controller = SSA_NONE;
       break;
     default: 
@@ -5260,8 +5277,7 @@ static void unit_activity_dependencies(struct unit *punit,
     }
     break;
   case ACTIVITY_EXPLORE:
-    punit->ai_controlled = TRUE;
-    punit->ssa_controller = SSA_NONE;
+    punit->ssa_controller = SSA_AUTOEXPLORE;
     set_unit_activity(punit, ACTIVITY_EXPLORE);
     send_unit_info(NULL, punit);
     break;

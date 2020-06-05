@@ -1018,7 +1018,6 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UINT8 upkeep[O_LAST];
 
   UINT8 veteran;
-  BOOL ai;
   SERVER_SIDE_AGENT ssa_controller;
   BOOL paradropped;
   BOOL occupied, transported, done_moving;

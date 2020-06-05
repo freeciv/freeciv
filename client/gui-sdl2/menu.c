@@ -1097,7 +1097,7 @@ void real_menus_update(void)
     punits = get_units_in_focus();
     pUnit = unit_list_get(punits, 0);
 
-    if (pUnit && !pUnit->ai_controlled) {
+    if (pUnit && pUnit->ssa_controller == SSA_NONE) {
       struct city *pHomecity;
       int time;
       struct tile *pTile = unit_tile(pUnit);

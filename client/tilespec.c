@@ -4349,6 +4349,10 @@ static int fill_unit_sprite_array(const struct tileset *t,
   case SSA_AUTOSETTLER:
     ADD_SPRITE_FULL(t->sprites.unit.auto_settler);
     break;
+  case SSA_AUTOEXPLORE:
+    /* Drawn above as the activity. */
+    fc_assert(punit->activity == ACTIVITY_EXPLORE);
+    break;
   default:
     ADD_SPRITE_FULL(t->sprites.unit.auto_attack);
     break;

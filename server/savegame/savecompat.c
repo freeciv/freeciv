@@ -1714,10 +1714,8 @@ static void upgrade_server_side_agent(struct loaddata *loading)
 {
   players_iterate_alive(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      if (punit->ssa_controller == SSA_AUTOSETTLER) {
-        if (punit->activity == ACTIVITY_EXPLORE) {
-          punit->ssa_controller = SSA_NONE;
-        }
+      if (punit->activity == ACTIVITY_EXPLORE) {
+        punit->ssa_controller = SSA_AUTOEXPLORE;
       }
     } unit_list_iterate_end;
   } players_iterate_alive_end;

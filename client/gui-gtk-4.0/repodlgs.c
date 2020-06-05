@@ -1507,7 +1507,7 @@ static struct unit *find_nearest_unit(const struct unit_type *utype,
           && FOCUS_AVAIL == punit->client.focus_status
           && 0 < punit->moves_left
           && !punit->done_moving
-          && !punit->ai_controlled) {
+          && punit->ssa_controller == SSA_NONE) {
         dist = sq_map_distance(unit_tile(punit), ptile);
         if (dist < best_dist) {
           best_candidate = punit;

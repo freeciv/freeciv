@@ -2525,7 +2525,6 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
     packet->changed_from_tgt = EXTRA_NONE;
   }
 
-  packet->ai = punit->ai_controlled;
   packet->ssa_controller = punit->ssa_controller;
   packet->fuel = punit->fuel;
   packet->goto_tile = (NULL != punit->goto_tile
@@ -2833,7 +2832,6 @@ void do_explore(struct unit *punit)
      /* FIXME: When the manage_auto_explorer() call changes the activity from
       * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
       * alone.  We reset it here.  See PR#12931. */
-     punit->ai_controlled = FALSE;
      punit->ssa_controller = SSA_NONE;
      break;
   }
@@ -3914,9 +3912,8 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
         /* Set activity to sentry if boarding a ship. */
         if (is_human(pplayer)
             && !unit_has_orders(punit)
-            && !punit->ai_controlled
+            && punit->ssa_controller == SSA_NONE
             && !can_unit_exist_at_tile(&(wld.map), punit, pdesttile)) {
-          fc_assert(punit->ssa_controller == SSA_NONE);
           set_unit_activity(punit, ACTIVITY_SENTRY);
         }
 
