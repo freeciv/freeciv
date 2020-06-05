@@ -2663,12 +2663,13 @@ void unit_do_action(struct player *pplayer,
 bool unit_perform_action(struct player *pplayer,
                          const int actor_id,
                          const int target_id,
-                         const int sub_tgt_id,
+                         const int sub_tgt_id_incoming,
                          const char *name,
                          const action_id action_type,
                          const enum action_requester requester)
 {
   struct action *paction;
+  int sub_tgt_id;
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = index_to_tile(&(wld.map), target_id);
   struct extra_type *target_extra;
@@ -2683,15 +2684,23 @@ bool unit_perform_action(struct player *pplayer,
     return FALSE;
   }
 
+  paction = action_by_number(action_type);
+
+  /* Server side sub target assignment */
+  if (paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE
+      && sub_tgt_id_incoming == NO_TARGET) {
+    sub_tgt_id = action_sub_target_id_for_action(paction, actor_unit);
+  } else {
+    sub_tgt_id = sub_tgt_id_incoming;
+  }
+
   if (sub_tgt_id >= 0 && sub_tgt_id < MAX_EXTRA_TYPES
-      && sub_tgt_id != EXTRA_NONE) {
+      && sub_tgt_id != NO_TARGET) {
     target_extra = extra_by_number(sub_tgt_id);
     fc_assert(!(target_extra->ruledit_disabled));
   } else {
     target_extra = NULL;
   }
-
-  paction = action_by_number(action_type);
 
   if (action_get_activity(paction) != ACTIVITY_LAST
       && unit_activity_needs_target_from_client(

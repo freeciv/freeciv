@@ -59,6 +59,9 @@ struct extra_type *action_tgt_tile_extra(const struct unit *actor,
                                          const struct tile *target_tile,
                                          bool accept_all_actions);
 
+int action_sub_target_id_for_action(const struct action *paction,
+                                    struct unit *actor_unit);
+
 const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,

@@ -837,6 +837,65 @@ struct extra_type *action_tgt_tile_extra(const struct unit *actor,
 }
 
 /**********************************************************************//**
+  Find an sub target for the specified action.
+**************************************************************************/
+int action_sub_target_id_for_action(const struct action *paction,
+                                    struct unit *actor_unit)
+{
+  const struct tile *tgt_tile = unit_tile(actor_unit);
+
+  fc_assert_ret_val(paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE,
+                    NO_TARGET);
+
+  switch (action_get_sub_target_kind(paction)) {
+  case ASTK_NONE:
+    /* Should not be reached */
+    fc_assert_ret_val(action_get_sub_target_kind(paction) != ASTK_NONE,
+                      NO_TARGET);
+    break;
+  case ASTK_BUILDING:
+    /* Implement if a building sub targeted action becomes flexible */
+    fc_assert_ret_val(paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE,
+                      NO_TARGET);
+    break;
+  case ASTK_TECH:
+    /* Implement if a tech sub targeted action becomes flexible */
+    fc_assert_ret_val(paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE,
+                      NO_TARGET);
+    break;
+  case ASTK_EXTRA:
+  case ASTK_EXTRA_NOT_THERE:
+    if (action_has_result(paction, ACTRES_PILLAGE)) {
+      /* Special treatment for "Pillage" */
+      struct extra_type *pextra;
+      enum unit_activity activity = action_get_activity(paction);
+
+      unit_assign_specific_activity_target(actor_unit, &activity, &pextra);
+
+      if (pextra != NULL) {
+        return extra_number(pextra);
+      }
+    }
+    extra_type_re_active_iterate(tgt_extra) {
+      if (action_prob_possible(action_prob_vs_tile(actor_unit, paction->id,
+                                                   tgt_tile, tgt_extra))) {
+        /* The actor unit may be able to do this action to the target
+         * extra. */
+        return extra_number(tgt_extra);
+      }
+    } extra_type_re_active_iterate_end;
+    break;
+  case ASTK_COUNT:
+    /* Should not exist. */
+    fc_assert_ret_val(action_get_sub_target_kind(paction) != ASTK_COUNT,
+                      NO_TARGET);
+    break;
+  }
+
+  return NO_TARGET;
+}
+
+/**********************************************************************//**
   Returns the action auto performer that the specified cause can force the
   specified actor to perform. Returns NULL if no such action auto performer
   exists.

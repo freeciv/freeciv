@@ -4157,6 +4157,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     struct city *tgt_city;
     struct unit *tgt_unit;
     int tgt_id;
+    int sub_tgt_id;
     struct extra_type *pextra;
 
     if (punit->done_moving) {
@@ -4441,6 +4442,21 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return TRUE;
       }
 
+      /* Server side sub target assignment */
+      if (oaction->target_complexity == ACT_TGT_COMPL_FLEXIBLE
+          && order.sub_target == NO_TARGET) {
+        /* Try to find a sub target. */
+        sub_tgt_id = action_sub_target_id_for_action(oaction, punit);
+      } else {
+        /* The client should have specified a sub target if needed */
+        sub_tgt_id = order.sub_target;
+      }
+
+      /* Get a target extra at the target tile */
+      pextra = (sub_tgt_id == NO_TARGET ?
+                  NULL :
+                  extra_by_number(sub_tgt_id));
+
       if (action_get_sub_target_kind(oaction) == ASTK_EXTRA_NOT_THERE
           && pextra != NULL
           && action_creates_extra(oaction, pextra)
@@ -4529,7 +4545,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       performed = unit_perform_action(pplayer,
                                       unitid,
                                       tgt_id,
-                                      order.sub_target,
+                                      sub_tgt_id,
                                       name,
                                       order.action,
                                       ACT_REQ_PLAYER);
@@ -4848,23 +4864,28 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ASTK_EXTRA:
       case ASTK_EXTRA_NOT_THERE:
         /* Sub target is an extra. */
-        if (orders[i].sub_target == EXTRA_NONE
-            || (orders[i].sub_target < 0
-                || orders[i].sub_target >= game.control.num_extra_types)
-            || !(pextra = extra_by_number(orders[i].sub_target))
-            || pextra->ruledit_disabled) {
-          /* Target extra is invalid. */
-          log_error("at index %d, cannot do %s without a target.", i,
-                    action_id_rule_name(orders[i].action));
-          return FALSE;
-        }
-        if (!(action_removes_extra(paction, pextra)
-              || action_creates_extra(paction, pextra))) {
-          /* Target extra is irrelevant for the action. */
-          log_error("at index %d, cannot do %s to %s.", i,
-                    action_id_rule_name(orders[i].action),
-                    extra_rule_name(pextra));
-          return FALSE;
+        pextra = (!(orders[i].sub_target == NO_TARGET
+                    || (orders[i].sub_target < 0
+                        || (orders[i].sub_target
+                            >= game.control.num_extra_types)))
+                  ? extra_by_number(orders[i].sub_target) : NULL);
+        fc_assert(pextra == NULL || !(pextra->ruledit_disabled));
+        if (pextra == NULL) {
+          if (paction->target_complexity != ACT_TGT_COMPL_FLEXIBLE) {
+            /* Target extra is invalid. */
+            log_error("at index %d, cannot do %s without a target.", i,
+                      action_id_rule_name(orders[i].action));
+            return FALSE;
+          }
+        } else {
+          if (!(action_removes_extra(paction, pextra)
+                || action_creates_extra(paction, pextra))) {
+            /* Target extra is irrelevant for the action. */
+            log_error("at index %d, cannot do %s to %s.", i,
+                      action_id_rule_name(orders[i].action),
+                      extra_rule_name(pextra));
+            return FALSE;
+          }
         }
         break;
       case ASTK_NONE:
