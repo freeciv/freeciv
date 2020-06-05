@@ -1609,6 +1609,33 @@ static void unit_order_activity_to_action(struct unit *act_unit)
   }
 }
 
+/*******************************************************************//**
+  Returns the opposite direction.
+***********************************************************************/
+static enum direction8 dir_opposite(enum direction8 dir)
+{
+  switch (dir) {
+  case DIR8_NORTH:
+    return DIR8_SOUTH;
+  case DIR8_NORTHEAST:
+    return DIR8_SOUTHWEST;
+  case DIR8_EAST:
+    return DIR8_WEST;
+  case DIR8_SOUTHEAST:
+    return DIR8_NORTHWEST;
+  case DIR8_SOUTH:
+    return DIR8_NORTH;
+  case DIR8_SOUTHWEST:
+    return DIR8_NORTHEAST;
+  case DIR8_WEST:
+    return DIR8_EAST;
+  case DIR8_NORTHWEST:
+    return DIR8_SOUTHEAST;
+  }
+
+  return DIR8_ORIGIN;
+}
+
 /**********************************************************************//**
   Upgrade unit action order target encoding.
 **************************************************************************/
@@ -1618,8 +1645,24 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
   struct tile *current_tile;
   struct tile *tgt_tile;
 
+  if (!unit_has_orders(act_unit)) {
+    return;
+  }
+
+  /* The order index is for the unit at its current tile. */
   current_tile = unit_tile(act_unit);
-  for (i = act_unit->orders.index; i < act_unit->orders.length; i++) {
+
+  /* Rewind to the beginning of the orders */
+  for (i = act_unit->orders.index; i > 0; i--) {
+    struct unit_order *prev_order = &act_unit->orders.list[i - 1];
+    if (direction8_is_valid(prev_order->dir)) {
+      current_tile = mapstep(&(wld.map), current_tile,
+                             dir_opposite(prev_order->dir));
+    }
+  }
+
+  /* Upgrade to explicit target tile */
+  for (i = 0; i < act_unit->orders.length; i++) {
     struct unit_order *order = &act_unit->orders.list[i];
 
     if (order->order == ORDER_PERFORM_ACTION
