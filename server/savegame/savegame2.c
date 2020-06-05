@@ -5097,14 +5097,6 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     players_iterate(aplayer) {
       resolve_unit_stacks(pplayer, aplayer, TRUE);
     } players_iterate_end;
-
-    /* Backward compatibility: if we had any open-ended orders (pillage)
-     * in the savegame, assign specific targets now */
-    unit_list_iterate(pplayer->units, punit) {
-      unit_assign_specific_activity_target(punit,
-                                           &punit->activity,
-                                           &punit->activity_target);
-    } unit_list_iterate_end;
   } players_iterate_end;
 
   /* Recalculate the potential buildings for each city. Has caused some

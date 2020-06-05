@@ -25,6 +25,7 @@
 
 /* server */
 #include "aiiface.h"
+#include "unittools.h"
 
 #include "savecompat.h"
 
@@ -1783,6 +1784,16 @@ static void compat_post_load_030100(struct loaddata *loading,
       upgrade_unit_order_targets(punit);
     } unit_list_iterate_end;
   } players_iterate_alive_end;
+
+  /* Backward compatibility: if we had any open-ended orders (pillage)
+   * in the savegame, assign specific targets now */
+  players_iterate_alive(pplayer) {
+    unit_list_iterate(pplayer->units, punit) {
+      unit_assign_specific_activity_target(punit,
+                                           &punit->activity,
+                                           &punit->activity_target);
+    } unit_list_iterate_end;
+  } players_iterate_alive_end;
 }
 
 /************************************************************************//**
@@ -2136,6 +2147,16 @@ static void compat_post_load_dev(struct loaddata *loading)
     players_iterate_alive(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
         upgrade_unit_order_targets(punit);
+      } unit_list_iterate_end;
+    } players_iterate_alive_end;
+
+    /* Backward compatibility: if we had any open-ended orders (pillage)
+     * in the savegame, assign specific targets now */
+    players_iterate_alive(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        unit_assign_specific_activity_target(punit,
+                                             &punit->activity,
+                                             &punit->activity_target);
       } unit_list_iterate_end;
     } players_iterate_alive_end;
   } /* Version < 3.0.93 */
