@@ -1994,14 +1994,27 @@ void request_unit_convert(struct unit *punit)
 }
 
 /**********************************************************************//**
+  Call to request (from the server) that the unit is put under the
+  control of the specified server side agent or - if agent is SSA_NONE -
+  under client control.
+**************************************************************************/
+void request_unit_ssa_set(const struct unit *punit,
+                          enum server_side_agent agent)
+{
+  if (punit) {
+    dsend_packet_unit_server_side_agent_set(&client.conn, punit->id,
+                                            agent);
+  }
+}
+
+/**********************************************************************//**
   Call to request (from the server) that the settler unit is put into
   autosettler mode.
 **************************************************************************/
 void request_unit_autosettlers(const struct unit *punit)
 {
   if (punit && can_unit_do_autosettlers(punit)) {
-    dsend_packet_unit_server_side_agent_set(&client.conn, punit->id,
-                                            SSA_AUTOSETTLER);
+    request_unit_ssa_set(punit, SSA_AUTOSETTLER);
   } else if (punit) {
     create_event(unit_tile(punit), E_BAD_COMMAND, ftc_client,
                  _("Only settler units can be put into auto mode."));
