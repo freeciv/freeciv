@@ -2031,12 +2031,11 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
                         pcargo->id, ptrans->id, 0, "");
     }
 
-    /* Sentry the unit.  Don't request_unit_sentry since this can give a
-     * recursive loop. */
+    /* Sentry the unit. */
     /* FIXME: Should not sentry if above loading fails (transport moved away,
      *        or filled already in server side) */
-    dsend_packet_unit_change_activity(&client.conn, pcargo->id,
-                                      ACTIVITY_SENTRY, EXTRA_NONE);
+    request_new_unit_activity_targeted(game_unit_by_number(pcargo->id),
+                                       ACTIVITY_SENTRY, NULL);
   }
 }
 
@@ -2063,8 +2062,8 @@ void request_unit_unload(struct unit *pcargo)
     if (unit_owner(pcargo) == client.conn.playing
         && pcargo->activity == ACTIVITY_SENTRY) {
       /* Activate the unit. */
-      dsend_packet_unit_change_activity(&client.conn, pcargo->id,
-                                        ACTIVITY_IDLE, EXTRA_NONE);
+      request_new_unit_activity_targeted(game_unit_by_number(pcargo->id),
+                                         ACTIVITY_IDLE, NULL);
     }
   }
 }
