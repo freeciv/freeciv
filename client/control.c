@@ -1829,6 +1829,9 @@ void request_new_unit_activity_targeted(struct unit *punit,
     return;
   }
 
+  /* Callers rely on this to take back control from server side agents. */
+  request_unit_ssa_set(punit, SSA_NONE);
+
   if (tgt == NULL) {
     dsend_packet_unit_change_activity(&client.conn, punit->id, act, EXTRA_NONE);
   } else {

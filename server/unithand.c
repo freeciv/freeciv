@@ -3461,11 +3461,7 @@ static void handle_unit_change_activity_real(struct player *pplayer,
   }
 
   if (punit->activity == activity
-      && punit->activity_target == activity_target
-      && !punit->ai_controlled) {
-    /* Treat change in ai.control as change in activity, so
-     * idle autosettlers behave correctly when selected --dwp
-     */
+      && punit->activity_target == activity_target) {
     return;
   }
 
@@ -3475,8 +3471,6 @@ static void handle_unit_change_activity_real(struct player *pplayer,
     adv_unit_new_task(punit, AUT_NONE, NULL);
   }
 
-  punit->ai_controlled = FALSE;
-  punit->ssa_controller = SSA_NONE;
   punit->goto_tile = NULL;
 
   if (activity == ACTIVITY_GOTO) {
