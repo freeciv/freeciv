@@ -1362,6 +1362,7 @@ void request_orders_cleared(struct unit *punit)
   p.repeat = p.vigilant = FALSE;
   p.length = 0;
   p.dest_tile = tile_index(unit_tile(punit));
+  request_unit_ssa_set(punit, SSA_NONE);
   send_packet_unit_orders(&client.conn, &p);
 }
 
@@ -1481,6 +1482,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   make_path_orders(punit, path, orders, final_order,
                    p.orders, &p.length, &p.dest_tile);
 
+  request_unit_ssa_set(punit, SSA_NONE);
   send_packet_unit_orders(&client.conn, &p);
 }
 
@@ -1762,6 +1764,7 @@ void send_connect_route(enum unit_activity activity,
 
     p.dest_tile = tile_index(old_tile);
 
+    request_unit_ssa_set(punit, SSA_NONE);
     send_packet_unit_orders(&client.conn, &p);
   } goto_map_unit_iterate_end;
 }

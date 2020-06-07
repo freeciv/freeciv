@@ -1751,6 +1751,7 @@ void request_unit_non_action_move(struct unit *punit,
   p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 
+  request_unit_ssa_set(punit, SSA_NONE);
   send_packet_unit_orders(&client.conn, &p);
 }
 
@@ -1805,6 +1806,7 @@ void request_move_unit_direction(struct unit *punit, int dir)
   p.orders[0].sub_target = NO_TARGET;
   p.orders[0].action = ACTION_NONE;
 
+  request_unit_ssa_set(punit, SSA_NONE);
   send_packet_unit_orders(&client.conn, &p);
 }
 
