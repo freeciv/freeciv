@@ -5147,6 +5147,22 @@ void handle_unit_sscs_set(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Delete a unit's current plans.
+**************************************************************************/
+static void unit_plans_clear(struct unit *punit)
+{
+  /* Remove city spot reservations for AI settlers on city founding
+   * mission. */
+  adv_unit_new_task(punit, AUT_NONE, NULL);
+
+  /* Get rid of old orders. */
+  free_unit_orders(punit);
+
+  /* Make sure that no old goto_tile remains. */
+  punit->goto_tile = NULL;
+}
+
+/**********************************************************************//**
   Handle request to change controlling server side agent.
 **************************************************************************/
 void handle_unit_server_side_agent_set(struct player *pplayer,
@@ -5157,17 +5173,53 @@ void handle_unit_server_side_agent_set(struct player *pplayer,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    log_verbose("handle_unit_autosettlers() invalid unit %d", unit_id);
+    log_verbose("handle_unit_server_side_agent_set() invalid unit %d",
+                unit_id);
     return;
   }
 
-  if (!can_unit_do_autosettlers(punit)) {
+  if (!server_side_agent_is_valid(agent)) {
+    /* Client error. */
+    log_verbose("handle_unit_server_side_agent_set() invalid agent %d",
+                agent);
     return;
+  }
+
+  if (unit_server_side_agent_set(pplayer, punit, agent)) {
+    /* Give the new agent a blank slate */
+    unit_plans_clear(punit);
+  }
+}
+
+/**********************************************************************//**
+  Change controlling server side agent.
+  @returns TRUE iff the server side agent was changed.
+**************************************************************************/
+bool unit_server_side_agent_set(struct player *pplayer,
+                                struct unit *punit,
+                                enum server_side_agent agent)
+{
+  /* Check that the agent can be activated for this unit. */
+  switch (agent) {
+  case SSA_AUTOSETTLER:
+    if (!can_unit_do_autosettlers(punit)) {
+      return FALSE;
+    }
+    break;
+  case SSA_NONE:
+    /* Always possible. */
+    break;
+  case SSA_COUNT:
+    fc_assert_ret_val(agent != SSA_COUNT, FALSE);
+    break;
   }
 
   punit->ai_controlled = agent != SSA_NONE;
   punit->ssa_controller = agent;
+
   send_unit_info(NULL, punit);
+
+  return TRUE;
 }
 
 /**********************************************************************//**

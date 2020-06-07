@@ -135,4 +135,8 @@ enum ane_kind action_not_enabled_reason(struct unit *punit,
                                         const struct city *target_city,
                                         const struct unit *target_unit);
 
+bool unit_server_side_agent_set(struct player *pplayer,
+                                struct unit *punit,
+                                enum server_side_agent agent);
+
 #endif  /* FC__UNITHAND_H */

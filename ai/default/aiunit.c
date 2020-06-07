@@ -2509,7 +2509,7 @@ static void dai_manage_settler(struct ai_type *ait, struct player *pplayer,
 {
   struct unit_ai *unit_data = def_ai_unit_data(punit, ait);
 
-  handle_unit_server_side_agent_set(pplayer, punit->id, SSA_AUTOSETTLER);
+  unit_server_side_agent_set(pplayer, punit, SSA_AUTOSETTLER);
   unit_data->done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
   if (unit_data->task == AIUNIT_NONE) {
