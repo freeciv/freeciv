@@ -4731,15 +4731,6 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
         return FALSE;
       }
 
-      if (orders[i].sub_target == EXTRA_NONE
-          && unit_activity_needs_target_from_client(orders[i].activity)) {
-        /* The orders system can't do server side target assignment for
-         * this activity. */
-        log_error("activity %d at index %d requires target.", orders[i].activity,
-                  i);
-        return FALSE;
-      }
-
       break;
     case ORDER_PERFORM_ACTION:
       if (!action_id_exists(orders[i].action)) {
