@@ -1656,7 +1656,11 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
   /* Rewind to the beginning of the orders */
   for (i = act_unit->orders.index; i > 0; i--) {
     struct unit_order *prev_order = &act_unit->orders.list[i - 1];
-    if (direction8_is_valid(prev_order->dir)) {
+
+    if (!(prev_order->order == ORDER_PERFORM_ACTION
+          && utype_is_unmoved_by_action(action_by_number(prev_order->action),
+                                        unit_type_get(act_unit)))
+        && direction8_is_valid(prev_order->dir)) {
       current_tile = mapstep(&(wld.map), current_tile,
                              dir_opposite(prev_order->dir));
     }
@@ -1683,12 +1687,23 @@ static void upgrade_unit_order_targets(struct unit *act_unit)
     }
 
     if (order->order == ORDER_PERFORM_ACTION) {
+      struct action *paction = action_by_number(order->action);
+
       order->target = tgt_tile->index;
       /* Leave no traces. */
       order->dir = DIR8_ORIGIN;
-    }
 
-    current_tile = tgt_tile;
+      if (!utype_is_unmoved_by_action(paction, unit_type_get(act_unit))) {
+        /* The action moves the unit to the target tile (unless this is the
+         * final order) */
+        fc_assert(utype_is_moved_to_tgt_by_action(paction,
+                                                  unit_type_get(act_unit))
+                  || i == act_unit->orders.length - 1);
+        current_tile = tgt_tile;
+      }
+    } else {
+      current_tile = tgt_tile;
+    }
   }
 }
 
