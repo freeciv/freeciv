@@ -5153,7 +5153,7 @@ void handle_unit_sscs_set(struct player *pplayer,
 }
 
 /**********************************************************************//**
-  Handle request to set unit to autosettler mode.
+  Handle request to change controlling server side agent.
 **************************************************************************/
 void handle_unit_server_side_agent_set(struct player *pplayer,
                                        int unit_id,
