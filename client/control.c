@@ -1671,6 +1671,11 @@ void request_unit_select(struct unit_list *punits,
 void request_do_action(action_id action, int actor_id,
                        int target_id, int sub_tgt, const char *name)
 {
+  struct unit *actor_unit = game_unit_by_number(actor_id);
+
+  /* Giving an order takes back control. */
+  request_unit_ssa_set(actor_unit, SSA_NONE);
+
   dsend_packet_unit_do_action(&client.conn,
                               actor_id, target_id, sub_tgt, name,
                               action);
