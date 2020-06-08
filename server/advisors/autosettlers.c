@@ -583,8 +583,8 @@ adv_want settler_evaluate_improvements(struct unit *punit,
 
             if (removing) {
               as_rmextra_action_iterate(try_act) {
-                if (is_extra_removed_by_action(pextra,
-                        action_id_get_activity(try_act))) {
+                struct action *taction = action_by_number(try_act);
+                if (is_extra_removed_by_action(pextra, taction)) {
                   /* We do not even evaluate actions we can't do.
                    * Removal is not considered prerequisite for anything */
                   if (action_prob_possible(
@@ -594,16 +594,16 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                                       ptile,
                                                       parameter.omniscience,
                                                       ptile, pextra))) {
-                    act = action_id_get_activity(try_act);
-                    eval_act = action_id_get_activity(act);
+                    act = action_get_activity(taction);
+                    eval_act = action_get_activity(taction);
                     break;
                   }
                 }
               } as_rmextra_action_iterate_end;
             } else {
               as_extra_action_iterate(try_act) {
-                if (is_extra_caused_by_action(pextra,
-                        action_id_get_activity(try_act))) {
+                struct action *taction = action_by_number(try_act);
+                if (is_extra_caused_by_action(pextra, taction)) {
                   eval_act = action_id_get_activity(try_act);
                   if (action_prob_possible(
                         action_speculate_unit_on_tile(try_act,
@@ -612,7 +612,7 @@ adv_want settler_evaluate_improvements(struct unit *punit,
                                                       ptile,
                                                       parameter.omniscience,
                                                       ptile, pextra))) {
-                    act = action_id_get_activity(try_act);
+                    act = action_get_activity(taction);
                     break;
                   }
                 }

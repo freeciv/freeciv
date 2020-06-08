@@ -191,7 +191,7 @@ struct extra_type_list *extra_type_list_of_unit_hiders(void);
 #define is_extra_caused_by(e, c) (e->causes & (1 << c))
 bool is_extra_caused_by_worker_action(const struct extra_type *pextra);
 bool is_extra_caused_by_action(const struct extra_type *pextra,
-                               enum unit_activity act);
+                               const struct action *paction);
 
 void extra_to_removed_by_list(struct extra_type *pextra, enum extra_rmcause rmcause);
 struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause);
@@ -199,7 +199,7 @@ struct extra_type_list *extra_type_list_by_rmcause(enum extra_rmcause rmcause);
 bool is_extra_removed_by(const struct extra_type *pextra, enum extra_rmcause rmcause);
 bool is_extra_removed_by_worker_action(const struct extra_type *pextra);
 bool is_extra_removed_by_action(const struct extra_type *pextra,
-                                enum unit_activity act);
+                                const struct action *paction);
 
 bool is_extra_card_near(const struct tile *ptile, const struct extra_type *pextra);
 bool is_extra_near_tile(const struct tile *ptile, const struct extra_type *pextra);
