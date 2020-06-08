@@ -1260,54 +1260,34 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         struct extra_type *target,
                                         const struct tile *ptile)
 {
-  struct terrain *pterrain = tile_terrain(ptile);
-
   switch (activity) {
   case ACTIVITY_MINE:
-    if (pterrain->mining_result == pterrain) {
-      return action_prob_possible(action_speculate_unit_on_tile(
-                                    ACTION_MINE,
-                                    punit, unit_home(punit), ptile,
-                                    omniscient_cheat,
-                                    ptile, target));
-    } else {
-      return FALSE;
-    }
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_MINE,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
 
   case ACTIVITY_PLANT:
-    if (pterrain->mining_result != pterrain
-        && pterrain->mining_result != T_NONE) {
-      return action_prob_possible(action_speculate_unit_on_tile(
-                                    ACTION_PLANT,
-                                    punit, unit_home(punit), ptile,
-                                    omniscient_cheat,
-                                    ptile, target));
-    } else {
-      return FALSE;
-    }
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_PLANT,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
 
   case ACTIVITY_IRRIGATE:
-    if (pterrain->irrigation_result == pterrain) {
-      return action_prob_possible(action_speculate_unit_on_tile(
-                                    ACTION_IRRIGATE,
-                                    punit, unit_home(punit), ptile,
-                                    omniscient_cheat,
-                                    ptile, target));
-    } else {
-      return FALSE;
-    }
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_IRRIGATE,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
 
   case ACTIVITY_CULTIVATE:
-    if (pterrain->irrigation_result != pterrain
-        && pterrain->irrigation_result != T_NONE) {
-      return action_prob_possible(action_speculate_unit_on_tile(
-                                    ACTION_CULTIVATE,
-                                    punit, unit_home(punit), ptile,
-                                    omniscient_cheat,
-                                    ptile, target));
-    } else {
-      return FALSE;
-    }
+    return action_prob_possible(action_speculate_unit_on_tile(
+                                  ACTION_CULTIVATE,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile, target));
 
   case ACTIVITY_FORTIFYING:
     return action_prob_possible(action_speculate_unit_on_self(
