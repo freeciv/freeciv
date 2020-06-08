@@ -169,7 +169,7 @@ bool tile_is_seen(const struct tile *target_tile,
 #define ACTIVITY_FACTOR 10
 int tile_activity_time(enum unit_activity activity,
 		       const struct tile *ptile,
-                       struct extra_type *tgt);
+                       const struct extra_type *tgt);
 
 /* These are higher-level functions that handle side effects on the tile. */
 void tile_change_terrain(struct tile *ptile, struct terrain *pterrain);

@@ -441,7 +441,7 @@ bool tile_is_seen(const struct tile *target_tile,
   Time to complete the given activity on the given tile.
 ****************************************************************************/
 int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
-                       struct extra_type *tgt)
+                       const struct extra_type *tgt)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
