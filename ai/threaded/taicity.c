@@ -216,7 +216,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
   } as_transform_action_iterate_end;
 
   extra_type_iterate(tgt) {
-    enum unit_activity act = ACTIVITY_LAST;
+    struct action *paction = NULL;
     bool removing = tile_has_extra(ptile, tgt);
 
     unit_list_iterate(units, punit) {
@@ -230,7 +230,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
                                               unit_home(punit), ptile,
                                               TRUE,
                                               ptile, tgt))) {
-            act = action_get_activity(taction);
+            paction = taction;
             break;
           }
         } as_rmextra_action_iterate_end;
@@ -244,14 +244,14 @@ static void tai_tile_worker_task_select(struct player *pplayer,
                                               unit_home(punit), ptile,
                                               TRUE,
                                               ptile, tgt))) {
-            act = action_get_activity(taction);
+            paction = taction;
             break;
           }
         } as_extra_action_iterate_end;
       }
     } unit_list_iterate_end;
 
-    if (act != ACTIVITY_LAST) {
+    if (paction != NULL) {
       adv_want base_value;
       int value;
       adv_want extra;
@@ -262,7 +262,7 @@ static void tai_tile_worker_task_select(struct player *pplayer,
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == pplayer
             && unit_has_type_flag(punit, UTYF_SETTLERS)
-            && punit->activity == act) {
+            && punit->activity == action_get_activity(paction)) {
           consider = FALSE;
           break;
         }
@@ -328,12 +328,17 @@ static void tai_tile_worker_task_select(struct player *pplayer,
         if ((value - orig_value) * TWMP > worked->want) {
           worked->want  = TWMP * (value - orig_value);
           worked->ptile = ptile;
-          worked->act   = act;
+          worked->act   = action_get_activity(paction);
           worked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (auto_settlers_speculate_can_act_at(punit, act, TRUE,
-                                                     tgt, ptile)) {
+              fc_assert_action(action_get_target_kind(paction) == ATK_TILE,
+                               break);
+              if (action_prob_possible(action_speculate_unit_on_tile(
+                                         paction->id,
+                                         punit, unit_home(punit), ptile,
+                                         TRUE,
+                                         ptile, tgt))) {
                 state->wants[utype_index(unit_type_get(punit))] += worked->want;
               }
             } unit_list_iterate_end;
@@ -351,12 +356,17 @@ static void tai_tile_worker_task_select(struct player *pplayer,
           state->uw_max_base = base_value;
           unworked->want  = TWMP * (value - orig_value);
           unworked->ptile = ptile;
-          unworked->act   = act;
+          unworked->act   = action_get_activity(paction);
           unworked->tgt   = tgt;
           if (limit == TWTL_BUILDABLE_UNITS) {
             unit_list_iterate(units, punit) {
-              if (auto_settlers_speculate_can_act_at(punit, act, TRUE,
-                                                     tgt, ptile)) {
+              fc_assert_action(action_get_target_kind(paction) == ATK_TILE,
+                               break);
+              if (action_prob_possible(action_speculate_unit_on_tile(
+                                         paction->id,
+                                         punit, unit_home(punit), ptile,
+                                         TRUE,
+                                         ptile, tgt))) {
                 state->wants[utype_index(unit_type_get(punit))] += unworked->want;
               }
             } unit_list_iterate_end;
