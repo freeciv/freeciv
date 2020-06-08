@@ -782,6 +782,11 @@ bool action_maybe_possible_actor_unit(const action_id wanted_action,
 bool action_mp_full_makes_legal(const struct unit *actor,
                                 const action_id act_id);
 
+/* Action lists */
+void action_list_add_all_by_result(action_id *act_list,
+                                   int *position,
+                                   enum action_result result);
+
 /* Action auto performers */
 const struct action_auto_perf *action_auto_perf_by_number(const int num);
 struct action_auto_perf *action_auto_perf_slot_number(const int num);

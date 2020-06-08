@@ -5802,6 +5802,28 @@ bool univs_have_action_enabler(action_id action,
 }
 
 /**********************************************************************//**
+  Add all actions with the specified result to the specified action list
+  starting at the specified position.
+  @param act_list the list to add the actions to
+  @param position index in act_list that is updated as action are added
+  @param result all actions with this result are added.
+**************************************************************************/
+void action_list_add_all_by_result(action_id *act_list,
+                                   int *position,
+                                   enum action_result result)
+{
+  action_iterate(act) {
+    struct action *paction = action_by_number(act);
+    if (paction->result == result) {
+      /* Assume one result for each action. */
+      fc_assert_ret(*position < MAX_NUM_ACTIONS);
+
+      act_list[(*position)++] = paction->id;
+    }
+  } action_iterate_end;
+}
+
+/**********************************************************************//**
   Return ui_name ruleset variable name for the action.
 
   TODO: make actions generic and put ui_name in a field of the action.
