@@ -4304,6 +4304,8 @@ action_prob(const action_id wanted_action,
   const struct unit_type *actor_unittype;
   const struct unit_type *target_unittype;
 
+  const struct action *paction = action_by_number(wanted_action);
+
   if (actor_unittype_p == NULL && actor_unit != NULL) {
     actor_unittype = unit_type_get(actor_unit);
   } else {
@@ -4349,72 +4351,48 @@ action_prob(const action_id wanted_action,
                                                target_output,
                                                target_specialist));
 
-  switch (wanted_action) {
-  case ACTION_SPY_POISON:
-  case ACTION_SPY_POISON_ESC:
+  switch (paction->result) {
+  case ACTRES_SPY_POISON:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
     break;
-  case ACTION_SPY_STEAL_GOLD:
+  case ACTRES_SPY_STEAL_GOLD:
     /* TODO */
     break;
-  case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTRES_SPY_SPREAD_PLAGUE:
     /* TODO */
     break;
-  case ACTION_SPY_SPREAD_PLAGUE:
+  case ACTRES_STEAL_MAPS:
     /* TODO */
     break;
-  case ACTION_STEAL_MAPS:
-    /* TODO */
-    break;
-  case ACTION_STEAL_MAPS_ESC:
-    /* TODO */
-    break;
-  case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+  case ACTRES_SPY_SABOTAGE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
-  case ACTION_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_BRIBE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
     break;
-  case ACTION_SPY_ATTACK:
+  case ACTRES_SPY_ATTACK:
     /* All uncertainty comes from potential diplomatic battles. */
     chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
     break;
-  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY:
     /* TODO */
     break;
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
     /* TODO */
     break;
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
     /* TODO */
     break;
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTRES_SPY_INCITE_CITY:
     /* TODO */
     break;
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-    /* TODO */
-    break;
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-    /* TODO */
-    break;
-  case ACTION_SPY_INCITE_CITY:
-    /* TODO */
-    break;
-  case ACTION_SPY_INCITE_CITY_ESC:
-    /* TODO */
-    break;
-  case ACTION_ESTABLISH_EMBASSY:
+  case ACTRES_ESTABLISH_EMBASSY:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_ESTABLISH_EMBASSY_STAY:
-    chance = ACTPROB_CERTAIN;
-    break;
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_STEAL_TECH_ESC:
+  case ACTRES_SPY_STEAL_TECH:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
                             tech_can_be_stolen(actor_player,
@@ -4423,8 +4401,7 @@ action_prob(const action_id wanted_action,
     /* TODO: Calculate actual chance */
 
     break;
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Do the victim have anything worth taking? */
     known = fc_tristate_and(known,
                             tech_can_be_stolen(actor_player,
@@ -4433,93 +4410,85 @@ action_prob(const action_id wanted_action,
     /* TODO: Calculate actual chance */
 
     break;
-  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_INV_CITY_SPEND:
-    /* There is no risk that the city won't get investigated. */
-    chance = ACTPROB_CERTAIN;
-    break;
-  case ACTION_TRADE_ROUTE:
+  case ACTRES_TRADE_ROUTE:
     /* TODO */
     break;
-  case ACTION_MARKETPLACE:
+  case ACTRES_MARKETPLACE:
     /* Possible when not blocked by is_action_possible() */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_HELP_WONDER:
+  case ACTRES_HELP_WONDER:
     /* Possible when not blocked by is_action_possible() */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_CAPTURE_UNITS:
+  case ACTRES_CAPTURE_UNITS:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_EXPEL_UNIT:
+  case ACTRES_EXPEL_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_BOMBARD:
-  case ACTION_BOMBARD2:
-  case ACTION_BOMBARD3:
+  case ACTRES_BOMBARD:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_FOUND_CITY:
+  case ACTRES_FOUND_CITY:
     /* Possible when not blocked by is_action_possible() */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_JOIN_CITY:
+  case ACTRES_JOIN_CITY:
     /* Possible when not blocked by is_action_possible() */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
+  case ACTRES_SPY_NUKE:
     /* TODO: not implemented yet because:
      * - possible diplomatic battle could be handled with
      *   ap_diplomat_battle() so not a problem.
      * - dice roll diplchance * Action_Odds_Pct has no action probability
      *   calculation function yet. */
     break;
-  case ACTION_NUKE:
+  case ACTRES_NUKE:
     /* TODO */
     break;
-  case ACTION_NUKE_CITY:
+  case ACTRES_NUKE_CITY:
     /* TODO */
     break;
-  case ACTION_NUKE_UNITS:
+  case ACTRES_NUKE_UNITS:
     /* TODO */
     break;
-  case ACTION_DESTROY_CITY:
+  case ACTRES_DESTROY_CITY:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_RECYCLE_UNIT:
+  case ACTRES_RECYCLE_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_DISBAND_UNIT:
+  case ACTRES_DISBAND_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_HOME_CITY:
+  case ACTRES_HOME_CITY:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_UPGRADE_UNIT:
+  case ACTRES_UPGRADE_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_PARADROP:
+  case ACTRES_PARADROP:
     /* TODO */
     break;
-  case ACTION_AIRLIFT:
+  case ACTRES_AIRLIFT:
     /* Possible when not blocked by is_action_possible() */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_ATTACK:
-  case ACTION_SUICIDE_ATTACK:
+  case ACTRES_ATTACK:
     {
       struct unit *defender_unit = get_defender(actor_unit, target_tile);
 
@@ -4535,7 +4504,7 @@ action_prob(const action_id wanted_action,
       }
     }
     break;
-  case ACTION_STRIKE_BUILDING:
+  case ACTRES_STRIKE_BUILDING:
     /* TODO: not implemented yet because:
      * - dice roll 100% * Action_Odds_Pct has no action probability
      *   calculation function yet.
@@ -4543,61 +4512,54 @@ action_prob(const action_id wanted_action,
      *   knowledge if it isn't visible. See is_improvement_visible() and
      *   can_player_see_city_internals(). */
     break;
-  case ACTION_STRIKE_PRODUCTION:
+  case ACTRES_STRIKE_PRODUCTION:
     /* TODO: not implemented yet because:
      * - dice roll 100% * Action_Odds_Pct has no action probability
      *   calculation function yet. */
     break;
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
+  case ACTRES_CONQUER_CITY:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_HEAL_UNIT:
+  case ACTRES_HEAL_UNIT:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_CULTIVATE:
-  case ACTION_PLANT:
-  case ACTION_PILLAGE:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
-  case ACTION_FORTIFY:
-  case ACTION_ROAD:
-  case ACTION_CONVERT:
-  case ACTION_BASE:
-  case ACTION_MINE:
-  case ACTION_IRRIGATE:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_FORTIFY:
+  case ACTRES_ROAD:
+  case ACTRES_CONVERT:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_ALIGHT:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_BOARD:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSPORT_EMBARK:
+  case ACTRES_TRANSPORT_EMBARK:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_UNLOAD:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_TRANSPORT_DISEMBARK1:
-  case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTRES_TRANSPORT_DISEMBARK:
     chance = ACTPROB_CERTAIN;
     break;
-  case ACTION_USER_ACTION1:
-  case ACTION_USER_ACTION2:
-  case ACTION_USER_ACTION3:
+  case ACTRES_NONE:
     /* Accommodate ruleset authors that wishes to roll the dice in Lua.
      * Would be ACTPROB_CERTAIN if not for that. */
     /* TODO: maybe allow the ruleset author to give a probability from
      * Lua? */
     chance = ACTPROB_NOT_IMPLEMENTED;
-    break;
-  case ACTION_COUNT:
-    fc_assert(wanted_action != ACTION_COUNT);
     break;
   }
 
