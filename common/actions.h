@@ -553,7 +553,7 @@ bool action_requires_details(action_id act_id);
 int action_get_act_time(const struct action *paction,
                         const struct unit *actor_unit,
                         const struct tile *tgt_tile,
-                        struct extra_type *tgt_extra);
+                        const struct extra_type *tgt_extra);
 #define action_id_get_act_time(act_id, actor_unit, tgt_tile, tgt_extra)    \
   action_get_act_time(action_by_number(act_id),                            \
                       actor_unit, tgt_tile, tgt_extra)

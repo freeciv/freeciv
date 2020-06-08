@@ -1706,7 +1706,7 @@ enum unit_activity action_get_activity(const struct action *paction)
 int action_get_act_time(const struct action *paction,
                         const struct unit *actor_unit,
                         const struct tile *tgt_tile,
-                        struct extra_type *tgt_extra)
+                        const struct extra_type *tgt_extra)
 {
   enum unit_activity pactivity = action_get_activity(paction);
 
