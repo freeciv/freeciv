@@ -89,28 +89,38 @@ void adv_settlers_free(void)
 }
 
 /**********************************************************************//**
-  Initialize advisor systems.
+  Initialize auto settlers based on the ruleset.
 **************************************************************************/
-void advisors_init(void)
+void auto_settlers_ruleset_init(void)
 {
-  int i = 0;
+  int i;
 
-  as_actions_transform[i++] = ACTION_CULTIVATE;
-  as_actions_transform[i++] = ACTION_PLANT;
-  as_actions_transform[i++] = ACTION_TRANSFORM_TERRAIN;
+  i = 0;
+  action_list_add_all_by_result(as_actions_transform, &i,
+                                ACTRES_CULTIVATE);
+  action_list_add_all_by_result(as_actions_transform, &i,
+                                ACTRES_PLANT);
+  action_list_add_all_by_result(as_actions_transform, &i,
+                                ACTRES_TRANSFORM_TERRAIN);
   as_actions_transform[i++] = ACTION_NONE;
 
   i = 0;
-  as_actions_extra[i++] = ACTION_IRRIGATE;
-  as_actions_extra[i++] = ACTION_MINE;
-  as_actions_extra[i++] = ACTION_ROAD;
-  as_actions_extra[i++] = ACTION_BASE;
+  action_list_add_all_by_result(as_actions_extra, &i,
+                                ACTRES_IRRIGATE);
+  action_list_add_all_by_result(as_actions_extra, &i,
+                                ACTRES_MINE);
+  action_list_add_all_by_result(as_actions_extra, &i,
+                                ACTRES_ROAD);
+  action_list_add_all_by_result(as_actions_extra, &i,
+                                ACTRES_BASE);
   as_actions_extra[i++] = ACTION_NONE;
 
   i = 0;
-  as_actions_rmextra[i++] = ACTION_CLEAN_POLLUTION;
-  as_actions_rmextra[i++] = ACTION_CLEAN_FALLOUT;
-  /* We could have ACTION_PILLAGE here, but currently we don't */
+  action_list_add_all_by_result(as_actions_rmextra, &i,
+                                ACTRES_CLEAN_POLLUTION);
+  action_list_add_all_by_result(as_actions_rmextra, &i,
+                                ACTRES_CLEAN_FALLOUT);
+  /* We could have ACTRES_PILLAGE here, but currently we don't */
   as_actions_rmextra[i++] = ACTION_NONE;
 }
 

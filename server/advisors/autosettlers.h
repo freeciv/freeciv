@@ -17,7 +17,7 @@
 #include "fc_types.h"
 #include "map.h"
 
-void advisors_init(void);
+void auto_settlers_ruleset_init(void);
 
 struct settlermap;
 struct pf_path;
