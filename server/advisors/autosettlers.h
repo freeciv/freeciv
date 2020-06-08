@@ -85,14 +85,14 @@ extern action_id as_actions_extra[MAX_NUM_ACTIONS];
   action_list_iterate_end                                                 \
 }
 
-extern Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
+extern action_id as_actions_rmextra[MAX_NUM_ACTIONS];
 
-#define as_rmextra_activity_iterate(_act_)                                  \
-{                                                                           \
-  activity_type_list_iterate(as_activities_rmextra, _act_)
+#define as_rmextra_action_iterate(_act_)                                  \
+{                                                                         \
+  action_list_iterate(as_actions_rmextra, _act_)
 
-#define as_rmextra_activity_iterate_end                                     \
-  activity_type_list_iterate_end                                            \
+#define as_rmextra_action_iterate_end                                     \
+  action_list_iterate_end                                                 \
 }
 
 #endif   /* FC__AUTOSETTLERS_H */

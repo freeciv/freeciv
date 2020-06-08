@@ -75,7 +75,7 @@ struct settlermap {
 
 action_id as_actions_transform[MAX_NUM_ACTIONS];
 action_id as_actions_extra[MAX_NUM_ACTIONS];
-Activity_type_id as_activities_rmextra[ACTIVITY_LAST];
+action_id as_actions_rmextra[MAX_NUM_ACTIONS];
 
 static struct timer *as_timer = NULL;
 
@@ -108,10 +108,10 @@ void advisors_init(void)
   as_actions_extra[i++] = ACTION_NONE;
 
   i = 0;
-  as_activities_rmextra[i++] = ACTIVITY_POLLUTION;
-  as_activities_rmextra[i++] = ACTIVITY_FALLOUT;
-  /* We could have ACTIVITY_PILLAGE here, but currently we don't */
-  as_activities_rmextra[i++] = ACTIVITY_LAST;
+  as_actions_rmextra[i++] = ACTION_CLEAN_POLLUTION;
+  as_actions_rmextra[i++] = ACTION_CLEAN_FALLOUT;
+  /* We could have ACTION_PILLAGE here, but currently we don't */
+  as_actions_rmextra[i++] = ACTION_NONE;
 }
 
 /**********************************************************************//**
@@ -572,18 +572,24 @@ adv_want settler_evaluate_improvements(struct unit *punit,
             bool removing = tile_has_extra(ptile, pextra);
 
             if (removing) {
-              as_rmextra_activity_iterate(try_act) {
-                if (is_extra_removed_by_action(pextra, try_act)) {
+              as_rmextra_action_iterate(try_act) {
+                if (is_extra_removed_by_action(pextra,
+                        action_id_get_activity(try_act))) {
                   /* We do not even evaluate actions we can't do.
                    * Removal is not considered prerequisite for anything */
-                  if (auto_settlers_speculate_can_act_at(punit, try_act,
-                          parameter.omniscience, pextra, ptile)) {
-                    act = try_act;
-                    eval_act = act;
+                  if (action_prob_possible(
+                        action_speculate_unit_on_tile(try_act,
+                                                      punit,
+                                                      unit_home(punit),
+                                                      ptile,
+                                                      parameter.omniscience,
+                                                      ptile, pextra))) {
+                    act = action_id_get_activity(try_act);
+                    eval_act = action_id_get_activity(act);
                     break;
                   }
                 }
-              } as_rmextra_activity_iterate_end;
+              } as_rmextra_action_iterate_end;
             } else {
               as_extra_action_iterate(try_act) {
                 if (is_extra_caused_by_action(pextra,
