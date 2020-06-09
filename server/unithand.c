@@ -659,6 +659,54 @@ static bool do_unit_embark(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the ruleset allows acting against a tile claimed by
+  someone the actor has the specified diplomatic relation to.
+**************************************************************************/
+static bool rs_allows_tgt_tile_owner(const struct action *paction,
+                                     int relation,
+                                     const struct unit_type *punit_type)
+{
+  struct requirement tile_is_claimed;
+  struct requirement tile_is_foreign;
+
+  fc_assert_ret_val(action_get_target_kind(paction) == ATK_TILE, FALSE);
+
+  /* Tile is claimed as a requirement. */
+  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.survives = FALSE;
+  tile_is_claimed.source.kind = VUT_CITYTILE;
+  tile_is_claimed.present = TRUE;
+  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
+
+  /* Tile is foreign as a requirement. */
+  tile_is_foreign.range = REQ_RANGE_LOCAL;
+  tile_is_foreign.survives = FALSE;
+  tile_is_foreign.source.kind = VUT_DIPLREL;
+  tile_is_foreign.present = TRUE;
+  tile_is_foreign.source.value.diplrel = relation;
+
+  action_enabler_list_iterate(
+        action_enablers_for_action(paction->id), enabler) {
+    if (!requirement_fulfilled_by_unit_type(punit_type,
+                                            &(enabler->actor_reqs))) {
+      /* This action enabler isn't for this unit type at all. */
+      continue;
+    }
+
+    if (!(does_req_contradicts_reqs(&tile_is_claimed,
+                                    &(enabler->target_reqs))
+          || does_req_contradicts_reqs(&tile_is_foreign,
+                                       &(enabler->actor_reqs)))) {
+      /* This ruleset permits doing the action to foreign tiles. */
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  /* This ruleset forbids doing the action to foreign tiles. */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -1015,6 +1063,33 @@ static bool does_nation_block_action(const action_id act_id,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the fact that the target tile is tile claimed by
+  someone else blocks the specified action.
+**************************************************************************/
+static bool foreign_tgt_tile_makes_illegal(const struct action *paction,
+                                           const struct unit *act_unit,
+                                           const struct tile *tgt_tile)
+{
+  if (action_get_target_kind(paction) != ATK_TILE || tgt_tile == NULL) {
+    /* Not relevant */
+    return FALSE;
+  }
+
+  if (tile_owner(tgt_tile) == NULL) {
+    /* Unclaimed */
+    return FALSE;
+  }
+
+  if (tile_owner(tgt_tile) == unit_owner(act_unit)) {
+    /* Domestic */
+    return FALSE;
+  }
+
+  return !rs_allows_tgt_tile_owner(paction, DRO_FOREIGN,
+                                   unit_type_get(act_unit));
+}
+
+/**********************************************************************//**
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -1025,6 +1100,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            const struct unit *target_unit)
 {
   struct player *must_war_player;
+  const struct action *paction;
   struct action *blocker;
   const struct player *act_player = unit_owner(punit);
   const struct unit_type *act_utype = unit_type_get(punit);
@@ -1064,6 +1140,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     }
   }
+
+  paction = action_by_number(act_id);
 
   if (explnat->kind == ANEK_MISSING_TARGET) {
     /* No point continuing. */
@@ -1265,8 +1343,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  DRO_FOREIGN,
                                                  TRUE)) {
     explnat->kind = ANEK_FOREIGN;
-  } else if (action_id_has_result_safe(act_id, ACTRES_FOUND_CITY)
-             && action_custom == CB_BAD_BORDERS) {
+  } else if (foreign_tgt_tile_makes_illegal(paction, punit, target_tile)) {
     explnat->kind = ANEK_FOREIGN;
   } else if (tgt_player
              && unit_owner(punit) == tgt_player
