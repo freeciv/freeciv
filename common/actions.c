@@ -894,7 +894,7 @@ static void hard_code_actions(void)
   actions[ACTION_PILLAGE] =
       unit_action_new(ACTION_PILLAGE, ACTRES_PILLAGE,
                       ATK_TILE, ASTK_EXTRA,
-                      FALSE, ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                      TRUE, ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CLEAN_POLLUTION] =
       unit_action_new(ACTION_CLEAN_POLLUTION, ACTRES_CLEAN_POLLUTION,
