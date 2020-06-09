@@ -2164,7 +2164,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
-    struct universal for_utype = { .kind = VUT_UTYPE, .value = { .utype = utype }};
     struct astring extras_and = ASTRING_INIT;
     struct strvec *extras_vec = strvec_new();
 
@@ -2196,10 +2195,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         strvec_clear(extras_vec);
       }
     }
-    if (univs_have_action_enabler(ACTION_PLANT, &for_utype, NULL)) {
-      CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
-                            "planting.\n"));
-    }
 
     if (utype_can_do_action(utype, ACTION_IRRIGATE)) {
       extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
@@ -2214,13 +2209,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      astr_str(&extras_and));
         strvec_clear(extras_vec);
       }
-    }
-    if (univs_have_action_enabler(ACTION_CULTIVATE, &for_utype, NULL)) {
-      CATLSTR(buf, bufsz, _("* Can convert terrain to another type by "
-                            "cultivating.\n"));
-    }
-    if (univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, &for_utype, NULL)) {
-      CATLSTR(buf, bufsz, _("* Can transform terrain to another type.\n"));
     }
 
     extra_type_by_cause_iterate(EC_BASE, pextra) {
@@ -2814,6 +2802,13 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          " dies.\n"));
         }
 
+        break;
+      case ACTRES_PLANT:
+      case ACTRES_CULTIVATE:
+      case ACTRES_TRANSFORM_TERRAIN:
+        cat_snprintf(buf, bufsz,
+                     _("  * converts target tile terrain to another"
+                       " type.\n"));
         break;
       default:
         /* No action specific details. */
