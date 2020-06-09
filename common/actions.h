@@ -787,6 +787,7 @@ bool action_mp_full_makes_legal(const struct unit *actor,
                                 const action_id act_id);
 
 /* Action lists */
+void action_list_end(action_id *act_list, int size);
 void action_list_add_all_by_result(action_id *act_list,
                                    int *position,
                                    enum action_result result);

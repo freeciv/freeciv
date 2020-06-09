@@ -5802,6 +5802,21 @@ bool univs_have_action_enabler(action_id action,
 }
 
 /**********************************************************************//**
+  Terminate an action list of the specified size.
+  @param act_list the list to end
+  @param size the number of elements to include in the list
+**************************************************************************/
+void action_list_end(action_id *act_list, int size)
+{
+  fc_assert_ret(size <= MAX_NUM_ACTIONS);
+
+  if (size < MAX_NUM_ACTIONS) {
+    /* An action list is terminated by ACTION_NONE */
+    act_list[size] = ACTION_NONE;
+  }
+}
+
+/**********************************************************************//**
   Add all actions with the specified result to the specified action list
   starting at the specified position.
   @param act_list the list to add the actions to
