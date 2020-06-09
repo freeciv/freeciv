@@ -102,7 +102,7 @@ void auto_settlers_ruleset_init(void)
                                 ACTRES_PLANT);
   action_list_add_all_by_result(as_actions_transform, &i,
                                 ACTRES_TRANSFORM_TERRAIN);
-  as_actions_transform[i++] = ACTION_NONE;
+  action_list_end(as_actions_transform, i);
 
   i = 0;
   action_list_add_all_by_result(as_actions_extra, &i,
@@ -113,7 +113,7 @@ void auto_settlers_ruleset_init(void)
                                 ACTRES_ROAD);
   action_list_add_all_by_result(as_actions_extra, &i,
                                 ACTRES_BASE);
-  as_actions_extra[i++] = ACTION_NONE;
+  action_list_end(as_actions_extra, i);
 
   i = 0;
   action_list_add_all_by_result(as_actions_rmextra, &i,
@@ -121,7 +121,7 @@ void auto_settlers_ruleset_init(void)
   action_list_add_all_by_result(as_actions_rmextra, &i,
                                 ACTRES_CLEAN_FALLOUT);
   /* We could have ACTRES_PILLAGE here, but currently we don't */
-  as_actions_rmextra[i++] = ACTION_NONE;
+  action_list_end(as_actions_rmextra, i);
 }
 
 /**********************************************************************//**
