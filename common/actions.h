@@ -547,8 +547,12 @@ bool action_has_result(const struct action *paction,
 
 bool action_is_hostile(action_id act_id);
 
-bool action_id_has_complex_target(action_id act_id);
-bool action_requires_details(action_id act_id);
+bool action_has_complex_target(const struct action *paction);
+#define action_id_has_complex_target(act_id)                              \
+  action_has_complex_target(action_by_number(act_id))
+bool action_requires_details(const struct action *paction);
+#define action_id_requires_details(act_id)                                \
+  action_requires_details(action_by_number(act_id))
 
 int action_get_act_time(const struct action *paction,
                         const struct unit *actor_unit,

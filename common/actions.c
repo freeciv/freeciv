@@ -1330,11 +1330,11 @@ bool action_is_hostile(action_id act_id)
   details in addition to actor and target. Returns FALSE if the action
   doesn't support any additional details.
 **************************************************************************/
-bool action_id_has_complex_target(action_id act_id)
+bool action_has_complex_target(const struct action *paction)
 {
-  fc_assert_msg(actions[act_id], "Action %d don't exist.", act_id);
+  fc_assert_ret_val(paction != NULL, FALSE);
 
-  return actions[act_id]->target_complexity >= ACT_TGT_COMPL_FLEXIBLE;
+  return paction->target_complexity >= ACT_TGT_COMPL_FLEXIBLE;
 }
 
 /**********************************************************************//**
@@ -1343,11 +1343,11 @@ bool action_id_has_complex_target(action_id act_id)
   doesn't support any additional details or if they can be set by Freeciv
   it self.
 **************************************************************************/
-bool action_requires_details(action_id act_id)
+bool action_requires_details(const struct action *paction)
 {
-  fc_assert_msg(actions[act_id], "Action %d don't exist.", act_id);
+  fc_assert_ret_val(paction != NULL, FALSE);
 
-  return actions[act_id]->target_complexity >= ACT_TGT_COMPL_MANDATORY;
+  return paction->target_complexity >= ACT_TGT_COMPL_MANDATORY;
 }
 
 /**********************************************************************//**

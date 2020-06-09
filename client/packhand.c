@@ -4881,7 +4881,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
        * found. The player wants it performed without questions. */
 
       /* The order requests below doesn't send additional details. */
-      fc_assert(!action_requires_details(auto_action));
+      fc_assert(!action_id_requires_details(auto_action));
 
       /* Give the order. */
       switch (action_id_get_target_kind(auto_action)) {
