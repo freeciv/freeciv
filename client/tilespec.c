@@ -4309,7 +4309,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
       s = t->sprites.unit.pillage;
       break;
     case ACTIVITY_EXPLORE:
-      s = t->sprites.unit.auto_explore;
+      /* Drawn below as the server side agent. */
       break;
     case ACTIVITY_FORTIFIED:
       s = t->sprites.unit.fortified;
@@ -4343,19 +4343,33 @@ static int fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
-  switch (punit->ssa_controller) {
-  case SSA_NONE:
-    break;
-  case SSA_AUTOSETTLER:
-    ADD_SPRITE_FULL(t->sprites.unit.auto_settler);
-    break;
-  case SSA_AUTOEXPLORE:
-    /* Drawn above as the activity. */
-    fc_assert(punit->activity == ACTIVITY_EXPLORE);
-    break;
-  default:
-    ADD_SPRITE_FULL(t->sprites.unit.auto_attack);
-    break;
+  {
+    struct sprite *s = NULL;
+    int offset_x = 0;
+    int offset_y = 0;
+
+    switch (punit->ssa_controller) {
+    case SSA_NONE:
+      break;
+    case SSA_AUTOSETTLER:
+      s = t->sprites.unit.auto_settler;
+      break;
+    case SSA_AUTOEXPLORE:
+      s = t->sprites.unit.auto_explore;
+      /* Specified as an activity in the tileset. */
+      offset_x = t->activity_offset_x;
+      offset_y = t->activity_offset_y;
+      break;
+    default:
+      s = t->sprites.unit.auto_attack;
+      break;
+    }
+
+    if (s != NULL) {
+      ADD_SPRITE(s, TRUE,
+                 FULL_TILE_X_OFFSET + offset_x,
+                 FULL_TILE_Y_OFFSET + offset_y);
+    }
   }
 
   if (unit_has_orders(punit)) {
