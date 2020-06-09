@@ -1500,9 +1500,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
         continue;
       }
 
-      if ((unit_has_type_flag(aunit, UTYF_CIVILIAN)
-           || (utype_may_act_at_all(unit_type_get(aunit))
-               && !utype_acts_hostile(unit_type_get(aunit))))
+      if (!utype_acts_hostile(unit_type_get(aunit))
           && 0 == punit->id) {
         /* We will not build units just to chase caravans and
          * ambassadors. */
