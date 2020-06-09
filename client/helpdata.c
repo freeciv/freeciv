@@ -1658,21 +1658,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 }
 
 /************************************************************************//**
-  Is unit type ever able to build an extra
-****************************************************************************/
-static bool help_is_extra_buildable(struct extra_type *pextra,
-                                    const struct unit_type *ptype)
-{
-  if (!pextra->buildable) {
-    return FALSE;
-  }
-
-  return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                         NULL, ptype, NULL, NULL, NULL, &pextra->reqs,
-                         RPT_POSSIBLE);
-}
-
-/************************************************************************//**
   Is unit type ever able to clean out an extra
 ****************************************************************************/
 static bool help_is_extra_cleanable(struct extra_type *pextra,
@@ -2166,63 +2151,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, UTYF_SETTLERS)) {
     struct astring extras_and = ASTRING_INIT;
     struct strvec *extras_vec = strvec_new();
-
-    /* Roads, rail, mines, irrigation. */
-    extra_type_by_cause_iterate(EC_ROAD, pextra) {
-      if (help_is_extra_buildable(pextra, utype)) {
-        strvec_append(extras_vec, extra_name_translation(pextra));
-      }
-    } extra_type_by_cause_iterate_end;
-    if (strvec_size(extras_vec) > 0) {
-      strvec_to_and_list(extras_vec, &extras_and);
-      /* TRANS: %s is list of extra types separated by ',' and 'and' */
-      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                   astr_str(&extras_and));
-      strvec_clear(extras_vec);
-    }
-
-    if (utype_can_do_action(utype, ACTION_MINE)) {
-      extra_type_by_cause_iterate(EC_MINE, pextra) {
-        if (help_is_extra_buildable(pextra, utype)) {
-          strvec_append(extras_vec, extra_name_translation(pextra));
-        }
-      } extra_type_by_cause_iterate_end;
-
-      if (strvec_size(extras_vec) > 0) {
-        strvec_to_and_list(extras_vec, &extras_and);
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     astr_str(&extras_and));
-        strvec_clear(extras_vec);
-      }
-    }
-
-    if (utype_can_do_action(utype, ACTION_IRRIGATE)) {
-      extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
-        if (help_is_extra_buildable(pextra, utype)) {
-          strvec_append(extras_vec, extra_name_translation(pextra));
-        }
-      } extra_type_by_cause_iterate_end;
-
-      if (strvec_size(extras_vec) > 0) {
-        strvec_to_and_list(extras_vec, &extras_and);
-        cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                     astr_str(&extras_and));
-        strvec_clear(extras_vec);
-      }
-    }
-
-    extra_type_by_cause_iterate(EC_BASE, pextra) {
-      if (help_is_extra_buildable(pextra, utype)) {
-        strvec_append(extras_vec, extra_name_translation(pextra));
-      }
-    } extra_type_by_cause_iterate_end;
-
-    if (strvec_size(extras_vec) > 0) {
-      strvec_to_and_list(extras_vec, &extras_and);
-      cat_snprintf(buf, bufsz, _("* Can build %s on tiles.\n"),
-                   astr_str(&extras_and));
-      strvec_clear(extras_vec);
-    }
 
     /* Pollution, fallout. */
     extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
@@ -2809,6 +2737,31 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      _("  * converts target tile terrain to another"
                        " type.\n"));
+        break;
+      case ACTRES_ROAD:
+      case ACTRES_MINE:
+      case ACTRES_IRRIGATE:
+      case ACTRES_BASE:
+        {
+          struct astring extras_and = ASTRING_INIT;
+          struct strvec *extras_vec = strvec_new();
+
+          extra_type_iterate(pextra) {
+            if (action_creates_extra(paction, pextra)) {
+              strvec_append(extras_vec, extra_name_translation(pextra));
+            }
+          } extra_type_iterate_end;
+
+          if (strvec_size(extras_vec) > 0) {
+            strvec_to_and_list(extras_vec, &extras_and);
+            /* TRANS: %s is list of extra types separated by ',' and 'and' */
+            cat_snprintf(buf, bufsz, _("  * builds %s on tiles.\n"),
+                         astr_str(&extras_and));
+            strvec_clear(extras_vec);
+          }
+
+          strvec_destroy(extras_vec);
+        }
         break;
       default:
         /* No action specific details. */
