@@ -2711,21 +2711,21 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
 
-      /* Custom action specific information. */
-      switch (act) {
-      case ACTION_HELP_WONDER:
+      /* Custom action result specific information. */
+      switch (paction->result) {
+      case ACTRES_HELP_WONDER:
         cat_snprintf(buf, bufsz,
                      /* TRANS: the %d is the number of shields the unit can
                       * contribute. */
                      _("  * adds %d production.\n"),
                      utype_build_shield_cost_base(utype));
         break;
-      case ACTION_HEAL_UNIT:
+      case ACTRES_HEAL_UNIT:
         cat_snprintf(buf, bufsz,
                      _("  * restores up to 25%% of the target unit's"
                        " hit points.\n"));
         break;
-      case ACTION_FOUND_CITY:
+      case ACTRES_FOUND_CITY:
         if (game.scenario.prevent_new_cities) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: is talking about an action. */
@@ -2738,7 +2738,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          utype->city_size),
                      utype->city_size);
         break;
-      case ACTION_JOIN_CITY:
+      case ACTRES_JOIN_CITY:
         cat_snprintf(buf, bufsz,
                      /* TRANS: the %d is population. */
                      PL_("  * max target size: %d.\n",
@@ -2752,9 +2752,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          utype_pop_value(utype)),
                      utype_pop_value(utype));
         break;
-      case ACTION_BOMBARD:
-      case ACTION_BOMBARD2:
-      case ACTION_BOMBARD3:
+      case ACTRES_BOMBARD:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %d is bombard rate. */
                      _("  * %d per turn.\n"),
@@ -2766,15 +2764,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        " defenders on a tile, and have no risk for the"
                        " attacker.\n"));
         break;
-      case ACTION_UPGRADE_UNIT:
+      case ACTRES_UPGRADE_UNIT:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a unit type. */
                      _("  * upgraded to %s or, when possible, to the unit "
                        "type it upgrades to.\n"),
                      utype_name_translation(utype->obsoleted_by));
         break;
-      case ACTION_ATTACK:
-      case ACTION_SUICIDE_ATTACK:
+      case ACTRES_ATTACK:
         if (game.info.tired_attack) {
           cat_snprintf(buf, bufsz,
                        _("  * weaker when tired. If performed with less "
@@ -2782,7 +2779,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          "is reduced accordingly.\n"));
         }
         break;
-      case ACTION_CONVERT:
+      case ACTRES_CONVERT:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a unit type. "MP" = movement points. */
                      PL_("  * is converted into %s (takes %d MP).\n",
@@ -2791,11 +2788,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(utype->converted_to),
                      utype->convert_time);
         break;
-      case ACTION_SPY_NUKE:
-      case ACTION_SPY_NUKE_ESC:
-      case ACTION_NUKE:
-      case ACTION_NUKE_CITY:
-      case ACTION_NUKE_UNITS:
+      case ACTRES_SPY_NUKE:
+      case ACTRES_NUKE:
+      case ACTRES_NUKE_CITY:
+      case ACTRES_NUKE_UNITS:
         if (game.info.nuke_pop_loss_pct > 0) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: percentage */
