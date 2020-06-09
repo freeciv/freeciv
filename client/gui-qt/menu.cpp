@@ -677,20 +677,35 @@ go_act_menu::~go_act_menu()
 }
 
 /**********************************************************************//**
+  Empty a menu of all its items and sub menues.
+**************************************************************************/
+static void reset_menu_and_sub_menues(QMenu *menu)
+{
+  QAction *action;
+
+  /* Delete each existing menu item. */
+  foreach(action, menu->actions()) {
+    if (action->menu() != nullptr) {
+      /* Delete the sub menu */
+      reset_menu_and_sub_menues(action->menu());
+      action->menu()->deleteLater();
+    }
+
+    menu->removeAction(action);
+    action->deleteLater();
+  }
+}
+
+/**********************************************************************//**
   Reset the goto and act menu so it will be recreated.
 **************************************************************************/
 void go_act_menu::reset()
 {
-  QAction *action;
-
-  /* Clear out each existing menu item. */
-  foreach(action, QWidget::actions()) {
-    removeAction(action);
-    action->deleteLater();
-  }
-
   /* Clear menu item to action ID mapping. */
   items.clear();
+
+  /* Remove the menu items */
+  reset_menu_and_sub_menues(this);
 }
 
 /**********************************************************************//**
@@ -704,6 +719,10 @@ void go_act_menu::create()
   /* Group goto and perform action menu items by target kind. */
   for (tgt_kind_group = 0; tgt_kind_group < ATK_COUNT; tgt_kind_group++) {
     action_iterate(act_id) {
+      struct action *paction = action_by_number(act_id);
+      QString action_name = (QString(action_name_translation(paction))
+                             .replace("&", "&&"));
+
       if (action_id_get_actor_kind(act_id) != AAK_UNIT) {
         /* This action isn't performed by a unit. */
         continue;
@@ -714,10 +733,58 @@ void go_act_menu::create()
         continue;
       }
 
-      if (action_requires_details(act_id)) {
-        /* This menu doesn't support specifying a detailed target (think
-         * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-         * action order. */
+      if (action_id_has_complex_target(act_id)) {
+        QMenu *sub_target_menu = addMenu(action_name);
+        items.insert(sub_target_menu->menuAction(), act_id);
+
+#define CREATE_SUB_ITEM(_menu_, _act_id_, _sub_tgt_id_, _sub_tgt_name_)   \
+  {                                                                       \
+    QAction *_sub_item_ = _menu_->addAction(_sub_tgt_name_);              \
+    int _sub_target_id_ = _sub_tgt_id_;                                   \
+    QObject::connect(_sub_item_, &QAction::triggered,                     \
+                     [this, _act_id_, _sub_target_id_]() {                \
+      start_go_act(_act_id_, _sub_target_id_);                            \
+    });                                                                   \
+  }
+
+        switch (action_get_sub_target_kind(paction)) {
+        case ASTK_BUILDING:
+          improvement_iterate(pimpr) {
+            CREATE_SUB_ITEM(sub_target_menu, act_id,
+                            improvement_number(pimpr),
+                            improvement_name_translation(pimpr));
+          } improvement_iterate_end;
+          break;
+        case ASTK_TECH:
+          advance_iterate(A_FIRST, ptech) {
+            CREATE_SUB_ITEM(sub_target_menu, act_id,
+                            advance_number(ptech),
+                            advance_name_translation(ptech));
+          } advance_iterate_end;
+          break;
+        case ASTK_EXTRA:
+        case ASTK_EXTRA_NOT_THERE:
+          extra_type_iterate(pextra) {
+            if (!(action_creates_extra(paction, pextra)
+                  || action_removes_extra(paction, pextra))) {
+              /* Not relevant */
+              continue;
+            }
+
+            CREATE_SUB_ITEM(sub_target_menu, act_id,
+                            extra_number(pextra),
+                            extra_name_translation(pextra));
+          } extra_type_iterate_end;
+          break;
+        case ASTK_NONE:
+          /* Should not be here. */
+          fc_assert(action_get_sub_target_kind(paction) != ASTK_NONE);
+          break;
+        case ASTK_COUNT:
+          /* Should not exits */
+          fc_assert(action_get_sub_target_kind(paction) != ASTK_COUNT);
+          break;
+        }
         continue;
       }
 
@@ -729,9 +796,7 @@ void go_act_menu::create()
 
       /* Create and add the menu item. It will be hidden or shown based on
        * unit type.  */
-      item = addAction(
-        QString(action_id_name_translation(act_id))
-        .replace("&", "&&"));
+      item = addAction(action_name);
       items.insert(item, act_id);
 
       /* Add the keyboard shortcuts for "Go to and..." menu items that
@@ -741,7 +806,7 @@ void go_act_menu::create()
       ADD_OLD_SHORTCUT(ACTION_NUKE, SC_NUKE);
 
       QObject::connect(item, &QAction::triggered, [this,act_id]() {
-        start_go_act(act_id);
+        start_go_act(act_id, NO_TARGET);
       });
     } action_iterate_end;
   }
@@ -790,16 +855,9 @@ void go_act_menu::update()
 /**********************************************************************//**
   Activate the goto system
 **************************************************************************/
-void go_act_menu::start_go_act(int act_id)
+void go_act_menu::start_go_act(int act_id, int sub_tgt_id)
 {
-  /* This menu doesn't support specifying a detailed target (think
-   * "Go to and..."->"Industrial Sabotage"->"City Walls") for the
-   * action order. */
-  fc_assert_ret_msg(!action_requires_details(act_id),
-                    "Underspecified target for %s.",
-                    action_id_name_translation(act_id));
-
-  request_unit_goto(ORDER_PERFORM_ACTION, act_id, -1);
+  request_unit_goto(ORDER_PERFORM_ACTION, act_id, sub_tgt_id);
 }
 
 /**************************************************************************

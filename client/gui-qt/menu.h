@@ -242,7 +242,7 @@ public:
   static void update_all();
 
 public slots:
-  void start_go_act(int act_id);
+  void start_go_act(int act_id, int sub_tgt_id);
 
   void reset();
   void create();
