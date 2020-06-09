@@ -993,6 +993,7 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Claimed", "Local", FALSE
+      "TerrainFlag","NoCities","Local",FALSE
     }
 
 [actionenabler_build_city_occupied]
@@ -1007,6 +1008,10 @@ actor_reqs    =
       "DiplRel", "Peace", "Local", FALSE
       "DiplRel", "Alliance", "Local", FALSE
       "DiplRel", "Team", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainFlag","NoCities","Local",FALSE
     }
 
 [actionenabler_join_city]

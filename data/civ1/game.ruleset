@@ -603,6 +603,7 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range", "present"
       "CityTile", "Claimed", "Local", FALSE
+      "TerrainFlag","NoCities","Local",FALSE
     }
 
 [actionenabler_build_city_domestic]
@@ -613,6 +614,10 @@ actor_reqs    =
       "UnitState", "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainFlag","NoCities","Local",FALSE
     }
 
 [actionenabler_join_city]

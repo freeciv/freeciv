@@ -389,6 +389,10 @@ actor_reqs    =
       "UnitState", "OnLivableTile", "Local"
       "MinMoveFrags", "1", "Local"
     }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainFlag","NoCities","Local",FALSE
+    }
 
 [actionenabler_alight]
 action        = "Transport Alight"

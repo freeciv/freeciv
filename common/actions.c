@@ -326,6 +326,18 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CLEAN_FALLOUT,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: Preserve semantics of the NoCities
+   * terrain flag. */
+  oblig_hard_req_register(req_from_values(VUT_TERRFLAG, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          TER_NO_CITIES),
+                          TRUE,
+                          "All action enablers for %s must require that"
+                          " the target doesn't has"
+                          " the NoCities terrain flag.",
+                          ACTRES_FOUND_CITY,
+                          ACTRES_NONE);
+
   /* Why this is a hard requirement: Preserve semantics of NoHome
    * flag. Need to replace other uses in game engine before this can
    * be demoted to a regular unit flag. */
