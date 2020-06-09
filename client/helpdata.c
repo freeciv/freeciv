@@ -1658,17 +1658,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 }
 
 /************************************************************************//**
-  Is unit type ever able to clean out an extra
-****************************************************************************/
-static bool help_is_extra_cleanable(struct extra_type *pextra,
-                                    const struct unit_type *ptype)
-{
-  return are_reqs_active(NULL, NULL, NULL, NULL, NULL,
-                         NULL, ptype, NULL, NULL, NULL, &pextra->rmreqs,
-                         RPT_POSSIBLE);
-}
-
-/************************************************************************//**
   Returns TRUE iff the specified unit type is able to perform an action
   that allows it to escape to the closest closest domestic city once done.
 
@@ -2147,41 +2136,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                    astr_str(&dlist));
       astr_free(&dlist);
     }
-  }
-  if (utype_has_flag(utype, UTYF_SETTLERS)) {
-    struct astring extras_and = ASTRING_INIT;
-    struct strvec *extras_vec = strvec_new();
-
-    /* Pollution, fallout. */
-    extra_type_by_rmcause_iterate(ERM_CLEANPOLLUTION, pextra) {
-      if (help_is_extra_cleanable(pextra, utype)) {
-        strvec_append(extras_vec, extra_name_translation(pextra));
-     }
-    } extra_type_by_rmcause_iterate_end;
-
-    if (strvec_size(extras_vec) > 0) {
-      strvec_to_and_list(extras_vec, &extras_and);
-      /* TRANS: list of extras separated by "and" */
-      cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
-                   astr_str(&extras_and));
-      strvec_clear(extras_vec);
-    }
-    
-    extra_type_by_rmcause_iterate(ERM_CLEANFALLOUT, pextra) {
-      if (help_is_extra_cleanable(pextra, utype)) {
-        strvec_append(extras_vec, extra_name_translation(pextra));
-      }
-    } extra_type_by_rmcause_iterate_end;
-
-    if (strvec_size(extras_vec) > 0) {
-      strvec_to_and_list(extras_vec, &extras_and);
-      /* TRANS: list of extras separated by "and" */
-      cat_snprintf(buf, bufsz, _("* Can clean %s from tiles.\n"),
-                   astr_str(&extras_and));
-      strvec_clear(extras_vec);
-    }
-
-    strvec_destroy(extras_vec);
   }
 
   if (utype_has_flag(utype, UTYF_SPY)) {
@@ -2756,6 +2710,29 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
             strvec_to_and_list(extras_vec, &extras_and);
             /* TRANS: %s is list of extra types separated by ',' and 'and' */
             cat_snprintf(buf, bufsz, _("  * builds %s on tiles.\n"),
+                         astr_str(&extras_and));
+            strvec_clear(extras_vec);
+          }
+
+          strvec_destroy(extras_vec);
+        }
+        break;
+      case ACTRES_CLEAN_POLLUTION:
+      case ACTRES_CLEAN_FALLOUT:
+        {
+          struct astring extras_and = ASTRING_INIT;
+          struct strvec *extras_vec = strvec_new();
+
+          extra_type_iterate(pextra) {
+            if (action_removes_extra(paction, pextra)) {
+              strvec_append(extras_vec, extra_name_translation(pextra));
+            }
+          } extra_type_iterate_end;
+
+          if (strvec_size(extras_vec) > 0) {
+            strvec_to_and_list(extras_vec, &extras_and);
+            /* TRANS: list of extras separated by "and" */
+            cat_snprintf(buf, bufsz, _("  * cleans %s from tiles.\n"),
                          astr_str(&extras_and));
             strvec_clear(extras_vec);
           }
