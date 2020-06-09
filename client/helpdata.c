@@ -1933,7 +1933,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     unit_type_iterate(utype2) {
       if (utype2->converted_to == utype
-          && utype_can_do_action(utype2, ACTION_CONVERT)) {
+          && utype_can_do_action_result(utype2, ACTRES_CONVERT)) {
         types[i++] = utype_name_translation(utype2);
       }
     } unit_type_iterate_end;
