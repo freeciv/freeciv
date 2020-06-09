@@ -584,6 +584,34 @@ static bool rs_allows_tgt_tile_owner(const struct action *paction,
   return FALSE;
 }
 
+/**********************************************************************//**
+  Returns TRUE iff the fact that the target tile is tile claimed by
+  someone the player isn't at war with blocks the specified action.
+**************************************************************************/
+static bool war_makes_legal_tile_tgt(const struct action *paction,
+                                     const struct player *act_player,
+                                     const struct unit *act_unit,
+                                     const struct tile *tgt_tile)
+{
+  fc_assert_ret_val(act_unit, FALSE);
+
+  if (tgt_tile == NULL || tile_owner(tgt_tile) == NULL) {
+    /* No one to declare war on */
+    return FALSE;
+  }
+
+  if (rs_allows_tgt_tile_owner(paction,
+                               player_diplstate_get(act_player,
+                                                    tile_owner(tgt_tile))
+                               ->type,
+                               unit_type_get(act_unit))) {
+    /* The current diplstate isn't a problem. */
+    return FALSE;
+  }
+
+  return rs_allows_tgt_tile_owner(paction, DS_WAR, unit_type_get(act_unit));
+}
+
 /**************************************************************************
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
@@ -620,6 +648,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
                                           const struct unit *target_unit)
 {
   struct player *actor_player = unit_owner(actor);
+  struct action *paction = action_by_number(act);
 
   if (action_id_get_actor_kind(act) != AAK_UNIT) {
     /* No unit can ever do this action so it isn't relevant. */
@@ -728,10 +757,18 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   }
 
   /* Look for war requirements from the action enablers. */
-  if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
-                                      act, DS_WAR, FALSE)) {
-    /* The unit can do the action even if there isn't war. */
-    return NULL;
+  if (action_id_get_target_kind(act) == ATK_TILE) {
+    if (!war_makes_legal_tile_tgt(paction, actor_player, actor,
+                                  target_tile)) {
+      /* A lack of war isn't the problem. */
+      return NULL;
+    }
+  } else {
+    if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
+                                        act, DS_WAR, FALSE)) {
+      /* The unit can do the action even if there isn't war. */
+      return NULL;
+    }
   }
 
   switch (action_id_get_target_kind(act)) {
