@@ -258,12 +258,18 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
   struct adv_data *adv = pplayer->server.adv;
   bool danger_of_nukes;
-  static action_id nuke_actions[] = {
+  action_id nuke_actions[MAX_NUM_ACTIONS];
+
+  {
+    int i = 0;
+
     /* Conventional nukes */
-    ACTION_NUKE, ACTION_NUKE_CITY, ACTION_NUKE_UNITS,
+    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
+    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_CITY);
+    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
     /* TODO: worry about spy nuking too? */
-    ACTION_NONE
-  };
+    action_list_end(nuke_actions, i);
+  }
 
   fc_assert_ret_val(adv != NULL, FALSE);
 
