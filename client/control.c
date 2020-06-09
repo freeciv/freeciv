@@ -1367,7 +1367,8 @@ static bool can_be_irrigated(const struct tile *ptile,
     return FALSE;
   }
 
-  return univs_have_action_enabler(ACTION_IRRIGATE, &for_unit, &for_tile);
+  return action_id_univs_not_blocking(ACTION_IRRIGATE,
+                                      &for_unit, &for_tile);
 }
 
 /**********************************************************************//**

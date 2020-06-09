@@ -227,18 +227,20 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
         irrigation_result = 
           (pterrain->irrigation_result == pterrain
            || pterrain->irrigation_result == T_NONE
-           || !univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr)) ? ""
-           : terrain_name_translation(pterrain->irrigation_result);
+           || !action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr))
+            ? ""
+            : terrain_name_translation(pterrain->irrigation_result);
         mining_result =
           (pterrain->mining_result == pterrain
            || pterrain->mining_result == T_NONE
-           || !univs_have_action_enabler(ACTION_PLANT, NULL, &for_terr)) ? ""
-           : terrain_name_translation(pterrain->mining_result);
+           || !action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr))
+            ? ""
+            : terrain_name_translation(pterrain->mining_result);
         transform_result =
           (pterrain->transform_result == pterrain
            || pterrain->transform_result == T_NONE
-           || !univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN,
-                                         NULL, &for_terr)) ? ""
+           || !action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
+                                            NULL, &for_terr)) ? ""
           : terrain_name_translation(pterrain->transform_result);
         /* Use get_internal_string_length() for correct alignment with
          * multibyte character encodings */

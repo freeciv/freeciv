@@ -5602,40 +5602,6 @@ bool action_immune_government(struct government *gov, action_id act)
 }
 
 /**********************************************************************//**
-  Returns TRUE if the specified action never can be performed when the
-  situation requirement is fulfilled for the actor.
-**************************************************************************/
-bool action_blocked_by_situation_act(const struct action *paction,
-                                     const struct requirement *situation)
-{
-  action_enabler_list_iterate(action_enablers_for_action(paction->id),
-                              enabler) {
-    if (!does_req_contradicts_reqs(situation, &enabler->actor_reqs)) {
-      return FALSE;
-    }
-  } action_enabler_list_iterate_end;
-
-  return TRUE;
-}
-
-/**********************************************************************//**
-  Returns TRUE if the specified action never can be performed when the
-  situation requirement is fulfilled for the target.
-**************************************************************************/
-bool action_blocked_by_situation_tgt(const struct action *paction,
-                                     const struct requirement *situation)
-{
-  action_enabler_list_iterate(action_enablers_for_action(paction->id),
-                              enabler) {
-    if (!does_req_contradicts_reqs(situation, &enabler->target_reqs)) {
-      return FALSE;
-    }
-  } action_enabler_list_iterate_end;
-
-  return TRUE;
-}
-
-/**********************************************************************//**
   Returns TRUE if the wanted action can be done to the target.
 **************************************************************************/
 static bool is_target_possible(const action_id wanted_action,
@@ -5783,11 +5749,12 @@ const struct action_auto_perf *action_auto_perf_by_number(const int num)
 /**********************************************************************//**
   Is there any action enablers of the given type not blocked by universals?
 **************************************************************************/
-bool univs_have_action_enabler(action_id action,
+bool action_univs_not_blocking(const struct action *paction,
                                struct universal *actor_uni,
                                struct universal *target_uni)
 {
-  action_enabler_list_iterate(action_enablers_for_action(action), enab) {
+  action_enabler_list_iterate(action_enablers_for_action(paction->id),
+                              enab) {
     if ((actor_uni == NULL
          || universal_fulfills_requirements(FALSE, &(enab->actor_reqs),
                                             actor_uni))

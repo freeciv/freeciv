@@ -1321,7 +1321,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->irrigation_result != pterrain
         && pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_time != 0
-        && univs_have_action_enabler(ACTION_CULTIVATE, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_CULTIVATE,
+                                        NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 
@@ -1346,7 +1347,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
     if (pterrain->mining_result != pterrain
         && pterrain->mining_result != T_NONE
         && pterrain->mining_time != 0
-        && univs_have_action_enabler(ACTION_PLANT, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 
@@ -1370,7 +1371,8 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_time != 0
-        && univs_have_action_enabler(ACTION_TRANSFORM_TERRAIN, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
+                                        NULL, &for_terr)) {
       QLabel *tb;
       char buffer[1024];
 
@@ -1394,13 +1396,13 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     if (pterrain->irrigation_result == pterrain
         && pterrain->irrigation_time != 0
-        && univs_have_action_enabler(ACTION_IRRIGATE, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
       /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
     if (pterrain->mining_result == pterrain
         && pterrain->mining_time != 0
-        && univs_have_action_enabler(ACTION_MINE, NULL, &for_terr)) {
+        && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }
     if (pterrain->road_time != 0) {

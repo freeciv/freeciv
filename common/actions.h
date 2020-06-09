@@ -631,10 +631,6 @@ const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
 bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 
-bool univs_have_action_enabler(action_id action,
-                               struct universal *actor_uni,
-                               struct universal *target_uni);
-
 struct action *action_is_blocked_by(const action_id act_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
@@ -764,17 +760,13 @@ action_actor_utype_hard_reqs_ok(enum action_result result,
                                 const struct unit_type *actor_unittype);
 
 /* Reasoning about actions */
+bool action_univs_not_blocking(const struct action *paction,
+                               struct universal *actor_uni,
+                               struct universal *target_uni);
+#define action_id_univs_not_blocking(act_id, act_uni, tgt_uni)            \
+  action_univs_not_blocking(action_by_number(act_id), act_uni, tgt_uni)
+
 bool action_immune_government(struct government *gov, action_id act);
-
-bool action_blocked_by_situation_act(const struct action *paction,
-                                     const struct requirement *situation);
-#define action_id_blocked_by_situation_act(act_id, situation)             \
-  action_blocked_by_situation_act(action_by_number(act_id), situation)
-
-bool action_blocked_by_situation_tgt(const struct action *paction,
-                                     const struct requirement *situation);
-#define action_id_blocked_by_situation_tgt(act_id, situation)             \
-  action_blocked_by_situation_tgt(action_by_number(act_id), situation)
 
 bool is_action_possible_on_city(action_id act_id,
                                 const struct player *actor_player,
