@@ -1323,12 +1323,19 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
    * uniqueness, so we don't mention it here.) */
 
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)) {
-    static action_id nuke_actions[] = {
-      /* Manhattan dependent nukes */
-      ACTION_NUKE, ACTION_NUKE_CITY, ACTION_NUKE_UNITS,
-      ACTION_NONE
-    };
+    action_id nuke_actions[MAX_NUM_ACTIONS];
     struct unit_type *u = NULL;
+
+    {
+      /* Find Manhattan dependent nuke actions */
+      int i = 0;
+
+      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
+      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_CITY);
+      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
+
+      action_list_end(nuke_actions, i);
+    }
 
     action_list_iterate(nuke_actions, act_id) {
       if (num_role_units(action_id_get_role(act_id)) > 0) {

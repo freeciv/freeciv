@@ -1610,9 +1610,9 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if ((utype_can_do_action(punittype, ACTION_NUKE_CITY)
-       || utype_can_do_action(punittype, ACTION_NUKE_UNITS)
-       || utype_can_do_action(punittype, ACTION_NUKE))
+  if ((utype_can_do_action_result(punittype, ACTRES_NUKE_CITY)
+       || utype_can_do_action_result(punittype, ACTRES_NUKE_UNITS)
+       || utype_can_do_action_result(punittype, ACTRES_NUKE))
       && get_player_bonus(p, EFT_ENABLE_NUKE) <= 0) {
     return FALSE;
   }
