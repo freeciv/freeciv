@@ -2740,6 +2740,28 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           strvec_destroy(extras_vec);
         }
         break;
+      case ACTRES_PILLAGE:
+        {
+          struct astring extras_and = ASTRING_INIT;
+          struct strvec *extras_vec = strvec_new();
+
+          extra_type_iterate(pextra) {
+            if (action_removes_extra(paction, pextra)) {
+              strvec_append(extras_vec, extra_name_translation(pextra));
+            }
+          } extra_type_iterate_end;
+
+          if (strvec_size(extras_vec) > 0) {
+            strvec_to_and_list(extras_vec, &extras_and);
+            /* TRANS: list of extras separated by "and" */
+            cat_snprintf(buf, bufsz, _("  * pillages %s from tiles.\n"),
+                         astr_str(&extras_and));
+            strvec_clear(extras_vec);
+          }
+
+          strvec_destroy(extras_vec);
+        }
+        break;
       default:
         /* No action specific details. */
         break;
