@@ -4713,7 +4713,13 @@ static bool unit_do_help_build(struct player *pplayer,
   shields = unit_shield_value(punit, unit_type_get(punit), paction);
 
   if (action_has_result(paction, ACTRES_HELP_WONDER)) {
+    /* Add the caravan shields */
     pcity_dest->shield_stock += shields;
+
+    /* Will be punished for changing production to something that can't
+     * receive "Help Wonder" help. */
+    fc_assert(city_production_gets_caravan_shields(
+                  &pcity_dest->production));
     pcity_dest->caravan_shields += shields;
   } else {
     fc_assert(action_has_result(paction, ACTRES_RECYCLE_UNIT));

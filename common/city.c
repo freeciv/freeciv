@@ -1727,12 +1727,31 @@ static bv_imprs caravan_helped_impr;
 static bv_unit_types caravan_helped_utype;
 
 /**********************************************************************//**
+  Returns TRUE iff the specified requirement vector has a positive
+  requirment of the specified requirement type.
+  @param reqs the requirement vector to look in
+  @param kind the requirement type to look for
+**************************************************************************/
+static bool req_vec_wants_type(const struct requirement_vector *reqs,
+                               enum universals_n kind)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (preq->present && preq->source.kind == kind) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+  return FALSE;
+}
+
+/**********************************************************************//**
   Initialize the cache of what city production can use shields from
   caravans.
 **************************************************************************/
 void city_production_caravan_shields_init(void)
 {
   struct requirement prod_as_req;
+
+#define log_ca_s_init log_debug
 
   /* Remove old data. */
   BV_CLR_ALL(caravan_helped_impr);
@@ -1747,11 +1766,6 @@ void city_production_caravan_shields_init(void)
   prod_as_req.source.kind = VUT_IMPROVEMENT;
 
   improvement_iterate(itype) {
-    if (!is_wonder(itype)) {
-      /* Only wonders can currently use caravan shields. Next! */
-      continue;
-    }
-
     /* Check this improvement. */
     prod_as_req.source.value.building = itype;
 
@@ -1759,7 +1773,11 @@ void city_production_caravan_shields_init(void)
                                   ACTION_HELP_WONDER),
                                 enabler) {
       if (!does_req_contradicts_reqs(&prod_as_req,
-                                     &(enabler->target_reqs))) {
+                                     &(enabler->target_reqs))
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_UTYPE)
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_UCLASS)
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_UTFLAG)
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_UCFLAG)) {
         /* This improvement kind can receive caravan shields. */
 
         BV_SET(caravan_helped_impr, improvement_index(itype));
@@ -1768,9 +1786,43 @@ void city_production_caravan_shields_init(void)
         break;
       }
     } action_enabler_list_iterate_end;
+
+    log_ca_s_init("Help Wonder: %s for %s",
+                  (BV_ISSET(caravan_helped_impr, improvement_index(itype))
+                   ? "possible" : "impossible"),
+                  improvement_rule_name(itype));
   } improvement_iterate_end;
 
-  /* Units can't currently use caravan shields. */
+  /* Check units. */
+  prod_as_req.source.kind = VUT_UTYPE;
+
+  unit_type_iterate(putype) {
+    /* Check this utype. */
+    prod_as_req.source.value.utype = putype;
+
+    action_enabler_list_iterate(action_enablers_for_action(
+                                  ACTION_HELP_WONDER),
+                                enabler) {
+      if (!does_req_contradicts_reqs(&prod_as_req,
+                                     &(enabler->target_reqs))
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_IMPROVEMENT)
+          && !req_vec_wants_type(&(enabler->target_reqs), VUT_IMPR_GENUS)) {
+        /* This unit type kind can receive caravan shields. */
+
+        BV_SET(caravan_helped_utype, utype_index(putype));
+
+        /* Move on to the next unit type */
+        break;
+      }
+    } action_enabler_list_iterate_end;
+
+    log_ca_s_init("Help Wonder: %s for %s",
+                  (BV_ISSET(caravan_helped_utype, utype_index(putype))
+                   ? "possible" : "impossible"),
+                  utype_rule_name(putype));
+  } unit_type_iterate_end;
+
+#undef log_ca_s_init
 }
 
 /**********************************************************************//**
