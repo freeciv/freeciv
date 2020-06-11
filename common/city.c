@@ -1441,11 +1441,6 @@ city_on_foreign_tile_is_legal(const struct unit_type *punit_type,
   struct requirement tile_is_claimed;
   struct requirement tile_is_foreign;
 
-  if (!utype_may_act_at_all(punit_type)) {
-    /* Not an actor unit type. */
-    return FALSE;
-  }
-
   /* Tile is claimed as a requirement. */
   tile_is_claimed.range = REQ_RANGE_LOCAL;
   tile_is_claimed.survives = FALSE;
@@ -1501,6 +1496,11 @@ bool city_can_be_built_here(const struct tile *ptile,
   }
 
   action_by_result_iterate(paction, act_id, ACTRES_FOUND_CITY) {
+    if (!utype_can_do_action(unit_type_get(punit), act_id)) {
+      /* This action can't be done by this unit type at all. */
+      continue;
+    }
+
     /* Non native tile detection */
     if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
         /* The ruleset may allow founding cities on non native terrain. */
