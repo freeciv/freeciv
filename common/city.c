@@ -1425,19 +1425,6 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Returns TRUE if the given unit can build a city at the given map
-  coordinates.
-
-  punit is the founding unit. It may be NULL if a city is built out of the
-  blue (e.g., through editing).
-**************************************************************************/
-bool city_can_be_built_here(const struct tile *ptile,
-                            const struct unit *punit)
-{
-  return (CB_OK == city_build_here_test(ptile, punit));
-}
-
-/**********************************************************************//**
   Return TRUE iff the ruleset allows founding a city at a tile claimed by
   someone else.
 
@@ -1446,9 +1433,6 @@ bool city_can_be_built_here(const struct tile *ptile,
   requirement. With knowledge about what entities each requirement in a
   requirement vector is evaluated against a contradiction can be
   introduced.
-
-  TODO: Get rid of this together with CB_BAD_BORDERS.
-  Maybe get rid of it before if the problem above is solved.
 **************************************************************************/
 static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
 {
@@ -1496,46 +1480,65 @@ static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
 }
 
 /**********************************************************************//**
-  Returns CB_OK if the given unit can build a city at the given map
-  coordinates. Else, returns the reason of the failure.
+  Returns TRUE if the given unit can build a city at the given map
+  coordinates.
 
   punit is the founding unit. It may be NULL if a city is built out of the
   blue (e.g., through editing).
 **************************************************************************/
-enum city_build_result city_build_here_test(const struct tile *ptile,
-                                            const struct unit *punit)
+bool city_can_be_built_here(const struct tile *ptile,
+                            const struct unit *punit)
 {
-  if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
-    /* No cities on this terrain. */
-    return CB_BAD_CITY_TERRAIN;
+  if (!city_can_be_built_tile_only(ptile)) {
+    return FALSE;
   }
 
-  if (punit && !can_unit_exist_at_tile(&(wld.map), punit, ptile)
-      /* TODO: remove CB_BAD_UNIT_TERRAIN and CB_BAD_UNIT_TERRAIN when it
-       * can be done without regressions. */
+  if (punit == NULL) {
+    /* The reamining checks tests if punit can found a city here */
+    return TRUE;
+  }
+
+  /* Non native tile detection */
+  if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
       /* The ruleset may allow founding cities on non native terrain. */
       && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_FOUND_CITY,
                                        USP_LIVABLE_TILE, FALSE)) {
     /* Many rulesets allow land units to build land cities and sea units to
      * build ocean cities. Air units can build cities anywhere. */
-    return CB_BAD_UNIT_TERRAIN;
+    return FALSE;
   }
 
-  if (punit && tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
-      /* TODO: remove CB_BAD_BORDERS when it can be done without
-       * regressions. */
+  /* Foreign tile detection. */
+  if (tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
       /* The ruleset may allow founding cities on foreign terrain. */
       && !city_on_foreign_tile_is_legal(unit_type_get(punit))) {
     /* Cannot steal borders by settling. This has to be settled by
      * force of arms. */
-    return CB_BAD_BORDERS;
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Returns TRUE if the given unit can build a city at the given map
+  coordinates.
+
+  It may still be illegal for any unit to build a city at the specified
+  tile.
+**************************************************************************/
+bool city_can_be_built_tile_only(const struct tile *ptile)
+{
+  if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
+    /* No cities on this terrain. */
+    return FALSE;
   }
 
   if (citymindist_prevents_city_on_tile(ptile)) {
-    return CB_NO_MIN_DIST;
+    return FALSE;
   }
 
-  return CB_OK;
+  return TRUE;
 }
 
 /**********************************************************************//**

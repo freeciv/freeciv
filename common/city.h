@@ -290,15 +290,6 @@ enum city_updates {
   CU_POPUP_DIALOG       = 1 << 2
 };
 
-/* See city_build_here_test(). */
-enum city_build_result {
-  CB_OK,
-  CB_BAD_CITY_TERRAIN,
-  CB_BAD_UNIT_TERRAIN,
-  CB_BAD_BORDERS,
-  CB_NO_MIN_DIST
-};
-
 struct tile_cache; /* defined and only used within city.c */
 
 struct adv_city; /* defined in ./server/advisors/infracache.h */
@@ -662,8 +653,7 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,
                             const struct unit *punit);
-enum city_build_result city_build_here_test(const struct tile *ptile,
-                                            const struct unit *punit);
+bool city_can_be_built_tile_only(const struct tile *ptile);
 
 /* list functions */
 struct city *city_list_find_number(struct city_list *This, int id);
