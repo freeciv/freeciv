@@ -1432,8 +1432,8 @@ static bool city_on_foreign_tile_is_legal(struct unit_type *punit_type)
   struct requirement tile_is_claimed;
   struct requirement tile_is_foreign;
 
-  if (!utype_may_act_at_all(punit_type)) {
-    /* Not an actor unit type. */
+  if (!utype_can_do_action(punit_type, ACTION_FOUND_CITY)) {
+    /* This action can't be done by this unit type at all. */
     return FALSE;
   }
 
