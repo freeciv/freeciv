@@ -193,7 +193,7 @@ illness_min_size = 5
 
 ; factor for how much trading with a plagued city increases our city`s
 ; chance for plague (in percent)
-illness_trade_infection = 50
+illness_trade_infection = 100
 
 ; factor for how much pollution within a city increases its chance for
 ; plague (in percent)
