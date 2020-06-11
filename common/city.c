@@ -1408,6 +1408,23 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
 }
 
 /**********************************************************************//**
+  Returns TRUE iff it is illegal to found a city on the specified tile
+  because of citymindist.
+**************************************************************************/
+bool citymindist_prevents_city_on_tile(const struct tile *ptile)
+{
+  /* citymindist minimum is 1, meaning adjacent is okay */
+  int citymindist = game.info.citymindist;
+  square_iterate(&(wld.map), ptile, citymindist - 1, ptile1) {
+    if (tile_city(ptile1)) {
+      return TRUE;
+    }
+  } square_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE if the given unit can build a city at the given map
   coordinates.
 
@@ -1488,8 +1505,6 @@ static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
 enum city_build_result city_build_here_test(const struct tile *ptile,
                                             const struct unit *punit)
 {
-  int citymindist;
-
   if (terrain_has_flag(tile_terrain(ptile), TER_NO_CITIES)) {
     /* No cities on this terrain. */
     return CB_BAD_CITY_TERRAIN;
@@ -1516,13 +1531,9 @@ enum city_build_result city_build_here_test(const struct tile *ptile,
     return CB_BAD_BORDERS;
   }
 
-  /* citymindist minimum is 1, meaning adjacent is okay */
-  citymindist = game.info.citymindist;
-  square_iterate(&(wld.map), ptile, citymindist - 1, ptile1) {
-    if (tile_city(ptile1)) {
-      return CB_NO_MIN_DIST;
-    }
-  } square_iterate_end;
+  if (citymindist_prevents_city_on_tile(ptile)) {
+    return CB_NO_MIN_DIST;
+  }
 
   return CB_OK;
 }

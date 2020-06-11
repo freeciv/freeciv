@@ -2934,19 +2934,7 @@ is_action_possible(const action_id wanted_action,
       return TRI_NO;
     }
 
-    switch (city_build_here_test(target_tile, actor_unit)) {
-    case CB_OK:
-      /* If the player knows this is checked below. */
-      break;
-    case CB_BAD_CITY_TERRAIN:
-    case CB_BAD_UNIT_TERRAIN:
-    case CB_BAD_BORDERS:
-      if (can_see_tgt_tile) {
-        /* Known to be blocked. Target tile is seen. */
-        return TRI_NO;
-      }
-      break;
-    case CB_NO_MIN_DIST:
+    if (citymindist_prevents_city_on_tile(target_tile)) {
       if (omniscient) {
         /* No need to check again. */
         return TRI_NO;
@@ -2960,7 +2948,6 @@ is_action_possible(const action_id wanted_action,
           }
         } square_iterate_end;
       }
-      break;
     }
 
     /* The player may not have enough information to be certain. */

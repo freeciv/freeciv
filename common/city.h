@@ -658,6 +658,8 @@ bool base_city_can_work_tile(const struct player *restriction,
                              const struct tile *ptile);
 bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 
+bool citymindist_prevents_city_on_tile(const struct tile *ptile);
+
 bool city_can_be_built_here(const struct tile *ptile,
                             const struct unit *punit);
 enum city_build_result city_build_here_test(const struct tile *ptile,
