@@ -59,7 +59,6 @@
 void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
   struct unit *punit = player_unit_by_number(pplayer, unit_id);
-  enum city_build_result res;
 
   if (NULL == punit) {
     /* Probably died or bribed. */
@@ -79,22 +78,11 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
     return;
   }
 
-  res = city_build_here_test(unit_tile(punit), punit);
+  log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
+              "cannot build there.", TILE_XY(unit_tile(punit)));
 
-  switch (res) {
-  case CB_OK:
-    /* No action enabler permitted the city to be built. */
-  case CB_BAD_CITY_TERRAIN:
-  case CB_BAD_UNIT_TERRAIN:
-  case CB_BAD_BORDERS:
-  case CB_NO_MIN_DIST:
-    log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
-                "cannot build there.", TILE_XY(unit_tile(punit)));
-
-    illegal_action_msg(pplayer, E_BAD_COMMAND, punit, ACTION_FOUND_CITY,
-                       unit_tile(punit), NULL, NULL);
-    break;
-  }
+  illegal_action_msg(pplayer, E_BAD_COMMAND, punit, ACTION_FOUND_CITY,
+                     unit_tile(punit), NULL, NULL);
 }
 
 /**********************************************************************//**
