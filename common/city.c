@@ -1426,7 +1426,7 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile)
 
 /**********************************************************************//**
   Return TRUE iff the ruleset allows founding a city at a tile claimed by
-  someone else.
+  someone else with the specified action.
 
   Since a local DiplRel requirement can be against something else than a
   tile an unclaimed tile can't always contradict a local DiplRel
@@ -1434,7 +1434,9 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile)
   requirement vector is evaluated against a contradiction can be
   introduced.
 **************************************************************************/
-static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
+static bool
+city_on_foreign_tile_is_legal(const struct unit_type *punit_type,
+                              const struct action *paction)
 {
   struct requirement tile_is_claimed;
   struct requirement tile_is_foreign;
@@ -1459,7 +1461,7 @@ static bool city_on_foreign_tile_is_legal(const struct unit_type *punit_type)
   tile_is_foreign.source.value.diplrel = DRO_FOREIGN;
 
   action_enabler_list_iterate(
-        action_enablers_for_action(ACTION_FOUND_CITY), enabler) {
+        action_enablers_for_action(paction->id), enabler) {
     if (!requirement_fulfilled_by_unit_type(punit_type,
                                             &(enabler->actor_reqs))) {
       /* This action enabler isn't for this unit type at all. */
@@ -1498,26 +1500,30 @@ bool city_can_be_built_here(const struct tile *ptile,
     return TRUE;
   }
 
-  /* Non native tile detection */
-  if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
-      /* The ruleset may allow founding cities on non native terrain. */
-      && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_FOUND_CITY,
-                                       USP_LIVABLE_TILE, FALSE)) {
-    /* Many rulesets allow land units to build land cities and sea units to
-     * build ocean cities. Air units can build cities anywhere. */
-    return FALSE;
-  }
+  action_by_result_iterate(paction, act_id, ACTRES_FOUND_CITY) {
+    /* Non native tile detection */
+    if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
+        /* The ruleset may allow founding cities on non native terrain. */
+        && !utype_can_do_act_when_ustate(unit_type_get(punit), paction->id,
+                                         USP_LIVABLE_TILE, FALSE)) {
+      /* Many rulesets allow land units to build land cities and sea units
+       * to build ocean cities. Air units can build cities anywhere. */
+      continue;
+    }
 
-  /* Foreign tile detection. */
-  if (tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
-      /* The ruleset may allow founding cities on foreign terrain. */
-      && !city_on_foreign_tile_is_legal(unit_type_get(punit))) {
-    /* Cannot steal borders by settling. This has to be settled by
-     * force of arms. */
-    return FALSE;
-  }
+    /* Foreign tile detection. */
+    if (tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
+        /* The ruleset may allow founding cities on foreign terrain. */
+        && !city_on_foreign_tile_is_legal(unit_type_get(punit), paction)) {
+      /* Cannot steal borders by settling. This has to be settled by
+       * force of arms. */
+      continue;
+    }
 
-  return TRUE;
+    return TRUE;
+  } action_by_result_iterate_end;
+
+  return FALSE;
 }
 
 /**********************************************************************//**
