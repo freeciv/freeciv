@@ -1228,12 +1228,6 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   }
 
   switch ((enum gen_action)act_id) {
-  case ACTION_FOUND_CITY:
-    /* Detects that the target is closer to a city than citymindist allows.
-     * Detects that the target tile is claimed by a foreigner even when it
-     * is legal to found a city on an unclaimed or domestic tile. */
-    action_custom = city_build_here_test(target_tile, punit);
-    break;
   case ACTION_UPGRADE_UNIT:
     action_custom = unit_upgrade_test(punit, FALSE);
     break;
@@ -1506,7 +1500,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_CITY_NO_CAPACITY;
     explnat->capacity_city = game_city_by_number(target_city->id);
   } else if (action_id_has_result_safe(act_id, ACTRES_FOUND_CITY)
-             && action_custom == CB_NO_MIN_DIST) {
+             && citymindist_prevents_city_on_tile(target_tile)) {
     explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
   } else if (action_id_has_result_safe(act_id, ACTRES_PARADROP)
              && target_tile
