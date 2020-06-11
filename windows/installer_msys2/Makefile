@@ -171,7 +171,7 @@ COMMON_DLLS := \
 	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libffi-6.dll \
+	libffi-7.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	$(LIBGCCDLL) \
@@ -193,8 +193,8 @@ COMMON_DLLS := \
 	libxml2-2.dll \
 	zlib1.dll \
 	libwinpthread-1.dll \
-	libicuuc65.dll \
-	libicudt65.dll \
+	libicuuc67.dll \
+	libicudt67.dll \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
@@ -222,8 +222,7 @@ DEFAULT_FCMP_DLLS := \
 	libdatrie-1.dll \
 	libpcre-1.dll \
 	libunistring-2.dll \
-	librsvg-2-2.dll \
-	libcroco-0.6-3.dll
+	librsvg-2-2.dll
 
 install-env-default-fcmp: install-env-common
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(DEFAULT_FCMP_DLLS)) install-$(WINARCH)-$(GUI)/
@@ -257,9 +256,9 @@ install-env-sdl2: install-env-default-fcmp
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin65.dll \
-	libicuuc65.dll \
-	libicudt65.dll \
+	libicuin67.dll \
+	libicuuc67.dll \
+	libicudt67.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \
@@ -299,7 +298,7 @@ RULEDIT_DLLS := \
 	libbz2-1.dll \
 	libcairo-2.dll \
 	libcairo-gobject-2.dll \
-	libffi-6.dll \
+	libffi-7.dll \
 	libfontconfig-1.dll \
 	libfreetype-6.dll \
 	$(LIBGCCDLL) \
