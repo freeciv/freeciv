@@ -134,3 +134,6 @@ to load supplies for the crew. Otherwise the unit is lost.
 Multiresearch enabled
 When switching research, already accumulated bulbs are not transferred to
 the new technology but are remembered towards previous research.
+
+Plague
+Double probability for a plague spreading along a trade route.
