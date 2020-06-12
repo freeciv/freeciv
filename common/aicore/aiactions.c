@@ -68,3 +68,26 @@ bool aia_utype_is_considered_spy(const struct unit_type *putype)
           || utype_can_do_action(putype,
                                  ACTION_SPY_SABOTAGE_UNIT));
 }
+
+/**********************************************************************//**
+  Returns TRUE if the specified unit type is able to perform trade
+  caravan actions.
+**************************************************************************/
+bool aia_utype_is_considered_caravan_trade(const struct unit_type *putype)
+{
+  return (utype_can_do_action(putype,
+                              ACTION_TRADE_ROUTE)
+          || utype_can_do_action(putype,
+                                 ACTION_MARKETPLACE));
+}
+
+/**********************************************************************//**
+  Returns TRUE if the specified unit type is able to perform caravan
+  actions.
+**************************************************************************/
+bool aia_utype_is_considered_caravan(const struct unit_type *putype)
+{
+  return (aia_utype_is_considered_caravan_trade(putype)
+          || utype_can_do_action(putype,
+                                 ACTION_HELP_WONDER));
+}
