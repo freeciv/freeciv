@@ -2517,5 +2517,5 @@ bool utype_is_cityfounder(const struct unit_type *utype)
     return FALSE;
   }
 
-  return utype_can_do_action(utype, ACTION_FOUND_CITY);
+  return utype_can_do_action_result(utype, ACTRES_FOUND_CITY);
 }
