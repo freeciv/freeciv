@@ -3506,7 +3506,9 @@ is_action_possible(const action_id wanted_action,
     {
       bool found;
 
-      if (!can_player_see_hypotetic_units_at(actor_player, target_tile)) {
+      if (!omniscient
+          && !can_player_see_hypotetic_units_at(actor_player,
+                                                target_tile)) {
         /* May have a hidden diplomatic defender. */
         return TRI_MAYBE;
       }
