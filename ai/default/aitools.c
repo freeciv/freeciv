@@ -514,7 +514,8 @@ void dai_fill_unit_param(struct ai_type *ait, struct pf_parameter *parameter,
      * in which case the ferry should stop on an adjacent tile. */
     pft_fill_unit_overlap_param(parameter, punit);
   } else if (!utype_fuel(unit_type_get(punit))
-             && is_military_unit(punit)
+             && utype_can_do_action_result(unit_type_get(punit),
+                                           ACTRES_ATTACK)
              && (unit_data->task == AIUNIT_DEFEND_HOME
                  || unit_data->task == AIUNIT_ATTACK
                  || unit_data->task ==  AIUNIT_ESCORT
