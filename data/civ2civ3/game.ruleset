@@ -802,6 +802,7 @@ actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
     }
 
 [actionenabler_help_build_wonder]

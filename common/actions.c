@@ -352,6 +352,19 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_FOUND_CITY,
                           ACTRES_NONE);
 
+  /* It isn't possible to establish a trade route from a non existing
+   * city. The Freeciv code assumes this applies to Enter Marketplace
+   * too. */
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          USP_HAS_HOME_CITY),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor has a home city.",
+                          ACTRES_TRADE_ROUTE,
+                          ACTRES_MARKETPLACE,
+                          ACTRES_NONE);
+
   /* Why this is a hard requirement: Preserve semantics of NoHome
    * flag. Need to replace other uses in game engine before this can
    * be demoted to a regular unit flag. */
@@ -2549,18 +2562,6 @@ action_hard_reqs_actor(enum action_result result,
   }
 
   switch (result) {
-  case ACTRES_TRADE_ROUTE:
-  case ACTRES_MARKETPLACE:
-    /* It isn't possible to establish a trade route from a non existing
-     * city. The Freeciv code assumes this applies to Enter Marketplace
-     * too. */
-    /* Info leak: The actor player knowns his unit's home city. */
-    if (homecity == NULL) {
-      return TRI_NO;
-    }
-
-    break;
-
   case ACTRES_PARADROP:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if his unit already has paradropped this
@@ -2648,6 +2649,8 @@ action_hard_reqs_actor(enum action_result result,
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_SABOTAGE_UNIT:

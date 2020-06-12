@@ -764,6 +764,7 @@ action = "Establish Trade Route"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
     }
 
 [actionenabler_marketplace]
@@ -771,6 +772,7 @@ action = "Enter Marketplace"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "TradeRoute", "Local", TRUE
+      "UnitState", "HasHomeCity", "Local", TRUE
     }
 
 [actionenabler_help_build_wonder]
