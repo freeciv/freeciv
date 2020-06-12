@@ -60,3 +60,20 @@ bool aia_utype_is_considered_spy(const struct unit_type *putype)
           || utype_can_do_action_result(putype,
                                        ACTRES_SPY_SABOTAGE_UNIT));
 }
+
+/**********************************************************************//**
+  Returns TRUE if the specified unit type is able to perform worker
+  actions.
+**************************************************************************/
+bool aia_utype_is_considered_worker(const struct unit_type *putype)
+{
+  return (utype_can_do_action_result(putype, ACTRES_TRANSFORM_TERRAIN)
+          || utype_can_do_action_result(putype, ACTRES_CULTIVATE)
+          || utype_can_do_action_result(putype, ACTRES_PLANT)
+          || utype_can_do_action_result(putype, ACTRES_ROAD)
+          || utype_can_do_action_result(putype, ACTRES_BASE)
+          || utype_can_do_action_result(putype, ACTRES_MINE)
+          || utype_can_do_action_result(putype, ACTRES_IRRIGATE)
+          || utype_can_do_action_result(putype, ACTRES_CLEAN_POLLUTION)
+          || utype_can_do_action_result(putype, ACTRES_CLEAN_FALLOUT));
+}

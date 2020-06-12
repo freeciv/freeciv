@@ -634,15 +634,7 @@ static bool dai_diplomat_bribe_nearby(struct ai_type *ait,
 
     if (has_handicap(pplayer, H_NOBRIBE_WF)) {
       /* Don't bribe workers or city founders! */
-      if (unit_can_do_action_result(pvictim, ACTRES_TRANSFORM_TERRAIN)
-          || unit_can_do_action_result(pvictim, ACTRES_CULTIVATE)
-          || unit_can_do_action_result(pvictim, ACTRES_PLANT)
-          || unit_can_do_action_result(pvictim, ACTRES_ROAD)
-          || unit_can_do_action_result(pvictim, ACTRES_BASE)
-          || unit_can_do_action_result(pvictim, ACTRES_MINE)
-          || unit_can_do_action_result(pvictim, ACTRES_IRRIGATE)
-          || unit_can_do_action_result(pvictim, ACTRES_CLEAN_POLLUTION)
-          || unit_can_do_action_result(pvictim, ACTRES_CLEAN_FALLOUT)
+      if (aia_utype_is_considered_worker(unit_type_get(pvictim))
           || unit_can_do_action_result(pvictim, ACTRES_FOUND_CITY)) {
         continue;
       }
