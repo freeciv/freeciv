@@ -695,46 +695,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
     if (aia_utype_is_considered_caravan_trade(parameter->utype)) {
       parameter->actions |= PF_AA_TRADE_ROUTE;
     }
-    if (utype_can_do_action(parameter->utype, ACTION_SPY_POISON)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_POISON_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_SPREAD_PLAGUE)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_UNIT_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_BRIBE_UNIT)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_ATTACK)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_SABOTAGE_CITY)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_SABOTAGE_CITY_ESC)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_TARGETED_SABOTAGE_CITY)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_SABOTAGE_CITY_PRODUCTION)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_INCITE_CITY)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_INCITE_CITY_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_TECH)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_TECH_ESC)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_TARGETED_STEAL_TECH)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_TARGETED_STEAL_TECH_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_GOLD)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_STEAL_GOLD_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_STEAL_MAPS)
-        || utype_can_do_action(parameter->utype, ACTION_STEAL_MAPS_ESC)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_NUKE)
-        || utype_can_do_action(parameter->utype, ACTION_SPY_NUKE_ESC)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_SPY_INVESTIGATE_CITY)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_INV_CITY_SPEND)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_ESTABLISH_EMBASSY_STAY)
-        || utype_can_do_action(parameter->utype,
-                               ACTION_ESTABLISH_EMBASSY)) {
+    if (aia_utype_is_considered_spy(parameter->utype)) {
       parameter->actions |= PF_AA_DIPLOMAT;
     }
     parameter->get_action = pf_get_action;
