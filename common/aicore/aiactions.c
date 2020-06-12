@@ -62,6 +62,29 @@ bool aia_utype_is_considered_spy(const struct unit_type *putype)
 }
 
 /**********************************************************************//**
+  Returns TRUE if the specified unit type is able to perform trade
+  caravan actions.
+**************************************************************************/
+bool aia_utype_is_considered_caravan_trade(const struct unit_type *putype)
+{
+  return (utype_can_do_action_result(putype,
+                                       ACTRES_TRADE_ROUTE)
+          || utype_can_do_action_result(putype,
+                                       ACTRES_MARKETPLACE));
+}
+
+/**********************************************************************//**
+  Returns TRUE if the specified unit type is able to perform caravan
+  actions.
+**************************************************************************/
+bool aia_utype_is_considered_caravan(const struct unit_type *putype)
+{
+  return (aia_utype_is_considered_caravan_trade(putype)
+          || utype_can_do_action_result(putype,
+                                       ACTRES_HELP_WONDER));
+}
+
+/**********************************************************************//**
   Returns TRUE if the specified unit type is able to perform worker
   actions.
 **************************************************************************/

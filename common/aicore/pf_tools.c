@@ -31,6 +31,9 @@
 #include "unit.h"
 #include "unittype.h"
 
+/* aicore */
+#include "aiactions.h"
+
 #include "pf_tools.h"
 
 /* ===================== Capability Functions ======================== */
@@ -689,8 +692,7 @@ pft_enable_default_actions(struct pf_parameter *parameter)
   }
   if (utype_may_act_at_all(parameter->utype)) {
     /* FIXME: it should consider action enablers. */
-    if (utype_can_do_action(parameter->utype, ACTION_TRADE_ROUTE)
-        || utype_can_do_action(parameter->utype, ACTION_MARKETPLACE)) {
+    if (aia_utype_is_considered_caravan_trade(parameter->utype)) {
       parameter->actions |= PF_AA_TRADE_ROUTE;
     }
     if (utype_can_do_action(parameter->utype, ACTION_SPY_POISON)
