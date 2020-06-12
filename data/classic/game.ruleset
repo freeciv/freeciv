@@ -1031,12 +1031,22 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
-[actionenabler_fortify]
+[actionenabler_fortify_terrain]
 action        = "Fortify"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "TerrainFlag",   "NoFortify",    "Local", FALSE
+    }
+
+[actionenabler_fortify_city]
+action        = "Fortify"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitClassFlag", "CanFortify",   "Local", TRUE
+      "UnitFlag",      "Cant_Fortify", "Local", FALSE
+      "CityTile",      "Center",       "Local", TRUE
     }
 
 [actionenabler_road]

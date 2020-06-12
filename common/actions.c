@@ -3422,11 +3422,6 @@ is_action_possible(const action_id wanted_action,
     if (actor_unit->activity == ACTIVITY_FORTIFIED) {
       return TRI_NO;
     }
-    pterrain = tile_terrain(actor_tile);
-    if (terrain_has_flag(pterrain, TER_NO_FORTIFY)
-        && !tile_city(actor_tile)) {
-      return TRI_NO;
-    }
     break;
 
   case ACTRES_TRANSPORT_ALIGHT:

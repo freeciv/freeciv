@@ -27,6 +27,7 @@ flags =
     _("Sea"), _("Allows cities to build Harbors and coastal wonders.")
     _("NoPollution"), _("No Pollution nor Fallout appear here.")
     _("DifficultLanding"), _("Only veterans can paradrop here.")
+    _("NoFortify"), _("No units can fortify on this terrain.")
   }
 
 ; Names for custom extra flags. There can be up to 8 of these.
@@ -189,7 +190,6 @@ ocean_resources = FALSE
 ;                        (lua scripting)
 ;   - NoZoc            = Units on this terrain are not generating or subject
 ;                        to zoc
-;   - NoFortify        = Units cannot fortify on this terrain
 ;   - Frozen           = Frozen/polar terrain. For water tiles, Frozen terrain
 ;                        is generated near poles. Conversion between frozen
 ;                        and unfrozen terrain can be controlled with
