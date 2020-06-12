@@ -37,6 +37,7 @@
 #include "unitlist.h"
 
 /* aicore */
+#include "aiactions.h"
 #include "pf_tools.h"
 
 /* server */
@@ -418,27 +419,7 @@ static bool is_city_surrounded_by_our_spies(struct player *pplayer,
     }
     unit_list_iterate(ptile->units, punit) {
       if (unit_owner(punit) == pplayer
-          && (unit_can_do_action_result(punit, ACTRES_SPY_INVESTIGATE_CITY)
-              || unit_can_do_action_result(punit, ACTRES_SPY_POISON)
-              || unit_can_do_action_result(punit, ACTRES_SPY_SPREAD_PLAGUE)
-              || unit_can_do_action_result(punit, ACTRES_SPY_STEAL_GOLD)
-              || unit_can_do_action_result(punit, ACTRES_SPY_SABOTAGE_CITY)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_TARGETED_SABOTAGE_CITY)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_SABOTAGE_CITY_PRODUCTION)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_STEAL_TECH)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_TARGETED_STEAL_TECH)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_INCITE_CITY)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_ATTACK)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_BRIBE_UNIT)
-              || unit_can_do_action_result(punit,
-                                           ACTRES_SPY_SABOTAGE_UNIT))) {
+          && aia_utype_is_considered_spy(unit_type_get(punit))) {
         return TRUE;
       }
     } unit_list_iterate_end;

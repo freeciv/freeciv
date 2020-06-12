@@ -22,6 +22,9 @@
 #include "multipliers.h"
 #include "research.h"
 
+/* aicore */
+#include "aiactions.h"
+
 /* server */
 #include "cityturn.h"
 #include "plrhand.h"
@@ -216,19 +219,7 @@ void dai_data_phase_begin(struct ai_type *ait, struct player *pplayer,
 
   BV_CLR_ALL(ai->stats.diplomat_reservations);
   unit_list_iterate(pplayer->units, punit) {
-    if ((unit_can_do_action_result(punit, ACTRES_SPY_POISON)
-         || unit_can_do_action_result(punit, ACTRES_SPY_SPREAD_PLAGUE)
-         || unit_can_do_action_result(punit, ACTRES_SPY_SABOTAGE_CITY)
-         || unit_can_do_action_result(punit, ACTRES_SPY_TARGETED_SABOTAGE_CITY)
-         || unit_can_do_action_result(punit, ACTRES_SPY_SABOTAGE_CITY_PRODUCTION)
-         || unit_can_do_action_result(punit, ACTRES_SPY_INCITE_CITY)
-         || unit_can_do_action_result(punit, ACTRES_ESTABLISH_EMBASSY)
-         || unit_can_do_action_result(punit, ACTRES_SPY_STEAL_TECH)
-         || unit_can_do_action_result(punit, ACTRES_SPY_TARGETED_STEAL_TECH)
-         || unit_can_do_action_result(punit, ACTRES_SPY_INVESTIGATE_CITY)
-         || unit_can_do_action_result(punit, ACTRES_SPY_STEAL_GOLD)
-         || unit_can_do_action_result(punit, ACTRES_STEAL_MAPS)
-         || unit_can_do_action_result(punit, ACTRES_SPY_NUKE))
+    if (aia_utype_is_considered_spy_vs_city(unit_type_get(punit))
         && def_ai_unit_data(punit, ait)->task == AIUNIT_ATTACK) {
 
       fc_assert_msg(punit->goto_tile != NULL, "No target city for spy action");
