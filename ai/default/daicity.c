@@ -1200,9 +1200,13 @@ void dai_city_load(struct ai_type *ait, const char *aitstr,
 static int action_target_neg_util(action_id act_id,
                                   const struct city *pcity)
 {
-  switch ((enum gen_action)act_id) {
-  case ACTION_SPY_INCITE_CITY:
-  case ACTION_SPY_INCITE_CITY_ESC:
+  struct action *paction = action_by_number(act_id);
+
+  fc_assert_msg(action_id_exists(act_id),
+                "Action %d don't exist.", act_id);
+
+  switch (paction->result) {
+  case ACTRES_SPY_INCITE_CITY:
     /* Copied from the evaluation of the No_Incite effect */
     return MAX((game.server.diplchance * 2
                 - game.server.incite_total_factor) / 2
@@ -1210,112 +1214,89 @@ static int action_target_neg_util(action_id act_id,
                - game.server.incite_unit_factor * 5, 0);
 
   /* Really bad for the city owner. */
-  case ACTION_SPY_NUKE:
-  case ACTION_SPY_NUKE_ESC:
-  case ACTION_CONQUER_CITY:
-  case ACTION_CONQUER_CITY2:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_CONQUER_CITY:
   /* The ai will never destroy his own city to keep it out of enemy
    * hands. If it starts supporting it this value should change. */
-  case ACTION_DESTROY_CITY:
+  case ACTRES_DESTROY_CITY:
     return 20;
 
   /* Bad for the city owner. */
-  case ACTION_SPY_POISON:
-  case ACTION_SPY_POISON_ESC:
-  case ACTION_SPY_SPREAD_PLAGUE:
-  case ACTION_SPY_SABOTAGE_CITY:
-  case ACTION_SPY_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
-  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
-  case ACTION_STRIKE_BUILDING:
-  case ACTION_STRIKE_PRODUCTION:
-  case ACTION_SPY_STEAL_GOLD:
-  case ACTION_SPY_STEAL_GOLD_ESC:
-  case ACTION_NUKE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_NUKE_CITY:
     /* TODO: Individual and well balanced values */
     return 10;
 
   /* Good for an enemy */
-  case ACTION_SPY_STEAL_TECH:
-  case ACTION_SPY_STEAL_TECH_ESC:
-  case ACTION_SPY_TARGETED_STEAL_TECH:
-  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
-  case ACTION_STEAL_MAPS:
-  case ACTION_STEAL_MAPS_ESC:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+  case ACTRES_STEAL_MAPS:
     /* TODO: Individual and well balanced values */
     return 8;
 
   /* Could be worse */
-  case ACTION_ESTABLISH_EMBASSY:
-  case ACTION_ESTABLISH_EMBASSY_STAY:
-  case ACTION_SPY_INVESTIGATE_CITY:
-  case ACTION_INV_CITY_SPEND:
-  case ACTION_MARKETPLACE:
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_MARKETPLACE:
     /* TODO: Individual and well balanced values */
     return 1;
 
   /* Good for the city owner in most cases. */
-  case ACTION_TRADE_ROUTE:
-  case ACTION_HELP_WONDER:
-  case ACTION_JOIN_CITY:
-  case ACTION_RECYCLE_UNIT:
-  case ACTION_HOME_CITY:
-  case ACTION_UPGRADE_UNIT:
-  case ACTION_AIRLIFT:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_AIRLIFT:
     /* TODO: Individual and well balanced values */
     return -1;
 
   /* Ruleset defined actions. We have no idea what they do. */
-  case ACTION_USER_ACTION1:
-  case ACTION_USER_ACTION2:
-  case ACTION_USER_ACTION3:
+  case ACTRES_NONE:
     return 0;
 
   /* Shouldn't happen. */
-  case ACTION_SPY_BRIBE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT:
-  case ACTION_SPY_SABOTAGE_UNIT_ESC:
-  case ACTION_SPY_ATTACK:
-  case ACTION_EXPEL_UNIT:
-  case ACTION_DISBAND_UNIT:
-  case ACTION_CAPTURE_UNITS:
-  case ACTION_BOMBARD:
-  case ACTION_BOMBARD2:
-  case ACTION_BOMBARD3:
-  case ACTION_FOUND_CITY:
-  case ACTION_NUKE:
-  case ACTION_NUKE_UNITS:
-  case ACTION_PARADROP:
-  case ACTION_ATTACK:
-  case ACTION_SUICIDE_ATTACK:
-  case ACTION_HEAL_UNIT:
-  case ACTION_TRANSFORM_TERRAIN:
-  case ACTION_CULTIVATE:
-  case ACTION_PLANT:
-  case ACTION_PILLAGE:
-  case ACTION_CLEAN_POLLUTION:
-  case ACTION_CLEAN_FALLOUT:
-  case ACTION_FORTIFY:
-  case ACTION_ROAD:
-  case ACTION_CONVERT:
-  case ACTION_BASE:
-  case ACTION_MINE:
-  case ACTION_IRRIGATE:
-  case ACTION_TRANSPORT_ALIGHT:
-  case ACTION_TRANSPORT_BOARD:
-  case ACTION_TRANSPORT_UNLOAD:
-  case ACTION_TRANSPORT_DISEMBARK1:
-  case ACTION_TRANSPORT_DISEMBARK2:
-  case ACTION_TRANSPORT_EMBARK:
-  case ACTION_COUNT:
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_SPY_ATTACK:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_BOMBARD:
+  case ACTRES_FOUND_CITY:
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_PARADROP:
+  case ACTRES_ATTACK:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_FORTIFY:
+  case ACTRES_ROAD:
+  case ACTRES_CONVERT:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_DISEMBARK:
+  case ACTRES_TRANSPORT_EMBARK:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
   }
-
-  fc_assert_msg(action_id_exists(act_id),
-                "Action %d don't exist.", act_id);
 
   /* Wrong action. Ignore it. */
   return 0;
