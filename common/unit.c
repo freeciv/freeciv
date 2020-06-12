@@ -242,7 +242,9 @@ int get_transporter_capacity(const struct unit *punit)
 **************************************************************************/
 bool is_attack_unit(const struct unit *punit)
 {
-  return (unit_type_get(punit)->attack_strength > 0);
+  return ((unit_can_do_action(punit, ACTION_ATTACK)
+           || unit_can_do_action(punit, ACTION_BOMBARD))
+          && unit_type_get(punit)->attack_strength > 0);
 }
 
 /**************************************************************************
