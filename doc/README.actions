@@ -163,7 +163,7 @@ Actions done by a unit against a city
 "Establish Embassy" - Establish a real embassy to the target player
  * UI name can be set using ui_name_establish_embassy
  * actor must be aware that the target exists
- * actor can't have a real embassy to the target player
+ * actor can't have a real embassy to the target player (!)
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 
@@ -171,7 +171,7 @@ Actions done by a unit against a city
  * UI name can be set using ui_name_establish_embassy
  * spends the actor unit
  * actor must be aware that the target exists
- * actor can't have a real embassy to the target player
+ * actor can't have a real embassy to the target player (!)
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be foreign. (!)
 

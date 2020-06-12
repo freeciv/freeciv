@@ -583,12 +583,13 @@ actor_reqs    =
 [actionenabler_establish_embassy]
 action       = "Establish Embassy Stay"
 actor_reqs    =
-    { "type",         "name",          "range", "present"
-      "UnitFlag",     "Diplomat",      "Local", TRUE
-      "UnitState",    "OnLivableTile", "Local", TRUE
-      "MinMoveFrags", "1",             "Local", TRUE
-      "DiplRel",      "Foreign",       "Local", TRUE
-      "UnitFlag",     "Spy",           "Local", FALSE
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "UnitState",    "OnLivableTile",    "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
+      "UnitFlag",     "Spy",              "Local", FALSE
     }
 target_reqs  =
     { "type",        "name",      "range",  "present"
@@ -598,11 +599,12 @@ target_reqs  =
 [actionenabler_establish_embassy_spy]
 action       = "Establish Embassy"
 actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Spy",           "Local"
-      "UnitState",    "OnLivableTile", "Local"
-      "MinMoveFrags", "1",             "Local"
-      "DiplRel",      "Foreign",       "Local"
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Spy",              "Local", TRUE
+      "UnitState",    "OnLivableTile",    "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
     }
 target_reqs  =
     { "type",        "name",      "range",  "present"

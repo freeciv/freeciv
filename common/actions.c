@@ -203,6 +203,20 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: There is currently no point in
+   * establishing an embassy when a real embassy already exists.
+   * (Possible exception: crazy hack using the Lua callback
+   * action_started_callback() to make establish embassy do something
+   * else even if the UI still call the action Establish Embassy) */
+  oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          DRO_HAS_REAL_EMBASSY),
+                          FALSE,
+                          "All action enablers for %s must require the"
+                          " absence of a real embassy.",
+                          ACTRES_ESTABLISH_EMBASSY,
+                          ACTRES_NONE);
+
   /* Why this is a hard requirement: there is a hard requirement that
    * the actor player is at war with the owner of any city on the
    * target tile. It can't move to the ruleset as long as Bombard and Attack
@@ -2845,19 +2859,6 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTRES_ESTABLISH_EMBASSY:
-    /* Why this is a hard requirement: There is currently no point in
-     * establishing an embassy when a real embassy already exists.
-     * (Possible exception: crazy hack using the Lua callback
-     * action_started_callback() to make establish embassy do something
-     * else even if the UI still call the action Establish Embassy) */
-    /* Info leak: The actor player known who he has a real embassy to. */
-    if (player_has_real_embassy(actor_player, target_player)) {
-      return TRI_NO;
-    }
-
-    break;
-
   case ACTRES_SPY_TARGETED_STEAL_TECH:
     /* Reason: The Freeciv code don't support selecting a target tech
      * unless it is known that the victim player has it. */
@@ -3544,6 +3545,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_SPREAD_PLAGUE:
     /* Enabling this action with illness_on = FALSE prevents spread. */
     break;
+  case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
   case ACTRES_SPY_SABOTAGE_CITY:

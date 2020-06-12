@@ -478,11 +478,12 @@ actor_reqs    =
 [actionenabler_establish_embassy]
 action       = "Establish Embassy Stay"
 actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Diplomat",      "Local"
-      "UnitState",    "OnLivableTile", "Local"
-      "MinMoveFrags", "1",             "Local"
-      "DiplRel",      "Foreign",       "Local"
+    { "type",         "name",             "range", "present"
+      "UnitFlag",     "Diplomat",         "Local", TRUE
+      "UnitState",    "OnLivableTile",    "Local", TRUE
+      "MinMoveFrags", "1",                "Local", TRUE
+      "DiplRel",      "Foreign",          "Local", TRUE
+      "DiplRel",      "Has real embassy", "Local", FALSE
     }
 target_reqs  =
     { "type",        "name",      "range",  "present"
