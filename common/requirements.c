@@ -3407,6 +3407,23 @@ bool is_req_in_vec(const struct requirement *req,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified requirement vector has a positive
+  requirment of the specified requirement type.
+  @param reqs the requirement vector to look in
+  @param kind the requirement type to look for
+**************************************************************************/
+bool req_vec_wants_type(const struct requirement_vector *reqs,
+                        enum universals_n kind)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (preq->present && preq->source.kind == kind) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+  return FALSE;
+}
+
+/**********************************************************************//**
   Return TRUE iff the two sources are equivalent.  Note this isn't the
   same as an == or memcmp check.
 ***************************************************************************/

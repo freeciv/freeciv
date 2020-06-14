@@ -1747,23 +1747,6 @@ static bv_imprs caravan_helped_impr;
 static bv_unit_types caravan_helped_utype;
 
 /**********************************************************************//**
-  Returns TRUE iff the specified requirement vector has a positive
-  requirment of the specified requirement type.
-  @param reqs the requirement vector to look in
-  @param kind the requirement type to look for
-**************************************************************************/
-static bool req_vec_wants_type(const struct requirement_vector *reqs,
-                               enum universals_n kind)
-{
-  requirement_vector_iterate(reqs, preq) {
-    if (preq->present && preq->source.kind == kind) {
-      return TRUE;
-    }
-  } requirement_vector_iterate_end;
-  return FALSE;
-}
-
-/**********************************************************************//**
   Initialize the cache of what city production can use shields from
   caravans.
 **************************************************************************/
