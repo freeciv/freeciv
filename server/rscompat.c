@@ -39,6 +39,16 @@
 
 #include "rscompat.h"
 
+#define enough_new_user_flags(_new_flags_, _name_,                        \
+                              _LAST_USER_FLAG_, _LAST_USER_FLAG_PREV_)    \
+FC_STATIC_ASSERT((ARRAY_SIZE(_new_flags_)                                 \
+                  <= _LAST_USER_FLAG_ - _LAST_USER_FLAG_PREV_),           \
+                 not_enough_new_##_name_##_user_flags)
+
+#define UTYF_LAST_USER_FLAG_3_0 UTYF_USER_FLAG_40
+#define UCF_LAST_USER_FLAG_3_0 UCF_USER_FLAG_8
+#define TER_LAST_USER_FLAG_3_0 TER_USER_8
+
 /**********************************************************************//**
   Initialize rscompat information structure
 **************************************************************************/
@@ -192,6 +202,8 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("BeachLander"), N_("Won't lose all movement when moving from"
                               " non-native terrain to native terrain.") },
     };
+    enough_new_user_flags(new_flags_31, unit_type,
+                          UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_0);
 
     /* Some unit class flags moved to the ruleset between 3.0 and 3.1.
      * Add them back as user flags.
@@ -204,6 +216,8 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("Missile"), N_("Unit is destroyed when it attacks") },
       { N_("CanPillage"), N_("Can pillage tile improvements.") },
     };
+    enough_new_user_flags(new_class_flags_31, unit_class,
+                          UCF_LAST_USER_FLAG, UCF_LAST_USER_FLAG_3_0);
 
     int first_free;
     int i;
@@ -273,6 +287,8 @@ bool rscompat_names(struct rscompat_info *info)
     } new_flags_31[] = {
       { N_("NoFortify"), N_("No units can fortify on this terrain.") },
     };
+    enough_new_user_flags(new_flags_31, terrain,
+                          TER_USER_LAST, TER_LAST_USER_FLAG_3_0);
 
     int first_free;
     int i;
