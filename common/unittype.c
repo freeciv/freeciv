@@ -937,6 +937,26 @@ bool utype_is_consumed_by_action(const struct action *paction,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff performing an action with the specified action result
+  will consume an actor unit of the specified type.
+**************************************************************************/
+bool utype_is_consumed_by_action_result(enum action_result result,
+                                        const struct unit_type *utype)
+{
+  action_by_result_iterate(paction, act_id, result) {
+    if (!utype_can_do_action(utype, paction->id)) {
+      continue;
+    }
+
+    if (utype_is_consumed_by_action(paction, utype)) {
+      return TRUE;
+    }
+  } action_by_result_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff successfully performing the specified action always will
   move the actor unit of the specified type to the target's tile.
 **************************************************************************/

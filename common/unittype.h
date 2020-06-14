@@ -650,6 +650,9 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
 bool utype_is_consumed_by_action(const struct action *paction,
                                  const struct unit_type *utype);
 
+bool utype_is_consumed_by_action_result(enum action_result result,
+                                        const struct unit_type *utype);
+
 bool utype_is_moved_to_tgt_by_action(const struct action *paction,
                                      const struct unit_type *utype);
 
