@@ -1008,6 +1008,7 @@ actor_reqs    =
       "UnitClassFlag", "Airliftable",  "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "MinMoveFrags",  "1",            "Local", TRUE
+      "CityTile",      "Center",       "Local", TRUE
     }
 
 [actionenabler_transform_terrain]

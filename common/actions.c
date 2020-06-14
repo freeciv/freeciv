@@ -525,6 +525,16 @@ static void hard_code_oblig_hard_reqs(void)
                           "All action enablers for %s must require that "
                           "the target is on a livable tile.",
                           ACTRES_TRANSPORT_UNLOAD, ACTRES_NONE);
+
+  /* Why this is a hard requirement: assumed by the Freeciv code. */
+  oblig_hard_req_register(req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, TRUE,
+                                          CITYT_CENTER),
+                          FALSE,
+                          "All action enablers for %s must require that "
+                          "the actor unit is in a city.",
+                          ACTRES_AIRLIFT,
+                          ACTRES_NONE);
 }
 
 /**********************************************************************//**
@@ -2592,26 +2602,22 @@ action_hard_reqs_actor(enum action_result result,
 
   case ACTRES_AIRLIFT:
     {
-      const struct city *psrc_city = tile_city(actor_tile);
+      /* Obligatory hard requirement. */
+      fc_assert_ret_val(actor_city != NULL, TRI_NO);
 
-      if (psrc_city == NULL) {
-        /* No city to airlift from. */
-        return TRI_NO;
-      }
-
-      if (actor_player != city_owner(psrc_city)
+      if (actor_player != city_owner(actor_city)
           && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
-               && pplayers_allied(actor_player, city_owner(psrc_city)))) {
+               && pplayers_allied(actor_player, city_owner(actor_city)))) {
         /* Not allowed to airlift from this source. */
         return TRI_NO;
       }
 
-      if (!(omniscient || city_owner(psrc_city) == actor_player)) {
+      if (!(omniscient || city_owner(actor_city) == actor_player)) {
         /* Can't check for airlifting capacity. */
         return TRI_MAYBE;
       }
 
-      if (0 >= psrc_city->airlift) {
+      if (0 >= actor_city->airlift) {
         /* The source cannot airlift for this turn (maybe already airlifted
          * or no airport).
          *
