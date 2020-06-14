@@ -217,6 +217,17 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_ESTABLISH_EMBASSY,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: There is currently no point in
+   * fortifying an already fortified unit. */
+  oblig_hard_req_register(req_from_values(VUT_ACTIVITY, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          ACTIVITY_FORTIFIED),
+                          FALSE,
+                          "All action enablers for %s must require that"
+                          " the actor unit isn't already fortified.",
+                          ACTRES_FORTIFY,
+                          ACTRES_NONE);
+
   /* Why this is a hard requirement: there is a hard requirement that
    * the actor player is at war with the owner of any city on the
    * target tile. It can't move to the ruleset as long as Bombard and Attack
@@ -3418,12 +3429,6 @@ is_action_possible(const action_id wanted_action,
     }
     break;
 
-  case ACTRES_FORTIFY:
-    if (actor_unit->activity == ACTIVITY_FORTIFIED) {
-      return TRI_NO;
-    }
-    break;
-
   case ACTRES_TRANSPORT_ALIGHT:
     if (!can_unit_unload(actor_unit, target_unit)) {
       /* Keep the old rules about Unreachable and disembarks. */
@@ -3564,6 +3569,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_CONVERT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_FORTIFY:
   case ACTRES_NONE:
     /* No known hard coded requirements. */
     break;

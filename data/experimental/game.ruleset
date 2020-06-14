@@ -1060,6 +1060,7 @@ actor_reqs    =
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
       "TerrainFlag",   "NoFortify",    "Local", FALSE
+      "Activity",      "Fortified",    "Local", FALSE
     }
 
 [actionenabler_fortify_city]
@@ -1069,6 +1070,7 @@ actor_reqs    =
       "UnitClassFlag", "CanFortify",   "Local", TRUE
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
       "CityTile",      "Center",       "Local", TRUE
+      "Activity",      "Fortified",    "Local", FALSE
     }
 
 [actionenabler_road]
