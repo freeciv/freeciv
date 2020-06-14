@@ -140,6 +140,9 @@ bool is_req_unchanging(const struct requirement *req);
 bool is_req_in_vec(const struct requirement *req,
                    const struct requirement_vector *vec);
 
+bool req_vec_wants_type(const struct requirement_vector *reqs,
+                        enum universals_n kind);
+
 /* General universal functions. */
 int universal_number(const struct universal *source);
 

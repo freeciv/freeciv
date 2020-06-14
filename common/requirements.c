@@ -3750,6 +3750,23 @@ int universal_build_shield_cost(const struct universal *target)
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified requirement vector has a positive
+  requirment of the specified requirement type.
+  @param reqs the requirement vector to look in
+  @param kind the requirement type to look for
+**************************************************************************/
+bool req_vec_wants_type(const struct requirement_vector *reqs,
+                        enum universals_n kind)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (preq->present && preq->source.kind == kind) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+  return FALSE;
+}
+
+/**********************************************************************//**
   Replaces all instances of the universal to_replace with replacement in
   the requirement vector reqs and returns TRUE iff any requirements were
   replaced.
