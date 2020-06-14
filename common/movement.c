@@ -169,6 +169,8 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 bool can_attack_non_native(const struct unit_type *utype)
 {
   return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
+         && (utype_can_do_action_result(utype, ACTRES_ATTACK)
+             || utype_can_do_action_result(utype, ACTRES_BOMBARD))
          && utype->attack_strength > 0
          && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
 }
