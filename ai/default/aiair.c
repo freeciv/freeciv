@@ -473,7 +473,7 @@ bool dai_choose_attacker_air(struct ai_type *ait, struct player *pplayer,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_can_do_action(punittype, ACTION_SUICIDE_ATTACK)
+    if (!utype_is_consumed_by_action_result(ACTRES_ATTACK, punittype)
         && 1 == utype_fuel(punittype)) {
       continue;
     }

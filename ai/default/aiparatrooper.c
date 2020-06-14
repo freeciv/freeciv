@@ -367,7 +367,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_can_do_action(u_type, ACTION_SUICIDE_ATTACK)
+    if (!utype_is_consumed_by_action_result(ACTRES_ATTACK, u_type)
         && 1 == utype_fuel(u_type)) {
       continue;
     }

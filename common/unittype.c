@@ -1931,7 +1931,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   for (j = n_with_role[role] - 1; j >= 0; j--) {
     u = with_role[role][j];
     if ((1 != utype_fuel(u)
-         || utype_can_do_action(u, ACTION_SUICIDE_ATTACK))
+         || utype_is_consumed_by_action_result(ACTRES_ATTACK, u))
         && can_city_build_unit_now(pcity, u)) {
       /* Allow fuel == 1 units when pathfinding can handle them. */
       return u;

@@ -99,7 +99,7 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     }
 
     /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_can_do_action(ut, ACTION_SUICIDE_ATTACK)
+    if (!utype_is_consumed_by_action_result(ACTRES_ATTACK, ut)
         && 1 == utype_fuel(ut)) {
       continue;
     }
