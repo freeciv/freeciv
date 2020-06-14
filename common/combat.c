@@ -663,8 +663,7 @@ int get_fortified_defense_power(const struct unit *attacker,
   real_act = defender->activity;
 
   utype = unit_type_get(defender);
-  if (uclass_has_flag(utype_class(utype), UCF_CAN_FORTIFY)
-      && !utype_has_flag(utype, UTYF_CANT_FORTIFY)) {
+  if (utype_can_do_action_result(utype, ACTRES_FORTIFY)) {
     defender->activity = ACTIVITY_FORTIFIED;
   }
 
