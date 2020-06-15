@@ -49,8 +49,6 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   QGridLayout *enabler_layout = new QGridLayout();
   QLabel *label;
   QPushButton *add_button;
-  QPushButton *delete_button;
-  QPushButton *reqs_button;
 
   ui = ui_in;
   selected = 0;
@@ -81,15 +79,23 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
 
   type_button->setMenu(type_menu);
 
+  type_button->setEnabled(false);
   enabler_layout->addWidget(type_button, 0, 2);
 
-  reqs_button = new QPushButton(QString::fromUtf8(R__("Actor Requirements")), this);
-  connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_actor_reqs()));
-  enabler_layout->addWidget(reqs_button, 1, 2);
+  act_reqs_button
+      = new QPushButton(QString::fromUtf8(R__("Actor Requirements")), this);
+  connect(act_reqs_button, SIGNAL(pressed()),
+          this, SLOT(edit_actor_reqs()));
+  act_reqs_button->setEnabled(false);
+  enabler_layout->addWidget(act_reqs_button, 1, 2);
 
-  reqs_button = new QPushButton(QString::fromUtf8(R__("Target Requirements")), this);
-  connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_target_reqs()));
-  enabler_layout->addWidget(reqs_button, 2, 2);
+  tgt_reqs_button
+      = new QPushButton(QString::fromUtf8(R__("Target Requirements")),
+                        this);
+  connect(tgt_reqs_button, SIGNAL(pressed()),
+          this, SLOT(edit_target_reqs()));
+  tgt_reqs_button->setEnabled(false);
+  enabler_layout->addWidget(tgt_reqs_button, 2, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Enabler")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now()));
@@ -98,6 +104,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Enabler")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
+  delete_button->setEnabled(false);
   enabler_layout->addWidget(delete_button, 3, 2);
   show_experimental(delete_button);
 
@@ -143,8 +150,20 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
     QString dispn = QString::fromUtf8(action_rule_name(enabler_get_action(enabler)));
 
     type_button->setText(dispn);
+
+    type_button->setEnabled(true);
+    act_reqs_button->setEnabled(true);
+    tgt_reqs_button->setEnabled(true);
+
+    delete_button->setEnabled(true);
   } else {
     type_button->setText("None");
+
+    type_button->setEnabled(false);
+    act_reqs_button->setEnabled(false);
+    tgt_reqs_button->setEnabled(false);
+
+    delete_button->setEnabled(false);
   }
 }
 
