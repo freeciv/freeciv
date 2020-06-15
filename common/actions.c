@@ -1342,6 +1342,88 @@ bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
   return had_contradiction;
 }
 
+/**********************************************************************//**
+  Returns a suggestion to add an obligatory hard requirement to an action
+  enabler or NULL if no hard obligatory reqs were missing. It is the
+  responsibility of the caller to free the suggestion when it is done with
+  it.
+**************************************************************************/
+static struct req_vec_problem *
+action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
+{
+  struct action *paction;
+
+  /* Sanity check: a non existing action enabler is missing but it doesn't
+   * miss any obligatory hard requirements. */
+  fc_assert_ret_val(enabler, FALSE);
+
+  /* Sanity check: a non existing action doesn't have any obligatory hard
+   * requirements. */
+  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
+  paction = action_by_number(enabler->action);
+
+  obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
+      obreq) {
+    const struct requirement_vector *ae_vec;
+
+    /* Select action enabler requirement vector. */
+    ae_vec = (obreq->is_target ? &enabler->target_reqs :
+                                 &enabler->actor_reqs);
+
+    if (!does_req_contradicts_reqs(&obreq->contradiction, ae_vec)) {
+      struct req_vec_problem *out;
+
+      out = req_vec_problem_new(1, obreq->error_msg,
+                                action_rule_name(paction));
+
+      out->suggested_solutions[0].operation = RVCO_APPEND;
+      out->suggested_solutions[0].based_on = ae_vec;
+
+      /* Change the requirement from what should conflict to what is
+       * wanted. */
+      out->suggested_solutions[0].req.present = !obreq->contradiction.present;
+      out->suggested_solutions[0].req.source = obreq->contradiction.source;
+      out->suggested_solutions[0].req.range = obreq->contradiction.range;
+      out->suggested_solutions[0].req.survives = obreq->contradiction.survives;
+      out->suggested_solutions[0].req.quiet = obreq->contradiction.quiet;
+
+      return out;
+    }
+  } obligatory_req_vector_iterate_end;
+
+  /* No obligatory req problems found. */
+  return NULL;
+}
+
+/**********************************************************************//**
+  Returns a suggestion to fix the specified action enabler or NULL if no
+  fix is found to be needed. It is the responsibility of the caller to
+  free the suggestion when it is done with it.
+**************************************************************************/
+struct req_vec_problem *
+action_enabler_suggest_a_fix(const struct action_enabler *enabler)
+{
+  struct req_vec_problem *out;
+
+  out = action_enabler_suggest_a_fix_oblig(enabler);
+  if (out != NULL) {
+    return out;
+  }
+
+  out = req_vec_get_first_contradiction(&enabler->actor_reqs);
+  if (out != NULL) {
+    return out;
+  }
+
+  out = req_vec_get_first_contradiction(&enabler->target_reqs);
+  if (out != NULL) {
+    return out;
+  }
+
+  /* No problems found. */
+  return NULL;
+}
+
 /**************************************************************************
   Returns TRUE iff the specified player knows (has seen) the specified
   tile.
