@@ -1086,6 +1086,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   action_enablers_iterate(pae) {
     char path[512];
 
+    if (pae->disabled) {
+      continue;
+    }
+
     fc_snprintf(path, sizeof(path), "actionenabler_%d", sect_idx++);
 
     secfile_insert_str(sfile, action_id_rule_name(pae->action),
