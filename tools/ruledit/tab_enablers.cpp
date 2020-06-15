@@ -108,6 +108,13 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   enabler_layout->addWidget(delete_button, 3, 2);
   show_experimental(delete_button);
 
+  repair_button
+      = new QPushButton(QString::fromUtf8(R__("Repair this Enabler")),
+                        this);
+  connect(repair_button, SIGNAL(pressed()), this, SLOT(repair_now()));
+  repair_button->setEnabled(false);
+  enabler_layout->addWidget(repair_button, 3, 1);
+
   refresh();
 
   main_layout->addLayout(enabler_layout);
@@ -156,6 +163,9 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
     tgt_reqs_button->setEnabled(true);
 
     delete_button->setEnabled(true);
+
+    repair_button->setEnabled(
+          action_enabler_obligatory_reqs_missing(selected));
   } else {
     type_button->setText("None");
 
@@ -163,6 +173,7 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
     act_reqs_button->setEnabled(false);
     tgt_reqs_button->setEnabled(false);
 
+    repair_button->setEnabled(false);
     delete_button->setEnabled(false);
   }
 }
@@ -236,6 +247,27 @@ void tab_enabler::add_now()
   refresh();
 }
 
+/**********************************************************************//**
+  User requested enabler repair
+**************************************************************************/
+void tab_enabler::repair_now()
+{
+  if (selected == nullptr) {
+    /* Nothing to repair */
+    return;
+  }
+
+  if (!action_enabler_obligatory_reqs_missing(selected)) {
+    /* Not broken. */
+    return;
+  }
+
+  /* At least one hard obligatory requirement is missing. */
+
+  /* Add obligatory requirements. */
+  action_enabler_obligatory_reqs_add(selected);
+}
+
 /**************************************************************************
   User selected action to enable
 **************************************************************************/
@@ -248,37 +280,8 @@ void tab_enabler::edit_type(QAction *action)
   paction = action_by_rule_name(an_bytes.data());
 
   if (selected != nullptr && paction != nullptr) {
-    /* Store the old action so it can be changed back. */
-    const action_id old_action = selected->action;
-
-    /* Handle the new action's hard obligatory requirements. */
-    selected->action = paction->id;
-    if (action_enabler_obligatory_reqs_missing(selected)) {
-      /* At least one hard obligatory requirement is missing. */
-
-      QMessageBox *box = new QMessageBox();
-
-      box->setWindowTitle(_("Obligatory hard requirements"));
-
-      box->setText(
-            QString(_("Changing action to %1 will modify enabler "
-                      "requirements. Continue?"))
-                   .arg(action_name_translation(paction)));
-      box->setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-      box->exec();
-
-      if (box->result() == QMessageBox::Yes) {
-        /* Add obligatory requirements. */
-        action_enabler_obligatory_reqs_add(selected);
-      } else {
-        /* The user don't want to add the requirements. Cancel. */
-        selected->action = old_action;
-        return;
-      }
-    }
-
     /* Must remove and add back because enablers are stored by action. */
-    selected->action = old_action;
+    selected->action = paction->id;
     action_enabler_remove(selected);
     selected->action = paction->id;
     action_enabler_add(selected);

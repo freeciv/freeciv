@@ -49,6 +49,7 @@ class tab_enabler : public QWidget
     QPushButton *act_reqs_button;
     QPushButton *tgt_reqs_button;
     QPushButton *delete_button;
+    QPushButton *repair_button;
     QListWidget *enabler_list;
 
     struct action_enabler *selected;
@@ -56,6 +57,7 @@ class tab_enabler : public QWidget
   private slots:
     void select_enabler();
     void add_now();
+    void repair_now();
     void delete_now();
     void edit_type(QAction *action);
     void edit_target_reqs();
