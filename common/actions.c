@@ -1127,9 +1127,7 @@ void actions_free(void)
 
   action_iterate(act) {
     action_enabler_list_iterate(action_enablers_by_action[act], enabler) {
-      requirement_vector_free(&enabler->actor_reqs);
-      requirement_vector_free(&enabler->target_reqs);
-      free(enabler);
+      action_enabler_free(enabler);
     } action_enabler_list_iterate_end;
 
     action_enabler_list_destroy(action_enablers_by_action[act]);
@@ -2001,8 +1999,11 @@ struct action_enabler *action_enabler_new(void)
 /**********************************************************************//**
   Free resources allocated for the action enabler.
 **************************************************************************/
-void action_enabler_close(struct action_enabler *enabler)
+void action_enabler_free(struct action_enabler *enabler)
 {
+  requirement_vector_free(&enabler->actor_reqs);
+  requirement_vector_free(&enabler->target_reqs);
+
   free(enabler);
 }
 

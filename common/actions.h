@@ -621,7 +621,7 @@ struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
 struct action_enabler *action_enabler_new(void);
-void action_enabler_close(struct action_enabler *enabler);
+void action_enabler_free(struct action_enabler *enabler);
 struct action_enabler *
 action_enabler_copy(const struct action_enabler *original);
 void action_enabler_add(struct action_enabler *enabler);
