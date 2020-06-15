@@ -3462,6 +3462,8 @@ struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
   va_start(ap, descr);
   fc_vsnprintf(out->description, sizeof(out->description),
                descr, ap);
+  fc_vsnprintf(out->description_translated, sizeof(out->description),
+               descr, ap);
   va_end(ap);
 
   out->num_suggested_solutions = num_suggested_solutions;
