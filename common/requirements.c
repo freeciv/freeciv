@@ -3424,6 +3424,138 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified requirement vector modification was
+  successfully applied to the specified target requirment vector.
+  @param modification the requirement vector change
+  @param target the requirement vector the change should be applied to
+  @return if the specified modification was successfully applied
+**************************************************************************/
+bool req_vec_change_apply(const struct req_vec_change *modification,
+                          struct requirement_vector *target)
+{
+  int i = 0;
+
+  /* No current users changes a requirement vector based on another. */
+  fc_assert(modification->based_on == target);
+
+  switch (modification->operation) {
+  case RVCO_APPEND:
+    requirement_vector_append(target, modification->req);
+    return TRUE;
+  case RVCO_REMOVE:
+    requirement_vector_iterate(target, preq) {
+      if (are_requirements_equal(&modification->req, preq)) {
+        requirement_vector_remove(target, i);
+        return TRUE;
+      }
+      i++;
+    } requirement_vector_iterate_end;
+    return FALSE;
+  case RVCO_NOOP:
+    return FALSE;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Returns a new requirement vector problem with the specified number of
+  suggested solutions and the specified description. The suggestions are
+  added by the caller. The description
+  @param num_suggested_solutions the number of suggested solutions.
+  @param descr the description of the problem as a format string
+  @return the new requirement vector problem.
+**************************************************************************/
+struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
+                                            const char *descr, ...)
+{
+  struct req_vec_problem *out;
+  int i;
+  va_list ap;
+
+  out = fc_malloc(sizeof(*out));
+
+  va_start(ap, descr);
+  fc_vsnprintf(out->description, sizeof(out->description),
+               descr, ap);
+  va_end(ap);
+
+  out->num_suggested_solutions = num_suggested_solutions;
+  out->suggested_solutions = fc_malloc(out->num_suggested_solutions
+                                       * sizeof(struct req_vec_change));
+  for (i = 0; i < out->num_suggested_solutions; i++) {
+    /* No suggestions are ready yet. */
+    out->suggested_solutions[i].operation = RVCO_NOOP;
+    out->suggested_solutions[i].based_on = NULL;
+    out->suggested_solutions[i].req.source.kind = VUT_NONE;
+  }
+
+  return out;
+}
+
+/**********************************************************************//**
+  De-allocates resources associated with the given requirement vector
+  problem.
+  @param issue the no longer needed problem.
+**************************************************************************/
+void req_vec_problem_free(struct req_vec_problem *issue)
+{
+  FC_FREE(issue->suggested_solutions);
+  issue->num_suggested_solutions = 0;
+
+  FC_FREE(issue);
+}
+
+/**********************************************************************//**
+  Returns the first self contradiction found in the specified requirement
+  vector with suggested solutions or NULL if no contradiction was found.
+  It is the responsibility of the caller to free the suggestion when it is
+  done with it.
+  @param vec the requirement vector to look in.
+  @return the first self contradiction found.
+**************************************************************************/
+struct req_vec_problem *
+req_vec_get_first_contradiction(const struct requirement_vector *vec)
+{
+  int i, j;
+
+  if (vec == NULL || requirement_vector_size(vec) == 0) {
+    /* No vector. */
+    return NULL;
+  }
+
+  /* Look for contradictions */
+  for (i = 0; i < requirement_vector_size(vec); i++) {
+    struct requirement *preq = requirement_vector_get(vec, i);
+    for (j = 0; j < requirement_vector_size(vec); j++) {
+      struct requirement *nreq = requirement_vector_get(vec, j);
+
+      if (are_requirements_contradictions(preq, nreq)) {
+        struct req_vec_problem *problem;
+
+        problem = req_vec_problem_new(2,
+            "Requirements {%s} and {%s} contradict each other.",
+            req_to_fstring(preq), req_to_fstring(nreq));
+
+        /* The solution is to remove one of the contradictions. */
+        problem->suggested_solutions[0].operation = RVCO_REMOVE;
+        problem->suggested_solutions[0].based_on = vec;
+        problem->suggested_solutions[0].req = *preq;
+
+        problem->suggested_solutions[1].operation = RVCO_REMOVE;
+        problem->suggested_solutions[1].based_on = vec;
+        problem->suggested_solutions[1].req = *nreq;
+
+        /* Only the first contradiction is reported. */
+        return problem;
+      }
+    }
+  }
+
+  return NULL;
+}
+
+/**********************************************************************//**
   Return TRUE iff the two sources are equivalent.  Note this isn't the
   same as an == or memcmp check.
 ***************************************************************************/
