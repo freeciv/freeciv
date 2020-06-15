@@ -189,8 +189,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DRO_FOREIGN),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "foreign target.",
+                          N_("All action enablers for %s must require a "
+                             "foreign target."),
                           ACTRES_ESTABLISH_EMBASSY,
                           ACTRES_SPY_INVESTIGATE_CITY,
                           ACTRES_SPY_STEAL_GOLD,
@@ -212,8 +212,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, TRUE, TRUE,
                                           DRO_HAS_REAL_EMBASSY),
                           FALSE,
-                          "All action enablers for %s must require the"
-                          " absence of a real embassy.",
+                          N_("All action enablers for %s must require the"
+                             " absence of a real embassy."),
                           ACTRES_ESTABLISH_EMBASSY,
                           ACTRES_NONE);
 
@@ -223,8 +223,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, TRUE, TRUE,
                                           ACTIVITY_FORTIFIED),
                           FALSE,
-                          "All action enablers for %s must require that"
-                          " the actor unit isn't already fortified.",
+                          N_("All action enablers for %s must require that"
+                             " the actor unit isn't already fortified."),
                           ACTRES_FORTIFY,
                           ACTRES_NONE);
 
@@ -239,8 +239,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "target the actor is at war with.",
+                          N_("All action enablers for %s must require"
+                             " a target the actor is at war with."),
                           ACTRES_BOMBARD,
                           ACTRES_ATTACK,
                           ACTRES_NONE);
@@ -250,8 +250,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DRO_FOREIGN),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic target."),
                           ACTRES_UPGRADE_UNIT, ACTRES_NONE);
 
   /* Why this is a hard requirement: The code expects that only domestic and
@@ -259,40 +259,40 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_ARMISTICE),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic or allied target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_WAR),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic or allied target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_CEASEFIRE),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic or allied target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_PEACE),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic or allied target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_NO_CONTACT),
                           FALSE,
-                          "All action enablers for %s must require a "
-                          "domestic or allied target.",
+                          N_("All action enablers for %s must require"
+                             " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
@@ -320,16 +320,17 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           UCF_CAN_FORTIFY),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has the CanFortify uclass flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor has"
+                             " the CanFortify uclass flag."),
                           ACTRES_FORTIFY, ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE,
                                           UTYF_CANT_FORTIFY),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the Cant_Fortify utype "
-                          "flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor doesn't have"
+                             " the Cant_Fortify utype flag."),
                           ACTRES_FORTIFY, ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of the Settlers
@@ -338,8 +339,9 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           UTYF_SETTLERS),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has the Settlers utype flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor has"
+                             " the Settlers utype flag."),
                           ACTRES_TRANSFORM_TERRAIN,
                           ACTRES_CULTIVATE,
                           ACTRES_PLANT,
@@ -357,9 +359,9 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, TRUE, TRUE,
                                           TER_NO_CITIES),
                           TRUE,
-                          "All action enablers for %s must require that"
+                          N_("All action enablers for %s must require that"
                           " the target doesn't has"
-                          " the NoCities terrain flag.",
+                          " the NoCities terrain flag."),
                           ACTRES_FOUND_CITY,
                           ACTRES_NONE);
 
@@ -370,8 +372,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           USP_HAS_HOME_CITY),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has a home city.",
+                          N_("All action enablers for %s must require"
+                             " that the actor has a home city."),
                           ACTRES_TRADE_ROUTE,
                           ACTRES_MARKETPLACE,
                           ACTRES_NONE);
@@ -382,8 +384,9 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, UTYF_NOHOME),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the NoHome utype flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor doesn't have"
+                             " the NoHome utype flag."),
                           ACTRES_HOME_CITY, ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of NonMil
@@ -392,8 +395,9 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, UTYF_CIVILIAN),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor doesn't have the NonMil utype flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor doesn't have"
+                             " the NonMil utype flag."),
                           ACTRES_ATTACK,
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
@@ -404,8 +408,9 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           UCF_CAN_OCCUPY_CITY),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has the CanOccupyCity uclass flag.",
+                          N_("All action enablers for %s must require"
+                             " that the actor has"
+                             " the CanOccupyCity uclass flag."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
 
@@ -415,8 +420,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor is at war with the target.",
+                          N_("All action enablers for %s must require"
+                             " that the actor is at war with the target."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
 
@@ -426,8 +431,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, 1),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor has a movement point left.",
+                          N_("All action enablers for %s must require"
+                             " that the actor has a movement point left."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_TRANSPORT_DISEMBARK,
                           ACTRES_TRANSPORT_EMBARK,
@@ -452,8 +457,8 @@ static void hard_code_oblig_hard_reqs(void)
   oblig_hard_req_register(req_from_values(VUT_MAXTILEUNITS, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, 0),
                           TRUE,
-                          "All action enablers for %s must require that "
-                          "the target city is empty.",
+                          N_("All action enablers for %s must require"
+                             " that the target city is empty."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
 
@@ -465,8 +470,9 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, TRUE, TRUE,
                                           USP_TRANSPORTING),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor isn't transporting another unit.",
+                          N_("All action enablers for %s must require"
+                             " that the actor isn't transporting"
+                             " another unit."),
                           ACTRES_PARADROP, ACTRES_AIRLIFT, ACTRES_NONE);
 
   /* Why this is a hard requirement: Assumed in the code. */
@@ -474,8 +480,9 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, TRUE, TRUE,
                                           USP_TRANSPORTING),
                           TRUE,
-                          "All action enablers for %s must require that "
-                          "the target isn't transporting another unit.",
+                          N_("All action enablers for %s must require"
+                             " that the target isn't transporting another"
+                             " unit."),
                           ACTRES_CAPTURE_UNITS, ACTRES_NONE);
 
   /* Why this is a hard requirement: sanity. */
@@ -483,15 +490,15 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           USP_TRANSPORTING),
                           TRUE,
-                          "All action enablers for %s must require that "
-                          "the target is transporting a unit.",
+                          N_("All action enablers for %s must require"
+                             " that the target is transporting a unit."),
                           ACTRES_TRANSPORT_ALIGHT, ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
                                           USP_TRANSPORTED),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor is transported.",
+                          N_("All action enablers for %s must require"
+                             " that the actor is transported."),
                           ACTRES_TRANSPORT_ALIGHT,
                           ACTRES_TRANSPORT_DISEMBARK,
                           ACTRES_NONE);
@@ -499,8 +506,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           USP_LIVABLE_TILE),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor is on a livable tile.",
+                          N_("All action enablers for %s must require"
+                             " that the actor is on a livable tile."),
                           ACTRES_TRANSPORT_ALIGHT, ACTRES_NONE);
 
   /* Why this is a hard requirement: sanity. */
@@ -508,22 +515,22 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           USP_TRANSPORTING),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor is transporting a unit.",
+                          N_("All action enablers for %s must require"
+                             " that the actor is transporting a unit."),
                           ACTRES_TRANSPORT_UNLOAD, ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
                                           USP_TRANSPORTED),
                           TRUE,
-                          "All action enablers for %s must require that "
-                          "the target is transported.",
+                          N_("All action enablers for %s must require"
+                             " that the target is transported."),
                           ACTRES_TRANSPORT_UNLOAD, ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE,
                                           USP_LIVABLE_TILE),
                           TRUE,
-                          "All action enablers for %s must require that "
-                          "the target is on a livable tile.",
+                          N_("All action enablers for %s must require"
+                             " that the target is on a livable tile."),
                           ACTRES_TRANSPORT_UNLOAD, ACTRES_NONE);
 
   /* Why this is a hard requirement: assumed by the Freeciv code. */
@@ -531,8 +538,8 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE,
                                           CITYT_CENTER),
                           FALSE,
-                          "All action enablers for %s must require that "
-                          "the actor unit is in a city.",
+                          N_("All action enablers for %s must require"
+                             " that the actor unit is in a city."),
                           ACTRES_AIRLIFT,
                           ACTRES_NONE);
 }
@@ -551,8 +558,8 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
                                               FALSE, TRUE, TRUE,
                                               nation_number(pnation)),
                               TRUE,
-                              "All action enablers for %s must require a "
-                              "non animal player actor.",
+                              N_("All action enablers for %s must require"
+                                 " a non animal player actor."),
                               ACTRES_CONQUER_CITY,
                               ACTRES_NONE);
     }
