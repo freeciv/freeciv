@@ -3485,9 +3485,6 @@ bool req_vec_change_apply(const struct req_vec_change *modification,
 {
   int i = 0;
 
-  /* No current users changes a requirement vector based on another. */
-  fc_assert(modification->based_on == target);
-
   switch (modification->operation) {
   case RVCO_APPEND:
     requirement_vector_append(target, modification->req);

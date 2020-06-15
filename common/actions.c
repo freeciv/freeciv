@@ -2143,7 +2143,7 @@ bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
   responsibility of the caller to free the suggestion when it is done with
   it.
 **************************************************************************/
-static struct req_vec_problem *
+struct req_vec_problem *
 action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
 {
   struct action *paction;

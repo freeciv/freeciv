@@ -627,6 +627,8 @@ const char *
 action_enabler_obligatory_reqs_missing(struct action_enabler *enabler);
 bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler);
 struct req_vec_problem *
+action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler);
+struct req_vec_problem *
 action_enabler_suggest_a_fix(const struct action_enabler *enabler);
 
 struct action *action_is_blocked_by(const action_id act_id,
