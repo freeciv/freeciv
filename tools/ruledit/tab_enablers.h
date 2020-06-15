@@ -21,6 +21,9 @@
 // Qt
 #include <QWidget>
 
+/* ruledit */
+#include "req_vec_fix.h"
+
 class QPushButton;
 class QLabel;
 class QLineEdit;
@@ -64,5 +67,26 @@ class tab_enabler : public QWidget
     void edit_actor_reqs();
 };
 
+class fix_enabler_item : public req_vec_fix_item
+{
+public:
+  explicit fix_enabler_item(struct action_enabler *enabler);
+  virtual ~fix_enabler_item();
+  void close();
+
+  const void *item();
+  const char *name();
+  struct req_vec_problem *find_next_problem(void);
+  void apply_accepted_changes();
+  void undo_accepted_changes();
+  const char *vector_name(const struct requirement_vector *vec);
+  struct requirement_vector *
+  vector_writable(const struct requirement_vector *vec);
+
+private:
+  struct action_enabler *current_enabler;
+  struct action_enabler *local_copy;
+  QString my_name;
+};
 
 #endif // FC__TAB_ENABLERS_H
