@@ -1160,12 +1160,11 @@ bool sanity_check_ruleset_data(bool ignore_retired)
          * were retired in Freeciv 3.0. Make sure that the opposite of each
          * hard action requirement blocks all its action enablers. */
 
-        const char *error_message;
+        struct req_vec_problem *problem
+            = action_enabler_suggest_a_fix(enabler);
 
-        if ((error_message
-             = action_enabler_obligatory_reqs_missing(enabler))) {
-            ruleset_error(LOG_ERROR, error_message,
-                          action_id_rule_name(act));
+        if (problem != NULL) {
+            ruleset_error(LOG_ERROR, "%s", problem->description);
             ok = FALSE;
           }
       }
