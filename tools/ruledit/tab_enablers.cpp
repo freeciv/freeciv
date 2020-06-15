@@ -164,8 +164,17 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
 
     delete_button->setEnabled(true);
 
-    repair_button->setEnabled(
-          action_enabler_obligatory_reqs_missing(selected));
+    {
+      struct req_vec_problem *problem
+          = action_enabler_suggest_a_fix(selected);
+
+      /* Offer to repair the enabler if it has a problem. */
+      repair_button->setEnabled(problem != NULL);
+
+      if (problem != NULL) {
+        req_vec_problem_free(problem);
+      }
+    }
   } else {
     type_button->setText("None");
 
@@ -257,15 +266,7 @@ void tab_enabler::repair_now()
     return;
   }
 
-  if (!action_enabler_obligatory_reqs_missing(selected)) {
-    /* Not broken. */
-    return;
-  }
-
-  /* At least one hard obligatory requirement is missing. */
-
-  /* Add obligatory requirements. */
-  action_enabler_obligatory_reqs_add(selected);
+  ui->open_req_vec_fix(new fix_enabler_item(selected));
 }
 
 /**********************************************************************//**
@@ -311,5 +312,136 @@ void tab_enabler::edit_actor_reqs()
   if (selected != nullptr) {
     ui->open_req_edit(QString::fromUtf8(R__("Enabler (actor)")),
                       &selected->actor_reqs);
+  }
+}
+
+/**********************************************************************//**
+  Construct fix_enabler_item to help req_vec_fix with the action enabler
+  unique stuff.
+**************************************************************************/
+fix_enabler_item::fix_enabler_item(struct action_enabler *enabler)
+{
+  struct action *paction = action_by_number(enabler->action);
+
+  fc_assert_ret(paction);
+
+  /* Don't modify the original until the user accepts */
+  local_copy = action_enabler_copy(enabler);
+  current_enabler = enabler;
+
+  /* As precise a title as possible */
+  my_name = QString::asprintf(R__("action enabler for %s"),
+                              action_rule_name(paction));
+}
+
+/**********************************************************************//**
+  Destructor for fix_enabler_item
+**************************************************************************/
+fix_enabler_item::~fix_enabler_item()
+{
+  action_enabler_free(local_copy);
+}
+
+/********************************************************************//**
+  Tell the helper that it has outlived its usefulnes.
+************************************************************************/
+void fix_enabler_item::close()
+{
+  delete this;
+}
+
+/********************************************************************//**
+  Returns a pointer to the ruleset item.
+  @return a pointer to the ruleset item.
+************************************************************************/
+const void *fix_enabler_item::item()
+{
+  return current_enabler;
+}
+
+/**********************************************************************//**
+  Returns a name to describe the item, hopefully good enough to
+  distinguish it from other items. Must be short enough for a quick
+  mention.
+  @return a (not always unique) name for the ruleset item.
+**************************************************************************/
+const char *fix_enabler_item::name()
+{
+  return my_name.toUtf8().data();
+}
+
+/**********************************************************************//**
+  Returns the next detected requirement vector problem for the ruleset
+  item or nullptr if no fix is found to be needed.
+  @return the next requirement vector problem for the item.
+**************************************************************************/
+struct req_vec_problem *fix_enabler_item::find_next_problem(void)
+{
+  return action_enabler_suggest_a_fix(local_copy);
+}
+
+/**********************************************************************//**
+  Do all the changes the user has accepted to the ruleset item.
+  N.B.: This could be called *before* all problems are fixed if the user
+  wishes to try to fix problems by hand or to come back and fix the
+  remaining problems later.
+**************************************************************************/
+void fix_enabler_item::apply_accepted_changes()
+{
+  /* The user has approved the solution */
+  current_enabler->action = local_copy->action;
+  requirement_vector_copy(&current_enabler->actor_reqs,
+                          &local_copy->actor_reqs);
+  requirement_vector_copy(&current_enabler->target_reqs,
+                          &local_copy->target_reqs);
+}
+
+/**********************************************************************//**
+  Undo all the changes the user has accepted to the ruleset item.
+  N.B.: This could be called *after* all problems are fixed if the user
+  wishes to see all problems and try to fix them by hand.
+**************************************************************************/
+void fix_enabler_item::undo_accepted_changes()
+{
+  /* The user has rejected all solutions */
+  local_copy->action = current_enabler->action;
+  requirement_vector_copy(&local_copy->actor_reqs,
+                          &current_enabler->actor_reqs);
+  requirement_vector_copy(&local_copy->target_reqs,
+                          &current_enabler->target_reqs);
+}
+
+/*********************************************************************//**
+  Returns the name of the specified requirement vector. Useful when
+  there is more than one requirement vector.
+  @param vec the requirement vector to name
+  @return the requirement vector name.
+**************************************************************************/
+const char *
+fix_enabler_item::vector_name(const struct requirement_vector *vec)
+{
+  /* Does this solution apply to the actor reqs or to the target reqs? */
+  if (vec == &local_copy->actor_reqs) {
+    return R__("actor_reqs");
+  } else {
+    fc_assert_ret_val(vec == &local_copy->target_reqs, "unknown vector");
+    return R__("target_reqs");
+  }
+}
+
+/**********************************************************************//**
+  Returns a writable pointer to the specified requirement vector.
+  @param vec the requirement vector to write to.
+  @return a writable pointer to the requirement vector.
+**************************************************************************/
+struct requirement_vector *
+fix_enabler_item::vector_writable(const struct requirement_vector *vec)
+{
+  /* Does this solution apply to the actor reqs or to the target reqs? */
+  if (vec == &local_copy->actor_reqs) {
+    return &local_copy->actor_reqs;
+  } else {
+    fc_assert_ret_val(vec == &local_copy->target_reqs, nullptr);
+    return &local_copy->target_reqs;
   }
 }
