@@ -21,6 +21,7 @@
 // Qt
 #include <QWidget>
 
+class QPushButton;
 class QLabel;
 class QLineEdit;
 class QListWidget;
@@ -45,6 +46,9 @@ class tab_enabler : public QWidget
 
     QToolButton *type_button;
     QMenu *type_menu;
+    QPushButton *act_reqs_button;
+    QPushButton *tgt_reqs_button;
+    QPushButton *delete_button;
     QListWidget *enabler_list;
 
     struct action_enabler *selected;
