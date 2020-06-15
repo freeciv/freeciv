@@ -404,6 +404,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                                  bool conjunctive, int max_tiles,
                                  const char *list_for)
 {
+  struct req_vec_problem *problem;
   int reqs_of_type[VUT_COUNT];
   int local_reqs_of_type[VUT_COUNT];
 
@@ -416,16 +417,14 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                               conjunctive, max_tiles, list_for)) {
       return FALSE;
     }
-    requirement_vector_iterate(preqs, nreq) {
-      if (are_requirements_contradictions(preq, nreq)) {
-        log_error("%s: Requirements {%s} and {%s} contradict each other.",
-                  list_for,
-                  req_to_fstring(preq),
-                  req_to_fstring(nreq));
-        return FALSE;
-      }
-    } requirement_vector_iterate_end;
   } requirement_vector_iterate_end;
+
+  problem = req_vec_get_first_contradiction(preqs);
+  if (problem != NULL) {
+    log_error("%s: %s.", list_for, problem->description);
+    req_vec_problem_free(problem);
+    return FALSE;
+  }
 
   return TRUE;
 }
