@@ -1173,28 +1173,6 @@ bool does_req_contradicts_reqs(const struct requirement *req,
   return FALSE;
 }
 
-/* No self contradictions in the requirement vector. */
-#define NO_CONTRADICTIONS (-1)
-
-/**************************************************************************
-  Returns the first requirement in a requirement vector that contradicts
-  with other requirements in the same requirement vector.
-**************************************************************************/
-static int first_contradiction(const struct requirement_vector *vec)
-{
-  int i;
-
-  for (i = 0; i < requirement_vector_size(vec); i++) {
-    struct requirement *preq = requirement_vector_get(vec, i);
-
-    if (does_req_contradicts_reqs(preq, vec)) {
-      return i;
-    }
-  }
-
-  return NO_CONTRADICTIONS;
-}
-
 /**************************************************************************
   Clean up self contradictions from a requirement vector.
 
@@ -1204,12 +1182,18 @@ static int first_contradiction(const struct requirement_vector *vec)
 **************************************************************************/
 bool requirement_vector_contradiction_clean(struct requirement_vector *vec)
 {
-  int conflict;
+  struct req_vec_problem *problem;
   bool had_contradiction = FALSE;
 
-  while (NO_CONTRADICTIONS != (conflict = first_contradiction(vec))) {
-    requirement_vector_remove(vec, conflict);
+  problem = req_vec_get_first_contradiction(vec);
+  while (problem != NULL) {
     had_contradiction = TRUE;
+
+    fc_assert_ret_val(problem->num_suggested_solutions > 0, TRUE);
+    req_vec_change_apply(&problem->suggested_solutions[0], vec);
+
+    req_vec_problem_free(problem);
+    problem = req_vec_get_first_contradiction(vec);
   }
 
   return had_contradiction;
