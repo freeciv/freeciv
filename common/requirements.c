@@ -3860,7 +3860,7 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec)
         struct req_vec_problem *problem;
 
         problem = req_vec_problem_new(2,
-            "Requirements {%s} and {%s} contradict each other.",
+            N_("Requirements {%s} and {%s} contradict each other."),
             req_to_fstring(preq), req_to_fstring(nreq));
 
         /* The solution is to remove one of the contradictions. */
