@@ -284,7 +284,7 @@ poison_empties_food_stock = FALSE
 ;steal_maps_reveals_all_cities = TRUE
 
 ; The maximum distance from the actor unit to the target of the
-; "Help Wonder" action. The value 0 means that the target's tile must be the
+; "Help Wonder" action. The value 0 means that the target`s tile must be the
 ; tile of the actor unit. The value 1 means that the city must be on a tile
 ; adjacent to the actor unit. The special value "unlimited" lifts the
 ; maximum distance restriction. The maximum distance can`t be smaller than
@@ -292,7 +292,7 @@ poison_empties_food_stock = FALSE
 help_wonder_max_range = 1
 
 ; The maximum distance from the actor unit to the target of the
-; "Recycle Unit" action. The value 0 means that the target's tile must be the
+; "Recycle Unit" action. The value 0 means that the target`s tile must be the
 ; tile of the actor unit. The value 1 means that the city must be on a tile
 ; adjacent to the actor unit. The special value "unlimited" lifts the
 ; maximum distance restriction. The maximum distance can`t be smaller than
