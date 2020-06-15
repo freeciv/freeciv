@@ -143,6 +143,42 @@ bool is_req_in_vec(const struct requirement *req,
 bool req_vec_wants_type(const struct requirement_vector *reqs,
                         enum universals_n kind);
 
+
+/* Interactive friendly requirement vector change suggestions and
+ * reasoning. */
+#define SPECENUM_NAME req_vec_change_operation
+#define SPECENUM_VALUE0 RVCO_REMOVE
+#define SPECENUM_VALUE0NAME N_("Remove")
+#define SPECENUM_VALUE1 RVCO_APPEND
+#define SPECENUM_VALUE1NAME N_("Append")
+#define SPECENUM_COUNT RVCO_NOOP
+#include "specenum_gen.h"
+
+struct req_vec_change {
+  enum req_vec_change_operation operation;
+  struct requirement req;
+
+  const struct requirement_vector *based_on;
+};
+
+struct req_vec_problem {
+  char description[MAX_LEN_NAME * 3];
+
+  int num_suggested_solutions;
+  struct req_vec_change *suggested_solutions;
+};
+
+bool req_vec_change_apply(const struct req_vec_change *modification,
+                          struct requirement_vector *target);
+
+struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
+                                            const char *description, ...);
+void req_vec_problem_free(struct req_vec_problem *issue);
+
+struct req_vec_problem *
+req_vec_get_first_contradiction(const struct requirement_vector *vec);
+
+
 /* General universal functions. */
 int universal_number(const struct universal *source);
 
