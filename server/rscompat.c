@@ -997,7 +997,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1027,7 +1027,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1057,7 +1057,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1087,7 +1087,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1117,7 +1117,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1147,7 +1147,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1177,7 +1177,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1207,7 +1207,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1237,7 +1237,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
@@ -1267,7 +1267,7 @@ void rscompat_postprocess(struct rscompat_info *info)
         if (!action_enabler_obligatory_reqs_add(enabler)) {
           action_enabler_add(enabler);
         } else {
-          action_enabler_close(enabler);
+          action_enabler_free(enabler);
         }
       }
 
