@@ -298,6 +298,82 @@ bool utype_can_freely_unload(const struct unit_type *pcargotype,
                   uclass_index(utype_class(ptranstype)));
 }
 
+/**********************************************************************//**
+  Returns TRUE iff the specified action is hostile.
+**************************************************************************/
+static bool action_is_hostile(action_id act_id)
+{
+  struct action *paction = action_by_number(act_id);
+
+  switch (paction->result) {
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_BOMBARD:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_ATTACK:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_PILLAGE:
+  case ACTRES_SPY_ATTACK:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+    return TRUE;
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_FOUND_CITY:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_PARADROP:
+  case ACTRES_AIRLIFT:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_FORTIFY:
+  case ACTRES_ROAD:
+  case ACTRES_CONVERT:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_DISEMBARK:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+    return FALSE;
+  case ACTRES_NONE:
+    /* Assume they are up to something. */
+    return TRUE;
+  }
+
+  /* Should not be reached. */
+  fc_assert(FALSE);
+  return FALSE;
+}
+
 /* Fake action id representing any hostile action. */
 #define ACTION_HOSTILE ACTION_COUNT + 1
 

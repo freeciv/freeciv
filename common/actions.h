@@ -319,8 +319,6 @@ struct action
   enum action_target_kind target_kind;
   enum action_sub_target_kind sub_target_kind;
 
-  bool hostile; /* TODO: Should this be a scale in stead? */
-
   /* Sub target policy. */
   enum act_tgt_compl target_complexity;
 
@@ -544,8 +542,6 @@ bool action_has_result(const struct action *paction,
 #define action_id_has_result_safe(act_id, result)                         \
   (action_by_number(act_id)                                               \
    && action_has_result(action_by_number(act_id), result))
-
-bool action_is_hostile(action_id act_id);
 
 bool action_has_complex_target(const struct action *paction);
 #define action_id_has_complex_target(act_id)                              \
