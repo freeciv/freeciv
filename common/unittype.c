@@ -442,6 +442,7 @@ static void unit_state_action_cache_set(struct unit_type *putype)
 static void local_dipl_rel_action_cache_set(struct unit_type *putype)
 {
   struct requirement req;
+  struct requirement tile_is_claimed;
   int uidx = utype_index(putype);
 
   /* The unit is not yet known to be allowed to perform any actions no
@@ -456,6 +457,13 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
     /* Not an actor unit. */
     return;
   }
+
+  /* Tile is claimed as a requirement. */
+  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.survives = FALSE;
+  tile_is_claimed.source.kind = VUT_CITYTILE;
+  tile_is_claimed.present = TRUE;
+  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
 
   /* Common for every situation */
   req.range = REQ_RANGE_LOCAL;
@@ -475,7 +483,11 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
     action_enablers_iterate(enabler) {
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
-          && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
+          && action_id_get_actor_kind(enabler->action) == AAK_UNIT
+          && (action_id_get_target_kind(enabler->action) != ATK_TILE
+              /* No diplomatic relation to Nature */
+              || !does_req_contradicts_reqs(&tile_is_claimed,
+                                            &enabler->target_reqs))) {
         bool present = TRUE;
         do {
           req.present = present;
