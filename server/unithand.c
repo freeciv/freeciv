@@ -1076,33 +1076,6 @@ static bool does_nation_block_action(const action_id act_id,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the fact that the target tile is tile claimed by
-  someone else blocks the specified action.
-**************************************************************************/
-static bool foreign_tgt_tile_makes_illegal(const struct action *paction,
-                                           const struct unit *act_unit,
-                                           const struct tile *tgt_tile)
-{
-  if (action_get_target_kind(paction) != ATK_TILE || tgt_tile == NULL) {
-    /* Not relevant */
-    return FALSE;
-  }
-
-  if (tile_owner(tgt_tile) == NULL) {
-    /* Unclaimed */
-    return FALSE;
-  }
-
-  if (tile_owner(tgt_tile) == unit_owner(act_unit)) {
-    /* Domestic */
-    return FALSE;
-  }
-
-  return !rs_allows_tgt_tile_owner(paction, DRO_FOREIGN,
-                                   unit_type_get(act_unit));
-}
-
-/**********************************************************************//**
   Returns an explaination why punit can't perform the specified action
   based on the current game state.
 **************************************************************************/
@@ -1346,8 +1319,6 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                                  act_id,
                                                  DRO_FOREIGN,
                                                  TRUE)) {
-    explnat->kind = ANEK_FOREIGN;
-  } else if (foreign_tgt_tile_makes_illegal(paction, punit, target_tile)) {
     explnat->kind = ANEK_FOREIGN;
   } else if (tgt_player
              && unit_owner(punit) == tgt_player
