@@ -201,6 +201,7 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("Infra"), N_("Can build infrastructure.") },
       { N_("BeachLander"), N_("Won't lose all movement when moving from"
                               " non-native terrain to native terrain.") },
+      { N_("Cant_Fortify"), NULL },
     };
     enough_new_user_flags(new_flags_31, unit_type,
                           UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_0);
@@ -215,6 +216,8 @@ bool rscompat_names(struct rscompat_info *info)
     } new_class_flags_31[] = {
       { N_("Missile"), N_("Unit is destroyed when it attacks") },
       { N_("CanPillage"), N_("Can pillage tile improvements.") },
+      { N_("CanFortify"), N_("Gets a 50% defensive bonus while"
+                             " in cities.") },
     };
     enough_new_user_flags(new_class_flags_31, unit_class,
                           UCF_LAST_USER_FLAG, UCF_LAST_USER_FLAG_3_0);
@@ -654,8 +657,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler = action_enabler_new();
     enabler->action = ACTION_FORTIFY;
-    e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
-                            UCF_CAN_FORTIFY);
+    e_req = req_from_str("UnitClassFlag", "Local", FALSE, TRUE, TRUE,
+                         "CanFortify");
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    e_req = req_from_str("UnitFlag", "Local", FALSE, FALSE, TRUE,
+                         "Cant_Fortify");
     requirement_vector_append(&enabler->actor_reqs, e_req);
     e_req = req_from_str("TerrainFlag", "Local", FALSE, FALSE, TRUE,
                          "NoFortify");
@@ -664,8 +670,11 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     enabler = action_enabler_new();
     enabler->action = ACTION_FORTIFY;
-    e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
-                            UCF_CAN_FORTIFY);
+    e_req = req_from_str("UnitClassFlag", "Local", FALSE, TRUE, TRUE,
+                         "CanFortify");
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    e_req = req_from_str("UnitFlag", "Local", FALSE, FALSE, TRUE,
+                         "Cant_Fortify");
     requirement_vector_append(&enabler->actor_reqs, e_req);
     e_req = req_from_str("CityTile", "Local", FALSE, TRUE, TRUE,
                          "Center");

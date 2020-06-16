@@ -73,31 +73,28 @@ struct ai_type;
 /* Is subject to ZOC */
 #define SPECENUM_VALUE7 UCF_ZOC
 #define SPECENUM_VALUE7NAME N_("?uclassflag:ZOC")
-/* Can fortify on land squares */
-#define SPECENUM_VALUE8 UCF_CAN_FORTIFY
-#define SPECENUM_VALUE8NAME N_("?uclassflag:CanFortify")
 /* Cities can still work tile when enemy unit on it */
-#define SPECENUM_VALUE9 UCF_DOESNT_OCCUPY_TILE
-#define SPECENUM_VALUE9NAME N_("?uclassflag:DoesntOccupyTile")
+#define SPECENUM_VALUE8 UCF_DOESNT_OCCUPY_TILE
+#define SPECENUM_VALUE8NAME N_("?uclassflag:DoesntOccupyTile")
 /* Can attack against units on non-native tiles */
-#define SPECENUM_VALUE10 UCF_ATTACK_NON_NATIVE
-#define SPECENUM_VALUE10NAME N_("?uclassflag:AttackNonNative")
+#define SPECENUM_VALUE9 UCF_ATTACK_NON_NATIVE
+#define SPECENUM_VALUE9NAME N_("?uclassflag:AttackNonNative")
 /* Kills citizens upon successful attack against a city */
-#define SPECENUM_VALUE11 UCF_KILLCITIZEN
-#define SPECENUM_VALUE11NAME N_("?uclassflag:KillCitizen")
+#define SPECENUM_VALUE10 UCF_KILLCITIZEN
+#define SPECENUM_VALUE10NAME N_("?uclassflag:KillCitizen")
 
-#define SPECENUM_VALUE12 UCF_USER_FLAG_1
-#define SPECENUM_VALUE13 UCF_USER_FLAG_2
-#define SPECENUM_VALUE14 UCF_USER_FLAG_3
-#define SPECENUM_VALUE15 UCF_USER_FLAG_4
-#define SPECENUM_VALUE16 UCF_USER_FLAG_5
-#define SPECENUM_VALUE17 UCF_USER_FLAG_6
-#define SPECENUM_VALUE18 UCF_USER_FLAG_7
-#define SPECENUM_VALUE19 UCF_USER_FLAG_8
-#define SPECENUM_VALUE20 UCF_USER_FLAG_9
-#define SPECENUM_VALUE21 UCF_USER_FLAG_10
-#define SPECENUM_VALUE22 UCF_USER_FLAG_11
-#define SPECENUM_VALUE23 UCF_USER_FLAG_12
+#define SPECENUM_VALUE11 UCF_USER_FLAG_1
+#define SPECENUM_VALUE12 UCF_USER_FLAG_2
+#define SPECENUM_VALUE13 UCF_USER_FLAG_3
+#define SPECENUM_VALUE14 UCF_USER_FLAG_4
+#define SPECENUM_VALUE15 UCF_USER_FLAG_5
+#define SPECENUM_VALUE16 UCF_USER_FLAG_6
+#define SPECENUM_VALUE17 UCF_USER_FLAG_7
+#define SPECENUM_VALUE18 UCF_USER_FLAG_8
+#define SPECENUM_VALUE19 UCF_USER_FLAG_9
+#define SPECENUM_VALUE20 UCF_USER_FLAG_10
+#define SPECENUM_VALUE21 UCF_USER_FLAG_11
+#define SPECENUM_VALUE22 UCF_USER_FLAG_12
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
@@ -165,11 +162,9 @@ struct unit_class {
  * Used in the network protocol.
  */
 #define SPECENUM_NAME unit_type_flag_id
-/* Cannot fortify even if class can */
-#define SPECENUM_VALUE0 UTYF_CANT_FORTIFY
-/* TRANS: this and following strings are 'unit type flags', which may rarely
- * be presented to the player in ruleset help text */
-#define SPECENUM_VALUE0NAME N_("?unitflag:Cant_Fortify")
+/* Feel free to take this. */
+#define SPECENUM_VALUE0 UTYF_RESERVED_2
+#define SPECENUM_VALUE0NAME N_("Reserved 2")
 /* Unit has no ZOC */
 #define SPECENUM_VALUE1 UTYF_NOZOC
 #define SPECENUM_VALUE1NAME N_("?unitflag:HasNoZOC")

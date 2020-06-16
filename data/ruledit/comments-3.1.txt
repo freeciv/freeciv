@@ -283,8 +283,6 @@ uclasses = "\
 ; \"CollectRansom\"     = Unit can collect ransom when killing lone barbarian leader\n\
 ; \"ZOC\"               = Unit is subject to ZOC rules. Unit type flag \"IgZOC\" can\n\
 ;                       override this\n\
-; \"CanFortify\"        = Unit can fortify at land tiles. Unit type flag\n\
-;                       \"Cant_Fortify\" can override this\n\
 ; \"DoesntOccupyTile\"  = Even if this kind of enemy unit is on tile, cities can\n\
 ;                       still work that tile\n\
 ; \"AttackNonNative\"   = Unit can attack units on non-native tiles. Unit type\n\
@@ -443,7 +441,6 @@ utypes = "\
 ;                 to regularly end turn on coast\n\
 ; \"Only_Native_Attack\" = cannot attack targets on non-native tiles even if\n\
 ;                 unit class can\n\
-; \"Cant_Fortify\" =  cannot fortify even if unit class has \"CanFortify\" flag\n\
 ; \"Fanatic\"   = can only be built by governments that allow them\n\
 ;                 (see civ2/governments.ruleset, Fundamentalism government)\n\
 ; \"Unique\"    = a player can only have one of these units in the game at\n\

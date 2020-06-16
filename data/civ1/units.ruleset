@@ -27,6 +27,7 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("Infra"), _("Can build infrastructure.")
+    _("Cant_Fortify")
   }
 
 ; Names for custom unit class flags. There can be up to 12 of these.
@@ -39,6 +40,7 @@ class_flags =
   { "name", "helptxt"
     _("Missile")
     _("CanPillage")
+    _("CanFortify"), _("Gets a 50% defensive bonus while in cities.")
   }
 
 [veteran_system]
@@ -109,8 +111,6 @@ veteran_move_bonus = 0, 0
 ; "CollectRansom"     = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"               = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                       override this
-; "CanFortify"        = Unit can fortify at land tiles. Unit type flag
-;                       "Cant_Fortify" can override this
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type

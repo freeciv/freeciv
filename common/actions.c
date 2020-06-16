@@ -297,42 +297,6 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_TRANSPORT_BOARD,
                           ACTRES_NONE);
 
-  /* Why this is a hard requirement:
-   * - Preserve semantics of CanFortify unit class flag and the Cant_Fortify
-   *   unit type flag.
-   * - Corner case that should be worked out: The point of ACTRES_FORTIFY
-   *   is to get into the state ACTIVITY_FORTIFIED. ACTIVITY_FORTIFIED has
-   *   two consequences:
-   *   1) Slightly higher hitpoint regeneration. See hp_gain_coord()
-   *   2) Increased defensive power when attacked. But being in a city has
-   *      the same effect. UCF_CAN_FORTIFY and UTYF_CANT_FORTIFY currently
-   *      control if a unit in a city/in the ACTIVITY_FORTIFIED state gets
-   *      the bonus. See defense_multiplication()
-   *   One possible solution is to let UCF_CAN_FORTIFY and UTYF_CANT_FORTIFY
-   *   keep control over 2 but move the rule about doing ACTRES_FORTIFY to
-   *   the ruleset. In that case they should probably be renamed since
-   *   doing the action (to reach the state where it gains the HP
-   *   regeneration bonus) is independent.
-   * - A few other uses should be replaced before these can be demoted to
-   *   ruleset defined flags.
-   */
-  oblig_hard_req_register(req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, FALSE, TRUE,
-                                          UCF_CAN_FORTIFY),
-                          FALSE,
-                          N_("All action enablers for %s must require"
-                             " that the actor has"
-                             " the CanFortify uclass flag."),
-                          ACTRES_FORTIFY, ACTRES_NONE);
-  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE,
-                                          UTYF_CANT_FORTIFY),
-                          FALSE,
-                          N_("All action enablers for %s must require"
-                             " that the actor doesn't have"
-                             " the Cant_Fortify utype flag."),
-                          ACTRES_FORTIFY, ACTRES_NONE);
-
   /* Why this is a hard requirement: Preserve semantics of the Settlers
    * unit type flag. */
   oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,

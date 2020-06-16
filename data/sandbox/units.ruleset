@@ -46,6 +46,7 @@ flags =
     _("Infra"), _("Can build infrastructure.")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
+    _("Cant_Fortify")
   }
 
 ; Names for custom unit class flags. There can be up to 12 of these.
@@ -64,6 +65,7 @@ class_flags =
     _("AttFromNonNative"), _("Can launch attack from non-native tiles.")
     _("Missile")
     _("CanPillage")
+    _("CanFortify"), _("Gets a 50% defensive bonus while in cities.")
   }
 
 [veteran_system]
@@ -134,8 +136,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "CollectRansom"     = Unit can collect ransom when killing lone barbarian leader
 ; "ZOC"               = Unit is subject to ZOC rules. Unit type flag "IgZOC" can
 ;                       override this
-; "CanFortify"        = Unit can fortify at land tiles. Unit type flag
-;                       "Cant_Fortify" can override this
 ; "DoesntOccupyTile"  = Even if this kind of enemy unit is on tile, cities can
 ;                       still work that tile
 ; "AttackNonNative"   = Unit can attack units on non-native tiles. Unit type
@@ -366,7 +366,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "MediumWeight"
 ;                 to regularly end turn on coast
 ; "Only_Native_Attack" = cannot attack targets on non-native tiles even if
 ;                 unit class can
-; "Cant_Fortify" =  cannot fortify even if unit class has "CanFortify" flag
 ; "Fanatic"	= can only be built by governments that allow them
 ;		  (see civ2/governments.ruleset, Fundamentalism government)
 ; "Unique"	= a player can only have one of these units in the game at
