@@ -407,37 +407,25 @@ static void unit_state_action_cache_set(struct unit_type *putype)
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
           && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
-        /* Not required to be absent, so OK if present */
-        req.present = FALSE;
-        if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
-              requirement_unit_state_ereq(req.source.value.unit_state,
-                                         TRUE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
+        bool present = TRUE;
+        do {
+          /* OK if not mentioned */
+          req.present = present;
+          if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
+            BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
                 requirement_unit_state_ereq(req.source.value.unit_state,
-                                           TRUE));
+                                            !req.present));
+            if (action_is_hostile(enabler->action)) {
+              BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                  requirement_unit_state_ereq(req.source.value.unit_state,
+                                              !req.present));
+            }
+            BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
+                requirement_unit_state_ereq(req.source.value.unit_state,
+                                            !req.present));
           }
-          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
-              requirement_unit_state_ereq(req.source.value.unit_state,
-                                         TRUE));
-        }
-
-        /* Not required to be present, so OK if absent */
-        req.present = TRUE;
-        if (!is_req_in_vec(&req, &(enabler->actor_reqs))) {
-          BV_SET(ustate_act_cache[utype_index(putype)][enabler->action],
-                 requirement_unit_state_ereq(req.source.value.unit_state,
-                                            FALSE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(ustate_act_cache[utype_index(putype)][ACTION_HOSTILE],
-                   requirement_unit_state_ereq(req.source.value.unit_state,
-                                              FALSE));
-          }
-          BV_SET(ustate_act_cache[utype_index(putype)][ACTION_ANY],
-                 requirement_unit_state_ereq(req.source.value.unit_state,
-                                            FALSE));
-        }
+          present = !present;
+        } while (!present);
       }
     } action_enablers_iterate_end;
   }
@@ -488,35 +476,25 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
           && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
-        req.present = TRUE;
-        if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
-          BV_SET(dipl_rel_action_cache[uidx][enabler->action],
-                 requirement_diplrel_ereq(req.source.value.diplrel,
-                                          REQ_RANGE_LOCAL, TRUE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
+        bool present = TRUE;
+        do {
+          req.present = present;
+          if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
+            BV_SET(dipl_rel_action_cache[uidx][enabler->action],
+                requirement_diplrel_ereq(req.source.value.diplrel,
+                                         REQ_RANGE_LOCAL, req.present));
+            if (action_is_hostile(enabler->action)) {
+              BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
+                     requirement_diplrel_ereq(req.source.value.diplrel,
+                                              REQ_RANGE_LOCAL,
+                                              req.present));
+            }
+            BV_SET(dipl_rel_action_cache[uidx][ACTION_ANY],
                    requirement_diplrel_ereq(req.source.value.diplrel,
-                                            REQ_RANGE_LOCAL, TRUE));
+                                            REQ_RANGE_LOCAL, req.present));
           }
-          BV_SET(dipl_rel_action_cache[uidx][ACTION_ANY],
-                 requirement_diplrel_ereq(req.source.value.diplrel,
-                                          REQ_RANGE_LOCAL, TRUE));
-        }
-
-        req.present = FALSE;
-        if (!does_req_contradicts_reqs(&req, &(enabler->actor_reqs))) {
-          BV_SET(dipl_rel_action_cache[uidx][enabler->action],
-              requirement_diplrel_ereq(req.source.value.diplrel,
-                                       REQ_RANGE_LOCAL, FALSE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(dipl_rel_action_cache[uidx][ACTION_HOSTILE],
-                   requirement_diplrel_ereq(req.source.value.diplrel,
-                                            REQ_RANGE_LOCAL, FALSE));
-          }
-          BV_SET(dipl_rel_action_cache[uidx][ACTION_ANY],
-              requirement_diplrel_ereq(req.source.value.diplrel,
-                                       REQ_RANGE_LOCAL, FALSE));
-        }
+          present = !present;
+        } while (!present);
       }
     } action_enablers_iterate_end;
   }
@@ -564,37 +542,27 @@ static void tgt_citytile_act_cache_set(struct unit_type *putype)
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->target_reqs))
           && action_id_get_actor_kind(enabler->action) == AAK_UNIT) {
-        /* Not required to be absent, so OK if present */
-        req.present = FALSE;
-        if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
-          BV_SET(ctile_tgt_act_cache[utype_index(putype)][enabler->action],
-              requirement_citytile_ereq(req.source.value.citytile,
-                                        TRUE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
+        bool present = TRUE;
+        do {
+          /* OK if not mentioned */
+          req.present = present;
+          if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
+            BV_SET(
+                ctile_tgt_act_cache[utype_index(putype)][enabler->action],
                 requirement_citytile_ereq(req.source.value.citytile,
-                                          TRUE));
-          }
-          BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_ANY],
-              requirement_citytile_ereq(req.source.value.citytile,
-                                        TRUE));
-        }
-
-        /* Not required to be present, so OK if absent */
-        req.present = TRUE;
-        if (!is_req_in_vec(&req, &(enabler->target_reqs))) {
-          BV_SET(ctile_tgt_act_cache[utype_index(putype)][enabler->action],
-              requirement_citytile_ereq(req.source.value.citytile,
-                                        FALSE));
-          if (action_is_hostile(enabler->action)) {
-            BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                                          !req.present));
+            if (action_is_hostile(enabler->action)) {
+              BV_SET(
+                  ctile_tgt_act_cache[utype_index(putype)][ACTION_HOSTILE],
+                  requirement_citytile_ereq(req.source.value.citytile,
+                                            !req.present));
+            }
+            BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_ANY],
                 requirement_citytile_ereq(req.source.value.citytile,
-                                          FALSE));
+                                          !req.present));
           }
-          BV_SET(ctile_tgt_act_cache[utype_index(putype)][ACTION_ANY],
-              requirement_citytile_ereq(req.source.value.citytile,
-                                        FALSE));
-        }
+          present = !present;
+        } while (!present);
       }
     } action_enablers_iterate_end;
   }
