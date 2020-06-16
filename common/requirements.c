@@ -4335,6 +4335,26 @@ static enum req_item_found unit_type_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if a unit activity fulfills a requirement
+**************************************************************************/
+static enum req_item_found
+unit_activity_found(const struct requirement *preq,
+                    const struct universal *source)
+{
+  fc_assert_ret_val(unit_activity_is_valid(source->value.activity),
+                    ITF_NOT_APPLICABLE);
+
+  switch (preq->source.kind) {
+  case VUT_ACTIVITY:
+    return source->value.activity == preq->source.value.activity ? ITF_YES
+                                                                 : ITF_NO;
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  };
+}
+
+/**********************************************************************//**
   Find if a terrain type fulfills a requirement
 **************************************************************************/
 static enum req_item_found terrain_type_found(const struct requirement *preq,
@@ -4473,6 +4493,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_IMPROVEMENT] = &improvement_found;
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
+  universal_found_function[VUT_ACTIVITY] = &unit_activity_found;
   universal_found_function[VUT_TERRAIN] = &terrain_type_found;
   universal_found_function[VUT_EXTRA] = &extra_type_found;
   universal_found_function[VUT_OTYPE] = &output_type_found;
