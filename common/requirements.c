@@ -3637,6 +3637,27 @@ static enum req_item_found terrain_type_found(const struct requirement *preq,
 }
 
 /**********************************************************************//**
+  Find if a tile state fulfills a requirement
+**************************************************************************/
+static enum req_item_found city_tile_found(const struct requirement *preq,
+                                           const struct universal *source)
+{
+  fc_assert_ret_val(citytile_type_is_valid(source->value.citytile),
+                    ITF_NOT_APPLICABLE);
+
+  switch (preq->source.kind) {
+  case VUT_CITYTILE:
+    return (source->value.citytile == preq->source.value.citytile
+            ? ITF_YES
+            /* The presence of one tile state doesn't block another */
+            : ITF_NOT_APPLICABLE);
+  default:
+    /* Not found and not relevant. */
+    return ITF_NOT_APPLICABLE;
+  };
+}
+
+/**********************************************************************//**
   Find if an extra type fulfills a requirement
 **************************************************************************/
 static enum req_item_found extra_type_found(const struct requirement *preq,
@@ -3695,6 +3716,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_UCLASS] = &unit_class_found;
   universal_found_function[VUT_UTYPE] = &unit_type_found;
   universal_found_function[VUT_TERRAIN] = &terrain_type_found;
+  universal_found_function[VUT_CITYTILE] = &city_tile_found;
   universal_found_function[VUT_EXTRA] = &extra_type_found;
   universal_found_function[VUT_OTYPE] = &output_type_found;
 }
