@@ -1425,58 +1425,6 @@ bool citymindist_prevents_city_on_tile(const struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Return TRUE iff the ruleset allows founding a city at a tile claimed by
-  someone else with the specified action.
-
-  Since a local DiplRel requirement can be against something else than a
-  tile an unclaimed tile can't always contradict a local DiplRel
-  requirement. With knowledge about what entities each requirement in a
-  requirement vector is evaluated against a contradiction can be
-  introduced.
-**************************************************************************/
-static bool
-city_on_foreign_tile_is_legal(const struct unit_type *punit_type,
-                              const struct action *paction)
-{
-  struct requirement tile_is_claimed;
-  struct requirement tile_is_foreign;
-
-  /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
-  tile_is_claimed.survives = FALSE;
-  tile_is_claimed.source.kind = VUT_CITYTILE;
-  tile_is_claimed.present = TRUE;
-  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
-
-  /* Tile is foreign as a requirement. */
-  tile_is_foreign.range = REQ_RANGE_LOCAL;
-  tile_is_foreign.survives = FALSE;
-  tile_is_foreign.source.kind = VUT_DIPLREL;
-  tile_is_foreign.present = TRUE;
-  tile_is_foreign.source.value.diplrel = DRO_FOREIGN;
-
-  action_enabler_list_iterate(
-        action_enablers_for_action(paction->id), enabler) {
-    if (!requirement_fulfilled_by_unit_type(punit_type,
-                                            &(enabler->actor_reqs))) {
-      /* This action enabler isn't for this unit type at all. */
-      continue;
-    }
-
-    if (!(does_req_contradicts_reqs(&tile_is_claimed,
-                                    &(enabler->target_reqs))
-          || does_req_contradicts_reqs(&tile_is_foreign,
-                                       &(enabler->actor_reqs)))) {
-      /* This ruleset permits city founding on foreign tiles. */
-      return TRUE;
-    }
-  } action_enabler_list_iterate_end;
-
-  /* This ruleset forbids city founding on foreign tiles. */
-  return FALSE;
-}
-
-/**********************************************************************//**
   Returns TRUE if the given unit can build a city at the given map
   coordinates.
 
@@ -1514,7 +1462,9 @@ bool city_can_be_built_here(const struct tile *ptile,
     /* Foreign tile detection. */
     if (tile_owner(ptile) && tile_owner(ptile) != unit_owner(punit)
         /* The ruleset may allow founding cities on foreign terrain. */
-        && !city_on_foreign_tile_is_legal(unit_type_get(punit), paction)) {
+        && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                            paction->id,
+                                            DRO_FOREIGN, TRUE)) {
       /* Cannot steal borders by settling. This has to be settled by
        * force of arms. */
       continue;
