@@ -2650,8 +2650,13 @@ action_hard_reqs_actor(enum action_result result,
 
   case ACTRES_AIRLIFT:
     {
-      /* Obligatory hard requirement. */
-      fc_assert_ret_val(actor_city != NULL, TRI_NO);
+      /* Obligatory hard requirement. Checked here too since
+       * action_hard_reqs_actor() may be called before any
+       * action enablers are checked. */
+      if (actor_city == NULL) {
+        /* No city to airlift from. */
+        return TRI_NO;
+      }
 
       if (actor_player != city_owner(actor_city)
           && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
