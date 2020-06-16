@@ -1762,22 +1762,21 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
   }
-  if (uclass_has_flag(pclass, UCF_CAN_FORTIFY)
-      && !utype_has_flag(utype, UTYF_CANT_FORTIFY)) {
-    if (utype->defense_strength > 0) {
-      CATLSTR(buf, bufsz,
-              /* TRANS: indented unit class property, preserve leading spaces */
-              /* xgettext:no-c-format */
-              _("  * Gets a 50% defensive bonus while in cities.\n"));
-      CATLSTR(buf, bufsz,
-              /* TRANS: indented unit class property, preserve leading spaces */
-              /* xgettext:no-c-format */
-              _("  * May fortify, granting a 50% defensive bonus when not in "
-                "a city.\n"));
-    } else {
-      CATLSTR(buf, bufsz,
-              /* TRANS: indented unit class property, preserve leading spaces */
-              _("  * May fortify to stay put.\n"));
+  if (utype->defense_strength > 0) {
+    struct universal unit_is_in_city[] = {
+      { .kind = VUT_UTYPE, .value = { .utype = utype }},
+      { .kind = VUT_CITYTILE, .value = { .citytile = CITYT_CENTER }},
+    };
+    int bonus = effect_value_from_universals(
+          EFT_FORTIFY_DEFENSE_BONUS,
+          unit_is_in_city, ARRAY_SIZE(unit_is_in_city));
+
+    if (bonus > 0) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: indented unit class property, preserve leading
+                    * spaces */
+                   _("  * Gets a %d%% defensive bonus while in cities.\n"),
+                   bonus);
     }
   }
   if (uclass_has_flag(pclass, UCF_UNREACHABLE)) {
@@ -2769,6 +2768,36 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           }
 
           strvec_destroy(extras_vec);
+        }
+        break;
+      case ACTRES_FORTIFY:
+        {
+          struct universal unit_is_fortified[] = {
+            { .kind = VUT_ACTIVITY,
+              .value = { .activity = ACTIVITY_FORTIFIED }},
+            { .kind = VUT_UTYPE, .value = { .utype = utype }},
+          };
+          int bonus = effect_value_from_universals(
+                EFT_FORTIFY_DEFENSE_BONUS,
+                unit_is_fortified, ARRAY_SIZE(unit_is_fortified));
+
+          if (utype->defense_strength <= 0
+              || (effect_cumulative_max(EFT_FORTIFY_DEFENSE_BONUS,
+                                        &(struct universal){
+                                          .kind = VUT_UTYPE,
+                                          .value = { .utype = utype }})
+                  <= 0)) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: indented unit action property, preserve
+                          * leading spaces */
+                         _("  * to stay put. No defensive bonus.\n"));
+          } else if (bonus > 0) {
+            cat_snprintf(buf, bufsz,
+                         /* TRANS: indented unit action property, preserve
+                          * leading spaces */
+                         _("  * granting a %d%% defensive bonus.\n"),
+                         bonus);
+          }
         }
         break;
       default:
