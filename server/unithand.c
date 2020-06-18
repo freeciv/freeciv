@@ -659,82 +659,6 @@ static bool do_unit_embark(struct player *act_player,
 }
 
 /**********************************************************************//**
-  Returns TRUE iff the ruleset allows acting against a tile claimed by
-  someone the actor has the specified diplomatic relation to.
-**************************************************************************/
-static bool rs_allows_tgt_tile_owner(const struct action *paction,
-                                     int relation,
-                                     const struct unit_type *punit_type)
-{
-  struct requirement tile_is_claimed;
-  struct requirement tile_is_foreign;
-
-  fc_assert_ret_val(action_get_target_kind(paction) == ATK_TILE, FALSE);
-
-  /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
-  tile_is_claimed.survives = FALSE;
-  tile_is_claimed.source.kind = VUT_CITYTILE;
-  tile_is_claimed.present = TRUE;
-  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
-
-  /* Tile is foreign as a requirement. */
-  tile_is_foreign.range = REQ_RANGE_LOCAL;
-  tile_is_foreign.survives = FALSE;
-  tile_is_foreign.source.kind = VUT_DIPLREL;
-  tile_is_foreign.present = TRUE;
-  tile_is_foreign.source.value.diplrel = relation;
-
-  action_enabler_list_iterate(
-        action_enablers_for_action(paction->id), enabler) {
-    if (!requirement_fulfilled_by_unit_type(punit_type,
-                                            &(enabler->actor_reqs))) {
-      /* This action enabler isn't for this unit type at all. */
-      continue;
-    }
-
-    if (!(does_req_contradicts_reqs(&tile_is_claimed,
-                                    &(enabler->target_reqs))
-          || does_req_contradicts_reqs(&tile_is_foreign,
-                                       &(enabler->actor_reqs)))) {
-      /* This ruleset permits doing the action to foreign tiles. */
-      return TRUE;
-    }
-  } action_enabler_list_iterate_end;
-
-  /* This ruleset forbids doing the action to foreign tiles. */
-  return FALSE;
-}
-
-/**********************************************************************//**
-  Returns TRUE iff the fact that the target tile is tile claimed by
-  someone the player isn't at war with blocks the specified action.
-**************************************************************************/
-static bool war_makes_legal_tile_tgt(const struct action *paction,
-                                     const struct player *act_player,
-                                     const struct unit *act_unit,
-                                     const struct tile *tgt_tile)
-{
-  fc_assert_ret_val(act_unit, FALSE);
-
-  if (tgt_tile == NULL || tile_owner(tgt_tile) == NULL) {
-    /* No one to declare war on */
-    return FALSE;
-  }
-
-  if (rs_allows_tgt_tile_owner(paction,
-                               player_diplstate_get(act_player,
-                                                    tile_owner(tgt_tile))
-                               ->type,
-                               unit_type_get(act_unit))) {
-    /* The current diplstate isn't a problem. */
-    return FALSE;
-  }
-
-  return rs_allows_tgt_tile_owner(paction, DS_WAR, unit_type_get(act_unit));
-}
-
-/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -769,8 +693,11 @@ static struct player *need_war_player_hlp(const struct unit *actor,
                                           const struct city *target_city,
                                           const struct unit *target_unit)
 {
+  struct player *target_player = NULL;
   struct player *actor_player = unit_owner(actor);
   struct action *paction = action_by_number(act);
+
+  fc_assert_ret_val(paction != NULL, NULL);
 
   if (action_id_get_actor_kind(act) != AAK_UNIT) {
     /* No unit can ever do this action so it isn't relevant. */
@@ -787,25 +714,21 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   switch (paction->result) {
   case ACTRES_BOMBARD:
   case ACTRES_ATTACK:
-    /* Target is tile or unit stack but a city (or unit) can block it. */
+    /* Target is a unit stack but a city can block it. */
+    fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
     if (target_tile) {
       struct city *tcity;
-      struct unit *tunit;
 
       if ((tcity = tile_city(target_tile))
           && rel_may_become_war(unit_owner(actor), city_owner(tcity))) {
         return city_owner(tcity);
-      }
-
-      if ((tunit = is_non_attack_unit_tile(target_tile, unit_owner(actor)))
-          && rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
-        return unit_owner(tunit);
       }
     }
     break;
 
   case ACTRES_PARADROP:
     /* Target is a tile but a city or unit can block it. */
+    fc_assert_action(action_get_target_kind(paction) == ATK_TILE, break);
     if (target_tile
         && map_is_known_and_seen(target_tile, actor_player, V_MAIN)) {
       /* Seen tile unit savers */
@@ -883,40 +806,21 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   }
 
   /* Look for war requirements from the action enablers. */
-  if (action_id_get_target_kind(act) == ATK_TILE) {
-    if (!war_makes_legal_tile_tgt(paction, actor_player, actor,
-                                  target_tile)) {
-      /* A lack of war isn't the problem. */
-      return NULL;
-    }
-  } else {
-    if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
-                                        act, DS_WAR, FALSE)) {
-      /* The unit can do the action even if there isn't war. */
-      return NULL;
-    }
-  }
-
-  switch (action_id_get_target_kind(act)) {
+  switch (action_get_target_kind(paction)) {
   case ATK_CITY:
     if (target_city == NULL) {
       /* No target city. */
       return NULL;
     }
 
-    if (rel_may_become_war(unit_owner(actor), city_owner(target_city))) {
-      return city_owner(target_city);
-    }
+    target_player = city_owner(target_city);
     break;
   case ATK_UNIT:
     if (target_unit == NULL) {
       /* No target unit. */
       return NULL;
     }
-
-    if (rel_may_become_war(unit_owner(actor), unit_owner(target_unit))) {
-      return unit_owner(target_unit);
-    }
+    target_player = unit_owner(target_unit);
     break;
   case ATK_UNITS:
     if (target_tile == NULL) {
@@ -925,8 +829,9 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
 
     unit_list_iterate(target_tile->units, tunit) {
-      if (rel_may_become_war(unit_owner(actor), unit_owner(tunit))) {
-        return unit_owner(tunit);
+      if (rel_may_become_war(actor_player, unit_owner(tunit))) {
+        target_player = unit_owner(tunit);
+        break;
       }
     } unit_list_iterate_end;
     break;
@@ -935,10 +840,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       /* No target tile. */
       return NULL;
     }
-
-    if (rel_may_become_war(unit_owner(actor), tile_owner(target_tile))) {
-      return tile_owner(target_tile);
-    }
+    target_player = tile_owner(target_tile);
     break;
   case ATK_SELF:
     /* Can't declare war on itself. */
@@ -950,8 +852,37 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     return NULL;
   }
 
-  /* Declaring war won't enable the specified action. */
-  return NULL;
+  if (target_player == NULL) {
+    /* Declaring war won't enable the specified action. */
+    return NULL;
+  }
+
+  if (!rel_may_become_war(actor_player, target_player)) {
+    /* Can't declare war. */
+    return NULL;
+  }
+
+  if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
+                                      act,
+                                      player_diplstate_get(actor_player,
+                                                           target_player)
+                                      ->type,
+                                      TRUE)) {
+    /* The current diplrel isn't a problem. */
+    return NULL;
+  }
+  if (!can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
+                                       act, DS_WAR, TRUE)) {
+    /* War won't make this action legal. */
+    return NULL;
+  }
+  /* No check if other, non war, diplomatic states also could make the
+   * action legal. This is need_war_player() so war is always the answer.
+   * If you disagree and decide to add support please check that
+   * webperimental's "can't found a city on a tile belonging to a non enemy"
+   * rule still is detected. */
+
+  return target_player;
 }
 
 /**********************************************************************//**
