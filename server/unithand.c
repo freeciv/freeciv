@@ -1176,55 +1176,59 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     }
   }
 
-  switch (paction->result) {
-  case ACTRES_UPGRADE_UNIT:
-    action_custom = unit_upgrade_test(punit, FALSE);
-    break;
-  case ACTRES_AIRLIFT:
-    action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
-    break;
-  case ACTRES_NUKE_UNITS:
-    action_custom = unit_attack_units_at_tile_result(punit, target_tile);
-    break;
-  case ACTRES_ATTACK:
-    action_custom = unit_attack_units_at_tile_result(punit, target_tile);
-    break;
-  case ACTRES_CONQUER_CITY:
-    if (target_city) {
-      action_custom = unit_move_to_tile_test(&(wld.map), punit,
-                                             punit->activity,
-                                             unit_tile(punit),
-                                             city_tile(target_city),
-                                             FALSE, NULL, TRUE);
-    } else {
-      action_custom = MR_OK;
-    }
-    break;
-  case ACTRES_TRANSPORT_EMBARK:
-    if (target_unit) {
-      action_custom = unit_move_to_tile_test(&(wld.map), punit,
-                                             punit->activity,
-                                             unit_tile(punit),
-                                             unit_tile(target_unit),
-                                             FALSE, NULL, FALSE);
-    } else {
-      action_custom = MR_OK;
-    }
-    break;
-  case ACTRES_TRANSPORT_DISEMBARK:
-    if (target_tile) {
-      action_custom = unit_move_to_tile_test(&(wld.map), punit,
-                                             punit->activity,
-                                             unit_tile(punit),
-                                             target_tile,
-                                             FALSE, NULL, FALSE);
-    } else {
-      action_custom = MR_OK;
-    }
-    break;
-  default:
+  if (act_id == ACTION_ANY) {
     action_custom = 0;
-    break;
+  } else {
+    switch (paction->result) {
+    case ACTRES_UPGRADE_UNIT:
+      action_custom = unit_upgrade_test(punit, FALSE);
+      break;
+    case ACTRES_AIRLIFT:
+      action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
+      break;
+    case ACTRES_NUKE_UNITS:
+      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+      break;
+    case ACTRES_ATTACK:
+      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+      break;
+    case ACTRES_CONQUER_CITY:
+      if (target_city) {
+        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                               punit->activity,
+                                               unit_tile(punit),
+                                               city_tile(target_city),
+                                               FALSE, NULL, TRUE);
+      } else {
+        action_custom = MR_OK;
+      }
+      break;
+    case ACTRES_TRANSPORT_EMBARK:
+      if (target_unit) {
+        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                               punit->activity,
+                                               unit_tile(punit),
+                                               unit_tile(target_unit),
+                                               FALSE, NULL, FALSE);
+      } else {
+        action_custom = MR_OK;
+      }
+      break;
+    case ACTRES_TRANSPORT_DISEMBARK:
+      if (target_tile) {
+        action_custom = unit_move_to_tile_test(&(wld.map), punit,
+                                               punit->activity,
+                                               unit_tile(punit),
+                                               target_tile,
+                                               FALSE, NULL, FALSE);
+      } else {
+        action_custom = MR_OK;
+      }
+      break;
+    default:
+      action_custom = 0;
+      break;
+    }
   }
 
   if (!unit_can_do_action(punit, act_id)) {
@@ -1301,8 +1305,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((punit->homecity <= 0)
              && (action_has_result_safe(paction, ACTRES_TRADE_ROUTE)
-                 || action_has_result_safe(paction,
-                                              ACTRES_MARKETPLACE))) {
+                 || action_has_result_safe(paction, ACTRES_MARKETPLACE))) {
     explnat->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
   } else if ((must_war_player = need_war_player(punit,
                                                 act_id,
@@ -1452,9 +1455,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((action_has_result_safe(paction, ACTRES_CONQUER_CITY)
               || action_has_result_safe(paction,
-                                           ACTRES_TRANSPORT_EMBARK)
+                                        ACTRES_TRANSPORT_EMBARK)
               || action_has_result_safe(paction,
-                                           ACTRES_TRANSPORT_DISEMBARK))
+                                        ACTRES_TRANSPORT_DISEMBARK))
              && action_custom != MR_OK) {
     switch (action_custom) {
     case MR_CANNOT_DISEMBARK:
