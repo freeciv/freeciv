@@ -2573,10 +2573,11 @@ void handle_unit_action_query(struct connection *pc,
 {
   struct player *pplayer = pc->playing;
   struct unit *pactor = player_unit_by_number(pplayer, actor_id);
+  struct action *paction = action_by_number(action_type);
   struct unit *punit = game_unit_by_number(target_id);
   struct city *pcity = game_city_by_number(target_id);
 
-  if (!action_id_exists(action_type)) {
+  if (NULL == paction) {
     /* Non existing action */
     log_error("handle_unit_action_query() the action %d doesn't exist.",
               action_type);
@@ -2593,8 +2594,8 @@ void handle_unit_action_query(struct connection *pc,
     return;
   }
 
-  switch ((enum gen_action)action_type) {
-  case ACTION_SPY_BRIBE_UNIT:
+  switch (paction->result) {
+  case ACTRES_SPY_BRIBE_UNIT:
     if (punit
         && is_action_enabled_unit_on_unit(action_type,
                                           pactor, punit)) {
@@ -2610,8 +2611,7 @@ void handle_unit_action_query(struct connection *pc,
       return;
     }
     break;
-  case ACTION_SPY_INCITE_CITY:
-  case ACTION_SPY_INCITE_CITY_ESC:
+  case ACTRES_SPY_INCITE_CITY:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
@@ -2627,7 +2627,7 @@ void handle_unit_action_query(struct connection *pc,
       return;
     }
     break;
-  case ACTION_UPGRADE_UNIT:
+  case ACTRES_UPGRADE_UNIT:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
@@ -2652,9 +2652,8 @@ void handle_unit_action_query(struct connection *pc,
       return;
     }
     break;
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
-  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
-  case ACTION_STRIKE_BUILDING:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_STRIKE_BUILDING:
     if (pcity
         && is_action_enabled_unit_on_city(action_type,
                                           pactor, pcity)) {
