@@ -43,6 +43,7 @@
 #include "effect_edit.h"
 #include "requirers_dlg.h"
 #include "req_edit.h"
+#include "req_vec_fix.h"
 #include "ruledit.h"
 #include "tab_building.h"
 #include "tab_enablers.h"
@@ -196,6 +197,7 @@ void ruledit_gui::setup(QWidget *central_in)
   central->setLayout(full_layout);
 
   req_edits = req_edit_list_new();
+  this->req_vec_fixers = req_vec_fix_list_new();
   effect_edits = effect_edit_list_new();
 }
 
@@ -314,6 +316,35 @@ void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs
 void ruledit_gui::unregister_req_edit(class req_edit *redit)
 {
   req_edit_list_remove(req_edits, redit);
+}
+
+/**********************************************************************//**
+  Open req_vec_fix dialog.
+**************************************************************************/
+void ruledit_gui::open_req_vec_fix(req_vec_fix_item *item_info)
+{
+  req_vec_fix *fixer;
+
+  req_vec_fix_list_iterate(req_vec_fixers, old_fixer) {
+    if (old_fixer->item() == item_info->item()) {
+      /* Already open */
+      return;
+    }
+  } req_vec_fix_list_iterate_end;
+
+  fixer = new req_vec_fix(this, item_info);
+  fixer->refresh();
+  fixer->show();
+
+  req_vec_fix_list_append(req_vec_fixers, fixer);
+}
+
+/**********************************************************************//**
+  Unregister closed req_vec_fix dialog.
+**************************************************************************/
+void ruledit_gui::unregister_req_vec_fix(req_vec_fix *fixer)
+{
+  req_vec_fix_list_remove(req_vec_fixers, fixer);
 }
 
 /**********************************************************************//**

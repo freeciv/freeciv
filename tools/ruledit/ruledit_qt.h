@@ -41,6 +41,8 @@ class tab_enabler;
 class tab_extras;
 class tab_terrains;
 class req_edit;
+class req_vec_fix;
+class req_vec_fix_item;
 
 class ruledit_main : public QMainWindow
 {
@@ -76,6 +78,15 @@ protected:
   TYPED_LIST_ITERATE(class effect_edit, effecteditlist, peffectedit)
 #define effect_edit_list_iterate_end LIST_ITERATE_END
 
+/* get 'struct req_vec_fix_list' and related functions: */
+#define SPECLIST_TAG req_vec_fix
+#define SPECLIST_TYPE class req_vec_fix
+#include "speclist.h"
+
+#define req_vec_fix_list_iterate(reqvecfixlist, preqvecfix)               \
+  TYPED_LIST_ITERATE(class req_vec_fix, reqvecfixlist, preqvecfix)
+#define req_vec_fix_list_iterate_end LIST_ITERATE_END
+
 class ruledit_gui : public QObject
 {
   Q_OBJECT
@@ -89,6 +100,9 @@ class ruledit_gui : public QObject
 
     void open_req_edit(QString target, struct requirement_vector *preqs);
     void unregister_req_edit(class req_edit *redit);
+
+    void open_req_vec_fix(req_vec_fix_item *item_info);
+    void unregister_req_vec_fix(req_vec_fix *fixer);
 
     void open_effect_edit(QString target, struct universal *uni,
                           enum effect_filter_main_class efmc);
@@ -117,6 +131,7 @@ class ruledit_gui : public QObject
     tab_nation *nation;
 
     struct req_edit_list *req_edits;
+    struct req_vec_fix_list *req_vec_fixers;
     struct effect_edit_list *effect_edits;
 
   private slots:
