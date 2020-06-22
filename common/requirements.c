@@ -3408,6 +3408,72 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
+  Returns the specified requirement vector change as a translated string
+  ready for use in the user interface.
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+  @param change the requirement vector change
+  @param req_vec_description a description of the vector to change
+  @return the specified requirement vector change
+**************************************************************************/
+const char *req_vec_change_translation(const struct req_vec_change *change,
+                                       const char *req_vec_description)
+{
+  static char buf[MAX_LEN_NAME * 3];
+
+  fc_assert_ret_val(change, NULL);
+  fc_assert_ret_val(req_vec_change_operation_is_valid(change->operation),
+                    NULL);
+
+  /* Get rid of the previous. */
+  buf[0] = '\0';
+
+  if (req_vec_description == NULL) {
+    /* TRANS: default description of a requirement vector
+     * (used in ruledit) */
+    req_vec_description = _("the requirement vector");
+  }
+
+  switch (change->operation) {
+  case RVCO_REMOVE:
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: remove a requirement from a requirement vector
+                 * (in ruledit).
+                 * The first %s is the operation.
+                 * The second %s is the requirement.
+                 * The third %s is a description of the requirement vector,
+                 * like "actor_reqs" */
+                _("%s %s from %s"),
+                req_vec_change_operation_name(change->operation),
+                req_to_fstring(&change->req),
+                req_vec_description);
+    break;
+  case RVCO_APPEND:
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: append a requirement to a requirement vector
+                 * (in ruledit).
+                 * The first %s is the operation.
+                 * The second %s is the requirement.
+                 * The third %s is a description of the requirement vector,
+                 * like "actor_reqs" */
+                _("%s %s to %s"),
+                req_vec_change_operation_name(change->operation),
+                req_to_fstring(&change->req),
+                req_vec_description);
+    break;
+  case RVCO_NOOP:
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: do nothing to a requirement vector (in ruledit).
+                 * The first %s is a description of the requirement vector,
+                 * like "actor_reqs" */
+                _("Do nothing to %s"), req_vec_description);
+    break;
+  }
+
+  return buf;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified requirement vector modification was
   successfully applied to the specified target requirment vector.
   @param modification the requirement vector change

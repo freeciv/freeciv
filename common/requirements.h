@@ -171,6 +171,9 @@ struct req_vec_problem {
   struct req_vec_change *suggested_solutions;
 };
 
+const char *req_vec_change_translation(const struct req_vec_change *change,
+                                       const char *req_vec_description);
+
 bool req_vec_change_apply(const struct req_vec_change *modification,
                           struct requirement_vector *target);
 
