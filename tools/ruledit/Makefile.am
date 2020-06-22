@@ -28,6 +28,7 @@ MOC_FILES = \
             meta_conversion_log.cpp \
             meta_edit_utype.cpp \
 	    meta_req_edit.cpp	\
+	    meta_req_vec_fix.cpp	\
             meta_requirers_dlg.cpp \
             meta_ruledit_qt.cpp \
             meta_tab_enablers.cpp \
@@ -68,6 +69,8 @@ freeciv_ruledit_SOURCES =	\
 		tab_unit.h	\
 		req_edit.cpp	\
 		req_edit.h	\
+		req_vec_fix.h	\
+		req_vec_fix.cpp	\
 		requirers_dlg.cpp \
 		requirers_dlg.h	\
 		ruledit.cpp	\
