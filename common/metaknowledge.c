@@ -254,6 +254,27 @@ static bool is_req_knowable(const struct player *pow_player,
     }
   }
 
+  if (req->source.kind == VUT_ACTIVITY) {
+    fc_assert_ret_val_msg(req->range == REQ_RANGE_LOCAL,
+                          FALSE, "Wrong range");
+
+    if (target_unit == NULL) {
+      /* The unit may exist but not be passed when the problem type is
+       * RPT_POSSIBLE. */
+      return prob_type == RPT_CERTAIN;
+    }
+
+    if (unit_owner(target_unit) == pow_player) {
+      return TRUE;
+    }
+
+    if (req->source.value.activity != ACTIVITY_EXPLORE
+        && (req->source.value.activity != ACTIVITY_GOTO)) {
+      /* Sent in package_short_unit() */
+      return can_player_see_unit(pow_player, target_unit);
+    }
+  }
+
   if (req->source.kind == VUT_DIPLREL) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
