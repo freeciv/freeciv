@@ -1244,15 +1244,6 @@ void adv_unit_new_task(struct unit *punit, enum adv_unit_task task,
 /**********************************************************************//**
   Returns TRUE iff the unit can do the targeted activity at the given
   location.
-
-  Some activities aren't actions. They are therefore unable to use
-  action_speculate_*(). Activities that are actions will use the actor's
-  current tile when evaluating distance requirements etc if used with
-  can_unit_do_activity_targeted_at(). This makes them return the wrong
-  result. They must therefore use action_speculate_*(). Call the function
-  that gives the best speculative evaluation for the specified activity.
-
-  FIXME: Get rid of the need for this.
 **************************************************************************/
 bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         enum unit_activity activity,
@@ -1260,99 +1251,57 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         struct extra_type *target,
                                         const struct tile *ptile)
 {
-  switch (activity) {
-  case ACTIVITY_MINE:
+  struct action *paction = NULL;
+
+  action_iterate(act_id) {
+    paction = action_by_number(act_id);
+
+    if (action_get_actor_kind(paction) != AAK_UNIT) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (action_get_activity(paction) == activity) {
+      /* Found one */
+      break;
+    }
+  } action_iterate_end;
+
+  if (paction == NULL) {
+    /* The action it self isn't there. It can't be enabled. */
+    return FALSE;
+  }
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    return action_prob_possible(action_speculate_unit_on_city(
+                                  paction->id,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  tile_city(ptile)));
+  case ATK_UNIT:
+    fc_assert_ret_val(action_get_target_kind(paction) != ATK_UNIT, FALSE);
+    break;
+  case ATK_UNITS:
+    return action_prob_possible(action_speculate_unit_on_units(
+                                  paction->id,
+                                  punit, unit_home(punit), ptile,
+                                  omniscient_cheat,
+                                  ptile));
+  case ATK_TILE:
     return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_MINE,
+                                  paction->id,
                                   punit, unit_home(punit), ptile,
                                   omniscient_cheat,
                                   ptile, target));
-
-  case ACTIVITY_PLANT:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_PLANT,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_IRRIGATE:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_IRRIGATE,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_CULTIVATE:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_CULTIVATE,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_FORTIFYING:
+  case ATK_SELF:
     return action_prob_possible(action_speculate_unit_on_self(
-                                  ACTION_FORTIFY,
+                                  paction->id,
                                   punit, unit_home(punit), ptile,
                                   omniscient_cheat));
-
-  case ACTIVITY_BASE:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_BASE,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_GEN_ROAD:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_ROAD,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_PILLAGE:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_PILLAGE,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_TRANSFORM:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_TRANSFORM_TERRAIN,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-
-  case ACTIVITY_CONVERT:
-    return action_prob_possible(action_speculate_unit_on_self(
-                                  ACTION_CONVERT,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat));
-  case ACTIVITY_POLLUTION:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_CLEAN_POLLUTION,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-  case ACTIVITY_FALLOUT:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  ACTION_CLEAN_FALLOUT,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-  case ACTIVITY_IDLE:
-  case ACTIVITY_GOTO:
-  case ACTIVITY_FORTIFIED:
-  case ACTIVITY_SENTRY:
-  case ACTIVITY_EXPLORE:
-  case ACTIVITY_OLD_ROAD:
-  case ACTIVITY_OLD_RAILROAD:
-  case ACTIVITY_FORTRESS:
-  case ACTIVITY_AIRBASE:
-  case ACTIVITY_PATROL_UNUSED:
-  case ACTIVITY_LAST:
-  case ACTIVITY_UNKNOWN:
-    return can_unit_do_activity_targeted_at(punit, activity, target, ptile);
+  case ATK_COUNT:
+    fc_assert_ret_val(action_get_target_kind(paction) != ATK_COUNT, FALSE);
+    break;
   }
 
   fc_assert(FALSE);
