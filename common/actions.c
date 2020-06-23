@@ -46,11 +46,22 @@ struct action_enabler_contradiction {
   bool is_target;
 };
 
+/* One or more alternative obligatory hard requirement contradictions. */
+struct ae_contra_or {
+  int alternatives;
+  /* The obligatory hard requirement is fulfilled if a contradiction exists
+   * that doesn't contradict the action enabler. */
+  struct action_enabler_contradiction *alternative;
+
+  /* How many obligatory reqs use this */
+  int users;
+};
+
 /* An obligatory hard action requirement */
 struct obligatory_req {
   /* The requirement is fulfilled if the action enabler doesn't contradict
-   * this. */
-  struct action_enabler_contradiction contra;
+   * one of the contradictions listed here. */
+  struct ae_contra_or *contras;
 
   /* The error message to show when the hard obligatory requirement is
    * missing. Must be there. */
@@ -134,6 +145,96 @@ FC_STATIC_ASSERT(MAP_DISTANCE_MAX <= ACTION_DISTANCE_LAST_NON_SIGNAL,
                  action_range_can_not_cover_the_whole_map);
 
 /**********************************************************************//**
+  Returns a new array of alternative action enabler contradictions. Only
+  one has to not contradict the enabler for it to be seen as fulfilled.
+  @param alternatives the number of action enabler contradictions
+                      followed by the enabler contradictions specified as
+                      alternating contradicting requirement and a bool
+                      that is TRUE if the requirement contradicts the
+                      enabler's target requirement vector and FALSE if it
+                      contradicts the enabler's actor vector.
+  @returns a new array of alternative action enabler contradictions.
+**************************************************************************/
+static struct ae_contra_or *req_contradiction_or(int alternatives, ...)
+{
+  struct ae_contra_or *out;
+  int i;
+  va_list args;
+
+  fc_assert_ret_val(alternatives > 0, NULL);
+  out = fc_malloc(sizeof(out));
+  out->users = 0;
+  out->alternatives = alternatives;
+  out->alternative = fc_malloc(sizeof(out->alternative[0]) * alternatives);
+
+  va_start(args, alternatives);
+  for (i = 0; i < alternatives; i++) {
+    struct requirement contradiction = va_arg(args, struct requirement);
+    bool is_target = va_arg(args, int);
+
+    out->alternative[i].req = contradiction;
+    out->alternative[i].is_target = is_target;
+  }
+  va_end(args);
+
+  return out;
+}
+
+/**********************************************************************//**
+  Tell an ae_contra_or that one of its users is done with it.
+  @param contra the ae_contra_or the user is done with.
+**************************************************************************/
+static void ae_contra_close(struct ae_contra_or *contra)
+{
+  contra->users--;
+
+  if (contra->users < 1) {
+    /* No users left. Delete. */
+    FC_FREE(contra->alternative);
+    FC_FREE(contra);
+  }
+}
+
+/**********************************************************************//**
+  Register an obligatory hard requirement for the specified action results.
+  @param contras if one alternative here doesn't contradict the enabler it
+                 is accepted.
+  @param error_message error message if an enabler contradicts all contras.
+  @param args list of action results that should be unable to contradict
+              all specified contradictions.
+**************************************************************************/
+static void voblig_hard_req_reg(struct ae_contra_or *contras,
+                                const char *error_message,
+                                va_list args)
+{
+  struct obligatory_req oreq;
+  enum action_result res;
+
+  /* A non null action message is used to indicate that an obligatory hard
+   * requirement is missing. */
+  fc_assert_ret(error_message);
+
+  /* Pack the obligatory hard requirement. */
+  oreq.contras = contras;
+  oreq.error_msg = error_message;
+
+  /* Add the obligatory hard requirement to each action result it applies
+   * to. */
+  while (ACTRES_NONE != (res = va_arg(args, enum action_result))) {
+    /* Any invalid action result should terminate the loop before this
+     * assertion. */
+    fc_assert_ret_msg(action_result_is_valid(res),
+                      "Invalid action result %d", res);
+
+    /* Add to list for action result */
+    obligatory_req_vector_append(&obligatory_hard_reqs[res], oreq);
+
+    /* Register the new user. */
+    oreq.contras->users++;
+  }
+}
+
+/**********************************************************************//**
   Register an obligatory hard requirement for the action results it
   applies to.
 
@@ -145,31 +246,16 @@ static void oblig_hard_req_register(struct requirement contradiction,
                                     const char *error_message,
                                     ...)
 {
-  struct obligatory_req oreq;
+  struct ae_contra_or *contra;
   va_list args;
-  enum action_result res;
-
-  /* A non null action message is used to indicate that an obligatory hard
-   * requirement is missing. */
-  fc_assert_ret(error_message);
 
   /* Pack the obligatory hard requirement. */
-  oreq.contra.req = contradiction;
-  oreq.contra.is_target = is_target;
-  oreq.error_msg = error_message;
+  contra = req_contradiction_or(1, contradiction, is_target);
 
-  /* Add the obligatory hard requirement to each action it applies to. */
+  /* Add the obligatory hard requirement to each action result it applies
+   * to. */
   va_start(args, error_message);
-
-  while (ACTRES_NONE != (res = va_arg(args, enum action_result))) {
-    /* Any invalid action result should terminate the loop before this
-     * assertion. */
-    fc_assert_ret_msg(action_result_is_valid(res),
-                      "Invalid action result %d", res);
-
-    obligatory_req_vector_append(&obligatory_hard_reqs[res], oreq);
-  }
-
+  voblig_hard_req_reg(contra, error_message, args);
   va_end(args);
 }
 
@@ -1101,6 +1187,9 @@ void actions_free(void)
 
   /* Free the obligatory hard action requirements. */
   for (i = 0; i < ACTRES_NONE; i++) {
+    obligatory_req_vector_iterate(&obligatory_hard_reqs[i], oreq) {
+      ae_contra_close(oreq->contras);
+    } obligatory_req_vector_iterate_end;
     obligatory_req_vector_free(&obligatory_hard_reqs[i]);
   }
 
@@ -2025,6 +2114,9 @@ action_enablers_for_action(action_id action)
   enabler or NULL if no hard obligatory reqs were missing. It is the
   responsibility of the caller to free the suggestion when it is done with
   it.
+  @param enabler the action enabler to suggest a fix for.
+  @return a problem with fix suggestions or NULL if no obligatory hard
+          requirement problems were detected.
 **************************************************************************/
 struct req_vec_problem *
 action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
@@ -2047,31 +2139,70 @@ action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
 
   obligatory_req_vector_iterate(&obligatory_hard_reqs[paction->result],
       obreq) {
-    const struct requirement_vector *ae_vec;
+    struct req_vec_problem *out;
+    int i;
+    bool fulfilled = FALSE;
 
-    /* Select action enabler requirement vector. */
-    ae_vec = (obreq->contra.is_target ? &enabler->target_reqs :
-                                        &enabler->actor_reqs);
+    /* Check each alternative. */
+    for (i = 0; i < obreq->contras->alternatives; i++) {
+      const struct requirement_vector *ae_vec;
 
-    if (!does_req_contradicts_reqs(&obreq->contra.req, ae_vec)) {
-      struct req_vec_problem *out;
+      /* Select action enabler requirement vector. */
+      ae_vec = (obreq->contras->alternative[i].is_target
+                ? &enabler->target_reqs
+                : &enabler->actor_reqs);
 
-      out = req_vec_problem_new(1, obreq->error_msg,
-                                action_rule_name(paction));
+      if (does_req_contradicts_reqs(&obreq->contras->alternative[i].req,
+                                    ae_vec)) {
+        /* It is enough that one alternative accepts the enabler. */
+        fulfilled = TRUE;
+        break;
+      }
 
-      out->suggested_solutions[0].operation = RVCO_APPEND;
-      out->suggested_solutions[0].based_on = ae_vec;
+      /* Fall back to the next alternative */
+    }
+
+    if (fulfilled) {
+      /* This obligatory hard requirement isn't a problem. */
+      continue;
+    }
+
+    /* Missing hard obligatory requirement detected */
+
+    out = req_vec_problem_new(obreq->contras->alternatives,
+                              obreq->error_msg,
+                              action_rule_name(paction));
+
+    for (i = 0; i < obreq->contras->alternatives; i++) {
+      const struct requirement_vector *ae_vec;
+
+      /* Select action enabler requirement vector. */
+      ae_vec = (obreq->contras->alternative[i].is_target
+                ? &enabler->target_reqs
+                : &enabler->actor_reqs);
+
+      /* The suggested fix is to append a requirement that makes the enabler
+       * contradict the missing hard obligatory requirement detector. */
+      out->suggested_solutions[i].operation = RVCO_APPEND;
+      out->suggested_solutions[i].based_on = ae_vec;
 
       /* Change the requirement from what should conflict to what is
        * wanted. */
-      out->suggested_solutions[0].req.present = !obreq->contra.req.present;
-      out->suggested_solutions[0].req.source = obreq->contra.req.source;
-      out->suggested_solutions[0].req.range = obreq->contra.req.range;
-      out->suggested_solutions[0].req.survives = obreq->contra.req.survives;
-      out->suggested_solutions[0].req.quiet = obreq->contra.req.quiet;
-
-      return out;
+      out->suggested_solutions[i].req.present
+          = !obreq->contras->alternative[i].req.present;
+      out->suggested_solutions[i].req.source
+          = obreq->contras->alternative[i].req.source;
+      out->suggested_solutions[i].req.range
+          = obreq->contras->alternative[i].req.range;
+      out->suggested_solutions[i].req.survives
+          = obreq->contras->alternative[i].req.survives;
+      out->suggested_solutions[i].req.quiet
+          = obreq->contras->alternative[i].req.quiet;
     }
+
+    /* Return the first problem found. The next problem will be detected
+     * during the next call. */
+    return out;
   } obligatory_req_vector_iterate_end;
 
   /* No obligatory req problems found. */
