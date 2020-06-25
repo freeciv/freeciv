@@ -2537,10 +2537,10 @@ struct action *action_is_blocked_by(const action_id act_id,
 }
 
 /**********************************************************************//**
-  Returns TRUE if the specified unit type can perform the wanted action
-  given that an action enabler later will enable it.
+  Returns TRUE if the specified unit type can perform an action with the
+  wanted result given that an action enabler later will enable it.
 
-  This is done by checking the action's hard requirements. Hard
+  This is done by checking the action result's hard requirements. Hard
   requirements must be TRUE before an action can be done. The reason why
   is usually that code dealing with the action assumes that the
   requirements are true. A requirement may also end up here if it can't be
@@ -2549,10 +2549,17 @@ struct action *action_is_blocked_by(const action_id act_id,
 
   When adding a new hard requirement here:
    * explain why it is a hard requirement in a comment.
+
+  @param result the action result to check the hard reqs for
+  @param actor_unittype the unit type that may be able to act
+  @param ignore_third_party ignore if potential targets etc exists
+  @return TRUE iff the specified unit type can perform the wanted action
+          given that an action enabler later will enable it.
 **************************************************************************/
-bool
-action_actor_utype_hard_reqs_ok(enum action_result result,
-                                const struct unit_type *actor_unittype)
+static bool
+action_actor_utype_hard_reqs_ok_full(enum action_result result,
+                                     const struct unit_type *actor_unittype,
+                                     bool ignore_third_party)
 {
   switch (result) {
   case ACTRES_JOIN_CITY:
@@ -2603,6 +2610,27 @@ action_actor_utype_hard_reqs_ok(enum action_result result,
     }
     break;
 
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_DISEMBARK:
+    if (!ignore_third_party) {
+      bool has_transporter = FALSE;
+
+      unit_type_iterate(utrans) {
+        if (can_unit_type_transport(utrans, utype_class(actor_unittype))) {
+          has_transporter = TRUE;
+          break;
+        }
+      } unit_type_iterate_end;
+
+      if (!has_transporter) {
+        /* Reason: no other unit can transport this unit. */
+        return FALSE;
+      }
+    }
+    break;
+
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -2648,10 +2676,6 @@ action_actor_utype_hard_reqs_ok(enum action_result result,
   case ACTRES_BASE:
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
-  case ACTRES_TRANSPORT_BOARD:
-  case ACTRES_TRANSPORT_EMBARK:
-  case ACTRES_TRANSPORT_ALIGHT:
-  case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
@@ -2659,6 +2683,30 @@ action_actor_utype_hard_reqs_ok(enum action_result result,
   }
 
   return TRUE;
+}
+
+/**********************************************************************//**
+  Returns TRUE if the specified unit type can perform an action with the
+  wanted result given that an action enabler later will enable it.
+
+  This is done by checking the action result's hard requirements. Hard
+  requirements must be TRUE before an action can be done. The reason why
+  is usually that code dealing with the action assumes that the
+  requirements are true. A requirement may also end up here if it can't be
+  expressed in a requirement vector or if its absence makes the action
+  pointless.
+
+  @param result the action result to check the hard reqs for
+  @param actor_unittype the unit type that may be able to act
+  @return TRUE iff the specified unit type can perform the wanted action
+          given that an action enabler later will enable it.
+**************************************************************************/
+bool
+action_actor_utype_hard_reqs_ok(enum action_result result,
+                                const struct unit_type *actor_unittype)
+{
+  return action_actor_utype_hard_reqs_ok_full(result, actor_unittype,
+                                              FALSE);
 }
 
 /**********************************************************************//**
@@ -2682,7 +2730,7 @@ action_hard_reqs_actor(enum action_result result,
                        const bool omniscient,
                        const struct city *homecity)
 {
-  if (!action_actor_utype_hard_reqs_ok(result, actor_unittype)) {
+  if (!action_actor_utype_hard_reqs_ok_full(result, actor_unittype, TRUE)) {
     /* Info leak: The actor player knows the type of his unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
