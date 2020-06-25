@@ -1981,8 +1981,8 @@ void handle_unit_get_actions(struct connection *pc,
   Try to explain to the player why an action is illegal.
 
   Event type should be E_BAD_COMMAND if the player should know that the
-  action is illegal or E_UNIT_ILLEGAL_ACTION if the player potentially new
-  information is being revealed.
+  action is illegal or E_UNIT_ILLEGAL_ACTION if new information potentially
+  is being revealed to the player.
 **************************************************************************/
 void illegal_action_msg(struct player *pplayer,
                         const enum event_type event,
