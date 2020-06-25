@@ -164,8 +164,8 @@ struct req_vec_change {
 struct req_vec_problem {
   /* Can't use name_translation because it is MAX_LEN_NAME long and a
    * description may contain more than one name. */
-  char description[MAX_LEN_NAME * 3];
-  char description_translated[MAX_LEN_NAME * 3];
+  char description[500];
+  char description_translated[500];
 
   int num_suggested_solutions;
   struct req_vec_change *suggested_solutions;
