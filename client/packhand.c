@@ -3400,7 +3400,6 @@ void handle_ruleset_unit(const struct packet_ruleset_unit *p)
     u->upkeep[o] = p->upkeep[o];
   } output_type_iterate_end;
   u->paratroopers_range = p->paratroopers_range;
-  u->paratroopers_mr_sub = p->paratroopers_mr_sub;
   u->bombard_rate       = p->bombard_rate;
   u->city_size          = p->city_size;
   u->city_slots         = p->city_slots;

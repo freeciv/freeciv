@@ -510,7 +510,6 @@ struct unit_type {
 
   /* Only valid for ACTION_PARADROP */
   int paratroopers_range;
-  int paratroopers_mr_sub;
 
   /* Additional values for the expanded veteran system */
   struct veteran_system *veteran;
@@ -555,6 +554,7 @@ struct unit_type {
   /* Used to upgrade the ruleset format version. */
   struct {
     int paratroopers_mr_req;
+    int paratroopers_mr_sub;
   } rscompat_cache;
 
   void *ais[FREECIV_AI_MOD_LAST];

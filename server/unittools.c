@@ -2919,7 +2919,9 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
 
   /* All ok */
   punit->paradropped = TRUE;
-  if (unit_move(punit, ptile, unit_type_get(punit)->paratroopers_mr_sub,
+  if (unit_move(punit, ptile,
+                /* Done by Action_Success_Actor_Move_Cost */
+                0,
                 NULL, game.info.paradrop_to_transport,
                 /* A paradrop into a non allied city results in a city
                  * occupation. */

@@ -729,6 +729,36 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             TRUE, "Expel Unit"));
 
+    /* Post successful action move fragment loss for targets of
+     * "Paradrop Unit" has moved to the Action_Success_Actor_Move_Cost
+     * effect. */
+    unit_type_iterate(putype) {
+      if (!utype_can_do_action(putype, ACTION_PARADROP)) {
+        /* Not relevant */
+        continue;
+      }
+
+      if (putype->rscompat_cache.paratroopers_mr_sub == 0) {
+        /* Not relevant */
+        continue;
+      }
+
+      /* Subtract the value via the Action_Success_Actor_Move_Cost effect */
+      peffect = effect_new(EFT_ACTION_SUCCESS_TARGET_MOVE_COST,
+                           putype->rscompat_cache.paratroopers_mr_sub,
+                           NULL);
+
+      /* The reduction only applies to "Paradrop Unit". */
+      effect_req_append(peffect,
+                        req_from_str("Action", "Local", FALSE, TRUE, FALSE,
+                                     "Paradrop Unit"));
+
+      /* The reduction only applies to this unit type. */
+      effect_req_append(peffect,
+                        req_from_str("UnitType", "Local", FALSE, TRUE, FALSE,
+                                     utype_rule_name(putype)));
+    } unit_type_iterate_end;
+
     /* Fortifying rules have been unhardcoded to effects. */
     peffect = effect_new(EFT_FORTIFY_DEFENSE_BONUS, 50, NULL);
 

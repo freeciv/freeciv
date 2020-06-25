@@ -1046,6 +1046,14 @@ reqs    =
       "Action", "Bombard", "Local", TRUE
     }
 
+[effect_action_success_move_cost_paradrop]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 4
+reqs    =
+    { "type",   "name",          "range", "present"
+      "Action", "Paradrop Unit", "Local", TRUE
+    }
+
 [effect_fortified]
 type    = "Fortify_Defense_Bonus"
 value   = 50
