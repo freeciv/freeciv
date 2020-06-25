@@ -191,6 +191,11 @@ struct act_prob action_prob_vs_unit(const struct unit* actor,
                                     const int act_id,
                                     const struct unit* victim);
 
+struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+                                        const struct unit *act_unit,
+                                        const struct city *tgt_city,
+                                        const struct unit *tgt_unit);
+
 struct act_prob action_speculate_unit_on_city(action_id act_id,
                                               const struct unit *actor,
                                               const struct city *actor_home,

@@ -1496,6 +1496,45 @@ struct act_prob action_prob_vs_unit(const struct unit* actor_unit,
 }
 
 /**********************************************************************//**
+  Returns the actor unit's probability of successfully performing the
+  specified action against the action specific target.
+  @param paction the action to perform
+  @param act_unit the actor unit
+  @param tgt_city the target for city targeted actions
+  @param tgt_unit the target for unit targeted actions
+  @return the action probability of performing the action
+**************************************************************************/
+struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+                                        const struct unit *act_unit,
+                                        const struct city *tgt_city,
+                                        const struct unit *tgt_unit)
+{
+  /* Assume impossible until told otherwise. */
+  struct act_prob prob = ACTPROB_IMPOSSIBLE;
+
+  fc_assert_ret_val(paction, ACTPROB_IMPOSSIBLE);
+  fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    if (tgt_city) {
+      prob = action_prob_vs_city(act_unit, paction->id, tgt_city);
+    }
+    break;
+  case ATK_UNIT:
+    if (tgt_unit) {
+      prob = action_prob_vs_unit(act_unit, paction->id, tgt_unit);
+    }
+    break;
+  case ATK_COUNT:
+    log_error("Invalid action target kind");
+    break;
+  }
+
+  return prob;
+}
+
+/**********************************************************************//**
   Returns a speculation about the actor unit's probability of successfully
   performing the chosen action on the target city given the specified
   state changes.
