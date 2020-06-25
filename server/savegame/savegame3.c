@@ -6757,6 +6757,11 @@ static void sg_load_player_vision(struct loaddata *loading,
       if (NULL != pcity) {
         update_dumb_city(plr, pcity);
       }
+    } else if (!game.server.foggedborders && map_is_known(ptile, plr)) {
+      /* Non fogged borders aren't loaded. See hrm Bug #879084 */
+      struct player_tile *plrtile = map_get_player_tile(ptile, plr);
+
+      plrtile->owner = tile_owner(ptile);
     }
   } whole_map_iterate_end;
 }
