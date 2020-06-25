@@ -674,6 +674,13 @@ struct act_prob action_prob_vs_tile(const struct unit *actor,
 struct act_prob action_prob_self(const struct unit *actor,
                                  const action_id act_id);
 
+struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+                                        const struct unit *act_unit,
+                                        const struct city *tgt_city,
+                                        const struct unit *tgt_unit,
+                                        const struct tile *tgt_tile,
+                                        const struct extra_type *sub_tgt);
+
 struct act_prob
 action_speculate_unit_on_city(action_id act_id,
                               const struct unit *actor,

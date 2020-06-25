@@ -5180,6 +5180,62 @@ struct act_prob action_prob_self(const struct unit* actor_unit,
 }
 
 /**********************************************************************//**
+  Returns the actor unit's probability of successfully performing the
+  specified action against the action specific target.
+  @param paction the action to perform
+  @param act_unit the actor unit
+  @param tgt_city the target for city targeted actions
+  @param tgt_unit the target for unit targeted actions
+  @param tgt_tile the target for tile and unit stack targeted actions
+  @param extra_tgt the target for extra sub targeted actions
+  @return the action probability of performing the action
+**************************************************************************/
+struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
+                                        const struct unit *act_unit,
+                                        const struct city *tgt_city,
+                                        const struct unit *tgt_unit,
+                                        const struct tile *tgt_tile,
+                                        const struct extra_type *extra_tgt)
+{
+  /* Assume impossible until told otherwise. */
+  struct act_prob prob = ACTPROB_IMPOSSIBLE;
+
+  fc_assert_ret_val(paction, ACTPROB_IMPOSSIBLE);
+  fc_assert_ret_val(act_unit, ACTPROB_IMPOSSIBLE);
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_UNITS:
+    if (tgt_tile) {
+      prob = action_prob_vs_units(act_unit, paction->id, tgt_tile);
+    }
+    break;
+  case ATK_TILE:
+    if (tgt_tile) {
+      prob = action_prob_vs_tile(act_unit, paction->id, tgt_tile, extra_tgt);
+    }
+    break;
+  case ATK_CITY:
+    if (tgt_city) {
+      prob = action_prob_vs_city(act_unit, paction->id, tgt_city);
+    }
+    break;
+  case ATK_UNIT:
+    if (tgt_unit) {
+      prob = action_prob_vs_unit(act_unit, paction->id, tgt_unit);
+    }
+    break;
+  case ATK_SELF:
+    prob = action_prob_self(act_unit, paction->id);
+    break;
+  case ATK_COUNT:
+    log_error("Invalid action target kind");
+    break;
+  }
+
+  return prob;
+}
+
+/**********************************************************************//**
   Returns a speculation about the actor unit's probability of successfully
   performing the chosen action on the target city given the specified
   game state changes.
