@@ -291,6 +291,16 @@ Illegal_Action_Move_Cost
 that turns out to be illegal. Only applied when the player wasn't aware that
 the action was illegal and its illegality therefore reveals new information.
 
+Illegal_Action_HP_Cost
+    The number of hit points lost when the player tries to do an action
+that turns out to be illegal. Only applied when the player wasn't aware that
+the action was illegal and its illegality therefore reveals new information.
+Can kill the unit.
+If the action always causes the actor unit to end up at the target tile two
+consolation prizes are given. An area with the radius of the actor unit's
+vision_radius_sq tiles is revealed. The player may also get contact with the
+owners of units and cites adjacent to the target tile.
+
 Action_Success_Actor_Move_Cost
     The number of move fragments lost when a unit successfully performs an
 action. Evaluated and done after the action is successfully completed. Added

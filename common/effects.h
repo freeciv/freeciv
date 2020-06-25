@@ -310,6 +310,8 @@ extern "C" {
 #define SPECENUM_VALUE123NAME "Unit_Shield_Value_Pct"
 #define SPECENUM_VALUE124 EFT_CASUS_BELLI_COMPLETE
 #define SPECENUM_VALUE124NAME "Casus_Belli_Complete"
+#define SPECENUM_VALUE125 EFT_ILLEGAL_ACTION_HP_COST
+#define SPECENUM_VALUE125NAME "Illegal_Action_HP_Cost"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

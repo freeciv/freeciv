@@ -113,7 +113,7 @@ static void illegal_action(struct player *pplayer,
                            struct unit *actor,
                            action_id stopped_action,
                            struct player *tgt_player,
-                           const struct tile *target_tile,
+                           struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
                            bool disturb_player,
@@ -2423,9 +2423,11 @@ static bool illegal_action_pay_price(struct player *pplayer,
                                      struct unit *act_unit,
                                      struct action *stopped_action,
                                      struct player *tgt_player,
+                                     struct tile *tgt_tile,
                                      const enum action_requester requester)
 {
   int punishment_mp;
+  int punishment_hp;
 
   /* Don't punish the player for something the game did. Don't tell the
    * player that the rules required the game to try to do something
@@ -2442,6 +2444,67 @@ static bool illegal_action_pay_price(struct player *pplayer,
   }
 
   /* The mistake may have a cost. */
+
+  /* HP cost */
+  punishment_hp = get_target_bonus_effects(NULL,
+                                           unit_owner(act_unit),
+                                           tgt_player,
+                                           NULL,
+                                           NULL,
+                                           NULL,
+                                           act_unit,
+                                           unit_type_get(act_unit),
+                                           NULL,
+                                           NULL,
+                                           stopped_action,
+                                           EFT_ILLEGAL_ACTION_HP_COST);
+
+  /* Stay in range */
+  punishment_hp = MAX(0, punishment_hp);
+
+  /* Punish the unit's hit points. */
+  act_unit->hp = MAX(0, act_unit->hp - punishment_hp);
+
+  if (punishment_hp != 0) {
+    if (utype_is_moved_to_tgt_by_action(stopped_action,
+                                        unit_type_get(act_unit))) {
+      /* The consolation prize is some information about the potentially
+       * distant target tile and maybe some contacts. */
+      map_show_circle(pplayer, tgt_tile,
+                      unit_type_get(act_unit)->vision_radius_sq);
+      maybe_make_contact(tgt_tile, pplayer);
+    }
+
+    if (act_unit->hp > 0) {
+      /* The actor unit survived */
+
+      /* The player probably wants to be disturbed if his unit was punished
+       * with the loss of hit points. */
+      notify_player(pplayer, unit_tile(act_unit),
+                    E_UNIT_ILLEGAL_ACTION, ftc_server,
+                    /* TRANS: Spy ... 5 ... Drop Paratrooper */
+                    _("Your %s lost %d hit points while attempting to"
+                      " do %s."),
+                    unit_name_translation(act_unit), punishment_hp,
+                    action_name_translation(stopped_action));
+      send_unit_info(NULL, act_unit);
+    } else {
+      /* The unit didn't survive */
+
+      /* The player probably wants to be disturbed if his unit was punished
+       * with death. */
+      notify_player(pplayer, unit_tile(act_unit),
+                    E_UNIT_ILLEGAL_ACTION, ftc_server,
+                    /* TRANS: Spy ... Drop Paratrooper */
+                    _("Your %s was killed while attempting to do %s."),
+                    unit_name_translation(act_unit),
+                    action_name_translation(stopped_action));
+
+      wipe_unit(act_unit, ULR_KILLED, NULL);
+    }
+  }
+
+  /* MP cost */
   punishment_mp = get_target_bonus_effects(NULL,
                                            unit_owner(act_unit),
                                            tgt_player,
@@ -2474,7 +2537,7 @@ static bool illegal_action_pay_price(struct player *pplayer,
                   move_points_text(punishment_mp, TRUE));
   }
 
-  return punishment_mp != 0;
+  return punishment_mp != 0 || punishment_hp != 0;
 }
 
 /**********************************************************************//**
@@ -2486,7 +2549,7 @@ static void illegal_action(struct player *pplayer,
                            struct unit *actor,
                            action_id stopped_action_id,
                            struct player *tgt_player,
-                           const struct tile *target_tile,
+                           struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
                            bool disturb_player,
@@ -2510,7 +2573,8 @@ static void illegal_action(struct player *pplayer,
                                                  target_tile, NULL));
 
   was_punished = illegal_action_pay_price(pplayer, information_revealed,
-                                          actor, stopped_action, tgt_player,
+                                          actor, stopped_action,
+                                          tgt_player, target_tile,
                                           requester);
 
   if (disturb_player || was_punished) {
