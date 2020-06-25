@@ -1218,15 +1218,6 @@ actor_reqs    =
       "UnitState",    "OnNativeTile", "Local"
     }
 
-[actionenabler_disembark_from_native_city]
-action        = "Transport Disembark"
-actor_reqs    =
-    { "type",         "name",        "range"
-      "UnitState",    "Transported", "Local"
-      "MinMoveFrags", "1",           "Local"
-      "CityTile",     "Center",      "Local"
-    }
-
 [actionenabler_disembark_from_native_terrspeed]
 action        = "Transport Disembark"
 actor_reqs    =
@@ -1243,7 +1234,6 @@ actor_reqs    =
       "UnitState",      "Transported",  "Local", TRUE
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
-      "CityTile",       "Center",       "Local", FALSE
       "UnitClassFlag",  "TerrainSpeed", "Local", TRUE
     }
 
