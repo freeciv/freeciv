@@ -669,15 +669,6 @@ target_reqs    =
       "TerrainFlag","NoCities","Local",FALSE
     }
 
-[actionenabler_join_city]
-action = "Join City"
-actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "AddToCity", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
-    }
-
 [actionenabler_attack_native]
 action = "Attack"
 actor_reqs    =

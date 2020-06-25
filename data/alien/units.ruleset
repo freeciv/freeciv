@@ -30,7 +30,6 @@ flags =
     _("Capturable"), _("Can be captured by some enemy units.")
     _("Bombarder")
     _("Cities")
-    _("AddToCity")
     _("Infra"), _("Can build infrastructure.")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Cant_Fortify")
