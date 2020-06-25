@@ -911,7 +911,21 @@ actor_reqs    =
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
-[actionenabler_paradrop_base]
+[actionenabler_paradrop_base_to_foreign]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "Extra",     "Airbase",      "Local", TRUE
+      "DiplRel",   "Peace",        "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
+[actionenabler_paradrop_base_to_unclaimed]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",      "name",         "range", "present"
@@ -919,14 +933,36 @@ actor_reqs    =
       "UnitState", "Transporting", "Local", FALSE
       "Extra",     "Airbase",      "Local", TRUE
     }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
+    }
 
-[actionenabler_paradrop_city]
+[actionenabler_paradrop_city_to_foreign]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",      "name",         "range", "present"
       "UnitFlag",  "Paratroopers", "Local", TRUE
       "UnitState", "Transporting", "Local", FALSE
       "CityTile",  "Center",       "Local", TRUE
+      "DiplRel",   "Peace",        "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
+[actionenabler_paradrop_city_to_unclaimed]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", TRUE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
     }
 
 [actionenabler_upgrade_unit]

@@ -1200,7 +1200,22 @@ actor_reqs    =
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
-[actionenabler_paradrop_not_forest_base]
+[actionenabler_paradrop_base_to_foreign_not_forest]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "ExtraFlag", "ParadropFrom", "Local", TRUE
+      "DiplRel",   "Peace",        "Local", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+    }
+
+[actionenabler_paradrop_base_to_unclaimed_not_forest]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",      "name",         "range", "present"
@@ -1209,11 +1224,27 @@ actor_reqs    =
       "ExtraFlag", "ParadropFrom", "Local", TRUE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
+    { "type",        "name",             "range", "present"
       "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Local", FALSE
     }
 
-[actionenabler_paradrop_veteran_base]
+[actionenabler_paradrop_veteran_base_to_foreign]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "MinVeteran", 1,             "Local", TRUE
+      "ExtraFlag", "ParadropFrom", "Local", TRUE
+      "DiplRel",   "Peace",        "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_base_to_unclaimed]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",      "name",         "range", "present"
@@ -1222,8 +1253,27 @@ actor_reqs    =
       "MinVeteran", 1,             "Local", TRUE
       "ExtraFlag", "ParadropFrom", "Local", TRUE
     }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
+    }
 
-[actionenabler_paradrop_not_forest_city]
+[actionenabler_paradrop_city_to_foreign_not_forest]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Paratroopers", "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", TRUE
+      "DiplRel",   "Peace",        "Local", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+    }
+
+[actionenabler_paradrop_city_to_unclaimed_not_forest]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",      "name",         "range", "present"
@@ -1232,11 +1282,12 @@ actor_reqs    =
       "CityTile",  "Center",       "Local", TRUE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", FALSE
       "TerrainFlag", "DifficultLanding", "Local", FALSE
     }
 
-[actionenabler_paradrop_veteran_city]
+[actionenabler_paradrop_veteran_city_to_foreign]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",       "name",         "range", "present"
@@ -1244,6 +1295,25 @@ actor_reqs    =
       "UnitState",  "Transporting", "Local", FALSE
       "MinVeteran", 1,              "Local", TRUE
       "CityTile",   "Center",       "Local", TRUE
+      "DiplRel",    "Peace",        "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_city_to_unclaimed]
+action = "Paradrop Unit"
+actor_reqs    =
+    { "type",       "name",         "range", "present"
+      "UnitFlag",   "Paratroopers", "Local", TRUE
+      "UnitState",  "Transporting", "Local", FALSE
+      "MinVeteran", 1,              "Local", TRUE
+      "CityTile",   "Center",       "Local", TRUE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
     }
 
 [actionenabler_upgrade_unit]

@@ -2856,16 +2856,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
    * server/unithand's action not enabled system (expl_act_not_enabl(),
    * ane_kind, explain_why_no_action_enabled(), etc)
    */
-  if (map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
-    if (is_military_unit(punit)
-        && !player_can_invade_tile(pplayer, ptile)) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("Cannot invade unless you break peace with "
-                      "%s first."),
-                    player_name(tile_owner(ptile)));
-      return FALSE;
-    }
-  } else {
+  if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
     /* Only take in account values from player map. */
     const struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
@@ -2883,16 +2874,6 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
         && pplayers_non_attack(pplayer, plrtile->owner)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("Cannot attack unless you declare war first."));
-      return FALSE;
-    }
-
-    if (is_military_unit(punit)
-        && NULL != plrtile->owner
-        && players_non_invade(pplayer, plrtile->owner)) {
-      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                    _("Cannot invade unless you break peace with "
-                      "%s first."),
-                    player_name(plrtile->owner));
       return FALSE;
     }
   }

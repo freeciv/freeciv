@@ -235,6 +235,27 @@ static void voblig_hard_req_reg(struct ae_contra_or *contras,
 }
 
 /**********************************************************************//**
+  Register an obligatory hard requirement for the specified action results.
+  @param contras if one alternative here doesn't contradict the enabler it
+                 is accepted.
+  @param error_message error message if an enabler contradicts all contras.
+                       Followed by a list of action results that should be
+                       unable to contradict all specified contradictions.
+**************************************************************************/
+static void oblig_hard_req_reg(struct ae_contra_or *contras,
+                               const char *error_message,
+                               ...)
+{
+  va_list args;
+
+  /* Add the obligatory hard requirement to each action result it applies
+   * to. */
+  va_start(args, error_message);
+  voblig_hard_req_reg(contras, error_message, args);
+  va_end(args);
+}
+
+/**********************************************************************//**
   Register an obligatory hard requirement for the action results it
   applies to.
 
@@ -438,6 +459,30 @@ static void hard_code_oblig_hard_reqs(void)
                              " that the actor doesn't have"
                              " the NoHome utype flag."),
                           ACTRES_HOME_CITY, ACTRES_NONE);
+
+  /* Why this is a hard requirement:
+   * - preserve the semantics of the NonMil unit type flag. */
+  oblig_hard_req_reg(req_contradiction_or(
+                       3,
+                       req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE,
+                                       UTYF_CIVILIAN),
+                       FALSE,
+                       req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE, DS_PEACE),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CLAIMED),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require"
+                        " that the actor has the NonMil utype flag"
+                        " or that the target tile is unclaimed"
+                        " or that the diplomatic relation to"
+                        " the target tile owner isn't peace."),
+                     ACTRES_PARADROP,
+                     ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of NonMil
    * flag. Need to replace other uses in game engine before this can

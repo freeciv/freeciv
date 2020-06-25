@@ -721,6 +721,8 @@ Actions done by a unit against a tile
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
  * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
  * the target tile is known (doesn't have to be seen) by the actor
  * if the target tile is seen:
    - the actor unit must be able to exist outside a transport on the target
