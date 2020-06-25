@@ -387,8 +387,6 @@ flags         = "Missile", "DoesntOccupyTile"
 ;  "Paradrop Unit"
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.
 ;                         Max range is 65534.
-;   paratroopers_mr_req = the move rate which is required at least for
-;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
 ;  "Upgrade Unit"
@@ -836,7 +834,6 @@ uk_food       = 0
 uk_gold       = 0
 flags         = "Paratroopers", "Capturer"
 paratroopers_range  = 10
-paratroopers_mr_req = 1
 paratroopers_mr_sub = 1
 helptext      = _("\
 Alien lifeform able to paradrop.\

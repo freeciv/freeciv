@@ -428,8 +428,6 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "MediumWeight"
 ;  "Paradrop Unit"
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.
 ;                         Max range is 65534.
-;   paratroopers_mr_req = the move rate which is required at least for
-;                         paradropping (whole movement points)
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping
 ;                         (whole movement points)
 ;  "Upgrade Unit"
@@ -1058,7 +1056,6 @@ as Paratroopers landing on a tile occupied by enemy units are easy \
 targets!)\
 "), _("Veteran Paratroopers can land on forest and jungle tiles.")
 paratroopers_range = 10
-paratroopers_mr_req = 1
 paratroopers_mr_sub = 0
 
 [unit_mech_inf]

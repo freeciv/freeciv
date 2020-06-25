@@ -503,8 +503,6 @@ utypes = "\
 ;  \"Paradrop Unit\"\n\
 ;   paratroopers_range  = the maximal range the unit can be paradropped to.\n\
 ;                         Max range is 65534.\n\
-;   paratroopers_mr_req = the move rate which is required at least for\n\
-;                         paradropping (whole movement points)\n\
 ;   paratroopers_mr_sub = the move rate which is subtracted after paradropping\n\
 ;                         (whole movement points)\n\
 ;  \"Upgrade Unit\"\n\

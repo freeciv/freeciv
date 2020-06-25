@@ -977,6 +977,83 @@ void rscompat_postprocess(struct rscompat_info *info)
       }
     } action_enablers_iterate_end;
 
+    /* The paratroopers_mr_req field has moved to the enabler for the
+     * "Paradrop Unit" action. */
+    {
+      bool generic_in_use = FALSE;
+      struct action_enabler_list *ae_custom = action_enabler_list_new();
+
+      action_enabler_list_iterate(
+            action_enablers_for_action(ACTION_PARADROP), ae) {
+        unit_type_iterate(putype) {
+          if (!requirement_fulfilled_by_unit_type(putype,
+                                                  &(ae->actor_reqs))) {
+            /* This action enabler isn't for this unit type at all. */
+            continue;
+          }
+
+          requirement_vector_iterate(&ae->actor_reqs, preq) {
+            if (preq->source.kind == VUT_MINMOVES) {
+              if (!preq->present) {
+                /* A max move fragments req has been found. Is it too
+                 * large? */
+                if (preq->source.value.minmoves
+                    < putype->rscompat_cache.paratroopers_mr_req) {
+                  /* Avoid self contradiciton */
+                  continue;
+                }
+              }
+            }
+          } requirement_vector_iterate_end;
+
+          if (putype->rscompat_cache.paratroopers_mr_req > 0) {
+            /* This unit type needs a custom enabler */
+
+            enabler = action_enabler_copy(ae);
+
+            /* This enabler is specific to the unit type */
+            e_req = req_from_values(VUT_UTYPE,
+                                    REQ_RANGE_LOCAL,
+                                    FALSE, TRUE, FALSE,
+                                    utype_number(putype));
+            requirement_vector_append(&enabler->actor_reqs, e_req);
+
+            /* Add the minimum amout of move fragments */
+            e_req = req_from_values(VUT_MINMOVES,
+                                    REQ_RANGE_LOCAL,
+                                    FALSE, TRUE, FALSE,
+                                    putype->rscompat_cache
+                                    .paratroopers_mr_req);
+            requirement_vector_append(&enabler->actor_reqs, e_req);
+
+            action_enabler_list_append(ae_custom, enabler);
+
+            log_debug("paratroopers_mr_req upgrade: %s uses custom enabler",
+                      utype_rule_name(putype));
+          } else {
+            /* The old one works just fine */
+
+            generic_in_use = TRUE;
+
+            log_debug("paratroopers_mr_req upgrade: %s uses generic enabler",
+                      utype_rule_name(putype));
+          }
+        } unit_type_iterate_end;
+
+        if (!generic_in_use) {
+          /* The generic enabler isn't in use any more */
+          action_enabler_remove(ae);
+        }
+      } action_enabler_list_iterate_end;
+
+      action_enabler_list_iterate(ae_custom, ae) {
+        /* Append the custom enablers. */
+        action_enabler_add(ae);
+      } action_enabler_list_iterate_end;
+
+      action_enabler_list_destroy(ae_custom);
+    }
+
     /* Enable all clause types */
     {
       int i;

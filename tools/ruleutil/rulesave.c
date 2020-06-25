@@ -2862,8 +2862,6 @@ static bool save_units_ruleset(const char *filename, const char *name)
       if (put->paratroopers_range != 0) {
         secfile_insert_int(sfile, put->paratroopers_range,
                            "%s.paratroopers_range", path);
-        secfile_insert_int(sfile, put->paratroopers_mr_req / SINGLE_MOVE,
-                           "%s.paratroopers_mr_req", path);
         secfile_insert_int(sfile, put->paratroopers_mr_sub / SINGLE_MOVE,
                            "%s.paratroopers_mr_sub", path);
       }

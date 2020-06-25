@@ -1021,11 +1021,12 @@ actor_reqs    =
 [actionenabler_paradrop_base_to_foreign]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",      "name",         "range", "present"
-      "UnitFlag",  "Paratroopers", "Local", TRUE
-      "UnitState", "Transporting", "Local", FALSE
-      "ExtraFlag", "ParadropFrom", "Local", TRUE
-      "DiplRel",   "Peace",        "Local", FALSE
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1035,10 +1036,11 @@ target_reqs   =
 [actionenabler_paradrop_base_to_unclaimed]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",      "name",         "range", "present"
-      "UnitFlag",  "Paratroopers", "Local", TRUE
-      "UnitState", "Transporting", "Local", FALSE
-      "ExtraFlag", "ParadropFrom", "Local", TRUE
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1048,11 +1050,12 @@ target_reqs   =
 [actionenabler_paradrop_city_to_foreign]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",      "name",         "range", "present"
-      "UnitFlag",  "Paratroopers", "Local", TRUE
-      "UnitState", "Transporting", "Local", FALSE
-      "CityTile",  "Center",       "Local", TRUE
-      "DiplRel",   "Peace",        "Local", FALSE
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1062,10 +1065,11 @@ target_reqs   =
 [actionenabler_paradrop_city_to_unclaimed]
 action = "Paradrop Unit"
 actor_reqs    =
-    { "type",      "name",         "range", "present"
-      "UnitFlag",  "Paratroopers", "Local", TRUE
-      "UnitState", "Transporting", "Local", FALSE
-      "CityTile",  "Center",       "Local", TRUE
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"

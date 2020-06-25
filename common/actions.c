@@ -2698,13 +2698,6 @@ action_hard_reqs_actor(enum action_result result,
       return TRI_NO;
     }
 
-    /* Reason: Support the paratroopers_mr_req unit type field. */
-    /* Info leak: The player knows how many move fragments his unit has
-     * left. */
-    if (actor_unit->moves_left < actor_unittype->paratroopers_mr_req) {
-      return TRI_NO;
-    }
-
     break;
 
   case ACTRES_AIRLIFT:

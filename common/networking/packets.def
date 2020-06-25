@@ -1385,7 +1385,6 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 upkeep[O_LAST]; # normal upkeep cost (food, gold, shields)
 
   UINT16 paratroopers_range; # max range of paratroopers, ACTION_PARADROP
-  UINT8 paratroopers_mr_req; # whole move points, not MOVEFRAGS
   UINT8 paratroopers_mr_sub; # whole move points, not MOVEFRAGS
 
   UINT8 veteran_levels;

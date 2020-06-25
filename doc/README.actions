@@ -719,7 +719,6 @@ Actions done by a unit against a tile
    - the target city contains 0 units
  * the distance between actor and target is from 1 to paratroopers_range
  * the actor unit hasn't paradropped this turn
- * the actor unit has paratroopers_mr_req moves left
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
