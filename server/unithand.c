@@ -2407,13 +2407,84 @@ void illegal_action_msg(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Punish a player for trying to perform an action that turned out to be
+  illegal. The punishment, if any at all, is specified by the ruleset.
+  @param pplayer the player to punish.
+  @param information_revealed if finding out that the action is illegal
+                              reveals new information.
+  @param act_unit the actor unit performing the action.
+  @param stopped_action the illegal action.
+  @param tgt_player the intended target of the action.
+  @param requester who ordered the action performed?
+  @return TRUE iff player was punished for trying to do the illegal action.
+**************************************************************************/
+static bool illegal_action_pay_price(struct player *pplayer,
+                                     bool information_revealed,
+                                     struct unit *act_unit,
+                                     struct action *stopped_action,
+                                     struct player *tgt_player,
+                                     const enum action_requester requester)
+{
+  int punishment_mp;
+
+  /* Don't punish the player for something the game did. Don't tell the
+   * player that the rules required the game to try to do something
+   * illegal. */
+  fc_assert_ret_val_msg((requester == ACT_REQ_PLAYER
+                         || requester == ACT_REQ_SS_AGENT),
+                        FALSE,
+                        "The player wasn't responsible for this.");
+
+  if (!information_revealed) {
+    /* The player already had enough information to determine that this
+     * action is illegal. Don't punish a client error or an accident. */
+    return FALSE;
+  }
+
+  /* The mistake may have a cost. */
+  punishment_mp = get_target_bonus_effects(NULL,
+                                           unit_owner(act_unit),
+                                           tgt_player,
+                                           NULL,
+                                           NULL,
+                                           NULL,
+                                           act_unit,
+                                           unit_type_get(act_unit),
+                                           NULL,
+                                           NULL,
+                                           stopped_action,
+                                           EFT_ILLEGAL_ACTION_MOVE_COST);
+
+  /* Stay in range */
+  punishment_mp = MAX(0, punishment_mp);
+
+  /* Punish the unit's move fragments. */
+  act_unit->moves_left = MAX(0, act_unit->moves_left - punishment_mp);
+  send_unit_info(NULL, act_unit);
+
+  if (punishment_mp != 0) {
+    /* The player probably wants to be disturbed if his unit was punished
+     * with the loss of movement points. */
+    notify_player(pplayer, unit_tile(act_unit),
+                  E_UNIT_ILLEGAL_ACTION, ftc_server,
+                  /* TRANS: Spy ... movement point text that may include
+                   * fractions. */
+                  _("Your %s lost %s MP for attempting an illegal action."),
+                  unit_name_translation(act_unit),
+                  move_points_text(punishment_mp, TRUE));
+  }
+
+  return punishment_mp != 0;
+}
+
+/**********************************************************************//**
   Tell the client that the action it requested is illegal. This can be
   caused by the player (and therefore the client) not knowing that some
   condition of an action no longer is true.
 **************************************************************************/
 static void illegal_action(struct player *pplayer,
                            struct unit *actor,
-                           action_id stopped_action,
+                           action_id stopped_action_id,
                            struct player *tgt_player,
                            const struct tile *target_tile,
                            const struct city *target_city,
@@ -2421,55 +2492,33 @@ static void illegal_action(struct player *pplayer,
                            bool disturb_player,
                            const enum action_requester requester)
 {
-  int punishment_mp;
+  bool information_revealed;
+  bool was_punished;
+
+  struct action *stopped_action = action_by_number(stopped_action_id);
 
   /* Why didn't the game check before trying something illegal? Did a good
    * reason to not call is_action_enabled_unit_on...() appear? The game is
    * omniscient... */
   fc_assert(requester != ACT_REQ_RULES);
 
-  /* Don't punish the player for something the game did. Don't tell the
-   * player that the rules required the game to try to do something
-   * illegal. */
-  fc_assert_ret_msg((requester == ACT_REQ_PLAYER
-                     || requester == ACT_REQ_SS_AGENT),
-                    "The player wasn't responsible for this.");
 
-  /* The mistake may have a cost. */
-  punishment_mp = get_target_bonus_effects(NULL,
-                                           unit_owner(actor),
-                                           tgt_player,
-                                           NULL,
-                                           NULL,
-                                           NULL,
-                                           actor,
-                                           unit_type_get(actor),
-                                           NULL,
-                                           NULL,
-                                           action_by_number(stopped_action),
-                                           EFT_ILLEGAL_ACTION_MOVE_COST);
+  information_revealed = action_prob_possible(action_prob_unit_vs_tgt(
+                                                 stopped_action,
+                                                 actor,
+                                                 target_city, target_unit,
+                                                 target_tile, NULL));
 
-  actor->moves_left = MAX(0, actor->moves_left - punishment_mp);
+  was_punished = illegal_action_pay_price(pplayer, information_revealed,
+                                          actor, stopped_action, tgt_player,
+                                          requester);
 
-  send_unit_info(NULL, actor);
-
-  if (punishment_mp) {
-    /* The player probably wants to be disturbed if his unit was punished
-     * with the loss of movement points. */
-    notify_player(pplayer, unit_tile(actor),
-                  E_UNIT_ILLEGAL_ACTION, ftc_server,
-                  /* TRANS: Spy ... movement point text that may include
-                   * fractions. */
-                  _("Your %s lost %s MP for attempting an illegal action."),
-                  unit_name_translation(actor),
-                  move_points_text(punishment_mp, TRUE));
-  }
-
-  if (disturb_player || punishment_mp) {
+  if (disturb_player || was_punished) {
     /* This is a foreground request or the actor unit was punished with
      * the loss of movement points. */
-    illegal_action_msg(pplayer, E_UNIT_ILLEGAL_ACTION,
-                       actor, stopped_action,
+    illegal_action_msg(pplayer, (information_revealed
+                                 ? E_UNIT_ILLEGAL_ACTION : E_BAD_COMMAND),
+                       actor, stopped_action_id,
                        target_tile, target_city, target_unit);
   }
 }

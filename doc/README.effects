@@ -288,7 +288,8 @@ Default value: 100%
 
 Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
-that turns out to be illegal.
+that turns out to be illegal. Only applied when the player wasn't aware that
+the action was illegal and its illegality therefore reveals new information.
 
 Action_Success_Actor_Move_Cost
     The number of move fragments lost when a unit successfully performs an
