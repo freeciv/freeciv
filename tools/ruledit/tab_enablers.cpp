@@ -282,7 +282,6 @@ void tab_enabler::edit_type(QAction *action)
 
   if (selected != nullptr && paction != nullptr) {
     /* Must remove and add back because enablers are stored by action. */
-    selected->action = paction->id;
     action_enabler_remove(selected);
     selected->action = paction->id;
     action_enabler_add(selected);
