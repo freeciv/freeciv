@@ -10,11 +10,9 @@ python:
 jobs:
   include:
   - name: "normal"
-    dist: bionic
+    dist: focal
     addons:
       apt:
-        sources:
-        - sourceline: 'ppa:kvilhaugsvik/backports'
         packages:
         - gettext
         - libgtk-3-dev
@@ -35,7 +33,7 @@ jobs:
         - libsdl2-ttf-dev
         - libmysqlclient-dev
   - name: "dist"
-    dist: bionic
+    dist: focal
     addons:
       apt:
         packages:
@@ -50,11 +48,9 @@ jobs:
         - libicu-dev
         - libsqlite3-dev
   - name: "meson"
-    dist: bionic
+    dist: focal
     addons:
       apt:
-        sources:
-        - sourceline: 'ppa:kvilhaugsvik/backports'
         packages:
         - meson
         - libtolua-dev
