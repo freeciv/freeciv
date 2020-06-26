@@ -1156,9 +1156,10 @@ bool sanity_check_ruleset_data(bool ignore_retired)
       } requirement_vector_iterate_end;
 
       if (!ignore_retired) {
-        /* Support for letting the following hard requirements be implicit
-         * were retired in Freeciv 3.0. Make sure that the opposite of each
-         * hard action requirement blocks all its action enablers. */
+        /* Support for letting some of the following hard requirements be
+         * implicit were retired in Freeciv 3.0. Others were retired later.
+         * Make sure that the opposite of each hard action requirement
+         * blocks all its action enablers. */
 
         struct req_vec_problem *problem
             = action_enabler_suggest_a_fix(enabler);
