@@ -1015,8 +1015,9 @@ actor_reqs    =
       "DiplRel", "Team", "Local", FALSE
     }
 target_reqs    =
-    { "type",   "name", "range", "present"
-      "TerrainFlag","NoCities","Local",FALSE
+    { "type",        "name",     "range", "present"
+      "CityTile",    "Claimed",  "Local", TRUE
+      "TerrainFlag", "NoCities", "Local", FALSE
     }
 
 [actionenabler_join_city]
