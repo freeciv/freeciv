@@ -2255,6 +2255,115 @@ action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
 }
 
 /**********************************************************************//**
+  Returns the first local DiplRel requirement in the specified requirement
+  vector or NULL if it doesn't have a local DiplRel requirement.
+  @param vec the requirement vector to look in
+  @return the first local DiplRel requirement.
+**************************************************************************/
+static struct requirement *
+req_vec_first_local_diplrel(const struct requirement_vector *vec)
+{
+  requirement_vector_iterate(vec, preq) {
+    if (preq->source.kind == VUT_DIPLREL
+        && preq->range == REQ_RANGE_LOCAL) {
+      return preq;
+    }
+  } requirement_vector_iterate_end;
+
+  return NULL;
+}
+
+/**********************************************************************//**
+  Returns the first requirement in the specified requirement vector that
+  contradicts the specified requirement or NULL if no contradiction was
+  detected.
+  @param req the requirement that may contradict the vector
+  @param vec the requirement vector to look in
+  @return the first local DiplRel requirement.
+**************************************************************************/
+static struct requirement *
+req_vec_first_contradiction_in_vec(const struct requirement *req,
+                                   const struct requirement_vector *vec)
+{
+  /* If the requirement is contradicted by any requirement in the vector it
+   * contradicts the entire requirement vector. */
+  requirement_vector_iterate(vec, preq) {
+    if (are_requirements_contradictions(req, preq)) {
+      return preq;
+    }
+  } requirement_vector_iterate_end;
+
+  /* Not a singe requirement in the requirement vector is contradicted be
+   * the specified requirement. */
+  return NULL;
+}
+
+/**********************************************************************//**
+  Returns the first action enabler specific contradiction in the specified
+  enabler or NULL if no enabler specific contradiction is found.
+  @param enabler the enabler to look at
+  @return the first problem and maybe a suggested fix
+**************************************************************************/
+static struct req_vec_problem *
+enabler_first_self_contradiction(const struct action_enabler *enabler)
+{
+  struct req_vec_problem *out;
+  struct requirement *local_diplrel;
+  struct requirement *unclaimed_req;
+  struct requirement tile_is_claimed;
+
+  struct action *paction = action_by_number(enabler->action);
+
+  if (action_get_target_kind(paction) != ATK_TILE) {
+    /* Not tile targeted */
+    return NULL;
+  }
+
+  local_diplrel = req_vec_first_local_diplrel(&enabler->actor_reqs);
+  if (local_diplrel == NULL) {
+    /* No local diplrel */
+    return NULL;
+  }
+
+  /* Tile is claimed as a requirement. */
+  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.survives = FALSE;
+  tile_is_claimed.source.kind = VUT_CITYTILE;
+  tile_is_claimed.present = TRUE;
+  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
+
+  unclaimed_req = req_vec_first_contradiction_in_vec(&tile_is_claimed,
+                                                     &enabler->target_reqs);
+
+  if (unclaimed_req == NULL) {
+    /* No unclaimed req */
+    return NULL;
+  }
+
+  out = req_vec_problem_new(
+          2,
+          /* TRANS: ruledit shows this when an enabler for a tile targeted
+           * action requires that the target tile is unclaimed and that the
+           * actor has a diplomatic relationship to the target. (DiplRel
+           * requirements to an unclaimed tile are never fulfilled.) */
+          N_("No diplomatic relation to Nature."
+             " Requirements {%s} and {%s} contradict each other."),
+          req_to_fstring(local_diplrel), req_to_fstring(unclaimed_req));
+
+  /* The first suggestion is to remove the diplrel */
+  out->suggested_solutions[0].req = *local_diplrel;
+  out->suggested_solutions[0].based_on = &enabler->actor_reqs;
+  out->suggested_solutions[0].operation = RVCO_REMOVE;
+
+  /* The 2nd is to remove the requirement that the tile is unclaimed */
+  out->suggested_solutions[1].req = *unclaimed_req;
+  out->suggested_solutions[1].based_on = &enabler->target_reqs;
+  out->suggested_solutions[1].operation = RVCO_REMOVE;
+
+  return out;
+}
+
+/**********************************************************************//**
   Returns a suggestion to fix the specified action enabler or NULL if no
   fix is found to be needed. It is the responsibility of the caller to
   free the suggestion when it is done with it.
@@ -2275,6 +2384,12 @@ action_enabler_suggest_a_fix(const struct action_enabler *enabler)
   }
 
   out = req_vec_get_first_contradiction(&enabler->target_reqs);
+  if (out != NULL) {
+    return out;
+  }
+
+  /* Enabler specific contradictions. */
+  out = enabler_first_self_contradiction(enabler);
   if (out != NULL) {
     return out;
   }
