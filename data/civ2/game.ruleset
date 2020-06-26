@@ -626,6 +626,11 @@ actor_reqs    =
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Is foreign", "Local", FALSE
     }
+target_reqs    =
+    { "type",        "name",     "range", "present"
+      "CityTile",    "Claimed",  "Local", TRUE
+      "TerrainFlag", "NoCities", "Local", FALSE
+    }
 
 [actionenabler_join_city]
 action = "Join City"
