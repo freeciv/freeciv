@@ -15,6 +15,9 @@
 #include <fc_config.h>
 #endif
 
+/* utility */
+#include "deprecations.h"
+
 /* common */
 #include "achievements.h"
 #include "actions.h"
@@ -1165,9 +1168,15 @@ bool sanity_check_ruleset_data(bool ignore_retired)
             = action_enabler_suggest_a_fix(enabler);
 
         if (problem != NULL) {
-            ruleset_error(LOG_ERROR, "%s", problem->description);
-            ok = FALSE;
-          }
+          ruleset_error(LOG_ERROR, "%s", problem->description);
+          ok = FALSE;
+        }
+
+        problem = action_enabler_issues(enabler);
+        if (problem != NULL) {
+          /* There is a potential for improving this enabler. */
+          log_deprecation("%s", problem->description);
+        }
       }
     } action_enabler_list_iterate_end;
   } action_iterate_end;
