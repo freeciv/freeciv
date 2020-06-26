@@ -108,9 +108,7 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   enabler_layout->addWidget(delete_button, 3, 2);
   show_experimental(delete_button);
 
-  repair_button
-      = new QPushButton(QString::fromUtf8(R__("Repair this Enabler")),
-                        this);
+  repair_button = new QPushButton(this);
   connect(repair_button, SIGNAL(pressed()), this, SLOT(repair_now()));
   repair_button->setEnabled(false);
   enabler_layout->addWidget(repair_button, 3, 1);
@@ -169,7 +167,14 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
           = action_enabler_suggest_a_fix(selected);
 
       /* Offer to repair the enabler if it has a problem. */
-      repair_button->setEnabled(problem != NULL);
+      if (problem != NULL) {
+        repair_button->setText(QString::fromUtf8(R__("Repair Enabler")));
+        repair_button->setEnabled(TRUE);
+      } else {
+        problem = action_enabler_issues(selected);
+        repair_button->setText(QString::fromUtf8(R__("Enabler Issues")));
+        repair_button->setEnabled(problem != NULL);
+      }
 
       if (problem != NULL) {
         req_vec_problem_free(problem);
@@ -177,12 +182,14 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
     }
   } else {
     type_button->setText("None");
-
     type_button->setEnabled(false);
+
     act_reqs_button->setEnabled(false);
     tgt_reqs_button->setEnabled(false);
 
     repair_button->setEnabled(false);
+    repair_button->setText(QString::fromUtf8(R__("Enabler Issues")));
+
     delete_button->setEnabled(false);
   }
 }
@@ -376,7 +383,12 @@ const char *fix_enabler_item::name()
 **************************************************************************/
 struct req_vec_problem *fix_enabler_item::find_next_problem(void)
 {
-  return action_enabler_suggest_a_fix(local_copy);
+  struct req_vec_problem *out = action_enabler_suggest_a_fix(local_copy);
+  if (out != NULL) {
+    return out;
+  }
+
+  return action_enabler_issues(local_copy);
 }
 
 /**********************************************************************//**

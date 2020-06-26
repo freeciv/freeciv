@@ -2284,6 +2284,51 @@ action_enabler_suggest_a_fix(const struct action_enabler *enabler)
 }
 
 /**********************************************************************//**
+  Returns a suggestion to improve the specified action enabler or NULL if
+  nothing to improve is found to be needed. It is the responsibility of the
+  caller to free the suggestion when it is done with it. A possible
+  improvement isn't always an error.
+  @param enabler the enabler to improve
+  @return a suggestion to improve the specified action enabler
+**************************************************************************/
+struct req_vec_problem *
+action_enabler_issues(const struct action_enabler *enabler)
+{
+  struct action *paction;
+  struct req_vec_problem *out;
+
+  out = action_enabler_suggest_a_fix(enabler);
+  if (out) {
+    /* A bug, not just a potential improvement */
+    return out;
+  }
+
+  paction = action_by_number(enabler->action);
+
+  /* Detect unused action enablers. */
+  if (action_get_actor_kind(paction) == AAK_UNIT) {
+    bool has_user = FALSE;
+
+    unit_type_iterate(pactor) {
+      if (action_actor_utype_hard_reqs_ok(paction->result, pactor)
+          && requirement_fulfilled_by_unit_type(pactor,
+                                                &(enabler->actor_reqs))) {
+        has_user = TRUE;
+        break;
+      }
+    } unit_type_iterate_end;
+
+    if (!has_user) {
+      /* TRANS: ruledit warns a user about an unused action enabler */
+      out = req_vec_problem_new(0, N_("This action enabler is never used"
+                                      " by any unit."));
+    }
+  }
+
+  return out;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified player knows (has seen) the specified
   tile.
 **************************************************************************/
