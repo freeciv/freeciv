@@ -2299,6 +2299,76 @@ req_vec_first_contradiction_in_vec(const struct requirement *req,
 }
 
 /**********************************************************************//**
+  Detects a local DiplRel requirement in a tile targeted action without
+  an explicit claimed requirment in the target reqs.
+  @param enabler the enabler to look at
+  @return the problem or NULL if no problem was found
+**************************************************************************/
+static struct req_vec_problem *
+enabler_tile_tgt_local_diplrel_implies_claimed(
+    const struct action_enabler *enabler)
+{
+  struct req_vec_problem *out;
+  struct requirement *local_diplrel;
+  struct requirement *claimed_req;
+  struct requirement tile_is_claimed;
+  struct requirement tile_is_unclaimed;
+
+  struct action *paction = action_by_number(enabler->action);
+
+  if (action_get_target_kind(paction) != ATK_TILE) {
+    /* Not tile targeted */
+    return NULL;
+  }
+
+  local_diplrel = req_vec_first_local_diplrel(&enabler->actor_reqs);
+  if (local_diplrel == NULL) {
+    /* No local diplrel */
+    return NULL;
+  }
+
+  /* Tile is unclaimed as a requirement. */
+  tile_is_unclaimed.range = REQ_RANGE_LOCAL;
+  tile_is_unclaimed.survives = FALSE;
+  tile_is_unclaimed.source.kind = VUT_CITYTILE;
+  tile_is_unclaimed.present = FALSE;
+  tile_is_unclaimed.source.value.citytile = CITYT_CLAIMED;
+
+  claimed_req = req_vec_first_contradiction_in_vec(&tile_is_unclaimed,
+                                                   &enabler->target_reqs);
+
+  if (claimed_req) {
+    /* Already clear */
+    return NULL;
+  }
+
+  /* Tile is claimed as a requirement. */
+  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.survives = FALSE;
+  tile_is_claimed.source.kind = VUT_CITYTILE;
+  tile_is_claimed.present = TRUE;
+  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
+
+  out = req_vec_problem_new(
+          1,
+          /* TRANS: ruledit shows this when an enabler for a tile targeted
+           * action requires that the actor has a diplomatic relationship to
+           * the target but doesn't require that the target tile is claimed.
+           * (DiplRel requirements to an unclaimed tile are never fulfilled
+           * so this is implicit.) */
+          N_("Requirement {%s} implies a claimed "
+             "tile. No diplomatic relation to Nature."),
+          req_to_fstring(local_diplrel));
+
+  /* The solution is to add the requirement that the tile is claimed */
+  out->suggested_solutions[0].req = tile_is_claimed;
+  out->suggested_solutions[0].based_on = &enabler->target_reqs;
+  out->suggested_solutions[0].operation = RVCO_APPEND;
+
+  return out;
+}
+
+/**********************************************************************//**
   Returns the first action enabler specific contradiction in the specified
   enabler or NULL if no enabler specific contradiction is found.
   @param enabler the enabler to look at
@@ -2394,6 +2464,12 @@ action_enabler_suggest_a_fix(const struct action_enabler *enabler)
     return out;
   }
 
+  /* Needed in action not enabled explanation finding. */
+  out = enabler_tile_tgt_local_diplrel_implies_claimed(enabler);
+  if (out != NULL) {
+    return out;
+  }
+
   /* No problems found. */
   return NULL;
 }
@@ -2409,61 +2485,8 @@ static struct req_vec_problem *
 enabler_first_clarification(const struct action_enabler *enabler)
 {
   struct req_vec_problem *out;
-  struct requirement *local_diplrel;
-  struct requirement *claimed_req;
-  struct requirement tile_is_claimed;
-  struct requirement tile_is_unclaimed;
 
-  struct action *paction = action_by_number(enabler->action);
-
-  if (action_get_target_kind(paction) != ATK_TILE) {
-    /* Not tile targeted */
-    return NULL;
-  }
-
-  local_diplrel = req_vec_first_local_diplrel(&enabler->actor_reqs);
-  if (local_diplrel == NULL) {
-    /* No local diplrel */
-    return NULL;
-  }
-
-  /* Tile is unclaimed as a requirement. */
-  tile_is_unclaimed.range = REQ_RANGE_LOCAL;
-  tile_is_unclaimed.survives = FALSE;
-  tile_is_unclaimed.source.kind = VUT_CITYTILE;
-  tile_is_unclaimed.present = FALSE;
-  tile_is_unclaimed.source.value.citytile = CITYT_CLAIMED;
-
-  claimed_req = req_vec_first_contradiction_in_vec(&tile_is_unclaimed,
-                                                   &enabler->target_reqs);
-
-  if (claimed_req) {
-    /* Already clear */
-    return NULL;
-  }
-
-  /* Tile is claimed as a requirement. */
-  tile_is_claimed.range = REQ_RANGE_LOCAL;
-  tile_is_claimed.survives = FALSE;
-  tile_is_claimed.source.kind = VUT_CITYTILE;
-  tile_is_claimed.present = TRUE;
-  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
-
-  out = req_vec_problem_new(
-          1,
-          /* TRANS: ruledit shows this when an enabler for a tile targeted
-           * action requires that the actor has a diplomatic relationship to
-           * the target but doesn't require that the target tile is claimed.
-           * (DiplRel requirements to an unclaimed tile are never fulfilled
-           * so this is implicit.) */
-          N_("Possible clarification: Requirement {%s} implies a claimed "
-             "tile. No diplomatic relation to Nature."),
-          req_to_fstring(local_diplrel));
-
-  /* The solution is to add the requirement that the tile is claimed */
-  out->suggested_solutions[0].req = tile_is_claimed;
-  out->suggested_solutions[0].based_on = &enabler->target_reqs;
-  out->suggested_solutions[0].operation = RVCO_APPEND;
+  out = NULL;
 
   return out;
 }
