@@ -1165,14 +1165,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
          * blocks all its action enablers. */
 
         struct req_vec_problem *problem
-            = action_enabler_suggest_a_fix(enabler);
+            = action_enabler_suggest_repair(enabler);
 
         if (problem != NULL) {
           ruleset_error(LOG_ERROR, "%s", problem->description);
           ok = FALSE;
         }
 
-        problem = action_enabler_issues(enabler);
+        problem = action_enabler_suggest_improvement(enabler);
         if (problem != NULL) {
           /* There is a potential for improving this enabler. */
           log_deprecation("%s", problem->description);

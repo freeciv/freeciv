@@ -136,7 +136,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
    * the beginning. */
   bool needs_restart = FALSE;
 
-  while ((problem = action_enabler_suggest_a_fix_oblig(ae)) != NULL) {
+  while ((problem = action_enabler_suggest_repair_oblig(ae)) != NULL) {
     /* A hard obligatory requirement is missing. */
 
     int i;
@@ -228,7 +228,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
     }
   }
 
-  if ((problem = action_enabler_suggest_a_fix(ae)) != NULL) {
+  if ((problem = action_enabler_suggest_repair(ae)) != NULL) {
     /* A problem that isn't caused by missing obligatory hard requirements
      * has been detected. Probably an old requirement that contradicted a
      * hard requirement that wasn't documented by making it obligatory. In
