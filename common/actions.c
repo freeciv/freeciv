@@ -1354,8 +1354,8 @@ bool action_enabler_obligatory_reqs_add(struct action_enabler *enabler)
   responsibility of the caller to free the suggestion when it is done with
   it.
 **************************************************************************/
-static struct req_vec_problem *
-action_enabler_suggest_a_fix_oblig(const struct action_enabler *enabler)
+struct req_vec_problem *
+action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
 {
   struct action *paction;
 
@@ -1516,11 +1516,11 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
   free the suggestion when it is done with it.
 **************************************************************************/
 struct req_vec_problem *
-action_enabler_suggest_a_fix(const struct action_enabler *enabler)
+action_enabler_suggest_repair(const struct action_enabler *enabler)
 {
   struct req_vec_problem *out;
 
-  out = action_enabler_suggest_a_fix_oblig(enabler);
+  out = action_enabler_suggest_repair_oblig(enabler);
   if (out != NULL) {
     return out;
   }
@@ -2815,12 +2815,12 @@ enabler_first_clarification(const struct action_enabler *enabler)
   @return a suggestion to improve the specified action enabler
 **************************************************************************/
 struct req_vec_problem *
-action_enabler_issues(const struct action_enabler *enabler)
+action_enabler_suggest_improvement(const struct action_enabler *enabler)
 {
   struct action *paction;
   struct req_vec_problem *out;
 
-  out = action_enabler_suggest_a_fix(enabler);
+  out = action_enabler_suggest_repair(enabler);
   if (out) {
     /* A bug, not just a potential improvement */
     return out;

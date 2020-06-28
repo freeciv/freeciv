@@ -164,15 +164,17 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
 
     {
       struct req_vec_problem *problem
-          = action_enabler_suggest_a_fix(selected);
+          = action_enabler_suggest_repair(selected);
 
       /* Offer to repair the enabler if it has a problem. */
       if (problem != NULL) {
+        /* TRANS: Fix an error in an action enabler. */
         repair_button->setText(QString::fromUtf8(R__("Repair Enabler")));
         repair_button->setEnabled(TRUE);
       } else {
-        problem = action_enabler_issues(selected);
-        repair_button->setText(QString::fromUtf8(R__("Enabler Issues")));
+        problem = action_enabler_suggest_improvement(selected);
+        /* TRANS: Fix a non error issue in an action enabler. */
+        repair_button->setText(QString::fromUtf8(R__("Improve Enabler")));
         repair_button->setEnabled(problem != NULL);
       }
 
@@ -383,12 +385,12 @@ const char *fix_enabler_item::name()
 **************************************************************************/
 struct req_vec_problem *fix_enabler_item::find_next_problem(void)
 {
-  struct req_vec_problem *out = action_enabler_suggest_a_fix(local_copy);
+  struct req_vec_problem *out = action_enabler_suggest_repair(local_copy);
   if (out != NULL) {
     return out;
   }
 
-  return action_enabler_issues(local_copy);
+  return action_enabler_suggest_improvement(local_copy);
 }
 
 /**********************************************************************//**
