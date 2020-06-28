@@ -89,6 +89,18 @@ int server_setting_value_int_get(server_setting_id id)
 }
 
 /***********************************************************************//**
+  Returns the value of the server setting with the specified id.
+***************************************************************************/
+unsigned int server_setting_value_bitwise_get(server_setting_id id)
+{
+  fc_assert_ret_val(fc_funcs, FALSE);
+  fc_assert_ret_val(fc_funcs->server_setting_val_bitwise_get, FALSE);
+  fc_assert_ret_val(server_setting_type_get(id) == SST_BITWISE, FALSE);
+
+  return fc_funcs->server_setting_val_bitwise_get(id);
+}
+
+/***********************************************************************//**
   Returns a server setting - value pair from its setting and value;
 ***************************************************************************/
 ssetv ssetv_from_values(server_setting_id setting, int value)

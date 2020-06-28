@@ -36,6 +36,7 @@ const char *server_setting_name_get(server_setting_id id);
 
 bool server_setting_value_bool_get(server_setting_id id);
 int server_setting_value_int_get(server_setting_id id);
+unsigned int server_setting_value_bitwise_get(server_setting_id id);
 
 
 /* Special value to signal the absence of a server setting + its value. */
