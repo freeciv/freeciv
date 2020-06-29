@@ -136,7 +136,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
    * the beginning. */
   bool needs_restart = FALSE;
 
-  while ((problem = action_enabler_suggest_repair_oblig(ae)) != NULL) {
+  while ((problem = action_enabler_suggest_repair(ae)) != NULL) {
     /* A hard obligatory requirement is missing. */
 
     int i;
@@ -157,13 +157,28 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
     fc_assert_ret_val(problem->num_suggested_solutions > 0,
                       needs_restart);
 
+    /* Only append is supported for upgrade */
+    for (i = 0; i < problem->num_suggested_solutions; i++) {
+      if (problem->suggested_solutions[i].operation != RVCO_APPEND) {
+        /* A problem that isn't caused by missing obligatory hard
+         * requirements has been detected. Probably an old requirement that
+         * contradicted a hard requirement that wasn't documented by making
+         * it obligatory. In that case the enabler was never in use. The
+         * action it self would have blocked it. */
+
+        log_error("While adding hard obligatory reqs to action enabler"
+                  " for %s: %s Dropping it.",
+                  action_rule_name(paction), problem->description);
+        ae->disabled = TRUE;
+        req_vec_problem_free(problem);
+        return TRUE;
+      }
+    }
+
     for (i = 0; i < problem->num_suggested_solutions; i++) {
       struct action_enabler *new_enabler;
       bool change_target_reqs;
       struct requirement_vector *ae_vec;
-
-      /* Only append is supported for upgrade */
-      fc_assert(problem->suggested_solutions[i].operation == RVCO_APPEND);
 
       /* Does this solution apply to the actor reqs or to the
        * target reqs? */
@@ -226,21 +241,6 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
       /* May need to apply future upgrades to the copies too. */
       return TRUE;
     }
-  }
-
-  if ((problem = action_enabler_suggest_repair(ae)) != NULL) {
-    /* A problem that isn't caused by missing obligatory hard requirements
-     * has been detected. Probably an old requirement that contradicted a
-     * hard requirement that wasn't documented by making it obligatory. In
-     * that case the enabler was never in use. The action it self would
-     * have blocked it. */
-
-    log_error("After adding hard obligatory reqs to action enabler for %s:"
-              " %s Dropping it.",
-              action_rule_name(paction), problem->description);
-    ae->disabled = TRUE;
-    req_vec_problem_free(problem);
-    return TRUE;
   }
 
   return needs_restart;
