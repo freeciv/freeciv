@@ -1647,8 +1647,8 @@ static void action_entry(GtkWidget *shl,
                                  act_probs[act_id],
                                  custom);
 
-  tooltip = action_get_tool_tip(act_id,
-                                act_probs[act_id]);
+  tooltip = act_sel_action_tool_tip(action_by_number(act_id),
+                                    act_probs[act_id]);
 
   action_button_map[act_id] = choice_dialog_get_number_of_buttons(shl);
   choice_dialog_add(shl, label, af_map[act_id], handler_args,
@@ -1677,8 +1677,8 @@ static void action_entry_update(GtkWidget *shl,
   label = action_prepare_ui_name(act_id, "_",
                                  act_probs[act_id], custom);
 
-  tooltip = action_get_tool_tip(act_id,
-                                act_probs[act_id]);
+  tooltip = act_sel_action_tool_tip(action_by_number(act_id),
+                                    act_probs[act_id]);
 
   choice_dialog_button_set_label(act_sel_dialog,
                                  action_button_map[act_id],
