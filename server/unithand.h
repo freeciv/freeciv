@@ -43,6 +43,8 @@ enum ane_kind {
   ANEK_ACTOR_HAS_NO_HOME_CITY,
   /* Explanation: must declare war first. */
   ANEK_NO_WAR,
+  /* Explanation: must break peace first. */
+  ANEK_PEACE,
   /* Explanation: can't be done to domestic targets. */
   ANEK_DOMESTIC,
   /* Explanation: can't be done to foreign targets. */

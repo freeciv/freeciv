@@ -87,6 +87,9 @@ struct ane_expl {
     /* The player to advice declaring war on. */
     struct player *no_war_with;
 
+    /* The player to advice breaking peace with. */
+    struct player *peace_with;
+
     /* The nation that can't be involved. */
     struct nation_type *no_act_nation;
 
@@ -1238,6 +1241,19 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && (action_has_result_safe(paction, ACTRES_TRADE_ROUTE)
                  || action_has_result_safe(paction, ACTRES_MARKETPLACE))) {
     explnat->kind = ANEK_ACTOR_HAS_NO_HOME_CITY;
+  } else if (act_player && tgt_player
+             && (player_diplstate_get(act_player, tgt_player)->type
+                 == DS_PEACE)
+             && can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                act_id,
+                                                DS_PEACE,
+                                                FALSE)
+             && !can_utype_do_act_if_tgt_diplrel(unit_type_get(punit),
+                                                 act_id,
+                                                 DS_PEACE,
+                                                 TRUE)) {
+    explnat->kind = ANEK_PEACE;
+    explnat->peace_with = tgt_player;
   } else if ((must_war_player = need_war_player(punit,
                                                 act_id,
                                                 target_tile,
@@ -1573,6 +1589,16 @@ static void explain_why_no_action_enabled(struct unit *punit,
 #endif /* FREECIV_WEB */
                     "."),
                   player_name(explnat->no_war_with));
+    break;
+  case ANEK_PEACE:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("You must break peace with %s first.  Try using"
+                    " the Nations report"
+#ifndef FREECIV_WEB
+                    " (F3)"
+#endif /* FREECIV_WEB */
+                    "."),
+                  player_name(explnat->peace_with));
     break;
   case ANEK_DOMESTIC:
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
@@ -2159,6 +2185,24 @@ void illegal_action_msg(struct player *pplayer,
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action),
                   player_name(explnat->no_war_with));
+    break;
+  case ANEK_PEACE:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: action name.
+                   * "Your Spy can't do Industrial Sabotage while you
+                   * are at peace with Prester John. Try using the
+                   * Nations report (F3)." */
+                  _("Your %s can't do %s while you"
+                    " are at peace with %s. Try using"
+                    " the Nations report"
+#ifndef FREECIV_WEB
+                    " (F3)"
+#endif /* FREECIV_WEB */
+                    "."),
+                  unit_name_translation(actor),
+                  action_id_name_translation(stopped_action),
+                  player_name(explnat->peace_with));
     break;
   case ANEK_DOMESTIC:
     notify_player(pplayer, unit_tile(actor),
