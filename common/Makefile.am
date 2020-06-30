@@ -46,6 +46,7 @@ libfreeciv_la_SOURCES = \
 		effects.h	\
 		events.c	\
 		events.h	\
+		explanation.h	\
 		extras.c	\
 		extras.h	\
 		featured_text.c	\
