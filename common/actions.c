@@ -3140,8 +3140,8 @@ is_action_enabled_unit_on_tile_full(const action_id wanted_action,
                            NULL, actor_tile,
                            actor_unit, unit_type_get(actor_unit),
                            NULL, NULL,
-                           tile_owner(target_tile), NULL, NULL,
-                           target_tile, NULL, NULL, NULL, NULL,
+                           tile_owner(target_tile), tile_city(target_tile),
+                           NULL, target_tile, NULL, NULL, NULL, NULL,
                            actor_home);
 }
 
@@ -4152,7 +4152,7 @@ action_prob_vs_tile_full(const struct unit *actor_unit,
                      unit_owner(actor_unit), tile_city(actor_tile),
                      NULL, actor_tile, actor_unit, NULL,
                      NULL, NULL, actor_home,
-                     tile_owner(target_tile), NULL, NULL,
+                     tile_owner(target_tile), tile_city(target_tile), NULL,
                      target_tile, NULL, NULL, NULL, NULL);
 }
 
