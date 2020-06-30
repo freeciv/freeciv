@@ -599,8 +599,6 @@ const char *action_get_ui_name_mnemonic(action_id act_id,
 const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
                                    const char *custom);
-const char *action_get_tool_tip(const action_id act_id,
-                                const struct act_prob prob);
 
 const char *action_ui_name_ruleset_var_name(int act);
 const char *action_ui_name_default(int act);
@@ -737,6 +735,8 @@ double action_prob_to_0_to_1_pessimist(const struct act_prob ap);
 
 struct act_prob action_prob_fall_back(const struct act_prob *ap1,
                                       const struct act_prob *ap2);
+
+const char *action_prob_explain(const struct act_prob prob);
 
 struct act_prob action_prob_new_impossible(void);
 struct act_prob action_prob_new_not_relevant(void);

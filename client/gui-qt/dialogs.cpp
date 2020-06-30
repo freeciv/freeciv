@@ -2222,7 +2222,8 @@ static void action_entry(choice_dialog *cd,
                                          act_probs[act],
                                          custom));
 
-  tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
+  tool_tip = QString(act_sel_action_tool_tip(action_by_number(act),
+                                             act_probs[act]));
 
   cd->add_item(title, af_map[act], data1, data2, tool_tip, act);
 }
@@ -2249,7 +2250,8 @@ static void action_entry_update(Choice_dialog_button *button,
                                          act_probs[act],
                                          custom));
 
-  tool_tip = QString(action_get_tool_tip(act, act_probs[act]));
+  tool_tip = QString(act_sel_action_tool_tip(action_by_number(act),
+                                             act_probs[act]));
 
   button->setText(title);
   button->setToolTip(tool_tip);

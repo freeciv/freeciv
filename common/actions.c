@@ -1757,11 +1757,11 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
 }
 
 /**********************************************************************//**
-  Get information about starting the action in the current situation.
-  Suitable for a tool tip for the button that starts it.
+  Explain an action probability in a way suitable for a tool tip for the
+  button that starts it.
+  @return an explanation of what an action probability means
 **************************************************************************/
-const char *action_get_tool_tip(const action_id act_id,
-                                const struct act_prob prob)
+const char *action_prob_explain(const struct act_prob prob)
 {
   static struct astring tool_tip = ASTRING_INIT;
 

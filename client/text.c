@@ -1732,6 +1732,17 @@ const char *get_act_sel_action_custom_text(struct action *paction,
   return astr_str(&custom);
 }
 
+/**********************************************************************//**
+  Get information about starting the action in the current situation.
+  Suitable for a tool tip for the button that starts it.
+  @return an explanation of a tool tip button suitable for a tool tip
+**************************************************************************/
+const char *act_sel_action_tool_tip(const struct action *paction,
+                                    const struct act_prob prob)
+{
+  return action_prob_explain(prob);
+}
+
 /************************************************************************//**
   Describing buildings that affect happiness.
 ****************************************************************************/
