@@ -140,6 +140,10 @@ void tab_enabler::refresh()
       item = new QListWidgetItem(QString::fromUtf8(buffer));
 
       enabler_list->insertItem(n++, item);
+
+      if (enabler == selected) {
+        enabler_list->setItemSelected(item, true);
+      }
     }
   } action_enablers_iterate_end;
 }
