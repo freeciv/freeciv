@@ -2575,18 +2575,30 @@ static void illegal_action(struct player *pplayer,
                                                  target_city, target_unit,
                                                  target_tile, NULL));
 
+  if (disturb_player) {
+    /* This is a foreground request. */
+    illegal_action_msg(pplayer, (information_revealed
+                                 ? E_UNIT_ILLEGAL_ACTION : E_BAD_COMMAND),
+                       actor, stopped_action_id,
+                       target_tile, target_city, target_unit);
+  }
+
   was_punished = illegal_action_pay_price(pplayer, information_revealed,
                                           actor, stopped_action,
                                           tgt_player, target_tile,
                                           requester);
 
-  if (disturb_player || was_punished) {
-    /* This is a foreground request or the actor unit was punished with
-     * the loss of movement points. */
-    illegal_action_msg(pplayer, (information_revealed
-                                 ? E_UNIT_ILLEGAL_ACTION : E_BAD_COMMAND),
-                       actor, stopped_action_id,
-                       target_tile, target_city, target_unit);
+  if (!disturb_player && was_punished) {
+    /* FIXME: Temporary work around to prevent wrong information and/or
+     * crashes. See hrm Bug #879880 */
+    /* TODO: Get the explanation before the punishment and show it here.
+     * See hrm Bug #879881 */
+    notify_player(pplayer, unit_tile(actor),
+                  (information_revealed
+                   ? E_UNIT_ILLEGAL_ACTION : E_BAD_COMMAND), ftc_server,
+                  _("No explanation why you couldn't do %s. This is a bug."
+                    " Sorry about that. -- Sveinung"),
+                  action_id_name_translation(stopped_action_id));
   }
 }
 
