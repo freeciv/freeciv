@@ -76,6 +76,19 @@ public:
   virtual void undo_accepted_changes() = 0;
 
   /********************************************************************//**
+    Returns the number of requirement vectors in this item.
+    @return the number of requirement vectors the item has.
+  ************************************************************************/
+  virtual int num_vectors() = 0;
+
+  /********************************************************************//**
+    Returns a pointer to the specified requirement vector in the item.
+    @param number the item's requirement vector number.
+    @return a pointer to the specified requirement vector.
+  ************************************************************************/
+  virtual const struct requirement_vector *vector_by_number(int number) = 0;
+
+  /********************************************************************//**
     Returns the name of the specified requirement vector. Useful when
     there is more than one requirement vector.
     @param vec the requirement vector to name
@@ -127,6 +140,13 @@ public:
   const void *item();
 
   bool refresh(void);
+
+signals:
+  /********************************************************************//**
+    A requirement vector may have been changed.
+    @param vec the requirement vector that was changed.
+  ************************************************************************/
+  void rec_vec_may_have_changed(const requirement_vector *vec);
 
 private:
   struct req_vec_problem *current_problem;

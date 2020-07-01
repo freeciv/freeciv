@@ -274,6 +274,8 @@ void req_vec_fix::apply_solution(int selected_solution)
 **************************************************************************/
 void req_vec_fix::accept_applied_solutions()
 {
+  int i;
+
   this->item_info->apply_accepted_changes();
 
   /* All is accepted */
@@ -281,6 +283,10 @@ void req_vec_fix::accept_applied_solutions()
 
   /* New check point. */
   this->refresh();
+
+  for (i = 0; i < item_info->num_vectors(); i++) {
+    emit rec_vec_may_have_changed(item_info->vector_by_number(i));
+  }
 }
 
 /**********************************************************************//**
