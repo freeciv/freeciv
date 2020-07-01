@@ -23,6 +23,7 @@
 
 class QButtonGroup;
 class QPushButton;
+class QStackedLayout;
 
 class ruledit_gui;
 
@@ -135,7 +136,7 @@ private:
   ruledit_gui *ui;
 
   req_vec_fix_problem *current_problem_viewer;
-  QWidget *current_problem_area;
+  QStackedLayout *current_problem_area;
   QPushButton *apply_changes, *abort, *close;
 
 private slots:
