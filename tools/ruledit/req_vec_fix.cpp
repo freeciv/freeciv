@@ -18,6 +18,7 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QStackedLayout>
 #include <QVBoxLayout>
 
 /* common */
@@ -136,8 +137,8 @@ req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
 
   /* Set up the area for viewing problems */
   this->current_problem_viewer = nullptr;
-  this->current_problem_area = new QWidget();
-  layout_main->addWidget(current_problem_area);
+  this->current_problem_area = new QStackedLayout();
+  layout_main->addLayout(current_problem_area);
 
   /* TRANS: Button text in the requirement vector fixer dialog. Cancels all
    * changes done since the last time all accepted changes were done. */
@@ -209,17 +210,16 @@ bool req_vec_fix::refresh() {
   this->current_problem = item_info->find_next_problem();
 
   /* Display the new problem */
-  current_problem_area->hide();
   if (current_problem_viewer != nullptr) {
     current_problem_viewer->hide();
     current_problem_viewer->deleteLater();
   }
   current_problem_viewer = new req_vec_fix_problem(current_problem,
                                                    item_info);
-  current_problem_viewer->setParent(current_problem_area);
   connect(current_problem_viewer, SIGNAL(solution_accepted(int)),
           this, SLOT(apply_solution(int)));
-  current_problem_area->show();
+  current_problem_area->addWidget(current_problem_viewer);
+  current_problem_area->setCurrentWidget(current_problem_viewer);
 
   /* Only shown when there is something to do */
   apply_changes->setVisible(did_apply_a_solution);
