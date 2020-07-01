@@ -79,6 +79,8 @@ public:
   struct req_vec_problem *find_next_problem(void);
   void apply_accepted_changes();
   void undo_accepted_changes();
+  int num_vectors();
+  const struct requirement_vector *vector_by_number(int number);
   const char *vector_name(const struct requirement_vector *vec);
   struct requirement_vector *
   vector_writable(const struct requirement_vector *vec);

@@ -428,6 +428,36 @@ void fix_enabler_item::undo_accepted_changes()
                           &current_enabler->target_reqs);
 }
 
+/********************************************************************//**
+  Returns the number of requirement vectors in this item.
+  @return the number of requirement vectors the item has.
+************************************************************************/
+int fix_enabler_item::num_vectors()
+{
+  return 2;
+}
+
+/********************************************************************//**
+  Returns a pointer to the specified requirement vector in the item.
+  @param number the item's requirement vector number.
+  @return a pointer to the specified requirement vector.
+************************************************************************/
+const struct requirement_vector *
+fix_enabler_item::vector_by_number(int number)
+{
+  fc_assert_ret_val(number >= 0, nullptr);
+  fc_assert_ret_val(number < num_vectors(), nullptr);
+
+  switch (number) {
+  case 0:
+    return &current_enabler->actor_reqs;
+  case 1:
+    return &current_enabler->target_reqs;
+  }
+
+  return nullptr;
+}
+
 /*********************************************************************//**
   Returns the name of the specified requirement vector. Useful when
   there is more than one requirement vector.
