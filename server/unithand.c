@@ -1013,6 +1013,10 @@ static void illegal_action(struct player *pplayer,
   int punishment_mp;
   struct ane_expl *explnat;
 
+  /* Explain why the action was illegal. */
+  explnat = expl_act_not_enabl(actor, stopped_action,
+                               target_tile, target_city, target_unit);
+
   /* The mistake may have a cost. */
   punishment_mp = get_target_bonus_effects(NULL,
                                            unit_owner(actor),
@@ -1039,10 +1043,6 @@ static void illegal_action(struct player *pplayer,
                   unit_name_translation(actor),
                   move_points_text(punishment_mp, TRUE));
   }
-
-  /* Explain why the action was illegal. */
-  explnat = expl_act_not_enabl(actor, stopped_action,
-                               target_tile, target_city, target_unit);
   switch (explnat->kind) {
   case ANEK_BAD_TERRAIN_ACT:
     {
