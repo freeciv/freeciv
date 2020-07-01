@@ -61,6 +61,7 @@ class tab_enabler : public QWidget
     void select_enabler();
     void add_now();
     void repair_now();
+    void incoming_rec_vec_change(const requirement_vector *vec);
     void delete_now();
     void edit_type(QAction *action);
     void edit_target_reqs();
