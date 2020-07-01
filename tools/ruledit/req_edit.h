@@ -37,6 +37,13 @@ class req_edit : public QDialog
 
     struct requirement_vector *req_vector;
 
+signals:
+  /********************************************************************//**
+    A requirement vector may have been changed.
+    @param vec the requirement vector that was changed.
+  ************************************************************************/
+  void rec_vec_may_have_changed(const requirement_vector *vec);
+
   private:
     ruledit_gui *ui;
 

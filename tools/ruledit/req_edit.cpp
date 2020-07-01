@@ -271,6 +271,8 @@ void req_edit::req_type_menu(QAction *action)
   }
 
   refresh();
+
+  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**********************************************************************//**
@@ -287,6 +289,8 @@ void req_edit::req_range_menu(QAction *action)
   }
 
   refresh();
+
+  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**********************************************************************//**
@@ -303,6 +307,8 @@ void req_edit::req_present_menu(QAction *action)
   }
 
   refresh();
+
+  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**********************************************************************//**
@@ -316,6 +322,8 @@ void req_edit::univ_value_enum_menu(QAction *action)
     universal_value_from_str(&selected->source, un_bytes.data());
 
     refresh();
+
+    emit rec_vec_may_have_changed(req_vector);
   }
 }
 
@@ -331,6 +339,8 @@ void req_edit::univ_value_edit()
                              num_bytes.data());
 
     refresh();
+
+    emit rec_vec_may_have_changed(req_vector);
   }
 }
 
@@ -347,6 +357,8 @@ void req_edit::add_now()
   requirement_vector_append(req_vector, new_req);
 
   refresh();
+
+  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**********************************************************************//**
@@ -367,6 +379,8 @@ void req_edit::delete_now()
     selected = nullptr;
 
     refresh();
+
+    emit rec_vec_may_have_changed(req_vector);
   }
 }
 

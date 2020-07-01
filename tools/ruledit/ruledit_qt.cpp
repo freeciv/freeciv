@@ -316,6 +316,10 @@ void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs
 
   redit->show();
 
+  connect(redit,
+          SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+
   req_edit_list_append(req_edits, redit);
 }
 
