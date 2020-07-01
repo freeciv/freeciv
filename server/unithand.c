@@ -2501,6 +2501,9 @@ static bool illegal_action_pay_price(struct player *pplayer,
                     action_name_translation(stopped_action));
 
       wipe_unit(act_unit, ULR_KILLED, NULL);
+      act_unit = NULL;
+
+      return TRUE;
     }
   }
 
