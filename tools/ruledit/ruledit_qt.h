@@ -111,6 +111,13 @@ class ruledit_gui : public QObject
 
     struct rule_data data;
 
+signals:
+  /********************************************************************//**
+    A requirement vector may have been changed.
+    @param vec the requirement vector that was changed.
+  ************************************************************************/
+  void rec_vec_may_have_changed(const requirement_vector *vec);
+
   private:
     QLabel *msg_dspl;
     QTabWidget *stack;
@@ -136,6 +143,7 @@ class ruledit_gui : public QObject
 
   private slots:
     void launch_now();
+    void incoming_rec_vec_change(const requirement_vector *vec);
 };
 
 int ruledit_qt_run(int argc, char **argv);

@@ -249,6 +249,15 @@ void ruledit_gui::launch_now()
 }
 
 /**********************************************************************//**
+  A requirement vector may have been changed.
+  @param vec the requirement vector that may have been changed.
+**************************************************************************/
+void ruledit_gui::incoming_rec_vec_change(const requirement_vector *vec)
+{
+  emit rec_vec_may_have_changed(vec);
+}
+
+/**********************************************************************//**
   Display status message
 **************************************************************************/
 void ruledit_gui::display_msg(const char *msg)
@@ -335,8 +344,13 @@ void ruledit_gui::open_req_vec_fix(req_vec_fix_item *item_info)
   } req_vec_fix_list_iterate_end;
 
   fixer = new req_vec_fix(this, item_info);
+
   fixer->refresh();
   fixer->show();
+
+  connect(fixer,
+          SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
 
   req_vec_fix_list_append(req_vec_fixers, fixer);
 }
