@@ -327,6 +327,8 @@ void ruledit_gui::open_req_vec_fix(req_vec_fix_item *item_info)
 
   req_vec_fix_list_iterate(req_vec_fixers, old_fixer) {
     if (old_fixer->item() == item_info->item()) {
+      item_info->close();
+
       /* Already open */
       return;
     }
