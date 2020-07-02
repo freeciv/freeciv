@@ -41,6 +41,30 @@
 #include "tab_enablers.h"
 
 /**********************************************************************//**
+  Returns how big a problem an action enabler has.
+  @param enabler the enabler to check the problem size for
+  @return how serious a problem the enabler has
+**************************************************************************/
+static enum req_vec_problem_seriousness
+enabler_problem_level(struct action_enabler *enabler)
+{
+  struct req_vec_problem *problem = action_enabler_suggest_repair(enabler);
+
+  if (problem != NULL) {
+    req_vec_problem_free(problem);
+    return RVPS_REPAIR;
+  }
+
+  problem = action_enabler_suggest_improvement(enabler);
+  if (problem != NULL) {
+    req_vec_problem_free(problem);
+    return RVPS_IMPROVE;
+  }
+
+  return RVPS_NO_PROBLEM;
+}
+
+/**********************************************************************//**
   Setup tab_enabler object
 **************************************************************************/
 tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
@@ -169,25 +193,22 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
 
     delete_button->setEnabled(true);
 
-    {
-      struct req_vec_problem *problem
-          = action_enabler_suggest_repair(selected);
-
+    switch (enabler_problem_level(selected)) {
+    case RVPS_REPAIR:
       /* Offer to repair the enabler if it has a problem. */
-      if (problem != NULL) {
-        /* TRANS: Fix an error in an action enabler. */
-        repair_button->setText(QString::fromUtf8(R__("Repair Enabler")));
-        repair_button->setEnabled(TRUE);
-      } else {
-        problem = action_enabler_suggest_improvement(selected);
+      /* TRANS: Fix an error in an action enabler. */
+      repair_button->setText(QString::fromUtf8(R__("Repair Enabler")));
+      repair_button->setEnabled(TRUE);
+      break;
+    case RVPS_IMPROVE:
         /* TRANS: Fix a non error issue in an action enabler. */
         repair_button->setText(QString::fromUtf8(R__("Improve Enabler")));
-        repair_button->setEnabled(problem != NULL);
-      }
-
-      if (problem != NULL) {
-        req_vec_problem_free(problem);
-      }
+        repair_button->setEnabled(true);
+      break;
+    case RVPS_NO_PROBLEM:
+      repair_button->setText(QString::fromUtf8(R__("Enabler Issues")));
+      repair_button->setEnabled(false);
+      break;
     }
   } else {
     type_button->setText("None");

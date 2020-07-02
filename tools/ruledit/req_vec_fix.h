@@ -27,6 +27,13 @@ class QStackedLayout;
 
 class ruledit_gui;
 
+/* How serious a req_vec_problem is considered */
+enum req_vec_problem_seriousness {
+  RVPS_NO_PROBLEM,
+  RVPS_IMPROVE,
+  RVPS_REPAIR,
+};
+
 /**********************************************************************//**
   Ruleset entity specific methods for the ruleset item having its
   requirements fixed.
