@@ -15,6 +15,7 @@
 #include <QButtonGroup>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QListWidgetItem>
 #include <QMessageBox>
 #include <QPushButton>
 #include <QRadioButton>
@@ -29,6 +30,28 @@
 
 
 #include "req_vec_fix.h"
+
+/**********************************************************************//**
+  Mark a ruleset item in a list as having a problem.
+  @param item the ruleset item's representation in the list.
+  @param how serious the problem, if it exists at all, is.
+**************************************************************************/
+void mark_item(QListWidgetItem *item,
+               enum req_vec_problem_seriousness problem_level)
+{
+  QWidget *in = item->listWidget();
+  switch (problem_level) {
+  case RVPS_NO_PROBLEM:
+    item->setIcon(QIcon());
+    break;
+  case RVPS_IMPROVE:
+    item->setIcon(in->style()->standardIcon(QStyle::SP_MessageBoxWarning));
+    break;
+  case RVPS_REPAIR:
+    item->setIcon(in->style()->standardIcon(QStyle::SP_MessageBoxCritical));
+    break;
+  }
+}
 
 /**********************************************************************//**
   Set up the display and solution choice of the specified problem.

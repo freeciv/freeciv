@@ -22,6 +22,7 @@
 #include <QWidget>
 
 class QButtonGroup;
+class QListWidgetItem;
 class QPushButton;
 class QStackedLayout;
 
@@ -33,6 +34,9 @@ enum req_vec_problem_seriousness {
   RVPS_IMPROVE,
   RVPS_REPAIR,
 };
+
+void mark_item(QListWidgetItem *item,
+               enum req_vec_problem_seriousness problem_level);
 
 /**********************************************************************//**
   Ruleset entity specific methods for the ruleset item having its
