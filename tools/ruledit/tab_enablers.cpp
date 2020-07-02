@@ -168,6 +168,8 @@ void tab_enabler::refresh()
 
       enabler_list->insertItem(n++, item);
 
+      mark_item(item, enabler_problem_level(enabler));
+
       if (enabler == selected) {
         enabler_list->setItemSelected(item, true);
       }
@@ -180,6 +182,8 @@ void tab_enabler::refresh()
 **************************************************************************/
 void tab_enabler::update_enabler_info(struct action_enabler *enabler)
 {
+  int i = 0;
+
   selected = enabler;
 
   if (selected != nullptr) {
@@ -222,6 +226,17 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
 
     delete_button->setEnabled(false);
   }
+
+  /* The enabler may have gotten (rid of) a problem. */
+  action_enablers_iterate(enabler) {
+    QListWidgetItem *item = enabler_list->item(i++);
+
+    if (item == nullptr) {
+      continue;
+    }
+
+    mark_item(item, enabler_problem_level(enabler));
+  } action_enablers_iterate_end;
 }
 
 /**********************************************************************//**
