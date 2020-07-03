@@ -63,6 +63,7 @@ cd build
  --enable-client=gtk3.22,gtk3,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
+ --enable-ruledit=experimental \
  --enable-ai-static=classic,threaded,tex,stub \
  --enable-fcdb=sqlite3,mysql \
  --prefix=${HOME}/freeciv/
