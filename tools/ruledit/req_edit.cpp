@@ -52,7 +52,10 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   QLabel *lbl;
 
   ui = ui_in;
-  selected = nullptr;
+  connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+
+  clear_selected();
   req_vector = preqs;
 
   req_list = new QListWidget(this);
@@ -174,6 +177,31 @@ void req_edit::refresh()
 }
 
 /**********************************************************************//**
+  The selected requirement has changed.
+**************************************************************************/
+void req_edit::update_selected()
+{
+  if (selected != nullptr) {
+    selected_values = *selected;
+  }
+}
+
+/**********************************************************************//**
+  Unselect the currently selected requirement.
+**************************************************************************/
+void req_edit::clear_selected()
+{
+  selected = nullptr;
+
+  selected_values.source.kind = VUT_NONE;
+  selected_values.source.value.advance = NULL;
+  selected_values.range = REQ_RANGE_LOCAL;
+  selected_values.present = true;
+  selected_values.survives = false;
+  selected_values.quiet = false;
+}
+
+/**********************************************************************//**
   User pushed close button
 **************************************************************************/
 void req_edit::close_now()
@@ -194,6 +222,7 @@ void req_edit::select_req()
 
     if (item != nullptr && item->isSelected()) {
       selected = preq;
+      update_selected();
       fill_active();
       return;
     }
@@ -268,6 +297,7 @@ void req_edit::req_type_menu(QAction *action)
   if (selected != nullptr) {
     selected->source.kind = univ;
     universal_value_initial(&selected->source);
+    update_selected();
   }
 
   refresh();
@@ -286,6 +316,7 @@ void req_edit::req_range_menu(QAction *action)
 
   if (selected != nullptr) {
     selected->range = range;
+    update_selected();
   }
 
   refresh();
@@ -304,6 +335,7 @@ void req_edit::req_present_menu(QAction *action)
     } else {
       selected->present = TRUE;
     }
+    update_selected();
   }
 
   refresh();
@@ -321,6 +353,7 @@ void req_edit::univ_value_enum_menu(QAction *action)
 
     universal_value_from_str(&selected->source, un_bytes.data());
 
+    update_selected();
     refresh();
 
     emit rec_vec_may_have_changed(req_vector);
@@ -338,6 +371,7 @@ void req_edit::univ_value_edit()
     universal_value_from_str(&selected->source,
                              num_bytes.data());
 
+    update_selected();
     refresh();
 
     emit rec_vec_may_have_changed(req_vector);
@@ -376,11 +410,37 @@ void req_edit::delete_now()
       }
     }
 
-    selected = nullptr;
+    clear_selected();
 
     refresh();
 
     emit rec_vec_may_have_changed(req_vector);
+  }
+}
+
+/**********************************************************************//**
+  The requirement vector may have been changed.
+  @param vec the requirement vector that may have been changed.
+**************************************************************************/
+void req_edit::incoming_rec_vec_change(const requirement_vector *vec)
+{
+  if (req_vector == vec) {
+    /* The selected requirement may be gone */
+
+    selected = nullptr;
+    requirement_vector_iterate(req_vector, preq) {
+      if (are_requirements_equal(preq, &selected_values)) {
+        selected = preq;
+        break;
+      }
+    } requirement_vector_iterate_end;
+
+    if (selected == nullptr) {
+      /* The currently selected requirement was deleted. */
+      clear_selected();
+    }
+
+    refresh();
   }
 }
 
