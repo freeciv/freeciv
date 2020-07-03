@@ -23,6 +23,9 @@
 #include <QListWidget>
 #include <QToolButton>
 
+// common
+#include "requirements.h"
+
 class ruledit_gui;
 
 class req_edit : public QDialog
@@ -50,6 +53,9 @@ signals:
     QListWidget *req_list;
 
     struct requirement *selected;
+    struct requirement selected_values;
+    void clear_selected();
+    void update_selected();
 
     QToolButton *edit_type_button;
     QToolButton *edit_value_enum_button;
@@ -70,6 +76,8 @@ signals:
     void req_present_menu(QAction *action);
     void univ_value_enum_menu(QAction *action);
     void univ_value_edit();
+
+    void incoming_rec_vec_change(const requirement_vector *vec);
 
   protected:
     void closeEvent(QCloseEvent *event);
