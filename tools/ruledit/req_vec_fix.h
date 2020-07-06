@@ -114,6 +114,13 @@ public:
   ************************************************************************/
   virtual struct requirement_vector *
   vector_writable(const struct requirement_vector *vec) = 0;
+
+  /********************************************************************//**
+    Check if the specified vector belongs to this item
+    @param vec the requirement vector that may belong to this item.
+    @return true iff the vector belongs to this item.
+  ************************************************************************/
+  virtual bool vector_in_item(const struct requirement_vector *vec) = 0;
 };
 
 /**********************************************************************//**
@@ -174,6 +181,8 @@ private slots:
   void apply_solution(int selected_solution);
   void accept_applied_solutions();
   void reject_applied_solutions();
+
+  void incoming_rec_vec_change(const requirement_vector *vec);
 };
 
 #endif /* FC__REQ_VEC_FIX_H */

@@ -85,6 +85,7 @@ public:
   const char *vector_name(const struct requirement_vector *vec);
   struct requirement_vector *
   vector_writable(const struct requirement_vector *vec);
+  bool vector_in_item(const struct requirement_vector *vec);
 
 private:
   struct action_enabler *current_enabler;

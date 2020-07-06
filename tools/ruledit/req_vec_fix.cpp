@@ -150,6 +150,9 @@ req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
   QHBoxLayout *layout_buttons = new QHBoxLayout();
 
   this->ui = ui_in;
+  connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+
   this->item_info = item_info;
 
   this->current_problem = nullptr;
@@ -324,4 +327,16 @@ void req_vec_fix::reject_applied_solutions()
 
   /* Back to the start again. */
   this->refresh();
+}
+
+/**********************************************************************//**
+  A requirement vector may have been changed.
+  @param vec the requirement vector that may have been changed.
+**************************************************************************/
+void req_vec_fix::incoming_rec_vec_change(const requirement_vector *vec)
+{
+  if (this->item_info->vector_in_item(vec)) {
+    /* Can't trust the changes done against a previous version. */
+    reject_applied_solutions();
+  }
 }
