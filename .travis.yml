@@ -2,8 +2,6 @@ sudo: required
 
 language: c
 
-compiler:
-  - gcc
 python:
   - "3.7"
 
@@ -11,6 +9,7 @@ jobs:
   include:
   - name: "normal"
     dist: focal
+    compiler: gcc
     addons:
       apt:
         packages:
@@ -49,11 +48,41 @@ jobs:
         - libsqlite3-dev
   - name: "meson"
     dist: focal
+    compiler: gcc
     addons:
       apt:
         packages:
         - meson
         - libtolua-dev
+        - gettext
+        - libgtk-3-dev
+        - libcurl4-openssl-dev
+        - libtool
+        - automake
+        - autoconf
+        - autotools-dev
+        - language-pack-en
+        - python3.7
+        - liblzma-dev
+        - libicu-dev
+        - libsqlite3-dev
+        - qt5-default
+        - libsdl2-mixer-dev
+        - libsdl2-gfx-dev
+        - libsdl2-image-dev
+        - libsdl2-ttf-dev
+        - libmysqlclient-dev
+  - name: "clang_debug"
+    dist: focal
+    compiler: clang
+    addons:
+      apt:
+        sources:
+        - sourceline: 'ppa:kvilhaugsvik/backports'
+        packages:
+        - clang
+        - libtolua-dev
+        - liblua5.4-dev
         - gettext
         - libgtk-3-dev
         - libcurl4-openssl-dev

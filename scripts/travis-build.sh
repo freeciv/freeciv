@@ -53,6 +53,26 @@ make
 make install
 ;;
 
+"clang_debug")
+# Configure and build Freeciv
+mkdir build
+cd build
+../autogen.sh \
+ CC="clang" \
+ CXX="clang++" \
+ --enable-debug \
+ --enable-sys-lua \
+ --enable-sys-tolua-cmd \
+ --disable-fcdb \
+ --enable-client=gtk3.22,gtk3,qt,sdl2,stub \
+ --enable-fcmp=cli,gtk3,qt \
+ --enable-freeciv-manual \
+ --enable-ai-static=classic,threaded,tex,stub \
+ --prefix=${HOME}/freeciv/
+make -s -j$(nproc)
+sudo -u travis make install
+;;
+
 *)
 # Configure and build Freeciv
 mkdir build
