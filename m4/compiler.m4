@@ -97,6 +97,8 @@ LDFLAGS="$flags_save"
 # Sets variable cxx_works accordingly.
 AC_DEFUN([FC_WORKING_CXX],
 [
+AX_CXX_COMPILE_STDCXX([11], [], [optional])
+
 AC_MSG_CHECKING([whether C++ compiler works])
 
 AC_LANG_PUSH([C++])
@@ -110,4 +112,10 @@ AC_MSG_RESULT([not])
 cxx_works=no])
 
 AC_LANG_POP([C++])
+
+if test "x$HAVE_CXX11" = "x" ; then
+  dnl Qt requires C++11. All current C++ code uses Qt.
+  AC_MSG_WARN([The C++ compiler doesn't support C++11])
+  cxx_works=no
+fi
 ])
