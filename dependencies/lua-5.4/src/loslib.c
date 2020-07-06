@@ -10,6 +10,7 @@
 #include "lprefix.h"
 
 
+#include <errno.h>
 #include <locale.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,7 +92,7 @@
 
 /* ISO C definitions */
 #define l_gmtime(t,r)		((void)(r)->tm_sec, gmtime(t))
-#define l_localtime(t,r)  	((void)(r)->tm_sec, localtime(t))
+#define l_localtime(t,r)	((void)(r)->tm_sec, localtime(t))
 
 #endif				/* } */
 
@@ -138,10 +139,11 @@
 
 
 
-
 static int os_execute (lua_State *L) {
   const char *cmd = luaL_optstring(L, 1, NULL);
-  int stat = system(cmd);
+  int stat;
+  errno = 0;
+  stat = system(cmd);
   if (cmd != NULL)
     return luaL_execresult(L, stat);
   else {
@@ -196,7 +198,7 @@ static int os_clock (lua_State *L) {
 */
 
 /*
-** About the overflow check: an overflow cannot occurr when time
+** About the overflow check: an overflow cannot occur when time
 ** is represented by a lua_Integer, because either lua_Integer is
 ** large enough to represent all int fields or it is not large enough
 ** to represent a time that cause a field to overflow.  However, if

@@ -10,8 +10,6 @@
 #include "lprefix.h"
 
 
-#include <stddef.h>
-
 #include "lopcodes.h"
 
 
@@ -24,7 +22,9 @@ LUAI_DDEF const lu_byte luaP_opmodes[NUM_OPCODES] = {
  ,opmode(0, 0, 0, 0, 1, iAsBx)		/* OP_LOADF */
  ,opmode(0, 0, 0, 0, 1, iABx)		/* OP_LOADK */
  ,opmode(0, 0, 0, 0, 1, iABx)		/* OP_LOADKX */
- ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_LOADBOOL */
+ ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_LOADFALSE */
+ ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_LFALSESKIP */
+ ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_LOADTRUE */
  ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_LOADNIL */
  ,opmode(0, 0, 0, 0, 1, iABC)		/* OP_GETUPVAL */
  ,opmode(0, 0, 0, 0, 0, iABC)		/* OP_SETUPVAL */

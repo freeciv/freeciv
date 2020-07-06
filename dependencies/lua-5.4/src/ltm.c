@@ -27,7 +27,7 @@
 
 static const char udatatypename[] = "userdata";
 
-LUAI_DDEF const char *const luaT_typenames_[LUA_TOTALTAGS] = {
+LUAI_DDEF const char *const luaT_typenames_[LUA_TOTALTYPES] = {
   "no value",
   "nil", "boolean", udatatypename, "number",
   "string", "table", "function", udatatypename, "thread",
@@ -188,6 +188,15 @@ void luaT_trybiniTM (lua_State *L, const TValue *p1, lua_Integer i2,
 }
 
 
+/*
+** Calls an order tag method.
+** For lessequal, LUA_COMPAT_LT_LE keeps compatibility with old
+** behavior: if there is no '__le', try '__lt', based on l <= r iff
+** !(r < l) (assuming a total order). If the metamethod yields during
+** this substitution, the continuation has to know about it (to negate
+** the result of r<l); bit CIST_LEQ in the call status keeps that
+** information.
+*/
 int luaT_callorderTM (lua_State *L, const TValue *p1, const TValue *p2,
                       TMS event) {
   if (callbinTM(L, p1, p2, L->top, event))  /* try original event */

@@ -25,7 +25,7 @@
 
 #define LUA_VERSION	"Lua " LUA_VERSION_MAJOR "." LUA_VERSION_MINOR
 #define LUA_RELEASE	LUA_VERSION "." LUA_VERSION_RELEASE
-#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2019 Lua.org, PUC-Rio"
+#define LUA_COPYRIGHT	LUA_RELEASE "  Copyright (C) 1994-2020 Lua.org, PUC-Rio"
 #define LUA_AUTHORS	"R. Ierusalimschy, L. H. de Figueiredo, W. Celes"
 
 
@@ -72,7 +72,7 @@ typedef struct lua_State lua_State;
 #define LUA_TUSERDATA		7
 #define LUA_TTHREAD		8
 
-#define LUA_NUMTAGS		9
+#define LUA_NUMTYPES		9
 
 
 
@@ -412,6 +412,8 @@ LUA_API void  (lua_toclose) (lua_State *L, int idx);
 #define lua_getuservalue(L,idx)	lua_getiuservalue(L,idx,1)
 #define lua_setuservalue(L,idx)	lua_setiuservalue(L,idx,1)
 
+#define LUA_NUMTAGS		LUA_NUMTYPES
+
 /* }============================================================== */
 
 /*
@@ -489,7 +491,7 @@ struct lua_Debug {
 
 
 /******************************************************************************
-* Copyright (C) 1994-2019 Lua.org, PUC-Rio.
+* Copyright (C) 1994-2020 Lua.org, PUC-Rio.
 *
 * Permission is hereby granted, free of charge, to any person obtaining
 * a copy of this software and associated documentation files (the

@@ -87,7 +87,7 @@ static int pushglobalfuncname (lua_State *L, lua_Debug *ar) {
       lua_remove(L, -2);  /* remove original name */
     }
     lua_copy(L, -1, top + 1);  /* copy name to proper place */
-    lua_settop(L, top + 1);  /* remove table "loaded" an name copy */
+    lua_settop(L, top + 1);  /* remove table "loaded" and name copy */
     return 1;
   }
   else {
@@ -284,7 +284,7 @@ LUALIB_API int luaL_fileresult (lua_State *L, int stat, const char *fname) {
 
 LUALIB_API int luaL_execresult (lua_State *L, int stat) {
   const char *what = "exit";  /* type of termination */
-  if (stat == -1)  /* error? */
+  if (stat != 0 && errno != 0)  /* error with an 'errno'? */
     return luaL_fileresult(L, 0, NULL);
   else {
     l_inspectstat(stat, what);  /* interpret result */
@@ -476,7 +476,7 @@ static void *resizebox (lua_State *L, int idx, size_t newsize) {
   UBox *box = (UBox *)lua_touserdata(L, idx);
   void *temp = allocf(ud, box->box, box->bsize, newsize);
   if (temp == NULL && newsize > 0)  /* allocation error? */
-    luaL_error(L, "not enough memory for buffer allocation");
+    luaL_error(L, "not enough memory");
   box->box = temp;
   box->bsize = newsize;
   return temp;
@@ -902,10 +902,10 @@ LUALIB_API const char *luaL_tolstring (lua_State *L, int idx, size_t *len) {
 LUALIB_API void luaL_setfuncs (lua_State *L, const luaL_Reg *l, int nup) {
   luaL_checkstack(L, nup, "too many upvalues");
   for (; l->name != NULL; l++) {  /* fill the table with given functions */
-    int i;
     if (l->func == NULL)  /* place holder? */
       lua_pushboolean(L, 0);
     else {
+      int i;
       for (i = 0; i < nup; i++)  /* copy upvalues to the top */
         lua_pushvalue(L, -nup);
       lua_pushcclosure(L, l->func, nup);  /* closure with those upvalues */
@@ -995,8 +995,10 @@ static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
 
 
 static int panic (lua_State *L) {
+  const char *msg = lua_tostring(L, -1);
+  if (msg == NULL) msg = "error object is not a string";
   lua_writestringerror("PANIC: unprotected error in call to Lua API (%s)\n",
-                        lua_tostring(L, -1));
+                        msg);
   return 0;  /* return to Lua to abort */
 }
 

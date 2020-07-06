@@ -7,6 +7,9 @@
 #if !defined(lopnames_h)
 #define lopnames_h
 
+#include <stddef.h>
+
+
 /* ORDER OP */
 
 static const char *const opnames[] = {
@@ -15,7 +18,9 @@ static const char *const opnames[] = {
   "LOADF",
   "LOADK",
   "LOADKX",
-  "LOADBOOL",
+  "LOADFALSE",
+  "LFALSESKIP",
+  "LOADTRUE",
   "LOADNIL",
   "GETUPVAL",
   "SETUPVAL",

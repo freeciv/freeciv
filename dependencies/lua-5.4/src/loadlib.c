@@ -68,6 +68,13 @@ static const char *const CLIBS = "_CLIBS";
 
 
 /*
+** Special type equivalent to '(void*)' for functions in gcc
+** (to suppress warnings when converting function pointers)
+*/
+typedef void (*voidf)(void);
+
+
+/*
 ** system-dependent functions
 */
 
@@ -206,7 +213,7 @@ static void *lsys_load (lua_State *L, const char *path, int seeglb) {
 
 
 static lua_CFunction lsys_sym (lua_State *L, void *lib, const char *sym) {
-  lua_CFunction f = (lua_CFunction)GetProcAddress((HMODULE)lib, sym);
+  lua_CFunction f = (lua_CFunction)(voidf)GetProcAddress((HMODULE)lib, sym);
   if (f == NULL) pusherror(L);
   return f;
 }
@@ -268,8 +275,6 @@ static lua_CFunction lsys_sym (lua_State *L, void *lib, const char *sym) {
 #define LUA_CPATH_VAR   "LUA_CPATH"
 #endif
 
-
-#define AUXMARK         "\1"	/* auxiliary mark */
 
 
 /*
@@ -458,13 +463,13 @@ static const char *getnextfilename (char **path, char *end) {
 /*
 ** Given a path such as ";blabla.so;blublu.so", pushes the string
 **
-** 	no file 'blabla.so'
+** no file 'blabla.so'
 **	no file 'blublu.so'
 */
 static void pusherrornotfound (lua_State *L, const char *path) {
   luaL_Buffer b;
   luaL_buffinit(L, &b);
-  luaL_addstring(&b, "\n\tno file '");
+  luaL_addstring(&b, "no file '");
   luaL_addgsub(&b, path, LUA_PATH_SEP, "'\n\tno file '");
   luaL_addstring(&b, "'");
   luaL_pushresult(&b);
@@ -591,7 +596,7 @@ static int searcher_Croot (lua_State *L) {
     if (stat != ERRFUNC)
       return checkload(L, 0, filename);  /* real error */
     else {  /* open function not found */
-      lua_pushfstring(L, "\n\tno module '%s' in file '%s'", name, filename);
+      lua_pushfstring(L, "no module '%s' in file '%s'", name, filename);
       return 1;
     }
   }
@@ -604,7 +609,7 @@ static int searcher_preload (lua_State *L) {
   const char *name = luaL_checkstring(L, 1);
   lua_getfield(L, LUA_REGISTRYINDEX, LUA_PRELOAD_TABLE);
   if (lua_getfield(L, -1, name) == LUA_TNIL) {  /* not found? */
-    lua_pushfstring(L, "\n\tno field package.preload['%s']", name);
+    lua_pushfstring(L, "no field package.preload['%s']", name);
     return 1;
   }
   else {
@@ -623,8 +628,10 @@ static void findloader (lua_State *L, const char *name) {
   luaL_buffinit(L, &msg);
   /*  iterate over available searchers to find a loader */
   for (i = 1; ; i++) {
+    luaL_addstring(&msg, "\n\t");  /* error-message prefix */
     if (lua_rawgeti(L, 3, i) == LUA_TNIL) {  /* no more searchers? */
       lua_pop(L, 1);  /* remove nil */
+      luaL_buffsub(&msg, 2);  /* remove prefix */
       luaL_pushresult(&msg);  /* create error message */
       luaL_error(L, "module '%s' not found:%s", name, lua_tostring(L, -1));
     }
@@ -636,8 +643,10 @@ static void findloader (lua_State *L, const char *name) {
       lua_pop(L, 1);  /* remove extra return */
       luaL_addvalue(&msg);  /* concatenate error message */
     }
-    else
+    else {  /* no error message */
       lua_pop(L, 2);  /* remove both returns */
+      luaL_buffsub(&msg, 2);  /* remove prefix */
+    }
   }
 }
 

@@ -104,26 +104,25 @@ a multi-platform distribution of Lua that includes batteries.
 
 <H3>Building Lua</H3>
 <P>
-In most Unix-like platforms, simply do "<KBD>make</KBD>" with a suitable target.
+In most common Unix-like platforms, simply do "<KBD>make</KBD>".
 Here are the details.
 
 <OL>
 <LI>
 Open a terminal window and move to
-the top-level directory, which is named <TT>lua-5.4.0-beta</TT>.
+the top-level directory, which is named <TT>lua-5.4.0</TT>.
 The <TT>Makefile</TT> there controls both the build process and the installation process.
 <P>
 <LI>
-  Do "<KBD>make</KBD>" and see if your platform is listed.
+  Do "<KBD>make</KBD>". The <TT>Makefile</TT> will guess your platform and build Lua for it.
+<P>
+<LI>
+  If the guess failed, do "<KBD>make help</KBD>" and see if your platform is listed.
   The platforms currently supported are:
 <P>
 <P CLASS="display">
-   aix bsd c89 freebsd generic guess linux linux-readline macosx mingw posix solaris
+   guess aix bsd c89 freebsd generic linux linux-readline macosx mingw posix solaris
 </P>
-<P>
-  If your platform is a common Unix-like platform,
-  just do "<KBD>make guess</KBD>".
-  The <TT>Makefile</TT> will guess your platform and build Lua for it.
 <P>
   If your platform is listed, just do "<KBD>make xxx</KBD>", where xxx
   is your platform name.
@@ -143,11 +142,12 @@ and liblua.a (the library).
   after building Lua. This will run the interpreter and print its version.
 </OL>
 <P>
-If you're running Linux and get compilation errors when building for <TT>linux-readline</TT>,
+If you're running Linux, try "<KBD>make linux-readline</KBD>" to build the interactive Lua interpreter with handy line-editing and history capabilities.
+If you get compilation errors,
 make sure you have installed the <TT>readline</TT> development package
 (which is probably named <TT>libreadline-dev</TT> or <TT>readline-devel</TT>).
 If you get link errors after that,
-then try "<KBD>make linux MYLIBS=-ltermcap</KBD>".
+then try "<KBD>make linux-readline MYLIBS=-ltermcap</KBD>".
 
 <H3>Installing Lua</H3>
 <P>
@@ -157,11 +157,12 @@ then try "<KBD>make linux MYLIBS=-ltermcap</KBD>".
   probably need the right permissions to install files, and so may need to do "<KBD>sudo make install</KBD>".
 
 <P>
-  To build and install Lua in one step, do "<KBD>make xxx install</KBD>",
-  where xxx is your platform name, including "guess".
+  To build and install Lua in one step, do "<KBD>make all install</KBD>",
+  or "<KBD>make xxx install</KBD>",
+  where xxx is your platform name.
 
 <P>
-  To install Lua locally, do "<KBD>make local</KBD>".
+  To install Lua locally after building it, do "<KBD>make local</KBD>".
   This will create a directory <TT>install</TT> with subdirectories
   <TT>bin</TT>, <TT>include</TT>, <TT>lib</TT>, <TT>man</TT>, <TT>share</TT>,
   and install Lua as listed below.
@@ -302,7 +303,7 @@ For details, see
 <A HREF="http://www.lua.org/license.html">this</A>.
 
 <BLOCKQUOTE STYLE="padding-bottom: 0em">
-Copyright &copy; 1994&ndash;2019 Lua.org, PUC-Rio.
+Copyright &copy; 1994&ndash;2020 Lua.org, PUC-Rio.
 
 <P>
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -329,10 +330,10 @@ THE SOFTWARE.
 
 <P CLASS="footer">
 Last update:
-Thu Oct  3 12:42:49 UTC 2019
+Fri May  1 19:33:31 UTC 2020
 </P>
 <!--
-Last change: revised for Lua 5.4.0 (beta)
+Last change: revised for Lua 5.4.0 (final)
 -->
 
 </BODY>
