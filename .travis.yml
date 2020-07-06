@@ -77,7 +77,6 @@ jobs:
     osx_image: xcode11.3
     addons:
       homebrew:
-        update: true
         packages:
           - autoconf
           - automake
