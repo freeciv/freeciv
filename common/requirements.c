@@ -1216,32 +1216,6 @@ bool does_req_contradicts_reqs(const struct requirement *req,
 }
 
 /**********************************************************************//**
-  Clean up self contradictions from a requirement vector.
-
-  When two requirements conflicts the earliest requirement is removed.
-  This allows requirement adjustment code to append the new requirement(s)
-  and leave the contradiction clean up to this function.
-**************************************************************************/
-bool requirement_vector_contradiction_clean(struct requirement_vector *vec)
-{
-  struct req_vec_problem *problem;
-  bool had_contradiction = FALSE;
-
-  problem = req_vec_get_first_contradiction(vec);
-  while (problem != NULL) {
-    had_contradiction = TRUE;
-
-    fc_assert_ret_val(problem->num_suggested_solutions > 0, TRUE);
-    req_vec_change_apply(&problem->suggested_solutions[0], vec);
-
-    req_vec_problem_free(problem);
-    problem = req_vec_get_first_contradiction(vec);
-  }
-
-  return had_contradiction;
-}
-
-/**********************************************************************//**
   Returns TRUE if players are in the same requirements range.
 **************************************************************************/
 static inline bool players_in_same_range(const struct player *pplayer1,
