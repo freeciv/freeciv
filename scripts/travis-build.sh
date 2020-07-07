@@ -57,7 +57,7 @@ cd build
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
      && exit $config_exit_status)
-make
+make -j$(nproc)
 make install
 ;;
 
