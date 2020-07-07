@@ -23,7 +23,11 @@ cd build
  --disable-client \
  --disable-fcmp \
  --disable-ruledit \
- --disable-server
+ --disable-server \
+ || (let config_exit_status=$? \
+     && echo "Config exit status: $config_exit_status" \
+     && cat config.log \
+     && exit $config_exit_status)
 make -s -j$(nproc) dist
 echo "Freeciv distribution build successful!"
 ;;
@@ -48,7 +52,11 @@ mkdir build
 cd build
 ../autogen.sh \
  --enable-client=gtk3.22,sdl2,qt \
- --enable-freeciv-manual
+ --enable-freeciv-manual \
+ || (let config_exit_status=$? \
+     && echo "Config exit status: $config_exit_status" \
+     && cat config.log \
+     && exit $config_exit_status)
 make
 make install
 ;;
@@ -68,7 +76,11 @@ cd build
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
  --enable-ai-static=classic,threaded,tex,stub \
- --prefix=${HOME}/freeciv/
+ --prefix=${HOME}/freeciv/ \
+ || (let config_exit_status=$? \
+     && echo "Config exit status: $config_exit_status" \
+     && cat config.log \
+     && exit $config_exit_status)
 make -s -j$(nproc)
 sudo -u travis make install
 ;;
@@ -86,7 +98,11 @@ cd build
  --enable-ruledit=experimental \
  --enable-ai-static=classic,threaded,tex,stub \
  --enable-fcdb=sqlite3,mysql \
- --prefix=${HOME}/freeciv/
+ --prefix=${HOME}/freeciv/ \
+ || (let config_exit_status=$? \
+     && echo "Config exit status: $config_exit_status" \
+     && cat config.log \
+     && exit $config_exit_status)
 make -s -j$(nproc)
 sudo -u travis make install
 echo "Freeciv build successful!"
