@@ -2458,7 +2458,8 @@ void illegal_action_msg(struct player *pplayer,
                               reveals new information.
   @param act_unit the actor unit performing the action.
   @param stopped_action the illegal action.
-  @param tgt_player the intended target of the action.
+  @param tgt_player the owner of the intended target of the action.
+  @param tgt_tile the tile of the target of the action.
   @param requester who ordered the action performed?
   @return TRUE iff player was punished for trying to do the illegal action.
 **************************************************************************/
