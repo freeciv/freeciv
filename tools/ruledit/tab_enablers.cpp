@@ -195,9 +195,7 @@ void tab_enabler::refresh()
 
       mark_item(item, enabler_problem_level(enabler));
 
-      if (enabler == selected) {
-        enabler_list->setItemSelected(item, true);
-      }
+      item->setSelected(enabler == selected);
     }
   } action_enablers_iterate_end;
 }
