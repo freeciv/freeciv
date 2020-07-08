@@ -22,9 +22,6 @@
 #include <QStackedLayout>
 #include <QVBoxLayout>
 
-/* common */
-#include "requirements.h"
-
 /* ruledit */
 #include "ruledit_qt.h"
 
@@ -111,7 +108,7 @@ req_vec_fix_problem::req_vec_fix_problem(
   for (i = 0; i < problem->num_suggested_solutions; i++) {
     QRadioButton *solution = new QRadioButton(
         req_vec_change_translation(&problem->suggested_solutions[i],
-        item_info->vector_name(problem->suggested_solutions[i].based_on)));
+        item_info->vector_namer()));
 
     solutions->addButton(solution, i);
     solution->setChecked(i == 0);
@@ -272,8 +269,8 @@ void req_vec_fix::apply_solution(int selected_solution)
 
   solution = &current_problem->suggested_solutions[selected_solution];
 
-  if (!req_vec_change_apply(
-        solution, item_info->vector_writable(solution->based_on))) {
+  if (!req_vec_change_apply(solution, item_info->vector_getter(),
+                            item_info->item_working_copy())) {
     QMessageBox *box = new QMessageBox();
 
     box->setWindowTitle(R__("Unable to apply solution"));
@@ -282,8 +279,7 @@ void req_vec_fix::apply_solution(int selected_solution)
           /* TRANS: requirement vector fix failed to apply */
           QString(R__("Failed to apply solution %1 for %2 to %3."))
                  .arg(req_vec_change_translation(solution,
-                                                 item_info->vector_name(
-                                                   solution->based_on)),
+                                                 item_info->vector_namer()),
                       current_problem->description, item_info->name()));
     box->setStandardButtons(QMessageBox::Ok);
     box->exec();
@@ -311,7 +307,8 @@ void req_vec_fix::accept_applied_solutions()
   this->refresh();
 
   for (i = 0; i < item_info->num_vectors(); i++) {
-    emit rec_vec_may_have_changed(item_info->vector_by_number(i));
+    emit rec_vec_may_have_changed(item_info->vector_getter()
+                                  (item_info->item(), i));
   }
 }
 

@@ -21,6 +21,9 @@
 /* Qt */
 #include <QWidget>
 
+/* common */
+#include "requirements.h"
+
 class QButtonGroup;
 class QListWidgetItem;
 class QPushButton;
@@ -55,6 +58,12 @@ public:
     @return a pointer to the ruleset item.
   ************************************************************************/
   virtual const void *item() = 0;
+
+  /********************************************************************//**
+    Returns a pointer to the working copy of the ruleset item.
+    @return a pointer to the working copy of the ruleset item.
+  ************************************************************************/
+  virtual void *item_working_copy() = 0;
 
   /********************************************************************//**
     Returns a name to describe the item, hopefully good enough to
@@ -93,27 +102,20 @@ public:
   virtual int num_vectors() = 0;
 
   /********************************************************************//**
-    Returns a pointer to the specified requirement vector in the item.
-    @param number the item's requirement vector number.
-    @return a pointer to the specified requirement vector.
+    Returns a function pointer to a function that names this item kind's
+    requirement vector number number. Useful when there is more than one
+    requirement vector.
+    @return the requirement vector namer for ruleset items of this kind.
   ************************************************************************/
-  virtual const struct requirement_vector *vector_by_number(int number) = 0;
+  virtual requirement_vector_namer vector_namer() = 0;
 
   /********************************************************************//**
-    Returns the name of the specified requirement vector. Useful when
-    there is more than one requirement vector.
-    @param vec the requirement vector to name
-    @return the requirement vector name.
+    Returns a function pointer to a function that returns a writable
+    pointer to the specified requirement vector in the specified parent
+    item.
+    @return a writable pointer to the requirement vector getter function.
   ************************************************************************/
-  virtual const char *vector_name(const struct requirement_vector *vec) = 0;
-
-  /********************************************************************//**
-    Returns a writable pointer to the specified requirement vector.
-    @param vec the requirement vector to write to.
-    @return a writable pointer to the requirement vector.
-  ************************************************************************/
-  virtual struct requirement_vector *
-  vector_writable(const struct requirement_vector *vec) = 0;
+  virtual requirement_vector_by_number vector_getter() = 0;
 
   /********************************************************************//**
     Check if the specified vector belongs to this item
