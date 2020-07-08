@@ -120,19 +120,34 @@ show to players use name_translation().
 
 Example 1
 =========
-The following Lua code will log all actions done by any unit to a city or to
-another unit:
+The following Lua code will log all actions done by any unit to a city, to
+another unit, to a unit stack, to a tile or to itself:
 
 function action_started_callback(action, actor, target)
-  log.normal(_("%s (rule name: %s) performed by %s on %s"),
+  local target_owner
+  if target == nil then
+    target_owner = "it self"
+  elseif target.owner == nil then
+    target_owner = "unowned"
+  else
+    target_owner = target.owner.nation:plural_translation()
+  end
+
+  log.normal(_("%d: %s (rule name: %s) performed by %s %s (id: %d) on %s"),
+             game.current_turn(),
              action:name_translation(),
              action:rule_name(),
              actor.owner.nation:plural_translation(),
-             target.owner.nation:plural_translation())
+             actor.utype:rule_name(),
+             actor.id,
+             target_owner)
 end
 
 signal.connect("action_started_unit_city", "action_started_callback")
 signal.connect("action_started_unit_unit", "action_started_callback")
+signal.connect("action_started_unit_units", "action_started_callback")
+signal.connect("action_started_unit_tile", "action_started_callback")
+signal.connect("action_started_unit_self", "action_started_callback")
 
 Example 2
 =========
