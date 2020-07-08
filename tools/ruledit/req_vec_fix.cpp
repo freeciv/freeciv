@@ -34,7 +34,7 @@
 /**********************************************************************//**
   Mark a ruleset item in a list as having a problem.
   @param item the ruleset item's representation in the list.
-  @param how serious the problem, if it exists at all, is.
+  @param problem_level how serious the problem, if it exists at all, is.
 **************************************************************************/
 void mark_item(QListWidgetItem *item,
                enum req_vec_problem_seriousness problem_level)
