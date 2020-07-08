@@ -86,6 +86,9 @@ sudo -u travis make install
 ;;
 
 *)
+# Fetch S3_0 in the background for the ruleset upgrade test
+git fetch --no-tags --quiet https://github.com/freeciv/freeciv.git S3_0:S3_0 &
+
 # Configure and build Freeciv
 mkdir build
 cd build
@@ -114,6 +117,15 @@ sudo -u travis ./tests/rulesets_not_broken.sh
 # Check ruleset saving
 echo "Checking ruleset saving"
 sudo -u travis ./tests/rulesets_save.sh
+
+# Check ruleset upgrade
+echo "Ruleset upgrade"
+echo "Preparing test data"
+sudo -u travis ../tests/rs_test_res/upgrade_ruleset_sync.bash
+echo "Checking ruleset upgrade"
+FREECIV_DATA_PATH="../tests/rs_test_res/upgrade_rulesets:$FREECIV_DATA_PATH" \
+ sudo --preserve-env=FREECIV_DATA_PATH -u travis \
+ ./tests/rulesets_save.sh `cat ../tests/rs_test_res/upgrade_ruleset_list.txt`
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/bin/
