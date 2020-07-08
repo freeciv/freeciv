@@ -725,7 +725,7 @@ void rscompat_postprocess(struct rscompat_info *info)
       }
 
       /* Subtract the value via the Action_Success_Actor_Move_Cost effect */
-      peffect = effect_new(EFT_ACTION_SUCCESS_TARGET_MOVE_COST,
+      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
                            putype->rscompat_cache.paratroopers_mr_sub,
                            NULL);
 
