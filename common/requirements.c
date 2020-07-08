@@ -3392,7 +3392,7 @@ bool is_req_in_vec(const struct requirement *req,
 
 /**********************************************************************//**
   Returns TRUE iff the specified requirement vector has a positive
-  requirment of the specified requirement type.
+  requirement of the specified requirement type.
   @param reqs the requirement vector to look in
   @param kind the requirement type to look for
 **************************************************************************/
@@ -3475,7 +3475,7 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
 
 /**********************************************************************//**
   Returns TRUE iff the specified requirement vector modification was
-  successfully applied to the specified target requirment vector.
+  successfully applied to the specified target requirement vector.
   @param modification the requirement vector change
   @param target the requirement vector the change should be applied to
   @return if the specified modification was successfully applied

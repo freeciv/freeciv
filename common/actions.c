@@ -2300,7 +2300,7 @@ req_vec_first_contradiction_in_vec(const struct requirement *req,
 
 /**********************************************************************//**
   Detects a local DiplRel requirement in a tile targeted action without
-  an explicit claimed requirment in the target reqs.
+  an explicit claimed requirement in the target reqs.
   @param enabler the enabler to look at
   @return the problem or NULL if no problem was found
 **************************************************************************/
