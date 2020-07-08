@@ -628,6 +628,14 @@ action_enabler_suggest_repair(const struct action_enabler *enabler);
 struct req_vec_problem *
 action_enabler_suggest_improvement(const struct action_enabler *enabler);
 
+req_vec_num_in_item
+action_enabler_vector_number(const void *enabler,
+                             const struct requirement_vector *vec);
+struct requirement_vector *
+action_enabler_vector_by_number(const void *enabler,
+                                req_vec_num_in_item vec);
+const char *action_enabler_vector_by_number_name(req_vec_num_in_item vec);
+
 struct action *action_is_blocked_by(const action_id act_id,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,

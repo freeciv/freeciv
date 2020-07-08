@@ -426,7 +426,8 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
     }
   } requirement_vector_iterate_end;
 
-  problem = req_vec_get_first_contradiction(preqs);
+  problem = req_vec_get_first_contradiction(preqs,
+                                            req_vec_vector_number, preqs);
   if (problem != NULL) {
     log_error("%s: %s.", list_for, problem->description);
     req_vec_problem_free(problem);

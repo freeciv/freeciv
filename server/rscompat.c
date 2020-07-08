@@ -177,40 +177,21 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
 
     for (i = 0; i < problem->num_suggested_solutions; i++) {
       struct action_enabler *new_enabler;
-      bool change_target_reqs;
-      struct requirement_vector *ae_vec;
-
-      /* Does this solution apply to the actor reqs or to the
-       * target reqs? */
-      fc_assert_ret_val(problem->num_suggested_solutions > 0,
-                        needs_restart);
-      if (problem->suggested_solutions[i].based_on == &ae->actor_reqs) {
-        change_target_reqs = false;
-      } else {
-        fc_assert_ret_val(problem->suggested_solutions[i].based_on
-                          == &ae->target_reqs, needs_restart);
-        change_target_reqs = true;
-      }
 
       /* There can be more than one suggestion to apply. In that case both
        * are applied to their own copy. The original should therefore be
        * kept for now. */
       new_enabler = action_enabler_copy(ae);
 
-      /* The requirement vector that should be modified. */
-      if (!change_target_reqs) {
-        ae_vec = &new_enabler->actor_reqs;
-      } else {
-        ae_vec = &new_enabler->target_reqs;
-      }
-
       /* Apply the solution. */
-      if (!req_vec_change_apply(&problem->suggested_solutions[i], ae_vec)) {
+      if (!req_vec_change_apply(&problem->suggested_solutions[i],
+                                action_enabler_vector_by_number,
+                                new_enabler)) {
         log_error("Failed to apply solution %s for %s to action enabler"
                   " for %s. Dropping it.",
                   req_vec_change_translation(
                     &problem->suggested_solutions[i],
-                    change_target_reqs ? "target_reqs" : "actor_reqs"),
+                    action_enabler_vector_by_number_name),
                   problem->description, action_rule_name(paction));
         new_enabler->disabled = TRUE;
         req_vec_problem_free(problem);

@@ -48,15 +48,14 @@ public:
   void close();
 
   const void *item();
+  void *item_working_copy();
   const char *name();
   struct req_vec_problem *find_next_problem(void);
   void apply_accepted_changes();
   void undo_accepted_changes();
   int num_vectors();
-  const struct requirement_vector *vector_by_number(int number);
-  const char *vector_name(const struct requirement_vector *vec);
-  struct requirement_vector *
-  vector_writable(const struct requirement_vector *vec);
+  requirement_vector_namer vector_namer();
+  requirement_vector_by_number vector_getter();
   bool vector_in_item(const struct requirement_vector *vec);
 
 private:
@@ -446,6 +445,15 @@ const void *fix_enabler_item::item()
   return current_enabler;
 }
 
+/********************************************************************//**
+    Returns a pointer to the working copy of the ruleset item.
+    @return a pointer to the working copy of the ruleset item.
+************************************************************************/
+void *fix_enabler_item::item_working_copy()
+{
+  return local_copy;
+}
+
 /**********************************************************************//**
   Returns a name to describe the item, hopefully good enough to
   distinguish it from other items. Must be short enough for a quick
@@ -513,59 +521,25 @@ int fix_enabler_item::num_vectors()
 }
 
 /********************************************************************//**
-  Returns a pointer to the specified requirement vector in the item.
-  @param number the item's requirement vector number.
-  @return a pointer to the specified requirement vector.
+  Returns a function pointer to a function that names this item kind's
+  requirement vector number number. Useful when there is more than one
+  requirement vector.
+  @return the requirement vector namer for ruleset items of this kind.
 ************************************************************************/
-const struct requirement_vector *
-fix_enabler_item::vector_by_number(int number)
+requirement_vector_namer fix_enabler_item::vector_namer()
 {
-  fc_assert_ret_val(number >= 0, nullptr);
-  fc_assert_ret_val(number < num_vectors(), nullptr);
-
-  switch (number) {
-  case 0:
-    return &current_enabler->actor_reqs;
-  case 1:
-    return &current_enabler->target_reqs;
-  }
-
-  return nullptr;
+  return action_enabler_vector_by_number_name;
 }
 
-/*********************************************************************//**
-  Returns the name of the specified requirement vector. Useful when
-  there is more than one requirement vector.
-  @param vec the requirement vector to name
-  @return the requirement vector name.
-**************************************************************************/
-const char *
-fix_enabler_item::vector_name(const struct requirement_vector *vec)
+/********************************************************************//**
+  Returns a function pointer to a function that returns a writable
+  pointer to the specified requirement vector in the specified parent
+  item.
+  @return a writable pointer to the requirement vector getter function.
+************************************************************************/
+requirement_vector_by_number fix_enabler_item::vector_getter()
 {
-  /* Does this solution apply to the actor reqs or to the target reqs? */
-  if (vec == &local_copy->actor_reqs) {
-    return R__("actor_reqs");
-  } else {
-    fc_assert_ret_val(vec == &local_copy->target_reqs, "unknown vector");
-    return R__("target_reqs");
-  }
-}
-
-/**********************************************************************//**
-  Returns a writable pointer to the specified requirement vector.
-  @param vec the requirement vector to write to.
-  @return a writable pointer to the requirement vector.
-**************************************************************************/
-struct requirement_vector *
-fix_enabler_item::vector_writable(const struct requirement_vector *vec)
-{
-  /* Does this solution apply to the actor reqs or to the target reqs? */
-  if (vec == &local_copy->actor_reqs) {
-    return &local_copy->actor_reqs;
-  } else {
-    fc_assert_ret_val(vec == &local_copy->target_reqs, nullptr);
-    return &local_copy->target_reqs;
-  }
+  return action_enabler_vector_by_number;
 }
 
 /**********************************************************************//**

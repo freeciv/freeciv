@@ -2229,7 +2229,8 @@ action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
       /* The suggested fix is to append a requirement that makes the enabler
        * contradict the missing hard obligatory requirement detector. */
       out->suggested_solutions[i].operation = RVCO_APPEND;
-      out->suggested_solutions[i].based_on = ae_vec;
+      out->suggested_solutions[i].vector_number
+          = action_enabler_vector_number(enabler, ae_vec);
 
       /* Change the requirement from what should conflict to what is
        * wanted. */
@@ -2362,7 +2363,8 @@ enabler_tile_tgt_local_diplrel_implies_claimed(
 
   /* The solution is to add the requirement that the tile is claimed */
   out->suggested_solutions[0].req = tile_is_claimed;
-  out->suggested_solutions[0].based_on = &enabler->target_reqs;
+  out->suggested_solutions[0].vector_number
+      = action_enabler_vector_number(enabler, &enabler->target_reqs);
   out->suggested_solutions[0].operation = RVCO_APPEND;
 
   return out;
@@ -2422,12 +2424,14 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
 
   /* The first suggestion is to remove the diplrel */
   out->suggested_solutions[0].req = *local_diplrel;
-  out->suggested_solutions[0].based_on = &enabler->actor_reqs;
+  out->suggested_solutions[0].vector_number
+      = action_enabler_vector_number(enabler, &enabler->actor_reqs);
   out->suggested_solutions[0].operation = RVCO_REMOVE;
 
   /* The 2nd is to remove the requirement that the tile is unclaimed */
   out->suggested_solutions[1].req = *unclaimed_req;
-  out->suggested_solutions[1].based_on = &enabler->target_reqs;
+  out->suggested_solutions[1].vector_number
+      = action_enabler_vector_number(enabler, &enabler->target_reqs);
   out->suggested_solutions[1].operation = RVCO_REMOVE;
 
   return out;
@@ -2448,12 +2452,16 @@ action_enabler_suggest_repair(const struct action_enabler *enabler)
     return out;
   }
 
-  out = req_vec_get_first_contradiction(&enabler->actor_reqs);
+  out = req_vec_get_first_contradiction(&enabler->actor_reqs,
+                                        action_enabler_vector_number,
+                                        enabler);
   if (out != NULL) {
     return out;
   }
 
-  out = req_vec_get_first_contradiction(&enabler->target_reqs);
+  out = req_vec_get_first_contradiction(&enabler->target_reqs,
+                                        action_enabler_vector_number,
+                                        enabler);
   if (out != NULL) {
     return out;
   }
@@ -2539,6 +2547,75 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
   out = enabler_first_clarification(enabler);
 
   return out;
+}
+
+/**********************************************************************//**
+  Returns the requirement vector number of the specified requirement
+  vector in the specified action enabler.
+  @param enabler the action enabler that may own the vector.
+  @param vec the requirement vector to number.
+  @return the requirement vector number the vector has in this enabler.
+**************************************************************************/
+req_vec_num_in_item
+action_enabler_vector_number(const void *enabler,
+                             const struct requirement_vector *vec)
+{
+  struct action_enabler *ae = (struct action_enabler *)enabler;
+
+  if (vec == &ae->actor_reqs) {
+    return 0;
+  } else if (vec == &ae->target_reqs) {
+    return 1;
+  } else {
+    return -1;
+  }
+}
+
+/********************************************************************//**
+  Returns a writable pointer to the specified requirement vector in the
+  action enabler or NULL if the action enabler doesn't have a requirement
+  vector with that requirement vector number.
+  @param enabler the action enabler that may own the vector.
+  @param number the item's requirement vector number.
+  @return a pointer to the specified requirement vector.
+************************************************************************/
+struct requirement_vector *
+action_enabler_vector_by_number(const void *enabler,
+                                req_vec_num_in_item number)
+{
+  struct action_enabler *ae = (struct action_enabler *)enabler;
+
+  fc_assert_ret_val(number >= 0, NULL);
+
+  switch (number) {
+  case 0:
+    return &ae->actor_reqs;
+  case 1:
+    return &ae->target_reqs;
+  default:
+    return NULL;
+  }
+}
+
+/*********************************************************************//**
+  Returns the name of the given requirement vector number n in an action
+  enabler or NULL if enablers don't have a requirement vector with that
+  number.
+  @param vec the requirement vector to name
+  @return the requirement vector name or NULL.
+**************************************************************************/
+const char *action_enabler_vector_by_number_name(req_vec_num_in_item vec)
+{
+  switch (vec) {
+  case 0:
+    /* TRANS: requirement vector in an action enabler (ruledit) */
+    return _("actor_reqs");
+  case 1:
+    /* TRANS: requirement vector in an action enabler (ruledit) */
+    return _("target_reqs");
+  default:
+    return NULL;
+  }
 }
 
 /**********************************************************************//**

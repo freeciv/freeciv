@@ -3382,17 +3382,52 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
+  Returns the requirement vector number of the specified requirement
+  vector in the specified requirement vector.
+  @param parent_item the item that may own the vector.
+  @param vec the requirement vector to number.
+  @return the requirement vector number the vector has in the parent item.
+**************************************************************************/
+req_vec_num_in_item
+req_vec_vector_number(const void *parent_item,
+                      const struct requirement_vector *vec)
+{
+  if (vec) {
+    return 0;
+  } else {
+    return -1;
+  }
+}
+
+/********************************************************************//**
+  Returns a writable pointer to the specified requirement vector in the
+  specified requirement vector or NULL if the parent item doesn't have a
+  requirement vector with that requirement vector number.
+  @param parent_item the item that should have the requirement vector.
+  @param number the item's requirement vector number.
+  @return a pointer to the specified requirement vector.
+************************************************************************/
+struct requirement_vector *
+req_vec_by_number(const void *parent_item, req_vec_num_in_item number)
+{
+  fc_assert_ret_val(number == 0, NULL);
+  return (struct requirement_vector *)parent_item;
+}
+
+/**********************************************************************//**
   Returns the specified requirement vector change as a translated string
   ready for use in the user interface.
   N.B.: The returned string is static, so every call to this function
   overwrites the previous.
   @param change the requirement vector change
-  @param req_vec_description a description of the vector to change
+  @param namer a function that returns a description of the vector to
+               change for the item the vector belongs to.
   @return the specified requirement vector change
 **************************************************************************/
 const char *req_vec_change_translation(const struct req_vec_change *change,
-                                       const char *req_vec_description)
+                                       const requirement_vector_namer namer)
 {
+  const char *req_vec_description;
   static char buf[MAX_LEN_NAME * 3];
 
   fc_assert_ret_val(change, NULL);
@@ -3402,10 +3437,12 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
   /* Get rid of the previous. */
   buf[0] = '\0';
 
-  if (req_vec_description == NULL) {
+  if (namer == NULL) {
     /* TRANS: default description of a requirement vector
      * (used in ruledit) */
     req_vec_description = _("the requirement vector");
+  } else {
+    req_vec_description = namer(change->vector_number);
   }
 
   switch (change->operation) {
@@ -3451,12 +3488,18 @@ const char *req_vec_change_translation(const struct req_vec_change *change,
   Returns TRUE iff the specified requirement vector modification was
   successfully applied to the specified target requirement vector.
   @param modification the requirement vector change
-  @param target the requirement vector the change should be applied to
+  @param getter a function that returns a pointer to the requirement
+                vector the change should be applied to given a ruleset
+                item and the vectors number in the item.
+  @param parent_item the item to apply the change to.
   @return if the specified modification was successfully applied
 **************************************************************************/
 bool req_vec_change_apply(const struct req_vec_change *modification,
-                          struct requirement_vector *target)
+                          requirement_vector_by_number getter,
+                          const void *parent_item)
 {
+  struct requirement_vector *target
+      = getter(parent_item, modification->vector_number);
   int i = 0;
 
   switch (modification->operation) {
@@ -3509,7 +3552,7 @@ struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
   for (i = 0; i < out->num_suggested_solutions; i++) {
     /* No suggestions are ready yet. */
     out->suggested_solutions[i].operation = RVCO_NOOP;
-    out->suggested_solutions[i].based_on = NULL;
+    out->suggested_solutions[i].vector_number = -1;
     out->suggested_solutions[i].req.source.kind = VUT_NONE;
   }
 
@@ -3535,16 +3578,28 @@ void req_vec_problem_free(struct req_vec_problem *issue)
   It is the responsibility of the caller to free the suggestion when it is
   done with it.
   @param vec the requirement vector to look in.
+  @param get_num function that returns the requirement vector's number in
+                 the parent item.
+  @param parent_item the item that owns the vector.
   @return the first self contradiction found.
 **************************************************************************/
 struct req_vec_problem *
-req_vec_get_first_contradiction(const struct requirement_vector *vec)
+req_vec_get_first_contradiction(const struct requirement_vector *vec,
+                                requirement_vector_number get_num,
+                                const void *parent_item)
 {
   int i, j;
+  req_vec_num_in_item vec_num;
 
   if (vec == NULL || requirement_vector_size(vec) == 0) {
     /* No vector. */
     return NULL;
+  }
+
+  if (get_num == NULL || parent_item == NULL) {
+    vec_num = 0;
+  } else {
+    vec_num = get_num(parent_item, vec);
   }
 
   /* Look for contradictions */
@@ -3562,11 +3617,11 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec)
 
         /* The solution is to remove one of the contradictions. */
         problem->suggested_solutions[0].operation = RVCO_REMOVE;
-        problem->suggested_solutions[0].based_on = vec;
+        problem->suggested_solutions[0].vector_number = vec_num;
         problem->suggested_solutions[0].req = *preq;
 
         problem->suggested_solutions[1].operation = RVCO_REMOVE;
-        problem->suggested_solutions[1].based_on = vec;
+        problem->suggested_solutions[1].vector_number = vec_num;
         problem->suggested_solutions[1].req = *nreq;
 
         /* Only the first contradiction is reported. */
