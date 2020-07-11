@@ -3117,7 +3117,7 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
   adjc_iterate(&(wld.map), ptile, tile1) {
     struct city *pcity = tile_city(tile1);
 
-    if (pcity && !is_terrain_class_near_tile(tile1, TC_OCEAN)) {
+    if (pcity) {
       struct player *pplayer = city_owner(pcity);
 
       /* Sell all buildings (but not Wonders) that must be next to the ocean */
@@ -3128,9 +3128,10 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 
 	requirement_vector_iterate(&pimprove->reqs, preq) {
 	  if ((VUT_TERRAIN == preq->source.kind
-               || VUT_TERRAINCLASS == preq->source.kind)
+               || VUT_TERRAINCLASS == preq->source.kind
+               || VUT_TERRFLAG == preq->source.kind)
               && !is_req_active(city_owner(pcity), NULL, pcity, NULL,
-                                NULL, NULL, NULL, NULL, NULL, NULL,
+                                pcity->tile, NULL, NULL, NULL, NULL, NULL,
 				preq, TRUE)) {
             int price = impr_sell_gold(pimprove);
 
