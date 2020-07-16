@@ -74,7 +74,7 @@ using MSYS2 from http://msys2.github.io
 2.1.2.1) Arch-specific packages for building common parts
  - mingw-w64-i686-gcc / mingw-w64-x86_64-gcc
  - mingw-w64-i686-curl / mingw-w64-x86_64-curl
- - mingw-w64-i686-bzip2 / mingw-w64-x64_64-bzip2
+ - mingw-w64-i686-bzip2 / mingw-w64-x86_64-bzip2
  - mingw-w64-i686-readline / mingw-w64-x86_64-readline
  - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
