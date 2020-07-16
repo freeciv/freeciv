@@ -1,0 +1,44 @@
+name: msys2
+
+on:
+  - pull_request
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: windows-2019
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        uses: msys2/setup-msys2@v1
+        with:
+          install: >
+            make
+            gettext
+            pkg-config
+            git
+            automake
+            libtool
+            autoconf
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-icu
+            mingw-w64-x86_64-curl
+            mingw-w64-x86_64-bzip2
+            mingw-w64-x86_64-readline
+            mingw-w64-x86_64-imagemagick
+            mingw-w64-x86_64-SDL2_mixer
+            mingw-w64-x86_64-drmingw
+            mingw-w64-x86_64-tolua
+            mingw-w64-x86_64-gtk3
+            mingw-w64-x86_64-qt5
+            mingw-w64-x86_64-SDL2_image
+            mingw-w64-x86_64-SDL2_ttf
+            mingw-w64-x86_64-SDL2_gfx
+            mingw-w64-x86_64-nsis
+      - name: build
+        shell: msys2 {0}
+        run: |
+          cd windows/installer_msys2
+          make -j$(nproc) snapshot
