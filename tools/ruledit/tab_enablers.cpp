@@ -407,17 +407,22 @@ void tab_enabler::edit_actor_reqs()
 **************************************************************************/
 fix_enabler_item::fix_enabler_item(struct action_enabler *enabler)
 {
+  char buf[MAX_LEN_NAME * 2];
   struct action *paction = action_by_number(enabler->action);
 
   fc_assert_ret(paction);
+
+  /* Can't use QString::asprintf() as msys libintl.h defines asprintf()
+   * as a macro */
+  fc_snprintf(buf, sizeof(buf),
+              R__("action enabler for %s"), action_rule_name(paction));
 
   /* Don't modify the original until the user accepts */
   local_copy = action_enabler_copy(enabler);
   current_enabler = enabler;
 
   /* As precise a title as possible */
-  my_name = QString::asprintf(R__("action enabler for %s"),
-                              action_rule_name(paction));
+  my_name = QString(buf);
 }
 
 /**********************************************************************//**
