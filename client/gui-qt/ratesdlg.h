@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2003 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -99,7 +99,7 @@ class multipler_rates_dialog: public QDialog
   Q_OBJECT
 
 public:
-  explicit multipler_rates_dialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
+  explicit multipler_rates_dialog(QWidget* parent = 0);
 private:
   QList<QSlider*> slider_list;
   QPushButton *cancel_button;
