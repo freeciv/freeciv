@@ -586,6 +586,8 @@ terrains = "\
 ;                        Nonzero values only affect extras with build_time 0.\n\
 ; road_time            = time to build roads; if 0, cannot build any roads.\n\
 ;                        Nonzero values only affect extras with build_time 0.\n\
+; cultivate_time       = time to cultivate\n\
+; plant_time           = time to plant\n\
 ; irrigation_result    = result of 'irrigate' activity; one of:\n\
 ;                        \"no\"  -- cannot irrigate\n\
 ;                        \"yes\" -- can build extra\n\

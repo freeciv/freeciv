@@ -104,6 +104,8 @@ ocean_resources = FALSE
 ;                        Nonzero values only affect extras with build_time 0.
 ; road_time            = time to build roads; if 0, cannot build any roads.
 ;                        Nonzero values only affect extras with build_time 0.
+; cultivate_time       = time to cultivate
+; plant_time           = time to plant
 ; irrigation_result    = result of 'irrigate' activity; one of:
 ;                        "no"  -- cannot irrigate
 ;                        "yes" -- can build extra
@@ -212,6 +214,8 @@ road_shield_incr_pct = 0
 road_trade_incr_pct  = 100
 base_time            = 1
 road_time            = 1
+cultivate_time       = 0
+plant_time           = 0
 irrigation_result    = "yes"
 irrigation_food_incr = 1
 irrigation_time      = 5
@@ -256,6 +260,8 @@ road_shield_incr_pct = 0
 road_trade_incr_pct  = 100
 base_time            = 1
 road_time            = 1
+cultivate_time       = 0
+plant_time           = 0
 irrigation_result    = "no"
 irrigation_food_incr = 0
 irrigation_time      = 0

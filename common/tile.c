@@ -444,9 +444,9 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   case ACTIVITY_TRANSFORM:
     return pterrain->transform_time * ACTIVITY_FACTOR;
   case ACTIVITY_CULTIVATE:
-    return pterrain->irrigation_time * ACTIVITY_FACTOR;
+    return pterrain->cultivate_time * ACTIVITY_FACTOR;
   case ACTIVITY_PLANT:
-    return pterrain->mining_time * ACTIVITY_FACTOR;
+    return pterrain->plant_time * ACTIVITY_FACTOR;
   case ACTIVITY_IRRIGATE:
   case ACTIVITY_MINE:
   case ACTIVITY_BASE:

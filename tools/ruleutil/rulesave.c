@@ -2166,6 +2166,12 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, pterr->base_time, "%s.base_time", path);
     secfile_insert_int(sfile, pterr->road_time, "%s.road_time", path);
 
+    secfile_insert_int(sfile, pterr->cultivate_time,
+                       "%s.cultivate_time", path);
+
+    secfile_insert_int(sfile, pterr->plant_time,
+                       "%s.plant_time", path);
+
     save_terrain_ref(sfile, pterr->irrigation_result, pterr, path,
                      "irrigation_result");
     secfile_insert_int(sfile, pterr->irrigation_food_incr,

@@ -3014,6 +3014,37 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
+      if (!lookup_time(file, &pterrain->cultivate_time,
+                       tsection, "cultivate_time", filename, NULL, &ok)) {
+        if (compat->compat_mode) {
+          if (pterrain->irrigation_result != pterrain) {
+            pterrain->cultivate_time = pterrain->irrigation_time;
+            pterrain->irrigation_time = 0;
+          } else {
+            pterrain->cultivate_time = 0;
+          }
+        } else {
+          ok = FALSE;
+          break;
+        }
+      }
+
+      if (!lookup_time(file, &pterrain->plant_time,
+                       tsection, "plant_time", filename, NULL, &ok)) {
+        if (compat->compat_mode) {
+          if (pterrain->mining_result != pterrain) {
+            pterrain->plant_time = pterrain->mining_time;
+            pterrain->mining_time = 0;
+          } else {
+            pterrain->plant_time = 0;
+          }
+        } else {
+          ok = FALSE;
+          break;
+        }
+
+      }
+
       if (!lookup_unit_type(file, tsection, "animal",
                             &pterrain->animal, filename,
                             rule_name_get(&pterrain->name))) {
@@ -7561,6 +7592,10 @@ static void send_ruleset_terrain(struct conn_list *dest)
 
     packet.base_time = pterrain->base_time;
     packet.road_time = pterrain->road_time;
+
+    packet.cultivate_time = pterrain->cultivate_time;
+
+    packet.plant_time = pterrain->plant_time;
 
     packet.irrigation_result = (pterrain->irrigation_result
 				? terrain_number(pterrain->irrigation_result)

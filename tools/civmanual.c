@@ -459,8 +459,8 @@ static bool manual_command(struct tag_types *tag_info)
       fprintf(doc, "<table><tr bgcolor=#9bc3d1><th colspan=2>%s</th>", _("Terrain"));
       fprintf(doc, "<th>F/P/T</th><th>%s</th>", _("Resources"));
       fprintf(doc, "<th>%s<br/>%s</th>", _("Move cost"), _("Defense bonus"));
-      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
-              _("Irrigation"), _("Mining"), _("Transform"),
+      fprintf(doc, "<th>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>%s<br/>(%s)</th>",
+              _("Irrigation"), _("Cultivate"), _("Mining"), _("Plant"), _("Transform"),
               /* xgettext:no-c-format */
               _("% of Road bonus"), _("turns"));
       fprintf(doc, "<th>%s<br/>%s</th>",
@@ -509,25 +509,33 @@ static bool manual_command(struct tag_types *tag_info)
                 pterrain->movement_cost, pterrain->defense_bonus);
 
         fprintf(doc, "<td><table width=\"100%%\">\n");
-        if (pterrain->irrigation_result == pterrain) {
+        if (pterrain->irrigation_time != 0) {
           fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->irrigation_food_incr, pterrain->irrigation_time);
-        } else if (pterrain->irrigation_result == T_NONE) {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         } else {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
+        }
+        if (pterrain->irrigation_result != NULL
+            && pterrain->irrigation_result != pterrain) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
                   terrain_name_translation(pterrain->irrigation_result),
-                  pterrain->irrigation_time);
+                  pterrain->cultivate_time);
+        } else {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->mining_result == pterrain) {
+        if (pterrain->mining_time != 0) {
           fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->mining_shield_incr, pterrain->mining_time);
-        } else if (pterrain->mining_result == T_NONE) {
-          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         } else {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
+        }
+        if (pterrain->mining_result != NULL
+            && pterrain->mining_result != pterrain) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
                   terrain_name_translation(pterrain->mining_result),
-                  pterrain->mining_time);
+                  pterrain->plant_time);
+        } else {
+          fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
 
         if (pterrain->transform_result) {
