@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-01-06 07:43+0100\n"
-"PO-Revision-Date: 2020-01-06 08:37+0100\n"
+"POT-Creation-Date: 2020-07-27 19:43+0200\n"
+"PO-Revision-Date: 2020-07-27 22:09+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/requirers_dlg.cpp:43
-#: tools/ruledit/req_edit.cpp:130
+#: tools/ruledit/req_edit.cpp:133
 msgid "Close"
 msgstr "Fermer"
 
@@ -86,7 +86,7 @@ msgstr "Essayez d'utiliser --help.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Option non reconnue \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:125
+#: tools/ruledit/ruledit_qt.cpp:126
 #, c-format
 msgid ""
 "%s%s\n"
@@ -95,75 +95,75 @@ msgstr ""
 "%s%s\n"
 "commit : %s"
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:137
 msgid "Give ruleset to use as starting point."
 msgstr "Donner les règles du jeu à utiliser comme point de départ."
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:149
 msgid "Start editing"
 msgstr "Commencer l'édition"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:159
 msgid "Misc"
 msgstr "Divers"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:161
 msgid "Tech"
 msgstr "Technologies"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:163
 msgid "Buildings"
 msgstr "Bâtiments"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Units"
 msgstr "Unités"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:167
 msgid "Goods"
 msgstr "Biens"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:169
 msgid "Governments"
 msgstr "Gouvernements"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:171
 msgid "Enablers"
-msgstr "Facilitateurs"
+msgstr "Activateurs"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Extras"
 msgstr "Extras"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:175
 msgid "Terrains"
 msgstr "Terrains"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:177
 msgid "Nations"
 msgstr "Nations"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:186
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenue sur l'éditeur de règles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:215
+#: tools/ruledit/ruledit_qt.cpp:220
 msgid "Ruleset loaded"
 msgstr "Règles du jeu chargées"
 
-#: tools/ruledit/ruledit_qt.cpp:236
+#: tools/ruledit/ruledit_qt.cpp:241
 msgid "Ruleset loading failed!"
 msgstr "Impossible de charger les règles du jeu !"
 
-#: tools/ruledit/ruledit_qt.cpp:315
+#: tools/ruledit/ruledit_qt.cpp:369
 msgid "Freeciv Ruleset Editor"
 msgstr "Éditeur de règles du jeu de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:331
+#: tools/ruledit/ruledit_qt.cpp:385
 msgid "Are you sure you want to quit?"
 msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 
-#: tools/ruledit/ruledit_qt.cpp:335
+#: tools/ruledit/ruledit_qt.cpp:389
 msgid "Quit?"
 msgstr "Quitter ?"
 
@@ -189,46 +189,56 @@ msgstr "Ajouter un bâtiment"
 msgid "Remove this Building"
 msgstr "Supprimer ce bâtiment"
 
-#: tools/ruledit/tab_building.cpp:169
+#: tools/ruledit/tab_building.cpp:176
 msgid "A building with that rule name already exists!"
 msgstr "Un bâtiment avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/tab_enablers.cpp:65
+#: tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr "Type"
 
-#: tools/ruledit/tab_enablers.cpp:86
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
-msgstr "Prérequis d'acteurs"
+msgstr "Prérequis de l'acteur"
 
-#: tools/ruledit/tab_enablers.cpp:90
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
-msgstr "Prérequis de cible"
+msgstr "Prérequis de la cible"
 
-#: tools/ruledit/tab_enablers.cpp:94
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
-msgstr "Ajouter un facilitateur"
+msgstr "Ajouter un activateur"
 
-#: tools/ruledit/tab_enablers.cpp:99
+#: tools/ruledit/tab_enablers.cpp:156
 msgid "Remove this Enabler"
-msgstr "Supprimer ce facilitateur"
+msgstr "Supprimer cet activateur"
 
-#: tools/ruledit/tab_enablers.cpp:240
-msgid "Obligatory hard requirements"
-msgstr "Prérequis obligatoires forts"
+#. TRANS: Fix an error in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:226
+msgid "Repair Enabler"
+msgstr "Réparer l'activateur"
 
-#: tools/ruledit/tab_enablers.cpp:243
-msgid "Changing action to %1 will modify enabler requirements. Continue?"
-msgstr ""
-"Changer l'action en %1 modifiera les prérequis du facilitateur. Continuer ?"
+#. TRANS: Fix a non error issue in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:231
+msgid "Improve Enabler"
+msgstr "Améliorer l'activateur"
 
-#: tools/ruledit/tab_enablers.cpp:277
+#: tools/ruledit/tab_enablers.cpp:235 tools/ruledit/tab_enablers.cpp:247
+msgid "Enabler Issues"
+msgstr "Problèmes d'activateurs"
+
+#: tools/ruledit/tab_enablers.cpp:388
 msgid "Enabler (target)"
-msgstr "Facilitateur (cible)"
+msgstr "Activateur (cible)"
 
-#: tools/ruledit/tab_enablers.cpp:288
+#: tools/ruledit/tab_enablers.cpp:399
 msgid "Enabler (actor)"
-msgstr "Facilitateur (acteur)"
+msgstr "Activateur (acteur)"
+
+#: tools/ruledit/tab_enablers.cpp:418
+#, c-format
+msgid "action enabler for %s"
+msgstr "activateur d'action pour %s"
 
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
@@ -238,9 +248,9 @@ msgstr "Ajouter un bien"
 msgid "Remove this Good"
 msgstr "Supprimer ce bien"
 
-#: tools/ruledit/tab_good.cpp:171
+#: tools/ruledit/tab_good.cpp:178
 msgid "A good with that rule name already exists!"
-msgstr "Un bien avec ce nom existe déjà dans les règles !"
+msgstr "Un bien avec ce nom de règle existe déjà !"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
@@ -338,7 +348,7 @@ msgstr "Multiplicateurs"
 msgid "Refresh Stats"
 msgstr "Rafraichir les stats"
 
-#: tools/ruledit/tab_misc.cpp:235
+#: tools/ruledit/tab_misc.cpp:239
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
 
@@ -374,7 +384,7 @@ msgstr "Supprimer cette technologie"
 msgid "Never"
 msgstr "Jamais"
 
-#: tools/ruledit/tab_tech.cpp:330
+#: tools/ruledit/tab_tech.cpp:349
 msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 
@@ -390,27 +400,27 @@ msgstr "Ajouter une unité"
 msgid "Remove this Unit"
 msgstr "Supprimer cette unité"
 
-#: tools/ruledit/tab_unit.cpp:170
+#: tools/ruledit/tab_unit.cpp:177
 msgid "A unit type with that rule name already exists!"
 msgstr "Une unité avec ce nom existe déjà dans les règles !"
 
-#: tools/ruledit/req_edit.cpp:63
+#: tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Type :"
 
-#: tools/ruledit/req_edit.cpp:81
+#: tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Valeur :"
 
-#: tools/ruledit/req_edit.cpp:97
+#: tools/ruledit/req_edit.cpp:100
 msgid "Range:"
 msgstr "Plage :"
 
-#: tools/ruledit/req_edit.cpp:122
+#: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Ajouter prerequis"
 
-#: tools/ruledit/req_edit.cpp:126
+#: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Supprimer prérequis"
 
@@ -433,6 +443,14 @@ msgstr "Extra en conflit"
 #: tools/ruledit/validity.c:259
 msgid "Hidden extra"
 msgstr "Extra caché"
+
+#~ msgid "Obligatory hard requirements"
+#~ msgstr "Prérequis obligatoires forts"
+
+#~ msgid "Changing action to %1 will modify enabler requirements. Continue?"
+#~ msgstr ""
+#~ "Changer l'action en %1 modifiera les prérequis du facilitateur. "
+#~ "Continuer ?"
 
 #~ msgid "Techs"
 #~ msgstr "Technologies"
