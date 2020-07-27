@@ -1357,7 +1357,7 @@ void city_map::context_menu(QPoint point)
 
   if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
       && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
-    con_menu->addAction(_("Irrigate"));
+    con_menu->addAction(_("Cultivate"));
   } else if (pterr->irrigation_result == pterr
              && action_id_univs_not_blocking(ACTION_IRRIGATE,
                                              NULL, &for_terr)) {
