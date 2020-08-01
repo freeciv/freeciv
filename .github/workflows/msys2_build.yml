@@ -12,7 +12,7 @@ jobs:
       - name: check out Freeciv
         uses: actions/checkout@v2
       - name: install dependencies
-        uses: msys2/setup-msys2@v1
+        uses: msys2/setup-msys2@v2
         with:
           install: >
             make
