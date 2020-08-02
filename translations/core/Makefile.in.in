@@ -7,7 +7,7 @@
 # notice and this notice are preserved.  This file is offered as-is,
 # without any warranty.
 #
-# Origin: gettext-0.20.2
+# Origin: gettext-0.21
 GETTEXT_MACRO_VERSION = 0.20
 
 PACKAGE = @PACKAGE@
@@ -415,12 +415,17 @@ dist distdir:
 	@$(MAKE) dist2
 # This is a separate target because 'update-po' must be executed before.
 dist2: $(srcdir)/stamp-po $(DISTFILES)
-	dists="$(DISTFILES)"; \
+	@dists="$(DISTFILES)"; \
 	if test "$(PACKAGE)" = "gettext-tools"; then \
 	  dists="$$dists Makevars.template"; \
 	fi; \
 	if test -f $(srcdir)/$(DOMAIN).pot; then \
 	  dists="$$dists $(DOMAIN).pot stamp-po"; \
+	else \
+	  case $(XGETTEXT) in \
+	    :) echo "Warning: Creating a tarball without '$(DOMAIN).pot', because a suitable 'xgettext' program was not found in PATH." 1>&2;; \
+	    *) echo "Warning: Creating a tarball without '$(DOMAIN).pot', because 'xgettext' found no strings to extract. Check the contents of the POTFILES.in file and the XGETTEXT_OPTIONS in the Makevars file." 1>&2;; \
+	  esac; \
 	fi; \
 	if test -f $(srcdir)/ChangeLog; then \
 	  dists="$$dists ChangeLog"; \
