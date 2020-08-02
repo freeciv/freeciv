@@ -97,6 +97,7 @@ void luascript_vars_save(struct fc_lua *fcl, struct section_file *file,
 void luascript_vars_load(struct fc_lua *fcl, struct section_file *file,
                          const char *section);
 
+const Direction *luascript_dir(enum direction8);
 
 /* Returns additional arguments on failure. */
 #define LUASCRIPT_ASSERT_CAT(str1, str2) str1 ## str2
