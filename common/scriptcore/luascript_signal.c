@@ -270,7 +270,7 @@ void deprecate_signal(signal_deprecator *deprecator, char *signal_name,
                   "Use \"%s\" instead", signal_name, deprecated_since, replacement);
     } else if (replacement != NULL) {
       fc_snprintf(buffer, sizeof(buffer),
-                  "Deprecated: lua signal \"%s\" used. Use \"%s\" instad",
+                  "Deprecated: lua signal \"%s\" used. Use \"%s\" instead",
                   signal_name, replacement);
     } else {
       fc_snprintf(buffer, sizeof(buffer),
