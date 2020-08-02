@@ -28,6 +28,9 @@
 #include "log.h"
 #include "registry.h"
 
+/* common */
+#include "map.h"
+
 /* common/scriptcore */
 #include "luascript_func.h"
 #include "luascript_signal.h"
@@ -762,4 +765,30 @@ void luascript_vars_load(struct fc_lua *fcl, struct section_file *file,
 
   vars = secfile_lookup_str_default(file, "", "%s", section);
   luascript_do_string(fcl, vars, section);
+}
+
+/* FIXME: tolua-5.2 does not create a destructor for dynamically
+ * allocated objects in non-C++ code but tries to call it. */
+/* Thus, avoid returning any non-basic types. If you need them, put here
+ * constructors returning them in lua_Object registering their destructor
+ * in tolua system. (None yet.) */
+
+/* To avoid the complexity and overheads of creating such objects for
+ * 4-bit enums, here is a helper function to return Direction objects. */
+/********************************************************************//******
+  Returns a pointer to a given value of enum direction8 (always the same
+  address for the same value), or NULL if the direction is invalid
+  on the current map.
+****************************************************************************/
+const Direction *luascript_dir(enum direction8 dir)
+{
+  static const
+   Direction etalon[8] = {DIR8_NORTHWEST, DIR8_NORTH, DIR8_NORTHEAST,
+                          DIR8_WEST,                  DIR8_EAST,
+                          DIR8_SOUTHWEST, DIR8_SOUTH, DIR8_SOUTHEAST};
+  if (is_valid_dir(dir)) {
+    return &etalon[dir];
+  } else {
+    return NULL;
+  }
 }
