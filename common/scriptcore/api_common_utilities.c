@@ -73,55 +73,55 @@ void api_utilities_log_base(lua_State *L, int level, const char *message)
 /**************************************************************************
   Convert text describing direction into direction
 **************************************************************************/
-Direction api_utilities_str2dir(lua_State *L, const char *dir)
+const Direction *api_utilities_str2dir(lua_State *L, const char *dir)
 {
-  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
-  LUASCRIPT_CHECK_ARG_NIL(L, dir, 2, string, direction8_invalid());
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, dir, 2, string, NULL);
 
-  return direction8_by_name(dir, fc_strcasecmp);
+  return luascript_dir(direction8_by_name(dir, fc_strcasecmp));
 }
 
 /**************************************************************************
   Previous (counter-clockwise) valid direction
 **************************************************************************/
-Direction api_utilities_dir_ccw(lua_State *L, Direction dir)
+const Direction *api_utilities_dir_ccw(lua_State *L, Direction dir)
 {
   Direction new_dir = dir;
 
-  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+  LUASCRIPT_CHECK_STATE(L, NULL);
 
   do {
     new_dir = dir_ccw(new_dir);
   } while (!is_valid_dir(new_dir));
 
-  return new_dir;
+  return luascript_dir(new_dir);
 }
 
 /**************************************************************************
   Next (clockwise) valid direction
 **************************************************************************/
-Direction api_utilities_dir_cw(lua_State *L, Direction dir)
+const Direction *api_utilities_dir_cw(lua_State *L, Direction dir)
 {
   Direction new_dir = dir;
 
-  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+  LUASCRIPT_CHECK_STATE(L, NULL);
 
   do {
     new_dir = dir_cw(new_dir);
   } while (!is_valid_dir(new_dir));
 
-  return new_dir;
+  return luascript_dir(new_dir);
 }
 
 /**************************************************************************
   Opposite direction - validity not checked, but it's valid iff
   original direction is.
 **************************************************************************/
-Direction api_utilities_opposite_dir(lua_State *L, Direction dir)
+const Direction *api_utilities_opposite_dir(lua_State *L, Direction dir)
 {
-  LUASCRIPT_CHECK_STATE(L, direction8_invalid());
+  LUASCRIPT_CHECK_STATE(L, NULL);
 
-  return opposite_direction(dir);
+  return luascript_dir(opposite_direction(dir));
 }
 
 /**************************************************************************

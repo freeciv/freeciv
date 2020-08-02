@@ -220,7 +220,7 @@ module Unit {
     @ transporter (lua_State *L, Unit *self);
   bool api_methods_unit_city_can_be_built_here
     @ is_on_possible_city_tile (lua_State *L, Unit *self);
-  Direction api_methods_unit_orientation_get
+  Direction *api_methods_unit_orientation_get
     @ facing(lua_State *L, Unit *self);
 }
 
@@ -485,13 +485,13 @@ module effects {
 
 /* Direction module */
 module direction {
- Direction api_utilities_str2dir
+ Direction *api_utilities_str2dir
    @ str2dir(lua_State *L, const char *str);
- Direction api_utilities_dir_ccw
+ Direction *api_utilities_dir_ccw
    @ next_ccw(lua_State *L, Direction self);
- Direction api_utilities_dir_cw
+ Direction *api_utilities_dir_cw
    @ next_cw(lua_State *L, Direction self);
- Direction api_utilities_opposite_dir
+ Direction *api_utilities_opposite_dir
    @ opposite(lua_State *L, Direction self);
 }
 
