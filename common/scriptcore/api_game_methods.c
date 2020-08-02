@@ -298,7 +298,8 @@ bool api_methods_is_city_happy(lua_State *L, City *pcity)
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
-  return city_happy(pcity);
+  /* Note: if clients ever have virtual cities or sth, needs amending */
+  return is_server() ? city_happy(pcity) : pcity->client.happy;
 }
 
 /*************************************************************************//**
@@ -309,7 +310,8 @@ bool api_methods_is_city_unhappy(lua_State *L, City *pcity)
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
 
-  return city_unhappy(pcity);
+  /* Note: if clients ever have virtual cities or sth, needs amending */
+  return is_server() ? city_unhappy(pcity) : pcity->client.unhappy;
 }
 
 /*************************************************************************//**
