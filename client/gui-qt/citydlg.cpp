@@ -1348,35 +1348,35 @@ void city_map::context_menu(QPoint point)
 
   if (pterr->mining_result != pterr && pterr->mining_result != NULL
       && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
-    con_menu->addAction(_("Plant"));
+    con_mine_tf = con_menu->addAction(_("Plant"));
   } else if (pterr->mining_result == pterr
              && action_id_univs_not_blocking(ACTION_MINE,
                                              NULL, &for_terr)) {
-    con_menu->addAction(_("Mine"));
+    con_mine = con_menu->addAction(_("Mine"));
   }
 
   if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
       && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
-    con_menu->addAction(_("Cultivate"));
+    con_irrig_tf = con_menu->addAction(_("Cultivate"));
   } else if (pterr->irrigation_result == pterr
              && action_id_univs_not_blocking(ACTION_IRRIGATE,
                                              NULL, &for_terr)) {
-    con_menu->addAction(_("Irrigate"));
+    con_irrig = con_menu->addAction(_("Irrigate"));
   }
 
   if (pterr->transform_result != pterr && pterr->transform_result != NULL
       && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                       NULL, &for_terr)) {
-    con_menu->addAction(_("Transform"));
+    con_trfrm = con_menu->addAction(_("Transform"));
   }
 
   if (next_extra_for_tile(ptile, EC_ROAD, city_owner(mcity), NULL) != NULL) {
-    con_menu->addAction(_("Road"));
+    con_road = con_menu->addAction(_("Road"));
   }
 
   if (prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                          city_owner(mcity), NULL) != NULL) {
-    con_menu->addAction(_("Clean Pollution"));
+    con_pollution = con_menu->addAction(_("Clean Pollution"));
   }
 
   if (prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
