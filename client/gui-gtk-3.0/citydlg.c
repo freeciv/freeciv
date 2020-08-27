@@ -2864,9 +2864,9 @@ static void set_city_workertask(GtkWidget *w, gpointer data)
 
       if ((act != ACTIVITY_TRANSFORM
            || pterr->transform_result == NULL || pterr->transform_result == pterr)
-          && (act != ACTIVITY_IRRIGATE
+          && (act != ACTIVITY_CULTIVATE
               || pterr->irrigation_result == NULL || pterr->irrigation_result == pterr)
-          && (act != ACTIVITY_MINE
+          && (act != ACTIVITY_PLANT
               || pterr->mining_result == NULL || pterr->mining_result == pterr)) {
         /* No extra to order */
         output_window_append(ftc_client, _("There's no suitable extra to order."));
@@ -2923,23 +2923,31 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_LAST), FALSE, NULL);
     }
 
-    if ((pterr->mining_result == pterr
-         && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr))
-        || (pterr->mining_result != pterr && pterr->mining_result != NULL
-            && action_id_univs_not_blocking(ACTION_PLANT,
-                                            NULL, &for_terr))) {
+    if (pterr->mining_result == pterr
+        && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
       choice_dialog_add(shl, _("Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
     }
-    if ((pterr->irrigation_result == pterr
-         && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr))
-        || (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
-            && action_id_univs_not_blocking(ACTION_CULTIVATE,
-                                            NULL, &for_terr))) {
+    if (pterr->mining_result != pterr && pterr->mining_result != NULL
+        && action_id_univs_not_blocking(ACTION_PLANT,
+                                        NULL, &for_terr)) {
+      choice_dialog_add(shl, _("Plant"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_PLANT), FALSE, NULL);
+    }
+    if (pterr->irrigation_result == pterr
+        && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
       choice_dialog_add(shl, _("Irrigate"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_IRRIGATE), FALSE, NULL);
+    }
+    if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
+        && action_id_univs_not_blocking(ACTION_CULTIVATE,
+                                        NULL, &for_terr)) {
+      choice_dialog_add(shl, _("Cultivate"),
+                        G_CALLBACK(set_city_workertask),
+                        GINT_TO_POINTER(ACTIVITY_CULTIVATE), FALSE, NULL);
     }
     if (next_extra_for_tile(ptile, EC_ROAD, city_owner(pcity), NULL) != NULL) {
       choice_dialog_add(shl, _("Road"),

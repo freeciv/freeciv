@@ -1406,12 +1406,12 @@ void city_map::context_menu(QPoint point)
       task.activity = ACTIVITY_MINE;
       target = TRUE;
     } else if (act == con_mine_tf) {
-      task.activity = ACTIVITY_MINE;
+      task.activity = ACTIVITY_PLANT;
     } else if (act == con_irrig) {
       task.activity = ACTIVITY_IRRIGATE;
       target = TRUE;
     } else if (act == con_irrig_tf) {
-      task.activity = ACTIVITY_IRRIGATE;
+      task.activity = ACTIVITY_CULTIVATE;
     } else if (act == con_trfrm) {
       task.activity = ACTIVITY_TRANSFORM;
     } else if (act == con_pollution) {
