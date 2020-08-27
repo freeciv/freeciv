@@ -885,8 +885,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                       struct extra_type *target,
 				      const struct tile *ptile)
 {
-  struct terrain *pterrain = tile_terrain(ptile);
-
   /* Check that no build activity conflicting with one already in progress
    * gets executed. */
   /* FIXME: Should check also the cases where one of the activities is terrain
@@ -924,56 +922,32 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                           punit, ptile, target);
 
   case ACTIVITY_MINE:
-    if (pterrain->mining_result != pterrain
-        && pterrain->mining_result != T_NONE) {
-      return FALSE;
-    } else if (pterrain->mining_result == pterrain) {
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_MINE, punit,
-                                            ptile, target);
-    } else {
-      return FALSE;
-    }
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
+    return is_action_enabled_unit_on_tile(ACTION_MINE, punit,
+                                          ptile, target);
 
   case ACTIVITY_PLANT:
-    if (pterrain->mining_result != pterrain
-        && pterrain->mining_result != T_NONE) {
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_PLANT,
-                                            punit, ptile, NULL);
-    } else {
-      return FALSE;
-    }
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
+    return is_action_enabled_unit_on_tile(ACTION_PLANT,
+                                          punit, ptile, NULL);
 
   case ACTIVITY_IRRIGATE:
-    if (pterrain->irrigation_result != pterrain
-        && pterrain->irrigation_result != T_NONE) {
-      return FALSE;
-    } else if (pterrain->irrigation_result == pterrain) {
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_IRRIGATE, punit,
-                                            ptile, target);
-    } else {
-      return FALSE;
-    }
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
+    return is_action_enabled_unit_on_tile(ACTION_IRRIGATE, punit,
+                                          ptile, target);
 
   case ACTIVITY_CULTIVATE:
-    if (pterrain->irrigation_result != pterrain
-        && pterrain->irrigation_result != T_NONE) {
-      /* The call below doesn't support actor tile speculation. */
-      fc_assert_msg(unit_tile(punit) == ptile,
-                    "Please use action_speculate_unit_on_tile()");
-      return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
-                                            punit, ptile, NULL);
-    } else {
-      return FALSE;
-    }
+    /* The call below doesn't support actor tile speculation. */
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_tile()");
+    return is_action_enabled_unit_on_tile(ACTION_CULTIVATE,
+                                          punit, ptile, NULL);
 
   case ACTIVITY_FORTIFYING:
     /* The call below doesn't support actor tile speculation. */
