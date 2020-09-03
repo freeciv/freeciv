@@ -671,9 +671,9 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
 {
   switch (alter) {
    case TA_CAN_IRRIGATE:
-     return (pterrain == pterrain->irrigation_result);
+     return (pterrain->irrigation_time > 0);
    case TA_CAN_MINE:
-     return (pterrain == pterrain->mining_result);
+     return (pterrain->mining_time > 0);
    case TA_CAN_ROAD:
      return (pterrain->road_time > 0);
    default:

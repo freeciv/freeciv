@@ -1291,13 +1291,11 @@ static void help_update_terrain(const struct help_item *pitem,
                                HELP_TERRAIN, buf);
     }
 
-    if (pterrain->irrigation_result == pterrain
-        && pterrain->irrigation_time != 0
+    if (pterrain->irrigation_time != 0
         && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }
-    if (pterrain->mining_result == pterrain
-        && pterrain->mining_time != 0
+    if (pterrain->mining_time != 0
         && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
       help_extras_of_act_for_terrain(pterrain, ACTIVITY_MINE, _("Build as mine"));
     }

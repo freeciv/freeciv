@@ -1305,9 +1305,9 @@ void city_map::mousePressEvent(QMouseEvent *event)
 void city_map::context_menu(QPoint point)
 {
   int canvas_x, canvas_y, city_x, city_y;
-  QAction *con_irrig_tf = nullptr;
+  QAction *con_cultivate = nullptr;
   QAction *con_irrig = nullptr;
-  QAction *con_mine_tf = nullptr;
+  QAction *con_plant = nullptr;
   QAction *con_mine = nullptr;
   QAction *con_road = nullptr;
   QAction *con_trfrm = nullptr;
@@ -1349,19 +1349,21 @@ void city_map::context_menu(QPoint point)
 
   if (pterr->mining_result != pterr && pterr->mining_result != NULL
       && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
-    con_mine_tf = con_menu->addAction(_("Plant"));
-  } else if (pterr->mining_result == pterr
-             && action_id_univs_not_blocking(ACTION_MINE,
-                                             NULL, &for_terr)) {
+    con_plant = con_menu->addAction(_("Plant"));
+  }
+  if (pterr->mining_time != 0
+      && action_id_univs_not_blocking(ACTION_MINE,
+                                      NULL, &for_terr)) {
     con_mine = con_menu->addAction(_("Mine"));
   }
 
   if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
       && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
-    con_irrig_tf = con_menu->addAction(_("Cultivate"));
-  } else if (pterr->irrigation_result == pterr
-             && action_id_univs_not_blocking(ACTION_IRRIGATE,
-                                             NULL, &for_terr)) {
+    con_cultivate = con_menu->addAction(_("Cultivate"));
+  }
+  if (pterr->irrigation_time != 0
+      && action_id_univs_not_blocking(ACTION_IRRIGATE,
+                                      NULL, &for_terr)) {
     con_irrig = con_menu->addAction(_("Irrigate"));
   }
 
@@ -1406,12 +1408,12 @@ void city_map::context_menu(QPoint point)
     } else if (act == con_mine) {
       task.activity = ACTIVITY_MINE;
       target = TRUE;
-    } else if (act == con_mine_tf) {
+    } else if (act == con_plant) {
       task.activity = ACTIVITY_PLANT;
     } else if (act == con_irrig) {
       task.activity = ACTIVITY_IRRIGATE;
       target = TRUE;
-    } else if (act == con_irrig_tf) {
+    } else if (act == con_cultivate) {
       task.activity = ACTIVITY_CULTIVATE;
     } else if (act == con_trfrm) {
       task.activity = ACTIVITY_TRANSFORM;

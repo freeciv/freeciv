@@ -3654,24 +3654,14 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
     if (activity == ACTIVITY_IRRIGATE) {
       struct tile *ptile = unit_tile(punit);
-      struct terrain *pterrain = tile_terrain(ptile);
 
-      if (pterrain->irrigation_result != pterrain) {
-        required = FALSE;
-      } else {
-        activity_target = next_extra_for_tile(ptile, EC_IRRIGATION,
-                                              pplayer, punit);
-      }
+      activity_target = next_extra_for_tile(ptile, EC_IRRIGATION,
+                                            pplayer, punit);
     } else if (activity == ACTIVITY_MINE) {
       struct tile *ptile = unit_tile(punit);
-      struct terrain *pterrain = tile_terrain(ptile);
 
-      if (pterrain->mining_result != pterrain) {
-        required = FALSE;
-      } else {
-        activity_target = next_extra_for_tile(ptile, EC_MINE,
-                                              pplayer, punit);
-      }
+      activity_target = next_extra_for_tile(ptile, EC_MINE,
+                                            pplayer, punit);
     } else if (activity == ACTIVITY_BASE) {
       struct tile *ptile = unit_tile(punit);
       struct base_type *pbase =

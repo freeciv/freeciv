@@ -1430,7 +1430,7 @@ bool can_unit_do_connect(struct unit *punit,
                              &tgt->reqs, RPT_POSSIBLE);
     }
 
-    return pterrain == pterrain->irrigation_result
+    return pterrain->irrigation_time != 0
       && can_be_irrigated(ptile, punit)
       && can_build_extra(tgt, punit, ptile)
       && !is_activity_on_tile(ptile,

@@ -3741,10 +3741,6 @@ is_action_possible(const action_id wanted_action,
     if (pterrain->mining_time == 0) {
       return TRI_NO;
     }
-    if (pterrain->mining_result != pterrain) {
-      /* Mining is forbidden or will result in a terrain transformation. */
-      return TRI_NO;
-    }
 
     if (!can_build_extra(target_extra, actor_unit, target_tile)) {
       return TRI_NO;
@@ -3762,11 +3758,6 @@ is_action_possible(const action_id wanted_action,
 
     pterrain = tile_terrain(target_tile);
     if (pterrain->irrigation_time == 0) {
-      return TRI_NO;
-    }
-    if (pterrain->irrigation_result != pterrain) {
-      /* Irrigation is forbidden or will result in a terrain
-       * transformation. */
       return TRI_NO;
     }
 

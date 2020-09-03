@@ -92,12 +92,12 @@ static void check_specials(const char *file, const char *function, int line)
 
     extra_type_by_cause_iterate(EC_MINE, pextra) {
       if (tile_has_extra(ptile, pextra)) {
-        SANITY_TILE(ptile, pterrain->mining_result == pterrain);
+        SANITY_TILE(ptile, pterrain->mining_time != 0);
       }
     } extra_type_by_cause_iterate_end;
     extra_type_by_cause_iterate(EC_IRRIGATION, pextra) {
       if (tile_has_extra(ptile, pextra)) {
-        SANITY_TILE(ptile, pterrain->irrigation_result == pterrain);
+        SANITY_TILE(ptile, pterrain->irrigation_time != 0);
       }
     } extra_type_by_cause_iterate_end;
 
@@ -399,7 +399,6 @@ static void check_units(const char *file, const char *function, int line)
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
       struct tile *ptile = unit_tile(punit);
-      struct terrain *pterr = tile_terrain(ptile);
       struct city *pcity;
       struct city *phome;
       struct unit *ptrans = unit_transport_get(punit);
@@ -426,9 +425,7 @@ static void check_units(const char *file, const char *function, int line)
                     tile_get_info_text(ptile, TRUE, 0));
       }
 
-      if (activity_requires_target(punit->activity)
-          && (punit->activity != ACTIVITY_IRRIGATE || pterr->irrigation_result == pterr)
-          && (punit->activity != ACTIVITY_MINE || pterr->mining_result == pterr)) {
+      if (activity_requires_target(punit->activity)) {
         SANITY_CHECK(punit->activity_target != NULL);
       }
 

@@ -915,8 +915,8 @@ static void sg_special_set(struct tile *ptile, bv_extras *extras, char ch,
            * difference. */
           /* Can't use next_extra_for_tile() as it works for buildable extras only. */
 
-          if ((cause != EC_IRRIGATION || pterr->irrigation_result == pterr)
-              && (cause != EC_MINE || pterr->mining_result == pterr)
+          if ((cause != EC_IRRIGATION || pterr->irrigation_time != 0)
+              && (cause != EC_MINE || pterr->mining_time != 0)
               && (cause != EC_BASE || pterr->base_time != 0)
               && (cause != EC_ROAD || pterr->road_time != 0)) {
             extra_type_by_cause_iterate(cause, candidate) {

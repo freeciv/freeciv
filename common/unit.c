@@ -838,10 +838,8 @@ bool can_unit_do_activity(const struct unit *punit,
    * have to determine the target themselves */
   {
     struct tile *ptile = unit_tile(punit);
-    struct terrain *pterrain = tile_terrain(ptile);
 
-    if (activity == ACTIVITY_IRRIGATE
-        && pterrain->irrigation_result == pterrain) {
+    if (activity == ACTIVITY_IRRIGATE) {
       target = next_extra_for_tile(ptile,
                                    EC_IRRIGATION,
                                    unit_owner(punit),
@@ -849,8 +847,7 @@ bool can_unit_do_activity(const struct unit *punit,
       if (NULL == target) {
         return FALSE; /* No more irrigation extras available. */
       }
-    } else if (activity == ACTIVITY_MINE
-               && pterrain->mining_result == pterrain) {
+    } else if (activity == ACTIVITY_MINE) {
       target = next_extra_for_tile(ptile,
                                    EC_MINE,
                                    unit_owner(punit),

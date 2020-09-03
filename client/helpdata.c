@@ -207,30 +207,30 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
     CATLSTR(outbuf, outlen,
             /* TRANS: Header for fixed-width terrain alteration table.
              * TRANS: Translators cannot change column widths :( */
-            _("Terrain       Irrigation       Mining           Transform\n"));
+            _("Terrain       Cultivate        Plant            Transform\n"));
     CATLSTR(outbuf, outlen,
             "----------------------------------------------------------------\n");
     terrain_type_iterate(pterrain) {
       if (0 != strlen(terrain_rule_name(pterrain))) {
-        char irrigation_time[4], mining_time[4], transform_time[4];
-        const char *terrain, *irrigation_result,
-                   *mining_result,*transform_result;
+        char cultivation_time[4], plant_time[4], transform_time[4];
+        const char *terrain, *cultivate_result,
+                   *plant_result,*transform_result;
         struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
 
-        fc_snprintf(irrigation_time, sizeof(irrigation_time),
-                    "%d", pterrain->irrigation_time);
-        fc_snprintf(mining_time, sizeof(mining_time),
-                    "%d", pterrain->mining_time);
+        fc_snprintf(cultivation_time, sizeof(cultivation_time),
+                    "%d", pterrain->cultivate_time);
+        fc_snprintf(plant_time, sizeof(plant_time),
+                    "%d", pterrain->plant_time);
         fc_snprintf(transform_time, sizeof(transform_time),
                     "%d", pterrain->transform_time);
         terrain = terrain_name_translation(pterrain);
-        irrigation_result = 
+        cultivate_result =
           (pterrain->irrigation_result == pterrain
            || pterrain->irrigation_result == T_NONE
            || !action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr))
             ? ""
             : terrain_name_translation(pterrain->irrigation_result);
-        mining_result =
+        plant_result =
           (pterrain->mining_result == pterrain
            || pterrain->mining_result == T_NONE
            || !action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr))
@@ -248,12 +248,12 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             "%s%*s %3s %s%*s %3s %s%*s %3s %s\n",
             terrain,
             MAX(0, 12 - (int)get_internal_string_length(terrain)), "",
-            (pterrain->irrigation_result == T_NONE) ? "-" : irrigation_time,
-            irrigation_result,
-            MAX(0, 12 - (int)get_internal_string_length(irrigation_result)), "",
-            (pterrain->mining_result == T_NONE) ? "-" : mining_time,
-            mining_result,
-            MAX(0, 12 - (int)get_internal_string_length(mining_result)), "",
+            (pterrain->irrigation_result == T_NONE) ? "-" : cultivation_time,
+            cultivate_result,
+            MAX(0, 12 - (int)get_internal_string_length(cultivate_result)), "",
+            (pterrain->mining_result == T_NONE) ? "-" : plant_time,
+            plant_result,
+            MAX(0, 12 - (int)get_internal_string_length(plant_result)), "",
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,
             transform_result);
 
