@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-07-17 14:42+0200\n"
-"PO-Revision-Date: 2020-07-27 20:08+0200\n"
+"POT-Creation-Date: 2020-08-31 08:11+0200\n"
+"PO-Revision-Date: 2020-09-03 16:01+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -2034,8 +2034,8 @@ msgstr ""
 "Raccourci : s\n"
 "Sélectionner le type de ressource spéciale : Maj+s ou clic droit ici."
 
-#: client/editor.c:211 client/gui-gtk-3.0/citydlg.c:2945
-#: client/gui-gtk-3.22/citydlg.c:2962 client/gui-qt/citydlg.cpp:1374
+#: client/editor.c:211 client/gui-gtk-3.0/citydlg.c:2953
+#: client/gui-gtk-3.22/citydlg.c:2970 client/gui-qt/citydlg.cpp:1374
 #: common/fc_types.h:139 common/unit.c:647 data/civ1/terrain.ruleset:1058
 #: data/civ2/terrain.ruleset:1195 data/classic/terrain.ruleset:1490
 #: data/sandbox/terrain.ruleset:1683 data/civ2civ3/terrain.ruleset:1647
@@ -2205,14 +2205,14 @@ msgstr "(sans-nom)"
 #. TRANS: Used below. Separate so treasury content too can determine
 #. * if this is plural.
 #: client/gui-gtk-3.0/action_dialog.c:482
-#: client/gui-gtk-3.0/action_dialog.c:977 client/gui-gtk-3.0/citydlg.c:3050
+#: client/gui-gtk-3.0/action_dialog.c:977 client/gui-gtk-3.0/citydlg.c:3058
 #: client/gui-gtk-3.0/repodlgs.c:1567 client/gui-gtk-3.22/action_dialog.c:482
-#: client/gui-gtk-3.22/action_dialog.c:971 client/gui-gtk-3.22/citydlg.c:3067
+#: client/gui-gtk-3.22/action_dialog.c:971 client/gui-gtk-3.22/citydlg.c:3075
 #: client/gui-gtk-3.22/repodlgs.c:1566 client/gui-qt/citydlg.cpp:3289
 #: client/gui-qt/dialogs.cpp:3275 client/gui-qt/dialogs.cpp:3338
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:1656
 #: client/gui-sdl2/action_dialog.c:1919 client/gui-sdl2/citydlg.c:1145
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1291 common/unit.c:1945
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1291 common/unit.c:1919
 #: server/unithand.c:1701 server/unithand.c:2382
 #, c-format
 msgid "Treasury contains %d gold."
@@ -2956,7 +2956,7 @@ msgid "Clear request"
 msgstr "Effacer la demande"
 
 #. TRANS: Activity name, verb in English
-#: client/gui-gtk-3.0/citydlg.c:2931 client/gui-gtk-3.22/citydlg.c:2948
+#: client/gui-gtk-3.0/citydlg.c:2928 client/gui-gtk-3.22/citydlg.c:2945
 #: client/gui-qt/citydlg.cpp:1355 common/fc_types.h:107 common/unit.c:620
 #: data/civ1/terrain.ruleset:914 data/civ2/terrain.ruleset:986
 #: data/classic/terrain.ruleset:1168 data/sandbox/terrain.ruleset:1196
@@ -2965,13 +2965,29 @@ msgstr "Effacer la demande"
 msgid "Mine"
 msgstr "Mine"
 
-#: client/gui-gtk-3.0/citydlg.c:2940 client/gui-gtk-3.22/citydlg.c:2957
-#: client/gui-qt/citydlg.cpp:1360 client/gui-qt/citydlg.cpp:1364
-#: common/fc_types.h:109 common/unit.c:625
+#. TRANS: Activity name, verb in English
+#: client/gui-gtk-3.0/citydlg.c:2935 client/gui-gtk-3.0/menu.c:507
+#: client/gui-gtk-3.22/citydlg.c:2952 client/gui-gtk-3.22/menu.c:510
+#: client/gui-qt/citydlg.cpp:1351 client/gui-qt/menu.cpp:1299
+#: client/gui-qt/menu.cpp:2161 client/gui-qt/menu.cpp:2164
+#: client/gui-qt/shortcuts.cpp:117 common/fc_types.h:145 common/unit.c:623
+msgid "Plant"
+msgstr "Planter"
+
+#: client/gui-gtk-3.0/citydlg.c:2941 client/gui-gtk-3.22/citydlg.c:2958
+#: client/gui-qt/citydlg.cpp:1364 common/fc_types.h:109 common/unit.c:625
 msgid "Irrigate"
 msgstr "Irriguer"
 
-#: client/gui-gtk-3.0/citydlg.c:2952 client/gui-gtk-3.22/citydlg.c:2969
+#: client/gui-gtk-3.0/citydlg.c:2948 client/gui-gtk-3.0/menu.c:503
+#: client/gui-gtk-3.22/citydlg.c:2965 client/gui-gtk-3.22/menu.c:506
+#: client/gui-qt/citydlg.cpp:1360 client/gui-qt/menu.cpp:1289
+#: client/gui-qt/menu.cpp:2137 client/gui-qt/menu.cpp:2140
+#: client/gui-qt/shortcuts.cpp:121 common/fc_types.h:143 common/unit.c:627
+msgid "Cultivate"
+msgstr "Cultiver"
+
+#: client/gui-gtk-3.0/citydlg.c:2960 client/gui-gtk-3.22/citydlg.c:2977
 #: client/gui-qt/citydlg.cpp:1370 client/gui-qt/shortcuts.cpp:135
 #: common/fc_types.h:125 common/unit.c:641 data/civ2/units.ruleset:25
 #: data/classic/units.ruleset:31 data/sandbox/units.ruleset:31
@@ -2980,19 +2996,19 @@ msgstr "Irriguer"
 msgid "Transform"
 msgstr "Transformer"
 
-#: client/gui-gtk-3.0/citydlg.c:2958 client/gui-gtk-3.22/citydlg.c:2975
+#: client/gui-gtk-3.0/citydlg.c:2966 client/gui-gtk-3.22/citydlg.c:2983
 #: client/gui-qt/citydlg.cpp:1379 client/gui-qt/menu.cpp:1323
 #: client/gui-qt/menu.cpp:2262
 msgid "Clean Pollution"
 msgstr "Dépolluer"
 
-#: client/gui-gtk-3.0/citydlg.c:2964 client/gui-gtk-3.22/citydlg.c:2981
+#: client/gui-gtk-3.0/citydlg.c:2972 client/gui-gtk-3.22/citydlg.c:2989
 #: client/gui-qt/citydlg.cpp:1384
 msgid "Clean Fallout"
 msgstr "Décontaminer"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-3.0/citydlg.c:3060 client/gui-gtk-3.22/citydlg.c:3077
+#: client/gui-gtk-3.0/citydlg.c:3068 client/gui-gtk-3.22/citydlg.c:3085
 #: client/gui-sdl2/citydlg.c:1156
 #, c-format
 msgid ""
@@ -3008,13 +3024,13 @@ msgstr[1] ""
 "Acheter %s pour %d lingots ?\n"
 "%s"
 
-#: client/gui-gtk-3.0/citydlg.c:3064 client/gui-gtk-3.0/citydlg.c:3078
-#: client/gui-gtk-3.22/citydlg.c:3081 client/gui-gtk-3.22/citydlg.c:3095
+#: client/gui-gtk-3.0/citydlg.c:3072 client/gui-gtk-3.0/citydlg.c:3086
+#: client/gui-gtk-3.22/citydlg.c:3089 client/gui-gtk-3.22/citydlg.c:3103
 msgid "Buy It!"
 msgstr "Acheter !"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: client/gui-gtk-3.0/citydlg.c:3074 client/gui-gtk-3.22/citydlg.c:3091
+#: client/gui-gtk-3.0/citydlg.c:3082 client/gui-gtk-3.22/citydlg.c:3099
 #: client/gui-sdl2/citydlg.c:1162
 #, c-format
 msgid ""
@@ -3030,7 +3046,7 @@ msgstr[1] ""
 "%s coûte %d lingots.\n"
 "%s"
 
-#: client/gui-gtk-3.0/citydlg.c:3128 client/gui-gtk-3.22/citydlg.c:3145
+#: client/gui-gtk-3.0/citydlg.c:3136 client/gui-gtk-3.22/citydlg.c:3153
 #: client/gui-qt/citydlg.cpp:612 client/gui-sdl2/citydlg.c:1402
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -3038,16 +3054,16 @@ msgid_plural "Sell %s for %d gold?"
 msgstr[0] "Vendre %s pour %d lingot ?"
 msgstr[1] "Vendre %s pour %d lingots ?"
 
-#: client/gui-gtk-3.0/citydlg.c:3134 client/gui-gtk-3.22/citydlg.c:3151
+#: client/gui-gtk-3.0/citydlg.c:3142 client/gui-gtk-3.22/citydlg.c:3159
 msgid "Sell It!"
 msgstr "Vendre !"
 
-#: client/gui-gtk-3.0/citydlg.c:3209 client/gui-gtk-3.22/citydlg.c:3225
+#: client/gui-gtk-3.0/citydlg.c:3217 client/gui-gtk-3.22/citydlg.c:3233
 #: client/gui-qt/citydlg.cpp:2269
 msgid "Rename City"
 msgstr "Renommer la ville"
 
-#: client/gui-gtk-3.0/citydlg.c:3210 client/gui-gtk-3.22/citydlg.c:3226
+#: client/gui-gtk-3.0/citydlg.c:3218 client/gui-gtk-3.22/citydlg.c:3234
 #: client/gui-qt/citydlg.cpp:2268
 msgid "What should we rename the city to?"
 msgstr "Quel nom doit porter cette ville ?"
@@ -4119,7 +4135,7 @@ msgid "?multiplier:Cur"
 msgstr "Cour"
 
 #: client/gui-gtk-3.0/gamedlgs.c:314 client/gui-gtk-3.22/gamedlgs.c:314
-#: client/gui-qt/ratesdlg.cpp:145
+#: client/gui-qt/ratesdlg.cpp:144
 msgid "Change policies"
 msgstr "Changer la politique"
 
@@ -5214,27 +5230,12 @@ msgstr "Construire une _route"
 msgid "Build _Irrigation"
 msgstr "_Irriguer"
 
-#: client/gui-gtk-3.0/menu.c:503 client/gui-gtk-3.22/menu.c:506
-#: client/gui-qt/menu.cpp:1289 client/gui-qt/menu.cpp:2137
-#: client/gui-qt/menu.cpp:2140 client/gui-qt/shortcuts.cpp:121
-#: common/fc_types.h:143 common/unit.c:627
-msgid "Cultivate"
-msgstr "Cultiver"
-
 #: client/gui-gtk-3.0/menu.c:505 client/gui-gtk-3.0/menu.c:2541
 #: client/gui-gtk-3.0/menu.c:2544 client/gui-gtk-3.0/menu.c:2566
 #: client/gui-gtk-3.22/menu.c:508 client/gui-gtk-3.22/menu.c:2553
 #: client/gui-gtk-3.22/menu.c:2556 client/gui-gtk-3.22/menu.c:2578
 msgid "Build _Mine"
 msgstr "_Miner"
-
-#. TRANS: Activity name, verb in English
-#: client/gui-gtk-3.0/menu.c:507 client/gui-gtk-3.22/menu.c:510
-#: client/gui-qt/citydlg.cpp:1351 client/gui-qt/menu.cpp:1299
-#: client/gui-qt/menu.cpp:2161 client/gui-qt/menu.cpp:2164
-#: client/gui-qt/shortcuts.cpp:117 common/fc_types.h:145 common/unit.c:623
-msgid "Plant"
-msgstr "Planter"
 
 #: client/gui-gtk-3.0/menu.c:509 client/gui-gtk-3.22/menu.c:512
 msgid "Connect With Roa_d"
@@ -6395,7 +6396,7 @@ msgstr "Changer la prod_uction"
 #: client/gui-gtk-3.22/action_dialog.c:585
 #: client/gui-gtk-3.22/action_dialog.c:773
 #: client/gui-gtk-3.22/action_dialog.c:1565 client/gui-gtk-3.22/chatline.c:1135
-#: client/gui-gtk-3.22/citydlg.c:2986 client/gui-gtk-3.22/dialogs.c:868
+#: client/gui-gtk-3.22/citydlg.c:2994 client/gui-gtk-3.22/dialogs.c:868
 #: client/gui-gtk-3.22/editgui.c:1011 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:410
 #: client/gui-gtk-3.22/gotodlg.c:144 client/gui-gtk-3.22/inputdlg.c:80
@@ -6834,7 +6835,7 @@ msgstr "Rendu obsolète par %1."
 #: client/gui-qt/hudwidget.cpp:1405 client/gui-qt/messagedlg.cpp:65
 #: client/gui-qt/optiondlg.cpp:138 client/gui-qt/pages.cpp:393
 #: client/gui-qt/pages.cpp:530 client/gui-qt/pages.cpp:597
-#: client/gui-qt/ratesdlg.cpp:79 client/gui-qt/ratesdlg.cpp:170
+#: client/gui-qt/ratesdlg.cpp:79 client/gui-qt/ratesdlg.cpp:169
 #: client/gui-qt/shortcuts.cpp:600 client/gui-sdl2/action_dialog.c:1130
 #: client/gui-sdl2/citydlg.c:527 client/gui-sdl2/citydlg.c:1415
 #: client/gui-sdl2/connectdlg.c:314 client/gui-sdl2/connectdlg.c:624
@@ -6914,7 +6915,7 @@ msgstr "Votre nom de chef"
 
 #: client/gui-qt/dialogs.cpp:505 client/gui-qt/messagedlg.cpp:69
 #: client/gui-qt/optiondlg.cpp:172 client/gui-qt/ratesdlg.cpp:80
-#: client/gui-qt/ratesdlg.cpp:171 client/gui-qt/shortcuts.cpp:628
+#: client/gui-qt/ratesdlg.cpp:170 client/gui-qt/shortcuts.cpp:628
 msgid "Ok"
 msgstr "Ok"
 
@@ -14949,7 +14950,11 @@ msgid ""
 "All action enablers for %s must require that the actor has the NonMil utype "
 "flag or that the target tile is unclaimed or that the diplomatic relation to "
 "the target tile owner isn't peace."
-msgstr "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ait l'indicateur utype NonMilitaire, ou que la case ciblée soit non revendiquée, ou que les relations diplomatiques avec le possesseur de la case ciblée ne soient pas à la paix."
+msgstr ""
+"Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ait "
+"l'indicateur utype NonMilitaire, ou que la case ciblée soit non revendiquée, "
+"ou que les relations diplomatiques avec le possesseur de la case ciblée ne "
+"soient pas à la paix."
 
 #: common/actions.c:493
 #, c-format
@@ -15169,7 +15174,9 @@ msgstr ""
 #, c-format
 msgid ""
 "Requirement {%s} implies a claimed tile. No diplomatic relation to Nature."
-msgstr "L'exigence {%s} impose une case revendiquée. Pas de relations diplomatiques avec la Nature."
+msgstr ""
+"L'exigence {%s} impose une case revendiquée. Pas de relations diplomatiques "
+"avec la Nature."
 
 #. TRANS: ruledit shows this when an enabler for a tile targeted
 #. * action requires that the target tile is unclaimed and that the
@@ -15180,7 +15187,9 @@ msgstr "L'exigence {%s} impose une case revendiquée. Pas de relations diplomati
 msgid ""
 "No diplomatic relation to Nature. Requirements {%s} and {%s} contradict each "
 "other."
-msgstr "Pas de relations diplomatiques avec la Nature. Les exigences {%s} et {%s} se contredisent mutuellement."
+msgstr ""
+"Pas de relations diplomatiques avec la Nature. Les exigences {%s} et {%s} se "
+"contredisent mutuellement."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2539
@@ -19392,16 +19401,16 @@ msgstr "PasZdC"
 msgid "Frozen"
 msgstr "Gelé"
 
-#: common/unit.c:1167 common/unit.c:1172
+#: common/unit.c:1141 common/unit.c:1146
 msgid "Moves"
 msgstr "Mouvements"
 
-#: common/unit.c:1240
+#: common/unit.c:1214
 msgid "Food/Shield/Gold:"
 msgstr "Nourriture/Production/Or :"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1955
+#: common/unit.c:1929
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -19416,13 +19425,13 @@ msgstr[1] ""
 "Mettre à jour %s en %s pour %d lingots ?\n"
 "%s"
 
-#: common/unit.c:1964
+#: common/unit.c:1938
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Désolé, impossible de déjà mettre %s à jour."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1970
+#: common/unit.c:1944
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -19437,23 +19446,23 @@ msgstr[1] ""
 "Mettre à jour %s en %s coûte %d lingots.\n"
 "%s"
 
-#: common/unit.c:1980
+#: common/unit.c:1954
 msgid "You can only upgrade units in your cities."
 msgstr "Vous ne pouvez mettre à jour les unités que dans vos villes."
 
-#: common/unit.c:1984
+#: common/unit.c:1958
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Mettre à jour %s laisserait en plan les unités transportées."
 
-#: common/unit.c:1989
+#: common/unit.c:1963
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Mettre à jour ce %s génèrerait un %s qui ne peut pas survivre à cet endroit."
 
-#: common/unit.c:1996
+#: common/unit.c:1970
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -24454,7 +24463,7 @@ msgstr "Statue de la Liberté"
 #: data/sandbox/buildings.ruleset:1991 data/civ2civ3/buildings.ruleset:1988
 #: data/multiplayer/buildings.ruleset:1707
 msgid "Sun Tzu's War Academy"
-msgstr "École de Guerre Sun Tzu"
+msgstr "École de guerre de Sun Tzu"
 
 #: data/civ2/buildings.ruleset:1675
 #, no-c-format
@@ -26358,7 +26367,7 @@ msgid ""
 msgstr ""
 "La quantité de nourriture perdue, pour une ville qui grandit ou rapetisse, "
 "sera réduite de 25%. Cela aide les villes à grandir plus rapidement et à "
-"mieux résister aux famines. Effet cumulatif avec les Greniers."
+"mieux résister aux famines. Effet cumulatif avec un Grenier."
 
 #: data/classic/buildings.ruleset:1663
 #, no-c-format
@@ -26678,7 +26687,7 @@ msgid ""
 "more technology. Oil wells can be built on Desert with knowledge of "
 "Construction, and on Glacier with knowledge of Refining."
 msgstr ""
-"Les Puits de Pétrole se comportent comme des mines (en donnant un point de "
+"Les Puits de Pétrole se comportent comme des Mines (en donnant un point de "
 "production supplémentaire), mais nécessitent plus de technologie. Des Puits "
 "de Pétrole peuvent être construits dans le Désert avec la connaissance de la "
 "Construction, et sur un Glacier avec la connaissance de Raffinerie."
@@ -26871,8 +26880,9 @@ msgid ""
 "Workers have the ability to improve terrain tiles. See the help on Terrain "
 "and Terrain Alterations for the effects of their actions."
 msgstr ""
-"Les Travailleurs peuvent améliorer des cases de terrain. Voir l'aide sur le "
-"Terrain et les Altérations de Terrain pour les effets de leurs actions."
+"Les Travailleurs ont la capacité d'améliorer des cases de terrain. Voir "
+"l'aide sur le Terrain et les Altérations de Terrain pour les effets de leurs "
+"actions."
 
 #: data/classic/units.ruleset:518 data/multiplayer/units.ruleset:518
 msgid ""
@@ -27766,9 +27776,8 @@ msgstr ""
 "Cette réussite technologique sensationnelle rend heureux un habitant "
 "satisfait dans chacune de vos villes (2 revenus de luxe supplémentaire par "
 "ville). Elle réduit encore votre risque d'épidémie (de 10% du risque de "
-"base) ; avec la connaissance de la Médecine, n'importe laquelle de vos "
-"villes avec un Aqueduc et des Égouts sera entièrement affranchie des "
-"épidémies."
+"base) ; avec la connaissance de la Médecine, chacune de vos villes avec un "
+"Aqueduc et des Égouts sera entièrement affranchie des épidémies."
 
 #: data/sandbox/buildings.ruleset:1460 data/civ2civ3/buildings.ruleset:1457
 msgid ""
@@ -29132,11 +29141,11 @@ msgstr ""
 
 #: data/sandbox/terrain.ruleset:1027 data/civ2civ3/terrain.ruleset:1026
 msgid "?gui_type:Build Fort/Fortress/Buoy"
-msgstr "Construire un Fort/Forteresse/Bouée"
+msgstr "Construire un Fort/une Forteresse/une Bouée"
 
 #: data/sandbox/terrain.ruleset:1030 data/civ2civ3/terrain.ruleset:1029
 msgid "?gui_type:Build Airstrip/Airbase"
-msgstr "Construire un Aérodrome/une Base aérienne"
+msgstr "Construire un Aérodrome/une Base Aérienne"
 
 #: data/sandbox/terrain.ruleset:1172 data/civ2civ3/terrain.ruleset:1171
 msgid ""
@@ -29405,12 +29414,7 @@ msgid ""
 "units such as Chariots and Catapults to travel through otherwise difficult "
 "terrain (Mountains, Jungle, and Swamp), and Merchant units (Caravans and "
 "Freight) can only travel on roads, railroads, rivers or ships."
-msgstr ""
-"Les Routes permettent à vos unités terrestres de se déplacer plus "
-"rapidement, et permettent à vos unités Terrestres Lourdes à roues (comme les "
-"Chars et les Catapultes) de se déplacer sur les terrains difficiles "
-"(Montagne, Jungle et Marais), et les unités Marchandes (Caravane et Fret) ne "
-"peuvent se déplacer que sur Route, Chemin de Fer, Rivière ou par bateau."
+msgstr "Les Routes permettent à vos unités Terrestres de se déplacer plus rapidement, permettent à vos unités Terrestres Lourdes à roues (comme les Chars et les Catapultes) de se déplacer sur les terrains difficiles par ailleurs (Montagne, Jungle et Marais), et les unités Marchandes (Caravanes et Fret) ne peuvent se déplacer que sur des Routes, des Chemins de Fer, des Rivières ou par bateaux."
 
 #: data/sandbox/terrain.ruleset:1712 data/civ2civ3/terrain.ruleset:1674
 msgid "On some terrains, roads also provide a trade bonus."
@@ -29487,12 +29491,7 @@ msgid ""
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
 "the absence of roads. Triremes may also travel up rivers (although later "
 "boats cannot)."
-msgstr ""
-"Les unités Terrestres peuvent longer les Rivières pour se déplacer plus "
-"rapidement (mais pas en diagonale), et les unités Marchandes (Caravanes et "
-"Frêt) peuvent avoir besoin de Rivières pour se déplacer en l'absence de "
-"Route. Les Trirèmes peuvent également remonter les Rivières (bien que les "
-"bateaux ultérieurs ne le puissent plus)."
+msgstr "Les unité Terrestres peuvent longer les Rivières pour se déplacer plus rapidement (mais pas en diagonale), et les unités Marchandes (Caravanes et Fret) peuvent avoir besoin de Rivières pour se déplacer en l'absence de Route. Les Trirèmes peuvent également remonter les Rivières (bien que les bateaux ultérieurs ne le puissent plus)."
 
 #: data/sandbox/terrain.ruleset:1823 data/civ2civ3/terrain.ruleset:1783
 msgid ""
@@ -29827,8 +29826,8 @@ msgid ""
 "difficult to defend, and are too big for early ships (Triremes and Caravels)."
 msgstr ""
 "Bien qu'elles soient puissantes, les Catapultes (et leurs successeurs) sont "
-"encombrantes et peu maniables ; elles ont besoin de Route pour traverser les "
-"terrains accidentés (Montagnes, Marécages et Jungles), sont difficiles à "
+"encombrantes et peu maniables ; elles ont besoin de Routes pour traverser "
+"les terrains accidentés (Montagnes, Marécages et Jungles), sont difficiles à "
 "défendre, et sont trop grosses pour les premiers navires (Trirèmes et "
 "Caravelles)."
 
@@ -30192,10 +30191,7 @@ msgid ""
 "Caravans can only travel on roads, railroads, rivers or ships. (Caravans "
 "cannot take advantage of maglevs, but may travel on the railroads that "
 "accompany them.)"
-msgstr ""
-"Les Caravanes ne peuvent se déplacer que sur les Routes, les Chemins de Fer, "
-"les Rivières et les bateaux. Les Caravanes ne peuvent pas bénéficier des "
-"Maglevs, mais peuvent voyager sur les Chemins de Fer qui leur sont associés."
+msgstr "Les Caravanes ne peuvent se déplacer que sur les Routes, les Chemins de Fer, les Rivières ou les bateaux. Les Caravanes ne peuvent pas bénéficier des Maglevs, mais peuvent voyager sur les Chemins de Fer qui leur sont associés."
 
 #: data/sandbox/units.ruleset:2494 data/civ2civ3/units.ruleset:2411
 msgid ""
@@ -30379,7 +30375,7 @@ msgstr "Mine Centrale"
 #, no-c-format
 msgid "City center tile produces three extra shields."
 msgstr ""
-"La case du centre-ville génère trois points de productions supplémentaires."
+"La case du centre-ville génère trois points de production supplémentaires."
 
 #: data/alien/buildings.ruleset:176
 msgid "Cyberpart Factory"
@@ -30420,7 +30416,7 @@ msgid ""
 "increased to 150% when Strong Force technology is known."
 msgstr ""
 "Les Murs de Force doublent la défense de la ville contre tous les types "
-"d'attaques. Le bonus est augmenté à 150% quand la technologie Force Intense "
+"d'attaque. Le bonus est augmenté à 150% quand la technologie Force Intense "
 "est connue."
 
 #: data/alien/buildings.ruleset:264
@@ -30804,7 +30800,7 @@ msgstr ""
 "\n"
 "Le taux maximum de taxe/science/luxe est de 60%.\n"
 "\n"
-"Le communisme bénéficie d'un bonus de 20% de production."
+"Le Communisme bénéficie d'un bonus de 20% de production."
 
 #: data/alien/governments.ruleset:133
 #, no-c-format
@@ -31516,8 +31512,8 @@ msgid ""
 msgstr ""
 "Il se trouve que nous pouvons rendre des formes de vie alien commestibles.\n"
 "\n"
-"Les Ingénieurs peuvent constrtruire des Maisons Protéiques, qui augmentent "
-"la production de nourriture de la case de 50%."
+"Les Ingénieurs peuvent construire des Maisons Protéiques, qui augmentent la "
+"production de nourriture de la case de 50%."
 
 #: data/alien/techs.ruleset:583
 msgid "Radiation Resistance"
@@ -32036,8 +32032,8 @@ msgid ""
 "Fallout can only be cleared by dispatching Engineer or Hunter units with the "
 "\"clean fallout\" order."
 msgstr ""
-"Les Retombées ne peuvent être nettoyées qu'en envoyant des Ingénieurs ou des "
-"Chasseurs avec l'ordre de \"Décontaminer\"."
+"Les Retombées ne peuvent être nettoyées qu'en envoyant des unités Ingénieur "
+"ou Chasseur avec l'ordre de \"Décontaminer\"."
 
 #: data/alien/terrain.ruleset:909
 msgid "Tower"
@@ -32390,7 +32386,7 @@ msgid ""
 "It's also an settler type unit for hostile areas, well capable of defending "
 "itself."
 msgstr ""
-"Un unité souterraine qui a aussi la capacité d'attaquer les unités "
+"Une unité souterraine qui a aussi la capacité d'attaquer les unités "
 "Antigravité avec ses propres minimissiles.\n"
 "\n"
 "C'est aussi une unité de type Colon pour les zones hostiles, tout à fait "
@@ -32478,8 +32474,7 @@ msgstr "Radeau"
 
 #: data/alien/units.ruleset:1180
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
-msgstr ""
-"  Ce vaisseau permet le canotage, mais pas sur les cases d'Océan Bouillant."
+msgstr "  Ce vaisseau permet le canotage, mais pas sur les Mers Bouillantes."
 
 #: data/alien/units.ruleset:1185
 msgid "Ship"
@@ -32491,13 +32486,13 @@ msgid ""
 "enter boiling seas."
 msgstr ""
 "C'est le type de navire de base. Il n'a pas d'équipement spécial, et ne peut "
-"donc pas naviguer sur les cases d'Océan Bouillant."
+"donc pas naviguer sur les Mers Bouillantes."
 
 #: data/alien/units.ruleset:1243
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
 "Ce vaisseau est fait pour la bataille ! Dommage qu'il ne puisse pas entrer "
-"sur les Océans Bouillants."
+"sur les Mers Bouillantes."
 
 #: data/alien/units.ruleset:1248
 msgid "Battle Unit"
@@ -33381,11 +33376,7 @@ msgid ""
 "Certain units have the ability to alter terrain tiles in several ways: they "
 "may add or remove tile improvements, remove unwanted features such as "
 "pollution, or change the base terrain type entirely."
-msgstr ""
-"Certaines unités ont la capacité de modifier les cases de terrain de "
-"plusieurs manière : elles peuvent ajouter ou enlever des améliorations de "
-"cases, enlever des caractéristiques indésirables, comme la pollution, ou "
-"changer le type de base du terrain complètement."
+msgstr "Certaines unités ont la capacité de modifier les cases de terrain de plusieurs manières : elles peuvent ajouter ou enlever des améliorations de cases, enlever des caractéristiques indésirables, comme la pollution, ou changer le type de base du terrain complètement."
 
 #: data/helpdata.txt:353
 msgid ""
@@ -33410,13 +33401,7 @@ msgid ""
 "base\" (although whether the order builds an improvement of the same name is "
 "up to the ruleset). Terrain alterations can also be requested from the city "
 "map (see the help on Cities)."
-msgstr ""
-"Des amélioration peuvent être construites en émettant l'un des ordres "
-"suivants à une unité convenable sur une case convenable : \"Miner\", "
-"\"Irriguer\", \"Route\" ou \"Construire une base\" (bien que le fait que cet "
-"ordre construise une amélioration éponyme est laissé à la discrétion des "
-"règles du jeu). Les altérations de terrain peuvent aussi être demandées à "
-"partir de la carte de la ville (voir l'aide sur les Villes)."
+msgstr "Des améliorations peuvent être construites en émettant l'un des ordres suivants à une unité convenable sur une case convenable : \"Miner\", \"Irriguer\", \"Route\" ou \"Construire une base\" (bien que le fait que cet ordre construise une amélioration éponyme est laissé à la discrétion des règles du jeu). Les altérations de terrain peuvent aussi être demandées à partir de la carte de la ville (voir l'aide sur les Villes)."
 
 #: data/helpdata.txt:366
 msgid ""
@@ -33496,12 +33481,7 @@ msgid ""
 "classic ruleset, if a Forest tile has been irrigated to convert it into "
 "Plains, you cannot convert it back into a Forest by pillaging -- to do so, "
 "you would have to convert the tile again with a suitable unit."
-msgstr ""
-"Les transformations de terrain ne peuvent être défaites par le pillage. Par "
-"exemple, dans les règles du jeu classiques, si vous avez irrigué une case de "
-"Forêt pour la convertir en Plaines, le pillage ne la reconvertira pas en "
-"Forêt. Pour cela, vous devriez convertir la case à nouveau avec une unité "
-"convenable."
+msgstr "Les transformations de terrain ne peuvent être défaites de cette façon. Par exemple, dans les règles du jeu classiques, si vous avez irrigué une case de Forêt pour la convertir en Plaines, le pillage ne la reconvertira pas en Forêt. Pour cela, vous devriez convertir la case à nouveau avec une unité convenable."
 
 #: data/helpdata.txt:401
 msgid ""
@@ -33830,9 +33810,7 @@ msgstr ""
 msgid ""
 "Cities with a large production output contribute to pollution, which affects "
 "the tiles around the city. See the Terrain help."
-msgstr ""
-"Les villes avec production importante contribuent à la pollution, qui "
-"affecte les cases autour de la ville. Voir l'aide sur le Terrain."
+msgstr "Les villes avec une production importante contribuent à la pollution, qui affecte les cases autour de la ville. Voir l'aide sur le Terrain."
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:568
@@ -34813,15 +34791,7 @@ msgid ""
 "and lose their effect. Note the asymmetry under many rulesets: while you "
 "must personally achieve the advance required by each wonder to build it, it "
 "will be disabled when any player achieves the obsoleting advance."
-msgstr ""
-"Une fois construite, une merveille est placée dans la ville qui l'a "
-"fabriquée, et ne peut pas être vendue ou détruite (à moins que la ville "
-"entière le soit). Cependant, certaines merveilles deviennent obsolètes dans "
-"certaines circonstances dépendantes des règles du jeu et perdent leur effet. "
-"Notez la dissymétrie existant dans beaucoup de règles du jeu : alors que "
-"vous devez personnellement achever la recherche que réclame la construction "
-"de chaque merveille, elle devient inconstructible si n'importe quel autre "
-"joueur achève la recherche qui la rend obsolète."
+msgstr "Une fois construite, une merveille est placée dans la ville qui l'a fabriquée, et ne peut pas être vendue ou détruite (à moins que la ville entière le soit). Cependant, certaines merveilles deviennent obsolètes dans certaines circonstances dépendantes des règles du jeu et perdent leur effet. Notez la dissymétrie existant dans beaucoup de règles du jeu : alors que vous devez personnellement achever la recherche que réclame la construction de chaque merveille, elle sera désactivée quand n'importe quel joueur achèvera la recherche qui la rend obsolète."
 
 #: data/helpdata.txt:1040
 msgid ""
@@ -35210,10 +35180,7 @@ msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1. (This can be changed "
 "with the 'killcitizen' server option.)"
-msgstr ""
-"Si l'attaquant est une unité terrestre et gagne, et si le défenseur est dans "
-"une ville sans Remparts, la taille de la ville est réduite de 1 (ceci peut "
-"être modifié avec l'option du server 'killcitizen')."
+msgstr "Si l'attaquant est une unité terrestre et gagne, et si le défenseur est dans une ville sans Remparts, la taille de la ville est réduite de 1 (ceci peut être modifié avec l'option du serveur 'killcitizen')."
 
 #: data/helpdata.txt:1255
 msgid ""
@@ -35585,9 +35552,7 @@ msgstr ""
 msgid ""
 "You may change policy values at any time, but any changes only take effect "
 "at the next turn."
-msgstr ""
-"Vous pouvez changer les valeurs de politique à tout moment, mais tout "
-"changement ne prendra effet qu'au prochaine tour."
+msgstr "Vous pouvez changer les valeurs de politique à tout moment, mais tout changement ne prendra effet qu'au prochain tour."
 
 #: data/helpdata.txt:1462
 msgid ""
@@ -35774,15 +35739,7 @@ msgid ""
 "Improvements. (If there are no help texts for these items, it probably means "
 "the 'SPACERACE' victory type is not enabled in the 'victories' server "
 "setting for your game.)"
-msgstr ""
-"Dans les règles du jeu classiques, avant de pouvoir construire des éléments "
-"du vaisseau spatial, la merveille du Programme Apollo doit avoir été achevé "
-"par l'un des joueurs. Vous avez aussi besoin des technologies spécifiques "
-"pour construire les différentes parties du vaisseau : allez voir l'aide "
-"concernant les Structures, les Composants, et les Modules Spatiaux, dans les "
-"Constructions de ville. S'il n'y a pas d'aide pour ces articles, cela veut "
-"sans doute dire que le type de victoire 'SPACERACE' n'est pas activé dans "
-"l'option 'victories' du serveur pour votre partie."
+msgstr "Dans les règles du jeu classiques, avant de pouvoir construire des éléments du vaisseau spatial, la merveille du Programme Apollo doit avoir été achevée par l'un des joueurs. Vous avez aussi besoin des technologies spécifiques pour construire les différentes parties du vaisseau : allez voir l'aide concernant les Structures, les Composants, et les Modules Spatiaux, dans les Améliorations de ville. S'il n'y a pas d'aide pour ces articles, cela veut sans doute dire que le type de victoire 'SPACERACE' n'est pas activé dans l'option 'victories' du serveur pour votre partie."
 
 #: data/helpdata.txt:1557
 msgid ""
@@ -36494,8 +36451,8 @@ msgstr ""
 "Raccourci dans la ligne de discussion : Ctrl-C (vous devez également définir "
 "les couleurs dans la barre d'outils au-dessus de la ligne de discussion)\n"
 "La séquence de début prend toujours au moins un des paramètres suivants :\n"
-"- 'foreground' (abréviation 'fg'): un nom couleur en anglais comme 'red', ou "
-"une combinaison hexadécimale comme '#3050b2' ou '#35b'.\n"
+"- 'foreground' (abréviation 'fg'): un nom couleur en anglais comme \"red\", "
+"ou une combinaison hexadécimale comme #3050b2 ou #35b.\n"
 "- 'background' (abréviation 'bg'): Comme ci-dessus.\n"
 "Exemple: '[c fg=\"blue\" bg=\"yellow\"]couleur[/c]' affichera le mot "
 "'couleur' en bleu sur fond jaune."
@@ -36566,15 +36523,10 @@ msgstr ""
 "Abréviation de la séquence : '[l tgt=\"city\"] ... [/l]'\n"
 "Raccourci : Ctrl-Alt-clic droit sur une ville de la carte.\n"
 "Le paramètre 'id' doit contenir l'ID de la ville que vous voulez diffuser.\n"
-"Un paramètre optionnel 'name' peut être utilisé pour forcer les clients des "
-"utilisateurs qui ne connaîtraient pas cette cité à utiliser ce nom-ci.\n"
-"Cette expression peut aussi commencer et terminer à l'intérieur-même de la "
-"même paire de crochets, comme '[link target=\"city\" id=121 /]' (notez la "
-"barre oblique à la fin).\n"
-"Exemples: '[l tgt=\"city\" id=65]ville[/l]' rendra le mot 'ville' cliquable, "
-"et pointant vers la ville ID 65.\n"
-"'[l tgt=\"city\" id=65 name=\"sans-nom\" /]' affichera le nom de la ville ID "
-"65 si connue du client, sinon, le mot 'sans-nom'."
+"Un paramètre optionnel 'name' peut être fourni pour donner le nom de la ville dans le cas où les utilisateurs destinataires ne connaîtraient pas cette ville sur leur carte.\n"
+"Cette expression peut aussi commencer et terminer à l'intérieur-même de la même paire de crochets, comme '[link target=\"city\" id=121 /]' (notez la barre oblique à la fin).\n"
+"Exemples: '[l tgt=\"city\" id=65]ville[/l]' rendra le mot 'ville' cliquable, et pointant vers la ville ID 65.\n"
+"'[l tgt=\"city\" id=65 name=\"sans-nom\" /]' affichera le nom de la ville ID 65 si connue du client, sinon, le mot 'sans-nom'."
 
 #: data/helpdata.txt:1935
 msgid ""
@@ -36622,16 +36574,10 @@ msgstr ""
 "Nom de séquence complet : '[link target=\"unit\"] ... [/link]'\n"
 "Abréviation de la séquence : '[l tgt=\"unit\"] ... [/l]'\n"
 "Raccourci : Maj+Ctrl-Alt-clic droit sur une unité de la carte.\n"
-"Le paramètre 'id' doit contenir l'ID de l'unité que vous voulez partager.\n"
-"Un paramètre optionnel 'name' peut être utilisé pour forcer les clients des "
-"utilisateurs qui ne connaîtraient pas cette unité d'utiliser ce nom-ci.\n"
-"Cette expression peut aussi commencer et terminer à l'intérieur-même de la "
-"même paire de crochets, comme '[link target=\"unit\" id=109 /]' (notez la "
-"barre oblique à la fin).\n"
-"Exemples: '[l tgt=\"unit\" id=235]unité[/l]' rendra le mot 'unité' "
-"cliquable, pointant vers l'unité ID 235.\n"
-"'[l tgt=\"unit\" id=235 name=\"Guerriers\" /]' affichera le nom de l'unité "
-"ID 235 si connue du client, sinon, le mot 'Guerriers'."
+"Le paramètre 'id' doit contenir l'ID de l'unité que vous voulez partager. Un paramètre optionnel 'name' peut être fourni pour donner le nom de l'unité dans le cas où les utilisateurs destinataires ne connaîtraient pas cette unité sur leur carte.\n"
+"Cette expression peut aussi commencer et terminer à l'intérieur-même de la même paire de crochets, comme '[link target=\"unit\" id=109 /]' (notez la barre oblique à la fin).\n"
+"Exemples: '[l tgt=\"unit\" id=235]unité[/l]' rendra le mot 'unité' cliquable, pointant vers l'unité ID 235.\n"
+"'[l tgt=\"unit\" id=235 name=\"Guerriers\" /]' affichera le nom de l'unité ID 235 si connue du client, sinon, le mot 'Guerriers'."
 
 #: data/helpdata.txt:1962
 msgid ""
@@ -36762,7 +36708,7 @@ msgid ""
 "project's mailing lists:"
 msgstr ""
 "Pour contacter les développeurs à tout autre sujet, merci d'envoyer un "
-"courriel à l'une des listes de diffusion du projet :\""
+"courriel à l'une des listes de diffusion du projet :"
 
 #: data/helpdata.txt:2345
 msgid ""
@@ -37295,10 +37241,7 @@ msgid ""
 "Pollution appears on land tiles around cities with high production or "
 "population. It halves all output from its tile, and contributes to the risk "
 "of global warming."
-msgstr ""
-"La pollution apparaît autour des villes avec une production ou une "
-"population élevées. Elle réduit de moitié toutes les productions de sa case, "
-"et contribue au risque de réchauffement climatique."
+msgstr "La pollution apparaît sur les cases terrestres autour des villes avec une production ou une population élevées. Elle réduit de moitié toutes les productions de sa case, et contribue au risque de réchauffement climatique."
 
 #: data/multiplayer/terrain.ruleset:1222
 msgid ""
@@ -37312,7 +37255,7 @@ msgstr ""
 "Il est probable que la pollution due à la production commence à devenir "
 "importante quand votre civilisation devient plus industrialisée, vous "
 "donnant accès à des bâtiments comme la Fabrique ou la Centrale Thermique, "
-"qui stimulent la production. Remplacer la Centrale Électrique par des formes "
+"qui stimulent la production. Remplacer la Centrale Thermique par des formes "
 "plus propres d'énergie -- une Centrale Hydroélectrique, le Barrage de "
 "Hoover, une Centrale Nucléaire ou une Centrale Solaire -- réduira la "
 "pollution due à la production, comme le fera une Usine de Recyclage ou la "
@@ -37324,11 +37267,7 @@ msgid ""
 "Once Refrigeration is known, irrigation systems can be upgraded to farmland "
 "by irrigating them a second time; if the city working the tile has a "
 "Supermarket, a farmland tile provides twice as much food."
-msgstr ""
-"Une fois que l'on connaît la Réfrigération, les systèmes d'Irrigation "
-"peuvent être améliorés en Champs cultivés en les irriguant à nouveau ; si la "
-"ville qui travaille la case dispose d'un Supermaché, la case de Champs "
-"fournit deux fois plus de nourriture."
+msgstr "Une fois que l'on connaît la Réfrigération, les systèmes d'Irrigation peuvent être améliorés en Champs cultivés en les irriguant à nouveau ; si la ville qui travaille la case dispose d'un Supermarché, la case de Champs fournit deux fois plus de nourriture."
 
 #: data/multiplayer/terrain.ruleset:1333
 msgid ""
@@ -37385,9 +37324,9 @@ msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
 msgstr ""
-"Les unités de Fret remplacent les caravanes, et se déplacent deux fois plus "
+"Les unités de Fret remplacent les Caravanes, et se déplacent deux fois plus "
 "rapidement. Chaque unité de Fret utilisée pour construire une merveille y "
-"ajoutera 50 productions."
+"ajoutera 50 points de production."
 
 #: data/nation/american.ruleset:8
 msgid ""
@@ -38260,18 +38199,7 @@ msgid ""
 "empire was split in the 4th century CE. The Western Roman Empire fell in 476 "
 "CE, the Eastern Roman or Byzantine Empire survived almost a thousand years "
 "more; its capital Constantinople fell to the Turks in 1453."
-msgstr ""
-"Rome fut, selon la légende, fondée par Romulus en 753 AEC. A son apogée, "
-"Rome contrôlait la plupart de l'Europe, le Nord de l'Afrique et le Proche-"
-"Orient. La culture romaine adoptait beaucoup des civilisations conquises, "
-"comme les Grecs et les Étrusques, et forme l'une des bases de la culture "
-"occidentale. Même de nos jours, l'influence romaine dans des domaines comme "
-"la loi, la philosophie ou la langue reste énorme. La civilisation romaine "
-"s'étendit sur plus d'un millénaire; d'abord comme un royaume, puis comme une "
-"république, et enfin comme un empire à partir de 27 BCE. L'empire fut "
-"découpé au IVème siècle EC. L'Empire Romain d'Occident tomba en 476 EC, "
-"l'Empire d'Orient survécut presque mille ans de plus ; sa capitale "
-"Constantinople tomba aux mains des Turcs en 1453."
+msgstr "Rome fut, selon la légende, fondée par Romulus en 753 AEC. À son apogée, Rome contrôlait la plupart de l'Europe, le Nord de l'Afrique et le Proche-Orient. La culture romaine adoptait beaucoup des civilisations conquises, comme les Grecs et les Étrusques, et forme l'une des bases de la culture occidentale. Même de nos jours, l'influence romaine dans des domaines comme la loi, la philosophie ou la langue reste énorme. La civilisation romaine s'étendit sur plus d'un millénaire; d'abord comme un royaume, puis comme une république, et enfin comme un empire à partir de 27 BCE. L'empire fut découpé au IVème siècle EC. L'Empire Romain d'Occident tomba en 476 EC, l'Empire d'Orient survécut presque mille ans de plus ; sa capitale Constantinople tomba aux mains des Turcs en 1453."
 
 #: data/nation/roman.ruleset:50
 #, c-format
@@ -38535,7 +38463,7 @@ msgstr ""
 
 #: data/hex2t.tilespec:15
 msgid "Small hex tileset."
-msgstr "Jeu de petites tuiles hexagonales"
+msgstr "Jeu de petites tuiles hexagonales."
 
 #: data/hexemplio.tilespec:17
 msgid "Large iso-hex tileset, similar to Amplio."
@@ -38575,7 +38503,7 @@ msgstr ""
 
 #: data/scenarios/british-isles.sav:7
 msgid "Overhead 73x81 map of the British Isles."
-msgstr "Carte des Îles Britanniques de 73×81, en vue de dessus."
+msgstr "Carte des Îles Britanniques en vue de dessus de 73×81."
 
 #: data/scenarios/earth-large.sav:5
 msgid "Earth (classic/large)"
@@ -38593,7 +38521,7 @@ msgstr ""
 
 #: data/scenarios/earth-large.sav:7
 msgid "Overhead 160x90 map of the Earth."
-msgstr "Carte de la Terre de 160×90, en vue de dessus."
+msgstr "Carte de la Terre en vue de dessus de 160×90."
 
 #: data/scenarios/earth-small.sav:5
 msgid "Earth (classic/small)"
@@ -38609,7 +38537,7 @@ msgstr ""
 
 #: data/scenarios/earth-small.sav:7
 msgid "Overhead 80x50 map of the Earth."
-msgstr "Carte vue de dessus de la Terre de 80×50."
+msgstr "Carte de la Terre en vue de dessus de 80×50."
 
 #: data/scenarios/europe.sav:5
 msgid "Europe (classic/giant)"
@@ -38625,7 +38553,7 @@ msgstr ""
 
 #: data/scenarios/europe.sav:7
 msgid "Overhead 177x100 map of Europe."
-msgstr "Carte de l'Europe vue de dessus de 177×100."
+msgstr "Carte de l'Europe en vue de dessus de 177×100."
 
 #: data/scenarios/france.sav:5
 msgid "France (classic/large)"
@@ -38637,7 +38565,7 @@ msgstr "Mathieu Roy"
 
 #: data/scenarios/france.sav:7
 msgid "Overhead 140x90 map of France."
-msgstr "Carte de France de 140×90, vue de dessus."
+msgstr "Carte de la France en vue de dessus de 140×90."
 
 #: data/scenarios/hagworld.sav:5
 msgid "Earth (classic/medium)"
@@ -38649,7 +38577,7 @@ msgstr "Helge Arne Gudmestad, Daniel Markstedt"
 
 #: data/scenarios/hagworld.sav:7
 msgid "Overhead 120x60 map of the Earth."
-msgstr "Carte de la Terre de 120×60, vue de dessus."
+msgstr "Carte de la Terre en vue de dessus de 120×60."
 
 #: data/scenarios/iberian-peninsula.sav:5
 msgid "Iberian Peninsula (classic/large)"
@@ -38663,9 +38591,7 @@ msgstr "Miguel Farah, Daniel Markstedt"
 msgid ""
 "Overhead 136x100 map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
-msgstr ""
-"Carte de la péninsule Ibérique (Espagne moderne et Portugal) de 136×100, vue "
-"de dessus."
+msgstr "Carte de la péninsule Ibérique (Espagne moderne et Portugal) en vue de dessus de 136×100."
 
 #: data/scenarios/italy.sav:5
 msgid "Italy (classic/medium)"
@@ -38677,7 +38603,7 @@ msgstr "Paolo Sammicheli"
 
 #: data/scenarios/italy.sav:7
 msgid "Overhead 100x100 map of Italy."
-msgstr "Carte d'Italie de 100×100, vue de dessus."
+msgstr "Carte de l'Italie en vue de dessus de 100×100"
 
 #: data/scenarios/japan.sav:5
 msgid "Japan (classic/medium)"
@@ -38689,7 +38615,7 @@ msgstr "Robert Michael Best"
 
 #: data/scenarios/japan.sav:7
 msgid "Overhead 88x100 map of Japan (Mercator projection)."
-msgstr "Carte du Japon (projection de Mercator) de 88×100, vue de dessus."
+msgstr "Carte du Japon en vue de dessus de 88×100 (projection de Mercator)."
 
 #: data/scenarios/north_america.sav:5
 msgid "North America (classic/medium)"
@@ -38697,8 +38623,7 @@ msgstr "Amérique du Nord (classique, moyen)"
 
 #: data/scenarios/north_america.sav:7
 msgid "Overhead 116x100 map of North America (conical projection)."
-msgstr ""
-"Carte d'Amérique du Nord (projection conique) de 116×100, vue de dessus."
+msgstr "Carte de l'Amérique du Nord en vue de dessus de 116×100 (projection conique)."
 
 #: data/scenarios/europe_1900_WWI.sav:5
 msgid "Europe 1900"
@@ -38813,8 +38738,8 @@ msgstr ""
 "Vous voulez probablement construire quelques Colons tout d'abord, et\n"
 "ainsi étendre votre civilisation. Cliquez sur l'onglet production, puis\n"
 "sur l'unité Colons dans la liste de productions possibles, ensuite sur\n"
-"le bouton changer la production pour commencer à le construire. Lorsque\n"
-"vous avez terminé, fermez la fenêtre. Si tout va bien la ville devrait\n"
+"le bouton Changer la production pour commencer à le construire. Lorsque\n"
+"vous avez terminé, fermez la fenêtre. Si tout va bien, la ville devrait\n"
 "montrer la production du Colon sur la carte."
 
 #: data/scenarios/tutorial.sav:165
@@ -39143,9 +39068,9 @@ msgstr ""
 "capitale peuvent mériter plus de protection. Les unités construites\n"
 "dans une ville peuvent être envoyées dans une autre ville pour la\n"
 "défendre (appuyez sur la touche G pour entrer dans le mode \"aller à\",\n"
-"pour déplacer les unités plus facilement). Cependant si vous êtes en\n"
+"pour déplacer les unités plus facilement). Cependant, si vous êtes en\n"
 "Guerre, vous pouvez souhaiter déplacer votre unité vers une ville\n"
-"ennemie pour l'attaquer. Faites cependant attention à ne pas la perdre !"
+"ennemie pour l'attaquer. Faites néanmoins attention à ne pas la perdre !"
 
 #: data/scenarios/tutorial.sav:287
 msgid ""
@@ -39185,7 +39110,7 @@ msgstr ""
 "Vous avez construit une Caserne. Ce bâtiment fera d'emblée de toutes\n"
 "les unités militaires que vous construirez des vétérans. Les unités\n"
 "vétérans sont plus fortes que les troupes inexpérimentées (bleus), et\n"
-"survivront plus longtemps dans les combats.  Regardez l'aide sur les\n"
+"survivront plus longtemps dans les combats. Regardez l'aide sur les\n"
 "Bâtiments pour plus d'informations sur ce bâtiment et d'autres.\n"
 "\n"
 "Vous voulez probablement commencer à construire une unité militaire\n"
@@ -39312,7 +39237,7 @@ msgstr ""
 "civilisation est très important car il détermine votre développement.\n"
 "Au début vous commencez avec le Despotisme, une forme très inefficace\n"
 "de gouvernement. Les options futures de gouvernement vous donneront\n"
-"un certain nombre de choix entre une civilisation de paisible\n"
+"un certain nombre de choix entre une civilisation de paisibles\n"
 "marchands ou une machine à faire la guerre. Chacune a ses avantages.\n"
 "\n"
 "Actuellement, vous voulez probablement changer pour la République.\n"
@@ -42273,7 +42198,7 @@ msgstr ""
 #. TRANS: translate 'Handicapped' as AI skill level
 #: server/commands.c:358
 msgid "Set one or all AI players to 'Handicapped'."
-msgstr "Règle le niveau d'un ou de tous les joueurs IA à 'Attardé."
+msgstr "Règle le niveau d'un ou de tous les joueurs IA à 'Attardé'."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:363
@@ -44171,9 +44096,7 @@ msgstr "Un réchauffement de la planète vient d'avoir lieu !"
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
-msgstr ""
-"Les côtes ont été inondées, et de vastes parcelles de Prairie sont devenues "
-"Désertiques."
+msgstr "Les côtes ont été inondées, et de vastes étendues de Prairie sont devenues des Deserts."
 
 #: server/maphand.c:119
 msgid "Nuclear winter has occurred!"
@@ -44181,9 +44104,7 @@ msgstr "Un hiver nucléaire vient d'avoir lieu !"
 
 #: server/maphand.c:121
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
-msgstr ""
-"Les Marais se sont asséchés et de vastes parcelles de Prairie se sont "
-"transformées en Toundra."
+msgstr "Les Marais se sont asséchés et de vastes étendues de Prairie se sont transformées en Toundra."
 
 #: server/maphand.c:296
 msgid ""
@@ -45546,9 +45467,7 @@ msgid ""
 "again to make it take effect instead."
 msgstr ""
 "%s\n"
-"Actuellement, cette option est outrepassée par un ancien senario ou une "
-"ancienne sauvegarde,qui a fixé le nombre absolu de huttes à %d. Fixez "
-"explicitement cette option à nouveau pour lui faire prendre effet à la place."
+"Actuellement, cette option est outrepassée par un ancien scenario ou une ancienne sauvegarde du jeu, qui a fixé le nombre absolu de huttes à %d. Fixez explicitement cette option à nouveau pour lui faire prendre effet à la place."
 
 #: server/settings.c:647 server/settings.c:649
 #, c-format
@@ -45614,8 +45533,7 @@ msgid ""
 "Try \"/help startunits\"."
 msgstr ""
 "La première unité de départ doit pouvoir accéder à au moins un terrain "
-"\"Starter\". Essayez \n"
-"\"/help startunits\"."
+"\"Starter\". Essayez \"/help startunits\"."
 
 #: server/settings.c:1011
 msgid "Cannot set endturn earlier than current turn."
@@ -47378,9 +47296,7 @@ msgstr "Limiter l'utilisation des infrastructures pour les unités ennemies"
 msgid ""
 "If this option is enabled, the use of roads and rails will be restricted for "
 "enemy units."
-msgstr ""
-"Si cette option est activée, l'utilisation des Routes et des Chemins de Fers "
-"sera limitée pour les unités ennemies."
+msgstr "Si cette option est activée, l'utilisation des Routes et des Chemins de Fer sera limitée pour les unités ennemies."
 
 #: server/settings.c:2533
 msgid "Does unreachable unit protect reachable ones"
@@ -48462,10 +48378,8 @@ msgstr ""
 #, c-format
 msgid "Warning: you still have %d military unit in %s territory."
 msgid_plural "Warning: you still have %d military units in %s territory."
-msgstr[0] ""
-"Avertissement: vous avez encore %d unité militaire dans le territoire %s."
-msgstr[1] ""
-"Avertissement: vous avez encore %d unités militaires dans le territoire %s."
+msgstr[0] "Avertissement : vous avez encore %d unité militaire dans le territoire %s."
+msgstr[1] "Avertissement : vous avez encore %d unités militaires dans le territoire %s."
 
 #. TRANS: %s is another, separately translated sentence,
 #. * ending in a full stop.
@@ -48947,17 +48861,17 @@ msgstr "Chargement du fichier de script : '%s'."
 #: server/stdinhand.c:1223
 #, c-format
 msgid "Cannot read command line scriptfile '%s'."
-msgstr "Impossible de lire le fichier de script en ligne de commande \"%s\"."
+msgstr "Impossible de lire le fichier de script en ligne de commande '%s'."
 
 #: server/stdinhand.c:1225 server/stdinhand.c:4762
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "Impossible de lire le fichier de script \"%s\"."
+msgstr "Impossible de lire le fichier de script '%s'."
 
 #: server/stdinhand.c:1298
 #, c-format
 msgid "Could not write script file '%s'."
-msgstr "Impossible d'écrire dans le fichier de script \"%s\"."
+msgstr "Impossible d'écrire dans le fichier de script '%s'."
 
 #: server/stdinhand.c:1309
 msgid "You cannot use the write command on this server for security reasons."
@@ -50437,7 +50351,7 @@ msgstr "L'argument '%s' de 'help' est ambigu."
 #: server/stdinhand.c:6466
 #, c-format
 msgid "No match for help argument '%s'."
-msgstr "Pas de correspondance pour l'argument '%s' de 'help'."
+msgstr "Pas de correspondance pour l'argument '%s' de l'aide."
 
 #: server/stdinhand.c:6507
 msgid "List of connections to server:"
@@ -50455,7 +50369,7 @@ msgstr "Liste de toutes les délégations :"
 #: server/stdinhand.c:6544
 #, c-format
 msgid "%s delegates control over player '%s' to user %s%s."
-msgstr "%s délègue le controle sur le joueur '%s' à l'utilisateur %s%s."
+msgstr "%s délègue le contrôle sur le joueur '%s' à l'utilisateur %s%s."
 
 #. TRANS: preserve leading space
 #: server/stdinhand.c:6547
@@ -50866,12 +50780,16 @@ msgstr "Cette unité ne peut pas agir sans ville de rattachement."
 #: server/unithand.c:1585
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
-msgstr "Vous devez d'abord déclarer la guerre à %s. Essayez d'utiliser le dialogue des nations (F3)."
+msgstr ""
+"Vous devez d'abord déclarer la guerre à %s. Essayez d'utiliser le dialogue "
+"des nations (F3)."
 
 #: server/unithand.c:1595
 #, c-format
 msgid "You must break peace with %s first.  Try using the Nations report (F3)."
-msgstr "Vous devez d'abord rompre la paix avec %s. Essayez d'utiliser le dialogue des nations (F3)."
+msgstr ""
+"Vous devez d'abord rompre la paix avec %s. Essayez d'utiliser le dialogue "
+"des nations (F3)."
 
 #: server/unithand.c:1605
 msgid "This unit cannot act against domestic targets."
@@ -51100,7 +51018,9 @@ msgstr "Votre %s ne peut faire %s tant que vous n'êtes pas en guerre avec %s."
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
 "report (F3)."
-msgstr "Votre %s ne peut pas faire %s tant que vous êtes en paix avec %s. Essayez d'utiliser le dialogue des nations (F3)."
+msgstr ""
+"Votre %s ne peut pas faire %s tant que vous êtes en paix avec %s. Essayez "
+"d'utiliser le dialogue des nations (F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
@@ -51285,7 +51205,9 @@ msgstr "Votre %s a perdu %s PM pour avoir tenté une action illégale."
 msgid ""
 "No explanation why you couldn't do %s. This is a bug. Sorry about that. -- "
 "Sveinung"
-msgstr "Pas d'explication pourquoi vous n'avez pas pu faire %s. C'est un bug. Désolé. -- Sveinung"
+msgstr ""
+"Pas d'explication pourquoi vous n'avez pas pu faire %s. C'est un bug. "
+"Désolé. -- Sveinung"
 
 #. TRANS: other player ... unit type ... city name.
 #: server/unithand.c:3463
