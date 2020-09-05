@@ -1421,8 +1421,14 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
               _("Command access levels in effect:"));
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, horiz_line);
     conn_list_iterate(game.est_connections, pconn) {
-      cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "cmdlevel %s %s",
-                cmdlevel_name(conn_get_access(pconn)), pconn->username);
+      const char *lvl_name = cmdlevel_name(conn_get_access(pconn));
+
+      if (lvl_name != NULL) {
+        cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT, "cmdlevel %s %s",
+                  lvl_name, pconn->username);
+      } else {
+        fc_assert(lvl_name != NULL); /* Always fails when reached. */
+      }
     } conn_list_iterate_end;
     cmd_reply(CMD_CMDLEVEL, caller, C_COMMENT,
               _("Command access level for new connections: %s"),
