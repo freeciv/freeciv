@@ -165,6 +165,7 @@ struct client_options
   bool sound_enable_effects;
   bool sound_enable_menu_music;
   bool sound_enable_game_music;
+  int sound_effects_volume;
 
   bool draw_city_outlines;
   bool draw_city_output;

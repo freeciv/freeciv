@@ -102,7 +102,7 @@ static bool sdl_audio_play(const char *const tag, const char *const fullpath,
     }
     log_verbose("Playing file \"%s\" on music channel", fullpath);
     /* in case we did a sdl_audio_stop() recently; add volume controls later */
-    Mix_VolumeMusic(MIX_MAX_VOLUME);
+    Mix_VolumeMusic(sdl_audio_volume * MIX_MAX_VOLUME);
 
   } else {
 

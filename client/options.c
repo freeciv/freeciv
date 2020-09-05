@@ -145,6 +145,7 @@ struct client_options gui_options = {
   .sound_enable_effects = TRUE,
   .sound_enable_menu_music = TRUE,
   .sound_enable_game_music = TRUE,
+  .sound_effects_volume = 100,
 
 /* This option is currently set by the client - not by the user. */
   .update_city_text_in_refresh_tile = TRUE,
@@ -1850,6 +1851,7 @@ static void font_changed_callback(struct option *poption);
 static void mapimg_changed_callback(struct option *poption);
 static void game_music_enable_callback(struct option *poption);
 static void menu_music_enable_callback(struct option *poption);
+static void sound_volume_callback(struct option *poption);
 
 static struct client_option client_options[] = {
   GEN_STR_OPTION(default_user_name,
@@ -2317,6 +2319,13 @@ static struct client_option client_options[] = {
                      "assuming there's suitable "
                      "sound plugin and musicset with menu music tracks."),
                   COC_SOUND, GUI_STUB, TRUE, menu_music_enable_callback),
+  GEN_INT_OPTION(sound_effects_volume,
+                 N_("Sound volume"),
+                 N_("Volume scale from 0-100"),
+                 COC_SOUND, GUI_STUB, 100,
+                 0, 100,
+                 sound_volume_callback),
+
   GEN_BOOL_OPTION(autoaccept_soundset_suggestion,
                   N_("Autoaccept soundset suggestions"),
                   N_("If this option is enabled, any soundset suggested by "
@@ -6264,6 +6273,14 @@ static void manual_turn_done_callback(struct option *poption)
       user_ended_turn();
     }
   }
+}
+
+/****************************************************************************
+  Callback for changing music volume
+****************************************************************************/
+static void sound_volume_callback(struct option *poption)
+{
+  audio_set_volume(gui_options.sound_effects_volume / 100.0);
 }
 
 /************************************************************************//**
