@@ -381,10 +381,10 @@ void report_top_five_cities(struct conn_list *dest)
 
     wonders = nr_wonders(size[i].city);
     if (wonders == 0) {
-      cat_snprintf(buffer, sizeof(buffer), _("with no wonders\n"));
+      cat_snprintf(buffer, sizeof(buffer), _("with no Great Wonders\n"));
     } else {
       cat_snprintf(buffer, sizeof(buffer),
-		   PL_("with %d wonder\n", "with %d wonders\n", wonders),
+		   PL_("with %d Great Wonder\n", "with %d Great Wonders\n", wonders),
 		   wonders);}
   }
   page_conn(dest, _("Traveler's Report:"),
