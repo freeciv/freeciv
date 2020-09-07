@@ -155,7 +155,6 @@ SOUND_DLLS := \
 	libogg-0.dll \
 	libportaudio-2.dll \
 	libsndfile-1.dll \
-	libspeex-1.dll \
 	libmpg123-0.dll \
 	libopusfile-0.dll \
 	libopus-0.dll
@@ -207,6 +206,8 @@ COMMON_DLLS := \
 	libbrotlicommon.dll \
 	libreadline8.dll \
 	libtermcap-0.dll \
+	libssp-0.dll \
+	libzstd.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
