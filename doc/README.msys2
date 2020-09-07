@@ -24,7 +24,7 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20200602.exe
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20200903.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -110,9 +110,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-200610.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20200602.exe
-with packages updated to 10-Jun-2020 level.
+msys2-freeciv-win64-200906.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20200903.exe
+with packages updated to 06-Sep-2020 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
