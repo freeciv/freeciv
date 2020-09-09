@@ -995,7 +995,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
 
 /************************************************************************//**
   Create saved small wonders in random cities. Usually used to save the
-  palace when the capital was conquered. Respects the 'savepalace'
+  palace when the primary capital was conquered. Respects the 'savepalace'
   server setting.
 ****************************************************************************/
 static void build_free_small_wonders(struct player *pplayer,
@@ -1166,6 +1166,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   /* city_thaw_workers_queue() later */
 
   pcity->owner = ptaker;
+  pcity->capital = CAPITAL_NOT;
   map_claim_ownership(pcenter, ptaker, pcenter, TRUE);
   city_list_prepend(ptaker->cities, pcity);
 
@@ -1203,7 +1204,7 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
     resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);
   }
 
-  if (! city_exist(saved_id)) {
+  if (!city_exist(saved_id)) {
     city_remains = FALSE;
   }
 
@@ -1364,6 +1365,10 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
   if (old_giver_content_citizens != player_content_citizens(pgiver)
       || old_giver_angry_citizens != player_angry_citizens(pgiver)) {
     city_refresh_for_player(pgiver);
+  }
+
+  if (pgiver->primary_capital_id == saved_id) {
+    update_capital(pgiver);
   }
 
   sync_cities();
@@ -2082,6 +2087,7 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   packet->walls = pdcity->walls;
   packet->style = pdcity->style;
   packet->city_image = pdcity->city_image;
+  packet->capital = pdcity->capital;
 
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
@@ -2500,6 +2506,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->walls = city_got_citywalls(pcity);
   packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
+  packet->capital = pcity->capital;
   packet->steal = pcity->steal;
 
   packet->rally_point_length = pcity->rally_point.length;
@@ -2556,6 +2563,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   bool unhappy = city_unhappy(pcity);
   int style = pcity->style;
   int city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
+  enum capital_type capital = pcity->capital;
 
   BV_CLR_ALL(improvements);
   improvement_iterate(pimprove) {
@@ -2586,6 +2594,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
              && pdcity->unhappy == unhappy
              && pdcity->style == style
              && pdcity->city_image == city_image
+             && pdcity->capital == capital
              && BV_ARE_EQUAL(pdcity->improvements, improvements)
              && vision_site_size_get(pdcity) == city_size_get(pcity)
              && vision_site_owner(pdcity) == city_owner(pcity)
@@ -2598,6 +2607,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   pdcity->walls = walls;
   pdcity->style = style;
   pdcity->city_image = city_image;
+  pdcity->capital = capital;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
   pdcity->improvements = improvements;

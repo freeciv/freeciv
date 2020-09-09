@@ -4787,6 +4787,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   pdcity->city_image = secfile_lookup_int_default(loading->file, -100,
                                                   "%s.city_image", citystr);
 
+  pdcity->capital = CAPITAL_NOT;
+
   return TRUE;
 }
 

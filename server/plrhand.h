@@ -41,6 +41,7 @@ void update_revolution(struct player *pplayer);
 void government_change(struct player *pplayer, struct government *gov,
                        bool revolution_finished);
 int revolution_length(struct government *gov, struct player *plr);
+void update_capital(struct player *pplayer);
 
 struct player_economic player_limit_to_max_rates(struct player *pplayer);
 

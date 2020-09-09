@@ -592,6 +592,49 @@ void update_revolution(struct player *pplayer)
 }
 
 /**********************************************************************//**
+  Recalculate what city is the named capital
+**************************************************************************/
+void update_capital(struct player *pplayer)
+{
+  int max_value = 0;
+  struct city *primary_capital = NULL;
+  int same_value_count = 0;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    int value = get_city_bonus(pcity, EFT_CAPITAL_CITY);
+
+    if (value > max_value) {
+      max_value = value;
+      primary_capital = pcity;
+      same_value_count = 1;
+      /* Mark it at least some kind of capital, might turn to named capital
+       * after all have been processed. */
+      pcity->capital = CAPITAL_SECONDARY;
+    } else if (value > 0) {
+      /* Mark it at least some kind of capital. */
+      pcity->capital = CAPITAL_SECONDARY;
+      if (value == max_value) {
+        fc_assert(same_value_count >= 1);
+        same_value_count++;
+        if (fc_rand(same_value_count) == 1) {
+          primary_capital = pcity;
+        }
+      }
+    } else {
+      /* Not capital at all */
+      pcity->capital = CAPITAL_NOT;
+    }
+  } city_list_iterate_end;
+
+  if (primary_capital != NULL) {
+    primary_capital->capital = CAPITAL_PRIMARY;
+    pplayer->primary_capital_id = primary_capital->id;
+  } else {
+    pplayer->primary_capital_id = 0;
+  }
+}
+
+/**********************************************************************//**
   The following checks that government rates are acceptable for the present
   form of government. Has to be called when switching governments or when
   toggling from AI to human.
@@ -2671,7 +2714,7 @@ bool civil_war_possible(struct player *pplayer, bool conquering_city,
 
 /**********************************************************************//**
   civil_war_triggered:
-   * The capture of a capital is not a sure fire way to throw
+   * The capture of a primary capital is not a sure fire way to throw
   and empire into civil war.  Some governments are more susceptible
   than others, here are the base probabilities:
   Anarchy   	90%
@@ -2717,10 +2760,10 @@ bool civil_war_triggered(struct player *pplayer)
 }
 
 /**********************************************************************//**
-  Capturing a nation's capital is a devastating blow.  This function
+  Capturing a nation's primary capital is a devastating blow. This function
   creates a new AI player, and randomly splits the original players
   city list into two.  Of course this results in a real mix up of
-  teritory - but since when have civil wars ever been tidy, or civil.
+  territory - but since when have civil wars ever been tidy, or civil.
 
   Embassies:  All embassies with other players are lost.  Other players
               retain their embassies with pplayer.

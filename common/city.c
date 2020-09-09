@@ -1503,7 +1503,7 @@ bool city_can_be_built_tile_only(const struct tile *ptile)
 **************************************************************************/
 bool is_capital(const struct city *pcity)
 {
-  return (get_city_bonus(pcity, EFT_CAPITAL_CITY) > 0);
+  return pcity->capital != CAPITAL_NOT;
 }
 
 /**********************************************************************//**
@@ -3295,6 +3295,7 @@ struct city *create_city_virtual(struct player *pplayer,
    * zero. There is no need to initialize it a second time. */
 
   /* Now set some usefull default values. */
+  pcity->capital = CAPITAL_NOT;
   city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
 

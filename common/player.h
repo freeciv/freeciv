@@ -260,6 +260,8 @@ struct player {
   /* Turn in which the player's revolution is over; see update_revolution. */
   int revolution_finishes;
 
+  int primary_capital_id;
+
   bv_player real_embassy;
   const struct player_diplstate **diplstates;
   struct nation_style *style;

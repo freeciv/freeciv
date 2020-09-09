@@ -6779,6 +6779,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   citizens city_size;
   int nat_x, nat_y;
   const char *stylename;
+  enum capital_type cap;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x",
                                      citystr),
@@ -6858,6 +6859,16 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
 
   pdcity->city_image = secfile_lookup_int_default(loading->file, -100,
                                                   "%s.city_image", citystr);
+
+  cap = capital_type_by_name(secfile_lookup_str_default(loading->file, NULL,
+                                                        "%s.capital", citystr),
+                             fc_strcasecmp);
+
+  if (capital_type_is_valid(cap)) {
+    pdcity->capital = cap;
+  } else {
+    pdcity->capital = CAPITAL_NOT;
+  }
 
   return TRUE;
 }
@@ -6995,6 +7006,8 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_str(saving->file, city_style_rule_name(pdcity->style),
                          "%s.style", buf);
       secfile_insert_int(saving->file, pdcity->city_image, "%s.city_image", buf);
+      secfile_insert_str(saving->file, capital_type_name(pdcity->capital),
+                         "%s.capital", buf);
 
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement.order. */

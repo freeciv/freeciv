@@ -1276,6 +1276,7 @@ static void begin_phase(bool is_new_phase)
 
   alive_phase_players_iterate(pplayer) {
     update_revolution(pplayer);
+    update_capital(pplayer);
   } alive_phase_players_iterate_end;
 
   if (is_new_phase) {

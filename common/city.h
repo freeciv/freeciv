@@ -303,6 +303,7 @@ struct city {
   struct player *original; /* Cannot be NULL. */
   int id;
   int style;
+  enum capital_type capital;
 
   /* the people */
   citizens size;

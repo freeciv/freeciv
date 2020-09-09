@@ -495,7 +495,7 @@ static void check_units(const char *file, const char *function, int line)
 static void check_players(const char *file, const char *function, int line)
 {
   players_iterate(pplayer) {
-    int found_palace = 0;
+    int found_primary_capital = 0;
 
     if (!pplayer->is_alive) {
       /* Dead players' units and cities are disbanded in kill_player(). */
@@ -513,10 +513,10 @@ static void check_players(const char *file, const char *function, int line)
                    && !pplayer->server.got_first_city));
 
     city_list_iterate(pplayer->cities, pcity) {
-      if (is_capital(pcity)) {
-	found_palace++;
+      if (pcity->capital == CAPITAL_PRIMARY) {
+	found_primary_capital++;
       }
-      SANITY_CITY(pcity, found_palace <= 1);
+      SANITY_CITY(pcity, found_primary_capital <= 1);
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {

@@ -140,7 +140,10 @@ Any_Government
     Allow changing to any form of government regardless of tech prerequisites.
 
 Capital_City
-    The city with this effect is the capital city.
+    The city with positive value is a capital city. Player's city with highest
+    Capital_City value (or random among those with equal positive value) is
+    the primary capital. Cities with lesser positive value are secondary
+    capitals.
 
 Gov_Center
     The city with this effect is governmental center. Corruption and

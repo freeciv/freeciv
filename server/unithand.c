@@ -3993,6 +3993,7 @@ static bool unit_do_destroy_city(struct player *act_player,
 {
   int tgt_city_id;
   struct player *tgt_player;
+  bool capital;
   bool try_civil_war = FALSE;
 
   /* Sanity check: The actor still exists. */
@@ -4010,14 +4011,16 @@ static bool unit_do_destroy_city(struct player *act_player,
   /* Save city ID. */
   tgt_city_id = tgt_city->id;
 
-  if (is_capital(tgt_city)
+  capital = (player_capital(tgt_player) == tgt_city);
+
+  if (capital
       && (tgt_player->spaceship.state == SSHIP_STARTED
           || tgt_player->spaceship.state == SSHIP_LAUNCHED)) {
     /* Destroying this city destroys the victim's space ship. */
     spaceship_lost(tgt_player);
   }
 
-  if (is_capital(tgt_city)
+  if (capital
       && civil_war_possible(tgt_player, TRUE, TRUE)
       && normal_player_count() < MAX_NUM_PLAYERS
       && civil_war_triggered(tgt_player)) {

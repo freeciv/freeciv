@@ -540,6 +540,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->phase_done = FALSE;
 
   pplayer->revolution_finishes = -1;
+  pplayer->primary_capital_id = 0;
 
   BV_CLR_ALL(pplayer->real_embassy);
   players_iterate(aplayer) {
@@ -1254,16 +1255,16 @@ bool player_knows_techs_with_flag(const struct player *pplayer,
 ***********************************************************************/
 struct city *player_capital(const struct player *pplayer)
 {
+  struct city *capital;
+
   if (!pplayer) {
     /* The client depends on this behavior in some places. */
     return NULL;
   }
-  city_list_iterate(pplayer->cities, pcity) {
-    if (is_capital(pcity)) {
-      return pcity;
-    }
-  } city_list_iterate_end;
-  return NULL;
+
+  capital = player_city_by_number(pplayer, pplayer->primary_capital_id);
+
+  return capital;
 }
 
 /*******************************************************************//**

@@ -827,6 +827,12 @@ void handle_city_info(const struct packet_city_info *packet)
     pcity->client.walls = NUM_WALL_TYPES;
   }
   pcity->style = packet->style;
+  pcity->capital = packet->capital;
+  if (packet->capital == CAPITAL_PRIMARY) {
+    powner->primary_capital_id = pcity->id;
+  } else if (powner->primary_capital_id == pcity->id) {
+    powner->primary_capital_id = 0;
+  }
   pcity->client.city_image = packet->city_image;
   pcity->steal = packet->steal;
 
@@ -1148,6 +1154,12 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
   }
   pcity->client.walls = packet->walls;
   pcity->style = packet->style;
+  pcity->capital = packet->capital;
+  if (packet->capital == CAPITAL_PRIMARY) {
+    powner->primary_capital_id = pcity->id;
+  } else if (powner->primary_capital_id == pcity->id) {
+    powner->primary_capital_id = 0;
+  }
   pcity->client.city_image = packet->city_image;
 
   pcity->client.happy = packet->happy;

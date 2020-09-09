@@ -1146,6 +1146,16 @@ typedef float adv_want;
 
 enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME capital_type
+#define SPECENUM_VALUE0 CAPITAL_NOT
+#define SPECENUM_VALUE0NAME "Not"
+#define SPECENUM_VALUE1 CAPITAL_SECONDARY
+#define SPECENUM_VALUE1NAME "Secondary"
+#define SPECENUM_VALUE2 CAPITAL_PRIMARY
+#define SPECENUM_VALUE2NAME "Primary"
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

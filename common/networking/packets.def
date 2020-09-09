@@ -264,6 +264,7 @@ type GOODS_SELECTION    = uint8(enum goods_selection_method)
 type EUS                = uint8(enum extra_unit_seen_type)
 type VLAYER             = uint8(enum vision_layer)
 type SETDEFLVL          = uint8(enum setting_default_level)
+type CAPITAL            = uint8(enum capital_type)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -682,6 +683,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   CITIZENS size;
   UINT8 city_radius_sq;
   UINT8 style;
+  CAPITAL capital;
 
   CITIZENS ppl_happy[FEELING_LAST];
   CITIZENS ppl_content[FEELING_LAST];
@@ -758,6 +760,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO), 
   PLAYER owner;
   UINT8 size;
   UINT8 style;
+  CAPITAL capital;
 
   BOOL  occupied;
   UINT8 walls;
