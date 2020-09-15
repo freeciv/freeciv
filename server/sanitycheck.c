@@ -264,6 +264,18 @@ static bool check_city_good(struct city *pcity, const char *file,
     }
   } city_built_iterate_end;
 
+  worker_task_list_iterate(pcity->task_reqs, ptask) {
+    if (!worker_task_is_sane(ptask)) {
+      SANITY_FAIL("(%4d,%4d) Bad worker task %d in \"%s\", removing...",
+                  TILE_XY(pcity->tile),
+                  ptask->act,
+                  city_name_get(pcity));
+      worker_task_list_remove(pcity->task_reqs, ptask);
+      free(ptask);
+      ptask = NULL;
+    }
+  } worker_task_list_iterate_end;
+
   return TRUE;
 }
 

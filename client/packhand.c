@@ -1165,6 +1165,14 @@ void handle_worker_task(const struct packet_worker_task *packet)
     ptask->want = packet->want;
   }
 
+  if (ptask && !worker_task_is_sane(ptask)) {
+    log_debug("Bad worker task");
+    worker_task_list_remove(pcity->task_reqs, ptask);
+    free(ptask);
+    ptask = NULL;
+    return;
+  }
+
   refresh_city_dialog(pcity);
 }
 

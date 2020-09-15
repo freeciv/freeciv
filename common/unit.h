@@ -236,6 +236,8 @@ struct unit {
 
 void setup_real_activities_array(void);
 
+bool is_real_activity(enum unit_activity activity);
+
 extern Activity_type_id real_activities[ACTIVITY_LAST];
 
 #define activity_type_list_iterate(_act_list_, _act_)                        \

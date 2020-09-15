@@ -7482,6 +7482,22 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
 
+  /* Prevent a buggy or intentionally crafted save game from crashing
+   * Freeciv. See hrm Bug #887748 */
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pcity) {
+      worker_task_list_iterate(pcity->task_reqs, ptask) {
+        if (!worker_task_is_sane(ptask)) {
+          log_error("[city id: %d] Bad worker task %d.",
+                    pcity->id, ptask->act);
+          worker_task_list_remove(pcity->task_reqs, ptask);
+          free(ptask);
+          ptask = NULL;
+        }
+      } worker_task_list_iterate_end;
+    } city_list_iterate_end;
+  } players_iterate_end;
+
   /* Check worked tiles map */
 #ifdef DEBUG
   if (loading->worked_tiles != NULL) {

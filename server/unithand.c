@@ -3750,5 +3750,13 @@ void handle_worker_task(struct player *pplayer,
     ptask->want = packet->want;
   }
 
+  if (ptask && !worker_task_is_sane(ptask)) {
+    log_debug("Bad worker task");
+    worker_task_list_remove(pcity->task_reqs, ptask);
+    free(ptask);
+    ptask = NULL;
+    return;
+  }
+
   lsend_packet_worker_task(pplayer->connections, packet);
 }

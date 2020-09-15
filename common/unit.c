@@ -41,8 +41,6 @@
 
 #include "unit.h"
 
-static bool is_real_activity(enum unit_activity activity);
-
 Activity_type_id real_activities[ACTIVITY_LAST];
 
 struct cargo_iter {
@@ -590,7 +588,7 @@ void setup_real_activities_array(void)
   Return if given activity really is in game. For savegame compatibility
   activity enum cannot be reordered and there is holes in it.
 **************************************************************************/
-static bool is_real_activity(enum unit_activity activity)
+bool is_real_activity(enum unit_activity activity)
 {
   /* ACTIVITY_FORTRESS, ACTIVITY_AIRBASE, ACTIVITY_OLD_ROAD, and
    * ACTIVITY_OLD_RAILROAD are deprecated */
