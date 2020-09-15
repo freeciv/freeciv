@@ -20,6 +20,8 @@
 
 /* common */
 #include "city.h"
+#include "extras.h"
+#include "unit.h"
 
 #include "workertask.h"
 
@@ -30,4 +32,36 @@ void worker_task_init(struct worker_task *ptask)
 {
   ptask->ptile = NULL;
   ptask->want = 0;
+}
+
+/************************************************************************//**
+  Returns TRUE iff the specified worker_task is sane.
+****************************************************************************/
+bool worker_task_is_sane(struct worker_task *ptask)
+{
+  if (ptask == NULL) {
+    return FALSE;
+  }
+
+  if (ptask->ptile == NULL) {
+    return FALSE;
+  }
+
+  if (!is_real_activity(ptask->act)) {
+    return FALSE;
+  }
+
+  if (activity_requires_target(ptask->act)) {
+    if (ptask->tgt == NULL) {
+      return FALSE;
+    }
+    if (!is_extra_caused_by(ptask->tgt,
+                            activity_to_extra_cause(ptask->act))
+        && !is_extra_removed_by(ptask->tgt,
+                                activity_to_extra_rmcause(ptask->act))) {
+      return FALSE;
+    }
+  }
+
+  return TRUE;
 }

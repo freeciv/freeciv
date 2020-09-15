@@ -36,6 +36,8 @@ struct worker_task
 
 void worker_task_init(struct worker_task *ptask);
 
+bool worker_task_is_sane(struct worker_task *ptask);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
