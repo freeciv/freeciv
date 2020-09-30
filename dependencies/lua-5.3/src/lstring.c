@@ -54,7 +54,6 @@ unsigned int luaS_hash (const char *str, size_t l, unsigned int seed) {
   return h;
 }
 
-
 unsigned int luaS_hashlongstr (TString *ts) {
   lua_assert(ts->tt == LUA_TLNGSTR);
   if (ts->extra == 0) {  /* no hash? */
@@ -134,12 +133,14 @@ static TString *createstrobj (lua_State *L, size_t l, int tag, unsigned int h) {
   TString *ts;
   GCObject *o;
   size_t totalsize;  /* total size of TString object */
+  char *str;
   totalsize = sizelstring(l);
   o = luaC_newobj(L, tag, totalsize);
   ts = gco2ts(o);
   ts->hash = h;
   ts->extra = 0;
-  getstr(ts)[l] = '\0';  /* ending 0 */
+  str = getstr(ts);
+  str[l] = '\0';  /* ending 0 */
   return ts;
 }
 

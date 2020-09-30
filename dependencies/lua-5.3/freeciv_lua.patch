@@ -1,6 +1,6 @@
 diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
---- lua-5.3/src/ldo.c	2019-06-03 01:45:00.598378079 +0300
-+++ lua-5.3/src/ldo.c	2018-11-09 23:58:35.688634650 +0200
+--- lua-5.3/src/ldo.c	2020-09-30 08:27:32.770988404 +0300
++++ lua-5.3/src/ldo.c	2020-09-30 08:26:21.694346748 +0300
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -11,8 +11,8 @@ diff -Nurd lua-5.3/src/ldo.c lua-5.3/src/ldo.c
  /* in POSIX, try _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
 diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
---- lua-5.3/src/liolib.c	2019-06-03 01:45:00.598378079 +0300
-+++ lua-5.3/src/liolib.c	2018-11-09 23:58:35.692634650 +0200
+--- lua-5.3/src/liolib.c	2020-09-30 08:27:32.770988404 +0300
++++ lua-5.3/src/liolib.c	2020-09-30 08:26:21.694346748 +0300
 @@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
@@ -32,8 +32,8 @@ diff -Nurd lua-5.3/src/liolib.c lua-5.3/src/liolib.c
  #include <sys/types.h>
  
 diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
---- lua-5.3/src/loslib.c	2019-06-03 01:45:00.598378079 +0300
-+++ lua-5.3/src/loslib.c	2018-11-09 23:58:35.692634650 +0200
+--- lua-5.3/src/loslib.c	2020-09-30 08:27:32.770988404 +0300
++++ lua-5.3/src/loslib.c	2020-09-30 08:26:21.694346748 +0300
 @@ -81,7 +81,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -52,9 +52,28 @@ diff -Nurd lua-5.3/src/loslib.c lua-5.3/src/loslib.c
  
  #include <unistd.h>
  
+diff -Nurd lua-5.3/src/lstring.c lua-5.3/src/lstring.c
+--- lua-5.3/src/lstring.c	2020-09-30 08:27:07.934764097 +0300
++++ lua-5.3/src/lstring.c	2020-09-30 08:26:21.694346748 +0300
+@@ -134,12 +134,14 @@
+   TString *ts;
+   GCObject *o;
+   size_t totalsize;  /* total size of TString object */
++  char *str;
+   totalsize = sizelstring(l);
+   o = luaC_newobj(L, tag, totalsize);
+   ts = gco2ts(o);
+   ts->hash = h;
+   ts->extra = 0;
+-  getstr(ts)[l] = '\0';  /* ending 0 */
++  str = getstr(ts);
++  str[l] = '\0';  /* ending 0 */
+   return ts;
+ }
+ 
 diff -Nurd lua-5.3/src/luaconf.h lua-5.3/src/luaconf.h
---- lua-5.3/src/luaconf.h	2019-06-03 01:45:00.598378079 +0300
-+++ lua-5.3/src/luaconf.h	2018-11-09 23:58:35.692634650 +0200
+--- lua-5.3/src/luaconf.h	2020-09-30 08:27:32.770988404 +0300
++++ lua-5.3/src/luaconf.h	2020-09-30 08:26:21.694346748 +0300
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
