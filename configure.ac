@@ -1328,7 +1328,6 @@ fi
 AC_CHECK_LIB(nls,main)
 
 dnl Checks for header files.
-AC_HEADER_STDC
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([fcntl.h sys/utsname.h \
                   sys/file.h signal.h strings.h execinfo.h \
