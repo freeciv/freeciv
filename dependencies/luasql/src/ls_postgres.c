@@ -3,7 +3,6 @@
 ** Authors: Pedro Rabinovitch, Roberto Ierusalimschy, Carlos Cassino
 ** Tomas Guisasola, Eduardo Quintao
 ** See Copyright Notice in license.html
-** $Id: ls_postgres.c,v 1.11 2009/02/07 23:16:23 tomas Exp $
 */
 
 #include <assert.h>
@@ -48,9 +47,6 @@ typedef struct {
 
 
 typedef void (*creator) (lua_State *L, cur_data *cur);
-
-
-LUASQL_API int luaopen_luasql_postgres(lua_State *L);
 
 
 /*

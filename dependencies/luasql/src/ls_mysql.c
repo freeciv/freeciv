@@ -2,7 +2,6 @@
 ** LuaSQL, MySQL driver
 ** Authors:  Eduardo Quintao
 ** See Copyright Notice in license.html
-** $Id: ls_mysql.c,v 1.31 2009/02/07 23:16:23 tomas Exp $
 */
 
 #include <assert.h>
@@ -76,9 +75,8 @@ typedef struct {
 	int        numcols;            /* number of columns */
 	int        colnames, coltypes; /* reference to column information tables */
 	MYSQL_RES *my_res;
+	MYSQL 	  *my_conn;
 } cur_data;
-
-LUASQL_API int luaopen_luasql_mysql (lua_State *L);
 
 
 /*
@@ -248,6 +246,64 @@ static int cur_fetch (lua_State *L) {
 	}
 }
 
+/*
+** Get the next result from multiple statements
+*/
+static int cur_next_result (lua_State *L) {
+	cur_data *cur = getcursor (L);
+	MYSQL* con = cur->my_conn;
+	int status;
+	if(mysql_more_results(con)){
+		status = mysql_next_result(con);
+		if(status == 0){
+			mysql_free_result(cur->my_res);
+			cur->my_res = mysql_store_result(con);
+			if(cur->my_res != NULL){
+				lua_pushboolean(L, 1);
+				return 1;
+			}else{
+				lua_pushboolean(L, 0);
+				lua_pushinteger(L, mysql_errno(con));
+				lua_pushstring(L, mysql_error(con));
+				return 3;
+			}
+		}else{
+			lua_pushboolean(L, 0);
+			lua_pushinteger(L, status);
+			switch(status){
+				case CR_COMMANDS_OUT_OF_SYNC:
+					lua_pushliteral(L, "CR_COMMANDS_OUT_OF_SYNC");
+				break;
+				case CR_SERVER_GONE_ERROR:
+					lua_pushliteral(L, "CR_SERVER_GONE_ERROR");
+				break;
+				case CR_SERVER_LOST:
+					lua_pushliteral(L, "CR_SERVER_LOST");
+				break;
+				case CR_UNKNOWN_ERROR:
+					lua_pushliteral(L, "CR_UNKNOWN_ERROR");
+				break;
+				default:
+					lua_pushliteral(L, "Unknown");
+			}
+			return 3;
+		}
+	}else{
+		lua_pushboolean(L, 0);
+		lua_pushinteger(L, -1);
+		return 2;
+	}
+}
+
+/*
+** Check if next result is available
+*/
+static int cur_has_next_result (lua_State *L) {
+	cur_data *cur = getcursor (L);
+	lua_pushboolean(L, mysql_more_results(cur->my_conn));
+	return 1;
+}
+
 
 /*
 ** Cursor object collector function
@@ -336,7 +392,7 @@ static int cur_seek (lua_State *L) {
 /*
 ** Create a new Cursor object and push it on top of the stack.
 */
-static int create_cursor (lua_State *L, int conn, MYSQL_RES *result, int cols) {
+static int create_cursor (lua_State *L, MYSQL *my_conn, int conn, MYSQL_RES *result, int cols) {
 	cur_data *cur = (cur_data *)lua_newuserdata(L, sizeof(cur_data));
 	luasql_setmeta (L, LUASQL_CURSOR_MYSQL);
 
@@ -347,6 +403,7 @@ static int create_cursor (lua_State *L, int conn, MYSQL_RES *result, int cols) {
 	cur->colnames = LUA_NOREF;
 	cur->coltypes = LUA_NOREF;
 	cur->my_res = result;
+	cur->my_conn = my_conn;
 	lua_pushvalue (L, conn);
 	cur->conn = luaL_ref (L, LUA_REGISTRYINDEX);
 
@@ -437,7 +494,7 @@ static int conn_execute (lua_State *L) {
 		unsigned int num_cols = mysql_field_count(conn->my_conn);
 
 		if (res) { /* tuples returned */
-			return create_cursor (L, 1, res, num_cols);
+			return create_cursor (L, conn->my_conn, 1, res, num_cols);
 		}
 		else { /* mysql_use_result() returned nothing; should it have? */
 			if(num_cols == 0) { /* no tuples returned */
@@ -460,6 +517,7 @@ static int conn_commit (lua_State *L) {
 	lua_pushboolean(L, !mysql_commit(conn->my_conn));
 	return 1;
 }
+
 
 
 /*
@@ -604,6 +662,8 @@ static void create_metatables (lua_State *L) {
         {"fetch", cur_fetch},
         {"numrows", cur_numrows},
         {"seek", cur_seek},
+		{"nextresult", cur_next_result},
+		{"hasnextresult", cur_has_next_result},
 		{NULL, NULL},
     };
 	luasql_createmeta (L, LUASQL_ENVIRONMENT_MYSQL, environment_methods);

@@ -3,7 +3,6 @@
 ** Authors: Pedro Rabinovitch, Roberto Ierusalimschy, Diego Nehab,
 ** Tomas Guisasola
 ** See Copyright Notice in license.html
-** $Id: ls_odbc.c,v 1.39 2009/02/07 23:16:23 tomas Exp $
 */
 
 #include <assert.h>
@@ -88,8 +87,6 @@ static int error(SQLRETURN a)
 	return (a != SQL_SUCCESS) && (a != SQL_SUCCESS_WITH_INFO) && (a != SQL_NO_DATA);
 }
 
-
-LUASQL_API int luaopen_luasql_odbc (lua_State *L);
 
 /*
 ** Registers a given C object in the registry to avoid GC
