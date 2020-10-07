@@ -1330,7 +1330,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
                                               pterrain->cultivate_time),
                   pterrain->cultivate_time);
-      str = N_("Irrig. Rslt/Time:");;
+      str = N_("Cultiv. Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->irrigation_result),
                           HELP_TERRAIN)
             + QString(buffer).toHtmlEscaped();
@@ -1355,7 +1355,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
                                               pterrain->plant_time),
                   pterrain->plant_time);
-      str = N_("Mine Rslt/Time:");;
+      str = N_("Plant Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->mining_result),
                           HELP_TERRAIN)
             + QString(buffer).toHtmlEscaped();
