@@ -177,7 +177,7 @@ static void usdlg_cmd_sentry(GObject *object, gpointer data);
 static void usdlg_cmd_select(GObject *object, gpointer data);
 static void usdlg_cmd_deselect(GObject *object, gpointer data);
 static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
-                           enum usdlg_cmd cmd);
+			   enum usdlg_cmd cmd);
 static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd);
 static void usdlg_cmd_center(GObject *object, gpointer data);
 static void usdlg_cmd_focus(GObject *object, gpointer data);
@@ -933,7 +933,8 @@ static void usdlg_cmd_deselect(GObject *object, gpointer data)
 static void usdlg_cmd_exec(GObject *object, gpointer mode_data,
                            enum usdlg_cmd cmd)
 {
-  enum unit_select_location_mode loc_mode = (enum unit_select_location_mode) mode_data;
+  enum unit_select_location_mode loc_mode
+    = (enum unit_select_location_mode) GPOINTER_TO_INT(mode_data);
   GtkTreeView *view;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
@@ -1081,7 +1082,8 @@ static void usdlg_cmd_exec_unit(struct unit *punit, enum usdlg_cmd cmd)
 *****************************************************************************/
 static void usdlg_cmd_center(GObject *object, gpointer data)
 {
-  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  enum unit_select_location_mode loc
+    = (enum unit_select_location_mode) GPOINTER_TO_INT(data);
   GtkTreeView *view;
   GtkTreeSelection *selection;
   GtkTreeModel *model;
@@ -1119,7 +1121,8 @@ static void usdlg_cmd_center(GObject *object, gpointer data)
 *****************************************************************************/
 static void usdlg_cmd_focus(GObject *object, gpointer data)
 {
-  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  enum unit_select_location_mode loc
+    = (enum unit_select_location_mode) GPOINTER_TO_INT(data);
   struct unit_select_dialog *pdialog = usdlg_get(FALSE);
 
   fc_assert_ret(pdialog != NULL);
@@ -1176,7 +1179,8 @@ static void usdlg_cmd_focus_real(GtkTreeView *view)
 *****************************************************************************/
 static void usdlg_cmd_cursor_changed(GtkTreeView *view, gpointer data)
 {
-  enum unit_select_location_mode loc = (enum unit_select_location_mode) data;
+  enum unit_select_location_mode loc
+    = (enum unit_select_location_mode) GPOINTER_TO_INT(data);
   GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeIter it;
