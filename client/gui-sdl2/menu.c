@@ -1194,41 +1194,17 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
-        if (is_build_activity(ACTIVITY_IRRIGATE, pTile)) {
-          /* Activity results in extra */
-          struct extra_type *pextra = next_extra_for_tile(pTile, EC_IRRIGATION,
-                                                          unit_owner(pUnit),
-                                                          pUnit);
+        struct extra_type *pextra = next_extra_for_tile(pTile, EC_IRRIGATION,
+                                                        unit_owner(pUnit),
+                                                        pUnit);
 
-          time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
-                                        pextra, pUnit);
-          /* TRANS: "Build Irrigation (I) 5 turns" */
-          fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                      extra_name_translation(pextra), "I", time,
-                      PL_("turn", "turns", time));
-          pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
-        } else {
-          /* Activity results in terrain change */
-          time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
-                                        NULL, pUnit);
-
-          /* FIXME: get rid of this ruleset-specific hardcoding */
-          if (!strcmp(terrain_rule_name(pTerrain), "Forest")
-              || !strcmp(terrain_rule_name(pTerrain), "Jungle")) {
-            /* set Crop Forest Icon */
-            fc_snprintf(cBuf, sizeof(cBuf),"%s %s (%s) %d %s",
-                        _("Cut Down to"),
-                        terrain_name_translation(pTerrain->irrigation_result),
-                        "I", time , PL_("turn", "turns", time));
-            pOrder_Irrigation_Button->theme = current_theme->OCutDownForest_Icon;
-          } else {
-            /* TRANS: "Change to Grassland (I) 10 turns" */
-            fc_snprintf(cBuf, sizeof(cBuf), _("Change to %s (%s) %d %s"),
-                        terrain_name_translation(pTerrain->irrigation_result),
-                        "I", time , PL_("turn", "turns", time));
-            pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
-          }
-        }
+        time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
+                                      pextra, pUnit);
+        /* TRANS: "Build Irrigation (I) 5 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                    extra_name_translation(pextra), "I", time,
+                    PL_("turn", "turns", time));
+        pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
 
         copy_chars_to_utf8_str(pOrder_Irrigation_Button->info_label, cBuf);
         clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
@@ -1237,42 +1213,16 @@ void real_menus_update(void)
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_MINE)) {
-        if (is_build_activity(ACTIVITY_MINE, pTile)) {
-          /* Activity results in extra */
-          struct extra_type *pextra = next_extra_for_tile(pTile, EC_MINE,
-                                                          unit_owner(pUnit),
-                                                          pUnit);
+        struct extra_type *pextra = next_extra_for_tile(pTile, EC_MINE,
+                                                        unit_owner(pUnit),
+                                                        pUnit);
 
-          time = turns_to_activity_done(pTile, ACTIVITY_MINE, pextra, pUnit);
-          /* TRANS: "Build Mine (M) 5 turns" */
-          fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
-                      extra_name_translation(pextra), "M", time,
-                      PL_("turn", "turns", time));
-          pOrder_Mine_Button->theme = current_theme->OMine_Icon;
-        } else {
-          /* Activity results in terrain change */
-          time = turns_to_activity_done(pTile, ACTIVITY_MINE, NULL, pUnit);
-
-          /* FIXME: get rid of this ruleset-specific hardcoding */
-          if (!strcmp(terrain_rule_name(pTerrain->mining_result), "Forest")) {
-            /* set Forest Icon -> plant Forest */
-            fc_snprintf(cBuf, sizeof(cBuf), "%s (%s) %d %s",
-                        _("Plant Forest"), "M", time,
-                        PL_("turn", "turns", time));
-            pOrder_Mine_Button->theme = current_theme->OPlantForest_Icon;
-          } else {
-            /* TRANS: "Change to Swamp (M) 10 turns" */
-            fc_snprintf(cBuf, sizeof(cBuf), _("Change to %s (%s) %d %s"),
-                        terrain_name_translation(pTerrain->mining_result),
-                        "M", time , PL_("turn", "turns", time));
-            if (!strcmp(terrain_rule_name(pTerrain->mining_result), "Swamp")) {
-              /* set Irrigate Icon -> make swamp */
-              pOrder_Mine_Button->theme = current_theme->OIrrigation_Icon;
-            } else {
-              pOrder_Mine_Button->theme = current_theme->OPlantForest_Icon;
-            }
-          }
-        }
+        time = turns_to_activity_done(pTile, ACTIVITY_MINE, pextra, pUnit);
+        /* TRANS: "Build Mine (M) 5 turns" */
+        fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
+                    extra_name_translation(pextra), "M", time,
+                    PL_("turn", "turns", time));
+        pOrder_Mine_Button->theme = current_theme->OMine_Icon;
 
         copy_chars_to_utf8_str(pOrder_Mine_Button->info_label, cBuf);
         clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
