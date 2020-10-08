@@ -870,8 +870,8 @@ static void remove_illegal_armistice_units(struct player *plr1,
 **************************************************************************/
 static void update_diplomatics(void)
 {
-  players_iterate(plr1) {
-    players_iterate(plr2) {
+  players_iterate_alive(plr1) {
+    players_iterate_alive(plr2) {
       struct player_diplstate *state = player_diplstate_get(plr1, plr2);
 
       /* Players might just met when first of them was being handled
@@ -1019,8 +1019,8 @@ static void update_diplomatics(void)
           }
         }
       }
-    } players_iterate_end;
-  } players_iterate_end;
+    } players_iterate_alive_end;
+  } players_iterate_alive_end;
 }
 
 /**********************************************************************//**
