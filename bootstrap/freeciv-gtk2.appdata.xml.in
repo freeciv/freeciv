@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
     <name>Freeciv gtk+-2 client</name>
-    <id type="desktop">freeciv-gtk2.desktop</id>
+    <id>org.freeciv.gtk2</id>
     <metadata_license>CC0</metadata_license>
     <summary>Gtk+-2 based client for the Freeciv game</summary>
     <description>
@@ -13,6 +13,7 @@
             This client for connecting to network games, or to launch local single-player games, is based on gtk2 widget set.
         </p>
     </description>
+    <launchable type="desktop-id">org.freeciv.gtk2.desktop</launchable>
     <url type="homepage">http://www.freeciv.org/</url>
     <screenshots>
       <screenshot type="default">

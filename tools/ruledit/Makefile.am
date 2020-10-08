@@ -5,7 +5,7 @@ MOCCMD=@MOCCMD@
 include $(top_srcdir)/bootstrap/Makerules.mk
 
 desktopfiledir = @DESKTOPDIR@
-desktopfile_DATA = freeciv-ruledit.desktop
+desktopfile_DATA = org.freeciv.ruledit.desktop
 
 appdatafiledir = @APPDATADIR@
 appdatafile_DATA = freeciv-ruledit.appdata.xml
