@@ -74,7 +74,7 @@ struct science_report {
   GtkLabel *main_label;         /* Gets science_dialog_text(). */
   GtkProgressBar *progress_bar;
   GtkLabel *goal_label;
-  GtkLayout *drawing_area;
+  GtkFixed *drawing_area;
 };
 
 static GtkListStore *science_report_store_new(void);
@@ -284,7 +284,7 @@ static GtkWidget *science_diagram_new(void)
 {
   GtkWidget *diagram;
 
-  diagram = gtk_layout_new(NULL, NULL);
+  diagram = gtk_fixed_new();
   g_signal_connect(diagram, "draw",
                    G_CALLBACK(science_diagram_update), NULL);
   g_signal_connect(diagram, "button-release-event",
@@ -300,7 +300,6 @@ static GtkWidget *science_diagram_new(void)
 static void science_diagram_data(GtkWidget *widget, bool show_all)
 {
   struct reqtree *reqtree;
-  int width, height;
 
   if (can_conn_edit(&client.conn)) {
     /* Show all techs in editor mode, not only currently reachable ones */
@@ -310,8 +309,6 @@ static void science_diagram_data(GtkWidget *widget, bool show_all)
     reqtree = create_reqtree(client_player(), show_all);
   }
 
-  get_reqtree_dimensions(reqtree, &width, &height);
-  gtk_layout_set_size(GTK_LAYOUT(widget), width, height);
   g_object_set_data_full(G_OBJECT(widget), "reqtree", reqtree,
                          (GDestroyNotify) destroy_reqtree);
 }
@@ -657,7 +654,7 @@ static void science_report_init(struct science_report *preport)
   gtk_widget_set_hexpand(w, TRUE);
   gtk_widget_set_vexpand(w, TRUE);
   gtk_container_add(GTK_CONTAINER(sw), w);
-  preport->drawing_area = GTK_LAYOUT(w);
+  preport->drawing_area = GTK_FIXED(w);
 
   science_report_update(preport);
   gui_dialog_show_all(preport->shell);
