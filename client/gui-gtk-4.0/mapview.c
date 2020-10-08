@@ -417,10 +417,10 @@ void map_canvas_draw(GtkDrawingArea *w, cairo_t *cr,
 void dirty_rect(int canvas_x, int canvas_y,
                 int pixel_width, int pixel_height)
 {
-  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
+  //  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
 
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
+    //    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
   }
 }
 
@@ -430,7 +430,7 @@ void dirty_rect(int canvas_x, int canvas_y,
 void dirty_all(void)
 {
   if (gtk_widget_get_realized(map_canvas)) {
-    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL);
+    //    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL);
   }
 }
 
