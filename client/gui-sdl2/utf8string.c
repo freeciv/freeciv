@@ -30,26 +30,6 @@
 #include "utf8string.h"
 
 /**************************************************************************
-  Return number of characters in UTF-8 string
-**************************************************************************/
-size_t utf8_strlen(const unsigned char *pstr)
-{
-  size_t ret = 0;
-  int i = 0;
-
-  while (pstr[i] != '\0') {
-    if (pstr[i++] >= 128) {
-      while ((pstr[i] & (128 + 64)) == 128) {
-        i++;
-      }
-    }
-    ret++;
-  }
-
-  return ret;
-}
-
-/**************************************************************************
   Don't free return array, only array's members. This is not re-entrant.
 **************************************************************************/
 char **create_new_line_utf8strs(const char *pstr)
