@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
     <name>Freeciv ruleset editor</name>
-    <id type="desktop">freeciv-ruledit.desktop</id>
+    <id>org.freeciv.ruledit</id>
     <metadata_license>CC0</metadata_license>
     <summary>Ruleset editor for the Freeciv game</summary>
     <description>
@@ -13,6 +13,7 @@
             Freeciv Ruleset Editor can be used to create your own game rules, or the change existing ones
         </p>
     </description>
+    <launchable type="desktop-id">org.freeciv.ruledit.desktop</launchable>
     <url type="homepage">http://www.freeciv.org/</url>
     <screenshots>
       <screenshot type="default">

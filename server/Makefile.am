@@ -181,7 +181,7 @@ endif
 
 desktopfiledir = @DESKTOPDIR@
 desktopfile_DATA = \
-	freeciv-server.desktop
+	org.freeciv.server.desktop
 
 appdatafiledir = @APPDATADIR@
 appdatafile_DATA = \

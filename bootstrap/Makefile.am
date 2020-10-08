@@ -16,13 +16,14 @@ EXTRA_DIST =	freeciv.project		\
 		langstat_core.txt	\
 		langstat_nations.txt	\
 		langstat_ruledit.txt	\
-		freeciv.desktop.in	\
-		freeciv-sdl2.desktop.in \
-		freeciv-qt.desktop.in \
-		freeciv-server.desktop.in	\
-		freeciv-mp-gtk3.desktop.in	\
-		freeciv-mp-qt.desktop.in	\
-		freeciv-ruledit.desktop.in	\
+		org.freeciv.gtk3.desktop.in	\
+		org.freeciv.gtk322.desktop.in	\
+		org.freeciv.sdl2.desktop.in	\
+		org.freeciv.qt.desktop.in \
+		org.freeciv.server.desktop.in	\
+		org.freeciv.mp.gtk3.desktop.in	\
+		org.freeciv.mp.qt.desktop.in	\
+		org.freeciv.ruledit.desktop.in	\
 		freeciv-gtk3.appdata.xml.in \
 		freeciv-sdl2.appdata.xml.in \
 		freeciv-qt.appdata.xml.in \
