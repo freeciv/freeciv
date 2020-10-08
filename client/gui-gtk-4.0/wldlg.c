@@ -932,12 +932,15 @@ static void dst_selection_callback(GtkTreeSelection *selection, gpointer data)
 /************************************************************************//**
   Drag&drop to destination
 ****************************************************************************/
+#ifdef GTK3_DRAG_DROP
 static gboolean dst_dnd_callback(GtkWidget *w, GdkDragContext *context,
                                  struct worklist_data *ptr)
 {
   commit_worklist(ptr);
+
   return FALSE;
 }
+#endif /* GTK3_DRAG_DROP */
 
 /************************************************************************//**
   Render worklist cell
@@ -1255,8 +1258,11 @@ GtkWidget *create_worklist(void)
 
   /* DND and other state changing callbacks. */
   gtk_tree_view_set_reorderable(GTK_TREE_VIEW(dst_view), TRUE);
+
+#ifdef GTK3_DRAG_DROP
   g_signal_connect(dst_view, "drag_end",
                    G_CALLBACK(dst_dnd_callback), ptr);
+#endif /* GTK3_DRAG_DROP */
 
   g_signal_connect(src_view, "row_activated",
                    G_CALLBACK(src_row_callback), ptr);
