@@ -1698,17 +1698,17 @@ AC_CONFIG_FILES([Makefile
           bootstrap/Makefile
 	  data/Freeciv
           lua/Makefile
-	  client/freeciv.desktop:bootstrap/freeciv.desktop.in
-	  client/freeciv-gtk3.22.desktop:bootstrap/freeciv-gtk3.22.desktop.in
-          client/freeciv-gtk2.desktop:bootstrap/freeciv-gtk2.desktop.in
-          client/freeciv-sdl.desktop:bootstrap/freeciv-sdl.desktop.in
-          client/freeciv-sdl2.desktop:bootstrap/freeciv-sdl2.desktop.in
-          client/freeciv-qt.desktop:bootstrap/freeciv-qt.desktop.in
-	  server/freeciv-server.desktop:bootstrap/freeciv-server.desktop.in
-	  tools/freeciv-mp-gtk3.desktop:bootstrap/freeciv-mp-gtk3.desktop.in
-	  tools/freeciv-mp-gtk2.desktop:bootstrap/freeciv-mp-gtk2.desktop.in
-	  tools/freeciv-mp-qt.desktop:bootstrap/freeciv-mp-qt.desktop.in
-	  tools/ruledit/freeciv-ruledit.desktop:bootstrap/freeciv-ruledit.desktop.in
+	  client/org.freeciv.gtk3.desktop:bootstrap/org.freeciv.gtk3.desktop.in
+	  client/org.freeciv.gtk322.desktop:bootstrap/org.freeciv.gtk322.desktop.in
+          client/org.freeciv.gtk2.desktop:bootstrap/org.freeciv.gtk2.desktop.in
+          client/org.freeciv.sdl.desktop:bootstrap/org.freeciv.sdl.desktop.in
+          client/org.freeciv.sdl2.desktop:bootstrap/org.freeciv.sdl2.desktop.in
+          client/org.freeciv.qt.desktop:bootstrap/org.freeciv.qt.desktop.in
+	  server/org.freeciv.server.desktop:bootstrap/org.freeciv.server.desktop.in
+	  tools/org.freeciv.mp.gtk3.desktop:bootstrap/org.freeciv.mp.gtk3.desktop.in
+	  tools/org.freeciv.mp.gtk2.desktop:bootstrap/org.freeciv.mp.gtk2.desktop.in
+	  tools/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
+	  tools/ruledit/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in
           client/freeciv-gtk2.appdata.xml:bootstrap/freeciv-gtk2.appdata.xml.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
           client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in

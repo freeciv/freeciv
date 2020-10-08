@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component>
     <name>Freeciv server</name>
-    <id type="desktop">freeciv-server.desktop</id>
+    <id>org.freeciv.server</id>
     <metadata_license>CC0</metadata_license>
     <summary>Server component for the Freeciv game</summary>
     <description>
@@ -13,6 +13,7 @@
             Server hosts multiplayer games. For single-player games client can launch server for itself automatically.
         </p>
     </description>
+    <launchable type="desktop-id">org.freeciv.server.desktop</launchable>
     <url type="homepage">http://www.freeciv.org/</url>
     <screenshots>
       <screenshot type="default">

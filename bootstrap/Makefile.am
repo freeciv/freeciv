@@ -13,17 +13,17 @@ EXTRA_DIST =    fcgui.in		\
 		langstat_freeciv.txt	\
 		langstat_nations.txt	\
 		langstat_ruledit.txt	\
-		freeciv.desktop.in	\
-		freeciv-gtk2.desktop.in \
-		freeciv-gtk3.22.desktop.in \
-		freeciv-sdl.desktop.in \
-		freeciv-sdl2.desktop.in \
-		freeciv-qt.desktop.in \
-		freeciv-server.desktop.in	\
-		freeciv-mp-gtk2.desktop.in	\
-		freeciv-mp-gtk3.desktop.in	\
-		freeciv-mp-qt.desktop.in	\
-		freeciv-ruledit.desktop.in	\
+		org.freeciv.gtk3.desktop.in	\
+		org.freeciv.gtk2.desktop.in	\
+		org.freeciv.gtk322.desktop.in	\
+		org.freeciv.sdl.desktop.in	\
+		org.freeciv.sdl2.desktop.in	\
+		org.freeciv.qt.desktop.in	\
+		org.freeciv.server.desktop.in	\
+		org.freeciv.mp.gtk2.desktop.in	\
+		org.freeciv.mp.gtk3.desktop.in	\
+		org.freeciv.mp.qt.desktop.in	\
+		org.freeciv.ruledit.desktop.in	\
 		freeciv-gtk2.appdata.xml.in \
 		freeciv-gtk3.appdata.xml.in \
 		freeciv-gtk3.22.appdata.xml.in \

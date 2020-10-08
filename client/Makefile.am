@@ -12,35 +12,35 @@ appdatafile_DATA =
 if CLIENT_GUI_SDL
 GUI_SUBDIRS += gui-sdl
 desktopfile_DATA += \
-	freeciv-sdl.desktop
+	org.freeciv.sdl.desktop
 appdatafile_DATA += \
 	freeciv-sdl.appdata.xml
 endif
 if CLIENT_GUI_SDL2
 GUI_SUBDIRS += gui-sdl2
 desktopfile_DATA += \
-	freeciv-sdl2.desktop
+	org.freeciv.sdl2.desktop
 appdatafile_DATA += \
 	freeciv-sdl2.appdata.xml
 endif
 if CLIENT_GUI_GTK_2_0
 GUI_SUBDIRS += gui-gtk-2.0
 desktopfile_DATA += \
-	freeciv-gtk2.desktop
+	org.freeciv.gtk2.desktop
 appdatafile_DATA += \
 	freeciv-gtk2.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_22
 GUI_SUBDIRS += gui-gtk-3.22
 desktopfile_DATA += \
-	freeciv-gtk3.22.desktop
+	org.freeciv.gtk322.desktop
 appdatafile_DATA += \
 	freeciv-gtk3.22.appdata.xml
 endif
 if CLIENT_GUI_GTK_3_0
 GUI_SUBDIRS += gui-gtk-3.0
 desktopfile_DATA += \
-	freeciv.desktop
+	org.freeciv.gtk3.desktop
 appdatafile_DATA += \
 	freeciv-gtk3.appdata.xml
 endif
@@ -50,7 +50,7 @@ endif
 if CLIENT_GUI_QT
 GUI_SUBDIRS += gui-qt
 desktopfile_DATA += \
-	freeciv-qt.desktop
+	org.freeciv.qt.desktop
 appdatafile_DATA += \
 	freeciv-qt.appdata.xml
 endif
