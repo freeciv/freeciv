@@ -107,6 +107,10 @@ struct Action {
   const int id;
 };
 
+struct Direction {
+  /* nothing here, it's enum */
+};
+
 struct Unit_List_Link {
 };
 
@@ -495,6 +499,10 @@ module find {
     @ terrain (lua_State *L, const char *name_orig);
   Terrain *api_find_terrain
     @ terrain (lua_State *L, int terrain_id);
+  Direction *api_utilities_str2dir
+    @ direction (lua_State *L, const char *str);
+  Direction *api_find_direction
+    @ direction (lua_State *L, int id);
   Nonexistent *api_find_nonexistent
     @ nonexistent (lua_State *L);
 }
@@ -514,6 +522,15 @@ module effects {
 }
 
 /* Direction module */
+module Direction {
+  module properties {
+    int api_utilities_direction_id
+      @ id (lua_State *L, Direction dir);
+    const char *api_utilities_dir2str
+      @ name (lua_State *L, Direction dir);
+  }
+}
+
 module direction {
  Direction *api_utilities_str2dir
    @ str2dir(lua_State *L, const char *str);
@@ -532,6 +549,11 @@ $[
 function str2direction(str)
   return direction.str2dir(str)
 end
+
+-- Object-oriented way to call direction functions
+Direction.properties.next_ccw = direction.next_ccw
+Direction.properties.next_cw = direction.next_cw
+Direction.properties.opposite = direction.opposite
 $]
 
 $[

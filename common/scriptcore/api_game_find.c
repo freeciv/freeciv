@@ -284,6 +284,16 @@ Terrain *api_find_terrain_by_name(lua_State *L, const char *name_orig)
   return terrain_by_rule_name(name_orig);
 }
 
+/**********************************************************************//*****
+  Return the direction with the given id
+*****************************************************************************/
+const Direction *api_find_direction(lua_State *L, int id)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return luascript_dir((enum direction8) id);
+}
+
 /*************************************************************************//**
   Return a dummy pointer.
 *****************************************************************************/
