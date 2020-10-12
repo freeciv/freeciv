@@ -23,7 +23,7 @@ format_version=20
 
 [about]
 ; Ruleset name
-name = _("Stub")
+name = _("Granularity")
 
 ; Versioning of the ruleset
 ;version = ""
