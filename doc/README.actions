@@ -752,15 +752,15 @@ Actions done by a unit against a tile
  * the actor unit has "Settlers" flag (!)
  * terrain type must be one that can be transformed
 
-"Cultivate"         - Transform tile terrain type by irrigating
- * UI name can be set using ui_name_cultivate_tf
+"Cultivate"         - Transform tile terrain type by cultivating
+ * UI name can be set using ui_name_cultivate
  * the actor unit has "Settlers" flag (!)
- * terrain type must be one that can be transformed by irrigating
+ * terrain type must be one that can be cultivated
 
 "Plant"             - Transform tile terrain type by planting
  * UI name can be set using ui_name_plant
  * the actor unit has "Settlers" flag (!)
- * terrain type must be one that can be transformed by mining
+ * terrain type must be one on which units can plant
 
 "Pillage"           - Pillage extra from tile
  * UI name can be set using ui_name_pillage
