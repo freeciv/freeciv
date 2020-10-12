@@ -1412,6 +1412,11 @@ void city_map::context_menu(QPoint point)
     } else if (act == &con_fallout) {
       task.activity = ACTIVITY_FALLOUT;
       target = TRUE;
+    } else if (act == &con_clear) {
+      task.activity = ACTIVITY_LAST;
+    } else {
+      /* Closed dialog without selecting any activity entry. */
+      return;
     }
 
     task.want = 100;
