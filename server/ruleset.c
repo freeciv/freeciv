@@ -3024,6 +3024,7 @@ static bool load_ruleset_terrain(struct section_file *file,
             pterrain->cultivate_time = 0;
           }
         } else {
+          ruleset_error(LOG_ERROR, "%s: Missing cultivate_time", tsection);
           ok = FALSE;
           break;
         }
@@ -3039,6 +3040,7 @@ static bool load_ruleset_terrain(struct section_file *file,
             pterrain->plant_time = 0;
           }
         } else {
+          ruleset_error(LOG_ERROR, "%s: Missing plant_time", tsection);
           ok = FALSE;
           break;
         }
