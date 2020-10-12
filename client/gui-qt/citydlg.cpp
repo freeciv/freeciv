@@ -1313,6 +1313,7 @@ void city_map::context_menu(QPoint point)
   QAction *con_trfrm = nullptr;
   QAction *con_pollution = nullptr;
   QAction *con_fallout = nullptr;
+  QAction *con_clear = nullptr;
   QMenu *con_menu;
   QWidgetAction *wid_act;
   struct terrain *pterr;
@@ -1385,7 +1386,7 @@ void city_map::context_menu(QPoint point)
   }
 
   if (ptask != NULL) {
-    con_menu->addAction(_("Clear"));
+    con_clear = con_menu->addAction(_("Clear"));
   }
 
   con_menu->setAttribute(Qt::WA_DeleteOnClose);
@@ -1420,6 +1421,11 @@ void city_map::context_menu(QPoint point)
     } else if (act == con_fallout) {
       task.activity = ACTIVITY_FALLOUT;
       target = TRUE;
+    } else if (act == con_clear) {
+      task.activity = ACTIVITY_LAST;
+    } else {
+      /* Closed dialog without selecting any activity entry. */
+      return;
     }
 
     task.want = 100;
