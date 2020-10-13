@@ -305,7 +305,6 @@ BV_DEFINE(bv_mapdef_arg, MAPDEF_COUNT);
 #define MAX_LEN_MAPARG MAX_LEN_MAPDEF
 #define MAX_NUM_MAPIMG 10
 
-static inline bool mapimg_initialised(void);
 static bool mapimg_test(int id);
 static bool mapimg_define_arg(struct mapdef *pmapdef, enum mapdef_arg arg,
                               const char *val, bool check);
@@ -1542,7 +1541,7 @@ bool mapimg_colortest(const char *savename, const char *path)
 /****************************************************************************
   Check if the map image subsustem is initialised.
 ****************************************************************************/
-static inline bool mapimg_initialised(void)
+bool mapimg_initialised(void)
 {
   return mapimg.init;
 }
