@@ -6180,7 +6180,7 @@ static void font_changed_callback(struct option *poption)
 ****************************************************************************/
 static void mapimg_changed_callback(struct option *poption)
 {
-  if (!mapimg_client_define()) {
+  if (mapimg_initialised() && !mapimg_client_define()) {
     bool success;
 
     log_normal("Error setting the value for %s (%s). Restoring the default "
