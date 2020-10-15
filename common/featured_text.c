@@ -957,6 +957,14 @@ size_t featured_text_to_plain_text(const char *featured_text,
       text_out_len--;
     }
   }
+  if (tags) {
+    /* Auto-stop all tags opened and not closed */
+    text_tag_list_iterate(*tags, ptag) {
+      if (ptag->stop_offset == FT_OFFSET_UNSET) {
+        ptag->stop_offset = text_out - plain_text;
+      }
+    } text_tag_list_iterate_end;
+  }
   *text_out = '\0';
 
   return plain_text_len - text_out_len;
