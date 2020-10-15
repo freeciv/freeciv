@@ -44,9 +44,6 @@
 /* enable audio */
 #mesondefine AUDIO_SDL
 
-/* audio via SDL2_mixer */
-#mesondefine AUDIO_SDL2
-
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 

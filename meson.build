@@ -31,7 +31,6 @@ if get_option('debug')
 endif
 
 priv_conf_data.set('AUDIO_SDL', 1)
-priv_conf_data.set('AUDIO_SDL2', 1)
 
 c_compiler = meson.get_compiler('c')
 
