@@ -72,7 +72,7 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   main_layout->addWidget(list_widget);
 
   lbl = new QLabel(R__("Type:"));
-  active_layout->addWidget(lbl, 0, 0);
+  active_layout->addWidget(lbl, 0);
   edit_type_button = new QToolButton(this);
   menu = new QMenu();
   edit_type_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
@@ -83,12 +83,12 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
        eff = (enum effect_type)(eff + 1)) {
     menu->addAction(effect_type_name(eff));
   }
-  active_layout->addWidget(edit_type_button, 1, 0);
+  active_layout->addWidget(edit_type_button, 1);
 
   lbl = new QLabel(R__("Value:"));
-  active_layout->addWidget(lbl, 2, 0);
+  active_layout->addWidget(lbl, 2);
   value_box = new QSpinBox(this);
-  active_layout->addWidget(value_box, 3, 0);
+  active_layout->addWidget(value_box, 3);
   connect(value_box, SIGNAL(valueChanged(int)), this, SLOT(set_value(int)));
 
   main_layout->addLayout(active_layout);
