@@ -1056,7 +1056,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   SDL_Surface *pIcon;
   SDL_Rect dst;
   char cbuf[128];
-  struct unit_type *pUnit = NULL;
+  struct unit_type *punittype = NULL;
   char *state = NULL;
   bool advanced_tech;
   bool can_build, can_eventually_build;
@@ -1560,7 +1560,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     if ((advanced_tech && can_eventually_build)
         || (!advanced_tech && can_build)) {
 
-      pUnit = un;
+      punittype = un;
 
       pIcon = crop_rect_from_surface(pMain, NULL);
 
@@ -1579,17 +1579,17 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
         if (turns == FC_INFINITY) {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("(%d/%d/%s)\n%d/%d %s\nnever"),
-                      pUnit->attack_strength,
-                      pUnit->defense_strength,
-                      move_points_text(pUnit->move_rate, TRUE),
+                      punittype->attack_strength,
+                      punittype->defense_strength,
+                      move_points_text(punittype->move_rate, TRUE),
                       pCity->shield_stock, cost,
                       PL_("shield", "shields", cost));
         } else {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
-                      pUnit->attack_strength,
-                      pUnit->defense_strength,
-                      move_points_text(pUnit->move_rate, TRUE),
+                      punittype->attack_strength,
+                      punittype->defense_strength,
+                      move_points_text(punittype->move_rate, TRUE),
                       pCity->shield_stock, cost,
                       PL_("shield", "shields", cost),
                       turns, PL_("turn", "turns", turns));
@@ -1599,9 +1599,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
         fc_snprintf(cbuf, sizeof(cbuf),
                     _("(%d/%d/%s)\n%d %s"),
-                    pUnit->attack_strength,
-                    pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, TRUE),
+                    punittype->attack_strength,
+                    punittype->defense_strength,
+                    move_points_text(punittype->move_rate, TRUE),
                     cost,
                     PL_("shield", "shields", cost));
       }
