@@ -932,12 +932,17 @@ static bool lookup_terrain(struct section_file *file,
                            const char *entry,
                            const char *filename,
                            struct terrain *pthis,
-                           struct terrain **result)
+                           struct terrain **result,
+                           bool null_acceptable)
 {
   const int j = terrain_index(pthis);
   const char *jsection = &terrain_sections[j * MAX_SECTION_LABEL];
   const char *name = secfile_lookup_str(file, "%s.%s", jsection, entry);
   struct terrain *pterr;
+
+  if (NULL == name && !null_acceptable) {
+    return FALSE;
+  }
 
   if (NULL == name
       || *name == '\0'
@@ -2986,8 +2991,23 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      if (!lookup_terrain(file, "irrigation_result", filename, pterrain,
-                          &pterrain->irrigation_result)) {
+      if (!lookup_terrain(file, "cultivate_result", filename, pterrain,
+                          &pterrain->cultivate_result, FALSE)) {
+        if (compat->compat_mode) {
+          if (!lookup_terrain(file, "irrigation_result", filename, pterrain,
+                              &pterrain->cultivate_result, TRUE)) {
+            ok = FALSE;
+            break;
+          }
+        } else {
+          ruleset_error(LOG_ERROR, "%s: No cultivate_result", tsection);
+          ok = FALSE;
+          break;
+        }
+      }
+      if (!compat->compat_mode && pterrain->cultivate_result == pterrain) {
+        ruleset_error(LOG_ERROR, "%s: Cultivating result in terrain itself.",
+                      tsection);
         ok = FALSE;
         break;
       }
@@ -3000,8 +3020,23 @@ static bool load_ruleset_terrain(struct section_file *file,
         break;
       }
 
-      if (!lookup_terrain(file, "mining_result", filename, pterrain,
-                          &pterrain->mining_result)) {
+      if (!lookup_terrain(file, "plant_result", filename, pterrain,
+                          &pterrain->plant_result, FALSE)) {
+        if (compat->compat_mode) {
+          if (!lookup_terrain(file, "mining_result", filename, pterrain,
+                              &pterrain->plant_result, TRUE)) {
+            ok = FALSE;
+            break;
+          }
+        } else {
+          ruleset_error(LOG_ERROR, "%s: No plant_result", tsection);
+          ok = FALSE;
+          break;
+        }
+      }
+      if (!compat->compat_mode && pterrain->plant_result == pterrain) {
+        ruleset_error(LOG_ERROR, "%s: Planting result in terrain itself.",
+                      tsection);
         ok = FALSE;
         break;
       }
@@ -3017,11 +3052,12 @@ static bool load_ruleset_terrain(struct section_file *file,
       if (!lookup_time(file, &pterrain->cultivate_time,
                        tsection, "cultivate_time", filename, NULL, &ok)) {
         if (compat->compat_mode) {
-          if (pterrain->irrigation_result != pterrain) {
+          if (pterrain->cultivate_result != pterrain) {
             pterrain->cultivate_time = pterrain->irrigation_time;
             pterrain->irrigation_time = 0;
           } else {
             pterrain->cultivate_time = 0;
+            pterrain->cultivate_result = NULL;
           }
         } else {
           ruleset_error(LOG_ERROR, "%s: Missing cultivate_time", tsection);
@@ -3033,11 +3069,12 @@ static bool load_ruleset_terrain(struct section_file *file,
       if (!lookup_time(file, &pterrain->plant_time,
                        tsection, "plant_time", filename, NULL, &ok)) {
         if (compat->compat_mode) {
-          if (pterrain->mining_result != pterrain) {
+          if (pterrain->plant_result != pterrain) {
             pterrain->plant_time = pterrain->mining_time;
             pterrain->mining_time = 0;
           } else {
             pterrain->plant_time = 0;
+            pterrain->plant_result = NULL;
           }
         } else {
           ruleset_error(LOG_ERROR, "%s: Missing plant_time", tsection);
@@ -3055,7 +3092,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
 
       if (!lookup_terrain(file, "transform_result", filename, pterrain,
-                          &pterrain->transform_result)) {
+                          &pterrain->transform_result, TRUE)) {
         ok = FALSE;
         break;
       }
@@ -3081,13 +3118,13 @@ static bool load_ruleset_terrain(struct section_file *file,
                   tsection, "clean_fallout_time", filename, NULL, &ok);
 
       if (!lookup_terrain(file, "warmer_wetter_result", filename, pterrain,
-                         &pterrain->warmer_wetter_result)
+                          &pterrain->warmer_wetter_result, TRUE)
           || !lookup_terrain(file, "warmer_drier_result", filename, pterrain,
-                             &pterrain->warmer_drier_result)
+                             &pterrain->warmer_drier_result, TRUE)
           || !lookup_terrain(file, "cooler_wetter_result", filename, pterrain,
-                             &pterrain->cooler_wetter_result)
+                             &pterrain->cooler_wetter_result, TRUE)
           || !lookup_terrain(file, "cooler_drier_result", filename, pterrain,
-                             &pterrain->cooler_drier_result)) {
+                             &pterrain->cooler_drier_result, TRUE)) {
         ok = FALSE;
         break;
       }
@@ -7595,19 +7632,19 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.base_time = pterrain->base_time;
     packet.road_time = pterrain->road_time;
 
+    packet.cultivate_result = (pterrain->cultivate_result
+                               ? terrain_number(pterrain->cultivate_result)
+                               : terrain_count());
     packet.cultivate_time = pterrain->cultivate_time;
 
+    packet.plant_result = (pterrain->plant_result
+                           ? terrain_number(pterrain->plant_result)
+                           : terrain_count());
     packet.plant_time = pterrain->plant_time;
 
-    packet.irrigation_result = (pterrain->irrigation_result
-				? terrain_number(pterrain->irrigation_result)
-				: terrain_count());
     packet.irrigation_food_incr = pterrain->irrigation_food_incr;
     packet.irrigation_time = pterrain->irrigation_time;
 
-    packet.mining_result = (pterrain->mining_result
-			    ? terrain_number(pterrain->mining_result)
-			    : terrain_count());
     packet.mining_shield_incr = pterrain->mining_shield_incr;
     packet.mining_time = pterrain->mining_time;
 

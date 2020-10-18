@@ -3820,12 +3820,12 @@ void handle_ruleset_terrain(const struct packet_ruleset_terrain *p)
 
   pterrain->base_time = p->base_time;
   pterrain->road_time = p->road_time;
+  pterrain->cultivate_result = terrain_by_number(p->cultivate_result);
   pterrain->cultivate_time = p->cultivate_time;
+  pterrain->plant_result = terrain_by_number(p->plant_result);
   pterrain->plant_time = p->plant_time;
-  pterrain->irrigation_result = terrain_by_number(p->irrigation_result);
   pterrain->irrigation_food_incr = p->irrigation_food_incr;
   pterrain->irrigation_time = p->irrigation_time;
-  pterrain->mining_result = terrain_by_number(p->mining_result);
   pterrain->mining_shield_incr = p->mining_shield_incr;
   pterrain->mining_time = p->mining_time;
   if (p->animal < 0) {

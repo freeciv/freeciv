@@ -2523,8 +2523,7 @@ void real_menus_update(void)
       sz_strlcpy(irrtext, _("Build _Irrigation"));
     }
 
-    if (pterrain->irrigation_result != T_NONE
-        && pterrain->irrigation_result != pterrain) {
+    if (pterrain->cultivate_result != T_NONE) {
       fc_snprintf(cultext, sizeof(cultext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(first),
                                             ACTIVITY_CULTIVATE));
@@ -2556,8 +2555,7 @@ void real_menus_update(void)
       sz_strlcpy(mintext, _("Build _Mine"));
     }
 
-    if (pterrain->mining_result != T_NONE
-        && pterrain->mining_result != pterrain) {
+    if (pterrain->plant_result != T_NONE) {
       fc_snprintf(plantext, sizeof(plantext), _("Change to %s"),
                   get_tile_change_menu_text(unit_tile(first), ACTIVITY_PLANT));
     } else {

@@ -38,9 +38,8 @@ struct worker_activity_cache {
   int rmextra[MAX_EXTRA_TYPES];
 };
 
-static int adv_calc_irrigate_transform(const struct city *pcity,
-                                       const struct tile *ptile);
-static int adv_calc_mine_transform(const struct city *pcity, const struct tile *ptile);
+static int adv_calc_cultivate(const struct city *pcity, const struct tile *ptile);
+static int adv_calc_plant(const struct city *pcity, const struct tile *ptile);
 static int adv_calc_transform(const struct city *pcity,
                               const struct tile *ptile);
 static int adv_calc_extra(const struct city *pcity, const struct tile *ptile,
@@ -49,15 +48,15 @@ static int adv_calc_rmextra(const struct city *pcity, const struct tile *ptile,
                             const struct extra_type *pextra);
 
 /**********************************************************************//**
-  Calculate the benefit of irrigating the given tile.
+  Calculate the benefit of cultivating the given tile.
 
-  The return value is the goodness of the tile after the irrigation.  This
+  The return value is the goodness of the tile after the cultivating. This
   should be compared to the goodness of the tile currently (see
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int adv_calc_irrigate_transform(const struct city *pcity,
-                                       const struct tile *ptile)
+static int adv_calc_cultivate(const struct city *pcity,
+                              const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -65,7 +64,7 @@ static int adv_calc_irrigate_transform(const struct city *pcity,
   fc_assert_ret_val(ptile != NULL, -1);
 
   old_terrain = tile_terrain(ptile);
-  new_terrain = old_terrain->irrigation_result;
+  new_terrain = old_terrain->cultivate_result;
 
   if (new_terrain != old_terrain && new_terrain != T_NONE) {
     struct tile *vtile;
@@ -89,14 +88,14 @@ static int adv_calc_irrigate_transform(const struct city *pcity,
 }
 
 /**********************************************************************//**
-  Calculate the benefit of mining the given tile.
+  Calculate the benefit of planting to the given tile.
 
-  The return value is the goodness of the tile after the mining.  This
+  The return value is the goodness of the tile after the planting.  This
   should be compared to the goodness of the tile currently (see
   city_tile_value(); note that this depends on the AI's weighting
   values).
 **************************************************************************/
-static int adv_calc_mine_transform(const struct city *pcity, const struct tile *ptile)
+static int adv_calc_plant(const struct city *pcity, const struct tile *ptile)
 {
   int goodness;
   struct terrain *old_terrain, *new_terrain;
@@ -104,7 +103,7 @@ static int adv_calc_mine_transform(const struct city *pcity, const struct tile *
   fc_assert_ret_val(ptile != NULL, -1);
 
   old_terrain = tile_terrain(ptile);
-  new_terrain = old_terrain->mining_result;
+  new_terrain = old_terrain->plant_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
     struct tile *vtile;
@@ -255,9 +254,9 @@ void initialize_infrastructure_cache(struct player *pplayer)
 
     city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
-                              adv_calc_mine_transform(pcity, ptile));
+                              adv_calc_plant(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
-                              adv_calc_irrigate_transform(pcity, ptile));
+                              adv_calc_cultivate(pcity, ptile));
       adv_city_worker_act_set(pcity, cindex, ACTIVITY_TRANSFORM,
                               adv_calc_transform(pcity, ptile));
 

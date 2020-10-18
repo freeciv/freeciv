@@ -650,9 +650,8 @@ static void tile_plant(struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
-  if (pterrain->mining_result != T_NONE
-      && pterrain->mining_result != pterrain) {
-    tile_change_terrain(ptile, pterrain->mining_result);
+  if (pterrain->plant_result != T_NONE) {
+    tile_change_terrain(ptile, pterrain->plant_result);
   }
 }
 
@@ -664,9 +663,8 @@ static void tile_cultivate(struct tile *ptile)
 {
   struct terrain *pterrain = tile_terrain(ptile);
 
-  if (pterrain->irrigation_result != T_NONE
-      && pterrain->irrigation_result != pterrain) {
-    tile_change_terrain(ptile, pterrain->irrigation_result);
+  if (pterrain->cultivate_result != T_NONE) {
+    tile_change_terrain(ptile, pterrain->cultivate_result);
   }
 }
 

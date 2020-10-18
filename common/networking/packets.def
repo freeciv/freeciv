@@ -1658,15 +1658,15 @@ PACKET_RULESET_TERRAIN = 151; sc, lsend
   UINT8 base_time;
   UINT8 road_time;
 
+  TERRAIN cultivate_result;
   UINT8 cultivate_time;
 
+  TERRAIN plant_result;
   UINT8 plant_time;
 
-  TERRAIN irrigation_result;
   UINT8 irrigation_food_incr;
   UINT8 irrigation_time;
 
-  TERRAIN mining_result;
   UINT8 mining_shield_incr;
   UINT8 mining_time;
 

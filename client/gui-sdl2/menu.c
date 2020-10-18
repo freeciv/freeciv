@@ -1238,7 +1238,7 @@ void real_menus_update(void)
         time = turns_to_activity_done(pTile, ACTIVITY_CULTIVATE, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Cultivate to"),
-                    terrain_name_translation(pTerrain->irrigation_result),
+                    terrain_name_translation(pTerrain->cultivate_result),
                     "Shift+I", time, PL_("turn", "turns", time));
         copy_chars_to_utf8_str(pOrder_Cultivate_Button->info_label, cBuf);
         clear_wflag(pOrder_Cultivate_Button, WF_HIDDEN);
@@ -1251,7 +1251,7 @@ void real_menus_update(void)
         time = turns_to_activity_done(pTile, ACTIVITY_PLANT, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Plant to"),
-                    terrain_name_translation(pTerrain->mining_result),
+                    terrain_name_translation(pTerrain->plant_result),
                     "Shift+M", time, PL_("turn", "turns", time));
         copy_chars_to_utf8_str(pOrder_Plant_Button->info_label, cBuf);
         clear_wflag(pOrder_Plant_Button, WF_HIDDEN);

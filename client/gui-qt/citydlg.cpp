@@ -1379,7 +1379,7 @@ void city_map::context_menu(QPoint point)
   con_menu = new QMenu(this);
   con_menu->addAction(wid_act);
 
-  if (pterr->mining_result != pterr && pterr->mining_result != NULL
+  if (pterr->plant_result != NULL
       && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
     con_plant = con_menu->addAction(_("Plant"));
   }
@@ -1389,7 +1389,7 @@ void city_map::context_menu(QPoint point)
     con_mine = con_menu->addAction(_("Mine"));
   }
 
-  if (pterr->irrigation_result != pterr && pterr->irrigation_result != NULL
+  if (pterr->cultivate_result != NULL
       && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
     con_cultivate = con_menu->addAction(_("Cultivate"));
   }

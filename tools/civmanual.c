@@ -514,10 +514,9 @@ static bool manual_command(struct tag_types *tag_info)
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->irrigation_result != NULL
-            && pterrain->irrigation_result != pterrain) {
+        if (pterrain->cultivate_result != NULL) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->irrigation_result),
+                  terrain_name_translation(pterrain->cultivate_result),
                   pterrain->cultivate_time);
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
@@ -528,10 +527,9 @@ static bool manual_command(struct tag_types *tag_info)
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->mining_result != NULL
-            && pterrain->mining_result != pterrain) {
+        if (pterrain->plant_result != NULL) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
-                  terrain_name_translation(pterrain->mining_result),
+                  terrain_name_translation(pterrain->plant_result),
                   pterrain->plant_time);
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));

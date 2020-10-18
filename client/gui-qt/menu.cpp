@@ -2125,8 +2125,7 @@ void mr_menu::menus_sensitive()
           struct unit *punit = unit_list_get(punits, 0);
 
           pterrain = tile_terrain(unit_tile(punit));
-          if (pterrain->irrigation_result != T_NONE
-              && pterrain->irrigation_result != pterrain) {
+          if (pterrain->cultivate_result != T_NONE) {
             i.value()->setText(
               /* TRANS: Transform terrain to specific type */
               QString(_("Cultivate to %1"))
@@ -2149,8 +2148,7 @@ void mr_menu::menus_sensitive()
           struct unit *punit = unit_list_get(punits, 0);
 
           pterrain = tile_terrain(unit_tile(punit));
-          if (pterrain->mining_result != T_NONE
-              && pterrain->mining_result != pterrain) {
+          if (pterrain->plant_result != T_NONE) {
             i.value()->setText(
               /* TRANS: Transform terrain to specific type */
               QString(_("Plant to %1"))

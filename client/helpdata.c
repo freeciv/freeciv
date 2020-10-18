@@ -225,17 +225,15 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
                     "%d", pterrain->transform_time);
         terrain = terrain_name_translation(pterrain);
         cultivate_result =
-          (pterrain->irrigation_result == pterrain
-           || pterrain->irrigation_result == T_NONE
+          (pterrain->cultivate_result == T_NONE
            || !action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr))
             ? ""
-            : terrain_name_translation(pterrain->irrigation_result);
+            : terrain_name_translation(pterrain->cultivate_result);
         plant_result =
-          (pterrain->mining_result == pterrain
-           || pterrain->mining_result == T_NONE
+          (pterrain->plant_result == T_NONE
            || !action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr))
             ? ""
-            : terrain_name_translation(pterrain->mining_result);
+            : terrain_name_translation(pterrain->plant_result);
         transform_result =
           (pterrain->transform_result == pterrain
            || pterrain->transform_result == T_NONE
@@ -248,10 +246,10 @@ static bool insert_generated_text(char *outbuf, size_t outlen, const char *name)
             "%s%*s %3s %s%*s %3s %s%*s %3s %s\n",
             terrain,
             MAX(0, 12 - (int)get_internal_string_length(terrain)), "",
-            (pterrain->irrigation_result == T_NONE) ? "-" : cultivation_time,
+            (pterrain->cultivate_result == T_NONE) ? "-" : cultivation_time,
             cultivate_result,
             MAX(0, 12 - (int)get_internal_string_length(cultivate_result)), "",
-            (pterrain->mining_result == T_NONE) ? "-" : plant_time,
+            (pterrain->plant_result == T_NONE) ? "-" : plant_time,
             plant_result,
             MAX(0, 12 - (int)get_internal_string_length(plant_result)), "",
             (pterrain->transform_result == T_NONE) ? "-" : transform_time,

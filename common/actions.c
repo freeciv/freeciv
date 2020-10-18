@@ -3675,13 +3675,12 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_CULTIVATE:
     pterrain = tile_terrain(target_tile);
-    if (pterrain->irrigation_result == pterrain
-        || pterrain->irrigation_result == T_NONE) {
+    if (pterrain->cultivate_result == NULL) {
       return TRI_NO;
     }
     if (!terrain_surroundings_allow_change(target_tile,
-                                           pterrain->irrigation_result)
-        || (terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
+                                           pterrain->cultivate_result)
+        || (terrain_has_flag(pterrain->cultivate_result, TER_NO_CITIES)
             && tile_city(target_tile))) {
       return TRI_NO;
     }
@@ -3689,13 +3688,12 @@ is_action_possible(const action_id wanted_action,
 
   case ACTRES_PLANT:
     pterrain = tile_terrain(target_tile);
-    if (pterrain->mining_result == pterrain
-        || pterrain->mining_result == T_NONE) {
+    if (pterrain->plant_result == NULL) {
       return TRI_NO;
     }
     if (!terrain_surroundings_allow_change(target_tile,
-                                           pterrain->mining_result)
-        || (terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
+                                           pterrain->plant_result)
+        || (terrain_has_flag(pterrain->plant_result, TER_NO_CITIES)
             && tile_city(target_tile))) {
       return TRI_NO;
     }

@@ -1318,8 +1318,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
 
     add_info_separator();
 
-    if (pterrain->irrigation_result != pterrain
-        && pterrain->irrigation_result != T_NONE
+    if (pterrain->cultivate_result != T_NONE
         && pterrain->cultivate_time != 0
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                         NULL, &for_terr)) {
@@ -1331,7 +1330,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
                                               pterrain->cultivate_time),
                   pterrain->cultivate_time);
       str = N_("Cultiv. Rslt/Time:");;
-      str = str + link_me(terrain_name_translation(pterrain->irrigation_result),
+      str = str + link_me(terrain_name_translation(pterrain->cultivate_result),
                           HELP_TERRAIN)
             + QString(buffer).toHtmlEscaped();
       tb = new QLabel(this);
@@ -1344,8 +1343,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       info_layout->addWidget(tb);
     }
 
-    if (pterrain->mining_result != pterrain
-        && pterrain->mining_result != T_NONE
+    if (pterrain->plant_result != T_NONE
         && pterrain->plant_time != 0
         && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       QLabel *tb;
@@ -1356,7 +1354,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
                                               pterrain->plant_time),
                   pterrain->plant_time);
       str = N_("Plant Rslt/Time:");;
-      str = str + link_me(terrain_name_translation(pterrain->mining_result),
+      str = str + link_me(terrain_name_translation(pterrain->plant_result),
                           HELP_TERRAIN)
             + QString(buffer).toHtmlEscaped();
       tb = new QLabel(this);

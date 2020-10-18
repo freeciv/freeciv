@@ -1247,8 +1247,7 @@ static void help_update_terrain(const struct help_item *pitem,
 
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
-    if (pterrain->irrigation_result != pterrain
-        && pterrain->irrigation_result != T_NONE
+    if (pterrain->cultivate_result != T_NONE
         && pterrain->cultivate_time != 0
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                         NULL, &for_terr)) {
@@ -1256,19 +1255,18 @@ static void help_update_terrain(const struct help_item *pitem,
                   PL_("%d turn", "%d turns", pterrain->cultivate_time),
                   pterrain->cultivate_time);
       add_act_help_for_terrain(_("Cultivate. Rslt/Time"),
-                               terrain_name_translation(pterrain->irrigation_result),
+                               terrain_name_translation(pterrain->cultivate_result),
                                HELP_TERRAIN, buf);
     }
 
-    if (pterrain->mining_result != pterrain
-        && pterrain->mining_result != T_NONE
+    if (pterrain->plant_result != T_NONE
         && pterrain->plant_time != 0
         && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->plant_time),
                   pterrain->plant_time);
       add_act_help_for_terrain(_("Plant Rslt/Time"),
-                               terrain_name_translation(pterrain->mining_result),
+                               terrain_name_translation(pterrain->plant_result),
                                HELP_TERRAIN, buf);
     }
 

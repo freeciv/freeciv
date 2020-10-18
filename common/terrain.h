@@ -199,15 +199,15 @@ struct terrain {
   int base_time;
   int road_time;
 
+  struct terrain *cultivate_result;
   int cultivate_time;
 
+  struct terrain *plant_result;
   int plant_time;
 
-  struct terrain *irrigation_result;
   int irrigation_food_incr;
   int irrigation_time;
 
-  struct terrain *mining_result;
   int mining_shield_incr;
   int mining_time;
 
