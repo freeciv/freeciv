@@ -206,6 +206,9 @@
 /* flock() available */
 #mesondefine HAVE_FLOCK
 
+/* gettimeofday() available */
+#mesondefine HAVE_GETTIMEOFDAY
+
 /* ftime() available */
 #mesondefine HAVE_FTIME
 

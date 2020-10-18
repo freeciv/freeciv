@@ -103,6 +103,7 @@ priv_functions = [
   'fdopen',
   'fileno',
   'flock',
+  'gettimeofday',
   'ftime',
   'getaddrinfo',
   'gethostbyname',
