@@ -824,7 +824,7 @@ hud_action {
 }
 
 hud_units {
-  background: rgb(40, 10, 30, 200);
+  background: rgba(40, 10, 30, 200);
 }
 
 hud_units QLabel {
