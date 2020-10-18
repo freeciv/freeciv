@@ -71,7 +71,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
      BV_SET(handicap, H_PRODCHGPEN);
      break;
    case AI_LEVEL_NOVICE:
-   case AI_LEVEL_HANDICAPPED:
+   case AI_LEVEL_RESTRICTED:
      BV_SET(handicap, H_RATES);
      BV_SET(handicap, H_TARGETS);
      BV_SET(handicap, H_HUTS);
@@ -147,7 +147,7 @@ static int fuzzy_of_skill_level(enum ai_level level)
   switch (level) {
   case AI_LEVEL_AWAY:
     return 0;
-  case AI_LEVEL_HANDICAPPED:
+  case AI_LEVEL_RESTRICTED:
   case AI_LEVEL_NOVICE:
     return 400;
   case AI_LEVEL_EASY:
@@ -181,7 +181,7 @@ static int science_cost_of_skill_level(enum ai_level level)
   switch (level) {
   case AI_LEVEL_AWAY:
     return 100;
-  case AI_LEVEL_HANDICAPPED:
+  case AI_LEVEL_RESTRICTED:
   case AI_LEVEL_NOVICE:
     return 250;
   case AI_LEVEL_EASY:
@@ -212,7 +212,7 @@ static int expansionism_of_skill_level(enum ai_level level)
   switch (level) {
   case AI_LEVEL_AWAY:
     return 0;
-  case AI_LEVEL_HANDICAPPED:
+  case AI_LEVEL_RESTRICTED:
   case AI_LEVEL_NOVICE:
   case AI_LEVEL_EASY:
     return 10;
@@ -288,7 +288,7 @@ char *ai_level_help(const char *cmdname)
   } /* no level currently has >100, so no string yet */
 
   switch (level) {
-  case AI_LEVEL_HANDICAPPED:
+  case AI_LEVEL_RESTRICTED:
     /* TRANS: describing an AI skill level */
     astr_add_line(&help,
                   _("\nThis skill level has the same features as 'Novice', "

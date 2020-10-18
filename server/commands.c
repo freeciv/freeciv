@@ -350,12 +350,12 @@ static struct command commands[] = {
    NULL, ai_level_help,
    CMD_ECHO_NONE, VCF_NONE, 50
   },
-  {"handicapped",	ALLOW_CTRL,
+  {"restricted",	ALLOW_CTRL,
    /* TRANS: translate text between <> only */
-   N_("handicapped\n"
-      "handicapped <player-name>"),
-   /* TRANS: translate 'Handicapped' as AI skill level */
-   N_("Set one or all AI players to 'Handicapped'."), NULL, ai_level_help,
+   N_("restricted\n"
+      "restricted <player-name>"),
+   /* TRANS: translate 'Restricted' as AI skill level */
+   N_("Set one or all AI players to 'Restricted'."), NULL, ai_level_help,
    CMD_ECHO_ALL, VCF_NONE, 50
   },
   {"novice",	ALLOW_CTRL,

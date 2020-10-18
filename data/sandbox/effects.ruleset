@@ -131,21 +131,21 @@ reqs    =
       "AI", "Cheating", "Player"
     }
 
-[effect_ai_handicapped_trade]
+[effect_ai_restricted_trade]
 type    = "Output_Bonus"
 value   = -25
 reqs    =
     { "type", "name", "range"
-      "AI", "Handicapped", "Player"
+      "AI", "Restricted", "Player"
       "OutputType", "Trade", "Local"
     }
 
-[effect_ai_handicapped_shield]
+[effect_ai_restricted_shield]
 type    = "Output_Bonus"
 value   = -25
 reqs    =
     { "type", "name", "range"
-      "AI", "Handicapped", "Player"
+      "AI", "Restricted", "Player"
       "OutputType", "Shield", "Local"
     }
 

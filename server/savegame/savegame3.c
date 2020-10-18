@@ -1984,7 +1984,12 @@ static void sg_load_game(struct loaddata *loading)
   level = secfile_lookup_str_default(loading->file, NULL,
                                      "game.level");
   if (level != NULL) {
-    game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
+    if (!fc_strcasecmp("Handicapped", level)) {
+      /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
+      game.info.skill_level = AI_LEVEL_RESTRICTED;
+    } else {
+      game.info.skill_level = ai_level_by_name(level, fc_strcasecmp);
+    }
   } else {
     game.info.skill_level = ai_level_invalid();
   }
@@ -3971,7 +3976,12 @@ static void sg_load_player_main(struct loaddata *loading,
   level = secfile_lookup_str_default(loading->file, NULL,
                                      "player%d.ai.level", plrno);
   if (level != NULL) {
-    plr->ai_common.skill_level = ai_level_by_name(level, fc_strcasecmp);
+    if (!fc_strcasecmp("Handicapped", level)) {
+      /* Up to freeciv-3.1 Restricted AI level was known as Handicapped */
+      plr->ai_common.skill_level = AI_LEVEL_RESTRICTED;
+    } else {
+      plr->ai_common.skill_level = ai_level_by_name(level, fc_strcasecmp);
+    }
 
     /* In builds where level "Experimental" is not supported, convert it to "Hard" */
     if (!ai_level_is_valid(plr->ai_common.skill_level)

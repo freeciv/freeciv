@@ -277,7 +277,7 @@
 /set aifill 30
 
    Difficulty levels are set with the /cheating, /hard, /normal, /easy,
-   /novice, and /handicapped commands.
+   /novice, and /restricted commands.
 
    You may also create AI players individually. For instance, to create
    one hard and one easy AI player, enter:

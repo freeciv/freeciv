@@ -278,7 +278,7 @@ whom, set from rulesets.  The latter is not yet well implemented.
 DIFFICULTY LEVELS
 =================
 
-There are currently seven difficulty levels: 'handicapped, 'novice',
+There are currently seven difficulty levels: 'restricted, 'novice',
 'easy', 'normal', 'hard', 'cheating', and 'experimental'.
 The 'hard' level is no-holds-barred. 'Cheating' is the same
 except that it has ruleset defined extra bonuses, while 'normal'

@@ -1399,6 +1399,11 @@ const char *rscompat_req_name_3_1(const char *type,
     return "Foreign";
   }
 
+  if (!fc_strcasecmp("AI", type)
+      && !fc_strcasecmp("Handicapped", old_name)) {
+    return "Restricted";
+  }
+
   return old_name;
 }
 

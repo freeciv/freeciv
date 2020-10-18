@@ -1941,7 +1941,7 @@ static enum command_id cmd_of_level(enum ai_level level)
 {
   switch (level) {
     case AI_LEVEL_AWAY         : return CMD_AWAY;
-    case AI_LEVEL_HANDICAPPED  : return CMD_HANDICAPPED;
+    case AI_LEVEL_RESTRICTED   : return CMD_RESTRICTED;
     case AI_LEVEL_NOVICE       : return CMD_NOVICE;
     case AI_LEVEL_EASY         : return CMD_EASY;
     case AI_LEVEL_NORMAL       : return CMD_NORMAL;
@@ -4526,7 +4526,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return create_command(caller, arg, check);
   case CMD_AWAY:
     return away_command(caller, check);
-  case CMD_HANDICAPPED:
+  case CMD_RESTRICTED:
   case CMD_NOVICE:
   case CMD_EASY:
   case CMD_NORMAL:
@@ -7340,7 +7340,7 @@ static int num_tokens(int start)
 **************************************************************************/
 static const int player_cmd[] = {
   CMD_AITOGGLE,
-  CMD_HANDICAPPED,
+  CMD_RESTRICTED,
   CMD_NOVICE,
   CMD_EASY,
   CMD_NORMAL,
