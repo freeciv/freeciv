@@ -455,7 +455,6 @@ static void save_dialog_file_chooser_popup(const char *title,
                                            _("_Save") : _("_Open"),
                                            GTK_RESPONSE_OK, NULL);
   setup_dialog(filechoose, toplevel);
-  gtk_window_set_position(GTK_WINDOW(filechoose), GTK_WIN_POS_MOUSE);
 
   g_signal_connect(filechoose, "response",
                    G_CALLBACK(save_dialog_file_chooser_callback), cb);

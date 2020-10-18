@@ -219,7 +219,6 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
   }
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_label_new(lines);
   gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(shell))), label);
@@ -242,7 +241,6 @@ void popup_connect_msg(const char *headline, const char *message)
   gtk_window_set_title(GTK_WINDOW(shell), headline);
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_CLOSE);
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
 
   label = gtk_label_new(message);
   gtk_label_set_selectable(GTK_LABEL(label), 1);
@@ -881,7 +879,6 @@ static void create_races_dialog(struct player *pplayer)
   races_player = pplayer;
   setup_dialog(shell, toplevel);
 
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_default_size(GTK_WINDOW(shell), -1, 590);
 
   frame = gtk_frame_new(_("Select a nation"));

@@ -825,7 +825,6 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
-    gtk_window_set_position(GTK_WINDOW(w), GTK_WIN_POS_MOUSE);
     g_signal_connect(w, "destroy", G_CALLBACK(tearoff_destroy), box);
     g_signal_connect(w, "key_press_event",
 	G_CALLBACK(propagate_keypress), NULL);
@@ -1838,7 +1837,6 @@ void ui_main(int argc, char **argv)
   dlg_tab_provider_prepare();
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  gtk_window_set_position(GTK_WINDOW(toplevel), GTK_WIN_POS_CENTER);
   if (vmode.width > 0 && vmode.height > 0) {
     gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
   }
@@ -2144,7 +2142,6 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
     gtk_widget_set_margin_top(p, 4);
     gtk_widget_set_margin_bottom(p, 4);
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(toplevel));
-    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     gtk_widget_new(GTK_TYPE_LABEL, "GtkWidget::parent", p,
                    "GtkLabel::label", get_info_label_text_popup(),
@@ -2280,8 +2277,6 @@ void popup_quit_dialog(void)
 	GTK_BUTTONS_YES_NO,
 	_("Are you sure you want to quit?"));
     setup_dialog(dialog, toplevel);
-
-    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
 
     g_signal_connect(dialog, "response", 
 	G_CALLBACK(quit_dialog_response), NULL);

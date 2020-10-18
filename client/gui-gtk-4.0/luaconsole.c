@@ -320,7 +320,6 @@ static void luaconsole_load_file_popup(void)
                                         _("_Open"), GTK_RESPONSE_OK,
                                         NULL);
   setup_dialog(filesel, toplevel);
-  gtk_window_set_position(GTK_WINDOW(filesel), GTK_WIN_POS_MOUSE);
 
   g_signal_connect(filesel, "response",
                    G_CALLBACK(luaconsole_load_file_callback), NULL);

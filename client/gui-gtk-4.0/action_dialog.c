@@ -586,7 +586,6 @@ static void create_advances_list(struct player *pplayer,
                                                _("_Steal"), GTK_RESPONSE_ACCEPT,
                                                NULL);
   setup_dialog(spy_tech_shell, toplevel);
-  gtk_window_set_position(GTK_WINDOW(spy_tech_shell), GTK_WIN_POS_MOUSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_tech_shell),
 				  GTK_RESPONSE_ACCEPT);
@@ -774,7 +773,6 @@ static void create_improvements_list(struct player *pplayer,
                                                    _("_Sabotage"), GTK_RESPONSE_ACCEPT,
                                                    NULL);
   setup_dialog(spy_sabotage_shell, toplevel);
-  gtk_window_set_position(GTK_WINDOW(spy_sabotage_shell), GTK_WIN_POS_MOUSE);
 
   gtk_dialog_set_default_response(GTK_DIALOG(spy_sabotage_shell),
 				  GTK_RESPONSE_ACCEPT);

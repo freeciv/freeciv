@@ -383,7 +383,6 @@ option_dialog_new(const char *name, const struct option_set *poptset)
 
   /* Shell */
   setup_dialog(pdialog->shell, toplevel);
-  gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
   gtk_window_set_default_size(GTK_WINDOW(pdialog->shell), -1, 480);
   g_signal_connect(pdialog->shell, "response",
                    G_CALLBACK(option_dialog_reponse_callback), pdialog);

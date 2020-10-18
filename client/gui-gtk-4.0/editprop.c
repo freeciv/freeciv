@@ -6151,7 +6151,6 @@ static struct property_editor *property_editor_new(void)
   gtk_window_set_title(GTK_WINDOW(win), _("Property Editor"));
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
   gtk_window_set_default_size(GTK_WINDOW(win), 780, 560);
-  gtk_window_set_position(GTK_WINDOW(win), GTK_WIN_POS_CENTER_ON_PARENT);
   gtk_window_set_transient_for(GTK_WINDOW(win), GTK_WINDOW(toplevel));
   gtk_window_set_destroy_with_parent(GTK_WINDOW(win), TRUE);
   gtk_window_set_type_hint(GTK_WINDOW(win), GDK_SURFACE_TYPE_HINT_DIALOG);

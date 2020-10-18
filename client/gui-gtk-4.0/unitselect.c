@@ -256,7 +256,6 @@ static struct unit_select_dialog *usdlg_create(void)
   setup_dialog(pdialog->shell, toplevel);
   g_signal_connect(pdialog->shell, "destroy",
                    G_CALLBACK(usdlg_destroy_callback), pdialog);
-  gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
   gtk_widget_realize(pdialog->shell);
 
   vbox = gtk_dialog_get_content_area(GTK_DIALOG(pdialog->shell));

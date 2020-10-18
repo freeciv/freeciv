@@ -329,7 +329,6 @@ static GtkWidget *create_multiplier_dialog(void)
   }
   setup_dialog(shell, toplevel);
 
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
   if (can_client_issue_orders()) {
@@ -414,7 +413,6 @@ static GtkWidget *create_rates_dialog(void)
                                       NULL);
   setup_dialog(shell, toplevel);
   gtk_dialog_set_default_response(GTK_DIALOG(shell), GTK_RESPONSE_OK);
-  gtk_window_set_position(GTK_WINDOW(shell), GTK_WIN_POS_MOUSE);
   content = gtk_dialog_get_content_area(GTK_DIALOG(shell));
 
   rates_gov_label = gtk_label_new("");

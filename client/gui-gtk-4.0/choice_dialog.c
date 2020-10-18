@@ -107,7 +107,6 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 
   dshell = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   setup_dialog(dshell, toplevel);
-  gtk_window_set_position (GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
 
   gtk_window_set_title(GTK_WINDOW(dshell), name);
 

@@ -669,7 +669,6 @@ static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
   pdialog->preset_remove_shell = shl;
 
   gtk_window_set_title(GTK_WINDOW(shl), cmafec_preset_get_descr(preset_index));
-  gtk_window_set_position(GTK_WINDOW(shl), GTK_WIN_POS_CENTER_ON_PARENT);
 
   g_signal_connect(shl, "response",
 		   G_CALLBACK(cma_preset_remove_response), pdialog);

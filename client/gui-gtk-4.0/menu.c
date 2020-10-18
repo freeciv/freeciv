@@ -656,7 +656,6 @@ static void leave_callback(GtkMenuItem *item, gpointer data)
                                GTK_BUTTONS_OK_CANCEL,
                                _("Leaving a local game will end it!"));
     setup_dialog(dialog, toplevel);
-    gtk_window_set_position(GTK_WINDOW(dialog), GTK_WIN_POS_MOUSE);
     g_signal_connect(dialog, "response", 
                      G_CALLBACK(leave_local_game_response), NULL);
     gtk_window_present(GTK_WINDOW(dialog));

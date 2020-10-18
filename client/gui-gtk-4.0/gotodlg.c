@@ -148,7 +148,6 @@ static void create_goto_dialog(void)
                                        CMD_GOTO,
                                        NULL);
   setup_dialog(dshell, toplevel);
-  gtk_window_set_position(GTK_WINDOW(dshell), GTK_WIN_POS_MOUSE);
   gtk_dialog_set_default_response(GTK_DIALOG(dshell), CMD_GOTO);
   g_signal_connect(dshell, "destroy",
 		   G_CALLBACK(gtk_widget_destroyed), &dshell);

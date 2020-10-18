@@ -156,7 +156,6 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_widget_set_margin_top(p, 2);
     gtk_widget_set_margin_bottom(p, 2);
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->win));
-    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     frame = gtk_frame_new(NULL);
     gtk_container_add(GTK_CONTAINER(p), frame);

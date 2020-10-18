@@ -697,7 +697,6 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
     gtk_widget_set_margin_top(p, 2);
     gtk_widget_set_margin_bottom(p, 2);
     gtk_window_set_transient_for(GTK_WINDOW(p), GTK_WINDOW(pdialog->shell));
-    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
 
     frame = gtk_frame_new(NULL);
     gtk_container_add(GTK_CONTAINER(p), frame);
@@ -1578,7 +1577,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   g_signal_connect(pdialog->shell, "destroy",
 		   G_CALLBACK(city_destroy_callback), pdialog);
-  gtk_window_set_position(GTK_WINDOW(pdialog->shell), GTK_WIN_POS_MOUSE);
   gtk_widget_set_name(pdialog->shell, "Freeciv");
 
   gtk_widget_realize(pdialog->shell);
@@ -3180,7 +3178,6 @@ static void sell_callback(struct impr_type *pimprove, gpointer data)
   pdialog->sell_shell = shl;
   
   gtk_window_set_title(GTK_WINDOW(shl), _("Sell It!"));
-  gtk_window_set_position(GTK_WINDOW(shl), GTK_WIN_POS_CENTER_ON_PARENT);
 
   g_signal_connect(shl, "response",
 		   G_CALLBACK(sell_callback_response), pdialog);
