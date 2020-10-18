@@ -192,7 +192,7 @@ void client_change_all(struct universal *from, struct universal *to)
   Return a string indicating one nation's embassy status with another
 **************************************************************************/
 const char *get_embassy_status(const struct player *me,
-			       const struct player *them)
+                               const struct player *them)
 {
   if (!me || !them
       || me == them
@@ -220,7 +220,7 @@ const char *get_embassy_status(const struct player *me,
   Return a string indicating one nation's shaed vision status with another
 **************************************************************************/
 const char *get_vision_status(const struct player *me,
-			      const struct player *them)
+                              const struct player *them)
 {
   if (me && them && gives_shared_vision(me, them)) {
     if (gives_shared_vision(them, me)) {
@@ -239,7 +239,7 @@ const char *get_vision_status(const struct player *me,
   Copy a string that describes the given clause into the return buffer.
 **************************************************************************/
 void client_diplomacy_clause_string(char *buf, int bufsiz,
-				    struct Clause *pclause)
+                                    struct Clause *pclause)
 {
   struct city *pcity;
 
@@ -396,6 +396,7 @@ struct sprite *client_cooling_sprite(void)
   } else {
     idx = 0;
   }
+
   return get_indicator_sprite(tileset, INDICATOR_COOLING, idx);
 }
 
@@ -458,8 +459,8 @@ void center_on_something(void)
      * it should give a sufficiently large radius. */
     iterate_outward(&(wld.map), ctile, wld.map.xsize + wld.map.ysize, ptile) {
       if (client_tile_get_known(ptile) != TILE_UNKNOWN) {
-	ctile = ptile;
-	break;
+        ctile = ptile;
+        break;
       }
     } iterate_outward_end;
 
@@ -614,6 +615,7 @@ static int fc_cmp(const void *p1, const void *p2)
   if (s1 == s2) {
     return fc_strcasecmp(i1->descr, i2->descr);
   }
+
   return s1 - s2;
 }
 
@@ -717,12 +719,14 @@ int collect_production_targets(struct universal *targets,
       }
     }
 
-    if (!append)
+    if (!append) {
       continue;
+    }
 
     targets[items_used] = target;
     items_used++;
   }
+
   return items_used;
 }
 
@@ -889,7 +893,7 @@ int collect_eventually_buildable_targets(struct universal *targets,
   Collect the cids of all improvements which are built in the given city.
 **************************************************************************/
 int collect_already_built_targets(struct universal *targets,
-				  struct city *pcity)
+                                  struct city *pcity)
 {
   int cids_used = 0;
 
@@ -944,7 +948,7 @@ int num_present_units_in_city(struct city *pcity)
   Handles a chat or event message.
 **************************************************************************/
 void handle_event(const char *featured_text, struct tile *ptile,
-		  enum event_type event, int turn, int phase, int conn_id)
+                  enum event_type event, int turn, int phase, int conn_id)
 {
   char plain_text[MAX_LEN_MSG];
   struct text_tag_list *tags;
@@ -962,7 +966,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Get the original text. */
   featured_text_to_plain_text(featured_text, plain_text,
-			      sizeof(plain_text), &tags, conn_id != -1);
+                              sizeof(plain_text), &tags, conn_id != -1);
 
   /* Display link marks when an user is pointed us something. */
   if (conn_id != -1) {
@@ -1107,9 +1111,10 @@ struct city *get_nearest_city(const struct unit *punit, int *sq_dist)
     players_iterate(pplayer) {
       city_list_iterate(pplayer->cities, pcity_current) {
         int dist = sq_map_distance(pcity_current->tile, unit_tile(punit));
+
         if (pcity_near_dist == -1 || dist < pcity_near_dist
-	    || (dist == pcity_near_dist
-		&& unit_owner(punit) == city_owner(pcity_current))) {
+            || (dist == pcity_near_dist
+                && unit_owner(punit) == city_owner(pcity_current))) {
           pcity_near = pcity_current;
           pcity_near_dist = dist;
         }
@@ -1147,6 +1152,7 @@ void cityrep_buy(struct city *pcity)
   } else {
     /* Split into two to allow localization of two pluralisations. */
     char buf[MAX_LEN_MSG];
+
     /* TRANS: %s is a production type; this whole string is a sentence
      * fragment that is only ever included in one other string
      * (search comments for this string to find it) */
@@ -1201,7 +1207,7 @@ void common_taxrates_callback(int i)
   Returns TRUE if any of the units can do the connect activity.
 **************************************************************************/
 bool can_units_do_connect(struct unit_list *punits,
-			  enum unit_activity activity,
+                          enum unit_activity activity,
                           struct extra_type *tgt)
 {
   unit_list_iterate(punits, punit) {
@@ -1460,6 +1466,7 @@ struct nation_set *client_current_nation_set(void)
       || (setting_str = option_str_get(poption)) == NULL) {
     setting_str = "";
   }
+
   return nation_set_by_setting_value(setting_str);
 }
 
