@@ -1056,7 +1056,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   SDL_Surface *pIcon;
   SDL_Rect dst;
   char cbuf[128];
-  struct unit_type *pUnit = NULL;
+  struct unit_type *punittype = NULL;
   char *state = NULL;
   bool advanced_tech;
   bool can_build, can_eventually_build;
@@ -1457,7 +1457,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
             } else {
               fc_snprintf(cbuf, sizeof(cbuf), _("%d/%d %s\n%s"),
                           pCity->shield_stock, impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
+                          PL_("shield", "shields",
                               impr_build_shield_cost(pImprove)), _("never"));
             }	  
           } else {
@@ -1465,13 +1465,13 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
               fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d/%d %s\n%d %s"),
                           state, pCity->shield_stock,
                           impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
+                          PL_("shield", "shields",
                               impr_build_shield_cost(pImprove)),
                           turns, PL_("turn", "turns", turns));
             } else {
               fc_snprintf(cbuf, sizeof(cbuf), _("%d/%d %s\n%d %s"),
                           pCity->shield_stock, impr_build_shield_cost(pImprove),
-                          PL_("shield","shields",
+                          PL_("shield", "shields",
                               impr_build_shield_cost(pImprove)),
                           turns, PL_("turn", "turns", turns));
             }
@@ -1490,12 +1490,12 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
           if (state) {
             fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d %s"),
                         state, impr_build_shield_cost(pImprove),
-                        PL_("shield","shields",
+                        PL_("shield", "shields",
                             impr_build_shield_cost(pImprove)));
           } else {
             fc_snprintf(cbuf, sizeof(cbuf), _("%d %s"),
                         impr_build_shield_cost(pImprove),
-                        PL_("shield","shields",
+                        PL_("shield", "shields",
                             impr_build_shield_cost(pImprove)));
           }
         } else {
@@ -1565,7 +1565,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     if ((advanced_tech && can_eventually_build)
         || (!advanced_tech && can_build)) {
 
-      pUnit = un;
+      punittype = un;
 
       pIcon = crop_rect_from_surface(pMain, NULL);
 
@@ -1583,29 +1583,29 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
         if (turns == FC_INFINITY) {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("(%d/%d/%s)\n%d/%d %s\nnever"),
-                      pUnit->attack_strength,
-                      pUnit->defense_strength,
-                      move_points_text(pUnit->move_rate, TRUE),
+                      punittype->attack_strength,
+                      punittype->defense_strength,
+                      move_points_text(punittype->move_rate, TRUE),
                       pCity->shield_stock, utype_build_shield_cost(un),
-                      PL_("shield","shields", utype_build_shield_cost(un)));
+                      PL_("shield", "shields", utype_build_shield_cost(un)));
         } else {
           fc_snprintf(cbuf, sizeof(cbuf),
                       _("(%d/%d/%s)\n%d/%d %s\n%d %s"),
-                      pUnit->attack_strength,
-                      pUnit->defense_strength,
-                      move_points_text(pUnit->move_rate, TRUE),
+                      punittype->attack_strength,
+                      punittype->defense_strength,
+                      move_points_text(punittype->move_rate, TRUE),
                       pCity->shield_stock, utype_build_shield_cost(un), 
-                      PL_("shield","shields", utype_build_shield_cost(un)),
+                      PL_("shield", "shields", utype_build_shield_cost(un)),
                       turns, PL_("turn", "turns", turns));
         }
       } else {
         fc_snprintf(cbuf, sizeof(cbuf),
                     _("(%d/%d/%s)\n%d %s"),
-                    pUnit->attack_strength,
-                    pUnit->defense_strength,
-                    move_points_text(pUnit->move_rate, TRUE),
+                    punittype->attack_strength,
+                    punittype->defense_strength,
+                    move_points_text(punittype->move_rate, TRUE),
                     utype_build_shield_cost(un),
-                    PL_("shield","shields", utype_build_shield_cost(un)));
+                    PL_("shield", "shields", utype_build_shield_cost(un)));
       }
 
       copy_chars_to_utf8_str(pstr, cbuf);
