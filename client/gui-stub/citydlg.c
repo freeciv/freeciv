@@ -87,3 +87,11 @@ bool gui_city_dialog_is_open(struct city *pcity)
   /* PORTME */
   return FALSE;
 }
+
+/**************************************************************************
+  City is about to disappear from client
+**************************************************************************/
+void gui_city_to_disappear(struct city *pcity)
+{
+  /* PORTME */
+}

@@ -139,6 +139,8 @@ void client_remove_city(struct city *pcity)
 
   log_debug("client_remove_city() %d, %s", pcity->id, city_name_get(pcity));
 
+  city_to_disappear(pcity);
+
   /* Explicitly remove all improvements, to properly remove any global effects
      and to handle the preservation of "destroyed" effects. */
   effect_update = FALSE;

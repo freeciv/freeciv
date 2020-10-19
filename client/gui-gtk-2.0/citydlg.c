@@ -3058,3 +3058,10 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
     city_dialog_map_recenter(pdialog->happiness.map_canvas.sw);
   }
 }
+
+/**************************************************************************
+  City is about to disappear from client
+**************************************************************************/
+void city_to_disappear(struct city *pcity)
+{
+}
