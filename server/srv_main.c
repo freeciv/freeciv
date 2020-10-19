@@ -2856,6 +2856,14 @@ static void srv_running(void)
       }
       game.server.additional_phase_seconds = 0;
     }
+
+    /* Make sure is_new_turn is reseted before next turn even if
+     * we did zero rounds in the loop (i.e. if current phase from
+     * the savegame was >= num phases). Without this begin_turn()
+     * would not reset phase, so there would be infinite loop
+     * where phase is too high for is_new_turn to get set. */
+    is_new_turn = TRUE;
+
     end_turn();
     log_debug("Sendinfotometaserver");
     (void) send_server_info_to_metaserver(META_REFRESH);
