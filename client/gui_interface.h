@@ -131,6 +131,7 @@ struct gui_funcs {
   void (*real_city_dialog_refresh)(struct city *pcity);
   void (*popdown_city_dialog)(struct city *pcity);
   void (*popdown_all_city_dialogs)(void);
+  void (*city_to_disappear)(struct city *pcity);
   bool (*handmade_scenario_warning)(void);
   void (*refresh_unit_city_dialogs)(struct unit *punit);
   bool (*city_dialog_is_open)(struct city *pcity);

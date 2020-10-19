@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ GUI_FUNC_PROTO(void, popdown_all_city_dialogs, void)
 GUI_FUNC_PROTO(void, real_city_dialog_refresh, struct city *pcity)
 GUI_FUNC_PROTO(void, refresh_unit_city_dialogs, struct unit *punit)
 GUI_FUNC_PROTO(bool, city_dialog_is_open, struct city *pcity)
+GUI_FUNC_PROTO(void, city_to_disappear, struct city *pcity);
 
 /* Actually defined in update_queue.c */
 void popup_city_dialog(struct city *pcity);

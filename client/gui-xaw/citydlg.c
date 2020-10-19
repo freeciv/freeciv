@@ -2666,8 +2666,14 @@ void cma_callback(Widget w, XtPointer client_data,
                   XtPointer call_data)
 {
   struct city_dialog *pdialog = (struct city_dialog *)client_data;
+
   popdown_cma_dialog();
   show_cma_dialog(pdialog->pcity, pdialog->shell);
 }
 
-
+/**************************************************************************
+  City is about to disappear from client
+**************************************************************************/
+void city_to_disappear(struct city *pcity)
+{
+}

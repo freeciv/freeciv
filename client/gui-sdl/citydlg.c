@@ -3927,3 +3927,10 @@ bool city_dialog_is_open(struct city *pCity)
 {
   return (pCityDlg && (pCityDlg->pCity == pCity));
 }
+
+/**************************************************************************
+  City is about to disappear from client
+**************************************************************************/
+void city_to_disappear(struct city *pcity)
+{
+}

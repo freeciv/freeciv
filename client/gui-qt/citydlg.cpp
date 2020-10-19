@@ -3662,6 +3662,14 @@ void qtg_popdown_all_city_dialogs()
 }
 
 /**************************************************************************
+  City is about to disappear from client
+**************************************************************************/
+void qtg_city_to_disappear(struct city *pcity)
+{
+  gui()->rallies.clear(pcity);
+}
+
+/**************************************************************************
   Refresh (update) all data for the given city's dialog.
 **************************************************************************/
 void qtg_real_city_dialog_refresh(struct city *pcity)

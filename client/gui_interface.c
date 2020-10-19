@@ -552,6 +552,14 @@ void popdown_all_city_dialogs(void)
 }
 
 /**************************************************************************
+  Call city_to_disappear callback
+**************************************************************************/
+void city_to_disappear(struct city *pcity)
+{
+  funcs.city_to_disappear(pcity);
+}
+
+/**************************************************************************
   Call handmade_scenario_warning callback
 **************************************************************************/
 bool handmade_scenario_warning(void)

@@ -111,6 +111,7 @@ void setup_gui_funcs(void)
   funcs->real_city_dialog_refresh = gui_real_city_dialog_refresh;
   funcs->popdown_city_dialog = gui_popdown_city_dialog;
   funcs->popdown_all_city_dialogs = gui_popdown_all_city_dialogs;
+  funcs->city_to_disappear = gui_city_to_disappear;
   funcs->handmade_scenario_warning = gui_handmade_scenario_warning;
   funcs->refresh_unit_city_dialogs = gui_refresh_unit_city_dialogs;
   funcs->city_dialog_is_open = gui_city_dialog_is_open;
