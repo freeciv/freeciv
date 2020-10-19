@@ -5632,7 +5632,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
   int extra_id;
   int ei;
   const char *facing_str;
-  enum tile_special_type cfspe;
   int natnbr;
   int unconverted;
   const char *str;
@@ -5748,69 +5747,14 @@ static bool sg_load_player_unit(struct loaddata *loading,
     secfile_lookup_int_default(loading->file, ACTIVITY_IDLE,
                                "%s.changed_from", unitstr);
 
-  extra_id = secfile_lookup_int_default(loading->file, -2,
-                                        "%s.changed_from_tgt", unitstr);
+  sg_warn_ret_val(secfile_lookup_int(loading->file, &extra_id,
+                                     "%s.changed_from_tgt", unitstr), FALSE,
+                  "%s", secfile_error());
 
-  if (extra_id != -2) {
-    if (extra_id >= 0 && extra_id < loading->extra.size) {
-      punit->changed_from_target = loading->extra.order[extra_id];
-    } else {
-      punit->changed_from_target = NULL;
-    }
+  if (extra_id >= 0 && extra_id < loading->extra.size) {
+    punit->changed_from_target = loading->extra.order[extra_id];
   } else {
-    /* extra_id == -2 -> changed_from_tgt not set */
-
-    cfspe =
-      secfile_lookup_int_default(loading->file, S_LAST,
-                                 "%s.changed_from_target", unitstr);
-
-    if (cfspe != S_LAST) {
-      punit->changed_from_target = special_extra_get(cfspe);
-    } else {
-      punit->changed_from_target = NULL;
-    }
-
-    if (punit->changed_from == ACTIVITY_IRRIGATE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_IRRIGATION,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        punit->changed_from_target = tgt;
-      } else {
-        punit->changed_from_target = NULL;
-      }
-    } else if (punit->changed_from == ACTIVITY_MINE) {
-      struct extra_type *tgt = next_extra_for_tile(unit_tile(punit),
-                                                   EC_MINE,
-                                                   unit_owner(punit),
-                                                   punit);
-      if (tgt != NULL) {
-        punit->changed_from_target = tgt;
-      } else {
-        punit->changed_from_target = NULL;
-      }
-    } else if (punit->changed_from == ACTIVITY_POLLUTION) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANPOLLUTION,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        punit->changed_from_target = tgt;
-      } else {
-        punit->changed_from_target = NULL;
-      }
-    } else if (punit->changed_from == ACTIVITY_FALLOUT) {
-      struct extra_type *tgt = prev_extra_in_tile(unit_tile(punit),
-                                                  ERM_CLEANFALLOUT,
-                                                  unit_owner(punit),
-                                                  punit);
-      if (tgt != NULL) {
-        punit->changed_from_target = tgt;
-      } else {
-        punit->changed_from_target = NULL;
-      }
-    }
+    punit->changed_from_target = NULL;
   }
 
   punit->changed_from_count =
