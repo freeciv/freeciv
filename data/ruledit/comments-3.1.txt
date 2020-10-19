@@ -149,9 +149,10 @@ techs = "\
 ; possible:\n\
 ;\n\
 ; \"Bonus_Tech\"          = player gets extra tech if reached first\n\
-; \"Bridge\"              = \"Settler\" unit types can build roads with\n\
-;                         \"RequiresBridge\" flag over roads with\n\
-;                         \"PreventsOtherRoads\" flag (rivers)\n\
+; \"Bridge\"              = \"Settler\" unit types can build extras that\n\
+;                         require bridge when occurring with some other\n\
+;                         extra. See \"bridged_over\" extra property in\n\
+;                         terrain.ruleset.\n\
 ; \"Build_Airborne\"      = from now on can build air units (for use by AI)\n\
 ; \"Claim_Ocean\"         = Player claims ocean tiles even if they are not\n\
 ;                         adjacent to border source\n\

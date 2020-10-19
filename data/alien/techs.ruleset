@@ -106,9 +106,10 @@ format_version=20
 ; possible:
 ;
 ; "Bonus_Tech"          = player gets extra tech if reached first
-; "Bridge"              = "Settler" unit types can build roads with
-;                         "RequiresBridge" flag over roads with
-;                         "PreventsOtherRoads" flag (rivers)
+; "Bridge"              = "Settler" unit types can build extras that
+;                         require bridge when occurring with some other
+;                         extra. See "bridged_over" extra property in
+;                         terrain.ruleset.
 ; "Build_Airborne"      = from now on can build air units (for use by AI)
 ; "Claim_Ocean"         = Player claims ocean tiles even if they are not
 ;                         adjacent to border source
