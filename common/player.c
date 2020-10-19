@@ -1008,7 +1008,8 @@ bool can_player_see_unit_at(const struct player *pplayer,
     } extra_type_list_iterate_end;
   }
 
-  /* Allied or non-hiding units are always seen. */
+  /* Allied or non-hiding units are always seen.
+   * See also stealth unit hiding part in map_change_seen() */
   if (pplayers_allied(unit_owner(punit), pplayer)
       || !is_hiding_unit(punit)) {
     return TRUE;
@@ -1017,8 +1018,6 @@ bool can_player_see_unit_at(const struct player *pplayer,
   /* Hiding units are only seen by the V_INVIS fog layer. */
   return fc_funcs->player_tile_vision_get(ptile, pplayer,
                                           unit_type_get(punit)->vlayer);
-
-  return FALSE;
 }
 
 /*******************************************************************//**
