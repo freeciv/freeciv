@@ -583,7 +583,7 @@ void send_tile_info(struct conn_list *dest, struct tile *ptile,
   Assumption: Each unit type is visible on only one layer.
 ****************************************************************************/
 static bool unit_is_visible_on_layer(const struct unit *punit,
-				     enum vision_layer vlayer)
+                                     enum vision_layer vlayer)
 {
   return XOR(vlayer == V_MAIN, is_hiding_unit(punit));
 }
@@ -870,7 +870,11 @@ void map_change_seen(struct player *pplayer,
 
     unit_list_iterate(ptile->units, punit) {
       if (unit_is_visible_on_layer(punit, V_INVIS)
-          && can_player_see_unit(pplayer, punit)) {
+          && can_player_see_unit(pplayer, punit)
+          && (plrtile->seen_count[V_MAIN] + change[V_MAIN] <= 0
+              || !pplayers_allied(pplayer, unit_owner(punit)))) {
+        /* Allied units on seen tiles (V_MAIN) are always seen.
+         * That's how can_player_see_unit_at() works. */
         unit_goes_out_of_sight(pplayer, punit);
       }
     } unit_list_iterate_end;

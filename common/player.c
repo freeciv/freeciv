@@ -941,7 +941,7 @@ bool can_player_see_hypotetic_units_at(const struct player *pplayer,
   (e) the unit isn't in a transporter, or we can see the transporter
 ****************************************************************************/
 bool can_player_see_unit_at(const struct player *pplayer,
-			    const struct unit *punit,
+                            const struct unit *punit,
                             const struct tile *ptile,
                             bool is_transported)
 {
@@ -966,7 +966,8 @@ bool can_player_see_unit_at(const struct player *pplayer,
     return FALSE;
   }
 
-  /* Allied or non-hiding units are always seen. */
+  /* Allied or non-hiding units are always seen.
+   * See also stealth unit hiding part in map_change_seen() */
   if (pplayers_allied(unit_owner(punit), pplayer)
       || !is_hiding_unit(punit)) {
     return TRUE;
@@ -974,10 +975,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
 
   /* Hiding units are only seen by the V_INVIS fog layer. */
   return fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS);
-
-  return FALSE;
 }
-
 
 /****************************************************************************
   Checks if a unit can be seen by pplayer at its current location.
