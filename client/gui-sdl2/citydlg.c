@@ -96,7 +96,7 @@ static struct city_dialog {
   struct widget *pAdd_Point;
   struct widget *pBuy_Button;
   struct widget *pResource_Map;
-  struct widget *pCity_Name_Edit;
+  struct widget *pcity_name_edit;
 
   int citizen_step;
 
@@ -723,11 +723,11 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
                 pHome_City ? pHome_City->name : Q_("?homecity:None"));
 
     if (pcity_dlg->page == SUPPORTED_UNITS_PAGE) {
-      int pCity_near_dist;
-      struct city *pNear_City = get_nearest_city(pUnit, &pCity_near_dist);
+      int pcity_near_dist;
+      struct city *pnear_city = get_nearest_city(pUnit, &pcity_near_dist);
 
       sz_strlcat(cBuf, "\n");
-      sz_strlcat(cBuf, get_nearest_city_text(pNear_City, pCity_near_dist));
+      sz_strlcat(cBuf, get_nearest_city_text(pnear_city, pcity_near_dist));
       pSurf = adj_surf(create_unit_surface(pUnit, TRUE, w, h));
     } else {
       pSurf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
@@ -1713,13 +1713,13 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
 **************************************************************************/
 static void refresh_city_names(struct city *pcity)
 {
-  if (pcity_dlg->pCity_Name_Edit) {
+  if (pcity_dlg->pcity_name_edit) {
     char name[MAX_LEN_NAME];
 
-    fc_snprintf(name, MAX_LEN_NAME, "%s", pcity_dlg->pCity_Name_Edit->string_utf8->text);
+    fc_snprintf(name, MAX_LEN_NAME, "%s", pcity_dlg->pcity_name_edit->string_utf8->text);
     if ((strcmp(city_name_get(pcity), name) != 0)
         || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
-      copy_chars_to_utf8_str(pcity_dlg->pCity_Name_Edit->string_utf8, city_name_get(pcity));
+      copy_chars_to_utf8_str(pcity_dlg->pcity_name_edit->string_utf8, city_name_get(pcity));
       rebuild_citydlg_title_str(pcity_dlg->pEndCityWidgetList, pcity);
       SDL_Client_Flags &= ~CF_CHANGED_CITY_NAME;
     }
@@ -3812,7 +3812,7 @@ void real_city_dialog_popup(struct city *pCity)
     set_wstate(pBuf, FC_WS_NORMAL);
   }
 
-  pcity_dlg->pCity_Name_Edit = pBuf;
+  pcity_dlg->pcity_name_edit = pBuf;
   add_to_gui_list(ID_CITY_DLG_NAME_EDIT, pBuf);
 
   pcity_dlg->pBeginCityWidgetList = pBuf;
@@ -3878,11 +3878,11 @@ void real_city_dialog_refresh(struct city *pCity)
 **************************************************************************/
 void refresh_unit_city_dialogs(struct unit *pUnit)
 {
-  struct city *pCity_sup = game_city_by_number(pUnit->homecity);
-  struct city *pCity_pre = tile_city(unit_tile(pUnit));
+  struct city *pcity_sup = game_city_by_number(pUnit->homecity);
+  struct city *pcity_pre = tile_city(unit_tile(pUnit));
 
-  if (pcity_dlg && ((pcity_dlg->pCity == pCity_sup)
-                   || (pcity_dlg->pCity == pCity_pre))) {
+  if (pcity_dlg && ((pcity_dlg->pCity == pcity_sup)
+                   || (pcity_dlg->pCity == pcity_pre))) {
     free_city_units_lists();
     redraw_city_dialog(pcity_dlg->pCity);
     flush_dirty();

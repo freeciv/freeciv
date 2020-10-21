@@ -884,7 +884,7 @@ void popup_city_cma_dialog(struct city *pCity)
 
   struct widget *pWindow, *pBuf;
   SDL_Surface *pLogo, *pText[O_LAST + 1], *pMinimal, *pFactor;
-  SDL_Surface *pCity_Map;
+  SDL_Surface *pcity_map;
   utf8_str *pstr;
   char cBuf[128];
   int w, text_w, x, cs;
@@ -898,7 +898,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pCma->pCity = pCity;
   pCma->pDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
   pCma->pAdv = NULL;
-  pCity_Map = get_scaled_city_map(pCity);
+  pcity_map = get_scaled_city_map(pCity);
 
   cmafec_get_fe_parameter(pCity, &pCma->edited_cm_parm);
 
@@ -1072,12 +1072,12 @@ void popup_city_cma_dialog(struct city *pCity)
   pCma->pDlg->pBeginWidgetList = pBuf;
 
 #ifdef SMALL_SCREEN
-  area.w = MAX(pCity_Map->w + adj_size(220) + text_w + adj_size(10) +
+  area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
                (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
                 pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
   area.h = adj_size(390) - (pWindow->size.w - pWindow->area.w);
 #else  /* SMALL_SCREEN */
-  area.w = MAX(pCity_Map->w + adj_size(150) + text_w + adj_size(10) +
+  area.w = MAX(pcity_map->w + adj_size(150) + text_w + adj_size(10) +
                (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
                 pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
   area.h = adj_size(360) - (pWindow->size.w - pWindow->area.w);
@@ -1108,8 +1108,8 @@ void popup_city_cma_dialog(struct city *pCity)
   pBuf->size.y = pWindow->size.y + adj_size(2);
 
   /* ---------- */
-  dst.x = pCity_Map->w + adj_size(80) +
-    (pWindow->size.w - (pCity_Map->w + adj_size(40)) -
+  dst.x = pcity_map->w + adj_size(80) +
+    (pWindow->size.w - (pcity_map->w + adj_size(40)) -
      (text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
       pWindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
 
@@ -1140,8 +1140,8 @@ void popup_city_cma_dialog(struct city *pCity)
 
   area.x = pWindow->area.x + adj_size(22);
   area.y = pWindow->area.y + adj_size(31);
-  alphablit(pCity_Map, NULL, pWindow->theme, &area, 255);
-  FREESURFACE(pCity_Map);
+  alphablit(pcity_map, NULL, pWindow->theme, &area, 255);
+  FREESURFACE(pcity_map);
 
   output_type_iterate(i) {
     /* min label */
