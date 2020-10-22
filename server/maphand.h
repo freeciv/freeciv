@@ -87,12 +87,12 @@ void player_map_free(struct player *pplayer);
 void remove_player_from_maps(struct player *pplayer);
 
 struct vision_site *map_get_player_city(const struct tile *ptile,
-					const struct player *pplayer);
+                                        const struct player *pplayer);
 struct vision_site *map_get_player_site(const struct tile *ptile,
-					const struct player *pplayer);
+                                        const struct player *pplayer);
 struct player_tile *map_get_player_tile(const struct tile *ptile,
-					const struct player *pplayer);
-bool update_player_tile_knowledge(struct player *pplayer,struct tile *ptile);
+                                        const struct player *pplayer);
+bool update_player_tile_knowledge(struct player *pplayer, struct tile *ptile);
 void update_tile_knowledge(struct tile *ptile);
 void update_player_tile_last_seen(struct player *pplayer, struct tile *ptile);
 

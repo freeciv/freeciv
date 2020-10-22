@@ -98,7 +98,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
                                         struct unit *leader);
 
 static void dai_military_findjob(struct ai_type *ait,
-                                 struct player *pplayer,struct unit *punit);
+                                 struct player *pplayer, struct unit *punit);
 static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
                                 struct unit *punit);
 static void dai_military_attack(struct ai_type *ait, struct player *pplayer,

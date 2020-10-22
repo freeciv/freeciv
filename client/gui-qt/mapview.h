@@ -86,8 +86,8 @@ public:
   void paint(QPainter *painter, QPaintEvent *event);
   void find_place(int pos_x, int pos_y, int &w, int &h, int wdth, int hght, 
                   int recursive_nr);
-  void resume_searching(int pos_x,int pos_y,int &w, int &h,
-                        int wdtht, int hght, int recursive_nr);
+  void resume_searching(int pos_x, int pos_y, int &w, int &h,
+                        int wdth, int hght, int recursive_nr);
   void update_cursor(enum cursor_type);
   bool menu_click;
 

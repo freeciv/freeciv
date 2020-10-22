@@ -23,7 +23,7 @@ extern "C" {
 char *get_option_malloc(const char *option_name,
                         char **argv, int *i, int argc,
                         bool gc);
-bool is_option(const char *option_name,char *option);
+bool is_option(const char *option_name, char *option);
 int get_tokens(const char *str, char **tokens, size_t num_tokens,
                const char *delimiterset);
 void free_tokens(char **tokens, size_t ntokens);

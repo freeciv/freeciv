@@ -128,7 +128,8 @@ class unit_item: public QLabel
   QMenu *unit_menu;
 
 public:
-  unit_item(QWidget *parent ,struct unit *punit, bool supp = false, int happy_cost = 0);
+  unit_item(QWidget *parent, struct unit *punit, bool supp = false,
+            int happy_cost = 0);
   ~unit_item();
   void init_pix();
 

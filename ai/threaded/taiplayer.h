@@ -50,7 +50,7 @@ bool tai_thread_running(void);
 
 void tai_player_alloc(struct ai_type *ait, struct player *pplayer);
 void tai_player_free(struct ai_type *ait, struct player *pplayer);
-void tai_control_gained(struct ai_type *ait,struct player *pplayer);
+void tai_control_gained(struct ai_type *ait, struct player *pplayer);
 void tai_control_lost(struct ai_type *ait, struct player *pplayer);
 void tai_refresh(struct ai_type *ait, struct player *pplayer);
 
