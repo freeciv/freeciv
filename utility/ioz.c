@@ -357,7 +357,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
       lzma_ret ret;
 
       /*  xz files are binary files, so we should add "b" to mode! */
-      sz_strlcat(mode,"b");
+      sz_strlcat(mode, "b");
       memset(&fp->u.xz.stream, 0, sizeof(lzma_stream));
       ret = lzma_easy_encoder(&fp->u.xz.stream, compress_level, LZMA_CHECK_CRC32);
       fp->u.xz.error = ret;
@@ -383,7 +383,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 #ifdef FREECIV_HAVE_LIBBZ2
   case FZ_BZIP2:
     /*  bz2 files are binary files, so we should add "b" to mode! */
-    sz_strlcat(mode,"b");
+    sz_strlcat(mode, "b");
     fp->u.bz2.plain = fc_fopen(filename, mode);
     if (fp->u.bz2.plain) {
       /*  Open for read handled earlier */
@@ -412,7 +412,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 #ifdef FREECIV_HAVE_LIBZ
   case FZ_ZLIB:
     /*  gz files are binary files, so we should add "b" to mode! */
-    sz_strlcat(mode,"b");
+    sz_strlcat(mode, "b");
     if (mode[0] == 'w') {
       cat_snprintf(mode, sizeof(mode), "%d", compress_level);
     }

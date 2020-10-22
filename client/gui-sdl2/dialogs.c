@@ -1090,7 +1090,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   is_unit_move_blocked = TRUE;
   pUnit_Select_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  fc_snprintf(cBuf , sizeof(cBuf),"%s (%d)", _("Unit selection") , n);
+  fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", _("Unit selection") , n);
   pstr = create_utf8_from_char(cBuf , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 

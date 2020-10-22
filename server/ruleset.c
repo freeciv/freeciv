@@ -2413,7 +2413,7 @@ static bool load_ruleset_buildings(struct section_file *file,
 
       for (j = 0; j < nflags; j++) {
         sval = slist[j];
-        if (strcmp(sval,"") == 0) {
+        if (strcmp(sval, "") == 0) {
           continue;
         }
         ival = impr_flag_id_by_name(sval, fc_strcasecmp);
@@ -2894,9 +2894,9 @@ static bool load_ruleset_terrain(struct section_file *file,
       const char *cstr;
 
       sz_strlcpy(pterrain->graphic_str,
-                 secfile_lookup_str(file,"%s.graphic", tsection));
+                 secfile_lookup_str(file, "%s.graphic", tsection));
       sz_strlcpy(pterrain->graphic_alt,
-                 secfile_lookup_str(file,"%s.graphic_alt", tsection));
+                 secfile_lookup_str(file, "%s.graphic_alt", tsection));
 
       pterrain->identifier
         = secfile_lookup_str(file, "%s.identifier", tsection)[0];
@@ -3516,7 +3516,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       } output_type_iterate_end;
 
       sz_strlcpy(identifier,
-                 secfile_lookup_str(file,"%s.identifier", rsection));
+                 secfile_lookup_str(file, "%s.identifier", rsection));
       presource->data.resource->id_old_save = identifier[0];
       if (RESOURCE_NULL_IDENTIFIER == presource->data.resource->id_old_save) {
         ruleset_error(LOG_ERROR, "\"%s\" [%s] identifier missing value.",
@@ -3598,7 +3598,7 @@ static bool load_ruleset_terrain(struct section_file *file,
       }
       section = &base_sections[base_number(pbase) * MAX_SECTION_LABEL];
 
-      gui_str = secfile_lookup_str(file,"%s.gui_type", section);
+      gui_str = secfile_lookup_str(file, "%s.gui_type", section);
       pbase->gui_type = base_gui_type_by_name(gui_str, fc_strcasecmp);
       if (!base_gui_type_is_valid(pbase->gui_type)) {
         ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown gui_type \"%s\".",
@@ -5791,14 +5791,14 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   }
 
   if (ival < min) {
-    ruleset_error(LOG_ERROR,"\"%s\" should be in the interval [%d, %d] "
+    ruleset_error(LOG_ERROR, "\"%s\" should be in the interval [%d, %d] "
                   "but is %d; using the minimal value.",
                   fullpath, min, max, ival);
     ival = min;
   }
 
   if (ival > max) {
-    ruleset_error(LOG_ERROR,"\"%s\" should be in the interval [%d, %d] "
+    ruleset_error(LOG_ERROR, "\"%s\" should be in the interval [%d, %d] "
                   "but is %d; using the maximal value.",
                   fullpath, min, max, ival);
     ival = max;

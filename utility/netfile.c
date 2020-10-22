@@ -96,7 +96,7 @@ static bool netfile_download_file_core(const char *URL, FILE *fp,
 
   handle = netfile_init_handle();
 
-  headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
+  headers = curl_slist_append(headers, "User-Agent: Freeciv/" VERSION_STRING);
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
   if (mem_data != NULL) {
@@ -247,7 +247,7 @@ bool netfile_send_post(const char *URL, struct netfile_post *post,
 
   handle = netfile_init_handle();
 
-  headers = curl_slist_append(headers,"User-Agent: Freeciv/" VERSION_STRING);
+  headers = curl_slist_append(headers, "User-Agent: Freeciv/" VERSION_STRING);
 
   curl_easy_setopt(handle, CURLOPT_URL, URL);
   curl_easy_setopt(handle, CURLOPT_HTTPPOST, post->first);

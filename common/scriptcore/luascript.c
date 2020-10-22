@@ -698,7 +698,7 @@ void luascript_remove_exported_object(struct fc_lua *fcl, void *object)
 
     /* The following is similar to tolua_release(..) in src/lib/tolua_map.c */
     /* Find the userdata representing 'object' */
-    lua_pushstring(fcl->state,"tolua_ubox");
+    lua_pushstring(fcl->state, "tolua_ubox");
     /* stack: ubox */
     lua_rawget(fcl->state, LUA_REGISTRYINDEX);
     /* stack: ubox u */
