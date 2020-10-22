@@ -190,6 +190,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
 static void print_usage(void);
+static void activate_gui(GtkApplication* app, gpointer data);
 static void parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
@@ -1823,8 +1824,7 @@ static void migrate_options_from_gtk3_22(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
-  PangoFontDescription *toplevel_font_name;
-  guint sig;
+  GtkApplication *app;
 
   parse_options(argc, argv);
 
@@ -1834,9 +1834,37 @@ void ui_main(int argc, char **argv)
 
   gtk_init();
 
-  dlg_tab_provider_prepare();
+  gui_up = TRUE;
+  app = gtk_application_new(NULL, 0);
+  g_signal_connect(app, "activate", G_CALLBACK(activate_gui), NULL);
+  g_application_run(G_APPLICATION(app), 0, NULL);
+  gui_up = FALSE;
 
-  toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  destroy_server_scans();
+  free_mapcanvas_and_overview();
+  spaceship_dialog_done();
+  intel_dialog_done();
+  citizens_dialog_done();
+  luaconsole_dialog_done();
+  happiness_dialog_done();
+  diplomacy_dialog_done();
+  cma_fe_done();
+  free_unit_table();
+  editgui_free();
+  gtk_widget_destroy(toplevel_tabs);
+  message_buffer = NULL; /* Result of destruction of everything */
+  tileset_free_tiles(tileset);
+}
+
+/**********************************************************************//**
+  Run the gui
+**************************************************************************/
+static void activate_gui(GtkApplication *app, gpointer data)
+{
+  PangoFontDescription *toplevel_font_name;
+  guint sig;
+
+  toplevel = gtk_application_window_new(app);
   if (vmode.width > 0 && vmode.height > 0) {
     gtk_window_resize(GTK_WINDOW(toplevel), vmode.width, vmode.height);
   }
@@ -1846,6 +1874,8 @@ void ui_main(int argc, char **argv)
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
   root_window = gtk_widget_get_surface(toplevel);
+
+  dlg_tab_provider_prepare();
 
   if (gui_options.first_boot) {
     adjust_default_options();
@@ -1945,25 +1975,6 @@ void ui_main(int argc, char **argv)
 
   /* assumes client_state is set */
   timer_id = g_timeout_add(TIMER_INTERVAL, timer_callback, NULL);
-
-  gui_up = TRUE;
-  gtk_main();
-  gui_up = FALSE;
-
-  destroy_server_scans();
-  free_mapcanvas_and_overview();
-  spaceship_dialog_done();
-  intel_dialog_done();
-  citizens_dialog_done();
-  luaconsole_dialog_done();
-  happiness_dialog_done();
-  diplomacy_dialog_done();
-  cma_fe_done();
-  free_unit_table();
-  editgui_free();
-  gtk_widget_destroy(toplevel_tabs);
-  message_buffer = NULL; /* Result of destruction of everything */
-  tileset_free_tiles(tileset);
 }
 
 /**********************************************************************//**
