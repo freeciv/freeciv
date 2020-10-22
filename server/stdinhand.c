@@ -104,6 +104,8 @@ static time_t *time_duplicate(const time_t *t);
 #define SPECHASH_IDATA_TO_UDATA(p) (NULL != p ? *p : 0)
 #include "spechash.h"
 
+const char *script_extension = ".serv";
+
 static struct kick_hash *kick_table_by_addr = NULL;
 static struct kick_hash *kick_table_by_user = NULL;
 
@@ -1142,10 +1144,10 @@ static bool read_init_script_real(struct connection *caller,
                                   bool check, int read_recursion)
 {
   FILE *script_file;
-  const char extension[] = ".serv";
-  char serv_filename[strlen(extension) + strlen(script_filename) + 2];
+  char serv_filename[strlen(script_extension) + strlen(script_filename) + 2];
   char tilde_filename[4096];
   const char *real_filename;
+  size_t fnlen;
 
   /* check recursion depth */
   if (read_recursion > GAME_MAX_READ_RECURSION) {
@@ -1154,11 +1156,12 @@ static bool read_init_script_real(struct connection *caller,
   }
 
   /* abuse real_filename to find if we already have a .serv extension */
-  real_filename = script_filename + strlen(script_filename) 
-                  - MIN(strlen(extension), strlen(script_filename));
-  if (strcmp(real_filename, extension) != 0) {
+  fnlen = strlen(script_filename);
+  real_filename = script_filename + fnlen
+                  - MIN(strlen(script_extension), fnlen);
+  if (strcmp(real_filename, script_extension) != 0) {
     fc_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
-                script_filename, extension);
+                script_filename, script_extension);
   } else {
     sz_strlcpy(serv_filename, script_filename);
   }
@@ -1295,8 +1298,22 @@ static bool write_command(struct connection *caller, char *arg, bool check)
               " for security reasons."));
     return FALSE;
   } else if (!check) {
-    write_init_script(arg);
+    char serv_filename[strlen(script_extension) + strlen(arg) + 2];
+    const char *real_filename;
+    size_t arglen = strlen(arg);
+
+    /* abuse real_filename to find if we already have a .serv extension */
+    real_filename = arg + arglen - MIN(strlen(script_extension), arglen);
+    if (strcmp(real_filename, script_extension) != 0) {
+      fc_snprintf(serv_filename, sizeof(serv_filename), "%s%s",
+                  arg, script_extension);
+    } else {
+      sz_strlcpy(serv_filename, arg);
+    }
+
+    write_init_script(serv_filename);
   }
+
   return TRUE;
 }
 
