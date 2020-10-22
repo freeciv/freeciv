@@ -1247,7 +1247,7 @@ struct strvec *get_init_script_choices(void)
 
   (Should this take a 'caller' argument for output? --dwp)
 **************************************************************************/
-static void write_init_script(char *script_filename)
+static bool write_init_script(char *script_filename)
 {
   char real_filename[1024], buf[256];
   FILE *script_file;
@@ -1297,8 +1297,11 @@ static void write_init_script(char *script_filename)
 
     fclose(script_file);
 
+    return TRUE;
   } else {
     log_error(_("Could not write script file '%s'."), real_filename);
+
+    return FALSE;
   }
 }
 
@@ -1326,7 +1329,16 @@ static bool write_command(struct connection *caller, char *arg, bool check)
       sz_strlcpy(serv_filename, arg);
     }
 
-    write_init_script(serv_filename);
+    if (!write_init_script(serv_filename)) {
+      cmd_reply(CMD_WRITE_SCRIPT, caller, C_FAIL,
+                /* TRANS: Failed to write server script, e.g., 'example.serv' */
+                _("Failed to write %s."), serv_filename);
+      return FALSE;
+    }
+
+    cmd_reply(CMD_WRITE_SCRIPT, caller, C_OK,
+              /* TRANS: Wrote server script, e.g., 'example.serv' */
+              _("Wrote %s."), serv_filename);
   }
 
   return TRUE;
