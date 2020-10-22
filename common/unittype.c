@@ -1038,9 +1038,9 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
 }
 
 /**************************************************************************
-Whether player can build given unit somewhere,
-ignoring whether unit is obsolete and assuming the
-player has a coastal city.
+  Whether player can build given unit somewhere,
+  ignoring whether unit is obsolete and assuming the
+  player has a coastal city.
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p,
                                   const struct unit_type *punittype)
@@ -1128,6 +1128,11 @@ bool can_player_build_unit_direct(const struct player *p,
          * else. */
         return FALSE;
       }
+    } else if (is_small_wonder(punittype->need_improvement)) {
+      if (!city_from_wonder(p, punittype->need_improvement)
+          && !can_player_build_improvement_direct(p, punittype->need_improvement)) {
+        return FALSE;
+      }
     } else {
       if (!can_player_build_improvement_direct(p,
                                                punittype->need_improvement)) {
@@ -1140,8 +1145,8 @@ bool can_player_build_unit_direct(const struct player *p,
 }
 
 /**************************************************************************
-Whether player can build given unit somewhere;
-returns FALSE if unit is obsolete.
+  Whether player can build given unit somewhere;
+  returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit_now(const struct player *p,
 			       const struct unit_type *punittype)
