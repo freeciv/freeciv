@@ -1050,7 +1050,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   int count = 0, turns;
   int widget_w = 0, widget_h = 0;
   utf8_str *pstr = NULL;
-  struct widget *pBuf = NULL, *pWindow, *pLast;
+  struct widget *pBuf = NULL, *pwindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *pZoom = NULL;
   SDL_Surface *pMain;
   SDL_Surface *pIcon;
@@ -1101,14 +1101,14 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   /* ---------------- */
   /* Create Main Window */
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  pWindow->action = window_worklist_editor_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow->action = window_worklist_editor_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pEditor->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pEditor->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------------- */
   if (pCity) {
@@ -1121,7 +1121,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1131,7 +1131,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
               PL_("( %d entry )", "( %d entries )", len), len);
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
   pEditor->pWorkList_Counter = pBuf;
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
@@ -1167,7 +1167,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     }
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
     pEditor->pProduction_Name = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
@@ -1182,7 +1182,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-    pBuf = create_iconlabel(pIcon, pWindow->dst, pstr,
+    pBuf = create_iconlabel(pIcon, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
 
     pIcon = NULL;
@@ -1190,7 +1190,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pEditor->pProduction_Progres = pBuf;
     add_to_gui_list(ID_LABEL, pBuf);
   } else {
-    pBuf = create_edit_from_chars(NULL, pWindow->dst,
+    pBuf = create_edit_from_chars(NULL, pwindow->dst,
                                   global_worklist_name(gwl), adj_font(10),
                                   adj_size(120), WF_RESTORE_BACKGROUND);
     pBuf->action = rename_worklist_editor_callback;
@@ -1201,7 +1201,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   /* --------------------------- */
   /* Commit Widget */
-  pBuf = create_themeicon(current_theme->OK_Icon, pWindow->dst, WF_RESTORE_BACKGROUND);
+  pBuf = create_themeicon(current_theme->OK_Icon, pwindow->dst, WF_RESTORE_BACKGROUND);
 
   pBuf->action = ok_worklist_editor_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1210,7 +1210,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* --------------------------- */
   /* Cancel Widget */
-  pBuf = create_themeicon(current_theme->CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->CANCEL_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND);
 
   pBuf->action = popdown_worklist_editor_callback;
@@ -1247,7 +1247,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pstr = create_utf8_from_char(city_production_name_translation(pCity), adj_font(10));
     turns = city_production_build_shield_cost(pCity);
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = worklist_editor_item_callback;
@@ -1278,7 +1278,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                                    adj_font(10));
     }
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -1342,7 +1342,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     count = 0;
 
     global_worklists_iterate(iter_gwl) {
-      pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
+      pBuf = create_iconlabel_from_chars(NULL, pwindow->dst,
                                          global_worklist_name(iter_gwl),
                                          adj_font(10),
                                          WF_RESTORE_BACKGROUND);
@@ -1525,7 +1525,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(pIcon, pWindow->dst,
+      pBuf = create_icon2(pIcon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1628,7 +1628,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(pIcon, pWindow->dst,
+      pBuf = create_icon2(pIcon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1671,13 +1671,13 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   area.h = MAX(area.h, widget_h * TARGETS_ROW);
 
   pIcon = theme_get_background(theme, BACKGROUND_WLDLG);
-  if (resize_window(pWindow, pIcon, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+  if (resize_window(pwindow, pIcon, NULL,
+                    (pwindow->size.w - pwindow->area.w) + area.w,
+                    (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(pIcon);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* Backgrounds */
   dst.x = area.x;
@@ -1685,13 +1685,13 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   dst.w = adj_size(130);
   dst.h = adj_size(145);
 
-  SDL_FillRect(pWindow->theme, &dst,
-               map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+  SDL_FillRect(pwindow->theme, &dst,
+               map_rgba(pwindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x, dst.y, dst.w - 1, dst.h - 1,
                get_theme_color(COLOR_THEME_WLDLG_FRAME));
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x + 2, dst.y + 2, dst.w - 5, dst.h - 5,
                get_theme_color(COLOR_THEME_WLDLG_FRAME));
 
@@ -1699,9 +1699,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   dst.y += dst.h + adj_size(2);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
-  fill_rect_alpha(pWindow->theme, &dst, &bg_color2);
+  fill_rect_alpha(pwindow->theme, &dst, &bg_color2);
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x, dst.y, dst.w - 1, dst.h - 1,
                get_theme_color(COLOR_THEME_WLDLG_FRAME));
 
@@ -1709,26 +1709,26 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     dst.x = area.x;
     dst.y += dst.h + adj_size(2);
     dst.w = adj_size(130);
-    dst.h = pWindow->size.h - dst.y - adj_size(4);
+    dst.h = pwindow->size.h - dst.y - adj_size(4);
 
-    SDL_FillRect(pWindow->theme, &dst,
-                 map_rgba(pWindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+    SDL_FillRect(pwindow->theme, &dst,
+                 map_rgba(pwindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
 
-    create_frame(pWindow->theme,
+    create_frame(pwindow->theme,
                  dst.x, dst.y, dst.w - 1, dst.h - 1,
                  get_theme_color(COLOR_THEME_WLDLG_FRAME));
-    create_frame(pWindow->theme,
+    create_frame(pwindow->theme,
                  dst.x + adj_size(2), dst.y + adj_size(2),
                  dst.w - adj_size(5), dst.h - adj_size(5),
                  get_theme_color(COLOR_THEME_WLDLG_FRAME));
   }
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* name */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
   pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
   pBuf->size.y = area.y + adj_size(4);
 
@@ -1817,8 +1817,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   FREEUTF8STR(pstr);
   FREESURFACE(pMain);
 
-  redraw_group(pEditor->pBeginWidgetList, pWindow, 0);
-  widget_flush(pWindow);
+  redraw_group(pEditor->pBeginWidgetList, pwindow, 0);
+  widget_flush(pwindow);
 }
 
 /**********************************************************************//**

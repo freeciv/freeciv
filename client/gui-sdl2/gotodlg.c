@@ -60,10 +60,10 @@ static void update_goto_dialog(void);
 /**********************************************************************//**
   User interacted with goto dialog window.
 **************************************************************************/
-static int goto_dialog_window_callback(struct widget *pWindow)
+static int goto_dialog_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    move_window_group(pGotoDlg->pBeginWidgetList, pWindow);
+    move_window_group(pGotoDlg->pBeginWidgetList, pwindow);
   }
 
   return -1;
@@ -244,7 +244,7 @@ static void update_goto_dialog(void)
 static void popup_goto_airlift_dialog(void)
 {
   SDL_Color bg_color = {0, 0, 0, 96};
-  struct widget *pBuf, *pWindow;
+  struct widget *pBuf, *pwindow;
   utf8_str *pstr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
@@ -260,19 +260,19 @@ static void popup_goto_airlift_dialog(void)
   pstr = create_utf8_from_char(_("Select destination"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = goto_dialog_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
+  pwindow->action = goto_dialog_window_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pGotoDlg->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pGotoDlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -299,7 +299,7 @@ static void popup_goto_airlift_dialog(void)
     pDisabled = create_icon_theme_surf(pFlag);
     FREESURFACE(pFlag);
 
-    pBuf = create_checkbox(pWindow->dst,
+    pBuf = create_checkbox(pwindow->dst,
                            BV_ISSET(all_players, player_index(pPlayer)),
                            WF_FREE_THEME | WF_RESTORE_BACKGROUND
                            | WF_WIDGET_HAS_INFO_LABEL);
@@ -324,9 +324,9 @@ static void popup_goto_airlift_dialog(void)
   area.w = MAX(area.w, adj_size(300));
   area.h = adj_size(320);
 
-  resize_window(pWindow, NULL, NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h - pWindow->area.h) + area.h);
+  resize_window(pwindow, NULL, NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h - pwindow->area.h) + area.h);
 
   /* background */
   col = (col + 15) / 16; /* number of flag columns */
@@ -337,17 +337,17 @@ static void popup_goto_airlift_dialog(void)
 
   block_x = dst.x = area.x + area.w - pFlag->w;
   dst.y = area.y;
-  alphablit(pFlag, NULL, pWindow->theme, &dst, 255);
+  alphablit(pFlag, NULL, pwindow->theme, &dst, 255);
   FREESURFACE(pFlag);
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   /* nations buttons */
   pBuf = pBuf->prev;

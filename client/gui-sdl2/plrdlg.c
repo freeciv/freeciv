@@ -108,15 +108,15 @@ static int player_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with player dialog window.
 **************************************************************************/
-static int players_window_dlg_callback(struct widget *pWindow)
+static int players_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-      select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
+    if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pwindow)) {
+      select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pwindow);
       players_dialog_update();
     } else {
-      if (select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
-        widget_flush(pWindow);
+      if (select_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pwindow)) {
+        widget_flush(pwindow);
       }
     }
   }
@@ -359,7 +359,7 @@ void real_players_dialog_update(void *unused)
 **************************************************************************/
 void popup_players_dialog(bool raise)
 {
-  struct widget *pWindow = NULL, *pBuf = NULL;
+  struct widget *pwindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL, *pZoomed = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -388,16 +388,16 @@ void popup_players_dialog(bool raise)
   pstr = create_utf8_from_char(Q_("?header:Players"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = players_window_dlg_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
+  pwindow->action = players_window_dlg_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pPlayers_Dlg->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pPlayers_Dlg->pEndWidgetList = pwindow;
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -411,35 +411,35 @@ void popup_players_dialog(bool raise)
   for (i = 0; i < DS_LAST; i++) {
     switch (i) {
       case DS_ARMISTICE:
-	pBuf = create_checkbox(pWindow->dst,
+	pBuf = create_checkbox(pwindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
                                WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_neutral_status_callback;
 	pBuf->key = SDLK_n;
       break;
       case DS_WAR:
-	pBuf = create_checkbox(pWindow->dst,
+	pBuf = create_checkbox(pwindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS),
                                WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_war_status_callback;
 	pBuf->key = SDLK_w;
       break;
       case DS_CEASEFIRE:
-	pBuf = create_checkbox(pWindow->dst,
+	pBuf = create_checkbox(pwindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_ceasefire_status_callback;
 	pBuf->key = SDLK_c;
       break;
       case DS_PEACE:
-	pBuf = create_checkbox(pWindow->dst,
+	pBuf = create_checkbox(pwindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_peace_status_callback;
 	pBuf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
-	pBuf = create_checkbox(pWindow->dst,
+	pBuf = create_checkbox(pwindow->dst,
                                (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	pBuf->action = toggle_draw_alliance_status_callback;
@@ -472,7 +472,7 @@ void popup_players_dialog(bool raise)
       pZoomed = zoomSurface(pLogo, zoom, zoom, 1);
     }
 
-    pBuf = create_icon2(pZoomed, pWindow->dst,
+    pBuf = create_icon2(pZoomed, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
     pBuf->info_label = pstr;
@@ -504,24 +504,24 @@ void popup_players_dialog(bool raise)
 
   pPlayers_Dlg->pBeginWidgetList = pBuf;
 
-  resize_window(pWindow, NULL, NULL, adj_size(500), adj_size(400));
+  resize_window(pwindow, NULL, NULL, adj_size(500), adj_size(400));
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   r = MIN(area.w, area.h);
   r -= ((MAX(pBuf->size.w, pBuf->size.h) * 2));
   r /= 2;
   a = (2.0 * M_PI) / n;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
 
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   n = area.y;
   pstr = create_utf8_str(NULL, 0, adj_font(10));
@@ -561,7 +561,7 @@ void popup_players_dialog(bool raise)
 
     dst.x = adj_size(5) + pBuf->size.w + adj_size(6);
     dst.y = n + (h - pLogo->h) / 2;
-    alphablit(pLogo, NULL, pWindow->theme, &dst, 255);
+    alphablit(pLogo, NULL, pwindow->theme, &dst, 255);
     n += h;
     FREESURFACE(pLogo);
   }
@@ -605,7 +605,7 @@ static struct ADVANCED_DLG  *pShort_Players_Dlg = NULL;
 /**********************************************************************//**
   User interacted with nations window.
 **************************************************************************/
-static int players_nations_window_dlg_callback(struct widget *pWindow)
+static int players_nations_window_dlg_callback(struct widget *pwindow)
 {
   return -1;
 }
@@ -668,7 +668,7 @@ static int player_nation_callback(struct widget *pWidget)
 **************************************************************************/
 void popup_players_nations_dialog(void)
 {
-  struct widget *pWindow = NULL, *pBuf = NULL;
+  struct widget *pwindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
   utf8_str *pstr;
   char cBuf[128], *state;
@@ -686,19 +686,19 @@ void popup_players_nations_dialog(void)
   pstr = create_utf8_from_char(_("Nations") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = players_nations_window_dlg_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
+  pwindow->action = players_nations_window_dlg_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pShort_Players_Dlg->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pShort_Players_Dlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -748,7 +748,7 @@ void popup_players_nations_dialog(void)
 
       pLogo = get_nation_flag_surface(nation_of_player(pPlayer));
 
-      pBuf = create_iconlabel(pLogo, pWindow->dst, pstr,
+      pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       /* now add some eye candy ... */
@@ -805,7 +805,7 @@ void popup_players_nations_dialog(void)
   } players_iterate_end;
   pShort_Players_Dlg->pBeginWidgetList = pBuf;
   pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
-  pShort_Players_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
+  pShort_Players_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
   pShort_Players_Dlg->pActiveWidgetList = pShort_Players_Dlg->pEndActiveWidgetList;
 
 
@@ -827,19 +827,19 @@ void popup_players_nations_dialog(void)
 
   area.h = units_h;
 
-  resize_window(pWindow, NULL, NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h + pWindow->area.h) + area.h);
+  resize_window(pwindow, NULL, NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h + pwindow->area.h) + area.h);
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-    ((Main.event.motion.x + pWindow->size.w + adj_size(10) < main_window_width()) ?
+  widget_set_position(pwindow,
+    ((Main.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
       (Main.event.motion.x + adj_size(10)) :
-      (main_window_width() - pWindow->size.w - adj_size(10))),
-    ((Main.event.motion.y - adj_size(2) + pWindow->size.h < main_window_height()) ?
+      (main_window_width() - pwindow->size.w - adj_size(10))),
+    ((Main.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
       (Main.event.motion.y - adj_size(2)) :
-      (main_window_height() - pWindow->size.h - adj_size(10))));
+      (main_window_height() - pwindow->size.h - adj_size(10))));
 
   w = area.w;
 
@@ -848,9 +848,9 @@ void popup_players_nations_dialog(void)
   }
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   /* cities */
   pBuf = pBuf->prev;
@@ -866,8 +866,8 @@ void popup_players_nations_dialog(void)
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pShort_Players_Dlg->pBeginWidgetList, pWindow, 0);
-  widget_mark_dirty(pWindow);
+  redraw_group(pShort_Players_Dlg->pBeginWidgetList, pwindow, 0);
+  widget_mark_dirty(pwindow);
 
   flush_dirty();
 }

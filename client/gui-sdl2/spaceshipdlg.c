@@ -71,10 +71,10 @@ static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
 /**********************************************************************//**
   User interacted with spaceship dialog window.
 **************************************************************************/
-static int space_dialog_window_callback(struct widget *pWindow)
+static int space_dialog_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    move_window_group(pWindow->private_data.small_dlg->pBeginWidgetList, pWindow);
+    move_window_group(pwindow->private_data.small_dlg->pBeginWidgetList, pwindow);
   }
 
   return -1;
@@ -147,7 +147,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
   struct SMALL_DLG *pSpaceShp;
 
   if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
-    struct widget *pBuf, *pWindow;
+    struct widget *pBuf, *pwindow;
     utf8_str *pstr;
     char cbuf[128];
     SDL_Rect area;
@@ -159,20 +159,20 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pstr, 0);
+    pwindow = create_window_skeleton(NULL, pstr, 0);
 
-    pWindow->action = space_dialog_window_callback;
-    set_wstate(pWindow, FC_WS_NORMAL);
-    pWindow->data.player = pPlayer;
-    pWindow->private_data.small_dlg = pSpaceShp;
-    add_to_gui_list(ID_WINDOW, pWindow);
-    pSpaceShp->pEndWidgetList = pWindow;
+    pwindow->action = space_dialog_window_callback;
+    set_wstate(pwindow, FC_WS_NORMAL);
+    pwindow->data.player = pPlayer;
+    pwindow->private_data.small_dlg = pSpaceShp;
+    add_to_gui_list(ID_WINDOW, pwindow);
+    pSpaceShp->pEndWidgetList = pwindow;
 
-    area = pWindow->area;
+    area = pwindow->area;
 
     /* ---------- */
     /* create exit button */
-    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -185,7 +185,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     add_to_gui_list(ID_BUTTON, pBuf);
 
-    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                               _("Launch"), adj_font(12), 0);
 
     pBuf->action = launch_spaceship_callback;
@@ -195,7 +195,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     pstr = create_utf8_from_char(get_spaceship_descr(NULL), adj_font(12));
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-    pBuf = create_iconlabel(NULL, pWindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h + adj_size(20);
     add_to_gui_list(ID_LABEL, pBuf);
@@ -203,22 +203,22 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pSpaceShp->pBeginWidgetList = pBuf;
     /* -------------------------------------------------------- */
 
-    area.w = MAX(area.w, adj_size(300) - (pWindow->size.w - pWindow->area.w));
+    area.w = MAX(area.w, adj_size(300) - (pwindow->size.w - pwindow->area.w));
 
-    resize_window(pWindow, NULL, NULL,
-                  (pWindow->size.w - pWindow->area.w) + area.w,
-                  (pWindow->size.h - pWindow->area.h) + area.h);
+    resize_window(pwindow, NULL, NULL,
+                  (pwindow->size.w - pwindow->area.w) + area.w,
+                  (pwindow->size.h - pwindow->area.h) + area.h);
 
-    area = pWindow->area;
+    area = pwindow->area;
 
-    widget_set_position(pWindow,
-                        (main_window_width() - pWindow->size.w) / 2,
-                        (main_window_height() - pWindow->size.h) / 2);
+    widget_set_position(pwindow,
+                        (main_window_width() - pwindow->size.w) / 2,
+                        (main_window_height() - pwindow->size.h) / 2);
 
     /* exit button */
-    pBuf = pWindow->prev;
+    pBuf = pwindow->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pWindow->size.y + adj_size(2);
+    pBuf->size.y = pwindow->size.y + adj_size(2);
 
     /* launch button */
     pBuf = pBuf->prev;

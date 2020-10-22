@@ -96,12 +96,12 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 /**********************************************************************//**
   User interacted with the intelligence dialog window
 **************************************************************************/
-static int intel_window_dlg_callback(struct widget *pWindow)
+static int intel_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    struct intel_dialog *pSelectedDialog = get_intel_dialog(pWindow->data.player);
+    struct intel_dialog *pSelectedDialog = get_intel_dialog(pwindow->data.player);
 
-    move_window_group(pSelectedDialog->pdialog->pBeginWidgetList, pWindow);
+    move_window_group(pSelectedDialog->pdialog->pBeginWidgetList, pwindow);
   }
 
   return -1;
@@ -226,7 +226,7 @@ void update_intel_dialog(struct player *p)
 {
   const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
-  struct widget *pWindow = NULL, *pBuf = NULL, *pLast;
+  struct widget *pwindow = NULL, *pBuf = NULL, *pLast;
   SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   utf8_str *pstr;
@@ -250,20 +250,20 @@ void update_intel_dialog(struct player *p)
     pstr = create_utf8_from_char(_("Foreign Intelligence Report") , adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pstr, 0);
+    pwindow = create_window_skeleton(NULL, pstr, 0);
 
-    pWindow->action = intel_window_dlg_callback;
-    set_wstate(pWindow , FC_WS_NORMAL);
-    pWindow->data.player = p;
+    pwindow->action = intel_window_dlg_callback;
+    set_wstate(pwindow , FC_WS_NORMAL);
+    pwindow->data.player = p;
 
-    add_to_gui_list(ID_WINDOW, pWindow);
-    pdialog->pdialog->pEndWidgetList = pWindow;
+    add_to_gui_list(ID_WINDOW, pwindow);
+    pdialog->pdialog->pEndWidgetList = pwindow;
 
-    area = pWindow->area;
+    area = pwindow->area;
 
     /* ---------- */
     /* exit button */
-    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -287,7 +287,7 @@ void update_intel_dialog(struct player *p)
 
     pLogo = pText1;
 
-    pBuf = create_icon2(pLogo, pWindow->dst,
+    pBuf = create_icon2(pLogo, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
     pBuf->action = spaceship_callback;
@@ -375,7 +375,7 @@ void update_intel_dialog(struct player *p)
           && research_invention_reachable(mresearch, i)
           && TECH_KNOWN != research_invention_state(mresearch, i)) {
 
-        pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
+        pBuf = create_icon2(get_tech_icon(i), pwindow->dst,
                             WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                             | WF_FREE_THEME);
         pBuf->action = tech_callback;
@@ -422,26 +422,26 @@ void update_intel_dialog(struct player *p)
 
     FREEUTF8STR(pstr);
 
-    resize_window(pWindow, NULL, NULL,
-                  (pWindow->size.w - pWindow->area.w) + area.w,
-                  (pWindow->size.h - pWindow->area.h) + area.h);
+    resize_window(pwindow, NULL, NULL,
+                  (pwindow->size.w - pwindow->area.w) + area.w,
+                  (pwindow->size.h - pwindow->area.h) + area.h);
 
-    area = pWindow->area;
+    area = pwindow->area;
 
     /* ------------------------ */
-    widget_set_position(pWindow,
-      (pdialog->pos_x) ? (pdialog->pos_x) : ((main_window_width() - pWindow->size.w) / 2),
-      (pdialog->pos_y) ? (pdialog->pos_y) : ((main_window_height() - pWindow->size.h) / 2));
+    widget_set_position(pwindow,
+      (pdialog->pos_x) ? (pdialog->pos_x) : ((main_window_width() - pwindow->size.w) / 2),
+      (pdialog->pos_y) ? (pdialog->pos_y) : ((main_window_height() - pwindow->size.h) / 2));
 
     /* exit button */
-    pBuf = pWindow->prev;
+    pBuf = pwindow->prev;
     pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pWindow->size.y + adj_size(2);
+    pBuf->size.y = pwindow->size.y + adj_size(2);
 
     dst.x = area.x + (area.w - pText1->w) / 2;
     dst.y = area.y + adj_size(8);
 
-    alphablit(pText1, NULL, pWindow->theme, &dst, 255);
+    alphablit(pText1, NULL, pwindow->theme, &dst, 255);
     dst.y += pText1->h + adj_size(10);
     FREESURFACE(pText1);
 
@@ -452,7 +452,7 @@ void update_intel_dialog(struct player *p)
     pBuf->size.y = dst.y;
 
     dst.x += pBuf->size.w + adj_size(10);
-    alphablit(pInfo, NULL, pWindow->theme, &dst, 255);
+    alphablit(pInfo, NULL, pwindow->theme, &dst, 255);
     dst.y += pInfo->h + adj_size(10);
     FREESURFACE(pInfo);
 
@@ -460,7 +460,7 @@ void update_intel_dialog(struct player *p)
 
     if (n) {
       dst.x = area.x + adj_size(5);
-      alphablit(pText2, NULL, pWindow->theme, &dst, 255);
+      alphablit(pText2, NULL, pwindow->theme, &dst, 255);
       dst.y += pText2->h + adj_size(2);
       FREESURFACE(pText2);
 
@@ -476,7 +476,7 @@ void update_intel_dialog(struct player *p)
     }
 
     redraw_group(pdialog->pdialog->pBeginWidgetList, pdialog->pdialog->pEndWidgetList, 0);
-    widget_mark_dirty(pWindow);
+    widget_mark_dirty(pwindow);
 
     flush_dirty();
   }

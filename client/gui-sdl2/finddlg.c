@@ -52,10 +52,10 @@ static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
 /**********************************************************************//**
   User interacted with find city dialog window.
 **************************************************************************/
-static int find_city_window_dlg_callback(struct widget *pWindow)
+static int find_city_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    move_window_group(pFind_City_Dlg->pBeginWidgetList, pWindow);
+    move_window_group(pFind_City_Dlg->pBeginWidgetList, pwindow);
   }
 
   return -1;
@@ -119,7 +119,7 @@ void popdown_find_dialog(void)
 **************************************************************************/
 void popup_find_dialog(void)
 {
-  struct widget *pWindow = NULL, *pBuf = NULL;
+  struct widget *pwindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
   utf8_str *pstr;
   char cBuf[128];
@@ -149,19 +149,19 @@ void popup_find_dialog(void)
   pstr = create_utf8_from_char(_("Find City") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = find_city_window_dlg_callback;
-  set_wstate(pWindow , FC_WS_NORMAL);
+  pwindow->action = find_city_window_dlg_callback;
+  set_wstate(pwindow , FC_WS_NORMAL);
 
-  add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pWindow);
-  pFind_City_Dlg->pEndWidgetList = pWindow;
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pwindow);
+  pFind_City_Dlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
                           | WF_FREE_DATA);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -190,7 +190,7 @@ void popup_find_dialog(void)
         pLogo = crop_visible_part_from_surface(pLogo);
       }
 
-      pBuf = create_iconlabel(pLogo, pWindow->dst, pstr,
+      pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
@@ -222,7 +222,7 @@ void popup_find_dialog(void)
 
   pFind_City_Dlg->pBeginWidgetList = pBuf;
   pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->pBeginWidgetList;
-  pFind_City_Dlg->pEndActiveWidgetList = pWindow->prev->prev;
+  pFind_City_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
   pFind_City_Dlg->pActiveWidgetList = pFind_City_Dlg->pEndActiveWidgetList;
 
 
@@ -244,25 +244,25 @@ void popup_find_dialog(void)
 
   area.h = units_h;
 
-  resize_window(pWindow , NULL, NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h - pWindow->area.h) + area.h);
+  resize_window(pwindow , NULL, NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h - pwindow->area.h) + area.h);
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   if (!mouse) {
     window_x = adj_size(10);
-    window_y = (main_window_height() - pWindow->size.h) / 2;
+    window_y = (main_window_height() - pwindow->size.h) / 2;
   } else {
-    window_x = (Main.event.motion.x + pWindow->size.w + adj_size(10) < main_window_width()) ?
+    window_x = (Main.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
                 (Main.event.motion.x + adj_size(10)) :
-                (main_window_width() - pWindow->size.w - adj_size(10));
-    window_y = (Main.event.motion.y - adj_size(2) + pWindow->size.h < main_window_height()) ?
+                (main_window_width() - pwindow->size.w - adj_size(10));
+    window_y = (Main.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
              (Main.event.motion.y - adj_size(2)) :
-             (main_window_height() - pWindow->size.h - adj_size(10));
+             (main_window_height() - pwindow->size.h - adj_size(10));
   }
 
-  widget_set_position(pWindow, window_x, window_y);
+  widget_set_position(pwindow, window_x, window_y);
 
   w = area.w;
 
@@ -271,10 +271,10 @@ void popup_find_dialog(void)
   }
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
 
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   /* cities */
   pBuf = pBuf->prev;
@@ -290,8 +290,8 @@ void popup_find_dialog(void)
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pFind_City_Dlg->pBeginWidgetList, pWindow, 0);
-  widget_mark_dirty(pWindow);
+  redraw_group(pFind_City_Dlg->pBeginWidgetList, pwindow, 0);
+  widget_mark_dirty(pwindow);
 
   flush_dirty();
 }

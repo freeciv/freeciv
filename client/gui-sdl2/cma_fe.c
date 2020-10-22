@@ -70,7 +70,7 @@ static void set_cma_hscrollbars(void);
 /**********************************************************************//**
   User interacted with cma dialog.
 **************************************************************************/
-static int cma_dlg_callback(struct widget *pWindow)
+static int cma_dlg_callback(struct widget *pwindow)
 {
   return -1;
 }
@@ -246,7 +246,7 @@ static int toggle_cma_celebrating_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with widget that result in cma window getting saved.
 **************************************************************************/
-static int save_cma_window_callback(struct widget *pWindow)
+static int save_cma_window_callback(struct widget *pwindow)
 {
   return -1;
 }
@@ -301,7 +301,7 @@ static int cancel_SLD_cma_callback(struct widget *pWidget)
 static int save_cma_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    struct widget *pBuf, *pWindow;
+    struct widget *pBuf, *pwindow;
     utf8_str *pstr;
     SDL_Surface *pText;
     SDL_Rect dst;
@@ -316,15 +316,15 @@ static int save_cma_callback(struct widget *pWidget)
     pstr = create_utf8_from_char(_("Name new preset"), adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
 
-    pWindow = create_window_skeleton(NULL, pstr, 0);
+    pwindow = create_window_skeleton(NULL, pstr, 0);
 
-    pWindow->action = save_cma_window_callback;
-    set_wstate(pWindow, FC_WS_NORMAL);
-    pCma->pAdv->pEndWidgetList = pWindow;
+    pwindow->action = save_cma_window_callback;
+    set_wstate(pwindow, FC_WS_NORMAL);
+    pCma->pAdv->pEndWidgetList = pwindow;
 
-    add_to_gui_list(ID_WINDOW, pWindow);
+    add_to_gui_list(ID_WINDOW, pwindow);
 
-    area = pWindow->area;
+    area = pwindow->area;
     area.h = MAX(area.h, 1);
 
     /* ============================================================= */
@@ -339,7 +339,7 @@ static int save_cma_callback(struct widget *pWidget)
     area.h += pText->h + adj_size(5);
     /* ============================================================= */
 
-    pBuf = create_edit(NULL, pWindow->dst,
+    pBuf = create_edit(NULL, pwindow->dst,
                        create_utf8_from_char(_("new preset"), adj_font(12)), adj_size(100),
                        (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -349,7 +349,7 @@ static int save_cma_callback(struct widget *pWidget)
     add_to_gui_list(ID_EDIT, pBuf);
     /* ============================================================= */
 
-    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                               _("Yes"), adj_font(12), 0);
 
     pBuf->action = ok_save_cma_callback;
@@ -359,7 +359,7 @@ static int save_cma_callback(struct widget *pWidget)
     pBuf->data.ptr = (void *)pBuf->next;
 
     pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pWindow->dst, _("No"),
+                                              pwindow->dst, _("No"),
                                               adj_font(12), 0);
     pBuf->action = cancel_SLD_cma_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -378,26 +378,26 @@ static int save_cma_callback(struct widget *pWidget)
     area.w += adj_size(20);
     area.h += adj_size(15);
 
-    resize_window(pWindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
-                  (pWindow->size.w - pWindow->area.w) + area.w,
-                  (pWindow->size.h - pWindow->area.h) + area.h);
+    resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
+                  (pwindow->size.w - pwindow->area.w) + area.w,
+                  (pwindow->size.h - pwindow->area.h) + area.h);
 
-    area = pWindow->area;
+    area = pwindow->area;
 
-    widget_set_position(pWindow,
-                        pWidget->size.x - pWindow->size.w / 2,
-                        pWidget->size.y - pWindow->size.h);
+    widget_set_position(pwindow,
+                        pWidget->size.x - pwindow->size.w / 2,
+                        pWidget->size.y - pwindow->size.h);
 
     /* setup rest of widgets */
     /* label */
     dst.x = area.x + (area.w - pText->w) / 2;
     dst.y = area.y + 1;
-    alphablit(pText, NULL, pWindow->theme, &dst, 255);
+    alphablit(pText, NULL, pwindow->theme, &dst, 255);
     dst.y += pText->h + adj_size(5);
     FREESURFACE(pText);
 
     /* edit */
-    pBuf = pWindow->prev;
+    pBuf = pwindow->prev;
     pBuf->size.w = area.w - adj_size(10);
     pBuf->size.x = area.x + adj_size(5);
     pBuf->size.y = dst.y;
@@ -415,8 +415,8 @@ static int save_cma_callback(struct widget *pWidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pCma->pAdv->pBeginWidgetList, pWindow, 0);
-    widget_mark_dirty(pWindow);
+    redraw_group(pCma->pAdv->pBeginWidgetList, pwindow, 0);
+    widget_mark_dirty(pwindow);
     flush_dirty();
   }
 
@@ -464,7 +464,7 @@ static int LD_cma_callback(struct widget *pWidget)
 static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 {
   int hh, count, i;
-  struct widget *pBuf, *pWindow;
+  struct widget *pBuf, *pwindow;
   utf8_str *pstr;
   SDL_Rect area;
 
@@ -496,19 +496,19 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   pstr = create_utf8_from_char(_("Presets"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = save_cma_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  pCma->pAdv->pEndWidgetList = pWindow;
+  pwindow->action = save_cma_window_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
+  pCma->pAdv->pEndWidgetList = pwindow;
 
-  add_to_gui_list(ID_WINDOW, pWindow);
+  add_to_gui_list(ID_WINDOW, pwindow);
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -523,7 +523,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   for (i = 0; i < count; i++) {
     pstr = create_utf8_from_char(cmafec_preset_get_descr(i), adj_font(10));
     pstr->style |= TTF_STYLE_BOLD;
-    pBuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
     pBuf->action = LD_cma_callback;
@@ -546,7 +546,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   }
   pCma->pAdv->pBeginWidgetList = pBuf;
   pCma->pAdv->pBeginActiveWidgetList = pCma->pAdv->pBeginWidgetList;
-  pCma->pAdv->pEndActiveWidgetList = pWindow->prev->prev;
+  pCma->pAdv->pEndActiveWidgetList = pwindow->prev->prev;
   pCma->pAdv->pActiveWidgetList = pCma->pAdv->pEndActiveWidgetList;
 
   area.w += adj_size(2);
@@ -556,7 +556,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
     create_vertical_scrollbar(pCma->pAdv, 1, 11, FALSE, TRUE);
 
     /* ------- window ------- */
-    area.h = 11 * pWindow->prev->prev->size.h + adj_size(2)
+    area.h = 11 * pwindow->prev->prev->size.h + adj_size(2)
       + 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h;
     pCma->pAdv->pScroll->pUp_Left_Button->size.w = area.w;
     pCma->pAdv->pScroll->pDown_Right_Button->size.w = area.w;
@@ -564,20 +564,20 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 
   /* ----------------------------------- */
 
-  resize_window(pWindow, NULL, NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h - pWindow->area.h) + area.h);
+  resize_window(pwindow, NULL, NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h - pwindow->area.h) + area.h);
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      pButton->size.x - (pWindow->size.w / 2),
-                      pButton->size.y - pWindow->size.h);
+  widget_set_position(pwindow,
+                      pButton->size.x - (pwindow->size.w / 2),
+                      pButton->size.y - pwindow->size.h);
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   pBuf = pBuf->prev;
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
@@ -595,9 +595,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 
   /* ==================================================== */
   /* redraw */
-  redraw_group(pCma->pAdv->pBeginWidgetList, pWindow, 0);
+  redraw_group(pCma->pAdv->pBeginWidgetList, pwindow, 0);
 
-  widget_flush(pWindow);
+  widget_flush(pwindow);
 }
 
 /**********************************************************************//**
@@ -728,7 +728,7 @@ void update_city_cma_dialog(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   int count, step, i;
-  struct widget *pBuf = pCma->pDlg->pEndWidgetList; /* pWindow */
+  struct widget *pBuf = pCma->pDlg->pEndWidgetList; /* pwindow */
   SDL_Surface *pText;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -882,7 +882,7 @@ void popup_city_cma_dialog(struct city *pCity)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
 
-  struct widget *pWindow, *pBuf;
+  struct widget *pwindow, *pBuf;
   SDL_Surface *pLogo, *pText[O_LAST + 1], *pMinimal, *pFactor;
   SDL_Surface *pcity_map;
   utf8_str *pstr;
@@ -913,18 +913,18 @@ void popup_city_cma_dialog(struct city *pCity)
   pstr = create_utf8_from_char(cBuf, adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
+  pwindow = create_window_skeleton(NULL, pstr, 0);
 
-  pWindow->action = cma_dlg_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pCma->pDlg->pEndWidgetList = pWindow;
+  pwindow->action = cma_dlg_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pCma->pDlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
@@ -951,14 +951,14 @@ void popup_city_cma_dialog(struct city *pCity)
     text_w = MAX(text_w, pText[i]->w);
 
     /* minimal label */
-    pBuf = create_iconlabel(NULL, pWindow->dst,
+    pBuf = create_iconlabel(NULL, pwindow->dst,
                             create_utf8_from_char("999", adj_font(10)),
                             (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, pBuf);
 
     /* minimal scrollbar */
-    pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+    pBuf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
                              (WF_RESTORE_BACKGROUND));
 
     pBuf->action = min_horiz_cma_callback;
@@ -969,14 +969,14 @@ void popup_city_cma_dialog(struct city *pCity)
     add_to_gui_list(ID_SCROLLBAR, pBuf);
 
     /* factor label */
-    pBuf = create_iconlabel(NULL, pWindow->dst,
+    pBuf = create_iconlabel(NULL, pwindow->dst,
                             create_utf8_from_char("999", adj_font(10)),
                             (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, pBuf);
 
     /* factor scrollbar */
-    pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+    pBuf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
                              (WF_RESTORE_BACKGROUND));
 
     pBuf->action = factor_horiz_cma_callback;
@@ -992,14 +992,14 @@ void popup_city_cma_dialog(struct city *pCity)
   FREEUTF8STR(pstr);
 
   /* happy factor label */
-  pBuf = create_iconlabel(NULL, pWindow->dst,
+  pBuf = create_iconlabel(NULL, pwindow->dst,
                           create_utf8_from_char("999", adj_font(10)),
                           (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
   add_to_gui_list(ID_LABEL, pBuf);
 
   /* happy factor scrollbar */
-  pBuf = create_horizontal(current_theme->Horiz, pWindow->dst, adj_size(30),
+  pBuf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
                            (WF_RESTORE_BACKGROUND));
 
   pBuf->action = factor_horiz_cma_callback;
@@ -1010,7 +1010,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_SCROLLBAR, pBuf);
 
   /* celebrating */
-  pBuf = create_checkbox(pWindow->dst,
+  pBuf = create_checkbox(pwindow->dst,
                          pCma->edited_cm_parm.require_happy, WF_RESTORE_BACKGROUND);
 
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1018,7 +1018,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_CHECKBOX, pBuf);
 
   /* save as ... */
-  pBuf = create_themeicon(current_theme->SAVE_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->SAVE_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = save_cma_callback;
   pBuf->info_label = create_utf8_from_char(_("Save settings as..."),
@@ -1027,7 +1027,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* load settings */
-  pBuf = create_themeicon(current_theme->LOAD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->LOAD_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = load_cma_callback;
   pBuf->info_label = create_utf8_from_char(_("Load settings"),
@@ -1036,7 +1036,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* del settings */
-  pBuf = create_themeicon(current_theme->DELETE_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->DELETE_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = del_cma_callback;
   pBuf->info_label = create_utf8_from_char(_("Delete settings"),
@@ -1045,7 +1045,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* run cma */
-  pBuf = create_themeicon(current_theme->QPROD_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->QPROD_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_callback;
   pBuf->info_label = create_utf8_from_char(_("Control city"), adj_font(10));
@@ -1053,7 +1053,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* run cma onece */
-  pBuf = create_themeicon(current_theme->FindCity_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->FindCity_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_once_callback;
   pBuf->info_label = create_utf8_from_char(_("Apply once"), adj_font(10));
@@ -1061,7 +1061,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* del settings */
-  pBuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
+  pBuf = create_themeicon(current_theme->Support_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = stop_cma_callback;
   pBuf->info_label = create_utf8_from_char(_("Release city"), adj_font(10));
@@ -1073,45 +1073,45 @@ void popup_city_cma_dialog(struct city *pCity)
 
 #ifdef SMALL_SCREEN
   area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
-               (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-                pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
-  area.h = adj_size(390) - (pWindow->size.w - pWindow->area.w);
+               (pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
+                pwindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
+  area.h = adj_size(390) - (pwindow->size.w - pwindow->area.w);
 #else  /* SMALL_SCREEN */
   area.w = MAX(pcity_map->w + adj_size(150) + text_w + adj_size(10) +
-               (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-                pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
-  area.h = adj_size(360) - (pWindow->size.w - pWindow->area.w);
+               (pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
+                pwindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
+  area.h = adj_size(360) - (pwindow->size.w - pwindow->area.w);
 #endif /* SMALL_SCREEN */
 
   pLogo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
-  if (resize_window(pWindow, pLogo, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.w - pWindow->area.w) + area.h)) {
+  if (resize_window(pwindow, pLogo, NULL,
+                    (pwindow->size.w - pwindow->area.w) + area.w,
+                    (pwindow->size.w - pwindow->area.w) + area.h)) {
     FREESURFACE(pLogo);
   }
 
 #if 0
-  pLogo = SDL_DisplayFormat(pWindow->theme);
-  FREESURFACE(pWindow->theme);
-  pWindow->theme = pLogo;
+  pLogo = SDL_DisplayFormat(pwindow->theme);
+  FREESURFACE(pwindow->theme);
+  pwindow->theme = pLogo;
 #endif
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pWindow->prev;
+  pBuf = pwindow->prev;
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pWindow->size.y + adj_size(2);
+  pBuf->size.y = pwindow->size.y + adj_size(2);
 
   /* ---------- */
   dst.x = pcity_map->w + adj_size(80) +
-    (pWindow->size.w - (pcity_map->w + adj_size(40)) -
-     (text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-      pWindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
+    (pwindow->size.w - (pcity_map->w + adj_size(40)) -
+     (text_w + adj_size(10) + pwindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
+      pwindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
 
 #ifdef SMALL_SCREEN
   dst.x += 22;
@@ -1121,70 +1121,70 @@ void popup_city_cma_dialog(struct city *pCity)
 
   x = area.x = dst.x - adj_size(10);
   area.y = dst.y - adj_size(20);
-  w = area.w = adj_size(10) + text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5)
-    + pWindow->prev->prev->size.w + adj_size(5 + 55 + 10);
+  w = area.w = adj_size(10) + text_w + adj_size(10) + pwindow->prev->prev->size.w + adj_size(5 + 70 + 5)
+    + pwindow->prev->prev->size.w + adj_size(5 + 55 + 10);
   area.h = (O_LAST + 1) * (pText[0]->h + adj_size(6)) + adj_size(20);
-  fill_rect_alpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                area.x, area.y, area.w - 1, area.h - 1,
                get_theme_color(COLOR_THEME_CMA_FRAME));
 
   area.x = dst.x + text_w + adj_size(10);
-  alphablit(pMinimal, NULL, pWindow->theme, &area, 255);
+  alphablit(pMinimal, NULL, pwindow->theme, &area, 255);
   area.x += pMinimal->w + adj_size(10);
   FREESURFACE(pMinimal);
 
-  alphablit(pFactor, NULL, pWindow->theme, &area, 255);
+  alphablit(pFactor, NULL, pwindow->theme, &area, 255);
   FREESURFACE(pFactor);
 
-  area.x = pWindow->area.x + adj_size(22);
-  area.y = pWindow->area.y + adj_size(31);
-  alphablit(pcity_map, NULL, pWindow->theme, &area, 255);
+  area.x = pwindow->area.x + adj_size(22);
+  area.y = pwindow->area.y + adj_size(31);
+  alphablit(pcity_map, NULL, pwindow->theme, &area, 255);
   FREESURFACE(pcity_map);
 
   output_type_iterate(i) {
     /* min label */
     pBuf = pBuf->prev;
-    pBuf->size.x = pWindow->size.x + dst.x + text_w + adj_size(10);
-    pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
+    pBuf->size.x = pwindow->size.x + dst.x + text_w + adj_size(10);
+    pBuf->size.y = pwindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
 
     /* min sb */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
-    pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
+    pBuf->size.y = pwindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
 
-    area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
-    area.y = pBuf->size.y - pWindow->size.y;
+    area.x = pBuf->size.x - pwindow->size.x - adj_size(2);
+    area.y = pBuf->size.y - pwindow->size.y;
     area.w = adj_size(74);
     area.h = pBuf->size.h;
-    fill_rect_alpha(pWindow->theme, &area, &bg_color);
+    fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-    create_frame(pWindow->theme,
+    create_frame(pwindow->theme,
                  area.x, area.y, area.w - 1, area.h - 1,
                  get_theme_color(COLOR_THEME_CMA_FRAME));
 
     /* factor label */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + adj_size(75);
-    pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
+    pBuf->size.y = pwindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
 
     /* factor sb */
     pBuf = pBuf->prev;
     pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
-    pBuf->size.y = pWindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
+    pBuf->size.y = pwindow->size.y + dst.y + (pText[i]->h - pBuf->size.h) / 2;
 
-    area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
-    area.y = pBuf->size.y - pWindow->size.y;
+    area.x = pBuf->size.x - pwindow->size.x - adj_size(2);
+    area.y = pBuf->size.y - pwindow->size.y;
     area.w = adj_size(58);
     area.h = pBuf->size.h;
-    fill_rect_alpha(pWindow->theme, &area, &bg_color);
+    fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-    create_frame(pWindow->theme,
+    create_frame(pwindow->theme,
                  area.x, area.y, area.w - 1, area.h - 1,
                  get_theme_color(COLOR_THEME_CMA_FRAME));
 
-    alphablit(pText[i], NULL, pWindow->theme, &dst, 255);
+    alphablit(pText[i], NULL, pwindow->theme, &dst, 255);
     dst.y += pText[i]->h + adj_size(6);
     FREESURFACE(pText[i]);
   } output_type_iterate_end;
@@ -1192,47 +1192,47 @@ void popup_city_cma_dialog(struct city *pCity)
   /* happy factor label */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->next->size.x;
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pwindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
 
   /* happy factor sb */
   pBuf = pBuf->prev;
   pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(5);
-  pBuf->size.y = pWindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
+  pBuf->size.y = pwindow->size.y + dst.y + (pText[O_LAST]->h - pBuf->size.h) / 2;
 
-  area.x = pBuf->size.x - pWindow->size.x - adj_size(2);
-  area.y = pBuf->size.y - pWindow->size.y;
+  area.x = pBuf->size.x - pwindow->size.x - adj_size(2);
+  area.y = pBuf->size.y - pwindow->size.y;
   area.w = adj_size(58);
   area.h = pBuf->size.h;
-  fill_rect_alpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                area.x, area.y, area.w - 1, area.h - 1,
                get_theme_color(COLOR_THEME_CMA_FRAME));
 
   /* celebrate cbox */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + dst.x + adj_size(10);
-  pBuf->size.y = pWindow->size.y + dst.y;
+  pBuf->size.x = pwindow->size.x + dst.x + adj_size(10);
+  pBuf->size.y = pwindow->size.y + dst.y;
 
   /* celebrate static text */
   dst.x += (adj_size(10) + pBuf->size.w + adj_size(5));
   dst.y += (pBuf->size.h - pText[O_LAST]->h) / 2;
-  alphablit(pText[O_LAST], NULL, pWindow->theme, &dst, 255);
+  alphablit(pText[O_LAST], NULL, pwindow->theme, &dst, 255);
   FREESURFACE(pText[O_LAST]);
   /* ------------------------ */
 
   /* save as */
   pBuf = pBuf->prev;
-  pBuf->size.x = pWindow->size.x + x + (w - (pBuf->size.w + adj_size(6)) * 6) / 2;
-  pBuf->size.y = pWindow->size.y + pWindow->size.h - pBuf->size.h * 2 - adj_size(10);
+  pBuf->size.x = pwindow->size.x + x + (w - (pBuf->size.w + adj_size(6)) * 6) / 2;
+  pBuf->size.y = pwindow->size.y + pwindow->size.h - pBuf->size.h * 2 - adj_size(10);
 
   area.x = x;
-  area.y = pBuf->size.y - pWindow->size.y - adj_size(5);
+  area.y = pBuf->size.y - pwindow->size.y - adj_size(5);
   area.w = w;
   area.h = pBuf->size.h + adj_size(10);
-  fill_rect_alpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                area.x, area.y, area.w - 1, area.h - 1,
                get_theme_color(COLOR_THEME_CMA_FRAME));
 

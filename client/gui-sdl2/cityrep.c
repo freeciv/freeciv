@@ -75,10 +75,10 @@ void city_report_dialog_popdown(void)
 /**********************************************************************//**
   User interacted with cityreport window.
 **************************************************************************/
-static int city_report_windows_callback(struct widget *pWindow)
+static int city_report_windows_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(Main.event)) {
-    move_window_group(pCityRep->pBeginWidgetList, pWindow);
+    move_window_group(pCityRep->pBeginWidgetList, pwindow);
   }
 
   return -1;
@@ -180,7 +180,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   struct widget *pbuf = NULL;
-  struct widget *pWindow, *pLast;
+  struct widget *pwindow, *pLast;
   utf8_str *pstr;
   SDL_Surface *pText1, *pText2, *pText3, *pUnits_Icon, *pCMA_Icon, *pText4;
   SDL_Surface *pLogo;
@@ -225,18 +225,18 @@ static void real_info_city_report_dialog_update(void)
   pstr = create_utf8_from_char(_("Cities Report"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pWindow = create_window_skeleton(NULL, pstr, 0);
-  pCityRep->pEndWidgetList = pWindow;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  pWindow->action = city_report_windows_callback;
+  pwindow = create_window_skeleton(NULL, pstr, 0);
+  pCityRep->pEndWidgetList = pwindow;
+  set_wstate(pwindow, FC_WS_NORMAL);
+  pwindow->action = city_report_windows_callback;
 
-  add_to_gui_list(ID_WINDOW, pWindow);
+  add_to_gui_list(ID_WINDOW, pwindow);
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* ------------------------- */
   /* exit button */
-  pbuf = create_themeicon(current_theme->Small_CANCEL_Icon, pWindow->dst,
+  pbuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_utf8_from_char(_("Close Dialog"), adj_font(12));
   pbuf->action = exit_city_report_callback;
@@ -248,7 +248,7 @@ static void real_info_city_report_dialog_update(void)
 /* FIXME: not implemented yet */
 #if 0
   /* ------------------------- */
-  pbuf = create_themeicon(current_theme->INFO_Icon, pWindow->dst,
+  pbuf = create_themeicon(current_theme->INFO_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Information Report"),
                                             adj_font(12));
@@ -258,7 +258,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Happy_Icon, pWindow->dst,
+  pbuf = create_themeicon(current_theme->Happy_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Happiness Report"), adj_font(12));
 /*
@@ -267,7 +267,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Army_Icon, pWindow->dst,
+  pbuf = create_themeicon(current_theme->Army_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
   pbuf->info_label = create_str16_from_char(_("Garrison Report"),
@@ -278,7 +278,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Support_Icon, pWindow->dst,
+  pbuf = create_themeicon(current_theme->Support_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Maintenance Report"),
                                             adj_font(12));
@@ -295,7 +295,7 @@ static void real_info_city_report_dialog_update(void)
   city_list_iterate(client.conn.playing->cities, pCity) {
     pstr = create_utf8_from_char(city_name_get(pCity), adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
 
     if (city_unhappy(pCity)) {
@@ -324,7 +324,7 @@ static void real_info_city_report_dialog_update(void)
     fc_snprintf(cbuf, sizeof(cbuf), "%d", city_size_get(pCity));
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -334,7 +334,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pbuf);
 
     /* ----------- */
-    pbuf = create_checkbox(pWindow->dst,
+    pbuf = create_checkbox(pwindow->dst,
                            cma_is_city_under_agent(pCity, NULL), WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -350,7 +350,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_game_color(COLOR_OVERVIEW_LAND);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -364,7 +364,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -392,7 +392,7 @@ static void real_info_city_report_dialog_update(void)
     if (togrow < 0) {
       pstr->fgcol.r = 255;
     }
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -406,7 +406,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -419,7 +419,7 @@ static void real_info_city_report_dialog_update(void)
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_TRADE]);
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -433,7 +433,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -447,7 +447,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SCIENCE);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -461,7 +461,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -476,7 +476,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PROD);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -489,7 +489,7 @@ static void real_info_city_report_dialog_update(void)
     fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_SHIELD]);
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -504,7 +504,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SUPPORT);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -518,7 +518,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -570,7 +570,7 @@ static void real_info_city_report_dialog_update(void)
                   togrow, PL_("turn", "turns", togrow));
     }
 
-    pbuf = create_icon2(pLogo, pWindow->dst,
+    pbuf = create_icon2(pLogo, pwindow->dst,
                         WF_WIDGET_HAS_INFO_LABEL |WF_RESTORE_BACKGROUND
                         | WF_FREE_THEME);
     pbuf->info_label = pstr;
@@ -586,7 +586,7 @@ static void real_info_city_report_dialog_update(void)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
-    pbuf = create_iconlabel(NULL, pWindow->dst, pstr,
+    pbuf = create_iconlabel(NULL, pwindow->dst, pstr,
                             (WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
@@ -630,28 +630,28 @@ static void real_info_city_report_dialog_update(void)
   area.w += adj_size(2);
 
   pLogo = theme_get_background(theme, BACKGROUND_CITYREP);
-  resize_window(pWindow, pLogo,	NULL,
-                (pWindow->size.w - pWindow->area.w) + area.w,
-                (pWindow->size.h - pWindow->area.h) + area.h);
+  resize_window(pwindow, pLogo,	NULL,
+                (pwindow->size.w - pwindow->area.w) + area.w,
+                (pwindow->size.h - pwindow->area.h) + area.h);
   FREESURFACE(pLogo);
 
 #if 0
-  pLogo = SDL_DisplayFormat(pWindow->theme);
-  FREESURFACE(pWindow->theme);
-  pWindow->theme = pLogo;
+  pLogo = SDL_DisplayFormat(pwindow->theme);
+  FREESURFACE(pwindow->theme);
+  pwindow->theme = pLogo;
   pLogo = NULL;
 #endif
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pbuf = pWindow->prev;
+  pbuf = pwindow->prev;
   pbuf->size.x = area.x + area.w - pbuf->size.w - 1;
-  pbuf->size.y = pWindow->size.y + adj_size(2);
+  pbuf->size.y = pwindow->size.y + adj_size(2);
 
 /* FIXME: not implemented yet */
 #if 0
@@ -681,27 +681,27 @@ static void real_info_city_report_dialog_update(void)
   dst.y = area.y + 1;
   dst.w = (name_w + adj_size(6)) + (pText1->w + adj_size(8)) + adj_size(5);
   dst.h = area.h - adj_size(2);
-  fill_rect_alpha(pWindow->theme, &dst, &bg_color);
+  fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   dst.y += (pText2->h - pText3->h) / 2;
   dst.x += ((name_w + adj_size(6)) - pText3->w) / 2;
-  alphablit(pText3, NULL, pWindow->theme, &dst, 255);
+  alphablit(pText3, NULL, pwindow->theme, &dst, 255);
   FREESURFACE(pText3);
 
   /* city size background and label */
   dst.x = area.x + adj_size(5) + name_w + adj_size(5 + 4);
-  alphablit(pText1, NULL, pWindow->theme, &dst, 255);
+  alphablit(pText1, NULL, pwindow->theme, &dst, 255);
   ww = pText1->w;
   FREESURFACE(pText1);
 
   /* cma icon */
   dst.x += (ww + adj_size(9));
   dst.y = area.y + 1 + (pText2->h - pCMA_Icon->h) / 2;
-  alphablit(pCMA_Icon, NULL, pWindow->theme, &dst, 255);
+  alphablit(pCMA_Icon, NULL, pwindow->theme, &dst, 255);
   ww = pCMA_Icon->w;
   FREESURFACE(pCMA_Icon);
 
@@ -714,26 +714,26 @@ static void real_info_city_report_dialog_update(void)
     + (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10)
     + pText2->w + adj_size(6 + 2);
   dst.h = area.h - adj_size(2);
-  fill_rect_alpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
+  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x, dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   dst.y = area.y + 1 + (pText2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Food, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Food, NULL, pwindow->theme, &dst, 255);
 
   /* food surplus Icon */
   w += (pIcons->pBIG_Food->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Food_Surplus, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Food_Surplus, NULL, pwindow->theme, &dst, 255);
 
   /* to grow label */
   w += (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1;
-  alphablit(pText2, NULL, pWindow->theme, &dst, 255);
+  alphablit(pText2, NULL, pwindow->theme, &dst, 255);
   hh = pText2->h;
   ww = pText2->w;
   FREESURFACE(pText2);
@@ -750,31 +750,31 @@ static void real_info_city_report_dialog_update(void)
 	  (pIcons->pBIG_Luxury->w + adj_size(6)) + adj_size(4);
   dst.h = area.h - adj_size(2);
 
-  fill_rect_alpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_TRADE));
+  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_TRADE));
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Trade->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Trade, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Trade, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Trade->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Trade_Corr, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Trade_Corr, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Food_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Coin, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Coin, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Coin->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Colb, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Colb, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Colb->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Luxury, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Luxury, NULL, pwindow->theme, &dst, 255);
   /* --------------------- */
 
   /* total productions, waste, support, shields surplus background and label */
@@ -788,30 +788,30 @@ static void real_info_city_report_dialog_update(void)
 	  (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(4);
   dst.h = area.h - adj_size(2);
 
-  fill_rect_alpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
+  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield->h) / 2;
   dst.x += adj_size(5);
-  alphablit(pIcons->pBIG_Shield, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Shield, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Shield->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  alphablit(pIcons->pBIG_Shield_Corr, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Shield_Corr, NULL, pwindow->theme, &dst, 255);
 
   w += (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1 + (hh - pUnits_Icon->h) / 2;
-  alphablit(pUnits_Icon, NULL, pWindow->theme, &dst, 255);
+  alphablit(pUnits_Icon, NULL, pwindow->theme, &dst, 255);
 
   w += (pUnits_Icon->w + adj_size(6)) + adj_size(10);
   FREESURFACE(pUnits_Icon);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield_Surplus->h) / 2;
-  alphablit(pIcons->pBIG_Shield_Surplus, NULL, pWindow->theme, &dst, 255);
+  alphablit(pIcons->pBIG_Shield_Surplus, NULL, pwindow->theme, &dst, 255);
   /* ------------------------------- */
 
   w += (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(10);
@@ -821,15 +821,15 @@ static void real_info_city_report_dialog_update(void)
   dst.w = adj_size(36) + adj_size(5) + prod_w;
   dst.h = hh + adj_size(2);
 
-  fill_rect_alpha(pWindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
+  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
 
-  create_frame(pWindow->theme,
+  create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   dst.y = area.y + 1 + (hh - pText4->h) / 2;
   dst.x += (dst.w - pText4->w) / 2;
-  alphablit(pText4, NULL, pWindow->theme, &dst, 255);
+  alphablit(pText4, NULL, pwindow->theme, &dst, 255);
   FREESURFACE(pText4);
 
   if (count) {
@@ -942,8 +942,8 @@ static void real_info_city_report_dialog_update(void)
 
   }
   /* ----------------------------------- */
-  redraw_group(pCityRep->pBeginWidgetList, pWindow, 0);
-  widget_mark_dirty(pWindow);
+  redraw_group(pCityRep->pBeginWidgetList, pwindow, 0);
+  widget_mark_dirty(pwindow);
   flush_dirty();
 }
 

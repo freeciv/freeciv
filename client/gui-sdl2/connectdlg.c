@@ -112,7 +112,7 @@ static int connect_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with server list window.
 **************************************************************************/
-static int meta_server_window_callback(struct widget *pWindow)
+static int meta_server_window_callback(struct widget *pwindow)
 {
   return -1;
 }
@@ -220,7 +220,7 @@ void popup_connection_dialog(bool lan_scan)
   SDL_Color bg_color = {255, 255, 255, 128};
   char cBuf[512];
   int w = 0, h = 0, count = 0, meta_h;
-  struct widget *pNewWidget, *pWindow, *pLabelWindow;
+  struct widget *pNewWidget, *pwindow, *pLabelWindow;
   utf8_str *pstr;
   SDL_Surface *pLogo;
   SDL_Rect area, area2;
@@ -296,22 +296,22 @@ void popup_connection_dialog(bool lan_scan)
   /* Server list window */
   pMeta_Server = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  pWindow->action = meta_server_window_callback;
-  set_wstate(pWindow, FC_WS_NORMAL);
-  clear_wflag(pWindow, WF_DRAW_FRAME_AROUND_WIDGET);
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  pwindow->action = meta_server_window_callback;
+  set_wstate(pwindow, FC_WS_NORMAL);
+  clear_wflag(pwindow, WF_DRAW_FRAME_AROUND_WIDGET);
   if (lan_scan) {
-    add_to_gui_list(ID_LAN_SERVERS_WINDOW, pWindow);
+    add_to_gui_list(ID_LAN_SERVERS_WINDOW, pwindow);
   } else {
-    add_to_gui_list(ID_META_SERVERS_WINDOW, pWindow);
+    add_to_gui_list(ID_META_SERVERS_WINDOW, pwindow);
   }
-  pMeta_Server->pEndWidgetList = pWindow;
+  pMeta_Server->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* Cancel button */
   pNewWidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                                  pWindow->dst, _("Cancel"),
+                                                  pwindow->dst, _("Cancel"),
                                                   adj_font(14), 0);
   pNewWidget->action = exit_meta_server_dlg_callback;
   set_wstate(pNewWidget, FC_WS_NORMAL);
@@ -326,7 +326,7 @@ void popup_connection_dialog(bool lan_scan)
                 pServer->host, pServer->port, pServer->version, _(pServer->state),
                 Q_("?header:Players"), pServer->nplayers, pServer->message);
 
-    pNewWidget = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(10),
+    pNewWidget = create_iconlabel_from_chars(NULL, pwindow->dst, cBuf, adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
     pNewWidget->string_utf8->style |= SF_CENTER;
@@ -378,13 +378,13 @@ void popup_connection_dialog(bool lan_scan)
   meta_h += pMeta_Server->pEndWidgetList->prev->size.h + adj_size(10) + adj_size(20);
 
   pLogo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
-  if (resize_window(pWindow, pLogo, NULL, w, meta_h)) {
+  if (resize_window(pwindow, pLogo, NULL, w, meta_h)) {
     FREESURFACE(pLogo);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
+  widget_set_position(pwindow,
                       (main_window_width() - w) / 2,
                       (main_window_height() - meta_h) / 2);
 
@@ -397,7 +397,7 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   /* exit button */
-  pNewWidget = pWindow->prev;
+  pNewWidget = pwindow->prev;
   pNewWidget->size.x = area.x + area.w - pNewWidget->size.w - adj_size(10);
   pNewWidget->size.y = area.y + area.h - pNewWidget->size.h - adj_size(10);
 
@@ -428,31 +428,31 @@ void popup_connection_dialog(bool lan_scan)
     setup_vertical_scrollbar_area(pMeta_Server->pScroll,
                                   area.x + area.w - adj_size(6),
                                   pMeta_Server->pEndActiveWidgetList->size.y,
-                                  area.h - adj_size(24) - pWindow->prev->size.h, TRUE);
+                                  area.h - adj_size(24) - pwindow->prev->size.h, TRUE);
   }
 
   /* -------------------- */
   /* redraw */
 
-  widget_redraw(pWindow);
+  widget_redraw(pwindow);
 
   area2.x = pMeta_Server->pEndActiveWidgetList->size.x;
   area2.y = pMeta_Server->pEndActiveWidgetList->size.y;
 
-  fill_rect_alpha(pWindow->dst->surface, &area2, &bg_color);
+  fill_rect_alpha(pwindow->dst->surface, &area2, &bg_color);
 
-  create_frame(pWindow->dst->surface,
+  create_frame(pwindow->dst->surface,
                area2.x - 1, area2.y - 1, area2.w, area2.h,
                get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
 
-  redraw_group(pMeta_Server->pBeginWidgetList, pWindow->prev, 0);
+  redraw_group(pMeta_Server->pBeginWidgetList, pwindow->prev, 0);
 
-  create_frame(pWindow->dst->surface,
-               pWindow->size.x, pWindow->size.y,
+  create_frame(pwindow->dst->surface,
+               pwindow->size.x, pwindow->size.y,
                area.w - 1, area.h - 1,
                get_theme_color(COLOR_THEME_CONNECTDLG_FRAME));
 
-  widget_flush(pWindow);
+  widget_flush(pwindow);
 }
 
 /**********************************************************************//**
@@ -537,7 +537,7 @@ static int cancel_connect_dlg_callback(struct widget *pWidget)
 void popup_join_game_dialog(void)
 {
   char pCharPort[6];
-  struct widget *pBuf, *pWindow;
+  struct widget *pBuf, *pwindow;
   utf8_str *plrname = NULL;
   utf8_str *srvname = NULL;
   utf8_str *port_nr = NULL;
@@ -553,22 +553,22 @@ void popup_join_game_dialog(void)
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   /* window */
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pConnectDlg->pEndWidgetList = pWindow;
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pConnectDlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* player name label */
   plrname = create_utf8_from_char(_("Player Name :"), adj_font(10));
   plrname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pWindow->dst, plrname,
+  pBuf = create_iconlabel(NULL, pwindow->dst, plrname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(20);
 
   /* player name edit */
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, user_name, adj_font(14), adj_size(210),
+  pBuf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14), adj_size(210),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_playername_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -578,13 +578,13 @@ void popup_join_game_dialog(void)
   /* server name label */
   srvname = create_utf8_from_char(_("Freeciv Server :"), adj_font(10));
   srvname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pWindow->dst, srvname,
+  pBuf = create_iconlabel(NULL, pwindow->dst, srvname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(5);
 
   /* server name edit */
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, server_host, adj_font(14), adj_size(210),
+  pBuf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14), adj_size(210),
                                 WF_RESTORE_BACKGROUND);
 
   pBuf->action = convert_servername_callback;
@@ -595,7 +595,7 @@ void popup_join_game_dialog(void)
   /* port label */
   port_nr = create_utf8_from_char(_("Port :"), adj_font(10));
   port_nr->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pWindow->dst, port_nr,
+  pBuf = create_iconlabel(NULL, pwindow->dst, port_nr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += pBuf->size.h + adj_size(5);
@@ -603,7 +603,7 @@ void popup_join_game_dialog(void)
   /* port edit */
   fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
 
-  pBuf = create_edit_from_chars(NULL, pWindow->dst, pCharPort, adj_font(14), adj_size(210),
+  pBuf = create_edit_from_chars(NULL, pwindow->dst, pCharPort, adj_font(14), adj_size(210),
                                 WF_RESTORE_BACKGROUND);
 
   pBuf->action = convert_portnr_callback;
@@ -612,7 +612,7 @@ void popup_join_game_dialog(void)
   area.h += pBuf->size.h + adj_size(20);
 
   /* Connect button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Connect"), adj_font(14), 0);
   pBuf->action = connect_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -620,7 +620,7 @@ void popup_join_game_dialog(void)
   add_to_gui_list(ID_CONNECT_BUTTON, pBuf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
   pBuf->action = cancel_connect_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -636,21 +636,21 @@ void popup_join_game_dialog(void)
   dialog_w = MAX(adj_size(40) + pBuf->size.w * 2, adj_size(210)) + adj_size(80);
 
 #ifdef SMALL_SCREEN
-  dialog_h = area.h + (pWindow->size.h - pWindow->area.h);
+  dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #else
-  dialog_h = area.h + (pWindow->size.h - pWindow->area.h);
+  dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #endif
 
   pLogo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
-  if (resize_window(pWindow, pLogo, NULL, dialog_w, dialog_h)) {
+  if (resize_window(pwindow, pLogo, NULL, dialog_w, dialog_h)) {
     FREESURFACE(pLogo);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2 + adj_size(40));
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2 + adj_size(40));
 
   /* player name label */
   pBuf = pConnectDlg->pEndWidgetList->prev;
@@ -770,7 +770,7 @@ static int cancel_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static void popup_user_passwd_dialog(const char *pMessage)
 {
-  struct widget *pBuf, *pWindow;
+  struct widget *pBuf, *pwindow;
   utf8_str *label_str = NULL;
   SDL_Surface *pBackground;
   int start_x, start_y;
@@ -782,22 +782,22 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pConnectDlg->pEndWidgetList = pWindow;
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pConnectDlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* text label */
   label_str = create_utf8_from_char(pMessage, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pWindow->dst, label_str,
+  pBuf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
   /* password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_passwd_callback;
@@ -806,7 +806,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area.h += pBuf->size.h + adj_size(10);
 
   /* Next button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Next"), adj_font(14), 0);
   pBuf->action = send_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -814,7 +814,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   add_to_gui_list(ID_BUTTON, pBuf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
   pBuf->action = cancel_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -829,22 +829,22 @@ static void popup_user_passwd_dialog(const char *pMessage)
   pConnectDlg->pBeginWidgetList = pBuf;
 
   area.w = MAX(area.w, pBuf->size.w * 2 + adj_size(40));
-  area.w = MAX(area.w, adj_size(210) - (pWindow->size.w - pWindow->area.w));
-  area.w = MAX(area.w, pWindow->prev->size.w);
+  area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
+  area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
   pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pWindow, pBackground, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+  if (resize_window(pwindow, pBackground, NULL,
+                    (pwindow->size.w - pwindow->area.w) + area.w,
+                    (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(pBackground);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList->prev;
@@ -933,7 +933,7 @@ static int convert_second_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static void popup_new_user_passwd_dialog(const char *pMessage)
 {
-  struct widget *pBuf, *pWindow;
+  struct widget *pBuf, *pwindow;
   utf8_str *label_str = NULL;
   SDL_Surface *pBackground;
   int start_x, start_y;
@@ -945,22 +945,22 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pConnectDlg->pEndWidgetList = pWindow;
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pConnectDlg->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* text label */
   label_str = create_utf8_from_char(pMessage, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pWindow->dst, label_str,
+  pBuf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pBuf);
   area.h += adj_size(10) + pBuf->size.h + adj_size(5);
 
   /* password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_first_passwd_callback;
@@ -969,7 +969,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += pBuf->size.h + adj_size(5);
 
   /* second password edit */
-  pBuf = create_edit(NULL, pWindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   pBuf->action = convert_second_passwd_callback;
@@ -977,14 +977,14 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.h += pBuf->size.h + adj_size(10);
 
   /* Next button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Next"), adj_font(14), 0);
   pBuf->action = send_passwd_callback;
   pBuf->key = SDLK_RETURN;
   add_to_gui_list(ID_BUTTON, pBuf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pWindow->dst,
+  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
   pBuf->action = cancel_passwd_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -999,22 +999,22 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   pConnectDlg->pBeginWidgetList = pBuf;
 
   area.w = pBuf->size.w * 2 + adj_size(40);
-  area.w = MAX(area.w, adj_size(210) - (pWindow->size.w - pWindow->area.w));
-  area.w = MAX(area.w, pWindow->prev->size.w);
+  area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
+  area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
   pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pWindow, pBackground, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+  if (resize_window(pwindow, pBackground, NULL,
+                    (pwindow->size.w - pwindow->area.w) + area.w,
+                    (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(pBackground);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) / 2,
-                      (main_window_height() - pWindow->size.h) / 2);
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) / 2,
+                      (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
   pBuf = pConnectDlg->pEndWidgetList->prev;

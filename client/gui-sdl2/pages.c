@@ -140,7 +140,7 @@ static void show_main_page(void)
   SDL_Color bg_color = {255, 255, 255, 96};
   SDL_Color line_color = {128, 128, 128, 255};
   int count = 0;
-  struct widget *pWidget = NULL, *pWindow = NULL;
+  struct widget *pWidget = NULL, *pwindow = NULL;
   SDL_Surface *pBackground;
   int h = 0;
   SDL_Rect area;
@@ -150,16 +150,16 @@ static void show_main_page(void)
   /* create dialog */
   pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  pWindow = create_window_skeleton(NULL, NULL, 0);
-  add_to_gui_list(ID_WINDOW, pWindow);
-  pStartMenu->pEndWidgetList = pWindow;
+  pwindow = create_window_skeleton(NULL, NULL, 0);
+  add_to_gui_list(ID_WINDOW, pwindow);
+  pStartMenu->pEndWidgetList = pwindow;
 
-  area = pWindow->area;
+  area = pwindow->area;
 
   /* Freeciv version */
   /* TRANS: Freeciv 2.4.0 */
   fc_snprintf(verbuf, sizeof(verbuf), _("Freeciv %s"), VERSION_STRING);
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, verbuf,
                                         adj_font(12),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
@@ -173,7 +173,7 @@ static void show_main_page(void)
 
   /* TRANS: gui-sdl2 client */
   fc_snprintf(verbuf, sizeof(verbuf), _("%s client"), client_string);
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, verbuf,
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, verbuf,
                                         adj_font(12),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
@@ -186,7 +186,7 @@ static void show_main_page(void)
   add_to_gui_list(ID_LABEL, pWidget);
 
   /* Start New Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Start New Game"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Start New Game"),
                                         adj_font(14),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
@@ -201,7 +201,7 @@ static void show_main_page(void)
   add_to_gui_list(ID_START_NEW_GAME, pWidget);
 
   /* Load Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Load Game"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Load Game"),
                                         adj_font(14),
                                         (WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND));
 
@@ -216,7 +216,7 @@ static void show_main_page(void)
   count++;
 
   /* Join Game */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Game"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Join Game"),
                                         adj_font(14),
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
@@ -231,7 +231,7 @@ static void show_main_page(void)
   count++;
 
   /* Join Pubserver */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join Pubserver"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Join Pubserver"),
                                         adj_font(14),
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
@@ -246,7 +246,7 @@ static void show_main_page(void)
   count++;
 
   /* Join LAN Server */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Join LAN Server"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Join LAN Server"),
                                         adj_font(14),
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
@@ -261,7 +261,7 @@ static void show_main_page(void)
   count++;
 
   /* Options */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Options"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Options"),
                                         adj_font(14),
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
@@ -276,7 +276,7 @@ static void show_main_page(void)
   count++;
 
   /* Quit */
-  pWidget = create_iconlabel_from_chars(NULL, pWindow->dst, _("Quit"),
+  pWidget = create_iconlabel_from_chars(NULL, pwindow->dst, _("Quit"),
                                         adj_font(14),
                                         WF_SELECT_WITHOUT_BAR|WF_RESTORE_BACKGROUND);
 
@@ -302,30 +302,30 @@ static void show_main_page(void)
   /* ------*/
 
   pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
-  if (resize_window(pWindow, pBackground, NULL,
-                    (pWindow->size.w - pWindow->area.w) + area.w,
-                    (pWindow->size.h - pWindow->area.h) + area.h)) {
+  if (resize_window(pwindow, pBackground, NULL,
+                    (pwindow->size.w - pwindow->area.w) + area.w,
+                    (pwindow->size.h - pwindow->area.h) + area.h)) {
     FREESURFACE(pBackground);
   }
 
-  area = pWindow->area;
+  area = pwindow->area;
 
-  group_set_area(pWidget, pWindow->prev, area);
+  group_set_area(pWidget, pwindow->prev, area);
 
-  setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pWindow->prev);
+  setup_vertical_widgets_position(1, area.x, area.y, area.w, h, pWidget, pwindow->prev);
 
   area.h = h * 2;
-  fill_rect_alpha(pWindow->theme, &area, &bg_color);
+  fill_rect_alpha(pwindow->theme, &area, &bg_color);
 
-  widget_set_position(pWindow,
-                      (main_window_width() - pWindow->size.w) - adj_size(20),
-                      (main_window_height() - pWindow->size.h) - adj_size(20));
+  widget_set_position(pwindow,
+                      (main_window_width() - pwindow->size.w) - adj_size(20),
+                      (main_window_height() - pwindow->size.h) - adj_size(20));
 
   draw_intro_gfx();
 
   redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
 
-  create_line(pWindow->dst->surface,
+  create_line(pwindow->dst->surface,
               area.x, area.y + (h * 2 - 1),
               area.x + area.w - 1, area.y + (h * 2 - 1),
               &line_color);

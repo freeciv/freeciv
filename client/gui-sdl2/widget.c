@@ -993,10 +993,10 @@ void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
   Function return TRUE when group was selected.
 **************************************************************************/
 bool select_window_group_dialog(struct widget *pBeginWidgetList,
-                                struct widget *pWindow)
+                                struct widget *pwindow)
 {
   if (!is_this_widget_first_on_list(pBeginWidgetList)) {
-    move_group_to_front_of_gui_list(pBeginWidgetList, pWindow);
+    move_group_to_front_of_gui_list(pBeginWidgetList, pwindow);
 
     return TRUE;
   }
@@ -1033,13 +1033,13 @@ bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
   if move then move window and redraw else
   if not on fron then move window up to list and redraw.
 **************************************************************************/
-void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow)
+void move_window_group(struct widget *pBeginWidgetList, struct widget *pwindow)
 {
-  if (select_window_group_dialog(pBeginWidgetList, pWindow)) {
-    widget_flush(pWindow);
+  if (select_window_group_dialog(pBeginWidgetList, pwindow)) {
+    widget_flush(pwindow);
   }
 
-  move_window_group_dialog(pBeginWidgetList, pWindow);
+  move_window_group_dialog(pBeginWidgetList, pwindow);
 }
 
 /**********************************************************************//**

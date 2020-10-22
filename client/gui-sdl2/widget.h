@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -358,13 +358,14 @@ void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
                                  struct widget *pEndGroupWidgetList);
 
 bool select_window_group_dialog(struct widget *pBeginWidgetList,
-                                struct widget *pWindow);
+                                struct widget *pwindow);
 bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
                               struct widget *pEndGroupWidgetList);
-void move_window_group(struct widget *pBeginWidgetList, struct widget *pWindow);
+void move_window_group(struct widget *pBeginWidgetList, struct widget *pwindow);
 
 int setup_vertical_widgets_position(int step,
-                                    Sint16 start_x, Sint16 start_y, Uint16 w, Uint16 h,
+                                    Sint16 start_x, Sint16 start_y,
+                                    Uint16 w, Uint16 h,
                                     struct widget *pBegin, struct widget *pEnd);
 
 #define del_widget_from_gui_list(__pGUI)	\

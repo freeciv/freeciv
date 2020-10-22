@@ -223,7 +223,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
 /************************************************************************//**
   User interacted with the option dialog window.
 ****************************************************************************/
-static int main_optiondlg_callback(struct widget *pWindow)
+static int main_optiondlg_callback(struct widget *pwindow)
 {
   if (NULL != option_dialog && PRESSED_EVENT(Main.event)) {
     move_window_group(option_dialog->begin_widget_list,
