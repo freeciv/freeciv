@@ -4394,7 +4394,7 @@ void units_select::wheelEvent(QWheelEvent *event)
     return;
   }
   nr = qCeil(static_cast<qreal>(unit_list_size(utile->units)) / 4) - 3;
-  if (event->delta() < 0) {
+  if (event->angleDelta().y() < 0) {
     show_line++;
     show_line = qMin(show_line, nr);
   } else {

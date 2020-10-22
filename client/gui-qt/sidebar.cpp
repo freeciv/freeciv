@@ -293,9 +293,11 @@ void fc_sidewidget::mousePressEvent(QMouseEvent *event)
 ***************************************************************************/
 void fc_sidewidget::wheelEvent(QWheelEvent *event)
 {
-  if (event->delta() < -90 && wheel_down) {
+  int delta = event->angleDelta().y();
+
+  if (delta < -90 && wheel_down) {
     wheel_down();
-  } else if (event->delta() > 90 && wheel_up) {
+  } else if (delta > 90 && wheel_up) {
     wheel_up();
   }
 

@@ -287,7 +287,7 @@ void unittype_item::wheelEvent(QWheelEvent *event)
     }
   } unit_list_iterate_end;
 
-  if (event->delta() < 0) {
+  if (event->angleDelta().y() < 0) {
     unit_scroll--;
   } else {
     unit_scroll++;

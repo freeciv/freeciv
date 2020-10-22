@@ -881,9 +881,9 @@ void minimap_view::resizeEvent(QResizeEvent* event)
 /**********************************************************************//**
   Wheel event for minimap - zooms it in or out
 **************************************************************************/
-void minimap_view::wheelEvent(QWheelEvent * event)
+void minimap_view::wheelEvent(QWheelEvent *event)
 {
-  if (event->delta() > 0) {
+  if (event->angleDelta().y() > 0) {
     zoom_in();
   } else {
     zoom_out();
