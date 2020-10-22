@@ -2041,6 +2041,12 @@ executable('freeciv-gtk3.22',
 install_data('data/gtk3.22_menus.xml',
              install_dir : join_paths(get_option('datadir'), 'freeciv'))
 
+install_data('data/themes/gtk3.22/Freeciv/gtk-3.0/gtk.css',
+             'data/themes/gtk3.22/Freeciv/gtk-3.0/menubar.css',
+             'data/themes/gtk3.22/Freeciv/gtk-3.0/bg.png',
+             install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gtk3.22/Freeciv/gtk-3.0'))
+
 endif
 
 if get_option('fcmp') != []
