@@ -1670,9 +1670,9 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
 }
 
 /**********************************************************************//**
-Whether player can build given unit somewhere,
-ignoring whether unit is obsolete and assuming the
-player has a coastal city.
+  Whether player can build given unit somewhere,
+  ignoring whether unit is obsolete and assuming the
+  player has a coastal city.
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p,
                                   const struct unit_type *punittype)
@@ -1723,6 +1723,11 @@ bool can_player_build_unit_direct(const struct player *p,
         if (great_wonder_owner(preq->source.value.building) != p) {
           /* Not owned by this player. Either destroyed or owned by somebody
            * else. */
+          return FALSE;
+        }
+      } else if (is_small_wonder(preq->source.value.building)) {
+        if (!city_from_wonder(p, preq->source.value.building)
+            && !can_player_build_improvement_direct(p, preq->source.value.building)) {
           return FALSE;
         }
       } else {
