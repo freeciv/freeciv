@@ -564,7 +564,6 @@ LT_INIT
 
 AM_PROG_CC_C_O
 AC_PROG_CXX
-FC_WORKING_CXX
 FC_C99_TOKEN_CONCENATION
 
 AC_CHECK_PROG(UNAME,uname,uname,:)
@@ -643,6 +642,20 @@ else
   CFLAGS="$CFLAGS -s USE_ICU=1"
   CXXFLAGS="$CXXFLAGS -s USE_ICU=1"
 fi
+
+dnl Should we build experimental versions of Qt programs?
+dnl This needs to be before C++ compiler check FC_WORKING_CXX, and
+dnl that in turn needs to be before FC_DEBUG that will depend on compiler
+dnl when setting compiler flags.
+AC_ARG_WITH([qt5x],
+  AS_HELP_STRING([--with-qt5x], [build experimental versions of Qt programs]),
+[case "${withval}" in
+ yes) qt_ver="Qt5x"
+      AC_DEFINE([FC_QT6_MODE], [1], [this is Qt5x based build]) ;;
+ *)   qt_ver="Qt5" ;;
+esac], [qt_ver="Qt5"])
+
+FC_WORKING_CXX
 
 dnl Set debug flags supported by compiler
 EXTRA_DEBUG_CFLAGS=""
@@ -816,15 +829,6 @@ UTILITY_LIBS="${UTILITY_LIBS} ${LTLIBINTL}"
 AC_SUBST([UTILITY_CFLAGS])
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
-
-dnl Should we build experimental versions of Qt programs
-AC_ARG_WITH([qt5x],
-  AS_HELP_STRING([--with-qt5x], [build experimental versions of Qt programs]),
-[case "${withval}" in
- yes) qt_ver="Qt5x"
-      AC_DEFINE([FC_QT6_MODE], [1], [this is Qt5x based build]) ;;
- *)   qt_ver="Qt5" ;;
-esac], [qt_ver="Qt5"])
 
 AC_ARG_ENABLE([crosser],
   AS_HELP_STRING([--enable-crosser], [build version to be used with crosser environment]),
