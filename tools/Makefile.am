@@ -56,7 +56,7 @@ appdatafile_DATA =
 
 if MODINST_GTK2
 desktopfile_DATA += \
-	freeciv-mp-gtk2.desktop
+	org.freeciv.mp.gtk2.desktop
 appdatafile_DATA += \
 	freeciv-mp-gtk2.appdata.xml
 endif
