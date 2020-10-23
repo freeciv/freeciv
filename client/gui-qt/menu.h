@@ -265,7 +265,7 @@ class mr_menu : public QMenuBar
   QActionGroup *action_vs_unit;
   QMenu *action_unit_menu;
   QMenu *action_city_menu;
-  QHash<munit, QAction*> menu_list;
+  QMultiHash<munit, QAction*> menu_list;
   qfc_units_list units_list;
 public:
   mr_menu();
