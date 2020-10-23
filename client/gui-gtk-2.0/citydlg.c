@@ -792,17 +792,17 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   vbox = gtk_vbox_new(FALSE, 0);
   gtk_box_pack_start(GTK_BOX(middle), vbox, TRUE, TRUE, 0);
 
-  store = gtk_list_store_new(5, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
-                             G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN);
+  /* gtk list store columns: 0 - sell value, 1 - sprite,
+  2 - description, 3 - upkeep, 4 - is redundant, 5 - tooltip */
+  store = gtk_list_store_new(6, G_TYPE_POINTER, GDK_TYPE_PIXBUF,
+                             G_TYPE_STRING, G_TYPE_INT, G_TYPE_BOOLEAN,
+                             G_TYPE_STRING);
 
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
   gtk_widget_set_name(view, "small_font");
   pdialog->overview.improvement_list = view;
-
-  gtk_widget_set_tooltip_markup(view,
-                     _("Press <b>ENTER</b> or double-click to sell an improvement."));
 
   rend = gtk_cell_renderer_pixbuf_new();
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
@@ -816,6 +816,8 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view), -1, NULL,
                                               rend, "text", 3,
                                               "strikethrough", 4, NULL);
+
+  gtk_tree_view_set_tooltip_column(GTK_TREE_VIEW(view), 5);
 
   g_signal_connect(view, "row_activated", G_CALLBACK(impr_callback),
                    pdialog);
@@ -1789,6 +1791,11 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   GtkTreeModel *model;
   GtkListStore *store;
 
+  const char *tooltip_sellable = _("Press <b>ENTER</b> or double-click to "
+                                   "sell an improvement.");
+  const char *tooltip_great_wonder = _("Great Wonder - cannot be sold.");
+  const char *tooltip_small_wonder = _("Small Wonder - cannot be sold.");
+
   model =
     gtk_tree_view_get_model(GTK_TREE_VIEW(pdialog->overview.improvement_list));
   store = GTK_LIST_STORE(model);
@@ -1812,12 +1819,19 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
 
     gtk_list_store_append(store, &it);
     gtk_list_store_set(store, &it,
-		       0, target.value.building,
-		       1, sprite_get_pixbuf(sprite),
-	2, items[item].descr,
-	3, upkeep,
-        4, is_improvement_redundant(pdialog->pcity, target.value.building),
-	-1);
+                       0, target.value.building,
+                       1, sprite_get_pixbuf(sprite),
+                       2, items[item].descr,
+                       3, upkeep,
+                       4,
+                       is_improvement_redundant(pdialog->pcity,
+                                                target.value.building),
+                       5,
+                       is_great_wonder(target.value.building) ?
+                         tooltip_great_wonder :
+                           (is_small_wonder(target.value.building) ?
+                             tooltip_small_wonder : tooltip_sellable),
+                       -1);
 
     total += upkeep;
   }
