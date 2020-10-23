@@ -1325,6 +1325,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
 
         /* Create image */
         QImage img(nat_x, nat_y, QImage::Format_ARGB32_Premultiplied);
+
         img.fill(Qt::black);
         for (int a = 0 ; a < nat_x; a++) {
           for (int b = 0; b < nat_y; b++) {
@@ -1344,8 +1345,17 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
         } else {
           load_pix->setPixmap(*(new QPixmap));
         }
+
+#ifdef FC_QT6_MODE
+        QPixmap pm = load_pix->pixmap(Qt::ReturnByValue);
+
+        load_pix->setFixedSize(pm.width(),
+                               pm.height());
+#else  /* FC_QT6_MODE */
         load_pix->setFixedSize(load_pix->pixmap()->width(),
                                load_pix->pixmap()->height());
+#endif /* FC_QT6_MODE */
+
         if ((sf = secfile_load_section(fn_bytes.data(),
                                        "research", TRUE))) {
           sname = secfile_lookup_str_default(sf, nullptr,
