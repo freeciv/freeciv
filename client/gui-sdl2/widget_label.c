@@ -177,7 +177,7 @@ void remake_label_size(struct widget *pLabel)
 /**********************************************************************//**
   ThemeLabel is utf8_str with Background ( pIcon ).
 **************************************************************************/
-struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
+struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pdest,
                                  utf8_str *pstr, Uint16 w, Uint16 h,
                                  Uint32 flags)
 {
@@ -196,7 +196,7 @@ struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T_LABEL);
   pLabel->mod = KMOD_NONE;
-  pLabel->dst = pDest;
+  pLabel->dst = pdest;
 
   baseclass_redraw = pLabel->redraw;
   pLabel->redraw = redraw_label;
@@ -212,7 +212,7 @@ struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 /**********************************************************************//**
   This Label is UTF8 string with Icon.
 **************************************************************************/
-struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
+struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pdest,
                                 utf8_str *pstr, Uint32 flags)
 {
   struct widget *pILabel = NULL;
@@ -225,7 +225,7 @@ struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wstate(pILabel, FC_WS_DISABLED);
   set_wtype(pILabel, WT_I_LABEL);
   pILabel->mod = KMOD_NONE;
-  pILabel->dst = pDest;
+  pILabel->dst = pdest;
 
   baseclass_redraw = pILabel->redraw;
   pILabel->redraw = redraw_label;
@@ -238,7 +238,7 @@ struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pDest,
 /**********************************************************************//**
   ThemeLabel is UTF8 string with Background ( pIcon ).
 **************************************************************************/
-struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
+struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pdest,
                                   utf8_str *pstr, Uint16 w, Uint16 h,
                                   Uint32 flags)
 {
@@ -310,7 +310,7 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pDest,
   }
   pLabel->theme = ptheme;
   FC_FREE(pLabel->dst);
-  pLabel->dst = pDest;
+  pLabel->dst = pdest;
 
   return pLabel;
 }
@@ -324,7 +324,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey, flags = get_wflags(pIconLabel);
-  SDL_Surface *pDest;
+  SDL_Surface *pdest;
   SDL_Surface *ptheme = create_surf(pIconLabel->size.w,
                                     pIconLabel->size.h * 2, SDL_SWSURFACE);
 
@@ -339,7 +339,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   pIconLabel->size.x = 0;
   pIconLabel->size.y = 0;
   area = start;
-  pDest = pIconLabel->dst->surface;
+  pdest = pIconLabel->dst->surface;
   pIconLabel->dst->surface = ptheme;
 
   /* normal */
@@ -376,7 +376,7 @@ struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
   if (flags & WF_FREE_STRING) {
     FREEUTF8STR(pIconLabel->string_utf8);
   }
-  pIconLabel->dst->surface = pDest;
+  pIconLabel->dst->surface = pdest;
   set_wtype(pIconLabel, WT_T2_LABEL);
 
   pIconLabel->redraw = redraw_label;

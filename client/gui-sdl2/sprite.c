@@ -110,12 +110,12 @@ struct sprite *crop_sprite(struct sprite *source,
 {
   SDL_Rect src_rect = {(Sint16) x, (Sint16) y, (Uint16) width, (Uint16) height};
   SDL_Surface *pSrc = crop_rect_from_surface(GET_SURF(source), &src_rect);
-  SDL_Surface *pDest = NULL;
+  SDL_Surface *pdest = NULL;
 
   if (mask) {
-    pDest = mask_surface(pSrc, mask->psurface, x - mask_offset_x, y - mask_offset_y);
+    pdest = mask_surface(pSrc, mask->psurface, x - mask_offset_x, y - mask_offset_y);
     FREESURFACE(pSrc);
-    return ctor_sprite(pDest);
+    return ctor_sprite(pdest);
   }
 
   return ctor_sprite(pSrc);

@@ -206,7 +206,7 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *pIcon)
   Create ( malloc ) Icon Widget ( flat Button )
 **************************************************************************/
 struct widget *create_themeicon(SDL_Surface *pIcon_theme,
-                                struct gui_layer *pDest,
+                                struct gui_layer *pdest,
                                 Uint32 flags)
 {
   struct widget *pIcon_Widget = widget_new();
@@ -217,7 +217,7 @@ struct widget *create_themeicon(SDL_Surface *pIcon_theme,
   set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON);
   pIcon_Widget->mod = KMOD_NONE;
-  pIcon_Widget->dst = pDest;
+  pIcon_Widget->dst = pdest;
 
   baseclass_redraw = pIcon_Widget->redraw;
   pIcon_Widget->redraw = redraw_icon;
@@ -247,8 +247,8 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 }
 
 /**********************************************************************//**
-  Blit Icon image to pDest(ination) on positon
-  start_x , start_y. WARRING: pDest must exist.
+  Blit Icon image to pdest(ination) on positon
+  start_x , start_y. WARRING: pdest must exist.
 
   Graphic is taken from pIcon_theme surface.
 
@@ -262,7 +262,7 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
   std return of alphablit(...) function.
 **************************************************************************/
 int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
-                         struct gui_layer *pDest, Sint16 start_x, Sint16 start_y)
+                         struct gui_layer *pdest, Sint16 start_x, Sint16 start_y)
 {
   SDL_Rect src, des = {start_x, start_y, 0, 0};
 
@@ -274,7 +274,7 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
   src.w = pIcon_theme->w / 4;
   src.h = pIcon_theme->h;
 
-  return alphablit(pIcon_theme, &src, pDest->surface, &des, 255);
+  return alphablit(pIcon_theme, &src, pdest->surface, &des, 255);
 }
 
 /**********************************************************************//**
@@ -329,7 +329,7 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 /**********************************************************************//**
   Create ( malloc ) Icon2 Widget ( flat Button )
 **************************************************************************/
-struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest,
+struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pdest,
                             Uint32 flags)
 {
   struct widget *pIcon_Widget = widget_new();
@@ -340,7 +340,7 @@ struct widget *create_icon2(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wstate(pIcon_Widget, FC_WS_DISABLED);
   set_wtype(pIcon_Widget, WT_ICON2);
   pIcon_Widget->mod = KMOD_NONE;
-  pIcon_Widget->dst = pDest;
+  pIcon_Widget->dst = pdest;
 
   baseclass_redraw = pIcon_Widget->redraw;
   pIcon_Widget->redraw = redraw_icon2;

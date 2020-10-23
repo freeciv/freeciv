@@ -350,7 +350,7 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len,
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
-struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
+struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pdest,
                            utf8_str *pstr, int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
@@ -380,8 +380,8 @@ struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
   pEdit->size.w = length;
   pEdit->size.h = buf.h;
 
-  if (pDest) {
-    pEdit->dst = pDest;
+  if (pdest) {
+    pEdit->dst = pdest;
   } else {
     pEdit->dst = add_gui_layer(pEdit->size.w, pEdit->size.h);
   }

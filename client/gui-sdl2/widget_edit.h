@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,14 +21,14 @@ enum Edit_Return_Codes {
   ED_FORCE_EXIT = 4
 };
 
-#define create_edit_from_chars(pBackground, pDest, pCharString, iPtsize, length, flags) \
-	create_edit(pBackground, pDest,                                                 \
+#define create_edit_from_chars(pBackground, pdest, pCharString, iPtsize, length, flags) \
+	create_edit(pBackground, pdest,                                                 \
 		    create_utf8_from_char(pCharString, iPtsize),                        \
 		    length, flags)
 
 #define edit(pEdit) edit_field(pEdit)
 
-struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pDest,
+struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pdest,
                            utf8_str *pstr, int length,
                            Uint32 flags);
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);

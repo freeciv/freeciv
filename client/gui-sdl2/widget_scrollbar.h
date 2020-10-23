@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ do {								\
 } while (FALSE)
 
 /* VERTICAL */
-struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
+struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pdest,
                                Uint16 high, Uint32 flags);
 int draw_vert(struct widget *pVert, Sint16 x, Sint16 y);
 
@@ -82,7 +82,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll);
 
 /* HORIZONTAL */
-struct widget *create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pDest,
+struct widget *create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pdest,
                                  Uint16 width, Uint32 flags);
 int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y);
 

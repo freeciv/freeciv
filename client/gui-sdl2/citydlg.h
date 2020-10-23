@@ -38,9 +38,9 @@
 
 void free_city_units_lists(void);
 void enable_city_dlg_widgets(void);
-void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest);
+void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pdest);
 SDL_Surface * get_scaled_city_map(struct city *pCity);
-void refresh_city_resource_map(SDL_Surface *pDest, int x, int y,
+void refresh_city_resource_map(SDL_Surface *pdest, int x, int y,
                                const struct city *pCity,
                                bool (*worker_check) (const struct city *,
                                                      int, int));

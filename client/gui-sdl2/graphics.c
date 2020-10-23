@@ -260,21 +260,21 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
 SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y)
 {
-  SDL_Surface *pDest = NULL;
+  SDL_Surface *pdest = NULL;
   int row, col;
   Uint32 *pSrc_Pixel = NULL;
-  Uint32 *pDest_Pixel = NULL;
+  Uint32 *pdest_pixel = NULL;
   Uint32 *pMask_Pixel = NULL;
   unsigned char src_alpha, mask_alpha;
 
-  pDest = copy_surface(pSrc);
+  pdest = copy_surface(pSrc);
 
   lock_surf(pSrc);
   lock_surf(pMask);
-  lock_surf(pDest);
+  lock_surf(pdest);
 
   pSrc_Pixel = (Uint32 *)pSrc->pixels;
-  pDest_Pixel = (Uint32 *)pDest->pixels;
+  pdest_pixel = (Uint32 *)pdest->pixels;
 
   for (row = 0; row < pSrc->h; row++) {
     pMask_Pixel = (Uint32 *)pMask->pixels
@@ -285,18 +285,18 @@ SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
       src_alpha = (*pSrc_Pixel & pSrc->format->Amask) >> pSrc->format->Ashift;
       mask_alpha = (*pMask_Pixel & pMask->format->Amask) >> pMask->format->Ashift;
 
-      *pDest_Pixel = (*pSrc_Pixel & ~pSrc->format->Amask)
-        | (((src_alpha * mask_alpha) / 255) << pDest->format->Ashift);
+      *pdest_pixel = (*pSrc_Pixel & ~pSrc->format->Amask)
+        | (((src_alpha * mask_alpha) / 255) << pdest->format->Ashift);
 
-      pSrc_Pixel++; pDest_Pixel++; pMask_Pixel++;
+      pSrc_Pixel++; pdest_pixel++; pMask_Pixel++;
     }
   }
 
-  unlock_surf(pDest);
+  unlock_surf(pdest);
   unlock_surf(pMask);
   unlock_surf(pSrc);
 
-  return pDest;
+  return pdest;
 }
 
 /**********************************************************************//**
@@ -412,12 +412,12 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect)
   on position : [iDest_x],[iDest_y] using it's actual alpha and
   color key settings.
 **************************************************************************/
-int blit_entire_src(SDL_Surface *pSrc, SDL_Surface *pDest,
+int blit_entire_src(SDL_Surface *pSrc, SDL_Surface *pdest,
                     Sint16 iDest_x, Sint16 iDest_y)
 {
   SDL_Rect dest_rect = { iDest_x, iDest_y, 0, 0 };
 
-  return alphablit(pSrc, NULL, pDest, &dest_rect, 255);
+  return alphablit(pSrc, NULL, pdest, &dest_rect, 255);
 }
 
 /**********************************************************************//**

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ struct CHECKBOX {
   bool state;
 };
 
-struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
+struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
                                    utf8_str *pstr, Uint32 flags);
-struct widget *create_checkbox(struct gui_layer *pDest, bool state, Uint32 flags);
+struct widget *create_checkbox(struct gui_layer *pdest, bool state, Uint32 flags);
 void toggle_checkbox(struct widget *pCBox);
 bool get_checkbox_state(struct widget *pCBox);
 int set_new_checkbox_theme(struct widget *pCBox,

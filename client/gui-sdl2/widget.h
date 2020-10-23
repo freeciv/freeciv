@@ -306,17 +306,17 @@ do {								\
   widget_free(&pWidget);                                        \
 } while (FALSE)
 
-#define draw_frame_inside_widget_on_surface(pWidget , pDest)		\
+#define draw_frame_inside_widget_on_surface(pWidget , pdest)		\
 do {                                                                    \
-  draw_frame(pDest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
+  draw_frame(pdest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
 } while (FALSE);
 
 #define draw_frame_inside_widget(pWidget)				\
 	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst->surface)
 
-#define draw_frame_around_widget_on_surface(pWidget , pDest)		\
+#define draw_frame_around_widget_on_surface(pWidget , pdest)		\
 do {                                                                    \
-  draw_frame(pDest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
+  draw_frame(pdest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
              pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
              pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
 } while (FALSE);
@@ -413,7 +413,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 /* misc */
 SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
                                Uint16 width, Uint16 height);
-void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
+void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h);
 
 #include "widget_button.h"

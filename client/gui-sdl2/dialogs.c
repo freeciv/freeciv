@@ -1297,7 +1297,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 /**********************************************************************//**
   Popup terrain information dialog.
 **************************************************************************/
-static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
+static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
 {
   SDL_Surface *pSurf;
   struct widget *pBuf, *pwindow;

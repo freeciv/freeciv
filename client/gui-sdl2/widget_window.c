@@ -177,7 +177,7 @@ static void set_client_area(struct widget *pwindow)
   Allocate Window Widget Structute.
   Text to titelbar is taken from 'pTitle'.
 **************************************************************************/
-struct widget *create_window_skeleton(struct gui_layer *pDest,
+struct widget *create_window_skeleton(struct gui_layer *pdest,
                                       utf8_str *title, Uint32 flags)
 {
   int w = 0, h = 0;
@@ -216,8 +216,8 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
 
   set_client_area(pwindow);
 
-  if (pDest) {
-    pwindow->dst = pDest;
+  if (pdest) {
+    pwindow->dst = pdest;
   } else {
     pwindow->dst = add_gui_layer(w, h);
   }
@@ -228,10 +228,10 @@ struct widget *create_window_skeleton(struct gui_layer *pDest,
 /**********************************************************************//**
   Create window widget
 **************************************************************************/
-struct widget *create_window(struct gui_layer *pDest, utf8_str *title, 
+struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
                              Uint16 w, Uint16 h, Uint32 flags)
 {
-  struct widget *pwindow = create_window_skeleton(pDest, title, flags);
+  struct widget *pwindow = create_window_skeleton(pdest, title, flags);
 
   resize_window(pwindow, NULL, NULL, w, h);
 

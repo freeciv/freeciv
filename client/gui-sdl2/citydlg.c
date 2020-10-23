@@ -1126,7 +1126,7 @@ static int hurry_production_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   Popup buy productions dlg.
 **************************************************************************/
-void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
+void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pdest)
 {
   char tBuf[512], cBuf[512];
   struct widget *pBuf = NULL, *pwindow;

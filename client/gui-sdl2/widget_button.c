@@ -39,7 +39,7 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 /**********************************************************************//**
   Create Icon Button image with text and Icon then blit to Dest(ination)
   on positon pIButton->size.x , pIButton->size.y.
-  WARNING: pDest must exist.
+  WARNING: pdest must exist.
 
   Text with attributes is taken from pIButton->string_utf8 parameter.
 
@@ -212,7 +212,7 @@ static int redraw_ibutton(struct widget *pIButton)
 
 /**********************************************************************//**
   Create Icon Button image with text and Icon then blit to Dest(ination)
-  on positon pTIButton->size.x , pTIButton->size.y. WARRING: pDest must
+  on positon pTIButton->size.x , pTIButton->size.y. WARRING: pdest must
   exist.
 
   Text with atributes is taken from pTIButton->string_utf8 parameter.
@@ -261,7 +261,7 @@ static int redraw_tibutton(struct widget *pTIButton)
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
-struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
+struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pdest,
                                   utf8_str *pstr, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
@@ -281,7 +281,7 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   set_wstate(pButton, FC_WS_DISABLED);
   set_wtype(pButton, WT_I_BUTTON);
   pButton->mod = KMOD_NONE;
-  pButton->dst = pDest;
+  pButton->dst = pdest;
 
   baseclass_redraw = pButton->redraw;  
   pButton->redraw = redraw_ibutton;
@@ -340,13 +340,13 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   function return pointer to allocated Button Widget.
 **************************************************************************/
 struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
-                                       struct gui_layer *pDest,
+                                       struct gui_layer *pdest,
                                        utf8_str *pstr,
                                        Uint32 flags)
 {
   /* extract a single icon */
   SDL_Surface *pIcon = create_icon_from_theme(pIcon_theme, 1);
-  struct widget *pButton = create_icon_button(pIcon, pDest, pstr, flags);
+  struct widget *pButton = create_icon_button(pIcon, pdest, pstr, flags);
 
   FREESURFACE(pButton->theme2);
   pButton->theme2 = pIcon_theme;

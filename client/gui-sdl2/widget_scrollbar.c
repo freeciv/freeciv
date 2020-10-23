@@ -163,7 +163,7 @@ static int redraw_vert(struct widget *pVert)
 
   Return pointer to created Widget.
 **************************************************************************/
-struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
+struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pdest,
                                Uint16 high, Uint32 flags)
 {
   struct widget *pVer = widget_new();
@@ -175,7 +175,7 @@ struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest
   set_wstate(pVer, FC_WS_DISABLED);
   set_wtype(pVer, WT_VSCROLLBAR);
   pVer->mod = KMOD_NONE;
-  pVer->dst = pDest;
+  pVer->dst = pdest;
 
   baseclass_redraw = pVer->redraw;  
   pVer->redraw = redraw_vert;
@@ -303,7 +303,7 @@ static int redraw_horiz(struct widget *pHoriz)
   Return pointer to created Widget.
 **************************************************************************/
 struct widget *create_horizontal(SDL_Surface *pHoriz_theme,
-                                 struct gui_layer *pDest,
+                                 struct gui_layer *pdest,
                                  Uint16 width, Uint32 flags)
 {
   struct widget *pHor = widget_new();
@@ -315,7 +315,7 @@ struct widget *create_horizontal(SDL_Surface *pHoriz_theme,
   set_wstate(pHor, FC_WS_DISABLED);
   set_wtype(pHor, WT_HSCROLLBAR);
   pHor->mod = KMOD_NONE;
-  pHor->dst = pDest;
+  pHor->dst = pdest;
 
   baseclass_redraw = pHor->redraw;
   pHor->redraw = redraw_horiz;

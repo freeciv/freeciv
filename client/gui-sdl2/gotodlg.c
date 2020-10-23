@@ -107,16 +107,16 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 static int goto_city_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    struct city *pDestcity = game_city_by_number(MAX_ID - pWidget->ID);
+    struct city *pdestcity = game_city_by_number(MAX_ID - pWidget->ID);
   
-    if (pDestcity) {
+    if (pdestcity) {
       struct unit *pUnit = head_of_units_in_focus();
 
       if (pUnit) {
         if (GOTO) {
-          send_goto_tile(pUnit, pDestcity->tile);
+          send_goto_tile(pUnit, pdestcity->tile);
         } else {
-          request_unit_airlift(pUnit, pDestcity);
+          request_unit_airlift(pUnit, pdestcity);
         }
       }
     }

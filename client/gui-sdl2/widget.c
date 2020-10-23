@@ -1108,7 +1108,7 @@ int setup_vertical_widgets_position(int step,
 /**********************************************************************//**
   Draw Themed Frame.
 **************************************************************************/
-void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
+void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
   SDL_Surface *pTmpLeft =
@@ -1122,19 +1122,19 @@ void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;
-  alphablit(pTmpLeft, NULL, pDest, &tmp, 255);
+  alphablit(pTmpLeft, NULL, pdest, &tmp, 255);
 
   dst.x += w - pTmpRight->w;
   tmp = dst;
-  alphablit(pTmpRight, NULL, pDest, &tmp, 255);
+  alphablit(pTmpRight, NULL, pdest, &tmp, 255);
 
   dst.x = start_x;
   tmp = dst;
-  alphablit(pTmpTop, NULL, pDest, &tmp, 255);
+  alphablit(pTmpTop, NULL, pdest, &tmp, 255);
 
   dst.y += h - pTmpBottom->h;
   tmp = dst;
-  alphablit(pTmpBottom, NULL, pDest, &tmp, 255);
+  alphablit(pTmpBottom, NULL, pdest, &tmp, 255);
 
   FREESURFACE(pTmpLeft);
   FREESURFACE(pTmpRight);

@@ -14,10 +14,10 @@
 #ifndef FC__WIDGET_WINDOW_H
 #define FC__WIDGET_WINDOW_H
 
-struct widget *create_window(struct gui_layer *pDest, utf8_str *title,
+struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
                              Uint16 w, Uint16 h, Uint32 flags);
 
-struct widget *create_window_skeleton(struct gui_layer *pDest,
+struct widget *create_window_skeleton(struct gui_layer *pdest,
                                       utf8_str *title, Uint32 flags);
 
 int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,

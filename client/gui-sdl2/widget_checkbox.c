@@ -108,7 +108,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
 /**********************************************************************//**
   Create a new checkbox widget.
 **************************************************************************/
-struct widget *create_checkbox(struct gui_layer *pDest, bool state,
+struct widget *create_checkbox(struct gui_layer *pdest, bool state,
                                Uint32 flags)
 {
   struct widget *pCBox = widget_new();
@@ -124,7 +124,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state,
   set_wstate(pCBox, FC_WS_DISABLED);
   set_wtype(pCBox, WT_CHECKBOX);
   pCBox->mod = KMOD_NONE;
-  pCBox->dst = pDest;
+  pCBox->dst = pdest;
   pTmp->state = state;
   pTmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
   pTmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
@@ -142,7 +142,7 @@ struct widget *create_checkbox(struct gui_layer *pDest, bool state,
 /**********************************************************************//**
   Create a new checkbox-with-text widget.
 **************************************************************************/
-struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
+struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
                                    utf8_str *pstr, Uint32 flags)
 {
   struct widget *pCBox;
@@ -151,7 +151,7 @@ struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
   struct widget *pTmpWidget;
 
   if (pstr == NULL) {
-    return create_checkbox(pDest, state, flags);
+    return create_checkbox(pdest, state, flags);
   }
 
   pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
@@ -163,7 +163,7 @@ struct widget *create_textcheckbox(struct gui_layer *pDest, bool state,
   }
 
   pIcon = create_icon_from_theme(pSurf, 0);
-  pCBox = create_iconlabel(pIcon, pDest, pstr, (flags | WF_FREE_PRIVATE_DATA));
+  pCBox = create_iconlabel(pIcon, pdest, pstr, (flags | WF_FREE_PRIVATE_DATA));
 
   pstr->style &= ~SF_CENTER;
 
