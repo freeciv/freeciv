@@ -62,7 +62,6 @@
 
 extern QApplication *qapp;
 
-static bool tradecity_rand(const trade_city *t1, const trade_city *t2);
 static void enable_interface(bool enable);
 
 /**************************************************************************
@@ -141,7 +140,6 @@ trade_city::trade_city(struct city *pcity)
   tile = nullptr;
   trade_num = 0;
   poss_trade_num = 0;
-
 }
 
 /**************************************************************************
@@ -196,6 +194,7 @@ void trade_generator::clear_trade_planing()
 void trade_generator::add_city(struct city *pcity)
 {
   trade_city *tc = new trade_city(pcity);
+
   cities.append(tc);
   gui()->infotab->chtwdg->append(QString(_("Adding city %1 to trade planning"))
                                  .arg(tc->city->name));
@@ -288,8 +287,24 @@ void trade_generator::calculate()
   bool tdone;
 
   for (i = 0; i < 100; i++) {
+    int count = cities.size();
+    int cities_ids[count];
+    class trade_city *cities_order[count];
+    int n;
+
     tdone = true;
-    std::sort(cities.begin(), cities.end(), tradecity_rand);
+
+    for (n = 0; n < count; n++) {
+      cities_ids[n] = n;
+      cities_order[n] = cities[n];
+    }
+    array_shuffle(cities_ids, count);
+
+    cities.clear();
+    for (n = 0; n < count; n++) {
+      cities.append(cities_order[cities_ids[n]]);
+    }
+
     lines.clear();
     foreach (tc, cities) {
       tc->pos_cities.clear();
@@ -455,14 +470,6 @@ bool trade_generator::discard_any(trade_city* tc, int freeroutes)
     }
   }
   return false;
-}
-
-/**************************************************************************
-  Helper function ato randomize list
-**************************************************************************/
-bool tradecity_rand(const trade_city *t1, const trade_city *t2)
-{
-  return (qrand() % 2);
 }
 
 /**************************************************************************
