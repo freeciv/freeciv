@@ -319,7 +319,7 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
  - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
    At least version 5.11 is required.
    If one builds with configure option --with-qt5x,
-   at least version 5.14 is required.
+   at least version 5.15 is required.
 
 
 2. Generating Makefiles

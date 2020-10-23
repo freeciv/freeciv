@@ -59,7 +59,7 @@ AC_DEFUN([FC_QT6_GENERIC],
 
   if test "x$qt6_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
-    AC_MSG_CHECKING([for Qt >= 5.14])
+    AC_MSG_CHECKING([for Qt >= 5.15])
     FC_QT6_VERSION_CHECK
   fi
 
@@ -100,7 +100,7 @@ AC_DEFUN([FC_QT6_COMPILETEST],
   CPPFLAGS="$CPPFLAGS_SAVE"
 ])
 
-dnl Check if the included version of Qt is at least Qt-5.14
+dnl Check if the included version of Qt is at least Qt-5.15
 dnl Output: fc_qt6_min_ver=yes|no
 AC_DEFUN([FC_QT6_VERSION_CHECK],
 [
@@ -112,7 +112,7 @@ AC_DEFUN([FC_QT6_VERSION_CHECK],
   LIBS="${LIBS}${LIBSADD}"
   AC_COMPILE_IFELSE([AC_LANG_PROGRAM(
     [[#include <QtCore>]],[[
-      #if QT_VERSION < 0x050e00
+      #if QT_VERSION < 0x050f00
         fail
       #endif
     ]])],
