@@ -84,14 +84,22 @@ static void modinst_quit(void)
 ****************************************************************/
 static void quit_dialog_response(GtkWidget *dialog, gint response)
 {
-  gtk_widget_destroy(dialog);
+  gtk_window_destroy(GTK_WINDOW(dialog));
   if (response == GTK_RESPONSE_YES) {
     modinst_quit();
   }
 }
 
 /****************************************************************
-  Popups the quit dialog if 
+  Quit dialog has been destroyed
+****************************************************************/
+static void quit_dialog_destroyed(GtkWidget *dialog, void *data)
+{
+  dialog = NULL;
+}
+
+/****************************************************************
+  Popups the quit dialog if download in progress
 ****************************************************************/
 static gboolean quit_dialog_callback(void)
 {
@@ -109,7 +117,7 @@ static gboolean quit_dialog_callback(void)
       g_signal_connect(dialog, "response", 
                        G_CALLBACK(quit_dialog_response), NULL);
       g_signal_connect(dialog, "destroy",
-                       G_CALLBACK(gtk_widget_destroyed), &dialog);
+                       G_CALLBACK(quit_dialog_destroyed), NULL);
     }
 
     gtk_window_present(GTK_WINDOW(dialog));
@@ -436,7 +444,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 {
   GtkWidget *mbox, *Ubox;
   GtkWidget *version_label;
-  GtkWidget *install_button, *install_label;
+  GtkWidget *install_button;
   GtkWidget *URL_label;
   GtkCellRenderer *renderer;
   GtkTreeSelection *selection;
@@ -503,10 +511,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   g_signal_connect(selection, "changed", G_CALLBACK(select_from_list), NULL);
 
   install_button = gtk_button_new();
-  install_label = gtk_label_new(_("Install modpack"));
-  gtk_label_set_mnemonic_widget(GTK_LABEL(install_label), install_button);
-  g_object_set_data(G_OBJECT(install_button), "label", install_label);
-  gtk_container_add(GTK_CONTAINER(install_button), install_label);
+  gtk_button_set_label(GTK_BUTTON(install_button), _("Install modpack"));
 
   Ubox = gtk_grid_new();
   gtk_widget_set_halign(Ubox, GTK_ALIGN_CENTER);
@@ -522,8 +527,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   g_signal_connect(install_button, "clicked",
                    G_CALLBACK(install_clicked), URL_input);
 
-  gtk_container_add(GTK_CONTAINER(Ubox), URL_label);
-  gtk_container_add(GTK_CONTAINER(Ubox), URL_input);
+  gtk_grid_attach(GTK_GRID(Ubox), URL_label, 0, 0, 1, 1);
+  gtk_grid_attach(GTK_GRID(Ubox), URL_input, 0, 1, 1, 1);
 
   progressbar = gtk_progress_bar_new();
 
@@ -532,14 +537,14 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   gtk_widget_set_hexpand(main_list, TRUE);
   gtk_widget_set_vexpand(main_list, TRUE);
 
-  gtk_container_add(GTK_CONTAINER(mbox), version_label);
-  gtk_container_add(GTK_CONTAINER(mbox), main_list);
-  gtk_container_add(GTK_CONTAINER(mbox), Ubox);
-  gtk_container_add(GTK_CONTAINER(mbox), install_button);
-  gtk_container_add(GTK_CONTAINER(mbox), progressbar);
-  gtk_container_add(GTK_CONTAINER(mbox), statusbar);
+  gtk_grid_attach(GTK_GRID(mbox), version_label, 0, 0, 1, 1);
+  gtk_grid_attach(GTK_GRID(mbox), main_list, 0, 1, 1, 1);
+  gtk_grid_attach(GTK_GRID(mbox), Ubox, 0, 2, 1, 1);
+  gtk_grid_attach(GTK_GRID(mbox), install_button, 0, 3, 1, 1);
+  gtk_grid_attach(GTK_GRID(mbox), progressbar, 0, 4, 1, 1);
+  gtk_grid_attach(GTK_GRID(mbox), statusbar, 0, 5, 1, 1);
 
-  gtk_container_add(GTK_CONTAINER(toplevel), mbox);
+  gtk_window_set_child(GTK_WINDOW(toplevel), mbox);
 
   main_store = gtk_list_store_new((ML_STORE_SIZE), G_TYPE_STRING, G_TYPE_STRING,
                                   G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING,
@@ -587,7 +592,7 @@ static void activate_gui(GtkApplication* app, gpointer data)
 #endif /* FREECIV_MSWINDOWS */
 #endif /* 0 */
 
-  g_signal_connect(toplevel, "delete_event",
+  g_signal_connect(toplevel, "close_request",
                    G_CALLBACK(quit_dialog_callback), NULL);
 
   modinst_setup_widgets(toplevel);
