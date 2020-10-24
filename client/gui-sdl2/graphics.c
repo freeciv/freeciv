@@ -257,44 +257,44 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
   in the mask image will be used to clip pixel (0,0) in the source image
   which is pixel (-x,-y) in the new image.
 **************************************************************************/
-SDL_Surface *mask_surface(SDL_Surface *pSrc, SDL_Surface *pMask,
+SDL_Surface *mask_surface(SDL_Surface *psrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y)
 {
   SDL_Surface *pdest = NULL;
   int row, col;
-  Uint32 *pSrc_Pixel = NULL;
+  Uint32 *psrc_pixel = NULL;
   Uint32 *pdest_pixel = NULL;
-  Uint32 *pMask_Pixel = NULL;
+  Uint32 *pmask_pixel = NULL;
   unsigned char src_alpha, mask_alpha;
 
-  pdest = copy_surface(pSrc);
+  pdest = copy_surface(psrc);
 
-  lock_surf(pSrc);
+  lock_surf(psrc);
   lock_surf(pMask);
   lock_surf(pdest);
 
-  pSrc_Pixel = (Uint32 *)pSrc->pixels;
+  psrc_pixel = (Uint32 *)psrc->pixels;
   pdest_pixel = (Uint32 *)pdest->pixels;
 
-  for (row = 0; row < pSrc->h; row++) {
-    pMask_Pixel = (Uint32 *)pMask->pixels
+  for (row = 0; row < psrc->h; row++) {
+    pmask_pixel = (Uint32 *)pMask->pixels
                   + pMask->w * (row + mask_offset_y)
                   + mask_offset_x;
 
-    for (col = 0; col < pSrc->w; col++) {
-      src_alpha = (*pSrc_Pixel & pSrc->format->Amask) >> pSrc->format->Ashift;
-      mask_alpha = (*pMask_Pixel & pMask->format->Amask) >> pMask->format->Ashift;
+    for (col = 0; col < psrc->w; col++) {
+      src_alpha = (*psrc_pixel & psrc->format->Amask) >> psrc->format->Ashift;
+      mask_alpha = (*pmask_pixel & pMask->format->Amask) >> pMask->format->Ashift;
 
-      *pdest_pixel = (*pSrc_Pixel & ~pSrc->format->Amask)
+      *pdest_pixel = (*psrc_pixel & ~psrc->format->Amask)
         | (((src_alpha * mask_alpha) / 255) << pdest->format->Ashift);
 
-      pSrc_Pixel++; pdest_pixel++; pMask_Pixel++;
+      psrc_pixel++; pdest_pixel++; pmask_pixel++;
     }
   }
 
   unlock_surf(pdest);
   unlock_surf(pMask);
-  unlock_surf(pSrc);
+  unlock_surf(psrc);
 
   return pdest;
 }
@@ -412,12 +412,12 @@ int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect)
   on position : [iDest_x],[iDest_y] using it's actual alpha and
   color key settings.
 **************************************************************************/
-int blit_entire_src(SDL_Surface *pSrc, SDL_Surface *pdest,
+int blit_entire_src(SDL_Surface *psrc, SDL_Surface *pdest,
                     Sint16 iDest_x, Sint16 iDest_y)
 {
   SDL_Rect dest_rect = { iDest_x, iDest_y, 0, 0 };
 
-  return alphablit(pSrc, NULL, pdest, &dest_rect, 255);
+  return alphablit(psrc, NULL, pdest, &dest_rect, 255);
 }
 
 /**********************************************************************//**
@@ -1668,26 +1668,26 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *pSurface)
 /**********************************************************************//**
   Create new surface that is just visible part of source surface.
 **************************************************************************/
-SDL_Surface *crop_visible_part_from_surface(SDL_Surface *pSrc)
+SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc)
 {
-  SDL_Rect src = get_smaller_surface_rect(pSrc);
+  SDL_Rect src = get_smaller_surface_rect(psrc);
 
-  return crop_rect_from_surface(pSrc, &src);
+  return crop_rect_from_surface(psrc, &src);
 }
 
 /**********************************************************************//**
   Scale surface.
 **************************************************************************/
-SDL_Surface *ResizeSurface(const SDL_Surface *pSrc, Uint16 new_width,
+SDL_Surface *ResizeSurface(const SDL_Surface *psrc, Uint16 new_width,
                            Uint16 new_height, int smooth)
 {
-  if (pSrc == NULL) {
+  if (psrc == NULL) {
     return NULL;
   }
 
-  return zoomSurface((SDL_Surface*)pSrc,
-                     (double)new_width / pSrc->w,
-                     (double)new_height / pSrc->h,
+  return zoomSurface((SDL_Surface*)psrc,
+                     (double)new_width / psrc->w,
+                     (double)new_height / psrc->h,
                      smooth);
 }
 
@@ -1698,32 +1698,32 @@ SDL_Surface *ResizeSurface(const SDL_Surface *pSrc, Uint16 new_width,
   If 'absolute_dimensions' is TRUE, the function returns a surface with the
   dimensions of the box and the scaled/original surface centered in it. 
 **************************************************************************/
-SDL_Surface *ResizeSurfaceBox(const SDL_Surface *pSrc,
+SDL_Surface *ResizeSurfaceBox(const SDL_Surface *psrc,
                               Uint16 new_width, Uint16 new_height, int smooth,
                               bool scale_up, bool absolute_dimensions)
 {
   SDL_Surface *tmpSurface, *result;
 
-  if (pSrc == NULL) {
+  if (psrc == NULL) {
     return NULL;
   }
 
-  if (!((scale_up == FALSE) && ((new_width >= pSrc->w) && (new_height >= pSrc->h)))) {
-    if ((new_width - pSrc->w) <= (new_height - pSrc->h)) {
+  if (!((scale_up == FALSE) && ((new_width >= psrc->w) && (new_height >= psrc->h)))) {
+    if ((new_width - psrc->w) <= (new_height - psrc->h)) {
       /* horizontal limit */
-      tmpSurface = zoomSurface((SDL_Surface*)pSrc,
-                               (double)new_width / pSrc->w,
-                               (double)new_width / pSrc->w,
+      tmpSurface = zoomSurface((SDL_Surface*)psrc,
+                               (double)new_width / psrc->w,
+                               (double)new_width / psrc->w,
                                smooth);
     } else {
       /* vertical limit */
-      tmpSurface = zoomSurface((SDL_Surface*)pSrc,
-                               (double)new_height / pSrc->h,
-                               (double)new_height / pSrc->h,
+      tmpSurface = zoomSurface((SDL_Surface*)psrc,
+                               (double)new_height / psrc->h,
+                               (double)new_height / psrc->h,
                                smooth);
     }
   } else {
-    tmpSurface = zoomSurface((SDL_Surface*)pSrc,
+    tmpSurface = zoomSurface((SDL_Surface*)psrc,
                              1.0,
                              1.0,
                              smooth);
