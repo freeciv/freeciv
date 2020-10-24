@@ -1055,8 +1055,8 @@ void enable_menus(bool enable)
     main_menubar = setup_menus(toplevel);
     /* Ensure the menus are really created before performing any operations
      * on them. */
-    while (gtk_events_pending()) {
-      gtk_main_iteration();
+    while (g_main_context_pending(NULL)) {
+      g_main_context_iteration(NULL, FALSE);
     }
     gtk_grid_attach_next_to(GTK_GRID(top_vbox), main_menubar, NULL, GTK_POS_TOP, 1, 1);
     menus_init();

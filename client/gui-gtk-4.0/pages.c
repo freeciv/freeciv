@@ -3424,8 +3424,8 @@ void real_set_client_page(enum client_pages new_page)
   gtk_notebook_set_current_page(GTK_NOTEBOOK(toplevel_tabs), new_page);
 
   /* Update the GUI. */
-  while (gtk_events_pending()) {
-    gtk_main_iteration();
+  while (g_main_context_pending(NULL)) {
+    g_main_context_iteration(NULL, FALSE);
   }
 
   switch (new_page) {
