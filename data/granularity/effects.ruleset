@@ -131,6 +131,15 @@ reqs    =
       "UnitFlag",      "Cant_Fortify", "Local", FALSE
     }
 
+[effect_city_walls]
+type    = "Defend_Bonus"
+value	= 200
+reqs	=
+    { "type",      "name",       "range"
+      "Building",  "City Walls", "City"
+      "UnitClass", "Land",       "Local"
+    }
+
 [effect_action_success_move_cost_from_non_native]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

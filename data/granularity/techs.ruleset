@@ -180,6 +180,15 @@ graphic     = "a.horseback_riding"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_masonry]
+name        = _("Masonry")
+req1        = "Road Building"
+req2        = "None"
+flags       = ""
+graphic     = "a.masonry"
+graphic_alt = "-"
+;helptext    =
+
 [advance_road_building]
 name        = _("Road Building")
 req1        = "None"

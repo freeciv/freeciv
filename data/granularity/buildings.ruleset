@@ -61,6 +61,29 @@ format_version=20
 ;
 ; */ <-- avoid gettext warnings
 
+[building_city_walls]
+name		= _("City Walls")
+genus		= "Improvement"
+flags		= "VisibleByOthers"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Masonry", "Player"
+    }
+graphic	= "b.city_walls"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 1200
+upkeep		= 0
+sabotage	= 50
+sound		= "b_city_walls"
+sound_alt	= "b_generic"
+helptext	= _("\
+City Walls make it easier to defend a city. They triple the defense\
+ strength of units within the city against land units.\
+")
+
 [building_throne]
 name		= _("Throne")
 genus		= "SmallWonder"
