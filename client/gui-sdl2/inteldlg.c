@@ -122,10 +122,10 @@ static int tech_callback(struct widget *pWidget)
 static int spaceship_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
-    struct player *pPlayer = pWidget->data.player;
+    struct player *pplayer = pWidget->data.player;
 
-    popdown_intel_dialog(pPlayer);
-    popup_spaceship_dialog(pPlayer);
+    popdown_intel_dialog(pplayer);
+    popup_spaceship_dialog(pplayer);
   }
 
   return -1;
@@ -155,11 +155,11 @@ void close_intel_dialog(struct player *p)
 /**********************************************************************//**
   Create an intelligence dialog towards given player.
 **************************************************************************/
-static struct intel_dialog *create_intel_dialog(struct player *pPlayer)
+static struct intel_dialog *create_intel_dialog(struct player *pplayer)
 {
   struct intel_dialog *pdialog = fc_calloc(1, sizeof(struct intel_dialog));
 
-  pdialog->pplayer = pPlayer;
+  pdialog->pplayer = pplayer;
 
   pdialog->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 

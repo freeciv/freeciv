@@ -177,8 +177,8 @@ void popup_find_dialog(void)
   add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
   /* ---------- */
 
-  players_iterate(pPlayer) {
-    city_list_iterate(pPlayer->cities, pCity) {
+  players_iterate(pplayer) {
+    city_list_iterate(pplayer->cities, pCity) {
       fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name_get(pCity),
                   city_size_get(pCity));
 

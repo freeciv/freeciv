@@ -151,12 +151,12 @@ static void update_goto_dialog(void)
 
   pLast = pAdd_Dock;
 
-  players_iterate(pPlayer) {
-    if (!BV_ISSET(all_players, player_index(pPlayer))) {
+  players_iterate(pplayer) {
+    if (!BV_ISSET(all_players, player_index(pplayer))) {
       continue;
     }
 
-    city_list_iterate(pPlayer->cities, pCity) {
+    city_list_iterate(pplayer->cities, pCity) {
 
       /* FIXME: should use unit_can_airlift_to(). */
       if (!GOTO && !pCity->airlift) {
@@ -285,13 +285,13 @@ static void popup_goto_airlift_dialog(void)
 
   col = 0;
   /* --------------------------------------------- */
-  players_iterate(pPlayer) {
-    if (pPlayer != client.conn.playing
-        && DS_NO_CONTACT == player_diplstate_get(client.conn.playing, pPlayer)->type) {
+  players_iterate(pplayer) {
+    if (pplayer != client.conn.playing
+        && DS_NO_CONTACT == player_diplstate_get(client.conn.playing, pplayer)->type) {
       continue;
     }
 
-    pFlag = ResizeSurfaceBox(get_nation_flag_surface(pPlayer->nation),
+    pFlag = ResizeSurfaceBox(get_nation_flag_surface(pplayer->nation),
                              adj_size(30), adj_size(30), 1, TRUE, FALSE);
 
     pEnabled = create_icon_theme_surf(pFlag);
@@ -300,19 +300,19 @@ static void popup_goto_airlift_dialog(void)
     FREESURFACE(pFlag);
 
     pBuf = create_checkbox(pwindow->dst,
-                           BV_ISSET(all_players, player_index(pPlayer)),
+                           BV_ISSET(all_players, player_index(pplayer)),
                            WF_FREE_THEME | WF_RESTORE_BACKGROUND
                            | WF_WIDGET_HAS_INFO_LABEL);
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
 
     pBuf->info_label =
-        create_utf8_from_char(nation_adjective_for_player(pPlayer),
-                               adj_font(12));
+        create_utf8_from_char(nation_adjective_for_player(pplayer),
+                              adj_font(12));
     pBuf->info_label->style &= ~SF_CENTER;
     set_wstate(pBuf, FC_WS_NORMAL);
 
     pBuf->action = toggle_goto_nations_cities_dialog_callback;
-    add_to_gui_list(MAX_ID - player_number(pPlayer), pBuf);
+    add_to_gui_list(MAX_ID - player_number(pplayer), pBuf);
     col++;
   } players_iterate_end;
 

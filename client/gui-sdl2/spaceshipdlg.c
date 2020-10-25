@@ -108,28 +108,28 @@ static int launch_spaceship_callback(struct widget *pWidget)
 /**********************************************************************//**
   Refresh (update) the spaceship dialog for the given player.
 **************************************************************************/
-void refresh_spaceship_dialog(struct player *pPlayer)
+void refresh_spaceship_dialog(struct player *pplayer)
 {
   struct SMALL_DLG *pSpaceShp;
   struct widget *pbuf;
 
-  if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
+  if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
     return;
   }
 
   /* launch button */
   pbuf = pSpaceShp->pEndWidgetList->prev->prev;
   if (victory_enabled(VC_SPACERACE)
-      && pPlayer == client.conn.playing
-      && pPlayer->spaceship.state == SSHIP_STARTED
-      && pPlayer->spaceship.success_rate > 0.0) {
+      && pplayer == client.conn.playing
+      && pplayer->spaceship.state == SSHIP_STARTED
+      && pplayer->spaceship.success_rate > 0.0) {
     set_wstate(pbuf, FC_WS_NORMAL);
   }
 
   /* update text info */
   pbuf = pbuf->prev;
   copy_chars_to_utf8_str(pbuf->string_utf8,
-                         get_spaceship_descr(&pPlayer->spaceship));
+                         get_spaceship_descr(&pplayer->spaceship));
   /* ------------------------------------------ */
 
   /* redraw */
@@ -142,11 +142,11 @@ void refresh_spaceship_dialog(struct player *pPlayer)
 /**********************************************************************//**
   Popup (or raise) the spaceship dialog for the given player.
 **************************************************************************/
-void popup_spaceship_dialog(struct player *pPlayer)
+void popup_spaceship_dialog(struct player *pplayer)
 {
   struct SMALL_DLG *pSpaceShp;
 
-  if (!(pSpaceShp = get_spaceship_dialog(pPlayer))) {
+  if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
     struct widget *pBuf, *pwindow;
     utf8_str *pstr;
     char cbuf[128];
@@ -155,7 +155,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
     pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
 
     fc_snprintf(cbuf, sizeof(cbuf), _("The %s Spaceship"),
-                nation_adjective_for_player(pPlayer));
+                nation_adjective_for_player(pplayer));
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
 
@@ -163,7 +163,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     pwindow->action = space_dialog_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
-    pwindow->data.player = pPlayer;
+    pwindow->data.player = pplayer;
     pwindow->private_data.small_dlg = pSpaceShp;
     add_to_gui_list(ID_WINDOW, pwindow);
     pSpaceShp->pEndWidgetList = pwindow;
@@ -177,7 +177,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
                             | WF_RESTORE_BACKGROUND);
     pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                              adj_font(12));
-    pBuf->data.player = pPlayer;
+    pBuf->data.player = pplayer;
     pBuf->action = exit_space_dialog_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->key = SDLK_ESCAPE;
@@ -232,7 +232,7 @@ void popup_spaceship_dialog(struct player *pPlayer)
 
     dialog_list_prepend(dialog_list, pSpaceShp);
 
-    refresh_spaceship_dialog(pPlayer);
+    refresh_spaceship_dialog(pplayer);
   } else {
     if (select_window_group_dialog(pSpaceShp->pBeginWidgetList,
                                    pSpaceShp->pEndWidgetList)) {
@@ -244,11 +244,11 @@ void popup_spaceship_dialog(struct player *pPlayer)
 /**********************************************************************//**
   Close the spaceship dialog for the given player.
 **************************************************************************/
-void popdown_spaceship_dialog(struct player *pPlayer)
+void popdown_spaceship_dialog(struct player *pplayer)
 {
   struct SMALL_DLG *pSpaceShp;
 
-  if ((pSpaceShp = get_spaceship_dialog(pPlayer))) {
+  if ((pSpaceShp = get_spaceship_dialog(pplayer))) {
     popdown_window_group_dialog(pSpaceShp->pBeginWidgetList,
                                 pSpaceShp->pEndWidgetList);
     dialog_list_remove(dialog_list, pSpaceShp);
