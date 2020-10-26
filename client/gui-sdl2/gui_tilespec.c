@@ -492,7 +492,7 @@ void draw_intro_gfx(void)
   }
 
   /* draw intro gfx center in screen */
-  alphablit(pIntro, NULL, Main.map, NULL, 255);
+  alphablit(pIntro, NULL, main_data.map, NULL, 255);
 
   FREESURFACE(pIntro);
 }

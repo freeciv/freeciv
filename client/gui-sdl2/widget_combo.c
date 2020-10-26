@@ -105,7 +105,7 @@ static int combo_redraw(struct widget *combo)
 ****************************************************************************/
 static int combo_menu_callback(struct widget *window)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct combo_menu *menu =
         (struct combo_menu *)window->data.widget->private_data.ptr;
 
@@ -122,7 +122,7 @@ static int combo_menu_item_callback(struct widget *label)
 {
   struct widget *combo = label->data.widget;
 
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     copy_chars_to_utf8_str(combo->string_utf8, label->string_utf8->text);
     widget_redraw(combo);
     widget_mark_dirty(combo);

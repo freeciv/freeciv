@@ -413,7 +413,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 **************************************************************************/
 static int std_up_advanced_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
     struct widget *pBegin = up_scroll_widget_list(
                           pDlg->pScroll,
@@ -440,7 +440,7 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int std_down_advanced_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
     struct widget *pBegin = down_scroll_widget_list(
                               pDlg->pScroll,
@@ -467,7 +467,7 @@ static int std_down_advanced_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv_dlg;
     struct widget *pBegin = vertic_scroll_widget_list(
                               pDlg->pScroll,

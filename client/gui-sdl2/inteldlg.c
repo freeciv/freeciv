@@ -98,7 +98,7 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 **************************************************************************/
 static int intel_window_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct intel_dialog *pSelectedDialog = get_intel_dialog(pwindow->data.player);
 
     move_window_group(pSelectedDialog->pdialog->pBeginWidgetList, pwindow);
@@ -121,7 +121,7 @@ static int tech_callback(struct widget *pWidget)
 **************************************************************************/
 static int spaceship_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct player *pplayer = pWidget->data.player;
 
     popdown_intel_dialog(pplayer);
@@ -136,7 +136,7 @@ static int spaceship_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_intel_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_intel_dialog(pWidget->data.player);
     flush_dirty();
   }

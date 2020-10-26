@@ -54,7 +54,7 @@ static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
 **************************************************************************/
 static int find_city_window_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pFind_City_Dlg->pBeginWidgetList, pwindow);
   }
 
@@ -66,7 +66,7 @@ static int find_city_window_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_find_city_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int orginal_x = pWidget->data.cont->id0;
     int orginal_y = pWidget->data.cont->id1;
 
@@ -85,12 +85,12 @@ static int exit_find_city_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int find_city_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct city *pCity = pWidget->data.city;
 
     if (pCity) {
       center_tile_mapcanvas(pCity->tile);
-      if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+      if (main_data.event.button.button == SDL_BUTTON_RIGHT) {
         popdown_find_dialog();
       }
       flush_dirty();
@@ -127,7 +127,7 @@ void popup_find_dialog(void)
   struct player *owner = NULL;
   struct tile *original;
   int window_x = 0, window_y = 0;
-  bool mouse = (Main.event.type == SDL_MOUSEBUTTONDOWN);
+  bool mouse = (main_data.event.type == SDL_MOUSEBUTTONDOWN);
   SDL_Rect area;
 
   /* check that there are any cities to find */
@@ -142,7 +142,7 @@ void popup_find_dialog(void)
     return;
   }
 
-  original = canvas_pos_to_tile(Main.map->w / 2, Main.map->h / 2);
+  original = canvas_pos_to_tile(main_data.map->w / 2, main_data.map->h / 2);
 
   pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
 
@@ -254,11 +254,11 @@ void popup_find_dialog(void)
     window_x = adj_size(10);
     window_y = (main_window_height() - pwindow->size.h) / 2;
   } else {
-    window_x = (Main.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
-                (Main.event.motion.x + adj_size(10)) :
+    window_x = (main_data.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
+                (main_data.event.motion.x + adj_size(10)) :
                 (main_window_width() - pwindow->size.w - adj_size(10));
-    window_y = (Main.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
-             (Main.event.motion.y - adj_size(2)) :
+    window_y = (main_data.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
+             (main_data.event.motion.y - adj_size(2)) :
              (main_window_height() - pwindow->size.h - adj_size(10));
   }
 

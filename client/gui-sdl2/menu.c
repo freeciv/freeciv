@@ -92,7 +92,7 @@ static struct widget *pOrder_Trade_Button;
 **************************************************************************/
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = head_of_units_in_focus();
 
     set_wstate(pOrder_Widget, FC_WS_SELECTED);
@@ -410,7 +410,7 @@ void create_units_order_widgets(void)
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("No Orders"),
               /* TRANS: "Space" refers to the space bar on a keyboard. */
               _("Space"));
-  pBuf = create_themeicon(current_theme->ODone_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->ODone_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -424,7 +424,7 @@ void create_units_order_widgets(void)
 
   /* Wait */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Wait"), "W");
-  pBuf = create_themeicon(current_theme->OWait_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OWait_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -437,7 +437,7 @@ void create_units_order_widgets(void)
   /* Explode Nuclear */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               action_id_name_translation(ACTION_NUKE), "Shift+N");
-  pBuf = create_themeicon(current_theme->ONuke_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->ONuke_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -451,7 +451,7 @@ void create_units_order_widgets(void)
   /* Act against the specified tile. */
   /* TRANS: Button to bring up the action selection dialog. */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Do..."), "D");
-  pBuf = create_themeicon(current_theme->OSpy_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OSpy_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -463,7 +463,7 @@ void create_units_order_widgets(void)
 
   /* Disband */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Disband Unit"), "Shift+D");
-  pBuf = create_themeicon(current_theme->ODisband_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->ODisband_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -476,7 +476,7 @@ void create_units_order_widgets(void)
 
   /* Upgrade */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Upgrade Unit"), "Shift+U");
-  pBuf = create_themeicon(current_theme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->Order_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -489,7 +489,7 @@ void create_units_order_widgets(void)
 
   /* Convert */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Convert Unit"), "Shift+O");
-  pBuf = create_themeicon(current_theme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->Order_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -503,7 +503,7 @@ void create_units_order_widgets(void)
   /* Return to nearest city */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               _("Return to Nearest City"), "Shift+G");
-  pBuf = create_themeicon(current_theme->OReturn_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OReturn_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -516,7 +516,7 @@ void create_units_order_widgets(void)
 
   /* Goto City */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Go to City"), "T");
-  pBuf = create_themeicon(current_theme->OGotoCity_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OGotoCity_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -528,7 +528,7 @@ void create_units_order_widgets(void)
 
   /* Airlift */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Airlift to City"), "T");
-  pBuf = create_themeicon(current_theme->Order_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->Order_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -540,7 +540,7 @@ void create_units_order_widgets(void)
 
   /* Goto location */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Go to Tile"), "G");
-  pBuf = create_themeicon(current_theme->OGoto_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OGoto_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -552,7 +552,7 @@ void create_units_order_widgets(void)
 
   /* Patrol */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Patrol"), "Q");
-  pBuf = create_themeicon(current_theme->OPatrol_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OPatrol_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -565,7 +565,7 @@ void create_units_order_widgets(void)
   /* Connect irrigation */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               _("Connect With Irrigation"), "Ctrl+I");
-  pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OAutoConnect_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -584,7 +584,7 @@ void create_units_order_widgets(void)
                 _("Connect With %s (%s)"),
                 extra_name_translation(road_extra_get(proad)),
                 "Ctrl+R");
-    pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
+    pBuf = create_themeicon(current_theme->OAutoConnect_Icon, main_data.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
                             | WF_WIDGET_HAS_INFO_LABEL);
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -603,7 +603,7 @@ void create_units_order_widgets(void)
                 _("Connect With %s (%s)"),
                 extra_name_translation(road_extra_get(prail)),
                 "Ctrl+L");
-    pBuf = create_themeicon(current_theme->OAutoConnect_Icon, Main.gui,
+    pBuf = create_themeicon(current_theme->OAutoConnect_Icon, main_data.gui,
                             WF_HIDDEN | WF_RESTORE_BACKGROUND
                             | WF_WIDGET_HAS_INFO_LABEL);
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -617,7 +617,7 @@ void create_units_order_widgets(void)
 
   /* Auto-Explore */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Auto Explore"), "X");
-  pBuf = create_themeicon(current_theme->OAutoExp_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OAutoExp_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -630,7 +630,7 @@ void create_units_order_widgets(void)
   /* Auto-Settler */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Auto Settler"), "A");
 
-  pBuf = create_themeicon(current_theme->OAutoSett_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OAutoSett_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -643,7 +643,7 @@ void create_units_order_widgets(void)
   /* Wake Up Others */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               _("Unsentry All On Tile"), "Shift+S");
-  pBuf = create_themeicon(current_theme->OWakeUp_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OWakeUp_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -657,7 +657,7 @@ void create_units_order_widgets(void)
   /* Unload */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               _("Unload All From Transporter"), "Shift+T");
-  pBuf = create_themeicon(current_theme->OUnload_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OUnload_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -670,7 +670,7 @@ void create_units_order_widgets(void)
 
   /* Load */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Load Unit"), "L");
-  pBuf = create_themeicon(current_theme->OLoad_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OLoad_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -682,7 +682,7 @@ void create_units_order_widgets(void)
 
   /* Unload */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Unload Unit"), "U");
-  pBuf = create_themeicon(current_theme->OUnload_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OUnload_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -695,7 +695,7 @@ void create_units_order_widgets(void)
   /* Find Homecity */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               action_id_name_translation(ACTION_HOME_CITY), "H");
-  pBuf = create_themeicon(current_theme->OHomeCity_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OHomeCity_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -707,7 +707,7 @@ void create_units_order_widgets(void)
 
   /* Pillage */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Pillage"), "Shift+P");
-  pBuf = create_themeicon(current_theme->OPillage_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OPillage_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -720,7 +720,7 @@ void create_units_order_widgets(void)
 
   /* Sentry */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Sentry Unit"), "S");
-  pBuf = create_themeicon(current_theme->OSentry_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OSentry_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -733,7 +733,7 @@ void create_units_order_widgets(void)
   /* Clean Nuclear Fallout */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OFallout_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OFallout_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -747,7 +747,7 @@ void create_units_order_widgets(void)
   /* Paradrop */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               action_id_name_translation(ACTION_PARADROP), "P");
-  pBuf = create_themeicon(current_theme->OParaDrop_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OParaDrop_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -760,7 +760,7 @@ void create_units_order_widgets(void)
   /* Clean Pollution */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OPollution_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OPollution_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -774,7 +774,7 @@ void create_units_order_widgets(void)
   /* Build Airbase */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OAirBase_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OAirBase_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -788,7 +788,7 @@ void create_units_order_widgets(void)
 
   /* Fortify */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Fortify Unit"), "F");
-  pBuf = create_themeicon(current_theme->OFortify_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OFortify_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -801,7 +801,7 @@ void create_units_order_widgets(void)
   /* Build Fortress */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OFortress_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OFortress_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -816,7 +816,7 @@ void create_units_order_widgets(void)
   /* Transform Tile */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OTransform_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OTransform_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -830,7 +830,7 @@ void create_units_order_widgets(void)
   /* Build Mine */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OMine_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OMine_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -845,7 +845,7 @@ void create_units_order_widgets(void)
   /* Build Irrigation */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OIrrigation_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OIrrigation_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -860,7 +860,7 @@ void create_units_order_widgets(void)
   /* Cultivate */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OCultivate_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OCultivate_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -876,7 +876,7 @@ void create_units_order_widgets(void)
   /* Plant */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OPlant_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OPlant_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -892,7 +892,7 @@ void create_units_order_widgets(void)
   /* Establish Trade route */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OTrade_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OTrade_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -907,7 +907,7 @@ void create_units_order_widgets(void)
   /* Build (Rail-)Road */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->ORoad_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->ORoad_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -922,7 +922,7 @@ void create_units_order_widgets(void)
   /* Help Build Wonder */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
               action_id_name_translation(ACTION_HELP_WONDER), "B");
-  pBuf = create_themeicon(current_theme->OWonder_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OWonder_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -935,7 +935,7 @@ void create_units_order_widgets(void)
   /* Add to City / Build New City */
   /* Label will be replaced by real_menus_update() before it's seen */
   fc_snprintf(cBuf, sizeof(cBuf), "placeholder");
-  pBuf = create_themeicon(current_theme->OBuildCity_Icon, Main.gui,
+  pBuf = create_themeicon(current_theme->OBuildCity_Icon, main_data.gui,
                           WF_HIDDEN | WF_RESTORE_BACKGROUND
                           | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);

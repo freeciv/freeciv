@@ -486,10 +486,10 @@ static void update_button_hold_state(void)
 **************************************************************************/
 static int check_scroll_area(int x, int y)
 {
-  SDL_Rect rect_north = {0, 0, Main.map->w, SCROLL_MAP_AREA};
-  SDL_Rect rect_east = {Main.map->w - SCROLL_MAP_AREA, 0, SCROLL_MAP_AREA, Main.map->h};
-  SDL_Rect rect_south = {0, Main.map->h - SCROLL_MAP_AREA, Main.map->w, SCROLL_MAP_AREA};
-  SDL_Rect rect_west = {0, 0, SCROLL_MAP_AREA, Main.map->h};
+  SDL_Rect rect_north = {0, 0, main_data.map->w, SCROLL_MAP_AREA};
+  SDL_Rect rect_east = {main_data.map->w - SCROLL_MAP_AREA, 0, SCROLL_MAP_AREA, main_data.map->h};
+  SDL_Rect rect_south = {0, main_data.map->h - SCROLL_MAP_AREA, main_data.map->w, SCROLL_MAP_AREA};
+  SDL_Rect rect_west = {0, 0, SCROLL_MAP_AREA, main_data.map->h};
 
   if (is_in_rect_area(x, y, rect_north)) {
     is_map_scrolling = TRUE;
@@ -659,10 +659,10 @@ Uint16 gui_event_loop(void *pData,
 
     /* ========================================= */
 
-    while (SDL_PollEvent(&Main.event) == 1) {
+    while (SDL_PollEvent(&main_data.event) == 1) {
 
-      if (Main.event.type == user_event_type) {
-        switch (Main.event.user.code) {
+      if (main_data.event.type == user_event_type) {
+        switch (main_data.event.user.code) {
         case NET:
           input_from_server(net_socket);
           break;
@@ -695,14 +695,14 @@ Uint16 gui_event_loop(void *pData,
 
       } else {
 
-        switch (Main.event.type) {
+        switch (main_data.event.type) {
 
         case SDL_QUIT:
           return MAX_ID;
           break;
 
         case SDL_KEYUP:
-          switch (Main.event.key.keysym.sym) {
+          switch (main_data.event.key.keysym.sym) {
             /* find if Shifts are released */
             case SDLK_RSHIFT:
               RSHIFT = FALSE;
@@ -721,19 +721,19 @@ Uint16 gui_event_loop(void *pData,
             break;
             default:
               if (key_up_handler) {
-                ID = key_up_handler(Main.event.key.keysym, pData);
+                ID = key_up_handler(main_data.event.key.keysym, pData);
               }
             break;
           }
           break;
 
         case SDL_KEYDOWN:
-          switch (Main.event.key.keysym.sym) {
+          switch (main_data.event.key.keysym.sym) {
 #if 0
           case SDLK_PRINT:
             fc_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
             log_normal(_("Making screenshot %s"), schot);
-            SDL_SaveBMP(Main.screen, schot);
+            SDL_SaveBMP(main_data.screen, schot);
             break;
 #endif
 
@@ -764,7 +764,7 @@ Uint16 gui_event_loop(void *pData,
 
           default:
             if (key_down_handler) {
-              ID = key_down_handler(Main.event.key.keysym, pData);
+              ID = key_down_handler(main_data.event.key.keysym, pData);
             }
             break;
           }
@@ -772,43 +772,43 @@ Uint16 gui_event_loop(void *pData,
 
         case SDL_TEXTINPUT:
           if (textinput_handler) {
-            ID = textinput_handler(Main.event.text.text, pData);
+            ID = textinput_handler(main_data.event.text.text, pData);
           }
           break;
 
         case SDL_FINGERDOWN:
           if (finger_down_handler) {
-            ID = finger_down_handler(&Main.event.tfinger, pData);
+            ID = finger_down_handler(&main_data.event.tfinger, pData);
           }
           break;
 
         case SDL_FINGERUP:
           if (finger_up_handler) {
-            ID = finger_up_handler(&Main.event.tfinger, pData);
+            ID = finger_up_handler(&main_data.event.tfinger, pData);
           }
           break;
 
         case SDL_FINGERMOTION:
           if (finger_motion_handler) {
-            ID = finger_motion_handler(&Main.event.tfinger, pData);
+            ID = finger_motion_handler(&main_data.event.tfinger, pData);
           }
           break;
 
         case SDL_MOUSEBUTTONDOWN:
           if (mouse_button_down_handler) {
-            ID = mouse_button_down_handler(&Main.event.button, pData);
+            ID = mouse_button_down_handler(&main_data.event.button, pData);
           }
           break;
 
         case SDL_MOUSEBUTTONUP:
           if (mouse_button_up_handler) {
-            ID = mouse_button_up_handler(&Main.event.button, pData);
+            ID = mouse_button_up_handler(&main_data.event.button, pData);
           }
           break;
 
         case SDL_MOUSEMOTION:
           if (mouse_motion_handler) {
-            ID = mouse_motion_handler(&Main.event.motion, pData);
+            ID = mouse_motion_handler(&main_data.event.motion, pData);
           }	
           break;
         }
@@ -1051,7 +1051,7 @@ void ui_main(int argc, char *argv[])
 
   setup_auxiliary_tech_icons();
 
-  /* this need correct Main.screen size */
+  /* this need correct main_data.screen size */
   init_mapcanvas_and_overview();
 
   set_client_state(C_S_DISCONNECTED);

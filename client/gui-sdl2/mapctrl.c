@@ -124,8 +124,8 @@ static int players_action_callback(struct widget *pWidget)
   set_wstate(pWidget, FC_WS_NORMAL);
   widget_redraw(pWidget);
   widget_mark_dirty(pWidget);
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
 
@@ -153,7 +153,7 @@ static int players_action_callback(struct widget *pWidget)
 **************************************************************************/
 static int units_action_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     set_wstate(pWidget, FC_WS_NORMAL);
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
@@ -171,11 +171,11 @@ static int cities_action_callback(struct widget *pButton)
   set_wstate(pButton, FC_WS_DISABLED);
   widget_redraw(pButton);
   widget_mark_dirty(pButton);
-  if (Main.event.type == SDL_KEYDOWN) {
+  if (main_data.event.type == SDL_KEYDOWN) {
     /* Ctrl-F shortcut */
     popup_find_dialog();
-  } else if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  } else if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
 
@@ -191,7 +191,7 @@ static int cities_action_callback(struct widget *pButton)
       city_report_dialog_popup(FALSE);
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     city_report_dialog_popup(FALSE);
   }
 
@@ -203,7 +203,7 @@ static int cities_action_callback(struct widget *pButton)
 **************************************************************************/
 static int end_turn_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pButton);
     widget_flush(pButton);
     disable_focus_animation();
@@ -218,7 +218,7 @@ static int end_turn_callback(struct widget *pButton)
 **************************************************************************/
 static int revolution_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     set_wstate(pButton, FC_WS_DISABLED);
     widget_redraw(pButton);
     widget_mark_dirty(pButton);
@@ -233,7 +233,7 @@ static int revolution_callback(struct widget *pButton)
 **************************************************************************/
 static int research_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     science_report_dialog_popup(TRUE);
   }
 
@@ -245,7 +245,7 @@ static int research_callback(struct widget *pButton)
 **************************************************************************/
 static int economy_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     economy_report_dialog_popup(FALSE);
   }
 
@@ -259,7 +259,7 @@ static int economy_callback(struct widget *pButton)
 **************************************************************************/
 static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct widget *pBuf = NULL;
 
     clear_surface(pIcon_Widget->theme, NULL);
@@ -385,7 +385,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 **************************************************************************/
 static int toggle_map_window_callback(struct widget *pMap_Button)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pFocus = head_of_units_in_focus();
     struct widget *pWidget;
 
@@ -523,7 +523,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 **************************************************************************/
 static int toggle_minimap_mode_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pWidget != NULL) {
       selected_widget = pWidget;
       set_wstate(pWidget, FC_WS_SELECTED);
@@ -541,7 +541,7 @@ static int toggle_minimap_mode_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_msg_window_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (meswin_dialog_is_open()) {
       meswin_dialog_popdown();
       copy_chars_to_utf8_str(pWidget->info_label, _("Show Messages (F9)"));
@@ -589,7 +589,7 @@ int resize_minimap(void)
 **************************************************************************/
 static int move_scale_minimap_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pScale_MiniMap_Dlg->pBeginWidgetList, pwindow);
   }
 
@@ -601,7 +601,7 @@ static int move_scale_minimap_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pScale_MiniMap_Dlg) {
       popdown_window_group_dialog(pScale_MiniMap_Dlg->pBeginWidgetList,
                                   pScale_MiniMap_Dlg->pEndWidgetList);
@@ -620,7 +620,7 @@ static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int up_width_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if ((((OVERVIEW_TILE_WIDTH + 1) * map.xsize) +
@@ -647,7 +647,7 @@ static int up_width_callback(struct widget *pWidget)
 **************************************************************************/
 static int down_width_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (OVERVIEW_TILE_WIDTH > 1) {
@@ -671,10 +671,10 @@ static int down_width_callback(struct widget *pWidget)
 **************************************************************************/
 static int up_height_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
-    if (Main.screen->h -
+    if (main_data.screen->h -
       ((OVERVIEW_TILE_HEIGHT + 1) * map.ysize + (current_theme->FR_Bottom->h * 2)) >= 40) {
       char cBuf[4];
 
@@ -696,7 +696,7 @@ static int up_height_callback(struct widget *pWidget)
 **************************************************************************/
 static int down_height_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (OVERVIEW_TILE_HEIGHT > 1) {
@@ -813,24 +813,24 @@ static void popup_minimap_scale_dialog(void)
 
   area = pwindow->area;
 
-  if (Main.event.motion.x + pwindow->size.w > main_window_width()) {
-    if (Main.event.motion.x - pwindow->size.w >= 0) {
-      window_x = Main.event.motion.x - pwindow->size.w;
+  if (main_data.event.motion.x + pwindow->size.w > main_window_width()) {
+    if (main_data.event.motion.x - pwindow->size.w >= 0) {
+      window_x = main_data.event.motion.x - pwindow->size.w;
     } else {
       window_x = (main_window_width() - pwindow->size. w) / 2;
     }
   } else {
-    window_x = Main.event.motion.x;
+    window_x = main_data.event.motion.x;
   }
 
-  if (Main.event.motion.y + pwindow->size.h >= Main.screen->h) {
-    if (Main.event.motion.y - pwindow->size.h >= 0) {
-      window_y = Main.event.motion.y - pwindow->size.h;
+  if (main_data.event.motion.y + pwindow->size.h >= main_data.screen->h) {
+    if (main_data.event.motion.y - pwindow->size.h >= 0) {
+      window_y = main_data.event.motion.y - pwindow->size.h;
     } else {
-      window_y = (Main.screen->h - pwindow->size.h) / 2;
+      window_y = (main_data.screen->h - pwindow->size.h) / 2;
     }
   } else {
-    window_y = Main.event.motion.y;
+    window_y = main_data.event.motion.y;
   }
 
   widget_set_position(pwindow, window_x, window_y);
@@ -886,7 +886,7 @@ static void popup_minimap_scale_dialog(void)
 **************************************************************************/
 static int move_scale_unitinfo_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pScale_UnitInfo_Dlg->pBeginWidgetList, pwindow);
   }
 
@@ -898,7 +898,7 @@ static int move_scale_unitinfo_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pScale_UnitInfo_Dlg) {
       popdown_window_group_dialog(pScale_UnitInfo_Dlg->pBeginWidgetList,
                                   pScale_UnitInfo_Dlg->pEndWidgetList);
@@ -1028,7 +1028,7 @@ int resize_unit_info(void)
 **************************************************************************/
 static int up_info_width_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (main_window_width() - ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W +
@@ -1048,7 +1048,7 @@ static int up_info_width_callback(struct widget *pWidget)
 **************************************************************************/
 static int down_info_width_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (INFO_WIDTH > INFO_WIDTH_MIN) {
@@ -1066,10 +1066,10 @@ static int down_info_width_callback(struct widget *pWidget)
 **************************************************************************/
 static int up_info_height_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
-    if (Main.screen->h - ((INFO_HEIGHT + 1) * map.ysize +
+    if (main_data.screen->h - ((INFO_HEIGHT + 1) * map.ysize +
         (pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)) >= adj_size(40)) {
       INFO_HEIGHT++;
       resize_unit_info();
@@ -1085,7 +1085,7 @@ static int up_info_height_callback(struct widget *pWidget)
 **************************************************************************/
 static int down_info_height_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
     if (INFO_HEIGHT > INFO_HEIGHT_MIN) {
@@ -1186,24 +1186,24 @@ static void popup_unitinfo_scale_dialog(void)
 
   /* ------------ */
 
-  if (Main.event.motion.x + pwindow->size.w > main_window_width()) {
-    if (Main.event.motion.x - pwindow->size.w >= 0) {
-      window_x = Main.event.motion.x - pwindow->size.w;
+  if (main_data.event.motion.x + pwindow->size.w > main_window_width()) {
+    if (main_data.event.motion.x - pwindow->size.w >= 0) {
+      window_x = main_data.event.motion.x - pwindow->size.w;
     } else {
       window_x = (main_window_width() - pwindow->size.w) / 2;
     }
   } else {
-    window_x = Main.event.motion.x;
+    window_x = main_data.event.motion.x;
   }
 
-  if (Main.event.motion.y + pwindow->size.h >= Main.screen->h) {
-    if (Main.event.motion.y - pwindow->size.h >= 0) {
-      window_y = Main.event.motion.y - pwindow->size.h;
+  if (main_data.event.motion.y + pwindow->size.h >= main_data.screen->h) {
+    if (main_data.event.motion.y - pwindow->size.h >= 0) {
+      window_y = main_data.event.motion.y - pwindow->size.h;
     } else {
       window_y = (pwindow->dst->surface->h - pwindow->size.h) / 2;
     }
   } else {
-    window_y = Main.event.motion.y;
+    window_y = main_data.event.motion.y;
   }
 
   widget_set_position(pwindow, window_x, window_y);
@@ -1266,11 +1266,11 @@ static int minimap_window_callback(struct widget *pWidget)
 {
   int mouse_x, mouse_y;
 
-  switch (Main.event.button.button) {
+  switch (main_data.event.button.button) {
   case SDL_BUTTON_RIGHT:
-    mouse_x = Main.event.motion.x - pMiniMap_Window->dst->dest_rect.x -
+    mouse_x = main_data.event.motion.x - pMiniMap_Window->dst->dest_rect.x -
       pMiniMap_Window->area.x - overview_start_x;
-    mouse_y = Main.event.motion.y - pMiniMap_Window->dst->dest_rect.y -
+    mouse_y = main_data.event.motion.y - pMiniMap_Window->dst->dest_rect.y -
       pMiniMap_Window->area.y - overview_start_y;
     if ((SDL_Client_Flags & CF_OVERVIEW_SHOWN)
         && (mouse_x >= 0) && (mouse_x < overview_w)
@@ -1300,8 +1300,8 @@ static int minimap_window_callback(struct widget *pWidget)
 **************************************************************************/
 static int unit_info_window_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
 
@@ -1319,7 +1319,7 @@ static int unit_info_window_callback(struct widget *pWidget)
       key_unit_wait();
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     key_unit_wait();
   }
 
@@ -1329,7 +1329,7 @@ static int unit_info_window_callback(struct widget *pWidget)
 /* ============================== Public =============================== */
 
 /**********************************************************************//**
-  This Function is used when resize Main.screen.
+  This Function is used when resize main_data.screen.
   We must set new Units Info Win. start position.
 **************************************************************************/
 void set_new_unitinfo_window_pos(void)
@@ -1383,7 +1383,7 @@ void set_new_unitinfo_window_pos(void)
 }
 
 /**********************************************************************//**
-  This Function is used when resize Main.screen.
+  This Function is used when resize main_data.screen.
   We must set new MiniMap start position.
 **************************************************************************/
 void set_new_minimap_window_pos(void)
@@ -2002,7 +2002,7 @@ void show_game_page(void)
   /* cooling icon */
   pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
   fc_assert(pIcon_theme != NULL);
-  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
+  pWidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pWidget,
@@ -2020,7 +2020,7 @@ void show_game_page(void)
   pIcon_theme = adj_surf(GET_SURF(client_warming_sprite()));
   fc_assert(pIcon_theme != NULL);
 
-  pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
+  pWidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pWidget,
@@ -2723,7 +2723,7 @@ bool map_event_handler(SDL_Keysym key)
 **************************************************************************/
 static int newcity_name_edit_callback(struct widget *pEdit)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pNewCity_Dlg->pBeginWidgetList->string_utf8->text == NULL) {
       /* empty input -> restore previous content */
       copy_chars_to_utf8_str(pEdit->string_utf8, pSuggestedCityName);
@@ -2741,7 +2741,7 @@ static int newcity_name_edit_callback(struct widget *pEdit)
 **************************************************************************/
 static int newcity_ok_callback(struct widget *ok_button)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
 
     finish_city(ok_button->data.tile, pNewCity_Dlg->pBeginWidgetList->string_utf8->text);
 
@@ -2762,7 +2762,7 @@ static int newcity_ok_callback(struct widget *ok_button)
 **************************************************************************/
 static int newcity_cancel_callback(struct widget *pCancel_Button)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_window_group_dialog(pNewCity_Dlg->pBeginWidgetList,
                                 pNewCity_Dlg->pEndWidgetList);
 
@@ -2783,7 +2783,7 @@ static int newcity_cancel_callback(struct widget *pCancel_Button)
 **************************************************************************/
 static int move_new_city_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pNewCity_Dlg->pBeginWidgetList, pwindow);
   }
 

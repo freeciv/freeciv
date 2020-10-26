@@ -110,7 +110,7 @@ static int window_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int popdown_worklist_editor_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_worklist_editor();
   }
 
@@ -123,7 +123,7 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int ok_worklist_editor_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int i, j;
     struct city *pCity = pEditor->pCity;
 
@@ -182,7 +182,7 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
 **************************************************************************/
 static int rename_worklist_editor_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pWidget->string_utf8->text != NULL) {
       fc_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s",
                   pWidget->string_utf8->text);
@@ -413,8 +413,8 @@ static void get_target_help_data(struct widget *pTarget)
 **************************************************************************/
 static int worklist_editor_targets_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       if (pEditor->pCity) {
         add_target_to_production(pWidget);
@@ -432,7 +432,7 @@ static int worklist_editor_targets_callback(struct widget *pWidget)
       /* do nothing */
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     if (pEditor->pCity) {
       add_target_to_production(pWidget);
     } else {
@@ -636,8 +636,8 @@ static void swap_item_up_from_worklist(struct widget *pItem)
 **************************************************************************/
 static int worklist_editor_item_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       swap_item_up_from_worklist(pWidget);
       break;
@@ -651,7 +651,7 @@ static int worklist_editor_item_callback(struct widget *pWidget)
       ;/* do nothing */
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     swap_item_up_from_worklist(pWidget);
   }
 
@@ -847,8 +847,8 @@ static void set_global_worklist(struct widget *pWidget)
 **************************************************************************/
 static int global_worklist_callback(struct widget *pWidget)
 {
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       add_global_worklist(pWidget);
       break;
@@ -862,7 +862,7 @@ static int global_worklist_callback(struct widget *pWidget)
       /* do nothing */
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     add_global_worklist(pWidget);
   }
 

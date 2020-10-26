@@ -225,7 +225,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
 ****************************************************************************/
 static int main_optiondlg_callback(struct widget *pwindow)
 {
-  if (NULL != option_dialog && PRESSED_EVENT(Main.event)) {
+  if (NULL != option_dialog && PRESSED_EVENT(main_data.event)) {
     move_window_group(option_dialog->begin_widget_list,
                       option_dialog->end_widget_list);
   }
@@ -238,7 +238,7 @@ static int main_optiondlg_callback(struct widget *pwindow)
 ****************************************************************************/
 static int back_callback(struct widget *pWidget)
 {
-  if (NULL == option_dialog || !PRESSED_EVENT(Main.event)) {
+  if (NULL == option_dialog || !PRESSED_EVENT(main_data.event)) {
     return -1;
   }
 
@@ -314,7 +314,7 @@ static int back_callback(struct widget *pWidget)
 ****************************************************************************/
 static int client_options_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     option_dialog_popup(_("Local Options"), client_optset);
   }
 
@@ -326,7 +326,7 @@ static int client_options_callback(struct widget *pWidget)
 ****************************************************************************/
 static int server_options_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     option_dialog_popup(_("Server options"), server_optset);
   }
 
@@ -338,7 +338,7 @@ static int server_options_callback(struct widget *pWidget)
 ****************************************************************************/
 static int work_lists_callback(struct widget *widget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     option_dialog_worklist(option_dialog);
   }
 
@@ -350,7 +350,7 @@ static int work_lists_callback(struct widget *widget)
 ****************************************************************************/
 static int save_client_options_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     options_save(NULL);
   }
 
@@ -362,7 +362,7 @@ static int save_client_options_callback(struct widget *pWidget)
 ****************************************************************************/
 static int save_game_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     send_save_game(NULL);
     back_callback(NULL);
   }
@@ -375,7 +375,7 @@ static int save_game_callback(struct widget *pWidget)
 ****************************************************************************/
 static int help_browser_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popup_help_browser();
   }
 
@@ -387,7 +387,7 @@ static int help_browser_callback(struct widget *pwidget)
 ****************************************************************************/
 static int disconnect_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);
     enable_options_button();
     disconnect_from_server();
@@ -401,7 +401,7 @@ static int disconnect_callback(struct widget *pWidget)
 ****************************************************************************/
 static int exit_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);
     force_exit_from_event_loop();
   }
@@ -414,7 +414,7 @@ static int exit_callback(struct widget *pWidget)
 ****************************************************************************/
 static int option_category_callback(struct widget *widget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     option_dialog_optset_category(option_dialog, MAX_ID - widget->ID);
   }
 
@@ -426,7 +426,7 @@ static int option_category_callback(struct widget *widget)
 ****************************************************************************/
 static int apply_callback(struct widget *widget)
 {
-  if (PRESSED_EVENT(Main.event)
+  if (PRESSED_EVENT(main_data.event)
       && NULL != option_dialog
       && ODM_OPTSET == option_dialog->mode
       && -1 != option_dialog->optset.category) {
@@ -1084,8 +1084,8 @@ static int edit_worklist_callback(struct widget *widget)
     return -1;
   }
 
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       /* Edit. */
       option_dialog->worklist.edited_name = widget;
@@ -1120,7 +1120,7 @@ static int edit_worklist_callback(struct widget *widget)
       }
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     /* Edit. */
     option_dialog->worklist.edited_name = widget;
     popup_worklist_editor(NULL, pgwl);
@@ -1134,7 +1134,7 @@ static int edit_worklist_callback(struct widget *widget)
 ****************************************************************************/
 static int add_new_worklist_callback(struct widget *widget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct widget *new_worklist_widget = NULL;
     struct widget *window = option_dialog->end_widget_list;
     struct global_worklist *pgwl = global_worklist_new(_("empty worklist"));
@@ -1327,7 +1327,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
 ****************************************************************************/
 int optiondlg_callback(struct widget *pbutton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     set_wstate(pbutton, FC_WS_DISABLED);
     clear_surface(pbutton->dst->surface, &pbutton->size);
     widget_redraw(pbutton);
@@ -1366,7 +1366,7 @@ void init_options_button(void)
 {
   char buf[256];
 
-  pOptions_Button = create_themeicon(current_theme->Options_Icon, Main.gui,
+  pOptions_Button = create_themeicon(current_theme->Options_Icon, main_data.gui,
                                      WF_WIDGET_HAS_INFO_LABEL
                                      | WF_RESTORE_BACKGROUND);
   pOptions_Button->action = optiondlg_callback;

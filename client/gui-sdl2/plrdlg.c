@@ -59,7 +59,7 @@ static struct SMALL_DLG  *pplayers_dlg = NULL;
 **************************************************************************/
 static int exit_players_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_players_dialog();
     flush_dirty();
   }
@@ -74,8 +74,8 @@ static int player_callback(struct widget *pWidget)
 {
   struct player *pplayer = pWidget->data.player;
 
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
 
@@ -97,7 +97,7 @@ static int player_callback(struct widget *pWidget)
       return -1;
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     popdown_players_dialog();
     popup_diplomacy_dialog(pplayer);
   }
@@ -110,7 +110,7 @@ static int player_callback(struct widget *pWidget)
 **************************************************************************/
 static int players_window_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (move_window_group_dialog(pplayers_dlg->pBeginWidgetList, pwindow)) {
       select_window_group_dialog(pplayers_dlg->pBeginWidgetList, pwindow);
       players_dialog_update();
@@ -129,7 +129,7 @@ static int players_window_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int toggle_draw_war_status_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -150,7 +150,7 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -171,7 +171,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_peace_status_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -192,7 +192,7 @@ static int toggle_draw_peace_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -213,7 +213,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
 
@@ -615,7 +615,7 @@ static int players_nations_window_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_players_nations_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_players_nations_dialog();
     flush_dirty();
   }
@@ -631,8 +631,8 @@ static int player_nation_callback(struct widget *pWidget)
   struct player *pplayer = pWidget->data.player;
 
   popdown_players_nations_dialog();
-  if (Main.event.type == SDL_MOUSEBUTTONDOWN) {
-    switch (Main.event.button.button) {
+  if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
+    switch (main_data.event.button.button) {
 #if 0
     case SDL_BUTTON_LEFT:
 
@@ -654,7 +654,7 @@ static int player_nation_callback(struct widget *pWidget)
       }
       break;
     }
-  } else if (PRESSED_EVENT(Main.event)) {
+  } else if (PRESSED_EVENT(main_data.event)) {
     if (pplayer != client.conn.playing) {
       popup_diplomacy_dialog(pplayer);
     }
@@ -834,11 +834,11 @@ void popup_players_nations_dialog(void)
   area = pwindow->area;
 
   widget_set_position(pwindow,
-    ((Main.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
-      (Main.event.motion.x + adj_size(10)) :
+    ((main_data.event.motion.x + pwindow->size.w + adj_size(10) < main_window_width()) ?
+      (main_data.event.motion.x + adj_size(10)) :
       (main_window_width() - pwindow->size.w - adj_size(10))),
-    ((Main.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
-      (Main.event.motion.y - adj_size(2)) :
+    ((main_data.event.motion.y - adj_size(2) + pwindow->size.h < main_window_height()) ?
+      (main_data.event.motion.y - adj_size(2)) :
       (main_window_height() - pwindow->size.h - adj_size(10))));
 
   w = area.w;

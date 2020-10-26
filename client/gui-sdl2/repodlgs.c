@@ -119,7 +119,7 @@ static void get_units_report_data(struct units_entry *entries,
 **************************************************************************/
 static int units_dialog_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pUnitsDlg->pBeginWidgetList, pwindow);
   }
 
@@ -133,7 +133,7 @@ static int units_dialog_callback(struct widget *pwindow)
 **************************************************************************/
 static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int ut1 = MAX_ID - pWidget->ID;
 
     /* popdown upgrade dlg */
@@ -152,7 +152,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pWidget)
 **************************************************************************/
 static int upgrade_unit_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pUnits_Upg_Dlg->pBeginWidgetList, pwindow);
   }
 
@@ -164,7 +164,7 @@ static int upgrade_unit_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int cancel_upgrade_unit_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pUnits_Upg_Dlg) {
       popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
                                   pUnits_Upg_Dlg->pEndWidgetList);
@@ -181,7 +181,7 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_upgrade_unit_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit_type *ut1;
     const struct unit_type *ut2;
     int value;
@@ -329,7 +329,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_units_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pUnitsDlg) {
       if (pUnits_Upg_Dlg) {
          del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
@@ -1111,7 +1111,7 @@ struct rates_move {
 **************************************************************************/
 static int economy_dialog_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pEconomyDlg->pBeginWidgetList, pwindow);
   }
 
@@ -1123,7 +1123,7 @@ static int economy_dialog_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_economy_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pEconomyDlg) {
       if (pEconomy_Sell_Dlg) {
         del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
@@ -1149,7 +1149,7 @@ static int exit_economy_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_block_callback(struct widget *pCheckBox)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     switch (pCheckBox->ID) {
     case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
       SDL_Client_Flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
@@ -1297,7 +1297,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
 **************************************************************************/
 static int horiz_taxrate_callback(struct widget *pHoriz_Src)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct rates_move pMotion;
 
     pMotion.pHoriz_Src = pHoriz_Src;
@@ -1385,7 +1385,7 @@ END:
 **************************************************************************/
 static int apply_taxrates_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct widget *pBuf;
     int science, luxury, tax;
 
@@ -1502,7 +1502,7 @@ static void disable_economy_dlg(void)
 **************************************************************************/
 static int ok_sell_impr_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int imp, total_count, count = 0;
     struct widget *pImpr = (struct widget *)pWidget->data.ptr;
 
@@ -1538,7 +1538,7 @@ static int ok_sell_impr_callback(struct widget *pWidget)
 **************************************************************************/
 static int sell_impr_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pEconomy_Sell_Dlg->pBeginWidgetList, pwindow);
   }
 
@@ -1550,7 +1550,7 @@ static int sell_impr_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int cancel_sell_impr_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pEconomy_Sell_Dlg) {
       popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
                                   pEconomy_Sell_Dlg->pEndWidgetList);
@@ -1568,7 +1568,7 @@ static int cancel_sell_impr_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_sell_impr_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int imp, total_count ,count = 0, gold = 0;
     int value;
     char cBuf[128];
@@ -2856,7 +2856,7 @@ static void science_report_dialog_popdown(void)
 **************************************************************************/
 static int exit_change_tech_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pChangeTechDlg) {
       popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
                                   pChangeTechDlg->pEndWidgetList);
@@ -2877,10 +2877,10 @@ static int exit_change_tech_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int change_research_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     dsend_packet_player_research(&client.conn, (MAX_ID - pWidget->ID));
     exit_change_tech_dlg_callback(NULL);
-  } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
+  } else if (main_data.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   }
 
@@ -2892,7 +2892,7 @@ static int change_research_callback(struct widget *pWidget)
 **************************************************************************/
 static int change_research_goal_dialog_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (select_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pwindow)) {
       widget_flush(pwindow);
     }
@@ -3072,7 +3072,7 @@ static void popup_change_research_dialog(void)
 **************************************************************************/
 static int change_research_goal_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     dsend_packet_player_tech_goal(&client.conn, (MAX_ID - pWidget->ID));
 
     exit_change_tech_dlg_callback(NULL);
@@ -3080,7 +3080,7 @@ static int change_research_goal_callback(struct widget *pWidget)
     /* Following is to make the menu go back to the current goal;
      * there may be a better way to do this?  --dwp */
     real_science_report_dialog_update(NULL);
-  } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
+  } else if (main_data.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   }
 
@@ -3266,7 +3266,7 @@ static void popup_change_research_goal_dialog(void)
 
 static int science_dialog_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (!pChangeTechDlg) {
       if (select_window_group_dialog(pScienceDlg->pBeginWidgetList, pwindow)) {
         widget_flush(pwindow);
@@ -3285,7 +3285,7 @@ static int science_dialog_callback(struct widget *pwindow)
 **************************************************************************/
 static int popup_change_research_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     set_wstate(pWidget, FC_WS_NORMAL);
     selected_widget = NULL;
     widget_redraw(pWidget);
@@ -3301,7 +3301,7 @@ static int popup_change_research_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     set_wstate(pWidget, FC_WS_NORMAL);
     selected_widget = NULL;
     widget_redraw(pWidget);
@@ -3317,7 +3317,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int popdown_science_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     science_report_dialog_popdown();
   }
 

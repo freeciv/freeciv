@@ -54,7 +54,7 @@
 
 /* ------------------------------ */
 
-struct main Main;
+struct sdl2_data main_data;
 
 static SDL_Surface *main_surface;
 
@@ -91,9 +91,9 @@ struct gui_layer *get_gui_layer(SDL_Surface *surface)
 {
   int i = 0;
 
-  while ((i < Main.guis_count) && Main.guis[i]) {
-    if (Main.guis[i]->surface == surface) {
-      return Main.guis[i];
+  while ((i < main_data.guis_count) && main_data.guis[i]) {
+    if (main_data.guis[i]->surface == surface) {
+      return main_data.guis[i];
     }
     i++;
   }
@@ -118,23 +118,24 @@ struct gui_layer *add_gui_layer(int width, int height)
   gui_layer = gui_layer_new(0, 0, pBuffer);
 
   /* add to buffers array */
-  if (Main.guis) {
+  if (main_data.guis) {
     int i;
 
     /* find NULL element */
-    for (i = 0; i < Main.guis_count; i++) {
-      if (!Main.guis[i]) {
-        Main.guis[i] = gui_layer;
+    for (i = 0; i < main_data.guis_count; i++) {
+      if (!main_data.guis[i]) {
+        main_data.guis[i] = gui_layer;
         return gui_layer;
       }
     }
-    Main.guis_count++;
-    Main.guis = fc_realloc(Main.guis, Main.guis_count * sizeof(struct gui_layer *));
-    Main.guis[Main.guis_count - 1] = gui_layer;
+    main_data.guis_count++;
+    main_data.guis = fc_realloc(main_data.guis,
+                                main_data.guis_count * sizeof(struct gui_layer *));
+    main_data.guis[main_data.guis_count - 1] = gui_layer;
   } else {
-    Main.guis = fc_calloc(1, sizeof(struct gui_layer *));
-    Main.guis[0] = gui_layer;
-    Main.guis_count = 1;
+    main_data.guis = fc_calloc(1, sizeof(struct gui_layer *));
+    main_data.guis[0] = gui_layer;
+    main_data.guis_count = 1;
   }
 
   return gui_layer;
@@ -148,21 +149,21 @@ void remove_gui_layer(struct gui_layer *gui_layer)
 {
   int i;
 
-  for (i = 0; i < Main.guis_count - 1; i++) {
-    if (Main.guis[i] && (Main.guis[i] == gui_layer)) {
-      gui_layer_destroy(&Main.guis[i]);
-      Main.guis[i] = Main.guis[i + 1];
-      Main.guis[i + 1] = NULL;
+  for (i = 0; i < main_data.guis_count - 1; i++) {
+    if (main_data.guis[i] && (main_data.guis[i] == gui_layer)) {
+      gui_layer_destroy(&main_data.guis[i]);
+      main_data.guis[i] = main_data.guis[i + 1];
+      main_data.guis[i + 1] = NULL;
     } else {
-      if (!Main.guis[i]) {
-        Main.guis[i] = Main.guis[i + 1];
-        Main.guis[i + 1] = NULL;
+      if (!main_data.guis[i]) {
+        main_data.guis[i] = main_data.guis[i + 1];
+        main_data.guis[i + 1] = NULL;
       }
     }
   }
 
-  if (Main.guis[Main.guis_count - 1]) {
-    gui_layer_destroy(&Main.guis[Main.guis_count - 1]);
+  if (main_data.guis[main_data.guis_count - 1]) {
+    gui_layer_destroy(&main_data.guis[main_data.guis_count - 1]);
   }
 }
 
@@ -505,13 +506,13 @@ void init_sdl(int iFlags)
 {
   bool error;
 
-  Main.screen = NULL;
-  Main.guis = NULL;
-  Main.gui = NULL;
-  Main.map = NULL;
-  Main.dummy = NULL; /* can't create yet -- hope we don't need it */
-  Main.rects_count = 0;
-  Main.guis_count = 0;
+  main_data.screen = NULL;
+  main_data.guis = NULL;
+  main_data.gui = NULL;
+  main_data.map = NULL;
+  main_data.dummy = NULL; /* can't create yet -- hope we don't need it */
+  main_data.rects_count = 0;
+  main_data.guis_count = 0;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
     error = (SDL_InitSubSystem(iFlags) < 0);
@@ -539,53 +540,53 @@ void init_sdl(int iFlags)
 **************************************************************************/
 void quit_sdl(void)
 {
-  FC_FREE(Main.guis);
-  gui_layer_destroy(&Main.gui);
-  FREESURFACE(Main.map);
-  FREESURFACE(Main.dummy);
+  FC_FREE(main_data.guis);
+  gui_layer_destroy(&main_data.gui);
+  FREESURFACE(main_data.map);
+  FREESURFACE(main_data.dummy);
 }
 
 /**********************************************************************//**
   Switch to passed video mode.
 **************************************************************************/
-int set_video_mode(int iWidth, int iHeight, int iFlags)
+int set_video_mode(int iwidth, int iheight, int iflags)
 {
   unsigned int flags;
 
-  Main.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
-                                 SDL_WINDOWPOS_UNDEFINED,
-                                 SDL_WINDOWPOS_UNDEFINED,
-                                 iWidth, iHeight,
-                                 0);
+  main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      SDL_WINDOWPOS_UNDEFINED,
+                                      iwidth, iheight,
+                                      0);
 
-  if (iFlags & SDL_WINDOW_FULLSCREEN) {
+  if (iflags & SDL_WINDOW_FULLSCREEN) {
     SDL_DisplayMode mode;
 
     /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
-    SDL_SetWindowFullscreen(Main.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
-    SDL_GetWindowDisplayMode(Main.screen, &mode);
-    iWidth = mode.w;
-    iHeight = mode.h;
+    SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
+    SDL_GetWindowDisplayMode(main_data.screen, &mode);
+    iwidth = mode.w;
+    iheight = mode.h;
   }
 
   if (is_bigendian()) {
-      main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+      main_surface = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
                                           0x0000FF00, 0x00FF0000,
                                           0xFF000000, 0x000000FF);
   } else {
-    main_surface = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
+    main_surface = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
                                         0x00FF0000, 0x0000FF00,
                                         0x000000FF, 0xFF000000);
   }
 
   if (is_bigendian()) {
-    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-                                    0x0000FF00, 0x00FF0000,
-                                    0xFF000000, 0x000000FF);
+    main_data.map = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+                                         0x0000FF00, 0x00FF0000,
+                                         0xFF000000, 0x000000FF);
   } else {
-    Main.map = SDL_CreateRGBSurface(0, iWidth, iHeight, 32,
-                                    0x00FF0000, 0x0000FF00,
-                                    0x000000FF, 0xFF000000);
+    main_data.map = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+                                         0x00FF0000, 0x0000FF00,
+                                         0x000000FF, 0xFF000000);
   }
 
   if (gui_options.gui_sdl2_swrenderer) {
@@ -594,21 +595,21 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
     flags = 0;
   }
 
-  Main.renderer = SDL_CreateRenderer(Main.screen, -1, flags);
+  main_data.renderer = SDL_CreateRenderer(main_data.screen, -1, flags);
 
-  Main.maintext = SDL_CreateTexture(Main.renderer,
-                                    SDL_PIXELFORMAT_ARGB8888,
-                                    SDL_TEXTUREACCESS_STREAMING,
-                                    iWidth, iHeight);
+  main_data.maintext = SDL_CreateTexture(main_data.renderer,
+                                         SDL_PIXELFORMAT_ARGB8888,
+                                         SDL_TEXTUREACCESS_STREAMING,
+                                         iwidth, iheight);
 
-  if (Main.gui) {
-    FREESURFACE(Main.gui->surface);
-    Main.gui->surface = create_surf(iWidth, iHeight, SDL_SWSURFACE);
+  if (main_data.gui) {
+    FREESURFACE(main_data.gui->surface);
+    main_data.gui->surface = create_surf(iwidth, iheight, SDL_SWSURFACE);
   } else {
-    Main.gui = add_gui_layer(iWidth, iHeight);
+    main_data.gui = add_gui_layer(iwidth, iheight);
   }
 
-  clear_surface(Main.gui->surface, NULL);
+  clear_surface(main_data.gui->surface, NULL);
 
   return 0;
 }
@@ -619,11 +620,11 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 void update_main_screen(void)
 {
   if (render_dirty) {
-    SDL_UpdateTexture(Main.maintext, NULL,
+    SDL_UpdateTexture(main_data.maintext, NULL,
                       main_surface->pixels, main_surface->pitch);
-    SDL_RenderClear(Main.renderer);
-    SDL_RenderCopy(Main.renderer, Main.maintext, NULL, NULL);
-    SDL_RenderPresent(Main.renderer);
+    SDL_RenderClear(main_data.renderer);
+    SDL_RenderCopy(main_data.renderer, main_data.maintext, NULL, NULL);
+    SDL_RenderPresent(main_data.renderer);
 
     render_dirty = FALSE;
   }

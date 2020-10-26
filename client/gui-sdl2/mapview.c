@@ -101,7 +101,7 @@ static void flush_mapcanvas(int canvas_x, int canvas_y,
 {
   SDL_Rect rect = {canvas_x, canvas_y, pixel_width, pixel_height};
 
-  alphablit(mapview.store->surf, &rect, Main.map, &rect, 255);
+  alphablit(mapview.store->surf, &rect, main_data.map, &rect, 255);
 }
 
 /**********************************************************************//**
@@ -121,20 +121,20 @@ void flush_rect(SDL_Rect *rect, bool force_flush)
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      screen_blit(Main.map, rect, &dst, 255);
-      if (Main.guis) {
-        while ((i < Main.guis_count) && Main.guis[i]) {
+      screen_blit(main_data.map, rect, &dst, 255);
+      if (main_data.guis) {
+        while ((i < main_data.guis_count) && main_data.guis[i]) {
           src = *rect;
-          screen_rect_to_layer_rect(Main.guis[i], &src);
+          screen_rect_to_layer_rect(main_data.guis[i], &src);
           dst = *rect;
-          screen_blit(Main.guis[i++]->surface, &src, &dst, 255);
+          screen_blit(main_data.guis[i++]->surface, &src, &dst, 255);
         }
       }
       i = 0;
 
       /* flush main buffer to framebuffer */
 #if 0
-      SDL_UpdateRect(Main.screen, rect->x, rect->y, rect->w, rect->h);
+      SDL_UpdateRect(main_data.screen, rect->x, rect->y, rect->w, rect->h);
 #endif /* 0 */
     }
   }
@@ -187,8 +187,8 @@ void dirty_rect(int canvas_x, int canvas_y,
 **************************************************************************/
 void dirty_sdl_rect(SDL_Rect *Rect)
 {
-  if ((Main.rects_count < RECT_LIMIT) && correct_rect_region(Rect)) {
-    Main.rects[Main.rects_count++] = *Rect;
+  if ((main_data.rects_count < RECT_LIMIT) && correct_rect_region(Rect)) {
+    main_data.rects[main_data.rects_count++] = *Rect;
     queue_flush();
   }
 }
@@ -198,7 +198,7 @@ void dirty_sdl_rect(SDL_Rect *Rect)
 **************************************************************************/
 void dirty_all(void)
 {
-  Main.rects_count = RECT_LIMIT;
+  main_data.rects_count = RECT_LIMIT;
   queue_flush();
 }
 
@@ -208,7 +208,7 @@ void dirty_all(void)
 void flush_all(void)
 {
   is_flush_queued = FALSE;
-  Main.rects_count = RECT_LIMIT;
+  main_data.rects_count = RECT_LIMIT;
   flush_dirty();
 }
 
@@ -220,23 +220,23 @@ void flush_dirty(void)
 {
   static int j = 0;
 
-  if (!Main.rects_count) {
+  if (!main_data.rects_count) {
     return;
   }
 
-  if (Main.rects_count >= RECT_LIMIT) {
+  if (main_data.rects_count >= RECT_LIMIT) {
 
     if ((C_S_RUNNING == client_state())
         && (get_client_page() == PAGE_GAME)) {
       flush_mapcanvas(0, 0, main_window_width(), main_window_height());
       refresh_overview();
     }
-    screen_blit(Main.map, NULL, NULL, 255);
-    if (Main.guis) {
-      while ((j < Main.guis_count) && Main.guis[j]) {
-        SDL_Rect dst = Main.guis[j]->dest_rect;
+    screen_blit(main_data.map, NULL, NULL, 255);
+    if (main_data.guis) {
+      while ((j < main_data.guis_count) && main_data.guis[j]) {
+        SDL_Rect dst = main_data.guis[j]->dest_rect;
 
-        screen_blit(Main.guis[j++]->surface, NULL, &dst, 255);
+        screen_blit(main_data.guis[j++]->surface, NULL, &dst, 255);
       }
     }
     j = 0;
@@ -249,26 +249,26 @@ void flush_dirty(void)
     static int i;
     static SDL_Rect src, dst;
 
-    for (i = 0; i < Main.rects_count; i++) {
+    for (i = 0; i < main_data.rects_count; i++) {
 
-      dst = Main.rects[i];
+      dst = main_data.rects[i];
       if (C_S_RUNNING == client_state()) {
         flush_mapcanvas(dst.x, dst.y, dst.w, dst.h);
       }
-      screen_blit(Main.map, &Main.rects[i], &dst, 255);
+      screen_blit(main_data.map, &main_data.rects[i], &dst, 255);
 
-      if (Main.guis) {
-        while ((j < Main.guis_count) && Main.guis[j]) {
-          src = Main.rects[i];
-          screen_rect_to_layer_rect(Main.guis[j], &src);
-          dst = Main.rects[i];
-          screen_blit(Main.guis[j++]->surface, &src, &dst, 255);
+      if (main_data.guis) {
+        while ((j < main_data.guis_count) && main_data.guis[j]) {
+          src = main_data.rects[i];
+          screen_rect_to_layer_rect(main_data.guis[j], &src);
+          dst = main_data.rects[i];
+          screen_blit(main_data.guis[j++]->surface, &src, &dst, 255);
         }
       }
       j = 0;
 
       /* restore widget info label if it overlaps with this area */
-      dst = Main.rects[i];
+      dst = main_data.rects[i];
       if (pInfo_Area && !(((dst.x + dst.w) < pInfo_Area->x)
                           || (dst.x > (pInfo_Area->x + pInfo_Area->w))
                           || ((dst.y + dst.h) < pInfo_Area->y)
@@ -282,10 +282,10 @@ void flush_dirty(void)
     /* Render to screen */
     update_main_screen();
 #if 0
-    SDL_UpdateRects(Main.screen, Main.rects_count, Main.rects);
+    SDL_UpdateRects(main_data.screen, main_data.rects_count, main_data.rects);
 #endif
   }
-  Main.rects_count = 0;
+  main_data.rects_count = 0;
 }
 
 /**********************************************************************//**
@@ -459,26 +459,27 @@ void update_info_label(void)
     area.w = pTmp->w + adj_size(8);
     area.h = pTmp->h + adj_size(4);
 
-    SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
+    SDL_FillRect(main_data.gui->surface, &area,
+                 map_rgba(main_data.gui->surface->format, bg_color));
 
     /* Horizontal lines */
-    create_line(Main.gui->surface,
+    create_line(main_data.gui->surface,
                 area.x + 1, area.y, area.x + area.w - 2, area.y,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-    create_line(Main.gui->surface,
+    create_line(main_data.gui->surface,
                 area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
     /* vertical lines */
-    create_line(Main.gui->surface,
+    create_line(main_data.gui->surface,
                 area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
-    create_line(Main.gui->surface,
+    create_line(main_data.gui->surface,
                 area.x, area.y + 1, area.x, area.y + area.h - 2,
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
     /* blit text to screen */
-    blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
+    blit_entire_src(pTmp, main_data.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
 
     dirty_sdl_rect(&area);
 
@@ -502,7 +503,7 @@ void update_info_label(void)
 **************************************************************************/
 static int focus_units_info_callback(struct widget *pwidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit = pwidget->data.unit;
 
     if (punit) {
@@ -1167,7 +1168,7 @@ void put_cross_overlay_tile(struct tile *ptile)
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   /* PORTME */
-  create_frame(Main.map,
+  create_frame(main_data.map,
                canvas_x, canvas_y, w, h,
                get_theme_color(COLOR_THEME_SELECTIONRECTANGLE));
 }

@@ -198,7 +198,7 @@
 
 struct gui_layer;
 
-struct main {
+struct sdl2_data {
   int rects_count;		/* update rect. array counter */
   int guis_count;		/* gui buffers array counter */
   SDL_Rect rects[RECT_LIMIT];	/* update rect. list */
@@ -213,11 +213,11 @@ struct main {
   SDL_Event event;		/* main event struct */
 };
 
-extern struct main Main;
+extern struct sdl2_data main_data;
 
 /* GUI layer */
 /* A gui_layer is a surface with its own origin. Each widget belongs
- * to a gui_layer. gui_layers are stored in an array Main.guis
+ * to a gui_layer. gui_layers are stored in an array main_data.guis
  * (a "window manager"). */
 
 struct gui_layer {
@@ -310,7 +310,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface *psrc);
   SDL_MapRGBA(format, (color).r, (color).g, (color).b, (color).a)
 
 #define crop_rect_from_screen(rect) \
-  crop_rect_from_surface(Main.screen, &rect)
+  crop_rect_from_surface(main_data.screen, &rect)
 
 /* free surface with check and clear pointer */
 #define FREESURFACE(ptr)		\
@@ -345,12 +345,12 @@ do {					\
 /*
  *	lock screen surface
  */
-#define lock_screen() lock_surf(Main.screen)
+#define lock_screen() lock_surf(main_data.screen)
 
 /*
  *	unlock screen surface
  */
-#define unlock_screen()	unlock_surf(Main.screen)
+#define unlock_screen()	unlock_surf(main_data.screen)
 
 #define putpixel(pSurface, x, y, pixel)					  \
 do {									  \

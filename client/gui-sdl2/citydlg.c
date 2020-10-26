@@ -197,14 +197,14 @@ static void del_city_dialog(void)
 **************************************************************************/
 static int city_dlg_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (!cma_is_city_under_agent(pcity_dlg->pCity, NULL)
         && city_owner(pcity_dlg->pCity) == client.conn.playing) {
 
-      if (is_in_rect_area(Main.event.motion.x, Main.event.motion.y,
+      if (is_in_rect_area(main_data.event.motion.x, main_data.event.motion.y,
                           pcity_dlg->spec_area)) {
         city_rotate_specialist(pcity_dlg->pCity,
-                               (Main.event.motion.x - pcity_dlg->spec_area.x)
+                               (main_data.event.motion.x - pcity_dlg->spec_area.x)
                                / pcity_dlg->citizen_step);
 
         return -1;
@@ -236,7 +236,7 @@ static int city_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
                                 pcity_dlg->pEndCityMenuWidgetList);
     pcity_dlg->pEndCityMenuWidgetList = NULL;
@@ -253,7 +253,7 @@ static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -269,7 +269,7 @@ static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     if (pUnit) {
@@ -291,7 +291,7 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
 **************************************************************************/
 static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -307,7 +307,7 @@ static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -323,7 +323,7 @@ static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -337,7 +337,7 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -353,7 +353,7 @@ static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int upgrade_units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
@@ -375,7 +375,7 @@ static int units_orders_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int units_orders_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr;
     char cBuf[80];
     struct widget *pBuf, *pwindow = pcity_dlg->pEndCityWidgetList;
@@ -390,7 +390,7 @@ static int units_orders_city_dlg_callback(struct widget *pButton)
       return -1;
     }
 
-    if (PRESSED_EVENT(Main.event)) {
+    if (PRESSED_EVENT(main_data.event)) {
       popdown_city_dialog(pcity_dlg->pCity);
       center_tile_mapcanvas(unit_tile(punit));
       unit_focus_set(punit);
@@ -799,7 +799,7 @@ void free_city_units_lists(void)
 **************************************************************************/
 static int army_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pcity_dlg->page != ARMY_PAGE) {
       free_city_units_lists();
       pcity_dlg->page = ARMY_PAGE;
@@ -818,7 +818,7 @@ static int army_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int supported_unit_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pcity_dlg->page != SUPPORTED_UNITS_PAGE) {
       free_city_units_lists();
       pcity_dlg->page = SUPPORTED_UNITS_PAGE;
@@ -839,7 +839,7 @@ static int supported_unit_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int info_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pcity_dlg->page != INFO_PAGE) {
       free_city_units_lists();
       pcity_dlg->page = INFO_PAGE;
@@ -859,7 +859,7 @@ static int info_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int happy_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pcity_dlg->page != HAPPINESS_PAGE) {
       free_city_units_lists();
       pcity_dlg->page = HAPPINESS_PAGE;
@@ -878,7 +878,7 @@ static int happy_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int misc_panel_city_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     bv_city_options new_options = pcity_dlg->pCity->city_options;
 
     switch (MAX_ID - pWidget->ID) {
@@ -1001,7 +1001,7 @@ static void create_city_options_widget_list(struct city *pCity)
 **************************************************************************/
 static int options_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pcity_dlg->page != MISC_PAGE) {
       free_city_units_lists();
       pcity_dlg->page = MISC_PAGE;
@@ -1022,7 +1022,7 @@ static int options_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int cma_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     disable_city_dlg_widgets();
     popup_city_cma_dialog(pcity_dlg->pCity);
   }
@@ -1034,7 +1034,7 @@ static int cma_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int exit_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_city_dialog(pcity_dlg->pCity);
   }
   return -1;
@@ -1049,7 +1049,7 @@ static int exit_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_hurry_production_dialog();
 
     if (pcity_dlg) {
@@ -1065,7 +1065,7 @@ static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct city *pCity = pButton->data.city;    /* Save it. */
 
     popdown_hurry_production_dialog();
@@ -1090,7 +1090,7 @@ static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int buy_prod_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pButton);
     widget_flush(pButton);
     disable_city_dlg_widgets();
@@ -1117,7 +1117,7 @@ static void popdown_hurry_production_dialog(void)
 **************************************************************************/
 static int hurry_production_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pHurry_Prod_Dlg->pBeginWidgetList, pwindow);
   }
   return -1;
@@ -1303,7 +1303,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pdest)
 **************************************************************************/
 static int change_prod_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     widget_redraw(pButton);
     widget_flush(pButton);
 
@@ -1322,7 +1322,7 @@ static int change_prod_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
                                 pcity_dlg->pEndCityMenuWidgetList);
     pcity_dlg->pEndCityMenuWidgetList = NULL;
@@ -1338,7 +1338,7 @@ static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct widget *pTmp = (struct widget *)pOK_Button->data.ptr;
 
     city_sell_improvement(pcity_dlg->pCity, MAX_ID - 3000 - pTmp->ID);
@@ -1371,7 +1371,7 @@ static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
 **************************************************************************/
 static int sell_imprvm_dlg_callback(struct widget *pImpr)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr = NULL;
     struct widget *pLabel = NULL;
     struct widget *pwindow = NULL;
@@ -1579,14 +1579,14 @@ SDL_Surface *get_scaled_city_map(struct city *pCity)
 **************************************************************************/
 static int resource_map_city_dlg_callback(struct widget *pMap)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int col, row;
 
     if (canvas_to_city_pos(&col, &row,
                            city_map_radius_sq_get(pcity_dlg->pCity),
-      1/city_map_zoom * (Main.event.motion.x - pMap->dst->dest_rect.x
+      1/city_map_zoom * (main_data.event.motion.x - pMap->dst->dest_rect.x
                          - pMap->size.x),
-      1/city_map_zoom * (Main.event.motion.y - pMap->dst->dest_rect.y
+      1/city_map_zoom * (main_data.event.motion.y - pMap->dst->dest_rect.y
                          - pMap->size.y))) {
 
       city_toggle_worker(pcity_dlg->pCity, col, row);
@@ -1613,7 +1613,7 @@ static int city_comp_by_turn_founded(const void *a, const void *b)
 **************************************************************************/
 static int next_prev_city_dlg_callback(struct widget *pButton)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct city **array;
     int i, dir, non_open_size;
     int size = city_list_size(client.conn.playing->cities);
@@ -1686,7 +1686,7 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
 **************************************************************************/
 static int new_name_city_dlg_callback(struct widget *pEdit)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (pEdit->string_utf8->text != NULL) {
       if (strcmp(pEdit->string_utf8->text, city_name_get(pcity_dlg->pCity))) {
         SDL_Client_Flags |= CF_CHANGED_CITY_NAME;

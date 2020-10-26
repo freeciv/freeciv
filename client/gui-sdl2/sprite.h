@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,10 +22,10 @@ struct sprite {
 };
 
 /* Use this when sure that m_sprite is not NULL, to avoid risk of freeing
- * Main.dummy */
+ * main_data.dummy */
 #define GET_SURF_REAL(m_sprite)  ((m_sprite)->psurface)
 
 /* If m_sprite is NULL, return a dummy (small, empty) surface instead */
-#define GET_SURF(m_sprite)  ((m_sprite) ? GET_SURF_REAL(m_sprite) : Main.dummy)
+#define GET_SURF(m_sprite)  ((m_sprite) ? GET_SURF_REAL(m_sprite) : main_data.dummy)
 
 #endif /* FC__SPRITE_H */

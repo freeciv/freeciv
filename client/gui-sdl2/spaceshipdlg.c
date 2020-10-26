@@ -73,7 +73,7 @@ static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
 **************************************************************************/
 static int space_dialog_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pwindow->private_data.small_dlg->pBeginWidgetList, pwindow);
   }
 
@@ -85,7 +85,7 @@ static int space_dialog_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_space_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_spaceship_dialog(pWidget->data.player);
     flush_dirty();
   }
@@ -98,7 +98,7 @@ static int exit_space_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int launch_spaceship_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     send_packet_spaceship_launch(&client.conn);
   }
 

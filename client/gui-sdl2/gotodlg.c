@@ -62,7 +62,7 @@ static void update_goto_dialog(void);
 **************************************************************************/
 static int goto_dialog_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pGotoDlg->pBeginWidgetList, pwindow);
   }
 
@@ -74,7 +74,7 @@ static int goto_dialog_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_goto_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_goto_airlift_dialog();
     flush_dirty();
   }
@@ -87,7 +87,7 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int plr_id = player_index(player_by_number(MAX_ID - pWidget->ID));
 
     if (BV_ISSET(all_players, plr_id)) {
@@ -106,7 +106,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 **************************************************************************/
 static int goto_city_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct city *pdestcity = game_city_by_number(MAX_ID - pWidget->ID);
   
     if (pdestcity) {

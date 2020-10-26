@@ -186,7 +186,7 @@ static action_id get_production_targeted_action_id(action_id tgt_action_id)
 **************************************************************************/
 static int diplomat_dlg_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow);
   }
 
@@ -264,7 +264,7 @@ static int spy_sabotage_esc_request(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_dlg_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow);
   }
 
@@ -276,7 +276,7 @@ static int spy_steal_dlg_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
     fc_assert(is_more_user_input_needed);
@@ -292,7 +292,7 @@ static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_steal_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int steal_advance = MAX_ID - pWidget->ID;
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
@@ -588,7 +588,7 @@ static int spy_steal_esc_popup(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_incite_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -610,7 +610,7 @@ static int diplomat_incite_callback(struct widget *pWidget)
 **************************************************************************/
 static int spy_incite_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL != game_city_by_number(
                 pDiplomat_Dlg->target_ids[ATK_CITY])) {
@@ -634,7 +634,7 @@ static int spy_incite_callback(struct widget *pWidget)
 **************************************************************************/
 static int act_sel_keep_moving_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
 
     if ((punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))
@@ -653,7 +653,7 @@ static int act_sel_keep_moving_callback(struct widget *pWidget)
 **************************************************************************/
 static int act_sel_wait_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     key_unit_wait();
 
     /* The dialog was popped down when key_unit_wait() resulted in
@@ -668,7 +668,7 @@ static int act_sel_wait_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_bribe_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
         && NULL !=
          game_unit_by_number(pDiplomat_Dlg->target_ids[ATK_UNIT])) {
@@ -690,7 +690,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
 **************************************************************************/
 static int found_city_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
     popdown_diplomat_dialog();
@@ -706,7 +706,7 @@ static int found_city_callback(struct widget *pWidget)
 **************************************************************************/
 static int upgrade_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
     struct city *pcity;
 
@@ -732,7 +732,7 @@ static int simple_action_callback(struct widget *pWidget)
 
   bool failed = FALSE;
 
-  if (!PRESSED_EVENT(Main.event)) {
+  if (!PRESSED_EVENT(main_data.event)) {
     return -1;
   }
 
@@ -831,7 +831,7 @@ static int simple_action_callback(struct widget *pWidget)
 **************************************************************************/
 static int diplomat_close_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_diplomat_dialog();
   }
 
@@ -1277,7 +1277,7 @@ void action_selection_close(void)
 **************************************************************************/
 static int sabotage_impr_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     int sabotage_improvement = MAX_ID - pWidget->ID;
     int diplomat_target_id = pWidget->data.cont->id0;
     int diplomat_id = pWidget->data.cont->id1;
@@ -1565,7 +1565,7 @@ static struct small_diplomat_dialog *pIncite_Dlg = NULL;
 **************************************************************************/
 static int incite_dlg_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pIncite_Dlg->pdialog->pBeginWidgetList, pwindow);
   }
 
@@ -1577,7 +1577,7 @@ static int incite_dlg_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int diplomat_incite_yes_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
         && NULL != game_city_by_number(pIncite_Dlg->target_id)) {
       request_do_action(pIncite_Dlg->act_id, pIncite_Dlg->actor_unit_id,
@@ -1595,7 +1595,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_incite_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_incite_dialog();
   }
 
@@ -1829,7 +1829,7 @@ static struct small_diplomat_dialog *pBribe_Dlg = NULL;
 **************************************************************************/
 static int bribe_dlg_window_callback(struct widget *pwindow)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pBribe_Dlg->pdialog->pBeginWidgetList, pwindow);
   }
 
@@ -1841,7 +1841,7 @@ static int bribe_dlg_window_callback(struct widget *pwindow)
 **************************************************************************/
 static int diplomat_bribe_yes_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
         && NULL != game_unit_by_number(pBribe_Dlg->target_id)) {
       request_do_action(pBribe_Dlg->act_id, pBribe_Dlg->actor_unit_id,
@@ -1858,7 +1858,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
 **************************************************************************/
 static int exit_bribe_dlg_callback(struct widget *pWidget)
 {
-  if (PRESSED_EVENT(Main.event)) {
+  if (PRESSED_EVENT(main_data.event)) {
     popdown_bribe_dialog();
   }
 

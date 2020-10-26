@@ -319,7 +319,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     case WT_I_BUTTON:
     case WT_ICON:
     case WT_ICON2:
-      if (PRESSED_EVENT(Main.event)) {
+      if (PRESSED_EVENT(main_data.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -337,7 +337,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
 
     case WT_EDIT:
     {
-      if (PRESSED_EVENT(Main.event)) {
+      if (PRESSED_EVENT(main_data.event)) {
         bool ret, loop = (get_wflags(pWidget) & WF_EDIT_LOOP);
         enum Edit_Return_Codes change;
 
@@ -364,7 +364,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     }
     case WT_VSCROLLBAR:
     case WT_HSCROLLBAR:
-      if (PRESSED_EVENT(Main.event)) {
+      if (PRESSED_EVENT(main_data.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -379,7 +379,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
       break;
     case WT_CHECKBOX:
     case WT_TCHECKBOX:
-      if (PRESSED_EVENT(Main.event)) {
+      if (PRESSED_EVENT(main_data.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         widget_redraw(pWidget);
         widget_mark_dirty(pWidget);
@@ -396,7 +396,7 @@ Uint16 widget_pressed_action(struct widget *pWidget)
       }
       break;
     case WT_COMBO:
-      if (PRESSED_EVENT(Main.event)) {
+      if (PRESSED_EVENT(main_data.event)) {
         set_wstate(pWidget, FC_WS_PRESSED);
         combo_popup(pWidget);
       } else {
@@ -542,7 +542,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
   if (correct_rect_region(pInfo_Area)) {
     update_main_screen();
 #if 0
-    SDL_UpdateRect(Main.screen, pInfo_Area->x, pInfo_Area->y,
+    SDL_UpdateRect(main_data.screen, pInfo_Area->x, pInfo_Area->y,
                    pInfo_Area->w, pInfo_Area->h);
 #endif /* 0 */
   }
@@ -843,10 +843,11 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
   if (gui_layer) {
     int i = 0;
 
-    while ((i < Main.guis_count - 1) && Main.guis[i]) {
-      if (Main.guis[i] && Main.guis[i + 1] && (Main.guis[i] == gui_layer)) {
-        Main.guis[i] = Main.guis[i + 1];
-        Main.guis[i + 1] = gui_layer;
+    while ((i < main_data.guis_count - 1) && main_data.guis[i]) {
+      if (main_data.guis[i] && main_data.guis[i + 1]
+          && (main_data.guis[i] == gui_layer)) {
+        main_data.guis[i] = main_data.guis[i + 1];
+        main_data.guis[i + 1] = gui_layer;
       }
       i++;
     }
