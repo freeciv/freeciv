@@ -17,7 +17,6 @@
 
 // Qt
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QGraphicsDropShadowEffect>
 #include <QGroupBox>
 #include <QProgressBar>

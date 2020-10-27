@@ -17,7 +17,6 @@
 
 // Qt
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QGroupBox>
 #include <QMouseEvent>
 #include <QPainter>

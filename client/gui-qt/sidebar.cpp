@@ -18,12 +18,12 @@
 // Qt
 #include <QAction>
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QHBoxLayout>
 #include <QMenu>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPixmap>
+#include <QScreen>
 #include <QTimer>
 
 // common
@@ -544,11 +544,10 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
 void fc_sidebar::resize_me(int hght, bool force)
 {
   int w, h, non_std, non_std_count, screen_hres;
-  QDesktopWidget *qdp;
+  QList<QScreen *> screens = QGuiApplication::screens();
 
   h = hght;
-  qdp = QApplication::desktop();
-  screen_hres = qdp->availableGeometry(gui()->central_wdg).width();
+  screen_hres = screens[0]->availableGeometry().width();
   w = (100 * screen_hres) / 1920;
   w = qMax(w, 80);
 

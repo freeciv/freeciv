@@ -18,7 +18,6 @@
 // Qt
 #include <QApplication>
 #include <QCheckBox>
-#include <QDesktopWidget>
 #include <QGroupBox>
 #include <QHeaderView>
 #include <QImage>
@@ -4354,8 +4353,10 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
                                      bool show_buildings): QTableView()
 {
   QPoint pos, sh;
-  int desk_width = QApplication::desktop()->width();
-  int desk_height = QApplication::desktop()->height();
+  QList<QScreen *> screens = QGuiApplication::screens();
+  QRect rect = screens[0]->availableGeometry();
+  int desk_width = rect.width();
+  int desk_height = rect.height();
   fc_tt = new fc_tooltip(this);
   setAttribute(Qt::WA_DeleteOnClose);
   setWindowFlags(Qt::Popup);
