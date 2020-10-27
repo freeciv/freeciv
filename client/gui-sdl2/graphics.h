@@ -254,8 +254,8 @@ SDL_Surface *convert_surf(SDL_Surface *surf_in);
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
                                    SDL_Color *pColor);
 
-SDL_Surface *crop_rect_from_surface(SDL_Surface *pSource,
-                                    SDL_Rect *pRect);
+SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
+                                    SDL_Rect *prect);
 
 SDL_Surface *mask_surface(SDL_Surface *psrc, SDL_Surface *pMask,
                           int mask_offset_x, int mask_offset_y);
@@ -286,10 +286,10 @@ int main_window_width(void);
 int main_window_height(void);
 
 /* Rect */
-bool correct_rect_region(SDL_Rect *pRect);
+bool correct_rect_region(SDL_Rect *prect);
 bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
-int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *pRect,
+int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *prect,
                     SDL_Color *pColor);
 
 int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
