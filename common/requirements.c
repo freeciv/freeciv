@@ -2555,11 +2555,12 @@ is_achievement_in_range(const struct player *target_player,
     } else {
       return TRI_NO;
     }
-  } else {
-    fc_assert_ret_val_msg(FALSE, TRI_MAYBE,
-                          "Illegal range %d for achievement requirement.",
-                          range);
   }
+
+  fc_assert_msg(FALSE,
+                "Illegal range %d for achievement requirement.", range);
+
+  return TRI_MAYBE;
 }
 
 /****************************************************************************
