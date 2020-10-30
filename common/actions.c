@@ -3762,8 +3762,9 @@ action_prob(const action_id wanted_action,
     break;
   };
 
-  fc_assert_ret_val_msg(FALSE, ACTPROB_NOT_IMPLEMENTED,
-                        "Should be yes, maybe or no");
+  fc_assert_msg(FALSE, "Should be yes, maybe or no");
+
+  return ACTPROB_NOT_IMPLEMENTED;
 }
 
 /**************************************************************************
