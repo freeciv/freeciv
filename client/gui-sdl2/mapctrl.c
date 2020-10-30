@@ -82,13 +82,13 @@ extern struct widget *pOptions_Button;
 
 #ifdef SCALE_MINIMAP
 static struct SMALL_DLG *pScale_MiniMap_Dlg = NULL;
-static int popdown_scale_minmap_dlg_callback(struct widget *pWidget);
+static int popdown_scale_minmap_dlg_callback(struct widget *pwidget);
 #endif /* SCALE_MINIMAP */
 
 #ifdef SCALE_UNITINFO
 static struct SMALL_DLG *pScale_UnitInfo_Dlg = NULL;
 static int INFO_WIDTH, INFO_HEIGHT = 0, INFO_WIDTH_MIN, INFO_HEIGHT_MIN;
-static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget);
+static int popdown_scale_unitinfo_dlg_callback(struct widget *pwidget);
 static void remake_unitinfo(int w, int h);
 #endif /* SCALE_UNITINFO */
 
@@ -119,11 +119,11 @@ static void disable_unitinfo_widgets(void);
 /**********************************************************************//**
   User interacted with nations button.
 **************************************************************************/
-static int players_action_callback(struct widget *pWidget)
+static int players_action_callback(struct widget *pwidget)
 {
-  set_wstate(pWidget, FC_WS_NORMAL);
-  widget_redraw(pWidget);
-  widget_mark_dirty(pWidget);
+  set_wstate(pwidget, FC_WS_NORMAL);
+  widget_redraw(pwidget);
+  widget_mark_dirty(pwidget);
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
 #if 0
@@ -151,12 +151,12 @@ static int players_action_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with units button.
 **************************************************************************/
-static int units_action_callback(struct widget *pWidget)
+static int units_action_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    set_wstate(pWidget, FC_WS_NORMAL);
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    set_wstate(pwidget, FC_WS_NORMAL);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     units_report_dialog_popup(FALSE);
   }
 
@@ -387,7 +387,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *pFocus = head_of_units_in_focus();
-    struct widget *pWidget;
+    struct widget *pwidget;
 
     /* make new map icon */
     clear_surface(pMap_Button->theme, NULL);
@@ -442,38 +442,38 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 
       /* redraw widgets */
       /* ID_NEW_TURN */
-      pWidget = pMiniMap_Window->prev;
-      widget_redraw(pWidget);
+      pwidget = pMiniMap_Window->prev;
+      widget_redraw(pwidget);
 
       /* ID_PLAYERS */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
       /* ID_CITIES */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
       /* ID_UNITS */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
       /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
       /* Toggle Minimap mode */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
 #ifdef SMALL_SCREEN
       /* options */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 #endif /* SMALL_SCREEN */
 
       /* ID_TOGGLE_MAP_WINDOW_BUTTON */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
+      pwidget = pwidget->prev;
+      widget_redraw(pwidget);
 
 #ifdef SCALE_MINIMAP
       popdown_scale_minmap_dlg_callback(NULL);
@@ -521,12 +521,12 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 /**********************************************************************//**
   User interacted with minimap toggling button.
 **************************************************************************/
-static int toggle_minimap_mode_callback(struct widget *pWidget)
+static int toggle_minimap_mode_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget != NULL) {
-      selected_widget = pWidget;
-      set_wstate(pWidget, FC_WS_SELECTED);
+    if (pwidget != NULL) {
+      selected_widget = pwidget;
+      set_wstate(pwidget, FC_WS_SELECTED);
     }
     toggle_overview_mode();
     refresh_overview();
@@ -539,21 +539,21 @@ static int toggle_minimap_mode_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with messages toggling button.
 **************************************************************************/
-static int toggle_msg_window_callback(struct widget *pWidget)
+static int toggle_msg_window_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (meswin_dialog_is_open()) {
       meswin_dialog_popdown();
-      copy_chars_to_utf8_str(pWidget->info_label, _("Show Messages (F9)"));
+      copy_chars_to_utf8_str(pwidget->info_label, _("Show Messages (F9)"));
     } else {
       meswin_dialog_popup(TRUE);
-      copy_chars_to_utf8_str(pWidget->info_label, _("Hide Messages (F9)"));
+      copy_chars_to_utf8_str(pwidget->info_label, _("Hide Messages (F9)"));
     }
 
-    selected_widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELECTED);
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    selected_widget = pwidget;
+    set_wstate(pwidget, FC_WS_SELECTED);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
 
     flush_dirty();
   }
@@ -599,14 +599,14 @@ static int move_scale_minimap_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with minimap scaling dialog closing button.
 **************************************************************************/
-static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
+static int popdown_scale_minimap_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pScale_MiniMap_Dlg) {
       popdown_window_group_dialog(pScale_MiniMap_Dlg->pBeginWidgetList,
                                   pScale_MiniMap_Dlg->pEndWidgetList);
       FC_FREE(pScale_MiniMap_Dlg);
-      if (pWidget) {
+      if (pwidget) {
         flush_dirty();
       }
     }
@@ -618,20 +618,20 @@ static int popdown_scale_minimap_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with minimap width increase button.
 **************************************************************************/
-static int up_width_callback(struct widget *pWidget)
+static int up_width_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if ((((OVERVIEW_TILE_WIDTH + 1) * map.xsize) +
          (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + BLOCKM_W) <=
          pUnits_Info_Window->dst->dest_rect.x) {
       char cBuf[4];
 
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_utf8_str(pWidget->next->string_utf8, cBuf);
-      widget_redraw(pWidget->next);
-      widget_mark_dirty(pWidget->next);
+      copy_chars_to_utf8_str(pwidget->next->string_utf8, cBuf);
+      widget_redraw(pwidget->next);
+      widget_mark_dirty(pwidget->next);
 
       calculate_overview_dimensions();
       resize_minimap();
@@ -645,18 +645,18 @@ static int up_width_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with minimap width decrease button.
 **************************************************************************/
-static int down_width_callback(struct widget *pWidget)
+static int down_width_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (OVERVIEW_TILE_WIDTH > 1) {
       char cBuf[4];
 
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_utf8_str(pWidget->prev->string_utf8, cBuf);
-      widget_redraw(pWidget->prev);
-      widget_mark_dirty(pWidget->prev);
+      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cBuf);
+      widget_redraw(pwidget->prev);
+      widget_mark_dirty(pwidget->prev);
 
       resize_minimap();
     }
@@ -669,20 +669,20 @@ static int down_width_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with minimap height increase button.
 **************************************************************************/
-static int up_height_callback(struct widget *pWidget)
+static int up_height_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (main_data.screen->h -
       ((OVERVIEW_TILE_HEIGHT + 1) * map.ysize + (current_theme->FR_Bottom->h * 2)) >= 40) {
       char cBuf[4];
 
       OVERVIEW_TILE_HEIGHT++;
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_utf8_str(pWidget->next->string_utf8, cBuf);
-      widget_redraw(pWidget->next);
-      widget_mark_dirty(pWidget->next);
+      copy_chars_to_utf8_str(pwidget->next->string_utf8, cBuf);
+      widget_redraw(pwidget->next);
+      widget_mark_dirty(pwidget->next);
       resize_minimap();
     }
     flush_dirty();
@@ -694,19 +694,19 @@ static int up_height_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with minimap height decrease button.
 **************************************************************************/
-static int down_height_callback(struct widget *pWidget)
+static int down_height_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (OVERVIEW_TILE_HEIGHT > 1) {
       char cBuf[4];
 
       OVERVIEW_TILE_HEIGHT--;
       fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_utf8_str(pWidget->prev->string_utf8, cBuf);
-      widget_redraw(pWidget->prev);
-      widget_mark_dirty(pWidget->prev);
+      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cBuf);
+      widget_redraw(pwidget->prev);
+      widget_mark_dirty(pwidget->prev);
 
       resize_minimap();
     }
@@ -896,14 +896,14 @@ static int move_scale_unitinfo_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   Close unitinfo scaling dialog.
 **************************************************************************/
-static int popdown_scale_unitinfo_dlg_callback(struct widget *pWidget)
+static int popdown_scale_unitinfo_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pScale_UnitInfo_Dlg) {
       popdown_window_group_dialog(pScale_UnitInfo_Dlg->pBeginWidgetList,
                                   pScale_UnitInfo_Dlg->pEndWidgetList);
       FC_FREE(pScale_UnitInfo_Dlg);
-      if (pWidget) {
+      if (pwidget) {
         flush_dirty();
       }
     }
@@ -921,7 +921,7 @@ static void remake_unitinfo(int w, int h)
   SDL_Surface *pSurf;
   SDL_Rect area = {pUnits_Info_Window->area.x + BLOCKU_W,
                    pUnits_Info_Window->area.y, 0, 0};
-  struct widget *pWidget = pUnits_Info_Window;
+  struct widget *pwidget = pUnits_Info_Window;
 
   if (w < DEFAULT_UNITS_W - BLOCKU_W) {
     w = (pUnits_Info_Window->size.w - pUnits_Info_Window->area.w) + DEFAULT_UNITS_W;
@@ -936,61 +936,61 @@ static void remake_unitinfo(int w, int h)
   }
 
   /* clear area under old map window */
-  clear_surface(pWidget->dst->surface, &pWidget->size);
-  widget_mark_dirty(pWidget);
+  clear_surface(pwidget->dst->surface, &pwidget->size);
+  widget_mark_dirty(pwidget);
 
-  pWidget->size.w = w;
-  pWidget->size.h = h;
+  pwidget->size.w = w;
+  pwidget->size.h = h;
 
-  pWidget->size.x = main_window_width() - w;
-  pWidget->size.y = main_window_height() - h;
+  pwidget->size.x = main_window_width() - w;
+  pwidget->size.y = main_window_height() - h;
 
-  FREESURFACE(pWidget->theme);
-  pWidget->theme = create_surf(w, h, SDL_SWSURFACE);
+  FREESURFACE(pwidget->theme);
+  pwidget->theme = create_surf(w, h, SDL_SWSURFACE);
 
-  draw_frame(pWidget->theme, 0, 0, pWidget->size.w, pWidget->size.h);
+  draw_frame(pwidget->theme, 0, 0, pwidget->size.w, pwidget->size.h);
 
   pSurf = ResizeSurface(current_theme->Block, BLOCKU_W,
-    pWidget->size.h - ((pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)), 1);
+    pwidget->size.h - ((pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)), 1);
 
-  blit_entire_src(pSurf, pWidget->theme, pUnits_Info_Window->area.x,
+  blit_entire_src(pSurf, pwidget->theme, pUnits_Info_Window->area.x,
                   pUnits_Info_Window->area.y);
   FREESURFACE(pSurf);
 
   area.w = w - BLOCKU_W - (pUnits_Info_Window->size.w - pUnits_Info_Window->area.w);
   area.h = h - (pUnits_Info_Window->size.h - pUnits_Info_Window->area.h);
-  SDL_FillRect(pWidget->theme, &area, map_rgba(pWidget->theme->format, bg_color));
+  SDL_FillRect(pwidget->theme, &area, map_rgba(pwidget->theme->format, bg_color));
 
   /* economy button */
-  pWidget = pTax_Button;
-  FREESURFACE(pWidget->gfx);
-  pWidget->size.x = pWidget->dst->surface->w - w + pUnits_Info_Window->area.x
-                                             + (BLOCKU_W - pWidget->size.w) / 2;
-  pWidget->size.y = pWidget->dst->surface->h - h + pWidget->area.y + 2;
+  pwidget = pTax_Button;
+  FREESURFACE(pwidget->gfx);
+  pwidget->size.x = pwidget->dst->surface->w - w + pUnits_Info_Window->area.x
+                                             + (BLOCKU_W - pwidget->size.w) / 2;
+  pwidget->size.y = pwidget->dst->surface->h - h + pwidget->area.y + 2;
 
   /* research button */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  pWidget->size.x = pWidget->dst->surface->w - w + pUnits_Info_Window->area.x
-                                             + (BLOCKU_W - pWidget->size.w) / 2;
-  pWidget->size.y = pWidget->dst->surface->h - h + pUnits_Info_Window->area.y +
-                    pWidget->size.h + 2;
+  pwidget = pwidget->prev;
+  FREESURFACE(pwidget->gfx);
+  pwidget->size.x = pwidget->dst->surface->w - w + pUnits_Info_Window->area.x
+                                             + (BLOCKU_W - pwidget->size.w) / 2;
+  pwidget->size.y = pwidget->dst->surface->h - h + pUnits_Info_Window->area.y +
+                    pwidget->size.h + 2;
 
   /* revolution button */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  pWidget->size.x = pWidget->dst->surface->w - w + pUnits_Info_Window->area.x
-                                             + (BLOCKU_W - pWidget->size.w) / 2;
-  pWidget->size.y = pWidget->dst->surface->h - h + pUnits_Info_Window->area.y +
-                    pWidget->size.h * 2 + 2;
+  pwidget = pwidget->prev;
+  FREESURFACE(pwidget->gfx);
+  pwidget->size.x = pwidget->dst->surface->w - w + pUnits_Info_Window->area.x
+                                             + (BLOCKU_W - pwidget->size.w) / 2;
+  pwidget->size.y = pwidget->dst->surface->h - h + pUnits_Info_Window->area.y +
+                    pwidget->size.h * 2 + 2;
 
   /* show/hide unit's window button */
-  pWidget = pWidget->prev;
-  FREESURFACE(pWidget->gfx);
-  pWidget->size.x = pWidget->dst->surface->w - w + pUnits_Info_Window->area.x
-                                             + (BLOCKU_W - pWidget->size.w) / 2;
-  pWidget->size.y = pUnits_Info_Window->area.y + pUnits_Info_Window->area.h -
-                    pWidget->size.h - 2;
+  pwidget = pwidget->prev;
+  FREESURFACE(pwidget->gfx);
+  pwidget->size.x = pwidget->dst->surface->w - w + pUnits_Info_Window->area.x
+                                             + (BLOCKU_W - pwidget->size.w) / 2;
+  pwidget->size.y = pUnits_Info_Window->area.y + pUnits_Info_Window->area.h -
+                    pwidget->size.h - 2;
 
   unitinfo_w = w;
   unitinfo_h = h;
@@ -1026,11 +1026,11 @@ int resize_unit_info(void)
 /**********************************************************************//**
   User interacted with unitinfo width increase button.
 **************************************************************************/
-static int up_info_width_callback(struct widget *pWidget)
+static int up_info_width_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (main_window_width() - ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W +
          (pMiniMap_Window->size.w - pMiniMap_Window->area.w)) >=
          pMiniMap_Window->size.x + pMiniMap_Window->size.w) {
@@ -1046,11 +1046,11 @@ static int up_info_width_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unitinfo width decrease button.
 **************************************************************************/
-static int down_info_width_callback(struct widget *pWidget)
+static int down_info_width_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (INFO_WIDTH > INFO_WIDTH_MIN) {
       INFO_WIDTH--;
       resize_unit_info();
@@ -1064,11 +1064,11 @@ static int down_info_width_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unitinfo height increase button.
 **************************************************************************/
-static int up_info_height_callback(struct widget *pWidget)
+static int up_info_height_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (main_data.screen->h - ((INFO_HEIGHT + 1) * map.ysize +
         (pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)) >= adj_size(40)) {
       INFO_HEIGHT++;
@@ -1083,11 +1083,11 @@ static int up_info_height_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unitinfo height decrease button.
 **************************************************************************/
-static int down_info_height_callback(struct widget *pWidget)
+static int down_info_height_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     if (INFO_HEIGHT > INFO_HEIGHT_MIN) {
       INFO_HEIGHT--;
       resize_unit_info();
@@ -1262,7 +1262,7 @@ static void popup_unitinfo_scale_dialog(void)
 /**********************************************************************//**
   User interacted with minimap window.
 **************************************************************************/
-static int minimap_window_callback(struct widget *pWidget)
+static int minimap_window_callback(struct widget *pwidget)
 {
   int mouse_x, mouse_y;
 
@@ -1298,7 +1298,7 @@ static int minimap_window_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unitinfo window.
 **************************************************************************/
-static int unit_info_window_callback(struct widget *pWidget)
+static int unit_info_window_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
@@ -1335,7 +1335,7 @@ static int unit_info_window_callback(struct widget *pWidget)
 void set_new_unitinfo_window_pos(void)
 {
   struct widget *pUnit_Window = pUnits_Info_Window;
-  struct widget *pWidget;
+  struct widget *pwidget;
   SDL_Rect area;
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
@@ -1354,32 +1354,32 @@ void set_new_unitinfo_window_pos(void)
   area.h = DEFAULT_UNITS_H;
 
   /* ID_ECONOMY */
-  pWidget = pTax_Button;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + (area.w - pWidget->size.w) / 2,
+  pwidget = pTax_Button;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + (area.w - pwidget->size.w) / 2,
                       area.y + 2);
 
   /* ID_RESEARCH */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + (area.w - pWidget->size.w) / 2,
-                      area.y + 2 + pWidget->size.h);
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + (area.w - pwidget->size.w) / 2,
+                      area.y + 2 + pwidget->size.h);
 
   /* ID_REVOLUTION */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + (area.w - pWidget->size.w) / 2,
-                      area.y + 2 + (pWidget->size.h * 2));
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + (area.w - pwidget->size.w) / 2,
+                      area.y + 2 + (pwidget->size.h * 2));
 
   /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + (area.w - pWidget->size.w) / 2,
-                      area.y + area.h - pWidget->size.h - 2);
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + (area.w - pwidget->size.w) / 2,
+                      area.y + area.h - pwidget->size.h - 2);
 }
 
 /**********************************************************************//**
@@ -1388,7 +1388,7 @@ void set_new_unitinfo_window_pos(void)
 **************************************************************************/
 void set_new_minimap_window_pos(void)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
   SDL_Rect area;
 
   widget_set_position(pMiniMap_Window, 0,
@@ -1400,62 +1400,62 @@ void set_new_minimap_window_pos(void)
   area.h = pMiniMap_Window->area.h;
 
   /* ID_NEW_TURN */
-  pWidget = pMiniMap_Window->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
+  pwidget = pMiniMap_Window->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + adj_size(2) + pwidget->size.w,
                       area.y + 2);
 
   /* PLAYERS BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + pWidget->size.h + 2);
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + adj_size(2) + pwidget->size.w,
+                      area.y + pwidget->size.h + 2);
 
   /* ID_FIND_CITY */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + pWidget->size.h * 2 + 2);
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + adj_size(2) + pwidget->size.w,
+                      area.y + pwidget->size.h * 2 + 2);
 
   /* UNITS BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
                       area.x + adj_size(2),
                       area.y + 2);
 
   /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
                       area.x + adj_size(2),
-                      area.y + pWidget->size.h + 2);
+                      area.y + pwidget->size.h + 2);
 
   /* Toggle minimap mode */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
                       area.x + adj_size(2),
-                      area.y + pWidget->size.h * 2 + 2);
+                      area.y + pwidget->size.h * 2 + 2);
 
 #ifdef SMALL_SCREEN
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
                       area.x + adj_size(2),
-                      area.y + area.h - pWidget->size.h - 2);
+                      area.y + area.h - pwidget->size.h - 2);
 #endif
 
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2) + pWidget->size.w,
-                      area.y + area.h - pWidget->size.h - 2);
+  pwidget = pwidget->prev;
+  widget_set_area(pwidget, area);
+  widget_set_position(pwidget,
+                      area.x + adj_size(2) + pwidget->size.w,
+                      area.y + area.h - pwidget->size.h - 2);
 }
 
 /**********************************************************************//**
@@ -1463,7 +1463,7 @@ void set_new_minimap_window_pos(void)
 **************************************************************************/
 void popup_unitinfo_window(void)
 {
-  struct widget *pWidget, *pwindow;
+  struct widget *pwidget, *pwindow;
   SDL_Surface *pIcon_theme = NULL;
   char buf[256];
 
@@ -1501,48 +1501,48 @@ void popup_unitinfo_window(void)
   pUnits_Info_Window->private_data.adv_dlg = pUnitInfo_Dlg;
 
   /* economy button */
-  pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst,
+  pwidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst,
                          WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = economy_callback;
-  pWidget->key = SDLK_F5;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = economy_callback;
+  pwidget->key = SDLK_F5;
 
-  add_to_gui_list(ID_ECONOMY, pWidget);
+  add_to_gui_list(ID_ECONOMY, pwidget);
 
-  pTax_Button = pWidget;
+  pTax_Button = pwidget;
 
   /* research button */
-  pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())),
+  pwidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())),
                          pUnits_Info_Window->dst,
                          WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   /* TRANS: Research report action */
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = research_callback;
-  pWidget->key = SDLK_F6;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = research_callback;
+  pwidget->key = SDLK_F6;
 
-  add_to_gui_list(ID_RESEARCH, pWidget);
+  add_to_gui_list(ID_RESEARCH, pwidget);
 
-  pResearch_Button = pWidget;
+  pResearch_Button = pwidget;
 
   /* revolution button */
-  pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())),
+  pwidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())),
                          pUnits_Info_Window->dst,
                          WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
                          | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = revolution_callback;
-  pWidget->key = SDLK_r;
-  pWidget->mod = KMOD_CTRL | KMOD_SHIFT;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = revolution_callback;
+  pwidget->key = SDLK_r;
+  pwidget->mod = KMOD_CTRL | KMOD_SHIFT;
 
-  add_to_gui_list(ID_REVOLUTION, pWidget);
+  add_to_gui_list(ID_REVOLUTION, pwidget);
 
-  pRevolution_Button = pWidget;
+  pRevolution_Button = pwidget;
 
   /* show/hide unit's window button */
 
@@ -1552,18 +1552,18 @@ void popup_unitinfo_window(void)
   alphablit(current_theme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
   alphablit(current_theme->R_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
-  pWidget = create_themeicon(pIcon_theme, pUnits_Info_Window->dst,
+  pwidget = create_themeicon(pIcon_theme, pUnits_Info_Window->dst,
                              WF_FREE_GFX | WF_FREE_THEME
                              | WF_RESTORE_BACKGROUND
                              | WF_WIDGET_HAS_INFO_LABEL);
-  pWidget->info_label = create_utf8_from_char(_("Hide Unit Info Window"),
+  pwidget->info_label = create_utf8_from_char(_("Hide Unit Info Window"),
                                               adj_font(12));
 
-  pWidget->action = toggle_unit_info_window_callback;
+  pwidget->action = toggle_unit_info_window_callback;
 
-  add_to_gui_list(ID_TOGGLE_UNITS_WINDOW_BUTTON, pWidget);
+  add_to_gui_list(ID_TOGGLE_UNITS_WINDOW_BUTTON, pwidget);
 
-  pUnitInfo_Dlg->pBeginWidgetList = pWidget;
+  pUnitInfo_Dlg->pBeginWidgetList = pwidget;
 
   SDL_Client_Flags |= CF_UNITINFO_SHOWN;
 
@@ -1577,23 +1577,23 @@ void popup_unitinfo_window(void)
 **************************************************************************/
 void show_unitinfo_window_buttons(void)
 {
-  struct widget *pWidget = get_unit_info_window_widget();
+  struct widget *pwidget = get_unit_info_window_widget();
 
   /* economy button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* research button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* revolution button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* show/hide unit's window button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 }
 
 /**********************************************************************//**
@@ -1601,23 +1601,23 @@ void show_unitinfo_window_buttons(void)
 **************************************************************************/
 void hide_unitinfo_window_buttons(void)
 {
-  struct widget *pWidget = get_unit_info_window_widget();
+  struct widget *pwidget = get_unit_info_window_widget();
 
   /* economy button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* research button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* revolution button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* show/hide unit's window button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 }
 
 /**********************************************************************//**
@@ -1625,19 +1625,19 @@ void hide_unitinfo_window_buttons(void)
 **************************************************************************/
 void disable_unitinfo_window_buttons(void)
 {
-  struct widget *pWidget = get_unit_info_window_widget();
+  struct widget *pwidget = get_unit_info_window_widget();
 
   /* economy button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* research button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* revolution button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 }
 
 /**********************************************************************//**
@@ -1657,7 +1657,7 @@ void popdown_unitinfo_window(void)
 **************************************************************************/
 void popup_minimap_window(void)
 {
-  struct widget *pWidget, *pwindow;
+  struct widget *pwidget, *pwindow;
   SDL_Surface *pIcon_theme = NULL;
   SDL_Color black = {0, 0, 0, 255};
   char buf[256];
@@ -1690,80 +1690,80 @@ void popup_minimap_window(void)
   pMiniMap_Dlg->pEndWidgetList = pMiniMap_Window;
 
   /* new turn button */
-  pWidget = create_themeicon(current_theme->NEW_TURN_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->NEW_TURN_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = end_turn_callback;
-  pWidget->key = SDLK_RETURN;
-  pWidget->mod = KMOD_SHIFT;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = end_turn_callback;
+  pwidget->key = SDLK_RETURN;
+  pwidget->mod = KMOD_SHIFT;
 
-  add_to_gui_list(ID_NEW_TURN, pWidget);
+  add_to_gui_list(ID_NEW_TURN, pwidget);
 
-  pNew_Turn_Button = pWidget;
+  pNew_Turn_Button = pwidget;
 
   /* players button */
-  pWidget = create_themeicon(current_theme->PLAYERS_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->PLAYERS_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   /* TRANS: Nations report action */
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = players_action_callback;
-  pWidget->key = SDLK_F3;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = players_action_callback;
+  pwidget->key = SDLK_F3;
 
-  add_to_gui_list(ID_PLAYERS, pWidget);
+  add_to_gui_list(ID_PLAYERS, pwidget);
 
   /* find city button */
-  pWidget = create_themeicon(current_theme->FindCity_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->FindCity_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
                                 "F4", _("or"), _("Find City"), "Ctrl+F");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->info_label->style |= SF_CENTER;
-  pWidget->action = cities_action_callback;
-  pWidget->key = SDLK_f;
-  pWidget->mod = KMOD_CTRL;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->info_label->style |= SF_CENTER;
+  pwidget->action = cities_action_callback;
+  pwidget->key = SDLK_f;
+  pwidget->mod = KMOD_CTRL;
 
-  add_to_gui_list(ID_CITIES, pWidget);
+  add_to_gui_list(ID_CITIES, pwidget);
 
-  pFind_City_Button = pWidget;
+  pFind_City_Button = pwidget;
 
   /* units button */
-  pWidget = create_themeicon(current_theme->UNITS2_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->UNITS2_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = units_action_callback;
-  pWidget->key = SDLK_F2;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = units_action_callback;
+  pwidget->key = SDLK_F2;
 
-  add_to_gui_list(ID_UNITS, pWidget);
+  add_to_gui_list(ID_UNITS, pwidget);
 
   /* show/hide log window button */
-  pWidget = create_themeicon(current_theme->LOG_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->LOG_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = toggle_msg_window_callback;
-  pWidget->key = SDLK_F9;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = toggle_msg_window_callback;
+  pwidget->key = SDLK_F9;
 
-  add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
+  add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pwidget);
 
   /* toggle minimap mode button */
-  pWidget = create_themeicon(current_theme->BORDERS_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->BORDERS_Icon, pMiniMap_Window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
-  pWidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pWidget->action = toggle_minimap_mode_callback;
-  pWidget->key = SDLK_BACKSLASH;
-  pWidget->mod = KMOD_SHIFT;
+  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
+  pwidget->action = toggle_minimap_mode_callback;
+  pwidget->key = SDLK_BACKSLASH;
+  pwidget->mod = KMOD_SHIFT;
 
-  add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pWidget);
+  add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pwidget);
 
 #ifdef SMALL_SCREEN
   /* options button */
@@ -1788,18 +1788,18 @@ void popup_minimap_window(void)
   alphablit(current_theme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
   alphablit(current_theme->L_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
-  pWidget = create_themeicon(pIcon_theme, pMiniMap_Window->dst,
+  pwidget = create_themeicon(pIcon_theme, pMiniMap_Window->dst,
                              WF_FREE_GFX | WF_FREE_THEME |
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
 
-  pWidget->info_label = create_utf8_from_char(_("Hide Mini Map"),
+  pwidget->info_label = create_utf8_from_char(_("Hide Mini Map"),
                                                adj_font(12));
-  pWidget->action = toggle_map_window_callback;
+  pwidget->action = toggle_map_window_callback;
 
-  add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pWidget);
+  add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pwidget);
 
-  pMiniMap_Dlg->pBeginWidgetList = pWidget;
+  pMiniMap_Dlg->pBeginWidgetList = pwidget;
 
   SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
 
@@ -1813,41 +1813,41 @@ void popup_minimap_window(void)
 **************************************************************************/
 void show_minimap_window_buttons(void)
 {
-  struct widget *pWidget = get_minimap_window_widget();
+  struct widget *pwidget = get_minimap_window_widget();
 
   /* new turn button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* players button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* find city button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* units button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* show/hide log window button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
   /* toggle minimap mode button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 
 #ifdef SMALL_SCREEN
   /* options button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 #endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  clear_wflag(pwidget, WF_HIDDEN);
 }
 
 /**********************************************************************//**
@@ -1855,41 +1855,41 @@ void show_minimap_window_buttons(void)
 **************************************************************************/
 void hide_minimap_window_buttons(void)
 {
-  struct widget *pWidget = get_minimap_window_widget();
+  struct widget *pwidget = get_minimap_window_widget();
 
   /* new turn button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* players button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* find city button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* units button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* show/hide log window button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
   /* toggle minimap mode button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 
 #ifdef SMALL_SCREEN
   /* options button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 #endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
+  pwidget = pwidget->prev;
+  set_wflag(pwidget, WF_HIDDEN);
 }
 
 /**********************************************************************//**
@@ -1897,40 +1897,40 @@ void hide_minimap_window_buttons(void)
 **************************************************************************/
 void redraw_minimap_window_buttons(void)
 {
-  struct widget *pWidget = get_minimap_window_widget();
+  struct widget *pwidget = get_minimap_window_widget();
 
   /* new turn button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 
   /* players button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 
   /* find city button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 
   /* units button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
   /* show/hide log window button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 
   /* toggle minimap mode button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 
 #ifdef SMALL_SCREEN
   /* options button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 #endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
+  pwidget = pwidget->prev;
+  widget_redraw(pwidget);
 }
 
 /**********************************************************************//**
@@ -1938,32 +1938,32 @@ void redraw_minimap_window_buttons(void)
 **************************************************************************/
 void disable_minimap_window_buttons(void)
 {
-  struct widget *pWidget = get_minimap_window_widget();
+  struct widget *pwidget = get_minimap_window_widget();
 
   /* new turn button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* players button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* find city button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* units button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
   /* show/hide log window button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 
 #ifdef SMALL_SCREEN
   /* options button */
-  pWidget = pWidget->prev;
-  set_wstate(pWidget, FC_WS_DISABLED);
+  pwidget = pwidget->prev;
+  set_wstate(pwidget, FC_WS_DISABLED);
 #endif /* SMALL_SCREEN */
 }
 
@@ -1984,7 +1984,7 @@ void popdown_minimap_window(void)
 **************************************************************************/
 void show_game_page(void)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
   SDL_Surface *pIcon_theme = NULL;
 
   if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
@@ -2002,37 +2002,37 @@ void show_game_page(void)
   /* cooling icon */
   pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
   fc_assert(pIcon_theme != NULL);
-  pWidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
+  pwidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
-  widget_set_position(pWidget,
-                      pWidget->dst->surface->w - pWidget->size.w - adj_size(10),
+  widget_set_position(pwidget,
+                      pwidget->dst->surface->w - pwidget->size.w - adj_size(10),
                       0);
 #else  /* SMALL_SCREEN */
-  widget_set_position(pWidget,
-                      pWidget->dst->surface->w - pWidget->size.w - adj_size(10),
+  widget_set_position(pwidget,
+                      pwidget->dst->surface->w - pwidget->size.w - adj_size(10),
                       adj_size(10));
 #endif /* SMALL_SCREEN */
 
-  add_to_gui_list(ID_COOLING_ICON, pWidget);
+  add_to_gui_list(ID_COOLING_ICON, pwidget);
 
   /* warming icon */
   pIcon_theme = adj_surf(GET_SURF(client_warming_sprite()));
   fc_assert(pIcon_theme != NULL);
 
-  pWidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
+  pwidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
-  widget_set_position(pWidget,
-                      pWidget->dst->surface->w - pWidget->size.w * 2 - adj_size(10),
+  widget_set_position(pwidget,
+                      pwidget->dst->surface->w - pwidget->size.w * 2 - adj_size(10),
                       0);
 #else  /* SMALL_SCREEN */
-  widget_set_position(pWidget,
-                      pWidget->dst->surface->w - pWidget->size.w * 2 - adj_size(10),
+  widget_set_position(pwidget,
+                      pwidget->dst->surface->w - pwidget->size.w * 2 - adj_size(10),
                       adj_size(10));
 #endif /* SMALL_SCREEN */
 
-  add_to_gui_list(ID_WARMING_ICON, pWidget);
+  add_to_gui_list(ID_WARMING_ICON, pwidget);
 
   /* create order buttons */
   create_units_order_widgets();
@@ -2047,15 +2047,15 @@ void show_game_page(void)
 **************************************************************************/
 void close_game_page(void)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
 
   del_widget_from_gui_list(pOptions_Button);
 
-  pWidget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
-  del_widget_from_gui_list(pWidget);
+  pwidget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  del_widget_from_gui_list(pwidget);
 
-  pWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-  del_widget_from_gui_list(pWidget);
+  pwidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  del_widget_from_gui_list(pwidget);
 
   delete_units_order_widgets();
 

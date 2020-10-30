@@ -205,10 +205,10 @@ static void parse_options(int argc, char **argv)
 **************************************************************************/
 static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 {
-  static struct widget *pWidget;
+  static struct widget *pwidget;
 
-  if ((pWidget = find_next_widget_for_key(NULL, key)) != NULL) {
-    return widget_pressed_action(pWidget);
+  if ((pwidget = find_next_widget_for_key(NULL, key)) != NULL) {
+    return widget_pressed_action(pwidget);
   } else {
     if (key.sym == SDLK_TAB) {
       /* input */
@@ -298,14 +298,14 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
 static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
                                        void *pData)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
   /* Touch event coordinates are normalized (0...1). */
   int x = pTouchEvent->x * main_window_width();
   int y = pTouchEvent->y * main_window_height();
 
-  if ((pWidget = find_next_widget_at_pos(NULL, x, y)) != NULL) {
-    if (get_wstate(pWidget) != FC_WS_DISABLED) {
-      return widget_pressed_action(pWidget);
+  if ((pwidget = find_next_widget_at_pos(NULL, x, y)) != NULL) {
+    if (get_wstate(pwidget) != FC_WS_DISABLED) {
+      return widget_pressed_action(pwidget);
     }
   } else {
     /* No visible widget at this position; map pressed. */
@@ -350,13 +350,13 @@ static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
                                              void *pData)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
 
-  if ((pWidget = find_next_widget_at_pos(NULL,
+  if ((pwidget = find_next_widget_at_pos(NULL,
                                          pButtonEvent->x,
                                          pButtonEvent->y)) != NULL) {
-    if (get_wstate(pWidget) != FC_WS_DISABLED) {
-      return widget_pressed_action(pWidget);
+    if (get_wstate(pwidget) != FC_WS_DISABLED) {
+      return widget_pressed_action(pwidget);
     }
   } else {
     /* no visible widget at this position -> map click */
@@ -410,7 +410,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent,
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
                                         void *pData)
 {
-  static struct widget *pWidget;
+  static struct widget *pwidget;
   struct tile *ptile;
 
   /* stop evaluating button hold time when moving to another tile in medium
@@ -432,12 +432,12 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   }
 #endif /* UNDER_CE */
 
-  if ((pWidget = find_next_widget_at_pos(NULL,
+  if ((pwidget = find_next_widget_at_pos(NULL,
                                          pMotionEvent->x,
                                          pMotionEvent->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
-    if (get_wstate(pWidget) != FC_WS_DISABLED) {
-      widget_selected_action(pWidget);
+    if (get_wstate(pwidget) != FC_WS_DISABLED) {
+      widget_selected_action(pwidget);
     }
   } else {
     if (selected_widget) {

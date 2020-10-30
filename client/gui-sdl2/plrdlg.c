@@ -57,7 +57,7 @@ static struct SMALL_DLG  *pplayers_dlg = NULL;
 /**********************************************************************//**
   User interacted with player dialog close button.
 **************************************************************************/
-static int exit_players_dlg_callback(struct widget *pWidget)
+static int exit_players_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_players_dialog();
@@ -70,9 +70,9 @@ static int exit_players_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with player widget.
 **************************************************************************/
-static int player_callback(struct widget *pWidget)
+static int player_callback(struct widget *pwidget)
 {
-  struct player *pplayer = pWidget->data.player;
+  struct player *pplayer = pwidget->data.player;
 
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
@@ -127,7 +127,7 @@ static int players_window_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with 'draw war status' toggle.
 **************************************************************************/
-static int toggle_draw_war_status_callback(struct widget *pWidget)
+static int toggle_draw_war_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -148,7 +148,7 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with 'draw cease-fire status' toggle.
 **************************************************************************/
-static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
+static int toggle_draw_ceasefire_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -169,7 +169,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with 'draw peace status' toggle.
 **************************************************************************/
-static int toggle_draw_peace_status_callback(struct widget *pWidget)
+static int toggle_draw_peace_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -190,7 +190,7 @@ static int toggle_draw_peace_status_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with 'draw alliance status' toggle.
 **************************************************************************/
-static int toggle_draw_alliance_status_callback(struct widget *pWidget)
+static int toggle_draw_alliance_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -211,7 +211,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with 'draw neutral status' toggle.
 **************************************************************************/
-static int toggle_draw_neutral_status_callback(struct widget *pWidget)
+static int toggle_draw_neutral_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
@@ -613,7 +613,7 @@ static int players_nations_window_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with nations window close button.
 **************************************************************************/
-static int exit_players_nations_dlg_callback(struct widget *pWidget)
+static int exit_players_nations_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_players_nations_dialog();
@@ -626,9 +626,9 @@ static int exit_players_nations_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with widget of a single nation/player.
 **************************************************************************/
-static int player_nation_callback(struct widget *pWidget)
+static int player_nation_callback(struct widget *pwidget)
 {
-  struct player *pplayer = pWidget->data.player;
+  struct player *pplayer = pwidget->data.player;
 
   popdown_players_nations_dialog();
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {

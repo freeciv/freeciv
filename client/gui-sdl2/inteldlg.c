@@ -110,7 +110,7 @@ static int intel_window_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with tech widget
 **************************************************************************/
-static int tech_callback(struct widget *pWidget)
+static int tech_callback(struct widget *pwidget)
 {
   /* get tech help - PORT ME */
   return -1;
@@ -119,10 +119,10 @@ static int tech_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with spaceship widget
 **************************************************************************/
-static int spaceship_callback(struct widget *pWidget)
+static int spaceship_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct player *pplayer = pWidget->data.player;
+    struct player *pplayer = pwidget->data.player;
 
     popdown_intel_dialog(pplayer);
     popup_spaceship_dialog(pplayer);
@@ -134,10 +134,10 @@ static int spaceship_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with intelligence dialog close button
 **************************************************************************/
-static int exit_intel_dlg_callback(struct widget *pWidget)
+static int exit_intel_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_intel_dialog(pWidget->data.player);
+    popdown_intel_dialog(pwidget->data.player);
     flush_dirty();
   }
 

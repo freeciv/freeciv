@@ -237,8 +237,8 @@ do {								\
 #define hide(ID)	\
   set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
 
-void widget_selected_action(struct widget *pWidget);
-Uint16 widget_pressed_action(struct widget *pWidget);
+void widget_selected_action(struct widget *pwidget);
+Uint16 widget_pressed_action(struct widget *pwidget);
 
 void unselect_widget_action(void);
 
@@ -246,16 +246,16 @@ void unselect_widget_action(void);
 void redraw_widget_info_label(SDL_Rect *area);
 
 /* Widget */
-void set_wstate(struct widget *pWidget, enum widget_state state);
-enum widget_state get_wstate(const struct widget *pWidget);
+void set_wstate(struct widget *pwidget, enum widget_state state);
+enum widget_state get_wstate(const struct widget *pwidget);
 
-void set_wtype(struct widget *pWidget, enum widget_type type);
-enum widget_type get_wtype(const struct widget *pWidget);
+void set_wtype(struct widget *pwidget, enum widget_type type);
+enum widget_type get_wtype(const struct widget *pwidget);
 
-void set_wflag(struct widget *pWidget, enum widget_flag flag);
-void clear_wflag(struct widget *pWidget, enum widget_flag flag);
+void set_wflag(struct widget *pwidget, enum widget_flag flag);
+void clear_wflag(struct widget *pwidget, enum widget_flag flag);
 
-enum widget_flag get_wflags(const struct widget *pWidget);
+enum widget_flag get_wflags(const struct widget *pwidget);
 
 static inline void widget_set_area(struct widget *pwidget, SDL_Rect area)
 {
@@ -272,9 +272,9 @@ static inline void widget_resize(struct widget *pwidget, int w, int h)
   pwidget->resize(pwidget, w, h);
 }
 
-static inline int widget_redraw(struct widget *pWidget)
+static inline int widget_redraw(struct widget *pwidget)
 {
-  return pWidget->redraw(pWidget);
+  return pwidget->redraw(pwidget);
 }
 
 static inline void widget_draw_frame(struct widget *pwidget)
@@ -299,68 +299,68 @@ static inline void widget_undraw(struct widget *pwidget)
 
 void widget_free(struct widget **pGUI);
 
-void refresh_widget_background(struct widget *pWidget);
+void refresh_widget_background(struct widget *pwidget);
 
-#define FREEWIDGET(pWidget)					\
+#define FREEWIDGET(pwidget)					\
 do {								\
-  widget_free(&pWidget);                                        \
+  widget_free(&pwidget);                                        \
 } while (FALSE)
 
-#define draw_frame_inside_widget_on_surface(pWidget , pdest)		\
+#define draw_frame_inside_widget_on_surface(pwidget , pdest)		\
 do {                                                                    \
-  draw_frame(pdest, pWidget->size.x, pWidget->size.y, pWidget->size.w, pWidget->size.h);  \
+  draw_frame(pdest, pwidget->size.x, pwidget->size.y, pwidget->size.w, pwidget->size.h);  \
 } while (FALSE);
 
-#define draw_frame_inside_widget(pWidget)				\
-	draw_frame_inside_widget_on_surface(pWidget , pWidget->dst->surface)
+#define draw_frame_inside_widget(pwidget)				\
+	draw_frame_inside_widget_on_surface(pwidget , pwidget->dst->surface)
 
-#define draw_frame_around_widget_on_surface(pWidget , pdest)		\
+#define draw_frame_around_widget_on_surface(pwidget , pdest)		\
 do {                                                                    \
-  draw_frame(pdest, pWidget->size.x - pTheme->FR_Left->w, pWidget->size.y - pTheme->FR_Top->h, \
-             pWidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
-             pWidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
+  draw_frame(pdest, pwidget->size.x - pTheme->FR_Left->w, pwidget->size.y - pTheme->FR_Top->h, \
+             pwidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
+             pwidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
 } while (FALSE);
 
-#define draw_frame_around_widget(pWidget)				\
-	draw_frame_around_widget_on_surface(pWidget , pWidget->dst->surface)
+#define draw_frame_around_widget(pwidget)				\
+	draw_frame_around_widget_on_surface(pwidget , pwidget->dst->surface)
 
 /* Group */
-Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
-                    const struct widget *pEndGroupWidgetList,
+Uint16 redraw_group(const struct widget *begin_group_widget_list,
+                    const struct widget *end_group_widget_list,
                     int add_to_update);
 
-void undraw_group(struct widget *pBeginGroupWidgetList,
-                  struct widget *pEndGroupWidgetList);
+void undraw_group(struct widget *begin_group_widget_list,
+                  struct widget *end_group_widget_list);
 
-void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
-                             const struct widget *pEndGroupWidgetList,
+void set_new_group_start_pos(const struct widget *begin_group_widget_list,
+                             const struct widget *end_group_widget_list,
                              Sint16 Xrel, Sint16 Yrel);
-void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
-                                        struct widget *pEndGroupWidgetList);
-void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
-                                     struct widget *pEndGroupWidgetList);
+void del_group_of_widgets_from_gui_list(struct widget *begin_group_widget_list,
+                                        struct widget *end_group_widget_list);
+void move_group_to_front_of_gui_list(struct widget *begin_group_widget_list,
+                                     struct widget *end_group_widget_list);
 
-void set_group_state(struct widget *pBeginGroupWidgetList,
-                     struct widget *pEndGroupWidgetList, enum widget_state state);
+void set_group_state(struct widget *begin_group_widget_list,
+                     struct widget *end_group_widget_list, enum widget_state state);
 
-void show_group(struct widget *pBeginGroupWidgetList,
-                struct widget *pEndGroupWidgetList);
+void show_group(struct widget *begin_group_widget_list,
+                struct widget *end_group_widget_list);
 
-void hide_group(struct widget *pBeginGroupWidgetList,
-		struct widget *pEndGroupWidgetList);
+void hide_group(struct widget *begin_group_widget_list,
+		struct widget *end_group_widget_list);
 
-void group_set_area(struct widget *pBeginGroupWidgetList,
-		    struct widget *pEndGroupWidgetList,
+void group_set_area(struct widget *begin_group_widget_list,
+		    struct widget *end_group_widget_list,
                     SDL_Rect area);
 
 /* Window Group */
-void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
-                                 struct widget *pEndGroupWidgetList);
+void popdown_window_group_dialog(struct widget *begin_group_widget_list,
+                                 struct widget *end_group_widget_list);
 
 bool select_window_group_dialog(struct widget *pBeginWidgetList,
                                 struct widget *pwindow);
-bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
-                              struct widget *pEndGroupWidgetList);
+bool move_window_group_dialog(struct widget *begin_group_widget_list,
+                              struct widget *end_group_widget_list);
 void move_window_group(struct widget *pBeginWidgetList, struct widget *pwindow);
 
 int setup_vertical_widgets_position(int step,
@@ -385,20 +385,20 @@ do {								\
 	move_widget_to_front_of_gui_list(       \
           get_widget_pointer_form_main_list(ID))
 
-#define del_group(pBeginGroupWidgetList, pEndGroupWidgetList)		\
+#define del_group(begin_group_widget_list, end_group_widget_list)		\
 do {									\
-  del_group_of_widgets_from_gui_list(pBeginGroupWidgetList,		\
-					   pEndGroupWidgetList);	\
-  pBeginGroupWidgetList = NULL;						\
-  pEndGroupWidgetList = NULL;						\
+  del_group_of_widgets_from_gui_list(begin_group_widget_list,		\
+					   end_group_widget_list);	\
+  begin_group_widget_list = NULL;						\
+  end_group_widget_list = NULL;						\
 } while (FALSE)
 
-#define enable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
-	set_group_state(pBeginGroupWidgetList, 				\
-			pEndGroupWidgetList, FC_WS_NORMAL)
+#define enable_group(begin_group_widget_list, end_group_widget_list)	\
+	set_group_state(begin_group_widget_list, 				\
+			end_group_widget_list, FC_WS_NORMAL)
 
-#define disable_group(pBeginGroupWidgetList, pEndGroupWidgetList)	\
-	set_group_state(pBeginGroupWidgetList,	pEndGroupWidgetList,	\
+#define disable_group(begin_group_widget_list, end_group_widget_list)	\
+	set_group_state(begin_group_widget_list,	end_group_widget_list,	\
 			FC_WS_DISABLED)
 
 /* Advanced Dialog */
@@ -408,7 +408,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
                                                Sint16 start_x, Sint16 start_y);
 
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
-                                                 struct widget *pWidget);
+                                                 struct widget *pwidget);
 
 /* misc */
 SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,

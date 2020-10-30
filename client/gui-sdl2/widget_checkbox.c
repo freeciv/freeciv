@@ -148,7 +148,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   struct widget *pCBox;
   struct CHECKBOX *pTmp;
   SDL_Surface *pSurf, *pIcon;
-  struct widget *pTmpWidget;
+  struct widget *tmp_widget;
 
   if (pstr == NULL) {
     return create_checkbox(pdest, state, flags);
@@ -176,10 +176,10 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   pTmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
   pCBox->private_data.cbox = pTmp;
 
-  pTmpWidget = widget_new();
+  tmp_widget = widget_new();
   /* we can't use pCBox->redraw here, because it is of type iconlabel */
-  textcheckbox_baseclass_redraw = pTmpWidget->redraw;
-  FREEWIDGET(pTmpWidget);
+  textcheckbox_baseclass_redraw = tmp_widget->redraw;
+  FREEWIDGET(tmp_widget);
   pCBox->redraw = redraw_textcheckbox;
 
   return pCBox;

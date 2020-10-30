@@ -66,12 +66,12 @@ static struct ADVANCED_DLG *pMsg_Dlg = NULL;
 /**********************************************************************//**
   Called from default clicks on a message.
 **************************************************************************/
-static int msg_callback(struct widget *pWidget)
+static int msg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int message_index = *(int*)pWidget->data.ptr;
+    int message_index = *(int*)pwidget->data.ptr;
 
-    pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+    pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
     unselect_widget_action();
 
     meswin_double_click(message_index);

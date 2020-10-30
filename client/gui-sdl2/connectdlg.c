@@ -64,10 +64,10 @@ static struct server_scan *pServer_scan = NULL;
 static struct ADVANCED_DLG *pMeta_Server = NULL;
 static struct SMALL_DLG *pConnectDlg = NULL;
 
-static int connect_callback(struct widget *pWidget);
-static int convert_portnr_callback(struct widget *pWidget);
-static int convert_playername_callback(struct widget *pWidget);
-static int convert_servername_callback(struct widget *pWidget);
+static int connect_callback(struct widget *pwidget);
+static int convert_portnr_callback(struct widget *pwidget);
+static int convert_playername_callback(struct widget *pwidget);
+static int convert_servername_callback(struct widget *pwidget);
 static void popup_new_user_passwd_dialog(const char *pMessage);
 
 /*
@@ -85,7 +85,7 @@ void handle_game_load(bool load_successful, const char *filename)
 /**********************************************************************//**
   User interacted with connect -widget
 **************************************************************************/
-static int connect_callback(struct widget *pWidget)
+static int connect_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     char errbuf[512];
@@ -97,10 +97,10 @@ static int connect_callback(struct widget *pWidget)
 
       /* button up */
       unselect_widget_action();
-      set_wstate(pWidget, FC_WS_SELECTED);
-      selected_widget = pWidget;
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
+      set_wstate(pwidget, FC_WS_SELECTED);
+      selected_widget = pwidget;
+      widget_redraw(pwidget);
+      widget_flush(pwidget);
     }
   }
 
@@ -120,7 +120,7 @@ static int meta_server_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   Close servers dialog.
 **************************************************************************/
-static int exit_meta_server_dlg_callback(struct widget *pWidget)
+static int exit_meta_server_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     queue_flush();
@@ -139,10 +139,10 @@ static int exit_meta_server_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   Server selected from dialog.
 **************************************************************************/
-static int select_meta_servers_callback(struct widget *pWidget)
+static int select_meta_servers_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct server *pServer = (struct server *)pWidget->data.ptr;
+    struct server *pServer = (struct server *)pwidget->data.ptr;
 
     sz_strlcpy(server_host, pServer->host);
     server_port = pServer->port;
@@ -458,16 +458,16 @@ void popup_connection_dialog(bool lan_scan)
 /**********************************************************************//**
   User interacted with playername widget.
 **************************************************************************/
-static int convert_playername_callback(struct widget *pWidget)
+static int convert_playername_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      sz_strlcpy(user_name, pWidget->string_utf8->text);
+    if (pwidget->string_utf8->text != NULL) {
+      sz_strlcpy(user_name, pwidget->string_utf8->text);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pWidget->string_utf8, user_name);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
+      copy_chars_to_utf8_str(pwidget->string_utf8, user_name);
+      widget_redraw(pwidget);
+      widget_mark_dirty(pwidget);
       flush_dirty();
     }
   }
@@ -478,16 +478,16 @@ static int convert_playername_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with servername widget.
 **************************************************************************/
-static int convert_servername_callback(struct widget *pWidget)
+static int convert_servername_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      sz_strlcpy(server_host, pWidget->string_utf8->text);
+    if (pwidget->string_utf8->text != NULL) {
+      sz_strlcpy(server_host, pwidget->string_utf8->text);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pWidget->string_utf8, server_host);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
+      copy_chars_to_utf8_str(pwidget->string_utf8, server_host);
+      widget_redraw(pwidget);
+      widget_mark_dirty(pwidget);
       flush_dirty();
     }
   }
@@ -498,19 +498,19 @@ static int convert_servername_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with port number widget.
 **************************************************************************/
-static int convert_portnr_callback(struct widget *pWidget)
+static int convert_portnr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     char pCharPort[6];
 
-    if (pWidget->string_utf8->text != NULL) {
-      sscanf(pWidget->string_utf8->text, "%d", &server_port);
+    if (pwidget->string_utf8->text != NULL) {
+      sscanf(pwidget->string_utf8->text, "%d", &server_port);
     } else {
       /* empty input -> restore previous content */
       fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
-      copy_chars_to_utf8_str(pWidget->string_utf8, pCharPort);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
+      copy_chars_to_utf8_str(pwidget->string_utf8, pCharPort);
+      widget_redraw(pwidget);
+      widget_mark_dirty(pwidget);
       flush_dirty();
     }
   }
@@ -521,7 +521,7 @@ static int convert_portnr_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with cancel -button
 **************************************************************************/
-static int cancel_connect_dlg_callback(struct widget *pWidget)
+static int cancel_connect_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     close_connection_dialog();
@@ -715,11 +715,11 @@ void popup_join_game_dialog(void)
 /**********************************************************************//**
   User interacted with password widget
 **************************************************************************/
-static int convert_passwd_callback(struct widget *pWidget)
+static int convert_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", pWidget->string_utf8->text);
+    if (pwidget->string_utf8->text != NULL) {
+      fc_snprintf(password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
     }
   }
 
@@ -729,7 +729,7 @@ static int convert_passwd_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with "Next" -button after entering password.
 **************************************************************************/
-static int send_passwd_callback(struct widget *pWidget)
+static int send_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct packet_authentication_reply reply;
@@ -739,11 +739,11 @@ static int send_passwd_callback(struct widget *pWidget)
     memset(password, 0, MAX_LEN_NAME);
     password[0] = '\0';
 
-    set_wstate(pWidget, FC_WS_DISABLED);
+    set_wstate(pwidget, FC_WS_DISABLED);
 
-    widget_redraw(pWidget);
+    widget_redraw(pwidget);
 
-    widget_mark_dirty(pWidget);
+    widget_mark_dirty(pwidget);
     
     flush_dirty();
 
@@ -756,13 +756,13 @@ static int send_passwd_callback(struct widget *pWidget)
 /**********************************************************************//**
   Close password dialog with no password given.
 **************************************************************************/
-static int cancel_passwd_callback(struct widget *pWidget)
+static int cancel_passwd_callback(struct widget *pwidget)
 {
   memset(password, 0, MAX_LEN_NAME);
   password[0] = '\0';
   disconnect_from_server();
 
-  return cancel_connect_dlg_callback(pWidget);
+  return cancel_connect_dlg_callback(pwidget);
 }
 
 /**********************************************************************//**
@@ -889,14 +889,14 @@ static void popup_user_passwd_dialog(const char *pMessage)
 /**********************************************************************//**
   New Password
 **************************************************************************/
-static int convert_first_passwd_callback(struct widget *pWidget)
+static int convert_first_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", pWidget->string_utf8->text);
-      set_wstate(pWidget->prev, FC_WS_NORMAL);
-      widget_redraw(pWidget->prev);
-      widget_flush(pWidget->prev);
+    if (pwidget->string_utf8->text != NULL) {
+      fc_snprintf(password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
+      set_wstate(pwidget->prev, FC_WS_NORMAL);
+      widget_redraw(pwidget->prev);
+      widget_flush(pwidget->prev);
     }
   }
 
@@ -906,20 +906,20 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 /**********************************************************************//**
   Verify Password
 **************************************************************************/
-static int convert_second_passwd_callback(struct widget *pWidget)
+static int convert_second_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL
-        && !strncmp(password, pWidget->string_utf8->text, MAX_LEN_NAME)) {
-      set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
-      widget_redraw(pWidget->prev);
-      widget_flush(pWidget->prev);
+    if (pwidget->string_utf8->text != NULL
+        && !strncmp(password, pwidget->string_utf8->text, MAX_LEN_NAME)) {
+      set_wstate(pwidget->prev, FC_WS_NORMAL); /* next button */
+      widget_redraw(pwidget->prev);
+      widget_flush(pwidget->prev);
     } else {
       memset(password, 0, MAX_LEN_NAME);
       password[0] = '\0';
 
-      FC_FREE(pWidget->next->string_utf8->text);/* first edit */
-      FC_FREE(pWidget->string_utf8->text); /* second edit */
+      FC_FREE(pwidget->next->string_utf8->text);/* first edit */
+      FC_FREE(pwidget->string_utf8->text); /* second edit */
 
       popup_new_user_passwd_dialog(_("Passwords don't match, enter password."));
     }

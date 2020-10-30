@@ -126,7 +126,7 @@ void popdown_load_game_dialog(void)
 /**********************************************************************//**
   User clicked load game dialog close-button.
 **************************************************************************/
-static int exit_load_dlg_callback(struct widget *pWidget)
+static int exit_load_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (get_client_page() == PAGE_LOAD) {
@@ -142,10 +142,10 @@ static int exit_load_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User selected file to load.
 **************************************************************************/
-static int load_selected_game_callback(struct widget *pWidget)
+static int load_selected_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    char *filename = (char*)pWidget->data.ptr;
+    char *filename = (char*)pwidget->data.ptr;
 
     if (is_server_running()) {
       send_chat_printf("/load %s", filename);
@@ -338,20 +338,20 @@ static void popup_load_game_dialog(void)
 /**********************************************************************//**
   Sent msg/command from input dlg to server
 **************************************************************************/
-static int inputline_return_callback(struct widget *pWidget)
+static int inputline_return_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_KEYDOWN
       && (main_data.event.key.keysym.sym == SDLK_RETURN
           || main_data.event.key.keysym.sym == SDLK_KP_ENTER)) {
 
-    if (pWidget->string_utf8->text == NULL) {
+    if (pwidget->string_utf8->text == NULL) {
       return -1;
     }
 
-    if (pWidget->string_utf8->text[0] != '\0') {
-      send_chat(pWidget->string_utf8->text);
+    if (pwidget->string_utf8->text[0] != '\0') {
+      send_chat(pwidget->string_utf8->text);
 
-      output_window_append(ftc_any, pWidget->string_utf8->text);
+      output_window_append(ftc_any, pwidget->string_utf8->text);
     }
   }
 
@@ -432,7 +432,7 @@ static int conn_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User selected to get back from connection list dialog.
 **************************************************************************/
-static int disconnect_conn_callback(struct widget *pWidget)
+static int disconnect_conn_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_conn_list_dialog();
@@ -505,19 +505,19 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
 /**********************************************************************//**
   User interacted with connection dialog input field.
 **************************************************************************/
-static int input_edit_conn_callback(struct widget *pWidget)
+static int input_edit_conn_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_KEYDOWN
       && (main_data.event.key.keysym.sym == SDLK_RETURN
           || main_data.event.key.keysym.sym == SDLK_KP_ENTER)) {
-    if (pWidget->string_utf8->text != NULL) {
-      if (pWidget->string_utf8->text[0] != '\0') {
-        send_chat(pWidget->string_utf8->text);
+    if (pwidget->string_utf8->text != NULL) {
+      if (pwidget->string_utf8->text[0] != '\0') {
+        send_chat(pwidget->string_utf8->text);
       }
 
-      free(pWidget->string_utf8->text);
-      pWidget->string_utf8->text = fc_malloc(1);
-      pWidget->string_utf8->n_alloc = 0;
+      free(pwidget->string_utf8->text);
+      pwidget->string_utf8->text = fc_malloc(1);
+      pwidget->string_utf8->n_alloc = 0;
     }
   }
 
@@ -527,7 +527,7 @@ static int input_edit_conn_callback(struct widget *pWidget)
 /**********************************************************************//**
    User interacted with Start Game button.
 **************************************************************************/
-static int start_game_callback(struct widget *pWidget)
+static int start_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     send_chat("/start");
@@ -539,7 +539,7 @@ static int start_game_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with Select Nation button.
 **************************************************************************/
-static int select_nation_callback(struct widget *pWidget)
+static int select_nation_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popup_races_dialog(client.conn.playing);
@@ -553,7 +553,7 @@ static int select_nation_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with Server Settings button.
 **************************************************************************/
-static int server_config_callback(struct widget *pWidget)
+static int server_config_callback(struct widget *pwidget)
 {
   return -1;
 }
@@ -562,7 +562,7 @@ static int server_config_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with Load Game button.
 **************************************************************************/
-static int load_game_callback(struct widget *pWidget)
+static int load_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);

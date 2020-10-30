@@ -83,10 +83,10 @@ static int space_dialog_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with spaceship dialog close button.
 **************************************************************************/
-static int exit_space_dialog_callback(struct widget *pWidget)
+static int exit_space_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_spaceship_dialog(pWidget->data.player);
+    popdown_spaceship_dialog(pwidget->data.player);
     flush_dirty();
   }
 
@@ -96,7 +96,7 @@ static int exit_space_dialog_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with spaceship dialog launch button.
 **************************************************************************/
-static int launch_spaceship_callback(struct widget *pWidget)
+static int launch_spaceship_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     send_packet_spaceship_launch(&client.conn);

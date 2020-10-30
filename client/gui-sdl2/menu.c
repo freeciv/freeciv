@@ -277,23 +277,23 @@ static int unit_order_callback(struct widget *pOrder_Widget)
 static Uint16 redraw_order_widgets(void)
 {
   Uint16 count = 0;
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = pBeginOrderWidgetList;
 
   while (TRUE) {
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
-      if (get_wflags(pTmpWidget) & WF_RESTORE_BACKGROUND) {
-        refresh_widget_background(pTmpWidget);
+    if (!(get_wflags(tmp_widget) & WF_HIDDEN)) {
+      if (get_wflags(tmp_widget) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(tmp_widget);
       }
-      widget_redraw(pTmpWidget);
-      widget_mark_dirty(pTmpWidget);
+      widget_redraw(tmp_widget);
+      widget_mark_dirty(tmp_widget);
       count++;
     }
 
-    if (pTmpWidget == pEndOrderWidgetList) {
+    if (tmp_widget == pEndOrderWidgetList) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->next;
+    tmp_widget = tmp_widget->next;
   }
 
   return count;
@@ -306,14 +306,14 @@ static void set_new_order_widget_start_pos(void)
 {
   struct widget *pMiniMap = get_minimap_window_widget();
   struct widget *pInfoWind = get_unit_info_window_widget();
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = pBeginOrderWidgetList;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
 
   xx = pMiniMap->dst->dest_rect.x + pMiniMap->size.w + adj_size(10);
   w = (pInfoWind->dst->dest_rect.x - adj_size(10)) - xx;
 
-  if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
+  if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
     if (pMiniMap->size.h == pInfoWind->size.h) {
       xx = 0;
       w = main_window_width();
@@ -321,7 +321,7 @@ static void set_new_order_widget_start_pos(void)
     } else {
       if (pMiniMap->size.h > pInfoWind->size.h) {
         w = main_window_width() - xx - adj_size(20);
-        if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
+        if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
 	  xx = 0;
 	  w = pMiniMap->size.w;
 	  yy = pMiniMap->size.h;
@@ -330,7 +330,7 @@ static void set_new_order_widget_start_pos(void)
         }
       } else {
 	w = pInfoWind->dst->dest_rect.x - adj_size(20);
-        if (w < (pTmpWidget->size.w + adj_size(10)) * 2) {
+        if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
 	  xx = pInfoWind->dst->dest_rect.x;
 	  w = pInfoWind->size.w;
 	  yy = pInfoWind->size.h;
@@ -342,22 +342,22 @@ static void set_new_order_widget_start_pos(void)
     }
   }
 
-  count_on_line = w / (pTmpWidget->size.w + adj_size(5));
+  count_on_line = w / (tmp_widget->size.w + adj_size(5));
 
   /* find how many to reposition */
   while (TRUE) {
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
+    if (!(get_wflags(tmp_widget) & WF_HIDDEN)) {
       count++;
     }
 
-    if (pTmpWidget == pEndOrderWidgetList) {
+    if (tmp_widget == pEndOrderWidgetList) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->next;
+    tmp_widget = tmp_widget->next;
   }
 
-  pTmpWidget = pBeginOrderWidgetList;
+  tmp_widget = pBeginOrderWidgetList;
 
   if (count - count_on_line > 0) {
     lines = (count + (count_on_line - 1)) / count_on_line;
@@ -365,32 +365,32 @@ static void set_new_order_widget_start_pos(void)
     count = count_on_line - ((count_on_line * lines) - count);
   }
 
-  sx = xx + (w - count * (pTmpWidget->size.w + adj_size(5))) / 2;
+  sx = xx + (w - count * (tmp_widget->size.w + adj_size(5))) / 2;
 
-  sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
+  sy = tmp_widget->dst->surface->h - yy - lines * (tmp_widget->size.h + adj_size(5));
 
   while (TRUE) {
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
-      pTmpWidget->size.x = sx;
-      pTmpWidget->size.y = sy;
+    if (!(get_wflags(tmp_widget) & WF_HIDDEN)) {
+      tmp_widget->size.x = sx;
+      tmp_widget->size.y = sy;
 
       count--;
-      sx += (pTmpWidget->size.w + adj_size(5));
+      sx += (tmp_widget->size.w + adj_size(5));
       if (!count) {
 	count = count_on_line;
 	lines--;
 
-	sx = xx + (w - count * (pTmpWidget->size.w + adj_size(5))) / 2;
+	sx = xx + (w - count * (tmp_widget->size.w + adj_size(5))) / 2;
 
-	sy = pTmpWidget->dst->surface->h - yy - lines * (pTmpWidget->size.h + adj_size(5));
+	sy = tmp_widget->dst->surface->h - yy - lines * (tmp_widget->size.h + adj_size(5));
       }
     }
 
-    if (pTmpWidget == pEndOrderWidgetList) {
+    if (tmp_widget == pEndOrderWidgetList) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->next;
+    tmp_widget = tmp_widget->next;
   }
 }
 
@@ -978,23 +978,23 @@ void update_order_widgets(void)
 **************************************************************************/
 void undraw_order_widgets(void)
 {
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = pBeginOrderWidgetList;
 
-  if (pTmpWidget == NULL) {
+  if (tmp_widget == NULL) {
     return;
   }
 
   while (TRUE) {
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN) && (pTmpWidget->gfx)) {
-      widget_undraw(pTmpWidget);
-      widget_mark_dirty(pTmpWidget);
+    if (!(get_wflags(tmp_widget) & WF_HIDDEN) && (tmp_widget->gfx)) {
+      widget_undraw(tmp_widget);
+      widget_mark_dirty(tmp_widget);
     }
 
-    if (pTmpWidget == pEndOrderWidgetList) {
+    if (tmp_widget == pEndOrderWidgetList) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->next;
+    tmp_widget = tmp_widget->next;
   }
 }
 
@@ -1004,16 +1004,16 @@ void undraw_order_widgets(void)
 **************************************************************************/
 void free_bcgd_order_widgets(void)
 {
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = pBeginOrderWidgetList;
 
   while (TRUE) {
-    FREESURFACE(pTmpWidget->gfx);
+    FREESURFACE(tmp_widget->gfx);
 
-    if (pTmpWidget == pEndOrderWidgetList) {
+    if (tmp_widget == pEndOrderWidgetList) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->next;
+    tmp_widget = tmp_widget->next;
   }
 }
 

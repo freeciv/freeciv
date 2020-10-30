@@ -88,7 +88,7 @@ struct EDITOR {
 } *pEditor = NULL;
 
 
-static int worklist_editor_item_callback(struct widget *pWidget);
+static int worklist_editor_item_callback(struct widget *pwidget);
 static SDL_Surface *get_progress_icon(int stock, int cost, int *progress);
 static const char *get_production_name(struct city *pCity,
                                        struct universal prod, int *cost);
@@ -100,7 +100,7 @@ static void refresh_production_label(int stock);
 /**********************************************************************//**
   Worklist Editor Window Callback
 **************************************************************************/
-static int window_worklist_editor_callback(struct widget *pWidget)
+static int window_worklist_editor_callback(struct widget *pwidget)
 {
   return -1;
 }
@@ -108,7 +108,7 @@ static int window_worklist_editor_callback(struct widget *pWidget)
 /**********************************************************************//**
   Popdwon Worklist Editor
 **************************************************************************/
-static int popdown_worklist_editor_callback(struct widget *pWidget)
+static int popdown_worklist_editor_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_worklist_editor();
@@ -121,7 +121,7 @@ static int popdown_worklist_editor_callback(struct widget *pWidget)
   Commit changes to city/global worklist.
   In City Mode Remove Double entry of Imprv/Woder Targets from list.
 **************************************************************************/
-static int ok_worklist_editor_callback(struct widget *pWidget)
+static int ok_worklist_editor_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int i, j;
@@ -180,17 +180,17 @@ static int ok_worklist_editor_callback(struct widget *pWidget)
 /**********************************************************************//**
   Rename Global Worklist
 **************************************************************************/
-static int rename_worklist_editor_callback(struct widget *pWidget)
+static int rename_worklist_editor_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget->string_utf8->text != NULL) {
+    if (pwidget->string_utf8->text != NULL) {
       fc_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s",
-                  pWidget->string_utf8->text);
+                  pwidget->string_utf8->text);
     } else {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pWidget->string_utf8, pEditor->worklist_name);
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
+      copy_chars_to_utf8_str(pwidget->string_utf8, pEditor->worklist_name);
+      widget_redraw(pwidget);
+      widget_mark_dirty(pwidget);
       flush_dirty();
     }
   }
@@ -411,22 +411,22 @@ static void get_target_help_data(struct widget *pTarget)
   middle mouse button -> get target "help"
   right mouse button -> add target to worklist.
 **************************************************************************/
-static int worklist_editor_targets_callback(struct widget *pWidget)
+static int worklist_editor_targets_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
       if (pEditor->pCity) {
-        add_target_to_production(pWidget);
+        add_target_to_production(pwidget);
       } else {
-        add_target_to_worklist(pWidget);
+        add_target_to_worklist(pwidget);
       }
       break;
     case SDL_BUTTON_MIDDLE:
-      get_target_help_data(pWidget);
+      get_target_help_data(pwidget);
       break;
     case SDL_BUTTON_RIGHT:
-      add_target_to_worklist(pWidget);
+      add_target_to_worklist(pwidget);
       break;
     default:
       /* do nothing */
@@ -434,9 +434,9 @@ static int worklist_editor_targets_callback(struct widget *pWidget)
     }
   } else if (PRESSED_EVENT(main_data.event)) {
     if (pEditor->pCity) {
-      add_target_to_production(pWidget);
+      add_target_to_production(pwidget);
     } else {
-      add_target_to_worklist(pWidget);
+      add_target_to_worklist(pwidget);
     }
   }
 
@@ -634,25 +634,25 @@ static void swap_item_up_from_worklist(struct widget *pItem)
   middle mouse button -> remove element from list
   right mouse button -> swap entries down.
 **************************************************************************/
-static int worklist_editor_item_callback(struct widget *pWidget)
+static int worklist_editor_item_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
-      swap_item_up_from_worklist(pWidget);
+      swap_item_up_from_worklist(pwidget);
       break;
     case SDL_BUTTON_MIDDLE:
-      remove_item_from_worklist(pWidget);
+      remove_item_from_worklist(pwidget);
       break;
     case SDL_BUTTON_RIGHT:
-      swap_item_down_from_worklist(pWidget);
+      swap_item_down_from_worklist(pwidget);
       break;
     default:
       ;/* do nothing */
       break;
     }
   } else if (PRESSED_EVENT(main_data.event)) {
-    swap_item_up_from_worklist(pWidget);
+    swap_item_up_from_worklist(pwidget);
   }
 
   return -1;
@@ -665,9 +665,9 @@ static int worklist_editor_item_callback(struct widget *pWidget)
   If global worklist have more targets that city worklist have free
   entries then we adding only first part of global worklist.
 **************************************************************************/
-static void add_global_worklist(struct widget *pWidget)
+static void add_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
+  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
   struct widget *pBuf = pEditor->pWork->pEndActiveWidgetList;
   const struct worklist *pWorkList;
   int count, firstfree;
@@ -696,14 +696,14 @@ static void add_global_worklist(struct widget *pWidget)
 
     /* create widget */
     if (VUT_UTYPE == pWorkList->entries[count].kind) {
-      pBuf = create_iconlabel(NULL, pWidget->dst,
+      pBuf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
                       utype_name_translation(pWorkList->entries[count].value.utype),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
       pBuf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
     } else {
-      pBuf = create_iconlabel(NULL, pWidget->dst,
+      pBuf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
                       city_improvement_name_translation(pEditor->pCity,
                                                         pWorkList->entries[count].value.building),
@@ -743,9 +743,9 @@ static void add_global_worklist(struct widget *pWidget)
   Copy only available targets in current game state.
   If all targets are unavilable then leave city worklist untouched.
 **************************************************************************/
-static void set_global_worklist(struct widget *pWidget)
+static void set_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
+  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
   struct widget *pBuf = pEditor->pWork->pEndActiveWidgetList;
   const struct worklist *pWorkList;
   struct worklist wl;
@@ -800,13 +800,13 @@ static void set_global_worklist(struct widget *pWidget)
       }
 
       if (VUT_UTYPE == target.kind) {
-        pBuf = create_iconlabel(NULL, pWidget->dst,
+        pBuf = create_iconlabel(NULL, pwidget->dst,
           create_utf8_from_char(utype_name_translation(target.value.utype),
                                 adj_font(10)),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
         pBuf->ID = MAX_ID - B_LAST - utype_number(target.value.utype);
       } else {
-        pBuf = create_iconlabel(NULL, pWidget->dst,
+        pBuf = create_iconlabel(NULL, pwidget->dst,
           create_utf8_from_char(city_improvement_name_translation(pEditor->pCity,
                                                                   target.value.building),
                                 adj_font(10)),
@@ -845,25 +845,25 @@ static void set_global_worklist(struct widget *pWidget)
   I don't make such check here and allow this "functionality" becouse doubled
   impov./wonder entry are removed from city worklist during "commit" phase.
 **************************************************************************/
-static int global_worklist_callback(struct widget *pWidget)
+static int global_worklist_callback(struct widget *pwidget)
 {
   if (main_data.event.type == SDL_MOUSEBUTTONDOWN) {
     switch (main_data.event.button.button) {
     case SDL_BUTTON_LEFT:
-      add_global_worklist(pWidget);
+      add_global_worklist(pwidget);
       break;
     case SDL_BUTTON_MIDDLE:
       /* nothing */
       break;
     case SDL_BUTTON_RIGHT:
-      set_global_worklist(pWidget);
+      set_global_worklist(pwidget);
       break;
     default:
       /* do nothing */
       break;
     }
   } else if (PRESSED_EVENT(main_data.event)) {
-    add_global_worklist(pWidget);
+    add_global_worklist(pwidget);
   }
 
   return -1;
@@ -1222,7 +1222,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   /* work list */
 
   /*
-     pWidget->data filed will contains position of target in worklist all
+     pwidget->data filed will contains position of target in worklist all
      action on worklist (swap/romove/add) must correct this fields
 
      Production Widget Label in worklist Widget list

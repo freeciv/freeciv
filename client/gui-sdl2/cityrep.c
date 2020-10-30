@@ -87,7 +87,7 @@ static int city_report_windows_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with city report close button.
 **************************************************************************/
-static int exit_city_report_callback(struct widget *pWidget)
+static int exit_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     city_report_dialog_popdown();
@@ -99,10 +99,10 @@ static int exit_city_report_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with city button on city report.
 **************************************************************************/
-static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
+static int popup_citydlg_from_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_city_dialog(pWidget->data.city);
+    popup_city_dialog(pwidget->data.city);
   }
 
   return -1;
@@ -111,10 +111,10 @@ static int popup_citydlg_from_city_report_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with worklist button on city report.
 **************************************************************************/
-static int popup_worklist_from_city_report_callback(struct widget *pWidget)
+static int popup_worklist_from_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_worklist_editor(pWidget->data.city, NULL);
+    popup_worklist_editor(pwidget->data.city, NULL);
   }
 
   return -1;
@@ -123,10 +123,10 @@ static int popup_worklist_from_city_report_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with city production button on city report.
 **************************************************************************/
-static int popup_buy_production_from_city_report_callback(struct widget *pWidget)
+static int popup_buy_production_from_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_hurry_production_dialog(pWidget->data.city, NULL);
+    popup_hurry_production_dialog(pwidget->data.city, NULL);
   }
 
   return -1;
@@ -135,13 +135,13 @@ static int popup_buy_production_from_city_report_callback(struct widget *pWidget
 /**********************************************************************//**
   User interacted with cma button on city report.
 **************************************************************************/
-static int popup_cma_from_city_report_callback(struct widget *pWidget)
+static int popup_cma_from_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = game_city_by_number(MAX_ID - pWidget->ID);
+    struct city *pCity = game_city_by_number(MAX_ID - pwidget->ID);
 
     /* state is changed before enter this function */
-    if (!get_checkbox_state(pWidget)) {
+    if (!get_checkbox_state(pwidget)) {
       cma_release_city(pCity);
       city_report_dialog_update_city(pCity);
     } else {
@@ -156,13 +156,13 @@ static int popup_cma_from_city_report_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with information report button.
 **************************************************************************/
-static int info_city_report_callback(struct widget *pWidget)
+static int info_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    set_wstate(pWidget, FC_WS_NORMAL);
+    set_wstate(pwidget, FC_WS_NORMAL);
     selected_widget = NULL;
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
     real_info_city_report_dialog_update();
   }
 
@@ -950,7 +950,7 @@ static void real_info_city_report_dialog_update(void)
 /**********************************************************************//**
   Update city information in city report.
 **************************************************************************/
-static struct widget *real_city_report_dialog_update_city(struct widget *pWidget,
+static struct widget *real_city_report_dialog_update_city(struct widget *pwidget,
                                                           struct city *pCity)
 {
   char cbuf[64];
@@ -961,40 +961,40 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
 
   /* city name status */
   if (city_unhappy(pCity)) {
-    pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
+    pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
   } else {
     if (city_celebrating(pCity)) {
-      pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_CELEB);
+      pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_CELEB);
     } else {
       if (city_happy(pCity)) {
-	pWidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_HAPPY);
+	pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_HAPPY);
       }
     }
   }
 
   /* city size */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", city_size_get(pCity));
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* cma check box */
-  pWidget = pWidget->prev;
-  if (cma_is_city_under_agent(pCity, NULL) != get_checkbox_state(pWidget)) {
-    toggle_checkbox(pWidget);
+  pwidget = pwidget->prev;
+  if (cma_is_city_under_agent(pCity, NULL) != get_checkbox_state(pwidget)) {
+    toggle_checkbox(pwidget);
   }
 
   /* food consumptions */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* food surplus */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_FOOD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* time to grow */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   togrow = city_turns_to_grow(pCity);
   switch (togrow) {
     case 0:
@@ -1007,60 +1007,60 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
       fc_snprintf(cbuf, sizeof(cbuf), "%d", togrow);
     break;
   }
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   if (togrow < 0) {
-    pWidget->string_utf8->fgcol.r = 255;
+    pwidget->string_utf8->fgcol.r = 255;
   } else {
-    pWidget->string_utf8->fgcol.r = 0;
+    pwidget->string_utf8->fgcol.r = 0;
   }
 
   /* trade production */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_TRADE]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* corruptions */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_TRADE]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* gold surplus */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_GOLD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* science income */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_SCIENCE]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* lugury income */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_LUXURY]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* total production */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d",
               pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* waste */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->waste[O_SHIELD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* units support */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->prod[O_SHIELD] +
               pCity->waste[O_SHIELD] - pCity->surplus[O_SHIELD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* production income */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   fc_snprintf(cbuf, sizeof(cbuf), "%d", pCity->surplus[O_SHIELD]);
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* change production */
   if (VUT_UTYPE == pCity->production.kind) {
@@ -1090,13 +1090,13 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
       		pName, pCity->shield_stock, togrow);
   }
 
-  pWidget = pWidget->prev;
-  copy_chars_to_utf8_str(pWidget->info_label, cbuf);
-  FREESURFACE(pWidget->theme);
-  pWidget->theme = pLogo;
+  pwidget = pwidget->prev;
+  copy_chars_to_utf8_str(pwidget->info_label, cbuf);
+  FREESURFACE(pwidget->theme);
+  pwidget->theme = pLogo;
 
   /* hurry productions */
-  pWidget = pWidget->prev;
+  pwidget = pwidget->prev;
   togrow = city_production_turns_to_build(pCity, TRUE);
   if (togrow == 999) {
     fc_snprintf(cbuf, sizeof(cbuf), "%s", _("never"));
@@ -1105,9 +1105,9 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pWidget
                 togrow, PL_("turn", "turns", togrow));
   }
 
-  copy_chars_to_utf8_str(pWidget->string_utf8, cbuf);
+  copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
-  return pWidget->prev;
+  return pwidget->prev;
 }
 
 /* ======================================================================== */
@@ -1137,18 +1137,18 @@ void city_report_dialog_popup(bool make_modal)
 void real_city_report_dialog_update(void *unused)
 {
   if (pCityRep) {
-    struct widget *pWidget;
+    struct widget *pwidget;
     int count;
 
     /* find if the lists are identical (if not then rebuild all) */
-    pWidget = pCityRep->pEndActiveWidgetList;/* name of first city */
+    pwidget = pCityRep->pEndActiveWidgetList;/* name of first city */
     city_list_iterate(client.conn.playing->cities, pCity) {
-      if (pCity->id == MAX_ID - pWidget->ID) {
+      if (pCity->id == MAX_ID - pwidget->ID) {
         count = COL;
 
         while (count) {
           count--;
-          pWidget = pWidget->prev;
+          pwidget = pwidget->prev;
         }
       } else {
         real_info_city_report_dialog_update();
@@ -1157,15 +1157,15 @@ void real_city_report_dialog_update(void *unused)
     } city_list_iterate_end;
 
     /* check it there are some city widgets left on list */
-    if (pWidget && pWidget->next != pCityRep->pBeginActiveWidgetList) {
+    if (pwidget && pwidget->next != pCityRep->pBeginActiveWidgetList) {
       real_info_city_report_dialog_update();
       return;
     }
 
     /* update widget city list (widget list is the same that city list) */
-    pWidget = pCityRep->pEndActiveWidgetList;
+    pwidget = pCityRep->pEndActiveWidgetList;
     city_list_iterate(client.conn.playing->cities, pCity) {
-      pWidget = real_city_report_dialog_update_city(pWidget, pCity);
+      pwidget = real_city_report_dialog_update_city(pwidget, pCity);
     } city_list_iterate_end;
 
     /* -------------------------------------- */

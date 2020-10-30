@@ -257,7 +257,7 @@ static int redraw_tibutton(struct widget *pTIButton)
   Text is taken from 'pstr'.
 
   This function determinate future size of Button ( width, height ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
+  save this in: pwidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
@@ -335,7 +335,7 @@ struct widget *create_icon_button(SDL_Surface *pIcon, struct gui_layer *pdest,
   surface; Text is taken from 'pstr'.
 
   This function determinate future size of Button ( width, height ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
+  save this in: pwidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Button Widget.
 **************************************************************************/

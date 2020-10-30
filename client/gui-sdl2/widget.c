@@ -230,20 +230,20 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget,
                                        int x, int y)
 {
   SDL_Rect area = {0, 0, 0, 0};
-  struct widget *pWidget;
+  struct widget *pwidget;
 
-  pWidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  pwidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
 
-  while (pWidget) {
-    area.x = pWidget->dst->dest_rect.x + pWidget->size.x;
-    area.y = pWidget->dst->dest_rect.y + pWidget->size.y;
-    area.w = pWidget->size.w;
-    area.h = pWidget->size.h;
+  while (pwidget) {
+    area.x = pwidget->dst->dest_rect.x + pwidget->size.x;
+    area.y = pwidget->dst->dest_rect.y + pwidget->size.y;
+    area.w = pwidget->size.w;
+    area.h = pwidget->size.h;
     if (is_in_rect_area(x, y, area)
-        && !((get_wflags(pWidget) & WF_HIDDEN) == WF_HIDDEN)) {
-      return (struct widget *) pWidget;
+        && !((get_wflags(pwidget) & WF_HIDDEN) == WF_HIDDEN)) {
+      return (struct widget *) pwidget;
     }
-    pWidget = pWidget->next;
+    pwidget = pwidget->next;
   }
 
   return NULL;
@@ -258,22 +258,22 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget,
 struct widget *find_next_widget_for_key(struct widget *pStartWidget,
                                         SDL_Keysym key)
 {
-  struct widget *pWidget;
+  struct widget *pwidget;
 
-  pWidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  pwidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
 
   key.mod &= ~(KMOD_NUM | KMOD_CAPS);
-  while (pWidget) {
-    if ((pWidget->key == key.sym
-         || (pWidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER)
-         || (pWidget->key == SDLK_KP_ENTER && key.sym == SDLK_RETURN))
-        && ((pWidget->mod & key.mod) || (pWidget->mod == key.mod))) {
-      if (!((get_wstate(pWidget) == FC_WS_DISABLED)
-            || ((get_wflags(pWidget) & WF_HIDDEN) == WF_HIDDEN))) {
-	return (struct widget *) pWidget;
+  while (pwidget) {
+    if ((pwidget->key == key.sym
+         || (pwidget->key == SDLK_RETURN && key.sym == SDLK_KP_ENTER)
+         || (pwidget->key == SDLK_KP_ENTER && key.sym == SDLK_RETURN))
+        && ((pwidget->mod & key.mod) || (pwidget->mod == key.mod))) {
+      if (!((get_wstate(pwidget) == FC_WS_DISABLED)
+            || ((get_wflags(pwidget) & WF_HIDDEN) == WF_HIDDEN))) {
+	return (struct widget *) pwidget;
       }
     }
-    pWidget = pWidget->next;
+    pwidget = pwidget->next;
   }
 
   return NULL;
@@ -294,16 +294,16 @@ struct widget *find_next_widget_for_key(struct widget *pStartWidget,
     Function normal return Widget ID.
     NOTE: NOZERO return of this function deterninate exit of
         MAIN_SDL_GAME_LOOP
-    if ( pWidget->action )
-      if ( pWidget->action(pWidget)  ) ID = 0;
+    if ( pwidget->action )
+      if ( pwidget->action(pwidget)  ) ID = 0;
     if widget callback function return = 0 then return NOZERO
     I default return (-1) from Widget callback functions.
 **************************************************************************/
-Uint16 widget_pressed_action(struct widget *pWidget)
+Uint16 widget_pressed_action(struct widget *pwidget)
 {
   Uint16 ID = 0;
 
-  if (!pWidget) {
+  if (!pwidget) {
     return 0;
   }
 
@@ -314,22 +314,22 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     FREESURFACE(info_label);
   }
 
-  switch (get_wtype(pWidget)) {
+  switch (get_wtype(pwidget)) {
     case WT_TI_BUTTON:
     case WT_I_BUTTON:
     case WT_ICON:
     case WT_ICON2:
       if (PRESSED_EVENT(main_data.event)) {
-        set_wstate(pWidget, FC_WS_PRESSED);
-        widget_redraw(pWidget);
-        widget_mark_dirty(pWidget);
+        set_wstate(pwidget, FC_WS_PRESSED);
+        widget_redraw(pwidget);
+        widget_mark_dirty(pwidget);
         flush_dirty();
-        set_wstate(pWidget, FC_WS_SELECTED);
+        set_wstate(pwidget, FC_WS_SELECTED);
         SDL_Delay(300);
       }
-      ID = pWidget->ID;
-      if (pWidget->action) {
-        if (pWidget->action(pWidget)) {
+      ID = pwidget->ID;
+      if (pwidget->action) {
+        if (pwidget->action(pwidget)) {
           ID = 0;
         }
       }
@@ -338,19 +338,19 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     case WT_EDIT:
     {
       if (PRESSED_EVENT(main_data.event)) {
-        bool ret, loop = (get_wflags(pWidget) & WF_EDIT_LOOP);
+        bool ret, loop = (get_wflags(pwidget) & WF_EDIT_LOOP);
         enum Edit_Return_Codes change;
 
         do {
           ret = FALSE;
-          change = edit_field(pWidget);
+          change = edit_field(pwidget);
           if (change != ED_FORCE_EXIT && (!loop || change != ED_RETURN)) {
-            widget_redraw(pWidget);
-            widget_mark_dirty(pWidget);
+            widget_redraw(pwidget);
+            widget_mark_dirty(pwidget);
             flush_dirty();
           }
-          if (change != ED_FORCE_EXIT && change != ED_ESC && pWidget->action) {
-            if (pWidget->action(pWidget)) {
+          if (change != ED_FORCE_EXIT && change != ED_ESC && pwidget->action) {
+            if (pwidget->action(pwidget)) {
               ID = 0;
             }
           }
@@ -365,14 +365,14 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     case WT_VSCROLLBAR:
     case WT_HSCROLLBAR:
       if (PRESSED_EVENT(main_data.event)) {
-        set_wstate(pWidget, FC_WS_PRESSED);
-        widget_redraw(pWidget);
-        widget_mark_dirty(pWidget);
+        set_wstate(pwidget, FC_WS_PRESSED);
+        widget_redraw(pwidget);
+        widget_mark_dirty(pwidget);
         flush_dirty();
       }
-      ID = pWidget->ID;
-      if (pWidget->action) {
-        if (pWidget->action(pWidget)) {
+      ID = pwidget->ID;
+      if (pwidget->action) {
+        if (pwidget->action(pwidget)) {
           ID = 0;
         }
       }
@@ -380,33 +380,33 @@ Uint16 widget_pressed_action(struct widget *pWidget)
     case WT_CHECKBOX:
     case WT_TCHECKBOX:
       if (PRESSED_EVENT(main_data.event)) {
-        set_wstate(pWidget, FC_WS_PRESSED);
-        widget_redraw(pWidget);
-        widget_mark_dirty(pWidget);
+        set_wstate(pwidget, FC_WS_PRESSED);
+        widget_redraw(pwidget);
+        widget_mark_dirty(pwidget);
         flush_dirty();
-        set_wstate(pWidget, FC_WS_SELECTED);
-        toggle_checkbox(pWidget);
+        set_wstate(pwidget, FC_WS_SELECTED);
+        toggle_checkbox(pwidget);
         SDL_Delay(300);
       }
-      ID = pWidget->ID;  
-      if (pWidget->action) {
-        if (pWidget->action(pWidget)) {
+      ID = pwidget->ID;
+      if (pwidget->action) {
+        if (pwidget->action(pwidget)) {
           ID = 0;
         }
       }
       break;
     case WT_COMBO:
       if (PRESSED_EVENT(main_data.event)) {
-        set_wstate(pWidget, FC_WS_PRESSED);
-        combo_popup(pWidget);
+        set_wstate(pwidget, FC_WS_PRESSED);
+        combo_popup(pwidget);
       } else {
-        combo_popdown(pWidget);
+        combo_popdown(pwidget);
       }
       break;
     default:
-      ID = pWidget->ID;
-      if (pWidget->action) {
-        if (pWidget->action(pWidget) != 0) {
+      ID = pwidget->ID;
+      if (pwidget->action) {
+        if (pwidget->action(pwidget) != 0) {
           ID = 0;
         }
       }
@@ -444,9 +444,9 @@ void unselect_widget_action(void)
 /**********************************************************************//**
   Select widget.  Redraw this widget;
 **************************************************************************/
-void widget_selected_action(struct widget *pWidget)
+void widget_selected_action(struct widget *pwidget)
 {
-  if (!pWidget || pWidget == selected_widget) {
+  if (!pwidget || pwidget == selected_widget) {
     return;
   }
 
@@ -454,13 +454,13 @@ void widget_selected_action(struct widget *pWidget)
     unselect_widget_action();
   }
 
-  set_wstate(pWidget, FC_WS_SELECTED);  
+  set_wstate(pwidget, FC_WS_SELECTED);
 
-  pWidget->select(pWidget);
+  pwidget->select(pwidget);
 
-  selected_widget = pWidget;
+  selected_widget = pwidget;
 
-  if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
+  if (get_wflags(pwidget) & WF_WIDGET_HAS_INFO_LABEL) {
     widget_info_counter = 1;
   }
 }
@@ -473,38 +473,38 @@ void redraw_widget_info_label(SDL_Rect *rect)
   SDL_Surface *pText;
   SDL_Rect srcrect, dstrect;
   SDL_Color color;
-  struct widget *pWidget = selected_widget;
+  struct widget *pwidget = selected_widget;
 
-  if (!pWidget || !pWidget->info_label) {
+  if (!pwidget || !pwidget->info_label) {
     return;
   }
 
   if (!info_label) {
     pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
 
-    color = pWidget->info_label->fgcol;
-    pWidget->info_label->style |= TTF_STYLE_BOLD;
-    pWidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
+    color = pwidget->info_label->fgcol;
+    pwidget->info_label->style |= TTF_STYLE_BOLD;
+    pwidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
     /* create string and bcgd theme */
-    pText = create_text_surf_from_utf8(pWidget->info_label);
+    pText = create_text_surf_from_utf8(pwidget->info_label);
 
-    pWidget->info_label->fgcol = color;
+    pwidget->info_label->fgcol = color;
 
     info_label = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
                                        SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG));
 
     /* calculate start position */
-    if ((pWidget->dst->dest_rect.y + pWidget->size.y) - info_label->h - adj_size(6) < 0) {
-      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) + pWidget->size.h + adj_size(3);
+    if ((pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(6) < 0) {
+      pInfo_Area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) + pwidget->size.h + adj_size(3);
     } else {
-      pInfo_Area->y = (pWidget->dst->dest_rect.y + pWidget->size.y) - info_label->h - adj_size(5);
+      pInfo_Area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(5);
     }
 
-    if ((pWidget->dst->dest_rect.x + pWidget->size.x) + info_label->w + adj_size(5) > main_window_width()) {
-      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) - info_label->w - adj_size(5);
+    if ((pwidget->dst->dest_rect.x + pwidget->size.x) + info_label->w + adj_size(5) > main_window_width()) {
+      pInfo_Area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) - info_label->w - adj_size(5);
     } else {
-      pInfo_Area->x = (pWidget->dst->dest_rect.x + pWidget->size.x) + adj_size(3);
+      pInfo_Area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) + adj_size(3);
     }
 
     pInfo_Area->w = info_label->w + adj_size(2);
@@ -615,7 +615,7 @@ void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock)
 
   NOTE: This function does not destroy Widget, only remove his pointer from
   list. To destroy this Widget totaly ( free mem... ) call macro:
-  del_widget_from_gui_list( pWidget ).  This macro call this function.
+  del_widget_from_gui_list( pwidget ).  This macro call this function.
 **************************************************************************/
 void del_widget_pointer_from_gui_list(struct widget *pGUI)
 {
@@ -715,31 +715,31 @@ void del_gui_list(struct widget *pGUI_List)
   WindowGroup: start draw from 'pEnd' and stop on 'pBegin', in theory
   'pEnd' is window widget;
 **************************************************************************/
-Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
-                    const struct widget *pEndGroupWidgetList,
+Uint16 redraw_group(const struct widget *begin_group_widget_list,
+                    const struct widget *end_group_widget_list,
                     int add_to_update)
 {
   Uint16 count = 0;
-  struct widget *pTmpWidget = (struct widget *) pEndGroupWidgetList;
+  struct widget *tmp_widget = (struct widget *) end_group_widget_list;
 
-  while (pTmpWidget) {
+  while (tmp_widget) {
 
-    if (!(get_wflags(pTmpWidget) & WF_HIDDEN)) {
+    if (!(get_wflags(tmp_widget) & WF_HIDDEN)) {
 
-      widget_redraw(pTmpWidget);
+      widget_redraw(tmp_widget);
 
       if (add_to_update) {
-        widget_mark_dirty(pTmpWidget);
+        widget_mark_dirty(tmp_widget);
       }
 
       count++;
     }
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
 
   }
 
@@ -749,56 +749,56 @@ Uint16 redraw_group(const struct widget *pBeginGroupWidgetList,
 /**********************************************************************//**
   Undraw all widgets in the group.
 **************************************************************************/
-void undraw_group(struct widget *pBeginGroupWidgetList,
-                  struct widget *pEndGroupWidgetList)
+void undraw_group(struct widget *begin_group_widget_list,
+                  struct widget *end_group_widget_list)
 {
-  struct widget *pTmpWidget = pEndGroupWidgetList;
+  struct widget *tmp_widget = end_group_widget_list;
 
-  while (pTmpWidget) {
-    widget_undraw(pTmpWidget);
-    widget_mark_dirty(pTmpWidget);
+  while (tmp_widget) {
+    widget_undraw(tmp_widget);
+    widget_mark_dirty(tmp_widget);
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 }
 
 /**********************************************************************//**
   Move all widgets in the group by the given amounts.
 **************************************************************************/
-void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
-                             const struct widget *pEndGroupWidgetList,
+void set_new_group_start_pos(const struct widget *begin_group_widget_list,
+                             const struct widget *end_group_widget_list,
                              Sint16 Xrel, Sint16 Yrel)
 {
-  struct widget *pTmpWidget = (struct widget *) pEndGroupWidgetList;
+  struct widget *tmp_widget = (struct widget *) end_group_widget_list;
 
-  while (pTmpWidget) {
+  while (tmp_widget) {
 
-    widget_set_position(pTmpWidget, pTmpWidget->size.x + Xrel,
-                        pTmpWidget->size.y + Yrel);
+    widget_set_position(tmp_widget, tmp_widget->size.x + Xrel,
+                        tmp_widget->size.y + Yrel);
 
-    if (get_wtype(pTmpWidget) == WT_VSCROLLBAR
-        && pTmpWidget->private_data.adv_dlg
-        && pTmpWidget->private_data.adv_dlg->pScroll) {
-      pTmpWidget->private_data.adv_dlg->pScroll->max += Yrel;
-      pTmpWidget->private_data.adv_dlg->pScroll->min += Yrel;
+    if (get_wtype(tmp_widget) == WT_VSCROLLBAR
+        && tmp_widget->private_data.adv_dlg
+        && tmp_widget->private_data.adv_dlg->pScroll) {
+      tmp_widget->private_data.adv_dlg->pScroll->max += Yrel;
+      tmp_widget->private_data.adv_dlg->pScroll->min += Yrel;
     }
 
-    if (get_wtype(pTmpWidget) == WT_HSCROLLBAR
-        && pTmpWidget->private_data.adv_dlg
-        && pTmpWidget->private_data.adv_dlg->pScroll) {
-      pTmpWidget->private_data.adv_dlg->pScroll->max += Xrel;
-      pTmpWidget->private_data.adv_dlg->pScroll->min += Xrel;
+    if (get_wtype(tmp_widget) == WT_HSCROLLBAR
+        && tmp_widget->private_data.adv_dlg
+        && tmp_widget->private_data.adv_dlg->pScroll) {
+      tmp_widget->private_data.adv_dlg->pScroll->max += Xrel;
+      tmp_widget->private_data.adv_dlg->pScroll->min += Xrel;
     }
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 }
 
@@ -807,36 +807,36 @@ void set_new_group_start_pos(const struct widget *pBeginGroupWidgetList,
   Move group destination buffer to end of buffer array.
   NOTE: This is used by My GUI Window(group) mechanism.
 **************************************************************************/
-void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
-                                     struct widget *pEndGroupWidgetList)
+void move_group_to_front_of_gui_list(struct widget *begin_group_widget_list,
+                                     struct widget *end_group_widget_list)
 {
-  struct widget *pTmpWidget = pEndGroupWidgetList , *pPrev = NULL;
-  struct gui_layer *gui_layer = get_gui_layer(pEndGroupWidgetList->dst->surface);
+  struct widget *tmp_widget = end_group_widget_list , *pPrev = NULL;
+  struct gui_layer *gui_layer = get_gui_layer(end_group_widget_list->dst->surface);
 
   /* Widget Pointer Management */
-  while (pTmpWidget) {
+  while (tmp_widget) {
 
-    pPrev = pTmpWidget->prev;
+    pPrev = tmp_widget->prev;
 
-    /* pTmpWidget->prev always exists because we
+    /* tmp_widget->prev always exists because we
        don't do this to pBeginMainWidgetList */
-    if (pTmpWidget->next) {
-      pTmpWidget->prev->next = pTmpWidget->next;
-      pTmpWidget->next->prev = pTmpWidget->prev;
+    if (tmp_widget->next) {
+      tmp_widget->prev->next = tmp_widget->next;
+      tmp_widget->next->prev = tmp_widget->prev;
     } else {
-      pTmpWidget->prev->next = NULL;
+      tmp_widget->prev->next = NULL;
     }
 
-    pTmpWidget->next = pBeginMainWidgetList;
-    pBeginMainWidgetList->prev = pTmpWidget;
-    pBeginMainWidgetList = pTmpWidget;
+    tmp_widget->next = pBeginMainWidgetList;
+    pBeginMainWidgetList->prev = tmp_widget;
+    pBeginMainWidgetList = tmp_widget;
     pBeginMainWidgetList->prev = NULL;
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pPrev;
+    tmp_widget = pPrev;
   }
 
   /* Window Buffer Management */
@@ -858,34 +858,34 @@ void move_group_to_front_of_gui_list(struct widget *pBeginGroupWidgetList,
   Remove all widgets of the group from the list of displayed widgets.
   Does not free widget memory.
 **************************************************************************/
-void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
-                                        struct widget *pEndGroupWidgetList)
+void del_group_of_widgets_from_gui_list(struct widget *begin_group_widget_list,
+                                        struct widget *end_group_widget_list)
 {
   struct widget *pBufWidget = NULL;
-  struct widget *pTmpWidget = pEndGroupWidgetList;
+  struct widget *tmp_widget = end_group_widget_list;
 
-  if (!pEndGroupWidgetList) {
+  if (!end_group_widget_list) {
     return;
   }
 
-  if (pBeginGroupWidgetList == pEndGroupWidgetList) {
-    del_widget_from_gui_list(pTmpWidget);
+  if (begin_group_widget_list == end_group_widget_list) {
+    del_widget_from_gui_list(tmp_widget);
     return;
   }
 
-  pTmpWidget = pTmpWidget->prev;
+  tmp_widget = tmp_widget->prev;
 
-  while (pTmpWidget) {
+  while (tmp_widget) {
 
-    pBufWidget = pTmpWidget->next;
+    pBufWidget = tmp_widget->next;
     del_widget_from_gui_list(pBufWidget);
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
-      del_widget_from_gui_list(pTmpWidget);
+    if (tmp_widget == begin_group_widget_list) {
+      del_widget_from_gui_list(tmp_widget);
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 
 }
@@ -893,75 +893,75 @@ void del_group_of_widgets_from_gui_list(struct widget *pBeginGroupWidgetList,
 /**********************************************************************//**
   Set state for all the widgets in the group.
 **************************************************************************/
-void set_group_state(struct widget *pBeginGroupWidgetList,
-                     struct widget *pEndGroupWidgetList, enum widget_state state)
+void set_group_state(struct widget *begin_group_widget_list,
+                     struct widget *end_group_widget_list, enum widget_state state)
 {
-  struct widget *pTmpWidget = pEndGroupWidgetList;
+  struct widget *tmp_widget = end_group_widget_list;
 
-  while (pTmpWidget) {
-    set_wstate(pTmpWidget, state);
-    if (pTmpWidget == pBeginGroupWidgetList) {
+  while (tmp_widget) {
+    set_wstate(tmp_widget, state);
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 }
 
 /**********************************************************************//**
   Hide all widgets in the group.
 **************************************************************************/
-void hide_group(struct widget *pBeginGroupWidgetList,
-                struct widget *pEndGroupWidgetList)
+void hide_group(struct widget *begin_group_widget_list,
+                struct widget *end_group_widget_list)
 {
-  struct widget *pTmpWidget = pEndGroupWidgetList;
+  struct widget *tmp_widget = end_group_widget_list;
 
-  while (pTmpWidget) {
-    set_wflag(pTmpWidget, WF_HIDDEN);
+  while (tmp_widget) {
+    set_wflag(tmp_widget, WF_HIDDEN);
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 }
 
 /**********************************************************************//**
   Show all widgets in the group.
 **************************************************************************/
-void show_group(struct widget *pBeginGroupWidgetList,
-                struct widget *pEndGroupWidgetList)
+void show_group(struct widget *begin_group_widget_list,
+                struct widget *end_group_widget_list)
 {
-  struct widget *pTmpWidget = pEndGroupWidgetList;
+  struct widget *tmp_widget = end_group_widget_list;
 
-  while (pTmpWidget) {
-    clear_wflag(pTmpWidget, WF_HIDDEN);
+  while (tmp_widget) {
+    clear_wflag(tmp_widget, WF_HIDDEN);
 
-    if (pTmpWidget == pBeginGroupWidgetList) {
+    if (tmp_widget == begin_group_widget_list) {
       break;
     }
 
-    pTmpWidget = pTmpWidget->prev;
+    tmp_widget = tmp_widget->prev;
   }
 }
 
 /**********************************************************************//**
   Set area for all widgets in the group.
 **************************************************************************/
-void group_set_area(struct widget *pBeginGroupWidgetList,
-                    struct widget *pEndGroupWidgetList,
+void group_set_area(struct widget *begin_group_widget_list,
+                    struct widget *end_group_widget_list,
                     SDL_Rect area)
 {
-  struct widget *pWidget = pEndGroupWidgetList;
+  struct widget *pwidget = end_group_widget_list;
 
-  while (pWidget) {
-    widget_set_area(pWidget, area);
+  while (pwidget) {
+    widget_set_area(pwidget, area);
 
-    if (pWidget == pBeginGroupWidgetList) {
+    if (pwidget == begin_group_widget_list) {
       break;
     }
 
-    pWidget = pWidget->prev;
+    pwidget = pwidget->prev;
   }
 }
 
@@ -978,14 +978,14 @@ void group_set_area(struct widget *pBeginGroupWidgetList,
   Undraw and destroy Window Group  The Trick is simple. We undraw only
   last member of group: the window.
 **************************************************************************/
-void popdown_window_group_dialog(struct widget *pBeginGroupWidgetList,
-                                 struct widget *pEndGroupWidgetList)
+void popdown_window_group_dialog(struct widget *begin_group_widget_list,
+                                 struct widget *end_group_widget_list)
 {
-  if ((pBeginGroupWidgetList) && (pEndGroupWidgetList)) {
-    widget_mark_dirty(pEndGroupWidgetList);
-    remove_gui_layer(pEndGroupWidgetList->dst);
+  if ((begin_group_widget_list) && (end_group_widget_list)) {
+    widget_mark_dirty(end_group_widget_list);
+    remove_gui_layer(end_group_widget_list->dst);
 
-    del_group(pBeginGroupWidgetList, pEndGroupWidgetList);
+    del_group(begin_group_widget_list, end_group_widget_list);
   }
 }
 
@@ -1011,17 +1011,17 @@ bool select_window_group_dialog(struct widget *pBeginWidgetList,
 
   Function return 1 when group was moved.
 **************************************************************************/
-bool move_window_group_dialog(struct widget *pBeginGroupWidgetList,
-                              struct widget *pEndGroupWidgetList)
+bool move_window_group_dialog(struct widget *begin_group_widget_list,
+                              struct widget *end_group_widget_list)
 {
   bool ret = FALSE;
-  Sint16 oldX = pEndGroupWidgetList->size.x, oldY = pEndGroupWidgetList->size.y;
+  Sint16 oldX = end_group_widget_list->size.x, oldY = end_group_widget_list->size.y;
 
-  if (move_window(pEndGroupWidgetList)) {
-    set_new_group_start_pos(pBeginGroupWidgetList,
-                            pEndGroupWidgetList->prev,
-                            pEndGroupWidgetList->size.x - oldX,
-                            pEndGroupWidgetList->size.y - oldY);
+  if (move_window(end_group_widget_list)) {
+    set_new_group_start_pos(begin_group_widget_list,
+                            end_group_widget_list->prev,
+                            end_group_widget_list->size.x - oldX,
+                            end_group_widget_list->size.y - oldY);
     ret = TRUE;
   }
 
@@ -1146,16 +1146,16 @@ void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
 /**********************************************************************//**
   Redraw background of the widget.
 **************************************************************************/
-void refresh_widget_background(struct widget *pWidget)
+void refresh_widget_background(struct widget *pwidget)
 {
-  if (pWidget) {
-    if (pWidget->gfx && pWidget->gfx->w == pWidget->size.w
-        && pWidget->gfx->h == pWidget->size.h) {
-      clear_surface(pWidget->gfx, NULL);
-      alphablit(pWidget->dst->surface, &pWidget->size, pWidget->gfx, NULL, 255);
+  if (pwidget) {
+    if (pwidget->gfx && pwidget->gfx->w == pwidget->size.w
+        && pwidget->gfx->h == pwidget->size.h) {
+      clear_surface(pwidget->gfx, NULL);
+      alphablit(pwidget->dst->surface, &pwidget->size, pwidget->gfx, NULL, 255);
     } else {
-      FREESURFACE(pWidget->gfx);
-      pWidget->gfx = crop_rect_from_surface(pWidget->dst->surface, &pWidget->size);
+      FREESURFACE(pwidget->gfx);
+      pwidget->gfx = crop_rect_from_surface(pwidget->dst->surface, &pwidget->size);
     }
   }
 }

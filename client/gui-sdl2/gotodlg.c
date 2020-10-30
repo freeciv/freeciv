@@ -72,7 +72,7 @@ static int goto_dialog_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   Close goto dialog.
 **************************************************************************/
-static int exit_goto_dialog_callback(struct widget *pWidget)
+static int exit_goto_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_goto_airlift_dialog();
@@ -85,10 +85,10 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 /**********************************************************************//**
   Toggle whether player cities are listed as possible destinations.
 **************************************************************************/
-static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
+static int toggle_goto_nations_cities_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int plr_id = player_index(player_by_number(MAX_ID - pWidget->ID));
+    int plr_id = player_index(player_by_number(MAX_ID - pwidget->ID));
 
     if (BV_ISSET(all_players, plr_id)) {
       BV_CLR(all_players, plr_id);
@@ -104,10 +104,10 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 /**********************************************************************//**
   User has selected city for unit to go to.
 **************************************************************************/
-static int goto_city_callback(struct widget *pWidget)
+static int goto_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pdestcity = game_city_by_number(MAX_ID - pWidget->ID);
+    struct city *pdestcity = game_city_by_number(MAX_ID - pwidget->ID);
   
     if (pdestcity) {
       struct unit *pUnit = head_of_units_in_focus();

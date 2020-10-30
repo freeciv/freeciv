@@ -47,7 +47,7 @@ struct EDIT {
   struct Utf8Char *pEndTextChain;
   struct Utf8Char *pInputChain;
   SDL_Surface *pBg;
-  struct widget *pWidget;
+  struct widget *pwidget;
   int ChainLen;
   int Start_X;
   int Truelength;
@@ -71,10 +71,10 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   int iStart_Mod_X;
   int ret;
 
-  Dest_Copy.x = pEdt->pWidget->size.x;
-  Dest_Copy.y = pEdt->pWidget->size.y;
+  Dest_Copy.x = pEdt->pwidget->size.x;
+  Dest_Copy.y = pEdt->pwidget->size.y;
 
-  ret = (*baseclass_redraw)(pEdt->pWidget);
+  ret = (*baseclass_redraw)(pEdt->pwidget);
   if (ret != 0) {
     return ret;
   }
@@ -82,7 +82,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   /* blit theme */
   Dest = Dest_Copy;
 
-  alphablit(pEdt->pBg, NULL, pEdt->pWidget->dst->surface, &Dest, 255);
+  alphablit(pEdt->pBg, NULL, pEdt->pwidget->dst->surface, &Dest, 255);
 
   /* set start parameters */
   pInputChain_TMP = pEdt->pBeginTextChain;
@@ -95,13 +95,13 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   while (pInputChain_TMP) {
     Dest_Copy.x += iStart_Mod_X;
     /* chech if we draw inside of edit rect */
-    if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
+    if (Dest_Copy.x > pEdt->pwidget->size.x + pEdt->pBg->w - 4) {
       break;
     }
 
-    if (Dest_Copy.x > pEdt->pWidget->size.x) {
+    if (Dest_Copy.x > pEdt->pwidget->size.x) {
       Dest = Dest_Copy;
-      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pWidget->dst->surface, &Dest,
+      alphablit(pInputChain_TMP->pTsurf, NULL, pEdt->pwidget->dst->surface, &Dest,
                 255);
     }
 
@@ -111,7 +111,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
     if (pInputChain_TMP == pEdt->pInputChain) {
       Dest = Dest_Copy;
 
-      create_line(pEdt->pWidget->dst->surface,
+      create_line(pEdt->pwidget->dst->surface,
                   Dest.x - 1, Dest.y + (pEdt->pBg->h / 8),
                   Dest.x - 1, Dest.y + pEdt->pBg->h - (pEdt->pBg->h / 4),
                   get_theme_color(COLOR_THEME_EDITFIELD_CARET));
@@ -122,7 +122,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
     pInputChain_TMP = pInputChain_TMP->next;
   } /* while - draw loop */
 
-  widget_flush(pEdt->pWidget);
+  widget_flush(pEdt->pwidget);
 
   return 0;
 }
@@ -346,7 +346,7 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len,
   'length' parameter determinate width of Edit rect.
 
   This function determinate future size of Edit ( width, height ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
+  save this in: pwidget->size rectangle ( SDL_Rect )
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
@@ -448,9 +448,9 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
     {
       /* move cursor right */
       if (pEdt->pInputChain->next) {
-        if (pEdt->InputChain_X >= (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10))) {
+        if (pEdt->InputChain_X >= (pEdt->pwidget->size.x + pEdt->pBg->w - adj_size(10))) {
           pEdt->Start_X -= pEdt->pInputChain->pTsurf->w -
-            (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
+            (pEdt->pwidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
         }
 
 	pEdt->pInputChain = pEdt->pInputChain->next;
@@ -470,9 +470,9 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
       if (pEdt->pInputChain->prev) {
         pEdt->pInputChain = pEdt->pInputChain->prev;
         if ((pEdt->InputChain_X <=
-             (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
-          if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
-            pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
+             (pEdt->pwidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+          if (pEdt->InputChain_X != (pEdt->pwidget->size.x + adj_size(5))) {
+            pEdt->Start_X += (pEdt->pwidget->size.x - pEdt->InputChain_X + adj_size(5));
           }
 
           pEdt->Start_X += (pEdt->pInputChain->pTsurf->w);
@@ -507,8 +507,8 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
       pEdt->pInputChain = pEdt->pEndTextChain;
       Redraw = TRUE;
 
-      if (pEdt->pWidget->size.w - pEdt->Truelength < 0) {
-        pEdt->Start_X = pEdt->pWidget->size.w - pEdt->Truelength - adj_size(5);
+      if (pEdt->pwidget->size.w - pEdt->Truelength < 0) {
+        pEdt->Start_X = pEdt->pwidget->size.w - pEdt->Truelength - adj_size(5);
       }
     }
     break;
@@ -517,9 +517,9 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
       /* del element of chain (and move cursor left) */
       if (pEdt->pInputChain->prev) {
         if ((pEdt->InputChain_X <=
-             (pEdt->pWidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
-          if (pEdt->InputChain_X != (pEdt->pWidget->size.x + adj_size(5))) {
-            pEdt->Start_X += (pEdt->pWidget->size.x - pEdt->InputChain_X + adj_size(5));
+             (pEdt->pwidget->size.x + adj_size(9))) && (pEdt->Start_X != adj_size(5))) {
+          if (pEdt->InputChain_X != (pEdt->pwidget->size.x + adj_size(5))) {
+            pEdt->Start_X += (pEdt->pwidget->size.x - pEdt->InputChain_X + adj_size(5));
           }
           pEdt->Start_X += (pEdt->pInputChain->prev->pTsurf->w);
         }
@@ -624,27 +624,27 @@ static Uint16 edit_textinput(char *text, void *pData)
     pEdt->pInputChain->prev->chr[charlen] = '\0';
     pEdt->pInputChain->prev->bytes = charlen;
 
-    if (get_wflags(pEdt->pWidget) & WF_PASSWD_EDIT) {
+    if (get_wflags(pEdt->pwidget) & WF_PASSWD_EDIT) {
       char passwd_chr[2] = {'*', '\0'};
 
       pEdt->pInputChain->prev->pTsurf =
-        TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
+        TTF_RenderUTF8_Blended(pEdt->pwidget->string_utf8->font,
                                passwd_chr,
-                               pEdt->pWidget->string_utf8->fgcol);
+                               pEdt->pwidget->string_utf8->fgcol);
     } else {
       pEdt->pInputChain->prev->pTsurf =
-        TTF_RenderUTF8_Blended(pEdt->pWidget->string_utf8->font,
+        TTF_RenderUTF8_Blended(pEdt->pwidget->string_utf8->font,
                                pEdt->pInputChain->prev->chr,
-                               pEdt->pWidget->string_utf8->fgcol);
+                               pEdt->pwidget->string_utf8->fgcol);
     }
     pEdt->Truelength += pEdt->pInputChain->prev->pTsurf->w;
 
-    if (pEdt->InputChain_X >= pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(10)) {
+    if (pEdt->InputChain_X >= pEdt->pwidget->size.x + pEdt->pBg->w - adj_size(10)) {
       if (pEdt->pInputChain == pEdt->pEndTextChain) {
         pEdt->Start_X = pEdt->pBg->w - adj_size(5) - pEdt->Truelength;
       } else {
         pEdt->Start_X -= pEdt->pInputChain->prev->pTsurf->w -
-          (pEdt->pWidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
+          (pEdt->pwidget->size.x + pEdt->pBg->w - adj_size(5) - pEdt->InputChain_X);
       }
     }
 
@@ -665,10 +665,10 @@ static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent,
   struct EDIT *pEdt = (struct EDIT *)pData;
 
   if (pButtonEvent->button == SDL_BUTTON_LEFT) {
-    if (!(pButtonEvent->x >= pEdt->pWidget->size.x
-          && pButtonEvent->x < pEdt->pWidget->size.x + pEdt->pBg->w
-          && pButtonEvent->y >= pEdt->pWidget->size.y
-          && pButtonEvent->y < pEdt->pWidget->size.y + pEdt->pBg->h)) {
+    if (!(pButtonEvent->x >= pEdt->pwidget->size.x
+          && pButtonEvent->x < pEdt->pwidget->size.x + pEdt->pBg->w
+          && pButtonEvent->y >= pEdt->pwidget->size.y
+          && pButtonEvent->y < pEdt->pwidget->size.y + pEdt->pBg->h)) {
       /* exit from loop */
       return (Uint16)ED_MOUSE;
     }
@@ -689,7 +689,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   enum Edit_Return_Codes ret;
   void *backup = pEdit_Widget->data.ptr;
 
-  pEdt.pWidget = pEdit_Widget;
+  pEdt.pwidget = pEdit_Widget;
   pEdt.ChainLen = 0;
   pEdt.Truelength = 0;
   pEdt.Start_X = adj_size(5);

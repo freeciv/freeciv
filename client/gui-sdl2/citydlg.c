@@ -876,12 +876,12 @@ static int happy_city_dlg_callback(struct widget *pButton)
 /**********************************************************************//**
   City option callback
 **************************************************************************/
-static int misc_panel_city_dlg_callback(struct widget *pWidget)
+static int misc_panel_city_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     bv_city_options new_options = pcity_dlg->pCity->city_options;
 
-    switch (MAX_ID - pWidget->ID) {
+    switch (MAX_ID - pwidget->ID) {
     case 0x10:
       if (BV_ISSET(new_options, CITYO_DISBAND)) {
         BV_CLR(new_options, CITYO_DISBAND);
@@ -901,18 +901,18 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
         BV_SET(new_options, CITYO_GOLD_SPECIALISTS);
       }
 
-      pWidget->theme2 = get_tax_surface(O_GOLD);
-      pWidget->ID = MAX_ID - 0x40;
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
+      pwidget->theme2 = get_tax_surface(O_GOLD);
+      pwidget->ID = MAX_ID - 0x40;
+      widget_redraw(pwidget);
+      widget_flush(pwidget);
       break;
     case 0x40:
       BV_CLR(new_options, CITYO_SCIENCE_SPECIALISTS);
       BV_CLR(new_options, CITYO_GOLD_SPECIALISTS);
-      pWidget->theme2 = get_tax_surface(O_LUXURY);
-      pWidget->ID = MAX_ID - 0x60;
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
+      pwidget->theme2 = get_tax_surface(O_LUXURY);
+      pwidget->ID = MAX_ID - 0x60;
+      widget_redraw(pwidget);
+      widget_flush(pwidget);
       break;
     case 0x60:
       if (BV_ISSET(new_options, CITYO_SCIENCE_SPECIALISTS)) {
@@ -921,10 +921,10 @@ static int misc_panel_city_dlg_callback(struct widget *pWidget)
         BV_SET(new_options, CITYO_SCIENCE_SPECIALISTS);
       }
 
-      pWidget->theme2 = get_tax_surface(O_SCIENCE);
-      pWidget->ID = MAX_ID - 0x20;
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
+      pwidget->theme2 = get_tax_surface(O_SCIENCE);
+      pwidget->ID = MAX_ID - 0x20;
+      widget_redraw(pwidget);
+      widget_flush(pwidget);
       break;
     }
 
@@ -1498,23 +1498,23 @@ void enable_city_dlg_widgets(void)
         set_group_state(pcity_dlg->pImprv->pBeginActiveWidgetList,
                         pcity_dlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
       } else {
-        struct widget *pTmpWidget = pcity_dlg->pImprv->pEndActiveWidgetList;
+        struct widget *tmp_widget = pcity_dlg->pImprv->pEndActiveWidgetList;
 
         while (TRUE) {
           struct impr_type *pimpr = improvement_by_number(MAX_ID - 3000 -
-                                                          pTmpWidget->ID);
+                                                          tmp_widget->ID);
 
           if (!can_city_sell_building(pcity_dlg->pCity, pimpr)) {
-            set_wstate(pTmpWidget, FC_WS_DISABLED);
+            set_wstate(tmp_widget, FC_WS_DISABLED);
           } else {
-            set_wstate(pTmpWidget, FC_WS_NORMAL);
+            set_wstate(tmp_widget, FC_WS_NORMAL);
           }
 
-          if (pTmpWidget == pcity_dlg->pImprv->pBeginActiveWidgetList) {
+          if (tmp_widget == pcity_dlg->pImprv->pBeginActiveWidgetList) {
             break;
           }
 
-          pTmpWidget = pTmpWidget->prev;
+          tmp_widget = tmp_widget->prev;
 
         } /* while */
       }

@@ -236,7 +236,7 @@ static int main_optiondlg_callback(struct widget *pwindow)
 /************************************************************************//**
   Back requested.
 ****************************************************************************/
-static int back_callback(struct widget *pWidget)
+static int back_callback(struct widget *pwidget)
 {
   if (NULL == option_dialog || !PRESSED_EVENT(main_data.event)) {
     return -1;
@@ -312,7 +312,7 @@ static int back_callback(struct widget *pWidget)
 /************************************************************************//**
   Create the client options dialog.
 ****************************************************************************/
-static int client_options_callback(struct widget *pWidget)
+static int client_options_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     option_dialog_popup(_("Local Options"), client_optset);
@@ -324,7 +324,7 @@ static int client_options_callback(struct widget *pWidget)
 /************************************************************************//**
   Create the server options dialog.
 ****************************************************************************/
-static int server_options_callback(struct widget *pWidget)
+static int server_options_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     option_dialog_popup(_("Server options"), server_optset);
@@ -348,7 +348,7 @@ static int work_lists_callback(struct widget *widget)
 /************************************************************************//**
   Option set category selected.
 ****************************************************************************/
-static int save_client_options_callback(struct widget *pWidget)
+static int save_client_options_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     options_save(NULL);
@@ -360,7 +360,7 @@ static int save_client_options_callback(struct widget *pWidget)
 /************************************************************************//**
   Save game callback.
 ****************************************************************************/
-static int save_game_callback(struct widget *pWidget)
+static int save_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     send_save_game(NULL);
@@ -385,7 +385,7 @@ static int help_browser_callback(struct widget *pwidget)
 /************************************************************************//**
   Client disconnect from server callback.
 ****************************************************************************/
-static int disconnect_callback(struct widget *pWidget)
+static int disconnect_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);
@@ -399,7 +399,7 @@ static int disconnect_callback(struct widget *pWidget)
 /************************************************************************//**
   Exit callback.
 ****************************************************************************/
-static int exit_callback(struct widget *pWidget)
+static int exit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_optiondlg(TRUE);

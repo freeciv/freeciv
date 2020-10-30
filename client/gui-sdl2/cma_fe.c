@@ -78,7 +78,7 @@ static int cma_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with cma dialog close button.
 **************************************************************************/
-static int exit_cma_dialog_callback(struct widget *pWidget)
+static int exit_cma_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_city_cma_dialog();
@@ -151,13 +151,13 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
 /**********************************************************************//**
   User interacted with minimal horizontal cma scrollbar
 **************************************************************************/
-static int min_horiz_cma_callback(struct widget *pWidget)
+static int min_horiz_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct hmove pMotion;
 
-    pMotion.pScrollBar = pWidget;
-    pMotion.min = pWidget->next->size.x + pWidget->next->size.w + 5;
+    pMotion.pScrollBar = pwidget;
+    pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
     pMotion.max = pMotion.min + 70;
     pMotion.base = -20;
 
@@ -172,8 +172,8 @@ static int min_horiz_cma_callback(struct widget *pWidget)
     MOVE_STEP_X = DEFAULT_MOVE_STEP;
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 
-    selected_widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELECTED);
+    selected_widget = pwidget;
+    set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
     cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
     /* refreshes the cma */
@@ -190,13 +190,13 @@ static int min_horiz_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with factor horizontal cma scrollbar
 **************************************************************************/
-static int factor_horiz_cma_callback(struct widget *pWidget)
+static int factor_horiz_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct hmove pMotion;
 
-    pMotion.pScrollBar = pWidget;
-    pMotion.min = pWidget->next->size.x + pWidget->next->size.w + 5;
+    pMotion.pScrollBar = pwidget;
+    pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
     pMotion.max = pMotion.min + 54;
     pMotion.base = 1;
 
@@ -211,8 +211,8 @@ static int factor_horiz_cma_callback(struct widget *pWidget)
     MOVE_STEP_X = DEFAULT_MOVE_STEP;
     MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 
-    selected_widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELECTED);
+    selected_widget = pwidget;
+    set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
     cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
     /* refreshes the cma */
@@ -229,7 +229,7 @@ static int factor_horiz_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with cma celebrating -toggle.
 **************************************************************************/
-static int toggle_cma_celebrating_callback(struct widget *pWidget)
+static int toggle_cma_celebrating_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     pCma->edited_cm_parm.require_happy ^= TRUE;
@@ -254,11 +254,11 @@ static int save_cma_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with "yes" button from save cma dialog.
 **************************************************************************/
-static int ok_save_cma_callback(struct widget *pWidget)
+static int ok_save_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pWidget && pCma && pCma->pAdv) {
-      struct widget *pEdit = (struct widget *)pWidget->data.ptr;
+    if (pwidget && pCma && pCma->pAdv) {
+      struct widget *pEdit = (struct widget *)pwidget->data.ptr;
 
       if (pEdit->string_utf8->text != NULL) {
         cmafec_preset_add(pEdit->string_utf8->text, &pCma->edited_cm_parm);
@@ -280,7 +280,7 @@ static int ok_save_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   Cancel : SAVE, LOAD, DELETE Dialogs
 **************************************************************************/
-static int cancel_SLD_cma_callback(struct widget *pWidget)
+static int cancel_SLD_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pCma && pCma->pAdv) {
@@ -298,7 +298,7 @@ static int cancel_SLD_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with cma setting saving button.
 **************************************************************************/
-static int save_cma_callback(struct widget *pWidget)
+static int save_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct widget *pBuf, *pwindow;
@@ -385,8 +385,8 @@ static int save_cma_callback(struct widget *pWidget)
     area = pwindow->area;
 
     widget_set_position(pwindow,
-                        pWidget->size.x - pwindow->size.w / 2,
-                        pWidget->size.y - pwindow->size.h);
+                        pwidget->size.x - pwindow->size.w / 2,
+                        pwidget->size.y - pwindow->size.h);
 
     /* setup rest of widgets */
     /* label */
@@ -428,11 +428,11 @@ static int save_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with some preset cma button.
 **************************************************************************/
-static int LD_cma_callback(struct widget *pWidget)
+static int LD_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    bool load = pWidget->data.ptr != NULL;
-    int index = MAX_ID - pWidget->ID;
+    bool load = pwidget->data.ptr != NULL;
+    int index = MAX_ID - pwidget->ID;
 
     popdown_window_group_dialog(pCma->pAdv->pBeginWidgetList,
                                 pCma->pAdv->pEndWidgetList);
@@ -603,10 +603,10 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 /**********************************************************************//**
   User interacted with load cma settings -widget
 **************************************************************************/
-static int load_cma_callback(struct widget *pWidget)
+static int load_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_load_del_presets_dialog(TRUE, pWidget);
+    popup_load_del_presets_dialog(TRUE, pwidget);
   }
 
   return -1;
@@ -615,10 +615,10 @@ static int load_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with delete cma settings -widget
 **************************************************************************/
-static int del_cma_callback(struct widget *pWidget)
+static int del_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_load_del_presets_dialog(FALSE, pWidget);
+    popup_load_del_presets_dialog(FALSE, pwidget);
   }
 
   return -1;
@@ -630,7 +630,7 @@ static int del_cma_callback(struct widget *pWidget)
   Changes the workers of the city to the cma parameters and puts the
   city under agent control
 **************************************************************************/
-static int run_cma_callback(struct widget *pWidget)
+static int run_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     cma_put_city_under_agent(pCma->pCity, &pCma->edited_cm_parm);
@@ -643,7 +643,7 @@ static int run_cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   Changes the workers of the city to the cma parameters
 **************************************************************************/
-static int run_cma_once_callback(struct widget *pWidget)
+static int run_cma_once_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct cm_result *result;
@@ -662,7 +662,7 @@ static int run_cma_once_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with release city from cma -widget
 **************************************************************************/
-static int stop_cma_callback(struct widget *pWidget)
+static int stop_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     cma_release_city(pCma->pCity);

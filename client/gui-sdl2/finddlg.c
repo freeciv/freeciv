@@ -64,11 +64,11 @@ static int find_city_window_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   Close find city dialog.
 **************************************************************************/
-static int exit_find_city_dlg_callback(struct widget *pWidget)
+static int exit_find_city_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int orginal_x = pWidget->data.cont->id0;
-    int orginal_y = pWidget->data.cont->id1;
+    int orginal_x = pwidget->data.cont->id0;
+    int orginal_y = pwidget->data.cont->id1;
 
     popdown_find_dialog();
 
@@ -83,10 +83,10 @@ static int exit_find_city_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User has selected city to find.
 **************************************************************************/
-static int find_city_callback(struct widget *pWidget)
+static int find_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pWidget->data.city;
+    struct city *pCity = pwidget->data.city;
 
     if (pCity) {
       center_tile_mapcanvas(pCity->tile);

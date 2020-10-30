@@ -146,21 +146,21 @@ void handle_diplomacy_cancel_meeting(int counterpart, int initiated_from)
 /**********************************************************************//**
   User interacted with remove clause -widget.
 **************************************************************************/
-static int remove_clause_callback(struct widget *pWidget)
+static int remove_clause_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
     dsend_packet_diplomacy_remove_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
-                                             (enum clause_type) ((pWidget->data.
+                                             pwidget->data.cont->id0,
+                                             (enum clause_type) ((pwidget->data.
                                              cont->value >> 16) & 0xFFFF),
-                                             pWidget->data.cont->value & 0xFFFF);
+                                             pwidget->data.cont->value & 0xFFFF);
   }
 
   return -1;
@@ -221,11 +221,11 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
 /**********************************************************************//**
   User interacted with cancel meeting -widget.
 **************************************************************************/
-static int cancel_meeting_callback(struct widget *pWidget)
+static int cancel_meeting_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     dsend_packet_diplomacy_cancel_meeting_req(&client.conn,
-                                              pWidget->data.cont->id1);
+                                              pwidget->data.cont->id1);
   }
 
   return -1;
@@ -234,11 +234,11 @@ static int cancel_meeting_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with accept treaty -widget.
 **************************************************************************/
-static int accept_treaty_callback(struct widget *pWidget)
+static int accept_treaty_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     dsend_packet_diplomacy_accept_treaty_req(&client.conn,
-                                             pWidget->data.cont->id1);
+                                             pwidget->data.cont->id1);
   }
 
   return -1;
@@ -249,17 +249,17 @@ static int accept_treaty_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with pact selection -widget.
 **************************************************************************/
-static int pact_callback(struct widget *pWidget)
+static int pact_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
-    switch (MAX_ID - pWidget->ID) {
+    switch (MAX_ID - pwidget->ID) {
     case 2:
       clause_type = CLAUSE_CEASEFIRE;
     break;
@@ -273,7 +273,7 @@ static int pact_callback(struct widget *pWidget)
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              clause_type, 0);
   }
 
@@ -283,18 +283,18 @@ static int pact_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with shared vision -widget.
 **************************************************************************/
-static int vision_callback(struct widget *pWidget)
+static int vision_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
   
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              CLAUSE_VISION, 0);
   }
 
@@ -304,18 +304,18 @@ static int vision_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with embassy -widget.
 **************************************************************************/
-static int embassy_callback(struct widget *pWidget)
+static int embassy_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              CLAUSE_EMBASSY, 0);
   }
 
@@ -325,17 +325,17 @@ static int embassy_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with map -widget.
 **************************************************************************/
-static int maps_callback(struct widget *pWidget)
+static int maps_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int clause_type;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
-    switch (MAX_ID - pWidget->ID) {
+    switch (MAX_ID - pwidget->ID) {
     case 1:
       clause_type = CLAUSE_MAP;
       break;
@@ -346,7 +346,7 @@ static int maps_callback(struct widget *pWidget)
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              clause_type, 0);
   }
 
@@ -356,20 +356,20 @@ static int maps_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with tech -widget.
 **************************************************************************/
-static int techs_callback(struct widget *pWidget)
+static int techs_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              CLAUSE_ADVANCE,
-                                             (MAX_ID - pWidget->ID));
+                                             (MAX_ID - pwidget->ID));
   }
 
   return -1;
@@ -378,22 +378,22 @@ static int techs_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with gold -widget.
 **************************************************************************/
-static int gold_callback(struct widget *pWidget)
+static int gold_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int amount;
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
-    if (pWidget->string_utf8->text != NULL) {
-      sscanf(pWidget->string_utf8->text, "%d", &amount);
+    if (pwidget->string_utf8->text != NULL) {
+      sscanf(pwidget->string_utf8->text, "%d", &amount);
 
-      if (amount > pWidget->data.cont->value) {
+      if (amount > pwidget->data.cont->value) {
         /* max player gold */
-        amount = pWidget->data.cont->value;
+        amount = pwidget->data.cont->value;
       }
 
     } else {
@@ -403,7 +403,7 @@ static int gold_callback(struct widget *pWidget)
     if (amount > 0) {
       dsend_packet_diplomacy_create_clause_req(&client.conn,
                                                player_number(pdialog->treaty.plr1),
-                                               pWidget->data.cont->id0,
+                                               pwidget->data.cont->id0,
                                                CLAUSE_GOLD, amount);
       
     } else {
@@ -411,10 +411,10 @@ static int gold_callback(struct widget *pWidget)
                            _("Invalid amount of gold specified."));
     }
 
-    if (amount || pWidget->string_utf8->text == NULL) {
-      copy_chars_to_utf8_str(pWidget->string_utf8, "0");
-      widget_redraw(pWidget);
-      widget_flush(pWidget);
+    if (amount || pwidget->string_utf8->text == NULL) {
+      copy_chars_to_utf8_str(pwidget->string_utf8, "0");
+      widget_redraw(pwidget);
+      widget_flush(pwidget);
     }
   }
 
@@ -424,20 +424,20 @@ static int gold_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with city -widget.
 **************************************************************************/
-static int cities_callback(struct widget *pWidget)
+static int cities_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct diplomacy_dialog *pdialog;
 
-    if (!(pdialog = get_diplomacy_dialog(pWidget->data.cont->id1))) {
-      pdialog = get_diplomacy_dialog(pWidget->data.cont->id0);
+    if (!(pdialog = get_diplomacy_dialog(pwidget->data.cont->id1))) {
+      pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
     dsend_packet_diplomacy_create_clause_req(&client.conn,
                                              player_number(pdialog->treaty.plr1),
-                                             pWidget->data.cont->id0,
+                                             pwidget->data.cont->id0,
                                              CLAUSE_CITY,
-                                             (MAX_ID - pWidget->ID));
+                                             (MAX_ID - pwidget->ID));
   }
 
   return -1;
@@ -1289,13 +1289,13 @@ static int sdip_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with withdraw vision -widget.
 **************************************************************************/
-static int withdraw_vision_dlg_callback(struct widget *pWidget)
+static int withdraw_vision_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_sdip_dialog();
 
     dsend_packet_diplomacy_cancel_pact(&client.conn,
-                                       player_number(pWidget->data.player),
+                                       player_number(pwidget->data.player),
                                        CLAUSE_VISION);
 
     flush_dirty();
@@ -1307,13 +1307,13 @@ static int withdraw_vision_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with cancel pact -widget.
 **************************************************************************/
-static int cancel_pact_dlg_callback(struct widget *pWidget)
+static int cancel_pact_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_sdip_dialog();
 
     dsend_packet_diplomacy_cancel_pact(&client.conn,
-                                       player_number(pWidget->data.player),
+                                       player_number(pwidget->data.player),
                                        CLAUSE_CEASEFIRE);
 
     flush_dirty();
@@ -1325,15 +1325,15 @@ static int cancel_pact_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with call meeting -widget.
 **************************************************************************/
-static int call_meeting_dlg_callback(struct widget *pWidget)
+static int call_meeting_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_sdip_dialog();
 
-    if (can_meet_with_player(pWidget->data.player)) {
+    if (can_meet_with_player(pwidget->data.player)) {
       dsend_packet_diplomacy_init_meeting_req(&client.conn,
                                               player_number
-                                              (pWidget->data.player));
+                                              (pwidget->data.player));
     }
 
     flush_dirty();
@@ -1345,7 +1345,7 @@ static int call_meeting_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with cancel small diplomacy dialog -widget.
 **************************************************************************/
-static int cancel_sdip_dlg_callback(struct widget *pWidget)
+static int cancel_sdip_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_sdip_dialog();

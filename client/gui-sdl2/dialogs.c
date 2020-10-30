@@ -89,7 +89,7 @@ extern void popdown_bribe_dialog(void);
 
 void popdown_advanced_terrain_dialog(void);
 int advanced_terrain_window_dlg_callback(struct widget *pwindow);
-int exit_advanced_terrain_dlg_callback(struct widget *pWidget);
+int exit_advanced_terrain_dlg_callback(struct widget *pwidget);
 
 static char *pLeaderName = NULL;
 
@@ -483,7 +483,7 @@ static int notify_dialog_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with notify dialog close button.
 **************************************************************************/
-static int exit_notify_dialog_callback(struct widget *pWidget)
+static int exit_notify_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pNotifyDlg) {
@@ -623,7 +623,7 @@ static int upgrade_unit_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with upgrade unit dialog cancel -button 
 **************************************************************************/
-static int cancel_upgrade_unit_callback(struct widget *pWidget)
+static int cancel_upgrade_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_unit_upgrade_dlg();
@@ -637,10 +637,10 @@ static int cancel_upgrade_unit_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unit upgrade dialog "Upgrade" -button.
 **************************************************************************/
-static int ok_upgrade_unit_window_callback(struct widget *pWidget)
+static int ok_upgrade_unit_window_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *pUnit = pwidget->data.unit;
 
     popdown_unit_upgrade_dlg();
     /* enable city dlg */
@@ -826,7 +826,7 @@ static int disband_unit_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User interacted with disband unit dialog cancel -button
 **************************************************************************/
-static int cancel_disband_unit_callback(struct widget *pWidget)
+static int cancel_disband_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_unit_disband_dlg();
@@ -840,10 +840,10 @@ static int cancel_disband_unit_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with unit disband dialog "Disband" -button.
 **************************************************************************/
-static int ok_disband_unit_window_callback(struct widget *pWidget)
+static int ok_disband_unit_window_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *pUnit = pwidget->data.unit;
 
     popdown_unit_disband_dlg();
     /* enable city dlg */
@@ -1022,7 +1022,7 @@ static int unit_select_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User requested unit select window to be closed.
 **************************************************************************/
-static int exit_unit_select_callback(struct widget *pWidget)
+static int exit_unit_select_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     unit_select_dialog_popdown();
@@ -1035,11 +1035,11 @@ static int exit_unit_select_callback(struct widget *pWidget)
 /**********************************************************************//**
   User selected unit from unit select window.
 **************************************************************************/
-static int unit_select_callback(struct widget *pWidget)
+static int unit_select_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *pUnit =
-      player_unit_by_number(client_player(), MAX_ID - pWidget->ID);
+      player_unit_by_number(client_player(), MAX_ID - pwidget->ID);
 
     unit_select_dialog_popdown();
     if (pUnit) {
@@ -1410,7 +1410,7 @@ int advanced_terrain_window_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User requested closing of advanced terrain dialog.
 **************************************************************************/
-int exit_advanced_terrain_dlg_callback(struct widget *pWidget)
+int exit_advanced_terrain_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_advanced_terrain_dialog();
@@ -1422,11 +1422,11 @@ int exit_advanced_terrain_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested terrain info.
 **************************************************************************/
-static int terrain_info_callback(struct widget *pWidget)
+static int terrain_info_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
 
     popdown_advanced_terrain_dialog();
 
@@ -1439,10 +1439,10 @@ static int terrain_info_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested zoom to city.
 **************************************************************************/
-static int zoom_to_city_callback(struct widget *pWidget)
+static int zoom_to_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pWidget->data.city;
+    struct city *pCity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
 
@@ -1454,10 +1454,10 @@ static int zoom_to_city_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested production change.
 **************************************************************************/
-static int change_production_callback(struct widget *pWidget)
+static int change_production_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pWidget->data.city;
+    struct city *pCity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
     popup_worklist_editor(pCity, NULL);
@@ -1468,10 +1468,10 @@ static int change_production_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested hurry production.
 **************************************************************************/
-static int hurry_production_callback(struct widget *pWidget)
+static int hurry_production_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pWidget->data.city;
+    struct city *pCity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
 
@@ -1483,10 +1483,10 @@ static int hurry_production_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested opening of cma settings.
 **************************************************************************/
-static int cma_callback(struct widget *pWidget)
+static int cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pWidget->data.city;
+    struct city *pCity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
     popup_city_cma_dialog(pCity);
@@ -1497,10 +1497,10 @@ static int cma_callback(struct widget *pWidget)
 /**********************************************************************//**
   User selected unit.
 **************************************************************************/
-static int adv_unit_select_callback(struct widget *pWidget)
+static int adv_unit_select_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *pUnit = pwidget->data.unit;
 
     popdown_advanced_terrain_dialog();
 
@@ -1515,10 +1515,10 @@ static int adv_unit_select_callback(struct widget *pWidget)
 /**********************************************************************//**
   User selected all units from tile.
 **************************************************************************/
-static int adv_unit_select_all_callback(struct widget *pWidget)
+static int adv_unit_select_all_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *pUnit = pwidget->data.unit;
 
     popdown_advanced_terrain_dialog();
 
@@ -1532,10 +1532,10 @@ static int adv_unit_select_all_callback(struct widget *pWidget)
 /**********************************************************************//**
   Sentry unit widget contains.
 **************************************************************************/
-static int adv_unit_sentry_idle_callback(struct widget *pWidget)
+static int adv_unit_sentry_idle_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
+    struct unit *pUnit = pwidget->data.unit;
 
     popdown_advanced_terrain_dialog();
 
@@ -1558,11 +1558,11 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
 /**********************************************************************//**
   Initiate goto to selected tile.
 **************************************************************************/
-static int goto_here_callback(struct widget *pWidget)
+static int goto_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
 
     popdown_advanced_terrain_dialog();
 
@@ -1577,14 +1577,14 @@ static int goto_here_callback(struct widget *pWidget)
 /**********************************************************************//**
   Initiate patrol to selected tile.
 **************************************************************************/
-static int patrol_here_callback(struct widget *pWidget)
+static int patrol_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
 
 /* FIXME */
 #if 0
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
     struct unit *pUnit = head_of_units_in_focus();
 #endif
 
@@ -1605,13 +1605,13 @@ static int patrol_here_callback(struct widget *pWidget)
 /**********************************************************************//**
   Initiate paradrop to selected tile.
 **************************************************************************/
-static int paradrop_here_callback(struct widget *pWidget)
+static int paradrop_here_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
 /* FIXME */
 #if 0
-    int x = pWidget->data.cont->id0;
-    int y = pWidget->data.cont->id1;
+    int x = pwidget->data.cont->id0;
+    int y = pwidget->data.cont->id1;
 #endif
 
     popdown_advanced_terrain_dialog();
@@ -1627,10 +1627,10 @@ static int paradrop_here_callback(struct widget *pWidget)
 /**********************************************************************//**
   Show help about unit type.
 **************************************************************************/
-static int unit_help_callback(struct widget *pWidget)
+static int unit_help_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    Unit_type_id unit_id = MAX_ID - pWidget->ID;
+    Unit_type_id unit_id = MAX_ID - pwidget->ID;
 
     popdown_advanced_terrain_dialog();
     popup_unit_info(unit_id);
@@ -2166,11 +2166,11 @@ static int pillage_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User selected what to pillage.
 **************************************************************************/
-static int pillage_callback(struct widget *pWidget)
+static int pillage_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pWidget->data.unit;
-    int what = MAX_ID - pWidget->ID;
+    struct unit *pUnit = pwidget->data.unit;
+    int what = MAX_ID - pwidget->ID;
 
     popdown_pillage_dialog();
 
@@ -2186,7 +2186,7 @@ static int pillage_callback(struct widget *pWidget)
 /**********************************************************************//**
   User requested closing of pillage dialog.
 **************************************************************************/
-static int exit_pillage_dlg_callback(struct widget *pWidget)
+static int exit_pillage_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_pillage_dialog();
@@ -2740,7 +2740,7 @@ static int races_dialog_cancel_callback(struct widget *pButton)
 /**********************************************************************//**
   User interacted with style widget.
 **************************************************************************/
-static int style_callback(struct widget *pWidget)
+static int style_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
@@ -2751,11 +2751,11 @@ static int style_callback(struct widget *pWidget)
     widget_redraw(pGUI);
     widget_mark_dirty(pGUI);
 
-    set_wstate(pWidget, FC_WS_DISABLED);
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
+    set_wstate(pwidget, FC_WS_DISABLED);
+    widget_redraw(pwidget);
+    widget_mark_dirty(pwidget);
 
-    pSetup->nation_style = MAX_ID - 1000 - pWidget->ID;
+    pSetup->nation_style = MAX_ID - 1000 - pwidget->ID;
 
     flush_dirty();
     selected_widget = NULL;
@@ -2774,14 +2774,14 @@ static int help_dlg_callback(struct widget *pwindow)
 /**********************************************************************//**
   User requested closing of help dialog.
 **************************************************************************/
-static int cancel_help_dlg_callback(struct widget *pWidget)
+static int cancel_help_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pHelpDlg) {
       popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
                                   pHelpDlg->pEndWidgetList);
       FC_FREE(pHelpDlg);
-      if (pWidget) {
+      if (pwidget) {
         flush_dirty();
       }
     }
@@ -3019,7 +3019,7 @@ void popup_races_dialog(struct player *pplayer)
 {
   SDL_Color bg_color = {255,255,255,128};
 
-  struct widget *pwindow, *pWidget = NULL, *pBuf, *pLast_City_Style;
+  struct widget *pwindow, *pwidget = NULL, *pBuf, *pLast_City_Style;
   utf8_str *pstr;
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
@@ -3100,20 +3100,20 @@ void popup_races_dialog(struct player *pplayer)
     dst.y += pText_Name->h;
     FREESURFACE(pText_Name);
 
-    pWidget = create_icon2(pTmp_Surf, pwindow->dst,
+    pwidget = create_icon2(pTmp_Surf, pwindow->dst,
                            (WF_RESTORE_BACKGROUND|WF_FREE_THEME));
 
-    set_wstate(pWidget, FC_WS_NORMAL);
+    set_wstate(pwidget, FC_WS_NORMAL);
 
-    pWidget->action = nation_button_callback;
+    pwidget->action = nation_button_callback;
 
-    w = MAX(w, pWidget->size.w);
-    h = MAX(h, pWidget->size.h);
+    w = MAX(w, pwidget->size.w);
+    h = MAX(h, pwidget->size.h);
 
-    add_to_gui_list(MAX_ID - nation_index(pNation), pWidget);
+    add_to_gui_list(MAX_ID - nation_index(pNation), pwidget);
 
     if (nation_index(pNation) > (TARGETS_ROW * TARGETS_COL - 1)) {
-      set_wflag(pWidget, WF_HIDDEN);
+      set_wflag(pwidget, WF_HIDDEN);
     }
 
   } nations_iterate_end;
@@ -3121,7 +3121,7 @@ void popup_races_dialog(struct player *pplayer)
   FREESURFACE(pMain_Bg);
 
   pNationDlg->pEndActiveWidgetList = pwindow->prev;
-  pNationDlg->pBeginWidgetList = pWidget;
+  pNationDlg->pBeginWidgetList = pwidget;
   pNationDlg->pBeginActiveWidgetList = pNationDlg->pBeginWidgetList;
 
   if (get_playable_nation_count() > TARGETS_ROW * TARGETS_COL) {
@@ -3150,32 +3150,32 @@ void popup_races_dialog(struct player *pplayer)
                                        adj_font(12));
     change_ptsize_utf8(natset_str, adj_font(24));
 
-    pWidget = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
+    pwidget = create_iconlabel(NULL, pwindow->dst, natset_str, 0);
 
-    add_to_gui_list(ID_LABEL, pWidget);
-    pSetup->pset_name = pWidget;
+    add_to_gui_list(ID_LABEL, pwidget);
+    pSetup->pset_name = pwidget;
 
     /* create next nationset button */
-    pWidget = create_themeicon_button(current_theme->R_ARROW_Icon,
+    pwidget = create_themeicon_button(current_theme->R_ARROW_Icon,
                                       pwindow->dst, NULL, 0);
-    pWidget->action = next_set_callback;
+    pwidget->action = next_set_callback;
     if (nation_set_index(pSetup->set) < nation_set_count() - 1) {
-      set_wstate(pWidget, FC_WS_NORMAL);
+      set_wstate(pwidget, FC_WS_NORMAL);
     }
-    add_to_gui_list(ID_NATION_NEXT_NATIONSET_BUTTON, pWidget);
-    pWidget->size.h = pWidget->next->size.h;
-    pSetup->pset_next = pWidget;
+    add_to_gui_list(ID_NATION_NEXT_NATIONSET_BUTTON, pwidget);
+    pwidget->size.h = pwidget->next->size.h;
+    pSetup->pset_next = pwidget;
 
     /* create prev nationset button */
-    pWidget = create_themeicon_button(current_theme->L_ARROW_Icon,
+    pwidget = create_themeicon_button(current_theme->L_ARROW_Icon,
                                       pwindow->dst, NULL, 0);
-    pWidget->action = prev_set_callback;
+    pwidget->action = prev_set_callback;
     if (nation_set_index(pSetup->set) > 0) {
-      set_wstate(pWidget, FC_WS_NORMAL);
+      set_wstate(pwidget, FC_WS_NORMAL);
     }
-    add_to_gui_list(ID_NATION_PREV_NATIONSET_BUTTON, pWidget);
-    pWidget->size.h = pWidget->next->size.h;
-    pSetup->pset_prev = pWidget;
+    add_to_gui_list(ID_NATION_PREV_NATIONSET_BUTTON, pwidget);
+    pwidget->size.h = pwidget->next->size.h;
+    pSetup->pset_prev = pwidget;
   }
 
   /* nation name */
@@ -3190,52 +3190,52 @@ void popup_races_dialog(struct player *pplayer)
 
   pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pnat));
 
-  pWidget = create_iconlabel(pTmp_Surf_zoomed, pwindow->dst, pstr,
+  pwidget = create_iconlabel(pTmp_Surf_zoomed, pwindow->dst, pstr,
                              (WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
   if (nationsets == NULL) {
-    pBuf = pWidget;
+    pBuf = pwidget;
   } else {
     pBuf = nationsets;
   }
 
-  add_to_gui_list(ID_LABEL, pWidget);
+  add_to_gui_list(ID_LABEL, pwidget);
 
   /* create leader name edit */
-  pWidget = create_edit_from_chars(NULL, pwindow->dst,
+  pwidget = create_edit_from_chars(NULL, pwindow->dst,
                                    NULL, adj_font(16), adj_size(200), 0);
-  pWidget->size.h = adj_size(24);
+  pwidget->size.h = adj_size(24);
 
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pWidget->action = leader_name_edit_callback;
-  add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pWidget);
-  pSetup->pName_Edit = pWidget;
+  set_wstate(pwidget, FC_WS_NORMAL);
+  pwidget->action = leader_name_edit_callback;
+  add_to_gui_list(ID_NATION_WIZARD_LEADER_NAME_EDIT, pwidget);
+  pSetup->pName_Edit = pwidget;
 
   /* create next leader name button */
-  pWidget = create_themeicon_button(current_theme->R_ARROW_Icon,
+  pwidget = create_themeicon_button(current_theme->R_ARROW_Icon,
                                     pwindow->dst, NULL, 0);
-  pWidget->action = next_name_callback;
-  add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pWidget);
-  pWidget->size.h = pWidget->next->size.h;
-  pSetup->pName_Next = pWidget;
+  pwidget->action = next_name_callback;
+  add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pwidget);
+  pwidget->size.h = pwidget->next->size.h;
+  pSetup->pName_Next = pwidget;
 
   /* create prev leader name button */
-  pWidget = create_themeicon_button(current_theme->L_ARROW_Icon,
+  pwidget = create_themeicon_button(current_theme->L_ARROW_Icon,
                                     pwindow->dst, NULL, 0);
-  pWidget->action = prev_name_callback;
-  add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pWidget);
-  pWidget->size.h = pWidget->next->size.h;
-  pSetup->pName_Prev = pWidget;
+  pwidget->action = prev_name_callback;
+  add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pwidget);
+  pwidget->size.h = pwidget->next->size.h;
+  pSetup->pName_Prev = pwidget;
 
   /* change sex button */
-  pWidget = create_icon_button_from_chars(NULL, pwindow->dst, _("Male"), adj_font(14), 0);
-  pWidget->action = change_sex_callback;
-  pWidget->size.w = adj_size(100);
-  pWidget->size.h = adj_size(22);
-  set_wstate(pWidget, FC_WS_NORMAL);
-  pSetup->pChange_Sex = pWidget;
+  pwidget = create_icon_button_from_chars(NULL, pwindow->dst, _("Male"), adj_font(14), 0);
+  pwidget->action = change_sex_callback;
+  pwidget->size.w = adj_size(100);
+  pwidget->size.h = adj_size(22);
+  set_wstate(pwidget, FC_WS_NORMAL);
+  pSetup->pChange_Sex = pwidget;
 
   /* add to main widget list */
-  add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pWidget);
+  add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pwidget);
 
   /* ---------------------------------------------------------- */
   i = 0;
@@ -3253,39 +3253,39 @@ void popup_races_dialog(struct player *pplayer)
 
     pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
-    pWidget = create_icon2(pTmp_Surf_zoomed, pwindow->dst, WF_RESTORE_BACKGROUND);
-    pWidget->action = style_callback;
+    pwidget = create_icon2(pTmp_Surf_zoomed, pwindow->dst, WF_RESTORE_BACKGROUND);
+    pwidget->action = style_callback;
     if (i != pSetup->nation_style) {
-      set_wstate(pWidget, FC_WS_NORMAL);
+      set_wstate(pwidget, FC_WS_NORMAL);
     }
-    len += pWidget->size.w;
-    add_to_gui_list(MAX_ID - 1000 - i, pWidget);
+    len += pwidget->size.w;
+    add_to_gui_list(MAX_ID - 1000 - i, pwidget);
   } styles_iterate_end;
 
-  pLast_City_Style = pWidget;
+  pLast_City_Style = pwidget;
   /* ---------------------------------------------------------- */
 
   /* create Cancel button */
-  pWidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+  pwidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                                pwindow->dst, _("Cancel"),
                                                adj_font(12), 0);
-  pWidget->action = races_dialog_cancel_callback;
-  set_wstate(pWidget, FC_WS_NORMAL);
+  pwidget->action = races_dialog_cancel_callback;
+  set_wstate(pwidget, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pWidget);
+  add_to_gui_list(ID_NATION_WIZARD_DISCONNECT_BUTTON, pwidget);
 
   /* create OK button */
-  pWidget =
+  pwidget =
     create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                        _("OK"), adj_font(12), 0);
-  pWidget->action = races_dialog_ok_callback;
+  pwidget->action = races_dialog_ok_callback;
 
-  set_wstate(pWidget, FC_WS_NORMAL);
-  add_to_gui_list(ID_NATION_WIZARD_START_BUTTON, pWidget);
-  pWidget->size.w = MAX(pWidget->size.w, pWidget->next->size.w);
-  pWidget->next->size.w = pWidget->size.w;
+  set_wstate(pwidget, FC_WS_NORMAL);
+  add_to_gui_list(ID_NATION_WIZARD_START_BUTTON, pwidget);
+  pwidget->size.w = MAX(pwidget->size.w, pwidget->next->size.w);
+  pwidget->next->size.w = pwidget->size.w;
 
-  pNationDlg->pBeginWidgetList = pWidget;
+  pNationDlg->pBeginWidgetList = pwidget;
   /* ---------------------------------------------------------- */
 
   pMain_Bg = theme_get_background(theme, BACKGROUND_NATIONDLG);

@@ -197,7 +197,7 @@ static int diplomat_dlg_window_callback(struct widget *pwindow)
   Requests up-to-date list of improvements, the return of
   which will trigger the popup_sabotage_dialog() function.
 **************************************************************************/
-static int spy_strike_bld_request(struct widget *pWidget)
+static int spy_strike_bld_request(struct widget *pwidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
       && NULL != game_city_by_number(
@@ -218,7 +218,7 @@ static int spy_strike_bld_request(struct widget *pWidget)
   Requests up-to-date list of improvements, the return of
   which will trigger the popup_sabotage_dialog() function.
 **************************************************************************/
-static int spy_sabotage_request(struct widget *pWidget)
+static int spy_sabotage_request(struct widget *pwidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
       && NULL != game_city_by_number(
@@ -240,7 +240,7 @@ static int spy_sabotage_request(struct widget *pWidget)
   which will trigger the popup_sabotage_dialog() function.
   (Escape version)
 **************************************************************************/
-static int spy_sabotage_esc_request(struct widget *pWidget)
+static int spy_sabotage_esc_request(struct widget *pwidget)
 {
   if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
       && NULL != game_city_by_number(
@@ -274,7 +274,7 @@ static int spy_steal_dlg_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   Exit spy's steal or sabotage dialog.
 **************************************************************************/
-static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
+static int exit_spy_tgt_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
@@ -290,10 +290,10 @@ static int exit_spy_tgt_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User selected which tech spy steals.
 **************************************************************************/
-static int spy_steal_callback(struct widget *pWidget)
+static int spy_steal_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int steal_advance = MAX_ID - pWidget->ID;
+    int steal_advance = MAX_ID - pwidget->ID;
     int actor_id = pDiplomat_Dlg->actor_unit_id;
 
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -326,10 +326,10 @@ static int spy_steal_callback(struct widget *pWidget)
 /**********************************************************************//**
   Popup spy tech stealing dialog.
 **************************************************************************/
-static int spy_steal_popup_shared(struct widget *pWidget)
+static int spy_steal_popup_shared(struct widget *pwidget)
 {
   const struct research *presearch, *vresearch;
-  struct city *pVcity = pWidget->data.city;
+  struct city *pVcity = pwidget->data.city;
   int id = pDiplomat_Dlg->actor_unit_id;
   struct player *pVictim = NULL;
   struct CONTAINER *pCont;
@@ -568,25 +568,25 @@ static int spy_steal_popup_shared(struct widget *pWidget)
 /**********************************************************************//**
   Popup spy tech stealing dialog for "Targeted Steal Tech".
 **************************************************************************/
-static int spy_steal_popup(struct widget *pWidget)
+static int spy_steal_popup(struct widget *pwidget)
 {
   pDiplomat_Dlg->act_id = ACTION_SPY_TARGETED_STEAL_TECH;
-  return spy_steal_popup_shared(pWidget);
+  return spy_steal_popup_shared(pwidget);
 }
 
 /**********************************************************************//**
   Popup spy tech stealing dialog for "Targeted Steal Tech Escape Expected".
 **************************************************************************/
-static int spy_steal_esc_popup(struct widget *pWidget)
+static int spy_steal_esc_popup(struct widget *pwidget)
 {
   pDiplomat_Dlg->act_id = ACTION_SPY_TARGETED_STEAL_TECH_ESC;
-  return spy_steal_popup_shared(pWidget);
+  return spy_steal_popup_shared(pwidget);
 }
 
 /**********************************************************************//**
   Ask the server how much the revolt is going to cost us
 **************************************************************************/
-static int diplomat_incite_callback(struct widget *pWidget)
+static int diplomat_incite_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -608,7 +608,7 @@ static int diplomat_incite_callback(struct widget *pWidget)
 /**********************************************************************//**
   Ask the server how much the revolt is going to cost us
 **************************************************************************/
-static int spy_incite_callback(struct widget *pWidget)
+static int spy_incite_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -632,14 +632,14 @@ static int spy_incite_callback(struct widget *pWidget)
   (This should only occur when entering a tile with an allied city
   or an allied unit.)
 **************************************************************************/
-static int act_sel_keep_moving_callback(struct widget *pWidget)
+static int act_sel_keep_moving_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
 
     if ((punit = game_unit_by_number(pDiplomat_Dlg->actor_unit_id))
-        && !same_pos(unit_tile(punit), pWidget->data.tile)) {
-      request_unit_non_action_move(punit, pWidget->data.tile);
+        && !same_pos(unit_tile(punit), pwidget->data.tile)) {
+      request_unit_non_action_move(punit, pwidget->data.tile);
     }
 
     popdown_diplomat_dialog();
@@ -651,7 +651,7 @@ static int act_sel_keep_moving_callback(struct widget *pWidget)
 /**********************************************************************//**
   Delay selection of what action to take.
 **************************************************************************/
-static int act_sel_wait_callback(struct widget *pWidget)
+static int act_sel_wait_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     key_unit_wait();
@@ -666,7 +666,7 @@ static int act_sel_wait_callback(struct widget *pWidget)
 /**********************************************************************//**
   Ask the server how much the bribe costs
 **************************************************************************/
-static int diplomat_bribe_callback(struct widget *pWidget)
+static int diplomat_bribe_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pDiplomat_Dlg->actor_unit_id)
@@ -688,7 +688,7 @@ static int diplomat_bribe_callback(struct widget *pWidget)
 /**********************************************************************//**
   User clicked "Found City"
 **************************************************************************/
-static int found_city_callback(struct widget *pWidget)
+static int found_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int actor_id = pDiplomat_Dlg->actor_unit_id;
@@ -704,7 +704,7 @@ static int found_city_callback(struct widget *pWidget)
 /**********************************************************************//**
   User clicked "Upgrade Unit"
 **************************************************************************/
-static int upgrade_callback(struct widget *pWidget)
+static int upgrade_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *punit;
@@ -725,7 +725,7 @@ static int upgrade_callback(struct widget *pWidget)
   User selected an action from the choice dialog and the action has no
   special needs.
 **************************************************************************/
-static int simple_action_callback(struct widget *pWidget)
+static int simple_action_callback(struct widget *pwidget)
 {
   int actor_id, target_id, sub_target;
   struct action *paction;
@@ -737,7 +737,7 @@ static int simple_action_callback(struct widget *pWidget)
   }
 
   /* Data */
-  paction = action_by_number(MAX_ID - pWidget->ID);
+  paction = action_by_number(MAX_ID - pwidget->ID);
 
   /* Actor */
   fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
@@ -829,7 +829,7 @@ static int simple_action_callback(struct widget *pWidget)
 /**********************************************************************//**
   Close diplomat dialog.
 **************************************************************************/
-static int diplomat_close_callback(struct widget *pWidget)
+static int diplomat_close_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_diplomat_dialog();
@@ -1275,13 +1275,13 @@ void action_selection_close(void)
 /**********************************************************************//**
   User selected what to sabotage.
 **************************************************************************/
-static int sabotage_impr_callback(struct widget *pWidget)
+static int sabotage_impr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int sabotage_improvement = MAX_ID - pWidget->ID;
-    int diplomat_target_id = pWidget->data.cont->id0;
-    int diplomat_id = pWidget->data.cont->id1;
-    action_id act_id = pWidget->data.cont->value;
+    int sabotage_improvement = MAX_ID - pwidget->ID;
+    int diplomat_target_id = pwidget->data.cont->id0;
+    int diplomat_id = pwidget->data.cont->id1;
+    action_id act_id = pwidget->data.cont->value;
 
     fc_assert(is_more_user_input_needed);
     popdown_diplomat_dialog();
@@ -1575,7 +1575,7 @@ static int incite_dlg_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User confirmed incite
 **************************************************************************/
-static int diplomat_incite_yes_callback(struct widget *pWidget)
+static int diplomat_incite_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pIncite_Dlg->actor_unit_id)
@@ -1593,7 +1593,7 @@ static int diplomat_incite_yes_callback(struct widget *pWidget)
 /**********************************************************************//**
   Close incite dialog.
 **************************************************************************/
-static int exit_incite_dlg_callback(struct widget *pWidget)
+static int exit_incite_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_incite_dialog();
@@ -1839,7 +1839,7 @@ static int bribe_dlg_window_callback(struct widget *pwindow)
 /**********************************************************************//**
   User confirmed bribe.
 **************************************************************************/
-static int diplomat_bribe_yes_callback(struct widget *pWidget)
+static int diplomat_bribe_yes_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (NULL != game_unit_by_number(pBribe_Dlg->actor_unit_id)
@@ -1856,7 +1856,7 @@ static int diplomat_bribe_yes_callback(struct widget *pWidget)
 /**********************************************************************//**
   Close bribe dialog.
 **************************************************************************/
-static int exit_bribe_dlg_callback(struct widget *pWidget)
+static int exit_bribe_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_bribe_dialog();

@@ -159,7 +159,7 @@ static int redraw_vert(struct widget *pVert)
 
   This function determinate future size of VScrollBar
   ( width = 'pVert_theme->w' , high = 'high' ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
+  save this in: pwidget->size rectangle ( SDL_Rect )
 
   Return pointer to created Widget.
 **************************************************************************/
@@ -298,7 +298,7 @@ static int redraw_horiz(struct widget *pHoriz)
 
   This function determinate future size of HScrollBar
   ( width = 'pVert_theme->w' , high = 'high' ) and
-  save this in: pWidget->size rectangle ( SDL_Rect )
+  save this in: pwidget->size rectangle ( SDL_Rect )
 
   Return pointer to created Widget.
 **************************************************************************/
@@ -411,10 +411,10 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 /**********************************************************************//**
   User interacted with up button of advanced dialog.
 **************************************************************************/
-static int std_up_advanced_dlg_callback(struct widget *pWidget)
+static int std_up_advanced_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
+    struct ADVANCED_DLG *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = up_scroll_widget_list(
                           pDlg->pScroll,
                           pDlg->pActiveWidgetList,
@@ -426,10 +426,10 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
     }
 
     unselect_widget_action();
-    selected_widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELECTED);
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
+    selected_widget = pwidget;
+    set_wstate(pwidget, FC_WS_SELECTED);
+    widget_redraw(pwidget);
+    widget_flush(pwidget);
   }
 
   return -1;
@@ -438,10 +438,10 @@ static int std_up_advanced_dlg_callback(struct widget *pWidget)
 /**********************************************************************//**
   User interacted with down button of advanced dialog.
 **************************************************************************/
-static int std_down_advanced_dlg_callback(struct widget *pWidget)
+static int std_down_advanced_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct ADVANCED_DLG *pDlg = pWidget->private_data.adv_dlg;
+    struct ADVANCED_DLG *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = down_scroll_widget_list(
                               pDlg->pScroll,
                               pDlg->pActiveWidgetList,
@@ -453,10 +453,10 @@ static int std_down_advanced_dlg_callback(struct widget *pWidget)
     }
 
     unselect_widget_action();
-    selected_widget = pWidget;
-    set_wstate(pWidget, FC_WS_SELECTED);
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
+    selected_widget = pwidget;
+    set_wstate(pwidget, FC_WS_SELECTED);
+    widget_redraw(pwidget);
+    widget_flush(pwidget);
   }
 
   return -1;
@@ -1350,12 +1350,12 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   It is full secure for multi widget list case.
 **************************************************************************/
 bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
-                                                 struct widget *pWidget)
+                                                 struct widget *pwidget)
 {
   int count = 0;
-  struct widget *pBuf = pWidget;
+  struct widget *pBuf = pwidget;
 
-  fc_assert_ret_val(pWidget != NULL, FALSE);
+  fc_assert_ret_val(pwidget != NULL, FALSE);
   fc_assert_ret_val(pDlg != NULL, FALSE);
 
   /* if begin == end -> size = 1 */
@@ -1377,9 +1377,9 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
     pDlg->pActiveWidgetList = NULL;
     pDlg->pEndActiveWidgetList = NULL;
 
-    widget_undraw(pWidget);
-    widget_mark_dirty(pWidget);
-    del_widget_from_gui_list(pWidget);
+    widget_undraw(pwidget);
+    widget_mark_dirty(pwidget);
+    del_widget_from_gui_list(pwidget);
     return FALSE;
   }
 
@@ -1412,7 +1412,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         /* look for the widget in the non-visible part */
         pBuf = pDlg->pEndActiveWidgetList;
         while (pBuf != pDlg->pActiveWidgetList) {
-          if (pBuf == pWidget) {
+          if (pBuf == pwidget) {
             widget_found = TRUE;
             pBuf = pDlg->pActiveWidgetList;
             break;
@@ -1423,7 +1423,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
         /* if we haven't found it yet, look in the visible part and update the
          * positions of the other widgets */
         if (!widget_found) {
-          while (pBuf != pWidget) {
+          while (pBuf != pwidget) {
             pBuf->gfx = pBuf->prev->gfx;
             pBuf->prev->gfx = NULL;
             pBuf->size.x = pBuf->prev->size.x;
@@ -1441,7 +1441,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
       }
     } else {
       clear_wflag(pBuf, WF_HIDDEN);
-STD:  while (pBuf != pWidget) {
+STD:  while (pBuf != pwidget) {
         pBuf->gfx = pBuf->next->gfx;
         pBuf->next->gfx = NULL;
         pBuf->size.x = pBuf->next->size.x;
@@ -1473,7 +1473,7 @@ STD:  while (pBuf != pWidget) {
     widget_mark_dirty(pBuf);
     FREESURFACE(pBuf->gfx);
 
-    while (pBuf != pWidget) {
+    while (pBuf != pwidget) {
       pBuf->gfx = pBuf->next->gfx;
       pBuf->next->gfx = NULL;
       pBuf->size.x = pBuf->next->size.x;
@@ -1486,32 +1486,32 @@ STD:  while (pBuf != pWidget) {
     }
   }
 
-  if (pWidget == pDlg->pBeginWidgetList) {
-    pDlg->pBeginWidgetList = pWidget->next;
+  if (pwidget == pDlg->pBeginWidgetList) {
+    pDlg->pBeginWidgetList = pwidget->next;
   }
 
-  if (pWidget == pDlg->pBeginActiveWidgetList) {
-    pDlg->pBeginActiveWidgetList = pWidget->next;
+  if (pwidget == pDlg->pBeginActiveWidgetList) {
+    pDlg->pBeginActiveWidgetList = pwidget->next;
   }
 
-  if (pWidget == pDlg->pEndActiveWidgetList) {
-    if (pWidget == pDlg->pEndWidgetList) {
-      pDlg->pEndWidgetList = pWidget->prev;
+  if (pwidget == pDlg->pEndActiveWidgetList) {
+    if (pwidget == pDlg->pEndWidgetList) {
+      pDlg->pEndWidgetList = pwidget->prev;
     }
 
-    if (pWidget == pDlg->pActiveWidgetList) {
-      pDlg->pActiveWidgetList = pWidget->prev;
+    if (pwidget == pDlg->pActiveWidgetList) {
+      pDlg->pActiveWidgetList = pwidget->prev;
     }
 
-    pDlg->pEndActiveWidgetList = pWidget->prev;
+    pDlg->pEndActiveWidgetList = pwidget->prev;
 
   }
 
-  if (pDlg->pActiveWidgetList && (pDlg->pActiveWidgetList == pWidget)) {
-    pDlg->pActiveWidgetList = pWidget->prev;
+  if (pDlg->pActiveWidgetList && (pDlg->pActiveWidgetList == pwidget)) {
+    pDlg->pActiveWidgetList = pwidget->prev;
   }
 
-  del_widget_from_gui_list(pWidget);
+  del_widget_from_gui_list(pwidget);
 
   if (pDlg->pScroll && pDlg->pScroll->pScrollBar && pDlg->pActiveWidgetList) {
     widget_undraw(pDlg->pScroll->pScrollBar);
