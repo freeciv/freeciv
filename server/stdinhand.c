@@ -7061,16 +7061,17 @@ static char *olevel_generator(const char *text, int state)
 static int completion_option;
 static const char *option_value_accessor(int idx) {
   const struct setting *pset = setting_by_number(completion_option);
+
   switch (setting_type(pset)) {
   case SST_ENUM:
     return setting_enum_val(pset, idx, FALSE);
-    break;
   case SST_BITWISE:
     return setting_bitwise_bit(pset, idx, FALSE);
-    break;
   default:
-    fc_assert_ret_val(0, NULL);
+    fc_assert(FALSE);
   }
+
+  return NULL;
 }
 
 /**********************************************************************//**
