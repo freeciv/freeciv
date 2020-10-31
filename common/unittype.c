@@ -353,6 +353,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
+  case ACTRES_SENTRY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
   case ACTRES_BASE:

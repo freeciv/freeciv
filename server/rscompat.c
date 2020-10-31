@@ -846,6 +846,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     action_enabler_add(enabler);
 
     enabler = action_enabler_new();
+    enabler->action = ACTION_SENTRY;
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
     enabler->action = ACTION_ROAD;
     e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL, FALSE, TRUE, FALSE,
                             UTYF_SETTLERS);

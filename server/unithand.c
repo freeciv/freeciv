@@ -793,6 +793,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
+  case ACTRES_SENTRY:
   case ACTRES_CONVERT:
   case ACTRES_ROAD:
   case ACTRES_BASE:
@@ -3051,6 +3052,10 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
     break;
   case ACTRES_FORTIFY:
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             do_action_activity(actor_unit, paction));
+    break;
+  case ACTRES_SENTRY:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              do_action_activity(actor_unit, paction));
     break;

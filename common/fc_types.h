@@ -260,6 +260,8 @@ enum output_type_id {
 #define SPECENUM_VALUE54NAME "Spread Plague"
 #define SPECENUM_VALUE55 ACTRES_SPY_ATTACK
 #define SPECENUM_VALUE55NAME "Spy Attack"
+#define SPECENUM_VALUE56 ACTRES_SENTRY
+#define SPECENUM_VALUE56NAME "Sentry Unit"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"
