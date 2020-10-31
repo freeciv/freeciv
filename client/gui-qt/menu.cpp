@@ -1910,7 +1910,7 @@ void mr_menu::menus_sensitive()
 {
   QList <QAction * >values;
   QList <munit > keys;
-  QHash <munit, QAction *>::iterator i;
+  QMultiHash <munit, QAction *>::iterator i;
   struct unit_list *punits = nullptr;
   struct road_type *proad;
   struct extra_type *tgt;
