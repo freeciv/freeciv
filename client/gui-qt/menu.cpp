@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QActionGroup>
 #include <QApplication>
 #include <QFileDialog>
 #include <QMainWindow>
