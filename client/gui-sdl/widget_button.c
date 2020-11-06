@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -34,10 +34,10 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 
 /**************************************************************************
   Create Icon Button image with text and Icon then blit to Dest(ination)
-  on positon pIButton->size.x , pIButton->size.y.
-  WARRING: pDest must exist.
+  on position pIButton->size.x, pIButton->size.y.
+  WARNING: pDest must exist.
 
-  Text with atributes is taken from pIButton->string16 parameter.
+  Text with attributes is taken from pIButton->string16 parameter.
 
   Graphic for button is taken from pIButton->theme surface 
   and blit to new created image.
@@ -213,10 +213,10 @@ static int redraw_ibutton(struct widget *pIButton)
 
 /**************************************************************************
   Create Icon Button image with text and Icon then blit to Dest(ination)
-  on positon pTIButton->size.x , pTIButton->size.y. WARRING: pDest must
+  on position pTIButton->size.x, pTIButton->size.y. WARNING: pDest must
   exist.
 
-  Text with atributes is taken from pTIButton->string16 parameter.
+  Text with attributes is taken from pTIButton->string16 parameter.
 
   Graphic for button is taken from pTIButton->theme surface 
   and blit to new created image.

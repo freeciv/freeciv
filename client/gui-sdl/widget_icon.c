@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -237,8 +237,8 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 }
 
 /**************************************************************************
-  Blit Icon image to pDest(ination) on positon
-  start_x , start_y. WARRING: pDest must exist.
+  Blit Icon image to pDest(ination) on position
+  start_x, start_y. WARNING: pDest must exist.
 
   Graphic is taken from pIcon_theme surface.
 
