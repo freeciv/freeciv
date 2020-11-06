@@ -1103,9 +1103,9 @@ void real_menus_update(void)
     if (pUnit && pUnit->ssa_controller == SSA_NONE) {
       struct city *pHomecity;
       int time;
-      struct tile *pTile = unit_tile(pUnit);
-      struct city *pCity = tile_city(pTile);
-      struct terrain *pTerrain = tile_terrain(pTile);
+      struct tile *ptile = unit_tile(pUnit);
+      struct city *pCity = tile_city(ptile);
+      struct terrain *pTerrain = tile_terrain(ptile);
       struct base_type *pbase;
       struct extra_type *pextra;
 
@@ -1141,13 +1141,13 @@ void real_menus_update(void)
 	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
-      pextra = next_extra_for_tile(pTile, EC_ROAD, unit_owner(pUnit), pUnit);
+      pextra = next_extra_for_tile(ptile, EC_ROAD, unit_owner(pUnit), pUnit);
       if (pextra != NULL
           && can_unit_do_activity_targeted(pUnit, ACTIVITY_GEN_ROAD, pextra)) {
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
-        time = turns_to_activity_done(pTile, ACTIVITY_GEN_ROAD, pextra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_GEN_ROAD, pextra, pUnit);
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1196,11 +1196,11 @@ void real_menus_update(void)
         set_wflag(pOrder_Trade_Button, WF_HIDDEN);
       }
 
-      pextra = next_extra_for_tile(pTile, EC_IRRIGATION,
+      pextra = next_extra_for_tile(ptile, EC_IRRIGATION,
                                    unit_owner(pUnit), pUnit);
       if (pextra != NULL &&
           can_unit_do_activity_targeted(pUnit, ACTIVITY_IRRIGATE, pextra)) {
-        time = turns_to_activity_done(pTile, ACTIVITY_IRRIGATE,
+        time = turns_to_activity_done(ptile, ACTIVITY_IRRIGATE,
                                       pextra, pUnit);
         /* TRANS: "Build Irrigation (I) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1214,11 +1214,11 @@ void real_menus_update(void)
         set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
       }
 
-      pextra = next_extra_for_tile(pTile, EC_MINE,
+      pextra = next_extra_for_tile(ptile, EC_MINE,
                                    unit_owner(pUnit), pUnit);
       if (pextra != NULL
           && can_unit_do_activity_targeted(pUnit, ACTIVITY_MINE, pextra)) {
-        time = turns_to_activity_done(pTile, ACTIVITY_MINE, pextra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_MINE, pextra, pUnit);
         /* TRANS: "Build Mine (M) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra), "M", time,
@@ -1233,7 +1233,7 @@ void real_menus_update(void)
 
       if (can_unit_do_activity(pUnit, ACTIVITY_CULTIVATE)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(pTile, ACTIVITY_CULTIVATE, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_CULTIVATE, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Cultivate to"),
                     terrain_name_translation(pTerrain->cultivate_result),
@@ -1246,7 +1246,7 @@ void real_menus_update(void)
 
       if (can_unit_do_activity(pUnit, ACTIVITY_PLANT)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(pTile, ACTIVITY_PLANT, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_PLANT, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Plant to"),
                     terrain_name_translation(pTerrain->plant_result),
@@ -1259,7 +1259,7 @@ void real_menus_update(void)
 
       if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(pTile, ACTIVITY_TRANSFORM, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_TRANSFORM, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Transform to"),
                     terrain_name_translation(pTerrain->transform_result),
@@ -1270,11 +1270,11 @@ void real_menus_update(void)
         set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, pTile);
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, ptile);
       if (pbase != NULL) {
         struct extra_type *base_extra = base_extra_get(pbase);
 
-        time = turns_to_activity_done(pTile, ACTIVITY_BASE, base_extra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, pUnit);
         /* TRANS: "Build Fortress (Shift+F) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+F", time,
@@ -1291,11 +1291,11 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, pTile);
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, ptile);
       if (pbase != NULL) {
         struct extra_type *base_extra = base_extra_get(pbase);
 
-        time = turns_to_activity_done(pTile, ACTIVITY_BASE, base_extra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, pUnit);
         /* TRANS: "Build Airbase (Shift+E) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+E", time,
@@ -1306,11 +1306,11 @@ void real_menus_update(void)
         set_wflag(pOrder_Airbase_Button, WF_HIDDEN);
       }
 
-      pextra = prev_extra_in_tile(pTile, ERM_CLEANPOLLUTION,
+      pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
                                   unit_owner(pUnit), pUnit);
       if (pextra != NULL
           && can_unit_do_activity_targeted(pUnit, ACTIVITY_POLLUTION, pextra)) {
-        time = turns_to_activity_done(pTile, ACTIVITY_POLLUTION, pextra,
+        time = turns_to_activity_done(ptile, ACTIVITY_POLLUTION, pextra,
                                       pUnit);
         /* TRANS: "Clean Pollution (P) 3 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
@@ -1328,11 +1328,11 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_PARADROP);
       }
 
-      pextra = prev_extra_in_tile(pTile, ERM_CLEANFALLOUT,
+      pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
                                   unit_owner(pUnit), pUnit);
       if (pextra != NULL
           && can_unit_do_activity_targeted(pUnit, ACTIVITY_FALLOUT, pextra)) {
-        time = turns_to_activity_done(pTile, ACTIVITY_FALLOUT, pextra,
+        time = turns_to_activity_done(ptile, ACTIVITY_FALLOUT, pextra,
                                       pUnit);
         /* TRANS: "Clean Fallout (N) 3 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),

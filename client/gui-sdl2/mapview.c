@@ -546,7 +546,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
-      struct tile *pTile = unit_tile(pUnit);
+      struct tile *ptile = unit_tile(pUnit);
       const char *vetname;
 
       /* get and draw unit name (with veteran status) */
@@ -589,11 +589,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         int h = TTF_FontHeight(pInfo_Window->string_utf8->font);
 
         fc_snprintf(buffer, sizeof(buffer), "%s",
-                    sdl_get_tile_defense_info_text(pTile));
+                    sdl_get_tile_defense_info_text(ptile));
 
         if (pInfo_Window->size.h >
             2 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
-          struct city *pCity = tile_city(pTile);
+          struct city *pCity = tile_city(ptile);
 
           if (BORDERS_DISABLED != game.info.borders && !pCity) {
             const char *diplo_nation_plural_adjectives[DS_LAST] =
@@ -602,13 +602,13 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                Q_("?nation:Peaceful"), Q_("?nation:Friendly"), 
                Q_("?nation:Mysterious")};
 
-            if (tile_owner(pTile) == client.conn.playing) {
+            if (tile_owner(ptile) == client.conn.playing) {
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
-              if (tile_owner(pTile)) {
+              if (tile_owner(ptile)) {
                 struct player_diplstate *ds
                   = player_diplstate_get(client.conn.playing,
-                                         tile_owner(pTile));
+                                         tile_owner(ptile));
 
                 if (DS_CEASEFIRE == ds->type) {
                   int turns = ds->turns_left;
@@ -616,7 +616,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                   cat_snprintf(buffer, sizeof(buffer),
                                PL_("\n%s territory (%d turn ceasefire)",
                                    "\n%s territory (%d turn ceasefire)", turns),
-                               nation_adjective_for_player(tile_owner(pTile)),
+                               nation_adjective_for_player(tile_owner(ptile)),
                                turns);
                 } else if (DS_ARMISTICE == ds->type) {
                   int turns = ds->turns_left;
@@ -624,14 +624,14 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                   cat_snprintf(buffer, sizeof(buffer),
                                PL_("\n%s territory (%d turn armistice)",
                                    "\n%s territory (%d turn armistice)", turns),
-                               nation_adjective_for_player(tile_owner(pTile)),
+                               nation_adjective_for_player(tile_owner(ptile)),
                                turns);
                 } else {
                   cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
                                diplo_nation_plural_adjectives[ds->type],
-                               nation_plural_for_player(tile_owner(pTile)));
+                               nation_plural_for_player(tile_owner(ptile)));
                 }
-              } else { /* !tile_owner(pTile) */
+              } else { /* !tile_owner(ptile) */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
               }
 	    }
@@ -714,7 +714,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       /* ------------------------------------------- */
 
-      n = unit_list_size(pTile->units);
+      n = unit_list_size(ptile->units);
       y = 0;
 
       if (n > 1 && ((!right && pInfo_II
@@ -805,7 +805,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pDock = pInfo_Window;
         n = 0;
 
-        unit_list_iterate(pTile->units, aunit) {
+        unit_list_iterate(ptile->units, aunit) {
           SDL_Surface *tmp_surf;
 
           if (aunit == pUnit) {
