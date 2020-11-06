@@ -637,7 +637,7 @@ void popup_unit_info(Unit_type_id type_id)
   int h, start_x, start_y, utype_count;
   bool created, text = FALSE;
   int scrollbar_width = 0;
-  struct unit_type *pUnitType;
+  struct unit_type *punittype;
   char buffer[bufsz];
   SDL_Rect area;
 
@@ -781,10 +781,10 @@ void popup_unit_info(Unit_type_id type_id)
     }
   }
 
-  pUnitType = utype_by_number(type_id);
+  punittype = utype_by_number(type_id);
   pUnitNameLabel= create_iconlabel_from_chars(
-                adj_surf(get_unittype_surface(pUnitType, direction8_invalid())),
-                pwindow->dst, utype_name_translation(pUnitType),
+                adj_surf(get_unittype_surface(punittype, direction8_invalid())),
+                pwindow->dst, utype_name_translation(punittype),
                 adj_font(24), WF_FREE_THEME);
 
   pUnitNameLabel->ID = ID_LABEL;
@@ -796,45 +796,45 @@ void popup_unit_info(Unit_type_id type_id)
     char buf[2048];
 
     fc_snprintf(buf, sizeof(buf), "%s %d %s",
-                _("Cost:"), utype_build_shield_cost_base(pUnitType),
-                PL_("shield", "shields", utype_build_shield_cost_base(pUnitType)));
+                _("Cost:"), utype_build_shield_cost_base(punittype),
+                PL_("shield", "shields", utype_build_shield_cost_base(punittype)));
 
-    if (pUnitType->pop_cost) {
+    if (punittype->pop_cost) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
-                   pUnitType->pop_cost, PL_("citizen", "citizens",
-                                            pUnitType->pop_cost));
+                   punittype->pop_cost, PL_("citizen", "citizens",
+                                            punittype->pop_cost));
     }
 
     cat_snprintf(buf, sizeof(buf), "      %s",  _("Upkeep:"));
 
-    if (pUnitType->upkeep[O_SHIELD]) {
+    if (punittype->upkeep[O_SHIELD]) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
-                   pUnitType->upkeep[O_SHIELD], PL_("shield", "shields",
-                                                    pUnitType->upkeep[O_SHIELD]));
+                   punittype->upkeep[O_SHIELD], PL_("shield", "shields",
+                                                    punittype->upkeep[O_SHIELD]));
     }
-    if (pUnitType->upkeep[O_FOOD]) {
+    if (punittype->upkeep[O_FOOD]) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
-                   pUnitType->upkeep[O_FOOD], PL_("food", "foods",
-                                                  pUnitType->upkeep[O_FOOD]));
+                   punittype->upkeep[O_FOOD], PL_("food", "foods",
+                                                  punittype->upkeep[O_FOOD]));
     }
-    if (pUnitType->upkeep[O_GOLD]) {
+    if (punittype->upkeep[O_GOLD]) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
-                   pUnitType->upkeep[O_GOLD], PL_("gold", "golds",
-                                                  pUnitType->upkeep[O_GOLD]));
+                   punittype->upkeep[O_GOLD], PL_("gold", "golds",
+                                                  punittype->upkeep[O_GOLD]));
     }
-    if (pUnitType->happy_cost) {
+    if (punittype->happy_cost) {
       cat_snprintf(buf, sizeof(buf), " %d %s",
-                   pUnitType->happy_cost, PL_("citizen", "citizens",
-                                              pUnitType->happy_cost));
+                   punittype->happy_cost, PL_("citizen", "citizens",
+                                              punittype->happy_cost));
     }
 
     cat_snprintf(buf, sizeof(buf), "\n%s %d %s %d %s %s\n%s %d %s %d %s %d",
-              _("Attack:"), pUnitType->attack_strength,
-              _("Defense:"), pUnitType->defense_strength,
-              _("Move:"), move_points_text(pUnitType->move_rate, TRUE),
-              _("Vision:"), pUnitType->vision_radius_sq,
-              _("FirePower:"), pUnitType->firepower,
-              _("Hitpoints:"), pUnitType->hp);
+              _("Attack:"), punittype->attack_strength,
+              _("Defense:"), punittype->defense_strength,
+              _("Move:"), move_points_text(punittype->move_rate, TRUE),
+              _("Vision:"), punittype->vision_radius_sq,
+              _("FirePower:"), punittype->firepower,
+              _("Hitpoints:"), punittype->hp);
 
     pUnitInfoLabel = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
                                                  adj_font(12), 0);
@@ -851,18 +851,18 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
-  if (A_NEVER == pUnitType->require_advance
-      || advance_by_number(A_NONE) == pUnitType->require_advance) {
+  if (A_NEVER == punittype->require_advance
+      || advance_by_number(A_NONE) == punittype->require_advance) {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?tech:None"), adj_font(12), 0);
     pRequirementLabel2->ID = ID_LABEL;
   } else {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
-          advance_name_translation(pUnitType->require_advance),
+          advance_name_translation(punittype->require_advance),
           adj_font(12),
           WF_RESTORE_BACKGROUND);
-    pRequirementLabel2->ID = MAX_ID - advance_number(pUnitType->require_advance);
-    pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(pUnitType->require_advance));
+    pRequirementLabel2->ID = MAX_ID - advance_number(punittype->require_advance);
+    pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(punittype->require_advance));
     pRequirementLabel2->action = change_tech_callback;
     set_wstate(pRequirementLabel2, FC_WS_NORMAL);
   }
@@ -878,20 +878,20 @@ void popup_unit_info(Unit_type_id type_id)
   DownAdd(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
-  if (pUnitType->obsoleted_by == U_NOT_OBSOLETED) {
+  if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     Q_("?utype:None"),
                                                     adj_font(12), 0);
     pObsoleteByLabel2->ID = ID_LABEL;
   } else {
-    const struct unit_type *utype = pUnitType->obsoleted_by;
+    const struct unit_type *utype = punittype->obsoleted_by;
 
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     utype_name_translation(utype),
                                                     adj_font(12),
                                                     WF_RESTORE_BACKGROUND);
     pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
-    pObsoleteByLabel2->ID = MAX_ID - utype_number(pUnitType->obsoleted_by);
+    pObsoleteByLabel2->ID = MAX_ID - utype_number(punittype->obsoleted_by);
     pObsoleteByLabel2->action = change_unit_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
@@ -1253,13 +1253,13 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   unit_count = 0;
   unit_type_iterate(un) {
-    struct unit_type *pUnitType = un;
+    struct unit_type *punittype = un;
 
-    if (advance_number(pUnitType->require_advance) == tech) {
+    if (advance_number(punittype->require_advance) == tech) {
       pwidget = create_iconlabel_from_chars(
                                    ResizeSurfaceBox(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
-                  pwindow->dst, utype_name_translation(pUnitType), adj_font(14),
+                  pwindow->dst, utype_name_translation(punittype), adj_font(14),
                   (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_unit_callback;
