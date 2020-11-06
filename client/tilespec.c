@@ -4797,10 +4797,17 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
       }
     } else if (NULL != pwork && pwork == pcity
                && (citymode || gui_options.draw_city_output)) {
-      /* Add on the tile output sprites. */
-      int food = city_tile_output_now(pcity, ptile, O_FOOD);
-      int shields = city_tile_output_now(pcity, ptile, O_SHIELD);
-      int trade = city_tile_output_now(pcity, ptile, O_TRADE);
+
+      /* Add on the tile output sprites.
+       * NOTE: To show correct output on end of turn
+       * base_city_celebrating() must be used instead of city_celebrating()
+       * mirroring the behavior of the server that does so in
+       * city_tile_cache_update(). */
+      bool celebrating = base_city_celebrating(pcity);
+      int food = city_tile_output(pcity, ptile, celebrating, O_FOOD);
+      int shields = city_tile_output(pcity, ptile, celebrating, O_SHIELD);
+      int trade = city_tile_output(pcity, ptile, celebrating, O_TRADE);
+
       const int ox = t->type == TS_ISOMETRIC ? t->normal_tile_width / 3 : 0;
       const int oy = t->type == TS_ISOMETRIC ? -t->normal_tile_height / 3 : 0;
 
