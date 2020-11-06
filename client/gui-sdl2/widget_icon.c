@@ -247,8 +247,8 @@ int draw_icon(struct widget *pIcon, Sint16 start_x, Sint16 start_y)
 }
 
 /**********************************************************************//**
-  Blit Icon image to pdest(ination) on positon
-  start_x , start_y. WARRING: pdest must exist.
+  Blit Icon image to pdest(ination) on position
+  start_x, start_y. WARNING: pdest must exist.
 
   Graphic is taken from pIcon_theme surface.
 
