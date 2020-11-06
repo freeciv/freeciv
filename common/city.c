@@ -1296,6 +1296,11 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   Calculate the production output the given tile is capable of producing
   for the city.  The output type is given by 'otype' (generally O_FOOD,
   O_SHIELD, or O_TRADE).
+
+  NOTE: As of now, return value does not represent output on end of turn
+  if city stops celebrating, because the server side tile output cache
+  uses base_city_celebrating() instead of city_celebrating() on
+  city_tile_cache_update().
 **************************************************************************/
 int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 			 Output_type_id otype)
