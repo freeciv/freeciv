@@ -16,12 +16,12 @@
 
 // Qt
 #include <QMap>
+#include <QStringList>
 
 // gui-qt
 #include "listener.h"
 
 class QFont;
-class QStringList;
 
 namespace fonts
 {
