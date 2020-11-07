@@ -158,6 +158,14 @@ int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
   priv_conf_data.set('HAVE_IP_MREQN', 1)
 endif
 
+if c_compiler.compiles('''#include <stddef.h>
+#include <iconv.h>
+int main(void) { iconv_t cd; const char **c; iconv(cd, c, NULL, NULL); return 0; }''')
+  priv_conf_data.set('ICONV_CONST', 'const')
+else
+  priv_conf_data.set('ICONV_CONST', '')
+endif
+
 if host_system == 'windows'
   pub_conf_data.set('FREECIV_MSWINDOWS', 1)
   pub_conf_data.set('FREECIV_HAVE_TINYCTHR', 1)

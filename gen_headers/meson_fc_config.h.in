@@ -186,7 +186,8 @@
 /* iconv() available */
 #mesondefine HAVE_ICONV
 
-#define ICONV_CONST const
+/* Defined to 'const' if iconv uses that */
+#mesondefine ICONV_CONST
 
 /* backtrace() available */
 #mesondefine HAVE_BACKTRACE
