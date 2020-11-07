@@ -135,7 +135,7 @@ graphic_alt = "-"
 [advance_carving]
 name        = _("Carving");
 req1        = "Tools"
-req2        = "None"
+req2        = "Fire"
 flags       = ""
 graphic     = "a.carving"
 graphic_alt = "-"
