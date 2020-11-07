@@ -51,6 +51,8 @@ static bool actions_initialized = FALSE;
 
 static struct action_enabler_list *action_enablers_by_action[ACTION_COUNT];
 
+static struct astring ui_name_str = ASTRING_INIT;
+
 static struct action *action_new(enum gen_action id,
                                  enum action_target_kind target_kind,
                                  bool hostile);
@@ -156,6 +158,8 @@ void actions_free(void)
 
     FC_FREE(actions[act]);
   } action_iterate_end;
+
+  astr_free(&ui_name_str);
 }
 
 /**************************************************************************
@@ -302,15 +306,14 @@ const char *action_get_ui_name_mnemonic(int act_id,
   Success probability information is interpreted and added to the text.
   A custom text can be inserted before the probability information.
 **************************************************************************/
-const char *action_prepare_ui_name(int act_id, const char* mnemonic,
+const char *action_prepare_ui_name(int act_id, const char *mnemonic,
                                    const struct act_prob prob,
-                                   const char* custom)
+                                   const char *custom)
 {
-  static struct astring str = ASTRING_INIT;
-  static struct astring chance = ASTRING_INIT;
+  struct astring chance = ASTRING_INIT;
 
   /* Text representation of the probability. */
-  const char* probtxt;
+  const char *probtxt;
 
   if (!actions_are_ready()) {
     /* Could be a client who haven't gotten the ruleset yet */
@@ -327,11 +330,11 @@ const char *action_prepare_ui_name(int act_id, const char* mnemonic,
     fc_assert(custom == NULL || custom[0] == '\0');
 
     /* Make the best of what is known */
-    astr_set(&str, _("%s%s (name may be wrong)"),
+    astr_set(&ui_name_str, _("%s%s (name may be wrong)"),
              mnemonic, gen_action_name(act_id));
 
     /* Return the guess. */
-    return astr_str(&str);
+    return astr_str(&ui_name_str);
   }
 
   /* How to interpret action probabilities like prob is documented in
@@ -418,7 +421,7 @@ const char *action_prepare_ui_name(int act_id, const char* mnemonic,
     astr_add(&fmtstr, "%s", ui_name);
 
     /* Use the modified format string */
-    astr_set(&str, astr_str(&fmtstr), mnemonic,
+    astr_set(&ui_name_str, astr_str(&fmtstr), mnemonic,
              astr_str(&chance));
 
     astr_free(&fmtstr);
@@ -426,7 +429,7 @@ const char *action_prepare_ui_name(int act_id, const char* mnemonic,
 
   astr_free(&chance);
 
-  return astr_str(&str);
+  return astr_str(&ui_name_str);
 }
 
 /**************************************************************************
