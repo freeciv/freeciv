@@ -112,7 +112,7 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
                                Uint32 flags)
 {
   struct widget *pCBox = widget_new();
-  struct CHECKBOX *pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
+  struct checkbox *ptmp = fc_calloc(1, sizeof(struct checkbox));
 
   if (state) {
     pCBox->theme = current_theme->CBOX_Sell_Icon;
@@ -125,10 +125,10 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
   set_wtype(pCBox, WT_CHECKBOX);
   pCBox->mod = KMOD_NONE;
   pCBox->dst = pdest;
-  pTmp->state = state;
-  pTmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
-  pTmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
-  pCBox->private_data.cbox = pTmp;
+  ptmp->state = state;
+  ptmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
+  ptmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
+  pCBox->private_data.cbox = ptmp;
 
   checkbox_baseclass_redraw = pCBox->redraw;
   pCBox->redraw = redraw_checkbox;
@@ -146,7 +146,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
                                    utf8_str *pstr, Uint32 flags)
 {
   struct widget *pCBox;
-  struct CHECKBOX *pTmp;
+  struct checkbox *ptmp;
   SDL_Surface *pSurf, *pIcon;
   struct widget *tmp_widget;
 
@@ -154,7 +154,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
     return create_checkbox(pdest, state, flags);
   }
 
-  pTmp = fc_calloc(1, sizeof(struct CHECKBOX));
+  ptmp = fc_calloc(1, sizeof(struct checkbox));
 
   if (state) {
     pSurf = current_theme->CBOX_Sell_Icon;
@@ -171,10 +171,10 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   FREESURFACE(pIcon);
 
   set_wtype(pCBox, WT_TCHECKBOX);
-  pTmp->state = state;
-  pTmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
-  pTmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
-  pCBox->private_data.cbox = pTmp;
+  ptmp->state = state;
+  ptmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
+  ptmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
+  pCBox->private_data.cbox = ptmp;
 
   tmp_widget = widget_new();
   /* we can't use pCBox->redraw here, because it is of type iconlabel */
@@ -191,22 +191,22 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
 int set_new_checkbox_theme(struct widget *pCBox,
                            SDL_Surface *pTrue, SDL_Surface *pFalse)
 {
-  struct CHECKBOX *pTmp;
+  struct checkbox *ptmp;
 
   if (!pCBox || (get_wtype(pCBox) != WT_CHECKBOX)) {
     return -1;
   }
 
   if (!pCBox->private_data.cbox) {
-    pCBox->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
+    pCBox->private_data.cbox = fc_calloc(1, sizeof(struct checkbox));
     set_wflag(pCBox, WF_FREE_PRIVATE_DATA);
     pCBox->private_data.cbox->state = FALSE;
   }
 
-  pTmp = pCBox->private_data.cbox;
-  pTmp->pTRUE_Theme = pTrue;
-  pTmp->pFALSE_Theme = pFalse;
-  if (pTmp->state) {
+  ptmp = pCBox->private_data.cbox;
+  ptmp->pTRUE_Theme = pTrue;
+  ptmp->pFALSE_Theme = pFalse;
+  if (ptmp->state) {
     pCBox->theme = pTrue;
   } else {
     pCBox->theme = pFalse;

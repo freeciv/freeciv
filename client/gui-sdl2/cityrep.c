@@ -50,7 +50,7 @@
 
 #include "cityrep.h"
 
-static struct ADVANCED_DLG *pCityRep = NULL;
+static struct advanced_dialog *pCityRep = NULL;
 
 static void real_info_city_report_dialog_update(void);
 
@@ -194,7 +194,7 @@ static void real_info_city_report_dialog_update(void)
     popdown_window_group_dialog(pCityRep->pBeginWidgetList,
                                 pCityRep->pEndWidgetList);
   } else {
-    pCityRep = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pCityRep = fc_calloc(1, sizeof(struct advanced_dialog));
   }
 
   fc_snprintf(cbuf, sizeof(cbuf), _("size"));

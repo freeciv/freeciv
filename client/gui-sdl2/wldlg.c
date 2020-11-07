@@ -67,9 +67,9 @@ struct EDITOR {
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList; /* window */
 
-  struct ADVANCED_DLG *pTargets;
-  struct ADVANCED_DLG *pWork;
-  struct ADVANCED_DLG *pGlobal;
+  struct advanced_dialog *pTargets;
+  struct advanced_dialog *pWork;
+  struct advanced_dialog *pGlobal;
 
   struct city *pCity;
   int global_worklist_id;
@@ -1229,7 +1229,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
      will have this field NULL
   */
 
-  pEditor->pWork = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pEditor->pWork = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pEditor->pWork->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
   pEditor->pWork->pScroll->count = 0;
@@ -1360,7 +1360,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     } global_worklists_iterate_end;
 
     if (count) {
-      pEditor->pGlobal = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+      pEditor->pGlobal = fc_calloc(1, sizeof(struct advanced_dialog));
       pEditor->pGlobal->pEndWidgetList = pLast->prev;
       pEditor->pGlobal->pEndActiveWidgetList = pEditor->pGlobal->pEndWidgetList;
       pEditor->pGlobal->pBeginWidgetList = pBuf;
@@ -1647,7 +1647,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     }
   } unit_type_iterate_end;
 
-  pEditor->pTargets = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pEditor->pTargets = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pEditor->pTargets->pEndWidgetList = pLast->prev;
   pEditor->pTargets->pBeginWidgetList = pBuf;

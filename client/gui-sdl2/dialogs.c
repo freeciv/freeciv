@@ -466,7 +466,7 @@ void popup_connect_msg(const char *headline, const char *message)
 }
 
 /* ----------------------------------------------------------------------- */
-struct ADVANCED_DLG *pNotifyDlg = NULL;
+struct advanced_dialog *pNotifyDlg = NULL;
 
 /**********************************************************************//**
   User interacted with generic notify dialog.
@@ -513,7 +513,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
     return;
   }
 
-  pNotifyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pNotifyDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(caption, adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -607,7 +607,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 /* =======================================================================*/
 /* ========================= UNIT UPGRADE DIALOG =========================*/
 /* =======================================================================*/
-static struct SMALL_DLG *pUnit_Upgrade_Dlg = NULL;
+static struct small_dialog *pUnit_Upgrade_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with upgrade unit widget.
@@ -685,7 +685,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     return;
   }
 
-  pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   unit_upgrade_result = unit_upgrade_info(pUnit, cBuf, sizeof(cBuf));
 
@@ -809,7 +809,7 @@ static void popdown_unit_upgrade_dlg(void)
 /* =======================================================================*/
 /* ========================= UNIT DISBAND DIALOG =========================*/
 /* =======================================================================*/
-static struct SMALL_DLG *pUnit_Disband_Dlg = NULL;
+static struct small_dialog *pUnit_Disband_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with disband unit widget.
@@ -875,7 +875,7 @@ void popup_unit_disband_dlg(struct unit *pUnit, bool city)
     return;
   }
 
-  pUnit_Disband_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pUnit_Disband_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   {
     struct unit_list *pUnits = unit_list_new();
@@ -1005,7 +1005,7 @@ static void popdown_unit_disband_dlg(void)
 /* =======================================================================*/
 /* ======================== UNIT SELECTION DIALOG ========================*/
 /* =======================================================================*/
-static struct ADVANCED_DLG *pUnit_Select_Dlg = NULL;
+static struct advanced_dialog *pUnit_Select_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with unit selection window.
@@ -1088,7 +1088,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   }
 
   is_unit_move_blocked = TRUE;
-  pUnit_Select_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pUnit_Select_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", _("Unit selection") , n);
   pstr = create_utf8_from_char(cBuf , adj_font(12));
@@ -1235,7 +1235,7 @@ void unit_select_dialog_update_real(void *unused)
 /* ====================================================================== */
 /* ============================ TERRAIN INFO ============================ */
 /* ====================================================================== */
-static struct SMALL_DLG *pTerrain_Info_Dlg = NULL;
+static struct small_dialog *pTerrain_Info_Dlg = NULL;
 
 
 /**********************************************************************//**
@@ -1311,7 +1311,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   }
 
   pSurf = get_terrain_surface(ptile);
-  pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* ----------- */
   fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"),
@@ -1378,7 +1378,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
 /* ====================================================================== */
 /* ========================= ADVANCED_TERRAIN_MENU ====================== */
 /* ====================================================================== */
-struct ADVANCED_DLG  *pAdvanced_Terrain_Dlg = NULL;
+struct advanced_dialog *pAdvanced_Terrain_Dlg = NULL;
 
 /**********************************************************************//**
   Popdown a generic dialog to display some generic information about
@@ -1649,7 +1649,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   struct unit *pFocus_Unit;
   utf8_str *pstr;
   SDL_Rect area2;
-  struct CONTAINER *pCont;
+  struct container *pCont;
   char cBuf[255];
   int n, w = 0, h, units_h = 0;
   SDL_Rect area;
@@ -1671,9 +1671,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   area.h = adj_size(2);
   is_unit_move_blocked = TRUE;
 
-  pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pAdvanced_Terrain_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pCont = fc_calloc(1, sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct container));
   pCont->id0 = index_to_map_pos_x(tile_index(ptile));
   pCont->id1 = index_to_map_pos_y(tile_index(ptile));
 
@@ -2150,7 +2150,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 /* ====================================================================== */
 /* ============================ PILLAGE DIALOG ========================== */
 /* ====================================================================== */
-static struct SMALL_DLG *pPillage_Dlg = NULL;
+static struct small_dialog *pPillage_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with pillage dialog.
@@ -2225,7 +2225,7 @@ void popup_pillage_dialog(struct unit *pUnit, bv_extras extras)
   }
 
   is_unit_move_blocked = TRUE;
-  pPillage_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pPillage_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* window */
   pstr = create_utf8_from_char(_("What To Pillage") , adj_font(12));
@@ -2314,7 +2314,7 @@ void popup_pillage_dialog(struct unit *pUnit, bv_extras extras)
 /* ======================================================================= */
 /* =========================== CONNECT DIALOG ============================ */
 /* ======================================================================= */
-static struct SMALL_DLG *pConnect_Dlg = NULL;
+static struct small_dialog *pConnect_Dlg = NULL;
 
 /**********************************************************************//**
   Popdown a dialog asking the unit how they want to "connect" their
@@ -2335,7 +2335,7 @@ static void popdown_connect_dialog(void)
 /**************************************************************************
                            Select Goverment Type
 **************************************************************************/
-static struct SMALL_DLG *pGov_Dlg = NULL;
+static struct small_dialog *pGov_Dlg = NULL;
 
 /**********************************************************************//**
   Close the government dialog.
@@ -2394,7 +2394,7 @@ void popup_government_dialog(void)
     return;
   }
 
-  pGov_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pGov_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(_("Choose Your New Government"), adj_font(12));
@@ -2477,8 +2477,8 @@ void popup_government_dialog(void)
 /**************************************************************************
                                 Nation Wizard
 **************************************************************************/
-static struct ADVANCED_DLG *pNationDlg = NULL;
-static struct SMALL_DLG *pHelpDlg = NULL;
+static struct advanced_dialog *pNationDlg = NULL;
+static struct small_dialog *pHelpDlg = NULL;
 
 struct NAT {
   unsigned char nation_style;      /* selected style */
@@ -2830,7 +2830,7 @@ static int nation_button_callback(struct widget *pNationButton)
     widget_mark_dirty(pNationButton);
 
     if (!pHelpDlg) {
-      pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+      pHelpDlg = fc_calloc(1, sizeof(struct small_dialog));
 
       pstr = create_utf8_from_char(nation_plural_translation(pNation),
                                    adj_font(12));
@@ -3043,7 +3043,7 @@ void popup_races_dialog(struct player *pplayer)
 
   races_player = pplayer;
 
-  pNationDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pNationDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* create window widget */
   pstr = create_utf8_from_char(_("What nation will you be?"), adj_font(12));

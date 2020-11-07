@@ -49,7 +49,7 @@
 
 #include "helpdlg.h"
 
-static struct ADVANCED_DLG *pHelpDlg = NULL;
+static struct advanced_dialog *pHelpDlg = NULL;
 
 struct TECHS_BUTTONS {
   struct widget *pTargets[6], *pSub_Targets[6];
@@ -239,7 +239,7 @@ void popup_impr_info(Impr_type_id impr)
     created = TRUE;
 
     /* create dialog */
-    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pHelpDlg = fc_calloc(1, sizeof(struct advanced_dialog));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* create window */
@@ -654,7 +654,7 @@ void popup_unit_info(Unit_type_id type_id)
     created = TRUE;
 
     /* create dialog */
-    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pHelpDlg = fc_calloc(1, sizeof(struct advanced_dialog));
     pStore = fc_calloc(1, sizeof(struct UNITS_BUTTONS));
 
     /* create window */
@@ -1912,7 +1912,7 @@ void popup_tech_info(Tech_type_id tech)
     created = TRUE;
 
     /* create dialog */
-    pHelpDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pHelpDlg = fc_calloc(1, sizeof(struct advanced_dialog));
     pStore = fc_calloc(1, sizeof(struct TECHS_BUTTONS));
 
     pStore->show_tree = FALSE;

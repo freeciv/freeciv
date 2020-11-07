@@ -39,11 +39,11 @@
 #include "spaceshipdlg.h"
 
 #define SPECLIST_TAG dialog
-#define SPECLIST_TYPE struct SMALL_DLG
+#define SPECLIST_TYPE struct small_dialog
 #include "speclist.h"
 
 #define dialog_list_iterate(dialoglist, pdialog) \
-    TYPED_LIST_ITERATE(struct SMALL_DLG, dialoglist, pdialog)
+    TYPED_LIST_ITERATE(struct small_dialog, dialoglist, pdialog)
 #define dialog_list_iterate_end  LIST_ITERATE_END
 
 static struct dialog_list *dialog_list = NULL;
@@ -52,7 +52,7 @@ static bool dialog_list_has_been_initialised = FALSE;
 /**********************************************************************//**
   Find spaceship dialog related to specified player.
 **************************************************************************/
-static struct SMALL_DLG *get_spaceship_dialog(struct player *pplayer)
+static struct small_dialog *get_spaceship_dialog(struct player *pplayer)
 {
   if (!dialog_list_has_been_initialised) {
     dialog_list = dialog_list_new();
@@ -110,7 +110,7 @@ static int launch_spaceship_callback(struct widget *pwidget)
 **************************************************************************/
 void refresh_spaceship_dialog(struct player *pplayer)
 {
-  struct SMALL_DLG *pSpaceShp;
+  struct small_dialog *pSpaceShp;
   struct widget *pbuf;
 
   if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
@@ -144,7 +144,7 @@ void refresh_spaceship_dialog(struct player *pplayer)
 **************************************************************************/
 void popup_spaceship_dialog(struct player *pplayer)
 {
-  struct SMALL_DLG *pSpaceShp;
+  struct small_dialog *pSpaceShp;
 
   if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
     struct widget *pBuf, *pwindow;
@@ -152,7 +152,7 @@ void popup_spaceship_dialog(struct player *pplayer)
     char cbuf[128];
     SDL_Rect area;
 
-    pSpaceShp = fc_calloc(1, sizeof(struct SMALL_DLG));
+    pSpaceShp = fc_calloc(1, sizeof(struct small_dialog));
 
     fc_snprintf(cbuf, sizeof(cbuf), _("The %s Spaceship"),
                 nation_adjective_for_player(pplayer));
@@ -246,7 +246,7 @@ void popup_spaceship_dialog(struct player *pplayer)
 **************************************************************************/
 void popdown_spaceship_dialog(struct player *pplayer)
 {
-  struct SMALL_DLG *pSpaceShp;
+  struct small_dialog *pSpaceShp;
 
   if ((pSpaceShp = get_spaceship_dialog(pplayer))) {
     popdown_window_group_dialog(pSpaceShp->pBeginWidgetList,

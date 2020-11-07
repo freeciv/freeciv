@@ -48,7 +48,7 @@
 
 struct intel_dialog {
   struct player *pplayer;
-  struct ADVANCED_DLG *pdialog;
+  struct advanced_dialog *pdialog;
   int pos_x, pos_y;
 };
 
@@ -161,7 +161,7 @@ static struct intel_dialog *create_intel_dialog(struct player *pplayer)
 
   pdialog->pplayer = pplayer;
 
-  pdialog->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pdialog->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pdialog->pos_x = 0;
   pdialog->pos_y = 0;

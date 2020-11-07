@@ -55,14 +55,14 @@ struct diplomat_dialog {
   int target_ids[ATK_COUNT];
   int sub_target_id[ASTK_COUNT];
   action_id act_id;
-  struct ADVANCED_DLG *pdialog;
+  struct advanced_dialog *pdialog;
 };
 
 struct small_diplomat_dialog {
   int actor_unit_id;
   int target_id;
   action_id act_id;
-  struct SMALL_DLG *pdialog;
+  struct small_dialog *pdialog;
 };
  
 extern bool is_unit_move_blocked;
@@ -332,7 +332,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   struct city *pVcity = pwidget->data.city;
   int id = pDiplomat_Dlg->actor_unit_id;
   struct player *pVictim = NULL;
-  struct CONTAINER *pCont;
+  struct container *pCont;
   struct widget *pBuf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
@@ -383,7 +383,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     return -1;
   }
 
-  pCont = fc_calloc(1, sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct container));
   pCont->id0 = pVcity->id;
   pCont->id1 = id;/* spy id */
 
@@ -391,7 +391,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   pDiplomat_Dlg->act_id = act_id;
   pDiplomat_Dlg->actor_unit_id = id;
   pDiplomat_Dlg->target_ids[ATK_CITY] = pVcity->id;
-  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Select Advance to Steal"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -980,7 +980,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor_unit->id;
-  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* window */
   if (target_city) {
@@ -1324,7 +1324,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
                            const struct action *paction)
 {
   struct widget *pwindow = NULL, *pBuf = NULL , *pLast = NULL;
-  struct CONTAINER *pCont;
+  struct container *pCont;
   utf8_str *pstr;
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
@@ -1344,9 +1344,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor->id;
   pDiplomat_Dlg->target_ids[ATK_CITY] = pCity->id;
-  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pCont = fc_calloc(1, sizeof(struct CONTAINER));
+  pCont = fc_calloc(1, sizeof(struct container));
   pCont->id0 = pCity->id;
   pCont->id1 = actor->id; /* spy id */
   pCont->value = paction->id;
@@ -1651,7 +1651,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
   pIncite_Dlg->actor_unit_id = actor->id;
   pIncite_Dlg->target_id = pCity->id;
   pIncite_Dlg->act_id = paction->id;
-  pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct small_dialog));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
                                           "Treasury contains %d gold.",
@@ -1914,7 +1914,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
   pBribe_Dlg->act_id = paction->id;
   pBribe_Dlg->actor_unit_id = actor->id;
   pBribe_Dlg->target_id = pUnit->id;
-  pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct small_dialog));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
                                           "Treasury contains %d gold.",

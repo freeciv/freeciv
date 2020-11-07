@@ -63,8 +63,8 @@
 #define PTSIZE_LOG_FONT adj_font(10)
 
 struct CONNLIST {
-  struct ADVANCED_DLG *pUsers_Dlg;
-  struct ADVANCED_DLG *pChat_Dlg;
+  struct advanced_dialog *pUsers_Dlg;
+  struct advanced_dialog *pChat_Dlg;
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;
   struct widget *pStartButton;
@@ -84,7 +84,7 @@ static void add_to_chat_list(char *msg, size_t n_alloc);
                                   LOAD GAME
 **************************************************************************/
 
-struct ADVANCED_DLG *pLoadDialog;
+struct advanced_dialog *pLoadDialog;
 
 /**********************************************************************//**
   User event to load game dialog window.
@@ -200,7 +200,7 @@ static void popup_load_game_dialog(void)
   widget_mark_dirty(pConnDlg->pStartButton);
 
   /* create dialog */
-  pLoadDialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pLoadDialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   title = create_utf8_from_char(_("Choose Saved Game to Load"), adj_font(12));
   title->style |= TTF_STYLE_BOLD;
@@ -595,7 +595,7 @@ void real_conn_list_dialog_update(void *unused)
           pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
       } else {
-        pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+        pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
         pConnDlg->pUsers_Dlg->pEndWidgetList = pConnDlg->pBeginWidgetList;
         pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
 
@@ -737,7 +737,7 @@ static void popup_conn_list_dialog(void)
 
   /* chat area */
 
-  pConnDlg->pChat_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pConnDlg->pChat_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   n = conn_list_size(game.est_connections);
 

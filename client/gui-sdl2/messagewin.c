@@ -61,7 +61,7 @@
 
 #define PTSIZE_LOG_FONT		adj_font(10)
 
-static struct ADVANCED_DLG *pMsg_Dlg = NULL;
+static struct advanced_dialog *pMsg_Dlg = NULL;
 
 /**********************************************************************//**
   Called from default clicks on a message.
@@ -251,7 +251,7 @@ void meswin_dialog_popup(bool raise)
     return;
   }
 
-  pMsg_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pMsg_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(_("Messages"), adj_font(12));

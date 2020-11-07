@@ -51,7 +51,7 @@
 
 #include "gotodlg.h"
 
-static struct ADVANCED_DLG *pGotoDlg = NULL;
+static struct advanced_dialog *pGotoDlg = NULL;
 bv_player all_players;
 static bool GOTO = TRUE;
 
@@ -255,7 +255,7 @@ static void popup_goto_airlift_dialog(void)
     return;
   }
 
-  pGotoDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pGotoDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Select destination"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;

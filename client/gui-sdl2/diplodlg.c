@@ -54,9 +54,9 @@
 
 struct diplomacy_dialog {
   struct Treaty treaty;
-  struct ADVANCED_DLG *pdialog;
-  struct ADVANCED_DLG *pwants;
-  struct ADVANCED_DLG *poffers;
+  struct advanced_dialog *pdialog;
+  struct advanced_dialog *pwants;
+  struct advanced_dialog *poffers;
 };
 
 #define SPECLIST_TAG dialog
@@ -455,13 +455,13 @@ static int dipomatic_window_callback(struct widget *pwindow)
   Create treaty widgets. Pact (that will always be both ways) related
   widgets are created only when pplayer0 is client user.
 **************************************************************************/
-static struct ADVANCED_DLG *popup_diplomatic_objects(struct player *pplayer0,
-                                                     struct player *pplayer1,
-                                                     struct widget *pMainWindow,
-                                                     bool L_R)
+static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
+                                                        struct player *pplayer1,
+                                                        struct widget *pMainWindow,
+                                                        bool L_R)
 {
-  struct ADVANCED_DLG *pDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-  struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
+  struct advanced_dialog *pDlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  struct container *pCont = fc_calloc(1, sizeof(struct container));
   int width, height, count = 0, scroll_w = 0;
   char cBuf[128];
   struct widget *pBuf = NULL, *pwindow;
@@ -834,7 +834,7 @@ static struct diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 
   init_treaty(&pdialog->treaty, plr0, plr1);
 
-  pdialog->pdialog = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pdialog->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   dialog_list_prepend(dialog_list, pdialog);
 
@@ -848,7 +848,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   struct player *pplayer0, *pplayer1;
-  struct CONTAINER *pCont = fc_calloc(1, sizeof(struct CONTAINER));
+  struct container *pCont = fc_calloc(1, sizeof(struct container));
   char cBuf[128];
   struct widget *pBuf = NULL, *pwindow;
   utf8_str *pstr;
@@ -903,7 +903,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                             (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
                              WF_RESTORE_BACKGROUND));
 
-    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct checkbox));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = current_theme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = current_theme->CANCEL_PACT_Icon;
@@ -918,7 +918,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
                             pwindow->dst, pstr,
                             (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
                              WF_RESTORE_BACKGROUND));
-    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct CHECKBOX));
+    pBuf->private_data.cbox = fc_calloc(1, sizeof(struct checkbox));
     pBuf->private_data.cbox->state = FALSE;
     pBuf->private_data.cbox->pTRUE_Theme = current_theme->OK_PACT_Icon;
     pBuf->private_data.cbox->pFALSE_Theme = current_theme->CANCEL_PACT_Icon;
@@ -1082,7 +1082,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
        pbuf->string_utf8->style |= SF_CENTER_RIGHT;
     }
 
-    pbuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
+    pbuf->data.cont = fc_calloc(1, sizeof(struct container));
     pbuf->data.cont->id0 = player_number(pclause->from);
     pbuf->data.cont->id1 = player_number(pdialog->treaty.plr1);
     pbuf->data.cont->value = ((int)pclause->type << 16) + pclause->value;
@@ -1260,7 +1260,7 @@ void close_all_diplomacy_dialogs(void)
 /* ================================================================= */
 /* ========================== Small Diplomat Dialog ================ */
 /* ================================================================= */
-static struct SMALL_DLG *pSDip_Dlg = NULL;
+static struct small_dialog *pSDip_Dlg = NULL;
 
 /**********************************************************************//**
   Close small diplomacy dialog.
@@ -1371,7 +1371,7 @@ static void popup_war_dialog(struct player *pplayer)
     return;
   }
 
-  pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pSDip_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   fc_snprintf(cBuf, sizeof(cBuf),
               /* TRANS: "Polish incident !" FIXME!!! */
@@ -1509,7 +1509,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
       return;
     }
 
-    pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+    pSDip_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
     fc_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
     pstr = create_utf8_from_char(cBuf, adj_font(12));

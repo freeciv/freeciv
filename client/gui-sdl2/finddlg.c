@@ -47,7 +47,7 @@
 /* ====================================================================== */
 /* ============================= FIND CITY MENU ========================= */
 /* ====================================================================== */
-static struct ADVANCED_DLG  *pFind_City_Dlg = NULL;
+static struct advanced_dialog *pFind_City_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with find city dialog window.
@@ -144,7 +144,7 @@ void popup_find_dialog(void)
 
   original = canvas_pos_to_tile(main_data.map->w / 2, main_data.map->h / 2);
 
-  pFind_City_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pFind_City_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Find City") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -170,7 +170,7 @@ void popup_find_dialog(void)
   pBuf->action = exit_find_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
-  pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
+  pBuf->data.cont = fc_calloc(1, sizeof(struct container));
   pBuf->data.cont->id0 = index_to_map_pos_x(tile_index(original));
   pBuf->data.cont->id1 = index_to_map_pos_y(tile_index(original));
 

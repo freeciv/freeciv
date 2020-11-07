@@ -52,7 +52,7 @@
 #define M_PI_2		1.57079632679489661923	/* pi/2 */
 #endif
 
-static struct SMALL_DLG  *pplayers_dlg = NULL;
+static struct small_dialog *pplayers_dlg = NULL;
 
 /**********************************************************************//**
   User interacted with player dialog close button.
@@ -383,7 +383,7 @@ void popup_players_dialog(bool raise)
     return;
   }
 
-  pplayers_dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pplayers_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   pstr = create_utf8_from_char(Q_("?header:Players"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -600,7 +600,7 @@ void popdown_players_dialog(void)
 
 
 /* ============================== SHORT =============================== */
-static struct ADVANCED_DLG  *pShort_Players_Dlg = NULL;
+static struct advanced_dialog *pShort_Players_Dlg = NULL;
 
 /**********************************************************************//**
   User interacted with nations window.
@@ -680,7 +680,7 @@ void popup_players_nations_dialog(void)
     return;
   }
 
-  pShort_Players_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pShort_Players_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* TRANS: Nations report title */
   pstr = create_utf8_from_char(_("Nations") , adj_font(12));

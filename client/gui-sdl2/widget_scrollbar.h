@@ -14,6 +14,7 @@
 #ifndef FC__WIDGET_SCROLLBAR_H
 #define FC__WIDGET_SCROLLBAR_H
 
+/* gui-sdl2 */
 #include "widget.h"
 
 struct ScrollBar {
@@ -71,7 +72,7 @@ struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pdest
                                Uint16 high, Uint32 flags);
 int draw_vert(struct widget *pVert, Sint16 x, Sint16 y);
 
-Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
+Uint32 create_vertical_scrollbar(struct advanced_dialog *pDlg,
                                  Uint8 step, Uint8 active, bool create_scrollbar,
                                  bool create_buttons);
 
@@ -86,7 +87,7 @@ struct widget *create_horizontal(SDL_Surface *pHoriz_theme, struct gui_layer *pd
                                  Uint16 width, Uint32 flags);
 int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y);
 
-Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
+Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
                                    Sint16 start_x, Sint16 start_y,
                                    Uint16 width, Uint16 active,
                                    bool create_scrollbar, bool create_buttons,

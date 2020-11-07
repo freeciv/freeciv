@@ -54,8 +54,8 @@ struct hmove {
 
 static struct cma_dialog {
   struct city *pCity;
-  struct SMALL_DLG *pDlg;
-  struct ADVANCED_DLG *pAdv;
+  struct small_dialog *pDlg;
+  struct advanced_dialog *pAdv;
   struct cm_parameter edited_cm_parm;
 } *pCma = NULL;
 
@@ -311,7 +311,7 @@ static int save_cma_callback(struct widget *pwidget)
       return 1;
     }
 
-    pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pCma->pAdv = fc_calloc(1, sizeof(struct advanced_dialog));
 
     pstr = create_utf8_from_char(_("Name new preset"), adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
@@ -491,7 +491,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
     return;
   }
 
-  pCma->pAdv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pCma->pAdv = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Presets"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -896,7 +896,7 @@ void popup_city_cma_dialog(struct city *pCity)
 
   pCma = fc_calloc(1, sizeof(struct cma_dialog));
   pCma->pCity = pCity;
-  pCma->pDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pCma->pDlg = fc_calloc(1, sizeof(struct small_dialog));
   pCma->pAdv = NULL;
   pcity_map = get_scaled_city_map(pCity);
 

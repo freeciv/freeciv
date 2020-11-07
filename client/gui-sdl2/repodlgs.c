@@ -58,8 +58,8 @@
 /* ===================================================================== */
 /* ======================== Active Units Report ======================== */
 /* ===================================================================== */
-static struct ADVANCED_DLG *pUnitsDlg = NULL;
-static struct SMALL_DLG *pUnits_Upg_Dlg = NULL;
+static struct advanced_dialog *pUnitsDlg = NULL;
+static struct small_dialog *pUnits_Upg_Dlg = NULL;
 
 struct units_entry {
   int active_count;
@@ -203,7 +203,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
 
-    pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+    pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
     ut2 = can_upgrade_unittype(client.conn.playing, ut1);
     value = unit_upgrade_price(client.conn.playing, ut1, ut2);
@@ -368,7 +368,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
                                 pUnitsDlg->pEndWidgetList);
   } else {
-    pUnitsDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pUnitsDlg = fc_calloc(1, sizeof(struct advanced_dialog));
   }
 
   fc_snprintf(cbuf, sizeof(cbuf), _("active"));
@@ -1096,8 +1096,8 @@ void units_report_dialog_popdown(void)
 /* ===================================================================== */
 /* ======================== Economy Report ============================= */
 /* ===================================================================== */
-static struct ADVANCED_DLG *pEconomyDlg = NULL;
-static struct SMALL_DLG *pEconomy_Sell_Dlg = NULL;
+static struct advanced_dialog *pEconomyDlg = NULL;
+static struct small_dialog *pEconomy_Sell_Dlg = NULL;
 
 struct rates_move {
   int min, max, tax, x, gov_max;
@@ -1587,7 +1587,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
 
-    pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+    pEconomy_Sell_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
     imp = pwidget->data.cont->id0;
     total_count = pwidget->data.cont->id1;
@@ -1831,7 +1831,7 @@ void economy_report_dialog_popup(bool make_modal)
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
 
-  pEconomyDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pEconomyDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   get_economy_report_data(entries, &entries_used, &total, &tax);
 
@@ -2156,7 +2156,7 @@ void economy_report_dialog_popup(bool make_modal)
 
       set_wstate(pBuf, FC_WS_NORMAL);
 
-      pBuf->data.cont = fc_calloc(1, sizeof(struct CONTAINER));
+      pBuf->data.cont = fc_calloc(1, sizeof(struct container));
       pBuf->data.cont->id0 = improvement_number(p->type);
       pBuf->data.cont->id1 = p->count;
       pBuf->action = popup_sell_impr_callback;
@@ -2383,9 +2383,9 @@ void economy_report_dialog_popup(bool make_modal)
 /* ===================================================================== */
 /* ======================== Science Report ============================= */
 /* ===================================================================== */
-static struct SMALL_DLG *pScienceDlg = NULL;
+static struct small_dialog *pScienceDlg = NULL;
 
-static struct ADVANCED_DLG *pChangeTechDlg = NULL;
+static struct advanced_dialog *pChangeTechDlg = NULL;
 
 /**********************************************************************//**
   Create icon surface for a tech.
@@ -2929,7 +2929,7 @@ static void popup_change_research_dialog(void)
     return;
   }
 
-  pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pChangeTechDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("What should we focus on now?"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -3117,7 +3117,7 @@ static void popup_change_research_goal_dialog(void)
     return;
   }
 
-  pChangeTechDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pChangeTechDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Select target :"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -3351,7 +3351,7 @@ void science_report_dialog_popup(bool raise)
   widget_redraw(pwidget);
   widget_mark_dirty(pwidget);
 
-  pScienceDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pScienceDlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* TRANS: Research report title */
   pstr = create_utf8_from_char(_("Research"), adj_font(12));

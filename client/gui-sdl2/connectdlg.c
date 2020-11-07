@@ -61,8 +61,8 @@
 static struct server_list *pServer_list = NULL;
 static struct server_scan *pServer_scan = NULL;
 
-static struct ADVANCED_DLG *pMeta_Server = NULL;
-static struct SMALL_DLG *pConnectDlg = NULL;
+static struct advanced_dialog *pMeta_Server = NULL;
+static struct small_dialog *pConnectDlg = NULL;
 
 static int connect_callback(struct widget *pwidget);
 static int convert_portnr_callback(struct widget *pwidget);
@@ -294,7 +294,7 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   /* Server list window */
-  pMeta_Server = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pMeta_Server = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   pwindow->action = meta_server_window_callback;
@@ -550,7 +550,7 @@ void popup_join_game_dialog(void)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
@@ -780,7 +780,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
@@ -943,7 +943,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);

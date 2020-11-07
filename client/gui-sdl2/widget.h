@@ -99,15 +99,15 @@ enum widget_state {
   FC_WS_DISABLED        = 3
 };
 
-struct CONTAINER {
+struct container {
   int id0;
   int id1;
   int value;
 };
 
-struct SMALL_DLG;
-struct ADVANCED_DLG;
-struct CHECKBOX;
+struct small_dialog;
+struct advanced_dialog;
+struct checkbox;
 
 struct widget {
   struct widget *next;
@@ -124,7 +124,7 @@ struct widget {
   /* data/information/transport pointers */
   union {
     const struct strvec *vector;
-    struct CONTAINER *cont;
+    struct container *cont;
     struct city *city;
     struct unit *unit;
     struct player *player;
@@ -134,17 +134,17 @@ struct widget {
   } data;
 
   union {
-    struct CHECKBOX *cbox;
-    struct SMALL_DLG *small_dlg;
-    struct ADVANCED_DLG *adv_dlg;
+    struct checkbox *cbox;
+    struct small_dialog *small_dlg;
+    struct advanced_dialog *adv_dlg;
     void *ptr;
   } private_data;
 
   Uint32 state_types_flags;	/* "packed" widget info */
 
   SDL_Rect size;		/* size.w and size.h are the size of widget
-				   size.x and size.y are the draw positions
-				   (relative to dst) */
+                                   size.x and size.y are the draw positions
+                                   (relative to dst) */
 
   SDL_Rect area;                /* position (relative to dst) and size of the
                                    area the widget resides in (or, for
@@ -171,13 +171,13 @@ struct widget {
 };
 
 /* Struct of basic window group dialog ( without scrollbar ) */
-struct SMALL_DLG {
+struct small_dialog {
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;	/* window */
 };
 
 /* Struct of advenced window group dialog ( with scrollbar ) */
-struct ADVANCED_DLG {
+struct advanced_dialog {
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;/* window */
 
@@ -347,10 +347,10 @@ void show_group(struct widget *begin_group_widget_list,
                 struct widget *end_group_widget_list);
 
 void hide_group(struct widget *begin_group_widget_list,
-		struct widget *end_group_widget_list);
+                struct widget *end_group_widget_list);
 
 void group_set_area(struct widget *begin_group_widget_list,
-		    struct widget *end_group_widget_list,
+                    struct widget *end_group_widget_list,
                     SDL_Rect area);
 
 /* Window Group */
@@ -376,9 +376,9 @@ do {						\
 
 #define del_ID_from_gui_list(ID)				\
 do {								\
-  struct widget *___pTmp = get_widget_pointer_form_main_list(ID);	\
-  del_widget_pointer_from_gui_list(___pTmp);			\
-  FREEWIDGET(___pTmp);						\
+  struct widget *___ptmp = get_widget_pointer_form_main_list(ID);	\
+  del_widget_pointer_from_gui_list(___ptmp);			\
+  FREEWIDGET(___ptmp);						\
 } while (FALSE)
 
 #define move_ID_to_front_of_gui_list(ID)	\
@@ -402,12 +402,12 @@ do {									\
 			FC_WS_DISABLED)
 
 /* Advanced Dialog */
-bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
+bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
                                                struct widget *pNew_Widget,
                                                struct widget *pAdd_Dock, bool dir,
                                                Sint16 start_x, Sint16 start_y);
 
-bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg, 
                                                  struct widget *pwidget);
 
 /* misc */

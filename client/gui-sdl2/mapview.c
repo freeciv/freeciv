@@ -791,7 +791,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
-        struct ADVANCED_DLG *pDlg = pInfo_Window->private_data.adv_dlg;
+        struct advanced_dialog *pDlg = pInfo_Window->private_data.adv_dlg;
         struct widget *pBuf = NULL, *pEnd = NULL, *pDock;
         struct city *pHome_City;
         const struct unit_type *putype;

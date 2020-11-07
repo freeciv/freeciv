@@ -48,7 +48,7 @@ static enum client_pages old_page = PAGE_MAIN;
 /**************************************************************************
                                   MAIN PAGE
 **************************************************************************/
-static struct SMALL_DLG *pStartMenu = NULL;
+static struct small_dialog *pStartMenu = NULL;
 
 static void popdown_start_menu(void);
 
@@ -148,7 +148,7 @@ static void show_main_page(void)
   const char *rev_ver;
 
   /* create dialog */
-  pStartMenu = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pStartMenu = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);

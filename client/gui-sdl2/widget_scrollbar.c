@@ -358,7 +358,7 @@ static int get_step(struct ScrollBar *pScroll)
 /**********************************************************************//**
   Get current active position of the scrollbar.
 **************************************************************************/
-static int get_position(struct ADVANCED_DLG *pDlg)
+static int get_position(struct advanced_dialog *pDlg)
 {
   struct widget *pBuf = pDlg->pActiveWidgetList;
   int count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
@@ -414,7 +414,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
 static int std_up_advanced_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct ADVANCED_DLG *pDlg = pwidget->private_data.adv_dlg;
+    struct advanced_dialog *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = up_scroll_widget_list(
                           pDlg->pScroll,
                           pDlg->pActiveWidgetList,
@@ -441,7 +441,7 @@ static int std_up_advanced_dlg_callback(struct widget *pwidget)
 static int std_down_advanced_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct ADVANCED_DLG *pDlg = pwidget->private_data.adv_dlg;
+    struct advanced_dialog *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = down_scroll_widget_list(
                               pDlg->pScroll,
                               pDlg->pActiveWidgetList,
@@ -468,7 +468,7 @@ static int std_down_advanced_dlg_callback(struct widget *pwidget)
 static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct ADVANCED_DLG *pDlg = pScrollBar->private_data.adv_dlg;
+    struct advanced_dialog *pDlg = pScrollBar->private_data.adv_dlg;
     struct widget *pBegin = vertic_scroll_widget_list(
                               pDlg->pScroll,
                               pDlg->pActiveWidgetList,
@@ -492,7 +492,7 @@ static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
 /**********************************************************************//**
   Create a new vertical scrollbar to active widgets list.
 **************************************************************************/
-Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
+Uint32 create_vertical_scrollbar(struct advanced_dialog *pDlg,
                                  Uint8 step, Uint8 active,
                                  bool create_scrollbar, bool create_buttons)
 {
@@ -1152,7 +1152,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   pDlg->pScroll ( scrollbar ) must exist.
   It isn't full secure to multi widget list.
 **************************************************************************/
-bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
+bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
                                                struct widget *pNew_Widget,
                                                struct widget *pAdd_Dock,
                                                bool dir,
@@ -1349,7 +1349,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   Don't free pDlg and pDlg->pScroll (if exist)
   It is full secure for multi widget list case.
 **************************************************************************/
-bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg, 
+bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
                                                  struct widget *pwidget)
 {
   int count = 0;
@@ -1548,7 +1548,7 @@ void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll)
 /**********************************************************************//**
   Create a new horizontal scrollbar to active widgets list.
 **************************************************************************/
-Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
+Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
                                    Sint16 start_x, Sint16 start_y,
                                    Uint16 width, Uint16 active,
                                    bool create_scrollbar, bool create_buttons,

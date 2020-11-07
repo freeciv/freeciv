@@ -77,23 +77,23 @@ extern int overview_start_y;
 extern bool is_unit_move_blocked;
 
 static char *pSuggestedCityName = NULL;
-static struct SMALL_DLG *pNewCity_Dlg = NULL;
+static struct small_dialog *pNewCity_Dlg = NULL;
 extern struct widget *pOptions_Button;
 
 #ifdef SCALE_MINIMAP
-static struct SMALL_DLG *pScale_MiniMap_Dlg = NULL;
+static struct small_dialog *pScale_MiniMap_Dlg = NULL;
 static int popdown_scale_minmap_dlg_callback(struct widget *pwidget);
 #endif /* SCALE_MINIMAP */
 
 #ifdef SCALE_UNITINFO
-static struct SMALL_DLG *pScale_UnitInfo_Dlg = NULL;
+static struct small_dialog *pScale_UnitInfo_Dlg = NULL;
 static int INFO_WIDTH, INFO_HEIGHT = 0, INFO_WIDTH_MIN, INFO_HEIGHT_MIN;
 static int popdown_scale_unitinfo_dlg_callback(struct widget *pwidget);
 static void remake_unitinfo(int w, int h);
 #endif /* SCALE_UNITINFO */
 
-static struct ADVANCED_DLG *pMiniMap_Dlg = NULL;
-static struct ADVANCED_DLG *pUnitInfo_Dlg = NULL;
+static struct advanced_dialog *pMiniMap_Dlg = NULL;
+static struct advanced_dialog *pUnitInfo_Dlg = NULL;
 
 int overview_w = 0;
 int overview_h = 0;
@@ -733,7 +733,7 @@ static void popup_minimap_scale_dialog(void)
     return;
   }
 
-  pScale_MiniMap_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pScale_MiniMap_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(_("Scale Mini Map"), adj_font(12));
@@ -1119,7 +1119,7 @@ static void popup_unitinfo_scale_dialog(void)
     return;
   }
 
-  pScale_UnitInfo_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pScale_UnitInfo_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(_("Scale Unit Info"), adj_font(12));
@@ -1471,7 +1471,7 @@ void popup_unitinfo_window(void)
     return;
   }
 
-  pUnitInfo_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pUnitInfo_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* pUnits_Info_Window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
@@ -1666,7 +1666,7 @@ void popup_minimap_window(void)
     return;
   }
 
-  pMiniMap_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pMiniMap_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* pMiniMap_Window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
@@ -2817,7 +2817,7 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   pSuggestedCityName = fc_calloc(1, suggestlen);
   fc_strlcpy(pSuggestedCityName, pSuggestname, suggestlen);
 
-  pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pNewCity_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(action_id_name_translation(ACTION_FOUND_CITY),

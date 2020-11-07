@@ -83,10 +83,10 @@ static struct city_dialog {
   struct widget *pEndCityWidgetList;
 
   /* Imprvm. vscrollbar */
-  struct ADVANCED_DLG *pImprv;
+  struct advanced_dialog *pImprv;
 
   /* Penel group list */
-  struct ADVANCED_DLG *pPanel;
+  struct advanced_dialog *pPanel;
 
   /* Menu imprv. dlg. */
   struct widget *pBeginCityMenuWidgetList;
@@ -111,7 +111,7 @@ enum specialist_type {
 
 static float city_map_zoom = 1;
 
-static struct SMALL_DLG *pHurry_Prod_Dlg = NULL;
+static struct small_dialog *pHurry_Prod_Dlg = NULL;
 
 static void popdown_hurry_production_dialog(void);
 static void disable_city_dlg_widgets(void);
@@ -757,7 +757,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     pBuf->action = units_orders_city_dlg_callback;
   } unit_list_iterate_end;
 
-  pcity_dlg->pPanel = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pcity_dlg->pPanel = fc_calloc(1, sizeof(struct advanced_dialog));
   pcity_dlg->pPanel->pEndWidgetList = pEnd;
   pcity_dlg->pPanel->pBeginWidgetList = pBuf;
   pcity_dlg->pPanel->pEndActiveWidgetList = pcity_dlg->pPanel->pEndWidgetList;
@@ -960,7 +960,7 @@ static void create_city_options_widget_list(struct city *pCity)
 
   /* ----- */
 
-  pcity_dlg->pPanel = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+  pcity_dlg->pPanel = fc_calloc(1, sizeof(struct advanced_dialog));
   pcity_dlg->pPanel->pEndWidgetList = pBuf;
 
   /* ----- */
@@ -1147,7 +1147,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pdest)
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
+  pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   if (city_can_buy(pCity)) {
     if (value <= client_player()->economic.gold) {
@@ -3469,7 +3469,7 @@ static void rebuild_imprm_list(struct city *pCity)
   int prev_y = 0;
 
   if (!pcity_dlg->pImprv) {
-    pcity_dlg->pImprv = fc_calloc(1, sizeof(struct ADVANCED_DLG));
+    pcity_dlg->pImprv = fc_calloc(1, sizeof(struct advanced_dialog));
   }
 
   /* free old list */

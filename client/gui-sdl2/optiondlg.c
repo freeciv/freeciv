@@ -90,7 +90,7 @@ struct option_dialog {
   struct widget *core_widget_list;
   struct widget *main_widget_list;
   struct widget *begin_widget_list;
-  struct ADVANCED_DLG *advanced;
+  struct advanced_dialog *advanced;
   enum option_dialog_mode mode;
   union {
     struct option_dialog_optset optset;
@@ -1095,7 +1095,7 @@ static int edit_worklist_callback(struct widget *widget)
     case SDL_BUTTON_RIGHT:
       {
         /* Delete. */
-        struct ADVANCED_DLG *advanced = option_dialog->advanced;
+        struct advanced_dialog *advanced = option_dialog->advanced;
         bool scroll = (NULL != advanced->pActiveWidgetList);
 
         global_worklist_destroy(pgwl);
@@ -1138,7 +1138,7 @@ static int add_new_worklist_callback(struct widget *widget)
     struct widget *new_worklist_widget = NULL;
     struct widget *window = option_dialog->end_widget_list;
     struct global_worklist *pgwl = global_worklist_new(_("empty worklist"));
-    struct ADVANCED_DLG *advanced = option_dialog->advanced;
+    struct advanced_dialog *advanced = option_dialog->advanced;
     bool scroll = advanced->pActiveWidgetList == NULL;
     bool redraw_all = FALSE;
 

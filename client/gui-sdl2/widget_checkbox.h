@@ -14,7 +14,7 @@
 #ifndef FC__WIDGET_CHECKBOX_H
 #define FC__WIDGET_CHECKBOX_H
 
-struct CHECKBOX {
+struct checkbox {
   SDL_Surface *pTRUE_Theme;
   SDL_Surface *pFALSE_Theme;
   bool state;
