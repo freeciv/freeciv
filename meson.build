@@ -153,6 +153,54 @@ if readline_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
 endif
 
+syslua = get_option('syslua')
+lua_dep_tmp = dependency('lua-5.4', required:false)
+
+if syslua != 'false' and lua_dep_tmp.found()
+  lua_inc_path = []
+  lua_sources = []
+  lua_dep = lua_dep_tmp
+elif syslua == 'true'
+  error('Syslua requested but not found.')
+else
+  lua_inc_path = 'dependencies/lua-5.4/src'
+  lua_sources = [
+    'dependencies/lua-5.4/src/lapi.c',
+    'dependencies/lua-5.4/src/lauxlib.c',
+    'dependencies/lua-5.4/src/lbaselib.c',
+    'dependencies/lua-5.4/src/lcode.c',
+    'dependencies/lua-5.4/src/lcorolib.c',
+    'dependencies/lua-5.4/src/lctype.c',
+    'dependencies/lua-5.4/src/ldblib.c',
+    'dependencies/lua-5.4/src/ldebug.c',
+    'dependencies/lua-5.4/src/ldo.c',
+    'dependencies/lua-5.4/src/ldump.c',
+    'dependencies/lua-5.4/src/lfunc.c',
+    'dependencies/lua-5.4/src/lgc.c',
+    'dependencies/lua-5.4/src/linit.c',
+    'dependencies/lua-5.4/src/liolib.c',
+    'dependencies/lua-5.4/src/llex.c',
+    'dependencies/lua-5.4/src/lmathlib.c',
+    'dependencies/lua-5.4/src/lmem.c',
+    'dependencies/lua-5.4/src/loadlib.c',
+    'dependencies/lua-5.4/src/lobject.c',
+    'dependencies/lua-5.4/src/lopcodes.c',
+    'dependencies/lua-5.4/src/loslib.c',
+    'dependencies/lua-5.4/src/lparser.c',
+    'dependencies/lua-5.4/src/lstate.c',
+    'dependencies/lua-5.4/src/lstring.c',
+    'dependencies/lua-5.4/src/lstrlib.c',
+    'dependencies/lua-5.4/src/ltable.c',
+    'dependencies/lua-5.4/src/ltablib.c',
+    'dependencies/lua-5.4/src/ltm.c',
+    'dependencies/lua-5.4/src/lundump.c',
+    'dependencies/lua-5.4/src/lutf8lib.c',
+    'dependencies/lua-5.4/src/lvm.c',
+    'dependencies/lua-5.4/src/lzio.c',
+  ]
+  lua_dep = dependency('', required:false)
+endif
+
 if c_compiler.compiles('''#include <netinet/in.h>
 int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
   priv_conf_data.set('HAVE_IP_MREQN', 1)
@@ -211,7 +259,7 @@ else
 endif
 
 common_inc = include_directories(cross_inc_path,
-  'dependencies/lua-5.4/src', 'dependencies/tinycthread',
+  lua_inc_path, 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
   'common/aicore')
@@ -299,38 +347,7 @@ endif
 
 fc_deps = static_library('fc_dependencies',
   'dependencies/cvercmp/cvercmp.c',
-  'dependencies/lua-5.4/src/lapi.c',
-  'dependencies/lua-5.4/src/lauxlib.c',
-  'dependencies/lua-5.4/src/lbaselib.c',
-  'dependencies/lua-5.4/src/lcode.c',
-  'dependencies/lua-5.4/src/lcorolib.c',
-  'dependencies/lua-5.4/src/lctype.c',
-  'dependencies/lua-5.4/src/ldblib.c',
-  'dependencies/lua-5.4/src/ldebug.c',
-  'dependencies/lua-5.4/src/ldo.c',
-  'dependencies/lua-5.4/src/ldump.c',
-  'dependencies/lua-5.4/src/lfunc.c',
-  'dependencies/lua-5.4/src/lgc.c',
-  'dependencies/lua-5.4/src/linit.c',
-  'dependencies/lua-5.4/src/liolib.c',
-  'dependencies/lua-5.4/src/llex.c',
-  'dependencies/lua-5.4/src/lmathlib.c',
-  'dependencies/lua-5.4/src/lmem.c',
-  'dependencies/lua-5.4/src/loadlib.c',
-  'dependencies/lua-5.4/src/lobject.c',
-  'dependencies/lua-5.4/src/lopcodes.c',
-  'dependencies/lua-5.4/src/loslib.c',
-  'dependencies/lua-5.4/src/lparser.c',
-  'dependencies/lua-5.4/src/lstate.c',
-  'dependencies/lua-5.4/src/lstring.c',
-  'dependencies/lua-5.4/src/lstrlib.c',
-  'dependencies/lua-5.4/src/ltable.c',
-  'dependencies/lua-5.4/src/ltablib.c',
-  'dependencies/lua-5.4/src/ltm.c',
-  'dependencies/lua-5.4/src/lundump.c',
-  'dependencies/lua-5.4/src/lutf8lib.c',
-  'dependencies/lua-5.4/src/lvm.c',
-  'dependencies/lua-5.4/src/lzio.c',
+  lua_sources,
   'dependencies/tolua-5.2/src/lib/tolua_event.c',
   'dependencies/tolua-5.2/src/lib/tolua_is.c',
   'dependencies/tolua-5.2/src/lib/tolua_map.c',
@@ -340,7 +357,8 @@ fc_deps = static_library('fc_dependencies',
   'dependencies/luasql/src/ls_sqlite3.c',
   tinycthr_files,
   sources: verhdr,
-  include_directories : common_inc
+  include_directories : common_inc,
+  dependencies: lua_dep
   )
 
 common_lib = library('freeciv',
@@ -460,7 +478,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 ws2_dep, jansson_dep, dependency('threads')],
+                 ws2_dep, jansson_dep, lua_dep, dependency('threads')],
   install : true
   )
 
@@ -573,7 +591,8 @@ server_lib = static_library('fc_server',
   include_directories: server_inc,
   sources: [ pack_server,
              tolua.process('server/scripting/tolua_fcdb.pkg',
-                           'server/scripting/tolua_server.pkg')]
+                           'server/scripting/tolua_server.pkg')],
+  dependencies: lua_dep
   )
 
 executable('freeciv-server',
@@ -1205,7 +1224,8 @@ client_common = static_library('fc_client_common',
   link_with: [common_lib],
   dependencies: [c_compiler.find_library('m'),
                  c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
+                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path),
+                 lua_dep]
   )
 
 install_data('data/helpdata.txt',

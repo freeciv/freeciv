@@ -24,3 +24,8 @@ option('json-protocol',
        type: 'boolean',
        value: false,
        description: 'Build in json-protocol support')
+
+option('syslua',
+       type: 'combo',
+       choices: ['try', 'true', 'false'],
+       description: 'Use lua from system')

@@ -114,3 +114,8 @@ cacert-path (string):
 json-protocol (boolean):
   Build json-protocol support in. Json-protocol is an alternative to the default
   raw-protocol between freeciv server and client.
+
+syslua ('try'/'true'/'false')
+  Whether to use lua from the system, or to build lua included in freeciv
+  source tree. The default is 'try' to use lua from the system if possible,
+  but fallback to using freeciv's included one if not found from system.
