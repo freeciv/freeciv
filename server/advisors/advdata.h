@@ -91,8 +91,9 @@ struct adv_data {
   struct {
     struct adv_dipl **adv_dipl_slots;
 
-    struct player *spacerace_leader; /* who is leading the space pack */
-    struct player *production_leader;
+    struct player *spacerace_leader;  /* Who is leading the space pack */
+    struct player *tech_leader;       /* Who is first to get spacerace techs */
+    struct player *production_leader; /* Who is quickest to build spaceship */
   } dipl;
 
   int num_continents; /* last time we updated our continent data */

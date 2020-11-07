@@ -442,6 +442,14 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
     }
   } players_iterate_end;
 
+  adv->dipl.tech_leader = NULL;
+  players_iterate(aplayer) {
+    if (adv->dipl.tech_leader == NULL
+        || adv->dipl.tech_leader->score.techs < aplayer->score.techs) {
+      adv->dipl.tech_leader = aplayer;
+    }
+  } players_iterate_end;
+
   /*** Priorities ***/
 
   /* NEVER set these to zero! Weight values are usually multiplied by 
