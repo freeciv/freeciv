@@ -311,8 +311,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_ENABLE_SPACE:
     if (victory_enabled(VC_SPACERACE)) {
       v += 10;
-      if (adv->dipl.production_leader == pplayer) {
-	v += 150;
+      if (adv->dipl.production_leader == pplayer
+          || adv->dipl.tech_leader == pplayer) {
+        v += 150;
       }
     }
     break;
@@ -396,10 +397,11 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_SS_COMPONENT:
   case EFT_SS_MODULE:
     if (victory_enabled(VC_SPACERACE)
-	/* If someone has started building spaceship already or
-	 * we have chance to win a spacerace */
-	&& (adv->dipl.spacerace_leader
-	    || adv->dipl.production_leader == pplayer)) {
+        /* If someone has started building spaceship already or
+         * we have chance to win a spacerace */
+        && (adv->dipl.spacerace_leader
+            || adv->dipl.production_leader == pplayer
+            || adv->dipl.tech_leader == pplayer)) {
       v += 140;
     }
     break;
