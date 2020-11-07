@@ -102,6 +102,8 @@ static struct action_enabler_list *action_enablers_by_action[MAX_NUM_ACTIONS];
 /* Hard requirements relates to action result. */
 static struct obligatory_req_vector obligatory_hard_reqs[ACTRES_NONE];
 
+static struct astring ui_name_str = ASTRING_INIT;
+
 static struct action *
 unit_action_new(action_id id,
                 enum action_result result,
@@ -1242,6 +1244,8 @@ void actions_free(void)
   for (i = 0; i < MAX_NUM_ACTION_AUTO_PERFORMERS; i++) {
     requirement_vector_free(&auto_perfs[i].reqs);
   }
+
+  astr_free(&ui_name_str);
 }
 
 /**********************************************************************//**
@@ -1656,8 +1660,7 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
                                    const char *custom)
 {
-  static struct astring str = ASTRING_INIT;
-  static struct astring chance = ASTRING_INIT;
+  struct astring chance = ASTRING_INIT;
 
   /* Text representation of the probability. */
   const char *probtxt;
@@ -1677,11 +1680,11 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
     fc_assert(custom == NULL || custom[0] == '\0');
 
     /* Make the best of what is known */
-    astr_set(&str, _("%s%s (name may be wrong)"),
+    astr_set(&ui_name_str, _("%s%s (name may be wrong)"),
              mnemonic, action_id_rule_name(act_id));
 
     /* Return the guess. */
-    return astr_str(&str);
+    return astr_str(&ui_name_str);
   }
 
   probtxt = action_prob_to_text(prob);
@@ -1745,7 +1748,7 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
     astr_add(&fmtstr, "%s", ui_name);
 
     /* Use the modified format string */
-    astr_set(&str, astr_str(&fmtstr), mnemonic,
+    astr_set(&ui_name_str, astr_str(&fmtstr), mnemonic,
              astr_str(&chance));
 
     astr_free(&fmtstr);
@@ -1753,7 +1756,7 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
 
   astr_free(&chance);
 
-  return astr_str(&str);
+  return astr_str(&ui_name_str);
 }
 
 /**********************************************************************//**
