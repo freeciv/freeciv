@@ -2308,9 +2308,9 @@ $FreecivVersion\
 ; /* TRANS: followed by a URL */
 _("\
 If you find any bugs, then please send us a bug report.  This is \
-best done by visiting the Freeciv Bug Tracking System, at:\
+best done by sending email to freeciv-dev mailing list, at:\
 "), "\
-  https://www.hostedredmine.com/projects/freeciv\
+  https://www.freelists.org/list/freeciv-dev\
 ", _("\
 Please quote the above version information. \
 For more information about submitting bug reports see the file BUGS \
