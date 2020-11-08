@@ -305,6 +305,9 @@ const char *action_get_ui_name_mnemonic(int act_id,
   appears in the action name it can be escaped by doubling.
   Success probability information is interpreted and added to the text.
   A custom text can be inserted before the probability information.
+
+  The returned string is in statically allocated astring, and thus this
+  function is not thread-safe.
 **************************************************************************/
 const char *action_prepare_ui_name(int act_id, const char *mnemonic,
                                    const struct act_prob prob,
@@ -435,6 +438,9 @@ const char *action_prepare_ui_name(int act_id, const char *mnemonic,
 /**************************************************************************
   Get information about starting the action in the current situation.
   Suitable for a tool tip for the button that starts it.
+
+  The returned string is in statically allocated astring, and thus this
+  function is not thread-safe.
 **************************************************************************/
 const char *action_get_tool_tip(const int act_id,
                                 const struct act_prob prob)
