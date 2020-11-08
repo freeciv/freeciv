@@ -1428,8 +1428,11 @@ void handle_edit_game(struct connection *pc,
     changed = TRUE;
   }
 
+  FC_STATIC_ASSERT(sizeof(packet->scenario_authors) == sizeof(game.scenario.authors),
+                   scen_authors_field_size_mismatch);
+
   if (0 != strncmp(packet->scenario_authors, game.scenario.authors,
-                   MAX_LEN_PACKET)) {
+                   sizeof(game.scenario.authors))) {
     sz_strlcpy(game.scenario.authors, packet->scenario_authors);
     changed = TRUE;
   }
