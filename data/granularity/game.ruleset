@@ -469,6 +469,20 @@ actor_reqs    =
       "DiplRel",      "Never met",  "Local", FALSE
     }
 
+[actionenabler_cultivate]
+action        = "Cultivate"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
+[actionenabler_plant]
+action        = "Plant"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
 [borders]
 ; Base border radius from city.
 radius_sq_city = 2

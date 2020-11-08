@@ -527,6 +527,38 @@ helptext      = _("\
   Settlers are specialized in founding new cities.\
 ")
 
+[unit_worker]
+name          = _("?unit:Workers")
+class         = "Land"
+tech_req      = "Agriculture"
+obsolete_by   = "None"
+graphic       = "u.worker"
+graphic_alt   = "-"
+sound_move    = "m_worker"
+sound_move_alt = "m_generic"
+sound_fight   = "f_worker"
+sound_fight_alt = "f_generic"
+build_cost    = 1500
+pop_cost      = 0
+attack        = 0
+defense       = 3
+hitpoints     = 10
+firepower     = 1
+move_rate     = 5
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 100
+uk_food       = 0
+uk_gold       = 0
+flags         = "Settlers", "NonMil"
+roles         = "Settlers", "WorkerStartUnit"
+helptext      = _("\
+Workers have the ability to transform terrain by cutting and planting trees\
+ and plants.\
+")
+
 [unit_ship]
 name          = _("Generic Ship")
 class         = "Sea"
