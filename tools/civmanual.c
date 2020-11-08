@@ -501,6 +501,7 @@ static bool manual_command(void)
 
         requirement_vector_iterate(&pimprove->reqs, req) {
           char text[512], text2[512];
+
           fc_snprintf(text2, sizeof(text2),
                       /* TRANS: improvement requires a feature to be absent. */
                       req->present ? "%s" : _("no %s"),
@@ -512,7 +513,7 @@ static bool manual_command(void)
         } requirement_vector_iterate_end;
 
         requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-          if (pobs->source.kind == VUT_ADVANCE) {
+          if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
             obs_tech = pobs->source.value.advance;
             break;
           }

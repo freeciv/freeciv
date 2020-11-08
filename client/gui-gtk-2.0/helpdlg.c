@@ -804,7 +804,7 @@ static void help_update_wonder(const struct help_item *pitem,
     } requirement_vector_iterate_end;
     gtk_label_set_text(GTK_LABEL(help_wlabel[5]), REQ_LABEL_NEVER);
     requirement_vector_iterate(&imp->obsolete_by, pobs) {
-      if (pobs->source.kind == VUT_ADVANCE) {
+      if (pobs->source.kind == VUT_ADVANCE && pobs->present) {
         gtk_label_set_text(GTK_LABEL(help_wlabel[5]),
                            advance_name_translation
                                (pobs->source.value.advance));
@@ -1016,7 +1016,8 @@ static void help_update_tech(const struct help_item *pitem, char *title)
       } requirement_vector_iterate_end;
       requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
         if (pobs->source.kind == VUT_ADVANCE
-            && pobs->source.value.advance == padvance) {
+            && pobs->source.value.advance == padvance
+            && pobs->present) {
           hbox = gtk_hbox_new(FALSE, 0);
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Obsoletes"));
