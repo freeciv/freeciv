@@ -1235,7 +1235,7 @@ void unit_select_dialog_update_real(void *unused)
 /* ====================================================================== */
 /* ============================ TERRAIN INFO ============================ */
 /* ====================================================================== */
-static struct small_dialog *pTerrain_Info_Dlg = NULL;
+static struct small_dialog *terrain_info_dlg = NULL;
 
 
 /**********************************************************************//**
@@ -1244,7 +1244,7 @@ static struct small_dialog *pTerrain_Info_Dlg = NULL;
 static int terrain_info_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pTerrain_Info_Dlg->pBeginWidgetList, pwindow);
+    move_window_group(terrain_info_dlg->pBeginWidgetList, pwindow);
   }
   return -1;
 }
@@ -1254,10 +1254,10 @@ static int terrain_info_window_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 static void popdown_terrain_info_dialog(void)
 {
-  if (pTerrain_Info_Dlg) {
-    popdown_window_group_dialog(pTerrain_Info_Dlg->pBeginWidgetList,
-				pTerrain_Info_Dlg->pEndWidgetList);
-    FC_FREE(pTerrain_Info_Dlg);
+  if (terrain_info_dlg) {
+    popdown_window_group_dialog(terrain_info_dlg->pBeginWidgetList,
+				terrain_info_dlg->pEndWidgetList);
+    FC_FREE(terrain_info_dlg);
     flush_dirty();
   }
 }
@@ -1305,13 +1305,13 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   char cBuf[256];  
   SDL_Rect area;
 
-  if (pTerrain_Info_Dlg) {
+  if (terrain_info_dlg) {
     flush_dirty();
     return;
   }
 
   pSurf = get_terrain_surface(ptile);
-  pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct small_dialog));
+  terrain_info_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* ----------- */
   fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"),
@@ -1324,7 +1324,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_TERRAIN_INFO_DLG_WINDOW, pwindow);
-  pTerrain_Info_Dlg->pEndWidgetList = pwindow;
+  terrain_info_dlg->pEndWidgetList = pwindow;
 
   area = pwindow->area;
 
@@ -1367,10 +1367,10 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
 
   add_to_gui_list(ID_TERRAIN_INFO_DLG_EXIT_BUTTON, pBuf);
 
-  pTerrain_Info_Dlg->pBeginWidgetList = pBuf;
+  terrain_info_dlg->pBeginWidgetList = pBuf;
   /* --------------------------------- */
   /* redraw */
-  redraw_group(pTerrain_Info_Dlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(terrain_info_dlg->pBeginWidgetList, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
 }

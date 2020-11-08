@@ -1105,7 +1105,7 @@ void real_menus_update(void)
       int time;
       struct tile *ptile = unit_tile(pUnit);
       struct city *pCity = tile_city(ptile);
-      struct terrain *pTerrain = tile_terrain(ptile);
+      struct terrain *pterrain = tile_terrain(ptile);
       struct base_type *pbase;
       struct extra_type *pextra;
 
@@ -1236,7 +1236,7 @@ void real_menus_update(void)
         time = turns_to_activity_done(ptile, ACTIVITY_CULTIVATE, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Cultivate to"),
-                    terrain_name_translation(pTerrain->cultivate_result),
+                    terrain_name_translation(pterrain->cultivate_result),
                     "Shift+I", time, PL_("turn", "turns", time));
         copy_chars_to_utf8_str(pOrder_Cultivate_Button->info_label, cBuf);
         clear_wflag(pOrder_Cultivate_Button, WF_HIDDEN);
@@ -1249,7 +1249,7 @@ void real_menus_update(void)
         time = turns_to_activity_done(ptile, ACTIVITY_PLANT, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Plant to"),
-                    terrain_name_translation(pTerrain->plant_result),
+                    terrain_name_translation(pterrain->plant_result),
                     "Shift+M", time, PL_("turn", "turns", time));
         copy_chars_to_utf8_str(pOrder_Plant_Button->info_label, cBuf);
         clear_wflag(pOrder_Plant_Button, WF_HIDDEN);
@@ -1262,7 +1262,7 @@ void real_menus_update(void)
         time = turns_to_activity_done(ptile, ACTIVITY_TRANSFORM, NULL, pUnit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Transform to"),
-                    terrain_name_translation(pTerrain->transform_result),
+                    terrain_name_translation(pterrain->transform_result),
                     "O", time, PL_("turn", "turns", time));
         copy_chars_to_utf8_str(pOrder_Transform_Button->info_label, cBuf);
         clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
