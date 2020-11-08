@@ -198,6 +198,16 @@ graphic     = "a.road_building"
 graphic_alt = "-"
 helptext    = _("Allows build actual roads.")
 
+[advance_spirits]
+name        = _("Spirits");
+req1        = "None"
+req2        = "None"
+flags       = ""
+graphic     = "a.spirits"
+graphic_alt = "a.alphabet"
+helptext    = _("Belief in natural spirits is the first step in Religious\
+ tech tree branch.")
+
 [advance_tools]
 name        = _("Tools");
 req1        = "None"

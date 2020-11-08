@@ -84,6 +84,28 @@ City Walls make it easier to defend a city. They triple the defense\
  strength of units within the city against land units.\
 ")
 
+[building_sacred_grove]
+name		= _("Sacred Grove")
+genus		= "Improvement"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Spirits", "Player"
+    }
+graphic	= "b.sacred_grove"
+graphic_alt	= "b.temple"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 1100
+upkeep		= 80
+sabotage	= 100
+sound		= "b_sacred_grove"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes one unhappy citizen content.\
+ Does not affect citizens made unhappy by military activity.\
+")
+
 [building_throne]
 name		= _("Throne")
 genus		= "SmallWonder"
