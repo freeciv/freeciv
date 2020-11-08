@@ -1617,6 +1617,9 @@ const char *action_get_ui_name_mnemonic(action_id act_id,
 /**********************************************************************//**
   Returns a text representation of the action probability prob unless it
   is a signal. Returns NULL if prob is a signal.
+
+  The returned string is in statically allocated astring, and thus this
+  function is not thread-safe.
 **************************************************************************/
 static const char *action_prob_to_text(const struct act_prob prob)
 {
@@ -1655,6 +1658,9 @@ static const char *action_prob_to_text(const struct act_prob prob)
   appears in the action name it can be escaped by doubling.
   Success probability information is interpreted and added to the text.
   A custom text can be inserted before the probability information.
+
+  The returned string is in statically allocated astring, and thus this
+  function is not thread-safe.
 **************************************************************************/
 const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
                                    const struct act_prob prob,
@@ -1763,6 +1769,9 @@ const char *action_prepare_ui_name(action_id act_id, const char *mnemonic,
   Explain an action probability in a way suitable for a tool tip for the
   button that starts it.
   @return an explanation of what an action probability means
+
+  The returned string is in statically allocated astring, and thus this
+  function is not thread-safe.
 **************************************************************************/
 const char *action_prob_explain(const struct act_prob prob)
 {
