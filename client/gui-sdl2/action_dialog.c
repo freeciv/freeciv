@@ -1403,15 +1403,15 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   /* ------------------ */
   n = 0;
-  city_built_iterate(pCity, pImprove) {
-    if (pImprove->sabotage > 0) {
+  city_built_iterate(pCity, pimprove) {
+    if (pimprove->sabotage > 0) {
       create_active_iconlabel(pBuf, pwindow->dst, pstr,
-	      (char *) city_improvement_name_translation(pCity, pImprove),
+	      (char *) city_improvement_name_translation(pCity, pimprove),
 				      sabotage_impr_callback);
       pBuf->data.cont = pCont;
       set_wstate(pBuf, FC_WS_NORMAL);
 
-      add_to_gui_list(MAX_ID - improvement_number(pImprove), pBuf);
+      add_to_gui_list(MAX_ID - improvement_number(pimprove), pBuf);
 
       area.w = MAX(area.w , pBuf->size.w);
       imp_h += pBuf->size.h;

@@ -1391,16 +1391,16 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pstr->style |= (SF_CENTER|TTF_STYLE_BOLD);
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  improvement_iterate(pImprove) {
-    can_build = can_player_build_improvement_now(client.conn.playing, pImprove);
+  improvement_iterate(pimprove) {
+    can_build = can_player_build_improvement_now(client.conn.playing, pimprove);
     can_eventually_build =
-        can_player_build_improvement_later(client.conn.playing, pImprove);
+        can_player_build_improvement_later(client.conn.playing, pimprove);
 
     /* If there's a city, can the city build the improvement? */
     if (pCity) {
-      can_build = can_build && can_city_build_improvement_now(pCity, pImprove);
+      can_build = can_build && can_city_build_improvement_now(pCity, pimprove);
       can_eventually_build = can_eventually_build
-        && can_city_build_improvement_later(pCity, pImprove);
+        && can_city_build_improvement_later(pCity, pimprove);
     }
 
     if ((advanced_tech && can_eventually_build)
@@ -1408,29 +1408,29 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
       pIcon = crop_rect_from_surface(pMain, NULL);
 
-      fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pImprove));
+      fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pimprove));
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
 
-      if (pCity && is_improvement_redundant(pCity, pImprove)) {
+      if (pCity && is_improvement_redundant(pCity, pimprove)) {
         pstr->style |= TTF_STYLE_STRIKETHROUGH;
       }
 
       pText_Name = create_text_surf_smaller_than_w(pstr, pIcon->w - 4);
 
-      if (is_wonder(pImprove)) {
-        if (improvement_obsolete(client.conn.playing, pImprove, pCity)) {
+      if (is_wonder(pimprove)) {
+        if (improvement_obsolete(client.conn.playing, pimprove, pCity)) {
           state = _("Obsolete");
-        } else if (is_great_wonder(pImprove)) {
-          if (great_wonder_is_built(pImprove)) {
+        } else if (is_great_wonder(pimprove)) {
+          if (great_wonder_is_built(pimprove)) {
             state = _("Built");
-          } else if (great_wonder_is_destroyed(pImprove)) {
+          } else if (great_wonder_is_destroyed(pimprove)) {
             state = _("Destroyed");
           } else {
             state = _("Great Wonder");
           }
-        } else if (is_small_wonder(pImprove)) {
-          if (small_wonder_is_built(client.conn.playing, pImprove)) {
+        } else if (is_small_wonder(pimprove)) {
+          if (small_wonder_is_built(client.conn.playing, pimprove)) {
             state = _("Built");
           } else {
             state = _("Small Wonder");
@@ -1441,9 +1441,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       }
 
       if (pCity) {
-        if (!improvement_has_flag(pImprove, IF_GOLD)) {
-          struct universal univ = cid_production(cid_encode_building(pImprove));
-          int cost = impr_build_shield_cost(pCity, pImprove);
+        if (!improvement_has_flag(pimprove, IF_GOLD)) {
+          struct universal univ = cid_production(cid_encode_building(pimprove));
+          int cost = impr_build_shield_cost(pCity, pimprove);
 
           turns = city_turns_to_build(pCity, &univ, TRUE);
 
@@ -1481,8 +1481,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
         }
       } else {
         /* non city mode */
-        if (!improvement_has_flag(pImprove, IF_GOLD)) {
-          int cost = impr_build_shield_cost(NULL, pImprove);
+        if (!improvement_has_flag(pimprove, IF_GOLD)) {
+          int cost = impr_build_shield_cost(NULL, pimprove);
 
           if (state) {
             fc_snprintf(cbuf, sizeof(cbuf), _("(%s)\n%d %s"),
@@ -1506,7 +1506,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
       /*-----------------*/
 
-      pZoom = get_building_surface(pImprove);
+      pZoom = get_building_surface(pimprove);
       pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
       dst.x = (pIcon->w - pZoom->w) / 2;
       dst.y = (pIcon->h/2 - pZoom->h) / 2;
@@ -1533,7 +1533,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       widget_h = MAX(widget_h, pBuf->size.h);
 
       pBuf->data.city = pCity;
-      add_to_gui_list(MAX_ID - improvement_number(pImprove), pBuf);
+      add_to_gui_list(MAX_ID - improvement_number(pimprove), pBuf);
       pBuf->action = worklist_editor_targets_callback;
 
       if (count > (TARGETS_ROW * TARGETS_COL - 1)) {

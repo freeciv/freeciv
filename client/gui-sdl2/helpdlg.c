@@ -206,7 +206,7 @@ void popup_impr_info(Impr_type_id impr)
   struct UNITS_BUTTONS *pStore;
   struct widget *pCloseButton = NULL;
   struct widget *pListToggleButton = NULL;
-  struct widget *pImprovementButton = NULL;
+  struct widget *improvement_button = NULL;
   struct widget *pImprNameLabel = NULL;
   struct widget *pCostLabel = NULL;
   struct widget *pUpkeepLabel = NULL;
@@ -284,13 +284,13 @@ void popup_impr_info(Impr_type_id impr)
                  get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     impr_type_count = 0;
-    improvement_iterate(pImprove) {
+    improvement_iterate(pimprove) {
 
       /* copy background surface */  
       pBackground = copy_surface(pBackgroundTmpl);
 
       /* blit improvement name */
-      copy_chars_to_utf8_str(pstr, improvement_name_translation(pImprove));
+      copy_chars_to_utf8_str(pstr, improvement_name_translation(pimprove));
       pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
       dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
       dst.y = (pBackground->h - pText->h) / 2;
@@ -298,22 +298,22 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(pText);
 
       /* blit improvement icon */
-      pIcon = ResizeSurfaceBox(get_building_surface(pImprove),
+      pIcon = ResizeSurfaceBox(get_building_surface(pimprove),
                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
       dst.y = (pBackground->h - pIcon->h) / 2;
       alphablit(pIcon, NULL, pBackground, &dst, 255);
       FREESURFACE(pIcon);
 
-      pImprovementButton = create_icon2(pBackground, pwindow->dst,
+      improvement_button = create_icon2(pBackground, pwindow->dst,
                                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-      set_wstate(pImprovementButton, FC_WS_NORMAL);
-      pImprovementButton->action = change_impr_callback;
-      add_to_gui_list(MAX_ID - improvement_number(pImprove), pImprovementButton);
+      set_wstate(improvement_button, FC_WS_NORMAL);
+      improvement_button->action = change_impr_callback;
+      add_to_gui_list(MAX_ID - improvement_number(pimprove), improvement_button);
 
       if (impr_type_count++ >= 10) {
-        set_wflag(pImprovementButton, WF_HIDDEN);
+        set_wflag(improvement_button, WF_HIDDEN);
       }
 
     } improvement_iterate_end;
@@ -321,7 +321,7 @@ void popup_impr_info(Impr_type_id impr)
     FREESURFACE(pBackgroundTmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = pImprovementButton ? pImprovementButton : pCloseButton;
+    pHelpDlg->pBeginWidgetList = improvement_button ? improvement_button : pCloseButton;
     pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
 
     if (impr_type_count > 10) {
@@ -1222,26 +1222,26 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   /* target improvements */
   imp_count = 0;
-  improvement_iterate(pImprove) {
+  improvement_iterate(pimprove) {
     /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
      * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
      * definition. */
-    requirement_vector_iterate(&(pImprove->reqs), preq) {
+    requirement_vector_iterate(&(pimprove->reqs), preq) {
       if (VUT_ADVANCE == preq->source.kind
           && advance_number(preq->source.value.advance) == tech) {
-        pSurf = get_building_surface(pImprove);
+        pSurf = get_building_surface(pimprove);
         pwidget = create_iconlabel_from_chars(
                 ResizeSurfaceBox(pSurf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
                 pwindow->dst,
-                improvement_name_translation(pImprove),
+                improvement_name_translation(pimprove),
                 adj_font(14),
                 WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
         set_wstate(pwidget, FC_WS_NORMAL);
-        if (is_wonder(pImprove)) {
+        if (is_wonder(pimprove)) {
           pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
         }
         pwidget->action = change_impr_callback;
-        pwidget->ID = MAX_ID - improvement_number(pImprove);
+        pwidget->ID = MAX_ID - improvement_number(pimprove);
         DownAdd(pwidget, pDock);
         pDock = pwidget;
         imp_count++;

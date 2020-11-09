@@ -2088,11 +2088,11 @@ void economy_report_dialog_popup(bool make_modal)
 
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
-      struct impr_type *pImprove = p->type;
+      struct impr_type *pimprove = p->type;
 
       pSurf = crop_rect_from_surface(pBackground, NULL);
 
-      fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pImprove));
+      fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pimprove));
 
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
@@ -2107,7 +2107,7 @@ void economy_report_dialog_popup(bool make_modal)
 
       /*-----------------*/
   
-      pZoom = get_building_surface(pImprove);
+      pZoom = get_building_surface(pimprove);
       pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
 
       dst.x = (pSurf->w - pZoom->w) / 2;
@@ -2130,7 +2130,7 @@ void economy_report_dialog_popup(bool make_modal)
         }
       } else {
 
-        if (!is_wonder(pImprove)) {
+        if (!is_wonder(pimprove)) {
           copy_chars_to_utf8_str(pstr, _("Nation"));
 	} else {
           copy_chars_to_utf8_str(pstr, _("Wonder"));
@@ -2465,11 +2465,11 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
     /* fill array with iprvm. icons */
     w = 0;
-    improvement_iterate(pImprove) {
-      requirement_vector_iterate(&pImprove->reqs, preq) {
+    improvement_iterate(pimprove) {
+      requirement_vector_iterate(&pimprove->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
             && advance_number(preq->source.value.advance) == tech_id) {
-          pTmp2 = get_building_surface(pImprove);
+          pTmp2 = get_building_surface(pimprove);
           Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
         }
       } requirement_vector_iterate_end;
@@ -2711,12 +2711,12 @@ void real_science_report_dialog_update(void *unused)
     dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
 
     /* buildings */
-    improvement_iterate(pImprove) {
-      requirement_vector_iterate(&pImprove->reqs, preq) {
+    improvement_iterate(pimprove) {
+      requirement_vector_iterate(&pimprove->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
             && (advance_number(preq->source.value.advance)
                 == presearch->researching)) {
-          pSurf = adj_surf(get_building_surface(pImprove));
+          pSurf = adj_surf(get_building_surface(pimprove));
           alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
           dest.x += pSurf->w + 1;
         }
@@ -2789,12 +2789,12 @@ void real_science_report_dialog_update(void *unused)
       FREESURFACE(pSurf);
 
       /* buildings */
-      improvement_iterate(pImprove) {
-        requirement_vector_iterate(&pImprove->reqs, preq) {
+      improvement_iterate(pimprove) {
+        requirement_vector_iterate(&pimprove->reqs, preq) {
           if (VUT_ADVANCE == preq->source.kind
               && (advance_number(preq->source.value.advance)
                   == presearch->tech_goal)) {
-            pSurf = adj_surf(get_building_surface(pImprove));
+            pSurf = adj_surf(get_building_surface(pimprove));
             alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
             dest.x += pSurf->w + 1;
           }

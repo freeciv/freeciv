@@ -130,9 +130,9 @@ static void rebuild_citydlg_title_str(struct widget *pwindow, struct city *pCity
 **************************************************************************/
 struct impr_type *get_building_for_effect(enum effect_type effect_type)
 { 
-  improvement_iterate(pImprove) {
-    if (building_has_effect(pImprove, effect_type)) {
-      return pImprove;
+  improvement_iterate(pimprove) {
+    if (building_has_effect(pimprove, effect_type)) {
+      return pimprove;
     }
   } improvement_iterate_end;
 
@@ -3488,13 +3488,13 @@ static void rebuild_imprm_list(struct city *pCity)
   pBuf = pLast = pAdd_Dock;
 
   /* allock new */
-  city_built_iterate(pCity, pImprove) {
-    pstr = create_utf8_from_char(city_improvement_name_translation(pCity, pImprove), adj_font(10));
+  city_built_iterate(pCity, pimprove) {
+    pstr = create_utf8_from_char(city_improvement_name_translation(pCity, pimprove), adj_font(10));
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_IMPR);
 
     pstr->style |= TTF_STYLE_BOLD;
 
-    pLogo = get_building_surface(pImprove);
+    pLogo = get_building_surface(pimprove);
     pLogo = ResizeSurfaceBox(pLogo, adj_size(22), adj_size(22), 1, TRUE, TRUE);
 
     pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
@@ -3509,11 +3509,11 @@ static void rebuild_imprm_list(struct city *pCity)
     pBuf->action = sell_imprvm_dlg_callback;
 
     if (!pcity_dlg->pCity->did_sell
-        && !is_wonder(pImprove) && (pOwner == client.conn.playing)) {
+        && !is_wonder(pimprove) && (pOwner == client.conn.playing)) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
 
-    pBuf->ID = MAX_ID - improvement_number(pImprove) - 3000;
+    pBuf->ID = MAX_ID - improvement_number(pimprove) - 3000;
     DownAdd(pBuf, pAdd_Dock);
     pAdd_Dock = pBuf;
 
