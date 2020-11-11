@@ -374,7 +374,7 @@ void popup_impr_info(Impr_type_id impr)
                      adj_font(24), WF_FREE_THEME);
 
   pImprNameLabel->ID = ID_LABEL;
-  DownAdd(pImprNameLabel, pDock);
+  widget_add_as_prev(pImprNameLabel, pDock);
   pDock = pImprNameLabel;
 
   if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
@@ -383,7 +383,7 @@ void popup_impr_info(Impr_type_id impr)
     pCostLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                              buffer, adj_font(12), 0);
     pCostLabel->ID = ID_LABEL;
-    DownAdd(pCostLabel, pDock);
+    widget_add_as_prev(pCostLabel, pDock);
     pDock = pCostLabel;
 
     if (!is_wonder(pimpr_type)) {
@@ -391,7 +391,7 @@ void popup_impr_info(Impr_type_id impr)
       pUpkeepLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  buffer, adj_font(12), 0);
       pUpkeepLabel->ID = ID_LABEL;
-      DownAdd(pUpkeepLabel, pDock);
+      widget_add_as_prev(pUpkeepLabel, pDock);
       pDock = pUpkeepLabel;
     }
   }
@@ -401,7 +401,7 @@ void popup_impr_info(Impr_type_id impr)
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
   pRequirementLabel->ID = ID_LABEL;
-  DownAdd(pRequirementLabel, pDock);
+  widget_add_as_prev(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
   if (requirement_vector_size(&pimpr_type->reqs) == 0) {
@@ -431,7 +431,7 @@ void popup_impr_info(Impr_type_id impr)
       break;
     } requirement_vector_iterate_end;
   }
-  DownAdd(pRequirementLabel2, pDock);
+  widget_add_as_prev(pRequirementLabel2, pDock);
   pDock = pRequirementLabel2;
   pStore->pRequirementButton = pRequirementLabel2;
 
@@ -440,7 +440,7 @@ void popup_impr_info(Impr_type_id impr)
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
   pObsoleteByLabel->ID = ID_LABEL;
-  DownAdd(pObsoleteByLabel, pDock);
+  widget_add_as_prev(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
 
@@ -463,7 +463,7 @@ void popup_impr_info(Impr_type_id impr)
     pObsoleteByLabel2->action = change_tech_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
-  DownAdd(pObsoleteByLabel2, pDock);
+  widget_add_as_prev(pObsoleteByLabel2, pDock);
   pDock = pObsoleteByLabel2;
   pStore->pObsoleteByButton = pObsoleteByLabel2;
 
@@ -479,7 +479,7 @@ void popup_impr_info(Impr_type_id impr)
     convert_utf8_str_to_const_surface_width(bstr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pwindow->dst, bstr, 0);
     pHelptextLabel->ID = ID_LABEL;
-    DownAdd(pHelptextLabel, pDock);
+    widget_add_as_prev(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
     text = TRUE;
   }
@@ -788,7 +788,7 @@ void popup_unit_info(Unit_type_id type_id)
                 adj_font(24), WF_FREE_THEME);
 
   pUnitNameLabel->ID = ID_LABEL;
-  DownAdd(pUnitNameLabel, pDock);
+  widget_add_as_prev(pUnitNameLabel, pDock);
   pDock = pUnitNameLabel;
 
 
@@ -839,7 +839,7 @@ void popup_unit_info(Unit_type_id type_id)
     pUnitInfoLabel = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
                                                  adj_font(12), 0);
     pUnitInfoLabel->ID = ID_LABEL;
-    DownAdd(pUnitInfoLabel, pDock);
+    widget_add_as_prev(pUnitInfoLabel, pDock);
     pDock = pUnitInfoLabel;
   }
 
@@ -848,7 +848,7 @@ void popup_unit_info(Unit_type_id type_id)
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
   pRequirementLabel->ID = ID_LABEL;
-  DownAdd(pRequirementLabel, pDock);
+  widget_add_as_prev(pRequirementLabel, pDock);
   pDock = pRequirementLabel;
 
   if (A_NEVER == punittype->require_advance
@@ -866,7 +866,7 @@ void popup_unit_info(Unit_type_id type_id)
     pRequirementLabel2->action = change_tech_callback;
     set_wstate(pRequirementLabel2, FC_WS_NORMAL);
   }
-  DownAdd(pRequirementLabel2, pDock);
+  widget_add_as_prev(pRequirementLabel2, pDock);
   pDock = pRequirementLabel2;
   pStore->pRequirementButton = pRequirementLabel2;
 
@@ -875,7 +875,7 @@ void popup_unit_info(Unit_type_id type_id)
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
   pObsoleteByLabel->ID = ID_LABEL;
-  DownAdd(pObsoleteByLabel, pDock);
+  widget_add_as_prev(pObsoleteByLabel, pDock);
   pDock = pObsoleteByLabel;
 
   if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
@@ -895,7 +895,7 @@ void popup_unit_info(Unit_type_id type_id)
     pObsoleteByLabel2->action = change_unit_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
-  DownAdd(pObsoleteByLabel2, pDock);
+  widget_add_as_prev(pObsoleteByLabel2, pDock);
   pDock = pObsoleteByLabel2;
   pStore->pObsoleteByButton = pObsoleteByLabel2;
 
@@ -910,7 +910,7 @@ void popup_unit_info(Unit_type_id type_id)
     convert_utf8_str_to_const_surface_width(ustr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pwindow->dst, ustr, 0);
     pHelptextLabel->ID = ID_LABEL;
-    DownAdd(pHelptextLabel, pDock);
+    widget_add_as_prev(pHelptextLabel, pDock);
     pDock = pHelptextLabel;
     text = TRUE;
   }
@@ -1125,7 +1125,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   set_wstate(pwidget, FC_WS_NORMAL);
   pwidget->action = show_tech_tree_callback;
   pwidget->ID = MAX_ID - tech;
-  DownAdd(pwidget, pDock);
+  widget_add_as_prev(pwidget, pDock);
   pDock = pwidget;
 
   /* tech name (heading) */
@@ -1136,7 +1136,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                     WF_FREE_THEME);
 
   pwidget->ID = ID_LABEL;
-  DownAdd(pwidget, pDock);
+  widget_add_as_prev(pwidget, pDock);
   pDock = pwidget;
 
   /* target techs */
@@ -1154,7 +1154,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->ID = MAX_ID - aidx;
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       pStore->pTargets[targets_count++] = pwidget;
     }
@@ -1186,7 +1186,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->ID = MAX_ID - sub_tech;
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       pStore->pSub_Targets[sub_targets_count++] = pwidget;
     }
@@ -1213,7 +1213,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
         set_wstate(pwidget, FC_WS_NORMAL);
         pwidget->action = change_gov_callback;
         pwidget->ID = MAX_ID - government_index(gov);
-        DownAdd(pwidget, pDock);
+        widget_add_as_prev(pwidget, pDock);
         pDock = pwidget;
         gov_count++;
       }
@@ -1242,7 +1242,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
         }
         pwidget->action = change_impr_callback;
         pwidget->ID = MAX_ID - improvement_number(pimprove);
-        DownAdd(pwidget, pDock);
+        widget_add_as_prev(pwidget, pDock);
         pDock = pwidget;
         imp_count++;
       }
@@ -1264,7 +1264,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_unit_callback;
       pwidget->ID = MAX_ID - utype_number(un);
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       unit_count++;
     }
@@ -1280,7 +1280,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
     pwidget = create_iconlabel(NULL, pwindow->dst, pstr, 0);
     pwidget->ID = ID_LABEL;
-    DownAdd(pwidget, pDock);
+    widget_add_as_prev(pwidget, pDock);
     pDock = pwidget;
     flags_count = 1;
   } else {
@@ -1666,7 +1666,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   set_wstate(pwidget, FC_WS_NORMAL);
   pwidget->action = show_tech_tree_callback;
   pwidget->ID = MAX_ID - tech;
-  DownAdd(pwidget, pDock);
+  widget_add_as_prev(pwidget, pDock);
   pTech = pwidget;
   pDock = pwidget;
 
@@ -1683,7 +1683,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->ID = MAX_ID - ar;
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       pStore->pRequirementButton[i] = pwidget;
       req_count++;
@@ -1711,7 +1711,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
           set_wstate(pwidget, FC_WS_NORMAL);
           pwidget->action = change_tech_callback;
           pwidget->ID = MAX_ID - ar;
-          DownAdd(pwidget, pDock);
+          widget_add_as_prev(pwidget, pDock);
           pDock = pwidget;
           pStore->pSub_Req[sub_req_count++] = pwidget;
         }
@@ -1736,7 +1736,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->ID = MAX_ID - aidx;
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       pStore->pTargets[targets_count++] = pwidget;
     }
@@ -1768,7 +1768,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->ID = MAX_ID - sub_tech;
-      DownAdd(pwidget, pDock);
+      widget_add_as_prev(pwidget, pDock);
       pDock = pwidget;
       pStore->pSub_Targets[sub_targets_count++] = pwidget;
     }

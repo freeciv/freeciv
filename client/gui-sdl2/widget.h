@@ -194,7 +194,7 @@ enum scan_direction {
 
 void add_to_gui_list(Uint16 ID, struct widget *pGUI);
 void del_widget_pointer_from_gui_list(struct widget *pGUI);
-void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock);
+void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock);
 
 bool is_this_widget_first_on_list(struct widget *pGUI);
 void move_widget_to_front_of_gui_list(struct widget *pGUI);
@@ -403,8 +403,8 @@ do {									\
 
 /* Advanced Dialog */
 bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
-                                               struct widget *pNew_Widget,
-                                               struct widget *pAdd_Dock, bool dir,
+                                               struct widget *new_widget,
+                                               struct widget *add_dock, bool dir,
                                                Sint16 start_x, Sint16 start_y);
 
 bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg, 

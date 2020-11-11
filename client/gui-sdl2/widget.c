@@ -595,18 +595,18 @@ void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 }
 
 /**********************************************************************//**
-  Add Widget to Widget's List at pAdd_Dock position on 'prev' slot.
+  Add Widget to Widget's List at add_dock position on 'prev' slot.
 **************************************************************************/
-void DownAdd(struct widget *pNew_Widget, struct widget *pAdd_Dock)
+void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock)
 {
-  pNew_Widget->next = pAdd_Dock;
-  pNew_Widget->prev = pAdd_Dock->prev;
-  if (pAdd_Dock->prev) {
-    pAdd_Dock->prev->next = pNew_Widget;
+  new_widget->next = add_dock;
+  new_widget->prev = add_dock->prev;
+  if (add_dock->prev) {
+    add_dock->prev->next = new_widget;
   }
-  pAdd_Dock->prev = pNew_Widget;
-  if (pAdd_Dock == pBeginMainWidgetList) {
-    pBeginMainWidgetList = pNew_Widget;
+  add_dock->prev = new_widget;
+  if (add_dock == pBeginMainWidgetList) {
+    pBeginMainWidgetList = new_widget;
   }
 }
 

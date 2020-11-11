@@ -3462,7 +3462,7 @@ static void rebuild_imprm_list(struct city *pCity)
 {
   int count = 0;
   struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
-  struct widget *pAdd_Dock, *pBuf, *pLast;
+  struct widget *add_dock, *pBuf, *pLast;
   SDL_Surface *pLogo = NULL;
   utf8_str *pstr = NULL;
   struct player *pOwner = city_owner(pCity);
@@ -3484,8 +3484,8 @@ static void rebuild_imprm_list(struct city *pCity)
     FC_FREE(pcity_dlg->pImprv->pScroll);
   }
  
-  pAdd_Dock = pcity_dlg->pAdd_Point;
-  pBuf = pLast = pAdd_Dock;
+  add_dock = pcity_dlg->pAdd_Point;
+  pBuf = pLast = add_dock;
 
   /* allock new */
   city_built_iterate(pCity, pimprove) {
@@ -3514,8 +3514,8 @@ static void rebuild_imprm_list(struct city *pCity)
     }
 
     pBuf->ID = MAX_ID - improvement_number(pimprove) - 3000;
-    DownAdd(pBuf, pAdd_Dock);
-    pAdd_Dock = pBuf;
+    widget_add_as_prev(pBuf, add_dock);
+    add_dock = pBuf;
 
     count++;
 

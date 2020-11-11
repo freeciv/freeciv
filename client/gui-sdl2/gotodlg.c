@@ -133,7 +133,7 @@ static int goto_city_callback(struct widget *pwidget)
 **************************************************************************/
 static void update_goto_dialog(void)
 {
-  struct widget *pBuf = NULL, *pAdd_Dock, *pLast;
+  struct widget *pBuf = NULL, *add_dock, *pLast;
   SDL_Surface *pLogo = NULL;
   utf8_str *pstr;
   char cBuf[128];
@@ -141,15 +141,15 @@ static void update_goto_dialog(void)
   struct player *owner = NULL;
 
   if (pGotoDlg->pEndActiveWidgetList) {
-    pAdd_Dock = pGotoDlg->pEndActiveWidgetList->next;
-    pGotoDlg->pBeginWidgetList = pAdd_Dock;
+    add_dock = pGotoDlg->pEndActiveWidgetList->next;
+    pGotoDlg->pBeginWidgetList = add_dock;
     del_group(pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
     pGotoDlg->pActiveWidgetList = NULL;
   } else {
-    pAdd_Dock = pGotoDlg->pBeginWidgetList;
+    add_dock = pGotoDlg->pBeginWidgetList;
   }
 
-  pLast = pAdd_Dock;
+  pLast = add_dock;
 
   players_iterate(pplayer) {
     if (!BV_ISSET(all_players, player_index(pplayer))) {
@@ -193,8 +193,8 @@ static void update_goto_dialog(void)
       fc_assert((MAX_ID - pCity->id) > 0);
       pBuf->ID = MAX_ID - pCity->id;
 
-      DownAdd(pBuf, pAdd_Dock);
-      pAdd_Dock = pBuf;
+      widget_add_as_prev(pBuf, add_dock);
+      add_dock = pBuf;
 
       if (n > (pGotoDlg->pScroll->active - 1)) {
         set_wflag(pBuf, WF_HIDDEN);

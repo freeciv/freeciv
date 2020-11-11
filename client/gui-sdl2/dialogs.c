@@ -1963,7 +1963,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->ID = ID_LABEL;
-        DownAdd(pBuf, pLast);
+        widget_add_as_prev(pBuf, pLast);
         area.h += pBuf->size.h;
 
         fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
@@ -1972,13 +1972,13 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->ID = ID_LABEL;
-        DownAdd(pBuf, pLast->prev);
+        widget_add_as_prev(pBuf, pLast->prev);
         area.h += pBuf->size.h;
 
         /* separator */
         pBuf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
         pBuf->ID = ID_SEPARATOR;
-        DownAdd(pBuf, pLast->prev->prev);
+        widget_add_as_prev(pBuf, pLast->prev->prev);
         area.h += pBuf->next->size.h;
       }
 #undef ADV_NUM_SEEN
