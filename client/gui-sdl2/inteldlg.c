@@ -227,7 +227,7 @@ void update_intel_dialog(struct player *p)
   const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
   struct widget *pwindow = NULL, *pBuf = NULL, *pLast;
-  SDL_Surface *pLogo = NULL, *pTmpSurf = NULL;
+  SDL_Surface *logo = NULL, *pTmpSurf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -277,17 +277,17 @@ void update_intel_dialog(struct player *p)
     add_to_gui_list(ID_BUTTON, pBuf);
     /* ---------- */
 
-    pLogo = get_nation_flag_surface(nation_of_player(p));
+    logo = get_nation_flag_surface(nation_of_player(p));
 
     {
-      double zoom = DEFAULT_ZOOM * 60.0 / pLogo->h;
+      double zoom = DEFAULT_ZOOM * 60.0 / logo->h;
 
-      pText1 = zoomSurface(pLogo, zoom, zoom, 1);
+      pText1 = zoomSurface(logo, zoom, zoom, 1);
     }
 
-    pLogo = pText1;
+    logo = pText1;
 
-    pBuf = create_icon2(pLogo, pwindow->dst,
+    pBuf = create_icon2(logo, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
     pBuf->action = spaceship_callback;
@@ -359,8 +359,8 @@ void update_intel_dialog(struct player *p)
 
     copy_chars_to_utf8_str(pstr, cBuf);
     pInfo = create_text_surf_from_utf8(pstr);
-    area.w = MAX(area.w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
-    area.h += MAX(pLogo->h + adj_size(20), pInfo->h + adj_size(20));
+    area.w = MAX(area.w, logo->w + adj_size(10) + pInfo->w + adj_size(20));
+    area.h += MAX(logo->h + adj_size(20), pInfo->h + adj_size(20));
 
     /* ---------- */
     pTmpSurf = get_tech_icon(A_FIRST);

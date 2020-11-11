@@ -243,7 +243,7 @@ void meswin_dialog_popup(bool raise)
 {
   utf8_str *pstr;
   struct widget *pwindow = NULL;
-  SDL_Surface *pBackground;
+  SDL_Surface *background;
   SDL_Rect area;
   SDL_Rect size;
 
@@ -279,11 +279,11 @@ void meswin_dialog_popup(bool raise)
   FREEUTF8STR(pstr);
 
   /* create window background */
-  pBackground = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;

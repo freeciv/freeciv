@@ -232,7 +232,7 @@ void popup_impr_info(Impr_type_id impr)
   }
 
   if (!pHelpDlg) {
-    SDL_Surface *pBackgroundTmpl, *pBackground, *pText, *pIcon;
+    SDL_Surface *background_tmpl, *background, *pText, *icon;
     SDL_Rect dst;
 
     current_help_dlg = HELP_IMPROVEMENT;
@@ -276,36 +276,36 @@ void popup_impr_info(Impr_type_id impr)
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
-    pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
-    SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
+    background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
+    SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
 
-    create_frame(pBackgroundTmpl,
-                 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+    create_frame(background_tmpl,
+                 0, 0, background_tmpl->w - 1, background_tmpl->h - 1,
                  get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     impr_type_count = 0;
     improvement_iterate(pimprove) {
 
       /* copy background surface */  
-      pBackground = copy_surface(pBackgroundTmpl);
+      background = copy_surface(background_tmpl);
 
       /* blit improvement name */
       copy_chars_to_utf8_str(pstr, improvement_name_translation(pimprove));
       pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
-      dst.x = adj_size(40) + (pBackground->w - pText->w - adj_size(40)) / 2;
-      dst.y = (pBackground->h - pText->h) / 2;
-      alphablit(pText, NULL, pBackground, &dst, 255);
+      dst.x = adj_size(40) + (background->w - pText->w - adj_size(40)) / 2;
+      dst.y = (background->h - pText->h) / 2;
+      alphablit(pText, NULL, background, &dst, 255);
       FREESURFACE(pText);
 
       /* blit improvement icon */
-      pIcon = ResizeSurfaceBox(get_building_surface(pimprove),
-                               adj_size(36), adj_size(36), 1, TRUE, TRUE);
+      icon = ResizeSurfaceBox(get_building_surface(pimprove),
+                              adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
-      dst.y = (pBackground->h - pIcon->h) / 2;
-      alphablit(pIcon, NULL, pBackground, &dst, 255);
-      FREESURFACE(pIcon);
+      dst.y = (background->h - icon->h) / 2;
+      alphablit(icon, NULL, background, &dst, 255);
+      FREESURFACE(icon);
 
-      improvement_button = create_icon2(pBackground, pwindow->dst,
+      improvement_button = create_icon2(background, pwindow->dst,
                                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(improvement_button, FC_WS_NORMAL);
@@ -318,7 +318,7 @@ void popup_impr_info(Impr_type_id impr)
 
     } improvement_iterate_end;
 
-    FREESURFACE(pBackgroundTmpl);
+    FREESURFACE(background_tmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = improvement_button ? improvement_button : pCloseButton;
@@ -647,7 +647,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   /* create new dialog if it doesn't exist yet */
   if (!pHelpDlg) {
-    SDL_Surface *pBackgroundTmpl, *pBackground, *pText, *pIcon;
+    SDL_Surface *background_tmpl, *background, *pText, *icon;
     SDL_Rect dst;
 
     current_help_dlg = HELP_UNIT;
@@ -694,36 +694,36 @@ void popup_unit_info(Unit_type_id type_id)
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
     /* background template for entries in scroll list */
-    pBackgroundTmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
-    SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
+    background_tmpl = create_surf(adj_size(135), adj_size(40), SDL_SWSURFACE);
+    SDL_FillRect(background_tmpl, NULL, map_rgba(background_tmpl->format, bg_color));
 
-    create_frame(pBackgroundTmpl,
-                 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+    create_frame(background_tmpl,
+                 0, 0, background_tmpl->w - 1, background_tmpl->h - 1,
                  get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
     utype_count = 0;
     unit_type_iterate(ut) {
 
       /* copy background surface */
-      pBackground = copy_surface(pBackgroundTmpl);
+      background = copy_surface(background_tmpl);
 
       /* blit unit name */
       copy_chars_to_utf8_str(pstr, utype_name_translation(ut));
       pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
-      dst.x = adj_size(35) + (pBackground->w - pText->w - adj_size(35)) / 2;
-      dst.y = (pBackground->h - pText->h) / 2;
-      alphablit(pText, NULL, pBackground, &dst, 255);
+      dst.x = adj_size(35) + (background->w - pText->w - adj_size(35)) / 2;
+      dst.y = (background->h - pText->h) / 2;
+      alphablit(pText, NULL, background, &dst, 255);
       FREESURFACE(pText);
 
       /* blit unit icon */
-      pIcon = ResizeSurfaceBox(get_unittype_surface(ut, direction8_invalid()),
-                               adj_size(36), adj_size(36), 1, TRUE, TRUE);
-      dst.x = (adj_size(35) - pIcon->w) / 2;
-      dst.y = (pBackground->h - pIcon->h) / 2;
-      alphablit(pIcon, NULL, pBackground, &dst, 255);
-      FREESURFACE(pIcon);
+      icon = ResizeSurfaceBox(get_unittype_surface(ut, direction8_invalid()),
+                              adj_size(36), adj_size(36), 1, TRUE, TRUE);
+      dst.x = (adj_size(35) - icon->w) / 2;
+      dst.y = (background->h - icon->h) / 2;
+      alphablit(icon, NULL, background, &dst, 255);
+      FREESURFACE(icon);
 
-      pUnitButton = create_icon2(pBackground, pwindow->dst,
+      pUnitButton = create_icon2(background, pwindow->dst,
                                  WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pUnitButton, FC_WS_NORMAL);
@@ -736,7 +736,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     } unit_type_iterate_end;
 
-    FREESURFACE(pBackgroundTmpl);
+    FREESURFACE(background_tmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
     pHelpDlg->pBeginWidgetList = pUnitButton ? pUnitButton : pCloseButton;

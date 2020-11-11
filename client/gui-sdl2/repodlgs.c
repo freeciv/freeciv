@@ -357,7 +357,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   struct widget *pBuf = NULL;
   struct widget *pwindow, *pLast;
   utf8_str *pstr;
-  SDL_Surface *pText1, *pText2, *pText3 , *pText4, *pText5, *pLogo;
+  SDL_Surface *pText1, *pText2, *pText3 , *pText4, *pText5, *logo;
   int w = 0 , count, ww, hh = 0, name_w = 0;
   char cbuf[64];
   SDL_Rect dst;
@@ -631,17 +631,17 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   area.h += pText1->h + adj_size(10);
   area.w += adj_size(2);
 
-  pLogo = theme_get_background(theme, BACKGROUND_UNITSREP);
-  resize_window(pwindow, pLogo,	NULL,
+  logo = theme_get_background(theme, BACKGROUND_UNITSREP);
+  resize_window(pwindow, logo,	NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
-  FREESURFACE(pLogo);
+  FREESURFACE(logo);
 
 #if 0
-  pLogo = SDL_DisplayFormat(pwindow->theme);
+  logo = SDL_DisplayFormat(pwindow->theme);
   FREESURFACE(pwindow->theme);
-  pwindow->theme = pLogo;
-  pLogo = NULL;
+  pwindow->theme = logo;
+  logo = NULL;
 #endif /* 0 */
 
   area = pwindow->area;
@@ -1802,8 +1802,8 @@ void economy_report_dialog_popup(bool make_modal)
   struct widget *pBuf;
   struct widget *pwindow , *pLast;
   utf8_str *pstr, *pstr2;
-  SDL_Surface *pSurf, *pText_Name, *pText, *pZoom;
-  SDL_Surface *pBackground;
+  SDL_Surface *pSurf, *pText_Name, *pText, *zoomed;
+  SDL_Surface *background;
   int i, count , h = 0;
   int w = 0; /* left column values */
   int w2 = 0; /* right column: lock + scrollbar + ... */
@@ -2074,12 +2074,12 @@ void economy_report_dialog_popup(bool make_modal)
   if (entries_used > 0) {
 
     /* Create Imprv Background Icon */
-    pBackground = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+    background = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
 
-    SDL_FillRect(pBackground, NULL, map_rgba(pBackground->format, bg_color));
+    SDL_FillRect(background, NULL, map_rgba(background->format, bg_color));
 
-    create_frame(pBackground,
-                 0, 0, pBackground->w - 1, pBackground->h - 1,
+    create_frame(background,
+                 0, 0, background->w - 1, background->h - 1,
                  get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
 
     pstr = create_utf8_str(NULL, 0, adj_font(10));
@@ -2090,7 +2090,7 @@ void economy_report_dialog_popup(bool make_modal)
       struct improvement_entry *p = &entries[i];
       struct impr_type *pimprove = p->type;
 
-      pSurf = crop_rect_from_surface(pBackground, NULL);
+      pSurf = crop_rect_from_surface(background, NULL);
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pimprove));
 
@@ -2107,14 +2107,14 @@ void economy_report_dialog_popup(bool make_modal)
 
       /*-----------------*/
   
-      pZoom = get_building_surface(pimprove);
-      pZoom = zoomSurface(pZoom, DEFAULT_ZOOM * ((float)54 / pZoom->w), DEFAULT_ZOOM * ((float)54 / pZoom->w), 1);
+      zoomed = get_building_surface(pimprove);
+      zoomed = zoomSurface(zoomed, DEFAULT_ZOOM * ((float)54 / zoomed->w), DEFAULT_ZOOM * ((float)54 / zoomed->w), 1);
 
-      dst.x = (pSurf->w - pZoom->w) / 2;
-      dst.y = (pSurf->h / 2 - pZoom->h) / 2;
-      alphablit(pZoom, NULL, pSurf, &dst, 255);
-      dst.y += pZoom->h;
-      FREESURFACE(pZoom);
+      dst.x = (pSurf->w - zoomed->w) / 2;
+      dst.y = (pSurf->h / 2 - zoomed->h) / 2;
+      alphablit(zoomed, NULL, pSurf, &dst, 255);
+      dst.y += zoomed->h;
+      FREESURFACE(zoomed);
 
       dst.x = (pSurf->w - pText_Name->w)/2;
       dst.y += ((pSurf->h - dst.y) -
@@ -2137,11 +2137,11 @@ void economy_report_dialog_popup(bool make_modal)
 	}
         /*pstr->style &= ~TTF_STYLE_BOLD;*/
 
-        pZoom = create_text_surf_from_utf8(pstr);
+        zoomed = create_text_surf_from_utf8(pstr);
 
-        dst.x = (pSurf->w - pZoom->w) / 2;
-        alphablit(pZoom, NULL, pSurf, &dst, 255);
-        FREESURFACE(pZoom);
+        dst.x = (pSurf->w - zoomed->w) / 2;
+        alphablit(zoomed, NULL, pSurf, &dst, 255);
+        FREESURFACE(zoomed);
       }
 
       dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
@@ -2169,7 +2169,7 @@ void economy_report_dialog_popup(bool make_modal)
     }
 
     FREEUTF8STR(pstr);
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
 
     pEconomyDlg->pEndActiveWidgetList = pLast->prev;
     pEconomyDlg->pBeginWidgetList = pBuf;
@@ -2197,11 +2197,11 @@ void economy_report_dialog_popup(bool make_modal)
   area.w = MAX(area.w, MAX(adj_size(10) + w3 + w + w2, count));
   area.h = h;
 
-  pBackground = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;
@@ -3335,7 +3335,7 @@ void science_report_dialog_popup(bool raise)
   struct widget *pChangeResearchGoalButton;
   struct widget *pExitButton;
   utf8_str *pstr;
-  SDL_Surface *pBackground, *pTechIcon;
+  SDL_Surface *background, *pTechIcon;
   int count;
   SDL_Rect area;
 
@@ -3367,9 +3367,9 @@ void science_report_dialog_popup(bool raise)
 
   pScienceDlg->pEndWidgetList = pwindow;
 
-  pBackground = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
-  pwindow->theme = ResizeSurface(pBackground, pwindow->size.w, pwindow->size.h, 1);
-  FREESURFACE(pBackground);
+  background = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
+  pwindow->theme = ResizeSurface(background, pwindow->size.w, pwindow->size.h, 1);
+  FREESURFACE(background);
 
   area = pwindow->area;
 

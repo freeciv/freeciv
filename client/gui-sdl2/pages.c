@@ -141,7 +141,7 @@ static void show_main_page(void)
   SDL_Color line_color = {128, 128, 128, 255};
   int count = 0;
   struct widget *pwidget = NULL, *pwindow = NULL;
-  SDL_Surface *pBackground;
+  SDL_Surface *background;
   int h = 0;
   SDL_Rect area;
   char verbuf[200];
@@ -301,11 +301,11 @@ static void show_main_page(void)
 
   /* ------*/
 
-  pBackground = theme_get_background(theme, BACKGROUND_STARTMENU);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_STARTMENU);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;

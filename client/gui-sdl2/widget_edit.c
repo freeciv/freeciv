@@ -350,14 +350,14 @@ static char *chain2text(const struct Utf8Char *pInChain, size_t len,
 
   function return pointer to allocated Edit Widget.
 **************************************************************************/
-struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pdest,
+struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
                            utf8_str *pstr, int length, Uint32 flags)
 {
   SDL_Rect buf = {0, 0, 0, 0};
   struct widget *pEdit = widget_new();
 
   pEdit->theme = current_theme->Edit;
-  pEdit->theme2 = pBackground; /* FIXME: make somewhere use of it */
+  pEdit->theme2 = background; /* FIXME: make somewhere use of it */
   pEdit->string_utf8 = pstr;
   set_wflag(pEdit, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pEdit, FC_WS_DISABLED);

@@ -21,14 +21,14 @@ enum Edit_Return_Codes {
   ED_FORCE_EXIT = 4
 };
 
-#define create_edit_from_chars(pBackground, pdest, pCharString, iPtsize, length, flags) \
-	create_edit(pBackground, pdest,                                                 \
+#define create_edit_from_chars(background, pdest, pCharString, iPtsize, length, flags) \
+	create_edit(background, pdest,                                                 \
 		    create_utf8_from_char(pCharString, iPtsize),                        \
 		    length, flags)
 
 #define edit(pEdit) edit_field(pEdit)
 
-struct widget *create_edit(SDL_Surface *pBackground, struct gui_layer *pdest,
+struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
                            utf8_str *pstr, int length,
                            Uint32 flags);
 enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);

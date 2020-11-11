@@ -883,7 +883,7 @@ void popup_city_cma_dialog(struct city *pCity)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   struct widget *pwindow, *pBuf;
-  SDL_Surface *pLogo, *pText[O_LAST + 1], *pMinimal, *pFactor;
+  SDL_Surface *logo, *pText[O_LAST + 1], *pMinimal, *pFactor;
   SDL_Surface *pcity_map;
   utf8_str *pstr;
   char cBuf[128];
@@ -1083,17 +1083,17 @@ void popup_city_cma_dialog(struct city *pCity)
   area.h = adj_size(360) - (pwindow->size.w - pwindow->area.w);
 #endif /* SMALL_SCREEN */
 
-  pLogo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
-  if (resize_window(pwindow, pLogo, NULL,
+  logo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
+  if (resize_window(pwindow, logo, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.w - pwindow->area.w) + area.h)) {
-    FREESURFACE(pLogo);
+    FREESURFACE(logo);
   }
 
 #if 0
-  pLogo = SDL_DisplayFormat(pwindow->theme);
+  logo = SDL_DisplayFormat(pwindow->theme);
   FREESURFACE(pwindow->theme);
-  pwindow->theme = pLogo;
+  pwindow->theme = logo;
 #endif
 
   area = pwindow->area;

@@ -40,34 +40,34 @@ static int (*textcheckbox_baseclass_redraw)(struct widget *pwidget);
 /**********************************************************************//**
   Blit checkbox gfx to surface its on.
 **************************************************************************/
-static int redraw_checkbox(struct widget *pIcon)
+static int redraw_checkbox(struct widget *icon)
 {
   int ret;
-  SDL_Rect src, area = pIcon->size;
+  SDL_Rect src, area = icon->size;
 
-  ret = (*checkbox_baseclass_redraw)(pIcon);
+  ret = (*checkbox_baseclass_redraw)(icon);
   if (ret != 0) {
     return ret;
   }
 
-  if (!pIcon->theme) {
+  if (!icon->theme) {
     return -3;
   }
 
-  src.x = (pIcon->theme->w / 4) * (Uint8) (get_wstate(pIcon));
+  src.x = (icon->theme->w / 4) * (Uint8) (get_wstate(icon));
   src.y = 0;
-  src.w = (pIcon->theme->w / 4);
-  src.h = pIcon->theme->h;
+  src.w = (icon->theme->w / 4);
+  src.h = icon->theme->h;
 
-  if (pIcon->size.w != src.w) {
-    area.x += (pIcon->size.w - src.w) / 2;
+  if (icon->size.w != src.w) {
+    area.x += (icon->size.w - src.w) / 2;
   }
 
-  if (pIcon->size.h != src.h) {
-    area.y += (pIcon->size.h - src.h) / 2;
+  if (icon->size.h != src.h) {
+    area.y += (icon->size.h - src.h) / 2;
   }
 
-  return alphablit(pIcon->theme, &src, pIcon->dst->surface, &area, 255);
+  return alphablit(icon->theme, &src, icon->dst->surface, &area, 255);
 }
 
 /**********************************************************************//**
@@ -76,7 +76,7 @@ static int redraw_checkbox(struct widget *pIcon)
 static int redraw_textcheckbox(struct widget *pCBox)
 {
   int ret;
-  SDL_Surface *pTheme_Surface, *pIcon;
+  SDL_Surface *pTheme_Surface, *icon;
 
   ret = (*textcheckbox_baseclass_redraw)(pCBox);
   if (ret != 0) {
@@ -88,18 +88,18 @@ static int redraw_textcheckbox(struct widget *pCBox)
   }
 
   pTheme_Surface = pCBox->theme;
-  pIcon = create_icon_from_theme(pTheme_Surface, get_wstate(pCBox));
+  icon = create_icon_from_theme(pTheme_Surface, get_wstate(pCBox));
 
-  if (!pIcon) {
+  if (!icon) {
     return -3;
   }
 
-  pCBox->theme = pIcon;
+  pCBox->theme = icon;
 
   /* redraw icon label */
   ret = redraw_iconlabel(pCBox);
 
-  FREESURFACE(pIcon);
+  FREESURFACE(icon);
   pCBox->theme = pTheme_Surface;
 
   return ret;
@@ -147,7 +147,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
 {
   struct widget *pCBox;
   struct checkbox *ptmp;
-  SDL_Surface *pSurf, *pIcon;
+  SDL_Surface *pSurf, *icon;
   struct widget *tmp_widget;
 
   if (pstr == NULL) {
@@ -162,13 +162,13 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
     pSurf = current_theme->CBOX_Unsell_Icon;
   }
 
-  pIcon = create_icon_from_theme(pSurf, 0);
-  pCBox = create_iconlabel(pIcon, pdest, pstr, (flags | WF_FREE_PRIVATE_DATA));
+  icon = create_icon_from_theme(pSurf, 0);
+  pCBox = create_iconlabel(icon, pdest, pstr, (flags | WF_FREE_PRIVATE_DATA));
 
   pstr->style &= ~SF_CENTER;
 
   pCBox->theme = pSurf;
-  FREESURFACE(pIcon);
+  FREESURFACE(icon);
 
   set_wtype(pCBox, WT_TCHECKBOX);
   ptmp->state = state;

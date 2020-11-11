@@ -2382,7 +2382,7 @@ static int move_government_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 void popup_government_dialog(void)
 {
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   struct utf8_str *pstr = NULL;
   struct widget *pGov_Button = NULL;
   struct widget *pwindow = NULL;
@@ -2440,11 +2440,11 @@ void popup_government_dialog(void)
   area.h = MAX(area.h, j * (max_h + adj_size(10)) + adj_size(5));
 
   /* create window background */
-  pLogo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
-  if (resize_window(pwindow, pLogo, NULL,
+  logo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
+  if (resize_window(pwindow, logo, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pLogo);
+    FREESURFACE(logo);
   }
 
   area = pwindow->area;

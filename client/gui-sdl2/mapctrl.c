@@ -2799,7 +2799,7 @@ static int move_new_city_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 {
-  SDL_Surface *pBackground;
+  SDL_Surface *background;
   utf8_str *pstr = NULL;
   struct widget *pLabel = NULL;
   struct widget *pwindow = NULL;
@@ -2875,11 +2875,11 @@ void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
   pEdit->size.w = area.w - adj_size(20);
 
   /* create window background */
-  pBackground = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;

@@ -90,7 +90,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
   int iTile_width_height_end, iTile_width_height_mid, iTile_count_height_mid;
   int i, j;
   SDL_Rect src, des;
-  SDL_Surface *pBackground = NULL;
+  SDL_Surface *background = NULL;
   int iStart_y = (ptheme->h / 4) * state;
 
   iTile_width_len_end = ptheme->w / 16;
@@ -121,7 +121,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
   zoom = ((i != width) ||  (j != height));
 
   /* now allocate memory */
-  pBackground = create_surf(i, j, SDL_SWSURFACE);
+  background = create_surf(i, j, SDL_SWSURFACE);
 
   /* copy left end */
 
@@ -133,22 +133,22 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
 
   des.x = 0;
   des.y = 0;
-  alphablit(ptheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, background, &des, 255);
 
   /* left middle */
   src.y = iStart_y + iTile_width_height_end;
   src.h = iTile_width_height_mid;
   for (i = 0; i < iTile_count_height_mid; i++) {
     des.y = iTile_width_height_end + i * iTile_width_height_mid;
-    alphablit(ptheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, background, &des, 255);
   }
 
   /* left bottom */
   src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
   src.h = iTile_width_height_end;
-  des.y = pBackground->h - iTile_width_height_end;
-  clear_surface(pBackground, &des);
-  alphablit(ptheme, &src, pBackground, &des, 255);
+  des.y = background->h - iTile_width_height_end;
+  clear_surface(background, &des);
+  alphablit(ptheme, &src, background, &des, 255);
 
   /* copy middle parts */
 
@@ -162,22 +162,22 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
     des.x = iTile_width_len_end + i * iTile_width_len_mid;
     des.y = 0;
     src.y = iStart_y;
-    alphablit(ptheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, background, &des, 255);
 
     /* middle middle */
     src.y = iStart_y + iTile_width_height_end;
     src.h = iTile_width_height_mid;
     for (j = 0; j < iTile_count_height_mid; j++) {
       des.y = iTile_width_height_end + j * iTile_width_height_mid;
-      alphablit(ptheme, &src, pBackground, &des, 255);
+      alphablit(ptheme, &src, background, &des, 255);
     }
 
     /* middle bottom */
     src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
     src.h = iTile_width_height_end;
-    des.y = pBackground->h - iTile_width_height_end;
-    clear_surface(pBackground, &des);
-    alphablit(ptheme, &src, pBackground, &des, 255);
+    des.y = background->h - iTile_width_height_end;
+    clear_surface(background, &des);
+    alphablit(ptheme, &src, background, &des, 255);
   }
 
   /* copy right end */
@@ -187,34 +187,34 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
   src.y = iStart_y;
   src.w = iTile_width_len_end;
 
-  des.x = pBackground->w - iTile_width_len_end;
+  des.x = background->w - iTile_width_len_end;
   des.y = 0;
 
-  alphablit(ptheme, &src, pBackground, &des, 255);
+  alphablit(ptheme, &src, background, &des, 255);
 
   /* right middle */
   src.y = iStart_y + iTile_width_height_end;
   src.h = iTile_width_height_mid;
   for (i = 0; i < iTile_count_height_mid; i++) {
     des.y = iTile_width_height_end + i * iTile_width_height_mid;
-    alphablit(ptheme, &src, pBackground, &des, 255);
+    alphablit(ptheme, &src, background, &des, 255);
   }
 
   /* right bottom */
   src.y = iStart_y + ((ptheme->h / 4) - iTile_width_height_end);
   src.h = iTile_width_height_end;
-  des.y = pBackground->h - iTile_width_height_end;
-  clear_surface(pBackground, &des);
-  alphablit(ptheme, &src, pBackground, &des, 255);
+  des.y = background->h - iTile_width_height_end;
+  clear_surface(background, &des);
+  alphablit(ptheme, &src, background, &des, 255);
 
   if (zoom) {
-    SDL_Surface *pZoom = ResizeSurface(pBackground, width, height, 1);
+    SDL_Surface *zoomed = ResizeSurface(background, width, height, 1);
 
-    FREESURFACE(pBackground);
-    pBackground = pZoom;
+    FREESURFACE(background);
+    background = zoomed;
   }
 
-  return pBackground;
+  return background;
 }
 
 /* =================================================== */

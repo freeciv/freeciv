@@ -222,7 +222,7 @@ void popup_connection_dialog(bool lan_scan)
   int w = 0, h = 0, count = 0, meta_h;
   struct widget *pNewWidget, *pwindow, *pLabelWindow;
   utf8_str *pstr;
-  SDL_Surface *pLogo;
+  SDL_Surface *logo;
   SDL_Rect area, area2;
   struct srv_list *srvrs;
 
@@ -377,9 +377,9 @@ void popup_connection_dialog(bool lan_scan)
 
   meta_h += pMeta_Server->pEndWidgetList->prev->size.h + adj_size(10) + adj_size(20);
 
-  pLogo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
-  if (resize_window(pwindow, pLogo, NULL, w, meta_h)) {
-    FREESURFACE(pLogo);
+  logo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
+  if (resize_window(pwindow, logo, NULL, w, meta_h)) {
+    FREESURFACE(logo);
   }
 
   area = pwindow->area;
@@ -541,7 +541,7 @@ void popup_join_game_dialog(void)
   utf8_str *plrname = NULL;
   utf8_str *srvname = NULL;
   utf8_str *port_nr = NULL;
-  SDL_Surface *pLogo;
+  SDL_Surface *logo;
   SDL_Rect area;
   int start_x;
   int pos_y;
@@ -641,9 +641,9 @@ void popup_join_game_dialog(void)
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #endif
 
-  pLogo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
-  if (resize_window(pwindow, pLogo, NULL, dialog_w, dialog_h)) {
-    FREESURFACE(pLogo);
+  logo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
+  if (resize_window(pwindow, logo, NULL, dialog_w, dialog_h)) {
+    FREESURFACE(logo);
   }
 
   area = pwindow->area;
@@ -772,7 +772,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pwindow;
   utf8_str *label_str = NULL;
-  SDL_Surface *pBackground;
+  SDL_Surface *background;
   int start_x, start_y;
   int start_button_y;
   SDL_Rect area;
@@ -833,11 +833,11 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
-  pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;
@@ -935,7 +935,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pwindow;
   utf8_str *label_str = NULL;
-  SDL_Surface *pBackground;
+  SDL_Surface *background;
   int start_x, start_y;
   int start_button_y;
   SDL_Rect area;
@@ -1003,11 +1003,11 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
-  pBackground = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
-  if (resize_window(pwindow, pBackground, NULL,
+  background = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pBackground);
+    FREESURFACE(background);
   }
 
   area = pwindow->area;

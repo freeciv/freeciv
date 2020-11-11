@@ -134,7 +134,7 @@ static int goto_city_callback(struct widget *pwidget)
 static void update_goto_dialog(void)
 {
   struct widget *pBuf = NULL, *add_dock, *pLast;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   utf8_str *pstr;
   char cBuf[128];
   int n = 0;
@@ -170,11 +170,11 @@ static void update_goto_dialog(void)
       pstr->style |= TTF_STYLE_BOLD;
 
       if (!player_owns_city(owner, pCity)) {
-        pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
-        pLogo = crop_visible_part_from_surface(pLogo);
+        logo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
+        logo = crop_visible_part_from_surface(logo);
       }
 
-      pBuf = create_iconlabel(pLogo, pGotoDlg->pEndWidgetList->dst, pstr,
+      pBuf = create_iconlabel(logo, pGotoDlg->pEndWidgetList->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {

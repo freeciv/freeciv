@@ -3463,7 +3463,7 @@ static void rebuild_imprm_list(struct city *pCity)
   int count = 0;
   struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
   struct widget *add_dock, *pBuf, *pLast;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
   struct player *pOwner = city_owner(pCity);
   int prev_y = 0;
@@ -3494,10 +3494,10 @@ static void rebuild_imprm_list(struct city *pCity)
 
     pstr->style |= TTF_STYLE_BOLD;
 
-    pLogo = get_building_surface(pimprove);
-    pLogo = ResizeSurfaceBox(pLogo, adj_size(22), adj_size(22), 1, TRUE, TRUE);
+    logo = get_building_surface(pimprove);
+    logo = ResizeSurfaceBox(logo, adj_size(22), adj_size(22), 1, TRUE, TRUE);
 
-    pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
+    pBuf = create_iconlabel(logo, pwindow->dst, pstr,
                             (WF_FREE_THEME | WF_RESTORE_BACKGROUND));
 
     pBuf->size.x = pwindow->size.x + adj_size(450);
@@ -3590,7 +3590,7 @@ static void rebuild_citydlg_title_str(struct widget *pwindow,
 void real_city_dialog_popup(struct city *pCity)
 {
   struct widget *pwindow = NULL, *pBuf = NULL;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
   int cs;
   struct player *pOwner = city_owner(pCity);
@@ -3620,13 +3620,13 @@ void real_city_dialog_popup(struct city *pCity)
   pcity_dlg->pEndCityWidgetList = pwindow;
 
   /* create window background */
-  pLogo = theme_get_background(theme, BACKGROUND_CITYDLG);
-  if (resize_window(pwindow, pLogo, NULL, adj_size(640), adj_size(480))) {
-    FREESURFACE(pLogo);
+  logo = theme_get_background(theme, BACKGROUND_CITYDLG);
+  if (resize_window(pwindow, logo, NULL, adj_size(640), adj_size(480))) {
+    FREESURFACE(logo);
   }
 
-  pLogo = get_city_gfx();
-  alphablit(pLogo, NULL, pwindow->theme, NULL, 255);
+  logo = get_city_gfx();
+  alphablit(logo, NULL, pwindow->theme, NULL, 255);
 
   area = pwindow->area;
 
@@ -3701,10 +3701,10 @@ void real_city_dialog_popup(struct city *pCity)
   rebuild_imprm_list(pCity);
   /* ===================================================== */
 
-  pLogo = get_scaled_city_map(pCity);
+  logo = get_scaled_city_map(pCity);
 
-  pBuf = create_themelabel(pLogo, pwindow->dst, NULL,
-                           pLogo->w, pLogo->h, WF_SELECT_WITHOUT_BAR);
+  pBuf = create_themelabel(logo, pwindow->dst, NULL,
+                           logo->w, logo->h, WF_SELECT_WITHOUT_BAR);
 
   pcity_dlg->pResource_Map = pBuf;
 

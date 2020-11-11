@@ -120,7 +120,7 @@ void popdown_find_dialog(void)
 void popup_find_dialog(void)
 {
   struct widget *pwindow = NULL, *pBuf = NULL;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   utf8_str *pstr;
   char cBuf[128];
   int h = 0, n = 0, w = 0, units_h = 0;
@@ -186,11 +186,11 @@ void popup_find_dialog(void)
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
       if (!player_owns_city(owner, pCity)) {
-        pLogo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
-        pLogo = crop_visible_part_from_surface(pLogo);
+        logo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
+        logo = crop_visible_part_from_surface(logo);
       }
 
-      pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
+      pBuf = create_iconlabel(logo, pwindow->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {

@@ -117,7 +117,7 @@ static int redraw_label(struct widget *pLabel)
 **************************************************************************/
 void remake_label_size(struct widget *pLabel)
 {
-  SDL_Surface *pIcon = pLabel->theme;
+  SDL_Surface *icon = pLabel->theme;
   utf8_str *text = pLabel->string_utf8;
   Uint32 flags = get_wflags(pLabel);
   SDL_Rect buf = { 0, 0, 0, 0 };
@@ -148,47 +148,47 @@ void remake_label_size(struct widget *pLabel)
     h = MAX(h, buf.h);
   }
 
-  if (pIcon) {
+  if (icon) {
     if (text != NULL) {
       if ((flags & WF_ICON_UNDER_TEXT) || (flags & WF_ICON_ABOVE_TEXT)) {
-        w = MAX(w, pIcon->w + space);
-        h = MAX(h, buf.h + pIcon->h + adj_size(3));
+        w = MAX(w, icon->w + space);
+        h = MAX(h, buf.h + icon->h + adj_size(3));
       } else {
         if (flags & WF_ICON_CENTER) {
-          w = MAX(w, pIcon->w + space);
-          h = MAX(h, pIcon->h);
+          w = MAX(w, icon->w + space);
+          h = MAX(h, icon->h);
         } else {
-          w = MAX(w, buf.w + pIcon->w + adj_size(5) + space);
-          h = MAX(h, pIcon->h);
+          w = MAX(w, buf.w + icon->w + adj_size(5) + space);
+          h = MAX(h, icon->h);
         }
       }
       /* text */
     } else {
-      w = MAX(w, pIcon->w + space);
-      h = MAX(h, pIcon->h);
+      w = MAX(w, icon->w + space);
+      h = MAX(h, icon->h);
     }
   }
 
-  /* pIcon */
+  /* icon */
   pLabel->size.w = w;
   pLabel->size.h = h;
 }
 
 /**********************************************************************//**
-  ThemeLabel is utf8_str with Background ( pIcon ).
+  ThemeLabel is utf8_str with Background ( icon ).
 **************************************************************************/
-struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pdest,
+struct widget *create_themelabel(SDL_Surface *icon, struct gui_layer *pdest,
                                  utf8_str *pstr, Uint16 w, Uint16 h,
                                  Uint32 flags)
 {
   struct widget *pLabel = NULL;
 
-  if (pIcon == NULL && pstr == NULL) {
+  if (icon == NULL && pstr == NULL) {
     return NULL;
   }
 
   pLabel = widget_new();
-  pLabel->theme = pIcon;
+  pLabel->theme = icon;
   pLabel->string_utf8 = pstr;
   set_wflag(pLabel,
 	    (WF_ICON_CENTER | WF_FREE_STRING | WF_FREE_GFX |
@@ -212,14 +212,14 @@ struct widget *create_themelabel(SDL_Surface *pIcon, struct gui_layer *pdest,
 /**********************************************************************//**
   This Label is UTF8 string with Icon.
 **************************************************************************/
-struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pdest,
+struct widget *create_iconlabel(SDL_Surface *icon, struct gui_layer *pdest,
                                 utf8_str *pstr, Uint32 flags)
 {
   struct widget *pILabel = NULL;
 
   pILabel = widget_new();
 
-  pILabel->theme = pIcon;
+  pILabel->theme = icon;
   pILabel->string_utf8 = pstr;
   set_wflag(pILabel, WF_FREE_STRING | WF_FREE_GFX | flags);
   set_wstate(pILabel, FC_WS_DISABLED);
@@ -236,9 +236,9 @@ struct widget *create_iconlabel(SDL_Surface *pIcon, struct gui_layer *pdest,
 }
 
 /**********************************************************************//**
-  ThemeLabel is UTF8 string with Background ( pIcon ).
+  ThemeLabel is UTF8 string with Background ( icon ).
 **************************************************************************/
-struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pdest,
+struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
                                   utf8_str *pstr, Uint16 w, Uint16 h,
                                   Uint32 flags)
 {
@@ -249,12 +249,12 @@ struct widget *create_themelabel2(SDL_Surface *pIcon, struct gui_layer *pdest,
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
   Uint32 colorkey;
 
-  if (pIcon == NULL && pstr == NULL) {
+  if (icon == NULL && pstr == NULL) {
     return NULL;
   }
 
   pLabel = widget_new();
-  pLabel->theme = pIcon;
+  pLabel->theme = icon;
   pLabel->string_utf8 = pstr;
   set_wflag(pLabel, (WF_FREE_THEME | WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pLabel, FC_WS_DISABLED);

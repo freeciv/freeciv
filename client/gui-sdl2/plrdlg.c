@@ -360,7 +360,7 @@ void real_players_dialog_update(void *unused)
 void popup_players_dialog(bool raise)
 {
   struct widget *pwindow = NULL, *pBuf = NULL;
-  SDL_Surface *pLogo = NULL, *pZoomed = NULL;
+  SDL_Surface *logo = NULL, *zoomed = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
   int i, n, h;
@@ -463,16 +463,16 @@ void popup_players_dialog(bool raise)
     pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-    pLogo = get_nation_flag_surface(nation_of_player(pplayer));
+    logo = get_nation_flag_surface(nation_of_player(pplayer));
     {
       /* Aim for a flag height of 60 pixels, but draw smaller flags if there
        * are more players */
-      double zoom = DEFAULT_ZOOM * (60.0 - n) / pLogo->h;
+      double zoom = DEFAULT_ZOOM * (60.0 - n) / logo->h;
 
-      pZoomed = zoomSurface(pLogo, zoom, zoom, 1);
+      zoomed = zoomSurface(logo, zoom, zoom, 1);
     }
 
-    pBuf = create_icon2(pZoomed, pwindow->dst,
+    pBuf = create_icon2(zoomed, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
     pBuf->info_label = pstr;
@@ -481,13 +481,13 @@ void popup_players_dialog(bool raise)
       pstr = create_utf8_from_char(_("R.I.P.") , adj_font(10));
       pstr->style |= TTF_STYLE_BOLD;
       pstr->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_TEXT);
-      pLogo = create_text_surf_from_utf8(pstr);
+      logo = create_text_surf_from_utf8(pstr);
       FREEUTF8STR(pstr);
 
-      dst.x = (pZoomed->w - pLogo->w) / 2;
-      dst.y = (pZoomed->h - pLogo->h) / 2;
-      alphablit(pLogo, NULL, pZoomed, &dst, 255);
-      FREESURFACE(pLogo);
+      dst.x = (zoomed->w - logo->w) / 2;
+      dst.y = (zoomed->h - logo->h) / 2;
+      alphablit(logo, NULL, zoomed, &dst, 255);
+      FREESURFACE(logo);
     }
 
     if (pplayer->is_alive) {
@@ -552,18 +552,18 @@ void popup_players_dialog(bool raise)
     }
 
     copy_chars_to_utf8_str(pstr, diplstate_type_translated_name(i));
-    pLogo = create_text_surf_from_utf8(pstr);
+    logo = create_text_surf_from_utf8(pstr);
 
     pBuf = pBuf->prev;
-    h = MAX(pBuf->size.h, pLogo->h);
+    h = MAX(pBuf->size.h, logo->h);
     pBuf->size.x = area.x + adj_size(5);
     pBuf->size.y = n + (h - pBuf->size.h) / 2;
 
     dst.x = adj_size(5) + pBuf->size.w + adj_size(6);
-    dst.y = n + (h - pLogo->h) / 2;
-    alphablit(pLogo, NULL, pwindow->theme, &dst, 255);
+    dst.y = n + (h - logo->h) / 2;
+    alphablit(logo, NULL, pwindow->theme, &dst, 255);
     n += h;
-    FREESURFACE(pLogo);
+    FREESURFACE(logo);
   }
   FREEUTF8STR(pstr);
 
@@ -669,7 +669,7 @@ static int player_nation_callback(struct widget *pwidget)
 void popup_players_nations_dialog(void)
 {
   struct widget *pwindow = NULL, *pBuf = NULL;
-  SDL_Surface *pLogo = NULL;
+  SDL_Surface *logo = NULL;
   utf8_str *pstr;
   char cBuf[128], *state;
   int n = 0, w = 0, units_h = 0;
@@ -746,9 +746,9 @@ void popup_players_nations_dialog(void)
       pstr = create_utf8_from_char(cBuf, adj_font(10));
       pstr->style |= TTF_STYLE_BOLD;
 
-      pLogo = get_nation_flag_surface(nation_of_player(pplayer));
+      logo = get_nation_flag_surface(nation_of_player(pplayer));
 
-      pBuf = create_iconlabel(pLogo, pwindow->dst, pstr,
+      pBuf = create_iconlabel(logo, pwindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       /* now add some eye candy ... */
