@@ -3,5 +3,6 @@
 /fc_config.h
 /fc_config.h.in
 /freeciv_config.h
+/version_gen.h
 /stamp-h1
 /stamp-h2
