@@ -78,6 +78,7 @@ EXTRA_DIST =	autogen.sh 			\
 		meson_options.txt		\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
+		scripts/replace			\
 		scripts/diff_ignore		\
 		scripts/freeciv.supp
 # On branch: add NEWS-x.x here and remove this comment (1 of 2)
