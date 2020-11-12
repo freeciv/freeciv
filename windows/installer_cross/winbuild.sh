@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.2 (02-Jan-18)
+# Version 2.3.3 (12-Nov-20)
 
-WINBUILD_VERSION="2.3.2"
+WINBUILD_VERSION="2.3.3"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=1.10
 
@@ -156,9 +156,23 @@ fi
 
 rm -R "$INSTALL_DIR"
 
-if ! make $MAKE_PARAMS DESTDIR="$INSTALL_DIR" clean install
+# Make each of 'clean', build, and 'install' in separate steps as
+# relying on install to depend on all the build activities was not always working.
+if ! make $MAKE_PARAMS DESTDIR="$INSTALL_DIR" clean
+then
+  echo "Make clean failed" >&2
+  exit 1
+fi
+
+if ! make $MAKE_PARAMS DESTDIR="$INSTALL_DIR"
 then
   echo "Build failed" >&2
+  exit 1
+fi
+
+if ! make $MAKE_PARAMS DESTDIR="$INSTALL_DIR" install
+then
+  echo "Make install failed" >&2
   exit 1
 fi
 
