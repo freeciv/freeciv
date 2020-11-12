@@ -95,6 +95,10 @@ if test "x$NAMEP" = "x" ; then
   NAMEP="$GUIP"
 fi
 
+if test "x$MAKE_PARAMS" = "x" ; then
+  MAKE_PARAMS="-j6"
+fi
+
 if ! mkdir -p build-${SETUP}${NAMEP} ; then
   echo "Can't create build directory \"build-${SETUP}${NAMEP}\"!" >&2
   exit 1
