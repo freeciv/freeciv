@@ -27,7 +27,7 @@ MIN_WIN_VER=0x0601
 endif
 
 ifeq ($(MAKE_PARAMS),)
-MAKE_PARAMS="-j2"
+MAKE_PARAMS="-j$(shell nproc)"
 endif
 
 INSTSUB=${ARCHDIR}
