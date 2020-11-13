@@ -35,7 +35,7 @@ echo "Freeciv distribution build successful!"
 "meson")
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/ -Dack_experimental=true -Dfcmp='gtk3','cli'
+meson .. -Dprefix=${HOME}/freeciv/meson -Dack_experimental=true -Dfcmp='gtk3','cli'
 ninja
 ninja install
 ;;
@@ -76,7 +76,7 @@ cd build
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
  --enable-ai-static=classic,threaded,tex,stub \
- --prefix=${HOME}/freeciv/ \
+ --prefix=${HOME}/freeciv/clang \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
@@ -101,7 +101,7 @@ cd build
  --enable-ruledit=experimental \
  --enable-ai-static=classic,threaded,tex,stub \
  --enable-fcdb=sqlite3,mysql \
- --prefix=${HOME}/freeciv/ \
+ --prefix=${HOME}/freeciv/default \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
@@ -128,7 +128,7 @@ FREECIV_DATA_PATH="../tests/rs_test_res/upgrade_rulesets:$FREECIV_DATA_PATH" \
  ./tests/rulesets_save.sh `cat ../tests/rs_test_res/upgrade_ruleset_list.txt`
 
 echo "Running Freeciv server autogame"
-cd ${HOME}/freeciv/bin/
+cd ${HOME}/freeciv/default/bin/
 sudo -u travis ./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv
 
 echo "Freeciv server autogame successful!"
