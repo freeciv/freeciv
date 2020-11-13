@@ -1039,9 +1039,9 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
 
   /* Scrollbar. */
   pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
-  pdialog->advanced->pEndWidgetList = pdialog->end_widget_list;
+  pdialog->advanced->end_widget_list = pdialog->end_widget_list;
   pdialog->advanced->pEndActiveWidgetList = apply_button->prev;
-  pdialog->advanced->pBeginWidgetList = widget;
+  pdialog->advanced->begin_widget_list = widget;
   pdialog->advanced->pBeginActiveWidgetList = widget;
 
   create_vertical_scrollbar(pdialog->advanced, 2, MAX_SHOWN, TRUE, TRUE);
@@ -1053,7 +1053,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
     hide_scrollbar(pdialog->advanced->pScroll);
   }
 
-  pdialog->begin_widget_list = pdialog->advanced->pBeginWidgetList;
+  pdialog->begin_widget_list = pdialog->advanced->begin_widget_list;
 
   arrange_widgets(window, 2, MAX_SHOWN,
                   pdialog->advanced->pBeginActiveWidgetList,
@@ -1257,10 +1257,10 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
 
   /* Advanced dialog. */
   pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
-  pdialog->advanced->pEndWidgetList = pdialog->end_widget_list;
+  pdialog->advanced->end_widget_list = pdialog->end_widget_list;
   pdialog->advanced->pEndActiveWidgetList =
       pdialog->main_widget_list->prev->prev;
-  pdialog->advanced->pBeginWidgetList = widget;
+  pdialog->advanced->begin_widget_list = widget;
   pdialog->advanced->pBeginActiveWidgetList = widget;
 
   /* Clear former area. */
@@ -1316,7 +1316,7 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
                                   pdialog->advanced->pBeginActiveWidgetList,
                                   pdialog->advanced->pEndActiveWidgetList);
 
-  pdialog->begin_widget_list = pdialog->advanced->pBeginWidgetList;
+  pdialog->begin_widget_list = pdialog->advanced->begin_widget_list;
 
   redraw_group(pdialog->begin_widget_list, pdialog->end_widget_list, 0);
   widget_flush(window);

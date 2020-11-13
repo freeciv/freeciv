@@ -65,8 +65,8 @@
 struct CONNLIST {
   struct advanced_dialog *pUsers_Dlg;
   struct advanced_dialog *pChat_Dlg;
-  struct widget *pBeginWidgetList;
-  struct widget *pEndWidgetList;
+  struct widget *begin_widget_list;
+  struct widget *end_widget_list;
   struct widget *pStartButton;
   struct widget *pSelectNationButton;
   struct widget *pLoadGameButton;
@@ -92,7 +92,7 @@ struct advanced_dialog *pLoadDialog;
 static int move_load_game_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pLoadDialog->pBeginWidgetList, pwindow);
+    move_window_group(pLoadDialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -104,7 +104,7 @@ static int move_load_game_dlg_callback(struct widget *pwindow)
 void popdown_load_game_dialog(void)
 {
   if (pLoadDialog) {
-    popdown_window_group_dialog(pLoadDialog->pBeginWidgetList, pLoadDialog->pEndWidgetList);
+    popdown_window_group_dialog(pLoadDialog->begin_widget_list, pLoadDialog->end_widget_list);
     FC_FREE(pLoadDialog->pScroll);
     FC_FREE(pLoadDialog);
 
@@ -211,7 +211,7 @@ static void popup_load_game_dialog(void)
 
   add_to_gui_list(ID_WINDOW, pwindow);
 
-  pLoadDialog->pEndWidgetList = pwindow;
+  pLoadDialog->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -229,7 +229,7 @@ static void popup_load_game_dialog(void)
 
   area.w += pCloseButton->size.w;
 
-  pLoadDialog->pBeginWidgetList = pCloseButton;
+  pLoadDialog->begin_widget_list = pCloseButton;
 
   /* create scrollbar */
   scrollbar_width = create_vertical_scrollbar(pLoadDialog, 1, 20, TRUE, TRUE);
@@ -331,7 +331,7 @@ static void popup_load_game_dialog(void)
    * Deleting it here as a workaround. */
   FREESURFACE(pLoadDialog->pScroll->pScrollBar->gfx);
 
-  redraw_group(pLoadDialog->pBeginWidgetList, pwindow, 1);
+  redraw_group(pLoadDialog->begin_widget_list, pwindow, 1);
   flush_dirty();
 }
 
@@ -449,7 +449,7 @@ static int disconnect_conn_callback(struct widget *pwidget)
 static void add_to_chat_list(char *msg, size_t n_alloc)
 {
   utf8_str *pstr;
-  struct widget *pBuf, *pwindow = pConnDlg->pEndWidgetList;
+  struct widget *pBuf, *pwindow = pConnDlg->end_widget_list;
 
   fc_assert_ret(msg != NULL);
   fc_assert_ret(n_alloc != 0);
@@ -476,8 +476,8 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
                         pwindow->size.y + adj_size(14));
       count++;
     }
-    redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
-                 pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
+    redraw_group(pConnDlg->pChat_Dlg->begin_widget_list,
+                 pConnDlg->pChat_Dlg->end_widget_list, TRUE);
     FREEUTF8STR(pstr);
   } else {
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -491,8 +491,8 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
                         pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
                         pwindow->size.x + adj_size(10 + 60 + 10),
                         pwindow->size.y + adj_size(14))) {
-      redraw_group(pConnDlg->pChat_Dlg->pBeginWidgetList,
-                   pConnDlg->pChat_Dlg->pEndWidgetList, TRUE);
+      redraw_group(pConnDlg->pChat_Dlg->begin_widget_list,
+                   pConnDlg->pChat_Dlg->end_widget_list, TRUE);
     } else {
       widget_redraw(pBuf);
       widget_mark_dirty(pBuf);
@@ -581,7 +581,7 @@ void real_conn_list_dialog_update(void *unused)
 {
   if (C_S_PREPARING == client_state()) {
     if (pConnDlg) {
-      struct widget *pBuf = NULL, *pwindow = pConnDlg->pEndWidgetList;
+      struct widget *pBuf = NULL, *pwindow = pConnDlg->end_widget_list;
       utf8_str *pstr = create_utf8_str(NULL, 0, adj_font(12));
       bool create;
 
@@ -591,18 +591,18 @@ void real_conn_list_dialog_update(void *unused)
         del_group(pConnDlg->pUsers_Dlg->pBeginActiveWidgetList,
                   pConnDlg->pUsers_Dlg->pEndActiveWidgetList);
         pConnDlg->pUsers_Dlg->pActiveWidgetList = NULL;
-        pConnDlg->pUsers_Dlg->pBeginWidgetList =
+        pConnDlg->pUsers_Dlg->begin_widget_list =
           pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
       } else {
         pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
-        pConnDlg->pUsers_Dlg->pEndWidgetList = pConnDlg->pBeginWidgetList;
-        pConnDlg->pUsers_Dlg->pBeginWidgetList = pConnDlg->pBeginWidgetList;
+        pConnDlg->pUsers_Dlg->end_widget_list = pConnDlg->begin_widget_list;
+        pConnDlg->pUsers_Dlg->begin_widget_list = pConnDlg->begin_widget_list;
 
         create_vertical_scrollbar(pConnDlg->pUsers_Dlg, 1,
                                   pConnDlg->active, TRUE, TRUE);
-        pConnDlg->pUsers_Dlg->pEndWidgetList =
-          pConnDlg->pUsers_Dlg->pEndWidgetList->prev;
+        pConnDlg->pUsers_Dlg->end_widget_list =
+          pConnDlg->pUsers_Dlg->end_widget_list->prev;
         setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->pScroll,
           pwindow->size.x + pwindow->size.w - adj_size(30),
           pwindow->size.y + adj_size(14), pwindow->size.h - adj_size(44) - adj_size(40), FALSE);
@@ -622,7 +622,7 @@ void real_conn_list_dialog_update(void *unused)
         /* add to widget list */
         if (create) {
           add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
-            pBuf, pConnDlg->pUsers_Dlg->pBeginWidgetList, FALSE,
+            pBuf, pConnDlg->pUsers_Dlg->begin_widget_list, FALSE,
             pwindow->area.x + pwindow->area.w - adj_size(130),
             pwindow->size.y + adj_size(14));
           create = FALSE;
@@ -634,7 +634,7 @@ void real_conn_list_dialog_update(void *unused)
         }
       } conn_list_iterate_end;
 
-      pConnDlg->pBeginWidgetList = pConnDlg->pUsers_Dlg->pBeginWidgetList;
+      pConnDlg->begin_widget_list = pConnDlg->pUsers_Dlg->begin_widget_list;
       FREEUTF8STR(pstr);
 
 /* FIXME: implement the server settings dialog and then reactivate this part */
@@ -648,9 +648,9 @@ void real_conn_list_dialog_update(void *unused)
 #endif
 
       /* redraw */
-      redraw_group(pConnDlg->pBeginWidgetList, pConnDlg->pEndWidgetList, 0);
+      redraw_group(pConnDlg->begin_widget_list, pConnDlg->end_widget_list, 0);
 
-      widget_flush(pConnDlg->pEndWidgetList);
+      widget_flush(pConnDlg->end_widget_list);
     } else {
       popup_conn_list_dialog();
     }
@@ -696,7 +696,7 @@ static void popup_conn_list_dialog(void)
   set_wstate(pwindow, FC_WS_NORMAL);
   clear_wflag(pwindow, WF_DRAW_FRAME_AROUND_WIDGET);
 
-  pConnDlg->pEndWidgetList = pwindow;
+  pConnDlg->end_widget_list = pwindow;
   add_to_gui_list(ID_WINDOW, pwindow);
 
   widget_set_position(pwindow, 0, 0);
@@ -758,10 +758,10 @@ static void popup_conn_list_dialog(void)
 
   add_to_gui_list(ID_LABEL, pLabel);
 
-  pConnDlg->pChat_Dlg->pBeginWidgetList = pLabel;
-  pConnDlg->pChat_Dlg->pEndWidgetList = pLabel;
-  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->pBeginWidgetList;
-  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->pEndWidgetList;
+  pConnDlg->pChat_Dlg->begin_widget_list = pLabel;
+  pConnDlg->pChat_Dlg->end_widget_list = pLabel;
+  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->begin_widget_list;
+  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->end_widget_list;
 
   n = (pwindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;
@@ -860,7 +860,7 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_BUTTON, pBuf);
 #endif
 
-  pConnDlg->pBeginWidgetList = pBuf;
+  pConnDlg->begin_widget_list = pBuf;
   /* ------------------------------------------------------------ */
 
   conn_list_dialog_update();
@@ -876,8 +876,8 @@ bool popdown_conn_list_dialog(void)
       force_exit_from_event_loop();
     }
 
-    popdown_window_group_dialog(pConnDlg->pBeginWidgetList,
-                                pConnDlg->pEndWidgetList);
+    popdown_window_group_dialog(pConnDlg->begin_widget_list,
+                                pConnDlg->end_widget_list);
     if (pConnDlg->pUsers_Dlg) {
       FC_FREE(pConnDlg->pUsers_Dlg->pScroll);
       FC_FREE(pConnDlg->pUsers_Dlg);

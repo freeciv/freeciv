@@ -87,7 +87,7 @@ static int msg_callback(struct widget *pwidget)
 static int move_msg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pMsg_Dlg->pBeginWidgetList, pwindow);
+    move_window_group(pMsg_Dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -132,7 +132,7 @@ void real_meswin_dialog_update(void *unused)
   }
   create = (current_count == 0);
 
-  pwindow = pMsg_Dlg->pEndWidgetList;
+  pwindow = pMsg_Dlg->end_widget_list;
 
   area = pwindow->area;
 
@@ -232,7 +232,7 @@ void real_meswin_dialog_update(void *unused)
     } /* for */
   } /* if */
 
-  redraw_group(pMsg_Dlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(pMsg_Dlg->begin_widget_list, pwindow, 0);
   widget_flush(pwindow);
 }
 
@@ -263,8 +263,8 @@ void meswin_dialog_popup(bool raise)
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_CHATLINE_WINDOW, pwindow);
 
-  pMsg_Dlg->pEndWidgetList = pwindow;
-  pMsg_Dlg->pBeginWidgetList = pwindow;
+  pMsg_Dlg->end_widget_list = pwindow;
+  pMsg_Dlg->begin_widget_list = pwindow;
 
   /* create scrollbar */
   create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
@@ -307,8 +307,8 @@ void meswin_dialog_popup(bool raise)
 void meswin_dialog_popdown(void)
 {
   if (pMsg_Dlg) {
-    popdown_window_group_dialog(pMsg_Dlg->pBeginWidgetList,
-                                pMsg_Dlg->pEndWidgetList);
+    popdown_window_group_dialog(pMsg_Dlg->begin_widget_list,
+                                pMsg_Dlg->end_widget_list);
     FC_FREE(pMsg_Dlg->pScroll);
     FC_FREE(pMsg_Dlg);
   }

@@ -120,7 +120,7 @@ static void get_units_report_data(struct units_entry *entries,
 static int units_dialog_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pUnitsDlg->pBeginWidgetList, pwindow);
+    move_window_group(pUnitsDlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -137,8 +137,8 @@ static int ok_upgrade_unit_window_callback(struct widget *pwidget)
     int ut1 = MAX_ID - pwidget->ID;
 
     /* popdown upgrade dlg */
-    popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
-                                pUnits_Upg_Dlg->pEndWidgetList);
+    popdown_window_group_dialog(pUnits_Upg_Dlg->begin_widget_list,
+                                pUnits_Upg_Dlg->end_widget_list);
     FC_FREE(pUnits_Upg_Dlg);
 
     dsend_packet_unit_type_upgrade(&client.conn, ut1);
@@ -153,7 +153,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pwidget)
 static int upgrade_unit_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pUnits_Upg_Dlg->pBeginWidgetList, pwindow);
+    move_window_group(pUnits_Upg_Dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -166,8 +166,8 @@ static int cancel_upgrade_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pUnits_Upg_Dlg) {
-      popdown_window_group_dialog(pUnits_Upg_Dlg->pBeginWidgetList,
-                                  pUnits_Upg_Dlg->pEndWidgetList);
+      popdown_window_group_dialog(pUnits_Upg_Dlg->begin_widget_list,
+                                  pUnits_Upg_Dlg->end_widget_list);
       FC_FREE(pUnits_Upg_Dlg);
       flush_dirty();
     }
@@ -232,7 +232,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
-    pUnits_Upg_Dlg->pEndWidgetList = pwindow;
+    pUnits_Upg_Dlg->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -277,17 +277,17 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     }
     /* ============================================ */
 
-    pUnits_Upg_Dlg->pBeginWidgetList = pBuf;
+    pUnits_Upg_Dlg->begin_widget_list = pBuf;
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
                   (pwindow->size.h - pwindow->area.h) + area.h);
 
     widget_set_position(pwindow,
-                        pUnitsDlg->pEndWidgetList->size.x +
-                          (pUnitsDlg->pEndWidgetList->size.w - pwindow->size.w) / 2,
-                        pUnitsDlg->pEndWidgetList->size.y +
-                          (pUnitsDlg->pEndWidgetList->size.h - pwindow->size.h) / 2);
+                        pUnitsDlg->end_widget_list->size.x +
+                          (pUnitsDlg->end_widget_list->size.w - pwindow->size.w) / 2,
+                        pUnitsDlg->end_widget_list->size.y +
+                          (pUnitsDlg->end_widget_list->size.h - pwindow->size.h) / 2);
 
     /* setup rest of widgets */
     /* label */
@@ -315,7 +315,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pUnits_Upg_Dlg->pBeginWidgetList, pwindow, 0);
+    redraw_group(pUnits_Upg_Dlg->begin_widget_list, pwindow, 0);
 
     widget_mark_dirty(pwindow);
     flush_dirty();
@@ -332,12 +332,12 @@ static int exit_units_dlg_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     if (pUnitsDlg) {
       if (pUnits_Upg_Dlg) {
-         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
-                                            pUnits_Upg_Dlg->pEndWidgetList);
+         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->begin_widget_list,
+                                            pUnits_Upg_Dlg->end_widget_list);
          FC_FREE(pUnits_Upg_Dlg);
       }
-      popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
-                                  pUnitsDlg->pEndWidgetList);
+      popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
+                                  pUnitsDlg->end_widget_list);
       FC_FREE(pUnitsDlg->pScroll);
       FC_FREE(pUnitsDlg);
       flush_dirty();
@@ -365,8 +365,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   SDL_Rect area;
 
   if (pUnitsDlg) {
-    popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
-                                pUnitsDlg->pEndWidgetList);
+    popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
+                                pUnitsDlg->end_widget_list);
   } else {
     pUnitsDlg = fc_calloc(1, sizeof(struct advanced_dialog));
   }
@@ -404,7 +404,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   add_to_gui_list(ID_UNITS_DIALOG_WINDOW, pwindow);
 
-  pUnitsDlg->pEndWidgetList = pwindow;
+  pUnitsDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -606,13 +606,13 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     }
   } unit_type_iterate_end;
 
-  pUnitsDlg->pBeginWidgetList = pBuf;
+  pUnitsDlg->begin_widget_list = pBuf;
   area.w = MAX(area.w, (tileset_full_tile_width(tileset) * 2 + name_w + adj_size(15))
                + (adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
                + (pText5->w + adj_size(6)) + adj_size(2));
   if (count > 0) {
     pUnitsDlg->pEndActiveWidgetList = pLast->prev;
-    pUnitsDlg->pBeginActiveWidgetList = pUnitsDlg->pBeginWidgetList;
+    pUnitsDlg->pBeginActiveWidgetList = pUnitsDlg->begin_widget_list;
     if (count > adj_size(80)) {
       pUnitsDlg->pActiveWidgetList = pUnitsDlg->pEndActiveWidgetList;
       if (pUnitsDlg->pScroll) {
@@ -873,7 +873,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   }
   /* ----------------------------------- */
-  redraw_group(pUnitsDlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(pUnitsDlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();
@@ -1027,7 +1027,7 @@ void real_units_report_dialog_update(void *unused)
     /* -------------------------------------- */
 
     /* total active */
-    pbuf = pUnitsDlg->pEndWidgetList->prev->prev;
+    pbuf = pUnitsDlg->end_widget_list->prev->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.active_count);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
@@ -1052,8 +1052,8 @@ void real_units_report_dialog_update(void *unused)
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
     /* -------------------------------------- */
-    redraw_group(pUnitsDlg->pBeginWidgetList, pUnitsDlg->pEndWidgetList, 0);
-    widget_mark_dirty(pUnitsDlg->pEndWidgetList);
+    redraw_group(pUnitsDlg->begin_widget_list, pUnitsDlg->end_widget_list, 0);
+    widget_mark_dirty(pUnitsDlg->end_widget_list);
 
     flush_dirty();
   }
@@ -1082,12 +1082,12 @@ void units_report_dialog_popdown(void)
 {
   if (pUnitsDlg) {
     if (pUnits_Upg_Dlg) {
-      del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->pBeginWidgetList,
-                                         pUnits_Upg_Dlg->pEndWidgetList);
+      del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->begin_widget_list,
+                                         pUnits_Upg_Dlg->end_widget_list);
       FC_FREE(pUnits_Upg_Dlg);
     }
-    popdown_window_group_dialog(pUnitsDlg->pBeginWidgetList,
-                                pUnitsDlg->pEndWidgetList);
+    popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
+                                pUnitsDlg->end_widget_list);
     FC_FREE(pUnitsDlg->pScroll);
     FC_FREE(pUnitsDlg);
   }
@@ -1112,7 +1112,7 @@ struct rates_move {
 static int economy_dialog_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pEconomyDlg->pBeginWidgetList, pwindow);
+    move_window_group(pEconomyDlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -1126,12 +1126,12 @@ static int exit_economy_dialog_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     if (pEconomyDlg) {
       if (pEconomy_Sell_Dlg) {
-        del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
-                                           pEconomy_Sell_Dlg->pEndWidgetList);
+        del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->begin_widget_list,
+                                           pEconomy_Sell_Dlg->end_widget_list);
         FC_FREE(pEconomy_Sell_Dlg);
       }
-      popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
-                                  pEconomyDlg->pEndWidgetList);
+      popdown_window_group_dialog(pEconomyDlg->begin_widget_list,
+                                  pEconomyDlg->end_widget_list);
       FC_FREE(pEconomyDlg->pScroll);
       FC_FREE(pEconomyDlg);
       set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
@@ -1183,7 +1183,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
                                                  void *pData)
 {
   struct rates_move *pMotion = (struct rates_move *)pData;
-  struct widget *pTax_Label = pEconomyDlg->pEndWidgetList->prev->prev;
+  struct widget *pTax_Label = pEconomyDlg->end_widget_list->prev->prev;
   struct widget *pbuf = NULL;
   char cbuf[8];
   int dir, inc, x, *buf_rate = NULL;
@@ -1351,7 +1351,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
       pMotion.pLabel_Dst = pMotion.pHoriz_Dst->prev;
     } else {
       /* tax label */
-      pMotion.pLabel_Dst = pEconomyDlg->pEndWidgetList->prev->prev;
+      pMotion.pLabel_Dst = pEconomyDlg->end_widget_list->prev->prev;
     }
 
     pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);
@@ -1423,7 +1423,7 @@ static int apply_taxrates_callback(struct widget *pButton)
 static void enable_economy_dlg(void)
 {
   /* lux lock */
-  struct widget *pBuf = pEconomyDlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  struct widget *pBuf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1462,7 +1462,7 @@ static void enable_economy_dlg(void)
 static void disable_economy_dlg(void)
 {
   /* lux lock */
-  struct widget *pBuf = pEconomyDlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+  struct widget *pBuf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
   set_wstate(pBuf, FC_WS_DISABLED);
 
@@ -1510,8 +1510,8 @@ static int ok_sell_impr_callback(struct widget *pwidget)
     total_count = pImpr->data.cont->id1;
 
     /* popdown sell dlg */
-    popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
-                                pEconomy_Sell_Dlg->pEndWidgetList);
+    popdown_window_group_dialog(pEconomy_Sell_Dlg->begin_widget_list,
+                                pEconomy_Sell_Dlg->end_widget_list);
     FC_FREE(pEconomy_Sell_Dlg);
     enable_economy_dlg();
 
@@ -1539,7 +1539,7 @@ static int ok_sell_impr_callback(struct widget *pwidget)
 static int sell_impr_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pEconomy_Sell_Dlg->pBeginWidgetList, pwindow);
+    move_window_group(pEconomy_Sell_Dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -1552,8 +1552,8 @@ static int cancel_sell_impr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pEconomy_Sell_Dlg) {
-      popdown_window_group_dialog(pEconomy_Sell_Dlg->pBeginWidgetList,
-                                  pEconomy_Sell_Dlg->pEndWidgetList);
+      popdown_window_group_dialog(pEconomy_Sell_Dlg->begin_widget_list,
+                                  pEconomy_Sell_Dlg->end_widget_list);
       FC_FREE(pEconomy_Sell_Dlg);
       enable_economy_dlg();
       flush_dirty();
@@ -1621,7 +1621,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     pwindow->action = sell_impr_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
 
-    pEconomy_Sell_Dlg->pEndWidgetList = pwindow;
+    pEconomy_Sell_Dlg->end_widget_list = pwindow;
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -1669,7 +1669,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     }
     /* ============================================ */
 
-    pEconomy_Sell_Dlg->pBeginWidgetList = pBuf;
+    pEconomy_Sell_Dlg->begin_widget_list = pBuf;
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
@@ -1678,10 +1678,10 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     area = pwindow->area;
 
     widget_set_position(pwindow,
-                        pEconomyDlg->pEndWidgetList->size.x +
-                          (pEconomyDlg->pEndWidgetList->size.w - pwindow->size.w) / 2,
-                        pEconomyDlg->pEndWidgetList->size.y +
-                          (pEconomyDlg->pEndWidgetList->size.h - pwindow->size.h) / 2);
+                        pEconomyDlg->end_widget_list->size.x +
+                          (pEconomyDlg->end_widget_list->size.w - pwindow->size.w) / 2,
+                        pEconomyDlg->end_widget_list->size.y +
+                          (pEconomyDlg->end_widget_list->size.h - pwindow->size.h) / 2);
 
     /* setup rest of widgets */
     /* label */
@@ -1709,7 +1709,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pEconomy_Sell_Dlg->pBeginWidgetList, pwindow, 0);
+    redraw_group(pEconomy_Sell_Dlg->begin_widget_list, pwindow, 0);
     disable_economy_dlg();
 
     widget_mark_dirty(pwindow);
@@ -1725,7 +1725,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
 void real_economy_report_dialog_update(void *unused)
 {
   if (pEconomyDlg) {
-    struct widget *pbuf = pEconomyDlg->pEndWidgetList;
+    struct widget *pbuf = pEconomyDlg->end_widget_list;
     int tax, total, entries_used = 0;
     char cbuf[128];
     struct improvement_entry entries[B_LAST];
@@ -1762,8 +1762,8 @@ void real_economy_report_dialog_update(void *unused)
     }
 
     /* ---------------- */
-    redraw_group(pEconomyDlg->pBeginWidgetList, pEconomyDlg->pEndWidgetList, 0);
-    widget_flush(pEconomyDlg->pEndWidgetList);
+    redraw_group(pEconomyDlg->begin_widget_list, pEconomyDlg->end_widget_list, 0);
+    widget_flush(pEconomyDlg->end_widget_list);
   }
 }
 
@@ -1774,12 +1774,12 @@ void economy_report_dialog_popdown(void)
 {
   if (pEconomyDlg) {
     if (pEconomy_Sell_Dlg) {
-       del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->pBeginWidgetList,
-                                          pEconomy_Sell_Dlg->pEndWidgetList);
+       del_group_of_widgets_from_gui_list(pEconomy_Sell_Dlg->begin_widget_list,
+                                          pEconomy_Sell_Dlg->end_widget_list);
        FC_FREE(pEconomy_Sell_Dlg);
     }
-    popdown_window_group_dialog(pEconomyDlg->pBeginWidgetList,
-                                pEconomyDlg->pEndWidgetList);
+    popdown_window_group_dialog(pEconomyDlg->begin_widget_list,
+                                pEconomyDlg->end_widget_list);
     FC_FREE(pEconomyDlg->pScroll);
     FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
@@ -1840,7 +1840,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
-  pEconomyDlg->pEndWidgetList = pwindow;
+  pEconomyDlg->end_widget_list = pwindow;
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = economy_dialog_callback;
 
@@ -2172,8 +2172,8 @@ void economy_report_dialog_popup(bool make_modal)
     FREESURFACE(background);
 
     pEconomyDlg->pEndActiveWidgetList = pLast->prev;
-    pEconomyDlg->pBeginWidgetList = pBuf;
-    pEconomyDlg->pBeginActiveWidgetList = pEconomyDlg->pBeginWidgetList;
+    pEconomyDlg->begin_widget_list = pBuf;
+    pEconomyDlg->pBeginActiveWidgetList = pEconomyDlg->begin_widget_list;
 
     if (entries_used > (TARGETS_ROW * TARGETS_COL)) {
       pEconomyDlg->pActiveWidgetList = pEconomyDlg->pEndActiveWidgetList;
@@ -2189,7 +2189,7 @@ void economy_report_dialog_popup(bool make_modal)
     }
     count = TARGETS_COL * pBuf->size.w + count;  
   } else {
-    pEconomyDlg->pBeginWidgetList = pBuf;
+    pEconomyDlg->begin_widget_list = pBuf;
     h += adj_size(10);
     count = 0;
   }
@@ -2375,7 +2375,7 @@ void economy_report_dialog_popup(bool make_modal)
   }
 
   /* ------------------------ */
-  redraw_group(pEconomyDlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(pEconomyDlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
 }
@@ -2570,8 +2570,8 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 **************************************************************************/
 static void enable_science_dialog(void)
 {
-  set_group_state(pScienceDlg->pBeginWidgetList,
-                  pScienceDlg->pEndWidgetList->prev, FC_WS_NORMAL);
+  set_group_state(pScienceDlg->begin_widget_list,
+                  pScienceDlg->end_widget_list->prev, FC_WS_NORMAL);
 }
 
 /**********************************************************************//**
@@ -2579,8 +2579,8 @@ static void enable_science_dialog(void)
 **************************************************************************/
 static void disable_science_dialog(void)
 {
-  set_group_state(pScienceDlg->pBeginWidgetList,
-                  pScienceDlg->pEndWidgetList->prev, FC_WS_DISABLED);
+  set_group_state(pScienceDlg->begin_widget_list,
+                  pScienceDlg->end_widget_list->prev, FC_WS_DISABLED);
 }
 
 /**********************************************************************//**
@@ -2602,7 +2602,7 @@ void real_science_report_dialog_update(void *unused)
     struct widget *pChangeResearchButton;
     struct widget *pChangeResearchGoalButton;
     SDL_Rect area;
-    struct widget *pwindow = pScienceDlg->pEndWidgetList;
+    struct widget *pwindow = pScienceDlg->end_widget_list;
 
     area = pwindow->area;
     pChangeResearchButton = pwindow->prev;
@@ -2828,7 +2828,7 @@ void real_science_report_dialog_update(void *unused)
 
     /* -------------------------------- */
     widget_mark_dirty(pwindow);
-    redraw_group(pScienceDlg->pBeginWidgetList, pwindow->prev, 1);
+    redraw_group(pScienceDlg->begin_widget_list, pwindow->prev, 1);
     flush_dirty();
 
     FREEUTF8STR(pStr);
@@ -2841,8 +2841,8 @@ void real_science_report_dialog_update(void *unused)
 static void science_report_dialog_popdown(void)
 {
   if (pScienceDlg) {
-    popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
-                                pScienceDlg->pEndWidgetList);
+    popdown_window_group_dialog(pScienceDlg->begin_widget_list,
+                                pScienceDlg->end_widget_list);
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     widget_redraw(get_research_widget());
@@ -2858,8 +2858,8 @@ static int exit_change_tech_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pChangeTechDlg) {
-      popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
-                                  pChangeTechDlg->pEndWidgetList);
+      popdown_window_group_dialog(pChangeTechDlg->begin_widget_list,
+                                  pChangeTechDlg->end_widget_list);
       FC_FREE(pChangeTechDlg->pScroll);
       FC_FREE(pChangeTechDlg);
       enable_science_dialog();
@@ -2893,7 +2893,7 @@ static int change_research_callback(struct widget *pwidget)
 static int change_research_goal_dialog_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (select_window_group_dialog(pChangeTechDlg->pBeginWidgetList, pwindow)) {
+    if (select_window_group_dialog(pChangeTechDlg->begin_widget_list, pwindow)) {
       widget_flush(pwindow);
     }
   }
@@ -2935,7 +2935,7 @@ static void popup_change_research_dialog(void)
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
-  pChangeTechDlg->pEndWidgetList = pwindow;
+  pChangeTechDlg->end_widget_list = pwindow;
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = change_research_goal_dialog_callback;
 
@@ -3010,9 +3010,9 @@ static void popup_change_research_dialog(void)
 
   FREEUTF8STR(pstr);
 
-  pChangeTechDlg->pBeginWidgetList = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->pBeginWidgetList;
-  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->pEndWidgetList->prev->prev;
+  pChangeTechDlg->begin_widget_list = pBuf;
+  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->begin_widget_list;
+  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -3062,7 +3062,7 @@ static void popup_change_research_dialog(void)
                                   area.h, TRUE);
   }
 
-  redraw_group(pChangeTechDlg->pBeginWidgetList, pwindow, FALSE);
+  redraw_group(pChangeTechDlg->begin_widget_list, pwindow, FALSE);
 
   widget_flush(pwindow);
 }
@@ -3123,7 +3123,7 @@ static void popup_change_research_goal_dialog(void)
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
-  pChangeTechDlg->pEndWidgetList = pwindow;
+  pChangeTechDlg->end_widget_list = pwindow;
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = change_research_goal_dialog_callback;
 
@@ -3207,9 +3207,9 @@ static void popup_change_research_goal_dialog(void)
 
   FREEUTF8STR(pstr);
 
-  pChangeTechDlg->pBeginWidgetList = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->pBeginWidgetList;
-  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->pEndWidgetList->prev->prev;
+  pChangeTechDlg->begin_widget_list = pBuf;
+  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->begin_widget_list;
+  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -3259,7 +3259,7 @@ static void popup_change_research_goal_dialog(void)
                                   area.h, TRUE);
   }
 
-  redraw_group(pChangeTechDlg->pBeginWidgetList, pwindow, FALSE);
+  redraw_group(pChangeTechDlg->begin_widget_list, pwindow, FALSE);
 
   widget_flush(pwindow);
 }
@@ -3268,10 +3268,10 @@ static int science_dialog_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (!pChangeTechDlg) {
-      if (select_window_group_dialog(pScienceDlg->pBeginWidgetList, pwindow)) {
+      if (select_window_group_dialog(pScienceDlg->begin_widget_list, pwindow)) {
         widget_flush(pwindow);
       }
-      if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pwindow)) {
+      if (move_window_group_dialog(pScienceDlg->begin_widget_list, pwindow)) {
         real_science_report_dialog_update(NULL);
       }
     }
@@ -3365,7 +3365,7 @@ void science_report_dialog_popup(bool raise)
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = science_dialog_callback;
 
-  pScienceDlg->pEndWidgetList = pwindow;
+  pScienceDlg->end_widget_list = pwindow;
 
   background = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
   pwindow->theme = ResizeSurface(background, pwindow->size.w, pwindow->size.h, 1);
@@ -3428,7 +3428,7 @@ void science_report_dialog_popup(bool raise)
                       pwindow->size.y + adj_size(2));
 
   /* ======================== */
-  pScienceDlg->pBeginWidgetList = pExitButton;
+  pScienceDlg->begin_widget_list = pExitButton;
 
   real_science_report_dialog_update(NULL);
 }
@@ -3439,14 +3439,14 @@ void science_report_dialog_popup(bool raise)
 void science_report_dialogs_popdown_all(void)
 {
   if (pChangeTechDlg) {
-    popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
-                                pChangeTechDlg->pEndWidgetList);
+    popdown_window_group_dialog(pChangeTechDlg->begin_widget_list,
+                                pChangeTechDlg->end_widget_list);
     FC_FREE(pChangeTechDlg->pScroll);
     FC_FREE(pChangeTechDlg);
   }
   if (pScienceDlg) {
-    popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
-                                pScienceDlg->pEndWidgetList);
+    popdown_window_group_dialog(pScienceDlg->begin_widget_list,
+                                pScienceDlg->end_widget_list);
     FC_FREE(pScienceDlg);
     set_wstate(get_research_widget(), FC_WS_NORMAL);
     widget_redraw(get_research_widget());

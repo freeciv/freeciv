@@ -957,8 +957,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     }
 
     /* draw buttons */
-    redraw_group(pInfo_Window->private_data.adv_dlg->pBeginWidgetList,
-                 pInfo_Window->private_data.adv_dlg->pEndWidgetList->prev, 0);
+    redraw_group(pInfo_Window->private_data.adv_dlg->begin_widget_list,
+                 pInfo_Window->private_data.adv_dlg->end_widget_list->prev, 0);
 
     widget_mark_dirty(pInfo_Window);
   }

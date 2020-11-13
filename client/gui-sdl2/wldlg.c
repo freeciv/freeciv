@@ -64,8 +64,8 @@
 #define TARGETS_ROW 4
 
 struct EDITOR {
-  struct widget *pBeginWidgetList;
-  struct widget *pEndWidgetList; /* window */
+  struct widget *begin_widget_list;
+  struct widget *end_widget_list; /* window */
 
   struct advanced_dialog *pTargets;
   struct advanced_dialog *pWork;
@@ -266,14 +266,14 @@ static void add_target_to_worklist(struct widget *pTarget)
   if (worklist_length(&pEditor->worklist_copy) > pEditor->pWork->pScroll->active + 1) {
 
     setup_vertical_widgets_position(1,
-      pEditor->pEndWidgetList->area.x + adj_size(2),
+      pEditor->end_widget_list->area.x + adj_size(2),
       get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152) +
         pEditor->pWork->pScroll->pUp_Left_Button->size.h + 1,
-      adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
-      pEditor->pWork->pEndWidgetList);
+      adj_size(126), 0, pEditor->pWork->begin_widget_list,
+      pEditor->pWork->end_widget_list);
 
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
-        pEditor->pEndWidgetList->area.x + adj_size(2),
+        pEditor->end_widget_list->area.x + adj_size(2),
         get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
         adj_size(225), FALSE);
 
@@ -283,14 +283,14 @@ static void add_target_to_worklist(struct widget *pTarget)
 
   add_widget_to_vertical_scroll_widget_list(pEditor->pWork, pBuf,
                                             pDock, FALSE,
-                                            pEditor->pEndWidgetList->area.x + adj_size(2),
-                                            pEditor->pEndWidgetList->area.y + adj_size(152));
+                                            pEditor->end_widget_list->area.x + adj_size(2),
+                                            pEditor->end_widget_list->area.y + adj_size(152));
 
   pBuf->size.w = adj_size(126);
 
   refresh_worklist_count_label();
-  redraw_group(pEditor->pWork->pBeginWidgetList,
-               pEditor->pWork->pEndWidgetList, TRUE);
+  redraw_group(pEditor->pWork->begin_widget_list,
+               pEditor->pWork->end_widget_list, TRUE);
   flush_dirty();
 }
 
@@ -495,13 +495,13 @@ static void remove_item_from_worklist(struct widget *pItem)
   if (worklist_length(&pEditor->worklist_copy) <= pEditor->pWork->pScroll->active + 1) {
 
     setup_vertical_widgets_position(1,
-      pEditor->pEndWidgetList->area.x + adj_size(2),
+      pEditor->end_widget_list->area.x + adj_size(2),
       get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
-	adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
-      pEditor->pWork->pEndWidgetList);
+	adj_size(126), 0, pEditor->pWork->begin_widget_list,
+      pEditor->pWork->end_widget_list);
 #if 0
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
-	pEditor->pEndWidgetList->area.x + adj_size(2),
+	pEditor->end_widget_list->area.x + adj_size(2),
     	get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
     	adj_size(225), FALSE);*/
 #endif /* 0 */
@@ -510,8 +510,8 @@ static void remove_item_from_worklist(struct widget *pItem)
 #endif /* 0 */
 
   refresh_worklist_count_label();
-  redraw_group(pEditor->pWork->pBeginWidgetList,
-               pEditor->pWork->pEndWidgetList, TRUE);
+  redraw_group(pEditor->pWork->begin_widget_list,
+               pEditor->pWork->end_widget_list, TRUE);
   flush_dirty();
 }
 
@@ -565,8 +565,8 @@ static void swap_item_down_from_worklist(struct widget *pItem)
     pItem->prev->string_utf8->text = text;
     pItem->prev->ID = ID;
 
-    redraw_group(pEditor->pWork->pBeginWidgetList,
-                 pEditor->pWork->pEndWidgetList, TRUE);
+    redraw_group(pEditor->pWork->begin_widget_list,
+                 pEditor->pWork->end_widget_list, TRUE);
     flush_dirty();
   }
 }
@@ -622,8 +622,8 @@ static void swap_item_up_from_worklist(struct widget *pItem)
     pItem->next->string_utf8->text = text;
     pItem->next->ID = ID;
 
-    redraw_group(pEditor->pWork->pBeginWidgetList,
-                 pEditor->pWork->pEndWidgetList, TRUE);
+    redraw_group(pEditor->pWork->begin_widget_list,
+                 pEditor->pWork->end_widget_list, TRUE);
     flush_dirty();
   }
 }
@@ -722,8 +722,8 @@ static void add_global_worklist(struct widget *pwidget)
     add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
                                               pBuf, pEditor->pWork->pBeginActiveWidgetList,
                                               FALSE,
-                                              pEditor->pEndWidgetList->area.x + adj_size(2),
-                                              pEditor->pEndWidgetList->area.y + adj_size(152));
+                                              pEditor->end_widget_list->area.x + adj_size(2),
+                                              pEditor->end_widget_list->area.y + adj_size(152));
 
     firstfree++;
     if (firstfree == MAX_LEN_WORKLIST - 1) {
@@ -732,8 +732,8 @@ static void add_global_worklist(struct widget *pwidget)
   }
 
   refresh_worklist_count_label();
-  redraw_group(pEditor->pWork->pBeginWidgetList,
-               pEditor->pWork->pEndWidgetList, TRUE);
+  redraw_group(pEditor->pWork->begin_widget_list,
+               pEditor->pWork->end_widget_list, TRUE);
 
   flush_dirty();
 }
@@ -822,13 +822,13 @@ static void set_global_worklist(struct widget *pwidget)
 
       add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
         pBuf, pEditor->pWork->pBeginActiveWidgetList, FALSE,
-        pEditor->pEndWidgetList->area.x + adj_size(2),
-        pEditor->pEndWidgetList->area.y + adj_size(152));
+        pEditor->end_widget_list->area.x + adj_size(2),
+        pEditor->end_widget_list->area.y + adj_size(152));
     }
 
     refresh_worklist_count_label();
-    redraw_group(pEditor->pWork->pBeginWidgetList,
-                 pEditor->pWork->pEndWidgetList, TRUE);
+    redraw_group(pEditor->pWork->begin_widget_list,
+                 pEditor->pWork->end_widget_list, TRUE);
 
     flush_dirty();
   }
@@ -966,15 +966,15 @@ static void refresh_production_label(int stock)
   widget_undraw(pEditor->pProduction_Name);
   remake_label_size(pEditor->pProduction_Name);
 
-  pEditor->pProduction_Name->size.x = pEditor->pEndWidgetList->area.x +
+  pEditor->pProduction_Name->size.x = pEditor->end_widget_list->area.x +
     (adj_size(130) - pEditor->pProduction_Name->size.w)/2;
 
   /* Can't just widget_mark_dirty(), as it may have reduced in size */
-  area.x = pEditor->pEndWidgetList->area.x;  /* left edge of client area */
+  area.x = pEditor->end_widget_list->area.x;  /* left edge of client area */
   area.y = pEditor->pProduction_Name->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pProduction_Name->size.h;
-  layer_rect_to_screen_rect(pEditor->pEndWidgetList->dst, &area);
+  layer_rect_to_screen_rect(pEditor->end_widget_list->dst, &area);
 
   if (get_wflags(pEditor->pProduction_Name) & WF_RESTORE_BACKGROUND) {
     refresh_widget_background(pEditor->pProduction_Name);
@@ -1018,7 +1018,7 @@ static void refresh_worklist_count_label(void)
   widget_undraw(pEditor->pWorkList_Counter);
   remake_label_size(pEditor->pWorkList_Counter);
 
-  pEditor->pWorkList_Counter->size.x = pEditor->pEndWidgetList->area.x +
+  pEditor->pWorkList_Counter->size.x = pEditor->end_widget_list->area.x +
     (adj_size(130) - pEditor->pWorkList_Counter->size.w)/2;
 
   if (get_wflags(pEditor->pWorkList_Counter) & WF_RESTORE_BACKGROUND) {
@@ -1028,11 +1028,11 @@ static void refresh_worklist_count_label(void)
   widget_redraw(pEditor->pWorkList_Counter);
 
   /* Can't just widget_mark_dirty(), as it may have reduced in size */
-  area.x = pEditor->pEndWidgetList->area.x;  /* left edge of client area */
+  area.x = pEditor->end_widget_list->area.x;  /* left edge of client area */
   area.y = pEditor->pWorkList_Counter->size.y;
   area.w = adj_size(130);
   area.h = pEditor->pWorkList_Counter->size.h;
-  layer_rect_to_screen_rect(pEditor->pEndWidgetList->dst, &area);
+  layer_rect_to_screen_rect(pEditor->end_widget_list->dst, &area);
   dirty_sdl_rect(&area);
 }
 
@@ -1106,7 +1106,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pEditor->pEndWidgetList = pwindow;
+  pEditor->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -1237,7 +1237,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pEditor->pWork->pScroll->step = 1;
 
 /* FIXME: this should replace the 4 lines above, but
- *        pEditor->pWork->pEndWidgetList is not set yet */
+ *        pEditor->pWork->end_widget_list is not set yet */
 #if 0
   create_vertical_scrollbar(pEditor->pWork, 1, MAX_LEN_WORKLIST, TRUE, TRUE);
 #endif /* 0 */
@@ -1254,10 +1254,10 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
     add_to_gui_list(MAX_ID - cid_encode(pCity->production), pBuf);
 
-    pEditor->pWork->pEndWidgetList = pBuf;
-    pEditor->pWork->pBeginWidgetList = pBuf;
-    pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->pEndWidgetList;
-    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->pBeginWidgetList;
+    pEditor->pWork->end_widget_list = pBuf;
+    pEditor->pWork->begin_widget_list = pBuf;
+    pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->end_widget_list;
+    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->begin_widget_list;
     pEditor->pWork->pScroll->count++;
   }
 
@@ -1299,16 +1299,16 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   if (count) {
     if (!pCity) {
-      pEditor->pWork->pEndWidgetList = pLast->prev;
-      pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->pEndWidgetList;
+      pEditor->pWork->end_widget_list = pLast->prev;
+      pEditor->pWork->pEndActiveWidgetList = pEditor->pWork->end_widget_list;
     }
-    pEditor->pWork->pBeginWidgetList = pBuf;
-    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->pBeginWidgetList;
+    pEditor->pWork->begin_widget_list = pBuf;
+    pEditor->pWork->pBeginActiveWidgetList = pEditor->pWork->begin_widget_list;
   } else {
     if (!pCity) {
-      pEditor->pWork->pEndWidgetList = pLast;
+      pEditor->pWork->end_widget_list = pLast;
     }
-    pEditor->pWork->pBeginWidgetList = pLast;
+    pEditor->pWork->begin_widget_list = pLast;
   }
 
 /* FIXME */
@@ -1334,7 +1334,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 #endif /* 0 */
 
   pEditor->pWork->pScroll->count += count;
-  pLast = pEditor->pWork->pBeginWidgetList;
+  pLast = pEditor->pWork->begin_widget_list;
 
   /* --------------------------- */
   /* global worklists */
@@ -1361,10 +1361,10 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
     if (count) {
       pEditor->pGlobal = fc_calloc(1, sizeof(struct advanced_dialog));
-      pEditor->pGlobal->pEndWidgetList = pLast->prev;
-      pEditor->pGlobal->pEndActiveWidgetList = pEditor->pGlobal->pEndWidgetList;
-      pEditor->pGlobal->pBeginWidgetList = pBuf;
-      pEditor->pGlobal->pBeginActiveWidgetList = pEditor->pGlobal->pBeginWidgetList;
+      pEditor->pGlobal->end_widget_list = pLast->prev;
+      pEditor->pGlobal->pEndActiveWidgetList = pEditor->pGlobal->end_widget_list;
+      pEditor->pGlobal->begin_widget_list = pBuf;
+      pEditor->pGlobal->pBeginActiveWidgetList = pEditor->pGlobal->begin_widget_list;
 
       if (count > 6) {
         pEditor->pGlobal->pActiveWidgetList = pEditor->pGlobal->pEndActiveWidgetList;
@@ -1381,7 +1381,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
         } while (pTmp != pBuf);
       }
 
-      pLast = pEditor->pGlobal->pBeginWidgetList;
+      pLast = pEditor->pGlobal->begin_widget_list;
     }
   }
   /* ----------------------------- */
@@ -1649,10 +1649,10 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 
   pEditor->pTargets = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pEditor->pTargets->pEndWidgetList = pLast->prev;
-  pEditor->pTargets->pBeginWidgetList = pBuf;
-  pEditor->pTargets->pEndActiveWidgetList = pEditor->pTargets->pEndWidgetList;
-  pEditor->pTargets->pBeginActiveWidgetList = pEditor->pTargets->pBeginWidgetList;
+  pEditor->pTargets->end_widget_list = pLast->prev;
+  pEditor->pTargets->begin_widget_list = pBuf;
+  pEditor->pTargets->pEndActiveWidgetList = pEditor->pTargets->end_widget_list;
+  pEditor->pTargets->pBeginActiveWidgetList = pEditor->pTargets->begin_widget_list;
   pEditor->pTargets->pActiveWidgetList = pEditor->pTargets->pEndActiveWidgetList;
 
   /* --------------- */
@@ -1664,7 +1664,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   }
   /* --------------- */
 
-  pEditor->pBeginWidgetList = pEditor->pTargets->pBeginWidgetList;
+  pEditor->begin_widget_list = pEditor->pTargets->begin_widget_list;
 
   /* Window */
   area.w = MAX(area.w, widget_w * TARGETS_COL + count + adj_size(130));
@@ -1771,8 +1771,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                                     area.x + adj_size(2), area.y + adj_size(152)
           /* + ((pEditor->pWork->pScroll->count > pEditor->pWork->pScroll->active + 2) ?
              pEditor->pWork->pScroll->pUp_Left_Button->size.h + 1 : 0)*/,
-                                    adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
-                                    pEditor->pWork->pEndWidgetList);
+                                    adj_size(126), 0, pEditor->pWork->begin_widget_list,
+                                    pEditor->pWork->end_widget_list);
 
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
 	area.x + adj_size(2),
@@ -1787,8 +1787,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                                     area.y + adj_size(384) +
                                     (pEditor->pGlobal->pScroll ?
                                      pEditor->pGlobal->pScroll->pUp_Left_Button->size.h + 1 : 0),
-                                    adj_size(122), 0, pEditor->pGlobal->pBeginWidgetList,
-                                    pEditor->pGlobal->pEndWidgetList);
+                                    adj_size(122), 0, pEditor->pGlobal->begin_widget_list,
+                                    pEditor->pGlobal->end_widget_list);
 
     if (pEditor->pGlobal->pScroll) {
       setup_vertical_scrollbar_area(pEditor->pGlobal->pScroll,
@@ -1802,8 +1802,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   /* Targets */
   setup_vertical_widgets_position(TARGETS_COL,
                                   area.x + adj_size(130), area.y,
-                                  0, 0, pEditor->pTargets->pBeginWidgetList,
-                                  pEditor->pTargets->pEndWidgetList);
+                                  0, 0, pEditor->pTargets->begin_widget_list,
+                                  pEditor->pTargets->end_widget_list);
 
   if (pEditor->pTargets->pScroll) {
     setup_vertical_scrollbar_area(pEditor->pTargets->pScroll,
@@ -1817,7 +1817,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   FREEUTF8STR(pstr);
   FREESURFACE(pMain);
 
-  redraw_group(pEditor->pBeginWidgetList, pwindow, 0);
+  redraw_group(pEditor->begin_widget_list, pwindow, 0);
   widget_flush(pwindow);
 }
 
@@ -1827,8 +1827,8 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
 void popdown_worklist_editor(void)
 {
   if (pEditor) {
-    popdown_window_group_dialog(pEditor->pBeginWidgetList,
-                                pEditor->pEndWidgetList);
+    popdown_window_group_dialog(pEditor->begin_widget_list,
+                                pEditor->end_widget_list);
     FC_FREE(pEditor->pTargets->pScroll);
     FC_FREE(pEditor->pTargets);
 

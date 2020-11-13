@@ -63,7 +63,7 @@ static void update_goto_dialog(void);
 static int goto_dialog_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pGotoDlg->pBeginWidgetList, pwindow);
+    move_window_group(pGotoDlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -142,11 +142,11 @@ static void update_goto_dialog(void)
 
   if (pGotoDlg->pEndActiveWidgetList) {
     add_dock = pGotoDlg->pEndActiveWidgetList->next;
-    pGotoDlg->pBeginWidgetList = add_dock;
+    pGotoDlg->begin_widget_list = add_dock;
     del_group(pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
     pGotoDlg->pActiveWidgetList = NULL;
   } else {
-    add_dock = pGotoDlg->pBeginWidgetList;
+    add_dock = pGotoDlg->begin_widget_list;
   }
 
   pLast = add_dock;
@@ -174,7 +174,7 @@ static void update_goto_dialog(void)
         logo = crop_visible_part_from_surface(logo);
       }
 
-      pBuf = create_iconlabel(logo, pGotoDlg->pEndWidgetList->dst, pstr,
+      pBuf = create_iconlabel(logo, pGotoDlg->end_widget_list->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
@@ -205,16 +205,16 @@ static void update_goto_dialog(void)
   } players_iterate_end;
 
   if (n > 0) {
-    pGotoDlg->pBeginWidgetList = pBuf;
+    pGotoDlg->begin_widget_list = pBuf;
 
-    pGotoDlg->pBeginActiveWidgetList = pGotoDlg->pBeginWidgetList;
+    pGotoDlg->pBeginActiveWidgetList = pGotoDlg->begin_widget_list;
     pGotoDlg->pEndActiveWidgetList = pLast->prev;
     pGotoDlg->pActiveWidgetList = pGotoDlg->pEndActiveWidgetList;
     pGotoDlg->pScroll->count = n;
 
     if (n > pGotoDlg->pScroll->active) {
       show_scrollbar(pGotoDlg->pScroll);
-      pGotoDlg->pScroll->pScrollBar->size.y = pGotoDlg->pEndWidgetList->area.y +
+      pGotoDlg->pScroll->pScrollBar->size.y = pGotoDlg->end_widget_list->area.y +
         pGotoDlg->pScroll->pUp_Left_Button->size.h;
       pGotoDlg->pScroll->pScrollBar->size.h = scrollbar_size(pGotoDlg->pScroll);
     } else {
@@ -222,10 +222,10 @@ static void update_goto_dialog(void)
     }
 
     setup_vertical_widgets_position(1,
-                                    pGotoDlg->pEndWidgetList->area.x,
-                                    pGotoDlg->pEndWidgetList->area.y,
+                                    pGotoDlg->end_widget_list->area.x,
+                                    pGotoDlg->end_widget_list->area.y,
                                     pGotoDlg->pScroll->pUp_Left_Button->size.x -
-                                    pGotoDlg->pEndWidgetList->area.x - adj_size(2),
+                                    pGotoDlg->end_widget_list->area.x - adj_size(2),
                                     0, pGotoDlg->pBeginActiveWidgetList,
                                     pGotoDlg->pEndActiveWidgetList);
 
@@ -234,8 +234,8 @@ static void update_goto_dialog(void)
   }
 
   /* redraw */
-  redraw_group(pGotoDlg->pBeginWidgetList, pGotoDlg->pEndWidgetList, 0);
-  widget_flush(pGotoDlg->pEndWidgetList);
+  redraw_group(pGotoDlg->begin_widget_list, pGotoDlg->end_widget_list, 0);
+  widget_flush(pGotoDlg->end_widget_list);
 }
 
 /**********************************************************************//**
@@ -266,7 +266,7 @@ static void popup_goto_airlift_dialog(void)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pGotoDlg->pEndWidgetList = pwindow;
+  pGotoDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -316,7 +316,7 @@ static void popup_goto_airlift_dialog(void)
     col++;
   } players_iterate_end;
 
-  pGotoDlg->pBeginWidgetList = pBuf;
+  pGotoDlg->begin_widget_list = pBuf;
 
   create_vertical_scrollbar(pGotoDlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
   hide_scrollbar(pGotoDlg->pScroll);
@@ -365,7 +365,7 @@ static void popup_goto_airlift_dialog(void)
       x += pBuf->size.w + adj_size(5);
     }
 
-    if (pBuf == pGotoDlg->pBeginWidgetList) {
+    if (pBuf == pGotoDlg->begin_widget_list) {
       break;
     }
 
@@ -418,8 +418,8 @@ void popup_airlift_dialog(void)
 void popdown_goto_airlift_dialog(void)
 {
   if (pGotoDlg) {
-    popdown_window_group_dialog(pGotoDlg->pBeginWidgetList,
-                                pGotoDlg->pEndWidgetList);
+    popdown_window_group_dialog(pGotoDlg->begin_widget_list,
+                                pGotoDlg->end_widget_list);
     FC_FREE(pGotoDlg->pScroll);
     FC_FREE(pGotoDlg);
   }

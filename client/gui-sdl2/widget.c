@@ -570,7 +570,7 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
 }
 
 /**********************************************************************//**
-  Find ID in MAIN Widget's List ( pBeginWidgetList ) and return pointer to
+  Find ID in MAIN Widget's List ( begin_widget_list ) and return pointer to
   this Widgets.
 **************************************************************************/
 struct widget *get_widget_pointer_form_main_list(Uint16 ID)
@@ -579,7 +579,7 @@ struct widget *get_widget_pointer_form_main_list(Uint16 ID)
 }
 
 /**********************************************************************//**
-  Add Widget to Main Widget's List ( pBeginWidgetList )
+  Add Widget to Main Widget's List ( begin_widget_list )
 **************************************************************************/
 void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 {
@@ -611,7 +611,7 @@ void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock)
 }
 
 /**********************************************************************//**
-  Delete Widget from Main Widget's List ( pBeginWidgetList )
+  Delete Widget from Main Widget's List ( begin_widget_list )
 
   NOTE: This function does not destroy Widget, only remove his pointer from
   list. To destroy this Widget totaly ( free mem... ) call macro:
@@ -993,11 +993,11 @@ void popdown_window_group_dialog(struct widget *begin_group_widget_list,
   Select Window Group. (move widget group up the widgets list)
   Function return TRUE when group was selected.
 **************************************************************************/
-bool select_window_group_dialog(struct widget *pBeginWidgetList,
+bool select_window_group_dialog(struct widget *begin_widget_list,
                                 struct widget *pwindow)
 {
-  if (!is_this_widget_first_on_list(pBeginWidgetList)) {
-    move_group_to_front_of_gui_list(pBeginWidgetList, pwindow);
+  if (!is_this_widget_first_on_list(begin_widget_list)) {
+    move_group_to_front_of_gui_list(begin_widget_list, pwindow);
 
     return TRUE;
   }
@@ -1034,13 +1034,13 @@ bool move_window_group_dialog(struct widget *begin_group_widget_list,
   if move then move window and redraw else
   if not on fron then move window up to list and redraw.
 **************************************************************************/
-void move_window_group(struct widget *pBeginWidgetList, struct widget *pwindow)
+void move_window_group(struct widget *begin_widget_list, struct widget *pwindow)
 {
-  if (select_window_group_dialog(pBeginWidgetList, pwindow)) {
+  if (select_window_group_dialog(begin_widget_list, pwindow)) {
     widget_flush(pwindow);
   }
 
-  move_window_group_dialog(pBeginWidgetList, pwindow);
+  move_window_group_dialog(begin_widget_list, pwindow);
 }
 
 /**********************************************************************//**

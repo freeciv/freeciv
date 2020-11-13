@@ -152,7 +152,7 @@ static void show_main_page(void)
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pStartMenu->pEndWidgetList = pwindow;
+  pStartMenu->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -290,7 +290,7 @@ static void show_main_page(void)
   h = MAX(h, pwidget->size.h);
   count++;
 
-  pStartMenu->pBeginWidgetList = pwidget;
+  pStartMenu->begin_widget_list = pwidget;
 
   /* ------*/
 
@@ -323,7 +323,7 @@ static void show_main_page(void)
 
   draw_intro_gfx();
 
-  redraw_group(pStartMenu->pBeginWidgetList, pStartMenu->pEndWidgetList, FALSE);
+  redraw_group(pStartMenu->begin_widget_list, pStartMenu->end_widget_list, FALSE);
 
   create_line(pwindow->dst->surface,
               area.x, area.y + (h * 2 - 1),
@@ -357,8 +357,8 @@ static void show_main_page(void)
 static void popdown_start_menu(void)
 {
   if (pStartMenu) {
-    popdown_window_group_dialog(pStartMenu->pBeginWidgetList,
-                                pStartMenu->pEndWidgetList);
+    popdown_window_group_dialog(pStartMenu->begin_widget_list,
+                                pStartMenu->end_widget_list);
     FC_FREE(pStartMenu);
     flush_dirty();
   }

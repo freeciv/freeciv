@@ -62,8 +62,8 @@ static void real_info_city_report_dialog_update(void);
 void city_report_dialog_popdown(void)
 {
   if (pCityRep) {
-    popdown_window_group_dialog(pCityRep->pBeginWidgetList,
-                                pCityRep->pEndWidgetList);
+    popdown_window_group_dialog(pCityRep->begin_widget_list,
+                                pCityRep->end_widget_list);
     FC_FREE(pCityRep->pScroll);
     FC_FREE(pCityRep);
 
@@ -78,7 +78,7 @@ void city_report_dialog_popdown(void)
 static int city_report_windows_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pCityRep->pBeginWidgetList, pwindow);
+    move_window_group(pCityRep->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -191,8 +191,8 @@ static void real_info_city_report_dialog_update(void)
   SDL_Rect area;
 
   if (pCityRep) {
-    popdown_window_group_dialog(pCityRep->pBeginWidgetList,
-                                pCityRep->pEndWidgetList);
+    popdown_window_group_dialog(pCityRep->begin_widget_list,
+                                pCityRep->end_widget_list);
   } else {
     pCityRep = fc_calloc(1, sizeof(struct advanced_dialog));
   }
@@ -226,7 +226,7 @@ static void real_info_city_report_dialog_update(void)
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
-  pCityRep->pEndWidgetList = pwindow;
+  pCityRep->end_widget_list = pwindow;
   set_wstate(pwindow, FC_WS_NORMAL);
   pwindow->action = city_report_windows_callback;
 
@@ -604,7 +604,7 @@ static void real_info_city_report_dialog_update(void)
   } city_list_iterate_end;
 
   H = hh;
-  pCityRep->pBeginWidgetList = pbuf;
+  pCityRep->begin_widget_list = pbuf;
   /* setup window width */
   area.w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w
     + (pIcons->pBIG_Food->w + adj_size(6)) * 10 + pText2->w + adj_size(6)
@@ -612,7 +612,7 @@ static void real_info_city_report_dialog_update(void)
 
   if (count) {
     pCityRep->pEndActiveWidgetList = pLast->prev;
-    pCityRep->pBeginActiveWidgetList = pCityRep->pBeginWidgetList;
+    pCityRep->pBeginActiveWidgetList = pCityRep->begin_widget_list;
     if (count > 14 * COL) {
       pCityRep->pActiveWidgetList = pCityRep->pEndActiveWidgetList;
       if (pCityRep->pScroll) {
@@ -942,7 +942,7 @@ static void real_info_city_report_dialog_update(void)
 
   }
   /* ----------------------------------- */
-  redraw_group(pCityRep->pBeginWidgetList, pwindow, 0);
+  redraw_group(pCityRep->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
 }
@@ -1169,8 +1169,8 @@ void real_city_report_dialog_update(void *unused)
     } city_list_iterate_end;
 
     /* -------------------------------------- */
-    redraw_group(pCityRep->pBeginWidgetList, pCityRep->pEndWidgetList, 0);
-    widget_mark_dirty(pCityRep->pEndWidgetList);
+    redraw_group(pCityRep->begin_widget_list, pCityRep->end_widget_list, 0);
+    widget_mark_dirty(pCityRep->end_widget_list);
 
     flush_dirty();
   }
@@ -1196,8 +1196,8 @@ void real_city_report_update_city(struct city *pCity)
     real_city_report_dialog_update_city(pBuf, pCity);
 
     /* -------------------------------------- */
-    redraw_group(pCityRep->pBeginWidgetList, pCityRep->pEndWidgetList, 0);
-    widget_mark_dirty(pCityRep->pEndWidgetList);
+    redraw_group(pCityRep->begin_widget_list, pCityRep->end_widget_list, 0);
+    widget_mark_dirty(pCityRep->end_widget_list);
 
     flush_dirty();
   }

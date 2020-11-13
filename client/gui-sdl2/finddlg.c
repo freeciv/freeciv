@@ -55,7 +55,7 @@ static struct advanced_dialog *pFind_City_Dlg = NULL;
 static int find_city_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pFind_City_Dlg->pBeginWidgetList, pwindow);
+    move_window_group(pFind_City_Dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -106,8 +106,8 @@ static int find_city_callback(struct widget *pwidget)
 void popdown_find_dialog(void)
 {
   if (pFind_City_Dlg) {
-    popdown_window_group_dialog(pFind_City_Dlg->pBeginWidgetList,
-                                pFind_City_Dlg->pEndWidgetList);
+    popdown_window_group_dialog(pFind_City_Dlg->begin_widget_list,
+                                pFind_City_Dlg->end_widget_list);
     FC_FREE(pFind_City_Dlg->pScroll);
     FC_FREE(pFind_City_Dlg);
     enable_and_redraw_find_city_button();
@@ -155,7 +155,7 @@ void popup_find_dialog(void)
   set_wstate(pwindow , FC_WS_NORMAL);
 
   add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pwindow);
-  pFind_City_Dlg->pEndWidgetList = pwindow;
+  pFind_City_Dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -220,8 +220,8 @@ void popup_find_dialog(void)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  pFind_City_Dlg->pBeginWidgetList = pBuf;
-  pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->pBeginWidgetList;
+  pFind_City_Dlg->begin_widget_list = pBuf;
+  pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->begin_widget_list;
   pFind_City_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
   pFind_City_Dlg->pActiveWidgetList = pFind_City_Dlg->pEndActiveWidgetList;
 
@@ -290,7 +290,7 @@ void popup_find_dialog(void)
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pFind_City_Dlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(pFind_City_Dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();

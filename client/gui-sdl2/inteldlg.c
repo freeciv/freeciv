@@ -101,7 +101,7 @@ static int intel_window_dlg_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     struct intel_dialog *pSelectedDialog = get_intel_dialog(pwindow->data.player);
 
-    move_window_group(pSelectedDialog->pdialog->pBeginWidgetList, pwindow);
+    move_window_group(pSelectedDialog->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -182,8 +182,8 @@ void popup_intel_dialog(struct player *p)
     pdialog = create_intel_dialog(p);
   } else {
     /* bring existing dialog to front */
-    select_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-                               pdialog->pdialog->pEndWidgetList);
+    select_window_group_dialog(pdialog->pdialog->begin_widget_list,
+                               pdialog->pdialog->end_widget_list);
   }
 
   update_intel_dialog(p);
@@ -197,8 +197,8 @@ void popdown_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
 
   if (pdialog) {
-    popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-                                pdialog->pdialog->pEndWidgetList);
+    popdown_window_group_dialog(pdialog->pdialog->begin_widget_list,
+                                pdialog->pdialog->end_widget_list);
 
     dialog_list_remove(dialog_list, pdialog);
 
@@ -239,12 +239,12 @@ void update_intel_dialog(struct player *p)
 
   if (pdialog) {
     /* save window position and delete old content */
-    if (pdialog->pdialog->pEndWidgetList) {
-      pdialog->pos_x = pdialog->pdialog->pEndWidgetList->size.x;
-      pdialog->pos_y = pdialog->pdialog->pEndWidgetList->size.y;
+    if (pdialog->pdialog->end_widget_list) {
+      pdialog->pos_x = pdialog->pdialog->end_widget_list->size.x;
+      pdialog->pos_y = pdialog->pdialog->end_widget_list->size.y;
 
-      popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
-                                  pdialog->pdialog->pEndWidgetList);
+      popdown_window_group_dialog(pdialog->pdialog->begin_widget_list,
+                                  pdialog->pdialog->end_widget_list);
     }
 
     pstr = create_utf8_from_char(_("Foreign Intelligence Report") , adj_font(12));
@@ -257,7 +257,7 @@ void update_intel_dialog(struct player *p)
     pwindow->data.player = p;
 
     add_to_gui_list(ID_WINDOW, pwindow);
-    pdialog->pdialog->pEndWidgetList = pwindow;
+    pdialog->pdialog->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -395,11 +395,11 @@ void update_intel_dialog(struct player *p)
       }
     } advance_index_iterate_end;
 
-    pdialog->pdialog->pBeginWidgetList = pBuf;
+    pdialog->pdialog->begin_widget_list = pBuf;
 
     if (n > 0) {
       pdialog->pdialog->pEndActiveWidgetList = pLast->prev;
-      pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->pBeginWidgetList;
+      pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->begin_widget_list;
       if (n > 2 * col) {
         pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
@@ -475,7 +475,7 @@ void update_intel_dialog(struct player *p)
       }
     }
 
-    redraw_group(pdialog->pdialog->pBeginWidgetList, pdialog->pdialog->pEndWidgetList, 0);
+    redraw_group(pdialog->pdialog->begin_widget_list, pdialog->pdialog->end_widget_list, 0);
     widget_mark_dirty(pwindow);
 
     flush_dirty();

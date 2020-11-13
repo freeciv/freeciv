@@ -172,14 +172,14 @@ struct widget {
 
 /* Struct of basic window group dialog ( without scrollbar ) */
 struct small_dialog {
-  struct widget *pBeginWidgetList;
-  struct widget *pEndWidgetList;	/* window */
+  struct widget *begin_widget_list;
+  struct widget *end_widget_list;	/* window */
 };
 
 /* Struct of advenced window group dialog ( with scrollbar ) */
 struct advanced_dialog {
-  struct widget *pBeginWidgetList;
-  struct widget *pEndWidgetList;/* window */
+  struct widget *begin_widget_list;
+  struct widget *end_widget_list; /* window */
 
   struct widget *pBeginActiveWidgetList;
   struct widget *pEndActiveWidgetList;
@@ -357,11 +357,11 @@ void group_set_area(struct widget *begin_group_widget_list,
 void popdown_window_group_dialog(struct widget *begin_group_widget_list,
                                  struct widget *end_group_widget_list);
 
-bool select_window_group_dialog(struct widget *pBeginWidgetList,
+bool select_window_group_dialog(struct widget *begin_widget_list,
                                 struct widget *pwindow);
 bool move_window_group_dialog(struct widget *begin_group_widget_list,
                               struct widget *end_group_widget_list);
-void move_window_group(struct widget *pBeginWidgetList, struct widget *pwindow);
+void move_window_group(struct widget *begin_widget_list, struct widget *pwindow);
 
 int setup_vertical_widgets_position(int step,
                                     Sint16 start_x, Sint16 start_y,

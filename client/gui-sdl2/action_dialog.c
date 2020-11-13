@@ -187,7 +187,7 @@ static action_id get_production_targeted_action_id(action_id tgt_action_id)
 static int diplomat_dlg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow);
+    move_window_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -265,7 +265,7 @@ static int spy_sabotage_esc_request(struct widget *pwidget)
 static int spy_steal_dlg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow);
+    move_window_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -302,7 +302,7 @@ static int spy_steal_callback(struct widget *pwidget)
       if (steal_advance == A_UNSET) {
         /* This is the untargeted version. */
         request_do_action(get_non_targeted_action_id(
-                            pDiplomat_Dlg->act_id),
+                          pDiplomat_Dlg->act_id),
                           pDiplomat_Dlg->actor_unit_id,
                           pDiplomat_Dlg->target_ids[ATK_CITY],
                           steal_advance, "");
@@ -402,7 +402,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   set_wstate(pwindow , FC_WS_NORMAL);
 
   add_to_gui_list(ID_DIPLOMAT_DLG_WINDOW, pwindow);
-  pDiplomat_Dlg->pdialog->pEndWidgetList = pwindow;
+  pDiplomat_Dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
   area.w = MAX(area.w, adj_size(8));
@@ -508,9 +508,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
 
   /* --------------------------------------------------------- */
   FREEUTF8STR(pstr);
-  pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
-  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pDiplomat_Dlg->pdialog->pBeginWidgetList;
-  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pDiplomat_Dlg->pdialog->pEndWidgetList->prev->prev;
+  pDiplomat_Dlg->pdialog->begin_widget_list = pBuf;
+  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pDiplomat_Dlg->pdialog->begin_widget_list;
+  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pDiplomat_Dlg->pdialog->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -559,7 +559,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     	area.h, TRUE);
   }
 
-  redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow, FALSE);
+  redraw_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow, FALSE);
   widget_mark_dirty(pwindow);
 
   return -1;
@@ -848,8 +848,8 @@ void popdown_diplomat_dialog(void)
     act_sel_done_primary(pDiplomat_Dlg->actor_unit_id);
 
     is_unit_move_blocked = FALSE;
-    popdown_window_group_dialog(pDiplomat_Dlg->pdialog->pBeginWidgetList,
-				pDiplomat_Dlg->pdialog->pEndWidgetList);
+    popdown_window_group_dialog(pDiplomat_Dlg->pdialog->begin_widget_list,
+				pDiplomat_Dlg->pdialog->end_widget_list);
     FC_FREE(pDiplomat_Dlg->pdialog->pScroll);
     FC_FREE(pDiplomat_Dlg->pdialog);
     FC_FREE(pDiplomat_Dlg);
@@ -1003,7 +1003,7 @@ void popup_action_selection(struct unit *actor_unit,
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_CARAVAN_DLG_WINDOW, pwindow);
-  pDiplomat_Dlg->pdialog->pEndWidgetList = pwindow;
+  pDiplomat_Dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
   area.w = MAX(area.w, adj_size(8));
@@ -1137,7 +1137,7 @@ void popup_action_selection(struct unit *actor_unit,
   area.w = MAX(area.w, pBuf->size.w);
   area.h += pBuf->size.h;
   /* ---------- */
-  pDiplomat_Dlg->pdialog->pBeginWidgetList = pBuf;
+  pDiplomat_Dlg->pdialog->begin_widget_list = pBuf;
 
   /* setup window size and start position */
 
@@ -1157,11 +1157,11 @@ void popup_action_selection(struct unit *actor_unit,
   setup_vertical_widgets_position(1,
 	area.x,
   	area.y + 1, area.w, 0,
-	pDiplomat_Dlg->pdialog->pBeginWidgetList, pBuf);
+	pDiplomat_Dlg->pdialog->begin_widget_list, pBuf);
 
   /* --------------------- */
   /* redraw */
-  redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow, 0);
+  redraw_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 
@@ -1360,7 +1360,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pwindow);
-  pDiplomat_Dlg->pdialog->pEndWidgetList = pwindow;
+  pDiplomat_Dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
   area.h = MAX(area.h, adj_size(2));
@@ -1460,7 +1460,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   /* ----------- */
 
   pLast = pBuf;
-  pDiplomat_Dlg->pdialog->pBeginWidgetList = pLast;
+  pDiplomat_Dlg->pdialog->begin_widget_list = pLast;
   pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
 
   /* ---------- */
@@ -1550,7 +1550,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pDiplomat_Dlg->pdialog->pBeginWidgetList, pwindow, 0);
+  redraw_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 }
@@ -1566,7 +1566,7 @@ static struct small_diplomat_dialog *pIncite_Dlg = NULL;
 static int incite_dlg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pIncite_Dlg->pdialog->pBeginWidgetList, pwindow);
+    move_window_group(pIncite_Dlg->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -1612,8 +1612,8 @@ void popdown_incite_dialog(void)
     act_sel_done_secondary(pIncite_Dlg->actor_unit_id);
 
     is_unit_move_blocked = FALSE;
-    popdown_window_group_dialog(pIncite_Dlg->pdialog->pBeginWidgetList,
-				pIncite_Dlg->pdialog->pEndWidgetList);
+    popdown_window_group_dialog(pIncite_Dlg->pdialog->begin_widget_list,
+				pIncite_Dlg->pdialog->end_widget_list);
     FC_FREE(pIncite_Dlg->pdialog);
     FC_FREE(pIncite_Dlg);
     flush_dirty();
@@ -1669,7 +1669,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_INCITE_DLG_WINDOW, pwindow);
-  pIncite_Dlg->pdialog->pEndWidgetList = pwindow;
+  pIncite_Dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
   area.w  =MAX(area.w, adj_size(8));
@@ -1782,7 +1782,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
   }
-  pIncite_Dlg->pdialog->pBeginWidgetList = pBuf;
+  pIncite_Dlg->pdialog->begin_widget_list = pBuf;
 
   /* setup window size and start position */
 
@@ -1810,11 +1810,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
   setup_vertical_widgets_position(1,
 	area.x,
   	area.y + 1, area.w, 0,
-	pIncite_Dlg->pdialog->pBeginWidgetList, pBuf);
+	pIncite_Dlg->pdialog->begin_widget_list, pBuf);
 
   /* --------------------- */
   /* redraw */
-  redraw_group(pIncite_Dlg->pdialog->pBeginWidgetList, pwindow, 0);
+  redraw_group(pIncite_Dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 }
@@ -1830,7 +1830,7 @@ static struct small_diplomat_dialog *pBribe_Dlg = NULL;
 static int bribe_dlg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pBribe_Dlg->pdialog->pBeginWidgetList, pwindow);
+    move_window_group(pBribe_Dlg->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -1875,8 +1875,8 @@ void popdown_bribe_dialog(void)
     act_sel_done_secondary(pBribe_Dlg->actor_unit_id);
 
     is_unit_move_blocked = FALSE;
-    popdown_window_group_dialog(pBribe_Dlg->pdialog->pBeginWidgetList,
-                                pBribe_Dlg->pdialog->pEndWidgetList);
+    popdown_window_group_dialog(pBribe_Dlg->pdialog->begin_widget_list,
+                                pBribe_Dlg->pdialog->end_widget_list);
     FC_FREE(pBribe_Dlg->pdialog);
     FC_FREE(pBribe_Dlg);
     flush_dirty();
@@ -1932,7 +1932,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_BRIBE_DLG_WINDOW, pwindow);
-  pBribe_Dlg->pdialog->pEndWidgetList = pwindow;
+  pBribe_Dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
   area.w = MAX(area.w, adj_size(8));
@@ -2010,7 +2010,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
     area.w = MAX(area.w, pBuf->size.w);
     area.h += pBuf->size.h;
   }
-  pBribe_Dlg->pdialog->pBeginWidgetList = pBuf;
+  pBribe_Dlg->pdialog->begin_widget_list = pBuf;
 
   /* setup window size and start position */
 
@@ -2038,11 +2038,11 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
   setup_vertical_widgets_position(1,
 	area.x,
   	area.y + 1, area.w, 0,
-	pBribe_Dlg->pdialog->pBeginWidgetList, pBuf);
+	pBribe_Dlg->pdialog->begin_widget_list, pBuf);
 
   /* --------------------- */
   /* redraw */
-  redraw_group(pBribe_Dlg->pdialog->pBeginWidgetList, pwindow, 0);
+  redraw_group(pBribe_Dlg->pdialog->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 }

@@ -108,8 +108,8 @@ void popup_help_dialog_typed(const char *item, enum help_page_type eHPT)
 void popdown_help_dialog(void)
 {
   if (pHelpDlg) {
-    popdown_window_group_dialog(pHelpDlg->pBeginWidgetList,
-                                pHelpDlg->pEndWidgetList);
+    popdown_window_group_dialog(pHelpDlg->begin_widget_list,
+                                pHelpDlg->end_widget_list);
     FC_FREE(pHelpDlg->pScroll);
     FC_FREE(pHelpDlg);
     current_help_dlg = HELP_LAST;
@@ -174,7 +174,7 @@ static int change_impr_callback(struct widget *pwidget)
 static void redraw_impr_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  struct widget *pwindow = pHelpDlg->pEndWidgetList;
+  struct widget *pwindow = pHelpDlg->end_widget_list;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pwindow->data.ptr;
   SDL_Rect dst;
 
@@ -192,7 +192,7 @@ static void redraw_impr_info_dlg(void)
                get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
-  redraw_group(pHelpDlg->pBeginWidgetList, pwindow->prev->prev, FALSE);
+  redraw_group(pHelpDlg->begin_widget_list, pwindow->prev->prev, FALSE);
   widget_flush(pwindow);
 }
 
@@ -252,7 +252,7 @@ void popup_impr_info(Impr_type_id impr)
     pwindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pwindow);
 
-    pHelpDlg->pEndWidgetList = pwindow;
+    pHelpDlg->end_widget_list = pwindow;
 
     area = pwindow->area;
     /* ------------------ */
@@ -321,8 +321,8 @@ void popup_impr_info(Impr_type_id impr)
     FREESURFACE(background_tmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = improvement_button ? improvement_button : pCloseButton;
-    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
+    pHelpDlg->begin_widget_list = improvement_button ? improvement_button : pCloseButton;
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->begin_widget_list;
 
     if (impr_type_count > 10) {
       pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
@@ -351,17 +351,17 @@ void popup_impr_info(Impr_type_id impr)
   } else {
     created = FALSE;
     scrollbar_width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w : 0);
-    pwindow = pHelpDlg->pEndWidgetList;
+    pwindow = pHelpDlg->end_widget_list;
     pStore = (struct UNITS_BUTTONS *)pwindow->data.ptr;
     pDock = pStore->pDock;
 
     area = pwindow->area;
 
     /* delete any previous list entries */
-    if (pDock != pHelpDlg->pBeginWidgetList) {
-      del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
+    if (pDock != pHelpDlg->begin_widget_list) {
+      del_group_of_widgets_from_gui_list(pHelpDlg->begin_widget_list,
                                          pDock->prev);
-      pHelpDlg->pBeginWidgetList = pDock;
+      pHelpDlg->begin_widget_list = pDock;
     }
   }
 
@@ -484,7 +484,7 @@ void popup_impr_info(Impr_type_id impr)
     text = TRUE;
   }
 
-  pHelpDlg->pBeginWidgetList = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
+  pHelpDlg->begin_widget_list = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
 
   /* --------------------------------------------------------- */
   if (created) {
@@ -590,7 +590,7 @@ static int change_unit_callback(struct widget *pwidget)
 static void redraw_unit_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  struct widget *pwindow = pHelpDlg->pEndWidgetList;
+  struct widget *pwindow = pHelpDlg->end_widget_list;
   struct UNITS_BUTTONS *pStore = (struct UNITS_BUTTONS *)pwindow->data.ptr;
   SDL_Rect dst;
 
@@ -608,7 +608,7 @@ static void redraw_unit_info_dlg(void)
                get_theme_color(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
-  redraw_group(pHelpDlg->pBeginWidgetList, pwindow->prev->prev, FALSE);
+  redraw_group(pHelpDlg->begin_widget_list, pwindow->prev->prev, FALSE);
   widget_flush(pwindow);
 }
 
@@ -667,7 +667,7 @@ void popup_unit_info(Unit_type_id type_id)
     pwindow->data.ptr = (void *)pStore;
     add_to_gui_list(ID_WINDOW, pwindow);
 
-    pHelpDlg->pEndWidgetList = pwindow;
+    pHelpDlg->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -739,8 +739,8 @@ void popup_unit_info(Unit_type_id type_id)
     FREESURFACE(background_tmpl);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = pUnitButton ? pUnitButton : pCloseButton;
-    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
+    pHelpDlg->begin_widget_list = pUnitButton ? pUnitButton : pCloseButton;
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->begin_widget_list;
 
     if (utype_count > 10) {
       pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
@@ -767,17 +767,17 @@ void popup_unit_info(Unit_type_id type_id)
   } else {
     created = FALSE;
     scrollbar_width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w : 0);
-    pwindow = pHelpDlg->pEndWidgetList;
+    pwindow = pHelpDlg->end_widget_list;
     pStore = (struct UNITS_BUTTONS *)pwindow->data.ptr;
     pDock = pStore->pDock;
 
     area = pwindow->area;
 
     /* delete any previous list entries */
-    if (pDock != pHelpDlg->pBeginWidgetList) {
-      del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList,
+    if (pDock != pHelpDlg->begin_widget_list) {
+      del_group_of_widgets_from_gui_list(pHelpDlg->begin_widget_list,
                                          pDock->prev);
-      pHelpDlg->pBeginWidgetList = pDock;
+      pHelpDlg->begin_widget_list = pDock;
     }
   }
 
@@ -915,7 +915,7 @@ void popup_unit_info(Unit_type_id type_id)
     text = TRUE;
   }
 
-  pHelpDlg->pBeginWidgetList = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
+  pHelpDlg->begin_widget_list = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
 
   /* --------------------------------------------------------- */
   if (created) {
@@ -1015,7 +1015,7 @@ static int change_tech_callback(struct widget *pwidget)
 static int show_tech_tree_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
+    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->end_widget_list->data.ptr;
 
     pStore->show_tree = !pStore->show_tree;
     if (!pStore->show_tree) {
@@ -1034,7 +1034,7 @@ static int show_tech_tree_callback(struct widget *pwidget)
 static void redraw_tech_info_dlg(void)
 {
   SDL_Color bg_color = {255, 255, 255, 64};
-  struct widget *pwindow = pHelpDlg->pEndWidgetList;
+  struct widget *pwindow = pHelpDlg->end_widget_list;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pwindow->data.ptr;
   SDL_Surface *pText0, *pText1 = NULL;
   utf8_str *pstr;
@@ -1097,7 +1097,7 @@ static void redraw_tech_info_dlg(void)
   }
   FREEUTF8STR(pstr);
 
-  redraw_group(pHelpDlg->pBeginWidgetList, pwindow->prev->prev, FALSE);
+  redraw_group(pHelpDlg->begin_widget_list, pwindow->prev->prev, FALSE);
   widget_flush(pwindow);
 }
 
@@ -1386,7 +1386,7 @@ static void redraw_tech_tree_dlg(void)
 {
   SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
   SDL_Color bg_color = {255, 255, 255, 64};
-  struct widget *pwindow = pHelpDlg->pEndWidgetList;
+  struct widget *pwindow = pHelpDlg->end_widget_list;
   struct widget *pSub0, *pSub1;
   struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pwindow->data.ptr;
   struct widget *pTech = pStore->pDock->prev;
@@ -1616,7 +1616,7 @@ static void redraw_tech_tree_dlg(void)
   }
 
   /* Redraw rest */
-  redraw_group(pHelpDlg->pBeginWidgetList, pwindow->prev->prev, FALSE);
+  redraw_group(pHelpDlg->begin_widget_list, pwindow->prev->prev, FALSE);
 
   widget_flush(pwindow);
 }
@@ -1627,7 +1627,7 @@ static void redraw_tech_tree_dlg(void)
 static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->pEndWidgetList->data.ptr;
+    struct TECHS_BUTTONS *pStore = (struct TECHS_BUTTONS *)pHelpDlg->end_widget_list->data.ptr;
 
     if (pStore->show_full_tree) {
       pwidget->theme2 = current_theme->UP_Icon;
@@ -1929,7 +1929,7 @@ void popup_tech_info(Tech_type_id tech)
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
-    pHelpDlg->pEndWidgetList = pwindow;
+    pHelpDlg->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -1977,8 +1977,8 @@ void popup_tech_info(Tech_type_id tech)
     FREEUTF8STR(pstr);
 
     pHelpDlg->pEndActiveWidgetList = pDock->prev;
-    pHelpDlg->pBeginWidgetList = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
-    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->pBeginWidgetList;
+    pHelpDlg->begin_widget_list = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
+    pHelpDlg->pBeginActiveWidgetList = pHelpDlg->begin_widget_list;
 
     if (tech_count > 10) {
       pHelpDlg->pActiveWidgetList = pHelpDlg->pEndActiveWidgetList;
@@ -2004,16 +2004,16 @@ void popup_tech_info(Tech_type_id tech)
   } else {
     created = FALSE;
     scrollbar_width = (pHelpDlg->pScroll ? pHelpDlg->pScroll->pUp_Left_Button->size.w: 0);
-    pwindow = pHelpDlg->pEndWidgetList;
+    pwindow = pHelpDlg->end_widget_list;
     pStore = (struct TECHS_BUTTONS *)pwindow->data.ptr;
     pDock = pStore->pDock;
 
     area = pwindow->area;
 
     /* delete any previous list entries */
-    if (pDock != pHelpDlg->pBeginWidgetList) {
-      del_group_of_widgets_from_gui_list(pHelpDlg->pBeginWidgetList, pDock->prev);
-      pHelpDlg->pBeginWidgetList = pDock;
+    if (pDock != pHelpDlg->begin_widget_list) {
+      del_group_of_widgets_from_gui_list(pHelpDlg->begin_widget_list, pDock->prev);
+      pHelpDlg->begin_widget_list = pDock;
     }
 
     /* show/hide techs list */
@@ -2081,10 +2081,10 @@ void popup_tech_info(Tech_type_id tech)
   }
 
   if (pStore->show_tree) {
-    pHelpDlg->pBeginWidgetList = create_tech_tree(tech, scrollbar_width, pwindow, pStore);
+    pHelpDlg->begin_widget_list = create_tech_tree(tech, scrollbar_width, pwindow, pStore);
     redraw_tech_tree_dlg();
   } else {
-    pHelpDlg->pBeginWidgetList = create_tech_info(tech, scrollbar_width, pwindow, pStore);
+    pHelpDlg->begin_widget_list = create_tech_info(tech, scrollbar_width, pwindow, pStore);
     redraw_tech_info_dlg();
   }
 }

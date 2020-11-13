@@ -305,7 +305,7 @@ void popup_connection_dialog(bool lan_scan)
   } else {
     add_to_gui_list(ID_META_SERVERS_WINDOW, pwindow);
   }
-  pMeta_Server->pEndWidgetList = pwindow;
+  pMeta_Server->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -358,9 +358,9 @@ void popup_connection_dialog(bool lan_scan)
     return;
   }
 
-  pMeta_Server->pBeginWidgetList = pNewWidget;
-  pMeta_Server->pBeginActiveWidgetList = pMeta_Server->pBeginWidgetList;
-  pMeta_Server->pEndActiveWidgetList = pMeta_Server->pEndWidgetList->prev->prev;
+  pMeta_Server->begin_widget_list = pNewWidget;
+  pMeta_Server->pBeginActiveWidgetList = pMeta_Server->begin_widget_list;
+  pMeta_Server->pEndActiveWidgetList = pMeta_Server->end_widget_list->prev->prev;
   pMeta_Server->pActiveWidgetList = pMeta_Server->pEndActiveWidgetList;
 
   if (count > 10) {
@@ -375,7 +375,7 @@ void popup_connection_dialog(bool lan_scan)
   w += adj_size(20);
   area2.h = meta_h;
 
-  meta_h += pMeta_Server->pEndWidgetList->prev->size.h + adj_size(10) + adj_size(20);
+  meta_h += pMeta_Server->end_widget_list->prev->size.h + adj_size(10) + adj_size(20);
 
   logo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
   if (resize_window(pwindow, logo, NULL, w, meta_h)) {
@@ -445,7 +445,7 @@ void popup_connection_dialog(bool lan_scan)
                area2.x - 1, area2.y - 1, area2.w, area2.h,
                get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
 
-  redraw_group(pMeta_Server->pBeginWidgetList, pwindow->prev, 0);
+  redraw_group(pMeta_Server->begin_widget_list, pwindow->prev, 0);
 
   create_frame(pwindow->dst->surface,
                pwindow->size.x, pwindow->size.y,
@@ -555,7 +555,7 @@ void popup_join_game_dialog(void)
   /* window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->pEndWidgetList = pwindow;
+  pConnectDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -631,7 +631,7 @@ void popup_join_game_dialog(void)
   area.h += pBuf->size.h + adj_size(10);
   /* ------------------------------ */
 
-  pConnectDlg->pBeginWidgetList = pBuf;
+  pConnectDlg->begin_widget_list = pBuf;
 
   dialog_w = MAX(adj_size(40) + pBuf->size.w * 2, adj_size(210)) + adj_size(80);
 
@@ -653,7 +653,7 @@ void popup_join_game_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2 + adj_size(40));
 
   /* player name label */
-  pBuf = pConnectDlg->pEndWidgetList->prev;
+  pBuf = pConnectDlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - pBuf->prev->size.w) / 2;
   pos_y = area.y + adj_size(20);
@@ -707,7 +707,7 @@ void popup_join_game_dialog(void)
   pBuf->size.x = pBuf->next->size.x + pBuf->size.w + adj_size(40);
   pBuf->size.y = pos_y;
 
-  redraw_group(pConnectDlg->pBeginWidgetList, pConnectDlg->pEndWidgetList, FALSE);
+  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -784,7 +784,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->pEndWidgetList = pwindow;
+  pConnectDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -826,7 +826,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   /* ------------------------------ */
 
-  pConnectDlg->pBeginWidgetList = pBuf;
+  pConnectDlg->begin_widget_list = pBuf;
 
   area.w = MAX(area.w, pBuf->size.w * 2 + adj_size(40));
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
@@ -847,7 +847,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  pBuf = pConnectDlg->pEndWidgetList->prev;
+  pBuf = pConnectDlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - pBuf->size.w) / 2;
   start_y = area.y + adj_size(10);
@@ -881,7 +881,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       pBuf->next->size.x + pBuf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(pConnectDlg->pBeginWidgetList, pConnectDlg->pEndWidgetList, FALSE);
+  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -947,7 +947,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->pEndWidgetList = pwindow;
+  pConnectDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -996,7 +996,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   /* ------------------------------ */
 
-  pConnectDlg->pBeginWidgetList = pBuf;
+  pConnectDlg->begin_widget_list = pBuf;
 
   area.w = pBuf->size.w * 2 + adj_size(40);
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
@@ -1017,7 +1017,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  pBuf = pConnectDlg->pEndWidgetList->prev;
+  pBuf = pConnectDlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - pBuf->size.w) / 2;
   start_y = area.y + adj_size(10);
@@ -1057,7 +1057,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       pBuf->next->size.x + pBuf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(pConnectDlg->pBeginWidgetList, pConnectDlg->pEndWidgetList, FALSE);
+  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -1070,13 +1070,13 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 void close_connection_dialog(void)
 {
   if (pConnectDlg) {
-    popdown_window_group_dialog(pConnectDlg->pBeginWidgetList,
-                                pConnectDlg->pEndWidgetList);
+    popdown_window_group_dialog(pConnectDlg->begin_widget_list,
+                                pConnectDlg->end_widget_list);
     FC_FREE(pConnectDlg);
   }
   if (pMeta_Server) {
-    popdown_window_group_dialog(pMeta_Server->pBeginWidgetList,
-                                pMeta_Server->pEndWidgetList);
+    popdown_window_group_dialog(pMeta_Server->begin_widget_list,
+                                pMeta_Server->end_widget_list);
     FC_FREE(pMeta_Server->pScroll);
     FC_FREE(pMeta_Server);
 

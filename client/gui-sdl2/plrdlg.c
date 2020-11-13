@@ -111,11 +111,11 @@ static int player_callback(struct widget *pwidget)
 static int players_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (move_window_group_dialog(pplayers_dlg->pBeginWidgetList, pwindow)) {
-      select_window_group_dialog(pplayers_dlg->pBeginWidgetList, pwindow);
+    if (move_window_group_dialog(pplayers_dlg->begin_widget_list, pwindow)) {
+      select_window_group_dialog(pplayers_dlg->begin_widget_list, pwindow);
       players_dialog_update();
     } else {
-      if (select_window_group_dialog(pplayers_dlg->pBeginWidgetList, pwindow)) {
+      if (select_window_group_dialog(pplayers_dlg->begin_widget_list, pwindow)) {
         widget_flush(pwindow);
       }
     }
@@ -131,13 +131,13 @@ static int toggle_draw_war_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
     SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
-    } while (pplayer != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer != pplayers_dlg->begin_widget_list);
 
     players_dialog_update();
   }
@@ -152,13 +152,13 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
     SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
-    } while (pplayer != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer != pplayers_dlg->begin_widget_list);
 
     players_dialog_update();
   }
@@ -173,13 +173,13 @@ static int toggle_draw_peace_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
     SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
-    } while (pplayer != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer != pplayers_dlg->begin_widget_list);
 
     players_dialog_update();
   }
@@ -194,13 +194,13 @@ static int toggle_draw_alliance_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
     SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
-    } while (pplayer != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer != pplayers_dlg->begin_widget_list);
 
     players_dialog_update();
   }
@@ -215,13 +215,13 @@ static int toggle_draw_neutral_status_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    struct widget *pplayer = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
     SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
-    } while (pplayer != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer != pplayers_dlg->begin_widget_list);
 
     players_dialog_update();
   }
@@ -251,10 +251,10 @@ void real_players_dialog_update(void *unused)
     struct astring astr = ASTRING_INIT;
 
     /* redraw window */
-    widget_redraw(pplayers_dlg->pEndWidgetList);
+    widget_redraw(pplayers_dlg->end_widget_list);
 
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
-    pplayer0 = pplayers_dlg->pEndWidgetList->prev->prev->prev->prev->prev->prev;
+    pplayer0 = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
     do {
       pplayer0 = pplayer0->prev;
       pplayer1 = pplayer0;
@@ -284,7 +284,7 @@ void real_players_dialog_update(void *unused)
       astr_free(&astr);
 
       /* now add some eye candy ... */
-      if (pplayer1 != pplayers_dlg->pBeginWidgetList) {
+      if (pplayer1 != pplayers_dlg->begin_widget_list) {
         SDL_Rect dst0, dst1;
 
         dst0.x = pplayer0->size.x + pplayer0->size.w / 2;
@@ -340,15 +340,15 @@ void real_players_dialog_update(void *unused)
               break;
 	    }
 	  }
-        } while (pplayer1 != pplayers_dlg->pBeginWidgetList);
+        } while (pplayer1 != pplayers_dlg->begin_widget_list);
       }
-    } while (pplayer0 != pplayers_dlg->pBeginWidgetList);
+    } while (pplayer0 != pplayers_dlg->begin_widget_list);
 
     /* -------------------- */
     /* redraw */
-    redraw_group(pplayers_dlg->pBeginWidgetList,
-                 pplayers_dlg->pEndWidgetList->prev, 0);
-    widget_mark_dirty(pplayers_dlg->pEndWidgetList);
+    redraw_group(pplayers_dlg->begin_widget_list,
+                 pplayers_dlg->end_widget_list->prev, 0);
+    widget_mark_dirty(pplayers_dlg->end_widget_list);
 
     flush_dirty();
   }
@@ -394,7 +394,7 @@ void popup_players_dialog(bool raise)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pplayers_dlg->pEndWidgetList = pwindow;
+  pplayers_dlg->end_widget_list = pwindow;
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
@@ -502,7 +502,7 @@ void popup_players_dialog(bool raise)
 
   } players_iterate_end;
 
-  pplayers_dlg->pBeginWidgetList = pBuf;
+  pplayers_dlg->begin_widget_list = pBuf;
 
   resize_window(pwindow, NULL, NULL, adj_size(500), adj_size(400));
 
@@ -573,14 +573,14 @@ void popup_players_dialog(bool raise)
   pBuf->size.y = area.y + area.h / 2 - r - pBuf->size.h / 2;
 
   n = 1;
-  if (pBuf != pplayers_dlg->pBeginWidgetList) {
+  if (pBuf != pplayers_dlg->begin_widget_list) {
     do {
       pBuf = pBuf->prev;
       b = M_PI_2 + n * a;
       pBuf->size.x = area.x + area.w / 2 - r * cos(b) - pBuf->size.w / 2;
       pBuf->size.y = area.y + area.h / 2 - r * sin(b) - pBuf->size.h / 2;
       n++;
-    } while (pBuf != pplayers_dlg->pBeginWidgetList);
+    } while (pBuf != pplayers_dlg->begin_widget_list);
   }
 
   players_dialog_update();
@@ -592,8 +592,8 @@ void popup_players_dialog(bool raise)
 void popdown_players_dialog(void)
 {
   if (pplayers_dlg) {
-    popdown_window_group_dialog(pplayers_dlg->pBeginWidgetList,
-                                pplayers_dlg->pEndWidgetList);
+    popdown_window_group_dialog(pplayers_dlg->begin_widget_list,
+                                pplayers_dlg->end_widget_list);
     FC_FREE(pplayers_dlg);
   }
 }
@@ -692,7 +692,7 @@ void popup_players_nations_dialog(void)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pShort_Players_Dlg->pEndWidgetList = pwindow;
+  pShort_Players_Dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -803,8 +803,8 @@ void popup_players_nations_dialog(void)
       n++;
     }
   } players_iterate_end;
-  pShort_Players_Dlg->pBeginWidgetList = pBuf;
-  pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->pBeginWidgetList;
+  pShort_Players_Dlg->begin_widget_list = pBuf;
+  pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->begin_widget_list;
   pShort_Players_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
   pShort_Players_Dlg->pActiveWidgetList = pShort_Players_Dlg->pEndActiveWidgetList;
 
@@ -866,7 +866,7 @@ void popup_players_nations_dialog(void)
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pShort_Players_Dlg->pBeginWidgetList, pwindow, 0);
+  redraw_group(pShort_Players_Dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();
@@ -878,8 +878,8 @@ void popup_players_nations_dialog(void)
 void popdown_players_nations_dialog(void)
 {
   if (pShort_Players_Dlg) {
-    popdown_window_group_dialog(pShort_Players_Dlg->pBeginWidgetList,
-                                pShort_Players_Dlg->pEndWidgetList);
+    popdown_window_group_dialog(pShort_Players_Dlg->begin_widget_list,
+                                pShort_Players_Dlg->end_widget_list);
     FC_FREE(pShort_Players_Dlg->pScroll);
     FC_FREE(pShort_Players_Dlg);
   }

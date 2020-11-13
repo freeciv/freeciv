@@ -266,8 +266,8 @@ static int ok_save_cma_callback(struct widget *pwidget)
         cmafec_preset_add(_("new preset"), &pCma->edited_cm_parm);
       }
 
-      del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
-                                         pCma->pAdv->pEndWidgetList);
+      del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
+                                         pCma->pAdv->end_widget_list);
       FC_FREE(pCma->pAdv);
 
       update_city_cma_dialog();
@@ -284,8 +284,8 @@ static int cancel_SLD_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pCma && pCma->pAdv) {
-      popdown_window_group_dialog(pCma->pAdv->pBeginWidgetList,
-                                  pCma->pAdv->pEndWidgetList);
+      popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
+                                  pCma->pAdv->end_widget_list);
       FC_FREE(pCma->pAdv->pScroll);
       FC_FREE(pCma->pAdv);
       flush_dirty();
@@ -320,7 +320,7 @@ static int save_cma_callback(struct widget *pwidget)
 
     pwindow->action = save_cma_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
-    pCma->pAdv->pEndWidgetList = pwindow;
+    pCma->pAdv->end_widget_list = pwindow;
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -372,7 +372,7 @@ static int save_cma_callback(struct widget *pwidget)
     pBuf->next->size.w = pBuf->size.w;
     area.w = MAX(area.w, 2 * pBuf->size.w + adj_size(20));
 
-    pCma->pAdv->pBeginWidgetList = pBuf;
+    pCma->pAdv->begin_widget_list = pBuf;
 
     /* setup window size and start position */
     area.w += adj_size(20);
@@ -415,7 +415,7 @@ static int save_cma_callback(struct widget *pwidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pCma->pAdv->pBeginWidgetList, pwindow, 0);
+    redraw_group(pCma->pAdv->begin_widget_list, pwindow, 0);
     widget_mark_dirty(pwindow);
     flush_dirty();
   }
@@ -434,8 +434,8 @@ static int LD_cma_callback(struct widget *pwidget)
     bool load = pwidget->data.ptr != NULL;
     int index = MAX_ID - pwidget->ID;
 
-    popdown_window_group_dialog(pCma->pAdv->pBeginWidgetList,
-                                pCma->pAdv->pEndWidgetList);
+    popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
+                                pCma->pAdv->end_widget_list);
     FC_FREE(pCma->pAdv->pScroll);
     FC_FREE(pCma->pAdv);
 
@@ -500,7 +500,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 
   pwindow->action = save_cma_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
-  pCma->pAdv->pEndWidgetList = pwindow;
+  pCma->pAdv->end_widget_list = pwindow;
 
   add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -544,8 +544,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
       set_wflag(pBuf, WF_HIDDEN);
     }
   }
-  pCma->pAdv->pBeginWidgetList = pBuf;
-  pCma->pAdv->pBeginActiveWidgetList = pCma->pAdv->pBeginWidgetList;
+  pCma->pAdv->begin_widget_list = pBuf;
+  pCma->pAdv->pBeginActiveWidgetList = pCma->pAdv->begin_widget_list;
   pCma->pAdv->pEndActiveWidgetList = pwindow->prev->prev;
   pCma->pAdv->pActiveWidgetList = pCma->pAdv->pEndActiveWidgetList;
 
@@ -595,7 +595,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
 
   /* ==================================================== */
   /* redraw */
-  redraw_group(pCma->pAdv->pBeginWidgetList, pwindow, 0);
+  redraw_group(pCma->pAdv->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 }
@@ -687,7 +687,7 @@ static void set_cma_hscrollbars(void)
   }
 
   /* exit button */
-  pbuf = pCma->pDlg->pEndWidgetList->prev;
+  pbuf = pCma->pDlg->end_widget_list->prev;
   output_type_iterate(i) {
     /* min label */
     pbuf = pbuf->prev;
@@ -728,7 +728,7 @@ void update_city_cma_dialog(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   int count, step, i;
-  struct widget *pBuf = pCma->pDlg->pEndWidgetList; /* pwindow */
+  struct widget *pBuf = pCma->pDlg->end_widget_list; /* pwindow */
   SDL_Surface *pText;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -811,7 +811,7 @@ void update_city_cma_dialog(void)
   FREESURFACE(pText);
 
   /* happy factor scrollbar */
-  pBuf = pCma->pDlg->pBeginWidgetList->next->next->next->next->next->next->next;
+  pBuf = pCma->pDlg->begin_widget_list->next->next->next->next->next->next->next;
   if (client_under_control && get_checkbox_state(pBuf->prev)) {
     set_wstate(pBuf, FC_WS_NORMAL);
   } else {
@@ -867,10 +867,10 @@ void update_city_cma_dialog(void)
   }
 
   /* redraw rest widgets */
-  redraw_group(pCma->pDlg->pBeginWidgetList,
-               pCma->pDlg->pEndWidgetList->prev->prev, 0);
+  redraw_group(pCma->pDlg->begin_widget_list,
+               pCma->pDlg->end_widget_list->prev->prev, 0);
 
-  widget_flush(pCma->pDlg->pEndWidgetList);
+  widget_flush(pCma->pDlg->end_widget_list);
 
   cm_result_destroy(result);
 }
@@ -918,7 +918,7 @@ void popup_city_cma_dialog(struct city *pCity)
   pwindow->action = cma_dlg_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pCma->pDlg->pEndWidgetList = pwindow;
+  pCma->pDlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -1069,7 +1069,7 @@ void popup_city_cma_dialog(struct city *pCity)
   add_to_gui_list(ID_ICON, pBuf);
 
   /* -------------------------------- */
-  pCma->pDlg->pBeginWidgetList = pBuf;
+  pCma->pDlg->begin_widget_list = pBuf;
 
 #ifdef SMALL_SCREEN
   area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
@@ -1279,12 +1279,12 @@ void popup_city_cma_dialog(struct city *pCity)
 void popdown_city_cma_dialog(void)
 {
   if (pCma) {
-    popdown_window_group_dialog(pCma->pDlg->pBeginWidgetList,
-                                pCma->pDlg->pEndWidgetList);
+    popdown_window_group_dialog(pCma->pDlg->begin_widget_list,
+                                pCma->pDlg->end_widget_list);
     FC_FREE(pCma->pDlg);
     if (pCma->pAdv) {
-      del_group_of_widgets_from_gui_list(pCma->pAdv->pBeginWidgetList,
-                                         pCma->pAdv->pEndWidgetList);
+      del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
+                                         pCma->pAdv->end_widget_list);
       FC_FREE(pCma->pAdv->pScroll);
       FC_FREE(pCma->pAdv);
     }
