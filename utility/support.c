@@ -73,6 +73,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>		/* usleep, fcntl, gethostname */
 #endif
+#ifdef HAVE_TIME_H
+#include <time.h>               /* nanosleep */
+#endif
 #ifdef HAVE_SYS_UTSNAME_H
 #include <sys/utsname.h>
 #endif
@@ -517,6 +520,19 @@ const char *fc_strerror(fc_errno err)
 ***************************************************************/
 void fc_usleep(unsigned long usec)
 {
+#ifdef HAVE_NANOSLEEP
+  struct timespec ts;
+
+  if (usec >= 1000000) {
+    ts.tv_sec = usec / 1000000;
+    ts.tv_nsec = (usec % 1000000) * 1000;
+  } else {
+    ts.tv_sec = 0;
+    ts.tv_nsec = usec * 1000;
+  }
+
+  nanosleep(&ts, NULL);
+#else  /* HAVE_NANOSLEEP */
 #ifdef HAVE_USLEEP
   usleep(usec);
 #else  /* HAVE_USLEEP */
@@ -544,6 +560,7 @@ void fc_usleep(unsigned long usec)
 #endif /* GENERATING_MAC */
 #endif /* HAVE_SNOOZE */
 #endif /* HAVE_USLEEP */
+#endif /* HAVE_NANOSLEEP */
 }
 
 /**************************************************************************
