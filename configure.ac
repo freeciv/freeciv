@@ -1331,7 +1331,7 @@ dnl Checks for header files.
 AC_HEADER_SYS_WAIT
 AC_CHECK_HEADERS([fcntl.h sys/utsname.h \
                   sys/file.h signal.h strings.h execinfo.h \
-                  libgen.h])
+                  libgen.h time.h])
 AC_CHECK_HEADERS([sys/time.h], [AC_DEFINE([FREECIV_HAVE_SYS_TIME_H], [1], [sys/time.h available])])
 AC_CHECK_HEADERS([unistd.h], [AC_DEFINE([FREECIV_HAVE_UNISTD_H], [1], [unistd.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
@@ -1395,7 +1395,7 @@ fi
 
 AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
 		getpwuid inet_aton select snooze strcasestr \
-		strerror strstr uname usleep \
+		strerror strstr uname nanosleep usleep \
                 getline _strcoll stricoll _stricoll strcasecoll \
                 backtrace setenv putenv])
 
