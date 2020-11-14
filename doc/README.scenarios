@@ -55,7 +55,7 @@ Savegame [scenario] section can have following fields
 - startpos_nations
   Whether nations should use start positions defined in the scenario map
 
-- prevent new cities
+- prevent_new_cities
   Is founding new cities prevented in the scenario, locking it to cities
   present on the map
 
