@@ -336,7 +336,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   struct widget *pBuf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   int max_col, max_row, col, count = 0;
   int tech, idx;
   SDL_Rect area;
@@ -463,8 +463,8 @@ static int spy_steal_popup_shared(struct widget *pwidget)
       count++;
 
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(i)));
-      pSurf = create_select_tech_icon(pstr, i, FULL_MODE);
-      pBuf = create_icon2(pSurf, pwindow->dst,
+      surf = create_select_tech_icon(pstr, i, FULL_MODE);
+      pBuf = create_icon2(surf, pwindow->dst,
       		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -493,9 +493,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     copy_chars_to_utf8_str(pstr, astr_str(&str));
     astr_free(&str);
 
-    pSurf = create_select_tech_icon(pstr, tech, FULL_MODE);
+    surf = create_select_tech_icon(pstr, tech, FULL_MODE);
 
-    pBuf = create_icon2(pSurf, pwindow->dst,
+    pBuf = create_icon2(surf, pwindow->dst,
                         (WF_FREE_THEME | WF_RESTORE_BACKGROUND
                          | WF_FREE_DATA));
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -530,11 +530,11 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   area.h = count * pBuf->size.h + adj_size(2);
 
   /* alloca window theme and win background buffer */
-  pSurf = theme_get_background(theme, BACKGROUND_SPYSTEALDLG);
-  if (resize_window(pwindow, pSurf, NULL,
+  surf = theme_get_background(theme, BACKGROUND_SPYSTEALDLG);
+  if (resize_window(pwindow, surf, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
   }
 
   area = pwindow->area;

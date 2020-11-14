@@ -681,7 +681,7 @@ static void popup_conn_list_dialog(void)
   utf8_str *pstr = NULL;
   int n;
   SDL_Rect area;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
 
   if (pConnDlg || !client.conn.established) {
     return;
@@ -702,9 +702,9 @@ static void popup_conn_list_dialog(void)
   widget_set_position(pwindow, 0, 0);
 
   /* create window background */
-  pSurf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
-  if (resize_window(pwindow, pSurf, NULL, main_window_width(), main_window_height())) {
-    FREESURFACE(pSurf);
+  surf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
+  if (resize_window(pwindow, surf, NULL, main_window_width(), main_window_height())) {
+    FREESURFACE(surf);
   }
 
   pConnDlg->text_width = pwindow->size.w - adj_size(130) - adj_size(20) - adj_size(20);

@@ -227,7 +227,7 @@ void update_intel_dialog(struct player *p)
   const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
   struct widget *pwindow = NULL, *pBuf = NULL, *pLast;
-  SDL_Surface *logo = NULL, *pTmpSurf = NULL;
+  SDL_Surface *logo = NULL, *tmp_surf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -363,9 +363,9 @@ void update_intel_dialog(struct player *p)
     area.h += MAX(logo->h + adj_size(20), pInfo->h + adj_size(20));
 
     /* ---------- */
-    pTmpSurf = get_tech_icon(A_FIRST);
-    col = area.w / (pTmpSurf->w + adj_size(4));
-    FREESURFACE(pTmpSurf);
+    tmp_surf = get_tech_icon(A_FIRST);
+    col = area.w / (tmp_surf->w + adj_size(4));
+    FREESURFACE(tmp_surf);
     n = 0;
     pLast = pBuf;
     mresearch = research_get(client_player());

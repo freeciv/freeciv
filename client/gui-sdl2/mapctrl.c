@@ -918,7 +918,7 @@ static int popdown_scale_unitinfo_dlg_callback(struct widget *pwidget)
 static void remake_unitinfo(int w, int h)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   SDL_Rect area = {pUnits_Info_Window->area.x + BLOCKU_W,
                    pUnits_Info_Window->area.y, 0, 0};
   struct widget *pwidget = pUnits_Info_Window;
@@ -950,12 +950,12 @@ static void remake_unitinfo(int w, int h)
 
   draw_frame(pwidget->theme, 0, 0, pwidget->size.w, pwidget->size.h);
 
-  pSurf = ResizeSurface(current_theme->Block, BLOCKU_W,
+  surf = ResizeSurface(current_theme->Block, BLOCKU_W,
     pwidget->size.h - ((pUnits_Info_Window->size.h - pUnits_Info_Window->area.h)), 1);
 
-  blit_entire_src(pSurf, pwidget->theme, pUnits_Info_Window->area.x,
+  blit_entire_src(surf, pwidget->theme, pUnits_Info_Window->area.x,
                   pUnits_Info_Window->area.y);
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   area.w = w - BLOCKU_W - (pUnits_Info_Window->size.w - pUnits_Info_Window->area.w);
   area.h = h - (pUnits_Info_Window->size.h - pUnits_Info_Window->area.h);

@@ -218,7 +218,7 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *pDock;
   utf8_str *title;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   int h, start_x, start_y, impr_type_count;
   bool created, text = FALSE;
   int scrollbar_width = 0;
@@ -367,9 +367,9 @@ void popup_impr_info(Impr_type_id impr)
 
   pimpr_type = improvement_by_number(impr);
 
-  pSurf = get_building_surface(pimpr_type);
+  surf = get_building_surface(pimpr_type);
   pImprNameLabel = create_iconlabel_from_chars(
-                     ResizeSurfaceBox(pSurf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
+                     ResizeSurfaceBox(surf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
                      pwindow->dst, city_improvement_name_translation(NULL, pimpr_type),
                      adj_font(24), WF_FREE_THEME);
 
@@ -489,9 +489,9 @@ void popup_impr_info(Impr_type_id impr)
   /* --------------------------------------------------------- */
   if (created) {
 
-    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pwindow, pSurf, NULL, adj_size(640), adj_size(480))) {
-      FREESURFACE(pSurf);
+    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
+      FREESURFACE(surf);
     }
 
     area = pwindow->area;
@@ -633,7 +633,7 @@ void popup_unit_info(Unit_type_id type_id)
   struct widget *pDock;
   utf8_str *title;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   int h, start_x, start_y, utype_count;
   bool created, text = FALSE;
   int scrollbar_width = 0;
@@ -920,9 +920,9 @@ void popup_unit_info(Unit_type_id type_id)
   /* --------------------------------------------------------- */
   if (created) {
 
-    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pwindow, pSurf, NULL, adj_size(640), adj_size(480))) {
-      FREESURFACE(pSurf);
+    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
+      FREESURFACE(surf);
     }
 
     area = pwindow->area;
@@ -1114,7 +1114,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   int i, targets_count,sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
   char buffer[bufsz];
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
 
   start_x = (pwindow->area.x + adj_size(1) + width + pHelpDlg->pActiveWidgetList->size.w + adj_size(20));
 
@@ -1229,9 +1229,9 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     requirement_vector_iterate(&(pimprove->reqs), preq) {
       if (VUT_ADVANCE == preq->source.kind
           && advance_number(preq->source.value.advance) == tech) {
-        pSurf = get_building_surface(pimprove);
+        surf = get_building_surface(pimprove);
         pwidget = create_iconlabel_from_chars(
-                ResizeSurfaceBox(pSurf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
+                ResizeSurfaceBox(surf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
                 pwindow->dst,
                 improvement_name_translation(pimprove),
                 adj_font(14),
@@ -1652,15 +1652,15 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   struct widget *pwidget;
   struct widget *pTech;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   struct widget *pDock = pStore->pDock;
 
   pstr = create_utf8_str(NULL, 0, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(tech)));
-  pSurf = create_select_tech_icon(pstr, tech, FULL_MODE);
-  pwidget = create_icon2(pSurf, pwindow->dst,
+  surf = create_select_tech_icon(pstr, tech, FULL_MODE);
+  pwidget = create_icon2(surf, pwindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
   set_wstate(pwidget, FC_WS_NORMAL);
@@ -1677,8 +1677,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
     if (NULL != vap && A_NONE != ar) {
       copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-      pSurf = create_select_tech_icon(pstr, ar, SMALL_MODE);
-      pwidget = create_icon2(pSurf, pwindow->dst,
+      surf = create_select_tech_icon(pstr, ar, SMALL_MODE);
+      pwidget = create_icon2(surf, pwindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
@@ -1705,8 +1705,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
         if (NULL != vap && A_NONE != ar) {
           copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-          pSurf = create_select_tech_icon(pstr, ar, SMALL_MODE);
-          pwidget = create_icon2(pSurf, pwindow->dst,
+          surf = create_select_tech_icon(pstr, ar, SMALL_MODE);
+          pwidget = create_icon2(surf, pwindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pwidget, FC_WS_NORMAL);
           pwidget->action = change_tech_callback;
@@ -1729,8 +1729,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         && (advance_required(aidx, AR_ONE) == tech
             || advance_required(aidx, AR_TWO) == tech)) {
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(aidx)));
-      pSurf = create_select_tech_icon(pstr, aidx, SMALL_MODE);
-      pwidget = create_icon2(pSurf, pwindow->dst,
+      surf = create_select_tech_icon(pstr, aidx, SMALL_MODE);
+      pwidget = create_icon2(surf, pwindow->dst,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pwidget, FC_WS_NORMAL);
@@ -1762,8 +1762,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       }
 
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(sub_tech)));
-      pSurf = create_select_tech_icon(pstr, sub_tech, SMALL_MODE);
-      pwidget = create_icon2(pSurf, pwindow->dst,
+      surf = create_select_tech_icon(pstr, sub_tech, SMALL_MODE);
+      pwidget = create_icon2(surf, pwindow->dst,
         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
@@ -1896,7 +1896,7 @@ void popup_tech_info(Tech_type_id tech)
   struct widget *pDock;
   utf8_str *title;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   int h, tech_count;
   bool created;
   int scrollbar_width = 0;
@@ -1960,8 +1960,8 @@ void popup_tech_info(Tech_type_id tech)
 
       if (vap) {
         copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-        pSurf = create_select_tech_icon(pstr, i, SMALL_MODE);
-        pAdvanceLabel = create_icon2(pSurf, pwindow->dst,
+        surf = create_select_tech_icon(pstr, i, SMALL_MODE);
+        pAdvanceLabel = create_icon2(surf, pwindow->dst,
                                      WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
         set_wstate(pAdvanceLabel, FC_WS_NORMAL);
@@ -2046,9 +2046,9 @@ void popup_tech_info(Tech_type_id tech)
   /* --------------------------------------------------------- */
   if (created) {
 
-    pSurf = theme_get_background(theme, BACKGROUND_HELPDLG);
-    if (resize_window(pwindow, pSurf, NULL, adj_size(640), adj_size(480))) {
-      FREESURFACE(pSurf);
+    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
+      FREESURFACE(surf);
     }
 
     area = pwindow->area;

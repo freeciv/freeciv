@@ -137,13 +137,13 @@ void load_cursors(void)
 {
   enum cursor_type cursor;
   int frame;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
 
   pStd_Cursor = SDL_GetCursor();
 
-  pSurf = create_surf(1, 1, SDL_SWSURFACE);
-  pDisabledCursor = SurfaceToCursor(pSurf, 0, 0);
-  FREESURFACE(pSurf);
+  surf = create_surf(1, 1, SDL_SWSURFACE);
+  pDisabledCursor = SurfaceToCursor(surf, 0, 0);
+  FREESURFACE(surf);
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
     for (frame = 0; frame < NUM_CURSOR_FRAMES; frame++) {
@@ -151,9 +151,9 @@ void load_cursors(void)
       struct sprite *sprite
         = get_cursor_sprite(tileset, cursor, &hot_x, &hot_y, frame);
 
-      pSurf = GET_SURF(sprite);
+      surf = GET_SURF(sprite);
 
-      fc_cursors[cursor][frame] = SurfaceToCursor(pSurf, hot_x, hot_y);
+      fc_cursors[cursor][frame] = SurfaceToCursor(surf, hot_x, hot_y);
     }
   }
 }

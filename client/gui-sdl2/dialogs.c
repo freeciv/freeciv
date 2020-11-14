@@ -1299,7 +1299,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
 **************************************************************************/
 static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
 {
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   struct widget *pBuf, *pwindow;
   utf8_str *pstr;  
   char cBuf[256];  
@@ -1310,7 +1310,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
     return;
   }
 
-  pSurf = get_terrain_surface(ptile);
+  surf = get_terrain_surface(ptile);
   terrain_info_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* ----------- */
@@ -1331,7 +1331,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   /* ---------- */
   pstr = create_utf8_from_char(popup_info_text(ptile), adj_font(12));
   pstr->style |= SF_CENTER;
-  pBuf = create_iconlabel(pSurf, pwindow->dst, pstr, 0);
+  pBuf = create_iconlabel(surf, pwindow->dst, pstr, 0);
 
   pBuf->size.h += tileset_tile_height(tileset) / 2;
 

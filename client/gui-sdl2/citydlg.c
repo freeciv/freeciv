@@ -682,7 +682,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
   struct city *pHome_City;
   const struct unit_type *putype;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   utf8_str *pstr;
   char cBuf[256];
   int num_x, num_y, w, h;
@@ -728,15 +728,15 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 
       sz_strlcat(cBuf, "\n");
       sz_strlcat(cBuf, get_nearest_city_text(pnear_city, pcity_near_dist));
-      pSurf = adj_surf(create_unit_surface(pUnit, TRUE, w, h));
+      surf = adj_surf(create_unit_surface(pUnit, TRUE, w, h));
     } else {
-      pSurf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
+      surf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
     }
 
     pstr = create_utf8_from_char(cBuf, adj_font(10));
     pstr->style |= SF_CENTER;
 
-    pBuf = create_icon2(pSurf, pwindow->dst, WF_FREE_THEME
+    pBuf = create_icon2(surf, pwindow->dst, WF_FREE_THEME
                         | WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
     pBuf->info_label = pstr;
     pBuf->data.unit = pUnit;
@@ -939,7 +939,7 @@ static int misc_panel_city_dlg_callback(struct widget *pwidget)
 static void create_city_options_widget_list(struct city *pCity)
 {
   struct widget *pBuf, *pwindow = pcity_dlg->pEndCityWidgetList;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   utf8_str *pstr;
   char cBuf[80];
 
@@ -970,18 +970,18 @@ static void create_city_options_widget_list(struct city *pCity)
   pstr->style |= SF_CENTER;
 
   if (BV_ISSET(pCity->city_options, CITYO_SCIENCE_SPECIALISTS)) {
-    pSurf = get_tax_surface(O_SCIENCE);
-    pBuf = create_icon_button(pSurf, pwindow->dst, pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
+    surf = get_tax_surface(O_SCIENCE);
+    pBuf = create_icon_button(surf, pwindow->dst, pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
     add_to_gui_list(MAX_ID - 0x20, pBuf);
   } else {
     if (BV_ISSET(pCity->city_options, CITYO_GOLD_SPECIALISTS)) {
-      pSurf = get_tax_surface(O_GOLD);
-      pBuf = create_icon_button(pSurf, pwindow->dst,
+      surf = get_tax_surface(O_GOLD);
+      pBuf = create_icon_button(surf, pwindow->dst,
                                 pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
       add_to_gui_list(MAX_ID - 0x40, pBuf);
     } else {
-      pSurf = get_tax_surface(O_LUXURY);
-      pBuf = create_icon_button(pSurf, pwindow->dst,
+      surf = get_tax_surface(O_LUXURY);
+      pBuf = create_icon_button(surf, pwindow->dst,
                                 pstr, WF_ICON_CENTER_RIGHT | WF_FREE_THEME2);
       add_to_gui_list(MAX_ID - 0x60, pBuf);
     }
@@ -1735,7 +1735,7 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
 {
   char cBuf[60];
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   SDL_Rect dest;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City options"));
@@ -1744,14 +1744,14 @@ static void redraw_misc_city_dialog(struct widget *pCityWindow,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - surf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
   FREEUTF8STR(pstr);
 
   if (!pcity_dlg->pPanel) {
@@ -1770,7 +1770,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
 {
   char cBuf[60];
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   SDL_Rect dest;
   struct unit_list *pList;
   int size;
@@ -1789,14 +1789,14 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - surf->w) / 2;
   dest.y = pCityWindow->area.y + + adj_size(4) + current_theme->INFO_Icon->h;
 
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
   FREEUTF8STR(pstr);
 
   if (pcity_dlg->pPanel) {
@@ -1827,7 +1827,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
 {
   char cBuf[60];
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   SDL_Rect dest;
   struct unit_list *pList;
   int size;
@@ -1846,14 +1846,14 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - surf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
   FREEUTF8STR(pstr);
 
   if (pcity_dlg->pPanel) {
@@ -1886,7 +1886,7 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   struct city *pTradeCity = NULL;
   int step, i, xx;
   utf8_str *pstr = NULL;
-  SDL_Surface *pSurf = NULL;
+  SDL_Surface *surf = NULL;
   SDL_Rect dest;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("City info"));
@@ -1894,17 +1894,17 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - surf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
 
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   dest.x = pCityWindow->size.x + adj_size(10);
-  dest.y += pSurf->h + 1;
+  dest.y += surf->h + 1;
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   change_ptsize_utf8(pstr, adj_font(11));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
@@ -1915,13 +1915,13 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_utf8(pstr);
+    surf = create_text_surf_from_utf8(pstr);
 
-    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+    alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    dest.y += pSurf->h + adj_size(3);
+    dest.y += surf->h + adj_size(3);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
 
     if (((pIcons->pPollution->w + 1) * pCity->pollution) > adj_size(187)) {
       step = (adj_size(187) - pIcons->pPollution->w) / (pCity->pollution - 1);
@@ -1942,13 +1942,13 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_utf8(pstr);
+    surf = create_text_surf_from_utf8(pstr);
 
-    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+    alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    dest.y += pSurf->h + adj_size(3);
+    dest.y += surf->h + adj_size(3);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
   }
 
   if (game.info.illness_on) {
@@ -1961,23 +1961,23 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
   }
 
   copy_chars_to_utf8_str(pstr, cBuf);
-  pSurf = create_text_surf_from_utf8(pstr);
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
-  dest.y += pSurf->h + adj_size(3);
-  FREESURFACE(pSurf);
+  surf = create_text_surf_from_utf8(pstr);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
+  dest.y += surf->h + adj_size(3);
+  FREESURFACE(surf);
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Trade routes: "));
 
   copy_chars_to_utf8_str(pstr, cBuf);
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-  xx = dest.x + pSurf->w;
-  dest.y += pSurf->h + adj_size(3);
+  xx = dest.x + surf->w;
+  dest.y += surf->h + adj_size(3);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   step = 0;
   dest.x = pCityWindow->size.x + adj_size(10);
@@ -1995,46 +1995,46 @@ static void redraw_info_city_dialog(struct widget *pCityWindow,
 
     copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_utf8(pstr);
+    surf = create_text_surf_from_utf8(pstr);
 
-    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+    alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
     /* blit trade icon */
-    dest.x += pSurf->w + adj_size(3);
+    dest.x += surf->w + adj_size(3);
     dest.y += adj_size(4);
     alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest, 255);
     dest.x = pCityWindow->size.x + adj_size(10);
     dest.y -= adj_size(4);
 
-    dest.y += pSurf->h;
+    dest.y += surf->h;
 
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
   } trade_routes_iterate_end;
 
   if (step) {
     fc_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);
 
     copy_chars_to_utf8_str(pstr, cBuf);
-    pSurf = create_text_surf_from_utf8(pstr);
-    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+    surf = create_text_surf_from_utf8(pstr);
+    alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    dest.x += pSurf->w + adj_size(3);
+    dest.x += surf->w + adj_size(3);
     dest.y += adj_size(4);
     alphablit(pIcons->pTrade, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), _("none"));
 
     copy_chars_to_utf8_str(pstr, cBuf);
 
-    pSurf = create_text_surf_from_utf8(pstr);
+    surf = create_text_surf_from_utf8(pstr);
 
     dest.x = xx;
-    dest.y -= pSurf->h + adj_size(3);
-    alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+    dest.y -= surf->h + adj_size(3);
+    alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(surf);
   }
 
   FREEUTF8STR(pstr);
@@ -2052,7 +2052,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
   int step, i, j, count;
   SDL_Surface *pTmp;
   utf8_str *pstr = NULL;
-  SDL_Surface *pSurf = NULL;
+  SDL_Surface *surf = NULL;
   SDL_Rect dest = {0, 0, 0, 0};
   struct effect_list *sources = effect_list_new();
 
@@ -2062,16 +2062,16 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
-  pSurf = create_text_surf_from_utf8(pstr);
+  surf = create_text_surf_from_utf8(pstr);
 
-  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - pSurf->w) / 2;
+  dest.x = pCityWindow->area.x + adj_size(2) + (adj_size(192) - surf->w) / 2;
   dest.y = pCityWindow->area.y + adj_size(4) + current_theme->INFO_Icon->h;
-  alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+  alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
 
   dest.x = pCityWindow->size.x + adj_size(10);
-  dest.y += pSurf->h + 1;
+  dest.y += surf->h + 1;
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
   FREEUTF8STR(pstr);
 
   count = (pCity->feel[CITIZEN_HAPPY][FEELING_FINAL] + pCity->feel[CITIZEN_CONTENT][FEELING_FINAL]
@@ -2099,53 +2099,53 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
       }
 
       if (pCity->feel[CITIZEN_HAPPY][j]) {
-        pSurf = pIcons->pMale_Happy;
+        surf = pIcons->pMale_Happy;
         for (i = 0; i < pCity->feel[CITIZEN_HAPPY][j]; i++) {
-          alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+          alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
           dest.x += step;
-          if (pSurf == pIcons->pMale_Happy) {
-            pSurf = pIcons->pFemale_Happy;
+          if (surf == pIcons->pMale_Happy) {
+            surf = pIcons->pFemale_Happy;
           } else {
-            pSurf = pIcons->pMale_Happy;
+            surf = pIcons->pMale_Happy;
           }
         }
       }
 
       if (pCity->feel[CITIZEN_CONTENT][j]) {
-        pSurf = pIcons->pMale_Content;
+        surf = pIcons->pMale_Content;
         for (i = 0; i < pCity->feel[CITIZEN_CONTENT][j]; i++) {
-          alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+          alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
           dest.x += step;
-          if (pSurf == pIcons->pMale_Content) {
-            pSurf = pIcons->pFemale_Content;
+          if (surf == pIcons->pMale_Content) {
+            surf = pIcons->pFemale_Content;
           } else {
-            pSurf = pIcons->pMale_Content;
+            surf = pIcons->pMale_Content;
           }
         }
       }
 
       if (pCity->feel[CITIZEN_UNHAPPY][j]) {
-        pSurf = pIcons->pMale_Unhappy;
+        surf = pIcons->pMale_Unhappy;
         for (i = 0; i < pCity->feel[CITIZEN_UNHAPPY][j]; i++) {
-          alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+          alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
           dest.x += step;
-          if (pSurf == pIcons->pMale_Unhappy) {
-            pSurf = pIcons->pFemale_Unhappy;
+          if (surf == pIcons->pMale_Unhappy) {
+            surf = pIcons->pFemale_Unhappy;
           } else {
-            pSurf = pIcons->pMale_Unhappy;
+            surf = pIcons->pMale_Unhappy;
           }
         }
       }
 
       if (pCity->feel[CITIZEN_ANGRY][j]) {
-        pSurf = pIcons->pMale_Angry;
+        surf = pIcons->pMale_Angry;
         for (i = 0; i < pCity->feel[CITIZEN_ANGRY][j]; i++) {
-          alphablit(pSurf, NULL, pCityWindow->dst->surface, &dest, 255);
+          alphablit(surf, NULL, pCityWindow->dst->surface, &dest, 255);
           dest.x += step;
-          if (pSurf == pIcons->pMale_Angry) {
-            pSurf = pIcons->pFemale_Angry;
+          if (surf == pIcons->pMale_Angry) {
+            surf = pIcons->pFemale_Angry;
           } else {
-            pSurf = pIcons->pMale_Angry;
+            surf = pIcons->pMale_Angry;
           }
         }
       }
@@ -2171,7 +2171,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
      }
 
       if (j == 2) { /* improvements effects */
-	pSurf = NULL;
+	surf = NULL;
 	count = 0;
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_CONTENT);
@@ -2183,19 +2183,19 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
 	  count += (pTmp->h + 1);
 
-          if (!pSurf) {
-	    pSurf = pTmp;
+          if (!surf) {
+	    surf = pTmp;
 	  } else {
             FREESURFACE(pTmp);
           }
 
         } effect_list_iterate_end;
 
-	dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
+	dest.x = pCityWindow->size.x + adj_size(187) - surf->w - adj_size(2);
 	i = dest.y;
 	dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
-        FREESURFACE(pSurf);
+        FREESURFACE(surf);
 
         effect_list_iterate(sources, psource) {
           pTmp = get_building_surface(get_building_for_effect(psource->type));
@@ -2218,7 +2218,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_TEMPLE)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
-	  pSurf = pTmp1;
+	  surf = pTmp1;
 	} else {
 	  pTmp1 = NULL;
 	}
@@ -2228,8 +2228,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_COLOSSEUM)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp2;
+	  if (!surf) {
+	    surf = pTmp2;
 	  }
 	} else {
 	  pTmp2 = NULL;
@@ -2241,15 +2241,15 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_CATHEDRAL)->sprite),
                         0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp3;
+	  if (!surf) {
+	    surf = pTmp3;
 	  }
 	} else {
 	  pTmp3 = NULL;
 	}
 
 
-	dest.x = pCityWindow->size.x + adj_size(212) - pSurf->w - adj_size(2);
+	dest.x = pCityWindow->size.x + adj_size(212) - surf->w - adj_size(2);
 	i = dest.y;
 	dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
@@ -2297,8 +2297,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
 	  count += (pTmp->h + 1);
 
-          if (!pSurf) {
-	    pSurf = pTmp;
+          if (!surf) {
+	    surf = pTmp;
 	  } else {
             FREESURFACE(pTmp);
           }
@@ -2315,8 +2315,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
           pTmp = zoomSurface(pTmp, DEFAULT_ZOOM * ((float)18 / pTmp->w), DEFAULT_ZOOM * ((float)18 / pTmp->w), 1);
 	  count += (pTmp->h + 1);
 
-          if (!pSurf) {
-	    pSurf = pTmp;
+          if (!surf) {
+	    surf = pTmp;
 	  } else {
             FREESURFACE(pTmp);
           }
@@ -2338,11 +2338,11 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 
         effect_list_clear(sources);
 
-	dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
+	dest.x = pCityWindow->size.x + adj_size(187) - surf->w - adj_size(2);
 	i = dest.y;
 	dest.y += (pIcons->pMale_Happy->h - count) / 2;
 
-        FREESURFACE(pSurf);
+        FREESURFACE(surf);
 
         get_city_bonus_effects(sources, pCity, NULL, EFT_MAKE_HAPPY);
 
@@ -2392,7 +2392,7 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_CURE)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp1->h + 1);
-	  pSurf = pTmp1;
+	  surf = pTmp1;
 	} else {
 	  pTmp1 = NULL;
 	}
@@ -2402,8 +2402,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	  	GET_SURF(improvement_by_number(B_SHAKESPEARE)->sprite),
 			      0.5, 0.5, 1);
 	  count += (pTmp2->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp2;
+	  if (!surf) {
+	    surf = pTmp2;
 	  }
 	} else {
 	  pTmp2 = NULL;
@@ -2414,8 +2414,8 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_BACH)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp3->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp3;
+	  if (!surf) {
+	    surf = pTmp3;
 	  }
 	} else {
 	  pTmp3 = NULL;
@@ -2426,14 +2426,14 @@ static void redraw_happiness_city_dialog(const struct widget *pCityWindow,
 	    zoomSurface(GET_SURF(improvement_by_number(B_HANGING)->sprite),
 			0.5, 0.5, 1);
 	  count += (pTmp4->h + 1);
-	  if (!pSurf) {
-	    pSurf = pTmp4;
+	  if (!surf) {
+	    surf = pTmp4;
 	  }
 	} else {
 	  pTmp4 = NULL;
 	}
 
-        dest.x = pCityWindow->size.x + adj_size(187) - pSurf->w - adj_size(2);
+        dest.x = pCityWindow->size.x + adj_size(187) - surf->w - adj_size(2);
         i = dest.y;
         dest.y += (pIcons->pMale_Happy->h - count) / 2;
 

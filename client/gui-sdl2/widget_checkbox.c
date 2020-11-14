@@ -147,7 +147,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
 {
   struct widget *pCBox;
   struct checkbox *ptmp;
-  SDL_Surface *pSurf, *icon;
+  SDL_Surface *surf, *icon;
   struct widget *tmp_widget;
 
   if (pstr == NULL) {
@@ -157,17 +157,17 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   ptmp = fc_calloc(1, sizeof(struct checkbox));
 
   if (state) {
-    pSurf = current_theme->CBOX_Sell_Icon;
+    surf = current_theme->CBOX_Sell_Icon;
   } else {
-    pSurf = current_theme->CBOX_Unsell_Icon;
+    surf = current_theme->CBOX_Unsell_Icon;
   }
 
-  icon = create_icon_from_theme(pSurf, 0);
+  icon = create_icon_from_theme(surf, 0);
   pCBox = create_iconlabel(icon, pdest, pstr, (flags | WF_FREE_PRIVATE_DATA));
 
   pstr->style &= ~SF_CENTER;
 
-  pCBox->theme = pSurf;
+  pCBox->theme = surf;
   FREESURFACE(icon);
 
   set_wtype(pCBox, WT_TCHECKBOX);

@@ -60,21 +60,21 @@ static SDL_Surface *pNeutral_Tech_Icon;
 static SDL_Surface *pNone_Tech_Icon;
 static SDL_Surface *pFuture_Tech_Icon;
 
-#define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
+#define load_GUI_surface(pSpr, pStruct, surf, tag)		  \
 do {								  \
   pSpr = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, tag, "", "", ""); \
   fc_assert_action(pSpr != NULL, break);                          \
-  pStruct->pSurf = GET_SURF_REAL(pSpr);                           \
+  pStruct->surf = GET_SURF_REAL(pSpr);                           \
 } while (FALSE)
 
-#define load_theme_surface(pSpr, pSurf, tag)		\
-	load_GUI_surface(pSpr, current_theme, pSurf, tag)
+#define load_theme_surface(pSpr, surf, tag)		\
+	load_GUI_surface(pSpr, current_theme, surf, tag)
 
-#define load_city_icon_surface(pSpr, pSurf, tag)        \
-        load_GUI_surface(pSpr, pIcons, pSurf, tag)
+#define load_city_icon_surface(pSpr, surf, tag)        \
+        load_GUI_surface(pSpr, pIcons, surf, tag)
 
-#define load_order_theme_surface(pSpr, pSurf, tag)	\
-        load_GUI_surface(pSpr, current_theme, pSurf, tag);
+#define load_order_theme_surface(pSpr, surf, tag)	\
+        load_GUI_surface(pSpr, current_theme, surf, tag);
 
 /***************************************************************************//**
   Reload small citizens "style" icons.
@@ -379,36 +379,36 @@ void tilespec_free_theme(void)
 void setup_auxiliary_tech_icons(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   utf8_str *pstr = create_utf8_from_char(Q_("?tech:None"), adj_font(10));
 
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   /* create icons */
-  pSurf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
-  SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
-  create_frame(pSurf,
-               0 , 0, pSurf->w - 1, pSurf->h - 1,
+  surf = create_surf(adj_size(50), adj_size(50), SDL_SWSURFACE);
+  SDL_FillRect(surf, NULL, map_rgba(surf->format, bg_color));
+  create_frame(surf,
+               0 , 0, surf->w - 1, surf->h - 1,
                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-  pNeutral_Tech_Icon = copy_surface(pSurf);
-  pNone_Tech_Icon = copy_surface(pSurf);
-  pFuture_Tech_Icon = pSurf;
+  pNeutral_Tech_Icon = copy_surface(surf);
+  pNone_Tech_Icon = copy_surface(surf);
+  pFuture_Tech_Icon = surf;
 
   /* None */
-  pSurf = create_text_surf_from_utf8(pstr);
-  blit_entire_src(pSurf, pNone_Tech_Icon ,
-                  (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
+  surf = create_text_surf_from_utf8(pstr);
+  blit_entire_src(surf, pNone_Tech_Icon ,
+                  (adj_size(50) - surf->w) / 2 , (adj_size(50) - surf->h) / 2);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   /* TRANS: Future Technology */ 
   copy_chars_to_utf8_str(pstr, _("FT"));
-  pSurf = create_text_surf_from_utf8(pstr);
-  blit_entire_src(pSurf, pFuture_Tech_Icon,
-                  (adj_size(50) - pSurf->w) / 2 , (adj_size(50) - pSurf->h) / 2);
+  surf = create_text_surf_from_utf8(pstr);
+  blit_entire_src(surf, pFuture_Tech_Icon,
+                  (adj_size(50) - surf->w) / 2 , (adj_size(50) - surf->h) / 2);
 
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   FREEUTF8STR(pstr);
 }

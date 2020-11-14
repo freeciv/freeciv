@@ -1802,7 +1802,7 @@ void economy_report_dialog_popup(bool make_modal)
   struct widget *pBuf;
   struct widget *pwindow , *pLast;
   utf8_str *pstr, *pstr2;
-  SDL_Surface *pSurf, *pText_Name, *pText, *zoomed;
+  SDL_Surface *surf, *pText_Name, *pText, *zoomed;
   SDL_Surface *background;
   int i, count , h = 0;
   int w = 0; /* left column values */
@@ -2090,13 +2090,13 @@ void economy_report_dialog_popup(bool make_modal)
       struct improvement_entry *p = &entries[i];
       struct impr_type *pimprove = p->type;
 
-      pSurf = crop_rect_from_surface(background, NULL);
+      surf = crop_rect_from_surface(background, NULL);
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pimprove));
 
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_than_w(pstr, pSurf->w - adj_size(4));
+      pText_Name = create_text_surf_smaller_than_w(pstr, surf->w - adj_size(4));
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s %d\n%s %d",
                   _("Built"), p->count, _("U Total"),p->total_cost);
@@ -2110,22 +2110,22 @@ void economy_report_dialog_popup(bool make_modal)
       zoomed = get_building_surface(pimprove);
       zoomed = zoomSurface(zoomed, DEFAULT_ZOOM * ((float)54 / zoomed->w), DEFAULT_ZOOM * ((float)54 / zoomed->w), 1);
 
-      dst.x = (pSurf->w - zoomed->w) / 2;
-      dst.y = (pSurf->h / 2 - zoomed->h) / 2;
-      alphablit(zoomed, NULL, pSurf, &dst, 255);
+      dst.x = (surf->w - zoomed->w) / 2;
+      dst.y = (surf->h / 2 - zoomed->h) / 2;
+      alphablit(zoomed, NULL, surf, &dst, 255);
       dst.y += zoomed->h;
       FREESURFACE(zoomed);
 
-      dst.x = (pSurf->w - pText_Name->w)/2;
-      dst.y += ((pSurf->h - dst.y) -
+      dst.x = (surf->w - pText_Name->w)/2;
+      dst.y += ((surf->h - dst.y) -
                 (pText_Name->h + (pIcons->pBIG_Coin->h + 2) + pText->h)) / 2;
-      alphablit(pText_Name, NULL, pSurf, &dst, 255);
+      alphablit(pText_Name, NULL, surf, &dst, 255);
 
       dst.y += pText_Name->h;
       if (p->cost) {
-        dst.x = (pSurf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
+        dst.x = (surf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
         for (count = 0; count < p->cost; count++) {
-          alphablit(pIcons->pBIG_Coin, NULL, pSurf, &dst, 255);
+          alphablit(pIcons->pBIG_Coin, NULL, surf, &dst, 255);
           dst.x += pIcons->pBIG_Coin->w + 1;
         }
       } else {
@@ -2139,19 +2139,19 @@ void economy_report_dialog_popup(bool make_modal)
 
         zoomed = create_text_surf_from_utf8(pstr);
 
-        dst.x = (pSurf->w - zoomed->w) / 2;
-        alphablit(zoomed, NULL, pSurf, &dst, 255);
+        dst.x = (surf->w - zoomed->w) / 2;
+        alphablit(zoomed, NULL, surf, &dst, 255);
         FREESURFACE(zoomed);
       }
 
       dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
-      dst.x = (pSurf->w - pText->w) / 2;
-      alphablit(pText, NULL, pSurf, &dst, 255);
+      dst.x = (surf->w - pText->w) / 2;
+      alphablit(pText, NULL, surf, &dst, 255);
 
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(pSurf, pwindow->dst,
+      pBuf = create_icon2(surf, pwindow->dst,
                           (WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
 
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -2394,7 +2394,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
   struct unit_type *pUnit = NULL;
-  SDL_Surface *pSurf, *pText, *pTmp, *pTmp2;
+  SDL_Surface *surf, *pText, *pTmp, *pTmp2;
   SDL_Surface *Surf_Array[10], **pBuf_Array;
   SDL_Rect dst;
   SDL_Color color;
@@ -2419,7 +2419,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
 
   /* create label surface */
-  pSurf = create_surf(w, h, SDL_SWSURFACE);
+  surf = create_surf(w, h, SDL_SWSURFACE);
 
   if (tech_id == research_get(client_player())->researching) {
     color.a = 180;
@@ -2427,40 +2427,40 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     color.a = 128;
   }
 
-  SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, color));
+  SDL_FillRect(surf, NULL, map_rgba(surf->format, color));
 
-  create_frame(pSurf,
-               0,0, pSurf->w - 1, pSurf->h - 1,
+  create_frame(surf,
+               0,0, surf->w - 1, surf->h - 1,
                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
   pTmp = get_tech_icon(tech_id);
 
   if (mode == SMALL_MODE) {
     /* draw name tech text */
-    dst.x = adj_size(35) + (pSurf->w - pText->w - adj_size(35)) / 2;
-    dst.y = (pSurf->h - pText->h) / 2;
-    alphablit(pText, NULL, pSurf, &dst, 255);
+    dst.x = adj_size(35) + (surf->w - pText->w - adj_size(35)) / 2;
+    dst.y = (surf->h - pText->h) / 2;
+    alphablit(pText, NULL, surf, &dst, 255);
     FREESURFACE(pText);
 
     /* draw tech icon */
     pText = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
     dst.x = (adj_size(35) - pText->w) / 2;
-    dst.y = (pSurf->h - pText->h) / 2;
-    alphablit(pText, NULL, pSurf, &dst, 255);
+    dst.y = (surf->h - pText->h) / 2;
+    alphablit(pText, NULL, surf, &dst, 255);
     FREESURFACE(pText);
 
   } else {
 
     /* draw name tech text */
-    dst.x = (pSurf->w - pText->w) / 2;
+    dst.x = (surf->w - pText->w) / 2;
     dst.y = adj_size(20);
-    alphablit(pText, NULL, pSurf, &dst, 255);
+    alphablit(pText, NULL, surf, &dst, 255);
     dst.y += pText->h + adj_size(10);
     FREESURFACE(pText);
 
     /* draw tech icon */
-    dst.x = (pSurf->w - pTmp->w) / 2;
-    alphablit(pTmp, NULL, pSurf, &dst, 255);
+    dst.x = (surf->w - pTmp->w) / 2;
+    alphablit(pTmp, NULL, surf, &dst, 255);
     dst.y += pTmp->w + adj_size(10);
 
     /* fill array with iprvm. icons */
@@ -2477,24 +2477,24 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
     if (w) {
       if (w >= 2) {
-        dst.x = (pSurf->w - 2 * Surf_Array[0]->w) / 2;
+        dst.x = (surf->w - 2 * Surf_Array[0]->w) / 2;
       } else {
-        dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
+        dst.x = (surf->w - Surf_Array[0]->w) / 2;
       }
 
       /* draw iprvm. icons */
       pBuf_Array = Surf_Array;
       h = 0;
       while (w) {
-        alphablit(*pBuf_Array, NULL, pSurf, &dst, 255);
+        alphablit(*pBuf_Array, NULL, surf, &dst, 255);
         dst.x += (*pBuf_Array)->w;
         w--;
         h++;
         if (!(h % 2)) {
           if (w >= 2) {
-            dst.x = (pSurf->w - 2 * (*pBuf_Array)->w) / 2;
+            dst.x = (surf->w - 2 * (*pBuf_Array)->w) / 2;
           } else {
-            dst.x = (pSurf->w - (*pBuf_Array)->w) / 2;
+            dst.x = (surf->w - (*pBuf_Array)->w) / 2;
           }
           dst.y += (*pBuf_Array)->h;
           h = 0;
@@ -2519,12 +2519,12 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
           float zoom = DEFAULT_ZOOM * (64.0 / Surf_Array[0]->w);
           SDL_Surface *zoomed = zoomSurface(Surf_Array[0], zoom, zoom, 1);
 
-          dst.x = (pSurf->w - zoomed->w) / 2;
-          alphablit(zoomed, NULL, pSurf, &dst, 255);
+          dst.x = (surf->w - zoomed->w) / 2;
+          alphablit(zoomed, NULL, surf, &dst, 255);
           FREESURFACE(zoomed);
         } else {
-          dst.x = (pSurf->w - Surf_Array[0]->w) / 2;
-          alphablit(Surf_Array[0], NULL, pSurf, &dst, 255);
+          dst.x = (surf->w - Surf_Array[0]->w) / 2;
+          alphablit(Surf_Array[0], NULL, surf, &dst, 255);
         }
       } else {
         float zoom;
@@ -2534,21 +2534,21 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
         } else {
           zoom = DEFAULT_ZOOM * (45.0 / Surf_Array[0]->w);
         }
-        dst.x = (pSurf->w - (Surf_Array[0]->w * 2) * zoom - 2) / 2;
+        dst.x = (surf->w - (Surf_Array[0]->w * 2) * zoom - 2) / 2;
         pBuf_Array = Surf_Array;
         h = 0;
         while (w) {
           SDL_Surface *zoomed = zoomSurface((*pBuf_Array), zoom, zoom, 1);
 
-          alphablit(zoomed, NULL, pSurf, &dst, 255);
+          alphablit(zoomed, NULL, surf, &dst, 255);
           dst.x += zoomed->w + 2;
           w--;
           h++;
           if (!(h % 2)) {
             if (w >= 2) {
-              dst.x = (pSurf->w - 2 * zoomed->w - 2 ) / 2;
+              dst.x = (surf->w - 2 * zoomed->w - 2 ) / 2;
             } else {
-              dst.x = (pSurf->w - zoomed->w) / 2;
+              dst.x = (surf->w - zoomed->w) / 2;
             }
             dst.y += zoomed->h + 2;
             h = 0;
@@ -2562,7 +2562,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
   FREESURFACE(pTmp);
 
-  return pSurf;
+  return surf;
 }
 
 /**********************************************************************//**
@@ -2594,7 +2594,7 @@ void real_science_report_dialog_update(void *unused)
     const struct research *presearch = research_get(client_player());
     char cBuf[128];
     utf8_str *pStr;
-    SDL_Surface *pSurf;
+    SDL_Surface *msurf;
     SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
     SDL_Rect dest;
@@ -2630,15 +2630,15 @@ void real_science_report_dialog_update(void *unused)
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_theme_color(COLOR_THEME_SCIENCEDLG_TEXT);
 
-    pSurf = create_text_surf_from_utf8(pStr);
+    msurf = create_text_surf_from_utf8(pStr);
 
-    dest.x = area.x + (area.w - pSurf->w) / 2;
+    dest.x = area.x + (area.w - msurf->w) / 2;
     dest.y = area.y + adj_size(2);
-    alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
+    alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
-    dest.y += pSurf->h + adj_size(4);
+    dest.y += msurf->h + adj_size(4);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(msurf);
 
     dest.x = area.x + adj_size(16);
 
@@ -2659,15 +2659,15 @@ void real_science_report_dialog_update(void *unused)
 
     copy_chars_to_utf8_str(pStr, cBuf);
 
-    pSurf = create_text_surf_from_utf8(pStr);
+    msurf = create_text_surf_from_utf8(pStr);
 
     dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
 
-    alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
+    alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
-    dest.y += pSurf->h + adj_size(4);
+    dest.y += msurf->h + adj_size(4);
 
-    FREESURFACE(pSurf);
+    FREESURFACE(msurf);
 
     /* progress bar */
     if (cost > 0) {
@@ -2716,9 +2716,9 @@ void real_science_report_dialog_update(void *unused)
         if (VUT_ADVANCE == preq->source.kind
             && (advance_number(preq->source.value.advance)
                 == presearch->researching)) {
-          pSurf = adj_surf(get_building_surface(pimprove));
-          alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-          dest.x += pSurf->w + 1;
+          msurf = adj_surf(get_building_surface(pimprove));
+          alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+          dest.x += msurf->w + 1;
         }
       } requirement_vector_iterate_end;
     } improvement_iterate_end;
@@ -2729,20 +2729,20 @@ void real_science_report_dialog_update(void *unused)
     unit_type_iterate(un) {
       pUnit = un;
       if (advance_number(pUnit->require_advance) == presearch->researching) {
-        SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
-        int w = surf->w;
+        SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
+        int w = usurf->w;
 
 	if (w > 64) {
           float zoom = DEFAULT_ZOOM * (64.0 / w);
 
-          pSurf = zoomSurface(surf, zoom, zoom, 1);
-          alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-          dest.x += pSurf->w + adj_size(2);          
-          FREESURFACE(pSurf);
+          msurf = zoomSurface(usurf, zoom, zoom, 1);
+          alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+          dest.x += msurf->w + adj_size(2);
+          FREESURFACE(msurf);
         } else {
-          pSurf = adj_surf(surf);
-          alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-          dest.x += pSurf->w + adj_size(2);
+          msurf = adj_surf(usurf);
+          alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+          dest.x += msurf->w + adj_size(2);
         }
       }
     } unit_type_iterate_end;
@@ -2768,25 +2768,25 @@ void real_science_report_dialog_update(void *unused)
       /* current goal text */
       copy_chars_to_utf8_str(pStr, research_advance_name_translation
                              (presearch, presearch->tech_goal));
-      pSurf = create_text_surf_from_utf8(pStr);
+      msurf = create_text_surf_from_utf8(pStr);
 
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
-      alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
+      alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
-      dest.y += pSurf->h;
+      dest.y += msurf->h;
 
-      FREESURFACE(pSurf);
+      FREESURFACE(msurf);
 
       copy_chars_to_utf8_str(pStr, get_science_goal_text
                              (presearch->tech_goal));
-      pSurf = create_text_surf_from_utf8(pStr);
+      msurf = create_text_surf_from_utf8(pStr);
 
       dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
-      alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
+      alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
-      dest.y += pSurf->h + adj_size(6);
+      dest.y += msurf->h + adj_size(6);
 
-      FREESURFACE(pSurf);
+      FREESURFACE(msurf);
 
       /* buildings */
       improvement_iterate(pimprove) {
@@ -2794,9 +2794,9 @@ void real_science_report_dialog_update(void *unused)
           if (VUT_ADVANCE == preq->source.kind
               && (advance_number(preq->source.value.advance)
                   == presearch->tech_goal)) {
-            pSurf = adj_surf(get_building_surface(pimprove));
-            alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-            dest.x += pSurf->w + 1;
+            msurf = adj_surf(get_building_surface(pimprove));
+            alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+            dest.x += msurf->w + 1;
           }
         } requirement_vector_iterate_end;
       } improvement_iterate_end;
@@ -2807,20 +2807,20 @@ void real_science_report_dialog_update(void *unused)
       unit_type_iterate(un) {
         pUnit = un;
         if (advance_number(pUnit->require_advance) == presearch->tech_goal) {
-          SDL_Surface *surf = get_unittype_surface(un, direction8_invalid());
-          int w = surf->w;
+          SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
+          int w = usurf->w;
 
           if (w > 64) {
             float zoom = DEFAULT_ZOOM * (64.0 / w);
 
-            pSurf = zoomSurface(surf, zoom, zoom, 1);
-            alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-            dest.x += pSurf->w + adj_size(2);
-            FREESURFACE(pSurf);
+            msurf = zoomSurface(usurf, zoom, zoom, 1);
+            alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+            dest.x += msurf->w + adj_size(2);
+            FREESURFACE(msurf);
           } else {
-            pSurf = adj_surf(surf);
-            alphablit(pSurf, NULL, pwindow->dst->surface, &dest, 255);
-            dest.x += pSurf->w + adj_size(2);
+            msurf = adj_surf(usurf);
+            alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
+            dest.x += msurf->w + adj_size(2);
           }
         }
       } unit_type_iterate_end;
@@ -2910,7 +2910,7 @@ static void popup_change_research_dialog(void)
   struct widget *pBuf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   int max_col, max_row, col, i, count = 0, h;
   SDL_Rect area;
 
@@ -2994,8 +2994,8 @@ static void popup_change_research_dialog(void)
     count++;
 
     copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(aidx)));
-    pSurf = create_select_tech_icon(pstr, aidx, MED_MODE);
-    pBuf = create_icon2(pSurf, pwindow->dst,
+    surf = create_select_tech_icon(pstr, aidx, MED_MODE);
+    pBuf = create_icon2(surf, pwindow->dst,
                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -3034,11 +3034,11 @@ static void popup_change_research_dialog(void)
   area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
-  pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
-  resize_window(pwindow, pSurf, NULL,
+  surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
+  resize_window(pwindow, surf, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   area = pwindow->area;
 
@@ -3096,7 +3096,7 @@ static void popup_change_research_goal_dialog(void)
   struct widget *pBuf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pSurf;
+  SDL_Surface *surf;
   char cBuf[128];
   int max_col, max_row, col, i, count = 0, h , num;
   SDL_Rect area;
@@ -3190,8 +3190,8 @@ static void popup_change_research_goal_dialog(void)
                   num,
                   PL_("step", "steps", num));
       copy_chars_to_utf8_str(pstr, cBuf);
-      pSurf = create_select_tech_icon(pstr, aidx, FULL_MODE);
-      pBuf = create_icon2(pSurf, pwindow->dst,
+      surf = create_select_tech_icon(pstr, aidx, FULL_MODE);
+      pBuf = create_icon2(surf, pwindow->dst,
                           WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pBuf, FC_WS_NORMAL);
@@ -3231,11 +3231,11 @@ static void popup_change_research_goal_dialog(void)
   area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
-  pSurf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
-  resize_window(pwindow, pSurf, NULL,
+  surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
+  resize_window(pwindow, surf, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
-  FREESURFACE(pSurf);
+  FREESURFACE(surf);
 
   area = pwindow->area;
 

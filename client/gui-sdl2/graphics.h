@@ -265,8 +265,8 @@ SDL_Surface *copy_surface(SDL_Surface *src);
 int blit_entire_src(SDL_Surface *psrc,
                     SDL_Surface *pdest, Sint16 iDest_x, Sint16 iDest_y);
 
-Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
-Uint32 get_first_pixel(SDL_Surface *pSurface);
+Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y);
+Uint32 get_first_pixel(SDL_Surface *surf);
 
 void create_frame(SDL_Surface *dest, Sint16 left, Sint16 top,
                   Sint16 right, Sint16 bottom,
@@ -289,10 +289,10 @@ int main_window_height(void);
 bool correct_rect_region(SDL_Rect *prect);
 bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
-int fill_rect_alpha(SDL_Surface *pSurface, SDL_Rect *prect,
+int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
                     SDL_Color *pColor);
 
-int clear_surface(SDL_Surface *pSurf, SDL_Rect *dstrect);
+int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect);
 
 /* ================================================================= */
 
@@ -324,10 +324,10 @@ do {					\
 /*
  *  lock surface
  */
-#define lock_surf(pSurf)	\
+#define lock_surf(surf)	\
 do {				\
-  if (SDL_MUSTLOCK(pSurf)) {	\
-    SDL_LockSurface(pSurf);	\
+  if (SDL_MUSTLOCK(surf)) {	\
+    SDL_LockSurface(surf);	\
   }				\
 } while (FALSE)
 
@@ -335,10 +335,10 @@ do {				\
 /*
  *   unlock surface
  */
-#define unlock_surf(pSurf)		\
+#define unlock_surf(surf)		\
 do {					\
-    if (SDL_MUSTLOCK(pSurf)) {		\
-	SDL_UnlockSurface(pSurf);	\
+    if (SDL_MUSTLOCK(surf)) {		\
+	SDL_UnlockSurface(surf);	\
     }                                   \
 } while (FALSE)
 
@@ -352,10 +352,10 @@ do {					\
  */
 #define unlock_screen()	unlock_surf(main_data.screen)
 
-#define putpixel(pSurface, x, y, pixel)					  \
+#define putpixel(surf, x, y, pixel)					  \
 do {									  \
-    Uint8 *buf_ptr = ((Uint8 *)pSurface->pixels + (y * pSurface->pitch)); \
-    switch (pSurface->format->BytesPerPixel) {				  \
+    Uint8 *buf_ptr = ((Uint8 *)surf->pixels + (y * surf->pitch)); \
+    switch (surf->format->BytesPerPixel) {				  \
 		case 1:							  \
 			buf_ptr += x;					  \
 			*(Uint8 *)buf_ptr = pixel;			  \

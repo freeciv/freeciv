@@ -35,7 +35,7 @@
 
 #include "sprite.h"
 
-static struct sprite *ctor_sprite(SDL_Surface *pSurface);
+static struct sprite *ctor_sprite(SDL_Surface *surf);
 
 /************************************************************************//**
   Return a NULL-terminated, permanently allocated array of possible
@@ -174,11 +174,11 @@ void free_sprite(struct sprite *s)
 /************************************************************************//**
   Create a sprite struct and fill it with SDL_Surface pointer
 ****************************************************************************/
-static struct sprite *ctor_sprite(SDL_Surface *pSurface)
+static struct sprite *ctor_sprite(SDL_Surface *surf)
 {
   struct sprite *result = fc_malloc(sizeof(struct sprite));
 
-  result->psurface = pSurface;
+  result->psurface = surf;
 
   return result;
 }
