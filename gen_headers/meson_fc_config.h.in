@@ -70,6 +70,9 @@
 /* fcntl.h available */
 #mesondefine HAVE_FCNTL_H
 
+/* time.h available */
+#mesondefine HAVE_TIME_H
+
 /* libcharset.h available */
 #mesondefine HAVE_LIBCHARSET_H
 
@@ -286,6 +289,9 @@
 
 /* uname() available */
 #mesondefine HAVE_UNAME
+
+/* nanosleep() available */
+#mesondefine HAVE_NANOSLEEP
 
 /* usleep() available */
 #mesondefine HAVE_USLEEP
