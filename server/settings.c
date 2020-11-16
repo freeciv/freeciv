@@ -220,9 +220,11 @@ static bool set_enum_value(struct setting *pset, int val);
 static const struct sset_val_name *caravanbonusstyle_name(int caravanbonus)
 {
   switch (caravanbonus) {
+  /* TRANS: Description of caravan bonus style setting value. */
   NAME_CASE(CBS_CLASSIC, "CLASSIC", N_("Classic Freeciv"));
   NAME_CASE(CBS_LOGARITHMIC, "LOGARITHMIC", N_("Log^2 N style"));
   }
+
   return NULL;
 }
 
@@ -260,9 +262,11 @@ static const struct sset_val_name *topology_name(int topology_bit)
 static const struct sset_val_name *traderevenuestyle_name(int traderevenue)
 {
   switch (traderevenue) {
+  /* TRANS: Description of trade revenue style setting value. */
   NAME_CASE(TRS_CLASSIC, "CLASSIC", N_("Classic Freeciv"));
   NAME_CASE(TRS_SIMPLE, "SIMPLE", N_("Proportional to tile trade"));
   }
+
   return NULL;
 }
 
