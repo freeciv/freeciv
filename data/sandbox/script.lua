@@ -35,8 +35,7 @@ function hermit_nest(unit, extra)
     if chance <= 3 then
       local tech = unit.owner:give_tech(nil, 20, false, "hut")
       notify.event(unit.owner, unit.tile, E.HUT_TECH,
-                 _("Secluded studies have led the Hermit to "
-                   .. "the discovery of %s!"),
+                 _("Secluded studies have led the Hermit to the discovery of %s!"),
                  tech:name_translation())
     else
       notify.event(unit.owner, unit.tile, E.HUT_BARB_CITY_NEAR,
@@ -52,8 +51,8 @@ signal.connect("hut_enter", "hermit_nest")
 function hermit_nest_blown(unit, extra)
   if extra == "Hermit" then
     notify.event(unit.owner, unit.tile, E.HUT_BARB,
-                 _("Your %s has overflied a Hermit's Place" 
-                   .. " and destroyed it!"), unit.utype:name_translation())
+                 _("Your %s has overflied a Hermit's Place and destroyed it!"),
+                 unit.utype:name_translation())
     -- do not process default.lua
     return true
   end
