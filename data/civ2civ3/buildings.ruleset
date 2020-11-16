@@ -809,8 +809,8 @@ this, corruption and production waste in the capital itself is half \
 of what it would otherwise be (and a Courthouse will eliminate it \
 entirely).\
 "), _("\
-The city where this palace is located \
-enjoys a bonus when enemy agents try to evade your own agents \
+The city where this palace is located cannot be incited to revolt, \
+and enjoys a bonus when enemy agents try to evade your own agents \
 stationed in the city, or sabotage your buildings.\
 "),
 ; /* xgettext:no-c-format */
