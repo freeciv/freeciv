@@ -3335,7 +3335,7 @@ void science_report_dialog_popup(bool raise)
   struct widget *pChangeResearchGoalButton;
   struct widget *pExitButton;
   utf8_str *pstr;
-  SDL_Surface *background, *pTechIcon;
+  SDL_Surface *background, *tech_icon;
   int count;
   SDL_Rect area;
 
@@ -3389,8 +3389,8 @@ void science_report_dialog_popup(bool raise)
   } advance_index_iterate_end;
 
   /* current research icon */
-  pTechIcon = get_tech_icon(presearch->researching);
-  pChangeResearchButton = create_icon2(pTechIcon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  tech_icon = get_tech_icon(presearch->researching);
+  pChangeResearchButton = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   pChangeResearchButton->action = popup_change_research_dialog_callback;
   if (count > 0) {
@@ -3400,8 +3400,8 @@ void science_report_dialog_popup(bool raise)
   add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pChangeResearchButton);
 
   /* current research goal icon */
-  pTechIcon = get_tech_icon(presearch->tech_goal);
-  pChangeResearchGoalButton = create_icon2(pTechIcon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  tech_icon = get_tech_icon(presearch->tech_goal);
+  pChangeResearchGoalButton = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;
   if (count > 0) {
