@@ -2478,7 +2478,7 @@ void popup_government_dialog(void)
                                 Nation Wizard
 **************************************************************************/
 static struct advanced_dialog *pNationDlg = NULL;
-static struct small_dialog *pHelpDlg = NULL;
+static struct small_dialog *help_dlg = NULL;
 
 struct NAT {
   unsigned char nation_style;      /* selected style */
@@ -2777,10 +2777,10 @@ static int help_dlg_callback(struct widget *pwindow)
 static int cancel_help_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pHelpDlg) {
-      popdown_window_group_dialog(pHelpDlg->begin_widget_list,
-                                  pHelpDlg->end_widget_list);
-      FC_FREE(pHelpDlg);
+    if (help_dlg) {
+      popdown_window_group_dialog(help_dlg->begin_widget_list,
+                                  help_dlg->end_widget_list);
+      FC_FREE(help_dlg);
       if (pwidget) {
         flush_dirty();
       }
@@ -2829,8 +2829,8 @@ static int nation_button_callback(struct widget *pNationButton)
     widget_redraw(pNationButton);
     widget_mark_dirty(pNationButton);
 
-    if (!pHelpDlg) {
-      pHelpDlg = fc_calloc(1, sizeof(struct small_dialog));
+    if (!help_dlg) {
+      help_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
       pstr = create_utf8_from_char(nation_plural_translation(pNation),
                                    adj_font(12));
@@ -2841,7 +2841,7 @@ static int nation_button_callback(struct widget *pNationButton)
 
       set_wstate(pwindow, FC_WS_NORMAL);
 
-      pHelpDlg->end_widget_list = pwindow;
+      help_dlg->end_widget_list = pwindow;
       add_to_gui_list(ID_WINDOW, pwindow);
 
       pOK_Button = create_themeicon_button_from_chars(current_theme->OK_Icon,
@@ -2850,10 +2850,10 @@ static int nation_button_callback(struct widget *pNationButton)
       set_wstate(pOK_Button, FC_WS_NORMAL);
       pOK_Button->key = SDLK_ESCAPE;
       add_to_gui_list(ID_BUTTON, pOK_Button);
-      pHelpDlg->begin_widget_list = pOK_Button;
+      help_dlg->begin_widget_list = pOK_Button;
     } else {
-      pwindow = pHelpDlg->end_widget_list;
-      pOK_Button = pHelpDlg->begin_widget_list;
+      pwindow = help_dlg->end_widget_list;
+      pOK_Button = help_dlg->begin_widget_list;
       /* undraw window */
       widget_undraw(pwindow);
       widget_mark_dirty(pwindow);

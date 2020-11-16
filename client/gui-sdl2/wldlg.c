@@ -77,7 +77,7 @@ struct EDITOR {
   char worklist_name[MAX_LEN_NAME];
 
   /* shortcuts  */
-  struct widget *pDock;
+  struct widget *dock;
   struct widget *pWorkList_Counter;
 
   struct widget *pProduction_Name;
@@ -205,7 +205,7 @@ static int rename_worklist_editor_callback(struct widget *pwidget)
 **************************************************************************/
 static void add_target_to_worklist(struct widget *pTarget)
 {
-  struct widget *pBuf = NULL, *pDock = NULL;
+  struct widget *pBuf = NULL, *dock = NULL;
   utf8_str *pstr = NULL;
   int i;
   struct universal prod = cid_decode(MAX_ID - pTarget->ID);
@@ -256,9 +256,9 @@ static void add_target_to_worklist(struct widget *pTarget)
   pBuf->ID = MAX_ID - cid_encode(prod);
 
   if (pEditor->pWork->pBeginActiveWidgetList) {
-    pDock = pEditor->pWork->pBeginActiveWidgetList;
+    dock = pEditor->pWork->pBeginActiveWidgetList;
   } else {
-    pDock = pEditor->pDock;
+    dock = pEditor->dock;
   }
 
 /* FIXME */
@@ -282,7 +282,7 @@ static void add_target_to_worklist(struct widget *pTarget)
 #endif /* 0 */
 
   add_widget_to_vertical_scroll_widget_list(pEditor->pWork, pBuf,
-                                            pDock, FALSE,
+                                            dock, FALSE,
                                             pEditor->end_widget_list->area.x + adj_size(2),
                                             pEditor->end_widget_list->area.y + adj_size(152));
 
@@ -1262,7 +1262,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   }
 
   pLast = pBuf;
-  pEditor->pDock = pBuf;
+  pEditor->dock = pBuf;
 
   /* create Widget Labels of worklist entries */
 
