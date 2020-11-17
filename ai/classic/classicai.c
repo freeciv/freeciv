@@ -29,13 +29,13 @@
 #include "aihand.h"
 #include "ailog.h"
 #include "aiplayer.h"
-#include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"
+#include "daisettler.h"
 
 #include "classicai.h"
 

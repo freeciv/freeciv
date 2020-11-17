@@ -35,11 +35,11 @@
 /* ai/default */
 #include "aiferry.h"
 #include "aiplayer.h"
-#include "aisettler.h"
 #include "aiunit.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daieffects.h"
+#include "daisettler.h"
 
 #include "aidata.h"
 

@@ -98,7 +98,7 @@ struct ai_plr
     int req_love_for_alliance;
   } diplomacy;
 
-  /* Cache map for AI settlers; defined in aisettler.c. */
+  /* Cache map for AI settlers; defined in daisettler.c. */
   struct ai_settler *settler;
 
   /* The units of tech_want seem to be shields */

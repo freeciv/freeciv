@@ -32,8 +32,6 @@ libdefaultai_la_SOURCES = \
 		aiparatrooper.h \
 		aiplayer.c	\
 		aiplayer.h	\
-		aisettler.c	\
-		aisettler.h	\
 		aitech.c	\
 		aitech.h	\
 		aitools.c	\
@@ -53,7 +51,9 @@ libdefaultai_la_SOURCES = \
 		daieffects.c	\
 		daieffects.h	\
 		daimilitary.c	\
-		daimilitary.h
+		daimilitary.h	\
+		daisettler.c	\
+		daisettler.h
 
 
 libdefaultai_la_LIBADD = -lm

@@ -56,13 +56,13 @@
 #include "aihand.h"
 #include "ailog.h"
 #include "aiplayer.h"
-#include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"
 #include "daieffects.h"
+#include "daisettler.h"
 
 #include "daicity.h"
 

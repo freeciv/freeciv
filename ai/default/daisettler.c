@@ -63,7 +63,7 @@
 #include "aiunit.h"
 #include "daicity.h"
 
-#include "aisettler.h"
+#include "daisettler.h"
 
 
 /* COMMENTS */

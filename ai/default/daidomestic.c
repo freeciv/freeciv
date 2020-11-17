@@ -505,7 +505,7 @@ struct adv_choice *domestic_advisor_choose_build(struct ai_type *ait, struct pla
     founder_type = best_role_unit(pcity,
                                   action_id_get_role(ACTION_FOUND_CITY));
 
-    /* founder_want calculated in aisettlers.c */
+    /* founder_want calculated in daisettlers.c */
     founder_want = city_data->founder_want;
 
     if (adv->wonder_city == pcity->id) {
