@@ -2236,8 +2236,7 @@ void city_dialog::showEvent(QShowEvent *event)
     central_left_splitter->restoreState(gui()->qt_settings.city_splitter2);
     central_splitter->restoreState(gui()->qt_settings.city_splitter3);
   } else {
-    QList<QScreen *> screens = QGuiApplication::screens();
-    QRect rect = screens[0]->availableGeometry();
+    QRect rect = QApplication::primaryScreen()->availableGeometry();
 
     resize((rect.width() * 4) / 5, (rect.height() * 5) / 6);
   }
@@ -4353,8 +4352,7 @@ production_widget::production_widget(QWidget *parent, struct city *pcity,
                                      bool show_buildings): QTableView()
 {
   QPoint pos, sh;
-  QList<QScreen *> screens = QGuiApplication::screens();
-  QRect rect = screens[0]->availableGeometry();
+  QRect rect = QApplication::primaryScreen()->availableGeometry();
   int desk_width = rect.width();
   int desk_height = rect.height();
   fc_tt = new fc_tooltip(this);

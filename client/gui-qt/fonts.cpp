@@ -134,8 +134,7 @@ void configure_fonts()
   int max, smaller, default_size;
   QStringList sl;
   QString font_name;
-  const QList<QScreen *> screens = QGuiApplication::screens();
-  const QScreen *screen = screens.at(0);
+  const QScreen *screen = QApplication::primaryScreen();
   qreal logical_dpi = screen->logicalDotsPerInchX();
   qreal physical_dpi = screen->physicalDotsPerInchX();
   qreal screen_size = screen->geometry().width() / physical_dpi + 5;

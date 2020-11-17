@@ -245,8 +245,7 @@ int scale_to_mult(const struct multiplier *pmul, int scale)
 **************************************************************************/
 void popup_rates_dialog(void)
 {
-  QList<QScreen *> screens = QGuiApplication::screens();
-  QRect rect = screens[0]->availableGeometry();
+  QRect rect = QApplication::primaryScreen()->availableGeometry();
   QPoint p;
   tax_rates_dialog *trd;
 

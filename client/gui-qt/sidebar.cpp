@@ -544,10 +544,9 @@ void fc_sidebar::paint(QPainter *painter, QPaintEvent *event)
 void fc_sidebar::resize_me(int hght, bool force)
 {
   int w, h, non_std, non_std_count, screen_hres;
-  QList<QScreen *> screens = QGuiApplication::screens();
 
   h = hght;
-  screen_hres = screens[0]->availableGeometry().width();
+  screen_hres = QApplication::primaryScreen()->availableGeometry().width();
   w = (100 * screen_hres) / 1920;
   w = qMax(w, 80);
 

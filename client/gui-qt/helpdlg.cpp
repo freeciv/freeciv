@@ -205,8 +205,7 @@ void help_dialog::showEvent(QShowEvent *event)
     restoreGeometry(gui()->qt_settings.help_geometry);
     splitter->restoreState(gui()->qt_settings.help_splitter1);
   } else {
-    QList<QScreen *> screens = QGuiApplication::screens();
-    QRect rect = screens[0]->availableGeometry();
+    QRect rect = QApplication::primaryScreen()->availableGeometry();
 
     resize((rect.width() * 3) / 5, (rect.height() * 3) / 6);
     sizes << rect.width() / 10 << rect.width() / 3;
