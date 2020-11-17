@@ -45,8 +45,7 @@ static void handle_alloc_failure(size_t size, const char *called_as,
 
 #ifdef FREECIV_DEBUG
 /****************************************************************************
-  Check the size for sanity.  The program will exit rather than allocate a
-  dangerously large amount of memory.
+  Check the size for sanity.
 ****************************************************************************/
 static void sanity_check_size(size_t size, const char *called_as,
 			      int line, const char *file)
