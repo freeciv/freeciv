@@ -1,9 +1,11 @@
 
-project('freeciv', 'c', meson_version: '>= 0.48.0')
+project('freeciv', ['c', 'cpp'], meson_version: '>= 0.48.0')
 
 if not get_option('ack_experimental')
   error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.')
 endif
+
+add_global_arguments('-fPIC', language : 'cpp')
 
 host_system = host_machine.system()
 
@@ -249,6 +251,8 @@ configure_file(input : 'gen_headers/meson_freeciv_config.h.in',
 
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
+add_global_arguments('-DHAVE_CONFIG_H',
+                     language: 'cpp')
 
 if meson.is_cross_build()
   cross_inc_path = meson.get_cross_property('cross_inc_path')
@@ -2074,6 +2078,121 @@ install_data('data/themes/gtk3.22/Freeciv/gtk-3.0/gtk.css',
              'data/themes/gtk3.22/Freeciv/gtk-3.0/bg.png',
              install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gtk3.22/Freeciv/gtk-3.0'))
+
+endif
+
+qt5_mod = import('qt5')
+
+qt5_dep = dependency('Qt5', modules: ['Core', 'Gui', 'Widgets'], required: false)
+
+if get_option('clients').contains('qt')
+
+if not qt5_dep.found()
+  error('Qt5 >= 5.11 required for qt-client, but not found')
+endif
+
+mocced = qt5_mod.preprocess(
+  moc_headers: [
+   'client/gui-qt/fc_client.h',
+   'client/gui-qt/ratesdlg.h',
+   'client/gui-qt/mapview.h',
+   'client/gui-qt/menu.h',
+   'client/gui-qt/repodlgs.h',
+   'client/gui-qt/dialogs.h',
+   'client/gui-qt/optiondlg.h',
+   'client/gui-qt/citydlg.h',
+   'client/gui-qt/cityrep.h',
+   'client/gui-qt/helpdlg.h',
+   'client/gui-qt/plrdlg.h',
+   'client/gui-qt/diplodlg.h',
+   'client/gui-qt/spaceshipdlg.h',
+   'client/gui-qt/messagewin.h',
+   'client/gui-qt/chatline.h',
+   'client/gui-qt/messagedlg.h',
+   'client/gui-qt/sidebar.h',
+   'client/gui-qt/shortcuts.h',
+   'client/gui-qt/voteinfo_bar.h',
+   'client/gui-qt/gotodlg.h',
+   'client/gui-qt/hudwidget.h'],
+  )
+
+executable('freeciv-qt',
+  'client/gui-qt/canvas.cpp',
+  'client/gui-qt/chatline.cpp',
+  'client/gui-qt/citydlg.cpp',
+  'client/gui-qt/cityrep.cpp',
+  'client/gui-qt/colors.cpp',
+  'client/gui-qt/connectdlg.cpp',
+  'client/gui-qt/dialogs.cpp',
+  'client/gui-qt/diplodlg.cpp',
+  'client/gui-qt/fc_client.cpp',
+  'client/gui-qt/finddlg.cpp',
+  'client/gui-qt/fonts.cpp',
+  'client/gui-qt/gotodlg.cpp',
+  'client/gui-qt/graphics.cpp',
+  'client/gui-qt/gui_main.cpp',
+  'client/gui-qt/helpdlg.cpp',
+  'client/gui-qt/hudwidget.cpp',
+  'client/gui-qt/infradlg.cpp',
+  'client/gui-qt/inteldlg.cpp',
+  'client/gui-qt/luaconsole.cpp',
+  'client/gui-qt/mapctrl.cpp',
+  'client/gui-qt/mapview.cpp',
+  'client/gui-qt/menu.cpp',
+  'client/gui-qt/messagedlg.cpp',
+  'client/gui-qt/messagewin.cpp',
+  'client/gui-qt/optiondlg.cpp',
+  'client/gui-qt/pages.cpp',
+  'client/gui-qt/plrdlg.cpp',
+  'client/gui-qt/qtg_cxxside.cpp',
+  'client/gui-qt/ratesdlg.cpp',
+  'client/gui-qt/repodlgs.cpp',
+  'client/gui-qt/shortcuts.cpp',
+  'client/gui-qt/sidebar.cpp',
+  'client/gui-qt/spaceshipdlg.cpp',
+  'client/gui-qt/sprite.cpp',
+  'client/gui-qt/themes.cpp',
+  'client/gui-qt/voteinfo_bar.cpp',
+  'client/gui-qt/wldlg.cpp',
+  'client/gui_interface.c',
+  mocced,
+  include_directories: [client_inc, include_directories('client/gui-qt')],
+  dependencies: [qt5_dep, ws2_dep],
+  link_with: client_common,
+  install: true)
+
+install_data(
+  'data/themes/gui-qt/NightStalker/resource.qss',
+  'data/themes/gui-qt/NightStalker/ai.png',
+  'data/themes/gui-qt/NightStalker/arrow-down.png',
+  'data/themes/gui-qt/NightStalker/arrow-left.png',
+  'data/themes/gui-qt/NightStalker/arrow-right.png',
+  'data/themes/gui-qt/NightStalker/arrow-up.png',
+  'data/themes/gui-qt/NightStalker/checkbox-checked.png',
+  'data/themes/gui-qt/NightStalker/checkbox-checked-pressed.png',
+  'data/themes/gui-qt/NightStalker/checkbox-unchecked.png',
+  'data/themes/gui-qt/NightStalker/checkbox-unchecked-pressed.png',
+  'data/themes/gui-qt/NightStalker/cities.png',
+  'data/themes/gui-qt/NightStalker/city-close.png',
+  'data/themes/gui-qt/NightStalker/city-left.png',
+  'data/themes/gui-qt/NightStalker/city-right.png',
+  'data/themes/gui-qt/NightStalker/city-switch.png',
+  'data/themes/gui-qt/NightStalker/combo-arrow.png',
+  'data/themes/gui-qt/NightStalker/human.png',
+  'data/themes/gui-qt/NightStalker/pattern-game.png',
+  'data/themes/gui-qt/NightStalker/pattern.png',
+  'data/themes/gui-qt/NightStalker/plantforest.png',
+  'data/themes/gui-qt/NightStalker/radio-checked.png',
+  'data/themes/gui-qt/NightStalker/radio-unchecked.png',
+  'data/themes/gui-qt/NightStalker/research.png',
+  'data/themes/gui-qt/NightStalker/splitter-horizontal.png',
+  'data/themes/gui-qt/NightStalker/splitter-vertical.png',
+  'data/themes/gui-qt/NightStalker/sun.png',
+  'data/themes/gui-qt/NightStalker/units.png',
+  'data/themes/gui-qt/NightStalker/view.png',
+  'data/themes/gui-qt/NightStalker/wheel.png',
+  install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gui-qt/NightStalker'))
 
 endif
 
