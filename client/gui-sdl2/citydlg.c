@@ -254,11 +254,11 @@ static int cancel_units_orders_city_dlg_callback(struct widget *pButton)
 static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    if (pUnit) {
-      unit_focus_set(pUnit);
+    if (punit) {
+      unit_focus_set(punit);
     }
   }
   return -1;
@@ -270,17 +270,17 @@ static int activate_units_orders_city_dlg_callback(struct widget *pButton)
 static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
-    if (pUnit) {
+    if (punit) {
       popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
                                   pcity_dlg->pEndCityMenuWidgetList);
       pcity_dlg->pEndCityMenuWidgetList = NULL;
 
       popdown_city_dialog(pcity_dlg->pCity);
 
-      center_tile_mapcanvas(unit_tile(pUnit));
-      unit_focus_set(pUnit);
+      center_tile_mapcanvas(unit_tile(punit));
+      unit_focus_set(punit);
     }
   }
   return -1;
@@ -292,11 +292,11 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *pButt
 static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    if (pUnit) {
-      request_unit_sentry(pUnit);
+    if (punit) {
+      request_unit_sentry(punit);
     }
   }
   return -1;
@@ -308,11 +308,11 @@ static int sentry_units_orders_city_dlg_callback(struct widget *pButton)
 static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    if (pUnit) {
-      request_unit_fortify(pUnit);
+    if (punit) {
+      request_unit_fortify(punit);
     }
   }
   return -1;
@@ -324,10 +324,10 @@ static int fortify_units_orders_city_dlg_callback(struct widget *pButton)
 static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    popup_unit_disband_dlg(pUnit, TRUE);
+    popup_unit_disband_dlg(punit, TRUE);
   }
   return -1;
 }
@@ -338,11 +338,11 @@ static int disband_units_orders_city_dlg_callback(struct widget *pButton)
 static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    if (pUnit) {
-      request_unit_change_homecity(pUnit);
+    if (punit) {
+      request_unit_change_homecity(punit);
     }
   }
   return -1;
@@ -354,10 +354,10 @@ static int homecity_units_orders_city_dlg_callback(struct widget *pButton)
 static int upgrade_units_orders_city_dlg_callback(struct widget *pButton)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = pButton->data.unit;
+    struct unit *punit = pButton->data.unit;
 
     popdown_city_menu_dlg(TRUE);
-    popup_unit_upgrade_dlg(pUnit, TRUE);
+    popup_unit_upgrade_dlg(punit, TRUE);
   }
   return -1;
 }
@@ -705,12 +705,12 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     h = tileset_full_tile_height(tileset) + (adj_size(151) % (tileset_full_tile_height(tileset)+4)) / num_y;
   }
 
-  unit_list_iterate(pList, pUnit) {
+  unit_list_iterate(pList, punit) {
     const char *vetname;
 
-    putype = unit_type_get(pUnit);
-    vetname = utype_veteran_name_translation(putype, pUnit->veteran);
-    pHome_City = game_city_by_number(pUnit->homecity);
+    putype = unit_type_get(punit);
+    vetname = utype_veteran_name_translation(putype, punit->veteran);
+    pHome_City = game_city_by_number(punit->homecity);
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
                 utype_name_translation(putype),
                 putype->attack_strength,
@@ -718,19 +718,19 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
                 move_points_text(putype->move_rate, FALSE),
                 (vetname != NULL ? "\n" : ""),
                 (vetname != NULL ? vetname : ""),
-                unit_activity_text(pUnit),
-                pUnit->hp, putype->hp,
+                unit_activity_text(punit),
+                punit->hp, putype->hp,
                 pHome_City ? pHome_City->name : Q_("?homecity:None"));
 
     if (pcity_dlg->page == SUPPORTED_UNITS_PAGE) {
       int pcity_near_dist;
-      struct city *pnear_city = get_nearest_city(pUnit, &pcity_near_dist);
+      struct city *pnear_city = get_nearest_city(punit, &pcity_near_dist);
 
       sz_strlcat(cBuf, "\n");
       sz_strlcat(cBuf, get_nearest_city_text(pnear_city, pcity_near_dist));
-      surf = adj_surf(create_unit_surface(pUnit, TRUE, w, h));
+      surf = adj_surf(create_unit_surface(punit, TRUE, w, h));
     } else {
-      surf = adj_surf(create_unit_surface(pUnit, FALSE, w, h));
+      surf = adj_surf(create_unit_surface(punit, FALSE, w, h));
     }
 
     pstr = create_utf8_from_char(cBuf, adj_font(10));
@@ -739,8 +739,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     pBuf = create_icon2(surf, pwindow->dst, WF_FREE_THEME
                         | WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
     pBuf->info_label = pstr;
-    pBuf->data.unit = pUnit;
-    add_to_gui_list(MAX_ID - pUnit->id, pBuf);
+    pBuf->data.unit = punit;
+    add_to_gui_list(MAX_ID - punit->id, pBuf);
 
     if (!pEnd) {
       pEnd = pBuf;
@@ -3876,10 +3876,10 @@ void real_city_dialog_refresh(struct city *pCity)
   typically means updating both the unit's home city (if any) and the
   city in which it is present (if any).
 **************************************************************************/
-void refresh_unit_city_dialogs(struct unit *pUnit)
+void refresh_unit_city_dialogs(struct unit *punit)
 {
-  struct city *pcity_sup = game_city_by_number(pUnit->homecity);
-  struct city *pcity_pre = tile_city(unit_tile(pUnit));
+  struct city *pcity_sup = game_city_by_number(punit->homecity);
+  struct city *pcity_pre = tile_city(unit_tile(punit));
 
   if (pcity_dlg && ((pcity_dlg->pCity == pcity_sup)
                    || (pcity_dlg->pCity == pcity_pre))) {

@@ -182,7 +182,7 @@ static void real_info_city_report_dialog_update(void)
   struct widget *pbuf = NULL;
   struct widget *pwindow, *pLast;
   utf8_str *pstr;
-  SDL_Surface *pText1, *pText2, *pText3, *pUnits_Icon, *pCMA_Icon, *pText4;
+  SDL_Surface *pText1, *pText2, *pText3, *units_icon, *pCMA_Icon, *pText4;
   SDL_Surface *logo;
   int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
   char cbuf[128];
@@ -218,7 +218,7 @@ static void real_info_city_report_dialog_update(void)
   prod_w = pText4->w;
   FREEUTF8STR(pstr);
 
-  pUnits_Icon = create_icon_from_theme(current_theme->UNITS_Icon, 0);
+  units_icon = create_icon_from_theme(current_theme->UNITS_Icon, 0);
   pCMA_Icon = create_icon_from_theme(current_theme->CMA_Icon, 0);
 
   /* --------------- */
@@ -510,7 +510,7 @@ static void real_info_city_report_dialog_update(void)
       set_wflag(pbuf, WF_HIDDEN);
     }
     hh = MAX(hh, pbuf->size.h);
-    pbuf->size.w = pUnits_Icon->w + adj_size(6);
+    pbuf->size.w = units_icon->w + adj_size(6);
     add_to_gui_list(MAX_ID - pCity->id, pbuf);
 
     /* ----------- */
@@ -608,7 +608,7 @@ static void real_info_city_report_dialog_update(void)
   /* setup window width */
   area.w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w
     + (pIcons->pBIG_Food->w + adj_size(6)) * 10 + pText2->w + adj_size(6)
-    + pUnits_Icon->w + adj_size(6) + prod_w + adj_size(170);
+    + units_icon->w + adj_size(6) + prod_w + adj_size(170);
 
   if (count) {
     pCityRep->end_active_widget_list = pLast->prev;
@@ -784,7 +784,7 @@ static void real_info_city_report_dialog_update(void)
   dst.y = area.y + 1;
   dst.w = (pIcons->pBIG_Shield->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10) +
-	  (pUnits_Icon->w + adj_size(6)) + adj_size(10) +
+	  (units_icon->w + adj_size(6)) + adj_size(10) +
 	  (pIcons->pBIG_Shield_Surplus->w + adj_size(6)) + adj_size(4);
   dst.h = area.h - adj_size(2);
 
@@ -804,11 +804,11 @@ static void real_info_city_report_dialog_update(void)
 
   w += (pIcons->pBIG_Shield_Corr->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
-  dst.y = area.y + 1 + (hh - pUnits_Icon->h) / 2;
-  alphablit(pUnits_Icon, NULL, pwindow->theme, &dst, 255);
+  dst.y = area.y + 1 + (hh - units_icon->h) / 2;
+  alphablit(units_icon, NULL, pwindow->theme, &dst, 255);
 
-  w += (pUnits_Icon->w + adj_size(6)) + adj_size(10);
-  FREESURFACE(pUnits_Icon);
+  w += (units_icon->w + adj_size(6)) + adj_size(10);
+  FREESURFACE(units_icon);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1 + (hh - pIcons->pBIG_Shield_Surplus->h) / 2;
   alphablit(pIcons->pBIG_Shield_Surplus, NULL, pwindow->theme, &dst, 255);

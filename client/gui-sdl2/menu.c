@@ -93,12 +93,12 @@ static struct widget *pOrder_Trade_Button;
 static int unit_order_callback(struct widget *pOrder_Widget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pUnit = head_of_units_in_focus();
+    struct unit *head_unit = head_of_units_in_focus();
 
     set_wstate(pOrder_Widget, FC_WS_SELECTED);
     selected_widget = pOrder_Widget;
 
-    if (!pUnit) {
+    if (!head_unit) {
       return -1;
     }
 
@@ -240,13 +240,13 @@ static int unit_order_callback(struct widget *pOrder_Widget)
       } unit_list_iterate_end;
       break;
     case ID_UNIT_ORDER_UPGRADE:
-      popup_unit_upgrade_dlg(pUnit, FALSE);
+      popup_unit_upgrade_dlg(head_unit, FALSE);
       break;
     case ID_UNIT_ORDER_CONVERT:
       key_unit_convert();
       break;
     case ID_UNIT_ORDER_DISBAND:
-      popup_unit_disband_dlg(pUnit, FALSE);
+      popup_unit_disband_dlg(head_unit, FALSE);
       break;
     case ID_UNIT_ORDER_DIPLOMAT_DLG:
       key_unit_action_select_tgt();
@@ -1035,7 +1035,7 @@ void real_menus_update(void)
 {
   static Uint16 counter = 0;
   struct unit_list *punits = NULL;
-  struct unit *pUnit = NULL;
+  struct unit *punit = NULL;
   static char cBuf[128];
 
   if ((C_S_RUNNING != client_state())
@@ -1098,12 +1098,12 @@ void real_menus_update(void)
     }
 
     punits = get_units_in_focus();
-    pUnit = unit_list_get(punits, 0);
+    punit = unit_list_get(punits, 0);
 
-    if (pUnit && pUnit->ssa_controller == SSA_NONE) {
+    if (punit && punit->ssa_controller == SSA_NONE) {
       struct city *pHomecity;
       int time;
-      struct tile *ptile = unit_tile(pUnit);
+      struct tile *ptile = unit_tile(punit);
       struct city *pCity = tile_city(ptile);
       struct terrain *pterrain = tile_terrain(ptile);
       struct base_type *pbase;
@@ -1120,7 +1120,7 @@ void real_menus_update(void)
       /* Enable the button for adding to a city in all cases, so we
        * get an eventual error message from the server if we try. */
 
-      if (unit_can_add_or_build_city(pUnit)) {
+      if (unit_can_add_or_build_city(punit)) {
 	if (pCity) {
           fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
                       action_id_name_translation(ACTION_JOIN_CITY), "B");
@@ -1135,19 +1135,19 @@ void real_menus_update(void)
 	set_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
       }
 
-      if (unit_can_help_build_wonder_here(pUnit)) {
+      if (unit_can_help_build_wonder_here(punit)) {
 	local_show(ID_UNIT_ORDER_BUILD_WONDER);
       } else {
 	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
-      pextra = next_extra_for_tile(ptile, EC_ROAD, unit_owner(pUnit), pUnit);
+      pextra = next_extra_for_tile(ptile, EC_ROAD, unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(pUnit, ACTIVITY_GEN_ROAD, pextra)) {
+          && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD, pextra)) {
         struct road_type *proad = extra_road_get(pextra);
         enum road_compat compat = road_compat_special(proad);
 
-        time = turns_to_activity_done(ptile, ACTIVITY_GEN_ROAD, pextra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_GEN_ROAD, pextra, punit);
 
         /* TRANS: "Build Railroad (R) 3 turns" */
 	fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
@@ -1166,13 +1166,13 @@ void real_menus_update(void)
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
       }
 
-      /* unit_can_est_trade_route_here(pUnit) */
-      if (pCity && utype_can_do_action(unit_type_get(pUnit),
+      /* unit_can_est_trade_route_here(punit) */
+      if (pCity && utype_can_do_action(unit_type_get(punit),
                                        ACTION_TRADE_ROUTE)
-          && (pHomecity = game_city_by_number(pUnit->homecity))
+          && (pHomecity = game_city_by_number(punit->homecity))
           && can_cities_trade(pHomecity, pCity)) {
         int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity,
-                                                         pUnit->carrying,
+                                                         punit->carrying,
                                                          TRUE);
 
         if (can_establish_trade_route(pHomecity, pCity)) {
@@ -1197,11 +1197,11 @@ void real_menus_update(void)
       }
 
       pextra = next_extra_for_tile(ptile, EC_IRRIGATION,
-                                   unit_owner(pUnit), pUnit);
+                                   unit_owner(punit), punit);
       if (pextra != NULL &&
-          can_unit_do_activity_targeted(pUnit, ACTIVITY_IRRIGATE, pextra)) {
+          can_unit_do_activity_targeted(punit, ACTIVITY_IRRIGATE, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_IRRIGATE,
-                                      pextra, pUnit);
+                                      pextra, punit);
         /* TRANS: "Build Irrigation (I) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra), "I", time,
@@ -1215,10 +1215,10 @@ void real_menus_update(void)
       }
 
       pextra = next_extra_for_tile(ptile, EC_MINE,
-                                   unit_owner(pUnit), pUnit);
+                                   unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(pUnit, ACTIVITY_MINE, pextra)) {
-        time = turns_to_activity_done(ptile, ACTIVITY_MINE, pextra, pUnit);
+          && can_unit_do_activity_targeted(punit, ACTIVITY_MINE, pextra)) {
+        time = turns_to_activity_done(ptile, ACTIVITY_MINE, pextra, punit);
         /* TRANS: "Build Mine (M) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra), "M", time,
@@ -1231,9 +1231,9 @@ void real_menus_update(void)
         set_wflag(pOrder_Mine_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_CULTIVATE)) {
+      if (can_unit_do_activity(punit, ACTIVITY_CULTIVATE)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(ptile, ACTIVITY_CULTIVATE, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_CULTIVATE, NULL, punit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Cultivate to"),
                     terrain_name_translation(pterrain->cultivate_result),
@@ -1244,9 +1244,9 @@ void real_menus_update(void)
         set_wflag(pOrder_Cultivate_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_PLANT)) {
+      if (can_unit_do_activity(punit, ACTIVITY_PLANT)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(ptile, ACTIVITY_PLANT, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_PLANT, NULL, punit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Plant to"),
                     terrain_name_translation(pterrain->plant_result),
@@ -1257,9 +1257,9 @@ void real_menus_update(void)
         set_wflag(pOrder_Plant_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_TRANSFORM)) {
+      if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM)) {
         /* Activity always results in terrain change */
-        time = turns_to_activity_done(ptile, ACTIVITY_TRANSFORM, NULL, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_TRANSFORM, NULL, punit);
         fc_snprintf(cBuf, sizeof(cBuf), "%s %s (%s) %d %s",
                     _("Transform to"),
                     terrain_name_translation(pterrain->transform_result),
@@ -1270,11 +1270,11 @@ void real_menus_update(void)
         set_wflag(pOrder_Transform_Button, WF_HIDDEN);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, pUnit, ptile);
+      pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, ptile);
       if (pbase != NULL) {
         struct extra_type *base_extra = base_extra_get(pbase);
 
-        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, punit);
         /* TRANS: "Build Fortress (Shift+F) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+F", time,
@@ -1285,17 +1285,17 @@ void real_menus_update(void)
         set_wflag(pOrder_Fortress_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_FORTIFYING)) {
+      if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
         local_show(ID_UNIT_ORDER_FORTIFY);
       } else {
         local_hide(ID_UNIT_ORDER_FORTIFY);
       }
 
-      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, pUnit, ptile);
+      pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, ptile);
       if (pbase != NULL) {
         struct extra_type *base_extra = base_extra_get(pbase);
 
-        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, pUnit);
+        time = turns_to_activity_done(ptile, ACTIVITY_BASE, base_extra, punit);
         /* TRANS: "Build Airbase (Shift+E) 5 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+E", time,
@@ -1307,11 +1307,11 @@ void real_menus_update(void)
       }
 
       pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
-                                  unit_owner(pUnit), pUnit);
+                                  unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(pUnit, ACTIVITY_POLLUTION, pextra)) {
+          && can_unit_do_activity_targeted(punit, ACTIVITY_POLLUTION, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_POLLUTION, pextra,
-                                      pUnit);
+                                      punit);
         /* TRANS: "Clean Pollution (P) 3 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
                     extra_name_translation(pextra), "P", time,
@@ -1322,18 +1322,18 @@ void real_menus_update(void)
         set_wflag(pOrder_Pollution_Button, WF_HIDDEN);
       }
 
-      if (can_unit_paradrop(pUnit)) {
+      if (can_unit_paradrop(punit)) {
         local_show(ID_UNIT_ORDER_PARADROP);
       } else {
         local_hide(ID_UNIT_ORDER_PARADROP);
       }
 
       pextra = prev_extra_in_tile(ptile, ERM_CLEANFALLOUT,
-                                  unit_owner(pUnit), pUnit);
+                                  unit_owner(punit), punit);
       if (pextra != NULL
-          && can_unit_do_activity_targeted(pUnit, ACTIVITY_FALLOUT, pextra)) {
+          && can_unit_do_activity_targeted(punit, ACTIVITY_FALLOUT, pextra)) {
         time = turns_to_activity_done(ptile, ACTIVITY_FALLOUT, pextra,
-                                      pUnit);
+                                      punit);
         /* TRANS: "Clean Fallout (N) 3 turns" */
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
                     extra_name_translation(pextra), "N", time,
@@ -1344,26 +1344,26 @@ void real_menus_update(void)
         set_wflag(pOrder_Fallout_Button, WF_HIDDEN);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_SENTRY)) {
+      if (can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
         local_show(ID_UNIT_ORDER_SENTRY);
       } else {
         local_hide(ID_UNIT_ORDER_SENTRY);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_PILLAGE)) {
+      if (can_unit_do_activity(punit, ACTIVITY_PILLAGE)) {
         local_show(ID_UNIT_ORDER_PILLAGE);
       } else {
         local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (pCity && can_unit_change_homecity(pUnit)
-          && pCity->id != pUnit->homecity) {
+      if (pCity && can_unit_change_homecity(punit)
+          && pCity->id != punit->homecity) {
         local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
         local_hide(ID_UNIT_ORDER_HOMECITY);
       }
 
-      if (pUnit->client.occupied) {
+      if (punit->client.occupied) {
         local_show(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
       } else {
         local_hide(ID_UNIT_ORDER_UNLOAD_TRANSPORTER);
@@ -1381,19 +1381,19 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_UNLOAD);
       }
 
-      if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(pUnit))) {
+      if (is_unit_activity_on_tile(ACTIVITY_SENTRY, unit_tile(punit))) {
         local_show(ID_UNIT_ORDER_WAKEUP_OTHERS);
       } else {
         local_hide(ID_UNIT_ORDER_WAKEUP_OTHERS);
       }
 
-      if (can_unit_do_autosettlers(pUnit)) {
+      if (can_unit_do_autosettlers(punit)) {
         local_show(ID_UNIT_ORDER_AUTO_SETTLER);
       } else {
         local_hide(ID_UNIT_ORDER_AUTO_SETTLER);
       }
 
-      if (can_unit_do_activity(pUnit, ACTIVITY_EXPLORE)) {
+      if (can_unit_do_activity(punit, ACTIVITY_EXPLORE)) {
         local_show(ID_UNIT_ORDER_AUTO_EXPLORE);
       } else {
         local_hide(ID_UNIT_ORDER_AUTO_EXPLORE);
@@ -1428,7 +1428,7 @@ void real_menus_update(void)
 
           tgt = road_extra_get(proad);
 
-          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
+          road_conn_possible = can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt);
         } else {
           road_conn_possible = FALSE;
         }
@@ -1449,7 +1449,7 @@ void real_menus_update(void)
 
           tgt = road_extra_get(proad);
 
-          road_conn_possible = can_unit_do_connect(pUnit, ACTIVITY_GEN_ROAD, tgt);
+          road_conn_possible = can_unit_do_connect(punit, ACTIVITY_GEN_ROAD, tgt);
         } else {
           road_conn_possible = FALSE;
         }
@@ -1461,13 +1461,13 @@ void real_menus_update(void)
         }
       }
 
-     if (unit_can_do_action(pUnit, ACTION_ANY)) {
+     if (unit_can_do_action(punit, ACTION_ANY)) {
        local_show(ID_UNIT_ORDER_DIPLOMAT_DLG);
       } else {
        local_hide(ID_UNIT_ORDER_DIPLOMAT_DLG);
       }
 
-      if (unit_can_do_action(pUnit, ACTION_NUKE)) {
+      if (unit_can_do_action(punit, ACTION_NUKE)) {
         local_show(ID_UNIT_ORDER_NUKE);
       } else {
         local_hide(ID_UNIT_ORDER_NUKE);
@@ -1482,13 +1482,13 @@ void real_menus_update(void)
       }
 
       if (pCity && can_upgrade_unittype(client.conn.playing,
-                                        unit_type_get(pUnit))) {
+                                        unit_type_get(punit))) {
         local_show(ID_UNIT_ORDER_UPGRADE);
       } else {
         local_hide(ID_UNIT_ORDER_UPGRADE);
       }
 
-      if (unit_can_convert(pUnit)) {
+      if (unit_can_convert(punit)) {
         local_show(ID_UNIT_ORDER_CONVERT);
       } else {
         local_hide(ID_UNIT_ORDER_CONVERT);

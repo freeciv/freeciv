@@ -110,13 +110,13 @@ static int goto_city_callback(struct widget *pwidget)
     struct city *pdestcity = game_city_by_number(MAX_ID - pwidget->ID);
   
     if (pdestcity) {
-      struct unit *pUnit = head_of_units_in_focus();
+      struct unit *punit = head_of_units_in_focus();
 
-      if (pUnit) {
+      if (punit) {
         if (GOTO) {
-          send_goto_tile(pUnit, pdestcity->tile);
+          send_goto_tile(punit, pdestcity->tile);
         } else {
-          request_unit_airlift(pUnit, pdestcity);
+          request_unit_airlift(punit, pdestcity);
         }
       }
     }

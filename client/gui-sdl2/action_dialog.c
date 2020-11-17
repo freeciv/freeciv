@@ -1887,7 +1887,7 @@ void popdown_bribe_dialog(void)
   Popup a dialog asking a diplomatic unit if it wishes to bribe the
   given enemy unit.
 **************************************************************************/
-void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
+void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
                         const struct action *paction)
 {
   struct widget *pwindow = NULL, *pBuf = NULL;
@@ -1913,7 +1913,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
   pBribe_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
   pBribe_Dlg->act_id = paction->id;
   pBribe_Dlg->actor_unit_id = actor->id;
-  pBribe_Dlg->target_id = pUnit->id;
+  pBribe_Dlg->target_id = punit->id;
   pBribe_Dlg->pdialog = fc_calloc(1, sizeof(struct small_dialog));
 
   fc_snprintf(tBuf, ARRAY_SIZE(tBuf), PL_("Treasury contains %d gold.",
@@ -1954,7 +1954,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *pUnit, int cost,
     /*------------*/
     create_active_iconlabel(pBuf, pwindow->dst, pstr,
                             _("Yes"), diplomat_bribe_yes_callback);
-    pBuf->data.unit = pUnit;
+    pBuf->data.unit = punit;
     set_wstate(pBuf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - actor->id, pBuf);

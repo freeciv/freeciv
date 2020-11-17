@@ -58,8 +58,8 @@
 /* ===================================================================== */
 /* ======================== Active Units Report ======================== */
 /* ===================================================================== */
-static struct advanced_dialog *pUnitsDlg = NULL;
-static struct small_dialog *pUnits_Upg_Dlg = NULL;
+static struct advanced_dialog *units_dlg = NULL;
+static struct small_dialog *units_upg_dlg = NULL;
 
 struct units_entry {
   int active_count;
@@ -120,7 +120,7 @@ static void get_units_report_data(struct units_entry *entries,
 static int units_dialog_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pUnitsDlg->begin_widget_list, pwindow);
+    move_window_group(units_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -137,9 +137,9 @@ static int ok_upgrade_unit_window_callback(struct widget *pwidget)
     int ut1 = MAX_ID - pwidget->ID;
 
     /* popdown upgrade dlg */
-    popdown_window_group_dialog(pUnits_Upg_Dlg->begin_widget_list,
-                                pUnits_Upg_Dlg->end_widget_list);
-    FC_FREE(pUnits_Upg_Dlg);
+    popdown_window_group_dialog(units_upg_dlg->begin_widget_list,
+                                units_upg_dlg->end_widget_list);
+    FC_FREE(units_upg_dlg);
 
     dsend_packet_unit_type_upgrade(&client.conn, ut1);
   }
@@ -153,7 +153,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pwidget)
 static int upgrade_unit_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pUnits_Upg_Dlg->begin_widget_list, pwindow);
+    move_window_group(units_upg_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -165,10 +165,10 @@ static int upgrade_unit_window_callback(struct widget *pwindow)
 static int cancel_upgrade_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pUnits_Upg_Dlg) {
-      popdown_window_group_dialog(pUnits_Upg_Dlg->begin_widget_list,
-                                  pUnits_Upg_Dlg->end_widget_list);
-      FC_FREE(pUnits_Upg_Dlg);
+    if (units_upg_dlg) {
+      popdown_window_group_dialog(units_upg_dlg->begin_widget_list,
+                                  units_upg_dlg->end_widget_list);
+      FC_FREE(units_upg_dlg);
       flush_dirty();
     }
   }
@@ -194,7 +194,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     ut1 = utype_by_number(MAX_ID - pwidget->ID);
 
-    if (pUnits_Upg_Dlg) {
+    if (units_upg_dlg) {
       return 1;
     }
 
@@ -203,7 +203,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
 
-    pUnits_Upg_Dlg = fc_calloc(1, sizeof(struct small_dialog));
+    units_upg_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
     ut2 = can_upgrade_unittype(client.conn.playing, ut1);
     value = unit_upgrade_price(client.conn.playing, ut1, ut2);
@@ -232,7 +232,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
-    pUnits_Upg_Dlg->end_widget_list = pwindow;
+    units_upg_dlg->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -277,17 +277,17 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     }
     /* ============================================ */
 
-    pUnits_Upg_Dlg->begin_widget_list = pBuf;
+    units_upg_dlg->begin_widget_list = pBuf;
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
                   (pwindow->size.h - pwindow->area.h) + area.h);
 
     widget_set_position(pwindow,
-                        pUnitsDlg->end_widget_list->size.x +
-                          (pUnitsDlg->end_widget_list->size.w - pwindow->size.w) / 2,
-                        pUnitsDlg->end_widget_list->size.y +
-                          (pUnitsDlg->end_widget_list->size.h - pwindow->size.h) / 2);
+                        units_dlg->end_widget_list->size.x +
+                          (units_dlg->end_widget_list->size.w - pwindow->size.w) / 2,
+                        units_dlg->end_widget_list->size.y +
+                          (units_dlg->end_widget_list->size.h - pwindow->size.h) / 2);
 
     /* setup rest of widgets */
     /* label */
@@ -315,7 +315,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pUnits_Upg_Dlg->begin_widget_list, pwindow, 0);
+    redraw_group(units_upg_dlg->begin_widget_list, pwindow, 0);
 
     widget_mark_dirty(pwindow);
     flush_dirty();
@@ -330,16 +330,16 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 static int exit_units_dlg_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pUnitsDlg) {
-      if (pUnits_Upg_Dlg) {
-         del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->begin_widget_list,
-                                            pUnits_Upg_Dlg->end_widget_list);
-         FC_FREE(pUnits_Upg_Dlg);
+    if (units_dlg) {
+      if (units_upg_dlg) {
+         del_group_of_widgets_from_gui_list(units_upg_dlg->begin_widget_list,
+                                            units_upg_dlg->end_widget_list);
+         FC_FREE(units_upg_dlg);
       }
-      popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
-                                  pUnitsDlg->end_widget_list);
-      FC_FREE(pUnitsDlg->pScroll);
-      FC_FREE(pUnitsDlg);
+      popdown_window_group_dialog(units_dlg->begin_widget_list,
+                                  units_dlg->end_widget_list);
+      FC_FREE(units_dlg->pScroll);
+      FC_FREE(units_dlg);
       flush_dirty();
     }
   }
@@ -364,11 +364,11 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   bool upgrade = FALSE;
   SDL_Rect area;
 
-  if (pUnitsDlg) {
-    popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
-                                pUnitsDlg->end_widget_list);
+  if (units_dlg) {
+    popdown_window_group_dialog(units_dlg->begin_widget_list,
+                                units_dlg->end_widget_list);
   } else {
-    pUnitsDlg = fc_calloc(1, sizeof(struct advanced_dialog));
+    units_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
   }
 
   fc_snprintf(cbuf, sizeof(cbuf), _("active"));
@@ -404,7 +404,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   add_to_gui_list(ID_UNITS_DIALOG_WINDOW, pwindow);
 
-  pUnitsDlg->end_widget_list = pwindow;
+  units_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -606,19 +606,19 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     }
   } unit_type_iterate_end;
 
-  pUnitsDlg->begin_widget_list = pBuf;
+  units_dlg->begin_widget_list = pBuf;
   area.w = MAX(area.w, (tileset_full_tile_width(tileset) * 2 + name_w + adj_size(15))
                + (adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
                + (pText5->w + adj_size(6)) + adj_size(2));
   if (count > 0) {
-    pUnitsDlg->end_active_widget_list = pLast->prev;
-    pUnitsDlg->begin_active_widget_list = pUnitsDlg->begin_widget_list;
+    units_dlg->end_active_widget_list = pLast->prev;
+    units_dlg->begin_active_widget_list = units_dlg->begin_widget_list;
     if (count > adj_size(80)) {
-      pUnitsDlg->active_widget_list = pUnitsDlg->end_active_widget_list;
-      if (pUnitsDlg->pScroll) {
-	pUnitsDlg->pScroll->count = count;
+      units_dlg->active_widget_list = units_dlg->end_active_widget_list;
+      if (units_dlg->pScroll) {
+	units_dlg->pScroll->count = count;
       }
-      ww = create_vertical_scrollbar(pUnitsDlg, 8, 10, TRUE, TRUE);
+      ww = create_vertical_scrollbar(units_dlg, 8, 10, TRUE, TRUE);
       area.w += ww;
       area.h = (hh + 9 * (hh/2) + adj_size(10));
     } else {
@@ -859,21 +859,21 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
 
       start_y += (hh >> 1);
-      if (pBuf == pUnitsDlg->begin_active_widget_list) {
+      if (pBuf == units_dlg->begin_active_widget_list) {
         break;
       }
       pBuf = pBuf->prev;
     }
 
-    if (pUnitsDlg->pScroll) {
-      setup_vertical_scrollbar_area(pUnitsDlg->pScroll,
+    if (units_dlg->pScroll) {
+      setup_vertical_scrollbar_area(units_dlg->pScroll,
                                     area.x + area.w, area.y,
                                     area.h, TRUE);
     }
 
   }
   /* ----------------------------------- */
-  redraw_group(pUnitsDlg->begin_widget_list, pwindow, 0);
+  redraw_group(units_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();
@@ -884,7 +884,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 **************************************************************************/
 void real_units_report_dialog_update(void *unused)
 {
-  if (pUnitsDlg) {
+  if (units_dlg) {
     struct units_entry units[U_LAST];
     struct units_entry units_total;
     struct widget *pwidget, *pbuf;
@@ -896,7 +896,7 @@ void real_units_report_dialog_update(void *unused)
     get_units_report_data(units, &units_total);
 
     /* find if there are new units entry (if not then rebuild all) */
-    pwidget = pUnitsDlg->end_active_widget_list; /* icon of first list entry */
+    pwidget = units_dlg->end_active_widget_list; /* icon of first list entry */
     unit_type_iterate(i) {
       if ((units[utype_index(i)].active_count > 0)
           || (units[utype_index(i)].building_count > 0)) {
@@ -910,7 +910,7 @@ void real_units_report_dialog_update(void *unused)
             break;
           }
           if (pbuf->prev->prev->prev->prev->prev->prev->prev ==
-              pUnitsDlg->begin_active_widget_list) {
+              units_dlg->begin_active_widget_list) {
             break;
           }
 
@@ -926,7 +926,7 @@ void real_units_report_dialog_update(void *unused)
     } unit_type_iterate_end;
 
     /* update list */
-    pwidget = pUnitsDlg->end_active_widget_list;
+    pwidget = units_dlg->end_active_widget_list;
     unit_type_iterate(i) {
       pbuf = pwidget; /* first widget (icon) of the first list entry */
 
@@ -988,14 +988,14 @@ void real_units_report_dialog_update(void *unused)
             /* search it */
             pbuf = pwidget->next;
             do {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
+              del_widget_from_vertical_scroll_widget_list(units_dlg, pbuf->prev);
             } while (((MAX_ID - pbuf->prev->ID) != utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->begin_active_widget_list));
+                     && (pbuf->prev != units_dlg->begin_active_widget_list));
 
-            if (pbuf->prev == pUnitsDlg->begin_active_widget_list) {
+            if (pbuf->prev == units_dlg->begin_active_widget_list) {
               /* list entry not found - can this really happen? */
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
-              pwidget = pbuf->prev; /* pUnitsDlg->begin_active_widget_list */
+              del_widget_from_vertical_scroll_widget_list(units_dlg, pbuf->prev);
+              pwidget = pbuf->prev; /* units_dlg->begin_active_widget_list */
               search_finished = TRUE;
             } else {
               /* found it */
@@ -1004,18 +1004,18 @@ void real_units_report_dialog_update(void *unused)
           }
         }
       } else { /* player has no unit of this type */
-        if (pbuf && pbuf->next != pUnitsDlg->begin_active_widget_list) {
+        if (pbuf && pbuf->next != units_dlg->begin_active_widget_list) {
           if (utype_number(i) < (MAX_ID - pbuf->ID)) {
             continue;
           } else {
             pbuf = pbuf->next;
             do {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+              del_widget_from_vertical_scroll_widget_list(units_dlg,
                                                           pbuf->prev);
             } while (((MAX_ID - pbuf->prev->ID) == utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->begin_active_widget_list));
-            if (pbuf->prev == pUnitsDlg->begin_active_widget_list) {
-              del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
+                     && (pbuf->prev != units_dlg->begin_active_widget_list));
+            if (pbuf->prev == units_dlg->begin_active_widget_list) {
+              del_widget_from_vertical_scroll_widget_list(units_dlg,
                                                           pbuf->prev);
             }
             pwidget = pbuf->prev;
@@ -1027,7 +1027,7 @@ void real_units_report_dialog_update(void *unused)
     /* -------------------------------------- */
 
     /* total active */
-    pbuf = pUnitsDlg->end_widget_list->prev->prev;
+    pbuf = units_dlg->end_widget_list->prev->prev;
     fc_snprintf(cbuf, sizeof(cbuf), "%d", units_total.active_count);
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
@@ -1052,8 +1052,8 @@ void real_units_report_dialog_update(void *unused)
     copy_chars_to_utf8_str(pbuf->string_utf8, cbuf);
 
     /* -------------------------------------- */
-    redraw_group(pUnitsDlg->begin_widget_list, pUnitsDlg->end_widget_list, 0);
-    widget_mark_dirty(pUnitsDlg->end_widget_list);
+    redraw_group(units_dlg->begin_widget_list, units_dlg->end_widget_list, 0);
+    widget_mark_dirty(units_dlg->end_widget_list);
 
     flush_dirty();
   }
@@ -1067,7 +1067,7 @@ void units_report_dialog_popup(bool make_modal)
   struct units_entry units[U_LAST];
   struct units_entry units_total;
 
-  if (pUnitsDlg) {
+  if (units_dlg) {
     return;
   }
 
@@ -1080,16 +1080,16 @@ void units_report_dialog_popup(bool make_modal)
 **************************************************************************/
 void units_report_dialog_popdown(void)
 {
-  if (pUnitsDlg) {
-    if (pUnits_Upg_Dlg) {
-      del_group_of_widgets_from_gui_list(pUnits_Upg_Dlg->begin_widget_list,
-                                         pUnits_Upg_Dlg->end_widget_list);
-      FC_FREE(pUnits_Upg_Dlg);
+  if (units_dlg) {
+    if (units_upg_dlg) {
+      del_group_of_widgets_from_gui_list(units_upg_dlg->begin_widget_list,
+                                         units_upg_dlg->end_widget_list);
+      FC_FREE(units_upg_dlg);
     }
-    popdown_window_group_dialog(pUnitsDlg->begin_widget_list,
-                                pUnitsDlg->end_widget_list);
-    FC_FREE(pUnitsDlg->pScroll);
-    FC_FREE(pUnitsDlg);
+    popdown_window_group_dialog(units_dlg->begin_widget_list,
+                                units_dlg->end_widget_list);
+    FC_FREE(units_dlg->pScroll);
+    FC_FREE(units_dlg);
   }
 }
 
@@ -2393,7 +2393,7 @@ static struct advanced_dialog *pChangeTechDlg = NULL;
 SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
-  struct unit_type *pUnit = NULL;
+  struct unit_type *punit = NULL;
   SDL_Surface *surf, *pText, *pTmp, *pTmp2;
   SDL_Surface *Surf_Array[10], **pBuf_Array;
   SDL_Rect dst;
@@ -2506,8 +2506,8 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
   /* -------------------------------------------------------- */
     w = 0;
     unit_type_iterate(un) {
-      pUnit = un;
-      if (advance_number(pUnit->require_advance) == tech_id) {
+      punit = un;
+      if (advance_number(punit->require_advance) == tech_id) {
         Surf_Array[w++] = adj_surf(get_unittype_surface(un, direction8_invalid()));
       }
     } unit_type_iterate_end;
@@ -2598,7 +2598,7 @@ void real_science_report_dialog_update(void *unused)
     SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
     int step, i, cost;
     SDL_Rect dest;
-    struct unit_type *pUnit;
+    struct unit_type *punit;
     struct widget *pChangeResearchButton;
     struct widget *pChangeResearchGoalButton;
     SDL_Rect area;
@@ -2727,8 +2727,8 @@ void real_science_report_dialog_update(void *unused)
 
     /* units */
     unit_type_iterate(un) {
-      pUnit = un;
-      if (advance_number(pUnit->require_advance) == presearch->researching) {
+      punit = un;
+      if (advance_number(punit->require_advance) == presearch->researching) {
         SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
         int w = usurf->w;
 
@@ -2805,8 +2805,8 @@ void real_science_report_dialog_update(void *unused)
 
       /* units */
       unit_type_iterate(un) {
-        pUnit = un;
-        if (advance_number(pUnit->require_advance) == presearch->tech_goal) {
+        punit = un;
+        if (advance_number(punit->require_advance) == presearch->tech_goal) {
           SDL_Surface *usurf = get_unittype_surface(un, direction8_invalid());
           int w = usurf->w;
 

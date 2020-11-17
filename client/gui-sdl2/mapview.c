@@ -527,12 +527,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   SDL_Surface *buf_surf;
   utf8_str *pstr;
   struct canvas *destcanvas;
-  struct unit *pUnit;
+  struct unit *punit;
 
   if (punitlist != NULL && unit_list_size(punitlist) > 0) {
-    pUnit = unit_list_get(punitlist, 0);
+    punit = unit_list_get(punitlist, 0);
   } else {
-    pUnit = NULL;
+    punit = NULL;
   }
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
@@ -541,16 +541,16 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     /* blit theme surface */
     widget_redraw(pInfo_Window);
 
-    if (pUnit) {
+    if (punit) {
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
-      struct tile *ptile = unit_tile(pUnit);
+      struct tile *ptile = unit_tile(punit);
       const char *vetname;
 
       /* get and draw unit name (with veteran status) */
-      pstr = create_utf8_from_char(unit_name_translation(pUnit), adj_font(12));
+      pstr = create_utf8_from_char(unit_name_translation(punit), adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
       pName = create_text_surf_from_utf8(pstr);
@@ -567,8 +567,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       change_ptsize_utf8(pstr, adj_font(10));
-      vetname = utype_veteran_name_translation(unit_type_get(pUnit),
-                                               pUnit->veteran);
+      vetname = utype_veteran_name_translation(unit_type_get(punit),
+                                               punit->veteran);
       if (vetname != NULL) {
         copy_chars_to_utf8_str(pstr, vetname);
         pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
@@ -702,7 +702,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         if (pInfo_Window->size.h >
             4 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
-                       get_tile_output_text(unit_tile(pUnit)));
+                       get_tile_output_text(unit_tile(punit)));
         }
 
         copy_chars_to_utf8_str(pstr, buffer);
@@ -747,8 +747,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(pName);
 
       /* draw unit sprite */
-      buf_surf = ResizeSurfaceBox(get_unittype_surface(unit_type_get(pUnit),
-                                                       pUnit->facing),
+      buf_surf = ResizeSurfaceBox(get_unittype_surface(unit_type_get(punit),
+                                                       punit->facing),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
 
       src = (SDL_Rect){0, 0, buf_surf->w, buf_surf->h};
@@ -808,7 +808,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         unit_list_iterate(ptile->units, aunit) {
           SDL_Surface *tmp_surf;
 
-          if (aunit == pUnit) {
+          if (aunit == punit) {
             continue;
 	  }
 
@@ -926,7 +926,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
         }
       }
-    } else { /* pUnit */
+    } else { /* punit */
 
       if (pInfo_Window->private_data.adv_dlg->end_active_widget_list) {
 	del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,

@@ -223,11 +223,11 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
             disable_focus_animation();
             key_end_turn();
           } else {
-            struct unit *pUnit;
+            struct unit *punit;
             struct city *pCity;
 
-            if (NULL != (pUnit = head_of_units_in_focus())
-                && (pCity = tile_city(unit_tile(pUnit))) != NULL
+            if (NULL != (punit = head_of_units_in_focus())
+                && (pCity = tile_city(unit_tile(punit))) != NULL
                 && city_owner(pCity) == client.conn.playing) {
               popup_city_dialog(pCity);
             }

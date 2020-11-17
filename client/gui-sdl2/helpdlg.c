@@ -622,9 +622,9 @@ void popup_unit_info(Unit_type_id type_id)
   struct units_buttons *store;
   struct widget *pCloseButton = NULL;
   struct widget *pListToggleButton = NULL;
-  struct widget *pUnitButton = NULL;
-  struct widget *pUnitNameLabel = NULL;
-  struct widget *pUnitInfoLabel = NULL;
+  struct widget *unit_button = NULL;
+  struct widget *unit_name_label = NULL;
+  struct widget *unit_info_label = NULL;
   struct widget *pRequirementLabel = NULL;
   struct widget *pRequirementLabel2 = NULL;
   struct widget *pObsoleteByLabel = NULL;
@@ -723,15 +723,15 @@ void popup_unit_info(Unit_type_id type_id)
       alphablit(icon, NULL, background, &dst, 255);
       FREESURFACE(icon);
 
-      pUnitButton = create_icon2(background, pwindow->dst,
+      unit_button = create_icon2(background, pwindow->dst,
                                  WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-      set_wstate(pUnitButton, FC_WS_NORMAL);
-      pUnitButton->action = change_unit_callback;
-      add_to_gui_list(MAX_ID - utype_number(ut), pUnitButton);
+      set_wstate(unit_button, FC_WS_NORMAL);
+      unit_button->action = change_unit_callback;
+      add_to_gui_list(MAX_ID - utype_number(ut), unit_button);
 
       if (utype_count++ >= 10) {
-        set_wflag(pUnitButton, WF_HIDDEN);
+        set_wflag(unit_button, WF_HIDDEN);
       }
 
     } unit_type_iterate_end;
@@ -739,7 +739,7 @@ void popup_unit_info(Unit_type_id type_id)
     FREESURFACE(background_tmpl);
 
     help_dlg->end_active_widget_list = dock->prev;
-    help_dlg->begin_widget_list = pUnitButton ? pUnitButton : pCloseButton;
+    help_dlg->begin_widget_list = unit_button ? unit_button : pCloseButton;
     help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (utype_count > 10) {
@@ -782,14 +782,14 @@ void popup_unit_info(Unit_type_id type_id)
   }
 
   punittype = utype_by_number(type_id);
-  pUnitNameLabel= create_iconlabel_from_chars(
+  unit_name_label= create_iconlabel_from_chars(
                 adj_surf(get_unittype_surface(punittype, direction8_invalid())),
                 pwindow->dst, utype_name_translation(punittype),
                 adj_font(24), WF_FREE_THEME);
 
-  pUnitNameLabel->ID = ID_LABEL;
-  widget_add_as_prev(pUnitNameLabel, dock);
-  dock = pUnitNameLabel;
+  unit_name_label->ID = ID_LABEL;
+  widget_add_as_prev(unit_name_label, dock);
+  dock = unit_name_label;
 
 
   {
@@ -836,11 +836,11 @@ void popup_unit_info(Unit_type_id type_id)
               _("FirePower:"), punittype->firepower,
               _("Hitpoints:"), punittype->hp);
 
-    pUnitInfoLabel = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
+    unit_info_label = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
                                                  adj_font(12), 0);
-    pUnitInfoLabel->ID = ID_LABEL;
-    widget_add_as_prev(pUnitInfoLabel, dock);
-    dock = pUnitInfoLabel;
+    unit_info_label->ID = ID_LABEL;
+    widget_add_as_prev(unit_info_label, dock);
+    dock = unit_info_label;
   }
 
   /* requirement */
@@ -955,15 +955,15 @@ void popup_unit_info(Unit_type_id type_id)
     }
   }
 
-  pUnitNameLabel = store->dock->prev;
-  widget_set_position(pUnitNameLabel, start_x, area.y + adj_size(16));
+  unit_name_label = store->dock->prev;
+  widget_set_position(unit_name_label, start_x, area.y + adj_size(16));
 
-  start_y = pUnitNameLabel->size.y + pUnitNameLabel->size.h + adj_size(10);
+  start_y = unit_name_label->size.y + unit_name_label->size.h + adj_size(10);
 
-  pUnitInfoLabel = pUnitNameLabel->prev;
-  widget_set_position(pUnitInfoLabel, start_x, start_y);
+  unit_info_label = unit_name_label->prev;
+  widget_set_position(unit_info_label, start_x, start_y);
 
-  start_y += pUnitInfoLabel->size.h;
+  start_y += unit_info_label->size.h;
 
   pRequirementLabel = store->pRequirementButton->next;
   widget_set_position(pRequirementLabel, start_x, start_y);
