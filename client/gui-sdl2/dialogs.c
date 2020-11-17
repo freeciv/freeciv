@@ -1173,9 +1173,9 @@ void unit_select_dialog_popup(struct tile *ptile)
   }
 
   pUnit_Select_Dlg->begin_widget_list = pBuf;
-  pUnit_Select_Dlg->pBeginActiveWidgetList = pUnit_Select_Dlg->begin_widget_list;
-  pUnit_Select_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
-  pUnit_Select_Dlg->pActiveWidgetList = pUnit_Select_Dlg->pEndActiveWidgetList;
+  pUnit_Select_Dlg->begin_active_widget_list = pUnit_Select_Dlg->begin_widget_list;
+  pUnit_Select_Dlg->end_active_widget_list = pwindow->prev->prev;
+  pUnit_Select_Dlg->active_widget_list = pUnit_Select_Dlg->end_active_widget_list;
 
   area.w += adj_size(2);
   if (n > NUM_SEEN) {
@@ -1208,7 +1208,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   pBuf = pBuf->prev;
 
   setup_vertical_widgets_position(1, area.x + 1, area.y, w, 0,
-                                  pUnit_Select_Dlg->pBeginActiveWidgetList,
+                                  pUnit_Select_Dlg->begin_active_widget_list,
                                   pBuf);
 
   if (pUnit_Select_Dlg->pScroll) {
@@ -1256,7 +1256,7 @@ static void popdown_terrain_info_dialog(void)
 {
   if (terrain_info_dlg) {
     popdown_window_group_dialog(terrain_info_dlg->begin_widget_list,
-				terrain_info_dlg->end_widget_list);
+                                terrain_info_dlg->end_widget_list);
     FC_FREE(terrain_info_dlg);
     flush_dirty();
   }
@@ -1926,15 +1926,15 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             }
           }
 
-	  create_active_iconlabel(pBuf, pwindow->dst, pstr, cBuf, NULL);
+          create_active_iconlabel(pBuf, pwindow->dst, pstr, cBuf, NULL);
 
-	  if (reset) {
+          if (reset) {
             pstr->fgcol = *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT);
             reset = FALSE;
-	  }
+          }
 
-	  add_to_gui_list(ID_LABEL, pBuf);
-	}
+          add_to_gui_list(ID_LABEL, pBuf);
+        }
 
         area.w = MAX(area.w, pBuf->size.w);
         units_h += pBuf->size.h;
@@ -1944,10 +1944,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         }
       }
 
-      pAdvanced_Terrain_Dlg->pEndActiveWidgetList = pLast->prev;
-      pAdvanced_Terrain_Dlg->pActiveWidgetList = pAdvanced_Terrain_Dlg->pEndActiveWidgetList;
+      pAdvanced_Terrain_Dlg->end_active_widget_list = pLast->prev;
+      pAdvanced_Terrain_Dlg->active_widget_list = pAdvanced_Terrain_Dlg->end_active_widget_list;
       pAdvanced_Terrain_Dlg->begin_widget_list = pBuf;
-      pAdvanced_Terrain_Dlg->pBeginActiveWidgetList = pAdvanced_Terrain_Dlg->begin_widget_list;
+      pAdvanced_Terrain_Dlg->begin_active_widget_list = pAdvanced_Terrain_Dlg->begin_widget_list;
 
       if (n > ADV_NUM_SEEN) {
         units_h = ADV_NUM_SEEN * pBuf->size.h;
@@ -1960,7 +1960,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Ready all"), my_units);
         create_active_iconlabel(pBuf, pwindow->dst, pstr,
                                 cBuf, adv_unit_select_all_callback);
-        pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
+        pBuf->data.unit = pAdvanced_Terrain_Dlg->end_active_widget_list->data.unit;
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->ID = ID_LABEL;
         widget_add_as_prev(pBuf, pLast);
@@ -1969,7 +1969,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
         create_active_iconlabel(pBuf, pwindow->dst, pstr,
                                 cBuf, adv_unit_sentry_idle_callback);
-        pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
+        pBuf->data.unit = pAdvanced_Terrain_Dlg->end_active_widget_list->data.unit;
         set_wstate(pBuf, FC_WS_NORMAL);
         pBuf->ID = ID_LABEL;
         widget_add_as_prev(pBuf, pLast->prev);
@@ -2105,7 +2105,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   pBuf = pBuf->prev;
   while (pBuf) {
-    if (pBuf == pAdvanced_Terrain_Dlg->pEndActiveWidgetList) {
+    if (pBuf == pAdvanced_Terrain_Dlg->end_active_widget_list) {
       w -= units_h;
     }
 
@@ -2126,7 +2126,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     }
 
     if (pBuf == pAdvanced_Terrain_Dlg->begin_widget_list
-        || pBuf == pAdvanced_Terrain_Dlg->pBeginActiveWidgetList) {
+        || pBuf == pAdvanced_Terrain_Dlg->begin_active_widget_list) {
       break;
     }
     pBuf = pBuf->prev;
@@ -2134,9 +2134,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   if (pAdvanced_Terrain_Dlg->pScroll) {
     setup_vertical_scrollbar_area(pAdvanced_Terrain_Dlg->pScroll,
-	area.x + area.w,
-    	pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y,
-    	area.y - pAdvanced_Terrain_Dlg->pEndActiveWidgetList->size.y + area.h,
+        area.x + area.w,
+        pAdvanced_Terrain_Dlg->end_active_widget_list->size.y,
+        area.y - pAdvanced_Terrain_Dlg->end_active_widget_list->size.y + area.h,
         TRUE);
   }
 
@@ -2301,8 +2301,8 @@ void popup_pillage_dialog(struct unit *pUnit, bv_extras extras)
   /* first special to pillage */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1,
-	area.x,	area.y + 1, area.w, 0,
-	pPillage_Dlg->begin_widget_list, pBuf);
+                                  area.x, area.y + 1, area.w, 0,
+                                  pPillage_Dlg->begin_widget_list, pBuf);
 
   /* --------------------- */
   /* redraw */
@@ -2947,7 +2947,7 @@ static void change_nation_label(void)
   remake_label_size(pLabel);
 
   pLabel->size.x = pwindow->size.x + pwindow->size.w / 2 +
-  				(pwindow->size.w/2 - pLabel->size.w) / 2;
+    (pwindow->size.w / 2 - pLabel->size.w) / 2;
 
 }
 
@@ -3120,12 +3120,12 @@ void popup_races_dialog(struct player *pplayer)
 
   FREESURFACE(pMain_Bg);
 
-  pNationDlg->pEndActiveWidgetList = pwindow->prev;
+  pNationDlg->end_active_widget_list = pwindow->prev;
   pNationDlg->begin_widget_list = pwidget;
-  pNationDlg->pBeginActiveWidgetList = pNationDlg->begin_widget_list;
+  pNationDlg->begin_active_widget_list = pNationDlg->begin_widget_list;
 
   if (get_playable_nation_count() > TARGETS_ROW * TARGETS_COL) {
-    pNationDlg->pActiveWidgetList = pNationDlg->pEndActiveWidgetList;
+    pNationDlg->active_widget_list = pNationDlg->end_active_widget_list;
     create_vertical_scrollbar(pNationDlg,
                               TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
   }
@@ -3301,18 +3301,18 @@ void popup_races_dialog(struct player *pplayer)
 
   /* nations */
 
-  h = pNationDlg->pEndActiveWidgetList->size.h * TARGETS_ROW;
+  h = pNationDlg->end_active_widget_list->size.h * TARGETS_ROW;
   i = (area.h - adj_size(43) - h) / 2;
   setup_vertical_widgets_position(TARGETS_COL,
                                   area.x + adj_size(10),
                                   area.y + i - adj_size(4),
-                                  0, 0, pNationDlg->pBeginActiveWidgetList,
-                                  pNationDlg->pEndActiveWidgetList);
+                                  0, 0, pNationDlg->begin_active_widget_list,
+                                  pNationDlg->end_active_widget_list);
 
   if (pNationDlg->pScroll) {
     SDL_Rect area2;
 
-    w = pNationDlg->pEndActiveWidgetList->size.w * TARGETS_COL;
+    w = pNationDlg->end_active_widget_list->size.w * TARGETS_COL;
     setup_vertical_scrollbar_area(pNationDlg->pScroll,
                                   area.x + w + adj_size(12),
                                   area.y + i - adj_size(4), h, FALSE);

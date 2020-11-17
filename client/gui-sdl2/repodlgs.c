@@ -611,10 +611,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                + (adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
                + (pText5->w + adj_size(6)) + adj_size(2));
   if (count > 0) {
-    pUnitsDlg->pEndActiveWidgetList = pLast->prev;
-    pUnitsDlg->pBeginActiveWidgetList = pUnitsDlg->begin_widget_list;
+    pUnitsDlg->end_active_widget_list = pLast->prev;
+    pUnitsDlg->begin_active_widget_list = pUnitsDlg->begin_widget_list;
     if (count > adj_size(80)) {
-      pUnitsDlg->pActiveWidgetList = pUnitsDlg->pEndActiveWidgetList;
+      pUnitsDlg->active_widget_list = pUnitsDlg->end_active_widget_list;
       if (pUnitsDlg->pScroll) {
 	pUnitsDlg->pScroll->count = count;
       }
@@ -859,7 +859,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
 
       start_y += (hh >> 1);
-      if (pBuf == pUnitsDlg->pBeginActiveWidgetList) {
+      if (pBuf == pUnitsDlg->begin_active_widget_list) {
         break;
       }
       pBuf = pBuf->prev;
@@ -896,7 +896,7 @@ void real_units_report_dialog_update(void *unused)
     get_units_report_data(units, &units_total);
 
     /* find if there are new units entry (if not then rebuild all) */
-    pwidget = pUnitsDlg->pEndActiveWidgetList; /* icon of first list entry */
+    pwidget = pUnitsDlg->end_active_widget_list; /* icon of first list entry */
     unit_type_iterate(i) {
       if ((units[utype_index(i)].active_count > 0)
           || (units[utype_index(i)].building_count > 0)) {
@@ -910,7 +910,7 @@ void real_units_report_dialog_update(void *unused)
             break;
           }
           if (pbuf->prev->prev->prev->prev->prev->prev->prev ==
-              pUnitsDlg->pBeginActiveWidgetList) {
+              pUnitsDlg->begin_active_widget_list) {
             break;
           }
 
@@ -926,7 +926,7 @@ void real_units_report_dialog_update(void *unused)
     } unit_type_iterate_end;
 
     /* update list */
-    pwidget = pUnitsDlg->pEndActiveWidgetList;
+    pwidget = pUnitsDlg->end_active_widget_list;
     unit_type_iterate(i) {
       pbuf = pwidget; /* first widget (icon) of the first list entry */
 
@@ -990,12 +990,12 @@ void real_units_report_dialog_update(void *unused)
             do {
               del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
             } while (((MAX_ID - pbuf->prev->ID) != utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
+                     && (pbuf->prev != pUnitsDlg->begin_active_widget_list));
 
-            if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
+            if (pbuf->prev == pUnitsDlg->begin_active_widget_list) {
               /* list entry not found - can this really happen? */
               del_widget_from_vertical_scroll_widget_list(pUnitsDlg, pbuf->prev);
-              pwidget = pbuf->prev; /* pUnitsDlg->pBeginActiveWidgetList */
+              pwidget = pbuf->prev; /* pUnitsDlg->begin_active_widget_list */
               search_finished = TRUE;
             } else {
               /* found it */
@@ -1004,7 +1004,7 @@ void real_units_report_dialog_update(void *unused)
           }
         }
       } else { /* player has no unit of this type */
-        if (pbuf && pbuf->next != pUnitsDlg->pBeginActiveWidgetList) {
+        if (pbuf && pbuf->next != pUnitsDlg->begin_active_widget_list) {
           if (utype_number(i) < (MAX_ID - pbuf->ID)) {
             continue;
           } else {
@@ -1013,8 +1013,8 @@ void real_units_report_dialog_update(void *unused)
               del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
                                                           pbuf->prev);
             } while (((MAX_ID - pbuf->prev->ID) == utype_number(i))
-                     && (pbuf->prev != pUnitsDlg->pBeginActiveWidgetList));
-            if (pbuf->prev == pUnitsDlg->pBeginActiveWidgetList) {
+                     && (pbuf->prev != pUnitsDlg->begin_active_widget_list));
+            if (pbuf->prev == pUnitsDlg->begin_active_widget_list) {
               del_widget_from_vertical_scroll_widget_list(pUnitsDlg,
                                                           pbuf->prev);
             }
@@ -1447,9 +1447,9 @@ static void enable_economy_dlg(void)
   pBuf = pBuf->prev;
   set_wstate(pBuf, FC_WS_NORMAL);
 
-  set_group_state(pEconomyDlg->pBeginActiveWidgetList,
-                  pEconomyDlg->pEndActiveWidgetList, FC_WS_NORMAL);
-  if (pEconomyDlg->pScroll && pEconomyDlg->pActiveWidgetList) {
+  set_group_state(pEconomyDlg->begin_active_widget_list,
+                  pEconomyDlg->end_active_widget_list, FC_WS_NORMAL);
+  if (pEconomyDlg->pScroll && pEconomyDlg->active_widget_list) {
     set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_NORMAL);
     set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_NORMAL);
     set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_NORMAL);
@@ -1486,9 +1486,9 @@ static void disable_economy_dlg(void)
   pBuf = pBuf->prev;
   set_wstate(pBuf, FC_WS_DISABLED);
 
-  set_group_state(pEconomyDlg->pBeginActiveWidgetList,
-                  pEconomyDlg->pEndActiveWidgetList, FC_WS_DISABLED);
-  if (pEconomyDlg->pScroll && pEconomyDlg->pActiveWidgetList) {
+  set_group_state(pEconomyDlg->begin_active_widget_list,
+                  pEconomyDlg->end_active_widget_list, FC_WS_DISABLED);
+  if (pEconomyDlg->pScroll && pEconomyDlg->active_widget_list) {
     set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_DISABLED);
     set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_DISABLED);
     set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_DISABLED);
@@ -2171,12 +2171,12 @@ void economy_report_dialog_popup(bool make_modal)
     FREEUTF8STR(pstr);
     FREESURFACE(background);
 
-    pEconomyDlg->pEndActiveWidgetList = pLast->prev;
+    pEconomyDlg->end_active_widget_list = pLast->prev;
     pEconomyDlg->begin_widget_list = pBuf;
-    pEconomyDlg->pBeginActiveWidgetList = pEconomyDlg->begin_widget_list;
+    pEconomyDlg->begin_active_widget_list = pEconomyDlg->begin_widget_list;
 
     if (entries_used > (TARGETS_ROW * TARGETS_COL)) {
-      pEconomyDlg->pActiveWidgetList = pEconomyDlg->pEndActiveWidgetList;
+      pEconomyDlg->active_widget_list = pEconomyDlg->end_active_widget_list;
       count = create_vertical_scrollbar(pEconomyDlg,
                                         TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
       h += (TARGETS_ROW * pBuf->size.h + adj_size(10));
@@ -2364,8 +2364,8 @@ void economy_report_dialog_popup(bool make_modal)
     setup_vertical_widgets_position(TARGETS_COL,
                                     area.x,
                                     area.y + h,
-                                    0, 0, pEconomyDlg->pBeginActiveWidgetList,
-                                    pEconomyDlg->pEndActiveWidgetList);
+                                    0, 0, pEconomyDlg->begin_active_widget_list,
+                                    pEconomyDlg->end_active_widget_list);
     if (pEconomyDlg->pScroll) {
       setup_vertical_scrollbar_area(pEconomyDlg->pScroll,
                                     area.x + area.w - 1,
@@ -3011,8 +3011,8 @@ static void popup_change_research_dialog(void)
   FREEUTF8STR(pstr);
 
   pChangeTechDlg->begin_widget_list = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->begin_widget_list;
-  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->end_widget_list->prev->prev;
+  pChangeTechDlg->begin_active_widget_list = pChangeTechDlg->begin_widget_list;
+  pChangeTechDlg->end_active_widget_list = pChangeTechDlg->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -3020,7 +3020,7 @@ static void popup_change_research_dialog(void)
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
-      pChangeTechDlg->pActiveWidgetList = pChangeTechDlg->pEndActiveWidgetList;
+      pChangeTechDlg->active_widget_list = pChangeTechDlg->end_active_widget_list;
       count = max_row;
       i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);
     }
@@ -3053,8 +3053,8 @@ static void popup_change_research_dialog(void)
 
   setup_vertical_widgets_position(col, area.x + 1,
                                   area.y, 0, 0,
-                                  pChangeTechDlg->pBeginActiveWidgetList,
-                                  pChangeTechDlg->pEndActiveWidgetList);
+                                  pChangeTechDlg->begin_active_widget_list,
+                                  pChangeTechDlg->end_active_widget_list);
 
   if (pChangeTechDlg->pScroll) {
     setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
@@ -3208,8 +3208,8 @@ static void popup_change_research_goal_dialog(void)
   FREEUTF8STR(pstr);
 
   pChangeTechDlg->begin_widget_list = pBuf;
-  pChangeTechDlg->pBeginActiveWidgetList = pChangeTechDlg->begin_widget_list;
-  pChangeTechDlg->pEndActiveWidgetList = pChangeTechDlg->end_widget_list->prev->prev;
+  pChangeTechDlg->begin_active_widget_list = pChangeTechDlg->begin_widget_list;
+  pChangeTechDlg->end_active_widget_list = pChangeTechDlg->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -3217,7 +3217,7 @@ static void popup_change_research_goal_dialog(void)
   if (count > col) {
     count = (count + (col-1)) / col;
     if (count > max_row) {
-      pChangeTechDlg->pActiveWidgetList = pChangeTechDlg->pEndActiveWidgetList;
+      pChangeTechDlg->active_widget_list = pChangeTechDlg->end_active_widget_list;
       count = max_row;
       i = create_vertical_scrollbar(pChangeTechDlg, col, count, TRUE, TRUE);
     }
@@ -3250,8 +3250,8 @@ static void popup_change_research_goal_dialog(void)
 
   setup_vertical_widgets_position(col, area.x + 1,
                                   area.y, 0, 0,
-                                  pChangeTechDlg->pBeginActiveWidgetList,
-                                  pChangeTechDlg->pEndActiveWidgetList);
+                                  pChangeTechDlg->begin_active_widget_list,
+                                  pChangeTechDlg->end_active_widget_list);
 
   if (pChangeTechDlg->pScroll) {
     setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,

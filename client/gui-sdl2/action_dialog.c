@@ -509,8 +509,8 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   /* --------------------------------------------------------- */
   FREEUTF8STR(pstr);
   pDiplomat_Dlg->pdialog->begin_widget_list = pBuf;
-  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pDiplomat_Dlg->pdialog->begin_widget_list;
-  pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pDiplomat_Dlg->pdialog->end_widget_list->prev->prev;
+  pDiplomat_Dlg->pdialog->begin_active_widget_list = pDiplomat_Dlg->pdialog->begin_widget_list;
+  pDiplomat_Dlg->pdialog->end_active_widget_list = pDiplomat_Dlg->pdialog->end_widget_list->prev->prev;
 
   /* -------------------------------------------------------------- */
 
@@ -518,7 +518,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   if (count > col) {
     count = (count + (col - 1)) / col;
     if (count > max_row) {
-      pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
+      pDiplomat_Dlg->pdialog->active_widget_list = pDiplomat_Dlg->pdialog->end_active_widget_list;
       count = max_row;
       idx = create_vertical_scrollbar(pDiplomat_Dlg->pdialog, col, count, TRUE, TRUE);  
     }
@@ -549,14 +549,14 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   pBuf->size.y = pwindow->size.y + adj_size(2);
 
   setup_vertical_widgets_position(col, area.x + 1,
-		  area.y, 0, 0,
-		  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList,
-  		  pDiplomat_Dlg->pdialog->pEndActiveWidgetList);
+                  area.y, 0, 0,
+                  pDiplomat_Dlg->pdialog->begin_active_widget_list,
+                  pDiplomat_Dlg->pdialog->end_active_widget_list);
 
   if (pDiplomat_Dlg->pdialog->pScroll) {
     setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
-	area.x + area.w, area.y,
-    	area.h, TRUE);
+                                  area.x + area.w, area.y,
+                                  area.h, TRUE);
   }
 
   redraw_group(pDiplomat_Dlg->pdialog->begin_widget_list, pwindow, FALSE);
@@ -1398,7 +1398,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
     add_to_gui_list(ID_SEPARATOR, pBuf);
     area.h += pBuf->next->size.h;
 
-    pDiplomat_Dlg->pdialog->pEndActiveWidgetList = pBuf;
+    pDiplomat_Dlg->pdialog->end_active_widget_list = pBuf;
   }
 
   /* ------------------ */
@@ -1425,7 +1425,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
     }
   } city_built_iterate_end;
 
-  pDiplomat_Dlg->pdialog->pBeginActiveWidgetList = pBuf;
+  pDiplomat_Dlg->pdialog->begin_active_widget_list = pBuf;
 
   if (n > 0
       && action_prob_possible(actor->client.act_prob_cache[
@@ -1461,7 +1461,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   pLast = pBuf;
   pDiplomat_Dlg->pdialog->begin_widget_list = pLast;
-  pDiplomat_Dlg->pdialog->pActiveWidgetList = pDiplomat_Dlg->pdialog->pEndActiveWidgetList;
+  pDiplomat_Dlg->pdialog->active_widget_list = pDiplomat_Dlg->pdialog->end_active_widget_list;
 
   /* ---------- */
   if (n > 10) {
@@ -1507,7 +1507,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   pBuf = pBuf->prev;
   while (pBuf) {
-    if (pBuf == pDiplomat_Dlg->pdialog->pEndActiveWidgetList) {
+    if (pBuf == pDiplomat_Dlg->pdialog->end_active_widget_list) {
       w -= n;
     }
 
@@ -1530,9 +1530,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
       break;
     }
 
-    if (pBuf == pDiplomat_Dlg->pdialog->pBeginActiveWidgetList) {
+    if (pBuf == pDiplomat_Dlg->pdialog->begin_active_widget_list) {
       /* Reset to end of scrolling area */
-      y = MIN(y, pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y
+      y = MIN(y, pDiplomat_Dlg->pdialog->end_active_widget_list->size.y
               + 9 * pBuf->size.h);
       w += n;
     }
@@ -1542,9 +1542,9 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   if (pDiplomat_Dlg->pdialog->pScroll) {
     setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
         area.x + area.w,
-        pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
-        pDiplomat_Dlg->pdialog->pBeginActiveWidgetList->prev->size.y
-          - pDiplomat_Dlg->pdialog->pEndActiveWidgetList->size.y,
+        pDiplomat_Dlg->pdialog->end_active_widget_list->size.y,
+        pDiplomat_Dlg->pdialog->begin_active_widget_list->prev->size.y
+          - pDiplomat_Dlg->pdialog->end_active_widget_list->size.y,
         TRUE);
   }
 

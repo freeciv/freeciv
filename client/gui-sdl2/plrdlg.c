@@ -804,9 +804,9 @@ void popup_players_nations_dialog(void)
     }
   } players_iterate_end;
   pShort_Players_Dlg->begin_widget_list = pBuf;
-  pShort_Players_Dlg->pBeginActiveWidgetList = pShort_Players_Dlg->begin_widget_list;
-  pShort_Players_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
-  pShort_Players_Dlg->pActiveWidgetList = pShort_Players_Dlg->pEndActiveWidgetList;
+  pShort_Players_Dlg->begin_active_widget_list = pShort_Players_Dlg->begin_widget_list;
+  pShort_Players_Dlg->end_active_widget_list = pwindow->prev->prev;
+  pShort_Players_Dlg->active_widget_list = pShort_Players_Dlg->end_active_widget_list;
 
 
   /* ---------- */
@@ -855,7 +855,7 @@ void popup_players_nations_dialog(void)
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1, area.x, area.y, w, 0,
-                                  pShort_Players_Dlg->pBeginActiveWidgetList,
+                                  pShort_Players_Dlg->begin_active_widget_list,
                                   pBuf);
 
   if (pShort_Players_Dlg->pScroll) {

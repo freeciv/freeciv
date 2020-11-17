@@ -140,11 +140,11 @@ static void update_goto_dialog(void)
   int n = 0;
   struct player *owner = NULL;
 
-  if (pGotoDlg->pEndActiveWidgetList) {
-    add_dock = pGotoDlg->pEndActiveWidgetList->next;
+  if (pGotoDlg->end_active_widget_list) {
+    add_dock = pGotoDlg->end_active_widget_list->next;
     pGotoDlg->begin_widget_list = add_dock;
-    del_group(pGotoDlg->pBeginActiveWidgetList, pGotoDlg->pEndActiveWidgetList);
-    pGotoDlg->pActiveWidgetList = NULL;
+    del_group(pGotoDlg->begin_active_widget_list, pGotoDlg->end_active_widget_list);
+    pGotoDlg->active_widget_list = NULL;
   } else {
     add_dock = pGotoDlg->begin_widget_list;
   }
@@ -207,9 +207,9 @@ static void update_goto_dialog(void)
   if (n > 0) {
     pGotoDlg->begin_widget_list = pBuf;
 
-    pGotoDlg->pBeginActiveWidgetList = pGotoDlg->begin_widget_list;
-    pGotoDlg->pEndActiveWidgetList = pLast->prev;
-    pGotoDlg->pActiveWidgetList = pGotoDlg->pEndActiveWidgetList;
+    pGotoDlg->begin_active_widget_list = pGotoDlg->begin_widget_list;
+    pGotoDlg->end_active_widget_list = pLast->prev;
+    pGotoDlg->active_widget_list = pGotoDlg->end_active_widget_list;
     pGotoDlg->pScroll->count = n;
 
     if (n > pGotoDlg->pScroll->active) {
@@ -226,8 +226,8 @@ static void update_goto_dialog(void)
                                     pGotoDlg->end_widget_list->area.y,
                                     pGotoDlg->pScroll->pUp_Left_Button->size.x -
                                     pGotoDlg->end_widget_list->area.x - adj_size(2),
-                                    0, pGotoDlg->pBeginActiveWidgetList,
-                                    pGotoDlg->pEndActiveWidgetList);
+                                    0, pGotoDlg->begin_active_widget_list,
+                                    pGotoDlg->end_active_widget_list);
 
   } else {
     hide_scrollbar(pGotoDlg->pScroll);

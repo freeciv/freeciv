@@ -304,7 +304,7 @@ static void popup_load_game_dialog(void)
     } else {
       add_widget_to_vertical_scroll_widget_list(pLoadDialog,
           pFilenameLabel,
-          pLoadDialog->pBeginActiveWidgetList,
+          pLoadDialog->begin_active_widget_list,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
@@ -471,7 +471,7 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
 
       pBuf->size.w = pConnDlg->text_width;
       add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
-                        pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
+                        pConnDlg->pChat_Dlg->begin_active_widget_list, FALSE,
                         pwindow->size.x + adj_size(10 + 60 + 10),
                         pwindow->size.y + adj_size(14));
       count++;
@@ -488,7 +488,7 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
     pBuf->size.w = pConnDlg->text_width;
 
     if (add_widget_to_vertical_scroll_widget_list(pConnDlg->pChat_Dlg, pBuf,
-                        pConnDlg->pChat_Dlg->pBeginActiveWidgetList, FALSE,
+                        pConnDlg->pChat_Dlg->begin_active_widget_list, FALSE,
                         pwindow->size.x + adj_size(10 + 60 + 10),
                         pwindow->size.y + adj_size(14))) {
       redraw_group(pConnDlg->pChat_Dlg->begin_widget_list,
@@ -588,9 +588,9 @@ void real_conn_list_dialog_update(void *unused)
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
       if (pConnDlg->pUsers_Dlg) {
-        del_group(pConnDlg->pUsers_Dlg->pBeginActiveWidgetList,
-                  pConnDlg->pUsers_Dlg->pEndActiveWidgetList);
-        pConnDlg->pUsers_Dlg->pActiveWidgetList = NULL;
+        del_group(pConnDlg->pUsers_Dlg->begin_active_widget_list,
+                  pConnDlg->pUsers_Dlg->end_active_widget_list);
+        pConnDlg->pUsers_Dlg->active_widget_list = NULL;
         pConnDlg->pUsers_Dlg->begin_widget_list =
           pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
         pConnDlg->pUsers_Dlg->pScroll->count = 0;
@@ -628,7 +628,7 @@ void real_conn_list_dialog_update(void *unused)
           create = FALSE;
         } else {
 	  add_widget_to_vertical_scroll_widget_list(pConnDlg->pUsers_Dlg,
-                pBuf, pConnDlg->pUsers_Dlg->pBeginActiveWidgetList, FALSE,
+                pBuf, pConnDlg->pUsers_Dlg->begin_active_widget_list, FALSE,
                 pwindow->area.x + pwindow->area.w - adj_size(130),
                 pwindow->size.y + adj_size(14));
         }
@@ -760,8 +760,8 @@ static void popup_conn_list_dialog(void)
 
   pConnDlg->pChat_Dlg->begin_widget_list = pLabel;
   pConnDlg->pChat_Dlg->end_widget_list = pLabel;
-  pConnDlg->pChat_Dlg->pBeginActiveWidgetList = pConnDlg->pChat_Dlg->begin_widget_list;
-  pConnDlg->pChat_Dlg->pEndActiveWidgetList = pConnDlg->pChat_Dlg->end_widget_list;
+  pConnDlg->pChat_Dlg->begin_active_widget_list = pConnDlg->pChat_Dlg->begin_widget_list;
+  pConnDlg->pChat_Dlg->end_active_widget_list = pConnDlg->pChat_Dlg->end_widget_list;
 
   n = (pwindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
   pConnDlg->active = n;

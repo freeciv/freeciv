@@ -181,9 +181,9 @@ struct advanced_dialog {
   struct widget *begin_widget_list;
   struct widget *end_widget_list; /* window */
 
-  struct widget *pBeginActiveWidgetList;
-  struct widget *pEndActiveWidgetList;
-  struct widget *pActiveWidgetList; /* first seen widget */
+  struct widget *begin_active_widget_list;
+  struct widget *end_active_widget_list;
+  struct widget *active_widget_list; /* first seen widget */
   struct ScrollBar *pScroll;
 };
 

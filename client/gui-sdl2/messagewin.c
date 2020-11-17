@@ -119,12 +119,12 @@ void real_meswin_dialog_update(void *unused)
   current_count = pMsg_Dlg->pScroll->count;
 
   if (current_count > 0) {
-    undraw_group(pMsg_Dlg->pBeginActiveWidgetList, pMsg_Dlg->pEndActiveWidgetList);
-    del_group_of_widgets_from_gui_list(pMsg_Dlg->pBeginActiveWidgetList,
-                                       pMsg_Dlg->pEndActiveWidgetList);
-    pMsg_Dlg->pBeginActiveWidgetList = NULL;
-    pMsg_Dlg->pEndActiveWidgetList = NULL;
-    pMsg_Dlg->pActiveWidgetList = NULL;
+    undraw_group(pMsg_Dlg->begin_active_widget_list, pMsg_Dlg->end_active_widget_list);
+    del_group_of_widgets_from_gui_list(pMsg_Dlg->begin_active_widget_list,
+                                       pMsg_Dlg->end_active_widget_list);
+    pMsg_Dlg->begin_active_widget_list = NULL;
+    pMsg_Dlg->end_active_widget_list = NULL;
+    pMsg_Dlg->active_widget_list = NULL;
     /* hide scrollbar */
     hide_scrollbar(pMsg_Dlg->pScroll);
     pMsg_Dlg->pScroll->count = 0;
@@ -184,7 +184,7 @@ void real_meswin_dialog_update(void *unused)
               create = FALSE;
             } else {
               add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
-                                                        pMsg_Dlg->pBeginActiveWidgetList,
+                                                        pMsg_Dlg->begin_active_widget_list,
                                                         FALSE, area.x, area.y);
             }
           }
@@ -224,7 +224,7 @@ void real_meswin_dialog_update(void *unused)
             create = FALSE;
           } else {
             add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
-                                                      pMsg_Dlg->pBeginActiveWidgetList,
+                                                      pMsg_Dlg->begin_active_widget_list,
                                                       FALSE, area.x, area.y);
           }
         }

@@ -359,9 +359,9 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   pMeta_Server->begin_widget_list = pNewWidget;
-  pMeta_Server->pBeginActiveWidgetList = pMeta_Server->begin_widget_list;
-  pMeta_Server->pEndActiveWidgetList = pMeta_Server->end_widget_list->prev->prev;
-  pMeta_Server->pActiveWidgetList = pMeta_Server->pEndActiveWidgetList;
+  pMeta_Server->begin_active_widget_list = pMeta_Server->begin_widget_list;
+  pMeta_Server->end_active_widget_list = pMeta_Server->end_widget_list->prev->prev;
+  pMeta_Server->active_widget_list = pMeta_Server->end_active_widget_list;
 
   if (count > 10) {
     meta_h = 10 * h;
@@ -418,7 +418,7 @@ void popup_connection_dialog(bool lan_scan)
     pNewWidget->size.y = pNewWidget->next->size.y + pNewWidget->next->size.h;
     pNewWidget = convert_iconlabel_to_themeiconlabel2(pNewWidget);
 
-    if (pNewWidget == pMeta_Server->pBeginActiveWidgetList) {
+    if (pNewWidget == pMeta_Server->begin_active_widget_list) {
       break;
     }
     pNewWidget = pNewWidget->prev;
@@ -427,7 +427,7 @@ void popup_connection_dialog(bool lan_scan)
   if (pMeta_Server->pScroll) {
     setup_vertical_scrollbar_area(pMeta_Server->pScroll,
                                   area.x + area.w - adj_size(6),
-                                  pMeta_Server->pEndActiveWidgetList->size.y,
+                                  pMeta_Server->end_active_widget_list->size.y,
                                   area.h - adj_size(24) - pwindow->prev->size.h, TRUE);
   }
 
@@ -436,8 +436,8 @@ void popup_connection_dialog(bool lan_scan)
 
   widget_redraw(pwindow);
 
-  area2.x = pMeta_Server->pEndActiveWidgetList->size.x;
-  area2.y = pMeta_Server->pEndActiveWidgetList->size.y;
+  area2.x = pMeta_Server->end_active_widget_list->size.x;
+  area2.y = pMeta_Server->end_active_widget_list->size.y;
 
   fill_rect_alpha(pwindow->dst->surface, &area2, &bg_color);
 

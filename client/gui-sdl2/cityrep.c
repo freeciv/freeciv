@@ -611,10 +611,10 @@ static void real_info_city_report_dialog_update(void)
     + pUnits_Icon->w + adj_size(6) + prod_w + adj_size(170);
 
   if (count) {
-    pCityRep->pEndActiveWidgetList = pLast->prev;
-    pCityRep->pBeginActiveWidgetList = pCityRep->begin_widget_list;
+    pCityRep->end_active_widget_list = pLast->prev;
+    pCityRep->begin_active_widget_list = pCityRep->begin_widget_list;
     if (count > 14 * COL) {
-      pCityRep->pActiveWidgetList = pCityRep->pEndActiveWidgetList;
+      pCityRep->active_widget_list = pCityRep->end_active_widget_list;
       if (pCityRep->pScroll) {
 	pCityRep->pScroll->count = count;
       }
@@ -928,7 +928,7 @@ static void real_info_city_report_dialog_update(void)
       pbuf->size.w = prod_w;
 
       start_y += H;
-      if (pbuf == pCityRep->pBeginActiveWidgetList) {
+      if (pbuf == pCityRep->begin_active_widget_list) {
         break;
       }
       pbuf = pbuf->prev;
@@ -1141,7 +1141,7 @@ void real_city_report_dialog_update(void *unused)
     int count;
 
     /* find if the lists are identical (if not then rebuild all) */
-    pwidget = pCityRep->pEndActiveWidgetList;/* name of first city */
+    pwidget = pCityRep->end_active_widget_list; /* name of first city */
     city_list_iterate(client.conn.playing->cities, pCity) {
       if (pCity->id == MAX_ID - pwidget->ID) {
         count = COL;
@@ -1152,18 +1152,19 @@ void real_city_report_dialog_update(void *unused)
         }
       } else {
         real_info_city_report_dialog_update();
+
         return;
       }
     } city_list_iterate_end;
 
     /* check it there are some city widgets left on list */
-    if (pwidget && pwidget->next != pCityRep->pBeginActiveWidgetList) {
+    if (pwidget && pwidget->next != pCityRep->begin_active_widget_list) {
       real_info_city_report_dialog_update();
       return;
     }
 
     /* update widget city list (widget list is the same that city list) */
-    pwidget = pCityRep->pEndActiveWidgetList;
+    pwidget = pCityRep->end_active_widget_list;
     city_list_iterate(client.conn.playing->cities, pCity) {
       pwidget = real_city_report_dialog_update_city(pwidget, pCity);
     } city_list_iterate_end;
@@ -1182,14 +1183,14 @@ void real_city_report_dialog_update(void *unused)
 void real_city_report_update_city(struct city *pCity)
 {
   if (pCityRep && pCity) {
-    struct widget *pBuf = pCityRep->pEndActiveWidgetList;
+    struct widget *pBuf = pCityRep->end_active_widget_list;
 
     while (pCity->id != MAX_ID - pBuf->ID
-           && pBuf != pCityRep->pBeginActiveWidgetList) {
+           && pBuf != pCityRep->begin_active_widget_list) {
       pBuf = pBuf->prev;
     }
 
-    if (pBuf == pCityRep->pBeginActiveWidgetList) {
+    if (pBuf == pCityRep->begin_active_widget_list) {
       real_info_city_report_dialog_update();
       return;
     }

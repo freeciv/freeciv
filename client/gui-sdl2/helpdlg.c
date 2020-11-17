@@ -320,12 +320,12 @@ void popup_impr_info(Impr_type_id impr)
 
     FREESURFACE(background_tmpl);
 
-    help_dlg->pEndActiveWidgetList = dock->prev;
+    help_dlg->end_active_widget_list = dock->prev;
     help_dlg->begin_widget_list = improvement_button ? improvement_button : pCloseButton;
-    help_dlg->pBeginActiveWidgetList = help_dlg->begin_widget_list;
+    help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (impr_type_count > 10) {
-      help_dlg->pActiveWidgetList = help_dlg->pEndActiveWidgetList;
+      help_dlg->active_widget_list = help_dlg->end_active_widget_list;
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
@@ -468,7 +468,7 @@ void popup_impr_info(Impr_type_id impr)
   store->pObsoleteByButton = pObsoleteByLabel2;
 
   /* helptext */
-  start_x = (area.x + 1 + scrollbar_width + help_dlg->pEndActiveWidgetList->size.w + adj_size(20));
+  start_x = (area.x + 1 + scrollbar_width + help_dlg->end_active_widget_list->size.w + adj_size(20));
 
   buffer[0] = '\0';
   helptext_building(buffer, sizeof(buffer), client.conn.playing, NULL,
@@ -513,8 +513,8 @@ void popup_impr_info(Impr_type_id impr)
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                         area.y + pListToggleButton->size.h, 0, 0,
-                                        help_dlg->pBeginActiveWidgetList,
-                                        help_dlg->pEndActiveWidgetList);
+                                        help_dlg->begin_active_widget_list,
+                                        help_dlg->end_active_widget_list);
 
     /* scrollbar */
     if (help_dlg->pScroll) {
@@ -738,12 +738,12 @@ void popup_unit_info(Unit_type_id type_id)
 
     FREESURFACE(background_tmpl);
 
-    help_dlg->pEndActiveWidgetList = dock->prev;
+    help_dlg->end_active_widget_list = dock->prev;
     help_dlg->begin_widget_list = pUnitButton ? pUnitButton : pCloseButton;
-    help_dlg->pBeginActiveWidgetList = help_dlg->begin_widget_list;
+    help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (utype_count > 10) {
-      help_dlg->pActiveWidgetList = help_dlg->pEndActiveWidgetList;
+      help_dlg->active_widget_list = help_dlg->end_active_widget_list;
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
@@ -900,7 +900,7 @@ void popup_unit_info(Unit_type_id type_id)
   store->pObsoleteByButton = pObsoleteByLabel2;
 
   /* helptext */
-  start_x = (area.x + 1 + scrollbar_width + help_dlg->pActiveWidgetList->size.w + adj_size(20));
+  start_x = (area.x + 1 + scrollbar_width + help_dlg->active_widget_list->size.w + adj_size(20));
 
   buffer[0] = '\0';
   helptext_unit(buffer, sizeof(buffer), client.conn.playing, "", utype_by_number(type_id));
@@ -944,8 +944,8 @@ void popup_unit_info(Unit_type_id type_id)
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                            area.y + pListToggleButton->size.h, 0, 0,
-                                           help_dlg->pBeginActiveWidgetList,
-                                           help_dlg->pEndActiveWidgetList);
+                                           help_dlg->begin_active_widget_list,
+                                           help_dlg->end_active_widget_list);
 
     /* scrollbar */
     if (help_dlg->pScroll) {
@@ -1116,7 +1116,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   char buffer[bufsz];
   SDL_Surface *surf;
 
-  start_x = (pwindow->area.x + adj_size(1) + width + help_dlg->pActiveWidgetList->size.w + adj_size(20));
+  start_x = (pwindow->area.x + adj_size(1) + width + help_dlg->active_widget_list->size.w + adj_size(20));
 
   /* tech tree icon */
   pwidget = create_icon2(current_theme->Tech_Tree_Icon, pwindow->dst,
@@ -1976,12 +1976,12 @@ void popup_tech_info(Tech_type_id tech)
 
     FREEUTF8STR(pstr);
 
-    help_dlg->pEndActiveWidgetList = dock->prev;
+    help_dlg->end_active_widget_list = dock->prev;
     help_dlg->begin_widget_list = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
-    help_dlg->pBeginActiveWidgetList = help_dlg->begin_widget_list;
+    help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (tech_count > 10) {
-      help_dlg->pActiveWidgetList = help_dlg->pEndActiveWidgetList;
+      help_dlg->active_widget_list = help_dlg->end_active_widget_list;
       scrollbar_width = create_vertical_scrollbar(help_dlg, 1, 10, TRUE, TRUE);
     }
 
@@ -2027,18 +2027,18 @@ void popup_tech_info(Tech_type_id tech)
 
     if (store->show_full_tree) {
       /* all entries are visible without scrolling */
-      hide_group(help_dlg->pBeginActiveWidgetList,
-                 help_dlg->pEndActiveWidgetList);
+      hide_group(help_dlg->begin_active_widget_list,
+                 help_dlg->end_active_widget_list);
       hide_scrollbar(help_dlg->pScroll);
     } else {
       int count = help_dlg->pScroll->active;
 
-      pAdvanceLabel = help_dlg->pActiveWidgetList;
+      pAdvanceLabel = help_dlg->active_widget_list;
       while (pAdvanceLabel && count--) {
         pAdvanceLabel = pAdvanceLabel->prev;
       }
       pAdvanceLabel = pAdvanceLabel->next;
-      show_group(pAdvanceLabel, help_dlg->pActiveWidgetList);
+      show_group(pAdvanceLabel, help_dlg->active_widget_list);
       show_scrollbar(help_dlg->pScroll);
     }
   }
@@ -2070,8 +2070,8 @@ void popup_tech_info(Tech_type_id tech)
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
                                         area.y + pListToggleButton->size.h, 0, 0,
-                                        help_dlg->pBeginActiveWidgetList,
-                                        help_dlg->pEndActiveWidgetList);
+                                        help_dlg->begin_active_widget_list,
+                                        help_dlg->end_active_widget_list);
     /* scrollbar */
     if (help_dlg->pScroll) {
       setup_vertical_scrollbar_area(help_dlg->pScroll,

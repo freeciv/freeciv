@@ -221,9 +221,9 @@ void popup_find_dialog(void)
   } players_iterate_end;
 
   pFind_City_Dlg->begin_widget_list = pBuf;
-  pFind_City_Dlg->pBeginActiveWidgetList = pFind_City_Dlg->begin_widget_list;
-  pFind_City_Dlg->pEndActiveWidgetList = pwindow->prev->prev;
-  pFind_City_Dlg->pActiveWidgetList = pFind_City_Dlg->pEndActiveWidgetList;
+  pFind_City_Dlg->begin_active_widget_list = pFind_City_Dlg->begin_widget_list;
+  pFind_City_Dlg->end_active_widget_list = pwindow->prev->prev;
+  pFind_City_Dlg->active_widget_list = pFind_City_Dlg->end_active_widget_list;
 
 
   /* ---------- */
@@ -279,7 +279,7 @@ void popup_find_dialog(void)
   /* cities */
   pBuf = pBuf->prev;
   setup_vertical_widgets_position(1, area.x, area.y, w, 0,
-                                  pFind_City_Dlg->pBeginActiveWidgetList,
+                                  pFind_City_Dlg->begin_active_widget_list,
                                   pBuf);
 
   if (pFind_City_Dlg->pScroll) {

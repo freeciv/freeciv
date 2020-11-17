@@ -760,15 +760,15 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   pcity_dlg->pPanel = fc_calloc(1, sizeof(struct advanced_dialog));
   pcity_dlg->pPanel->end_widget_list = pEnd;
   pcity_dlg->pPanel->begin_widget_list = pBuf;
-  pcity_dlg->pPanel->pEndActiveWidgetList = pcity_dlg->pPanel->end_widget_list;
-  pcity_dlg->pPanel->pBeginActiveWidgetList = pcity_dlg->pPanel->begin_widget_list;
-  pcity_dlg->pPanel->pActiveWidgetList = pcity_dlg->pPanel->pEndActiveWidgetList;
+  pcity_dlg->pPanel->end_active_widget_list = pcity_dlg->pPanel->end_widget_list;
+  pcity_dlg->pPanel->begin_active_widget_list = pcity_dlg->pPanel->begin_widget_list;
+  pcity_dlg->pPanel->active_widget_list = pcity_dlg->pPanel->end_active_widget_list;
 
   setup_vertical_widgets_position(num_x,
                                   pwindow->area.x + adj_size(5),
                                   pwindow->area.y + adj_size(44),
-                                  0, 0, pcity_dlg->pPanel->pBeginActiveWidgetList,
-                                  pcity_dlg->pPanel->pEndActiveWidgetList);
+                                  0, 0, pcity_dlg->pPanel->begin_active_widget_list,
+                                  pcity_dlg->pPanel->end_active_widget_list);
 
   if (i > num_x * num_y) {
     create_vertical_scrollbar(pcity_dlg->pPanel,
@@ -1356,8 +1356,8 @@ static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
     enable_city_dlg_widgets();
 
     if (pcity_dlg->pImprv->end_widget_list) {
-      set_group_state(pcity_dlg->pImprv->pBeginActiveWidgetList,
-                      pcity_dlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
+      set_group_state(pcity_dlg->pImprv->begin_active_widget_list,
+                      pcity_dlg->pImprv->end_active_widget_list, FC_WS_DISABLED);
     }
 
     redraw_city_dialog(pcity_dlg->pCity);
@@ -1483,7 +1483,7 @@ void enable_city_dlg_widgets(void)
     set_group_state(pcity_dlg->pBeginCityWidgetList,
                     pcity_dlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
 
-    if (pcity_dlg->pImprv->pEndActiveWidgetList) {
+    if (pcity_dlg->pImprv->end_active_widget_list) {
       if (pcity_dlg->pImprv->pScroll) {
         set_wstate(pcity_dlg->pImprv->pScroll->pScrollBar, FC_WS_NORMAL);	/* vscroll */
         set_wstate(pcity_dlg->pImprv->pScroll->pUp_Left_Button, FC_WS_NORMAL);   /* up */
@@ -1495,10 +1495,10 @@ void enable_city_dlg_widgets(void)
        * when possible */
       if (pcity_dlg->pCity->did_sell
           || pcity_dlg->pCity->owner != client.conn.playing) {
-        set_group_state(pcity_dlg->pImprv->pBeginActiveWidgetList,
-                        pcity_dlg->pImprv->pEndActiveWidgetList, FC_WS_DISABLED);
+        set_group_state(pcity_dlg->pImprv->begin_active_widget_list,
+                        pcity_dlg->pImprv->end_active_widget_list, FC_WS_DISABLED);
       } else {
-        struct widget *tmp_widget = pcity_dlg->pImprv->pEndActiveWidgetList;
+        struct widget *tmp_widget = pcity_dlg->pImprv->end_active_widget_list;
 
         while (TRUE) {
           struct impr_type *pimpr = improvement_by_number(MAX_ID - 3000 -
@@ -1510,7 +1510,7 @@ void enable_city_dlg_widgets(void)
             set_wstate(tmp_widget, FC_WS_NORMAL);
           }
 
-          if (tmp_widget == pcity_dlg->pImprv->pBeginActiveWidgetList) {
+          if (tmp_widget == pcity_dlg->pImprv->begin_active_widget_list) {
             break;
           }
 
@@ -3478,9 +3478,9 @@ static void rebuild_imprm_list(struct city *pCity)
                                        pcity_dlg->pImprv->end_widget_list);
     pcity_dlg->pImprv->end_widget_list = NULL;
     pcity_dlg->pImprv->begin_widget_list = NULL;
-    pcity_dlg->pImprv->pEndActiveWidgetList = NULL;
-    pcity_dlg->pImprv->pBeginActiveWidgetList = NULL;
-    pcity_dlg->pImprv->pActiveWidgetList = NULL;
+    pcity_dlg->pImprv->end_active_widget_list = NULL;
+    pcity_dlg->pImprv->begin_active_widget_list = NULL;
+    pcity_dlg->pImprv->active_widget_list = NULL;
     FC_FREE(pcity_dlg->pImprv->pScroll);
   }
  
@@ -3527,12 +3527,12 @@ static void rebuild_imprm_list(struct city *pCity)
 
   if (count) {
     pcity_dlg->pImprv->end_widget_list = pLast->prev;
-    pcity_dlg->pImprv->pEndActiveWidgetList = pcity_dlg->pImprv->end_widget_list;
+    pcity_dlg->pImprv->end_active_widget_list = pcity_dlg->pImprv->end_widget_list;
     pcity_dlg->pImprv->begin_widget_list = pBuf;
-    pcity_dlg->pImprv->pBeginActiveWidgetList = pcity_dlg->pImprv->begin_widget_list;
+    pcity_dlg->pImprv->begin_active_widget_list = pcity_dlg->pImprv->begin_widget_list;
 
     if (count > 7) {
-      pcity_dlg->pImprv->pActiveWidgetList = pcity_dlg->pImprv->pEndActiveWidgetList;
+      pcity_dlg->pImprv->active_widget_list = pcity_dlg->pImprv->end_active_widget_list;
 
       create_vertical_scrollbar(pcity_dlg->pImprv, 1, 7, TRUE, TRUE);
 

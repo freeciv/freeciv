@@ -545,9 +545,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
     }
   }
   pCma->pAdv->begin_widget_list = pBuf;
-  pCma->pAdv->pBeginActiveWidgetList = pCma->pAdv->begin_widget_list;
-  pCma->pAdv->pEndActiveWidgetList = pwindow->prev->prev;
-  pCma->pAdv->pActiveWidgetList = pCma->pAdv->pEndActiveWidgetList;
+  pCma->pAdv->begin_active_widget_list = pCma->pAdv->begin_widget_list;
+  pCma->pAdv->end_active_widget_list = pwindow->prev->prev;
+  pCma->pAdv->active_widget_list = pCma->pAdv->end_active_widget_list;
 
   area.w += adj_size(2);
   area.h += 1;
@@ -583,7 +583,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
   setup_vertical_widgets_position(1, area.x + 1,
                                   area.y + 1 + hh, area.w - 1, 0,
-                                  pCma->pAdv->pBeginActiveWidgetList, pBuf);
+                                  pCma->pAdv->begin_active_widget_list, pBuf);
 
   if (pCma->pAdv->pScroll) {
     pCma->pAdv->pScroll->pUp_Left_Button->size.x = area.x;

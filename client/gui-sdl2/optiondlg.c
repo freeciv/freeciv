@@ -1040,15 +1040,15 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   /* Scrollbar. */
   pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
   pdialog->advanced->end_widget_list = pdialog->end_widget_list;
-  pdialog->advanced->pEndActiveWidgetList = apply_button->prev;
+  pdialog->advanced->end_active_widget_list = apply_button->prev;
   pdialog->advanced->begin_widget_list = widget;
-  pdialog->advanced->pBeginActiveWidgetList = widget;
+  pdialog->advanced->begin_active_widget_list = widget;
 
   create_vertical_scrollbar(pdialog->advanced, 2, MAX_SHOWN, TRUE, TRUE);
 
   if (i >= MAX_SHOWN) {
-    pdialog->advanced->pActiveWidgetList =
-        pdialog->advanced->pEndActiveWidgetList;
+    pdialog->advanced->active_widget_list =
+        pdialog->advanced->end_active_widget_list;
   } else {
     hide_scrollbar(pdialog->advanced->pScroll);
   }
@@ -1056,7 +1056,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   pdialog->begin_widget_list = pdialog->advanced->begin_widget_list;
 
   arrange_widgets(window, 2, MAX_SHOWN,
-                  pdialog->advanced->pBeginActiveWidgetList,
+                  pdialog->advanced->begin_active_widget_list,
                   apply_button, pdialog->core_widget_list,
                   apply_button, NULL);
 
@@ -1066,7 +1066,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
                                 area.h - adj_size(32), TRUE);
 
   redraw_group(pdialog->begin_widget_list,
-               pdialog->advanced->pActiveWidgetList, 0);
+               pdialog->advanced->active_widget_list, 0);
   widget_flush(window);
 }
 
@@ -1096,21 +1096,21 @@ static int edit_worklist_callback(struct widget *widget)
       {
         /* Delete. */
         struct advanced_dialog *advanced = option_dialog->advanced;
-        bool scroll = (NULL != advanced->pActiveWidgetList);
+        bool scroll = (NULL != advanced->active_widget_list);
 
         global_worklist_destroy(pgwl);
         del_widget_from_vertical_scroll_widget_list(advanced, widget);
 
         /* Find if there was scrollbar hide. */
-        if (scroll && advanced->pActiveWidgetList == NULL) {
+        if (scroll && advanced->active_widget_list == NULL) {
           int len = advanced->pScroll->pUp_Left_Button->size.w;
 
-          widget = advanced->pEndActiveWidgetList->next;
+          widget = advanced->end_active_widget_list->next;
           do {
             widget = widget->prev;
             widget->size.w += len;
             FREESURFACE(widget->gfx);
-          } while (widget != advanced->pBeginActiveWidgetList);
+          } while (widget != advanced->begin_active_widget_list);
         }
 
         redraw_group(option_dialog->begin_widget_list,
@@ -1139,7 +1139,7 @@ static int add_new_worklist_callback(struct widget *widget)
     struct widget *window = option_dialog->end_widget_list;
     struct global_worklist *pgwl = global_worklist_new(_("empty worklist"));
     struct advanced_dialog *advanced = option_dialog->advanced;
-    bool scroll = advanced->pActiveWidgetList == NULL;
+    bool scroll = advanced->active_widget_list == NULL;
     bool redraw_all = FALSE;
 
     set_wstate(widget, FC_WS_NORMAL);
@@ -1163,16 +1163,16 @@ static int add_new_worklist_callback(struct widget *widget)
                      window->area.y + adj_size(17));
 
     /* Find if there was scrollbar shown. */
-    if (scroll && advanced->pActiveWidgetList != NULL) {
+    if (scroll && advanced->active_widget_list != NULL) {
       int len = advanced->pScroll->pUp_Left_Button->size.w;
 
-      window = advanced->pEndActiveWidgetList->next;
+      window = advanced->end_active_widget_list->next;
       do {
         window = window->prev;
         window->size.w -= len;
         window->area.w -= len;
         FREESURFACE(window->gfx);
-      } while (window != advanced->pBeginActiveWidgetList);
+      } while (window != advanced->begin_active_widget_list);
     }
 
     if (redraw_all) {
@@ -1258,10 +1258,10 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   /* Advanced dialog. */
   pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
   pdialog->advanced->end_widget_list = pdialog->end_widget_list;
-  pdialog->advanced->pEndActiveWidgetList =
+  pdialog->advanced->end_active_widget_list =
       pdialog->main_widget_list->prev->prev;
   pdialog->advanced->begin_widget_list = widget;
-  pdialog->advanced->pBeginActiveWidgetList = widget;
+  pdialog->advanced->begin_active_widget_list = widget;
 
   /* Clear former area. */
   area = window->area;
@@ -1302,8 +1302,8 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
                                 area.h - adj_size(32), TRUE);
 
   if (count > 13) {
-    pdialog->advanced->pActiveWidgetList =
-        pdialog->advanced->pEndActiveWidgetList;
+    pdialog->advanced->active_widget_list =
+        pdialog->advanced->end_active_widget_list;
   } else {
     hide_scrollbar(pdialog->advanced->pScroll);
     scrollbar_width = 0;
@@ -1313,8 +1313,8 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   setup_vertical_widgets_position(1, area.x + adj_size(5),
                                   area.y + adj_size(5),
                                   area.w - adj_size(10) - scrollbar_width, 0,
-                                  pdialog->advanced->pBeginActiveWidgetList,
-                                  pdialog->advanced->pEndActiveWidgetList);
+                                  pdialog->advanced->begin_active_widget_list,
+                                  pdialog->advanced->end_active_widget_list);
 
   pdialog->begin_widget_list = pdialog->advanced->begin_widget_list;
 

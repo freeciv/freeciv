@@ -398,10 +398,10 @@ void update_intel_dialog(struct player *p)
     pdialog->pdialog->begin_widget_list = pBuf;
 
     if (n > 0) {
-      pdialog->pdialog->pEndActiveWidgetList = pLast->prev;
-      pdialog->pdialog->pBeginActiveWidgetList = pdialog->pdialog->begin_widget_list;
+      pdialog->pdialog->end_active_widget_list = pLast->prev;
+      pdialog->pdialog->begin_active_widget_list = pdialog->pdialog->begin_widget_list;
       if (n > 2 * col) {
-        pdialog->pdialog->pActiveWidgetList = pdialog->pdialog->pEndActiveWidgetList;
+        pdialog->pdialog->active_widget_list = pdialog->pdialog->end_active_widget_list;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
         area.h += (2 * pBuf->size.h + adj_size(10));
       } else {
@@ -465,8 +465,8 @@ void update_intel_dialog(struct player *p)
       FREESURFACE(pText2);
 
       setup_vertical_widgets_position(col, area.x, dst.y, 0, 0,
-                                      pdialog->pdialog->pBeginActiveWidgetList,
-                                      pdialog->pdialog->pEndActiveWidgetList);
+                                      pdialog->pdialog->begin_active_widget_list,
+                                      pdialog->pdialog->end_active_widget_list);
 
       if (pdialog->pdialog->pScroll) {
         setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,

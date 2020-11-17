@@ -797,8 +797,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         const struct unit_type *putype;
         int num_w, num_h;
 
-        if (pDlg->pEndActiveWidgetList && pDlg->pBeginActiveWidgetList) {
-          del_group(pDlg->pBeginActiveWidgetList, pDlg->pEndActiveWidgetList);
+        if (pDlg->end_active_widget_list && pDlg->begin_active_widget_list) {
+          del_group(pDlg->begin_active_widget_list, pDlg->end_active_widget_list);
         }
         num_w = (pInfo_Window->area.w - BLOCKU_W) / 68;
         num_h = (pInfo_Window->area.h - sy) / 52;
@@ -877,9 +877,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
 	} unit_list_iterate_end;
 
-        pDlg->pBeginActiveWidgetList = pBuf;
-        pDlg->pEndActiveWidgetList = pEnd;
-        pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
+        pDlg->begin_active_widget_list = pBuf;
+        pDlg->end_active_widget_list = pEnd;
+        pDlg->active_widget_list = pDlg->end_active_widget_list;
 
         if (n > num_w * num_h) {
           if (!pDlg->pScroll) {
@@ -915,12 +915,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                                         pInfo_Window->area.x + BLOCKU_W + adj_size(2),
                                         pInfo_Window->size.y + sy +
                                         (pInfo_Window->size.h - sy - num_h * 52) / 2,
-                                        0, 0, pDlg->pBeginActiveWidgetList,
-                                        pDlg->pEndActiveWidgetList);
+                                        0, 0, pDlg->begin_active_widget_list,
+                                        pDlg->end_active_widget_list);
       } else {
-        if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
-          del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
-                    pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
+        if (pInfo_Window->private_data.adv_dlg->end_active_widget_list) {
+          del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
+                    pInfo_Window->private_data.adv_dlg->end_active_widget_list);
         }
         if (pInfo_Window->private_data.adv_dlg->pScroll) {
           hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
@@ -928,9 +928,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
     } else { /* pUnit */
 
-      if (pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList) {
-	del_group(pInfo_Window->private_data.adv_dlg->pBeginActiveWidgetList,
-                  pInfo_Window->private_data.adv_dlg->pEndActiveWidgetList);
+      if (pInfo_Window->private_data.adv_dlg->end_active_widget_list) {
+	del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
+                  pInfo_Window->private_data.adv_dlg->end_active_widget_list);
       }
       if (pInfo_Window->private_data.adv_dlg->pScroll) {
 	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);

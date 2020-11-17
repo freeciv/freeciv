@@ -360,13 +360,13 @@ static int get_step(struct ScrollBar *pScroll)
 **************************************************************************/
 static int get_position(struct advanced_dialog *pDlg)
 {
-  struct widget *pBuf = pDlg->pActiveWidgetList;
+  struct widget *pBuf = pDlg->active_widget_list;
   int count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
   int step = get_step(pDlg->pScroll);
 
   /* find last seen widget */
   while (count) {
-    if (pBuf == pDlg->pBeginActiveWidgetList) {
+    if (pBuf == pDlg->begin_active_widget_list) {
       break;
     }
     count--;
@@ -374,11 +374,11 @@ static int get_position(struct advanced_dialog *pDlg)
   }
 
   count = 0;
-  if (pBuf != pDlg->pBeginActiveWidgetList) {
+  if (pBuf != pDlg->begin_active_widget_list) {
     do {
       count++;
       pBuf = pBuf->prev;
-    } while (pBuf != pDlg->pBeginActiveWidgetList);
+    } while (pBuf != pDlg->begin_active_widget_list);
   }
 
   if (pDlg->pScroll->pScrollBar) {
@@ -417,12 +417,12 @@ static int std_up_advanced_dlg_callback(struct widget *pwidget)
     struct advanced_dialog *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = up_scroll_widget_list(
                           pDlg->pScroll,
-                          pDlg->pActiveWidgetList,
-                          pDlg->pBeginActiveWidgetList,
-                          pDlg->pEndActiveWidgetList);
+                          pDlg->active_widget_list,
+                          pDlg->begin_active_widget_list,
+                          pDlg->end_active_widget_list);
 
     if (pBegin) {
-      pDlg->pActiveWidgetList = pBegin;
+      pDlg->active_widget_list = pBegin;
     }
 
     unselect_widget_action();
@@ -444,12 +444,12 @@ static int std_down_advanced_dlg_callback(struct widget *pwidget)
     struct advanced_dialog *pDlg = pwidget->private_data.adv_dlg;
     struct widget *pBegin = down_scroll_widget_list(
                               pDlg->pScroll,
-                              pDlg->pActiveWidgetList,
-                              pDlg->pBeginActiveWidgetList,
-                              pDlg->pEndActiveWidgetList);
+                              pDlg->active_widget_list,
+                              pDlg->begin_active_widget_list,
+                              pDlg->end_active_widget_list);
 
     if (pBegin) {
-      pDlg->pActiveWidgetList = pBegin;
+      pDlg->active_widget_list = pBegin;
     }
 
     unselect_widget_action();
@@ -471,12 +471,12 @@ static int std_vscroll_advanced_dlg_callback(struct widget *pScrollBar)
     struct advanced_dialog *pDlg = pScrollBar->private_data.adv_dlg;
     struct widget *pBegin = vertic_scroll_widget_list(
                               pDlg->pScroll,
-                              pDlg->pActiveWidgetList,
-                              pDlg->pBeginActiveWidgetList,
-                              pDlg->pEndActiveWidgetList);
+                              pDlg->active_widget_list,
+                              pDlg->begin_active_widget_list,
+                              pDlg->end_active_widget_list);
 
     if (pBegin) {
-      pDlg->pActiveWidgetList = pBegin;
+      pDlg->active_widget_list = pBegin;
     }
 
     unselect_widget_action();
@@ -506,8 +506,8 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *pDlg,
   if (!pDlg->pScroll) {
     pDlg->pScroll = fc_calloc(1, sizeof(struct ScrollBar));
 
-    pBuf = pDlg->pEndActiveWidgetList;
-    while (pBuf && (pBuf != pDlg->pBeginActiveWidgetList->prev)) {
+    pBuf = pDlg->end_active_widget_list;
+    while (pBuf && (pBuf != pDlg->begin_active_widget_list->prev)) {
       pBuf = pBuf->prev;
       count++;
     }
@@ -1148,7 +1148,7 @@ static struct widget *vertic_scroll_widget_list(struct ScrollBar *pVscroll,
   dir :
     TRUE - upper add => add_dock->next = new_widget.
     FALSE - down add => add_dock->prev = new_widget.
-  start_x, start_y - positions of first seen widget (pActiveWidgetList).
+  start_x, start_y - positions of first seen widget (active_widget_list).
   pDlg->pScroll ( scrollbar ) must exist.
   It isn't full secure to multi widget list.
 **************************************************************************/
@@ -1176,17 +1176,17 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
   if (pDlg->pScroll->count > (pDlg->pScroll->active * pDlg->pScroll->step)) {
     /* -> scrollbar needed */
 
-    if (pDlg->pActiveWidgetList) {
+    if (pDlg->active_widget_list) {
       /* -> scrollbar is already visible */
       int i = 0;
 
       /* find last active widget */
       pOld_End = add_dock;
-      while (pOld_End != pDlg->pActiveWidgetList) {
+      while (pOld_End != pDlg->active_widget_list) {
         pOld_End = pOld_End->next;
         i++;
-        if (pOld_End == pDlg->pEndActiveWidgetList) {
-          /* implies (pOld_End == pDlg->pActiveWidgetList)? */
+        if (pOld_End == pDlg->end_active_widget_list) {
+          /* implies (pOld_End == pDlg->active_widget_list)? */
           seen = FALSE;
           break;
         }
@@ -1209,7 +1209,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
 
     } else {
       last = TRUE;
-      pDlg->pActiveWidgetList = pDlg->pEndActiveWidgetList;
+      pDlg->active_widget_list = pDlg->end_active_widget_list;
       show_scrollbar(pDlg->pScroll);
     }
   }
@@ -1224,11 +1224,11 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
     if (add_dock == pDlg->end_widget_list) {
       pDlg->end_widget_list = new_widget;
     }
-    if (add_dock == pDlg->pEndActiveWidgetList) {
-      pDlg->pEndActiveWidgetList = new_widget;
+    if (add_dock == pDlg->end_active_widget_list) {
+      pDlg->end_active_widget_list = new_widget;
     }
-    if (add_dock == pDlg->pActiveWidgetList) {
-      pDlg->pActiveWidgetList = new_widget;
+    if (add_dock == pDlg->active_widget_list) {
+      pDlg->active_widget_list = new_widget;
     }
   } else {
     /* down add */
@@ -1238,20 +1238,20 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
       pDlg->begin_widget_list = new_widget;
     }
 
-    if (add_dock == pDlg->pBeginActiveWidgetList) {
-      pDlg->pBeginActiveWidgetList = new_widget;
+    if (add_dock == pDlg->begin_active_widget_list) {
+      pDlg->begin_active_widget_list = new_widget;
     }
   }
 
   /* setup draw positions */
   if (seen) {
-    if (!pDlg->pBeginActiveWidgetList) {
+    if (!pDlg->begin_active_widget_list) {
       /* first element ( active list empty ) */
       fc_assert_msg(FALSE == dir, "Forbided List Operation");
       new_widget->size.x = start_x;
       new_widget->size.y = start_y;
-      pDlg->pBeginActiveWidgetList = new_widget;
-      pDlg->pEndActiveWidgetList = new_widget;
+      pDlg->begin_active_widget_list = new_widget;
+      pDlg->end_active_widget_list = new_widget;
       if (!pDlg->begin_widget_list) {
         pDlg->begin_widget_list = new_widget;
         pDlg->end_widget_list = new_widget;
@@ -1275,24 +1275,24 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
             pBuf->gfx = pBuf->next->gfx;
             pBuf->next->gfx = NULL;
             pBuf = pBuf->next;
-          } while (pBuf != pDlg->pActiveWidgetList);
+          } while (pBuf != pDlg->active_widget_list);
           pBuf->gfx = NULL;
           set_wflag(pBuf, WF_HIDDEN);
-	  pDlg->pActiveWidgetList = pDlg->pActiveWidgetList->prev;
+	  pDlg->active_widget_list = pDlg->active_widget_list->prev;
         }
       } else { /* !last */
         pBuf = new_widget;
         /* find last seen widget */
-        if (pDlg->pActiveWidgetList) {
-          pEnd = pDlg->pActiveWidgetList;
+        if (pDlg->active_widget_list) {
+          pEnd = pDlg->active_widget_list;
           count = pDlg->pScroll->active * pDlg->pScroll->step - 1;
-          while (count && pEnd != pDlg->pBeginActiveWidgetList) {
+          while (count && pEnd != pDlg->begin_active_widget_list) {
             pEnd = pEnd->prev;
             count--;
           }
         }
         while (pBuf) {
-          if (pBuf == pDlg->pBeginActiveWidgetList) {
+          if (pBuf == pDlg->begin_active_widget_list) {
             struct widget *pTmp = pBuf;
 
             count = pDlg->pScroll->step;
@@ -1319,12 +1319,12 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
           set_wflag(pOld_End, WF_HIDDEN);
         }
       } /* !last */
-    } /* pDlg->pBeginActiveWidgetList */
+    } /* pDlg->begin_active_widget_list */
   } else { /* !seen */
     set_wflag(new_widget, WF_HIDDEN);
   }
 
-  if (pDlg->pActiveWidgetList && pDlg->pScroll->pScrollBar) {
+  if (pDlg->active_widget_list && pDlg->pScroll->pScrollBar) {
     widget_undraw(pDlg->pScroll->pScrollBar);
     widget_mark_dirty(pDlg->pScroll->pScrollBar);
 
@@ -1359,23 +1359,23 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
   fc_assert_ret_val(pDlg != NULL, FALSE);
 
   /* if begin == end -> size = 1 */
-  if (pDlg->pBeginActiveWidgetList == pDlg->pEndActiveWidgetList) {
+  if (pDlg->begin_active_widget_list == pDlg->end_active_widget_list) {
 
     if (pDlg->pScroll) {
       pDlg->pScroll->count = 0;
     }
 
-    if (pDlg->pBeginActiveWidgetList == pDlg->begin_widget_list) {
+    if (pDlg->begin_active_widget_list == pDlg->begin_widget_list) {
       pDlg->begin_widget_list = pDlg->begin_widget_list->next;
     }
 
-    if (pDlg->pEndActiveWidgetList == pDlg->end_widget_list) {
+    if (pDlg->end_active_widget_list == pDlg->end_widget_list) {
       pDlg->end_widget_list = pDlg->end_widget_list->prev;
     }
 
-    pDlg->pBeginActiveWidgetList = NULL;
-    pDlg->pActiveWidgetList = NULL;
-    pDlg->pEndActiveWidgetList = NULL;
+    pDlg->begin_active_widget_list = NULL;
+    pDlg->active_widget_list = NULL;
+    pDlg->end_active_widget_list = NULL;
 
     widget_undraw(pwidget);
     widget_mark_dirty(pwidget);
@@ -1383,7 +1383,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
     return FALSE;
   }
 
-  if (pDlg->pScroll && pDlg->pActiveWidgetList) {
+  if (pDlg->pScroll && pDlg->active_widget_list) {
     /* scrollbar exist and active, start mod. from last seen label */
     struct widget *pLast;
     bool widget_found = FALSE;
@@ -1393,28 +1393,28 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
     count = pDlg->pScroll->active * pDlg->pScroll->step;
 
     /* find last */
-    pBuf = pDlg->pActiveWidgetList;
+    pBuf = pDlg->active_widget_list;
     while (count > 0) {
       pBuf = pBuf->prev;
       count--;
     }
     if (!pBuf) {
-      pLast = pDlg->pBeginActiveWidgetList;
+      pLast = pDlg->begin_active_widget_list;
     } else {
       pLast = pBuf->next;
     }
 
-    if (pLast == pDlg->pBeginActiveWidgetList) {
+    if (pLast == pDlg->begin_active_widget_list) {
       if (pDlg->pScroll->step == 1) {
-        pDlg->pActiveWidgetList = pDlg->pActiveWidgetList->next;
-        clear_wflag(pDlg->pActiveWidgetList, WF_HIDDEN);
+        pDlg->active_widget_list = pDlg->active_widget_list->next;
+        clear_wflag(pDlg->active_widget_list, WF_HIDDEN);
 
         /* look for the widget in the non-visible part */
-        pBuf = pDlg->pEndActiveWidgetList;
-        while (pBuf != pDlg->pActiveWidgetList) {
+        pBuf = pDlg->end_active_widget_list;
+        while (pBuf != pDlg->active_widget_list) {
           if (pBuf == pwidget) {
             widget_found = TRUE;
-            pBuf = pDlg->pActiveWidgetList;
+            pBuf = pDlg->active_widget_list;
             break;
           }
           pBuf = pBuf->prev;
@@ -1453,11 +1453,11 @@ STD:  while (pBuf != pwidget) {
     if ((pDlg->pScroll->count - 1) <= (pDlg->pScroll->active * pDlg->pScroll->step)) {
       /* scrollbar not needed anymore */
       hide_scrollbar(pDlg->pScroll);
-      pDlg->pActiveWidgetList = NULL;
+      pDlg->active_widget_list = NULL;
     }
     pDlg->pScroll->count--;
 
-    if (pDlg->pActiveWidgetList) {
+    if (pDlg->active_widget_list) {
       if (pDlg->pScroll->pScrollBar) {
         widget_undraw(pDlg->pScroll->pScrollBar);
         pDlg->pScroll->pScrollBar->size.h = scrollbar_size(pDlg->pScroll);
@@ -1466,7 +1466,7 @@ STD:  while (pBuf != pwidget) {
     }
 
   } else { /* no scrollbar */
-    pBuf = pDlg->pBeginActiveWidgetList;
+    pBuf = pDlg->begin_active_widget_list;
 
     /* undraw last widget */
     widget_undraw(pBuf);
@@ -1490,30 +1490,30 @@ STD:  while (pBuf != pwidget) {
     pDlg->begin_widget_list = pwidget->next;
   }
 
-  if (pwidget == pDlg->pBeginActiveWidgetList) {
-    pDlg->pBeginActiveWidgetList = pwidget->next;
+  if (pwidget == pDlg->begin_active_widget_list) {
+    pDlg->begin_active_widget_list = pwidget->next;
   }
 
-  if (pwidget == pDlg->pEndActiveWidgetList) {
+  if (pwidget == pDlg->end_active_widget_list) {
     if (pwidget == pDlg->end_widget_list) {
       pDlg->end_widget_list = pwidget->prev;
     }
 
-    if (pwidget == pDlg->pActiveWidgetList) {
-      pDlg->pActiveWidgetList = pwidget->prev;
+    if (pwidget == pDlg->active_widget_list) {
+      pDlg->active_widget_list = pwidget->prev;
     }
 
-    pDlg->pEndActiveWidgetList = pwidget->prev;
+    pDlg->end_active_widget_list = pwidget->prev;
 
   }
 
-  if (pDlg->pActiveWidgetList && (pDlg->pActiveWidgetList == pwidget)) {
-    pDlg->pActiveWidgetList = pwidget->prev;
+  if (pDlg->active_widget_list && (pDlg->active_widget_list == pwidget)) {
+    pDlg->active_widget_list = pwidget->prev;
   }
 
   del_widget_from_gui_list(pwidget);
 
-  if (pDlg->pScroll && pDlg->pScroll->pScrollBar && pDlg->pActiveWidgetList) {
+  if (pDlg->pScroll && pDlg->pScroll->pScrollBar && pDlg->active_widget_list) {
     widget_undraw(pDlg->pScroll->pScrollBar);
     pDlg->pScroll->pScrollBar->size.y = get_position(pDlg);
     refresh_widget_background(pDlg->pScroll->pScrollBar);
@@ -1566,8 +1566,8 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
 
     pDlg->pScroll->active = active;
 
-    pBuf = pDlg->pEndActiveWidgetList;
-    while (pBuf && pBuf != pDlg->pBeginActiveWidgetList->prev) {
+    pBuf = pDlg->end_active_widget_list;
+    while (pBuf && pBuf != pDlg->begin_active_widget_list->prev) {
       pBuf = pBuf->prev;
       count++;
     }

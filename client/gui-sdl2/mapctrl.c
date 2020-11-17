@@ -277,9 +277,9 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       set_wstate(pIcon_Widget, FC_WS_NORMAL);
       selected_widget = NULL;
 
-      if (pUnits_Info_Window->private_data.adv_dlg->pEndActiveWidgetList) {
-        del_group(pUnits_Info_Window->private_data.adv_dlg->pBeginActiveWidgetList,
-                  pUnits_Info_Window->private_data.adv_dlg->pEndActiveWidgetList);
+      if (pUnits_Info_Window->private_data.adv_dlg->end_active_widget_list) {
+        del_group(pUnits_Info_Window->private_data.adv_dlg->begin_active_widget_list,
+                  pUnits_Info_Window->private_data.adv_dlg->end_active_widget_list);
       }
       if (pUnits_Info_Window->private_data.adv_dlg->pScroll) {
         hide_scrollbar(pUnits_Info_Window->private_data.adv_dlg->pScroll);
