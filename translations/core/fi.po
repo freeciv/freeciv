@@ -28,9 +28,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-11-16 20:26+0200\n"
-"PO-Revision-Date: 2020-11-16 20:18+0200\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-19 00:14+0200\n"
+"PO-Revision-Date: 2020-11-18 23:48+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -10182,42 +10182,48 @@ msgstr ""
 
 #. TRANS: Incite City
 #: client/helpdata.c:1579
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city with its owner.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr ""
+"· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa kaupunkia "
+"vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1586
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city on the same team.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr ""
+"· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa tai hänen "
+"joukkuetoverinsa kaupunkia vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1593
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city allied to or owned "
 "by its owner.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr ""
+"· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa tai hänen "
+"liittolaisensa kaupunkia vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1600
-#, fuzzy, c-format
+#, c-format
 msgid "* Makes it impossible to do the action '%s' to any city in the game.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdottomaksi tehdä toimintoa '%s' mitään kaupunkia vastaan.\n"
 
 #: client/helpdata.c:1623
 msgid "* All players start with this improvement in their first city.\n"
 msgstr ""
-"· Kaikki pelaajat aloittavat tämä parannus ensimmäisessä kaupungissaan.\n"
+"· Kaikki pelaajat aloittavat tämä rakennus ensimmäisessä kaupungissaan.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:1646
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
-msgstr "· %s aloittavat tämä paranus ensimmäisessä kaupungissaan.\n"
+msgstr "· %s aloittavat tämä rakennus ensimmäisessä kaupungissaan.\n"
 
 #. TRANS: don't translate 'savepalace'
 #: client/helpdata.c:1656
@@ -10226,7 +10232,7 @@ msgid ""
 "free in another of your cities (if the 'savepalace' server setting is "
 "enabled).\n"
 msgstr ""
-"· Jos kaupunki, jossa tämä parannus on, valloitetaan, parannus rakennetaan "
+"· Jos kaupunki, jossa tämä rakennus on, valloitetaan, rakennus rakennetaan "
 "ilmaiseksi johonkin toiseen kaupungeistasi (jos palvelimen asetus "
 "'savepalace' on käytössä).\n"
 
@@ -29893,6 +29899,9 @@ msgid ""
 "spend at least every third turn change next to land to load supplies for the "
 "crew."
 msgstr ""
+"Karaveli on purjehdusalus kykenevä kulkemaan missä hyvänsä meriruudussa, "
+"mutta sen täytyy viettää vähintään joka kolmas kierroksenvaihto maaruudun "
+"vieressä lastatakseen ruokaa ja tarvikkeita miehistölleen."
 
 #: data/sandbox/units.ruleset:1784 data/civ2civ3/units.ruleset:1771
 msgid ""
@@ -36405,10 +36414,11 @@ msgstr ""
 #: data/helpdata.txt:2333
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
+"by sending email to freeciv-dev mailing list, at:"
 msgstr ""
 "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
-"Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
+"Parhaiten tämä onnistuu lähettämällä sähköpostia freeciv-dev "
+"sähköpostilistalle, osoitteessa"
 
 #: data/helpdata.txt:2338
 msgid ""
@@ -38277,7 +38287,7 @@ msgstr "Maa (klassinen, keskisuuri)"
 
 #: data/scenarios/hagworld.sav:6
 msgid "Helge Arne Gudmestad, Daniel Markstedt"
-msgstr ""
+msgstr "Helge Arne Gudmestad, Daniel Markstedt"
 
 #: data/scenarios/hagworld.sav:7
 msgid "Overhead 120x60 map of the Earth."
@@ -46007,9 +46017,8 @@ msgstr ""
 "muiden pelin asetusten kautta."
 
 #: server/settings.c:1919
-#, fuzzy
 msgid "Allow researching multiple technologies"
-msgstr "Et voi tutkia tätä teknologiaa."
+msgstr "Salli useiden teknologioiden tutkiminen rinnakkain"
 
 #: server/settings.c:1920
 msgid ""
@@ -46039,12 +46048,12 @@ msgstr "Mahdollisuus menettää saatava teknologia"
 #: server/settings.c:1939
 msgid "The chance that learning a technology by treaty or theft will fail."
 msgstr ""
-"Mahdollisuus that sopimusteitse tai varastamalla saatavan teknologian "
+"Mahdollisuus että sopimusteitse tai varastamalla saatavan teknologian "
 "oppiminen epäonnistuu."
 
 #: server/settings.c:1946
 msgid "Chance to lose a technology while giving it"
-msgstr "Mahdollisuus menettää teknologia pois annettaessa"
+msgstr "Mahdollisuus menettää teknologia sitä muille annettaessa"
 
 #: server/settings.c:1947
 msgid ""
@@ -50761,6 +50770,8 @@ msgid ""
 "No explanation why you couldn't do %s. This is a bug. Sorry about that. -- "
 "Sveinung"
 msgstr ""
+"Ei selitystä miksi toimintoa %s ei voi tehdä. Tätä ei pitäisi tapahtua. "
+"Pyydämme anteeksi. -- Sveinung"
 
 #. TRANS: other player ... unit type ... city name.
 #: server/unithand.c:3464
@@ -51422,6 +51433,8 @@ msgid ""
 "Do not provide log level with a numerical value. Use one of the levels "
 "Fatal, Error, Warning, Normal, Verbose, Debug"
 msgstr ""
+"Älä anna lokitasoa numeerisena arvona. Käytä jotakin tasoista Fatal, Error, "
+"Warning, Normal, Verbose, Debug"
 
 #: utility/log.c:134
 #, c-format
@@ -51969,14 +51982,6 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #~ "Tekee kaupungista uskonnolliset keskuksen, jolloin se toimii toisena "
 #~ "hallintokeskuksena."
 
-#~ msgid ""
-#~ "The city where this palace is located enjoys a bonus when enemy agents "
-#~ "try to evade your own agents stationed in the city, or sabotage your "
-#~ "buildings."
-#~ msgstr ""
-#~ "Kaupunki, jossa palatsi on, on vahvempi puolustamaan agenttejansa ja "
-#~ "rakennuksiansa vihollisagenteilta."
-
 #~ msgid "The city has no other benefits of the primary capital."
 #~ msgstr "Kaupungilla ei ole muita ensisijaisen pääkaupungin ominaisuuksia."
 
@@ -52055,6 +52060,14 @@ msgstr "virhe %d (funktio strerror() ei ole käytössä)"
 #, fuzzy
 #~ msgid "Recycled your %s to help the current production in %s."
 #~ msgstr "Napsauta vasenta nappia vaihtaaksesi tuotantoa"
+
+#~ msgid ""
+#~ "The city where this palace is located enjoys a bonus when enemy agents "
+#~ "try to evade your own agents stationed in the city, or sabotage your "
+#~ "buildings."
+#~ msgstr ""
+#~ "Kaupunki, jossa palatsi on, on vahvempi puolustamaan agenttejansa ja "
+#~ "rakennuksiansa vihollisagenteilta."
 
 #~ msgid "%1 remaining"
 #~ msgstr "%1 jäljellä"
