@@ -800,7 +800,7 @@ sabotage	= 0
 sound		= "b_palace"
 sound_alt	= "b_generic"
 helptext	= _("\
-Makes a city the ecclesiastical capital, that acts as a second center \
+Makes a city the ecclesiastical capital, that acts as a secondary center \
 of government.\
 "), _("\
 Waste in other cities (corruption, production waste, and food waste) \
@@ -817,6 +817,9 @@ stationed in the city, or sabotage your buildings.\
 _("\
 Under Despotism the city containing the palace gains a +75% \
 gold bonus, and under Monarchy a +50% gold bonus.\
+"),
+_("\
+The city has no other benefits of the primary capital.\
 ")
 
 [building_police_station]
