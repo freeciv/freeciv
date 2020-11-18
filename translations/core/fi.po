@@ -28,9 +28,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-11-16 19:17+0200\n"
-"PO-Revision-Date: 2020-11-16 20:18+0200\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:23+0200\n"
+"PO-Revision-Date: 2020-11-18 23:48+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -10692,42 +10692,41 @@ msgstr ""
 
 #. TRANS: Incite City
 #: client/helpdata.c:1552
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city with its owner.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa kaupunkia vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1559
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city on the same team.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa tai hänen joukkuetoverinsa kaupunkia vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1566
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Makes it impossible to do the action '%s' to any city allied to or owned "
 "by its owner.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdottomaksi tehdä toimintoa '%s' mitään omistajansa tai hänen liittolaisensa kaupunkia vastaan.\n"
 
 #. TRANS: Incite City
 #: client/helpdata.c:1573
-#, fuzzy, c-format
+#, c-format
 msgid "* Makes it impossible to do the action '%s' to any city in the game.\n"
-msgstr "· Tekee mahdottomaksi yksikkösi %2$s tehdä toimintoa %1$s.\n"
+msgstr "· Tekee mahdottomaksi tehdä toimintoa '%s' mitään kaupunkia vastaan.\n"
 
 #: client/helpdata.c:1596
 msgid "* All players start with this improvement in their first city.\n"
-msgstr ""
-"· Kaikki pelaajat aloittavat tämä parannus ensimmäisessä kaupungissaan.\n"
+msgstr "· Kaikki pelaajat aloittavat tämä rakennus ensimmäisessä kaupungissaan.\n"
 
 #. TRANS: %s is a nation plural
 #: client/helpdata.c:1619
 #, c-format
 msgid "* The %s start with this improvement in their first city.\n"
-msgstr "· %s aloittavat tämä paranus ensimmäisessä kaupungissaan.\n"
+msgstr "· %s aloittavat tämä rakennus ensimmäisessä kaupungissaan.\n"
 
 #. TRANS: don't translate 'savepalace'
 #: client/helpdata.c:1629
@@ -10735,10 +10734,7 @@ msgid ""
 "* If you lose the city containing this improvement, it will be rebuilt for "
 "free in another of your cities (if the 'savepalace' server setting is "
 "enabled).\n"
-msgstr ""
-"· Jos kaupunki, jossa tämä parannus on, valloitetaan, parannus rakennetaan "
-"ilmaiseksi johonkin toiseen kaupungeistasi (jos palvelimen asetus "
-"'savepalace' on käytössä).\n"
+msgstr "· Jos kaupunki, jossa tämä rakennus on, valloitetaan, rakennus rakennetaan ilmaiseksi johonkin toiseen kaupungeistasi (jos palvelimen asetus 'savepalace' on käytössä).\n"
 
 #: client/helpdata.c:1714
 #, c-format
@@ -15340,7 +15336,9 @@ msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ulkomainen kohde."
 #, c-format
 msgid ""
 "All action enablers for %s must require a target the actor is at war with."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia kohde, jonka kanssa toimija on sodassa."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia kohde, jonka kanssa "
+"toimija on sodassa."
 
 #: common/actions.c:221
 #, c-format
@@ -15352,21 +15350,27 @@ msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia kotimainen kohde."
 msgid ""
 "All action enablers for %s must require that the actor doesn't have the "
 "NoHome utype flag."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimijalla ole \"Koditon\" yksikkölippua."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimijalla ole "
+"\"Koditon\" yksikkölippua."
 
 #: common/actions.c:242
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor doesn't have the "
 "NonMil utype flag."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimijalla ole \"Ei sotilaallinen\" yksikkölippua."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimijalla ole "
+"\"Ei sotilaallinen\" yksikkölippua."
 
 #: common/actions.c:253
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor has the CanOccupyCity "
 "uclass flag."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia että toimijan yksikköluokalla on \"Kaupunginvaltaaja\" lippu."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia että toimijan "
+"yksikköluokalla on \"Kaupunginvaltaaja\" lippu."
 
 #: common/actions.c:264
 #, c-format
@@ -15380,31 +15384,41 @@ msgstr ""
 msgid ""
 "All action enablers for %s must require that the actor has a movement point "
 "left."
-msgstr "Kaikkine toiminnon %s mahdollistajien täytyy vaatia että toimijalla on liikepiste jäljellä."
+msgstr ""
+"Kaikkine toiminnon %s mahdollistajien täytyy vaatia että toimijalla on "
+"liikepiste jäljellä."
 
 #: common/actions.c:296
 #, c-format
 msgid "All action enablers for %s must require that the target city is empty."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia että kohdekaupunki on tyhjä."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia että kohdekaupunki on "
+"tyhjä."
 
 #: common/actions.c:308
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor isn't transporting "
 "another unit."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimija ole kuljettamassa toista yksikköä."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimija ole "
+"kuljettamassa toista yksikköä."
 
 #: common/actions.c:318
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target isn't transporting "
 "another unit."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei kohde ole kuljettamassa toista yksikköä."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei kohde ole "
+"kuljettamassa toista yksikköä."
 
 #: common/actions.c:338
 #, c-format
 msgid "All action enablers for %s must require a non animal player actor."
-msgstr "Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimija ole eläinpelaaja."
+msgstr ""
+"Kaikkien toiminnon %s mahdollistajien täytyy vaatia ettei toimija ole "
+"eläinpelaaja."
 
 #: common/actions.c:1009
 #, c-format
@@ -15498,7 +15512,9 @@ msgstr ""
 msgid ""
 "No diplomatic relation to Nature. Requirements {%s} and {%s} contradict each "
 "other."
-msgstr "Ei diplomaattista suhdetta luontoon. Vaatimukset {%s} ja {%s} ovat keskenään ristiriidassa."
+msgstr ""
+"Ei diplomaattista suhdetta luontoon. Vaatimukset {%s} ja {%s} ovat keskenään "
+"ristiriidassa."
 
 #. TRANS: ruledit shows this when an enabler for a tile targeted
 #. * action requires that the actor has a diplomatic relationship to
@@ -15510,7 +15526,9 @@ msgstr "Ei diplomaattista suhdetta luontoon. Vaatimukset {%s} ja {%s} ovat keske
 msgid ""
 "Possible clarification: Requirement {%s} implies a claimed tile. No "
 "diplomatic relation to Nature."
-msgstr "Mahdollinen tarkennus: Vaatimus {%s} implikoi varattua ruutua. Ei diplomaattista suhdetta luontoon."
+msgstr ""
+"Mahdollinen tarkennus: Vaatimus {%s} implikoi varattua ruutua. Ei "
+"diplomaattista suhdetta luontoon."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2863
@@ -27639,7 +27657,7 @@ msgstr ""
 "ja tuotantohävikki itse hallintokeskuksesta on vain puolet siitä mitä se "
 "muuten olisi, ja käräjätalon kanssa poistaa ne kokonaan."
 
-#: data/sandbox/buildings.ruleset:818
+#: data/sandbox/buildings.ruleset:818 data/civ2civ3/buildings.ruleset:815
 msgid ""
 "The city where this palace is located cannot be incited to revolt, and "
 "enjoys a bonus when enemy agents try to evade your own agents stationed in "
@@ -29967,7 +29985,7 @@ msgid ""
 "The Caravel is a sailing ship that can enter any ocean tile, but have to "
 "spend at least every third turn change next to land to load supplies for the "
 "crew."
-msgstr ""
+msgstr "Karaveli on purjehdusalus kykenevä kulkemaan missä hyvänsä meriruudussa, mutta sen täytyy viettää vähintään joka kolmas kierroksenvaihto maaruudun vieressä lastatakseen ruokaa ja tarvikkeita miehistölleen."
 
 #: data/sandbox/units.ruleset:1771 data/civ2civ3/units.ruleset:1760
 msgid ""
@@ -30507,14 +30525,6 @@ msgid ""
 msgstr ""
 "Tekee kaupungista uskonnolliset keskuksen, jolloin se toimii toisena "
 "hallintokeskuksena."
-
-#: data/civ2civ3/buildings.ruleset:815
-msgid ""
-"The city where this palace is located enjoys a bonus when enemy agents try "
-"to evade your own agents stationed in the city, or sabotage your buildings."
-msgstr ""
-"Kaupunki, jossa palatsi on, on vahvempi puolustamaan agenttejansa ja "
-"rakennuksiansa vihollisagenteilta."
 
 #: data/civ2civ3/buildings.ruleset:825
 msgid "The city has no other benefits of the primary capital."
@@ -31446,7 +31456,10 @@ msgstr "Denebin tutka"
 msgid ""
 "Not really an conventional radar, but named so as it fills similar role. "
 "It's based on Deneb 7 radiation and works on this planet."
-msgstr "Tämä ei ole todellisuudessa tutka, mutta siten nimetty koska toimittaa samanlaista tehtävää. Se perustuu Deneb 7:n säteilyn käyttämiseen, ja siten toimii tällä planeetalla."
+msgstr ""
+"Tämä ei ole todellisuudessa tutka, mutta siten nimetty koska toimittaa "
+"samanlaista tehtävää. Se perustuu Deneb 7:n säteilyn käyttämiseen, ja siten "
+"toimii tällä planeetalla."
 
 #: data/alien/techs.ruleset:320
 msgid "Dual Government"
@@ -31730,7 +31743,8 @@ msgid ""
 msgstr ""
 "Me voimme tehdä vieraista eliömuodoista syötäviä.\n"
 "\n"
-"Insinöörit voivat rakentaa proteiinihuoneista, jotka lisäävät ruudun ruoantuotantoa 50%."
+"Insinöörit voivat rakentaa proteiinihuoneista, jotka lisäävät ruudun "
+"ruoantuotantoa 50%."
 
 #: data/alien/techs.ruleset:583
 msgid "Radiation Resistance"
@@ -31933,7 +31947,10 @@ msgstr "Matkustaminen"
 msgid ""
 "Once we master ship manufacturing, traveling more hospitable seas of Deneb 7 "
 "proved to be no different from other planets."
-msgstr "Opittuamme laivojen valmistamisen, seilaaminen Deneb 7:n vieraanvaraisemmilla merillä ei ole sen kummempaa kuin muillakaan planeetoilla."
+msgstr ""
+"Opittuamme laivojen valmistamisen, seilaaminen Deneb 7:n "
+"vieraanvaraisemmilla merillä ei ole sen kummempaa kuin muillakaan "
+"planeetoilla."
 
 #: data/alien/techs.ruleset:757
 msgid "Unified Theory"
@@ -31951,7 +31968,9 @@ msgstr "Virtuaaliviihde"
 
 #: data/alien/techs.ruleset:773
 msgid "Another tech that Earth has long been close to mastering."
-msgstr "Yksi teknologioista, jonka täydellisyyteen hiominen on Maassa ollut pitkään lähellä."
+msgstr ""
+"Yksi teknologioista, jonka täydellisyyteen hiominen on Maassa ollut pitkään "
+"lähellä."
 
 #: data/alien/techs.ruleset:776
 msgid "Virtual Reality Training"
@@ -32286,7 +32305,9 @@ msgstr ""
 msgid ""
 "Weird alien fish might look like something escaped from nightmares, but are "
 "in fact very tasty."
-msgstr "Vieraat kalalajit näyttävät painajaisista karanneilta, mutta ovat itse asiassa erinomaisen maukkaita."
+msgstr ""
+"Vieraat kalalajit näyttävät painajaisista karanneilta, mutta ovat itse "
+"asiassa erinomaisen maukkaita."
 
 #: data/alien/terrain.ruleset:1262
 msgid "Glowing Rocks"
@@ -32733,7 +32754,9 @@ msgstr "malilaiset"
 
 #: data/alien/nation/madmen.ruleset:8
 msgid "They have escaped society, and attack it for no sane reason."
-msgstr "He ovat jättäneet yhteiskunnan, ja hyökkäävät sitä vastaan ilman järjellistä syytä."
+msgstr ""
+"He ovat jättäneet yhteiskunnan, ja hyökkäävät sitä vastaan ilman järjellistä "
+"syytä."
 
 #: data/alien/nation/mathclub.ruleset:5
 msgid "Math Club"
@@ -36647,10 +36670,8 @@ msgstr ""
 #: data/helpdata.txt:2330
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
-msgstr ""
-"Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
-"Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
+"by sending email to freeciv-dev mailing list, at:"
+msgstr "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. Parhaiten tämä onnistuu lähettämällä sähköpostia freeciv-dev sähköpostilistalle, osoitteessa"
 
 #: data/helpdata.txt:2335
 msgid ""
@@ -38511,7 +38532,7 @@ msgstr "Maa (klassinen, keskisuuri)"
 
 #: data/scenarios/hagworld.sav:6
 msgid "Helge Arne Gudmestad, Daniel Markstedt"
-msgstr ""
+msgstr "Helge Arne Gudmestad, Daniel Markstedt"
 
 #: data/scenarios/hagworld.sav:7
 msgid "Overhead 120x60 map of the Earth."
@@ -45418,7 +45439,9 @@ msgstr "Kartan topologia"
 msgid ""
 "Freeciv-web maps are always two-dimensional. They may wrap at the east-west "
 "directions to form a flat map or a cylinder.\n"
-msgstr "Freeciv-webin kartat ovat aina kaksiulotteisia. Ne saattavat kiertyä ympäri itä-länsi -suunnassa muodostaakseen sylinterin.\n"
+msgstr ""
+"Freeciv-webin kartat ovat aina kaksiulotteisia. Ne saattavat kiertyä ympäri "
+"itä-länsi -suunnassa muodostaakseen sylinterin.\n"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:1427
@@ -46055,9 +46078,8 @@ msgstr ""
 "muiden pelin asetusten kautta."
 
 #: server/settings.c:1892
-#, fuzzy
 msgid "Allow researching multiple technologies"
-msgstr "Et voi tutkia tätä teknologiaa."
+msgstr "Salli useiden teknologioiden tutkiminen rinnakkain"
 
 #: server/settings.c:1893
 msgid ""
@@ -46086,13 +46108,11 @@ msgstr "Mahdollisuus menettää saatava teknologia"
 
 #: server/settings.c:1912
 msgid "The chance that learning a technology by treaty or theft will fail."
-msgstr ""
-"Mahdollisuus that sopimusteitse tai varastamalla saatavan teknologian "
-"oppiminen epäonnistuu."
+msgstr "Mahdollisuus että sopimusteitse tai varastamalla saatavan teknologian oppiminen epäonnistuu."
 
 #: server/settings.c:1919
 msgid "Chance to lose a technology while giving it"
-msgstr "Mahdollisuus menettää teknologia pois annettaessa"
+msgstr "Mahdollisuus menettää teknologia sitä muille annettaessa"
 
 #: server/settings.c:1920
 msgid ""
@@ -50700,7 +50720,7 @@ msgstr "Yksikkösi %s menetti %s liikepistettä yrittäessään laitonta toimont
 msgid ""
 "No explanation why you couldn't do %s. This is a bug. Sorry about that. -- "
 "Sveinung"
-msgstr ""
+msgstr "Ei selitystä miksi toimintoa %s ei voi tehdä. Tätä ei pitäisi tapahtua. Pyydämme anteeksi. -- Sveinung"
 
 #. TRANS: other player ... unit type ... city name.
 #: server/unithand.c:3143
@@ -51344,7 +51364,7 @@ msgstr "Lokitaso \"%s\" ei kelpaa.\n"
 msgid ""
 "Do not provide log level with a numerical value. Use one of the levels "
 "Fatal, Error, Warning, Normal, Verbose, Debug"
-msgstr ""
+msgstr "Älä anna lokitasoa numeerisena arvona. Käytä jotakin tasoista Fatal, Error, Warning, Normal, Verbose, Debug"
 
 #: utility/log.c:134
 #, c-format
@@ -51544,6 +51564,14 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid ""
+#~ "The city where this palace is located enjoys a bonus when enemy agents "
+#~ "try to evade your own agents stationed in the city, or sabotage your "
+#~ "buildings."
+#~ msgstr ""
+#~ "Kaupunki, jossa palatsi on, on vahvempi puolustamaan agenttejansa ja "
+#~ "rakennuksiansa vihollisagenteilta."
 
 #~ msgid "%1 remaining"
 #~ msgstr "%1 jäljellä"
