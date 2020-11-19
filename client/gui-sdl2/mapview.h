@@ -39,7 +39,6 @@
 void redraw_unit_info_label(struct unit_list *punitlist);
 SDL_Surface *create_city_map(struct city *pcity);
 SDL_Surface *get_terrain_surface(struct tile *ptile);
-void toggle_overview_mode(void);
 void refresh_overview(void);
 
 void flush_rect(SDL_Rect *rect, bool force_flush);

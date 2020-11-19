@@ -439,17 +439,13 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       /* ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON */
       pWidget = pWidget->prev;
       widget_redraw(pWidget);
-  
-      /* Toggle Minimap mode */
-      pWidget = pWidget->prev;
-      widget_redraw(pWidget);
-      
-      #ifdef SMALL_SCREEN
+
+#ifdef SMALL_SCREEN
       /* options */
       pWidget = pWidget->prev;
       widget_redraw(pWidget);
-      #endif
-      
+#endif
+
       /* ID_TOGGLE_MAP_WINDOW_BUTTON */
       pWidget = pWidget->prev;
       widget_redraw(pWidget);
@@ -496,21 +492,6 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 }
 
 /* ====================================================================== */
-
-
-static int toggle_minimap_mode_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if (pWidget) {
-      pSellected_Widget = pWidget;
-      set_wstate(pWidget, FC_WS_SELLECTED);
-    }
-    toggle_overview_mode();
-    refresh_overview();
-    flush_dirty();
-  }
-  return -1;
-}
 
 static int toggle_msg_window_callback(struct widget *pWidget)
 {
@@ -1338,23 +1319,16 @@ void set_new_minimap_window_pos(void)
   widget_set_position(pWidget,
                       area.x + adj_size(2),
                       area.y + pWidget->size.h + 2);
- 
-  /* Toggle minimap mode */
-  pWidget = pWidget->prev;
-  widget_set_area(pWidget, area);
-  widget_set_position(pWidget,
-                      area.x + adj_size(2),
-                      area.y + pWidget->size.h * 2 + 2);
-						
-  #ifdef SMALL_SCREEN
+
+#ifdef SMALL_SCREEN
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pWidget = pWidget->prev;
   widget_set_area(pWidget, area);
   widget_set_position(pWidget,
                       area.x + adj_size(2),
                       area.y + area.h - pWidget->size.h - 2);
-  #endif
-						
+#endif
+
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pWidget = pWidget->prev;
   widget_set_area(pWidget, area);
@@ -1638,18 +1612,6 @@ void popup_minimap_window(void) {
 
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pWidget);
 
-  /* toggle minimap mode button */
-  pWidget = create_themeicon(current_theme->BORDERS_Icon, pMiniMap_Window->dst,
-                             WF_WIDGET_HAS_INFO_LABEL
-                             | WF_RESTORE_BACKGROUND);
-  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
-  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
-  pWidget->action = toggle_minimap_mode_callback;
-  pWidget->key = SDLK_BACKSLASH;
-  pWidget->mod = KMOD_SHIFT;
-
-  add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pWidget);
-
 #ifdef SMALL_SCREEN
   /* options button */
   pOptions_Button = create_themeicon(current_theme->Options_Icon,
@@ -1717,17 +1679,13 @@ void show_minimap_window_buttons(void)
   /* show/hide log window button */
   pWidget = pWidget->prev;
   clear_wflag(pWidget, WF_HIDDEN);
-  
-  /* toggle minimap mode button */
-  pWidget = pWidget->prev;
-  clear_wflag(pWidget, WF_HIDDEN);
-  
-  #ifdef SMALL_SCREEN
+
+#ifdef SMALL_SCREEN
   /* options button */
   pWidget = pWidget->prev;
   clear_wflag(pWidget, WF_HIDDEN);
-  #endif
-  
+#endif
+
   /* show/hide minimap button */
   pWidget = pWidget->prev;
   clear_wflag(pWidget, WF_HIDDEN);
@@ -2493,14 +2451,7 @@ bool map_event_handler(SDL_keysym Key)
           }
         }
         return FALSE;
-  
-      /* toggle minimap mode - currently without effect */
-      case SDLK_BACKSLASH:
-        if (LSHIFT || RSHIFT) {
-          toggle_minimap_mode_callback(NULL);
-        }
-        return FALSE;
-              
+
       default:
         break;
     }

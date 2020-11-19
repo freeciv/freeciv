@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,9 +30,8 @@
 #include "unitlist.h"
 
 void redraw_unit_info_label(struct unit_list *punitlist);
-SDL_Surface * create_city_map(struct city *pCity);
-SDL_Surface * get_terrain_surface(struct tile *ptile);  
-void toggle_overview_mode(void);
+SDL_Surface *create_city_map(struct city *pCity);
+SDL_Surface *get_terrain_surface(struct tile *ptile);  
 void refresh_overview(void);
 
 void flush_rect(SDL_Rect rect, bool force_flush);
