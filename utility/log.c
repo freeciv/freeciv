@@ -122,8 +122,9 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
         return FALSE;
       }
     } else {
-        log_deprecation( _("Do not provide log level with a numerical value."
-            " Use one of the levels Fatal, Error, Warning, Normal, Verbose, Debug") );
+      /* TRANS: Do not translate log level names that user has to provide in English */
+      log_deprecation( _("Do not provide log level with a numerical value."
+          " Use one of the levels Fatal, Error, Warning, Normal, Verbose, Debug") );
     }
     if (level <= max_level) {
       if (NULL != ret_level) {
