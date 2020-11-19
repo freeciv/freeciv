@@ -33,6 +33,7 @@ charset.alias
 fcgui
 freeciv-gtk2
 freeciv-gtk3
+freeciv-gtk3.22
 freeciv-sdl
 freeciv-xaw
 freeciv-qt
@@ -51,6 +52,8 @@ configure
 core
 depcomp
 freeciv-*.tar.gz
+freeciv-*.zip
+freeciv-*.tar.bz2
 install-sh
 missing
 mkinstalldirs
