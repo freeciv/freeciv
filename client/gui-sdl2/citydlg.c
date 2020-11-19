@@ -3465,7 +3465,7 @@ static void rebuild_imprm_list(struct city *pCity)
   struct widget *add_dock, *pBuf, *pLast;
   SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
-  struct player *pOwner = city_owner(pCity);
+  struct player *owner = city_owner(pCity);
   int prev_y = 0;
 
   if (!pcity_dlg->pImprv) {
@@ -3509,7 +3509,7 @@ static void rebuild_imprm_list(struct city *pCity)
     pBuf->action = sell_imprvm_dlg_callback;
 
     if (!pcity_dlg->pCity->did_sell
-        && !is_wonder(pimprove) && (pOwner == client.conn.playing)) {
+        && !is_wonder(pimprove) && (owner == client.conn.playing)) {
       set_wstate(pBuf, FC_WS_NORMAL);
     }
 
@@ -3593,7 +3593,7 @@ void real_city_dialog_popup(struct city *pCity)
   SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
   int cs;
-  struct player *pOwner = city_owner(pCity);
+  struct player *owner = city_owner(pCity);
   SDL_Rect area;
 
   if (pcity_dlg) {
@@ -3709,7 +3709,7 @@ void real_city_dialog_popup(struct city *pCity)
   pcity_dlg->pResource_Map = pBuf;
 
   pBuf->action = resource_map_city_dlg_callback;
-  if (!cma_is_city_under_agent(pCity, NULL) && (pOwner == client.conn.playing)) {
+  if (!cma_is_city_under_agent(pCity, NULL) && (owner == client.conn.playing)) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->size.x = area.x + adj_size(193) + (adj_size(249) - pBuf->size.w) / 2;
@@ -3724,7 +3724,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->size.x =
     area.x + adj_size(4) + 5 * ((adj_size(183) - 5 * pBuf->size.w) / 6) + 4 * pBuf->size.w;
   pBuf->size.y = area.y + adj_size(2);
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   add_to_gui_list(ID_CITY_DLG_OPTIONS_BUTTON, pBuf);
@@ -3737,7 +3737,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->action = change_prod_dlg_callback;
   pBuf->size.x = area.x + adj_size(7);
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_c;
@@ -3767,7 +3767,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->key = SDLK_a;
   pBuf->size.x = area.x + adj_size(7) + (pBuf->size.w + adj_size(2)) * 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(5);
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   add_to_gui_list(ID_CITY_DLG_CMA_BUTTON, pBuf);
@@ -3781,7 +3781,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->action = next_prev_city_dlg_callback;
   pBuf->size.x = area.x + adj_size(220) - pBuf->size.w - adj_size(8);
   pBuf->size.y = area.y + area.h - pBuf->size.h;
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_LEFT;
@@ -3795,7 +3795,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->action = next_prev_city_dlg_callback;
   pBuf->size.x = area.x + adj_size(420) + adj_size(2);
   pBuf->size.y = area.y + area.h - pBuf->size.h;
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
   pBuf->key = SDLK_RIGHT;
@@ -3808,7 +3808,7 @@ void real_city_dialog_popup(struct city *pCity)
   pBuf->action = new_name_city_dlg_callback;
   pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
   pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(2);
-  if (pOwner == client.conn.playing) {
+  if (owner == client.conn.playing) {
     set_wstate(pBuf, FC_WS_NORMAL);
   }
 

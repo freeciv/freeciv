@@ -640,7 +640,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           if (pCity) {
             /* Look at city owner, not tile owner (the two should be the same, if
              * borders are in use). */
-            struct player *pOwner = city_owner(pCity);
+            struct player *owner = city_owner(pCity);
 	    const char *diplo_city_adjectives[DS_LAST] =
     			{Q_("?city:Neutral"), Q_("?city:Hostile"),
                          Q_("?city:Neutral"), Q_("?city:Peaceful"),
@@ -654,7 +654,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
             /* This has hardcoded assumption that EFT_LAND_REGEN is always
              * provided by *building* named *Barracks*. Similar assumptions for
              * other effects. */
-	    if (pplayers_allied(client.conn.playing, pOwner)) {
+	    if (pplayers_allied(client.conn.playing, owner)) {
 	      barrack = (get_city_bonus(pCity, EFT_LAND_REGEN) > 0);
 	      airport = (get_city_bonus(pCity, EFT_AIR_VETERAN) > 0);
 	      port = (get_city_bonus(pCity, EFT_SEA_VETERAN) > 0);
@@ -688,12 +688,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    }
 #endif /* 0 */
 
-            if (pOwner && pOwner != client.conn.playing) {
+            if (owner && owner != client.conn.playing) {
               struct player_diplstate *ds
-                = player_diplstate_get(client.conn.playing, pOwner);
+                = player_diplstate_get(client.conn.playing, owner);
               /* TRANS: (<nation>,<diplomatic_state>)" */
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-                           nation_adjective_for_player(pOwner),
+                           nation_adjective_for_player(owner),
                            diplo_city_adjectives[ds->type]);
             }
           }
