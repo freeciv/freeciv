@@ -31,6 +31,7 @@ cat-id-tbl.c
 charset.alias
 fcgui
 freeciv-gtk3
+freeciv-gtk3.22
 freeciv-gtk3x
 freeciv-sdl2
 freeciv-qt
@@ -49,6 +50,8 @@ configure
 core
 depcomp
 freeciv-*.tar.gz
+freeciv-*.zip
+freeciv-*.tar.xz
 install-sh
 missing
 mkinstalldirs
@@ -67,7 +70,6 @@ undep.sh
 freeciv-manual
 freeciv-mp-*
 freeciv-ruledit
-fcruledit
 freeciv.spec
 libtool
 tolua
