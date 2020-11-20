@@ -643,6 +643,25 @@ Roads allow your land units to move more quickly, and on some terrain,\
  also provide a trade bonus.\
 ")
 
+[extra_river]
+name           = _("River")
+category       = "Natural"
+causes         = "Road"
+;rmcauses       = ""
+graphic        = "road.river"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+buildable      = FALSE
+native_to      = "Land"
+helptext       = _("\
+Any land terrain type may have a River on it.\
+ Land units may move along a River (but not diagonally) for fast travel.\
+")
+
 [extra_gresource]
 name           = _("Generic Resource")
 category       = "Resource"
@@ -764,3 +783,16 @@ food_bonus     = 0
 shield_bonus   = 0
 trade_bonus    = 0
 compat_special = "None"
+
+[road_river]
+extra          = "River"
+move_cost      = 3
+move_mode      = "Cardinal"
+food_incr      = 0
+shield_incr    = 0
+trade_incr     = 0
+food_bonus     = 0
+shield_bonus   = 0
+trade_bonus    = 0
+compat_special = "None"
+flags          = "River", "UnrestrictedInfra"
