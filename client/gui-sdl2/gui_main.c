@@ -347,29 +347,29 @@ static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
 /**********************************************************************//**
   Main mouse click handler.
 **************************************************************************/
-static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
                                              void *pData)
 {
   struct widget *pwidget;
 
   if ((pwidget = find_next_widget_at_pos(NULL,
-                                         pButtonEvent->x,
-                                         pButtonEvent->y)) != NULL) {
+                                         button_event->x,
+                                         button_event->y)) != NULL) {
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
       return widget_pressed_action(pwidget);
     }
   } else {
     /* no visible widget at this position -> map click */
 #ifdef UNDER_CE
-    if (!check_scroll_area(pButtonEvent->x, pButtonEvent->y)) {
+    if (!check_scroll_area(button_event->x, button_event->y)) {
 #endif
     if (!button_behavior.counting) {
       /* start counting */
       button_behavior.counting = TRUE;
       button_behavior.button_down_ticks = SDL_GetTicks();
-      *button_behavior.event = *pButtonEvent;
+      *button_behavior.event = *button_event;
       button_behavior.hold_state = MB_HOLD_SHORT;
-      button_behavior.ptile = canvas_pos_to_tile(pButtonEvent->x, pButtonEvent->y);
+      button_behavior.ptile = canvas_pos_to_tile(button_event->x, button_event->y);
     }
 #ifdef UNDER_CE
     }
@@ -381,12 +381,12 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *pButtonEvent,
 /**********************************************************************//**
   Main mouse button release handler.
 **************************************************************************/
-static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
                                            void *pData)
 {
   if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
-      && !find_next_widget_at_pos(NULL, pButtonEvent->x, pButtonEvent->y)) {
-    *button_behavior.event = *pButtonEvent;
+      && !find_next_widget_at_pos(NULL, button_event->x, button_event->y)) {
+    *button_behavior.event = *button_event;
     button_up_on_map(&button_behavior);
   }
 
@@ -572,9 +572,9 @@ Uint16 gui_event_loop(void *pData,
                       Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
                       Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
                                                       void *pData),
-                      Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *pButtonEvent,
+                      Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
                                                           void *pData),
-                      Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *pButtonEvent,
+                      Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
                                                         void *pData),
                       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent,
                                                      void *pData))

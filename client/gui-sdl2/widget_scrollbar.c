@@ -1051,7 +1051,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
 /**********************************************************************//**
   Callback for scrollbar event loops' mouse up events.
 **************************************************************************/
-static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
                                      void *pData)
 {
   return (Uint16)ID_SCROLLBAR;

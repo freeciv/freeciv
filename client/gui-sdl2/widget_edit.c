@@ -659,16 +659,16 @@ static Uint16 edit_textinput(char *text, void *pData)
 /**********************************************************************//**
   Handle mouse down events on edit widget.
 **************************************************************************/
-static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *button_event,
                                      void *pData)
 {
   struct EDIT *pEdt = (struct EDIT *)pData;
 
-  if (pButtonEvent->button == SDL_BUTTON_LEFT) {
-    if (!(pButtonEvent->x >= pEdt->pwidget->size.x
-          && pButtonEvent->x < pEdt->pwidget->size.x + pEdt->pBg->w
-          && pButtonEvent->y >= pEdt->pwidget->size.y
-          && pButtonEvent->y < pEdt->pwidget->size.y + pEdt->pBg->h)) {
+  if (button_event->button == SDL_BUTTON_LEFT) {
+    if (!(button_event->x >= pEdt->pwidget->size.x
+          && button_event->x < pEdt->pwidget->size.x + pEdt->pBg->w
+          && button_event->y >= pEdt->pwidget->size.y
+          && button_event->y < pEdt->pwidget->size.y + pEdt->pBg->h)) {
       /* exit from loop */
       return (Uint16)ED_MOUSE;
     }

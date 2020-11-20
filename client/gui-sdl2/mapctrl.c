@@ -166,11 +166,11 @@ static int units_action_callback(struct widget *pwidget)
 /**********************************************************************//**
   User interacted with cities button.
 **************************************************************************/
-static int cities_action_callback(struct widget *pButton)
+static int cities_action_callback(struct widget *button)
 {
-  set_wstate(pButton, FC_WS_DISABLED);
-  widget_redraw(pButton);
-  widget_mark_dirty(pButton);
+  set_wstate(button, FC_WS_DISABLED);
+  widget_redraw(button);
+  widget_mark_dirty(button);
   if (main_data.event.type == SDL_KEYDOWN) {
     /* Ctrl-F shortcut */
     popup_find_dialog();
@@ -201,11 +201,11 @@ static int cities_action_callback(struct widget *pButton)
 /**********************************************************************//**
   User interacted with Turn Done button.
 **************************************************************************/
-static int end_turn_callback(struct widget *pButton)
+static int end_turn_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    widget_redraw(pButton);
-    widget_flush(pButton);
+    widget_redraw(button);
+    widget_flush(button);
     disable_focus_animation();
     key_end_turn();
   }
@@ -216,12 +216,12 @@ static int end_turn_callback(struct widget *pButton)
 /**********************************************************************//**
   User interacted with Revolution button.
 **************************************************************************/
-static int revolution_callback(struct widget *pButton)
+static int revolution_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    set_wstate(pButton, FC_WS_DISABLED);
-    widget_redraw(pButton);
-    widget_mark_dirty(pButton);
+    set_wstate(button, FC_WS_DISABLED);
+    widget_redraw(button);
+    widget_mark_dirty(button);
     popup_government_dialog();
   }
 
@@ -231,7 +231,7 @@ static int revolution_callback(struct widget *pButton)
 /**********************************************************************//**
   User interacted with Research button.
 **************************************************************************/
-static int research_callback(struct widget *pButton)
+static int research_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     science_report_dialog_popup(TRUE);
@@ -243,7 +243,7 @@ static int research_callback(struct widget *pButton)
 /**********************************************************************//**
   User interacted with Economy button.
 **************************************************************************/
-static int economy_callback(struct widget *pButton)
+static int economy_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     economy_report_dialog_popup(FALSE);

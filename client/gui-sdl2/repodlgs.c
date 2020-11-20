@@ -1170,7 +1170,7 @@ static int toggle_block_callback(struct widget *pCheckBox)
 /**********************************************************************//**
   User released mouse button while adjusting rates.
 **************************************************************************/
-static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
                                             void *pData)
 {
   return (Uint16)ID_SCROLLBAR;
@@ -1383,7 +1383,7 @@ END:
 /**********************************************************************//**
   User interacted with Update button of the Rates.
 **************************************************************************/
-static int apply_taxrates_callback(struct widget *pButton)
+static int apply_taxrates_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct widget *pBuf;
@@ -1394,7 +1394,7 @@ static int apply_taxrates_callback(struct widget *pButton)
     }
 
     /* Science Scrollbar */
-    pBuf = pButton->next->next;
+    pBuf = button->next->next;
     science = *(int *)pBuf->data.ptr;
 
     /* Luxuries Scrollbar */
@@ -1410,8 +1410,8 @@ static int apply_taxrates_callback(struct widget *pButton)
       dsend_packet_player_rates(&client.conn, tax, luxury, science);
     }
 
-    widget_redraw(pButton);
-    widget_flush(pButton);
+    widget_redraw(button);
+    widget_flush(button);
   }
 
   return -1;

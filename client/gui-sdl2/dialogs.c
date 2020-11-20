@@ -1265,7 +1265,7 @@ static void popdown_terrain_info_dialog(void)
 /**********************************************************************//**
   Popdown terrain information dialog.
 **************************************************************************/
-static int exit_terrain_info_dialog_callback(struct widget *pButton)
+static int exit_terrain_info_dialog_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_terrain_info_dialog();
@@ -2501,7 +2501,7 @@ static int prev_set_callback(struct widget *prev_button);
 static int nations_dialog_callback(struct widget *pwindow);
 static int nation_button_callback(struct widget *pNation);
 static int races_dialog_ok_callback(struct widget *pStart_Button);
-static int races_dialog_cancel_callback(struct widget *pButton);
+static int races_dialog_cancel_callback(struct widget *button);
 static int next_name_callback(struct widget *pNext_Button);
 static int prev_name_callback(struct widget *pPrev_Button);
 static int change_sex_callback(struct widget *pSex);
@@ -2729,7 +2729,7 @@ static int prev_set_callback(struct widget *prev_button)
 /**********************************************************************//**
   User cancelled nations dialog.
 **************************************************************************/
-static int races_dialog_cancel_callback(struct widget *pButton)
+static int races_dialog_cancel_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_races_dialog();

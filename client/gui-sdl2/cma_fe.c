@@ -91,7 +91,7 @@ static int exit_cma_dialog_callback(struct widget *pwidget)
 /**********************************************************************//**
   User released mouse button while in scrollbar.
 **************************************************************************/
-static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
                                      void *pData)
 {
   return (Uint16)ID_SCROLLBAR;
@@ -461,7 +461,7 @@ static int LD_cma_callback(struct widget *pwidget)
 /**********************************************************************//**
   User clicked either load or delete preset widget.
 **************************************************************************/
-static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
+static void popup_load_del_presets_dialog(bool load, struct widget *button)
 {
   int hh, count, i;
   struct widget *pBuf, *pwindow;
@@ -571,8 +571,8 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   area = pwindow->area;
 
   widget_set_position(pwindow,
-                      pButton->size.x - (pwindow->size.w / 2),
-                      pButton->size.y - pwindow->size.h);
+                      button->size.x - (pwindow->size.w / 2),
+                      button->size.y - pwindow->size.h);
 
   /* exit button */
   pBuf = pwindow->prev;

@@ -334,7 +334,7 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
 /**********************************************************************//**
   Button up event handler for the window moving event loop.
 **************************************************************************/
-static Uint16 move_window_button_up(SDL_MouseButtonEvent *pButtonEvent,
+static Uint16 move_window_button_up(SDL_MouseButtonEvent *button_event,
                                     void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
