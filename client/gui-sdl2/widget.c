@@ -782,16 +782,16 @@ void set_new_group_start_pos(const struct widget *begin_group_widget_list,
 
     if (get_wtype(tmp_widget) == WT_VSCROLLBAR
         && tmp_widget->private_data.adv_dlg
-        && tmp_widget->private_data.adv_dlg->pScroll) {
-      tmp_widget->private_data.adv_dlg->pScroll->max += Yrel;
-      tmp_widget->private_data.adv_dlg->pScroll->min += Yrel;
+        && tmp_widget->private_data.adv_dlg->scroll) {
+      tmp_widget->private_data.adv_dlg->scroll->max += Yrel;
+      tmp_widget->private_data.adv_dlg->scroll->min += Yrel;
     }
 
     if (get_wtype(tmp_widget) == WT_HSCROLLBAR
         && tmp_widget->private_data.adv_dlg
-        && tmp_widget->private_data.adv_dlg->pScroll) {
-      tmp_widget->private_data.adv_dlg->pScroll->max += Xrel;
-      tmp_widget->private_data.adv_dlg->pScroll->min += Xrel;
+        && tmp_widget->private_data.adv_dlg->scroll) {
+      tmp_widget->private_data.adv_dlg->scroll->max += Xrel;
+      tmp_widget->private_data.adv_dlg->scroll->min += Xrel;
     }
 
     if (tmp_widget == begin_group_widget_list) {

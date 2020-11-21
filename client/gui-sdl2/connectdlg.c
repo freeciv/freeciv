@@ -392,7 +392,7 @@ void popup_connection_dialog(bool lan_scan)
 
   area2.w = w + 1;
 
-  if (pMeta_Server->pScroll) {
+  if (pMeta_Server->scroll) {
     w -= count;
   }
 
@@ -424,8 +424,8 @@ void popup_connection_dialog(bool lan_scan)
     pNewWidget = pNewWidget->prev;
   }
 
-  if (pMeta_Server->pScroll) {
-    setup_vertical_scrollbar_area(pMeta_Server->pScroll,
+  if (pMeta_Server->scroll) {
+    setup_vertical_scrollbar_area(pMeta_Server->scroll,
                                   area.x + area.w - adj_size(6),
                                   pMeta_Server->end_active_widget_list->size.y,
                                   area.h - adj_size(24) - pwindow->prev->size.h, TRUE);
@@ -1077,7 +1077,7 @@ void close_connection_dialog(void)
   if (pMeta_Server) {
     popdown_window_group_dialog(pMeta_Server->begin_widget_list,
                                 pMeta_Server->end_widget_list);
-    FC_FREE(pMeta_Server->pScroll);
+    FC_FREE(pMeta_Server->scroll);
     FC_FREE(pMeta_Server);
 
     if (pServer_list) {

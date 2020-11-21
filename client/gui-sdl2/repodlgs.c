@@ -338,7 +338,7 @@ static int exit_units_dlg_callback(struct widget *pwidget)
       }
       popdown_window_group_dialog(units_dlg->begin_widget_list,
                                   units_dlg->end_widget_list);
-      FC_FREE(units_dlg->pScroll);
+      FC_FREE(units_dlg->scroll);
       FC_FREE(units_dlg);
       flush_dirty();
     }
@@ -615,8 +615,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     units_dlg->begin_active_widget_list = units_dlg->begin_widget_list;
     if (count > adj_size(80)) {
       units_dlg->active_widget_list = units_dlg->end_active_widget_list;
-      if (units_dlg->pScroll) {
-	units_dlg->pScroll->count = count;
+      if (units_dlg->scroll) {
+	units_dlg->scroll->count = count;
       }
       ww = create_vertical_scrollbar(units_dlg, 8, 10, TRUE, TRUE);
       area.w += ww;
@@ -865,8 +865,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       pBuf = pBuf->prev;
     }
 
-    if (units_dlg->pScroll) {
-      setup_vertical_scrollbar_area(units_dlg->pScroll,
+    if (units_dlg->scroll) {
+      setup_vertical_scrollbar_area(units_dlg->scroll,
                                     area.x + area.w, area.y,
                                     area.h, TRUE);
     }
@@ -1088,7 +1088,7 @@ void units_report_dialog_popdown(void)
     }
     popdown_window_group_dialog(units_dlg->begin_widget_list,
                                 units_dlg->end_widget_list);
-    FC_FREE(units_dlg->pScroll);
+    FC_FREE(units_dlg->scroll);
     FC_FREE(units_dlg);
   }
 }
@@ -1132,7 +1132,7 @@ static int exit_economy_dialog_callback(struct widget *pwidget)
       }
       popdown_window_group_dialog(pEconomyDlg->begin_widget_list,
                                   pEconomyDlg->end_widget_list);
-      FC_FREE(pEconomyDlg->pScroll);
+      FC_FREE(pEconomyDlg->scroll);
       FC_FREE(pEconomyDlg);
       set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
       widget_redraw(get_tax_rates_widget());
@@ -1449,10 +1449,10 @@ static void enable_economy_dlg(void)
 
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_NORMAL);
-  if (pEconomyDlg->pScroll && pEconomyDlg->active_widget_list) {
-    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_NORMAL);
-    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_NORMAL);
-    set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_NORMAL);
+  if (pEconomyDlg->scroll && pEconomyDlg->active_widget_list) {
+    set_wstate(pEconomyDlg->scroll->pUp_Left_Button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->scroll->pDown_Right_Button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->scroll->pscroll_bar, FC_WS_NORMAL);
   }
 }
 
@@ -1488,10 +1488,10 @@ static void disable_economy_dlg(void)
 
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_DISABLED);
-  if (pEconomyDlg->pScroll && pEconomyDlg->active_widget_list) {
-    set_wstate(pEconomyDlg->pScroll->pUp_Left_Button, FC_WS_DISABLED);
-    set_wstate(pEconomyDlg->pScroll->pDown_Right_Button, FC_WS_DISABLED);
-    set_wstate(pEconomyDlg->pScroll->pScrollBar, FC_WS_DISABLED);
+  if (pEconomyDlg->scroll && pEconomyDlg->active_widget_list) {
+    set_wstate(pEconomyDlg->scroll->pUp_Left_Button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->scroll->pDown_Right_Button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->scroll->pscroll_bar, FC_WS_DISABLED);
   }
 }
 
@@ -1780,7 +1780,7 @@ void economy_report_dialog_popdown(void)
     }
     popdown_window_group_dialog(pEconomyDlg->begin_widget_list,
                                 pEconomyDlg->end_widget_list);
-    FC_FREE(pEconomyDlg->pScroll);
+    FC_FREE(pEconomyDlg->scroll);
     FC_FREE(pEconomyDlg);
     set_wstate(get_tax_rates_widget(), FC_WS_NORMAL);
     widget_redraw(get_tax_rates_widget());
@@ -2366,8 +2366,8 @@ void economy_report_dialog_popup(bool make_modal)
                                     area.y + h,
                                     0, 0, pEconomyDlg->begin_active_widget_list,
                                     pEconomyDlg->end_active_widget_list);
-    if (pEconomyDlg->pScroll) {
-      setup_vertical_scrollbar_area(pEconomyDlg->pScroll,
+    if (pEconomyDlg->scroll) {
+      setup_vertical_scrollbar_area(pEconomyDlg->scroll,
                                     area.x + area.w - 1,
                                     area.y + h,
                                     area.h - h - 1, TRUE);
@@ -2860,7 +2860,7 @@ static int exit_change_tech_dlg_callback(struct widget *pwidget)
     if (pChangeTechDlg) {
       popdown_window_group_dialog(pChangeTechDlg->begin_widget_list,
                                   pChangeTechDlg->end_widget_list);
-      FC_FREE(pChangeTechDlg->pScroll);
+      FC_FREE(pChangeTechDlg->scroll);
       FC_FREE(pChangeTechDlg);
       enable_science_dialog();
       if (pwidget) {
@@ -3056,8 +3056,8 @@ static void popup_change_research_dialog(void)
                                   pChangeTechDlg->begin_active_widget_list,
                                   pChangeTechDlg->end_active_widget_list);
 
-  if (pChangeTechDlg->pScroll) {
-    setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
+  if (pChangeTechDlg->scroll) {
+    setup_vertical_scrollbar_area(pChangeTechDlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
@@ -3253,8 +3253,8 @@ static void popup_change_research_goal_dialog(void)
                                   pChangeTechDlg->begin_active_widget_list,
                                   pChangeTechDlg->end_active_widget_list);
 
-  if (pChangeTechDlg->pScroll) {
-    setup_vertical_scrollbar_area(pChangeTechDlg->pScroll,
+  if (pChangeTechDlg->scroll) {
+    setup_vertical_scrollbar_area(pChangeTechDlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
@@ -3441,7 +3441,7 @@ void science_report_dialogs_popdown_all(void)
   if (pChangeTechDlg) {
     popdown_window_group_dialog(pChangeTechDlg->begin_widget_list,
                                 pChangeTechDlg->end_widget_list);
-    FC_FREE(pChangeTechDlg->pScroll);
+    FC_FREE(pChangeTechDlg->scroll);
     FC_FREE(pChangeTechDlg);
   }
   if (pScienceDlg) {

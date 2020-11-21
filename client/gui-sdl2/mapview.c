@@ -882,31 +882,31 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pDlg->active_widget_list = pDlg->end_active_widget_list;
 
         if (n > num_w * num_h) {
-          if (!pDlg->pScroll) {
+          if (!pDlg->scroll) {
             create_vertical_scrollbar(pDlg, num_w, num_h, FALSE, TRUE);
           } else {
-            pDlg->pScroll->active = num_h;
-            pDlg->pScroll->step = num_w;
-            pDlg->pScroll->count = n;
-            show_scrollbar(pDlg->pScroll);
+            pDlg->scroll->active = num_h;
+            pDlg->scroll->step = num_w;
+            pDlg->scroll->count = n;
+            show_scrollbar(pDlg->scroll);
 	 }
 
           /* create up button */
-          pBuf = pDlg->pScroll->pUp_Left_Button;
+          pBuf = pDlg->scroll->pUp_Left_Button;
           pBuf->size.x = pInfo_Window->area.x + pInfo_Window->area.w - pBuf->size.w;
           pBuf->size.y = pInfo_Window->area.y + sy +
             (pInfo_Window->size.h - sy - num_h * 52) / 2;
           pBuf->size.h = (num_h * 52) / 2;
 
           /* create down button */
-          pBuf = pDlg->pScroll->pDown_Right_Button;
-          pBuf->size.x = pDlg->pScroll->pUp_Left_Button->size.x;
-          pBuf->size.y = pDlg->pScroll->pUp_Left_Button->size.y +
-            pDlg->pScroll->pUp_Left_Button->size.h;
-          pBuf->size.h = pDlg->pScroll->pUp_Left_Button->size.h;
+          pBuf = pDlg->scroll->pDown_Right_Button;
+          pBuf->size.x = pDlg->scroll->pUp_Left_Button->size.x;
+          pBuf->size.y = pDlg->scroll->pUp_Left_Button->size.y +
+            pDlg->scroll->pUp_Left_Button->size.h;
+          pBuf->size.h = pDlg->scroll->pUp_Left_Button->size.h;
         } else {
-          if (pDlg->pScroll) {
-            hide_scrollbar(pDlg->pScroll);
+          if (pDlg->scroll) {
+            hide_scrollbar(pDlg->scroll);
           }
           num_h = (n + num_w - 1) / num_w;
         }
@@ -922,8 +922,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
                     pInfo_Window->private_data.adv_dlg->end_active_widget_list);
         }
-        if (pInfo_Window->private_data.adv_dlg->pScroll) {
-          hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
+        if (pInfo_Window->private_data.adv_dlg->scroll) {
+          hide_scrollbar(pInfo_Window->private_data.adv_dlg->scroll);
         }
       }
     } else { /* punit */
@@ -932,8 +932,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
                   pInfo_Window->private_data.adv_dlg->end_active_widget_list);
       }
-      if (pInfo_Window->private_data.adv_dlg->pScroll) {
-	hide_scrollbar(pInfo_Window->private_data.adv_dlg->pScroll);
+      if (pInfo_Window->private_data.adv_dlg->scroll) {
+	hide_scrollbar(pInfo_Window->private_data.adv_dlg->scroll);
       }
 
       if (!client_is_observer() && !client.conn.playing->phase_done

@@ -184,7 +184,7 @@ struct advanced_dialog {
   struct widget *begin_active_widget_list;
   struct widget *end_active_widget_list;
   struct widget *active_widget_list; /* first seen widget */
-  struct ScrollBar *pScroll;
+  struct scroll_bar *scroll;
 };
 
 enum scan_direction {

@@ -108,7 +108,7 @@ void popdown_find_dialog(void)
   if (pFind_City_Dlg) {
     popdown_window_group_dialog(pFind_City_Dlg->begin_widget_list,
                                 pFind_City_Dlg->end_widget_list);
-    FC_FREE(pFind_City_Dlg->pScroll);
+    FC_FREE(pFind_City_Dlg->scroll);
     FC_FREE(pFind_City_Dlg);
     enable_and_redraw_find_city_button();
   }
@@ -229,7 +229,7 @@ void popup_find_dialog(void)
   /* ---------- */
   if (n > 20) {
     units_h = create_vertical_scrollbar(pFind_City_Dlg, 1, 20, TRUE, TRUE);
-    pFind_City_Dlg->pScroll->count = n;
+    pFind_City_Dlg->scroll->count = n;
 
     n = units_h;
     area.w += n;
@@ -266,7 +266,7 @@ void popup_find_dialog(void)
 
   w = area.w;
 
-  if (pFind_City_Dlg->pScroll) {
+  if (pFind_City_Dlg->scroll) {
     w -= n;
   }
 
@@ -282,8 +282,8 @@ void popup_find_dialog(void)
                                   pFind_City_Dlg->begin_active_widget_list,
                                   pBuf);
 
-  if (pFind_City_Dlg->pScroll) {
-    setup_vertical_scrollbar_area(pFind_City_Dlg->pScroll,
+  if (pFind_City_Dlg->scroll) {
+    setup_vertical_scrollbar_area(pFind_City_Dlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }

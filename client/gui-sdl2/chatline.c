@@ -105,7 +105,7 @@ void popdown_load_game_dialog(void)
 {
   if (pLoadDialog) {
     popdown_window_group_dialog(pLoadDialog->begin_widget_list, pLoadDialog->end_widget_list);
-    FC_FREE(pLoadDialog->pScroll);
+    FC_FREE(pLoadDialog->scroll);
     FC_FREE(pLoadDialog);
 
     /* enable buttons */
@@ -233,7 +233,7 @@ static void popup_load_game_dialog(void)
 
   /* create scrollbar */
   scrollbar_width = create_vertical_scrollbar(pLoadDialog, 1, 20, TRUE, TRUE);
-  hide_scrollbar(pLoadDialog->pScroll);
+  hide_scrollbar(pLoadDialog->scroll);
 
   /* search for user saved games. */
   files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
@@ -272,7 +272,7 @@ static void popup_load_game_dialog(void)
   area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
 
   if (count > 0) {
-    area.h = (pLoadDialog->pScroll->active * pFilenameLabel->size.h) + adj_size(5);
+    area.h = (pLoadDialog->scroll->active * pFilenameLabel->size.h) + adj_size(5);
   }
 
   resize_window(pwindow, theme_get_background(theme, BACKGROUND_LOADGAMEDLG),
@@ -282,7 +282,7 @@ static void popup_load_game_dialog(void)
 
   area = pwindow->area;
 
-  setup_vertical_scrollbar_area(pLoadDialog->pScroll,
+  setup_vertical_scrollbar_area(pLoadDialog->scroll,
                                 area.x + area.w - 1,
                                 area.y + 1,
                                 area.h - adj_size(2), TRUE);
@@ -329,7 +329,7 @@ static void popup_load_game_dialog(void)
    * add_widget_to_vertical_scroll_widget_list(), but the window
    * is not drawn yet, so this saved background is wrong.
    * Deleting it here as a workaround. */
-  FREESURFACE(pLoadDialog->pScroll->pScrollBar->gfx);
+  FREESURFACE(pLoadDialog->scroll->pscroll_bar->gfx);
 
   redraw_group(pLoadDialog->begin_widget_list, pwindow, 1);
   flush_dirty();
@@ -592,8 +592,8 @@ void real_conn_list_dialog_update(void *unused)
                   pConnDlg->pUsers_Dlg->end_active_widget_list);
         pConnDlg->pUsers_Dlg->active_widget_list = NULL;
         pConnDlg->pUsers_Dlg->begin_widget_list =
-          pConnDlg->pUsers_Dlg->pScroll->pScrollBar;
-        pConnDlg->pUsers_Dlg->pScroll->count = 0;
+          pConnDlg->pUsers_Dlg->scroll->pscroll_bar;
+        pConnDlg->pUsers_Dlg->scroll->count = 0;
       } else {
         pConnDlg->pUsers_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
         pConnDlg->pUsers_Dlg->end_widget_list = pConnDlg->begin_widget_list;
@@ -603,12 +603,12 @@ void real_conn_list_dialog_update(void *unused)
                                   pConnDlg->active, TRUE, TRUE);
         pConnDlg->pUsers_Dlg->end_widget_list =
           pConnDlg->pUsers_Dlg->end_widget_list->prev;
-        setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->pScroll,
+        setup_vertical_scrollbar_area(pConnDlg->pUsers_Dlg->scroll,
           pwindow->size.x + pwindow->size.w - adj_size(30),
           pwindow->size.y + adj_size(14), pwindow->size.h - adj_size(44) - adj_size(40), FALSE);
       }
 
-      hide_scrollbar(pConnDlg->pUsers_Dlg->pScroll);
+      hide_scrollbar(pConnDlg->pUsers_Dlg->scroll);
       create = TRUE;
       conn_list_iterate(game.est_connections, pconn) {
         copy_chars_to_utf8_str(pstr, pconn->username);
@@ -769,10 +769,10 @@ static void popup_conn_list_dialog(void)
   create_vertical_scrollbar(pConnDlg->pChat_Dlg, 1,
                             pConnDlg->active, TRUE, TRUE);
 
-  setup_vertical_scrollbar_area(pConnDlg->pChat_Dlg->pScroll,
+  setup_vertical_scrollbar_area(pConnDlg->pChat_Dlg->scroll,
                 adj_size(10) + pConnDlg->text_width + 1,
                 adj_size(14), pwindow->size.h - adj_size(44) - adj_size(40), FALSE);
-  hide_scrollbar(pConnDlg->pChat_Dlg->pScroll);
+  hide_scrollbar(pConnDlg->pChat_Dlg->scroll);
 
   /* -------------------------------- */
 
@@ -879,12 +879,12 @@ bool popdown_conn_list_dialog(void)
     popdown_window_group_dialog(pConnDlg->begin_widget_list,
                                 pConnDlg->end_widget_list);
     if (pConnDlg->pUsers_Dlg) {
-      FC_FREE(pConnDlg->pUsers_Dlg->pScroll);
+      FC_FREE(pConnDlg->pUsers_Dlg->scroll);
       FC_FREE(pConnDlg->pUsers_Dlg);
     }
 
     if (pConnDlg->pChat_Dlg) {
-      FC_FREE(pConnDlg->pChat_Dlg->pScroll);
+      FC_FREE(pConnDlg->pChat_Dlg->scroll);
       FC_FREE(pConnDlg->pChat_Dlg);
     }
 

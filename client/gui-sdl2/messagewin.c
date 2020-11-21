@@ -116,7 +116,7 @@ void real_meswin_dialog_update(void *unused)
   }
 
   msg_count = meswin_get_num_messages();
-  current_count = pMsg_Dlg->pScroll->count;
+  current_count = pMsg_Dlg->scroll->count;
 
   if (current_count > 0) {
     undraw_group(pMsg_Dlg->begin_active_widget_list, pMsg_Dlg->end_active_widget_list);
@@ -126,8 +126,8 @@ void real_meswin_dialog_update(void *unused)
     pMsg_Dlg->end_active_widget_list = NULL;
     pMsg_Dlg->active_widget_list = NULL;
     /* hide scrollbar */
-    hide_scrollbar(pMsg_Dlg->pScroll);
-    pMsg_Dlg->pScroll->count = 0;
+    hide_scrollbar(pMsg_Dlg->scroll);
+    pMsg_Dlg->scroll->count = 0;
     current_count = 0;
   }
   create = (current_count == 0);
@@ -136,7 +136,7 @@ void real_meswin_dialog_update(void *unused)
 
   area = pwindow->area;
 
-  label_width = area.w - pMsg_Dlg->pScroll->pUp_Left_Button->size.w - adj_size(3);
+  label_width = area.w - pMsg_Dlg->scroll->pUp_Left_Button->size.w - adj_size(3);
 
   if (msg_count > 0) {
     for (; current_count < msg_count; current_count++) {
@@ -288,11 +288,11 @@ void meswin_dialog_popup(bool raise)
 
   area = pwindow->area;
 
-  setup_vertical_scrollbar_area(pMsg_Dlg->pScroll,
+  setup_vertical_scrollbar_area(pMsg_Dlg->scroll,
                                 area.x + area.w, area.y,
                                 area.h, TRUE);
 
-  hide_scrollbar(pMsg_Dlg->pScroll);
+  hide_scrollbar(pMsg_Dlg->scroll);
 
   widget_set_position(pwindow, (main_window_width() - pwindow->size.w)/2, adj_size(25));
 
@@ -309,7 +309,7 @@ void meswin_dialog_popdown(void)
   if (pMsg_Dlg) {
     popdown_window_group_dialog(pMsg_Dlg->begin_widget_list,
                                 pMsg_Dlg->end_widget_list);
-    FC_FREE(pMsg_Dlg->pScroll);
+    FC_FREE(pMsg_Dlg->scroll);
     FC_FREE(pMsg_Dlg);
   }
 }

@@ -489,7 +489,7 @@ static int exit_notify_dialog_callback(struct widget *pwidget)
     if (pNotifyDlg) {
       popdown_window_group_dialog(pNotifyDlg->begin_widget_list,
                                   pNotifyDlg->end_widget_list);
-      FC_FREE(pNotifyDlg->pScroll);
+      FC_FREE(pNotifyDlg->scroll);
       FC_FREE(pNotifyDlg);
       flush_dirty();
     }
@@ -1060,7 +1060,7 @@ static void unit_select_dialog_popdown(void)
     popdown_window_group_dialog(unit_select_dlg->begin_widget_list,
                                 unit_select_dlg->end_widget_list);
 
-    FC_FREE(unit_select_dlg->pScroll);
+    FC_FREE(unit_select_dlg->scroll);
     FC_FREE(unit_select_dlg);
     flush_dirty();
   }
@@ -1197,7 +1197,7 @@ void unit_select_dialog_popup(struct tile *ptile)
 
   w = area.w;
 
-  if (unit_select_dlg->pScroll) {
+  if (unit_select_dlg->scroll) {
     w -= n;
   }
 
@@ -1211,8 +1211,8 @@ void unit_select_dialog_popup(struct tile *ptile)
                                   unit_select_dlg->begin_active_widget_list,
                                   pBuf);
 
-  if (unit_select_dlg->pScroll) {
-    setup_vertical_scrollbar_area(unit_select_dlg->pScroll,
+  if (unit_select_dlg->scroll) {
+    setup_vertical_scrollbar_area(unit_select_dlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
@@ -1391,7 +1391,7 @@ void popdown_advanced_terrain_dialog(void)
     popdown_window_group_dialog(pAdvanced_Terrain_Dlg->begin_widget_list,
                                 pAdvanced_Terrain_Dlg->end_widget_list);
 
-    FC_FREE(pAdvanced_Terrain_Dlg->pScroll);
+    FC_FREE(pAdvanced_Terrain_Dlg->scroll);
     FC_FREE(pAdvanced_Terrain_Dlg);
   }
 }
@@ -2081,7 +2081,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   w = area.w - adj_size(2);
 
-  if (pAdvanced_Terrain_Dlg->pScroll) {
+  if (pAdvanced_Terrain_Dlg->scroll) {
     units_h = n;
   } else {
     units_h = 0;
@@ -2133,8 +2133,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     pBuf = pBuf->prev;
   }
 
-  if (pAdvanced_Terrain_Dlg->pScroll) {
-    setup_vertical_scrollbar_area(pAdvanced_Terrain_Dlg->pScroll,
+  if (pAdvanced_Terrain_Dlg->scroll) {
+    setup_vertical_scrollbar_area(pAdvanced_Terrain_Dlg->scroll,
         area.x + area.w,
         pAdvanced_Terrain_Dlg->end_active_widget_list->size.y,
         area.y - pAdvanced_Terrain_Dlg->end_active_widget_list->size.y + area.h,
@@ -3310,17 +3310,17 @@ void popup_races_dialog(struct player *pplayer)
                                   0, 0, pNationDlg->begin_active_widget_list,
                                   pNationDlg->end_active_widget_list);
 
-  if (pNationDlg->pScroll) {
+  if (pNationDlg->scroll) {
     SDL_Rect area2;
 
     w = pNationDlg->end_active_widget_list->size.w * TARGETS_COL;
-    setup_vertical_scrollbar_area(pNationDlg->pScroll,
+    setup_vertical_scrollbar_area(pNationDlg->scroll,
                                   area.x + w + adj_size(12),
                                   area.y + i - adj_size(4), h, FALSE);
 
     area2.x = area.x + w + adj_size(11);
     area2.y = area.y + i - adj_size(4);
-    area2.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
+    area2.w = pNationDlg->scroll->pUp_Left_Button->size.w + adj_size(2);
     area2.h = h;
     fill_rect_alpha(pwindow->theme, &area2, &bg_color);
 
@@ -3437,7 +3437,7 @@ void popdown_races_dialog(void)
 
     FC_FREE(pLeaderName);
 
-    FC_FREE(pNationDlg->pScroll);
+    FC_FREE(pNationDlg->scroll);
     FC_FREE(pNationDlg);
   }
 }

@@ -110,7 +110,7 @@ void popdown_help_dialog(void)
   if (help_dlg) {
     popdown_window_group_dialog(help_dlg->begin_widget_list,
                                 help_dlg->end_widget_list);
-    FC_FREE(help_dlg->pScroll);
+    FC_FREE(help_dlg->scroll);
     FC_FREE(help_dlg);
     current_help_dlg = HELP_LAST;
   }
@@ -350,7 +350,7 @@ void popup_impr_info(Impr_type_id impr)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->pScroll ? help_dlg->pScroll->pUp_Left_Button->size.w : 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w : 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct units_buttons *)pwindow->data.ptr;
     dock = store->dock;
@@ -517,8 +517,8 @@ void popup_impr_info(Impr_type_id impr)
                                         help_dlg->end_active_widget_list);
 
     /* scrollbar */
-    if (help_dlg->pScroll) {
-      setup_vertical_scrollbar_area(help_dlg->pScroll,
+    if (help_dlg->scroll) {
+      setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + pListToggleButton->size.h,
                                     h, FALSE);
     }
@@ -766,7 +766,7 @@ void popup_unit_info(Unit_type_id type_id)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->pScroll ? help_dlg->pScroll->pUp_Left_Button->size.w : 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w : 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct units_buttons *)pwindow->data.ptr;
     dock = store->dock;
@@ -948,8 +948,8 @@ void popup_unit_info(Unit_type_id type_id)
                                            help_dlg->end_active_widget_list);
 
     /* scrollbar */
-    if (help_dlg->pScroll) {
-      setup_vertical_scrollbar_area(help_dlg->pScroll,
+    if (help_dlg->scroll) {
+      setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + pListToggleButton->size.h,
                                     h, FALSE);
     }
@@ -2003,7 +2003,7 @@ void popup_tech_info(Tech_type_id tech)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->pScroll ? help_dlg->pScroll->pUp_Left_Button->size.w: 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w: 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct techs_buttons *)pwindow->data.ptr;
     dock = store->dock;
@@ -2029,9 +2029,9 @@ void popup_tech_info(Tech_type_id tech)
       /* all entries are visible without scrolling */
       hide_group(help_dlg->begin_active_widget_list,
                  help_dlg->end_active_widget_list);
-      hide_scrollbar(help_dlg->pScroll);
+      hide_scrollbar(help_dlg->scroll);
     } else {
-      int count = help_dlg->pScroll->active;
+      int count = help_dlg->scroll->active;
 
       pAdvanceLabel = help_dlg->active_widget_list;
       while (pAdvanceLabel && count--) {
@@ -2039,7 +2039,7 @@ void popup_tech_info(Tech_type_id tech)
       }
       pAdvanceLabel = pAdvanceLabel->next;
       show_group(pAdvanceLabel, help_dlg->active_widget_list);
-      show_scrollbar(help_dlg->pScroll);
+      show_scrollbar(help_dlg->scroll);
     }
   }
 
@@ -2073,8 +2073,8 @@ void popup_tech_info(Tech_type_id tech)
                                         help_dlg->begin_active_widget_list,
                                         help_dlg->end_active_widget_list);
     /* scrollbar */
-    if (help_dlg->pScroll) {
-      setup_vertical_scrollbar_area(help_dlg->pScroll,
+    if (help_dlg->scroll) {
+      setup_vertical_scrollbar_area(help_dlg->scroll,
                                     area.x, area.y + pListToggleButton->size.h,
                                     h, FALSE);
     }

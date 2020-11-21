@@ -202,7 +202,7 @@ void popdown_intel_dialog(struct player *p)
 
     dialog_list_remove(dialog_list, pdialog);
 
-    FC_FREE(pdialog->pdialog->pScroll);
+    FC_FREE(pdialog->pdialog->scroll);
     FC_FREE(pdialog->pdialog);
     FC_FREE(pdialog);
   }
@@ -468,8 +468,8 @@ void update_intel_dialog(struct player *p)
                                       pdialog->pdialog->begin_active_widget_list,
                                       pdialog->pdialog->end_active_widget_list);
 
-      if (pdialog->pdialog->pScroll) {
-        setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
+      if (pdialog->pdialog->scroll) {
+        setup_vertical_scrollbar_area(pdialog->pdialog->scroll,
                                       area.x + area.w, dst.y,
                                       area.h - (dst.y + 1), TRUE);
       }

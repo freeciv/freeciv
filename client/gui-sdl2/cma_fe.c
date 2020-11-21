@@ -48,7 +48,7 @@
 #include "cma_fe.h"
 
 struct hmove {
-  struct widget *pScrollBar;
+  struct widget *pscroll_bar;
   int min, max, base;
 };
 
@@ -106,41 +106,41 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   struct hmove *pMotion = (struct hmove *)pData;
   char cbuf[4];
 
-  pMotionEvent->x -= pMotion->pScrollBar->dst->dest_rect.x;
+  pMotionEvent->x -= pMotion->pscroll_bar->dst->dest_rect.x;
 
   if (pMotion && pMotionEvent->xrel
       && (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
     /* draw bcgd */
-    widget_undraw(pMotion->pScrollBar);
-    widget_mark_dirty(pMotion->pScrollBar);
+    widget_undraw(pMotion->pscroll_bar);
+    widget_mark_dirty(pMotion->pscroll_bar);
 
-    if ((pMotion->pScrollBar->size.x + pMotionEvent->xrel) >
-        (pMotion->max - pMotion->pScrollBar->size.w)) {
-      pMotion->pScrollBar->size.x = pMotion->max - pMotion->pScrollBar->size.w;
+    if ((pMotion->pscroll_bar->size.x + pMotionEvent->xrel) >
+        (pMotion->max - pMotion->pscroll_bar->size.w)) {
+      pMotion->pscroll_bar->size.x = pMotion->max - pMotion->pscroll_bar->size.w;
     } else {
-      if ((pMotion->pScrollBar->size.x + pMotionEvent->xrel) < pMotion->min) {
-	pMotion->pScrollBar->size.x = pMotion->min;
+      if ((pMotion->pscroll_bar->size.x + pMotionEvent->xrel) < pMotion->min) {
+	pMotion->pscroll_bar->size.x = pMotion->min;
       } else {
-	pMotion->pScrollBar->size.x += pMotionEvent->xrel;
+	pMotion->pscroll_bar->size.x += pMotionEvent->xrel;
       }
     }
 
-    *(int *)pMotion->pScrollBar->data.ptr =
-      pMotion->base + (pMotion->pScrollBar->size.x - pMotion->min);
+    *(int *)pMotion->pscroll_bar->data.ptr =
+      pMotion->base + (pMotion->pscroll_bar->size.x - pMotion->min);
 
-    fc_snprintf(cbuf, sizeof(cbuf), "%d", *(int *)pMotion->pScrollBar->data.ptr);
-    copy_chars_to_utf8_str(pMotion->pScrollBar->next->string_utf8, cbuf);
+    fc_snprintf(cbuf, sizeof(cbuf), "%d", *(int *)pMotion->pscroll_bar->data.ptr);
+    copy_chars_to_utf8_str(pMotion->pscroll_bar->next->string_utf8, cbuf);
 
     /* redraw label */
-    widget_redraw(pMotion->pScrollBar->next);
-    widget_mark_dirty(pMotion->pScrollBar->next);
+    widget_redraw(pMotion->pscroll_bar->next);
+    widget_mark_dirty(pMotion->pscroll_bar->next);
 
     /* redraw scroolbar */
-    if (get_wflags(pMotion->pScrollBar) & WF_RESTORE_BACKGROUND) {
-      refresh_widget_background(pMotion->pScrollBar);
+    if (get_wflags(pMotion->pscroll_bar) & WF_RESTORE_BACKGROUND) {
+      refresh_widget_background(pMotion->pscroll_bar);
     }
-    widget_redraw(pMotion->pScrollBar);
-    widget_mark_dirty(pMotion->pScrollBar);
+    widget_redraw(pMotion->pscroll_bar);
+    widget_mark_dirty(pMotion->pscroll_bar);
 
     flush_dirty();
   }
@@ -156,7 +156,7 @@ static int min_horiz_cma_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct hmove pMotion;
 
-    pMotion.pScrollBar = pwidget;
+    pMotion.pscroll_bar = pwidget;
     pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
     pMotion.max = pMotion.min + 70;
     pMotion.base = -20;
@@ -195,7 +195,7 @@ static int factor_horiz_cma_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct hmove pMotion;
 
-    pMotion.pScrollBar = pwidget;
+    pMotion.pscroll_bar = pwidget;
     pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
     pMotion.max = pMotion.min + 54;
     pMotion.base = 1;
@@ -286,7 +286,7 @@ static int cancel_SLD_cma_callback(struct widget *pwidget)
     if (pCma && pCma->pAdv) {
       popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
                                   pCma->pAdv->end_widget_list);
-      FC_FREE(pCma->pAdv->pScroll);
+      FC_FREE(pCma->pAdv->scroll);
       FC_FREE(pCma->pAdv);
       flush_dirty();
     }
@@ -436,7 +436,7 @@ static int LD_cma_callback(struct widget *pwidget)
 
     popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
                                 pCma->pAdv->end_widget_list);
-    FC_FREE(pCma->pAdv->pScroll);
+    FC_FREE(pCma->pAdv->scroll);
     FC_FREE(pCma->pAdv);
 
     if (load) {
@@ -557,9 +557,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
 
     /* ------- window ------- */
     area.h = 11 * pwindow->prev->prev->size.h + adj_size(2)
-      + 2 * pCma->pAdv->pScroll->pUp_Left_Button->size.h;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.w = area.w;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.w = area.w;
+      + 2 * pCma->pAdv->scroll->pUp_Left_Button->size.h;
+    pCma->pAdv->scroll->pUp_Left_Button->size.w = area.w;
+    pCma->pAdv->scroll->pDown_Right_Button->size.w = area.w;
   }
 
   /* ----------------------------------- */
@@ -580,17 +580,17 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
   pBuf->size.y = pwindow->size.y + adj_size(2);
 
   pBuf = pBuf->prev;
-  hh = (pCma->pAdv->pScroll ? pCma->pAdv->pScroll->pUp_Left_Button->size.h + 1 : 0);
+  hh = (pCma->pAdv->scroll ? pCma->pAdv->scroll->pUp_Left_Button->size.h + 1 : 0);
   setup_vertical_widgets_position(1, area.x + 1,
                                   area.y + 1 + hh, area.w - 1, 0,
                                   pCma->pAdv->begin_active_widget_list, pBuf);
 
-  if (pCma->pAdv->pScroll) {
-    pCma->pAdv->pScroll->pUp_Left_Button->size.x = area.x;
-    pCma->pAdv->pScroll->pUp_Left_Button->size.y = area.y;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.x = area.x;
-    pCma->pAdv->pScroll->pDown_Right_Button->size.y =
-      area.y + area.h - pCma->pAdv->pScroll->pDown_Right_Button->size.h;
+  if (pCma->pAdv->scroll) {
+    pCma->pAdv->scroll->pUp_Left_Button->size.x = area.x;
+    pCma->pAdv->scroll->pUp_Left_Button->size.y = area.y;
+    pCma->pAdv->scroll->pDown_Right_Button->size.x = area.x;
+    pCma->pAdv->scroll->pDown_Right_Button->size.y =
+      area.y + area.h - pCma->pAdv->scroll->pDown_Right_Button->size.h;
   }
 
   /* ==================================================== */
@@ -1285,7 +1285,7 @@ void popdown_city_cma_dialog(void)
     if (pCma->pAdv) {
       del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
                                          pCma->pAdv->end_widget_list);
-      FC_FREE(pCma->pAdv->pScroll);
+      FC_FREE(pCma->pAdv->scroll);
       FC_FREE(pCma->pAdv);
     }
     if (city_dialog_is_open(pCma->pCity)) {

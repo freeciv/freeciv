@@ -772,7 +772,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   pDlg->begin_widget_list = pBuf;
   pDlg->begin_active_widget_list = pDlg->begin_widget_list;
   pDlg->end_active_widget_list = pDlg->end_widget_list->prev;
-  pDlg->pScroll = NULL;
+  pDlg->scroll = NULL;
 
   area.h = (main_window_height() - adj_size(100) - (pwindow->size.h - pwindow->area.h));
 
@@ -814,8 +814,8 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
                                   width, height, pDlg->begin_active_widget_list,
                                   pDlg->end_active_widget_list);
 
-  if (pDlg->pScroll) {
-    setup_vertical_scrollbar_area(pDlg->pScroll,
+  if (pDlg->scroll) {
+    setup_vertical_scrollbar_area(pDlg->scroll,
                                   area.x + area.w,
                                   area.y,
                                   area.h, TRUE);
@@ -860,12 +860,12 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     if (pdialog->pdialog->end_widget_list) {
       popdown_window_group_dialog(pdialog->poffers->begin_widget_list,
                                   pdialog->poffers->end_widget_list);
-      FC_FREE(pdialog->poffers->pScroll);
+      FC_FREE(pdialog->poffers->scroll);
       FC_FREE(pdialog->poffers);
 
       popdown_window_group_dialog(pdialog->pwants->begin_widget_list,
                                   pdialog->pwants->end_widget_list);
-      FC_FREE(pdialog->pwants->pScroll);
+      FC_FREE(pdialog->pwants->scroll);
       FC_FREE(pdialog->pwants);
 
       popdown_window_group_dialog(pdialog->pdialog->begin_widget_list,
@@ -951,7 +951,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pdialog->pdialog->begin_widget_list = pBuf;
 
     create_vertical_scrollbar(pdialog->pdialog, 1, 7, TRUE, TRUE);
-    hide_scrollbar(pdialog->pdialog->pScroll);
+    hide_scrollbar(pdialog->pdialog->scroll);
 
     /* ============================================================= */
 
@@ -990,7 +990,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
     /* ============================================================= */
-    setup_vertical_scrollbar_area(pdialog->pdialog->pScroll,
+    setup_vertical_scrollbar_area(pdialog->pdialog->scroll,
                                   area.x + dst.x + dst.w,
                                   dst.y,
                                   dst.h, TRUE);
@@ -1069,7 +1069,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
   struct widget *pbuf, *pwindow = pdialog->pdialog->end_widget_list;
   char cBuf[128];
   bool redraw_all, scroll = (pdialog->pdialog->active_widget_list != NULL);
-  int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
+  int len = pdialog->pdialog->scroll->pUp_Left_Button->size.w;
 
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     client_diplomacy_clause_string(cBuf, sizeof(cBuf), pclause);
@@ -1096,7 +1096,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
                   pbuf, pdialog->pdialog->begin_widget_list,
                   FALSE,
                   pwindow->size.x + adj_size(12),
-                  pdialog->pdialog->pScroll->pUp_Left_Button->size.y + adj_size(2));
+                  pdialog->pdialog->scroll->pUp_Left_Button->size.y + adj_size(2));
 
     if (!scroll && (pdialog->pdialog->active_widget_list != NULL)) {
       /* -> the scrollbar has been activated */
@@ -1155,7 +1155,7 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
 
   if (scroll && (pdialog->pdialog->active_widget_list == NULL)) {
     /* -> the scrollbar has been deactivated */
-    int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
+    int len = pdialog->pdialog->scroll->pUp_Left_Button->size.w;
 
     pBuf = pdialog->pdialog->end_active_widget_list->next;
     do {
@@ -1219,12 +1219,12 @@ static void popdown_diplomacy_dialog(int counterpart)
   if (pdialog) {
     popdown_window_group_dialog(pdialog->poffers->begin_widget_list,
                                 pdialog->poffers->end_widget_list);
-    FC_FREE(pdialog->poffers->pScroll);
+    FC_FREE(pdialog->poffers->scroll);
     FC_FREE(pdialog->poffers);
 
     popdown_window_group_dialog(pdialog->pwants->begin_widget_list,
                                 pdialog->pwants->end_widget_list);
-    FC_FREE(pdialog->pwants->pScroll);
+    FC_FREE(pdialog->pwants->scroll);
     FC_FREE(pdialog->pwants);
 
     popdown_window_group_dialog(pdialog->pdialog->begin_widget_list,
@@ -1232,7 +1232,7 @@ static void popdown_diplomacy_dialog(int counterpart)
 
     dialog_list_remove(dialog_list, pdialog);
 
-    FC_FREE(pdialog->pdialog->pScroll);
+    FC_FREE(pdialog->pdialog->scroll);
     FC_FREE(pdialog->pdialog);  
     FC_FREE(pdialog);
   }

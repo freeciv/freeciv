@@ -553,8 +553,8 @@ static int spy_steal_popup_shared(struct widget *pwidget)
                   pDiplomat_Dlg->pdialog->begin_active_widget_list,
                   pDiplomat_Dlg->pdialog->end_active_widget_list);
 
-  if (pDiplomat_Dlg->pdialog->pScroll) {
-    setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
+  if (pDiplomat_Dlg->pdialog->scroll) {
+    setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
@@ -850,7 +850,7 @@ void popdown_diplomat_dialog(void)
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(pDiplomat_Dlg->pdialog->begin_widget_list,
 				pDiplomat_Dlg->pdialog->end_widget_list);
-    FC_FREE(pDiplomat_Dlg->pdialog->pScroll);
+    FC_FREE(pDiplomat_Dlg->pdialog->scroll);
     FC_FREE(pDiplomat_Dlg->pdialog);
     FC_FREE(pDiplomat_Dlg);
     queue_flush();
@@ -1539,8 +1539,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
     pBuf = pBuf->prev;
   }
 
-  if (pDiplomat_Dlg->pdialog->pScroll) {
-    setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->pScroll,
+  if (pDiplomat_Dlg->pdialog->scroll) {
+    setup_vertical_scrollbar_area(pDiplomat_Dlg->pdialog->scroll,
         area.x + area.w,
         pDiplomat_Dlg->pdialog->end_active_widget_list->size.y,
         pDiplomat_Dlg->pdialog->begin_active_widget_list->prev->size.y

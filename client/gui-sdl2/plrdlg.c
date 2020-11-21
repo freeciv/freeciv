@@ -812,7 +812,7 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   if (n > 20) {
     units_h = create_vertical_scrollbar(pShort_Players_Dlg, 1, 20, TRUE, TRUE);
-    pShort_Players_Dlg->pScroll->count = n;
+    pShort_Players_Dlg->scroll->count = n;
 
     n = units_h;
     area.w += n;
@@ -843,7 +843,7 @@ void popup_players_nations_dialog(void)
 
   w = area.w;
 
-  if (pShort_Players_Dlg->pScroll) {
+  if (pShort_Players_Dlg->scroll) {
     w -= n;
   }
 
@@ -858,8 +858,8 @@ void popup_players_nations_dialog(void)
                                   pShort_Players_Dlg->begin_active_widget_list,
                                   pBuf);
 
-  if (pShort_Players_Dlg->pScroll) {
-    setup_vertical_scrollbar_area(pShort_Players_Dlg->pScroll,
+  if (pShort_Players_Dlg->scroll) {
+    setup_vertical_scrollbar_area(pShort_Players_Dlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
@@ -880,7 +880,7 @@ void popdown_players_nations_dialog(void)
   if (pShort_Players_Dlg) {
     popdown_window_group_dialog(pShort_Players_Dlg->begin_widget_list,
                                 pShort_Players_Dlg->end_widget_list);
-    FC_FREE(pShort_Players_Dlg->pScroll);
+    FC_FREE(pShort_Players_Dlg->scroll);
     FC_FREE(pShort_Players_Dlg);
   }
 }

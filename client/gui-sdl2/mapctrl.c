@@ -281,8 +281,8 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
         del_group(units_info_window->private_data.adv_dlg->begin_active_widget_list,
                   units_info_window->private_data.adv_dlg->end_active_widget_list);
       }
-      if (units_info_window->private_data.adv_dlg->pScroll) {
-        hide_scrollbar(units_info_window->private_data.adv_dlg->pScroll);
+      if (units_info_window->private_data.adv_dlg->scroll) {
+        hide_scrollbar(units_info_window->private_data.adv_dlg->scroll);
       }
 
       /* clear area under old unit info window */

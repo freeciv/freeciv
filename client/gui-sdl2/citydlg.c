@@ -165,13 +165,13 @@ static void del_city_dialog(void)
       del_group_of_widgets_from_gui_list(pcity_dlg->pImprv->begin_widget_list,
                                          pcity_dlg->pImprv->end_widget_list);
     }
-    FC_FREE(pcity_dlg->pImprv->pScroll);
+    FC_FREE(pcity_dlg->pImprv->scroll);
     FC_FREE(pcity_dlg->pImprv);
 
     if (pcity_dlg->pPanel) {
       del_group_of_widgets_from_gui_list(pcity_dlg->pPanel->begin_widget_list,
                                          pcity_dlg->pPanel->end_widget_list);
-      FC_FREE(pcity_dlg->pPanel->pScroll);
+      FC_FREE(pcity_dlg->pPanel->scroll);
       FC_FREE(pcity_dlg->pPanel);
     }
 
@@ -774,7 +774,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     create_vertical_scrollbar(pcity_dlg->pPanel,
                               num_x, num_y, TRUE, TRUE);
 
-    setup_vertical_scrollbar_area(pcity_dlg->pPanel->pScroll,
+    setup_vertical_scrollbar_area(pcity_dlg->pPanel->scroll,
                                   pwindow->area.x + adj_size(185),
                                   pwindow->area.y + adj_size(45),
                                   adj_size(150), TRUE);
@@ -789,7 +789,7 @@ void free_city_units_lists(void)
   if (pcity_dlg && pcity_dlg->pPanel) {
     del_group_of_widgets_from_gui_list(pcity_dlg->pPanel->begin_widget_list,
                                        pcity_dlg->pPanel->end_widget_list);
-    FC_FREE(pcity_dlg->pPanel->pScroll);
+    FC_FREE(pcity_dlg->pPanel->scroll);
     FC_FREE(pcity_dlg->pPanel);
   }
 }
@@ -1484,10 +1484,10 @@ void enable_city_dlg_widgets(void)
                     pcity_dlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
 
     if (pcity_dlg->pImprv->end_active_widget_list) {
-      if (pcity_dlg->pImprv->pScroll) {
-        set_wstate(pcity_dlg->pImprv->pScroll->pScrollBar, FC_WS_NORMAL);	/* vscroll */
-        set_wstate(pcity_dlg->pImprv->pScroll->pUp_Left_Button, FC_WS_NORMAL);   /* up */
-        set_wstate(pcity_dlg->pImprv->pScroll->pDown_Right_Button, FC_WS_NORMAL); /* down */
+      if (pcity_dlg->pImprv->scroll) {
+        set_wstate(pcity_dlg->pImprv->scroll->pscroll_bar, FC_WS_NORMAL);	/* vscroll */
+        set_wstate(pcity_dlg->pImprv->scroll->pUp_Left_Button, FC_WS_NORMAL);   /* up */
+        set_wstate(pcity_dlg->pImprv->scroll->pDown_Right_Button, FC_WS_NORMAL); /* down */
       }
 
       /* There is common function test_player_sell_building_now(),
@@ -1806,7 +1806,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
     } else {
       del_group_of_widgets_from_gui_list(pcity_dlg->pPanel->begin_widget_list,
                                          pcity_dlg->pPanel->end_widget_list);
-      FC_FREE(pcity_dlg->pPanel->pScroll);
+      FC_FREE(pcity_dlg->pPanel->scroll);
       FC_FREE(pcity_dlg->pPanel);
     }
   } else {
@@ -1863,7 +1863,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
     } else {
       del_group_of_widgets_from_gui_list(pcity_dlg->pPanel->begin_widget_list,
                                          pcity_dlg->pPanel->end_widget_list);
-      FC_FREE(pcity_dlg->pPanel->pScroll);
+      FC_FREE(pcity_dlg->pPanel->scroll);
       FC_FREE(pcity_dlg->pPanel);
     }
   } else {
@@ -3481,7 +3481,7 @@ static void rebuild_imprm_list(struct city *pCity)
     pcity_dlg->pImprv->end_active_widget_list = NULL;
     pcity_dlg->pImprv->begin_active_widget_list = NULL;
     pcity_dlg->pImprv->active_widget_list = NULL;
-    FC_FREE(pcity_dlg->pImprv->pScroll);
+    FC_FREE(pcity_dlg->pImprv->scroll);
   }
  
   add_dock = pcity_dlg->pAdd_Point;
@@ -3536,7 +3536,7 @@ static void rebuild_imprm_list(struct city *pCity)
 
       create_vertical_scrollbar(pcity_dlg->pImprv, 1, 7, TRUE, TRUE);
 
-      setup_vertical_scrollbar_area(pcity_dlg->pImprv->pScroll,
+      setup_vertical_scrollbar_area(pcity_dlg->pImprv->scroll,
                                     pwindow->size.x + adj_size(635),
                                     pwindow->size.y + adj_size(66),
                                     adj_size(155), TRUE);

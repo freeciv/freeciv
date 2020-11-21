@@ -196,7 +196,7 @@ static void update_goto_dialog(void)
       widget_add_as_prev(pBuf, add_dock);
       add_dock = pBuf;
 
-      if (n > (pGotoDlg->pScroll->active - 1)) {
+      if (n > (pGotoDlg->scroll->active - 1)) {
         set_wflag(pBuf, WF_HIDDEN);
       }
 
@@ -210,27 +210,27 @@ static void update_goto_dialog(void)
     pGotoDlg->begin_active_widget_list = pGotoDlg->begin_widget_list;
     pGotoDlg->end_active_widget_list = pLast->prev;
     pGotoDlg->active_widget_list = pGotoDlg->end_active_widget_list;
-    pGotoDlg->pScroll->count = n;
+    pGotoDlg->scroll->count = n;
 
-    if (n > pGotoDlg->pScroll->active) {
-      show_scrollbar(pGotoDlg->pScroll);
-      pGotoDlg->pScroll->pScrollBar->size.y = pGotoDlg->end_widget_list->area.y +
-        pGotoDlg->pScroll->pUp_Left_Button->size.h;
-      pGotoDlg->pScroll->pScrollBar->size.h = scrollbar_size(pGotoDlg->pScroll);
+    if (n > pGotoDlg->scroll->active) {
+      show_scrollbar(pGotoDlg->scroll);
+      pGotoDlg->scroll->pscroll_bar->size.y = pGotoDlg->end_widget_list->area.y +
+        pGotoDlg->scroll->pUp_Left_Button->size.h;
+      pGotoDlg->scroll->pscroll_bar->size.h = scrollbar_size(pGotoDlg->scroll);
     } else {
-      hide_scrollbar(pGotoDlg->pScroll);
+      hide_scrollbar(pGotoDlg->scroll);
     }
 
     setup_vertical_widgets_position(1,
                                     pGotoDlg->end_widget_list->area.x,
                                     pGotoDlg->end_widget_list->area.y,
-                                    pGotoDlg->pScroll->pUp_Left_Button->size.x -
+                                    pGotoDlg->scroll->pUp_Left_Button->size.x -
                                     pGotoDlg->end_widget_list->area.x - adj_size(2),
                                     0, pGotoDlg->begin_active_widget_list,
                                     pGotoDlg->end_active_widget_list);
 
   } else {
-    hide_scrollbar(pGotoDlg->pScroll);
+    hide_scrollbar(pGotoDlg->scroll);
   }
 
   /* redraw */
@@ -319,7 +319,7 @@ static void popup_goto_airlift_dialog(void)
   pGotoDlg->begin_widget_list = pBuf;
 
   create_vertical_scrollbar(pGotoDlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
-  hide_scrollbar(pGotoDlg->pScroll);
+  hide_scrollbar(pGotoDlg->scroll);
 
   area.w = MAX(area.w, adj_size(300));
   area.h = adj_size(320);
@@ -373,7 +373,7 @@ static void popup_goto_airlift_dialog(void)
     pBuf = pBuf->prev;
   }
 
-  setup_vertical_scrollbar_area(pGotoDlg->pScroll,
+  setup_vertical_scrollbar_area(pGotoDlg->scroll,
 	                        block_x, area.y,
   	                        area.h, TRUE);
 
@@ -420,7 +420,7 @@ void popdown_goto_airlift_dialog(void)
   if (pGotoDlg) {
     popdown_window_group_dialog(pGotoDlg->begin_widget_list,
                                 pGotoDlg->end_widget_list);
-    FC_FREE(pGotoDlg->pScroll);
+    FC_FREE(pGotoDlg->scroll);
     FC_FREE(pGotoDlg);
   }
   GOTO = TRUE;

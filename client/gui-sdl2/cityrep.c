@@ -64,7 +64,7 @@ void city_report_dialog_popdown(void)
   if (pCityRep) {
     popdown_window_group_dialog(pCityRep->begin_widget_list,
                                 pCityRep->end_widget_list);
-    FC_FREE(pCityRep->pScroll);
+    FC_FREE(pCityRep->scroll);
     FC_FREE(pCityRep);
 
     enable_and_redraw_find_city_button();
@@ -615,8 +615,8 @@ static void real_info_city_report_dialog_update(void)
     pCityRep->begin_active_widget_list = pCityRep->begin_widget_list;
     if (count > 14 * COL) {
       pCityRep->active_widget_list = pCityRep->end_active_widget_list;
-      if (pCityRep->pScroll) {
-	pCityRep->pScroll->count = count;
+      if (pCityRep->scroll) {
+	pCityRep->scroll->count = count;
       }
       ww = create_vertical_scrollbar(pCityRep, COL, 14, TRUE, TRUE);
       area.w += ww;
@@ -934,8 +934,8 @@ static void real_info_city_report_dialog_update(void)
       pbuf = pbuf->prev;
     }
 
-    if (pCityRep->pScroll) {
-      setup_vertical_scrollbar_area(pCityRep->pScroll,
+    if (pCityRep->scroll) {
+      setup_vertical_scrollbar_area(pCityRep->scroll,
                                     area.x + area.w, area.y,
                                     area.h, TRUE);
     }
