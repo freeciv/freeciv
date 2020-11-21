@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
 "POT-Creation-Date: 2020-11-19 02:46+0200\n"
-"PO-Revision-Date: 2020-02-26 20:56+0100\n"
+"PO-Revision-Date: 2020-11-21 01:32+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -27576,6 +27576,8 @@ msgid ""
 "Makes a city the ecclesiastical capital, that acts as a secondary center of "
 "government."
 msgstr ""
+"Convierte una ciudad en la capital eclesiástica, que actúa como un centro "
+"secundario de gobierno."
 
 #: data/civ2civ3/buildings.ruleset:805 data/sandbox/buildings.ruleset:805
 msgid ""
@@ -27602,7 +27604,7 @@ msgstr ""
 
 #: data/civ2civ3/buildings.ruleset:821
 msgid "The city has no other benefits of the primary capital."
-msgstr ""
+msgstr "La ciudad no obtiene más beneficios de ser la capital principal."
 
 #: data/civ2civ3/buildings.ruleset:842 data/sandbox/buildings.ruleset:839
 msgid ""
@@ -34227,14 +34229,12 @@ msgstr ""
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2309
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by sending email to freeciv-dev mailing list, at:"
 msgstr ""
-"Si encuentras algún error, por favor infórmanos de él.  Lo mejor es visitar "
-"el 'Freeciv Bug Tracking System' (Sistema de Seguimiento de Errores de "
-"Freeciv), en:"
+"Si encuentras algún error, por favor infórmanos de él.  Lo mejor es enviar "
+"un correo electrónico a la lista de correo freeciv-dev, en:"
 
 #: data/helpdata.txt:2314
 msgid ""
