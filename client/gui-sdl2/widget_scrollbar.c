@@ -153,7 +153,7 @@ static int redraw_vert(struct widget *vert)
 }
 
 /**********************************************************************//**
-  Create ( malloc ) vertical scroll_bar Widget structure.
+  Create ( malloc ) vertical scroll_bar widget structure.
 
   Theme graphic is taken from vert_theme surface;
 
@@ -161,7 +161,7 @@ static int redraw_vert(struct widget *vert)
   ( width = 'vert_theme->w', height = 'height' ) and
   save this in: pwidget->size rectangle ( SDL_Rect )
 
-  Return pointer to created Widget.
+  Return pointer to created widget.
 **************************************************************************/
 struct widget *create_vertical(SDL_Surface *vert_theme, struct gui_layer *pdest,
                                Uint16 height, Uint32 flags)
@@ -292,15 +292,15 @@ static int redraw_horiz(struct widget *horiz)
 }
 
 /**********************************************************************//**
-  Create ( malloc ) horizontal scroll_bar Widget structure.
+  Create ( malloc ) horizontal scroll_bar widget structure.
 
   Theme graphic is taken from horiz_theme surface;
 
   This function determinate future size of horizontal scroll_bar
-  ( width = 'vert_theme->w', height = 'height' ) and
+  ( width = 'width', height = 'horiz_theme->h' ) and
   save this in: pwidget->size rectangle ( SDL_Rect )
 
-  Return pointer to created Widget.
+  Return pointer to created widget.
 **************************************************************************/
 struct widget *create_horizontal(SDL_Surface *horiz_theme,
                                  struct gui_layer *pdest,
