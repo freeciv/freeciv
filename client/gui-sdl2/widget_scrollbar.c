@@ -153,24 +153,24 @@ static int redraw_vert(struct widget *pVert)
 }
 
 /**************************************************************************
-  Create ( malloc ) VScrollBar Widget structure.
+  Create ( malloc ) VScrollBar widget structure.
 
   Theme graphic is taken from pVert_theme surface;
 
   This function determinate future size of VScrollBar
-  ( width = 'pVert_theme->w' , high = 'high' ) and
+  ( width = 'pVert_theme->w', height = 'height' ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
-  Return pointer to created Widget.
+  Return pointer to created widget.
 **************************************************************************/
 struct widget *create_vertical(SDL_Surface *pVert_theme, struct gui_layer *pDest,
-                               Uint16 high, Uint32 flags)
+                               Uint16 height, Uint32 flags)
 {
   struct widget *pVer = widget_new();
 
   pVer->theme = pVert_theme;
   pVer->size.w = pVert_theme->w;
-  pVer->size.h = high;
+  pVer->size.h = height;
   set_wflag(pVer, (WF_FREE_STRING | WF_FREE_GFX | flags));
   set_wstate(pVer, FC_WS_DISABLED);
   set_wtype(pVer, WT_VSCROLLBAR);
@@ -292,15 +292,15 @@ static int redraw_horiz(struct widget *pHoriz)
 }
 
 /**************************************************************************
-  Create ( malloc ) HScrollBar Widget structure.
+  Create ( malloc ) HScrollBar widget structure.
 
   Theme graphic is taken from pHoriz_theme surface;
 
   This function determinate future size of HScrollBar
-  ( width = 'pVert_theme->w' , high = 'high' ) and
+  ( width = 'width', height = 'pHoriz_theme->h' ) and
   save this in: pWidget->size rectangle ( SDL_Rect )
 
-  Return pointer to created Widget.
+  Return pointer to created widget.
 **************************************************************************/
 struct widget *create_horizontal(SDL_Surface *pHoriz_theme,
                                  struct gui_layer *pDest,
