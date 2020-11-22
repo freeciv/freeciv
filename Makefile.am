@@ -88,6 +88,7 @@ docs =			\
 	ABOUT-NLS	\
 	AUTHORS		\
 	ChangeLog	\
+	ChangeLog-1.0-S3_0 \
 	COPYING		\
 	INSTALL		\
 	NEWS

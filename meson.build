@@ -2457,6 +2457,7 @@ install_data(
   'NEWS',
   'INSTALL',
   'ChangeLog',
+  'ChangeLog-1.0-S3_0',
   'doc/BUGS',
   'doc/CodingStyle',
   'doc/FAQ',
