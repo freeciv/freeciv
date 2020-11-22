@@ -521,7 +521,7 @@ static int focus_units_info_callback(struct widget *pwidget)
 **************************************************************************/
 void redraw_unit_info_label(struct unit_list *punitlist)
 {
-  struct widget *pInfo_Window;
+  struct widget *info_window;
   SDL_Rect src, area;
   SDL_Rect dest;
   SDL_Surface *buf_surf;
@@ -536,10 +536,10 @@ void redraw_unit_info_label(struct unit_list *punitlist)
   }
 
   if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
-    pInfo_Window = get_unit_info_window_widget();
+    info_window = get_unit_info_window_widget();
 
     /* blit theme surface */
-    widget_redraw(pInfo_Window);
+    widget_redraw(info_window);
 
     if (punit) {
       SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
@@ -557,12 +557,12 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       pstr->style &= ~TTF_STYLE_BOLD;
 
-      if (pInfo_Window->size.w > 1.8 *
-          ((pInfo_Window->size.w - pInfo_Window->area.w) + DEFAULT_UNITS_W)) {
-        width = pInfo_Window->area.w / 2;
+      if (info_window->size.w > 1.8 *
+          ((info_window->size.w - info_window->area.w) + DEFAULT_UNITS_W)) {
+        width = info_window->area.w / 2;
         right = TRUE;
       } else {
-        width = pInfo_Window->area.w;
+        width = info_window->area.w;
         right = FALSE;
       }
 
@@ -584,15 +584,15 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                                                        TILE_LB_RESOURCE_POLL));
       pInfo = create_text_surf_from_utf8(pstr);
 
-      if (pInfo_Window->size.h >
-          (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
-        int h = TTF_FontHeight(pInfo_Window->string_utf8->font);
+      if (info_window->size.h >
+          (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) || right) {
+        int h = TTF_FontHeight(info_window->string_utf8->font);
 
         fc_snprintf(buffer, sizeof(buffer), "%s",
                     sdl_get_tile_defense_info_text(ptile));
 
-        if (pInfo_Window->size.h >
-            2 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
+        if (info_window->size.h >
+            2 * h + (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) || right) {
           struct city *pCity = tile_city(ptile);
 
           if (BORDERS_DISABLED != game.info.borders && !pCity) {
@@ -699,8 +699,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           }
         }
 
-        if (pInfo_Window->size.h >
-            4 * h + (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
+        if (info_window->size.h >
+            4 * h + (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) || right) {
           cat_snprintf(buffer, sizeof(buffer), _("\nFood/Prod/Trade: %s"),
                        get_tile_output_text(unit_tile(punit)));
         }
@@ -718,29 +718,29 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       y = 0;
 
       if (n > 1 && ((!right && pInfo_II
-                     && (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
+                     && (info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) -
                          pInfo_II->h > 52))
-                    || (right && pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h -
-                                                                            pInfo_Window->area.h)) > 52))) {
-        height = (pInfo_Window->size.h - pInfo_Window->area.h) + DEFAULT_UNITS_H;
+                    || (right && info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h -
+                                                                            info_window->area.h)) > 52))) {
+        height = (info_window->size.h - info_window->area.h) + DEFAULT_UNITS_H;
       } else {
-        height = pInfo_Window->size.h;
-        if (pInfo_Window->size.h > (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h))) {
-          y = (pInfo_Window->size.h - (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) -
+        height = info_window->size.h;
+        if (info_window->size.h > (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h))) {
+          y = (info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) -
                (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
         }
       }
 
       sy = y + adj_size(3);
-      area.y = pInfo_Window->area.y + sy;
-      area.x = pInfo_Window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
+      area.y = info_window->area.y + sy;
+      area.x = info_window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
       dest = area;
-      alphablit(pName, NULL, pInfo_Window->dst->surface, &dest, 255);
+      alphablit(pName, NULL, info_window->dst->surface, &dest, 255);
       sy += pName->h;
       if (pVet_Name) {
         area.y += pName->h - adj_size(3);
-        area.x = pInfo_Window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
-        alphablit(pVet_Name, NULL, pInfo_Window->dst->surface, &area, 255);
+        area.x = info_window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
+        alphablit(pVet_Name, NULL, info_window->dst->surface, &area, 255);
         sy += pVet_Name->h - adj_size(3);
         FREESURFACE(pVet_Name);
       }
@@ -753,45 +753,45 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       src = (SDL_Rect){0, 0, buf_surf->w, buf_surf->h};
 
-      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) +
+      area.x = info_window->area.x + BLOCKU_W - adj_size(4) +
                ((width - BLOCKU_W + adj_size(3) - src.w) / 2);
-      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h) / 2;
-      alphablit(buf_surf, &src, pInfo_Window->dst->surface, &area, 32);
+      area.y = info_window->size.y + sy + (DEFAULT_UNITS_H - sy - src.h) / 2;
+      alphablit(buf_surf, &src, info_window->dst->surface, &area, 32);
       FREESURFACE(buf_surf);
 
       /* blit unit info text */
-      area.x = pInfo_Window->area.x + BLOCKU_W - adj_size(4) +
+      area.x = info_window->area.x + BLOCKU_W - adj_size(4) +
                  ((width - BLOCKU_W + adj_size(4) - pInfo->w) / 2);
-      area.y = pInfo_Window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h) / 2;
+      area.y = info_window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h) / 2;
 
-      alphablit(pInfo, NULL, pInfo_Window->dst->surface, &area, 255);
+      alphablit(pInfo, NULL, info_window->dst->surface, &area, 255);
       FREESURFACE(pInfo);
 
       if (pInfo_II) {
         if (right) {
-	  area.x = pInfo_Window->area.x + width + (width - pInfo_II->w) / 2;
-	  area.y = pInfo_Window->area.y + (height - pInfo_II->h) / 2;
+	  area.x = info_window->area.x + width + (width - pInfo_II->w) / 2;
+	  area.y = info_window->area.y + (height - pInfo_II->h) / 2;
         } else {
-	  area.y = pInfo_Window->area.y + DEFAULT_UNITS_H + y;
-          area.x = pInfo_Window->area.x + BLOCKU_W + 
+	  area.y = info_window->area.y + DEFAULT_UNITS_H + y;
+          area.x = info_window->area.x + BLOCKU_W +
                    (width - BLOCKU_W - pInfo_II->w) / 2;
         }
 
         /* blit unit info text */
-        alphablit(pInfo_II, NULL, pInfo_Window->dst->surface, &area, 255);
+        alphablit(pInfo_II, NULL, info_window->dst->surface, &area, 255);
 
         if (right) {
-          sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
+          sy = (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h));
         } else {
-          sy = area.y - pInfo_Window->size.y + pInfo_II->h;
+          sy = area.y - info_window->size.y + pInfo_II->h;
         }
         FREESURFACE(pInfo_II);
       } else {
-        sy = (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h));
+        sy = (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h));
       }
 
-      if (n > 1 && (pInfo_Window->size.h - sy > 52)) {
-        struct advanced_dialog *pDlg = pInfo_Window->private_data.adv_dlg;
+      if (n > 1 && (info_window->size.h - sy > 52)) {
+        struct advanced_dialog *pDlg = info_window->private_data.adv_dlg;
         struct widget *pBuf = NULL, *pEnd = NULL, *dock;
         struct city *pHome_City;
         const struct unit_type *putype;
@@ -800,9 +800,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         if (pDlg->end_active_widget_list && pDlg->begin_active_widget_list) {
           del_group(pDlg->begin_active_widget_list, pDlg->end_active_widget_list);
         }
-        num_w = (pInfo_Window->area.w - BLOCKU_W) / 68;
-        num_h = (pInfo_Window->area.h - sy) / 52;
-        dock = pInfo_Window;
+        num_w = (info_window->area.w - BLOCKU_W) / 68;
+        num_h = (info_window->area.h - sy) / 52;
+        dock = info_window;
         n = 0;
 
         unit_list_iterate(ptile->units, aunit) {
@@ -852,7 +852,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  pstr = create_utf8_from_char(buffer, 10);
           pstr->style |= SF_CENTER;
 
-          pBuf = create_icon2(buf_surf, pInfo_Window->dst,
+          pBuf = create_icon2(buf_surf, info_window->dst,
                               WF_FREE_THEME | WF_RESTORE_BACKGROUND
                               | WF_WIDGET_HAS_INFO_LABEL);
           pBuf->info_label = pstr;
@@ -893,9 +893,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
           /* create up button */
           pBuf = pDlg->scroll->pUp_Left_Button;
-          pBuf->size.x = pInfo_Window->area.x + pInfo_Window->area.w - pBuf->size.w;
-          pBuf->size.y = pInfo_Window->area.y + sy +
-            (pInfo_Window->size.h - sy - num_h * 52) / 2;
+          pBuf->size.x = info_window->area.x + info_window->area.w - pBuf->size.w;
+          pBuf->size.y = info_window->area.y + sy +
+            (info_window->size.h - sy - num_h * 52) / 2;
           pBuf->size.h = (num_h * 52) / 2;
 
           /* create down button */
@@ -912,28 +912,28 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         }
 
         setup_vertical_widgets_position(num_w,
-                                        pInfo_Window->area.x + BLOCKU_W + adj_size(2),
-                                        pInfo_Window->size.y + sy +
-                                        (pInfo_Window->size.h - sy - num_h * 52) / 2,
+                                        info_window->area.x + BLOCKU_W + adj_size(2),
+                                        info_window->size.y + sy +
+                                        (info_window->size.h - sy - num_h * 52) / 2,
                                         0, 0, pDlg->begin_active_widget_list,
                                         pDlg->end_active_widget_list);
       } else {
-        if (pInfo_Window->private_data.adv_dlg->end_active_widget_list) {
-          del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
-                    pInfo_Window->private_data.adv_dlg->end_active_widget_list);
+        if (info_window->private_data.adv_dlg->end_active_widget_list) {
+          del_group(info_window->private_data.adv_dlg->begin_active_widget_list,
+                    info_window->private_data.adv_dlg->end_active_widget_list);
         }
-        if (pInfo_Window->private_data.adv_dlg->scroll) {
-          hide_scrollbar(pInfo_Window->private_data.adv_dlg->scroll);
+        if (info_window->private_data.adv_dlg->scroll) {
+          hide_scrollbar(info_window->private_data.adv_dlg->scroll);
         }
       }
     } else { /* punit */
 
-      if (pInfo_Window->private_data.adv_dlg->end_active_widget_list) {
-	del_group(pInfo_Window->private_data.adv_dlg->begin_active_widget_list,
-                  pInfo_Window->private_data.adv_dlg->end_active_widget_list);
+      if (info_window->private_data.adv_dlg->end_active_widget_list) {
+	del_group(info_window->private_data.adv_dlg->begin_active_widget_list,
+                  info_window->private_data.adv_dlg->end_active_widget_list);
       }
-      if (pInfo_Window->private_data.adv_dlg->scroll) {
-	hide_scrollbar(pInfo_Window->private_data.adv_dlg->scroll);
+      if (info_window->private_data.adv_dlg->scroll) {
+	hide_scrollbar(info_window->private_data.adv_dlg->scroll);
       }
 
       if (!client_is_observer() && !client.conn.playing->phase_done
@@ -947,20 +947,20 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         pstr->style = SF_CENTER;
         pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
         buf_surf = create_text_surf_from_utf8(pstr);
-        area.x = pInfo_Window->size.x + BLOCKU_W +
-          (pInfo_Window->size.w - BLOCKU_W - buf_surf->w) / 2;
-        area.y = pInfo_Window->size.y + (pInfo_Window->size.h - buf_surf->h) / 2;
-        alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
+        area.x = info_window->size.x + BLOCKU_W +
+          (info_window->size.w - BLOCKU_W - buf_surf->w) / 2;
+        area.y = info_window->size.y + (info_window->size.h - buf_surf->h) / 2;
+        alphablit(buf_surf, NULL, info_window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);
         FREEUTF8STR(pstr);
       }
     }
 
     /* draw buttons */
-    redraw_group(pInfo_Window->private_data.adv_dlg->begin_widget_list,
-                 pInfo_Window->private_data.adv_dlg->end_widget_list->prev, 0);
+    redraw_group(info_window->private_data.adv_dlg->begin_widget_list,
+                 info_window->private_data.adv_dlg->end_widget_list->prev, 0);
 
-    widget_mark_dirty(pInfo_Window);
+    widget_mark_dirty(info_window);
   }
 }
 

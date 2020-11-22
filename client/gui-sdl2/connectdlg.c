@@ -220,7 +220,7 @@ void popup_connection_dialog(bool lan_scan)
   SDL_Color bg_color = {255, 255, 255, 128};
   char cBuf[512];
   int w = 0, h = 0, count = 0, meta_h;
-  struct widget *pNewWidget, *pwindow, *pLabelWindow;
+  struct widget *pNewWidget, *pwindow, *label_window;
   utf8_str *pstr;
   SDL_Surface *logo;
   SDL_Rect area, area2;
@@ -231,40 +231,40 @@ void popup_connection_dialog(bool lan_scan)
   meswin_dialog_popdown();
 
   /* Text Label */
-  pLabelWindow = create_window_skeleton(NULL, NULL, 0);
-  add_to_gui_list(ID_WINDOW, pLabelWindow);
+  label_window = create_window_skeleton(NULL, NULL, 0);
+  add_to_gui_list(ID_WINDOW, label_window);
 
-  area = pLabelWindow->area;
+  area = label_window->area;
 
   fc_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
   pstr = create_utf8_from_char(cBuf, adj_font(16));
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pNewWidget = create_iconlabel(NULL, pLabelWindow->dst, pstr,
+  pNewWidget = create_iconlabel(NULL, label_window->dst, pstr,
                 (WF_RESTORE_BACKGROUND | WF_DRAW_TEXT_LABEL_WITH_SPACE));
   add_to_gui_list(ID_LABEL, pNewWidget);
 
   area.w = MAX(area.w, pNewWidget->size.w + (adj_size(60) -
-                       (pLabelWindow->size.w - pLabelWindow->area.w)));
+                       (label_window->size.w - label_window->area.w)));
   area.h += pNewWidget->size.h + (adj_size(30) -
-            (pLabelWindow->size.w - pLabelWindow->area.w));
+            (label_window->size.w - label_window->area.w));
 
-  resize_window(pLabelWindow, NULL, &bg_color,
-                (pLabelWindow->size.w - pLabelWindow->area.w) + area.w,
-                (pLabelWindow->size.h - pLabelWindow->area.h) + area.h);
+  resize_window(label_window, NULL, &bg_color,
+                (label_window->size.w - label_window->area.w) + area.w,
+                (label_window->size.h - label_window->area.h) + area.h);
 
-  area = pLabelWindow->area;
+  area = label_window->area;
 
-  widget_set_position(pLabelWindow,
-                      (main_window_width() - pLabelWindow->size.w) / 2,
-                      (main_window_height() - pLabelWindow->size.h) / 2);
+  widget_set_position(label_window,
+                      (main_window_width() - label_window->size.w) / 2,
+                      (main_window_height() - label_window->size.h) / 2);
 
   widget_set_area(pNewWidget, area);
   widget_set_position(pNewWidget,
                       area.x + (area.w - pNewWidget->size.w) / 2,
                       area.y + (area.h - pNewWidget->size.h) / 2);
 
-  redraw_group(pNewWidget, pLabelWindow, TRUE);
+  redraw_group(pNewWidget, label_window, TRUE);
   flush_dirty();
 
   /* create server list */
@@ -279,7 +279,7 @@ void popup_connection_dialog(bool lan_scan)
   fc_release_mutex(&srvrs->mutex);
 
   /* clear label */
-  popdown_window_group_dialog(pNewWidget, pLabelWindow);
+  popdown_window_group_dialog(pNewWidget, label_window);
 
   meswin_dialog_popup(TRUE);
 

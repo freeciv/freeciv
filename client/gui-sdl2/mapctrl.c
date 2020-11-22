@@ -103,7 +103,7 @@ int unitinfo_h = 0;
 bool draw_goto_patrol_lines = FALSE;
 static struct widget *pNew_Turn_Button = NULL;
 static struct widget *units_info_window = NULL;
-static struct widget *pMiniMap_Window = NULL;
+static struct widget *minimap_window = NULL;
 static struct widget *pFind_City_Button = NULL;
 static struct widget *pRevolution_Button = NULL;
 static struct widget *pTax_Button = NULL;
@@ -345,7 +345,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 #endif
     } else {
       if (main_window_width() - units_info_window->size.w >=
-                  pMiniMap_Window->dst->dest_rect.x + pMiniMap_Window->size.w) {
+                  minimap_window->dst->dest_rect.x + minimap_window->size.w) {
 
         set_wstate(pIcon_Widget, FC_WS_NORMAL);
         selected_widget = NULL;
@@ -393,7 +393,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     clear_surface(pMap_Button->theme, NULL);
     alphablit(current_theme->MAP_Icon, NULL, pMap_Button->theme, NULL, 255);
 
-    set_wstate(pMiniMap_Window, FC_WS_NORMAL);
+    set_wstate(minimap_window, FC_WS_NORMAL);
 
     if (pFocus) {
       undraw_order_widgets();
@@ -402,7 +402,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
     if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
       /* Hide MiniMap */
       SDL_Surface *pBuf_Surf;
-      SDL_Rect src, map_area = pMiniMap_Window->size;
+      SDL_Rect src, map_area = minimap_window->size;
 
       set_wstate(pMap_Button, FC_WS_NORMAL);
       selected_widget = NULL;
@@ -415,34 +415,34 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       SDL_Client_Flags &= ~CF_OVERVIEW_SHOWN;
 
       /* clear area under old map window */
-      widget_undraw(pMiniMap_Window);
-      widget_mark_dirty(pMiniMap_Window);
+      widget_undraw(minimap_window);
+      widget_mark_dirty(minimap_window);
 
-      pMiniMap_Window->size.w = (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + BLOCKM_W;
-      pMiniMap_Window->area.w = BLOCKM_W;
+      minimap_window->size.w = (minimap_window->size.w - minimap_window->area.w) + BLOCKM_W;
+      minimap_window->area.w = BLOCKM_W;
 
       set_new_minimap_window_pos();
 
       /* blit part of map window */
-      src.x = pMiniMap_Window->theme->w - BLOCKM_W - current_theme->FR_Right->w;
+      src.x = minimap_window->theme->w - BLOCKM_W - current_theme->FR_Right->w;
       src.y = 0;
       src.w = BLOCKM_W + current_theme->FR_Right->w;
-      src.h = pMiniMap_Window->theme->h;
+      src.h = minimap_window->theme->h;
 
-      alphablit(pMiniMap_Window->theme, &src,
-                pMiniMap_Window->dst->surface, &map_area, 255);
+      alphablit(minimap_window->theme, &src,
+                minimap_window->dst->surface, &map_area, 255);
 
       /* blit left vertical frame theme */
       pBuf_Surf = ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w,
-                                pMiniMap_Window->area.h, 1);
+                                minimap_window->area.h, 1);
 
       map_area.y += adj_size(2);
-      alphablit(pBuf_Surf, NULL, pMiniMap_Window->dst->surface, &map_area, 255);
+      alphablit(pBuf_Surf, NULL, minimap_window->dst->surface, &map_area, 255);
       FREESURFACE(pBuf_Surf);
 
       /* redraw widgets */
       /* ID_NEW_TURN */
-      pwidget = pMiniMap_Window->prev;
+      pwidget = minimap_window->prev;
       widget_redraw(pwidget);
 
       /* ID_PLAYERS */
@@ -479,7 +479,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       popdown_scale_minmap_dlg_callback(NULL);
 #endif
     } else {
-      if (((pMiniMap_Window->size.w - pMiniMap_Window->area.w) +
+      if (((minimap_window->size.w - minimap_window->area.w) +
             overview_w + BLOCKM_W) <= units_info_window->dst->dest_rect.x) {
 
         set_wstate(pMap_Button, FC_WS_NORMAL);
@@ -491,13 +491,13 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         alphablit(current_theme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
         SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
 
-        pMiniMap_Window->size.w =
-          (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + overview_w + BLOCKM_W;
-        pMiniMap_Window->area.w = overview_w + BLOCKM_W;
+        minimap_window->size.w =
+          (minimap_window->size.w - minimap_window->area.w) + overview_w + BLOCKM_W;
+        minimap_window->area.w = overview_w + BLOCKM_W;
 
         set_new_minimap_window_pos();
 
-        widget_redraw(pMiniMap_Window);
+        widget_redraw(minimap_window);
         redraw_minimap_window_buttons();
         refresh_overview();
       } else {
@@ -624,7 +624,7 @@ static int up_width_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
     if ((((OVERVIEW_TILE_WIDTH + 1) * map.xsize) +
-         (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + BLOCKM_W) <=
+         (minimap_window->size.w - minimap_window->area.w) + BLOCKM_W) <=
          units_info_window->dst->dest_rect.x) {
       char cBuf[4];
 
@@ -1001,13 +1001,13 @@ static void remake_unitinfo(int w, int h)
 **************************************************************************/
 int resize_unit_info(void)
 {
-  struct widget *pInfo_Window = get_unit_info_window_widget();
+  struct widget *info_window = get_unit_info_window_widget();
   int w = INFO_WIDTH * map.xsize;
   int h = INFO_HEIGHT * map.ysize;
   int current_w = units_info_window->size.w - BLOCKU_W -
-                  (pInfo_Window->size.w - pInfo_Window->area.w);
+                  (info_window->size.w - info_window->area.w);
   int current_h = units_info_window->size.h -
-                  (pInfo_Window->size.h - pInfo_Window->area.h);
+                  (info_window->size.h - info_window->area.h);
 
   if ((((current_w > DEFAULT_UNITS_W - BLOCKU_W)
         || (w > DEFAULT_UNITS_W - BLOCKU_W)) && (current_w != w))
@@ -1032,8 +1032,8 @@ static int up_info_width_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
     if (main_window_width() - ((INFO_WIDTH + 1) * map.xsize + BLOCKU_W +
-         (pMiniMap_Window->size.w - pMiniMap_Window->area.w)) >=
-         pMiniMap_Window->size.x + pMiniMap_Window->size.w) {
+         (minimap_window->size.w - minimap_window->area.w)) >=
+         minimap_window->size.x + minimap_window->size.w) {
       INFO_WIDTH++;
       resize_unit_info();
     }
@@ -1268,10 +1268,10 @@ static int minimap_window_callback(struct widget *pwidget)
 
   switch (main_data.event.button.button) {
   case SDL_BUTTON_RIGHT:
-    mouse_x = main_data.event.motion.x - pMiniMap_Window->dst->dest_rect.x -
-      pMiniMap_Window->area.x - overview_start_x;
-    mouse_y = main_data.event.motion.y - pMiniMap_Window->dst->dest_rect.y -
-      pMiniMap_Window->area.y - overview_start_y;
+    mouse_x = main_data.event.motion.x - minimap_window->dst->dest_rect.x -
+      minimap_window->area.x - overview_start_x;
+    mouse_y = main_data.event.motion.y - minimap_window->dst->dest_rect.y -
+      minimap_window->area.y - overview_start_y;
     if ((SDL_Client_Flags & CF_OVERVIEW_SHOWN)
         && (mouse_x >= 0) && (mouse_x < overview_w)
         && (mouse_y >= 0) && (mouse_y < overview_h)) {
@@ -1391,16 +1391,16 @@ void set_new_minimap_window_pos(void)
   struct widget *pwidget;
   SDL_Rect area;
 
-  widget_set_position(pMiniMap_Window, 0,
-                      main_window_height() - pMiniMap_Window->size.h);
+  widget_set_position(minimap_window, 0,
+                      main_window_height() - minimap_window->size.h);
 
-  area.x = pMiniMap_Window->size.w - current_theme->FR_Right->w - BLOCKM_W;
-  area.y = pMiniMap_Window->area.y;
+  area.x = minimap_window->size.w - current_theme->FR_Right->w - BLOCKM_W;
+  area.y = minimap_window->area.y;
   area.w = BLOCKM_W;
-  area.h = pMiniMap_Window->area.h;
+  area.h = minimap_window->area.h;
 
   /* ID_NEW_TURN */
-  pwidget = pMiniMap_Window->prev;
+  pwidget = minimap_window->prev;
   widget_set_area(pwidget, area);
   widget_set_position(pwidget,
                       area.x + adj_size(2) + pwidget->size.w,
@@ -1668,7 +1668,7 @@ void popup_minimap_window(void)
 
   pMiniMap_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  /* pMiniMap_Window */
+  /* minimap_window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
 
   resize_window(pwindow, NULL, &black,
@@ -1686,11 +1686,11 @@ void popup_minimap_window(void)
 
   add_to_gui_list(ID_MINI_MAP_WINDOW, pwindow);
 
-  pMiniMap_Window = pwindow;
-  pMiniMap_Dlg->end_widget_list = pMiniMap_Window;
+  minimap_window = pwindow;
+  pMiniMap_Dlg->end_widget_list = minimap_window;
 
   /* new turn button */
-  pwidget = create_themeicon(current_theme->NEW_TURN_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->NEW_TURN_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
@@ -1704,7 +1704,7 @@ void popup_minimap_window(void)
   pNew_Turn_Button = pwidget;
 
   /* players button */
-  pwidget = create_themeicon(current_theme->PLAYERS_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->PLAYERS_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   /* TRANS: Nations report action */
@@ -1716,7 +1716,7 @@ void popup_minimap_window(void)
   add_to_gui_list(ID_PLAYERS, pwidget);
 
   /* find city button */
-  pwidget = create_themeicon(current_theme->FindCity_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->FindCity_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
@@ -1732,7 +1732,7 @@ void popup_minimap_window(void)
   pFind_City_Button = pwidget;
 
   /* units button */
-  pwidget = create_themeicon(current_theme->UNITS2_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->UNITS2_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
@@ -1743,7 +1743,7 @@ void popup_minimap_window(void)
   add_to_gui_list(ID_UNITS, pwidget);
 
   /* show/hide log window button */
-  pwidget = create_themeicon(current_theme->LOG_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->LOG_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
@@ -1754,7 +1754,7 @@ void popup_minimap_window(void)
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pwidget);
 
   /* toggle minimap mode button */
-  pwidget = create_themeicon(current_theme->BORDERS_Icon, pMiniMap_Window->dst,
+  pwidget = create_themeicon(current_theme->BORDERS_Icon, minimap_window->dst,
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
@@ -1768,7 +1768,7 @@ void popup_minimap_window(void)
 #ifdef SMALL_SCREEN
   /* options button */
   pOptions_Button = create_themeicon(current_theme->Options_Icon,
-                                     pMiniMap_Window->dst,
+                                     minimap_window->dst,
                                      WF_WIDGET_HAS_INFO_LABEL
                                      | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
@@ -1788,7 +1788,7 @@ void popup_minimap_window(void)
   alphablit(current_theme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
   alphablit(current_theme->L_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
 
-  pwidget = create_themeicon(pIcon_theme, pMiniMap_Window->dst,
+  pwidget = create_themeicon(pIcon_theme, minimap_window->dst,
                              WF_FREE_GFX | WF_FREE_THEME |
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
@@ -1805,7 +1805,7 @@ void popup_minimap_window(void)
 
   set_new_minimap_window_pos();
 
-  widget_redraw(pMiniMap_Window);
+  widget_redraw(minimap_window);
 }
 
 /**********************************************************************//**
@@ -2150,7 +2150,7 @@ static void enable_minimap_widgets(void)
   struct widget *pBuf, *pEnd;
 
   if (can_client_issue_orders()) {
-    pBuf = pMiniMap_Window;
+    pBuf = minimap_window;
     set_wstate(pBuf, FC_WS_NORMAL);
 
     /* new turn button */
@@ -2237,7 +2237,7 @@ struct widget *get_unit_info_window_widget(void)
 **************************************************************************/
 struct widget *get_minimap_window_widget(void)
 {
-  return pMiniMap_Window;
+  return minimap_window;
 }
 
 /**********************************************************************//**

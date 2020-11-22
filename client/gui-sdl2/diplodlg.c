@@ -457,7 +457,7 @@ static int dipomatic_window_callback(struct widget *pwindow)
 **************************************************************************/
 static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
                                                         struct player *pplayer1,
-                                                        struct widget *pMainWindow,
+                                                        struct widget *main_window,
                                                         bool L_R)
 {
   struct advanced_dialog *pDlg = fc_calloc(1, sizeof(struct advanced_dialog));
@@ -801,9 +801,9 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   area = pwindow->area;
 
   if (L_R) {
-    window_x = pMainWindow->dst->dest_rect.x + pMainWindow->size.w + adj_size(20);
+    window_x = main_window->dst->dest_rect.x + main_window->size.w + adj_size(20);
   } else {
-    window_x = pMainWindow->dst->dest_rect.x - adj_size(20) - pwindow->size.w;
+    window_x = main_window->dst->dest_rect.x - adj_size(20) - pwindow->size.w;
   }
   window_y = (main_window_height() - pwindow->size.h) / 2;
 
