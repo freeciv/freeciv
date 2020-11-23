@@ -1299,6 +1299,7 @@ bool tilespec_reread(const char *new_tileset_name,
   const char *name = new_tileset_name ? new_tileset_name : tileset->name;
   char tileset_name[strlen(name) + 1], old_name[strlen(tileset->name) + 1];
   bool new_tileset_in_use;
+  int ts_topo;
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(tileset_name, name);
@@ -1379,9 +1380,10 @@ bool tilespec_reread(const char *new_tileset_name,
     return new_tileset_in_use;
   }
 
-  if (tileset_map_topo_compatible(wld.map.topology_id, tileset)
+  if (tileset_map_topo_compatible(wld.map.topology_id, tileset, &ts_topo)
       == TOPO_INCOMP_HARD) {
-    tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
+    tileset_error(LOG_NORMAL,_("Map topology (%s) and tileset (%s) incompatible."),
+                  describe_topology(wld.map.topology_id), describe_topology(ts_topo));
   }
 
   terrain_type_iterate(pterrain) {
