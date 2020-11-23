@@ -535,7 +535,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     punit = NULL;
   }
 
-  if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
+  if (sdl2_client_flags & CF_UNITINFO_SHOWN) {
     info_window = get_unit_info_window_widget();
 
     /* blit theme surface */
@@ -969,7 +969,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 **************************************************************************/
 static bool is_focus_anim_enabled(void)
 {
-  return (SDL_Client_Flags & CF_FOCUS_ANIMATION) == CF_FOCUS_ANIMATION;
+  return (sdl2_client_flags & CF_FOCUS_ANIMATION) == CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**
@@ -1130,7 +1130,7 @@ void refresh_overview(void)
   struct widget *pMMap;
   SDL_Rect overview_area;
 
-  if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
+  if (sdl2_client_flags & CF_OVERVIEW_SHOWN) {
     pMMap = get_minimap_window_widget();
 
     overview_area = (SDL_Rect) {

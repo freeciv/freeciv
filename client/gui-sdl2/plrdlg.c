@@ -133,7 +133,7 @@ static int toggle_draw_war_status_callback(struct widget *pwidget)
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-    SDL_Client_Flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
+    sdl2_client_flags ^= CF_DRAW_PLAYERS_WAR_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
@@ -154,7 +154,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pwidget)
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-    SDL_Client_Flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
+    sdl2_client_flags ^= CF_DRAW_PLAYERS_CEASEFIRE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
@@ -175,7 +175,7 @@ static int toggle_draw_peace_status_callback(struct widget *pwidget)
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-    SDL_Client_Flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
+    sdl2_client_flags ^= CF_DRAW_PLAYERS_PEACE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
@@ -196,7 +196,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pwidget)
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-    SDL_Client_Flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
+    sdl2_client_flags ^= CF_DRAW_PLAYERS_ALLIANCE_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
@@ -217,7 +217,7 @@ static int toggle_draw_neutral_status_callback(struct widget *pwidget)
     /* exit button -> neutral -> war -> casefire -> peace -> alliance */
     struct widget *pplayer = pplayers_dlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-    SDL_Client_Flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
+    sdl2_client_flags ^= CF_DRAW_PLAYERS_NEUTRAL_STATUS;
     do {
       pplayer = pplayer->prev;
       FREESURFACE(pplayer->gfx);
@@ -301,35 +301,35 @@ void real_players_dialog_update(void *unused)
             switch (player_diplstate_get(pplayer,
                                          pplayer1->data.player)->type) {
 	      case DS_ARMISTICE:
-	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
+	        if (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
 	          create_line(pplayer1->dst->surface,
                               dst0.x, dst0.y, dst1.x, dst1.y,
                               get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE));
 	        }
 	      break;
               case DS_WAR:
-	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
+	        if (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS) {
 	          create_line(pplayer1->dst->surface,
                               dst0.x, dst0.y, dst1.x, dst1.y,
                               get_theme_color(COLOR_THEME_PLRDLG_WAR));
 	        }
               break;
 	      case DS_CEASEFIRE:
-	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
+	        if (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
 	          create_line(pplayer1->dst->surface,
                               dst0.x, dst0.y, dst1.x, dst1.y,
                               get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE));
 	        }
               break;
               case DS_PEACE:
-	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
+	        if (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
 	          create_line(pplayer1->dst->surface,
                               dst0.x, dst0.y, dst1.x, dst1.y,
                               get_theme_color(COLOR_THEME_PLRDLG_PEACE));
 	        }
               break;
 	      case DS_ALLIANCE:
-	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
+	        if (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
 	          create_line(pplayer1->dst->surface,
                               dst0.x, dst0.y, dst1.x, dst1.y,
                               get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE));
@@ -412,35 +412,35 @@ void popup_players_dialog(bool raise)
     switch (i) {
       case DS_ARMISTICE:
 	buf = create_checkbox(pwindow->dst,
-                               (SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
+                               (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
                                WF_RESTORE_BACKGROUND);
 	buf->action = toggle_draw_neutral_status_callback;
 	buf->key = SDLK_n;
       break;
       case DS_WAR:
 	buf = create_checkbox(pwindow->dst,
-                               (SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS),
+                               (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS),
                                WF_RESTORE_BACKGROUND);
 	buf->action = toggle_draw_war_status_callback;
 	buf->key = SDLK_w;
       break;
       case DS_CEASEFIRE:
 	buf = create_checkbox(pwindow->dst,
-                               (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
+                               (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	buf->action = toggle_draw_ceasefire_status_callback;
 	buf->key = SDLK_c;
       break;
       case DS_PEACE:
 	buf = create_checkbox(pwindow->dst,
-                               (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS),
+                               (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	buf->action = toggle_draw_peace_status_callback;
 	buf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
 	buf = create_checkbox(pwindow->dst,
-                               (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
+                               (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
                                WF_RESTORE_BACKGROUND);
 	buf->action = toggle_draw_alliance_status_callback;
 	buf->key = SDLK_a;

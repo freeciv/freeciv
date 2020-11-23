@@ -269,7 +269,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       undraw_order_widgets();
     }
 
-    if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
+    if (sdl2_client_flags & CF_UNITINFO_SHOWN) {
       /* HIDE */
       SDL_Surface *buf_surf;
       SDL_Rect src, window_area;
@@ -295,7 +295,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       copy_chars_to_utf8_str(pIcon_Widget->info_label,
                              _("Show Unit Info Window"));
 
-      SDL_Client_Flags &= ~CF_UNITINFO_SHOWN;
+      sdl2_client_flags &= ~CF_UNITINFO_SHOWN;
 
       set_new_unitinfo_window_pos();
 
@@ -356,7 +356,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 
         alphablit(current_theme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
 
-        SDL_Client_Flags |= CF_UNITINFO_SHOWN;
+        sdl2_client_flags |= CF_UNITINFO_SHOWN;
 
         set_new_unitinfo_window_pos();
 
@@ -399,7 +399,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       undraw_order_widgets();
     }
 
-    if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
+    if (sdl2_client_flags & CF_OVERVIEW_SHOWN) {
       /* Hide MiniMap */
       SDL_Surface *buf_surf;
       SDL_Rect src, map_area = minimap_window->size;
@@ -412,7 +412,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       /* make new map icon */
       alphablit(current_theme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
 
-      SDL_Client_Flags &= ~CF_OVERVIEW_SHOWN;
+      sdl2_client_flags &= ~CF_OVERVIEW_SHOWN;
 
       /* clear area under old map window */
       widget_undraw(minimap_window);
@@ -489,7 +489,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         copy_chars_to_utf8_str(pMap_Button->info_label, _("Hide Mini Map"));
 
         alphablit(current_theme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL, 255);
-        SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
+        sdl2_client_flags |= CF_OVERVIEW_SHOWN;
 
         minimap_window->size.w =
           (minimap_window->size.w - minimap_window->area.w) + overview_w + BLOCKM_W;
@@ -729,7 +729,7 @@ static void popup_minimap_scale_dialog(void)
   int window_x = 0, window_y = 0;
   SDL_Rect area;
 
-  if (pScale_MiniMap_Dlg || !(SDL_Client_Flags & CF_OVERVIEW_SHOWN)) {
+  if (pScale_MiniMap_Dlg || !(sdl2_client_flags & CF_OVERVIEW_SHOWN)) {
     return;
   }
 
@@ -1115,7 +1115,7 @@ static void popup_unitinfo_scale_dialog(void)
   int window_x = 0, window_y = 0;
   SDL_Rect area;
 
-  if (pScale_UnitInfo_Dlg || !(SDL_Client_Flags & CF_UNITINFO_SHOWN)) {
+  if (pScale_UnitInfo_Dlg || !(sdl2_client_flags & CF_UNITINFO_SHOWN)) {
     return;
   }
 
@@ -1272,7 +1272,7 @@ static int minimap_window_callback(struct widget *pwidget)
       minimap_window->area.x - overview_start_x;
     mouse_y = main_data.event.motion.y - minimap_window->dst->dest_rect.y -
       minimap_window->area.y - overview_start_y;
-    if ((SDL_Client_Flags & CF_OVERVIEW_SHOWN)
+    if ((sdl2_client_flags & CF_OVERVIEW_SHOWN)
         && (mouse_x >= 0) && (mouse_x < overview_w)
         && (mouse_y >= 0) && (mouse_y < overview_h)) {
       int map_x, map_y;
@@ -1338,7 +1338,7 @@ void set_new_unitinfo_window_pos(void)
   struct widget *pwidget;
   SDL_Rect area;
 
-  if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
+  if (sdl2_client_flags & CF_UNITINFO_SHOWN) {
     widget_set_position(units_info_window,
                         main_window_width() - units_info_window->size.w,
                         main_window_height() - units_info_window->size.h);
@@ -1565,7 +1565,7 @@ void popup_unitinfo_window(void)
 
   unit_info_dlg->begin_widget_list = pwidget;
 
-  SDL_Client_Flags |= CF_UNITINFO_SHOWN;
+  sdl2_client_flags |= CF_UNITINFO_SHOWN;
 
   set_new_unitinfo_window_pos();
 
@@ -1648,7 +1648,7 @@ void popdown_unitinfo_window(void)
   if (unit_info_dlg) {
     popdown_window_group_dialog(unit_info_dlg->begin_widget_list, unit_info_dlg->end_widget_list);
     FC_FREE(unit_info_dlg);
-    SDL_Client_Flags &= ~CF_UNITINFO_SHOWN;
+    sdl2_client_flags &= ~CF_UNITINFO_SHOWN;
   }
 }
 
@@ -1801,7 +1801,7 @@ void popup_minimap_window(void)
 
   pMiniMap_Dlg->begin_widget_list = pwidget;
 
-  SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
+  sdl2_client_flags |= CF_OVERVIEW_SHOWN;
 
   set_new_minimap_window_pos();
 
@@ -1975,7 +1975,7 @@ void popdown_minimap_window(void)
   if (pMiniMap_Dlg) {
     popdown_window_group_dialog(pMiniMap_Dlg->begin_widget_list, pMiniMap_Dlg->end_widget_list);
     FC_FREE(pMiniMap_Dlg);
-    SDL_Client_Flags &= ~CF_OVERVIEW_SHOWN;
+    sdl2_client_flags &= ~CF_OVERVIEW_SHOWN;
   }
 }
 
@@ -1987,13 +1987,13 @@ void show_game_page(void)
   struct widget *pwidget;
   SDL_Surface *pIcon_theme = NULL;
 
-  if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+  if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
     return;
   }
 
   popup_minimap_window();
   popup_unitinfo_window();
-  SDL_Client_Flags |= CF_MAP_UNIT_W_CREATED;
+  sdl2_client_flags |= CF_MAP_UNIT_W_CREATED;
 
 #ifndef SMALL_SCREEN
   init_options_button();
@@ -2061,7 +2061,7 @@ void close_game_page(void)
 
   popdown_minimap_window();
   popdown_unitinfo_window();
-  SDL_Client_Flags &= ~CF_MAP_UNIT_W_CREATED;
+  sdl2_client_flags &= ~CF_MAP_UNIT_W_CREATED;
 }
 
 /**********************************************************************//**

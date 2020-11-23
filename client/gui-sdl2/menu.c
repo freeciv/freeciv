@@ -949,7 +949,7 @@ void create_units_order_widgets(void)
 
   pBeginOrderWidgetList = buf;
 
-  SDL_Client_Flags |= CF_ORDERS_WIDGETS_CREATED;
+  sdl2_client_flags |= CF_ORDERS_WIDGETS_CREATED;
 }
 
 /**********************************************************************//**
@@ -961,7 +961,7 @@ void delete_units_order_widgets(void)
 
   pBeginOrderWidgetList = NULL;
   pEndOrderWidgetList = NULL;
-  SDL_Client_Flags &= ~CF_ORDERS_WIDGETS_CREATED;
+  sdl2_client_flags &= ~CF_ORDERS_WIDGETS_CREATED;
 }
 
 /**********************************************************************//**
@@ -1041,21 +1041,21 @@ void real_menus_update(void)
   if ((C_S_RUNNING != client_state())
       || (get_client_page() != PAGE_GAME)) {
 
-    SDL_Client_Flags |= CF_GAME_JUST_STARTED;
+    sdl2_client_flags |= CF_GAME_JUST_STARTED;
 
-    if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+    if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
       set_wflag(pOptions_Button, WF_HIDDEN);
       hide_minimap_window_buttons();
       hide_unitinfo_window_buttons();
     }
 
-    if (SDL_Client_Flags & CF_ORDERS_WIDGETS_CREATED) {
+    if (sdl2_client_flags & CF_ORDERS_WIDGETS_CREATED) {
       hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
     }
 
   } else {
     /* Running state */
-    if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+    if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
       /* show options button */
       clear_wflag(pOptions_Button, WF_HIDDEN);
       widget_redraw(pOptions_Button);
@@ -1064,7 +1064,7 @@ void real_menus_update(void)
 
     if (NULL == client.conn.playing) {
       /* Global observer */
-      if (SDL_Client_Flags & CF_MAP_UNIT_W_CREATED) {
+      if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
         /* show minimap buttons and unitinfo buttons */
         show_minimap_window_buttons();
         show_unitinfo_window_buttons();
@@ -1086,8 +1086,8 @@ void real_menus_update(void)
         undraw_order_widgets();
       }
 
-      if (SDL_Client_Flags & CF_GAME_JUST_STARTED) {
-        SDL_Client_Flags &= ~CF_GAME_JUST_STARTED;
+      if (sdl2_client_flags & CF_GAME_JUST_STARTED) {
+        sdl2_client_flags &= ~CF_GAME_JUST_STARTED;
 
         /* show minimap buttons and unitinfo buttons */
         show_minimap_window_buttons();

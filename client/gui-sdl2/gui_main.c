@@ -93,7 +93,7 @@ const char *client_string = "gui-sdl2";
 const char * const gui_character_encoding = "UTF-8";
 const bool gui_use_transliteration = FALSE;
 
-Uint32 SDL_Client_Flags = 0;
+Uint32 sdl2_client_flags = 0;
 
 Uint32 widget_info_counter = 0;
 int MOVE_STEP_X = DEFAULT_MOVE_STEP;
@@ -845,7 +845,7 @@ void ui_init(void)
   button_behavior.hold_state = MB_HOLD_SHORT;
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
 
-  SDL_Client_Flags = 0;
+  sdl2_client_flags = 0;
   iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
 
   /* auto center new windows in X enviroment */
@@ -1030,7 +1030,7 @@ void ui_main(int argc, char *argv[])
 
   is_unit_move_blocked = FALSE;
 
-  SDL_Client_Flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
+  sdl2_client_flags |= (CF_DRAW_PLAYERS_NEUTRAL_STATUS
                        |CF_DRAW_PLAYERS_WAR_STATUS
                        |CF_DRAW_PLAYERS_CEASEFIRE_STATUS
                        |CF_DRAW_PLAYERS_PEACE_STATUS
@@ -1124,7 +1124,7 @@ void sound_bell(void)
 void enable_focus_animation(void)
 {
   pAnim_User_Event->user.code = ANIM;
-  SDL_Client_Flags |= CF_FOCUS_ANIMATION;
+  sdl2_client_flags |= CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**
@@ -1132,7 +1132,7 @@ void enable_focus_animation(void)
 **************************************************************************/
 void disable_focus_animation(void)
 {
-  SDL_Client_Flags &= ~CF_FOCUS_ANIMATION;
+  sdl2_client_flags &= ~CF_FOCUS_ANIMATION;
 }
 
 /**********************************************************************//**

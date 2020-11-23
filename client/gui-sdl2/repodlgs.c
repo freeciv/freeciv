@@ -1152,11 +1152,11 @@ static int toggle_block_callback(struct widget *pCheckBox)
   if (PRESSED_EVENT(main_data.event)) {
     switch (pCheckBox->ID) {
     case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
-      SDL_Client_Flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
+      sdl2_client_flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
       return -1;
 
     case ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX:
-      SDL_Client_Flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
+      sdl2_client_flags ^= CF_CHANGE_TAXRATE_SCI_BLOCK;
       return -1;
 
     default:
@@ -1305,14 +1305,14 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
 
     switch (pHoriz_Src->ID) {
       case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
-        if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           goto END;
         }
         pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
         pMotion.pHoriz_Dst = pHoriz_Src->prev->prev->prev; /* sci */
         pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
         pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
-        if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
           if (pMotion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
             pMotion.pHoriz_Dst = NULL;	/* tax */
             pMotion.dst_rate = &pMotion.tax;
@@ -1324,14 +1324,14 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
       break;
 
       case ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR:
-        if ((SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
+        if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
           goto END;
         }
         pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
         pMotion.pHoriz_Dst = pHoriz_Src->next->next->next; /* lux */
         pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
         pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
-        if (SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
+        if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           if (pMotion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
             /* tax */
             pMotion.pHoriz_Dst = NULL;
@@ -1964,7 +1964,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_checkbox(pwindow->dst,
-                         SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
+                         sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
   buf->info_label = pstr;
@@ -2010,7 +2010,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_checkbox(pwindow->dst,
-                         SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
+                         sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
   set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);

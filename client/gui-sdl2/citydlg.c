@@ -1689,7 +1689,7 @@ static int new_name_city_dlg_callback(struct widget *pEdit)
   if (PRESSED_EVENT(main_data.event)) {
     if (pEdit->string_utf8->text != NULL) {
       if (strcmp(pEdit->string_utf8->text, city_name_get(pcity_dlg->pcity))) {
-        SDL_Client_Flags |= CF_CHANGED_CITY_NAME;
+        sdl2_client_flags |= CF_CHANGED_CITY_NAME;
         city_rename(pcity_dlg->pcity, pEdit->string_utf8->text);
       }
     } else {
@@ -1718,10 +1718,10 @@ static void refresh_city_names(struct city *pcity)
 
     fc_snprintf(name, MAX_LEN_NAME, "%s", pcity_dlg->pcity_name_edit->string_utf8->text);
     if ((strcmp(city_name_get(pcity), name) != 0)
-        || (SDL_Client_Flags & CF_CHANGED_CITY_NAME)) {
+        || (sdl2_client_flags & CF_CHANGED_CITY_NAME)) {
       copy_chars_to_utf8_str(pcity_dlg->pcity_name_edit->string_utf8, city_name_get(pcity));
       rebuild_citydlg_title_str(pcity_dlg->pEndCityWidgetList, pcity);
-      SDL_Client_Flags &= ~CF_CHANGED_CITY_NAME;
+      sdl2_client_flags &= ~CF_CHANGED_CITY_NAME;
     }
   }
 }
@@ -2492,10 +2492,10 @@ static void redraw_city_dialog(struct city *pcity)
 
   if ((city_unhappy(pcity) || city_celebrating(pcity) || city_happy(pcity)
        || cma_is_city_under_agent(pcity, NULL))
-      ^ ((SDL_Client_Flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
+      ^ ((sdl2_client_flags & CF_CITY_STATUS_SPECIAL) == CF_CITY_STATUS_SPECIAL)) {
     /* city status was changed : NORMAL <-> DISORDER, HAPPY, CELEBR. */
 
-    SDL_Client_Flags ^= CF_CITY_STATUS_SPECIAL;
+    sdl2_client_flags ^= CF_CITY_STATUS_SPECIAL;
 
 #if 0
     /* upd. resource map */
@@ -3827,7 +3827,7 @@ void real_city_dialog_popup(struct city *pcity)
   /* ===================================================== */
   if ((city_unhappy(pcity) || city_celebrating(pcity)
        || city_happy(pcity))) {
-    SDL_Client_Flags |= CF_CITY_STATUS_SPECIAL;
+    sdl2_client_flags |= CF_CITY_STATUS_SPECIAL;
   }
   /* ===================================================== */
 
@@ -3845,7 +3845,7 @@ void popdown_city_dialog(struct city *pcity)
 
     flush_dirty();
 
-    SDL_Client_Flags &= ~CF_CITY_STATUS_SPECIAL;
+    sdl2_client_flags &= ~CF_CITY_STATUS_SPECIAL;
     menus_update();
   }
 }

@@ -34,7 +34,7 @@
 /* enable this to adjust sizes for 320x240 resolution */
 /* #define SMALL_SCREEN */
 
-/* SDL client Flags */
+/* SDL2 client Flags */
 #define CF_NONE				0
 #define CF_ORDERS_WIDGETS_CREATED	(1<<0)
 #define CF_MAP_UNIT_W_CREATED		(1<<1)
@@ -90,7 +90,7 @@ struct mouse_button_behavior {
 };
 
 extern struct widget *selected_widget;
-extern Uint32 SDL_Client_Flags;
+extern Uint32 sdl2_client_flags;
 extern bool LSHIFT;
 extern bool RSHIFT;
 extern bool LCTRL;
