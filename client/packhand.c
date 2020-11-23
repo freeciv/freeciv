@@ -2025,7 +2025,8 @@ void handle_set_topology(int topology_id)
   wld.map.topology_id = topology_id;
 
   if (forced_tileset_name[0] == '\0'
-      && (tileset_map_topo_compatible(topology_id, tileset) == TOPO_INCOMP_HARD
+      && (tileset_map_topo_compatible(topology_id, tileset, NULL)
+          == TOPO_INCOMP_HARD
           || strcmp(tileset_basename(tileset), game.control.preferred_tileset))) {
     const char *ts_to_load;
 
@@ -2043,6 +2044,8 @@ void handle_set_topology(int topology_id)
 ****************************************************************************/
 void handle_map_info(int xsize, int ysize, int topology_id)
 {
+  int ts_topo;
+
   if (!map_is_empty()) {
     map_free(&(wld.map));
     free_city_map_index();
@@ -2051,8 +2054,9 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   wld.map.xsize = xsize;
   wld.map.ysize = ysize;
 
-  if (tileset_map_topo_compatible(topology_id, tileset) == TOPO_INCOMP_HARD) {
-    tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
+  if (tileset_map_topo_compatible(topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
+    tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
+                  describe_topology(topology_id), describe_topology(ts_topo));
   }
 
   wld.map.topology_id = topology_id;

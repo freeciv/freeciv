@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -359,7 +359,9 @@ enum topo_comp_lvl { TOPO_COMPATIBLE = 0,
                      TOPO_INCOMP_HARD = 2};
 
 enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
-                                               struct tileset *tset);
+                                               struct tileset *tset,
+                                               int *tset_topo);
+const char *describe_topology(int topo);
 
 void animations_init(void);
 void animations_free(void);
