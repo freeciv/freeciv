@@ -3962,9 +3962,11 @@ void link_mark_restore(enum text_link_type type, int id)
 
 /********************************************************************** 
   Are the topology and tileset compatible?
+  Tileset topology written to tset_topo, if not NULL.
 ***********************************************************************/
 enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
-                                               struct tileset *tset)
+                                               struct tileset *tset,
+                                               int *tset_topo)
 {
   int tileset_topology;
 
@@ -3978,6 +3980,10 @@ enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
     tileset_topology = TF_ISO;
   } else {
     tileset_topology = 0;
+  }
+
+  if (tset_topo != NULL) {
+    *tset_topo = tileset_topology;
   }
 
   if (tileset_topology & TF_HEX) {
@@ -3999,6 +4005,24 @@ enum topo_comp_lvl tileset_map_topo_compatible(int topology_id,
   }
 
   return TOPO_COMPATIBLE;
+}
+
+/**********************************************************************
+  Return string describing topology id.
+***********************************************************************/
+const char *describe_topology(int topo)
+{
+  if (topo & TF_ISO) {
+    if (topo & TF_HEX) {
+      return _("ISO|Hex");
+    }
+    return _("ISO");
+  }
+  if (topo & TF_HEX) {
+    return _("Hex");
+  }
+
+  return _("Overhead");
 }
 
 /********************************************************************** 

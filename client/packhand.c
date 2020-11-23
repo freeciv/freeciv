@@ -1934,7 +1934,7 @@ void handle_set_topology(int topology_id)
   game.map.topology_id = topology_id;
 
   if (forced_tileset_name[0] == '\0'
-      && (tileset_map_topo_compatible(topology_id, tileset) != TOPO_COMPATIBLE
+      && (tileset_map_topo_compatible(topology_id, tileset, NULL) != TOPO_COMPATIBLE
           || strcmp(tileset_basename(tileset), game.control.preferred_tileset))) {
     const char *ts_to_load;
 
@@ -1952,6 +1952,8 @@ void handle_set_topology(int topology_id)
 ****************************************************************************/
 void handle_map_info(int xsize, int ysize, int topology_id)
 {
+  int ts_topo;
+
   if (!map_is_empty()) {
     map_free();
   }
@@ -1959,8 +1961,9 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   game.map.xsize = xsize;
   game.map.ysize = ysize;
 
-  if (tileset_map_topo_compatible(topology_id, tileset) == TOPO_INCOMP_HARD) {
-    tileset_error(LOG_NORMAL, _("Map topology and tileset incompatible."));
+  if (tileset_map_topo_compatible(topology_id, tileset, &ts_topo) == TOPO_INCOMP_HARD) {
+    tileset_error(LOG_NORMAL, _("Map topology (%s) and tileset (%s) incompatible."),
+                  describe_topology(topology_id), describe_topology(ts_topo));
   }
 
   game.map.topology_id = topology_id;
