@@ -95,21 +95,21 @@ static void get_units_report_data(struct units_entry *entries,
     }
   } unit_list_iterate_end;
 
-  city_list_iterate(client.conn.playing->cities, pCity) {
-    if (VUT_UTYPE == pCity->production.kind) {
-      const struct unit_type *punittype = pCity->production.value.utype;
+  city_list_iterate(client.conn.playing->cities, pcity) {
+    if (VUT_UTYPE == pcity->production.kind) {
+      const struct unit_type *punittype = pcity->production.value.utype;
       Unit_type_id uti = utype_index(punittype);
       int num_units;
 
       /* Account for build slots in city */
-      (void) city_production_build_units(pCity, TRUE, &num_units);
+      (void) city_production_build_units(pcity, TRUE, &num_units);
       /* Unit is in progress even if it won't be done this turn */
       num_units = MAX(num_units, 1);
       (entries[uti].building_count) += num_units;
       (total->building_count) += num_units;
       entries[uti].soonest_completions =
         MIN(entries[uti].soonest_completions,
-            city_production_turns_to_build(pCity, TRUE));
+            city_production_turns_to_build(pcity, TRUE));
     }
   } city_list_iterate_end;
 }
@@ -1516,12 +1516,12 @@ static int ok_sell_impr_callback(struct widget *pwidget)
     enable_economy_dlg();
 
     /* send sell */
-    city_list_iterate(client.conn.playing->cities, pCity) {
-      if (!pCity->did_sell
-          && city_has_building(pCity, improvement_by_number(imp))) {
+    city_list_iterate(client.conn.playing->cities, pcity) {
+      if (!pcity->did_sell
+          && city_has_building(pcity, improvement_by_number(imp))) {
         count++;
 
-        city_sell_improvement(pCity, imp);
+        city_sell_improvement(pcity, imp);
       }
     } city_list_iterate_end;
 
@@ -1593,8 +1593,8 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     total_count = pwidget->data.cont->id1;
     value = impr_sell_gold(improvement_by_number(imp));
 
-    city_list_iterate(client.conn.playing->cities, pCity) {
-      if (!pCity->did_sell && city_has_building(pCity, improvement_by_number(imp))) {
+    city_list_iterate(client.conn.playing->cities, pcity) {
+      if (!pcity->did_sell && city_has_building(pcity, improvement_by_number(imp))) {
         count++;
         gold += value;
       }

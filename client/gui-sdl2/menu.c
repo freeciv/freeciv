@@ -1101,10 +1101,10 @@ void real_menus_update(void)
     punit = unit_list_get(punits, 0);
 
     if (punit && punit->ssa_controller == SSA_NONE) {
-      struct city *pHomecity;
+      struct city *homecity;
       int time;
       struct tile *ptile = unit_tile(punit);
-      struct city *pCity = tile_city(ptile);
+      struct city *pcity = tile_city(ptile);
       struct terrain *pterrain = tile_terrain(ptile);
       struct base_type *pbase;
       struct extra_type *pextra;
@@ -1121,7 +1121,7 @@ void real_menus_update(void)
        * get an eventual error message from the server if we try. */
 
       if (unit_can_add_or_build_city(punit)) {
-	if (pCity) {
+	if (pcity) {
           fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
                       action_id_name_translation(ACTION_JOIN_CITY), "B");
         } else {
@@ -1167,27 +1167,27 @@ void real_menus_update(void)
       }
 
       /* unit_can_est_trade_route_here(punit) */
-      if (pCity && utype_can_do_action(unit_type_get(punit),
+      if (pcity && utype_can_do_action(unit_type_get(punit),
                                        ACTION_TRADE_ROUTE)
-          && (pHomecity = game_city_by_number(punit->homecity))
-          && can_cities_trade(pHomecity, pCity)) {
-        int revenue = get_caravan_enter_city_trade_bonus(pHomecity, pCity,
+          && (homecity = game_city_by_number(punit->homecity))
+          && can_cities_trade(homecity, pcity)) {
+        int revenue = get_caravan_enter_city_trade_bonus(homecity, pcity,
                                                          punit->carrying,
                                                          TRUE);
 
-        if (can_establish_trade_route(pHomecity, pCity)) {
+        if (can_establish_trade_route(homecity, pcity)) {
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s With %s ( %d one time bonus + %d trade ) (R)"),
                       action_id_name_translation(ACTION_TRADE_ROUTE),
-                      city_name_get(pHomecity),
+                      city_name_get(homecity),
                       revenue,
-                      trade_base_between_cities(pHomecity, pCity));
+                      trade_base_between_cities(homecity, pcity));
         } else {
           revenue = (revenue + 2) / 3;
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("%s Of %s ( %d one time bonus ) (R)"),
                       action_id_name_translation(ACTION_MARKETPLACE),
-                      city_name_get(pHomecity),
+                      city_name_get(homecity),
                       revenue);
         }
         copy_chars_to_utf8_str(pOrder_Trade_Button->info_label, cBuf);
@@ -1356,8 +1356,8 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_PILLAGE);
       }
 
-      if (pCity && can_unit_change_homecity(punit)
-          && pCity->id != punit->homecity) {
+      if (pcity && can_unit_change_homecity(punit)
+          && pcity->id != punit->homecity) {
         local_show(ID_UNIT_ORDER_HOMECITY);
       } else {
         local_hide(ID_UNIT_ORDER_HOMECITY);
@@ -1473,7 +1473,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_NUKE);
       }
 
-      if (pCity && pCity->airlift) {
+      if (pcity && pcity->airlift) {
         local_show(ID_UNIT_ORDER_AIRLIFT);
         hide(ID_UNIT_ORDER_GOTO_CITY);
       } else {
@@ -1481,7 +1481,7 @@ void real_menus_update(void)
         local_hide(ID_UNIT_ORDER_AIRLIFT);
       }
 
-      if (pCity && can_upgrade_unittype(client.conn.playing,
+      if (pcity && can_upgrade_unittype(client.conn.playing,
                                         unit_type_get(punit))) {
         local_show(ID_UNIT_ORDER_UPGRADE);
       } else {

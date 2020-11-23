@@ -86,10 +86,10 @@ static int exit_find_city_dlg_callback(struct widget *pwidget)
 static int find_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pwidget->data.city;
+    struct city *pcity = pwidget->data.city;
 
-    if (pCity) {
-      center_tile_mapcanvas(pCity->tile);
+    if (pcity) {
+      center_tile_mapcanvas(pcity->tile);
       if (main_data.event.button.button == SDL_BUTTON_RIGHT) {
         popdown_find_dialog();
       }
@@ -178,31 +178,31 @@ void popup_find_dialog(void)
   /* ---------- */
 
   players_iterate(pplayer) {
-    city_list_iterate(pplayer->cities, pCity) {
-      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name_get(pCity),
-                  city_size_get(pCity));
+    city_list_iterate(pplayer->cities, pcity) {
+      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name_get(pcity),
+                  city_size_get(pcity));
 
       pstr = create_utf8_from_char(cBuf, adj_font(10));
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-      if (!player_owns_city(owner, pCity)) {
-        logo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
+      if (!player_owns_city(owner, pcity)) {
+        logo = get_nation_flag_surface(nation_of_player(city_owner(pcity)));
         logo = crop_visible_part_from_surface(logo);
       }
 
       buf = create_iconlabel(logo, pwindow->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-      if (!player_owns_city(owner, pCity)) {
+      if (!player_owns_city(owner, pcity)) {
         set_wflag(buf, WF_FREE_THEME);
-        owner = city_owner(pCity);
+        owner = city_owner(pcity);
       }
 
       buf->string_utf8->style &= ~SF_CENTER;
-      buf->string_utf8->fgcol = *(get_player_color(tileset, city_owner(pCity))->color);
+      buf->string_utf8->fgcol = *(get_player_color(tileset, city_owner(pcity))->color);
       buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-      buf->data.city = pCity;
+      buf->data.city = pcity;
 
       buf->action = find_city_callback;
       set_wstate(buf, FC_WS_NORMAL);

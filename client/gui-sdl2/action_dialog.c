@@ -1320,7 +1320,7 @@ static int sabotage_impr_callback(struct widget *pwidget)
   Pops-up the Spy sabotage dialog, upon return of list of
   available improvements requested by the above function.
 **************************************************************************/
-void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
+void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                            const struct action *paction)
 {
   struct widget *pwindow = NULL, *buf = NULL , *pLast = NULL;
@@ -1343,11 +1343,11 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
   
   pDiplomat_Dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   pDiplomat_Dlg->actor_unit_id = actor->id;
-  pDiplomat_Dlg->target_ids[ATK_CITY] = pCity->id;
+  pDiplomat_Dlg->target_ids[ATK_CITY] = pcity->id;
   pDiplomat_Dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pCont = fc_calloc(1, sizeof(struct container));
-  pCont->id0 = pCity->id;
+  pCont->id0 = pcity->id;
   pCont->id1 = actor->id; /* spy id */
   pCont->value = paction->id;
 
@@ -1403,10 +1403,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pCity,
 
   /* ------------------ */
   n = 0;
-  city_built_iterate(pCity, pimprove) {
+  city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {
       create_active_iconlabel(buf, pwindow->dst, pstr,
-	      (char *) city_improvement_name_translation(pCity, pimprove),
+	      (char *) city_improvement_name_translation(pcity, pimprove),
 				      sabotage_impr_callback);
       buf->data.cont = pCont;
       set_wstate(buf, FC_WS_NORMAL);
@@ -1624,7 +1624,7 @@ void popdown_incite_dialog(void)
   Popup a window asking a diplomatic unit if it wishes to incite the
   given enemy city.
 **************************************************************************/
-void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
+void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
                          const struct action *paction)
 {
   struct widget *pwindow = NULL, *buf = NULL;
@@ -1649,7 +1649,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
 
   pIncite_Dlg = fc_calloc(1, sizeof(struct small_diplomat_dialog));
   pIncite_Dlg->actor_unit_id = actor->id;
-  pIncite_Dlg->target_id = pCity->id;
+  pIncite_Dlg->target_id = pcity->id;
   pIncite_Dlg->act_id = paction->id;
   pIncite_Dlg->pdialog = fc_calloc(1, sizeof(struct small_dialog));
 
@@ -1692,7 +1692,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
     /* --------------- */
 
     fc_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
-                city_name_get(pCity));
+                city_name_get(pcity));
 
     create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
 
@@ -1726,7 +1726,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
     create_active_iconlabel(buf, pwindow->dst, pstr,
                             _("Yes") , diplomat_incite_yes_callback);
 
-    buf->data.city = pCity;
+    buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - actor->id, buf);
@@ -1794,7 +1794,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pCity, int cost,
 
   auto_center_on_focus_unit();
   put_window_near_map_tile(pwindow, pwindow->size.w, pwindow->size.h,
-                           pCity->tile);
+                           pcity->tile);
 
   /* setup widget size and start position */
   buf = pwindow;

@@ -1442,11 +1442,11 @@ static int terrain_info_callback(struct widget *pwidget)
 static int zoom_to_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pwidget->data.city;
+    struct city *pcity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
 
-    popup_city_dialog(pCity);
+    popup_city_dialog(pcity);
   }
   return -1;
 }
@@ -1457,10 +1457,10 @@ static int zoom_to_city_callback(struct widget *pwidget)
 static int change_production_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pwidget->data.city;
+    struct city *pcity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
-    popup_worklist_editor(pCity, NULL);
+    popup_worklist_editor(pcity, NULL);
   }
   return -1;
 }
@@ -1471,11 +1471,11 @@ static int change_production_callback(struct widget *pwidget)
 static int hurry_production_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pwidget->data.city;
+    struct city *pcity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
 
-    popup_hurry_production_dialog(pCity, NULL);
+    popup_hurry_production_dialog(pcity, NULL);
   }
   return -1;
 }
@@ -1486,10 +1486,10 @@ static int hurry_production_callback(struct widget *pwidget)
 static int cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pCity = pwidget->data.city;
+    struct city *pcity = pwidget->data.city;
 
     popdown_advanced_terrain_dialog();
-    popup_city_cma_dialog(pCity);
+    popup_city_cma_dialog(pcity);
   }
   return -1;
 }
@@ -1646,7 +1646,7 @@ static int unit_help_callback(struct widget *pwidget)
 void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_y)
 {
   struct widget *pwindow = NULL, *buf = NULL;
-  struct city *pCity;
+  struct city *pcity;
   struct unit *pFocus_Unit;
   utf8_str *pstr;
   SDL_Rect area2;
@@ -1659,11 +1659,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     return;
   }
 
-  pCity = tile_city(ptile);
+  pcity = tile_city(ptile);
   n = unit_list_size(ptile->units);
   pFocus_Unit = head_of_units_in_focus();
 
-  if (!n && !pCity && !pFocus_Unit) {
+  if (!n && !pcity && !pFocus_Unit) {
     popup_terrain_info_dialog(NULL, ptile);
 
     return;
@@ -1724,7 +1724,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   area.h += buf->size.h;
 
   /* ---------- */
-  if (pCity && city_owner(pCity) == client.conn.playing) {
+  if (pcity && city_owner(pcity) == client.conn.playing) {
     /* separator */
     buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
@@ -1732,11 +1732,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += buf->next->size.h;
     /* ------------------ */
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name_get(pCity));
+    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name_get(pcity));
 
     create_active_iconlabel(buf, pwindow->dst,
                             pstr, cBuf, zoom_to_city_callback);
-    buf->data.city = pCity;
+    buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(ID_LABEL, buf);
@@ -1748,7 +1748,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     create_active_iconlabel(buf, pwindow->dst, pstr,
                             _("Change Production"), change_production_callback);
 
-    buf->data.city = pCity;
+    buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(ID_LABEL, buf);
@@ -1760,7 +1760,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     create_active_iconlabel(buf, pwindow->dst, pstr,
                             _("Hurry production"), hurry_production_callback);
 
-    buf->data.city = pCity;
+    buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(ID_LABEL, buf);
@@ -1772,7 +1772,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     create_active_iconlabel(buf, pwindow->dst, pstr,
                             _("Change City Governor settings"), cma_callback);
 
-    buf->data.city = pCity;
+    buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(ID_LABEL, buf);
@@ -1829,7 +1829,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
     /* FIXME: This logic seems to try to mirror do_paradrop() why? */
     if (can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile)
-        && !(((pCity && pplayers_non_attack(client.conn.playing, city_owner(pCity)))
+        && !(((pcity && pplayers_non_attack(client.conn.playing, city_owner(pcity)))
               || is_non_attack_unit_tile(ptile, client.conn.playing)))
         && (unit_type_get(pFocus_Unit)->paratroopers_range >=
             real_map_distance(unit_tile(pFocus_Unit), ptile))) {
@@ -1991,7 +1991,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         const char *vetname;
 
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
-        if ((pCity && city_owner(pCity) == client.conn.playing)
+        if ((pcity && city_owner(pcity) == client.conn.playing)
             || (unit_owner(punit) == client.conn.playing)) {
           fc_snprintf(cBuf, sizeof(cBuf),
                       _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),

@@ -38,10 +38,10 @@
 
 void free_city_units_lists(void);
 void enable_city_dlg_widgets(void);
-void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pdest);
-SDL_Surface * get_scaled_city_map(struct city *pCity);
+void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest);
+SDL_Surface * get_scaled_city_map(struct city *pcity);
 void refresh_city_resource_map(SDL_Surface *pdest, int x, int y,
-                               const struct city *pCity,
+                               const struct city *pcity,
                                bool (*worker_check) (const struct city *,
                                                      int, int));
 struct impr_type *get_building_for_effect(enum effect_type effect_type);

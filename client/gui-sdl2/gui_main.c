@@ -224,12 +224,12 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
             key_end_turn();
           } else {
             struct unit *punit;
-            struct city *pCity;
+            struct city *pcity;
 
             if (NULL != (punit = head_of_units_in_focus())
-                && (pCity = tile_city(unit_tile(punit))) != NULL
-                && city_owner(pCity) == client.conn.playing) {
-              popup_city_dialog(pCity);
+                && (pcity = tile_city(unit_tile(punit))) != NULL
+                && city_owner(pcity) == client.conn.playing) {
+              popup_city_dialog(pcity);
             }
           }
           return ID_ERROR;

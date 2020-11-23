@@ -726,9 +726,9 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
 
     if (n > 0) {
       city_list_ptrs = fc_calloc(1, sizeof(struct city *) * n);
-      city_list_iterate(pplayer0->cities, pCity) {
-        if (!is_capital(pCity)) {
-	  city_list_ptrs[i] = pCity;
+      city_list_iterate(pplayer0->cities, pcity) {
+        if (!is_capital(pcity)) {
+	  city_list_ptrs[i] = pcity;
 	  i++;
         }
       } city_list_iterate_end;

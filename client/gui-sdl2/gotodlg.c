@@ -156,42 +156,42 @@ static void update_goto_dialog(void)
       continue;
     }
 
-    city_list_iterate(pplayer->cities, pCity) {
+    city_list_iterate(pplayer->cities, pcity) {
 
       /* FIXME: should use unit_can_airlift_to(). */
-      if (!GOTO && !pCity->airlift) {
+      if (!GOTO && !pcity->airlift) {
 	continue;
       }
 
-      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name_get(pCity),
-                  city_size_get(pCity));
+      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name_get(pcity),
+                  city_size_get(pcity));
 
       pstr = create_utf8_from_char(cBuf, adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
 
-      if (!player_owns_city(owner, pCity)) {
-        logo = get_nation_flag_surface(nation_of_player(city_owner(pCity)));
+      if (!player_owns_city(owner, pcity)) {
+        logo = get_nation_flag_surface(nation_of_player(city_owner(pcity)));
         logo = crop_visible_part_from_surface(logo);
       }
 
       buf = create_iconlabel(logo, pGotoDlg->end_widget_list->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-      if (!player_owns_city(owner, pCity)) {
+      if (!player_owns_city(owner, pcity)) {
         set_wflag(buf, WF_FREE_THEME);
-        owner = city_owner(pCity);
+        owner = city_owner(pcity);
       }
 
       buf->string_utf8->fgcol =
-	    *(get_player_color(tileset, city_owner(pCity))->color);
+	    *(get_player_color(tileset, city_owner(pcity))->color);
       buf->action = goto_city_callback;
 
-      if (GOTO || pCity->airlift) {
+      if (GOTO || pcity->airlift) {
         set_wstate(buf, FC_WS_NORMAL);
       }
 
-      fc_assert((MAX_ID - pCity->id) > 0);
-      buf->ID = MAX_ID - pCity->id;
+      fc_assert((MAX_ID - pcity->id) > 0);
+      buf->ID = MAX_ID - pcity->id;
 
       widget_add_as_prev(buf, add_dock);
       add_dock = buf;

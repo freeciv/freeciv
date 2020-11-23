@@ -2384,7 +2384,7 @@ void button_down_on_map(struct mouse_button_behavior *button_behavior)
 void button_up_on_map(struct mouse_button_behavior *button_behavior)
 {
   struct tile *ptile;
-  struct city *pCity;
+  struct city *pcity;
 
   if (C_S_RUNNING != client_state()) {
     return;
@@ -2402,13 +2402,13 @@ void button_up_on_map(struct mouse_button_behavior *button_behavior)
             popup_advanced_terrain_dialog(ptile, button_behavior->event->x,
                                           button_behavior->event->y);
           } else {
-            if (((pCity = tile_city(ptile)) != NULL)
-                && (city_owner(pCity) == client.conn.playing)) {
+            if (((pcity = tile_city(ptile)) != NULL)
+                && (city_owner(pcity) == client.conn.playing)) {
               if (LCTRL) {
-                popup_worklist_editor(pCity, NULL);
+                popup_worklist_editor(pcity, NULL);
               } else {
                 /* LALT - this work only with fullscreen mode */
-                popup_hurry_production_dialog(pCity, NULL);
+                popup_hurry_production_dialog(pcity, NULL);
               }
             }
           }

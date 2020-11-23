@@ -53,7 +53,7 @@ struct hmove {
 };
 
 static struct cma_dialog {
-  struct city *pCity;
+  struct city *pcity;
   struct small_dialog *pDlg;
   struct advanced_dialog *pAdv;
   struct cm_parameter edited_cm_parm;
@@ -175,11 +175,11 @@ static int min_horiz_cma_callback(struct widget *pwidget)
     selected_widget = pwidget;
     set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
     /* refreshes the cma */
-    if (cma_is_city_under_agent(pCma->pCity, NULL)) {
-      cma_release_city(pCma->pCity);
-      cma_put_city_under_agent(pCma->pCity, &pCma->edited_cm_parm);
+    if (cma_is_city_under_agent(pCma->pcity, NULL)) {
+      cma_release_city(pCma->pcity);
+      cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
     }
     update_city_cma_dialog();
   }
@@ -214,11 +214,11 @@ static int factor_horiz_cma_callback(struct widget *pwidget)
     selected_widget = pwidget;
     set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
     /* refreshes the cma */
-    if (cma_is_city_under_agent(pCma->pCity, NULL)) {
-      cma_release_city(pCma->pCity);
-      cma_put_city_under_agent(pCma->pCity, &pCma->edited_cm_parm);
+    if (cma_is_city_under_agent(pCma->pcity, NULL)) {
+      cma_release_city(pCma->pcity);
+      cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
     }
     update_city_cma_dialog();
   }
@@ -234,7 +234,7 @@ static int toggle_cma_celebrating_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     pCma->edited_cm_parm.require_happy ^= TRUE;
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
     update_city_cma_dialog();
   }
 
@@ -443,10 +443,10 @@ static int LD_cma_callback(struct widget *pwidget)
       cm_copy_parameter(&pCma->edited_cm_parm, cmafec_preset_get_parameter(index));
       set_cma_hscrollbars();
       /* save the change */
-      cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
+      cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
       /* stop the cma */
-      if (cma_is_city_under_agent(pCma->pCity, NULL)) {
-        cma_release_city(pCma->pCity);
+      if (cma_is_city_under_agent(pCma->pcity, NULL)) {
+        cma_release_city(pCma->pcity);
       }
     } else {
       cmafec_preset_remove(index);
@@ -479,10 +479,10 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
       cm_copy_parameter(&pCma->edited_cm_parm, cmafec_preset_get_parameter(0));
       set_cma_hscrollbars();
       /* save the change */
-      cmafec_set_fe_parameter(pCma->pCity, &pCma->edited_cm_parm);
+      cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
       /* stop the cma */
-      if (cma_is_city_under_agent(pCma->pCity, NULL)) {
-        cma_release_city(pCma->pCity);
+      if (cma_is_city_under_agent(pCma->pcity, NULL)) {
+        cma_release_city(pCma->pcity);
       }
     } else {
       cmafec_preset_remove(0);
@@ -633,7 +633,7 @@ static int del_cma_callback(struct widget *pwidget)
 static int run_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    cma_put_city_under_agent(pCma->pCity, &pCma->edited_cm_parm);
+    cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
     update_city_cma_dialog();
   }
 
@@ -650,9 +650,9 @@ static int run_cma_once_callback(struct widget *pwidget)
 
     update_city_cma_dialog();
     /* fill in result label */
-    result = cm_result_new(pCma->pCity);
-    cm_query_result(pCma->pCity, &pCma->edited_cm_parm, result, FALSE);
-    cma_apply_result(pCma->pCity, result);
+    result = cm_result_new(pCma->pcity);
+    cm_query_result(pCma->pcity, &pCma->edited_cm_parm, result, FALSE);
+    cma_apply_result(pCma->pcity, result);
     cm_result_destroy(result);
   }
 
@@ -665,7 +665,7 @@ static int run_cma_once_callback(struct widget *pwidget)
 static int stop_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    cma_release_city(pCma->pCity);
+    cma_release_city(pCma->pcity);
     update_city_cma_dialog();
   }
 
@@ -734,18 +734,18 @@ void update_city_cma_dialog(void)
   SDL_Rect dst;
   bool cma_presets_exist = cmafec_preset_num() > 0;
   bool client_under_control = can_client_issue_orders();
-  bool controlled = cma_is_city_under_agent(pCma->pCity, NULL);
-  struct cm_result *result = cm_result_new(pCma->pCity);
+  bool controlled = cma_is_city_under_agent(pCma->pcity, NULL);
+  struct cm_result *result = cm_result_new(pCma->pcity);
 
   /* redraw window background and exit button */
   redraw_group(buf->prev, buf, 0);
 
   /* fill in result label */
-  cm_result_from_main_map(result, pCma->pCity);
+  cm_result_from_main_map(result, pCma->pcity);
 
   if (result->found_a_valid) {
     /* redraw Citizens */
-    count = city_size_get(pCma->pCity);
+    count = city_size_get(pCma->pcity);
 
     pText = get_tax_surface(O_LUXURY);
     step = (buf->size.w - adj_size(20)) / pText->w;
@@ -787,7 +787,7 @@ void update_city_cma_dialog(void)
   }
 
   /* create result text surface */
-  pstr = create_utf8_from_char(cmafec_get_result_descr(pCma->pCity, result,
+  pstr = create_utf8_from_char(cmafec_get_result_descr(pCma->pcity, result,
                                                        &pCma->edited_cm_parm),
                                adj_font(12));
 
@@ -878,7 +878,7 @@ void update_city_cma_dialog(void)
 /**********************************************************************//**
   Open cma dialog for city.
 **************************************************************************/
-void popup_city_cma_dialog(struct city *pCity)
+void popup_city_cma_dialog(struct city *pcity)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
 
@@ -895,19 +895,19 @@ void popup_city_cma_dialog(struct city *pCity)
   }
 
   pCma = fc_calloc(1, sizeof(struct cma_dialog));
-  pCma->pCity = pCity;
+  pCma->pcity = pcity;
   pCma->pDlg = fc_calloc(1, sizeof(struct small_dialog));
   pCma->pAdv = NULL;
-  pcity_map = get_scaled_city_map(pCity);
+  pcity_map = get_scaled_city_map(pcity);
 
-  cmafec_get_fe_parameter(pCity, &pCma->edited_cm_parm);
+  cmafec_get_fe_parameter(pcity, &pCma->edited_cm_parm);
 
   /* --------------------------- */
 
   fc_snprintf(cBuf, sizeof(cBuf),
               _("City of %s (Population %s citizens) : %s"),
-              city_name_get(pCity),
-              population_to_text(city_population(pCity)),
+              city_name_get(pcity),
+              population_to_text(city_population(pcity)),
               _("Citizen Governor"));
 
   pstr = create_utf8_from_char(cBuf, adj_font(12));
@@ -1263,7 +1263,7 @@ void popup_city_cma_dialog(struct city *pCity)
 
   /* ------------------------ */
   /* check if Citizen Icons style was loaded */
-  cs = style_of_city(pCma->pCity);
+  cs = style_of_city(pCma->pcity);
 
   if (cs != pIcons->style) {
     reload_citizens_icons(cs);
@@ -1288,10 +1288,10 @@ void popdown_city_cma_dialog(void)
       FC_FREE(pCma->pAdv->scroll);
       FC_FREE(pCma->pAdv);
     }
-    if (city_dialog_is_open(pCma->pCity)) {
+    if (city_dialog_is_open(pCma->pcity)) {
       /* enable city dlg */
       enable_city_dlg_widgets();
-      refresh_city_dialog(pCma->pCity);
+      refresh_city_dialog(pCma->pcity);
     }
 
     city_report_dialog_update();
