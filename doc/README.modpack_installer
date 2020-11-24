@@ -79,7 +79,7 @@ Conversely, if you delete downloaded modpacks by hand, the standard
 rulesets, tilesets etc supplied with Freeciv won't be touched.
 
 The precise location where files are downloaded to depends on your build
-and platform. For Unix systems is is likely to be under the hidden
+and platform. For Unix systems it is likely to be under the hidden
 '.freeciv' directory in your home directory. It is likely to be near
 where the Freeciv client stores its saved games.
 
