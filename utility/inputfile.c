@@ -261,7 +261,7 @@ struct inputfile *inf_from_stream(fz_FILE *stream, datafilename_fn_t datafn)
 ***********************************************************************/
 static void inf_close_partial(struct inputfile *inf)
 {
-  fc_assert_ret(inf_sanity_check(inf));
+  inf_sanity_check(inf);
 
   log_debug("inputfile: sub-closing \"%s\"", inf_filename(inf));
 
@@ -297,7 +297,7 @@ static void inf_close_partial(struct inputfile *inf)
 ***********************************************************************/
 void inf_close(struct inputfile *inf)
 {
-  fc_assert_ret(inf_sanity_check(inf));
+  inf_sanity_check(inf);
 
   log_debug("inputfile: closing \"%s\"", inf_filename(inf));
   if (inf->included_from) {
@@ -313,7 +313,9 @@ void inf_close(struct inputfile *inf)
 ***********************************************************************/
 static bool have_line(struct inputfile *inf)
 {
-  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
+  if (!inf_sanity_check(inf)) {
+    return FALSE;
+  }
 
   return !astr_empty(&inf->cur_line);
 }
@@ -323,7 +325,10 @@ static bool have_line(struct inputfile *inf)
 ***********************************************************************/
 static bool at_eol(struct inputfile *inf)
 {
-  fc_assert_ret_val(inf_sanity_check(inf), TRUE);
+  if (!inf_sanity_check(inf)) {
+    return TRUE;
+  }
+
   fc_assert_ret_val(inf->cur_line_pos <= astr_len(&inf->cur_line), TRUE);
 
   return (inf->cur_line_pos >= astr_len(&inf->cur_line));
@@ -334,7 +339,10 @@ static bool at_eol(struct inputfile *inf)
 ***********************************************************************/
 bool inf_at_eof(struct inputfile *inf)
 {
-  fc_assert_ret_val(inf_sanity_check(inf), TRUE);
+  if (!inf_sanity_check(inf)) {
+    return TRUE;
+  }
+
   return inf->at_eof;
 }
 
@@ -355,17 +363,23 @@ static bool check_include(struct inputfile *inf)
   const char *c, *bare_name_start, *full_name;
   struct inputfile *new_inf, temp;
 
-  if (len==0) {
+  if (len == 0) {
     len = strlen(include_prefix);
   }
-  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
+
+  if (!inf_sanity_check(inf)) {
+    return FALSE;
+  }
+
   if (inf->in_string || astr_len(&inf->cur_line) <= len
       || inf->cur_line_pos > 0) {
     return FALSE;
   }
+
   if (strncmp(astr_str(&inf->cur_line), include_prefix, len) != 0) {
     return FALSE;
   }
+
   /* from here, the include-line must be well formed */
   /* keep inf->cur_line_pos accurate just so error messages are useful */
 
@@ -454,7 +468,9 @@ static bool read_a_line(struct inputfile *inf)
   char *ret;
   int pos;
 
-  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
+  if (!inf_sanity_check(inf)) {
+    return FALSE;
+  }
 
   if (inf->at_eof) {
     return FALSE;
@@ -547,8 +563,6 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
   va_list args;
   static char str[512];
 
-  fc_assert_ret_val(inf_sanity_check(inf), NULL);
-
   if (message) {
     va_start(args, message);
     fc_vsnprintf(str, sizeof(str), message, args);
@@ -558,22 +572,24 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
     str[0] = '\0';
   }
 
-  cat_snprintf(str, sizeof(str), "  file \"%s\", line %d, pos %d%s",
-               inf_filename(inf), inf->line_num, inf->cur_line_pos,
-               (inf->at_eof ? ", EOF" : ""));
+  if (inf_sanity_check(inf)) {
+    cat_snprintf(str, sizeof(str), "  file \"%s\", line %d, pos %d%s",
+                 inf_filename(inf), inf->line_num, inf->cur_line_pos,
+                 (inf->at_eof ? ", EOF" : ""));
 
-  if (!astr_empty(&inf->cur_line)) {
-    cat_snprintf(str, sizeof(str), "\n  looking at: '%s'",
-                 astr_str(&inf->cur_line) + inf->cur_line_pos);
-  }
-  if (inf->in_string) {
-    cat_snprintf(str, sizeof(str),
-                 "\n  processing string starting at line %d",
-                 inf->string_start_line);
-  }
-  while ((inf = inf->included_from)) {  /* local pointer assignment */
-    cat_snprintf(str, sizeof(str), "\n  included from file \"%s\", line %d",
-                 inf_filename(inf), inf->line_num);
+    if (!astr_empty(&inf->cur_line)) {
+      cat_snprintf(str, sizeof(str), "\n  looking at: '%s'",
+                   astr_str(&inf->cur_line) + inf->cur_line_pos);
+    }
+    if (inf->in_string) {
+      cat_snprintf(str, sizeof(str),
+                   "\n  processing string starting at line %d",
+                   inf->string_start_line);
+    }
+    while ((inf = inf->included_from)) {  /* local pointer assignment */
+      cat_snprintf(str, sizeof(str), "\n  included from file \"%s\", line %d",
+                   inf_filename(inf), inf->line_num);
+    }
   }
 
   return str;
@@ -588,7 +604,10 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
   const char *name;
   get_token_fn_t func;
 
-  fc_assert_ret_val(inf_sanity_check(inf), NULL);
+  if (!inf_sanity_check(inf)) {
+    return NULL;
+  }
+
   fc_assert_ret_val(INF_TOK_FIRST <= type && INF_TOK_LAST > type, NULL);
 
   name = tok_tab[type].name ? tok_tab[type].name : "(unnamed)";
@@ -620,9 +639,11 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
 int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
 {
   int count = 0;
-  
-  while(inf_token(inf, type))
+
+  while(inf_token(inf, type)) {
     count++;
+  }
+
   return count;
 }
 
