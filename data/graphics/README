@@ -11,5 +11,5 @@ graphics, but they are not required to build Freeciv from source, and
 there is no automated process by which the distributed graphics can be
 rebuilt from these files; they are provided for reference.
 
-They are are not included in the main source distribution due to their
+They are not included in the main source distribution due to their
 size.
