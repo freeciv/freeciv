@@ -350,7 +350,7 @@ void popup_impr_info(Impr_type_id impr)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w : 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->up_left_button->size.w : 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct units_buttons *)pwindow->data.ptr;
     dock = store->dock;
@@ -766,7 +766,7 @@ void popup_unit_info(Unit_type_id type_id)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w : 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->up_left_button->size.w : 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct units_buttons *)pwindow->data.ptr;
     dock = store->dock;
@@ -2003,7 +2003,7 @@ void popup_tech_info(Tech_type_id tech)
     store->dock = dock;
   } else {
     created = FALSE;
-    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->pUp_Left_Button->size.w: 0);
+    scrollbar_width = (help_dlg->scroll ? help_dlg->scroll->up_left_button->size.w: 0);
     pwindow = help_dlg->end_widget_list;
     store = (struct techs_buttons *)pwindow->data.ptr;
     dock = store->dock;

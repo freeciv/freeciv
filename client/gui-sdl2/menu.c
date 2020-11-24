@@ -60,23 +60,23 @@
 
 #include "menu.h"
 
-extern struct widget *pOptions_Button;
+extern struct widget *options_button;
 
 static struct widget *pBeginOrderWidgetList;
 static struct widget *pEndOrderWidgetList;
 
-static struct widget *pOrder_Fallout_Button;
-static struct widget *pOrder_Pollution_Button;
-static struct widget *pOrder_Airbase_Button;
-static struct widget *pOrder_Fortress_Button;
-static struct widget *pOrder_Build_AddTo_City_Button;
-static struct widget *pOrder_Mine_Button;
-static struct widget *pOrder_Irrigation_Button;
-static struct widget *pOrder_Cultivate_Button;
-static struct widget *pOrder_Plant_Button;
-static struct widget *pOrder_Road_Button;
-static struct widget *pOrder_Transform_Button;
-static struct widget *pOrder_Trade_Button;
+static struct widget *order_fallout_button;
+static struct widget *order_pollution_button;
+static struct widget *order_airbase_button;
+static struct widget *order_fortress_button;
+static struct widget *order_build_add_to_city_button;
+static struct widget *order_mine_button;
+static struct widget *order_irrigation_button;
+static struct widget *order_cultivate_button;
+static struct widget *order_plant_button;
+static struct widget *order_road_button;
+static struct widget *order_transform_button;
+static struct widget *order_trade_button;
 
 #define local_show(ID)                                                \
   clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
@@ -740,7 +740,7 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   buf->key = SDLK_n;
-  pOrder_Fallout_Button = buf;
+  order_fallout_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_FALLOUT, buf);
   /* --------- */
 
@@ -767,7 +767,7 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   buf->key = SDLK_p;
-  pOrder_Pollution_Button = buf;
+  order_pollution_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_POLLUTION, buf);
   /* --------- */
 
@@ -782,7 +782,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   buf->key = SDLK_e;
   buf->mod = KMOD_SHIFT;
-  pOrder_Airbase_Button = buf;
+  order_airbase_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_AIRBASE, buf);
   /* --------- */
 
@@ -809,7 +809,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   buf->key = SDLK_f;
   buf->mod = KMOD_SHIFT;
-  pOrder_Fortress_Button = buf;
+  order_fortress_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_FORTRESS, buf);
   /* --------- */
 
@@ -823,7 +823,7 @@ void create_units_order_widgets(void)
   buf->action = unit_order_callback;
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   buf->key = SDLK_o;
-  pOrder_Transform_Button = buf;
+  order_transform_button = buf;
   add_to_gui_list(ID_UNIT_ORDER_TRANSFORM, buf);
   /* --------- */
 
@@ -839,7 +839,7 @@ void create_units_order_widgets(void)
   buf->key = SDLK_m;
   add_to_gui_list(ID_UNIT_ORDER_MINE, buf);
 
-  pOrder_Mine_Button = buf;
+  order_mine_button = buf;
   /* --------- */
 
   /* Build Irrigation */
@@ -854,7 +854,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, buf);
 
-  pOrder_Irrigation_Button = buf;
+  order_irrigation_button = buf;
   /* --------- */
 
   /* Cultivate */
@@ -870,7 +870,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   add_to_gui_list(ID_UNIT_ORDER_CULTIVATE, buf);
 
-  pOrder_Cultivate_Button = buf;
+  order_cultivate_button = buf;
   /* --------- */
 
   /* Plant */
@@ -886,7 +886,7 @@ void create_units_order_widgets(void)
   buf->info_label = create_utf8_from_char(cBuf, adj_font(10));
   add_to_gui_list(ID_UNIT_ORDER_PLANT, buf);
 
-  pOrder_Plant_Button = buf;
+  order_plant_button = buf;
   /* --------- */
 
   /* Establish Trade route */
@@ -901,7 +901,7 @@ void create_units_order_widgets(void)
   buf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_TRADE_ROUTE, buf);
 
-  pOrder_Trade_Button = buf;
+  order_trade_button = buf;
   /* --------- */
 
   /* Build (Rail-)Road */
@@ -916,7 +916,7 @@ void create_units_order_widgets(void)
   buf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_ROAD, buf);
 
-  pOrder_Road_Button = buf;
+  order_road_button = buf;
   /* --------- */
 
   /* Help Build Wonder */
@@ -944,7 +944,7 @@ void create_units_order_widgets(void)
   buf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, buf);
 
-  pOrder_Build_AddTo_City_Button = buf;
+  order_build_add_to_city_button = buf;
   /* --------- */
 
   pBeginOrderWidgetList = buf;
@@ -1044,7 +1044,7 @@ void real_menus_update(void)
     sdl2_client_flags |= CF_GAME_JUST_STARTED;
 
     if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
-      set_wflag(pOptions_Button, WF_HIDDEN);
+      set_wflag(options_button, WF_HIDDEN);
       hide_minimap_window_buttons();
       hide_unitinfo_window_buttons();
     }
@@ -1057,9 +1057,9 @@ void real_menus_update(void)
     /* Running state */
     if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
       /* show options button */
-      clear_wflag(pOptions_Button, WF_HIDDEN);
-      widget_redraw(pOptions_Button);
-      widget_mark_dirty(pOptions_Button);
+      clear_wflag(options_button, WF_HIDDEN);
+      widget_redraw(options_button);
+      widget_mark_dirty(options_button);
     }
 
     if (NULL == client.conn.playing) {
@@ -1128,11 +1128,11 @@ void real_menus_update(void)
           fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)",
                       action_id_name_translation(ACTION_FOUND_CITY), "B");
 	}
-        copy_chars_to_utf8_str(pOrder_Build_AddTo_City_Button->info_label,
+        copy_chars_to_utf8_str(order_build_add_to_city_button->info_label,
                                cBuf);
-	clear_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
+	clear_wflag(order_build_add_to_city_button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
+	set_wflag(order_build_add_to_city_button, WF_HIDDEN);
       }
 
       if (unit_can_help_build_wonder_here(punit)) {
@@ -1156,14 +1156,14 @@ void real_menus_update(void)
                     PL_("turn", "turns", time));
 
 	if (compat == ROCO_RAILROAD) {
-	  pOrder_Road_Button->theme = current_theme->ORailRoad_Icon;
+	  order_road_button->theme = current_theme->ORailRoad_Icon;
 	} else {
-	  pOrder_Road_Button->theme = current_theme->ORoad_Icon;
+	  order_road_button->theme = current_theme->ORoad_Icon;
 	}
-        copy_chars_to_utf8_str(pOrder_Road_Button->info_label, cBuf);
-	clear_wflag(pOrder_Road_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_road_button->info_label, cBuf);
+	clear_wflag(order_road_button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Road_Button, WF_HIDDEN);
+	set_wflag(order_road_button, WF_HIDDEN);
       }
 
       /* unit_can_est_trade_route_here(punit) */
@@ -1190,10 +1190,10 @@ void real_menus_update(void)
                       city_name_get(homecity),
                       revenue);
         }
-        copy_chars_to_utf8_str(pOrder_Trade_Button->info_label, cBuf);
-        clear_wflag(pOrder_Trade_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_trade_button->info_label, cBuf);
+        clear_wflag(order_trade_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Trade_Button, WF_HIDDEN);
+        set_wflag(order_trade_button, WF_HIDDEN);
       }
 
       pextra = next_extra_for_tile(ptile, EC_IRRIGATION,
@@ -1206,12 +1206,12 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra), "I", time,
                     PL_("turn", "turns", time));
-        pOrder_Irrigation_Button->theme = current_theme->OIrrigation_Icon;
+        order_irrigation_button->theme = current_theme->OIrrigation_Icon;
 
-        copy_chars_to_utf8_str(pOrder_Irrigation_Button->info_label, cBuf);
-        clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_irrigation_button->info_label, cBuf);
+        clear_wflag(order_irrigation_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
+        set_wflag(order_irrigation_button, WF_HIDDEN);
       }
 
       pextra = next_extra_for_tile(ptile, EC_MINE,
@@ -1223,12 +1223,12 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra), "M", time,
                     PL_("turn", "turns", time));
-        pOrder_Mine_Button->theme = current_theme->OMine_Icon;
+        order_mine_button->theme = current_theme->OMine_Icon;
 
-        copy_chars_to_utf8_str(pOrder_Mine_Button->info_label, cBuf);
-        clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_mine_button->info_label, cBuf);
+        clear_wflag(order_mine_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Mine_Button, WF_HIDDEN);
+        set_wflag(order_mine_button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_CULTIVATE)) {
@@ -1238,10 +1238,10 @@ void real_menus_update(void)
                     _("Cultivate to"),
                     terrain_name_translation(pterrain->cultivate_result),
                     "Shift+I", time, PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Cultivate_Button->info_label, cBuf);
-        clear_wflag(pOrder_Cultivate_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_cultivate_button->info_label, cBuf);
+        clear_wflag(order_cultivate_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Cultivate_Button, WF_HIDDEN);
+        set_wflag(order_cultivate_button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_PLANT)) {
@@ -1251,10 +1251,10 @@ void real_menus_update(void)
                     _("Plant to"),
                     terrain_name_translation(pterrain->plant_result),
                     "Shift+M", time, PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Plant_Button->info_label, cBuf);
-        clear_wflag(pOrder_Plant_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_plant_button->info_label, cBuf);
+        clear_wflag(order_plant_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Plant_Button, WF_HIDDEN);
+        set_wflag(order_plant_button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_TRANSFORM)) {
@@ -1264,10 +1264,10 @@ void real_menus_update(void)
                     _("Transform to"),
                     terrain_name_translation(pterrain->transform_result),
                     "O", time, PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Transform_Button->info_label, cBuf);
-        clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_transform_button->info_label, cBuf);
+        clear_wflag(order_transform_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Transform_Button, WF_HIDDEN);
+        set_wflag(order_transform_button, WF_HIDDEN);
       }
 
       pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, ptile);
@@ -1279,10 +1279,10 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+F", time,
                     PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Fortress_Button->info_label, cBuf);
-        clear_wflag(pOrder_Fortress_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_fortress_button->info_label, cBuf);
+        clear_wflag(order_fortress_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Fortress_Button, WF_HIDDEN);
+        set_wflag(order_fortress_button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
@@ -1300,10 +1300,10 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(base_extra), "Shift+E", time,
                     PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Airbase_Button->info_label, cBuf);
-        clear_wflag(pOrder_Airbase_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_airbase_button->info_label, cBuf);
+        clear_wflag(order_airbase_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Airbase_Button, WF_HIDDEN);
+        set_wflag(order_airbase_button, WF_HIDDEN);
       }
 
       pextra = prev_extra_in_tile(ptile, ERM_CLEANPOLLUTION,
@@ -1316,10 +1316,10 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
                     extra_name_translation(pextra), "P", time,
                     PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Pollution_Button->info_label, cBuf);
-        clear_wflag(pOrder_Pollution_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_pollution_button->info_label, cBuf);
+        clear_wflag(order_pollution_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Pollution_Button, WF_HIDDEN);
+        set_wflag(order_pollution_button, WF_HIDDEN);
       }
 
       if (can_unit_paradrop(punit)) {
@@ -1338,10 +1338,10 @@ void real_menus_update(void)
         fc_snprintf(cBuf, sizeof(cBuf), _("Clean %s (%s) %d %s"),
                     extra_name_translation(pextra), "N", time,
                     PL_("turn", "turns", time));
-        copy_chars_to_utf8_str(pOrder_Fallout_Button->info_label, cBuf);
-        clear_wflag(pOrder_Fallout_Button, WF_HIDDEN);
+        copy_chars_to_utf8_str(order_fallout_button->info_label, cBuf);
+        clear_wflag(order_fallout_button, WF_HIDDEN);
       } else {
-        set_wflag(pOrder_Fallout_Button, WF_HIDDEN);
+        set_wflag(order_fallout_button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(punit, ACTIVITY_SENTRY)) {

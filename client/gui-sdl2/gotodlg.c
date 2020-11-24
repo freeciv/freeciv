@@ -215,7 +215,7 @@ static void update_goto_dialog(void)
     if (n > pGotoDlg->scroll->active) {
       show_scrollbar(pGotoDlg->scroll);
       pGotoDlg->scroll->pscroll_bar->size.y = pGotoDlg->end_widget_list->area.y +
-        pGotoDlg->scroll->pUp_Left_Button->size.h;
+        pGotoDlg->scroll->up_left_button->size.h;
       pGotoDlg->scroll->pscroll_bar->size.h = scrollbar_size(pGotoDlg->scroll);
     } else {
       hide_scrollbar(pGotoDlg->scroll);
@@ -224,7 +224,7 @@ static void update_goto_dialog(void)
     setup_vertical_widgets_position(1,
                                     pGotoDlg->end_widget_list->area.x,
                                     pGotoDlg->end_widget_list->area.y,
-                                    pGotoDlg->scroll->pUp_Left_Button->size.x -
+                                    pGotoDlg->scroll->up_left_button->size.x -
                                     pGotoDlg->end_widget_list->area.x - adj_size(2),
                                     0, pGotoDlg->begin_active_widget_list,
                                     pGotoDlg->end_active_widget_list);

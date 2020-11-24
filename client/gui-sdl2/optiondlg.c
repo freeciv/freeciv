@@ -100,7 +100,7 @@ struct option_dialog {
 
 
 static struct option_dialog *option_dialog = NULL;
-struct widget *pOptions_Button = NULL;
+struct widget *options_button = NULL;
 static bool restore_meswin_dialog = FALSE;
 
 
@@ -247,8 +247,8 @@ static int back_callback(struct widget *pwidget)
       /* Back to game. */
       popdown_optiondlg(FALSE);
       enable_options_button();
-      widget_redraw(pOptions_Button);
-      widget_mark_dirty(pOptions_Button);
+      widget_redraw(options_button);
+      widget_mark_dirty(options_button);
       flush_dirty();
     } else {
       /* Back to main page. */
@@ -1103,7 +1103,7 @@ static int edit_worklist_callback(struct widget *widget)
 
         /* Find if there was scrollbar hide. */
         if (scroll && advanced->active_widget_list == NULL) {
-          int len = advanced->scroll->pUp_Left_Button->size.w;
+          int len = advanced->scroll->up_left_button->size.w;
 
           widget = advanced->end_active_widget_list->next;
           do {
@@ -1164,7 +1164,7 @@ static int add_new_worklist_callback(struct widget *widget)
 
     /* Find if there was scrollbar shown. */
     if (scroll && advanced->active_widget_list != NULL) {
-      int len = advanced->scroll->pUp_Left_Button->size.w;
+      int len = advanced->scroll->up_left_button->size.w;
 
       window = advanced->end_active_widget_list->next;
       do {
@@ -1348,7 +1348,7 @@ int optiondlg_callback(struct widget *pbutton)
 ****************************************************************************/
 void enable_options_button(void)
 {
-  set_wstate(pOptions_Button, FC_WS_NORMAL);
+  set_wstate(options_button, FC_WS_NORMAL);
 }
 
 /************************************************************************//**
@@ -1356,7 +1356,7 @@ void enable_options_button(void)
 ****************************************************************************/
 void disable_options_button(void)
 {
-  set_wstate(pOptions_Button, FC_WS_DISABLED);
+  set_wstate(options_button, FC_WS_DISABLED);
 }
 
 /************************************************************************//**
@@ -1366,18 +1366,18 @@ void init_options_button(void)
 {
   char buf[256];
 
-  pOptions_Button = create_themeicon(current_theme->Options_Icon, main_data.gui,
+  options_button = create_themeicon(current_theme->Options_Icon, main_data.gui,
                                      WF_WIDGET_HAS_INFO_LABEL
                                      | WF_RESTORE_BACKGROUND);
-  pOptions_Button->action = optiondlg_callback;
+  options_button->action = optiondlg_callback;
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  pOptions_Button->info_label = create_utf8_from_char(buf, adj_font(12));
-  pOptions_Button->key = SDLK_ESCAPE;
-  set_wflag(pOptions_Button, WF_HIDDEN);
-  widget_set_position(pOptions_Button, adj_size(5), adj_size(5));
+  options_button->info_label = create_utf8_from_char(buf, adj_font(12));
+  options_button->key = SDLK_ESCAPE;
+  set_wflag(options_button, WF_HIDDEN);
+  widget_set_position(options_button, adj_size(5), adj_size(5));
 
 #ifndef SMALL_SCREEN
-  add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
+  add_to_gui_list(ID_CLIENT_OPTIONS, options_button);
 #endif
 
   enable_options_button();

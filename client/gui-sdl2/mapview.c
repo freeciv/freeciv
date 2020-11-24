@@ -892,18 +892,18 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	 }
 
           /* create up button */
-          buf = pDlg->scroll->pUp_Left_Button;
+          buf = pDlg->scroll->up_left_button;
           buf->size.x = info_window->area.x + info_window->area.w - buf->size.w;
           buf->size.y = info_window->area.y + sy +
             (info_window->size.h - sy - num_h * 52) / 2;
           buf->size.h = (num_h * 52) / 2;
 
           /* create down button */
-          buf = pDlg->scroll->pDown_Right_Button;
-          buf->size.x = pDlg->scroll->pUp_Left_Button->size.x;
-          buf->size.y = pDlg->scroll->pUp_Left_Button->size.y +
-            pDlg->scroll->pUp_Left_Button->size.h;
-          buf->size.h = pDlg->scroll->pUp_Left_Button->size.h;
+          buf = pDlg->scroll->down_right_button;
+          buf->size.x = pDlg->scroll->up_left_button->size.x;
+          buf->size.y = pDlg->scroll->up_left_button->size.y +
+            pDlg->scroll->up_left_button->size.h;
+          buf->size.h = pDlg->scroll->up_left_button->size.h;
         } else {
           if (pDlg->scroll) {
             hide_scrollbar(pDlg->scroll);

@@ -1069,7 +1069,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
   struct widget *pbuf, *pwindow = pdialog->pdialog->end_widget_list;
   char cBuf[128];
   bool redraw_all, scroll = (pdialog->pdialog->active_widget_list != NULL);
-  int len = pdialog->pdialog->scroll->pUp_Left_Button->size.w;
+  int len = pdialog->pdialog->scroll->up_left_button->size.w;
 
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
     client_diplomacy_clause_string(cBuf, sizeof(cBuf), pclause);
@@ -1096,7 +1096,7 @@ static void update_clauses_list(struct diplomacy_dialog *pdialog)
                   pbuf, pdialog->pdialog->begin_widget_list,
                   FALSE,
                   pwindow->size.x + adj_size(12),
-                  pdialog->pdialog->scroll->pUp_Left_Button->size.y + adj_size(2));
+                  pdialog->pdialog->scroll->up_left_button->size.y + adj_size(2));
 
     if (!scroll && (pdialog->pdialog->active_widget_list != NULL)) {
       /* -> the scrollbar has been activated */
@@ -1155,7 +1155,7 @@ static void remove_clause_widget_from_list(int counterpart, int giver,
 
   if (scroll && (pdialog->pdialog->active_widget_list == NULL)) {
     /* -> the scrollbar has been deactivated */
-    int len = pdialog->pdialog->scroll->pUp_Left_Button->size.w;
+    int len = pdialog->pdialog->scroll->up_left_button->size.w;
 
     buf = pdialog->pdialog->end_active_widget_list->next;
     do {

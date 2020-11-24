@@ -136,7 +136,7 @@ void real_meswin_dialog_update(void *unused)
 
   area = pwindow->area;
 
-  label_width = area.w - pMsg_Dlg->scroll->pUp_Left_Button->size.w - adj_size(3);
+  label_width = area.w - pMsg_Dlg->scroll->up_left_button->size.w - adj_size(3);
 
   if (msg_count > 0) {
     for (; current_count < msg_count; current_count++) {

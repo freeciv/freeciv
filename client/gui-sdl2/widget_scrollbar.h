@@ -18,9 +18,9 @@
 #include "widget.h"
 
 struct scroll_bar {
-  struct widget *pUp_Left_Button;
+  struct widget *up_left_button;
   struct widget *pscroll_bar;
-  struct widget *pDown_Right_Button;
+  struct widget *down_right_button;
   Uint8 active;		/* used by scroll: numbers of displayed rows */
   Uint8 step;		/* used by scroll: numbers of displayed columns */
   /* total dispalyed widget = active * step */
@@ -35,16 +35,16 @@ struct scroll_bar {
 
 #define hide_scrollbar(scrollbar)				\
 do {								\
-  if (scrollbar->pUp_Left_Button) {				\
-    if (!(get_wflags(scrollbar->pUp_Left_Button) & WF_HIDDEN)) {\
-      widget_undraw(scrollbar->pUp_Left_Button);                \
-      widget_mark_dirty(scrollbar->pUp_Left_Button);            \
-      set_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
+  if (scrollbar->up_left_button) {				\
+    if (!(get_wflags(scrollbar->up_left_button) & WF_HIDDEN)) {\
+      widget_undraw(scrollbar->up_left_button);                \
+      widget_mark_dirty(scrollbar->up_left_button);            \
+      set_wflag(scrollbar->up_left_button, WF_HIDDEN);		\
     }                                                           \
-    if (!(get_wflags(scrollbar->pDown_Right_Button) & WF_HIDDEN)) {\
-      widget_undraw(scrollbar->pDown_Right_Button);             \
-      widget_mark_dirty(scrollbar->pDown_Right_Button);         \
-      set_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+    if (!(get_wflags(scrollbar->down_right_button) & WF_HIDDEN)) {\
+      widget_undraw(scrollbar->down_right_button);             \
+      widget_mark_dirty(scrollbar->down_right_button);         \
+      set_wflag(scrollbar->down_right_button, WF_HIDDEN);	\
     }                                                           \
   }								\
   if (scrollbar->pscroll_bar) {					\
@@ -58,9 +58,9 @@ do {								\
 
 #define show_scrollbar(scrollbar)				\
 do {								\
-  if (scrollbar->pUp_Left_Button) {				\
-    clear_wflag(scrollbar->pUp_Left_Button, WF_HIDDEN);		\
-    clear_wflag(scrollbar->pDown_Right_Button, WF_HIDDEN);	\
+  if (scrollbar->up_left_button) {				\
+    clear_wflag(scrollbar->up_left_button, WF_HIDDEN);		\
+    clear_wflag(scrollbar->down_right_button, WF_HIDDEN);	\
   }								\
   if (scrollbar->pscroll_bar) {					\
     clear_wflag(scrollbar->pscroll_bar, WF_HIDDEN);		\

@@ -94,7 +94,7 @@ static struct city_dialog {
 
   /* shortcuts */
   struct widget *pAdd_Point;
-  struct widget *pBuy_Button;
+  struct widget *buy_button;
   struct widget *pResource_Map;
   struct widget *pcity_name_edit;
 
@@ -1076,9 +1076,9 @@ static int ok_buy_prod_city_dlg_callback(struct widget *button)
       enable_city_dlg_widgets();
 
       /* disable buy button */
-      set_wstate(pcity_dlg->pBuy_Button, FC_WS_DISABLED);
-      widget_redraw(pcity_dlg->pBuy_Button);
-      widget_mark_dirty(pcity_dlg->pBuy_Button);
+      set_wstate(pcity_dlg->buy_button, FC_WS_DISABLED);
+      widget_redraw(pcity_dlg->buy_button);
+      widget_mark_dirty(pcity_dlg->buy_button);
       flush_dirty();
     }
   }
@@ -1237,8 +1237,8 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   buf = pwindow->prev;
 
   if (city_dialog_is_open(pcity)) {
-    window_x = pcity_dlg->pBuy_Button->size.x;
-    window_y = pcity_dlg->pBuy_Button->size.y - pwindow->size.h;
+    window_x = pcity_dlg->buy_button->size.x;
+    window_y = pcity_dlg->buy_button->size.y - pwindow->size.h;
   } else {
     if (is_city_report_open()) {
       fc_assert(selected_widget != NULL);
@@ -1320,7 +1320,7 @@ static int change_prod_dlg_callback(struct widget *button)
 /**********************************************************************//**
   Popdown Sell Imprv. Dlg. and exit without sell.
 **************************************************************************/
-static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
+static int sell_imprvm_dlg_cancel_callback(struct widget *cancel_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
@@ -1336,10 +1336,10 @@ static int sell_imprvm_dlg_cancel_callback(struct widget *pCancel_Button)
 /**********************************************************************//**
   Popdown Sell Imprv. Dlg. and exit with sell.
 **************************************************************************/
-static int sell_imprvm_dlg_ok_callback(struct widget *pOK_Button)
+static int sell_imprvm_dlg_ok_callback(struct widget *ok_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct widget *pTmp = (struct widget *)pOK_Button->data.ptr;
+    struct widget *pTmp = (struct widget *)ok_button->data.ptr;
 
     city_sell_improvement(pcity_dlg->pcity, MAX_ID - 3000 - pTmp->ID);
 
@@ -1375,8 +1375,8 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     utf8_str *pstr = NULL;
     struct widget *pLabel = NULL;
     struct widget *pwindow = NULL;
-    struct widget *pCancel_Button = NULL;
-    struct widget *pOK_Button = NULL;
+    struct widget *cancel_button = NULL;
+    struct widget *ok_button = NULL;
     char cBuf[80];
     int id;
     SDL_Rect area;
@@ -1410,36 +1410,36 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     add_to_gui_list(ID_LABEL, pLabel);
 
     /* create cancel button */
-    pCancel_Button =
+    cancel_button =
       create_themeicon_button_from_chars(current_theme->Small_CANCEL_Icon,
                                          pwindow->dst, _("Cancel"), adj_font(10), 0);
-    pCancel_Button->action = sell_imprvm_dlg_cancel_callback;
-    pCancel_Button->key = SDLK_ESCAPE;
-    set_wstate(pCancel_Button, FC_WS_NORMAL);
-    add_to_gui_list(ID_BUTTON, pCancel_Button);
+    cancel_button->action = sell_imprvm_dlg_cancel_callback;
+    cancel_button->key = SDLK_ESCAPE;
+    set_wstate(cancel_button, FC_WS_NORMAL);
+    add_to_gui_list(ID_BUTTON, cancel_button);
 
     /* create ok button */
-    pOK_Button = create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
+    ok_button = create_themeicon_button_from_chars(current_theme->Small_OK_Icon,
                                                     pwindow->dst, _("Sell"),
                                                     adj_font(10), 0);
-    pOK_Button->data.ptr = (void *)pImpr;
-    pOK_Button->size.w = pCancel_Button->size.w;
-    pOK_Button->action = sell_imprvm_dlg_ok_callback;
-    pOK_Button->key = SDLK_RETURN;
-    set_wstate(pOK_Button, FC_WS_NORMAL);
-    add_to_gui_list(ID_BUTTON, pOK_Button);
+    ok_button->data.ptr = (void *)pImpr;
+    ok_button->size.w = cancel_button->size.w;
+    ok_button->action = sell_imprvm_dlg_ok_callback;
+    ok_button->key = SDLK_RETURN;
+    set_wstate(ok_button, FC_WS_NORMAL);
+    add_to_gui_list(ID_BUTTON, ok_button);
 
-    pcity_dlg->pBeginCityMenuWidgetList = pOK_Button;
+    pcity_dlg->pBeginCityMenuWidgetList = ok_button;
 
     /* correct sizes */
-    if ((pOK_Button->size.w + pCancel_Button->size.w + adj_size(30)) >
+    if ((ok_button->size.w + cancel_button->size.w + adj_size(30)) >
         pLabel->size.w + adj_size(20)) {
-      area.w = MAX(area.w, pOK_Button->size.w + pCancel_Button->size.w + adj_size(30));
+      area.w = MAX(area.w, ok_button->size.w + cancel_button->size.w + adj_size(30));
     } else {
       area.w = MAX(area.w, pLabel->size.w + adj_size(20));
     }
 
-    area.h = MAX(area.h, pOK_Button->size.h + pLabel->size.h + adj_size(25));
+    area.h = MAX(area.h, ok_button->size.h + pLabel->size.h + adj_size(25));
 
     /* create window background */
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -1453,11 +1453,11 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
                         (main_window_width() - pwindow->size.w) / 2,
                         (main_window_height() - pwindow->size.h) / 2 + adj_size(10));
 
-    pOK_Button->size.x = area.x + adj_size(10);
-    pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
+    ok_button->size.x = area.x + adj_size(10);
+    ok_button->size.y = area.y + area.h - ok_button->size.h - adj_size(10);
 
-    pCancel_Button->size.y = pOK_Button->size.y;
-    pCancel_Button->size.x = area.x + area.w - pCancel_Button->size.w - adj_size(10);
+    cancel_button->size.y = ok_button->size.y;
+    cancel_button->size.x = area.x + area.w - cancel_button->size.w - adj_size(10);
 
     pLabel->size.x = area.x;
     pLabel->size.y = area.y + adj_size(4);
@@ -1486,8 +1486,8 @@ void enable_city_dlg_widgets(void)
     if (pcity_dlg->pImprv->end_active_widget_list) {
       if (pcity_dlg->pImprv->scroll) {
         set_wstate(pcity_dlg->pImprv->scroll->pscroll_bar, FC_WS_NORMAL);	/* vscroll */
-        set_wstate(pcity_dlg->pImprv->scroll->pUp_Left_Button, FC_WS_NORMAL);   /* up */
-        set_wstate(pcity_dlg->pImprv->scroll->pDown_Right_Button, FC_WS_NORMAL); /* down */
+        set_wstate(pcity_dlg->pImprv->scroll->up_left_button, FC_WS_NORMAL);   /* up */
+        set_wstate(pcity_dlg->pImprv->scroll->down_right_button, FC_WS_NORMAL); /* down */
       }
 
       /* There is common function test_player_sell_building_now(),
@@ -1520,8 +1520,8 @@ void enable_city_dlg_widgets(void)
       }
     }
   
-    if (!city_can_buy(pcity_dlg->pcity) && pcity_dlg->pBuy_Button) {
-      set_wstate(pcity_dlg->pBuy_Button, FC_WS_DISABLED);
+    if (!city_can_buy(pcity_dlg->pcity) && pcity_dlg->buy_button) {
+      set_wstate(pcity_dlg->buy_button, FC_WS_DISABLED);
     }
 
     if (pcity_dlg->pPanel) {
@@ -3215,10 +3215,10 @@ static void redraw_city_dialog(struct city *pcity)
 
     if (improvement_has_flag(pimprove, IF_GOLD)) {
 
-      if (pcity_dlg->pBuy_Button
-          && get_wstate(pcity_dlg->pBuy_Button) != FC_WS_DISABLED) {
-        set_wstate(pcity_dlg->pBuy_Button, FC_WS_DISABLED);
-        widget_redraw(pcity_dlg->pBuy_Button);
+      if (pcity_dlg->buy_button
+          && get_wstate(pcity_dlg->buy_button) != FC_WS_DISABLED) {
+        set_wstate(pcity_dlg->buy_button, FC_WS_DISABLED);
+        widget_redraw(pcity_dlg->buy_button);
       }
 
       /* You can't see capitalization progres */
@@ -3226,10 +3226,10 @@ static void redraw_city_dialog(struct city *pcity)
 
     } else {
 
-      if (city_can_buy(pcity) && pcity_dlg->pBuy_Button
-          && (get_wstate(pcity_dlg->pBuy_Button) == FC_WS_DISABLED)) {
-        set_wstate(pcity_dlg->pBuy_Button, FC_WS_NORMAL);
-        widget_redraw(pcity_dlg->pBuy_Button);
+      if (city_can_buy(pcity) && pcity_dlg->buy_button
+          && (get_wstate(pcity_dlg->buy_button) == FC_WS_DISABLED)) {
+        set_wstate(pcity_dlg->buy_button, FC_WS_NORMAL);
+        widget_redraw(pcity_dlg->buy_button);
       }
 
       cost = impr_build_shield_cost(pcity, pimprove);
@@ -3751,7 +3751,7 @@ void real_city_dialog_popup(struct city *pcity)
   buf->action = buy_prod_city_dlg_callback;
   buf->size.x = area.x + adj_size(7) + (buf->size.w + adj_size(2));
   buf->size.y = area.y + area.h - buf->size.h - adj_size(5);
-  pcity_dlg->pBuy_Button = buf;
+  pcity_dlg->buy_button = buf;
   buf->key = SDLK_h;
   if (city_can_buy(pcity)) {
     set_wstate(buf, FC_WS_NORMAL);

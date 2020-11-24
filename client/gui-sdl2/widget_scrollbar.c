@@ -528,7 +528,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *pDlg,
     buf->action = std_up_advanced_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
 
-    pDlg->scroll->pUp_Left_Button = buf;
+    pDlg->scroll->up_left_button = buf;
     widget_add_as_prev(buf, pDlg->begin_widget_list);
     pDlg->begin_widget_list = buf;
 
@@ -543,7 +543,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *pDlg,
     buf->action = std_down_advanced_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
 
-    pDlg->scroll->pDown_Right_Button = buf;
+    pDlg->scroll->down_right_button = buf;
     widget_add_as_prev(buf, pDlg->begin_widget_list);
     pDlg->begin_widget_list = buf;
   }
@@ -581,29 +581,29 @@ void setup_vertical_scrollbar_area(struct scroll_bar *scroll,
 
   fc_assert_ret(scroll != NULL);
 
-  buttons_exist = (scroll->pDown_Right_Button && scroll->pUp_Left_Button);
+  buttons_exist = (scroll->down_right_button && scroll->up_left_button);
 
   if (buttons_exist) {
     /* up */
-    scroll->pUp_Left_Button->size.y = start_y;
+    scroll->up_left_button->size.y = start_y;
     if (swap_start_x) {
-      scroll->pUp_Left_Button->size.x = start_x -
-        scroll->pUp_Left_Button->size.w;
+      scroll->up_left_button->size.x = start_x -
+        scroll->up_left_button->size.w;
     } else {
-      scroll->pUp_Left_Button->size.x = start_x;
+      scroll->up_left_button->size.x = start_x;
     }
-    scroll->min = start_y + scroll->pUp_Left_Button->size.h;
+    scroll->min = start_y + scroll->up_left_button->size.h;
     /* -------------------------- */
     /* down */
-    scroll->pDown_Right_Button->size.y = start_y + height -
-      scroll->pDown_Right_Button->size.h;
+    scroll->down_right_button->size.y = start_y + height -
+      scroll->down_right_button->size.h;
     if (swap_start_x) {
-      scroll->pDown_Right_Button->size.x = start_x -
-        scroll->pDown_Right_Button->size.w;
+      scroll->down_right_button->size.x = start_x -
+        scroll->down_right_button->size.w;
     } else {
-      scroll->pDown_Right_Button->size.x = start_x;
+      scroll->down_right_button->size.x = start_x;
     }
-    scroll->max = scroll->pDown_Right_Button->size.y;
+    scroll->max = scroll->down_right_button->size.y;
   }
   /* --------------- */
   /* scrollbar */
@@ -616,7 +616,7 @@ void setup_vertical_scrollbar_area(struct scroll_bar *scroll,
 
     if (buttons_exist) {
       scroll->pscroll_bar->size.y = start_y +
-        scroll->pUp_Left_Button->size.h;
+        scroll->up_left_button->size.h;
       if (scroll->count > scroll->active * scroll->step) {
         scroll->pscroll_bar->size.h = scrollbar_size(scroll);
       } else {
@@ -1529,11 +1529,11 @@ void setup_vertical_scrollbar_default_callbacks(struct scroll_bar *scroll)
 {
   fc_assert_ret(scroll != NULL);
 
-  if (scroll->pUp_Left_Button) {
-    scroll->pUp_Left_Button->action = std_up_advanced_dlg_callback;
+  if (scroll->up_left_button) {
+    scroll->up_left_button->action = std_up_advanced_dlg_callback;
   }
-  if (scroll->pDown_Right_Button) {
-    scroll->pDown_Right_Button->action = std_down_advanced_dlg_callback;
+  if (scroll->down_right_button) {
+    scroll->down_right_button->action = std_down_advanced_dlg_callback;
   }
   if (scroll->pscroll_bar) {
     scroll->pscroll_bar->action = std_vscroll_advanced_dlg_callback;
@@ -1591,7 +1591,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
     }
 
     pDlg->scroll->min = start_x + buf->size.w;
-    pDlg->scroll->pUp_Left_Button = buf;
+    pDlg->scroll->up_left_button = buf;
     widget_add_as_prev(buf, pDlg->begin_widget_list);
     pDlg->begin_widget_list = buf;
 
@@ -1612,7 +1612,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
     }
 
     pDlg->scroll->max = buf->size.x;
-    pDlg->scroll->pDown_Right_Button = buf;
+    pDlg->scroll->down_right_button = buf;
     widget_add_as_prev(buf, pDlg->begin_widget_list);
     pDlg->begin_widget_list = buf;
   }
@@ -1633,7 +1633,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *pDlg,
     }
 
     if (create_buttons) {
-      buf->size.x = start_x + pDlg->scroll->pUp_Left_Button->size.w;
+      buf->size.x = start_x + pDlg->scroll->up_left_button->size.w;
       if (pDlg->scroll->count > pDlg->scroll->active) {
         buf->size.w = scrollbar_size(pDlg->scroll);
       } else {

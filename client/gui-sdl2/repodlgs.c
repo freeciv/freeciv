@@ -1450,8 +1450,8 @@ static void enable_economy_dlg(void)
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_NORMAL);
   if (pEconomyDlg->scroll && pEconomyDlg->active_widget_list) {
-    set_wstate(pEconomyDlg->scroll->pUp_Left_Button, FC_WS_NORMAL);
-    set_wstate(pEconomyDlg->scroll->pDown_Right_Button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->scroll->up_left_button, FC_WS_NORMAL);
+    set_wstate(pEconomyDlg->scroll->down_right_button, FC_WS_NORMAL);
     set_wstate(pEconomyDlg->scroll->pscroll_bar, FC_WS_NORMAL);
   }
 }
@@ -1489,8 +1489,8 @@ static void disable_economy_dlg(void)
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_DISABLED);
   if (pEconomyDlg->scroll && pEconomyDlg->active_widget_list) {
-    set_wstate(pEconomyDlg->scroll->pUp_Left_Button, FC_WS_DISABLED);
-    set_wstate(pEconomyDlg->scroll->pDown_Right_Button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->scroll->up_left_button, FC_WS_DISABLED);
+    set_wstate(pEconomyDlg->scroll->down_right_button, FC_WS_DISABLED);
     set_wstate(pEconomyDlg->scroll->pscroll_bar, FC_WS_DISABLED);
   }
 }

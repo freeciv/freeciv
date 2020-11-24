@@ -2354,10 +2354,10 @@ static void popdown_government_dialog(void)
 /**********************************************************************//**
   User selected government button.
 **************************************************************************/
-static int government_dlg_callback(struct widget *pGov_Button)
+static int government_dlg_callback(struct widget *gov_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    set_government_choice(government_by_number(MAX_ID - pGov_Button->ID));
+    set_government_choice(government_by_number(MAX_ID - gov_button->ID));
 
     popdown_government_dialog();
   }
@@ -2385,7 +2385,7 @@ void popup_government_dialog(void)
 {
   SDL_Surface *logo = NULL;
   struct utf8_str *pstr = NULL;
-  struct widget *pGov_Button = NULL;
+  struct widget *gov_button = NULL;
   struct widget *pwindow = NULL;
   int j;
   Uint16 max_w = 0, max_h = 0;
@@ -2418,21 +2418,21 @@ void popup_government_dialog(void)
 
     if (can_change_to_government(client.conn.playing, pGov)) {
       pstr = create_utf8_from_char(government_name_translation(pGov), adj_font(12));
-      pGov_Button =
+      gov_button =
           create_icon_button(get_government_surface(pGov), pwindow->dst, pstr, 0);
-      pGov_Button->action = government_dlg_callback;
+      gov_button->action = government_dlg_callback;
 
-      max_w = MAX(max_w, pGov_Button->size.w);
-      max_h = MAX(max_h, pGov_Button->size.h);
+      max_w = MAX(max_w, gov_button->size.w);
+      max_h = MAX(max_h, gov_button->size.h);
 
       /* ugly hack */
-      add_to_gui_list((MAX_ID - government_number(pGov)), pGov_Button);
+      add_to_gui_list((MAX_ID - government_number(pGov)), gov_button);
       j++;
 
     }
   } governments_iterate_end;
 
-  pGov_Dlg->begin_widget_list = pGov_Button;
+  pGov_Dlg->begin_widget_list = gov_button;
 
   max_w += adj_size(10);
   max_h += adj_size(4);
@@ -2457,14 +2457,14 @@ void popup_government_dialog(void)
 
   /* set buttons start positions and size */
   j = 1;
-  while (pGov_Button != pGov_Dlg->end_widget_list) {
-    pGov_Button->size.w = max_w;
-    pGov_Button->size.h = max_h;
-    pGov_Button->size.x = area.x + adj_size(10);
-    pGov_Button->size.y = area.y + area.h - (j++) * (max_h + adj_size(10));
-    set_wstate(pGov_Button, FC_WS_NORMAL);
+  while (gov_button != pGov_Dlg->end_widget_list) {
+    gov_button->size.w = max_w;
+    gov_button->size.h = max_h;
+    gov_button->size.x = area.x + adj_size(10);
+    gov_button->size.y = area.y + area.h - (j++) * (max_h + adj_size(10));
+    set_wstate(gov_button, FC_WS_NORMAL);
 
-    pGov_Button = pGov_Button->next;
+    gov_button = gov_button->next;
   }
 
   set_wstate(pwindow, FC_WS_NORMAL);
@@ -2500,10 +2500,10 @@ static int next_set_callback(struct widget *next_button);
 static int prev_set_callback(struct widget *prev_button);
 static int nations_dialog_callback(struct widget *pwindow);
 static int nation_button_callback(struct widget *pNation);
-static int races_dialog_ok_callback(struct widget *pStart_Button);
+static int races_dialog_ok_callback(struct widget *start_button);
 static int races_dialog_cancel_callback(struct widget *button);
-static int next_name_callback(struct widget *pNext_Button);
-static int prev_name_callback(struct widget *pPrev_Button);
+static int next_name_callback(struct widget *next_button);
+static int prev_name_callback(struct widget *prev_button);
 static int change_sex_callback(struct widget *pSex);
 static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
@@ -2524,7 +2524,7 @@ static int nations_dialog_callback(struct widget *pwindow)
 /**********************************************************************//**
   User accepted nation.
 **************************************************************************/
-static int races_dialog_ok_callback(struct widget *pStart_Button)
+static int races_dialog_ok_callback(struct widget *start_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->end_widget_list->data.ptr);
@@ -2533,10 +2533,10 @@ static int races_dialog_ok_callback(struct widget *pStart_Button)
     /* perform a minimum of sanity test on the name */
     if (strlen(pstr) == 0) {
       output_window_append(ftc_client, _("You must type a legal name."));
-      selected_widget = pStart_Button;
-      set_wstate(pStart_Button, FC_WS_SELECTED);
-      widget_redraw(pStart_Button);
-      widget_flush(pStart_Button);
+      selected_widget = start_button;
+      set_wstate(start_button, FC_WS_SELECTED);
+      widget_redraw(start_button);
+      widget_flush(start_button);
 
       return (-1);
     }
@@ -2821,7 +2821,7 @@ static int nation_button_callback(struct widget *pNationButton)
     widget_flush(pNationDlg->end_widget_list);
   } else {
     /* pop up nation description */
-    struct widget *pwindow, *pOK_Button;
+    struct widget *pwindow, *ok_button;
     utf8_str *pstr;
     SDL_Surface *pText;
     SDL_Rect area, area2;
@@ -2845,16 +2845,16 @@ static int nation_button_callback(struct widget *pNationButton)
       help_dlg->end_widget_list = pwindow;
       add_to_gui_list(ID_WINDOW, pwindow);
 
-      pOK_Button = create_themeicon_button_from_chars(current_theme->OK_Icon,
+      ok_button = create_themeicon_button_from_chars(current_theme->OK_Icon,
                                pwindow->dst, _("OK"), adj_font(14), 0);
-      pOK_Button->action = cancel_help_dlg_callback;
-      set_wstate(pOK_Button, FC_WS_NORMAL);
-      pOK_Button->key = SDLK_ESCAPE;
-      add_to_gui_list(ID_BUTTON, pOK_Button);
-      help_dlg->begin_widget_list = pOK_Button;
+      ok_button->action = cancel_help_dlg_callback;
+      set_wstate(ok_button, FC_WS_NORMAL);
+      ok_button->key = SDLK_ESCAPE;
+      add_to_gui_list(ID_BUTTON, ok_button);
+      help_dlg->begin_widget_list = ok_button;
     } else {
       pwindow = help_dlg->end_widget_list;
-      pOK_Button = help_dlg->begin_widget_list;
+      ok_button = help_dlg->begin_widget_list;
       /* undraw window */
       widget_undraw(pwindow);
       widget_mark_dirty(pwindow);
@@ -2876,9 +2876,9 @@ static int nation_button_callback(struct widget *pNationButton)
 
     /* create window background */
     area.w = MAX(area.w, pText->w + adj_size(20));
-    area.w = MAX(area.w, pOK_Button->size.w + adj_size(20));
+    area.w = MAX(area.w, ok_button->size.w + adj_size(20));
     area.h = MAX(area.h, adj_size(9) + pText->h
-                         + adj_size(10) + pOK_Button->size.h + adj_size(10));
+                         + adj_size(10) + ok_button->size.h + adj_size(10));
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
@@ -2893,11 +2893,11 @@ static int nation_button_callback(struct widget *pNationButton)
     alphablit(pText, NULL, pwindow->theme, &area2, 255);
     FREESURFACE(pText);
 
-    pOK_Button->size.x = area.x + (area.w - pOK_Button->size.w) / 2;
-    pOK_Button->size.y = area.y + area.h - pOK_Button->size.h - adj_size(10);
+    ok_button->size.x = area.x + (area.w - ok_button->size.w) / 2;
+    ok_button->size.y = area.y + area.h - ok_button->size.h - adj_size(10);
 
     /* redraw */
-    redraw_group(pOK_Button, pwindow, 0);
+    redraw_group(ok_button, pwindow, 0);
 
     widget_mark_dirty(pwindow);
 
@@ -3320,7 +3320,7 @@ void popup_races_dialog(struct player *pplayer)
 
     area2.x = area.x + w + adj_size(11);
     area2.y = area.y + i - adj_size(4);
-    area2.w = pNationDlg->scroll->pUp_Left_Button->size.w + adj_size(2);
+    area2.w = pNationDlg->scroll->up_left_button->size.w + adj_size(2);
     area2.h = h;
     fill_rect_alpha(pwindow->theme, &area2, &bg_color);
 

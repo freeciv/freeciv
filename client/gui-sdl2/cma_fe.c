@@ -557,9 +557,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
 
     /* ------- window ------- */
     area.h = 11 * pwindow->prev->prev->size.h + adj_size(2)
-      + 2 * pCma->pAdv->scroll->pUp_Left_Button->size.h;
-    pCma->pAdv->scroll->pUp_Left_Button->size.w = area.w;
-    pCma->pAdv->scroll->pDown_Right_Button->size.w = area.w;
+      + 2 * pCma->pAdv->scroll->up_left_button->size.h;
+    pCma->pAdv->scroll->up_left_button->size.w = area.w;
+    pCma->pAdv->scroll->down_right_button->size.w = area.w;
   }
 
   /* ----------------------------------- */
@@ -580,17 +580,17 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
   buf->size.y = pwindow->size.y + adj_size(2);
 
   buf = buf->prev;
-  hh = (pCma->pAdv->scroll ? pCma->pAdv->scroll->pUp_Left_Button->size.h + 1 : 0);
+  hh = (pCma->pAdv->scroll ? pCma->pAdv->scroll->up_left_button->size.h + 1 : 0);
   setup_vertical_widgets_position(1, area.x + 1,
                                   area.y + 1 + hh, area.w - 1, 0,
                                   pCma->pAdv->begin_active_widget_list, buf);
 
   if (pCma->pAdv->scroll) {
-    pCma->pAdv->scroll->pUp_Left_Button->size.x = area.x;
-    pCma->pAdv->scroll->pUp_Left_Button->size.y = area.y;
-    pCma->pAdv->scroll->pDown_Right_Button->size.x = area.x;
-    pCma->pAdv->scroll->pDown_Right_Button->size.y =
-      area.y + area.h - pCma->pAdv->scroll->pDown_Right_Button->size.h;
+    pCma->pAdv->scroll->up_left_button->size.x = area.x;
+    pCma->pAdv->scroll->up_left_button->size.y = area.y;
+    pCma->pAdv->scroll->down_right_button->size.x = area.x;
+    pCma->pAdv->scroll->down_right_button->size.y =
+      area.y + area.h - pCma->pAdv->scroll->down_right_button->size.h;
   }
 
   /* ==================================================== */

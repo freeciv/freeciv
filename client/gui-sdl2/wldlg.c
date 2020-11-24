@@ -268,7 +268,7 @@ static void add_target_to_worklist(struct widget *pTarget)
     setup_vertical_widgets_position(1,
       pEditor->end_widget_list->area.x + adj_size(2),
       get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152) +
-        pEditor->pWork->scroll->pUp_Left_Button->size.h + 1,
+        pEditor->pWork->scroll->up_left_button->size.h + 1,
       adj_size(126), 0, pEditor->pWork->begin_widget_list,
       pEditor->pWork->end_widget_list);
 
@@ -1316,8 +1316,8 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   pEditor->pWork->active_widget_list = pEditor->pWork->end_active_widget_list;
   create_vertical_scrollbar(pEditor->pWork, 1,
                             pEditor->pWork->scroll->active, FALSE, TRUE);
-  pEditor->pWork->scroll->pUp_Left_Button->size.w = adj_size(122);
-  pEditor->pWork->scroll->pDown_Right_Button->size.w = adj_size(122);
+  pEditor->pWork->scroll->up_left_button->size.w = adj_size(122);
+  pEditor->pWork->scroll->down_right_button->size.w = adj_size(122);
 
   /* count: without production */
   if (count <= pEditor->pWork->scroll->active + 1) {
@@ -1370,8 +1370,8 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         pEditor->pGlobal->active_widget_list = pEditor->pGlobal->end_active_widget_list;
 
         create_vertical_scrollbar(pEditor->pGlobal, 1, 4, FALSE, TRUE);
-        pEditor->pGlobal->scroll->pUp_Left_Button->size.w = adj_size(122);
-        pEditor->pGlobal->scroll->pDown_Right_Button->size.w = adj_size(122);
+        pEditor->pGlobal->scroll->up_left_button->size.w = adj_size(122);
+        pEditor->pGlobal->scroll->down_right_button->size.w = adj_size(122);
       } else {
         struct widget *pTmp = pLast;
 
@@ -1770,7 +1770,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     setup_vertical_widgets_position(1,
                                     area.x + adj_size(2), area.y + adj_size(152)
           /* + ((pEditor->pWork->scroll->count > pEditor->pWork->scroll->active + 2) ?
-             pEditor->pWork->scroll->pUp_Left_Button->size.h + 1 : 0)*/,
+             pEditor->pWork->scroll->up_left_button->size.h + 1 : 0)*/,
                                     adj_size(126), 0, pEditor->pWork->begin_widget_list,
                                     pEditor->pWork->end_widget_list);
 
@@ -1786,7 +1786,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                                     area.x + adj_size(4),
                                     area.y + adj_size(384) +
                                     (pEditor->pGlobal->scroll ?
-                                     pEditor->pGlobal->scroll->pUp_Left_Button->size.h + 1 : 0),
+                                     pEditor->pGlobal->scroll->up_left_button->size.h + 1 : 0),
                                     adj_size(122), 0, pEditor->pGlobal->begin_widget_list,
                                     pEditor->pGlobal->end_widget_list);
 
