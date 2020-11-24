@@ -447,7 +447,7 @@ static bool check_include(struct inputfile *inf)
 /***********************************************************************
   Read a new line into cur_line.
   Increments line_num and cur_line_pos.
-  Returns 0 if didn't read or other problem: treat as EOF.
+  Returns FALSE if didn't read or other problem: treat as EOF.
   Strips newline from input.
 ***********************************************************************/
 static bool read_a_line(struct inputfile *inf)
