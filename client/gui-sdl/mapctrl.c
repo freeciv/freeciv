@@ -444,12 +444,12 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
       /* options */
       pWidget = pWidget->prev;
       widget_redraw(pWidget);
-#endif
+#endif /* SMALL_SCREEN */
 
       /* ID_TOGGLE_MAP_WINDOW_BUTTON */
       pWidget = pWidget->prev;
       widget_redraw(pWidget);
-  
+
 #ifdef SCALE_MINIMAP
       popdown_scale_minmap_dlg_callback(NULL);
 #endif
@@ -1327,7 +1327,7 @@ void set_new_minimap_window_pos(void)
   widget_set_position(pWidget,
                       area.x + adj_size(2),
                       area.y + area.h - pWidget->size.h - 2);
-#endif
+#endif /* SMALL_SCREEN */
 
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pWidget = pWidget->prev;
@@ -1620,12 +1620,12 @@ void popup_minimap_window(void) {
                                      | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
-  
+
   pOptions_Button->action = optiondlg_callback;  
   pOptions_Button->key = SDLK_ESCAPE;
 
   add_to_gui_list(ID_CLIENT_OPTIONS, pOptions_Button);
-  #endif
+#endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
 
@@ -1684,7 +1684,7 @@ void show_minimap_window_buttons(void)
   /* options button */
   pWidget = pWidget->prev;
   clear_wflag(pWidget, WF_HIDDEN);
-#endif
+#endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
   pWidget = pWidget->prev;
@@ -1715,11 +1715,11 @@ void hide_minimap_window_buttons(void)
   pWidget = pWidget->prev;
   set_wflag(pWidget, WF_HIDDEN);
 
-  #ifdef SMALL_SCREEN
+#ifdef SMALL_SCREEN
   /* options button */
   pWidget = pWidget->prev;
   set_wflag(pWidget, WF_HIDDEN);
-  #endif
+#endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
   pWidget = pWidget->prev;

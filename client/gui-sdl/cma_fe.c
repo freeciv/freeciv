@@ -1064,7 +1064,7 @@ void popup_city_cma_dialog(struct city *pCity)
 #ifdef SMALL_SCREEN
   area.w = MAX(pCity_Map->w + adj_size(220) + text_w + adj_size(10) +
 	  (pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), w);
+			  pWindow->prev->prev->size.w + adj_size(5 + 55 + 15)), area.w);
   area.h = adj_size(390) - (pWindow->size.w - pWindow->area.w);
 #else  /* SMALL_SCREEN */
   area.w = MAX(pCity_Map->w + adj_size(150) + text_w + adj_size(10) +
@@ -1097,14 +1097,14 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* ---------- */
   dst.x = pCity_Map->w + adj_size(80) +
-	  (pWindow->size.w - (pCity_Map->w + adj_size(40)) -
-  	    (text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
-		pWindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
-  
+          (pWindow->size.w - (pCity_Map->w + adj_size(40)) -
+            (text_w + adj_size(10) + pWindow->prev->prev->size.w + adj_size(5 + 70 + 5) +
+                pWindow->prev->prev->size.w + adj_size(5 + 55))) / 2;
+
 #ifdef SMALL_SCREEN
-  dst.x += 22;  
-#endif
-  
+  dst.x += 22;
+#endif /* SMALL_SCREEN */
+
   dst.y =  adj_size(75);
   
   x = area.x = dst.x - adj_size(10);
