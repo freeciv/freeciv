@@ -186,7 +186,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     const struct unit_type *ut2;
     int value;
     char tBuf[128], cBuf[128];
-    struct widget *pBuf = NULL, *pwindow;
+    struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
     SDL_Surface *pText;
     SDL_Rect dst;
@@ -250,34 +250,34 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     area.w = MAX(area.w, pText->w + adj_size(20));
 
     /* cancel button */
-    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                               pwindow->dst, _("No"),
                                               adj_font(12), 0);
 
-    pBuf->action = cancel_upgrade_unit_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf->action = cancel_upgrade_unit_callback;
+    set_wstate(buf, FC_WS_NORMAL);
 
-    area.h += (pBuf->size.h + adj_size(20));
+    area.h += (buf->size.h + adj_size(20));
 
-    add_to_gui_list(ID_BUTTON, pBuf);
+    add_to_gui_list(ID_BUTTON, buf);
 
     if (value <= client.conn.playing->economic.gold) {
-      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+      buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                                 _("Yes"), adj_font(12), 0);
 
-      pBuf->action = ok_upgrade_unit_window_callback;
-      set_wstate(pBuf, FC_WS_NORMAL);
+      buf->action = ok_upgrade_unit_window_callback;
+      set_wstate(buf, FC_WS_NORMAL);
 
-      add_to_gui_list(pwidget->ID, pBuf);
-      pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-      pBuf->next->size.w = pBuf->size.w;
-      area.w = MAX(area.w, adj_size(30) + pBuf->size.w * 2);
+      add_to_gui_list(pwidget->ID, buf);
+      buf->size.w = MAX(buf->size.w, buf->next->size.w);
+      buf->next->size.w = buf->size.w;
+      area.w = MAX(area.w, adj_size(30) + buf->size.w * 2);
     } else {
-      area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+      area.w = MAX(area.w, buf->size.w + adj_size(20));
     }
     /* ============================================ */
 
-    units_upg_dlg->begin_widget_list = pBuf;
+    units_upg_dlg->begin_widget_list = buf;
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
@@ -297,20 +297,20 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     FREESURFACE(pText);
 
     /* cancel button */
-    pBuf = pwindow->prev;
-    pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(10);
+    buf = pwindow->prev;
+    buf->size.y = area.y + area.h - buf->size.h - adj_size(10);
 
     if (value <= client.conn.playing->economic.gold) {
       /* sell button */
-      pBuf = pBuf->prev;
-      pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;
-      pBuf->size.y = pBuf->next->size.y;
+      buf = buf->prev;
+      buf->size.x = area.x + (area.w - (2 * buf->size.w + adj_size(10))) / 2;
+      buf->size.y = buf->next->size.y;
 
       /* cancel button */
-      pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
+      buf->next->size.x = buf->size.x + buf->size.w + adj_size(10);
     } else {
       /* x position of cancel button */
-      pBuf->size.x = area.x + area.w - pBuf->size.w - adj_size(10);
+      buf->size.x = area.x + area.w - buf->size.w - adj_size(10);
     }
 
     /* ================================================== */
@@ -354,7 +354,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                                                   struct units_entry *total)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   struct widget *pwindow, *pLast;
   utf8_str *pstr;
   SDL_Surface *pText1, *pText2, *pText3 , *pText4, *pText5, *logo;
@@ -410,14 +410,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
-  pBuf->action = exit_units_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  buf->action = exit_units_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_BUTTON, pBuf);
+  add_to_gui_list(ID_BUTTON, buf);
   /* ------------------------- */
   /* totals */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->active_count);
@@ -425,56 +425,56 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+  buf = create_iconlabel(NULL, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
 
-  area.h += pBuf->size.h;
-  pBuf->size.w = pText1->w + adj_size(6);
-  add_to_gui_list(ID_LABEL, pBuf);
+  area.h += buf->size.h;
+  buf->size.w = pText1->w + adj_size(6);
+  add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_SHIELD]);
 
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  pBuf->size.w = pText1->w;
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf->size.w = pText1->w;
+  add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_FOOD]);
 
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  pBuf->size.w = pText1->w;
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf->size.w = pText1->w;
+  add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */	
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_GOLD]);
 
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  pBuf->size.w = pText1->w;
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf->size.w = pText1->w;
+  add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */	
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->building_count);
 
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+  buf = create_iconlabel(NULL, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
 
-  pBuf->size.w = pText2->w + adj_size(6);
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf->size.w = pText2->w + adj_size(6);
+  add_to_gui_list(ID_LABEL, buf);
 
   /* ------------------------- */
-  pLast = pBuf;
+  pLast = buf;
   count = 0;
   unit_type_iterate(i) {
     if ((units[utype_index(i)].active_count > 0)
@@ -482,87 +482,87 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
 
       /* unit type icon */
-      pBuf = create_iconlabel(adj_surf(get_unittype_surface(i, direction8_invalid())), pwindow->dst, NULL,
+      buf = create_iconlabel(adj_surf(get_unittype_surface(i, direction8_invalid())), pwindow->dst, NULL,
                               WF_RESTORE_BACKGROUND | WF_FREE_THEME);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
-      hh = pBuf->size.h;
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = buf->size.h;
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* unit type name */
       pstr = create_utf8_from_char(utype_name_translation(i), adj_font(12));
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               (WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       if (upgrade) {
-        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
-        pBuf->action = popup_upgrade_unit_callback;
-        set_wstate(pBuf, FC_WS_NORMAL);
+        buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
+        buf->action = popup_upgrade_unit_callback;
+        set_wstate(buf, FC_WS_NORMAL);
       } else {
-        pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_UNITSREP_TEXT);
+        buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_UNITSREP_TEXT);
       }
-      pBuf->string_utf8->style &= ~SF_CENTER;
+      buf->string_utf8->style &= ~SF_CENTER;
       if (count > adj_size(72)) {
-        set_wflag(pBuf , WF_HIDDEN);
+        set_wflag(buf , WF_HIDDEN);
       }
-      hh = MAX(hh, pBuf->size.h);
-      name_w = MAX(pBuf->size.w, name_w);
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      name_w = MAX(buf->size.w, name_w);
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* active */
       fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].active_count);
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText1->w + adj_size(6);
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText1->w + adj_size(6);
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* shield upkeep */
       fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText1->w;
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText1->w;
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* food upkeep */
       fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
 
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText1->w;
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText1->w;
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* gold upkeep */
       fc_snprintf(cbuf, sizeof(cbuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
 
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText1->w;
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText1->w;
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* building */
       if (units[utype_index(i)].building_count > 0) {
@@ -572,14 +572,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       }
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText2->w + adj_size(6);
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText2->w + adj_size(6);
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* soonest completion */
       if (units[utype_index(i)].building_count > 0) {
@@ -591,22 +591,22 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
       pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= SF_CENTER;
-      pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+      buf = create_iconlabel(NULL, pwindow->dst, pstr,
                               WF_RESTORE_BACKGROUND);
 
       if (count > adj_size(72)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
-      hh = MAX(hh, pBuf->size.h);
-      pBuf->size.w = pText5->w + adj_size(6);
-      add_to_gui_list(MAX_ID - utype_number(i), pBuf);
+      hh = MAX(hh, buf->size.h);
+      buf->size.w = pText5->w + adj_size(6);
+      add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       count += adj_size(8);
       area.h += (hh/2);
     }
   } unit_type_iterate_end;
 
-  units_dlg->begin_widget_list = pBuf;
+  units_dlg->begin_widget_list = buf;
   area.w = MAX(area.w, (tileset_full_tile_width(tileset) * 2 + name_w + adj_size(15))
                + (adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
                + (pText5->w + adj_size(6)) + adj_size(2));
@@ -651,9 +651,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2);
+  buf = pwindow->prev;
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
 
   /* totals background and label */
   dst.x = area.x + adj_size(2);
@@ -672,30 +672,30 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   FREESURFACE(pText3);
 
   /* total active widget */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + name_w
+  buf = buf->prev;
+  buf->size.x = area.x + name_w
     + tileset_full_tile_width(tileset) * 2 + adj_size(17);
-  pBuf->size.y = dst.y;
+  buf->size.y = dst.y;
 
   /* total shields cost widget */
-  pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = dst.y;
+  buf = buf->prev;
+  buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+  buf->size.y = dst.y;
 
   /* total food cost widget */
-  pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = dst.y;
+  buf = buf->prev;
+  buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+  buf->size.y = dst.y;
 
   /* total gold cost widget */
-  pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = dst.y;
+  buf = buf->prev;
+  buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+  buf->size.y = dst.y;
 
   /* total building count widget */
-  pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-  pBuf->size.y = dst.y;
+  buf = buf->prev;
+  buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+  buf->size.y = dst.y;
 
   /* units background and labels */
   dst.x = area.x + adj_size(2);
@@ -814,55 +814,55 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     int start_y = area.y + hh + adj_size(3);
     int mod = 0;
 
-    pBuf = pBuf->prev;
+    buf = buf->prev;
     while (TRUE) {
       /* Unit type icon */
-      pBuf->size.x = start_x + (mod ? tileset_full_tile_width(tileset) : 0);
-      pBuf->size.y = start_y;
-      hh = pBuf->size.h;
+      buf->size.x = start_x + (mod ? tileset_full_tile_width(tileset) : 0);
+      buf->size.y = start_y;
+      hh = buf->size.h;
       mod ^= 1;
 
       /* Unit type name */
-      pBuf = pBuf->prev;
-      pBuf->size.w = name_w;
-      pBuf->size.x = start_x + tileset_full_tile_width(tileset) * 2 + adj_size(5);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.w = name_w;
+      buf->size.x = start_x + tileset_full_tile_width(tileset) * 2 + adj_size(5);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Number active */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Shield upkeep */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Food upkeep */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Gold upkeep */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Number under construction */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       /* Soonest completion */
-      pBuf = pBuf->prev;
-      pBuf->size.x = pBuf->next->size.x + pBuf->next->size.w + adj_size(10);
-      pBuf->size.y = start_y + (hh - pBuf->size.h) / 2;
+      buf = buf->prev;
+      buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(10);
+      buf->size.y = start_y + (hh - buf->size.h) / 2;
 
       start_y += (hh >> 1);
-      if (pBuf == units_dlg->begin_active_widget_list) {
+      if (buf == units_dlg->begin_active_widget_list) {
         break;
       }
-      pBuf = pBuf->prev;
+      buf = buf->prev;
     }
 
     if (units_dlg->scroll) {
@@ -1386,7 +1386,7 @@ END:
 static int apply_taxrates_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct widget *pBuf;
+    struct widget *buf;
     int science, luxury, tax;
 
     if (C_S_RUNNING != client_state()) {
@@ -1394,12 +1394,12 @@ static int apply_taxrates_callback(struct widget *button)
     }
 
     /* Science Scrollbar */
-    pBuf = button->next->next;
-    science = *(int *)pBuf->data.ptr;
+    buf = button->next->next;
+    science = *(int *)buf->data.ptr;
 
     /* Luxuries Scrollbar */
-    pBuf = pBuf->next->next->next;
-    luxury = *(int *)pBuf->data.ptr;
+    buf = buf->next->next->next;
+    luxury = *(int *)buf->data.ptr;
 
     /* Tax */
     tax = 100 - luxury - science;
@@ -1423,29 +1423,29 @@ static int apply_taxrates_callback(struct widget *button)
 static void enable_economy_dlg(void)
 {
   /* lux lock */
-  struct widget *pBuf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
+  struct widget *buf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-  set_wstate(pBuf, FC_WS_NORMAL);
+  set_wstate(buf, FC_WS_NORMAL);
 
   /* lux scrollbar */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_NORMAL);
 
   /* sci lock */
-  pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = buf->prev->prev;
+  set_wstate(buf, FC_WS_NORMAL);
 
   /* sci scrollbar */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_NORMAL);
 
   /* update button */
-  pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = buf->prev->prev;
+  set_wstate(buf, FC_WS_NORMAL);
 
   /* cancel button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_NORMAL);
 
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_NORMAL);
@@ -1462,29 +1462,29 @@ static void enable_economy_dlg(void)
 static void disable_economy_dlg(void)
 {
   /* lux lock */
-  struct widget *pBuf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
+  struct widget *buf = pEconomyDlg->end_widget_list->prev->prev->prev->prev->prev->prev;
 
-  set_wstate(pBuf, FC_WS_DISABLED);
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* lux scrollbar */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* sci lock */
-  pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* sci scrollbar */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* update button */
-  pBuf = pBuf->prev->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* cancel button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   set_group_state(pEconomyDlg->begin_active_widget_list,
                   pEconomyDlg->end_active_widget_list, FC_WS_DISABLED);
@@ -1572,7 +1572,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     int imp, total_count ,count = 0, gold = 0;
     int value;
     char cBuf[128];
-    struct widget *pBuf = NULL, *pwindow;
+    struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
     SDL_Surface *pText;
     SDL_Rect dst;
@@ -1641,35 +1641,35 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     area.h += (pText->h + adj_size(10));
 
     /* cancel button */
-    pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                               pwindow->dst, _("No"),
                                               adj_font(12), 0);
 
-    pBuf->action = cancel_sell_impr_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf->action = cancel_sell_impr_callback;
+    set_wstate(buf, FC_WS_NORMAL);
 
-    area.h += (pBuf->size.h + adj_size(20));
+    area.h += (buf->size.h + adj_size(20));
 
-    add_to_gui_list(ID_BUTTON, pBuf);
+    add_to_gui_list(ID_BUTTON, buf);
 
     if (count > 0) {
-      pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+      buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                                 _("Sell"), adj_font(12), 0);
 
-      pBuf->action = ok_sell_impr_callback;
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->data.ptr = (void *)pwidget;
+      buf->action = ok_sell_impr_callback;
+      set_wstate(buf, FC_WS_NORMAL);
+      buf->data.ptr = (void *)pwidget;
 
-      add_to_gui_list(ID_BUTTON, pBuf);
-      pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-      pBuf->next->size.w = pBuf->size.w;
-      area.w = MAX(area.w, adj_size(30) + pBuf->size.w * 2);
+      add_to_gui_list(ID_BUTTON, buf);
+      buf->size.w = MAX(buf->size.w, buf->next->size.w);
+      buf->next->size.w = buf->size.w;
+      area.w = MAX(area.w, adj_size(30) + buf->size.w * 2);
     } else {
-      area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+      area.w = MAX(area.w, buf->size.w + adj_size(20));
     }
     /* ============================================ */
 
-    pEconomy_Sell_Dlg->begin_widget_list = pBuf;
+    pEconomy_Sell_Dlg->begin_widget_list = buf;
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                   (pwindow->size.w - pwindow->area.w) + area.w,
@@ -1691,20 +1691,20 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     FREESURFACE(pText);
 
     /* cancel button */
-    pBuf = pwindow->prev;
-    pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(10);
+    buf = pwindow->prev;
+    buf->size.y = area.y + area.h - buf->size.h - adj_size(10);
 
     if (count > 0) {
       /* sell button */
-      pBuf = pBuf->prev;
-      pBuf->size.x = area.x + (area.w - (2 * pBuf->size.w + adj_size(10))) / 2;
-      pBuf->size.y = pBuf->next->size.y;
+      buf = buf->prev;
+      buf->size.x = area.x + (area.w - (2 * buf->size.w + adj_size(10))) / 2;
+      buf->size.y = buf->next->size.y;
 
       /* cancel button */
-      pBuf->next->size.x = pBuf->size.x + pBuf->size.w + adj_size(10);
+      buf->next->size.x = buf->size.x + buf->size.w + adj_size(10);
     } else {
       /* x position of cancel button */
-      pBuf->size.x = area.x + area.w - adj_size(10) - pBuf->size.w;
+      buf->size.x = area.x + area.w - adj_size(10) - buf->size.w;
     }
 
     /* ================================================== */
@@ -1799,7 +1799,7 @@ void economy_report_dialog_popup(bool make_modal)
   SDL_Color bg_color = {255,255,255,128};
   SDL_Color bg_color2 = {255,255,255,136};
   SDL_Color bg_color3 = {255,255,255,64};
-  struct widget *pBuf;
+  struct widget *buf;
   struct widget *pwindow , *pLast;
   utf8_str *pstr, *pstr2;
   SDL_Surface *surf, *pText_Name, *pText, *zoomed;
@@ -1826,10 +1826,10 @@ void economy_report_dialog_popup(bool make_modal)
   }
 
   /* disable "Economy" button */
-  pBuf = get_tax_rates_widget();
-  set_wstate(pBuf, FC_WS_DISABLED);
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  buf = get_tax_rates_widget();
+  set_wstate(buf, FC_WS_DISABLED);
+  widget_redraw(buf);
+  widget_mark_dirty(buf);
 
   pEconomyDlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
@@ -1862,13 +1862,13 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(pIcons->pBIG_Coin, pwindow->dst, pstr,
+  buf = create_iconlabel(pIcons->pBIG_Coin, pwindow->dst, pstr,
                           (WF_RESTORE_BACKGROUND|WF_ICON_CENTER_RIGHT));
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
 
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, buf->size.w);
+  h += buf->size.h;
 
   /* "Tax Rate" text surface */
   fc_snprintf(cbuf, sizeof(cbuf), _("Tax Rate: "));
@@ -1882,12 +1882,12 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
 
-  w = MAX(w, pBuf->size.w + pBuf->next->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, buf->size.w + buf->next->size.w);
+  h += buf->size.h;
 
   /* "Total Income" text surface */
   fc_snprintf(cbuf, sizeof(cbuf), _("Total Income: "));
@@ -1900,12 +1900,12 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
 
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, buf->size.w);
+  h += buf->size.h;
 
   /* "Total Cost" text surface */
   fc_snprintf(cbuf, sizeof(cbuf), _("Total Cost: "));
@@ -1917,12 +1917,12 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
 
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, buf->size.w);
+  h += buf->size.h;
 
   /* "Net Income" text surface */
   fc_snprintf(cbuf, sizeof(cbuf), _("Net Income: "));
@@ -1939,12 +1939,12 @@ void economy_report_dialog_popup(bool make_modal)
     pstr->fgcol = *get_theme_color(COLOR_THEME_ECONOMYDLG_NEG_TEXT);
   }
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
 
-  w = MAX(w, pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, buf->size.w);
+  h += buf->size.h;
 
   /* gov and taxrate */
   fc_snprintf(cbuf, sizeof(cbuf), _("%s max rate : %d%%"),
@@ -1963,28 +1963,28 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_checkbox(pwindow->dst,
+  buf = create_checkbox(pwindow->dst,
                          SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
-  set_new_checkbox_theme(pBuf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
-  pBuf->info_label = pstr;
-  pBuf->action = toggle_block_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
+  buf->info_label = pstr;
+  buf->action = toggle_block_callback;
+  set_wstate(buf, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX, buf);
 
-  w2 = adj_size(10) + pBuf->size.w;  
+  w2 = adj_size(10) + buf->size.w;
 
   /* lux rate slider */
-  pBuf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
+  buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
                            (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
-  pBuf->action = horiz_taxrate_callback;
-  pBuf->data.ptr = fc_calloc(1, sizeof(int));
-  *(int *)pBuf->data.ptr = client.conn.playing->economic.luxury;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf->action = horiz_taxrate_callback;
+  buf->data.ptr = fc_calloc(1, sizeof(int));
+  *(int *)buf->data.ptr = client.conn.playing->economic.luxury;
+  set_wstate(buf, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR, buf);
 
   w2 += adj_size(184);  
 
@@ -1995,11 +1995,11 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(11));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_iconlabel(pIcons->pBIG_Luxury, pwindow->dst, pstr,
+  buf = create_iconlabel(pIcons->pBIG_Luxury, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, buf);
 
-  w2 += (adj_size(5) + pBuf->size.w + adj_size(10));
+  w2 += (adj_size(5) + buf->size.w + adj_size(10));
 
   /* ------------------------- */
   /* science rate */
@@ -2009,29 +2009,29 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_checkbox(pwindow->dst,
+  buf = create_checkbox(pwindow->dst,
                          SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
-  set_new_checkbox_theme(pBuf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
+  set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
 
-  pBuf->info_label = pstr;
-  pBuf->action = toggle_block_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf->info_label = pstr;
+  buf->action = toggle_block_callback;
+  set_wstate(buf, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, buf);
 
   /* science rate slider */
-  pBuf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
+  buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
                            (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
-  pBuf->action = horiz_taxrate_callback;
-  pBuf->data.ptr = fc_calloc(1, sizeof(int));
-  *(int *)pBuf->data.ptr = client.conn.playing->economic.science;
+  buf->action = horiz_taxrate_callback;
+  buf->data.ptr = fc_calloc(1, sizeof(int));
+  *(int *)buf->data.ptr = client.conn.playing->economic.science;
 
-  set_wstate(pBuf, FC_WS_NORMAL);
+  set_wstate(buf, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_SCROLLBAR, buf);
 
   /* science rate iconlabel */
   /* it is important to leave 1 space at ending of this string */
@@ -2039,38 +2039,38 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(11));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_iconlabel(pIcons->pBIG_Colb, pwindow->dst, pstr,
+  buf = create_iconlabel(pIcons->pBIG_Colb, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, buf);
 
   /* ---- */
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Update"));
   pstr = create_utf8_from_char(cbuf, adj_font(12));
-  pBuf = create_themeicon_button(current_theme->Small_OK_Icon, pwindow->dst, pstr, 0);
-  pBuf->action = apply_taxrates_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
+  buf = create_themeicon_button(current_theme->Small_OK_Icon, pwindow->dst, pstr, 0);
+  buf->action = apply_taxrates_callback;
+  set_wstate(buf, FC_WS_NORMAL);
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_OK_BUTTON, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_OK_BUTTON, buf);
 
   /* ---- */
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Close Dialog (Esc)"));
   pstr = create_utf8_from_char(cbuf, adj_font(12));
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = pstr;
-  pBuf->action = exit_economy_dialog_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  buf->info_label = pstr;
+  buf->action = exit_economy_dialog_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, pBuf);
+  add_to_gui_list(ID_CHANGE_TAXRATE_DLG_CANCEL_BUTTON, buf);
 
   h += adj_size(5);
 
   /* ------------------------- */
-  pLast = pBuf;
+  pLast = buf;
   if (entries_used > 0) {
 
     /* Create Imprv Background Icon */
@@ -2151,20 +2151,20 @@ void economy_report_dialog_popup(bool make_modal)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(surf, pwindow->dst,
+      buf = create_icon2(surf, pwindow->dst,
                           (WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
 
-      set_wstate(pBuf, FC_WS_NORMAL);
+      set_wstate(buf, FC_WS_NORMAL);
 
-      pBuf->data.cont = fc_calloc(1, sizeof(struct container));
-      pBuf->data.cont->id0 = improvement_number(p->type);
-      pBuf->data.cont->id1 = p->count;
-      pBuf->action = popup_sell_impr_callback;
+      buf->data.cont = fc_calloc(1, sizeof(struct container));
+      buf->data.cont->id0 = improvement_number(p->type);
+      buf->data.cont->id1 = p->count;
+      buf->action = popup_sell_impr_callback;
 
-      add_to_gui_list(MAX_ID - i, pBuf);
+      add_to_gui_list(MAX_ID - i, buf);
 
       if (i > (TARGETS_ROW * TARGETS_COL - 1)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
     }
 
@@ -2172,24 +2172,24 @@ void economy_report_dialog_popup(bool make_modal)
     FREESURFACE(background);
 
     pEconomyDlg->end_active_widget_list = pLast->prev;
-    pEconomyDlg->begin_widget_list = pBuf;
+    pEconomyDlg->begin_widget_list = buf;
     pEconomyDlg->begin_active_widget_list = pEconomyDlg->begin_widget_list;
 
     if (entries_used > (TARGETS_ROW * TARGETS_COL)) {
       pEconomyDlg->active_widget_list = pEconomyDlg->end_active_widget_list;
       count = create_vertical_scrollbar(pEconomyDlg,
                                         TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
-      h += (TARGETS_ROW * pBuf->size.h + adj_size(10));
+      h += (TARGETS_ROW * buf->size.h + adj_size(10));
     } else {
       count = 0;
       if (entries_used > TARGETS_COL) {
-        h += pBuf->size.h;
+        h += buf->size.h;
       }
-      h += (adj_size(10) + pBuf->size.h);
+      h += (adj_size(10) + buf->size.h);
     }
-    count = TARGETS_COL * pBuf->size.w + count;  
+    count = TARGETS_COL * buf->size.w + count;
   } else {
-    pEconomyDlg->begin_widget_list = pBuf;
+    pEconomyDlg->begin_widget_list = buf;
     h += adj_size(10);
     count = 0;
   }
@@ -2211,44 +2211,44 @@ void economy_report_dialog_popup(bool make_modal)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* "Treasury" value label */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + adj_size(10) + pTreasuryText->w;
-  pBuf->size.y = area.y + adj_size(5);
+  buf = pwindow->prev;
+  buf->size.x = area.x + adj_size(10) + pTreasuryText->w;
+  buf->size.y = area.y + adj_size(5);
 
-  w = pTreasuryText->w + pBuf->size.w;
-  h = pBuf->size.h;
+  w = pTreasuryText->w + buf->size.w;
+  h = buf->size.h;
 
   /* "Tax Rate" value label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(10) + pTaxRateText->w;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + adj_size(10) + pTaxRateText->w;
+  buf->size.y = buf->next->size.y + buf->next->size.h;
 
-  w = MAX(w, pTaxRateText->w + pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, pTaxRateText->w + buf->size.w);
+  h += buf->size.h;
 
   /* "Total Income" value label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(10) + pTotalIncomeText->w;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + adj_size(10) + pTotalIncomeText->w;
+  buf->size.y = buf->next->size.y + buf->next->size.h;
 
-  w = MAX(w, pTotalIncomeText->w + pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, pTotalIncomeText->w + buf->size.w);
+  h += buf->size.h;
 
   /* "Total Cost" value label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(10) + pTotalCostText->w;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + adj_size(10) + pTotalCostText->w;
+  buf->size.y = buf->next->size.y + buf->next->size.h;
 
-  w = MAX(w, pTotalCostText->w + pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, pTotalCostText->w + buf->size.w);
+  h += buf->size.h;
 
   /* "Net Income" value label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(10) + pNetIncomeText->w;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + adj_size(10) + pNetIncomeText->w;
+  buf->size.y = buf->next->size.y + buf->next->size.h;
 
-  w = MAX(w, pNetIncomeText->w + pBuf->size.w);
-  h += pBuf->size.h;
+  w = MAX(w, pNetIncomeText->w + buf->size.w);
+  h += buf->size.h;
 
   /* Backgrounds */
   dst.x = area.x;
@@ -2312,19 +2312,19 @@ void economy_report_dialog_popup(bool make_modal)
                get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
 
   /* lock icon */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x - pBuf->size.w;
-  pBuf->size.y = dst.y - adj_size(2);
+  buf = buf->prev;
+  buf->size.x = dst.x - buf->size.w;
+  buf->size.y = dst.y - adj_size(2);
 
   /* lux scrollbar */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + adj_size(2) + (client.conn.playing->economic.luxury * 3) / 2;
-  pBuf->size.y = dst.y -1;
+  buf = buf->prev;
+  buf->size.x = dst.x + adj_size(2) + (client.conn.playing->economic.luxury * 3) / 2;
+  buf->size.y = dst.y -1;
 
   /* lux rate */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + dst.w + adj_size(5);
-  pBuf->size.y = dst.y + 1;
+  buf = buf->prev;
+  buf->size.x = dst.x + dst.w + adj_size(5);
+  buf->size.y = dst.y + 1;
 
   /* Science Horizontal Scrollbar Background */
   dst.y += current_theme->Horiz->h + 1;
@@ -2335,29 +2335,29 @@ void economy_report_dialog_popup(bool make_modal)
                get_theme_color(COLOR_THEME_ECONOMYDLG_FRAME));
 
   /* science lock icon */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x - pBuf->size.w;
-  pBuf->size.y = dst.y - adj_size(2);
+  buf = buf->prev;
+  buf->size.x = dst.x - buf->size.w;
+  buf->size.y = dst.y - adj_size(2);
 
   /* science scrollbar */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + adj_size(2) + (client.conn.playing->economic.science * 3) / 2;
-  pBuf->size.y = dst.y -1;
+  buf = buf->prev;
+  buf->size.x = dst.x + adj_size(2) + (client.conn.playing->economic.science * 3) / 2;
+  buf->size.y = dst.y -1;
 
   /* science rate */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + dst.w + adj_size(5);
-  pBuf->size.y = dst.y + 1;
+  buf = buf->prev;
+  buf->size.x = dst.x + dst.w + adj_size(5);
+  buf->size.y = dst.y + 1;
 
   /* update */
-  pBuf = pBuf->prev;
-  pBuf->size.x = dst.x + (dst.w - pBuf->size.w) / 2;
-  pBuf->size.y = dst.y + dst.h + adj_size(3);
+  buf = buf->prev;
+  buf->size.x = dst.x + (dst.w - buf->size.w) / 2;
+  buf->size.y = dst.y + dst.h + adj_size(3);
 
   /* cancel */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2); 
+  buf = buf->prev;
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
   /* ------------------------------- */
 
   if (entries_used > 0) {
@@ -2395,7 +2395,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 {
   struct unit_type *punit = NULL;
   SDL_Surface *surf, *pText, *pTmp, *pTmp2;
-  SDL_Surface *Surf_Array[10], **pBuf_Array;
+  SDL_Surface *Surf_Array[10], **buf_array;
   SDL_Rect dst;
   SDL_Color color;
   int w, h;
@@ -2483,23 +2483,23 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
       }
 
       /* draw iprvm. icons */
-      pBuf_Array = Surf_Array;
+      buf_array = Surf_Array;
       h = 0;
       while (w) {
-        alphablit(*pBuf_Array, NULL, surf, &dst, 255);
-        dst.x += (*pBuf_Array)->w;
+        alphablit(*buf_array, NULL, surf, &dst, 255);
+        dst.x += (*buf_array)->w;
         w--;
         h++;
         if (!(h % 2)) {
           if (w >= 2) {
-            dst.x = (surf->w - 2 * (*pBuf_Array)->w) / 2;
+            dst.x = (surf->w - 2 * (*buf_array)->w) / 2;
           } else {
-            dst.x = (surf->w - (*pBuf_Array)->w) / 2;
+            dst.x = (surf->w - (*buf_array)->w) / 2;
           }
-          dst.y += (*pBuf_Array)->h;
+          dst.y += (*buf_array)->h;
           h = 0;
         } /* h == 2 */
-        pBuf_Array++;
+        buf_array++;
       }	/* while */
       dst.y += Surf_Array[0]->h + adj_size(5);
     } /* if (w) */
@@ -2535,10 +2535,10 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
           zoom = DEFAULT_ZOOM * (45.0 / Surf_Array[0]->w);
         }
         dst.x = (surf->w - (Surf_Array[0]->w * 2) * zoom - 2) / 2;
-        pBuf_Array = Surf_Array;
+        buf_array = Surf_Array;
         h = 0;
         while (w) {
-          SDL_Surface *zoomed = zoomSurface((*pBuf_Array), zoom, zoom, 1);
+          SDL_Surface *zoomed = zoomSurface((*buf_array), zoom, zoom, 1);
 
           alphablit(zoomed, NULL, surf, &dst, 255);
           dst.x += zoomed->w + 2;
@@ -2553,7 +2553,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
             dst.y += zoomed->h + 2;
             h = 0;
           } /* h == 2 */
-          pBuf_Array++;
+          buf_array++;
           FREESURFACE(zoomed);
         } /* while */
       } /* w > 1 */
@@ -2907,7 +2907,7 @@ static int change_research_goal_dialog_callback(struct widget *pwindow)
 static void popup_change_research_dialog(void)
 {
   const struct research *presearch = research_get(client_player());
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
   SDL_Surface *surf;
@@ -2945,16 +2945,16 @@ static void popup_change_research_dialog(void)
 
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
-  area.w += pBuf->size.w + adj_size(10);
-  pBuf->action = exit_change_tech_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  area.w += buf->size.w + adj_size(10);
+  buf->action = exit_change_tech_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, buf);
 
   /* ------------------------- */
   /* max col - 104 is select tech widget width */
@@ -2995,22 +2995,22 @@ static void popup_change_research_dialog(void)
 
     copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(aidx)));
     surf = create_select_tech_icon(pstr, aidx, MED_MODE);
-    pBuf = create_icon2(surf, pwindow->dst,
+    buf = create_icon2(surf, pwindow->dst,
                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = change_research_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->action = change_research_callback;
 
-    add_to_gui_list(MAX_ID - aidx, pBuf);
+    add_to_gui_list(MAX_ID - aidx, buf);
 
     if (count > h) {
-      set_wflag(pBuf, WF_HIDDEN);
+      set_wflag(buf, WF_HIDDEN);
     }
   } advance_index_iterate_end;
 
   FREEUTF8STR(pstr);
 
-  pChangeTechDlg->begin_widget_list = pBuf;
+  pChangeTechDlg->begin_widget_list = buf;
   pChangeTechDlg->begin_active_widget_list = pChangeTechDlg->begin_widget_list;
   pChangeTechDlg->end_active_widget_list = pChangeTechDlg->end_widget_list->prev->prev;
 
@@ -3030,8 +3030,8 @@ static void popup_change_research_dialog(void)
 
   disable_science_dialog();
 
-  area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + i));
-  area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
+  area.w = MAX(area.w, (col * buf->size.w + adj_size(2) + i));
+  area.h = MAX(area.h, count * buf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
   surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
@@ -3047,9 +3047,9 @@ static void popup_change_research_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2);
+  buf = pwindow->prev;
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
 
   setup_vertical_widgets_position(col, area.x + 1,
                                   area.y, 0, 0,
@@ -3093,7 +3093,7 @@ static int change_research_goal_callback(struct widget *pwidget)
 static void popup_change_research_goal_dialog(void)
 {
   const struct research *presearch = research_get(client_player());
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
   SDL_Surface *surf;
@@ -3133,16 +3133,16 @@ static void popup_change_research_goal_dialog(void)
 
   /* ------------------------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
-  area.w += pBuf->size.w + adj_size(10);
-  pBuf->action = exit_change_tech_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  area.w += buf->size.w + adj_size(10);
+  buf->action = exit_change_tech_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_CANCEL_BUTTON, pBuf);
+  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_CANCEL_BUTTON, buf);
 
   /* ------------------------- */
   /* max col - 104 is goal tech widget width */
@@ -3191,23 +3191,23 @@ static void popup_change_research_goal_dialog(void)
                   PL_("step", "steps", num));
       copy_chars_to_utf8_str(pstr, cBuf);
       surf = create_select_tech_icon(pstr, aidx, FULL_MODE);
-      pBuf = create_icon2(surf, pwindow->dst,
+      buf = create_icon2(surf, pwindow->dst,
                           WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->action = change_research_goal_callback;
+      set_wstate(buf, FC_WS_NORMAL);
+      buf->action = change_research_goal_callback;
 
-      add_to_gui_list(MAX_ID - aidx, pBuf);
+      add_to_gui_list(MAX_ID - aidx, buf);
 
       if (count > h) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
     }
   } advance_index_iterate_end;
 
   FREEUTF8STR(pstr);
 
-  pChangeTechDlg->begin_widget_list = pBuf;
+  pChangeTechDlg->begin_widget_list = buf;
   pChangeTechDlg->begin_active_widget_list = pChangeTechDlg->begin_widget_list;
   pChangeTechDlg->end_active_widget_list = pChangeTechDlg->end_widget_list->prev->prev;
 
@@ -3227,8 +3227,8 @@ static void popup_change_research_goal_dialog(void)
 
   disable_science_dialog();
 
-  area.w = MAX(area.w, (col * pBuf->size.w + adj_size(2) + i));
-  area.h = MAX(area.h, count * pBuf->size.h + adj_size(2));
+  area.w = MAX(area.w, (col * buf->size.w + adj_size(2) + i));
+  area.h = MAX(area.h, count * buf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
   surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
@@ -3244,9 +3244,9 @@ static void popup_change_research_goal_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2);
+  buf = pwindow->prev;
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
 
   setup_vertical_widgets_position(col, area.x + 1,
                                   area.y, 0, 0,

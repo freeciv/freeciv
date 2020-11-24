@@ -112,10 +112,10 @@ struct gui_layer *get_gui_layer(SDL_Surface *surface)
 struct gui_layer *add_gui_layer(int width, int height)
 {
   struct gui_layer *gui_layer = NULL;
-  SDL_Surface *pBuffer;
+  SDL_Surface *buffer;
 
-  pBuffer = create_surf(width, height, SDL_SWSURFACE);
-  gui_layer = gui_layer_new(0, 0, pBuffer);
+  buffer = create_surf(width, height, SDL_SWSURFACE);
+  gui_layer = gui_layer_new(0, 0, buffer);
 
   /* add to buffers array */
   if (main_data.guis) {
@@ -305,19 +305,19 @@ SDL_Surface *mask_surface(SDL_Surface *psrc, SDL_Surface *pMask,
 **************************************************************************/
 SDL_Surface *load_surf(const char *pFname)
 {
-  SDL_Surface *pBuf;
+  SDL_Surface *buf;
 
   if (!pFname) {
     return NULL;
   }
 
-  if ((pBuf = IMG_Load(pFname)) == NULL) {
+  if ((buf = IMG_Load(pFname)) == NULL) {
     log_error(_("load_surf: Failed to load graphic file %s!"), pFname);
 
     return NULL;
   }
 
-  return pBuf;
+  return buf;
 }
 
 /**********************************************************************//**

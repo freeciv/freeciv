@@ -105,7 +105,7 @@ void real_meswin_dialog_update(void *unused)
   int msg_count;
   int current_count;
   const struct message *pMsg = NULL;
-  struct widget *pBuf = NULL, *pwindow = NULL;
+  struct widget *buf = NULL, *pwindow = NULL;
   utf8_str *pstr = NULL;
   SDL_Rect area = {0, 0, 0, 0};
   bool create;
@@ -153,37 +153,37 @@ void real_meswin_dialog_update(void *unused)
           pstr2 = create_utf8_str(utf8_texts[count],
                                   strlen(utf8_texts[count]) + 1, PTSIZE_LOG_FONT);
 
-          pBuf = create_iconlabel(NULL, pwindow->dst, pstr2,
+          buf = create_iconlabel(NULL, pwindow->dst, pstr2,
                    (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
           /* this block is duplicated in the "else" branch */
           {
-            pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
+            buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-            pBuf->size.w = label_width;
-            pBuf->data.ptr = fc_calloc(1, sizeof(int));
-            *(int*)pBuf->data.ptr = current_count;
-            pBuf->action = msg_callback;
+            buf->size.w = label_width;
+            buf->data.ptr = fc_calloc(1, sizeof(int));
+            *(int*)buf->data.ptr = current_count;
+            buf->action = msg_callback;
             if (pMsg->tile) {
-              set_wstate(pBuf, FC_WS_NORMAL);
+              set_wstate(buf, FC_WS_NORMAL);
               if (pMsg->visited) {
-                pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+                buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
               } else {
-                pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+                buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
               }
             }
 
-            pBuf->ID = ID_LABEL;
+            buf->ID = ID_LABEL;
 
-            widget_set_area(pBuf, area);
+            widget_set_area(buf, area);
 
             /* add to widget list */
             if (create) {
-              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf, pwindow, FALSE,
+              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf, pwindow, FALSE,
                                                         area.x, area.y);
               create = FALSE;
             } else {
-              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
+              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
                                                         pMsg_Dlg->begin_active_widget_list,
                                                         FALSE, area.x, area.y);
             }
@@ -192,38 +192,38 @@ void real_meswin_dialog_update(void *unused)
         } /* while */
         FREEUTF8STR(pstr);
       } else {
-        pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+        buf = create_iconlabel(NULL, pwindow->dst, pstr,
                   (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_FREE_DATA));
 
         /* duplicated block */
         {
-          pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
+          buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-          pBuf->size.w = label_width;
-          pBuf->data.ptr = fc_calloc(1, sizeof(int));
-          *(int*)pBuf->data.ptr = current_count;	
-          pBuf->action = msg_callback;
+          buf->size.w = label_width;
+          buf->data.ptr = fc_calloc(1, sizeof(int));
+          *(int*)buf->data.ptr = current_count;
+          buf->action = msg_callback;
           if (pMsg->tile) {
-            set_wstate(pBuf, FC_WS_NORMAL);
+            set_wstate(buf, FC_WS_NORMAL);
             if (pMsg->visited) {
-              pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
+              buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
             } else {
-              pBuf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
+              buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
             }
           }
 
-          pBuf->ID = ID_LABEL;
+          buf->ID = ID_LABEL;
 
-          widget_set_area(pBuf, area);
+          widget_set_area(buf, area);
 
           /* add to widget list */
           if (create) {
-            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
+            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
                                                       pwindow, FALSE,
                                                       area.x, area.y);
             create = FALSE;
           } else {
-            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, pBuf,
+            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
                                                       pMsg_Dlg->begin_active_widget_list,
                                                       FALSE, area.x, area.y);
           }

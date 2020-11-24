@@ -147,7 +147,7 @@ void popup_spaceship_dialog(struct player *pplayer)
   struct small_dialog *pSpaceShp;
 
   if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
-    struct widget *pBuf, *pwindow;
+    struct widget *buf, *pwindow;
     utf8_str *pstr;
     char cbuf[128];
     SDL_Rect area;
@@ -172,35 +172,35 @@ void popup_spaceship_dialog(struct player *pplayer)
 
     /* ---------- */
     /* create exit button */
-    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+    buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                              adj_font(12));
-    pBuf->data.player = pplayer;
-    pBuf->action = exit_space_dialog_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->key = SDLK_ESCAPE;
-    area.w = MAX(area.w, (pBuf->size.w + adj_size(10)));
+    buf->data.player = pplayer;
+    buf->action = exit_space_dialog_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->key = SDLK_ESCAPE;
+    area.w = MAX(area.w, (buf->size.w + adj_size(10)));
 
-    add_to_gui_list(ID_BUTTON, pBuf);
+    add_to_gui_list(ID_BUTTON, buf);
 
-    pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+    buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                               _("Launch"), adj_font(12), 0);
 
-    pBuf->action = launch_spaceship_callback;
-    area.w = MAX(area.w, pBuf->size.w);
-    area.h += pBuf->size.h + adj_size(20);
-    add_to_gui_list(ID_BUTTON, pBuf);
+    buf->action = launch_spaceship_callback;
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h + adj_size(20);
+    add_to_gui_list(ID_BUTTON, buf);
 
     pstr = create_utf8_from_char(get_spaceship_descr(NULL), adj_font(12));
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
-    area.w = MAX(area.w, pBuf->size.w);
-    area.h += pBuf->size.h + adj_size(20);
-    add_to_gui_list(ID_LABEL, pBuf);
+    buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    area.w = MAX(area.w, buf->size.w);
+    area.h += buf->size.h + adj_size(20);
+    add_to_gui_list(ID_LABEL, buf);
 
-    pSpaceShp->begin_widget_list = pBuf;
+    pSpaceShp->begin_widget_list = buf;
     /* -------------------------------------------------------- */
 
     area.w = MAX(area.w, adj_size(300) - (pwindow->size.w - pwindow->area.w));
@@ -216,19 +216,19 @@ void popup_spaceship_dialog(struct player *pplayer)
                         (main_window_height() - pwindow->size.h) / 2);
 
     /* exit button */
-    pBuf = pwindow->prev;
-    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pwindow->size.y + adj_size(2);
+    buf = pwindow->prev;
+    buf->size.x = area.x + area.w - buf->size.w - 1;
+    buf->size.y = pwindow->size.y + adj_size(2);
 
     /* launch button */
-    pBuf = pBuf->prev;
-    pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
-    pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
+    buf = buf->prev;
+    buf->size.x = area.x + (area.w - buf->size.w) / 2;
+    buf->size.y = area.y + area.h - buf->size.h - adj_size(7);
 
     /* info label */
-    pBuf = pBuf->prev;
-    pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
-    pBuf->size.y = area.y + adj_size(7);
+    buf = buf->prev;
+    buf->size.x = area.x + (area.w - buf->size.w) / 2;
+    buf->size.y = area.y + adj_size(7);
 
     dialog_list_prepend(dialog_list, pSpaceShp);
 

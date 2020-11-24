@@ -537,7 +537,7 @@ static int cancel_connect_dlg_callback(struct widget *pwidget)
 void popup_join_game_dialog(void)
 {
   char pCharPort[6];
-  struct widget *pBuf, *pwindow;
+  struct widget *buf, *pwindow;
   utf8_str *plrname = NULL;
   utf8_str *srvname = NULL;
   utf8_str *port_nr = NULL;
@@ -562,78 +562,78 @@ void popup_join_game_dialog(void)
   /* player name label */
   plrname = create_utf8_from_char(_("Player Name :"), adj_font(10));
   plrname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pwindow->dst, plrname,
+  buf = create_iconlabel(NULL, pwindow->dst, plrname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pBuf);
-  area.h += pBuf->size.h + adj_size(20);
+  add_to_gui_list(ID_LABEL, buf);
+  area.h += buf->size.h + adj_size(20);
 
   /* player name edit */
-  pBuf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14), adj_size(210),
+  buf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14), adj_size(210),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  pBuf->action = convert_playername_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_PLAYER_NAME_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(5);
+  buf->action = convert_playername_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_PLAYER_NAME_EDIT, buf);
+  area.h += buf->size.h + adj_size(5);
 
   /* server name label */
   srvname = create_utf8_from_char(_("Freeciv Server :"), adj_font(10));
   srvname->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pwindow->dst, srvname,
+  buf = create_iconlabel(NULL, pwindow->dst, srvname,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pBuf);
-  area.h += pBuf->size.h + adj_size(5);
+  add_to_gui_list(ID_LABEL, buf);
+  area.h += buf->size.h + adj_size(5);
 
   /* server name edit */
-  pBuf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14), adj_size(210),
+  buf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14), adj_size(210),
                                 WF_RESTORE_BACKGROUND);
 
-  pBuf->action = convert_servername_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_SERVER_NAME_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(5);
+  buf->action = convert_servername_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_SERVER_NAME_EDIT, buf);
+  area.h += buf->size.h + adj_size(5);
 
   /* port label */
   port_nr = create_utf8_from_char(_("Port :"), adj_font(10));
   port_nr->fgcol = *get_theme_color(COLOR_THEME_JOINGAMEDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pwindow->dst, port_nr,
+  buf = create_iconlabel(NULL, pwindow->dst, port_nr,
           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pBuf);
-  area.h += pBuf->size.h + adj_size(5);
+  add_to_gui_list(ID_LABEL, buf);
+  area.h += buf->size.h + adj_size(5);
 
   /* port edit */
   fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
 
-  pBuf = create_edit_from_chars(NULL, pwindow->dst, pCharPort, adj_font(14), adj_size(210),
+  buf = create_edit_from_chars(NULL, pwindow->dst, pCharPort, adj_font(14), adj_size(210),
                                 WF_RESTORE_BACKGROUND);
 
-  pBuf->action = convert_portnr_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_PORT_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(20);
+  buf->action = convert_portnr_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_PORT_EDIT, buf);
+  area.h += buf->size.h + adj_size(20);
 
   /* Connect button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Connect"), adj_font(14), 0);
-  pBuf->action = connect_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_RETURN;
-  add_to_gui_list(ID_CONNECT_BUTTON, pBuf);
+  buf->action = connect_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_RETURN;
+  add_to_gui_list(ID_CONNECT_BUTTON, buf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
-  pBuf->action = cancel_connect_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  add_to_gui_list(ID_CANCEL_BUTTON, pBuf);
-  pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-  pBuf->next->size.w = pBuf->size.w;
-  area.h += pBuf->size.h + adj_size(10);
+  buf->action = cancel_connect_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_CANCEL_BUTTON, buf);
+  buf->size.w = MAX(buf->size.w, buf->next->size.w);
+  buf->next->size.w = buf->size.w;
+  area.h += buf->size.h + adj_size(10);
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = pBuf;
+  pConnectDlg->begin_widget_list = buf;
 
-  dialog_w = MAX(adj_size(40) + pBuf->size.w * 2, adj_size(210)) + adj_size(80);
+  dialog_w = MAX(adj_size(40) + buf->size.w * 2, adj_size(210)) + adj_size(80);
 
 #ifdef SMALL_SCREEN
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
@@ -653,59 +653,59 @@ void popup_join_game_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2 + adj_size(40));
 
   /* player name label */
-  pBuf = pConnectDlg->end_widget_list->prev;
+  buf = pConnectDlg->end_widget_list->prev;
 
-  start_x = area.x + (area.w - pBuf->prev->size.w) / 2;
+  start_x = area.x + (area.w - buf->prev->size.w) / 2;
   pos_y = area.y + adj_size(20);
 
-  pBuf->size.x = start_x + adj_size(5);
-  pBuf->size.y = pos_y;
+  buf->size.x = start_x + adj_size(5);
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h;
+  pos_y += buf->size.h;
 
-  pBuf = pBuf->prev;
-  pBuf->size.x = start_x;
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = start_x;
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h + adj_size(5);
+  pos_y += buf->size.h + adj_size(5);
 
   /* server name label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = start_x + adj_size(5);
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = start_x + adj_size(5);
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h;
+  pos_y += buf->size.h;
 
   /* server name edit */
-  pBuf = pBuf->prev;
-  pBuf->size.x = start_x;
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = start_x;
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h + adj_size(5);
+  pos_y += buf->size.h + adj_size(5);
 
   /* port label */
-  pBuf = pBuf->prev;
-  pBuf->size.x = start_x + adj_size(5);
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = start_x + adj_size(5);
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h;
+  pos_y += buf->size.h;
 
   /* port edit */
-  pBuf = pBuf->prev;
-  pBuf->size.x = start_x;
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = start_x;
+  buf->size.y = pos_y;
 
-  pos_y += pBuf->size.h + adj_size(20);
+  pos_y += buf->size.h + adj_size(20);
 
   /* connect button */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + (dialog_w - (adj_size(40) + pBuf->size.w * 2)) / 2;
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = area.x + (dialog_w - (adj_size(40) + buf->size.w * 2)) / 2;
+  buf->size.y = pos_y;
 
   /* cancel button */
-  pBuf = pBuf->prev;
-  pBuf->size.x = pBuf->next->size.x + pBuf->size.w + adj_size(40);
-  pBuf->size.y = pos_y;
+  buf = buf->prev;
+  buf->size.x = buf->next->size.x + buf->size.w + adj_size(40);
+  buf->size.y = pos_y;
 
   redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
 
@@ -770,7 +770,7 @@ static int cancel_passwd_callback(struct widget *pwidget)
 **************************************************************************/
 static void popup_user_passwd_dialog(const char *pMessage)
 {
-  struct widget *pBuf, *pwindow;
+  struct widget *buf, *pwindow;
   utf8_str *label_str = NULL;
   SDL_Surface *background;
   int start_x, start_y;
@@ -791,44 +791,44 @@ static void popup_user_passwd_dialog(const char *pMessage)
   /* text label */
   label_str = create_utf8_from_char(pMessage, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pwindow->dst, label_str,
+  buf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pBuf);
-  area.h += adj_size(10) + pBuf->size.h + adj_size(5);
+  add_to_gui_list(ID_LABEL, buf);
+  area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* password edit */
-  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  pBuf->action = convert_passwd_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(10);
+  buf->action = convert_passwd_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_EDIT, buf);
+  area.h += buf->size.h + adj_size(10);
 
   /* Next button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Next"), adj_font(14), 0);
-  pBuf->action = send_passwd_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_RETURN;
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf->action = send_passwd_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_RETURN;
+  add_to_gui_list(ID_BUTTON, buf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
-  pBuf->action = cancel_passwd_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  add_to_gui_list(ID_CANCEL_BUTTON, pBuf);
-  pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-  pBuf->next->size.w = pBuf->size.w;
-  area.h += pBuf->size.h + adj_size(10);
+  buf->action = cancel_passwd_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_CANCEL_BUTTON, buf);
+  buf->size.w = MAX(buf->size.w, buf->next->size.w);
+  buf->next->size.w = buf->size.w;
+  area.h += buf->size.h + adj_size(10);
 
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = pBuf;
+  pConnectDlg->begin_widget_list = buf;
 
-  area.w = MAX(area.w, pBuf->size.w * 2 + adj_size(40));
+  area.w = MAX(area.w, buf->size.w * 2 + adj_size(40));
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
@@ -847,38 +847,38 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  pBuf = pConnectDlg->end_widget_list->prev;
+  buf = pConnectDlg->end_widget_list->prev;
 
-  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  start_x = area.x + (area.w - buf->size.w) / 2;
   start_y = area.y + adj_size(10);
 
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf, start_x, start_y);
+  widget_set_area(buf, area);
+  widget_set_position(buf, start_x, start_y);
 
-  start_y += pBuf->size.h + adj_size(5);
+  start_y += buf->size.h + adj_size(5);
 
   /* password edit */
-  pBuf = pBuf->prev;
-  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  buf = buf->prev;
+  start_x = area.x + (area.w - buf->size.w) / 2;
 
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf, start_x, start_y);
+  widget_set_area(buf, area);
+  widget_set_position(buf, start_x, start_y);
 
   /* --------------------------------- */
-  start_button_y = pBuf->size.y + pBuf->size.h + adj_size(10);
+  start_button_y = buf->size.y + buf->size.h + adj_size(10);
 
   /* connect button */
-  pBuf = pBuf->prev;
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf,
-                      area.x + (area.w - (adj_size(40) + pBuf->size.w * 2)) / 2,
+  buf = buf->prev;
+  widget_set_area(buf, area);
+  widget_set_position(buf,
+                      area.x + (area.w - (adj_size(40) + buf->size.w * 2)) / 2,
                       start_button_y);
 
   /* cancel button */
-  pBuf = pBuf->prev;
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf,
-                      pBuf->next->size.x + pBuf->size.w + adj_size(40),
+  buf = buf->prev;
+  widget_set_area(buf, area);
+  widget_set_position(buf,
+                      buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
   redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
@@ -933,7 +933,7 @@ static int convert_second_passwd_callback(struct widget *pwidget)
 **************************************************************************/
 static void popup_new_user_passwd_dialog(const char *pMessage)
 {
-  struct widget *pBuf, *pwindow;
+  struct widget *buf, *pwindow;
   utf8_str *label_str = NULL;
   SDL_Surface *background;
   int start_x, start_y;
@@ -954,51 +954,51 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   /* text label */
   label_str = create_utf8_from_char(pMessage, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
-  pBuf = create_iconlabel(NULL, pwindow->dst, label_str,
+  buf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pBuf);
-  area.h += adj_size(10) + pBuf->size.h + adj_size(5);
+  add_to_gui_list(ID_LABEL, buf);
+  area.h += adj_size(10) + buf->size.h + adj_size(5);
 
   /* password edit */
-  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  pBuf->action = convert_first_passwd_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(5);
+  buf->action = convert_first_passwd_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_EDIT, buf);
+  area.h += buf->size.h + adj_size(5);
 
   /* second password edit */
-  pBuf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
+  buf = create_edit(NULL, pwindow->dst, create_utf8_str(NULL, 0, adj_font(16)),
                      adj_size(210),
                      (WF_PASSWD_EDIT|WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-  pBuf->action = convert_second_passwd_callback;
-  add_to_gui_list(ID_EDIT, pBuf);
-  area.h += pBuf->size.h + adj_size(10);
+  buf->action = convert_second_passwd_callback;
+  add_to_gui_list(ID_EDIT, buf);
+  area.h += buf->size.h + adj_size(10);
 
   /* Next button */
-  pBuf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Next"), adj_font(14), 0);
-  pBuf->action = send_passwd_callback;
-  pBuf->key = SDLK_RETURN;
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf->action = send_passwd_callback;
+  buf->key = SDLK_RETURN;
+  add_to_gui_list(ID_BUTTON, buf);
 
   /* Cancel button */
-  pBuf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon, pwindow->dst,
                                             _("Cancel"), adj_font(14), 0);
-  pBuf->action = cancel_passwd_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  add_to_gui_list(ID_CANCEL_BUTTON, pBuf);
-  pBuf->size.w = MAX(pBuf->size.w, pBuf->next->size.w);
-  pBuf->next->size.w = pBuf->size.w;
-  area.h += pBuf->size.h + adj_size(10);
+  buf->action = cancel_passwd_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_CANCEL_BUTTON, buf);
+  buf->size.w = MAX(buf->size.w, buf->next->size.w);
+  buf->next->size.w = buf->size.w;
+  area.h += buf->size.h + adj_size(10);
 
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = pBuf;
+  pConnectDlg->begin_widget_list = buf;
 
-  area.w = pBuf->size.w * 2 + adj_size(40);
+  area.w = buf->size.w * 2 + adj_size(40);
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
@@ -1017,44 +1017,44 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  pBuf = pConnectDlg->end_widget_list->prev;
+  buf = pConnectDlg->end_widget_list->prev;
 
-  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  start_x = area.x + (area.w - buf->size.w) / 2;
   start_y = area.y + adj_size(10);
 
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf, start_x, start_y);
+  widget_set_area(buf, area);
+  widget_set_position(buf, start_x, start_y);
 
-  start_y += pBuf->size.h + adj_size(5);
+  start_y += buf->size.h + adj_size(5);
 
   /* passwd edit */
-  pBuf = pBuf->prev;
-  start_x = area.x + (area.w - pBuf->size.w) / 2;
+  buf = buf->prev;
+  start_x = area.x + (area.w - buf->size.w) / 2;
 
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf, start_x, start_y);
+  widget_set_area(buf, area);
+  widget_set_position(buf, start_x, start_y);
 
-  start_y += pBuf->size.h + adj_size(5);
+  start_y += buf->size.h + adj_size(5);
 
   /* retype passwd */
-  pBuf = pBuf->prev;
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf, start_x, start_y);
+  buf = buf->prev;
+  widget_set_area(buf, area);
+  widget_set_position(buf, start_x, start_y);
 
-  start_button_y = pBuf->size.y + pBuf->size.h + adj_size(10);
+  start_button_y = buf->size.y + buf->size.h + adj_size(10);
 
   /* connect button */
-  pBuf = pBuf->prev;
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf,
-                      area.x + (area.w - (adj_size(40) + pBuf->size.w * 2)) / 2,
+  buf = buf->prev;
+  widget_set_area(buf, area);
+  widget_set_position(buf,
+                      area.x + (area.w - (adj_size(40) + buf->size.w * 2)) / 2,
                       start_button_y);
 
   /* cancel button */
-  pBuf = pBuf->prev;
-  widget_set_area(pBuf, area);
-  widget_set_position(pBuf,
-                      pBuf->next->size.x + pBuf->size.w + adj_size(40),
+  buf = buf->prev;
+  widget_set_area(buf, area);
+  widget_set_position(buf,
+                      buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
   redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);

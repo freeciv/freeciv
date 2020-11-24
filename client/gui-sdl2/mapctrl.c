@@ -260,7 +260,7 @@ static int economy_callback(struct widget *button)
 static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct widget *pBuf = NULL;
+    struct widget *buf = NULL;
 
     clear_surface(pIcon_Widget->theme, NULL);
     alphablit(current_theme->MAP_Icon, NULL, pIcon_Widget->theme, NULL, 255);
@@ -271,7 +271,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 
     if (SDL_Client_Flags & CF_UNITINFO_SHOWN) {
       /* HIDE */
-      SDL_Surface *pBuf_Surf;
+      SDL_Surface *buf_surf;
       SDL_Rect src, window_area;
 
       set_wstate(pIcon_Widget, FC_WS_NORMAL);
@@ -310,35 +310,35 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
                 units_info_window->dst->surface, &window_area, 255);
 
       /* blit right vertical frame */
-      pBuf_Surf = ResizeSurface(current_theme->FR_Right, current_theme->FR_Right->w,
-                                units_info_window->area.h, 1);
+      buf_surf = ResizeSurface(current_theme->FR_Right, current_theme->FR_Right->w,
+                               units_info_window->area.h, 1);
 
       window_area.y = units_info_window->area.y;
       window_area.x = units_info_window->area.x + units_info_window->area.w;
-      alphablit(pBuf_Surf, NULL,
+      alphablit(buf_surf, NULL,
                 units_info_window->dst->surface, &window_area, 255);
-      FREESURFACE(pBuf_Surf);
+      FREESURFACE(buf_surf);
 
       /* redraw widgets */
 
       /* ID_ECONOMY */
-      pBuf = units_info_window->prev;
-      widget_redraw(pBuf);
+      buf = units_info_window->prev;
+      widget_redraw(buf);
 
       /* ===== */
       /* ID_RESEARCH */
-      pBuf = pBuf->prev;
-      widget_redraw(pBuf);
+      buf = buf->prev;
+      widget_redraw(buf);
 
       /* ===== */
       /* ID_REVOLUTION */
-      pBuf = pBuf->prev;
-      widget_redraw(pBuf);
+      buf = buf->prev;
+      widget_redraw(buf);
 
       /* ===== */
       /* ID_TOGGLE_UNITS_WINDOW_BUTTON */
-      pBuf = pBuf->prev;
-      widget_redraw(pBuf);
+      buf = buf->prev;
+      widget_redraw(buf);
 
 #ifdef SCALE_UNITINFO
       popdown_scale_unitinfo_dlg_callback(NULL);
@@ -401,7 +401,7 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
 
     if (SDL_Client_Flags & CF_OVERVIEW_SHOWN) {
       /* Hide MiniMap */
-      SDL_Surface *pBuf_Surf;
+      SDL_Surface *buf_surf;
       SDL_Rect src, map_area = minimap_window->size;
 
       set_wstate(pMap_Button, FC_WS_NORMAL);
@@ -433,12 +433,12 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
                 minimap_window->dst->surface, &map_area, 255);
 
       /* blit left vertical frame theme */
-      pBuf_Surf = ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w,
-                                minimap_window->area.h, 1);
+      buf_surf = ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w,
+                               minimap_window->area.h, 1);
 
       map_area.y += adj_size(2);
-      alphablit(pBuf_Surf, NULL, minimap_window->dst->surface, &map_area, 255);
-      FREESURFACE(pBuf_Surf);
+      alphablit(buf_surf, NULL, minimap_window->dst->surface, &map_area, 255);
+      FREESURFACE(buf_surf);
 
       /* redraw widgets */
       /* ID_NEW_TURN */
@@ -724,7 +724,7 @@ static void popup_minimap_scale_dialog(void)
   SDL_Surface *pText1, *pText2;
   utf8_str *pstr = NULL;
   struct widget *pwindow = NULL;
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   char cBuf[4];
   int window_x = 0, window_y = 0;
   SDL_Rect area;
@@ -756,53 +756,53 @@ static void popup_minimap_scale_dialog(void)
   area.w = MAX(area.w, pText2->w + adj_size(30));
   FREEUTF8_STR(pstr);
 
-  pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = down_width_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = down_width_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
   pstr = create_utf8_from_char(cBuf, adj_font(24));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
-  pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
-  area.h += pBuf->size.h + adj_size(5);
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf->size.w = MAX(adj_size(50), buf->size.w);
+  area.h += buf->size.h + adj_size(5);
+  add_to_gui_list(ID_LABEL, buf);
 
-  pBuf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = up_width_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = up_width_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
 
   /* ------------ */
-  pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = down_height_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = down_height_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
 
   fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
   pstr = create_utf8_from_char(cBuf, adj_font(24));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
-  pBuf->size.w = MAX(adj_size(50), pBuf->size.w);
-  area.h += pBuf->size.h + adj_size(20);
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf->size.w = MAX(adj_size(50), buf->size.w);
+  area.h += buf->size.h + adj_size(20);
+  add_to_gui_list(ID_LABEL, buf);
 
-  pBuf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = up_height_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.w = MAX(area.w , pBuf->size.w * 2 + pBuf->next->size.w + adj_size(20));
+  buf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = up_height_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
+  area.w = MAX(area.w , buf->size.w * 2 + buf->next->size.w + adj_size(20));
 
   /* ------------ */
   pstr = create_utf8_from_char(_("Exit"), adj_font(12));
-  pBuf = create_themeicon_button(current_theme->CANCEL_Icon, pwindow->dst, pstr, 0);
-  pBuf->action = popdown_scale_minimap_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pScale_MiniMap_Dlg->begin_widget_list = pBuf;
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.h += pBuf->size.h + adj_size(10);
-  area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+  buf = create_themeicon_button(current_theme->CANCEL_Icon, pwindow->dst, pstr, 0);
+  buf->action = popdown_scale_minimap_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  pScale_MiniMap_Dlg->begin_widget_list = buf;
+  add_to_gui_list(ID_BUTTON, buf);
+  area.h += buf->size.h + adj_size(10);
+  area.w = MAX(area.w, buf->size.w + adj_size(20));
   /* ------------ */
 
   area.h += adj_size(20);
@@ -839,38 +839,38 @@ static void popup_minimap_scale_dialog(void)
   FREESURFACE(pText1);
 
   /* width label */
-  pBuf = pwindow->prev->prev;
-  pBuf->size.y = area.y + adj_size(16);
-  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+  buf = pwindow->prev->prev;
+  buf->size.y = area.y + adj_size(16);
+  buf->size.x = area.x + (area.w - buf->size.w) / 2;
 
   /* width left button */
-  pBuf->next->size.y = pBuf->size.y + pBuf->size.h - pBuf->next->size.h;
-  pBuf->next->size.x = pBuf->size.x - pBuf->next->size.w;
+  buf->next->size.y = buf->size.y + buf->size.h - buf->next->size.h;
+  buf->next->size.x = buf->size.x - buf->next->size.w;
 
   /* width right button */
-  pBuf->prev->size.y = pBuf->size.y + pBuf->size.h - pBuf->prev->size.h;
-  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  buf->prev->size.y = buf->size.y + buf->size.h - buf->prev->size.h;
+  buf->prev->size.x = buf->size.x + buf->size.w;
 
   /* height label */
-  pBuf = pBuf->prev->prev->prev;
-  pBuf->size.y = pBuf->next->next->next->size.y + pBuf->next->next->next->size.h + adj_size(20);
-  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
+  buf = buf->prev->prev->prev;
+  buf->size.y = buf->next->next->next->size.y + buf->next->next->next->size.h + adj_size(20);
+  buf->size.x = area.x + (area.w - buf->size.w) / 2;
 
-  blit_entire_src(pText2, pwindow->theme, adj_size(15), pBuf->size.y - pText2->h - adj_size(2));
+  blit_entire_src(pText2, pwindow->theme, adj_size(15), buf->size.y - pText2->h - adj_size(2));
   FREESURFACE(pText2);
 
   /* height left button */
-  pBuf->next->size.y = pBuf->size.y + pBuf->size.h - pBuf->next->size.h;
-  pBuf->next->size.x = pBuf->size.x - pBuf->next->size.w;
+  buf->next->size.y = buf->size.y + buf->size.h - buf->next->size.h;
+  buf->next->size.x = buf->size.x - buf->next->size.w;
 
   /* height right button */
-  pBuf->prev->size.y = pBuf->size.y + pBuf->size.h - pBuf->prev->size.h;
-  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  buf->prev->size.y = buf->size.y + buf->size.h - buf->prev->size.h;
+  buf->prev->size.x = buf->size.x + buf->size.w;
 
   /* exit button */
-  pBuf = pBuf->prev->prev;
-  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
+  buf = buf->prev->prev;
+  buf->size.x = area.x + (area.w - buf->size.w) / 2;
+  buf->size.y = area.y + area.h - buf->size.h - adj_size(7);
 
   /* -------------------- */
   redraw_group(pScale_MiniMap_Dlg->begin_widget_list, pwindow, 0);
@@ -1111,7 +1111,7 @@ static void popup_unitinfo_scale_dialog(void)
   SDL_Surface *pText1, *pText2;
   utf8_str *pstr = NULL;
   struct widget *pwindow = NULL;
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   int window_x = 0, window_y = 0;
   SDL_Rect area;
 
@@ -1143,40 +1143,40 @@ static void popup_unitinfo_scale_dialog(void)
   FREEUTF8STR(pstr);
 
   /* ----------------- */
-  pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = down_info_width_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.h += pBuf->size.h;
+  buf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = down_info_width_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
+  area.h += buf->size.h;
 
-  pBuf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = up_info_width_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
+  buf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = up_info_width_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
 
   /* ------------ */
-  pBuf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = down_info_height_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.h += pBuf->size.h + adj_size(10);
+  buf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = down_info_height_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
+  area.h += buf->size.h + adj_size(10);
 
-  pBuf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
-  pBuf->action = up_info_height_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.w = MAX(area.w , pBuf->size.w * 2 + adj_size(20));
+  buf = create_themeicon_button(current_theme->R_ARROW_Icon, pwindow->dst, NULL, 0);
+  buf->action = up_info_height_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, buf);
+  area.w = MAX(area.w , buf->size.w * 2 + adj_size(20));
 
   /* ------------ */
   pstr = create_utf8_from_char(_("Exit"), adj_font(12));
-  pBuf = create_themeicon_button(current_theme->CANCEL_Icon,
+  buf = create_themeicon_button(current_theme->CANCEL_Icon,
                                  pwindow->dst, pstr, 0);
-  pBuf->action = popdown_scale_unitinfo_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pScale_UnitInfo_Dlg->begin_widget_list = pBuf;
-  add_to_gui_list(ID_BUTTON, pBuf);
-  area.h += pBuf->size.h + adj_size(10);
-  area.w = MAX(area.w, pBuf->size.w + adj_size(20));
+  buf->action = popdown_scale_unitinfo_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  pScale_UnitInfo_Dlg->begin_widget_list = buf;
+  add_to_gui_list(ID_BUTTON, buf);
+  area.h += buf->size.h + adj_size(10);
+  area.w = MAX(area.w, buf->size.w + adj_size(20));
 
   resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
                 (pwindow->size.w - pwindow->area.w) + area.w,
@@ -1209,34 +1209,34 @@ static void popup_unitinfo_scale_dialog(void)
   widget_set_position(pwindow, window_x, window_y);
 
   /* width left button */
-  pBuf = pwindow->prev;
-  pBuf->size.y = area.y + MAX(adj_size(20), pText1->h + adj_size(4));
-  pBuf->size.x = area.x + (area.w - pBuf->size.w * 2) / 2;
-  blit_entire_src(pText1, pwindow->theme, adj_size(15), pBuf->size.y
+  buf = pwindow->prev;
+  buf->size.y = area.y + MAX(adj_size(20), pText1->h + adj_size(4));
+  buf->size.x = area.x + (area.w - buf->size.w * 2) / 2;
+  blit_entire_src(pText1, pwindow->theme, adj_size(15), buf->size.y
                                                         - area.y - pText1->h - adj_size(2));
   FREESURFACE(pText1);
 
   /* width right button */
-  pBuf->prev->size.y = pBuf->size.y;
-  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  buf->prev->size.y = buf->size.y;
+  buf->prev->size.x = buf->size.x + buf->size.w;
 
   /* height left button */
-  pBuf = pBuf->prev->prev;
-  pBuf->size.y = pBuf->next->next->size.y +
-    pBuf->next->next->size.h + MAX(adj_size(20), pText2->h + adj_size(4));
-  pBuf->size.x = area.x + (area.w - pBuf->size.w * 2) / 2;
+  buf = buf->prev->prev;
+  buf->size.y = buf->next->next->size.y +
+    buf->next->next->size.h + MAX(adj_size(20), pText2->h + adj_size(4));
+  buf->size.x = area.x + (area.w - buf->size.w * 2) / 2;
 
-  blit_entire_src(pText2, pwindow->theme, adj_size(15), pBuf->size.y - area.y - pText2->h - adj_size(2));
+  blit_entire_src(pText2, pwindow->theme, adj_size(15), buf->size.y - area.y - pText2->h - adj_size(2));
   FREESURFACE(pText2);
 
   /* height right button */
-  pBuf->prev->size.y = pBuf->size.y;
-  pBuf->prev->size.x = pBuf->size.x + pBuf->size.w;
+  buf->prev->size.y = buf->size.y;
+  buf->prev->size.x = buf->size.x + buf->size.w;
 
   /* exit button */
-  pBuf = pBuf->prev->prev;
-  pBuf->size.x = area.x + (area.w - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + area.h - pBuf->size.h - adj_size(7);
+  buf = buf->prev->prev;
+  buf->size.x = area.x + (area.w - buf->size.w) / 2;
+  buf->size.y = area.y + area.h - buf->size.h - adj_size(7);
 
   if (!INFO_HEIGHT) {
     INFO_WIDTH_MIN = (DEFAULT_UNITS_W - BLOCKU_W) / map.xsize;
@@ -2070,47 +2070,47 @@ void close_game_page(void)
 **************************************************************************/
 static void disable_minimap_widgets(void)
 {
-  struct widget *pBuf, *pEnd;
+  struct widget *buf, *pEnd;
 
-  pBuf = get_minimap_window_widget();
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = get_minimap_window_widget();
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* new turn button */
-  pBuf = pBuf->prev;
-  pEnd = pBuf;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  pEnd = buf;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* players button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* find city button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* units button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* show/hide log window button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
   /* toggle minimap mode button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
 #ifdef SMALL_SCREEN
   /* options button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 #endif /* SMALL_SCREEN */
 
   /* show/hide minimap button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
+  buf = buf->prev;
+  set_wstate(buf, FC_WS_DISABLED);
 
-  redraw_group(pBuf, pEnd, TRUE);
+  redraw_group(buf, pEnd, TRUE);
 }
 
 /**********************************************************************//**
@@ -2119,12 +2119,12 @@ static void disable_minimap_widgets(void)
 **************************************************************************/
 static void disable_unitinfo_widgets(void)
 {
-  struct widget *pBuf = units_info_window->private_data.adv_dlg->begin_widget_list;
+  struct widget *buf = units_info_window->private_data.adv_dlg->begin_widget_list;
   struct widget *pEnd = units_info_window->private_data.adv_dlg->end_widget_list;
 
-  set_group_state(pBuf, pEnd, FC_WS_DISABLED);
+  set_group_state(buf, pEnd, FC_WS_DISABLED);
   pEnd = pEnd->prev;
-  redraw_group(pBuf, pEnd, TRUE);
+  redraw_group(buf, pEnd, TRUE);
 }
 
 /**********************************************************************//**
@@ -2147,48 +2147,48 @@ void disable_main_widgets(void)
 **************************************************************************/
 static void enable_minimap_widgets(void)
 {
-  struct widget *pBuf, *pEnd;
+  struct widget *buf, *pEnd;
 
   if (can_client_issue_orders()) {
-    pBuf = minimap_window;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = minimap_window;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* new turn button */
-    pBuf = pBuf->prev;
-    pEnd = pBuf;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    pEnd = buf;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* players button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* find city button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* units button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* show/hide log window button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
     /* toggle minimap mode button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
 #ifdef SMALL_SCREEN
     /* options button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 #endif /* SMALL_SCREEN */
 
     /* show/hide minimap button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf = buf->prev;
+    set_wstate(buf, FC_WS_NORMAL);
 
-    redraw_group(pBuf, pEnd, TRUE);
+    redraw_group(buf, pEnd, TRUE);
   }
 }
 
@@ -2197,15 +2197,15 @@ static void enable_minimap_widgets(void)
 **************************************************************************/
 static void enable_unitinfo_widgets(void)
 {
-  struct widget *pBuf, *pEnd;
+  struct widget *buf, *pEnd;
 
   if (can_client_issue_orders()) {
-    pBuf = units_info_window->private_data.adv_dlg->begin_widget_list;
+    buf = units_info_window->private_data.adv_dlg->begin_widget_list;
     pEnd = units_info_window->private_data.adv_dlg->end_widget_list;
 
-    set_group_state(pBuf, pEnd, FC_WS_NORMAL);
+    set_group_state(buf, pEnd, FC_WS_NORMAL);
     pEnd = pEnd->prev;
-    redraw_group(pBuf, pEnd, TRUE);
+    redraw_group(buf, pEnd, TRUE);
   }
 }
 

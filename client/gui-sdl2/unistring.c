@@ -100,18 +100,18 @@ Uint16 *unistrdup(const Uint16 *pUniString)
 **************************************************************************/
 Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
 {
-  static Uint16 *pBuf[64];
+  static Uint16 *buf[64];
   Uint16 *pFromUnistring = (Uint16 *)pUnistring;
   size_t len = 0, count = 0;
 
   while (*pUnistring != 0) {
     if (*pUnistring == 10) { /* find new line char */
       if (len) {
-        pBuf[count] = fc_calloc(len + 1, sizeof(Uint16));
-        memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
+        buf[count] = fc_calloc(len + 1, sizeof(Uint16));
+        memcpy(buf[count], pFromUnistring, len * sizeof(Uint16));
       } else {
-        pBuf[count] = fc_calloc(2, sizeof(Uint16));
-        pBuf[count][0] = 32;
+        buf[count] = fc_calloc(2, sizeof(Uint16));
+        buf[count][0] = 32;
       }
       pFromUnistring = (Uint16 *)pUnistring + 1;
       len = 0;
@@ -123,10 +123,10 @@ Uint16 **create_new_line_unistrings(const Uint16 *pUnistring)
     pUnistring++;
 
     if ((*pUnistring == 0) && len) {
-      pBuf[count] = fc_calloc(len + 1, sizeof(Uint16));
-      memcpy(pBuf[count], pFromUnistring, len * sizeof(Uint16));
+      buf[count] = fc_calloc(len + 1, sizeof(Uint16));
+      memcpy(buf[count], pFromUnistring, len * sizeof(Uint16));
     }
   }
 
-  return pBuf;
+  return buf;
 }

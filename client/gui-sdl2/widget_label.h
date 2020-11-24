@@ -17,13 +17,13 @@
 #define create_iconlabel_from_chars(picon, pdest, chars, ptsize, flags) \
   create_iconlabel(picon, pdest, create_utf8_from_char(chars, ptsize), flags)
 
-#define create_active_iconlabel(pBuf, pdest, pstr, pString, pCallback)   \
+#define create_active_iconlabel(buf, pdest, pstr, pString, cb)           \
 do { 									 \
   pstr = create_utf8_from_char(pString, 10);				 \
   pstr->style |= TTF_STYLE_BOLD;					 \
-  pBuf = create_iconlabel(NULL, pdest, pstr, 				 \
+  buf = create_iconlabel(NULL, pdest, pstr, 				 \
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
-  pBuf->action = pCallback;						 \
+  buf->action = cb;                                                  \
 } while (FALSE)
 
 struct widget *create_themelabel(SDL_Surface *icon, struct gui_layer *pdest,

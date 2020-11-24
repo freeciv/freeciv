@@ -133,7 +133,7 @@ static int goto_city_callback(struct widget *pwidget)
 **************************************************************************/
 static void update_goto_dialog(void)
 {
-  struct widget *pBuf = NULL, *add_dock, *pLast;
+  struct widget *buf = NULL, *add_dock, *pLast;
   SDL_Surface *logo = NULL;
   utf8_str *pstr;
   char cBuf[128];
@@ -174,30 +174,30 @@ static void update_goto_dialog(void)
         logo = crop_visible_part_from_surface(logo);
       }
 
-      pBuf = create_iconlabel(logo, pGotoDlg->end_widget_list->dst, pstr,
+      buf = create_iconlabel(logo, pGotoDlg->end_widget_list->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
-        set_wflag(pBuf, WF_FREE_THEME);
+        set_wflag(buf, WF_FREE_THEME);
         owner = city_owner(pCity);
       }
 
-      pBuf->string_utf8->fgcol =
+      buf->string_utf8->fgcol =
 	    *(get_player_color(tileset, city_owner(pCity))->color);
-      pBuf->action = goto_city_callback;
+      buf->action = goto_city_callback;
 
       if (GOTO || pCity->airlift) {
-        set_wstate(pBuf, FC_WS_NORMAL);
+        set_wstate(buf, FC_WS_NORMAL);
       }
 
       fc_assert((MAX_ID - pCity->id) > 0);
-      pBuf->ID = MAX_ID - pCity->id;
+      buf->ID = MAX_ID - pCity->id;
 
-      widget_add_as_prev(pBuf, add_dock);
-      add_dock = pBuf;
+      widget_add_as_prev(buf, add_dock);
+      add_dock = buf;
 
       if (n > (pGotoDlg->scroll->active - 1)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
 
       n++;
@@ -205,7 +205,7 @@ static void update_goto_dialog(void)
   } players_iterate_end;
 
   if (n > 0) {
-    pGotoDlg->begin_widget_list = pBuf;
+    pGotoDlg->begin_widget_list = buf;
 
     pGotoDlg->begin_active_widget_list = pGotoDlg->begin_widget_list;
     pGotoDlg->end_active_widget_list = pLast->prev;
@@ -244,7 +244,7 @@ static void update_goto_dialog(void)
 static void popup_goto_airlift_dialog(void)
 {
   SDL_Color bg_color = {0, 0, 0, 96};
-  struct widget *pBuf, *pwindow;
+  struct widget *buf, *pwindow;
   utf8_str *pstr;
   SDL_Surface *pFlag, *pEnabled, *pDisabled;
   SDL_Rect dst;
@@ -272,16 +272,16 @@ static void popup_goto_airlift_dialog(void)
 
   /* ---------- */
   /* create exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
-  pBuf->action = exit_goto_dialog_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  area.w = MAX(area.w, pBuf->size.w) + adj_size(10);
+  buf->action = exit_goto_dialog_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
+  area.w = MAX(area.w, buf->size.w) + adj_size(10);
 
-  add_to_gui_list(ID_BUTTON, pBuf);
+  add_to_gui_list(ID_BUTTON, buf);
 
   col = 0;
   /* --------------------------------------------- */
@@ -299,24 +299,24 @@ static void popup_goto_airlift_dialog(void)
     pDisabled = create_icon_theme_surf(pFlag);
     FREESURFACE(pFlag);
 
-    pBuf = create_checkbox(pwindow->dst,
+    buf = create_checkbox(pwindow->dst,
                            BV_ISSET(all_players, player_index(pplayer)),
                            WF_FREE_THEME | WF_RESTORE_BACKGROUND
                            | WF_WIDGET_HAS_INFO_LABEL);
-    set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
+    set_new_checkbox_theme(buf, pEnabled, pDisabled);
 
-    pBuf->info_label =
+    buf->info_label =
         create_utf8_from_char(nation_adjective_for_player(pplayer),
                               adj_font(12));
-    pBuf->info_label->style &= ~SF_CENTER;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf->info_label->style &= ~SF_CENTER;
+    set_wstate(buf, FC_WS_NORMAL);
 
-    pBuf->action = toggle_goto_nations_cities_dialog_callback;
-    add_to_gui_list(MAX_ID - player_number(pplayer), pBuf);
+    buf->action = toggle_goto_nations_cities_dialog_callback;
+    add_to_gui_list(MAX_ID - player_number(pplayer), buf);
     col++;
   } players_iterate_end;
 
-  pGotoDlg->begin_widget_list = pBuf;
+  pGotoDlg->begin_widget_list = buf;
 
   create_vertical_scrollbar(pGotoDlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
   hide_scrollbar(pGotoDlg->scroll);
@@ -332,7 +332,7 @@ static void popup_goto_airlift_dialog(void)
   col = (col + 15) / 16; /* number of flag columns */
 
   pFlag = ResizeSurface(current_theme->Block,
-                        (col * pBuf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
+                        (col * buf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
                         area.h, 1);
 
   block_x = dst.x = area.x + area.w - pFlag->w;
@@ -345,32 +345,32 @@ static void popup_goto_airlift_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* exit button */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2);
+  buf = pwindow->prev;
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
 
   /* nations buttons */
-  pBuf = pBuf->prev;
+  buf = buf->prev;
   i = 0;
   x = block_x + adj_size(5);
   y = area.y + adj_size(1);
-  while (pBuf) {
-    pBuf->size.x = x;
-    pBuf->size.y = y;
+  while (buf) {
+    buf->size.x = x;
+    buf->size.y = y;
 
     if (!((i + 1) % col)) {
       x = block_x + adj_size(5);
-      y += pBuf->size.h + adj_size(1);
+      y += buf->size.h + adj_size(1);
     } else {
-      x += pBuf->size.w + adj_size(5);
+      x += buf->size.w + adj_size(5);
     }
 
-    if (pBuf == pGotoDlg->begin_widget_list) {
+    if (buf == pGotoDlg->begin_widget_list) {
       break;
     }
 
     i++;
-    pBuf = pBuf->prev;
+    buf = buf->prev;
   }
 
   setup_vertical_scrollbar_area(pGotoDlg->scroll,

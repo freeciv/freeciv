@@ -119,7 +119,7 @@ void popdown_find_dialog(void)
 **************************************************************************/
 void popup_find_dialog(void)
 {
-  struct widget *pwindow = NULL, *pBuf = NULL;
+  struct widget *pwindow = NULL, *buf = NULL;
   SDL_Surface *logo = NULL;
   utf8_str *pstr;
   char cBuf[128];
@@ -161,20 +161,20 @@ void popup_find_dialog(void)
 
   /* ---------- */
   /* exit button */
-  pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
                           | WF_FREE_DATA);
-  pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                            adj_font(12));
-  area.w = MAX(area.w, pBuf->size.w + adj_size(10));
-  pBuf->action = exit_find_city_dlg_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
-  pBuf->data.cont = fc_calloc(1, sizeof(struct container));
-  pBuf->data.cont->id0 = index_to_map_pos_x(tile_index(original));
-  pBuf->data.cont->id1 = index_to_map_pos_y(tile_index(original));
+  area.w = MAX(area.w, buf->size.w + adj_size(10));
+  buf->action = exit_find_city_dlg_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
+  buf->data.cont = fc_calloc(1, sizeof(struct container));
+  buf->data.cont->id0 = index_to_map_pos_x(tile_index(original));
+  buf->data.cont->id1 = index_to_map_pos_y(tile_index(original));
 
-  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, pBuf);
+  add_to_gui_list(ID_TERRAIN_ADV_DLG_EXIT_BUTTON, buf);
   /* ---------- */
 
   players_iterate(pplayer) {
@@ -190,37 +190,37 @@ void popup_find_dialog(void)
         logo = crop_visible_part_from_surface(logo);
       }
 
-      pBuf = create_iconlabel(logo, pwindow->dst, pstr,
+      buf = create_iconlabel(logo, pwindow->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pCity)) {
-        set_wflag(pBuf, WF_FREE_THEME);
+        set_wflag(buf, WF_FREE_THEME);
         owner = city_owner(pCity);
       }
 
-      pBuf->string_utf8->style &= ~SF_CENTER;
-      pBuf->string_utf8->fgcol = *(get_player_color(tileset, city_owner(pCity))->color);
-      pBuf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
+      buf->string_utf8->style &= ~SF_CENTER;
+      buf->string_utf8->fgcol = *(get_player_color(tileset, city_owner(pCity))->color);
+      buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-      pBuf->data.city = pCity;
+      buf->data.city = pCity;
 
-      pBuf->action = find_city_callback;
-      set_wstate(pBuf, FC_WS_NORMAL);
+      buf->action = find_city_callback;
+      set_wstate(buf, FC_WS_NORMAL);
 
-      add_to_gui_list(ID_LABEL , pBuf);
+      add_to_gui_list(ID_LABEL , buf);
 
-      area.w = MAX(area.w, pBuf->size.w);
-      area.h += pBuf->size.h;
+      area.w = MAX(area.w, buf->size.w);
+      area.h += buf->size.h;
 
       if (n > 19) {
-        set_wflag(pBuf , WF_HIDDEN);
+        set_wflag(buf , WF_HIDDEN);
       }
 
       n++;
     } city_list_iterate_end;
   } players_iterate_end;
 
-  pFind_City_Dlg->begin_widget_list = pBuf;
+  pFind_City_Dlg->begin_widget_list = buf;
   pFind_City_Dlg->begin_active_widget_list = pFind_City_Dlg->begin_widget_list;
   pFind_City_Dlg->end_active_widget_list = pwindow->prev->prev;
   pFind_City_Dlg->active_widget_list = pFind_City_Dlg->end_active_widget_list;
@@ -234,7 +234,7 @@ void popup_find_dialog(void)
     n = units_h;
     area.w += n;
 
-    units_h = 20 * pBuf->size.h + adj_size(2);
+    units_h = 20 * buf->size.h + adj_size(2);
 
   } else {
     units_h = area.h;
@@ -271,16 +271,16 @@ void popup_find_dialog(void)
   }
 
   /* exit button */
-  pBuf = pwindow->prev;
+  buf = pwindow->prev;
 
-  pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-  pBuf->size.y = pwindow->size.y + adj_size(2);
+  buf->size.x = area.x + area.w - buf->size.w - 1;
+  buf->size.y = pwindow->size.y + adj_size(2);
 
   /* cities */
-  pBuf = pBuf->prev;
+  buf = buf->prev;
   setup_vertical_widgets_position(1, area.x, area.y, w, 0,
                                   pFind_City_Dlg->begin_active_widget_list,
-                                  pBuf);
+                                  buf);
 
   if (pFind_City_Dlg->scroll) {
     setup_vertical_scrollbar_area(pFind_City_Dlg->scroll,

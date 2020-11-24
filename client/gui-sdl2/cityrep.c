@@ -1183,18 +1183,18 @@ void real_city_report_dialog_update(void *unused)
 void real_city_report_update_city(struct city *pCity)
 {
   if (pCityRep && pCity) {
-    struct widget *pBuf = pCityRep->end_active_widget_list;
+    struct widget *buf = pCityRep->end_active_widget_list;
 
-    while (pCity->id != MAX_ID - pBuf->ID
-           && pBuf != pCityRep->begin_active_widget_list) {
-      pBuf = pBuf->prev;
+    while (pCity->id != MAX_ID - buf->ID
+           && buf != pCityRep->begin_active_widget_list) {
+      buf = buf->prev;
     }
 
-    if (pBuf == pCityRep->begin_active_widget_list) {
+    if (buf == pCityRep->begin_active_widget_list) {
       real_info_city_report_dialog_update();
       return;
     }
-    real_city_report_dialog_update_city(pBuf, pCity);
+    real_city_report_dialog_update_city(buf, pCity);
 
     /* -------------------------------------- */
     redraw_group(pCityRep->begin_widget_list, pCityRep->end_widget_list, 0);

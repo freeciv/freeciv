@@ -308,23 +308,23 @@ void gui_flush(void)
 void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 			 struct sprite *flake, struct sprite *gov)
 {
-  struct widget *pBuf = NULL;
+  struct widget *buf = NULL;
   char cBuf[128];
 
-  pBuf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-  FREESURFACE(pBuf->theme);
-  pBuf->theme = adj_surf(GET_SURF(sol));
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  buf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  FREESURFACE(buf->theme);
+  buf->theme = adj_surf(GET_SURF(sol));
+  widget_redraw(buf);
+  widget_mark_dirty(buf);
 
-  pBuf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
-  FREESURFACE(pBuf->theme);
-  pBuf->theme = adj_surf(GET_SURF(flake));
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  buf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  FREESURFACE(buf->theme);
+  buf->theme = adj_surf(GET_SURF(flake));
+  widget_redraw(buf);
+  widget_mark_dirty(buf);
 
-  pBuf = get_revolution_widget();
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);
+  buf = get_revolution_widget();
+  set_new_icon2_theme(buf, adj_surf(GET_SURF(gov)), TRUE);
 
   if (NULL != client.conn.playing) {
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
@@ -333,17 +333,17 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     Q_("?gov:None"));
   }
-  copy_chars_to_utf8_str(pBuf->info_label, cBuf);
+  copy_chars_to_utf8_str(buf->info_label, cBuf);
 
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  widget_redraw(buf);
+  widget_mark_dirty(buf);
 
-  pBuf = get_tax_rates_widget();
-  if (!pBuf->theme) {
-    set_new_icon2_theme(pBuf, get_tax_surface(O_GOLD), TRUE);
+  buf = get_tax_rates_widget();
+  if (!buf->theme) {
+    set_new_icon2_theme(buf, get_tax_surface(O_GOLD), TRUE);
   }
 
-  pBuf = get_research_widget();
+  buf = get_research_widget();
 
   if (NULL == client.conn.playing) {
     /* TRANS: Research report action */
@@ -371,12 +371,12 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     }
   }
 
-  copy_chars_to_utf8_str(pBuf->info_label, cBuf);
+  copy_chars_to_utf8_str(buf->info_label, cBuf);
 
-  set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);
+  set_new_icon2_theme(buf, adj_surf(GET_SURF(bulb)), TRUE);
 
-  widget_redraw(pBuf);
-  widget_mark_dirty(pBuf);
+  widget_redraw(buf);
+  widget_mark_dirty(buf);
 }
 
 /**********************************************************************//**
@@ -792,7 +792,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (n > 1 && (info_window->size.h - sy > 52)) {
         struct advanced_dialog *pDlg = info_window->private_data.adv_dlg;
-        struct widget *pBuf = NULL, *pEnd = NULL, *dock;
+        struct widget *buf = NULL, *pEnd = NULL, *dock;
         struct city *pHome_City;
         const struct unit_type *putype;
         int num_w, num_h;
@@ -852,32 +852,32 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	  pstr = create_utf8_from_char(buffer, 10);
           pstr->style |= SF_CENTER;
 
-          pBuf = create_icon2(buf_surf, info_window->dst,
+          buf = create_icon2(buf_surf, info_window->dst,
                               WF_FREE_THEME | WF_RESTORE_BACKGROUND
                               | WF_WIDGET_HAS_INFO_LABEL);
-          pBuf->info_label = pstr;
-          pBuf->data.unit = aunit;
-          pBuf->ID = ID_ICON;
-          widget_add_as_prev(pBuf, dock);
-          dock = pBuf;
+          buf->info_label = pstr;
+          buf->data.unit = aunit;
+          buf->ID = ID_ICON;
+          widget_add_as_prev(buf, dock);
+          dock = buf;
 
           if (!pEnd) {
-            pEnd = pBuf;
+            pEnd = buf;
           }
 
           if (++n > num_w * num_h) {
-            set_wflag(pBuf, WF_HIDDEN);
+            set_wflag(buf, WF_HIDDEN);
           }
 
           if (unit_owner(aunit) == client.conn.playing) {
-            set_wstate(pBuf, FC_WS_NORMAL);
+            set_wstate(buf, FC_WS_NORMAL);
           }
 
-          pBuf->action = focus_units_info_callback;
+          buf->action = focus_units_info_callback;
 
 	} unit_list_iterate_end;
 
-        pDlg->begin_active_widget_list = pBuf;
+        pDlg->begin_active_widget_list = buf;
         pDlg->end_active_widget_list = pEnd;
         pDlg->active_widget_list = pDlg->end_active_widget_list;
 
@@ -892,18 +892,18 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	 }
 
           /* create up button */
-          pBuf = pDlg->scroll->pUp_Left_Button;
-          pBuf->size.x = info_window->area.x + info_window->area.w - pBuf->size.w;
-          pBuf->size.y = info_window->area.y + sy +
+          buf = pDlg->scroll->pUp_Left_Button;
+          buf->size.x = info_window->area.x + info_window->area.w - buf->size.w;
+          buf->size.y = info_window->area.y + sy +
             (info_window->size.h - sy - num_h * 52) / 2;
-          pBuf->size.h = (num_h * 52) / 2;
+          buf->size.h = (num_h * 52) / 2;
 
           /* create down button */
-          pBuf = pDlg->scroll->pDown_Right_Button;
-          pBuf->size.x = pDlg->scroll->pUp_Left_Button->size.x;
-          pBuf->size.y = pDlg->scroll->pUp_Left_Button->size.y +
+          buf = pDlg->scroll->pDown_Right_Button;
+          buf->size.x = pDlg->scroll->pUp_Left_Button->size.x;
+          buf->size.y = pDlg->scroll->pUp_Left_Button->size.y +
             pDlg->scroll->pUp_Left_Button->size.h;
-          pBuf->size.h = pDlg->scroll->pUp_Left_Button->size.h;
+          buf->size.h = pDlg->scroll->pUp_Left_Button->size.h;
         } else {
           if (pDlg->scroll) {
             hide_scrollbar(pDlg->scroll);

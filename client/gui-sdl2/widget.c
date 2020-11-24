@@ -861,7 +861,7 @@ void move_group_to_front_of_gui_list(struct widget *begin_group_widget_list,
 void del_group_of_widgets_from_gui_list(struct widget *begin_group_widget_list,
                                         struct widget *end_group_widget_list)
 {
-  struct widget *pBufWidget = NULL;
+  struct widget *bufWidget = NULL;
   struct widget *tmp_widget = end_group_widget_list;
 
   if (!end_group_widget_list) {
@@ -877,8 +877,8 @@ void del_group_of_widgets_from_gui_list(struct widget *begin_group_widget_list,
 
   while (tmp_widget) {
 
-    pBufWidget = tmp_widget->next;
-    del_widget_from_gui_list(pBufWidget);
+    bufWidget = tmp_widget->next;
+    del_widget_from_gui_list(bufWidget);
 
     if (tmp_widget == begin_group_widget_list) {
       del_widget_from_gui_list(tmp_widget);
@@ -1051,38 +1051,38 @@ int setup_vertical_widgets_position(int step,
                                     Uint16 w, Uint16 h,
                                     struct widget *pBegin, struct widget *pEnd)
 {
-  struct widget *pBuf = pEnd;
+  struct widget *buf = pEnd;
   register int count = 0;
   register int real_start_x = start_x;
   int ret = 0;
 
-  while (pBuf) {
-    pBuf->size.x = real_start_x;
-    pBuf->size.y = start_y;
+  while (buf) {
+    buf->size.x = real_start_x;
+    buf->size.y = start_y;
 
     if (w) {
-      pBuf->size.w = w;
+      buf->size.w = w;
     }
 
     if (h) {
-      pBuf->size.h = h;
+      buf->size.h = h;
     }
 
     if (((count + 1) % step) == 0) {
       real_start_x = start_x;
-      start_y += pBuf->size.h;
-      if (!(get_wflags(pBuf) & WF_HIDDEN)) {
-        ret += pBuf->size.h;
+      start_y += buf->size.h;
+      if (!(get_wflags(buf) & WF_HIDDEN)) {
+        ret += buf->size.h;
       }
     } else {
-      real_start_x += pBuf->size.w;
+      real_start_x += buf->size.w;
     }
 
-    if (pBuf == pBegin) {
+    if (buf == pBegin) {
       break;
     }
     count++;
-    pBuf = pBuf->prev;
+    buf = buf->prev;
   }
 
   return ret;

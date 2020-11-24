@@ -226,7 +226,7 @@ void update_intel_dialog(struct player *p)
 {
   const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
-  struct widget *pwindow = NULL, *pBuf = NULL, *pLast;
+  struct widget *pwindow = NULL, *buf = NULL, *pLast;
   SDL_Surface *logo = NULL, *tmp_surf = NULL;
   SDL_Surface *pText1, *pInfo, *pText2 = NULL;
   utf8_str *pstr;
@@ -263,18 +263,18 @@ void update_intel_dialog(struct player *p)
 
     /* ---------- */
     /* exit button */
-    pBuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                             WF_WIDGET_HAS_INFO_LABEL
                             | WF_RESTORE_BACKGROUND);
-    pBuf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+    buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                              adj_font(12));
-    area.w = MAX(area.w, pBuf->size.w + adj_size(10));
-    pBuf->action = exit_intel_dlg_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->data.player = p;
-    pBuf->key = SDLK_ESCAPE;
+    area.w = MAX(area.w, buf->size.w + adj_size(10));
+    buf->action = exit_intel_dlg_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->data.player = p;
+    buf->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pBuf);
+    add_to_gui_list(ID_BUTTON, buf);
     /* ---------- */
 
     logo = get_nation_flag_surface(nation_of_player(p));
@@ -287,18 +287,18 @@ void update_intel_dialog(struct player *p)
 
     logo = pText1;
 
-    pBuf = create_icon2(logo, pwindow->dst,
+    buf = create_icon2(logo, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                         | WF_FREE_THEME);
-    pBuf->action = spaceship_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->data.player = p;
+    buf->action = spaceship_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->data.player = p;
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"),
                 nation_adjective_for_player(p));
-    pBuf->info_label = create_utf8_from_char(cBuf, adj_font(12));
+    buf->info_label = create_utf8_from_char(cBuf, adj_font(12));
 
-    add_to_gui_list(ID_ICON, pBuf);
+    add_to_gui_list(ID_ICON, buf);
 
     /* ---------- */
     fc_snprintf(cBuf, sizeof(cBuf),
@@ -367,7 +367,7 @@ void update_intel_dialog(struct player *p)
     col = area.w / (tmp_surf->w + adj_size(4));
     FREESURFACE(tmp_surf);
     n = 0;
-    pLast = pBuf;
+    pLast = buf;
     mresearch = research_get(client_player());
     presearch = research_get(p);
     advance_index_iterate(A_FIRST, i) {
@@ -375,27 +375,27 @@ void update_intel_dialog(struct player *p)
           && research_invention_reachable(mresearch, i)
           && TECH_KNOWN != research_invention_state(mresearch, i)) {
 
-        pBuf = create_icon2(get_tech_icon(i), pwindow->dst,
+        buf = create_icon2(get_tech_icon(i), pwindow->dst,
                             WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
                             | WF_FREE_THEME);
-        pBuf->action = tech_callback;
-        set_wstate(pBuf, FC_WS_NORMAL);
+        buf->action = tech_callback;
+        set_wstate(buf, FC_WS_NORMAL);
 
-        pBuf->info_label =
+        buf->info_label =
             create_utf8_from_char(advance_name_translation
                                   (advance_by_number(i)), adj_font(12));
 
-        add_to_gui_list(ID_ICON, pBuf);
+        add_to_gui_list(ID_ICON, buf);
 
         if (n > ((2 * col) - 1)) {
-          set_wflag(pBuf, WF_HIDDEN);
+          set_wflag(buf, WF_HIDDEN);
         }
 
         n++;
       }
     } advance_index_iterate_end;
 
-    pdialog->pdialog->begin_widget_list = pBuf;
+    pdialog->pdialog->begin_widget_list = buf;
 
     if (n > 0) {
       pdialog->pdialog->end_active_widget_list = pLast->prev;
@@ -403,16 +403,16 @@ void update_intel_dialog(struct player *p)
       if (n > 2 * col) {
         pdialog->pdialog->active_widget_list = pdialog->pdialog->end_active_widget_list;
         count = create_vertical_scrollbar(pdialog->pdialog, col, 2, TRUE, TRUE);
-        area.h += (2 * pBuf->size.h + adj_size(10));
+        area.h += (2 * buf->size.h + adj_size(10));
       } else {
         count = 0;
         if (n > col) {
-          area.h += pBuf->size.h;
+          area.h += buf->size.h;
         }
-        area.h += (adj_size(10) + pBuf->size.h);
+        area.h += (adj_size(10) + buf->size.h);
       }
 
-      area.w = MAX(area.w, col * pBuf->size.w + count);
+      area.w = MAX(area.w, col * buf->size.w + count);
 
       fc_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_utf8_str(pstr, cBuf);
@@ -434,9 +434,9 @@ void update_intel_dialog(struct player *p)
       (pdialog->pos_y) ? (pdialog->pos_y) : ((main_window_height() - pwindow->size.h) / 2));
 
     /* exit button */
-    pBuf = pwindow->prev;
-    pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
-    pBuf->size.y = pwindow->size.y + adj_size(2);
+    buf = pwindow->prev;
+    buf->size.x = area.x + area.w - buf->size.w - 1;
+    buf->size.y = pwindow->size.y + adj_size(2);
 
     dst.x = area.x + (area.w - pText1->w) / 2;
     dst.y = area.y + adj_size(8);
@@ -446,12 +446,12 @@ void update_intel_dialog(struct player *p)
     FREESURFACE(pText1);
 
     /* spaceship button */
-    pBuf = pBuf->prev;
-    dst.x = area.x + (area.w - (pBuf->size.w + adj_size(10) + pInfo->w)) / 2;
-    pBuf->size.x = dst.x;
-    pBuf->size.y = dst.y;
+    buf = buf->prev;
+    dst.x = area.x + (area.w - (buf->size.w + adj_size(10) + pInfo->w)) / 2;
+    buf->size.x = dst.x;
+    buf->size.y = dst.y;
 
-    dst.x += pBuf->size.w + adj_size(10);
+    dst.x += buf->size.w + adj_size(10);
     alphablit(pInfo, NULL, pwindow->theme, &dst, 255);
     dst.y += pInfo->h + adj_size(10);
     FREESURFACE(pInfo);

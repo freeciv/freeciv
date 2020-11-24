@@ -205,7 +205,7 @@ static int rename_worklist_editor_callback(struct widget *pwidget)
 **************************************************************************/
 static void add_target_to_worklist(struct widget *pTarget)
 {
-  struct widget *pBuf = NULL, *dock = NULL;
+  struct widget *buf = NULL, *dock = NULL;
   utf8_str *pstr = NULL;
   int i;
   struct universal prod = cid_decode(MAX_ID - pTarget->ID);
@@ -244,16 +244,16 @@ static void add_target_to_worklist(struct widget *pTarget)
   }
 
   pstr->style |= SF_CENTER;
-  pBuf = create_iconlabel(NULL, pTarget->dst, pstr,
+  buf = create_iconlabel(NULL, pTarget->dst, pstr,
                           (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->action = worklist_editor_item_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->action = worklist_editor_item_callback;
 
-  pBuf->data.ptr = fc_calloc(1, sizeof(int));
-  *((int *)pBuf->data.ptr) = worklist_length(&pEditor->worklist_copy) - 1;
+  buf->data.ptr = fc_calloc(1, sizeof(int));
+  *((int *)buf->data.ptr) = worklist_length(&pEditor->worklist_copy) - 1;
 
-  pBuf->ID = MAX_ID - cid_encode(prod);
+  buf->ID = MAX_ID - cid_encode(prod);
 
   if (pEditor->pWork->begin_active_widget_list) {
     dock = pEditor->pWork->begin_active_widget_list;
@@ -281,12 +281,12 @@ static void add_target_to_worklist(struct widget *pTarget)
   }
 #endif /* 0 */
 
-  add_widget_to_vertical_scroll_widget_list(pEditor->pWork, pBuf,
+  add_widget_to_vertical_scroll_widget_list(pEditor->pWork, buf,
                                             dock, FALSE,
                                             pEditor->end_widget_list->area.x + adj_size(2),
                                             pEditor->end_widget_list->area.y + adj_size(152));
 
-  pBuf->size.w = adj_size(126);
+  buf->size.w = adj_size(126);
 
   refresh_worklist_count_label();
   redraw_group(pEditor->pWork->begin_widget_list,
@@ -459,13 +459,13 @@ static void remove_item_from_worklist(struct widget *pItem)
 
   if (pItem->data.ptr) {
     /* correct "data" widget fiels */
-    struct widget *pBuf = pItem;
+    struct widget *buf = pItem;
 
-    if (pBuf != pEditor->pWork->begin_active_widget_list) {
+    if (buf != pEditor->pWork->begin_active_widget_list) {
       do {
-        pBuf = pBuf->prev;
-        *((int *)pBuf->data.ptr) = *((int *)pBuf->data.ptr) - 1;
-      } while (pBuf != pEditor->pWork->begin_active_widget_list);
+        buf = buf->prev;
+        *((int *)buf->data.ptr) = *((int *)buf->data.ptr) - 1;
+      } while (buf != pEditor->pWork->begin_active_widget_list);
     }
 
     /* remove element from worklist */
@@ -475,17 +475,17 @@ static void remove_item_from_worklist(struct widget *pItem)
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
   } else {
     /* change productions to first worklist element */
-    struct widget *pBuf = pItem->prev;
+    struct widget *buf = pItem->prev;
 
     change_production(&pEditor->worklist_copy.entries[0]);
     worklist_advance(&pEditor->worklist_copy);
     del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pItem);
-    FC_FREE(pBuf->data.ptr);
-    if (pBuf != pEditor->pWork->begin_active_widget_list) {
+    FC_FREE(buf->data.ptr);
+    if (buf != pEditor->pWork->begin_active_widget_list) {
       do {
-        pBuf = pBuf->prev;
-        *((int *)pBuf->data.ptr) = *((int *)pBuf->data.ptr) - 1;
-      } while (pBuf != pEditor->pWork->begin_active_widget_list);
+        buf = buf->prev;
+        *((int *)buf->data.ptr) = *((int *)buf->data.ptr) - 1;
+      } while (buf != pEditor->pWork->begin_active_widget_list);
     }
   }
 
@@ -668,7 +668,7 @@ static int worklist_editor_item_callback(struct widget *pwidget)
 static void add_global_worklist(struct widget *pwidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
-  struct widget *pBuf = pEditor->pWork->end_active_widget_list;
+  struct widget *buf = pEditor->pWork->end_active_widget_list;
   const struct worklist *pWorkList;
   int count, firstfree;
 
@@ -696,31 +696,31 @@ static void add_global_worklist(struct widget *pwidget)
 
     /* create widget */
     if (VUT_UTYPE == pWorkList->entries[count].kind) {
-      pBuf = create_iconlabel(NULL, pwidget->dst,
+      buf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
                       utype_name_translation(pWorkList->entries[count].value.utype),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      pBuf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
+      buf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
     } else {
-      pBuf = create_iconlabel(NULL, pwidget->dst,
+      buf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
                       city_improvement_name_translation(pEditor->pCity,
                                                         pWorkList->entries[count].value.building),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      pBuf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
+      buf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
     }
 
-    pBuf->string_utf8->style |= SF_CENTER;
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = worklist_editor_item_callback;
-    pBuf->size.w = adj_size(126);
-    pBuf->data.ptr = fc_calloc(1, sizeof(int));
-    *((int *)pBuf->data.ptr) = firstfree;
+    buf->string_utf8->style |= SF_CENTER;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->action = worklist_editor_item_callback;
+    buf->size.w = adj_size(126);
+    buf->data.ptr = fc_calloc(1, sizeof(int));
+    *((int *)buf->data.ptr) = firstfree;
 
     add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
-                                              pBuf, pEditor->pWork->begin_active_widget_list,
+                                              buf, pEditor->pWork->begin_active_widget_list,
                                               FALSE,
                                               pEditor->end_widget_list->area.x + adj_size(2),
                                               pEditor->end_widget_list->area.y + adj_size(152));
@@ -746,7 +746,7 @@ static void add_global_worklist(struct widget *pwidget)
 static void set_global_worklist(struct widget *pwidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
-  struct widget *pBuf = pEditor->pWork->end_active_widget_list;
+  struct widget *buf = pEditor->pWork->end_active_widget_list;
   const struct worklist *pWorkList;
   struct worklist wl;
   int count, wl_count;
@@ -777,15 +777,15 @@ static void set_global_worklist(struct widget *pwidget)
 
   if (!worklist_is_empty(&wl)) {
     /* free old widget list */
-    if (pBuf != pEditor->pWork->begin_active_widget_list) {
-      pBuf = pBuf->prev;
-      if (pBuf != pEditor->pWork->begin_active_widget_list) {
+    if (buf != pEditor->pWork->begin_active_widget_list) {
+      buf = buf->prev;
+      if (buf != pEditor->pWork->begin_active_widget_list) {
         do {
-          pBuf = pBuf->prev;
-          del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf->next);
-        } while (pBuf != pEditor->pWork->begin_active_widget_list);
+          buf = buf->prev;
+          del_widget_from_vertical_scroll_widget_list(pEditor->pWork, buf->next);
+        } while (buf != pEditor->pWork->begin_active_widget_list);
       }
-      del_widget_from_vertical_scroll_widget_list(pEditor->pWork, pBuf);
+      del_widget_from_vertical_scroll_widget_list(pEditor->pWork, buf);
     }
     /* --------------------------------- */
 
@@ -800,28 +800,28 @@ static void set_global_worklist(struct widget *pwidget)
       }
 
       if (VUT_UTYPE == target.kind) {
-        pBuf = create_iconlabel(NULL, pwidget->dst,
+        buf = create_iconlabel(NULL, pwidget->dst,
           create_utf8_from_char(utype_name_translation(target.value.utype),
                                 adj_font(10)),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-        pBuf->ID = MAX_ID - B_LAST - utype_number(target.value.utype);
+        buf->ID = MAX_ID - B_LAST - utype_number(target.value.utype);
       } else {
-        pBuf = create_iconlabel(NULL, pwidget->dst,
+        buf = create_iconlabel(NULL, pwidget->dst,
           create_utf8_from_char(city_improvement_name_translation(pEditor->pCity,
                                                                   target.value.building),
                                 adj_font(10)),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-        pBuf->ID = MAX_ID - improvement_number(target.value.building);
+        buf->ID = MAX_ID - improvement_number(target.value.building);
       }
-      pBuf->string_utf8->style |= SF_CENTER;
-      set_wstate(pBuf, FC_WS_NORMAL);
-      pBuf->action = worklist_editor_item_callback;
-      pBuf->size.w = adj_size(126);
-      pBuf->data.ptr = fc_calloc(1, sizeof(int));
-      *((int *)pBuf->data.ptr) = count;
+      buf->string_utf8->style |= SF_CENTER;
+      set_wstate(buf, FC_WS_NORMAL);
+      buf->action = worklist_editor_item_callback;
+      buf->size.w = adj_size(126);
+      buf->data.ptr = fc_calloc(1, sizeof(int));
+      *((int *)buf->data.ptr) = count;
 
       add_widget_to_vertical_scroll_widget_list(pEditor->pWork,
-        pBuf, pEditor->pWork->begin_active_widget_list, FALSE,
+        buf, pEditor->pWork->begin_active_widget_list, FALSE,
         pEditor->end_widget_list->area.x + adj_size(2),
         pEditor->end_widget_list->area.y + adj_size(152));
     }
@@ -917,11 +917,11 @@ static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
 
   if (width) {
     SDL_Rect dst = {2,1,0,0};
-    SDL_Surface *pBuf = create_bcgnd_surf(current_theme->Button, 3, width,
+    SDL_Surface *buf = create_bcgnd_surf(current_theme->Button, 3, width,
                                           adj_size(28));
 
-    alphablit(pBuf, NULL, icon, &dst, 255);
-    FREESURFACE(pBuf);
+    alphablit(buf, NULL, icon, &dst, 255);
+    FREESURFACE(buf);
   }
 
   return icon;
@@ -1050,7 +1050,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   int count = 0, turns;
   int widget_w = 0, widget_h = 0;
   utf8_str *pstr = NULL;
-  struct widget *pBuf = NULL, *pwindow, *pLast;
+  struct widget *buf = NULL, *pwindow, *pLast;
   SDL_Surface *pText = NULL, *pText_Name = NULL, *zoomed = NULL;
   SDL_Surface *pMain;
   SDL_Surface *icon;
@@ -1121,9 +1121,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  add_to_gui_list(ID_LABEL, pBuf);
+  add_to_gui_list(ID_LABEL, buf);
   /* --------------------------- */
 
   fc_snprintf(cbuf, sizeof(cbuf),
@@ -1131,9 +1131,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
               PL_("( %d entry )", "( %d entries )", len), len);
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
-  pEditor->pWorkList_Counter = pBuf;
-  add_to_gui_list(ID_LABEL, pBuf);
+  buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+  pEditor->pWorkList_Counter = buf;
+  add_to_gui_list(ID_LABEL, buf);
   /* --------------------------- */
 
   /* create production progress label or rename worklist edit */
@@ -1167,10 +1167,10 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     }
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-    pEditor->pProduction_Name = pBuf;
-    add_to_gui_list(ID_LABEL, pBuf);
+    pEditor->pProduction_Name = buf;
+    add_to_gui_list(ID_LABEL, buf);
 
     icon = get_progress_icon(pCity->shield_stock, count, &turns);
 
@@ -1182,42 +1182,42 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-    pBuf = create_iconlabel(icon, pwindow->dst, pstr,
+    buf = create_iconlabel(icon, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
 
     icon = NULL;
     turns = 0;
-    pEditor->pProduction_Progres = pBuf;
-    add_to_gui_list(ID_LABEL, pBuf);
+    pEditor->pProduction_Progres = buf;
+    add_to_gui_list(ID_LABEL, buf);
   } else {
-    pBuf = create_edit_from_chars(NULL, pwindow->dst,
+    buf = create_edit_from_chars(NULL, pwindow->dst,
                                   global_worklist_name(gwl), adj_font(10),
                                   adj_size(120), WF_RESTORE_BACKGROUND);
-    pBuf->action = rename_worklist_editor_callback;
-    set_wstate(pBuf, FC_WS_NORMAL);
+    buf->action = rename_worklist_editor_callback;
+    set_wstate(buf, FC_WS_NORMAL);
 
-    add_to_gui_list(ID_EDIT, pBuf);
+    add_to_gui_list(ID_EDIT, buf);
   }
 
   /* --------------------------- */
   /* Commit Widget */
-  pBuf = create_themeicon(current_theme->OK_Icon, pwindow->dst, WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->OK_Icon, pwindow->dst, WF_RESTORE_BACKGROUND);
 
-  pBuf->action = ok_worklist_editor_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_RETURN;
+  buf->action = ok_worklist_editor_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_RETURN;
 
-  add_to_gui_list(ID_BUTTON, pBuf);
+  add_to_gui_list(ID_BUTTON, buf);
   /* --------------------------- */
   /* Cancel Widget */
-  pBuf = create_themeicon(current_theme->CANCEL_Icon, pwindow->dst,
+  buf = create_themeicon(current_theme->CANCEL_Icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND);
 
-  pBuf->action = popdown_worklist_editor_callback;
-  set_wstate(pBuf, FC_WS_NORMAL);
-  pBuf->key = SDLK_ESCAPE;
+  buf->action = popdown_worklist_editor_callback;
+  set_wstate(buf, FC_WS_NORMAL);
+  buf->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_BUTTON, pBuf);
+  add_to_gui_list(ID_BUTTON, buf);
   /* --------------------------- */
   /* work list */
 
@@ -1247,22 +1247,22 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     pstr = create_utf8_from_char(city_production_name_translation(pCity), adj_font(10));
     turns = city_production_build_shield_cost(pCity);
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
+    buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = worklist_editor_item_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->action = worklist_editor_item_callback;
 
-    add_to_gui_list(MAX_ID - cid_encode(pCity->production), pBuf);
+    add_to_gui_list(MAX_ID - cid_encode(pCity->production), buf);
 
-    pEditor->pWork->end_widget_list = pBuf;
-    pEditor->pWork->begin_widget_list = pBuf;
+    pEditor->pWork->end_widget_list = buf;
+    pEditor->pWork->begin_widget_list = buf;
     pEditor->pWork->end_active_widget_list = pEditor->pWork->end_widget_list;
     pEditor->pWork->begin_active_widget_list = pEditor->pWork->begin_widget_list;
     pEditor->pWork->scroll->count++;
   }
 
-  pLast = pBuf;
-  pEditor->dock = pBuf;
+  pLast = buf;
+  pEditor->dock = buf;
 
   /* create Widget Labels of worklist entries */
 
@@ -1278,21 +1278,21 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                                    adj_font(10));
     }
     pstr->style |= SF_CENTER;
-    pBuf = create_iconlabel(NULL, pwindow->dst, pstr,
+    buf = create_iconlabel(NULL, pwindow->dst, pstr,
                             (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
-    set_wstate(pBuf, FC_WS_NORMAL);
-    pBuf->action = worklist_editor_item_callback;
+    set_wstate(buf, FC_WS_NORMAL);
+    buf->action = worklist_editor_item_callback;
 
-    pBuf->data.ptr = fc_calloc(1, sizeof(int));
-    *((int *)pBuf->data.ptr) = count;
+    buf->data.ptr = fc_calloc(1, sizeof(int));
+    *((int *)buf->data.ptr) = count;
 
-    add_to_gui_list(MAX_ID - cid_encode(prod), pBuf);
+    add_to_gui_list(MAX_ID - cid_encode(prod), buf);
 
     count++;
 
     if (count > pEditor->pWork->scroll->active - 1) {
-      set_wflag(pBuf, WF_HIDDEN);
+      set_wflag(buf, WF_HIDDEN);
     }
 
   } worklist_iterate_end;
@@ -1302,7 +1302,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       pEditor->pWork->end_widget_list = pLast->prev;
       pEditor->pWork->end_active_widget_list = pEditor->pWork->end_widget_list;
     }
-    pEditor->pWork->begin_widget_list = pBuf;
+    pEditor->pWork->begin_widget_list = buf;
     pEditor->pWork->begin_active_widget_list = pEditor->pWork->begin_widget_list;
   } else {
     if (!pCity) {
@@ -1327,7 +1327,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       do {
         pTmp = pTmp->prev;
         clear_wflag(pTmp, WF_HIDDEN);
-      } while (pTmp != pBuf);
+      } while (pTmp != buf);
     }
     hide_scrollbar(pEditor->pWork->scroll);
   }
@@ -1342,20 +1342,20 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
     count = 0;
 
     global_worklists_iterate(iter_gwl) {
-      pBuf = create_iconlabel_from_chars(NULL, pwindow->dst,
+      buf = create_iconlabel_from_chars(NULL, pwindow->dst,
                                          global_worklist_name(iter_gwl),
                                          adj_font(10),
                                          WF_RESTORE_BACKGROUND);
-      set_wstate(pBuf, FC_WS_NORMAL);
-      add_to_gui_list(MAX_ID - global_worklist_id(iter_gwl), pBuf);
-      pBuf->string_utf8->style |= SF_CENTER;
-      pBuf->action = global_worklist_callback;
-      pBuf->string_utf8->fgcol = bg_color;
+      set_wstate(buf, FC_WS_NORMAL);
+      add_to_gui_list(MAX_ID - global_worklist_id(iter_gwl), buf);
+      buf->string_utf8->style |= SF_CENTER;
+      buf->action = global_worklist_callback;
+      buf->string_utf8->fgcol = bg_color;
 
       count++;
 
       if (count > 4) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
     } global_worklists_iterate_end;
 
@@ -1363,7 +1363,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       pEditor->pGlobal = fc_calloc(1, sizeof(struct advanced_dialog));
       pEditor->pGlobal->end_widget_list = pLast->prev;
       pEditor->pGlobal->end_active_widget_list = pEditor->pGlobal->end_widget_list;
-      pEditor->pGlobal->begin_widget_list = pBuf;
+      pEditor->pGlobal->begin_widget_list = buf;
       pEditor->pGlobal->begin_active_widget_list = pEditor->pGlobal->begin_widget_list;
 
       if (count > 6) {
@@ -1378,7 +1378,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
         do {
           pTmp = pTmp->prev;
           clear_wflag(pTmp, WF_HIDDEN);
-        } while (pTmp != pBuf);
+        } while (pTmp != buf);
       }
 
       pLast = pEditor->pGlobal->begin_widget_list;
@@ -1525,19 +1525,19 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(icon, pwindow->dst,
+      buf = create_icon2(icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
-      set_wstate(pBuf, FC_WS_NORMAL);
+      set_wstate(buf, FC_WS_NORMAL);
 
-      widget_w = MAX(widget_w, pBuf->size.w);
-      widget_h = MAX(widget_h, pBuf->size.h);
+      widget_w = MAX(widget_w, buf->size.w);
+      widget_h = MAX(widget_h, buf->size.h);
 
-      pBuf->data.city = pCity;
-      add_to_gui_list(MAX_ID - improvement_number(pimprove), pBuf);
-      pBuf->action = worklist_editor_targets_callback;
+      buf->data.city = pCity;
+      add_to_gui_list(MAX_ID - improvement_number(pimprove), buf);
+      buf->action = worklist_editor_targets_callback;
 
       if (count > (TARGETS_ROW * TARGETS_COL - 1)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
       count++;
     }
@@ -1628,19 +1628,19 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
       FREESURFACE(pText);
       FREESURFACE(pText_Name);
 
-      pBuf = create_icon2(icon, pwindow->dst,
+      buf = create_icon2(icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
-      set_wstate(pBuf, FC_WS_NORMAL);
+      set_wstate(buf, FC_WS_NORMAL);
 
-      widget_w = MAX(widget_w, pBuf->size.w);
-      widget_h = MAX(widget_h, pBuf->size.h);
+      widget_w = MAX(widget_w, buf->size.w);
+      widget_h = MAX(widget_h, buf->size.h);
 
-      pBuf->data.city = pCity;
-      add_to_gui_list(MAX_ID - cid_encode_unit(un), pBuf);
-      pBuf->action = worklist_editor_targets_callback;
+      buf->data.city = pCity;
+      add_to_gui_list(MAX_ID - cid_encode_unit(un), buf);
+      buf->action = worklist_editor_targets_callback;
 
       if (count > (TARGETS_ROW * TARGETS_COL - 1)) {
-        set_wflag(pBuf, WF_HIDDEN);
+        set_wflag(buf, WF_HIDDEN);
       }
       count++;
 
@@ -1650,7 +1650,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
   pEditor->pTargets = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pEditor->pTargets->end_widget_list = pLast->prev;
-  pEditor->pTargets->begin_widget_list = pBuf;
+  pEditor->pTargets->begin_widget_list = buf;
   pEditor->pTargets->end_active_widget_list = pEditor->pTargets->end_widget_list;
   pEditor->pTargets->begin_active_widget_list = pEditor->pTargets->begin_widget_list;
   pEditor->pTargets->active_widget_list = pEditor->pTargets->end_active_widget_list;
@@ -1728,40 +1728,40 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* name */
-  pBuf = pwindow->prev;
-  pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + adj_size(4);
+  buf = pwindow->prev;
+  buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
+  buf->size.y = area.y + adj_size(4);
 
   /* size of worklist (without production) */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
-  pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
+  buf->size.y = buf->next->size.y + buf->next->size.h;
 
   if (pCity) {
     /* current build and progress bar */
-    pBuf = pBuf->prev;
-    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h + adj_size(5);
+    buf = buf->prev;
+    buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
+    buf->size.y = buf->next->size.y + buf->next->size.h + adj_size(5);
 
-    pBuf = pBuf->prev;
-    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
-    pBuf->size.y = pBuf->next->size.y + pBuf->next->size.h;
+    buf = buf->prev;
+    buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
+    buf->size.y = buf->next->size.y + buf->next->size.h;
   } else {
     /* rename worklist */
-    pBuf = pBuf->prev;
-    pBuf->size.x = area.x + (adj_size(130) - pBuf->size.w) / 2;
-    pBuf->size.y = area.y + 1 + (adj_size(145) - pBuf->size.h) / 2;
+    buf = buf->prev;
+    buf->size.x = area.x + (adj_size(130) - buf->size.w) / 2;
+    buf->size.y = area.y + 1 + (adj_size(145) - buf->size.h) / 2;
   }
 
   /* ok button */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + (adj_size(65) - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + adj_size(135) - pBuf->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + (adj_size(65) - buf->size.w) / 2;
+  buf->size.y = area.y + adj_size(135) - buf->size.h;
 
   /* exit button */
-  pBuf = pBuf->prev;
-  pBuf->size.x = area.x + adj_size(65) + (adj_size(65) - pBuf->size.w) / 2;
-  pBuf->size.y = area.y + adj_size(135) - pBuf->size.h;
+  buf = buf->prev;
+  buf->size.x = area.x + adj_size(65) + (adj_size(65) - buf->size.w) / 2;
+  buf->size.y = area.y + adj_size(135) - buf->size.h;
 
   /* worklist */
   /* pEditor->pWork->scroll->count: including production */
