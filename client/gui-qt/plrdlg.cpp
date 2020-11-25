@@ -45,6 +45,7 @@ static QRect check_box_rect(const QStyleOptionViewItem
                          view_item_style_options.rect.y() +
                          view_item_style_options.rect.height() / 2 -
                          check_box_rect.height() / 2);
+
   return QRect(check_box_point, check_box_rect.size());
 }
 
@@ -58,6 +59,7 @@ QSize plr_item_delegate::sizeHint(const QStyleOptionViewItem &option,
 
   r =  QItemDelegate::sizeHint(option, index);
   r.setHeight(r.height() + 4);
+
   return r;
 }
 
@@ -73,8 +75,8 @@ void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
   QString str;
   QRect rct;
   QPixmap pix(16, 16);
-
   QStyleOptionViewItem opt = QItemDelegate::setOptions(index, option);
+
   painter->save();
   switch (player_dlg_columns[index.column()].type) {
   case COL_FLAG:
@@ -211,10 +213,15 @@ plr_model::~plr_model()
 **************************************************************************/
 QVariant plr_model::data(const QModelIndex &index, int role) const
 {
-  if (!index.isValid()) return QVariant();
+  if (!index.isValid()) {
+    return QVariant();
+  }
+
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0
-      && index.column() < columnCount())
+      && index.column() < columnCount()) {
     return plr_list[index.row()]->data(index.column(), role);
+  }
+
   return QVariant();
 }
 
@@ -225,12 +232,15 @@ QVariant plr_model::headerData(int section, Qt::Orientation orientation,
                                int role) const
 {
   struct player_dlg_column *pcol;
+
   if (orientation == Qt::Horizontal && section < num_player_dlg_columns) {
     if (role == Qt::DisplayRole) {
       pcol = &player_dlg_columns[section];
+
       return pcol->title;
     }
   }
+
   return QVariant();
 }
 
@@ -240,15 +250,21 @@ QVariant plr_model::headerData(int section, Qt::Orientation orientation,
 bool plr_model::setData(const QModelIndex &index, const QVariant &value, 
                         int role)
 {
-  if (!index.isValid() || role != Qt::DisplayRole) return false;
+  if (!index.isValid() || role != Qt::DisplayRole) {
+    return false;
+  }
+
   if (index.row() >= 0 && index.row() < rowCount() && index.column() >= 0 
     && index.column() < columnCount()) {
     bool change = plr_list[index.row()]->setData(index.column(), value, role);
+
     if (change) {
       notify_plr_changed(index.row());
     }
+
     return change;
   }
+
   return false;
 }
 
@@ -270,6 +286,7 @@ void plr_model::populate()
   qDeleteAll(plr_list);
   plr_list.clear();
   beginResetModel();
+
   players_iterate(pplayer) {
     if ((is_barbarian(pplayer))) {
       continue;
@@ -277,6 +294,7 @@ void plr_model::populate()
     pi = new plr_item(pplayer);
     plr_list << pi;
   } players_iterate_end;
+
   endResetModel();
 }
 
@@ -327,6 +345,7 @@ void plr_widget::restore_selection()
   if (selected_player == nullptr) {
     return;
   }
+
   for (int j = 0; j < filter_model->rowCount(); j++) {
     i = filter_model->index(j, 0);
     qvar = i.data(Qt::UserRole);
@@ -348,8 +367,10 @@ void plr_widget::restore_selection()
 void plr_widget::display_header_menu(const QPoint &)
 {
   QMenu *hideshow_column = new QMenu(this);
-  hideshow_column->setTitle(_("Column visibility"));
   QList<QAction *> actions;
+
+  hideshow_column->setTitle(_("Column visibility"));
+
   for (int i = 0; i < list_model->columnCount(); ++i) {
     QAction *myAct = hideshow_column->addAction(
                        list_model->headerData(i, Qt::Horizontal, 
@@ -386,7 +407,9 @@ void plr_widget::display_header_menu(const QPoint &)
 QVariant plr_model::hide_data(int section) const
 {
   struct player_dlg_column *pcol;
+
   pcol = &player_dlg_columns[section];
+
   return pcol->show;
 }
 
@@ -436,20 +459,24 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   intel_str.clear();
   tech_str.clear();
   ally_str.clear();
+
   if (indexes.isEmpty()) {
     selected_player = nullptr;
     plr->update_report(false);
     return;
   }
+
   index = indexes.at(0);
   qvar = index.data(Qt::UserRole);
   pplayer = reinterpret_cast<player *>(qvar.value<void *>());
   selected_player = pplayer;
   other_player = pplayer;
+
   if (!pplayer->is_alive) {
     plr->update_report(false);
     return;
   }
+
   me = client_player();
   pcity = player_primary_capital(pplayer);
   research = research_get(pplayer);
@@ -554,6 +581,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     }
   }
   my_research = research_get(me);
+
   if (!global_observer) {
     if (player_has_embassy(me, pplayer) && me != pplayer) {
       a = 0;
@@ -620,6 +648,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
                     + QString("</i>") + sp;
     }
   }
+
   plr->update_report(false);
 }
 
@@ -697,6 +726,7 @@ plr_report::plr_report():QWidget()
   connect(withdraw_but, &QAbstractButton::pressed, this, &plr_report::req_wiithdrw_vision);
   connect(toggle_ai_but, &QAbstractButton::pressed, this, &plr_report::toggle_ai_mode);
   setLayout(layout);
+
   if (gui()->qt_settings.player_repo_sort_col != -1) {
     plr_wdg->sortByColumn(gui()->qt_settings.player_repo_sort_col,
                           gui()->qt_settings.player_report_sort);
@@ -720,7 +750,6 @@ void plr_report::init()
   index = gui()->add_game_tab(this);
   gui()->game_tab_widget->setCurrentIndex(index);
 }
-
 
 /**********************************************************************//**
   Public function to call meeting
@@ -778,6 +807,7 @@ void plr_report::toggle_ai_mode()
   for (level = 0; level < AI_LEVEL_COUNT; level++) {
     if (is_settable_ai_level(static_cast<ai_level>(level))) {
       QString ln = ai_level_translated_name(static_cast<ai_level>(level));
+
       ai_level_act = new QAction(ln, nullptr);
       ai_level_act->setData(QVariant::fromValue(level));
       ai_menu->addAction(ai_level_act);
@@ -786,6 +816,7 @@ void plr_report::toggle_ai_mode()
   ai_menu->setAttribute(Qt::WA_DeleteOnClose);
   connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
     int level;
+
     if (act == toggle_ai_act) {
       send_chat_printf("/aitoggle \"%s\"",
                        player_name(plr_wdg->other_player));
@@ -811,10 +842,12 @@ void plr_report::toggle_ai_mode()
 void plr_widget::mousePressEvent(QMouseEvent *event)
 {
   QModelIndex index =  this->indexAt(event->pos());
+
   if (index.isValid() &&  event->button() == Qt::RightButton
       && can_client_issue_orders()) {
      plr->call_meeting();
   }
+
   QTreeView::mousePressEvent(event);
 }
 
