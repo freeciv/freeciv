@@ -2414,6 +2414,10 @@ ruleset_files = [
   ]
 
 foreach rs : rulesets
+  install_data(
+    join_paths('data', rs + '.serv'),
+    install_dir : join_paths(get_option('datadir'), 'freeciv')
+    )
   foreach rsf : ruleset_files
     install_data(
       join_paths('data', rs, rsf),
