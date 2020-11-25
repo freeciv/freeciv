@@ -2721,14 +2721,14 @@ bool map_event_handler(SDL_Keysym key)
 /**********************************************************************//**
   User interacted with the edit button of the new city dialog.
 **************************************************************************/
-static int newcity_name_edit_callback(struct widget *pEdit)
+static int newcity_name_edit_callback(struct widget *pedit)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pNewCity_Dlg->begin_widget_list->string_utf8->text == NULL) {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pEdit->string_utf8, pSuggestedCityName);
-      widget_redraw(pEdit);
-      widget_mark_dirty(pEdit);
+      copy_chars_to_utf8_str(pedit->string_utf8, pSuggestedCityName);
+      widget_redraw(pedit);
+      widget_mark_dirty(pedit);
       flush_dirty();
     }
   }
@@ -2805,7 +2805,7 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
   struct widget *pwindow = NULL;
   struct widget *cancel_button = NULL;
   struct widget *ok_button;
-  struct widget *pEdit;
+  struct widget *pedit;
   SDL_Rect area;
   int suggestlen;
 
@@ -2858,12 +2858,12 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
 
   area.h += pLabel->size.h;
 
-  pEdit = create_edit(NULL, pwindow->dst, create_utf8_from_char(pSuggestname, adj_font(12)),
+  pedit = create_edit(NULL, pwindow->dst, create_utf8_from_char(pSuggestname, adj_font(12)),
      (ok_button->size.w + cancel_button->size.w + adj_size(15)), WF_RESTORE_BACKGROUND);
-  pEdit->action = newcity_name_edit_callback;
+  pedit->action = newcity_name_edit_callback;
 
-  area.w = MAX(area.w, pEdit->size.w + adj_size(20));
-  area.h += pEdit->size.h + adj_size(25);
+  area.w = MAX(area.w, pedit->size.w + adj_size(20));
+  area.h += pedit->size.h + adj_size(25);
 
   /* I make this hack to center label on window */
   if (pLabel->size.w < area.w) {
@@ -2872,7 +2872,7 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
     area.w = MAX(pwindow->area.w, pLabel->size.w + adj_size(10));
   }
 
-  pEdit->size.w = area.w - adj_size(20);
+  pedit->size.w = area.w - adj_size(20);
 
   /* create window background */
   background = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
@@ -2895,8 +2895,8 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
   cancel_button->size.y = ok_button->size.y;
   cancel_button->size.x = area.x + area.w - cancel_button->size.w - adj_size(10);
 
-  pEdit->size.x = area.x + adj_size(10);
-  pEdit->size.y = area.y + adj_size(4) + pLabel->size.h + adj_size(3);
+  pedit->size.x = area.x + adj_size(10);
+  pedit->size.y = area.y + adj_size(4) + pLabel->size.h + adj_size(3);
 
   pLabel->size.x = area.x + adj_size(3);
   pLabel->size.y = area.y + adj_size(4);
@@ -2904,7 +2904,7 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
   /* enable widgets */
   set_wstate(cancel_button, FC_WS_NORMAL);
   set_wstate(ok_button, FC_WS_NORMAL);
-  set_wstate(pEdit, FC_WS_NORMAL);
+  set_wstate(pedit, FC_WS_NORMAL);
   set_wstate(pwindow, FC_WS_NORMAL);
 
   /* add widgets to main list */
@@ -2913,11 +2913,11 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
   add_to_gui_list(ID_NEWCITY_NAME_LABEL, pLabel);
   add_to_gui_list(ID_NEWCITY_NAME_CANCEL_BUTTON, cancel_button);
   add_to_gui_list(ID_NEWCITY_NAME_OK_BUTTON, ok_button);
-  add_to_gui_list(ID_NEWCITY_NAME_EDIT, pEdit);
-  pNewCity_Dlg->begin_widget_list = pEdit;
+  add_to_gui_list(ID_NEWCITY_NAME_EDIT, pedit);
+  pNewCity_Dlg->begin_widget_list = pedit;
 
   /* redraw */
-  redraw_group(pEdit, pwindow, 0);
+  redraw_group(pedit, pwindow, 0);
 
   widget_flush(pwindow);
 }

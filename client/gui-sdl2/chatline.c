@@ -72,7 +72,7 @@ struct CONNLIST {
   struct widget *pLoadGameButton;
   struct widget *pConfigure;
   struct widget *pBackButton;
-  struct widget *pEdit;
+  struct widget *pedit;
   int text_width;
   int active;
 } *pConnDlg = NULL;
@@ -363,21 +363,21 @@ static int inputline_return_callback(struct widget *pwidget)
 **************************************************************************/
 void popup_input_line(void)
 {
-  struct widget *pInput_Edit;
+  struct widget *input_edit;
 
-  pInput_Edit = create_edit_from_chars(NULL, main_data.gui, "", adj_font(12),
+  input_edit = create_edit_from_chars(NULL, main_data.gui, "", adj_font(12),
                                        adj_size(400), 0);
 
-  pInput_Edit->size.x = (main_window_width() - pInput_Edit->size.w) / 2;
-  pInput_Edit->size.y = (main_window_height() - pInput_Edit->size.h) / 2;
+  input_edit->size.x = (main_window_width() - input_edit->size.w) / 2;
+  input_edit->size.y = (main_window_height() - input_edit->size.h) / 2;
 
-  if (edit(pInput_Edit) != ED_ESC) {
-    inputline_return_callback(pInput_Edit);
+  if (edit(input_edit) != ED_ESC) {
+    inputline_return_callback(input_edit);
   }
 
-  widget_undraw(pInput_Edit);
-  widget_mark_dirty(pInput_Edit);
-  FREEWIDGET(pInput_Edit);
+  widget_undraw(input_edit);
+  widget_mark_dirty(input_edit);
+  FREEWIDGET(input_edit);
 
   flush_dirty();
 }
@@ -786,7 +786,7 @@ static void popup_conn_list_dialog(void)
   buf->size.y = pwindow->size.h - adj_size(40) - adj_size(5) - buf->size.h;
   buf->action = input_edit_conn_callback;
   set_wstate(buf, FC_WS_NORMAL);
-  pConnDlg->pEdit = buf;
+  pConnDlg->pedit = buf;
   add_to_gui_list(ID_EDIT, buf);
 
   /* buttons */
@@ -872,7 +872,7 @@ static void popup_conn_list_dialog(void)
 bool popdown_conn_list_dialog(void)
 {
   if (pConnDlg) {
-    if (get_wstate(pConnDlg->pEdit) == FC_WS_PRESSED) {
+    if (get_wstate(pConnDlg->pedit) == FC_WS_PRESSED) {
       force_exit_from_event_loop();
     }
 

@@ -258,10 +258,10 @@ static int ok_save_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pwidget && pCma && pCma->pAdv) {
-      struct widget *pEdit = (struct widget *)pwidget->data.ptr;
+      struct widget *pedit = (struct widget *)pwidget->data.ptr;
 
-      if (pEdit->string_utf8->text != NULL) {
-        cmafec_preset_add(pEdit->string_utf8->text, &pCma->edited_cm_parm);
+      if (pedit->string_utf8->text != NULL) {
+        cmafec_preset_add(pedit->string_utf8->text, &pCma->edited_cm_parm);
       } else {
         cmafec_preset_add(_("new preset"), &pCma->edited_cm_parm);
       }

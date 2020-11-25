@@ -339,7 +339,7 @@ Uint16 widget_pressed_action(struct widget *pwidget)
     {
       if (PRESSED_EVENT(main_data.event)) {
         bool ret, loop = (get_wflags(pwidget) & WF_EDIT_LOOP);
-        enum Edit_Return_Codes change;
+        enum edit_return_codes change;
 
         do {
           ret = FALSE;

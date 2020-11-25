@@ -14,7 +14,7 @@
 #ifndef FC__WIDGET_EDIT_H
 #define FC__WIDGET_EDIT_H
 
-enum Edit_Return_Codes {
+enum edit_return_codes {
   ED_RETURN = 1,
   ED_ESC = 2,
   ED_MOUSE = 3,
@@ -26,12 +26,12 @@ enum Edit_Return_Codes {
 		    create_utf8_from_char(pCharString, iPtsize),                        \
 		    length, flags)
 
-#define edit(pEdit) edit_field(pEdit)
+#define edit(pedit) edit_field(pedit)
 
 struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
                            utf8_str *pstr, int length,
                            Uint32 flags);
-enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget);
-int draw_edit(struct widget *pEdit, Sint16 start_x, Sint16 start_y);
+enum edit_return_codes edit_field(struct widget *edit_widget);
+int draw_edit(struct widget *pedit, Sint16 start_x, Sint16 start_y);
 
 #endif /* FC__WIDGET_EDIT_H */
