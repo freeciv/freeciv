@@ -7,6 +7,70 @@ For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 2.6.2 to 2.6.2.1
+-----------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.2.1>, 2020-11-25)
+
+   2.6.2.1 fixes critical build failures and crash bugs,
+   and brings documentation updates.
+
+Server / General
+Changes affecting custom rulesets / modders
+
+    * Fixed server crash when unit with zero move_rate
+      is transformed ​HRM#868905​
+    * Fixed crashes when using Direction objects in lua scripts
+      ​HRM#880869​
+
+Clients
+
+    * Fixed crash when chatline text had opening tag without
+      closing tag ​HRM#887581​
+    * Fixes to the Qt client:
+        + Fixed general memory corruption problems. It's not known
+          what user visible symptoms these had, if any. ​HRM#859139​
+        + Fixed crash under certain conditions when entering the game
+          HRM#863839​
+        + Fixed occasional crash around turn change
+          HRM#857974​ ​HRM#858251​
+        + Fixed crash when global observer looks at players dialog
+          HRM#863815​
+        + Fixed memory corruption when worker task was cleared.
+          One known symptom of this was that opening some city dialogs
+          would crash. ​HRM#887748​
+        + Fixed crash when trying to use trade planning.
+          This was reggression in 2.6.2. ​HRM#874406​
+
+Help / Documentation
+
+    * Point to freeciv-dev mailing list as the bug reporting address.
+      This is likely to change again in a future release. ​HRM#894573​
+    * Clarified that civ2civ3 ruleset Ecclesiastical Palace does not
+      function exactly as second capital ​HRM#872573​
+    * Miscellaneous other improvements to in-game text and
+      user documentation ​HRM#870391​
+    * Miscellaneous changes to developer/install/ruleset docs
+      HRM#868505​ ​HRM#857353​ ​HRM#855637​ ​HRM#869737​ ​HRM#874123​
+      HRM#880508​ ​HRM#881455​
+
+Translations
+
+    * Updated translations:
+        + Complete translations: Spanish, Polish, Russian
+        + Incomplete translations:
+            Catalan (99% core, 100% nations, 100% ruledit),
+            Finnish (100% core, 91% nations, 100% ruledit),
+            French (99% core, 100% nations, 100% ruledit),
+            Simplified Chinese (37% core, 8% nations, 3% ruledit)
+
+Build/portability
+
+    * Fixed Qt-client build against Qt-5.15 ​HRM#868060​
+    * Fixed problems in compiling with clang-10 ​HRM#868533​
+    * Fixed compiling of included lua with gcc-10 ​HRM#889511​
+
+
 CHANGES FROM 2.6.1 to 2.6.2
 ---------------------------
 
