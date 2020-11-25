@@ -1,6 +1,6 @@
-#serial 27
+#serial 28
 
-# Copyright (C) 2001, 2003-2007, 2009-2019 Free Software Foundation, Inc.
+# Copyright (C) 2001, 2003-2007, 2009-2020 Free Software Foundation, Inc.
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
 # with or without modifications, as long as this notice is preserved.
@@ -26,7 +26,8 @@ AC_DEFUN([gl_FUNC_MKSTEMP],
         mkdir conftest.mkstemp
         AC_RUN_IFELSE(
           [AC_LANG_PROGRAM(
-            [AC_INCLUDES_DEFAULT],
+            [AC_INCLUDES_DEFAULT
+             GL_MDA_DEFINES],
             [[int result = 0;
               int i;
               off_t large = (off_t) 4294967295u;
