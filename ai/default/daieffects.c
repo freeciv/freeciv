@@ -635,7 +635,7 @@ static bool have_better_government(const struct player *pplayer,
   Does the AI expect to ever be able to meet this requirement.
 
   The return value of this function is unreliable for requirements
-  that are are currently active: the caller should only call this
+  that are currently active: the caller should only call this
   function to determine if a currently *inactive* requirement could
   be met in the future.
 
