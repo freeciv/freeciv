@@ -188,7 +188,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     char tBuf[128], cBuf[128];
     struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
-    SDL_Surface *pText;
+    SDL_Surface *text;
     SDL_Rect dst;
     SDL_Rect area;
 
@@ -243,11 +243,11 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
-    pText = create_text_surf_from_utf8(pstr);
+    text = create_text_surf_from_utf8(pstr);
     FREEUTF8STR(pstr);
 
-    area.h += (pText->h + adj_size(10));
-    area.w = MAX(area.w, pText->w + adj_size(20));
+    area.h += (text->h + adj_size(10));
+    area.w = MAX(area.w, text->w + adj_size(20));
 
     /* cancel button */
     buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
@@ -291,10 +291,10 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
 
     /* setup rest of widgets */
     /* label */
-    dst.x = area.x + (area.w - pText->w) / 2;
+    dst.x = area.x + (area.w - text->w) / 2;
     dst.y = area.y + adj_size(10);
-    alphablit(pText, NULL, pwindow->theme, &dst, 255);
-    FREESURFACE(pText);
+    alphablit(text, NULL, pwindow->theme, &dst, 255);
+    FREESURFACE(text);
 
     /* cancel button */
     buf = pwindow->prev;
@@ -357,7 +357,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   struct widget *buf = NULL;
   struct widget *pwindow, *pLast;
   utf8_str *pstr;
-  SDL_Surface *pText1, *pText2, *pText3 , *pText4, *pText5, *logo;
+  SDL_Surface *text1, *text2, *text3 , *text4, *text5, *logo;
   int w = 0 , count, ww, hh = 0, name_w = 0;
   char cbuf[64];
   SDL_Rect dst;
@@ -374,24 +374,24 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   fc_snprintf(cbuf, sizeof(cbuf), _("active"));
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= SF_CENTER;
-  pText1 = create_text_surf_from_utf8(pstr);
+  text1 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("under\nconstruction"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText2 = create_text_surf_from_utf8(pstr);
+  text2 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("soonest\ncompletion"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText5 = create_text_surf_from_utf8(pstr);
+  text5 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Total"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText3 = create_text_surf_from_utf8(pstr);
+  text3 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Units"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText4 = create_text_surf_from_utf8(pstr);
-  name_w = pText4->w;
+  text4 = create_text_surf_from_utf8(pstr);
+  name_w = text4->w;
   FREEUTF8STR(pstr);
 
   /* --------------- */
@@ -429,7 +429,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                           WF_RESTORE_BACKGROUND);
 
   area.h += buf->size.h;
-  buf->size.w = pText1->w + adj_size(6);
+  buf->size.w = text1->w + adj_size(6);
   add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_SHIELD]);
@@ -439,7 +439,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  buf->size.w = pText1->w;
+  buf->size.w = text1->w;
   add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_FOOD]);
@@ -449,7 +449,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  buf->size.w = pText1->w;
+  buf->size.w = text1->w;
   add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */	
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->upkeep[O_GOLD]);
@@ -459,7 +459,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-  buf->size.w = pText1->w;
+  buf->size.w = text1->w;
   add_to_gui_list(ID_LABEL, buf);
   /* ---------------------------------------------- */	
   fc_snprintf(cbuf, sizeof(cbuf), "%d", total->building_count);
@@ -470,7 +470,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   buf = create_iconlabel(NULL, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
 
-  buf->size.w = pText2->w + adj_size(6);
+  buf->size.w = text2->w + adj_size(6);
   add_to_gui_list(ID_LABEL, buf);
 
   /* ------------------------- */
@@ -520,7 +520,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         set_wflag(buf, WF_HIDDEN);
       }
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText1->w + adj_size(6);
+      buf->size.w = text1->w + adj_size(6);
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* shield upkeep */
@@ -533,7 +533,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         set_wflag(buf, WF_HIDDEN);
       }
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText1->w;
+      buf->size.w = text1->w;
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* food upkeep */
@@ -547,7 +547,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       }
 
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText1->w;
+      buf->size.w = text1->w;
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* gold upkeep */
@@ -561,7 +561,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       }
 
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText1->w;
+      buf->size.w = text1->w;
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* building */
@@ -578,7 +578,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         set_wflag(buf, WF_HIDDEN);
       }
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText2->w + adj_size(6);
+      buf->size.w = text2->w + adj_size(6);
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       /* soonest completion */
@@ -598,7 +598,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
         set_wflag(buf, WF_HIDDEN);
       }
       hh = MAX(hh, buf->size.h);
-      buf->size.w = pText5->w + adj_size(6);
+      buf->size.w = text5->w + adj_size(6);
       add_to_gui_list(MAX_ID - utype_number(i), buf);
 
       count += adj_size(8);
@@ -608,8 +608,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   units_dlg->begin_widget_list = buf;
   area.w = MAX(area.w, (tileset_full_tile_width(tileset) * 2 + name_w + adj_size(15))
-               + (adj_size(4) * pText1->w + adj_size(46)) + (pText2->w + adj_size(16))
-               + (pText5->w + adj_size(6)) + adj_size(2));
+               + (adj_size(4) * text1->w + adj_size(46)) + (text2->w + adj_size(16))
+               + (text5->w + adj_size(6)) + adj_size(2));
   if (count > 0) {
     units_dlg->end_active_widget_list = pLast->prev;
     units_dlg->begin_active_widget_list = units_dlg->begin_widget_list;
@@ -628,7 +628,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     area.h = adj_size(50);
   }
 
-  area.h += pText1->h + adj_size(10);
+  area.h += text1->h + adj_size(10);
   area.w += adj_size(2);
 
   logo = theme_get_background(theme, BACKGROUND_UNITSREP);
@@ -657,9 +657,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   /* totals background and label */
   dst.x = area.x + adj_size(2);
-  dst.y = area.y + area.h - (pText3->h + adj_size(2)) - adj_size(2);
+  dst.y = area.y + area.h - (text3->h + adj_size(2)) - adj_size(2);
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
-  dst.h = pText3->h + adj_size(2);
+  dst.h = text3->h + adj_size(2);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
   create_frame(pwindow->theme,
@@ -667,9 +667,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.y += 1;
-  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - pText3->w) / 2;
-  alphablit(pText3, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText3);
+  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5)) - text3->w) / 2;
+  alphablit(text3, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text3);
 
   /* total active widget */
   buf = buf->prev;
@@ -701,7 +701,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   dst.x = area.x + adj_size(2);
   dst.y = area.y + 1;
   dst.w = name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5);
-  dst.h = pText4->h + adj_size(2);
+  dst.h = text4->h + adj_size(2);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
   create_frame(pwindow->theme,
@@ -709,14 +709,14 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.y += 1;
-  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- pText4->w) / 2;
-  alphablit(pText4, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText4);
+  dst.x += ((name_w + tileset_full_tile_width(tileset) * 2 + adj_size(5))- text4->w) / 2;
+  alphablit(text4, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text4);
 
   /* active count background and label */
   dst.x = area.x + adj_size(2) + name_w + tileset_full_tile_width(tileset) * 2 + adj_size(15);
   dst.y = area.y + 1;
-  dst.w = pText1->w + adj_size(6);
+  dst.w = text1->w + adj_size(6);
   dst.h = area.h - adj_size(3);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
@@ -725,10 +725,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.x += adj_size(3);
-  alphablit(pText1, NULL, pwindow->theme, &dst, 255);
-  ww = pText1->w;
-  hh = pText1->h;
-  FREESURFACE(pText1);
+  alphablit(text1, NULL, pwindow->theme, &dst, 255);
+  ww = text1->w;
+  hh = text1->h;
+  FREESURFACE(text1);
 
   /* shields cost background and label */
   dst.x += (ww + adj_size(13));
@@ -780,8 +780,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
   dst.y = area.y + 1;
-  dst.w = pText2->w + adj_size(6);
-  ww = pText2->w + adj_size(6);
+  dst.w = text2->w + adj_size(6);
+  ww = text2->w + adj_size(6);
   w = dst.x;
   dst.h = area.h - adj_size(3);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
@@ -791,13 +791,13 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.x += adj_size(3);
-  alphablit(pText2, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText2);
+  alphablit(text2, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text2);
 
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
   dst.y = area.y + 1;
-  dst.w = pText5->w + adj_size(6);
+  dst.w = text5->w + adj_size(6);
   dst.h = area.h - adj_size(3);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
@@ -806,8 +806,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.x += adj_size(3);
-  alphablit(pText5, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText5);
+  alphablit(text5, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text5);
 
   if (count) {
     int start_x = area.x + adj_size(2);
@@ -1574,7 +1574,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     char cBuf[128];
     struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
-    SDL_Surface *pText;
+    SDL_Surface *text;
     SDL_Rect dst;
     SDL_Rect area;
 
@@ -1634,11 +1634,11 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_SELLIMPR_TEXT);
 
-    pText = create_text_surf_from_utf8(pstr);
+    text = create_text_surf_from_utf8(pstr);
     FREEUTF8STR(pstr);
 
-    area.w = MAX(area.w, pText->w + adj_size(20));
-    area.h += (pText->h + adj_size(10));
+    area.w = MAX(area.w, text->w + adj_size(20));
+    area.h += (text->h + adj_size(10));
 
     /* cancel button */
     buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
@@ -1685,10 +1685,10 @@ static int popup_sell_impr_callback(struct widget *pwidget)
 
     /* setup rest of widgets */
     /* label */
-    dst.x = area.x + (area.w - pText->w) / 2;
+    dst.x = area.x + (area.w - text->w) / 2;
     dst.y = area.y + adj_size(10);
-    alphablit(pText, NULL, pwindow->theme, &dst, 255);
-    FREESURFACE(pText);
+    alphablit(text, NULL, pwindow->theme, &dst, 255);
+    FREESURFACE(text);
 
     /* cancel button */
     buf = pwindow->prev;
@@ -1802,7 +1802,7 @@ void economy_report_dialog_popup(bool make_modal)
   struct widget *buf;
   struct widget *pwindow , *pLast;
   utf8_str *pstr, *pstr2;
-  SDL_Surface *surf, *pText_Name, *pText, *zoomed;
+  SDL_Surface *surf, *text_name, *text, *zoomed;
   SDL_Surface *background;
   int i, count , h = 0;
   int w = 0; /* left column values */
@@ -2096,14 +2096,14 @@ void economy_report_dialog_popup(bool make_modal)
 
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_than_w(pstr, surf->w - adj_size(4));
+      text_name = create_text_surf_smaller_than_w(pstr, surf->w - adj_size(4));
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s %d\n%s %d",
                   _("Built"), p->count, _("U Total"),p->total_cost);
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style &= ~TTF_STYLE_BOLD;
 
-      pText = create_text_surf_from_utf8(pstr);
+      text = create_text_surf_from_utf8(pstr);
 
       /*-----------------*/
   
@@ -2116,12 +2116,12 @@ void economy_report_dialog_popup(bool make_modal)
       dst.y += zoomed->h;
       FREESURFACE(zoomed);
 
-      dst.x = (surf->w - pText_Name->w)/2;
+      dst.x = (surf->w - text_name->w)/2;
       dst.y += ((surf->h - dst.y) -
-                (pText_Name->h + (pIcons->pBIG_Coin->h + 2) + pText->h)) / 2;
-      alphablit(pText_Name, NULL, surf, &dst, 255);
+                (text_name->h + (pIcons->pBIG_Coin->h + 2) + text->h)) / 2;
+      alphablit(text_name, NULL, surf, &dst, 255);
 
-      dst.y += pText_Name->h;
+      dst.y += text_name->h;
       if (p->cost) {
         dst.x = (surf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
         for (count = 0; count < p->cost; count++) {
@@ -2145,11 +2145,11 @@ void economy_report_dialog_popup(bool make_modal)
       }
 
       dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
-      dst.x = (surf->w - pText->w) / 2;
-      alphablit(pText, NULL, surf, &dst, 255);
+      dst.x = (surf->w - text->w) / 2;
+      alphablit(text, NULL, surf, &dst, 255);
 
-      FREESURFACE(pText);
-      FREESURFACE(pText_Name);
+      FREESURFACE(text);
+      FREESURFACE(text_name);
 
       buf = create_icon2(surf, pwindow->dst,
                           (WF_RESTORE_BACKGROUND|WF_FREE_THEME|WF_FREE_DATA));
@@ -2394,7 +2394,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
   struct unit_type *punit = NULL;
-  SDL_Surface *surf, *pText, *pTmp, *pTmp2;
+  SDL_Surface *surf, *text, *pTmp, *pTmp2;
   SDL_Surface *Surf_Array[10], **buf_array;
   SDL_Rect dst;
   SDL_Color color;
@@ -2416,7 +2416,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     break;
   }
 
-  pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
+  text = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
 
   /* create label surface */
   surf = create_surf(w, h, SDL_SWSURFACE);
@@ -2437,26 +2437,26 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
 
   if (mode == SMALL_MODE) {
     /* draw name tech text */
-    dst.x = adj_size(35) + (surf->w - pText->w - adj_size(35)) / 2;
-    dst.y = (surf->h - pText->h) / 2;
-    alphablit(pText, NULL, surf, &dst, 255);
-    FREESURFACE(pText);
+    dst.x = adj_size(35) + (surf->w - text->w - adj_size(35)) / 2;
+    dst.y = (surf->h - text->h) / 2;
+    alphablit(text, NULL, surf, &dst, 255);
+    FREESURFACE(text);
 
     /* draw tech icon */
-    pText = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
-    dst.x = (adj_size(35) - pText->w) / 2;
-    dst.y = (surf->h - pText->h) / 2;
-    alphablit(pText, NULL, surf, &dst, 255);
-    FREESURFACE(pText);
+    text = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
+    dst.x = (adj_size(35) - text->w) / 2;
+    dst.y = (surf->h - text->h) / 2;
+    alphablit(text, NULL, surf, &dst, 255);
+    FREESURFACE(text);
 
   } else {
 
     /* draw name tech text */
-    dst.x = (surf->w - pText->w) / 2;
+    dst.x = (surf->w - text->w) / 2;
     dst.y = adj_size(20);
-    alphablit(pText, NULL, surf, &dst, 255);
-    dst.y += pText->h + adj_size(10);
-    FREESURFACE(pText);
+    alphablit(text, NULL, surf, &dst, 255);
+    dst.y += text->h + adj_size(10);
+    FREESURFACE(text);
 
     /* draw tech icon */
     dst.x = (surf->w - pTmp->w) / 2;

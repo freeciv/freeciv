@@ -182,7 +182,7 @@ static void real_info_city_report_dialog_update(void)
   struct widget *pbuf = NULL;
   struct widget *pwindow, *pLast;
   utf8_str *pstr;
-  SDL_Surface *pText1, *pText2, *pText3, *units_icon, *pCMA_Icon, *pText4;
+  SDL_Surface *text1, *text2, *text3, *units_icon, *pCMA_Icon, *text4;
   SDL_Surface *logo;
   int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
   char cbuf[128];
@@ -200,22 +200,22 @@ static void real_info_city_report_dialog_update(void)
   fc_snprintf(cbuf, sizeof(cbuf), _("size"));
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= SF_CENTER;
-  pText1 = create_text_surf_from_utf8(pstr);
+  text1 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("time\nto grow"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText2 = create_text_surf_from_utf8(pstr);
+  text2 = create_text_surf_from_utf8(pstr);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("City Name"));
   copy_chars_to_utf8_str(pstr, cbuf);
-  pText3 = create_text_surf_from_utf8(pstr);
-  name_w = pText3->w + adj_size(6);
+  text3 = create_text_surf_from_utf8(pstr);
+  name_w = text3->w + adj_size(6);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Production"));
   copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYREP_TEXT);
-  pText4 = create_text_surf_from_utf8(pstr);
-  prod_w = pText4->w;
+  text4 = create_text_surf_from_utf8(pstr);
+  prod_w = text4->w;
   FREEUTF8STR(pstr);
 
   units_icon = create_icon_from_theme(current_theme->UNITS_Icon, 0);
@@ -330,7 +330,7 @@ static void real_info_city_report_dialog_update(void)
       set_wflag(pbuf, WF_HIDDEN);
     }
     hh = MAX(hh, pbuf->size.h);
-    pbuf->size.w = pText1->w + adj_size(8);
+    pbuf->size.w = text1->w + adj_size(8);
     add_to_gui_list(MAX_ID - pcity->id, pbuf);
 
     /* ----------- */
@@ -398,7 +398,7 @@ static void real_info_city_report_dialog_update(void)
       set_wflag(pbuf, WF_HIDDEN);
     }
     hh = MAX(hh, pbuf->size.h);
-    pbuf->size.w = pText2->w + adj_size(6);
+    pbuf->size.w = text2->w + adj_size(6);
     add_to_gui_list(MAX_ID - pcity->id, pbuf);
 
     /* ----------- */
@@ -606,8 +606,8 @@ static void real_info_city_report_dialog_update(void)
   H = hh;
   city_rep->begin_widget_list = pbuf;
   /* setup window width */
-  area.w = name_w + adj_size(6) + pText1->w + adj_size(8) + pCMA_Icon->w
-    + (pIcons->pBIG_Food->w + adj_size(6)) * 10 + pText2->w + adj_size(6)
+  area.w = name_w + adj_size(6) + text1->w + adj_size(8) + pCMA_Icon->w
+    + (pIcons->pBIG_Food->w + adj_size(6)) * 10 + text2->w + adj_size(6)
     + units_icon->w + adj_size(6) + prod_w + adj_size(170);
 
   if (count) {
@@ -626,7 +626,7 @@ static void real_info_city_report_dialog_update(void)
     }
   }
 
-  area.h += pText2->h + adj_size(6);
+  area.h += text2->h + adj_size(6);
   area.w += adj_size(2);
 
   logo = theme_get_background(theme, BACKGROUND_CITYREP);
@@ -679,7 +679,7 @@ static void real_info_city_report_dialog_update(void)
   /* cities background and labels */
   dst.x = area.x + adj_size(2);
   dst.y = area.y + 1;
-  dst.w = (name_w + adj_size(6)) + (pText1->w + adj_size(8)) + adj_size(5);
+  dst.w = (name_w + adj_size(6)) + (text1->w + adj_size(8)) + adj_size(5);
   dst.h = area.h - adj_size(2);
   fill_rect_alpha(pwindow->theme, &dst, &bg_color);
 
@@ -687,20 +687,20 @@ static void real_info_city_report_dialog_update(void)
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
-  dst.y += (pText2->h - pText3->h) / 2;
-  dst.x += ((name_w + adj_size(6)) - pText3->w) / 2;
-  alphablit(pText3, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText3);
+  dst.y += (text2->h - text3->h) / 2;
+  dst.x += ((name_w + adj_size(6)) - text3->w) / 2;
+  alphablit(text3, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text3);
 
   /* city size background and label */
   dst.x = area.x + adj_size(5) + name_w + adj_size(5 + 4);
-  alphablit(pText1, NULL, pwindow->theme, &dst, 255);
-  ww = pText1->w;
-  FREESURFACE(pText1);
+  alphablit(text1, NULL, pwindow->theme, &dst, 255);
+  ww = text1->w;
+  FREESURFACE(text1);
 
   /* cma icon */
   dst.x += (ww + adj_size(9));
-  dst.y = area.y + 1 + (pText2->h - pCMA_Icon->h) / 2;
+  dst.y = area.y + 1 + (text2->h - pCMA_Icon->h) / 2;
   alphablit(pCMA_Icon, NULL, pwindow->theme, &dst, 255);
   ww = pCMA_Icon->w;
   FREESURFACE(pCMA_Icon);
@@ -712,7 +712,7 @@ static void real_info_city_report_dialog_update(void)
   w = dst.x + adj_size(2);
   dst.w = (pIcons->pBIG_Food->w + adj_size(6)) + adj_size(10)
     + (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10)
-    + pText2->w + adj_size(6 + 2);
+    + text2->w + adj_size(6 + 2);
   dst.h = area.h - adj_size(2);
   fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
 
@@ -720,7 +720,7 @@ static void real_info_city_report_dialog_update(void)
                dst.x, dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
-  dst.y = area.y + 1 + (pText2->h - pIcons->pBIG_Food->h) / 2;
+  dst.y = area.y + 1 + (text2->h - pIcons->pBIG_Food->h) / 2;
   dst.x += adj_size(5);
   alphablit(pIcons->pBIG_Food, NULL, pwindow->theme, &dst, 255);
 
@@ -733,10 +733,10 @@ static void real_info_city_report_dialog_update(void)
   w += (pIcons->pBIG_Food_Surplus->w + adj_size(6)) + adj_size(10);
   dst.x = w + adj_size(3);
   dst.y = area.y + 1;
-  alphablit(pText2, NULL, pwindow->theme, &dst, 255);
-  hh = pText2->h;
-  ww = pText2->w;
-  FREESURFACE(pText2);
+  alphablit(text2, NULL, pwindow->theme, &dst, 255);
+  hh = text2->h;
+  ww = text2->w;
+  FREESURFACE(text2);
   /* -------------- */
 
   /* trade, corruptions, gold, science, luxury income background and label */
@@ -827,10 +827,10 @@ static void real_info_city_report_dialog_update(void)
                dst.x , dst.y, dst.w, dst.h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
-  dst.y = area.y + 1 + (hh - pText4->h) / 2;
-  dst.x += (dst.w - pText4->w) / 2;
-  alphablit(pText4, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText4);
+  dst.y = area.y + 1 + (hh - text4->h) / 2;
+  dst.x += (dst.w - text4->w) / 2;
+  alphablit(text4, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text4);
 
   if (count) {
     int start_x = area.x + adj_size(5);

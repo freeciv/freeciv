@@ -150,7 +150,7 @@ static int redraw_edit(struct widget *edit_widget)
     int iRet = 0;
     SDL_Rect rDest = {edit_widget->size.x, edit_widget->size.y, 0, 0};
     SDL_Surface *pedit = NULL;
-    SDL_Surface *pText;
+    SDL_Surface *text;
 
     ret = (*baseclass_redraw)(edit_widget);
     if (ret != 0) {
@@ -166,11 +166,11 @@ static int redraw_edit(struct widget *edit_widget)
       memset(cbuf, '*', len - 1);
       cbuf[len - 1] = '\0';
       edit_widget->string_utf8->text = cbuf;
-      pText = create_text_surf_from_utf8(edit_widget->string_utf8);
+      text = create_text_surf_from_utf8(edit_widget->string_utf8);
       FC_FREE(cbuf);
       edit_widget->string_utf8->text = backup;
     } else {
-      pText = create_text_surf_from_utf8(edit_widget->string_utf8);
+      text = create_text_surf_from_utf8(edit_widget->string_utf8);
     }
 
     pedit = create_bcgnd_surf(edit_widget->theme, get_wstate(edit_widget),
@@ -184,26 +184,26 @@ static int redraw_edit(struct widget *edit_widget)
     alphablit(pedit, NULL, edit_widget->dst->surface, &rDest, 255);
 
     /* set position and blit text */
-    if (pText) {
-      rDest.y += (pedit->h - pText->h) / 2;
+    if (text) {
+      rDest.y += (pedit->h - text->h) / 2;
       /* blit centred text to botton */
       if (edit_widget->string_utf8->style & SF_CENTER) {
-        rDest.x += (pedit->w - pText->w) / 2;
+        rDest.x += (pedit->w - text->w) / 2;
       } else {
         if (edit_widget->string_utf8->style & SF_CENTER_RIGHT) {
-          rDest.x += pedit->w - pText->w - adj_size(5);
+          rDest.x += pedit->w - text->w - adj_size(5);
         } else {
           rDest.x += adj_size(5); /* center left */
         }
       }
 
-      alphablit(pText, NULL, edit_widget->dst->surface, &rDest, 255);
+      alphablit(text, NULL, edit_widget->dst->surface, &rDest, 255);
     }
-    /* pText */
+    /* text */
     iRet = pedit->h;
 
     /* Free memory */
-    FREESURFACE(pText);
+    FREESURFACE(text);
     FREESURFACE(pedit);
 
     return iRet;

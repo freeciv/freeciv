@@ -721,7 +721,7 @@ static int down_height_callback(struct widget *pwidget)
 **************************************************************************/
 static void popup_minimap_scale_dialog(void)
 {
-  SDL_Surface *pText1, *pText2;
+  SDL_Surface *text1, *text2;
   utf8_str *pstr = NULL;
   struct widget *pwindow = NULL;
   struct widget *buf = NULL;
@@ -748,12 +748,12 @@ static void popup_minimap_scale_dialog(void)
 
   /* ----------------- */
   pstr = create_utf8_from_char(_("Single Tile Width"), adj_font(12));
-  pText1 = create_text_surf_from_utf8(pstr);
-  area.w = MAX(area.w, pText1->w + adj_size(30));
+  text1 = create_text_surf_from_utf8(pstr);
+  area.w = MAX(area.w, text1->w + adj_size(30));
 
   copy_chars_to_utf8_str(pstr, _("Single Tile Height"));
-  pText2 = create_text_surf_from_utf8(pstr);
-  area.w = MAX(area.w, pText2->w + adj_size(30));
+  text2 = create_text_surf_from_utf8(pstr);
+  area.w = MAX(area.w, text2->w + adj_size(30));
   FREEUTF8_STR(pstr);
 
   buf = create_themeicon_button(current_theme->L_ARROW_Icon, pwindow->dst, NULL, 0);
@@ -835,8 +835,8 @@ static void popup_minimap_scale_dialog(void)
 
   widget_set_position(pwindow, window_x, window_y);
 
-  blit_entire_src(pText1, pwindow->theme, 15, area.y + 1);
-  FREESURFACE(pText1);
+  blit_entire_src(text1, pwindow->theme, 15, area.y + 1);
+  FREESURFACE(text1);
 
   /* width label */
   buf = pwindow->prev->prev;
@@ -856,8 +856,8 @@ static void popup_minimap_scale_dialog(void)
   buf->size.y = buf->next->next->next->size.y + buf->next->next->next->size.h + adj_size(20);
   buf->size.x = area.x + (area.w - buf->size.w) / 2;
 
-  blit_entire_src(pText2, pwindow->theme, adj_size(15), buf->size.y - pText2->h - adj_size(2));
-  FREESURFACE(pText2);
+  blit_entire_src(text2, pwindow->theme, adj_size(15), buf->size.y - text2->h - adj_size(2));
+  FREESURFACE(text2);
 
   /* height left button */
   buf->next->size.y = buf->size.y + buf->size.h - buf->next->size.h;
@@ -1108,7 +1108,7 @@ static void popup_unitinfo_scale_dialog(void)
   return;
 #endif  /* SCALE_UNITINFO */
 
-  SDL_Surface *pText1, *pText2;
+  SDL_Surface *text1, *text2;
   utf8_str *pstr = NULL;
   struct widget *pwindow = NULL;
   struct widget *buf = NULL;
@@ -1133,13 +1133,13 @@ static void popup_unitinfo_scale_dialog(void)
   area = pwindow->area;
 
   pstr = create_utf8_from_char(_("Width"), adj_font(12));
-  pText1 = create_text_surf_from_utf8(pstr);
-  area.w = MAX(area.w, pText1->w + adj_size(30));
-  area.h += MAX(adj_size(20), pText1->h + adj_size(4));
+  text1 = create_text_surf_from_utf8(pstr);
+  area.w = MAX(area.w, text1->w + adj_size(30));
+  area.h += MAX(adj_size(20), text1->h + adj_size(4));
   copy_chars_to_utf8_str(pstr, _("Height"));
-  pText2 = create_text_surf_from_utf8(pstr);
-  area.w = MAX(area.w, pText2->w + adj_size(30));
-  area.h += MAX(adj_size(20), pText2->h + adj_size(4));
+  text2 = create_text_surf_from_utf8(pstr);
+  area.w = MAX(area.w, text2->w + adj_size(30));
+  area.h += MAX(adj_size(20), text2->h + adj_size(4));
   FREEUTF8STR(pstr);
 
   /* ----------------- */
@@ -1210,11 +1210,11 @@ static void popup_unitinfo_scale_dialog(void)
 
   /* width left button */
   buf = pwindow->prev;
-  buf->size.y = area.y + MAX(adj_size(20), pText1->h + adj_size(4));
+  buf->size.y = area.y + MAX(adj_size(20), text1->h + adj_size(4));
   buf->size.x = area.x + (area.w - buf->size.w * 2) / 2;
-  blit_entire_src(pText1, pwindow->theme, adj_size(15), buf->size.y
-                                                        - area.y - pText1->h - adj_size(2));
-  FREESURFACE(pText1);
+  blit_entire_src(text1, pwindow->theme, adj_size(15), buf->size.y
+                                                        - area.y - text1->h - adj_size(2));
+  FREESURFACE(text1);
 
   /* width right button */
   buf->prev->size.y = buf->size.y;
@@ -1223,11 +1223,11 @@ static void popup_unitinfo_scale_dialog(void)
   /* height left button */
   buf = buf->prev->prev;
   buf->size.y = buf->next->next->size.y +
-    buf->next->next->size.h + MAX(adj_size(20), pText2->h + adj_size(4));
+    buf->next->next->size.h + MAX(adj_size(20), text2->h + adj_size(4));
   buf->size.x = area.x + (area.w - buf->size.w * 2) / 2;
 
-  blit_entire_src(pText2, pwindow->theme, adj_size(15), buf->size.y - area.y - pText2->h - adj_size(2));
-  FREESURFACE(pText2);
+  blit_entire_src(text2, pwindow->theme, adj_size(15), buf->size.y - area.y - text2->h - adj_size(2));
+  FREESURFACE(text2);
 
   /* height right button */
   buf->prev->size.y = buf->size.y;

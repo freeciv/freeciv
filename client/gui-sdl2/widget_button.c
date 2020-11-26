@@ -56,7 +56,7 @@ static int redraw_ibutton(struct widget *icon_button)
 {
   SDL_Rect dest = { 0, 0, 0, 0 };
   utf8_str TMPString;
-  SDL_Surface *button = NULL, *pText = NULL, *icon = icon_button->theme2;
+  SDL_Surface *button = NULL, *text = NULL, *icon = icon_button->theme2;
   Uint16 Ix, Iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
@@ -81,10 +81,10 @@ static int redraw_ibutton(struct widget *icon_button)
       TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT);
     }
 
-    pText = create_text_surf_from_utf8(&TMPString);
+    text = create_text_surf_from_utf8(&TMPString);
   }
 
-  if (!pText && !icon) {
+  if (!text && !icon) {
     return -1;
   }
 
@@ -97,7 +97,7 @@ static int redraw_ibutton(struct widget *icon_button)
   FREESURFACE(button);
 
   if (icon) { /* Icon */
-    if (pText) {
+    if (text) {
       if (get_wflags(icon_button) & WF_ICON_CENTER_RIGHT) {
         Ix = icon_button->size.w - icon->w - 5;
       } else {
@@ -111,14 +111,14 @@ static int redraw_ibutton(struct widget *icon_button)
       if (get_wflags(icon_button) & WF_ICON_ABOVE_TEXT) {
         Iy = 3;
         y = 3 + icon->h + 3 + (icon_button->size.h -
-                               (icon->h + 6) - pText->h) / 2;
+                               (icon->h + 6) - text->h) / 2;
       } else {
         if (get_wflags(icon_button) & WF_ICON_UNDER_TEXT) {
-          y = 3 + (icon_button->size.h - (icon->h + 3) - pText->h) / 2;
-          Iy = y + pText->h + 3;
+          y = 3 + (icon_button->size.h - (icon->h + 3) - text->h) / 2;
+          Iy = y + text->h + 3;
         } else { /* center */
           Iy = (icon_button->size.h - icon->h) / 2;
-          y = (icon_button->size.h - pText->h) / 2;
+          y = (icon_button->size.h - text->h) / 2;
         }
       }
     } else { /* no text */
@@ -136,21 +136,21 @@ static int redraw_ibutton(struct widget *icon_button)
 
     ret = alphablit(icon, NULL, icon_button->dst->surface, &dest, 255);
     if (ret) {
-      FREESURFACE(pText);
+      FREESURFACE(text);
       return ret - 10;
     }
   }
 
-  if (pText) {
+  if (text) {
     if (icon) {
       if (!(get_wflags(icon_button) & WF_ICON_ABOVE_TEXT)
           && !(get_wflags(icon_button) & WF_ICON_UNDER_TEXT)) {
         if (get_wflags(icon_button) & WF_ICON_CENTER_RIGHT) {
           if (icon_button->string_utf8->style & SF_CENTER) {
-            x = (icon_button->size.w - (icon->w + 5) - pText->w) / 2;
+            x = (icon_button->size.w - (icon->w + 5) - text->w) / 2;
           } else {
             if (icon_button->string_utf8->style & SF_CENTER_RIGHT) {
-              x = icon_button->size.w - (icon->w + 7) - pText->w;
+              x = icon_button->size.w - (icon->w + 7) - text->w;
             } else {
               x = 5;
             }
@@ -164,10 +164,10 @@ static int redraw_ibutton(struct widget *icon_button)
           } else { /* icon center left - default */
             if (icon_button->string_utf8->style & SF_CENTER) {
               x = 5 + icon->w + ((icon_button->size.w -
-                                  (icon->w + 5) - pText->w) / 2);
+                                  (icon->w + 5) - text->w) / 2);
             } else {
               if (icon_button->string_utf8->style & SF_CENTER_RIGHT) {
-                x = icon_button->size.w - pText->w - 5;
+                x = icon_button->size.w - text->w - 5;
               } else { /* text center left */
                 x = 5 + icon->w + 3;
               }
@@ -180,13 +180,13 @@ static int redraw_ibutton(struct widget *icon_button)
       }
     } else {
       /* !icon */
-      y = (icon_button->size.h - pText->h) / 2;
+      y = (icon_button->size.h - text->h) / 2;
     Alone:
       if (icon_button->string_utf8->style & SF_CENTER) {
-        x = (icon_button->size.w - pText->w) / 2;
+        x = (icon_button->size.w - text->w) / 2;
       } else {
         if (icon_button->string_utf8->style & SF_CENTER_RIGHT) {
-          x = icon_button->size.w - pText->w - 5;
+          x = icon_button->size.w - text->w - 5;
         } else {
           x = 5;
         }
@@ -202,10 +202,10 @@ static int redraw_ibutton(struct widget *icon_button)
     dest.x = icon_button->size.x + x;
     dest.y = icon_button->size.y + y;
 
-    ret = alphablit(pText, NULL, icon_button->dst->surface, &dest, 255);
+    ret = alphablit(text, NULL, icon_button->dst->surface, &dest, 255);
   }
 
-  FREESURFACE(pText);
+  FREESURFACE(text);
 
   return 0;
 }

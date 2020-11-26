@@ -673,7 +673,7 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   char cBuf[128];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pText;
+  SDL_Surface *text;
   SDL_Rect dst;
   int window_x = 0, window_y = 0;
   enum unit_upgrade_result unit_upgrade_result;
@@ -710,11 +710,11 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
-  pText = create_text_surf_from_utf8(pstr);
+  text = create_text_surf_from_utf8(pstr);
   FREEUTF8STR(pstr);
 
-  area.w = MAX(area.w, pText->w + adj_size(20));
-  area.h += (pText->h + adj_size(10));
+  area.w = MAX(area.w, text->w + adj_size(20));
+  area.h += (text->h + adj_size(10));
 
   /* cancel button */
   buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
@@ -764,10 +764,10 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 
   /* setup rest of widgets */
   /* label */
-  dst.x = area.x + (area.w - pText->w) / 2;
+  dst.x = area.x + (area.w - text->w) / 2;
   dst.y = area.y + adj_size(10);
-  alphablit(pText, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText);
+  alphablit(text, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text);
 
   /* cancel button */
   buf = pwindow->prev;
@@ -863,7 +863,7 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   char cBuf[128];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pText;
+  SDL_Surface *text;
   SDL_Rect dst;
   int window_x = 0, window_y = 0;
   bool unit_disband_result;
@@ -906,11 +906,11 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITDISBAND_TEXT);
 
-  pText = create_text_surf_from_utf8(pstr);
+  text = create_text_surf_from_utf8(pstr);
   FREEUTF8STR(pstr);
 
-  area.w = MAX(area.w, pText->w + adj_size(20));
-  area.h += (pText->h + adj_size(10));
+  area.w = MAX(area.w, text->w + adj_size(20));
+  area.h += (text->h + adj_size(10));
 
   /* cancel button */
   buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
@@ -960,10 +960,10 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
 
   /* setup rest of widgets */
   /* label */
-  dst.x = area.x + (area.w - pText->w) / 2;
+  dst.x = area.x + (area.w - text->w) / 2;
   dst.y = area.y + adj_size(10);
-  alphablit(pText, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pText);
+  alphablit(text, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(text);
 
   /* cancel button */
   buf = pwindow->prev;
@@ -2823,7 +2823,7 @@ static int nation_button_callback(struct widget *pNationButton)
     /* pop up nation description */
     struct widget *pwindow, *ok_button;
     utf8_str *pstr;
-    SDL_Surface *pText;
+    SDL_Surface *text;
     SDL_Rect area, area2;
     struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->ID);
 
@@ -2870,14 +2870,14 @@ static int nation_button_callback(struct widget *pNationButton)
     }
 
     pstr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_LEGEND);
-    pText = create_text_surf_smaller_than_w(pstr, main_window_width() - adj_size(20));
+    text = create_text_surf_smaller_than_w(pstr, main_window_width() - adj_size(20));
 
     FREEUTF8STR(pstr);
 
     /* create window background */
-    area.w = MAX(area.w, pText->w + adj_size(20));
+    area.w = MAX(area.w, text->w + adj_size(20));
     area.w = MAX(area.w, ok_button->size.w + adj_size(20));
-    area.h = MAX(area.h, adj_size(9) + pText->h
+    area.h = MAX(area.h, adj_size(9) + text->h
                          + adj_size(10) + ok_button->size.h + adj_size(10));
 
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -2890,8 +2890,8 @@ static int nation_button_callback(struct widget *pNationButton)
 
     area2.x = area.x + adj_size(7);
     area2.y = area.y + adj_size(6);
-    alphablit(pText, NULL, pwindow->theme, &area2, 255);
-    FREESURFACE(pText);
+    alphablit(text, NULL, pwindow->theme, &area2, 255);
+    FREESURFACE(text);
 
     ok_button->size.x = area.x + (area.w - ok_button->size.w) / 2;
     ok_button->size.y = area.y + area.h - ok_button->size.h - adj_size(10);
@@ -3025,7 +3025,7 @@ void popup_races_dialog(struct player *pplayer)
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
-  SDL_Surface *pMain_Bg, *pText_Name;
+  SDL_Surface *pMain_Bg, *text_name;
   SDL_Rect dst;
   float zoom;
   struct NAT *pSetup;
@@ -3087,19 +3087,19 @@ void popup_races_dialog(struct player *pplayer)
 
     copy_chars_to_utf8_str(pstr, nation_plural_translation(pNation));
     change_ptsize_utf8(pstr, adj_font(12));
-    pText_Name = create_text_surf_smaller_than_w(pstr, pTmp_Surf->w - adj_size(4));
+    text_name = create_text_surf_smaller_than_w(pstr, pTmp_Surf->w - adj_size(4));
 
     dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
     len = pTmp_Surf_zoomed->h +
-      adj_size(10) + pText_Name->h;
+      adj_size(10) + text_name->h;
     dst.y = (pTmp_Surf->h - len) / 2;
     alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst, 255);
     dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
 
-    dst.x = (pTmp_Surf->w - pText_Name->w) / 2;
-    alphablit(pText_Name, NULL, pTmp_Surf, &dst, 255);
-    dst.y += pText_Name->h;
-    FREESURFACE(pText_Name);
+    dst.x = (pTmp_Surf->w - text_name->w) / 2;
+    alphablit(text_name, NULL, pTmp_Surf, &dst, 255);
+    dst.y += text_name->h;
+    FREESURFACE(text_name);
 
     pwidget = create_icon2(pTmp_Surf, pwindow->dst,
                            (WF_RESTORE_BACKGROUND|WF_FREE_THEME));

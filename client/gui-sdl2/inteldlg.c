@@ -228,7 +228,7 @@ void update_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
   struct widget *pwindow = NULL, *buf = NULL, *pLast;
   SDL_Surface *logo = NULL, *tmp_surf = NULL;
-  SDL_Surface *pText1, *pInfo, *pText2 = NULL;
+  SDL_Surface *text1, *pInfo, *text2 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
   char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
@@ -282,10 +282,10 @@ void update_intel_dialog(struct player *p)
     {
       double zoom = DEFAULT_ZOOM * 60.0 / logo->h;
 
-      pText1 = zoomSurface(logo, zoom, zoom, 1);
+      text1 = zoomSurface(logo, zoom, zoom, 1);
     }
 
-    logo = pText1;
+    logo = text1;
 
     buf = create_icon2(logo, pwindow->dst,
                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
@@ -309,9 +309,9 @@ void update_intel_dialog(struct player *p)
     pstr->style |= TTF_STYLE_BOLD;
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-    pText1 = create_text_surf_from_utf8(pstr);
-    area.w = MAX(area.w, pText1->w + adj_size(20));
-    area.h += pText1->h + adj_size(20);
+    text1 = create_text_surf_from_utf8(pstr);
+    area.w = MAX(area.w, text1->w + adj_size(20));
+    area.h += text1->h + adj_size(20);
 
     /* ---------- */
 
@@ -417,7 +417,7 @@ void update_intel_dialog(struct player *p)
       fc_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_utf8_str(pstr, cBuf);
       pstr->style |= TTF_STYLE_BOLD;
-      pText2 = create_text_surf_from_utf8(pstr);
+      text2 = create_text_surf_from_utf8(pstr);
     }
 
     FREEUTF8STR(pstr);
@@ -438,12 +438,12 @@ void update_intel_dialog(struct player *p)
     buf->size.x = area.x + area.w - buf->size.w - 1;
     buf->size.y = pwindow->size.y + adj_size(2);
 
-    dst.x = area.x + (area.w - pText1->w) / 2;
+    dst.x = area.x + (area.w - text1->w) / 2;
     dst.y = area.y + adj_size(8);
 
-    alphablit(pText1, NULL, pwindow->theme, &dst, 255);
-    dst.y += pText1->h + adj_size(10);
-    FREESURFACE(pText1);
+    alphablit(text1, NULL, pwindow->theme, &dst, 255);
+    dst.y += text1->h + adj_size(10);
+    FREESURFACE(text1);
 
     /* spaceship button */
     buf = buf->prev;
@@ -460,9 +460,9 @@ void update_intel_dialog(struct player *p)
 
     if (n) {
       dst.x = area.x + adj_size(5);
-      alphablit(pText2, NULL, pwindow->theme, &dst, 255);
-      dst.y += pText2->h + adj_size(2);
-      FREESURFACE(pText2);
+      alphablit(text2, NULL, pwindow->theme, &dst, 255);
+      dst.y += text2->h + adj_size(2);
+      FREESURFACE(text2);
 
       setup_vertical_widgets_position(col, area.x, dst.y, 0, 0,
                                       pdialog->pdialog->begin_active_widget_list,

@@ -1131,7 +1131,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   char tBuf[512], cBuf[512];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pText;
+  SDL_Surface *text;
   SDL_Rect dst;
   int window_x = 0, window_y = 0;
   SDL_Rect area;
@@ -1193,10 +1193,10 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_BUY);
 
-  pText = create_text_surf_from_utf8(pstr);
+  text = create_text_surf_from_utf8(pstr);
   FREEUTF8STR(pstr);
-  area.w = MAX(area.w , pText->w);
-  area.h += pText->h + adj_size(5);
+  area.w = MAX(area.w , text->w);
+  area.h += text->h + adj_size(5);
 
   buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
                                             pwindow->dst, _("No"), adj_font(12), 0);
@@ -1265,11 +1265,11 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
 
   /* setup rest of widgets */
   /* label */
-  dst.x = area.x + (area.w - pText->w) / 2;
+  dst.x = area.x + (area.w - text->w) / 2;
   dst.y = area.y + 1;
-  alphablit(pText, NULL, pwindow->theme, &dst, 255);
-  dst.y += pText->h + adj_size(5);
-  FREESURFACE(pText);
+  alphablit(text, NULL, pwindow->theme, &dst, 255);
+  dst.y += text->h + adj_size(5);
+  FREESURFACE(text);
 
   /* no */
   buf = pwindow->prev;

@@ -470,7 +470,7 @@ void widget_selected_action(struct widget *pwidget)
 **************************************************************************/
 void redraw_widget_info_label(SDL_Rect *rect)
 {
-  SDL_Surface *pText;
+  SDL_Surface *text;
   SDL_Rect srcrect, dstrect;
   SDL_Color color;
   struct widget *pwidget = selected_widget;
@@ -487,11 +487,11 @@ void redraw_widget_info_label(SDL_Rect *rect)
     pwidget->info_label->fgcol = *get_theme_color(COLOR_THEME_QUICK_INFO_TEXT);
 
     /* create string and bcgd theme */
-    pText = create_text_surf_from_utf8(pwidget->info_label);
+    text = create_text_surf_from_utf8(pwidget->info_label);
 
     pwidget->info_label->fgcol = color;
 
-    info_label = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
+    info_label = create_filled_surface(text->w + adj_size(10), text->h + adj_size(6),
                                        SDL_SWSURFACE, get_theme_color(COLOR_THEME_QUICK_INFO_BG));
 
     /* calculate start position */
@@ -514,9 +514,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     dstrect.x = adj_size(6);
     dstrect.y = adj_size(3);
 
-    alphablit(pText, NULL, info_label, &dstrect, 255);
+    alphablit(text, NULL, info_label, &dstrect, 255);
 
-    FREESURFACE(pText);
+    FREESURFACE(text);
 
     /* draw frame */
     create_frame(info_label,

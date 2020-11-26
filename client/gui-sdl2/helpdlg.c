@@ -232,7 +232,7 @@ void popup_impr_info(Impr_type_id impr)
   }
 
   if (!help_dlg) {
-    SDL_Surface *background_tmpl, *background, *pText, *icon;
+    SDL_Surface *background_tmpl, *background, *impr_name, *icon;
     SDL_Rect dst;
 
     current_help_dlg = HELP_IMPROVEMENT;
@@ -291,11 +291,11 @@ void popup_impr_info(Impr_type_id impr)
 
       /* blit improvement name */
       copy_chars_to_utf8_str(pstr, improvement_name_translation(pimprove));
-      pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
-      dst.x = adj_size(40) + (background->w - pText->w - adj_size(40)) / 2;
-      dst.y = (background->h - pText->h) / 2;
-      alphablit(pText, NULL, background, &dst, 255);
-      FREESURFACE(pText);
+      impr_name = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
+      dst.x = adj_size(40) + (background->w - impr_name->w - adj_size(40)) / 2;
+      dst.y = (background->h - impr_name->h) / 2;
+      alphablit(impr_name, NULL, background, &dst, 255);
+      FREESURFACE(impr_name);
 
       /* blit improvement icon */
       icon = ResizeSurfaceBox(get_building_surface(pimprove),
@@ -647,7 +647,7 @@ void popup_unit_info(Unit_type_id type_id)
 
   /* create new dialog if it doesn't exist yet */
   if (!help_dlg) {
-    SDL_Surface *background_tmpl, *background, *pText, *icon;
+    SDL_Surface *background_tmpl, *background, *unit_name, *icon;
     SDL_Rect dst;
 
     current_help_dlg = HELP_UNIT;
@@ -709,11 +709,11 @@ void popup_unit_info(Unit_type_id type_id)
 
       /* blit unit name */
       copy_chars_to_utf8_str(pstr, utype_name_translation(ut));
-      pText = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
-      dst.x = adj_size(35) + (background->w - pText->w - adj_size(35)) / 2;
-      dst.y = (background->h - pText->h) / 2;
-      alphablit(pText, NULL, background, &dst, 255);
-      FREESURFACE(pText);
+      unit_name = create_text_surf_smaller_than_w(pstr, adj_size(100 - 4));
+      dst.x = adj_size(35) + (background->w - unit_name->w - adj_size(35)) / 2;
+      dst.y = (background->h - unit_name->h) / 2;
+      alphablit(unit_name, NULL, background, &dst, 255);
+      FREESURFACE(unit_name);
 
       /* blit unit icon */
       icon = ResizeSurfaceBox(get_unittype_surface(ut, direction8_invalid()),
@@ -1036,7 +1036,7 @@ static void redraw_tech_info_dlg(void)
   SDL_Color bg_color = {255, 255, 255, 64};
   struct widget *pwindow = help_dlg->end_widget_list;
   struct techs_buttons *store = (struct techs_buttons *)pwindow->data.ptr;
-  SDL_Surface *pText0, *pText1 = NULL;
+  SDL_Surface *text0, *text1 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
 
@@ -1057,17 +1057,17 @@ static void redraw_tech_info_dlg(void)
   pstr = create_utf8_from_char(_("Allows"), adj_font(14));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pText0 = create_text_surf_from_utf8(pstr);
+  text0 = create_text_surf_from_utf8(pstr);
   dst.x = store->dock->prev->prev->size.x;
   if (store->pTargets[0]) {
-    dst.y = store->pTargets[0]->size.y - pText0->h;
+    dst.y = store->pTargets[0]->size.y - text0->h;
   } else {
     dst.y = store->dock->prev->prev->size.y
               + store->dock->prev->prev->size.h + adj_size(10);
   }
 
-  alphablit(pText0, NULL, pwindow->dst->surface, &dst, 255);
-  FREESURFACE(pText0);
+  alphablit(text0, NULL, pwindow->dst->surface, &dst, 255);
+  FREESURFACE(text0);
 
   if (store->pSub_Targets[0]) {
     int i;
@@ -1075,25 +1075,25 @@ static void redraw_tech_info_dlg(void)
     change_ptsize_utf8(pstr, adj_font(12));
 
     copy_chars_to_utf8_str(pstr, _("( with "));
-    pText0 = create_text_surf_from_utf8(pstr);
+    text0 = create_text_surf_from_utf8(pstr);
 
     copy_chars_to_utf8_str(pstr, _(" )"));
-    pText1 = create_text_surf_from_utf8(pstr);
+    text1 = create_text_surf_from_utf8(pstr);
     i = 0;
     while (i < 6 && store->pSub_Targets[i]) {
-      dst.x = store->pSub_Targets[i]->size.x - pText0->w;
+      dst.x = store->pSub_Targets[i]->size.x - text0->w;
       dst.y = store->pSub_Targets[i]->size.y;
 
-      alphablit(pText0, NULL, pwindow->dst->surface, &dst, 255);
+      alphablit(text0, NULL, pwindow->dst->surface, &dst, 255);
       dst.x = store->pSub_Targets[i]->size.x + store->pSub_Targets[i]->size.w;
       dst.y = store->pSub_Targets[i]->size.y;
 
-      alphablit(pText1, NULL, pwindow->dst->surface, &dst, 255);
+      alphablit(text1, NULL, pwindow->dst->surface, &dst, 255);
       i++;
     }
 
-    FREESURFACE(pText0);
-    FREESURFACE(pText1);
+    FREESURFACE(text0);
+    FREESURFACE(text1);
   }
   FREEUTF8STR(pstr);
 

@@ -1051,7 +1051,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   int widget_w = 0, widget_h = 0;
   utf8_str *pstr = NULL;
   struct widget *buf = NULL, *pwindow, *pLast;
-  SDL_Surface *pText = NULL, *pText_Name = NULL, *zoomed = NULL;
+  SDL_Surface *text = NULL, *text_name = NULL, *zoomed = NULL;
   SDL_Surface *pMain;
   SDL_Surface *icon;
   SDL_Rect dst;
@@ -1416,7 +1416,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         pstr->style |= TTF_STYLE_STRIKETHROUGH;
       }
 
-      pText_Name = create_text_surf_smaller_than_w(pstr, icon->w - 4);
+      text_name = create_text_surf_smaller_than_w(pstr, icon->w - 4);
 
       if (is_wonder(pimprove)) {
         if (improvement_obsolete(client.conn.playing, pimprove, pcity)) {
@@ -1502,7 +1502,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       pstr->style &= ~TTF_STYLE_BOLD;
       pstr->style &= ~TTF_STYLE_STRIKETHROUGH;
 
-      pText = create_text_surf_from_utf8(pstr);
+      text = create_text_surf_from_utf8(pstr);
 
       /*-----------------*/
 
@@ -1514,16 +1514,16 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       dst.y += zoomed->h;
       FREESURFACE(zoomed);
 
-      dst.x = (icon->w - pText_Name->w) / 2;
-      dst.y += ((icon->h - dst.y) - (pText_Name->h + pText->h)) / 2;
-      alphablit(pText_Name, NULL, icon, &dst, 255);
+      dst.x = (icon->w - text_name->w) / 2;
+      dst.y += ((icon->h - dst.y) - (text_name->h + text->h)) / 2;
+      alphablit(text_name, NULL, icon, &dst, 255);
 
-      dst.x = (icon->w - pText->w) / 2;
-      dst.y += pText_Name->h;
-      alphablit(pText, NULL, icon, &dst, 255);
+      dst.x = (icon->w - text->w) / 2;
+      dst.y += text_name->h;
+      alphablit(text, NULL, icon, &dst, 255);
 
-      FREESURFACE(pText);
-      FREESURFACE(pText_Name);
+      FREESURFACE(text);
+      FREESURFACE(text_name);
 
       buf = create_icon2(icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
@@ -1568,7 +1568,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
-      pText_Name = create_text_surf_smaller_than_w(pstr, icon->w - 4);
+      text_name = create_text_surf_smaller_than_w(pstr, icon->w - 4);
 
       if (pcity) {
         struct universal univ = cid_production(cid_encode_unit(un));
@@ -1609,7 +1609,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style &= ~TTF_STYLE_BOLD;
 
-      pText = create_text_surf_from_utf8(pstr);
+      text = create_text_surf_from_utf8(pstr);
 
       zoomed = adj_surf(get_unittype_surface(un, direction8_invalid()));
       dst.x = (icon->w - zoomed->w) / 2;
@@ -1617,16 +1617,16 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       alphablit(zoomed, NULL, icon, &dst, 255);
       FREESURFACE(zoomed);
 
-      dst.x = (icon->w - pText_Name->w) / 2;
-      dst.y = icon->h / 2 + (icon->h / 2 - (pText_Name->h + pText->h)) / 2;
-      alphablit(pText_Name, NULL, icon, &dst, 255);
+      dst.x = (icon->w - text_name->w) / 2;
+      dst.y = icon->h / 2 + (icon->h / 2 - (text_name->h + text->h)) / 2;
+      alphablit(text_name, NULL, icon, &dst, 255);
 
-      dst.x = (icon->w - pText->w) / 2;
-      dst.y += pText_Name->h;
-      alphablit(pText, NULL, icon, &dst, 255);
+      dst.x = (icon->w - text->w) / 2;
+      dst.y += text_name->h;
+      alphablit(text, NULL, icon, &dst, 255);
 
-      FREESURFACE(pText);
-      FREESURFACE(pText_Name);
+      FREESURFACE(text);
+      FREESURFACE(text_name);
 
       buf = create_icon2(icon, pwindow->dst,
                           WF_RESTORE_BACKGROUND|WF_FREE_THEME);
