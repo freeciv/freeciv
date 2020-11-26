@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
 "POT-Creation-Date: 2020-11-19 02:46+0200\n"
-"PO-Revision-Date: 2020-09-03 16:24+0200\n"
+"PO-Revision-Date: 2020-11-19 09:58+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -34421,13 +34421,10 @@ msgstr ""
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2309
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by sending email to freeciv-dev mailing list, at:"
-msgstr ""
-"Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'aller "
-"visiter le site de résolution des bogues :"
+msgstr "Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'envoyer un courriel à la liste de diffusion freeciv-dev, à :"
 
 #: data/helpdata.txt:2314
 msgid ""
@@ -40569,7 +40566,7 @@ msgstr "OK, style Standard positionné."
 
 #: server/console.c:274
 msgid "For introductory help, type 'help'."
-msgstr "Pour obtenir une aide sommaire, tapez \"help\"."
+msgstr "Pour obtenir une aide sommaire, tapez 'help'."
 
 #: server/diplhand.c:214
 #, c-format
