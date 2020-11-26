@@ -74,18 +74,18 @@ Anarchy happens between government changes.\
 ")
 
 ;------------------------------------------------------------------------
-[government_generic]
+[government_tribal]
 
-name        = _("Generic")
+name        = _("Tribal")
 reqs =
    { "type", "name", "range"
 ; No requirements
    }
-graphic     = "gov.despotism"
+graphic     = "gov.tribal"
 graphic_alt = "-"
 
-ruler_male_title = _("Leader %s")
-ruler_female_title = _("Leader %s")
+ruler_male_title = _("Warlord %s")
+ruler_female_title = _("Warlady %s")
 
 helptext = _("\
   This is the only available form of government.\

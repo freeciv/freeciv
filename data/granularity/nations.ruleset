@@ -58,7 +58,7 @@ embedded_nations = "barbarian"
 [compatibility]
 ; Initial government for all the nations that do not
 ; have it explicitly defined
-default_government = "Generic"
+default_government = "Tribal"
 
 ; Below: nations data loaded from ruleset files for
 ; all nations available. If you want to have more
