@@ -3098,6 +3098,14 @@ reqs	=
       "Building", "A.Smith's Trading Co.", "City"
     }
 
+[effect_chichen_itza]
+type    = "Popcost_Free"
+value   = 2
+reqs    =
+    { "type",     "name",         "range"
+      "Building", "Chichen Itza", "City"
+    }
+
 [effect_colossus]
 type    = "Output_Inc_Tile"
 value   = 1

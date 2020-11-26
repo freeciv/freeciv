@@ -1368,6 +1368,29 @@ Upon completion of this wonder, tax collector specialists' gold output \
 increases to 3 permanently for every nation.\
 ")
 
+[building_chichen_itza]
+name		= _("Chichen Itza")
+genus		= "GreatWonder"
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Warrior Code", "Player"
+    }
+graphic         = "b.chichen_itza"
+graphic_alt     = "b.pyramids"
+obsolete_by	=
+    { "type", "name", "range", "survives"
+      "Tech", "Metallurgy", "Player", FALSE
+    }
+build_cost	= 300
+upkeep		= 0
+sabotage	= 0
+sound		= "w_chichen_itza"
+sound_alt	= "w_generic"
+helptext	= _("\
+In a city with Chichen Itza, settlers can be built without\
+ size of the city shrinking.\
+")
+
 [building_colossus]
 name		= _("Colossus")
 genus		= "GreatWonder"
