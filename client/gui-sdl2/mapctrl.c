@@ -2070,14 +2070,14 @@ void close_game_page(void)
 **************************************************************************/
 static void disable_minimap_widgets(void)
 {
-  struct widget *buf, *pEnd;
+  struct widget *buf, *end;
 
   buf = get_minimap_window_widget();
   set_wstate(buf, FC_WS_DISABLED);
 
   /* new turn button */
   buf = buf->prev;
-  pEnd = buf;
+  end = buf;
   set_wstate(buf, FC_WS_DISABLED);
 
   /* players button */
@@ -2110,7 +2110,7 @@ static void disable_minimap_widgets(void)
   buf = buf->prev;
   set_wstate(buf, FC_WS_DISABLED);
 
-  redraw_group(buf, pEnd, TRUE);
+  redraw_group(buf, end, TRUE);
 }
 
 /**********************************************************************//**
@@ -2120,11 +2120,11 @@ static void disable_minimap_widgets(void)
 static void disable_unitinfo_widgets(void)
 {
   struct widget *buf = units_info_window->private_data.adv_dlg->begin_widget_list;
-  struct widget *pEnd = units_info_window->private_data.adv_dlg->end_widget_list;
+  struct widget *end = units_info_window->private_data.adv_dlg->end_widget_list;
 
-  set_group_state(buf, pEnd, FC_WS_DISABLED);
-  pEnd = pEnd->prev;
-  redraw_group(buf, pEnd, TRUE);
+  set_group_state(buf, end, FC_WS_DISABLED);
+  end = end->prev;
+  redraw_group(buf, end, TRUE);
 }
 
 /**********************************************************************//**
@@ -2147,7 +2147,7 @@ void disable_main_widgets(void)
 **************************************************************************/
 static void enable_minimap_widgets(void)
 {
-  struct widget *buf, *pEnd;
+  struct widget *buf, *end;
 
   if (can_client_issue_orders()) {
     buf = minimap_window;
@@ -2155,7 +2155,7 @@ static void enable_minimap_widgets(void)
 
     /* new turn button */
     buf = buf->prev;
-    pEnd = buf;
+    end = buf;
     set_wstate(buf, FC_WS_NORMAL);
 
     /* players button */
@@ -2188,7 +2188,7 @@ static void enable_minimap_widgets(void)
     buf = buf->prev;
     set_wstate(buf, FC_WS_NORMAL);
 
-    redraw_group(buf, pEnd, TRUE);
+    redraw_group(buf, end, TRUE);
   }
 }
 
@@ -2197,15 +2197,15 @@ static void enable_minimap_widgets(void)
 **************************************************************************/
 static void enable_unitinfo_widgets(void)
 {
-  struct widget *buf, *pEnd;
+  struct widget *buf, *end;
 
   if (can_client_issue_orders()) {
     buf = units_info_window->private_data.adv_dlg->begin_widget_list;
-    pEnd = units_info_window->private_data.adv_dlg->end_widget_list;
+    end = units_info_window->private_data.adv_dlg->end_widget_list;
 
-    set_group_state(buf, pEnd, FC_WS_NORMAL);
-    pEnd = pEnd->prev;
-    redraw_group(buf, pEnd, TRUE);
+    set_group_state(buf, end, FC_WS_NORMAL);
+    end = end->prev;
+    redraw_group(buf, end, TRUE);
   }
 }
 

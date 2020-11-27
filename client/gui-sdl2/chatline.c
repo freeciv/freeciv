@@ -67,7 +67,7 @@ struct CONNLIST {
   struct advanced_dialog *pChat_Dlg;
   struct widget *begin_widget_list;
   struct widget *end_widget_list;
-  struct widget *pStartButton;
+  struct widget *start_button;
   struct widget *pSelectNationButton;
   struct widget *pLoadGameButton;
   struct widget *pConfigure;
@@ -115,9 +115,9 @@ void popdown_load_game_dialog(void)
     set_wstate(pConnDlg->pLoadGameButton, FC_WS_NORMAL);
     widget_redraw(pConnDlg->pLoadGameButton);
     widget_mark_dirty(pConnDlg->pLoadGameButton);
-    set_wstate(pConnDlg->pStartButton, FC_WS_NORMAL);
-    widget_redraw(pConnDlg->pStartButton);
-    widget_mark_dirty(pConnDlg->pStartButton);
+    set_wstate(pConnDlg->start_button, FC_WS_NORMAL);
+    widget_redraw(pConnDlg->start_button);
+    widget_mark_dirty(pConnDlg->start_button);
 
     flush_dirty();
   }
@@ -195,9 +195,9 @@ static void popup_load_game_dialog(void)
   set_wstate(pConnDlg->pSelectNationButton, FC_WS_DISABLED);
   widget_redraw(pConnDlg->pSelectNationButton);
   widget_mark_dirty(pConnDlg->pSelectNationButton);
-  set_wstate(pConnDlg->pStartButton, FC_WS_DISABLED);
-  widget_redraw(pConnDlg->pStartButton);
-  widget_mark_dirty(pConnDlg->pStartButton);
+  set_wstate(pConnDlg->start_button, FC_WS_DISABLED);
+  widget_redraw(pConnDlg->start_button);
+  widget_mark_dirty(pConnDlg->start_button);
 
   /* create dialog */
   pLoadDialog = fc_calloc(1, sizeof(struct advanced_dialog));
@@ -675,7 +675,7 @@ static void popup_conn_list_dialog(void)
 
   struct widget *pwindow = NULL, *buf = NULL, *pLabel = NULL;
   struct widget* pBackButton = NULL;
-  struct widget *pStartGameButton = NULL;
+  struct widget *start_game_button = NULL;
   struct widget *pSelectNationButton = NULL;
 /*  struct widget *pServerSettingsButton = NULL;*/
   utf8_str *pstr = NULL;
@@ -806,17 +806,17 @@ static void popup_conn_list_dialog(void)
                                             _("Start"), adj_font(12), 0);
   buf->size.x = pwindow->size.w - adj_size(10) - buf->size.w;
   buf->size.y = pBackButton->size.y;
-  pConnDlg->pStartButton = buf;
+  pConnDlg->start_button = buf;
   buf->action = start_game_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
-  pStartGameButton = buf;
+  start_game_button = buf;
 
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
                                             _("Pick Nation"), adj_font(12), 0);
-  buf->size.h = pStartGameButton->size.h;
-  buf->size.x = pStartGameButton->size.x - adj_size(10) - buf->size.w;
-  buf->size.y = pStartGameButton->size.y;
+  buf->size.h = start_game_button->size.h;
+  buf->size.x = start_game_button->size.x - adj_size(10) - buf->size.w;
+  buf->size.y = start_game_button->size.y;
   pConnDlg->pSelectNationButton = buf;
   buf->action = select_nation_callback;
   set_wstate(buf, FC_WS_NORMAL);

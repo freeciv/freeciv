@@ -202,8 +202,8 @@ void move_widget_to_front_of_gui_list(struct widget *pGUI);
 void del_gui_list(struct widget *pGUI_List);
 void del_main_list(void);
 
-struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y);
-struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_Keysym key);
+struct widget *find_next_widget_at_pos(struct widget *start_widget, int x, int y);
+struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keysym key);
 
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
                                           enum scan_direction direction);
@@ -366,7 +366,7 @@ void move_window_group(struct widget *begin_widget_list, struct widget *pwindow)
 int setup_vertical_widgets_position(int step,
                                     Sint16 start_x, Sint16 start_y,
                                     Uint16 w, Uint16 h,
-                                    struct widget *pBegin, struct widget *pEnd);
+                                    struct widget *begin, struct widget *end);
 
 #define del_widget_from_gui_list(__pGUI)	\
 do {						\

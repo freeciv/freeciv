@@ -79,8 +79,8 @@ static struct city_dialog {
   } page;
 
   /* main window group list */
-  struct widget *pBeginCityWidgetList;
-  struct widget *pEndCityWidgetList;
+  struct widget *begin_city_widget_list;
+  struct widget *end_city_widget_list;
 
   /* Imprvm. vscrollbar */
   struct advanced_dialog *pImprv;
@@ -89,8 +89,8 @@ static struct city_dialog {
   struct advanced_dialog *pPanel;
 
   /* Menu imprv. dlg. */
-  struct widget *pBeginCityMenuWidgetList;
-  struct widget *pEndCityMenuWidgetList;
+  struct widget *begin_city_menu_widget_list;
+  struct widget *end_city_menu_widget_list;
 
   /* shortcuts */
   struct widget *pAdd_Point;
@@ -144,10 +144,10 @@ struct impr_type *get_building_for_effect(enum effect_type effect_type)
 **************************************************************************/
 static void popdown_city_menu_dlg(bool enable_city_dialog_widgets)
 {
-  if (pcity_dlg->pEndCityMenuWidgetList) {
-    popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
-                                pcity_dlg->pEndCityMenuWidgetList);
-    pcity_dlg->pEndCityMenuWidgetList = NULL;
+  if (pcity_dlg->end_city_menu_widget_list) {
+    popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
+                                pcity_dlg->end_city_menu_widget_list);
+    pcity_dlg->end_city_menu_widget_list = NULL;
   }
   if (enable_city_dialog_widgets) {
     /* enable city dlg */
@@ -185,8 +185,8 @@ static void del_city_dialog(void)
     free_city_units_lists();
     popdown_city_menu_dlg(FALSE);
 
-    popdown_window_group_dialog(pcity_dlg->pBeginCityWidgetList,
-                                pcity_dlg->pEndCityWidgetList);
+    popdown_window_group_dialog(pcity_dlg->begin_city_widget_list,
+                                pcity_dlg->end_city_widget_list);
     FC_FREE(pcity_dlg);
   }
 }
@@ -213,12 +213,12 @@ static int city_dlg_callback(struct widget *pwindow)
 
     if (!pcity_dlg->lock) {
       if (pcity_dlg->pPanel) {
-        select_window_group_dialog(pcity_dlg->pBeginCityWidgetList, pwindow);
+        select_window_group_dialog(pcity_dlg->begin_city_widget_list, pwindow);
         select_window_group_dialog(pcity_dlg->pPanel->begin_widget_list,
                                    pcity_dlg->pPanel->end_widget_list);
         widget_flush(pwindow);
       } else {
-        if (select_window_group_dialog(pcity_dlg->pBeginCityWidgetList, pwindow)) {
+        if (select_window_group_dialog(pcity_dlg->begin_city_widget_list, pwindow)) {
           widget_flush(pwindow);
         }
       }
@@ -237,9 +237,9 @@ static int city_dlg_callback(struct widget *pwindow)
 static int cancel_units_orders_city_dlg_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
-                                pcity_dlg->pEndCityMenuWidgetList);
-    pcity_dlg->pEndCityMenuWidgetList = NULL;
+    popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
+                                pcity_dlg->end_city_menu_widget_list);
+    pcity_dlg->end_city_menu_widget_list = NULL;
 
     /* enable city dlg */
     enable_city_dlg_widgets();
@@ -273,9 +273,9 @@ static int activate_and_exit_units_orders_city_dlg_callback(struct widget *butto
     struct unit *punit = button->data.unit;
 
     if (punit) {
-      popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
-                                  pcity_dlg->pEndCityMenuWidgetList);
-      pcity_dlg->pEndCityMenuWidgetList = NULL;
+      popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
+                                  pcity_dlg->end_city_menu_widget_list);
+      pcity_dlg->end_city_menu_widget_list = NULL;
 
       popdown_city_dialog(pcity_dlg->pcity);
 
@@ -378,7 +378,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
   if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr;
     char cBuf[80];
-    struct widget *buf, *pwindow = pcity_dlg->pEndCityWidgetList;
+    struct widget *buf, *pwindow = pcity_dlg->end_city_widget_list;
     struct unit *punit;
     const struct unit_type *putype;
     Uint16 i = 0, hh = 0;
@@ -412,7 +412,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
     pwindow->action = units_orders_dlg_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
     add_to_gui_list(ID_REVOLUTION_DLG_WINDOW, pwindow);
-    pcity_dlg->pEndCityMenuWidgetList = pwindow;
+    pcity_dlg->end_city_menu_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -532,7 +532,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
     buf->action = cancel_units_orders_city_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
     add_to_gui_list(button->ID, buf);
-    pcity_dlg->pBeginCityMenuWidgetList = buf;
+    pcity_dlg->begin_city_menu_widget_list = buf;
 
     /* ================================================== */
     unselect_widget_action();
@@ -572,7 +572,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
       buf->size.h = hh;
       buf->size.x = buf->next->size.x;
       buf->size.y = buf->next->size.y + buf->next->size.h;
-      if (buf == pcity_dlg->pBeginCityMenuWidgetList) {
+      if (buf == pcity_dlg->begin_city_menu_widget_list) {
         break;
       }
       buf = buf->prev;
@@ -580,7 +580,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pcity_dlg->pBeginCityMenuWidgetList, pwindow, 0);
+    redraw_group(pcity_dlg->begin_city_menu_widget_list, pwindow, 0);
     widget_flush(pwindow);
   }
   return -1;
@@ -678,8 +678,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
 {
   int i;
   struct widget *buf = NULL;
-  struct widget *pEnd = NULL;
-  struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
+  struct widget *end = NULL;
+  struct widget *pwindow = pcity_dlg->end_city_widget_list;
   struct city *pHome_City;
   const struct unit_type *putype;
   SDL_Surface *surf;
@@ -742,8 +742,8 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     buf->data.unit = punit;
     add_to_gui_list(MAX_ID - punit->id, buf);
 
-    if (!pEnd) {
-      pEnd = buf;
+    if (!end) {
+      end = buf;
     }
 
     if (++i > num_x * num_y) {
@@ -758,7 +758,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   } unit_list_iterate_end;
 
   pcity_dlg->pPanel = fc_calloc(1, sizeof(struct advanced_dialog));
-  pcity_dlg->pPanel->end_widget_list = pEnd;
+  pcity_dlg->pPanel->end_widget_list = end;
   pcity_dlg->pPanel->begin_widget_list = buf;
   pcity_dlg->pPanel->end_active_widget_list = pcity_dlg->pPanel->end_widget_list;
   pcity_dlg->pPanel->begin_active_widget_list = pcity_dlg->pPanel->begin_widget_list;
@@ -938,7 +938,7 @@ static int misc_panel_city_dlg_callback(struct widget *pwidget)
 **************************************************************************/
 static void create_city_options_widget_list(struct city *pcity)
 {
-  struct widget *buf, *pwindow = pcity_dlg->pEndCityWidgetList;
+  struct widget *buf, *pwindow = pcity_dlg->end_city_widget_list;
   SDL_Surface *surf;
   utf8_str *pstr;
   char cBuf[80];
@@ -1323,9 +1323,9 @@ static int change_prod_dlg_callback(struct widget *button)
 static int sell_imprvm_dlg_cancel_callback(struct widget *cancel_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
-                                pcity_dlg->pEndCityMenuWidgetList);
-    pcity_dlg->pEndCityMenuWidgetList = NULL;
+    popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
+                                pcity_dlg->end_city_menu_widget_list);
+    pcity_dlg->end_city_menu_widget_list = NULL;
     enable_city_dlg_widgets();
     redraw_city_dialog(pcity_dlg->pcity);
     flush_dirty();
@@ -1345,10 +1345,10 @@ static int sell_imprvm_dlg_ok_callback(struct widget *ok_button)
 
     /* popdown, we don't redraw and flush becouse this is make by redraw city dlg.
        when response from server come */
-    popdown_window_group_dialog(pcity_dlg->pBeginCityMenuWidgetList,
-                                pcity_dlg->pEndCityMenuWidgetList);
+    popdown_window_group_dialog(pcity_dlg->begin_city_menu_widget_list,
+                                pcity_dlg->end_city_menu_widget_list);
 
-    pcity_dlg->pEndCityMenuWidgetList = NULL;
+    pcity_dlg->end_city_menu_widget_list = NULL;
 
     /* del imprv from widget list */
     del_widget_from_vertical_scroll_widget_list(pcity_dlg->pImprv, pTmp);
@@ -1391,7 +1391,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     /*pwindow->action = move_sell_imprvm_dlg_callback; */
     /*set_wstate( pwindow, FC_WS_NORMAL ); */
     add_to_gui_list(ID_WINDOW, pwindow);
-    pcity_dlg->pEndCityMenuWidgetList = pwindow;
+    pcity_dlg->end_city_menu_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -1429,7 +1429,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     set_wstate(ok_button, FC_WS_NORMAL);
     add_to_gui_list(ID_BUTTON, ok_button);
 
-    pcity_dlg->pBeginCityMenuWidgetList = ok_button;
+    pcity_dlg->begin_city_menu_widget_list = ok_button;
 
     /* correct sizes */
     if ((ok_button->size.w + cancel_button->size.w + adj_size(30)) >
@@ -1464,8 +1464,8 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     pLabel->size.w = area.w;
 
     /* redraw */
-    redraw_group(pcity_dlg->pBeginCityMenuWidgetList,
-                 pcity_dlg->pEndCityMenuWidgetList, 0);
+    redraw_group(pcity_dlg->begin_city_menu_widget_list,
+                 pcity_dlg->end_city_menu_widget_list, 0);
 
     widget_mark_dirty(pwindow);
     flush_dirty();
@@ -1480,8 +1480,8 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
 void enable_city_dlg_widgets(void)
 {
   if (pcity_dlg) {
-    set_group_state(pcity_dlg->pBeginCityWidgetList,
-                    pcity_dlg->pEndCityWidgetList->prev, FC_WS_NORMAL);
+    set_group_state(pcity_dlg->begin_city_widget_list,
+                    pcity_dlg->end_city_widget_list->prev, FC_WS_NORMAL);
 
     if (pcity_dlg->pImprv->end_active_widget_list) {
       if (pcity_dlg->pImprv->scroll) {
@@ -1553,8 +1553,8 @@ static void disable_city_dlg_widgets(void)
                     pcity_dlg->pImprv->end_widget_list, FC_WS_DISABLED);
   }
 
-  set_group_state(pcity_dlg->pBeginCityWidgetList,
-                  pcity_dlg->pEndCityWidgetList->prev, FC_WS_DISABLED);
+  set_group_state(pcity_dlg->begin_city_widget_list,
+                  pcity_dlg->end_city_widget_list->prev, FC_WS_DISABLED);
   pcity_dlg->lock = TRUE;
 }
 
@@ -1720,7 +1720,7 @@ static void refresh_city_names(struct city *pcity)
     if ((strcmp(city_name_get(pcity), name) != 0)
         || (sdl2_client_flags & CF_CHANGED_CITY_NAME)) {
       copy_chars_to_utf8_str(pcity_dlg->pcity_name_edit->string_utf8, city_name_get(pcity));
-      rebuild_citydlg_title_str(pcity_dlg->pEndCityWidgetList, pcity);
+      rebuild_citydlg_title_str(pcity_dlg->end_city_widget_list, pcity);
       sdl2_client_flags &= ~CF_CHANGED_CITY_NAME;
     }
   }
@@ -2483,7 +2483,7 @@ static void redraw_city_dialog(struct city *pcity)
   int i, step, count, limit;
   int cost = 0;
   SDL_Rect dest;
-  struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
+  struct widget *pwindow = pcity_dlg->end_city_widget_list;
   SDL_Surface *buf = NULL, *buf2 = NULL;
   utf8_str *pstr = NULL;
   int spe, spe_max;
@@ -2504,7 +2504,7 @@ static void redraw_city_dialog(struct city *pcity)
 #endif
 
     /* upd. window title */
-    rebuild_citydlg_title_str(pcity_dlg->pEndCityWidgetList, pcity);
+    rebuild_citydlg_title_str(pcity_dlg->end_city_widget_list, pcity);
   }
 
   /* update resource map */
@@ -2512,8 +2512,8 @@ static void redraw_city_dialog(struct city *pcity)
   pcity_dlg->pResource_Map->theme = get_scaled_city_map(pcity);
 
   /* redraw city dlg */
-  redraw_group(pcity_dlg->pBeginCityWidgetList,
-               pcity_dlg->pEndCityWidgetList, 0);
+  redraw_group(pcity_dlg->begin_city_widget_list,
+               pcity_dlg->end_city_widget_list, 0);
 
   /* ================================================================= */
   fc_snprintf(cBuf, sizeof(cBuf), _("City map"));
@@ -3447,8 +3447,8 @@ static void redraw_city_dialog(struct city *pcity)
   }
 
   /* redraw "sell improvement" dialog */
-  redraw_group(pcity_dlg->pBeginCityMenuWidgetList,
-               pcity_dlg->pEndCityMenuWidgetList, 0);
+  redraw_group(pcity_dlg->begin_city_menu_widget_list,
+               pcity_dlg->end_city_menu_widget_list, 0);
 
   widget_mark_dirty(pwindow);
 }
@@ -3461,7 +3461,7 @@ static void redraw_city_dialog(struct city *pcity)
 static void rebuild_imprm_list(struct city *pcity)
 {
   int count = 0;
-  struct widget *pwindow = pcity_dlg->pEndCityWidgetList;
+  struct widget *pwindow = pcity_dlg->end_city_widget_list;
   struct widget *add_dock, *buf, *pLast;
   SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
@@ -3617,7 +3617,7 @@ void real_city_dialog_popup(struct city *pcity)
 
   add_to_gui_list(ID_CITY_DLG_WINDOW, pwindow);
 
-  pcity_dlg->pEndCityWidgetList = pwindow;
+  pcity_dlg->end_city_widget_list = pwindow;
 
   /* create window background */
   logo = theme_get_background(theme, BACKGROUND_CITYDLG);
@@ -3696,7 +3696,7 @@ void real_city_dialog_popup(struct city *pcity)
   add_to_gui_list(ID_CITY_DLG_INFO_BUTTON, buf);
 
   pcity_dlg->pAdd_Point = buf;
-  pcity_dlg->pBeginCityWidgetList = buf;
+  pcity_dlg->begin_city_widget_list = buf;
   /* ===================================================== */
   rebuild_imprm_list(pcity);
   /* ===================================================== */
@@ -3815,7 +3815,7 @@ void real_city_dialog_popup(struct city *pcity)
   pcity_dlg->pcity_name_edit = buf;
   add_to_gui_list(ID_CITY_DLG_NAME_EDIT, buf);
 
-  pcity_dlg->pBeginCityWidgetList = buf;
+  pcity_dlg->begin_city_widget_list = buf;
 
   /* check if Citizen Icons style was loaded */
   cs = style_of_city(pcity);

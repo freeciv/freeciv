@@ -53,7 +53,7 @@ extern Uint32 widget_info_counter;
 
 /* ================================ Private ============================ */
 
-static struct widget *pBeginMainWidgetList;
+static struct widget *begin_main_widget_list;
 
 static SDL_Surface *info_label = NULL;
 
@@ -223,16 +223,16 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
 
 /**********************************************************************//**
   Find the next visible widget in the widget list starting with
-  pStartWidget that is drawn at position (x, y). If pStartWidget is NULL,
+  start_widget that is drawn at position (x, y). If start_widget is NULL,
   the search starts with the first entry of the main widget list. 
 **************************************************************************/
-struct widget *find_next_widget_at_pos(struct widget *pStartWidget,
+struct widget *find_next_widget_at_pos(struct widget *start_widget,
                                        int x, int y)
 {
   SDL_Rect area = {0, 0, 0, 0};
   struct widget *pwidget;
 
-  pwidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  pwidget = start_widget ? start_widget : begin_main_widget_list;
 
   while (pwidget) {
     area.x = pwidget->dst->dest_rect.x + pwidget->size.x;
@@ -251,16 +251,16 @@ struct widget *find_next_widget_at_pos(struct widget *pStartWidget,
 
 /**********************************************************************//**
   Find the next enabled and visible widget in the widget list starting
-  with pStartWidget that handles the given key. If pStartWidget is NULL,
+  with start_widget that handles the given key. If start_widget is NULL,
   the search starts with the first entry of the main widget list.
   NOTE: This function ignores CapsLock and NumLock Keys.
 **************************************************************************/
-struct widget *find_next_widget_for_key(struct widget *pStartWidget,
+struct widget *find_next_widget_for_key(struct widget *start_widget,
                                         SDL_Keysym key)
 {
   struct widget *pwidget;
 
-  pwidget = pStartWidget ? pStartWidget : pBeginMainWidgetList;
+  pwidget = start_widget ? start_widget : begin_main_widget_list;
 
   key.mod &= ~(KMOD_NUM | KMOD_CAPS);
   while (pwidget) {
@@ -575,7 +575,7 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
 **************************************************************************/
 struct widget *get_widget_pointer_form_main_list(Uint16 ID)
 {
-  return get_widget_pointer_form_ID(pBeginMainWidgetList, ID, SCAN_FORWARD);
+  return get_widget_pointer_form_ID(begin_main_widget_list, ID, SCAN_FORWARD);
 }
 
 /**********************************************************************//**
@@ -583,14 +583,14 @@ struct widget *get_widget_pointer_form_main_list(Uint16 ID)
 **************************************************************************/
 void add_to_gui_list(Uint16 ID, struct widget *pGUI)
 {
-  if (pBeginMainWidgetList != NULL) {
-    pGUI->next = pBeginMainWidgetList;
+  if (begin_main_widget_list != NULL) {
+    pGUI->next = begin_main_widget_list;
     pGUI->ID = ID;
-    pBeginMainWidgetList->prev = pGUI;
-    pBeginMainWidgetList = pGUI;
+    begin_main_widget_list->prev = pGUI;
+    begin_main_widget_list = pGUI;
   } else {
-    pBeginMainWidgetList = pGUI;
-    pBeginMainWidgetList->ID = ID;
+    begin_main_widget_list = pGUI;
+    begin_main_widget_list->ID = ID;
   }
 }
 
@@ -605,8 +605,8 @@ void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock)
     add_dock->prev->next = new_widget;
   }
   add_dock->prev = new_widget;
-  if (add_dock == pBeginMainWidgetList) {
-    pBeginMainWidgetList = new_widget;
+  if (add_dock == begin_main_widget_list) {
+    begin_main_widget_list = new_widget;
   }
 }
 
@@ -623,8 +623,8 @@ void del_widget_pointer_from_gui_list(struct widget *pGUI)
     return;
   }
 
-  if (pGUI == pBeginMainWidgetList) {
-    pBeginMainWidgetList = pBeginMainWidgetList->next;
+  if (pGUI == begin_main_widget_list) {
+    begin_main_widget_list = begin_main_widget_list->next;
   }
 
   if (pGUI->prev && pGUI->next) {
@@ -654,7 +654,7 @@ void del_widget_pointer_from_gui_list(struct widget *pGUI)
 **************************************************************************/
 bool is_this_widget_first_on_list(struct widget *pGUI)
 {
-  return (pBeginMainWidgetList == pGUI);
+  return (begin_main_widget_list == pGUI);
 }
 
 /**********************************************************************//**
@@ -664,12 +664,12 @@ bool is_this_widget_first_on_list(struct widget *pGUI)
 **************************************************************************/
 void move_widget_to_front_of_gui_list(struct widget *pGUI)
 {
-  if (!pGUI || pGUI == pBeginMainWidgetList) {
+  if (!pGUI || pGUI == begin_main_widget_list) {
     return;
   }
 
   /* pGUI->prev always exists because
-     we don't do this to pBeginMainWidgetList */
+     we don't do this to begin_main_widget_list */
   if (pGUI->next) {
     pGUI->prev->next = pGUI->next;
     pGUI->next->prev = pGUI->prev;
@@ -677,9 +677,9 @@ void move_widget_to_front_of_gui_list(struct widget *pGUI)
     pGUI->prev->next = NULL;
   }
 
-  pGUI->next = pBeginMainWidgetList;
-  pBeginMainWidgetList->prev = pGUI;
-  pBeginMainWidgetList = pGUI;
+  pGUI->next = begin_main_widget_list;
+  begin_main_widget_list->prev = pGUI;
+  begin_main_widget_list = pGUI;
   pGUI->prev = NULL;
 }
 
@@ -688,7 +688,7 @@ void move_widget_to_front_of_gui_list(struct widget *pGUI)
 **************************************************************************/
 void del_main_list(void)
 {
-  del_gui_list(pBeginMainWidgetList);
+  del_gui_list(begin_main_widget_list);
 }
 
 /**********************************************************************//**
@@ -712,8 +712,8 @@ void del_gui_list(struct widget *pGUI_List)
 
 /**********************************************************************//**
   Universal redraw Group of Widget function.  Function is optimized to
-  WindowGroup: start draw from 'pEnd' and stop on 'pBegin', in theory
-  'pEnd' is window widget;
+  WindowGroup: start draw from 'end' and stop on 'begin', in theory
+  'end' is window widget;
 **************************************************************************/
 Uint16 redraw_group(const struct widget *begin_group_widget_list,
                     const struct widget *end_group_widget_list,
@@ -819,7 +819,7 @@ void move_group_to_front_of_gui_list(struct widget *begin_group_widget_list,
     pPrev = tmp_widget->prev;
 
     /* tmp_widget->prev always exists because we
-       don't do this to pBeginMainWidgetList */
+       don't do this to begin_main_widget_list */
     if (tmp_widget->next) {
       tmp_widget->prev->next = tmp_widget->next;
       tmp_widget->next->prev = tmp_widget->prev;
@@ -827,10 +827,10 @@ void move_group_to_front_of_gui_list(struct widget *begin_group_widget_list,
       tmp_widget->prev->next = NULL;
     }
 
-    tmp_widget->next = pBeginMainWidgetList;
-    pBeginMainWidgetList->prev = tmp_widget;
-    pBeginMainWidgetList = tmp_widget;
-    pBeginMainWidgetList->prev = NULL;
+    tmp_widget->next = begin_main_widget_list;
+    begin_main_widget_list->prev = tmp_widget;
+    begin_main_widget_list = tmp_widget;
+    begin_main_widget_list->prev = NULL;
 
     if (tmp_widget == begin_group_widget_list) {
       break;
@@ -970,8 +970,8 @@ void group_set_area(struct widget *begin_group_widget_list,
  * ===================================================================== */
 
 /*
- *	Window Group  -	group with 'pBegin' and 'pEnd' where
- *	windowed type widget is last on list ( 'pEnd' ).
+ *	Window Group  -	group with 'begin' and 'end' where
+ *	windowed type widget is last on list ( 'end' ).
  */
 
 /**********************************************************************//**
@@ -1049,9 +1049,9 @@ void move_window_group(struct widget *begin_widget_list, struct widget *pwindow)
 int setup_vertical_widgets_position(int step,
                                     Sint16 start_x, Sint16 start_y,
                                     Uint16 w, Uint16 h,
-                                    struct widget *pBegin, struct widget *pEnd)
+                                    struct widget *begin, struct widget *end)
 {
-  struct widget *buf = pEnd;
+  struct widget *buf = end;
   register int count = 0;
   register int real_start_x = start_x;
   int ret = 0;
@@ -1078,7 +1078,7 @@ int setup_vertical_widgets_position(int step,
       real_start_x += buf->size.w;
     }
 
-    if (buf == pBegin) {
+    if (buf == begin) {
       break;
     }
     count++;

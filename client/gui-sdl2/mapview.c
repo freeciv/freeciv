@@ -792,7 +792,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (n > 1 && (info_window->size.h - sy > 52)) {
         struct advanced_dialog *pDlg = info_window->private_data.adv_dlg;
-        struct widget *buf = NULL, *pEnd = NULL, *dock;
+        struct widget *buf = NULL, *end = NULL, *dock;
         struct city *pHome_City;
         const struct unit_type *putype;
         int num_w, num_h;
@@ -861,8 +861,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           widget_add_as_prev(buf, dock);
           dock = buf;
 
-          if (!pEnd) {
-            pEnd = buf;
+          if (!end) {
+            end = buf;
           }
 
           if (++n > num_w * num_h) {
@@ -878,7 +878,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	} unit_list_iterate_end;
 
         pDlg->begin_active_widget_list = buf;
-        pDlg->end_active_widget_list = pEnd;
+        pDlg->end_active_widget_list = end;
         pDlg->active_widget_list = pDlg->end_active_widget_list;
 
         if (n > num_w * num_h) {

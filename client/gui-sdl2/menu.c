@@ -62,8 +62,8 @@
 
 extern struct widget *options_button;
 
-static struct widget *pBeginOrderWidgetList;
-static struct widget *pEndOrderWidgetList;
+static struct widget *begin_order_widget_list;
+static struct widget *end_order_widget_list;
 
 static struct widget *order_fallout_button;
 static struct widget *order_pollution_button;
@@ -79,11 +79,11 @@ static struct widget *order_transform_button;
 static struct widget *order_trade_button;
 
 #define local_show(ID)                                                \
-  clear_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
+  clear_wflag(get_widget_pointer_form_ID(begin_order_widget_list, ID, SCAN_FORWARD), \
               WF_HIDDEN)
 
 #define local_hide(ID)                                             \
-  set_wflag(get_widget_pointer_form_ID(pBeginOrderWidgetList, ID, SCAN_FORWARD), \
+  set_wflag(get_widget_pointer_form_ID(begin_order_widget_list, ID, SCAN_FORWARD), \
             WF_HIDDEN )
 
 
@@ -277,7 +277,7 @@ static int unit_order_callback(struct widget *pOrder_Widget)
 static Uint16 redraw_order_widgets(void)
 {
   Uint16 count = 0;
-  struct widget *tmp_widget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = begin_order_widget_list;
 
   while (TRUE) {
     if (!(get_wflags(tmp_widget) & WF_HIDDEN)) {
@@ -289,7 +289,7 @@ static Uint16 redraw_order_widgets(void)
       count++;
     }
 
-    if (tmp_widget == pEndOrderWidgetList) {
+    if (tmp_widget == end_order_widget_list) {
       break;
     }
 
@@ -306,7 +306,7 @@ static void set_new_order_widget_start_pos(void)
 {
   struct widget *pMiniMap = get_minimap_window_widget();
   struct widget *pInfoWind = get_unit_info_window_widget();
-  struct widget *tmp_widget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = begin_order_widget_list;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
 
@@ -350,14 +350,14 @@ static void set_new_order_widget_start_pos(void)
       count++;
     }
 
-    if (tmp_widget == pEndOrderWidgetList) {
+    if (tmp_widget == end_order_widget_list) {
       break;
     }
 
     tmp_widget = tmp_widget->next;
   }
 
-  tmp_widget = pBeginOrderWidgetList;
+  tmp_widget = begin_order_widget_list;
 
   if (count - count_on_line > 0) {
     lines = (count + (count_on_line - 1)) / count_on_line;
@@ -386,7 +386,7 @@ static void set_new_order_widget_start_pos(void)
       }
     }
 
-    if (tmp_widget == pEndOrderWidgetList) {
+    if (tmp_widget == end_order_widget_list) {
       break;
     }
 
@@ -420,7 +420,7 @@ void create_units_order_widgets(void)
   add_to_gui_list(ID_UNIT_ORDER_DONE, buf);
   /* --------- */
 
-  pEndOrderWidgetList = buf;
+  end_order_widget_list = buf;
 
   /* Wait */
   fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)", _("Wait"), "W");
@@ -947,7 +947,7 @@ void create_units_order_widgets(void)
   order_build_add_to_city_button = buf;
   /* --------- */
 
-  pBeginOrderWidgetList = buf;
+  begin_order_widget_list = buf;
 
   sdl2_client_flags |= CF_ORDERS_WIDGETS_CREATED;
 }
@@ -957,10 +957,10 @@ void create_units_order_widgets(void)
 **************************************************************************/
 void delete_units_order_widgets(void)
 {
-  del_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+  del_group(begin_order_widget_list, end_order_widget_list);
 
-  pBeginOrderWidgetList = NULL;
-  pEndOrderWidgetList = NULL;
+  begin_order_widget_list = NULL;
+  end_order_widget_list = NULL;
   sdl2_client_flags &= ~CF_ORDERS_WIDGETS_CREATED;
 }
 
@@ -978,7 +978,7 @@ void update_order_widgets(void)
 **************************************************************************/
 void undraw_order_widgets(void)
 {
-  struct widget *tmp_widget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = begin_order_widget_list;
 
   if (tmp_widget == NULL) {
     return;
@@ -990,7 +990,7 @@ void undraw_order_widgets(void)
       widget_mark_dirty(tmp_widget);
     }
 
-    if (tmp_widget == pEndOrderWidgetList) {
+    if (tmp_widget == end_order_widget_list) {
       break;
     }
 
@@ -1004,12 +1004,12 @@ void undraw_order_widgets(void)
 **************************************************************************/
 void free_bcgd_order_widgets(void)
 {
-  struct widget *tmp_widget = pBeginOrderWidgetList;
+  struct widget *tmp_widget = begin_order_widget_list;
 
   while (TRUE) {
     FREESURFACE(tmp_widget->gfx);
 
-    if (tmp_widget == pEndOrderWidgetList) {
+    if (tmp_widget == end_order_widget_list) {
       break;
     }
 
@@ -1050,7 +1050,7 @@ void real_menus_update(void)
     }
 
     if (sdl2_client_flags & CF_ORDERS_WIDGETS_CREATED) {
-      hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+      hide_group(begin_order_widget_list, end_order_widget_list);
     }
 
   } else {
@@ -1078,8 +1078,8 @@ void real_menus_update(void)
     } else {
       /* running state with player */
 
-      if (get_wstate(pEndOrderWidgetList) == FC_WS_DISABLED) {
-        enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+      if (get_wstate(end_order_widget_list) == FC_WS_DISABLED) {
+        enable_group(begin_order_widget_list, end_order_widget_list);
       }
 
       if (counter) {
@@ -1499,7 +1499,7 @@ void real_menus_update(void)
 
     } else {
       if (counter) {
-        hide_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+        hide_group(begin_order_widget_list, end_order_widget_list);
       }
 
       counter = 0;
@@ -1513,7 +1513,7 @@ void real_menus_update(void)
 void disable_order_buttons(void)
 {
   undraw_order_widgets();
-  disable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+  disable_group(begin_order_widget_list, end_order_widget_list);
   redraw_order_widgets();
 }
 
@@ -1524,7 +1524,7 @@ void enable_order_buttons(void)
 {
   if (can_client_issue_orders()) {
     undraw_order_widgets();
-    enable_group(pBeginOrderWidgetList, pEndOrderWidgetList);
+    enable_group(begin_order_widget_list, end_order_widget_list);
     redraw_order_widgets();
   }
 }

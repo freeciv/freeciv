@@ -48,7 +48,7 @@ static enum client_pages old_page = PAGE_MAIN;
 /**************************************************************************
                                   MAIN PAGE
 **************************************************************************/
-static struct small_dialog *pStartMenu = NULL;
+static struct small_dialog *start_menu = NULL;
 
 static void popdown_start_menu(void);
 
@@ -148,11 +148,11 @@ static void show_main_page(void)
   const char *rev_ver;
 
   /* create dialog */
-  pStartMenu = fc_calloc(1, sizeof(struct small_dialog));
+  start_menu = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pStartMenu->end_widget_list = pwindow;
+  start_menu->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -290,7 +290,7 @@ static void show_main_page(void)
   h = MAX(h, pwidget->size.h);
   count++;
 
-  pStartMenu->begin_widget_list = pwidget;
+  start_menu->begin_widget_list = pwidget;
 
   /* ------*/
 
@@ -323,7 +323,7 @@ static void show_main_page(void)
 
   draw_intro_gfx();
 
-  redraw_group(pStartMenu->begin_widget_list, pStartMenu->end_widget_list, FALSE);
+  redraw_group(start_menu->begin_widget_list, start_menu->end_widget_list, FALSE);
 
   create_line(pwindow->dst->surface,
               area.x, area.y + (h * 2 - 1),
@@ -356,10 +356,10 @@ static void show_main_page(void)
 **************************************************************************/
 static void popdown_start_menu(void)
 {
-  if (pStartMenu) {
-    popdown_window_group_dialog(pStartMenu->begin_widget_list,
-                                pStartMenu->end_widget_list);
-    FC_FREE(pStartMenu);
+  if (start_menu) {
+    popdown_window_group_dialog(start_menu->begin_widget_list,
+                                start_menu->end_widget_list);
+    FC_FREE(start_menu);
     flush_dirty();
   }
 }
