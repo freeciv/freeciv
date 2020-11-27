@@ -34424,7 +34424,9 @@ msgstr ""
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by sending email to freeciv-dev mailing list, at:"
-msgstr "Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'envoyer un courriel à la liste de diffusion freeciv-dev, à :"
+msgstr ""
+"Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'envoyer "
+"un courriel à la liste de diffusion freeciv-dev, à :"
 
 #: data/helpdata.txt:2314
 msgid ""
