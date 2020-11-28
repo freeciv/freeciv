@@ -566,7 +566,7 @@ static void save_chat_logs_callback(GtkMenuItem *item, gpointer data)
 ****************************************************************************/
 static void local_options_callback(GtkMenuItem *item, gpointer data)
 {
-  option_dialog_popup(_("Set local options"), client_optset);
+  option_dialog_popup(_("Client Settings"), client_optset);
 }
 
 /************************************************************************//**

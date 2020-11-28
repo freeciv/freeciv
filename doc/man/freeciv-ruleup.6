@@ -1,0 +1,42 @@
+.TH FREECIV 6 "June 2019"
+.SH NAME
+freeciv-ruleup - Update Freeciv rulesets
+.SH SYNOPSIS
+.B freeciv-ruleup
+[\fIoption \fR...]
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Print a summary of the options
+.TP
+\fB\-F\fR, \fB\-\-Fatal\fR SIGNAL
+Raise a signal SIGNAL on failed assertion
+.HP
+\fB\-r\fR, \fB\-\-ruleset\fR RULESET
+Update RULESET
+.TP
+\fB\-o\fR, \fB\-\-output\fR DIRECTORY
+Create directory OUTPUT for output
+.SH DESCRIPTION
+\fBfreeciv-ruleup\fR updates rulesets compatible with previous
+.IR freeciv-server(6)
+version to ones compatible with current version. It does that
+simply by loading and saving the ruleset. It can load ruleset
+in the format of previous freeciv version, and it saves in
+the format of current freeciv version. Because it's meant
+to load rulesets that are not meant to be used with current
+version of freeciv, one usually wants to set FREECIV_DATA_PATH
+environment variable to point to datadir of the old freeciv
+version before using it. By default it saves updated ruleset
+to directory named after ruleset name with prefix ".ruleup"
+added.
+
+.SH BUGS
+Need to setup FREECIV_DATA_PATH to point to old freeciv
+version datadir makes using the tool somewhat cumbersome.
+
+.SH "REPORTING BUGS"
+Report bugs at https://www.hostedredmine.com/projects/freeciv
+(but see above caveats).
+.SH "SEE ALSO"
+.IR freeciv-server (6)
+and the Client Manual at the Freeciv homepage.
