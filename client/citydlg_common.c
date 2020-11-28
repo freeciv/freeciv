@@ -783,8 +783,9 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     break;
   case 1:
     /* TRANS: airlift take offs and landings. One is unlimited. The first
-     * string is the take offs text. The 2nd string is the landings text. */
-    fc_snprintf(buf, bufsz, _("s: %s d: %s"), src, dest);
+     * string is the take offs text. The 2nd string is the landings text.
+     * For English, initials of d)epartures and a)rrivals were chosen. */
+    fc_snprintf(buf, bufsz, _("d: %s a: %s"), src, dest);
     break;
   default:
     /* TRANS: airlift take offs or landings, no unlimited */
