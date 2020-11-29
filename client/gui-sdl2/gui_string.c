@@ -40,7 +40,6 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "themespec.h"
-#include "unistring.h"
 #include "utf8string.h"
 
 #include "gui_string.h"

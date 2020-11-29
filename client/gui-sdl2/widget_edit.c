@@ -29,7 +29,6 @@
 #include "gui_tilespec.h"
 #include "mapview.h"
 #include "themespec.h"
-#include "unistring.h"
 #include "utf8string.h"
 #include "widget.h"
 #include "widget_p.h"
