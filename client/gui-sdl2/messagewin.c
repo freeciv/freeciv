@@ -61,7 +61,7 @@
 
 #define PTSIZE_LOG_FONT		adj_font(10)
 
-static struct advanced_dialog *pMsg_Dlg = NULL;
+static struct advanced_dialog *msg_dlg = NULL;
 
 /**********************************************************************//**
   Called from default clicks on a message.
@@ -87,7 +87,7 @@ static int msg_callback(struct widget *pwidget)
 static int move_msg_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pMsg_Dlg->begin_widget_list, pwindow);
+    move_window_group(msg_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -111,32 +111,32 @@ void real_meswin_dialog_update(void *unused)
   bool create;
   int label_width;
 
-  if (pMsg_Dlg == NULL) {
+  if (msg_dlg == NULL) {
     meswin_dialog_popup(TRUE);
   }
 
   msg_count = meswin_get_num_messages();
-  current_count = pMsg_Dlg->scroll->count;
+  current_count = msg_dlg->scroll->count;
 
   if (current_count > 0) {
-    undraw_group(pMsg_Dlg->begin_active_widget_list, pMsg_Dlg->end_active_widget_list);
-    del_group_of_widgets_from_gui_list(pMsg_Dlg->begin_active_widget_list,
-                                       pMsg_Dlg->end_active_widget_list);
-    pMsg_Dlg->begin_active_widget_list = NULL;
-    pMsg_Dlg->end_active_widget_list = NULL;
-    pMsg_Dlg->active_widget_list = NULL;
+    undraw_group(msg_dlg->begin_active_widget_list, msg_dlg->end_active_widget_list);
+    del_group_of_widgets_from_gui_list(msg_dlg->begin_active_widget_list,
+                                       msg_dlg->end_active_widget_list);
+    msg_dlg->begin_active_widget_list = NULL;
+    msg_dlg->end_active_widget_list = NULL;
+    msg_dlg->active_widget_list = NULL;
     /* hide scrollbar */
-    hide_scrollbar(pMsg_Dlg->scroll);
-    pMsg_Dlg->scroll->count = 0;
+    hide_scrollbar(msg_dlg->scroll);
+    msg_dlg->scroll->count = 0;
     current_count = 0;
   }
   create = (current_count == 0);
 
-  pwindow = pMsg_Dlg->end_widget_list;
+  pwindow = msg_dlg->end_widget_list;
 
   area = pwindow->area;
 
-  label_width = area.w - pMsg_Dlg->scroll->up_left_button->size.w - adj_size(3);
+  label_width = area.w - msg_dlg->scroll->up_left_button->size.w - adj_size(3);
 
   if (msg_count > 0) {
     for (; current_count < msg_count; current_count++) {
@@ -179,12 +179,12 @@ void real_meswin_dialog_update(void *unused)
 
             /* add to widget list */
             if (create) {
-              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf, pwindow, FALSE,
+              add_widget_to_vertical_scroll_widget_list(msg_dlg, buf, pwindow, FALSE,
                                                         area.x, area.y);
               create = FALSE;
             } else {
-              add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
-                                                        pMsg_Dlg->begin_active_widget_list,
+              add_widget_to_vertical_scroll_widget_list(msg_dlg, buf,
+                                                        msg_dlg->begin_active_widget_list,
                                                         FALSE, area.x, area.y);
             }
           }
@@ -218,13 +218,13 @@ void real_meswin_dialog_update(void *unused)
 
           /* add to widget list */
           if (create) {
-            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
+            add_widget_to_vertical_scroll_widget_list(msg_dlg, buf,
                                                       pwindow, FALSE,
                                                       area.x, area.y);
             create = FALSE;
           } else {
-            add_widget_to_vertical_scroll_widget_list(pMsg_Dlg, buf,
-                                                      pMsg_Dlg->begin_active_widget_list,
+            add_widget_to_vertical_scroll_widget_list(msg_dlg, buf,
+                                                      msg_dlg->begin_active_widget_list,
                                                       FALSE, area.x, area.y);
           }
         }
@@ -232,7 +232,7 @@ void real_meswin_dialog_update(void *unused)
     } /* for */
   } /* if */
 
-  redraw_group(pMsg_Dlg->begin_widget_list, pwindow, 0);
+  redraw_group(msg_dlg->begin_widget_list, pwindow, 0);
   widget_flush(pwindow);
 }
 
@@ -247,11 +247,11 @@ void meswin_dialog_popup(bool raise)
   SDL_Rect area;
   SDL_Rect size;
 
-  if (pMsg_Dlg) {
+  if (msg_dlg) {
     return;
   }
 
-  pMsg_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  msg_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* create window */
   pstr = create_utf8_from_char(_("Messages"), adj_font(12));
@@ -263,11 +263,11 @@ void meswin_dialog_popup(bool raise)
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_CHATLINE_WINDOW, pwindow);
 
-  pMsg_Dlg->end_widget_list = pwindow;
-  pMsg_Dlg->begin_widget_list = pwindow;
+  msg_dlg->end_widget_list = pwindow;
+  msg_dlg->begin_widget_list = pwindow;
 
   /* create scrollbar */
-  create_vertical_scrollbar(pMsg_Dlg, 1, N_MSG_VIEW, TRUE, TRUE);
+  create_vertical_scrollbar(msg_dlg, 1, N_MSG_VIEW, TRUE, TRUE);
 
   pstr = create_utf8_from_char("sample text", PTSIZE_LOG_FONT);
 
@@ -288,11 +288,11 @@ void meswin_dialog_popup(bool raise)
 
   area = pwindow->area;
 
-  setup_vertical_scrollbar_area(pMsg_Dlg->scroll,
+  setup_vertical_scrollbar_area(msg_dlg->scroll,
                                 area.x + area.w, area.y,
                                 area.h, TRUE);
 
-  hide_scrollbar(pMsg_Dlg->scroll);
+  hide_scrollbar(msg_dlg->scroll);
 
   widget_set_position(pwindow, (main_window_width() - pwindow->size.w)/2, adj_size(25));
 
@@ -306,11 +306,11 @@ void meswin_dialog_popup(bool raise)
 **************************************************************************/
 void meswin_dialog_popdown(void)
 {
-  if (pMsg_Dlg) {
-    popdown_window_group_dialog(pMsg_Dlg->begin_widget_list,
-                                pMsg_Dlg->end_widget_list);
-    FC_FREE(pMsg_Dlg->scroll);
-    FC_FREE(pMsg_Dlg);
+  if (msg_dlg) {
+    popdown_window_group_dialog(msg_dlg->begin_widget_list,
+                                msg_dlg->end_widget_list);
+    FC_FREE(msg_dlg->scroll);
+    FC_FREE(msg_dlg);
   }
 }
 
@@ -319,5 +319,5 @@ void meswin_dialog_popdown(void)
 **************************************************************************/
 bool meswin_dialog_is_open(void)
 {
-  return (pMsg_Dlg != NULL);
+  return (msg_dlg != NULL);
 }

@@ -54,7 +54,7 @@ struct hmove {
 
 static struct cma_dialog {
   struct city *pcity;
-  struct small_dialog *pDlg;
+  struct small_dialog *dlg;
   struct advanced_dialog *pAdv;
   struct cm_parameter edited_cm_parm;
 } *pCma = NULL;
@@ -687,7 +687,7 @@ static void set_cma_hscrollbars(void)
   }
 
   /* exit button */
-  pbuf = pCma->pDlg->end_widget_list->prev;
+  pbuf = pCma->dlg->end_widget_list->prev;
   output_type_iterate(i) {
     /* min label */
     pbuf = pbuf->prev;
@@ -728,7 +728,7 @@ void update_city_cma_dialog(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   int count, step, i;
-  struct widget *buf = pCma->pDlg->end_widget_list; /* pwindow */
+  struct widget *buf = pCma->dlg->end_widget_list; /* pwindow */
   SDL_Surface *text;
   utf8_str *pstr;
   SDL_Rect dst;
@@ -811,7 +811,7 @@ void update_city_cma_dialog(void)
   FREESURFACE(text);
 
   /* happy factor scrollbar */
-  buf = pCma->pDlg->begin_widget_list->next->next->next->next->next->next->next;
+  buf = pCma->dlg->begin_widget_list->next->next->next->next->next->next->next;
   if (client_under_control && get_checkbox_state(buf->prev)) {
     set_wstate(buf, FC_WS_NORMAL);
   } else {
@@ -867,10 +867,10 @@ void update_city_cma_dialog(void)
   }
 
   /* redraw rest widgets */
-  redraw_group(pCma->pDlg->begin_widget_list,
-               pCma->pDlg->end_widget_list->prev->prev, 0);
+  redraw_group(pCma->dlg->begin_widget_list,
+               pCma->dlg->end_widget_list->prev->prev, 0);
 
-  widget_flush(pCma->pDlg->end_widget_list);
+  widget_flush(pCma->dlg->end_widget_list);
 
   cm_result_destroy(result);
 }
@@ -896,7 +896,7 @@ void popup_city_cma_dialog(struct city *pcity)
 
   pCma = fc_calloc(1, sizeof(struct cma_dialog));
   pCma->pcity = pcity;
-  pCma->pDlg = fc_calloc(1, sizeof(struct small_dialog));
+  pCma->dlg = fc_calloc(1, sizeof(struct small_dialog));
   pCma->pAdv = NULL;
   pcity_map = get_scaled_city_map(pcity);
 
@@ -918,7 +918,7 @@ void popup_city_cma_dialog(struct city *pcity)
   pwindow->action = cma_dlg_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pCma->pDlg->end_widget_list = pwindow;
+  pCma->dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -1069,7 +1069,7 @@ void popup_city_cma_dialog(struct city *pcity)
   add_to_gui_list(ID_ICON, buf);
 
   /* -------------------------------- */
-  pCma->pDlg->begin_widget_list = buf;
+  pCma->dlg->begin_widget_list = buf;
 
 #ifdef SMALL_SCREEN
   area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
@@ -1279,9 +1279,9 @@ void popup_city_cma_dialog(struct city *pcity)
 void popdown_city_cma_dialog(void)
 {
   if (pCma) {
-    popdown_window_group_dialog(pCma->pDlg->begin_widget_list,
-                                pCma->pDlg->end_widget_list);
-    FC_FREE(pCma->pDlg);
+    popdown_window_group_dialog(pCma->dlg->begin_widget_list,
+                                pCma->dlg->end_widget_list);
+    FC_FREE(pCma->dlg);
     if (pCma->pAdv) {
       del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
                                          pCma->pAdv->end_widget_list);

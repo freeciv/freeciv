@@ -47,7 +47,7 @@
 /* ====================================================================== */
 /* ============================= FIND CITY MENU ========================= */
 /* ====================================================================== */
-static struct advanced_dialog *pFind_City_Dlg = NULL;
+static struct advanced_dialog *find_city_dlg = NULL;
 
 /**********************************************************************//**
   User interacted with find city dialog window.
@@ -55,7 +55,7 @@ static struct advanced_dialog *pFind_City_Dlg = NULL;
 static int find_city_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pFind_City_Dlg->begin_widget_list, pwindow);
+    move_window_group(find_city_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -105,11 +105,11 @@ static int find_city_callback(struct widget *pwidget)
 **************************************************************************/
 void popdown_find_dialog(void)
 {
-  if (pFind_City_Dlg) {
-    popdown_window_group_dialog(pFind_City_Dlg->begin_widget_list,
-                                pFind_City_Dlg->end_widget_list);
-    FC_FREE(pFind_City_Dlg->scroll);
-    FC_FREE(pFind_City_Dlg);
+  if (find_city_dlg) {
+    popdown_window_group_dialog(find_city_dlg->begin_widget_list,
+                                find_city_dlg->end_widget_list);
+    FC_FREE(find_city_dlg->scroll);
+    FC_FREE(find_city_dlg);
     enable_and_redraw_find_city_button();
   }
 }
@@ -138,13 +138,13 @@ void popup_find_dialog(void)
     }
   } players_iterate_end;
 
-  if (pFind_City_Dlg && !h) {
+  if (find_city_dlg && !h) {
     return;
   }
 
   original = canvas_pos_to_tile(main_data.map->w / 2, main_data.map->h / 2);
 
-  pFind_City_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  find_city_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Find City") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -155,7 +155,7 @@ void popup_find_dialog(void)
   set_wstate(pwindow , FC_WS_NORMAL);
 
   add_to_gui_list(ID_TERRAIN_ADV_DLG_WINDOW, pwindow);
-  pFind_City_Dlg->end_widget_list = pwindow;
+  find_city_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -220,16 +220,16 @@ void popup_find_dialog(void)
     } city_list_iterate_end;
   } players_iterate_end;
 
-  pFind_City_Dlg->begin_widget_list = buf;
-  pFind_City_Dlg->begin_active_widget_list = pFind_City_Dlg->begin_widget_list;
-  pFind_City_Dlg->end_active_widget_list = pwindow->prev->prev;
-  pFind_City_Dlg->active_widget_list = pFind_City_Dlg->end_active_widget_list;
+  find_city_dlg->begin_widget_list = buf;
+  find_city_dlg->begin_active_widget_list = find_city_dlg->begin_widget_list;
+  find_city_dlg->end_active_widget_list = pwindow->prev->prev;
+  find_city_dlg->active_widget_list = find_city_dlg->end_active_widget_list;
 
 
   /* ---------- */
   if (n > 20) {
-    units_h = create_vertical_scrollbar(pFind_City_Dlg, 1, 20, TRUE, TRUE);
-    pFind_City_Dlg->scroll->count = n;
+    units_h = create_vertical_scrollbar(find_city_dlg, 1, 20, TRUE, TRUE);
+    find_city_dlg->scroll->count = n;
 
     n = units_h;
     area.w += n;
@@ -266,7 +266,7 @@ void popup_find_dialog(void)
 
   w = area.w;
 
-  if (pFind_City_Dlg->scroll) {
+  if (find_city_dlg->scroll) {
     w -= n;
   }
 
@@ -279,18 +279,18 @@ void popup_find_dialog(void)
   /* cities */
   buf = buf->prev;
   setup_vertical_widgets_position(1, area.x, area.y, w, 0,
-                                  pFind_City_Dlg->begin_active_widget_list,
+                                  find_city_dlg->begin_active_widget_list,
                                   buf);
 
-  if (pFind_City_Dlg->scroll) {
-    setup_vertical_scrollbar_area(pFind_City_Dlg->scroll,
+  if (find_city_dlg->scroll) {
+    setup_vertical_scrollbar_area(find_city_dlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pFind_City_Dlg->begin_widget_list, pwindow, 0);
+  redraw_group(find_city_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();

@@ -791,14 +791,14 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       }
 
       if (n > 1 && (info_window->size.h - sy > 52)) {
-        struct advanced_dialog *pDlg = info_window->private_data.adv_dlg;
+        struct advanced_dialog *dlg = info_window->private_data.adv_dlg;
         struct widget *buf = NULL, *end = NULL, *dock;
         struct city *pHome_City;
         const struct unit_type *putype;
         int num_w, num_h;
 
-        if (pDlg->end_active_widget_list && pDlg->begin_active_widget_list) {
-          del_group(pDlg->begin_active_widget_list, pDlg->end_active_widget_list);
+        if (dlg->end_active_widget_list && dlg->begin_active_widget_list) {
+          del_group(dlg->begin_active_widget_list, dlg->end_active_widget_list);
         }
         num_w = (info_window->area.w - BLOCKU_W) / 68;
         num_h = (info_window->area.h - sy) / 52;
@@ -877,36 +877,36 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
 	} unit_list_iterate_end;
 
-        pDlg->begin_active_widget_list = buf;
-        pDlg->end_active_widget_list = end;
-        pDlg->active_widget_list = pDlg->end_active_widget_list;
+        dlg->begin_active_widget_list = buf;
+        dlg->end_active_widget_list = end;
+        dlg->active_widget_list = dlg->end_active_widget_list;
 
         if (n > num_w * num_h) {
-          if (!pDlg->scroll) {
-            create_vertical_scrollbar(pDlg, num_w, num_h, FALSE, TRUE);
+          if (!dlg->scroll) {
+            create_vertical_scrollbar(dlg, num_w, num_h, FALSE, TRUE);
           } else {
-            pDlg->scroll->active = num_h;
-            pDlg->scroll->step = num_w;
-            pDlg->scroll->count = n;
-            show_scrollbar(pDlg->scroll);
+            dlg->scroll->active = num_h;
+            dlg->scroll->step = num_w;
+            dlg->scroll->count = n;
+            show_scrollbar(dlg->scroll);
 	 }
 
           /* create up button */
-          buf = pDlg->scroll->up_left_button;
+          buf = dlg->scroll->up_left_button;
           buf->size.x = info_window->area.x + info_window->area.w - buf->size.w;
           buf->size.y = info_window->area.y + sy +
             (info_window->size.h - sy - num_h * 52) / 2;
           buf->size.h = (num_h * 52) / 2;
 
           /* create down button */
-          buf = pDlg->scroll->down_right_button;
-          buf->size.x = pDlg->scroll->up_left_button->size.x;
-          buf->size.y = pDlg->scroll->up_left_button->size.y +
-            pDlg->scroll->up_left_button->size.h;
-          buf->size.h = pDlg->scroll->up_left_button->size.h;
+          buf = dlg->scroll->down_right_button;
+          buf->size.x = dlg->scroll->up_left_button->size.x;
+          buf->size.y = dlg->scroll->up_left_button->size.y +
+            dlg->scroll->up_left_button->size.h;
+          buf->size.h = dlg->scroll->up_left_button->size.h;
         } else {
-          if (pDlg->scroll) {
-            hide_scrollbar(pDlg->scroll);
+          if (dlg->scroll) {
+            hide_scrollbar(dlg->scroll);
           }
           num_h = (n + num_w - 1) / num_w;
         }
@@ -915,8 +915,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                                         info_window->area.x + BLOCKU_W + adj_size(2),
                                         info_window->size.y + sy +
                                         (info_window->size.h - sy - num_h * 52) / 2,
-                                        0, 0, pDlg->begin_active_widget_list,
-                                        pDlg->end_active_widget_list);
+                                        0, 0, dlg->begin_active_widget_list,
+                                        dlg->end_active_widget_list);
       } else {
         if (info_window->private_data.adv_dlg->end_active_widget_list) {
           del_group(info_window->private_data.adv_dlg->begin_active_widget_list,

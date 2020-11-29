@@ -402,12 +402,12 @@ do {									\
 			FC_WS_DISABLED)
 
 /* Advanced Dialog */
-bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
+bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
                                                struct widget *new_widget,
                                                struct widget *add_dock, bool dir,
                                                Sint16 start_x, Sint16 start_y);
 
-bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *pDlg, 
+bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
                                                  struct widget *pwidget);
 
 /* misc */

@@ -111,7 +111,7 @@ enum specialist_type {
 
 static float city_map_zoom = 1;
 
-static struct small_dialog *pHurry_Prod_Dlg = NULL;
+static struct small_dialog *hurry_prog_dlg = NULL;
 
 static void popdown_hurry_production_dialog(void);
 static void disable_city_dlg_widgets(void);
@@ -175,11 +175,11 @@ static void del_city_dialog(void)
       FC_FREE(pcity_dlg->pPanel);
     }
 
-    if (pHurry_Prod_Dlg) {
-      del_group_of_widgets_from_gui_list(pHurry_Prod_Dlg->begin_widget_list,
-                                         pHurry_Prod_Dlg->end_widget_list);
+    if (hurry_prog_dlg) {
+      del_group_of_widgets_from_gui_list(hurry_prog_dlg->begin_widget_list,
+                                         hurry_prog_dlg->end_widget_list);
 
-      FC_FREE(pHurry_Prod_Dlg);
+      FC_FREE(hurry_prog_dlg);
     }
 
     free_city_units_lists();
@@ -1104,10 +1104,10 @@ static int buy_prod_city_dlg_callback(struct widget *button)
 **************************************************************************/
 static void popdown_hurry_production_dialog(void)
 {
-  if (pHurry_Prod_Dlg) {
-    popdown_window_group_dialog(pHurry_Prod_Dlg->begin_widget_list,
-                                pHurry_Prod_Dlg->end_widget_list);
-    FC_FREE(pHurry_Prod_Dlg);
+  if (hurry_prog_dlg) {
+    popdown_window_group_dialog(hurry_prog_dlg->begin_widget_list,
+                                hurry_prog_dlg->end_widget_list);
+    FC_FREE(hurry_prog_dlg);
     flush_dirty();
   }
 }
@@ -1118,7 +1118,7 @@ static void popdown_hurry_production_dialog(void)
 static int hurry_production_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pHurry_Prod_Dlg->begin_widget_list, pwindow);
+    move_window_group(hurry_prog_dlg->begin_widget_list, pwindow);
   }
   return -1;
 }
@@ -1138,7 +1138,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   const char *name = city_production_name_translation(pcity);
   int value = pcity->client.buy_cost;
 
-  if (pHurry_Prod_Dlg) {
+  if (hurry_prog_dlg) {
     return;
   }
 
@@ -1147,7 +1147,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
                                           client_player()->economic.gold),
               client_player()->economic.gold);
 
-  pHurry_Prod_Dlg = fc_calloc(1, sizeof(struct small_dialog));
+  hurry_prog_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   if (city_can_buy(pcity)) {
     if (value <= client_player()->economic.gold) {
@@ -1180,7 +1180,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pwindow);
 
-  pHurry_Prod_Dlg->end_widget_list = pwindow;
+  hurry_prog_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -1222,7 +1222,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
     area.w = MAX(area.w , 2 * buf->size.w + adj_size(20));
   }
 
-  pHurry_Prod_Dlg->begin_widget_list = buf;
+  hurry_prog_dlg->begin_widget_list = buf;
 
   /* setup window size and start position */
   area.w += adj_size(10);
@@ -1289,7 +1289,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   }
   /* ================================================== */
   /* redraw */
-  redraw_group(pHurry_Prod_Dlg->begin_widget_list, pwindow, 0);
+  redraw_group(hurry_prog_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
 }

@@ -460,7 +460,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
                                                         struct widget *main_window,
                                                         bool L_R)
 {
-  struct advanced_dialog *pDlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  struct advanced_dialog *dlg = fc_calloc(1, sizeof(struct advanced_dialog));
   struct container *pCont = fc_calloc(1, sizeof(struct container));
   int width, height, count = 0, scroll_w = 0;
   char cBuf[128];
@@ -482,7 +482,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
   pwindow->action = dipomatic_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
 
-  pDlg->end_widget_list = pwindow;
+  dlg->end_widget_list = pwindow;
   pwindow->data.cont = pCont;
   add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -769,17 +769,17 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
     FC_FREE(city_list_ptrs);
   } /* Cities */
 
-  pDlg->begin_widget_list = buf;
-  pDlg->begin_active_widget_list = pDlg->begin_widget_list;
-  pDlg->end_active_widget_list = pDlg->end_widget_list->prev;
-  pDlg->scroll = NULL;
+  dlg->begin_widget_list = buf;
+  dlg->begin_active_widget_list = dlg->begin_widget_list;
+  dlg->end_active_widget_list = dlg->end_widget_list->prev;
+  dlg->scroll = NULL;
 
   area.h = (main_window_height() - adj_size(100) - (pwindow->size.h - pwindow->area.h));
 
   if (area.h < (count * height)) {
-    pDlg->active_widget_list = pDlg->end_active_widget_list;
+    dlg->active_widget_list = dlg->end_active_widget_list;
     count = area.h / height;
-    scroll_w = create_vertical_scrollbar(pDlg, 1, count, TRUE, TRUE);
+    scroll_w = create_vertical_scrollbar(dlg, 1, count, TRUE, TRUE);
     buf = pwindow;
     /* hide not seen widgets */
     do {
@@ -789,7 +789,7 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
       } else {
 	set_wflag(buf, WF_HIDDEN);
       }
-    } while (buf != pDlg->begin_active_widget_list);
+    } while (buf != dlg->begin_active_widget_list);
   }
 
   area.w = MAX(width + adj_size(4) + scroll_w, adj_size(150) - (pwindow->size.w - pwindow->area.w));
@@ -811,17 +811,17 @@ static struct advanced_dialog *popup_diplomatic_objects(struct player *pplayer0,
 
   setup_vertical_widgets_position(1,
                                   area.x + adj_size(2), area.y + 1,
-                                  width, height, pDlg->begin_active_widget_list,
-                                  pDlg->end_active_widget_list);
+                                  width, height, dlg->begin_active_widget_list,
+                                  dlg->end_active_widget_list);
 
-  if (pDlg->scroll) {
-    setup_vertical_scrollbar_area(pDlg->scroll,
+  if (dlg->scroll) {
+    setup_vertical_scrollbar_area(dlg->scroll,
                                   area.x + area.w,
                                   area.y,
                                   area.h, TRUE);
   }
 
-  return pDlg;
+  return dlg;
 }
 
 /**********************************************************************//**
@@ -1260,17 +1260,17 @@ void close_all_diplomacy_dialogs(void)
 /* ================================================================= */
 /* ========================== Small Diplomat Dialog ================ */
 /* ================================================================= */
-static struct small_dialog *pSDip_Dlg = NULL;
+static struct small_dialog *spy_dlg = NULL;
 
 /**********************************************************************//**
   Close small diplomacy dialog.
 **************************************************************************/
 static void popdown_sdip_dialog(void)
 {
-  if (pSDip_Dlg) {
-    popdown_window_group_dialog(pSDip_Dlg->begin_widget_list,
-                                pSDip_Dlg->end_widget_list);
-    FC_FREE(pSDip_Dlg);
+  if (spy_dlg) {
+    popdown_window_group_dialog(spy_dlg->begin_widget_list,
+                                spy_dlg->end_widget_list);
+    FC_FREE(spy_dlg);
   }
 }
 
@@ -1280,7 +1280,7 @@ static void popdown_sdip_dialog(void)
 static int sdip_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pSDip_Dlg->begin_widget_list, pwindow);
+    move_window_group(spy_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -1367,11 +1367,11 @@ static void popup_war_dialog(struct player *pplayer)
   SDL_Rect dst;
   SDL_Rect area;
 
-  if (pSDip_Dlg) {
+  if (spy_dlg) {
     return;
   }
 
-  pSDip_Dlg = fc_calloc(1, sizeof(struct small_dialog));
+  spy_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   fc_snprintf(cBuf, sizeof(cBuf),
               /* TRANS: "Polish incident !" FIXME!!! */
@@ -1387,7 +1387,7 @@ static void popup_war_dialog(struct player *pplayer)
 
   add_to_gui_list(ID_WINDOW, pwindow);
 
-  pSDip_Dlg->end_widget_list = pwindow;
+  spy_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -1427,7 +1427,7 @@ static void popup_war_dialog(struct player *pplayer)
   buf->next->size.w = buf->size.w;
   area.w = MAX(area.w , 2 * buf->size.w + adj_size(20));
 
-  pSDip_Dlg->begin_widget_list = buf;
+  spy_dlg->begin_widget_list = buf;
 
   /* setup window size and start position */
   area.w += adj_size(10);
@@ -1468,7 +1468,7 @@ static void popup_war_dialog(struct player *pplayer)
 
   /* ================================================== */
   /* redraw */
-  redraw_group(pSDip_Dlg->begin_widget_list, pwindow, 0);
+  redraw_group(spy_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
   flush_dirty();
 }
@@ -1505,11 +1505,11 @@ void popup_diplomacy_dialog(struct player *pplayer)
     int buttons = 0;
     bool can_toward_war;
 
-    if (pSDip_Dlg) {
+    if (spy_dlg) {
       return;
     }
 
-    pSDip_Dlg = fc_calloc(1, sizeof(struct small_dialog));
+    spy_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
     fc_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
     pstr = create_utf8_from_char(cBuf, adj_font(12));
@@ -1519,7 +1519,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     pwindow->action = sdip_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
-    pSDip_Dlg->end_widget_list = pwindow;
+    spy_dlg->end_widget_list = pwindow;
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -1632,7 +1632,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     add_to_gui_list(ID_BUTTON, buf);
 
-    pSDip_Dlg->begin_widget_list = buf;
+    spy_dlg->begin_widget_list = buf;
 
     /* setup window size and start position */
     area.w += adj_size(10);
@@ -1697,7 +1697,7 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pSDip_Dlg->begin_widget_list, pwindow, 0);
+    redraw_group(spy_dlg->begin_widget_list, pwindow, 0);
     widget_mark_dirty(pwindow);
 
     flush_dirty();

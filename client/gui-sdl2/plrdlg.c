@@ -600,7 +600,7 @@ void popdown_players_dialog(void)
 
 
 /* ============================== SHORT =============================== */
-static struct advanced_dialog *pShort_Players_Dlg = NULL;
+static struct advanced_dialog *short_players_dlg = NULL;
 
 /**********************************************************************//**
   User interacted with nations window.
@@ -676,11 +676,11 @@ void popup_players_nations_dialog(void)
   const struct player_diplstate *pDS;
   SDL_Rect area;
 
-  if (pShort_Players_Dlg) {
+  if (short_players_dlg) {
     return;
   }
 
-  pShort_Players_Dlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  short_players_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   /* TRANS: Nations report title */
   pstr = create_utf8_from_char(_("Nations") , adj_font(12));
@@ -692,7 +692,7 @@ void popup_players_nations_dialog(void)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pShort_Players_Dlg->end_widget_list = pwindow;
+  short_players_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -803,16 +803,16 @@ void popup_players_nations_dialog(void)
       n++;
     }
   } players_iterate_end;
-  pShort_Players_Dlg->begin_widget_list = buf;
-  pShort_Players_Dlg->begin_active_widget_list = pShort_Players_Dlg->begin_widget_list;
-  pShort_Players_Dlg->end_active_widget_list = pwindow->prev->prev;
-  pShort_Players_Dlg->active_widget_list = pShort_Players_Dlg->end_active_widget_list;
+  short_players_dlg->begin_widget_list = buf;
+  short_players_dlg->begin_active_widget_list = short_players_dlg->begin_widget_list;
+  short_players_dlg->end_active_widget_list = pwindow->prev->prev;
+  short_players_dlg->active_widget_list = short_players_dlg->end_active_widget_list;
 
 
   /* ---------- */
   if (n > 20) {
-    units_h = create_vertical_scrollbar(pShort_Players_Dlg, 1, 20, TRUE, TRUE);
-    pShort_Players_Dlg->scroll->count = n;
+    units_h = create_vertical_scrollbar(short_players_dlg, 1, 20, TRUE, TRUE);
+    short_players_dlg->scroll->count = n;
 
     n = units_h;
     area.w += n;
@@ -843,7 +843,7 @@ void popup_players_nations_dialog(void)
 
   w = area.w;
 
-  if (pShort_Players_Dlg->scroll) {
+  if (short_players_dlg->scroll) {
     w -= n;
   }
 
@@ -855,18 +855,18 @@ void popup_players_nations_dialog(void)
   /* cities */
   buf = buf->prev;
   setup_vertical_widgets_position(1, area.x, area.y, w, 0,
-                                  pShort_Players_Dlg->begin_active_widget_list,
+                                  short_players_dlg->begin_active_widget_list,
                                   buf);
 
-  if (pShort_Players_Dlg->scroll) {
-    setup_vertical_scrollbar_area(pShort_Players_Dlg->scroll,
+  if (short_players_dlg->scroll) {
+    setup_vertical_scrollbar_area(short_players_dlg->scroll,
                                   area.x + area.w, area.y,
                                   area.h, TRUE);
   }
 
   /* -------------------- */
   /* redraw */
-  redraw_group(pShort_Players_Dlg->begin_widget_list, pwindow, 0);
+  redraw_group(short_players_dlg->begin_widget_list, pwindow, 0);
   widget_mark_dirty(pwindow);
 
   flush_dirty();
@@ -877,10 +877,10 @@ void popup_players_nations_dialog(void)
 **************************************************************************/
 void popdown_players_nations_dialog(void)
 {
-  if (pShort_Players_Dlg) {
-    popdown_window_group_dialog(pShort_Players_Dlg->begin_widget_list,
-                                pShort_Players_Dlg->end_widget_list);
-    FC_FREE(pShort_Players_Dlg->scroll);
-    FC_FREE(pShort_Players_Dlg);
+  if (short_players_dlg) {
+    popdown_window_group_dialog(short_players_dlg->begin_widget_list,
+                                short_players_dlg->end_widget_list);
+    FC_FREE(short_players_dlg->scroll);
+    FC_FREE(short_players_dlg);
   }
 }

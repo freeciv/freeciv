@@ -62,7 +62,7 @@ static struct server_list *pServer_list = NULL;
 static struct server_scan *pServer_scan = NULL;
 
 static struct advanced_dialog *pMeta_Server = NULL;
-static struct small_dialog *pConnectDlg = NULL;
+static struct small_dialog *connect_dlg = NULL;
 
 static int connect_callback(struct widget *pwidget);
 static int convert_portnr_callback(struct widget *pwidget);
@@ -550,12 +550,12 @@ void popup_join_game_dialog(void)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
+  connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* window */
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->end_widget_list = pwindow;
+  connect_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -631,7 +631,7 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(10);
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = buf;
+  connect_dlg->begin_widget_list = buf;
 
   dialog_w = MAX(adj_size(40) + buf->size.w * 2, adj_size(210)) + adj_size(80);
 
@@ -653,7 +653,7 @@ void popup_join_game_dialog(void)
                       (main_window_height() - pwindow->size.h) / 2 + adj_size(40));
 
   /* player name label */
-  buf = pConnectDlg->end_widget_list->prev;
+  buf = connect_dlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - buf->prev->size.w) / 2;
   pos_y = area.y + adj_size(20);
@@ -707,7 +707,7 @@ void popup_join_game_dialog(void)
   buf->size.x = buf->next->size.x + buf->size.w + adj_size(40);
   buf->size.y = pos_y;
 
-  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -780,11 +780,11 @@ static void popup_user_passwd_dialog(const char *pMessage)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
+  connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->end_widget_list = pwindow;
+  connect_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -826,7 +826,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
 
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = buf;
+  connect_dlg->begin_widget_list = buf;
 
   area.w = MAX(area.w, buf->size.w * 2 + adj_size(40));
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
@@ -847,7 +847,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  buf = pConnectDlg->end_widget_list->prev;
+  buf = connect_dlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - buf->size.w) / 2;
   start_y = area.y + adj_size(10);
@@ -881,7 +881,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -943,11 +943,11 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   queue_flush();
   close_connection_dialog();
 
-  pConnectDlg = fc_calloc(1, sizeof(struct small_dialog));
+  connect_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pConnectDlg->end_widget_list = pwindow;
+  connect_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -996,7 +996,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 
   /* ------------------------------ */
 
-  pConnectDlg->begin_widget_list = buf;
+  connect_dlg->begin_widget_list = buf;
 
   area.w = buf->size.w * 2 + adj_size(40);
   area.w = MAX(area.w, adj_size(210) - (pwindow->size.w - pwindow->area.w));
@@ -1017,7 +1017,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       (main_window_height() - pwindow->size.h) / 2);
 
   /* text label */
-  buf = pConnectDlg->end_widget_list->prev;
+  buf = connect_dlg->end_widget_list->prev;
 
   start_x = area.x + (area.w - buf->size.w) / 2;
   start_y = area.y + adj_size(10);
@@ -1057,7 +1057,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(pConnectDlg->begin_widget_list, pConnectDlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
 
   flush_all();
 }
@@ -1069,10 +1069,10 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
 **************************************************************************/
 void close_connection_dialog(void)
 {
-  if (pConnectDlg) {
-    popdown_window_group_dialog(pConnectDlg->begin_widget_list,
-                                pConnectDlg->end_widget_list);
-    FC_FREE(pConnectDlg);
+  if (connect_dlg) {
+    popdown_window_group_dialog(connect_dlg->begin_widget_list,
+                                connect_dlg->end_widget_list);
+    FC_FREE(connect_dlg);
   }
   if (pMeta_Server) {
     popdown_window_group_dialog(pMeta_Server->begin_widget_list,

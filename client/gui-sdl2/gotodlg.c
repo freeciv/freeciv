@@ -51,7 +51,7 @@
 
 #include "gotodlg.h"
 
-static struct advanced_dialog *pGotoDlg = NULL;
+static struct advanced_dialog *goto_dlg = NULL;
 bv_player all_players;
 static bool GOTO = TRUE;
 
@@ -63,7 +63,7 @@ static void update_goto_dialog(void);
 static int goto_dialog_window_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pGotoDlg->begin_widget_list, pwindow);
+    move_window_group(goto_dlg->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -140,13 +140,13 @@ static void update_goto_dialog(void)
   int n = 0;
   struct player *owner = NULL;
 
-  if (pGotoDlg->end_active_widget_list) {
-    add_dock = pGotoDlg->end_active_widget_list->next;
-    pGotoDlg->begin_widget_list = add_dock;
-    del_group(pGotoDlg->begin_active_widget_list, pGotoDlg->end_active_widget_list);
-    pGotoDlg->active_widget_list = NULL;
+  if (goto_dlg->end_active_widget_list) {
+    add_dock = goto_dlg->end_active_widget_list->next;
+    goto_dlg->begin_widget_list = add_dock;
+    del_group(goto_dlg->begin_active_widget_list, goto_dlg->end_active_widget_list);
+    goto_dlg->active_widget_list = NULL;
   } else {
-    add_dock = pGotoDlg->begin_widget_list;
+    add_dock = goto_dlg->begin_widget_list;
   }
 
   pLast = add_dock;
@@ -174,7 +174,7 @@ static void update_goto_dialog(void)
         logo = crop_visible_part_from_surface(logo);
       }
 
-      buf = create_iconlabel(logo, pGotoDlg->end_widget_list->dst, pstr,
+      buf = create_iconlabel(logo, goto_dlg->end_widget_list->dst, pstr,
     	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pcity)) {
@@ -196,7 +196,7 @@ static void update_goto_dialog(void)
       widget_add_as_prev(buf, add_dock);
       add_dock = buf;
 
-      if (n > (pGotoDlg->scroll->active - 1)) {
+      if (n > (goto_dlg->scroll->active - 1)) {
         set_wflag(buf, WF_HIDDEN);
       }
 
@@ -205,37 +205,37 @@ static void update_goto_dialog(void)
   } players_iterate_end;
 
   if (n > 0) {
-    pGotoDlg->begin_widget_list = buf;
+    goto_dlg->begin_widget_list = buf;
 
-    pGotoDlg->begin_active_widget_list = pGotoDlg->begin_widget_list;
-    pGotoDlg->end_active_widget_list = pLast->prev;
-    pGotoDlg->active_widget_list = pGotoDlg->end_active_widget_list;
-    pGotoDlg->scroll->count = n;
+    goto_dlg->begin_active_widget_list = goto_dlg->begin_widget_list;
+    goto_dlg->end_active_widget_list = pLast->prev;
+    goto_dlg->active_widget_list = goto_dlg->end_active_widget_list;
+    goto_dlg->scroll->count = n;
 
-    if (n > pGotoDlg->scroll->active) {
-      show_scrollbar(pGotoDlg->scroll);
-      pGotoDlg->scroll->pscroll_bar->size.y = pGotoDlg->end_widget_list->area.y +
-        pGotoDlg->scroll->up_left_button->size.h;
-      pGotoDlg->scroll->pscroll_bar->size.h = scrollbar_size(pGotoDlg->scroll);
+    if (n > goto_dlg->scroll->active) {
+      show_scrollbar(goto_dlg->scroll);
+      goto_dlg->scroll->pscroll_bar->size.y = goto_dlg->end_widget_list->area.y +
+        goto_dlg->scroll->up_left_button->size.h;
+      goto_dlg->scroll->pscroll_bar->size.h = scrollbar_size(goto_dlg->scroll);
     } else {
-      hide_scrollbar(pGotoDlg->scroll);
+      hide_scrollbar(goto_dlg->scroll);
     }
 
     setup_vertical_widgets_position(1,
-                                    pGotoDlg->end_widget_list->area.x,
-                                    pGotoDlg->end_widget_list->area.y,
-                                    pGotoDlg->scroll->up_left_button->size.x -
-                                    pGotoDlg->end_widget_list->area.x - adj_size(2),
-                                    0, pGotoDlg->begin_active_widget_list,
-                                    pGotoDlg->end_active_widget_list);
+                                    goto_dlg->end_widget_list->area.x,
+                                    goto_dlg->end_widget_list->area.y,
+                                    goto_dlg->scroll->up_left_button->size.x -
+                                    goto_dlg->end_widget_list->area.x - adj_size(2),
+                                    0, goto_dlg->begin_active_widget_list,
+                                    goto_dlg->end_active_widget_list);
 
   } else {
-    hide_scrollbar(pGotoDlg->scroll);
+    hide_scrollbar(goto_dlg->scroll);
   }
 
   /* redraw */
-  redraw_group(pGotoDlg->begin_widget_list, pGotoDlg->end_widget_list, 0);
-  widget_flush(pGotoDlg->end_widget_list);
+  redraw_group(goto_dlg->begin_widget_list, goto_dlg->end_widget_list, 0);
+  widget_flush(goto_dlg->end_widget_list);
 }
 
 /**********************************************************************//**
@@ -251,11 +251,11 @@ static void popup_goto_airlift_dialog(void)
   int i, col, block_x, x, y;
   SDL_Rect area;
 
-  if (pGotoDlg) {
+  if (goto_dlg) {
     return;
   }
 
-  pGotoDlg = fc_calloc(1, sizeof(struct advanced_dialog));
+  goto_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Select destination"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -266,7 +266,7 @@ static void popup_goto_airlift_dialog(void)
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
-  pGotoDlg->end_widget_list = pwindow;
+  goto_dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -316,10 +316,10 @@ static void popup_goto_airlift_dialog(void)
     col++;
   } players_iterate_end;
 
-  pGotoDlg->begin_widget_list = buf;
+  goto_dlg->begin_widget_list = buf;
 
-  create_vertical_scrollbar(pGotoDlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
-  hide_scrollbar(pGotoDlg->scroll);
+  create_vertical_scrollbar(goto_dlg, 1, adj_size(320) / adj_size(30), TRUE, TRUE);
+  hide_scrollbar(goto_dlg->scroll);
 
   area.w = MAX(area.w, adj_size(300));
   area.h = adj_size(320);
@@ -365,7 +365,7 @@ static void popup_goto_airlift_dialog(void)
       x += buf->size.w + adj_size(5);
     }
 
-    if (buf == pGotoDlg->begin_widget_list) {
+    if (buf == goto_dlg->begin_widget_list) {
       break;
     }
 
@@ -373,7 +373,7 @@ static void popup_goto_airlift_dialog(void)
     buf = buf->prev;
   }
 
-  setup_vertical_scrollbar_area(pGotoDlg->scroll,
+  setup_vertical_scrollbar_area(goto_dlg->scroll,
 	                        block_x, area.y,
   	                        area.h, TRUE);
 
@@ -417,11 +417,11 @@ void popup_airlift_dialog(void)
 **************************************************************************/
 void popdown_goto_airlift_dialog(void)
 {
-  if (pGotoDlg) {
-    popdown_window_group_dialog(pGotoDlg->begin_widget_list,
-                                pGotoDlg->end_widget_list);
-    FC_FREE(pGotoDlg->scroll);
-    FC_FREE(pGotoDlg);
+  if (goto_dlg) {
+    popdown_window_group_dialog(goto_dlg->begin_widget_list,
+                                goto_dlg->end_widget_list);
+    FC_FREE(goto_dlg->scroll);
+    FC_FREE(goto_dlg);
   }
   GOTO = TRUE;
 }
