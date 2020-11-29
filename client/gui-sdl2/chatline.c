@@ -54,7 +54,6 @@
 #include "messagewin.h"
 #include "pages.h"
 #include "themespec.h"
-#include "unistring.h"
 #include "utf8string.h"
 #include "widget.h"
 

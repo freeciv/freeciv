@@ -85,8 +85,6 @@ libgui_sdl2_la_SOURCES = \
 	themes.c	\
 	themespec.c	\
 	themespec.h	\
-	unistring.c	\
-	unistring.h	\
 	utf8string.c	\
 	utf8string.h	\
 	voteinfo_bar.c	\
