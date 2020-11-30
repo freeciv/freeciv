@@ -1251,59 +1251,47 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                         struct extra_type *target,
                                         const struct tile *ptile)
 {
-  struct action *paction = NULL;
-
-  action_iterate(act_id) {
-    paction = action_by_number(act_id);
-
+  action_by_activity_iterate(paction, act_id, activity) {
     if (action_get_actor_kind(paction) != AAK_UNIT) {
       /* Not relevant. */
       continue;
     }
 
-    if (action_get_activity(paction) == activity) {
-      /* Found one */
+    switch (action_get_target_kind(paction)) {
+    case ATK_CITY:
+      return action_prob_possible(action_speculate_unit_on_city(
+                                    paction->id,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    tile_city(ptile)));
+    case ATK_UNIT:
+      fc_assert_ret_val(action_get_target_kind(paction) != ATK_UNIT,
+                        FALSE);
+      break;
+    case ATK_UNITS:
+      return action_prob_possible(action_speculate_unit_on_units(
+                                    paction->id,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile));
+    case ATK_TILE:
+      return action_prob_possible(action_speculate_unit_on_tile(
+                                    paction->id,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
+    case ATK_SELF:
+      return action_prob_possible(action_speculate_unit_on_self(
+                                    paction->id,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat));
+    case ATK_COUNT:
+      fc_assert_ret_val(action_get_target_kind(paction) != ATK_COUNT,
+                        FALSE);
       break;
     }
-  } action_iterate_end;
+  } action_by_activity_iterate_end;
 
-  if (paction == NULL) {
-    /* The action it self isn't there. It can't be enabled. */
-    return FALSE;
-  }
-
-  switch (action_get_target_kind(paction)) {
-  case ATK_CITY:
-    return action_prob_possible(action_speculate_unit_on_city(
-                                  paction->id,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  tile_city(ptile)));
-  case ATK_UNIT:
-    fc_assert_ret_val(action_get_target_kind(paction) != ATK_UNIT, FALSE);
-    break;
-  case ATK_UNITS:
-    return action_prob_possible(action_speculate_unit_on_units(
-                                  paction->id,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile));
-  case ATK_TILE:
-    return action_prob_possible(action_speculate_unit_on_tile(
-                                  paction->id,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat,
-                                  ptile, target));
-  case ATK_SELF:
-    return action_prob_possible(action_speculate_unit_on_self(
-                                  paction->id,
-                                  punit, unit_home(punit), ptile,
-                                  omniscient_cheat));
-  case ATK_COUNT:
-    fc_assert_ret_val(action_get_target_kind(paction) != ATK_COUNT, FALSE);
-    break;
-  }
-
-  fc_assert(FALSE);
+  log_debug("No action found for activity %d", activity);
   return FALSE;
 }

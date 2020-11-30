@@ -405,6 +405,18 @@ struct action_enabler
   } action_iterate_end;                                                   \
 }
 
+#define action_by_activity_iterate(_paction_, _act_id_, _activity_)       \
+{                                                                         \
+  action_iterate(_act_id_) {                                              \
+    struct action *_paction_ = action_by_number(_act_id_);                \
+    if (action_get_activity(_paction_) != _activity_) {                   \
+      continue;                                                           \
+    }
+
+#define action_by_activity_iterate_end                                    \
+  } action_iterate_end;                                                   \
+}
+
 #define action_list_iterate(_act_list_, _act_id_)                         \
 {                                                                         \
   int _pos_;                                                              \
