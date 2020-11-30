@@ -164,7 +164,7 @@ static struct ae_contra_or *req_contradiction_or(int alternatives, ...)
   va_list args;
 
   fc_assert_ret_val(alternatives > 0, NULL);
-  out = fc_malloc(sizeof(out));
+  out = fc_malloc(sizeof(*out));
   out->users = 0;
   out->alternatives = alternatives;
   out->alternative = fc_malloc(sizeof(out->alternative[0]) * alternatives);
