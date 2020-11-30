@@ -568,7 +568,6 @@ typedef union {
   int unitflag;				/* enum unit_flag_id */
   int terrainflag;                      /* enum terrain_flag_id */
   int techflag;                         /* enum tech_flag_id */
-  int baseflag;                         /* enum base_flag_id */
   int roadflag;                         /* enum road_flag_id */
   int extraflag;
   int diplrel;                          /* enum diplstate_type or
@@ -637,8 +636,10 @@ typedef union {
 #define SPECENUM_VALUE19NAME "TerrainFlag"
 #define SPECENUM_VALUE20 VUT_NATIONALITY
 #define SPECENUM_VALUE20NAME "Nationality"
-#define SPECENUM_VALUE21 VUT_BASEFLAG
-#define SPECENUM_VALUE21NAME "BaseFlag"
+
+#define SPECENUM_VALUE21 VUT_UNUSED
+#define SPECENUM_VALUE21NAME "Unused"
+
 #define SPECENUM_VALUE22 VUT_ROADFLAG
 #define SPECENUM_VALUE22NAME "RoadFlag"
 #define SPECENUM_VALUE23 VUT_EXTRA
@@ -907,7 +908,8 @@ typedef int server_setting_id;
 #define EC_SPECIAL (EC_NONE + 1)
 #define EC_DEFENSIVE (EC_NONE + 2)
 #define EC_NATURAL_DEFENSIVE (EC_NONE + 3)
-#define EC_LAST (EC_NONE + 4)
+#define EC_NOT_AGGRESSIVE (EC_NONE + 4)
+#define EC_LAST (EC_NONE + 5)
 
 /* struct extra_type reserve 16 bits (0-15) for these. */
 FC_STATIC_ASSERT(EC_COUNT < 16, extra_causes_over_limit);

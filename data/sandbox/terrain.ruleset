@@ -1172,6 +1172,8 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
+;   - "NoAggressive"      = Units inside are not considered aggressive if
+;                           there`s friendly city within 3 tiles
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -1548,7 +1550,7 @@ removal_time   = 0
 unit_seen      = "Hidden"
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
-flags          = "NativeTile", "DiplomatDefense"
+flags          = "NativeTile", "DiplomatDefense", "NoAggressive"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
 once the underlying fort is complete. Forts on River tiles cannot be \
@@ -1632,7 +1634,7 @@ removal_time   = 0
 unit_seen      = "Hidden"
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
-flags          = "Refuel", "ParadropFrom"
+flags          = "Refuel", "ParadropFrom", "NoAggressive"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
 begin once the underlying airstrip is complete. Airstrips on River tiles \
@@ -2137,9 +2139,6 @@ rmact_gfx_alt  = "-"
 ;                           tracks one owner for all bases).
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; vision_subs_sq          = Base will have subsurface layer vision to this radius
-; flags
-;   - "NoAggressive"      = Units inside are not considered aggressive if
-;                           there`s friendly city within 3 tiles
 ;
 ; */ <-- avoid gettext warnings
 
@@ -2152,7 +2151,6 @@ border_sq      = -1
 extra          = "Fortress"
 gui_type       = "Fortress"
 border_sq      = -1
-flags          = "NoAggressive"
 
 [base_airstrip]
 extra          = "Airstrip"
@@ -2163,7 +2161,6 @@ border_sq      = -1
 extra          = "Airbase"
 gui_type       = "Airbase"
 border_sq      = -1
-flags          = "NoAggressive"
 
 [base_buoy]
 extra          = "Buoy"

@@ -133,9 +133,6 @@ bool universal_value_initial(struct universal *src)
     }
     src->value.nationality = nation_by_number(0);
     return TRUE;
-  case VUT_BASEFLAG:
-    src->value.baseflag = BF_NOT_AGGRESSIVE;
-    return TRUE;
   case VUT_ROADFLAG:
     src->value.roadflag = RF_RIVER;
     return TRUE;
@@ -215,6 +212,7 @@ bool universal_value_initial(struct universal *src)
   case VUT_EXTRAFLAG:
     src->value.extraflag = EF_NATIVE_TILE;
     return TRUE;
+  case VUT_UNUSED:
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return FALSE;
@@ -324,11 +322,6 @@ void universal_kind_values(struct universal *univ,
       cb(terrain_flag_id_name(i), univ->value.terrainflag == i, data);
     }
     break;
-  case VUT_BASEFLAG:
-    for (i = 0; i < BF_COUNT; i++) {
-      cb(base_flag_id_name(i), univ->value.baseflag == i, data);
-    }
-    break;
   case VUT_ROADFLAG:
     for (i = 0; i < RF_COUNT; i++) {
       cb(road_flag_id_name(i), univ->value.roadflag == i, data);
@@ -430,6 +423,7 @@ void universal_kind_values(struct universal *univ,
     /* Requirement types having numerical value */
     cb(NULL, FALSE, data);
     break;
+  case VUT_UNUSED:
   case VUT_COUNT:
     fc_assert(univ->kind != VUT_COUNT);
     break;

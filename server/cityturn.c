@@ -1643,31 +1643,6 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_terrainflag");
         }
         break;
-      case VUT_BASEFLAG:
-        if (preq->present) {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "base with \"%s\" flag is required. "
-                          "Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        base_flag_id_name(preq->source.value.baseflag));
-          script_server_signal_emit(signal_name,
-                                    ptarget, pcity, "need_baseflag");
-        } else {
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "base with \"%s\" flag is prohibited. "
-                          "Postponing..."),
-                        city_link(pcity),
-                        tgt_name,
-                        base_flag_id_name(preq->source.value.baseflag));
-          script_server_signal_emit(signal_name, ptarget,
-                                    pcity, "have_baseflag");
-        }
-        break;
       case VUT_ROADFLAG:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
@@ -1837,6 +1812,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         break;
       case VUT_NONE:
       case VUT_COUNT:
+      case VUT_UNUSED:
         fc_assert_ret_val_msg(FALSE, TRUE,
                               "worklist_change_build_target() "
                               "called with invalid preq");

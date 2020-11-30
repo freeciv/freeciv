@@ -390,6 +390,10 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
     struct entry *pentry;
     struct requirement req;
 
+    if (compat->compat_mode) {
+      type = rscompat_req_type_name_3_1(type);
+    }
+
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
@@ -3435,6 +3439,10 @@ static bool load_ruleset_terrain(struct section_file *file,
         }
         free(slist);
 
+	if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
+	  extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
+	}
+
         if (!ok) {
           break;
         }
@@ -3621,8 +3629,6 @@ static bool load_ruleset_terrain(struct section_file *file,
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       struct base_type *pbase = extra_base_get(pextra);
       const char *section;
-      int bj;
-      const char **slist;
       const char *gui_str;
 
       if (!pbase) {
@@ -3658,33 +3664,32 @@ static bool load_ruleset_terrain(struct section_file *file,
                                                           "%s.vision_subs_sq",
                                                           section);
 
-      slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-      BV_CLR_ALL(pbase->flags);
-      for (bj = 0; bj < nval; bj++) {
-        const char *sval = slist[bj];
-        enum base_flag_id flag = base_flag_id_by_name(sval, fc_strcasecmp);
+      if (compat->compat_mode) {
+	int bj;
+	const char **slist;
 
-        if (!base_flag_id_is_valid(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown flag \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
-          break;
-        } else if ((!compat->compat_mode || compat->ver_terrain >= 20)
-                   && base_flag_is_retired(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": retired flag "
-                                   "\"%s\". Please update the ruleset.",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
-        } else {
-          BV_SET(pbase->flags, flag);
-        }
+	slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
+	for (bj = 0; bj < nval; bj++) {
+	  const char *sval = slist[bj];
+
+	  if (fc_strcasecmp("NoAggressive", sval)) {
+	    ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown flag \"%s\".",
+			  filename,
+			  extra_rule_name(pextra),
+			  sval);
+	    ok = FALSE;
+	    break;
+	  } else {
+	    if (!BV_ISSET(pextra->flags, EF_NOT_AGGRESSIVE)) {
+	      /* We would not be adding extra to caused_by_list second time. */
+	      BV_SET(pextra->flags, EF_NOT_AGGRESSIVE);
+	      extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
+	    }
+	  }
+	}
+
+	free(slist);
       }
-
-      free(slist);
 
       if (!ok) {
         break;
@@ -7819,8 +7824,6 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.vision_main_sq = b->vision_main_sq;
     packet.vision_invis_sq = b->vision_invis_sq;
     packet.vision_subs_sq = b->vision_subs_sq;
-
-    packet.flags = b->flags;
 
     lsend_packet_ruleset_base(dest, &packet);
   } extra_type_by_cause_iterate_end;

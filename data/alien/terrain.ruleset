@@ -752,6 +752,8 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
+;   - "NoAggressive"      = Units inside are not considered aggressive if
+;                           there`s friendly city within 3 tiles
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -942,7 +944,7 @@ removal_time   = 0
 defense_bonus  = 150
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Force Fortress"
-flags          = "NoStackDeath"
+flags          = "NoStackDeath", "NoAggressive"
 
 [extra_force_fortress]
 name           = _("Force Fortress")
@@ -968,6 +970,7 @@ removal_time   = 0
 defense_bonus  = 100
 native_to      = "Earthly", "Native", "Amphibious"
 conflicts      = "Tower"
+flags          = "NoAggressive"
 
 [extra_antigrav_base]
 name           = _("Antigrav Base")
@@ -991,6 +994,7 @@ reqs           =
 build_time     = 3
 removal_time   = 0
 native_to      = "Antigravity"
+flags          = "NoAggressive"
 helptext       = _("\
 Units can paradrop from this tile.\
 ")
@@ -1319,26 +1323,20 @@ Rocks in the area have unusually bright glow.\
 ;                           tracks one owner for all bases).
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; vision_subs_sq          = Base will have subsurface layer vision to this radius
-; flags
-;   - "NoAggressive"      = Units inside are not considered aggressive if
-;                           there`s friendly city within 3 tiles
 ;
 ; */ <-- avoid gettext warnings
 
 [base_tower]
 extra         = "Tower"
 gui_type      = "Fortress"
-flags         = "NoAggressive"
 
 [base_fortress]
 extra         = "Force Fortress"
 gui_type      = "Fortress"
-flags         = "NoAggressive"
 
 [base_antigrav_base]
 extra        = "Antigrav Base"
 gui_type     = "Airbase"
-flags        = "NoAggressive"
 
 
 ; /* <-- avoid gettext warnings

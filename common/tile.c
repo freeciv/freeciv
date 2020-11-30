@@ -183,33 +183,14 @@ const bv_extras *tile_extras_safe(const struct tile *ptile)
 }
 
 /************************************************************************//**
-  Check if tile contains base providing effect
+  Check if tile contains extra making unit not aggressive
 ****************************************************************************/
-bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag)
+bool tile_has_not_aggressive_extra_for_unit(const struct tile *ptile,
+                                            const struct unit_type *punittype)
 {
-  extra_type_by_cause_iterate(EC_BASE, pextra) {
-    struct base_type *pbase = extra_base_get(pextra);
-
-    if (tile_has_extra(ptile, pextra) && base_has_flag(pbase, flag)) {
-      return TRUE;
-    }
-  } extra_type_by_cause_iterate_end;
-
-  return FALSE;
-}
-
-/************************************************************************//**
-  Check if tile contains base providing effect for unit
-****************************************************************************/
-bool tile_has_base_flag_for_unit(const struct tile *ptile,
-                                 const struct unit_type *punittype,
-                                 enum base_flag_id flag)
-{
-  extra_type_by_cause_iterate(EC_BASE, pextra) {
-    struct base_type *pbase = extra_base_get(pextra);
-
+  extra_type_by_cause_iterate(EC_NOT_AGGRESSIVE, pextra) {
     if (tile_has_extra(ptile, pextra)
-        && base_has_flag_for_utype(pbase, flag, punittype)) {
+        && is_native_extra_to_utype(pextra, punittype)) {
       return TRUE;
     }
   } extra_type_by_cause_iterate_end;

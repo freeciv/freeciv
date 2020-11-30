@@ -1124,6 +1124,8 @@ ui_name_base_airbase = _("?gui_type:Build Airbase")
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
+;   - "NoAggressive"      = Units inside are not considered aggressive if
+;                           there`s friendly city within 3 tiles
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -1389,7 +1391,7 @@ build_time     = 3
 removal_time   = 0
 defense_bonus  = 100
 native_to      = "Land"
-flags          = "NoStackDeath"
+flags          = "NoStackDeath", "NoAggressive"
 helptext       = _("\
 Fortresses improve defense for land units outside cities. Among other \
 effects, a land unit remaining in a fortress for a whole turn without \
@@ -1860,9 +1862,6 @@ rmact_gfx_alt  = "-"
 ;                           tracks one owner for all bases).
 ; vision_invis_sq         = Base will have invisible layer vision to this radius
 ; vision_subs_sq          = Base will have subsurface layer vision to this radius
-; flags
-;   - "NoAggressive"      = Units inside are not considered aggressive if
-;                           there`s friendly city within 3 tiles
 ;
 ; */ <-- avoid gettext warnings
 
@@ -1870,7 +1869,6 @@ rmact_gfx_alt  = "-"
 extra          = "Fortress"
 gui_type       = "Fortress"
 border_sq      = 5
-flags          = "NoAggressive"
 
 [base_airbase]
 extra          = "Airbase"

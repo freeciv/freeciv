@@ -3744,14 +3744,16 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                 _("  * Such units can move onto this tile even if it would "
                   "not normally be suitable terrain.\n"));
       }
+
+      if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
+	/* "3 tiles" is hardcoded in is_friendly_city_near() */
+	CATLSTR(buf, bufsz,
+		/* TRANS: indented; preserve leading spaces */
+		_("  * Such units situated here are not considered aggressive "
+		  "if this tile is within 3 tiles of a friendly city.\n"));
+      }
+
       if (pbase != NULL) {
-        if (base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
-          /* "3 tiles" is hardcoded in is_friendly_city_near() */
-          CATLSTR(buf, bufsz,
-                  /* TRANS: indented; preserve leading spaces */
-                  _("  * Such units situated here are not considered aggressive "
-                    "if this tile is within 3 tiles of a friendly city.\n"));
-        }
         if (territory_claiming_base(pbase)) {
           CATLSTR(buf, bufsz,
                   /* TRANS: indented; preserve leading spaces */

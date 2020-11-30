@@ -4017,6 +4017,9 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;
+  if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
+    extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
+  }
   pextra->hidden_by = p->hidden_by;
   pextra->bridged_over = p->bridged_over;
   pextra->conflicts = p->conflicts;
@@ -4062,12 +4065,10 @@ void handle_ruleset_base(const struct packet_ruleset_base *p)
   fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
   pbase->gui_type = p->gui_type;
-  pbase->border_sq  = p->border_sq;
+  pbase->border_sq = p->border_sq;
   pbase->vision_main_sq = p->vision_main_sq;
   pbase->vision_invis_sq = p->vision_invis_sq;
   pbase->vision_subs_sq = p->vision_subs_sq;
-
-  pbase->flags = p->flags;
 }
 
 /************************************************************************//**

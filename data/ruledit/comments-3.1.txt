@@ -822,6 +822,8 @@ extras = "\
 ;                           by the 1 + sum of bonuses from the extras on the\n\
 ;                           \"Natural\" layer.\n\
 ;   - \"NoStackDeath\"      = Units inside do not die all at once when attacked\n\
+;   - \"NoAggressive\"      = Units inside are not considered aggressive if\n\
+;                           there`s friendly city within 3 tiles\n\
 ; helptext                = optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
 ;\n\
@@ -852,9 +854,6 @@ bases = "\
 ;                           tracks one owner for all bases).\n\
 ; vision_invis_sq         = Base will have invisible layer vision to this radius\n\
 ; vision_subs_sq          = Base will have subsurface layer vision to this radius\n\
-; flags\n\
-;   - \"NoAggressive\"      = Units inside are not considered aggressive if\n\
-;                           there`s friendly city within 3 tiles\n\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "

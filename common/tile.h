@@ -123,10 +123,8 @@ static inline const bv_extras *tile_extras(const struct tile *ptile)
 
 void tile_set_bases(struct tile *ptile, bv_bases bases);
 bool tile_has_base(const struct tile *ptile, const struct base_type *pbase);
-bool tile_has_base_flag(const struct tile *ptile, enum base_flag_id flag);
-bool tile_has_base_flag_for_unit(const struct tile *ptile,
-                                 const struct unit_type *punittype,
-                                 enum base_flag_id flag);
+bool tile_has_not_aggressive_extra_for_unit(const struct tile *ptile,
+                                            const struct unit_type *punittype);
 bool tile_has_refuel_extra(const struct tile *ptile,
                            const struct unit_type *punittype);
 bool tile_has_native_base(const struct tile *ptile,

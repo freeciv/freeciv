@@ -36,18 +36,6 @@ struct strvec;          /* Actually defined in "utility/string_vector.h". */
 #define SPECENUM_VALUE2NAME "Other"
 #include "specenum_gen.h"
 
-/* Used in the network protocol. */
-#define SPECENUM_NAME base_flag_id
-/* Unit inside are not considered aggressive if base is close to city */
-#define SPECENUM_VALUE0 BF_NOT_AGGRESSIVE
-/* TRANS: this and following strings are 'base flags', which may rarely
- * be presented to the player in ruleset help text */
-#define SPECENUM_VALUE0NAME N_("NoAggressive")
-
-#define SPECENUM_COUNT BF_COUNT
-#define SPECENUM_BITVECTOR bv_base_flags
-#include "specenum_gen.h"
-
 struct extra_type;
 
 struct base_type {
@@ -57,8 +45,6 @@ struct base_type {
   int vision_main_sq;
   int vision_invis_sq;
   int vision_subs_sq;
-
-  bv_base_flags flags;
 
   struct extra_type *self;
 };
@@ -72,17 +58,6 @@ Base_type_id base_number(const struct base_type *pbase);
 struct base_type *base_by_number(const Base_type_id id);
 
 struct extra_type *base_extra_get(const struct base_type *pbase);
-
-/* Functions to operate on a base flag. */
-bool base_has_flag(const struct base_type *pbase, enum base_flag_id flag);
-bool is_base_flag_card_near(const struct tile *ptile,
-                            enum base_flag_id flag);
-bool is_base_flag_near_tile(const struct tile *ptile,
-                            enum base_flag_id flag);
-bool base_flag_is_retired(enum base_flag_id flag);
-bool base_has_flag_for_utype(const struct base_type *pbase,
-                             enum base_flag_id flag,
-                             const struct unit_type *punittype);
 
 /* Ancillary functions */
 bool can_build_base(const struct unit *punit, const struct base_type *pbase,

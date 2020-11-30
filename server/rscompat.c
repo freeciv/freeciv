@@ -1372,16 +1372,14 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
 
 /**********************************************************************//**
   Replace deprecated requirement type names with currently valid ones.
-
-  The extra arguments are for situation where some, but not all, instances
-  of a requirement type should become something else.
 **************************************************************************/
-const char *rscompat_req_type_name_3_1(const char *old_type,
-                                       const char *old_range,
-                                       bool old_survives, bool old_present,
-                                       bool old_quiet,
-                                       const char *old_value)
+const char *rscompat_req_type_name_3_1(const char *old_type)
 {
+  if (!fc_strcasecmp("BaseFlag", old_type)) {
+    /* Remaining BaseFlag has been turned to an extra flag */
+    return "ExtraFlag";
+  }
+
   return old_type;
 }
 

@@ -292,12 +292,6 @@ void universal_value_from_str(struct universal *source, const char *value)
       return;
     }
     break;
-  case VUT_BASEFLAG:
-    source->value.baseflag = base_flag_id_by_name(value, fc_strcasecmp);
-    if (base_flag_id_is_valid(source->value.baseflag)) {
-      return;
-    }
-    break;
   case VUT_ROADFLAG:
     source->value.roadflag = road_flag_id_by_name(value, fc_strcasecmp);
     if (road_flag_id_is_valid(source->value.roadflag)) {
@@ -353,6 +347,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     }
     break;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -522,9 +517,6 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_TERRAINCLASS:
     source.value.terrainclass = value;
     return source;
-  case VUT_BASEFLAG:
-    source.value.baseflag = value;
-    return source;
   case VUT_ROADFLAG:
     source.value.roadflag = value;
     return source;
@@ -553,6 +545,7 @@ struct universal universal_by_number(const enum universals_n kind,
     source.value.citystatus = value;
     return source;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -653,9 +646,7 @@ int universal_number(const struct universal *source)
     return source->value.max_tile_units;
   case VUT_TERRAINCLASS:
     return source->value.terrainclass;
-  case VUT_BASEFLAG:
-    return source->value.baseflag;
-  case VUT_ROADFLAG:
+   case VUT_ROADFLAG:
     return source->value.roadflag;
   case VUT_EXTRAFLAG:
     return source->value.extraflag;
@@ -674,6 +665,7 @@ int universal_number(const struct universal *source)
   case VUT_CITYSTATUS:
     return source->value.citystatus;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -730,6 +722,7 @@ struct requirement req_from_str(const char *type, const char *range,
       switch (req.source.kind) {
       case VUT_NONE:
       case VUT_COUNT:
+      case VUT_UNUSED:
         break;
       case VUT_IMPROVEMENT:
       case VUT_IMPR_GENUS:
@@ -751,7 +744,6 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_OTYPE:
       case VUT_SPECIALIST:
       case VUT_TERRAINCLASS:
-      case VUT_BASEFLAG:
       case VUT_ROADFLAG:
       case VUT_EXTRAFLAG:
       case VUT_TERRAINALTER:
@@ -800,7 +792,6 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_EXTRA:
     case VUT_TERRAINCLASS:
     case VUT_TERRFLAG:
-    case VUT_BASEFLAG:
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
       invalid = (req.range != REQ_RANGE_LOCAL
@@ -899,6 +890,7 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = FALSE;
       break;
     case VUT_COUNT:
+    case VUT_UNUSED:
       break;
     }
     if (invalid) {
@@ -947,7 +939,6 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_CITYSTATUS:
     case VUT_TERRFLAG:
     case VUT_NATIONALITY:
-    case VUT_BASEFLAG:
     case VUT_ROADFLAG:
     case VUT_EXTRAFLAG:
     case VUT_EXTRA:
@@ -964,6 +955,7 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_NONE:
     case VUT_COUNT:
+    case VUT_UNUSED:
       break;
     }
     if (invalid) {
@@ -2097,80 +2089,6 @@ static enum fc_tristate is_terrainflag_in_range(const struct tile *target_tile,
 }
 
 /**********************************************************************//**
-  Is there a base with the given flag within range of the target?
-**************************************************************************/
-static enum fc_tristate is_baseflag_in_range(const struct tile *target_tile,
-                                             const struct city *target_city,
-                                             enum req_range range, bool survives,
-                                             enum base_flag_id baseflag)
-{
-  switch (range) {
-  case REQ_RANGE_LOCAL:
-    /* The requirement is filled if the tile has a base with correct flag. */
-    if (!target_tile) {
-      return TRI_MAYBE;
-    }
-    return BOOL_TO_TRISTATE(tile_has_base_flag(target_tile, baseflag));
-  case REQ_RANGE_CADJACENT:
-    if (!target_tile) {
-      return TRI_MAYBE;
-    }
-    return BOOL_TO_TRISTATE(tile_has_base_flag(target_tile, baseflag)
-                            || is_base_flag_card_near(target_tile, baseflag));
-  case REQ_RANGE_ADJACENT:
-    if (!target_tile) {
-      return TRI_MAYBE;
-    }
-    return BOOL_TO_TRISTATE(tile_has_base_flag(target_tile, baseflag)
-                            || is_base_flag_near_tile(target_tile, baseflag));
-  case REQ_RANGE_CITY:
-    if (!target_city) {
-      return TRI_MAYBE;
-    }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
-      if (tile_has_base_flag(ptile, baseflag)) {
-        return TRI_YES;
-      }
-    } city_tile_iterate_end;
-
-    return TRI_NO;
-  case REQ_RANGE_TRADEROUTE:
-    if (!target_city) {
-      return TRI_MAYBE;
-    }
-    city_tile_iterate(city_map_radius_sq_get(target_city),
-                      city_tile(target_city), ptile) {
-      if (tile_has_base_flag(ptile, baseflag)) {
-        return TRI_YES;
-      }
-    } city_tile_iterate_end;
-
-    trade_partners_iterate(target_city, trade_partner) {
-      city_tile_iterate(city_map_radius_sq_get(trade_partner),
-                        city_tile(trade_partner), ptile) {
-        if (tile_has_base_flag(ptile, baseflag)) {
-          return TRI_YES;
-        }
-      } city_tile_iterate_end;
-    } trade_partners_iterate_end;
-
-    return TRI_NO;
-  case REQ_RANGE_CONTINENT:
-  case REQ_RANGE_PLAYER:
-  case REQ_RANGE_TEAM:
-  case REQ_RANGE_ALLIANCE:
-  case REQ_RANGE_WORLD:
-  case REQ_RANGE_COUNT:
-    break;
-  }
-
-  fc_assert_msg(FALSE, "Invalid range %d.", range);
-
-  return TRI_MAYBE;
-}
-
-/**********************************************************************//**
   Is there a road with the given flag within range of the target?
 **************************************************************************/
 static enum fc_tristate is_roadflag_in_range(const struct tile *target_tile,
@@ -3161,11 +3079,6 @@ bool is_req_active(const struct player *target_player,
                                      req->range, req->survives,
                                      req->source.value.terrainclass);
     break;
-  case VUT_BASEFLAG:
-    eval = is_baseflag_in_range(target_tile, target_city,
-                                 req->range, req->survives,
-                                 req->source.value.baseflag);
-    break;
   case VUT_ROADFLAG:
     eval = is_roadflag_in_range(target_tile, target_city,
                                  req->range, req->survives,
@@ -3217,6 +3130,7 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_COUNT:
+  case VUT_UNUSED:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
   }
@@ -3333,7 +3247,6 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_TERRAINCLASS:
   case VUT_TERRFLAG:
   case VUT_TERRAINALTER:
-  case VUT_BASEFLAG:
     /* Terrains, specials and bases aren't really unchanging; in fact they're
      * practically guaranteed to change.  We return TRUE here for historical
      * reasons and so that the AI doesn't get confused (since the AI
@@ -3343,6 +3256,7 @@ bool is_req_unchanging(const struct requirement *req)
     /* Once year is reached, it does not change again */
     return req->source.value.minyear > game.info.year;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
   fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
@@ -3718,8 +3632,6 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.max_tile_units == psource2->value.max_tile_units;
   case VUT_TERRAINCLASS:
     return psource1->value.terrainclass == psource2->value.terrainclass;
-  case VUT_BASEFLAG:
-    return psource1->value.baseflag == psource2->value.baseflag;
   case VUT_ROADFLAG:
     return psource1->value.roadflag == psource2->value.roadflag;
   case VUT_EXTRAFLAG:
@@ -3739,6 +3651,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_CITYSTATUS:
     return psource1->value.citystatus == psource2->value.citystatus;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -3861,8 +3774,6 @@ const char *universal_rule_name(const struct universal *psource)
     return buffer;
   case VUT_TERRAINCLASS:
     return terrain_class_name(psource->value.terrainclass);
-  case VUT_BASEFLAG:
-    return base_flag_id_name(psource->value.baseflag);
   case VUT_ROADFLAG:
     return road_flag_id_name(psource->value.roadflag);
   case VUT_EXTRAFLAG:
@@ -3870,6 +3781,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -4094,12 +4006,6 @@ const char *universal_name_translation(const struct universal *psource,
                  terrain_flag_id_translated_name(
                    psource->value.terrainflag));
     return buf;
-  case VUT_BASEFLAG:
-    cat_snprintf(buf, bufsz,
-                 /* TRANS: Base flag */
-                 Q_("?baseflag:\"%s\" base"),
-                 base_flag_id_translated_name(psource->value.baseflag));
-    return buf;
   case VUT_ROADFLAG:
     cat_snprintf(buf, bufsz,
                  /* TRANS: Road flag */
@@ -4162,6 +4068,7 @@ const char *universal_name_translation(const struct universal *psource,
     }
     return buf;
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 
@@ -4507,12 +4414,6 @@ static enum req_item_found extra_type_found(const struct requirement *preq,
   case VUT_EXTRAFLAG:
     return extra_has_flag(source->value.extra,
                           preq->source.value.extraflag) ? ITF_YES : ITF_NO;
-  case VUT_BASEFLAG:
-    {
-      struct base_type *b = extra_base_get(source->value.extra);
-      return b && base_has_flag(b, preq->source.value.baseflag)
-        ? ITF_YES : ITF_NO;
-    }
   case VUT_ROADFLAG:
     {
       struct road_type *r = extra_road_get(source->value.extra);

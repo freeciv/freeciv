@@ -2179,100 +2179,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
-  case VUT_BASEFLAG:
-    switch (preq->range) {
-    case REQ_RANGE_LOCAL:
-      fc_strlcat(buf, prefix, bufsz);
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on the tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Prevented by a base with the \"%s\" flag on the "
-                       "tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_CADJACENT:
-      fc_strlcat(buf, prefix, bufsz);
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on the "
-                       "tile or a cardinally adjacent tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Prevented by a base with the \"%s\" flag on "
-                       "the tile or any cardinally adjacent tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_ADJACENT:
-      fc_strlcat(buf, prefix, bufsz);
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on the "
-                       "tile or an adjacent tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Prevented by a base with the \"%s\" flag on "
-                       "the tile or any adjacent tile."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_CITY:
-      fc_strlcat(buf, prefix, bufsz);
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on a tile "
-                       "within the city radius."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Prevented by a base with the \"%s\" flag on any tile "
-                       "within the city radius."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_TRADEROUTE:
-      fc_strlcat(buf, prefix, bufsz);
-      if (preq->present) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Requires a base with the \"%s\" flag on a tile "
-                       "within the city radius or the city radius of a "
-                       "trade partner."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      } else {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: %s is a (translatable) base flag. */
-                     _("Prevented by a base with the \"%s\" flag on any tile "
-                       "within the city radius or the city radius of a "
-                       "trade partner."),
-                     base_flag_id_translated_name(preq->source.value.baseflag));
-      }
-      return TRUE;
-    case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_PLAYER:
-    case REQ_RANGE_TEAM:
-    case REQ_RANGE_ALLIANCE:
-    case REQ_RANGE_WORLD:
-    case REQ_RANGE_COUNT:
-      /* Not supported. */
-      break;
-    }
-    break;
-
   case VUT_ROADFLAG:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
@@ -2740,6 +2646,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
 
   case VUT_COUNT:
+  case VUT_UNUSED:
     break;
   }
 

@@ -2468,9 +2468,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     if (!pextra->ruledit_disabled) {
       char path[512];
       struct base_type *pbase = extra_base_get(pextra);
-      const char *flag_names[BF_COUNT];
-      int flagi;
-      int set_count;
 
       fc_snprintf(path, sizeof(path), "base_%d", sect_idx++);
 
@@ -2491,18 +2488,6 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
       }
       if (pbase->vision_subs_sq >= 0) {
         secfile_insert_int(sfile, pbase->vision_subs_sq, "%s.vision_subs_sq", path);
-      }
-
-      set_count = 0;
-      for (flagi = 0; flagi < BF_COUNT; flagi++) {
-        if (base_has_flag(pbase, flagi)) {
-          flag_names[set_count++] = base_flag_id_name(flagi);
-        }
-      }
-
-      if (set_count > 0) {
-        secfile_insert_str_vec(sfile, flag_names, set_count,
-                               "%s.flags", path);
       }
     }
   } extra_type_by_cause_iterate_end;

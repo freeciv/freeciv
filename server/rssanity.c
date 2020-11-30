@@ -368,7 +368,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_UTFLAG:
      case VUT_UCFLAG:
      case VUT_TERRFLAG:
-     case VUT_BASEFLAG:
      case VUT_ROADFLAG:
      case VUT_EXTRAFLAG:
      case VUT_NATIONALITY:
@@ -378,6 +377,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        /* Can have multiple requirements of these types */
        break;
      case VUT_COUNT:
+     case VUT_UNUSED:
        /* Should never be in requirement vector */
        fc_assert(FALSE);
        return FALSE;
@@ -1031,31 +1031,6 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         ok = FALSE;
       }
     } extra_type_list_iterate_end;
-  } extra_type_by_cause_iterate_end;
-
-  /* Bases */
-  extra_type_by_cause_iterate(EC_BASE, pextra) {
-    int bfi;
-    struct base_type *pbase = extra_base_get(pextra);
-
-    if (ignore_retired) {
-      /* Base flags haven't been updated yet. */
-      break;
-    }
-
-    for (bfi = 0; bfi < BF_COUNT; bfi++) {
-      if (!base_flag_is_retired(bfi)) {
-        /* Still valid. */
-        continue;
-      }
-
-      if (BV_ISSET(pbase->flags, bfi)) {
-        ruleset_error(LOG_ERROR,
-                      "Base %s uses the retired base flag %s!",
-                      extra_name_translation(pextra),
-                      base_flag_id_name(bfi));
-      }
-    }
   } extra_type_by_cause_iterate_end;
 
   /* City styles */
