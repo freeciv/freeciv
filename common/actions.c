@@ -1875,7 +1875,7 @@ int action_get_act_time(const struct action *paction,
   enum unit_activity pactivity = action_get_activity(paction);
 
   if (pactivity == ACTIVITY_LAST) {
-    /* Happens instantaneous, not at turn change. */
+    /* Happens instantaneously, not at turn change. */
     return ACT_TIME_INSTANTANEOUS;
   }
 
