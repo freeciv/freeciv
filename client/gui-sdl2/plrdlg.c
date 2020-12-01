@@ -671,7 +671,7 @@ void popup_players_nations_dialog(void)
   struct widget *pwindow = NULL, *buf = NULL;
   SDL_Surface *logo = NULL;
   utf8_str *pstr;
-  char cBuf[128], *state;
+  char cbuf[128], *state;
   int n = 0, w = 0, units_h = 0;
   const struct player_diplstate *pDS;
   SDL_Rect area;
@@ -733,17 +733,17 @@ void popup_players_nations_dialog(void)
       }
 
       if (pDS->type == DS_CEASEFIRE) {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s(%s) - %d %s",
+	fc_snprintf(cbuf, sizeof(cbuf), "%s(%s) - %d %s",
                     nation_adjective_for_player(pplayer),
                     state,
                     pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
       } else {
-	fc_snprintf(cBuf, sizeof(cBuf), "%s(%s)",
+	fc_snprintf(cbuf, sizeof(cbuf), "%s(%s)",
                     nation_adjective_for_player(pplayer),
                     state);
       }
 
-      pstr = create_utf8_from_char(cBuf, adj_font(10));
+      pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= TTF_STYLE_BOLD;
 
       logo = get_nation_flag_surface(nation_of_player(pplayer));

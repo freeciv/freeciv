@@ -172,7 +172,7 @@ static void popup_load_game_dialog(void)
   struct widget *pCloseButton;
   struct widget *pFilenameLabel = NULL;
   struct widget *pFirstLabel = NULL;
-  struct widget *pLastLabel = NULL;
+  struct widget *lastLabel = NULL;
   struct widget *pNextLabel = NULL;
   utf8_str *title, *filename;
   SDL_Rect area;
@@ -267,7 +267,7 @@ static void popup_load_game_dialog(void)
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 
-  pLastLabel = pFilenameLabel;
+  lastLabel = pFilenameLabel;
 
   area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
 
@@ -310,7 +310,7 @@ static void popup_load_game_dialog(void)
           area.y + adj_size(2));
     }
 
-    if (pFilenameLabel == pLastLabel) {
+    if (pFilenameLabel == lastLabel) {
       break;
     }
 

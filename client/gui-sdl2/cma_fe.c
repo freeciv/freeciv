@@ -886,7 +886,7 @@ void popup_city_cma_dialog(struct city *pcity)
   SDL_Surface *logo, *text[O_LAST + 1], *pMinimal, *pFactor;
   SDL_Surface *pcity_map;
   utf8_str *pstr;
-  char cBuf[128];
+  char cbuf[128];
   int w, text_w, x, cs;
   SDL_Rect dst, area;
 
@@ -904,13 +904,13 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* --------------------------- */
 
-  fc_snprintf(cBuf, sizeof(cBuf),
+  fc_snprintf(cbuf, sizeof(cbuf),
               _("City of %s (Population %s citizens) : %s"),
               city_name_get(pcity),
               population_to_text(city_population(pcity)),
               _("Citizen Governor"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(12));
+  pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);

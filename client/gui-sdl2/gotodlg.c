@@ -133,10 +133,10 @@ static int goto_city_callback(struct widget *pwidget)
 **************************************************************************/
 static void update_goto_dialog(void)
 {
-  struct widget *buf = NULL, *add_dock, *pLast;
+  struct widget *buf = NULL, *add_dock, *last;
   SDL_Surface *logo = NULL;
   utf8_str *pstr;
-  char cBuf[128];
+  char cbuf[128];
   int n = 0;
   struct player *owner = NULL;
 
@@ -149,7 +149,7 @@ static void update_goto_dialog(void)
     add_dock = goto_dlg->begin_widget_list;
   }
 
-  pLast = add_dock;
+  last = add_dock;
 
   players_iterate(pplayer) {
     if (!BV_ISSET(all_players, player_index(pplayer))) {
@@ -163,10 +163,10 @@ static void update_goto_dialog(void)
 	continue;
       }
 
-      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name_get(pcity),
+      fc_snprintf(cbuf, sizeof(cbuf), "%s (%d)", city_name_get(pcity),
                   city_size_get(pcity));
 
-      pstr = create_utf8_from_char(cBuf, adj_font(12));
+      pstr = create_utf8_from_char(cbuf, adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
 
       if (!player_owns_city(owner, pcity)) {
@@ -208,7 +208,7 @@ static void update_goto_dialog(void)
     goto_dlg->begin_widget_list = buf;
 
     goto_dlg->begin_active_widget_list = goto_dlg->begin_widget_list;
-    goto_dlg->end_active_widget_list = pLast->prev;
+    goto_dlg->end_active_widget_list = last->prev;
     goto_dlg->active_widget_list = goto_dlg->end_active_widget_list;
     goto_dlg->scroll->count = n;
 

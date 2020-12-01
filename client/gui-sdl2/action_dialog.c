@@ -329,10 +329,10 @@ static int spy_steal_callback(struct widget *pwidget)
 static int spy_steal_popup_shared(struct widget *pwidget)
 {
   const struct research *presearch, *vresearch;
-  struct city *pVcity = pwidget->data.city;
+  struct city *vcity = pwidget->data.city;
   int id = diplomat_dlg->actor_unit_id;
-  struct player *pVictim = NULL;
-  struct container *pCont;
+  struct player *victim = NULL;
+  struct container *cont;
   struct widget *buf = NULL;
   struct widget *pwindow;
   utf8_str *pstr;
@@ -347,20 +347,20 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   is_more_user_input_needed = TRUE;
   popdown_diplomat_dialog();
 
-  if (pVcity) {
-    pVictim = city_owner(pVcity);
+  if (vcity) {
+    victim = city_owner(vcity);
   }
 
   fc_assert_ret_val_msg(!diplomat_dlg, 1, "Diplomat dialog already open");
 
-  if (!pVictim) {
+  if (!victim) {
     act_sel_done_secondary(id);
     return 1;
   }
 
   count = 0;
   presearch = research_get(client_player());
-  vresearch = research_get(pVictim);
+  vresearch = research_get(victim);
   advance_index_iterate(A_FIRST, i) {
     if (research_invention_gettable(presearch, i,
                                     game.info.tech_steal_allow_holes)
@@ -373,7 +373,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   if (!count) {
     /* if there is no known tech to steal then
      * send steal order at Spy's Discretion */
-    int target_id = pVcity->id;
+    int target_id = vcity->id;
 
     request_do_action(get_non_targeted_action_id(act_id),
                       id, target_id, A_UNSET, "");
@@ -383,14 +383,14 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     return -1;
   }
 
-  pCont = fc_calloc(1, sizeof(struct container));
-  pCont->id0 = pVcity->id;
-  pCont->id1 = id;/* spy id */
+  cont = fc_calloc(1, sizeof(struct container));
+  cont->id0 = vcity->id;
+  cont->id1 = id; /* spy id */
 
   diplomat_dlg = fc_calloc(1, sizeof(struct diplomat_dialog));
   diplomat_dlg->act_id = act_id;
   diplomat_dlg->actor_unit_id = id;
-  diplomat_dlg->target_ids[ATK_CITY] = pVcity->id;
+  diplomat_dlg->target_ids[ATK_CITY] = vcity->id;
   diplomat_dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Select Advance to Steal"), adj_font(12));
@@ -469,7 +469,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
 
       set_wstate(buf, FC_WS_NORMAL);
       buf->action = spy_steal_callback;
-      buf->data.cont = pCont;
+      buf->data.cont = cont;
 
       add_to_gui_list(MAX_ID - i, buf);
 
@@ -500,7 +500,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
                          | WF_FREE_DATA));
     set_wstate(buf, FC_WS_NORMAL);
     buf->action = spy_steal_callback;
-    buf->data.cont = pCont;
+    buf->data.cont = cont;
 
     add_to_gui_list(MAX_ID - A_UNSET, buf);
     count++;
@@ -1323,8 +1323,8 @@ static int sabotage_impr_callback(struct widget *pwidget)
 void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                            const struct action *paction)
 {
-  struct widget *pwindow = NULL, *buf = NULL , *pLast = NULL;
-  struct container *pCont;
+  struct widget *pwindow = NULL, *buf = NULL , *last = NULL;
+  struct container *cont;
   utf8_str *pstr;
   SDL_Rect area, area2;
   int n, w = 0, h, imp_h = 0, y;
@@ -1346,10 +1346,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   diplomat_dlg->target_ids[ATK_CITY] = pcity->id;
   diplomat_dlg->pdialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pCont = fc_calloc(1, sizeof(struct container));
-  pCont->id0 = pcity->id;
-  pCont->id1 = actor->id; /* spy id */
-  pCont->value = paction->id;
+  cont = fc_calloc(1, sizeof(struct container));
+  cont->id0 = pcity->id;
+  cont->id1 = actor->id; /* spy id */
+  cont->value = paction->id;
 
   pstr = create_utf8_from_char(_("Select Improvement to Sabotage") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -1384,7 +1384,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                                paction->id)])) {
     create_active_iconlabel(buf, pwindow->dst, pstr,
                             _("City Production"), sabotage_impr_callback);
-    buf->data.cont = pCont;
+    buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
     set_wflag(buf, WF_FREE_DATA);
     add_to_gui_list(MAX_ID - 1000, buf);
@@ -1408,7 +1408,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
       create_active_iconlabel(buf, pwindow->dst, pstr,
 	      (char *) city_improvement_name_translation(pcity, pimprove),
 				      sabotage_impr_callback);
-      buf->data.cont = pCont;
+      buf->data.cont = cont;
       set_wstate(buf, FC_WS_NORMAL);
 
       add_to_gui_list(MAX_ID - improvement_number(pimprove), buf);
@@ -1448,7 +1448,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
                             sabotage_impr_callback);
     astr_free(&str);
 
-    buf->data.cont = pCont;
+    buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - B_LAST, buf);
@@ -1459,8 +1459,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 
   /* ----------- */
 
-  pLast = buf;
-  diplomat_dlg->pdialog->begin_widget_list = pLast;
+  last = buf;
+  diplomat_dlg->pdialog->begin_widget_list = last;
   diplomat_dlg->pdialog->active_widget_list = diplomat_dlg->pdialog->end_active_widget_list;
 
   /* ---------- */
@@ -1523,10 +1523,11 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
       area2.y = buf->size.h / 2 - 1;
       area2.w = buf->size.w - adj_size(20);
 
-      SDL_FillRect(buf->theme , &area2, map_rgba(buf->theme->format, *get_theme_color(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
+      SDL_FillRect(buf->theme , &area2, map_rgba(buf->theme->format,
+                                                 *get_theme_color(COLOR_THEME_SABOTAGEDLG_SEPARATOR)));
     }
 
-    if (buf == pLast) {
+    if (buf == last) {
       break;
     }
 
@@ -1629,7 +1630,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 {
   struct widget *pwindow = NULL, *buf = NULL;
   utf8_str *pstr;
-  char tBuf[255], cBuf[255];
+  char tBuf[255], cbuf[255];
   bool exit = FALSE;
   SDL_Rect area;
 
@@ -1672,7 +1673,7 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
   incite_dlg->pdialog->end_widget_list = pwindow;
 
   area = pwindow->area;
-  area.w  =MAX(area.w, adj_size(8));
+  area.w = MAX(area.w, adj_size(8));
   area.h = MAX(area.h, adj_size(2));
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
@@ -1691,10 +1692,10 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     exit = TRUE;
     /* --------------- */
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
+    fc_snprintf(cbuf, sizeof(cbuf), _("You can't incite a revolt in %s."),
                 city_name_get(pcity));
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
     add_to_gui_list(ID_LABEL , buf);
 
@@ -1710,12 +1711,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     area.h += buf->size.h;
 
   } else if (cost <= client_player()->economic.gold) {
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
                 PL_("Incite a revolt for %d gold?\n%s",
                     "Incite a revolt for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1761,12 +1762,12 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
     exit = TRUE;
     /* --------------- */
 
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
                 PL_("Inciting a revolt costs %d gold.\n%s",
                     "Inciting a revolt costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1892,7 +1893,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
 {
   struct widget *pwindow = NULL, *buf = NULL;
   utf8_str *pstr;
-  char tBuf[255], cBuf[255];
+  char tBuf[255], cbuf[255];
   bool exit = FALSE;
   SDL_Rect area;
 
@@ -1939,12 +1940,12 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
   area.h = MAX(area.h, adj_size(2));
 
   if (cost <= client_player()->economic.gold) {
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
                 PL_("Bribe unit for %d gold?\n%s",
                     "Bribe unit for %d gold?\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
     add_to_gui_list(ID_LABEL, buf);
 
@@ -1989,12 +1990,12 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
     exit = TRUE;
     /* --------------- */
 
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 /* TRANS: %s is pre-pluralised "Treasury contains %d gold." */
                 PL_("Bribing the unit costs %d gold.\n%s",
                     "Bribing the unit costs %d gold.\n%s", cost), cost, tBuf);
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
     add_to_gui_list(ID_LABEL, buf);
 

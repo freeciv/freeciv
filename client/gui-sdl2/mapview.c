@@ -309,7 +309,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 			 struct sprite *flake, struct sprite *gov)
 {
   struct widget *buf = NULL;
-  char cBuf[128];
+  char cbuf[128];
 
   buf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
   FREESURFACE(buf->theme);
@@ -327,13 +327,13 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   set_new_icon2_theme(buf, adj_surf(GET_SURF(gov)), TRUE);
 
   if (NULL != client.conn.playing) {
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
+    fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     government_name_for_player(client.conn.playing));
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
+    fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     Q_("?gov:None"));
   }
-  copy_chars_to_utf8_str(buf->info_label, cBuf);
+  copy_chars_to_utf8_str(buf->info_label, cbuf);
 
   widget_redraw(buf);
   widget_mark_dirty(buf);
@@ -347,14 +347,14 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   if (NULL == client.conn.playing) {
     /* TRANS: Research report action */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
+    fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
                 Q_("?tech:None"), 0, 0);
   } else {
     const struct research *presearch = research_get(client_player());
 
     if (A_UNSET != presearch->researching) {
       /* TRANS: Research report action */
-      fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)",
+      fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s (%d/%d)",
                   _("Research"), "F6",
                   research_advance_name_translation(presearch,
                                                     presearch->researching),
@@ -362,7 +362,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                   presearch->client.researching_cost);
     } else {
       /* TRANS: Research report action */
-      fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)",
+      fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)\n%s (%d/%d)",
                   _("Research"), "F6",
                   research_advance_name_translation(presearch,
                                                     presearch->researching),
@@ -371,7 +371,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     }
   }
 
-  copy_chars_to_utf8_str(buf->info_label, cBuf);
+  copy_chars_to_utf8_str(buf->info_label, cbuf);
 
   set_new_icon2_theme(buf, adj_surf(GET_SURF(bulb)), TRUE);
 

@@ -226,12 +226,12 @@ void update_intel_dialog(struct player *p)
 {
   const struct research *mresearch, *presearch;
   struct intel_dialog *pdialog = get_intel_dialog(p);
-  struct widget *pwindow = NULL, *buf = NULL, *pLast;
+  struct widget *pwindow = NULL, *buf = NULL, *last;
   SDL_Surface *logo = NULL, *tmp_surf = NULL;
   SDL_Surface *text1, *pInfo, *text2 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
-  char cBuf[256], plr_buf[4 * MAX_LEN_NAME];
+  char cbuf[256], plr_buf[4 * MAX_LEN_NAME];
   int n = 0, count = 0, col;
   struct city *pcapital;
   SDL_Rect area;
@@ -293,19 +293,19 @@ void update_intel_dialog(struct player *p)
     buf->action = spaceship_callback;
     set_wstate(buf, FC_WS_NORMAL);
     buf->data.player = p;
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 _("Intelligence Information about the %s Spaceship"),
                 nation_adjective_for_player(p));
-    buf->info_label = create_utf8_from_char(cBuf, adj_font(12));
+    buf->info_label = create_utf8_from_char(cbuf, adj_font(12));
 
     add_to_gui_list(ID_ICON, buf);
 
     /* ---------- */
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
                 _("Intelligence Information for the %s Empire"),
                 nation_adjective_for_player(p));
 
-    pstr = create_utf8_from_char(cBuf, adj_font(14));
+    pstr = create_utf8_from_char(cbuf, adj_font(14));
     pstr->style |= TTF_STYLE_BOLD;
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
@@ -324,7 +324,7 @@ void update_intel_dialog(struct player *p)
     switch (research->researching) {
     case A_UNKNOWN:
     case A_UNSET:
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("Ruler: %s  Government: %s\n"
                     "Capital: %s  Gold: %d\n"
                     "Tax: %d%% Science: %d%% Luxury: %d%%\n"
@@ -338,7 +338,7 @@ void update_intel_dialog(struct player *p)
                   p->economic.science, p->economic.luxury, p->client.culture);
       break;
     default:
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("Ruler: %s  Government: %s\n"
                     "Capital: %s  Gold: %d\n"
                     "Tax: %d%% Science: %d%% Luxury: %d%%\n"
@@ -357,7 +357,7 @@ void update_intel_dialog(struct player *p)
       break;
     };
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
     pInfo = create_text_surf_from_utf8(pstr);
     area.w = MAX(area.w, logo->w + adj_size(10) + pInfo->w + adj_size(20));
     area.h += MAX(logo->h + adj_size(20), pInfo->h + adj_size(20));
@@ -367,7 +367,7 @@ void update_intel_dialog(struct player *p)
     col = area.w / (tmp_surf->w + adj_size(4));
     FREESURFACE(tmp_surf);
     n = 0;
-    pLast = buf;
+    last = buf;
     mresearch = research_get(client_player());
     presearch = research_get(p);
     advance_index_iterate(A_FIRST, i) {
@@ -398,7 +398,7 @@ void update_intel_dialog(struct player *p)
     pdialog->pdialog->begin_widget_list = buf;
 
     if (n > 0) {
-      pdialog->pdialog->end_active_widget_list = pLast->prev;
+      pdialog->pdialog->end_active_widget_list = last->prev;
       pdialog->pdialog->begin_active_widget_list = pdialog->pdialog->begin_widget_list;
       if (n > 2 * col) {
         pdialog->pdialog->active_widget_list = pdialog->pdialog->end_active_widget_list;
@@ -414,8 +414,8 @@ void update_intel_dialog(struct player *p)
 
       area.w = MAX(area.w, col * buf->size.w + count);
 
-      fc_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
-      copy_chars_to_utf8_str(pstr, cBuf);
+      fc_snprintf(cbuf, sizeof(cbuf), _("Their techs that we don't have :"));
+      copy_chars_to_utf8_str(pstr, cbuf);
       pstr->style |= TTF_STYLE_BOLD;
       text2 = create_text_surf_from_utf8(pstr);
     }

@@ -218,7 +218,7 @@ static struct srv_list *sdl_create_server_list(bool lan)
 void popup_connection_dialog(bool lan_scan)
 {
   SDL_Color bg_color = {255, 255, 255, 128};
-  char cBuf[512];
+  char cbuf[512];
   int w = 0, h = 0, count = 0, meta_h;
   struct widget *pNewWidget, *pwindow, *label_window;
   utf8_str *pstr;
@@ -236,8 +236,8 @@ void popup_connection_dialog(bool lan_scan)
 
   area = label_window->area;
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
-  pstr = create_utf8_from_char(cBuf, adj_font(16));
+  fc_snprintf(cbuf, sizeof(cbuf), _("Creating Server List..."));
+  pstr = create_utf8_from_char(cbuf, adj_font(16));
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
   pNewWidget = create_iconlabel(NULL, label_window->dst, pstr,
@@ -322,11 +322,11 @@ void popup_connection_dialog(bool lan_scan)
 
     /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
      * [server message]" */
-    fc_snprintf(cBuf, sizeof(cBuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
+    fc_snprintf(cbuf, sizeof(cbuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
                 pServer->host, pServer->port, pServer->version, _(pServer->state),
                 Q_("?header:Players"), pServer->nplayers, pServer->message);
 
-    pNewWidget = create_iconlabel_from_chars(NULL, pwindow->dst, cBuf, adj_font(10),
+    pNewWidget = create_iconlabel_from_chars(NULL, pwindow->dst, cbuf, adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
     pNewWidget->string_utf8->style |= SF_CENTER;

@@ -1109,7 +1109,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                                        struct techs_buttons *store)
 {
   struct widget *pwidget;
-  struct widget *pLast, *pBudynki;
+  struct widget *last, *pBudynki;
   struct widget *dock = store->dock;
   int i, targets_count,sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
@@ -1287,7 +1287,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     flags_count = 0;
   }
 
-  pLast = pwidget;
+  last = pwidget;
   /* --------------------------------------------- */
 
   /* tree button */
@@ -1376,7 +1376,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     }
   }
 
-  return pLast;
+  return last;
 }
 
 /**********************************************************************//**

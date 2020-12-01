@@ -185,7 +185,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     struct unit_type *ut1;
     const struct unit_type *ut2;
     int value;
-    char tBuf[128], cBuf[128];
+    char tBuf[128], cbuf[128];
     struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
     SDL_Surface *text;
@@ -213,7 +213,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
                                             client_player()->economic.gold),
                 client_player()->economic.gold);
 
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
           /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
           PL_("Upgrade as many %s to %s as possible for %d gold each?\n%s",
               "Upgrade as many %s to %s as possible for %d gold each?\n%s",
@@ -239,7 +239,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     /* ============================================================= */
 
     /* create text label */
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
@@ -355,7 +355,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   struct widget *buf = NULL;
-  struct widget *pwindow, *pLast;
+  struct widget *pwindow, *last;
   utf8_str *pstr;
   SDL_Surface *text1, *text2, *text3 , *text4, *text5, *logo;
   int w = 0 , count, ww, hh = 0, name_w = 0;
@@ -474,7 +474,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   add_to_gui_list(ID_LABEL, buf);
 
   /* ------------------------- */
-  pLast = buf;
+  last = buf;
   count = 0;
   unit_type_iterate(i) {
     if ((units[utype_index(i)].active_count > 0)
@@ -611,7 +611,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                + (adj_size(4) * text1->w + adj_size(46)) + (text2->w + adj_size(16))
                + (text5->w + adj_size(6)) + adj_size(2));
   if (count > 0) {
-    units_dlg->end_active_widget_list = pLast->prev;
+    units_dlg->end_active_widget_list = last->prev;
     units_dlg->begin_active_widget_list = units_dlg->begin_widget_list;
     if (count > adj_size(80)) {
       units_dlg->active_widget_list = units_dlg->end_active_widget_list;
@@ -1571,7 +1571,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     int imp, total_count ,count = 0, gold = 0;
     int value;
-    char cBuf[128];
+    char cbuf[128];
     struct widget *buf = NULL, *pwindow;
     utf8_str *pstr;
     SDL_Surface *text;
@@ -1601,14 +1601,14 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     } city_list_iterate_end;
 
     if (count > 0) {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("We have %d of %s\n(total value is : %d)\n"
                     "We can sell %d of them for %d gold."),
                   total_count,
                   improvement_name_translation(improvement_by_number(imp)),
                   total_count * value, count, gold);
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("We can't sell any %s in this turn."),
                   improvement_name_translation(improvement_by_number(imp)));
     }
@@ -1630,7 +1630,7 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     /* ============================================================= */
 
     /* create text label */
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_SELLIMPR_TEXT);
 
@@ -1800,7 +1800,7 @@ void economy_report_dialog_popup(bool make_modal)
   SDL_Color bg_color2 = {255,255,255,136};
   SDL_Color bg_color3 = {255,255,255,64};
   struct widget *buf;
-  struct widget *pwindow , *pLast;
+  struct widget *pwindow , *last;
   utf8_str *pstr, *pstr2;
   SDL_Surface *surf, *text_name, *text, *zoomed;
   SDL_Surface *background;
@@ -2070,7 +2070,7 @@ void economy_report_dialog_popup(bool make_modal)
   h += adj_size(5);
 
   /* ------------------------- */
-  pLast = buf;
+  last = buf;
   if (entries_used > 0) {
 
     /* Create Imprv Background Icon */
@@ -2171,7 +2171,7 @@ void economy_report_dialog_popup(bool make_modal)
     FREEUTF8STR(pstr);
     FREESURFACE(background);
 
-    economy_dlg->end_active_widget_list = pLast->prev;
+    economy_dlg->end_active_widget_list = last->prev;
     economy_dlg->begin_widget_list = buf;
     economy_dlg->begin_active_widget_list = economy_dlg->begin_widget_list;
 
@@ -2592,7 +2592,7 @@ void real_science_report_dialog_update(void *unused)
 
   if (science_dlg) {
     const struct research *presearch = research_get(client_player());
-    char cBuf[128];
+    char cbuf[128];
     utf8_str *pStr;
     SDL_Surface *msurf;
     SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
@@ -2652,12 +2652,12 @@ void real_science_report_dialog_update(void *unused)
     widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(18));
 
     /* current research text */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s: %s",
+    fc_snprintf(cbuf, sizeof(cbuf), "%s: %s",
                 research_advance_name_translation(presearch,
                                                   presearch->researching),
                 get_science_target_text(NULL));
 
-    copy_chars_to_utf8_str(pStr, cBuf);
+    copy_chars_to_utf8_str(pStr, cbuf);
 
     msurf = create_text_surf_from_utf8(pStr);
 
@@ -3097,7 +3097,7 @@ static void popup_change_research_goal_dialog(void)
   struct widget *pwindow;
   utf8_str *pstr;
   SDL_Surface *surf;
-  char cBuf[128];
+  char cbuf[128];
   int max_col, max_row, col, i, count = 0, h , num;
   SDL_Rect area;
 
@@ -3185,11 +3185,11 @@ static void popup_change_research_goal_dialog(void)
             || aidx == presearch->tech_goal)) {
 
       count++;
-      fc_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
+      fc_snprintf(cbuf, sizeof(cbuf), "%s\n%d %s",
                   advance_name_translation(advance_by_number(aidx)),
                   num,
                   PL_("step", "steps", num));
-      copy_chars_to_utf8_str(pstr, cBuf);
+      copy_chars_to_utf8_str(pstr, cbuf);
       surf = create_select_tech_icon(pstr, aidx, FULL_MODE);
       buf = create_icon2(surf, pwindow->dst,
                           WF_FREE_THEME | WF_RESTORE_BACKGROUND);

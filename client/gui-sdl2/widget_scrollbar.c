@@ -1385,7 +1385,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
 
   if (dlg->scroll && dlg->active_widget_list) {
     /* scrollbar exist and active, start mod. from last seen label */
-    struct widget *pLast;
+    struct widget *last;
     bool widget_found = FALSE;
 
     /* this is always true because no-scrolbar case (active*step < count)
@@ -1399,12 +1399,12 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
       count--;
     }
     if (!buf) {
-      pLast = dlg->begin_active_widget_list;
+      last = dlg->begin_active_widget_list;
     } else {
-      pLast = buf->next;
+      last = buf->next;
     }
 
-    if (pLast == dlg->begin_active_widget_list) {
+    if (last == dlg->begin_active_widget_list) {
       if (dlg->scroll->step == 1) {
         dlg->active_widget_list = dlg->active_widget_list->next;
         clear_wflag(dlg->active_widget_list, WF_HIDDEN);
@@ -1432,7 +1432,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
           }
         }
       } else {
-        buf = pLast;
+        buf = last;
         /* undraw last widget */
         widget_undraw(buf);
         widget_mark_dirty(buf);

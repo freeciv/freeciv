@@ -377,7 +377,7 @@ static int units_orders_city_dlg_callback(struct widget *button)
 {
   if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr;
-    char cBuf[80];
+    char cbuf[80];
     struct widget *buf, *pwindow = pcity_dlg->end_city_widget_list;
     struct unit *punit;
     const struct unit_type *putype;
@@ -404,8 +404,8 @@ static int units_orders_city_dlg_callback(struct widget *button)
     putype = unit_type_get(punit);
 
     /* window */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("Unit commands"));
-    pstr = create_utf8_from_char(cBuf, adj_font(12));
+    fc_snprintf(cbuf, sizeof(cbuf), "%s:", _("Unit commands"));
+    pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
     pwindow = create_window_skeleton(NULL, pstr, 0);
 
@@ -417,8 +417,8 @@ static int units_orders_city_dlg_callback(struct widget *button)
     area = pwindow->area;
 
     /* unit description */
-    fc_snprintf(cBuf, sizeof(cBuf), "%s", unit_description(punit));
-    pstr = create_utf8_from_char(cBuf, adj_font(12));
+    fc_snprintf(cbuf, sizeof(cbuf), "%s", unit_description(punit));
+    pstr = create_utf8_from_char(cbuf, adj_font(12));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     buf = create_iconlabel(adj_surf(get_unittype_surface(putype, punit->facing)),
                             pwindow->dst, pstr, WF_FREE_THEME);
@@ -684,7 +684,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
   const struct unit_type *putype;
   SDL_Surface *surf;
   utf8_str *pstr;
-  char cBuf[256];
+  char cbuf[256];
   int num_x, num_y, w, h;
 
   i = 0;
@@ -711,7 +711,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     putype = unit_type_get(punit);
     vetname = utype_veteran_name_translation(putype, punit->veteran);
     pHome_City = game_city_by_number(punit->homecity);
-    fc_snprintf(cBuf, sizeof(cBuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
+    fc_snprintf(cbuf, sizeof(cbuf), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
                 utype_name_translation(putype),
                 putype->attack_strength,
                 putype->defense_strength,
@@ -726,14 +726,14 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
       int pcity_near_dist;
       struct city *pnear_city = get_nearest_city(punit, &pcity_near_dist);
 
-      sz_strlcat(cBuf, "\n");
-      sz_strlcat(cBuf, get_nearest_city_text(pnear_city, pcity_near_dist));
+      sz_strlcat(cbuf, "\n");
+      sz_strlcat(cbuf, get_nearest_city_text(pnear_city, pcity_near_dist));
       surf = adj_surf(create_unit_surface(punit, TRUE, w, h));
     } else {
       surf = adj_surf(create_unit_surface(punit, FALSE, w, h));
     }
 
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
 
     buf = create_icon2(surf, pwindow->dst, WF_FREE_THEME
@@ -941,11 +941,11 @@ static void create_city_options_widget_list(struct city *pcity)
   struct widget *buf, *pwindow = pcity_dlg->end_city_widget_list;
   SDL_Surface *surf;
   utf8_str *pstr;
-  char cBuf[80];
+  char cbuf[80];
 
-  fc_snprintf(cBuf, sizeof(cBuf),
+  fc_snprintf(cbuf, sizeof(cbuf),
               _("Allow unit production\nto disband city"));
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= TTF_STYLE_BOLD;
   pstr->fgcol = *get_theme_color(COLOR_THEME_CHECKBOX_LABEL_TEXT);
 
@@ -965,8 +965,8 @@ static void create_city_options_widget_list(struct city *pcity)
 
   /* ----- */
 
-  fc_snprintf(cBuf, sizeof(cBuf), "%s:", _("New citizens produce"));
-  pstr = create_utf8_from_char(cBuf, adj_font(11));
+  fc_snprintf(cbuf, sizeof(cbuf), "%s:", _("New citizens produce"));
+  pstr = create_utf8_from_char(cbuf, adj_font(11));
   pstr->style |= SF_CENTER;
 
   if (BV_ISSET(pcity->city_options, CITYO_SCIENCE_SPECIALISTS)) {
@@ -1128,7 +1128,7 @@ static int hurry_production_window_callback(struct widget *pwindow)
 **************************************************************************/
 void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
 {
-  char tBuf[512], cBuf[512];
+  char tBuf[512], cbuf[512];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
   SDL_Surface *text;
@@ -1151,13 +1151,13 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
 
   if (city_can_buy(pcity)) {
     if (value <= client_player()->economic.gold) {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
                   PL_("Buy %s for %d gold?\n%s",
                       "Buy %s for %d gold?\n%s", value),
                   name, value, tBuf);
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   /* TRANS: Last %s is pre-pluralised "Treasury contains %d gold." */
                   PL_("%s costs %d gold.\n%s",
                       "%s costs %d gold.\n%s", value),
@@ -1165,10 +1165,10 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
     }
   } else {
     if (pcity->did_buy) {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("Sorry, you have already bought here in this turn."));
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
                   _("Sorry, you can't buy here in this turn."));
     }
   }
@@ -1189,7 +1189,7 @@ void popup_hurry_production_dialog(struct city *pcity, SDL_Surface *pdest)
   /* ============================================================= */
 
   /* label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_BUY);
 
@@ -1377,7 +1377,7 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     struct widget *pwindow = NULL;
     struct widget *cancel_button = NULL;
     struct widget *ok_button = NULL;
-    char cBuf[80];
+    char cbuf[80];
     int id;
     SDL_Rect area;
     int price;
@@ -1399,11 +1399,11 @@ static int sell_imprvm_dlg_callback(struct widget *pImpr)
     id = MAX_ID - 3000 - pImpr->ID;
 
     price = impr_sell_gold(improvement_by_number(id));
-    fc_snprintf(cBuf, sizeof(cBuf), PL_("Sell %s for %d gold?",
+    fc_snprintf(cbuf, sizeof(cbuf), PL_("Sell %s for %d gold?",
                                         "Sell %s for %d gold?", price),
                 city_improvement_name_translation(pcity_dlg->pcity, improvement_by_number(id)),
                 price);
-    pstr = create_utf8_from_char(cBuf, adj_font(10));
+    pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SELL);
     pLabel = create_iconlabel(NULL, pwindow->dst, pstr, 0);
@@ -1733,14 +1733,14 @@ static void refresh_city_names(struct city *pcity)
 static void redraw_misc_city_dialog(struct widget *city_window,
                                     struct city *pcity)
 {
-  char cBuf[60];
+  char cbuf[60];
   utf8_str *pstr;
   SDL_Surface *surf;
   SDL_Rect dest;
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("City options"));
+  fc_snprintf(cbuf, sizeof(cbuf), _("City options"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1768,7 +1768,7 @@ static void redraw_misc_city_dialog(struct widget *city_window,
 static void redraw_supported_units_city_dialog(struct widget *city_window,
                                                struct city *pcity)
 {
-  char cBuf[60];
+  char cbuf[60];
   utf8_str *pstr;
   SDL_Surface *surf;
   SDL_Rect dest;
@@ -1783,9 +1783,9 @@ static void redraw_supported_units_city_dialog(struct widget *city_window,
 
   size = unit_list_size(pList);
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Supported units: %d"), size);
+  fc_snprintf(cbuf, sizeof(cbuf), _("Supported units: %d"), size);
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1825,7 +1825,7 @@ static void redraw_supported_units_city_dialog(struct widget *city_window,
 static void redraw_army_city_dialog(struct widget *city_window,
                                     struct city *pcity)
 {
-  char cBuf[60];
+  char cbuf[60];
   utf8_str *pstr;
   SDL_Surface *surf;
   SDL_Rect dest;
@@ -1840,9 +1840,9 @@ static void redraw_army_city_dialog(struct widget *city_window,
 
   size = unit_list_size(pList);
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Present units: %d"), size);
+  fc_snprintf(cbuf, sizeof(cbuf), _("Present units: %d"), size);
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1882,15 +1882,15 @@ static void redraw_army_city_dialog(struct widget *city_window,
 static void redraw_info_city_dialog(struct widget *city_window,
                                     struct city *pcity)
 {
-  char cBuf[30];
+  char cbuf[30];
   struct city *pTradeCity = NULL;
   int step, i, xx;
   utf8_str *pstr = NULL;
   SDL_Surface *surf = NULL;
   SDL_Rect dest;
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("City info"));
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  fc_snprintf(cbuf, sizeof(cbuf), _("City info"));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -1910,10 +1910,10 @@ static void redraw_info_city_dialog(struct widget *city_window,
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_INFOPANEL);
 
   if (pcity->pollution) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Pollution: %d"),
+    fc_snprintf(cbuf, sizeof(cbuf), _("Pollution: %d"),
 		pcity->pollution);
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
 
     surf = create_text_surf_from_utf8(pstr);
 
@@ -1938,9 +1938,9 @@ static void redraw_info_city_dialog(struct widget *city_window,
     dest.y += pIcons->pPollution->h + adj_size(3);
 
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Pollution: none"));
+    fc_snprintf(cbuf, sizeof(cbuf), _("Pollution: none"));
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
 
     surf = create_text_surf_from_utf8(pstr);
 
@@ -1954,21 +1954,21 @@ static void redraw_info_city_dialog(struct widget *city_window,
   if (game.info.illness_on) {
     int risk_pml = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("Plague risk: %.1f%%"),
+    fc_snprintf(cbuf, sizeof(cbuf), _("Plague risk: %.1f%%"),
 		(double)risk_pml / 10.0);
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Plague risk: none"));
+    fc_snprintf(cbuf, sizeof(cbuf), _("Plague risk: none"));
   }
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   surf = create_text_surf_from_utf8(pstr);
   alphablit(surf, NULL, city_window->dst->surface, &dest, 255);
   dest.y += surf->h + adj_size(3);
   FREESURFACE(surf);
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Trade routes: "));
+  fc_snprintf(cbuf, sizeof(cbuf), _("Trade routes: "));
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
 
   surf = create_text_surf_from_utf8(pstr);
 
@@ -1986,14 +1986,14 @@ static void redraw_info_city_dialog(struct widget *city_window,
     step += proute->value;
 
     if ((pTradeCity = game_city_by_number(proute->partner))) {
-      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", city_name_get(pTradeCity),
+      fc_snprintf(cbuf, sizeof(cbuf), "%s: +%d", city_name_get(pTradeCity),
                   proute->value);
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf), "%s: +%d", _("Unknown"),
+      fc_snprintf(cbuf, sizeof(cbuf), "%s: +%d", _("Unknown"),
                   proute->value);
     }
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
 
     surf = create_text_surf_from_utf8(pstr);
 
@@ -2012,9 +2012,9 @@ static void redraw_info_city_dialog(struct widget *city_window,
   } trade_routes_iterate_end;
 
   if (step) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("Trade: +%d"), step);
+    fc_snprintf(cbuf, sizeof(cbuf), _("Trade: +%d"), step);
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
     surf = create_text_surf_from_utf8(pstr);
     alphablit(surf, NULL, city_window->dst->surface, &dest, 255);
 
@@ -2024,9 +2024,9 @@ static void redraw_info_city_dialog(struct widget *city_window,
 
     FREESURFACE(surf);
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf), _("none"));
+    fc_snprintf(cbuf, sizeof(cbuf), _("none"));
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
 
     surf = create_text_surf_from_utf8(pstr);
 
@@ -2048,7 +2048,7 @@ static void redraw_info_city_dialog(struct widget *city_window,
 static void redraw_happiness_city_dialog(const struct widget *city_window,
                                          struct city *pcity)
 {
-  char cBuf[30];
+  char cbuf[30];
   int step, i, j, count;
   SDL_Surface *pTmp;
   utf8_str *pstr = NULL;
@@ -2056,9 +2056,9 @@ static void redraw_happiness_city_dialog(const struct widget *city_window,
   SDL_Rect dest = {0, 0, 0, 0};
   struct effect_list *sources = effect_list_new();
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Happiness"));
+  fc_snprintf(cbuf, sizeof(cbuf), _("Happiness"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PANEL);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -2479,7 +2479,7 @@ static void redraw_happiness_city_dialog(const struct widget *city_window,
 **************************************************************************/
 static void redraw_city_dialog(struct city *pcity)
 {
-  char cBuf[40];
+  char cbuf[40];
   int i, step, count, limit;
   int cost = 0;
   SDL_Rect dest;
@@ -2516,9 +2516,9 @@ static void redraw_city_dialog(struct city *pcity)
                pcity_dlg->end_city_widget_list, 0);
 
   /* ================================================================= */
-  fc_snprintf(cBuf, sizeof(cBuf), _("City map"));
+  fc_snprintf(cbuf, sizeof(cbuf), _("City map"));
 
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
   pstr->style |= TTF_STYLE_BOLD;
 
@@ -2531,9 +2531,9 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("Citizens"));
+  fc_snprintf(cbuf, sizeof(cbuf), _("Citizens"));
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2545,9 +2545,9 @@ static void redraw_city_dialog(struct city *pcity)
 
   FREESURFACE(buf);
 
-  fc_snprintf(cBuf, sizeof(cBuf), _("City improvements"));
+  fc_snprintf(cbuf, sizeof(cbuf), _("City improvements"));
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2560,10 +2560,10 @@ static void redraw_city_dialog(struct city *pcity)
   FREESURFACE(buf);
   /* ================================================================= */
   /* food label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Food: %d per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Food: %d per turn"),
               pcity->prod[O_FOOD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
 
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOODPERTURN);
 
@@ -2597,10 +2597,10 @@ static void redraw_city_dialog(struct city *pcity)
     dest.x += step;
   }
 
-  fc_snprintf(cBuf, sizeof(cBuf), Q_("?food:Surplus: %d"),
+  fc_snprintf(cbuf, sizeof(cbuf), Q_("?food:Surplus: %d"),
               pcity->surplus[O_FOOD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2643,11 +2643,11 @@ static void redraw_city_dialog(struct city *pcity)
   }
   /* ================================================================= */
   /* productions label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Production: %d (%d) per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Production: %d (%d) per turn"),
               pcity->surplus[O_SHIELD],
               pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_PROD);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2689,11 +2689,11 @@ static void redraw_city_dialog(struct city *pcity)
   }
 
   /* support shields label */
-  fc_snprintf(cBuf, sizeof(cBuf), Q_("?production:Support: %d"),
+  fc_snprintf(cbuf, sizeof(cbuf), Q_("?production:Support: %d"),
               pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD] -
               pcity->surplus[O_SHIELD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SUPPORT);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2728,10 +2728,10 @@ static void redraw_city_dialog(struct city *pcity)
   /* ================================================================= */
 
   /* trade label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Trade: %d per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Trade: %d per turn"),
               pcity->surplus[O_TRADE]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_TRADE);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2762,10 +2762,10 @@ static void redraw_city_dialog(struct city *pcity)
   }
 
   /* corruption label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Corruption: %d"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Corruption: %d"),
               pcity->waste[O_TRADE]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_CORRUPTION);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2798,10 +2798,10 @@ static void redraw_city_dialog(struct city *pcity)
   }
   /* ================================================================= */
   /* gold label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Gold: %d (%d) per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Gold: %d (%d) per turn"),
               pcity->surplus[O_GOLD], pcity->prod[O_GOLD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GOLD);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2845,10 +2845,10 @@ static void redraw_city_dialog(struct city *pcity)
   }
 
   /* upkeep label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Upkeep: %d"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Upkeep: %d"),
               pcity->prod[O_GOLD] - pcity->surplus[O_GOLD]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_UPKEEP);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2884,10 +2884,10 @@ static void redraw_city_dialog(struct city *pcity)
   }
   /* ================================================================= */
   /* science label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Science: %d per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Science: %d per turn"),
               pcity->prod[O_SCIENCE]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SCIENCE);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2924,10 +2924,10 @@ static void redraw_city_dialog(struct city *pcity)
   }
   /* ================================================================= */
   /* luxury label */
-  fc_snprintf(cBuf, sizeof(cBuf), _("Luxury: %d per turn"),
+  fc_snprintf(cbuf, sizeof(cbuf), _("Luxury: %d per turn"),
               pcity->prod[O_LUXURY]);
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
   buf = create_text_surf_from_utf8(pstr);
@@ -2962,21 +2962,21 @@ static void redraw_city_dialog(struct city *pcity)
   /* turns to grow label */
   count = city_turns_to_grow(pcity);
   if (count == 0) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("City growth: blocked"));
+    fc_snprintf(cbuf, sizeof(cbuf), _("City growth: blocked"));
   } else if (count == FC_INFINITY) {
-    fc_snprintf(cBuf, sizeof(cBuf), _("City growth: never"));
+    fc_snprintf(cbuf, sizeof(cbuf), _("City growth: never"));
   } else if (count < 0) {
     /* turns until famine */
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
 		_("City shrinks: %d %s"), abs(count),
 		PL_("turn", "turns", abs(count)));
   } else {
-    fc_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cbuf, sizeof(cbuf),
 		_("City growth: %d %s"), count,
 		PL_("turn", "turns", count));
   }
 
-  copy_chars_to_utf8_str(pstr, cBuf);
+  copy_chars_to_utf8_str(pstr, cbuf);
 
   pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_GROWTH);
 
@@ -3291,18 +3291,18 @@ static void redraw_city_dialog(struct city *pcity)
     if (pcity->shield_stock < cost) {
       count = city_production_turns_to_build(pcity, TRUE);
       if (count == 999) {
-        fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
+        fc_snprintf(cbuf, sizeof(cbuf), "(%d/%d) %s!",
                     pcity->shield_stock, cost,  _("blocked"));
       } else {
-        fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %d %s",
+        fc_snprintf(cbuf, sizeof(cbuf), "(%d/%d) %d %s",
                     pcity->shield_stock, cost, count, PL_("turn", "turns", count));
       }
     } else {
-      fc_snprintf(cBuf, sizeof(cBuf), "(%d/%d) %s!",
+      fc_snprintf(cbuf, sizeof(cbuf), "(%d/%d) %s!",
                   pcity->shield_stock, cost, _("finished"));
     }
 
-    copy_chars_to_utf8_str(pstr, cBuf);
+    copy_chars_to_utf8_str(pstr, cbuf);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
 
     buf = create_text_surf_from_utf8(pstr);
@@ -3462,7 +3462,7 @@ static void rebuild_imprm_list(struct city *pcity)
 {
   int count = 0;
   struct widget *pwindow = pcity_dlg->end_city_widget_list;
-  struct widget *add_dock, *buf, *pLast;
+  struct widget *add_dock, *buf, *last;
   SDL_Surface *logo = NULL;
   utf8_str *pstr = NULL;
   struct player *owner = city_owner(pcity);
@@ -3485,7 +3485,7 @@ static void rebuild_imprm_list(struct city *pcity)
   }
  
   add_dock = pcity_dlg->pAdd_Point;
-  buf = pLast = add_dock;
+  buf = last = add_dock;
 
   /* allock new */
   city_built_iterate(pcity, pimprove) {
@@ -3526,7 +3526,7 @@ static void rebuild_imprm_list(struct city *pcity)
   } city_built_iterate_end;
 
   if (count) {
-    pcity_dlg->pImprv->end_widget_list = pLast->prev;
+    pcity_dlg->pImprv->end_widget_list = last->prev;
     pcity_dlg->pImprv->end_active_widget_list = pcity_dlg->pImprv->end_widget_list;
     pcity_dlg->pImprv->begin_widget_list = buf;
     pcity_dlg->pImprv->begin_active_widget_list = pcity_dlg->pImprv->begin_widget_list;

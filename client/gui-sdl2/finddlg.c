@@ -122,7 +122,7 @@ void popup_find_dialog(void)
   struct widget *pwindow = NULL, *buf = NULL;
   SDL_Surface *logo = NULL;
   utf8_str *pstr;
-  char cBuf[128];
+  char cbuf[128];
   int h = 0, n = 0, w = 0, units_h = 0;
   struct player *owner = NULL;
   struct tile *original;
@@ -179,10 +179,10 @@ void popup_find_dialog(void)
 
   players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
-      fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", city_name_get(pcity),
+      fc_snprintf(cbuf , sizeof(cbuf), "%s (%d)", city_name_get(pcity),
                   city_size_get(pcity));
 
-      pstr = create_utf8_from_char(cBuf, adj_font(10));
+      pstr = create_utf8_from_char(cbuf, adj_font(10));
       pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
       if (!player_owns_city(owner, pcity)) {

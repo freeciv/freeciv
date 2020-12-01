@@ -670,7 +670,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
 **************************************************************************/
 void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 {
-  char cBuf[128];
+  char cbuf[128];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
   SDL_Surface *text;
@@ -687,7 +687,7 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
 
   unit_upgrade_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-  unit_upgrade_result = unit_upgrade_info(punit, cBuf, sizeof(cBuf));
+  unit_upgrade_result = unit_upgrade_info(punit, cbuf, sizeof(cbuf));
 
   pstr = create_utf8_from_char(_("Upgrade Obsolete Units"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -706,7 +706,7 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   /* ============================================================= */
 
   /* create text label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITUPGRADE_TEXT);
 
@@ -860,7 +860,7 @@ static int ok_disband_unit_window_callback(struct widget *pwidget)
 **************************************************************************/
 void popup_unit_disband_dlg(struct unit *punit, bool city)
 {
-  char cBuf[128];
+  char cbuf[128];
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
   SDL_Surface *text;
@@ -881,7 +881,7 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
     struct unit_list *punits = unit_list_new();
 
     unit_list_append(punits, punit);
-    unit_disband_result = get_units_disband_info(cBuf, sizeof(cBuf), punits);
+    unit_disband_result = get_units_disband_info(cbuf, sizeof(cbuf), punits);
     unit_list_destroy(punits);
   }
 
@@ -902,7 +902,7 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   /* ============================================================= */
 
   /* create text label */
-  pstr = create_utf8_from_char(cBuf, adj_font(10));
+  pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pstr->fgcol = *get_theme_color(COLOR_THEME_UNITDISBAND_TEXT);
 
@@ -1075,7 +1075,7 @@ void unit_select_dialog_popup(struct tile *ptile)
   utf8_str *pstr;
   struct unit *punit = NULL, *pFocus = head_of_units_in_focus();
   const struct unit_type *punittype;
-  char cBuf[255];
+  char cbuf[255];
   int i, w = 0, n;
   SDL_Rect area;
 
@@ -1090,8 +1090,8 @@ void unit_select_dialog_popup(struct tile *ptile)
   is_unit_move_blocked = TRUE;
   unit_select_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  fc_snprintf(cBuf , sizeof(cBuf), "%s (%d)", _("Unit selection") , n);
-  pstr = create_utf8_from_char(cBuf , adj_font(12));
+  fc_snprintf(cbuf , sizeof(cbuf), "%s (%d)", _("Unit selection") , n);
+  pstr = create_utf8_from_char(cbuf , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, pstr, 0);
@@ -1127,7 +1127,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     vetname = utype_veteran_name_translation(punittype, punit->veteran);
 
     if (unit_owner(punit) == client.conn.playing) {
-      fc_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%s) %s"),
+      fc_snprintf(cbuf , sizeof(cbuf), _("Contact %s (%d / %d) %s(%d,%d,%s) %s"),
                   (vetname != NULL ? vetname : ""),
                   punit->hp, punittype->hp,
                   utype_name_translation(punittype),
@@ -1138,7 +1138,7 @@ void unit_select_dialog_popup(struct tile *ptile)
     } else {
       int att_chance, def_chance;
 
-      fc_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
+      fc_snprintf(cbuf , sizeof(cbuf), _("%s %s %s(A:%d D:%d M:%s FP:%d) HP:%d%%"),
                   nation_adjective_for_player(unit_owner(punit)),
                   (vetname != NULL ? vetname : ""),
                   utype_name_translation(punittype),
@@ -1151,12 +1151,12 @@ void unit_select_dialog_popup(struct tile *ptile)
       /* calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus)) {
         /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
-        cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+        cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                      att_chance, def_chance);
       }
     }
 
-    create_active_iconlabel(buf, pwindow->dst, pstr, cBuf,
+    create_active_iconlabel(buf, pwindow->dst, pstr, cbuf,
                             unit_select_callback);
 
     add_to_gui_list(MAX_ID - punit->id , buf);
@@ -1301,8 +1301,8 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
 {
   SDL_Surface *surf;
   struct widget *buf, *pwindow;
-  utf8_str *pstr;  
-  char cBuf[256];  
+  utf8_str *pstr;
+  char cbuf[256];
   SDL_Rect area;
 
   if (terrain_info_dlg) {
@@ -1314,10 +1314,10 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   terrain_info_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
   /* ----------- */
-  fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"),
+  fc_snprintf(cbuf, sizeof(cbuf), "%s [%d,%d]", _("Terrain Info"),
               TILE_XY(ptile));
 
-  pwindow = create_window_skeleton(NULL, create_utf8_from_char(cBuf , adj_font(12)), 0);
+  pwindow = create_window_skeleton(NULL, create_utf8_from_char(cbuf , adj_font(12)), 0);
   pwindow->string_utf8->style |= TTF_STYLE_BOLD;
 
   pwindow->action = terrain_info_window_dlg_callback;
@@ -1650,8 +1650,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   struct unit *pFocus_Unit;
   utf8_str *pstr;
   SDL_Rect area2;
-  struct container *pCont;
-  char cBuf[255];
+  struct container *cont;
+  char cbuf[255];
   int n, w = 0, h, units_h = 0;
   SDL_Rect area;
 
@@ -1674,9 +1674,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   advanced_terrain_dlg = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  pCont = fc_calloc(1, sizeof(struct container));
-  pCont->id0 = index_to_map_pos_x(tile_index(ptile));
-  pCont->id1 = index_to_map_pos_y(tile_index(ptile));
+  cont = fc_calloc(1, sizeof(struct container));
+  cont->id0 = index_to_map_pos_x(tile_index(ptile));
+  cont->id1 = index_to_map_pos_y(tile_index(ptile));
 
   pstr = create_utf8_from_char(_("Advanced Menu") , adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -1713,7 +1713,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  buf->data.cont = pCont;
+  buf->data.cont = cont;
 
   buf->action = terrain_info_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1732,10 +1732,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += buf->next->size.h;
     /* ------------------ */
 
-    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name_get(pcity));
+    fc_snprintf(cbuf, sizeof(cbuf), _("Zoom to : %s"), city_name_get(pcity));
 
     create_active_iconlabel(buf, pwindow->dst,
-                            pstr, cBuf, zoom_to_city_callback);
+                            pstr, cbuf, zoom_to_city_callback);
     buf->data.city = pcity;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1793,7 +1793,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
     create_active_iconlabel(buf, pwindow->dst, pstr, _("Goto here"),
                             goto_here_callback);
-    buf->data.cont = pCont;
+    buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, buf);
@@ -1804,7 +1804,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
     create_active_iconlabel(buf, pwindow->dst, pstr, _("Patrol here"),
                             patrol_here_callback);
-    buf->data.cont = pCont;
+    buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
 
     add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, buf);
@@ -1817,7 +1817,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     if (unit_has_type_flag(pFocus_Unit, UTYF_SETTLERS)) {
       create_active_iconlabel(buf, pwindow->dst->surface, pstr, _("Connect here"),
                               connect_here_callback);
-      buf->data.cont = pCont;
+      buf->data.cont = cont;
       set_wstate(buf, FC_WS_NORMAL);
 
       add_to_gui_list(ID_LABEL, buf);
@@ -1836,7 +1836,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
       create_active_iconlabel(buf, pwindow->dst, pstr, _("Paradrop here"),
                               paradrop_here_callback);
-      buf->data.cont = pCont;
+      buf->data.cont = cont;
       set_wstate(buf, FC_WS_NORMAL);
 
       add_to_gui_list(ID_LABEL, buf);
@@ -1863,7 +1863,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     /* ---------- */
     if (n > 1) {
       struct unit *pDefender, *pAttacker;
-      struct widget *pLast = buf;
+      struct widget *last = buf;
       bool reset = FALSE;
       int my_units = 0;
       const char *vetname;
@@ -1881,7 +1881,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
 
         if (unit_owner(punit) == client.conn.playing) {
-          fc_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cbuf, sizeof(cbuf),
                       _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
                       (vetname != NULL ? vetname : ""),
                       punit->hp, punittype->hp,
@@ -1892,7 +1892,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       unit_activity_text(punit));
     
           create_active_iconlabel(buf, pwindow->dst, pstr,
-                                  cBuf, adv_unit_select_callback);
+                                  cbuf, adv_unit_select_callback);
           buf->data.unit = punit;
           set_wstate(buf, FC_WS_NORMAL);
           add_to_gui_list(ID_LABEL, buf);
@@ -1900,7 +1900,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         } else {
           int att_chance, def_chance;
 
-          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
+          fc_snprintf(cbuf, sizeof(cbuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
                       nation_adjective_for_player(unit_owner(punit)),
                       (vetname != NULL ? vetname : ""),
                       utype_name_translation(punittype),
@@ -1913,7 +1913,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
           /* calculate chance to win */
           if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus_Unit)) {
             /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
-            cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+            cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                          att_chance, def_chance);
           }
 
@@ -1927,7 +1927,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
             }
           }
 
-          create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+          create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
 
           if (reset) {
             pstr->fgcol = *get_theme_color(COLOR_THEME_ADVANCEDTERRAINDLG_TEXT);
@@ -1945,7 +1945,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         }
       }
 
-      advanced_terrain_dlg->end_active_widget_list = pLast->prev;
+      advanced_terrain_dlg->end_active_widget_list = last->prev;
       advanced_terrain_dlg->active_widget_list = advanced_terrain_dlg->end_active_widget_list;
       advanced_terrain_dlg->begin_widget_list = buf;
       advanced_terrain_dlg->begin_active_widget_list = advanced_terrain_dlg->begin_widget_list;
@@ -1958,28 +1958,28 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       }
 
       if (my_units > 1) {
-        fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Ready all"), my_units);
+        fc_snprintf(cbuf, sizeof(cbuf), "%s (%d)", _("Ready all"), my_units);
         create_active_iconlabel(buf, pwindow->dst, pstr,
-                                cBuf, adv_unit_select_all_callback);
+                                cbuf, adv_unit_select_all_callback);
         buf->data.unit = advanced_terrain_dlg->end_active_widget_list->data.unit;
         set_wstate(buf, FC_WS_NORMAL);
         buf->ID = ID_LABEL;
-        widget_add_as_prev(buf, pLast);
+        widget_add_as_prev(buf, last);
         area.h += buf->size.h;
 
-        fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
+        fc_snprintf(cbuf, sizeof(cbuf), "%s (%d)", _("Sentry idle"), my_units);
         create_active_iconlabel(buf, pwindow->dst, pstr,
-                                cBuf, adv_unit_sentry_idle_callback);
+                                cbuf, adv_unit_sentry_idle_callback);
         buf->data.unit = advanced_terrain_dlg->end_active_widget_list->data.unit;
         set_wstate(buf, FC_WS_NORMAL);
         buf->ID = ID_LABEL;
-        widget_add_as_prev(buf, pLast->prev);
+        widget_add_as_prev(buf, last->prev);
         area.h += buf->size.h;
 
         /* separator */
         buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
         buf->ID = ID_SEPARATOR;
-        widget_add_as_prev(buf, pLast->prev->prev);
+        widget_add_as_prev(buf, last->prev->prev);
         area.h += buf->next->size.h;
       }
 #undef ADV_NUM_SEEN
@@ -1993,7 +1993,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
         if ((pcity && city_owner(pcity) == client.conn.playing)
             || (unit_owner(punit) == client.conn.playing)) {
-          fc_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cbuf, sizeof(cbuf),
                       _("Activate %s (%d / %d) %s (%d,%d,%s) %s"),
                       (vetname != NULL ? vetname : ""),
                       punit->hp, punittype->hp,
@@ -2004,7 +2004,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       unit_activity_text(punit));
 
           create_active_iconlabel(buf, pwindow->dst, pstr,
-                                  cBuf, adv_unit_select_callback);
+                                  cbuf, adv_unit_select_callback);
           buf->data.unit = punit;
           set_wstate(buf, FC_WS_NORMAL);
 
@@ -2021,7 +2021,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         } else {
           int att_chance, def_chance;
 
-          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
+          fc_snprintf(cbuf, sizeof(cbuf), _("%s %s %s (A:%d D:%d M:%s FP:%d) HP:%d%%"),
                       nation_adjective_for_player(unit_owner(punit)),
                       (vetname != NULL ? vetname : ""),
                       utype_name_translation(punittype),
@@ -2034,10 +2034,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
           /* calculate chance to win */
             if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus_Unit)) {
               /* TRANS: preserve leading space */
-              cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
+              cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                            att_chance, def_chance);
             }
-            create_active_iconlabel(buf, pwindow->dst, pstr, cBuf, NULL);
+            create_active_iconlabel(buf, pwindow->dst, pstr, cbuf, NULL);
             add_to_gui_list(ID_LABEL, buf);
             area.w = MAX(area.w, buf->size.w);
             units_h += buf->size.h;
@@ -2051,11 +2051,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         }
       }
       /* ---------------- */
-      fc_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cbuf, sizeof(cbuf),
             _("Look up \"%s\" in the Help Browser"),
             utype_name_translation(punittype));
       create_active_iconlabel(buf, pwindow->dst, pstr,
-                              cBuf, unit_help_callback);
+                              cbuf, unit_help_callback);
       set_wstate(buf , FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - utype_number(punittype), buf);
 
@@ -2546,7 +2546,7 @@ static int races_dialog_ok_callback(struct widget *start_button)
                                    pSetup->leader_sex, pstr,
                                    pSetup->nation_style);
 
-    popdown_races_dialog();  
+    popdown_races_dialog();
     flush_dirty();
   }
 
@@ -2933,7 +2933,7 @@ static void change_nation_label(void)
 {
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed;
   struct widget *pwindow = nation_dlg->end_widget_list;
-  struct NAT *pSetup = (struct NAT *)(pwindow->data.ptr);  
+  struct NAT *pSetup = (struct NAT *)(pwindow->data.ptr);
   struct widget *pLabel = pSetup->name_edit->next;
   struct nation_type *pNation = nation_by_number(pSetup->nation);
 
@@ -3020,7 +3020,7 @@ void popup_races_dialog(struct player *pplayer)
 {
   SDL_Color bg_color = {255,255,255,128};
 
-  struct widget *pwindow, *pwidget = NULL, *buf, *pLast_City_Style;
+  struct widget *pwindow, *pwidget = NULL, *buf, *last_City_Style;
   utf8_str *pstr;
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
@@ -3263,7 +3263,7 @@ void popup_races_dialog(struct player *pplayer)
     add_to_gui_list(MAX_ID - 1000 - i, pwidget);
   } styles_iterate_end;
 
-  pLast_City_Style = pwidget;
+  last_City_Style = pwidget;
   /* ---------------------------------------------------------- */
 
   /* create Cancel button */
@@ -3391,7 +3391,7 @@ void popup_races_dialog(struct player *pplayer)
   buf->size.y = buf->next->size.y + buf->next->size.h + adj_size(20);
 
   /* Rest Style Buttons */
-  while (buf != pLast_City_Style) {
+  while (buf != last_City_Style) {
     buf = buf->prev;
     buf->size.x = buf->next->size.x + buf->next->size.w + adj_size(3);
     buf->size.y = buf->next->size.y;

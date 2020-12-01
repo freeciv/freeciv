@@ -180,7 +180,7 @@ static void real_info_city_report_dialog_update(void)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   struct widget *pbuf = NULL;
-  struct widget *pwindow, *pLast;
+  struct widget *pwindow, *last;
   utf8_str *pstr;
   SDL_Surface *text1, *text2, *text3, *units_icon, *pCMA_Icon, *text4;
   SDL_Surface *logo;
@@ -290,7 +290,7 @@ static void real_info_city_report_dialog_update(void)
   /* ------------------------ */
 #endif /* 0 */
 
-  pLast = pbuf;
+  last = pbuf;
   count = 0;
   city_list_iterate(client.conn.playing->cities, pcity) {
     pstr = create_utf8_from_char(city_name_get(pcity), adj_font(12));
@@ -611,7 +611,7 @@ static void real_info_city_report_dialog_update(void)
     + units_icon->w + adj_size(6) + prod_w + adj_size(170);
 
   if (count) {
-    city_rep->end_active_widget_list = pLast->prev;
+    city_rep->end_active_widget_list = last->prev;
     city_rep->begin_active_widget_list = city_rep->begin_widget_list;
     if (count > 14 * COL) {
       city_rep->active_widget_list = city_rep->end_active_widget_list;

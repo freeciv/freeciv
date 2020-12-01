@@ -626,10 +626,10 @@ static int up_width_callback(struct widget *pwidget)
     if ((((OVERVIEW_TILE_WIDTH + 1) * map.xsize) +
          (minimap_window->size.w - minimap_window->area.w) + BLOCKM_W) <=
          units_info_window->dst->dest_rect.x) {
-      char cBuf[4];
+      char cbuf[4];
 
-      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_utf8_str(pwidget->next->string_utf8, cBuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d", OVERVIEW_TILE_WIDTH);
+      copy_chars_to_utf8_str(pwidget->next->string_utf8, cbuf);
       widget_redraw(pwidget->next);
       widget_mark_dirty(pwidget->next);
 
@@ -651,10 +651,10 @@ static int down_width_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
     if (OVERVIEW_TILE_WIDTH > 1) {
-      char cBuf[4];
+      char cbuf[4];
 
-      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
-      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cBuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d", OVERVIEW_TILE_WIDTH);
+      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cbuf);
       widget_redraw(pwidget->prev);
       widget_mark_dirty(pwidget->prev);
 
@@ -676,11 +676,11 @@ static int up_height_callback(struct widget *pwidget)
     widget_mark_dirty(pwidget);
     if (main_data.screen->h -
       ((OVERVIEW_TILE_HEIGHT + 1) * map.ysize + (current_theme->FR_Bottom->h * 2)) >= 40) {
-      char cBuf[4];
+      char cbuf[4];
 
       OVERVIEW_TILE_HEIGHT++;
-      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_utf8_str(pwidget->next->string_utf8, cBuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d", OVERVIEW_TILE_HEIGHT);
+      copy_chars_to_utf8_str(pwidget->next->string_utf8, cbuf);
       widget_redraw(pwidget->next);
       widget_mark_dirty(pwidget->next);
       resize_minimap();
@@ -700,11 +700,11 @@ static int down_height_callback(struct widget *pwidget)
     widget_redraw(pwidget);
     widget_mark_dirty(pwidget);
     if (OVERVIEW_TILE_HEIGHT > 1) {
-      char cBuf[4];
+      char cbuf[4];
 
       OVERVIEW_TILE_HEIGHT--;
-      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
-      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cBuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d", OVERVIEW_TILE_HEIGHT);
+      copy_chars_to_utf8_str(pwidget->prev->string_utf8, cbuf);
       widget_redraw(pwidget->prev);
       widget_mark_dirty(pwidget->prev);
 
@@ -725,7 +725,7 @@ static void popup_minimap_scale_dialog(void)
   utf8_str *pstr = NULL;
   struct widget *pwindow = NULL;
   struct widget *buf = NULL;
-  char cBuf[4];
+  char cbuf[4];
   int window_x = 0, window_y = 0;
   SDL_Rect area;
 
@@ -761,8 +761,8 @@ static void popup_minimap_scale_dialog(void)
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
 
-  fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
-  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  fc_snprintf(cbuf, sizeof(cbuf), "%d" , OVERVIEW_TILE_WIDTH);
+  pstr = create_utf8_from_char(cbuf, adj_font(24));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
   buf->size.w = MAX(adj_size(50), buf->size.w);
@@ -780,8 +780,8 @@ static void popup_minimap_scale_dialog(void)
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
 
-  fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
-  pstr = create_utf8_from_char(cBuf, adj_font(24));
+  fc_snprintf(cbuf, sizeof(cbuf), "%d" , OVERVIEW_TILE_HEIGHT);
+  pstr = create_utf8_from_char(cbuf, adj_font(24));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
   buf->size.w = MAX(adj_size(50), buf->size.w);
