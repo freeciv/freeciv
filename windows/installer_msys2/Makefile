@@ -55,14 +55,16 @@ qt-installer:
 	make GUI=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt
 
 ruledit-installer:
-	make wrap-ruledit
+	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
+	# of escapes, needed for snapshot builds.
+	make EXTRA_CONFIG="$(EXTRA_CONFIG)" wrap-ruledit
 
 # Autogen.sh here will make ./win_arch.sh to work.
 # The $(WINARCH) value we got for this run is not good. The new run
 # launched from this target will pick correct value.
 snapshot:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev" all
+	make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev CFLAGS=\\\"-Werror $$CFLAGS\\\"" all
 
 
 # configure Freeciv
