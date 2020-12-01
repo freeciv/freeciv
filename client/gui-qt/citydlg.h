@@ -41,8 +41,6 @@ class QTabWidget;
 class QVariant;
 class QVBoxLayout;
 
-#define NUM_INFO_FIELDS 15
-
 // common
 #include "unittype.h"
 
@@ -57,6 +55,45 @@ class QVBoxLayout;
 #include <QProgressBar>
 #include <QTableWidget>
 #include <QToolTip>
+
+
+#define SPECENUM_NAME city_info
+
+#define SPECENUM_VALUE0 INFO_CITIZEN
+#define SPECENUM_VALUE0NAME N_("Size:")
+#define SPECENUM_VALUE1 INFO_FOOD
+#define SPECENUM_VALUE1NAME N_("Food:")
+#define SPECENUM_VALUE2 INFO_SHIELD
+#define SPECENUM_VALUE2NAME N_("Prod:")
+#define SPECENUM_VALUE3 INFO_TRADE
+#define SPECENUM_VALUE3NAME N_("Trade:")
+#define SPECENUM_VALUE4 INFO_GOLD
+#define SPECENUM_VALUE4NAME N_("Gold:")
+#define SPECENUM_VALUE5 INFO_LUXURY
+#define SPECENUM_VALUE5NAME N_("Luxury:")
+#define SPECENUM_VALUE6 INFO_SCIENCE
+#define SPECENUM_VALUE6NAME N_("Science:")
+#define SPECENUM_VALUE7 INFO_GRANARY
+#define SPECENUM_VALUE7NAME N_("Granary:")
+#define SPECENUM_VALUE8 INFO_GROWTH
+#define SPECENUM_VALUE8NAME N_("Change in:")
+#define SPECENUM_VALUE9 INFO_CORRUPTION
+#define SPECENUM_VALUE9NAME N_("Corruption:")
+#define SPECENUM_VALUE10 INFO_WASTE
+#define SPECENUM_VALUE10NAME N_("Waste:")
+#define SPECENUM_VALUE11 INFO_CULTURE
+#define SPECENUM_VALUE11NAME N_("Culture:")
+#define SPECENUM_VALUE12 INFO_POLLUTION
+#define SPECENUM_VALUE12NAME N_("Pollution:")
+#define SPECENUM_VALUE13 INFO_ILLNESS
+#define SPECENUM_VALUE13NAME N_("Plague risk:")
+#define SPECENUM_VALUE14 INFO_STEAL
+#define SPECENUM_VALUE14NAME N_("Tech Stolen:")
+#define SPECENUM_VALUE15 INFO_AIRLIFT
+#define SPECENUM_VALUE15NAME N_("Airlift:")
+
+#define SPECENUM_COUNT    NUM_INFO_FIELDS /* number of city_info panel enumerated fields */
+#include "specenum_gen.h"
 
 class QImage;
 
