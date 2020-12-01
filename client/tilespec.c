@@ -1588,7 +1588,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
                                  "%s.y_top_left", sec_name)
           || !secfile_lookup_int(file, &dx, "%s.dx", sec_name)
           || !secfile_lookup_int(file, &dy, "%s.dy", sec_name)) {
-        log_error("Grid \"%s\" invalid: %s", sec_name, secfile_error());
+        log_error("%s grid \"%s\" invalid: %s",
+                  sf->file_name, sec_name, secfile_error());
         continue;
       }
 
@@ -1608,8 +1609,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
             || !(tags = secfile_lookup_str_vec(file, &num_tags,
                                                "%s.tiles%d.tag",
                                                sec_name, j))) {
-          log_error("Small sprite \"%s.tiles%d\" invalid: %s",
-                    sec_name, j, secfile_error());
+          log_error("%s small sprite \"%s.tiles%d\" invalid: %s",
+                    sf->file_name, sec_name, j, secfile_error());
           continue;
         }
         hot_x = secfile_lookup_int_default(file, 0, "%s.tiles%d.hot_x",
@@ -1640,8 +1641,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
         if (!duplicates_ok) {
           for (k = 0; k < num_tags; k++) {
             if (!sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
-              log_error("warning: already have a sprite for \"%s\".",
-                        tags[k]);
+              log_error("warning: %s already has a sprite for \"%s\".",
+                        tileset_name_get(t), tags[k]);
             }
           }
         } else {
@@ -1670,8 +1671,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
                                         "extra.sprites%d.tag", i))
         || !(filename = secfile_lookup_str(file,
                                            "extra.sprites%d.file", i))) {
-      log_error("Extra sprite \"extra.sprites%d\" invalid: %s",
-                i, secfile_error());
+      log_error("%s extra sprite \"extra.sprites%d\" invalid: %s",
+                sf->file_name, i, secfile_error());
       continue;
     }
     hot_x = secfile_lookup_int_default(file, 0, "extra.sprites%d.hot_x", i);
@@ -1690,7 +1691,8 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
     if (!duplicates_ok) {
       for (k = 0; k < num_tags; k++) {
         if (!sprite_hash_insert(t->sprite_hash, tags[k], ss)) {
-          log_error("warning: already have a sprite for \"%s\".", tags[k]);
+          log_error("warning: %s already have a sprite for \"%s\".",
+                    tileset_name_get(t), tags[k]);
         }
       }
     } else {
