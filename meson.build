@@ -32,8 +32,6 @@ if get_option('debug')
   pub_conf_data.set('FREECIV_DEBUG', 1)
 endif
 
-priv_conf_data.set('AUDIO_SDL', 1)
-
 c_compiler = meson.get_compiler('c')
 
 pub_headers = [
@@ -234,6 +232,23 @@ if get_option('cacert-path') != ''
                      '"' + get_option('cacert-path') + '"')
 endif
 
+if meson.is_cross_build()
+  cross_inc_path = meson.get_cross_property('cross_inc_path')
+  cross_lib_path = meson.get_cross_property('cross_lib_path')
+else
+  cross_inc_path = []
+  cross_lib_path = []
+endif
+
+if get_option('audio')
+  priv_conf_data.set('AUDIO_SDL', 1)
+
+  audio_dep = [c_compiler.find_library('libSDL2', dirs: cross_lib_path),
+               c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path)]
+else
+  audio_dep = []
+endif
+
 if get_option('json-protocol')
   if not c_compiler.has_header('jansson.h')
     error('json-protocol requires jansson.h header, but it is not found')
@@ -255,14 +270,6 @@ add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'cpp')
-
-if meson.is_cross_build()
-  cross_inc_path = meson.get_cross_property('cross_inc_path')
-  cross_lib_path = meson.get_cross_property('cross_lib_path')
-else
-  cross_inc_path = []
-  cross_lib_path = []
-endif
 
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/tinycthread',
@@ -1229,9 +1236,7 @@ client_common = static_library('fc_client_common',
   include_directories: client_inc,
   link_with: [common_lib],
   dependencies: [c_compiler.find_library('m'),
-                 c_compiler.find_library('libSDL2', dirs: cross_lib_path),
-                 c_compiler.find_library('libSDL2_mixer', dirs: cross_lib_path),
-                 lua_dep]
+                 audio_dep, lua_dep]
   )
 
 install_data('data/helpdata.txt',

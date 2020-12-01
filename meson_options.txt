@@ -29,3 +29,8 @@ option('syslua',
        type: 'combo',
        choices: ['try', 'true', 'false'],
        description: 'Use lua from system')
+
+option('audio',
+       type: 'boolean',
+       value: true,
+       description: 'Build in sound support')

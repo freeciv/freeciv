@@ -119,3 +119,6 @@ syslua ('try'/'true'/'false')
   Whether to use lua from the system, or to build lua included in freeciv
   source tree. The default is 'try' to use lua from the system if possible,
   but fallback to using freeciv's included one if not found from system.
+
+audio (boolean):
+  Build sound support to the clients. Defaults to true.
