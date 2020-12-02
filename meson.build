@@ -2488,6 +2488,7 @@ install_data(
   'doc/FAQ',
   'doc/HACKING',
   'doc/HOWTOPLAY',
+  'doc/INSTALL.Cygwin',
   'doc/INSTALL.meson',
   'doc/README',
   'doc/README.achievements',
