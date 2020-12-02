@@ -2093,7 +2093,7 @@ if not qt5_dep.found()
   error('Qt5 >= 5.11 required for qt-client, but not found')
 endif
 
-mocced = qt5_mod.preprocess(
+mocced_client = qt5_mod.preprocess(
   moc_headers: [
    'client/gui-qt/fc_client.h',
    'client/gui-qt/ratesdlg.h',
@@ -2115,7 +2115,7 @@ mocced = qt5_mod.preprocess(
    'client/gui-qt/shortcuts.h',
    'client/gui-qt/voteinfo_bar.h',
    'client/gui-qt/gotodlg.h',
-   'client/gui-qt/hudwidget.h'],
+   'client/gui-qt/hudwidget.h']
   )
 
 executable('freeciv-qt',
@@ -2157,7 +2157,7 @@ executable('freeciv-qt',
   'client/gui-qt/voteinfo_bar.cpp',
   'client/gui-qt/wldlg.cpp',
   'client/gui_interface.c',
-  mocced,
+  mocced_client,
   include_directories: [client_inc, include_directories('client/gui-qt')],
   dependencies: [qt5_dep, ws2_dep],
   link_with: client_common,
@@ -2325,6 +2325,31 @@ executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
   include_directories: tool_inc,
   dependencies: [gtk322_dep,
+                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  link_with: [common_lib, fcmp_common],
+  install: true
+  )
+
+endif
+
+if get_option('fcmp').contains('qt')
+
+if not qt5_dep.found()
+  error('Qt5 >= 5.11 required for qt-modpack-installer, but not found')
+endif
+
+mocced_fcmp = qt5_mod.preprocess(
+  moc_headers: [
+   'tools/fcmp/mpgui_qt.h',
+   'tools/fcmp/mpgui_qt_worker.h']
+  )
+
+executable('freeciv-mp-qt',
+  'tools/fcmp/mpgui_qt.cpp',
+  'tools/fcmp/mpgui_qt_worker.cpp',
+  mocced_fcmp,
+  include_directories: tool_inc,
+  dependencies: [qt5_dep,
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
   link_with: [common_lib, fcmp_common],
   install: true

@@ -11,7 +11,7 @@ option('clients',
 
 option('fcmp',
        type: 'array',
-       choices: ['gtk3','cli'],
+       choices: ['gtk3','qt','cli'],
        value: ['gtk3'],
        description: 'Modpack installer UIs to build')
 
