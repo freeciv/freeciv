@@ -122,3 +122,6 @@ syslua ('try'/'true'/'false')
 
 audio (boolean):
   Build sound support to the clients. Defaults to true.
+
+ruledit (boolean):
+  Build ruleset editor. Defaults to true.

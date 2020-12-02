@@ -2390,6 +2390,66 @@ executable('freeciv-ruleup',
   install: true
   )
 
+if get_option('ruledit')
+
+if not qt5_dep.found()
+  error('Qt5 >= 5.11 required for ruledit, but not found')
+endif
+
+mocced_ruledit = qt5_mod.preprocess(
+  moc_headers: [
+   'tools/ruledit/conversion_log.h',
+   'tools/ruledit/edit_utype.h',
+   'tools/ruledit/effect_edit.h',
+   'tools/ruledit/req_edit.h',
+   'tools/ruledit/req_vec_fix.h',
+   'tools/ruledit/requirers_dlg.h',
+   'tools/ruledit/ruledit_qt.h',
+   'tools/ruledit/tab_enablers.h',
+   'tools/ruledit/tab_extras.h',
+   'tools/ruledit/tab_misc.h',
+   'tools/ruledit/tab_multiplier.h',
+   'tools/ruledit/tab_nation.h',
+   'tools/ruledit/tab_tech.h',
+   'tools/ruledit/tab_terrains.h',
+   'tools/ruledit/tab_building.h',
+   'tools/ruledit/tab_good.h',
+   'tools/ruledit/tab_gov.h',
+   'tools/ruledit/tab_unit.h']
+  )
+
+executable('freeciv-ruledit',
+  'tools/ruledit/conversion_log.cpp',
+  'tools/ruledit/edit_utype.cpp',
+  'tools/ruledit/effect_edit.cpp',
+  'tools/ruledit/req_edit.cpp',
+  'tools/ruledit/requirers_dlg.cpp',
+  'tools/ruledit/req_vec_fix.cpp',
+  'tools/ruledit/ruledit.cpp',
+  'tools/ruledit/ruledit_qt.cpp',
+  'tools/ruledit/tab_building.cpp',
+  'tools/ruledit/tab_enablers.cpp',
+  'tools/ruledit/tab_extras.cpp',
+  'tools/ruledit/tab_good.cpp',
+  'tools/ruledit/tab_gov.cpp',
+  'tools/ruledit/tab_misc.cpp',
+  'tools/ruledit/tab_multiplier.cpp',
+  'tools/ruledit/tab_nation.cpp',
+  'tools/ruledit/tab_tech.cpp',
+  'tools/ruledit/tab_terrains.cpp',
+  'tools/ruledit/tab_unit.cpp',
+  'tools/ruledit/univ_value.c',
+  'tools/ruledit/validity.c',
+  mocced_ruledit,
+  include_directories: tool_inc,
+  dependencies: [qt5_dep, c_compiler.find_library('m'),
+                 ws2_dep, readline_dep],
+  link_with: [common_lib, server_lib, ais, tool_lib],
+  install: true
+  )
+
+endif
+
 executable('freeciv-manual',
   'tools/civmanual.c',
   'client/helpdata.c',

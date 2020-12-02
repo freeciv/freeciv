@@ -34,3 +34,8 @@ option('audio',
        type: 'boolean',
        value: true,
        description: 'Build in sound support')
+
+option('ruledit',
+       type: 'boolean',
+       value: true,
+       description: 'Build ruleset editor')
