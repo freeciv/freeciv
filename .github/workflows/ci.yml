@@ -1,4 +1,4 @@
-name: msys2
+name: continuous integration
 
 on:
   - pull_request
@@ -6,7 +6,7 @@ on:
   - workflow_dispatch
 
 jobs:
-  build:
+  msys2:
     runs-on: windows-2019
     steps:
       - name: check out Freeciv
@@ -42,3 +42,31 @@ jobs:
         run: |
           cd windows/installer_msys2
           make -j$(nproc) snapshot
+  os_x:
+    runs-on: macos-10.15
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          brew install \
+            autoconf \
+            automake \
+            gettext \
+            libtool \
+            pkg-config \
+            atk \
+            freetype \
+            gettext \
+            glib \
+            gtk+3 \
+            icu4c \
+            pango \
+            sdl2_gfx \
+            sdl2_image \
+            sdl2_mixer \
+            sdl2_ttf \
+            qt
+      - name: build
+        shell: bash
+        run: ./scripts/travis-build.sh os_x

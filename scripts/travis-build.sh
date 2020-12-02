@@ -1,9 +1,10 @@
 #!/bin/bash
 #
-# Freeciv Travis CI Bootstrap Script 
+# Freeciv CI Script
 #
 # https://travis-ci.org/freeciv/freeciv
-echo "Building Freeciv on Travis CI."
+# https://github.com/freeciv/freeciv/actions
+echo "Running CI job $1 for Freeciv."
 basedir=$(pwd)
 logfile="${basedir}/freeciv-travis.log"
 

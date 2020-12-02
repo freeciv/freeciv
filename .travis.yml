@@ -99,28 +99,5 @@ jobs:
         - libsdl2-image-dev
         - libsdl2-ttf-dev
         - libmysqlclient-dev
-  - name: "os_x"
-    os: osx
-    osx_image: xcode11.3
-    addons:
-      homebrew:
-        packages:
-          - autoconf
-          - automake
-          - gettext
-          - libtool
-          - pkg-config
-          - atk
-          - freetype
-          - gettext
-          - glib
-          - gtk+3
-          - icu4c
-          - pango
-          - sdl2_gfx
-          - sdl2_image
-          - sdl2_mixer
-          - sdl2_ttf
-          - qt
 
 script: "bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"
