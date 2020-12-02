@@ -415,7 +415,7 @@ static int exit_callback(struct widget *pwidget)
 static int option_category_callback(struct widget *widget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    option_dialog_optset_category(option_dialog, MAX_ID - widget->ID);
+    option_dialog_optset_category(option_dialog, MAX_ID - widget->id);
   }
 
   return -1;
@@ -1076,7 +1076,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
 ****************************************************************************/
 static int edit_worklist_callback(struct widget *widget)
 {
-  struct global_worklist *pgwl = global_worklist_by_id(MAX_ID - widget->ID);
+  struct global_worklist *pgwl = global_worklist_by_id(MAX_ID - widget->id);
 
   if (NULL == option_dialog
       || ODM_WORKLIST != option_dialog->mode
@@ -1150,7 +1150,7 @@ static int add_new_worklist_callback(struct widget *widget)
       create_iconlabel_from_chars(NULL, widget->dst,
                                   global_worklist_name(pgwl),
                                   adj_font(12), WF_RESTORE_BACKGROUND);
-    new_worklist_widget->ID = MAX_ID - global_worklist_id(pgwl);
+    new_worklist_widget->id = MAX_ID - global_worklist_id(pgwl);
     new_worklist_widget->string_utf8->style |= SF_CENTER;
     set_wstate(new_worklist_widget, FC_WS_NORMAL);
     new_worklist_widget->size.w = widget->size.w;
@@ -1394,7 +1394,7 @@ void update_worklist_report_dialog(void)
 
   if (NULL != option_dialog && ODM_WORKLIST == option_dialog->mode) {
     pgwl = global_worklist_by_id(MAX_ID
-                                 - option_dialog->worklist.edited_name->ID);
+                                 - option_dialog->worklist.edited_name->id);
 
     if (NULL != pgwl) {
       copy_chars_to_utf8_str(option_dialog->worklist.edited_name->string_utf8,

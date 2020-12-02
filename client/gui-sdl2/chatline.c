@@ -617,7 +617,7 @@ void real_conn_list_dialog_update(void *unused)
                 (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
         clear_wflag(buf, WF_FREE_STRING);
 
-        buf->ID = ID_LABEL;
+        buf->id = ID_LABEL;
 
         /* add to widget list */
         if (create) {

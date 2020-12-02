@@ -523,7 +523,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
     buf = create_themeicon_button(current_theme->UP_Icon, pwindow->dst,
                                    NULL, WF_RESTORE_BACKGROUND);
 
-    buf->ID = ID_BUTTON;
+    buf->id = ID_BUTTON;
     buf->private_data.adv_dlg = dlg;
     buf->action = std_up_advanced_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -538,7 +538,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
     buf = create_themeicon_button(current_theme->DOWN_Icon, pwindow->dst,
                                    NULL, WF_RESTORE_BACKGROUND);
 
-    buf->ID = ID_BUTTON;
+    buf->id = ID_BUTTON;
     buf->private_data.adv_dlg = dlg;
     buf->action = std_down_advanced_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -553,7 +553,7 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
     buf = create_vertical(current_theme->Vertic, pwindow->dst,
                            adj_size(10), WF_RESTORE_BACKGROUND);
 
-    buf->ID = ID_SCROLLBAR;
+    buf->id = ID_SCROLLBAR;
     buf->private_data.adv_dlg = dlg;
     buf->action = std_vscroll_advanced_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1579,7 +1579,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
     /* create up button */
     buf = create_themeicon_button(current_theme->LEFT_Icon, pwindow->dst, NULL, 0);
 
-    buf->ID = ID_BUTTON;
+    buf->id = ID_BUTTON;
     buf->data.ptr = (void *)dlg;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1600,7 +1600,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
     /* create down button */
     buf = create_themeicon_button(current_theme->RIGHT_Icon, pwindow->dst, NULL, 0);
 
-    buf->ID = ID_BUTTON;
+    buf->id = ID_BUTTON;
     buf->data.ptr = (void *)dlg;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1622,7 +1622,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
     buf = create_horizontal(current_theme->Horiz, pwindow->dst,
                              width, WF_RESTORE_BACKGROUND);
 
-    buf->ID = ID_SCROLLBAR;
+    buf->id = ID_SCROLLBAR;
     buf->data.ptr = (void *)dlg;
     set_wstate(buf, FC_WS_NORMAL);
 

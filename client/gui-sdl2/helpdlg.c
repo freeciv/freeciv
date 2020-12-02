@@ -143,7 +143,7 @@ static int exit_help_dlg_callback(struct widget *pwidget)
 static int change_gov_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_gov_info(MAX_ID - pwidget->ID);
+    popup_gov_info(MAX_ID - pwidget->id);
   }
 
   return -1;
@@ -162,7 +162,7 @@ void popup_gov_info(int gov)
 static int change_impr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_impr_info(MAX_ID - pwidget->ID);
+    popup_impr_info(MAX_ID - pwidget->id);
   }
 
   return -1;
@@ -373,7 +373,7 @@ void popup_impr_info(Impr_type_id impr)
                      pwindow->dst, city_improvement_name_translation(NULL, pimpr_type),
                      adj_font(24), WF_FREE_THEME);
 
-  pImprNameLabel->ID = ID_LABEL;
+  pImprNameLabel->id = ID_LABEL;
   widget_add_as_prev(pImprNameLabel, dock);
   dock = pImprNameLabel;
 
@@ -382,7 +382,7 @@ void popup_impr_info(Impr_type_id impr)
             impr_base_build_shield_cost(pimpr_type));
     pCostLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                              buffer, adj_font(12), 0);
-    pCostLabel->ID = ID_LABEL;
+    pCostLabel->id = ID_LABEL;
     widget_add_as_prev(pCostLabel, dock);
     dock = pCostLabel;
 
@@ -390,7 +390,7 @@ void popup_impr_info(Impr_type_id impr)
       sprintf(buffer, "%s %d", _("Upkeep:"), pimpr_type->upkeep);
       pUpkeepLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  buffer, adj_font(12), 0);
-      pUpkeepLabel->ID = ID_LABEL;
+      pUpkeepLabel->id = ID_LABEL;
       widget_add_as_prev(pUpkeepLabel, dock);
       dock = pUpkeepLabel;
     }
@@ -400,7 +400,7 @@ void popup_impr_info(Impr_type_id impr)
   pRequirementLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
-  pRequirementLabel->ID = ID_LABEL;
+  pRequirementLabel->id = ID_LABEL;
   widget_add_as_prev(pRequirementLabel, dock);
   dock = pRequirementLabel;
 
@@ -408,7 +408,7 @@ void popup_impr_info(Impr_type_id impr)
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?req:None"),
                                                      adj_font(12), 0);
-    pRequirementLabel2->ID = ID_LABEL;
+    pRequirementLabel2->id = ID_LABEL;
   } else {
     /* FIXME: this should show ranges, negated reqs, and all the
      * MAX_NUM_REQS reqs.
@@ -424,7 +424,7 @@ void popup_impr_info(Impr_type_id impr)
       if (preq->source.kind != VUT_ADVANCE) {
         break; /* FIXME */
       }
-      pRequirementLabel2->ID = MAX_ID - advance_number(preq->source.value.advance);
+      pRequirementLabel2->id = MAX_ID - advance_number(preq->source.value.advance);
       pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
       pRequirementLabel2->action = change_tech_callback;
       set_wstate(pRequirementLabel2, FC_WS_NORMAL);
@@ -439,7 +439,7 @@ void popup_impr_info(Impr_type_id impr)
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
-  pObsoleteByLabel->ID = ID_LABEL;
+  pObsoleteByLabel->id = ID_LABEL;
   widget_add_as_prev(pObsoleteByLabel, dock);
   dock = pObsoleteByLabel;
 
@@ -453,12 +453,12 @@ void popup_impr_info(Impr_type_id impr)
   if (obsTech == NULL) {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     _("Never"), adj_font(12), 0);
-    pObsoleteByLabel2->ID = ID_LABEL;
+    pObsoleteByLabel2->id = ID_LABEL;
   } else {
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     advance_name_translation(obsTech),
                                                     adj_font(12), WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->ID = MAX_ID - advance_number(obsTech);
+    pObsoleteByLabel2->id = MAX_ID - advance_number(obsTech);
     pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(obsTech));
     pObsoleteByLabel2->action = change_tech_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
@@ -478,7 +478,7 @@ void popup_impr_info(Impr_type_id impr)
 
     convert_utf8_str_to_const_surface_width(bstr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pwindow->dst, bstr, 0);
-    pHelptextLabel->ID = ID_LABEL;
+    pHelptextLabel->id = ID_LABEL;
     widget_add_as_prev(pHelptextLabel, dock);
     dock = pHelptextLabel;
     text = TRUE;
@@ -578,7 +578,7 @@ void popup_impr_info(Impr_type_id impr)
 static int change_unit_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_unit_info(MAX_ID - pwidget->ID);
+    popup_unit_info(MAX_ID - pwidget->id);
   }
 
   return -1;
@@ -787,7 +787,7 @@ void popup_unit_info(Unit_type_id type_id)
                 pwindow->dst, utype_name_translation(punittype),
                 adj_font(24), WF_FREE_THEME);
 
-  unit_name_label->ID = ID_LABEL;
+  unit_name_label->id = ID_LABEL;
   widget_add_as_prev(unit_name_label, dock);
   dock = unit_name_label;
 
@@ -838,7 +838,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     unit_info_label = create_iconlabel_from_chars(NULL, pwindow->dst, buf,
                                                  adj_font(12), 0);
-    unit_info_label->ID = ID_LABEL;
+    unit_info_label->id = ID_LABEL;
     widget_add_as_prev(unit_info_label, dock);
     dock = unit_info_label;
   }
@@ -847,7 +847,7 @@ void popup_unit_info(Unit_type_id type_id)
   pRequirementLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
-  pRequirementLabel->ID = ID_LABEL;
+  pRequirementLabel->id = ID_LABEL;
   widget_add_as_prev(pRequirementLabel, dock);
   dock = pRequirementLabel;
 
@@ -855,13 +855,13 @@ void popup_unit_info(Unit_type_id type_id)
       || advance_by_number(A_NONE) == punittype->require_advance) {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?tech:None"), adj_font(12), 0);
-    pRequirementLabel2->ID = ID_LABEL;
+    pRequirementLabel2->id = ID_LABEL;
   } else {
     pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
           advance_name_translation(punittype->require_advance),
           adj_font(12),
           WF_RESTORE_BACKGROUND);
-    pRequirementLabel2->ID = MAX_ID - advance_number(punittype->require_advance);
+    pRequirementLabel2->id = MAX_ID - advance_number(punittype->require_advance);
     pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(punittype->require_advance));
     pRequirementLabel2->action = change_tech_callback;
     set_wstate(pRequirementLabel2, FC_WS_NORMAL);
@@ -874,7 +874,7 @@ void popup_unit_info(Unit_type_id type_id)
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
-  pObsoleteByLabel->ID = ID_LABEL;
+  pObsoleteByLabel->id = ID_LABEL;
   widget_add_as_prev(pObsoleteByLabel, dock);
   dock = pObsoleteByLabel;
 
@@ -882,7 +882,7 @@ void popup_unit_info(Unit_type_id type_id)
     pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     Q_("?utype:None"),
                                                     adj_font(12), 0);
-    pObsoleteByLabel2->ID = ID_LABEL;
+    pObsoleteByLabel2->id = ID_LABEL;
   } else {
     const struct unit_type *utype = punittype->obsoleted_by;
 
@@ -891,7 +891,7 @@ void popup_unit_info(Unit_type_id type_id)
                                                     adj_font(12),
                                                     WF_RESTORE_BACKGROUND);
     pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
-    pObsoleteByLabel2->ID = MAX_ID - utype_number(punittype->obsoleted_by);
+    pObsoleteByLabel2->id = MAX_ID - utype_number(punittype->obsoleted_by);
     pObsoleteByLabel2->action = change_unit_callback;
     set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
   }
@@ -909,7 +909,7 @@ void popup_unit_info(Unit_type_id type_id)
 
     convert_utf8_str_to_const_surface_width(ustr, adj_size(640) - start_x - adj_size(20));
     pHelptextLabel = create_iconlabel(NULL, pwindow->dst, ustr, 0);
-    pHelptextLabel->ID = ID_LABEL;
+    pHelptextLabel->id = ID_LABEL;
     widget_add_as_prev(pHelptextLabel, dock);
     dock = pHelptextLabel;
     text = TRUE;
@@ -1003,7 +1003,7 @@ void popup_unit_info(Unit_type_id type_id)
 static int change_tech_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    popup_tech_info(MAX_ID - pwidget->ID);
+    popup_tech_info(MAX_ID - pwidget->id);
   }
 
   return -1;
@@ -1022,7 +1022,7 @@ static int show_tech_tree_callback(struct widget *pwidget)
       store->show_full_tree = FALSE;
       store->dock->theme2 = current_theme->UP_Icon;
     }
-    popup_tech_info(MAX_ID - store->dock->prev->ID);
+    popup_tech_info(MAX_ID - store->dock->prev->id);
   }
 
   return -1;
@@ -1124,7 +1124,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   set_wstate(pwidget, FC_WS_NORMAL);
   pwidget->action = show_tech_tree_callback;
-  pwidget->ID = MAX_ID - tech;
+  pwidget->id = MAX_ID - tech;
   widget_add_as_prev(pwidget, dock);
   dock = pwidget;
 
@@ -1135,7 +1135,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                     adj_font(24),
                     WF_FREE_THEME);
 
-  pwidget->ID = ID_LABEL;
+  pwidget->id = ID_LABEL;
   widget_add_as_prev(pwidget, dock);
   dock = pwidget;
 
@@ -1153,7 +1153,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       max_width = MAX(max_width, pwidget->size.w);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
-      pwidget->ID = MAX_ID - aidx;
+      pwidget->id = MAX_ID - aidx;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       store->pTargets[targets_count++] = pwidget;
@@ -1168,7 +1168,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     int sub_tech;
 
     for (i = 0; i < targets_count; i++) {
-      sub_tech = MAX_ID - store->pTargets[i]->ID;
+      sub_tech = MAX_ID - store->pTargets[i]->id;
       if (advance_required(sub_tech, AR_ONE) == tech
           && advance_required(sub_tech, AR_TWO) != A_NONE) {
         sub_tech = advance_required(sub_tech, AR_TWO);
@@ -1185,7 +1185,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       pwidget->string_utf8->fgcol = *get_tech_color(sub_tech);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
-      pwidget->ID = MAX_ID - sub_tech;
+      pwidget->id = MAX_ID - sub_tech;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       store->pSub_Targets[sub_targets_count++] = pwidget;
@@ -1212,7 +1212,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                 WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR | WF_FREE_THEME);
         set_wstate(pwidget, FC_WS_NORMAL);
         pwidget->action = change_gov_callback;
-        pwidget->ID = MAX_ID - government_index(gov);
+        pwidget->id = MAX_ID - government_index(gov);
         widget_add_as_prev(pwidget, dock);
         dock = pwidget;
         gov_count++;
@@ -1241,7 +1241,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
           pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
         }
         pwidget->action = change_impr_callback;
-        pwidget->ID = MAX_ID - improvement_number(pimprove);
+        pwidget->id = MAX_ID - improvement_number(pimprove);
         widget_add_as_prev(pwidget, dock);
         dock = pwidget;
         imp_count++;
@@ -1263,7 +1263,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                   (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_unit_callback;
-      pwidget->ID = MAX_ID - utype_number(un);
+      pwidget->id = MAX_ID - utype_number(un);
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       unit_count++;
@@ -1279,7 +1279,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
     convert_utf8_str_to_const_surface_width(pstr, adj_size(640) - start_x - adj_size(20));
     pwidget = create_iconlabel(NULL, pwindow->dst, pstr, 0);
-    pwidget->ID = ID_LABEL;
+    pwidget->id = ID_LABEL;
     widget_add_as_prev(pwidget, dock);
     dock = pwidget;
     flags_count = 1;
@@ -1306,14 +1306,14 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
     i = 0;
     j = 0;
-    t1 = MAX_ID - store->pSub_Targets[j]->ID;
+    t1 = MAX_ID - store->pSub_Targets[j]->id;
     while (i < 6 && store->pTargets[i]) {
       store->pTargets[i]->size.x = pwindow->size.x + start_x;
       store->pTargets[i]->size.y = start_y;
 
       if (store->pSub_Targets[j]) {
-        t0 = MAX_ID - store->pTargets[i]->ID;
-        t1 = MAX_ID - store->pSub_Targets[j]->ID;
+        t0 = MAX_ID - store->pTargets[i]->id;
+        t1 = MAX_ID - store->pSub_Targets[j]->id;
         if (advance_required(t0, AR_ONE) == t1
             || advance_required(t0, AR_TWO) == t1) {
           store->pSub_Targets[j]->size.x = pwindow->size.x + start_x + max_width + 60;
@@ -1418,13 +1418,13 @@ static void redraw_tech_tree_dlg(void)
 
   i = 0;
   while (i < 2 && store->pRequirementButton[i]) {
-    tech = MAX_ID - store->pRequirementButton[i]->ID;
+    tech = MAX_ID - store->pRequirementButton[i]->id;
 
     /*find Sub_Req's */
     if (i) {
       pSub0 = NULL;
       for (j = count - 1; j >= 0; j--) {
-        if (MAX_ID - store->pSub_Req[j]->ID == advance_required(tech, AR_ONE)) {
+        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_ONE)) {
           pSub0 = store->pSub_Req[j];
           break;
         }
@@ -1432,7 +1432,7 @@ static void redraw_tech_tree_dlg(void)
 
       pSub1 = NULL;
       for (j = count - 1; j >= 0; j--) {
-        if (MAX_ID - store->pSub_Req[j]->ID == advance_required(tech, AR_TWO)) {
+        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_TWO)) {
           pSub1 = store->pSub_Req[j];
           break;
         }
@@ -1440,7 +1440,7 @@ static void redraw_tech_tree_dlg(void)
     } else {
       pSub0 = NULL;
       for (j = 0; j < 4 && store->pSub_Req[j]; j++) {
-        if (MAX_ID - store->pSub_Req[j]->ID == advance_required(tech, AR_ONE)) {
+        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_ONE)) {
           pSub0 = store->pSub_Req[j];
           break;
         }
@@ -1448,7 +1448,7 @@ static void redraw_tech_tree_dlg(void)
 
       pSub1 = NULL;
       for (j = 0; j < 4 && store->pSub_Req[j]; j++) {
-        if (MAX_ID - store->pSub_Req[j]->ID == advance_required(tech, AR_TWO)) {
+        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_TWO)) {
           pSub1 = store->pSub_Req[j];
           break;
         }
@@ -1518,7 +1518,7 @@ static void redraw_tech_tree_dlg(void)
   }
 
   for (i = 0; i < count; i++) {
-    tech = MAX_ID - store->pTargets[i]->ID;
+    tech = MAX_ID - store->pTargets[i]->id;
     step = ptech->size.h / (count + 1);
 
     switch ((i % mod)) {
@@ -1534,24 +1534,24 @@ static void redraw_tech_tree_dlg(void)
     }
 
     /* find Sub_Req's */
-    if (advance_required(tech, AR_ONE) == MAX_ID - ptech->ID) {
+    if (advance_required(tech, AR_ONE) == MAX_ID - ptech->id) {
       pSub0 = ptech;
     } else {
       pSub0 = NULL;
       for (j = 0; j < 6 && store->pSub_Targets[j]; j++) {
-        if (MAX_ID - store->pSub_Targets[j]->ID == advance_required(tech, AR_ONE)) {
+        if (MAX_ID - store->pSub_Targets[j]->id == advance_required(tech, AR_ONE)) {
           pSub0 = store->pSub_Targets[j];
           break;
         }
       }
     }
 
-    if (advance_required(tech, AR_TWO) == MAX_ID - ptech->ID) {
+    if (advance_required(tech, AR_TWO) == MAX_ID - ptech->id) {
       pSub1 = ptech;
     } else {
       pSub1 = NULL;
       for (j = 0; j < 6 && store->pSub_Targets[j]; j++) {
-        if (MAX_ID - store->pSub_Targets[j]->ID == advance_required(tech, AR_TWO)) {
+        if (MAX_ID - store->pSub_Targets[j]->id == advance_required(tech, AR_TWO)) {
           pSub1 = store->pSub_Targets[j];
           break;
         }
@@ -1635,7 +1635,7 @@ static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pwidget)
       pwidget->theme2 = current_theme->DOWN_Icon;
     }
     store->show_full_tree = !store->show_full_tree;
-    popup_tech_info(MAX_ID - store->dock->prev->ID);
+    popup_tech_info(MAX_ID - store->dock->prev->id);
   }
 
   return -1;
@@ -1665,7 +1665,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
   set_wstate(pwidget, FC_WS_NORMAL);
   pwidget->action = show_tech_tree_callback;
-  pwidget->ID = MAX_ID - tech;
+  pwidget->id = MAX_ID - tech;
   widget_add_as_prev(pwidget, dock);
   ptech = pwidget;
   dock = pwidget;
@@ -1682,7 +1682,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
-      pwidget->ID = MAX_ID - ar;
+      pwidget->id = MAX_ID - ar;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       store->pRequirementButton[i] = pwidget;
@@ -1698,7 +1698,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     int j, sub_tech;
 
     for (j = 0; j < req_count; j++) {
-      sub_tech = MAX_ID - store->pRequirementButton[j]->ID;
+      sub_tech = MAX_ID - store->pRequirementButton[j]->id;
       for (i = AR_ONE; i <= AR_TWO; i++) {
         Tech_type_id ar = advance_required(sub_tech, i);
         struct advance *vap = valid_advance_by_number(ar);
@@ -1710,7 +1710,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pwidget, FC_WS_NORMAL);
           pwidget->action = change_tech_callback;
-          pwidget->ID = MAX_ID - ar;
+          pwidget->id = MAX_ID - ar;
           widget_add_as_prev(pwidget, dock);
           dock = pwidget;
           store->pSub_Req[sub_req_count++] = pwidget;
@@ -1735,7 +1735,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
-      pwidget->ID = MAX_ID - aidx;
+      pwidget->id = MAX_ID - aidx;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       store->pTargets[targets_count++] = pwidget;
@@ -1750,7 +1750,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     int sub_tech;
 
     for (i = 0; i < targets_count; i++) {
-      sub_tech = MAX_ID - store->pTargets[i]->ID;
+      sub_tech = MAX_ID - store->pTargets[i]->id;
       if (advance_required(sub_tech, AR_ONE) == tech
           && advance_required(sub_tech, AR_TWO) != A_NONE) {
         sub_tech = advance_required(sub_tech, AR_TWO);
@@ -1767,7 +1767,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
-      pwidget->ID = MAX_ID - sub_tech;
+      pwidget->id = MAX_ID - sub_tech;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
       store->pSub_Targets[sub_targets_count++] = pwidget;

@@ -173,7 +173,7 @@ void real_meswin_dialog_update(void *unused)
               }
             }
 
-            buf->ID = ID_LABEL;
+            buf->id = ID_LABEL;
 
             widget_set_area(buf, area);
 
@@ -212,7 +212,7 @@ void real_meswin_dialog_update(void *unused)
             }
           }
 
-          buf->ID = ID_LABEL;
+          buf->id = ID_LABEL;
 
           widget_set_area(buf, area);
 

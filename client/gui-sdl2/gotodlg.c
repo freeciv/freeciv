@@ -88,7 +88,7 @@ static int exit_goto_dialog_callback(struct widget *pwidget)
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int plr_id = player_index(player_by_number(MAX_ID - pwidget->ID));
+    int plr_id = player_index(player_by_number(MAX_ID - pwidget->id));
 
     if (BV_ISSET(all_players, plr_id)) {
       BV_CLR(all_players, plr_id);
@@ -107,7 +107,7 @@ static int toggle_goto_nations_cities_dialog_callback(struct widget *pwidget)
 static int goto_city_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pdestcity = game_city_by_number(MAX_ID - pwidget->ID);
+    struct city *pdestcity = game_city_by_number(MAX_ID - pwidget->id);
   
     if (pdestcity) {
       struct unit *punit = head_of_units_in_focus();
@@ -191,7 +191,7 @@ static void update_goto_dialog(void)
       }
 
       fc_assert((MAX_ID - pcity->id) > 0);
-      buf->ID = MAX_ID - pcity->id;
+      buf->id = MAX_ID - pcity->id;
 
       widget_add_as_prev(buf, add_dock);
       add_dock = buf;

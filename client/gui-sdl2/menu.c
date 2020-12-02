@@ -90,19 +90,19 @@ static struct widget *order_trade_button;
 /**********************************************************************//**
   User interacted with some unit order widget.
 **************************************************************************/
-static int unit_order_callback(struct widget *pOrder_Widget)
+static int unit_order_callback(struct widget *order_widget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct unit *head_unit = head_of_units_in_focus();
 
-    set_wstate(pOrder_Widget, FC_WS_SELECTED);
-    selected_widget = pOrder_Widget;
+    set_wstate(order_widget, FC_WS_SELECTED);
+    selected_widget = order_widget;
 
     if (!head_unit) {
       return -1;
     }
 
-    switch (pOrder_Widget->ID) {
+    switch (order_widget->id) {
     case ID_UNIT_ORDER_BUILD_CITY:
       /* Enable the button for adding to a city in all cases, so we
          get an eventual error message from the server if we try. */

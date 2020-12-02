@@ -301,7 +301,7 @@ struct widget *find_next_widget_for_key(struct widget *start_widget,
 **************************************************************************/
 Uint16 widget_pressed_action(struct widget *pwidget)
 {
-  Uint16 ID = 0;
+  Uint16 id = 0;
 
   if (!pwidget) {
     return 0;
@@ -327,10 +327,10 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         set_wstate(pwidget, FC_WS_SELECTED);
         SDL_Delay(300);
       }
-      ID = pwidget->ID;
+      id = pwidget->id;
       if (pwidget->action) {
         if (pwidget->action(pwidget)) {
-          ID = 0;
+          id = 0;
         }
       }
       break;
@@ -351,14 +351,14 @@ Uint16 widget_pressed_action(struct widget *pwidget)
           }
           if (change != ED_FORCE_EXIT && change != ED_ESC && pwidget->action) {
             if (pwidget->action(pwidget)) {
-              ID = 0;
+              id = 0;
             }
           }
           if (loop && change == ED_RETURN) {
             ret = TRUE;
           }
         } while (ret);
-        ID = 0;
+        id = 0;
       }
       break;
     }
@@ -370,10 +370,10 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         widget_mark_dirty(pwidget);
         flush_dirty();
       }
-      ID = pwidget->ID;
+      id = pwidget->id;
       if (pwidget->action) {
         if (pwidget->action(pwidget)) {
-          ID = 0;
+          id = 0;
         }
       }
       break;
@@ -388,10 +388,10 @@ Uint16 widget_pressed_action(struct widget *pwidget)
         toggle_checkbox(pwidget);
         SDL_Delay(300);
       }
-      ID = pwidget->ID;
+      id = pwidget->id;
       if (pwidget->action) {
         if (pwidget->action(pwidget)) {
-          ID = 0;
+          id = 0;
         }
       }
       break;
@@ -404,16 +404,16 @@ Uint16 widget_pressed_action(struct widget *pwidget)
       }
       break;
     default:
-      ID = pwidget->ID;
+      id = pwidget->id;
       if (pwidget->action) {
         if (pwidget->action(pwidget) != 0) {
-          ID = 0;
+          id = 0;
         }
       }
       break;
   }
 
-  return ID;
+  return id;
 }
 
 /**********************************************************************//**
@@ -553,10 +553,10 @@ void redraw_widget_info_label(SDL_Rect *rect)
   Widget.
 **************************************************************************/
 struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
-                                          Uint16 ID, enum scan_direction direction)
+                                          Uint16 id, enum scan_direction direction)
 {
   while (pGUI_List) {
-    if (pGUI_List->ID == ID) {
+    if (pGUI_List->id == id) {
       return (struct widget *) pGUI_List;
     }
     if (direction == SCAN_FORWARD) {
@@ -573,24 +573,24 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
   Find ID in MAIN Widget's List ( begin_widget_list ) and return pointer to
   this Widgets.
 **************************************************************************/
-struct widget *get_widget_pointer_form_main_list(Uint16 ID)
+struct widget *get_widget_pointer_form_main_list(Uint16 id)
 {
-  return get_widget_pointer_form_ID(begin_main_widget_list, ID, SCAN_FORWARD);
+  return get_widget_pointer_form_ID(begin_main_widget_list, id, SCAN_FORWARD);
 }
 
 /**********************************************************************//**
   Add Widget to Main Widget's List ( begin_widget_list )
 **************************************************************************/
-void add_to_gui_list(Uint16 ID, struct widget *pGUI)
+void add_to_gui_list(Uint16 id, struct widget *gui)
 {
   if (begin_main_widget_list != NULL) {
-    pGUI->next = begin_main_widget_list;
-    pGUI->ID = ID;
-    begin_main_widget_list->prev = pGUI;
-    begin_main_widget_list = pGUI;
+    gui->next = begin_main_widget_list;
+    gui->id = id;
+    begin_main_widget_list->prev = gui;
+    begin_main_widget_list = gui;
   } else {
-    begin_main_widget_list = pGUI;
-    begin_main_widget_list->ID = ID;
+    begin_main_widget_list = gui;
+    begin_main_widget_list->id = id;
   }
 }
 
@@ -617,31 +617,31 @@ void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock)
   list. To destroy this Widget totaly ( free mem... ) call macro:
   del_widget_from_gui_list( pwidget ).  This macro call this function.
 **************************************************************************/
-void del_widget_pointer_from_gui_list(struct widget *pGUI)
+void del_widget_pointer_from_gui_list(struct widget *gui)
 {
-  if (!pGUI) {
+  if (!gui) {
     return;
   }
 
-  if (pGUI == begin_main_widget_list) {
+  if (gui == begin_main_widget_list) {
     begin_main_widget_list = begin_main_widget_list->next;
   }
 
-  if (pGUI->prev && pGUI->next) {
-    pGUI->prev->next = pGUI->next;
-    pGUI->next->prev = pGUI->prev;
+  if (gui->prev && gui->next) {
+    gui->prev->next = gui->next;
+    gui->next->prev = gui->prev;
   } else {
-    if (pGUI->prev) {
-      pGUI->prev->next = NULL;
+    if (gui->prev) {
+      gui->prev->next = NULL;
     }
 
-    if (pGUI->next) {
-      pGUI->next->prev = NULL;
+    if (gui->next) {
+      gui->next->prev = NULL;
     }
 
   }
 
-  if (selected_widget == pGUI) {
+  if (selected_widget == gui) {
     selected_widget = NULL;
   }
 }

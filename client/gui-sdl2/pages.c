@@ -97,7 +97,7 @@ static int join_game_callback(struct widget *pwidget)
 static int servers_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    bool lan_scan = (pwidget->ID != ID_JOIN_META_GAME);
+    bool lan_scan = (pwidget->id != ID_JOIN_META_GAME);
 
     popdown_start_menu();
     popup_connection_dialog(lan_scan);

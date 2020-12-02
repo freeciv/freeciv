@@ -138,7 +138,7 @@ static int popup_buy_production_from_city_report_callback(struct widget *pwidget
 static int popup_cma_from_city_report_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct city *pcity = game_city_by_number(MAX_ID - pwidget->ID);
+    struct city *pcity = game_city_by_number(MAX_ID - pwidget->id);
 
     /* state is changed before enter this function */
     if (!get_checkbox_state(pwidget)) {
@@ -1143,7 +1143,7 @@ void real_city_report_dialog_update(void *unused)
     /* find if the lists are identical (if not then rebuild all) */
     pwidget = city_rep->end_active_widget_list; /* name of first city */
     city_list_iterate(client.conn.playing->cities, pcity) {
-      if (pcity->id == MAX_ID - pwidget->ID) {
+      if (pcity->id == MAX_ID - pwidget->id) {
         count = COL;
 
         while (count) {
@@ -1185,7 +1185,7 @@ void real_city_report_update_city(struct city *pcity)
   if (city_rep && pcity) {
     struct widget *buf = city_rep->end_active_widget_list;
 
-    while (pcity->id != MAX_ID - buf->ID
+    while (pcity->id != MAX_ID - buf->id
            && buf != city_rep->begin_active_widget_list) {
       buf = buf->prev;
     }

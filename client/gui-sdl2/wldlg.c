@@ -208,7 +208,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   struct widget *buf = NULL, *dock = NULL;
   utf8_str *pstr = NULL;
   int i;
-  struct universal prod = cid_decode(MAX_ID - pTarget->ID);
+  struct universal prod = cid_decode(MAX_ID - pTarget->id);
 
   set_wstate(pTarget, FC_WS_SELECTED);
   widget_redraw(pTarget);
@@ -253,7 +253,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   buf->data.ptr = fc_calloc(1, sizeof(int));
   *((int *)buf->data.ptr) = worklist_length(&editor->worklist_copy) - 1;
 
-  buf->ID = MAX_ID - cid_encode(prod);
+  buf->id = MAX_ID - cid_encode(prod);
 
   if (editor->pWork->begin_active_widget_list) {
     dock = editor->pWork->begin_active_widget_list;
@@ -358,7 +358,7 @@ static void add_target_to_production(struct widget *pTarget)
   widget_redraw(pTarget);
   widget_flush(pTarget);
 
-  prod = cid_decode(MAX_ID - pTarget->ID);
+  prod = cid_decode(MAX_ID - pTarget->id);
 
   /* check if we change to the same target */
   if (are_universals_equal(&prod, &editor->currently_building)) {
@@ -373,7 +373,7 @@ static void add_target_to_production(struct widget *pTarget)
   copy_chars_to_utf8_str(editor->pWork->end_active_widget_list->string_utf8,
                          get_production_name(editor->pcity, prod, &dummy));
 
-  editor->pWork->end_active_widget_list->ID = MAX_ID - cid_encode(prod);
+  editor->pWork->end_active_widget_list->id = MAX_ID - cid_encode(prod);
 
   widget_redraw(editor->pWork->end_active_widget_list);
   widget_mark_dirty(editor->pWork->end_active_widget_list);
@@ -395,7 +395,7 @@ static void get_target_help_data(struct widget *pTarget)
   widget_redraw(pTarget);
   /*widget_flush(pTarget);*/
 
-  prod = cid_decode(MAX_ID - pTarget->ID);
+  prod = cid_decode(MAX_ID - pTarget->id);
 
   if (VUT_UTYPE == prod.kind) {
     popup_unit_info(utype_number(prod.value.utype));
@@ -529,7 +529,7 @@ static void remove_item_from_worklist(struct widget *pItem)
 static void swap_item_down_from_worklist(struct widget *pItem)
 {
   char *text;
-  Uint16 ID;
+  Uint16 id;
   bool changed = FALSE;
   struct universal tmp;
 
@@ -539,7 +539,7 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   }
 
   text = pItem->string_utf8->text;
-  ID = pItem->ID;
+  id = pItem->id;
 
   /* second item or higher was clicked */
   if (pItem->data.ptr) {
@@ -554,16 +554,16 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   } else {
     /* first item was clicked -> change production */
     change_production(&editor->worklist_copy.entries[0]);
-    editor->worklist_copy.entries[0] = cid_decode(MAX_ID - ID);
+    editor->worklist_copy.entries[0] = cid_decode(MAX_ID - id);
     changed = TRUE;
   }
 
   if (changed) {
     pItem->string_utf8->text = pItem->prev->string_utf8->text;
-    pItem->ID = pItem->prev->ID;
+    pItem->id = pItem->prev->id;
 
     pItem->prev->string_utf8->text = text;
-    pItem->prev->ID = ID;
+    pItem->prev->id = id;
 
     redraw_group(editor->pWork->begin_widget_list,
                  editor->pWork->end_widget_list, TRUE);
@@ -586,7 +586,7 @@ static void swap_item_down_from_worklist(struct widget *pItem)
 static void swap_item_up_from_worklist(struct widget *pItem)
 {
   char *text = pItem->string_utf8->text;
-  Uint16 ID = pItem->ID;
+  Uint16 id = pItem->id;
   bool changed = FALSE;
   struct universal tmp;
 
@@ -617,10 +617,10 @@ static void swap_item_up_from_worklist(struct widget *pItem)
 
   if (changed) {
     pItem->string_utf8->text = pItem->next->string_utf8->text;
-    pItem->ID = pItem->next->ID;
+    pItem->id = pItem->next->id;
 
     pItem->next->string_utf8->text = text;
-    pItem->next->ID = ID;
+    pItem->next->id = id;
 
     redraw_group(editor->pWork->begin_widget_list,
                  editor->pWork->end_widget_list, TRUE);
@@ -667,7 +667,7 @@ static int worklist_editor_item_callback(struct widget *pwidget)
 **************************************************************************/
 static void add_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
+  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
   struct widget *buf = editor->pWork->end_active_widget_list;
   const struct worklist *pWorkList;
   int count, firstfree;
@@ -701,7 +701,7 @@ static void add_global_worklist(struct widget *pwidget)
                       utype_name_translation(pWorkList->entries[count].value.utype),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      buf->ID = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
+      buf->id = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
     } else {
       buf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
@@ -709,7 +709,7 @@ static void add_global_worklist(struct widget *pwidget)
                                                         pWorkList->entries[count].value.building),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      buf->ID = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
+      buf->id = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
     }
 
     buf->string_utf8->style |= SF_CENTER;
@@ -745,7 +745,7 @@ static void add_global_worklist(struct widget *pwidget)
 **************************************************************************/
 static void set_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->ID);
+  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
   struct widget *buf = editor->pWork->end_active_widget_list;
   const struct worklist *pWorkList;
   struct worklist wl;
@@ -804,14 +804,14 @@ static void set_global_worklist(struct widget *pwidget)
           create_utf8_from_char(utype_name_translation(target.value.utype),
                                 adj_font(10)),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-        buf->ID = MAX_ID - B_LAST - utype_number(target.value.utype);
+        buf->id = MAX_ID - B_LAST - utype_number(target.value.utype);
       } else {
         buf = create_iconlabel(NULL, pwidget->dst,
           create_utf8_from_char(city_improvement_name_translation(editor->pcity,
                                                                   target.value.building),
                                 adj_font(10)),
                                 (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-        buf->ID = MAX_ID - improvement_number(target.value.building);
+        buf->id = MAX_ID - improvement_number(target.value.building);
       }
       buf->string_utf8->style |= SF_CENTER;
       set_wstate(buf, FC_WS_NORMAL);

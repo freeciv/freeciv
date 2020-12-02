@@ -293,7 +293,7 @@ static int exit_spy_tgt_dlg_callback(struct widget *pwidget)
 static int spy_steal_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int steal_advance = MAX_ID - pwidget->ID;
+    int steal_advance = MAX_ID - pwidget->id;
     int actor_id = diplomat_dlg->actor_unit_id;
 
     if (NULL != game_unit_by_number(diplomat_dlg->actor_unit_id)
@@ -737,7 +737,7 @@ static int simple_action_callback(struct widget *pwidget)
   }
 
   /* Data */
-  paction = action_by_number(MAX_ID - pwidget->ID);
+  paction = action_by_number(MAX_ID - pwidget->id);
 
   /* Actor */
   fc_assert(action_get_actor_kind(paction) == AAK_UNIT);
@@ -1278,7 +1278,7 @@ void action_selection_close(void)
 static int sabotage_impr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int sabotage_improvement = MAX_ID - pwidget->ID;
+    int sabotage_improvement = MAX_ID - pwidget->id;
     int diplomat_target_id = pwidget->data.cont->id0;
     int diplomat_id = pwidget->data.cont->id1;
     action_id act_id = pwidget->data.cont->value;
@@ -1515,7 +1515,7 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
     buf->size.x = buf->next->size.x;
     buf->size.y = y = y + buf->next->size.h;
 
-    if (buf->ID == ID_SEPARATOR) {
+    if (buf->id == ID_SEPARATOR) {
       FREESURFACE(buf->theme);
       buf->size.h = h;
       buf->theme = create_surf(w, h, SDL_SWSURFACE);

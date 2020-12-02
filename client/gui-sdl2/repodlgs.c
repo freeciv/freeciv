@@ -134,7 +134,7 @@ static int units_dialog_callback(struct widget *pwindow)
 static int ok_upgrade_unit_window_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    int ut1 = MAX_ID - pwidget->ID;
+    int ut1 = MAX_ID - pwidget->id;
 
     /* popdown upgrade dlg */
     popdown_window_group_dialog(units_upg_dlg->begin_widget_list,
@@ -192,7 +192,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     SDL_Rect dst;
     SDL_Rect area;
 
-    ut1 = utype_by_number(MAX_ID - pwidget->ID);
+    ut1 = utype_by_number(MAX_ID - pwidget->id);
 
     if (units_upg_dlg) {
       return 1;
@@ -268,7 +268,7 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
       buf->action = ok_upgrade_unit_window_callback;
       set_wstate(buf, FC_WS_NORMAL);
 
-      add_to_gui_list(pwidget->ID, buf);
+      add_to_gui_list(pwidget->id, buf);
       buf->size.w = MAX(buf->size.w, buf->next->size.w);
       buf->next->size.w = buf->size.w;
       area.w = MAX(area.w, adj_size(30) + buf->size.w * 2);
@@ -904,7 +904,7 @@ void real_units_report_dialog_update(void *unused)
 
         pbuf = pwidget; /* unit type icon */
         while (pbuf) {
-          if ((MAX_ID - pbuf->ID) == utype_number(i)) {
+          if ((MAX_ID - pbuf->id) == utype_number(i)) {
             is_in_list = TRUE;
             pwidget = pbuf;
             break;
@@ -935,7 +935,7 @@ void real_units_report_dialog_update(void *unused)
 
         search_finished = FALSE;
         while (!search_finished) {
-          if ((MAX_ID - pbuf->ID) == utype_number(i)) { /* list entry for this unit type found */
+          if ((MAX_ID - pbuf->id) == utype_number(i)) { /* list entry for this unit type found */
 
             upgrade = (can_upgrade_unittype(client.conn.playing, i) != NULL);
 
@@ -989,7 +989,7 @@ void real_units_report_dialog_update(void *unused)
             pbuf = pwidget->next;
             do {
               del_widget_from_vertical_scroll_widget_list(units_dlg, pbuf->prev);
-            } while (((MAX_ID - pbuf->prev->ID) != utype_number(i))
+            } while (((MAX_ID - pbuf->prev->id) != utype_number(i))
                      && (pbuf->prev != units_dlg->begin_active_widget_list));
 
             if (pbuf->prev == units_dlg->begin_active_widget_list) {
@@ -1005,14 +1005,14 @@ void real_units_report_dialog_update(void *unused)
         }
       } else { /* player has no unit of this type */
         if (pbuf && pbuf->next != units_dlg->begin_active_widget_list) {
-          if (utype_number(i) < (MAX_ID - pbuf->ID)) {
+          if (utype_number(i) < (MAX_ID - pbuf->id)) {
             continue;
           } else {
             pbuf = pbuf->next;
             do {
               del_widget_from_vertical_scroll_widget_list(units_dlg,
                                                           pbuf->prev);
-            } while (((MAX_ID - pbuf->prev->ID) == utype_number(i))
+            } while (((MAX_ID - pbuf->prev->id) == utype_number(i))
                      && (pbuf->prev != units_dlg->begin_active_widget_list));
             if (pbuf->prev == units_dlg->begin_active_widget_list) {
               del_widget_from_vertical_scroll_widget_list(units_dlg,
@@ -1150,7 +1150,7 @@ static int exit_economy_dialog_callback(struct widget *pwidget)
 static int toggle_block_callback(struct widget *pCheckBox)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    switch (pCheckBox->ID) {
+    switch (pCheckBox->id) {
     case ID_CHANGE_TAXRATE_DLG_LUX_BLOCK_CHECKBOX:
       sdl2_client_flags ^= CF_CHANGE_TAXRATE_LUX_BLOCK;
       return -1;
@@ -1303,7 +1303,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     pMotion.pHoriz_Src = pHoriz_Src;
     pMotion.pLabel_Src = pHoriz_Src->prev;
 
-    switch (pHoriz_Src->ID) {
+    switch (pHoriz_Src->id) {
       case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
         if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           goto END;
@@ -2878,10 +2878,10 @@ static int exit_change_tech_dlg_callback(struct widget *pwidget)
 static int change_research_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    dsend_packet_player_research(&client.conn, (MAX_ID - pwidget->ID));
+    dsend_packet_player_research(&client.conn, (MAX_ID - pwidget->id));
     exit_change_tech_dlg_callback(NULL);
   } else if (main_data.event.button.button == SDL_BUTTON_MIDDLE) {
-    popup_tech_info((MAX_ID - pwidget->ID));
+    popup_tech_info((MAX_ID - pwidget->id));
   }
 
   return -1;
@@ -3073,7 +3073,7 @@ static void popup_change_research_dialog(void)
 static int change_research_goal_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    dsend_packet_player_tech_goal(&client.conn, (MAX_ID - pwidget->ID));
+    dsend_packet_player_tech_goal(&client.conn, (MAX_ID - pwidget->id));
 
     exit_change_tech_dlg_callback(NULL);
 
@@ -3081,7 +3081,7 @@ static int change_research_goal_callback(struct widget *pwidget)
      * there may be a better way to do this?  --dwp */
     real_science_report_dialog_update(NULL);
   } else if (main_data.event.button.button == SDL_BUTTON_MIDDLE) {
-    popup_tech_info((MAX_ID - pwidget->ID));
+    popup_tech_info((MAX_ID - pwidget->id));
   }
 
   return -1;

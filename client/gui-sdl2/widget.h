@@ -152,7 +152,7 @@ struct widget {
 
   SDL_Keycode key;              /* key aliased with this widget */
   Uint16 mod;			/* SHIFT, CTRL, ALT, etc */
-  Uint16 ID;			/* ID in widget list */
+  Uint16 id;			/* id in widget list */
 
   int (*action) (struct widget *);	/* default callback action */
 
@@ -192,8 +192,8 @@ enum scan_direction {
   SCAN_BACKWARD
 };
 
-void add_to_gui_list(Uint16 ID, struct widget *pGUI);
-void del_widget_pointer_from_gui_list(struct widget *pGUI);
+void add_to_gui_list(Uint16 id, struct widget *gui);
+void del_widget_pointer_from_gui_list(struct widget *gui);
 void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock);
 
 bool is_this_widget_first_on_list(struct widget *pGUI);
@@ -205,37 +205,38 @@ void del_main_list(void);
 struct widget *find_next_widget_at_pos(struct widget *start_widget, int x, int y);
 struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keysym key);
 
-struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
+struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
+                                          Uint16 id,
                                           enum scan_direction direction);
 
-struct widget *get_widget_pointer_form_main_list(Uint16 ID);
+struct widget *get_widget_pointer_form_main_list(Uint16 id);
 
-#define set_action(ID, action_callback)	\
-	get_widget_pointer_form_main_list(ID)->action = action_callback
+#define set_action(id, action_callback)	\
+	get_widget_pointer_form_main_list(id)->action = action_callback
 
-#define set_key(ID, keyb)	\
-	get_widget_pointer_form_main_list(ID)->key = keyb
+#define set_key(id, keyb)	\
+	get_widget_pointer_form_main_list(id)->key = keyb
 
-#define set_mod(ID, mod)	\
-	get_widget_pointer_form_main_list(ID)->mod = mod
+#define set_mod(id, mod)	\
+	get_widget_pointer_form_main_list(id)->mod = mod
 
-#define enable(ID)						\
+#define enable(id)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  struct widget *____pGUI = get_widget_pointer_form_main_list(id);	\
   set_wstate(____pGUI, FC_WS_NORMAL);				\
 } while (FALSE)
 
-#define disable(ID)						\
+#define disable(id)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  struct widget *____pGUI = get_widget_pointer_form_main_list(id);	\
   set_wstate(____pGUI , FC_WS_DISABLED);				\
 } while (FALSE)
 
-#define show(ID)	\
-  clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+#define show(id)	\
+  clear_wflag( get_widget_pointer_form_main_list(id), WF_HIDDEN)
 
-#define hide(ID)	\
-  set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+#define hide(id)	\
+  set_wflag(get_widget_pointer_form_main_list(id), WF_HIDDEN)
 
 void widget_selected_action(struct widget *pwidget);
 Uint16 widget_pressed_action(struct widget *pwidget);

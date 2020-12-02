@@ -432,7 +432,7 @@ static int LD_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     bool load = pwidget->data.ptr != NULL;
-    int index = MAX_ID - pwidget->ID;
+    int index = MAX_ID - pwidget->id;
 
     popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
                                 pCma->pAdv->end_widget_list);

@@ -259,7 +259,7 @@ static int pact_callback(struct widget *pwidget)
       pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
-    switch (MAX_ID - pwidget->ID) {
+    switch (MAX_ID - pwidget->id) {
     case 2:
       clause_type = CLAUSE_CEASEFIRE;
     break;
@@ -335,7 +335,7 @@ static int maps_callback(struct widget *pwidget)
       pdialog = get_diplomacy_dialog(pwidget->data.cont->id0);
     }
 
-    switch (MAX_ID - pwidget->ID) {
+    switch (MAX_ID - pwidget->id) {
     case 1:
       clause_type = CLAUSE_MAP;
       break;
@@ -369,7 +369,7 @@ static int techs_callback(struct widget *pwidget)
                                              player_number(pdialog->treaty.plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_ADVANCE,
-                                             (MAX_ID - pwidget->ID));
+                                             (MAX_ID - pwidget->id));
   }
 
   return -1;
@@ -437,7 +437,7 @@ static int cities_callback(struct widget *pwidget)
                                              player_number(pdialog->treaty.plr1),
                                              pwidget->data.cont->id0,
                                              CLAUSE_CITY,
-                                             (MAX_ID - pwidget->ID));
+                                             (MAX_ID - pwidget->id));
   }
 
   return -1;

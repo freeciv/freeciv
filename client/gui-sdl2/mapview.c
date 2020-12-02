@@ -857,7 +857,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                               | WF_WIDGET_HAS_INFO_LABEL);
           buf->info_label = pstr;
           buf->data.unit = aunit;
-          buf->ID = ID_ICON;
+          buf->id = ID_ICON;
           widget_add_as_prev(buf, dock);
           dock = buf;
 
