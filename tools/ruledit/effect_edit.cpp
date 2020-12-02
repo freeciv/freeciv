@@ -170,7 +170,7 @@ void effect_edit::add_effect_to_list(struct effect *peffect,
   char buf[512];
   QListWidgetItem *item;
 
-  fc_snprintf(buf, sizeof(buf), _("Effect #%d: %s"),
+  fc_snprintf(buf, sizeof(buf), R__("Effect #%d: %s"),
               data->num + 1, effect_type_name(peffect->type));
 
   item = new QListWidgetItem(QString::fromUtf8(buf));

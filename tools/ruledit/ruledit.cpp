@@ -161,8 +161,8 @@ static int re_parse_cmdline(int argc, char *argv[])
 #ifndef FREECIV_NDEBUG
       cmdhelp_add(help, "F",
                   /* TRANS: "Fatal" is exactly what user must type, do not translate. */
-                  _("Fatal [SIGNAL]"),
-                  _("Raise a signal on failed assertion"));
+                  R__("Fatal [SIGNAL]"),
+                  R__("Raise a signal on failed assertion"));
 #endif /* FREECIV_NDEBUG */
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
@@ -187,9 +187,9 @@ static int re_parse_cmdline(int argc, char *argv[])
       } else if (str_to_int(argv[i + 1], &fatal_assertions)) {
         i++;
       } else {
-        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+        fc_fprintf(stderr, R__("Invalid signal number \"%s\".\n"),
                    argv[i + 1]);
-        fc_fprintf(stderr, _("Try using --help.\n"));
+        fc_fprintf(stderr, R__("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
 #endif /* FREECIV_NDEBUG */
