@@ -112,7 +112,7 @@ void ruledit_gui::setup(QWidget *central_in)
   if (rev_ver == NULL) {
     fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
   } else {
-    fc_snprintf(verbuf, sizeof(verbuf), _("%s%s\ncommit: %s"),
+    fc_snprintf(verbuf, sizeof(verbuf), R__("%s%s\ncommit: %s"),
                 word_version(), VERSION_STRING, rev_ver);
   }
 
