@@ -196,12 +196,4 @@ enum barbarian_type barb_type_convert(int old_type);
 void set_unit_activity_base(struct unit *punit, Base_type_id base);
 void set_unit_activity_road(struct unit *punit, Road_type_id road);
 
-#define ORDER_OLD_BUILD_CITY (-1)
-#define ORDER_OLD_DISBAND (-2)
-#define ORDER_OLD_BUILD_WONDER (-3)
-#define ORDER_OLD_TRADE_ROUTE (-4)
-#define ORDER_OLD_HOMECITY (-5)
-int sg_order_to_action(int order, struct unit *act_unit,
-                       struct tile *tgt_tile);
-
 #endif /* FC__SAVECOMPAT_H */

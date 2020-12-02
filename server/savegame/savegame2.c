@@ -277,6 +277,12 @@ extern bool sg_success;
 
 #define TOKEN_SIZE 10
 
+#define ORDER_OLD_BUILD_CITY (-1)
+#define ORDER_OLD_DISBAND (-2)
+#define ORDER_OLD_BUILD_WONDER (-3)
+#define ORDER_OLD_TRADE_ROUTE (-4)
+#define ORDER_OLD_HOMECITY (-5)
+
 static struct loaddata *loaddata_new(struct section_file *file);
 static void loaddata_destroy(struct loaddata *loading);
 
@@ -3736,6 +3742,54 @@ static void sg_load_player_units(struct loaddata *loading,
       tile_claim_bases(ptile, plr);
     }
   }
+}
+
+/************************************************************************//**
+  Returns the action id corresponding to the specified order id. If no
+  corresponding action is found ACTION_NONE is returned.
+
+  Relevant tile content information must be loaded before this function is
+  called. Tile content information is relevant if it determines what action
+  an old order result in. Example: a 2.6 ORDER_BUILD_CITY would result in
+  Join City inside a domestic city and in Found City on a tile without a
+  city. That makes domestic cities relevant tile content information.
+****************************************************************************/
+static int sg_order_to_action(int order, struct unit *act_unit,
+                              struct tile *tgt_tile)
+{
+  switch (order) {
+  case ORDER_OLD_BUILD_CITY:
+    if (tile_city(tgt_tile)
+        && city_owner(tile_city(tgt_tile)) == unit_owner(act_unit)) {
+      /* The player's cities are loaded right before his units. It wasn't
+       * possible for rulesets to allow joining foreign cities before 3.0.
+       * This means that a converted build city order only can be a Join
+       * City order if it targets a domestic city. */
+      return ACTION_JOIN_CITY;
+    } else {
+      /* Assume that the intention was to found a new city. */
+      return ACTION_FOUND_CITY;
+    }
+  case ORDER_OLD_BUILD_WONDER:
+    /* Maps one to one with each other. */
+    return ACTION_HELP_WONDER;
+  case ORDER_OLD_TRADE_ROUTE:
+    /* Maps one to one with each other. */
+    return ACTION_TRADE_ROUTE;
+  case ORDER_OLD_DISBAND:
+    /* Added to the order system in the same commit as Help Wonder. Assume
+     * that anyone that intended to order Help Wonder used Help Wonder. */
+    /* Could in theory be intended as an order to disband in the field. Why
+     * would the player give a unit an order to go to a non city location
+     * and disband there? Assume the intention was to recycle the unit
+     * until a non recycle disband order is found. */
+    return ACTION_RECYCLE_UNIT;
+  case ORDER_OLD_HOMECITY:
+    return ACTION_HOME_CITY;
+  }
+
+  /* The order hasn't been replaced by an action. */
+  return ACTION_NONE;
 }
 
 /************************************************************************//**
