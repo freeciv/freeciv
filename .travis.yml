@@ -1,5 +1,3 @@
-sudo: required
-
 language: c
 
 python:
@@ -125,4 +123,4 @@ jobs:
           - sdl2_ttf
           - qt
 
-script: "sudo bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"
+script: "bash ./scripts/travis-build.sh ${TRAVIS_JOB_NAME}"

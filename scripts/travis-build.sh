@@ -82,7 +82,7 @@ cd build
      && cat config.log \
      && exit $config_exit_status)
 make -s -j$(nproc)
-sudo -u travis make install
+make install
 ;;
 
 *)
@@ -107,29 +107,28 @@ cd build
      && cat config.log \
      && exit $config_exit_status)
 make -s -j$(nproc)
-sudo -u travis make install
+make install
 echo "Freeciv build successful!"
 
 # Check that each ruleset loads
 echo "Checking rulesets"
-sudo -u travis ./tests/rulesets_not_broken.sh
+./tests/rulesets_not_broken.sh
 
 # Check ruleset saving
 echo "Checking ruleset saving"
-sudo -u travis ./tests/rulesets_save.sh
+./tests/rulesets_save.sh
 
 # Check ruleset upgrade
 echo "Ruleset upgrade"
 echo "Preparing test data"
-sudo -u travis ../tests/rs_test_res/upgrade_ruleset_sync.bash
+../tests/rs_test_res/upgrade_ruleset_sync.bash
 echo "Checking ruleset upgrade"
 FREECIV_DATA_PATH="../tests/rs_test_res/upgrade_rulesets:$FREECIV_DATA_PATH" \
- sudo --preserve-env=FREECIV_DATA_PATH -u travis \
  ./tests/rulesets_save.sh `cat ../tests/rs_test_res/upgrade_ruleset_list.txt`
 
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/default/bin/
-sudo -u travis ./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv
+./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv
 
 echo "Freeciv server autogame successful!"
 ;;
