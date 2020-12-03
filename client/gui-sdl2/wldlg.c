@@ -1040,7 +1040,7 @@ static void refresh_worklist_count_label(void)
 
 /**************************************************************************
   Global/City worklist editor.
-  if pCity == NULL then fucnction take pWorklist as global worklist.
+  if pCity == NULL then function takes pWorklist as global worklist.
   pWorklist must be not NULL.
 **************************************************************************/
 void popup_worklist_editor(struct city *pCity, struct global_worklist *gwl)

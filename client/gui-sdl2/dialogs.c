@@ -2937,7 +2937,7 @@ static void change_nation_label(void)
 }
 
 /**************************************************************************
-  Selectes a leader and the appropriate sex. Updates the gui elements
+  Selects a leader and the appropriate sex. Updates the gui elements
   and the selected_* variables.
 **************************************************************************/
 static void select_random_leader(Nation_type_id nation)

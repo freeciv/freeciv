@@ -176,7 +176,7 @@ struct SMALL_DLG {
   struct widget *pEndWidgetList;	/* window */
 };
 
-/* Struct of advenced window group dialog ( with scrollbar ) */
+/* Struct of advanced window group dialog ( with scrollbar ) */
 struct ADVANCED_DLG {
   struct widget *pBeginWidgetList;
   struct widget *pEndWidgetList;/* window */

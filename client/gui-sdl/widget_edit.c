@@ -90,7 +90,7 @@ static int redraw_edit_chain(struct EDIT *pEdt)
   /* draw loop */
   while (pInputChain_TMP) {
     Dest_Copy.x += iStart_Mod_X;
-    /* chech if we draw inside of edit rect */
+    /* check if we draw inside of edit rect */
     if (Dest_Copy.x > pEdt->pWidget->size.x + pEdt->pBg->w - 4) {
       break;
     }

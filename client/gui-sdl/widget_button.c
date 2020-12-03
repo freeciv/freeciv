@@ -359,7 +359,7 @@ struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
 
 /**************************************************************************
   Steate Button image with text and Icon.  Then blit to Main.screen on
-  positon start_x , start_y.
+  position start_x, start_y.
 
   Text with atributes is taken from pButton->string16 parameter.
 
@@ -381,7 +381,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 
 /**************************************************************************
   Create Button image with text and Icon.
-  Then blit to Main.screen on positon start_x , start_y.
+  Then blit to Main.screen on position start_x, start_y.
 
    Text with atributes is taken from pButton->string16 parameter.
 
