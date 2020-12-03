@@ -382,7 +382,7 @@ int draw_tibutton(struct widget *pButton, Sint16 start_x, Sint16 start_y)
 
 /**************************************************************************
   Create Button image with text and Icon.
-  Then blit to Main.screen on positon start_x , start_y.
+  Then blit to Main.screen on position start_x, start_y.
 
   Text with atributes is taken from pButton->string_utf8 parameter.
 
