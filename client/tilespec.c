@@ -6023,9 +6023,11 @@ int fill_sprite_array(struct tileset *t,
                        FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;
           case ACTIVITY_GEN_ROAD:
-            ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
-                       TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
-                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
+            if (ptask->tgt != NULL) {
+              ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].activity,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
+            }
             break;
           case ACTIVITY_TRANSFORM:
             ADD_SPRITE(t->sprites.unit.transform,
@@ -6034,9 +6036,11 @@ int fill_sprite_array(struct tileset *t,
             break;
           case ACTIVITY_POLLUTION:
           case ACTIVITY_FALLOUT:
-            ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].rmact,
-                       TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
-                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
+            if (ptask->tgt != NULL) {
+              ADD_SPRITE(t->sprites.extras[extra_index(ptask->tgt)].rmact,
+                         TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
+                         FULL_TILE_Y_OFFSET + t->activity_offset_y);
+            }
             break;
           default:
             break;
