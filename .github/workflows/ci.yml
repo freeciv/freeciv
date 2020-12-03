@@ -69,4 +69,123 @@ jobs:
             qt
       - name: build
         shell: bash
-        run: ./scripts/travis-build.sh os_x
+        run: ./scripts/ci-build.sh os_x
+  normal:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
+            gettext \
+            libgtk-3-dev \
+            libcurl4-openssl-dev \
+            libtool \
+            automake \
+            autoconf \
+            autotools-dev \
+            language-pack-en \
+            python3.7 \
+            liblzma-dev \
+            libicu-dev \
+            libsqlite3-dev \
+            qt5-default \
+            libsdl2-mixer-dev \
+            libsdl2-gfx-dev \
+            libsdl2-image-dev \
+            libsdl2-ttf-dev \
+            libmysqlclient-dev
+      - name: build
+        shell: bash
+        run: ./scripts/ci-build.sh normal
+  dist:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
+            libtolua-dev \
+            gettext \
+            libcurl4-openssl-dev \
+            libtool \
+            automake \
+            autoconf \
+            autotools-dev \
+            python3.7 \
+            liblzma-dev \
+            libicu-dev \
+            libsqlite3-dev
+      - name: build
+        shell: bash
+        run: ./scripts/ci-build.sh dist
+  meson:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
+            meson \
+            libtolua-dev \
+            gettext \
+            libgtk-3-dev \
+            libcurl4-openssl-dev \
+            libtool \
+            automake \
+            autoconf \
+            autotools-dev \
+            language-pack-en \
+            python3.7 \
+            liblzma-dev \
+            libicu-dev \
+            libsqlite3-dev \
+            qt5-default \
+            libsdl2-mixer-dev \
+            libsdl2-gfx-dev \
+            libsdl2-image-dev \
+            libsdl2-ttf-dev \
+            libmysqlclient-dev
+      - name: build
+        shell: bash
+        run: ./scripts/ci-build.sh meson
+  clang_debug:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: check out Freeciv
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: |
+          sudo add-apt-repository ppa:kvilhaugsvik/backports
+          sudo apt-get update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -y install \
+            clang \
+            libtolua-dev \
+            liblua5.4-dev \
+            gettext \
+            libgtk-3-dev \
+            libcurl4-openssl-dev \
+            libtool \
+            automake \
+            autoconf \
+            autotools-dev \
+            language-pack-en \
+            python3.7 \
+            liblzma-dev \
+            libicu-dev \
+            libsqlite3-dev \
+            qt5-default \
+            libsdl2-mixer-dev \
+            libsdl2-gfx-dev \
+            libsdl2-image-dev \
+            libsdl2-ttf-dev \
+            libmysqlclient-dev
+      - name: build
+        shell: bash
+        run: ./scripts/ci-build.sh clang_debug

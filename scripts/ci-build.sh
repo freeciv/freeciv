@@ -2,11 +2,10 @@
 #
 # Freeciv CI Script
 #
-# https://travis-ci.org/freeciv/freeciv
 # https://github.com/freeciv/freeciv/actions
 echo "Running CI job $1 for Freeciv."
 basedir=$(pwd)
-logfile="${basedir}/freeciv-travis.log"
+logfile="${basedir}/freeciv-CI.log"
 
 
 # Redirect copy of output to a log file.
