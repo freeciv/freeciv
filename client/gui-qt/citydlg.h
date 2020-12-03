@@ -18,28 +18,13 @@
 #endif
 
 // Qt
-#include <QDialog>
 #include <QElapsedTimer>
 #include <QItemDelegate>
 #include <QLabel>
+#include <QProgressBar>
+#include <QTableView>
 #include <QtMath>
-
-class city_dialog;
-class QCheckBox;
-class QComboBox;
-class QDialog;
-class QGridLayout;
-class QGroupBox;
-class QHBoxLayout;
-class QProgressBar;
-class QPushButton;
-class QRadioButton;
-class QSplitter;
-class QTableView;
-class QTableWidget;
-class QTabWidget;
-class QVariant;
-class QVBoxLayout;
+#include <QVariant>
 
 // common
 #include "unittype.h"
@@ -51,11 +36,16 @@ class QVBoxLayout;
 #include "fonts.h"
 #include "dialogs.h"
 
-// Qt
-#include <QProgressBar>
-#include <QTableWidget>
-#include <QToolTip>
-
+class QCheckBox;
+class QComboBox;
+class QGridLayout;
+class QGroupBox;
+class QHBoxLayout;
+class QPushButton;
+class QRadioButton;
+class QSplitter;
+class QTableWidget;
+class QVBoxLayout;
 
 #define SPECENUM_NAME city_info
 
