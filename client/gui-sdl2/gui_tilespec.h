@@ -45,7 +45,7 @@ struct Theme {
   SDL_Surface *FR_Bottom;
 
   /* Button */
-  SDL_Surface *Button;
+  SDL_Surface *button;
 
   /* Edit */
   SDL_Surface *Edit;

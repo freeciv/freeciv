@@ -2793,21 +2793,21 @@ static int cancel_help_dlg_callback(struct widget *pwidget)
 /**********************************************************************//**
   User selected nation.
 **************************************************************************/
-static int nation_button_callback(struct widget *pNationButton)
+static int nation_button_callback(struct widget *nation_button)
 {
-  set_wstate(pNationButton, FC_WS_SELECTED);
-  selected_widget = pNationButton;
+  set_wstate(nation_button, FC_WS_SELECTED);
+  selected_widget = nation_button;
 
   if (PRESSED_EVENT(main_data.event)) {
     struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
 
-    if (setup->nation == MAX_ID - pNationButton->id) {
-      widget_redraw(pNationButton);
-      widget_flush(pNationButton);
+    if (setup->nation == MAX_ID - nation_button->id) {
+      widget_redraw(nation_button);
+      widget_flush(nation_button);
       return -1;
     }
 
-    setup->nation = MAX_ID - pNationButton->id;
+    setup->nation = MAX_ID - nation_button->id;
 
     change_nation_label();
 
@@ -2825,10 +2825,10 @@ static int nation_button_callback(struct widget *pNationButton)
     utf8_str *pstr;
     SDL_Surface *text;
     SDL_Rect area, area2;
-    struct nation_type *pNation = nation_by_number(MAX_ID - pNationButton->id);
+    struct nation_type *pNation = nation_by_number(MAX_ID - nation_button->id);
 
-    widget_redraw(pNationButton);
-    widget_mark_dirty(pNationButton);
+    widget_redraw(nation_button);
+    widget_mark_dirty(nation_button);
 
     if (!help_dlg) {
       help_dlg = fc_calloc(1, sizeof(struct small_dialog));

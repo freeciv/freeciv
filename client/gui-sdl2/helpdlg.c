@@ -53,15 +53,15 @@ static struct advanced_dialog *help_dlg = NULL;
 
 struct techs_buttons {
   struct widget *pTargets[6], *pSub_Targets[6];
-  struct widget *pRequirementButton[2], *pSub_Req[4];
+  struct widget *requirement_button[2], *pSub_Req[4];
   struct widget *dock;
   bool show_tree;
   bool show_full_tree;
 };
 
 struct units_buttons {
-  struct widget *pObsoleteByButton;
-  struct widget *pRequirementButton;
+  struct widget *obsolete_by_button;
+  struct widget *requirement_button;
   struct widget *dock;
 };
 
@@ -204,8 +204,8 @@ void popup_impr_info(Impr_type_id impr)
   SDL_Color bg_color = {255, 255, 255, 128};
   struct widget *pwindow;
   struct units_buttons *store;
-  struct widget *pCloseButton = NULL;
-  struct widget *pListToggleButton = NULL;
+  struct widget *close_button = NULL;
+  struct widget *list_toggle_button = NULL;
   struct widget *improvement_button = NULL;
   struct widget *pImprNameLabel = NULL;
   struct widget *pCostLabel = NULL;
@@ -258,19 +258,19 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
+    close_button->info_label =
         create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
-    pCloseButton->action = exit_help_dlg_callback;
-    set_wstate(pCloseButton, FC_WS_NORMAL);
-    pCloseButton->key = SDLK_ESCAPE;
+    close_button->action = exit_help_dlg_callback;
+    set_wstate(close_button, FC_WS_NORMAL);
+    close_button->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pCloseButton);
+    add_to_gui_list(ID_BUTTON, close_button);
 
     /* ------------------ */
-    dock = pCloseButton;
+    dock = close_button;
 
     pstr = create_utf8_str(NULL, 0, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
@@ -321,7 +321,7 @@ void popup_impr_info(Impr_type_id impr)
     FREESURFACE(background_tmpl);
 
     help_dlg->end_active_widget_list = dock->prev;
-    help_dlg->begin_widget_list = improvement_button ? improvement_button : pCloseButton;
+    help_dlg->begin_widget_list = improvement_button ? improvement_button : close_button;
     help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (impr_type_count > 10) {
@@ -330,23 +330,23 @@ void popup_impr_info(Impr_type_id impr)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
                                                            pwindow->dst,
                                                            _("Improvements"),
                                                            adj_font(10), 0);
 #if 0
-   pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
+   list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
    if (store->show_tree) {
-      set_wstate(pListToggleButton, FC_WS_NORMAL);
+      set_wstate(list_toggle_button, FC_WS_NORMAL);
    }
 #endif
 
-    widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    widget_resize(list_toggle_button, adj_size(160), adj_size(15));
+    list_toggle_button->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
-    add_to_gui_list(ID_BUTTON, pListToggleButton);
+    add_to_gui_list(ID_BUTTON, list_toggle_button);
 
-    dock = pListToggleButton;
+    dock = list_toggle_button;
     store->dock = dock;
   } else {
     created = FALSE;
@@ -433,7 +433,7 @@ void popup_impr_info(Impr_type_id impr)
   }
   widget_add_as_prev(pRequirementLabel2, dock);
   dock = pRequirementLabel2;
-  store->pRequirementButton = pRequirementLabel2;
+  store->requirement_button = pRequirementLabel2;
 
   /* obsolete by */
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -465,7 +465,7 @@ void popup_impr_info(Impr_type_id impr)
   }
   widget_add_as_prev(pObsoleteByLabel2, dock);
   dock = pObsoleteByLabel2;
-  store->pObsoleteByButton = pObsoleteByLabel2;
+  store->obsolete_by_button = pObsoleteByLabel2;
 
   /* helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->end_active_widget_list->size.w + adj_size(20));
@@ -501,25 +501,25 @@ void popup_impr_info(Impr_type_id impr)
                         (main_window_height() - pwindow->size.h) / 2);
 
     /* exit button */
-    pCloseButton = pwindow->prev;
-    widget_set_position(pCloseButton,
-                        area.x + area.w - pCloseButton->size.w - 1,
+    close_button = pwindow->prev;
+    widget_set_position(close_button,
+                        area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
     /* list toggle button */
-    pListToggleButton = store->dock;
-    widget_set_position(pListToggleButton, area.x, area.y);
+    list_toggle_button = store->dock;
+    widget_set_position(list_toggle_button, area.x, area.y);
 
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
-                                        area.y + pListToggleButton->size.h, 0, 0,
+                                        area.y + list_toggle_button->size.h, 0, 0,
                                         help_dlg->begin_active_widget_list,
                                         help_dlg->end_active_widget_list);
 
     /* scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
-                                    area.x, area.y + pListToggleButton->size.h,
+                                    area.x, area.y + list_toggle_button->size.h,
                                     h, FALSE);
     }
   }
@@ -541,21 +541,21 @@ void popup_impr_info(Impr_type_id impr)
     start_y += pCostLabel->size.h;
   }
 
-  pRequirementLabel = store->pRequirementButton->next;
+  pRequirementLabel = store->requirement_button->next;
   widget_set_position(pRequirementLabel, start_x, start_y);
 
-  pRequirementLabel2 = store->pRequirementButton;
+  pRequirementLabel2 = store->requirement_button;
   widget_set_position(pRequirementLabel2,
                       pRequirementLabel->size.x + pRequirementLabel->size.w + adj_size(5),
                       start_y);
 
-  if (store->pObsoleteByButton) {
-    pObsoleteByLabel = store->pObsoleteByButton->next;
+  if (store->obsolete_by_button) {
+    pObsoleteByLabel = store->obsolete_by_button->next;
     widget_set_position(pObsoleteByLabel,
                         pRequirementLabel2->size.x + pRequirementLabel2->size.w + adj_size(10),
                         start_y);
 
-    pObsoleteByLabel2 = store->pObsoleteByButton;
+    pObsoleteByLabel2 = store->obsolete_by_button;
     widget_set_position(pObsoleteByLabel2,
                         pObsoleteByLabel->size.x + pObsoleteByLabel->size.w + adj_size(5),
                         start_y);
@@ -620,8 +620,8 @@ void popup_unit_info(Unit_type_id type_id)
   SDL_Color bg_color = {255, 255, 255, 128};
   struct widget *pwindow;
   struct units_buttons *store;
-  struct widget *pCloseButton = NULL;
-  struct widget *pListToggleButton = NULL;
+  struct widget *close_button = NULL;
+  struct widget *list_toggle_button = NULL;
   struct widget *unit_button = NULL;
   struct widget *unit_name_label = NULL;
   struct widget *unit_info_label = NULL;
@@ -674,19 +674,19 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
+    close_button->info_label =
         create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
-    pCloseButton->action = exit_help_dlg_callback;
-    set_wstate(pCloseButton, FC_WS_NORMAL);
-    pCloseButton->key = SDLK_ESCAPE;
+    close_button->action = exit_help_dlg_callback;
+    set_wstate(close_button, FC_WS_NORMAL);
+    close_button->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pCloseButton);
+    add_to_gui_list(ID_BUTTON, close_button);
 
     /* ------------------ */
-    dock = pCloseButton;
+    dock = close_button;
 
     /* --- create scrollable unit list on the left side ---*/
 
@@ -739,7 +739,7 @@ void popup_unit_info(Unit_type_id type_id)
     FREESURFACE(background_tmpl);
 
     help_dlg->end_active_widget_list = dock->prev;
-    help_dlg->begin_widget_list = unit_button ? unit_button : pCloseButton;
+    help_dlg->begin_widget_list = unit_button ? unit_button : close_button;
     help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (utype_count > 10) {
@@ -748,21 +748,21 @@ void popup_unit_info(Unit_type_id type_id)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
                           pwindow->dst,  _("Units"), adj_font(10), 0);
 #if 0
-    pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
+    list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (store->show_tree) {
-      set_wstate(pListToggleButton, FC_WS_NORMAL);
+      set_wstate(list_toggle_button, FC_WS_NORMAL);
     }
 #endif
 
-    widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    widget_resize(list_toggle_button, adj_size(160), adj_size(15));
+    list_toggle_button->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
-    add_to_gui_list(ID_BUTTON, pListToggleButton);
+    add_to_gui_list(ID_BUTTON, list_toggle_button);
 
-    dock = pListToggleButton;
+    dock = list_toggle_button;
     store->dock = dock;
   } else {
     created = FALSE;
@@ -868,7 +868,7 @@ void popup_unit_info(Unit_type_id type_id)
   }
   widget_add_as_prev(pRequirementLabel2, dock);
   dock = pRequirementLabel2;
-  store->pRequirementButton = pRequirementLabel2;
+  store->requirement_button = pRequirementLabel2;
 
   /* obsolete by */
   pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -897,7 +897,7 @@ void popup_unit_info(Unit_type_id type_id)
   }
   widget_add_as_prev(pObsoleteByLabel2, dock);
   dock = pObsoleteByLabel2;
-  store->pObsoleteByButton = pObsoleteByLabel2;
+  store->obsolete_by_button = pObsoleteByLabel2;
 
   /* helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->active_widget_list->size.w + adj_size(20));
@@ -932,25 +932,25 @@ void popup_unit_info(Unit_type_id type_id)
                         (main_window_height() - pwindow->size.h) / 2);
 
     /* exit button */
-    pCloseButton = pwindow->prev;
-    widget_set_position(pCloseButton,
-                        area.x + area.w - pCloseButton->size.w - 1,
+    close_button = pwindow->prev;
+    widget_set_position(close_button,
+                        area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
     /* list toggle button */
-    pListToggleButton = store->dock;
-    widget_set_position(pListToggleButton, area.x, area.y);
+    list_toggle_button = store->dock;
+    widget_set_position(list_toggle_button, area.x, area.y);
 
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
-                                           area.y + pListToggleButton->size.h, 0, 0,
+                                           area.y + list_toggle_button->size.h, 0, 0,
                                            help_dlg->begin_active_widget_list,
                                            help_dlg->end_active_widget_list);
 
     /* scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
-                                    area.x, area.y + pListToggleButton->size.h,
+                                    area.x, area.y + list_toggle_button->size.h,
                                     h, FALSE);
     }
   }
@@ -965,20 +965,20 @@ void popup_unit_info(Unit_type_id type_id)
 
   start_y += unit_info_label->size.h;
 
-  pRequirementLabel = store->pRequirementButton->next;
+  pRequirementLabel = store->requirement_button->next;
   widget_set_position(pRequirementLabel, start_x, start_y);
 
-  pRequirementLabel2 = store->pRequirementButton;
+  pRequirementLabel2 = store->requirement_button;
   widget_set_position(pRequirementLabel2,
                       pRequirementLabel->size.x + pRequirementLabel->size.w + adj_size(5),
                       start_y);
 
-  pObsoleteByLabel = store->pObsoleteByButton->next;
+  pObsoleteByLabel = store->obsolete_by_button->next;
   widget_set_position(pObsoleteByLabel,
                       pRequirementLabel2->size.x + pRequirementLabel2->size.w + adj_size(10),
                       start_y);
 
-  pObsoleteByLabel2 = store->pObsoleteByButton;
+  pObsoleteByLabel2 = store->obsolete_by_button;
   widget_set_position(pObsoleteByLabel2,
                       pObsoleteByLabel->size.x + pObsoleteByLabel->size.w + adj_size(5),
                       start_y);
@@ -986,7 +986,7 @@ void popup_unit_info(Unit_type_id type_id)
   start_y += pObsoleteByLabel2->size.h + adj_size(20);
 
   if (text) {
-    pHelptextLabel = store->pObsoleteByButton->prev;
+    pHelptextLabel = store->obsolete_by_button->prev;
     widget_set_position(pHelptextLabel, start_x, start_y);
   }
 
@@ -1417,8 +1417,8 @@ static void redraw_tech_tree_dlg(void)
   count = i;
 
   i = 0;
-  while (i < 2 && store->pRequirementButton[i]) {
-    tech = MAX_ID - store->pRequirementButton[i]->id;
+  while (i < 2 && store->requirement_button[i]) {
+    tech = MAX_ID - store->requirement_button[i]->id;
 
     /*find Sub_Req's */
     if (i) {
@@ -1456,49 +1456,49 @@ static void redraw_tech_tree_dlg(void)
     }
 
     /* draw main Arrow */
-    create_line(store->pRequirementButton[i]->dst->surface,
-           store->pRequirementButton[i]->size.x + store->pRequirementButton[i]->size.w,
-           store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
+    create_line(store->requirement_button[i]->dst->surface,
+           store->requirement_button[i]->size.x + store->requirement_button[i]->size.w,
+           store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
            ptech->size.x,
-           store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
+           store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
            line_color);
 
     /* Draw Sub_Req arrows */
     if (pSub0 || pSub1) {
-      create_line(store->pRequirementButton[i]->dst->surface,
-             store->pRequirementButton[i]->size.x - adj_size(10),
-             store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
-             store->pRequirementButton[i]->size.x ,
-             store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
+      create_line(store->requirement_button[i]->dst->surface,
+             store->requirement_button[i]->size.x - adj_size(10),
+             store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
+             store->requirement_button[i]->size.x ,
+             store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
              line_color);
     }
 
     if (pSub0) {
-      create_line(store->pRequirementButton[i]->dst->surface,
-             store->pRequirementButton[i]->size.x - adj_size(10),
+      create_line(store->requirement_button[i]->dst->surface,
+             store->requirement_button[i]->size.x - adj_size(10),
              pSub0->size.y + pSub0->size.h / 2,
-             store->pRequirementButton[i]->size.x - adj_size(10),
-             store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
+             store->requirement_button[i]->size.x - adj_size(10),
+             store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
              line_color);
-      create_line(store->pRequirementButton[i]->dst->surface,
+      create_line(store->requirement_button[i]->dst->surface,
              pSub0->size.x + pSub0->size.w,
              pSub0->size.y + pSub0->size.h / 2,
-             store->pRequirementButton[i]->size.x - adj_size(10),
+             store->requirement_button[i]->size.x - adj_size(10),
              pSub0->size.y + pSub0->size.h / 2,
              line_color);
     }
 
     if (pSub1) {
-      create_line(store->pRequirementButton[i]->dst->surface,
-             store->pRequirementButton[i]->size.x - adj_size(10),
+      create_line(store->requirement_button[i]->dst->surface,
+             store->requirement_button[i]->size.x - adj_size(10),
              pSub1->size.y + pSub1->size.h / 2,
-             store->pRequirementButton[i]->size.x - adj_size(10),
-             store->pRequirementButton[i]->size.y + store->pRequirementButton[i]->size.h / 2,
+             store->requirement_button[i]->size.x - adj_size(10),
+             store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
              line_color);
-      create_line(store->pRequirementButton[i]->dst->surface,
+      create_line(store->requirement_button[i]->dst->surface,
              pSub1->size.x + pSub1->size.w,
              pSub1->size.y + pSub1->size.h / 2,
-             store->pRequirementButton[i]->size.x - adj_size(10),
+             store->requirement_button[i]->size.x - adj_size(10),
              pSub1->size.y + pSub1->size.h / 2,
              line_color);
     }
@@ -1685,10 +1685,10 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - ar;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->pRequirementButton[i] = pwidget;
+      store->requirement_button[i] = pwidget;
       req_count++;
     } else {
-      store->pRequirementButton[i] = NULL;
+      store->requirement_button[i] = NULL;
     }
   }
 
@@ -1698,7 +1698,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     int j, sub_tech;
 
     for (j = 0; j < req_count; j++) {
-      sub_tech = MAX_ID - store->pRequirementButton[j]->id;
+      sub_tech = MAX_ID - store->requirement_button[j]->id;
       for (i = AR_ONE; i <= AR_TWO; i++) {
         Tech_type_id ar = advance_required(sub_tech, i);
         struct advance *vap = valid_advance_by_number(ar);
@@ -1785,8 +1785,8 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     w += (pwindow->size.w - (20 + store->pSub_Req[0]->size.w + w + ptech->size.w)) / 2;
   } else {
     if (req_count) {
-      w = (pwindow->area.x + 1 + width + store->pRequirementButton[0]->size.w * 2 + adj_size(20));
-      w += (pwindow->size.w - ((adj_size(20) + store->pRequirementButton[0]->size.w) + w + ptech->size.w)) / 2;
+      w = (pwindow->area.x + 1 + width + store->requirement_button[0]->size.w * 2 + adj_size(20));
+      w += (pwindow->size.w - ((adj_size(20) + store->requirement_button[0]->size.w) + w + ptech->size.w)) / 2;
     } else {
       w = (pwindow->size.w - ptech->size.w) / 2;
     }
@@ -1796,13 +1796,13 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   ptech->size.y = pwindow->area.y + (pwindow->area.h - ptech->size.h) / 2;
 
   if (req_count) {
-    h = (req_count == 1 ? store->pRequirementButton[0]->size.h :
-        req_count * (store->pRequirementButton[0]->size.h + adj_size(80)) - adj_size(80));
+    h = (req_count == 1 ? store->requirement_button[0]->size.h :
+        req_count * (store->requirement_button[0]->size.h + adj_size(80)) - adj_size(80));
     h = ptech->size.y + (ptech->size.h - h) / 2;
     for (i = 0; i < req_count; i++) {
-      store->pRequirementButton[i]->size.x = ptech->size.x - adj_size(20) - store->pRequirementButton[i]->size.w;
-      store->pRequirementButton[i]->size.y = h;
-      h += (store->pRequirementButton[i]->size.h + adj_size(80));
+      store->requirement_button[i]->size.x = ptech->size.x - adj_size(20) - store->requirement_button[i]->size.w;
+      store->requirement_button[i]->size.y = h;
+      h += (store->requirement_button[i]->size.h + adj_size(80));
     }
   }
 
@@ -1890,9 +1890,9 @@ void popup_tech_info(Tech_type_id tech)
 {
   struct widget *pwindow;
   struct techs_buttons *store;
-  struct widget *pCloseButton = NULL;
+  struct widget *close_button = NULL;
   struct widget *pAdvanceLabel = NULL;
-  struct widget *pListToggleButton = NULL;
+  struct widget *list_toggle_button = NULL;
   struct widget *dock;
   utf8_str *title;
   utf8_str *pstr;
@@ -1936,19 +1936,19 @@ void popup_tech_info(Tech_type_id tech)
     /* ------------------ */
 
     /* close button */
-    pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
-    pCloseButton->info_label =
+    close_button->info_label =
         create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
-    pCloseButton->action = exit_help_dlg_callback;
-    set_wstate(pCloseButton, FC_WS_NORMAL);
-    pCloseButton->key = SDLK_ESCAPE;
+    close_button->action = exit_help_dlg_callback;
+    set_wstate(close_button, FC_WS_NORMAL);
+    close_button->key = SDLK_ESCAPE;
 
-    add_to_gui_list(ID_BUTTON, pCloseButton);
+    add_to_gui_list(ID_BUTTON, close_button);
 
     /* ------------------ */
-    dock = pCloseButton;
+    dock = close_button;
 
     /* --- create scrollable advance list on the left side ---*/
     pstr = create_utf8_str(NULL, 0, adj_font(10));
@@ -1977,7 +1977,7 @@ void popup_tech_info(Tech_type_id tech)
     FREEUTF8STR(pstr);
 
     help_dlg->end_active_widget_list = dock->prev;
-    help_dlg->begin_widget_list = pAdvanceLabel ? pAdvanceLabel : pCloseButton;
+    help_dlg->begin_widget_list = pAdvanceLabel ? pAdvanceLabel : close_button;
     help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (tech_count > 10) {
@@ -1986,20 +1986,20 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     /* toggle techs list button */
-    pListToggleButton = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
                                                            pwindow->dst,
                                                            _("Advances"),
                                                            adj_font(10), 0);
-    pListToggleButton->action = toggle_full_tree_mode_in_help_dlg_callback;
+    list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (store->show_tree) {
-      set_wstate(pListToggleButton, FC_WS_NORMAL);
+      set_wstate(list_toggle_button, FC_WS_NORMAL);
     }
-    widget_resize(pListToggleButton, adj_size(160), adj_size(15));
-    pListToggleButton->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
+    widget_resize(list_toggle_button, adj_size(160), adj_size(15));
+    list_toggle_button->string_utf8->fgcol = *get_theme_color(COLOR_THEME_HELPDLG_TEXT);
 
-    add_to_gui_list(ID_BUTTON, pListToggleButton);
+    add_to_gui_list(ID_BUTTON, list_toggle_button);
 
-    dock = pListToggleButton;
+    dock = list_toggle_button;
     store->dock = dock;
   } else {
     created = FALSE;
@@ -2017,12 +2017,12 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     /* show/hide techs list */
-    pListToggleButton = dock;
+    list_toggle_button = dock;
 
     if (store->show_tree) {
-      set_wstate(pListToggleButton, FC_WS_NORMAL);
+      set_wstate(list_toggle_button, FC_WS_NORMAL);
     } else {
-      set_wstate(pListToggleButton, FC_WS_DISABLED);
+      set_wstate(list_toggle_button, FC_WS_DISABLED);
     }
 
     if (store->show_full_tree) {
@@ -2058,24 +2058,24 @@ void popup_tech_info(Tech_type_id tech)
                         (main_window_height() - pwindow->size.h) / 2);
 
     /* exit button */
-    pCloseButton = pwindow->prev;
-    widget_set_position(pCloseButton,
-                        area.x + area.w - pCloseButton->size.w - 1,
+    close_button = pwindow->prev;
+    widget_set_position(close_button,
+                        area.x + area.w - close_button->size.w - 1,
                         pwindow->size.y + adj_size(2));
 
     /* list toggle button */
-    pListToggleButton = store->dock;
-    widget_set_position(pListToggleButton, area.x, area.y);
+    list_toggle_button = store->dock;
+    widget_set_position(list_toggle_button, area.x, area.y);
 
     /* list entries */
     h = setup_vertical_widgets_position(1, area.x + scrollbar_width,
-                                        area.y + pListToggleButton->size.h, 0, 0,
+                                        area.y + list_toggle_button->size.h, 0, 0,
                                         help_dlg->begin_active_widget_list,
                                         help_dlg->end_active_widget_list);
     /* scrollbar */
     if (help_dlg->scroll) {
       setup_vertical_scrollbar_area(help_dlg->scroll,
-                                    area.x, area.y + pListToggleButton->size.h,
+                                    area.x, area.y + list_toggle_button->size.h,
                                     h, FALSE);
     }
   }

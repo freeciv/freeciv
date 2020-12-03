@@ -212,39 +212,40 @@ static int redraw_ibutton(struct widget *icon_button)
 
 /**********************************************************************//**
   Create Icon Button image with text and Icon then blit to Dest(ination)
-  on position pTIButton->size.x, pTIButton->size.y. WARNING: pdest must
-  exist.
+  on position theme_icon_button->size.x, theme_icon_button->size.y.
+  WARNING: pdest must exist.
 
-  Text with attributes is taken from pTIButton->string_utf8 parameter.
+  Text with attributes is taken from theme_icon_button->string_utf8 parameter.
 
-  Graphic for button is taken from pTIButton->theme surface
+  Graphic for button is taken from theme_icon_button->theme surface
   and blit to new created image.
 
-  Graphic for Icon Theme is taken from pTIButton->theme2 surface
+  Graphic for Icon Theme is taken from theme_icon_button->theme2 surface
   and blit to new created image.
 
   function return (-1) if there are no Icon and Text.  Else return 0.
 **************************************************************************/
-static int redraw_tibutton(struct widget *pTIButton)
+static int redraw_tibutton(struct widget *theme_icon_button)
 {
   int iRet = 0;
   SDL_Surface *icon;
   SDL_Surface *pCopy_Of_Icon_Theme;
 
-  iRet = (*baseclass_redraw)(pTIButton);
+  iRet = (*baseclass_redraw)(theme_icon_button);
   if (iRet != 0) {
     return iRet;
   }
 
-  icon = create_icon_from_theme(pTIButton->theme2, get_wstate(pTIButton));
-  pCopy_Of_Icon_Theme = pTIButton->theme2;
+  icon = create_icon_from_theme(theme_icon_button->theme2,
+                                get_wstate(theme_icon_button));
+  pCopy_Of_Icon_Theme = theme_icon_button->theme2;
 
-  pTIButton->theme2 = icon;
+  theme_icon_button->theme2 = icon;
 
-  iRet = redraw_ibutton(pTIButton);
+  iRet = redraw_ibutton(theme_icon_button);
 
-  FREESURFACE(pTIButton->theme2);
-  pTIButton->theme2 = pCopy_Of_Icon_Theme;
+  FREESURFACE(theme_icon_button->theme2);
+  theme_icon_button->theme2 = pCopy_Of_Icon_Theme;
 
   return iRet;
 }
@@ -253,7 +254,7 @@ static int redraw_tibutton(struct widget *pTIButton)
   Create ( malloc ) Icon (theme)Button Widget structure.
 
   Icon graphic is taken from 'icon' surface (don't change with button
-  changes );  Button Theme graphic is taken from current_theme->Button surface;
+  changes );  Button Theme graphic is taken from current_theme->button surface;
   Text is taken from 'pstr'.
 
   This function determinate future size of Button ( width, height ) and
@@ -274,7 +275,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
 
   button = widget_new();
 
-  button->theme = current_theme->Button;
+  button->theme = current_theme->button;
   button->theme2 = icon;
   button->string_utf8 = pstr;
   set_wflag(button, (WF_FREE_STRING | flags));
@@ -319,7 +320,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
     h += adj_size(2);
   }
 
-  correct_size_bcgnd_surf(current_theme->Button, &w, &h);
+  correct_size_bcgnd_surf(current_theme->button, &w, &h);
 
   button->size.w = w;
   button->size.h = h;
@@ -331,7 +332,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
   Create ( malloc ) Theme Icon (theme)Button Widget structure.
 
   Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
-  button changes ); Button Theme graphic is taken from current_theme->Button
+  button changes ); Button Theme graphic is taken from current_theme->button
   surface; Text is taken from 'pstr'.
 
   This function determinate future size of Button ( width, height ) and

@@ -265,7 +265,7 @@ void tilespec_setup_theme(void)
   load_theme_surface(buf, FR_Right, "theme.right_frame");
   load_theme_surface(buf, FR_Top, "theme.top_frame");
   load_theme_surface(buf, FR_Bottom, "theme.bottom_frame");
-  load_theme_surface(buf, Button, "theme.button");
+  load_theme_surface(buf, button, "theme.button");
   load_theme_surface(buf, Edit, "theme.edit");
   load_theme_surface(buf, CBOX_Sell_Icon, "theme.sbox");
   load_theme_surface(buf, CBOX_Unsell_Icon, "theme.ubox");

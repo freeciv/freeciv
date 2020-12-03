@@ -68,10 +68,10 @@ struct CONNLIST {
   struct widget *begin_widget_list;
   struct widget *end_widget_list;
   struct widget *start_button;
-  struct widget *pSelectNationButton;
-  struct widget *pLoadGameButton;
+  struct widget *select_nation_button;
+  struct widget *load_game_button;
   struct widget *pConfigure;
-  struct widget *pBackButton;
+  struct widget *back_button;
   struct widget *pedit;
   int text_width;
   int active;
@@ -109,12 +109,12 @@ void popdown_load_game_dialog(void)
     FC_FREE(pLoadDialog);
 
     /* enable buttons */
-    set_wstate(conn_dlg->pBackButton, FC_WS_NORMAL);
-    widget_redraw(conn_dlg->pBackButton);
-    widget_mark_dirty(conn_dlg->pBackButton);
-    set_wstate(conn_dlg->pLoadGameButton, FC_WS_NORMAL);
-    widget_redraw(conn_dlg->pLoadGameButton);
-    widget_mark_dirty(conn_dlg->pLoadGameButton);
+    set_wstate(conn_dlg->back_button, FC_WS_NORMAL);
+    widget_redraw(conn_dlg->back_button);
+    widget_mark_dirty(conn_dlg->back_button);
+    set_wstate(conn_dlg->load_game_button, FC_WS_NORMAL);
+    widget_redraw(conn_dlg->load_game_button);
+    widget_mark_dirty(conn_dlg->load_game_button);
     set_wstate(conn_dlg->start_button, FC_WS_NORMAL);
     widget_redraw(conn_dlg->start_button);
     widget_mark_dirty(conn_dlg->start_button);
@@ -169,7 +169,7 @@ static int load_selected_game_callback(struct widget *pwidget)
 static void popup_load_game_dialog(void)
 {
   struct widget *pwindow;
-  struct widget *pCloseButton;
+  struct widget *close_button;
   struct widget *pFilenameLabel = NULL;
   struct widget *pFirstLabel = NULL;
   struct widget *lastLabel = NULL;
@@ -186,15 +186,15 @@ static void popup_load_game_dialog(void)
   }
 
   /* disable buttons */
-  set_wstate(conn_dlg->pBackButton, FC_WS_DISABLED);
-  widget_redraw(conn_dlg->pBackButton);
-  widget_mark_dirty(conn_dlg->pBackButton);
-  set_wstate(conn_dlg->pLoadGameButton, FC_WS_DISABLED);
-  widget_redraw(conn_dlg->pLoadGameButton);
-  widget_mark_dirty(conn_dlg->pLoadGameButton);
-  set_wstate(conn_dlg->pSelectNationButton, FC_WS_DISABLED);
-  widget_redraw(conn_dlg->pSelectNationButton);
-  widget_mark_dirty(conn_dlg->pSelectNationButton);
+  set_wstate(conn_dlg->back_button, FC_WS_DISABLED);
+  widget_redraw(conn_dlg->back_button);
+  widget_mark_dirty(conn_dlg->back_button);
+  set_wstate(conn_dlg->load_game_button, FC_WS_DISABLED);
+  widget_redraw(conn_dlg->load_game_button);
+  widget_mark_dirty(conn_dlg->load_game_button);
+  set_wstate(conn_dlg->select_nation_button, FC_WS_DISABLED);
+  widget_redraw(conn_dlg->select_nation_button);
+  widget_mark_dirty(conn_dlg->select_nation_button);
   set_wstate(conn_dlg->start_button, FC_WS_DISABLED);
   widget_redraw(conn_dlg->start_button);
   widget_mark_dirty(conn_dlg->start_button);
@@ -206,7 +206,7 @@ static void popup_load_game_dialog(void)
   title->style |= TTF_STYLE_BOLD;
 
   pwindow = create_window_skeleton(NULL, title, 0);
-  pwindow->action = move_load_game_dlg_callback; 
+  pwindow->action = move_load_game_dlg_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
 
   add_to_gui_list(ID_WINDOW, pwindow);
@@ -216,20 +216,20 @@ static void popup_load_game_dialog(void)
   area = pwindow->area;
 
   /* close button */
-  pCloseButton = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  pCloseButton->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                                    adj_font(12));
-  pCloseButton->action = exit_load_dlg_callback;
-  set_wstate(pCloseButton, FC_WS_NORMAL);
-  pCloseButton->key = SDLK_ESCAPE;
+  close_button->action = exit_load_dlg_callback;
+  set_wstate(close_button, FC_WS_NORMAL);
+  close_button->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_BUTTON, pCloseButton);
+  add_to_gui_list(ID_BUTTON, close_button);
 
-  area.w += pCloseButton->size.w;
+  area.w += close_button->size.w;
 
-  pLoadDialog->begin_widget_list = pCloseButton;
+  pLoadDialog->begin_widget_list = close_button;
 
   /* create scrollbar */
   scrollbar_width = create_vertical_scrollbar(pLoadDialog, 1, 20, TRUE, TRUE);
@@ -297,7 +297,7 @@ static void popup_load_game_dialog(void)
     del_widget_pointer_from_gui_list(pFilenameLabel);
     if (pFilenameLabel == pFirstLabel) {
       add_widget_to_vertical_scroll_widget_list(pLoadDialog,
-          pFilenameLabel, pCloseButton,
+          pFilenameLabel, close_button,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
@@ -321,8 +321,8 @@ static void popup_load_game_dialog(void)
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  widget_set_position(pCloseButton,
-                      area.x + area.w - pCloseButton->size.w - 1,
+  widget_set_position(close_button,
+                      area.x + area.w - close_button->size.w - 1,
                       pwindow->size.y + adj_size(2));
 
   /* FIXME: the scrollbar already got a background saved in
@@ -565,8 +565,8 @@ static int server_config_callback(struct widget *pwidget)
 static int load_game_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    /* set_wstate(conn_dlg->pLoadGameButton, FC_WS_NORMAL);
-     * widget_redraw(conn_dlg->pLoadGameButton);        
+    /* set_wstate(conn_dlg->load_game_button, FC_WS_NORMAL);
+     * widget_redraw(conn_dlg->load_game_button);
      * flush_dirty(); */
     popup_load_game_dialog();
   }
@@ -674,10 +674,10 @@ static void popup_conn_list_dialog(void)
   SDL_Color window_bg_color = {255, 255, 255, 96};
 
   struct widget *pwindow = NULL, *buf = NULL, *pLabel = NULL;
-  struct widget* pBackButton = NULL;
+  struct widget* back_button = NULL;
   struct widget *start_game_button = NULL;
-  struct widget *pSelectNationButton = NULL;
-/*  struct widget *pServerSettingsButton = NULL;*/
+  struct widget *select_nation_button = NULL;
+/*  struct widget *server_settings_button = NULL;*/
   utf8_str *pstr = NULL;
   int n;
   SDL_Rect area;
@@ -795,17 +795,17 @@ static void popup_conn_list_dialog(void)
                                             _("Back"), adj_font(12), 0);
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(10) - buf->size.h;
-  conn_dlg->pBackButton = buf;
+  conn_dlg->back_button = buf;
   buf->action = disconnect_conn_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
   add_to_gui_list(ID_BUTTON, buf);
-  pBackButton = buf;
+  back_button = buf;
 
   buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
                                             _("Start"), adj_font(12), 0);
   buf->size.x = pwindow->size.w - adj_size(10) - buf->size.w;
-  buf->size.y = pBackButton->size.y;
+  buf->size.y = back_button->size.y;
   conn_dlg->start_button = buf;
   buf->action = start_game_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -817,18 +817,18 @@ static void popup_conn_list_dialog(void)
   buf->size.h = start_game_button->size.h;
   buf->size.x = start_game_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = start_game_button->size.y;
-  conn_dlg->pSelectNationButton = buf;
+  conn_dlg->select_nation_button = buf;
   buf->action = select_nation_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
-  pSelectNationButton = buf;
+  select_nation_button = buf;
 
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
                                             _("Load Game"), adj_font(12), 0);
-  buf->size.h = pSelectNationButton->size.h;
-  buf->size.x = pSelectNationButton->size.x - adj_size(10) - buf->size.w;
-  buf->size.y = pSelectNationButton->size.y;
-  conn_dlg->pLoadGameButton = buf;
+  buf->size.h = select_nation_button->size.h;
+  buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
+  buf->size.y = select_nation_button->size.y;
+  conn_dlg->load_game_button = buf;
   buf->action = load_game_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
@@ -838,14 +838,14 @@ static void popup_conn_list_dialog(void)
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
                                             _("Server Settings"),
                                             adj_font(12), 0);
-  buf->size.h = pSelectNationButton->size.h;
-  buf->size.x = pSelectNationButton->size.x - adj_size(10) - buf->size.w;
-  buf->size.y = pSelectNationButton->size.y;
+  buf->size.h = select_nation_button->size.h;
+  buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
+  buf->size.y = select_nation_button->size.y;
   conn_dlg->pConfigure = buf;
   buf->action = server_config_callback;
   set_wstate(buf, FC_WS_DISABLED);
   add_to_gui_list(ID_BUTTON, buf);
-  pServerSettingsButton = buf;
+  server_settings_button = buf;
 #endif
 
   /* not implemented yet */

@@ -2599,14 +2599,14 @@ void real_science_report_dialog_update(void *unused)
     int step, i, cost;
     SDL_Rect dest;
     struct unit_type *punit;
-    struct widget *pChangeResearchButton;
-    struct widget *pChangeResearchGoalButton;
+    struct widget *change_research_button;
+    struct widget *change_research_goal_button;
     SDL_Rect area;
     struct widget *pwindow = science_dlg->end_widget_list;
 
     area = pwindow->area;
-    pChangeResearchButton = pwindow->prev;
-    pChangeResearchGoalButton = pwindow->prev->prev;
+    change_research_button = pwindow->prev;
+    change_research_goal_button = pwindow->prev->prev;
 
     if (A_UNSET != presearch->researching) {
       cost = presearch->client.researching_cost;
@@ -2615,10 +2615,10 @@ void real_science_report_dialog_update(void *unused)
     }
 
     /* update current research icons */
-    FREESURFACE(pChangeResearchButton->theme);
-    pChangeResearchButton->theme = get_tech_icon(presearch->researching);
-    FREESURFACE(pChangeResearchGoalButton->theme);
-    pChangeResearchGoalButton->theme = get_tech_icon(presearch->tech_goal);
+    FREESURFACE(change_research_button->theme);
+    change_research_button->theme = get_tech_icon(presearch->researching);
+    FREESURFACE(change_research_goal_button->theme);
+    change_research_goal_button->theme = get_tech_icon(presearch->tech_goal);
 
     /* redraw Window */
     widget_redraw(pwindow);
@@ -2649,7 +2649,7 @@ void real_science_report_dialog_update(void *unused)
 
     dest.y += adj_size(6);
 
-    widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(18));
+    widget_set_position(change_research_button, dest.x, dest.y + adj_size(18));
 
     /* current research text */
     fc_snprintf(cbuf, sizeof(cbuf), "%s: %s",
@@ -2661,7 +2661,7 @@ void real_science_report_dialog_update(void *unused)
 
     msurf = create_text_surf_from_utf8(pStr);
 
-    dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
+    dest.x = change_research_button->size.x + change_research_button->size.w + adj_size(10);
 
     alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
@@ -2708,7 +2708,7 @@ void real_science_report_dialog_update(void *unused)
     /* improvement icons */
 
     dest.y += dest.h + adj_size(4);
-    dest.x = pChangeResearchButton->size.x + pChangeResearchButton->size.w + adj_size(10);
+    dest.x = change_research_button->size.x + change_research_button->size.w + adj_size(10);
 
     /* buildings */
     improvement_iterate(pimprove) {
@@ -2756,10 +2756,10 @@ void real_science_report_dialog_update(void *unused)
                 dest.x, dest.y, (area.x + area.w - adj_size(16)), dest.y,
                 get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-    dest.x = pChangeResearchButton->size.x;
+    dest.x = change_research_button->size.x;
     dest.y += adj_size(6);
 
-    widget_set_position(pChangeResearchGoalButton, dest.x, dest.y + adj_size(16));
+    widget_set_position(change_research_goal_button, dest.x, dest.y + adj_size(16));
 
     /* -------------------------------- */
 
@@ -2770,7 +2770,7 @@ void real_science_report_dialog_update(void *unused)
                              (presearch, presearch->tech_goal));
       msurf = create_text_surf_from_utf8(pStr);
 
-      dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
+      dest.x = change_research_goal_button->size.x + change_research_goal_button->size.w + adj_size(10);
       alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
       dest.y += msurf->h;
@@ -2781,7 +2781,7 @@ void real_science_report_dialog_update(void *unused)
                              (presearch->tech_goal));
       msurf = create_text_surf_from_utf8(pStr);
 
-      dest.x = pChangeResearchGoalButton->size.x + pChangeResearchGoalButton->size.w + adj_size(10);
+      dest.x = change_research_goal_button->size.x + change_research_goal_button->size.w + adj_size(10);
       alphablit(msurf, NULL, pwindow->dst->surface, &dest, 255);
 
       dest.y += msurf->h + adj_size(6);
@@ -3331,9 +3331,9 @@ void science_report_dialog_popup(bool raise)
 {
   const struct research *presearch;
   struct widget *pwidget, *pwindow;
-  struct widget *pChangeResearchButton;
-  struct widget *pChangeResearchGoalButton;
-  struct widget *pExitButton;
+  struct widget *change_research_button;
+  struct widget *change_research_goal_button;
+  struct widget *exit_button;
   utf8_str *pstr;
   SDL_Surface *background, *tech_icon;
   int count;
@@ -3390,45 +3390,45 @@ void science_report_dialog_popup(bool raise)
 
   /* current research icon */
   tech_icon = get_tech_icon(presearch->researching);
-  pChangeResearchButton = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  change_research_button = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
-  pChangeResearchButton->action = popup_change_research_dialog_callback;
+  change_research_button->action = popup_change_research_dialog_callback;
   if (count > 0) {
-    set_wstate(pChangeResearchButton, FC_WS_NORMAL);
+    set_wstate(change_research_button, FC_WS_NORMAL);
   }
 
-  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, pChangeResearchButton);
+  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_REASARCH_BUTTON, change_research_button);
 
   /* current research goal icon */
   tech_icon = get_tech_icon(presearch->tech_goal);
-  pChangeResearchGoalButton = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  change_research_goal_button = create_icon2(tech_icon, pwindow->dst, WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
-  pChangeResearchGoalButton->action = popup_change_research_goal_dialog_callback;
+  change_research_goal_button->action = popup_change_research_goal_dialog_callback;
   if (count > 0) {
-    set_wstate(pChangeResearchGoalButton, FC_WS_NORMAL);
+    set_wstate(change_research_goal_button, FC_WS_NORMAL);
   }
 
-  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, pChangeResearchGoalButton);
+  add_to_gui_list(ID_SCIENCE_DLG_CHANGE_GOAL_BUTTON, change_research_goal_button);
 
   /* ------ */
   /* exit button */
-  pExitButton = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  exit_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
                                  WF_WIDGET_HAS_INFO_LABEL
                                  | WF_RESTORE_BACKGROUND);
-  pExitButton->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
+  exit_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                                   adj_font(12));
-  pExitButton->action = popdown_science_dialog_callback;
-  set_wstate(pExitButton, FC_WS_NORMAL);
-  pExitButton->key = SDLK_ESCAPE;
+  exit_button->action = popdown_science_dialog_callback;
+  set_wstate(exit_button, FC_WS_NORMAL);
+  exit_button->key = SDLK_ESCAPE;
 
-  add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, pExitButton);
+  add_to_gui_list(ID_SCIENCE_CANCEL_DLG_BUTTON, exit_button);
 
-  widget_set_position(pExitButton,
-                      area.x + area.w - pExitButton->size.w - adj_size(1),
+  widget_set_position(exit_button,
+                      area.x + area.w - exit_button->size.w - adj_size(1),
                       pwindow->size.y + adj_size(2));
 
   /* ======================== */
-  science_dlg->begin_widget_list = pExitButton;
+  science_dlg->begin_widget_list = exit_button;
 
   real_science_report_dialog_update(NULL);
 }

@@ -917,8 +917,8 @@ static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
 
   if (width) {
     SDL_Rect dst = {2,1,0,0};
-    SDL_Surface *buf = create_bcgnd_surf(current_theme->Button, 3, width,
-                                          adj_size(28));
+    SDL_Surface *buf = create_bcgnd_surf(current_theme->button, 3, width,
+                                         adj_size(28));
 
     alphablit(buf, NULL, icon, &dst, 255);
     FREESURFACE(buf);
