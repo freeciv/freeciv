@@ -176,7 +176,7 @@ struct small_dialog {
   struct widget *end_widget_list;	/* window */
 };
 
-/* Struct of advenced window group dialog ( with scrollbar ) */
+/* Struct of advanced window group dialog ( with scrollbar ) */
 struct advanced_dialog {
   struct widget *begin_widget_list;
   struct widget *end_widget_list; /* window */

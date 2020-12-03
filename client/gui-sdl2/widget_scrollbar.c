@@ -1267,7 +1267,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *pDlg,
           add_dock->gfx = NULL;
           set_wflag(add_dock, WF_HIDDEN);
         } else {
-          /* repositon all widgets */
+          /* reposition all widgets */
           buf = new_widget;
           do {
             buf->size.x = buf->next->size.x;
