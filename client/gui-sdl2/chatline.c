@@ -84,7 +84,7 @@ static void add_to_chat_list(char *msg, size_t n_alloc);
                                   LOAD GAME
 **************************************************************************/
 
-struct advanced_dialog *pLoadDialog;
+struct advanced_dialog *load_dialog;
 
 /**********************************************************************//**
   User event to load game dialog window.
@@ -92,7 +92,7 @@ struct advanced_dialog *pLoadDialog;
 static int move_load_game_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    move_window_group(pLoadDialog->begin_widget_list, pwindow);
+    move_window_group(load_dialog->begin_widget_list, pwindow);
   }
 
   return -1;
@@ -103,10 +103,10 @@ static int move_load_game_dlg_callback(struct widget *pwindow)
 **************************************************************************/
 void popdown_load_game_dialog(void)
 {
-  if (pLoadDialog) {
-    popdown_window_group_dialog(pLoadDialog->begin_widget_list, pLoadDialog->end_widget_list);
-    FC_FREE(pLoadDialog->scroll);
-    FC_FREE(pLoadDialog);
+  if (load_dialog) {
+    popdown_window_group_dialog(load_dialog->begin_widget_list, load_dialog->end_widget_list);
+    FC_FREE(load_dialog->scroll);
+    FC_FREE(load_dialog);
 
     /* enable buttons */
     set_wstate(conn_dlg->back_button, FC_WS_NORMAL);
@@ -181,7 +181,7 @@ static void popup_load_game_dialog(void)
   int scrollbar_width = 0;
   int max_label_width = 0;
 
-  if (pLoadDialog) {
+  if (load_dialog) {
     return;
   }
 
@@ -200,7 +200,7 @@ static void popup_load_game_dialog(void)
   widget_mark_dirty(conn_dlg->start_button);
 
   /* create dialog */
-  pLoadDialog = fc_calloc(1, sizeof(struct advanced_dialog));
+  load_dialog = fc_calloc(1, sizeof(struct advanced_dialog));
 
   title = create_utf8_from_char(_("Choose Saved Game to Load"), adj_font(12));
   title->style |= TTF_STYLE_BOLD;
@@ -211,7 +211,7 @@ static void popup_load_game_dialog(void)
 
   add_to_gui_list(ID_WINDOW, pwindow);
 
-  pLoadDialog->end_widget_list = pwindow;
+  load_dialog->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -229,11 +229,11 @@ static void popup_load_game_dialog(void)
 
   area.w += close_button->size.w;
 
-  pLoadDialog->begin_widget_list = close_button;
+  load_dialog->begin_widget_list = close_button;
 
   /* create scrollbar */
-  scrollbar_width = create_vertical_scrollbar(pLoadDialog, 1, 20, TRUE, TRUE);
-  hide_scrollbar(pLoadDialog->scroll);
+  scrollbar_width = create_vertical_scrollbar(load_dialog, 1, 20, TRUE, TRUE);
+  hide_scrollbar(load_dialog->scroll);
 
   /* search for user saved games. */
   files = fileinfolist_infix(get_save_dirs(), ".sav", FALSE);
@@ -272,7 +272,7 @@ static void popup_load_game_dialog(void)
   area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
 
   if (count > 0) {
-    area.h = (pLoadDialog->scroll->active * filename_label->size.h) + adj_size(5);
+    area.h = (load_dialog->scroll->active * filename_label->size.h) + adj_size(5);
   }
 
   resize_window(pwindow, theme_get_background(theme, BACKGROUND_LOADGAMEDLG),
@@ -282,7 +282,7 @@ static void popup_load_game_dialog(void)
 
   area = pwindow->area;
 
-  setup_vertical_scrollbar_area(pLoadDialog->scroll,
+  setup_vertical_scrollbar_area(load_dialog->scroll,
                                 area.x + area.w - 1,
                                 area.y + 1,
                                 area.h - adj_size(2), TRUE);
@@ -296,15 +296,15 @@ static void popup_load_game_dialog(void)
 
     del_widget_pointer_from_gui_list(filename_label);
     if (filename_label == first_label) {
-      add_widget_to_vertical_scroll_widget_list(pLoadDialog,
+      add_widget_to_vertical_scroll_widget_list(load_dialog,
           filename_label, close_button,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
     } else {
-      add_widget_to_vertical_scroll_widget_list(pLoadDialog,
+      add_widget_to_vertical_scroll_widget_list(load_dialog,
           filename_label,
-          pLoadDialog->begin_active_widget_list,
+          load_dialog->begin_active_widget_list,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
@@ -329,9 +329,9 @@ static void popup_load_game_dialog(void)
    * add_widget_to_vertical_scroll_widget_list(), but the window
    * is not drawn yet, so this saved background is wrong.
    * Deleting it here as a workaround. */
-  FREESURFACE(pLoadDialog->scroll->pscroll_bar->gfx);
+  FREESURFACE(load_dialog->scroll->pscroll_bar->gfx);
 
-  redraw_group(pLoadDialog->begin_widget_list, pwindow, 1);
+  redraw_group(load_dialog->begin_widget_list, pwindow, 1);
   flush_dirty();
 }
 

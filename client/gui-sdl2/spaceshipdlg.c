@@ -59,9 +59,9 @@ static struct small_dialog *get_spaceship_dialog(struct player *pplayer)
     dialog_list_has_been_initialised = TRUE;
   }
 
-  dialog_list_iterate(dialog_list, pDialog) {
-    if (pDialog->end_widget_list->data.player == pplayer) {
-      return pDialog;
+  dialog_list_iterate(dialog_list, pdialog) {
+    if (pdialog->end_widget_list->data.player == pplayer) {
+      return pdialog;
     }
   } dialog_list_iterate_end;
 

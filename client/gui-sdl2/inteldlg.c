@@ -99,9 +99,9 @@ static struct intel_dialog *get_intel_dialog(struct player *pplayer)
 static int intel_window_dlg_callback(struct widget *pwindow)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct intel_dialog *pSelectedDialog = get_intel_dialog(pwindow->data.player);
+    struct intel_dialog *selected_dialog = get_intel_dialog(pwindow->data.player);
 
-    move_window_group(pSelectedDialog->pdialog->begin_widget_list, pwindow);
+    move_window_group(selected_dialog->pdialog->begin_widget_list, pwindow);
   }
 
   return -1;
