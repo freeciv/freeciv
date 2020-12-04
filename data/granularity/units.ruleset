@@ -559,16 +559,16 @@ Workers have the ability to transform terrain by cutting and planting trees\
  and plants.\
 ")
 
-[unit_ship]
-name          = _("Generic Ship")
+[unit_boat]
+name          = _("Boats")
 class         = "Sea"
 tech_req      = "Carving"
 obsolete_by   = "None"
-graphic       = "u.warriors"
-graphic_alt   = "-"
-sound_move    = "m_warriors"
+graphic       = "u.boats"
+graphic_alt   = "u.trireme"
+sound_move    = "m_boats"
 sound_move_alt = "m_generic"
-sound_fight   = "f_warriors"
+sound_fight   = "f_boats"
 sound_fight_alt = "f_generic"
 build_cost    = 1000
 pop_cost      = 0
@@ -588,5 +588,5 @@ cargo         = "Land"
 flags         = ""
 roles         = "Ferryboat", "BarbarianBoat"
 helptext      = _("\
-  This is the only ship type you can build.\
+  Boats carved from logs.\
 ")
