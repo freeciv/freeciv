@@ -822,7 +822,7 @@ static void tearoff_callback(GtkWidget *b, gpointer data)
     GtkWidget *temp_hide;
 
     old_parent = gtk_widget_get_parent(box);
-    w = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+    w = gtk_window_new();
     setup_dialog(w, toplevel);
     gtk_widget_set_name(w, "Freeciv");
     gtk_window_set_title(GTK_WINDOW(w), _("Freeciv"));
@@ -2147,7 +2147,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
   if (button == 1) {
     GtkWidget *p;
 
-    p = gtk_window_new(GTK_WINDOW_POPUP);
+    p = gtk_window_new();
     gtk_widget_set_margin_start(p, 4);
     gtk_widget_set_margin_end(p, 4);
     gtk_widget_set_margin_top(p, 4);

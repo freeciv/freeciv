@@ -82,7 +82,7 @@ static void popit(GdkEvent *ev, struct tile *ptile)
   if (TILE_UNKNOWN != client_tile_get_known(ptile)) {
     gdouble e_x, e_y;
 
-    p = gtk_window_new(GTK_WINDOW_POPUP);
+    p = gtk_window_new();
     gtk_widget_set_margin_start(p, 4);
     gtk_widget_set_margin_end(p, 4);
     gtk_widget_set_margin_top(p, 4);

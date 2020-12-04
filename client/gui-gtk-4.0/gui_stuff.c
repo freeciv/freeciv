@@ -460,7 +460,7 @@ static void gui_dialog_detach(struct gui_dialog* dlg)
 
 
   /* Create window and put the widget inside */
-  window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  window = gtk_window_new();
   gtk_window_set_title(GTK_WINDOW(window), dlg->title);
   setup_dialog(window, toplevel);
 
@@ -574,7 +574,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
     {
       GtkWidget *window;
 
-      window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+      window = gtk_window_new();
       gtk_widget_set_name(window, "Freeciv");
       setup_dialog(window, toplevel);
 

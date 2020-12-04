@@ -105,7 +105,7 @@ GtkWidget *choice_dialog_start(GtkWindow *parent, const gchar *name,
 {
   GtkWidget *dshell, *dlabel, *vbox, *bbox;
 
-  dshell = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  dshell = gtk_window_new();
   setup_dialog(dshell, toplevel);
 
   gtk_window_set_title(GTK_WINDOW(dshell), name);

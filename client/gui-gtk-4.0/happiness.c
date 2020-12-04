@@ -149,7 +149,7 @@ static gboolean show_happiness_popup(GtkWidget *w,
       return TRUE;
     }
 
-    p = gtk_window_new(GTK_WINDOW_POPUP);
+    p = gtk_window_new();
     gtk_widget_set_name(p, "Freeciv");
     gtk_widget_set_margin_start(p, 2);
     gtk_widget_set_margin_end(p, 2);

@@ -6147,7 +6147,7 @@ static struct property_editor *property_editor_new(void)
 
   /* The property editor dialog window. */
 
-  win = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  win = gtk_window_new();
   gtk_window_set_title(GTK_WINDOW(win), _("Property Editor"));
   gtk_window_set_resizable(GTK_WINDOW(win), TRUE);
   gtk_window_set_default_size(GTK_WINDOW(win), 780, 560);
