@@ -1273,17 +1273,24 @@ int utype_buy_gold_cost(const struct city *pcity,
 /**********************************************************************//**
   How much city shrinks when it builds unit of this type.
 **************************************************************************/
-int utype_pop_value(const struct unit_type *punittype)
+int utype_pop_value(const struct unit_type *punittype, const struct city *pcity)
 {
-  return (punittype->pop_cost);
+  int pop_cost = punittype->pop_cost;
+
+  pop_cost -= get_unittype_bonus(city_owner(pcity), city_tile(pcity),
+                                 punittype, EFT_POPCOST_FREE);
+
+  return MAX(0, pop_cost);
 }
 
 /**********************************************************************//**
-  How much population is put to building this unit.
+  How much population this unit contains. This can be different from
+  what it originally cost, i.e., from what utype_pop_cost() for the
+  unit type returns.
 **************************************************************************/
 int unit_pop_value(const struct unit *punit)
 {
-  return utype_pop_value(unit_type_get(punit));
+  return unit_type_get(punit)->pop_cost;
 }
 
 /**********************************************************************//**

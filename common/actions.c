@@ -2921,7 +2921,7 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
 {
   switch (result) {
   case ACTRES_JOIN_CITY:
-    if (utype_pop_value(actor_unittype) <= 0) {
+    if (actor_unittype->pop_cost <= 0) {
       /* Reason: Must have population to add. */
       return FALSE;
     }

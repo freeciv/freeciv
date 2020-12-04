@@ -2619,14 +2619,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: the %d is population. */
                      PL_("  * max target size: %d.\n",
                          "  * max target size: %d.\n",
-                         game.info.add_to_size_limit - utype_pop_value(utype)),
-                     game.info.add_to_size_limit - utype_pop_value(utype));
+                         game.info.add_to_size_limit - utype->pop_cost),
+                     game.info.add_to_size_limit - utype->pop_cost);
         cat_snprintf(buf, bufsz,
                      /* TRANS: the %d is the population added. */
                      PL_("  * adds %d population.\n",
                          "  * adds %d population.\n",
-                         utype_pop_value(utype)),
-                     utype_pop_value(utype));
+                         utype->pop_cost),
+                     utype->pop_cost);
         break;
       case ACTRES_BOMBARD:
         cat_snprintf(buf, bufsz,

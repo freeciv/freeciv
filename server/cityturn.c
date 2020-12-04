@@ -2458,7 +2458,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
   }
 
   if (pcity->shield_stock >= unit_shield_cost) {
-    int pop_cost = utype_pop_value(utype);
+    int pop_cost = utype_pop_value(utype, pcity);
     struct unit *punit;
 
     /* Should we disband the city? -- Massimo */

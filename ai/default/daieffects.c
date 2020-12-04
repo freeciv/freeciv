@@ -286,6 +286,9 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_GROWTH_FOOD:
     v += c * 4 + (amount / 7) * pcity->surplus[O_FOOD];
     break;
+  case EFT_POPCOST_FREE:
+    v += amount * city_granary_size(pcity->size) / 10;
+    break;
   case EFT_HEALTH_PCT:
     /* Is plague possible */
     if (game.info.illness_on) {

@@ -312,6 +312,8 @@ extern "C" {
 #define SPECENUM_VALUE124NAME "Casus_Belli_Complete"
 #define SPECENUM_VALUE125 EFT_ILLEGAL_ACTION_HP_COST
 #define SPECENUM_VALUE125NAME "Illegal_Action_HP_Cost"
+#define SPECENUM_VALUE126 EFT_POPCOST_FREE
+#define SPECENUM_VALUE126NAME "Popcost_Free"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

@@ -751,7 +751,7 @@ void veteran_system_definition(struct veteran_system *vsystem, int level,
                                int vlist_wraise);
 
 int unit_pop_value(const struct unit *punit);
-int utype_pop_value(const struct unit_type *punittype);
+int utype_pop_value(const struct unit_type *punittype, const struct city *pcity);
 
 enum unit_move_type utype_move_type(const struct unit_type *punittype);
 void set_unit_move_type(struct unit_class *puclass);

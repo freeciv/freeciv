@@ -197,6 +197,10 @@ Growth_Food
     Food left after cities grow or shrink is amount percent of the capacity of 
 the city's foodbox. This also affects the 'aqueductloss' penalty.
 
+Popcost_Free
+    Ignore amount points of unit's population cost when shrinking the city that
+    built it.
+
 Have_Contact
     If value > 0, gives contact to all the other players.
 
