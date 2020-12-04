@@ -125,7 +125,7 @@ static struct mouse_button_behavior button_behavior;
 
 static SDL_Event *pNet_User_Event = NULL;
 static SDL_Event *pAnim_User_Event = NULL;
-static SDL_Event *pInfo_User_Event = NULL;
+static SDL_Event *info_user_event = NULL;
 static SDL_Event *pMap_Scroll_User_Event = NULL;
 
 static void print_usage(void);
@@ -647,7 +647,7 @@ Uint16 gui_event_loop(void *pData,
     }
 
     if (widget_info_counter > 0) {
-      SDL_PushEvent(pInfo_User_Event);
+      SDL_PushEvent(info_user_event);
       widget_info_counter = 0;
     }
 
@@ -676,7 +676,7 @@ Uint16 gui_event_loop(void *pData,
           break;
         case TRY_AUTO_CONNECT:
           if (try_to_autoconnect()) {
-            pInfo_User_Event->user.code = SHOW_WIDGET_INFO_LABEL;
+            info_user_event->user.code = SHOW_WIDGET_INFO_LABEL;
             autoconnect = FALSE;
           }
           break;
@@ -1012,7 +1012,7 @@ void ui_main(int argc, char *argv[])
   __Info_User_Event.user.code = SHOW_WIDGET_INFO_LABEL;
   __Info_User_Event.user.data1 = NULL;
   __Info_User_Event.user.data2 = NULL;
-  pInfo_User_Event = &__Info_User_Event;
+  info_user_event = &__Info_User_Event;
 
   SDL_zero(__Flush_User_Event);
   __Flush_User_Event.type = user_event_type;

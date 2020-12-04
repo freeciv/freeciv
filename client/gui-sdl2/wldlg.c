@@ -450,16 +450,16 @@ static int worklist_editor_targets_callback(struct widget *pwidget)
   remove currently building imprv/unit and change production to first worklist
   element (or Capitalizations if worklist is empty)
 **************************************************************************/
-static void remove_item_from_worklist(struct widget *pItem)
+static void remove_item_from_worklist(struct widget *item)
 {
   /* only one item (production) is left */
   if (worklist_is_empty(&editor->worklist_copy)) {
     return;
   }
 
-  if (pItem->data.ptr) {
+  if (item->data.ptr) {
     /* correct "data" widget fiels */
-    struct widget *buf = pItem;
+    struct widget *buf = item;
 
     if (buf != editor->pWork->begin_active_widget_list) {
       do {
@@ -469,17 +469,17 @@ static void remove_item_from_worklist(struct widget *pItem)
     }
 
     /* remove element from worklist */
-    worklist_remove(&editor->worklist_copy, *((int *)pItem->data.ptr));
+    worklist_remove(&editor->worklist_copy, *((int *)item->data.ptr));
 
     /* remove widget from widget list */
-    del_widget_from_vertical_scroll_widget_list(editor->pWork, pItem);
+    del_widget_from_vertical_scroll_widget_list(editor->pWork, item);
   } else {
     /* change productions to first worklist element */
-    struct widget *buf = pItem->prev;
+    struct widget *buf = item->prev;
 
     change_production(&editor->worklist_copy.entries[0]);
     worklist_advance(&editor->worklist_copy);
-    del_widget_from_vertical_scroll_widget_list(editor->pWork, pItem);
+    del_widget_from_vertical_scroll_widget_list(editor->pWork, item);
     FC_FREE(buf->data.ptr);
     if (buf != editor->pWork->begin_active_widget_list) {
       do {
@@ -519,32 +519,32 @@ static void remove_item_from_worklist(struct widget *pItem)
   Swap worklist entries DOWN.
   Fuction swap current element with next element of worklist.
 
-  If pItem is last widget or there is only one widget on widgets list
+  If item is last widget or there is only one widget on widgets list
   fuction remove this widget from widget list and target from worklist
 
-  In City mode, when pItem is first worklist element, function make
+  In City mode, when item is first worklist element, function make
   change production (currently building is moved to first element of worklist
   and first element of worklist is build).
 **************************************************************************/
-static void swap_item_down_from_worklist(struct widget *pItem)
+static void swap_item_down_from_worklist(struct widget *item)
 {
   char *text;
   Uint16 id;
   bool changed = FALSE;
   struct universal tmp;
 
-  if (pItem == editor->pWork->begin_active_widget_list) {
-    remove_item_from_worklist(pItem);
+  if (item == editor->pWork->begin_active_widget_list) {
+    remove_item_from_worklist(item);
     return;
   }
 
-  text = pItem->string_utf8->text;
-  id = pItem->id;
+  text = item->string_utf8->text;
+  id = item->id;
 
   /* second item or higher was clicked */
-  if (pItem->data.ptr) {
+  if (item->data.ptr) {
     /* worklist operations -> swap down */
-    int row = *((int *)pItem->data.ptr);
+    int row = *((int *)item->data.ptr);
 
     tmp = editor->worklist_copy.entries[row];
     editor->worklist_copy.entries[row] = editor->worklist_copy.entries[row + 1];
@@ -559,11 +559,11 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   }
 
   if (changed) {
-    pItem->string_utf8->text = pItem->prev->string_utf8->text;
-    pItem->id = pItem->prev->id;
+    item->string_utf8->text = item->prev->string_utf8->text;
+    item->id = item->prev->id;
 
-    pItem->prev->string_utf8->text = text;
-    pItem->prev->id = id;
+    item->prev->string_utf8->text = text;
+    item->prev->id = id;
 
     redraw_group(editor->pWork->begin_widget_list,
                  editor->pWork->end_widget_list, TRUE);
@@ -575,31 +575,31 @@ static void swap_item_down_from_worklist(struct widget *pItem)
   Swap worklist entries UP.
   Fuction swap current element with prev. element of worklist.
 
-  If pItem is first widget on widgets list fuction remove this widget
+  If item is first widget on widgets list fuction remove this widget
   from widget list and target from worklist (global mode)
   or from production (city mode)
 
-  In City mode, when pItem is first worklist element, function make
+  In City mode, when item is first worklist element, function make
   change production (currently building is moved to first element of worklist
   and first element of worklist is build).
 **************************************************************************/
-static void swap_item_up_from_worklist(struct widget *pItem)
+static void swap_item_up_from_worklist(struct widget *item)
 {
-  char *text = pItem->string_utf8->text;
-  Uint16 id = pItem->id;
+  char *text = item->string_utf8->text;
+  Uint16 id = item->id;
   bool changed = FALSE;
   struct universal tmp;
 
   /* first item was clicked -> remove */
-  if (pItem == editor->pWork->end_active_widget_list) {
-    remove_item_from_worklist(pItem);
+  if (item == editor->pWork->end_active_widget_list) {
+    remove_item_from_worklist(item);
     return;
   }
 
   /* third item or higher was clicked */
-  if (pItem->data.ptr && *((int *)pItem->data.ptr) > 0) {
+  if (item->data.ptr && *((int *)item->data.ptr) > 0) {
     /* worklist operations -> swap up */
-    int row = *((int *)pItem->data.ptr);
+    int row = *((int *)item->data.ptr);
 
     tmp = editor->worklist_copy.entries[row];
     editor->worklist_copy.entries[row] = editor->worklist_copy.entries[row - 1];
@@ -616,11 +616,11 @@ static void swap_item_up_from_worklist(struct widget *pItem)
   }
 
   if (changed) {
-    pItem->string_utf8->text = pItem->next->string_utf8->text;
-    pItem->id = pItem->next->id;
+    item->string_utf8->text = item->next->string_utf8->text;
+    item->id = item->next->id;
 
-    pItem->next->string_utf8->text = text;
-    pItem->next->id = id;
+    item->next->string_utf8->text = text;
+    item->next->id = id;
 
     redraw_group(editor->pWork->begin_widget_list,
                  editor->pWork->end_widget_list, TRUE);

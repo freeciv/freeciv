@@ -191,8 +191,8 @@ struct widget *create_themelabel(SDL_Surface *icon, struct gui_layer *pdest,
   pLabel->theme = icon;
   pLabel->string_utf8 = pstr;
   set_wflag(pLabel,
-	    (WF_ICON_CENTER | WF_FREE_STRING | WF_FREE_GFX |
-	     WF_RESTORE_BACKGROUND | flags));
+            (WF_ICON_CENTER | WF_FREE_STRING | WF_FREE_GFX |
+             WF_RESTORE_BACKGROUND | flags));
   set_wstate(pLabel, FC_WS_DISABLED);
   set_wtype(pLabel, WT_T_LABEL);
   pLabel->mod = KMOD_NONE;
@@ -215,24 +215,24 @@ struct widget *create_themelabel(SDL_Surface *icon, struct gui_layer *pdest,
 struct widget *create_iconlabel(SDL_Surface *icon, struct gui_layer *pdest,
                                 utf8_str *pstr, Uint32 flags)
 {
-  struct widget *pILabel = NULL;
+  struct widget *icon_label = NULL;
 
-  pILabel = widget_new();
+  icon_label = widget_new();
 
-  pILabel->theme = icon;
-  pILabel->string_utf8 = pstr;
-  set_wflag(pILabel, WF_FREE_STRING | WF_FREE_GFX | flags);
-  set_wstate(pILabel, FC_WS_DISABLED);
-  set_wtype(pILabel, WT_I_LABEL);
-  pILabel->mod = KMOD_NONE;
-  pILabel->dst = pdest;
+  icon_label->theme = icon;
+  icon_label->string_utf8 = pstr;
+  set_wflag(icon_label, WF_FREE_STRING | WF_FREE_GFX | flags);
+  set_wstate(icon_label, FC_WS_DISABLED);
+  set_wtype(icon_label, WT_I_LABEL);
+  icon_label->mod = KMOD_NONE;
+  icon_label->dst = pdest;
 
-  baseclass_redraw = pILabel->redraw;
-  pILabel->redraw = redraw_label;
+  baseclass_redraw = icon_label->redraw;
+  icon_label->redraw = redraw_label;
 
-  remake_label_size(pILabel);
+  remake_label_size(icon_label);
 
-  return pILabel;
+  return icon_label;
 }
 
 /**********************************************************************//**
@@ -318,70 +318,70 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
 /**********************************************************************//**
   Make themeiconlabel2 widget out of iconlabel widget.
 **************************************************************************/
-struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel)
+struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label)
 {
   SDL_Rect start, area;
   SDL_Color store = {0, 0, 0, 0};
   SDL_Color bg_color = *get_theme_color(COLOR_THEME_THEMELABEL2_BG);
-  Uint32 colorkey, flags = get_wflags(pIconLabel);
+  Uint32 colorkey, flags = get_wflags(icon_label);
   SDL_Surface *pdest;
-  SDL_Surface *ptheme = create_surf(pIconLabel->size.w,
-                                    pIconLabel->size.h * 2, SDL_SWSURFACE);
+  SDL_Surface *ptheme = create_surf(icon_label->size.w,
+                                    icon_label->size.h * 2, SDL_SWSURFACE);
 
   colorkey = SDL_MapRGBA(ptheme->format,
-                         pIconLabel->string_utf8->bgcol.r,
-                         pIconLabel->string_utf8->bgcol.g,
-                         pIconLabel->string_utf8->bgcol.b,
-                         pIconLabel->string_utf8->bgcol.a);
+                         icon_label->string_utf8->bgcol.r,
+                         icon_label->string_utf8->bgcol.g,
+                         icon_label->string_utf8->bgcol.b,
+                         icon_label->string_utf8->bgcol.a);
   SDL_FillRect(ptheme, NULL, colorkey);
 
-  start = pIconLabel->size;
-  pIconLabel->size.x = 0;
-  pIconLabel->size.y = 0;
+  start = icon_label->size;
+  icon_label->size.x = 0;
+  icon_label->size.y = 0;
   area = start;
-  pdest = pIconLabel->dst->surface;
-  pIconLabel->dst->surface = ptheme;
+  pdest = icon_label->dst->surface;
+  icon_label->dst->surface = ptheme;
 
   /* normal */
-  redraw_iconlabel(pIconLabel);
+  redraw_iconlabel(icon_label);
 
   /* selected */
   area.x = 0;
-  area.y = pIconLabel->size.h;
+  area.y = icon_label->size.h;
 
   if (flags & WF_RESTORE_BACKGROUND) {
     SDL_FillRect(ptheme, &area, map_rgba(ptheme->format, bg_color));
-    store = pIconLabel->string_utf8->bgcol;
+    store = icon_label->string_utf8->bgcol;
     SDL_GetRGBA(getpixel(ptheme, area.x , area.y), ptheme->format,
-                &pIconLabel->string_utf8->bgcol.r,
-                &pIconLabel->string_utf8->bgcol.g,
-      		&pIconLabel->string_utf8->bgcol.b,
-                &pIconLabel->string_utf8->bgcol.a);
+                &icon_label->string_utf8->bgcol.r,
+                &icon_label->string_utf8->bgcol.g,
+                &icon_label->string_utf8->bgcol.b,
+                &icon_label->string_utf8->bgcol.a);
   } else {
     fill_rect_alpha(ptheme, &area, &bg_color);
   }
 
-  pIconLabel->size.y = pIconLabel->size.h;
-  redraw_iconlabel(pIconLabel);
+  icon_label->size.y = icon_label->size.h;
+  redraw_iconlabel(icon_label);
 
   if (flags & WF_RESTORE_BACKGROUND) {
-    pIconLabel->string_utf8->bgcol = store;
+    icon_label->string_utf8->bgcol = store;
   }
 
-  pIconLabel->size = start;
+  icon_label->size = start;
   if (flags & WF_FREE_THEME) {
-    FREESURFACE(pIconLabel->theme);
+    FREESURFACE(icon_label->theme);
   }
-  pIconLabel->theme = ptheme;
+  icon_label->theme = ptheme;
   if (flags & WF_FREE_STRING) {
-    FREEUTF8STR(pIconLabel->string_utf8);
+    FREEUTF8STR(icon_label->string_utf8);
   }
-  pIconLabel->dst->surface = pdest;
-  set_wtype(pIconLabel, WT_T2_LABEL);
+  icon_label->dst->surface = pdest;
+  set_wtype(icon_label, WT_T2_LABEL);
 
-  pIconLabel->redraw = redraw_label;
+  icon_label->redraw = redraw_label;
 
-  return pIconLabel;
+  return icon_label;
 }
 
 #if 0

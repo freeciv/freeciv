@@ -257,13 +257,13 @@ static int economy_callback(struct widget *button)
 /**********************************************************************//**
   Show/Hide Units Info Window
 **************************************************************************/
-static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
+static int toggle_unit_info_window_callback(struct widget *icon_widget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     struct widget *buf = NULL;
 
-    clear_surface(pIcon_Widget->theme, NULL);
-    alphablit(current_theme->MAP_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+    clear_surface(icon_widget->theme, NULL);
+    alphablit(current_theme->MAP_Icon, NULL, icon_widget->theme, NULL, 255);
 
     if (get_num_units_in_focus() > 0) {
       undraw_order_widgets();
@@ -274,7 +274,7 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       SDL_Surface *buf_surf;
       SDL_Rect src, window_area;
 
-      set_wstate(pIcon_Widget, FC_WS_NORMAL);
+      set_wstate(icon_widget, FC_WS_NORMAL);
       selected_widget = NULL;
 
       if (units_info_window->private_data.adv_dlg->end_active_widget_list) {
@@ -290,9 +290,9 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       widget_mark_dirty(units_info_window);
 
       /* new button direction */
-      alphablit(current_theme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+      alphablit(current_theme->L_ARROW_Icon, NULL, icon_widget->theme, NULL, 255);
 
-      copy_chars_to_utf8_str(pIcon_Widget->info_label,
+      copy_chars_to_utf8_str(icon_widget->info_label,
                              _("Show Unit Info Window"));
 
       sdl2_client_flags &= ~CF_UNITINFO_SHOWN;
@@ -347,14 +347,14 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       if (main_window_width() - units_info_window->size.w >=
                   minimap_window->dst->dest_rect.x + minimap_window->size.w) {
 
-        set_wstate(pIcon_Widget, FC_WS_NORMAL);
+        set_wstate(icon_widget, FC_WS_NORMAL);
         selected_widget = NULL;
 
         /* SHOW */
-        copy_chars_to_utf8_str(pIcon_Widget->info_label,
+        copy_chars_to_utf8_str(icon_widget->info_label,
                                _("Hide Unit Info Window"));
 
-        alphablit(current_theme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
+        alphablit(current_theme->R_ARROW_Icon, NULL, icon_widget->theme, NULL, 255);
 
         sdl2_client_flags |= CF_UNITINFO_SHOWN;
 
@@ -364,9 +364,9 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
 
         redraw_unit_info_label(get_units_in_focus());
       } else {
-        alphablit(current_theme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL, 255);
-        widget_redraw(pIcon_Widget);
-        widget_mark_dirty(pIcon_Widget);
+        alphablit(current_theme->L_ARROW_Icon, NULL, icon_widget->theme, NULL, 255);
+        widget_redraw(icon_widget);
+        widget_mark_dirty(icon_widget);
       }
     }
 
@@ -1464,7 +1464,7 @@ void set_new_minimap_window_pos(void)
 void popup_unitinfo_window(void)
 {
   struct widget *pwidget, *pwindow;
-  SDL_Surface *pIcon_theme = NULL;
+  SDL_Surface *icon_theme = NULL;
   char buf[256];
 
   if (unit_info_dlg) {
@@ -1485,11 +1485,11 @@ void popup_unitinfo_window(void)
   unitinfo_w = pwindow->size.w;
   unitinfo_h = pwindow->size.h;
 
-  pIcon_theme = ResizeSurface(current_theme->Block, pwindow->area.w,
+  icon_theme = ResizeSurface(current_theme->Block, pwindow->area.w,
                               pwindow->area.h, 1);
 
-  blit_entire_src(pIcon_theme, pwindow->theme, pwindow->area.x, pwindow->area.y);
-  FREESURFACE(pIcon_theme);
+  blit_entire_src(icon_theme, pwindow->theme, pwindow->area.x, pwindow->area.y);
+  FREESURFACE(icon_theme);
 
   pwindow->action = unit_info_window_callback;
 
@@ -1547,12 +1547,12 @@ void popup_unitinfo_window(void)
   /* show/hide unit's window button */
 
   /* make UNITS Icon */
-  pIcon_theme = create_surf(current_theme->MAP_Icon->w,
+  icon_theme = create_surf(current_theme->MAP_Icon->w,
                             current_theme->MAP_Icon->h, SDL_SWSURFACE);
-  alphablit(current_theme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
-  alphablit(current_theme->R_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
+  alphablit(current_theme->MAP_Icon, NULL, icon_theme, NULL, 255);
+  alphablit(current_theme->R_ARROW_Icon, NULL, icon_theme, NULL, 255);
 
-  pwidget = create_themeicon(pIcon_theme, units_info_window->dst,
+  pwidget = create_themeicon(icon_theme, units_info_window->dst,
                              WF_FREE_GFX | WF_FREE_THEME
                              | WF_RESTORE_BACKGROUND
                              | WF_WIDGET_HAS_INFO_LABEL);
@@ -1658,7 +1658,7 @@ void popdown_unitinfo_window(void)
 void popup_minimap_window(void)
 {
   struct widget *pwidget, *pwindow;
-  SDL_Surface *pIcon_theme = NULL;
+  SDL_Surface *icon_theme = NULL;
   SDL_Color black = {0, 0, 0, 255};
   char buf[256];
 
@@ -1677,10 +1677,10 @@ void popup_minimap_window(void)
 
   draw_frame(pwindow->theme, 0, 0, pwindow->size.w, pwindow->size.h);
 
-  pIcon_theme = ResizeSurface(current_theme->Block, BLOCKM_W, pwindow->area.h, 1);
-  blit_entire_src(pIcon_theme, pwindow->theme,
-    pwindow->area.x + pwindow->area.w - pIcon_theme->w, pwindow->area.y);
-  FREESURFACE(pIcon_theme);
+  icon_theme = ResizeSurface(current_theme->Block, BLOCKM_W, pwindow->area.h, 1);
+  blit_entire_src(icon_theme, pwindow->theme,
+    pwindow->area.x + pwindow->area.w - icon_theme->w, pwindow->area.y);
+  FREESURFACE(icon_theme);
 
   pwindow->action = minimap_window_callback;
 
@@ -1783,12 +1783,12 @@ void popup_minimap_window(void)
   /* show/hide minimap button */
 
   /* make Map Icon */
-  pIcon_theme = create_surf(current_theme->MAP_Icon->w, current_theme->MAP_Icon->h,
+  icon_theme = create_surf(current_theme->MAP_Icon->w, current_theme->MAP_Icon->h,
                             SDL_SWSURFACE);
-  alphablit(current_theme->MAP_Icon, NULL, pIcon_theme, NULL, 255);
-  alphablit(current_theme->L_ARROW_Icon, NULL, pIcon_theme, NULL, 255);
+  alphablit(current_theme->MAP_Icon, NULL, icon_theme, NULL, 255);
+  alphablit(current_theme->L_ARROW_Icon, NULL, icon_theme, NULL, 255);
 
-  pwidget = create_themeicon(pIcon_theme, minimap_window->dst,
+  pwidget = create_themeicon(icon_theme, minimap_window->dst,
                              WF_FREE_GFX | WF_FREE_THEME |
                              WF_WIDGET_HAS_INFO_LABEL
                              | WF_RESTORE_BACKGROUND);
@@ -1985,7 +1985,7 @@ void popdown_minimap_window(void)
 void show_game_page(void)
 {
   struct widget *pwidget;
-  SDL_Surface *pIcon_theme = NULL;
+  SDL_Surface *icon_theme = NULL;
 
   if (sdl2_client_flags & CF_MAP_UNIT_W_CREATED) {
     return;
@@ -2000,9 +2000,9 @@ void show_game_page(void)
 #endif
 
   /* cooling icon */
-  pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
-  fc_assert(pIcon_theme != NULL);
-  pwidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
+  icon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
+  fc_assert(icon_theme != NULL);
+  pwidget = create_iconlabel(icon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pwidget,
@@ -2017,10 +2017,10 @@ void show_game_page(void)
   add_to_gui_list(ID_COOLING_ICON, pwidget);
 
   /* warming icon */
-  pIcon_theme = adj_surf(GET_SURF(client_warming_sprite()));
-  fc_assert(pIcon_theme != NULL);
+  icon_theme = adj_surf(GET_SURF(client_warming_sprite()));
+  fc_assert(icon_theme != NULL);
 
-  pwidget = create_iconlabel(pIcon_theme, main_data.gui, NULL, WF_FREE_THEME);
+  pwidget = create_iconlabel(icon_theme, main_data.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
   widget_set_position(pwidget,

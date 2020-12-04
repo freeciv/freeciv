@@ -742,8 +742,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.y = area.y + adj_size(3);
-  dst.x += ((ww - pIcons->pBIG_Shield->w) / 2);
-  alphablit(pIcons->pBIG_Shield, NULL, pwindow->theme, &dst, 255);
+  dst.x += ((ww - icons->pBIG_Shield->w) / 2);
+  alphablit(icons->pBIG_Shield, NULL, pwindow->theme, &dst, 255);
 
   /* food cost background and label */
   dst.x = w + ww + adj_size(10);
@@ -758,8 +758,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.y = area.y + adj_size(3);
-  dst.x += ((ww - pIcons->pBIG_Food->w) / 2);
-  alphablit(pIcons->pBIG_Food, NULL, pwindow->theme, &dst, 255);
+  dst.x += ((ww - icons->pBIG_Food->w) / 2);
+  alphablit(icons->pBIG_Food, NULL, pwindow->theme, &dst, 255);
 
   /* gold cost background and label */
   dst.x = w + ww + adj_size(10);
@@ -774,8 +774,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
                get_theme_color(COLOR_THEME_UNITSREP_FRAME));
 
   dst.y = area.y + adj_size(3);
-  dst.x += ((ww - pIcons->pBIG_Coin->w) / 2);
-  alphablit(pIcons->pBIG_Coin, NULL, pwindow->theme, &dst, 255);
+  dst.x += ((ww - icons->pBIG_Coin->w) / 2);
+  alphablit(icons->pBIG_Coin, NULL, pwindow->theme, &dst, 255);
 
   /* building count background and label */
   dst.x = w + ww + adj_size(10);
@@ -1504,10 +1504,10 @@ static int ok_sell_impr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     int imp, total_count, count = 0;
-    struct widget *pImpr = (struct widget *)pwidget->data.ptr;
+    struct widget *impr = (struct widget *)pwidget->data.ptr;
 
-    imp = pImpr->data.cont->id0;
-    total_count = pImpr->data.cont->id1;
+    imp = impr->data.cont->id0;
+    total_count = impr->data.cont->id1;
 
     /* popdown sell dlg */
     popdown_window_group_dialog(economy_sell_dlg->begin_widget_list,
@@ -1526,7 +1526,7 @@ static int ok_sell_impr_callback(struct widget *pwidget)
     } city_list_iterate_end;
 
     if (count == total_count) {
-      del_widget_from_vertical_scroll_widget_list(economy_dlg, pImpr);
+      del_widget_from_vertical_scroll_widget_list(economy_dlg, impr);
     }
   }
 
@@ -1862,7 +1862,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(12));
   pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
-  buf = create_iconlabel(pIcons->pBIG_Coin, pwindow->dst, pstr,
+  buf = create_iconlabel(icons->pBIG_Coin, pwindow->dst, pstr,
                           (WF_RESTORE_BACKGROUND|WF_ICON_CENTER_RIGHT));
 
   add_to_gui_list(ID_LABEL, buf);
@@ -1995,7 +1995,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(11));
   pstr->style |= TTF_STYLE_BOLD;
 
-  buf = create_iconlabel(pIcons->pBIG_Luxury, pwindow->dst, pstr,
+  buf = create_iconlabel(icons->pBIG_Luxury, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_LUX_LABEL, buf);
 
@@ -2039,7 +2039,7 @@ void economy_report_dialog_popup(bool make_modal)
   pstr = create_utf8_from_char(cbuf, adj_font(11));
   pstr->style |= TTF_STYLE_BOLD;
 
-  buf = create_iconlabel(pIcons->pBIG_Colb, pwindow->dst, pstr,
+  buf = create_iconlabel(icons->pBIG_Colb, pwindow->dst, pstr,
                           WF_RESTORE_BACKGROUND);
 
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_LABEL, buf);
@@ -2118,15 +2118,15 @@ void economy_report_dialog_popup(bool make_modal)
 
       dst.x = (surf->w - text_name->w)/2;
       dst.y += ((surf->h - dst.y) -
-                (text_name->h + (pIcons->pBIG_Coin->h + 2) + text->h)) / 2;
+                (text_name->h + (icons->pBIG_Coin->h + 2) + text->h)) / 2;
       alphablit(text_name, NULL, surf, &dst, 255);
 
       dst.y += text_name->h;
       if (p->cost) {
-        dst.x = (surf->w - p->cost * (pIcons->pBIG_Coin->w + 1))/2;
+        dst.x = (surf->w - p->cost * (icons->pBIG_Coin->w + 1))/2;
         for (count = 0; count < p->cost; count++) {
-          alphablit(pIcons->pBIG_Coin, NULL, surf, &dst, 255);
-          dst.x += pIcons->pBIG_Coin->w + 1;
+          alphablit(icons->pBIG_Coin, NULL, surf, &dst, 255);
+          dst.x += icons->pBIG_Coin->w + 1;
         }
       } else {
 
@@ -2144,7 +2144,7 @@ void economy_report_dialog_popup(bool make_modal)
         FREESURFACE(zoomed);
       }
 
-      dst.y += (pIcons->pBIG_Coin->h + adj_size(2));
+      dst.y += (icons->pBIG_Coin->h + adj_size(2));
       dst.x = (surf->w - text->w) / 2;
       alphablit(text, NULL, surf, &dst, 255);
 
@@ -2595,7 +2595,7 @@ void real_science_report_dialog_update(void *unused)
     char cbuf[128];
     utf8_str *pStr;
     SDL_Surface *msurf;
-    SDL_Surface *pColb_Surface = pIcons->pBIG_Colb;
+    SDL_Surface *pColb_Surface = icons->pBIG_Colb;
     int step, i, cost;
     SDL_Rect dest;
     struct unit_type *punit;

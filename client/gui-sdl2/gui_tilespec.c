@@ -52,7 +52,7 @@
 #include "gui_tilespec.h"
 
 struct Theme *current_theme = NULL;
-struct City_Icon *pIcons;
+struct city_icon *icons;
 
 static SDL_Surface *city_surf;
 
@@ -71,7 +71,7 @@ do {								  \
 	load_GUI_surface(pSpr, current_theme, surf, tag)
 
 #define load_city_icon_surface(pSpr, surf, tag)        \
-        load_GUI_surface(pSpr, pIcons, surf, tag)
+        load_GUI_surface(pSpr, icons, surf, tag)
 
 #define load_order_theme_surface(pSpr, surf, tag)	\
         load_GUI_surface(pSpr, current_theme, surf, tag);
@@ -85,32 +85,32 @@ static void reload_small_citizens_icons(int style)
   int spe_max;
 
   /* free info icons */
-  FREESURFACE(pIcons->pMale_Content);
-  FREESURFACE(pIcons->pFemale_Content);
-  FREESURFACE(pIcons->pMale_Happy);
-  FREESURFACE(pIcons->pFemale_Happy);
-  FREESURFACE(pIcons->pMale_Unhappy);
-  FREESURFACE(pIcons->pFemale_Unhappy);
-  FREESURFACE(pIcons->pMale_Angry);
-  FREESURFACE(pIcons->pFemale_Angry);
+  FREESURFACE(icons->pMale_Content);
+  FREESURFACE(icons->pFemale_Content);
+  FREESURFACE(icons->pMale_Happy);
+  FREESURFACE(icons->pFemale_Happy);
+  FREESURFACE(icons->pMale_Unhappy);
+  FREESURFACE(icons->pFemale_Unhappy);
+  FREESURFACE(icons->pMale_Angry);
+  FREESURFACE(icons->pFemale_Angry);
 
   spe_max = specialist_count();
   for (i = 0; i < spe_max; i++) {
-    FREESURFACE(pIcons->specialists[i]);
+    FREESURFACE(icons->specialists[i]);
   }
 
   /* allocate icons */
-  pIcons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
-  pIcons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
-  pIcons->pMale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
-  pIcons->pFemale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
-  pIcons->pMale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
-  pIcons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
-  pIcons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
-  pIcons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
+  icons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
+  icons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
+  icons->pMale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
+  icons->pFemale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
+  icons->pMale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
+  icons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
+  icons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
+  icons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
 
   for (i = 0; i < spe_max; i++) {
-    pIcons->specialists[i] = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + i, 0));
+    icons->specialists[i] = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + i, 0));
   }
 }
 
@@ -125,7 +125,7 @@ static void reload_small_citizens_icons(int style)
 void reload_citizens_icons(int style)
 {
   reload_small_citizens_icons(style);
-  pIcons->style = style;
+  icons->style = style;
 }
 
 /***************************************************************************//**
@@ -158,20 +158,20 @@ void tilespec_setup_city_icons(void)
 {
   struct sprite *pSpr = NULL;
 
-  pIcons = ( struct City_Icon *)fc_calloc(1,  sizeof( struct City_Icon ));
+  icons = (struct city_icon *)fc_calloc(1, sizeof(struct city_icon));
 
   load_city_icon_surface(pSpr, pBIG_Food_Corr, "city.food_waste");
   load_city_icon_surface(pSpr, pBIG_Shield_Corr, "city.shield_waste");
   load_city_icon_surface(pSpr, pBIG_Trade_Corr, "city.trade_waste");
   load_city_icon_surface(pSpr, pBIG_Food, "city.food");
 
-  pIcons->pBIG_Food_Surplus = crop_rect_from_surface(pIcons->pBIG_Food, NULL);
-  SDL_SetSurfaceAlphaMod(pIcons->pBIG_Food_Surplus, 128);
+  icons->pBIG_Food_Surplus = crop_rect_from_surface(icons->pBIG_Food, NULL);
+  SDL_SetSurfaceAlphaMod(icons->pBIG_Food_Surplus, 128);
 
   load_city_icon_surface(pSpr, pBIG_Shield, "city.shield");
 
-  pIcons->pBIG_Shield_Surplus = crop_rect_from_surface(pIcons->pBIG_Shield, NULL);
-  SDL_SetSurfaceAlphaMod(pIcons->pBIG_Shield_Surplus, 128);
+  icons->pBIG_Shield_Surplus = crop_rect_from_surface(icons->pBIG_Shield, NULL);
+  SDL_SetSurfaceAlphaMod(icons->pBIG_Shield_Surplus, 128);
 
   load_city_icon_surface(pSpr, pBIG_Trade, "city.trade");
   load_city_icon_surface(pSpr, pBIG_Luxury, "city.lux");
@@ -195,27 +195,27 @@ void tilespec_setup_city_icons(void)
 
   load_city_icon_surface(pSpr, pPolice, "city.police");
   /* ================================================================= */
-  pIcons->pWorklist = create_surf(9,9, SDL_SWSURFACE);
-  SDL_FillRect(pIcons->pWorklist, NULL,
-               SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
+  icons->pWorklist = create_surf(9,9, SDL_SWSURFACE);
+  SDL_FillRect(icons->pWorklist, NULL,
+               SDL_MapRGB(icons->pWorklist->format, 255, 255,255));
 
-  create_frame(pIcons->pWorklist,
-               0, 0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
+  create_frame(icons->pWorklist,
+               0, 0, icons->pWorklist->w - 1, icons->pWorklist->h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(pIcons->pWorklist,
+  create_line(icons->pWorklist,
               3, 2, 5, 2,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(pIcons->pWorklist,
+  create_line(icons->pWorklist,
               3, 4, 7, 4,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(pIcons->pWorklist,
+  create_line(icons->pWorklist,
               3, 6, 6, 6,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
   /* ================================================================= */
 
   /* force reload citizens icons */
-  pIcons->style = 999;
+  icons->style = 999;
 }
 
 /***************************************************************************//**
@@ -226,26 +226,26 @@ void tilespec_free_city_icons(void)
   int i;
   int spe_max;
 
-  if (!pIcons) {
+  if (!icons) {
     return;
   }
 
   /* small citizens */
-  FREESURFACE(pIcons->pMale_Content);
-  FREESURFACE(pIcons->pFemale_Content);
-  FREESURFACE(pIcons->pMale_Happy);
-  FREESURFACE(pIcons->pFemale_Happy);
-  FREESURFACE(pIcons->pMale_Unhappy);
-  FREESURFACE(pIcons->pFemale_Unhappy);
-  FREESURFACE(pIcons->pMale_Angry);
-  FREESURFACE(pIcons->pFemale_Angry);
+  FREESURFACE(icons->pMale_Content);
+  FREESURFACE(icons->pFemale_Content);
+  FREESURFACE(icons->pMale_Happy);
+  FREESURFACE(icons->pFemale_Happy);
+  FREESURFACE(icons->pMale_Unhappy);
+  FREESURFACE(icons->pFemale_Unhappy);
+  FREESURFACE(icons->pMale_Angry);
+  FREESURFACE(icons->pFemale_Angry);
 
   spe_max = specialist_count();
   for (i = 0; i < spe_max; i++) {
-    FREESURFACE(pIcons->specialists[i]);
+    FREESURFACE(icons->specialists[i]);
   }
 
-  FC_FREE(pIcons);
+  FC_FREE(icons);
 }
 
 /* =================================================== */
@@ -482,17 +482,17 @@ SDL_Surface *get_city_gfx(void)
 *******************************************************************************/
 void draw_intro_gfx(void)
 {
-  SDL_Surface *pIntro = theme_get_background(theme, BACKGROUND_MAINPAGE);
+  SDL_Surface *intro = theme_get_background(theme, BACKGROUND_MAINPAGE);
 
-  if (pIntro->w != main_window_width()) {
-    SDL_Surface *pTmp = ResizeSurface(pIntro, main_window_width(), main_window_height(), 1);
+  if (intro->w != main_window_width()) {
+    SDL_Surface *pTmp = ResizeSurface(intro, main_window_width(), main_window_height(), 1);
 
-    FREESURFACE(pIntro);
-    pIntro = pTmp;
+    FREESURFACE(intro);
+    intro = pTmp;
   }
 
   /* draw intro gfx center in screen */
-  alphablit(pIntro, NULL, main_data.map, NULL, 255);
+  alphablit(intro, NULL, main_data.map, NULL, 255);
 
-  FREESURFACE(pIntro);
+  FREESURFACE(intro);
 }

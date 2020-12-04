@@ -207,7 +207,7 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *close_button = NULL;
   struct widget *list_toggle_button = NULL;
   struct widget *improvement_button = NULL;
-  struct widget *pImprNameLabel = NULL;
+  struct widget *impr_name_label = NULL;
   struct widget *pCostLabel = NULL;
   struct widget *pUpkeepLabel = NULL;
   struct widget *pRequirementLabel = NULL;
@@ -368,14 +368,14 @@ void popup_impr_info(Impr_type_id impr)
   pimpr_type = improvement_by_number(impr);
 
   surf = get_building_surface(pimpr_type);
-  pImprNameLabel = create_iconlabel_from_chars(
+  impr_name_label = create_iconlabel_from_chars(
                      ResizeSurfaceBox(surf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
                      pwindow->dst, city_improvement_name_translation(NULL, pimpr_type),
                      adj_font(24), WF_FREE_THEME);
 
-  pImprNameLabel->id = ID_LABEL;
-  widget_add_as_prev(pImprNameLabel, dock);
-  dock = pImprNameLabel;
+  impr_name_label->id = ID_LABEL;
+  widget_add_as_prev(impr_name_label, dock);
+  dock = impr_name_label;
 
   if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
     sprintf(buffer, "%s %d", _("Base Cost:"),
@@ -524,13 +524,13 @@ void popup_impr_info(Impr_type_id impr)
     }
   }
 
-  pImprNameLabel = store->dock->prev;
-  widget_set_position(pImprNameLabel, start_x, area.y + adj_size(16));
+  impr_name_label = store->dock->prev;
+  widget_set_position(impr_name_label, start_x, area.y + adj_size(16));
 
-  start_y = pImprNameLabel->size.y + pImprNameLabel->size.h + adj_size(10);
+  start_y = impr_name_label->size.y + impr_name_label->size.h + adj_size(10);
 
   if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
-    pCostLabel = pImprNameLabel->prev;
+    pCostLabel = impr_name_label->prev;
     widget_set_position(pCostLabel, start_x, start_y);
     if (!is_wonder(pimpr_type)) {
       pUpkeepLabel = pCostLabel->prev;

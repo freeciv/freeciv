@@ -33,7 +33,7 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
                                   utf8_str *pstr, Uint16 w, Uint16 h, Uint32 flags);
 struct widget *create_iconlabel(SDL_Surface *icon, struct gui_layer *pdest,
                                 utf8_str *text, Uint32 flags);
-struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *pIconLabel);
+struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label);
 int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
 
 int redraw_iconlabel(struct widget *pLabel);

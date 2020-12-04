@@ -69,7 +69,7 @@
 #include "mapview.h"
 
 extern SDL_Event *flush_event;
-extern SDL_Rect *pInfo_Area;
+extern SDL_Rect *info_area;
 
 int overview_start_x = 0;
 int overview_start_y = 0;
@@ -269,10 +269,10 @@ void flush_dirty(void)
 
       /* restore widget info label if it overlaps with this area */
       dst = main_data.rects[i];
-      if (pInfo_Area && !(((dst.x + dst.w) < pInfo_Area->x)
-                          || (dst.x > (pInfo_Area->x + pInfo_Area->w))
-                          || ((dst.y + dst.h) < pInfo_Area->y)
-                          || (dst.y > (pInfo_Area->y + pInfo_Area->h)))) {
+      if (info_area && !(((dst.x + dst.w) < info_area->x)
+                          || (dst.x > (info_area->x + info_area->w))
+                          || ((dst.y + dst.h) < info_area->y)
+                          || (dst.y > (info_area->y + info_area->h)))) {
         redraw_widget_info_label(&dst);
       }
     }
@@ -542,7 +542,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     widget_redraw(info_window);
 
     if (punit) {
-      SDL_Surface *pName, *pVet_Name = NULL, *pInfo, *pInfo_II = NULL;
+      SDL_Surface *pName, *pVet_Name = NULL, *info, *info2 = NULL;
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
@@ -582,7 +582,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       copy_chars_to_utf8_str(pstr,
                              get_unit_info_label_text2(punitlist,
                                                        TILE_LB_RESOURCE_POLL));
-      pInfo = create_text_surf_from_utf8(pstr);
+      info = create_text_surf_from_utf8(pstr);
 
       if (info_window->size.h >
           (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) || right) {
@@ -707,7 +707,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
         copy_chars_to_utf8_str(pstr, buffer);
 
-        pInfo_II = create_text_surf_smaller_than_w(pstr, width - BLOCKU_W - adj_size(4));
+        info2 = create_text_surf_smaller_than_w(pstr, width - BLOCKU_W - adj_size(4));
       }
 
       FREEUTF8STR(pstr);
@@ -717,9 +717,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       n = unit_list_size(ptile->units);
       y = 0;
 
-      if (n > 1 && ((!right && pInfo_II
+      if (n > 1 && ((!right && info2
                      && (info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) -
-                         pInfo_II->h > 52))
+                         info2->h > 52))
                     || (right && info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h -
                                                                             info_window->area.h)) > 52))) {
         height = (info_window->size.h - info_window->area.h) + DEFAULT_UNITS_H;
@@ -727,7 +727,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         height = info_window->size.h;
         if (info_window->size.h > (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h))) {
           y = (info_window->size.h - (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h)) -
-               (!right && pInfo_II ? pInfo_II->h : 0)) / 2;
+               (!right && info2 ? info2->h : 0)) / 2;
         }
       }
 
@@ -761,31 +761,31 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       /* blit unit info text */
       area.x = info_window->area.x + BLOCKU_W - adj_size(4) +
-                 ((width - BLOCKU_W + adj_size(4) - pInfo->w) / 2);
-      area.y = info_window->size.y + sy + (DEFAULT_UNITS_H - sy - pInfo->h) / 2;
+                 ((width - BLOCKU_W + adj_size(4) - info->w) / 2);
+      area.y = info_window->size.y + sy + (DEFAULT_UNITS_H - sy - info->h) / 2;
 
-      alphablit(pInfo, NULL, info_window->dst->surface, &area, 255);
-      FREESURFACE(pInfo);
+      alphablit(info, NULL, info_window->dst->surface, &area, 255);
+      FREESURFACE(info);
 
-      if (pInfo_II) {
+      if (info2) {
         if (right) {
-	  area.x = info_window->area.x + width + (width - pInfo_II->w) / 2;
-	  area.y = info_window->area.y + (height - pInfo_II->h) / 2;
+	  area.x = info_window->area.x + width + (width - info2->w) / 2;
+	  area.y = info_window->area.y + (height - info2->h) / 2;
         } else {
 	  area.y = info_window->area.y + DEFAULT_UNITS_H + y;
           area.x = info_window->area.x + BLOCKU_W +
-                   (width - BLOCKU_W - pInfo_II->w) / 2;
+                   (width - BLOCKU_W - info2->w) / 2;
         }
 
         /* blit unit info text */
-        alphablit(pInfo_II, NULL, info_window->dst->surface, &area, 255);
+        alphablit(info2, NULL, info_window->dst->surface, &area, 255);
 
         if (right) {
           sy = (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h));
         } else {
-          sy = area.y - info_window->size.y + pInfo_II->h;
+          sy = area.y - info_window->size.y + info2->h;
         }
-        FREESURFACE(pInfo_II);
+        FREESURFACE(info2);
       } else {
         sy = (DEFAULT_UNITS_H + (info_window->size.h - info_window->area.h));
       }

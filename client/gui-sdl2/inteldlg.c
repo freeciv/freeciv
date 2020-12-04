@@ -228,7 +228,7 @@ void update_intel_dialog(struct player *p)
   struct intel_dialog *pdialog = get_intel_dialog(p);
   struct widget *pwindow = NULL, *buf = NULL, *last;
   SDL_Surface *logo = NULL, *tmp_surf = NULL;
-  SDL_Surface *text1, *pInfo, *text2 = NULL;
+  SDL_Surface *text1, *info, *text2 = NULL;
   utf8_str *pstr;
   SDL_Rect dst;
   char cbuf[256], plr_buf[4 * MAX_LEN_NAME];
@@ -358,9 +358,9 @@ void update_intel_dialog(struct player *p)
     };
 
     copy_chars_to_utf8_str(pstr, cbuf);
-    pInfo = create_text_surf_from_utf8(pstr);
-    area.w = MAX(area.w, logo->w + adj_size(10) + pInfo->w + adj_size(20));
-    area.h += MAX(logo->h + adj_size(20), pInfo->h + adj_size(20));
+    info = create_text_surf_from_utf8(pstr);
+    area.w = MAX(area.w, logo->w + adj_size(10) + info->w + adj_size(20));
+    area.h += MAX(logo->h + adj_size(20), info->h + adj_size(20));
 
     /* ---------- */
     tmp_surf = get_tech_icon(A_FIRST);
@@ -447,14 +447,14 @@ void update_intel_dialog(struct player *p)
 
     /* spaceship button */
     buf = buf->prev;
-    dst.x = area.x + (area.w - (buf->size.w + adj_size(10) + pInfo->w)) / 2;
+    dst.x = area.x + (area.w - (buf->size.w + adj_size(10) + info->w)) / 2;
     buf->size.x = dst.x;
     buf->size.y = dst.y;
 
     dst.x += buf->size.w + adj_size(10);
-    alphablit(pInfo, NULL, pwindow->theme, &dst, 255);
-    dst.y += pInfo->h + adj_size(10);
-    FREESURFACE(pInfo);
+    alphablit(info, NULL, pwindow->theme, &dst, 255);
+    dst.y += info->h + adj_size(10);
+    FREESURFACE(info);
 
     /* --------------------- */
 

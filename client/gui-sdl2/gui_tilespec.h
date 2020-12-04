@@ -148,7 +148,7 @@ struct Theme {
   SDL_Surface *OLoad_Icon;
 };
 
-struct City_Icon {
+struct city_icon {
   int style;
 
   SDL_Surface *pBIG_Food_Corr;
@@ -193,7 +193,7 @@ struct City_Icon {
 };
 
 extern struct Theme *current_theme;
-extern struct City_Icon *pIcons;
+extern struct city_icon *icons;
 
 void tilespec_setup_theme(void);
 void tilespec_free_theme(void);

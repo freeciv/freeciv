@@ -305,35 +305,35 @@ static Uint16 redraw_order_widgets(void)
 static void set_new_order_widget_start_pos(void)
 {
   struct widget *pMiniMap = get_minimap_window_widget();
-  struct widget *pInfoWind = get_unit_info_window_widget();
+  struct widget *info_wind = get_unit_info_window_widget();
   struct widget *tmp_widget = begin_order_widget_list;
   Sint16 sx, sy, xx, yy = 0;
   int count = 0, lines = 1, w = 0, count_on_line;
 
   xx = pMiniMap->dst->dest_rect.x + pMiniMap->size.w + adj_size(10);
-  w = (pInfoWind->dst->dest_rect.x - adj_size(10)) - xx;
+  w = (info_wind->dst->dest_rect.x - adj_size(10)) - xx;
 
   if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
-    if (pMiniMap->size.h == pInfoWind->size.h) {
+    if (pMiniMap->size.h == info_wind->size.h) {
       xx = 0;
       w = main_window_width();
-      yy = pInfoWind->size.h;
+      yy = info_wind->size.h;
     } else {
-      if (pMiniMap->size.h > pInfoWind->size.h) {
+      if (pMiniMap->size.h > info_wind->size.h) {
         w = main_window_width() - xx - adj_size(20);
         if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
 	  xx = 0;
 	  w = pMiniMap->size.w;
 	  yy = pMiniMap->size.h;
         } else {
-          yy = pInfoWind->size.h;
+          yy = info_wind->size.h;
         }
       } else {
-	w = pInfoWind->dst->dest_rect.x - adj_size(20);
+	w = info_wind->dst->dest_rect.x - adj_size(20);
         if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
-	  xx = pInfoWind->dst->dest_rect.x;
-	  w = pInfoWind->size.w;
-	  yy = pInfoWind->size.h;
+	  xx = info_wind->dst->dest_rect.x;
+	  w = info_wind->size.w;
+	  yy = info_wind->size.h;
         } else {
 	  xx = adj_size(10);
           yy = pMiniMap->size.h;

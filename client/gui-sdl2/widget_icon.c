@@ -142,13 +142,13 @@ static int redraw_icon2(struct widget *icon)
 /**********************************************************************//**
   Set new theme and callculate new size.
 **************************************************************************/
-void set_new_icon_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme)
+void set_new_icon_theme(struct widget *icon_widget, SDL_Surface *pNew_Theme)
 {
-  if ((pNew_Theme) && (pIcon_Widget)) {
-    FREESURFACE(pIcon_Widget->theme);
-    pIcon_Widget->theme = pNew_Theme;
-    pIcon_Widget->size.w = pNew_Theme->w / 4;
-    pIcon_Widget->size.h = pNew_Theme->h;
+  if ((pNew_Theme) && (icon_widget)) {
+    FREESURFACE(icon_widget->theme);
+    icon_widget->theme = pNew_Theme;
+    icon_widget->size.w = pNew_Theme->w / 4;
+    icon_widget->size.h = pNew_Theme->h;
   }
 }
 
@@ -205,29 +205,29 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *icon)
 /**********************************************************************//**
   Create ( malloc ) Icon Widget ( flat Button )
 **************************************************************************/
-struct widget *create_themeicon(SDL_Surface *pIcon_theme,
+struct widget *create_themeicon(SDL_Surface *icon_theme,
                                 struct gui_layer *pdest,
                                 Uint32 flags)
 {
-  struct widget *pIcon_Widget = widget_new();
+  struct widget *icon_widget = widget_new();
 
-  pIcon_Widget->theme = pIcon_theme;
+  icon_widget->theme = icon_theme;
 
-  set_wflag(pIcon_Widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
-  set_wstate(pIcon_Widget, FC_WS_DISABLED);
-  set_wtype(pIcon_Widget, WT_ICON);
-  pIcon_Widget->mod = KMOD_NONE;
-  pIcon_Widget->dst = pdest;
+  set_wflag(icon_widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
+  set_wstate(icon_widget, FC_WS_DISABLED);
+  set_wtype(icon_widget, WT_ICON);
+  icon_widget->mod = KMOD_NONE;
+  icon_widget->dst = pdest;
 
-  baseclass_redraw = pIcon_Widget->redraw;
-  pIcon_Widget->redraw = redraw_icon;
+  baseclass_redraw = icon_widget->redraw;
+  icon_widget->redraw = redraw_icon;
 
-  if (pIcon_theme) {
-    pIcon_Widget->size.w = pIcon_theme->w / 4;
-    pIcon_Widget->size.h = pIcon_theme->h;
+  if (icon_theme) {
+    icon_widget->size.w = icon_theme->w / 4;
+    icon_widget->size.h = icon_theme->h;
   }
 
-  return pIcon_Widget;
+  return icon_widget;
 }
 
 /**********************************************************************//**
@@ -250,7 +250,7 @@ int draw_icon(struct widget *icon, Sint16 start_x, Sint16 start_y)
   Blit Icon image to pdest(ination) on position
   start_x, start_y. WARNING: pdest must exist.
 
-  Graphic is taken from pIcon_theme surface.
+  Graphic is taken from icon_theme surface.
 
   Type of Icon depend of "state" parameter.
     state = 0 - normal
@@ -258,30 +258,30 @@ int draw_icon(struct widget *icon, Sint16 start_x, Sint16 start_y)
     state = 2 - pressed
     state = 3 - disabled
 
-  Function return: -3 if pIcon_theme is NULL. 
+  Function return: -3 if icon_theme is NULL.
   std return of alphablit(...) function.
 **************************************************************************/
-int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
+int draw_icon_from_theme(SDL_Surface *icon_theme, Uint8 state,
                          struct gui_layer *pdest, Sint16 start_x, Sint16 start_y)
 {
   SDL_Rect src, des = {start_x, start_y, 0, 0};
 
-  if (!pIcon_theme) {
+  if (!icon_theme) {
     return -3;
   }
 
-  src.x = 0 + (pIcon_theme->w / 4) * state;
+  src.x = 0 + (icon_theme->w / 4) * state;
   src.y = 0;
-  src.w = pIcon_theme->w / 4;
-  src.h = pIcon_theme->h;
+  src.w = icon_theme->w / 4;
+  src.h = icon_theme->h;
 
-  return alphablit(pIcon_theme, &src, pdest->surface, &des, 255);
+  return alphablit(icon_theme, &src, pdest->surface, &des, 255);
 }
 
 /**********************************************************************//**
   Create Icon image then return pointer to this image.
 
-  Graphic is take from pIcon_theme surface and blit to new created image.
+  Graphic is take from icon_theme surface and blit to new created image.
 
   Type of Icon depend of "state" parameter.
     state = 0 - normal
@@ -289,22 +289,22 @@ int draw_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state,
     state = 2 - pressed
     state = 3 - disabled
 
-  Function return NULL if pIcon_theme is NULL or blit fail. 
+  Function return NULL if icon_theme is NULL or blit fail.
 **************************************************************************/
-SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
+SDL_Surface *create_icon_from_theme(SDL_Surface *icon_theme, Uint8 state)
 {
   SDL_Rect src;
 
-  if (!pIcon_theme) {
+  if (!icon_theme) {
     return NULL;
   }
 
-  src.w = pIcon_theme->w / 4;
+  src.w = icon_theme->w / 4;
   src.x = src.w * state;
   src.y = 0;
-  src.h = pIcon_theme->h;
+  src.h = icon_theme->h;
 
-  return crop_rect_from_surface(pIcon_theme, &src);
+  return crop_rect_from_surface(icon_theme, &src);
 }
 
 /* =================================================== */
@@ -314,16 +314,16 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *pIcon_theme, Uint8 state)
 /**********************************************************************//**
   Set new theme and calculate new size.
 **************************************************************************/
-void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
+void set_new_icon2_theme(struct widget *icon_widget, SDL_Surface *pNew_Theme,
                          bool free_old_theme)
 {
-  if ((pNew_Theme) && (pIcon_Widget)) {
+  if ((pNew_Theme) && (icon_widget)) {
     if (free_old_theme) {
-      FREESURFACE(pIcon_Widget->theme);
+      FREESURFACE(icon_widget->theme);
     }
-    pIcon_Widget->theme = pNew_Theme;
-    pIcon_Widget->size.w = pNew_Theme->w + adj_size(4);
-    pIcon_Widget->size.h = pNew_Theme->h + adj_size(4);
+    icon_widget->theme = pNew_Theme;
+    icon_widget->size.w = pNew_Theme->w + adj_size(4);
+    icon_widget->size.h = pNew_Theme->h + adj_size(4);
   }
 }
 
@@ -333,23 +333,23 @@ void set_new_icon2_theme(struct widget *pIcon_Widget, SDL_Surface *pNew_Theme,
 struct widget *create_icon2(SDL_Surface *icon, struct gui_layer *pdest,
                             Uint32 flags)
 {
-  struct widget *pIcon_Widget = widget_new();
+  struct widget *icon_widget = widget_new();
 
-  pIcon_Widget->theme = icon;
+  icon_widget->theme = icon;
 
-  set_wflag(pIcon_Widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
-  set_wstate(pIcon_Widget, FC_WS_DISABLED);
-  set_wtype(pIcon_Widget, WT_ICON2);
-  pIcon_Widget->mod = KMOD_NONE;
-  pIcon_Widget->dst = pdest;
+  set_wflag(icon_widget, (WF_FREE_STRING | WF_FREE_GFX | flags));
+  set_wstate(icon_widget, FC_WS_DISABLED);
+  set_wtype(icon_widget, WT_ICON2);
+  icon_widget->mod = KMOD_NONE;
+  icon_widget->dst = pdest;
 
-  baseclass_redraw = pIcon_Widget->redraw;
-  pIcon_Widget->redraw = redraw_icon2;
+  baseclass_redraw = icon_widget->redraw;
+  icon_widget->redraw = redraw_icon2;
 
   if (icon) {
-    pIcon_Widget->size.w = icon->w + adj_size(4);
-    pIcon_Widget->size.h = icon->h + adj_size(4);
+    icon_widget->size.w = icon->w + adj_size(4);
+    icon_widget->size.h = icon->h + adj_size(4);
   }
 
-  return pIcon_Widget;
+  return icon_widget;
 }

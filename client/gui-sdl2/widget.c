@@ -47,7 +47,7 @@
 #include "widget_p.h"
 
 struct widget *selected_widget;
-SDL_Rect *pInfo_Area = NULL;
+SDL_Rect *info_area = NULL;
 
 extern Uint32 widget_info_counter;
 
@@ -308,9 +308,9 @@ Uint16 widget_pressed_action(struct widget *pwidget)
   }
 
   widget_info_counter = 0;
-  if (pInfo_Area) {
-    dirty_sdl_rect(pInfo_Area);
-    FC_FREE(pInfo_Area);
+  if (info_area) {
+    dirty_sdl_rect(info_area);
+    FC_FREE(info_area);
     FREESURFACE(info_label);
   }
 
@@ -432,9 +432,9 @@ void unselect_widget_action(void)
     }
   }
 
-  if (pInfo_Area) {
-    flush_rect(pInfo_Area, FALSE);
-    FC_FREE(pInfo_Area);
+  if (info_area) {
+    flush_rect(info_area, FALSE);
+    FC_FREE(info_area);
     FREESURFACE(info_label);    
   }
 
@@ -480,7 +480,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
   }
 
   if (!info_label) {
-    pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
+    info_area = fc_calloc(1, sizeof(SDL_Rect));
 
     color = pwidget->info_label->fgcol;
     pwidget->info_label->style |= TTF_STYLE_BOLD;
@@ -496,19 +496,19 @@ void redraw_widget_info_label(SDL_Rect *rect)
 
     /* calculate start position */
     if ((pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(6) < 0) {
-      pInfo_Area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) + pwidget->size.h + adj_size(3);
+      info_area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) + pwidget->size.h + adj_size(3);
     } else {
-      pInfo_Area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(5);
+      info_area->y = (pwidget->dst->dest_rect.y + pwidget->size.y) - info_label->h - adj_size(5);
     }
 
     if ((pwidget->dst->dest_rect.x + pwidget->size.x) + info_label->w + adj_size(5) > main_window_width()) {
-      pInfo_Area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) - info_label->w - adj_size(5);
+      info_area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) - info_label->w - adj_size(5);
     } else {
-      pInfo_Area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) + adj_size(3);
+      info_area->x = (pwidget->dst->dest_rect.x + pwidget->size.x) + adj_size(3);
     }
 
-    pInfo_Area->w = info_label->w + adj_size(2);
-    pInfo_Area->h = info_label->h + adj_size(3);
+    info_area->w = info_label->w + adj_size(2);
+    info_area->h = info_label->h + adj_size(3);
 
     /* draw text */
     dstrect.x = adj_size(6);
@@ -526,24 +526,24 @@ void redraw_widget_info_label(SDL_Rect *rect)
   }
 
   if (rect) {
-    dstrect.x = MAX(rect->x, pInfo_Area->x);
-    dstrect.y = MAX(rect->y, pInfo_Area->y);
+    dstrect.x = MAX(rect->x, info_area->x);
+    dstrect.y = MAX(rect->y, info_area->y);
 
-    srcrect.x = dstrect.x - pInfo_Area->x;
-    srcrect.y = dstrect.y - pInfo_Area->y;
-    srcrect.w = MIN((pInfo_Area->x + pInfo_Area->w), (rect->x + rect->w)) - dstrect.x;
-    srcrect.h = MIN((pInfo_Area->y + pInfo_Area->h), (rect->y + rect->h)) - dstrect.y;
+    srcrect.x = dstrect.x - info_area->x;
+    srcrect.y = dstrect.y - info_area->y;
+    srcrect.w = MIN((info_area->x + info_area->w), (rect->x + rect->w)) - dstrect.x;
+    srcrect.h = MIN((info_area->y + info_area->h), (rect->y + rect->h)) - dstrect.y;
 
     screen_blit(info_label, &srcrect, &dstrect, 255);
   } else {
-    screen_blit(info_label, NULL, pInfo_Area, 255);
+    screen_blit(info_label, NULL, info_area, 255);
   }
 
-  if (correct_rect_region(pInfo_Area)) {
+  if (correct_rect_region(info_area)) {
     update_main_screen();
 #if 0
-    SDL_UpdateRect(main_data.screen, pInfo_Area->x, pInfo_Area->y,
-                   pInfo_Area->w, pInfo_Area->h);
+    SDL_UpdateRect(main_data.screen, info_area->x, info_area->y,
+                   info_area->w, info_area->h);
 #endif /* 0 */
   }
 }

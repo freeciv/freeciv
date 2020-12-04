@@ -331,7 +331,7 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
 /**********************************************************************//**
   Create ( malloc ) Theme Icon (theme)Button Widget structure.
 
-  Icon Theme graphic is taken from 'pIcon_theme' surface ( change with
+  Icon Theme graphic is taken from 'icon_theme' surface ( change with
   button changes ); Button Theme graphic is taken from current_theme->button
   surface; Text is taken from 'pstr'.
 
@@ -340,17 +340,17 @@ struct widget *create_icon_button(SDL_Surface *icon, struct gui_layer *pdest,
 
   function return pointer to allocated Button Widget.
 **************************************************************************/
-struct widget *create_themeicon_button(SDL_Surface *pIcon_theme,
+struct widget *create_themeicon_button(SDL_Surface *icon_theme,
                                        struct gui_layer *pdest,
                                        utf8_str *pstr,
                                        Uint32 flags)
 {
   /* extract a single icon */
-  SDL_Surface *icon = create_icon_from_theme(pIcon_theme, 1);
+  SDL_Surface *icon = create_icon_from_theme(icon_theme, 1);
   struct widget *button = create_icon_button(icon, pdest, pstr, flags);
 
   FREESURFACE(button->theme2);
-  button->theme2 = pIcon_theme;
+  button->theme2 = icon_theme;
   set_wtype(button, WT_TI_BUTTON);
 
   button->redraw = redraw_tibutton;
