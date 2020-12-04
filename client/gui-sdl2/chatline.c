@@ -170,10 +170,10 @@ static void popup_load_game_dialog(void)
 {
   struct widget *pwindow;
   struct widget *close_button;
-  struct widget *pFilenameLabel = NULL;
-  struct widget *pFirstLabel = NULL;
-  struct widget *lastLabel = NULL;
-  struct widget *pNextLabel = NULL;
+  struct widget *filename_label = NULL;
+  struct widget *first_label = NULL;
+  struct widget *last_label = NULL;
+  struct widget *next_label = NULL;
   utf8_str *title, *filename;
   SDL_Rect area;
   struct fileinfo_list *files;
@@ -242,37 +242,37 @@ static void popup_load_game_dialog(void)
 
     filename = create_utf8_from_char(pfile->name, adj_font(13));
     filename->style |= SF_CENTER;
-    pFilenameLabel = create_iconlabel(NULL, pwindow->dst, filename,
+    filename_label = create_iconlabel(NULL, pwindow->dst, filename,
       (WF_FREE_DATA | WF_SELECT_WITHOUT_BAR | WF_RESTORE_BACKGROUND));
 
     /* store filename */
-    pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
-    fc_strlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
+    filename_label->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
+    fc_strlcpy((char*)filename_label->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
 
-    pFilenameLabel->action = load_selected_game_callback;
+    filename_label->action = load_selected_game_callback;
 
-    set_wstate(pFilenameLabel, FC_WS_NORMAL);
+    set_wstate(filename_label, FC_WS_NORMAL);
 
     /* FIXME: this was supposed to be add_widget_to_vertical_scroll_widget_list(), but
      * add_widget_to_vertical_scroll_widget_list() needs the scrollbar area to be defined
      * for updating the scrollbar position, but the area is not known yet (depends on
      * maximum label width) */
-    add_to_gui_list(ID_LABEL, pFilenameLabel);
+    add_to_gui_list(ID_LABEL, filename_label);
 
     if (count == 1) {
-      pFirstLabel = pFilenameLabel;
+      first_label = filename_label;
     }
 
-    max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
+    max_label_width = MAX(max_label_width, filename_label->size.w);
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
 
-  lastLabel = pFilenameLabel;
+  last_label = filename_label;
 
   area.w = MAX(area.w, max_label_width + scrollbar_width + 1);
 
   if (count > 0) {
-    area.h = (pLoadDialog->scroll->active * pFilenameLabel->size.h) + adj_size(5);
+    area.h = (pLoadDialog->scroll->active * filename_label->size.h) + adj_size(5);
   }
 
   resize_window(pwindow, theme_get_background(theme, BACKGROUND_LOADGAMEDLG),
@@ -288,33 +288,33 @@ static void popup_load_game_dialog(void)
                                 area.h - adj_size(2), TRUE);
 
   /* add filename labels to list */
-  pFilenameLabel = pFirstLabel;
-  while (pFilenameLabel) {
-    pFilenameLabel->size.w = area.w - scrollbar_width - 3;
+  filename_label = first_label;
+  while (filename_label) {
+    filename_label->size.w = area.w - scrollbar_width - 3;
 
-    pNextLabel = pFilenameLabel->prev;
+    next_label = filename_label->prev;
 
-    del_widget_pointer_from_gui_list(pFilenameLabel);
-    if (pFilenameLabel == pFirstLabel) {
+    del_widget_pointer_from_gui_list(filename_label);
+    if (filename_label == first_label) {
       add_widget_to_vertical_scroll_widget_list(pLoadDialog,
-          pFilenameLabel, close_button,
+          filename_label, close_button,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
     } else {
       add_widget_to_vertical_scroll_widget_list(pLoadDialog,
-          pFilenameLabel,
+          filename_label,
           pLoadDialog->begin_active_widget_list,
           FALSE,
           area.x + 1,
           area.y + adj_size(2));
     }
 
-    if (pFilenameLabel == lastLabel) {
+    if (filename_label == last_label) {
       break;
     }
 
-    pFilenameLabel = pNextLabel;
+    filename_label = next_label;
   }
 
   widget_set_position(pwindow,
@@ -673,7 +673,7 @@ static void popup_conn_list_dialog(void)
 {
   SDL_Color window_bg_color = {255, 255, 255, 96};
 
-  struct widget *pwindow = NULL, *buf = NULL, *pLabel = NULL;
+  struct widget *pwindow = NULL, *buf = NULL, *label = NULL;
   struct widget* back_button = NULL;
   struct widget *start_game_button = NULL;
   struct widget *select_nation_button = NULL;
@@ -750,20 +750,20 @@ static void popup_conn_list_dialog(void)
 
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-  pLabel = create_themelabel2(NULL, pwindow->dst,
+  label = create_themelabel2(NULL, pwindow->dst,
                               pstr, conn_dlg->text_width, 0,
                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
-  widget_set_position(pLabel, adj_size(10), adj_size(14));
+  widget_set_position(label, adj_size(10), adj_size(14));
 
-  add_to_gui_list(ID_LABEL, pLabel);
+  add_to_gui_list(ID_LABEL, label);
 
-  conn_dlg->chat_dlg->begin_widget_list = pLabel;
-  conn_dlg->chat_dlg->end_widget_list = pLabel;
+  conn_dlg->chat_dlg->begin_widget_list = label;
+  conn_dlg->chat_dlg->end_widget_list = label;
   conn_dlg->chat_dlg->begin_active_widget_list = conn_dlg->chat_dlg->begin_widget_list;
   conn_dlg->chat_dlg->end_active_widget_list = conn_dlg->chat_dlg->end_widget_list;
 
-  n = (pwindow->size.h - adj_size(44) - adj_size(40)) / pLabel->size.h;
+  n = (pwindow->size.h - adj_size(44) - adj_size(40)) / label->size.h;
   conn_dlg->active = n;
 
   create_vertical_scrollbar(conn_dlg->chat_dlg, 1,

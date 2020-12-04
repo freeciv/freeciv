@@ -1373,7 +1373,7 @@ static int sell_imprvm_dlg_callback(struct widget *impr)
 {
   if (PRESSED_EVENT(main_data.event)) {
     utf8_str *pstr = NULL;
-    struct widget *pLabel = NULL;
+    struct widget *label = NULL;
     struct widget *pwindow = NULL;
     struct widget *cancel_button = NULL;
     struct widget *ok_button = NULL;
@@ -1406,8 +1406,8 @@ static int sell_imprvm_dlg_callback(struct widget *impr)
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_SELL);
-    pLabel = create_iconlabel(NULL, pwindow->dst, pstr, 0);
-    add_to_gui_list(ID_LABEL, pLabel);
+    label = create_iconlabel(NULL, pwindow->dst, pstr, 0);
+    add_to_gui_list(ID_LABEL, label);
 
     /* create cancel button */
     cancel_button =
@@ -1433,13 +1433,13 @@ static int sell_imprvm_dlg_callback(struct widget *impr)
 
     /* correct sizes */
     if ((ok_button->size.w + cancel_button->size.w + adj_size(30)) >
-        pLabel->size.w + adj_size(20)) {
+        label->size.w + adj_size(20)) {
       area.w = MAX(area.w, ok_button->size.w + cancel_button->size.w + adj_size(30));
     } else {
-      area.w = MAX(area.w, pLabel->size.w + adj_size(20));
+      area.w = MAX(area.w, label->size.w + adj_size(20));
     }
 
-    area.h = MAX(area.h, ok_button->size.h + pLabel->size.h + adj_size(25));
+    area.h = MAX(area.h, ok_button->size.h + label->size.h + adj_size(25));
 
     /* create window background */
     resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -1459,9 +1459,9 @@ static int sell_imprvm_dlg_callback(struct widget *impr)
     cancel_button->size.y = ok_button->size.y;
     cancel_button->size.x = area.x + area.w - cancel_button->size.w - adj_size(10);
 
-    pLabel->size.x = area.x;
-    pLabel->size.y = area.y + adj_size(4);
-    pLabel->size.w = area.w;
+    label->size.x = area.x;
+    label->size.y = area.y + adj_size(4);
+    label->size.w = area.w;
 
     /* redraw */
     redraw_group(pcity_dlg->begin_city_menu_widget_list,

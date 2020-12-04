@@ -1018,46 +1018,46 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 **************************************************************************/
 static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 {
-  struct widget *pLabel;
+  struct widget *label;
   SDL_Surface *pThm;
   SDL_Rect src = {0, 0, 0, 0};
 
   /* updates your own acceptance status */
-  pLabel = pdialog->pdialog->end_widget_list->prev;
+  label = pdialog->pdialog->end_widget_list->prev;
 
-  pLabel->private_data.cbox->state = pdialog->treaty.accept0;
-  if (pLabel->private_data.cbox->state) {
-    pThm = pLabel->private_data.cbox->pTRUE_Theme;
+  label->private_data.cbox->state = pdialog->treaty.accept0;
+  if (label->private_data.cbox->state) {
+    pThm = label->private_data.cbox->pTRUE_Theme;
   } else {
-    pThm = pLabel->private_data.cbox->pFALSE_Theme;
+    pThm = label->private_data.cbox->pFALSE_Theme;
   }
 
   src.w = pThm->w / 4;
   src.h = pThm->h;
 
-  alphablit(pThm, &src, pLabel->theme, NULL, 255);
+  alphablit(pThm, &src, label->theme, NULL, 255);
   SDL_SetSurfaceAlphaMod(pThm, 255);
 
-  widget_redraw(pLabel);
-  widget_flush(pLabel);
+  widget_redraw(label);
+  widget_flush(label);
 
   /* updates other player's acceptance status */
-  pLabel = pdialog->pdialog->end_widget_list->prev->prev;
+  label = pdialog->pdialog->end_widget_list->prev->prev;
 
-  pLabel->private_data.cbox->state = pdialog->treaty.accept1;
-  if (pLabel->private_data.cbox->state) {
-    pThm = pLabel->private_data.cbox->pTRUE_Theme;
+  label->private_data.cbox->state = pdialog->treaty.accept1;
+  if (label->private_data.cbox->state) {
+    pThm = label->private_data.cbox->pTRUE_Theme;
   } else {
-    pThm = pLabel->private_data.cbox->pFALSE_Theme;
+    pThm = label->private_data.cbox->pFALSE_Theme;
   }
 
   src.w = pThm->w / 4;
   src.h = pThm->h;
 
-  alphablit(pThm, &src, pLabel->theme, NULL, 255);
+  alphablit(pThm, &src, label->theme, NULL, 255);
 
-  widget_redraw(pLabel);
-  widget_flush(pLabel);
+  widget_redraw(label);
+  widget_flush(label);
 }
 
 /**********************************************************************//**

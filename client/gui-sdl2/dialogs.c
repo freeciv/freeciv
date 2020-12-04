@@ -2934,21 +2934,21 @@ static void change_nation_label(void)
   SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed;
   struct widget *pwindow = nation_dlg->end_widget_list;
   struct NAT *setup = (struct NAT *)(pwindow->data.ptr);
-  struct widget *pLabel = setup->name_edit->next;
+  struct widget *label = setup->name_edit->next;
   struct nation_type *pNation = nation_by_number(setup->nation);
 
   pTmp_Surf = get_nation_flag_surface(pNation);
   pTmp_Surf_zoomed = zoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);
 
-  FREESURFACE(pLabel->theme);
-  pLabel->theme = pTmp_Surf_zoomed;
+  FREESURFACE(label->theme);
+  label->theme = pTmp_Surf_zoomed;
 
-  copy_chars_to_utf8_str(pLabel->string_utf8, nation_plural_translation(pNation));
+  copy_chars_to_utf8_str(label->string_utf8, nation_plural_translation(pNation));
 
-  remake_label_size(pLabel);
+  remake_label_size(label);
 
-  pLabel->size.x = pwindow->size.x + pwindow->size.w / 2 +
-    (pwindow->size.w / 2 - pLabel->size.w) / 2;
+  label->size.x = pwindow->size.x + pwindow->size.w / 2 +
+    (pwindow->size.w / 2 - label->size.w) / 2;
 
 }
 

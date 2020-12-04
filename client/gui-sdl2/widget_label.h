@@ -34,9 +34,9 @@ struct widget *create_themelabel2(SDL_Surface *icon, struct gui_layer *pdest,
 struct widget *create_iconlabel(SDL_Surface *icon, struct gui_layer *pdest,
                                 utf8_str *text, Uint32 flags);
 struct widget *convert_iconlabel_to_themeiconlabel2(struct widget *icon_label);
-int draw_label(struct widget *pLabel, Sint16 start_x, Sint16 start_y);
+int draw_label(struct widget *label, Sint16 start_x, Sint16 start_y);
 
-int redraw_iconlabel(struct widget *pLabel);
-void remake_label_size(struct widget *pLabel);
+int redraw_iconlabel(struct widget *label);
+void remake_label_size(struct widget *label);
 
 #endif /* FC__WIDGET_LABEL_H */

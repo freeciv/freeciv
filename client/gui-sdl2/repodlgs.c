@@ -1103,7 +1103,7 @@ struct rates_move {
   int min, max, tax, x, gov_max;
   int *src_rate, *dst_rate;
   struct widget *pHoriz_Src, *pHoriz_Dst;
-  struct widget *pLabel_Src, *pLabel_Dst;
+  struct widget *label_src, *label_dst;
 };
 
 /**********************************************************************//**
@@ -1183,7 +1183,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
                                                  void *pData)
 {
   struct rates_move *pMotion = (struct rates_move *)pData;
-  struct widget *pTax_Label = economy_dlg->end_widget_list->prev->prev;
+  struct widget *tax_label = economy_dlg->end_widget_list->prev->prev;
   struct widget *pbuf = NULL;
   char cbuf[8];
   int dir, inc, x, *buf_rate = NULL;
@@ -1218,7 +1218,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
             pMotion->pHoriz_Dst = NULL;
             buf_rate = pMotion->dst_rate;
             pMotion->dst_rate = &pMotion->tax;
-            pMotion->pLabel_Dst = pTax_Label;
+            pMotion->label_dst = tax_label;
           } else {
             pMotion->x = pMotion->pHoriz_Src->size.x;
             return ID_ERROR;
@@ -1250,16 +1250,16 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
       *pMotion->dst_rate -= inc;
 
       fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *pMotion->src_rate);
-      copy_chars_to_utf8_str(pMotion->pLabel_Src->string_utf8, cbuf);
+      copy_chars_to_utf8_str(pMotion->label_src->string_utf8, cbuf);
       fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *pMotion->dst_rate);
-      copy_chars_to_utf8_str(pMotion->pLabel_Dst->string_utf8, cbuf);
+      copy_chars_to_utf8_str(pMotion->label_dst->string_utf8, cbuf);
 
       /* redraw label */
-      widget_redraw(pMotion->pLabel_Src);
-      widget_mark_dirty(pMotion->pLabel_Src);
+      widget_redraw(pMotion->label_src);
+      widget_mark_dirty(pMotion->label_src);
 
-      widget_redraw(pMotion->pLabel_Dst);
-      widget_mark_dirty(pMotion->pLabel_Dst);
+      widget_redraw(pMotion->label_dst);
+      widget_mark_dirty(pMotion->label_dst);
 
       /* redraw scroolbar */
       if (get_wflags(pMotion->pHoriz_Src) & WF_RESTORE_BACKGROUND) {
@@ -1280,7 +1280,7 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
 
       if (pbuf != NULL) {
         pMotion->pHoriz_Dst = pbuf;
-        pMotion->pLabel_Dst = pMotion->pHoriz_Dst->prev;
+        pMotion->label_dst = pMotion->pHoriz_Dst->prev;
         pMotion->dst_rate = buf_rate;
         pbuf = NULL;
       }
@@ -1301,7 +1301,7 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     struct rates_move pMotion;
 
     pMotion.pHoriz_Src = pHoriz_Src;
-    pMotion.pLabel_Src = pHoriz_Src->prev;
+    pMotion.label_src = pHoriz_Src->prev;
 
     switch (pHoriz_Src->id) {
       case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
@@ -1348,10 +1348,10 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
     }
 
     if (pMotion.pHoriz_Dst) {
-      pMotion.pLabel_Dst = pMotion.pHoriz_Dst->prev;
+      pMotion.label_dst = pMotion.pHoriz_Dst->prev;
     } else {
       /* tax label */
-      pMotion.pLabel_Dst = economy_dlg->end_widget_list->prev->prev;
+      pMotion.label_dst = economy_dlg->end_widget_list->prev->prev;
     }
 
     pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);

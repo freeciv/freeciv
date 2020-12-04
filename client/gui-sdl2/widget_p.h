@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -24,6 +24,6 @@ void correct_size_bcgnd_surf(SDL_Surface *ptheme,
                              int *pwidth, int *height);
 SDL_Surface *get_buffer_layer(int width, int height);
 
-int redraw_iconlabel(struct widget *pLabel);
+int redraw_iconlabel(struct widget *label);
 
 #endif /* FC__WIDGET_P_H */

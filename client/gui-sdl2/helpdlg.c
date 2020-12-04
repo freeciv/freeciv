@@ -208,13 +208,13 @@ void popup_impr_info(Impr_type_id impr)
   struct widget *list_toggle_button = NULL;
   struct widget *improvement_button = NULL;
   struct widget *impr_name_label = NULL;
-  struct widget *pCostLabel = NULL;
-  struct widget *pUpkeepLabel = NULL;
-  struct widget *pRequirementLabel = NULL;
-  struct widget *pRequirementLabel2 = NULL;
-  struct widget *pObsoleteByLabel = NULL;
-  struct widget *pObsoleteByLabel2 = NULL;
-  struct widget *pHelptextLabel = NULL;
+  struct widget *cost_label = NULL;
+  struct widget *upkeep_label = NULL;
+  struct widget *requirement_label = NULL;
+  struct widget *requirement_label2 = NULL;
+  struct widget *obsolete_by_label = NULL;
+  struct widget *obsolete_by_label2 = NULL;
+  struct widget *help_text_label = NULL;
   struct widget *dock;
   utf8_str *title;
   utf8_str *pstr;
@@ -380,35 +380,35 @@ void popup_impr_info(Impr_type_id impr)
   if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
     sprintf(buffer, "%s %d", _("Base Cost:"),
             impr_base_build_shield_cost(pimpr_type));
-    pCostLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+    cost_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                              buffer, adj_font(12), 0);
-    pCostLabel->id = ID_LABEL;
-    widget_add_as_prev(pCostLabel, dock);
-    dock = pCostLabel;
+    cost_label->id = ID_LABEL;
+    widget_add_as_prev(cost_label, dock);
+    dock = cost_label;
 
     if (!is_wonder(pimpr_type)) {
       sprintf(buffer, "%s %d", _("Upkeep:"), pimpr_type->upkeep);
-      pUpkeepLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+      upkeep_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  buffer, adj_font(12), 0);
-      pUpkeepLabel->id = ID_LABEL;
-      widget_add_as_prev(pUpkeepLabel, dock);
-      dock = pUpkeepLabel;
+      upkeep_label->id = ID_LABEL;
+      widget_add_as_prev(upkeep_label, dock);
+      dock = upkeep_label;
     }
   }
 
   /* requirement */
-  pRequirementLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+  requirement_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
-  pRequirementLabel->id = ID_LABEL;
-  widget_add_as_prev(pRequirementLabel, dock);
-  dock = pRequirementLabel;
+  requirement_label->id = ID_LABEL;
+  widget_add_as_prev(requirement_label, dock);
+  dock = requirement_label;
 
   if (requirement_vector_size(&pimpr_type->reqs) == 0) {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?req:None"),
                                                      adj_font(12), 0);
-    pRequirementLabel2->id = ID_LABEL;
+    requirement_label2->id = ID_LABEL;
   } else {
     /* FIXME: this should show ranges, negated reqs, and all the
      * MAX_NUM_REQS reqs.
@@ -418,30 +418,30 @@ void popup_impr_info(Impr_type_id impr)
       if (!preq->present) {
         continue;
       }
-      pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+      requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                              universal_name_translation(&preq->source, buffer, sizeof(buffer)),
                              adj_font(12), WF_RESTORE_BACKGROUND);
       if (preq->source.kind != VUT_ADVANCE) {
         break; /* FIXME */
       }
-      pRequirementLabel2->id = MAX_ID - advance_number(preq->source.value.advance);
-      pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
-      pRequirementLabel2->action = change_tech_callback;
-      set_wstate(pRequirementLabel2, FC_WS_NORMAL);
+      requirement_label2->id = MAX_ID - advance_number(preq->source.value.advance);
+      requirement_label2->string_utf8->fgcol = *get_tech_color(advance_number(preq->source.value.advance));
+      requirement_label2->action = change_tech_callback;
+      set_wstate(requirement_label2, FC_WS_NORMAL);
       break;
     } requirement_vector_iterate_end;
   }
-  widget_add_as_prev(pRequirementLabel2, dock);
-  dock = pRequirementLabel2;
-  store->requirement_button = pRequirementLabel2;
+  widget_add_as_prev(requirement_label2, dock);
+  dock = requirement_label2;
+  store->requirement_button = requirement_label2;
 
   /* obsolete by */
-  pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+  obsolete_by_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
-  pObsoleteByLabel->id = ID_LABEL;
-  widget_add_as_prev(pObsoleteByLabel, dock);
-  dock = pObsoleteByLabel;
+  obsolete_by_label->id = ID_LABEL;
+  widget_add_as_prev(obsolete_by_label, dock);
+  dock = obsolete_by_label;
 
 
   requirement_vector_iterate(&pimpr_type->obsolete_by, pobs) {
@@ -451,21 +451,21 @@ void popup_impr_info(Impr_type_id impr)
     }
   } requirement_vector_iterate_end;
   if (obsTech == NULL) {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     _("Never"), adj_font(12), 0);
-    pObsoleteByLabel2->id = ID_LABEL;
+    obsolete_by_label2->id = ID_LABEL;
   } else {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     advance_name_translation(obsTech),
                                                     adj_font(12), WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->id = MAX_ID - advance_number(obsTech);
-    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(obsTech));
-    pObsoleteByLabel2->action = change_tech_callback;
-    set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
+    obsolete_by_label2->id = MAX_ID - advance_number(obsTech);
+    obsolete_by_label2->string_utf8->fgcol = *get_tech_color(advance_number(obsTech));
+    obsolete_by_label2->action = change_tech_callback;
+    set_wstate(obsolete_by_label2, FC_WS_NORMAL);
   }
-  widget_add_as_prev(pObsoleteByLabel2, dock);
-  dock = pObsoleteByLabel2;
-  store->obsolete_by_button = pObsoleteByLabel2;
+  widget_add_as_prev(obsolete_by_label2, dock);
+  dock = obsolete_by_label2;
+  store->obsolete_by_button = obsolete_by_label2;
 
   /* helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->end_active_widget_list->size.w + adj_size(20));
@@ -477,14 +477,14 @@ void popup_impr_info(Impr_type_id impr)
     utf8_str *bstr = create_utf8_from_char(buffer, adj_font(12));
 
     convert_utf8_str_to_const_surface_width(bstr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pwindow->dst, bstr, 0);
-    pHelptextLabel->id = ID_LABEL;
-    widget_add_as_prev(pHelptextLabel, dock);
-    dock = pHelptextLabel;
+    help_text_label = create_iconlabel(NULL, pwindow->dst, bstr, 0);
+    help_text_label->id = ID_LABEL;
+    widget_add_as_prev(help_text_label, dock);
+    dock = help_text_label;
     text = TRUE;
   }
 
-  help_dlg->begin_widget_list = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
+  help_dlg->begin_widget_list = help_text_label ? help_text_label : obsolete_by_label2;
 
   /* --------------------------------------------------------- */
   if (created) {
@@ -530,43 +530,43 @@ void popup_impr_info(Impr_type_id impr)
   start_y = impr_name_label->size.y + impr_name_label->size.h + adj_size(10);
 
   if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
-    pCostLabel = impr_name_label->prev;
-    widget_set_position(pCostLabel, start_x, start_y);
+    cost_label = impr_name_label->prev;
+    widget_set_position(cost_label, start_x, start_y);
     if (!is_wonder(pimpr_type)) {
-      pUpkeepLabel = pCostLabel->prev;
-      widget_set_position(pUpkeepLabel,
-                          pCostLabel->size.x + pCostLabel->size.w + adj_size(20),
+      upkeep_label = cost_label->prev;
+      widget_set_position(upkeep_label,
+                          cost_label->size.x + cost_label->size.w + adj_size(20),
                           start_y);
     }
-    start_y += pCostLabel->size.h;
+    start_y += cost_label->size.h;
   }
 
-  pRequirementLabel = store->requirement_button->next;
-  widget_set_position(pRequirementLabel, start_x, start_y);
+  requirement_label = store->requirement_button->next;
+  widget_set_position(requirement_label, start_x, start_y);
 
-  pRequirementLabel2 = store->requirement_button;
-  widget_set_position(pRequirementLabel2,
-                      pRequirementLabel->size.x + pRequirementLabel->size.w + adj_size(5),
+  requirement_label2 = store->requirement_button;
+  widget_set_position(requirement_label2,
+                      requirement_label->size.x + requirement_label->size.w + adj_size(5),
                       start_y);
 
   if (store->obsolete_by_button) {
-    pObsoleteByLabel = store->obsolete_by_button->next;
-    widget_set_position(pObsoleteByLabel,
-                        pRequirementLabel2->size.x + pRequirementLabel2->size.w + adj_size(10),
+    obsolete_by_label = store->obsolete_by_button->next;
+    widget_set_position(obsolete_by_label,
+                        requirement_label2->size.x + requirement_label2->size.w + adj_size(10),
                         start_y);
 
-    pObsoleteByLabel2 = store->obsolete_by_button;
-    widget_set_position(pObsoleteByLabel2,
-                        pObsoleteByLabel->size.x + pObsoleteByLabel->size.w + adj_size(5),
+    obsolete_by_label2 = store->obsolete_by_button;
+    widget_set_position(obsolete_by_label2,
+                        obsolete_by_label->size.x + obsolete_by_label->size.w + adj_size(5),
                         start_y);
 
-    start_y += pObsoleteByLabel2->size.h;
+    start_y += obsolete_by_label2->size.h;
   }
 
   start_y += adj_size(30);
 
   if (text) {
-    widget_set_position(pHelptextLabel, start_x, start_y);
+    widget_set_position(help_text_label, start_x, start_y);
   }
 
   redraw_impr_info_dlg();
@@ -625,11 +625,11 @@ void popup_unit_info(Unit_type_id type_id)
   struct widget *unit_button = NULL;
   struct widget *unit_name_label = NULL;
   struct widget *unit_info_label = NULL;
-  struct widget *pRequirementLabel = NULL;
-  struct widget *pRequirementLabel2 = NULL;
-  struct widget *pObsoleteByLabel = NULL;
-  struct widget *pObsoleteByLabel2 = NULL;
-  struct widget *pHelptextLabel = NULL;
+  struct widget *requirement_label = NULL;
+  struct widget *requirement_label2 = NULL;
+  struct widget *obsolete_by_label = NULL;
+  struct widget *obsolete_by_label2 = NULL;
+  struct widget *help_text_label = NULL;
   struct widget *dock;
   utf8_str *title;
   utf8_str *pstr;
@@ -844,60 +844,60 @@ void popup_unit_info(Unit_type_id type_id)
   }
 
   /* requirement */
-  pRequirementLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+  requirement_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                   _("Requirement:"),
                                                   adj_font(12), 0);
-  pRequirementLabel->id = ID_LABEL;
-  widget_add_as_prev(pRequirementLabel, dock);
-  dock = pRequirementLabel;
+  requirement_label->id = ID_LABEL;
+  widget_add_as_prev(requirement_label, dock);
+  dock = requirement_label;
 
   if (A_NEVER == punittype->require_advance
       || advance_by_number(A_NONE) == punittype->require_advance) {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                      Q_("?tech:None"), adj_font(12), 0);
-    pRequirementLabel2->id = ID_LABEL;
+    requirement_label2->id = ID_LABEL;
   } else {
-    pRequirementLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    requirement_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
           advance_name_translation(punittype->require_advance),
           adj_font(12),
           WF_RESTORE_BACKGROUND);
-    pRequirementLabel2->id = MAX_ID - advance_number(punittype->require_advance);
-    pRequirementLabel2->string_utf8->fgcol = *get_tech_color(advance_number(punittype->require_advance));
-    pRequirementLabel2->action = change_tech_callback;
-    set_wstate(pRequirementLabel2, FC_WS_NORMAL);
+    requirement_label2->id = MAX_ID - advance_number(punittype->require_advance);
+    requirement_label2->string_utf8->fgcol = *get_tech_color(advance_number(punittype->require_advance));
+    requirement_label2->action = change_tech_callback;
+    set_wstate(requirement_label2, FC_WS_NORMAL);
   }
-  widget_add_as_prev(pRequirementLabel2, dock);
-  dock = pRequirementLabel2;
-  store->requirement_button = pRequirementLabel2;
+  widget_add_as_prev(requirement_label2, dock);
+  dock = requirement_label2;
+  store->requirement_button = requirement_label2;
 
   /* obsolete by */
-  pObsoleteByLabel = create_iconlabel_from_chars(NULL, pwindow->dst,
+  obsolete_by_label = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                  _("Obsolete by:"),
                                                  adj_font(12), 0);
-  pObsoleteByLabel->id = ID_LABEL;
-  widget_add_as_prev(pObsoleteByLabel, dock);
-  dock = pObsoleteByLabel;
+  obsolete_by_label->id = ID_LABEL;
+  widget_add_as_prev(obsolete_by_label, dock);
+  dock = obsolete_by_label;
 
   if (punittype->obsoleted_by == U_NOT_OBSOLETED) {
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     Q_("?utype:None"),
                                                     adj_font(12), 0);
-    pObsoleteByLabel2->id = ID_LABEL;
+    obsolete_by_label2->id = ID_LABEL;
   } else {
     const struct unit_type *utype = punittype->obsoleted_by;
 
-    pObsoleteByLabel2 = create_iconlabel_from_chars(NULL, pwindow->dst,
+    obsolete_by_label2 = create_iconlabel_from_chars(NULL, pwindow->dst,
                                                     utype_name_translation(utype),
                                                     adj_font(12),
                                                     WF_RESTORE_BACKGROUND);
-    pObsoleteByLabel2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
-    pObsoleteByLabel2->id = MAX_ID - utype_number(punittype->obsoleted_by);
-    pObsoleteByLabel2->action = change_unit_callback;
-    set_wstate(pObsoleteByLabel2, FC_WS_NORMAL);
+    obsolete_by_label2->string_utf8->fgcol = *get_tech_color(advance_number(utype->require_advance));
+    obsolete_by_label2->id = MAX_ID - utype_number(punittype->obsoleted_by);
+    obsolete_by_label2->action = change_unit_callback;
+    set_wstate(obsolete_by_label2, FC_WS_NORMAL);
   }
-  widget_add_as_prev(pObsoleteByLabel2, dock);
-  dock = pObsoleteByLabel2;
-  store->obsolete_by_button = pObsoleteByLabel2;
+  widget_add_as_prev(obsolete_by_label2, dock);
+  dock = obsolete_by_label2;
+  store->obsolete_by_button = obsolete_by_label2;
 
   /* helptext */
   start_x = (area.x + 1 + scrollbar_width + help_dlg->active_widget_list->size.w + adj_size(20));
@@ -908,14 +908,14 @@ void popup_unit_info(Unit_type_id type_id)
     utf8_str *ustr = create_utf8_from_char(buffer, adj_font(12));
 
     convert_utf8_str_to_const_surface_width(ustr, adj_size(640) - start_x - adj_size(20));
-    pHelptextLabel = create_iconlabel(NULL, pwindow->dst, ustr, 0);
-    pHelptextLabel->id = ID_LABEL;
-    widget_add_as_prev(pHelptextLabel, dock);
-    dock = pHelptextLabel;
+    help_text_label = create_iconlabel(NULL, pwindow->dst, ustr, 0);
+    help_text_label->id = ID_LABEL;
+    widget_add_as_prev(help_text_label, dock);
+    dock = help_text_label;
     text = TRUE;
   }
 
-  help_dlg->begin_widget_list = pHelptextLabel ? pHelptextLabel : pObsoleteByLabel2;
+  help_dlg->begin_widget_list = help_text_label ? help_text_label : obsolete_by_label2;
 
   /* --------------------------------------------------------- */
   if (created) {
@@ -965,29 +965,29 @@ void popup_unit_info(Unit_type_id type_id)
 
   start_y += unit_info_label->size.h;
 
-  pRequirementLabel = store->requirement_button->next;
-  widget_set_position(pRequirementLabel, start_x, start_y);
+  requirement_label = store->requirement_button->next;
+  widget_set_position(requirement_label, start_x, start_y);
 
-  pRequirementLabel2 = store->requirement_button;
-  widget_set_position(pRequirementLabel2,
-                      pRequirementLabel->size.x + pRequirementLabel->size.w + adj_size(5),
+  requirement_label2 = store->requirement_button;
+  widget_set_position(requirement_label2,
+                      requirement_label->size.x + requirement_label->size.w + adj_size(5),
                       start_y);
 
-  pObsoleteByLabel = store->obsolete_by_button->next;
-  widget_set_position(pObsoleteByLabel,
-                      pRequirementLabel2->size.x + pRequirementLabel2->size.w + adj_size(10),
+  obsolete_by_label = store->obsolete_by_button->next;
+  widget_set_position(obsolete_by_label,
+                      requirement_label2->size.x + requirement_label2->size.w + adj_size(10),
                       start_y);
 
-  pObsoleteByLabel2 = store->obsolete_by_button;
-  widget_set_position(pObsoleteByLabel2,
-                      pObsoleteByLabel->size.x + pObsoleteByLabel->size.w + adj_size(5),
+  obsolete_by_label2 = store->obsolete_by_button;
+  widget_set_position(obsolete_by_label2,
+                      obsolete_by_label->size.x + obsolete_by_label->size.w + adj_size(5),
                       start_y);
 
-  start_y += pObsoleteByLabel2->size.h + adj_size(20);
+  start_y += obsolete_by_label2->size.h + adj_size(20);
 
   if (text) {
-    pHelptextLabel = store->obsolete_by_button->prev;
-    widget_set_position(pHelptextLabel, start_x, start_y);
+    help_text_label = store->obsolete_by_button->prev;
+    widget_set_position(help_text_label, start_x, start_y);
   }
 
   redraw_unit_info_dlg();
@@ -1891,7 +1891,7 @@ void popup_tech_info(Tech_type_id tech)
   struct widget *pwindow;
   struct techs_buttons *store;
   struct widget *close_button = NULL;
-  struct widget *pAdvanceLabel = NULL;
+  struct widget *advance_label = NULL;
   struct widget *list_toggle_button = NULL;
   struct widget *dock;
   utf8_str *title;
@@ -1961,15 +1961,15 @@ void popup_tech_info(Tech_type_id tech)
       if (vap) {
         copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
         surf = create_select_tech_icon(pstr, i, SMALL_MODE);
-        pAdvanceLabel = create_icon2(surf, pwindow->dst,
+        advance_label = create_icon2(surf, pwindow->dst,
                                      WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
-        set_wstate(pAdvanceLabel, FC_WS_NORMAL);
-        pAdvanceLabel->action = change_tech_callback;
-        add_to_gui_list(MAX_ID - i, pAdvanceLabel);
+        set_wstate(advance_label, FC_WS_NORMAL);
+        advance_label->action = change_tech_callback;
+        add_to_gui_list(MAX_ID - i, advance_label);
 
         if (tech_count++ >= 10) {
-          set_wflag(pAdvanceLabel, WF_HIDDEN);
+          set_wflag(advance_label, WF_HIDDEN);
         }
       }
     } advance_index_iterate_end;
@@ -1977,7 +1977,7 @@ void popup_tech_info(Tech_type_id tech)
     FREEUTF8STR(pstr);
 
     help_dlg->end_active_widget_list = dock->prev;
-    help_dlg->begin_widget_list = pAdvanceLabel ? pAdvanceLabel : close_button;
+    help_dlg->begin_widget_list = advance_label ? advance_label : close_button;
     help_dlg->begin_active_widget_list = help_dlg->begin_widget_list;
 
     if (tech_count > 10) {
@@ -2033,12 +2033,12 @@ void popup_tech_info(Tech_type_id tech)
     } else {
       int count = help_dlg->scroll->active;
 
-      pAdvanceLabel = help_dlg->active_widget_list;
-      while (pAdvanceLabel && count--) {
-        pAdvanceLabel = pAdvanceLabel->prev;
+      advance_label = help_dlg->active_widget_list;
+      while (advance_label && count--) {
+        advance_label = advance_label->prev;
       }
-      pAdvanceLabel = pAdvanceLabel->next;
-      show_group(pAdvanceLabel, help_dlg->active_widget_list);
+      advance_label = advance_label->next;
+      show_group(advance_label, help_dlg->active_widget_list);
       show_scrollbar(help_dlg->scroll);
     }
   }
