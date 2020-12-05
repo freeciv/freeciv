@@ -41,7 +41,7 @@ jobs:
         shell: msys2 {0}
         run: |
           cd windows/installer_msys2
-          make -j$(nproc) snapshot
+          make snapshot
   os_x:
     runs-on: macos-10.15
     steps:
