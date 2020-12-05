@@ -2394,7 +2394,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                                      enum tech_info_mode mode)
 {
   struct unit_type *punit = NULL;
-  SDL_Surface *surf, *text, *pTmp, *pTmp2;
+  SDL_Surface *surf, *text, *tmp, *tmp2;
   SDL_Surface *Surf_Array[10], **buf_array;
   SDL_Rect dst;
   SDL_Color color;
@@ -2433,7 +2433,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
                0,0, surf->w - 1, surf->h - 1,
                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-  pTmp = get_tech_icon(tech_id);
+  tmp = get_tech_icon(tech_id);
 
   if (mode == SMALL_MODE) {
     /* draw name tech text */
@@ -2443,7 +2443,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     FREESURFACE(text);
 
     /* draw tech icon */
-    text = ResizeSurface(pTmp, adj_size(25), adj_size(25), 1);
+    text = ResizeSurface(tmp, adj_size(25), adj_size(25), 1);
     dst.x = (adj_size(35) - text->w) / 2;
     dst.y = (surf->h - text->h) / 2;
     alphablit(text, NULL, surf, &dst, 255);
@@ -2459,9 +2459,9 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     FREESURFACE(text);
 
     /* draw tech icon */
-    dst.x = (surf->w - pTmp->w) / 2;
-    alphablit(pTmp, NULL, surf, &dst, 255);
-    dst.y += pTmp->w + adj_size(10);
+    dst.x = (surf->w - tmp->w) / 2;
+    alphablit(tmp, NULL, surf, &dst, 255);
+    dst.y += tmp->w + adj_size(10);
 
     /* fill array with iprvm. icons */
     w = 0;
@@ -2469,8 +2469,8 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
       requirement_vector_iterate(&pimprove->reqs, preq) {
         if (VUT_ADVANCE == preq->source.kind
             && advance_number(preq->source.value.advance) == tech_id) {
-          pTmp2 = get_building_surface(pimprove);
-          Surf_Array[w++] = zoomSurface(pTmp2, DEFAULT_ZOOM * ((float)36 / pTmp2->w), DEFAULT_ZOOM * ((float)36 / pTmp2->w), 1);
+          tmp2 = get_building_surface(pimprove);
+          Surf_Array[w++] = zoomSurface(tmp2, DEFAULT_ZOOM * ((float)36 / tmp2->w), DEFAULT_ZOOM * ((float)36 / tmp2->w), 1);
         }
       } requirement_vector_iterate_end;
     } improvement_iterate_end;
@@ -2560,7 +2560,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     } /* if (w) */
   }
 
-  FREESURFACE(pTmp);
+  FREESURFACE(tmp);
 
   return surf;
 }

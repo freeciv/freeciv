@@ -1112,35 +1112,35 @@ int setup_vertical_widgets_position(int step,
 void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
-  SDL_Surface *pTmpLeft =
+  SDL_Surface *tmp_left =
     ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w, h, 1);
-  SDL_Surface *pTmpRight =
+  SDL_Surface *tmp_right =
     ResizeSurface(current_theme->FR_Right, current_theme->FR_Right->w, h, 1);
-  SDL_Surface *pTmpTop =
+  SDL_Surface *tmp_top =
     ResizeSurface(current_theme->FR_Top, w, current_theme->FR_Top->h, 1);
-  SDL_Surface *pTmpBottom =
+  SDL_Surface *tmp_bottom =
     ResizeSurface(current_theme->FR_Bottom, w, current_theme->FR_Bottom->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;
-  alphablit(pTmpLeft, NULL, pdest, &tmp, 255);
+  alphablit(tmp_left, NULL, pdest, &tmp, 255);
 
-  dst.x += w - pTmpRight->w;
+  dst.x += w - tmp_right->w;
   tmp = dst;
-  alphablit(pTmpRight, NULL, pdest, &tmp, 255);
+  alphablit(tmp_right, NULL, pdest, &tmp, 255);
 
   dst.x = start_x;
   tmp = dst;
-  alphablit(pTmpTop, NULL, pdest, &tmp, 255);
+  alphablit(tmp_top, NULL, pdest, &tmp, 255);
 
-  dst.y += h - pTmpBottom->h;
+  dst.y += h - tmp_bottom->h;
   tmp = dst;
-  alphablit(pTmpBottom, NULL, pdest, &tmp, 255);
+  alphablit(tmp_bottom, NULL, pdest, &tmp, 255);
 
-  FREESURFACE(pTmpLeft);
-  FREESURFACE(pTmpRight);
-  FREESURFACE(pTmpTop);
-  FREESURFACE(pTmpBottom);
+  FREESURFACE(tmp_left);
+  FREESURFACE(tmp_right);
+  FREESURFACE(tmp_top);
+  FREESURFACE(tmp_bottom);
 }
 
 /**********************************************************************//**

@@ -406,7 +406,7 @@ void overview_size_changed(void)
 void update_info_label(void)
 {
   SDL_Color bg_color = {0, 0, 0, 80};
-  SDL_Surface *pTmp = NULL;
+  SDL_Surface *tmp = NULL;
   char buffer[512];
 #ifdef SMALL_SCREEN
   SDL_Rect area = {0, 0, 0, 0};
@@ -453,11 +453,11 @@ void update_info_label(void)
 #endif /* SMALL_SCREEN */
     /* convert to unistr and create text surface */
     copy_chars_to_utf8_str(ptext, buffer);
-    pTmp = create_text_surf_from_utf8(ptext);
+    tmp = create_text_surf_from_utf8(ptext);
 
-    area.x = (main_window_width() - pTmp->w) / 2 - adj_size(5);
-    area.w = pTmp->w + adj_size(8);
-    area.h = pTmp->h + adj_size(4);
+    area.x = (main_window_width() - tmp->w) / 2 - adj_size(5);
+    area.w = tmp->w + adj_size(8);
+    area.h = tmp->h + adj_size(4);
 
     SDL_FillRect(main_data.gui->surface, &area,
                  map_rgba(main_data.gui->surface->format, bg_color));
@@ -479,11 +479,11 @@ void update_info_label(void)
                 get_theme_color(COLOR_THEME_MAPVIEW_INFO_FRAME));
 
     /* blit text to screen */
-    blit_entire_src(pTmp, main_data.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
+    blit_entire_src(tmp, main_data.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
 
     dirty_sdl_rect(&area);
 
-    FREESURFACE(pTmp);
+    FREESURFACE(tmp);
   }
 
   set_indicator_icons(client_research_sprite(),

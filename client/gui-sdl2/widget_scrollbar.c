@@ -646,7 +646,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 {
   struct widget *begin = pActiveWidgetLIST;
   struct widget *buf = pActiveWidgetLIST;
-  struct widget *pTmp = NULL;
+  struct widget *tmp = NULL;
   int count = active; /* row */
   int count_step = step; /* col */
 
@@ -658,7 +658,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       /*
        move pointers to positions and unhide scrolled widgets
        B = buf - new top
-       T = pTmp - current top == pActiveWidgetLIST
+       T = tmp - current top == pActiveWidgetLIST
        [B] [ ] [ ]
        -----------
        [T] [ ] [ ]
@@ -666,7 +666,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        -----------
        [ ] [ ] [ ]
     */
-      pTmp = buf; /* now buf == pActiveWidgetLIST == current Top */
+      tmp = buf; /* now buf == pActiveWidgetLIST == current Top */
       while (count_step > 0) {
         buf = buf->next;
         clear_wflag(buf, WF_HIDDEN);
@@ -680,7 +680,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       /*
        scroll pointers up
        B = buf
-       T = pTmp
+       T = tmp
        [B0] [B1] [B2]
        -----------
        [T0] [T1] [T2]   => B position = T position
@@ -698,27 +698,27 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 
       while (count > 0) {
         if (real) {
-          buf->size.x = pTmp->size.x;
-          buf->size.y = pTmp->size.y;
-          buf->gfx = pTmp->gfx;
+          buf->size.x = tmp->size.x;
+          buf->size.y = tmp->size.y;
+          buf->gfx = tmp->gfx;
 
-          if ((buf->size.w != pTmp->size.w) || (buf->size.h != pTmp->size.h)) {
-            widget_undraw(pTmp);
-            widget_mark_dirty(pTmp);
+          if ((buf->size.w != tmp->size.w) || (buf->size.h != tmp->size.h)) {
+            widget_undraw(tmp);
+            widget_mark_dirty(tmp);
             if (get_wflags(buf) & WF_RESTORE_BACKGROUND) {
               refresh_widget_background(buf);
             }
           }
 
-          pTmp->gfx = NULL;
+          tmp->gfx = NULL;
 
           if (count == 1) {
-            set_wflag(pTmp, WF_HIDDEN);
+            set_wflag(tmp, WF_HIDDEN);
           }
-          if (pTmp == begin_widget_list) {
+          if (tmp == begin_widget_list) {
             real = FALSE;
           }
-          pTmp = pTmp->prev;
+          tmp = tmp->prev;
         } else {
           /*
             unsymmetric list support.
@@ -773,7 +773,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       /*
        move pointers to positions and unhide scrolled widgets
        B = buf
-       T = pTmp
+       T = tmp
        A - start (pActiveWidgetLIST)
        [ ] [ ] [ ]
        -----------
@@ -782,7 +782,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        -----------
        [ ] [ ] [B]
     */
-      pTmp = buf->next;
+      tmp = buf->next;
       count_step = step - 1;
       while (count_step && buf != begin_widget_list) {
         clear_wflag(buf, WF_HIDDEN);
@@ -793,9 +793,9 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 
       /*
         Unsymmetric list support.
-        correct pTmp and undraw empty fields
+        correct tmp and undraw empty fields
         B = buf
-        T = pTmp
+        T = tmp
         A - start (pActiveWidgetLIST)
         [ ] [ ] [ ]
         -----------
@@ -807,13 +807,13 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       count = count_step;
       while (count) {
         /* hack - clear area under unexisting list members */
-        widget_undraw(pTmp);
-        widget_mark_dirty(pTmp);
-        FREESURFACE(pTmp->gfx);
+        widget_undraw(tmp);
+        widget_mark_dirty(tmp);
+        FREESURFACE(tmp->gfx);
         if (active == 1) {
-          set_wflag(pTmp, WF_HIDDEN);
+          set_wflag(tmp, WF_HIDDEN);
         }
-        pTmp = pTmp->next;
+        tmp = tmp->next;
         count--;
       }
 
@@ -828,7 +828,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       /*
         scroll pointers down
         B = buf
-        T = pTmp
+        T = tmp
         [  ] [  ] [  ]
         -----------
         [  ] [  ] [  ]
@@ -837,25 +837,25 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
         [B2] [B1] [B0]
       */
       while (count) {
-        buf->size.x = pTmp->size.x;
-        buf->size.y = pTmp->size.y;
-        buf->gfx = pTmp->gfx;
+        buf->size.x = tmp->size.x;
+        buf->size.y = tmp->size.y;
+        buf->gfx = tmp->gfx;
 
-        if ((buf->size.w != pTmp->size.w) || (buf->size.h != pTmp->size.h)) {
-          widget_undraw(pTmp);
-          widget_mark_dirty(pTmp);
+        if ((buf->size.w != tmp->size.w) || (buf->size.h != tmp->size.h)) {
+          widget_undraw(tmp);
+          widget_mark_dirty(tmp);
           if (get_wflags(buf) & WF_RESTORE_BACKGROUND) {
             refresh_widget_background(buf);
           }
         }
 
-        pTmp->gfx = NULL;
+        tmp->gfx = NULL;
 
         if (count == 1) {
-          set_wflag(pTmp, WF_HIDDEN);
+          set_wflag(tmp, WF_HIDDEN);
         }
 
-        pTmp = pTmp->next;
+        tmp = tmp->next;
         buf = buf->next;
         count_step--;
         if (!count_step) {
@@ -1293,15 +1293,15 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         }
         while (buf) {
           if (buf == dlg->begin_active_widget_list) {
-            struct widget *pTmp = buf;
+            struct widget *tmp = buf;
 
             count = dlg->scroll->step;
             while (count) {
-              pTmp = pTmp->next;
+              tmp = tmp->next;
               count--;
             }
-            buf->size.x = pTmp->size.x;
-            buf->size.y = pTmp->size.y + pTmp->size.h;
+            buf->size.x = tmp->size.x;
+            buf->size.y = tmp->size.y + tmp->size.h;
             /* break when last active widget or last seen widget */
             break;
           } else {

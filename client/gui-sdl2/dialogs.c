@@ -2931,17 +2931,17 @@ static int leader_name_edit_callback(struct widget *pedit)
 **************************************************************************/
 static void change_nation_label(void)
 {
-  SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed;
+  SDL_Surface *tmp_surf, *tmp_surf_zoomed;
   struct widget *pwindow = nation_dlg->end_widget_list;
   struct NAT *setup = (struct NAT *)(pwindow->data.ptr);
   struct widget *label = setup->name_edit->next;
   struct nation_type *pNation = nation_by_number(setup->nation);
 
-  pTmp_Surf = get_nation_flag_surface(pNation);
-  pTmp_Surf_zoomed = zoomSurface(pTmp_Surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);
+  tmp_surf = get_nation_flag_surface(pNation);
+  tmp_surf_zoomed = zoomSurface(tmp_surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);
 
   FREESURFACE(label->theme);
-  label->theme = pTmp_Surf_zoomed;
+  label->theme = tmp_surf_zoomed;
 
   copy_chars_to_utf8_str(label->string_utf8, nation_plural_translation(pNation));
 
@@ -3024,7 +3024,7 @@ void popup_races_dialog(struct player *pplayer)
   utf8_str *pstr;
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
-  SDL_Surface *pTmp_Surf, *pTmp_Surf_zoomed = NULL;
+  SDL_Surface *tmp_surf, *tmp_surf_zoomed = NULL;
   SDL_Surface *pMain_Bg, *text_name;
   SDL_Rect dst;
   float zoom;
@@ -3081,27 +3081,27 @@ void popup_races_dialog(struct player *pplayer)
       continue;
     }
 
-    pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
+    tmp_surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
 
-    pTmp_Surf = crop_rect_from_surface(pMain_Bg, NULL);
+    tmp_surf = crop_rect_from_surface(pMain_Bg, NULL);
 
     copy_chars_to_utf8_str(pstr, nation_plural_translation(pNation));
     change_ptsize_utf8(pstr, adj_font(12));
-    text_name = create_text_surf_smaller_than_w(pstr, pTmp_Surf->w - adj_size(4));
+    text_name = create_text_surf_smaller_than_w(pstr, tmp_surf->w - adj_size(4));
 
-    dst.x = (pTmp_Surf->w - pTmp_Surf_zoomed->w) / 2;
-    len = pTmp_Surf_zoomed->h +
+    dst.x = (tmp_surf->w - tmp_surf_zoomed->w) / 2;
+    len = tmp_surf_zoomed->h +
       adj_size(10) + text_name->h;
-    dst.y = (pTmp_Surf->h - len) / 2;
-    alphablit(pTmp_Surf_zoomed, NULL, pTmp_Surf, &dst, 255);
-    dst.y += (pTmp_Surf_zoomed->h + adj_size(10));
+    dst.y = (tmp_surf->h - len) / 2;
+    alphablit(tmp_surf_zoomed, NULL, tmp_surf, &dst, 255);
+    dst.y += (tmp_surf_zoomed->h + adj_size(10));
 
-    dst.x = (pTmp_Surf->w - text_name->w) / 2;
-    alphablit(text_name, NULL, pTmp_Surf, &dst, 255);
+    dst.x = (tmp_surf->w - text_name->w) / 2;
+    alphablit(text_name, NULL, tmp_surf, &dst, 255);
     dst.y += text_name->h;
     FREESURFACE(text_name);
 
-    pwidget = create_icon2(pTmp_Surf, pwindow->dst,
+    pwidget = create_icon2(tmp_surf, pwindow->dst,
                            (WF_RESTORE_BACKGROUND|WF_FREE_THEME));
 
     set_wstate(pwidget, FC_WS_NORMAL);
@@ -3189,9 +3189,9 @@ void popup_races_dialog(struct player *pplayer)
   pstr->render = 2;
   pstr->fgcol = *get_theme_color(COLOR_THEME_NATIONDLG_TEXT);
 
-  pTmp_Surf_zoomed = adj_surf(get_nation_flag_surface(pnat));
+  tmp_surf_zoomed = adj_surf(get_nation_flag_surface(pnat));
 
-  pwidget = create_iconlabel(pTmp_Surf_zoomed, pwindow->dst, pstr,
+  pwidget = create_iconlabel(tmp_surf_zoomed, pwindow->dst, pstr,
                              (WF_ICON_ABOVE_TEXT|WF_ICON_CENTER|WF_FREE_GFX));
   if (nationsets == NULL) {
     buf = pwidget;
@@ -3246,15 +3246,15 @@ void popup_races_dialog(struct player *pplayer)
   styles_iterate(pstyle) {
     i = basic_city_style_for_style(pstyle);
 
-    pTmp_Surf = get_sample_city_surface(i);
+    tmp_surf = get_sample_city_surface(i);
 
-    if (pTmp_Surf->w > 48) {
-      zoom = DEFAULT_ZOOM * (48.0 / pTmp_Surf->w);
+    if (tmp_surf->w > 48) {
+      zoom = DEFAULT_ZOOM * (48.0 / tmp_surf->w);
     }
 
-    pTmp_Surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
+    tmp_surf_zoomed = zoomSurface(get_sample_city_surface(i), zoom, zoom, 0);
 
-    pwidget = create_icon2(pTmp_Surf_zoomed, pwindow->dst, WF_RESTORE_BACKGROUND);
+    pwidget = create_icon2(tmp_surf_zoomed, pwindow->dst, WF_RESTORE_BACKGROUND);
     pwidget->action = style_callback;
     if (i != setup->nation_style) {
       set_wstate(pwidget, FC_WS_NORMAL);

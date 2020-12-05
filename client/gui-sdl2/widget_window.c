@@ -52,7 +52,7 @@ static int redraw_window(struct widget *pwindow)
 {
   int ret;
   SDL_Color title_bg_color = {255, 255, 255, 200};
-  SDL_Surface *pTmp = NULL;
+  SDL_Surface *tmp = NULL;
   SDL_Rect dst = pwindow->size;
 
   ret = (*baseclass_redraw)(pwindow);
@@ -74,12 +74,12 @@ static int redraw_window(struct widget *pwindow)
     fill_rect_alpha(pwindow->dst->surface, &dst, &title_bg_color);
 
     /* Draw Text on Window's TitleBar */
-    pTmp = create_text_surf_from_utf8(pwindow->string_utf8);
+    tmp = create_text_surf_from_utf8(pwindow->string_utf8);
     dst.x += adj_size(4);
-    if (pTmp) {
-      dst.y += ((WINDOW_TITLE_HEIGHT - pTmp->h) / 2);
-      alphablit(pTmp, NULL, pwindow->dst->surface, &dst, 255);
-      FREESURFACE(pTmp);
+    if (tmp) {
+      dst.y += ((WINDOW_TITLE_HEIGHT - tmp->h) / 2);
+      alphablit(tmp, NULL, pwindow->dst->surface, &dst, 255);
+      FREESURFACE(tmp);
     }
 
     dst = pwindow->area;

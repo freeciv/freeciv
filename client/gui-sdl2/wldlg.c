@@ -1322,12 +1322,12 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   /* count: without production */
   if (count <= editor->pWork->scroll->active + 1) {
     if (count > 0) {
-      struct widget *pTmp = last;
+      struct widget *tmp = last;
 
       do {
-        pTmp = pTmp->prev;
-        clear_wflag(pTmp, WF_HIDDEN);
-      } while (pTmp != buf);
+        tmp = tmp->prev;
+        clear_wflag(tmp, WF_HIDDEN);
+      } while (tmp != buf);
     }
     hide_scrollbar(editor->pWork->scroll);
   }
@@ -1373,12 +1373,12 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         editor->pGlobal->scroll->up_left_button->size.w = adj_size(122);
         editor->pGlobal->scroll->down_right_button->size.w = adj_size(122);
       } else {
-        struct widget *pTmp = last;
+        struct widget *tmp = last;
 
         do {
-          pTmp = pTmp->prev;
-          clear_wflag(pTmp, WF_HIDDEN);
-        } while (pTmp != buf);
+          tmp = tmp->prev;
+          clear_wflag(tmp, WF_HIDDEN);
+        } while (tmp != buf);
       }
 
       last = editor->pGlobal->begin_widget_list;
