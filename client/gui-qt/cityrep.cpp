@@ -469,25 +469,9 @@ void city_widget::display_list_menu(const QPoint &)
   QMenu *some_menu;
   QMenu *tmp2_menu;
   QMenu *tmp_menu;
-  bool select_only = false;
-  char buf[200];
-  int sell_gold;
   struct city *pcity;
   QMenu *list_menu;
-  QAction cty_view(style()->standardIcon(QStyle::SP_CommandLink),
-                   Q_("?verb:View"), 0);
-  sell_gold = 0;
-  if (selected_cities.isEmpty()) {
-    select_only = true;
-  }
-  foreach (pcity, selected_cities) {
-    sell_gold = sell_gold + pcity->client.buy_cost;
-  }
-  fc_snprintf(buf, sizeof(buf), _("Buy ( Cost: %d )"), sell_gold);
 
-  QAction cty_buy(QString(buf), 0);
-  QAction cty_center(style()->standardIcon(QStyle::SP_ArrowRight),
-                     _("Center"), 0);
   QAction wl_clear(_("Clear"), 0);
   QAction wl_empty(_("(no worklists defined)"), 0);
   bool worklist_defined = true;
@@ -496,7 +480,7 @@ void city_widget::display_list_menu(const QPoint &)
     return;
   }
   list_menu = new QMenu(this);
-  if (!select_only) {
+  if (!selected_cities.isEmpty()) {
     some_menu = list_menu->addMenu(_("Production"));
     tmp_menu = some_menu->addMenu(_("Change"));
     fill_production_menus(CHANGE_PROD_NOW, custom_labels, can_city_build_now,
@@ -537,15 +521,26 @@ void city_widget::display_list_menu(const QPoint &)
   }
   some_menu = list_menu->addMenu(_("Select"));
   gen_select_labels(some_menu);
-  if (!select_only) {
-    list_menu->addAction(&cty_view);
-    connect(&cty_view, &QAction::triggered, this, &city_widget::city_view);
-    list_menu->addAction(&cty_buy);
-    connect(&cty_buy, &QAction::triggered, this, &city_widget::buy);
-    list_menu->addAction(&cty_center);
-    connect(&cty_center, &QAction::triggered, this, &city_widget::center);
+  if (!selected_cities.isEmpty()) {
+    char buy_costs_label[200];
+    int buy_costs = 0;
+
+    some_menu = list_menu->addMenu(_("City/Buy"));
+    if (selected_cities.count() == 1) {
+      connect(some_menu->addAction(_("View")), &QAction::triggered, this,
+              &city_widget::city_view);
+      connect(some_menu->addAction(_("Center")), &QAction::triggered, this,
+              &city_widget::center);
+    }
+
+    foreach(pcity, selected_cities) {
+      buy_costs = buy_costs + pcity->client.buy_cost;
+    }
+    fc_snprintf(buy_costs_label, sizeof(buy_costs_label),
+                _("Buy ( Cost: %d )"), buy_costs);
+    connect(some_menu->addAction(buy_costs_label), &QAction::triggered, this,
+            &city_widget::buy);
   }
-  sell_gold = 0;
 
   list_menu->setAttribute(Qt::WA_DeleteOnClose);
   connect(list_menu, &QMenu::triggered, this, [=](QAction *act) {
@@ -710,6 +705,13 @@ void city_widget::display_list_menu(const QPoint &)
           if (worklist_defined) {
             city_set_queue(pcity,
                            global_worklist_get(global_worklist_by_id(id)));
+          }
+          break;
+        case BUY:
+          if (NULL != pcity) {
+            if (city_can_buy(pcity)) {
+              city_buy_production(pcity);
+            }
           }
           break;
         default:
