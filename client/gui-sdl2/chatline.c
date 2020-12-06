@@ -70,7 +70,7 @@ struct CONNLIST {
   struct widget *start_button;
   struct widget *select_nation_button;
   struct widget *load_game_button;
-  struct widget *pConfigure;
+  struct widget *configure;
   struct widget *back_button;
   struct widget *pedit;
   int text_width;
@@ -104,7 +104,8 @@ static int move_load_game_dlg_callback(struct widget *pwindow)
 void popdown_load_game_dialog(void)
 {
   if (load_dialog) {
-    popdown_window_group_dialog(load_dialog->begin_widget_list, load_dialog->end_widget_list);
+    popdown_window_group_dialog(load_dialog->begin_widget_list,
+                                load_dialog->end_widget_list);
     FC_FREE(load_dialog->scroll);
     FC_FREE(load_dialog);
 
@@ -247,7 +248,8 @@ static void popup_load_game_dialog(void)
 
     /* store filename */
     filename_label->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
-    fc_strlcpy((char*)filename_label->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
+    fc_strlcpy((char*)filename_label->data.ptr, pfile->fullname,
+               strlen(pfile->fullname) + 1);
 
     filename_label->action = load_selected_game_callback;
 
@@ -466,8 +468,8 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
                               strlen(utf8_texts[count]) + 1, adj_font(12));
       pstr2->bgcol = (SDL_Color) {0, 0, 0, 0};
       buf = create_themelabel2(NULL, pwindow->dst,
-                                pstr2, conn_dlg->text_width, 0,
-                                (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                               pstr2, conn_dlg->text_width, 0,
+                               (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       buf->size.w = conn_dlg->text_width;
       add_widget_to_vertical_scroll_widget_list(conn_dlg->chat_dlg, buf,
@@ -482,8 +484,8 @@ static void add_to_chat_list(char *msg, size_t n_alloc)
   } else {
     pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
     buf = create_themelabel2(NULL, pwindow->dst,
-                              pstr, conn_dlg->text_width, 0,
-                              (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                             pstr, conn_dlg->text_width, 0,
+                             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
     buf->size.w = conn_dlg->text_width;
 
@@ -557,7 +559,7 @@ static int server_config_callback(struct widget *pwidget)
 {
   return -1;
 }
-#endif
+#endif /* 0 */
 
 /**********************************************************************//**
   User interacted with Load Game button.
@@ -605,7 +607,8 @@ void real_conn_list_dialog_update(void *unused)
           conn_dlg->users_dlg->end_widget_list->prev;
         setup_vertical_scrollbar_area(conn_dlg->users_dlg->scroll,
           pwindow->size.x + pwindow->size.w - adj_size(30),
-          pwindow->size.y + adj_size(14), pwindow->size.h - adj_size(44) - adj_size(40), FALSE);
+          pwindow->size.y + adj_size(14),
+          pwindow->size.h - adj_size(44) - adj_size(40), FALSE);
       }
 
       hide_scrollbar(conn_dlg->users_dlg->scroll);
@@ -641,11 +644,11 @@ void real_conn_list_dialog_update(void *unused)
 #if 0
       if (ALLOW_CTRL == client.conn.access_level
           || ALLOW_HACK == client.conn.access_level) {
-        set_wstate(conn_dlg->pConfigure, FC_WS_NORMAL);
+        set_wstate(conn_dlg->configure, FC_WS_NORMAL);
       } else {
-        set_wstate(conn_dlg->pConfigure, FC_WS_DISABLED);
+        set_wstate(conn_dlg->configure, FC_WS_DISABLED);
       }
-#endif
+#endif /* 0 */
 
       /* redraw */
       redraw_group(conn_dlg->begin_widget_list, conn_dlg->end_widget_list, 0);
@@ -751,8 +754,8 @@ static void popup_conn_list_dialog(void)
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
 
   label = create_themelabel2(NULL, pwindow->dst,
-                              pstr, conn_dlg->text_width, 0,
-                              (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                             pstr, conn_dlg->text_width, 0,
+                             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
   widget_set_position(label, adj_size(10), adj_size(14));
 
@@ -779,8 +782,8 @@ static void popup_conn_list_dialog(void)
   /* input field */
 
   buf = create_edit_from_chars(NULL, pwindow->dst, "",
-                                adj_font(12), pwindow->size.w - adj_size(10) - adj_size(10),
-                                (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
+                               adj_font(12), pwindow->size.w - adj_size(10) - adj_size(10),
+                               (WF_RESTORE_BACKGROUND|WF_EDIT_LOOP));
 
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(40) - adj_size(5) - buf->size.h;
@@ -792,7 +795,7 @@ static void popup_conn_list_dialog(void)
   /* buttons */
 
   buf = create_themeicon_button_from_chars(current_theme->BACK_Icon, pwindow->dst,
-                                            _("Back"), adj_font(12), 0);
+                                           _("Back"), adj_font(12), 0);
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(10) - buf->size.h;
   conn_dlg->back_button = buf;
@@ -803,7 +806,7 @@ static void popup_conn_list_dialog(void)
   back_button = buf;
 
   buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                            _("Start"), adj_font(12), 0);
+                                           _("Start"), adj_font(12), 0);
   buf->size.x = pwindow->size.w - adj_size(10) - buf->size.w;
   buf->size.y = back_button->size.y;
   conn_dlg->start_button = buf;
@@ -813,7 +816,7 @@ static void popup_conn_list_dialog(void)
   start_game_button = buf;
 
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                            _("Pick Nation"), adj_font(12), 0);
+                                           _("Pick Nation"), adj_font(12), 0);
   buf->size.h = start_game_button->size.h;
   buf->size.x = start_game_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = start_game_button->size.y;
@@ -824,7 +827,7 @@ static void popup_conn_list_dialog(void)
   select_nation_button = buf;
 
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                            _("Load Game"), adj_font(12), 0);
+                                           _("Load Game"), adj_font(12), 0);
   buf->size.h = select_nation_button->size.h;
   buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = select_nation_button->size.y;
@@ -836,29 +839,29 @@ static void popup_conn_list_dialog(void)
   /* not implemented yet */
 #if 0
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst,
-                                            _("Server Settings"),
-                                            adj_font(12), 0);
+                                           _("Server Settings"),
+                                           adj_font(12), 0);
   buf->size.h = select_nation_button->size.h;
   buf->size.x = select_nation_button->size.x - adj_size(10) - buf->size.w;
   buf->size.y = select_nation_button->size.y;
-  conn_dlg->pConfigure = buf;
+  conn_dlg->configure = buf;
   buf->action = server_config_callback;
   set_wstate(buf, FC_WS_DISABLED);
   add_to_gui_list(ID_BUTTON, buf);
   server_settings_button = buf;
-#endif
+#endif /* 0 */
 
   /* not implemented yet */
 #if 0
   buf = create_themeicon_button_from_chars(NULL, pwindow->dst->surface,
-                                            "?", adj_font(12), 0);
+                                           "?", adj_font(12), 0);
   buf->size.y = pwindow->size.y + pwindow->size.h - (buf->size.h + 7);
   buf->size.x = pwindow->size.x + pwindow->size.w - (buf->size.w + 10) - 5;
 
   buf->action = client_config_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, buf);
-#endif
+#endif /* 0 */
 
   conn_dlg->begin_widget_list = buf;
   /* ------------------------------------------------------------ */
