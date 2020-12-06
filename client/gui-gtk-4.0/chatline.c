@@ -354,7 +354,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
     /* Chatline featured text support. */
     guint keyval;
 
-    gdk_event_get_keyval(ev, &keyval);
+    keyval = gdk_key_event_get_keyval(ev);
     switch (keyval) {
     case GDK_KEY_b:
       inputline_make_tag(GTK_ENTRY(w), TTT_BOLD);
@@ -385,7 +385,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
     guint keyval;
     GtkEntryBuffer *buffer = gtk_entry_get_buffer(GTK_ENTRY(w));
 
-    gdk_event_get_keyval(ev, &keyval);
+    keyval = gdk_key_event_get_keyval(ev);
     switch (keyval) {
     case GDK_KEY_Up:
       if (history_pos < genlist_size(history_list) - 1) {

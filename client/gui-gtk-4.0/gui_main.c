@@ -407,7 +407,7 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
   guint keyval;
 
   gdk_event_get_state(ev, &state);
-  gdk_event_get_keyval(ev, &keyval);
+  keyval = gdk_key_event_get_keyval(ev);
   if ((state & GDK_SHIFT_MASK)) {
     switch (keyval) {
 
@@ -634,7 +634,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  gdk_event_get_keyval(ev, &keyval);
+  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
 
   case GDK_KEY_apostrophe:

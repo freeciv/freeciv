@@ -360,7 +360,7 @@ static gboolean luaconsole_input_handler(GtkWidget *w, GdkEvent *ev)
   fc_assert_ret_val(pdialog, FALSE);
   fc_assert_ret_val(pdialog->history_list, FALSE);
 
-  gdk_event_get_keyval(ev, &keyval);
+  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
   case GDK_KEY_Up:
     if (pdialog->history_pos < genlist_size(pdialog->history_list) - 1) {

@@ -30,4 +30,16 @@ GtkWidget *compat_window_new_wrapper(void)
   return gtk_window_new(GTK_WINDOW_TOPLEVEL);
 }
 
+/************************************************************************//**
+  Version of gdk_key_event_get_keyval() for gtk < 3.98
+****************************************************************************/
+guint gdk_key_event_get_keyval(GdkEvent *ev)
+{
+  guint keyval;
+
+  gdk_event_get_keyval(ev, &keyval);
+
+  return keyval;
+}
+
 #endif /* GTK version < 3.98 */

@@ -607,7 +607,7 @@ static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
   if (state & GDK_CONTROL_MASK) {
     guint keyval;
 
-    gdk_event_get_keyval(event, &keyval);
+    keyval = gdk_key_event_get_keyval(event);
     switch (keyval) {
     case GDK_KEY_Left:
       gtk_notebook_prev_page(GTK_NOTEBOOK(pdialog->notebook));

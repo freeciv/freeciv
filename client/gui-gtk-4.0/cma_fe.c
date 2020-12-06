@@ -620,7 +620,7 @@ static gboolean cma_preset_key_pressed_callback(GtkWidget *w, GdkEvent *ev,
   if (gdk_event_get_event_type(ev) == GDK_KEY_PRESS) {
     guint keyval;
 
-    gdk_event_get_keyval(ev, &keyval);
+    keyval = gdk_key_event_get_keyval(ev);
     switch (keyval) {
     case GDK_KEY_Delete:
       cma_preset_remove(pdialog, index);

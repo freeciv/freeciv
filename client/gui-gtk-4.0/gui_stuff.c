@@ -401,7 +401,7 @@ static gboolean gui_dialog_key_press_handler(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  gdk_event_get_keyval(ev, &keyval);
+  keyval = gdk_key_event_get_keyval(ev);
   gdk_event_get_state(ev, &state);
 
   if (keyval == GDK_KEY_Escape

@@ -22,6 +22,8 @@ GtkWidget *compat_window_new_wrapper(void);
 #define gtk_window_new() compat_window_new_wrapper()
 #endif  /* GTKCOMPAT_ITSELF */
 
+guint gdk_key_event_get_keyval(GdkEvent *ev);
+
 #endif  /* GTK version < 3.98 */
 
 #endif  /* FC__GTKCOMPAT_H */

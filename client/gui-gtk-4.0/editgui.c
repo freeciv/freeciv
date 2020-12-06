@@ -1638,7 +1638,7 @@ static gboolean handle_edit_key_press_with_shift(GdkEvent *ev)
   guint keyval;
 
   ett = editor_get_tool();
-  gdk_event_get_keyval(ev, &keyval);
+  keyval= gdk_key_event_get_keyval(ev);
   switch (keyval) {
   case GDK_KEY_D:
     editor_tool_toggle_mode(ett, ETM_ERASE);
@@ -1699,7 +1699,7 @@ gboolean handle_edit_key_press(GdkEvent *ev)
 
   ett = editor_get_tool();
 
-  gdk_event_get_keyval(ev, &keyval);
+  keyval = gdk_key_event_get_keyval(ev);
   switch (keyval) {
   case GDK_KEY_t:
     new_ett = ETT_TERRAIN;
