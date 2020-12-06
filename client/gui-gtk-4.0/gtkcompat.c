@@ -17,10 +17,10 @@
 
 #include <gtk/gtk.h>
 
+#define GTKCOMPAT_ITSELF
+#include "gtkcompat.h"
 
 #if !GTK_CHECK_VERSION(3,98,0)
-
-GtkWidget *compat_window_new_wrapper(void);
 
 /************************************************************************//**
   Compatibility wrapper for dropping parameter from gtk_window_new() calls
