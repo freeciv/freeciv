@@ -346,7 +346,8 @@ const char *ai_type_name_or_fallback(const char *orig_name)
     return orig_name;
   }
 
-  if (!strcmp("threaded", orig_name)) {
+  if (!strcmp("tex", orig_name)
+      || !strcmp("threaded", orig_name)) {
     struct ai_type *fb;
 
     fb = ai_type_by_name("classic");
