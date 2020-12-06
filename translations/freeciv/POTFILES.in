@@ -135,6 +135,7 @@ client/gui-gtk-3.22/voteinfo_bar.c
 client/gui-gtk-3.22/wldlg.c
 client/gui-qt/chatline.cpp
 client/gui-qt/citydlg.cpp
+client/gui-qt/citydlg.h
 client/gui-qt/cityrep.cpp
 client/gui-qt/dialogs.cpp
 client/gui-qt/diplodlg.cpp
