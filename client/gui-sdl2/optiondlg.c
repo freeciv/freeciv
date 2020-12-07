@@ -796,7 +796,7 @@ static struct option_dialog *option_dialog_new(void)
   pdialog->end_widget_list = window;
 
   /* Create close button widget. */
-  close_button = create_themeicon(current_theme->Small_CANCEL_Icon, window->dst,
+  close_button = create_themeicon(current_theme->small_cancel_icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
   close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -1017,7 +1017,7 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   window = pdialog->end_widget_list;
 
   /* Create the apply button. */
-  apply_button = create_themeicon(current_theme->Small_OK_Icon, window->dst,
+  apply_button = create_themeicon(current_theme->small_ok_icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
   apply_button->info_label = create_utf8_from_char(_("Apply changes"),
@@ -1366,9 +1366,9 @@ void init_options_button(void)
 {
   char buf[256];
 
-  options_button = create_themeicon(current_theme->Options_Icon, main_data.gui,
-                                     WF_WIDGET_HAS_INFO_LABEL
-                                     | WF_RESTORE_BACKGROUND);
+  options_button = create_themeicon(current_theme->options_icon, main_data.gui,
+                                    WF_WIDGET_HAS_INFO_LABEL
+                                    | WF_RESTORE_BACKGROUND);
   options_button->action = optiondlg_callback;
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   options_button->info_label = create_utf8_from_char(buf, adj_font(12));

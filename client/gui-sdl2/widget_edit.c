@@ -356,7 +356,7 @@ struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
   SDL_Rect buf = {0, 0, 0, 0};
   struct widget *pedit = widget_new();
 
-  pedit->theme = current_theme->Edit;
+  pedit->theme = current_theme->edit;
   pedit->theme2 = background; /* FIXME: make somewhere use of it */
   pedit->string_utf8 = pstr;
   set_wflag(pedit, (WF_FREE_STRING | WF_FREE_GFX | flags));
@@ -375,7 +375,7 @@ struct widget *create_edit(SDL_Surface *background, struct gui_layer *pdest,
 
   length = MAX(length, buf.w + adj_size(10));
 
-  correct_size_bcgnd_surf(current_theme->Edit, &length, &buf.h);
+  correct_size_bcgnd_surf(current_theme->edit, &length, &buf.h);
 
   pedit->size.w = length;
   pedit->size.h = buf.h;

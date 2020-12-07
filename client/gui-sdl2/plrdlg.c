@@ -397,10 +397,10 @@ void popup_players_dialog(bool raise)
   pplayers_dlg->end_widget_list = pwindow;
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = exit_players_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -698,10 +698,10 @@ void popup_players_nations_dialog(void)
 
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w = MAX(area.w, buf->size.w + adj_size(10));
   buf->action = exit_players_nations_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);

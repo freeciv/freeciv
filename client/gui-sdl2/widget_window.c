@@ -157,10 +157,10 @@ static void set_client_area(struct widget *pwindow)
   SDL_Rect area;
 
   if (get_wflags(pwindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
-    area.x = current_theme->FR_Left->w;
-    area.y = current_theme->FR_Top->h;
-    area.w = pwindow->size.w - current_theme->FR_Left->w - current_theme->FR_Right->w;
-    area.h = pwindow->size.h - current_theme->FR_Top->h - current_theme->FR_Bottom->h;
+    area.x = current_theme->fr_left->w;
+    area.y = current_theme->fr_top->h;
+    area.w = pwindow->size.w - current_theme->fr_left->w - current_theme->fr_right->w;
+    area.h = pwindow->size.h - current_theme->fr_top->h - current_theme->fr_bottom->h;
   } else {
     area = pwindow->size;
   }
@@ -198,8 +198,8 @@ struct widget *create_window_skeleton(struct gui_layer *pdest,
   pwindow->mod = KMOD_NONE;
 
   if (get_wflags(pwindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
-    w += current_theme->FR_Left->w + current_theme->FR_Right->w;
-    h += current_theme->FR_Top->h + current_theme->FR_Bottom->h;
+    w += current_theme->fr_left->w + current_theme->fr_right->w;
+    h += current_theme->fr_top->h + current_theme->fr_bottom->h;
   }
 
   if (title != NULL) {

@@ -250,9 +250,9 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     area.w = MAX(area.w, text->w + adj_size(20));
 
     /* cancel button */
-    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pwindow->dst, _("No"),
-                                              adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                             pwindow->dst, _("No"),
+                                             adj_font(12), 0);
 
     buf->action = cancel_upgrade_unit_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -262,8 +262,8 @@ static int popup_upgrade_unit_callback(struct widget *pwidget)
     add_to_gui_list(ID_BUTTON, buf);
 
     if (value <= client.conn.playing->economic.gold) {
-      buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                                _("Yes"), adj_font(12), 0);
+      buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                               _("Yes"), adj_font(12), 0);
 
       buf->action = ok_upgrade_unit_window_callback;
       set_wstate(buf, FC_WS_NORMAL);
@@ -410,8 +410,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 
   /* ------------------------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"), adj_font(12));
   buf->action = exit_units_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1641,9 +1641,9 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     area.h += (text->h + adj_size(10));
 
     /* cancel button */
-    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pwindow->dst, _("No"),
-                                              adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                             pwindow->dst, _("No"),
+                                             adj_font(12), 0);
 
     buf->action = cancel_sell_impr_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1653,8 +1653,8 @@ static int popup_sell_impr_callback(struct widget *pwidget)
     add_to_gui_list(ID_BUTTON, buf);
 
     if (count > 0) {
-      buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                                _("Sell"), adj_font(12), 0);
+      buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                               _("Sell"), adj_font(12), 0);
 
       buf->action = ok_sell_impr_callback;
       set_wstate(buf, FC_WS_NORMAL);
@@ -1966,7 +1966,7 @@ void economy_report_dialog_popup(bool make_modal)
   buf = create_checkbox(pwindow->dst,
                          sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
-  set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
+  set_new_checkbox_theme(buf, current_theme->lock_icon, current_theme->unlock_icon);
   buf->info_label = pstr;
   buf->action = toggle_block_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1976,8 +1976,8 @@ void economy_report_dialog_popup(bool make_modal)
   w2 = adj_size(10) + buf->size.w;
 
   /* lux rate slider */
-  buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
-                           (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
+  buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
+                          (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   buf->action = horiz_taxrate_callback;
   buf->data.ptr = fc_calloc(1, sizeof(int));
@@ -2010,10 +2010,10 @@ void economy_report_dialog_popup(bool make_modal)
   pstr->style |= TTF_STYLE_BOLD;
 
   buf = create_checkbox(pwindow->dst,
-                         sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
-                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+                        sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
+                        WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
-  set_new_checkbox_theme(buf, current_theme->LOCK_Icon, current_theme->UNLOCK_Icon);
+  set_new_checkbox_theme(buf, current_theme->lock_icon, current_theme->unlock_icon);
 
   buf->info_label = pstr;
   buf->action = toggle_block_callback;
@@ -2022,8 +2022,8 @@ void economy_report_dialog_popup(bool make_modal)
   add_to_gui_list(ID_CHANGE_TAXRATE_DLG_SCI_BLOCK_CHECKBOX, buf);
 
   /* science rate slider */
-  buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
-                           (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
+  buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
+                          (WF_FREE_DATA | WF_RESTORE_BACKGROUND));
 
   buf->action = horiz_taxrate_callback;
   buf->data.ptr = fc_calloc(1, sizeof(int));
@@ -2048,7 +2048,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Update"));
   pstr = create_utf8_from_char(cbuf, adj_font(12));
-  buf = create_themeicon_button(current_theme->Small_OK_Icon, pwindow->dst, pstr, 0);
+  buf = create_themeicon_button(current_theme->small_ok_icon, pwindow->dst, pstr, 0);
   buf->action = apply_taxrates_callback;
   set_wstate(buf, FC_WS_NORMAL);
 
@@ -2058,8 +2058,8 @@ void economy_report_dialog_popup(bool make_modal)
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Close Dialog (Esc)"));
   pstr = create_utf8_from_char(cbuf, adj_font(12));
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = pstr;
   buf->action = exit_economy_dialog_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -2303,7 +2303,7 @@ void economy_report_dialog_popup(bool make_modal)
   /* Luxuries Horizontal Scrollbar Background */
   dst.x = area.x + adj_size(10) + w + (area.w - (w + adj_size(10)) - adj_size(184)) / 2;
   dst.w = adj_size(184);
-  dst.h = current_theme->Horiz->h - adj_size(2);
+  dst.h = current_theme->horiz->h - adj_size(2);
 
   fill_rect_alpha(pwindow->theme, &dst, &bg_color3);
 
@@ -2327,7 +2327,7 @@ void economy_report_dialog_popup(bool make_modal)
   buf->size.y = dst.y + 1;
 
   /* Science Horizontal Scrollbar Background */
-  dst.y += current_theme->Horiz->h + 1;
+  dst.y += current_theme->horiz->h + 1;
   fill_rect_alpha(pwindow->theme, &dst, &bg_color3);
 
   create_frame(pwindow->theme,
@@ -2945,10 +2945,10 @@ static void popup_change_research_dialog(void)
 
   /* ------------------------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_change_tech_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -3133,10 +3133,10 @@ static void popup_change_research_goal_dialog(void)
 
   /* ------------------------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_change_tech_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -3412,7 +3412,7 @@ void science_report_dialog_popup(bool raise)
 
   /* ------ */
   /* exit button */
-  exit_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  exit_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                  WF_WIDGET_HAS_INFO_LABEL
                                  | WF_RESTORE_BACKGROUND);
   exit_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),

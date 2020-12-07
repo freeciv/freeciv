@@ -115,9 +115,9 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
   struct checkbox *ptmp = fc_calloc(1, sizeof(struct checkbox));
 
   if (state) {
-    pCBox->theme = current_theme->CBOX_Sell_Icon;
+    pCBox->theme = current_theme->cbox_sell_icon;
   } else {
-    pCBox->theme = current_theme->CBOX_Unsell_Icon;
+    pCBox->theme = current_theme->cbox_unsell_icon;
   }
 
   set_wflag(pCBox, (WF_FREE_STRING | WF_FREE_GFX | WF_FREE_PRIVATE_DATA | flags));
@@ -126,8 +126,8 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
   pCBox->mod = KMOD_NONE;
   pCBox->dst = pdest;
   ptmp->state = state;
-  ptmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
-  ptmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
+  ptmp->pTRUE_Theme = current_theme->cbox_sell_icon;
+  ptmp->pFALSE_Theme = current_theme->cbox_unsell_icon;
   pCBox->private_data.cbox = ptmp;
 
   checkbox_baseclass_redraw = pCBox->redraw;
@@ -157,9 +157,9 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   ptmp = fc_calloc(1, sizeof(struct checkbox));
 
   if (state) {
-    surf = current_theme->CBOX_Sell_Icon;
+    surf = current_theme->cbox_sell_icon;
   } else {
-    surf = current_theme->CBOX_Unsell_Icon;
+    surf = current_theme->cbox_unsell_icon;
   }
 
   icon = create_icon_from_theme(surf, 0);
@@ -172,8 +172,8 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
 
   set_wtype(pCBox, WT_TCHECKBOX);
   ptmp->state = state;
-  ptmp->pTRUE_Theme = current_theme->CBOX_Sell_Icon;
-  ptmp->pFALSE_Theme = current_theme->CBOX_Unsell_Icon;
+  ptmp->pTRUE_Theme = current_theme->cbox_sell_icon;
+  ptmp->pFALSE_Theme = current_theme->cbox_unsell_icon;
   pCBox->private_data.cbox = ptmp;
 
   tmp_widget = widget_new();

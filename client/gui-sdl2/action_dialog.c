@@ -409,10 +409,10 @@ static int spy_steal_popup_shared(struct widget *pwidget)
 
   /* ------------------ */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_spy_tgt_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1367,10 +1367,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
 
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_spy_tgt_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1678,11 +1678,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
     /* exit button */
-    buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                            WF_WIDGET_HAS_INFO_LABEL
-                            | WF_RESTORE_BACKGROUND);
+    buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                           WF_WIDGET_HAS_INFO_LABEL
+                           | WF_RESTORE_BACKGROUND);
     buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                             adj_font(12));
+                                            adj_font(12));
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_incite_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1748,11 +1748,11 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 
   } else {
     /* exit button */
-    buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                            WF_WIDGET_HAS_INFO_LABEL
-                            | WF_RESTORE_BACKGROUND);
+    buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                           WF_WIDGET_HAS_INFO_LABEL
+                           | WF_RESTORE_BACKGROUND);
     buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                             adj_font(12));
+                                            adj_font(12));
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_incite_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1976,11 +1976,11 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
 
   } else {
     /* exit button */
-    buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                            WF_WIDGET_HAS_INFO_LABEL
-                            | WF_RESTORE_BACKGROUND);
+    buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                           WF_WIDGET_HAS_INFO_LABEL
+                           | WF_RESTORE_BACKGROUND);
     buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                             adj_font(12));
+                                            adj_font(12));
     area.w += buf->size.w + adj_size(10);
     buf->action = exit_bribe_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);

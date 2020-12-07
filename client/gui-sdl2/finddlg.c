@@ -161,11 +161,11 @@ void popup_find_dialog(void)
 
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
-                          | WF_FREE_DATA);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND
+                         | WF_FREE_DATA);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w = MAX(area.w, buf->size.w + adj_size(10));
   buf->action = exit_find_city_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);

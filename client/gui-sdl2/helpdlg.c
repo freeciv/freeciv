@@ -258,7 +258,7 @@ void popup_impr_info(Impr_type_id impr)
     /* ------------------ */
 
     /* close button */
-    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     close_button->info_label =
@@ -330,7 +330,7 @@ void popup_impr_info(Impr_type_id impr)
     }
 
     /* toggle techs list button */
-    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
                                                            pwindow->dst,
                                                            _("Improvements"),
                                                            adj_font(10), 0);
@@ -674,7 +674,7 @@ void popup_unit_info(Unit_type_id type_id)
     /* ------------------ */
 
     /* close button */
-    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     close_button->info_label =
@@ -748,7 +748,7 @@ void popup_unit_info(Unit_type_id type_id)
     }
 
     /* toggle techs list button */
-    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
                           pwindow->dst,  _("Units"), adj_font(10), 0);
 #if 0
     list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
@@ -1020,7 +1020,7 @@ static int show_tech_tree_callback(struct widget *pwidget)
     store->show_tree = !store->show_tree;
     if (!store->show_tree) {
       store->show_full_tree = FALSE;
-      store->dock->theme2 = current_theme->UP_Icon;
+      store->dock->theme2 = current_theme->up_icon;
     }
     popup_tech_info(MAX_ID - store->dock->prev->id);
   }
@@ -1119,7 +1119,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   start_x = (pwindow->area.x + adj_size(1) + width + help_dlg->active_widget_list->size.w + adj_size(20));
 
   /* tech tree icon */
-  pwidget = create_icon2(current_theme->Tech_Tree_Icon, pwindow->dst,
+  pwidget = create_icon2(current_theme->tech_tree_icon, pwindow->dst,
                          WF_RESTORE_BACKGROUND);
 
   set_wstate(pwidget, FC_WS_NORMAL);
@@ -1630,9 +1630,9 @@ static int toggle_full_tree_mode_in_help_dlg_callback(struct widget *pwidget)
     struct techs_buttons *store = (struct techs_buttons *)help_dlg->end_widget_list->data.ptr;
 
     if (store->show_full_tree) {
-      pwidget->theme2 = current_theme->UP_Icon;
+      pwidget->theme2 = current_theme->up_icon;
     } else {
-      pwidget->theme2 = current_theme->DOWN_Icon;
+      pwidget->theme2 = current_theme->down_icon;
     }
     store->show_full_tree = !store->show_full_tree;
     popup_tech_info(MAX_ID - store->dock->prev->id);
@@ -1936,7 +1936,7 @@ void popup_tech_info(Tech_type_id tech)
     /* ------------------ */
 
     /* close button */
-    close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+    close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
     close_button->info_label =
@@ -1986,10 +1986,10 @@ void popup_tech_info(Tech_type_id tech)
     }
 
     /* toggle techs list button */
-    list_toggle_button = create_themeicon_button_from_chars(current_theme->UP_Icon,
-                                                           pwindow->dst,
-                                                           _("Advances"),
-                                                           adj_font(10), 0);
+    list_toggle_button = create_themeicon_button_from_chars(current_theme->up_icon,
+                                                            pwindow->dst,
+                                                            _("Advances"),
+                                                            adj_font(10), 0);
     list_toggle_button->action = toggle_full_tree_mode_in_help_dlg_callback;
     if (store->show_tree) {
       set_wstate(list_toggle_button, FC_WS_NORMAL);

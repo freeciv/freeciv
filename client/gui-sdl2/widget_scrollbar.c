@@ -520,8 +520,8 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
 
   if (create_buttons) {
     /* create up button */
-    buf = create_themeicon_button(current_theme->UP_Icon, pwindow->dst,
-                                   NULL, WF_RESTORE_BACKGROUND);
+    buf = create_themeicon_button(current_theme->up_icon, pwindow->dst,
+                                  NULL, WF_RESTORE_BACKGROUND);
 
     buf->id = ID_BUTTON;
     buf->private_data.adv_dlg = dlg;
@@ -535,8 +535,8 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
     count = buf->size.w;
 
     /* create down button */
-    buf = create_themeicon_button(current_theme->DOWN_Icon, pwindow->dst,
-                                   NULL, WF_RESTORE_BACKGROUND);
+    buf = create_themeicon_button(current_theme->down_icon, pwindow->dst,
+                                  NULL, WF_RESTORE_BACKGROUND);
 
     buf->id = ID_BUTTON;
     buf->private_data.adv_dlg = dlg;
@@ -550,8 +550,8 @@ Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
 
   if (create_scrollbar) {
     /* create vscrollbar */
-    buf = create_vertical(current_theme->Vertic, pwindow->dst,
-                           adj_size(10), WF_RESTORE_BACKGROUND);
+    buf = create_vertical(current_theme->vertic, pwindow->dst,
+                          adj_size(10), WF_RESTORE_BACKGROUND);
 
     buf->id = ID_SCROLLBAR;
     buf->private_data.adv_dlg = dlg;
@@ -1577,7 +1577,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
 
   if (create_buttons) {
     /* create up button */
-    buf = create_themeicon_button(current_theme->LEFT_Icon, pwindow->dst, NULL, 0);
+    buf = create_themeicon_button(current_theme->left_icon, pwindow->dst, NULL, 0);
 
     buf->id = ID_BUTTON;
     buf->data.ptr = (void *)dlg;
@@ -1598,7 +1598,7 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
     count = buf->size.h;
 
     /* create down button */
-    buf = create_themeicon_button(current_theme->RIGHT_Icon, pwindow->dst, NULL, 0);
+    buf = create_themeicon_button(current_theme->right_icon, pwindow->dst, NULL, 0);
 
     buf->id = ID_BUTTON;
     buf->data.ptr = (void *)dlg;
@@ -1619,8 +1619,8 @@ Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
 
   if (create_scrollbar) {
     /* create vscrollbar */
-    buf = create_horizontal(current_theme->Horiz, pwindow->dst,
-                             width, WF_RESTORE_BACKGROUND);
+    buf = create_horizontal(current_theme->horiz, pwindow->dst,
+                            width, WF_RESTORE_BACKGROUND);
 
     buf->id = ID_SCROLLBAR;
     buf->data.ptr = (void *)dlg;

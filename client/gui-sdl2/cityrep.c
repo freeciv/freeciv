@@ -182,7 +182,7 @@ static void real_info_city_report_dialog_update(void)
   struct widget *pbuf = NULL;
   struct widget *pwindow, *last;
   utf8_str *pstr;
-  SDL_Surface *text1, *text2, *text3, *units_icon, *pCMA_Icon, *text4;
+  SDL_Surface *text1, *text2, *text3, *units_icon, *cma_icon, *text4;
   SDL_Surface *logo;
   int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
   char cbuf[128];
@@ -218,8 +218,8 @@ static void real_info_city_report_dialog_update(void)
   prod_w = text4->w;
   FREEUTF8STR(pstr);
 
-  units_icon = create_icon_from_theme(current_theme->UNITS_Icon, 0);
-  pCMA_Icon = create_icon_from_theme(current_theme->CMA_Icon, 0);
+  units_icon = create_icon_from_theme(current_theme->units_icon, 0);
+  cma_icon = create_icon_from_theme(current_theme->cma_icon, 0);
 
   /* --------------- */
   pstr = create_utf8_from_char(_("Cities Report"), adj_font(12));
@@ -236,7 +236,7 @@ static void real_info_city_report_dialog_update(void)
 
   /* ------------------------- */
   /* exit button */
-  pbuf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  pbuf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_utf8_from_char(_("Close Dialog"), adj_font(12));
   pbuf->action = exit_city_report_callback;
@@ -248,7 +248,7 @@ static void real_info_city_report_dialog_update(void)
 /* FIXME: not implemented yet */
 #if 0
   /* ------------------------- */
-  pbuf = create_themeicon(current_theme->INFO_Icon, pwindow->dst,
+  pbuf = create_themeicon(current_theme->info_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Information Report"),
                                             adj_font(12));
@@ -258,7 +258,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Happy_Icon, pwindow->dst,
+  pbuf = create_themeicon(current_theme->happy_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Happiness Report"), adj_font(12));
 /*
@@ -267,7 +267,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Army_Icon, pwindow->dst,
+  pbuf = create_themeicon(current_theme->army_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
   pbuf->info_label = create_str16_from_char(_("Garrison Report"),
@@ -278,7 +278,7 @@ static void real_info_city_report_dialog_update(void)
 */
   add_to_gui_list(ID_BUTTON, pbuf);
   /* -------- */
-  pbuf = create_themeicon(current_theme->Support_Icon, pwindow->dst,
+  pbuf = create_themeicon(current_theme->support_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   pbuf->info_label = create_str16_from_char(_("Maintenance Report"),
                                             adj_font(12));
@@ -606,7 +606,7 @@ static void real_info_city_report_dialog_update(void)
   H = hh;
   city_rep->begin_widget_list = pbuf;
   /* setup window width */
-  area.w = name_w + adj_size(6) + text1->w + adj_size(8) + pCMA_Icon->w
+  area.w = name_w + adj_size(6) + text1->w + adj_size(8) + cma_icon->w
     + (icons->pBIG_Food->w + adj_size(6)) * 10 + text2->w + adj_size(6)
     + units_icon->w + adj_size(6) + prod_w + adj_size(170);
 
@@ -700,10 +700,10 @@ static void real_info_city_report_dialog_update(void)
 
   /* cma icon */
   dst.x += (ww + adj_size(9));
-  dst.y = area.y + 1 + (text2->h - pCMA_Icon->h) / 2;
-  alphablit(pCMA_Icon, NULL, pwindow->theme, &dst, 255);
-  ww = pCMA_Icon->w;
-  FREESURFACE(pCMA_Icon);
+  dst.y = area.y + 1 + (text2->h - cma_icon->h) / 2;
+  alphablit(cma_icon, NULL, pwindow->theme, &dst, 255);
+  ww = cma_icon->w;
+  FREESURFACE(cma_icon);
 
   /* -------------- */
   /* populations food unkeep background and label */

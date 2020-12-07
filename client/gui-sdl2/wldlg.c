@@ -913,7 +913,7 @@ static SDL_Surface *get_progress_icon(int stock, int cost, int *progress)
     *progress = 100;
   }
 
-  icon = create_bcgnd_surf(current_theme->Edit, 0, adj_size(120), adj_size(30));
+  icon = create_bcgnd_surf(current_theme->edit, 0, adj_size(120), adj_size(30));
 
   if (width) {
     SDL_Rect dst = {2,1,0,0};
@@ -1201,7 +1201,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
   /* --------------------------- */
   /* Commit Widget */
-  buf = create_themeicon(current_theme->OK_Icon, pwindow->dst, WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->ok_icon, pwindow->dst, WF_RESTORE_BACKGROUND);
 
   buf->action = ok_worklist_editor_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1210,8 +1210,8 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   add_to_gui_list(ID_BUTTON, buf);
   /* --------------------------- */
   /* Cancel Widget */
-  buf = create_themeicon(current_theme->CANCEL_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->cancel_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND);
 
   buf->action = popdown_worklist_editor_callback;
   set_wstate(buf, FC_WS_NORMAL);

@@ -217,7 +217,7 @@ static void popup_load_game_dialog(void)
   area = pwindow->area;
 
   /* close button */
-  close_button = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
+  close_button = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
   close_button->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
@@ -794,7 +794,7 @@ static void popup_conn_list_dialog(void)
 
   /* buttons */
 
-  buf = create_themeicon_button_from_chars(current_theme->BACK_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->back_icon, pwindow->dst,
                                            _("Back"), adj_font(12), 0);
   buf->size.x = adj_size(10);
   buf->size.y = pwindow->size.h - adj_size(10) - buf->size.h;
@@ -805,7 +805,7 @@ static void popup_conn_list_dialog(void)
   add_to_gui_list(ID_BUTTON, buf);
   back_button = buf;
 
-  buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
                                            _("Start"), adj_font(12), 0);
   buf->size.x = pwindow->size.w - adj_size(10) - buf->size.w;
   buf->size.y = back_button->size.y;

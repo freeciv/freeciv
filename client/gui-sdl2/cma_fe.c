@@ -349,8 +349,8 @@ static int save_cma_callback(struct widget *pwidget)
     add_to_gui_list(ID_EDIT, buf);
     /* ============================================================= */
 
-    buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                              _("Yes"), adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                             _("Yes"), adj_font(12), 0);
 
     buf->action = ok_save_cma_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -358,9 +358,9 @@ static int save_cma_callback(struct widget *pwidget)
     add_to_gui_list(ID_BUTTON, buf);
     buf->data.ptr = (void *)buf->next;
 
-    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pwindow->dst, _("No"),
-                                              adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                             pwindow->dst, _("No"),
+                                             adj_font(12), 0);
     buf->action = cancel_SLD_cma_callback;
     set_wstate(buf, FC_WS_NORMAL);
     buf->key = SDLK_ESCAPE;
@@ -508,10 +508,10 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
 
   /* ---------- */
   /* create exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = cancel_SLD_cma_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -924,10 +924,10 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* ---------- */
   /* create exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = exit_cma_dialog_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -952,14 +952,14 @@ void popup_city_cma_dialog(struct city *pcity)
 
     /* minimal label */
     buf = create_iconlabel(NULL, pwindow->dst,
-                            create_utf8_from_char("999", adj_font(10)),
-                            (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
+                           create_utf8_from_char("999", adj_font(10)),
+                           (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, buf);
 
     /* minimal scrollbar */
-    buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
-                             (WF_RESTORE_BACKGROUND));
+    buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
+                            (WF_RESTORE_BACKGROUND));
 
     buf->action = min_horiz_cma_callback;
     buf->data.ptr = &pCma->edited_cm_parm.minimal_surplus[i];
@@ -970,14 +970,14 @@ void popup_city_cma_dialog(struct city *pcity)
 
     /* factor label */
     buf = create_iconlabel(NULL, pwindow->dst,
-                            create_utf8_from_char("999", adj_font(10)),
-                            (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
+                           create_utf8_from_char("999", adj_font(10)),
+                           (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
     add_to_gui_list(ID_LABEL, buf);
 
     /* factor scrollbar */
-    buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
-                             (WF_RESTORE_BACKGROUND));
+    buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
+                            (WF_RESTORE_BACKGROUND));
 
     buf->action = factor_horiz_cma_callback;
     buf->data.ptr = &pCma->edited_cm_parm.factor[i];
@@ -993,14 +993,14 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* happy factor label */
   buf = create_iconlabel(NULL, pwindow->dst,
-                          create_utf8_from_char("999", adj_font(10)),
-                          (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
+                         create_utf8_from_char("999", adj_font(10)),
+                         (WF_FREE_STRING | WF_RESTORE_BACKGROUND));
 
   add_to_gui_list(ID_LABEL, buf);
 
   /* happy factor scrollbar */
-  buf = create_horizontal(current_theme->Horiz, pwindow->dst, adj_size(30),
-                           (WF_RESTORE_BACKGROUND));
+  buf = create_horizontal(current_theme->horiz, pwindow->dst, adj_size(30),
+                          (WF_RESTORE_BACKGROUND));
 
   buf->action = factor_horiz_cma_callback;
   buf->data.ptr = &pCma->edited_cm_parm.happy_factor;
@@ -1011,58 +1011,58 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* celebrating */
   buf = create_checkbox(pwindow->dst,
-                         pCma->edited_cm_parm.require_happy, WF_RESTORE_BACKGROUND);
+                        pCma->edited_cm_parm.require_happy, WF_RESTORE_BACKGROUND);
 
   set_wstate(buf, FC_WS_NORMAL);
   buf->action = toggle_cma_celebrating_callback;
   add_to_gui_list(ID_CHECKBOX, buf);
 
   /* save as ... */
-  buf = create_themeicon(current_theme->SAVE_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->save_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   buf->action = save_cma_callback;
   buf->info_label = create_utf8_from_char(_("Save settings as..."),
-                                           adj_font(10));
+                                          adj_font(10));
 
   add_to_gui_list(ID_ICON, buf);
 
   /* load settings */
-  buf = create_themeicon(current_theme->LOAD_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->load_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = load_cma_callback;
   buf->info_label = create_utf8_from_char(_("Load settings"),
-                                           adj_font(10));
+                                          adj_font(10));
 
   add_to_gui_list(ID_ICON, buf);
 
   /* del settings */
-  buf = create_themeicon(current_theme->DELETE_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->delete_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = del_cma_callback;
   buf->info_label = create_utf8_from_char(_("Delete settings"),
-                                           adj_font(10));
+                                          adj_font(10));
 
   add_to_gui_list(ID_ICON, buf);
 
   /* run cma */
-  buf = create_themeicon(current_theme->QPROD_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->qprod_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = run_cma_callback;
   buf->info_label = create_utf8_from_char(_("Control city"), adj_font(10));
 
   add_to_gui_list(ID_ICON, buf);
 
   /* run cma onece */
-  buf = create_themeicon(current_theme->FindCity_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->find_city_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = run_cma_once_callback;
   buf->info_label = create_utf8_from_char(_("Apply once"), adj_font(10));
 
   add_to_gui_list(ID_ICON, buf);
 
   /* del settings */
-  buf = create_themeicon(current_theme->Support_Icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+  buf = create_themeicon(current_theme->support_icon, pwindow->dst,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   buf->action = stop_cma_callback;
   buf->info_label = create_utf8_from_char(_("Release city"), adj_font(10));
 

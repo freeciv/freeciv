@@ -36,116 +36,116 @@
 #include "graphics.h"
 #include "sprite.h"
 
-struct Theme {
+struct theme_icons {
 
   /* Frame */  
-  SDL_Surface *FR_Left;
-  SDL_Surface *FR_Right;
-  SDL_Surface *FR_Top;
-  SDL_Surface *FR_Bottom;
+  SDL_Surface *fr_left;
+  SDL_Surface *fr_right;
+  SDL_Surface *fr_top;
+  SDL_Surface *fr_bottom;
 
   /* Button */
   SDL_Surface *button;
 
   /* Edit */
-  SDL_Surface *Edit;
+  SDL_Surface *edit;
 
   /* Checkbox */
-  SDL_Surface *CBOX_Sell_Icon;
-  SDL_Surface *CBOX_Unsell_Icon;
+  SDL_Surface *cbox_sell_icon;
+  SDL_Surface *cbox_unsell_icon;
 
   /* Scrollbar */
-  SDL_Surface *UP_Icon;
-  SDL_Surface *DOWN_Icon;
-  SDL_Surface *LEFT_Icon;
-  SDL_Surface *RIGHT_Icon;
-  SDL_Surface *Vertic;
-  SDL_Surface *Horiz;
+  SDL_Surface *up_icon;
+  SDL_Surface *down_icon;
+  SDL_Surface *left_icon;
+  SDL_Surface *right_icon;
+  SDL_Surface *vertic;
+  SDL_Surface *horiz;
 
   /* Game */
-  SDL_Surface *OK_Icon;
-  SDL_Surface *CANCEL_Icon;
-  SDL_Surface *Small_OK_Icon;
-  SDL_Surface *Small_CANCEL_Icon;
+  SDL_Surface *ok_icon;
+  SDL_Surface *cancel_icon;
+  SDL_Surface *small_ok_icon;
+  SDL_Surface *small_cancel_icon;
   SDL_Surface *FORWARD_Icon;
-  SDL_Surface *BACK_Icon;
-  SDL_Surface *INFO_Icon;
-  SDL_Surface *R_ARROW_Icon;
-  SDL_Surface *L_ARROW_Icon;
-  SDL_Surface *LOCK_Icon;
-  SDL_Surface *UNLOCK_Icon;
+  SDL_Surface *back_icon;
+  SDL_Surface *info_icon;
+  SDL_Surface *r_arrow_icon;
+  SDL_Surface *l_arrow_icon;
+  SDL_Surface *lock_icon;
+  SDL_Surface *unlock_icon;
 
-  SDL_Surface *Options_Icon;
-  SDL_Surface *Block;
-  SDL_Surface *UNITS_Icon;
-  SDL_Surface *MAP_Icon;
-  SDL_Surface *LOG_Icon;
-  SDL_Surface *PLAYERS_Icon;
-  SDL_Surface *UNITS2_Icon;
-  SDL_Surface *FindCity_Icon;
-  SDL_Surface *NEW_TURN_Icon;
-  SDL_Surface *SAVE_Icon;
-  SDL_Surface *LOAD_Icon;
-  SDL_Surface *DELETE_Icon;
-  SDL_Surface *BORDERS_Icon;
+  SDL_Surface *options_icon;
+  SDL_Surface *block;
+  SDL_Surface *units_icon;
+  SDL_Surface *map_icon;
+  SDL_Surface *log_icon;
+  SDL_Surface *players_icon;
+  SDL_Surface *units2_icon;
+  SDL_Surface *find_city_icon;
+  SDL_Surface *new_turn_icon;
+  SDL_Surface *save_icon;
+  SDL_Surface *load_icon;
+  SDL_Surface *delete_icon;
+  SDL_Surface *borders_icon;
 
   /* help icons */
-  SDL_Surface *Tech_Tree_Icon;
+  SDL_Surface *tech_tree_icon;
 
   /* city icons */
-  SDL_Surface *Army_Icon;
-  SDL_Surface *Support_Icon;
-  SDL_Surface *Happy_Icon;
-  SDL_Surface *CMA_Icon;
-  SDL_Surface *PROD_Icon;
-  SDL_Surface *QPROD_Icon;
-  SDL_Surface *Buy_PROD_Icon;
+  SDL_Surface *army_icon;
+  SDL_Surface *support_icon;
+  SDL_Surface *happy_icon;
+  SDL_Surface *cma_icon;
+  SDL_Surface *prod_icon;
+  SDL_Surface *qprod_icon;
+  SDL_Surface *buy_prod_icon;
 
   /* diplomacy */
-  SDL_Surface *OK_PACT_Icon;
-  SDL_Surface *CANCEL_PACT_Icon;
+  SDL_Surface *ok_pact_icon;
+  SDL_Surface *cancel_pact_icon;
 
   /* orders icons */
-  SDL_Surface *Order_Icon;
-  SDL_Surface *ODisband_Icon;
-  SDL_Surface *OWait_Icon;
-  SDL_Surface *ODone_Icon;
+  SDL_Surface *order_icon;
+  SDL_Surface *o_disband_icon;
+  SDL_Surface *o_wait_icon;
+  SDL_Surface *o_done_icon;
   SDL_Surface *OAutoAtt_Icon; /* currently unused */
-  SDL_Surface *OAutoExp_Icon;
-  SDL_Surface *OAutoSett_Icon;
-  SDL_Surface *OAutoConnect_Icon;
-  SDL_Surface *OUnload_Icon;
-  SDL_Surface *OBuildCity_Icon;
-  SDL_Surface *OGotoCity_Icon;
-  SDL_Surface *OGoto_Icon;
-  SDL_Surface *OHomeCity_Icon;
-  SDL_Surface *OPatrol_Icon;
-  SDL_Surface *OMine_Icon;
+  SDL_Surface *o_autoexp_icon;
+  SDL_Surface *o_autosett_icon;
+  SDL_Surface *o_autoconnect_icon;
+  SDL_Surface *o_unload_icon;
+  SDL_Surface *o_build_city_icon;
+  SDL_Surface *o_goto_city_icon;
+  SDL_Surface *o_goto_icon;
+  SDL_Surface *o_homecity_icon;
+  SDL_Surface *o_patrol_icon;
+  SDL_Surface *o_mine_icon;
   SDL_Surface *OPlantForest_Icon;
   SDL_Surface *OCutDownForest_Icon;
-  SDL_Surface *OFortify_Icon;
-  SDL_Surface *OSentry_Icon;
-  SDL_Surface *OIrrigation_Icon;
-  SDL_Surface *OCultivate_Icon;
-  SDL_Surface *OPlant_Icon;
-  SDL_Surface *ORoad_Icon;
-  SDL_Surface *ORailRoad_Icon;
-  SDL_Surface *OPillage_Icon;
-  SDL_Surface *OParaDrop_Icon;
-  SDL_Surface *ONuke_Icon;
-  SDL_Surface *OFortress_Icon;
-  SDL_Surface *OFallout_Icon;
-  SDL_Surface *OPollution_Icon;
-  SDL_Surface *OAirBase_Icon;
-  SDL_Surface *OTransform_Icon;
+  SDL_Surface *o_fortify_icon;
+  SDL_Surface *o_sentry_icon;
+  SDL_Surface *o_irrigation_icon;
+  SDL_Surface *o_cultivate_icon;
+  SDL_Surface *o_plant_icon;
+  SDL_Surface *o_road_icon;
+  SDL_Surface *o_railroad_icon;
+  SDL_Surface *o_pillage_icon;
+  SDL_Surface *o_paradrop_icon;
+  SDL_Surface *o_nuke_icon;
+  SDL_Surface *o_fortress_icon;
+  SDL_Surface *o_fallout_icon;
+  SDL_Surface *o_pollution_icon;
+  SDL_Surface *o_airbase_icon;
+  SDL_Surface *o_transform_icon;
   SDL_Surface *OAddCity_Icon;
-  SDL_Surface *OWonder_Icon;
-  SDL_Surface *OTrade_Icon;
-  SDL_Surface *OSpy_Icon;
-  SDL_Surface *OWakeUp_Icon;
-  SDL_Surface *OReturn_Icon;
+  SDL_Surface *o_wonder_icon;
+  SDL_Surface *o_trade_icon;
+  SDL_Surface *o_spy_icon;
+  SDL_Surface *o_wakeup_icon;
+  SDL_Surface *o_return_icon;
   SDL_Surface *OAirLift_Icon;
-  SDL_Surface *OLoad_Icon;
+  SDL_Surface *o_load_icon;
 };
 
 struct city_icon {
@@ -192,7 +192,7 @@ struct city_icon {
   SDL_Surface *specialists[SP_MAX];
 };
 
-extern struct Theme *current_theme;
+extern struct theme_icons *current_theme;
 extern struct city_icon *icons;
 
 void tilespec_setup_theme(void);

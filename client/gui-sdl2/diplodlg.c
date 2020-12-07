@@ -898,15 +898,15 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 
-    buf = create_iconlabel(create_icon_from_theme(current_theme->CANCEL_PACT_Icon, 0),
-                            pwindow->dst, pstr,
-                            (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-                             WF_RESTORE_BACKGROUND));
+    buf = create_iconlabel(create_icon_from_theme(current_theme->cancel_pact_icon, 0),
+                           pwindow->dst, pstr,
+                           (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
+                            WF_RESTORE_BACKGROUND));
 
     buf->private_data.cbox = fc_calloc(1, sizeof(struct checkbox));
     buf->private_data.cbox->state = FALSE;
-    buf->private_data.cbox->pTRUE_Theme = current_theme->OK_PACT_Icon;
-    buf->private_data.cbox->pFALSE_Theme = current_theme->CANCEL_PACT_Icon;
+    buf->private_data.cbox->pTRUE_Theme = current_theme->ok_pact_icon;
+    buf->private_data.cbox->pFALSE_Theme = current_theme->cancel_pact_icon;
 
     add_to_gui_list(ID_ICON, buf);
 
@@ -914,20 +914,20 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_DIPLODLG_MEETING_TEXT);
 
-    buf = create_iconlabel(create_icon_from_theme(current_theme->CANCEL_PACT_Icon, 0),
-                            pwindow->dst, pstr,
-                            (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
-                             WF_RESTORE_BACKGROUND));
+    buf = create_iconlabel(create_icon_from_theme(current_theme->cancel_pact_icon, 0),
+                           pwindow->dst, pstr,
+                           (WF_ICON_ABOVE_TEXT|WF_FREE_PRIVATE_DATA|WF_FREE_THEME|
+                            WF_RESTORE_BACKGROUND));
     buf->private_data.cbox = fc_calloc(1, sizeof(struct checkbox));
     buf->private_data.cbox->state = FALSE;
-    buf->private_data.cbox->pTRUE_Theme = current_theme->OK_PACT_Icon;
-    buf->private_data.cbox->pFALSE_Theme = current_theme->CANCEL_PACT_Icon;
+    buf->private_data.cbox->pTRUE_Theme = current_theme->ok_pact_icon;
+    buf->private_data.cbox->pFALSE_Theme = current_theme->cancel_pact_icon;
     add_to_gui_list(ID_ICON, buf);
     /* ============================================================= */
 
-    buf = create_themeicon(current_theme->CANCEL_PACT_Icon, pwindow->dst,
-                            WF_WIDGET_HAS_INFO_LABEL
-                            | WF_RESTORE_BACKGROUND);
+    buf = create_themeicon(current_theme->cancel_pact_icon, pwindow->dst,
+                           WF_WIDGET_HAS_INFO_LABEL
+                           | WF_RESTORE_BACKGROUND);
     buf->info_label = create_utf8_from_char(_("Cancel meeting"),
                                              adj_font(12));
     buf->action = cancel_meeting_callback;
@@ -936,11 +936,11 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
 
     add_to_gui_list(ID_ICON, buf);
 
-    buf = create_themeicon(current_theme->OK_PACT_Icon, pwindow->dst,
-                            WF_FREE_DATA | WF_WIDGET_HAS_INFO_LABEL
-                            |WF_RESTORE_BACKGROUND);
+    buf = create_themeicon(current_theme->ok_pact_icon, pwindow->dst,
+                           WF_FREE_DATA | WF_WIDGET_HAS_INFO_LABEL
+                           |WF_RESTORE_BACKGROUND);
     buf->info_label = create_utf8_from_char(_("Accept treaty"),
-                                             adj_font(12));
+                                            adj_font(12));
     buf->action = accept_treaty_callback;
     buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1404,9 +1404,9 @@ static void popup_war_dialog(struct player *pplayer)
   area.w = MAX(area.w, text->w);
   area.h += text->h + adj_size(10);
 
-  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                            pwindow->dst, _("No"),
-                                            adj_font(12), 0);
+  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                           pwindow->dst, _("No"),
+                                           adj_font(12), 0);
 
   buf->action = cancel_sdip_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1415,8 +1415,8 @@ static void popup_war_dialog(struct player *pplayer)
 
   add_to_gui_list(ID_BUTTON, buf);
 
-  buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                            _("Yes"), adj_font(12), 0);
+  buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                           _("Yes"), adj_font(12), 0);
 
   buf->action = cancel_pact_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -1557,9 +1557,9 @@ void popup_diplomacy_dialog(struct player *pplayer)
       }
 
       /* cancel treaty */
-      buf = create_themeicon_button_from_chars(current_theme->UNITS2_Icon,
-                                                pwindow->dst, cbuf,
-                                                adj_font(12), 0);
+      buf = create_themeicon_button_from_chars(current_theme->units2_icon,
+                                               pwindow->dst, cbuf,
+                                               adj_font(12), 0);
 
       buf->action = cancel_pact_dlg_callback;
       set_wstate(buf, FC_WS_NORMAL);
@@ -1578,9 +1578,9 @@ void popup_diplomacy_dialog(struct player *pplayer)
 
     if (shared) {
       /* shared vision */
-      buf = create_themeicon_button_from_chars(current_theme->UNITS2_Icon,
-                                                pwindow->dst, _("Withdraw vision"),
-                                                adj_font(12), 0);
+      buf = create_themeicon_button_from_chars(current_theme->units2_icon,
+                                               pwindow->dst, _("Withdraw vision"),
+                                               adj_font(12), 0);
 
       buf->action = withdraw_vision_dlg_callback;
       set_wstate(buf, FC_WS_NORMAL);
@@ -1596,10 +1596,10 @@ void popup_diplomacy_dialog(struct player *pplayer)
     }
 
     /* meet */
-    buf = create_themeicon_button_from_chars(current_theme->PLAYERS_Icon,
-                                              pwindow->dst,
-                                              _("Call Diplomatic Meeting"),
-                                              adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->players_icon,
+                                             pwindow->dst,
+                                             _("Call Diplomatic Meeting"),
+                                             adj_font(12), 0);
 
     buf->action = call_meeting_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1613,9 +1613,9 @@ void popup_diplomacy_dialog(struct player *pplayer)
     button_h = MAX(button_h , buf->size.h);
     buttons++;
 
-    buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                              pwindow->dst, _("Send him back"),
-                                              adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                             pwindow->dst, _("Send him back"),
+                                             adj_font(12), 0);
 
     buf->action = cancel_sdip_dlg_callback;
     set_wstate(buf, FC_WS_NORMAL);

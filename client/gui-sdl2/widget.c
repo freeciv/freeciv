@@ -1113,13 +1113,13 @@ void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
   SDL_Surface *tmp_left =
-    ResizeSurface(current_theme->FR_Left, current_theme->FR_Left->w, h, 1);
+    ResizeSurface(current_theme->fr_left, current_theme->fr_left->w, h, 1);
   SDL_Surface *tmp_right =
-    ResizeSurface(current_theme->FR_Right, current_theme->FR_Right->w, h, 1);
+    ResizeSurface(current_theme->fr_right, current_theme->fr_right->w, h, 1);
   SDL_Surface *tmp_top =
-    ResizeSurface(current_theme->FR_Top, w, current_theme->FR_Top->h, 1);
+    ResizeSurface(current_theme->fr_top, w, current_theme->fr_top->h, 1);
   SDL_Surface *tmp_bottom =
-    ResizeSurface(current_theme->FR_Bottom, w, current_theme->FR_Bottom->h, 1);
+    ResizeSurface(current_theme->fr_bottom, w, current_theme->fr_bottom->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;

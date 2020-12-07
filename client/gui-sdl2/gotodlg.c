@@ -272,10 +272,10 @@ static void popup_goto_airlift_dialog(void)
 
   /* ---------- */
   /* create exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = exit_goto_dialog_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -331,7 +331,7 @@ static void popup_goto_airlift_dialog(void)
   /* background */
   col = (col + 15) / 16; /* number of flag columns */
 
-  pFlag = ResizeSurface(current_theme->Block,
+  pFlag = ResizeSurface(current_theme->block,
                         (col * buf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
                         area.h, 1);
 

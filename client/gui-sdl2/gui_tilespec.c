@@ -51,7 +51,7 @@
 
 #include "gui_tilespec.h"
 
-struct Theme *current_theme = NULL;
+struct theme_icons *current_theme = NULL;
 struct city_icon *icons;
 
 static SDL_Surface *city_surf;
@@ -60,21 +60,21 @@ static SDL_Surface *pNeutral_Tech_Icon;
 static SDL_Surface *pNone_Tech_Icon;
 static SDL_Surface *pFuture_Tech_Icon;
 
-#define load_GUI_surface(pSpr, pStruct, surf, tag)		  \
+#define load_GUI_surface(_spr_, _struct_, _surf_, _tag_)	  \
 do {								  \
-  pSpr = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, tag, "", "", ""); \
-  fc_assert_action(pSpr != NULL, break);                          \
-  pStruct->surf = GET_SURF_REAL(pSpr);                           \
+  _spr_ = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, _tag_, "", "", ""); \
+  fc_assert_action(_spr_ != NULL, break);                          \
+  _struct_->_surf_ = GET_SURF_REAL(_spr_);                           \
 } while (FALSE)
 
-#define load_theme_surface(pSpr, surf, tag)		\
-	load_GUI_surface(pSpr, current_theme, surf, tag)
+#define load_theme_surface(spr, surf, tag)		\
+	load_GUI_surface(spr, current_theme, surf, tag)
 
-#define load_city_icon_surface(pSpr, surf, tag)        \
-        load_GUI_surface(pSpr, icons, surf, tag)
+#define load_city_icon_surface(spr, surf, tag)        \
+        load_GUI_surface(spr, icons, surf, tag)
 
-#define load_order_theme_surface(pSpr, surf, tag)	\
-        load_GUI_surface(pSpr, current_theme, surf, tag);
+#define load_order_theme_surface(spr, surf, tag)	\
+        load_GUI_surface(spr, current_theme, surf, tag);
 
 /***************************************************************************//**
   Reload small citizens "style" icons.
@@ -259,105 +259,105 @@ void tilespec_setup_theme(void)
 {
   struct sprite *buf = NULL;
 
-  current_theme = fc_calloc(1, sizeof(struct Theme));
+  current_theme = fc_calloc(1, sizeof(struct theme_icons));
 
-  load_theme_surface(buf, FR_Left, "theme.left_frame");
-  load_theme_surface(buf, FR_Right, "theme.right_frame");
-  load_theme_surface(buf, FR_Top, "theme.top_frame");
-  load_theme_surface(buf, FR_Bottom, "theme.bottom_frame");
+  load_theme_surface(buf, fr_left, "theme.left_frame");
+  load_theme_surface(buf, fr_right, "theme.right_frame");
+  load_theme_surface(buf, fr_top, "theme.top_frame");
+  load_theme_surface(buf, fr_bottom, "theme.bottom_frame");
   load_theme_surface(buf, button, "theme.button");
-  load_theme_surface(buf, Edit, "theme.edit");
-  load_theme_surface(buf, CBOX_Sell_Icon, "theme.sbox");
-  load_theme_surface(buf, CBOX_Unsell_Icon, "theme.ubox");
-  load_theme_surface(buf, UP_Icon, "theme.UP_scroll");
-  load_theme_surface(buf, DOWN_Icon, "theme.DOWN_scroll");
+  load_theme_surface(buf, edit, "theme.edit");
+  load_theme_surface(buf, cbox_sell_icon, "theme.sbox");
+  load_theme_surface(buf, cbox_unsell_icon, "theme.ubox");
+  load_theme_surface(buf, up_icon, "theme.UP_scroll");
+  load_theme_surface(buf, down_icon, "theme.DOWN_scroll");
 #if 0
-  load_theme_surface(buf, LEFT_Icon, "theme.LEFT_scroll");
-  load_theme_surface(buf, RIGHT_Icon, "theme.RIGHT_scroll");
+  load_theme_surface(buf, left_icon, "theme.LEFT_scroll");
+  load_theme_surface(buf, right_icon, "theme.RIGHT_scroll");
 #endif
-  load_theme_surface(buf, Vertic, "theme.vertic_scrollbar");
-  load_theme_surface(buf, Horiz, "theme.horiz_scrollbar");
+  load_theme_surface(buf, vertic, "theme.vertic_scrollbar");
+  load_theme_surface(buf, horiz, "theme.horiz_scrollbar");
 
   /* ------------------- */
-  load_theme_surface(buf, OK_PACT_Icon, "theme.pact_ok");
-  load_theme_surface(buf, CANCEL_PACT_Icon, "theme.pact_cancel");
+  load_theme_surface(buf, ok_pact_icon, "theme.pact_ok");
+  load_theme_surface(buf, cancel_pact_icon, "theme.pact_cancel");
   /* ------------------- */
-  load_theme_surface(buf, Small_OK_Icon, "theme.SMALL_OK_button");
-  load_theme_surface(buf, Small_CANCEL_Icon, "theme.SMALL_FAIL_button");
+  load_theme_surface(buf, small_ok_icon, "theme.SMALL_OK_button");
+  load_theme_surface(buf, small_cancel_icon, "theme.SMALL_FAIL_button");
   /* ------------------- */
-  load_theme_surface(buf, OK_Icon, "theme.OK_button");
-  load_theme_surface(buf, CANCEL_Icon, "theme.FAIL_button");
+  load_theme_surface(buf, ok_icon, "theme.OK_button");
+  load_theme_surface(buf, cancel_icon, "theme.FAIL_button");
   load_theme_surface(buf, FORWARD_Icon, "theme.NEXT_button");
-  load_theme_surface(buf, BACK_Icon, "theme.BACK_button");
-  load_theme_surface(buf, L_ARROW_Icon, "theme.LEFT_ARROW_button");
-  load_theme_surface(buf, R_ARROW_Icon, "theme.RIGHT_ARROW_button");
-  load_theme_surface(buf, MAP_Icon, "theme.MAP_button");
-  load_theme_surface(buf, FindCity_Icon, "theme.FIND_CITY_button");
-  load_theme_surface(buf, NEW_TURN_Icon, "theme.NEW_TURN_button");
-  load_theme_surface(buf, LOG_Icon, "theme.LOG_button");
-  load_theme_surface(buf, UNITS_Icon, "theme.UNITS_INFO_button");
-  load_theme_surface(buf, Options_Icon, "theme.OPTIONS_button");
-  load_theme_surface(buf, Block, "theme.block");
-  load_theme_surface(buf, INFO_Icon, "theme.INFO_button");
-  load_theme_surface(buf, Army_Icon, "theme.ARMY_button");
-  load_theme_surface(buf, Happy_Icon, "theme.HAPPY_button");
-  load_theme_surface(buf, Support_Icon, "theme.HOME_button");
-  load_theme_surface(buf, Buy_PROD_Icon, "theme.BUY_button");
-  load_theme_surface(buf, PROD_Icon, "theme.PROD_button");
-  load_theme_surface(buf, QPROD_Icon, "theme.WORK_LIST_button");
-  load_theme_surface(buf, CMA_Icon, "theme.CMA_button");
-  load_theme_surface(buf, LOCK_Icon, "theme.LOCK_button");
-  load_theme_surface(buf, UNLOCK_Icon, "theme.UNLOCK_button");
-  load_theme_surface(buf, PLAYERS_Icon, "theme.PLAYERS_button");
-  load_theme_surface(buf, UNITS2_Icon, "theme.UNITS_button");
-  load_theme_surface(buf, SAVE_Icon, "theme.SAVE_button");
-  load_theme_surface(buf, LOAD_Icon, "theme.LOAD_button");
-  load_theme_surface(buf, DELETE_Icon, "theme.DELETE_button");
-  load_theme_surface(buf, BORDERS_Icon, "theme.BORDERS_button");
+  load_theme_surface(buf, back_icon, "theme.BACK_button");
+  load_theme_surface(buf, l_arrow_icon, "theme.LEFT_ARROW_button");
+  load_theme_surface(buf, r_arrow_icon, "theme.RIGHT_ARROW_button");
+  load_theme_surface(buf, map_icon, "theme.MAP_button");
+  load_theme_surface(buf, find_city_icon, "theme.FIND_CITY_button");
+  load_theme_surface(buf, new_turn_icon, "theme.NEW_TURN_button");
+  load_theme_surface(buf, log_icon, "theme.LOG_button");
+  load_theme_surface(buf, units_icon, "theme.UNITS_INFO_button");
+  load_theme_surface(buf, options_icon, "theme.OPTIONS_button");
+  load_theme_surface(buf, block, "theme.block");
+  load_theme_surface(buf, info_icon, "theme.INFO_button");
+  load_theme_surface(buf, army_icon, "theme.ARMY_button");
+  load_theme_surface(buf, happy_icon, "theme.HAPPY_button");
+  load_theme_surface(buf, support_icon, "theme.HOME_button");
+  load_theme_surface(buf, buy_prod_icon, "theme.BUY_button");
+  load_theme_surface(buf, prod_icon, "theme.PROD_button");
+  load_theme_surface(buf, qprod_icon, "theme.WORK_LIST_button");
+  load_theme_surface(buf, cma_icon, "theme.CMA_button");
+  load_theme_surface(buf, lock_icon, "theme.LOCK_button");
+  load_theme_surface(buf, unlock_icon, "theme.UNLOCK_button");
+  load_theme_surface(buf, players_icon, "theme.PLAYERS_button");
+  load_theme_surface(buf, units2_icon, "theme.UNITS_button");
+  load_theme_surface(buf, save_icon, "theme.SAVE_button");
+  load_theme_surface(buf, load_icon, "theme.LOAD_button");
+  load_theme_surface(buf, delete_icon, "theme.DELETE_button");
+  load_theme_surface(buf, borders_icon, "theme.BORDERS_button");
   /* ------------------------------ */
-  load_theme_surface(buf, Tech_Tree_Icon, "theme.tech_tree");
+  load_theme_surface(buf, tech_tree_icon, "theme.tech_tree");
   /* ------------------------------ */
 
-  load_order_theme_surface(buf, Order_Icon, "theme.order_empty");
+  load_order_theme_surface(buf, order_icon, "theme.order_empty");
   load_order_theme_surface(buf, OAutoAtt_Icon, "theme.order_auto_attack");
-  load_order_theme_surface(buf, OAutoConnect_Icon, "theme.order_auto_connect");
-  load_order_theme_surface(buf, OAutoExp_Icon, "theme.order_auto_explorer");
-  load_order_theme_surface(buf, OAutoSett_Icon, "theme.order_auto_settler");
-  load_order_theme_surface(buf, OBuildCity_Icon, "theme.order_build_city");
+  load_order_theme_surface(buf, o_autoconnect_icon, "theme.order_auto_connect");
+  load_order_theme_surface(buf, o_autoexp_icon, "theme.order_auto_explorer");
+  load_order_theme_surface(buf, o_autosett_icon, "theme.order_auto_settler");
+  load_order_theme_surface(buf, o_build_city_icon, "theme.order_build_city");
   load_order_theme_surface(buf, OCutDownForest_Icon, "theme.order_cutdown_forest");
   load_order_theme_surface(buf, OPlantForest_Icon, "theme.order_plant_forest");
-  load_order_theme_surface(buf, OMine_Icon, "theme.order_build_mining");
-  load_order_theme_surface(buf, OIrrigation_Icon, "theme.order_irrigation");
-  load_order_theme_surface(buf, OCultivate_Icon, "theme.order_cutdown_forest");
-  load_order_theme_surface(buf, OPlant_Icon, "theme.order_plant_forest");
-  load_order_theme_surface(buf, ODone_Icon, "theme.order_done");
-  load_order_theme_surface(buf, ODisband_Icon, "theme.order_disband");
-  load_order_theme_surface(buf, OFortify_Icon, "theme.order_fortify");
-  load_order_theme_surface(buf, OGoto_Icon, "theme.order_goto");
-  load_order_theme_surface(buf, OGotoCity_Icon, "theme.order_goto_city");
-  load_order_theme_surface(buf, OHomeCity_Icon, "theme.order_home");
-  load_order_theme_surface(buf, ONuke_Icon, "theme.order_nuke");
-  load_order_theme_surface(buf, OParaDrop_Icon, "theme.order_paradrop");
-  load_order_theme_surface(buf, OPatrol_Icon, "theme.order_patrol");
-  load_order_theme_surface(buf, OPillage_Icon, "theme.order_pillage");
-  load_order_theme_surface(buf, ORailRoad_Icon, "theme.order_build_railroad");
-  load_order_theme_surface(buf, ORoad_Icon, "theme.order_build_road");
-  load_order_theme_surface(buf, OSentry_Icon, "theme.order_sentry");
-  load_order_theme_surface(buf, OUnload_Icon, "theme.order_unload");
-  load_order_theme_surface(buf, OWait_Icon, "theme.order_wait");
-  load_order_theme_surface(buf, OFortress_Icon, "theme.order_build_fortress");
-  load_order_theme_surface(buf, OFallout_Icon, "theme.order_clean_fallout");
-  load_order_theme_surface(buf, OPollution_Icon, "theme.order_clean_pollution");
-  load_order_theme_surface(buf, OAirBase_Icon, "theme.order_build_airbase");
-  load_order_theme_surface(buf, OTransform_Icon, "theme.order_transform");
+  load_order_theme_surface(buf, o_mine_icon, "theme.order_build_mining");
+  load_order_theme_surface(buf, o_irrigation_icon, "theme.order_irrigation");
+  load_order_theme_surface(buf, o_cultivate_icon, "theme.order_cutdown_forest");
+  load_order_theme_surface(buf, o_plant_icon, "theme.order_plant_forest");
+  load_order_theme_surface(buf, o_done_icon, "theme.order_done");
+  load_order_theme_surface(buf, o_disband_icon, "theme.order_disband");
+  load_order_theme_surface(buf, o_fortify_icon, "theme.order_fortify");
+  load_order_theme_surface(buf, o_goto_icon, "theme.order_goto");
+  load_order_theme_surface(buf, o_goto_city_icon, "theme.order_goto_city");
+  load_order_theme_surface(buf, o_homecity_icon, "theme.order_home");
+  load_order_theme_surface(buf, o_nuke_icon, "theme.order_nuke");
+  load_order_theme_surface(buf, o_paradrop_icon, "theme.order_paradrop");
+  load_order_theme_surface(buf, o_patrol_icon, "theme.order_patrol");
+  load_order_theme_surface(buf, o_pillage_icon, "theme.order_pillage");
+  load_order_theme_surface(buf, o_railroad_icon, "theme.order_build_railroad");
+  load_order_theme_surface(buf, o_road_icon, "theme.order_build_road");
+  load_order_theme_surface(buf, o_sentry_icon, "theme.order_sentry");
+  load_order_theme_surface(buf, o_unload_icon, "theme.order_unload");
+  load_order_theme_surface(buf, o_wait_icon, "theme.order_wait");
+  load_order_theme_surface(buf, o_fortress_icon, "theme.order_build_fortress");
+  load_order_theme_surface(buf, o_fallout_icon, "theme.order_clean_fallout");
+  load_order_theme_surface(buf, o_pollution_icon, "theme.order_clean_pollution");
+  load_order_theme_surface(buf, o_airbase_icon, "theme.order_build_airbase");
+  load_order_theme_surface(buf, o_transform_icon, "theme.order_transform");
   load_order_theme_surface(buf, OAddCity_Icon, "theme.order_add_to_city");
-  load_order_theme_surface(buf, OWonder_Icon, "theme.order_carravan_wonder");
-  load_order_theme_surface(buf, OTrade_Icon, "theme.order_carravan_trade_route");
-  load_order_theme_surface(buf, OSpy_Icon, "theme.order_spying");
-  load_order_theme_surface(buf, OWakeUp_Icon, "theme.order_wakeup");
-  load_order_theme_surface(buf, OReturn_Icon, "theme.order_return");
+  load_order_theme_surface(buf, o_wonder_icon, "theme.order_carravan_wonder");
+  load_order_theme_surface(buf, o_trade_icon, "theme.order_carravan_trade_route");
+  load_order_theme_surface(buf, o_spy_icon, "theme.order_spying");
+  load_order_theme_surface(buf, o_wakeup_icon, "theme.order_wakeup");
+  load_order_theme_surface(buf, o_return_icon, "theme.order_return");
   load_order_theme_surface(buf, OAirLift_Icon, "theme.order_airlift");
-  load_order_theme_surface(buf, OLoad_Icon, "theme.order_load");
+  load_order_theme_surface(buf, o_load_icon, "theme.order_load");
 }
 
 /***************************************************************************//**

@@ -325,7 +325,7 @@ static struct notify_goto_dialog *notify_goto_dialog_new(void)
   add_to_gui_list(ID_WINDOW, pdialog->window);
 
   /* Close button. */
-  pdialog->close_button = create_themeicon(current_theme->Small_CANCEL_Icon,
+  pdialog->close_button = create_themeicon(current_theme->small_cancel_icon,
                                            pdialog->window->dst,
                                            WF_WIDGET_HAS_INFO_LABEL
                                            | WF_RESTORE_BACKGROUND);
@@ -530,10 +530,10 @@ void popup_notify_dialog(const char *caption, const char *headline,
 
   /* ---------- */
   /* create exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = exit_notify_dialog_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -717,9 +717,9 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   area.h += (text->h + adj_size(10));
 
   /* cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                            pwindow->dst, _("Cancel"),
-                                            adj_font(12), 0);
+  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                           pwindow->dst, _("Cancel"),
+                                           adj_font(12), 0);
 
   buf->action = cancel_upgrade_unit_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -729,8 +729,8 @@ void popup_unit_upgrade_dlg(struct unit *punit, bool city)
   add_to_gui_list(ID_BUTTON, buf);
 
   if (UU_OK == unit_upgrade_result) {
-    buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                              _("Upgrade"), adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                             _("Upgrade"), adj_font(12), 0);
 
     buf->action = ok_upgrade_unit_window_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -913,9 +913,9 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   area.h += (text->h + adj_size(10));
 
   /* cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
-                                            pwindow->dst, _("Cancel"),
-                                            adj_font(12), 0);
+  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                           pwindow->dst, _("Cancel"),
+                                           adj_font(12), 0);
 
   buf->action = cancel_disband_unit_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -925,8 +925,8 @@ void popup_unit_disband_dlg(struct unit *punit, bool city)
   add_to_gui_list(ID_BUTTON, buf);
 
   if (unit_disband_result) {
-    buf = create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
-                                              _("Disband"), adj_font(12), 0);
+    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+                                             _("Disband"), adj_font(12), 0);
 
     buf->action = ok_disband_unit_window_callback;
     set_wstate(buf, FC_WS_NORMAL);
@@ -1106,10 +1106,10 @@ void unit_select_dialog_popup(struct tile *ptile)
 
   /* ---------- */
   /* create exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->action = exit_unit_select_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -1355,10 +1355,10 @@ static void popup_terrain_info_dialog(SDL_Surface *pdest, struct tile *ptile)
   buf->size.y = area.y;
 
   /* exit icon */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   buf->size.x = area.x + area.w - buf->size.w - 1;
   buf->size.y = pwindow->size.y + adj_size(2);
   buf->action = exit_terrain_info_dialog_callback;
@@ -1693,10 +1693,10 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_advanced_terrain_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -2246,10 +2246,10 @@ void popup_pillage_dialog(struct unit *punit, bv_extras extras)
 
   /* ---------- */
   /* exit button */
-  buf = create_themeicon(current_theme->Small_CANCEL_Icon, pwindow->dst,
-                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  buf = create_themeicon(current_theme->small_cancel_icon, pwindow->dst,
+                         WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
-                                           adj_font(12));
+                                          adj_font(12));
   area.w += buf->size.w + adj_size(10);
   buf->action = exit_pillage_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -2845,7 +2845,7 @@ static int nation_button_callback(struct widget *nation_button)
       help_dlg->end_widget_list = pwindow;
       add_to_gui_list(ID_WINDOW, pwindow);
 
-      ok_button = create_themeicon_button_from_chars(current_theme->OK_Icon,
+      ok_button = create_themeicon_button_from_chars(current_theme->ok_icon,
                                pwindow->dst, _("OK"), adj_font(14), 0);
       ok_button->action = cancel_help_dlg_callback;
       set_wstate(ok_button, FC_WS_NORMAL);
@@ -3157,7 +3157,7 @@ void popup_races_dialog(struct player *pplayer)
     setup->pset_name = pwidget;
 
     /* create next nationset button */
-    pwidget = create_themeicon_button(current_theme->R_ARROW_Icon,
+    pwidget = create_themeicon_button(current_theme->r_arrow_icon,
                                       pwindow->dst, NULL, 0);
     pwidget->action = next_set_callback;
     if (nation_set_index(setup->set) < nation_set_count() - 1) {
@@ -3168,7 +3168,7 @@ void popup_races_dialog(struct player *pplayer)
     setup->pset_next = pwidget;
 
     /* create prev nationset button */
-    pwidget = create_themeicon_button(current_theme->L_ARROW_Icon,
+    pwidget = create_themeicon_button(current_theme->l_arrow_icon,
                                       pwindow->dst, NULL, 0);
     pwidget->action = prev_set_callback;
     if (nation_set_index(setup->set) > 0) {
@@ -3212,7 +3212,7 @@ void popup_races_dialog(struct player *pplayer)
   setup->name_edit = pwidget;
 
   /* create next leader name button */
-  pwidget = create_themeicon_button(current_theme->R_ARROW_Icon,
+  pwidget = create_themeicon_button(current_theme->r_arrow_icon,
                                     pwindow->dst, NULL, 0);
   pwidget->action = next_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pwidget);
@@ -3220,7 +3220,7 @@ void popup_races_dialog(struct player *pplayer)
   setup->pName_Next = pwidget;
 
   /* create prev leader name button */
-  pwidget = create_themeicon_button(current_theme->L_ARROW_Icon,
+  pwidget = create_themeicon_button(current_theme->l_arrow_icon,
                                     pwindow->dst, NULL, 0);
   pwidget->action = prev_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pwidget);
@@ -3267,7 +3267,7 @@ void popup_races_dialog(struct player *pplayer)
   /* ---------------------------------------------------------- */
 
   /* create Cancel button */
-  pwidget = create_themeicon_button_from_chars(current_theme->CANCEL_Icon,
+  pwidget = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                                pwindow->dst, _("Cancel"),
                                                adj_font(12), 0);
   pwidget->action = races_dialog_cancel_callback;
@@ -3277,7 +3277,7 @@ void popup_races_dialog(struct player *pplayer)
 
   /* create OK button */
   pwidget =
-    create_themeicon_button_from_chars(current_theme->OK_Icon, pwindow->dst,
+    create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
                                        _("OK"), adj_font(12), 0);
   pwidget->action = races_dialog_ok_callback;
 
