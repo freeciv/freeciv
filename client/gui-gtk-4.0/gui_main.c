@@ -406,7 +406,7 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
   GdkModifierType state;
   guint keyval;
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   keyval = gdk_key_event_get_keyval(ev);
   if ((state & GDK_SHIFT_MASK)) {
     switch (keyval) {
@@ -678,7 +678,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev,
     }
   }
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   if (state & GDK_SHIFT_MASK) {
     switch (keyval) {
 
@@ -761,7 +761,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
 
   gdk_event_get_coords(ev, &e_x, &e_y);
   update_line(e_x, e_y);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   if (rbutton_down && (state & GDK_BUTTON3_MASK)) {
     update_selection_rectangle(e_x, e_y);
   }

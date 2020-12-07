@@ -951,7 +951,7 @@ gboolean handle_edit_mouse_button_press(GdkEvent *ev)
 
   gdk_event_get_coords(ev, &e_x, &e_y);
   gdk_event_get_button(ev, &button);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_press(e_x, e_y,
                             convert_mouse_button(button),
                             convert_modifiers(state));
@@ -974,7 +974,7 @@ gboolean handle_edit_mouse_button_release(GdkEvent *ev)
 
   gdk_event_get_coords(ev, &e_x, &e_y);
   gdk_event_get_button(ev, &button);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_release(e_x, e_y,
                               convert_mouse_button(button),
                               convert_modifiers(state));
@@ -990,7 +990,7 @@ gboolean handle_edit_mouse_move(GdkEvent *ev)
   GdkModifierType state;
 
   gdk_event_get_coords(ev, &e_x, &e_y);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   editor_mouse_move(e_x, e_y, convert_modifiers(state));
 
   return TRUE;
@@ -1688,7 +1688,7 @@ gboolean handle_edit_key_press(GdkEvent *ev)
   GdkModifierType state;
   guint keyval;
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   if (state & GDK_SHIFT_MASK) {
     return handle_edit_key_press_with_shift(ev);
   }

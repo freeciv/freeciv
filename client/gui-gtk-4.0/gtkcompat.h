@@ -23,6 +23,7 @@ GtkWidget *compat_window_new_wrapper(void);
 #endif  /* GTKCOMPAT_ITSELF */
 
 guint gdk_key_event_get_keyval(GdkEvent *ev);
+GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev);
 
 #endif  /* GTK version < 3.98 */
 

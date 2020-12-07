@@ -796,7 +796,7 @@ static gboolean src_key_press_callback(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   keyval = gdk_key_event_get_keyval(ev);
   if ((state & GDK_SHIFT_MASK) && keyval == GDK_KEY_Insert) {
     queue_prepend(ptr);
@@ -823,7 +823,7 @@ static gboolean dst_key_press_callback(GtkWidget *w, GdkEvent *ev,
   ptr = data;
   model = GTK_TREE_MODEL(ptr->dst);
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   keyval = gdk_key_event_get_keyval(ev);
   if (keyval == GDK_KEY_Delete) {
     GtkTreeIter it, it_next;

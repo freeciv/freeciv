@@ -190,7 +190,7 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   if (button == 3 && (rbutton_down || hover_state != HOVER_NONE))  {
     GdkModifierType state;
 
-    gdk_event_get_state(ev, &state);
+    state = gdk_event_get_modifier_state(ev);
     release_right_button(e_x, e_y,
                          (state & GDK_SHIFT_MASK) != 0);
   }
@@ -224,7 +224,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   pcity = ptile ? tile_city(ptile) : NULL;
 
   gdk_event_get_button(ev, &button);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
 
   switch (button) {
 
@@ -387,7 +387,7 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   cur_x = e_x;
   cur_y = e_y;
   update_line(e_x, e_y);
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   if (rbutton_down && (state & GDK_BUTTON3_MASK)) {
     update_selection_rectangle(e_x, e_y);
   }
@@ -465,7 +465,7 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   } else if (can_client_issue_orders() && (button == 1)) {
     GdkModifierType state;
 
-    gdk_event_get_state(ev, &state);
+    state = gdk_event_get_modifier_state(ev);
     do_map_click(map_pos_to_tile(&(wld.map), xtile, ytile),
                  (state & GDK_SHIFT_MASK) ? SELECT_APPEND : SELECT_POPUP);
   }

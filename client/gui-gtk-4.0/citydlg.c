@@ -603,7 +603,7 @@ static gboolean keyboard_handler(GtkWidget *widget, GdkEvent *event,
 {
   GdkModifierType state;
 
-  gdk_event_get_state(event, &state);
+  state = gdk_event_get_modifier_state(event);
   if (state & GDK_CONTROL_MASK) {
     guint keyval;
 

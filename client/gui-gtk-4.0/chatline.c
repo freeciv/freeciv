@@ -349,7 +349,7 @@ static gboolean inputline_handler(GtkWidget *w, GdkEvent *ev)
 {
   GdkModifierType state;
 
-  gdk_event_get_state(ev, &state);
+  state = gdk_event_get_modifier_state(ev);
   if ((state & GDK_CONTROL_MASK)) {
     /* Chatline featured text support. */
     guint keyval;

@@ -42,4 +42,16 @@ guint gdk_key_event_get_keyval(GdkEvent *ev)
   return keyval;
 }
 
+/************************************************************************//**
+  Version of gdk_event_get_modifier_state() for gtk < 3.98
+****************************************************************************/
+GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev)
+{
+  GdkModifierType state;
+
+  gdk_event_get_state(ev, &state);
+
+  return state;
+}
+
 #endif /* GTK version < 3.98 */
