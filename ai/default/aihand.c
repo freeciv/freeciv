@@ -211,7 +211,7 @@ enum celebration {
 static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
 {
   int maxrate = (has_handicap(pplayer, H_RATES)
-                 ? get_player_bonus(pplayer, EFT_MAX_RATES) : 100);
+                 ? MIN(80, get_player_bonus(pplayer, EFT_MAX_RATES)) : 80);
   struct research *research = research_get(pplayer);
   enum celebration celebrate = AI_CELEBRATION_UNCHECKED;
   struct adv_data *ai = adv_data_get(pplayer, NULL);
