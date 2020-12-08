@@ -274,7 +274,7 @@ static void dai_city_choose_build(struct ai_type *ait, struct player *pplayer,
   adv_init_choice(&newchoice);
 
   if (has_handicap(pplayer, H_AWAY)
-      && city_built_last_turn(pcity)
+      && !city_built_last_turn(pcity)
       && city_data->urgency == 0) {
     /* Don't change existing productions unless we have to. */
     return;
