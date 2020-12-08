@@ -20,7 +20,7 @@ EXENAME=${PROGNAME}@EXEEXT@
 
 if test "x$1" = "x--gui" ; then
   if test "x$2" != "x" ; then
-    EXENAME=${PROGNAME}-$2
+    EXENAME=${PROGNAME}-$2@EXEEXT@
     shift
   fi
   shift
