@@ -78,7 +78,7 @@ struct wl_editor {
 
   /* shortcuts  */
   struct widget *dock;
-  struct widget *pWorkList_Counter;
+  struct widget *worklist_counter;
 
   struct widget *pProduction_Name;
   struct widget *pProduction_Progres;
@@ -669,12 +669,12 @@ static void add_global_worklist(struct widget *pwidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
   struct widget *buf = editor->pWork->end_active_widget_list;
-  const struct worklist *pWorkList;
+  const struct worklist *pworklist;
   int count, firstfree;
 
   if (!pGWL
-      || !(pWorkList = global_worklist_get(pGWL))
-      || worklist_is_empty(pWorkList)) {
+      || !(pworklist = global_worklist_get(pGWL))
+      || worklist_is_empty(pworklist)) {
     return;
   }
 
@@ -685,31 +685,31 @@ static void add_global_worklist(struct widget *pwidget)
 
   firstfree = worklist_length(&editor->worklist_copy);
   /* copy global worklist to city worklist */
-  for (count = 0 ; count < worklist_length(pWorkList); count++) {
+  for (count = 0 ; count < worklist_length(pworklist); count++) {
     /* global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if (!can_city_build_later(editor->pcity, &pWorkList->entries[count])) {
+    if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
       continue;
     }
 
-    worklist_append(&editor->worklist_copy, &pWorkList->entries[count]);
+    worklist_append(&editor->worklist_copy, &pworklist->entries[count]);
 
     /* create widget */
-    if (VUT_UTYPE == pWorkList->entries[count].kind) {
+    if (VUT_UTYPE == pworklist->entries[count].kind) {
       buf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
-                      utype_name_translation(pWorkList->entries[count].value.utype),
+                      utype_name_translation(pworklist->entries[count].value.utype),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      buf->id = MAX_ID - cid_encode_unit(pWorkList->entries[count].value.utype);
+      buf->id = MAX_ID - cid_encode_unit(pworklist->entries[count].value.utype);
     } else {
       buf = create_iconlabel(NULL, pwidget->dst,
                               create_utf8_from_char(
                       city_improvement_name_translation(editor->pcity,
-                                                        pWorkList->entries[count].value.building),
+                                                        pworklist->entries[count].value.building),
                       adj_font(10)),
                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
-      buf->id = MAX_ID - cid_encode_building(pWorkList->entries[count].value.building);
+      buf->id = MAX_ID - cid_encode_building(pworklist->entries[count].value.building);
     }
 
     buf->string_utf8->style |= SF_CENTER;
@@ -747,14 +747,14 @@ static void set_global_worklist(struct widget *pwidget)
 {
   struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
   struct widget *buf = editor->pWork->end_active_widget_list;
-  const struct worklist *pWorkList;
+  const struct worklist *pworklist;
   struct worklist wl;
   int count, wl_count;
   struct universal target;
 
   if (!pGWL
-      || !(pWorkList = global_worklist_get(pGWL))
-      || worklist_is_empty(pWorkList)) {
+      || !(pworklist = global_worklist_get(pGWL))
+      || worklist_is_empty(pworklist)) {
     return;
   }
 
@@ -763,14 +763,14 @@ static void set_global_worklist(struct widget *pwidget)
 
   wl_count = 0;
   /* copy global worklist to city worklist */
-  for (count = 0; count < worklist_length(pWorkList); count++) {
+  for (count = 0; count < worklist_length(pworklist); count++) {
     /* global worklist can have targets unavilable in current state of game
        then we must remove those targets from new city worklist */
-    if (!can_city_build_later(editor->pcity, &pWorkList->entries[count])) {
+    if (!can_city_build_later(editor->pcity, &pworklist->entries[count])) {
       continue;
     }
 
-    wl.entries[wl_count] = pWorkList->entries[count];
+    wl.entries[wl_count] = pworklist->entries[count];
     wl_count++;
   }
   /* --------------------------------- */
@@ -1013,25 +1013,25 @@ static void refresh_worklist_count_label(void)
   fc_snprintf(cbuf, sizeof(cbuf),
               /* TRANS: length of worklist */
               PL_("( %d entry )", "( %d entries )", len), len);
-  copy_chars_to_utf8_str(editor->pWorkList_Counter->string_utf8, cbuf);
+  copy_chars_to_utf8_str(editor->worklist_counter->string_utf8, cbuf);
 
-  widget_undraw(editor->pWorkList_Counter);
-  remake_label_size(editor->pWorkList_Counter);
+  widget_undraw(editor->worklist_counter);
+  remake_label_size(editor->worklist_counter);
 
-  editor->pWorkList_Counter->size.x = editor->end_widget_list->area.x +
-    (adj_size(130) - editor->pWorkList_Counter->size.w)/2;
+  editor->worklist_counter->size.x = editor->end_widget_list->area.x +
+    (adj_size(130) - editor->worklist_counter->size.w)/2;
 
-  if (get_wflags(editor->pWorkList_Counter) & WF_RESTORE_BACKGROUND) {
-    refresh_widget_background(editor->pWorkList_Counter);
+  if (get_wflags(editor->worklist_counter) & WF_RESTORE_BACKGROUND) {
+    refresh_widget_background(editor->worklist_counter);
   }
 
-  widget_redraw(editor->pWorkList_Counter);
+  widget_redraw(editor->worklist_counter);
 
   /* Can't just widget_mark_dirty(), as it may have reduced in size */
   area.x = editor->end_widget_list->area.x;  /* left edge of client area */
-  area.y = editor->pWorkList_Counter->size.y;
+  area.y = editor->worklist_counter->size.y;
   area.w = adj_size(130);
-  area.h = editor->pWorkList_Counter->size.h;
+  area.h = editor->worklist_counter->size.h;
   layer_rect_to_screen_rect(editor->end_widget_list->dst, &area);
   dirty_sdl_rect(&area);
 }
@@ -1132,7 +1132,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   pstr = create_utf8_from_char(cbuf, adj_font(10));
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
   buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
-  editor->pWorkList_Counter = buf;
+  editor->worklist_counter = buf;
   add_to_gui_list(ID_LABEL, buf);
   /* --------------------------- */
 

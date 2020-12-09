@@ -199,13 +199,13 @@ void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock);
 bool is_this_widget_first_on_list(struct widget *pGUI);
 void move_widget_to_front_of_gui_list(struct widget *pGUI);
 
-void del_gui_list(struct widget *pGUI_List);
+void del_gui_list(struct widget *gui_list);
 void del_main_list(void);
 
 struct widget *find_next_widget_at_pos(struct widget *start_widget, int x, int y);
 struct widget *find_next_widget_for_key(struct widget *start_widget, SDL_Keysym key);
 
-struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
+struct widget *get_widget_pointer_form_ID(const struct widget *gui_list,
                                           Uint16 id,
                                           enum scan_direction direction);
 

@@ -549,20 +549,20 @@ void redraw_widget_info_label(SDL_Rect *rect)
 }
 
 /**********************************************************************//**
-  Find ID in Widget's List ('pGUI_List') and return pointer to this
+  Find ID in Widget's List ('gui_list') and return pointer to this
   Widget.
 **************************************************************************/
-struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
+struct widget *get_widget_pointer_form_ID(const struct widget *gui_list,
                                           Uint16 id, enum scan_direction direction)
 {
-  while (pGUI_List) {
-    if (pGUI_List->id == id) {
-      return (struct widget *) pGUI_List;
+  while (gui_list) {
+    if (gui_list->id == id) {
+      return (struct widget *) gui_list;
     }
     if (direction == SCAN_FORWARD) {
-      pGUI_List = pGUI_List->next;
+      gui_list = gui_list->next;
     } else {
-      pGUI_List = pGUI_List->prev;
+      gui_list = gui_list->prev;
     }
   }
 
@@ -692,16 +692,16 @@ void del_main_list(void)
 }
 
 /**********************************************************************//**
-  Delete Wideget's List ('pGUI_List').
+  Delete Wideget's List ('gui_list').
 **************************************************************************/
-void del_gui_list(struct widget *pGUI_List)
+void del_gui_list(struct widget *gui_list)
 {
-  while (pGUI_List) {
-    if (pGUI_List->next) {
-      pGUI_List = pGUI_List->next;
-      FREEWIDGET(pGUI_List->prev);
+  while (gui_list) {
+    if (gui_list->next) {
+      gui_list = gui_list->next;
+      FREEWIDGET(gui_list->prev);
     } else {
-      FREEWIDGET(pGUI_List);
+      FREEWIDGET(gui_list);
     }
   }
 }

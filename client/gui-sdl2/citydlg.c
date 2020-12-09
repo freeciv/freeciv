@@ -674,7 +674,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
   207 pixels is panel width in city dlg.
   220 - max y position pixel position belong to panel area.
 **************************************************************************/
-static void create_present_supported_units_widget_list(struct unit_list *pList)
+static void create_present_supported_units_widget_list(struct unit_list *units)
 {
   int i;
   struct widget *buf = NULL;
@@ -705,7 +705,7 @@ static void create_present_supported_units_widget_list(struct unit_list *pList)
     h = tileset_full_tile_height(tileset) + (adj_size(151) % (tileset_full_tile_height(tileset)+4)) / num_y;
   }
 
-  unit_list_iterate(pList, punit) {
+  unit_list_iterate(units, punit) {
     const char *vetname;
 
     putype = unit_type_get(punit);
@@ -1772,16 +1772,16 @@ static void redraw_supported_units_city_dialog(struct widget *city_window,
   utf8_str *pstr;
   SDL_Surface *surf;
   SDL_Rect dest;
-  struct unit_list *pList;
+  struct unit_list *units;
   int size;
 
   if (city_owner(pcity_dlg->pcity) != client.conn.playing) {
-    pList = (pcity_dlg->pcity->client.info_units_supported);
+    units = (pcity_dlg->pcity->client.info_units_supported);
   } else {
-    pList = (pcity_dlg->pcity->units_supported);
+    units = (pcity_dlg->pcity->units_supported);
   }
 
-  size = unit_list_size(pList);
+  size = unit_list_size(units);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Supported units: %d"), size);
 
@@ -1811,7 +1811,7 @@ static void redraw_supported_units_city_dialog(struct widget *city_window,
     }
   } else {
     if (size > 0) {
-      create_present_supported_units_widget_list(pList);
+      create_present_supported_units_widget_list(units);
       redraw_group(pcity_dlg->pPanel->begin_widget_list,
                    pcity_dlg->pPanel->end_widget_list, 0);
     }
@@ -1829,16 +1829,16 @@ static void redraw_army_city_dialog(struct widget *city_window,
   utf8_str *pstr;
   SDL_Surface *surf;
   SDL_Rect dest;
-  struct unit_list *pList;
+  struct unit_list *units;
   int size;
 
   if (city_owner(pcity_dlg->pcity) != client.conn.playing) {
-    pList = pcity_dlg->pcity->client.info_units_present;
+    units = pcity_dlg->pcity->client.info_units_present;
   } else {
-    pList = pcity_dlg->pcity->tile->units;
+    units = pcity_dlg->pcity->tile->units;
   }
 
-  size = unit_list_size(pList);
+  size = unit_list_size(units);
 
   fc_snprintf(cbuf, sizeof(cbuf), _("Present units: %d"), size);
 
@@ -1868,7 +1868,7 @@ static void redraw_army_city_dialog(struct widget *city_window,
     }
   } else {
     if (size) {
-      create_present_supported_units_widget_list(pList);
+      create_present_supported_units_widget_list(units);
       redraw_group(pcity_dlg->pPanel->begin_widget_list,
                    pcity_dlg->pPanel->end_widget_list, 0);
     }
