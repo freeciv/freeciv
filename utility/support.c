@@ -1026,14 +1026,12 @@ static DWORD WINAPI thread_proc(LPVOID arg)
 void fc_init_console(void)
 {
 #ifdef FREECIV_MSWINDOWS
-  DWORD threadid;
-
   if (console_thread != INVALID_HANDLE_VALUE) {
     return;
   }
 
   console_buf[0] = '\0';
-  console_thread = (HANDLE) CreateThread(NULL, 0, thread_proc, NULL, 0, &threadid);
+  console_thread = (HANDLE) CreateThread(NULL, 0, thread_proc, NULL, 0, NULL);
 #else  /* FREECIV_MSWINDOWS */
   static bool initialized = FALSE;
 
