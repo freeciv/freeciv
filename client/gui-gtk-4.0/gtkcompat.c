@@ -54,4 +54,16 @@ GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev)
   return state;
 }
 
+/************************************************************************//**
+  Version of gdk_button_event_get_button() for gtk < 3.98
+****************************************************************************/
+guint gdk_button_event_get_button(GdkEvent *ev)
+{
+  guint button;
+
+  gdk_event_get_button(ev, &button);
+
+  return button;
+}
+
 #endif /* GTK version < 3.98 */

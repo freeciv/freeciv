@@ -193,7 +193,7 @@ static gboolean option_button_press_callback(GtkWidget *widget,
     return FALSE;
   }
 
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   if (3 != button || !option_is_changeable(poption)) {
     /* Only right button please! */
     return FALSE;

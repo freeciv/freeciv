@@ -24,6 +24,7 @@ GtkWidget *compat_window_new_wrapper(void);
 
 guint gdk_key_event_get_keyval(GdkEvent *ev);
 GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev);
+guint gdk_button_event_get_button(GdkEvent *ev);
 
 #endif  /* GTK version < 3.98 */
 

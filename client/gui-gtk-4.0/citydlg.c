@@ -647,7 +647,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev,
   struct city_dialog *pdialog = g_object_get_data(G_OBJECT(w), "pdialog");
   guint button;
 
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   if (button == 1) {
     GtkWidget *p, *label, *frame;
     char buf[1024];
@@ -2435,7 +2435,7 @@ static gboolean supported_unit_callback(GtkWidget *w, GdkEvent *ev,
       return FALSE;
     }
 
-    gdk_event_get_button(ev, &button);
+    button = gdk_button_event_get_button(ev);
     if (button == 2 || button == 3 || !can_client_issue_orders()) {
       return FALSE;
     }
@@ -2502,7 +2502,7 @@ static gboolean present_unit_callback(GtkWidget *w, GdkEvent *ev,
       return FALSE;
     }
 
-    gdk_event_get_button(ev, &button);
+    button = gdk_button_event_get_button(ev);
     if (button == 2 || button == 3 || !can_client_issue_orders()) {
       return FALSE;
     }
@@ -2623,7 +2623,7 @@ static gboolean present_unit_middle_callback(GtkWidget *w,
    && can_client_issue_orders()) {
     guint button;
 
-    gdk_event_get_button(ev, &button);
+    button = gdk_button_event_get_button(ev);
     if (button == 3) {
       unit_focus_set(punit);
     } else if (button == 2) {
@@ -2653,7 +2653,7 @@ static gboolean supported_unit_middle_callback(GtkWidget *w,
       && can_client_issue_orders()) {
     guint button;
 
-    gdk_event_get_button(ev, &button);
+    button = gdk_button_event_get_button(ev);
     if (button == 3) {
       unit_focus_set(punit);
     } else if (button == 2) {
@@ -3049,7 +3049,7 @@ static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
                          canvas_x, canvas_y)) {
     guint button;
 
-    gdk_event_get_button(ev, &button);
+    button = gdk_button_event_get_button(ev);
     if (button == 1) {
       city_toggle_worker(pdialog->pcity, city_x, city_y);
     } else if (button == 3) {

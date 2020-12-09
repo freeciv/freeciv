@@ -257,7 +257,7 @@ static gboolean meswin_dialog_button_press_callback(GtkWidget *widget,
 
   fc_assert_ret_val(GTK_IS_TREE_VIEW(widget), FALSE);
 
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   if (GDK_BUTTON_PRESS != gdk_event_get_event_type(ev) || 3 != button) {
     return FALSE;
   }

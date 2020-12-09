@@ -2143,7 +2143,7 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   guint button;
 
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   if (button == 1) {
     GtkWidget *p;
 

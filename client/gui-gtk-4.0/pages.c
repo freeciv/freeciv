@@ -1991,7 +1991,7 @@ static gboolean connection_list_event(GtkWidget *widget,
   gdouble x, y;
 
   type = gdk_event_get_event_type(ev);
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   gdk_event_get_coords(ev, &x, &y);
 
   if ((1 != button && 3 != button)

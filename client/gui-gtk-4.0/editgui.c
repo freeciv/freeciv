@@ -393,7 +393,7 @@ static gboolean editbar_tool_button_mouse_click(GtkWidget *w,
   int ett;
   guint button;
 
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   if (button != 3) {
     return FALSE; /* Propagate event further. */
   }
@@ -950,7 +950,7 @@ gboolean handle_edit_mouse_button_press(GdkEvent *ev)
   }
 
   gdk_event_get_coords(ev, &e_x, &e_y);
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_press(e_x, e_y,
                             convert_mouse_button(button),
@@ -973,7 +973,7 @@ gboolean handle_edit_mouse_button_release(GdkEvent *ev)
   }
 
   gdk_event_get_coords(ev, &e_x, &e_y);
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
   state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_release(e_x, e_y,
                               convert_mouse_button(button),

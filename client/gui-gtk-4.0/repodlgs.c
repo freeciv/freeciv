@@ -210,7 +210,7 @@ static gboolean science_diagram_button_release_callback(GtkWidget *widget,
   }
 
   gdk_event_get_coords(ev, &x, &y);
-  gdk_event_get_button(ev, &button);
+  button = gdk_button_event_get_button(ev);
 
   tech = get_tech_on_reqtree(reqtree, x, y);
 

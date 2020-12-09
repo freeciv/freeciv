@@ -609,7 +609,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
     return FALSE;
   }
 
-  gdk_event_get_button(event, &button);
+  button = gdk_button_event_get_button(event);
   if (button != 1) {
     return FALSE;
   }

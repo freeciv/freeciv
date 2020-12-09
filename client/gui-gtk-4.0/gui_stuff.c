@@ -490,7 +490,7 @@ static gboolean click_on_tab_callback(GtkWidget *w,
     return FALSE;
   }
 
-  gdk_event_get_button(button, &button_number);
+  button_number = gdk_button_event_get_button(button);
 
   if (button_number != 1) {
     return FALSE;

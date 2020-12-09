@@ -226,7 +226,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev)
         gtk_tree_model_get(model, &it, PLR_DLG_COL_ID, &id, -1);
         plr = player_by_number(id);
 
-        gdk_event_get_button(ev, &button);
+        button = gdk_button_event_get_button(ev);
         if (button == 1) {
           if (can_intel_with_player(plr)) {
             popup_intel_dialog(plr);
