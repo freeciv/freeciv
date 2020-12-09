@@ -151,43 +151,43 @@ struct theme_icons {
 struct city_icon {
   int style;
 
-  SDL_Surface *pBIG_Food_Corr;
-  SDL_Surface *pBIG_Shield_Corr;
-  SDL_Surface *pBIG_Trade_Corr;
-  SDL_Surface *pBIG_Food;
-  SDL_Surface *pBIG_Shield;
-  SDL_Surface *pBIG_Trade;
-  SDL_Surface *pBIG_Luxury;
-  SDL_Surface *pBIG_Coin;
-  SDL_Surface *pBIG_Colb;
+  SDL_Surface *big_food_corr;
+  SDL_Surface *big_shield_corr;
+  SDL_Surface *big_trade_corr;
+  SDL_Surface *big_food;
+  SDL_Surface *big_shield;
+  SDL_Surface *big_trade;
+  SDL_Surface *big_luxury;
+  SDL_Surface *big_coin;
+  SDL_Surface *big_colb;
   SDL_Surface *pBIG_Face;
-  SDL_Surface *pBIG_Coin_Corr;
-  SDL_Surface *pBIG_Coin_UpKeep;
-  SDL_Surface *pBIG_Shield_Surplus;
-  SDL_Surface *pBIG_Food_Surplus;
+  SDL_Surface *big_coin_corr;
+  SDL_Surface *big_coin_upkeep;
+  SDL_Surface *big_shield_surplus;
+  SDL_Surface *big_food_surplus;
 
-  SDL_Surface *pFood;
-  SDL_Surface *pShield;
-  SDL_Surface *pTrade;
+  SDL_Surface *food;
+  SDL_Surface *shield;
+  SDL_Surface *trade;
   SDL_Surface *pLuxury;
-  SDL_Surface *pCoin;
+  SDL_Surface *coint;
   SDL_Surface *pColb;
-  SDL_Surface *pFace;
+  SDL_Surface *face;
   /*SDL_Surface *pDark_Face;*/
 
-  SDL_Surface *pPollution;
-  SDL_Surface *pPolice;
-  SDL_Surface *pWorklist;
+  SDL_Surface *pollution;
+  SDL_Surface *police;
+  SDL_Surface *worklist;
 
   /* Small Citizens */
-  SDL_Surface *pMale_Happy;
-  SDL_Surface *pFemale_Happy;
-  SDL_Surface *pMale_Content;
-  SDL_Surface *pFemale_Content;
-  SDL_Surface *pMale_Unhappy;
-  SDL_Surface *pFemale_Unhappy;
-  SDL_Surface *pMale_Angry;
-  SDL_Surface *pFemale_Angry;
+  SDL_Surface *male_happy;
+  SDL_Surface *female_happy;
+  SDL_Surface *male_content;
+  SDL_Surface *female_content;
+  SDL_Surface *male_unhappy;
+  SDL_Surface *female_unhappy;
+  SDL_Surface *male_angry;
+  SDL_Surface *female_angry;
 
   SDL_Surface *specialists[SP_MAX];
 };

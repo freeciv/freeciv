@@ -85,14 +85,14 @@ static void reload_small_citizens_icons(int style)
   int spe_max;
 
   /* free info icons */
-  FREESURFACE(icons->pMale_Content);
-  FREESURFACE(icons->pFemale_Content);
-  FREESURFACE(icons->pMale_Happy);
-  FREESURFACE(icons->pFemale_Happy);
-  FREESURFACE(icons->pMale_Unhappy);
-  FREESURFACE(icons->pFemale_Unhappy);
-  FREESURFACE(icons->pMale_Angry);
-  FREESURFACE(icons->pFemale_Angry);
+  FREESURFACE(icons->male_content);
+  FREESURFACE(icons->female_content);
+  FREESURFACE(icons->male_happy);
+  FREESURFACE(icons->female_happy);
+  FREESURFACE(icons->male_unhappy);
+  FREESURFACE(icons->female_unhappy);
+  FREESURFACE(icons->male_angry);
+  FREESURFACE(icons->female_angry);
 
   spe_max = specialist_count();
   for (i = 0; i < spe_max; i++) {
@@ -100,14 +100,14 @@ static void reload_small_citizens_icons(int style)
   }
 
   /* allocate icons */
-  icons->pMale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
-  icons->pFemale_Happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
-  icons->pMale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
-  icons->pFemale_Content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
-  icons->pMale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
-  icons->pFemale_Unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
-  icons->pMale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
-  icons->pFemale_Angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
+  icons->male_happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 0));
+  icons->female_happy = adj_surf(get_citizen_surface(CITIZEN_HAPPY, 1));
+  icons->male_content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 0));
+  icons->female_content = adj_surf(get_citizen_surface(CITIZEN_CONTENT, 1));
+  icons->male_unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 0));
+  icons->female_unhappy = adj_surf(get_citizen_surface(CITIZEN_UNHAPPY, 1));
+  icons->male_angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 0));
+  icons->female_angry = adj_surf(get_citizen_surface(CITIZEN_ANGRY, 1));
 
   for (i = 0; i < spe_max; i++) {
     icons->specialists[i] = adj_surf(get_citizen_surface(CITIZEN_SPECIALIST + i, 0));
@@ -131,11 +131,12 @@ void reload_citizens_icons(int style)
 /***************************************************************************//**
   Load theme city screen graphics.
 *******************************************************************************/
-void tilespec_setup_city_gfx(void) {
-  struct sprite *pSpr =
+void tilespec_setup_city_gfx(void)
+{
+  struct sprite *spr =
     theme_lookup_sprite_tag_alt(theme, LOG_FATAL, "theme.city", "", "", "");
 
-  city_surf = (pSpr ? adj_surf(GET_SURF_REAL(pSpr)) : NULL);
+  city_surf = (spr ? adj_surf(GET_SURF_REAL(spr)) : NULL);
 
   fc_assert(city_surf != NULL);
 }
@@ -156,59 +157,59 @@ void tilespec_free_city_gfx(void)
 *******************************************************************************/
 void tilespec_setup_city_icons(void)
 {
-  struct sprite *pSpr = NULL;
+  struct sprite *spr = NULL;
 
   icons = (struct city_icon *)fc_calloc(1, sizeof(struct city_icon));
 
-  load_city_icon_surface(pSpr, pBIG_Food_Corr, "city.food_waste");
-  load_city_icon_surface(pSpr, pBIG_Shield_Corr, "city.shield_waste");
-  load_city_icon_surface(pSpr, pBIG_Trade_Corr, "city.trade_waste");
-  load_city_icon_surface(pSpr, pBIG_Food, "city.food");
+  load_city_icon_surface(spr, big_food_corr, "city.food_waste");
+  load_city_icon_surface(spr, big_shield_corr, "city.shield_waste");
+  load_city_icon_surface(spr, big_trade_corr, "city.trade_waste");
+  load_city_icon_surface(spr, big_food, "city.food");
 
-  icons->pBIG_Food_Surplus = crop_rect_from_surface(icons->pBIG_Food, NULL);
-  SDL_SetSurfaceAlphaMod(icons->pBIG_Food_Surplus, 128);
+  icons->big_food_surplus = crop_rect_from_surface(icons->big_food, NULL);
+  SDL_SetSurfaceAlphaMod(icons->big_food_surplus, 128);
 
-  load_city_icon_surface(pSpr, pBIG_Shield, "city.shield");
+  load_city_icon_surface(spr, big_shield, "city.shield");
 
-  icons->pBIG_Shield_Surplus = crop_rect_from_surface(icons->pBIG_Shield, NULL);
-  SDL_SetSurfaceAlphaMod(icons->pBIG_Shield_Surplus, 128);
+  icons->big_shield_surplus = crop_rect_from_surface(icons->big_shield, NULL);
+  SDL_SetSurfaceAlphaMod(icons->big_shield_surplus, 128);
 
-  load_city_icon_surface(pSpr, pBIG_Trade, "city.trade");
-  load_city_icon_surface(pSpr, pBIG_Luxury, "city.lux");
-  load_city_icon_surface(pSpr, pBIG_Coin, "city.coin");
-  load_city_icon_surface(pSpr, pBIG_Colb, "city.colb");
-  load_city_icon_surface(pSpr, pBIG_Face, "city.red_face");
-  load_city_icon_surface(pSpr, pBIG_Coin_Corr, "city.dark_coin");
-  load_city_icon_surface(pSpr, pBIG_Coin_UpKeep, "city.unkeep_coin");
+  load_city_icon_surface(spr, big_trade, "city.trade");
+  load_city_icon_surface(spr, big_luxury, "city.lux");
+  load_city_icon_surface(spr, big_coin, "city.coin");
+  load_city_icon_surface(spr, big_colb, "city.colb");
+  load_city_icon_surface(spr, pBIG_Face, "city.red_face");
+  load_city_icon_surface(spr, big_coin_corr, "city.dark_coin");
+  load_city_icon_surface(spr, big_coin_upkeep, "city.unkeep_coin");
 
   /* small icon */
-  load_city_icon_surface(pSpr, pFood, "city.small_food");
-  load_city_icon_surface(pSpr, pShield, "city.small_shield");
-  load_city_icon_surface(pSpr, pTrade, "city.small_trade");
-  load_city_icon_surface(pSpr, pFace, "city.small_red_face");
-  load_city_icon_surface(pSpr, pLuxury, "city.small_lux");
-  load_city_icon_surface(pSpr, pCoin, "city.small_coin");
-  load_city_icon_surface(pSpr, pColb, "city.small_colb");
+  load_city_icon_surface(spr, food, "city.small_food");
+  load_city_icon_surface(spr, shield, "city.small_shield");
+  load_city_icon_surface(spr, trade, "city.small_trade");
+  load_city_icon_surface(spr, face, "city.small_red_face");
+  load_city_icon_surface(spr, pLuxury, "city.small_lux");
+  load_city_icon_surface(spr, coint, "city.small_coin");
+  load_city_icon_surface(spr, pColb, "city.small_colb");
 
-  load_city_icon_surface(pSpr, pPollution, "city.pollution");
+  load_city_icon_surface(spr, pollution, "city.pollution");
   /* ================================================================= */
 
-  load_city_icon_surface(pSpr, pPolice, "city.police");
+  load_city_icon_surface(spr, police, "city.police");
   /* ================================================================= */
-  icons->pWorklist = create_surf(9,9, SDL_SWSURFACE);
-  SDL_FillRect(icons->pWorklist, NULL,
-               SDL_MapRGB(icons->pWorklist->format, 255, 255,255));
+  icons->worklist = create_surf(9,9, SDL_SWSURFACE);
+  SDL_FillRect(icons->worklist, NULL,
+               SDL_MapRGB(icons->worklist->format, 255, 255,255));
 
-  create_frame(icons->pWorklist,
-               0, 0, icons->pWorklist->w - 1, icons->pWorklist->h - 1,
+  create_frame(icons->worklist,
+               0, 0, icons->worklist->w - 1, icons->worklist->h - 1,
                get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(icons->pWorklist,
+  create_line(icons->worklist,
               3, 2, 5, 2,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(icons->pWorklist,
+  create_line(icons->worklist,
               3, 4, 7, 4,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
-  create_line(icons->pWorklist,
+  create_line(icons->worklist,
               3, 6, 6, 6,
               get_theme_color(COLOR_THEME_CITYREP_FRAME));
 
@@ -231,14 +232,14 @@ void tilespec_free_city_icons(void)
   }
 
   /* small citizens */
-  FREESURFACE(icons->pMale_Content);
-  FREESURFACE(icons->pFemale_Content);
-  FREESURFACE(icons->pMale_Happy);
-  FREESURFACE(icons->pFemale_Happy);
-  FREESURFACE(icons->pMale_Unhappy);
-  FREESURFACE(icons->pFemale_Unhappy);
-  FREESURFACE(icons->pMale_Angry);
-  FREESURFACE(icons->pFemale_Angry);
+  FREESURFACE(icons->male_content);
+  FREESURFACE(icons->female_content);
+  FREESURFACE(icons->male_happy);
+  FREESURFACE(icons->female_happy);
+  FREESURFACE(icons->male_unhappy);
+  FREESURFACE(icons->female_unhappy);
+  FREESURFACE(icons->male_angry);
+  FREESURFACE(icons->female_angry);
 
   spe_max = specialist_count();
   for (i = 0; i < spe_max; i++) {
