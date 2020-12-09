@@ -348,6 +348,17 @@ bool api_methods_is_capital(lua_State *L, City *pcity)
 }
 
 /*************************************************************************//**
+  Return TRUE if city is primary capital
+*****************************************************************************/
+bool api_methods_is_primary_capital(lua_State *L, City *pcity)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, pcity, FALSE);
+
+  return pcity->capital == CAPITAL_PRIMARY;
+}
+
+/*************************************************************************//**
    Return rule name for Government
 *****************************************************************************/
 const char *api_methods_government_rule_name(lua_State *L,

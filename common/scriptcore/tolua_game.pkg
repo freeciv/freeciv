@@ -226,6 +226,8 @@ module City {
     @ is_gov_center(lua_State *L, City *self);
   bool api_methods_is_capital
     @ is_capital(lua_State *L, City *self);
+  bool api_methods_is_primary_capital
+    @ is_primary_capital(lua_State *L, City *self);
 }
 
 $[

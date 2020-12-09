@@ -61,6 +61,7 @@ bool api_methods_is_city_unhappy(lua_State *L, City *pcity);
 bool api_methods_is_city_celebrating(lua_State *L, City *pcity);
 bool api_methods_is_gov_center(lua_State *L, City *pcity);
 bool api_methods_is_capital(lua_State *L, City *pcity);
+bool api_methods_is_primary_capital(lua_State *L, City *pcity);
 
 /* Government */
 const char *api_methods_government_rule_name(lua_State *L,
