@@ -76,7 +76,7 @@ extern int overview_start_x;
 extern int overview_start_y;
 extern bool is_unit_move_blocked;
 
-static char *pSuggestedCityName = NULL;
+static char *suggested_city_name = NULL;
 static struct small_dialog *new_city_dlg = NULL;
 extern struct widget *options_button;
 
@@ -2728,7 +2728,7 @@ static int newcity_name_edit_callback(struct widget *pedit)
   if (PRESSED_EVENT(main_data.event)) {
     if (new_city_dlg->begin_widget_list->string_utf8->text == NULL) {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pedit->string_utf8, pSuggestedCityName);
+      copy_chars_to_utf8_str(pedit->string_utf8, suggested_city_name);
       widget_redraw(pedit);
       widget_mark_dirty(pedit);
       flush_dirty();
@@ -2751,7 +2751,7 @@ static int newcity_ok_callback(struct widget *ok_button)
                                 new_city_dlg->end_widget_list);
     FC_FREE(new_city_dlg);
 
-    FC_FREE(pSuggestedCityName);
+    FC_FREE(suggested_city_name);
 
     flush_dirty();
   }
@@ -2772,7 +2772,7 @@ static int newcity_cancel_callback(struct widget *cancel_button)
 
     FC_FREE(new_city_dlg);
 
-    FC_FREE(pSuggestedCityName);
+    FC_FREE(suggested_city_name);
 
     flush_dirty();
   }
@@ -2816,8 +2816,8 @@ void popup_newcity_dialog(struct unit *punit, const char *pSuggestname)
   }
 
   suggestlen = strlen(pSuggestname) + 1;
-  pSuggestedCityName = fc_calloc(1, suggestlen);
-  fc_strlcpy(pSuggestedCityName, pSuggestname, suggestlen);
+  suggested_city_name = fc_calloc(1, suggestlen);
+  fc_strlcpy(suggested_city_name, pSuggestname, suggestlen);
 
   new_city_dlg = fc_calloc(1, sizeof(struct small_dialog));
 

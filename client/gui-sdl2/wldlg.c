@@ -80,7 +80,7 @@ struct wl_editor {
   struct widget *dock;
   struct widget *worklist_counter;
 
-  struct widget *pProduction_Name;
+  struct widget *production_name;
   struct widget *pProduction_Progres;
 
   int stock;
@@ -961,26 +961,26 @@ static void refresh_production_label(int stock)
       fc_snprintf(cbuf, sizeof(cbuf), _("%s\nfinished!"), name);
     }
   }
-  copy_chars_to_utf8_str(editor->pProduction_Name->string_utf8, cbuf);
+  copy_chars_to_utf8_str(editor->production_name->string_utf8, cbuf);
 
-  widget_undraw(editor->pProduction_Name);
-  remake_label_size(editor->pProduction_Name);
+  widget_undraw(editor->production_name);
+  remake_label_size(editor->production_name);
 
-  editor->pProduction_Name->size.x = editor->end_widget_list->area.x +
-    (adj_size(130) - editor->pProduction_Name->size.w)/2;
+  editor->production_name->size.x = editor->end_widget_list->area.x +
+    (adj_size(130) - editor->production_name->size.w)/2;
 
   /* Can't just widget_mark_dirty(), as it may have reduced in size */
   area.x = editor->end_widget_list->area.x;  /* left edge of client area */
-  area.y = editor->pProduction_Name->size.y;
+  area.y = editor->production_name->size.y;
   area.w = adj_size(130);
-  area.h = editor->pProduction_Name->size.h;
+  area.h = editor->production_name->size.h;
   layer_rect_to_screen_rect(editor->end_widget_list->dst, &area);
 
-  if (get_wflags(editor->pProduction_Name) & WF_RESTORE_BACKGROUND) {
-    refresh_widget_background(editor->pProduction_Name);
+  if (get_wflags(editor->production_name) & WF_RESTORE_BACKGROUND) {
+    refresh_widget_background(editor->production_name);
   }
 
-  widget_redraw(editor->pProduction_Name);
+  widget_redraw(editor->production_name);
   dirty_sdl_rect(&area);
 
   FREESURFACE(editor->pProduction_Progres->theme);
@@ -1169,7 +1169,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     pstr->style |= SF_CENTER;
     buf = create_iconlabel(NULL, pwindow->dst, pstr, WF_RESTORE_BACKGROUND);
 
-    editor->pProduction_Name = buf;
+    editor->production_name = buf;
     add_to_gui_list(ID_LABEL, buf);
 
     icon = get_progress_icon(pcity->shield_stock, count, &turns);

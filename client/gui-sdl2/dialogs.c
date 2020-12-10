@@ -91,7 +91,7 @@ void popdown_advanced_terrain_dialog(void);
 int advanced_terrain_window_dlg_callback(struct widget *pwindow);
 int exit_advanced_terrain_dlg_callback(struct widget *pwidget);
 
-static char *pLeaderName = NULL;
+static char *leader_name = NULL;
 
 static void unit_select_dialog_popdown(void);
 static void popdown_terrain_info_dialog(void);
@@ -2489,8 +2489,8 @@ struct NAT {
   struct nation_set *set;
   struct widget *pChange_Sex;
   struct widget *name_edit;
-  struct widget *pName_Next;
-  struct widget *pName_Prev;
+  struct widget *name_next;
+  struct widget *name_prev;
   struct widget *pset_name;
   struct widget *pset_next;
   struct widget *pset_prev;
@@ -2602,28 +2602,28 @@ static int next_name_callback(struct widget *pNext)
     copy_chars_to_utf8_str(setup->name_edit->string_utf8,
                            nation_leader_name(pleader));
 
-    FC_FREE(pLeaderName);
-    pLeaderName = fc_strdup(nation_leader_name(pleader));
+    FC_FREE(leader_name);
+    leader_name = fc_strdup(nation_leader_name(pleader));
 
     if (nation_leader_list_size(leaders) - 1 == setup->selected_leader) {
-      set_wstate(setup->pName_Next, FC_WS_DISABLED);
+      set_wstate(setup->name_next, FC_WS_DISABLED);
     }
 
-    if (get_wstate(setup->pName_Prev) == FC_WS_DISABLED) {
-      set_wstate(setup->pName_Prev, FC_WS_NORMAL);
+    if (get_wstate(setup->name_prev) == FC_WS_DISABLED) {
+      set_wstate(setup->name_prev, FC_WS_NORMAL);
     }
 
-    if (!(get_wstate(setup->pName_Next) == FC_WS_DISABLED)) {
-      selected_widget = setup->pName_Next;
-      set_wstate(setup->pName_Next, FC_WS_SELECTED);
+    if (!(get_wstate(setup->name_next) == FC_WS_DISABLED)) {
+      selected_widget = setup->name_next;
+      set_wstate(setup->name_next, FC_WS_SELECTED);
     }
 
     widget_redraw(setup->name_edit);
-    widget_redraw(setup->pName_Prev);
-    widget_redraw(setup->pName_Next);
+    widget_redraw(setup->name_prev);
+    widget_redraw(setup->name_next);
     widget_mark_dirty(setup->name_edit);
-    widget_mark_dirty(setup->pName_Prev);
-    widget_mark_dirty(setup->pName_Next);
+    widget_mark_dirty(setup->name_prev);
+    widget_mark_dirty(setup->name_next);
 
     widget_redraw(setup->pChange_Sex);
     widget_mark_dirty(setup->pChange_Sex);
@@ -2656,28 +2656,28 @@ static int prev_name_callback(struct widget *pPrev)
     copy_chars_to_utf8_str(setup->name_edit->string_utf8,
                            nation_leader_name(pleader));
 
-    FC_FREE(pLeaderName);
-    pLeaderName = fc_strdup(nation_leader_name(pleader));
+    FC_FREE(leader_name);
+    leader_name = fc_strdup(nation_leader_name(pleader));
 
     if (!setup->selected_leader) {
-      set_wstate(setup->pName_Prev, FC_WS_DISABLED);
+      set_wstate(setup->name_prev, FC_WS_DISABLED);
     }
 
-    if (get_wstate(setup->pName_Next) == FC_WS_DISABLED) {
-      set_wstate(setup->pName_Next, FC_WS_NORMAL);
+    if (get_wstate(setup->name_next) == FC_WS_DISABLED) {
+      set_wstate(setup->name_next, FC_WS_NORMAL);
     }
 
-    if (!(get_wstate(setup->pName_Prev) == FC_WS_DISABLED)) {
-      selected_widget = setup->pName_Prev;
-      set_wstate(setup->pName_Prev, FC_WS_SELECTED);
+    if (!(get_wstate(setup->name_prev) == FC_WS_DISABLED)) {
+      selected_widget = setup->name_prev;
+      set_wstate(setup->name_prev, FC_WS_SELECTED);
     }
 
     widget_redraw(setup->name_edit);
-    widget_redraw(setup->pName_Prev);
-    widget_redraw(setup->pName_Next);
+    widget_redraw(setup->name_prev);
+    widget_redraw(setup->name_next);
     widget_mark_dirty(setup->name_edit);
-    widget_mark_dirty(setup->pName_Prev);
-    widget_mark_dirty(setup->pName_Next);
+    widget_mark_dirty(setup->name_prev);
+    widget_mark_dirty(setup->name_next);
 
     widget_redraw(setup->pChange_Sex);
     widget_mark_dirty(setup->pChange_Sex);
@@ -2915,7 +2915,7 @@ static int leader_name_edit_callback(struct widget *pedit)
   if (PRESSED_EVENT(main_data.event)) {
     if (pedit->string_utf8->text != NULL) {
       /* empty input -> restore previous content */
-      copy_chars_to_utf8_str(pedit->string_utf8, pLeaderName);
+      copy_chars_to_utf8_str(pedit->string_utf8, leader_name);
       widget_redraw(pedit);
       widget_mark_dirty(pedit);
       flush_dirty();
@@ -2968,8 +2968,8 @@ static void select_random_leader(Nation_type_id nation)
   copy_chars_to_utf8_str(setup->name_edit->string_utf8,
                          nation_leader_name(pleader));
 
-  FC_FREE(pLeaderName);
-  pLeaderName = fc_strdup(nation_leader_name(pleader));
+  FC_FREE(leader_name);
+  leader_name = fc_strdup(nation_leader_name(pleader));
 
   /* initialize leader sex */
   setup->leader_sex = nation_leader_is_male(pleader);
@@ -2981,18 +2981,18 @@ static void select_random_leader(Nation_type_id nation)
   }
 
   /* disable navigation buttons */
-  set_wstate(setup->pName_Prev, FC_WS_DISABLED);
-  set_wstate(setup->pName_Next, FC_WS_DISABLED);
+  set_wstate(setup->name_prev, FC_WS_DISABLED);
+  set_wstate(setup->name_next, FC_WS_DISABLED);
 
   if (1 < nation_leader_list_size(leaders)) {
     /* if selected leader is not the first leader, enable "previous leader" button */
     if (setup->selected_leader > 0) {
-      set_wstate(setup->pName_Prev, FC_WS_NORMAL);
+      set_wstate(setup->name_prev, FC_WS_NORMAL);
     }
 
     /* if selected leader is not the last leader, enable "next leader" button */
     if (setup->selected_leader < (nation_leader_list_size(leaders) - 1)) {
-      set_wstate(setup->pName_Next, FC_WS_NORMAL);
+      set_wstate(setup->name_next, FC_WS_NORMAL);
     }
   }
 }
@@ -3217,7 +3217,7 @@ void popup_races_dialog(struct player *pplayer)
   pwidget->action = next_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_NEXT_LEADER_NAME_BUTTON, pwidget);
   pwidget->size.h = pwidget->next->size.h;
-  setup->pName_Next = pwidget;
+  setup->name_next = pwidget;
 
   /* create prev leader name button */
   pwidget = create_themeicon_button(current_theme->l_arrow_icon,
@@ -3225,7 +3225,7 @@ void popup_races_dialog(struct player *pplayer)
   pwidget->action = prev_name_callback;
   add_to_gui_list(ID_NATION_WIZARD_PREV_LEADER_NAME_BUTTON, pwidget);
   pwidget->size.h = pwidget->next->size.h;
-  setup->pName_Prev = pwidget;
+  setup->name_prev = pwidget;
 
   /* change sex button */
   pwidget = create_icon_button_from_chars(NULL, pwindow->dst, _("Male"), adj_font(14), 0);
@@ -3435,7 +3435,7 @@ void popdown_races_dialog(void)
 
     cancel_help_dlg_callback(NULL);
 
-    FC_FREE(pLeaderName);
+    FC_FREE(leader_name);
 
     FC_FREE(nation_dlg->scroll);
     FC_FREE(nation_dlg);

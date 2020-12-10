@@ -542,7 +542,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
     widget_redraw(info_window);
 
     if (punit) {
-      SDL_Surface *pName, *pVet_Name = NULL, *info, *info2 = NULL;
+      SDL_Surface *name, *vet_name = NULL, *info, *info2 = NULL;
       int sy, y, width, height, n;
       bool right;
       char buffer[512];
@@ -553,7 +553,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       pstr = create_utf8_from_char(unit_name_translation(punit), adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
       pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-      pName = create_text_surf_from_utf8(pstr);
+      name = create_text_surf_from_utf8(pstr);
 
       pstr->style &= ~TTF_STYLE_BOLD;
 
@@ -572,7 +572,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       if (vetname != NULL) {
         copy_chars_to_utf8_str(pstr, vetname);
         pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_VETERAN_TEXT);
-        pVet_Name = create_text_surf_from_utf8(pstr);
+        vet_name = create_text_surf_from_utf8(pstr);
         pstr->fgcol = *get_theme_color(COLOR_THEME_MAPVIEW_UNITINFO_TEXT);
       }
 
@@ -733,18 +733,18 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       sy = y + adj_size(3);
       area.y = info_window->area.y + sy;
-      area.x = info_window->area.x + BLOCKU_W + (width - pName->w - BLOCKU_W) / 2;
+      area.x = info_window->area.x + BLOCKU_W + (width - name->w - BLOCKU_W) / 2;
       dest = area;
-      alphablit(pName, NULL, info_window->dst->surface, &dest, 255);
-      sy += pName->h;
-      if (pVet_Name) {
-        area.y += pName->h - adj_size(3);
-        area.x = info_window->area.x + BLOCKU_W + (width - pVet_Name->w - BLOCKU_W) / 2;
-        alphablit(pVet_Name, NULL, info_window->dst->surface, &area, 255);
-        sy += pVet_Name->h - adj_size(3);
-        FREESURFACE(pVet_Name);
+      alphablit(name, NULL, info_window->dst->surface, &dest, 255);
+      sy += name->h;
+      if (vet_name) {
+        area.y += name->h - adj_size(3);
+        area.x = info_window->area.x + BLOCKU_W + (width - vet_name->w - BLOCKU_W) / 2;
+        alphablit(vet_name, NULL, info_window->dst->surface, &area, 255);
+        sy += vet_name->h - adj_size(3);
+        FREESURFACE(vet_name);
       }
-      FREESURFACE(pName);
+      FREESURFACE(name);
 
       /* draw unit sprite */
       buf_surf = ResizeSurfaceBox(get_unittype_surface(unit_type_get(punit),
