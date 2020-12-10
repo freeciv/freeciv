@@ -769,8 +769,14 @@ void write_shortcuts()
 {
   fc_shortcut *sc;
   QMap<shortcut_id, fc_shortcut*> h = fc_shortcuts::hash;
+  // This can't be shared between freeciv versions as shortcut
+  // ids can change incompatible way between versions.
+  QString sname = "freeciv-qt-client-"
+    + QString::number(MAJOR_NEW_OPTION_FILE_NAME) + "."
+    + QString::number(MINOR_NEW_OPTION_FILE_NAME);
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              "freeciv-qt-client");
+              sname);
+
   s.beginWriteArray("Shortcuts");
   for (int i = 0; i < num_shortcuts; ++i) {
     s.setArrayIndex(i);
@@ -790,8 +796,12 @@ bool read_shortcuts()
 {
   int num, i;
   fc_shortcut *sc;
+  QString sname = "freeciv-qt-client-"
+    + QString::number(MAJOR_NEW_OPTION_FILE_NAME) + "."
+    + QString::number(MINOR_NEW_OPTION_FILE_NAME);
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              "freeciv-qt-client");
+              sname);
+
   num = s.beginReadArray("Shortcuts");
   if (num == num_shortcuts) {
     for (i = 0; i < num_shortcuts; ++i) {

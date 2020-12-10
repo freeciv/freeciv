@@ -28,6 +28,18 @@ extern "C" {
 
 #define DEFAULT_METASERVER_OPTION "default"
 
+#if MINOR_VERSION >= 90
+#define MAJOR_NEW_OPTION_FILE_NAME (MAJOR_VERSION + 1)
+#define MINOR_NEW_OPTION_FILE_NAME 0
+#else /* MINOR_VERSION < 90 */
+#define MAJOR_NEW_OPTION_FILE_NAME MAJOR_VERSION
+#if IS_DEVEL_VERSION && ! IS_FREEZE_VERSION
+#define MINOR_NEW_OPTION_FILE_NAME (MINOR_VERSION + 1)
+#else
+#define MINOR_NEW_OPTION_FILE_NAME MINOR_VERSION
+#endif /* IS_DEVEL_VERSION */
+#endif /* MINOR_VERSION >= 90 */
+
 struct video_mode {
   int width;
   int height;
