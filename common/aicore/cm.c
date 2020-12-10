@@ -72,7 +72,11 @@
   Defines, structs, globals, forward declarations
 *****************************************************************************/
 
-/* Maximal iterations before the search loop is stoped. */
+/* If this is uncommented, research loop runs without limit on iterations. */
+/* #define CM_LOOP_NO_LIMIT */
+
+/* Maximal iterations before the search loop is stoped, or until warning is
+ * printed if CM_LOOP_NO_LIMIT is defined. */
 #define CM_MAX_LOOP 25000
 
 #define CPUHOG_CM_MAX_LOOP (CM_MAX_LOOP * 4)
@@ -2036,13 +2040,21 @@ static void cm_find_best_solution(struct cm_state *state,
     /* Limit the number of loops. */
     loop_count++;
 
-    if (loop_count > max_count) {
+    if (loop_count == max_count + 1) {
       log_warn("Did not find a cm solution in %d iterations for %s.",
                max_count, city_name_get(state->pcity));
+#ifndef CM_LOOP_NO_LIMIT
       result->aborted = TRUE;
       break;
+#endif /* CM_LOOP_NO_LIMIT */
     }
   }
+
+#ifdef CM_LOOP_NO_LIMIT
+  if (loop_count > max_count) {
+    log_warn("It took %d iterations to finish.", loop_count);
+  }
+#endif /* CM_LOOP_NO_LIMIT */
 
   /* convert to the caller's format */
   convert_solution_to_result(state, &state->best, result);
