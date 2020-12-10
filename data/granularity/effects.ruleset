@@ -96,6 +96,25 @@ reqs	=
       "Tech", "Government", "Player"
     }
 
+[effect_center_trade_village]
+type    = "Output_Add_Tile"
+value   = 25
+reqs	=
+    { "type",       "name",   "range"
+      "CityTile",   "Center", "Local"
+      "OutputType", "Trade",  "Local"
+    }
+
+[effect_center_trade_town]
+type    = "Output_Add_Tile"
+value   = 75
+reqs	=
+    { "type",       "name",   "range"
+      "CityTile",   "Center", "Local"
+      "MinSize",    "8",      "City"
+      "OutputType", "Trade",  "Local"
+    }
+
 [effect_capital]
 type    = "Capital_City"
 value	= 1
