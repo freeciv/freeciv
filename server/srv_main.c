@@ -1342,22 +1342,22 @@ static void end_phase(void)
       int idx = multiplier_index(pmul);
 
       if (!multiplier_can_be_changed(pmul, pplayer)) {
-        if (pplayer->multipliers[idx] != pmul->def) {
+        if (pplayer->multipliers[idx].value != pmul->def) {
           notify_player(pplayer, NULL, E_MULTIPLIER, ftc_server,
                         _("%s restored to the default value %d"),
                         multiplier_name_translation(pmul),
                         pmul->def);
-          pplayer->multipliers[idx] = pmul->def;
+          pplayer->multipliers[idx].value = pmul->def;
         }
       } else {
-        if (pplayer->multipliers[idx] != pplayer->multipliers_target[idx]) {
+        if (pplayer->multipliers[idx].value != pplayer->multipliers[idx].target) {
           notify_player(pplayer, NULL, E_MULTIPLIER, ftc_server,
                         _("%s now at value %d"),
                         multiplier_name_translation(pmul),
-                        pplayer->multipliers_target[idx]);
+                        pplayer->multipliers[idx].target);
 
-          pplayer->multipliers[idx] =
-            pplayer->multipliers_target[idx];
+          pplayer->multipliers[idx].value =
+            pplayer->multipliers[idx].target;
         }
       }
     } multipliers_iterate_end;
@@ -3039,9 +3039,11 @@ static void final_ruleset_adjustments(void)
     }
 
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)]
-        = pplayer->multipliers_target[multiplier_index(pmul)]
-          = pmul->def;
+      int midx = multiplier_index(pmul);
+
+      pplayer->multipliers[midx].value
+        = pplayer->multipliers[midx].target
+        = pmul->def;
     } multipliers_iterate_end;
   } players_iterate_end;
 }

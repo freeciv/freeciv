@@ -234,7 +234,16 @@ bool player_has_flag(const struct player *pplayer, enum plr_flag_id flag);
 #define set_as_human(plr) BV_CLR((plr)->flags, PLRF_AI)
 #define set_as_ai(plr) BV_SET((plr)->flags, PLRF_AI)
 
-struct player {
+struct multiplier_value
+{
+  /* Value currently in force. */
+  int value;
+  /* Value to be used next turn. */
+  int target;
+};
+
+struct player
+{
   struct player_slot *slot;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
@@ -295,10 +304,7 @@ struct player {
 
   struct rgbcolor *rgb;
 
-  /* Values currently in force. */
-  int multipliers[MAX_NUM_MULTIPLIERS];
-  /* Values to be used next turn. */
-  int multipliers_target[MAX_NUM_MULTIPLIERS];
+  struct multiplier_value multipliers[MAX_NUM_MULTIPLIERS];
 
   int history; /* National level culture - does not include culture of individual
                 * cities. */

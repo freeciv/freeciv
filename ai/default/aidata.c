@@ -449,7 +449,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
       if (mp_val > ppol->start) {
         int new_value = 0;
 
-        pplayer->multipliers[pidx] = MAX(mp_val - ppol->step, ppol->start);
+        pplayer->multipliers[pidx].value = MAX(mp_val - ppol->step, ppol->start);
 
         city_list_iterate(pplayer->cities, acity) {
           auto_arrange_workers(acity);
@@ -461,7 +461,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
 
         if (new_value > orig_value) {
           /* This is step to right direction, leave it in effect. */
-          pplayer->multipliers_target[pidx] = pplayer->multipliers[pidx];
+          pplayer->multipliers[pidx].target = pplayer->multipliers[pidx].value;
 
           needs_back_rearrange = FALSE;
           better_found = TRUE;
@@ -472,7 +472,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
       if (!better_found && mp_val < ppol->stop) {
         int new_value = 0;
 
-        pplayer->multipliers[pidx] = MIN(mp_val + ppol->step, ppol->stop);
+        pplayer->multipliers[pidx].value = MIN(mp_val + ppol->step, ppol->stop);
 
         city_list_iterate(pplayer->cities, acity) {
           auto_arrange_workers(acity);
@@ -484,7 +484,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
 
         if (new_value > orig_value) {
           /* This is step to right direction, leave it in effect. */
-          pplayer->multipliers_target[pidx] = pplayer->multipliers[pidx];
+          pplayer->multipliers[pidx].target = pplayer->multipliers[pidx].value;
 
           needs_back_rearrange = FALSE;
           better_found = TRUE;
@@ -493,7 +493,7 @@ void dai_adjust_policies(struct ai_type *ait, struct player *pplayer)
 
       if (!better_found) {
         /* Restore original multiplier value */
-        pplayer->multipliers[pidx] = mp_val;
+        pplayer->multipliers[pidx].value = mp_val;
         needs_back_rearrange = TRUE;
       }
     }

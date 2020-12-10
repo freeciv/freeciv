@@ -620,7 +620,6 @@ static void player_defaults(struct player *pplayer)
   pplayer->rgb = NULL;
 
   memset(pplayer->multipliers, 0, sizeof(pplayer->multipliers));
-  memset(pplayer->multipliers_target, 0, sizeof(pplayer->multipliers_target));
 
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()
@@ -1874,7 +1873,7 @@ void player_set_ai_data(struct player *pplayer, const struct ai_type *ai,
 int player_multiplier_value(const struct player *pplayer,
                             const struct multiplier *pmul)
 {
-  return pplayer->multipliers[multiplier_index(pmul)];
+  return pplayer->multipliers[multiplier_index(pmul)].value;
 }
 
 /*******************************************************************//**
@@ -1897,7 +1896,7 @@ int player_multiplier_effect_value(const struct player *pplayer,
 int player_multiplier_target_value(const struct player *pplayer,
                                    const struct multiplier *pmul)
 {
-  return pplayer->multipliers_target[multiplier_index(pmul)];
+  return pplayer->multipliers[multiplier_index(pmul)].target;
 }
 
 /*******************************************************************//**

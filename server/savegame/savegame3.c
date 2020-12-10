@@ -3454,8 +3454,8 @@ static void sg_load_players_basic(struct loaddata *loading)
     /* First initialise player values with ruleset defaults; this will
      * cover any in the ruleset not known when the savefile was created. */
     multipliers_iterate(pmul) {
-      pplayer->multipliers[multiplier_index(pmul)]
-        = pplayer->multipliers_target[multiplier_index(pmul)] = pmul->def;
+      pplayer->multipliers[multiplier_index(pmul)].value
+        = pplayer->multipliers[multiplier_index(pmul)].target = pmul->def;
     } multipliers_iterate_end;
 
     /* Now override with any values from the savefile. */
@@ -3476,11 +3476,11 @@ static void sg_load_players_basic(struct loaddata *loading)
                       "was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers[idx] = rval;
+        pplayer->multipliers[idx].value = rval;
 
         val =
           secfile_lookup_int_default(loading->file,
-                                     pplayer->multipliers[idx],
+                                     pplayer->multipliers[idx].value,
                                      "player%d.multiplier%d.target",
                                      player_slot_index(pslot), k);
         rval = (((CLIP(pmul->start, val, pmul->stop)
@@ -3491,7 +3491,7 @@ static void sg_load_players_basic(struct loaddata *loading)
                       " \"%s\": was %d, clamped to %d", pslot_id,
                       multiplier_rule_name(pmul), val, rval);
         }
-        pplayer->multipliers_target[idx] = rval;
+        pplayer->multipliers[idx].target = rval;
       } /* else silently discard multiplier not in current ruleset */
     }
 
@@ -4432,9 +4432,9 @@ static void sg_save_player_main(struct savedata *saving,
   i = multiplier_count();
 
   for (k = 0; k < i; k++) {
-    secfile_insert_int(saving->file, plr->multipliers[k],
+    secfile_insert_int(saving->file, plr->multipliers[k].value,
                        "player%d.multiplier%d.val", plrno, k);
-    secfile_insert_int(saving->file, plr->multipliers_target[k],
+    secfile_insert_int(saving->file, plr->multipliers[k].target,
                        "player%d.multiplier%d.target", plrno, k);
   }
 

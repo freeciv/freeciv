@@ -2413,9 +2413,9 @@ void handle_player_info(const struct packet_player_info *pinfo)
   fc_assert(pinfo->multip_count == multiplier_count());
   game.control.num_multipliers = pinfo->multip_count;
   multipliers_iterate(pmul) {
-    pplayer->multipliers[multiplier_index(pmul)] =
+    pplayer->multipliers[multiplier_index(pmul)].value =
         pinfo->multiplier[multiplier_index(pmul)];
-    pplayer->multipliers_target[multiplier_index(pmul)] =
+    pplayer->multipliers[multiplier_index(pmul)].target =
         pinfo->multiplier_target[multiplier_index(pmul)];
   } multipliers_iterate_end;
 
