@@ -19,7 +19,7 @@ format_version=20
 [ruledit]
 
 ; Which file to read description in from.
-;description_file = ""
+description_file = "granularity/README.granularity"
 
 [about]
 ; Ruleset name
@@ -42,7 +42,7 @@ Values in this ruleset have a high granularity. Rules are less subject\
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-; description = ""
+description = *granularity/README.granularity*
 
 ; What capabilities ruleset provides for the scenarios.
 capabilities = ""

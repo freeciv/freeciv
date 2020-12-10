@@ -1,0 +1,18 @@
+
+ General 
+ -------
+
+ Ruleset with high granularity values. This makes it possible to have
+more fine grained ruleset effects without integer math pecularities
+messing with them.
+
+ You can consider all the outputs and costs to be 100x as valuable
+as in more standard rulesets.
+ Each movement point is divided to 6 fragments, so granularity of
+movement costs is 1/6 points.
+
+
+ Rules
+ -----
+
+ * City center tiles get +25 trade until city size 8, +100 after
