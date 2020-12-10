@@ -2483,6 +2483,9 @@ static void sg_load_players_basic(struct loaddata *loading)
                       multiplier_rule_name(pmul), val, rval);
         }
         pplayer->multipliers[idx].target = rval;
+
+        /* Never present in savegame2 format */
+        pplayer->multipliers[idx].changed = 0;
       } /* else silently discard multiplier not in current ruleset */
     }
 

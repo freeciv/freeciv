@@ -240,6 +240,8 @@ struct multiplier_value
   int value;
   /* Value to be used next turn. */
   int target;
+  /* Turn that value was last changed. */
+  int changed;
 };
 
 struct player

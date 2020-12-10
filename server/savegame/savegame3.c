@@ -3492,6 +3492,11 @@ static void sg_load_players_basic(struct loaddata *loading)
                       multiplier_rule_name(pmul), val, rval);
         }
         pplayer->multipliers[idx].target = rval;
+
+        pplayer->multipliers[idx].changed
+          = secfile_lookup_int_default(loading->file, 0,
+                                       "player%d.multiplier%d.changed",
+                                       player_slot_index(pslot), k);
       } /* else silently discard multiplier not in current ruleset */
     }
 
@@ -4436,6 +4441,8 @@ static void sg_save_player_main(struct savedata *saving,
                        "player%d.multiplier%d.val", plrno, k);
     secfile_insert_int(saving->file, plr->multipliers[k].target,
                        "player%d.multiplier%d.target", plrno, k);
+    secfile_insert_int(saving->file, plr->multipliers[k].changed,
+                       "player%d.multiplier%d.changed", plrno, k);
   }
 
   secfile_insert_str(saving->file, ai_level_name(plr->ai_common.skill_level),

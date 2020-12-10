@@ -1348,6 +1348,7 @@ static void end_phase(void)
                         multiplier_name_translation(pmul),
                         pmul->def);
           pplayer->multipliers[idx].value = pmul->def;
+          pplayer->multipliers[idx].changed = game.info.turn;
         }
       } else {
         if (pplayer->multipliers[idx].value != pplayer->multipliers[idx].target) {
@@ -1356,8 +1357,8 @@ static void end_phase(void)
                         multiplier_name_translation(pmul),
                         pplayer->multipliers[idx].target);
 
-          pplayer->multipliers[idx].value =
-            pplayer->multipliers[idx].target;
+          pplayer->multipliers[idx].value = pplayer->multipliers[idx].target;
+          pplayer->multipliers[idx].changed = game.info.turn;
         }
       }
     } multipliers_iterate_end;
