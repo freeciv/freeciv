@@ -1064,18 +1064,6 @@ struct player *city_owner(const struct city *pcity)
   return pcity->owner;
 }
 
-#ifndef city_tile
-/**************************************************************************
-  Return the tile location of the city.
-  Not (yet) always used, mostly for debugging.
-**************************************************************************/
-struct tile *city_tile(const struct city *pcity)
-{
-  return pcity->tile;
-}
-#endif
-
-
 /*****************************************************************************
   Get the city size.
 *****************************************************************************/

@@ -520,7 +520,7 @@ void set_city_production(struct city *pcity);
 
 const char *city_name_get(const struct city *pcity);
 struct player *city_owner(const struct city *pcity);
-struct tile *city_tile(const struct city *pcity);
+#define city_tile(_pcity_) (_pcity_)->tile
 
 citizens city_size_get(const struct city *pcity);
 void city_size_add(struct city *pcity, int add);
