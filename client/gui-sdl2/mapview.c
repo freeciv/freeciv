@@ -793,7 +793,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       if (n > 1 && (info_window->size.h - sy > 52)) {
         struct advanced_dialog *dlg = info_window->private_data.adv_dlg;
         struct widget *buf = NULL, *end = NULL, *dock;
-        struct city *pHome_City;
+        struct city *home_city;
         const struct unit_type *putype;
         int num_w, num_h;
 
@@ -814,7 +814,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
           putype = unit_type_get(aunit);
           vetname = utype_veteran_name_translation(putype, aunit->veteran);
-          pHome_City = game_city_by_number(aunit->homecity);
+          home_city = game_city_by_number(aunit->homecity);
           fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%s)%s%s\n%s\n(%d/%d)\n%s",
                       utype_name_translation(putype),
                       putype->attack_strength,
@@ -824,7 +824,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
                       (vetname != NULL ? vetname : ""),
                       unit_activity_text(aunit),
                       aunit->hp, putype->hp,
-                      pHome_City ? city_name_get(pHome_City) : Q_("?homecity:None"));
+                      home_city ? city_name_get(home_city) : Q_("?homecity:None"));
 
           buf_surf = create_surf(tileset_full_tile_width(tileset),
                                  tileset_full_tile_height(tileset), SDL_SWSURFACE);
