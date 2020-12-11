@@ -232,11 +232,11 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
 /**************************************************************************
   Does the attached player have embassy-level information about the player.
 **************************************************************************/
-static bool have_diplomat_info_about(struct player *pPlayer)
+static bool have_diplomat_info_about(struct player *pplayer)
 {
-  return (pPlayer == client.conn.playing
-          || (pPlayer != client.conn.playing
-              && player_has_embassy(client.conn.playing, pPlayer)));
+  return (pplayer == client.conn.playing
+          || (pplayer != client.conn.playing
+              && team_has_embassy(client.conn.playing->team, pplayer)));
 }
 
 /**************************************************************************

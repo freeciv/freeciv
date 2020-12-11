@@ -204,6 +204,26 @@ bool player_has_embassy(const struct player *pplayer,
           || player_has_embassy_from_effect(pplayer, pplayer2));
 }
 
+/***********************************************************************
+  Check if team has an embassy with tgt_player. Team always has
+  an embassy with its members.
+***********************************************************************/
+bool team_has_embassy(const struct team *pteam, const struct player *tgt_player)
+{
+  if (tgt_player->team == pteam) {
+    return TRUE;
+  }
+
+  player_list_iterate(team_members(pteam), teammate) {
+    if (player_has_real_embassy(teammate, tgt_player)
+        || player_has_embassy_from_effect(teammate, tgt_player)) {
+      return TRUE;
+    }
+  } player_list_iterate_end;
+
+  return FALSE;
+}
+
 /***************************************************************
   Returns whether pplayer has a real embassy with pplayer2,
   established from a diplomat, or through diplomatic meeting.

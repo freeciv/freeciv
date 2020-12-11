@@ -328,7 +328,7 @@ void notify_embassies(const struct player *pplayer,
   va_end(args);
 
   players_iterate(other_player) {
-    if (player_has_embassy(other_player, pplayer)
+    if (team_has_embassy(other_player->team, pplayer)
         && pplayer != other_player) {
       notify_conn_packet(other_player->connections, &genmsg, FALSE);
       players = event_cache_player_add(players, other_player);
@@ -451,7 +451,7 @@ void notify_research_embassies(const struct research *presearch,
     }
 
     research_players_iterate(presearch, rplayer) {
-      if (player_has_embassy(aplayer, rplayer)) {
+      if (team_has_embassy(aplayer->team, rplayer)) {
         lsend_packet_chat_msg(aplayer->connections, &genmsg);
         players = event_cache_player_add(players, aplayer);
         break;

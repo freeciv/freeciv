@@ -1310,7 +1310,7 @@ static enum plr_info_level player_info_level(struct player *plr,
   if (plr == receiver) {
     return INFO_FULL;
   }
-  if (receiver && player_has_embassy(receiver, plr)) {
+  if (receiver && team_has_embassy(receiver->team, plr)) {
     return INFO_EMBASSY;
   }
   if (receiver && could_intel_with_player(receiver, plr)) {
@@ -2072,8 +2072,8 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   } else {
     fc_assert(ds_plr2plr1->type != DS_NO_CONTACT);
   }
-  if (player_has_embassy(pplayer1, pplayer2)
-      || player_has_embassy(pplayer2, pplayer1)) {
+  if (team_has_embassy(pplayer1->team, pplayer2)
+      || team_has_embassy(pplayer2->team, pplayer1)) {
     return; /* Avoid sending too much info over the network */
   }
   send_player_all_c(pplayer1, pplayer1->connections);

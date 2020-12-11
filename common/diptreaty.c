@@ -85,7 +85,7 @@ bool could_intel_with_player(const struct player *pplayer,
           && (player_diplstate_get(pplayer, aplayer)->contact_turns_left > 0
               || player_diplstate_get(aplayer, pplayer)->contact_turns_left
                  > 0
-              || player_has_embassy(pplayer, aplayer)));
+              || team_has_embassy(pplayer->team, aplayer)));
 }
 
 /****************************************************************

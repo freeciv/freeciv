@@ -400,6 +400,7 @@ bool player_has_real_embassy(const struct player *pplayer,
                              const struct player *pplayer2);
 bool player_has_embassy_from_effect(const struct player *pplayer,
                                     const struct player *pplayer2);
+bool team_has_embassy(const struct team *pteam, const struct player *tgt_player);
 
 int player_age(const struct player *pplayer);
 
