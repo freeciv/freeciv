@@ -2201,6 +2201,64 @@ install_data(
   install_dir : join_paths(get_option('datadir'),
                            'freeciv/themes/gui-qt/NightStalker'))
 
+install_data(
+  'data/themes/gui-qt/Necrophos/resource.qss',
+  'data/themes/gui-qt/Necrophos/arrow-down.png',
+  'data/themes/gui-qt/Necrophos/arrow-left.png',
+  'data/themes/gui-qt/Necrophos/arrow-right.png',
+  'data/themes/gui-qt/Necrophos/arrow-up.png',
+  'data/themes/gui-qt/Necrophos/checkbox-checked.png',
+  'data/themes/gui-qt/Necrophos/checkbox-unchecked.png',
+  'data/themes/gui-qt/Necrophos/cities.png',
+  'data/themes/gui-qt/Necrophos/combo-arrow.png',
+  'data/themes/gui-qt/Necrophos/economy.png',
+  'data/themes/gui-qt/Necrophos/endturn.png',
+  'data/themes/gui-qt/Necrophos/nations.png',
+  'data/themes/gui-qt/Necrophos/pattern.png',
+  'data/themes/gui-qt/Necrophos/radio-checked.png',
+  'data/themes/gui-qt/Necrophos/radio-unchecked.png',
+  'data/themes/gui-qt/Necrophos/research.png',
+  'data/themes/gui-qt/Necrophos/splitter-horizontal.png',
+  'data/themes/gui-qt/Necrophos/splitter-vertical.png',
+  'data/themes/gui-qt/Necrophos/sun.png',
+  'data/themes/gui-qt/Necrophos/units.png',
+  'data/themes/gui-qt/Necrophos/view.png',
+  'data/themes/gui-qt/Necrophos/wheel.png',
+   install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gui-qt/Necrophos'))
+
+install_data(
+  'data/themes/gui-qt/Classic/resource.qss',
+  'data/themes/gui-qt/Classic/arrow-down.png',
+  'data/themes/gui-qt/Classic/arrow-left.png',
+  'data/themes/gui-qt/Classic/arrow-right.png',
+  'data/themes/gui-qt/Classic/arrow-up.png',
+  'data/themes/gui-qt/Classic/button-default.png',
+  'data/themes/gui-qt/Classic/button-insensitive.png',
+  'data/themes/gui-qt/Classic/button-prelight.png',
+  'data/themes/gui-qt/Classic/button-pressed.png',
+  'data/themes/gui-qt/Classic/check4.png',
+  'data/themes/gui-qt/Classic/checkbox-checked.png',
+  'data/themes/gui-qt/Classic/checkbox-checked-pressed.png',
+  'data/themes/gui-qt/Classic/checkbox-unchecked.png',
+  'data/themes/gui-qt/Classic/combo-arrow.png',
+  'data/themes/gui-qt/Classic/combo-normal.png',
+  'data/themes/gui-qt/Classic/menuline.png',
+  'data/themes/gui-qt/Classic/menu-overlay.png',
+  'data/themes/gui-qt/Classic/pattern.png',
+  'data/themes/gui-qt/Classic/radio-checked.png',
+  'data/themes/gui-qt/Classic/radio-unchecked.png',
+  'data/themes/gui-qt/Classic/splitter-horizontal.png',
+  'data/themes/gui-qt/Classic/splitter-vertical.png',
+  'data/themes/gui-qt/Classic/wheel.png',
+  install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gui-qt/Classic'))
+
+install_data(
+  'data/themes/gui-qt/System/resource.qss',
+  install_dir : join_paths(get_option('datadir'),
+                           'freeciv/themes/gui-qt/System'))
+
 endif
 
 if get_option('clients').contains('sdl2')
