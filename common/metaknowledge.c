@@ -132,7 +132,7 @@ static bool can_plr_see_all_sym_diplrels_of(const struct player *pplayer,
     return TRUE;
   }
 
-  if (player_has_embassy(pplayer, tplayer)) {
+  if (team_has_embassy(pplayer->team, tplayer)) {
     /* Gets reports from the embassy. */
     return TRUE;
   }
@@ -705,5 +705,5 @@ bool can_see_techs_of_target(const struct player *pow_player,
                              const struct player *target_player)
 {
   return pow_player == target_player
-      || player_has_embassy(pow_player, target_player);
+      || team_has_embassy(pow_player->team, target_player);
 }

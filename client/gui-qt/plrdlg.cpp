@@ -486,7 +486,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
     res = _("(Unknown)");
     break;
   case A_UNSET:
-    if (global_observer || player_has_embassy(me, pplayer)) {
+    if (global_observer || team_has_embassy(me->team, pplayer)) {
       res = _("(none)");
     } else {
       res = _("(Unknown)");
@@ -499,7 +499,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           + QString::number(research->client.researching_cost) + ")";
     break;
   }
-  if (global_observer || player_has_embassy(me, pplayer)) {
+  if (global_observer || team_has_embassy(me->team, pplayer)) {
     etax = QString::number(pplayer->economic.tax) + "%";
     esci = QString::number(pplayer->economic.science) + "%";
     elux = QString::number(pplayer->economic.luxury) + "%";
@@ -583,7 +583,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   my_research = research_get(me);
 
   if (!global_observer) {
-    if (player_has_embassy(me, pplayer) && me != pplayer) {
+    if (team_has_embassy(me->team, pplayer) && me != pplayer) {
       a = 0;
       b = 0;
       techs_known = QString(_("<b>Techs unknown by %1:</b>")).

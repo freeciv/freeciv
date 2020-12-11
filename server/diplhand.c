@@ -713,11 +713,17 @@ void establish_embassy(struct player *pplayer, struct player *aplayer)
 {
   /* Establish the embassy. */
   BV_SET(pplayer->real_embassy, player_index(aplayer));
-  send_player_all_c(pplayer, pplayer->connections);
+
+  player_list_iterate(team_members(pplayer->team), teammate) {
+    /* Knowledge that pplayer has an embassy now */
+    send_player_all_c(pplayer, teammate->connections);
+    /* INFO_EMBASSY level info */
+    send_player_all_c(aplayer, teammate->connections);
+  } player_list_iterate_end;
+
   /* update player dialog with embassy */
   send_player_all_c(pplayer, aplayer->connections);
-  /* INFO_EMBASSY level info */
-  send_player_all_c(aplayer, pplayer->connections);
+
   /* Send research info */
   send_research_info(research_get(aplayer), pplayer->connections);
 }

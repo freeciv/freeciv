@@ -296,7 +296,7 @@ void send_research_info(const struct research *presearch,
       } else {
         /* 'pplayer' may have an embassy for looking to 'presearch'. */
         research_players_iterate(presearch, powner) {
-          if (player_has_embassy(pplayer, powner)) {
+          if (team_has_embassy(pplayer->team, powner)) {
             send_packet_research_info(pconn, &restricted_info);
             break;
           }
