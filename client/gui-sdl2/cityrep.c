@@ -538,7 +538,7 @@ static void real_info_city_report_dialog_update(void)
                                                    direction8_invalid()),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
-      togrow = utype_build_shield_cost(pcity, punittype);
+      togrow = utype_build_shield_cost(pcity, NULL, punittype);
       name = utype_name_translation(punittype);
     } else {
       const struct impr_type *pimprove = pcity->production.value.building;
@@ -1077,7 +1077,7 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pwidget
 
     logo = ResizeSurface(get_unittype_surface(punittype, direction8_invalid()),
                           adj_size(36), adj_size(24), 1);
-    togrow = utype_build_shield_cost(pcity, punittype);
+    togrow = utype_build_shield_cost(pcity, NULL, punittype);
     name = utype_name_translation(punittype);
   } else {
     const struct impr_type *pimprove = pcity->production.value.building;

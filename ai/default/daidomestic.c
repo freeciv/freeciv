@@ -410,7 +410,7 @@ static void dai_choose_trade_route(struct ai_type *ait, struct city *pcity,
     want += trader_trait / 4;
   }
 
-  want -= utype_build_shield_cost(pcity, unit_type) * SHIELD_WEIGHTING / 150;
+  want -= utype_build_shield_cost(pcity, NULL, unit_type) * SHIELD_WEIGHTING / 150;
 
   /* Don't pile too many of them */
   if (unassigned_caravans * 10 > want && want > 0.0) {

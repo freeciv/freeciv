@@ -3400,7 +3400,7 @@ void city_dialog::update_improvements()
 
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
-      cost = utype_build_shield_cost(pcity, target.value.utype);
+      cost = utype_build_shield_cost(pcity, NULL, target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(get_tileset(), target.value.utype,
                                    direction8_invalid());

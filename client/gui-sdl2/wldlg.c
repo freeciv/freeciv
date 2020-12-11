@@ -1572,7 +1572,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
       if (pcity) {
         struct universal univ = cid_production(cid_encode_unit(un));
-        int cost = utype_build_shield_cost(pcity, un);
+        int cost = utype_build_shield_cost(pcity, NULL, un);
 
         turns = city_turns_to_build(pcity, &univ, TRUE);
 

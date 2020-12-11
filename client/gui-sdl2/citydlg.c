@@ -3231,7 +3231,7 @@ static void redraw_city_dialog(struct city *pcity)
   if (VUT_UTYPE == pcity->production.kind) {
     const struct unit_type *punittype = pcity->production.value.utype;
 
-    cost = utype_build_shield_cost(pcity, punittype);
+    cost = utype_build_shield_cost(pcity, NULL, punittype);
     count = cost / 10;
 
     copy_chars_to_utf8_str(pstr, utype_name_translation(punittype));

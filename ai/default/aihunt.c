@@ -136,8 +136,8 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
     }
 
     desire = amortize(desire,
-		      (utype_build_shield_cost(pcity, ut)
-		       / MAX(pcity->surplus[O_SHIELD], 1)));
+                      (utype_build_shield_cost(pcity, NULL, ut)
+                       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
       best = desire;
@@ -205,8 +205,8 @@ static void dai_hunter_missile_want(struct player *pplayer,
     }
 
     desire = amortize(desire,
-		      (utype_build_shield_cost(pcity, ut)
-		       / MAX(pcity->surplus[O_SHIELD], 1)));
+                      (utype_build_shield_cost(pcity, NULL, ut)
+                       / MAX(pcity->surplus[O_SHIELD], 1)));
 
     if (desire > best) {
       best = desire;

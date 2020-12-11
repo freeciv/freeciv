@@ -1189,13 +1189,15 @@ int utype_pays_mp_for_action_estimate(const struct action *paction,
 
 /**********************************************************************//**
   Returns the number of shields it takes to build this unit type.
+  If pplayer is NULL, owner of the pcity is used instead.
 **************************************************************************/
 int utype_build_shield_cost(const struct city *pcity,
+                            const struct player *pplayer,
                             const struct unit_type *punittype)
 {
   int base;
-  struct player *owner;
-  struct tile *ptile;
+  const struct player *owner;
+  const struct tile *ptile;
 
   if (pcity != NULL) {
     owner = city_owner(pcity);
@@ -1203,6 +1205,10 @@ int utype_build_shield_cost(const struct city *pcity,
   } else {
     owner = NULL;
     ptile = NULL;
+  }
+  if (pplayer != NULL) {
+    /* Override city owner. */
+    owner = pplayer;
   }
 
   base = punittype->build_cost
@@ -1224,7 +1230,7 @@ int utype_build_shield_cost_base(const struct unit_type *punittype)
 **************************************************************************/
 int unit_build_shield_cost(const struct city *pcity, const struct unit *punit)
 {
-  return utype_build_shield_cost(pcity, unit_type_get(punit));
+  return utype_build_shield_cost(pcity, NULL, unit_type_get(punit));
 }
 
 /**********************************************************************//**
@@ -1243,7 +1249,7 @@ int utype_buy_gold_cost(const struct city *pcity,
                         int shields_in_stock)
 {
   int cost = 0;
-  const int missing = utype_build_shield_cost(pcity, punittype) - shields_in_stock;
+  const int missing = utype_build_shield_cost(pcity, NULL, punittype) - shields_in_stock;
   struct player *owner;
   struct tile *ptile;
 

@@ -1365,7 +1365,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
           if (v > vulnerability) {
             /* They can build a better defender! */
             vulnerability = v;
-            benefit = utype_build_shield_cost(acity, def_type);
+            benefit = utype_build_shield_cost(acity, NULL, def_type);
           }
         }
       }
@@ -1416,7 +1416,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
                            : SHIELD_WEIGHTING);
       /* Build_cost of ferry. */
       needferry = (go_by_boat && NULL == ferryboat
-                   ? utype_build_shield_cost(acity, boattype) : 0);
+                   ? utype_build_shield_cost(acity, NULL, boattype) : 0);
       /* FIXME: add time to build the ferry? */
       want = military_amortize(pplayer, game_city_by_number(punit->homecity),
                                want, MAX(1, move_time),
