@@ -1094,17 +1094,6 @@ struct player *city_owner(const struct city *pcity)
   return pcity->owner;
 }
 
-#ifndef city_tile
-/**************************************************************************
-  Return the tile location of the city.
-  Not (yet) always used, mostly for debugging.
-**************************************************************************/
-struct tile *city_tile(const struct city *pcity)
-{
-  return pcity->tile;
-}
-#endif /* city_tile */
-
 /*****************************************************************************
   Add a (positive or negative) value to the city size. As citizens is an
   unsigned value use int for the parameter 'add'.
