@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2020 - The Freeciv Project contributors.
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -123,6 +123,11 @@ public:
     @return true iff the vector belongs to this item.
   ************************************************************************/
   virtual bool vector_in_item(const struct requirement_vector *vec) = 0;
+
+  /********************************************************************//**
+    Trivial destructor
+  ************************************************************************/
+  virtual ~req_vec_fix_item() {};
 };
 
 /**********************************************************************//**
