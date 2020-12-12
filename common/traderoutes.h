@@ -32,6 +32,7 @@ enum traderoute_illegal_cancelling
     TRI_LAST                          = 3
   };
 
+/* Values used in the network protocol. */
 enum trade_route_type {
   TRT_NATIONAL                        = 0,
   TRT_NATIONAL_IC                     = 1, /* Intercontinental */
@@ -46,6 +47,7 @@ enum trade_route_type {
   TRT_LAST                            = 10
 };
 
+/* Values used in the network protocol. */
 #define SPECENUM_NAME traderoute_bonus_type
 #define SPECENUM_VALUE0 TBONUS_NONE
 #define SPECENUM_VALUE0NAME "None"
@@ -57,6 +59,7 @@ enum trade_route_type {
 #define SPECENUM_VALUE3NAME "Both"
 #include "specenum_gen.h"
 
+/* Values used in the network protocol. */
 #define SPECENUM_NAME route_direction
 #define SPECENUM_VALUE0 RDIR_FROM
 #define SPECENUM_VALUE0NAME N_("?routedir:From")
