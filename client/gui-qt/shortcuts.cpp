@@ -51,6 +51,8 @@ enum {
   RESPONSE_SAVE
 };
 
+static bool use_default_shortcuts = false;
+
 static int num_shortcuts = 57;
 fc_shortcut default_shortcuts[] = {
   {SC_SCROLL_MAP, 0, Qt::RightButton, Qt::NoModifier, "Scroll map" },
@@ -796,6 +798,11 @@ bool read_shortcuts()
 {
   int num, i;
   fc_shortcut *sc;
+
+  if (use_default_shortcuts) {
+    return false;
+  }
+
   QString sname = "freeciv-qt-client-"
     + QString::number(MAJOR_NEW_OPTION_FILE_NAME) + "."
     + QString::number(MINOR_NEW_OPTION_FILE_NAME);
@@ -820,4 +827,12 @@ bool read_shortcuts()
   }
   s.endArray();
   return true;
+}
+
+/**********************************************************************//**
+  Do not use saved shortcuts, but default ones.
+**************************************************************************/
+void shortcutreset()
+{
+  use_default_shortcuts = true;
 }
