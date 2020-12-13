@@ -184,7 +184,7 @@ static void real_info_city_report_dialog_update(void)
   utf8_str *pstr;
   SDL_Surface *text1, *text2, *text3, *units_icon, *cma_icon, *text4;
   SDL_Surface *logo;
-  int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, H;
+  int togrow, w = 0 , count, ww = 0, hh = 0, name_w = 0, prod_w = 0, h;
   char cbuf[128];
   const char *name;
   SDL_Rect dst;
@@ -260,7 +260,8 @@ static void real_info_city_report_dialog_update(void)
   /* -------- */
   pbuf = create_themeicon(current_theme->happy_icon, pwindow->dst,
                           WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pbuf->info_label = create_str16_from_char(_("Happiness Report"), adj_font(12));
+  pbuf->info_label = create_str16_from_char(_("Happiness Report"),
+                                            adj_font(12));
 /*
   pbuf->action = happy_city_report_callback;
   set_wstate(pbuf, FC_WS_NORMAL);
@@ -335,7 +336,8 @@ static void real_info_city_report_dialog_update(void)
 
     /* ----------- */
     pbuf = create_checkbox(pwindow->dst,
-                           cma_is_city_under_agent(pcity, NULL), WF_RESTORE_BACKGROUND);
+                           cma_is_city_under_agent(pcity, NULL),
+                           WF_RESTORE_BACKGROUND);
     if (count > 13 * COL) {
       set_wflag(pbuf, WF_HIDDEN);
     }
@@ -346,7 +348,8 @@ static void real_info_city_report_dialog_update(void)
     pbuf->action = popup_cma_from_city_report_callback;
 
     /* ----------- */
-    fc_snprintf(cbuf, sizeof(cbuf), "%d", pcity->prod[O_FOOD] - pcity->surplus[O_FOOD]);
+    fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                pcity->prod[O_FOOD] - pcity->surplus[O_FOOD]);
     pstr = create_utf8_from_char(cbuf, adj_font(10));
     pstr->style |= SF_CENTER;
     pstr->fgcol = *get_game_color(COLOR_OVERVIEW_LAND);
@@ -531,7 +534,8 @@ static void real_info_city_report_dialog_update(void)
     if (VUT_UTYPE == pcity->production.kind) {
       const struct unit_type *punittype = pcity->production.value.utype;
 
-      logo = ResizeSurfaceBox(get_unittype_surface(punittype, direction8_invalid()),
+      logo = ResizeSurfaceBox(get_unittype_surface(punittype,
+                                                   direction8_invalid()),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
       togrow = utype_build_shield_cost(pcity, punittype);
@@ -603,7 +607,7 @@ static void real_info_city_report_dialog_update(void)
     count += COL;
   } city_list_iterate_end;
 
-  H = hh;
+  h = hh;
   city_rep->begin_widget_list = pbuf;
   /* setup window width */
   area.w = name_w + adj_size(6) + text1->w + adj_size(8) + cma_icon->w
@@ -714,7 +718,8 @@ static void real_info_city_report_dialog_update(void)
     + (icons->big_food_surplus->w + adj_size(6)) + adj_size(10)
     + text2->w + adj_size(6 + 2);
   dst.h = area.h - adj_size(2);
-  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
+  fill_rect_alpha(pwindow->theme, &dst,
+                  get_theme_color(COLOR_THEME_CITYREP_FOODSTOCK));
 
   create_frame(pwindow->theme,
                dst.x, dst.y, dst.w, dst.h - 1,
@@ -750,7 +755,8 @@ static void real_info_city_report_dialog_update(void)
           (icons->big_luxury->w + adj_size(6)) + adj_size(4);
   dst.h = area.h - adj_size(2);
 
-  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_TRADE));
+  fill_rect_alpha(pwindow->theme, &dst,
+                  get_theme_color(COLOR_THEME_CITYREP_TRADE));
 
   create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
@@ -788,7 +794,8 @@ static void real_info_city_report_dialog_update(void)
           (icons->big_shield_surplus->w + adj_size(6)) + adj_size(4);
   dst.h = area.h - adj_size(2);
 
-  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
+  fill_rect_alpha(pwindow->theme, &dst,
+                  get_theme_color(COLOR_THEME_CITYREP_PROD));
 
   create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
@@ -821,7 +828,8 @@ static void real_info_city_report_dialog_update(void)
   dst.w = adj_size(36) + adj_size(5) + prod_w;
   dst.h = hh + adj_size(2);
 
-  fill_rect_alpha(pwindow->theme, &dst, get_theme_color(COLOR_THEME_CITYREP_PROD));
+  fill_rect_alpha(pwindow->theme, &dst,
+                  get_theme_color(COLOR_THEME_CITYREP_PROD));
 
   create_frame(pwindow->theme,
                dst.x , dst.y, dst.w, dst.h - 1,
@@ -836,98 +844,98 @@ static void real_info_city_report_dialog_update(void)
     int start_x = area.x + adj_size(5);
     int start_y = area.y + hh + adj_size(3);
 
-    H += adj_size(2);
+    h += adj_size(2);
     pbuf = pbuf->prev;
     while (TRUE) {
 
       /* city name */
       pbuf->size.x = start_x;
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
       pbuf->size.w = name_w;
 
       /* city size */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* cma */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* food cons. */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* food surplus */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* time to grow */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* trade */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* trade corruptions */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* net gold income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* science income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* luxuries income */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* total production */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(6);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* waste */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* units support */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* producrion surplus */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* currently build */
       /* icon */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(10);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
 
       /* label */
       pbuf = pbuf->prev;
       pbuf->size.x = pbuf->next->size.x + pbuf->next->size.w + adj_size(5);
-      pbuf->size.y = start_y + (H - pbuf->size.h) / 2;
+      pbuf->size.y = start_y + (h - pbuf->size.h) / 2;
       pbuf->size.w = prod_w;
 
-      start_y += H;
+      start_y += h;
       if (pbuf == city_rep->begin_active_widget_list) {
         break;
       }
@@ -985,7 +993,8 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pwidget
 
   /* food consumptions */
   pwidget = pwidget->prev;
-  fc_snprintf(cbuf, sizeof(cbuf), "%d", pcity->prod[O_FOOD] - pcity->surplus[O_FOOD]);
+  fc_snprintf(cbuf, sizeof(cbuf), "%d",
+              pcity->prod[O_FOOD] - pcity->surplus[O_FOOD]);
   copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
 
   /* food surplus */
@@ -997,14 +1006,14 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pwidget
   pwidget = pwidget->prev;
   togrow = city_turns_to_grow(pcity);
   switch (togrow) {
-    case 0:
-      fc_snprintf(cbuf, sizeof(cbuf), "#");
+  case 0:
+    fc_snprintf(cbuf, sizeof(cbuf), "#");
     break;
-    case FC_INFINITY:
-      fc_snprintf(cbuf, sizeof(cbuf), "--");
+  case FC_INFINITY:
+    fc_snprintf(cbuf, sizeof(cbuf), "--");
     break;
-    default:
-      fc_snprintf(cbuf, sizeof(cbuf), "%d", togrow);
+  default:
+    fc_snprintf(cbuf, sizeof(cbuf), "%d", togrow);
     break;
   }
   copy_chars_to_utf8_str(pwidget->string_utf8, cbuf);
