@@ -14,6 +14,7 @@
 #ifndef FC__SHORTCUTSDLG_H
 #define FC__SHORTCUTSDLG_H
 
+// Qt
 #include <QDialog>
 #include <QLineEdit>
 #include <QPushButton>
@@ -27,6 +28,7 @@ void popup_shortcuts_dialog();
 QString shortcut_to_string(fc_shortcut *sc);
 void write_shortcuts();
 bool read_shortcuts();
+void shortcutreset();
 
 /* Assing numbers for casting */
 enum shortcut_id {
@@ -196,7 +198,5 @@ private slots:
   void apply_option(int response);
   void edit_shortcut();
 };
-
-
 
 #endif /* FC__SHORTCUSDLG_H */

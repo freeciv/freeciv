@@ -115,6 +115,15 @@ static void print_usage()
              _("This client accepts the standard Qt command-line options\n"
                "after '--'. See the Qt documentation.\n\n"));
 
+  fc_fprintf(stderr,
+             _("Other gui-specific options are:\n"));
+
+  fc_fprintf(stderr,
+             _("-s, --shortcutreset\tReset shortcut keys to "
+               "default values\n"));
+
+  fc_fprintf(stderr, "\n");
+
   /* TRANS: No full stop after the URL, could cause confusion. */
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
@@ -132,6 +141,9 @@ static bool parse_options(int argc, char **argv)
     if (is_option("--help", argv[i])) {
       print_usage();
       return false;
+    }
+    if (is_option("--shortcutreset", argv[i])) {
+      shortcutreset();
     }
     // Can't check against unknown options, as those might be Qt options
 
