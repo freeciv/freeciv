@@ -759,7 +759,7 @@ static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev)
     gtk_widget_grab_focus(map_canvas);
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   update_line(e_x, e_y);
   state = gdk_event_get_modifier_state(ev);
   if (rbutton_down && (state & GDK_BUTTON3_MASK)) {

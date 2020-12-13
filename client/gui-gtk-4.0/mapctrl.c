@@ -104,7 +104,7 @@ static void popit(GdkEvent *ev, struct tile *ptile)
                      G_CALLBACK(popupinfo_popdown_callback), NULL);
 
 
-    gdk_event_get_coords(ev, &e_x, &e_y);
+    gdk_event_get_position(ev, &e_x, &e_y);
 
     gtk_widget_show(p);
     gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
@@ -183,7 +183,7 @@ gboolean butt_release_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   }
 
   button = gdk_button_event_get_button(ev);
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   if (button == 1 || button == 3) {
     release_goto_button(e_x, e_y);
   }
@@ -219,7 +219,7 @@ gboolean butt_down_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
   }
 
   gtk_widget_grab_focus(map_canvas);
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   ptile = canvas_pos_to_tile(e_x, e_y);
   pcity = ptile ? tile_city(ptile) : NULL;
 
@@ -383,7 +383,7 @@ gboolean move_mapcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
     return handle_edit_mouse_move(ev);
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   cur_x = e_x;
   cur_y = e_y;
   update_line(e_x, e_y);
@@ -417,7 +417,7 @@ gboolean leave_mapcanvas(GtkWidget *widget, GdkEvent *ev)
   /* Bizarrely, this function can be called even when we don't "leave"
    * the map canvas, for instance, it gets called any time the mouse is
    * clicked. */
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   if (!map_is_empty()
       && e_x >= 0 && e_y >= 0
       && e_x < mapview.width && e_y < mapview.height) {
@@ -437,7 +437,7 @@ gboolean move_overviewcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
 {
   gdouble e_x, e_y;
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   overview_update_line(e_x, e_y);
 
   return TRUE;
@@ -456,7 +456,7 @@ gboolean butt_down_overviewcanvas(GtkWidget *w, GdkEvent *ev, gpointer data)
     return TRUE; /* Double-clicks? Triple-clicks? No thanks! */
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   overview_to_map_pos(&xtile, &ytile, e_x, e_y);
 
   button = gdk_button_event_get_button(ev);

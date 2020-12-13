@@ -2865,7 +2865,7 @@ static gboolean citizens_callback(GtkWidget *w, GdkEvent *ev,
   tlen = tileset_small_sprite_width(tileset);
   len = (city_size_get(pcity) - 1) * pdialog->cwidth + tlen;
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   if (e_x > len) {
     /* no citizen that far to the right */
     return FALSE;
@@ -3040,7 +3040,7 @@ static gboolean button_down_citymap(GtkWidget *w, GdkEvent *ev,
     return FALSE;
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   canvas_x = e_x * (double)canvas_width / (double)CITYMAP_WIDTH;
   canvas_y = e_y * (double)canvas_height / (double)CITYMAP_HEIGHT;
 

@@ -949,7 +949,7 @@ gboolean handle_edit_mouse_button_press(GdkEvent *ev)
     return TRUE;
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   button = gdk_button_event_get_button(ev);
   state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_press(e_x, e_y,
@@ -972,7 +972,7 @@ gboolean handle_edit_mouse_button_release(GdkEvent *ev)
     return TRUE;
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   button = gdk_button_event_get_button(ev);
   state = gdk_event_get_modifier_state(ev);
   editor_mouse_button_release(e_x, e_y,
@@ -989,7 +989,7 @@ gboolean handle_edit_mouse_move(GdkEvent *ev)
   gdouble e_x, e_y;
   GdkModifierType state;
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   state = gdk_event_get_modifier_state(ev);
   editor_mouse_move(e_x, e_y, convert_modifiers(state));
 

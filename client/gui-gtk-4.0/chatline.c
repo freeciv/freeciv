@@ -622,7 +622,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEvent *event)
     return FALSE;
   }
 
-  gdk_event_get_coords(event, &e_x, &e_y);
+  gdk_event_get_position(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW (text_view), 
                                         GTK_TEXT_WINDOW_WIDGET,
                                         e_x, e_y, &x, &y);
@@ -747,7 +747,7 @@ static gboolean motion_notify_event(GtkWidget *text_view,
   gint x, y;
   gdouble e_x, e_y;
 
-  gdk_event_get_coords(event, &e_x, &e_y);
+  gdk_event_get_position(event, &e_x, &e_y);
   gtk_text_view_window_to_buffer_coords(GTK_TEXT_VIEW(text_view), 
                                         GTK_TEXT_WINDOW_WIDGET,
                                         e_x, e_y, &x, &y);

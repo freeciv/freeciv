@@ -147,7 +147,7 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEvent *ev,
   GtkTreeViewColumn *column;
   gdouble e_x, e_y;
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   if (gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(view),
 	e_x, e_y, &path, &column, NULL, NULL)) {
     GdkEventType type;

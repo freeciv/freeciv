@@ -262,7 +262,7 @@ static gboolean meswin_dialog_button_press_callback(GtkWidget *widget,
     return FALSE;
   }
 
-  gdk_event_get_coords(ev, &e_x, &e_y);
+  gdk_event_get_position(ev, &e_x, &e_y);
   if (!gtk_tree_view_get_path_at_pos(GTK_TREE_VIEW(widget), e_x, e_y,
                                      &path, NULL, NULL, NULL)) {
     return TRUE;
