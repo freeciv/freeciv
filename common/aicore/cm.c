@@ -73,7 +73,7 @@
 *****************************************************************************/
 
 /* Maximal iterations before the search loop is stoped. */
-#define CM_MAX_LOOP 25000
+#define CM_MAX_LOOP 27500
 
 #define CPUHOG_CM_MAX_LOOP (CM_MAX_LOOP * 4)
 
