@@ -407,7 +407,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
 /**********************************************************************//**
   Main handler for mouse movement handling.
 **************************************************************************/
-static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
+static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                                         void *pData)
 {
   static struct widget *pwidget;
@@ -416,25 +416,25 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   /* stop evaluating button hold time when moving to another tile in medium
    * hold state or above */
   if (button_behavior.counting && (button_behavior.hold_state >= MB_HOLD_MEDIUM)) {
-    ptile = canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y);
+    ptile = canvas_pos_to_tile(motion_event->x, motion_event->y);
     if (tile_index(ptile) != tile_index(button_behavior.ptile)) {
       button_behavior.counting = FALSE;
     }
   }
 
   if (draw_goto_patrol_lines) {
-    update_line(pMotionEvent->x, pMotionEvent->y);
+    update_line(motion_event->x, motion_event->y);
   }
 
 #ifndef UNDER_CE
   if (gui_options.gui_sdl2_fullscreen) {
-    check_scroll_area(pMotionEvent->x, pMotionEvent->y);
+    check_scroll_area(motion_event->x, motion_event->y);
   }
 #endif /* UNDER_CE */
 
   if ((pwidget = find_next_widget_at_pos(NULL,
-                                         pMotionEvent->x,
-                                         pMotionEvent->y)) != NULL) {
+                                         motion_event->x,
+                                         motion_event->y)) != NULL) {
     update_mouse_cursor(CURSOR_DEFAULT);
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
       widget_selected_action(pwidget);
@@ -443,7 +443,7 @@ static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
     if (selected_widget) {
       unselect_widget_action();
     } else {
-      control_mouse_cursor(canvas_pos_to_tile(pMotionEvent->x, pMotionEvent->y));
+      control_mouse_cursor(canvas_pos_to_tile(motion_event->x, motion_event->y));
     }
   }
 
@@ -576,7 +576,7 @@ Uint16 gui_event_loop(void *pData,
                                                           void *pData),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
                                                         void *pData),
-                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent,
+                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
                                                      void *pData))
 {
   Uint16 ID;

@@ -304,7 +304,7 @@ int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
 /**********************************************************************//**
   Move window as event instructs.
 **************************************************************************/
-static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
+static Uint16 move_window_motion(SDL_MouseMotionEvent *motion_event,
                                  void *pData)
 {
   struct MOVE *pMove = (struct MOVE *)pData;
@@ -316,10 +316,10 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *pMotionEvent,
 
   widget_mark_dirty(pMove->pwindow);
 
-  xrel = pMotionEvent->x - pMove->prev_x;
-  yrel = pMotionEvent->y - pMove->prev_y;
-  pMove->prev_x = pMotionEvent->x;
-  pMove->prev_y = pMotionEvent->y;
+  xrel = motion_event->x - pMove->prev_x;
+  yrel = motion_event->y - pMove->prev_y;
+  pMove->prev_x = motion_event->x;
+  pMove->prev_y = motion_event->y;
 
   widget_set_position(pMove->pwindow,
                       (pMove->pwindow->dst->dest_rect.x + pMove->pwindow->size.x) + xrel,

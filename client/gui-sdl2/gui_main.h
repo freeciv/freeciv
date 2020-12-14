@@ -29,6 +29,7 @@
 #include <SDL2/SDL.h>
 #endif /* SDL2_PLAIN_INCLUDE */
 
+/* client/include */
 #include "gui_main_g.h"
 
 /* enable this to adjust sizes for 320x240 resolution */
@@ -119,7 +120,7 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
                                                           void *pData),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
                                                         void *pData),
-                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *pMotionEvent,
+                      Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
                                                      void *pData));
 
 /* shrink sizes for 320x240 screen */
@@ -129,4 +130,4 @@ Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
   #define adj_size(size) (size)
 #endif
 
-#endif	/* FC__GUI_MAIN_H */
+#endif /* FC__GUI_MAIN_H */

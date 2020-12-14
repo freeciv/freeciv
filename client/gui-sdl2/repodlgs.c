@@ -1179,23 +1179,23 @@ static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
 /**********************************************************************//**
   User moved a mouse while adjusting rates.
 **************************************************************************/
-static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
+static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                                                  void *pData)
 {
-  struct rates_move *pMotion = (struct rates_move *)pData;
+  struct rates_move *motion = (struct rates_move *)pData;
   struct widget *tax_label = economy_dlg->end_widget_list->prev->prev;
   struct widget *pbuf = NULL;
   char cbuf[8];
   int dir, inc, x, *buf_rate = NULL;
 
-  pMotionEvent->x -= pMotion->pHoriz_Src->dst->dest_rect.x;
+  motion_event->x -= motion->pHoriz_Src->dst->dest_rect.x;
 
-  if ((abs(pMotionEvent->x - pMotion->x) > 7)
-      && (pMotionEvent->x >= pMotion->min)
-      && (pMotionEvent->x <= pMotion->max)) {
+  if ((abs(motion_event->x - motion->x) > 7)
+      && (motion_event->x >= motion->min)
+      && (motion_event->x <= motion->max)) {
 
     /* set up directions */
-    if (pMotionEvent->xrel > 0) {
+    if (motion_event->xrel > 0) {
       dir = 15;
       inc = 10;
     } else {
@@ -1204,88 +1204,88 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
     }
 
     /* make checks */
-    x = pMotion->pHoriz_Src->size.x;
-    if (((x + dir) <= pMotion->max) && ((x + dir) >= pMotion->min)) {
+    x = motion->pHoriz_Src->size.x;
+    if (((x + dir) <= motion->max) && ((x + dir) >= motion->min)) {
       /* src in range */
-      if (pMotion->pHoriz_Dst) {
-        x = pMotion->pHoriz_Dst->size.x;
-	if (((x + (-1 * dir)) > pMotion->max) || ((x + (-1 * dir)) < pMotion->min)) {
+      if (motion->pHoriz_Dst) {
+        x = motion->pHoriz_Dst->size.x;
+	if (((x + (-1 * dir)) > motion->max) || ((x + (-1 * dir)) < motion->min)) {
 	  /* dst out of range */
-	  if (pMotion->tax + (-1 * inc) <= pMotion->gov_max
-              && pMotion->tax + (-1 * inc) >= 0) {
+	  if (motion->tax + (-1 * inc) <= motion->gov_max
+              && motion->tax + (-1 * inc) >= 0) {
             /* tax in range */
-            pbuf = pMotion->pHoriz_Dst;
-            pMotion->pHoriz_Dst = NULL;
-            buf_rate = pMotion->dst_rate;
-            pMotion->dst_rate = &pMotion->tax;
-            pMotion->label_dst = tax_label;
+            pbuf = motion->pHoriz_Dst;
+            motion->pHoriz_Dst = NULL;
+            buf_rate = motion->dst_rate;
+            motion->dst_rate = &motion->tax;
+            motion->label_dst = tax_label;
           } else {
-            pMotion->x = pMotion->pHoriz_Src->size.x;
+            motion->x = motion->pHoriz_Src->size.x;
             return ID_ERROR;
           }
 	}
       } else {
-        if (pMotion->tax + (-1 * inc) > pMotion->gov_max
-            || pMotion->tax + (-1 * inc) < 0) {
-          pMotion->x = pMotion->pHoriz_Src->size.x;
+        if (motion->tax + (-1 * inc) > motion->gov_max
+            || motion->tax + (-1 * inc) < 0) {
+          motion->x = motion->pHoriz_Src->size.x;
           return ID_ERROR;
         }
       }
 
       /* undraw scrollbars */
-      widget_undraw(pMotion->pHoriz_Src);
-      widget_mark_dirty(pMotion->pHoriz_Src);
+      widget_undraw(motion->pHoriz_Src);
+      widget_mark_dirty(motion->pHoriz_Src);
 
-      if (pMotion->pHoriz_Dst) {
-        widget_undraw(pMotion->pHoriz_Dst);
-        widget_mark_dirty(pMotion->pHoriz_Dst);
+      if (motion->pHoriz_Dst) {
+        widget_undraw(motion->pHoriz_Dst);
+        widget_mark_dirty(motion->pHoriz_Dst);
       }
 
-      pMotion->pHoriz_Src->size.x += dir;
-      if (pMotion->pHoriz_Dst) {
-        pMotion->pHoriz_Dst->size.x -= dir;
+      motion->pHoriz_Src->size.x += dir;
+      if (motion->pHoriz_Dst) {
+        motion->pHoriz_Dst->size.x -= dir;
       }
 
-      *pMotion->src_rate += inc;
-      *pMotion->dst_rate -= inc;
+      *motion->src_rate += inc;
+      *motion->dst_rate -= inc;
 
-      fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *pMotion->src_rate);
-      copy_chars_to_utf8_str(pMotion->label_src->string_utf8, cbuf);
-      fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *pMotion->dst_rate);
-      copy_chars_to_utf8_str(pMotion->label_dst->string_utf8, cbuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *motion->src_rate);
+      copy_chars_to_utf8_str(motion->label_src->string_utf8, cbuf);
+      fc_snprintf(cbuf, sizeof(cbuf), "%d%%", *motion->dst_rate);
+      copy_chars_to_utf8_str(motion->label_dst->string_utf8, cbuf);
 
       /* redraw label */
-      widget_redraw(pMotion->label_src);
-      widget_mark_dirty(pMotion->label_src);
+      widget_redraw(motion->label_src);
+      widget_mark_dirty(motion->label_src);
 
-      widget_redraw(pMotion->label_dst);
-      widget_mark_dirty(pMotion->label_dst);
+      widget_redraw(motion->label_dst);
+      widget_mark_dirty(motion->label_dst);
 
       /* redraw scroolbar */
-      if (get_wflags(pMotion->pHoriz_Src) & WF_RESTORE_BACKGROUND) {
-        refresh_widget_background(pMotion->pHoriz_Src);
+      if (get_wflags(motion->pHoriz_Src) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(motion->pHoriz_Src);
       }
-      widget_redraw(pMotion->pHoriz_Src);
-      widget_mark_dirty(pMotion->pHoriz_Src);
+      widget_redraw(motion->pHoriz_Src);
+      widget_mark_dirty(motion->pHoriz_Src);
 
-      if (pMotion->pHoriz_Dst) {
-        if (get_wflags(pMotion->pHoriz_Dst) & WF_RESTORE_BACKGROUND) {
-          refresh_widget_background(pMotion->pHoriz_Dst);
+      if (motion->pHoriz_Dst) {
+        if (get_wflags(motion->pHoriz_Dst) & WF_RESTORE_BACKGROUND) {
+          refresh_widget_background(motion->pHoriz_Dst);
         }
-        widget_redraw(pMotion->pHoriz_Dst);
-        widget_mark_dirty(pMotion->pHoriz_Dst);
+        widget_redraw(motion->pHoriz_Dst);
+        widget_mark_dirty(motion->pHoriz_Dst);
       }
 
       flush_dirty();
 
       if (pbuf != NULL) {
-        pMotion->pHoriz_Dst = pbuf;
-        pMotion->label_dst = pMotion->pHoriz_Dst->prev;
-        pMotion->dst_rate = buf_rate;
+        motion->pHoriz_Dst = pbuf;
+        motion->label_dst = motion->pHoriz_Dst->prev;
+        motion->dst_rate = buf_rate;
         pbuf = NULL;
       }
 
-      pMotion->x = pMotion->pHoriz_Src->size.x;
+      motion->x = motion->pHoriz_Src->size.x;
     }
   } /* if */
 
@@ -1298,24 +1298,24 @@ static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEv
 static int horiz_taxrate_callback(struct widget *pHoriz_Src)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct rates_move pMotion;
+    struct rates_move motion;
 
-    pMotion.pHoriz_Src = pHoriz_Src;
-    pMotion.label_src = pHoriz_Src->prev;
+    motion.pHoriz_Src = pHoriz_Src;
+    motion.label_src = pHoriz_Src->prev;
 
     switch (pHoriz_Src->id) {
       case ID_CHANGE_TAXRATE_DLG_LUX_SCROLLBAR:
         if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
           goto END;
         }
-        pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
-        pMotion.pHoriz_Dst = pHoriz_Src->prev->prev->prev; /* sci */
-        pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
-        pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+        motion.src_rate = (int *)pHoriz_Src->data.ptr;
+        motion.pHoriz_Dst = pHoriz_Src->prev->prev->prev; /* sci */
+        motion.dst_rate = (int *)motion.pHoriz_Dst->data.ptr;
+        motion.tax = 100 - *motion.src_rate - *motion.dst_rate;
         if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
-          if (pMotion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
-            pMotion.pHoriz_Dst = NULL;	/* tax */
-            pMotion.dst_rate = &pMotion.tax;
+          if (motion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
+            motion.pHoriz_Dst = NULL;	/* tax */
+            motion.dst_rate = &motion.tax;
           } else {
             goto END;	/* all blocked */
           }
@@ -1327,15 +1327,15 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
         if ((sdl2_client_flags & CF_CHANGE_TAXRATE_SCI_BLOCK)) {
           goto END;
         }
-        pMotion.src_rate = (int *)pHoriz_Src->data.ptr;
-        pMotion.pHoriz_Dst = pHoriz_Src->next->next->next; /* lux */
-        pMotion.dst_rate = (int *)pMotion.pHoriz_Dst->data.ptr;
-        pMotion.tax = 100 - *pMotion.src_rate - *pMotion.dst_rate;
+        motion.src_rate = (int *)pHoriz_Src->data.ptr;
+        motion.pHoriz_Dst = pHoriz_Src->next->next->next; /* lux */
+        motion.dst_rate = (int *)motion.pHoriz_Dst->data.ptr;
+        motion.tax = 100 - *motion.src_rate - *motion.dst_rate;
         if (sdl2_client_flags & CF_CHANGE_TAXRATE_LUX_BLOCK) {
-          if (pMotion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
+          if (motion.tax <= get_player_bonus(client.conn.playing, EFT_MAX_RATES)) {
             /* tax */
-            pMotion.pHoriz_Dst = NULL;
-            pMotion.dst_rate = &pMotion.tax;
+            motion.pHoriz_Dst = NULL;
+            motion.dst_rate = &motion.tax;
           } else {
             goto END;	/* all blocked */
           }
@@ -1347,22 +1347,22 @@ static int horiz_taxrate_callback(struct widget *pHoriz_Src)
         return -1;
     }
 
-    if (pMotion.pHoriz_Dst) {
-      pMotion.label_dst = pMotion.pHoriz_Dst->prev;
+    if (motion.pHoriz_Dst) {
+      motion.label_dst = motion.pHoriz_Dst->prev;
     } else {
       /* tax label */
-      pMotion.label_dst = economy_dlg->end_widget_list->prev->prev;
+      motion.label_dst = economy_dlg->end_widget_list->prev->prev;
     }
 
-    pMotion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);
-    pMotion.gov_max = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
-    pMotion.max = pMotion.min + pMotion.gov_max * 1.5;
-    pMotion.x = pHoriz_Src->size.x;
+    motion.min = pHoriz_Src->next->size.x + pHoriz_Src->next->size.w + adj_size(2);
+    motion.gov_max = get_player_bonus(client.conn.playing, EFT_MAX_RATES);
+    motion.max = motion.min + motion.gov_max * 1.5;
+    motion.x = pHoriz_Src->size.x;
 
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                    report_scroll_mouse_button_up,
                    report_scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */

@@ -100,47 +100,47 @@ static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
 /**********************************************************************//**
   User moved mouse while holding scrollbar.
 **************************************************************************/
-static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
+static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                                           void *pData)
 {
-  struct hmove *pMotion = (struct hmove *)pData;
+  struct hmove *motion = (struct hmove *)pData;
   char cbuf[4];
 
-  pMotionEvent->x -= pMotion->pscroll_bar->dst->dest_rect.x;
+  motion_event->x -= motion->pscroll_bar->dst->dest_rect.x;
 
-  if (pMotion && pMotionEvent->xrel
-      && (pMotionEvent->x >= pMotion->min) && (pMotionEvent->x <= pMotion->max)) {
+  if (motion && motion_event->xrel
+      && (motion_event->x >= motion->min) && (motion_event->x <= motion->max)) {
     /* draw bcgd */
-    widget_undraw(pMotion->pscroll_bar);
-    widget_mark_dirty(pMotion->pscroll_bar);
+    widget_undraw(motion->pscroll_bar);
+    widget_mark_dirty(motion->pscroll_bar);
 
-    if ((pMotion->pscroll_bar->size.x + pMotionEvent->xrel) >
-        (pMotion->max - pMotion->pscroll_bar->size.w)) {
-      pMotion->pscroll_bar->size.x = pMotion->max - pMotion->pscroll_bar->size.w;
+    if ((motion->pscroll_bar->size.x + motion_event->xrel) >
+        (motion->max - motion->pscroll_bar->size.w)) {
+      motion->pscroll_bar->size.x = motion->max - motion->pscroll_bar->size.w;
     } else {
-      if ((pMotion->pscroll_bar->size.x + pMotionEvent->xrel) < pMotion->min) {
-	pMotion->pscroll_bar->size.x = pMotion->min;
+      if ((motion->pscroll_bar->size.x + motion_event->xrel) < motion->min) {
+	motion->pscroll_bar->size.x = motion->min;
       } else {
-	pMotion->pscroll_bar->size.x += pMotionEvent->xrel;
+	motion->pscroll_bar->size.x += motion_event->xrel;
       }
     }
 
-    *(int *)pMotion->pscroll_bar->data.ptr =
-      pMotion->base + (pMotion->pscroll_bar->size.x - pMotion->min);
+    *(int *)motion->pscroll_bar->data.ptr =
+      motion->base + (motion->pscroll_bar->size.x - motion->min);
 
-    fc_snprintf(cbuf, sizeof(cbuf), "%d", *(int *)pMotion->pscroll_bar->data.ptr);
-    copy_chars_to_utf8_str(pMotion->pscroll_bar->next->string_utf8, cbuf);
+    fc_snprintf(cbuf, sizeof(cbuf), "%d", *(int *)motion->pscroll_bar->data.ptr);
+    copy_chars_to_utf8_str(motion->pscroll_bar->next->string_utf8, cbuf);
 
     /* redraw label */
-    widget_redraw(pMotion->pscroll_bar->next);
-    widget_mark_dirty(pMotion->pscroll_bar->next);
+    widget_redraw(motion->pscroll_bar->next);
+    widget_mark_dirty(motion->pscroll_bar->next);
 
     /* redraw scroolbar */
-    if (get_wflags(pMotion->pscroll_bar) & WF_RESTORE_BACKGROUND) {
-      refresh_widget_background(pMotion->pscroll_bar);
+    if (get_wflags(motion->pscroll_bar) & WF_RESTORE_BACKGROUND) {
+      refresh_widget_background(motion->pscroll_bar);
     }
-    widget_redraw(pMotion->pscroll_bar);
-    widget_mark_dirty(pMotion->pscroll_bar);
+    widget_redraw(motion->pscroll_bar);
+    widget_mark_dirty(motion->pscroll_bar);
 
     flush_dirty();
   }
@@ -154,18 +154,18 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
 static int min_horiz_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct hmove pMotion;
+    struct hmove motion;
 
-    pMotion.pscroll_bar = pwidget;
-    pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
-    pMotion.max = pMotion.min + 70;
-    pMotion.base = -20;
+    motion.pscroll_bar = pwidget;
+    motion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
+    motion.max = motion.min + 70;
+    motion.base = -20;
 
     MOVE_STEP_X = 2;
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);
@@ -193,18 +193,18 @@ static int min_horiz_cma_callback(struct widget *pwidget)
 static int factor_horiz_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct hmove pMotion;
+    struct hmove motion;
 
-    pMotion.pscroll_bar = pwidget;
-    pMotion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
-    pMotion.max = pMotion.min + 54;
-    pMotion.base = 1;
+    motion.pscroll_bar = pwidget;
+    motion.min = pwidget->next->size.x + pwidget->next->size.w + 5;
+    motion.max = motion.min + 54;
+    motion.base = 1;
 
     MOVE_STEP_X = 2;
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&pMotion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);

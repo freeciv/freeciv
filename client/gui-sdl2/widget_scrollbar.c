@@ -963,10 +963,10 @@ static void inside_scroll_up_loop(void *pData)
 /**********************************************************************//**
   Handle mouse motion events of the vertical scrollbar event loop.
 **************************************************************************/
-static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
+static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
                                           void *pData)
 {
-  struct UP_DOWN *pMotion = (struct UP_DOWN *)pData;
+  struct UP_DOWN *motion = (struct UP_DOWN *)pData;
   int yrel;
   int y;
   int normalized_y;
@@ -974,54 +974,54 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
   int net_count;
   float scroll_step;
 
-  yrel = pMotionEvent->y - pMotion->prev_y;
-  pMotion->prev_x = pMotionEvent->x;
-  pMotion->prev_y = pMotionEvent->y;
+  yrel = motion_event->y - motion->prev_y;
+  motion->prev_x = motion_event->x;
+  motion->prev_y = motion_event->y;
 
-  y = pMotionEvent->y - pMotion->vscroll->pscroll_bar->dst->dest_rect.y;
+  y = motion_event->y - motion->vscroll->pscroll_bar->dst->dest_rect.y;
 
-  normalized_y = (y - pMotion->offset);
+  normalized_y = (y - motion->offset);
 
-  net_slider_area = (pMotion->vscroll->max - pMotion->vscroll->min - pMotion->vscroll->pscroll_bar->size.h);
-  net_count = round((float)pMotion->vscroll->count / pMotion->vscroll->step) - pMotion->vscroll->active + 1;
+  net_slider_area = (motion->vscroll->max - motion->vscroll->min - motion->vscroll->pscroll_bar->size.h);
+  net_count = round((float)motion->vscroll->count / motion->vscroll->step) - motion->vscroll->active + 1;
   scroll_step = (float)net_slider_area / net_count;
   
   if ((yrel != 0)
-      && ((normalized_y >= pMotion->vscroll->min)
-          || ((normalized_y < pMotion->vscroll->min)
-              && (pMotion->vscroll->pscroll_bar->size.y > pMotion->vscroll->min)))
-      && ((normalized_y <= pMotion->vscroll->max - pMotion->vscroll->pscroll_bar->size.h)
-          || ((normalized_y > pMotion->vscroll->max)
-              && (pMotion->vscroll->pscroll_bar->size.y < (pMotion->vscroll->max - pMotion->vscroll->pscroll_bar->size.h)))) ) {
+      && ((normalized_y >= motion->vscroll->min)
+          || ((normalized_y < motion->vscroll->min)
+              && (motion->vscroll->pscroll_bar->size.y > motion->vscroll->min)))
+      && ((normalized_y <= motion->vscroll->max - motion->vscroll->pscroll_bar->size.h)
+          || ((normalized_y > motion->vscroll->max)
+              && (motion->vscroll->pscroll_bar->size.y < (motion->vscroll->max - motion->vscroll->pscroll_bar->size.h)))) ) {
     int count;
 
     /* draw bcgd */
-    widget_undraw(pMotion->vscroll->pscroll_bar);
-    widget_mark_dirty(pMotion->vscroll->pscroll_bar);
+    widget_undraw(motion->vscroll->pscroll_bar);
+    widget_mark_dirty(motion->vscroll->pscroll_bar);
 
-    if ((pMotion->vscroll->pscroll_bar->size.y + yrel) >
-        (pMotion->vscroll->max - pMotion->vscroll->pscroll_bar->size.h)) {
+    if ((motion->vscroll->pscroll_bar->size.y + yrel) >
+        (motion->vscroll->max - motion->vscroll->pscroll_bar->size.h)) {
 
-      pMotion->vscroll->pscroll_bar->size.y =
-        (pMotion->vscroll->max - pMotion->vscroll->pscroll_bar->size.h);
+      motion->vscroll->pscroll_bar->size.y =
+        (motion->vscroll->max - motion->vscroll->pscroll_bar->size.h);
 
-    } else if ((pMotion->vscroll->pscroll_bar->size.y + yrel) < pMotion->vscroll->min) {
-      pMotion->vscroll->pscroll_bar->size.y = pMotion->vscroll->min;
+    } else if ((motion->vscroll->pscroll_bar->size.y + yrel) < motion->vscroll->min) {
+      motion->vscroll->pscroll_bar->size.y = motion->vscroll->min;
     } else {
-      pMotion->vscroll->pscroll_bar->size.y += yrel;
+      motion->vscroll->pscroll_bar->size.y += yrel;
     }
 
-    count = round((pMotion->vscroll->pscroll_bar->size.y - pMotion->old_y) / scroll_step);
+    count = round((motion->vscroll->pscroll_bar->size.y - motion->old_y) / scroll_step);
 
     if (count != 0) {
       int i = count;
 
       while (i != 0) {
-        pMotion->begin = vertical_scroll_widget_list(pMotion->begin,
-                                                      pMotion->begin_widget_list,
-                                                      pMotion->end_widget_list,
-                                                      pMotion->vscroll->active,
-                                                      pMotion->vscroll->step, i);
+        motion->begin = vertical_scroll_widget_list(motion->begin,
+                                                    motion->begin_widget_list,
+                                                    motion->end_widget_list,
+                                                    motion->vscroll->active,
+                                                    motion->vscroll->step, i);
         if (i > 0) {
           i--;
         } else {
@@ -1029,18 +1029,18 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent,
         }
       } /* while (i != 0) */
 
-      pMotion->old_y = pMotion->vscroll->min +
-        ((round((pMotion->old_y - pMotion->vscroll->min) / scroll_step) + count) * scroll_step);
+      motion->old_y = motion->vscroll->min +
+        ((round((motion->old_y - motion->vscroll->min) / scroll_step) + count) * scroll_step);
 
-      redraw_group(pMotion->begin_widget_list, pMotion->end_widget_list, TRUE);
+      redraw_group(motion->begin_widget_list, motion->end_widget_list, TRUE);
     }
 
     /* redraw slider */
-    if (get_wflags(pMotion->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
-      refresh_widget_background(pMotion->vscroll->pscroll_bar);
+    if (get_wflags(motion->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
+      refresh_widget_background(motion->vscroll->pscroll_bar);
     }
-    redraw_vert(pMotion->vscroll->pscroll_bar);
-    widget_mark_dirty(pMotion->vscroll->pscroll_bar);
+    redraw_vert(motion->vscroll->pscroll_bar);
+    widget_mark_dirty(motion->vscroll->pscroll_bar);
 
     flush_dirty();
   }
@@ -1116,29 +1116,29 @@ static struct widget *vertic_scroll_widget_list(struct scroll_bar *vscroll,
                                                 struct widget *begin_widget_list,
                                                 struct widget *end_widget_list)
 {
-  struct UP_DOWN pMotion;
+  struct UP_DOWN motion;
 
-  pMotion.step = get_step(vscroll);
-  pMotion.begin = begin_active_widget_list;
-  pMotion.begin_widget_list = begin_widget_list;
-  pMotion.end_widget_list = end_widget_list;
-  pMotion.vscroll = vscroll;
-  pMotion.old_y = vscroll->pscroll_bar->size.y;
-  SDL_GetMouseState(&pMotion.prev_x, &pMotion.prev_y);
-  pMotion.offset = pMotion.prev_y - vscroll->pscroll_bar->dst->dest_rect.y - vscroll->pscroll_bar->size.y;
+  motion.step = get_step(vscroll);
+  motion.begin = begin_active_widget_list;
+  motion.begin_widget_list = begin_widget_list;
+  motion.end_widget_list = end_widget_list;
+  motion.vscroll = vscroll;
+  motion.old_y = vscroll->pscroll_bar->size.y;
+  SDL_GetMouseState(&motion.prev_x, &motion.prev_y);
+  motion.offset = motion.prev_y - vscroll->pscroll_bar->dst->dest_rect.y - vscroll->pscroll_bar->size.y;
 
   MOVE_STEP_X = 0;
   MOVE_STEP_Y = 3;
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-  gui_event_loop((void *)&pMotion, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+  gui_event_loop((void *)&motion, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                  scroll_mouse_button_up, scroll_mouse_motion_handler);
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL, NULL);
   MOVE_STEP_X = DEFAULT_MOVE_STEP;
   MOVE_STEP_Y = DEFAULT_MOVE_STEP;
 
-  return pMotion.begin;
+  return motion.begin;
 }
 
 /* ==================================================================== */
