@@ -190,6 +190,7 @@ common/team.c
 common/tech.c
 common/tech.h
 common/terrain.h
+common/traderoutes.h
 common/unit.c
 common/unittype.c
 common/unittype.h
