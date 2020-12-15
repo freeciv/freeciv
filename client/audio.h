@@ -22,7 +22,7 @@ extern "C" {
 #define MAX_AUDIO_NAME_LEN		20
 #define MAX_AUDIO_DESCR_LEN		200
 
-#define MAX_ALT_AUDIO_FILES             5
+#define MAX_ALT_AUDIO_FILES             25
 
 typedef void (*audio_finished_callback)(void);
 
