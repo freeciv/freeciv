@@ -108,20 +108,20 @@ void disable_focus_animation(void);
 extern int MOVE_STEP_X, MOVE_STEP_Y;
 int FilterMouseMotionEvents(void *data, SDL_Event *event);
 
-Uint16 gui_event_loop(void *pData, void (*loop_action)(void *pData),
-                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
-                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
-                      Uint16 (*textinput_handler)(char *text, void *pData),
-                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
-                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+Uint16 gui_event_loop(void *data, void (*loop_action)(void *data),
+                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *data),
+                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *data),
+                      Uint16 (*textinput_handler)(char *text, void *data),
+                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
+                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
                       Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
-                                                      void *pData),
+                                                      void *data),
                       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
-                                                          void *pData),
+                                                          void *data),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
-                                                        void *pData),
+                                                        void *data),
                       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
-                                                     void *pData));
+                                                     void *data));
 
 /* shrink sizes for 320x240 screen */
 #ifdef SMALL_SCREEN

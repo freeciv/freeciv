@@ -423,9 +423,9 @@ int draw_edit(struct widget *pedit, Sint16 start_x, Sint16 start_y)
   NOTE: This functions can return NULL in 'edit_widget->string_utf8->text' but
         never free 'edit_widget->string_utf8' struct.
 **************************************************************************/
-static Uint16 edit_key_down(SDL_Keysym key, void *pData)
+static Uint16 edit_key_down(SDL_Keysym key, void *data)
 {
-  struct text_edit *edt = (struct text_edit *)pData;
+  struct text_edit *edt = (struct text_edit *)data;
   struct Utf8Char *input_chain_tmp;
   bool Redraw = FALSE;
 
@@ -589,9 +589,9 @@ static Uint16 edit_key_down(SDL_Keysym key, void *pData)
 /**********************************************************************//**
   Handle textinput strings coming to the edit widget
 **************************************************************************/
-static Uint16 edit_textinput(char *text, void *pData)
+static Uint16 edit_textinput(char *text, void *data)
 {
-  struct text_edit *edt = (struct text_edit *)pData;
+  struct text_edit *edt = (struct text_edit *)data;
   struct Utf8Char *input_chain_tmp;
   int i;
 
@@ -660,9 +660,9 @@ static Uint16 edit_textinput(char *text, void *pData)
   Handle mouse down events on edit widget.
 **************************************************************************/
 static Uint16 edit_mouse_button_down(SDL_MouseButtonEvent *button_event,
-                                     void *pData)
+                                     void *data)
 {
-  struct text_edit *edt = (struct text_edit *)pData;
+  struct text_edit *edt = (struct text_edit *)data;
 
   if (button_event->button == SDL_BUTTON_LEFT) {
     if (!(button_event->x >= edt->pwidget->size.x

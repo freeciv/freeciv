@@ -1171,7 +1171,7 @@ static int toggle_block_callback(struct widget *pCheckBox)
   User released mouse button while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                            void *pData)
+                                            void *data)
 {
   return (Uint16)ID_SCROLLBAR;
 }
@@ -1180,9 +1180,9 @@ static Uint16 report_scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
   User moved a mouse while adjusting rates.
 **************************************************************************/
 static Uint16 report_scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                                 void *pData)
+                                                 void *data)
 {
-  struct rates_move *motion = (struct rates_move *)pData;
+  struct rates_move *motion = (struct rates_move *)data;
   struct widget *tax_label = economy_dlg->end_widget_list->prev->prev;
   struct widget *pbuf = NULL;
   char cbuf[8];

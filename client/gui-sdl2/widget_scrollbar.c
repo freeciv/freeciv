@@ -874,9 +874,9 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 /**********************************************************************//**
   Callback for the scroll-down event loop.
 **************************************************************************/
-static void inside_scroll_down_loop(void *pData)
+static void inside_scroll_down_loop(void *data)
 {
-  struct UP_DOWN *pDown = (struct UP_DOWN *)pData;
+  struct UP_DOWN *pDown = (struct UP_DOWN *)data;
 
   if (pDown->end != pDown->begin_widget_list) {
     if (pDown->vscroll->pscroll_bar
@@ -921,9 +921,9 @@ static void inside_scroll_down_loop(void *pData)
 /**********************************************************************//**
   Callback for the scroll-up event loop.
 **************************************************************************/
-static void inside_scroll_up_loop(void *pData)
+static void inside_scroll_up_loop(void *data)
 {
-  struct UP_DOWN *pUp = (struct UP_DOWN *)pData;
+  struct UP_DOWN *pUp = (struct UP_DOWN *)data;
 
   if (pUp && pUp->begin != pUp->end_widget_list) {
 
@@ -964,9 +964,9 @@ static void inside_scroll_up_loop(void *pData)
   Handle mouse motion events of the vertical scrollbar event loop.
 **************************************************************************/
 static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                          void *pData)
+                                          void *data)
 {
-  struct UP_DOWN *motion = (struct UP_DOWN *)pData;
+  struct UP_DOWN *motion = (struct UP_DOWN *)data;
   int yrel;
   int y;
   int normalized_y;
@@ -1052,7 +1052,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
   Callback for scrollbar event loops' mouse up events.
 **************************************************************************/
 static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                     void *pData)
+                                     void *data)
 {
   return (Uint16)ID_SCROLLBAR;
 }

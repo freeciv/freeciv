@@ -284,7 +284,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
+static Uint16 main_key_up_handler(SDL_Keysym Key, void *data)
 {
   if (selected_widget) {
     unselect_widget_action();
@@ -296,7 +296,7 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *pData)
   Main finger down handler.
 **************************************************************************/
 static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
-                                       void *pData)
+                                       void *data)
 {
   struct widget *pwidget;
   /* Touch event coordinates are normalized (0...1). */
@@ -324,7 +324,7 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
   Main finger release handler.
 **************************************************************************/
 static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
-                                     void *pData)
+                                     void *data)
 {
   /* Touch event coordinates are normalized (0...1). */
   int x = pTouchEvent->x * main_window_width();
@@ -348,7 +348,7 @@ static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
   Main mouse click handler.
 **************************************************************************/
 static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
-                                             void *pData)
+                                             void *data)
 {
   struct widget *pwidget;
 
@@ -382,7 +382,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
   Main mouse button release handler.
 **************************************************************************/
 static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
-                                           void *pData)
+                                           void *data)
 {
   if (button_behavior.button_down_ticks /* button wasn't pressed over a widget */
       && !find_next_widget_at_pos(NULL, button_event->x, button_event->y)) {
@@ -408,7 +408,7 @@ static Uint16 main_mouse_button_up_handler(SDL_MouseButtonEvent *button_event,
   Main handler for mouse movement handling.
 **************************************************************************/
 static Uint16 main_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                        void *pData)
+                                        void *data)
 {
   static struct widget *pwidget;
   struct tile *ptile;
@@ -563,21 +563,21 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 /**********************************************************************//**
   SDL2-client main loop.
 **************************************************************************/
-Uint16 gui_event_loop(void *pData,
-                      void (*loop_action)(void *pData),
-                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *pData),
-                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *pData),
-                      Uint16 (*textinput_handler)(char *text, void *pData),
-                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
-                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *pData),
+Uint16 gui_event_loop(void *data,
+                      void (*loop_action)(void *data),
+                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *data),
+                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *data),
+                      Uint16 (*textinput_handler)(char *text, void *data),
+                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
+                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
                       Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
-                                                      void *pData),
+                                                      void *data),
                       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
-                                                          void *pData),
+                                                          void *data),
                       Uint16 (*mouse_button_up_handler)(SDL_MouseButtonEvent *button_event,
-                                                        void *pData),
+                                                        void *data),
                       Uint16 (*mouse_motion_handler)(SDL_MouseMotionEvent *motion_event,
-                                                     void *pData))
+                                                     void *data))
 {
   Uint16 ID;
   static fc_timeval tv;
@@ -654,7 +654,7 @@ Uint16 gui_event_loop(void *pData,
     /* ========================================= */
 
     if (loop_action) {
-      loop_action(pData);
+      loop_action(data);
     }
 
     /* ========================================= */
@@ -721,7 +721,7 @@ Uint16 gui_event_loop(void *pData,
             break;
             default:
               if (key_up_handler) {
-                ID = key_up_handler(main_data.event.key.keysym, pData);
+                ID = key_up_handler(main_data.event.key.keysym, data);
               }
             break;
           }
@@ -764,7 +764,7 @@ Uint16 gui_event_loop(void *pData,
 
           default:
             if (key_down_handler) {
-              ID = key_down_handler(main_data.event.key.keysym, pData);
+              ID = key_down_handler(main_data.event.key.keysym, data);
             }
             break;
           }
@@ -772,43 +772,43 @@ Uint16 gui_event_loop(void *pData,
 
         case SDL_TEXTINPUT:
           if (textinput_handler) {
-            ID = textinput_handler(main_data.event.text.text, pData);
+            ID = textinput_handler(main_data.event.text.text, data);
           }
           break;
 
         case SDL_FINGERDOWN:
           if (finger_down_handler) {
-            ID = finger_down_handler(&main_data.event.tfinger, pData);
+            ID = finger_down_handler(&main_data.event.tfinger, data);
           }
           break;
 
         case SDL_FINGERUP:
           if (finger_up_handler) {
-            ID = finger_up_handler(&main_data.event.tfinger, pData);
+            ID = finger_up_handler(&main_data.event.tfinger, data);
           }
           break;
 
         case SDL_FINGERMOTION:
           if (finger_motion_handler) {
-            ID = finger_motion_handler(&main_data.event.tfinger, pData);
+            ID = finger_motion_handler(&main_data.event.tfinger, data);
           }
           break;
 
         case SDL_MOUSEBUTTONDOWN:
           if (mouse_button_down_handler) {
-            ID = mouse_button_down_handler(&main_data.event.button, pData);
+            ID = mouse_button_down_handler(&main_data.event.button, data);
           }
           break;
 
         case SDL_MOUSEBUTTONUP:
           if (mouse_button_up_handler) {
-            ID = mouse_button_up_handler(&main_data.event.button, pData);
+            ID = mouse_button_up_handler(&main_data.event.button, data);
           }
           break;
 
         case SDL_MOUSEMOTION:
           if (mouse_motion_handler) {
-            ID = mouse_motion_handler(&main_data.event.motion, pData);
+            ID = mouse_motion_handler(&main_data.event.motion, data);
           }	
           break;
         }

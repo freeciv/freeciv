@@ -55,9 +55,9 @@ struct hmove {
 static struct cma_dialog {
   struct city *pcity;
   struct small_dialog *dlg;
-  struct advanced_dialog *pAdv;
+  struct advanced_dialog *adv;
   struct cm_parameter edited_cm_parm;
-} *pCma = NULL;
+} *cma = NULL;
 
 enum specialist_type {
   SP_ELVIS, SP_SCIENTIST, SP_TAXMAN, SP_LAST
@@ -92,7 +92,7 @@ static int exit_cma_dialog_callback(struct widget *pwidget)
   User released mouse button while in scrollbar.
 **************************************************************************/
 static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
-                                     void *pData)
+                                     void *data)
 {
   return (Uint16)ID_SCROLLBAR;
 }
@@ -101,9 +101,9 @@ static Uint16 scroll_mouse_button_up(SDL_MouseButtonEvent *button_event,
   User moved mouse while holding scrollbar.
 **************************************************************************/
 static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
-                                          void *pData)
+                                          void *data)
 {
-  struct hmove *motion = (struct hmove *)pData;
+  struct hmove *motion = (struct hmove *)data;
   char cbuf[4];
 
   motion_event->x -= motion->pscroll_bar->dst->dest_rect.x;
@@ -119,16 +119,17 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *motion_event,
       motion->pscroll_bar->size.x = motion->max - motion->pscroll_bar->size.w;
     } else {
       if ((motion->pscroll_bar->size.x + motion_event->xrel) < motion->min) {
-	motion->pscroll_bar->size.x = motion->min;
+        motion->pscroll_bar->size.x = motion->min;
       } else {
-	motion->pscroll_bar->size.x += motion_event->xrel;
+        motion->pscroll_bar->size.x += motion_event->xrel;
       }
     }
 
     *(int *)motion->pscroll_bar->data.ptr =
       motion->base + (motion->pscroll_bar->size.x - motion->min);
 
-    fc_snprintf(cbuf, sizeof(cbuf), "%d", *(int *)motion->pscroll_bar->data.ptr);
+    fc_snprintf(cbuf, sizeof(cbuf), "%d",
+                *(int *)motion->pscroll_bar->data.ptr);
     copy_chars_to_utf8_str(motion->pscroll_bar->next->string_utf8, cbuf);
 
     /* redraw label */
@@ -165,7 +166,8 @@ static int min_horiz_cma_callback(struct widget *pwidget)
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL,
+                   NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);
@@ -175,11 +177,11 @@ static int min_horiz_cma_callback(struct widget *pwidget)
     selected_widget = pwidget;
     set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(cma->pcity, &cma->edited_cm_parm);
     /* refreshes the cma */
-    if (cma_is_city_under_agent(pCma->pcity, NULL)) {
-      cma_release_city(pCma->pcity);
-      cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
+    if (cma_is_city_under_agent(cma->pcity, NULL)) {
+      cma_release_city(cma->pcity);
+      cma_put_city_under_agent(cma->pcity, &cma->edited_cm_parm);
     }
     update_city_cma_dialog();
   }
@@ -204,7 +206,8 @@ static int factor_horiz_cma_callback(struct widget *pwidget)
     MOVE_STEP_Y = 0;
     /* Filter mouse motion events */
     SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+    gui_event_loop((void *)(&motion), NULL, NULL, NULL, NULL, NULL, NULL,
+                   NULL, NULL,
                    scroll_mouse_button_up, scroll_mouse_motion_handler);
     /* Turn off Filter mouse motion events */
     SDL_SetEventFilter(NULL, NULL);
@@ -214,11 +217,11 @@ static int factor_horiz_cma_callback(struct widget *pwidget)
     selected_widget = pwidget;
     set_wstate(pwidget, FC_WS_SELECTED);
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(cma->pcity, &cma->edited_cm_parm);
     /* refreshes the cma */
-    if (cma_is_city_under_agent(pCma->pcity, NULL)) {
-      cma_release_city(pCma->pcity);
-      cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
+    if (cma_is_city_under_agent(cma->pcity, NULL)) {
+      cma_release_city(cma->pcity);
+      cma_put_city_under_agent(cma->pcity, &cma->edited_cm_parm);
     }
     update_city_cma_dialog();
   }
@@ -232,9 +235,9 @@ static int factor_horiz_cma_callback(struct widget *pwidget)
 static int toggle_cma_celebrating_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    pCma->edited_cm_parm.require_happy ^= TRUE;
+    cma->edited_cm_parm.require_happy ^= TRUE;
     /* save the change */
-    cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
+    cmafec_set_fe_parameter(cma->pcity, &cma->edited_cm_parm);
     update_city_cma_dialog();
   }
 
@@ -257,18 +260,18 @@ static int save_cma_window_callback(struct widget *pwindow)
 static int ok_save_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget && pCma && pCma->pAdv) {
+    if (pwidget && cma && cma->adv) {
       struct widget *pedit = (struct widget *)pwidget->data.ptr;
 
       if (pedit->string_utf8->text != NULL) {
-        cmafec_preset_add(pedit->string_utf8->text, &pCma->edited_cm_parm);
+        cmafec_preset_add(pedit->string_utf8->text, &cma->edited_cm_parm);
       } else {
-        cmafec_preset_add(_("new preset"), &pCma->edited_cm_parm);
+        cmafec_preset_add(_("new preset"), &cma->edited_cm_parm);
       }
 
-      del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
-                                         pCma->pAdv->end_widget_list);
-      FC_FREE(pCma->pAdv);
+      del_group_of_widgets_from_gui_list(cma->adv->begin_widget_list,
+                                         cma->adv->end_widget_list);
+      FC_FREE(cma->adv);
 
       update_city_cma_dialog();
     }
@@ -280,14 +283,14 @@ static int ok_save_cma_callback(struct widget *pwidget)
 /**********************************************************************//**
   Cancel : SAVE, LOAD, DELETE Dialogs
 **************************************************************************/
-static int cancel_SLD_cma_callback(struct widget *pwidget)
+static int cancel_sld_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    if (pCma && pCma->pAdv) {
-      popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
-                                  pCma->pAdv->end_widget_list);
-      FC_FREE(pCma->pAdv->scroll);
-      FC_FREE(pCma->pAdv);
+    if (cma && cma->adv) {
+      popdown_window_group_dialog(cma->adv->begin_widget_list,
+                                  cma->adv->end_widget_list);
+      FC_FREE(cma->adv->scroll);
+      FC_FREE(cma->adv);
       flush_dirty();
     }
   }
@@ -307,11 +310,11 @@ static int save_cma_callback(struct widget *pwidget)
     SDL_Rect dst;
     SDL_Rect area;
 
-    if (pCma->pAdv) {
+    if (cma->adv) {
       return 1;
     }
 
-    pCma->pAdv = fc_calloc(1, sizeof(struct advanced_dialog));
+    cma->adv = fc_calloc(1, sizeof(struct advanced_dialog));
 
     pstr = create_utf8_from_char(_("Name new preset"), adj_font(12));
     pstr->style |= TTF_STYLE_BOLD;
@@ -320,7 +323,7 @@ static int save_cma_callback(struct widget *pwidget)
 
     pwindow->action = save_cma_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
-    pCma->pAdv->end_widget_list = pwindow;
+    cma->adv->end_widget_list = pwindow;
 
     add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -329,7 +332,8 @@ static int save_cma_callback(struct widget *pwidget)
 
     /* ============================================================= */
     /* label */
-    pstr = create_utf8_from_char(_("What should we name the preset?"), adj_font(10));
+    pstr = create_utf8_from_char(_("What should we name the preset?"),
+                                 adj_font(10));
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     pstr->fgcol = *get_theme_color(COLOR_THEME_CMA_TEXT);
 
@@ -340,8 +344,9 @@ static int save_cma_callback(struct widget *pwidget)
     /* ============================================================= */
 
     buf = create_edit(NULL, pwindow->dst,
-                       create_utf8_from_char(_("new preset"), adj_font(12)), adj_size(100),
-                       (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
+                      create_utf8_from_char(_("new preset"), adj_font(12)),
+                      adj_size(100),
+                      (WF_RESTORE_BACKGROUND|WF_FREE_STRING));
     set_wstate(buf, FC_WS_NORMAL);
     area.h += buf->size.h;
     area.w = MAX(area.w, buf->size.w);
@@ -349,7 +354,8 @@ static int save_cma_callback(struct widget *pwidget)
     add_to_gui_list(ID_EDIT, buf);
     /* ============================================================= */
 
-    buf = create_themeicon_button_from_chars(current_theme->ok_icon, pwindow->dst,
+    buf = create_themeicon_button_from_chars(current_theme->ok_icon,
+                                             pwindow->dst,
                                              _("Yes"), adj_font(12), 0);
 
     buf->action = ok_save_cma_callback;
@@ -361,7 +367,7 @@ static int save_cma_callback(struct widget *pwidget)
     buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                              pwindow->dst, _("No"),
                                              adj_font(12), 0);
-    buf->action = cancel_SLD_cma_callback;
+    buf->action = cancel_sld_cma_callback;
     set_wstate(buf, FC_WS_NORMAL);
     buf->key = SDLK_ESCAPE;
 
@@ -372,7 +378,7 @@ static int save_cma_callback(struct widget *pwidget)
     buf->next->size.w = buf->size.w;
     area.w = MAX(area.w, 2 * buf->size.w + adj_size(20));
 
-    pCma->pAdv->begin_widget_list = buf;
+    cma->adv->begin_widget_list = buf;
 
     /* setup window size and start position */
     area.w += adj_size(20);
@@ -415,7 +421,7 @@ static int save_cma_callback(struct widget *pwidget)
 
     /* ================================================== */
     /* redraw */
-    redraw_group(pCma->pAdv->begin_widget_list, pwindow, 0);
+    redraw_group(cma->adv->begin_widget_list, pwindow, 0);
     widget_mark_dirty(pwindow);
     flush_dirty();
   }
@@ -428,25 +434,26 @@ static int save_cma_callback(struct widget *pwidget)
 /**********************************************************************//**
   User interacted with some preset cma button.
 **************************************************************************/
-static int LD_cma_callback(struct widget *pwidget)
+static int ld_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     bool load = pwidget->data.ptr != NULL;
     int index = MAX_ID - pwidget->id;
 
-    popdown_window_group_dialog(pCma->pAdv->begin_widget_list,
-                                pCma->pAdv->end_widget_list);
-    FC_FREE(pCma->pAdv->scroll);
-    FC_FREE(pCma->pAdv);
+    popdown_window_group_dialog(cma->adv->begin_widget_list,
+                                cma->adv->end_widget_list);
+    FC_FREE(cma->adv->scroll);
+    FC_FREE(cma->adv);
 
     if (load) {
-      cm_copy_parameter(&pCma->edited_cm_parm, cmafec_preset_get_parameter(index));
+      cm_copy_parameter(&cma->edited_cm_parm,
+                        cmafec_preset_get_parameter(index));
       set_cma_hscrollbars();
       /* save the change */
-      cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
+      cmafec_set_fe_parameter(cma->pcity, &cma->edited_cm_parm);
       /* stop the cma */
-      if (cma_is_city_under_agent(pCma->pcity, NULL)) {
-        cma_release_city(pCma->pcity);
+      if (cma_is_city_under_agent(cma->pcity, NULL)) {
+        cma_release_city(cma->pcity);
       }
     } else {
       cmafec_preset_remove(index);
@@ -468,7 +475,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
   utf8_str *pstr;
   SDL_Rect area;
 
-  if (pCma->pAdv) {
+  if (cma->adv) {
     return;
   }
 
@@ -476,13 +483,13 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
 
   if (count == 1) {
     if (load) {
-      cm_copy_parameter(&pCma->edited_cm_parm, cmafec_preset_get_parameter(0));
+      cm_copy_parameter(&cma->edited_cm_parm, cmafec_preset_get_parameter(0));
       set_cma_hscrollbars();
       /* save the change */
-      cmafec_set_fe_parameter(pCma->pcity, &pCma->edited_cm_parm);
+      cmafec_set_fe_parameter(cma->pcity, &cma->edited_cm_parm);
       /* stop the cma */
-      if (cma_is_city_under_agent(pCma->pcity, NULL)) {
-        cma_release_city(pCma->pcity);
+      if (cma_is_city_under_agent(cma->pcity, NULL)) {
+        cma_release_city(cma->pcity);
       }
     } else {
       cmafec_preset_remove(0);
@@ -491,7 +498,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
     return;
   }
 
-  pCma->pAdv = fc_calloc(1, sizeof(struct advanced_dialog));
+  cma->adv = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pstr = create_utf8_from_char(_("Presets"), adj_font(12));
   pstr->style |= TTF_STYLE_BOLD;
@@ -500,7 +507,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
 
   pwindow->action = save_cma_window_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
-  pCma->pAdv->end_widget_list = pwindow;
+  cma->adv->end_widget_list = pwindow;
 
   add_to_gui_list(ID_WINDOW, pwindow);
 
@@ -512,7 +519,7 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   buf->info_label = create_utf8_from_char(_("Close Dialog (Esc)"),
                                           adj_font(12));
-  buf->action = cancel_SLD_cma_callback;
+  buf->action = cancel_sld_cma_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
   area.w += (buf->size.w + adj_size(10));
@@ -524,9 +531,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
     pstr = create_utf8_from_char(cmafec_preset_get_descr(i), adj_font(10));
     pstr->style |= TTF_STYLE_BOLD;
     buf = create_iconlabel(NULL, pwindow->dst, pstr,
-    	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+            (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
     buf->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
-    buf->action = LD_cma_callback;
+    buf->action = ld_cma_callback;
 
     area.w = MAX(area.w, buf->size.w);
     area.h += buf->size.h;
@@ -544,22 +551,22 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
       set_wflag(buf, WF_HIDDEN);
     }
   }
-  pCma->pAdv->begin_widget_list = buf;
-  pCma->pAdv->begin_active_widget_list = pCma->pAdv->begin_widget_list;
-  pCma->pAdv->end_active_widget_list = pwindow->prev->prev;
-  pCma->pAdv->active_widget_list = pCma->pAdv->end_active_widget_list;
+  cma->adv->begin_widget_list = buf;
+  cma->adv->begin_active_widget_list = cma->adv->begin_widget_list;
+  cma->adv->end_active_widget_list = pwindow->prev->prev;
+  cma->adv->active_widget_list = cma->adv->end_active_widget_list;
 
   area.w += adj_size(2);
   area.h += 1;
 
   if (count > 11) {
-    create_vertical_scrollbar(pCma->pAdv, 1, 11, FALSE, TRUE);
+    create_vertical_scrollbar(cma->adv, 1, 11, FALSE, TRUE);
 
     /* ------- window ------- */
     area.h = 11 * pwindow->prev->prev->size.h + adj_size(2)
-      + 2 * pCma->pAdv->scroll->up_left_button->size.h;
-    pCma->pAdv->scroll->up_left_button->size.w = area.w;
-    pCma->pAdv->scroll->down_right_button->size.w = area.w;
+      + 2 * cma->adv->scroll->up_left_button->size.h;
+    cma->adv->scroll->up_left_button->size.w = area.w;
+    cma->adv->scroll->down_right_button->size.w = area.w;
   }
 
   /* ----------------------------------- */
@@ -580,22 +587,22 @@ static void popup_load_del_presets_dialog(bool load, struct widget *button)
   buf->size.y = pwindow->size.y + adj_size(2);
 
   buf = buf->prev;
-  hh = (pCma->pAdv->scroll ? pCma->pAdv->scroll->up_left_button->size.h + 1 : 0);
+  hh = (cma->adv->scroll ? cma->adv->scroll->up_left_button->size.h + 1 : 0);
   setup_vertical_widgets_position(1, area.x + 1,
                                   area.y + 1 + hh, area.w - 1, 0,
-                                  pCma->pAdv->begin_active_widget_list, buf);
+                                  cma->adv->begin_active_widget_list, buf);
 
-  if (pCma->pAdv->scroll) {
-    pCma->pAdv->scroll->up_left_button->size.x = area.x;
-    pCma->pAdv->scroll->up_left_button->size.y = area.y;
-    pCma->pAdv->scroll->down_right_button->size.x = area.x;
-    pCma->pAdv->scroll->down_right_button->size.y =
-      area.y + area.h - pCma->pAdv->scroll->down_right_button->size.h;
+  if (cma->adv->scroll) {
+    cma->adv->scroll->up_left_button->size.x = area.x;
+    cma->adv->scroll->up_left_button->size.y = area.y;
+    cma->adv->scroll->down_right_button->size.x = area.x;
+    cma->adv->scroll->down_right_button->size.y =
+      area.y + area.h - cma->adv->scroll->down_right_button->size.h;
   }
 
   /* ==================================================== */
   /* redraw */
-  redraw_group(pCma->pAdv->begin_widget_list, pwindow, 0);
+  redraw_group(cma->adv->begin_widget_list, pwindow, 0);
 
   widget_flush(pwindow);
 }
@@ -633,7 +640,7 @@ static int del_cma_callback(struct widget *pwidget)
 static int run_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    cma_put_city_under_agent(pCma->pcity, &pCma->edited_cm_parm);
+    cma_put_city_under_agent(cma->pcity, &cma->edited_cm_parm);
     update_city_cma_dialog();
   }
 
@@ -650,9 +657,9 @@ static int run_cma_once_callback(struct widget *pwidget)
 
     update_city_cma_dialog();
     /* fill in result label */
-    result = cm_result_new(pCma->pcity);
-    cm_query_result(pCma->pcity, &pCma->edited_cm_parm, result, FALSE);
-    cma_apply_result(pCma->pcity, result);
+    result = cm_result_new(cma->pcity);
+    cm_query_result(cma->pcity, &cma->edited_cm_parm, result, FALSE);
+    cma_apply_result(cma->pcity, result);
     cm_result_destroy(result);
   }
 
@@ -665,7 +672,7 @@ static int run_cma_once_callback(struct widget *pwidget)
 static int stop_cma_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    cma_release_city(pCma->pcity);
+    cma_release_city(cma->pcity);
     update_city_cma_dialog();
   }
 
@@ -682,12 +689,12 @@ static void set_cma_hscrollbars(void)
   struct widget *pbuf;
   char cbuf[4];
 
-  if (!pCma) {
+  if (!cma) {
     return;
   }
 
   /* exit button */
-  pbuf = pCma->dlg->end_widget_list->prev;
+  pbuf = cma->dlg->end_widget_list->prev;
   output_type_iterate(i) {
     /* min label */
     pbuf = pbuf->prev;
@@ -697,7 +704,7 @@ static void set_cma_hscrollbars(void)
     /* min scrollbar */
     pbuf = pbuf->prev;
     pbuf->size.x = pbuf->next->size.x
-    	+ pbuf->next->size.w + adj_size(5) + adj_size(20) + *(int *)pbuf->data.ptr;
+        + pbuf->next->size.w + adj_size(5) + adj_size(20) + *(int *)pbuf->data.ptr;
 
     /* factor label */
     pbuf = pbuf->prev;
@@ -728,24 +735,24 @@ void update_city_cma_dialog(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   int count, step, i;
-  struct widget *buf = pCma->dlg->end_widget_list; /* pwindow */
+  struct widget *buf = cma->dlg->end_widget_list; /* pwindow */
   SDL_Surface *text;
   utf8_str *pstr;
   SDL_Rect dst;
   bool cma_presets_exist = cmafec_preset_num() > 0;
   bool client_under_control = can_client_issue_orders();
-  bool controlled = cma_is_city_under_agent(pCma->pcity, NULL);
-  struct cm_result *result = cm_result_new(pCma->pcity);
+  bool controlled = cma_is_city_under_agent(cma->pcity, NULL);
+  struct cm_result *result = cm_result_new(cma->pcity);
 
   /* redraw window background and exit button */
   redraw_group(buf->prev, buf, 0);
 
   /* fill in result label */
-  cm_result_from_main_map(result, pCma->pcity);
+  cm_result_from_main_map(result, cma->pcity);
 
   if (result->found_a_valid) {
     /* redraw Citizens */
-    count = city_size_get(pCma->pcity);
+    count = city_size_get(cma->pcity);
 
     text = get_tax_surface(O_LUXURY);
     step = (buf->size.w - adj_size(20)) / text->w;
@@ -787,8 +794,8 @@ void update_city_cma_dialog(void)
   }
 
   /* create result text surface */
-  pstr = create_utf8_from_char(cmafec_get_result_descr(pCma->pcity, result,
-                                                       &pCma->edited_cm_parm),
+  pstr = create_utf8_from_char(cmafec_get_result_descr(cma->pcity, result,
+                                                       &cma->edited_cm_parm),
                                adj_font(12));
 
   text = create_text_surf_from_utf8(pstr);
@@ -811,7 +818,7 @@ void update_city_cma_dialog(void)
   FREESURFACE(text);
 
   /* happy factor scrollbar */
-  buf = pCma->dlg->begin_widget_list->next->next->next->next->next->next->next;
+  buf = cma->dlg->begin_widget_list->next->next->next->next->next->next->next;
   if (client_under_control && get_checkbox_state(buf->prev)) {
     set_wstate(buf, FC_WS_NORMAL);
   } else {
@@ -867,10 +874,10 @@ void update_city_cma_dialog(void)
   }
 
   /* redraw rest widgets */
-  redraw_group(pCma->dlg->begin_widget_list,
-               pCma->dlg->end_widget_list->prev->prev, 0);
+  redraw_group(cma->dlg->begin_widget_list,
+               cma->dlg->end_widget_list->prev->prev, 0);
 
-  widget_flush(pCma->dlg->end_widget_list);
+  widget_flush(cma->dlg->end_widget_list);
 
   cm_result_destroy(result);
 }
@@ -883,24 +890,24 @@ void popup_city_cma_dialog(struct city *pcity)
   SDL_Color bg_color = {255, 255, 255, 136};
 
   struct widget *pwindow, *buf;
-  SDL_Surface *logo, *text[O_LAST + 1], *pMinimal, *pFactor;
+  SDL_Surface *logo, *text[O_LAST + 1], *minimal, *factor;
   SDL_Surface *pcity_map;
   utf8_str *pstr;
   char cbuf[128];
   int w, text_w, x, cs;
   SDL_Rect dst, area;
 
-  if (pCma) {
+  if (cma) {
     return;
   }
 
-  pCma = fc_calloc(1, sizeof(struct cma_dialog));
-  pCma->pcity = pcity;
-  pCma->dlg = fc_calloc(1, sizeof(struct small_dialog));
-  pCma->pAdv = NULL;
+  cma = fc_calloc(1, sizeof(struct cma_dialog));
+  cma->pcity = pcity;
+  cma->dlg = fc_calloc(1, sizeof(struct small_dialog));
+  cma->adv = NULL;
   pcity_map = get_scaled_city_map(pcity);
 
-  cmafec_get_fe_parameter(pcity, &pCma->edited_cm_parm);
+  cmafec_get_fe_parameter(pcity, &cma->edited_cm_parm);
 
   /* --------------------------- */
 
@@ -918,7 +925,7 @@ void popup_city_cma_dialog(struct city *pcity)
   pwindow->action = cma_dlg_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
   add_to_gui_list(ID_WINDOW, pwindow);
-  pCma->dlg->end_widget_list = pwindow;
+  cma->dlg->end_widget_list = pwindow;
 
   area = pwindow->area;
 
@@ -939,10 +946,10 @@ void popup_city_cma_dialog(struct city *pcity)
   text_w = 0;
 
   copy_chars_to_utf8_str(pstr, _("Minimal Surplus"));
-  pMinimal = create_text_surf_from_utf8(pstr);
+  minimal = create_text_surf_from_utf8(pstr);
 
   copy_chars_to_utf8_str(pstr, _("Factor"));
-  pFactor = create_text_surf_from_utf8(pstr);
+  factor = create_text_surf_from_utf8(pstr);
 
   /* ---------- */
   output_type_iterate(i) {
@@ -962,7 +969,7 @@ void popup_city_cma_dialog(struct city *pcity)
                             (WF_RESTORE_BACKGROUND));
 
     buf->action = min_horiz_cma_callback;
-    buf->data.ptr = &pCma->edited_cm_parm.minimal_surplus[i];
+    buf->data.ptr = &cma->edited_cm_parm.minimal_surplus[i];
 
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -980,7 +987,7 @@ void popup_city_cma_dialog(struct city *pcity)
                             (WF_RESTORE_BACKGROUND));
 
     buf->action = factor_horiz_cma_callback;
-    buf->data.ptr = &pCma->edited_cm_parm.factor[i];
+    buf->data.ptr = &cma->edited_cm_parm.factor[i];
 
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1003,7 +1010,7 @@ void popup_city_cma_dialog(struct city *pcity)
                           (WF_RESTORE_BACKGROUND));
 
   buf->action = factor_horiz_cma_callback;
-  buf->data.ptr = &pCma->edited_cm_parm.happy_factor;
+  buf->data.ptr = &cma->edited_cm_parm.happy_factor;
 
   set_wstate(buf, FC_WS_NORMAL);
 
@@ -1011,7 +1018,8 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* celebrating */
   buf = create_checkbox(pwindow->dst,
-                        pCma->edited_cm_parm.require_happy, WF_RESTORE_BACKGROUND);
+                        cma->edited_cm_parm.require_happy,
+                        WF_RESTORE_BACKGROUND);
 
   set_wstate(buf, FC_WS_NORMAL);
   buf->action = toggle_cma_celebrating_callback;
@@ -1069,7 +1077,7 @@ void popup_city_cma_dialog(struct city *pcity)
   add_to_gui_list(ID_ICON, buf);
 
   /* -------------------------------- */
-  pCma->dlg->begin_widget_list = buf;
+  cma->dlg->begin_widget_list = buf;
 
 #ifdef SMALL_SCREEN
   area.w = MAX(pcity_map->w + adj_size(220) + text_w + adj_size(10) +
@@ -1131,12 +1139,12 @@ void popup_city_cma_dialog(struct city *pcity)
                get_theme_color(COLOR_THEME_CMA_FRAME));
 
   area.x = dst.x + text_w + adj_size(10);
-  alphablit(pMinimal, NULL, pwindow->theme, &area, 255);
-  area.x += pMinimal->w + adj_size(10);
-  FREESURFACE(pMinimal);
+  alphablit(minimal, NULL, pwindow->theme, &area, 255);
+  area.x += minimal->w + adj_size(10);
+  FREESURFACE(minimal);
 
-  alphablit(pFactor, NULL, pwindow->theme, &area, 255);
-  FREESURFACE(pFactor);
+  alphablit(factor, NULL, pwindow->theme, &area, 255);
+  FREESURFACE(factor);
 
   area.x = pwindow->area.x + adj_size(22);
   area.y = pwindow->area.y + adj_size(31);
@@ -1263,7 +1271,7 @@ void popup_city_cma_dialog(struct city *pcity)
 
   /* ------------------------ */
   /* check if Citizen Icons style was loaded */
-  cs = style_of_city(pCma->pcity);
+  cs = style_of_city(cma->pcity);
 
   if (cs != icons->style) {
     reload_citizens_icons(cs);
@@ -1278,23 +1286,23 @@ void popup_city_cma_dialog(struct city *pcity)
 **************************************************************************/
 void popdown_city_cma_dialog(void)
 {
-  if (pCma) {
-    popdown_window_group_dialog(pCma->dlg->begin_widget_list,
-                                pCma->dlg->end_widget_list);
-    FC_FREE(pCma->dlg);
-    if (pCma->pAdv) {
-      del_group_of_widgets_from_gui_list(pCma->pAdv->begin_widget_list,
-                                         pCma->pAdv->end_widget_list);
-      FC_FREE(pCma->pAdv->scroll);
-      FC_FREE(pCma->pAdv);
+  if (cma) {
+    popdown_window_group_dialog(cma->dlg->begin_widget_list,
+                                cma->dlg->end_widget_list);
+    FC_FREE(cma->dlg);
+    if (cma->adv) {
+      del_group_of_widgets_from_gui_list(cma->adv->begin_widget_list,
+                                         cma->adv->end_widget_list);
+      FC_FREE(cma->adv->scroll);
+      FC_FREE(cma->adv);
     }
-    if (city_dialog_is_open(pCma->pcity)) {
+    if (city_dialog_is_open(cma->pcity)) {
       /* enable city dlg */
       enable_city_dlg_widgets();
-      refresh_city_dialog(pCma->pcity);
+      refresh_city_dialog(cma->pcity);
     }
 
     city_report_dialog_update();
-    FC_FREE(pCma);
+    FC_FREE(cma);
   }
 }
