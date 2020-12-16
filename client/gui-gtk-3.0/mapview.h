@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,6 +38,8 @@ gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
                               gpointer data);
 
 void put_unit_gpixmap(struct unit *punit, GtkPixcomm *p);
+
+void put_unit_image(struct unit *punit, GtkImage *p);
 
 void put_unit_gpixmap_city_overlays(struct unit *punit, GtkPixcomm *p,
                                     int *upkeep_cost, int happy_cost);
