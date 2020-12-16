@@ -142,13 +142,13 @@ static int redraw_icon2(struct widget *icon)
 /**********************************************************************//**
   Set new theme and callculate new size.
 **************************************************************************/
-void set_new_icon_theme(struct widget *icon_widget, SDL_Surface *pNew_Theme)
+void set_new_icon_theme(struct widget *icon_widget, SDL_Surface *new_theme)
 {
-  if ((pNew_Theme) && (icon_widget)) {
+  if ((new_theme) && (icon_widget)) {
     FREESURFACE(icon_widget->theme);
-    icon_widget->theme = pNew_Theme;
-    icon_widget->size.w = pNew_Theme->w / 4;
-    icon_widget->size.h = pNew_Theme->h;
+    icon_widget->theme = new_theme;
+    icon_widget->size.w = new_theme->w / 4;
+    icon_widget->size.h = new_theme->h;
   }
 }
 
@@ -314,16 +314,16 @@ SDL_Surface *create_icon_from_theme(SDL_Surface *icon_theme, Uint8 state)
 /**********************************************************************//**
   Set new theme and calculate new size.
 **************************************************************************/
-void set_new_icon2_theme(struct widget *icon_widget, SDL_Surface *pNew_Theme,
+void set_new_icon2_theme(struct widget *icon_widget, SDL_Surface *new_theme,
                          bool free_old_theme)
 {
-  if ((pNew_Theme) && (icon_widget)) {
+  if ((new_theme) && (icon_widget)) {
     if (free_old_theme) {
       FREESURFACE(icon_widget->theme);
     }
-    icon_widget->theme = pNew_Theme;
-    icon_widget->size.w = pNew_Theme->w + adj_size(4);
-    icon_widget->size.h = pNew_Theme->h + adj_size(4);
+    icon_widget->theme = new_theme;
+    icon_widget->size.w = new_theme->w + adj_size(4);
+    icon_widget->size.h = new_theme->h + adj_size(4);
   }
 }
 

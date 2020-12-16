@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #ifndef FC__CONNECTDLG_H
 #define FC__CONNECTDLG_H
 
+/* client/include */
 #include "connectdlg_g.h"
 
 void popup_connection_dialog(bool lan_scan);

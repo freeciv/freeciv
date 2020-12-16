@@ -58,17 +58,17 @@
 
 #include "connectdlg.h"
 
-static struct server_list *pServer_list = NULL;
-static struct server_scan *pServer_scan = NULL;
+static struct server_list *server_list = NULL;
+static struct server_scan *server_scan = NULL;
 
-static struct advanced_dialog *pMeta_Server = NULL;
+static struct advanced_dialog *meta_server = NULL;
 static struct small_dialog *connect_dlg = NULL;
 
 static int connect_callback(struct widget *pwidget);
 static int convert_portnr_callback(struct widget *pwidget);
 static int convert_playername_callback(struct widget *pwidget);
 static int convert_servername_callback(struct widget *pwidget);
-static void popup_new_user_passwd_dialog(const char *pMessage);
+static void popup_new_user_passwd_dialog(const char *message);
 
 /*
   THESE FUNCTIONS ARE ONE BIG TMP SOLUTION AND SHOULD BE FULLY REWRITTEN !!
@@ -125,9 +125,9 @@ static int exit_meta_server_dlg_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     queue_flush();
 
-    server_scan_finish(pServer_scan);
-    pServer_scan = NULL;
-    pServer_list = NULL;
+    server_scan_finish(server_scan);
+    server_scan = NULL;
+    server_list = NULL;
 
     set_client_page(PAGE_NETWORK);
     meswin_dialog_popup(TRUE);
@@ -142,10 +142,10 @@ static int exit_meta_server_dlg_callback(struct widget *pwidget)
 static int select_meta_servers_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct server *pServer = (struct server *)pwidget->data.ptr;
+    struct server *server = (struct server *)pwidget->data.ptr;
 
-    sz_strlcpy(server_host, pServer->host);
-    server_port = pServer->port;
+    sz_strlcpy(server_host, server->host);
+    server_port = server->port;
 
     exit_meta_server_dlg_callback(NULL);
   }
@@ -164,14 +164,14 @@ static void server_scan_error(struct server_scan *scan,
 
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
-    server_scan_finish(pServer_scan);
-    pServer_scan = NULL;
-    pServer_list = NULL;
+    server_scan_finish(server_scan);
+    server_scan = NULL;
+    server_list = NULL;
     break;
   case SERVER_SCAN_GLOBAL:
-    server_scan_finish(pServer_scan);
-    pServer_scan = NULL;
-    pServer_list = NULL;
+    server_scan_finish(server_scan);
+    server_scan = NULL;
+    server_list = NULL;
     break;
   case SERVER_SCAN_LAST:
     break;
@@ -189,20 +189,20 @@ static struct srv_list *sdl_create_server_list(bool lan)
   int i;
 
   if (lan) {
-    pServer_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
+    server_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);
   } else {
-    pServer_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
+    server_scan = server_scan_begin(SERVER_SCAN_GLOBAL, server_scan_error);
   }
 
-  if (!pServer_scan) {
+  if (!server_scan) {
     return NULL;
   }
 
   SDL_Delay(5000);
 
   for (i = 0; i < 100; i++) {
-    server_scan_poll(pServer_scan);
-    list = server_scan_get_list(pServer_scan);
+    server_scan_poll(server_scan);
+    list = server_scan_get_list(server_scan);
     if (list) {
       break;
     }
@@ -220,7 +220,7 @@ void popup_connection_dialog(bool lan_scan)
   SDL_Color bg_color = {255, 255, 255, 128};
   char cbuf[512];
   int w = 0, h = 0, count = 0, meta_h;
-  struct widget *pNewWidget, *pwindow, *label_window;
+  struct widget *new_widget, *pwindow, *label_window;
   utf8_str *pstr;
   SDL_Surface *logo;
   SDL_Rect area, area2;
@@ -240,13 +240,13 @@ void popup_connection_dialog(bool lan_scan)
   pstr = create_utf8_from_char(cbuf, adj_font(16));
   pstr->style = TTF_STYLE_BOLD;
   pstr->bgcol = (SDL_Color) {0, 0, 0, 0};
-  pNewWidget = create_iconlabel(NULL, label_window->dst, pstr,
+  new_widget = create_iconlabel(NULL, label_window->dst, pstr,
                 (WF_RESTORE_BACKGROUND | WF_DRAW_TEXT_LABEL_WITH_SPACE));
-  add_to_gui_list(ID_LABEL, pNewWidget);
+  add_to_gui_list(ID_LABEL, new_widget);
 
-  area.w = MAX(area.w, pNewWidget->size.w + (adj_size(60) -
+  area.w = MAX(area.w, new_widget->size.w + (adj_size(60) -
                        (label_window->size.w - label_window->area.w)));
-  area.h += pNewWidget->size.h + (adj_size(30) -
+  area.h += new_widget->size.h + (adj_size(30) -
             (label_window->size.w - label_window->area.w));
 
   resize_window(label_window, NULL, &bg_color,
@@ -259,31 +259,31 @@ void popup_connection_dialog(bool lan_scan)
                       (main_window_width() - label_window->size.w) / 2,
                       (main_window_height() - label_window->size.h) / 2);
 
-  widget_set_area(pNewWidget, area);
-  widget_set_position(pNewWidget,
-                      area.x + (area.w - pNewWidget->size.w) / 2,
-                      area.y + (area.h - pNewWidget->size.h) / 2);
+  widget_set_area(new_widget, area);
+  widget_set_position(new_widget,
+                      area.x + (area.w - new_widget->size.w) / 2,
+                      area.y + (area.h - new_widget->size.h) / 2);
 
-  redraw_group(pNewWidget, label_window, TRUE);
+  redraw_group(new_widget, label_window, TRUE);
   flush_dirty();
 
   /* create server list */
   srvrs = sdl_create_server_list(lan_scan);
 
   /* Copy list */
-  pServer_list = server_list_new();
+  server_list = server_list_new();
   fc_allocate_mutex(&srvrs->mutex);
   server_list_iterate(srvrs->servers, pserver) {
-    server_list_append(pServer_list, pserver);
+    server_list_append(server_list, pserver);
   } server_list_iterate_end;
   fc_release_mutex(&srvrs->mutex);
 
   /* clear label */
-  popdown_window_group_dialog(pNewWidget, label_window);
+  popdown_window_group_dialog(new_widget, label_window);
 
   meswin_dialog_popup(TRUE);
 
-  if (!pServer_list) {
+  if (!server_list) {
     if (lan_scan) {
       output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
@@ -294,7 +294,7 @@ void popup_connection_dialog(bool lan_scan)
   }
 
   /* Server list window */
-  pMeta_Server = fc_calloc(1, sizeof(struct advanced_dialog));
+  meta_server = fc_calloc(1, sizeof(struct advanced_dialog));
 
   pwindow = create_window_skeleton(NULL, NULL, 0);
   pwindow->action = meta_server_window_callback;
@@ -305,45 +305,45 @@ void popup_connection_dialog(bool lan_scan)
   } else {
     add_to_gui_list(ID_META_SERVERS_WINDOW, pwindow);
   }
-  pMeta_Server->end_widget_list = pwindow;
+  meta_server->end_widget_list = pwindow;
 
   area = pwindow->area;
 
   /* Cancel button */
-  pNewWidget = create_themeicon_button_from_chars(current_theme->cancel_icon,
+  new_widget = create_themeicon_button_from_chars(current_theme->cancel_icon,
                                                   pwindow->dst, _("Cancel"),
                                                   adj_font(14), 0);
-  pNewWidget->action = exit_meta_server_dlg_callback;
-  set_wstate(pNewWidget, FC_WS_NORMAL);
-  add_to_gui_list(ID_BUTTON, pNewWidget);
+  new_widget->action = exit_meta_server_dlg_callback;
+  set_wstate(new_widget, FC_WS_NORMAL);
+  add_to_gui_list(ID_BUTTON, new_widget);
 
   /* servers */
-  server_list_iterate(pServer_list, pServer) {
+  server_list_iterate(server_list, server) {
 
     /* TRANS: "host.example.com Port 5556 Ver: 2.6.0 Running Players 3\n
      * [server message]" */
     fc_snprintf(cbuf, sizeof(cbuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
-                pServer->host, pServer->port, pServer->version, _(pServer->state),
-                Q_("?header:Players"), pServer->nplayers, pServer->message);
+                server->host, server->port, server->version, _(server->state),
+                Q_("?header:Players"), server->nplayers, server->message);
 
-    pNewWidget = create_iconlabel_from_chars(NULL, pwindow->dst, cbuf, adj_font(10),
+    new_widget = create_iconlabel_from_chars(NULL, pwindow->dst, cbuf, adj_font(10),
                      WF_FREE_STRING|WF_DRAW_TEXT_LABEL_WITH_SPACE|WF_RESTORE_BACKGROUND);
 
-    pNewWidget->string_utf8->style |= SF_CENTER;
-    pNewWidget->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
+    new_widget->string_utf8->style |= SF_CENTER;
+    new_widget->string_utf8->bgcol = (SDL_Color) {0, 0, 0, 0};
 
-    pNewWidget->action = select_meta_servers_callback;
-    set_wstate(pNewWidget, FC_WS_NORMAL);
-    pNewWidget->data.ptr = (void *)pServer;
+    new_widget->action = select_meta_servers_callback;
+    set_wstate(new_widget, FC_WS_NORMAL);
+    new_widget->data.ptr = (void *)server;
 
-    add_to_gui_list(ID_BUTTON, pNewWidget);
+    add_to_gui_list(ID_BUTTON, new_widget);
 
-    w = MAX(w, pNewWidget->size.w);
-    h = MAX(h, pNewWidget->size.h);
+    w = MAX(w, new_widget->size.w);
+    h = MAX(h, new_widget->size.h);
     count++;
 
     if (count > 10) {
-      set_wflag(pNewWidget, WF_HIDDEN);
+      set_wflag(new_widget, WF_HIDDEN);
     }
 
   } server_list_iterate_end;
@@ -358,15 +358,15 @@ void popup_connection_dialog(bool lan_scan)
     return;
   }
 
-  pMeta_Server->begin_widget_list = pNewWidget;
-  pMeta_Server->begin_active_widget_list = pMeta_Server->begin_widget_list;
-  pMeta_Server->end_active_widget_list = pMeta_Server->end_widget_list->prev->prev;
-  pMeta_Server->active_widget_list = pMeta_Server->end_active_widget_list;
+  meta_server->begin_widget_list = new_widget;
+  meta_server->begin_active_widget_list = meta_server->begin_widget_list;
+  meta_server->end_active_widget_list = meta_server->end_widget_list->prev->prev;
+  meta_server->active_widget_list = meta_server->end_active_widget_list;
 
   if (count > 10) {
     meta_h = 10 * h;
 
-    count = create_vertical_scrollbar(pMeta_Server, 1, 10, TRUE, TRUE);
+    count = create_vertical_scrollbar(meta_server, 1, 10, TRUE, TRUE);
     w += count;
   } else {
     meta_h = count * h;
@@ -375,7 +375,7 @@ void popup_connection_dialog(bool lan_scan)
   w += adj_size(20);
   area2.h = meta_h;
 
-  meta_h += pMeta_Server->end_widget_list->prev->size.h + adj_size(10) + adj_size(20);
+  meta_h += meta_server->end_widget_list->prev->size.h + adj_size(10) + adj_size(20);
 
   logo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
   if (resize_window(pwindow, logo, NULL, w, meta_h)) {
@@ -392,42 +392,42 @@ void popup_connection_dialog(bool lan_scan)
 
   area2.w = w + 1;
 
-  if (pMeta_Server->scroll) {
+  if (meta_server->scroll) {
     w -= count;
   }
 
   /* exit button */
-  pNewWidget = pwindow->prev;
-  pNewWidget->size.x = area.x + area.w - pNewWidget->size.w - adj_size(10);
-  pNewWidget->size.y = area.y + area.h - pNewWidget->size.h - adj_size(10);
+  new_widget = pwindow->prev;
+  new_widget->size.x = area.x + area.w - new_widget->size.w - adj_size(10);
+  new_widget->size.y = area.y + area.h - new_widget->size.h - adj_size(10);
 
   /* meta labels */
-  pNewWidget = pNewWidget->prev;
+  new_widget = new_widget->prev;
 
-  pNewWidget->size.x = area.x + adj_size(10);
-  pNewWidget->size.y = area.y + adj_size(10);
-  pNewWidget->size.w = w;
-  pNewWidget->size.h = h;
-  pNewWidget = convert_iconlabel_to_themeiconlabel2(pNewWidget);
+  new_widget->size.x = area.x + adj_size(10);
+  new_widget->size.y = area.y + adj_size(10);
+  new_widget->size.w = w;
+  new_widget->size.h = h;
+  new_widget = convert_iconlabel_to_themeiconlabel2(new_widget);
 
-  pNewWidget = pNewWidget->prev;
-  while (pNewWidget) {
-    pNewWidget->size.w = w;
-    pNewWidget->size.h = h;
-    pNewWidget->size.x = pNewWidget->next->size.x;
-    pNewWidget->size.y = pNewWidget->next->size.y + pNewWidget->next->size.h;
-    pNewWidget = convert_iconlabel_to_themeiconlabel2(pNewWidget);
+  new_widget = new_widget->prev;
+  while (new_widget) {
+    new_widget->size.w = w;
+    new_widget->size.h = h;
+    new_widget->size.x = new_widget->next->size.x;
+    new_widget->size.y = new_widget->next->size.y + new_widget->next->size.h;
+    new_widget = convert_iconlabel_to_themeiconlabel2(new_widget);
 
-    if (pNewWidget == pMeta_Server->begin_active_widget_list) {
+    if (new_widget == meta_server->begin_active_widget_list) {
       break;
     }
-    pNewWidget = pNewWidget->prev;
+    new_widget = new_widget->prev;
   }
 
-  if (pMeta_Server->scroll) {
-    setup_vertical_scrollbar_area(pMeta_Server->scroll,
+  if (meta_server->scroll) {
+    setup_vertical_scrollbar_area(meta_server->scroll,
                                   area.x + area.w - adj_size(6),
-                                  pMeta_Server->end_active_widget_list->size.y,
+                                  meta_server->end_active_widget_list->size.y,
                                   area.h - adj_size(24) - pwindow->prev->size.h, TRUE);
   }
 
@@ -436,8 +436,8 @@ void popup_connection_dialog(bool lan_scan)
 
   widget_redraw(pwindow);
 
-  area2.x = pMeta_Server->end_active_widget_list->size.x;
-  area2.y = pMeta_Server->end_active_widget_list->size.y;
+  area2.x = meta_server->end_active_widget_list->size.x;
+  area2.y = meta_server->end_active_widget_list->size.y;
 
   fill_rect_alpha(pwindow->dst->surface, &area2, &bg_color);
 
@@ -445,7 +445,7 @@ void popup_connection_dialog(bool lan_scan)
                area2.x - 1, area2.y - 1, area2.w, area2.h,
                get_theme_color(COLOR_THEME_CONNECTDLG_INNERFRAME));
 
-  redraw_group(pMeta_Server->begin_widget_list, pwindow->prev, 0);
+  redraw_group(meta_server->begin_widget_list, pwindow->prev, 0);
 
   create_frame(pwindow->dst->surface,
                pwindow->size.x, pwindow->size.y,
@@ -501,14 +501,14 @@ static int convert_servername_callback(struct widget *pwidget)
 static int convert_portnr_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    char pCharPort[6];
+    char port_str[6];
 
     if (pwidget->string_utf8->text != NULL) {
       sscanf(pwidget->string_utf8->text, "%d", &server_port);
     } else {
       /* empty input -> restore previous content */
-      fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
-      copy_chars_to_utf8_str(pwidget->string_utf8, pCharPort);
+      fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
+      copy_chars_to_utf8_str(pwidget->string_utf8, port_str);
       widget_redraw(pwidget);
       widget_mark_dirty(pwidget);
       flush_dirty();
@@ -536,7 +536,7 @@ static int cancel_connect_dlg_callback(struct widget *pwidget)
 **************************************************************************/
 void popup_join_game_dialog(void)
 {
-  char pCharPort[6];
+  char port_str[6];
   struct widget *buf, *pwindow;
   utf8_str *plrname = NULL;
   utf8_str *srvname = NULL;
@@ -568,8 +568,9 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(20);
 
   /* player name edit */
-  buf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14), adj_size(210),
-                                (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
+  buf = create_edit_from_chars(NULL, pwindow->dst, user_name, adj_font(14),
+                               adj_size(210),
+                               (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
   buf->action = convert_playername_callback;
   set_wstate(buf, FC_WS_NORMAL);
   add_to_gui_list(ID_PLAYER_NAME_EDIT, buf);
@@ -584,8 +585,8 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(5);
 
   /* server name edit */
-  buf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14), adj_size(210),
-                                WF_RESTORE_BACKGROUND);
+  buf = create_edit_from_chars(NULL, pwindow->dst, server_host, adj_font(14),
+                               adj_size(210), WF_RESTORE_BACKGROUND);
 
   buf->action = convert_servername_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -601,10 +602,11 @@ void popup_join_game_dialog(void)
   area.h += buf->size.h + adj_size(5);
 
   /* port edit */
-  fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+  fc_snprintf(port_str, sizeof(port_str), "%d", server_port);
 
-  buf = create_edit_from_chars(NULL, pwindow->dst, pCharPort, adj_font(14), adj_size(210),
-                                WF_RESTORE_BACKGROUND);
+  buf = create_edit_from_chars(NULL, pwindow->dst, port_str, adj_font(14),
+                               adj_size(210),
+                               WF_RESTORE_BACKGROUND);
 
   buf->action = convert_portnr_callback;
   set_wstate(buf, FC_WS_NORMAL);
@@ -620,8 +622,9 @@ void popup_join_game_dialog(void)
   add_to_gui_list(ID_CONNECT_BUTTON, buf);
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon, pwindow->dst,
-                                           _("Cancel"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                           pwindow->dst, _("Cancel"),
+                                           adj_font(14), 0);
   buf->action = cancel_connect_dlg_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -707,7 +710,8 @@ void popup_join_game_dialog(void)
   buf->size.x = buf->next->size.x + buf->size.w + adj_size(40);
   buf->size.y = pos_y;
 
-  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list,
+               FALSE);
 
   flush_all();
 }
@@ -768,7 +772,7 @@ static int cancel_passwd_callback(struct widget *pwidget)
 /**********************************************************************//**
   Open password dialog.
 **************************************************************************/
-static void popup_user_passwd_dialog(const char *pMessage)
+static void popup_user_passwd_dialog(const char *message)
 {
   struct widget *buf, *pwindow;
   utf8_str *label_str = NULL;
@@ -789,7 +793,7 @@ static void popup_user_passwd_dialog(const char *pMessage)
   area = pwindow->area;
 
   /* text label */
-  label_str = create_utf8_from_char(pMessage, adj_font(12));
+  label_str = create_utf8_from_char(message, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   buf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -881,7 +885,8 @@ static void popup_user_passwd_dialog(const char *pMessage)
                       buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list,
+               FALSE);
 
   flush_all();
 }
@@ -931,7 +936,7 @@ static int convert_second_passwd_callback(struct widget *pwidget)
 /**********************************************************************//**
   Open dialog for new password.
 **************************************************************************/
-static void popup_new_user_passwd_dialog(const char *pMessage)
+static void popup_new_user_passwd_dialog(const char *message)
 {
   struct widget *buf, *pwindow;
   utf8_str *label_str = NULL;
@@ -952,7 +957,7 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   area = pwindow->area;
 
   /* text label */
-  label_str = create_utf8_from_char(pMessage, adj_font(12));
+  label_str = create_utf8_from_char(message, adj_font(12));
   label_str->fgcol = *get_theme_color(COLOR_THEME_USERPASSWDDLG_TEXT);
   buf = create_iconlabel(NULL, pwindow->dst, label_str,
                           (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -984,8 +989,9 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
   add_to_gui_list(ID_BUTTON, buf);
 
   /* Cancel button */
-  buf = create_themeicon_button_from_chars(current_theme->cancel_icon, pwindow->dst,
-                                           _("Cancel"), adj_font(14), 0);
+  buf = create_themeicon_button_from_chars(current_theme->cancel_icon,
+                                           pwindow->dst, _("Cancel"),
+                                           adj_font(14), 0);
   buf->action = cancel_passwd_callback;
   set_wstate(buf, FC_WS_NORMAL);
   buf->key = SDLK_ESCAPE;
@@ -1057,7 +1063,8 @@ static void popup_new_user_passwd_dialog(const char *pMessage)
                       buf->next->size.x + buf->size.w + adj_size(40),
                       start_button_y);
 
-  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list, FALSE);
+  redraw_group(connect_dlg->begin_widget_list, connect_dlg->end_widget_list,
+               FALSE);
 
   flush_all();
 }
@@ -1074,16 +1081,16 @@ void close_connection_dialog(void)
                                 connect_dlg->end_widget_list);
     FC_FREE(connect_dlg);
   }
-  if (pMeta_Server) {
-    popdown_window_group_dialog(pMeta_Server->begin_widget_list,
-                                pMeta_Server->end_widget_list);
-    FC_FREE(pMeta_Server->scroll);
-    FC_FREE(pMeta_Server);
+  if (meta_server) {
+    popdown_window_group_dialog(meta_server->begin_widget_list,
+                                meta_server->end_widget_list);
+    FC_FREE(meta_server->scroll);
+    FC_FREE(meta_server);
 
-    if (pServer_list) {
-      server_scan_finish(pServer_scan);
-      pServer_scan = NULL;
-      pServer_list = NULL;
+    if (server_list) {
+      server_scan_finish(server_scan);
+      server_scan = NULL;
+      server_list = NULL;
     }
   }
 }

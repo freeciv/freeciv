@@ -235,18 +235,18 @@ int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
 SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
                                     SDL_Rect *prect)
 {
-  SDL_Surface *pNew = create_surf_with_format(psource->format,
+  SDL_Surface *new_surf = create_surf_with_format(psource->format,
                                               prect ? prect->w : psource->w,
                                               prect ? prect->h : psource->h,
                                               SDL_SWSURFACE);
 
-  if (alphablit(psource, prect, pNew, NULL, 255) != 0) {
-    FREESURFACE(pNew);
+  if (alphablit(psource, prect, new_surf, NULL, 255) != 0) {
+    FREESURFACE(new_surf);
 
     return NULL;
   }
 
-  return pNew;
+  return new_surf;
 }
 
 /**********************************************************************//**
@@ -367,12 +367,12 @@ SDL_Surface *convert_surf(SDL_Surface *surf_in)
 SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
                                    SDL_Color *pColor)
 {
-  SDL_Surface *pNew;
+  SDL_Surface *new_surf;
   SDL_Color color = {255, 255, 255, 128};
 
-  pNew = create_surf(w, h, iFlags);
+  new_surf = create_surf(w, h, iFlags);
 
-  if (!pNew) {
+  if (!new_surf) {
     return NULL;
   }
 
@@ -381,15 +381,15 @@ SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
     pColor = &color;
   }
 
-  SDL_FillRect(pNew, NULL,
-               SDL_MapRGBA(pNew->format, pColor->r, pColor->g, pColor->b,
+  SDL_FillRect(new_surf, NULL,
+               SDL_MapRGBA(new_surf->format, pColor->r, pColor->g, pColor->b,
                            pColor->a));
 
   if (pColor->a != 255) {
-    SDL_SetSurfaceAlphaMod(pNew, pColor->a);
+    SDL_SetSurfaceAlphaMod(new_surf, pColor->a);
   }
 
-  return pNew;
+  return new_surf;
 }
 
 /**********************************************************************//**
