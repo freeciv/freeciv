@@ -50,7 +50,7 @@ static QRect check_box_rect(const QStyleOptionViewItem
 }
 
 /**********************************************************************//**
-  Slighty increase deafult cell height
+  Slighty increase default cell height
 **************************************************************************/
 QSize plr_item_delegate::sizeHint(const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const
@@ -64,7 +64,7 @@ QSize plr_item_delegate::sizeHint(const QStyleOptionViewItem &option,
 }
 
 /**********************************************************************//**
-  Paint evenet for custom player item delegation
+  Paint event for custom player item delegation
 **************************************************************************/
 void plr_item_delegate::paint(QPainter *painter, const QStyleOptionViewItem
                               &option, const QModelIndex &index) const
