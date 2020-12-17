@@ -5,6 +5,8 @@ if not get_option('ack_experimental')
   error('Autotools are still the only fully supported way to build freeciv.\nSet configure option "ack_experimental" to true if you really want to do experimental meson build.')
 endif
 
+add_global_arguments('-Wno-nonnull-compare', language : 'c')
+
 add_global_arguments('-fPIC', language : 'cpp')
 add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
 
