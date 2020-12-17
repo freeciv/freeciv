@@ -6,6 +6,7 @@ if not get_option('ack_experimental')
 endif
 
 add_global_arguments('-fPIC', language : 'cpp')
+add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
 
 host_system = host_machine.system()
 
