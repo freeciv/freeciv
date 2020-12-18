@@ -75,7 +75,7 @@
 /* If this is uncommented, research loop runs without limit on iterations. */
 /* #define CM_LOOP_NO_LIMIT */
 
-/* Maximal iterations before the search loop is stoped, or until warning is
+/* Maximal iterations before the search loop is stopped, or until warning is
  * printed if CM_LOOP_NO_LIMIT is defined. */
 #define CM_MAX_LOOP 27500
 
