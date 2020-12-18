@@ -1052,7 +1052,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   utf8_str *pstr = NULL;
   struct widget *buf = NULL, *pwindow, *last;
   SDL_Surface *text = NULL, *text_name = NULL, *zoomed = NULL;
-  SDL_Surface *pMain;
+  SDL_Surface *main_surf;
   SDL_Surface *icon;
   SDL_Rect dst;
   char cbuf[128];
@@ -1092,11 +1092,11 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
   /* --------------- */
   /* create Target Background Icon */
-  pMain = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
-  SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
+  main_surf = create_surf(adj_size(116), adj_size(116), SDL_SWSURFACE);
+  SDL_FillRect(main_surf, NULL, map_rgba(main_surf->format, bg_color));
 
-  create_frame(pMain,
-               0, 0, pMain->w - 1, pMain->h - 1,
+  create_frame(main_surf,
+               0, 0, main_surf->w - 1, main_surf->h - 1,
                get_theme_color(COLOR_THEME_WLDLG_FRAME));
 
   /* ---------------- */
@@ -1406,7 +1406,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     if ((advanced_tech && can_eventually_build)
         || (!advanced_tech && can_build)) {
 
-      icon = crop_rect_from_surface(pMain, NULL);
+      icon = crop_rect_from_surface(main_surf, NULL);
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s", improvement_name_translation(pimprove));
       copy_chars_to_utf8_str(pstr, cbuf);
@@ -1562,7 +1562,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
       punittype = un;
 
-      icon = crop_rect_from_surface(pMain, NULL);
+      icon = crop_rect_from_surface(main_surf, NULL);
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s", utype_name_translation(un));
 
@@ -1815,7 +1815,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
  
   /* ----------------------------------- */
   FREEUTF8STR(pstr);
-  FREESURFACE(pMain);
+  FREESURFACE(main_surf);
 
   redraw_group(editor->begin_widget_list, pwindow, 0);
   widget_flush(pwindow);

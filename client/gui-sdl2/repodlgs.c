@@ -1813,7 +1813,7 @@ void economy_report_dialog_popup(bool make_modal)
   struct improvement_entry entries[B_LAST];
   SDL_Rect dst;
   SDL_Rect area;
-  struct government *pGov = government_of_player(client.conn.playing);
+  struct government *gov = government_of_player(client.conn.playing);
   SDL_Surface *pTreasuryText;
   SDL_Surface *pTaxRateText;
   SDL_Surface *pTotalIncomeText;
@@ -1948,7 +1948,7 @@ void economy_report_dialog_popup(bool make_modal)
 
   /* gov and taxrate */
   fc_snprintf(cbuf, sizeof(cbuf), _("%s max rate : %d%%"),
-              government_name_translation(pGov),
+              government_name_translation(gov),
               get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   copy_chars_to_utf8_str(pstr2, cbuf);
   pMaxRateText = create_text_surf_from_utf8(pstr2);

@@ -93,36 +93,36 @@ enum widget_flag get_wflags(const struct widget *pwidget)
 **************************************************************************/
 void widget_free(struct widget **pwidget)
 {
-  struct widget *pGUI = *pwidget;
+  struct widget *gui = *pwidget;
 
-  if (get_wflags(pGUI) & WF_FREE_STRING) {
-    FREEUTF8STR(pGUI->string_utf8);
+  if (get_wflags(gui) & WF_FREE_STRING) {
+    FREEUTF8STR(gui->string_utf8);
   }
-  if (get_wflags(pGUI) & WF_WIDGET_HAS_INFO_LABEL) {
-    FREEUTF8STR(pGUI->info_label);
+  if (get_wflags(gui) & WF_WIDGET_HAS_INFO_LABEL) {
+    FREEUTF8STR(gui->info_label);
   }
-  if (get_wflags(pGUI) & WF_FREE_GFX) {
-    FREESURFACE(pGUI->gfx);
+  if (get_wflags(gui) & WF_FREE_GFX) {
+    FREESURFACE(gui->gfx);
   }
-  if (get_wflags(pGUI) & WF_FREE_THEME) {
-    if (get_wtype(pGUI) == WT_CHECKBOX) {
-      FREESURFACE(pGUI->private_data.cbox->pTRUE_Theme);
-      FREESURFACE(pGUI->private_data.cbox->pFALSE_Theme);
+  if (get_wflags(gui) & WF_FREE_THEME) {
+    if (get_wtype(gui) == WT_CHECKBOX) {
+      FREESURFACE(gui->private_data.cbox->pTRUE_Theme);
+      FREESURFACE(gui->private_data.cbox->pFALSE_Theme);
     } else {
-      FREESURFACE(pGUI->theme);
+      FREESURFACE(gui->theme);
     }
   }
-  if (get_wflags(pGUI) & WF_FREE_THEME2) {
-    FREESURFACE(pGUI->theme2);
+  if (get_wflags(gui) & WF_FREE_THEME2) {
+    FREESURFACE(gui->theme2);
   }
-  if (get_wflags(pGUI) & WF_FREE_DATA) {
-    FC_FREE(pGUI->data.ptr);
+  if (get_wflags(gui) & WF_FREE_DATA) {
+    FC_FREE(gui->data.ptr);
   }
-  if (get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) {
-    FC_FREE(pGUI->private_data.ptr);
+  if (get_wflags(gui) & WF_FREE_PRIVATE_DATA) {
+    FC_FREE(gui->private_data.ptr);
   }
-  if (NULL != pGUI->destroy) {
-    pGUI->destroy(pGUI);
+  if (NULL != gui->destroy) {
+    gui->destroy(gui);
   }
 
   FC_FREE(*pwidget);

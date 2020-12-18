@@ -386,7 +386,7 @@ static int toggle_unit_info_window_callback(struct widget *icon_widget)
 static int toggle_map_window_callback(struct widget *map_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct unit *pFocus = head_of_units_in_focus();
+    struct unit *focus = head_of_units_in_focus();
     struct widget *pwidget;
 
     /* make new map icon */
@@ -395,7 +395,7 @@ static int toggle_map_window_callback(struct widget *map_button)
 
     set_wstate(minimap_window, FC_WS_NORMAL);
 
-    if (pFocus) {
+    if (focus) {
       undraw_order_widgets();
     }
 
@@ -507,7 +507,7 @@ static int toggle_map_window_callback(struct widget *map_button)
       }
     }
 
-    if (pFocus) {
+    if (focus) {
       update_order_widgets();
     }
 

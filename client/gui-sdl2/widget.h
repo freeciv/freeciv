@@ -196,8 +196,8 @@ void add_to_gui_list(Uint16 id, struct widget *gui);
 void del_widget_pointer_from_gui_list(struct widget *gui);
 void widget_add_as_prev(struct widget *new_widget, struct widget *add_dock);
 
-bool is_this_widget_first_on_list(struct widget *pGUI);
-void move_widget_to_front_of_gui_list(struct widget *pGUI);
+bool is_this_widget_first_on_list(struct widget *gui);
+void move_widget_to_front_of_gui_list(struct widget *gui);
 
 void del_gui_list(struct widget *gui_list);
 void del_main_list(void);
@@ -222,14 +222,14 @@ struct widget *get_widget_pointer_form_main_list(Uint16 id);
 
 #define enable(id)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(id);	\
-  set_wstate(____pGUI, FC_WS_NORMAL);				\
+  struct widget *____gui = get_widget_pointer_form_main_list(id);	\
+  set_wstate(____gui, FC_WS_NORMAL);				\
 } while (FALSE)
 
 #define disable(id)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(id);	\
-  set_wstate(____pGUI , FC_WS_DISABLED);				\
+  struct widget *____gui = get_widget_pointer_form_main_list(id);	\
+  set_wstate(____gui , FC_WS_DISABLED);				\
 } while (FALSE)
 
 #define show(id)	\
@@ -298,7 +298,7 @@ static inline void widget_undraw(struct widget *pwidget)
   pwidget->undraw(pwidget);
 }
 
-void widget_free(struct widget **pGUI);
+void widget_free(struct widget **gui);
 
 void refresh_widget_background(struct widget *pwidget);
 
@@ -369,10 +369,10 @@ int setup_vertical_widgets_position(int step,
                                     Uint16 w, Uint16 h,
                                     struct widget *begin, struct widget *end);
 
-#define del_widget_from_gui_list(__pGUI)	\
+#define del_widget_from_gui_list(__gui)	\
 do {						\
-  del_widget_pointer_from_gui_list(__pGUI);	\
-  FREEWIDGET(__pGUI);				\
+  del_widget_pointer_from_gui_list(__gui);	\
+  FREEWIDGET(__gui);				\
 } while (FALSE)
 
 #define del_ID_from_gui_list(ID)				\

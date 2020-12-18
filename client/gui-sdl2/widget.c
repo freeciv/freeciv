@@ -652,9 +652,9 @@ void del_widget_pointer_from_gui_list(struct widget *gui)
   NOTE: This is used by My (move) GUI Window mechanism.  Return TRUE if is
   first.
 **************************************************************************/
-bool is_this_widget_first_on_list(struct widget *pGUI)
+bool is_this_widget_first_on_list(struct widget *gui)
 {
-  return (begin_main_widget_list == pGUI);
+  return (begin_main_widget_list == gui);
 }
 
 /**********************************************************************//**
@@ -662,25 +662,25 @@ bool is_this_widget_first_on_list(struct widget *pGUI)
 
   NOTE: This is used by My GUI Window mechanism.
 **************************************************************************/
-void move_widget_to_front_of_gui_list(struct widget *pGUI)
+void move_widget_to_front_of_gui_list(struct widget *gui)
 {
-  if (!pGUI || pGUI == begin_main_widget_list) {
+  if (!gui || gui == begin_main_widget_list) {
     return;
   }
 
-  /* pGUI->prev always exists because
+  /* gui->prev always exists because
      we don't do this to begin_main_widget_list */
-  if (pGUI->next) {
-    pGUI->prev->next = pGUI->next;
-    pGUI->next->prev = pGUI->prev;
+  if (gui->next) {
+    gui->prev->next = gui->next;
+    gui->next->prev = gui->prev;
   } else {
-    pGUI->prev->next = NULL;
+    gui->prev->next = NULL;
   }
 
-  pGUI->next = begin_main_widget_list;
-  begin_main_widget_list->prev = pGUI;
-  begin_main_widget_list = pGUI;
-  pGUI->prev = NULL;
+  gui->next = begin_main_widget_list;
+  begin_main_widget_list->prev = gui;
+  begin_main_widget_list = gui;
+  gui->prev = NULL;
 }
 
 /**********************************************************************//**

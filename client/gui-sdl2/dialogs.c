@@ -494,6 +494,7 @@ static int exit_notify_dialog_callback(struct widget *pwidget)
       flush_dirty();
     }
   }
+
   return -1;
 }
 
@@ -505,7 +506,7 @@ void popup_notify_dialog(const char *caption, const char *headline,
 {
   struct widget *buf, *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pHeadline, *pLines;
+  SDL_Surface *headline_surf, *lines_surf;
   SDL_Rect dst;
   SDL_Rect area;
 
@@ -545,27 +546,27 @@ void popup_notify_dialog(const char *caption, const char *headline,
   pstr = create_utf8_from_char(headline, adj_font(16));
   pstr->style |= TTF_STYLE_BOLD;
 
-  pHeadline = create_text_surf_from_utf8(pstr);
+  headline_surf = create_text_surf_from_utf8(pstr);
 
   if (lines && *lines != '\0') {
     change_ptsize_utf8(pstr, adj_font(12));
     pstr->style &= ~TTF_STYLE_BOLD;
     copy_chars_to_utf8_str(pstr, lines);
-    pLines = create_text_surf_from_utf8(pstr);
+    lines_surf = create_text_surf_from_utf8(pstr);
   } else {
-    pLines = NULL;
+    lines_surf = NULL;
   }
 
   FREEUTF8STR(pstr);
 
-  area.w = MAX(area.w, pHeadline->w);
-  if (pLines) {
-    area.w = MAX(area.w, pLines->w);
+  area.w = MAX(area.w, headline_surf->w);
+  if (lines_surf) {
+    area.w = MAX(area.w, lines_surf->w);
   }
   area.w += adj_size(60);
-  area.h = MAX(area.h, adj_size(10) + pHeadline->h + adj_size(10));
-  if (pLines) {
-    area.h += pLines->h + adj_size(10);
+  area.h = MAX(area.h, adj_size(10) + headline_surf->h + adj_size(10));
+  if (lines_surf) {
+    area.h += lines_surf->h + adj_size(10);
   }
 
   resize_window(pwindow, NULL, get_theme_color(COLOR_THEME_BACKGROUND),
@@ -578,21 +579,21 @@ void popup_notify_dialog(const char *caption, const char *headline,
                       (main_window_width() - pwindow->size.w) / 2,
                       (main_window_height() - pwindow->size.h) / 2);
 
-  dst.x = area.x + (area.w - pHeadline->w) / 2;
+  dst.x = area.x + (area.w - headline_surf->w) / 2;
   dst.y = area.y + adj_size(10);
 
-  alphablit(pHeadline, NULL, pwindow->theme, &dst, 255);
-  if (pLines) {
-    dst.y += pHeadline->h + adj_size(10);
-    if (pHeadline->w < pLines->w) {
-      dst.x = area.x + (area.w - pLines->w) / 2;
+  alphablit(headline_surf, NULL, pwindow->theme, &dst, 255);
+  if (lines_surf) {
+    dst.y += headline_surf->h + adj_size(10);
+    if (headline_surf->w < lines_surf->w) {
+      dst.x = area.x + (area.w - lines_surf->w) / 2;
     }
 
-    alphablit(pLines, NULL, pwindow->theme, &dst, 255);
+    alphablit(lines_surf, NULL, pwindow->theme, &dst, 255);
   }
 
-  FREESURFACE(pHeadline);
-  FREESURFACE(pLines);
+  FREESURFACE(headline_surf);
+  FREESURFACE(lines_surf);
 
   /* exit button */
   buf = pwindow->prev;
@@ -617,6 +618,7 @@ static int upgrade_unit_window_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     move_window_group(unit_upgrade_dlg->begin_widget_list, pwindow);
   }
+
   return -1;
 }
 
@@ -631,6 +633,7 @@ static int cancel_upgrade_unit_callback(struct widget *pwidget)
     enable_city_dlg_widgets();
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -649,6 +652,7 @@ static int ok_upgrade_unit_window_callback(struct widget *pwidget)
     request_unit_upgrade(punit);
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -662,6 +666,7 @@ void popup_upgrade_dialog(struct unit_list *punits)
   /* Assume only one unit for now. */
   fc_assert_msg(unit_list_size(punits) <= 1,
                 "SDL2 popup_upgrade_dialog() handles max 1 unit.");
+
   popup_unit_upgrade_dlg(unit_list_get(punits, 0), FALSE);
 }
 
@@ -834,6 +839,7 @@ static int cancel_disband_unit_callback(struct widget *pwidget)
     enable_city_dlg_widgets();
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -852,6 +858,7 @@ static int ok_disband_unit_window_callback(struct widget *pwidget)
     request_unit_disband(punit);
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -1047,6 +1054,7 @@ static int unit_select_callback(struct widget *pwidget)
       unit_focus_set(punit);
     }
   }
+
   return -1;
 }
 
@@ -1073,13 +1081,13 @@ void unit_select_dialog_popup(struct tile *ptile)
 {
   struct widget *buf = NULL, *pwindow;
   utf8_str *pstr;
-  struct unit *punit = NULL, *pFocus = head_of_units_in_focus();
+  struct unit *punit = NULL, *focus = head_of_units_in_focus();
   const struct unit_type *punittype;
   char cbuf[255];
   int i, w = 0, n;
   SDL_Rect area;
 
-#define NUM_SEEN	20
+#define NUM_SEEN 20
 
   n = unit_list_size(ptile->units);
 
@@ -1149,7 +1157,7 @@ void unit_select_dialog_popup(struct tile *ptile)
                   (punit->hp * 100 / punittype->hp + 9) / 10);
 
       /* calculate chance to win */
-      if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus)) {
+      if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus)) {
         /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
         cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                      att_chance, def_chance);
@@ -1246,6 +1254,7 @@ static int terrain_info_window_dlg_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     move_window_group(terrain_info_dlg->begin_widget_list, pwindow);
   }
+
   return -1;
 }
 
@@ -1270,6 +1279,7 @@ static int exit_terrain_info_dialog_callback(struct widget *button)
   if (PRESSED_EVENT(main_data.event)) {
     popdown_terrain_info_dialog();
   }
+
   return -1;
 }
 
@@ -1404,6 +1414,7 @@ int advanced_terrain_window_dlg_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     move_window_group(advanced_terrain_dlg->begin_widget_list, pwindow);
   }
+
   return -1;
 }
 
@@ -1416,6 +1427,7 @@ int exit_advanced_terrain_dlg_callback(struct widget *pwidget)
     popdown_advanced_terrain_dialog();
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -1448,6 +1460,7 @@ static int zoom_to_city_callback(struct widget *pwidget)
 
     popup_city_dialog(pcity);
   }
+
   return -1;
 }
 
@@ -1462,6 +1475,7 @@ static int change_production_callback(struct widget *pwidget)
     popdown_advanced_terrain_dialog();
     popup_worklist_editor(pcity, NULL);
   }
+
   return -1;
 }
 
@@ -1477,6 +1491,7 @@ static int hurry_production_callback(struct widget *pwidget)
 
     popup_hurry_production_dialog(pcity, NULL);
   }
+
   return -1;
 }
 
@@ -1491,6 +1506,7 @@ static int cma_callback(struct widget *pwidget)
     popdown_advanced_terrain_dialog();
     popup_city_cma_dialog(pcity);
   }
+
   return -1;
 }
 
@@ -1509,6 +1525,7 @@ static int adv_unit_select_callback(struct widget *pwidget)
       unit_focus_set(punit);
     }
   }
+
   return -1;
 }
 
@@ -1526,6 +1543,7 @@ static int adv_unit_select_all_callback(struct widget *pwidget)
       activate_all_units(unit_tile(punit));
     }
   }
+
   return -1;
 }
 
@@ -1587,7 +1605,7 @@ static int patrol_here_callback(struct widget *pwidget)
     int x = pwidget->data.cont->id0;
     int y = pwidget->data.cont->id1;
     struct unit *punit = head_of_units_in_focus();
-#endif
+#endif /* 0 */
 
     popdown_advanced_terrain_dialog();
 
@@ -1600,6 +1618,7 @@ static int patrol_here_callback(struct widget *pwidget)
     }
 #endif /* 0 */
   }
+
   return -1;
 }
 
@@ -1613,15 +1632,16 @@ static int paradrop_here_callback(struct widget *pwidget)
 #if 0
     int x = pwidget->data.cont->id0;
     int y = pwidget->data.cont->id1;
-#endif
+#endif /* 0 */
 
     popdown_advanced_terrain_dialog();
 
 #if 0
     /* may not work */
     do_unit_paradrop_to(get_unit_in_focus(), map_pos_to_tile(x, y));
-#endif
+#endif /* 0 */
   }
+
   return -1;
 }
 
@@ -1636,6 +1656,7 @@ static int unit_help_callback(struct widget *pwidget)
     popdown_advanced_terrain_dialog();
     popup_unit_info(unit_id);
   }
+
   return -1;
 }
 
@@ -1647,7 +1668,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 {
   struct widget *pwindow = NULL, *buf = NULL;
   struct city *pcity;
-  struct unit *pFocus_Unit;
+  struct unit *focus_unit;
   utf8_str *pstr;
   SDL_Rect area2;
   struct container *cont;
@@ -1661,9 +1682,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
   pcity = tile_city(ptile);
   n = unit_list_size(ptile->units);
-  pFocus_Unit = head_of_units_in_focus();
+  focus_unit = head_of_units_in_focus();
 
-  if (!n && !pcity && !pFocus_Unit) {
+  if (!n && !pcity && !focus_unit) {
     popup_terrain_info_dialog(NULL, ptile);
 
     return;
@@ -1782,8 +1803,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   }
   /* ---------- */
 
-  if (pFocus_Unit
-      && (tile_index(unit_tile(pFocus_Unit)) != tile_index(ptile))) {
+  if (focus_unit
+      && (tile_index(unit_tile(focus_unit)) != tile_index(ptile))) {
     /* separator */
     buf = create_iconlabel(NULL, pwindow->dst, NULL, WF_FREE_THEME);
 
@@ -1796,7 +1817,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
 
-    add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, buf);
+    add_to_gui_list(MAX_ID - 1000 - focus_unit->id, buf);
 
     area.w = MAX(area.w, buf->size.w);
     area.h += buf->size.h;
@@ -1807,14 +1828,14 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     buf->data.cont = cont;
     set_wstate(buf, FC_WS_NORMAL);
 
-    add_to_gui_list(MAX_ID - 1000 - pFocus_Unit->id, buf);
+    add_to_gui_list(MAX_ID - 1000 - focus_unit->id, buf);
 
     area.w = MAX(area.w, buf->size.w);
     area.h += buf->size.h;
     /* ----------- */
 
 #if 0 /* FIXME: specific connect buttons */
-    if (unit_has_type_flag(pFocus_Unit, UTYF_SETTLERS)) {
+    if (unit_has_type_flag(focus_unit, UTYF_SETTLERS)) {
       create_active_iconlabel(buf, pwindow->dst->surface, pstr, _("Connect here"),
                               connect_here_callback);
       buf->data.cont = cont;
@@ -1828,11 +1849,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 #endif /* 0 */
 
     /* FIXME: This logic seems to try to mirror do_paradrop() why? */
-    if (can_unit_paradrop(pFocus_Unit) && client_tile_get_known(ptile)
+    if (can_unit_paradrop(focus_unit) && client_tile_get_known(ptile)
         && !(((pcity && pplayers_non_attack(client.conn.playing, city_owner(pcity)))
               || is_non_attack_unit_tile(ptile, client.conn.playing)))
-        && (unit_type_get(pFocus_Unit)->paratroopers_range >=
-            real_map_distance(unit_tile(pFocus_Unit), ptile))) {
+        && (unit_type_get(focus_unit)->paratroopers_range >=
+            real_map_distance(unit_tile(focus_unit), ptile))) {
 
       create_active_iconlabel(buf, pwindow->dst, pstr, _("Paradrop here"),
                               paradrop_here_callback);
@@ -1862,7 +1883,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += buf->next->size.h;
     /* ---------- */
     if (n > 1) {
-      struct unit *pDefender, *pAttacker;
+      struct unit *defender, *attacker;
       struct widget *last = buf;
       bool reset = FALSE;
       int my_units = 0;
@@ -1870,11 +1891,11 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
       #define ADV_NUM_SEEN  15
 
-      pDefender = (pFocus_Unit ? get_defender(pFocus_Unit, ptile) : NULL);
-      pAttacker = (pFocus_Unit ? get_attacker(pFocus_Unit, ptile) : NULL);
+      defender = (focus_unit ? get_defender(focus_unit, ptile) : NULL);
+      attacker = (focus_unit ? get_attacker(focus_unit, ptile) : NULL);
       for (i = 0; i < n; i++) {
         punit = unit_list_get(ptile->units, i);
-        if (punit == pFocus_Unit) {
+        if (punit == focus_unit) {
           continue;
         }
         punittype = unit_type_get(punit);
@@ -1911,17 +1932,17 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       ((punit->hp * 100) / punittype->hp));
 
           /* calculate chance to win */
-          if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus_Unit)) {
+          if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus_unit)) {
             /* TRANS: "CtW" = "Chance to Win"; preserve leading space */
             cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                          att_chance, def_chance);
           }
 
-          if (pAttacker && pAttacker == punit) {
+          if (attacker && attacker == punit) {
             pstr->fgcol = *(get_game_color(COLOR_OVERVIEW_ENEMY_UNIT));
             reset = TRUE;
           } else {
-            if (pDefender && pDefender == punit) {
+            if (defender && defender == punit) {
               pstr->fgcol = *(get_game_color(COLOR_OVERVIEW_MY_UNIT));
               reset = TRUE;
             }
@@ -1987,7 +2008,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
       /* one unit - give orders */
       punit = unit_list_get(ptile->units, 0);
       punittype = unit_type_get(punit);
-      if (punit != pFocus_Unit) {
+      if (punit != focus_unit) {
         const char *vetname;
 
         vetname = utype_veteran_name_translation(punittype, punit->veteran);
@@ -2032,7 +2053,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
                       ((punit->hp * 100) / punittype->hp));
 
           /* calculate chance to win */
-            if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, pFocus_Unit)) {
+            if (sdl_get_chance_to_win(&att_chance, &def_chance, punit, focus_unit)) {
               /* TRANS: preserve leading space */
               cat_snprintf(cbuf, sizeof(cbuf), _(" CtW: Att:%d%% Def:%d%%"),
                            att_chance, def_chance);
@@ -2161,6 +2182,7 @@ static int pillage_window_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     move_window_group(pillage_dlg->begin_widget_list, pwindow);
   }
+
   return -1;
 }
 
@@ -2181,6 +2203,7 @@ static int pillage_callback(struct widget *pwidget)
       request_new_unit_activity_targeted(punit, ACTIVITY_PILLAGE, target);
     }
   }
+
   return -1;
 }
 
@@ -2192,6 +2215,7 @@ static int exit_pillage_dlg_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     popdown_pillage_dialog();
   }
+
   return -1;
 }
 
@@ -2361,7 +2385,8 @@ static int government_dlg_callback(struct widget *gov_button)
 
     popdown_government_dialog();
   }
-  return (-1);
+
+  return -1;
 }
 
 /**********************************************************************//**
@@ -2372,6 +2397,7 @@ static int move_government_dlg_callback(struct widget *pwindow)
   if (PRESSED_EVENT(main_data.event)) {
     move_window_group(gov_dlg->begin_widget_list, pwindow);
   }
+
   return -1;
 }
 
@@ -2411,22 +2437,22 @@ void popup_government_dialog(void)
 
   /* create gov. buttons */
   j = 0;
-  governments_iterate(pGov) {
-    if (pGov == game.government_during_revolution) {
+  governments_iterate(gov) {
+    if (gov == game.government_during_revolution) {
       continue;
     }
 
-    if (can_change_to_government(client.conn.playing, pGov)) {
-      pstr = create_utf8_from_char(government_name_translation(pGov), adj_font(12));
+    if (can_change_to_government(client.conn.playing, gov)) {
+      pstr = create_utf8_from_char(government_name_translation(gov), adj_font(12));
       gov_button =
-          create_icon_button(get_government_surface(pGov), pwindow->dst, pstr, 0);
+          create_icon_button(get_government_surface(gov), pwindow->dst, pstr, 0);
       gov_button->action = government_dlg_callback;
 
       max_w = MAX(max_w, gov_button->size.w);
       max_h = MAX(max_h, gov_button->size.h);
 
       /* ugly hack */
-      add_to_gui_list((MAX_ID - government_number(pGov)), gov_button);
+      add_to_gui_list((MAX_ID - government_number(gov)), gov_button);
       j++;
 
     }
@@ -2481,13 +2507,13 @@ void popup_government_dialog(void)
 static struct advanced_dialog *nation_dlg = NULL;
 static struct small_dialog *help_dlg = NULL;
 
-struct NAT {
+struct nation_info {
   unsigned char nation_style;      /* selected style */
   unsigned char selected_leader;   /* if not unique -> selected leader */
   Nation_type_id nation;           /* selected nation */
   bool leader_sex;                 /* selected leader sex */
   struct nation_set *set;
-  struct widget *pChange_Sex;
+  struct widget *change_sex;
   struct widget *name_edit;
   struct widget *name_next;
   struct widget *name_prev;
@@ -2499,12 +2525,12 @@ struct NAT {
 static int next_set_callback(struct widget *next_button);
 static int prev_set_callback(struct widget *prev_button);
 static int nations_dialog_callback(struct widget *pwindow);
-static int nation_button_callback(struct widget *pNation);
+static int nation_button_callback(struct widget *pnation);
 static int races_dialog_ok_callback(struct widget *start_button);
 static int races_dialog_cancel_callback(struct widget *button);
 static int next_name_callback(struct widget *next_button);
 static int prev_name_callback(struct widget *prev_button);
-static int change_sex_callback(struct widget *pSex);
+static int change_sex_callback(struct widget *sex);
 static void select_random_leader(Nation_type_id nation);
 static void change_nation_label(void);
 
@@ -2518,6 +2544,7 @@ static int nations_dialog_callback(struct widget *pwindow)
       widget_flush(pwindow);
     }
   }
+
   return -1;
 }
 
@@ -2527,7 +2554,7 @@ static int nations_dialog_callback(struct widget *pwindow)
 static int races_dialog_ok_callback(struct widget *start_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
     char *pstr = setup->name_edit->string_utf8->text;
 
     /* perform a minimum of sanity test on the name */
@@ -2538,7 +2565,7 @@ static int races_dialog_ok_callback(struct widget *start_button)
       widget_redraw(start_button);
       widget_flush(start_button);
 
-      return (-1);
+      return -1;
     }
 
     dsend_packet_nation_select_req(&client.conn, player_number(races_player),
@@ -2556,36 +2583,37 @@ static int races_dialog_ok_callback(struct widget *start_button)
 /**********************************************************************//**
   User requested leader gender change.
 **************************************************************************/
-static int change_sex_callback(struct widget *pSex)
+static int change_sex_callback(struct widget *sex)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
 
     if (setup->leader_sex) {
-      copy_chars_to_utf8_str(setup->pChange_Sex->string_utf8, _("Female"));
+      copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Female"));
     } else {
-      copy_chars_to_utf8_str(setup->pChange_Sex->string_utf8, _("Male"));
+      copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Male"));
     }
     setup->leader_sex = !setup->leader_sex;
 
-    if (pSex) {
-      selected_widget = pSex;
-      set_wstate(pSex, FC_WS_SELECTED);
+    if (sex) {
+      selected_widget = sex;
+      set_wstate(sex, FC_WS_SELECTED);
 
-      widget_redraw(pSex);
-      widget_flush(pSex);
+      widget_redraw(sex);
+      widget_flush(sex);
     }
   }
+
   return -1;
 }
 
 /**********************************************************************//**
   User requested next leader name.
 **************************************************************************/
-static int next_name_callback(struct widget *pNext)
+static int next_name_callback(struct widget *next)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
     const struct nation_leader_list *leaders =
         nation_leaders(nation_by_number(setup->nation));
     const struct nation_leader *pleader;
@@ -2625,21 +2653,22 @@ static int next_name_callback(struct widget *pNext)
     widget_mark_dirty(setup->name_prev);
     widget_mark_dirty(setup->name_next);
 
-    widget_redraw(setup->pChange_Sex);
-    widget_mark_dirty(setup->pChange_Sex);
+    widget_redraw(setup->change_sex);
+    widget_mark_dirty(setup->change_sex);
 
     flush_dirty();
   }
+
   return -1;
 }
 
 /**********************************************************************//**
   User requested previous leader name.
 **************************************************************************/
-static int prev_name_callback(struct widget *pPrev)
+static int prev_name_callback(struct widget *prev)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
     const struct nation_leader_list *leaders =
         nation_leaders(nation_by_number(setup->nation));
     const struct nation_leader *pleader;
@@ -2679,11 +2708,12 @@ static int prev_name_callback(struct widget *pPrev)
     widget_mark_dirty(setup->name_prev);
     widget_mark_dirty(setup->name_next);
 
-    widget_redraw(setup->pChange_Sex);
-    widget_mark_dirty(setup->pChange_Sex);
+    widget_redraw(setup->change_sex);
+    widget_mark_dirty(setup->change_sex);
 
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -2693,7 +2723,7 @@ static int prev_name_callback(struct widget *pPrev)
 static int next_set_callback(struct widget *next_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
     struct option *poption = optset_option_by_name(server_optset, "nationset");
 
     fc_assert(setup->set != NULL
@@ -2713,7 +2743,7 @@ static int next_set_callback(struct widget *next_button)
 static int prev_set_callback(struct widget *prev_button)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
     struct option *poption = optset_option_by_name(server_optset, "nationset");
 
     fc_assert(setup->set != NULL && nation_set_index(setup->set) > 0);
@@ -2735,6 +2765,7 @@ static int races_dialog_cancel_callback(struct widget *button)
     popdown_races_dialog();
     flush_dirty();
   }
+
   return -1;
 }
 
@@ -2744,13 +2775,13 @@ static int races_dialog_cancel_callback(struct widget *button)
 static int style_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
-    struct widget *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
-                                                            setup->nation_style);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
+    struct widget *gui = get_widget_pointer_form_main_list(MAX_ID - 1000 -
+                                                           setup->nation_style);
 
-    set_wstate(pGUI, FC_WS_NORMAL);
-    widget_redraw(pGUI);
-    widget_mark_dirty(pGUI);
+    set_wstate(gui, FC_WS_NORMAL);
+    widget_redraw(gui);
+    widget_mark_dirty(gui);
 
     set_wstate(pwidget, FC_WS_DISABLED);
     widget_redraw(pwidget);
@@ -2761,6 +2792,7 @@ static int style_callback(struct widget *pwidget)
     flush_dirty();
     selected_widget = NULL;
   }
+
   return -1;
 }
 
@@ -2787,6 +2819,7 @@ static int cancel_help_dlg_callback(struct widget *pwidget)
       }
     }
   }
+
   return -1;
 }
 
@@ -2799,11 +2832,12 @@ static int nation_button_callback(struct widget *nation_button)
   selected_widget = nation_button;
 
   if (PRESSED_EVENT(main_data.event)) {
-    struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+    struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
 
     if (setup->nation == MAX_ID - nation_button->id) {
       widget_redraw(nation_button);
       widget_flush(nation_button);
+
       return -1;
     }
 
@@ -2825,7 +2859,7 @@ static int nation_button_callback(struct widget *nation_button)
     utf8_str *pstr;
     SDL_Surface *text;
     SDL_Rect area, area2;
-    struct nation_type *pNation = nation_by_number(MAX_ID - nation_button->id);
+    struct nation_type *pnation = nation_by_number(MAX_ID - nation_button->id);
 
     widget_redraw(nation_button);
     widget_mark_dirty(nation_button);
@@ -2833,7 +2867,7 @@ static int nation_button_callback(struct widget *nation_button)
     if (!help_dlg) {
       help_dlg = fc_calloc(1, sizeof(struct small_dialog));
 
-      pstr = create_utf8_from_char(nation_plural_translation(pNation),
+      pstr = create_utf8_from_char(nation_plural_translation(pnation),
                                    adj_font(12));
       pstr->style |= TTF_STYLE_BOLD;
 
@@ -2865,7 +2899,7 @@ static int nation_button_callback(struct widget *nation_button)
     {
       char info[4096];
 
-      helptext_nation(info, sizeof(info), pNation, NULL);
+      helptext_nation(info, sizeof(info), pnation, NULL);
       pstr = create_utf8_from_char(info, adj_font(12));
     }
 
@@ -2904,6 +2938,7 @@ static int nation_button_callback(struct widget *nation_button)
     flush_dirty();
 
   }
+
   return -1;
 }
 
@@ -2924,6 +2959,7 @@ static int leader_name_edit_callback(struct widget *pedit)
 
   return -1;
 }
+
 /* =========================================================== */
 
 /**********************************************************************//**
@@ -2933,17 +2969,17 @@ static void change_nation_label(void)
 {
   SDL_Surface *tmp_surf, *tmp_surf_zoomed;
   struct widget *pwindow = nation_dlg->end_widget_list;
-  struct NAT *setup = (struct NAT *)(pwindow->data.ptr);
+  struct nation_info *setup = (struct nation_info *)(pwindow->data.ptr);
   struct widget *label = setup->name_edit->next;
-  struct nation_type *pNation = nation_by_number(setup->nation);
+  struct nation_type *pnation = nation_by_number(setup->nation);
 
-  tmp_surf = get_nation_flag_surface(pNation);
+  tmp_surf = get_nation_flag_surface(pnation);
   tmp_surf_zoomed = zoomSurface(tmp_surf, DEFAULT_ZOOM * 1.0, DEFAULT_ZOOM * 1.0, 1);
 
   FREESURFACE(label->theme);
   label->theme = tmp_surf_zoomed;
 
-  copy_chars_to_utf8_str(label->string_utf8, nation_plural_translation(pNation));
+  copy_chars_to_utf8_str(label->string_utf8, nation_plural_translation(pnation));
 
   remake_label_size(label);
 
@@ -2958,7 +2994,7 @@ static void change_nation_label(void)
 **************************************************************************/
 static void select_random_leader(Nation_type_id nation)
 {
-  struct NAT *setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+  struct nation_info *setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
   const struct nation_leader_list *leaders =
       nation_leaders(nation_by_number(setup->nation));
   const struct nation_leader *pleader;
@@ -2975,9 +3011,9 @@ static void select_random_leader(Nation_type_id nation)
   setup->leader_sex = nation_leader_is_male(pleader);
 
   if (setup->leader_sex) {
-    copy_chars_to_utf8_str(setup->pChange_Sex->string_utf8, _("Male"));
+    copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Male"));
   } else {
-    copy_chars_to_utf8_str(setup->pChange_Sex->string_utf8, _("Female"));
+    copy_chars_to_utf8_str(setup->change_sex->string_utf8, _("Female"));
   }
 
   /* disable navigation buttons */
@@ -3025,10 +3061,10 @@ void popup_races_dialog(struct player *pplayer)
   int len = 0;
   int w = adj_size(10), h = adj_size(10);
   SDL_Surface *tmp_surf, *tmp_surf_zoomed = NULL;
-  SDL_Surface *pMain_Bg, *text_name;
+  SDL_Surface *main_bg, *text_name;
   SDL_Rect dst;
   float zoom;
-  struct NAT *setup;
+  struct nation_info *setup;
   SDL_Rect area;
   int i;
   struct nation_type *pnat;
@@ -3053,7 +3089,7 @@ void popup_races_dialog(struct player *pplayer)
   pwindow = create_window(NULL, pstr, w, h, WF_FREE_DATA);
   pwindow->action = nations_dialog_callback;
   set_wstate(pwindow, FC_WS_NORMAL);
-  setup = fc_calloc(1, sizeof(struct NAT));
+  setup = fc_calloc(1, sizeof(struct nation_info));
   pwindow->data.ptr = (void *)setup;
 
   nation_dlg->end_widget_list = pwindow;
@@ -3062,12 +3098,12 @@ void popup_races_dialog(struct player *pplayer)
   /* create nations list */
 
   /* Create Imprv Background Icon */
-  pMain_Bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
+  main_bg = create_surf(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
 
-  SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
+  SDL_FillRect(main_bg, NULL, map_rgba(main_bg->format, bg_color));
 
-  create_frame(pMain_Bg,
-               0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
+  create_frame(main_bg,
+               0, 0, main_bg->w - 1, main_bg->h - 1,
                get_theme_color(COLOR_THEME_NATIONDLG_FRAME));
 
   pstr = create_utf8_str(NULL, 0, adj_font(12));
@@ -3076,16 +3112,16 @@ void popup_races_dialog(struct player *pplayer)
 
   /* fill list */
 
-  nations_iterate(pNation) {
-    if (!is_nation_playable(pNation) || !is_nation_pickable(pNation)) {
+  nations_iterate(pnation) {
+    if (!is_nation_playable(pnation) || !is_nation_pickable(pnation)) {
       continue;
     }
 
-    tmp_surf_zoomed = adj_surf(get_nation_flag_surface(pNation));
+    tmp_surf_zoomed = adj_surf(get_nation_flag_surface(pnation));
 
-    tmp_surf = crop_rect_from_surface(pMain_Bg, NULL);
+    tmp_surf = crop_rect_from_surface(main_bg, NULL);
 
-    copy_chars_to_utf8_str(pstr, nation_plural_translation(pNation));
+    copy_chars_to_utf8_str(pstr, nation_plural_translation(pnation));
     change_ptsize_utf8(pstr, adj_font(12));
     text_name = create_text_surf_smaller_than_w(pstr, tmp_surf->w - adj_size(4));
 
@@ -3111,15 +3147,15 @@ void popup_races_dialog(struct player *pplayer)
     w = MAX(w, pwidget->size.w);
     h = MAX(h, pwidget->size.h);
 
-    add_to_gui_list(MAX_ID - nation_index(pNation), pwidget);
+    add_to_gui_list(MAX_ID - nation_index(pnation), pwidget);
 
-    if (nation_index(pNation) > (TARGETS_ROW * TARGETS_COL - 1)) {
+    if (nation_index(pnation) > (TARGETS_ROW * TARGETS_COL - 1)) {
       set_wflag(pwidget, WF_HIDDEN);
     }
 
   } nations_iterate_end;
 
-  FREESURFACE(pMain_Bg);
+  FREESURFACE(main_bg);
 
   nation_dlg->end_active_widget_list = pwindow->prev;
   nation_dlg->begin_widget_list = pwidget;
@@ -3233,7 +3269,7 @@ void popup_races_dialog(struct player *pplayer)
   pwidget->size.w = adj_size(100);
   pwidget->size.h = adj_size(22);
   set_wstate(pwidget, FC_WS_NORMAL);
-  setup->pChange_Sex = pwidget;
+  setup->change_sex = pwidget;
 
   /* add to main widget list */
   add_to_gui_list(ID_NATION_WIZARD_CHANGE_SEX_BUTTON, pwidget);
@@ -3289,9 +3325,9 @@ void popup_races_dialog(struct player *pplayer)
   nation_dlg->begin_widget_list = pwidget;
   /* ---------------------------------------------------------- */
 
-  pMain_Bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
-  if (resize_window(pwindow, pMain_Bg, NULL, adj_size(640), adj_size(480))) {
-    FREESURFACE(pMain_Bg);
+  main_bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
+  if (resize_window(pwindow, main_bg, NULL, adj_size(640), adj_size(480))) {
+    FREESURFACE(main_bg);
   }
 
   area = pwindow->area;
@@ -3472,15 +3508,15 @@ void nationset_changed(void)
 **************************************************************************/
 void races_toggles_set_sensitive(void)
 {
-  struct NAT *setup;
+  struct nation_info *setup;
   bool change = FALSE;
-  struct widget *pNat;
+  struct widget *nat;
 
   if (!nation_dlg) {
     return;
   }
 
-  setup = (struct NAT *)(nation_dlg->end_widget_list->data.ptr);
+  setup = (struct nation_info *)(nation_dlg->end_widget_list->data.ptr);
 
   nations_iterate(nation) {
     if (!is_nation_pickable(nation) || nation->player) {
@@ -3488,8 +3524,8 @@ void races_toggles_set_sensitive(void)
                 (!is_nation_pickable(nation) || nation->player),
                 nation_rule_name(nation));
 
-      pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
-      set_wstate(pNat, FC_WS_DISABLED);
+      nat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
+      set_wstate(nat, FC_WS_DISABLED);
 
       if (nation_index(nation) == setup->nation) {
         change = TRUE;
@@ -3500,8 +3536,8 @@ void races_toggles_set_sensitive(void)
   if (change) {
     do {
       setup->nation = fc_rand(get_playable_nation_count());
-      pNat = get_widget_pointer_form_main_list(MAX_ID - setup->nation);
-    } while (get_wstate(pNat) == FC_WS_DISABLED);
+      nat = get_widget_pointer_form_main_list(MAX_ID - setup->nation);
+    } while (get_wstate(nat) == FC_WS_DISABLED);
 
     if (get_wstate(setup->name_edit) == FC_WS_PRESSED) {
       force_exit_from_event_loop();
