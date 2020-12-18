@@ -72,7 +72,7 @@
  defines, structs, globals, forward declarations
 *****************************************************************************/
 
-/* Maximal iterations before the search loop is stoped. */
+/* Maximal iterations before the search loop is stopped. */
 #define CM_MAX_LOOP 25000
 
 #define CPUHOG_CM_MAX_LOOP (CM_MAX_LOOP * 4)
