@@ -60,11 +60,22 @@ value   = 1
 [effect_tech_cost_base]
 type    = "Tech_Cost_Factor"
 value   = 1
-  	 
-; Cities can always work tiles
-[effect_tile_workable]
+
+[effect_tile_land_workable]
 type    = "Tile_Workable"
 value   = 1
+reqs    =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+
+[effect_tile_ocean_workable]
+type    = "Tile_Workable"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Tech", "Fishing", "Player"
+    }
 
 ; Each city has at least one slot to build units
 [effect_city_build_slots_basic]

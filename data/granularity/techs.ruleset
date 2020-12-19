@@ -160,6 +160,15 @@ graphic_alt = "-"
 helptext    = _("With fire, there can be a place to live permanently.\
  Allows settlements to grow to size 6.");
 
+[advance_fishing]
+name        = _("Fishing");
+req1        = "Tools"
+req2        = "None"
+flags       = ""
+graphic     = "a.fishing"
+graphic_alt = "-"
+helptext    = _("Makes it possible to use Oceanic tiles.")
+
 [advance_government]
 name        = _("Government");
 req1        = "Cave Painting"
