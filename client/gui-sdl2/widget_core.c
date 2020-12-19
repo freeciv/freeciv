@@ -106,8 +106,8 @@ void widget_free(struct widget **pwidget)
   }
   if (get_wflags(gui) & WF_FREE_THEME) {
     if (get_wtype(gui) == WT_CHECKBOX) {
-      FREESURFACE(gui->private_data.cbox->pTRUE_Theme);
-      FREESURFACE(gui->private_data.cbox->pFALSE_Theme);
+      FREESURFACE(gui->private_data.cbox->true_theme);
+      FREESURFACE(gui->private_data.cbox->false_theme);
     } else {
       FREESURFACE(gui->theme);
     }

@@ -126,8 +126,8 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state,
   pCBox->mod = KMOD_NONE;
   pCBox->dst = pdest;
   ptmp->state = state;
-  ptmp->pTRUE_Theme = current_theme->cbox_sell_icon;
-  ptmp->pFALSE_Theme = current_theme->cbox_unsell_icon;
+  ptmp->true_theme = current_theme->cbox_sell_icon;
+  ptmp->false_theme = current_theme->cbox_unsell_icon;
   pCBox->private_data.cbox = ptmp;
 
   checkbox_baseclass_redraw = pCBox->redraw;
@@ -172,8 +172,8 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
 
   set_wtype(pCBox, WT_TCHECKBOX);
   ptmp->state = state;
-  ptmp->pTRUE_Theme = current_theme->cbox_sell_icon;
-  ptmp->pFALSE_Theme = current_theme->cbox_unsell_icon;
+  ptmp->true_theme = current_theme->cbox_sell_icon;
+  ptmp->false_theme = current_theme->cbox_unsell_icon;
   pCBox->private_data.cbox = ptmp;
 
   tmp_widget = widget_new();
@@ -189,7 +189,7 @@ struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
   Set theme surfaces for a checkbox.
 **************************************************************************/
 int set_new_checkbox_theme(struct widget *pCBox,
-                           SDL_Surface *pTrue, SDL_Surface *pFalse)
+                           SDL_Surface *true_surf, SDL_Surface *false_surf)
 {
   struct checkbox *ptmp;
 
@@ -204,12 +204,12 @@ int set_new_checkbox_theme(struct widget *pCBox,
   }
 
   ptmp = pCBox->private_data.cbox;
-  ptmp->pTRUE_Theme = pTrue;
-  ptmp->pFALSE_Theme = pFalse;
+  ptmp->true_theme = true_surf;
+  ptmp->false_theme = false_surf;
   if (ptmp->state) {
-    pCBox->theme = pTrue;
+    pCBox->theme = true_surf;
   } else {
-    pCBox->theme = pFalse;
+    pCBox->theme = false_surf;
   }
 
   return 0;
@@ -221,10 +221,10 @@ int set_new_checkbox_theme(struct widget *pCBox,
 void toggle_checkbox(struct widget *pCBox)
 {
   if (pCBox->private_data.cbox->state) {
-    pCBox->theme = pCBox->private_data.cbox->pFALSE_Theme;
+    pCBox->theme = pCBox->private_data.cbox->false_theme;
     pCBox->private_data.cbox->state = FALSE;
   } else {
-    pCBox->theme = pCBox->private_data.cbox->pTRUE_Theme;
+    pCBox->theme = pCBox->private_data.cbox->true_theme;
     pCBox->private_data.cbox->state = TRUE;
   }
 }

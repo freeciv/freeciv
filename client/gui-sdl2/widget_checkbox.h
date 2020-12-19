@@ -15,8 +15,8 @@
 #define FC__WIDGET_CHECKBOX_H
 
 struct checkbox {
-  SDL_Surface *pTRUE_Theme;
-  SDL_Surface *pFALSE_Theme;
+  SDL_Surface *true_theme;
+  SDL_Surface *false_theme;
   bool state;
 };
 
@@ -26,6 +26,6 @@ struct widget *create_checkbox(struct gui_layer *pdest, bool state, Uint32 flags
 void toggle_checkbox(struct widget *pCBox);
 bool get_checkbox_state(struct widget *pCBox);
 int set_new_checkbox_theme(struct widget *pCBox,
-                           SDL_Surface *pTrue, SDL_Surface *pFalse);
+                           SDL_Surface *true_surf, SDL_Surface *false_surf);
 
 #endif /* FC__WIDGET_CHECKBOX_H */
