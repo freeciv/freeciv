@@ -9,10 +9,10 @@
 /freeciv-qt
 /freeciv-stub
 /.deps
-/freeciv.desktop
-/freeciv-gtk3.22.desktop
-/freeciv-sdl2.desktop
-/freeciv-qt.desktop
+/org.freeciv.gtk3.desktop
+/org.freeciv.gtk322.desktop
+/org.freeciv.sdl2.desktop
+/org.freeciv.qt.desktop
 /freeciv-gtk3.appdata.xml
 /freeciv-gtk3.22.appdata.xml
 /freeciv-sdl2.appdata.xml

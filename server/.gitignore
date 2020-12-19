@@ -6,5 +6,5 @@
 /libcivserver.a
 /hand_gen.c
 /hand_gen.h
-/freeciv-server.desktop
+/org.freeciv.server.desktop
 /freeciv-server.appdata.xml
