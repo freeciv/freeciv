@@ -118,6 +118,9 @@ static const char *historian_name[]={
     N_("Pan Ku")
 };
 
+/* With terminating '\0' */
+#define MAX_SCORELOG_LINE_LEN (119 + 1)
+
 static const char scorelog_magic[] = "#FREECIV SCORELOG2 ";
 
 struct player_score_entry {
@@ -1123,7 +1126,13 @@ static bool scan_score_log(char *id)
 {
   int line_nr, turn, plr_no, spaces;
   struct plrdata_slot *plrdata;
-  char plr_name[MAX_LEN_NAME], line[120], *ptr;
+  char line[MAX_SCORELOG_LINE_LEN], *ptr;
+
+  /* Must be big enough to contain any string there might be in "addplayer" line
+   * to read.
+   * Could have even strlen("addplayer 0 0 "), but maintenance not worth
+   * saving couple of bytes. */
+  char plr_name[MAX(MAX_LEN_NAME, MAX_SCORELOG_LINE_LEN - strlen("addplayer "))];
 
   fc_assert_ret_val(score_log != NULL, FALSE);
   fc_assert_ret_val(score_log->fp != NULL, FALSE);
@@ -1182,6 +1191,8 @@ static bool scan_score_log(char *id)
     }
 
     if (strncmp(line, "addplayer ", strlen("addplayer ")) == 0) {
+      /* If you change this, be sure to adjust plr_name buffer size to
+       * match longest possible string read. */
       if (3 != sscanf(line + strlen("addplayer "), "%d %d %s",
                       &turn, &plr_no, plr_name)) {
         log_error("[%s:%d] Bad line (addplayer)!",
