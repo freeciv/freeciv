@@ -2842,6 +2842,7 @@ static void do_unit_help_build_wonder(struct player *pplayer,
   if (city_owner(pcity_dest) != unit_owner(punit)) {
     /* Tell the city owner about the gift he just received. */
 
+    send_city_info(city_owner(pcity_dest), pcity_dest);
     notify_player(city_owner(pcity_dest), city_tile(pcity_dest),
                   E_CARAVAN_ACTION, ftc_server,
                   /* TRANS: Help building the Pyramids in Bergen received
