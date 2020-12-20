@@ -54,7 +54,7 @@ class hud_message_box: public QMessageBox
 public:
   hud_message_box(QWidget *parent);
   ~hud_message_box();
-  void set_text_title(QString s1, QString s2);
+  int set_text_title(QString s1, QString s2, bool return_exec = false);
 
 protected:
   void paintEvent(QPaintEvent *event);
