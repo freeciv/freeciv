@@ -3006,7 +3006,9 @@ void mr_menu::slot_select_one()
 ***************************************************************************/
 void mr_menu::slot_select_same_continent()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+  if (!gui_options.unit_selection_clears_orders || confirm_disruptive_selection()) {
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+  }
 }
 
 /***************************************************************************
@@ -3014,7 +3016,9 @@ void mr_menu::slot_select_same_continent()
 ***************************************************************************/
 void mr_menu::slot_select_same_everywhere()
 {
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
+  if (!gui_options.unit_selection_clears_orders || confirm_disruptive_selection()) {
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
+  }
 }
 
 /***************************************************************************
@@ -3363,7 +3367,23 @@ void mr_menu::back_to_menu()
   }
 }
 
-/***************************************************************************
+/**********************************************************************//**
+  Prompt to confirm disruptive selection
+**************************************************************************/
+bool mr_menu::confirm_disruptive_selection()
+{
+  hud_message_box *ask = new hud_message_box(gui()->central_wdg);
+
+  ask->setIcon(QMessageBox::Warning);
+  ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
+  ask->setDefaultButton(QMessageBox::Cancel);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  return (ask->set_text_title(_("Selection will cancel current assignments!"),
+                               _("Confirm Disruptive Selection"), true)
+          == QMessageBox::Ok);
+}
+
+/**************************************************************************
   Airlift unit type to city acity from each city
 ***************************************************************************/
 void multiairlift(struct city *acity, Unit_type_id ut)

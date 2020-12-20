@@ -291,6 +291,7 @@ private slots:
   void tileset_custom_load();
   void load_new_tileset();
   void back_to_menu();
+  bool confirm_disruptive_selection();
   void quit_game();
 
   /* help menu */

@@ -122,7 +122,7 @@ void hud_message_box::keyPressEvent(QKeyEvent *event)
 /****************************************************************************
   Sets text and title and shows message box
 ****************************************************************************/
-void hud_message_box::set_text_title(QString s1, QString s2)
+int hud_message_box::set_text_title(QString s1, QString s2, bool do_exec)
 {
   QSpacerItem *spacer;
   QGridLayout *layout;
@@ -158,9 +158,12 @@ void hud_message_box::set_text_title(QString s1, QString s2)
              (parentWidget()->height() - h) / 2);
   p = parentWidget()->mapToGlobal(p);
   move(p);
-  show();
+  if (!do_exec) {
+    show();
+  }
   m_timer.start();
   startTimer(45);
+  return (do_exec) ? exec () : 0;
 }
 
 /****************************************************************************
