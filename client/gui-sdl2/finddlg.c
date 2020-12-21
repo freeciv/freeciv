@@ -191,7 +191,7 @@ void popup_find_dialog(void)
       }
 
       buf = create_iconlabel(logo, pwindow->dst, pstr,
-    	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+        (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pcity)) {
         set_wflag(buf, WF_FREE_THEME);

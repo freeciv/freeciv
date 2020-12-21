@@ -298,8 +298,8 @@ void popup_impr_info(Impr_type_id impr)
       FREESURFACE(impr_name);
 
       /* blit improvement icon */
-      icon = ResizeSurfaceBox(get_building_surface(pimprove),
-                              adj_size(36), adj_size(36), 1, TRUE, TRUE);
+      icon = resize_surface_box(get_building_surface(pimprove),
+                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = adj_size(5);
       dst.y = (background->h - icon->h) / 2;
       alphablit(icon, NULL, background, &dst, 255);
@@ -369,7 +369,7 @@ void popup_impr_info(Impr_type_id impr)
 
   surf = get_building_surface(pimpr_type);
   impr_name_label = create_iconlabel_from_chars(
-                     ResizeSurfaceBox(surf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
+                     resize_surface_box(surf, adj_size(64), adj_size(48), 1, TRUE, TRUE),
                      pwindow->dst, city_improvement_name_translation(NULL, pimpr_type),
                      adj_font(24), WF_FREE_THEME);
 
@@ -716,8 +716,8 @@ void popup_unit_info(Unit_type_id type_id)
       FREESURFACE(unit_name);
 
       /* blit unit icon */
-      icon = ResizeSurfaceBox(get_unittype_surface(ut, direction8_invalid()),
-                              adj_size(36), adj_size(36), 1, TRUE, TRUE);
+      icon = resize_surface_box(get_unittype_surface(ut, direction8_invalid()),
+                                adj_size(36), adj_size(36), 1, TRUE, TRUE);
       dst.x = (adj_size(35) - icon->w) / 2;
       dst.y = (background->h - icon->h) / 2;
       alphablit(icon, NULL, background, &dst, 255);
@@ -1231,7 +1231,8 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
           && advance_number(preq->source.value.advance) == tech) {
         surf = get_building_surface(pimprove);
         pwidget = create_iconlabel_from_chars(
-                ResizeSurfaceBox(surf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
+                resize_surface_box(surf, adj_size(48), adj_size(48), 1, TRUE,
+                                   TRUE),
                 pwindow->dst,
                 improvement_name_translation(pimprove),
                 adj_font(14),
@@ -1257,7 +1258,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
     if (advance_number(punittype->require_advance) == tech) {
       pwidget = create_iconlabel_from_chars(
-                                   ResizeSurfaceBox(get_unittype_surface(un, direction8_invalid()),
+                                   resize_surface_box(get_unittype_surface(un, direction8_invalid()),
                                    adj_size(48), adj_size(48), 1, TRUE, TRUE),
                   pwindow->dst, utype_name_translation(punittype), adj_font(14),
                   (WF_FREE_THEME | WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR));

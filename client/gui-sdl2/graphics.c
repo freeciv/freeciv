@@ -1679,8 +1679,8 @@ SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc)
 /**********************************************************************//**
   Scale surface.
 **************************************************************************/
-SDL_Surface *ResizeSurface(const SDL_Surface *psrc, Uint16 new_width,
-                           Uint16 new_height, int smooth)
+SDL_Surface *resize_surface(const SDL_Surface *psrc, Uint16 new_width,
+                            Uint16 new_height, int smooth)
 {
   if (psrc == NULL) {
     return NULL;
@@ -1699,9 +1699,10 @@ SDL_Surface *ResizeSurface(const SDL_Surface *psrc, Uint16 new_width,
   If 'absolute_dimensions' is TRUE, the function returns a surface with the
   dimensions of the box and the scaled/original surface centered in it. 
 **************************************************************************/
-SDL_Surface *ResizeSurfaceBox(const SDL_Surface *psrc,
-                              Uint16 new_width, Uint16 new_height, int smooth,
-                              bool scale_up, bool absolute_dimensions)
+SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
+                                Uint16 new_width, Uint16 new_height,
+                                int smooth, bool scale_up,
+                                bool absolute_dimensions)
 {
   SDL_Surface *tmp_surface, *result;
 

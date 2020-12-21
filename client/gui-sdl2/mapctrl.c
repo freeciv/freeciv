@@ -310,8 +310,9 @@ static int toggle_unit_info_window_callback(struct widget *icon_widget)
                 units_info_window->dst->surface, &window_area, 255);
 
       /* blit right vertical frame */
-      buf_surf = ResizeSurface(current_theme->fr_right, current_theme->fr_right->w,
-                               units_info_window->area.h, 1);
+      buf_surf = resize_surface(current_theme->fr_right,
+                                current_theme->fr_right->w,
+                                units_info_window->area.h, 1);
 
       window_area.y = units_info_window->area.y;
       window_area.x = units_info_window->area.x + units_info_window->area.w;
@@ -433,8 +434,9 @@ static int toggle_map_window_callback(struct widget *map_button)
                 minimap_window->dst->surface, &map_area, 255);
 
       /* blit left vertical frame theme */
-      buf_surf = ResizeSurface(current_theme->fr_left, current_theme->fr_left->w,
-                               minimap_window->area.h, 1);
+      buf_surf = resize_surface(current_theme->fr_left,
+                                current_theme->fr_left->w,
+                                minimap_window->area.h, 1);
 
       map_area.y += adj_size(2);
       alphablit(buf_surf, NULL, minimap_window->dst->surface, &map_area, 255);
@@ -951,7 +953,7 @@ static void remake_unitinfo(int w, int h)
 
   draw_frame(pwidget->theme, 0, 0, pwidget->size.w, pwidget->size.h);
 
-  surf = ResizeSurface(current_theme->Block, BLOCKU_W,
+  surf = resize_surface(current_theme->Block, BLOCKU_W,
     pwidget->size.h - ((units_info_window->size.h - units_info_window->area.h)), 1);
 
   blit_entire_src(surf, pwidget->theme, units_info_window->area.x,
@@ -1486,8 +1488,8 @@ void popup_unitinfo_window(void)
   unitinfo_w = pwindow->size.w;
   unitinfo_h = pwindow->size.h;
 
-  icon_theme = ResizeSurface(current_theme->block, pwindow->area.w,
-                             pwindow->area.h, 1);
+  icon_theme = resize_surface(current_theme->block, pwindow->area.w,
+                              pwindow->area.h, 1);
 
   blit_entire_src(icon_theme, pwindow->theme, pwindow->area.x, pwindow->area.y);
   FREESURFACE(icon_theme);
@@ -1678,7 +1680,8 @@ void popup_minimap_window(void)
 
   draw_frame(pwindow->theme, 0, 0, pwindow->size.w, pwindow->size.h);
 
-  icon_theme = ResizeSurface(current_theme->block, BLOCKM_W, pwindow->area.h, 1);
+  icon_theme = resize_surface(current_theme->block, BLOCKM_W,
+                              pwindow->area.h, 1);
   blit_entire_src(icon_theme, pwindow->theme,
                   pwindow->area.x + pwindow->area.w - icon_theme->w,
                   pwindow->area.y);

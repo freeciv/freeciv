@@ -296,12 +296,13 @@ int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect);
 
 /* ================================================================= */
 
-SDL_Surface *ResizeSurface(const SDL_Surface *psrc, Uint16 new_width,
-                           Uint16 new_height, int smooth);
+SDL_Surface *resize_surface(const SDL_Surface *psrc, Uint16 new_width,
+                            Uint16 new_height, int smooth);
 
-SDL_Surface *ResizeSurfaceBox(const SDL_Surface *psrc,
-                              Uint16 new_width, Uint16 new_height, int smooth,
-                              bool scale_up, bool absolute_dimensions);
+SDL_Surface *resize_surface_box(const SDL_Surface *psrc,
+                                Uint16 new_width, Uint16 new_height,
+                                int smooth, bool scale_up,
+                                bool absolute_dimensions);
 
 SDL_Surface *crop_visible_part_from_surface(SDL_Surface *psrc);
 SDL_Rect get_smaller_surface_rect(SDL_Surface *psrc);

@@ -534,8 +534,8 @@ static void real_info_city_report_dialog_update(void)
     if (VUT_UTYPE == pcity->production.kind) {
       const struct unit_type *punittype = pcity->production.value.utype;
 
-      logo = ResizeSurfaceBox(get_unittype_surface(punittype,
-                                                   direction8_invalid()),
+      logo = resize_surface_box(get_unittype_surface(punittype,
+                                                     direction8_invalid()),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
       togrow = utype_build_shield_cost(pcity, NULL, punittype);
@@ -543,7 +543,7 @@ static void real_info_city_report_dialog_update(void)
     } else {
       const struct impr_type *pimprove = pcity->production.value.building;
 
-      logo = ResizeSurfaceBox(get_building_surface(pcity->production.value.building),
+      logo = resize_surface_box(get_building_surface(pcity->production.value.building),
                                adj_size(36), adj_size(24), 1,
                                TRUE, TRUE);
       togrow = impr_build_shield_cost(pcity, pimprove);
@@ -1075,14 +1075,14 @@ static struct widget *real_city_report_dialog_update_city(struct widget *pwidget
   if (VUT_UTYPE == pcity->production.kind) {
     const struct unit_type *punittype = pcity->production.value.utype;
 
-    logo = ResizeSurface(get_unittype_surface(punittype, direction8_invalid()),
+    logo = resize_surface(get_unittype_surface(punittype, direction8_invalid()),
                           adj_size(36), adj_size(24), 1);
     togrow = utype_build_shield_cost(pcity, NULL, punittype);
     name = utype_name_translation(punittype);
   } else {
     const struct impr_type *pimprove = pcity->production.value.building;
 
-    logo = ResizeSurface(get_building_surface(pcity->production.value.building),
+    logo = resize_surface(get_building_surface(pcity->production.value.building),
                           adj_size(36), adj_size(24), 1);
     togrow = impr_build_shield_cost(pcity, pimprove);
     name = improvement_name_translation(pimprove);

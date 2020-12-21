@@ -280,7 +280,7 @@ int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
 
   if (pBcgd) {
     if (pBcgd->w != new_w || pBcgd->h != new_h) {
-      pwindow->theme = ResizeSurface(pBcgd, new_w, new_h, 2);
+      pwindow->theme = resize_surface(pBcgd, new_w, new_h, 2);
       return 1;
     } else {
       pwindow->theme = pBcgd;

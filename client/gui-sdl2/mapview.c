@@ -747,8 +747,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
       FREESURFACE(name);
 
       /* draw unit sprite */
-      buf_surf = ResizeSurfaceBox(get_unittype_surface(unit_type_get(punit),
-                                                       punit->facing),
+      buf_surf = resize_surface_box(get_unittype_surface(unit_type_get(punit),
+                                                         punit->facing),
                                   adj_size(80), adj_size(80), 1, TRUE, TRUE);
 
       src = (SDL_Rect){0, 0, buf_surf->w, buf_surf->h};

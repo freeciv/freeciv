@@ -143,7 +143,8 @@ static void update_goto_dialog(void)
   if (goto_dlg->end_active_widget_list) {
     add_dock = goto_dlg->end_active_widget_list->next;
     goto_dlg->begin_widget_list = add_dock;
-    del_group(goto_dlg->begin_active_widget_list, goto_dlg->end_active_widget_list);
+    del_group(goto_dlg->begin_active_widget_list,
+              goto_dlg->end_active_widget_list);
     goto_dlg->active_widget_list = NULL;
   } else {
     add_dock = goto_dlg->begin_widget_list;
@@ -160,7 +161,7 @@ static void update_goto_dialog(void)
 
       /* FIXME: should use unit_can_airlift_to(). */
       if (!GOTO && !pcity->airlift) {
-	continue;
+        continue;
       }
 
       fc_snprintf(cbuf, sizeof(cbuf), "%s (%d)", city_name_get(pcity),
@@ -175,7 +176,7 @@ static void update_goto_dialog(void)
       }
 
       buf = create_iconlabel(logo, goto_dlg->end_widget_list->dst, pstr,
-    	(WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+        (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       if (!player_owns_city(owner, pcity)) {
         set_wflag(buf, WF_FREE_THEME);
@@ -183,7 +184,7 @@ static void update_goto_dialog(void)
       }
 
       buf->string_utf8->fgcol =
-	    *(get_player_color(tileset, city_owner(pcity))->color);
+            *(get_player_color(tileset, city_owner(pcity))->color);
       buf->action = goto_city_callback;
 
       if (GOTO || pcity->airlift) {
@@ -246,7 +247,7 @@ static void popup_goto_airlift_dialog(void)
   SDL_Color bg_color = {0, 0, 0, 96};
   struct widget *buf, *pwindow;
   utf8_str *pstr;
-  SDL_Surface *pFlag, *pEnabled, *pDisabled;
+  SDL_Surface *flag, *enabled, *disabled;
   SDL_Rect dst;
   int i, col, block_x, x, y;
   SDL_Rect area;
@@ -291,19 +292,19 @@ static void popup_goto_airlift_dialog(void)
       continue;
     }
 
-    pFlag = ResizeSurfaceBox(get_nation_flag_surface(pplayer->nation),
-                             adj_size(30), adj_size(30), 1, TRUE, FALSE);
+    flag = resize_surface_box(get_nation_flag_surface(pplayer->nation),
+                              adj_size(30), adj_size(30), 1, TRUE, FALSE);
 
-    pEnabled = create_icon_theme_surf(pFlag);
-    fill_rect_alpha(pFlag, NULL, &bg_color);
-    pDisabled = create_icon_theme_surf(pFlag);
-    FREESURFACE(pFlag);
+    enabled = create_icon_theme_surf(flag);
+    fill_rect_alpha(flag, NULL, &bg_color);
+    disabled = create_icon_theme_surf(flag);
+    FREESURFACE(flag);
 
     buf = create_checkbox(pwindow->dst,
-                           BV_ISSET(all_players, player_index(pplayer)),
-                           WF_FREE_THEME | WF_RESTORE_BACKGROUND
-                           | WF_WIDGET_HAS_INFO_LABEL);
-    set_new_checkbox_theme(buf, pEnabled, pDisabled);
+                          BV_ISSET(all_players, player_index(pplayer)),
+                          WF_FREE_THEME | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
+    set_new_checkbox_theme(buf, enabled, disabled);
 
     buf->info_label =
         create_utf8_from_char(nation_adjective_for_player(pplayer),
@@ -331,14 +332,14 @@ static void popup_goto_airlift_dialog(void)
   /* background */
   col = (col + 15) / 16; /* number of flag columns */
 
-  pFlag = ResizeSurface(current_theme->block,
+  flag = resize_surface(current_theme->block,
                         (col * buf->size.w + (col - 1) * adj_size(5) + adj_size(10)),
                         area.h, 1);
 
-  block_x = dst.x = area.x + area.w - pFlag->w;
+  block_x = dst.x = area.x + area.w - flag->w;
   dst.y = area.y;
-  alphablit(pFlag, NULL, pwindow->theme, &dst, 255);
-  FREESURFACE(pFlag);
+  alphablit(flag, NULL, pwindow->theme, &dst, 255);
+  FREESURFACE(flag);
 
   widget_set_position(pwindow,
                       (main_window_width() - pwindow->size.w) / 2,
@@ -374,8 +375,8 @@ static void popup_goto_airlift_dialog(void)
   }
 
   setup_vertical_scrollbar_area(goto_dlg->scroll,
-	                        block_x, area.y,
-  	                        area.h, TRUE);
+                                block_x, area.y,
+                                area.h, TRUE);
 
   update_goto_dialog();
 }

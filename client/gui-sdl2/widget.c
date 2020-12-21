@@ -208,7 +208,7 @@ SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
   alphablit(ptheme, &src, background, &des, 255);
 
   if (zoom) {
-    SDL_Surface *zoomed = ResizeSurface(background, width, height, 1);
+    SDL_Surface *zoomed = resize_surface(background, width, height, 1);
 
     FREESURFACE(background);
     background = zoomed;
@@ -1113,13 +1113,13 @@ void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h)
 {
   SDL_Surface *tmp_left =
-    ResizeSurface(current_theme->fr_left, current_theme->fr_left->w, h, 1);
+    resize_surface(current_theme->fr_left, current_theme->fr_left->w, h, 1);
   SDL_Surface *tmp_right =
-    ResizeSurface(current_theme->fr_right, current_theme->fr_right->w, h, 1);
+    resize_surface(current_theme->fr_right, current_theme->fr_right->w, h, 1);
   SDL_Surface *tmp_top =
-    ResizeSurface(current_theme->fr_top, w, current_theme->fr_top->h, 1);
+    resize_surface(current_theme->fr_top, w, current_theme->fr_top->h, 1);
   SDL_Surface *tmp_bottom =
-    ResizeSurface(current_theme->fr_bottom, w, current_theme->fr_bottom->h, 1);
+    resize_surface(current_theme->fr_bottom, w, current_theme->fr_bottom->h, 1);
   SDL_Rect tmp,dst = {start_x, start_y, 0, 0};
 
   tmp = dst;

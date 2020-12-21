@@ -47,7 +47,7 @@ enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
 SDL_Cursor *pStd_Cursor = NULL;
-SDL_Cursor *pDisabledCursor = NULL;
+SDL_Cursor *disabled_cursor = NULL;
 
 struct color_cursor current_color_cursor;
 
@@ -142,7 +142,7 @@ void load_cursors(void)
   pStd_Cursor = SDL_GetCursor();
 
   surf = create_surf(1, 1, SDL_SWSURFACE);
-  pDisabledCursor = SurfaceToCursor(surf, 0, 0);
+  disabled_cursor = SurfaceToCursor(surf, 0, 0);
   FREESURFACE(surf);
 
   for (cursor = 0; cursor < CURSOR_LAST; cursor++) {
@@ -173,7 +173,7 @@ void unload_cursors(void)
   }
 
   SDL_FreeCursor(pStd_Cursor);
-  SDL_FreeCursor(pDisabledCursor);
+  SDL_FreeCursor(disabled_cursor);
 }
 
 /**********************************************************************//**
@@ -225,7 +225,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
     mouse_cursor_changed = FALSE;
   } else {
     if (gui_options.gui_sdl2_use_color_cursors) {
-      SDL_SetCursor(pDisabledCursor);
+      SDL_SetCursor(disabled_cursor);
     }
     mouse_cursor_changed = TRUE;
   }

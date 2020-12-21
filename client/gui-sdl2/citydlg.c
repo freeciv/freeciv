@@ -672,7 +672,7 @@ static SDL_Surface *create_unit_surface(struct unit *punit, bool support,
   if (w != src_rect.w || h != src_rect.h) {
     SDL_Surface *pzoomed;
 
-    pzoomed = ResizeSurfaceBox(psurf, w, h, 1, TRUE, TRUE);
+    pzoomed = resize_surface_box(psurf, w, h, 1, TRUE, TRUE);
     FREESURFACE(psurf);
     psurf = pzoomed;
   }
@@ -3537,7 +3537,7 @@ static void rebuild_imprm_list(struct city *pcity)
     pstr->style |= TTF_STYLE_BOLD;
 
     logo = get_building_surface(pimprove);
-    logo = ResizeSurfaceBox(logo, adj_size(22), adj_size(22), 1, TRUE, TRUE);
+    logo = resize_surface_box(logo, adj_size(22), adj_size(22), 1, TRUE, TRUE);
 
     buf = create_iconlabel(logo, pwindow->dst, pstr,
                            (WF_FREE_THEME | WF_RESTORE_BACKGROUND));

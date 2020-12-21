@@ -2443,7 +2443,7 @@ SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,
     FREESURFACE(text);
 
     /* draw tech icon */
-    text = ResizeSurface(tmp, adj_size(25), adj_size(25), 1);
+    text = resize_surface(tmp, adj_size(25), adj_size(25), 1);
     dst.x = (adj_size(35) - text->w) / 2;
     dst.y = (surf->h - text->h) / 2;
     alphablit(text, NULL, surf, &dst, 255);
@@ -3368,7 +3368,7 @@ void science_report_dialog_popup(bool raise)
   science_dlg->end_widget_list = pwindow;
 
   background = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
-  pwindow->theme = ResizeSurface(background, pwindow->size.w, pwindow->size.h, 1);
+  pwindow->theme = resize_surface(background, pwindow->size.w, pwindow->size.h, 1);
   FREESURFACE(background);
 
   area = pwindow->area;
