@@ -18,7 +18,11 @@
 #include <stdarg.h>
 
 #ifdef HAVE_MAPIMG_MAGICKWAND
+#ifdef FREECIV_MWAND7
+  #include <MagickWand/MagickWand.h>
+#else  /* FREECIV_MWAND7 */
   #include <wand/MagickWand.h>
+#endif /* FREECIV_MWAND7 */
 #endif /* HAVE_MAPIMG_MAGICKWAND */
 
 /* utility */
