@@ -1,8 +1,10 @@
 /Makefile.in
 /Makefile
 /.deps
+/meta_conversion_log.cpp
 /meta_edit_utype.cpp
 /meta_req_edit.cpp
+/meta_req_vec_fix.cpp
 /meta_requirers_dlg.cpp
 /meta_ruledit_qt.cpp
 /meta_tab_building.cpp
