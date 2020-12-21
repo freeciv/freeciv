@@ -205,6 +205,15 @@ COMMON_DLLS := \
 	libtermcap-0.dll \
 	libssp-0.dll \
 	libzstd.dll \
+	libMagickWand-7.Q16HDRI-7.dll \
+	libMagickCore-7.Q16HDRI-7.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libexpat-1.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -216,7 +225,6 @@ install-env-common:
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
 	libgtk-3-0.dll \
-	libexpat-1.dll \
 	libharfbuzz-0.dll \
 	libepoxy-0.dll \
 	libgraphite2.dll \
@@ -322,7 +330,17 @@ RULEDIT_DLLS := \
 	libgraphite2.dll \
 	libpcre-1.dll \
 	libdouble-conversion.dll \
-	libzstd.dll
+	libzstd.dll \
+	libMagickWand-7.Q16HDRI-7.dll \
+	libMagickCore-7.Q16HDRI-7.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libexpat-1.dll \
+	libfribidi-0.dll
 
 install-env-ruledit:
 	# add DLLs
