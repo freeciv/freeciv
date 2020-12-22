@@ -2413,10 +2413,11 @@ void handle_player_info(const struct packet_player_info *pinfo)
   fc_assert(pinfo->multip_count == multiplier_count());
   game.control.num_multipliers = pinfo->multip_count;
   multipliers_iterate(pmul) {
-    pplayer->multipliers[multiplier_index(pmul)].value =
-        pinfo->multiplier[multiplier_index(pmul)];
-    pplayer->multipliers[multiplier_index(pmul)].target =
-        pinfo->multiplier_target[multiplier_index(pmul)];
+    int idx = multiplier_index(pmul);
+
+    pplayer->multipliers[idx].value = pinfo->multiplier[idx];
+    pplayer->multipliers[idx].target = pinfo->multiplier_target[idx];
+    pplayer->multipliers[idx].changed = pinfo->multiplier_changed[idx];
   } multipliers_iterate_end;
 
   /* if the server requests that the client reset, then information about
@@ -3737,6 +3738,7 @@ void handle_ruleset_multiplier(const struct packet_ruleset_multiplier *p)
   pmul->def    = p->def;
   pmul->offset = p->offset;
   pmul->factor = p->factor;
+  pmul->minimum_turns = p->minimum_turns;
 
   names_set(&pmul->name, NULL, p->name, p->rule_name);
 

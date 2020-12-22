@@ -136,6 +136,15 @@ struct multiplier *multiplier_by_rule_name(const char *name)
 ****************************************************************************/
 bool multiplier_can_be_changed(struct multiplier *pmul, struct player *pplayer)
 {
+  int idx = multiplier_index(pmul);
+
+  if (pplayer->multipliers[idx].changed > 0) {
+    /* It has been changed in the past, so require minimum_turns to have passed. */
+    if (game.info.turn - pplayer->multipliers[idx].changed < pmul->minimum_turns) {
+      return FALSE;
+    }
+  }
+
   return are_reqs_active(pplayer, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
                          NULL, &pmul->reqs, RPT_CERTAIN);
 }

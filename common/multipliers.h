@@ -38,6 +38,7 @@ struct multiplier
   int def;   /* default value, in display units */
   int offset;
   int factor;
+  int minimum_turns;
   struct requirement_vector reqs;
   struct strvec *helptext;
 };

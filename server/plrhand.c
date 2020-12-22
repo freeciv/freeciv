@@ -1177,15 +1177,19 @@ static void package_player_info(struct player *plr,
   packet->multip_count = multiplier_count();
   if (info_level >= INFO_FULL) {
     multipliers_iterate(pmul) {
-      packet->multiplier[multiplier_index(pmul)] =
-        plr->multipliers[multiplier_index(pmul)].value;
-      packet->multiplier_target[multiplier_index(pmul)] =
-        plr->multipliers[multiplier_index(pmul)].target;
+      int idx = multiplier_index(pmul);
+
+      packet->multiplier[idx] = plr->multipliers[idx].value;
+      packet->multiplier_target[idx] = plr->multipliers[idx].target;
+      packet->multiplier_changed[idx] = plr->multipliers[idx].changed;
     } multipliers_iterate_end;
   } else {
     multipliers_iterate(pmul) {
-      packet->multiplier[multiplier_index(pmul)] = 0;
-      packet->multiplier_target[multiplier_index(pmul)] = 0;
+      int idx = multiplier_index(pmul);
+
+      packet->multiplier[idx] = 0;
+      packet->multiplier_target[idx] = 0;
+      packet->multiplier_changed[idx] = 0;
     } multipliers_iterate_end;
   }
 

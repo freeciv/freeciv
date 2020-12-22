@@ -1561,6 +1561,7 @@ static bool save_governments_ruleset(const char *filename, const char *name)
 
       save_default_int(sfile, pmul->offset, 0, path, "offset");
       save_default_int(sfile, pmul->factor, 100, path, "factor");
+      save_default_int(sfile, pmul->minimum_turns, 0, path, "minimum_turns");
 
       save_reqs_vector(sfile, &(pmul->reqs), path, "reqs");
 

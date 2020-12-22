@@ -936,6 +936,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8  multip_count;
   SINT32 multiplier[MAX_NUM_MULTIPLIERS:multip_count];
   SINT32 multiplier_target[MAX_NUM_MULTIPLIERS:multip_count];
+  TURN multiplier_changed[MAX_NUM_MULTIPLIERS:multip_count];
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend
@@ -1867,6 +1868,7 @@ PACKET_RULESET_MULTIPLIER = 243; sc, dsend, lsend
   SINT32 def;
   SINT32 offset;
   SINT32 factor;
+  UINT16 minimum_turns;
   STRING name[MAX_LEN_NAME];
   STRING rule_name[MAX_LEN_NAME];
   UINT8  reqs_count;

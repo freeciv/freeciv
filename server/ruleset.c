@@ -4166,6 +4166,10 @@ static bool load_ruleset_governments(struct section_file *file,
         break;
       }
 
+      pmul->minimum_turns = secfile_lookup_int_default(file, 0,
+                                                       "%s.minimum_turns",
+                                                       sec_name);
+
       reqs = lookup_req_list(file, compat, sec_name, "reqs",
                              multiplier_rule_name(pmul));
       if (reqs == NULL) {
@@ -8282,6 +8286,7 @@ static void send_ruleset_multipliers(struct conn_list *dest)
     packet.def    = pmul->def;
     packet.offset = pmul->offset;
     packet.factor = pmul->factor;
+    packet.minimum_turns = pmul->minimum_turns;
 
     sz_strlcpy(packet.name, untranslated_name(&pmul->name));
     sz_strlcpy(packet.rule_name, rule_name_get(&pmul->name));
