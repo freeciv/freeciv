@@ -38,7 +38,7 @@
 #include "canvas.h"
 #include "gui_main.h"
 
-#define	RECT_LIMIT  80
+#define RECT_LIMIT  80
 
 /* DUFFS LOOPs come from SDL lib (LGPL) */
 /* DUFFS_LOOP_DOUBLE2 and DUFFS_LOOP_QUATRO2 was created by Rafal Bursig under GPL */
@@ -244,26 +244,26 @@ int alphablit(SDL_Surface *src, SDL_Rect *srcrect,
 int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
                 unsigned char alpha_mod);
 
-SDL_Surface *load_surf(const char *pFname);
+SDL_Surface *load_surf(const char *fname);
 
 SDL_Surface *create_surf_with_format(SDL_PixelFormat *pf,
                                      int width, int height, Uint32 flags);
 SDL_Surface *create_surf(int width, int height, Uint32 flags);
 SDL_Surface *convert_surf(SDL_Surface *surf_in);
 
-SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-                                   SDL_Color *pColor);
+SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
+                                   SDL_Color *pcolor);
 
 SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
                                     SDL_Rect *prect);
 
-SDL_Surface *mask_surface(SDL_Surface *psrc, SDL_Surface *pMask,
+SDL_Surface *mask_surface(SDL_Surface *src, SDL_Surface *mask,
                           int mask_offset_x, int mask_offset_y);
 
 SDL_Surface *copy_surface(SDL_Surface *src);
 
 int blit_entire_src(SDL_Surface *psrc,
-                    SDL_Surface *pdest, Sint16 iDest_x, Sint16 iDest_y);
+                    SDL_Surface *pdest, Sint16 dest_x, Sint16 dest_y);
 
 Uint32 getpixel(SDL_Surface *surf, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *surf);
@@ -278,7 +278,7 @@ void create_line(SDL_Surface *dest, Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
 /* SDL */
 void init_sdl(int f);
 void quit_sdl(void);
-int set_video_mode(int iWidth, int iHeight, int iFlags);
+int set_video_mode(int width, int height, int flags);
 
 void update_main_screen(void);
 
@@ -290,7 +290,7 @@ bool correct_rect_region(SDL_Rect *prect);
 bool is_in_rect_area(int x, int y, SDL_Rect rect);
 
 int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
-                    SDL_Color *pColor);
+                    SDL_Color *pcolor);
 
 int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect);
 
@@ -344,14 +344,14 @@ do {					\
 } while (FALSE)
 
 /*
- *	lock screen surface
+ *   lock screen surface
  */
 #define lock_screen() lock_surf(main_data.screen)
 
 /*
- *	unlock screen surface
+ *   unlock screen surface
  */
-#define unlock_screen()	unlock_surf(main_data.screen)
+#define unlock_screen() unlock_surf(main_data.screen)
 
 #define putpixel(surf, x, y, pixel)					  \
 do {									  \

@@ -253,7 +253,7 @@ struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
   }
 **************************************************************************/
 int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
-                  SDL_Color *pColor, Uint16 new_w, Uint16 new_h)
+                  SDL_Color *pcolor, Uint16 new_w, Uint16 new_h)
 {
   SDL_Color color;
 
@@ -289,13 +289,13 @@ int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
   } else {
     pwindow->theme = create_surf(new_w, new_h, SDL_SWSURFACE);
 
-    if (pColor == NULL) {
+    if (pcolor == NULL) {
       color = *get_theme_color(COLOR_THEME_BACKGROUND);
 
-      pColor = &color;
+      pcolor = &color;
     }
 
-    SDL_FillRect(pwindow->theme, NULL, map_rgba(pwindow->theme->format, *pColor));
+    SDL_FillRect(pwindow->theme, NULL, map_rgba(pwindow->theme->format, *pcolor));
 
     return 1;
   }

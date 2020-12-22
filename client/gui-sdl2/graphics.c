@@ -224,6 +224,7 @@ int screen_blit(SDL_Surface *src, SDL_Rect *srcrect, SDL_Rect *dstrect,
                 unsigned char alpha_mod)
 {
   render_dirty = TRUE;
+
   return alphablit(src, srcrect, main_surface, dstrect, alpha_mod);
 }
 
@@ -254,65 +255,65 @@ SDL_Surface *crop_rect_from_surface(SDL_Surface *psource,
   Thus if the mask has 50% alpha the final image will be reduced by 50% alpha.
 
   mask_offset_x, mask_offset_y is the offset of the mask relative to the
-  origin of the source image.  The pixel at (mask_offset_x,mask_offset_y)
-  in the mask image will be used to clip pixel (0,0) in the source image
-  which is pixel (-x,-y) in the new image.
+  origin of the source image.  The pixel at (mask_offset_x, mask_offset_y)
+  in the mask image will be used to clip pixel (0, 0) in the source image
+  which is pixel (-x, -y) in the new image.
 **************************************************************************/
-SDL_Surface *mask_surface(SDL_Surface *psrc, SDL_Surface *pMask,
+SDL_Surface *mask_surface(SDL_Surface *src, SDL_Surface *mask,
                           int mask_offset_x, int mask_offset_y)
 {
-  SDL_Surface *pdest = NULL;
+  SDL_Surface *dest = NULL;
   int row, col;
-  Uint32 *psrc_pixel = NULL;
-  Uint32 *pdest_pixel = NULL;
-  Uint32 *pmask_pixel = NULL;
+  Uint32 *src_pixel = NULL;
+  Uint32 *dest_pixel = NULL;
+  Uint32 *mask_pixel = NULL;
   unsigned char src_alpha, mask_alpha;
 
-  pdest = copy_surface(psrc);
+  dest = copy_surface(src);
 
-  lock_surf(psrc);
-  lock_surf(pMask);
-  lock_surf(pdest);
+  lock_surf(src);
+  lock_surf(mask);
+  lock_surf(dest);
 
-  psrc_pixel = (Uint32 *)psrc->pixels;
-  pdest_pixel = (Uint32 *)pdest->pixels;
+  src_pixel = (Uint32 *)src->pixels;
+  dest_pixel = (Uint32 *)dest->pixels;
 
-  for (row = 0; row < psrc->h; row++) {
-    pmask_pixel = (Uint32 *)pMask->pixels
-                  + pMask->w * (row + mask_offset_y)
-                  + mask_offset_x;
+  for (row = 0; row < src->h; row++) {
+    mask_pixel = (Uint32 *)mask->pixels
+                 + mask->w * (row + mask_offset_y)
+                 + mask_offset_x;
 
-    for (col = 0; col < psrc->w; col++) {
-      src_alpha = (*psrc_pixel & psrc->format->Amask) >> psrc->format->Ashift;
-      mask_alpha = (*pmask_pixel & pMask->format->Amask) >> pMask->format->Ashift;
+    for (col = 0; col < src->w; col++) {
+      src_alpha = (*src_pixel & src->format->Amask) >> src->format->Ashift;
+      mask_alpha = (*mask_pixel & mask->format->Amask) >> mask->format->Ashift;
 
-      *pdest_pixel = (*psrc_pixel & ~psrc->format->Amask)
-        | (((src_alpha * mask_alpha) / 255) << pdest->format->Ashift);
+      *dest_pixel = (*src_pixel & ~src->format->Amask)
+        | (((src_alpha * mask_alpha) / 255) << dest->format->Ashift);
 
-      psrc_pixel++; pdest_pixel++; pmask_pixel++;
+      src_pixel++; dest_pixel++; mask_pixel++;
     }
   }
 
-  unlock_surf(pdest);
-  unlock_surf(pMask);
-  unlock_surf(psrc);
+  unlock_surf(dest);
+  unlock_surf(mask);
+  unlock_surf(src);
 
-  return pdest;
+  return dest;
 }
 
 /**********************************************************************//**
   Load a surface from file putting it in software mem.
 **************************************************************************/
-SDL_Surface *load_surf(const char *pFname)
+SDL_Surface *load_surf(const char *fname)
 {
   SDL_Surface *buf;
 
-  if (!pFname) {
+  if (!fname) {
     return NULL;
   }
 
-  if ((buf = IMG_Load(pFname)) == NULL) {
-    log_error(_("load_surf: Failed to load graphic file %s!"), pFname);
+  if ((buf = IMG_Load(fname)) == NULL) {
+    log_error(_("load_surf: Failed to load graphic file %s!"), fname);
 
     return NULL;
   }
@@ -362,31 +363,31 @@ SDL_Surface *convert_surf(SDL_Surface *surf_in)
 
 /**********************************************************************//**
   Create an surface with screen format and fill with color.
-  If pColor == NULL surface is filled with transparent white A = 128
+  If pcolor == NULL surface is filled with transparent white A = 128
 **************************************************************************/
-SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 iFlags,
-                                   SDL_Color *pColor)
+SDL_Surface *create_filled_surface(Uint16 w, Uint16 h, Uint32 flags,
+                                   SDL_Color *pcolor)
 {
   SDL_Surface *new_surf;
   SDL_Color color = {255, 255, 255, 128};
 
-  new_surf = create_surf(w, h, iFlags);
+  new_surf = create_surf(w, h, flags);
 
   if (!new_surf) {
     return NULL;
   }
 
-  if (!pColor) {
-    /* pColor->unused == ALPHA */
-    pColor = &color;
+  if (!pcolor) {
+    /* pcolor->unused == ALPHA */
+    pcolor = &color;
   }
 
   SDL_FillRect(new_surf, NULL,
-               SDL_MapRGBA(new_surf->format, pColor->r, pColor->g, pColor->b,
-                           pColor->a));
+               SDL_MapRGBA(new_surf->format, pcolor->r, pcolor->g, pcolor->b,
+                           pcolor->a));
 
-  if (pColor->a != 255) {
-    SDL_SetSurfaceAlphaMod(new_surf, pColor->a);
+  if (pcolor->a != 255) {
+    SDL_SetSurfaceAlphaMod(new_surf, pcolor->a);
   }
 
   return new_surf;
@@ -410,13 +411,13 @@ int clear_surface(SDL_Surface *surf, SDL_Rect *dstrect)
 
 /**********************************************************************//**
   Blit entire src [SOURCE] surface to destination [DEST] surface
-  on position : [iDest_x],[iDest_y] using it's actual alpha and
+  on position : [dest_x],[dest_y] using it's actual alpha and
   color key settings.
 **************************************************************************/
 int blit_entire_src(SDL_Surface *psrc, SDL_Surface *pdest,
-                    Sint16 iDest_x, Sint16 iDest_y)
+                    Sint16 dest_x, Sint16 dest_y)
 {
-  SDL_Rect dest_rect = { iDest_x, iDest_y, 0, 0 };
+  SDL_Rect dest_rect = { dest_x, dest_y, 0, 0 };
 
   return alphablit(psrc, NULL, pdest, &dest_rect, 255);
 }
@@ -502,7 +503,7 @@ Uint32 get_first_pixel(SDL_Surface *surf)
 /**********************************************************************//**
   Initialize sdl with Flags
 **************************************************************************/
-void init_sdl(int iFlags)
+void init_sdl(int flags)
 {
   bool error;
 
@@ -515,9 +516,9 @@ void init_sdl(int iFlags)
   main_data.guis_count = 0;
 
   if (SDL_WasInit(SDL_INIT_AUDIO)) {
-    error = (SDL_InitSubSystem(iFlags) < 0);
+    error = (SDL_InitSubSystem(flags) < 0);
   } else {
-    error = (SDL_Init(iFlags) < 0);
+    error = (SDL_Init(flags) < 0);
   }
   if (error) {
     log_fatal(_("Unable to initialize SDL2 library: %s"), SDL_GetError());
@@ -549,42 +550,42 @@ void quit_sdl(void)
 /**********************************************************************//**
   Switch to passed video mode.
 **************************************************************************/
-int set_video_mode(int iwidth, int iheight, int iflags)
+int set_video_mode(int width, int height, int flags_in)
 {
   unsigned int flags;
 
   main_data.screen = SDL_CreateWindow(_("SDL2 Client for Freeciv"),
                                       SDL_WINDOWPOS_UNDEFINED,
                                       SDL_WINDOWPOS_UNDEFINED,
-                                      iwidth, iheight,
+                                      width, height,
                                       0);
 
-  if (iflags & SDL_WINDOW_FULLSCREEN) {
+  if (flags_in & SDL_WINDOW_FULLSCREEN) {
     SDL_DisplayMode mode;
 
     /* Use SDL_WINDOW_FULLSCREEN_DESKTOP instead of real SDL_WINDOW_FULLSCREEN */
     SDL_SetWindowFullscreen(main_data.screen, SDL_WINDOW_FULLSCREEN_DESKTOP);
     SDL_GetWindowDisplayMode(main_data.screen, &mode);
-    iwidth = mode.w;
-    iheight = mode.h;
+    width = mode.w;
+    height = mode.h;
   }
 
   if (is_bigendian()) {
-      main_surface = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+      main_surface = SDL_CreateRGBSurface(0, width, height, 32,
                                           0x0000FF00, 0x00FF0000,
                                           0xFF000000, 0x000000FF);
   } else {
-    main_surface = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+    main_surface = SDL_CreateRGBSurface(0, width, height, 32,
                                         0x00FF0000, 0x0000FF00,
                                         0x000000FF, 0xFF000000);
   }
 
   if (is_bigendian()) {
-    main_data.map = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+    main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
                                          0x0000FF00, 0x00FF0000,
                                          0xFF000000, 0x000000FF);
   } else {
-    main_data.map = SDL_CreateRGBSurface(0, iwidth, iheight, 32,
+    main_data.map = SDL_CreateRGBSurface(0, width, height, 32,
                                          0x00FF0000, 0x0000FF00,
                                          0x000000FF, 0xFF000000);
   }
@@ -600,13 +601,13 @@ int set_video_mode(int iwidth, int iheight, int iflags)
   main_data.maintext = SDL_CreateTexture(main_data.renderer,
                                          SDL_PIXELFORMAT_ARGB8888,
                                          SDL_TEXTUREACCESS_STREAMING,
-                                         iwidth, iheight);
+                                         width, height);
 
   if (main_data.gui) {
     FREESURFACE(main_data.gui->surface);
-    main_data.gui->surface = create_surf(iwidth, iheight, SDL_SWSURFACE);
+    main_data.gui->surface = create_surf(width, height, SDL_SWSURFACE);
   } else {
-    main_data.gui = add_gui_layer(iwidth, iheight);
+    main_data.gui = add_gui_layer(width, height);
   }
 
   clear_surface(main_data.gui->surface, NULL);
@@ -664,14 +665,14 @@ int main_window_height(void)
   Fill rectangle for "565" format surface
 **************************************************************************/
 static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
-                              SDL_Color *pColor)
+                              SDL_Color *pcolor)
 {
   Uint32 y, end;
   Uint32 *start;
   Uint32 *pixel;
   register Uint32 D, S =
-      SDL_MapRGB(surf->format, pColor->r, pColor->g, pColor->b);
-  register Uint32 A = pColor->a >> 3;
+      SDL_MapRGB(surf->format, pcolor->r, pcolor->g, pcolor->b);
+  register Uint32 A = pcolor->a >> 3;
 
   S &= 0xFFFF;
 
@@ -779,13 +780,13 @@ static int __FillRectAlpha565(SDL_Surface *surf, SDL_Rect *prect,
   Fill rectangle for "555" format surface
 **************************************************************************/
 static int __FillRectAlpha555(SDL_Surface *surf, SDL_Rect *prect,
-                              SDL_Color *pColor)
+                              SDL_Color *pcolor)
 {
   Uint32 y, end;
   Uint32 *start, *pixel;
   register Uint32 D, S =
-      SDL_MapRGB(surf->format, pColor->r, pColor->g, pColor->b);
-  register Uint32 A = pColor->a >> 3;
+      SDL_MapRGB(surf->format, pcolor->r, pcolor->g, pcolor->b);
+  register Uint32 A = pcolor->a >> 3;
 
   S &= 0xFFFF;
 
@@ -891,13 +892,13 @@ static int __FillRectAlpha555(SDL_Surface *surf, SDL_Rect *prect,
   Fill rectangle for 32bit "8888" format surface
 **************************************************************************/
 static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
-                                     SDL_Color *pColor)
+                                     SDL_Color *pcolor)
 {
-  register Uint32 A = pColor->a;
+  register Uint32 A = pcolor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(surf->format,
-                                              pColor->r, pColor->g,
-                                              pColor->b);
+                                              pcolor->r, pcolor->g,
+                                              pcolor->b);
   Uint32 y, end, A_Dst, A_Mask = surf->format->Amask;
   Uint32 *start, *pixel;
 
@@ -1044,13 +1045,13 @@ static int __FillRectAlpha8888_32bit(SDL_Surface *surf, SDL_Rect *prect,
   Fill rectangle for 32bit "888" format surface
 **************************************************************************/
 static int __FillRectAlpha888_32bit(SDL_Surface *surf, SDL_Rect *prect,
-                                    SDL_Color *pColor)
+                                    SDL_Color *pcolor)
 {
-  register Uint32 A = pColor->a;
+  register Uint32 A = pcolor->a;
   register Uint32 dSIMD1, dSIMD2;
   register Uint32 sSIMD1, sSIMD2 = SDL_MapRGB(surf->format,
-                                              pColor->r, pColor->g,
-                                              pColor->b);
+                                              pcolor->r, pcolor->g,
+                                              pcolor->b);
   Uint32 y, end;
   Uint32 *start, *pixel;
 
@@ -1185,14 +1186,14 @@ static int __FillRectAlpha888_32bit(SDL_Surface *surf, SDL_Rect *prect,
   Fill rectangle for 24bit "888" format surface
 **************************************************************************/
 static int __FillRectAlpha888_24bit(SDL_Surface *surf, SDL_Rect *prect,
-                                    SDL_Color *pColor)
+                                    SDL_Color *pcolor)
 {
   Uint32 y, end;
   Uint8 *start, *pixel;
   register Uint32 P, D, S1, S2 = SDL_MapRGB(surf->format,
-                                            pColor->r, pColor->g,
-                                            pColor->b);
-  register Uint32 A = pColor->a;
+                                            pcolor->r, pcolor->g,
+                                            pcolor->b);
+  register Uint32 A = pcolor->a;
 
   S1 = S2 & 0x00FF00FF;
 
@@ -1289,19 +1290,19 @@ static int __FillRectAlpha888_24bit(SDL_Surface *surf, SDL_Rect *prect,
   Fill rectangle with color with alpha channel.
 **************************************************************************/
 int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
-                    SDL_Color *pColor)
+                    SDL_Color *pcolor)
 {
   if (prect && (prect->x < - prect->w || prect->x >= surf->w
                 || prect->y < - prect->h || prect->y >= surf->h)) {
     return -2;
   }
 
-  if (pColor->a == 255) {
+  if (pcolor->a == 255) {
     return SDL_FillRect(surf, prect,
-                        SDL_MapRGB(surf->format, pColor->r, pColor->g, pColor->b));
+                        SDL_MapRGB(surf->format, pcolor->r, pcolor->g, pcolor->b));
   }
 
-  if (!pColor->a) {
+  if (!pcolor->a) {
     return -3;
   }
 
@@ -1312,10 +1313,10 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
 
   case 2:
     if (surf->format->Gmask == 0x7E0) {
-      return __FillRectAlpha565(surf, prect, pColor);
+      return __FillRectAlpha565(surf, prect, pcolor);
     } else {
       if (surf->format->Gmask == 0x3E0) {
-        return __FillRectAlpha555(surf, prect, pColor);
+        return __FillRectAlpha555(surf, prect, pcolor);
       } else {
         return -1;
       }
@@ -1323,13 +1324,13 @@ int fill_rect_alpha(SDL_Surface *surf, SDL_Rect *prect,
     break;
 
   case 3:
-    return __FillRectAlpha888_24bit(surf, prect, pColor);
+    return __FillRectAlpha888_24bit(surf, prect, pcolor);
 
   case 4:
     if (surf->format->Amask) {
-      return __FillRectAlpha8888_32bit(surf, prect, pColor);
+      return __FillRectAlpha8888_32bit(surf, prect, pcolor);
     } else {
-      return __FillRectAlpha888_32bit(surf, prect, pColor);
+      return __FillRectAlpha888_32bit(surf, prect, pcolor);
     }
   }
 
