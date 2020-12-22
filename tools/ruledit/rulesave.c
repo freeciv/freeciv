@@ -1172,6 +1172,9 @@ static bool save_governments_ruleset(const char *filename, const char *name)
     secfile_insert_int(sfile, pmul->step, "%s.step", path);
     secfile_insert_int(sfile, pmul->def, "%s.default", path);
 
+    save_default_int(sfile, pmul->offset, 0, path, "offset");
+    save_default_int(sfile, pmul->factor, 100, path, "factor");
+
     save_strvec(sfile, pmul->helptext, path, "helptext");
   } multipliers_iterate_end;
 
