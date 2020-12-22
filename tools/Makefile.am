@@ -29,8 +29,8 @@ endif
 if MODINST_GTK3
 bin_PROGRAMS += freeciv-mp-gtk3
 endif
-if MODINST_GTK3X
-bin_PROGRAMS += freeciv-mp-gtk3x
+if MODINST_GTK4
+bin_PROGRAMS += freeciv-mp-gtk4
 endif
 if MODINST_QT
 bin_PROGRAMS += freeciv-mp-qt
@@ -168,19 +168,19 @@ freeciv_mp_gtk3_LDADD = \
 		$(MPICON)
 endif
 
-if MODINST_GTK3X
-freeciv_mp_gtk3x_CPPFLAGS = $(common_cppflags) $(mp_gtk3x_cflags)
+if MODINST_GTK4
+freeciv_mp_gtk4_CPPFLAGS = $(common_cppflags) $(mp_gtk4_cflags)
 
-freeciv_mp_gtk3x_SOURCES = mpgui_gtk4.c
+freeciv_mp_gtk4_SOURCES = mpgui_gtk4.c
 
-freeciv_mp_gtk3x_LDFLAGS = $(mp_gtk3x_ldflags)
+freeciv_mp_gtk4_LDFLAGS = $(mp_gtk4_ldflags)
 
-freeciv_mp_gtk3x_LDADD = \
+freeciv_mp_gtk4_LDADD = \
 		libfcmp.la \
 		$(top_builddir)/dependencies/cvercmp/libcvercmp.la \
 		$(top_builddir)/common/libfreeciv.la \
 		$(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
-		$(mp_gtk3x_libs) \
+		$(mp_gtk4_libs) \
 		$(MPICON)
 endif
 
