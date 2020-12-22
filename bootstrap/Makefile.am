@@ -24,6 +24,7 @@ EXTRA_DIST =	freeciv.project		\
 		org.freeciv.server.desktop.in	\
 		org.freeciv.mp.gtk2.desktop.in	\
 		org.freeciv.mp.gtk3.desktop.in	\
+		org.freeciv.mp.gtk4.desktop.in	\
 		org.freeciv.mp.qt.desktop.in	\
 		org.freeciv.ruledit.desktop.in	\
 		freeciv-gtk2.appdata.xml.in \
@@ -33,6 +34,7 @@ EXTRA_DIST =	freeciv.project		\
 		freeciv-server.appdata.xml.in \
 		freeciv-mp-gtk2.appdata.xml.in \
 		freeciv-mp-gtk3.appdata.xml.in \
+		freeciv-mp-gtk4.appdata.xml.in \
 		freeciv-mp-qt.appdata.xml.in \
 		freeciv-ruledit.appdata.xml.in \
 		config.rpath		\
