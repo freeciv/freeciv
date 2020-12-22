@@ -352,7 +352,7 @@ static gboolean query_main_list_tooltip_cb(GtkWidget *widget,
   GtkTreeModel *model;
   const char *notes;
 
-  if (!gtk_tree_view_get_tooltip_context(tree_view, &x, &y,
+  if (!gtk_tree_view_get_tooltip_context(tree_view, x, y,
                                          keyboard_tip,
                                          &model, NULL, &iter)) {
     return FALSE;
@@ -576,7 +576,7 @@ static void activate_gui(GtkApplication* app, gpointer data)
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv-modpack");
   gtk_window_set_title(GTK_WINDOW(toplevel),
-                       _("Freeciv modpack installer (gtk3x)"));
+                       _("Freeciv modpack installer (gtk4)"));
 
 #if 0
     /* Keep the icon of the executable on Windows */
