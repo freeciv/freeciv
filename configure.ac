@@ -1784,6 +1784,7 @@ AC_CONFIG_FILES([Makefile
           client/org.freeciv.qt.desktop:bootstrap/org.freeciv.qt.desktop.in
 	  server/org.freeciv.server.desktop:bootstrap/org.freeciv.server.desktop.in
 	  tools/fcmp/org.freeciv.mp.gtk3.desktop:bootstrap/org.freeciv.mp.gtk3.desktop.in
+	  tools/fcmp/org.freeciv.mp.gtk4.desktop:bootstrap/org.freeciv.mp.gtk4.desktop.in
 	  tools/fcmp/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
 	  tools/ruledit/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in
           client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
@@ -1792,6 +1793,7 @@ AC_CONFIG_FILES([Makefile
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
           server/freeciv-server.appdata.xml:bootstrap/freeciv-server.appdata.xml.in
           tools/fcmp/freeciv-mp-gtk3.appdata.xml:bootstrap/freeciv-mp-gtk3.appdata.xml.in
+          tools/fcmp/freeciv-mp-gtk4.appdata.xml:bootstrap/freeciv-mp-gtk4.appdata.xml.in
           tools/fcmp/freeciv-mp-qt.appdata.xml:bootstrap/freeciv-mp-qt.appdata.xml.in
           tools/ruledit/freeciv-ruledit.appdata.xml:bootstrap/freeciv-ruledit.appdata.xml.in])
 AC_CONFIG_FILES([fcgui:bootstrap/fcgui.in], [chmod +x fcgui])

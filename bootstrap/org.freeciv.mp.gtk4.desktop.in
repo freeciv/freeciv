@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Freeciv modpack installer (gtk4)
+Name[ru]=Установщик модпаков Freeciv (gtk4)
+Comment=Download and install add-ons for Freeciv
+Comment[ru]=Скачивайте и устанавливайте дополнения для Freeciv
+Exec=freeciv-mp-gtk4
+Icon=freeciv-modpack
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=GTK;Game;StrategyGame;
+Keywords=strategy;simulation;civilization;tiles;history;mankind;multiplayer;download;installer;

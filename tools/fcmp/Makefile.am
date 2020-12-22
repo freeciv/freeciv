@@ -53,6 +53,13 @@ appdatafile_DATA += \
 	freeciv-mp-gtk3.appdata.xml
 endif
 
+if MODINST_GTK4
+desktopfile_DATA += \
+	org.freeciv.mp.gtk4.desktop
+appdatafile_DATA += \
+	freeciv-mp-gtk4.appdata.xml
+endif
+
 if MODINST_QT
 desktopfile_DATA += \
 	org.freeciv.mp.qt.desktop
