@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -14,7 +14,13 @@
 #ifndef FC__SIDEBAR_H
 #define FC__SIDEBAR_H
 
+// Needed for the moc-generated meta file
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 // Qt
+#include <QEnterEvent>
 #include <QWidget>
 
 enum { SW_STD = 0, SW_TAX = 1, SW_INDICATORS = 2 };
@@ -69,7 +75,11 @@ public slots:
   void some_slot();
 protected:
   void contextMenuEvent(QContextMenuEvent  *event);
+#ifdef FC_QT6_MODE
+  void enterEvent(QEnterEvent *event);
+#else  // FC_QT6_MODE
   void enterEvent(QEvent *event);
+#endif // FC_QT6_MODE
   void leaveEvent(QEvent *event);
   void mousePressEvent(QMouseEvent *event);
   void paintEvent(QPaintEvent *event);

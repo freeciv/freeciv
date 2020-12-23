@@ -894,7 +894,11 @@ void hud_action::leaveEvent(QEvent *event)
 /************************************************************************//**
   Enter event for hud_action, used to get status of pixmap higlight
 ****************************************************************************/
+#ifdef FC_QT6_MODE
+void hud_action::enterEvent(QEnterEvent *event)
+#else  // FC_QT6_MODE
 void hud_action::enterEvent(QEvent *event)
+#endif // FC_QT6_MODE
 {
   focus = true;
   update();

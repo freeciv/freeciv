@@ -14,9 +14,15 @@
 #ifndef FC__HUDWIDGET_H
 #define FC__HUDWIDGET_H
 
+// Needed for the moc-generated meta file
+#ifdef HAVE_CONFIG_H
+#include <fc_config.h>
+#endif
+
 // Qt
 #include <QDialog>
 #include <QElapsedTimer>
+#include <QEnterEvent>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMessageBox>
@@ -165,7 +171,11 @@ protected:
   void mousePressEvent(QMouseEvent *e);
   void mouseMoveEvent(QMouseEvent *event);
   void leaveEvent(QEvent *event);
+#ifdef FC_QT6_MODE
+  void enterEvent(QEnterEvent *event);
+#else  // FC_QT6_MODE
   void enterEvent(QEvent *event);
+#endif // FC_QT6_MODE
 private slots:
   void on_clicked();
   void on_right_clicked();
