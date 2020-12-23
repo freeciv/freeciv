@@ -67,12 +67,12 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 static int redraw_edit_chain(struct text_edit *edt)
 {
   struct Utf8Char *input_chain_tmp;
-  SDL_Rect Dest, Dest_Copy = {0, 0, 0, 0};
-  int iStart_Mod_X;
+  SDL_Rect dest, dest_copy = {0, 0, 0, 0};
+  int start_mod_x;
   int ret;
 
-  Dest_Copy.x = edt->pwidget->size.x;
-  Dest_Copy.y = edt->pwidget->size.y;
+  dest_copy.x = edt->pwidget->size.x;
+  dest_copy.y = edt->pwidget->size.y;
 
   ret = (*baseclass_redraw)(edt->pwidget);
   if (ret != 0) {
@@ -80,43 +80,43 @@ static int redraw_edit_chain(struct text_edit *edt)
   }
 
   /* blit theme */
-  Dest = Dest_Copy;
+  dest = dest_copy;
 
-  alphablit(edt->pBg, NULL, edt->pwidget->dst->surface, &Dest, 255);
+  alphablit(edt->pBg, NULL, edt->pwidget->dst->surface, &dest, 255);
 
   /* set start parameters */
   input_chain_tmp = edt->begin_text_chain;
-  iStart_Mod_X = 0;
+  start_mod_x = 0;
 
-  Dest_Copy.y += (edt->pBg->h - input_chain_tmp->pTsurf->h) / 2;
-  Dest_Copy.x += edt->Start_X;
+  dest_copy.y += (edt->pBg->h - input_chain_tmp->pTsurf->h) / 2;
+  dest_copy.x += edt->Start_X;
 
   /* draw loop */
   while (input_chain_tmp) {
-    Dest_Copy.x += iStart_Mod_X;
+    dest_copy.x += start_mod_x;
     /* check if we draw inside of edit rect */
-    if (Dest_Copy.x > edt->pwidget->size.x + edt->pBg->w - 4) {
+    if (dest_copy.x > edt->pwidget->size.x + edt->pBg->w - 4) {
       break;
     }
 
-    if (Dest_Copy.x > edt->pwidget->size.x) {
-      Dest = Dest_Copy;
-      alphablit(input_chain_tmp->pTsurf, NULL, edt->pwidget->dst->surface, &Dest,
+    if (dest_copy.x > edt->pwidget->size.x) {
+      dest = dest_copy;
+      alphablit(input_chain_tmp->pTsurf, NULL, edt->pwidget->dst->surface, &dest,
                 255);
     }
 
-    iStart_Mod_X = input_chain_tmp->pTsurf->w;
+    start_mod_x = input_chain_tmp->pTsurf->w;
 
     /* draw cursor */
     if (input_chain_tmp == edt->input_chain) {
-      Dest = Dest_Copy;
+      dest = dest_copy;
 
       create_line(edt->pwidget->dst->surface,
-                  Dest.x - 1, Dest.y + (edt->pBg->h / 8),
-                  Dest.x - 1, Dest.y + edt->pBg->h - (edt->pBg->h / 4),
+                  dest.x - 1, dest.y + (edt->pBg->h / 8),
+                  dest.x - 1, dest.y + edt->pBg->h - (edt->pBg->h / 4),
                   get_theme_color(COLOR_THEME_EDITFIELD_CARET));
       /* save active element position */
-      edt->InputChain_X = Dest_Copy.x;
+      edt->InputChain_X = dest_copy.x;
     }
 
     input_chain_tmp = input_chain_tmp->next;
@@ -142,12 +142,10 @@ static int redraw_edit_chain(struct text_edit *edt)
 **************************************************************************/
 static int redraw_edit(struct widget *edit_widget)
 {
-  int ret;
-
   if (get_wstate(edit_widget) == FC_WS_PRESSED) {
     return redraw_edit_chain((struct text_edit *)edit_widget->data.ptr);
   } else {
-    int iRet = 0;
+    int ret;
     SDL_Rect rDest = {edit_widget->size.x, edit_widget->size.y, 0, 0};
     SDL_Surface *pedit = NULL;
     SDL_Surface *text;
@@ -200,13 +198,13 @@ static int redraw_edit(struct widget *edit_widget)
       alphablit(text, NULL, edit_widget->dst->surface, &rDest, 255);
     }
     /* text */
-    iRet = pedit->h;
+    ret = pedit->h;
 
     /* Free memory */
     FREESURFACE(text);
     FREESURFACE(pedit);
 
-    return iRet;
+    return ret;
   }
 
   return 0;

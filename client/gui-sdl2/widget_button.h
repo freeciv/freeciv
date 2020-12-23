@@ -14,19 +14,19 @@
 #ifndef FC__WIDGET_BUTTON_H
 #define FC__WIDGET_BUTTON_H
 
-#define create_icon_button_from_chars(icon, pdest, pCharString, iPtsize, flags) \
+#define create_icon_button_from_chars(icon, pdest, char_string, ptsize, flags) \
         create_icon_button(icon, pdest,                                         \
-                           create_utf8_from_char(pCharString, iPtsize),          \
+                           create_utf8_from_char(char_string, ptsize),          \
                            flags)
 
-#define create_themeicon_button_from_unichar(icon_theme, pdest, pUniChar, pUniCharSize, iPtsize, flags) \
-  create_themeicon_button(icon, pdest, create_utf8(pUniChar, pUniCharSize, iPtsize), \
+#define create_themeicon_button_from_unichar(icon_theme, pdest, unichar, unichar_size, ptsize, flags) \
+  create_themeicon_button(icon, pdest, create_utf8(unichar, unichar_size, ptsize), \
                           flags)
 
-#define create_themeicon_button_from_chars(icon_theme, pdest, pCharString, iPtsize, flags) \
+#define create_themeicon_button_from_chars(icon_theme, pdest, char_string, ptsize, flags) \
   create_themeicon_button(icon_theme, pdest,                           \
-                          create_utf8_from_char(pCharString,            \
-                                                iPtsize),               \
+                          create_utf8_from_char(char_string,            \
+                                                ptsize),               \
                           flags)
 
 struct widget *create_icon_button(SDL_Surface *icon,

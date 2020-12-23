@@ -227,27 +227,27 @@ static int redraw_ibutton(struct widget *icon_button)
 **************************************************************************/
 static int redraw_tibutton(struct widget *theme_icon_button)
 {
-  int iRet = 0;
+  int ret;
   SDL_Surface *icon;
-  SDL_Surface *pCopy_Of_Icon_Theme;
+  SDL_Surface *copy_of_icon_theme;
 
-  iRet = (*baseclass_redraw)(theme_icon_button);
-  if (iRet != 0) {
-    return iRet;
+  ret = (*baseclass_redraw)(theme_icon_button);
+  if (ret != 0) {
+    return ret;
   }
 
   icon = create_icon_from_theme(theme_icon_button->theme2,
                                 get_wstate(theme_icon_button));
-  pCopy_Of_Icon_Theme = theme_icon_button->theme2;
+  copy_of_icon_theme = theme_icon_button->theme2;
 
   theme_icon_button->theme2 = icon;
 
-  iRet = redraw_ibutton(theme_icon_button);
+  ret = redraw_ibutton(theme_icon_button);
 
   FREESURFACE(theme_icon_button->theme2);
-  theme_icon_button->theme2 = pCopy_Of_Icon_Theme;
+  theme_icon_button->theme2 = copy_of_icon_theme;
 
-  return iRet;
+  return ret;
 }
 
 /**********************************************************************//**

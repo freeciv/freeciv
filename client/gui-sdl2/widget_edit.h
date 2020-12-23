@@ -21,9 +21,9 @@ enum edit_return_codes {
   ED_FORCE_EXIT = 4
 };
 
-#define create_edit_from_chars(background, pdest, pCharString, iPtsize, length, flags) \
+#define create_edit_from_chars(background, pdest, pCharString, ptsize, length, flags) \
 	create_edit(background, pdest,                                                 \
-		    create_utf8_from_char(pCharString, iPtsize),                        \
+		    create_utf8_from_char(pCharString, ptsize),                        \
 		    length, flags)
 
 #define edit(pedit) edit_field(pedit)
