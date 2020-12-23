@@ -182,15 +182,16 @@ static void server_scan_error(struct server_scan *scan,
 }
 
 /**************************************************************************
-  SDL wrapper on create_server_list(...) function witch add
-  same functionality for LAN server dettection.
-  WARING !: for LAN scan use "finish_lanserver_scan()" to free server list.
+  Wrapper on server_scan_begin() and server_scan_get_list()
+  functions.
+
+  WARNING !: use "server_scan_finish()" to free server list.
 **************************************************************************/
 static struct srv_list *sdl_create_server_list(bool lan)
 {
   struct srv_list *list = NULL;
   int i;
-    
+
   if (lan) {
     pServer_scan = server_scan_begin(SERVER_SCAN_LOCAL, server_scan_error);      
   } else {
