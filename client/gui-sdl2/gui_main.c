@@ -82,7 +82,7 @@
 
 #include "gui_main.h"
 
-#define UNITS_TIMER_INTERVAL 128	/* milliseconds */
+#define UNITS_TIMER_INTERVAL      128 /* milliseconds */
 #define MAP_SCROLL_TIMER_INTERVAL 500
 
 const char *client_string = "gui-sdl2";
@@ -123,10 +123,10 @@ static enum direction8 scroll_dir;
 static struct finger_behavior finger_behavior;
 static struct mouse_button_behavior button_behavior;
 
-static SDL_Event *pNet_User_Event = NULL;
-static SDL_Event *pAnim_User_Event = NULL;
+static SDL_Event *net_user_event = NULL;
+static SDL_Event *anim_user_event = NULL;
 static SDL_Event *info_user_event = NULL;
-static SDL_Event *pMap_Scroll_User_Event = NULL;
+static SDL_Event *map_scroll_user_event = NULL;
 
 static void print_usage(void);
 static void parse_options(int argc, char **argv);
@@ -284,7 +284,7 @@ static Uint16 main_key_down_handler(SDL_Keysym key, void *data)
 /**********************************************************************//**
   Main key release handler.
 **************************************************************************/
-static Uint16 main_key_up_handler(SDL_Keysym Key, void *data)
+static Uint16 main_key_up_handler(SDL_Keysym key, void *data)
 {
   if (selected_widget) {
     unselect_widget_action();
@@ -295,13 +295,13 @@ static Uint16 main_key_up_handler(SDL_Keysym Key, void *data)
 /**********************************************************************//**
   Main finger down handler.
 **************************************************************************/
-static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
+static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *touch_event,
                                        void *data)
 {
   struct widget *pwidget;
   /* Touch event coordinates are normalized (0...1). */
-  int x = pTouchEvent->x * main_window_width();
-  int y = pTouchEvent->y * main_window_height();
+  int x = touch_event->x * main_window_width();
+  int y = touch_event->y * main_window_height();
 
   if ((pwidget = find_next_widget_at_pos(NULL, x, y)) != NULL) {
     if (get_wstate(pwidget) != FC_WS_DISABLED) {
@@ -313,7 +313,7 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
       /* Start counting. */
       finger_behavior.counting = TRUE;
       finger_behavior.finger_down_ticks = SDL_GetTicks();
-      finger_behavior.event = *pTouchEvent;
+      finger_behavior.event = *touch_event;
       finger_behavior.hold_state = MB_HOLD_SHORT;
       finger_behavior.ptile = canvas_pos_to_tile(x, y);
     }
@@ -323,16 +323,16 @@ static Uint16 main_finger_down_handler(SDL_TouchFingerEvent *pTouchEvent,
 /**********************************************************************//**
   Main finger release handler.
 **************************************************************************/
-static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *pTouchEvent,
+static Uint16 main_finger_up_handler(SDL_TouchFingerEvent *touch_event,
                                      void *data)
 {
   /* Touch event coordinates are normalized (0...1). */
-  int x = pTouchEvent->x * main_window_width();
-  int y = pTouchEvent->y * main_window_height();
+  int x = touch_event->x * main_window_width();
+  int y = touch_event->y * main_window_height();
   /* Screen wasn't pressed over a widget. */
   if (finger_behavior.finger_down_ticks
       && !find_next_widget_at_pos(NULL, x, y)) {
-    finger_behavior.event = *pTouchEvent;
+    finger_behavior.event = *touch_event;
     finger_up_on_map(&finger_behavior);
   }
 
@@ -375,6 +375,7 @@ static Uint16 main_mouse_button_down_handler(SDL_MouseButtonEvent *button_event,
     }
 #endif
   }
+
   return ID_ERROR;
 }
 
@@ -529,14 +530,14 @@ static int check_scroll_area(int x, int y)
 **************************************************************************/
 void force_exit_from_event_loop(void)
 {
-  SDL_Event Event;
+  SDL_Event event;
 
-  Event.type = user_event_type;
-  Event.user.code = EXIT_FROM_EVENT_LOOP;
-  Event.user.data1 = NULL;
-  Event.user.data2 = NULL;
+  event.type = user_event_type;
+  event.user.code = EXIT_FROM_EVENT_LOOP;
+  event.user.data1 = NULL;
+  event.user.data2 = NULL;
 
-  SDL_PushEvent(&Event);
+  SDL_PushEvent(&event);
 }
 
 /**********************************************************************//**
@@ -557,6 +558,7 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
       return 0;    /* Drop it, we've handled it */
     }
   }
+
   return 1;
 }
 
@@ -565,12 +567,12 @@ int FilterMouseMotionEvents(void *data, SDL_Event *event)
 **************************************************************************/
 Uint16 gui_event_loop(void *data,
                       void (*loop_action)(void *data),
-                      Uint16 (*key_down_handler)(SDL_Keysym Key, void *data),
-                      Uint16 (*key_up_handler)(SDL_Keysym Key, void *data),
+                      Uint16 (*key_down_handler)(SDL_Keysym key, void *data),
+                      Uint16 (*key_up_handler)(SDL_Keysym key, void *data),
                       Uint16 (*textinput_handler)(char *text, void *data),
-                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
-                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *pTouchEvent, void *data),
-                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *pTouchEvent,
+                      Uint16 (*finger_down_handler)(SDL_TouchFingerEvent *touch_event, void *data),
+                      Uint16 (*finger_up_handler)(SDL_TouchFingerEvent *touch_event, void *data),
+                      Uint16 (*finger_motion_handler)(SDL_TouchFingerEvent *touch_event,
                                                       void *data),
                       Uint16 (*mouse_button_down_handler)(SDL_MouseButtonEvent *button_event,
                                                           void *data),
@@ -611,7 +613,7 @@ Uint16 gui_event_loop(void *data,
       } else {
         if (result > 0) {
           if ((net_socket >= 0) && FD_ISSET(net_socket, &civfdset)) {
-            SDL_PushEvent(pNet_User_Event);
+            SDL_PushEvent(net_user_event);
           }
         }
       }
@@ -629,9 +631,9 @@ Uint16 gui_event_loop(void *data,
     if ((t_current - t_last_unit_anim) > UNITS_TIMER_INTERVAL) {
       if (autoconnect) {
         widget_info_counter++;
-        SDL_PushEvent(pAnim_User_Event);
+        SDL_PushEvent(anim_user_event);
       } else {
-        SDL_PushEvent(pAnim_User_Event);
+        SDL_PushEvent(anim_user_event);
       }
 
       t_last_unit_anim = SDL_GetTicks();
@@ -639,7 +641,7 @@ Uint16 gui_event_loop(void *data,
 
     if (is_map_scrolling) {
       if ((t_current - t_last_map_scrolling) > MAP_SCROLL_TIMER_INTERVAL) {
-        SDL_PushEvent(pMap_Scroll_User_Event);
+        SDL_PushEvent(map_scroll_user_event);
         t_last_map_scrolling = SDL_GetTicks();
       }
     } else {
@@ -735,7 +737,7 @@ Uint16 gui_event_loop(void *data,
             log_normal(_("Making screenshot %s"), schot);
             SDL_SaveBMP(main_data.screen, schot);
             break;
-#endif
+#endif /* 0 */
 
           case SDLK_RSHIFT:
             /* Right Shift is Pressed */
@@ -809,7 +811,7 @@ Uint16 gui_event_loop(void *data,
         case SDL_MOUSEMOTION:
           if (mouse_motion_handler) {
             ID = mouse_motion_handler(&main_data.event.motion, data);
-          }	
+          }
           break;
         }
       }
@@ -838,7 +840,7 @@ Uint16 gui_event_loop(void *data,
 **************************************************************************/
 void ui_init(void)
 {
-  Uint32 iSDL_Flags;
+  Uint32 sdl_flags;
 
   button_behavior.counting = FALSE;
   button_behavior.button_down_ticks = 0;
@@ -846,12 +848,12 @@ void ui_init(void)
   button_behavior.event = fc_calloc(1, sizeof(SDL_MouseButtonEvent));
 
   sdl2_client_flags = 0;
-  iSDL_Flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
+  sdl_flags = SDL_INIT_VIDEO | SDL_INIT_NOPARACHUTE;
 
   /* auto center new windows in X enviroment */
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
 
-  init_sdl(iSDL_Flags);
+  init_sdl(sdl_flags);
 }
 
 /**********************************************************************//**
@@ -885,6 +887,7 @@ static void real_resize_window_callback(void *data)
     draw_intro_gfx();
     dirty_all();
   }
+
   flush_all();
 }
 
@@ -968,11 +971,11 @@ static void migrate_options_from_sdl(void)
 **************************************************************************/
 void ui_main(int argc, char *argv[])
 {
-  SDL_Event __Net_User_Event;
-  SDL_Event __Anim_User_Event;
-  SDL_Event __Info_User_Event;
-  SDL_Event __Flush_User_Event;
-  SDL_Event __pMap_Scroll_User_Event;
+  SDL_Event __net_user_event;
+  SDL_Event __anim_user_event;
+  SDL_Event __info_user_event;
+  SDL_Event __flush_user_event;
+  SDL_Event __map_scroll_user_event;
   Uint32 flags = 0;
 
   parse_options(argc, argv);
@@ -993,40 +996,40 @@ void ui_main(int argc, char *argv[])
 
   user_event_type = SDL_RegisterEvents(1);
 
-  SDL_zero(__Net_User_Event);
-  __Net_User_Event.type = user_event_type;
-  __Net_User_Event.user.code = NET;
-  __Net_User_Event.user.data1 = NULL;
-  __Net_User_Event.user.data2 = NULL;
-  pNet_User_Event = &__Net_User_Event;
+  SDL_zero(__net_user_event);
+  __net_user_event.type = user_event_type;
+  __net_user_event.user.code = NET;
+  __net_user_event.user.data1 = NULL;
+  __net_user_event.user.data2 = NULL;
+  net_user_event = &__net_user_event;
 
-  SDL_zero(__Anim_User_Event);
-  __Anim_User_Event.type = user_event_type;
-  __Anim_User_Event.user.code = EVENT_ERROR;
-  __Anim_User_Event.user.data1 = NULL;
-  __Anim_User_Event.user.data2 = NULL;
-  pAnim_User_Event = &__Anim_User_Event;
+  SDL_zero(__anim_user_event);
+  __anim_user_event.type = user_event_type;
+  __anim_user_event.user.code = EVENT_ERROR;
+  __anim_user_event.user.data1 = NULL;
+  __anim_user_event.user.data2 = NULL;
+  anim_user_event = &__anim_user_event;
 
-  SDL_zero(__Info_User_Event);
-  __Info_User_Event.type = user_event_type;
-  __Info_User_Event.user.code = SHOW_WIDGET_INFO_LABEL;
-  __Info_User_Event.user.data1 = NULL;
-  __Info_User_Event.user.data2 = NULL;
-  info_user_event = &__Info_User_Event;
+  SDL_zero(__info_user_event);
+  __info_user_event.type = user_event_type;
+  __info_user_event.user.code = SHOW_WIDGET_INFO_LABEL;
+  __info_user_event.user.data1 = NULL;
+  __info_user_event.user.data2 = NULL;
+  info_user_event = &__info_user_event;
 
-  SDL_zero(__Flush_User_Event);
-  __Flush_User_Event.type = user_event_type;
-  __Flush_User_Event.user.code = FLUSH;
-  __Flush_User_Event.user.data1 = NULL;
-  __Flush_User_Event.user.data2 = NULL;
-  flush_event = &__Flush_User_Event;
+  SDL_zero(__flush_user_event);
+  __flush_user_event.type = user_event_type;
+  __flush_user_event.user.code = FLUSH;
+  __flush_user_event.user.data1 = NULL;
+  __flush_user_event.user.data2 = NULL;
+  flush_event = &__flush_user_event;
 
-  SDL_zero(__pMap_Scroll_User_Event);
-  __pMap_Scroll_User_Event.type = user_event_type;
-  __pMap_Scroll_User_Event.user.code = MAP_SCROLL;
-  __pMap_Scroll_User_Event.user.data1 = NULL;
-  __pMap_Scroll_User_Event.user.data2 = NULL;
-  pMap_Scroll_User_Event = &__pMap_Scroll_User_Event;
+  SDL_zero(__map_scroll_user_event);
+  __map_scroll_user_event.type = user_event_type;
+  __map_scroll_user_event.user.code = MAP_SCROLL;
+  __map_scroll_user_event.user.data1 = NULL;
+  __map_scroll_user_event.user.data2 = NULL;
+  map_scroll_user_event = &__map_scroll_user_event;
 
   is_unit_move_blocked = FALSE;
 
@@ -1123,7 +1126,7 @@ void sound_bell(void)
 **************************************************************************/
 void enable_focus_animation(void)
 {
-  pAnim_User_Event->user.code = ANIM;
+  anim_user_event->user.code = ANIM;
   sdl2_client_flags |= CF_FOCUS_ANIMATION;
 }
 
