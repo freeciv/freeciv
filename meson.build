@@ -262,6 +262,11 @@ else
   jansson_dep = []
 endif
 
+if get_option('nls')
+  pub_conf_data.set('FREECIV_ENABLE_NLS', 1)
+  priv_conf_data.set('ENABLE_NLS', 1)
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
@@ -273,6 +278,12 @@ add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'cpp')
+
+if get_option('nls')
+  subdir('translations/core')
+  subdir('translations/nations')
+  subdir('translations/ruledit')
+endif
 
 common_inc = include_directories(cross_inc_path,
   lua_inc_path, 'dependencies/tinycthread',

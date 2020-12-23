@@ -46,6 +46,9 @@
 /* enable audio */
 #mesondefine AUDIO_SDL
 
+/* Native language support enabled */
+#mesondefine ENABLE_NLS
+
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 

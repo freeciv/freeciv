@@ -125,3 +125,6 @@ audio (boolean):
 
 ruledit (boolean):
   Build ruleset editor. Defaults to true.
+
+nls (boolean):
+  Build in Native Language Support. Defaults to true.

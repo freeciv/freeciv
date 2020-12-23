@@ -39,3 +39,8 @@ option('ruledit',
        type: 'boolean',
        value: true,
        description: 'Build ruleset editor')
+
+option('nls',
+       type: 'boolean',
+       value: true,
+       description: 'Native Language Support')
