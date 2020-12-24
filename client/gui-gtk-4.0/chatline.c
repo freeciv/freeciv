@@ -1045,6 +1045,7 @@ void chatline_scroll_to_bottom(bool delayed)
   }
 }
 
+#ifdef TOOLBUTTON_GTK3
 /**********************************************************************//**
   Tool button clicked.
 **************************************************************************/
@@ -1166,6 +1167,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
   gtk_widget_show(dialog);
   g_free(buf);
 }
+#endif /* TOOLBUTTON_GTK3 */
 
 /**********************************************************************//**
   Moves the tool kit to the toolkit view.
@@ -1228,6 +1230,7 @@ static gboolean move_toolkit(GtkWidget *toolkit_view,
   return FALSE;
 }
 
+#ifdef TOOLBUTTON_GTK3
 /**********************************************************************//**
   Show/Hide the toolbar.
 **************************************************************************/
@@ -1277,6 +1280,7 @@ static void button_toggled(GtkToggleButton *button, gpointer data)
     ptoolkit->toolbar_displayed = FALSE;
   }
 }
+#endif /* TOOLBUTTON_GTK3 */
 
 /**********************************************************************//**
   Returns a new inputline toolkit view widget that can contain the
@@ -1319,9 +1323,12 @@ void inputline_toolkit_view_append_button(GtkWidget *toolkit_view,
 **************************************************************************/
 void chatline_init(void)
 {
-  GtkWidget *vbox, *toolbar, *hbox, *button, *entry, *bbox;
+  GtkWidget *vbox, *hbox, *entry, *bbox;
+#ifdef TOOLBUTTON_GTK3
+  GtkWidget *toolbar, *button;
   GtkToolItem *item;
   GdkRGBA color;
+#endif /* TOOLBUTTON_GTK3 */
 
   /* Chatline history. */
   if (!history_list) {
@@ -1336,15 +1343,22 @@ void chatline_init(void)
   gtk_grid_set_row_spacing(GTK_GRID(vbox), 2);
   gtk_orientable_set_orientation(GTK_ORIENTABLE(vbox),
                                  GTK_ORIENTATION_VERTICAL);
+
+#ifdef TOOLBUTTON_GTK3
   toolkit.main_widget = vbox;
   g_signal_connect_after(vbox, "map",
                    G_CALLBACK(set_toolbar_visibility), &toolkit);
+#endif /* TOOLBUTTON_GTK3 */
 
   entry = gtk_entry_new();
   g_object_set(entry, "margin", 2, NULL);
   gtk_widget_set_hexpand(entry, TRUE);
   toolkit.entry = entry;
 
+  hbox = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
+
+#ifdef TOOLBUTTON_GTK3
   /* First line: toolbar */
   toolbar = gtk_toolbar_new();
   gtk_container_add(GTK_CONTAINER(vbox), toolbar);
@@ -1448,8 +1462,6 @@ void chatline_init(void)
                               _("Send the chat (Return)"));
 
   /* Second line */
-  hbox = gtk_grid_new();
-  gtk_grid_set_column_spacing(GTK_GRID(hbox), 4);
   gtk_container_add(GTK_CONTAINER(vbox), hbox);
 
   /* Toggle button. */
@@ -1460,6 +1472,7 @@ void chatline_init(void)
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_widget_set_tooltip_text(GTK_WIDGET(button), _("Chat tools"));
   toolkit.toggle_button = button;
+#endif /* TOOLBUTTON_GTK3 */
 
   /* Entry. */
   gtk_container_add(GTK_CONTAINER(hbox), entry);
