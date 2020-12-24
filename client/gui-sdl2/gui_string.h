@@ -82,8 +82,8 @@ void free_font_system(void);
 #endif
 
 /*
- *	here we use ordinary free( ... ) because check is made 
- *	on start.
+ *      here we use ordinary free( ... ) because check is made
+ *      on start.
  */
 #define FREEUTF8STR( pstr )             \
   do {                                  \

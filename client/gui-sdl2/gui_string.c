@@ -47,15 +47,15 @@
 
 /* =================================================== */
 
-static struct TTF_Font_Chain {
-  struct TTF_Font_Chain *next;
+static struct ttf_font_chain {
+  struct ttf_font_chain *next;
   TTF_Font *font;
   Uint16 ptsize;		/* size of font */
   Uint16 count;			/* number of strings alliased with this font */
-} *Font_TAB = NULL;
+} *font_tab = NULL;
 
-static unsigned int Sizeof_Font_TAB;
-static char *pFont_with_FullPath = NULL;
+static unsigned int sizeof_font_tab;
+static char *font_with_full_path = NULL;
 
 static TTF_Font *load_font(Uint16 ptsize);
 
@@ -107,8 +107,8 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
     /* find '\n' */
     while (c != '\0') {
       if (c == '\n') {
-	new_line = TRUE;
-	break;
+        new_line = TRUE;
+        break;
       }
       current++;
       c = *current;
@@ -130,7 +130,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
             FC_FREE(utf8_texts[count]);
             count++;
           } while (utf8_texts[count]);
-          log_error("TTF_SizeUTF8() return ERROR !");
+          log_error("TTF_SizeUTF8() return ERROR!");
         }
         w = MAX(w, ww);
         h += hh;
@@ -139,7 +139,7 @@ void utf8_str_size(utf8_str *pstr, SDL_Rect *fill)
       }
     } else {
       if (TTF_SizeUTF8(pstr->font, pstr->text, &w, &h) < 0) {
-        log_error("TTF_SizeUTF8() return ERROR !");
+        log_error("TTF_SizeUTF8() return ERROR!");
       }
     }
 
@@ -228,6 +228,7 @@ int write_utf8(SDL_Surface *dest, Sint16 x, Sint16 y,
     log_error("write_utf8(): couldn't blit text to display: %s",
               SDL_GetError());
     FREESURFACE(text);
+
     return -1;
   }
 
@@ -338,9 +339,9 @@ static SDL_Surface *create_utf8_multi_surf(utf8_str *pstr)
       des.x = (w - tmp[i]->w) / 2;
     } else {
       if (pstr->style & SF_CENTER_RIGHT) {
-	des.x = w - tmp[i]->w;
+        des.x = w - tmp[i]->w;
       } else {
-	des.x = 0;
+        des.x = 0;
       }
     }
 
@@ -523,55 +524,55 @@ void change_ptsize_utf8(utf8_str *pstr, Uint16 new_ptsize)
 **************************************************************************/
 static TTF_Font *load_font(Uint16 ptsize)
 {
-  struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
+  struct ttf_font_chain *font_tab_tmp = font_tab;
   TTF_Font *font_tmp = NULL;
 
   /* find existing font and return pointer to it */
-  if (Sizeof_Font_TAB) {
-    while (Font_TAB_TMP) {
-      if (Font_TAB_TMP->ptsize == ptsize) {
-        Font_TAB_TMP->count++;
-        return Font_TAB_TMP->font;
+  if (sizeof_font_tab) {
+    while (font_tab_tmp) {
+      if (font_tab_tmp->ptsize == ptsize) {
+        font_tab_tmp->count++;
+        return font_tab_tmp->font;
       }
-      Font_TAB_TMP = Font_TAB_TMP->next;
+      font_tab_tmp = font_tab_tmp->next;
     }
   }
 
-  if (!pFont_with_FullPath) {
+  if (!font_with_full_path) {
     const char *path = theme_font_filename(theme);
 
-    pFont_with_FullPath = fc_strdup(path);
-    fc_assert_ret_val(pFont_with_FullPath != NULL, NULL);
+    font_with_full_path = fc_strdup(path);
+    fc_assert_ret_val(font_with_full_path != NULL, NULL);
   }
 
   /* Load Font */
-  if ((font_tmp = TTF_OpenFont(pFont_with_FullPath, ptsize)) == NULL) {
+  if ((font_tmp = TTF_OpenFont(font_with_full_path, ptsize)) == NULL) {
     log_error("load_font: Couldn't load %d pt font from %s: %s",
-              ptsize, pFont_with_FullPath, SDL_GetError());
+              ptsize, font_with_full_path, SDL_GetError());
     return font_tmp;
   }
 
   /* add new font to list */
-  if (Sizeof_Font_TAB == 0) {
-    Sizeof_Font_TAB++;
-    Font_TAB_TMP = fc_calloc(1, sizeof(struct TTF_Font_Chain));
-    Font_TAB = Font_TAB_TMP;
+  if (sizeof_font_tab == 0) {
+    sizeof_font_tab++;
+    font_tab_tmp = fc_calloc(1, sizeof(struct ttf_font_chain));
+    font_tab = font_tab_tmp;
   } else {
     /* Go to end of chain */
-    Font_TAB_TMP = Font_TAB;
-    while (Font_TAB_TMP->next) {
-      Font_TAB_TMP = Font_TAB_TMP->next;
+    font_tab_tmp = font_tab;
+    while (font_tab_tmp->next) {
+      font_tab_tmp = font_tab_tmp->next;
     }
 
-    Sizeof_Font_TAB++;
-    Font_TAB_TMP->next = fc_calloc(1, sizeof(struct TTF_Font_Chain));
-    Font_TAB_TMP = Font_TAB_TMP->next;
+    sizeof_font_tab++;
+    font_tab_tmp->next = fc_calloc(1, sizeof(struct ttf_font_chain));
+    font_tab_tmp = font_tab_tmp->next;
   }
 
-  Font_TAB_TMP->ptsize = ptsize;
-  Font_TAB_TMP->count = 1;
-  Font_TAB_TMP->font = font_tmp;
-  Font_TAB_TMP->next = NULL;
+  font_tab_tmp->ptsize = ptsize;
+  font_tab_tmp->count = 1;
+  font_tab_tmp->font = font_tmp;
+  font_tab_tmp->next = NULL;
 
   return font_tmp;
 }
@@ -582,44 +583,44 @@ static TTF_Font *load_font(Uint16 ptsize)
 void unload_font(Uint16 ptsize)
 {
   int index;
-  struct TTF_Font_Chain *Font_TAB_PREV = NULL;
-  struct TTF_Font_Chain *Font_TAB_TMP = Font_TAB;
+  struct ttf_font_chain *font_tab_PREV = NULL;
+  struct ttf_font_chain *font_tab_tmp = font_tab;
 
-  if (Sizeof_Font_TAB == 0) {
+  if (sizeof_font_tab == 0) {
     log_error("unload_font: Trying unload from empty Font ARRAY");
     return;
   }
 
-  for (index = 0; index < Sizeof_Font_TAB; index++) {
-    if (Font_TAB_TMP->ptsize == ptsize) {
+  for (index = 0; index < sizeof_font_tab; index++) {
+    if (font_tab_tmp->ptsize == ptsize) {
       break;
     }
-    Font_TAB_PREV = Font_TAB_TMP;
-    Font_TAB_TMP = Font_TAB_TMP->next;
+    font_tab_PREV = font_tab_tmp;
+    font_tab_tmp = font_tab_tmp->next;
   }
 
-  if (index == Sizeof_Font_TAB) {
+  if (index == sizeof_font_tab) {
     log_error("unload_font: Trying unload Font which is "
               "not included in Font ARRAY");
     return;
   }
 
-  Font_TAB_TMP->count--;
+  font_tab_tmp->count--;
 
-  if (Font_TAB_TMP->count) {
+  if (font_tab_tmp->count) {
     return;
   }
 
-  TTF_CloseFont(Font_TAB_TMP->font);
-  Font_TAB_TMP->font = NULL;
-  if (Font_TAB_TMP == Font_TAB) {
-    Font_TAB = Font_TAB_TMP->next;
+  TTF_CloseFont(font_tab_tmp->font);
+  font_tab_tmp->font = NULL;
+  if (font_tab_tmp == font_tab) {
+    font_tab = font_tab_tmp->next;
   } else {
-    Font_TAB_PREV->next = Font_TAB_TMP->next;
+    font_tab_PREV->next = font_tab_tmp->next;
   }
-  Font_TAB_TMP->next = NULL;
-  Sizeof_Font_TAB--;
-  FC_FREE(Font_TAB_TMP);
+  font_tab_tmp->next = NULL;
+  sizeof_font_tab--;
+  FC_FREE(font_tab_tmp);
 }
 
 /**********************************************************************//**
@@ -627,22 +628,22 @@ void unload_font(Uint16 ptsize)
 **************************************************************************/
 void free_font_system(void)
 {
-  struct TTF_Font_Chain *Font_TAB_TMP;
+  struct ttf_font_chain *font_tab_tmp;
 
-  FC_FREE(pFont_with_FullPath);
-  while (Font_TAB) {
-    if (Font_TAB->next) {
-      Font_TAB_TMP = Font_TAB;
-      Font_TAB = Font_TAB->next;
-      if (Font_TAB_TMP->font) {
-        TTF_CloseFont(Font_TAB_TMP->font);
+  FC_FREE(font_with_full_path);
+  while (font_tab) {
+    if (font_tab->next) {
+      font_tab_tmp = font_tab;
+      font_tab = font_tab->next;
+      if (font_tab_tmp->font) {
+        TTF_CloseFont(font_tab_tmp->font);
       }
-      FC_FREE(Font_TAB_TMP);
+      FC_FREE(font_tab_tmp);
     } else {
-      if (Font_TAB->font) {
-        TTF_CloseFont(Font_TAB->font);
+      if (font_tab->font) {
+        TTF_CloseFont(font_tab->font);
       }
-      FC_FREE(Font_TAB);
+      FC_FREE(font_tab);
     }
   }
 }

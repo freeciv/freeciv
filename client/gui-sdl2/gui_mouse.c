@@ -46,7 +46,7 @@ SDL_Cursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
-SDL_Cursor *pStd_Cursor = NULL;
+SDL_Cursor *std_cursor = NULL;
 SDL_Cursor *disabled_cursor = NULL;
 
 struct color_cursor current_color_cursor;
@@ -66,7 +66,7 @@ static SDL_Cursor *SurfaceToCursor(SDL_Surface *image, int hx, int hy)
   if (data == NULL) {
     return NULL;
   }
-  /*memset(data, 0, w * image->h * 2);*/
+  /* memset(data, 0, w * image->h * 2); */
   mask = data + w * image->h;
   lock_surf(image);
   for (y = 0; y < image->h; y++) {
@@ -121,7 +121,7 @@ void draw_mouse_cursor(void)
       /* update screen */
       update_main_screen();
 #if 0
-      SDL_UpdateRect(Main.screen, area.x, area.y, area.w, area.h);
+      SDL_UpdateRect(main_data.screen, area.x, area.y, area.w, area.h);
 #endif
     } else {
       area = (SDL_Rect){0, 0, 0, 0};
@@ -139,7 +139,7 @@ void load_cursors(void)
   int frame;
   SDL_Surface *surf;
 
-  pStd_Cursor = SDL_GetCursor();
+  std_cursor = SDL_GetCursor();
 
   surf = create_surf(1, 1, SDL_SWSURFACE);
   disabled_cursor = SurfaceToCursor(surf, 0, 0);
@@ -172,7 +172,7 @@ void unload_cursors(void)
     }
   }
 
-  SDL_FreeCursor(pStd_Cursor);
+  SDL_FreeCursor(std_cursor);
   SDL_FreeCursor(disabled_cursor);
 }
 
@@ -218,7 +218,7 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   mouse_cursor_type = new_cursor_type;
 
   if (mouse_cursor_type == CURSOR_DEFAULT) {
-    SDL_SetCursor(pStd_Cursor);
+    SDL_SetCursor(std_cursor);
     if (gui_options.gui_sdl2_use_color_cursors) {
       current_color_cursor.cursor = NULL;
     }
