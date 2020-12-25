@@ -56,9 +56,9 @@ struct city_icon *icons;
 
 static SDL_Surface *city_surf;
 
-static SDL_Surface *pNeutral_Tech_Icon;
-static SDL_Surface *pNone_Tech_Icon;
-static SDL_Surface *pFuture_Tech_Icon;
+static SDL_Surface *neutral_tech_icon;
+static SDL_Surface *none_tech_icon;
+static SDL_Surface *future_tech_icon;
 
 #define load_GUI_surface(_spr_, _struct_, _surf_, _tag_)	  \
 do {								  \
@@ -392,13 +392,13 @@ void setup_auxiliary_tech_icons(void)
                0 , 0, surf->w - 1, surf->h - 1,
                get_theme_color(COLOR_THEME_SCIENCEDLG_FRAME));
 
-  pNeutral_Tech_Icon = copy_surface(surf);
-  pNone_Tech_Icon = copy_surface(surf);
-  pFuture_Tech_Icon = surf;
+  neutral_tech_icon = copy_surface(surf);
+  none_tech_icon = copy_surface(surf);
+  future_tech_icon = surf;
 
   /* None */
   surf = create_text_surf_from_utf8(pstr);
-  blit_entire_src(surf, pNone_Tech_Icon ,
+  blit_entire_src(surf, none_tech_icon ,
                   (adj_size(50) - surf->w) / 2 , (adj_size(50) - surf->h) / 2);
 
   FREESURFACE(surf);
@@ -406,7 +406,7 @@ void setup_auxiliary_tech_icons(void)
   /* TRANS: Future Technology */ 
   copy_chars_to_utf8_str(pstr, _("FT"));
   surf = create_text_surf_from_utf8(pstr);
-  blit_entire_src(surf, pFuture_Tech_Icon,
+  blit_entire_src(surf, future_tech_icon,
                   (adj_size(50) - surf->w) / 2 , (adj_size(50) - surf->h) / 2);
 
   FREESURFACE(surf);
@@ -419,9 +419,9 @@ void setup_auxiliary_tech_icons(void)
 *******************************************************************************/
 void free_auxiliary_tech_icons(void)
 {
-  FREESURFACE(pNeutral_Tech_Icon);
-  FREESURFACE(pNone_Tech_Icon);
-  FREESURFACE(pFuture_Tech_Icon);
+  FREESURFACE(neutral_tech_icon);
+  FREESURFACE(none_tech_icon);
+  FREESURFACE(future_tech_icon);
 }
 
 /***************************************************************************//**
@@ -434,14 +434,14 @@ SDL_Surface *get_tech_icon(Tech_type_id tech)
   case A_UNSET:
   case A_UNKNOWN:
   case A_LAST:
-    return adj_surf(pNone_Tech_Icon);
+    return adj_surf(none_tech_icon);
   case A_FUTURE:
-    return adj_surf(pFuture_Tech_Icon);
+    return adj_surf(future_tech_icon);
   default:
     if (get_tech_sprite(tileset, tech)) {
       return adj_surf(GET_SURF(get_tech_sprite(tileset, tech)));
     } else {
-      return adj_surf(pNeutral_Tech_Icon);
+      return adj_surf(neutral_tech_icon);
     }
   }
 
@@ -467,6 +467,7 @@ SDL_Color *get_tech_color(Tech_type_id tech_id)
       return get_game_color(COLOR_REQTREE_BACKGROUND);
     }
   }
+
   return get_game_color(COLOR_REQTREE_UNREACHABLE);
 }
 
@@ -486,7 +487,8 @@ void draw_intro_gfx(void)
   SDL_Surface *intro = theme_get_background(theme, BACKGROUND_MAINPAGE);
 
   if (intro->w != main_window_width()) {
-    SDL_Surface *tmp = resize_surface(intro, main_window_width(), main_window_height(), 1);
+    SDL_Surface *tmp = resize_surface(intro, main_window_width(),
+                                      main_window_height(), 1);
 
     FREESURFACE(intro);
     intro = tmp;
