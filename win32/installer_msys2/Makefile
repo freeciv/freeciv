@@ -210,6 +210,16 @@ COMMON_DLLS := \
 	libsqlite3-0.dll \
 	exchndl.dll \
 	mgwhelp.dll \
+	libMagickWand-7.Q16HDRI-0.dll \
+	libMagickCore-7.Q16HDRI-2.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libfribidi-0.dll \
+	libexpat-1.dll \
 	$(SOUND_DLLS)
 
 install-env-common:
@@ -221,7 +231,6 @@ install-env-common:
 DEFAULT_FCMP_DLLS := \
 	libgdk-3-0.dll \
 	libgtk-3-0.dll \
-	libexpat-1.dll \
 	libharfbuzz-0.dll \
 	libepoxy-0.dll \
 	libgraphite2.dll \
@@ -254,7 +263,6 @@ install-env-gtk3.22: install-env-default-fcmp
 GTK2_DLLS := \
 	libgdk-win32-2.0-0.dll \
 	libgtk-win32-2.0-0.dll \
-	libexpat-1.dll \
 	libharfbuzz-0.dll \
 	libpangoft2-1.0-0.dll \
 	libpcre-1.dll
@@ -342,7 +350,17 @@ RULEDIT_DLLS := \
 	zlib1.dll \
 	libwinpthread-1.dll \
 	libgraphite2.dll \
-	libpcre-1.dll
+	libpcre-1.dll \
+	libMagickWand-7.Q16HDRI-0.dll \
+	libMagickCore-7.Q16HDRI-2.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libfribidi-0.dll \
+	libexpat-1.dll
 
 install-env-ruledit:
 	# add DLLs

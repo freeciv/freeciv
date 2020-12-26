@@ -47,6 +47,9 @@
 /* Native language support enabled */
 #undef FREECIV_ENABLE_NLS
 
+/* MagickWand version 7 API in use */
+#undef FREECIV_MWAND7
+
 /* locale.h available */
 #undef FREECIV_HAVE_LOCALE_H
 
