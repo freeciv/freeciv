@@ -67,7 +67,7 @@ struct wl_editor {
   struct widget *begin_widget_list;
   struct widget *end_widget_list; /* window */
 
-  struct advanced_dialog *pTargets;
+  struct advanced_dialog *targets;
   struct advanced_dialog *pWork;
   struct advanced_dialog *pGlobal;
 
@@ -1647,24 +1647,24 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     }
   } unit_type_iterate_end;
 
-  editor->pTargets = fc_calloc(1, sizeof(struct advanced_dialog));
+  editor->targets = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  editor->pTargets->end_widget_list = last->prev;
-  editor->pTargets->begin_widget_list = buf;
-  editor->pTargets->end_active_widget_list = editor->pTargets->end_widget_list;
-  editor->pTargets->begin_active_widget_list = editor->pTargets->begin_widget_list;
-  editor->pTargets->active_widget_list = editor->pTargets->end_active_widget_list;
+  editor->targets->end_widget_list = last->prev;
+  editor->targets->begin_widget_list = buf;
+  editor->targets->end_active_widget_list = editor->targets->end_widget_list;
+  editor->targets->begin_active_widget_list = editor->targets->begin_widget_list;
+  editor->targets->active_widget_list = editor->targets->end_active_widget_list;
 
   /* --------------- */
   if (count > (TARGETS_ROW * TARGETS_COL - 1)) {
-    count = create_vertical_scrollbar(editor->pTargets,
+    count = create_vertical_scrollbar(editor->targets,
                                       TARGETS_COL, TARGETS_ROW, TRUE, TRUE);
   } else {
     count = 0;
   }
   /* --------------- */
 
-  editor->begin_widget_list = editor->pTargets->begin_widget_list;
+  editor->begin_widget_list = editor->targets->begin_widget_list;
 
   /* Window */
   area.w = MAX(area.w, widget_w * TARGETS_COL + count + adj_size(130));
@@ -1802,11 +1802,11 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   /* Targets */
   setup_vertical_widgets_position(TARGETS_COL,
                                   area.x + adj_size(130), area.y,
-                                  0, 0, editor->pTargets->begin_widget_list,
-                                  editor->pTargets->end_widget_list);
+                                  0, 0, editor->targets->begin_widget_list,
+                                  editor->targets->end_widget_list);
 
-  if (editor->pTargets->scroll) {
-    setup_vertical_scrollbar_area(editor->pTargets->scroll,
+  if (editor->targets->scroll) {
+    setup_vertical_scrollbar_area(editor->targets->scroll,
                                   area.x + area.w,
                                   area.y + 1,
                                   area.h - 1, TRUE);
@@ -1829,8 +1829,8 @@ void popdown_worklist_editor(void)
   if (editor) {
     popdown_window_group_dialog(editor->begin_widget_list,
                                 editor->end_widget_list);
-    FC_FREE(editor->pTargets->scroll);
-    FC_FREE(editor->pTargets);
+    FC_FREE(editor->targets->scroll);
+    FC_FREE(editor->targets);
 
     FC_FREE(editor->pWork->scroll);
     FC_FREE(editor->pWork);

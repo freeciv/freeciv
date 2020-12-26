@@ -52,8 +52,8 @@
 static struct advanced_dialog *help_dlg = NULL;
 
 struct techs_buttons {
-  struct widget *pTargets[6], *pSub_Targets[6];
-  struct widget *requirement_button[2], *pSub_Req[4];
+  struct widget *targets[6], *sub_targets[6];
+  struct widget *requirement_button[2], *sub_req[4];
   struct widget *dock;
   bool show_tree;
   bool show_full_tree;
@@ -1059,8 +1059,8 @@ static void redraw_tech_info_dlg(void)
 
   text0 = create_text_surf_from_utf8(pstr);
   dst.x = store->dock->prev->prev->size.x;
-  if (store->pTargets[0]) {
-    dst.y = store->pTargets[0]->size.y - text0->h;
+  if (store->targets[0]) {
+    dst.y = store->targets[0]->size.y - text0->h;
   } else {
     dst.y = store->dock->prev->prev->size.y
               + store->dock->prev->prev->size.h + adj_size(10);
@@ -1069,7 +1069,7 @@ static void redraw_tech_info_dlg(void)
   alphablit(text0, NULL, pwindow->dst->surface, &dst, 255);
   FREESURFACE(text0);
 
-  if (store->pSub_Targets[0]) {
+  if (store->sub_targets[0]) {
     int i;
 
     change_ptsize_utf8(pstr, adj_font(12));
@@ -1080,13 +1080,13 @@ static void redraw_tech_info_dlg(void)
     copy_chars_to_utf8_str(pstr, _(" )"));
     text1 = create_text_surf_from_utf8(pstr);
     i = 0;
-    while (i < 6 && store->pSub_Targets[i]) {
-      dst.x = store->pSub_Targets[i]->size.x - text0->w;
-      dst.y = store->pSub_Targets[i]->size.y;
+    while (i < 6 && store->sub_targets[i]) {
+      dst.x = store->sub_targets[i]->size.x - text0->w;
+      dst.y = store->sub_targets[i]->size.y;
 
       alphablit(text0, NULL, pwindow->dst->surface, &dst, 255);
-      dst.x = store->pSub_Targets[i]->size.x + store->pSub_Targets[i]->size.w;
-      dst.y = store->pSub_Targets[i]->size.y;
+      dst.x = store->sub_targets[i]->size.x + store->sub_targets[i]->size.w;
+      dst.y = store->sub_targets[i]->size.y;
 
       alphablit(text1, NULL, pwindow->dst->surface, &dst, 255);
       i++;
@@ -1109,7 +1109,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
                                        struct techs_buttons *store)
 {
   struct widget *pwidget;
-  struct widget *last, *pBudynki;
+  struct widget *last, *budynki;
   struct widget *dock = store->dock;
   int i, targets_count,sub_targets_count, max_width = 0;
   int start_x, start_y, imp_count, unit_count, flags_count, gov_count;
@@ -1156,11 +1156,11 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - aidx;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->pTargets[targets_count++] = pwidget;
+      store->targets[targets_count++] = pwidget;
     }
   } advance_index_iterate_end;
   if (targets_count < 6) {
-    store->pTargets[targets_count] = NULL;
+    store->targets[targets_count] = NULL;
   }
 
   sub_targets_count = 0;
@@ -1168,7 +1168,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
     int sub_tech;
 
     for (i = 0; i < targets_count; i++) {
-      sub_tech = MAX_ID - store->pTargets[i]->id;
+      sub_tech = MAX_ID - store->targets[i]->id;
       if (advance_required(sub_tech, AR_ONE) == tech
           && advance_required(sub_tech, AR_TWO) != A_NONE) {
         sub_tech = advance_required(sub_tech, AR_TWO);
@@ -1188,15 +1188,15 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - sub_tech;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->pSub_Targets[sub_targets_count++] = pwidget;
+      store->sub_targets[sub_targets_count++] = pwidget;
     }
   }
   if (sub_targets_count < 6) {
-    store->pSub_Targets[sub_targets_count] = NULL;
+    store->sub_targets[sub_targets_count] = NULL;
   }
 
   /* fill array with iprvm. icons */
-  pBudynki = pwidget;
+  budynki = pwidget;
 
   /* target governments */
   gov_count = 0;
@@ -1307,23 +1307,23 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
     i = 0;
     j = 0;
-    t1 = MAX_ID - store->pSub_Targets[j]->id;
-    while (i < 6 && store->pTargets[i]) {
-      store->pTargets[i]->size.x = pwindow->size.x + start_x;
-      store->pTargets[i]->size.y = start_y;
+    t1 = MAX_ID - store->sub_targets[j]->id;
+    while (i < 6 && store->targets[i]) {
+      store->targets[i]->size.x = pwindow->size.x + start_x;
+      store->targets[i]->size.y = start_y;
 
-      if (store->pSub_Targets[j]) {
-        t0 = MAX_ID - store->pTargets[i]->id;
-        t1 = MAX_ID - store->pSub_Targets[j]->id;
+      if (store->sub_targets[j]) {
+        t0 = MAX_ID - store->targets[i]->id;
+        t1 = MAX_ID - store->sub_targets[j]->id;
         if (advance_required(t0, AR_ONE) == t1
             || advance_required(t0, AR_TWO) == t1) {
-          store->pSub_Targets[j]->size.x = pwindow->size.x + start_x + max_width + 60;
-          store->pSub_Targets[j]->size.y = store->pTargets[i]->size.y;
+          store->sub_targets[j]->size.x = pwindow->size.x + start_x + max_width + 60;
+          store->sub_targets[j]->size.y = store->targets[i]->size.y;
           j++;
         }
       }
 
-      start_y += store->pTargets[i]->size.h;
+      start_y += store->targets[i]->size.h;
       i++;
     }
 
@@ -1332,7 +1332,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   pwidget = NULL;
 
   if (gov_count) {
-    pwidget = pBudynki->prev;
+    pwidget = budynki->prev;
     while (gov_count-- && pwidget) {
       pwidget->size.x = pwindow->size.x + start_x;
       pwidget->size.y = start_y;
@@ -1343,7 +1343,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   if (imp_count) {
     if (!pwidget) {
-      pwidget = pBudynki->prev;
+      pwidget = budynki->prev;
     }
     while (imp_count-- && pwidget) {
       pwidget->size.x = pwindow->size.x + start_x;
@@ -1355,7 +1355,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   if (unit_count) {
     if (!pwidget) {
-      pwidget = pBudynki->prev;
+      pwidget = budynki->prev;
     }
     while (unit_count-- && pwidget) {
       pwidget->size.x = pwindow->size.x + start_x;
@@ -1367,7 +1367,7 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   if (flags_count) {
     if (!pwidget) {
-      pwidget = pBudynki->prev;
+      pwidget = budynki->prev;
     }
     while (flags_count-- && pwidget) {
       pwidget->size.x = pwindow->size.x + start_x;
@@ -1388,7 +1388,7 @@ static void redraw_tech_tree_dlg(void)
   SDL_Color *line_color = get_theme_color(COLOR_THEME_HELPDLG_LINE);
   SDL_Color bg_color = {255, 255, 255, 64};
   struct widget *pwindow = help_dlg->end_widget_list;
-  struct widget *pSub0, *pSub1;
+  struct widget *sub0, *sub1;
   struct techs_buttons *store = (struct techs_buttons *)pwindow->data.ptr;
   struct widget *ptech = store->dock->prev;
   int i,j, tech, count;
@@ -1412,7 +1412,7 @@ static void redraw_tech_tree_dlg(void)
 
   /* Draw Req arrows */
   i = 0;
-  while (i < 4 && store->pSub_Req[i]) {
+  while (i < 4 && store->sub_req[i]) {
     i++;
   }
   count = i;
@@ -1423,34 +1423,34 @@ static void redraw_tech_tree_dlg(void)
 
     /*find Sub_Req's */
     if (i) {
-      pSub0 = NULL;
+      sub0 = NULL;
       for (j = count - 1; j >= 0; j--) {
-        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_ONE)) {
-          pSub0 = store->pSub_Req[j];
+        if (MAX_ID - store->sub_req[j]->id == advance_required(tech, AR_ONE)) {
+          sub0 = store->sub_req[j];
           break;
         }
       }
 
-      pSub1 = NULL;
+      sub1 = NULL;
       for (j = count - 1; j >= 0; j--) {
-        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_TWO)) {
-          pSub1 = store->pSub_Req[j];
+        if (MAX_ID - store->sub_req[j]->id == advance_required(tech, AR_TWO)) {
+          sub1 = store->sub_req[j];
           break;
         }
       }
     } else {
-      pSub0 = NULL;
-      for (j = 0; j < 4 && store->pSub_Req[j]; j++) {
-        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_ONE)) {
-          pSub0 = store->pSub_Req[j];
+      sub0 = NULL;
+      for (j = 0; j < 4 && store->sub_req[j]; j++) {
+        if (MAX_ID - store->sub_req[j]->id == advance_required(tech, AR_ONE)) {
+          sub0 = store->sub_req[j];
           break;
         }
       }
 
-      pSub1 = NULL;
-      for (j = 0; j < 4 && store->pSub_Req[j]; j++) {
-        if (MAX_ID - store->pSub_Req[j]->id == advance_required(tech, AR_TWO)) {
-          pSub1 = store->pSub_Req[j];
+      sub1 = NULL;
+      for (j = 0; j < 4 && store->sub_req[j]; j++) {
+        if (MAX_ID - store->sub_req[j]->id == advance_required(tech, AR_TWO)) {
+          sub1 = store->sub_req[j];
           break;
         }
       }
@@ -1465,7 +1465,7 @@ static void redraw_tech_tree_dlg(void)
            line_color);
 
     /* Draw Sub_Req arrows */
-    if (pSub0 || pSub1) {
+    if (sub0 || sub1) {
       create_line(store->requirement_button[i]->dst->surface,
              store->requirement_button[i]->size.x - adj_size(10),
              store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
@@ -1474,40 +1474,40 @@ static void redraw_tech_tree_dlg(void)
              line_color);
     }
 
-    if (pSub0) {
+    if (sub0) {
       create_line(store->requirement_button[i]->dst->surface,
              store->requirement_button[i]->size.x - adj_size(10),
-             pSub0->size.y + pSub0->size.h / 2,
+             sub0->size.y + sub0->size.h / 2,
              store->requirement_button[i]->size.x - adj_size(10),
              store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
              line_color);
       create_line(store->requirement_button[i]->dst->surface,
-             pSub0->size.x + pSub0->size.w,
-             pSub0->size.y + pSub0->size.h / 2,
+             sub0->size.x + sub0->size.w,
+             sub0->size.y + sub0->size.h / 2,
              store->requirement_button[i]->size.x - adj_size(10),
-             pSub0->size.y + pSub0->size.h / 2,
+             sub0->size.y + sub0->size.h / 2,
              line_color);
     }
 
-    if (pSub1) {
+    if (sub1) {
       create_line(store->requirement_button[i]->dst->surface,
              store->requirement_button[i]->size.x - adj_size(10),
-             pSub1->size.y + pSub1->size.h / 2,
+             sub1->size.y + sub1->size.h / 2,
              store->requirement_button[i]->size.x - adj_size(10),
              store->requirement_button[i]->size.y + store->requirement_button[i]->size.h / 2,
              line_color);
       create_line(store->requirement_button[i]->dst->surface,
-             pSub1->size.x + pSub1->size.w,
-             pSub1->size.y + pSub1->size.h / 2,
+             sub1->size.x + sub1->size.w,
+             sub1->size.y + sub1->size.h / 2,
              store->requirement_button[i]->size.x - adj_size(10),
-             pSub1->size.y + pSub1->size.h / 2,
+             sub1->size.y + sub1->size.h / 2,
              line_color);
     }
     i++;
   }
 
   i = 0;
-  while (i < 6 && store->pTargets[i]) {
+  while (i < 6 && store->targets[i]) {
     i++;
   }
   count = i;
@@ -1519,7 +1519,7 @@ static void redraw_tech_tree_dlg(void)
   }
 
   for (i = 0; i < count; i++) {
-    tech = MAX_ID - store->pTargets[i]->id;
+    tech = MAX_ID - store->targets[i]->id;
     step = ptech->size.h / (count + 1);
 
     switch ((i % mod)) {
@@ -1536,81 +1536,81 @@ static void redraw_tech_tree_dlg(void)
 
     /* find Sub_Req's */
     if (advance_required(tech, AR_ONE) == MAX_ID - ptech->id) {
-      pSub0 = ptech;
+      sub0 = ptech;
     } else {
-      pSub0 = NULL;
-      for (j = 0; j < 6 && store->pSub_Targets[j]; j++) {
-        if (MAX_ID - store->pSub_Targets[j]->id == advance_required(tech, AR_ONE)) {
-          pSub0 = store->pSub_Targets[j];
+      sub0 = NULL;
+      for (j = 0; j < 6 && store->sub_targets[j]; j++) {
+        if (MAX_ID - store->sub_targets[j]->id == advance_required(tech, AR_ONE)) {
+          sub0 = store->sub_targets[j];
           break;
         }
       }
     }
 
     if (advance_required(tech, AR_TWO) == MAX_ID - ptech->id) {
-      pSub1 = ptech;
+      sub1 = ptech;
     } else {
-      pSub1 = NULL;
-      for (j = 0; j < 6 && store->pSub_Targets[j]; j++) {
-        if (MAX_ID - store->pSub_Targets[j]->id == advance_required(tech, AR_TWO)) {
-          pSub1 = store->pSub_Targets[j];
+      sub1 = NULL;
+      for (j = 0; j < 6 && store->sub_targets[j]; j++) {
+        if (MAX_ID - store->sub_targets[j]->id == advance_required(tech, AR_TWO)) {
+          sub1 = store->sub_targets[j];
           break;
         }
       }
     }
 
     /* Draw Sub_Targets arrows */
-    if (pSub0 || pSub1) {
-      create_line(store->pTargets[i]->dst->surface,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-                  store->pTargets[i]->size.y + store->pTargets[i]->size.h / 2,
-                  store->pTargets[i]->size.x ,
-                  store->pTargets[i]->size.y + store->pTargets[i]->size.h / 2,
+    if (sub0 || sub1) {
+      create_line(store->targets[i]->dst->surface,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
+                  store->targets[i]->size.y + store->targets[i]->size.h / 2,
+                  store->targets[i]->size.x ,
+                  store->targets[i]->size.y + store->targets[i]->size.h / 2,
                   line_color);
     }
 
-    if (pSub0) {
+    if (sub0) {
       int y;
 
-      if (pSub0 == ptech) {
-        y = pSub0->size.y + step * (i + 1);
+      if (sub0 == ptech) {
+        y = sub0->size.y + step * (i + 1);
       } else {
-        y = pSub0->size.y + pSub0->size.h / 2;
+        y = sub0->size.y + sub0->size.h / 2;
       }
 
-      create_line(store->pTargets[i]->dst->surface,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+      create_line(store->targets[i]->dst->surface,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
                   y,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-                  store->pTargets[i]->size.y + store->pTargets[i]->size.h / 2,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
+                  store->targets[i]->size.y + store->targets[i]->size.h / 2,
                   line_color);
-      create_line(store->pTargets[i]->dst->surface,
-                  pSub0->size.x + pSub0->size.w,
+      create_line(store->targets[i]->dst->surface,
+                  sub0->size.x + sub0->size.w,
                   y,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
                   y,
                   line_color);
     }
 
-    if (pSub1) {
+    if (sub1) {
       int y;
 
-      if (pSub1 == ptech) {
-        y = pSub1->size.y + step * (i + 1);
+      if (sub1 == ptech) {
+        y = sub1->size.y + step * (i + 1);
       } else {
-        y = pSub1->size.y + pSub1->size.h / 2;
+        y = sub1->size.y + sub1->size.h / 2;
       }
 
-      create_line(store->pTargets[i]->dst->surface,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+      create_line(store->targets[i]->dst->surface,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
                   y,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
-                  store->pTargets[i]->size.y + store->pTargets[i]->size.h / 2,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
+                  store->targets[i]->size.y + store->targets[i]->size.h / 2,
                   line_color);
-      create_line(store->pTargets[i]->dst->surface,
-                  pSub1->size.x + pSub1->size.w,
+      create_line(store->targets[i]->dst->surface,
+                  sub1->size.x + sub1->size.w,
                   y,
-                  store->pTargets[i]->size.x - ((i % mod) + 1) * 6,
+                  store->targets[i]->size.x - ((i % mod) + 1) * 6,
                   y,
                   line_color);
     }
@@ -1714,14 +1714,14 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
           pwidget->id = MAX_ID - ar;
           widget_add_as_prev(pwidget, dock);
           dock = pwidget;
-          store->pSub_Req[sub_req_count++] = pwidget;
+          store->sub_req[sub_req_count++] = pwidget;
         }
       }
     }
   }
 
   if (sub_req_count < 4) {
-    store->pSub_Req[sub_req_count] = NULL;
+    store->sub_req[sub_req_count] = NULL;
   }
 
   targets_count = 0;
@@ -1739,11 +1739,11 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - aidx;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->pTargets[targets_count++] = pwidget;
+      store->targets[targets_count++] = pwidget;
     }
   } advance_index_iterate_end;
   if (targets_count < 6) {
-    store->pTargets[targets_count] = NULL;
+    store->targets[targets_count] = NULL;
   }
 
   sub_targets_count = 0;
@@ -1751,7 +1751,7 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
     int sub_tech;
 
     for (i = 0; i < targets_count; i++) {
-      sub_tech = MAX_ID - store->pTargets[i]->id;
+      sub_tech = MAX_ID - store->targets[i]->id;
       if (advance_required(sub_tech, AR_ONE) == tech
           && advance_required(sub_tech, AR_TWO) != A_NONE) {
         sub_tech = advance_required(sub_tech, AR_TWO);
@@ -1771,19 +1771,19 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       pwidget->id = MAX_ID - sub_tech;
       widget_add_as_prev(pwidget, dock);
       dock = pwidget;
-      store->pSub_Targets[sub_targets_count++] = pwidget;
+      store->sub_targets[sub_targets_count++] = pwidget;
     }
   }
   if (sub_targets_count < 6) {
-    store->pSub_Targets[sub_targets_count] = NULL;
+    store->sub_targets[sub_targets_count] = NULL;
   }
 
   FREEUTF8STR(pstr);
 
   /* ------------------------------------------ */
   if (sub_req_count) {
-    w = (adj_size(20) + store->pSub_Req[0]->size.w) * 2;
-    w += (pwindow->size.w - (20 + store->pSub_Req[0]->size.w + w + ptech->size.w)) / 2;
+    w = (adj_size(20) + store->sub_req[0]->size.w) * 2;
+    w += (pwindow->size.w - (20 + store->sub_req[0]->size.w + w + ptech->size.w)) / 2;
   } else {
     if (req_count) {
       w = (pwindow->area.x + 1 + width + store->requirement_button[0]->size.w * 2 + adj_size(20));
@@ -1808,72 +1808,72 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   }
 
   if (sub_req_count) {
-    h = (sub_req_count == 1 ? store->pSub_Req[0]->size.h :
-     sub_req_count * (store->pSub_Req[0]->size.h + adj_size(20)) - adj_size(20));
+    h = (sub_req_count == 1 ? store->sub_req[0]->size.h :
+     sub_req_count * (store->sub_req[0]->size.h + adj_size(20)) - adj_size(20));
     h = ptech->size.y + (ptech->size.h - h) / 2;
     for (i = 0; i < sub_req_count; i++) {
-      store->pSub_Req[i]->size.x = ptech->size.x - (adj_size(20) + store->pSub_Req[i]->size.w) * 2;
-      store->pSub_Req[i]->size.y = h;
-      h += (store->pSub_Req[i]->size.h + adj_size(20));
+      store->sub_req[i]->size.x = ptech->size.x - (adj_size(20) + store->sub_req[i]->size.w) * 2;
+      store->sub_req[i]->size.y = h;
+      h += (store->sub_req[i]->size.h + adj_size(20));
     }
   }
 
   if (targets_count) {
-    h = (targets_count == 1 ? store->pTargets[0]->size.h :
-     targets_count * (store->pTargets[0]->size.h + adj_size(20)) - adj_size(20));
+    h = (targets_count == 1 ? store->targets[0]->size.h :
+     targets_count * (store->targets[0]->size.h + adj_size(20)) - adj_size(20));
     h = ptech->size.y + (ptech->size.h - h) / 2;
     for (i = 0; i < targets_count; i++) {
-      store->pTargets[i]->size.x = ptech->size.x + ptech->size.w + adj_size(20);
-      store->pTargets[i]->size.y = h;
-      h += (store->pTargets[i]->size.h + adj_size(20));
+      store->targets[i]->size.x = ptech->size.x + ptech->size.w + adj_size(20);
+      store->targets[i]->size.y = h;
+      h += (store->targets[i]->size.h + adj_size(20));
     }
   }
 
   if (sub_targets_count) {
     if (sub_targets_count < 3) {
-      store->pSub_Targets[0]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[0]->size.w;
-      store->pSub_Targets[0]->size.y = ptech->size.y - store->pSub_Targets[0]->size.h - adj_size(10);
-      if (store->pSub_Targets[1]) {
-        store->pSub_Targets[1]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[1]->size.w;
-        store->pSub_Targets[1]->size.y = ptech->size.y + ptech->size.h + adj_size(10);
+      store->sub_targets[0]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[0]->size.w;
+      store->sub_targets[0]->size.y = ptech->size.y - store->sub_targets[0]->size.h - adj_size(10);
+      if (store->sub_targets[1]) {
+        store->sub_targets[1]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[1]->size.w;
+        store->sub_targets[1]->size.y = ptech->size.y + ptech->size.h + adj_size(10);
       }
     } else {
       if (sub_targets_count < 5) {
         for (i = 0; i < MIN(sub_targets_count, 4); i++) {
-          store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w;
+          store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
           if (i < 2) {
-            store->pSub_Targets[i]->size.y = ptech->size.y - (store->pSub_Targets[i]->size.h + adj_size(5)) * ( 2 - i );
+            store->sub_targets[i]->size.y = ptech->size.y - (store->sub_targets[i]->size.h + adj_size(5)) * ( 2 - i );
           } else {
-            store->pSub_Targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(5)  + (store->pSub_Targets[i]->size.h + adj_size(5)) * ( i - 2 );
+            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(5)  + (store->sub_targets[i]->size.h + adj_size(5)) * ( i - 2 );
           }
         }
       } else {
-        h = (store->pSub_Targets[0]->size.h + adj_size(6));
+        h = (store->sub_targets[0]->size.h + adj_size(6));
         for (i = 0; i < MIN(sub_targets_count, 6); i++) {
           switch (i) {
           case 0:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w;
-            store->pSub_Targets[i]->size.y = ptech->size.y - h * 2;
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.y = ptech->size.y - h * 2;
             break;
           case 1:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w * 2 - adj_size(10);
-            store->pSub_Targets[i]->size.y = ptech->size.y - h - h / 2;
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2 - adj_size(10);
+            store->sub_targets[i]->size.y = ptech->size.y - h - h / 2;
             break;
           case 2:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w;
-            store->pSub_Targets[i]->size.y = ptech->size.y - h;
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.y = ptech->size.y - h;
             break;
           case 3:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w;
-            store->pSub_Targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6);
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6);
             break;
           case 4:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w;
-            store->pSub_Targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h;
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w;
+            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h;
             break;
           default:
-            store->pSub_Targets[i]->size.x = ptech->size.x + ptech->size.w - store->pSub_Targets[i]->size.w * 2 - adj_size(10);
-            store->pSub_Targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h / 2 ;
+            store->sub_targets[i]->size.x = ptech->size.x + ptech->size.w - store->sub_targets[i]->size.w * 2 - adj_size(10);
+            store->sub_targets[i]->size.y = ptech->size.y + ptech->size.h + adj_size(6) + h / 2 ;
             break;
           }
         }
