@@ -71,6 +71,13 @@ then
   exit 1
 fi
 
+MESON_INSTALL_DIR=$(pwd)/meson-install-${SETUP}
+
+if ! rm -Rf $MESON_INSTALL_DIR ; then
+  echo "Failed to clear out old install directory!" >&2
+  exit 1
+fi
+
 echo "----------------------------------"
 echo "Building for $SETUP"
 echo "Freeciv version $VERREV"
@@ -81,13 +88,19 @@ cd meson-build-${SETUP}
 
 export PKG_CONFIG_PATH=${DLLSPATH}/lib/pkgconfig
 
-if ! meson --cross-file=cross.txt -Dsyslua=false -Daudio=false ../../.. $EXTRA_CONFIG ; then
+if ! meson --cross-file=cross.txt -Dprefix=$MESON_INSTALL_DIR -Dsyslua=false -Daudio=false \
+           ../../.. $EXTRA_CONFIG ; then
   echo "Meson run failed!" >&2
   exit 1
 fi
 
 if ! ninja ; then
-  echo "Ninja run failed!" >&2
+  echo "Ninja build failed!" >&2
+  exit 1
+fi
+
+if ! ninja install; then
+  echo "Ninja install failed!" >&2
   exit 1
 fi
 
