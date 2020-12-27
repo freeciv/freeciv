@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
 
 // Qt
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QGraphicsDropShadowEffect>
 #include <QGroupBox>
 #include <QProgressBar>
 #include <QPushButton>
+#include <QScreen>
 #include <QScrollArea>
 #include <QSplitter>
 #include <QStack>
@@ -204,7 +204,7 @@ void help_dialog::showEvent(QShowEvent *event)
     restoreGeometry(gui()->qt_settings.help_geometry);
     splitter->restoreState(gui()->qt_settings.help_splitter1);
   } else {
-    QRect rect = QApplication::desktop()->screenGeometry();
+    QRect rect = QApplication::primaryScreen()->geometry();
 
     resize((rect.width() * 3) / 5, (rect.height() * 3) / 6);
     sizes << rect.width() / 10 << rect.width() / 3;
