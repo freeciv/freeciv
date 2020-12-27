@@ -1833,10 +1833,6 @@ void hide_minimap_window_buttons(void)
   pWidget = pWidget->prev;
   set_wflag(pWidget, WF_HIDDEN);
 
-  /* toggle minimap mode button */
-  pWidget = pWidget->prev;
-  set_wflag(pWidget, WF_HIDDEN);
-
 #ifdef SMALL_SCREEN
   /* options button */
   pWidget = pWidget->prev;
@@ -1871,10 +1867,6 @@ void redraw_minimap_window_buttons(void)
   pWidget = pWidget->prev;
   widget_redraw(pWidget);
   /* show/hide log window button */
-  pWidget = pWidget->prev;
-  widget_redraw(pWidget);
-
-  /* toggle minimap mode button */
   pWidget = pWidget->prev;
   widget_redraw(pWidget);
 
@@ -2052,10 +2044,6 @@ static void disable_minimap_widgets(void)
   pBuf = pBuf->prev;
   set_wstate(pBuf, FC_WS_DISABLED);
 
-  /* toggle minimap mode button */
-  pBuf = pBuf->prev;
-  set_wstate(pBuf, FC_WS_DISABLED);
-
 #ifdef SMALL_SCREEN
   /* options button */
   pBuf = pBuf->prev;
@@ -2127,10 +2115,6 @@ static void enable_minimap_widgets(void)
     set_wstate(pBuf, FC_WS_NORMAL);
 
     /* show/hide log window button */
-    pBuf = pBuf->prev;
-    set_wstate(pBuf, FC_WS_NORMAL);
-
-    /* toggle minimap mode button */
     pBuf = pBuf->prev;
     set_wstate(pBuf, FC_WS_NORMAL);
 
