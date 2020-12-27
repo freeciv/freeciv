@@ -466,10 +466,6 @@ static int toggle_map_window_callback(struct widget *map_button)
       pwidget = pwidget->prev;
       widget_redraw(pwidget);
 
-      /* Toggle Minimap mode */
-      pwidget = pwidget->prev;
-      widget_redraw(pwidget);
-
 #ifdef SMALL_SCREEN
       /* options */
       pwidget = pwidget->prev;
@@ -525,24 +521,6 @@ static int toggle_map_window_callback(struct widget *map_button)
 }
 
 /* ====================================================================== */
-
-/**********************************************************************//**
-  User interacted with minimap toggling button.
-**************************************************************************/
-static int toggle_minimap_mode_callback(struct widget *pwidget)
-{
-  if (PRESSED_EVENT(main_data.event)) {
-    if (pwidget != NULL) {
-      selected_widget = pwidget;
-      set_wstate(pwidget, FC_WS_SELECTED);
-    }
-    toggle_overview_mode();
-    refresh_overview();
-    flush_dirty();
-  }
-
-  return -1;
-}
 
 /**********************************************************************//**
   User interacted with messages toggling button.
@@ -1452,13 +1430,6 @@ void set_new_minimap_window_pos(void)
                       area.x + adj_size(2),
                       area.y + pwidget->size.h + 2);
 
-  /* Toggle minimap mode */
-  pwidget = pwidget->prev;
-  widget_set_area(pwidget, area);
-  widget_set_position(pwidget,
-                      area.x + adj_size(2),
-                      area.y + pwidget->size.h * 2 + 2);
-
 #ifdef SMALL_SCREEN
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pwidget = pwidget->prev;
@@ -1774,19 +1745,6 @@ void popup_minimap_window(void)
 
   add_to_gui_list(ID_CHATLINE_TOGGLE_LOG_WINDOW_BUTTON, pwidget);
 
-  /* toggle minimap mode button */
-  pwidget = create_themeicon(current_theme->borders_icon, minimap_window->dst,
-                             WF_WIDGET_HAS_INFO_LABEL
-                             | WF_RESTORE_BACKGROUND);
-  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"),
-              "Shift+\\");
-  pwidget->info_label = create_utf8_from_char(buf, adj_font(12));
-  pwidget->action = toggle_minimap_mode_callback;
-  pwidget->key = SDLK_BACKSLASH;
-  pwidget->mod = KMOD_SHIFT;
-
-  add_to_gui_list(ID_TOGGLE_MINIMAP_MODE, pwidget);
-
 #ifdef SMALL_SCREEN
   /* options button */
   options_button = create_themeicon(current_theme->options_icon,
@@ -1858,10 +1816,6 @@ void show_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   clear_wflag(pwidget, WF_HIDDEN);
 
-  /* toggle minimap mode button */
-  pwidget = pwidget->prev;
-  clear_wflag(pwidget, WF_HIDDEN);
-
 #ifdef SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
@@ -1900,10 +1854,6 @@ void hide_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   set_wflag(pwidget, WF_HIDDEN);
 
-  /* toggle minimap mode button */
-  pwidget = pwidget->prev;
-  set_wflag(pwidget, WF_HIDDEN);
-
 #ifdef SMALL_SCREEN
   /* options button */
   pwidget = pwidget->prev;
@@ -1938,10 +1888,6 @@ void redraw_minimap_window_buttons(void)
   pwidget = pwidget->prev;
   widget_redraw(pwidget);
   /* show/hide log window button */
-  pwidget = pwidget->prev;
-  widget_redraw(pwidget);
-
-  /* toggle minimap mode button */
   pwidget = pwidget->prev;
   widget_redraw(pwidget);
 
@@ -2120,10 +2066,6 @@ static void disable_minimap_widgets(void)
   buf = buf->prev;
   set_wstate(buf, FC_WS_DISABLED);
 
-  /* toggle minimap mode button */
-  buf = buf->prev;
-  set_wstate(buf, FC_WS_DISABLED);
-
 #ifdef SMALL_SCREEN
   /* options button */
   buf = buf->prev;
@@ -2195,10 +2137,6 @@ static void enable_minimap_widgets(void)
     set_wstate(buf, FC_WS_NORMAL);
 
     /* show/hide log window button */
-    buf = buf->prev;
-    set_wstate(buf, FC_WS_NORMAL);
-
-    /* toggle minimap mode button */
     buf = buf->prev;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -2716,13 +2654,6 @@ bool map_event_handler(SDL_Keysym key)
           } else {
             key_city_output_toggle();
           }
-        }
-        return FALSE;
-
-        /* toggle minimap mode - currently without effect */
-      case SDLK_BACKSLASH:
-        if (LSHIFT || RSHIFT) {
-          toggle_minimap_mode_callback(NULL);
         }
         return FALSE;
 

@@ -74,12 +74,6 @@ extern SDL_Rect *info_area;
 int overview_start_x = 0;
 int overview_start_y = 0;
 
-static enum {
-  NORMAL = 0,
-  BORDERS = 1,
-  TEAMS
-} overview_mode = NORMAL;
-
 static struct canvas *overview_canvas;
 static struct canvas *city_map_canvas;
 static struct canvas *terrain_canvas;
@@ -1075,19 +1069,6 @@ void update_city_descriptions(void)
 /* ===================================================================== */
 /* =============================== Mini Map ============================ */
 /* ===================================================================== */
-
-/**********************************************************************//**
-  Toggle between overview modes.
-**************************************************************************/
-void toggle_overview_mode(void)
-{
-  /* FIXME: has no effect anymore */
-  if (overview_mode == BORDERS) {
-    overview_mode = NORMAL;
-  } else {
-    overview_mode = BORDERS;
-  }
-}
 
 /**********************************************************************//**
   Return a canvas that is the overview window.
