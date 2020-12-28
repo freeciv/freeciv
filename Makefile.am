@@ -32,6 +32,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/debug.m4			\
 		m4/emscripten.m4		\
 		m4/expanddir.m4			\
+		m4/fc-sdl2.m4			\
 		m4/fcdb-mysql.m4		\
 		m4/fcdb-odbc.m4			\
 		m4/fcdb-postgres.m4		\
@@ -66,7 +67,6 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
 		m4/sdl2-client.m4		\
-		m4/sdl2.m4			\
 		m4/sqlite3.m4			\
 		m4/sound.m4			\
 		m4/vsnprintf.m4			\
