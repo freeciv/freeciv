@@ -453,15 +453,17 @@ static int audio_play_tag(struct section_file *sfile,
           /* Exclude track was skipped earlier, include it to track number to return */
           ret++;
         }
-        if (repeat) {
-          if (!keep_old_style) {
-            mfcb.sfile = sfile;
-            mfcb.tag = tag;
-          }
-          cb = music_finished_callback;
-        }
       }
     }
+
+    if (repeat) {
+      if (!keep_old_style) {
+        mfcb.sfile = sfile;
+        mfcb.tag = tag;
+      }
+      cb = music_finished_callback;
+    }
+
     if (NULL == soundfile) {
       log_verbose("No sound file for tag %s", tag);
     } else {
