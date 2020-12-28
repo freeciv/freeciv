@@ -48,7 +48,7 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
               -Wshadow -Wold-style-declaration],
              [], [EXTRA_DEBUG_CFLAGS])
   if test "x$cxx_works" = "xyes" ; then
-    FC_CXX_FLAGS([-Werror -Wno-deprecated-declarations -Wmissing-prototypes \
+    FC_CXX_FLAGS([-Werror -Wmissing-prototypes \
                   -Wmissing-declarations \
                   -Wformat -Wformat-security -Wold-style-declaration],
                  [], [EXTRA_DEBUG_CXXFLAGS])
