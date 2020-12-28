@@ -27,9 +27,7 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://sourceforge.net/projects/msys2/files/Base/i686/msys2-i686-20161025.exe
- for win32 host or
- https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20161025.exe
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20201109.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -37,7 +35,7 @@ using MSYS2 from http://msys2.github.io
 1.3) Launch msys2_shell to update packages
 > pacman -Syu
 
-2) Install following packages with 'pacman -Su'
+2) Install following packages with 'pacman -Su --needed'
 
 2.1) Packages needed for building freeciv
  These packages are needed even if you don't plan to make installer,
@@ -67,7 +65,6 @@ using MSYS2 from http://msys2.github.io
  - automake
  - libtool
  - autoconf
- - python
 
 2.1.2) Arch-specific packages needed for building freeciv
 
@@ -81,6 +78,7 @@ using MSYS2 from http://msys2.github.io
 
 2.1.2.1.2) Arch-specific optional packages for building common parts
  - mingw-w64-i686-drmingw / mingw-w64-x86_64-drmingw
+ - mingw-w64-i686-tolua / mingw-w64-x86_64-tolua
 
 2.1.2.2) Arch-specific packages for building gtk3- and gtk3.22-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
@@ -116,9 +114,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-170714.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20161025.exe
-with packages updated to 14-Jul-2017 level.
+msys2-freeciv-win64-201212.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20201109.exe
+with packages updated to 12-Dec-2020 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
@@ -135,7 +133,6 @@ Following packages have been installed:
 - automake
 - libtool
 - autoconf
-- python
 - gdb
 - mingw-w64-<arch>-gcc
 - mingw-w64-<arch>-icu
@@ -143,8 +140,6 @@ Following packages have been installed:
 - mingw-w64-<arch>-sqlite3
 - mingw-w64-<arch>-gtk3
 - mingw-w64-<arch>-nsis
-- mingw-w64-<arch>-bzip2
-- mingw-w64-<arch>-readline
 - mingw-w64-<arch>-SDL2_mixer
 - mingw-w64-<arch>-SDL2_image
 - mingw-w64-<arch>-SDL2_ttf
@@ -152,6 +147,11 @@ Following packages have been installed:
 - mingw-w64-<arch>-imagemagick
 - mingw-w64-<arch>-qt5
 - mingw-w64-<arch>-drmingw
+- mingw-w64-<arch>-meson
+- mingw-w64-<arch>-tolua
+
+After all the packages were installed 'pacman -Scc' was run to completely
+empty the package cache for having smaller environment package.
 
 
  Build
