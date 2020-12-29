@@ -78,12 +78,12 @@ static struct widget *order_road_button;
 static struct widget *order_transform_button;
 static struct widget *order_trade_button;
 
-#define local_show(ID)                                                \
-  clear_wflag(get_widget_pointer_form_ID(begin_order_widget_list, ID, SCAN_FORWARD), \
+#define local_show(id)                                                \
+  clear_wflag(get_widget_pointer_form_ID(begin_order_widget_list, id, SCAN_FORWARD), \
               WF_HIDDEN)
 
-#define local_hide(ID)                                             \
-  set_wflag(get_widget_pointer_form_ID(begin_order_widget_list, ID, SCAN_FORWARD), \
+#define local_hide(id)                                             \
+  set_wflag(get_widget_pointer_form_ID(begin_order_widget_list, id, SCAN_FORWARD), \
             WF_HIDDEN )
 
 
@@ -322,20 +322,20 @@ static void set_new_order_widget_start_pos(void)
       if (minimap->size.h > info_wind->size.h) {
         w = main_window_width() - xx - adj_size(20);
         if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
-	  xx = 0;
-	  w = minimap->size.w;
-	  yy = minimap->size.h;
+          xx = 0;
+          w = minimap->size.w;
+          yy = minimap->size.h;
         } else {
           yy = info_wind->size.h;
         }
       } else {
-	w = info_wind->dst->dest_rect.x - adj_size(20);
+        w = info_wind->dst->dest_rect.x - adj_size(20);
         if (w < (tmp_widget->size.w + adj_size(10)) * 2) {
-	  xx = info_wind->dst->dest_rect.x;
-	  w = info_wind->size.w;
-	  yy = info_wind->size.h;
+          xx = info_wind->dst->dest_rect.x;
+          w = info_wind->size.w;
+          yy = info_wind->size.h;
         } else {
-	  xx = adj_size(10);
+          xx = adj_size(10);
           yy = minimap->size.h;
         }
       }
@@ -377,12 +377,12 @@ static void set_new_order_widget_start_pos(void)
       count--;
       sx += (tmp_widget->size.w + adj_size(5));
       if (!count) {
-	count = count_on_line;
-	lines--;
+        count = count_on_line;
+        lines--;
 
-	sx = xx + (w - count * (tmp_widget->size.w + adj_size(5))) / 2;
+        sx = xx + (w - count * (tmp_widget->size.w + adj_size(5))) / 2;
 
-	sy = tmp_widget->dst->surface->h - yy - lines * (tmp_widget->size.h + adj_size(5));
+        sy = tmp_widget->dst->surface->h - yy - lines * (tmp_widget->size.h + adj_size(5));
       }
     }
 
@@ -1110,35 +1110,35 @@ void real_menus_update(void)
       struct extra_type *pextra;
 
       if (!counter) {
-	local_show(ID_UNIT_ORDER_GOTO);
-	local_show(ID_UNIT_ORDER_DISBAND);
+        local_show(ID_UNIT_ORDER_GOTO);
+        local_show(ID_UNIT_ORDER_DISBAND);
 
-	local_show(ID_UNIT_ORDER_WAIT);
-	local_show(ID_UNIT_ORDER_DONE);
+        local_show(ID_UNIT_ORDER_WAIT);
+        local_show(ID_UNIT_ORDER_DONE);
       }
 
       /* Enable the button for adding to a city in all cases, so we
        * get an eventual error message from the server if we try. */
 
       if (unit_can_add_or_build_city(punit)) {
-	if (pcity) {
+        if (pcity) {
           fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
                       action_id_name_translation(ACTION_JOIN_CITY), "B");
         } else {
           fc_snprintf(cbuf, sizeof(cbuf), "%s (%s)",
                       action_id_name_translation(ACTION_FOUND_CITY), "B");
-	}
+        }
         copy_chars_to_utf8_str(order_build_add_to_city_button->info_label,
                                cbuf);
-	clear_wflag(order_build_add_to_city_button, WF_HIDDEN);
+        clear_wflag(order_build_add_to_city_button, WF_HIDDEN);
       } else {
-	set_wflag(order_build_add_to_city_button, WF_HIDDEN);
+        set_wflag(order_build_add_to_city_button, WF_HIDDEN);
       }
 
       if (unit_can_help_build_wonder_here(punit)) {
-	local_show(ID_UNIT_ORDER_BUILD_WONDER);
+        local_show(ID_UNIT_ORDER_BUILD_WONDER);
       } else {
-	local_hide(ID_UNIT_ORDER_BUILD_WONDER);
+        local_hide(ID_UNIT_ORDER_BUILD_WONDER);
       }
 
       pextra = next_extra_for_tile(ptile, EC_ROAD, unit_owner(punit), punit);
@@ -1150,20 +1150,20 @@ void real_menus_update(void)
         time = turns_to_activity_done(ptile, ACTIVITY_GEN_ROAD, pextra, punit);
 
         /* TRANS: "Build Railroad (R) 3 turns" */
-	fc_snprintf(cbuf, sizeof(cbuf), _("Build %s (%s) %d %s"),
+        fc_snprintf(cbuf, sizeof(cbuf), _("Build %s (%s) %d %s"),
                     extra_name_translation(pextra),
                     "R", time,
                     PL_("turn", "turns", time));
 
-	if (compat == ROCO_RAILROAD) {
-	  order_road_button->theme = current_theme->o_railroad_icon;
-	} else {
-	  order_road_button->theme = current_theme->o_road_icon;
-	}
+        if (compat == ROCO_RAILROAD) {
+          order_road_button->theme = current_theme->o_railroad_icon;
+        } else {
+          order_road_button->theme = current_theme->o_road_icon;
+        }
         copy_chars_to_utf8_str(order_road_button->info_label, cbuf);
-	clear_wflag(order_road_button, WF_HIDDEN);
+        clear_wflag(order_road_button, WF_HIDDEN);
       } else {
-	set_wflag(order_road_button, WF_HIDDEN);
+        set_wflag(order_road_button, WF_HIDDEN);
       }
 
       /* unit_can_est_trade_route_here(punit) */
