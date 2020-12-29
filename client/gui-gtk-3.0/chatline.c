@@ -828,7 +828,6 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
         break; /* No color. */
       }
       gtk_text_buffer_apply_tag(buf, tag, &start, &stop);
-      g_object_unref(G_OBJECT(tag));
     }
     break;
   case TTT_LINK:
@@ -864,7 +863,6 @@ void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
       g_object_set_data(G_OBJECT(tag), "id",
                         GINT_TO_POINTER(text_tag_link_id(ptag)));
       gtk_text_buffer_apply_tag(buf, tag, &start, &stop);
-      g_object_unref(G_OBJECT(tag));
       break;
     }
   }
