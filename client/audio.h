@@ -39,7 +39,7 @@ struct audio_plugin {
                 audio_finished_callback cb);
 };
 
-enum music_usage { MU_SINGLE, MU_MENU, MU_INGAME };
+enum music_usage { MU_MENU, MU_INGAME };
 
 struct strvec;
 struct option;

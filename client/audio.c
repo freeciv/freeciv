@@ -57,6 +57,7 @@ static int selected_plugin = -1;
 static int current_track = -1;
 static enum music_usage current_usage;
 static bool switching_usage = FALSE;
+static bool let_single_track_play = FALSE;
 
 static struct mfcb_data
 {
@@ -381,10 +382,16 @@ static void music_finished_callback(void)
     return;
   }
 
+  if (let_single_track_play) {
+    /* This call is style music ending before single track plays.
+     * Do not restart style music now.
+     * Make sure style music restarts when single track itself finishes. */
+    let_single_track_play = FALSE;
+
+    return;
+  }
+
   switch (current_usage) {
-  case MU_SINGLE:
-    usage_enabled = FALSE;
-    break;
   case MU_MENU:
     usage_enabled = gui_options.sound_enable_menu_music;
     break;
@@ -461,6 +468,10 @@ static int audio_play_tag(struct section_file *sfile,
         mfcb.sfile = sfile;
         mfcb.tag = tag;
       }
+
+      /* Callback is needed even when there's no alternative tracks -
+       * we may be running single track now, and want to switch
+       * (by the callback) back to style music when it ends. */
       cb = music_finished_callback;
     }
 
@@ -559,7 +570,14 @@ void audio_play_music(const char *const tag, char *const alt_tag,
 **************************************************************************/
 void audio_play_track(const char *const tag, char *const alt_tag)
 {
-  current_usage = MU_SINGLE;
+  if (current_track >= 0) {
+    /* Only set let_single_track_play when there's music playing that will
+     * result in calling the music_finished_callback */
+    let_single_track_play = TRUE;
+
+    /* Stop old music. */
+    audio_stop();
+  }
 
   real_audio_play_music(tag, alt_tag, TRUE);
 }
