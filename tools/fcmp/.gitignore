@@ -7,7 +7,9 @@
 /freeciv-mp-gtk3
 /org.freeciv.mp.gtk3.desktop
 /freeciv-mp-gtk3.appdata.xml
-/freeciv-mp-gtk3x
+/freeciv-mp-gtk4
+/org.freeciv.mp.gtk4.desktop
+/freeciv-mp-gtk4.appdata.xml
 /freeciv-mp-qt
 /org.freeciv.mp.qt.desktop
 /freeciv-mp-qt.appdata.xml
