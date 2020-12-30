@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ struct audio_plugin {
                 audio_finished_callback cb);
 };
 
-enum music_usage { MU_SINGLE, MU_MENU, MU_INGAME };
+enum music_usage { MU_MENU, MU_INGAME };
 
 struct strvec;
 struct option;
