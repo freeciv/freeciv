@@ -311,13 +311,13 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   struct widget *buf = NULL;
   char cbuf[128];
 
-  buf = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  buf = get_widget_pointer_from_main_list(ID_WARMING_ICON);
   FREESURFACE(buf->theme);
   buf->theme = adj_surf(GET_SURF(sol));
   widget_redraw(buf);
   widget_mark_dirty(buf);
 
-  buf = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  buf = get_widget_pointer_from_main_list(ID_COOLING_ICON);
   FREESURFACE(buf->theme);
   buf->theme = adj_surf(GET_SURF(flake));
   widget_redraw(buf);

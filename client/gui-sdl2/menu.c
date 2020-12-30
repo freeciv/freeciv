@@ -79,11 +79,11 @@ static struct widget *order_transform_button;
 static struct widget *order_trade_button;
 
 #define local_show(id)                                                \
-  clear_wflag(get_widget_pointer_form_ID(begin_order_widget_list, id, SCAN_FORWARD), \
+  clear_wflag(get_widget_pointer_from_id(begin_order_widget_list, id, SCAN_FORWARD), \
               WF_HIDDEN)
 
 #define local_hide(id)                                             \
-  set_wflag(get_widget_pointer_form_ID(begin_order_widget_list, id, SCAN_FORWARD), \
+  set_wflag(get_widget_pointer_from_id(begin_order_widget_list, id, SCAN_FORWARD), \
             WF_HIDDEN )
 
 
