@@ -56,6 +56,7 @@ static int num_plugins_used = 0;
 static int selected_plugin = -1;
 static int current_track = -1;
 static enum music_usage current_usage;
+static bool switching_usage = FALSE;
 
 static struct mfcb_data
 {
@@ -371,6 +372,12 @@ static void music_finished_callback(void)
 {
   bool usage_enabled = TRUE;
 
+  if (switching_usage) {
+    switching_usage = FALSE;
+
+    return;
+  }
+
   switch (current_usage) {
   case MU_SINGLE:
     usage_enabled = FALSE;
@@ -565,6 +572,7 @@ void audio_stop(void)
 **************************************************************************/
 void audio_stop_usage(void)
 {
+  switching_usage = TRUE;
   plugins[selected_plugin].stop();
 }
 
