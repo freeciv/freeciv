@@ -93,7 +93,7 @@ static int move_msg_window_callback(struct widget *pwindow)
 }
 
 /* ======================================================================
-				Public
+                                Public
    ====================================================================== */
 
 /**********************************************************************//**
@@ -103,7 +103,7 @@ void real_meswin_dialog_update(void *unused)
 {
   int msg_count;
   int current_count;
-  const struct message *pMsg = NULL;
+  const struct message *msg = NULL;
   struct widget *buf = NULL, *pwindow = NULL;
   utf8_str *pstr = NULL;
   SDL_Rect area = {0, 0, 0, 0};
@@ -139,8 +139,8 @@ void real_meswin_dialog_update(void *unused)
 
   if (msg_count > 0) {
     for (; current_count < msg_count; current_count++) {
-      pMsg = meswin_get_message(current_count);
-      pstr = create_utf8_from_char(pMsg->descr, PTSIZE_LOG_FONT);
+      msg = meswin_get_message(current_count);
+      pstr = create_utf8_from_char(msg->descr, PTSIZE_LOG_FONT);
 
       if (convert_utf8_str_to_const_surface_width(pstr, label_width - adj_size(10))) {
         /* string must be divided to fit into the given area */
@@ -163,9 +163,9 @@ void real_meswin_dialog_update(void *unused)
             buf->data.ptr = fc_calloc(1, sizeof(int));
             *(int*)buf->data.ptr = current_count;
             buf->action = msg_callback;
-            if (pMsg->tile) {
+            if (msg->tile) {
               set_wstate(buf, FC_WS_NORMAL);
-              if (pMsg->visited) {
+              if (msg->visited) {
                 buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
               } else {
                 buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
@@ -202,9 +202,9 @@ void real_meswin_dialog_update(void *unused)
           buf->data.ptr = fc_calloc(1, sizeof(int));
           *(int*)buf->data.ptr = current_count;
           buf->action = msg_callback;
-          if (pMsg->tile) {
+          if (msg->tile) {
             set_wstate(buf, FC_WS_NORMAL);
-            if (pMsg->visited) {
+            if (msg->visited) {
               buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT2);
             } else {
               buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_MESWIN_ACTIVE_TEXT);
@@ -301,7 +301,7 @@ void meswin_dialog_popup(bool raise)
 }
 
 /**********************************************************************//**
-  Popdown the messages dialog; called by void popdown_all_game_dialogs(void)
+  Popdown the messages dialog; called by popdown_all_game_dialogs()
 **************************************************************************/
 void meswin_dialog_popdown(void)
 {
