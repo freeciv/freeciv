@@ -2729,7 +2729,7 @@ static int style_callback(struct widget *pWidget)
 {
   if (PRESSED_EVENT(Main.event)) {
     struct NAT *pSetup = (struct NAT *)(pNationDlg->pEndWidgetList->data.ptr);
-    struct widget *pGUI = get_widget_pointer_form_main_list(MAX_ID - 1000 -
+    struct widget *pGUI = get_widget_pointer_from_main_list(MAX_ID - 1000 -
                                                             pSetup->nation_style);
 
     set_wstate(pGUI, FC_WS_NORMAL);
@@ -3472,7 +3472,7 @@ void races_toggles_set_sensitive(void)
                 (!is_nation_pickable(nation) || nation->player),
                 nation_rule_name(nation));
 
-      pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
+      pNat = get_widget_pointer_from_main_list(MAX_ID - nation_index(nation));
       set_wstate(pNat, FC_WS_DISABLED);
 
       if (nation_index(nation) == pSetup->nation) {
@@ -3484,7 +3484,7 @@ void races_toggles_set_sensitive(void)
   if (change) {
     do {
       pSetup->nation = fc_rand(get_playable_nation_count());
-      pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
+      pNat = get_widget_pointer_from_main_list(MAX_ID - pSetup->nation);
     } while (get_wstate(pNat) == FC_WS_DISABLED);
 
     if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {

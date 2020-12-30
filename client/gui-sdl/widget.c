@@ -550,7 +550,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
   Find ID in Widget's List ('pGUI_List') and return pointer to this
   Widgets.
 **************************************************************************/
-struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
+struct widget *get_widget_pointer_from_id(const struct widget *pGUI_List,
 				       Uint16 ID, enum scan_direction direction)
 {
   while (pGUI_List) {
@@ -569,9 +569,9 @@ struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List,
   Find ID in MAIN Widget's List ( pBeginWidgetList ) and return pointer to
   this Widgets.
 **************************************************************************/
-struct widget *get_widget_pointer_form_main_list(Uint16 ID)
+struct widget *get_widget_pointer_from_main_list(Uint16 ID)
 {
-  return get_widget_pointer_form_ID(pBeginMainWidgetList, ID, SCAN_FORWARD);
+  return get_widget_pointer_from_id(pBeginMainWidgetList, ID, SCAN_FORWARD);
 }
 
 /**************************************************************************

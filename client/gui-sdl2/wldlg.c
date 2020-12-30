@@ -268,14 +268,14 @@ static void add_target_to_worklist(struct widget *pTarget)
 
     setup_vertical_widgets_position(1,
       pEditor->pEndWidgetList->area.x + adj_size(2),
-      get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152) +
+      get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152) +
         pEditor->pWork->pScroll->pUp_Left_Button->size.h + 1,
       adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
       pEditor->pWork->pEndWidgetList);
 
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
         pEditor->pEndWidgetList->area.x + adj_size(2),
-        get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
+        get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
         adj_size(225), FALSE);
 
     show_scrollbar(pEditor->pWork->pScroll);
@@ -497,13 +497,13 @@ static void remove_item_from_worklist(struct widget *pItem)
 
     setup_vertical_widgets_position(1,
       pEditor->pEndWidgetList->area.x + adj_size(2),
-      get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
+      get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
 	adj_size(126), 0, pEditor->pWork->pBeginWidgetList,
       pEditor->pWork->pEndWidgetList);
 #if 0
     setup_vertical_scrollbar_area(pEditor->pWork->pScroll,
 	pEditor->pEndWidgetList->area.x + adj_size(2),
-    	get_widget_pointer_form_main_list(ID_WINDOW)->area.y + adj_size(152),
+        get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
     	adj_size(225), FALSE);*/
 #endif /* 0 */
     hide_scrollbar(pEditor->pWork->pScroll);

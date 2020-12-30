@@ -205,37 +205,37 @@ void del_main_list(void);
 struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y);
 struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_Keysym key);
 
-struct widget *get_widget_pointer_form_ID(const struct widget *pGUI_List, Uint16 ID,
+struct widget *get_widget_pointer_from_id(const struct widget *pGUI_List, Uint16 ID,
                                           enum scan_direction direction);
 
-struct widget *get_widget_pointer_form_main_list(Uint16 ID);
+struct widget *get_widget_pointer_from_main_list(Uint16 ID);
 
 #define set_action(ID, action_callback)	\
-	get_widget_pointer_form_main_list(ID)->action = action_callback
+	get_widget_pointer_from_main_list(ID)->action = action_callback
 
 #define set_key(ID, keyb)	\
-	get_widget_pointer_form_main_list(ID)->key = keyb
+	get_widget_pointer_from_main_list(ID)->key = keyb
 
 #define set_mod(ID, mod)	\
-	get_widget_pointer_form_main_list(ID)->mod = mod
+	get_widget_pointer_from_main_list(ID)->mod = mod
 
 #define enable(ID)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  struct widget *____pGUI = get_widget_pointer_from_main_list(ID);	\
   set_wstate(____pGUI, FC_WS_NORMAL);				\
 } while (FALSE)
 
 #define disable(ID)						\
 do {								\
-  struct widget *____pGUI = get_widget_pointer_form_main_list(ID);	\
+  struct widget *____pGUI = get_widget_pointer_from_main_list(ID);	\
   set_wstate(____pGUI , FC_WS_DISABLED);				\
 } while (FALSE)
 
 #define show(ID)	\
-  clear_wflag( get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+  clear_wflag( get_widget_pointer_from_main_list(ID), WF_HIDDEN)
 
 #define hide(ID)	\
-  set_wflag(get_widget_pointer_form_main_list(ID), WF_HIDDEN)
+  set_wflag(get_widget_pointer_from_main_list(ID), WF_HIDDEN)
 
 void widget_selected_action(struct widget *pWidget);
 Uint16 widget_pressed_action(struct widget *pWidget);
@@ -375,14 +375,14 @@ do {						\
 
 #define del_ID_from_gui_list(ID)				\
 do {								\
-  struct widget *___pTmp = get_widget_pointer_form_main_list(ID);	\
+  struct widget *___pTmp = get_widget_pointer_from_main_list(ID);	\
   del_widget_pointer_from_gui_list(___pTmp);			\
   FREEWIDGET(___pTmp);						\
 } while (FALSE)
 
 #define move_ID_to_front_of_gui_list(ID)	\
 	move_widget_to_front_of_gui_list(       \
-          get_widget_pointer_form_main_list(ID))
+          get_widget_pointer_from_main_list(ID))
 
 #define del_group(pBeginGroupWidgetList, pEndGroupWidgetList)		\
 do {									\

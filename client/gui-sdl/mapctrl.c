@@ -1866,10 +1866,10 @@ void close_game_page(void)
 
   del_widget_from_gui_list(pOptions_Button);
   
-  pWidget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+  pWidget = get_widget_pointer_from_main_list(ID_COOLING_ICON);
   del_widget_from_gui_list(pWidget);
   
-  pWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+  pWidget = get_widget_pointer_from_main_list(ID_WARMING_ICON);
   del_widget_from_gui_list(pWidget);
   
   delete_units_order_widgets();

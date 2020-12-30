@@ -862,11 +862,11 @@ static void real_resize_window_callback(void *data)
     set_new_minimap_window_pos();
 
     /* Move cooling/warming icons to botton-right corner. */
-    widget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+    widget = get_widget_pointer_from_main_list(ID_WARMING_ICON);
     widget_set_position(widget, (Main.screen->w - adj_size(10)
                                  - (widget->size.w * 2)), widget->size.y);
 
-    widget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+    widget = get_widget_pointer_from_main_list(ID_COOLING_ICON);
     widget_set_position(widget, (Main.screen->w - adj_size(10)
                                  - widget->size.w), widget->size.y);
 
