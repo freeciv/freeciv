@@ -46,10 +46,10 @@
 #include "plrdlg.h"
 
 #ifndef M_PI
-#define M_PI		3.14159265358979323846	/* pi */
+#define M_PI		3.14159265358979323846  /* pi */
 #endif
 #ifndef M_PI_2
-#define M_PI_2		1.57079632679489661923	/* pi/2 */
+#define M_PI_2		1.57079632679489661923  /* pi/2 */
 #endif
 
 static struct small_dialog *pplayers_dlg = NULL;
@@ -292,7 +292,7 @@ void real_players_dialog_update(void *unused)
 
         do {
           pplayer1 = pplayer1->prev;
-	  if (have_diplomat_info_about(pplayer)
+          if (have_diplomat_info_about(pplayer)
               || have_diplomat_info_about(pplayer1->data.player)) {
 
             dst1.x = pplayer1->size.x + pplayer1->size.w / 2;
@@ -300,46 +300,46 @@ void real_players_dialog_update(void *unused)
 
             switch (player_diplstate_get(pplayer,
                                          pplayer1->data.player)->type) {
-	      case DS_ARMISTICE:
-	        if (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          create_line(pplayer1->dst->surface,
-                              dst0.x, dst0.y, dst1.x, dst1.y,
-                              get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE));
-	        }
-	      break;
-              case DS_WAR:
-	        if (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	          create_line(pplayer1->dst->surface,
-                              dst0.x, dst0.y, dst1.x, dst1.y,
-                              get_theme_color(COLOR_THEME_PLRDLG_WAR));
-	        }
+            case DS_ARMISTICE:
+              if (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
+                create_line(pplayer1->dst->surface,
+                            dst0.x, dst0.y, dst1.x, dst1.y,
+                            get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE));
+              }
               break;
-	      case DS_CEASEFIRE:
-	        if (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	          create_line(pplayer1->dst->surface,
-                              dst0.x, dst0.y, dst1.x, dst1.y,
-                              get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE));
-	        }
+            case DS_WAR:
+              if (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS) {
+                create_line(pplayer1->dst->surface,
+                            dst0.x, dst0.y, dst1.x, dst1.y,
+                            get_theme_color(COLOR_THEME_PLRDLG_WAR));
+              }
               break;
-              case DS_PEACE:
-	        if (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	          create_line(pplayer1->dst->surface,
-                              dst0.x, dst0.y, dst1.x, dst1.y,
-                              get_theme_color(COLOR_THEME_PLRDLG_PEACE));
-	        }
+            case DS_CEASEFIRE:
+              if (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
+                create_line(pplayer1->dst->surface,
+                            dst0.x, dst0.y, dst1.x, dst1.y,
+                            get_theme_color(COLOR_THEME_PLRDLG_CEASEFIRE));
+              }
               break;
-	      case DS_ALLIANCE:
-	        if (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	          create_line(pplayer1->dst->surface,
-                              dst0.x, dst0.y, dst1.x, dst1.y,
-                              get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE));
-	        }
+            case DS_PEACE:
+              if (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
+                create_line(pplayer1->dst->surface,
+                            dst0.x, dst0.y, dst1.x, dst1.y,
+                            get_theme_color(COLOR_THEME_PLRDLG_PEACE));
+              }
               break;
-              default:
-	        /* no contact */
+            case DS_ALLIANCE:
+              if (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
+                create_line(pplayer1->dst->surface,
+                            dst0.x, dst0.y, dst1.x, dst1.y,
+                            get_theme_color(COLOR_THEME_PLRDLG_ALLIANCE));
+              }
               break;
-	    }
-	  }
+            default:
+              /* no contact */
+              break;
+            }
+          }
         } while (pplayer1 != pplayers_dlg->begin_widget_list);
       }
     } while (pplayer0 != pplayers_dlg->begin_widget_list);
@@ -411,43 +411,43 @@ void popup_players_dialog(bool raise)
   for (i = 0; i < DS_LAST; i++) {
     switch (i) {
       case DS_ARMISTICE:
-	buf = create_checkbox(pwindow->dst,
-                               (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
-                               WF_RESTORE_BACKGROUND);
-	buf->action = toggle_draw_neutral_status_callback;
-	buf->key = SDLK_n;
+        buf = create_checkbox(pwindow->dst,
+                              (sdl2_client_flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS),
+                              WF_RESTORE_BACKGROUND);
+        buf->action = toggle_draw_neutral_status_callback;
+        buf->key = SDLK_n;
       break;
       case DS_WAR:
-	buf = create_checkbox(pwindow->dst,
-                               (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS),
-                               WF_RESTORE_BACKGROUND);
-	buf->action = toggle_draw_war_status_callback;
-	buf->key = SDLK_w;
+        buf = create_checkbox(pwindow->dst,
+                              (sdl2_client_flags & CF_DRAW_PLAYERS_WAR_STATUS),
+                              WF_RESTORE_BACKGROUND);
+        buf->action = toggle_draw_war_status_callback;
+        buf->key = SDLK_w;
       break;
       case DS_CEASEFIRE:
-	buf = create_checkbox(pwindow->dst,
-                               (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
-                               WF_RESTORE_BACKGROUND);
-	buf->action = toggle_draw_ceasefire_status_callback;
-	buf->key = SDLK_c;
+        buf = create_checkbox(pwindow->dst,
+                              (sdl2_client_flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS),
+                              WF_RESTORE_BACKGROUND);
+        buf->action = toggle_draw_ceasefire_status_callback;
+        buf->key = SDLK_c;
       break;
       case DS_PEACE:
-	buf = create_checkbox(pwindow->dst,
-                               (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS),
-                               WF_RESTORE_BACKGROUND);
-	buf->action = toggle_draw_peace_status_callback;
-	buf->key = SDLK_p;
+        buf = create_checkbox(pwindow->dst,
+                              (sdl2_client_flags & CF_DRAW_PLAYERS_PEACE_STATUS),
+                              WF_RESTORE_BACKGROUND);
+        buf->action = toggle_draw_peace_status_callback;
+        buf->key = SDLK_p;
       break;
       case DS_ALLIANCE:
-	buf = create_checkbox(pwindow->dst,
-                               (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
-                               WF_RESTORE_BACKGROUND);
-	buf->action = toggle_draw_alliance_status_callback;
-	buf->key = SDLK_a;
+        buf = create_checkbox(pwindow->dst,
+                              (sdl2_client_flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS),
+                              WF_RESTORE_BACKGROUND);
+        buf->action = toggle_draw_alliance_status_callback;
+        buf->key = SDLK_a;
       break;
       default:
-	 /* no contact */
-	 continue;
+        /* no contact */
+        continue;
       break;
     }
     set_wstate(buf, FC_WS_NORMAL);
@@ -673,7 +673,7 @@ void popup_players_nations_dialog(void)
   utf8_str *pstr;
   char cbuf[128], *state;
   int n = 0, w = 0, units_h = 0;
-  const struct player_diplstate *pDS;
+  const struct player_diplstate *ds;
   SDL_Rect area;
 
   if (short_players_dlg) {
@@ -716,29 +716,29 @@ void popup_players_nations_dialog(void)
         continue;
       }
 
-      pDS = player_diplstate_get(client.conn.playing, pplayer);
+      ds = player_diplstate_get(client.conn.playing, pplayer);
 
       if (is_ai(pplayer)) {
-	state = _("AI");
+        state = _("AI");
       } else {
         if (pplayer->is_connected) {
           if (pplayer->phase_done) {
-      	    state = _("done");
+            state = _("done");
           } else {
-      	    state = _("moving");
+            state = _("moving");
           }
         } else {
           state = _("disconnected");
         }
       }
 
-      if (pDS->type == DS_CEASEFIRE) {
-	fc_snprintf(cbuf, sizeof(cbuf), "%s(%s) - %d %s",
+      if (ds->type == DS_CEASEFIRE) {
+        fc_snprintf(cbuf, sizeof(cbuf), "%s(%s) - %d %s",
                     nation_adjective_for_player(pplayer),
                     state,
-                    pDS->turns_left, PL_("turn", "turns", pDS->turns_left));
+                    ds->turns_left, PL_("turn", "turns", ds->turns_left));
       } else {
-	fc_snprintf(cbuf, sizeof(cbuf), "%s(%s)",
+        fc_snprintf(cbuf, sizeof(cbuf), "%s(%s)",
                     nation_adjective_for_player(pplayer),
                     state);
       }
@@ -749,10 +749,10 @@ void popup_players_nations_dialog(void)
       logo = get_nation_flag_surface(nation_of_player(pplayer));
 
       buf = create_iconlabel(logo, pwindow->dst, pstr,
-                              (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
+                             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
 
       /* now add some eye candy ... */
-      switch (pDS->type) {
+      switch (ds->type) {
       case DS_ARMISTICE:
         buf->string_utf8->fgcol = *get_theme_color(COLOR_THEME_PLRDLG_ARMISTICE);
         set_wstate(buf, FC_WS_NORMAL);
@@ -779,7 +779,7 @@ void popup_players_nations_dialog(void)
         break;
       case DS_NO_CONTACT:
         buf->string_utf8->fgcol = *(get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT));
-	break;
+        break;
       default:
         set_wstate(buf, FC_WS_NORMAL);
         break;
