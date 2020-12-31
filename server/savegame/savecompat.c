@@ -2096,11 +2096,16 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.0.92 */
 
   if (game_version < 3009300) {
-    /* Before version number bump to 3.0.93 */
+    /* Before version number bump to 3.0.93, beginning of 2021 */
 
     /* Explicit server side agent was new in 3.1 */
     insert_server_side_agent(loading, SAVEGAME_3);
   } /* Version < 3.0.93 */
+
+  if (game_version < 3009400) {
+    /* Before version number bump to 3.0.94 */
+
+  } /* Version < 3.0.94 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 }
