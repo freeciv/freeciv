@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S2_6\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-07-21 14:29+0100\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2018-06-21 17:26+0200\n"
 "Last-Translator: Hubert Kowalewski\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -93,23 +93,23 @@ msgstr "Narody"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Witamy we freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "Wczytano zestaw zasad"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "Nie udało się wczytać zestawu zasad!"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Edytor zestawu zasad Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr "Czy na pewno chcesz zakończyć?"
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr "Zakończyć?"
 
@@ -123,7 +123,7 @@ msgstr "Nazwa zasady"
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 msgid "A building with that rule name already exists!"
 msgstr "Budynek o tej nazwie już istnieje!"
 
@@ -207,7 +207,7 @@ msgstr "?stat:Drogi"
 msgid "?stat:Multipliers"
 msgstr "?stat:Mnożniki"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "Zapisano zestaw zasad"
 
@@ -235,11 +235,11 @@ msgstr "Wymagania bazowe"
 msgid "Never"
 msgstr "Nigdy"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 msgid "A tech with that rule name already exists!"
 msgstr "Technologia o tej nazwie już istnieje!"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 msgid "A unit type with that rule name already exists!"
 msgstr "Typ jednostki o tej nazwie już istnieje!"
 
