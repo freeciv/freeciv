@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-12-30 15:26+0200\n"
-"PO-Revision-Date: 2020-12-27 01:41+0100\n"
+"POT-Creation-Date: 2020-12-31 05:27+0200\n"
+"PO-Revision-Date: 2020-12-30 19:04+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
 "Language: es\n"
@@ -893,10 +893,9 @@ msgstr "∞"
 #. * string is the take offs text. The 2nd string is the landings text.
 #. * For English, initials of d)epartures and a)rrivals were chosen.
 #: client/citydlg_common.c:788
-#, fuzzy, c-format
-#| msgid "s: %s d: %s"
+#, c-format
 msgid "d: %s a: %s"
-msgstr "o: %s d: %s"
+msgstr "d: %s a: %s"
 
 #. TRANS: airlift take offs or landings, no unlimited
 #: client/citydlg_common.c:792
@@ -2495,76 +2494,76 @@ msgstr "La casilla no existe en esta partida!"
 msgid "This unit isn't known!"
 msgstr "Unidad desconocida!"
 
-#: client/gui-gtk-2.0/chatline.c:965 client/gui-gtk-3.0/chatline.c:948
-#: client/gui-gtk-3.22/chatline.c:948 client/gui-qt/chatline.cpp:787
+#: client/gui-gtk-2.0/chatline.c:963 client/gui-gtk-3.0/chatline.c:946
+#: client/gui-gtk-3.22/chatline.c:946 client/gui-qt/chatline.cpp:787
 #: client/gui-xaw/chatline.c:127
 msgid "Cleared output window."
 msgstr "Se ha borrado la ventana de salida."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1146 client/gui-gtk-3.0/chatline.c:1132
-#: client/gui-gtk-3.22/chatline.c:1132
+#: client/gui-gtk-2.0/chatline.c:1144 client/gui-gtk-3.0/chatline.c:1130
+#: client/gui-gtk-3.22/chatline.c:1130
 #, c-format
 msgid "Select the %s color"
 msgstr "Elige el color %s"
 
-#: client/gui-gtk-2.0/chatline.c:1353 client/gui-gtk-3.0/chatline.c:1345
-#: client/gui-gtk-3.22/chatline.c:1351
+#: client/gui-gtk-2.0/chatline.c:1351 client/gui-gtk-3.0/chatline.c:1343
+#: client/gui-gtk-3.22/chatline.c:1349
 msgid "Bold (Ctrl-B)"
 msgstr "Negrita (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1361 client/gui-gtk-3.0/chatline.c:1353
-#: client/gui-gtk-3.22/chatline.c:1360
+#: client/gui-gtk-2.0/chatline.c:1359 client/gui-gtk-3.0/chatline.c:1351
+#: client/gui-gtk-3.22/chatline.c:1358
 msgid "Italic (Ctrl-I)"
 msgstr "Cursiva (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1369 client/gui-gtk-3.0/chatline.c:1361
-#: client/gui-gtk-3.22/chatline.c:1369
+#: client/gui-gtk-2.0/chatline.c:1367 client/gui-gtk-3.0/chatline.c:1359
+#: client/gui-gtk-3.22/chatline.c:1367
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Tachado (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1377 client/gui-gtk-3.0/chatline.c:1369
-#: client/gui-gtk-3.22/chatline.c:1378
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-3.0/chatline.c:1367
+#: client/gui-gtk-3.22/chatline.c:1376
 msgid "Underline (Ctrl-U)"
 msgstr "Subrayado (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1385 client/gui-gtk-3.0/chatline.c:1377
-#: client/gui-gtk-3.22/chatline.c:1386
+#: client/gui-gtk-2.0/chatline.c:1383 client/gui-gtk-3.0/chatline.c:1375
+#: client/gui-gtk-3.22/chatline.c:1384
 msgid "Color (Ctrl-C)"
 msgstr "Color (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1395 client/gui-gtk-3.0/chatline.c:1387
-#: client/gui-gtk-3.22/chatline.c:1396
+#: client/gui-gtk-2.0/chatline.c:1393 client/gui-gtk-3.0/chatline.c:1385
+#: client/gui-gtk-3.22/chatline.c:1394
 msgid "foreground"
 msgstr "primer plano"
 
-#: client/gui-gtk-2.0/chatline.c:1398 client/gui-gtk-2.0/optiondlg.c:625
-#: client/gui-gtk-3.0/chatline.c:1390 client/gui-gtk-3.0/optiondlg.c:628
-#: client/gui-gtk-3.22/chatline.c:1399 client/gui-gtk-3.22/optiondlg.c:621
+#: client/gui-gtk-2.0/chatline.c:1396 client/gui-gtk-2.0/optiondlg.c:625
+#: client/gui-gtk-3.0/chatline.c:1388 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-3.22/chatline.c:1397 client/gui-gtk-3.22/optiondlg.c:621
 #: client/gui-qt/optiondlg.cpp:725
 msgid "Select the text color"
 msgstr "Selecciona el color de texto"
 
-#: client/gui-gtk-2.0/chatline.c:1411 client/gui-gtk-3.0/chatline.c:1403
-#: client/gui-gtk-3.22/chatline.c:1412
+#: client/gui-gtk-2.0/chatline.c:1409 client/gui-gtk-3.0/chatline.c:1401
+#: client/gui-gtk-3.22/chatline.c:1410
 msgid "background"
 msgstr "fondo"
 
-#: client/gui-gtk-2.0/chatline.c:1415 client/gui-gtk-2.0/optiondlg.c:634
-#: client/gui-gtk-3.0/chatline.c:1407 client/gui-gtk-3.0/optiondlg.c:637
-#: client/gui-gtk-3.22/chatline.c:1416 client/gui-gtk-3.22/optiondlg.c:630
+#: client/gui-gtk-2.0/chatline.c:1413 client/gui-gtk-2.0/optiondlg.c:634
+#: client/gui-gtk-3.0/chatline.c:1405 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-3.22/chatline.c:1414 client/gui-gtk-3.22/optiondlg.c:630
 #: client/gui-qt/optiondlg.cpp:733
 msgid "Select the background color"
 msgstr "Selecciona el color de fondo"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1433 client/gui-gtk-3.0/chatline.c:1425
-#: client/gui-gtk-3.22/chatline.c:1434
+#: client/gui-gtk-2.0/chatline.c:1431 client/gui-gtk-3.0/chatline.c:1423
+#: client/gui-gtk-3.22/chatline.c:1432
 msgid "Send the chat (Return)"
 msgstr "Envía el chat (Retorno)"
 
-#: client/gui-gtk-2.0/chatline.c:1450 client/gui-gtk-3.0/chatline.c:1440
-#: client/gui-gtk-3.22/chatline.c:1448
+#: client/gui-gtk-2.0/chatline.c:1448 client/gui-gtk-3.0/chatline.c:1438
+#: client/gui-gtk-3.22/chatline.c:1446
 msgid "Chat tools"
 msgstr "Herr. de chat"
 
@@ -7102,7 +7101,7 @@ msgstr "Cerrar"
 
 #: client/gui-gtk-3.22/action_dialog.c:494
 #: client/gui-gtk-3.22/action_dialog.c:676
-#: client/gui-gtk-3.22/action_dialog.c:1327 client/gui-gtk-3.22/chatline.c:1136
+#: client/gui-gtk-3.22/action_dialog.c:1327 client/gui-gtk-3.22/chatline.c:1134
 #: client/gui-gtk-3.22/citydlg.c:3007 client/gui-gtk-3.22/dialogs.c:863
 #: client/gui-gtk-3.22/editgui.c:1017 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
@@ -7115,11 +7114,11 @@ msgstr "Cerrar"
 msgid "_Cancel"
 msgstr "_Cancelar"
 
-#: client/gui-gtk-3.22/chatline.c:1137 client/gui-gtk-3.22/optiondlg.c:329
+#: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
 msgid "C_lear"
 msgstr "_Borrar"
 
-#: client/gui-gtk-3.22/chatline.c:1138 client/gui-gtk-3.22/dialogs.c:867
+#: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1016 client/gui-gtk-3.22/gamedlgs.c:319
 #: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
@@ -7128,27 +7127,27 @@ msgstr "_Borrar"
 msgid "_OK"
 msgstr "_Vale"
 
-#: client/gui-gtk-3.22/chatline.c:1345
+#: client/gui-gtk-3.22/chatline.c:1343
 msgid "Bold"
 msgstr "Neguita"
 
-#: client/gui-gtk-3.22/chatline.c:1355
+#: client/gui-gtk-3.22/chatline.c:1353
 msgid "Italic"
 msgstr "Cursiva"
 
-#: client/gui-gtk-3.22/chatline.c:1364
+#: client/gui-gtk-3.22/chatline.c:1362
 msgid "Strikethrough"
 msgstr "Tachado"
 
-#: client/gui-gtk-3.22/chatline.c:1373
+#: client/gui-gtk-3.22/chatline.c:1371
 msgid "Underline"
 msgstr "Subrayado"
 
-#: client/gui-gtk-3.22/chatline.c:1381
+#: client/gui-gtk-3.22/chatline.c:1379
 msgid "Color"
 msgstr "Color"
 
-#: client/gui-gtk-3.22/chatline.c:1428 client/gui-sdl/dialogs.c:2846
+#: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2846
 #: client/gui-sdl/dialogs.c:3282 client/gui-sdl/mapctrl.c:2560
 #: client/gui-sdl2/dialogs.c:2833 client/gui-sdl2/dialogs.c:3265
 #: client/gui-sdl2/mapctrl.c:2768 common/mapimg.c:300
@@ -16266,11 +16265,11 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: client/packhand.c:1973 client/tilespec.c:1366
-#, fuzzy, c-format
-#| msgid "Map topology and tileset incompatible."
+#, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
-"La topología del mapa y el conjunto de gráficos (tileset) son incompatibles"
+"La topología del mapa (%s) y el conjunto de gráficos (tileset) (%s) son "
+"incompatibles"
 
 #: client/packhand.c:2017
 msgid ""
