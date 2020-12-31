@@ -463,9 +463,9 @@ static int spy_steal_popup_shared(struct widget *pwidget)
       count++;
 
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(i)));
-      surf = create_select_tech_icon(pstr, i, FULL_MODE);
+      surf = create_select_tech_icon(pstr, i, TIM_FULL_MODE);
       buf = create_icon2(surf, pwindow->dst,
-      		WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(buf, FC_WS_NORMAL);
       buf->action = spy_steal_callback;
@@ -493,11 +493,11 @@ static int spy_steal_popup_shared(struct widget *pwidget)
     copy_chars_to_utf8_str(pstr, astr_str(&str));
     astr_free(&str);
 
-    surf = create_select_tech_icon(pstr, tech, FULL_MODE);
+    surf = create_select_tech_icon(pstr, tech, TIM_FULL_MODE);
 
     buf = create_icon2(surf, pwindow->dst,
-                        (WF_FREE_THEME | WF_RESTORE_BACKGROUND
-                         | WF_FREE_DATA));
+                       (WF_FREE_THEME | WF_RESTORE_BACKGROUND
+                        | WF_FREE_DATA));
     set_wstate(buf, FC_WS_NORMAL);
     buf->action = spy_steal_callback;
     buf->data.cont = cont;
@@ -849,7 +849,7 @@ void popdown_diplomat_dialog(void)
 
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(diplomat_dlg->pdialog->begin_widget_list,
-				diplomat_dlg->pdialog->end_widget_list);
+                                diplomat_dlg->pdialog->end_widget_list);
     FC_FREE(diplomat_dlg->pdialog->scroll);
     FC_FREE(diplomat_dlg->pdialog);
     FC_FREE(diplomat_dlg);
@@ -1155,9 +1155,9 @@ void popup_action_selection(struct unit *actor_unit,
 
   buf = pwindow->prev;
   setup_vertical_widgets_position(1,
-	area.x,
-  	area.y + 1, area.w, 0,
-	diplomat_dlg->pdialog->begin_widget_list, buf);
+        area.x,
+        area.y + 1, area.w, 0,
+        diplomat_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
   /* redraw */
@@ -1406,8 +1406,8 @@ void popup_sabotage_dialog(struct unit *actor, struct city *pcity,
   city_built_iterate(pcity, pimprove) {
     if (pimprove->sabotage > 0) {
       create_active_iconlabel(buf, pwindow->dst, pstr,
-	      (char *) city_improvement_name_translation(pcity, pimprove),
-				      sabotage_impr_callback);
+             (char *) city_improvement_name_translation(pcity, pimprove),
+                                      sabotage_impr_callback);
       buf->data.cont = cont;
       set_wstate(buf, FC_WS_NORMAL);
 
@@ -1614,7 +1614,7 @@ void popdown_incite_dialog(void)
 
     is_unit_move_blocked = FALSE;
     popdown_window_group_dialog(incite_dlg->pdialog->begin_widget_list,
-				incite_dlg->pdialog->end_widget_list);
+                                incite_dlg->pdialog->end_widget_list);
     FC_FREE(incite_dlg->pdialog);
     FC_FREE(incite_dlg);
     flush_dirty();
@@ -1809,9 +1809,9 @@ void popup_incite_dialog(struct unit *actor, struct city *pcity, int cost,
 
   buf = buf->prev;
   setup_vertical_widgets_position(1,
-	area.x,
-  	area.y + 1, area.w, 0,
-	incite_dlg->pdialog->begin_widget_list, buf);
+        area.x,
+        area.y + 1, area.w, 0,
+        incite_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
   /* redraw */
@@ -2037,9 +2037,9 @@ void popup_bribe_dialog(struct unit *actor, struct unit *punit, int cost,
 
   buf = buf->prev;
   setup_vertical_widgets_position(1,
-	area.x,
-  	area.y + 1, area.w, 0,
-	bribe_dlg->pdialog->begin_widget_list, buf);
+        area.x,
+        area.y + 1, area.w, 0,
+        bribe_dlg->pdialog->begin_widget_list, buf);
 
   /* --------------------- */
   /* redraw */

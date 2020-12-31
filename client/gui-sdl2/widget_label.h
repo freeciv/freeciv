@@ -17,9 +17,9 @@
 #define create_iconlabel_from_chars(picon, pdest, chars, ptsize, flags) \
   create_iconlabel(picon, pdest, create_utf8_from_char(chars, ptsize), flags)
 
-#define create_active_iconlabel(buf, pdest, pstr, pString, cb)           \
+#define create_active_iconlabel(buf, pdest, pstr, pstring, cb)           \
 do { 									 \
-  pstr = create_utf8_from_char(pString, 10);				 \
+  pstr = create_utf8_from_char(pstring, 10);				 \
   pstr->style |= TTF_STYLE_BOLD;					 \
   buf = create_iconlabel(NULL, pdest, pstr, 				 \
     	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \

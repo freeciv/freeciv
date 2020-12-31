@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,9 +27,9 @@
 #include "repodlgs_g.h"
 
 enum tech_info_mode {
-  FULL_MODE,
-  MED_MODE,
-  SMALL_MODE
+  TIM_FULL_MODE,
+  TIM_MED_MODE,
+  TIM_SMALL_MODE
 };
 
 SDL_Surface *create_select_tech_icon(utf8_str *pstr, Tech_type_id tech_id,

@@ -1660,9 +1660,9 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
   pstr->style |= (TTF_STYLE_BOLD | SF_CENTER);
 
   copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(tech)));
-  surf = create_select_tech_icon(pstr, tech, FULL_MODE);
+  surf = create_select_tech_icon(pstr, tech, TIM_FULL_MODE);
   pwidget = create_icon2(surf, pwindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                         WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
   set_wstate(pwidget, FC_WS_NORMAL);
   pwidget->action = show_tech_tree_callback;
@@ -1678,9 +1678,9 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
     if (NULL != vap && A_NONE != ar) {
       copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-      surf = create_select_tech_icon(pstr, ar, SMALL_MODE);
+      surf = create_select_tech_icon(pstr, ar, TIM_SMALL_MODE);
       pwidget = create_icon2(surf, pwindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                             WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->id = MAX_ID - ar;
@@ -1706,9 +1706,9 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
 
         if (NULL != vap && A_NONE != ar) {
           copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-          surf = create_select_tech_icon(pstr, ar, SMALL_MODE);
+          surf = create_select_tech_icon(pstr, ar, TIM_SMALL_MODE);
           pwidget = create_icon2(surf, pwindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                                 WF_FREE_THEME | WF_RESTORE_BACKGROUND);
           set_wstate(pwidget, FC_WS_NORMAL);
           pwidget->action = change_tech_callback;
           pwidget->id = MAX_ID - ar;
@@ -1730,9 +1730,9 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
         && (advance_required(aidx, AR_ONE) == tech
             || advance_required(aidx, AR_TWO) == tech)) {
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(aidx)));
-      surf = create_select_tech_icon(pstr, aidx, SMALL_MODE);
+      surf = create_select_tech_icon(pstr, aidx, TIM_SMALL_MODE);
       pwidget = create_icon2(surf, pwindow->dst,
-                WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                             WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
@@ -1763,9 +1763,9 @@ static struct widget *create_tech_tree(Tech_type_id tech, int width,
       }
 
       copy_chars_to_utf8_str(pstr, advance_name_translation(advance_by_number(sub_tech)));
-      surf = create_select_tech_icon(pstr, sub_tech, SMALL_MODE);
+      surf = create_select_tech_icon(pstr, sub_tech, TIM_SMALL_MODE);
       pwidget = create_icon2(surf, pwindow->dst,
-        WF_FREE_THEME | WF_RESTORE_BACKGROUND);
+                             WF_FREE_THEME | WF_RESTORE_BACKGROUND);
       set_wstate(pwidget, FC_WS_NORMAL);
       pwidget->action = change_tech_callback;
       pwidget->id = MAX_ID - sub_tech;
@@ -1961,7 +1961,7 @@ void popup_tech_info(Tech_type_id tech)
 
       if (vap) {
         copy_chars_to_utf8_str(pstr, advance_name_translation(vap));
-        surf = create_select_tech_icon(pstr, i, SMALL_MODE);
+        surf = create_select_tech_icon(pstr, i, TIM_SMALL_MODE);
         advance_label = create_icon2(surf, pwindow->dst,
                                      WF_FREE_THEME | WF_RESTORE_BACKGROUND);
 
