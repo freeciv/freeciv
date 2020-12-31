@@ -25,8 +25,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2020-02-11 17:54+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -114,23 +114,23 @@ msgstr "Kansat"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Tervetuloa käyttämään freeciv-ruleditiä"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "Sääntökokoelma ladattu"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
@@ -144,7 +144,7 @@ msgstr "Sääntönimi"
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 msgid "A building with that rule name already exists!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
 
@@ -228,7 +228,7 @@ msgstr "Kulkuväyliä"
 msgid "?stat:Multipliers"
 msgstr "Kertoimia"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
@@ -256,11 +256,11 @@ msgstr "Juurivaat."
 msgid "Never"
 msgstr "Ei koskaan"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 msgid "A unit type with that rule name already exists!"
 msgstr "Yksikkötyyppi samalla sääntönimellä on jo olemassa!"
 

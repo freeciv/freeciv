@@ -155,8 +155,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2015-02-17 22:53+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -246,26 +246,26 @@ msgstr "民族"
 msgid "Welcome to freeciv-ruledit"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "ルールセット"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr ""
 
 # Daniel
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv サーバー一覧"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgid "Name"
 msgstr "名前"
 
 # Daniel
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 #, fuzzy
 msgid "A building with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
@@ -391,7 +391,7 @@ msgstr "道路"
 msgid "?stat:Multipliers"
 msgstr "建築様式(_S):"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "ルールセット"
@@ -423,13 +423,13 @@ msgid "Never"
 msgstr "なし"
 
 # Daniel
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 #, fuzzy
 msgid "A tech with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"
 
 # Daniel
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 #, fuzzy
 msgid "A unit type with that rule name already exists!"
 msgstr "%sと呼ばれる都市は既に存在します。"

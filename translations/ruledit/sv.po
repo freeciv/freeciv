@@ -55,8 +55,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2010-06-20 19:43+0200\n"
 "Last-Translator: Jon Severinsson <jon@severinsson.net>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -150,25 +150,25 @@ msgstr ""
 msgid "Welcome to freeciv-ruledit"
 msgstr "Välkommen till Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 #, fuzzy
 msgid "Ruleset loaded"
 msgstr "öken"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 #, fuzzy
 msgid "Freeciv Ruleset Editor"
 msgstr "Freecivserverlista"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr "Spelarens namn :"
 msgid "Name"
 msgstr "Namn"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 msgid "A building with that rule name already exists!"
 msgstr ""
 
@@ -272,7 +272,7 @@ msgstr ""
 msgid "?stat:Multipliers"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 #, fuzzy
 msgid "Ruleset saved"
 msgstr "öken"
@@ -301,11 +301,11 @@ msgstr ""
 msgid "Never"
 msgstr "Aldrig"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 msgid "A tech with that rule name already exists!"
 msgstr ""
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 msgid "A unit type with that rule name already exists!"
 msgstr ""
 

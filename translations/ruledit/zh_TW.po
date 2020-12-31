@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -96,23 +96,23 @@ msgstr "國族"
 msgid "Welcome to freeciv-ruledit"
 msgstr "歡迎來到 Freeciv 劇本編輯器"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "已載入劇本"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "載入劇本失敗！"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv 劇本編輯器"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr ""
 
@@ -126,7 +126,7 @@ msgstr "規則名稱"
 msgid "Name"
 msgstr "名稱"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 #, fuzzy
 #| msgid "Building with that rule name already exist!"
 msgid "A building with that rule name already exists!"
@@ -244,7 +244,7 @@ msgstr "道路"
 msgid "?stat:Multipliers"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "已儲存劇本"
 
@@ -272,13 +272,13 @@ msgstr "基本需求"
 msgid "Never"
 msgstr "從未"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 #, fuzzy
 #| msgid "Tech with that rule name already exist!"
 msgid "A tech with that rule name already exists!"
 msgstr "已存在以此命名的科技！"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 #, fuzzy
 #| msgid "Unit type with that rule name already exist!"
 msgid "A unit type with that rule name already exists!"

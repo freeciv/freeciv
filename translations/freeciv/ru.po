@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-12-29 22:04+0500\n"
+"POT-Creation-Date: 2020-12-31 12:57+0200\n"
 "PO-Revision-Date: 2020-12-29 22:38+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -1456,7 +1456,7 @@ msgstr "Загр"
 #: data/civ1/terrain.ruleset:915 data/civ2/terrain.ruleset:1010
 #: data/classic/terrain.ruleset:1220 data/experimental/terrain.ruleset:1196
 #: data/civ2civ3/terrain.ruleset:1270 data/multiplayer/terrain.ruleset:1194
-#: data/sandbox/terrain.ruleset:1270 server/report.c:174
+#: data/sandbox/terrain.ruleset:1270 server/report.c:177
 msgid "Pollution"
 msgstr "Загрязнение"
 
@@ -1497,7 +1497,7 @@ msgstr "Максимальное количество соединений, фо
 
 #: client/cityrepdata.c:789 client/cityrepdata.c:791
 #: client/gui-qt/cityrep.cpp:506 client/gui-sdl/cityrep.c:202
-#: client/gui-sdl2/cityrep.c:214 server/report.c:171
+#: client/gui-sdl2/cityrep.c:214 server/report.c:174
 msgid "Production"
 msgstr "Произв."
 
@@ -2533,76 +2533,76 @@ msgstr "Это поле отсутствует в данной игре!"
 msgid "This unit isn't known!"
 msgstr "Это соединение неизвестно!"
 
-#: client/gui-gtk-2.0/chatline.c:965 client/gui-gtk-3.0/chatline.c:948
-#: client/gui-gtk-3.22/chatline.c:948 client/gui-qt/chatline.cpp:787
+#: client/gui-gtk-2.0/chatline.c:963 client/gui-gtk-3.0/chatline.c:946
+#: client/gui-gtk-3.22/chatline.c:946 client/gui-qt/chatline.cpp:787
 #: client/gui-xaw/chatline.c:127
 msgid "Cleared output window."
 msgstr "Окно вывода очищено."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:1146 client/gui-gtk-3.0/chatline.c:1132
-#: client/gui-gtk-3.22/chatline.c:1132
+#: client/gui-gtk-2.0/chatline.c:1144 client/gui-gtk-3.0/chatline.c:1130
+#: client/gui-gtk-3.22/chatline.c:1130
 #, c-format
 msgid "Select the %s color"
 msgstr "Выберите цвет для %s"
 
-#: client/gui-gtk-2.0/chatline.c:1353 client/gui-gtk-3.0/chatline.c:1345
-#: client/gui-gtk-3.22/chatline.c:1351
+#: client/gui-gtk-2.0/chatline.c:1351 client/gui-gtk-3.0/chatline.c:1343
+#: client/gui-gtk-3.22/chatline.c:1349
 msgid "Bold (Ctrl-B)"
 msgstr "Полужирный (Ctrl-B)"
 
-#: client/gui-gtk-2.0/chatline.c:1361 client/gui-gtk-3.0/chatline.c:1353
-#: client/gui-gtk-3.22/chatline.c:1360
+#: client/gui-gtk-2.0/chatline.c:1359 client/gui-gtk-3.0/chatline.c:1351
+#: client/gui-gtk-3.22/chatline.c:1358
 msgid "Italic (Ctrl-I)"
 msgstr "Курсивный (Ctrl-I)"
 
-#: client/gui-gtk-2.0/chatline.c:1369 client/gui-gtk-3.0/chatline.c:1361
-#: client/gui-gtk-3.22/chatline.c:1369
+#: client/gui-gtk-2.0/chatline.c:1367 client/gui-gtk-3.0/chatline.c:1359
+#: client/gui-gtk-3.22/chatline.c:1367
 msgid "Strikethrough (Ctrl-S)"
 msgstr "Перечёркнутый (Ctrl-S)"
 
-#: client/gui-gtk-2.0/chatline.c:1377 client/gui-gtk-3.0/chatline.c:1369
-#: client/gui-gtk-3.22/chatline.c:1378
+#: client/gui-gtk-2.0/chatline.c:1375 client/gui-gtk-3.0/chatline.c:1367
+#: client/gui-gtk-3.22/chatline.c:1376
 msgid "Underline (Ctrl-U)"
 msgstr "Подчёркнутый (Ctrl-U)"
 
-#: client/gui-gtk-2.0/chatline.c:1385 client/gui-gtk-3.0/chatline.c:1377
-#: client/gui-gtk-3.22/chatline.c:1386
+#: client/gui-gtk-2.0/chatline.c:1383 client/gui-gtk-3.0/chatline.c:1375
+#: client/gui-gtk-3.22/chatline.c:1384
 msgid "Color (Ctrl-C)"
 msgstr "Цвет (Ctrl-C)"
 
-#: client/gui-gtk-2.0/chatline.c:1395 client/gui-gtk-3.0/chatline.c:1387
-#: client/gui-gtk-3.22/chatline.c:1396
+#: client/gui-gtk-2.0/chatline.c:1393 client/gui-gtk-3.0/chatline.c:1385
+#: client/gui-gtk-3.22/chatline.c:1394
 msgid "foreground"
 msgstr "текста"
 
-#: client/gui-gtk-2.0/chatline.c:1398 client/gui-gtk-2.0/optiondlg.c:625
-#: client/gui-gtk-3.0/chatline.c:1390 client/gui-gtk-3.0/optiondlg.c:628
-#: client/gui-gtk-3.22/chatline.c:1399 client/gui-gtk-3.22/optiondlg.c:621
+#: client/gui-gtk-2.0/chatline.c:1396 client/gui-gtk-2.0/optiondlg.c:625
+#: client/gui-gtk-3.0/chatline.c:1388 client/gui-gtk-3.0/optiondlg.c:628
+#: client/gui-gtk-3.22/chatline.c:1397 client/gui-gtk-3.22/optiondlg.c:621
 #: client/gui-qt/optiondlg.cpp:725
 msgid "Select the text color"
 msgstr "Выбрать цвет текста"
 
-#: client/gui-gtk-2.0/chatline.c:1411 client/gui-gtk-3.0/chatline.c:1403
-#: client/gui-gtk-3.22/chatline.c:1412
+#: client/gui-gtk-2.0/chatline.c:1409 client/gui-gtk-3.0/chatline.c:1401
+#: client/gui-gtk-3.22/chatline.c:1410
 msgid "background"
 msgstr "фона"
 
-#: client/gui-gtk-2.0/chatline.c:1415 client/gui-gtk-2.0/optiondlg.c:634
-#: client/gui-gtk-3.0/chatline.c:1407 client/gui-gtk-3.0/optiondlg.c:637
-#: client/gui-gtk-3.22/chatline.c:1416 client/gui-gtk-3.22/optiondlg.c:630
+#: client/gui-gtk-2.0/chatline.c:1413 client/gui-gtk-2.0/optiondlg.c:634
+#: client/gui-gtk-3.0/chatline.c:1405 client/gui-gtk-3.0/optiondlg.c:637
+#: client/gui-gtk-3.22/chatline.c:1414 client/gui-gtk-3.22/optiondlg.c:630
 #: client/gui-qt/optiondlg.cpp:733
 msgid "Select the background color"
 msgstr "Выберите цвет фона"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1433 client/gui-gtk-3.0/chatline.c:1425
-#: client/gui-gtk-3.22/chatline.c:1434
+#: client/gui-gtk-2.0/chatline.c:1431 client/gui-gtk-3.0/chatline.c:1423
+#: client/gui-gtk-3.22/chatline.c:1432
 msgid "Send the chat (Return)"
 msgstr "Отправить сообщение (Enter)"
 
-#: client/gui-gtk-2.0/chatline.c:1450 client/gui-gtk-3.0/chatline.c:1440
-#: client/gui-gtk-3.22/chatline.c:1448
+#: client/gui-gtk-2.0/chatline.c:1448 client/gui-gtk-3.0/chatline.c:1438
+#: client/gui-gtk-3.22/chatline.c:1446
 msgid "Chat tools"
 msgstr "Вид текста"
 
@@ -5188,7 +5188,7 @@ msgstr "Городские здания"
 #: client/gui-gtk-2.0/menu.c:1468 client/gui-gtk-3.0/menu.c:1463
 #: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1328
 #: client/gui-xaw/menu.c:231 client/gui-xaw/menu.c:254
-#: client/include/helpdlg_g.h:51 data/helpdata.txt:995 server/report.c:466
+#: client/include/helpdlg_g.h:51 data/helpdata.txt:995 server/report.c:469
 msgid "Wonders of the World"
 msgstr "Чудеса Света"
 
@@ -7150,7 +7150,7 @@ msgstr "Закрыть"
 
 #: client/gui-gtk-3.22/action_dialog.c:494
 #: client/gui-gtk-3.22/action_dialog.c:676
-#: client/gui-gtk-3.22/action_dialog.c:1327 client/gui-gtk-3.22/chatline.c:1136
+#: client/gui-gtk-3.22/action_dialog.c:1327 client/gui-gtk-3.22/chatline.c:1134
 #: client/gui-gtk-3.22/citydlg.c:3007 client/gui-gtk-3.22/dialogs.c:863
 #: client/gui-gtk-3.22/editgui.c:1017 client/gui-gtk-3.22/finddlg.c:77
 #: client/gui-gtk-3.22/gamedlgs.c:317 client/gui-gtk-3.22/gamedlgs.c:409
@@ -7163,11 +7163,11 @@ msgstr "Закрыть"
 msgid "_Cancel"
 msgstr "(_C) Отмена"
 
-#: client/gui-gtk-3.22/chatline.c:1137 client/gui-gtk-3.22/optiondlg.c:329
+#: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
 msgid "C_lear"
 msgstr "(_l) Очистить"
 
-#: client/gui-gtk-3.22/chatline.c:1138 client/gui-gtk-3.22/dialogs.c:867
+#: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1016 client/gui-gtk-3.22/gamedlgs.c:319
 #: client/gui-gtk-3.22/gamedlgs.c:411 client/gui-gtk-3.22/inputdlg.c:81
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
@@ -7176,27 +7176,27 @@ msgstr "(_l) Очистить"
 msgid "_OK"
 msgstr "(_O) Ok"
 
-#: client/gui-gtk-3.22/chatline.c:1345
+#: client/gui-gtk-3.22/chatline.c:1343
 msgid "Bold"
 msgstr "Полужирный"
 
-#: client/gui-gtk-3.22/chatline.c:1355
+#: client/gui-gtk-3.22/chatline.c:1353
 msgid "Italic"
 msgstr "Курсив"
 
-#: client/gui-gtk-3.22/chatline.c:1364
+#: client/gui-gtk-3.22/chatline.c:1362
 msgid "Strikethrough"
 msgstr "Перечёркнутый"
 
-#: client/gui-gtk-3.22/chatline.c:1373
+#: client/gui-gtk-3.22/chatline.c:1371
 msgid "Underline"
 msgstr "Подчёркнутый"
 
-#: client/gui-gtk-3.22/chatline.c:1381
+#: client/gui-gtk-3.22/chatline.c:1379
 msgid "Color"
 msgstr "Цвет"
 
-#: client/gui-gtk-3.22/chatline.c:1428 client/gui-sdl/dialogs.c:2846
+#: client/gui-gtk-3.22/chatline.c:1426 client/gui-sdl/dialogs.c:2846
 #: client/gui-sdl/dialogs.c:3282 client/gui-sdl/mapctrl.c:2560
 #: client/gui-sdl2/dialogs.c:2833 client/gui-sdl2/dialogs.c:3265
 #: client/gui-sdl2/mapctrl.c:2768 common/mapimg.c:300
@@ -25072,7 +25072,7 @@ msgstr "Позволяет Колонистам и Инженерам строи
 #: data/civ2/techs.ruleset:241 data/classic/techs.ruleset:256
 #: data/experimental/techs.ruleset:276 data/civ2civ3/techs.ruleset:279
 #: data/multiplayer/techs.ruleset:256 data/sandbox/techs.ruleset:279
-#: server/report.c:172
+#: server/report.c:175
 msgid "Economics"
 msgstr "Экономика"
 
@@ -42071,145 +42071,145 @@ msgstr "Сыма Цянь"
 msgid "Pan Ku"
 msgstr "Пан Ку"
 
-#: server/report.c:165
+#: server/report.c:168
 msgid "Population"
 msgstr "Население"
 
-#: server/report.c:166
+#: server/report.c:169
 msgid "Land Area"
 msgstr "Территория"
 
-#: server/report.c:167
+#: server/report.c:170
 msgid "Settled Area"
 msgstr "Заселённая площадь"
 
-#: server/report.c:168
+#: server/report.c:171
 msgid "Research Speed"
 msgstr "Исследования"
 
 #. TRANS: How literate people are.
-#: server/report.c:170
+#: server/report.c:173
 msgid "?ability:Literacy"
 msgstr "Грамотность"
 
-#: server/report.c:173
+#: server/report.c:176
 msgid "Military Service"
 msgstr "Военная служба"
 
-#: server/report.c:175
+#: server/report.c:178
 msgid "Culture"
 msgstr "Культура"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:193
+#: server/report.c:196
 #, c-format
 msgid "%2d: The Supreme %s"
 msgstr "%2d: Величайшие %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:195
+#: server/report.c:198
 #, c-format
 msgid "%2d: The Magnificent %s"
 msgstr "%2d: Великолепные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:197
+#: server/report.c:200
 #, c-format
 msgid "%2d: The Great %s"
 msgstr "%2d: Великие %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:199
+#: server/report.c:202
 #, c-format
 msgid "%2d: The Glorious %s"
 msgstr "%2d: Прославленные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:201
+#: server/report.c:204
 #, c-format
 msgid "%2d: The Excellent %s"
 msgstr "%2d: Неподражаемые %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:203
+#: server/report.c:206
 #, c-format
 msgid "%2d: The Eminent %s"
 msgstr "%2d: Выдающиеся %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:205
+#: server/report.c:208
 #, c-format
 msgid "%2d: The Distinguished %s"
 msgstr "%2d: Превосходные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:207
+#: server/report.c:210
 #, c-format
 msgid "%2d: The Average %s"
 msgstr "%2d: Непримечательные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:209
+#: server/report.c:212
 #, c-format
 msgid "%2d: The Mediocre %s"
 msgstr "%2d: Средненькие %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:211
+#: server/report.c:214
 #, c-format
 msgid "%2d: The Ordinary %s"
 msgstr "%2d: Посредственные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:213
+#: server/report.c:216
 #, c-format
 msgid "%2d: The Pathetic %s"
 msgstr "%2d: Жалкие %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:215
+#: server/report.c:218
 #, c-format
 msgid "%2d: The Useless %s"
 msgstr "%2d: Никчёмные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:217
+#: server/report.c:220
 #, c-format
 msgid "%2d: The Valueless %s"
 msgstr "%2d: Бедные %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:219
+#: server/report.c:222
 #, c-format
 msgid "%2d: The Worthless %s"
 msgstr "%2d: Нищие %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:221
+#: server/report.c:224
 #, c-format
 msgid "%2d: The Wretched %s"
 msgstr "%2d: Убогие %s"
 
-#: server/report.c:300
+#: server/report.c:303
 msgid "Historian Publishes!"
 msgstr "Историки пишут!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
-#: server/report.c:372
+#: server/report.c:375
 #, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
 msgstr "%1$2d: %3$s — город народа %2$s (%4$s) размера %5$d, "
 
-#: server/report.c:378
+#: server/report.c:381
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%1$2d: %3$s — город народа %2$s размера %4$d, "
 
-#: server/report.c:385
+#: server/report.c:388
 msgid "with no Great Wonders\n"
 msgstr "без Великих Чудес\n"
 
-#: server/report.c:388
+#: server/report.c:391
 #, c-format
 msgid "with %d Great Wonder\n"
 msgid_plural "with %d Great Wonders\n"
@@ -42217,43 +42217,43 @@ msgstr[0] "с %d Великим Чудом\n"
 msgstr[1] "с %d Великими Чудесами\n"
 msgstr[2] "с %d Великими Чудесами\n"
 
-#: server/report.c:391 server/report.c:465
+#: server/report.c:394 server/report.c:468
 msgid "Traveler's Report:"
 msgstr "Отчет Путешественника:"
 
-#: server/report.c:392
+#: server/report.c:395
 msgid "The Five Greatest Cities in the World!"
 msgstr "Пятёрка Величайших Городов мира!"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
-#: server/report.c:418
+#: server/report.c:421
 #, c-format
 msgid "%s in %s (%s, %s)\n"
 msgstr "%s в городе %s (%s, %s)\n"
 
-#: server/report.c:424
+#: server/report.c:427
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s в городе %s (%s)\n"
 
-#: server/report.c:430
+#: server/report.c:433
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "Чудо %s было РАЗРУШЕНО\n"
 
 #. TRANS: "([...] (Roman, team 4))".
-#: server/report.c:450
+#: server/report.c:453
 #, c-format
 msgid "(building %s in %s (%s, %s))\n"
 msgstr "(%s строится в городе %s (%s, %s))\n"
 
-#: server/report.c:455
+#: server/report.c:458
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(%s строится в городе %s (%s))\n"
 
 #. TRANS: abbreviation of "square miles"
-#: server/report.c:807
+#: server/report.c:810
 msgid " sq. mi."
 msgid_plural " sq. mi."
 msgstr[0] " кв. км"
@@ -42261,7 +42261,7 @@ msgstr[1] " кв. км"
 msgstr[2] " кв. км"
 
 #. TRANS: "M tons" = million tons, so always plural
-#: server/report.c:827
+#: server/report.c:830
 msgid " M tons"
 msgid_plural " M tons"
 msgstr[0] " млн. тонн"
@@ -42269,28 +42269,28 @@ msgstr[1] " млн. тонн"
 msgstr[2] " млн. тонн"
 
 #. TRANS: "M goods" = million goods, so always plural
-#: server/report.c:837
+#: server/report.c:840
 msgid " M goods"
 msgid_plural " M goods"
 msgstr[0] " млн. ед."
 msgstr[1] " млн. ед."
 msgstr[2] " млн. ед."
 
-#: server/report.c:846
+#: server/report.c:849
 msgid " bulb"
 msgid_plural " bulbs"
 msgstr[0] " лампочка"
 msgstr[1] " лампочки"
 msgstr[2] " лампочек"
 
-#: server/report.c:855
+#: server/report.c:858
 msgid " month"
 msgid_plural " months"
 msgstr[0] " месяц"
 msgstr[1] " месяца"
 msgstr[2] " месяцев"
 
-#: server/report.c:864
+#: server/report.c:867
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " тонна"
@@ -42298,41 +42298,41 @@ msgstr[1] " тонны"
 msgstr[2] " тонн"
 
 #. TRANS: Unit(s) of culture
-#: server/report.c:874
+#: server/report.c:877
 msgid " point"
 msgid_plural " points"
 msgstr[0] " очко"
 msgstr[1] " очка"
 msgstr[2] " очков"
 
-#: server/report.c:906
+#: server/report.c:909
 #, c-format
 msgid "(ranked %d)"
 msgstr "(№%d в рейтинге)"
 
-#: server/report.c:1022 server/report.c:1049
+#: server/report.c:1025 server/report.c:1052
 msgid "Demographics Report:"
 msgstr "Демографический отчет:"
 
-#: server/report.c:1023
+#: server/report.c:1026
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Извините, демографический отчет недоступен."
 
-#: server/report.c:1028 server/report.c:1065
+#: server/report.c:1031 server/report.c:1068
 #, c-format
 msgid "%s %s (%s)"
 msgstr "%2$s народа %1$s (%3$s)"
 
-#: server/report.c:1079
+#: server/report.c:1082
 msgid "Achievements List:"
 msgstr "Список Достижений:"
 
-#: server/report.c:1551
+#: server/report.c:1562
 msgid "Population\n"
 msgstr "Население\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1553
+#: server/report.c:1564
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -42341,7 +42341,7 @@ msgstr ""
 "(млн. единиц)"
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1555
+#: server/report.c:1566
 msgid ""
 "Production\n"
 "(M tons)"
@@ -42349,15 +42349,15 @@ msgstr ""
 "Производство\n"
 "(млн. тонн)"
 
-#: server/report.c:1556
+#: server/report.c:1567
 msgid "Cities\n"
 msgstr "Города\n"
 
-#: server/report.c:1557
+#: server/report.c:1568
 msgid "Technologies\n"
 msgstr "Технологии\n"
 
-#: server/report.c:1558
+#: server/report.c:1569
 msgid ""
 "Military Service\n"
 "(months)"
@@ -42365,11 +42365,11 @@ msgstr ""
 "Военная служба\n"
 "(месяцев)"
 
-#: server/report.c:1559
+#: server/report.c:1570
 msgid "Wonders\n"
 msgstr "Чудеса\n"
 
-#: server/report.c:1560
+#: server/report.c:1571
 msgid ""
 "Research Speed\n"
 "(bulbs)"
@@ -42378,7 +42378,7 @@ msgstr ""
 "(ламп.)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1562
+#: server/report.c:1573
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -42387,7 +42387,7 @@ msgstr ""
 "(кв. км)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1564
+#: server/report.c:1575
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -42395,7 +42395,7 @@ msgstr ""
 "Заселённая площадь\n"
 "(кв. км)"
 
-#: server/report.c:1565
+#: server/report.c:1576
 msgid ""
 "Literacy\n"
 "(%)"
@@ -42403,23 +42403,23 @@ msgstr ""
 "Грамотность\n"
 "(%)"
 
-#: server/report.c:1566
+#: server/report.c:1577
 msgid "Culture\n"
 msgstr "Культура\n"
 
-#: server/report.c:1567
+#: server/report.c:1578
 msgid "Spaceship\n"
 msgstr "Космический корабль\n"
 
-#: server/report.c:1568
+#: server/report.c:1579
 msgid "Built Units\n"
 msgstr "Построенные соединения\n"
 
-#: server/report.c:1569
+#: server/report.c:1580
 msgid "Killed Units\n"
 msgstr "Уничтоженные соединения\n"
 
-#: server/report.c:1570
+#: server/report.c:1581
 msgid "Unit Losses\n"
 msgstr "Потери соединений\n"
 

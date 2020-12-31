@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-02-15 15:53+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2020-02-27 00:06+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -104,23 +104,23 @@ msgstr "Naciones"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Bienvenido a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "Ruleset cargado"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "Falló la carga del ruleset!"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de Ruleset de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr "¿Estás seguro de que quieres salir?"
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr "Salir?"
 
@@ -134,7 +134,7 @@ msgstr "Nombre de la Regla"
 msgid "Name"
 msgstr "Nombre"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 msgid "A building with that rule name already exists!"
 msgstr "¡Ya existe un edificio con ese nombre de regla!"
 
@@ -159,7 +159,6 @@ msgid "?stat:Terrains"
 msgstr "Terrenos"
 
 #: tools/ruledit/tab_misc.cpp:89
-#| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "Recursos"
 
@@ -176,12 +175,10 @@ msgid "?stat:Unit Types"
 msgstr "Tipos de unidades"
 
 #: tools/ruledit/tab_misc.cpp:105
-#| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "Instalaciones"
 
 #: tools/ruledit/tab_misc.cpp:109
-#| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "Naciones"
 
@@ -210,12 +207,10 @@ msgid "?stat:Extras"
 msgstr "Extras"
 
 #: tools/ruledit/tab_misc.cpp:137
-#| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "Bases"
 
 #: tools/ruledit/tab_misc.cpp:141
-#| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "Caminos"
 
@@ -223,7 +218,7 @@ msgstr "Caminos"
 msgid "?stat:Multipliers"
 msgstr "Multiplicadores"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "Ruleset guardado"
 
@@ -251,11 +246,11 @@ msgstr "Root Req"
 msgid "Never"
 msgstr "Nunca"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 msgid "A tech with that rule name already exists!"
 msgstr "¡Ya existe una tecnología con ese nombre de regla!"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 msgid "A unit type with that rule name already exists!"
 msgstr "¡Ya existe un tipo de unidad con ese nombre de regla!"
 

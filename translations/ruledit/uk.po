@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2016-11-02 17:27+0300\n"
 "Last-Translator: Sviatoslav Golda<swiatos@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -93,23 +93,23 @@ msgstr "Нації"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Ласкаво просимо до freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "Набір правил завантажений"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "Не вдалось завантажити набір правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборів правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr "Впевнені що хочете вийти?"
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr "Вийти?"
 
@@ -123,7 +123,7 @@ msgstr "Назва Правила"
 msgid "Name"
 msgstr "Назва"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 #, fuzzy
 #| msgid "Building with that rule name already exist!"
 msgid "A building with that rule name already exists!"
@@ -211,7 +211,7 @@ msgstr "Дороги"
 msgid "?stat:Multipliers"
 msgstr "Стилі"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "Збережено Набір правил"
 
@@ -239,13 +239,13 @@ msgstr "Коренева Вимога"
 msgid "Never"
 msgstr "Ніколи"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 #, fuzzy
 #| msgid "Tech with that rule name already exist!"
 msgid "A tech with that rule name already exists!"
 msgstr "Технологія з цею назвою вже існує!"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 #, fuzzy
 #| msgid "Unit type with that rule name already exist!"
 msgid "A unit type with that rule name already exists!"

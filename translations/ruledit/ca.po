@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2019-12-31 10:24+0000\n"
+"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
+"POT-Creation-Date: 2020-11-18 23:56+0200\n"
 "PO-Revision-Date: 2018-04-14 15:35+0100\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -100,23 +100,23 @@ msgstr "Nacions"
 msgid "Welcome to freeciv-ruledit"
 msgstr "Benvingut a freeciv-ruledit"
 
-#: tools/ruledit/ruledit_qt.cpp:185
+#: tools/ruledit/ruledit_qt.cpp:188
 msgid "Ruleset loaded"
 msgstr "Joc de regles carregat"
 
-#: tools/ruledit/ruledit_qt.cpp:201
+#: tools/ruledit/ruledit_qt.cpp:204
 msgid "Ruleset loading failed!"
 msgstr "Ha fallat la càrrega del joc de regles!"
 
-#: tools/ruledit/ruledit_qt.cpp:245
+#: tools/ruledit/ruledit_qt.cpp:248
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de jocs de regles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:261
+#: tools/ruledit/ruledit_qt.cpp:264
 msgid "Are you sure you want to quit?"
 msgstr "Segur que voleu sortir?"
 
-#: tools/ruledit/ruledit_qt.cpp:265
+#: tools/ruledit/ruledit_qt.cpp:268
 msgid "Quit?"
 msgstr "Sortir?"
 
@@ -130,7 +130,7 @@ msgstr "Nom de Regla"
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:152
+#: tools/ruledit/tab_building.cpp:159
 msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
 
@@ -214,7 +214,7 @@ msgstr "Camins"
 msgid "?stat:Multipliers"
 msgstr "Multiplicadors"
 
-#: tools/ruledit/tab_misc.cpp:202
+#: tools/ruledit/tab_misc.cpp:206
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 
@@ -242,11 +242,11 @@ msgstr "Req Arrel"
 msgid "Never"
 msgstr "Mai"
 
-#: tools/ruledit/tab_tech.cpp:318
+#: tools/ruledit/tab_tech.cpp:337
 msgid "A tech with that rule name already exists!"
 msgstr "Ja existeix una tecnologia amb aquest nom de regla!"
 
-#: tools/ruledit/tab_unit.cpp:152
+#: tools/ruledit/tab_unit.cpp:159
 msgid "A unit type with that rule name already exists!"
 msgstr "Ja existeix un tipus d'unitat amb aquest nom de regla!"
 

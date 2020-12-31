@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-12-31 05:27+0200\n"
+"POT-Creation-Date: 2020-12-31 12:57+0200\n"
 "PO-Revision-Date: 2020-12-30 19:04+0100\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -1425,7 +1425,7 @@ msgstr "Con"
 #: data/civ1/terrain.ruleset:915 data/civ2/terrain.ruleset:1010
 #: data/classic/terrain.ruleset:1220 data/experimental/terrain.ruleset:1196
 #: data/civ2civ3/terrain.ruleset:1270 data/multiplayer/terrain.ruleset:1194
-#: data/sandbox/terrain.ruleset:1270 server/report.c:174
+#: data/sandbox/terrain.ruleset:1270 server/report.c:177
 msgid "Pollution"
 msgstr "Contaminación"
 
@@ -1466,7 +1466,7 @@ msgstr "Nº máximo de unidades construibles por turno"
 
 #: client/cityrepdata.c:789 client/cityrepdata.c:791
 #: client/gui-qt/cityrep.cpp:506 client/gui-sdl/cityrep.c:202
-#: client/gui-sdl2/cityrep.c:214 server/report.c:171
+#: client/gui-sdl2/cityrep.c:214 server/report.c:174
 msgid "Production"
 msgstr "Producción"
 
@@ -5143,7 +5143,7 @@ msgstr "Instalaciones urbanas"
 #: client/gui-gtk-2.0/menu.c:1468 client/gui-gtk-3.0/menu.c:1463
 #: client/gui-gtk-3.22/menu.c:321 client/gui-qt/menu.cpp:1328
 #: client/gui-xaw/menu.c:231 client/gui-xaw/menu.c:254
-#: client/include/helpdlg_g.h:51 data/helpdata.txt:995 server/report.c:466
+#: client/include/helpdlg_g.h:51 data/helpdata.txt:995 server/report.c:469
 msgid "Wonders of the World"
 msgstr "Maravillas del mundo"
 
@@ -24781,7 +24781,7 @@ msgstr "Permite a los Colonos y los Ingenieros construir fortalezas."
 #: data/civ2/techs.ruleset:241 data/classic/techs.ruleset:256
 #: data/experimental/techs.ruleset:276 data/civ2civ3/techs.ruleset:279
 #: data/multiplayer/techs.ruleset:256 data/sandbox/techs.ruleset:279
-#: server/report.c:172
+#: server/report.c:175
 msgid "Economics"
 msgstr "Economía"
 
@@ -41868,260 +41868,260 @@ msgstr "Ssu-ma Ch'ien"
 msgid "Pan Ku"
 msgstr "Pan Ku"
 
-#: server/report.c:165
+#: server/report.c:168
 msgid "Population"
 msgstr "Población"
 
-#: server/report.c:166
+#: server/report.c:169
 msgid "Land Area"
 msgstr "Área de tierra"
 
-#: server/report.c:167
+#: server/report.c:170
 msgid "Settled Area"
 msgstr "Área colonizada"
 
-#: server/report.c:168
+#: server/report.c:171
 msgid "Research Speed"
 msgstr "Vel. investigación"
 
 #. TRANS: How literate people are.
-#: server/report.c:170
+#: server/report.c:173
 msgid "?ability:Literacy"
 msgstr "Alfabetización"
 
-#: server/report.c:173
+#: server/report.c:176
 msgid "Military Service"
 msgstr "Servicio Militar"
 
-#: server/report.c:175
+#: server/report.c:178
 msgid "Culture"
 msgstr "Cultura"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:193
+#: server/report.c:196
 #, c-format
 msgid "%2d: The Supreme %s"
 msgstr "%2d: Los Supremos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:195
+#: server/report.c:198
 #, c-format
 msgid "%2d: The Magnificent %s"
 msgstr "%2d: Los Magníficos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:197
+#: server/report.c:200
 #, c-format
 msgid "%2d: The Great %s"
 msgstr "%2d: Los Grandes %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:199
+#: server/report.c:202
 #, c-format
 msgid "%2d: The Glorious %s"
 msgstr "%2d: Los Gloriosos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:201
+#: server/report.c:204
 #, c-format
 msgid "%2d: The Excellent %s"
 msgstr "%2d: Los Excelentes %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:203
+#: server/report.c:206
 #, c-format
 msgid "%2d: The Eminent %s"
 msgstr "%2d: Los Eminentes %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:205
+#: server/report.c:208
 #, c-format
 msgid "%2d: The Distinguished %s"
 msgstr "%2d: Los Distinguidos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:207
+#: server/report.c:210
 #, c-format
 msgid "%2d: The Average %s"
 msgstr "%2d: Los Normales %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:209
+#: server/report.c:212
 #, c-format
 msgid "%2d: The Mediocre %s"
 msgstr "%2d: Los Mediocres %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:211
+#: server/report.c:214
 #, c-format
 msgid "%2d: The Ordinary %s"
 msgstr "%2d: Los Ordinarios %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:213
+#: server/report.c:216
 #, c-format
 msgid "%2d: The Pathetic %s"
 msgstr "%2d: Los Patéticos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:215
+#: server/report.c:218
 #, c-format
 msgid "%2d: The Useless %s"
 msgstr "%2d: Los Inútiles %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:217
+#: server/report.c:220
 #, c-format
 msgid "%2d: The Valueless %s"
 msgstr "%2d: Los Prescindibles %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:219
+#: server/report.c:222
 #, c-format
 msgid "%2d: The Worthless %s"
 msgstr "%2d: Los Escasos %s"
 
 #. TRANS: <#>: The <ranking> Poles
-#: server/report.c:221
+#: server/report.c:224
 #, c-format
 msgid "%2d: The Wretched %s"
 msgstr "%2d: Los Lisiados %s"
 
-#: server/report.c:300
+#: server/report.c:303
 msgid "Historian Publishes!"
 msgstr "¡El historiador publica!"
 
 #. TRANS:"The French City of Lyon (team 3) of size 18".
-#: server/report.c:372
+#: server/report.c:375
 #, c-format
 msgid "%2d: The %s City of %s (%s) of size %d, "
 msgstr "%2d: El núcleo urbano %s de %s (%s) de tamaño %d, "
 
-#: server/report.c:378
+#: server/report.c:381
 #, c-format
 msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: El núcleo urbano %s de %s de tamaño %d, "
 
-#: server/report.c:385
+#: server/report.c:388
 msgid "with no Great Wonders\n"
 msgstr "sin Grandes Maravillas\n"
 
-#: server/report.c:388
+#: server/report.c:391
 #, c-format
 msgid "with %d Great Wonder\n"
 msgid_plural "with %d Great Wonders\n"
 msgstr[0] "con %d Gran Maravilla\n"
 msgstr[1] "con %d Grandes Maravillas\n"
 
-#: server/report.c:391 server/report.c:465
+#: server/report.c:394 server/report.c:468
 msgid "Traveler's Report:"
 msgstr "El informe del viajero:"
 
-#: server/report.c:392
+#: server/report.c:395
 msgid "The Five Greatest Cities in the World!"
 msgstr "¡Las cinco ciudades más importantes del mundo!"
 
 #. TRANS: "Colossus in Rhodes (Greek, team 2)".
-#: server/report.c:418
+#: server/report.c:421
 #, c-format
 msgid "%s in %s (%s, %s)\n"
 msgstr "%s en %s (%s, %s)\n"
 
-#: server/report.c:424
+#: server/report.c:427
 #, c-format
 msgid "%s in %s (%s)\n"
 msgstr "%s en %s (%s)\n"
 
-#: server/report.c:430
+#: server/report.c:433
 #, c-format
 msgid "%s has been DESTROYED\n"
 msgstr "%s ha sido DESTRUIDO\n"
 
 #. TRANS: "([...] (Roman, team 4))".
-#: server/report.c:450
+#: server/report.c:453
 #, c-format
 msgid "(building %s in %s (%s, %s))\n"
 msgstr "(construyendo %s en %s (%s, %s))\n"
 
-#: server/report.c:455
+#: server/report.c:458
 #, c-format
 msgid "(building %s in %s (%s))\n"
 msgstr "(construyendo %s en %s (%s))\n"
 
 #. TRANS: abbreviation of "square miles"
-#: server/report.c:807
+#: server/report.c:810
 msgid " sq. mi."
 msgid_plural " sq. mi."
 msgstr[0] " mi^2"
 msgstr[1] " mi^2"
 
 #. TRANS: "M tons" = million tons, so always plural
-#: server/report.c:827
+#: server/report.c:830
 msgid " M tons"
 msgid_plural " M tons"
 msgstr[0] " M de tonelada"
 msgstr[1] " M de toneladas"
 
 #. TRANS: "M goods" = million goods, so always plural
-#: server/report.c:837
+#: server/report.c:840
 msgid " M goods"
 msgid_plural " M goods"
 msgstr[0] " M de mercancía"
 msgstr[1] " M de mercancías"
 
-#: server/report.c:846
+#: server/report.c:849
 msgid " bulb"
 msgid_plural " bulbs"
 msgstr[0] " bombilla"
 msgstr[1] " bombillas"
 
-#: server/report.c:855
+#: server/report.c:858
 msgid " month"
 msgid_plural " months"
 msgstr[0] " mes"
 msgstr[1] " meses"
 
-#: server/report.c:864
+#: server/report.c:867
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] " tonelada"
 msgstr[1] " toneladas"
 
 #. TRANS: Unit(s) of culture
-#: server/report.c:874
+#: server/report.c:877
 msgid " point"
 msgid_plural " points"
 msgstr[0] "punto"
 msgstr[1] "puntos"
 
-#: server/report.c:906
+#: server/report.c:909
 #, c-format
 msgid "(ranked %d)"
 msgstr "(clasificado %d)"
 
-#: server/report.c:1022 server/report.c:1049
+#: server/report.c:1025 server/report.c:1052
 msgid "Demographics Report:"
 msgstr "Informe demográfico:"
 
-#: server/report.c:1023
+#: server/report.c:1026
 msgid "Sorry, the Demographics report is unavailable."
 msgstr "Lo siento, el informe demográfico no está disponible."
 
-#: server/report.c:1028 server/report.c:1065
+#: server/report.c:1031 server/report.c:1068
 #, c-format
 msgid "%s %s (%s)"
 msgstr "%2$s del Imperio %1$s (%3$s)"
 
-#: server/report.c:1079
+#: server/report.c:1082
 msgid "Achievements List:"
 msgstr "Lista de Logros:"
 
-#: server/report.c:1551
+#: server/report.c:1562
 msgid "Population\n"
 msgstr "Población\n"
 
 #. TRANS: "M goods" = million goods
-#: server/report.c:1553
+#: server/report.c:1564
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -42130,7 +42130,7 @@ msgstr ""
 "(M de artículos)"
 
 #. TRANS: "M tons" = million tons
-#: server/report.c:1555
+#: server/report.c:1566
 msgid ""
 "Production\n"
 "(M tons)"
@@ -42138,15 +42138,15 @@ msgstr ""
 "Producción\n"
 "(M de toneladas)"
 
-#: server/report.c:1556
+#: server/report.c:1567
 msgid "Cities\n"
 msgstr "Ciudades\n"
 
-#: server/report.c:1557
+#: server/report.c:1568
 msgid "Technologies\n"
 msgstr "Tecnologías\n"
 
-#: server/report.c:1558
+#: server/report.c:1569
 msgid ""
 "Military Service\n"
 "(months)"
@@ -42154,11 +42154,11 @@ msgstr ""
 "Servicio militar\n"
 "(meses)"
 
-#: server/report.c:1559
+#: server/report.c:1570
 msgid "Wonders\n"
 msgstr "Maravillas\n"
 
-#: server/report.c:1560
+#: server/report.c:1571
 msgid ""
 "Research Speed\n"
 "(bulbs)"
@@ -42167,7 +42167,7 @@ msgstr ""
 "(Bombillas)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1562
+#: server/report.c:1573
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -42176,7 +42176,7 @@ msgstr ""
 "(km^2)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: server/report.c:1564
+#: server/report.c:1575
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -42184,7 +42184,7 @@ msgstr ""
 "Área colonizada\n"
 "(km^2)"
 
-#: server/report.c:1565
+#: server/report.c:1576
 msgid ""
 "Literacy\n"
 "(%)"
@@ -42192,23 +42192,23 @@ msgstr ""
 "Alfabetización\n"
 "(%)"
 
-#: server/report.c:1566
+#: server/report.c:1577
 msgid "Culture\n"
 msgstr "Cultura\n"
 
-#: server/report.c:1567
+#: server/report.c:1578
 msgid "Spaceship\n"
 msgstr "Nave espacial\n"
 
-#: server/report.c:1568
+#: server/report.c:1579
 msgid "Built Units\n"
 msgstr "Unidades Construidas\n"
 
-#: server/report.c:1569
+#: server/report.c:1580
 msgid "Killed Units\n"
 msgstr "Unidades Eliminadas\n"
 
-#: server/report.c:1570
+#: server/report.c:1581
 msgid "Unit Losses\n"
 msgstr "Unidad Perdidas\n"
 
