@@ -1,10 +1,215 @@
 ========================
-Welcome to Freeciv 2.6.2
+Welcome to Freeciv 2.6.3
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.2.1 to 2.6.3
+-----------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.3>, 2020-12-31)
+
+   2.6.3 is a generic bugfix release.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Fixed trouble when a new city is founded to the ruins of a former city,
+      and that new city establish a trade route with a player who had seen
+      former city, and is unaware that it had been destroyed HRM#871606
+    * Fixed a case where shared vision did not completely update
+      recipient's map HRM#846106
+    * Fixed a bug where one could paradrop to peaceful nation's territory
+      after continuing game from an old savegame HRM#879084
+    * Fixed a bug causing game sometimes to tell wrong reason of why an
+      action failed HRM#879880
+    * Cease fire no longer runs out with an already dead player, making his
+      former allies to hate the alive party of the treaty HRM#879055
+    * Made server not to end in a infinite loop after loading savegame with
+      too high phase number. Such a savegame was reported to be created
+      after spaceship was launched but game was still continued HRM#815196
+    * Unified writing of the city name Washington-on-the-Brazos
+      between rulesets, so it doesn't appear multiple times in the same
+      game in a bit different form HRM#867817
+    * Stealth units are no longer erroneously hidden even from allies
+      HRM#764976
+    * Placing initial units is now done in shuffled player order HRM#850656
+    * Corrupt worker tasks are cleared. Those can originate, e.g.,
+      from buggy pre-2.6.2.1 Qt-client, and live in old savegames HRM#901938
+    * In a ruleset, such as civ2civ3, where caravans can help building wonder
+      in a foreign city, refresh city info of the city owner when one does
+      HRM#907977
+
+Changes affecting other rulesets / modders
+
+    * Display of success probabilities for diplomats was off when targeting
+      stack of units instead of individual unit HRM#859761
+    * Fixed pillaging of extras that are caused by something else than
+      player actions. For the fix to work, both server and client must be
+      at least version 2.6.3 HRM#861508
+    * Civilian unit trying to paradrop to an enemy city dies HRM#870004
+    * Prevented dead player from getting techs via Tech_Parasite effect.
+      This caused trouble in alien ruleset where Tech_Parasite is granted
+       by a tech HRM#873692
+    * Improved support of CityTile requirement type HRM#877780
+    * Fixed trouble preventing Small Wonders from working as impr_reqs
+      for units HRM#884993
+    * Corrected success probability shown by action dialog when it depends
+      on a special kind of road HRM#897490
+    * The included Lua engine has been upgraded from 5.3.5 to 5.3.6. HRM#889425
+
+Changes affecting server operators
+
+    * /write command now adds .serv extension to the filename if it
+      doesn't have one. Only files with the extension can be read by
+      the /read command HRM#677584 HRM#892376
+
+General
+
+    * Fixed buffer overflow vulnerability in reading in score log file.
+      Score log functionality is not enabled by default. HRM#907791
+    * Fixes to memory handling errors
+      HRM#863750 HRM#872662 HRM#874452 HRM#839702 HRM#894582
+    * Freeciv metadata Desktop files renamed and Appdata files changed
+      to be more standards compliant HRM#853571 HRM#892377
+    * Minor optimization HRM#905312
+    * Various internal changes which should only affect developers.
+      HRM#859775 HRM#861499 HRM#861500 HRM#861875 HRM#868649 HRM#870142
+      HRM#870178 HRM#871296 HRM#871873 HRM#872193 HRM#872904 HRM#874191
+      HRM#876088 HRM#879100 HRM#858229 HRM#891555 HRM#895052 HRM#896720
+      HRM#898550 HRM#898117 HRM#902626 HRM#904301 HRM#905828 HRM#905523
+      HRM#908900
+
+AI
+
+    * AI is made more determined to attack enemy players that would be
+      easy to finish off, as measured by the number of cities left HRM#855339
+    * The fact that enemy city is already empty no longer reduces AI's
+      want to build unit capable of conquering it HRM#872220
+    * AI now might initiate spacerace if it's in technical lead and
+      the only one who can do so even if there's other player who has
+       better production HRM#894739
+    * Fixed an issue causing production of a player marked away to be
+      unnecessarily changed HRM#904268
+
+Clients
+
+    * Fixed middle-click display in case two or more units do different
+      activities that will result in the same extra in tile.
+      The bug would manifest itself only in exotic rulesets. HRM#861509
+    * Success probability for Poison City and Poison City Escape actions
+      is now shown HRM#861825 HRM#861827
+    * Mine activity is again always referred as Mine, and never as Plant.
+      This affects at least grouping of units in unit selection dialog.
+      HRM#853128
+    * Show more standardized information about the actions in action
+      selection dialogs HRM#874621
+    * Lua functions City:is_happy() and City:is_unhappy made to work on
+      correctly on client lua console HRM#8811951
+    * Fixed trouble when mapimg settings are changed before entering game
+      HRM#886678
+    * City dialogs now show correct tile output on the turn celebration
+      is about to end HRM#885093
+    * Made client more robust against invalid worker tasks sent by the server
+      HRM#885482
+    * Select new music track when music should continue with the same style.
+      It was stopping after the first track. HRM#905818
+
+    * Fixes to both Gtk and Qt clients:
+        + City dialog now shows city's airlift capacity HRM#858965 HRM#899057
+        + City dialog now shows city's size HRM#872815 HRM#901393
+
+    * Fixes to the Gtk3 and Gtk3.22 clients:
+        + The default for new installations is now to have Chat and Messages
+           display separately. This does not affect old installations with
+           the setting value already saved. HRM#860624
+        + Fixed a problem causing Fog of War sometimes being too dark HRM#862511
+        + City dialog tooltip no longer proposes selling a building when it
+          can't be sold HRM#885725
+        + Extraneous files have been removed from the default theme HRM#894559
+        + Fixed crash on receiving some chat messages with link tags HRM#910832
+
+    * Fixes to the Qt client:
+        + Map Image files saved with correct name HRM#860076
+        + Improved icon selection about Irrigate and Mine activity results
+          on various terrains HRM#861867
+        + Don't include plus sign to the display of money gained when player
+          is actually losing money. It used to show it like "+-2". HRM#863755
+        + Don't show bogus move points information about enemy units,
+          from which client does not know the truth HRM#857638
+        + Fixed warnings Qt was giving about Freeciv themes HRM#891563
+        + Refresh goto dialog Airlift information when unit selection changes
+          HRM#908664
+
+    * Fixes to Sdl clients:
+        + Made worklist display to refresh reliably when its contents
+          are changed HRM#861461
+        + Update climate change icons when ever they should HRM#861479
+        + Fixed keyboard key bindings for building bases, such as
+          Fortress and Airbase HRM#861497
+        + Improved tooltip and icon selection about Irrigate and Mine
+          activity results on various terrains HRM#861498 HRM#894434
+        + Corrected order buttons' tooltip about the completion time
+          of the activity. The turn count displayed was wildly off. HRM#861460
+        + Tooltips for more order buttons shows information about their
+          result and completion time HRM#861501
+        + (sdl2 only): Don't try to show nation legend in races dialog,
+          where it doesn't fit at all HRM#858718
+        + Toggle Mini Map Mode button has been removed. It did nothing.
+          It only confused users by its existence HRM#898649
+
+Tools
+Ruledit
+
+    * Save multiplier offset and factor to the ruleset saved HRM#908577
+
+
+Help / Documentation
+
+    * Windows installers place a shortcut from start menu to the freeciv
+      documentation directory to make it easier to find the documentation
+      HRM#871325 HRM#871297
+    * Clarified that sandbox ruleset Ecclesiastical Palace does not
+      function exactly as second capital. Similar change was already
+      done for civ2civ3 ruleset HRM#898469
+    * Improvements to error diagnostics of custom modpack content
+      HRM#899315 HRM#899339 HRM#901829
+    * Miscellaneous other improvements to in-game text and user documentation.
+      HRM#861462 HRM#864579 HRM#871307 HRM#883116 HRM#884474 HRM#856804
+    * Miscellaneous changes to developer/install/ruleset docs
+      HRM#875196 HRM#899594 HRM#899608
+
+Translations
+
+    * Updated translations:
+        + Complete translations: Catalan, Spanish, French, Russian
+        + Incomplete translations:
+          Finnish (100% core, 91% nations, 100% ruledit),
+          Polish (99% core, 100% nations, 100% ruledit)
+    * Ruledit searched some translated strings from wrong domain,
+      and thus failed to find them HRM#902423
+
+Build/portability
+
+    * Fixed regression in 2.6.2 that was causing configure checks
+      for Windows _mkdir() function to fail in debug builds HRM#863322
+    * Fixed compiler warnings seen with -O3 optimization level
+      HRM#870481 HRM#870482 HRM#886330 HRM#886331
+    * Silenced Qt's deprecation warnings in debug builds where they
+       were being turned to errors. Release builds still have
+       the warnings enabled HRM#870968
+    * Fixed compiler warning with clang-11 HRM#883284
+    * Fixed compiler warning with gcc-11 development version HRM#894423
+    * Fixed other compiler warnings seen with various setups
+      HRM#871676 HRM#871686 HRM#871688 HRM#882483 HRM#893306
+    * Gettext bootstrap files included in freeciv distribution updated
+      to gettext-0.21 ones. This improves compatibility with builds
+      in OpenEmbedded HRM#882434 HRM#883109
+    * Fixed some autoconf-2.70 warnings. More remains. HRM#889543 HRM#889544
+    * nanosleep() is used instead of deprecated usleep() HRM#896807
 
 
 CHANGES FROM 2.6.2 to 2.6.2.1
