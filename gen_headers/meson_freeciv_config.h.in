@@ -14,8 +14,8 @@
 /* This header is generated from gen_headers/meson_freeciv_config.h.in.
  * It contains values to specific freeciv build, but only such
  * values that should not conflict with configuration headers from
- * other autotools projects. This is meant to be usable for external
- * projects building against some freeciv components. */
+ * other, typically autotools based, projects. This is meant to be usable
+ * for external projects building against some freeciv components. */
 
 /* This header file is shipped in some binary distributions.
  * It is included purely for reference as to how the executables were built,
