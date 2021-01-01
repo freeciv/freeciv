@@ -1648,6 +1648,7 @@ extern "C" {
 
 /* common */
 #include "actions.h"
+#include "city.h"
 #include "disaster.h"
 
 ''')

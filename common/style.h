@@ -18,6 +18,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* common */
+#include "requirements.h"
+
 struct nation_style
 {
   int id;
