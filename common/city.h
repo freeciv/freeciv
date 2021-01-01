@@ -25,6 +25,7 @@ extern "C" {
 #include "fc_types.h"
 #include "name_translation.h"
 #include "improvement.h"
+#include "tile.h"
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -763,7 +764,26 @@ bool city_exist(int id);
 
 /* === */
 
-bool is_city_center(const struct city *pcity, const struct tile *ptile);
+/**********************************************************************//**
+  Return TRUE if the city is centered at the given tile.
+
+  NB: This doesn't simply check whether pcity->tile == ptile because that
+  would miss virtual clones made of city center tiles, which are used by
+  autosettler to judge whether improvements are worthwhile.  The upshot is
+  that city centers would appear to lose their irrigation/farmland bonuses
+  as well as their minimum outputs of one food and one shield, and thus
+  autosettler would rarely transform or mine them.
+**************************************************************************/
+static inline bool is_city_center(const struct city *pcity,
+                                  const struct tile *ptile)
+{
+  if (!pcity || !pcity->tile || !ptile) {
+    return FALSE;
+  }
+
+  return tile_index(city_tile(pcity)) == tile_index(ptile);
+}
+
 bool is_free_worked(const struct city *pcity, const struct tile *ptile);
 
 #define is_free_worked_index(city_tile_index) \
