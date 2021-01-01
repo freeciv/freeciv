@@ -494,8 +494,6 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
 ****************************************************************************/
 static int pf_normal_map_adjust_cost(int cost, int moves_left)
 {
-  fc_assert_ret_val(cost >= 0, PF_IMPOSSIBLE_MC);
-
   return MIN(cost, moves_left);
 }
 
@@ -681,14 +679,12 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
       } else {
         cost = params->get_MC(tile, scope, tile1, node1->move_scope, params);
       }
-      if (cost == PF_IMPOSSIBLE_MC) {
+      if (cost < 0) {
+        /* e.g. PF_IMPOSSIBLE_MC */
         continue;
       }
       cost = pf_normal_map_adjust_cost(cost,
                                        pf_moves_left(params, node->cost));
-      if (cost == PF_IMPOSSIBLE_MC) {
-        continue;
-      }
 
       /* Total cost at tile1. Cost may be negative; see pf_turns(). */
       cost += node->cost;
