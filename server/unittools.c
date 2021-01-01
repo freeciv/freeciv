@@ -2718,7 +2718,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   } else if (distance < 1) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                  _("Already here."));
+                  _("Already there."));
     return FALSE;
   }
 
