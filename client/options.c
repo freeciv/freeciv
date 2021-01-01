@@ -5153,9 +5153,16 @@ static const char *get_current_option_file_name(void)
       log_error(_("Cannot find your home directory"));
       return NULL;
     }
+#ifdef HAIKU
+    fc_snprintf(name_buffer, sizeof(name_buffer),
+                "%s" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                "freeciv" DIR_SEPARATOR NEW_OPTION_FILE_NAME,
+                name, MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
+#else  /* HAIKU */
     fc_snprintf(name_buffer, sizeof(name_buffer),
                 "%s" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR NEW_OPTION_FILE_NAME,
                 name, MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
+#endif  /* HAIKU */
 #endif /* OPTION_FILE_NAME */
   }
   log_verbose("settings file is %s", name_buffer);
@@ -5205,8 +5212,14 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
               : minor >= 0); minor--) {
         fc_snprintf(name_buffer, sizeof(name_buffer),
+#ifdef HAIKU
+                    "%s" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                    "freeciv" DIR_SEPARATOR NEW_OPTION_FILE_NAME,
+                    name, major, minor);
+#else /* HAIKU */
                     "%s" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR NEW_OPTION_FILE_NAME,
                     name, major, minor);
+#endif /* HAIKU */
         if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {

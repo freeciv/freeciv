@@ -132,7 +132,14 @@ int fcmp_parse_cmdline(int argc, char *argv[])
     } else {
       static char pfx_buf[500];
 
+#ifdef HAIKU
+      snprintf(pfx_buf, sizeof(pfx_buf),
+               "%s" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+               "freeciv", home);
+#else  /* HAIKU */
       snprintf(pfx_buf, sizeof(pfx_buf), "%s" DIR_SEPARATOR ".freeciv", home);
+#endif /* HAIKU */
+
       fcmp.inst_prefix = pfx_buf;
     }
   }

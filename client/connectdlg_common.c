@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
 Freeciv - Copyright (C) 2004 - The Freeciv Project
    This program is free software; you can redistribute it and / or modify
    it under the terms of the GNU General Public License as published by
@@ -9,7 +9,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-***********************************************************************/ 
+***********************************************************************/
 #ifdef HAVE_CONFIG_H
 #include <fc_config.h>
 #endif
@@ -293,9 +293,19 @@ bool client_start_server(void)
     argv[argc++] = "1";
     argv[argc++] = "-e";
     argv[argc++] = "--saves";
+#ifdef HAIKU
+    argv[argc++] = "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                  "freeciv" DIR_SEPARATOR "saves";
+#else  /* HAIKU */
     argv[argc++] = "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "saves";
+#endif  /* HAIKU */
     argv[argc++] = "--scenarios";
+#ifdef HAIKU
+    argv[argc++] = "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                  "freeciv" DIR_SEPARATOR "scenarios";
+#else  /* HAIKU */
     argv[argc++] = "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "scenarios";
+#endif  /* HAIKU */
     argv[argc++] = "-A";
     argv[argc++] = "none";
     if (logfile) {
@@ -431,6 +441,17 @@ bool client_start_server(void)
     free(savefile_in_local_encoding);
   }
 
+#ifdef HAIKU
+  interpret_tilde(savesdir, sizeof(savesdir),
+                  "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                  "freeciv" DIR_SEPARATOR "saves");
+  internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
+
+  interpret_tilde(scensdir, sizeof(scensdir),
+                  "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                  "freeciv" DIR_SEPARATOR "scenarios");
+  internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
+#else  /* HAIKU */
   interpret_tilde(savesdir, sizeof(savesdir),
                   "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "saves");
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
@@ -438,6 +459,7 @@ bool client_start_server(void)
   interpret_tilde(scensdir, sizeof(scensdir),
                   "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR "scenarios");
   internal_to_local_string_buffer(scensdir, scenscmdline, sizeof(scenscmdline));
+#endif /* HAIKU */
 
   if (are_deprecation_warnings_enabled()) {
     depr = " --warnings";
@@ -599,8 +621,14 @@ void send_client_wants_hack(const char *filename)
     }
 
     /* get the full filename path */
+#ifdef HAIKU
+    interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
+                    "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+                  "freeciv" DIR_SEPARATOR);
+#else  /* HAIKU */
     interpret_tilde(challenge_fullname, sizeof(challenge_fullname),
                     "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR);
+#endif  /* HAIKU */
     make_dir(challenge_fullname);
 
     sz_strlcat(challenge_fullname, filename);

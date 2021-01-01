@@ -510,11 +510,21 @@ enum server_events server_sniff_all_input(void)
       char *home_dir = user_home_dir();
 
       if (home_dir) {
+#ifdef HAIKU
+        int fcdl = strlen(home_dir) + 1 + strlen(DIR_SEPARATOR "config" DIR_SEPARATOR "settings"
+		    DIR_SEPARATOR "freeciv") + 1;
+        char *fc_dir = fc_malloc(fcdl);
+
+        if (fc_dir != NULL) {
+          fc_snprintf(fc_dir, fcdl, ("%s" DIR_SEPARATOR "config" DIR_SEPARATOR "settings" DIR_SEPARATOR
+               "freeciv"), home_dir);
+#else  /* HAIKU */
         int fcdl = strlen(home_dir) + 1 + strlen(".freeciv") + 1;
         char *fc_dir = fc_malloc(fcdl);
 
         if (fc_dir != NULL) {
           fc_snprintf(fc_dir, fcdl, "%s/.freeciv", home_dir);
+#endif  /* HAIKU */
 
           if (make_dir(fc_dir)) {
             history_file

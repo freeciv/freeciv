@@ -1033,7 +1033,12 @@ static const char *get_challenge_fullname(struct connection *pc)
 {
   static char fullname[MAX_LEN_PATH];
 
+#ifdef HAIKU
+  interpret_tilde(fullname, sizeof(fullname), "~" DIR_SEPARATOR "config" DIR_SEPARATOR "settings"
+                     DIR_SEPARATOR "freeciv" DIR_SEPARATOR);
+#else  /* HAIKU */
   interpret_tilde(fullname, sizeof(fullname), "~" DIR_SEPARATOR ".freeciv" DIR_SEPARATOR);
+#endif  /* HAIKU */
   sz_strlcat(fullname, get_challenge_filename(pc));
 
   return fullname;

@@ -714,6 +714,8 @@ case "$host_os" in
 
   *haiku*)
     dnl Haiku specific settings
+    HAIKU=yes
+    AC_DEFINE([HAIKU], [1], [Built for Haiku OS])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Haiku])
     LIBS="$LIBS -lnetwork"
     ;;
@@ -1355,7 +1357,7 @@ AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <signal.h>]], [[signal (SIGPIPE, S
 dnl export where the datadir is going to be installed
 FC_EXPAND_DIR(FREECIV_DATADIR, "$datadir/freeciv")
 
-if test x"$MINGW" = xyes; then
+if test x"$MINGW" = xyes ; then
   DEFAULT_SAVE_PATH=".;~\\\\\\\\.freeciv\\\\\\\\saves"
   if test x$crosser = xyes ; then
     FC_CONF_PATH="../etc/freeciv"
@@ -1366,6 +1368,11 @@ if test x"$MINGW" = xyes; then
     DEFAULT_DATA_PATH=".;data;~\\\\\\\\.freeciv\\\\\\\\$DATASUBDIR;$datadir\\\\\\\\freeciv"
     DEFAULT_SCENARIO_PATH=".;data\\\\\\\\scenarios;~\\\\\\\\.freeciv\\\\\\\\$DATASUBDIR\\\\\\\\scenarios;~\\\\\\\\.freeciv\\\\\\\\scenarios;$datadir\\\\\\\\freeciv\\\\\\\\scenarios"
   fi
+elif test x"$HAIKU" = xyes ; then
+  FC_CONF_PATH="$sysconfdir/freeciv"
+  DEFAULT_DATA_PATH=".:data:~/config/settings/freeciv/$DATASUBDIR:$datadir/freeciv"
+  DEFAULT_SAVE_PATH=".:~/config/settings/freeciv/saves"
+  DEFAULT_SCENARIO_PATH=".:data/scenarios:~/config/settings/freeciv/$DATASUBDIR/scenarios:~/config/settings/freeciv/scenarios:$datadir/freeciv/scenarios"
 else
   FC_CONF_PATH="$sysconfdir/freeciv"
   DEFAULT_DATA_PATH=".:data:~/.freeciv/$DATASUBDIR:$datadir/freeciv"
