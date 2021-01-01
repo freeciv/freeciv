@@ -21,7 +21,6 @@ extern "C" {
 #include "bitvector.h"
 
 /* common */
-#include "city.h"
 #include "connection.h"
 #include "effects.h"
 #include "fc_types.h"
@@ -34,6 +33,8 @@ extern "C" {
 #include "traits.h"
 #include "unitlist.h"
 #include "vision.h"
+
+struct city;
 
 #define PLAYER_DEFAULT_TAX_RATE 0
 #define PLAYER_DEFAULT_SCIENCE_RATE 100
