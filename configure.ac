@@ -1137,6 +1137,9 @@ if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
       ruledit_cxxflags=$FC_QT5_CXXFLAGS
       ruledit_libs=$FC_QT5_LIBS
       ruledit=yes
+      if test "x$MINGW" = "xyes"; then
+        ruledit_libs="$ruledit_libs -mwindows"
+      fi
     elif test "x$ruledit" = "xyes" ; then
       AC_MSG_ERROR([Qt5 not found for building freeciv-ruledit])
     fi
