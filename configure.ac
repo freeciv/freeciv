@@ -1179,7 +1179,7 @@ if test "x$req_fcmp_gtk4" = "xyes" ||
   fcmp_list="$fcmp_list gtk4"
   mp_gtk4_cflags="$GTK4_MP_CFLAGS $GTHREAD_GTK4_CFLAGS"
   mp_gtk4_libs="$GTK4_MP_LIBS $GTHREAD_GTK4_LIBS"
-  if test "x$MINGW32" = "xyes"; then
+  if test "x$MINGW" = "xyes"; then
     dnl Required to compile gtk4 on Windows platform
     mp_gtk4_cflags="$mp_gtk4_cflags -mms-bitfields"
     mp_gtk4_ldflags="$mp_gtk4_ldflags -mwindows"
