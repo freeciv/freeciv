@@ -10,4 +10,8 @@ META_URL="http://meta.freeciv.org/metaserver.php"
 # files won't be used any more.
 # Use '/' as portable directory separator character - those will be converted to '\'
 # as needed depending on the target environment.
-FREECIV_STORAGE_DIR="~/.freeciv"
+if test "x$HAIKU" != "xyes" ; then
+  FREECIV_STORAGE_DIR="~/.freeciv"
+else
+  FREECIV_STORAGE_DIR="~/config/settings/freeciv"
+fi

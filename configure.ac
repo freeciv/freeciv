@@ -180,6 +180,7 @@ AM_CONDITIONAL(SERVER, test x$server = xyes)
 
 dnl Host type variable defaults
 MINGW=no
+HAIKU=no
 
 dnl Settings specific to host OS
 case "$host_os" in
@@ -194,6 +195,9 @@ case "$host_os" in
 
     dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
     LIBS="${LIBS} -lws2_32"
+    ;;
+  *haiku*)
+    HAIKU=yes
     ;;
 esac
 
