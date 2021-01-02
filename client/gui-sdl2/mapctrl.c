@@ -1794,7 +1794,7 @@ void popup_minimap_window(void)
                                     WF_WIDGET_HAS_INFO_LABEL
                                     | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  options_button->info_label = create_str16_from_char(buf, adj_font(12));
+  options_button->info_label = create_utf8_from_char(buf, adj_font(12));
 
   options_button->action = optiondlg_callback;
   options_button->key = SDLK_ESCAPE;
