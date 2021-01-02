@@ -110,15 +110,15 @@ static int launch_spaceship_callback(struct widget *pwidget)
 **************************************************************************/
 void refresh_spaceship_dialog(struct player *pplayer)
 {
-  struct small_dialog *pSpaceShp;
+  struct small_dialog *spaceship;
   struct widget *pbuf;
 
-  if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
+  if (!(spaceship = get_spaceship_dialog(pplayer))) {
     return;
   }
 
   /* launch button */
-  pbuf = pSpaceShp->end_widget_list->prev->prev;
+  pbuf = spaceship->end_widget_list->prev->prev;
   if (victory_enabled(VC_SPACERACE)
       && pplayer == client.conn.playing
       && pplayer->spaceship.state == SSHIP_STARTED
@@ -133,8 +133,8 @@ void refresh_spaceship_dialog(struct player *pplayer)
   /* ------------------------------------------ */
 
   /* redraw */
-  redraw_group(pSpaceShp->begin_widget_list, pSpaceShp->end_widget_list, 0);
-  widget_mark_dirty(pSpaceShp->end_widget_list);
+  redraw_group(spaceship->begin_widget_list, spaceship->end_widget_list, 0);
+  widget_mark_dirty(spaceship->end_widget_list);
 
   flush_dirty();
 }
@@ -144,15 +144,15 @@ void refresh_spaceship_dialog(struct player *pplayer)
 **************************************************************************/
 void popup_spaceship_dialog(struct player *pplayer)
 {
-  struct small_dialog *pSpaceShp;
+  struct small_dialog *spaceship;
 
-  if (!(pSpaceShp = get_spaceship_dialog(pplayer))) {
+  if (!(spaceship = get_spaceship_dialog(pplayer))) {
     struct widget *buf, *pwindow;
     utf8_str *pstr;
     char cbuf[128];
     SDL_Rect area;
 
-    pSpaceShp = fc_calloc(1, sizeof(struct small_dialog));
+    spaceship = fc_calloc(1, sizeof(struct small_dialog));
 
     fc_snprintf(cbuf, sizeof(cbuf), _("The %s Spaceship"),
                 nation_adjective_for_player(pplayer));
@@ -164,9 +164,9 @@ void popup_spaceship_dialog(struct player *pplayer)
     pwindow->action = space_dialog_window_callback;
     set_wstate(pwindow, FC_WS_NORMAL);
     pwindow->data.player = pplayer;
-    pwindow->private_data.small_dlg = pSpaceShp;
+    pwindow->private_data.small_dlg = spaceship;
     add_to_gui_list(ID_WINDOW, pwindow);
-    pSpaceShp->end_widget_list = pwindow;
+    spaceship->end_widget_list = pwindow;
 
     area = pwindow->area;
 
@@ -200,7 +200,7 @@ void popup_spaceship_dialog(struct player *pplayer)
     area.h += buf->size.h + adj_size(20);
     add_to_gui_list(ID_LABEL, buf);
 
-    pSpaceShp->begin_widget_list = buf;
+    spaceship->begin_widget_list = buf;
     /* -------------------------------------------------------- */
 
     area.w = MAX(area.w, adj_size(300) - (pwindow->size.w - pwindow->area.w));
@@ -230,13 +230,13 @@ void popup_spaceship_dialog(struct player *pplayer)
     buf->size.x = area.x + (area.w - buf->size.w) / 2;
     buf->size.y = area.y + adj_size(7);
 
-    dialog_list_prepend(dialog_list, pSpaceShp);
+    dialog_list_prepend(dialog_list, spaceship);
 
     refresh_spaceship_dialog(pplayer);
   } else {
-    if (select_window_group_dialog(pSpaceShp->begin_widget_list,
-                                   pSpaceShp->end_widget_list)) {
-      widget_flush(pSpaceShp->end_widget_list);
+    if (select_window_group_dialog(spaceship->begin_widget_list,
+                                   spaceship->end_widget_list)) {
+      widget_flush(spaceship->end_widget_list);
     }
   }
 }
@@ -246,12 +246,12 @@ void popup_spaceship_dialog(struct player *pplayer)
 **************************************************************************/
 void popdown_spaceship_dialog(struct player *pplayer)
 {
-  struct small_dialog *pSpaceShp;
+  struct small_dialog *spaceship;
 
-  if ((pSpaceShp = get_spaceship_dialog(pplayer))) {
-    popdown_window_group_dialog(pSpaceShp->begin_widget_list,
-                                pSpaceShp->end_widget_list);
-    dialog_list_remove(dialog_list, pSpaceShp);
-    FC_FREE(pSpaceShp);
+  if ((spaceship = get_spaceship_dialog(pplayer))) {
+    popdown_window_group_dialog(spaceship->begin_widget_list,
+                                spaceship->end_widget_list);
+    dialog_list_remove(dialog_list, spaceship);
+    FC_FREE(spaceship);
   }
 }
