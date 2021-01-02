@@ -1091,7 +1091,7 @@ void popup_city_cma_dialog(struct city *pcity)
   area.h = adj_size(360) - (pwindow->size.w - pwindow->area.w);
 #endif /* SMALL_SCREEN */
 
-  logo = theme_get_background(theme, BACKGROUND_CITYGOVDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_CITYGOVDLG);
   if (resize_window(pwindow, logo, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.w - pwindow->area.w) + area.h)) {
@@ -1102,7 +1102,7 @@ void popup_city_cma_dialog(struct city *pcity)
   logo = SDL_DisplayFormat(pwindow->theme);
   FREESURFACE(pwindow->theme);
   pwindow->theme = logo;
-#endif
+#endif /* 0 */
 
   area = pwindow->area;
 

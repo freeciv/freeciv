@@ -43,7 +43,7 @@
 **************************************************************************/
 SDL_Color *get_theme_color(enum theme_color themecolor)
 {
-  return theme_get_color(theme, themecolor)->color;
+  return theme_get_color(active_theme, themecolor)->color;
 }
 
 /**********************************************************************//**

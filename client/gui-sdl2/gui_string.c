@@ -164,7 +164,7 @@ utf8_str *create_utf8_str(char *in_text, size_t n_alloc, Uint16 ptsize)
   utf8_str *str = fc_calloc(1, sizeof(utf8_str));
 
   if (!ptsize) {
-    str->ptsize = theme_default_font_size(theme);
+    str->ptsize = theme_default_font_size(active_theme);
   } else {
     str->ptsize = ptsize;
   }
@@ -538,7 +538,7 @@ static TTF_Font *load_font(Uint16 ptsize)
   }
 
   if (!font_with_full_path) {
-    const char *path = theme_font_filename(theme);
+    const char *path = theme_font_filename(active_theme);
 
     font_with_full_path = fc_strdup(path);
     fc_assert_ret_val(font_with_full_path != NULL, NULL);

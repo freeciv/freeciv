@@ -151,7 +151,7 @@ struct theme {
   struct theme_color_system *color_system;
 };
 
-struct theme *theme = NULL;
+struct theme *active_theme = NULL;
 
 
 /************************************************************************//**
@@ -332,15 +332,15 @@ void theme_free(struct theme *ftheme)
 ****************************************************************************/
 void themespec_try_read(const char *theme_name)
 {
-  if (!(theme = theme_read_toplevel(theme_name))) {
+  if (!(active_theme = theme_read_toplevel(theme_name))) {
     struct strvec *list = fileinfolist(get_data_dirs(), THEMESPEC_SUFFIX);
 
     strvec_iterate(list, file) {
       struct theme *t = theme_read_toplevel(file);
 
       if (t) {
-        if (!theme || t->priority > theme->priority) {
-          theme = t;
+        if (active_theme == NULL || t->priority > active_theme->priority) {
+          active_theme = t;
         } else {
           theme_free(t);
         }
@@ -348,12 +348,12 @@ void themespec_try_read(const char *theme_name)
     } strvec_iterate_end;
     strvec_destroy(list);
 
-    if (!theme) {
+    if (active_theme == NULL) {
       log_fatal(_("No usable default theme found, aborting!"));
       exit(EXIT_FAILURE);
     }
 
-    log_verbose("Trying theme \"%s\".", theme->name);
+    log_verbose("Trying theme \"%s\".", active_theme->name);
   }
 /*  sz_strlcpy(gui_sdl2_default_theme_name, theme_get_name(theme));*/
 }
@@ -373,12 +373,12 @@ void themespec_reread(const char *new_theme_name)
 {
   struct tile *center_tile;
   enum client_states state = client_state();
-  const char *name = new_theme_name ? new_theme_name : theme->name;
-  char theme_name[strlen(name) + 1], old_name[strlen(theme->name) + 1];
+  const char *name = new_theme_name ? new_theme_name : active_theme->name;
+  char theme_name[strlen(name) + 1], old_name[strlen(active_theme->name) + 1];
 
   /* Make local copies since these values may be freed down below */
   sz_strlcpy(theme_name, name);
-  sz_strlcpy(old_name, theme->name);
+  sz_strlcpy(old_name, active_theme->name);
 
   log_normal(_("Loading theme \"%s\"."), theme_name);
 
@@ -392,22 +392,22 @@ void themespec_reread(const char *new_theme_name)
    *
    * We free all old data in preparation for re-reading it.
    */
-  theme_free_sprites(theme);
-  theme_free_toplevel(theme);
+  theme_free_sprites(active_theme);
+  theme_free_toplevel(active_theme);
 
   /* Step 2:  Read.
    *
    * We read in the new theme.  This should be pretty straightforward.
    */
-  if (!(theme = theme_read_toplevel(theme_name))) {
-    if (!(theme = theme_read_toplevel(old_name))) {
+  if (!(active_theme = theme_read_toplevel(theme_name))) {
+    if (!(active_theme = theme_read_toplevel(old_name))) {
       /* Always fails. */
-      fc_assert_exit_msg(NULL != theme,
+      fc_assert_exit_msg(NULL != active_theme,
                          "Failed to re-read the currently loaded theme.");
     }
   }
 /*  sz_strlcpy(gui_sdl2_default_theme_name, theme->name);*/
-  theme_load_sprites(theme);
+  theme_load_sprites(active_theme);
 
   /* Step 3: Setup
    *
@@ -470,6 +470,7 @@ static struct sprite *load_gfx_file(const char *gfx_filename)
   }
 
   log_error("Could not load gfx file \"%s\".", gfx_filename);
+
   return NULL;
 }
 
@@ -865,8 +866,8 @@ static struct sprite *theme_load_sprite(struct theme *t, const char *tag_name)
         return NULL;
       }
       ss->sprite =
-	crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
-		    NULL, -1, -1, 1.0, FALSE);
+        crop_sprite(ss->sf->big_sprite, ss->x, ss->y, ss->width, ss->height,
+                    NULL, -1, -1, 1.0, FALSE);
     }
   }
 

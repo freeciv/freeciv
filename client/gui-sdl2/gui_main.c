@@ -1098,8 +1098,8 @@ void ui_exit(void)
   del_main_list();
 
   free_font_system();
-  theme_free(theme);
-  theme = NULL;
+  theme_free(active_theme);
+  active_theme = NULL;
 
   quit_sdl();
 }

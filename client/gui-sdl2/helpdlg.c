@@ -489,7 +489,7 @@ void popup_impr_info(Impr_type_id impr)
   /* --------------------------------------------------------- */
   if (created) {
 
-    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    surf = theme_get_background(active_theme, BACKGROUND_HELPDLG);
     if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(surf);
     }
@@ -920,7 +920,7 @@ void popup_unit_info(Unit_type_id type_id)
   /* --------------------------------------------------------- */
   if (created) {
 
-    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    surf = theme_get_background(active_theme, BACKGROUND_HELPDLG);
     if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(surf);
     }
@@ -2047,7 +2047,7 @@ void popup_tech_info(Tech_type_id tech)
   /* --------------------------------------------------------- */
   if (created) {
 
-    surf = theme_get_background(theme, BACKGROUND_HELPDLG);
+    surf = theme_get_background(active_theme, BACKGROUND_HELPDLG);
     if (resize_window(pwindow, surf, NULL, adj_size(640), adj_size(480))) {
       FREESURFACE(surf);
     }

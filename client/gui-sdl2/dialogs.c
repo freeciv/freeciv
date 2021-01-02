@@ -2467,7 +2467,7 @@ void popup_government_dialog(void)
   area.h = MAX(area.h, j * (max_h + adj_size(10)) + adj_size(5));
 
   /* create window background */
-  logo = theme_get_background(theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_CHOOSEGOVERNMENTDLG);
   if (resize_window(pwindow, logo, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
@@ -3325,7 +3325,7 @@ void popup_races_dialog(struct player *pplayer)
   nation_dlg->begin_widget_list = pwidget;
   /* ---------------------------------------------------------- */
 
-  main_bg = theme_get_background(theme, BACKGROUND_NATIONDLG);
+  main_bg = theme_get_background(active_theme, BACKGROUND_NATIONDLG);
   if (resize_window(pwindow, main_bg, NULL, adj_size(640), adj_size(480))) {
     FREESURFACE(main_bg);
   }

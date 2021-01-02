@@ -633,7 +633,7 @@ static void real_info_city_report_dialog_update(void)
   area.h += text2->h + adj_size(6);
   area.w += adj_size(2);
 
-  logo = theme_get_background(theme, BACKGROUND_CITYREP);
+  logo = theme_get_background(active_theme, BACKGROUND_CITYREP);
   resize_window(pwindow, logo, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
@@ -644,7 +644,7 @@ static void real_info_city_report_dialog_update(void)
   FREESURFACE(pwindow->theme);
   pwindow->theme = logo;
   logo = NULL;
-#endif
+#endif /* 0 */
 
   area = pwindow->area;
 

@@ -278,7 +278,7 @@ void meswin_dialog_popup(bool raise)
   FREEUTF8STR(pstr);
 
   /* create window background */
-  background = theme_get_background(theme, BACKGROUND_MESSAGEWIN);
+  background = theme_get_background(active_theme, BACKGROUND_MESSAGEWIN);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {

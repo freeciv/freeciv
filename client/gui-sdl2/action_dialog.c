@@ -530,7 +530,7 @@ static int spy_steal_popup_shared(struct widget *pwidget)
   area.h = count * buf->size.h + adj_size(2);
 
   /* alloca window theme and win background buffer */
-  surf = theme_get_background(theme, BACKGROUND_SPYSTEALDLG);
+  surf = theme_get_background(active_theme, BACKGROUND_SPYSTEALDLG);
   if (resize_window(pwindow, surf, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {

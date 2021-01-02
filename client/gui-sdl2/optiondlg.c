@@ -170,7 +170,7 @@ static void arrange_widgets(struct widget *window, int widgets_per_row,
   dirty_sdl_rect(&area);
 
   /* Resize window. */
-  logo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_OPTIONDLG);
   if (resize_window(window, logo, NULL,
                     adj_size(w + 80), adj_size(h + 80))) {
     FREESURFACE(logo);

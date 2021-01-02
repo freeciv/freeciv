@@ -276,7 +276,8 @@ static void popup_load_game_dialog(void)
     area.h = (load_dialog->scroll->active * filename_label->size.h) + adj_size(5);
   }
 
-  resize_window(pwindow, theme_get_background(theme, BACKGROUND_LOADGAMEDLG),
+  resize_window(pwindow, theme_get_background(active_theme,
+                                              BACKGROUND_LOADGAMEDLG),
                 NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
@@ -704,8 +705,9 @@ static void popup_conn_list_dialog(void)
   widget_set_position(pwindow, 0, 0);
 
   /* create window background */
-  surf = theme_get_background(theme, BACKGROUND_CONNLISTDLG);
-  if (resize_window(pwindow, surf, NULL, main_window_width(), main_window_height())) {
+  surf = theme_get_background(active_theme, BACKGROUND_CONNLISTDLG);
+  if (resize_window(pwindow, surf, NULL, main_window_width(),
+                    main_window_height())) {
     FREESURFACE(surf);
   }
 

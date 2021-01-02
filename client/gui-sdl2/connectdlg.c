@@ -378,7 +378,7 @@ void popup_connection_dialog(bool lan_scan)
 
   meta_h += meta_server->end_widget_list->prev->size.h + adj_size(10) + adj_size(20);
 
-  logo = theme_get_background(theme, BACKGROUND_CONNECTDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_CONNECTDLG);
   if (resize_window(pwindow, logo, NULL, w, meta_h)) {
     FREESURFACE(logo);
   }
@@ -645,7 +645,7 @@ void popup_join_game_dialog(void)
   dialog_h = area.h + (pwindow->size.h - pwindow->area.h);
 #endif
 
-  logo = theme_get_background(theme, BACKGROUND_JOINGAMEDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_JOINGAMEDLG);
   if (resize_window(pwindow, logo, NULL, dialog_w, dialog_h)) {
     FREESURFACE(logo);
   }
@@ -838,7 +838,7 @@ static void popup_user_passwd_dialog(const char *message)
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
-  background = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  background = theme_get_background(active_theme, BACKGROUND_USERPASSWDDLG);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
@@ -1010,7 +1010,7 @@ static void popup_new_user_passwd_dialog(const char *message)
   area.w = MAX(area.w, pwindow->prev->size.w);
   area.w += adj_size(80);
 
-  background = theme_get_background(theme, BACKGROUND_USERPASSWDDLG);
+  background = theme_get_background(active_theme, BACKGROUND_USERPASSWDDLG);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {

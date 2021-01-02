@@ -60,21 +60,22 @@ static SDL_Surface *neutral_tech_icon;
 static SDL_Surface *none_tech_icon;
 static SDL_Surface *future_tech_icon;
 
-#define load_GUI_surface(_spr_, _struct_, _surf_, _tag_)	  \
+#define load_gui_surface(_spr_, _struct_, _surf_, _tag_)	  \
 do {								  \
-  _spr_ = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, _tag_, "", "", ""); \
+  _spr_ = theme_lookup_sprite_tag_alt(active_theme, LOG_FATAL,     \
+                                      _tag_, "", "", "");          \
   fc_assert_action(_spr_ != NULL, break);                          \
   _struct_->_surf_ = GET_SURF_REAL(_spr_);                           \
 } while (FALSE)
 
 #define load_theme_surface(spr, surf, tag)		\
-	load_GUI_surface(spr, current_theme, surf, tag)
+	load_gui_surface(spr, current_theme, surf, tag)
 
 #define load_city_icon_surface(spr, surf, tag)        \
-        load_GUI_surface(spr, icons, surf, tag)
+        load_gui_surface(spr, icons, surf, tag)
 
 #define load_order_theme_surface(spr, surf, tag)	\
-        load_GUI_surface(spr, current_theme, surf, tag);
+        load_gui_surface(spr, current_theme, surf, tag);
 
 /***************************************************************************//**
   Reload small citizens "style" icons.
@@ -134,7 +135,8 @@ void reload_citizens_icons(int style)
 void tilespec_setup_city_gfx(void)
 {
   struct sprite *spr =
-    theme_lookup_sprite_tag_alt(theme, LOG_FATAL, "theme.city", "", "", "");
+    theme_lookup_sprite_tag_alt(active_theme, LOG_FATAL,
+                                "theme.city", "", "", "");
 
   city_surf = (spr ? adj_surf(GET_SURF_REAL(spr)) : NULL);
 
@@ -484,7 +486,7 @@ SDL_Surface *get_city_gfx(void)
 *******************************************************************************/
 void draw_intro_gfx(void)
 {
-  SDL_Surface *intro = theme_get_background(theme, BACKGROUND_MAINPAGE);
+  SDL_Surface *intro = theme_get_background(active_theme, BACKGROUND_MAINPAGE);
 
   if (intro->w != main_window_width()) {
     SDL_Surface *tmp = resize_surface(intro, main_window_width(),

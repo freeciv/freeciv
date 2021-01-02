@@ -634,7 +634,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   area.h += text1->h + adj_size(10);
   area.w += adj_size(2);
 
-  logo = theme_get_background(theme, BACKGROUND_UNITSREP);
+  logo = theme_get_background(active_theme, BACKGROUND_UNITSREP);
   resize_window(pwindow, logo, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
@@ -2217,7 +2217,7 @@ void economy_report_dialog_popup(bool make_modal)
   area.w = MAX(area.w, MAX(adj_size(10) + w3 + w + w2, count));
   area.h = h;
 
-  background = theme_get_background(theme, BACKGROUND_ECONOMYDLG);
+  background = theme_get_background(active_theme, BACKGROUND_ECONOMYDLG);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
@@ -3054,7 +3054,7 @@ static void popup_change_research_dialog(void)
   area.h = MAX(area.h, count * buf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
-  surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
+  surf = theme_get_background(active_theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pwindow, surf, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
@@ -3251,7 +3251,7 @@ static void popup_change_research_goal_dialog(void)
   area.h = MAX(area.h, count * buf->size.h + adj_size(2));
 
   /* alloca window theme and win background buffer */
-  surf = theme_get_background(theme, BACKGROUND_CHANGERESEARCHDLG);
+  surf = theme_get_background(active_theme, BACKGROUND_CHANGERESEARCHDLG);
   resize_window(pwindow, surf, NULL,
                 (pwindow->size.w - pwindow->area.w) + area.w,
                 (pwindow->size.h - pwindow->area.h) + area.h);
@@ -3389,8 +3389,9 @@ void science_report_dialog_popup(bool raise)
 
   science_dlg->end_widget_list = pwindow;
 
-  background = theme_get_background(theme, BACKGROUND_SCIENCEDLG);
-  pwindow->theme = resize_surface(background, pwindow->size.w, pwindow->size.h, 1);
+  background = theme_get_background(active_theme, BACKGROUND_SCIENCEDLG);
+  pwindow->theme = resize_surface(background, pwindow->size.w,
+                                  pwindow->size.h, 1);
   FREESURFACE(background);
 
   area = pwindow->area;

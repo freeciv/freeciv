@@ -1670,7 +1670,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   area.w = MAX(area.w, widget_w * TARGETS_COL + count + adj_size(130));
   area.h = MAX(area.h, widget_h * TARGETS_ROW);
 
-  icon = theme_get_background(theme, BACKGROUND_WLDLG);
+  icon = theme_get_background(active_theme, BACKGROUND_WLDLG);
   if (resize_window(pwindow, icon, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {

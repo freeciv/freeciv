@@ -3662,7 +3662,7 @@ void real_city_dialog_popup(struct city *pcity)
   pcity_dlg->end_city_widget_list = pwindow;
 
   /* create window background */
-  logo = theme_get_background(theme, BACKGROUND_CITYDLG);
+  logo = theme_get_background(active_theme, BACKGROUND_CITYDLG);
   if (resize_window(pwindow, logo, NULL, adj_size(640), adj_size(480))) {
     FREESURFACE(logo);
   }

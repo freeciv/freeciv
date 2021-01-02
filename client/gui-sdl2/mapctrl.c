@@ -2906,7 +2906,7 @@ void popup_newcity_dialog(struct unit *punit, const char *suggest_name)
   pedit->size.w = area.w - adj_size(20);
 
   /* create window background */
-  background = theme_get_background(theme, BACKGROUND_NEWCITYDLG);
+  background = theme_get_background(active_theme, BACKGROUND_NEWCITYDLG);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {

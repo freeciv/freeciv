@@ -67,7 +67,8 @@ struct theme_background_system *theme_background_system_read(struct section_file
 
   for (i = 0; i < BACKGROUND_LAST; i++) {
     backgrounds->backgrounds[i] =
-      themespec_gfx_filename(secfile_lookup_str(file, "backgrounds.%s", background_names[i]));
+      themespec_gfx_filename(secfile_lookup_str(file, "backgrounds.%s",
+                                                background_names[i]));
   }
 
   return backgrounds;

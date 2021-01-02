@@ -41,20 +41,20 @@ void gui_load_theme(const char *directory, const char *theme_name)
   char buf[strlen(directory) + strlen(DIR_SEPARATOR) + strlen(theme_name)
            + strlen(DIR_SEPARATOR "theme") + 1];
 
-  if (theme != NULL) {
+  if (active_theme != NULL) {
     /* We don't support changing theme once it has been loaded */
     return;
   }
 
   /* free previous loaded theme, if any */
-  theme_free(theme);
-  theme = NULL;
+  theme_free(active_theme);
+  active_theme = NULL;
 
   fc_snprintf(buf, sizeof(buf), "%s" DIR_SEPARATOR "%s" DIR_SEPARATOR "theme",
               directory, theme_name);
 
   themespec_try_read(buf);
-  theme_load_sprites(theme);
+  theme_load_sprites(active_theme);
 }
 
 /*************************************************************************//**
@@ -121,7 +121,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     struct stat stat_result;
 
     fc_snprintf(buf, sizeof(buf),
-		"%s/%s/theme.themespec", directory, entry->d_name);
+                "%s/%s/theme.themespec", directory, entry->d_name);
 
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */

@@ -301,7 +301,7 @@ static void show_main_page(void)
 
   /* ------*/
 
-  background = theme_get_background(theme, BACKGROUND_STARTMENU);
+  background = theme_get_background(active_theme, BACKGROUND_STARTMENU);
   if (resize_window(pwindow, background, NULL,
                     (pwindow->size.w - pwindow->area.w) + area.w,
                     (pwindow->size.h - pwindow->area.h) + area.h)) {
