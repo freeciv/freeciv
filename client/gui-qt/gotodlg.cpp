@@ -97,7 +97,7 @@ goto_dialog::goto_dialog(QWidget *parent)
                              const QItemSelection &)));
 
   setLayout(layout);
-  original_tile = NULL;
+  original_tile = nullptr;
   setFocus();
 }
 
@@ -106,7 +106,7 @@ goto_dialog::goto_dialog(QWidget *parent)
 ***************************************************************************/
 void goto_dialog::init()
 {
-  if (original_tile) {
+  if (original_tile != nullptr) {
     tile_virtual_destroy(original_tile);
   }
   original_tile = tile_virtual_new(get_center_tile_mapcanvas());
@@ -117,9 +117,6 @@ void goto_dialog::init()
 ***************************************************************************/
 goto_dialog::~goto_dialog()
 {
-  if (original_tile) {
-    tile_virtual_destroy(original_tile);
-  }
 }
 
 /***************************************************************************
@@ -319,7 +316,12 @@ void goto_dialog::go_to_city()
 ***************************************************************************/
 void goto_dialog::close_dlg()
 {
-  center_tile_mapcanvas(original_tile);
+  if (original_tile != nullptr) {
+    center_tile_mapcanvas(original_tile);
+    tile_virtual_destroy(original_tile);
+    original_tile = nullptr;
+  }
+
   hide();
 }
 
@@ -351,6 +353,8 @@ void goto_dialog::paintEvent(QPaintEvent *event)
 **************************************************************************/
 void popup_goto_dialog(void)
 {
+  goto_dialog *gtd;
+
   if (C_S_RUNNING != client_state()) {
     return;
   }
@@ -361,10 +365,12 @@ void popup_goto_dialog(void)
     return;
   }
 
-  if (gui()->gtd != NULL) {
-    gui()->gtd->init();
-    gui()->gtd->update_dlg();
-    gui()->gtd->sort_def();
-    gui()->gtd->show_me();
+  gtd = gui()->gtd;
+
+  if (gtd != nullptr) {
+    gtd->init();
+    gtd->update_dlg();
+    gtd->sort_def();
+    gtd->show_me();
   }
 }
