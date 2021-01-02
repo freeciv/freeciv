@@ -1419,7 +1419,7 @@ void set_new_minimap_window_pos(void)
   widget_set_position(pWidget,
                       area.x + adj_size(2),
                       area.y + area.h - pWidget->size.h - 2);
-#endif
+#endif /* SMALL_SCREEN */
 
   /* ID_TOGGLE_MAP_WINDOW_BUTTON */
   pWidget = pWidget->prev;
@@ -1731,7 +1731,7 @@ void popup_minimap_window(void)
                                      WF_WIDGET_HAS_INFO_LABEL
                                      | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
+  pOptions_Button->info_label = create_utf8_from_char(buf, adj_font(12));
 
   pOptions_Button->action = optiondlg_callback;
   pOptions_Button->key = SDLK_ESCAPE;
