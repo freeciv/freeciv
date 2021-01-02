@@ -31,7 +31,7 @@
 
 #include "gui_main_g.h"
 
-/* enable this to adjust sizes for 320x240 resolution */
+/* Enable this to adjust sizes for 320x240 resolution */
 /* #define SMALL_SCREEN */
 
 /* #define DEBUG_SDL */
