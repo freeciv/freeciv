@@ -2607,6 +2607,7 @@ void popdown_all_game_dialogs(void)
   int i;
   QList <choice_dialog *> cd_list;
   QList <notify_dialog *> nd_list;
+  goto_dialog *gtd;
 
   QApplication::alert(gui()->central_wdg);
   cd_list = gui()->game_tab_widget->findChildren <choice_dialog *>();
@@ -2627,6 +2628,12 @@ void popdown_all_game_dialogs(void)
   popdown_city_report();
   popdown_endgame_report();
   gui()->popdown_unit_sel();
+
+  gtd = gui()->gtd;
+
+  if (gtd != nullptr) {
+    gtd->close_dlg();
+  }
 }
 
 /**************************************************************************

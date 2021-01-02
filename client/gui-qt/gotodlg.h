@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -57,10 +57,12 @@ public:
   void show_me();
   void sort_def();
 
+public slots:
+  void close_dlg();
+
 private slots:
   void go_to_city();
   void airlift_to();
-  void close_dlg();
   void item_selected(const QItemSelection &sl, const QItemSelection &ds);
   void checkbox_changed(int state);
 protected:
