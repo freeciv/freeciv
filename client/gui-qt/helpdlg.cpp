@@ -1321,16 +1321,16 @@ void help_widget::set_topic_terrain(const help_item *topic,
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                         NULL, &for_terr)) {
       QLabel *tb;
-      char buffer[1024];
+      char cult_buffer[1024];
 
       tb = new QLabel(this);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
-                                              pterrain->cultivate_time),
+      fc_snprintf(cult_buffer, sizeof(cult_buffer), PL_("%d turn", "%d turns",
+                                                        pterrain->cultivate_time),
                   pterrain->cultivate_time);
       str = N_("Cultiv. Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->cultivate_result),
                           HELP_TERRAIN)
-            + QString(buffer).toHtmlEscaped();
+            + QString(cult_buffer).toHtmlEscaped();
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
@@ -1345,16 +1345,16 @@ void help_widget::set_topic_terrain(const help_item *topic,
         && pterrain->plant_time != 0
         && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       QLabel *tb;
-      char buffer[1024];
+      char plant_buffer[1024];
 
       tb = new QLabel(this);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
-                                              pterrain->plant_time),
+      fc_snprintf(plant_buffer, sizeof(plant_buffer), PL_("%d turn", "%d turns",
+                                                          pterrain->plant_time),
                   pterrain->plant_time);
       str = N_("Plant Rslt/Time:");;
       str = str + link_me(terrain_name_translation(pterrain->plant_result),
                           HELP_TERRAIN)
-            + QString(buffer).toHtmlEscaped();
+            + QString(plant_buffer).toHtmlEscaped();
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
@@ -1370,16 +1370,16 @@ void help_widget::set_topic_terrain(const help_item *topic,
         && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                         NULL, &for_terr)) {
       QLabel *tb;
-      char buffer[1024];
+      char tf_buffer[1024];
 
       tb = new QLabel(this);
-      fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns",
-                                              pterrain->transform_time),
+      fc_snprintf(tf_buffer, sizeof(tf_buffer), PL_("%d turn", "%d turns",
+                                                    pterrain->transform_time),
                   pterrain->transform_time);
       str = N_("Trans. Rslt/Time:");
       str = str + link_me(terrain_name_translation(pterrain->transform_result),
                           HELP_TERRAIN)
-            + QString(buffer).toHtmlEscaped();
+            + QString(tf_buffer).toHtmlEscaped();
       tb = new QLabel(this);
       tb->setProperty(fonts::help_label, "true");
       tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
@@ -1457,6 +1457,7 @@ void help_widget::set_topic_extra(const help_item *topic,
 {
   char buffer[MAX_HELP_TEXT_SIZE];
   struct extra_type *pextra = extra_type_by_translated_name(title);
+
   if (pextra) {
     helptext_extra(buffer, sizeof(buffer), client.conn.playing,
                   topic->text, pextra);
