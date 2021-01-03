@@ -196,6 +196,10 @@ case "$host_os" in
     dnl Without WINSOCK2, use: LIBS="$LIBS -lwsock32"
     LIBS="${LIBS} -lws2_32"
     ;;
+
+  *haiku*)
+    LIBS="$LIBS -lnetwork"
+    ;;
 esac
 
 dnl Networking headers
@@ -717,7 +721,6 @@ case "$host_os" in
     HAIKU=yes
     AC_DEFINE([HAIKU], [1], [Built for Haiku OS])
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Haiku])
-    LIBS="$LIBS -lnetwork"
     ;;
 
   *amigaos*)
