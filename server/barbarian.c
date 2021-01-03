@@ -553,7 +553,7 @@ static void try_summon_barbarians(void)
 
   while (city_max <= city_count) {
     uprise++;
-    city_max *= 1.2 + UPRISE_CIV_SIZE;
+    city_max += (city_max * 1.2) + UPRISE_CIV_SIZE;
   }
 
   barb_count = fc_rand(3) + uprise * game.server.barbarianrate;
