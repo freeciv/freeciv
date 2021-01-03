@@ -1713,7 +1713,7 @@ void mr_menu::set_tile_for_order(tile *ptile)
 **************************************************************************/
 void mr_menu::execute_shortcut(int sid)
 {
-  QList<QMenu*> menu_list;
+  QList<QMenu*> menus;
   QKeySequence seq;
   fc_shortcut *fcs;
 
@@ -1725,8 +1725,8 @@ void mr_menu::execute_shortcut(int sid)
   fcs = fc_shortcuts::sc()->get_shortcut(static_cast<shortcut_id>(sid));
   seq = QKeySequence(shortcut_to_string(fcs));
 
-  menu_list = findChildren<QMenu*>();
-    foreach (const QMenu *m, menu_list) {
+  menus = findChildren<QMenu*>();
+    foreach (const QMenu *m, menus) {
         foreach (QAction *a, m->actions()) {
           if (a->shortcut() == seq && a->isEnabled()) {
             a->activate(QAction::Trigger);
@@ -1741,12 +1741,12 @@ void mr_menu::execute_shortcut(int sid)
 **************************************************************************/
 QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 {
-  QList<QMenu*> menu_list;
+  QList<QMenu*> menus;
   QKeySequence seq;
 
   seq = QKeySequence(shortcut_to_string(fcs));
-  menu_list = findChildren<QMenu *>();
-  foreach (const QMenu *m, menu_list) {
+  menus = findChildren<QMenu *>();
+  foreach (const QMenu *m, menus) {
     foreach (QAction *a, m->actions()) {
       if (a->shortcut() == seq && fcs->mouse == Qt::AllButtons) {
         return a->text();
@@ -1762,15 +1762,15 @@ QString mr_menu::shortcut_exist(fc_shortcut *fcs)
 **************************************************************************/
 QString mr_menu::shortcut_2_menustring(int sid)
 {
-  QList<QMenu *> menu_list;
+  QList<QMenu *> menus;
   QKeySequence seq;
   fc_shortcut *fcs;
 
   fcs = fc_shortcuts::sc()->get_shortcut(static_cast<shortcut_id>(sid));
   seq = QKeySequence(shortcut_to_string(fcs));
 
-  menu_list = findChildren<QMenu *>();
-  foreach (const QMenu *m, menu_list) {
+  menus = findChildren<QMenu *>();
+  foreach (const QMenu *m, menus) {
     foreach (QAction *a, m->actions()) {
       if (a->shortcut() == seq) {
         return (a->text() + " ("
@@ -1937,7 +1937,7 @@ void mr_menu::menus_sensitive()
   } players_iterate_end;
 
   /** Disable first all sensitive menus */
-  foreach(QAction * a, menu_list) {
+  foreach(QAction *a, menu_list) {
     a->setEnabled(false);
   }
 
