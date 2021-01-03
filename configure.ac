@@ -212,6 +212,7 @@ case "$host_os" in
     ;;
   *haiku*)
     HAIKU=yes
+    LIBS="$LIBS -lnetwork"
     ;;
 esac
 
@@ -738,7 +739,6 @@ case "$host_os" in
   *haiku*)
     dnl Haiku specific settings
     AC_DEFINE([ALWAYS_ROOT], [1], [Can execute program as root - Haiku])
-    LIBS="$LIBS -lnetwork"
     ;;
 
   *amigaos*)
