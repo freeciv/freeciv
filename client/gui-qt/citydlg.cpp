@@ -356,10 +356,10 @@ static void pixmap_put_x(QPixmap *pix)
   Improvement item constructor
 ****************************************************************************/
 impr_item::impr_item(QWidget *parent, const impr_type *building,
-                     struct city *city): QLabel(parent)
+                     struct city *pcity): QLabel(parent)
 {
   setParent(parent);
-  pcity = city;
+  dlgcity = pcity;
   impr = building;
   impr_pixmap = nullptr;
   struct sprite *sprite;
@@ -378,7 +378,7 @@ impr_item::impr_item(QWidget *parent, const impr_type *building,
 
   setFixedWidth(impr_pixmap->map_pixmap.width() + 4);
   setFixedHeight(impr_pixmap->map_pixmap.height());
-  setToolTip(get_tooltip_improvement(building, city, true).trimmed());
+  setToolTip(get_tooltip_improvement(building, pcity, true).trimmed());
 }
 
 /************************************************************************//**
@@ -610,7 +610,7 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
   char buf[256];
   int price;
   const int impr_id = improvement_number(impr);
-  const int city_id = pcity->id;
+  const int city_id = dlgcity->id;
 
   if (!can_client_issue_orders()) {
     return;
@@ -618,7 +618,7 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
 
   if (event->button() == Qt::LeftButton) {
     ask = new hud_message_box(city_dlg);
-    if (test_player_sell_building_now(client.conn.playing, pcity,
+    if (test_player_sell_building_now(client.conn.playing, dlgcity,
                                       impr) != TR_SUCCESS) {
       return;
     }
@@ -627,13 +627,14 @@ void impr_item::mouseDoubleClickEvent(QMouseEvent *event)
     fc_snprintf(buf, ARRAY_SIZE(buf),
                 PL_("Sell %s for %d gold?",
                     "Sell %s for %d gold?", price),
-                city_improvement_name_translation(pcity, impr), price);
+                city_improvement_name_translation(dlgcity, impr), price);
 
     ask->set_text_title(buf, (_("Sell improvement?")));
     ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
     ask->setAttribute(Qt::WA_DeleteOnClose);
     connect(ask, &hud_message_box::accepted, [=]() {
       struct city *pcity = game_city_by_number(city_id);
+
       if (!pcity) {
         return;
       }
@@ -1533,7 +1534,7 @@ city_dialog::city_dialog(QWidget *parent): qfc_dialog(parent)
 
   setMouseTracking(true);
   selected_row_p = -1;
-  pcity = NULL;
+  dlgcity = NULL;
   lcity_name = new QPushButton(this);
   lcity_name->setToolTip(_("Click to change city name"));
 
@@ -2055,12 +2056,12 @@ void city_dialog::change_production(bool next)
   struct universal univ;
 
   pos = 0;
-  cprod = cid_encode(pcity->production);
-  targets_used = collect_eventually_buildable_targets(targets, pcity, false);
-  name_and_sort_items(targets, targets_used, items, false, pcity);
+  cprod = cid_encode(dlgcity->production);
+  targets_used = collect_eventually_buildable_targets(targets, dlgcity, false);
+  name_and_sort_items(targets, targets_used, items, false, dlgcity);
 
   for (item = 0; item < targets_used; item++) {
-    if (can_city_build_now(pcity, &items[item].item)) {
+    if (can_city_build_now(dlgcity, &items[item].item)) {
       prod_list << cid_encode(items[item].item);
     }
   }
@@ -2081,7 +2082,7 @@ void city_dialog::change_production(bool next)
     pos = prod_list.size() - 1;
   }
   univ = cid_decode(static_cast<cid>(prod_list.at(pos)));
-  city_change_production(pcity, &univ);
+  city_change_production(dlgcity, &univ);
 }
 
 /************************************************************************//**
@@ -2132,7 +2133,7 @@ void city_dialog::show_happiness()
 void city_dialog::update_disabled()
 {
   if (NULL == client.conn.playing
-      || city_owner(pcity) != client.conn.playing) {
+      || city_owner(dlgcity) != client.conn.playing) {
     prev_city_but->setDisabled(true);
     next_city_but->setDisabled(true);
     buy_button->setDisabled(true);
@@ -2176,7 +2177,7 @@ void city_dialog::update_prod_buttons()
   work_add_but->setDisabled(true);
   work_rem_but->setDisabled(true);
 
-  if (client.conn.playing && city_owner(pcity) == client.conn.playing) {
+  if (client.conn.playing && city_owner(dlgcity) == client.conn.playing) {
     work_add_but->setEnabled(true);
 
     if (selected_row_p >= 0 && selected_row_p < p_table_p->rowCount()) {
@@ -2294,7 +2295,7 @@ bool city_dialog::eventFilter(QObject *obj, QEvent *event)
 void city_dialog::city_rename()
 {
   hud_input_box *ask;
-  const int city_id = pcity->id;
+  const int city_id = dlgcity->id;
 
   if (!can_client_issue_orders()) {
     return;
@@ -2302,7 +2303,7 @@ void city_dialog::city_rename()
 
   ask = new hud_input_box(gui()->central_wdg);
   ask->set_text_title_definput(_("What should we rename the city to?"),
-                               _("Rename City"), city_name_get(pcity));
+                               _("Rename City"), city_name_get(dlgcity));
   ask->setAttribute(Qt::WA_DeleteOnClose);
   connect(ask, &hud_message_box::accepted, this, [=]() {
     struct city *pcity = game_city_by_number(city_id);
@@ -2324,8 +2325,8 @@ void city_dialog::city_rename()
 void city_dialog::zoom_in()
 {
   zoom = zoom * 1.2;
-  if (pcity) {
-    view->set_pixmap(pcity, zoom);
+  if (dlgcity) {
+    view->set_pixmap(dlgcity, zoom);
   }
   updateGeometry();
   left_layout->update();
@@ -2337,8 +2338,8 @@ void city_dialog::zoom_in()
 void city_dialog::zoom_out()
 {
   zoom = zoom / 1.2;
-  if (pcity) {
-    view->set_pixmap(pcity, zoom);
+  if (dlgcity) {
+    view->set_pixmap(dlgcity, zoom);
   }
   updateGeometry();
   left_layout->update();
@@ -2383,8 +2384,9 @@ void city_dialog::save_cma()
 ****************************************************************************/
 void city_dialog::cma_enable()
 {
-  if (cma_is_city_under_agent(pcity, NULL)) {
-    cma_release_city(pcity);
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
+    cma_release_city(dlgcity);
+
     return;
   }
 
@@ -2409,7 +2411,7 @@ void city_dialog::cma_changed()
     param.factor[i] = slider_tab[2 * i + 1]->value();
   }
 
-  cma_put_city_under_agent(pcity, &param);
+  cma_put_city_under_agent(dlgcity, &param);
 }
 
 /************************************************************************//**
@@ -2423,11 +2425,11 @@ void city_dialog::cma_double_clicked(int row, int column)
     return;
   }
   param = cmafec_preset_get_parameter(row);
-  if (cma_is_city_under_agent(pcity, NULL)) {
-    cma_release_city(pcity);
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
+    cma_release_city(dlgcity);
   }
 
-  cma_put_city_under_agent(pcity, param);
+  cma_put_city_under_agent(dlgcity, param);
   update_cma_tab();
 }
 
@@ -2455,9 +2457,9 @@ void city_dialog::cma_selected(const QItemSelection &sl,
   param = cmafec_preset_get_parameter(ind);
   update_sliders();
 
-  if (cma_is_city_under_agent(pcity, NULL)) {
-    cma_release_city(pcity);
-    cma_put_city_under_agent(pcity, param);
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
+    cma_release_city(dlgcity);
+    cma_put_city_under_agent(dlgcity, param);
   }
 }
 
@@ -2472,7 +2474,7 @@ void city_dialog::update_sliders()
   QVariant qvar;
   QLabel *label;
 
-  if (!cma_is_city_under_agent(pcity, &param)) {
+  if (!cma_is_city_under_agent(dlgcity, &param)) {
     if (cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
       return;
     }
@@ -2538,9 +2540,9 @@ void city_dialog::update_cma_tab()
     cma_table->setItem(0, 0, item);
   }
 
-  if (cma_is_city_under_agent(pcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
     view->update();
-    s = QString(cmafec_get_short_descr_of_city(pcity));
+    s = QString(cmafec_get_short_descr_of_city(dlgcity));
     pix = style()->standardPixmap(QStyle::SP_DialogApplyButton);
     pix = pix.scaled(2 * pix.width(), 2 * pix.height(),
                      Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
@@ -2560,8 +2562,8 @@ void city_dialog::update_cma_tab()
     cma_result->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
   }
 
-  if (cma_is_city_under_agent(pcity, NULL)) {
-    cmafec_get_fe_parameter(pcity, &param);
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
+    cmafec_get_fe_parameter(dlgcity, &param);
     i = cmafec_preset_get_index_of_parameter(const_cast <struct
                                              cm_parameter *const >(&param));
     if (i >= 0 && i < cma_table->rowCount()) {
@@ -2608,7 +2610,7 @@ void city_dialog::cma_remove()
 ****************************************************************************/
 void city_dialog::cma_celebrate_changed(int val)
 {
-  if (cma_is_city_under_agent(pcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
     cma_changed();
     update_cma_tab();
   }
@@ -2633,7 +2635,7 @@ void city_dialog::cma_slider(int value)
   label = reinterpret_cast<QLabel *>(qvar.value<void *>());
   label->setText(QString::number(value));
 
-  if (cma_is_city_under_agent(pcity, NULL)) {
+  if (cma_is_city_under_agent(dlgcity, NULL)) {
     cma_changed();
     update_cma_tab();
   }
@@ -2655,7 +2657,7 @@ void city_dialog::disband_state_changed(bool allow_disband)
   }
 
   if (!client_is_observer()) {
-    dsend_packet_city_options_req(&client.conn, pcity->id, new_options);
+    dsend_packet_city_options_req(&client.conn, dlgcity->id, new_options);
   }
 }
 
@@ -2694,7 +2696,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
   QMenu *insert_menu;
   QMenu *list_menu;
   QMenu *options_menu;
-  int city_id = pcity->id;
+  int city_id = dlgcity->id;
 
   if (!can_client_issue_orders()) {
     return;
@@ -2732,7 +2734,7 @@ void city_dialog::display_worklist_menu(const QPoint &p)
   options_menu = list_menu->addMenu(_("Options"));
   disband = options_menu->addAction(_("Allow disbanding city"));
   disband->setCheckable(true);
-  disband->setChecked(is_city_option_set(pcity, CITYO_DISBAND));
+  disband->setChecked(is_city_option_set(dlgcity, CITYO_DISBAND));
   connect(disband, &QAction::triggered, this,
           &city_dialog::disband_state_changed);
 
@@ -2778,7 +2780,7 @@ void city_dialog::update_buy_button()
   buy_button->setDisabled(true);
 
   if (!client_is_observer() && client.conn.playing != NULL) {
-    value = pcity->client.buy_cost;
+    value = dlgcity->client.buy_cost;
     str = QString(PL_("Buy (%1 gold)", "Buy (%1 gold)",
                       value)).arg(QString::number(value));
 
@@ -2801,7 +2803,7 @@ void city_dialog::update_citizens()
   int i, j, width, height;
   QPainter p;
   QPixmap *pix;
-  int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, categories);
+  int num_citizens = get_city_citizen_types(dlgcity, FEELING_FINAL, categories);
   int w = tileset_small_sprite_width(tileset) / gui()->map_scale;
   int h = tileset_small_sprite_height(tileset) / gui()->map_scale;
 
@@ -2821,27 +2823,27 @@ void city_dialog::update_citizens()
 
   for (j = 0, i = 0; i < num_citizens; i++, j++) {
     dest_rect.moveTo(i * w, 0);
-    pix = get_citizen_sprite(tileset, categories[j], j, pcity)->pm;
+    pix = get_citizen_sprite(tileset, categories[j], j, dlgcity)->pm;
     p.begin(citizen_pixmap);
     p.drawPixmap(dest_rect, *pix, source_rect);
     p.end();
   }
 
-  citizens_label->set_city(pcity);
+  citizens_label->set_city(dlgcity);
   citizens_label->setPixmap(*citizen_pixmap);
 
   lab_table[FEELING_FINAL]->setPixmap(*citizen_pixmap);
-  lab_table[FEELING_FINAL]->setToolTip(text_happiness_wonders(pcity));
+  lab_table[FEELING_FINAL]->setToolTip(text_happiness_wonders(dlgcity));
 
   for (int k = 0; k < FEELING_LAST - 1; k++) {
-    lab_table[k]->set_city(pcity);
-    num_citizens = get_city_citizen_types(pcity,
+    lab_table[k]->set_city(dlgcity);
+    num_citizens = get_city_citizen_types(dlgcity,
                                           static_cast<citizen_feeling>(k),
                                           categories);
 
     for (j = 0, i = 0; i < num_citizens; i++, j++) {
       dest_rect.moveTo(i * w, 0);
-      pix = get_citizen_sprite(tileset, categories[j], j, pcity)->pm;
+      pix = get_citizen_sprite(tileset, categories[j], j, dlgcity)->pm;
       p.begin(citizen_pixmap);
       p.drawPixmap(dest_rect, *pix, source_rect);
       p.end();
@@ -2851,23 +2853,23 @@ void city_dialog::update_citizens()
 
     switch (k) {
     case FEELING_BASE:
-      lab_table[k]->setToolTip(text_happiness_cities(pcity));
+      lab_table[k]->setToolTip(text_happiness_cities(dlgcity));
       break;
 
     case FEELING_LUXURY:
-      lab_table[k]->setToolTip(text_happiness_luxuries(pcity));
+      lab_table[k]->setToolTip(text_happiness_luxuries(dlgcity));
       break;
 
     case FEELING_EFFECT :
-      lab_table[k]->setToolTip(text_happiness_buildings(pcity));
+      lab_table[k]->setToolTip(text_happiness_buildings(dlgcity));
       break;
 
     case FEELING_NATIONALITY:
-      lab_table[k]->setToolTip(text_happiness_nationality(pcity));
+      lab_table[k]->setToolTip(text_happiness_nationality(dlgcity));
       break;
 
     case FEELING_MARTIAL:
-      lab_table[k]->setToolTip(text_happiness_units(pcity));
+      lab_table[k]->setToolTip(text_happiness_units(dlgcity));
       break;
 
     default:
@@ -2884,8 +2886,8 @@ void city_dialog::refresh()
   setUpdatesEnabled(false);
   production_combo_p->blockSignals(true);
 
-  if (pcity) {
-    view->set_pixmap(pcity, zoom);
+  if (dlgcity) {
+    view->set_pixmap(dlgcity, zoom);
     view->update();
     update_title();
     update_info_label();
@@ -2933,7 +2935,7 @@ void city_dialog::update_nation_table()
   info_list << _("#") << _("Flag") << _("Nation");
   nationality_table->setHorizontalHeaderLabels(info_list);
 
-  citizens_iterate(pcity, pslot, nationality) {
+  citizens_iterate(dlgcity, pslot, nationality) {
     nationality_table->insertRow(i);
 
     for (int j = 0; j < nationality_table->columnCount(); j++) {
@@ -2941,7 +2943,7 @@ void city_dialog::update_nation_table()
 
       switch (j) {
       case 0:
-        nationality_i = citizens_nation_get(pcity, pslot);
+        nationality_i = citizens_nation_get(dlgcity, pslot);
 
         if (nationality_i == 0) {
           str = "-";
@@ -3003,45 +3005,45 @@ void city_dialog::update_info_label()
 
   /* fill the buffers with the necessary info */
   fc_snprintf(buf_info[INFO_CITIZEN], sizeof(buf_info[INFO_CITIZEN]),
-              "%3d (%4d)", pcity->size, city_specialists(pcity));
+              "%3d (%4d)", dlgcity->size, city_specialists(dlgcity));
   fc_snprintf(buf_info[INFO_FOOD], sizeof(buf_info[INFO_FOOD]), "%3d (%+4d)",
-              pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
+              dlgcity->prod[O_FOOD], dlgcity->surplus[O_FOOD]);
   fc_snprintf(buf_info[INFO_SHIELD], sizeof(buf_info[INFO_SHIELD]),
-              "%3d (%+4d)", pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
-              pcity->surplus[O_SHIELD]);
+              "%3d (%+4d)", dlgcity->prod[O_SHIELD] + dlgcity->waste[O_SHIELD],
+              dlgcity->surplus[O_SHIELD]);
   fc_snprintf(buf_info[INFO_TRADE], sizeof(buf_info[INFO_TRADE]), "%3d (%+4d)",
-              pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
-              pcity->surplus[O_TRADE]);
+              dlgcity->surplus[O_TRADE] + dlgcity->waste[O_TRADE],
+              dlgcity->surplus[O_TRADE]);
   fc_snprintf(buf_info[INFO_GOLD], sizeof(buf_info[INFO_GOLD]), "%3d (%+4d)",
-              pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
+              dlgcity->prod[O_GOLD], dlgcity->surplus[O_GOLD]);
   fc_snprintf(buf_info[INFO_LUXURY], sizeof(buf_info[INFO_LUXURY]), "%3d",
-              pcity->prod[O_LUXURY]);
+              dlgcity->prod[O_LUXURY]);
   fc_snprintf(buf_info[INFO_SCIENCE], sizeof(buf_info[INFO_SCIENCE]), "%3d",
-              pcity->prod[O_SCIENCE]);
+              dlgcity->prod[O_SCIENCE]);
   fc_snprintf(buf_info[INFO_GRANARY], sizeof(buf_info[INFO_GRANARY]),
-              "%4d/%-4d", pcity->food_stock,
-              city_granary_size(city_size_get(pcity)));
+              "%4d/%-4d", dlgcity->food_stock,
+              city_granary_size(city_size_get(dlgcity)));
 
-  get_city_dialog_output_text(pcity, O_FOOD, buf_tooltip[INFO_FOOD],
+  get_city_dialog_output_text(dlgcity, O_FOOD, buf_tooltip[INFO_FOOD],
                               sizeof(buf_tooltip[INFO_FOOD]));
-  get_city_dialog_output_text(pcity, O_SHIELD, buf_tooltip[INFO_SHIELD],
+  get_city_dialog_output_text(dlgcity, O_SHIELD, buf_tooltip[INFO_SHIELD],
                               sizeof(buf_tooltip[INFO_SHIELD]));
-  get_city_dialog_output_text(pcity, O_TRADE, buf_tooltip[INFO_TRADE],
+  get_city_dialog_output_text(dlgcity, O_TRADE, buf_tooltip[INFO_TRADE],
                               sizeof(buf_tooltip[INFO_TRADE]));
-  get_city_dialog_output_text(pcity, O_GOLD, buf_tooltip[INFO_GOLD],
+  get_city_dialog_output_text(dlgcity, O_GOLD, buf_tooltip[INFO_GOLD],
                               sizeof(buf_tooltip[INFO_GOLD]));
-  get_city_dialog_output_text(pcity, O_SCIENCE, buf_tooltip[INFO_SCIENCE],
+  get_city_dialog_output_text(dlgcity, O_SCIENCE, buf_tooltip[INFO_SCIENCE],
                               sizeof(buf_tooltip[INFO_SCIENCE]));
-  get_city_dialog_output_text(pcity, O_LUXURY, buf_tooltip[INFO_LUXURY],
+  get_city_dialog_output_text(dlgcity, O_LUXURY, buf_tooltip[INFO_LUXURY],
                               sizeof(buf_tooltip[INFO_LUXURY]));
-  get_city_dialog_culture_text(pcity, buf_tooltip[INFO_CULTURE],
+  get_city_dialog_culture_text(dlgcity, buf_tooltip[INFO_CULTURE],
                                sizeof(buf_tooltip[INFO_CULTURE]));
-  get_city_dialog_pollution_text(pcity, buf_tooltip[INFO_POLLUTION],
+  get_city_dialog_pollution_text(dlgcity, buf_tooltip[INFO_POLLUTION],
                                  sizeof(buf_tooltip[INFO_POLLUTION]));
-  get_city_dialog_illness_text(pcity, buf_tooltip[INFO_ILLNESS],
+  get_city_dialog_illness_text(dlgcity, buf_tooltip[INFO_ILLNESS],
                                sizeof(buf_tooltip[INFO_ILLNESS]));
 
-  granaryturns = city_turns_to_grow(pcity);
+  granaryturns = city_turns_to_grow(dlgcity);
 
   if (granaryturns == 0) {
     /* TRANS: city growth is blocked.  Keep short. */
@@ -3059,36 +3061,36 @@ void city_dialog::update_info_label()
   }
 
   fc_snprintf(buf_info[INFO_CORRUPTION], sizeof(buf_info[INFO_CORRUPTION]),
-              "%4d", pcity->waste[O_TRADE]);
+              "%4d", dlgcity->waste[O_TRADE]);
   fc_snprintf(buf_info[INFO_WASTE], sizeof(buf_info[INFO_WASTE]), "%4d",
-              pcity->waste[O_SHIELD]);
+              dlgcity->waste[O_SHIELD]);
   fc_snprintf(buf_info[INFO_CULTURE], sizeof(buf_info[INFO_CULTURE]), "%4d",
-              pcity->client.culture);
+              dlgcity->client.culture);
   fc_snprintf(buf_info[INFO_POLLUTION], sizeof(buf_info[INFO_POLLUTION]), "%4d",
-              pcity->pollution);
+              dlgcity->pollution);
 
   if (!game.info.illness_on) {
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]), " -.-");
   } else {
-    illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
+    illness = city_illness_calc(dlgcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
                 "%4.1f%%", (float) illness / 10.0);
   }
-  if (pcity->steal) {
+  if (dlgcity->steal) {
     fc_snprintf(buf_info[INFO_STEAL], sizeof(buf_info[INFO_STEAL]),
-                _("%d times"), pcity->steal);
+                _("%d times"), dlgcity->steal);
   } else {
     fc_snprintf(buf_info[INFO_STEAL], sizeof(buf_info[INFO_STEAL]),
                 _("Not stolen"));
   }
 
-  get_city_dialog_airlift_value(pcity, buf_info[INFO_AIRLIFT],
+  get_city_dialog_airlift_value(dlgcity, buf_info[INFO_AIRLIFT],
                                 sizeof(buf_info[INFO_AIRLIFT]));
-  get_city_dialog_airlift_text(pcity, buf_tooltip[INFO_AIRLIFT],
+  get_city_dialog_airlift_text(dlgcity, buf_tooltip[INFO_AIRLIFT],
                                sizeof(buf_tooltip[INFO_AIRLIFT]));
 
-  get_city_dialog_output_text(pcity, O_FOOD, buffer, sizeof(buffer));
+  get_city_dialog_output_text(dlgcity, O_FOOD, buffer, sizeof(buffer));
 
   for (int i = 0; i < NUM_INFO_FIELDS; i++) {
     qlt[i]->setText(QString(buf_info[i]));
@@ -3110,7 +3112,7 @@ void city_dialog::setup_ui(struct city *qcity)
 
   setContentsMargins(0, 0 ,0 ,0);
   setWindowIcon(q_icon);
-  pcity = qcity;
+  dlgcity = qcity;
   production_combo_p->blockSignals(true);
   refresh();
   production_combo_p->blockSignals(false);
@@ -3131,14 +3133,14 @@ void city_dialog::delete_prod()
 void city_dialog::dbl_click_p(QTableWidgetItem *item)
 {
   struct worklist queue;
-  city_get_queue(pcity, &queue);
+  city_get_queue(dlgcity, &queue);
 
   if (selected_row_p < 0 || selected_row_p > worklist_length(&queue)) {
     return;
   }
 
   worklist_remove(&queue, selected_row_p);
-  city_set_queue(pcity, &queue);
+  city_set_queue(dlgcity, &queue);
 }
 
 /************************************************************************//**
@@ -3151,15 +3153,15 @@ void city_dialog::update_units()
   char buf[256];
   int n;
   int happy_cost;
-  int free_unhappy = get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL);
+  int free_unhappy = get_city_bonus(dlgcity, EFT_MAKE_CONTENT_MIL);
   supported_units->setUpdatesEnabled(false);
   supported_units->clear_layout();
 
   if (NULL != client.conn.playing
-      && city_owner(pcity) != client.conn.playing) {
-    units = pcity->client.info_units_supported;
+      && city_owner(dlgcity) != client.conn.playing) {
+    units = dlgcity->client.info_units_supported;
   } else {
-    units = pcity->units_supported;
+    units = dlgcity->units_supported;
   }
 
   unit_list_iterate(units, punit) {
@@ -3177,10 +3179,10 @@ void city_dialog::update_units()
   current_units->clear_layout();
 
   if (NULL != client.conn.playing
-      && city_owner(pcity) != client.conn.playing) {
-    units = pcity->client.info_units_present;
+      && city_owner(dlgcity) != client.conn.playing) {
+    units = dlgcity->client.info_units_present;
   } else {
-    units = pcity->tile->units;
+    units = dlgcity->tile->units;
   }
 
   unit_list_iterate(units, punit) {
@@ -3234,7 +3236,7 @@ void city_dialog::next_city()
   }
 
   for (i = 0; i < size; i++) {
-    if (pcity == city_list_get(client.conn.playing->cities, i)) {
+    if (dlgcity == city_list_get(client.conn.playing->cities, i)) {
       break;
     }
   }
@@ -3266,7 +3268,7 @@ void city_dialog::prev_city()
   }
 
   for (i = 0; i < size; i++) {
-    if (pcity == city_list_get(client.conn.playing->cities, i)) {
+    if (dlgcity == city_list_get(client.conn.playing->cities, i)) {
       break;
     }
   }
@@ -3287,22 +3289,22 @@ void city_dialog::update_building()
 {
   char buf[32];
   QString str;
-  int cost = city_production_build_shield_cost(pcity);
+  int cost = city_production_build_shield_cost(dlgcity);
 
-  get_city_dialog_production(pcity, buf, sizeof(buf));
+  get_city_dialog_production(dlgcity, buf, sizeof(buf));
   production_combo_p->setRange(0, cost);
-  production_combo_p->set_pixmap(&pcity->production);
-  if (pcity->shield_stock >= cost) {
+  production_combo_p->set_pixmap(&dlgcity->production);
+  if (dlgcity->shield_stock >= cost) {
     production_combo_p->setValue(cost);
   } else {
-    production_combo_p->setValue(pcity->shield_stock);
+    production_combo_p->setValue(dlgcity->shield_stock);
   }
   production_combo_p->setAlignment(Qt::AlignCenter);
   str = QString(buf);
   str = str.simplified();
 
   production_combo_p->setFormat(QString("(%p%) %2\n%1")
-                                .arg(city_production_name_translation(pcity),
+                                .arg(city_production_name_translation(dlgcity),
                                      str));
 
   production_combo_p->updateGeometry();
@@ -3315,10 +3317,10 @@ void city_dialog::update_building()
 void city_dialog::buy()
 {
   char buf[1024], buf2[1024];
-  const char *name = city_production_name_translation(pcity);
-  int value = pcity->client.buy_cost;
+  const char *name = city_production_name_translation(dlgcity);
+  int value = dlgcity->client.buy_cost;
   hud_message_box *ask;
-  int city_id = pcity->id;
+  int city_id = dlgcity->id;
 
   if (!can_client_issue_orders()) {
     return;
@@ -3371,26 +3373,26 @@ void city_dialog::update_improvements()
   city_buildings->clear_layout();
 
   h = fm.height() + 6;
-  targets_used = collect_already_built_targets(targets, pcity);
-  name_and_sort_items(targets, targets_used, items, false, pcity);
+  targets_used = collect_already_built_targets(targets, dlgcity);
+  name_and_sort_items(targets, targets_used, items, false, dlgcity);
 
   for (item = 0; item < targets_used; item++) {
     struct universal target = items[item].item;
 
-    ui = new impr_item(this, target.value.building, pcity);
+    ui = new impr_item(this, target.value.building, dlgcity);
     ui->init_pix();
     city_buildings->add_item(ui);
 
     fc_assert_action(VUT_IMPROVEMENT == target.kind, continue);
     sprite = get_building_sprite(tileset, target.value.building);
-    upkeep = upkeep + city_improvement_upkeep(pcity, target.value.building);
+    upkeep = upkeep + city_improvement_upkeep(dlgcity, target.value.building);
     if (sprite != nullptr) {
       pix = sprite->pm;
       pix_scaled = pix->scaledToHeight(h);
     }
   }
 
-  city_get_queue(pcity, &queue);
+  city_get_queue(dlgcity, &queue);
   p_table_p->setRowCount(worklist_length(&queue));
 
   for (int i = 0; i < worklist_length(&queue); i++) {
@@ -3400,20 +3402,20 @@ void city_dialog::update_improvements()
 
     if (VUT_UTYPE == target.kind) {
       str = utype_values_translation(target.value.utype);
-      cost = utype_build_shield_cost(pcity, NULL, target.value.utype);
+      cost = utype_build_shield_cost(dlgcity, NULL, target.value.utype);
       tooltip = get_tooltip_unit(target.value.utype, true).trimmed();
       sprite = get_unittype_sprite(get_tileset(), target.value.utype,
                                    direction8_invalid());
     } else {
-      str = city_improvement_name_translation(pcity, target.value.building);
+      str = city_improvement_name_translation(dlgcity, target.value.building);
       sprite = get_building_sprite(tileset, target.value.building);
       tooltip = get_tooltip_improvement(target.value.building,
-                                        pcity, true).trimmed();
+                                        dlgcity, true).trimmed();
 
       if (improvement_has_flag(target.value.building, IF_GOLD)) {
         cost = -1;
       } else {
-        cost = impr_build_shield_cost(pcity, target.value.building);
+        cost = impr_build_shield_cost(dlgcity, target.value.building);
       }
     }
 
@@ -3477,7 +3479,7 @@ void city_dialog::production_changed(int index)
 
     id = qvar.toInt();
     univ = cid_production(id);
-    city_change_production(pcity, &univ);
+    city_change_production(dlgcity, &univ);
   }
 }
 
@@ -3489,7 +3491,8 @@ void city_dialog::show_targets()
 {
   production_widget *pw;
   int when = 1;
-  pw = new production_widget(this, pcity, future_targets->isChecked(),
+
+  pw = new production_widget(this, dlgcity, future_targets->isChecked(),
                              when, selected_row_p, show_units->isChecked(),
                              false, show_wonders->isChecked(),
                              show_buildings->isChecked());
@@ -3504,7 +3507,8 @@ void city_dialog::show_targets_worklist()
 {
   production_widget *pw;
   int when = 4;
-  pw = new production_widget(this, pcity, future_targets->isChecked(),
+
+  pw = new production_widget(this, dlgcity, future_targets->isChecked(),
                              when, selected_row_p, show_units->isChecked(),
                              false, show_wonders->isChecked(),
                              show_buildings->isChecked());
@@ -3523,7 +3527,7 @@ void city_dialog::clear_worklist()
   }
 
   worklist_init(&empty);
-  city_set_worklist(pcity, &empty);
+  city_set_worklist(dlgcity, &empty);
 }
 
 /************************************************************************//**
@@ -3540,11 +3544,11 @@ void city_dialog::worklist_up()
   }
 
   target = new universal;
-  city_get_queue(pcity, &queue);
+  city_get_queue(dlgcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
   worklist_insert(&queue, target, selected_row_p - 1);
-  city_set_queue(pcity, &queue);
+  city_set_queue(dlgcity, &queue);
   index = p_table_p->model()->index(selected_row_p - 1, 0);
   p_table_p->setCurrentIndex(index);
   delete target;
@@ -3582,11 +3586,11 @@ void city_dialog::worklist_down()
   }
 
   target = new universal;
-  city_get_queue(pcity, &queue);
+  city_get_queue(dlgcity, &queue);
   worklist_peek_ith(&queue, target, selected_row_p);
   worklist_remove(&queue, selected_row_p);
   worklist_insert(&queue, target, selected_row_p + 1);
-  city_set_queue(pcity, &queue);
+  city_set_queue(dlgcity, &queue);
   index = p_table_p->model()->index(selected_row_p + 1, 0);
   p_table_p->setCurrentIndex(index);
   delete target;
@@ -3598,7 +3602,7 @@ void city_dialog::worklist_down()
 void city_dialog::save_worklist()
 {
   hud_input_box *ask = new hud_input_box(gui()->central_wdg);
-  int city_id = pcity->id;
+  int city_id = dlgcity->id;
 
   ask->set_text_title_definput(_("What should we name new worklist?"),
                                _("Save current worklist"),
@@ -3631,25 +3635,25 @@ void city_dialog::update_title()
   QString buf;
 
   // Defeat keyboard shortcut mnemonics
-  lcity_name->setText(QString(city_name_get(pcity))
+  lcity_name->setText(QString(city_name_get(dlgcity))
                       .replace("&", "&&"));
 
-  if (city_unhappy(pcity)) {
+  if (city_unhappy(dlgcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_get(pcity),
-          population_to_text(city_population(pcity)));
-  } else if (city_celebrating(pcity)) {
+    buf = QString(_("%1 - %2 citizens - DISORDER")).arg(city_name_get(dlgcity),
+          population_to_text(city_population(dlgcity)));
+  } else if (city_celebrating(dlgcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_get(pcity),
-          population_to_text(city_population(pcity)));
-  } else if (city_happy(pcity)) {
+    buf = QString(_("%1 - %2 citizens - celebrating")).arg(city_name_get(dlgcity),
+          population_to_text(city_population(dlgcity)));
+  } else if (city_happy(dlgcity)) {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_get(pcity),
-          population_to_text(city_population(pcity)));
+    buf = QString(_("%1 - %2 citizens - happy")).arg(city_name_get(dlgcity),
+          population_to_text(city_population(dlgcity)));
   } else {
     /* TRANS: city dialog title */
-    buf = QString(_("%1 - %2 citizens")).arg(city_name_get(pcity),
-          population_to_text(city_population(pcity)));
+    buf = QString(_("%1 - %2 citizens")).arg(city_name_get(dlgcity),
+          population_to_text(city_population(dlgcity)));
   }
 
   setWindowTitle(buf);
@@ -3768,7 +3772,7 @@ bool qtg_city_dialog_is_open(struct city *pcity)
     return false;
   }
 
-  if (city_dlg->pcity == pcity && city_dlg->isVisible()) {
+  if (city_dlg->dlgcity == pcity && city_dlg->isVisible()) {
     return true;
   }
 

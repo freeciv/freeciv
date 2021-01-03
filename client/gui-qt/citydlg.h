@@ -227,7 +227,7 @@ public:
 private:
   const struct impr_type *impr;
   struct canvas *impr_pixmap;
-  struct city *pcity;
+  struct city *dlgcity;
 
 protected:
   void wheelEvent(QWheelEvent *event);
@@ -492,7 +492,7 @@ public:
   ~city_dialog();
   void setup_ui(struct city *qcity);
   void refresh();
-  struct city *pcity;
+  struct city *dlgcity;
   int scroll_height;
   float zoom;
 
