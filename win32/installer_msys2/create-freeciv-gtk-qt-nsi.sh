@@ -12,6 +12,7 @@ cat <<EOF
 ; Freeciv Windows installer script
 ; some parts adapted from Wesnoth installer script
 
+Unicode true
 SetCompressor /SOLID lzma
 
 !define APPNAME "Freeciv"
