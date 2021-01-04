@@ -1598,7 +1598,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                       turns, PL_("turn", "turns", turns));
         }
       } else {
-        int cost = utype_build_shield_cost_base(un);
+        int cost = utype_build_shield_cost(NULL, client_player(), un);
 
         fc_snprintf(cbuf, sizeof(cbuf),
                     _("(%d/%d/%s)\n%d %s"),
