@@ -109,7 +109,6 @@ struct theme_icons {
   SDL_Surface *o_disband_icon;
   SDL_Surface *o_wait_icon;
   SDL_Surface *o_done_icon;
-  SDL_Surface *OAutoAtt_Icon; /* currently unused */
   SDL_Surface *o_autoexp_icon;
   SDL_Surface *o_autosett_icon;
   SDL_Surface *o_autoconnect_icon;

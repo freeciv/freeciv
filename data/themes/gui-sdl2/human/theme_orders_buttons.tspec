@@ -29,7 +29,6 @@ pixel_border = 1
 tiles = { "row", "column","tag"
 
 ; terrain
-  0,    0,  "theme.order_auto_attack"
   1,    0,  "theme.order_auto_connect"
   2,    0,  "theme.order_auto_explorer"
   3,    0,  "theme.order_auto_settler"

@@ -321,7 +321,6 @@ void tilespec_setup_theme(void)
   /* ------------------------------ */
 
   load_order_theme_surface(buf, order_icon, "theme.order_empty");
-  load_order_theme_surface(buf, OAutoAtt_Icon, "theme.order_auto_attack");
   load_order_theme_surface(buf, o_autoconnect_icon, "theme.order_auto_connect");
   load_order_theme_surface(buf, o_autoexp_icon, "theme.order_auto_explorer");
   load_order_theme_surface(buf, o_autosett_icon, "theme.order_auto_settler");
