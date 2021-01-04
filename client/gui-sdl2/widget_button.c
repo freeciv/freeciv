@@ -55,9 +55,9 @@ static int (*baseclass_redraw)(struct widget *pwidget);
 static int redraw_ibutton(struct widget *icon_button)
 {
   SDL_Rect dest = { 0, 0, 0, 0 };
-  utf8_str TMPString;
+  utf8_str tmp_str;
   SDL_Surface *button = NULL, *text = NULL, *icon = icon_button->theme2;
-  Uint16 Ix, Iy, x;
+  Uint16 ix, iy, x;
   Uint16 y = 0; /* FIXME: possibly uninitialized */
   int ret;
 
@@ -68,20 +68,20 @@ static int redraw_ibutton(struct widget *icon_button)
 
   if (icon_button->string_utf8 != NULL) {
     /* make copy of string_utf8 */
-    TMPString = *icon_button->string_utf8;
+    tmp_str = *icon_button->string_utf8;
 
     if (get_wstate(icon_button) == FC_WS_NORMAL) {
-      TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_NORMAL_TEXT);
+      tmp_str.fgcol = *get_theme_color(COLOR_THEME_WIDGET_NORMAL_TEXT);
     } else if (get_wstate(icon_button) == FC_WS_SELECTED) {
-      TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_SELECTED_TEXT);
-      TMPString.style |= TTF_STYLE_BOLD;
+      tmp_str.fgcol = *get_theme_color(COLOR_THEME_WIDGET_SELECTED_TEXT);
+      tmp_str.style |= TTF_STYLE_BOLD;
     } else if (get_wstate(icon_button) == FC_WS_PRESSED) {
-      TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_PRESSED_TEXT);
+      tmp_str.fgcol = *get_theme_color(COLOR_THEME_WIDGET_PRESSED_TEXT);
     } else if (get_wstate(icon_button) == FC_WS_DISABLED) {
-      TMPString.fgcol = *get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT);
+      tmp_str.fgcol = *get_theme_color(COLOR_THEME_WIDGET_DISABLED_TEXT);
     }
 
-    text = create_text_surf_from_utf8(&TMPString);
+    text = create_text_surf_from_utf8(&tmp_str);
   }
 
   if (!text && !icon) {
@@ -99,40 +99,40 @@ static int redraw_ibutton(struct widget *icon_button)
   if (icon) { /* Icon */
     if (text) {
       if (get_wflags(icon_button) & WF_ICON_CENTER_RIGHT) {
-        Ix = icon_button->size.w - icon->w - 5;
+        ix = icon_button->size.w - icon->w - 5;
       } else {
         if (get_wflags(icon_button) & WF_ICON_CENTER) {
-          Ix = (icon_button->size.w - icon->w) / 2;
+          ix = (icon_button->size.w - icon->w) / 2;
         } else {
-          Ix = 5;
+          ix = 5;
         }
       }
 
       if (get_wflags(icon_button) & WF_ICON_ABOVE_TEXT) {
-        Iy = 3;
+        iy = 3;
         y = 3 + icon->h + 3 + (icon_button->size.h -
                                (icon->h + 6) - text->h) / 2;
       } else {
         if (get_wflags(icon_button) & WF_ICON_UNDER_TEXT) {
           y = 3 + (icon_button->size.h - (icon->h + 3) - text->h) / 2;
-          Iy = y + text->h + 3;
+          iy = y + text->h + 3;
         } else { /* center */
-          Iy = (icon_button->size.h - icon->h) / 2;
+          iy = (icon_button->size.h - icon->h) / 2;
           y = (icon_button->size.h - text->h) / 2;
         }
       }
     } else { /* no text */
-      Iy = (icon_button->size.h - icon->h) / 2;
-      Ix = (icon_button->size.w - icon->w) / 2;
+      iy = (icon_button->size.h - icon->h) / 2;
+      ix = (icon_button->size.w - icon->w) / 2;
     }
 
     if (get_wstate(icon_button) == FC_WS_PRESSED) {
-      Ix += 1;
-      Iy += 1;
+      ix += 1;
+      iy += 1;
     }
 
-    dest.x = icon_button->size.x + Ix;
-    dest.y = icon_button->size.y + Iy;
+    dest.x = icon_button->size.x + ix;
+    dest.y = icon_button->size.y + iy;
 
     ret = alphablit(icon, NULL, icon_button->dst->surface, &dest, 255);
     if (ret) {
@@ -159,7 +159,7 @@ static int redraw_ibutton(struct widget *icon_button)
         } else {
           if (get_wflags(icon_button) & WF_ICON_CENTER) {
             /* text is blit on icon */
-            goto Alone;
+            goto alone;
             /* end WF_ICON_CENTER */
           } else { /* icon center left - default */
             if (icon_button->string_utf8->style & SF_CENTER) {
@@ -176,12 +176,13 @@ static int redraw_ibutton(struct widget *icon_button)
         }
         /* 888888888888888888 */
       } else {
-        goto Alone;
+        goto alone;
       }
     } else {
       /* !icon */
       y = (icon_button->size.h - text->h) / 2;
-    Alone:
+
+    alone:
       if (icon_button->string_utf8->style & SF_CENTER) {
         x = (icon_button->size.w - text->w) / 2;
       } else {
