@@ -76,7 +76,7 @@ static int redraw_checkbox(struct widget *icon)
 static int redraw_textcheckbox(struct widget *pCBox)
 {
   int ret;
-  SDL_Surface *pTheme_Surface, *icon;
+  SDL_Surface *theme_surface, *icon;
 
   ret = (*textcheckbox_baseclass_redraw)(pCBox);
   if (ret != 0) {
@@ -87,8 +87,8 @@ static int redraw_textcheckbox(struct widget *pCBox)
     return widget_redraw(pCBox);
   }
 
-  pTheme_Surface = pCBox->theme;
-  icon = create_icon_from_theme(pTheme_Surface, get_wstate(pCBox));
+  theme_surface = pCBox->theme;
+  icon = create_icon_from_theme(theme_surface, get_wstate(pCBox));
 
   if (!icon) {
     return -3;
@@ -100,7 +100,7 @@ static int redraw_textcheckbox(struct widget *pCBox)
   ret = redraw_iconlabel(pCBox);
 
   FREESURFACE(icon);
-  pCBox->theme = pTheme_Surface;
+  pCBox->theme = theme_surface;
 
   return ret;
 }

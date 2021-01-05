@@ -30,12 +30,12 @@
 #include "gui_string.h"
 
 #ifdef SMALL_SCREEN
-#define	WINDOW_TITLE_HEIGHT	10
+#define WINDOW_TITLE_HEIGHT 10
 #else
-#define	WINDOW_TITLE_HEIGHT	20
+#define WINDOW_TITLE_HEIGHT 20
 #endif
 
-#define MAX_ID			0xFFFF
+#define MAX_ID              0xFFFF
 
 /* Widget Types */
 enum widget_type {		/* allow 64 widgets type */
@@ -93,9 +93,9 @@ enum widget_flag {
 
 /* Widget states */
 enum widget_state {
-  FC_WS_NORMAL	        = 0,
+  FC_WS_NORMAL          = 0,
   FC_WS_SELECTED        = 1,
-  FC_WS_PRESSED	        = 2,
+  FC_WS_PRESSED         = 2,
   FC_WS_DISABLED        = 3
 };
 
@@ -173,7 +173,7 @@ struct widget {
 /* Struct of basic window group dialog ( without scrollbar ) */
 struct small_dialog {
   struct widget *begin_widget_list;
-  struct widget *end_widget_list;	/* window */
+  struct widget *end_widget_list;    /* window */
 };
 
 /* Struct of advanced window group dialog ( with scrollbar ) */
@@ -317,13 +317,13 @@ do {                                                                    \
 
 #define draw_frame_around_widget_on_surface(pwidget , pdest)		\
 do {                                                                    \
-  draw_frame(pdest, pwidget->size.x - pTheme->FR_Left->w, pwidget->size.y - pTheme->FR_Top->h, \
-             pwidget->size.w + pTheme->FR_Left->w + pTheme->FR_Right->w,\
-             pwidget->size.h + pTheme->FR_Top->h + pTheme->FR_Bottom->h);  \
+  draw_frame(pdest, pwidget->size.x - ptheme->FR_Left->w, pwidget->size.y - ptheme->FR_Top->h, \
+             pwidget->size.w + ptheme->FR_Left->w + ptheme->FR_Right->w,\
+             pwidget->size.h + ptheme->FR_Top->h + ptheme->FR_Bottom->h);  \
 } while (FALSE);
 
 #define draw_frame_around_widget(pwidget)				\
-	draw_frame_around_widget_on_surface(pwidget , pwidget->dst->surface)
+	draw_frame_around_widget_on_surface(pwidget, pwidget->dst->surface)
 
 /* Group */
 Uint16 redraw_group(const struct widget *begin_group_widget_list,
@@ -389,18 +389,18 @@ do {								\
 #define del_group(begin_group_widget_list, end_group_widget_list)		\
 do {									\
   del_group_of_widgets_from_gui_list(begin_group_widget_list,		\
-					   end_group_widget_list);	\
+                                     end_group_widget_list);	\
   begin_group_widget_list = NULL;						\
   end_group_widget_list = NULL;						\
 } while (FALSE)
 
-#define enable_group(begin_group_widget_list, end_group_widget_list)	\
-	set_group_state(begin_group_widget_list, 				\
-			end_group_widget_list, FC_WS_NORMAL)
+#define enable_group(begin_group_widget_list, end_group_widget_list)    \
+        set_group_state(begin_group_widget_list,                        \
+                        end_group_widget_list, FC_WS_NORMAL)
 
-#define disable_group(begin_group_widget_list, end_group_widget_list)	\
-	set_group_state(begin_group_widget_list,	end_group_widget_list,	\
-			FC_WS_DISABLED)
+#define disable_group(begin_group_widget_list, end_group_widget_list)   \
+        set_group_state(begin_group_widget_list, end_group_widget_list, \
+                        FC_WS_DISABLED)
 
 /* Advanced Dialog */
 bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
@@ -426,4 +426,4 @@ void draw_frame(SDL_Surface *pdest, Sint16 start_x, Sint16 start_y,
 #include "widget_scrollbar.h"
 #include "widget_window.h"
 
-#endif	/* FC__WIDGET_H */
+#endif  /* FC__WIDGET_H */

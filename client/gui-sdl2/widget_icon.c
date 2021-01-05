@@ -159,47 +159,47 @@ SDL_Surface *create_icon_theme_surf(SDL_Surface *icon)
 {
   SDL_Color bg_color = { 255, 255, 255, 128 };
   SDL_Rect dest, src = get_smaller_surface_rect(icon);
-  SDL_Surface *pTheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
+  SDL_Surface *ptheme = create_surf((src.w + adj_size(4)) * 4, src.h + adj_size(4),
                                     SDL_SWSURFACE);
 
   dest.x = adj_size(2);
-  dest.y = (pTheme->h - src.h) / 2;
+  dest.y = (ptheme->h - src.h) / 2;
 
   /* normal */
-  alphablit(icon, &src, pTheme, &dest, 255);
+  alphablit(icon, &src, ptheme, &dest, 255);
 
   /* selected */
   dest.x += (src.w + adj_size(4));
-  alphablit(icon, &src, pTheme, &dest, 255);
+  alphablit(icon, &src, ptheme, &dest, 255);
 
   /* draw selected frame */
-  create_frame(pTheme,
+  create_frame(ptheme,
                dest.x - 1, dest.y - 1, src.w + 1, src.h + 1,
                get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
 
   /* pressed */
   dest.x += (src.w + adj_size(4));
-  alphablit(icon, &src, pTheme, &dest, 255);
+  alphablit(icon, &src, ptheme, &dest, 255);
 
   /* draw selected frame */
-  create_frame(pTheme,
+  create_frame(ptheme,
                dest.x - 1, dest.y - 1, src.w + 1, src.h + 1,
                get_theme_color(COLOR_THEME_CUSTOM_WIDGET_SELECTED_FRAME));
   /* draw press frame */
-  create_frame(pTheme,
+  create_frame(ptheme,
                dest.x - adj_size(2), dest.y - adj_size(2),
                src.w + adj_size(3), src.h + adj_size(3),
                get_theme_color(COLOR_THEME_CUSTOM_WIDGET_PRESSED_FRAME));
 
   /* disabled */
   dest.x += (src.w + adj_size(4));
-  alphablit(icon, &src, pTheme, &dest, 255);
+  alphablit(icon, &src, ptheme, &dest, 255);
   dest.w = src.w;
   dest.h = src.h;
 
-  fill_rect_alpha(pTheme, &dest, &bg_color);
+  fill_rect_alpha(ptheme, &dest, &bg_color);
 
-  return pTheme;
+  return ptheme;
 }
 
 /**********************************************************************//**
