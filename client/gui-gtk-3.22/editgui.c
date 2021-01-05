@@ -696,8 +696,7 @@ static void editbar_refresh(struct editbar *eb)
 ****************************************************************************/
 static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
 {
-  struct drawn_sprite sprs[80];
-  int count, w, h, canvas_x, canvas_y, i;
+  int w, h, i;
   GdkPixbuf *pixbuf;
   struct canvas canvas = FC_STATIC_CANVAS_INIT;
   cairo_t *cr;
@@ -706,8 +705,6 @@ static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
   h = tileset_tile_height(tileset);
 
   canvas.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, w, h);
-  canvas_x = 0;
-  canvas_y = 0;
 
   cr = cairo_create(canvas.surface);
   cairo_set_operator(cr, CAIRO_OPERATOR_CLEAR);
@@ -715,9 +712,11 @@ static GdkPixbuf *create_terrain_pixbuf(struct terrain *pterrain)
   cairo_destroy(cr);
 
   for (i = 0; i < 3; i++) {
-    count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
-                                                  i, pterrain);
-    put_drawn_sprites(&canvas, 1.0, canvas_x, canvas_y, count, sprs, FALSE);
+    struct drawn_sprite sprs[80];
+    int count = fill_basic_terrain_layer_sprite_array(tileset, sprs,
+                                                      i, pterrain);
+
+    put_drawn_sprites(&canvas, 1.0, 0, 0, count, sprs, FALSE);
   }
 
   pixbuf = surface_get_pixbuf(canvas.surface, w, h);
