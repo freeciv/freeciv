@@ -23,9 +23,9 @@ struct checkbox {
 struct widget *create_textcheckbox(struct gui_layer *pdest, bool state,
                                    utf8_str *pstr, Uint32 flags);
 struct widget *create_checkbox(struct gui_layer *pdest, bool state, Uint32 flags);
-void toggle_checkbox(struct widget *pCBox);
-bool get_checkbox_state(struct widget *pCBox);
-int set_new_checkbox_theme(struct widget *pCBox,
+void toggle_checkbox(struct widget *cbox);
+bool get_checkbox_state(struct widget *cbox);
+int set_new_checkbox_theme(struct widget *cbox,
                            SDL_Surface *true_surf, SDL_Surface *false_surf);
 
 #endif /* FC__WIDGET_CHECKBOX_H */
