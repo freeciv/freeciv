@@ -342,8 +342,7 @@ static bool do_capture_units(struct player *pplayer,
                   victim_link, capturer_nation);
 
     /* May cause an incident */
-    action_consequence_success(paction, pplayer,
-                               unit_owner(to_capture),
+    action_consequence_success(paction, pplayer, uplayer,
                                pdesttile, victim_link);
 
     if (NULL != pcity) {
