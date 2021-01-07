@@ -13,7 +13,6 @@ AC_DEFUN([FC_CHECK_SQLITE3],
 
   sqlite3_cflags=""
   sqlite3_ldflags=""
-  SQLITE3_VERSION=""
 
   ac_sqlite3_header="sqlite3.h"
 
@@ -80,21 +79,8 @@ AC_DEFUN([FC_CHECK_SQLITE3],
 
     ac_sqlite3_header_path="$sqlite3_prefix/include/$ac_sqlite3_header"
 
-    dnl Retrieve SQLite release version
-    if test "x$ac_sqlite3_header_path" != "x"; then
-      ac_sqlite3_version=`cat $ac_sqlite3_header_path \
-                          | grep '#define.*SQLITE_VERSION.*\"' | $SED -e 's/.* "//' \
-                          | $SED -e 's/"//'`
-      if test "x$ac_sqlite3_version" != "x"; then
-        SQLITE3_VERSION=$ac_sqlite3_version
-      else
-        AC_MSG_WARN([Can not find SQLITE_VERSION macro in sqlite3.h header to retrieve SQLite version!])
-      fi
-    fi
-
     AC_SUBST(sqlite3_cflags)
     AC_SUBST(sqlite3_ldflags)
-    AC_SUBST(SQLITE3_VERSION)
 
     ifelse([$1], , :, [$1])
   else
