@@ -17,7 +17,7 @@
 extern "C" {
 #endif /* __cplusplus */
 
-#define COMMENTS_FILE_NAME "comments-3.1.txt"
+#define COMMENTS_FILE_NAME "comments-3.2.txt"
 
 struct section_file;
 

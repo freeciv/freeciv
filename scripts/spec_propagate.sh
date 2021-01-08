@@ -38,8 +38,8 @@ patch_rulesetdir() {
     if [ "x$rej" != x ]; then
         echo "*** fix up rejects manually: $rej"
     fi
-    if [ -f "data/ruledit/comments-3.1.txt" ]; then
-        echo "*** fix up ruledit manually: data/ruledit/comments-3.1.txt"
+    if [ -f "data/ruledit/comments-3.2.txt" ]; then
+        echo "*** fix up ruledit manually: data/ruledit/comments-3.2.txt"
     fi
 }
 
