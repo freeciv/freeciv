@@ -4,7 +4,7 @@
 DEFAULT_REVISION="dbc31c25"
 
 # the branch of the previous version
-PREVIOUS_BRANCH="S3_0"
+PREVIOUS_BRANCH="S3_1"
 
 set -e
 
