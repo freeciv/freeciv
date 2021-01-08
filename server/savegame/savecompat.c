@@ -2129,6 +2129,9 @@ static void compat_load_dev(struct loaddata *loading)
   } /* Version < 3.0.94 */
 
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
+
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_2
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
 
 /************************************************************************//**
