@@ -12,8 +12,8 @@
 
 [datafile]
 description="Civ2Civ3 governments data for Freeciv"
-options="+Freeciv-ruleset-Devel-2017.Jan.02 web-compatible"
-format_version=20
+options="+Freeciv-ruleset-Devel-2021.Feb.06 web-compatible"
+format_version=30
 
 [governments]
 during_revolution="Anarchy"
