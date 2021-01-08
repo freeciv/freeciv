@@ -61,22 +61,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                                            const char *sub,
                                            const char *rfor);
 
-/* Functions specific to 3.0 -> 3.1 transition */
-bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
-                              struct action_auto_perf *auto_perf,
-                              size_t psize,
-                              enum unit_type_flag_id *protecor_flag);
-const char *rscompat_req_type_name_3_1(const char *old_type);
-const char *rscompat_req_name_3_1(const char *type,
-                                  const char *old_name);
-const char *rscompat_utype_flag_name_3_1(struct rscompat_info *info,
-                                         const char *old_type);
-bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
-                             const char *sec_name, struct rscompat_info *compat);
-void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
-                               struct extra_type *pextra);
-bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
-                                     bool slow_invasions);
+/* Functions specific to 3.1 -> 3.2 transition */
 
 #ifdef __cplusplus
 }

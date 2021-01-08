@@ -390,10 +390,6 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
     struct entry *pentry;
     struct requirement req;
 
-    if (compat->compat_mode) {
-      type = rscompat_req_type_name_3_1(type);
-    }
-
     if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
                                         sec, sub, j))) {
       ruleset_error(LOG_ERROR, "%s", secfile_error());
@@ -477,16 +473,6 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                     "'%s.%s%d'.", filename, sec, sub, j);
     }
 
-    if (compat->compat_mode) {
-      if (!fc_strcasecmp(type, universals_n_name(VUT_UTFLAG))) {
-        name = rscompat_utype_flag_name_3_1(compat, name);
-      }
-    }
-
-    if (compat->compat_mode) {
-      name = rscompat_req_name_3_1(type, name);
-    }
-
     req = req_from_str(type, range, survives, present, quiet, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] has invalid or unknown req: "
@@ -530,8 +516,7 @@ static bool lookup_cbonus_list(struct rscompat_info *compat,
     struct combat_bonus *bonus = fc_malloc(sizeof(*bonus));
     const char *type;
 
-    bonus->flag = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, flag),
-                                            fc_strcasecmp);
+    bonus->flag = unit_type_flag_id_by_name(flag, fc_strcasecmp);
     if (!unit_type_flag_id_is_valid(bonus->flag)) {
       log_error("\"%s\": unknown flag name \"%s\" in '%s.%s'.",
                 filename, flag, sec, sub);
@@ -1506,8 +1491,7 @@ static bool load_unit_names(struct section_file *file,
     const char *helptxt = secfile_lookup_str_default(file, NULL, "control.flags%d.helptxt",
                                                      i);
 
-    if (unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, flag),
-                                  fc_strcasecmp)
+    if (unit_type_flag_id_by_name(flag, fc_strcasecmp)
         != unit_type_flag_id_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\": Duplicate unit flag name '%s'",
                     filename, flag);
@@ -1837,8 +1821,7 @@ static bool load_ruleset_units(struct section_file *file,
         ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (!unit_class_flag_id_is_valid(ival)) {
           ok = FALSE;
-          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
-                                           fc_strcasecmp);
+          ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
           if (unit_type_flag_id_is_valid(ival)) {
             ruleset_error(LOG_ERROR,
                           "\"%s\" unit_class \"%s\": unit_type flag \"%s\"!",
@@ -2234,8 +2217,7 @@ static bool load_ruleset_units(struct section_file *file,
         if (compat->compat_mode && !fc_strcasecmp("Partial_Invis", sval)) {
           u->vlayer = V_INVIS;
         } else {
-          ival = unit_type_flag_id_by_name(rscompat_utype_flag_name_3_1(compat, sval),
-                                           fc_strcasecmp);
+          ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
           if (!unit_type_flag_id_is_valid(ival)) {
             ok = FALSE;
             ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
@@ -3533,7 +3515,6 @@ static bool load_ruleset_terrain(struct section_file *file,
         pextra->helptext = lookup_strvec(file, section, "helptext");
       }
 
-      rscompat_extra_adjust_3_1(compat, pextra);
     } extra_type_iterate_end;
   }
 
@@ -5749,10 +5730,6 @@ static bool load_ruleset_effects(struct section_file *file,
       break;
     }
 
-    if (compat->compat_mode && rscompat_old_effect_3_1(type, file, sec_name, compat)) {
-      continue;
-    }
-
     eff = effect_type_by_name(type, fc_strcasecmp);
     if (!effect_type_is_valid(eff)) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] lists unknown effect type \"%s\".",
@@ -6438,15 +6415,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           protecor_flag = NULL;
         }
 
-        if (!rscompat_auto_attack_3_1(compat, auto_perf,
-                                      psize, protecor_flag)) {
-          /* Upgrade failed */
-          ruleset_error(LOG_ERROR,
-                        "\"%s\": %s: failed to upgrade.",
-                        filename, "auto_attack");
-          ok = FALSE;
-        }
-
         if (psize) {
           FC_FREE(protecor_flag);
         }
@@ -6719,16 +6687,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         } section_list_iterate_end;
         section_list_destroy(sec);
       }
-    }
-  }
-
-  if (compat->compat_mode) {
-    bool slow_invasions
-      = secfile_lookup_bool_default(file, TRUE,
-                                    "global_unit_options.slow_invasions");
-
-    if (!rscompat_old_slow_invasions_3_1(compat, slow_invasions)) {
-      ok = FALSE;
     }
   }
 
