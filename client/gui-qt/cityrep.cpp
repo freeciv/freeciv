@@ -469,7 +469,7 @@ void city_widget::display_list_menu(const QPoint &)
   QMenu *some_menu;
   QMenu *tmp2_menu;
   QMenu *tmp_menu;
-  struct city *pcity;
+  struct city *pcity_outer;
   QMenu *list_menu;
 
   QAction wl_clear(_("Clear"), 0);
@@ -533,8 +533,8 @@ void city_widget::display_list_menu(const QPoint &)
               &city_widget::center);
     }
 
-    foreach(pcity, selected_cities) {
-      buy_costs = buy_costs + pcity->client.buy_cost;
+    foreach(pcity_outer, selected_cities) {
+      buy_costs = buy_costs + pcity_outer->client.buy_cost;
     }
     fc_snprintf(buy_costs_label, sizeof(buy_costs_label),
                 _("Buy ( Cost: %d )"), buy_costs);
@@ -550,9 +550,9 @@ void city_widget::display_list_menu(const QPoint &)
     struct universal target;
     char buf[200];
     const char *imprname;
-    const struct impr_type *building;
+    const struct impr_type *building_outer;
     Impr_type_id impr_id;
-    struct city *pcity;
+    struct city *pcity_mid;
     int city_id;
     bool need_clear = true;
     bool sell_ask = true;
@@ -639,27 +639,28 @@ void city_widget::display_list_menu(const QPoint &)
       }
     } city_list_iterate_end;
 
-    foreach (pcity, selected_cities) {
-      if (nullptr != pcity) {
+    foreach (pcity_mid, selected_cities) {
+      if (nullptr != pcity_mid) {
         switch (m_state) {
         case CHANGE_PROD_NOW:
-          city_change_production(pcity, &target);
+          city_change_production(pcity_mid, &target);
           break;
         case CHANGE_PROD_NEXT:
-          city_queue_insert(pcity, 1, &target);
+          city_queue_insert(pcity_mid, 1, &target);
           break;
         case CHANGE_PROD_BEF_LAST:
-          city_queue_insert(pcity, worklist_length(&pcity->worklist), 
+          city_queue_insert(pcity_mid, worklist_length(&pcity_mid->worklist), 
                             &target);
           break;
         case CHANGE_PROD_LAST:
-          city_queue_insert(pcity, -1, &target);
+          city_queue_insert(pcity_mid, -1, &target);
           break;
         case SELL:
-          building = target.value.building;
+          building_outer = target.value.building;
           if (sell_ask) {
             hud_message_box *ask = new hud_message_box(gui()->central_wdg);
-            imprname = improvement_name_translation(building);
+
+            imprname = improvement_name_translation(building_outer);
             fc_snprintf(buf, sizeof(buf),
                         _("Are you sure you want to sell those %s?"),
                         imprname);
@@ -668,11 +669,12 @@ void city_widget::display_list_menu(const QPoint &)
             ask->setDefaultButton(QMessageBox::Cancel);
             ask->set_text_title(buf, _("Sell?"));
             ask->setAttribute(Qt::WA_DeleteOnClose);
-            city_id = pcity->id;
-            impr_id = improvement_number(building);
+            city_id = pcity_mid->id;
+            impr_id = improvement_number(building_outer);
             connect(ask, &hud_message_box::accepted, this, [=]() {
               struct city *pcity = game_city_by_number(city_id);
               struct impr_type *building = improvement_by_number(impr_id);
+
               if (!pcity || !building) {
                 return;
               }
@@ -684,11 +686,11 @@ void city_widget::display_list_menu(const QPoint &)
           }
           break;
         case CMA:
-          if (NULL != pcity) {
+          if (NULL != pcity_mid) {
             if (CMA_NONE == id) {
-              cma_release_city(pcity);
+              cma_release_city(pcity_mid);
             } else {
-              cma_put_city_under_agent(pcity,
+              cma_put_city_under_agent(pcity_mid,
                                        cmafec_preset_get_parameter(id));
             }
           }
@@ -696,21 +698,21 @@ void city_widget::display_list_menu(const QPoint &)
           break;
         case WORKLIST_ADD:
           if (worklist_defined) {
-            city_queue_insert_worklist(pcity, -1,
+            city_queue_insert_worklist(pcity_mid, -1,
                            global_worklist_get(global_worklist_by_id(id)));
           }
           break;
 
         case WORKLIST_CHANGE:
           if (worklist_defined) {
-            city_set_queue(pcity,
+            city_set_queue(pcity_mid,
                            global_worklist_get(global_worklist_by_id(id)));
           }
           break;
         case BUY:
-          if (NULL != pcity) {
-            if (city_can_buy(pcity)) {
-              city_buy_production(pcity);
+          if (NULL != pcity_mid) {
+            if (city_can_buy(pcity_mid)) {
+              city_buy_production(pcity_mid);
             }
           }
           break;
