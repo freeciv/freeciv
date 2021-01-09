@@ -22,7 +22,7 @@ do { 									 \
   pstr = create_utf8_from_char(pstring, 10);				 \
   pstr->style |= TTF_STYLE_BOLD;					 \
   buf = create_iconlabel(NULL, pdest, pstr, 				 \
-    	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
+             (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE)); \
   buf->action = cb;                                                  \
 } while (FALSE)
 

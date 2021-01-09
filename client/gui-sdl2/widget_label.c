@@ -521,7 +521,7 @@ int redraw_iconlabel(struct widget *label)
         } else {
           if (flags & WF_ICON_CENTER) {
             /* text is blit on icon */
-            goto Alone;
+            goto alone;
           } else { /* WF_ICON_CENTER_LEFT */
             if (label->string_utf8->style & SF_CENTER) {
               x = space + label->theme->w + adj_size(5) + ((label->size.w -
@@ -539,12 +539,13 @@ int redraw_iconlabel(struct widget *label)
         }
         /* !WF_ICON_ABOVE_TEXT && !WF_ICON_UNDER_TEXT */
       } else {
-        goto Alone;
+        goto alone;
       }
       /* label->theme == Icon */
     } else {
       y = (label->size.h - text->h) / 2;
-    Alone:
+
+    alone:
       if (label->string_utf8->style & SF_CENTER) {
         x = (label->size.w - text->w) / 2;
       } else {
