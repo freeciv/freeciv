@@ -234,14 +234,15 @@ void chat_input::send()
 /***********************************************************************//**
   Called whenever the completion word list changes.
 ***************************************************************************/
-void chat_input::chat_word_list_changed(const QStringList &word_list)
+void chat_input::chat_word_list_changed(const QStringList &cmplt_word_list)
 {
   QCompleter *cmplt = completer();
 
   if (cmplt != nullptr) {
     delete cmplt;
   }
-  cmplt = new QCompleter(word_list);
+
+  cmplt = new QCompleter(cmplt_word_list);
   cmplt->setCaseSensitivity(Qt::CaseInsensitive);
   cmplt->setCompletionMode(QCompleter::InlineCompletion);
   setCompleter(cmplt);

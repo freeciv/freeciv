@@ -62,7 +62,7 @@ public:
 
   virtual void chat_message_received(const QString &,
                                      const struct text_tag_list *);
-  virtual void chat_word_list_changed(const QStringList &);
+  virtual void chat_word_list_changed(const QStringList &cmplt_word_list);
 
   void send_chat_message(const QString &message);
 
@@ -87,7 +87,7 @@ private slots:
 public:
   explicit chat_input(QWidget *parent = nullptr);
 
-  virtual void chat_word_list_changed(const QStringList &);
+  virtual void chat_word_list_changed(const QStringList &cmplt_word_list);
 
   bool event(QEvent *event);
 };
