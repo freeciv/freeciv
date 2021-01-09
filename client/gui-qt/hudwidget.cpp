@@ -2074,19 +2074,31 @@ void hud_battle_log::moveEvent(QMoveEvent *event)
 }
 
 /****************************************************************************
+  Timer event inner foreach() loop. Implemented as separate method
+  to avoid compiler shadow warning about internal variables of
+  foreach() inside foreach().
+****************************************************************************/
+void hud_battle_log::te_inner()
+{
+  hud_unit_combat *hupdate;
+
+  foreach (hupdate, lhuc) {
+    hupdate->set_fading(1.0);
+  }
+}
+
+/****************************************************************************
   Timer event. Starts/stops fading
 ****************************************************************************/
 void hud_battle_log::timerEvent(QTimerEvent *event)
 {
   hud_unit_combat *hudc;
-  hud_unit_combat *hupdate;
+
   if (m_timer.elapsed() > 4000 && m_timer.elapsed() < 5000) {
     foreach (hudc, lhuc) {
       if (hudc->get_focus()) {
         m_timer.restart();
-        foreach (hupdate, lhuc) {
-          hupdate->set_fading(1.0);
-        }
+        te_inner();
         return;
       }
       hudc->set_fading((5000.0 - m_timer.elapsed()) / 1000);

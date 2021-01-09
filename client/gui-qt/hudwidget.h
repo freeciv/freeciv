@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -355,6 +355,8 @@ protected:
   void showEvent(QShowEvent *event);
 private:
   void update_size();
+  void te_inner();
+
   scale_widget *sw;
   move_widget *mw;
   QElapsedTimer m_timer;
