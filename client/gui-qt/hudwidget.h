@@ -357,6 +357,8 @@ protected:
   void showEvent(QShowEvent *event);
 private:
   void update_size();
+  void te_inner();
+
   scale_widget *sw;
   move_widget *mw;
   QElapsedTimer m_timer;
