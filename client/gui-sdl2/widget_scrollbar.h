@@ -70,7 +70,7 @@ do {								\
 /* VERTICAL */
 struct widget *create_vertical(SDL_Surface *vert_theme, struct gui_layer *pdest,
                                Uint16 height, Uint32 flags);
-int draw_vert(struct widget *pVert, Sint16 x, Sint16 y);
+int draw_vert(struct widget *vert, Sint16 x, Sint16 y);
 
 Uint32 create_vertical_scrollbar(struct advanced_dialog *dlg,
                                  Uint8 step, Uint8 active,
@@ -86,7 +86,7 @@ void setup_vertical_scrollbar_default_callbacks(struct scroll_bar *scroll);
 struct widget *create_horizontal(SDL_Surface *horiz_theme,
                                  struct gui_layer *pdest,
                                  Uint16 width, Uint32 flags);
-int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y);
+int draw_horiz(struct widget *horiz, Sint16 x, Sint16 y);
 
 Uint32 create_horizontal_scrollbar(struct advanced_dialog *dlg,
                                    Sint16 start_x, Sint16 start_y,

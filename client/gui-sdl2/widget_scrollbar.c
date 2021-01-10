@@ -69,14 +69,14 @@ static int (*baseclass_redraw)(struct widget *pwidget);
   Create background image for vscrollbars
   then return pointer to this image.
 
-  Graphic is taken from pVert_theme surface and blit to new created image.
+  Graphic is taken from vert_theme surface and blit to new created image.
 
   height depend of 'High' parameter.
 **************************************************************************/
-static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
+static SDL_Surface *create_vertical_surface(SDL_Surface *vert_theme,
                                             enum widget_state state, Uint16 High)
 {
-  SDL_Surface *pVerSurf = NULL;
+  SDL_Surface *versurf = NULL;
   SDL_Rect src, des;
   Uint16 i;
   Uint16 start_y;
@@ -84,11 +84,11 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
   Uint8 tile_len_end;
   Uint8 tile_len_midd;
 
-  tile_len_end = pVert_theme->h / 16;
+  tile_len_end = vert_theme->h / 16;
 
-  start_y = 0 + state * (pVert_theme->h / 4);
+  start_y = 0 + state * (vert_theme->h / 4);
 
-  tile_len_midd = pVert_theme->h / 4 - tile_len_end * 2;
+  tile_len_midd = vert_theme->h / 4 - tile_len_end * 2;
 
   tile_count_midd = (High - tile_len_end * 2) / tile_len_midd;
 
@@ -98,16 +98,16 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
   }
 
   if (!tile_count_midd) {
-    pVerSurf = create_surf(pVert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
+    versurf = create_surf(vert_theme->w, tile_len_end * 2, SDL_SWSURFACE);
   } else {
-    pVerSurf = create_surf(pVert_theme->w, High, SDL_SWSURFACE);
+    versurf = create_surf(vert_theme->w, High, SDL_SWSURFACE);
   }
 
   src.x = 0;
   src.y = start_y;
-  src.w = pVert_theme->w;
+  src.w = vert_theme->w;
   src.h = tile_len_end;
-  alphablit(pVert_theme, &src, pVerSurf, NULL, 255);
+  alphablit(vert_theme, &src, versurf, NULL, 255);
 
   src.y = start_y + tile_len_end;
   src.h = tile_len_midd;
@@ -116,38 +116,38 @@ static SDL_Surface *create_vertical_surface(SDL_Surface *pVert_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.y = tile_len_end + i * tile_len_midd;
-    alphablit(pVert_theme, &src, pVerSurf, &des, 255);
+    alphablit(vert_theme, &src, versurf, &des, 255);
   }
 
   src.y = start_y + tile_len_end + tile_len_midd;
   src.h = tile_len_end;
-  des.y = pVerSurf->h - tile_len_end;
-  alphablit(pVert_theme, &src, pVerSurf, &des, 255);
+  des.y = versurf->h - tile_len_end;
+  alphablit(vert_theme, &src, versurf, &des, 255);
 
-  return pVerSurf;
+  return versurf;
 }
 
 /**********************************************************************//**
   Blit vertical scrollbar gfx to surface its on.
 **************************************************************************/
-static int redraw_vert(struct widget *pVert)
+static int redraw_vert(struct widget *vert)
 {
   int ret;
-  SDL_Rect dest = pVert->size;
-  SDL_Surface *pVert_Surf;
+  SDL_Rect dest = vert->size;
+  SDL_Surface *vert_Surf;
 
-  ret = (*baseclass_redraw)(pVert);
+  ret = (*baseclass_redraw)(vert);
   if (ret != 0) {
     return ret;
   }
   
-  pVert_Surf = create_vertical_surface(pVert->theme,
-                                       get_wstate(pVert),
-                                       pVert->size.h);
+  vert_Surf = create_vertical_surface(vert->theme,
+                                       get_wstate(vert),
+                                       vert->size.h);
   ret =
-      blit_entire_src(pVert_Surf, pVert->dst->surface, dest.x, dest.y);
+      blit_entire_src(vert_Surf, vert->dst->surface, dest.x, dest.y);
 
-  FREESURFACE(pVert_Surf);
+  FREESURFACE(vert_Surf);
 
   return ret;
 }
@@ -186,13 +186,13 @@ struct widget *create_vertical(SDL_Surface *vert_theme, struct gui_layer *pdest,
 /**********************************************************************//**
   Draw vertical scrollbar.
 **************************************************************************/
-int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
+int draw_vert(struct widget *vert, Sint16 x, Sint16 y)
 {
-  pVert->size.x = x;
-  pVert->size.y = y;
-  pVert->gfx = crop_rect_from_surface(pVert->dst->surface, &pVert->size);
+  vert->size.x = x;
+  vert->size.y = y;
+  vert->gfx = crop_rect_from_surface(vert->dst->surface, &vert->size);
 
-  return redraw_vert(pVert);
+  return redraw_vert(vert);
 }
 
 /* =================================================== */
@@ -203,7 +203,7 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
   Create background image for hscrollbars
   then return pointer to this image.
 
-  Graphic is taken from pHoriz_theme surface and blit to new created image.
+  Graphic is taken from horiz_theme surface and blit to new created image.
 
   height depend of 'Width' parameter.
 
@@ -213,10 +213,10 @@ int draw_vert(struct widget *pVert, Sint16 x, Sint16 y)
     state = 2 - pressed
     state = 3 - disabled
 **************************************************************************/
-static SDL_Surface *create_horizontal_surface(SDL_Surface *pHoriz_theme,
-                                              Uint8 state, Uint16 Width)
+static SDL_Surface *create_horizontal_surface(SDL_Surface *horiz_theme,
+                                              Uint8 state, Uint16 width)
 {
-  SDL_Surface *pHorSurf = NULL;
+  SDL_Surface *horsurf = NULL;
   SDL_Rect src, des;
   Uint16 i;
   Uint16 start_x;
@@ -224,30 +224,30 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface *pHoriz_theme,
   Uint8 tile_len_end;
   Uint8 tile_len_midd;
 
-  tile_len_end = pHoriz_theme->w / 16;
+  tile_len_end = horiz_theme->w / 16;
 
-  start_x = 0 + state * (pHoriz_theme->w / 4);
+  start_x = 0 + state * (horiz_theme->w / 4);
 
-  tile_len_midd = pHoriz_theme->w / 4 - tile_len_end * 2;
+  tile_len_midd = horiz_theme->w / 4 - tile_len_end * 2;
 
-  tile_count_midd = (Width - tile_len_end * 2) / tile_len_midd;
+  tile_count_midd = (width - tile_len_end * 2) / tile_len_midd;
 
   /* correction */
-  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < Width) {
+  if (tile_len_midd * tile_count_midd + tile_len_end * 2 < width) {
     tile_count_midd++;
   }
 
   if (!tile_count_midd) {
-    pHorSurf = create_surf(tile_len_end * 2, pHoriz_theme->h, SDL_SWSURFACE);
+    horsurf = create_surf(tile_len_end * 2, horiz_theme->h, SDL_SWSURFACE);
   } else {
-    pHorSurf = create_surf(Width, pHoriz_theme->h, SDL_SWSURFACE);
+    horsurf = create_surf(width, horiz_theme->h, SDL_SWSURFACE);
   }
 
   src.y = 0;
   src.x = start_x;
-  src.h = pHoriz_theme->h;
+  src.h = horiz_theme->h;
   src.w = tile_len_end;
-  alphablit(pHoriz_theme, &src, pHorSurf, NULL, 255);
+  alphablit(horiz_theme, &src, horsurf, NULL, 255);
 
   src.x = start_x + tile_len_end;
   src.w = tile_len_midd;
@@ -256,37 +256,37 @@ static SDL_Surface *create_horizontal_surface(SDL_Surface *pHoriz_theme,
 
   for (i = 0; i < tile_count_midd; i++) {
     des.x = tile_len_end + i * tile_len_midd;
-    alphablit(pHoriz_theme, &src, pHorSurf, &des, 255);
+    alphablit(horiz_theme, &src, horsurf, &des, 255);
   }
 
   src.x = start_x + tile_len_end + tile_len_midd;
   src.w = tile_len_end;
-  des.x = pHorSurf->w - tile_len_end;
-  alphablit(pHoriz_theme, &src, pHorSurf, &des, 255);
+  des.x = horsurf->w - tile_len_end;
+  alphablit(horiz_theme, &src, horsurf, &des, 255);
 
-  return pHorSurf;
+  return horsurf;
 }
 
 /**********************************************************************//**
   Blit horizontal scrollbar gfx to surface its on.
 **************************************************************************/
-static int redraw_horiz(struct widget *pHoriz)
+static int redraw_horiz(struct widget *horiz)
 {
   int ret;
-  SDL_Rect dest = pHoriz->size;
-  SDL_Surface *pHoriz_Surf;
+  SDL_Rect dest = horiz->size;
+  SDL_Surface *horiz_surf;
 
-  ret = (*baseclass_redraw)(pHoriz);
+  ret = (*baseclass_redraw)(horiz);
   if (ret != 0) {
     return ret;
   }
   
-  pHoriz_Surf = create_horizontal_surface(pHoriz->theme,
-                                          get_wstate(pHoriz),
-                                          pHoriz->size.w);
-  ret = blit_entire_src(pHoriz_Surf, pHoriz->dst->surface, dest.x, dest.y);
+  horiz_surf = create_horizontal_surface(horiz->theme,
+                                         get_wstate(horiz),
+                                         horiz->size.w);
+  ret = blit_entire_src(horiz_surf, horiz->dst->surface, dest.x, dest.y);
 
-  FREESURFACE(pHoriz_Surf);
+  FREESURFACE(horiz_surf);
 
   return ret;
 }
@@ -326,13 +326,13 @@ struct widget *create_horizontal(SDL_Surface *horiz_theme,
 /**********************************************************************//**
   Draw horizontal scrollbar.
 **************************************************************************/
-int draw_horiz(struct widget *pHoriz, Sint16 x, Sint16 y)
+int draw_horiz(struct widget *horiz, Sint16 x, Sint16 y)
 {
-  pHoriz->size.x = x;
-  pHoriz->size.y = y;
-  pHoriz->gfx = crop_rect_from_surface(pHoriz->dst->surface, &pHoriz->size);
+  horiz->size.x = x;
+  horiz->size.y = y;
+  horiz->gfx = crop_rect_from_surface(horiz->dst->surface, &horiz->size);
 
-  return redraw_horiz(pHoriz);
+  return redraw_horiz(horiz);
 }
 
 /* =================================================== */
@@ -636,16 +636,16 @@ void setup_vertical_scrollbar_area(struct scroll_bar *scroll,
 /* =================================================== */
 
 /**********************************************************************//**
-  scroll pointers on list.
+  Scroll pointers on list.
   dir == directions: up == -1, down == 1.
 **************************************************************************/
-static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLIST,
+static struct widget *vertical_scroll_widget_list(struct widget *active_widget_list,
                                                   struct widget *begin_widget_list,
                                                   struct widget *end_widget_list,
                                                   int active, int step, int dir)
 {
-  struct widget *begin = pActiveWidgetLIST;
-  struct widget *buf = pActiveWidgetLIST;
+  struct widget *begin = active_widget_list;
+  struct widget *buf = active_widget_list;
   struct widget *tmp = NULL;
   int count = active; /* row */
   int count_step = step; /* col */
@@ -658,7 +658,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
       /*
        move pointers to positions and unhide scrolled widgets
        B = buf - new top
-       T = tmp - current top == pActiveWidgetLIST
+       T = tmp - current top == active_widget_list
        [B] [ ] [ ]
        -----------
        [T] [ ] [ ]
@@ -666,7 +666,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        -----------
        [ ] [ ] [ ]
     */
-      tmp = buf; /* now buf == pActiveWidgetLIST == current Top */
+      tmp = buf; /* now buf == active_widget_list == current Top */
       while (count_step > 0) {
         buf = buf->next;
         clear_wflag(buf, WF_HIDDEN);
@@ -756,7 +756,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
     /*
        find end
        B = buf
-       A - start (buf == pActiveWidgetLIST)
+       A - start (buf == active_widget_list)
        [ ] [ ] [ ]
        -----------
        [A] [ ] [ ]
@@ -774,7 +774,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
        move pointers to positions and unhide scrolled widgets
        B = buf
        T = tmp
-       A - start (pActiveWidgetLIST)
+       A - start (active_widget_list)
        [ ] [ ] [ ]
        -----------
        [A] [ ] [ ]
@@ -796,7 +796,7 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
         correct tmp and undraw empty fields
         B = buf
         T = tmp
-        A - start (pActiveWidgetLIST)
+        A - start (active_widget_list)
         [ ] [ ] [ ]
         -----------
         [A] [ ] [ ]
@@ -876,42 +876,42 @@ static struct widget *vertical_scroll_widget_list(struct widget *pActiveWidgetLI
 **************************************************************************/
 static void inside_scroll_down_loop(void *data)
 {
-  struct UP_DOWN *pDown = (struct UP_DOWN *)data;
+  struct UP_DOWN *down = (struct UP_DOWN *)data;
 
-  if (pDown->end != pDown->begin_widget_list) {
-    if (pDown->vscroll->pscroll_bar
-        && pDown->vscroll->pscroll_bar->size.y <=
-        pDown->vscroll->max - pDown->vscroll->pscroll_bar->size.h) {
+  if (down->end != down->begin_widget_list) {
+    if (down->vscroll->pscroll_bar
+        && down->vscroll->pscroll_bar->size.y <=
+        down->vscroll->max - down->vscroll->pscroll_bar->size.h) {
 
       /* draw bcgd */
-      widget_undraw(pDown->vscroll->pscroll_bar);
-      widget_mark_dirty(pDown->vscroll->pscroll_bar);
+      widget_undraw(down->vscroll->pscroll_bar);
+      widget_mark_dirty(down->vscroll->pscroll_bar);
 
-      if (pDown->vscroll->pscroll_bar->size.y + pDown->step >
-          pDown->vscroll->max - pDown->vscroll->pscroll_bar->size.h) {
-        pDown->vscroll->pscroll_bar->size.y =
-          pDown->vscroll->max - pDown->vscroll->pscroll_bar->size.h;
+      if (down->vscroll->pscroll_bar->size.y + down->step >
+          down->vscroll->max - down->vscroll->pscroll_bar->size.h) {
+        down->vscroll->pscroll_bar->size.y =
+          down->vscroll->max - down->vscroll->pscroll_bar->size.h;
       } else {
-        pDown->vscroll->pscroll_bar->size.y += pDown->step;
+        down->vscroll->pscroll_bar->size.y += down->step;
       }
     }
 
-    pDown->begin = vertical_scroll_widget_list(pDown->begin,
-                  pDown->begin_widget_list, pDown->end_widget_list,
-                  pDown->vscroll->active, pDown->vscroll->step, 1);
+    down->begin = vertical_scroll_widget_list(down->begin,
+                  down->begin_widget_list, down->end_widget_list,
+                  down->vscroll->active, down->vscroll->step, 1);
 
-    pDown->end = pDown->end->prev;
+    down->end = down->end->prev;
 
-    redraw_group(pDown->begin_widget_list, pDown->end_widget_list, TRUE);
+    redraw_group(down->begin_widget_list, down->end_widget_list, TRUE);
 
-    if (pDown->vscroll->pscroll_bar) {
+    if (down->vscroll->pscroll_bar) {
       /* redraw scrollbar */
-      if (get_wflags(pDown->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
-        refresh_widget_background(pDown->vscroll->pscroll_bar);
+      if (get_wflags(down->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(down->vscroll->pscroll_bar);
       }
-      redraw_vert(pDown->vscroll->pscroll_bar);
+      redraw_vert(down->vscroll->pscroll_bar);
 
-      widget_mark_dirty(pDown->vscroll->pscroll_bar);
+      widget_mark_dirty(down->vscroll->pscroll_bar);
     }
 
     flush_dirty();
@@ -923,37 +923,37 @@ static void inside_scroll_down_loop(void *data)
 **************************************************************************/
 static void inside_scroll_up_loop(void *data)
 {
-  struct UP_DOWN *pUp = (struct UP_DOWN *)data;
+  struct UP_DOWN *up = (struct UP_DOWN *)data;
 
-  if (pUp && pUp->begin != pUp->end_widget_list) {
+  if (up && up->begin != up->end_widget_list) {
 
-    if (pUp->vscroll->pscroll_bar
-        && (pUp->vscroll->pscroll_bar->size.y >= pUp->vscroll->min)) {
+    if (up->vscroll->pscroll_bar
+        && (up->vscroll->pscroll_bar->size.y >= up->vscroll->min)) {
 
       /* draw bcgd */
-      widget_undraw(pUp->vscroll->pscroll_bar);
-      widget_mark_dirty(pUp->vscroll->pscroll_bar);
+      widget_undraw(up->vscroll->pscroll_bar);
+      widget_mark_dirty(up->vscroll->pscroll_bar);
 
-      if (((pUp->vscroll->pscroll_bar->size.y - pUp->step) < pUp->vscroll->min)) {
-        pUp->vscroll->pscroll_bar->size.y = pUp->vscroll->min;
+      if (((up->vscroll->pscroll_bar->size.y - up->step) < up->vscroll->min)) {
+        up->vscroll->pscroll_bar->size.y = up->vscroll->min;
       } else {
-        pUp->vscroll->pscroll_bar->size.y -= pUp->step;
+        up->vscroll->pscroll_bar->size.y -= up->step;
       }
     }
 
-    pUp->begin = vertical_scroll_widget_list(pUp->begin,
-                        pUp->begin_widget_list, pUp->end_widget_list,
-                        pUp->vscroll->active, pUp->vscroll->step, -1);
+    up->begin = vertical_scroll_widget_list(up->begin,
+                        up->begin_widget_list, up->end_widget_list,
+                        up->vscroll->active, up->vscroll->step, -1);
 
-    redraw_group(pUp->begin_widget_list, pUp->end_widget_list, TRUE);
+    redraw_group(up->begin_widget_list, up->end_widget_list, TRUE);
 
-    if (pUp->vscroll->pscroll_bar) {
+    if (up->vscroll->pscroll_bar) {
       /* redraw scroolbar */
-      if (get_wflags(pUp->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
-        refresh_widget_background(pUp->vscroll->pscroll_bar);
+      if (get_wflags(up->vscroll->pscroll_bar) & WF_RESTORE_BACKGROUND) {
+        refresh_widget_background(up->vscroll->pscroll_bar);
       }
-      redraw_vert(pUp->vscroll->pscroll_bar);
-      widget_mark_dirty(pUp->vscroll->pscroll_bar);
+      redraw_vert(up->vscroll->pscroll_bar);
+      widget_mark_dirty(up->vscroll->pscroll_bar);
     }
 
     flush_dirty();
@@ -1065,7 +1065,7 @@ static struct widget *down_scroll_widget_list(struct scroll_bar *vscroll,
                                               struct widget *begin_widget_list,
                                               struct widget *end_widget_list)
 {
-  struct UP_DOWN pDown;
+  struct UP_DOWN down;
   struct widget *begin = begin_active_widget_list;
   int step = vscroll->active * vscroll->step - 1;
 
@@ -1073,17 +1073,17 @@ static struct widget *down_scroll_widget_list(struct scroll_bar *vscroll,
     begin = begin->prev;
   }
 
-  pDown.step = get_step(vscroll);
-  pDown.begin = begin_active_widget_list;
-  pDown.end = begin;
-  pDown.begin_widget_list = begin_widget_list;
-  pDown.end_widget_list = end_widget_list;
-  pDown.vscroll = vscroll;
+  down.step = get_step(vscroll);
+  down.begin = begin_active_widget_list;
+  down.end = begin;
+  down.begin_widget_list = begin_widget_list;
+  down.end_widget_list = end_widget_list;
+  down.vscroll = vscroll;
 
-  gui_event_loop((void *)&pDown, inside_scroll_down_loop, NULL, NULL, NULL,
+  gui_event_loop((void *)&down, inside_scroll_down_loop, NULL, NULL, NULL,
                  NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
-  return pDown.begin;
+  return down.begin;
 }
 
 /**********************************************************************//**
@@ -1094,18 +1094,18 @@ static struct widget *up_scroll_widget_list(struct scroll_bar *vscroll,
                                             struct widget *begin_widget_list,
                                             struct widget *end_widget_list)
 {
-  struct UP_DOWN pUp;
+  struct UP_DOWN up;
 
-  pUp.step = get_step(vscroll);
-  pUp.begin = begin_active_widget_list;
-  pUp.begin_widget_list = begin_widget_list;
-  pUp.end_widget_list = end_widget_list;
-  pUp.vscroll = vscroll;
+  up.step = get_step(vscroll);
+  up.begin = begin_active_widget_list;
+  up.begin_widget_list = begin_widget_list;
+  up.end_widget_list = end_widget_list;
+  up.vscroll = vscroll;
 
-  gui_event_loop((void *)&pUp, inside_scroll_up_loop, NULL, NULL, NULL,
+  gui_event_loop((void *)&up, inside_scroll_up_loop, NULL, NULL, NULL,
                  NULL, NULL, NULL, NULL, scroll_mouse_button_up, NULL);
 
-  return pUp.begin;
+  return up.begin;
 }
 
 /**********************************************************************//**
@@ -1159,7 +1159,7 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
                                                Sint16 start_x, Sint16 start_y)
 {
   struct widget *buf = NULL;
-  struct widget *end = NULL, *pOld_End = NULL;
+  struct widget *end = NULL, *old_end = NULL;
   int count = 0;
   bool last = FALSE, seen = TRUE;
 
@@ -1181,12 +1181,12 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
       int i = 0;
 
       /* find last active widget */
-      pOld_End = add_dock;
-      while (pOld_End != dlg->active_widget_list) {
-        pOld_End = pOld_End->next;
+      old_end = add_dock;
+      while (old_end != dlg->active_widget_list) {
+        old_end = old_end->next;
         i++;
-        if (pOld_End == dlg->end_active_widget_list) {
-          /* implies (pOld_End == dlg->active_widget_list)? */
+        if (old_end == dlg->end_active_widget_list) {
+          /* implies (old_end == dlg->active_widget_list)? */
           seen = FALSE;
           break;
         }
@@ -1198,10 +1198,10 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
           seen = FALSE;
         } else {
           while (count > 0) {
-            pOld_End = pOld_End->prev;
+            old_end = old_end->prev;
             count--;
           }
-          if (pOld_End == add_dock) {
+          if (old_end == add_dock) {
             last = TRUE;
           }
         }
@@ -1315,8 +1315,8 @@ bool add_widget_to_vertical_scroll_widget_list(struct advanced_dialog *dlg,
           }
           buf = buf->prev;
         }
-        if (pOld_End && buf->prev == pOld_End) {
-          set_wflag(pOld_End, WF_HIDDEN);
+        if (old_end && buf->prev == old_end) {
+          set_wflag(old_end, WF_HIDDEN);
         }
       } /* !last */
     } /* dlg->begin_active_widget_list */
@@ -1437,11 +1437,12 @@ bool del_widget_from_vertical_scroll_widget_list(struct advanced_dialog *dlg,
         widget_undraw(buf);
         widget_mark_dirty(buf);
         FREESURFACE(buf->gfx);
-        goto STD;
+        goto std;
       }
     } else {
       clear_wflag(buf, WF_HIDDEN);
-STD:  while (buf != pwidget) {
+
+std:  while (buf != pwidget) {
         buf->gfx = buf->next->gfx;
         buf->next->gfx = NULL;
         buf->size.x = buf->next->size.x;
