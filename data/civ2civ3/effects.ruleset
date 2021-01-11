@@ -1440,6 +1440,9 @@ reqs    =
       "Gov", "Anarchy", "Player", TRUE, TRUE
       "Building", "Pyramids", "Player", FALSE, FALSE
       "Tech", "Railroad", "Player", FALSE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
 
 [effect_gov_tile_penalty_tribal]
@@ -1450,6 +1453,9 @@ reqs    =
       "Gov", "Tribal", "Player", TRUE, TRUE
       "Building", "Pyramids", "Player", FALSE, FALSE
       "Tech", "Railroad", "Player", FALSE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
 
 [effect_gov_tile_penalty_despotism]
@@ -1460,6 +1466,9 @@ reqs    =
       "Gov", "Despotism", "Player", TRUE, TRUE
       "Building", "Pyramids", "Player", FALSE, FALSE
       "Tech", "Railroad", "Player", FALSE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
 
 [effect_gov_tile_bonus_republic]
@@ -4081,25 +4090,34 @@ reqs    =
 type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
-    { "type", "name", "range", "present"
-      "Extra", "Pollution", "Local", TRUE
-      "Extra", "Fallout", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Pollution", "Local", TRUE, FALSE
+      "Extra", "Fallout", "Local", FALSE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
 
 [effect_fallout]
 type	= "Output_Tile_Punish_Pct"
 value	= 50
 reqs	=
-    { "type", "name", "range", "present"
-      "Extra", "Fallout", "Local", TRUE
-      "Extra", "Pollution", "Local", FALSE
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Fallout", "Local", TRUE, FALSE
+      "Extra", "Pollution", "Local", FALSE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
 
 [effect_pollution_fallout]
 type	= "Output_Tile_Punish_Pct"
 value	= 75
 reqs	=
-    { "type", "name", "range"
-      "Extra", "Fallout", "Local"
-      "Extra", "Pollution", "Local"
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Fallout", "Local", TRUE, FALSE
+      "Extra", "Pollution", "Local", TRUE, FALSE
+      "OutputType", "Gold", "Local", FALSE, TRUE
+      "OutputType", "Luxury", "Local", FALSE, TRUE
+      "OutputType", "Science", "Local", FALSE, TRUE
     }
