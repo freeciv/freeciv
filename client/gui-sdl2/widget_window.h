@@ -20,7 +20,7 @@ struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
 struct widget *create_window_skeleton(struct gui_layer *pdest,
                                       utf8_str *title, Uint32 flags);
 
-int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
+int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
                   SDL_Color *pcolor, Uint16 new_w, Uint16 new_h);
 
 bool move_window(struct widget *pwindow);

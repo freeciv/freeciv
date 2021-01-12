@@ -36,7 +36,7 @@
 #include "widget.h"
 #include "widget_p.h"
 
-struct MOVE {
+struct move {
   bool moved;
   struct widget *pwindow;
   int prev_x;
@@ -90,7 +90,7 @@ static int redraw_window(struct widget *pwindow)
                 get_theme_color(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
   }
 
-  /* draw frame */
+  /* Draw frame */
   if (get_wflags(pwindow) & WF_DRAW_FRAME_AROUND_WIDGET) {
     widget_draw_frame(pwindow);
   }
@@ -242,17 +242,17 @@ struct widget *create_window(struct gui_layer *pdest, utf8_str *title,
   Resize Window 'pwindow' to 'new_w' and 'new_h'.
   and refresh window background ( save screen under window ).
 
-  If pBcgd == NULL then theme is set to
+  If bcgd == NULL then theme is set to
   white transparent ( ALPHA = 128 ).
 
-  Return 1 if allocate new surface and 0 if used 'pBcgd' surface.
+  Return 1 if allocate new surface and 0 if used 'bcgd' surface.
 
   Exp.
-  if ( resize_window( pwindow , pBcgd , new_w , new_h ) ) {
-    FREESURFACE( pBcgd );
+  if (resize_window(pwindow, bcgd, new_w, new_h)) {
+    FREESURFACE(bcgd);
   }
 **************************************************************************/
-int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
+int resize_window(struct widget *pwindow, SDL_Surface *bcgd,
                   SDL_Color *pcolor, Uint16 new_w, Uint16 new_h)
 {
   SDL_Color color;
@@ -274,16 +274,16 @@ int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
                                         SDL_SWSURFACE);
   }
 
-  if (pBcgd != pwindow->theme) {
+  if (bcgd != pwindow->theme) {
     FREESURFACE(pwindow->theme);
   }
 
-  if (pBcgd) {
-    if (pBcgd->w != new_w || pBcgd->h != new_h) {
-      pwindow->theme = resize_surface(pBcgd, new_w, new_h, 2);
+  if (bcgd) {
+    if (bcgd->w != new_w || bcgd->h != new_h) {
+      pwindow->theme = resize_surface(bcgd, new_w, new_h, 2);
       return 1;
     } else {
-      pwindow->theme = pBcgd;
+      pwindow->theme = bcgd;
       return 0;
     }
   } else {
@@ -307,25 +307,25 @@ int resize_window(struct widget *pwindow, SDL_Surface *pBcgd,
 static Uint16 move_window_motion(SDL_MouseMotionEvent *motion_event,
                                  void *data)
 {
-  struct MOVE *pMove = (struct MOVE *)data;
+  struct move *pmove = (struct move *)data;
   int xrel, yrel;
 
-  if (!pMove->moved) {
-    pMove->moved = TRUE;
+  if (!pmove->moved) {
+    pmove->moved = TRUE;
   }
 
-  widget_mark_dirty(pMove->pwindow);
+  widget_mark_dirty(pmove->pwindow);
 
-  xrel = motion_event->x - pMove->prev_x;
-  yrel = motion_event->y - pMove->prev_y;
-  pMove->prev_x = motion_event->x;
-  pMove->prev_y = motion_event->y;
+  xrel = motion_event->x - pmove->prev_x;
+  yrel = motion_event->y - pmove->prev_y;
+  pmove->prev_x = motion_event->x;
+  pmove->prev_y = motion_event->y;
 
-  widget_set_position(pMove->pwindow,
-                      (pMove->pwindow->dst->dest_rect.x + pMove->pwindow->size.x) + xrel,
-                      (pMove->pwindow->dst->dest_rect.y + pMove->pwindow->size.y) + yrel);
+  widget_set_position(pmove->pwindow,
+                      (pmove->pwindow->dst->dest_rect.x + pmove->pwindow->size.x) + xrel,
+                      (pmove->pwindow->dst->dest_rect.y + pmove->pwindow->size.y) + yrel);
 
-  widget_mark_dirty(pMove->pwindow);
+  widget_mark_dirty(pmove->pwindow);
   flush_dirty();
 
   return ID_ERROR;
@@ -337,9 +337,9 @@ static Uint16 move_window_motion(SDL_MouseMotionEvent *motion_event,
 static Uint16 move_window_button_up(SDL_MouseButtonEvent *button_event,
                                     void *data)
 {
-  struct MOVE *pMove = (struct MOVE *)data;
+  struct move *pmove = (struct move *)data;
 
-  if (pMove && pMove->moved) {
+  if (pmove && pmove->moved) {
     return (Uint16)ID_MOVED_WINDOW;
   }
 
@@ -352,15 +352,15 @@ static Uint16 move_window_button_up(SDL_MouseButtonEvent *button_event,
 bool move_window(struct widget *pwindow)
 {
   bool ret;
-  struct MOVE pMove;
+  struct move pmove;
 
-  pMove.pwindow = pwindow;
-  pMove.moved = FALSE;
-  SDL_GetMouseState(&pMove.prev_x, &pMove.prev_y);
+  pmove.pwindow = pwindow;
+  pmove.moved = FALSE;
+  SDL_GetMouseState(&pmove.prev_x, &pmove.prev_y);
   /* Filter mouse motion events */
   SDL_SetEventFilter(FilterMouseMotionEvents, NULL);
-  ret = (gui_event_loop((void *)&pMove, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-	  move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
+  ret = (gui_event_loop((void *)&pmove, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+                        move_window_button_up, move_window_motion) == ID_MOVED_WINDOW);
   /* Turn off Filter mouse motion events */
   SDL_SetEventFilter(NULL, NULL);
 
