@@ -68,8 +68,8 @@ struct wl_editor {
   struct widget *end_widget_list; /* window */
 
   struct advanced_dialog *targets;
-  struct advanced_dialog *pWork;
-  struct advanced_dialog *pGlobal;
+  struct advanced_dialog *work;
+  struct advanced_dialog *global;
 
   struct city *pcity;
   int global_worklist_id;
@@ -81,7 +81,7 @@ struct wl_editor {
   struct widget *worklist_counter;
 
   struct widget *production_name;
-  struct widget *pProduction_Progres;
+  struct widget *production_progress;
 
   int stock;
   struct universal currently_building;
@@ -161,11 +161,11 @@ static int ok_worklist_editor_callback(struct widget *pwidget)
       city_set_worklist(pcity, &editor->worklist_copy);
     } else {
       /* commit global worklist */
-      struct global_worklist *pGWL = global_worklist_by_id(editor->global_worklist_id);
+      struct global_worklist *gwl = global_worklist_by_id(editor->global_worklist_id);
 
-      if (pGWL) {
-        global_worklist_set(pGWL, &editor->worklist_copy);
-        global_worklist_set_name(pGWL, editor->worklist_name);
+      if (gwl) {
+        global_worklist_set(gwl, &editor->worklist_copy);
+        global_worklist_set_name(gwl, editor->worklist_name);
         update_worklist_report_dialog();
       }
     }
@@ -203,16 +203,16 @@ static int rename_worklist_editor_callback(struct widget *pwidget)
 /**********************************************************************//**
   Add target to worklist.
 **************************************************************************/
-static void add_target_to_worklist(struct widget *pTarget)
+static void add_target_to_worklist(struct widget *target)
 {
   struct widget *buf = NULL, *dock = NULL;
   utf8_str *pstr = NULL;
   int i;
-  struct universal prod = cid_decode(MAX_ID - pTarget->id);
+  struct universal prod = cid_decode(MAX_ID - target->id);
 
-  set_wstate(pTarget, FC_WS_SELECTED);
-  widget_redraw(pTarget);
-  widget_flush(pTarget);
+  set_wstate(target, FC_WS_SELECTED);
+  widget_redraw(target);
+  widget_flush(target);
 
   /* Deny adding currently building Impr/Wonder Target */
   if (editor->pcity
@@ -244,7 +244,7 @@ static void add_target_to_worklist(struct widget *pTarget)
   }
 
   pstr->style |= SF_CENTER;
-  buf = create_iconlabel(NULL, pTarget->dst, pstr,
+  buf = create_iconlabel(NULL, target->dst, pstr,
                           (WF_RESTORE_BACKGROUND|WF_FREE_DATA));
 
   set_wstate(buf, FC_WS_NORMAL);
@@ -255,33 +255,33 @@ static void add_target_to_worklist(struct widget *pTarget)
 
   buf->id = MAX_ID - cid_encode(prod);
 
-  if (editor->pWork->begin_active_widget_list) {
-    dock = editor->pWork->begin_active_widget_list;
+  if (editor->work->begin_active_widget_list) {
+    dock = editor->work->begin_active_widget_list;
   } else {
     dock = editor->dock;
   }
 
 /* FIXME */
 #if 0
-  if (worklist_length(&editor->worklist_copy) > editor->pWork->scroll->active + 1) {
+  if (worklist_length(&editor->worklist_copy) > editor->work->scroll->active + 1) {
 
     setup_vertical_widgets_position(1,
       editor->end_widget_list->area.x + adj_size(2),
       get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152) +
-        editor->pWork->scroll->up_left_button->size.h + 1,
-      adj_size(126), 0, editor->pWork->begin_widget_list,
-      editor->pWork->end_widget_list);
+        editor->work->scroll->up_left_button->size.h + 1,
+      adj_size(126), 0, editor->work->begin_widget_list,
+      editor->work->end_widget_list);
 
-    setup_vertical_scrollbar_area(editor->pWork->scroll,
+    setup_vertical_scrollbar_area(editor->work->scroll,
         editor->end_widget_list->area.x + adj_size(2),
         get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
         adj_size(225), FALSE);
 
-    show_scrollbar(editor->pWork->scroll);
+    show_scrollbar(editor->work->scroll);
   }
 #endif /* 0 */
 
-  add_widget_to_vertical_scroll_widget_list(editor->pWork, buf,
+  add_widget_to_vertical_scroll_widget_list(editor->work, buf,
                                             dock, FALSE,
                                             editor->end_widget_list->area.x + adj_size(2),
                                             editor->end_widget_list->area.y + adj_size(152));
@@ -289,8 +289,8 @@ static void add_target_to_worklist(struct widget *pTarget)
   buf->size.w = adj_size(126);
 
   refresh_worklist_count_label();
-  redraw_group(editor->pWork->begin_widget_list,
-               editor->pWork->end_widget_list, TRUE);
+  redraw_group(editor->work->begin_widget_list,
+               editor->work->end_widget_list, TRUE);
   flush_dirty();
 }
 
@@ -346,19 +346,19 @@ static void change_production(struct universal *prod)
   and allow more entry of such target (In Production and worklist - this is
   fixed by commit function).
 **************************************************************************/
-static void add_target_to_production(struct widget *pTarget)
+static void add_target_to_production(struct widget *target)
 {
   int dummy;
   struct universal prod;
 
-  fc_assert_ret(pTarget != NULL);
+  fc_assert_ret(target != NULL);
 
   /* redraw Target Icon */
-  set_wstate(pTarget, FC_WS_SELECTED);
-  widget_redraw(pTarget);
-  widget_flush(pTarget);
+  set_wstate(target, FC_WS_SELECTED);
+  widget_redraw(target);
+  widget_flush(target);
 
-  prod = cid_decode(MAX_ID - pTarget->id);
+  prod = cid_decode(MAX_ID - target->id);
 
   /* check if we change to the same target */
   if (are_universals_equal(&prod, &editor->currently_building)) {
@@ -370,13 +370,13 @@ static void add_target_to_production(struct widget *pTarget)
   change_production(&prod);
 
   /* change Production Text Label in Worklist Widget list */
-  copy_chars_to_utf8_str(editor->pWork->end_active_widget_list->string_utf8,
+  copy_chars_to_utf8_str(editor->work->end_active_widget_list->string_utf8,
                          get_production_name(editor->pcity, prod, &dummy));
 
-  editor->pWork->end_active_widget_list->id = MAX_ID - cid_encode(prod);
+  editor->work->end_active_widget_list->id = MAX_ID - cid_encode(prod);
 
-  widget_redraw(editor->pWork->end_active_widget_list);
-  widget_mark_dirty(editor->pWork->end_active_widget_list);
+  widget_redraw(editor->work->end_active_widget_list);
+  widget_mark_dirty(editor->work->end_active_widget_list);
 
   flush_dirty();
 }
@@ -384,18 +384,18 @@ static void add_target_to_production(struct widget *pTarget)
 /**********************************************************************//**
   Get Help Info about target
 **************************************************************************/
-static void get_target_help_data(struct widget *pTarget)
+static void get_target_help_data(struct widget *target)
 {
   struct universal prod;
 
-  fc_assert_ret(pTarget != NULL);
+  fc_assert_ret(target != NULL);
 
   /* redraw Target Icon */
-  set_wstate(pTarget, FC_WS_SELECTED);
-  widget_redraw(pTarget);
-  /*widget_flush(pTarget);*/
+  set_wstate(target, FC_WS_SELECTED);
+  widget_redraw(target);
+  /*widget_flush(target);*/
 
-  prod = cid_decode(MAX_ID - pTarget->id);
+  prod = cid_decode(MAX_ID - target->id);
 
   if (VUT_UTYPE == prod.kind) {
     popup_unit_info(utype_number(prod.value.utype));
@@ -461,57 +461,57 @@ static void remove_item_from_worklist(struct widget *item)
     /* correct "data" widget fiels */
     struct widget *buf = item;
 
-    if (buf != editor->pWork->begin_active_widget_list) {
+    if (buf != editor->work->begin_active_widget_list) {
       do {
         buf = buf->prev;
         *((int *)buf->data.ptr) = *((int *)buf->data.ptr) - 1;
-      } while (buf != editor->pWork->begin_active_widget_list);
+      } while (buf != editor->work->begin_active_widget_list);
     }
 
     /* remove element from worklist */
     worklist_remove(&editor->worklist_copy, *((int *)item->data.ptr));
 
     /* remove widget from widget list */
-    del_widget_from_vertical_scroll_widget_list(editor->pWork, item);
+    del_widget_from_vertical_scroll_widget_list(editor->work, item);
   } else {
     /* change productions to first worklist element */
     struct widget *buf = item->prev;
 
     change_production(&editor->worklist_copy.entries[0]);
     worklist_advance(&editor->worklist_copy);
-    del_widget_from_vertical_scroll_widget_list(editor->pWork, item);
+    del_widget_from_vertical_scroll_widget_list(editor->work, item);
     FC_FREE(buf->data.ptr);
-    if (buf != editor->pWork->begin_active_widget_list) {
+    if (buf != editor->work->begin_active_widget_list) {
       do {
         buf = buf->prev;
         *((int *)buf->data.ptr) = *((int *)buf->data.ptr) - 1;
-      } while (buf != editor->pWork->begin_active_widget_list);
+      } while (buf != editor->work->begin_active_widget_list);
     }
   }
 
 /* FIXME: fix scrollbar code */
 #if 0
   /* worklist_length(&editor->worklist_copy): without production */
-  if (worklist_length(&editor->worklist_copy) <= editor->pWork->scroll->active + 1) {
+  if (worklist_length(&editor->worklist_copy) <= editor->work->scroll->active + 1) {
 
     setup_vertical_widgets_position(1,
       editor->end_widget_list->area.x + adj_size(2),
       get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
-	adj_size(126), 0, editor->pWork->begin_widget_list,
-      editor->pWork->end_widget_list);
+        adj_size(126), 0, editor->work->begin_widget_list,
+      editor->work->end_widget_list);
 #if 0
-    setup_vertical_scrollbar_area(editor->pWork->scroll,
-	editor->end_widget_list->area.x + adj_size(2),
+    setup_vertical_scrollbar_area(editor->work->scroll,
+        editor->end_widget_list->area.x + adj_size(2),
         get_widget_pointer_from_main_list(ID_WINDOW)->area.y + adj_size(152),
-    	adj_size(225), FALSE);*/
+        adj_size(225), FALSE);*/
 #endif /* 0 */
-    hide_scrollbar(editor->pWork->scroll);
+    hide_scrollbar(editor->work->scroll);
   }
 #endif /* 0 */
 
   refresh_worklist_count_label();
-  redraw_group(editor->pWork->begin_widget_list,
-               editor->pWork->end_widget_list, TRUE);
+  redraw_group(editor->work->begin_widget_list,
+               editor->work->end_widget_list, TRUE);
   flush_dirty();
 }
 
@@ -533,7 +533,7 @@ static void swap_item_down_from_worklist(struct widget *item)
   bool changed = FALSE;
   struct universal tmp;
 
-  if (item == editor->pWork->begin_active_widget_list) {
+  if (item == editor->work->begin_active_widget_list) {
     remove_item_from_worklist(item);
     return;
   }
@@ -565,8 +565,8 @@ static void swap_item_down_from_worklist(struct widget *item)
     item->prev->string_utf8->text = text;
     item->prev->id = id;
 
-    redraw_group(editor->pWork->begin_widget_list,
-                 editor->pWork->end_widget_list, TRUE);
+    redraw_group(editor->work->begin_widget_list,
+                 editor->work->end_widget_list, TRUE);
     flush_dirty();
   }
 }
@@ -591,8 +591,9 @@ static void swap_item_up_from_worklist(struct widget *item)
   struct universal tmp;
 
   /* first item was clicked -> remove */
-  if (item == editor->pWork->end_active_widget_list) {
+  if (item == editor->work->end_active_widget_list) {
     remove_item_from_worklist(item);
+
     return;
   }
 
@@ -622,8 +623,8 @@ static void swap_item_up_from_worklist(struct widget *item)
     item->next->string_utf8->text = text;
     item->next->id = id;
 
-    redraw_group(editor->pWork->begin_widget_list,
-                 editor->pWork->end_widget_list, TRUE);
+    redraw_group(editor->work->begin_widget_list,
+                 editor->work->end_widget_list, TRUE);
     flush_dirty();
   }
 }
@@ -667,13 +668,13 @@ static int worklist_editor_item_callback(struct widget *pwidget)
 **************************************************************************/
 static void add_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
-  struct widget *buf = editor->pWork->end_active_widget_list;
+  struct global_worklist *gwl = global_worklist_by_id(MAX_ID - pwidget->id);
+  struct widget *buf = editor->work->end_active_widget_list;
   const struct worklist *pworklist;
   int count, firstfree;
 
-  if (!pGWL
-      || !(pworklist = global_worklist_get(pGWL))
+  if (!gwl
+      || !(pworklist = global_worklist_get(gwl))
       || worklist_is_empty(pworklist)) {
     return;
   }
@@ -719,8 +720,8 @@ static void add_global_worklist(struct widget *pwidget)
     buf->data.ptr = fc_calloc(1, sizeof(int));
     *((int *)buf->data.ptr) = firstfree;
 
-    add_widget_to_vertical_scroll_widget_list(editor->pWork,
-                                              buf, editor->pWork->begin_active_widget_list,
+    add_widget_to_vertical_scroll_widget_list(editor->work,
+                                              buf, editor->work->begin_active_widget_list,
                                               FALSE,
                                               editor->end_widget_list->area.x + adj_size(2),
                                               editor->end_widget_list->area.y + adj_size(152));
@@ -732,8 +733,8 @@ static void add_global_worklist(struct widget *pwidget)
   }
 
   refresh_worklist_count_label();
-  redraw_group(editor->pWork->begin_widget_list,
-               editor->pWork->end_widget_list, TRUE);
+  redraw_group(editor->work->begin_widget_list,
+               editor->work->end_widget_list, TRUE);
 
   flush_dirty();
 }
@@ -745,15 +746,15 @@ static void add_global_worklist(struct widget *pwidget)
 **************************************************************************/
 static void set_global_worklist(struct widget *pwidget)
 {
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pwidget->id);
-  struct widget *buf = editor->pWork->end_active_widget_list;
+  struct global_worklist *gwl = global_worklist_by_id(MAX_ID - pwidget->id);
+  struct widget *buf = editor->work->end_active_widget_list;
   const struct worklist *pworklist;
   struct worklist wl;
   int count, wl_count;
   struct universal target;
 
-  if (!pGWL
-      || !(pworklist = global_worklist_get(pGWL))
+  if (!gwl
+      || !(pworklist = global_worklist_get(gwl))
       || worklist_is_empty(pworklist)) {
     return;
   }
@@ -777,15 +778,15 @@ static void set_global_worklist(struct widget *pwidget)
 
   if (!worklist_is_empty(&wl)) {
     /* free old widget list */
-    if (buf != editor->pWork->begin_active_widget_list) {
+    if (buf != editor->work->begin_active_widget_list) {
       buf = buf->prev;
-      if (buf != editor->pWork->begin_active_widget_list) {
+      if (buf != editor->work->begin_active_widget_list) {
         do {
           buf = buf->prev;
-          del_widget_from_vertical_scroll_widget_list(editor->pWork, buf->next);
-        } while (buf != editor->pWork->begin_active_widget_list);
+          del_widget_from_vertical_scroll_widget_list(editor->work, buf->next);
+        } while (buf != editor->work->begin_active_widget_list);
       }
-      del_widget_from_vertical_scroll_widget_list(editor->pWork, buf);
+      del_widget_from_vertical_scroll_widget_list(editor->work, buf);
     }
     /* --------------------------------- */
 
@@ -820,15 +821,15 @@ static void set_global_worklist(struct widget *pwidget)
       buf->data.ptr = fc_calloc(1, sizeof(int));
       *((int *)buf->data.ptr) = count;
 
-      add_widget_to_vertical_scroll_widget_list(editor->pWork,
-        buf, editor->pWork->begin_active_widget_list, FALSE,
+      add_widget_to_vertical_scroll_widget_list(editor->work,
+        buf, editor->work->begin_active_widget_list, FALSE,
         editor->end_widget_list->area.x + adj_size(2),
         editor->end_widget_list->area.y + adj_size(152));
     }
 
     refresh_worklist_count_label();
-    redraw_group(editor->pWork->begin_widget_list,
-                 editor->pWork->end_widget_list, TRUE);
+    redraw_group(editor->work->begin_widget_list,
+                 editor->work->end_widget_list, TRUE);
 
     flush_dirty();
   }
@@ -936,7 +937,8 @@ static void refresh_production_label(int stock)
   int cost, turns;
   char cbuf[64];
   SDL_Rect area;
-  bool gold_prod = improvement_has_flag(editor->currently_building.value.building, IF_GOLD);
+  bool gold_prod = improvement_has_flag(editor->currently_building.value.building,
+                                        IF_GOLD);
   const char *name = get_production_name(editor->pcity,
                                          editor->currently_building, &cost);
 
@@ -983,8 +985,8 @@ static void refresh_production_label(int stock)
   widget_redraw(editor->production_name);
   dirty_sdl_rect(&area);
 
-  FREESURFACE(editor->pProduction_Progres->theme);
-  editor->pProduction_Progres->theme =
+  FREESURFACE(editor->production_progress->theme);
+  editor->production_progress->theme =
     get_progress_icon(stock, cost, &cost);
 
   if (!gold_prod) {
@@ -992,9 +994,9 @@ static void refresh_production_label(int stock)
   } else {
     fc_snprintf(cbuf, sizeof(cbuf), "-");
   }
-  copy_chars_to_utf8_str(editor->pProduction_Progres->string_utf8, cbuf);
-  widget_redraw(editor->pProduction_Progres);
-  widget_mark_dirty(editor->pProduction_Progres);
+  copy_chars_to_utf8_str(editor->production_progress->string_utf8, cbuf);
+  widget_redraw(editor->production_progress);
+  widget_mark_dirty(editor->production_progress);
 }
 
 /**********************************************************************//**
@@ -1040,8 +1042,8 @@ static void refresh_worklist_count_label(void)
 
 /**********************************************************************//**
   Global/City worklist editor.
-  if pcity == NULL then function takes pWorklist as global worklist.
-  pWorklist must be not NULL.
+  if pcity == NULL then function takes worklist as global worklist.
+  worklist must be not NULL.
 **************************************************************************/
 void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 {
@@ -1183,16 +1185,16 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     pstr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
     buf = create_iconlabel(icon, pwindow->dst, pstr,
-                            (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
+                           (WF_RESTORE_BACKGROUND|WF_ICON_CENTER|WF_FREE_THEME));
 
     icon = NULL;
     turns = 0;
-    editor->pProduction_Progres = buf;
+    editor->production_progress = buf;
     add_to_gui_list(ID_LABEL, buf);
   } else {
     buf = create_edit_from_chars(NULL, pwindow->dst,
-                                  global_worklist_name(gwl), adj_font(10),
-                                  adj_size(120), WF_RESTORE_BACKGROUND);
+                                 global_worklist_name(gwl), adj_font(10),
+                                 adj_size(120), WF_RESTORE_BACKGROUND);
     buf->action = rename_worklist_editor_callback;
     set_wstate(buf, FC_WS_NORMAL);
 
@@ -1229,17 +1231,17 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
      will have this field NULL
   */
 
-  editor->pWork = fc_calloc(1, sizeof(struct advanced_dialog));
+  editor->work = fc_calloc(1, sizeof(struct advanced_dialog));
 
-  editor->pWork->scroll = fc_calloc(1, sizeof(struct scroll_bar));
-  editor->pWork->scroll->count = 0;
-  editor->pWork->scroll->active = MAX_LEN_WORKLIST;
-  editor->pWork->scroll->step = 1;
+  editor->work->scroll = fc_calloc(1, sizeof(struct scroll_bar));
+  editor->work->scroll->count = 0;
+  editor->work->scroll->active = MAX_LEN_WORKLIST;
+  editor->work->scroll->step = 1;
 
 /* FIXME: this should replace the 4 lines above, but
- *        editor->pWork->end_widget_list is not set yet */
+ *        editor->work->end_widget_list is not set yet */
 #if 0
-  create_vertical_scrollbar(editor->pWork, 1, MAX_LEN_WORKLIST, TRUE, TRUE);
+  create_vertical_scrollbar(editor->work, 1, MAX_LEN_WORKLIST, TRUE, TRUE);
 #endif /* 0 */
 
   if (pcity) {
@@ -1254,11 +1256,11 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     add_to_gui_list(MAX_ID - cid_encode(pcity->production), buf);
 
-    editor->pWork->end_widget_list = buf;
-    editor->pWork->begin_widget_list = buf;
-    editor->pWork->end_active_widget_list = editor->pWork->end_widget_list;
-    editor->pWork->begin_active_widget_list = editor->pWork->begin_widget_list;
-    editor->pWork->scroll->count++;
+    editor->work->end_widget_list = buf;
+    editor->work->begin_widget_list = buf;
+    editor->work->end_active_widget_list = editor->work->end_widget_list;
+    editor->work->begin_active_widget_list = editor->work->begin_widget_list;
+    editor->work->scroll->count++;
   }
 
   last = buf;
@@ -1291,7 +1293,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     count++;
 
-    if (count > editor->pWork->scroll->active - 1) {
+    if (count > editor->work->scroll->active - 1) {
       set_wflag(buf, WF_HIDDEN);
     }
 
@@ -1299,28 +1301,28 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
   if (count) {
     if (!pcity) {
-      editor->pWork->end_widget_list = last->prev;
-      editor->pWork->end_active_widget_list = editor->pWork->end_widget_list;
+      editor->work->end_widget_list = last->prev;
+      editor->work->end_active_widget_list = editor->work->end_widget_list;
     }
-    editor->pWork->begin_widget_list = buf;
-    editor->pWork->begin_active_widget_list = editor->pWork->begin_widget_list;
+    editor->work->begin_widget_list = buf;
+    editor->work->begin_active_widget_list = editor->work->begin_widget_list;
   } else {
     if (!pcity) {
-      editor->pWork->end_widget_list = last;
+      editor->work->end_widget_list = last;
     }
-    editor->pWork->begin_widget_list = last;
+    editor->work->begin_widget_list = last;
   }
 
 /* FIXME */
 #if 0
-  editor->pWork->active_widget_list = editor->pWork->end_active_widget_list;
-  create_vertical_scrollbar(editor->pWork, 1,
-                            editor->pWork->scroll->active, FALSE, TRUE);
-  editor->pWork->scroll->up_left_button->size.w = adj_size(122);
-  editor->pWork->scroll->down_right_button->size.w = adj_size(122);
+  editor->work->active_widget_list = editor->work->end_active_widget_list;
+  create_vertical_scrollbar(editor->work, 1,
+                            editor->work->scroll->active, FALSE, TRUE);
+  editor->work->scroll->up_left_button->size.w = adj_size(122);
+  editor->work->scroll->down_right_button->size.w = adj_size(122);
 
   /* count: without production */
-  if (count <= editor->pWork->scroll->active + 1) {
+  if (count <= editor->work->scroll->active + 1) {
     if (count > 0) {
       struct widget *tmp = last;
 
@@ -1329,12 +1331,12 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         clear_wflag(tmp, WF_HIDDEN);
       } while (tmp != buf);
     }
-    hide_scrollbar(editor->pWork->scroll);
+    hide_scrollbar(editor->work->scroll);
   }
 #endif /* 0 */
 
-  editor->pWork->scroll->count += count;
-  last = editor->pWork->begin_widget_list;
+  editor->work->scroll->count += count;
+  last = editor->work->begin_widget_list;
 
   /* --------------------------- */
   /* global worklists */
@@ -1343,9 +1345,9 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     global_worklists_iterate(iter_gwl) {
       buf = create_iconlabel_from_chars(NULL, pwindow->dst,
-                                         global_worklist_name(iter_gwl),
-                                         adj_font(10),
-                                         WF_RESTORE_BACKGROUND);
+                                        global_worklist_name(iter_gwl),
+                                        adj_font(10),
+                                        WF_RESTORE_BACKGROUND);
       set_wstate(buf, FC_WS_NORMAL);
       add_to_gui_list(MAX_ID - global_worklist_id(iter_gwl), buf);
       buf->string_utf8->style |= SF_CENTER;
@@ -1360,18 +1362,18 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     } global_worklists_iterate_end;
 
     if (count) {
-      editor->pGlobal = fc_calloc(1, sizeof(struct advanced_dialog));
-      editor->pGlobal->end_widget_list = last->prev;
-      editor->pGlobal->end_active_widget_list = editor->pGlobal->end_widget_list;
-      editor->pGlobal->begin_widget_list = buf;
-      editor->pGlobal->begin_active_widget_list = editor->pGlobal->begin_widget_list;
+      editor->global = fc_calloc(1, sizeof(struct advanced_dialog));
+      editor->global->end_widget_list = last->prev;
+      editor->global->end_active_widget_list = editor->global->end_widget_list;
+      editor->global->begin_widget_list = buf;
+      editor->global->begin_active_widget_list = editor->global->begin_widget_list;
 
       if (count > 6) {
-        editor->pGlobal->active_widget_list = editor->pGlobal->end_active_widget_list;
+        editor->global->active_widget_list = editor->global->end_active_widget_list;
 
-        create_vertical_scrollbar(editor->pGlobal, 1, 4, FALSE, TRUE);
-        editor->pGlobal->scroll->up_left_button->size.w = adj_size(122);
-        editor->pGlobal->scroll->down_right_button->size.w = adj_size(122);
+        create_vertical_scrollbar(editor->global, 1, 4, FALSE, TRUE);
+        editor->global->scroll->up_left_button->size.w = adj_size(122);
+        editor->global->scroll->down_right_button->size.w = adj_size(122);
       } else {
         struct widget *tmp = last;
 
@@ -1381,7 +1383,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
         } while (tmp != buf);
       }
 
-      last = editor->pGlobal->begin_widget_list;
+      last = editor->global->begin_widget_list;
     }
   }
   /* ----------------------------- */
@@ -1507,7 +1509,8 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       /*-----------------*/
 
       zoomed = get_building_surface(pimprove);
-      zoomed = zoomSurface(zoomed, DEFAULT_ZOOM * ((float)54 / zoomed->w), DEFAULT_ZOOM * ((float)54 / zoomed->w), 1);
+      zoomed = zoomSurface(zoomed, DEFAULT_ZOOM * ((float)54 / zoomed->w),
+                           DEFAULT_ZOOM * ((float)54 / zoomed->w), 1);
       dst.x = (icon->w - zoomed->w) / 2;
       dst.y = (icon->h/2 - zoomed->h) / 2;
       alphablit(zoomed, NULL, icon, &dst, 255);
@@ -1526,7 +1529,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       FREESURFACE(text_name);
 
       buf = create_icon2(icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND|WF_FREE_THEME);
+                         WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(buf, FC_WS_NORMAL);
 
       widget_w = MAX(widget_w, buf->size.w);
@@ -1629,7 +1632,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       FREESURFACE(text_name);
 
       buf = create_icon2(icon, pwindow->dst,
-                          WF_RESTORE_BACKGROUND|WF_FREE_THEME);
+                         WF_RESTORE_BACKGROUND|WF_FREE_THEME);
       set_wstate(buf, FC_WS_NORMAL);
 
       widget_w = MAX(widget_w, buf->size.w);
@@ -1686,7 +1689,8 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   dst.h = adj_size(145);
 
   SDL_FillRect(pwindow->theme, &dst,
-               map_rgba(pwindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+               map_rgba(pwindow->theme->format,
+                        *get_theme_color(COLOR_THEME_BACKGROUND)));
 
   create_frame(pwindow->theme,
                dst.x, dst.y, dst.w - 1, dst.h - 1,
@@ -1705,14 +1709,15 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                dst.x, dst.y, dst.w - 1, dst.h - 1,
                get_theme_color(COLOR_THEME_WLDLG_FRAME));
 
-  if (editor->pGlobal) {
+  if (editor->global) {
     dst.x = area.x;
     dst.y += dst.h + adj_size(2);
     dst.w = adj_size(130);
     dst.h = pwindow->size.h - dst.y - adj_size(4);
 
     SDL_FillRect(pwindow->theme, &dst,
-                 map_rgba(pwindow->theme->format, *get_theme_color(COLOR_THEME_BACKGROUND)));
+                 map_rgba(pwindow->theme->format,
+                          *get_theme_color(COLOR_THEME_BACKGROUND)));
 
     create_frame(pwindow->theme,
                  dst.x, dst.y, dst.w - 1, dst.h - 1,
@@ -1764,34 +1769,34 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
   buf->size.y = area.y + adj_size(135) - buf->size.h;
 
   /* worklist */
-  /* editor->pWork->scroll->count: including production */
+  /* editor->work->scroll->count: including production */
   if (len > 0) {
     /* FIXME */
     setup_vertical_widgets_position(1,
                                     area.x + adj_size(2), area.y + adj_size(152)
-          /* + ((editor->pWork->scroll->count > editor->pWork->scroll->active + 2) ?
-             editor->pWork->scroll->up_left_button->size.h + 1 : 0)*/,
-                                    adj_size(126), 0, editor->pWork->begin_widget_list,
-                                    editor->pWork->end_widget_list);
+          /* + ((editor->work->scroll->count > editor->work->scroll->active + 2) ?
+             editor->work->scroll->up_left_button->size.h + 1 : 0)*/,
+                                    adj_size(126), 0, editor->work->begin_widget_list,
+                                    editor->work->end_widget_list);
 
-    setup_vertical_scrollbar_area(editor->pWork->scroll,
-	area.x + adj_size(2),
-    	area.y + adj_size(152),
-    	adj_size(225), FALSE);
+    setup_vertical_scrollbar_area(editor->work->scroll,
+                                  area.x + adj_size(2),
+                                  area.y + adj_size(152),
+                                  adj_size(225), FALSE);
   }
 
   /* global worklists */
-  if (editor->pGlobal) {
+  if (editor->global) {
     setup_vertical_widgets_position(1,
                                     area.x + adj_size(4),
                                     area.y + adj_size(384) +
-                                    (editor->pGlobal->scroll ?
-                                     editor->pGlobal->scroll->up_left_button->size.h + 1 : 0),
-                                    adj_size(122), 0, editor->pGlobal->begin_widget_list,
-                                    editor->pGlobal->end_widget_list);
+                                    (editor->global->scroll ?
+                                     editor->global->scroll->up_left_button->size.h + 1 : 0),
+                                    adj_size(122), 0, editor->global->begin_widget_list,
+                                    editor->global->end_widget_list);
 
-    if (editor->pGlobal->scroll) {
-      setup_vertical_scrollbar_area(editor->pGlobal->scroll,
+    if (editor->global->scroll) {
+      setup_vertical_scrollbar_area(editor->global->scroll,
                                     area.x + adj_size(4),
                                     area.y + adj_size(384),
                                     adj_size(93), FALSE);
@@ -1832,12 +1837,12 @@ void popdown_worklist_editor(void)
     FC_FREE(editor->targets->scroll);
     FC_FREE(editor->targets);
 
-    FC_FREE(editor->pWork->scroll);
-    FC_FREE(editor->pWork);
+    FC_FREE(editor->work->scroll);
+    FC_FREE(editor->work);
 
-    if (editor->pGlobal) {
-      FC_FREE(editor->pGlobal->scroll);
-      FC_FREE(editor->pGlobal);
+    if (editor->global) {
+      FC_FREE(editor->global->scroll);
+      FC_FREE(editor->global);
     }
 
     if (city_dialog_is_open(editor->pcity)) {
