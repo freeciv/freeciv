@@ -316,7 +316,6 @@ void tilespec_setup_theme(void)
   load_theme_surface(buf, save_icon, "theme.SAVE_button");
   load_theme_surface(buf, load_icon, "theme.LOAD_button");
   load_theme_surface(buf, delete_icon, "theme.DELETE_button");
-  load_theme_surface(buf, borders_icon, "theme.BORDERS_button");
   /* ------------------------------ */
   load_theme_surface(buf, tech_tree_icon, "theme.tech_tree");
   /* ------------------------------ */

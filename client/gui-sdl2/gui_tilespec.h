@@ -87,7 +87,6 @@ struct theme_icons {
   SDL_Surface *save_icon;
   SDL_Surface *load_icon;
   SDL_Surface *delete_icon;
-  SDL_Surface *borders_icon;
 
   /* help icons */
   SDL_Surface *tech_tree_icon;
