@@ -1236,10 +1236,10 @@ void races_toggles_set_sensitive(void)
 /***********************************************************************//**
   Popup a dialog asking if the player wants to start a revolution.
 ***************************************************************************/
-void popup_revolution_dialog(struct government *government)
+void popup_revolution_dialog(struct government *gov)
 {
   hud_message_box *ask;
-  const Government_type_id government_id = government_number(government);
+  const Government_type_id government_id = government_number(gov);
 
   if (0 > client.conn.playing->revolution_finishes) {
     ask = new hud_message_box(gui()->central_wdg);
@@ -1250,13 +1250,14 @@ void popup_revolution_dialog(struct government *government)
     ask->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(ask, &hud_message_box::accepted, [=]() {
       struct government *government = government_by_number(government_id);
+
       if (government) {
         revolution_response(government);
       }
     });
     ask->show();
   } else {
-    revolution_response(government);
+    revolution_response(gov);
   }
 }
 
@@ -1822,12 +1823,12 @@ static void keep_moving(QVariant data1, QVariant data2)
 /***********************************************************************//**
   Starts revolution with targeted government as target or anarchy otherwise
 ***************************************************************************/
-void revolution_response(struct government *government)
+void revolution_response(struct government *gov)
 {
-  if (!government) {
+  if (!gov) {
     start_revolution();
   } else {
-    set_government_choice(government);
+    set_government_choice(gov);
   }
 }
 
@@ -3283,7 +3284,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
   char buf2[1024];
   int diplomat_id = actor->id;
   int diplomat_target_id = tcity->id;
-  const int action_id = paction->id;
+  const int act_id = paction->id;
 
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
@@ -3313,7 +3314,7 @@ void popup_incite_dialog(struct unit *actor, struct city *tcity, int cost,
     ask->set_text_title(buf2, _("Incite a Revolt!"));
     ask->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(ask, &hud_message_box::accepted, [=]() {
-      request_do_action(action_id, diplomat_id, diplomat_target_id, 0, "");
+      request_do_action(act_id, diplomat_id, diplomat_target_id, 0, "");
       diplomat_queue_handle_secondary(diplomat_id);
     });
     ask->show();
@@ -3346,7 +3347,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
   char buf2[1024];
   int diplomat_id = actor->id;
   int diplomat_target_id = tunit->id;
-  const int action_id = paction->id;
+  const int act_id = paction->id;
 
   /* Should be set before sending request to the server. */
   fc_assert(is_more_user_input_needed);
@@ -3365,7 +3366,7 @@ void popup_bribe_dialog(struct unit *actor, struct unit *tunit, int cost,
     ask->setDefaultButton(QMessageBox::Cancel);
     ask->setAttribute(Qt::WA_DeleteOnClose);
     QObject::connect(ask, &hud_message_box::accepted, [=]() {
-      request_do_action(action_id, diplomat_id, diplomat_target_id, 0, "");
+      request_do_action(act_id, diplomat_id, diplomat_target_id, 0, "");
       diplomat_queue_handle_secondary(diplomat_id);
     });
     ask->show();

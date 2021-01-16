@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -290,8 +290,8 @@ private slots:
   void next_unit();
 };
 
-void popup_revolution_dialog(struct government *government = NULL);
-void revolution_response(struct government *government);
+void popup_revolution_dialog(struct government *gov = NULL);
+void revolution_response(struct government *gov);
 void popup_upgrade_dialog(struct unit_list *punits);
 void popup_disband_dialog(struct unit_list *punits);
 bool try_default_unit_action(QVariant q1, QVariant q2);
