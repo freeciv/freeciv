@@ -22,7 +22,6 @@
  * it can install SDL's own. */
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
-#include <SDL_mixer.h>
 #else  /* PLAIN_INCLUDE */
 #include <SDL2/SDL.h>
 #endif /* PLAIN_INCLUDE */
