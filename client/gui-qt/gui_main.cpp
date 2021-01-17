@@ -22,7 +22,6 @@
  * it can install SDL's own. */
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
-#include <SDL_mixer.h>
 #elif AUDIO_SDL1_2
 /* SDL */
 #include <SDL/SDL.h>
