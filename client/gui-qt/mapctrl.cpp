@@ -210,15 +210,15 @@ void map_view::shortcut_pressed(int key)
   fc_shortcut *sc_sec;
   Qt::KeyboardModifiers md;
   production_widget *pw;
-  struct tile *ptile = nullptr;
+  struct tile *ctile = nullptr;
   struct city *pcity = nullptr;
 
   md = QApplication::keyboardModifiers();
   bt = QApplication::mouseButtons();
   pos = mapFromGlobal(QCursor::pos());
 
-  ptile = canvas_pos_to_tile(pos.x(), pos.y());
-  pcity = ptile ? tile_city(ptile) : nullptr;
+  ctile = canvas_pos_to_tile(pos.x(), pos.y());
+  pcity = ctile ? tile_city(ctile) : nullptr;
 
   if (pcity && pcity->owner != client_player()) {
     pcity = nullptr;
@@ -228,9 +228,10 @@ void map_view::shortcut_pressed(int key)
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc->mouse && md == sc->mod
       && gui()->trade_gen.hover_city) {
-    ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    gui()->trade_gen.add_tile(ptile);
+    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    gui()->trade_gen.add_tile(ctile);
     gui()->mapview_wdg->repaint();
+
     return;
   }
 
@@ -238,27 +239,31 @@ void map_view::shortcut_pressed(int key)
   if (bt == sc->mouse && md == sc->mod
       && gui()->rallies.hover_city) {
     char text[1024];
+    struct city *rcity;
 
-    ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    if (tile_city(ptile)) {
+    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    rcity = tile_city(ctile);
+    if (rcity != nullptr) {
       gui()->rallies.hover_tile = true;
-      gui()->rallies.rally_city = tile_city(ptile)->id;
+      gui()->rallies.rally_city = rcity->id;
 
-      if (gui()->rallies.clear(tile_city(ptile))) {
+      if (gui()->rallies.clear(rcity)) {
         fc_snprintf(text, sizeof(text),
                     _("Rally point cleared for city %s"),
-                    city_link(tile_city(ptile)));
+                    city_link(rcity));
         output_window_append(ftc_client, text);
         gui()->rallies.hover_tile = false;
+
         return;
       }
       fc_snprintf(text, sizeof(text),
                   _("Selected city %s. Now choose rally point."),
-                  city_link(tile_city(ptile)));
+                  city_link(rcity));
       output_window_append(ftc_client, text);
     } else {
       output_window_append(ftc_client, _("No city selected. Aborted"));
     }
+
     return;
   }
 
@@ -267,11 +272,12 @@ void map_view::shortcut_pressed(int key)
     char text[1024];
     int city_id = gui()->rallies.rally_city;
     struct tile *ptile;
-    struct city *pcity = game_city_by_number(city_id);
+    struct city *rcity = game_city_by_number(city_id);
 
-    if (pcity == nullptr) {
+    if (rcity == nullptr) {
       output_window_append(ftc_client, _("This city doesn't exist!"));
       gui()->rallies.hover_tile = false;
+
       return;
     }
 
@@ -279,6 +285,7 @@ void map_view::shortcut_pressed(int key)
     if (ptile == nullptr) {
       output_window_append(ftc_client, _("There is no tile here!"));
       gui()->rallies.hover_tile = false;
+
       return;
     }
 
@@ -287,32 +294,38 @@ void map_view::shortcut_pressed(int key)
     rally->tile_index = ptile->index;
     fc_snprintf(text, sizeof(text),
                 _("Tile %s set as rally point from city %s."),
-                tile_link(ptile), city_link(pcity));
+                tile_link(ptile), city_link(rcity));
     gui()->rallies.hover_tile = false;
     gui()->rallies.add(rally);
     output_window_append(ftc_client, text);
+
     return;
   }
 
   if (bt == Qt::LeftButton && gui()->menu_bar->delayed_order) {
-    ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    gui()->menu_bar->set_tile_for_order(ptile);
+    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    gui()->menu_bar->set_tile_for_order(ctile);
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, NULL, ORDER_LAST);
     exit_goto_state();
     gui()->menu_bar->delayed_order = false;
+
     return;
   }
   if (bt == Qt::LeftButton  && gui()->infotab->chat_maximized) {
     gui()->infotab->restore_chat();
   }
   if (bt  == Qt::LeftButton && gui()->menu_bar->quick_airlifting) {
-    ptile = canvas_pos_to_tile(pos.x(), pos.y());
-    if (tile_city(ptile)) {
-      multiairlift(tile_city(ptile), gui()->menu_bar->airlift_type_id);
+    struct city *acity;
+
+    ctile = canvas_pos_to_tile(pos.x(), pos.y());
+    acity = tile_city(ctile);
+    if (acity) {
+      multiairlift(acity, gui()->menu_bar->airlift_type_id);
     } else {
       output_window_append(ftc_client, "No city selected for airlift");
     }
     gui()->menu_bar->quick_airlifting = false;
+
     return;
   }
   /* Check configured shortcuts */
@@ -322,20 +335,23 @@ void map_view::shortcut_pressed(int key)
         && pcity != nullptr) {
       pw = new production_widget(this, pcity, false, 0, 0, true);
       pw->show();
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_SHOW_UNITS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
-        && ptile != nullptr && unit_list_size(ptile->units) > 0) {
-      gui()->toggle_unit_sel_widget(ptile);
+        && ctile != nullptr && unit_list_size(ctile->units) > 0) {
+      gui()->toggle_unit_sel_widget(ctile);
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_COPY_PROD);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
-        && ptile != nullptr) {
-      clipboard_copy_production(ptile);
+        && ctile != nullptr) {
+      clipboard_copy_production(ctile);
+
       return;
     }
 
@@ -343,6 +359,7 @@ void map_view::shortcut_pressed(int key)
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && gui()->battlelog_wdg != nullptr) {
       gui()->battlelog_wdg->show();
+
       return;
     }
 
@@ -350,12 +367,14 @@ void map_view::shortcut_pressed(int key)
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {
       clipboard_paste_production(pcity);
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_THEME);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       load_theme(gui_options.gui_qt_default_theme_name);
+
       return;
     }
 
@@ -363,53 +382,67 @@ void map_view::shortcut_pressed(int key)
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       QPixmapCache::clear();
       tilespec_reread(tileset_basename(tileset), true, gui()->map_scale);
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_LOAD_LUA);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       qload_lua_script();
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_RELOAD_LUA);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       qreload_lua_script();
+
       return;
     }
 
     sc = fc_shortcuts::sc()->get_shortcut(SC_HIDE_WORKERS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       key_city_overlay(pos.x(), pos.y());
+
       return;
     }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_MAKE_LINK);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
-        && ptile != nullptr) {
-      gui()->infotab->chtwdg->make_link(ptile);
+        && ctile != nullptr) {
+      gui()->infotab->chtwdg->make_link(ctile);
+
       return;
     }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_BUY_MAP);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {
       city_buy_production(pcity);
+
       return;
     }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_QUICK_BUY);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod
         && pcity != nullptr) {
       pw = new production_widget(this, pcity, false, 0, 0, true, true);
       pw->show();
+
       return;
     }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_APPEND_FOCUS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       action_button_pressed(pos.x(), pos.y(), SELECT_APPEND);
+
       return;
     }
+
     sc = fc_shortcuts::sc()->get_shortcut(SC_ADJUST_WORKERS);
     if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
       adjust_workers_button_pressed(pos.x(), pos.y());
+
       return;
     }
   }
@@ -421,8 +454,10 @@ void map_view::shortcut_pressed(int key)
       || (goto_is_active() && (bt == (sc->mouse | sc_sec->mouse)))))
       && md == sc->mod)) {
     recenter_button_pressed(pos.x(), pos.y());
+
     return;
   }
+
   sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
     if (!goto_is_active()) {
@@ -430,19 +465,22 @@ void map_view::shortcut_pressed(int key)
       gui_options.auto_center_on_unit = false;
       action_button_pressed(pos.x(), pos.y(), SELECT_FOCUS);
     }
+
     return;
   }
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_POPUP_INFO);
   if (((key && key == sc->key) || bt == sc->mouse)
-      && md == sc->mod && ptile != nullptr) {
-    gui()->popup_tile_info(ptile);
+      && md == sc->mod && ctile != nullptr) {
+    gui()->popup_tile_info(ctile);
+
     return;
   }
 
   sc = fc_shortcuts::sc()->get_shortcut(SC_WAKEUP_SENTRIES);
   if (((key && key == sc->key) || bt == sc->mouse) && md == sc->mod) {
     wakeup_button_pressed(pos.x(), pos.y());
+
     return;
   }
 }
