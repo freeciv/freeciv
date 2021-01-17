@@ -531,13 +531,13 @@ void impr_info::wheelEvent(QWheelEvent *event)
 			event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
-			event->phase(), false);
+			event->phase(), false, event->source());
 #else  /* FC_QT6_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
-                        event->modifiers());
+                        event->modifiers(), event->phase(), event->source());
 #endif /* FC_QT6_MODE */
   QApplication::sendEvent(parentWidget(), &new_event);
 }
@@ -588,13 +588,13 @@ void impr_item::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
-			event->phase(), false);
+			event->phase(), false, event->source());
 #else  /* FC_QT6_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
-                        event->modifiers());
+                        event->modifiers(), event->phase(), event->source());
 #endif /* FC_QT6_MODE */
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
@@ -998,18 +998,17 @@ void unit_item::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
-			event->phase(), false);
+			event->phase(), false, event->source());
 #else  /* FC_QT6_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
-                        event->modifiers());
+                        event->modifiers(), event->phase(), event->source());
 #endif /* FC_QT6_MODE */
   QApplication::sendEvent(parentWidget()->parentWidget(),
                           &new_event);
 }
-
 
 /************************************************************************//**
   Mouse press event -activates unit and closes dialog
@@ -1087,13 +1086,13 @@ void unit_info::wheelEvent(QWheelEvent *event)
                         event->angleDelta(),
 			event->buttons(),
 			event->modifiers(),
-			event->phase(), false);
+			event->phase(), false, event->source());
 #else  /* FC_QT6_MODE */
   QWheelEvent new_event(QPoint(5, 5), p + QPoint(5,5), event->pixelDelta(),
                         event->angleDelta(),
                         event->angleDelta().y(),
                         Qt::Horizontal, event->buttons(),
-                        event->modifiers());
+                        event->modifiers(), event->phase(), event->source());
 #endif /* FC_QT6_MODE */
   QApplication::sendEvent(parentWidget(), &new_event);
 }
