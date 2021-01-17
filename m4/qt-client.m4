@@ -15,7 +15,7 @@ if test "x$gui_qt" = "xyes" || test "x$client" = "xall" ||
     if test x$fc_qt5_usable = xtrue ; then
       gui_qt_cppflags=$FC_QT5_CPPFLAGS
       gui_qt_cxxflags=$FC_QT5_CXXFLAGS
-      gui_qt_libs=$FC_QT5_LIBS
+      gui_qt_libs="$FC_QT5_LIBS $MWINDOWS_FLAG"
     else
       qt_fail_reason="Missing Qt5 development files"
     fi

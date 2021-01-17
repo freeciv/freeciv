@@ -69,6 +69,10 @@ AC_DEFUN([FC_SDL_CLIENT],
       AC_CHECK_LIB(socket, connect, gui_sdl_libs="-lsocket $gui_sdl_libs")
       AC_CHECK_LIB(bind, gethostbyaddr, gui_sdl_libs="-lbind $gui_sdl_libs")
 
+      dnl Control -mwindows flag ourselves instead of letting pkg-config to force
+      dnl it on us.
+      gui_sdl_libs="$(echo $gui_sdl_libs | $SED 's/-mwindows//g') $MWINDOWS_FLAG"
+
     elif test "x$gui_sdl" = "xyes"; then
       AC_MSG_ERROR([specified client 'sdl' not configurable (SDL >= 1.1.4 is needed (www.libsdl.org))])
     fi
