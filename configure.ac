@@ -1013,6 +1013,12 @@ AC_DEFINE_UNQUOTED([FREECIV_AI_MOD_LAST], [(${fc_ai_last})], [Max number of AI m
 
 AC_DEFINE_UNQUOTED([AI_MOD_DEFAULT], ["${default_ai_set}"], [Default ai type name])
 
+if test "x$MINGW" = "xyes" ; then
+  MWINDOWS_FLAG="-mwindows"
+else
+  MWINDOWS_FLAG=""
+fi
+
 dnl Check and choose clients
 if test "x$client" != "xno"; then
 
@@ -1158,7 +1164,7 @@ if test "x$req_fcmp_gtk3" = "xyes" ||
   if test "x$MINGW" = "xyes"; then
     dnl Required to compile gtk3 on Windows platform
     mp_gtk3_cflags="$mp_gtk3_cflags -mms-bitfields"
-    mp_gtk3_ldflags="$mp_gtk3_ldflags -mwindows"
+    mp_gtk3_ldflags="$mp_gtk3_ldflags $MWINDOWS_FLAG"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -1186,7 +1192,7 @@ if test "x$req_fcmp_gtk4" = "xyes" ||
   if test "x$MINGW" = "xyes"; then
     dnl Required to compile gtk4 on Windows platform
     mp_gtk4_cflags="$mp_gtk4_cflags -mms-bitfields"
-    mp_gtk4_ldflags="$mp_gtk4_ldflags -mwindows"
+    mp_gtk4_ldflags="$mp_gtk4_ldflags $MWINDOWS_FLAG"
   fi
 
   if test "x$modinst" = "xauto" ; then
@@ -1211,7 +1217,7 @@ if test "x$req_fcmp_qt" = "xyes" ||
 
        mp_qt_cppflags=$FC_QT_CPPFLAGS
        mp_qt_cxxflags=$FC_QT_CXXFLAGS
-       mp_qt_libs=$FC_QT_LIBS
+       mp_qt_libs="$FC_QT_LIBS $MWINDOWS_FLAG"
 
        if test "x$modinst" = "xauto" ; then
          modinst=found
@@ -1276,9 +1282,7 @@ if test "x$ruledit" = "xyes" || test "x$ruledit" = "xtest" ; then
       ruledit_cxxflags=$FC_QT_CXXFLAGS
       ruledit_libs=$FC_QT_LIBS
       ruledit=yes
-      if test "x$MINGW" = "xyes"; then
-        ruledit_libs="$ruledit_libs -mwindows"
-      fi
+      ruledit_libs="$ruledit_libs $MWINDOWS_FLAG"
     elif test "x$ruledit" = "xyes" ; then
       AC_MSG_ERROR([$qt_ver not found for building freeciv-ruledit])
     fi
