@@ -111,4 +111,6 @@ fi
 if test "x$SDL_mixer" = "x" ; then
   SDL_mixer=no
 fi
+
+SOUND_LIBS="$(echo $SOUND_LIBS | $SED 's/-mwindows//g')"
 ])
