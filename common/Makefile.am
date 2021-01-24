@@ -36,6 +36,8 @@ libfreeciv_la_SOURCES = \
 		clientutils.h	\
 		combat.c	\
 		combat.h	\
+		counters.c	\
+		counters.h	\
 		culture.c	\
 		culture.h	\
 		diptreaty.c	\

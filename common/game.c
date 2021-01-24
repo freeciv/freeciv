@@ -32,6 +32,7 @@
 #include "actions.h"
 #include "city.h"
 #include "connection.h"
+#include "counters.h"
 #include "disaster.h"
 #include "extras.h"
 #include "government.h"
@@ -538,6 +539,7 @@ void game_ruleset_init(void)
   user_tech_flags_init();
   multipliers_init();
   clause_infos_init();
+  counters_init();
 
   if (is_server()) {
     game.server.luadata = NULL;
@@ -598,6 +600,7 @@ void game_ruleset_free(void)
   nation_sets_groups_free();
   multipliers_free();
   clause_infos_free();
+  counters_free();
 
   /* Destroy the default veteran system. */
   veteran_system_destroy(game.veteran);
