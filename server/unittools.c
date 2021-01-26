@@ -2248,22 +2248,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   if (!is_stack_vulnerable(unit_tile(punit)) || unitcount == 1) {
-    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                  /* TRANS: "... Cannon ... the Polish Destroyer." */
-                  _("Your attacking %s succeeded against the %s %s!"),
-                  pkiller_link,
-                  nation_adjective_for_player(pvictim),
-                  punit_link);
     if (vet) {
       notify_unit_experience(pkiller);
     }
-    notify_player(pvictim, unit_tile(punit), E_UNIT_LOST_DEF, ftc_server,
-                  /* TRANS: "Cannon ... the Polish Destroyer." */
-                  _("%s lost to an attack by the %s %s."),
-                  punit_link,
-                  nation_adjective_for_player(pvictor),
-                  pkiller_link);
-
     wipe_unit(punit, ULR_KILLED, pvictor);
   } else { /* unitcount > 1 */
     int i;
@@ -2338,17 +2325,20 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       }
     } unit_list_iterate_end;
 
-    /* Inform the destroyer: lots of different cases here! */
-    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                  /* TRANS: "... Cannon ... the Polish Destroyer ...." */
-                  PL_("Your attacking %s succeeded against the %s %s "
-                      "(and %d other unit)!",
-                      "Your attacking %s succeeded against the %s %s "
-                      "(and %d other units)!", unitcount - 1),
-                  pkiller_link,
-                  nation_adjective_for_player(pvictim),
-                  punit_link,
-                  unitcount - 1);
+    /* Inform the destroyer again if more than one unit was killed */
+    if (unitcount > 1) {
+      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                    /* TRANS: "... Cannon ... the Polish Destroyer ...." */
+                    PL_("Your attacking %s succeeded against the %s %s "
+                        "(and %d other unit)!",
+                        "Your attacking %s succeeded against the %s %s "
+                        "(and %d other units)!", unitcount - 1),
+                    pkiller_link,
+                    nation_adjective_for_player(pvictim),
+                    punit_link,
+                    unitcount - 1);
+    }
+
     if (vet) {
       notify_unit_experience(pkiller);
     }
