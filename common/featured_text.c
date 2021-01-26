@@ -26,6 +26,7 @@
 
 /* common */
 #include "city.h"
+#include "combat.h"
 #include "game.h"
 #include "map.h"
 #include "tile.h"
@@ -1110,6 +1111,84 @@ const char *tile_link(const struct tile *ptile)
               SEQ_START, text_tag_type_short_name(TTT_LINK),
               text_link_type_name(TLT_TILE), TILE_XY(ptile),
               SEQ_END, SEQ_STOP);
+  return buf;
+}
+
+/**********************************************************************//**
+  Get a text of a unit's vet level.
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *unit_veteran_level_string(const struct unit *punit)
+{
+  static char buf[MAX_LEN_LINK];
+  const struct veteran_level *vlevel;
+
+  if (!punit) {
+    buf[0] = '\0'; /* If no unit, return empty string */
+    return buf;
+  }
+
+  vlevel = utype_veteran_level(unit_type_get(punit), punit->veteran);
+  fc_snprintf(buf, sizeof(buf), "%s", name_translation_get(&vlevel->name));
+  return buf;
+}
+
+/**********************************************************************//**
+  Get string of when unit gets upgraded to new veteran level.
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *unit_achieved_rank_string(const struct unit *punit)
+{
+  static char buf[MAX_LEN_LINK];
+
+  fc_snprintf(buf, sizeof(buf),
+              /* TRANS: " and achieved the rank of <veteran level>";
+               * preserve leading space */
+              _(" and achieved the rank of %s"),
+              unit_veteran_level_string(punit));
+  return buf;
+}
+
+/**********************************************************************//**
+  Get string of unit's attack would be a tired attack or not.
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *unit_tired_attack_string(const struct unit *punit)
+{
+  static char buf[MAX_LEN_LINK];
+
+  if (is_tired_attack(punit->moves_left)) {
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: tired; note trailing space */
+                _("tired "));
+  } else {
+    buf[0] = '\0';
+  }
+  return buf;
+}
+
+/**********************************************************************//**
+  Get string of unit's firepower text, i.e. "FP:2 "
+  If firepower is equal to one, then an empty string is returned
+  so as to shorten the text output.
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *unit_firepower_if_not_one(int firepower)
+{
+  static char buf[MAX_LEN_LINK];
+
+  if (firepower == 1) {
+    buf[0] = '\0';
+  } else {
+    fc_snprintf(buf, sizeof(buf),
+                /* TRANS: FP = Firepower of a unit; note trailing space */
+                _("FP:%d "),
+                firepower);
+  }
   return buf;
 }
 
