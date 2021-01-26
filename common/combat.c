@@ -412,6 +412,14 @@ struct city *sdi_try_defend(const struct player *owner,
 }
 
 /**************************************************************************
+ Returns if the attack is going to be a tired attack
+**************************************************************************/
+bool is_tired_attack(int moves_left)
+{
+  return game.info.tired_attack && moves_left < SINGLE_MOVE;
+}
+
+/**************************************************************************
  Convenience wrapper for base_get_attack_power.
 **************************************************************************/
 int get_attack_power(const struct unit *punit)
@@ -438,7 +446,7 @@ int base_get_attack_power(const struct unit_type *punittype,
   power = punittype->attack_strength * POWER_FACTOR
           * vlevel->power_fact / 100;
 
-  if (game.info.tired_attack && moves_left < SINGLE_MOVE) {
+  if (is_tired_attack(moves_left)) {
     power = (power * moves_left) / SINGLE_MOVE;
   }
 

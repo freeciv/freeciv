@@ -60,6 +60,7 @@ double unit_win_chance(const struct unit *attacker,
 bool unit_really_ignores_citywalls(const struct unit *punit);
 struct city *sdi_try_defend(const struct player *owner,
 			       const struct tile *ptile);
+bool is_tired_attack(int moves_left);
 
 int get_attack_power(const struct unit *punit);
 int base_get_attack_power(const struct unit_type *punittype,
