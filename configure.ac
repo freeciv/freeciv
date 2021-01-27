@@ -348,6 +348,16 @@ AS_IF([test $dev_save_compat != 0],
        AC_DEFINE([FREECIV_DEV_SAVE_COMPAT_3_1], [1],
                  [Development version save game compatibility - 3.1 development])])
 
+AC_ARG_ENABLE([patient-connect],
+  AS_HELP_STRING([--enable-patient-connect=yes/no],
+                 [enable client to be very patient in connecting spawned server]),
+  [case "${enableval}" in
+    yes) AC_DEFINE([FREECIV_PATIENT_CONNECT], [1],
+                   [Client is very patient when connecting to spawned server]) ;;
+    no) ;;
+    *) AC_MSG_ERROR([bad value ${enableval} for --enable-patient-connect]) ;;
+  esac])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no
