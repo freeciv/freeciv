@@ -64,8 +64,13 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include "connectdlg_common.h"
 #include "tilespec.h"
 
-#define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
+#define WAIT_BETWEEN_TRIES 100000 /* usecs */
+
+#ifdef FREECIV_PATIENT_CONNECT
+#define NUMBER_OF_TRIES 10000
+#else  /* FREECIV_PATIENT_CONNECT */
 #define NUMBER_OF_TRIES 500
+#endif /* FREECIV_PATIENT_CONNECT */
 
 #if defined(HAVE_WORKING_FORK) && !defined(WIN32_NATIVE)
 /* We are yet to see WIN32_NATIVE setup where even HAVE_WORKING_FORK would
