@@ -318,6 +318,16 @@ AC_ARG_WITH([appdatadir],
 [ APPDATADIR=${withval} ], [ APPDATADIR="\$(prefix)/share/appdata" ])
 AC_SUBST([APPDATADIR])
 
+AC_ARG_ENABLE([patient-connect],
+  AS_HELP_STRING([--enable-patient-connect=yes/no],
+                 [enable client to be very patient in connecting spawned server]),
+  [case "${enableval}" in
+    yes) AC_DEFINE([FREECIV_PATIENT_CONNECT], [1],
+                   [Client is very patient when connecting to spawned server]) ;;
+    no) ;;
+    *) AC_MSG_ERROR([bad value ${enableval} for --enable-patient-connect]) ;;
+  esac])
+
 dnl set default values
 mapimg_all=auto
 mapimg_magickwand=no

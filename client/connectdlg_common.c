@@ -64,8 +64,13 @@
 #include "connectdlg_common.h"
 #include "tilespec.h"
 
-#define WAIT_BETWEEN_TRIES 100000 /* usecs */ 
+#define WAIT_BETWEEN_TRIES 100000 /* usecs */
+
+#ifdef FREECIV_PATIENT_CONNECT
+#define NUMBER_OF_TRIES 10000
+#else  /* FREECIV_PATIENT_CONNECT */
 #define NUMBER_OF_TRIES 500
+#endif /* FREECIV_PATIENT_CONNECT */
 
 #if defined(HAVE_WORKING_FORK) && !defined(FREECIV_MSWINDOWS)
 /* We are yet to see FREECIV_MSWINDOWS setup where even HAVE_WORKING_FORK would
