@@ -654,7 +654,7 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
       oblig_hard_req_register(req_from_values(VUT_NATION, REQ_RANGE_PLAYER,
                                               FALSE, TRUE, TRUE,
                                               nation_number(pnation)),
-                              TRUE,
+                              FALSE,
                               N_("All action enablers for %s must require"
                                  " a non animal player actor."),
                               ACTRES_CONQUER_CITY,
