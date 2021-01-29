@@ -1,5 +1,13 @@
 #!/bin/bash
 
+add_glib_env() {
+  mkdir -p $2/share/glib-2.0/schemas &&
+  cp -R $1/share/glib-2.0/schemas/*.gschema.xml $2/share/glib-2.0/schemas/ &&
+  cp $1/bin/libglib-2.0-0.dll $2/ &&
+  mkdir -p $2/bin &&
+  cp $1/bin/glib-compile-schemas.exe $2/bin/
+}
+
 add_gtk3_env() {
   mkdir -p $2/etc &&
   cp -R $1/etc/gtk-3.0 $2/etc/ &&
@@ -8,11 +16,8 @@ add_gtk3_env() {
   mkdir -p $2/share/icons &&
   cp -R $1/share/locale $2/share/ &&
   cp -R $1/share/icons/Adwaita $2/share/icons/ &&
-  mkdir -p $2/share/glib-2.0/schemas &&
-  cp -R $1/share/glib-2.0/schemas/*.gschema.xml $2/share/glib-2.0/schemas/ &&
   cp $1/bin/libgtk-3-0.dll $2/ &&
   cp $1/bin/libgdk-3-0.dll $2/ &&
-  cp $1/bin/libglib-2.0-0.dll $2/ &&
   cp $1/bin/libgobject-2.0-0.dll $2/ &&
   cp $1/bin/libpixman-1-0.dll $2/ &&
   cp $1/bin/libcairo-gobject-2.dll $2/ &&
@@ -23,7 +28,6 @@ add_gtk3_env() {
   cp $1/bin/libfribidi-0.dll $2/ &&
   cp $1/bin/libpango-1.0-0.dll $2/ &&
   cp $1/bin/libpangocairo-1.0-0.dll $2/ &&
-  cp $1/bin/libpcre-1.dll $2/ &&
   cp $1/bin/libffi-7.dll $2/ &&
   cp $1/bin/libatk-1.0-0.dll $2/ &&
   cp $1/bin/libgmodule-2.0-0.dll $2/ &&
@@ -31,9 +35,7 @@ add_gtk3_env() {
   cp $1/bin/libfontconfig-1.dll $2/ &&
   cp $1/bin/libpangoft2-1.0-0.dll $2/ &&
   cp $1/bin/libxml2-2.dll $2/ &&
-  cp $1/bin/libharfbuzz-0.dll $2/ &&
   mkdir -p $2/bin &&
-  cp $1/bin/glib-compile-schemas.exe $2/bin/ &&
   cp $1/bin/gdk-pixbuf-query-loaders.exe $2/bin/ &&
   cp $1/bin/gtk-update-icon-cache.exe $2/bin/ &&
   cp ./helpers/installer-helper-gtk3.cmd $2/bin/installer-helper.cmd
@@ -42,7 +44,7 @@ add_gtk3_env() {
 add_gtk4_env() {
   mkdir -p $2/etc &&
   cp -R $1/etc/gtk-4.0 $2/etc/ &&
-  cp $1/bin/libgtk-4-0.dll $2/ &&
+  cp $1/bin/libgtk-4-1.dll $2/ &&
   cp $1/bin/libgraphene-1.0-0.dll $2/
 }
 
@@ -81,8 +83,10 @@ add_common_env() {
   cp $1/lib/icuuc63.dll     $2/ &&
   cp $1/lib/icudt63.dll     $2/ &&
   cp $1/bin/libpng16-16.dll $2/ &&
-  cp $1/bin/libintl.dll     $2/ &&
-  cp $1/bin/libfreetype-6.dll $2/
+  cp $1/bin/libfreetype-6.dll $2/ &&
+  cp $1/bin/libharfbuzz-0.dll $2/ &&
+  cp $1/bin/libpcre-1.dll   $2/ &&
+  add_glib_env $1 $2
 }
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$2" = "x" ; then
@@ -122,7 +126,7 @@ if ! ./winbuild.sh "$DLLSPATH" $GUI ; then
   exit 1
 fi
 
-SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
+SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
 VERREV="$(../../fc_version)"
 

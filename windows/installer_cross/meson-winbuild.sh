@@ -7,8 +7,8 @@
 # See COPYING available from the same location you got this script.
 #
 
-MESON_WINBUILD_VERSION="3.0.0-alpha"
-CROSSER_FEATURE_LEVEL=1.10
+MESON_WINBUILD_VERSION="3.0.0-beta"
+CROSSER_FEATURE_LEVEL=2.0
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir>"

@@ -1,3 +1,3 @@
 cd %~dp0\..
 
-echo "No special install helper actions needed"
+bin\glib-compile-schemas.exe share\glib-2.0\schemas
