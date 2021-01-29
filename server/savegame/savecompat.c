@@ -1576,7 +1576,6 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_TRANSFORM:
     case ACTIVITY_CONVERT:
     case ACTIVITY_FORTIFYING:
-    case ACTIVITY_SENTRY:
     case ACTIVITY_BASE:
     case ACTIVITY_GEN_ROAD:
     case ACTIVITY_PILLAGE:
@@ -1589,6 +1588,9 @@ static void unit_order_activity_to_action(struct unit *act_unit)
           break;
         }
       } action_iterate_end;
+      break;
+    case ACTIVITY_SENTRY:
+      /* Not an action */
       break;
     case ACTIVITY_EXPLORE:
     case ACTIVITY_IDLE:

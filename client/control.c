@@ -1520,47 +1520,21 @@ void request_unit_return(struct unit *punit)
   struct pf_path *path;
 
   if ((path = path_to_nearest_allied_city(punit))) {
-    struct tile *end_tile = pf_path_last_position(path)->tile;
     int turns = pf_path_last_position(path)->turn;
     int max_hp = unit_type_get(punit)->hp;
-    bool hurt = (punit->hp + turns *
-                 (get_unit_bonus(punit, EFT_UNIT_RECOVER)
-                  - (max_hp * unit_class_get(punit)->hp_loss_pct / 100))
-                 < max_hp);
-    struct action *paction = NULL;
 
-    if (hurt) {
-      /* Look for a sentry action the unit can perform */
-      action_by_activity_iterate(caction, act_id, ACTIVITY_SENTRY) {
-        if (action_get_actor_kind(caction) != AAK_UNIT) {
-          /* Not relevant. */
-          continue;
-        }
-
-        fc_assert_action(action_get_target_kind(caction) == ATK_SELF,
-                         continue);
-
-        if (action_prob_possible(
-              action_speculate_unit_on_self(caction->id, punit,
-                                            unit_home(punit),
-                                            end_tile,
-                                            FALSE))) {
-          /* Found one. */
-          paction = caction;
-          break;
-        }
-      } action_by_activity_iterate_end;
-    }
-
-    if (hurt && paction != NULL) {
+    if (punit->hp + turns *
+        (get_unit_bonus(punit, EFT_UNIT_RECOVER)
+         - (max_hp * unit_class_get(punit)->hp_loss_pct / 100))
+	< max_hp) {
       struct unit_order order;
 
-      order.order = ORDER_PERFORM_ACTION;
+      order.order = ORDER_ACTIVITY;
       order.dir = DIR8_ORIGIN;
-      order.activity = ACTIVITY_LAST;
-      order.target = end_tile->index;
+      order.activity = ACTIVITY_SENTRY;
+      order.target = NO_TARGET;
       order.sub_target = NO_TARGET;
-      order.action = paction->id;
+      order.action = ACTION_NONE;
       send_goto_path(punit, path, &order);
     } else {
       send_goto_path(punit, path, NULL);

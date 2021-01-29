@@ -113,7 +113,7 @@ enum output_type_id {
 #define SPECENUM_VALUE6 ACTIVITY_FORTRESS
 #define SPECENUM_VALUE6NAME N_("Fortress")
 #define SPECENUM_VALUE7 ACTIVITY_SENTRY
-#define SPECENUM_VALUE7NAME N_("Sentry")
+#define SPECENUM_VALUE7NAME "Sentry"
 #define SPECENUM_VALUE8 ACTIVITY_OLD_RAILROAD
 #define SPECENUM_VALUE8NAME "Unused Railroad"
 #define SPECENUM_VALUE9 ACTIVITY_PILLAGE
@@ -261,8 +261,6 @@ enum output_type_id {
 #define SPECENUM_VALUE54NAME "Spread Plague"
 #define SPECENUM_VALUE55 ACTRES_SPY_ATTACK
 #define SPECENUM_VALUE55NAME "Spy Attack"
-#define SPECENUM_VALUE56 ACTRES_SENTRY
-#define SPECENUM_VALUE56NAME "Sentry Unit"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"

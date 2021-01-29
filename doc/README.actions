@@ -926,16 +926,6 @@ Actions done by a unit to it self
  * UI name can be set using ui_name_fortify
  * the actor unit can't already be fortified (!)
 
-"Sentry Unit" - Sentry at tile or in current transport
- * UI name can be set using ui_name_sentry
- * the actor unit must be transported or on a livable tile. If the unit
-   needs fuel or loses hit points each turn being on a livable isn't enough.
-   It is then only able to sentry in a transport or on a livable tile that
-   has one of the following:
-   - a city
-   - a native extra with the Refuel flag
-   - is next to safe terrain if the actor has the Coast unit type flag
-
 "Convert Unit" - Convert the unit to another unit type.
  * UI name can be set using ui_name_convert_unit
  * actor unit must have a type to convert to (convert_to).

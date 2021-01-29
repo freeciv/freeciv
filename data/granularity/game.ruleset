@@ -325,9 +325,6 @@ nuke_units_max_range = 1
 ; /* TRANS: _Build City (100% chance of success). */
 ui_name_found_city = _("%sBuild City%s")
 
-; /* TRANS: _Sentry (100% chance of success). */
-ui_name_sentry = _("%sSentry%s")
-
 ; /* <-- avoid gettext warnings
 ;
 ; Action enablers:
@@ -485,9 +482,6 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
     }
-
-[actionenabler_sentry]
-action        = "Sentry Unit"
 
 [borders]
 ; Base border radius from city.

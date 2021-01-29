@@ -136,7 +136,6 @@ static void disembark1(QVariant data1, QVariant data2);
 static void disembark2(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
-static void sentry(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
@@ -261,7 +260,6 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   /* Unit acting with no target except itself. */
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
   action_function[ACTION_FORTIFY] = fortify;
-  action_function[ACTION_SENTRY] = sentry;
   action_function[ACTION_CONVERT] = convert_unit;
 
   return action_function;
@@ -2282,20 +2280,6 @@ static void fortify(QVariant data1, QVariant data2)
 
   if (NULL != game_unit_by_number(actor_id)) {
     request_do_action(ACTION_FORTIFY, actor_id,
-                      target_id, 0, "");
-  }
-}
-
-/***********************************************************************//**
-  Action "Sentry Unit" for choice dialog
-***************************************************************************/
-static void sentry(QVariant data1, QVariant data2)
-{
-  int actor_id = data1.toInt();
-  int target_id = data2.toInt();
-
-  if (NULL != game_unit_by_number(actor_id)) {
-    request_do_action(ACTION_SENTRY, actor_id,
                       target_id, 0, "");
   }
 }

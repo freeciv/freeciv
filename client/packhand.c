@@ -4753,7 +4753,6 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       switch ((enum gen_action)act) {
       case ACTION_DISBAND_UNIT:
       case ACTION_FORTIFY:
-      case ACTION_SENTRY:
       case ACTION_CONVERT:
       case ACTION_TRANSPORT_ALIGHT:
       case ACTION_TRANSPORT_BOARD:

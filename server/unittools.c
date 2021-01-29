@@ -3885,31 +3885,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
             && !unit_has_orders(punit)
             && punit->ssa_controller == SSA_NONE
             && !can_unit_exist_at_tile(&(wld.map), punit, pdesttile)) {
-          struct action *paction = NULL;
-
-          /* Look for a sentry action the unit can perform */
-          action_by_activity_iterate(caction, act_id, ACTIVITY_SENTRY) {
-            if (action_get_actor_kind(caction) != AAK_UNIT) {
-              /* Not relevant. */
-              continue;
-            }
-
-            fc_assert_action(action_get_target_kind(caction) == ATK_SELF,
-                             continue);
-
-            if (is_action_enabled_unit_on_self(caction->id, punit)) {
-              /* Found one. */
-              paction = caction;
-              break;
-            }
-          } action_by_activity_iterate_end;
-
-          if (paction != NULL) {
-            /* A sentry action was found. */
-            unit_perform_action(pplayer, punit->id,
-                                IDENTITY_NUMBER_ZERO, NO_TARGET, NULL,
-                                paction->id, ACT_REQ_RULES);
-          }
+          set_unit_activity(punit, ACTIVITY_SENTRY);
         }
 
         send_unit_info(NULL, punit);
@@ -4680,8 +4656,15 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       break;
     case ORDER_ACTIVITY:
       switch (orders[i].activity) {
-      /* Replaced by action orders */
       case ACTIVITY_SENTRY:
+        if (i != length - 1) {
+          /* Only allowed as the last order. */
+          log_error("activity %d is not allowed at index %d.", orders[i].activity,
+                    i);
+          return FALSE;
+        }
+        break;
+      /* Replaced by action orders */
       case ACTIVITY_BASE:
       case ACTIVITY_GEN_ROAD:
       case ACTIVITY_FALLOUT:
@@ -4808,7 +4791,6 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
             || !(utype_is_unmoved_by_action(paction, NULL)
                  || utype_is_moved_to_tgt_by_action(paction, NULL))
             /* or if the unit will end up standing still, */
-            || action_has_result(paction, ACTRES_SENTRY)
             || action_has_result(paction, ACTRES_FORTIFY)) {
           /* than having this action in the middle of a unit's orders is
            * probably wrong. */

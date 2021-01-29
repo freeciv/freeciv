@@ -969,11 +969,12 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                                           punit, ptile, target);
 
   case ACTIVITY_SENTRY:
-    /* The call below doesn't support actor tile speculation. */
-    fc_assert_msg(unit_tile(punit) == ptile,
-                  "Please use action_speculate_unit_on_self()");
-    return is_action_enabled_unit_on_self(ACTION_SENTRY,
-                                          punit);
+    if (!can_unit_survive_at_tile(&(wld.map), punit, unit_tile(punit))
+        && !unit_transported(punit)) {
+      /* Don't let units sentry on tiles they will die on. */
+      return FALSE;
+    }
+    return TRUE;
 
   case ACTIVITY_PILLAGE:
     /* The call below doesn't support actor tile speculation. */

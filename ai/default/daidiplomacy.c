@@ -1994,7 +1994,6 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_CLEAN_POLLUTION:
     case ACTRES_CLEAN_FALLOUT:
     case ACTRES_FORTIFY:
-    case ACTRES_SENTRY:
     case ACTRES_ROAD:
     case ACTRES_CONVERT:
     case ACTRES_BASE:

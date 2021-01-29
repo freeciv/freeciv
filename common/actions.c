@@ -1063,11 +1063,6 @@ static void hard_code_actions(void)
                       ATK_SELF, ASTK_NONE,
                       ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
-  actions[ACTION_SENTRY] =
-      unit_action_new(ACTION_SENTRY, ACTRES_SENTRY,
-                      ATK_SELF, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
-                      MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_ROAD] =
       unit_action_new(ACTION_ROAD, ACTRES_ROAD,
                       ATK_TILE, ASTK_EXTRA_NOT_THERE,
@@ -1839,8 +1834,6 @@ enum unit_activity action_get_activity(const struct action *paction)
 
   if (action_has_result(paction, ACTRES_FORTIFY)) {
     return ACTIVITY_FORTIFYING;
-  } else if (action_has_result(paction, ACTRES_SENTRY)) {
-    return ACTIVITY_SENTRY;
   } else if (action_has_result(paction, ACTRES_BASE)) {
     return ACTIVITY_BASE;
   } else if (action_has_result(paction, ACTRES_ROAD)) {
@@ -1902,12 +1895,10 @@ int action_get_act_time(const struct action *paction,
     return 1;
   case ACTIVITY_CONVERT:
     return unit_type_get(actor_unit)->convert_time * ACTIVITY_FACTOR;
-  case ACTIVITY_SENTRY:
-    /* Happens instantaneously, not at turn change. */
-    return ACT_TIME_INSTANTANEOUS;
   case ACTIVITY_EXPLORE:
   case ACTIVITY_IDLE:
   case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
   case ACTIVITY_GOTO:
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
@@ -1992,7 +1983,6 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_CONVERT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
@@ -2067,7 +2057,6 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
   case ACTRES_BASE:
@@ -3027,7 +3016,6 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
@@ -3163,14 +3151,6 @@ action_hard_reqs_actor(enum action_result result,
   case ACTRES_TRANSPORT_DISEMBARK:
     if (!can_unit_unload(actor_unit, unit_transport_get(actor_unit))) {
       /* Keep the old rules about Unreachable and disembarks. */
-      return TRI_NO;
-    }
-    break;
-
-  case ACTRES_SENTRY:
-    if (!can_unit_survive_at_tile(&(wld.map), actor_unit, actor_tile)
-        && !unit_transported(actor_unit)) {
-      /* Don't let units sentry on tiles they will die on. */
       return TRI_NO;
     }
     break;
@@ -4085,7 +4065,6 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_NONE:
     /* No known hard coded requirements. */
     break;
@@ -5055,7 +5034,6 @@ action_prob(const action_id wanted_action,
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
   case ACTRES_BASE:
@@ -6109,7 +6087,6 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_FORTIFY:
-  case ACTRES_SENTRY:
   case ACTRES_ROAD:
   case ACTRES_CONVERT:
   case ACTRES_BASE:
@@ -6519,8 +6496,6 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_clean_fallout";
   case ACTION_FORTIFY:
     return "ui_name_fortify";
-  case ACTION_SENTRY:
-    return "ui_name_sentry";
   case ACTION_ROAD:
     return "ui_name_road";
   case ACTION_CONVERT:
@@ -6752,9 +6727,6 @@ const char *action_ui_name_default(int act)
   case ACTION_FORTIFY:
     /* TRANS: _Fortify (100% chance of success). */
     return N_("%sFortify%s");
-  case ACTION_SENTRY:
-    /* TRANS: _Sentry (100% chance of success). */
-    return N_("%sSentry%s");
   case ACTION_ROAD:
     /* TRANS: Build _Road (100% chance of success). */
     return N_("Build %sRoad%s");
@@ -6872,7 +6844,6 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
@@ -6969,7 +6940,6 @@ int action_min_range_default(int act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
@@ -7063,7 +7033,6 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
@@ -7169,7 +7138,6 @@ int action_max_range_default(int act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
@@ -7278,7 +7246,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:
@@ -7378,7 +7345,6 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
-  case ACTION_SENTRY:
   case ACTION_ROAD:
   case ACTION_CONVERT:
   case ACTION_BASE:

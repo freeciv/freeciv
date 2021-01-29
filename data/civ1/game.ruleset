@@ -407,9 +407,6 @@ ui_name_clean_pollution = _("Clean %sPollution%s")
 ; /* TRANS: _Fortify (100% chance of success). */
 ui_name_fortify = _("%sFortify%s")
 
-; /* TRANS: _Sentry (100% chance of success). */
-ui_name_sentry = _("%sSentry%s")
-
 ; /* TRANS: Build _Road (100% chance of success). */
 ui_name_road = _("Build %sRoad%s")
 
@@ -890,9 +887,6 @@ target_reqs    =
       ; use "Transport Board" from inside the city
       "CityTile", "Center", "Local", FALSE
     }
-
-[actionenabler_sentry]
-action        = "Sentry Unit"
 
 [borders]
 ; Base border radius from city.
