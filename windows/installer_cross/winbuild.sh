@@ -11,7 +11,7 @@
 
 WINBUILD_VERSION="2.3.3"
 MIN_WINVER=0x0601 # Windows 7
-CROSSER_FEATURE_LEVEL=1.10
+CROSSER_FEATURE_LEVEL=2.0
 
 if test "x$1" = x || test "x$1" = "x-h" || test "x$1" = "x--help" ; then
   echo "Usage: $0 <crosser dir> [gui]"
@@ -42,21 +42,21 @@ if test "x$INST_CROSS_MODE" != "xrelease" ; then
   fi
 fi
 
-FLVL=$(grep "FeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/FeatureLevel="//' -e 's/"//')
+FLVL=$(grep "CrosserFeatureLevel=" $DLLSPATH/crosser.txt | sed -e 's/CrosserFeatureLevel="//' -e 's/"//')
 
 if test "x$FLVL" != "x$CROSSER_FEATURE_LEVEL" ; then
   echo "Crosser feature level \"$FLVL\", required \"$CROSSER_FEATURE_LEVEL\"!"
   exit 1
 fi
 
-CSET=$(grep "Set=" $DLLSPATH/crosser.txt | sed -e 's/Set="//' -e 's/"//')
+CSET=$(grep "CrosserSet=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSet="//' -e 's/"//')
 
 if test "x$CSET" != "xcurrent" ; then
   echo "Crosser set is \"$CSET\", only \"current\" is supported!"
   exit 1
 fi
 
-SETUP=$(grep "Setup=" $DLLSPATH/crosser.txt | sed -e 's/Setup="//' -e 's/"//')
+SETUP=$(grep "CrosserSetup=" $DLLSPATH/crosser.txt | sed -e 's/CrosserSetup="//' -e 's/"//')
 
 if test "x$2" = "xruledit" ; then
   SINGLE_GUI=true
