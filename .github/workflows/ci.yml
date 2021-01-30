@@ -50,6 +50,7 @@ jobs:
       - name: install dependencies
         run: |
           brew install \
+            lua@5.4 \
             autoconf \
             automake \
             gettext \

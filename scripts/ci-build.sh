@@ -51,6 +51,7 @@ export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
 mkdir build
 cd build
 ../autogen.sh \
+ --enable-sys-lua \
  --enable-client=gtk3.22,sdl2,qt \
  --enable-freeciv-manual \
  || (let config_exit_status=$? \
