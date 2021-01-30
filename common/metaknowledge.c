@@ -268,10 +268,8 @@ static bool is_req_knowable(const struct player *pow_player,
       return TRUE;
     }
 
-    if (req->source.value.activity != ACTIVITY_EXPLORE) {
-      /* Sent in package_short_unit() */
-      return can_player_see_unit(pow_player, target_unit);
-    }
+    /* Sent in package_short_unit() */
+    return can_player_see_unit(pow_player, target_unit);
   }
 
   if (req->source.kind == VUT_DIPLREL) {

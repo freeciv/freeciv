@@ -78,6 +78,7 @@ static bool activity_is_valid_in_requirement(enum unit_activity act)
       && act != ACTIVITY_OLD_ROAD
       && act != ACTIVITY_OLD_RAILROAD
       && act != ACTIVITY_GOTO
+      && act != ACTIVITY_EXPLORE
       && act != ACTIVITY_UNKNOWN
       && act != ACTIVITY_AIRBASE
       && act != ACTIVITY_PATROL_UNUSED;
@@ -2634,6 +2635,7 @@ static enum fc_tristate unit_activity_in_range(const struct unit *punit,
   switch (punit->activity) {
   case ACTIVITY_IDLE:
   case ACTIVITY_GOTO:
+  case ACTIVITY_EXPLORE:
     /* Seen as idle. */
     return BOOL_TO_TRISTATE(activity == ACTIVITY_IDLE);
   default:
