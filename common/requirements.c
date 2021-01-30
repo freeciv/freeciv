@@ -77,9 +77,23 @@ static bool activity_is_valid_in_requirement(enum unit_activity act)
   return unit_activity_is_valid(act)
       && act != ACTIVITY_OLD_ROAD
       && act != ACTIVITY_OLD_RAILROAD
+      && act != ACTIVITY_GOTO
       && act != ACTIVITY_UNKNOWN
       && act != ACTIVITY_AIRBASE
       && act != ACTIVITY_PATROL_UNUSED;
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the specified universal legally can appear in a
+  requirement.
+**************************************************************************/
+bool universal_is_legal_in_requirement(const struct universal *univ)
+{
+  if (univ->kind == VUT_ACTIVITY) {
+    return activity_is_valid_in_requirement(univ->value.activity);
+  }
+
+  return TRUE;
 }
 
 /**********************************************************************//**
@@ -2601,6 +2615,36 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
 }
 
 /**********************************************************************//**
+  Is the unit performing the specified activity?
+**************************************************************************/
+static enum fc_tristate unit_activity_in_range(const struct unit *punit,
+                                               enum req_range range,
+                                               enum unit_activity activity)
+{
+  fc_assert_ret_val_msg(range == REQ_RANGE_LOCAL, TRI_NO,
+                        "Unsupported range \"%s\"",
+                        req_range_name(range));
+
+  /* Could be asked with incomplete data.
+   * is_req_active() will handle it based on prob_type. */
+  if (punit == NULL) {
+    return TRI_MAYBE;
+  }
+
+  switch (punit->activity) {
+  case ACTIVITY_IDLE:
+  case ACTIVITY_GOTO:
+    /* Seen as idle. */
+    return BOOL_TO_TRISTATE(activity == ACTIVITY_IDLE);
+  default:
+    /* Handled below. */
+    break;
+  }
+
+  return BOOL_TO_TRISTATE(punit->activity == activity);
+}
+
+/**********************************************************************//**
   Is center of given city in tile. If city is NULL, any city will do.
 **************************************************************************/
 static bool is_city_in_tile(const struct tile *ptile,
@@ -2959,11 +3003,8 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_ACTIVITY:
-    if (target_unit == NULL) {
-      eval = TRI_MAYBE;
-    } else {
-      eval = BOOL_TO_TRISTATE(target_unit->activity == req->source.value.activity);
-    }
+    eval = unit_activity_in_range(target_unit,
+                                  req->range, req->source.value.activity);
     break;
   case VUT_MINMOVES:
     if (target_unit == NULL) {

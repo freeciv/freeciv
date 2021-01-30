@@ -372,6 +372,13 @@ void universal_kind_values(struct universal *univ,
     break;
   case VUT_ACTIVITY:
     activity_type_iterate(act) {
+      if (!universal_is_legal_in_requirement(
+            &(struct universal){.kind = VUT_ACTIVITY,
+                                .value = {.activity = act}})) {
+        /* This activity is excluded from appearing in requirement
+         * vectors. */
+        continue;
+      }
       cb(unit_activity_name(act), univ->value.activity == act, data);
     } activity_type_iterate_end;
     break;

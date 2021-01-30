@@ -260,6 +260,8 @@ bool universal_replace_in_req_vec(struct requirement_vector *reqs,
                                   const struct universal *to_replace,
                                   const struct universal *replacement);
 
+bool universal_is_legal_in_requirement(const struct universal *univ);
+
 #define universal_is_mentioned_by_requirement(preq, psource)               \
   are_universals_equal(&preq->source, psource)
 bool universal_is_mentioned_by_requirements(
