@@ -75,14 +75,10 @@ struct universal universal_by_rule_name(const char *kind,
 static bool activity_is_valid_in_requirement(enum unit_activity act)
 {
   return unit_activity_is_valid(act)
-      && act != ACTIVITY_OLD_ROAD
-      && act != ACTIVITY_OLD_RAILROAD
+      && is_real_activity(act)
       && act != ACTIVITY_SENTRY
       && act != ACTIVITY_GOTO
-      && act != ACTIVITY_EXPLORE
-      && act != ACTIVITY_UNKNOWN
-      && act != ACTIVITY_AIRBASE
-      && act != ACTIVITY_PATROL_UNUSED;
+      && act != ACTIVITY_EXPLORE;
 }
 
 /**********************************************************************//**
