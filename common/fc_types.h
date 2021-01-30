@@ -94,8 +94,9 @@ enum output_type_id {
 };
 
 /* Changing this enum will break savegame and network compatability. */
-/* When changing this, also update list of valid requirement "Activity" values in
- * doc/README.effects. */
+/* When changing this, also update the list of valid requirement "Activity"
+ * values in doc/README.effects and the list of invalid requirement
+ * "Activity" values in activity_is_valid_in_requirement(). */
 #define SPECENUM_NAME unit_activity
 #define SPECENUM_VALUE0 ACTIVITY_IDLE
 #define SPECENUM_VALUE0NAME N_("Idle")

@@ -69,6 +69,20 @@ struct universal universal_by_rule_name(const char *kind,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified activity can appear in an "Activity"
+  requirement.
+**************************************************************************/
+static bool activity_is_valid_in_requirement(enum unit_activity act)
+{
+  return unit_activity_is_valid(act)
+      && act != ACTIVITY_OLD_ROAD
+      && act != ACTIVITY_OLD_RAILROAD
+      && act != ACTIVITY_UNKNOWN
+      && act != ACTIVITY_AIRBASE
+      && act != ACTIVITY_PATROL_UNUSED;
+}
+
+/**********************************************************************//**
   Parse requirement value strings into a universal
   structure.
 **************************************************************************/
@@ -209,7 +223,7 @@ void universal_value_from_str(struct universal *source, const char *value)
     break;
   case VUT_ACTIVITY:
     source->value.activity = unit_activity_by_name(value, fc_strcasecmp);
-    if (unit_activity_is_valid(source->value.activity)) {
+    if (activity_is_valid_in_requirement(source->value.activity)) {
       return;
     }
     break;
