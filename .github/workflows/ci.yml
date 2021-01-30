@@ -12,7 +12,11 @@ jobs:
       - name: check out Freeciv
         uses: actions/checkout@v2
       - name: install dependencies
-        uses: msys2/setup-msys2@v2
+        # A mapping from msys2/setup-msys2 version to msys2 version can be
+        # found at
+        # https://github.com/msys2/setup-msys2/blob/master/CHANGELOG.md
+        # 2.1.2 provides msys2 snapshot 20201109
+        uses: msys2/setup-msys2@v2.1.2
         with:
           install: >
             make
