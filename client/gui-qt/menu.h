@@ -196,6 +196,8 @@ private:
   void discard();
   void discard_trade(trade_city *tc1, trade_city *tc2);
   void find_certain_routes();
+  void find_certain_routes_inner(trade_city *tc);
+  void calculate_inner(trade_city *tc);
 };
 
 
@@ -413,7 +415,12 @@ private slots:
   void slot_traveler();
 
 private:
-  struct tile* find_last_unit_pos(struct unit* punit, int pos);
+  struct tile *find_last_unit_pos(struct unit *punit, int pos);
+  bool execute_shortcut_inner(const QMenu *m, QKeySequence seq);
+  bool shortcut_exist_inner(const QMenu *m, QKeySequence seq,
+                            fc_shortcut *fcs, QString *ret);
+  bool shortcut_2_menustring_inner(const QMenu *m, QKeySequence seq,
+                                   QString *ret);
 };
 
 #endif /* FC__MENU_H */
