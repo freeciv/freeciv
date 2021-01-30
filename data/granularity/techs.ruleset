@@ -198,6 +198,18 @@ graphic     = "a.masonry"
 graphic_alt = "-"
 ;helptext    =
 
+[advance_pottery]
+name        = _("Pottery")
+req1        = "Fire"
+req2        = "None"
+flags       = ""
+graphic     = "a.pottery"
+graphic_alt = "-"
+; /* xgettext:no-c-format */
+helptext    = _("\
+As food can be stored, granary is set to 15% full when city grows.\
+")
+
 [advance_road_building]
 name        = _("Road Building")
 req1        = "None"

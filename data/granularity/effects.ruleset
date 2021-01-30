@@ -107,6 +107,14 @@ reqs	=
       "Tech", "Government", "Player"
     }
 
+[effect_granary_pottery]
+type    = "Growth_Food"
+value   = 15
+reqs	=
+    { "type", "name", "range"
+      "Tech", "Pottery", "Player"
+    }
+
 [effect_center_trade_village]
 type    = "Output_Add_Tile"
 value   = 25
