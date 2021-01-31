@@ -2749,6 +2749,45 @@ static enum fc_tristate is_citytile_in_range(const struct tile *target_tile,
     }
 
     return TRI_MAYBE;
+  case CITYT_EXTRAS_OWNED:
+    switch (range) {
+    case REQ_RANGE_LOCAL:
+      return BOOL_TO_TRISTATE(target_tile->extras_owner != NULL);
+    case REQ_RANGE_CADJACENT:
+      if (target_tile->extras_owner != NULL) {
+        return TRI_YES;
+      }
+      cardinal_adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+        if (adjc_tile->extras_owner != NULL) {
+          return TRI_YES;
+        }
+      } cardinal_adjc_iterate_end;
+
+      return TRI_NO;
+    case REQ_RANGE_ADJACENT:
+      if (target_tile->extras_owner != NULL) {
+        return TRI_YES;
+      }
+      adjc_iterate(&(wld.map), target_tile, adjc_tile) {
+        if (adjc_tile->extras_owner != NULL) {
+          return TRI_YES;
+        }
+      } adjc_iterate_end;
+
+      return TRI_NO;
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      fc_assert_msg(FALSE, "Invalid range %d for citytile.", range);
+      break;
+    }
+
+    return TRI_MAYBE;
   case CITYT_LAST:
     /* Handled below */
     break;
@@ -4110,6 +4149,9 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case CITYT_CLAIMED:
       fc_strlcat(buf, _("Tile claimed"), bufsz);
+      break;
+    case CITYT_EXTRAS_OWNED:
+      fc_strlcat(buf, _("Extras owned"), bufsz);
       break;
     case CITYT_LAST:
       fc_assert(psource->value.citytile != CITYT_LAST);

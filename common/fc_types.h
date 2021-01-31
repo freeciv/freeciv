@@ -452,6 +452,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE0NAME "Center"
 #define SPECENUM_VALUE1 CITYT_CLAIMED
 #define SPECENUM_VALUE1NAME "Claimed"
+#define SPECENUM_VALUE2 CITYT_EXTRAS_OWNED
+#define SPECENUM_VALUE2NAME "Extras Owned"
 #define SPECENUM_COUNT CITYT_LAST
 #include "specenum_gen.h"
 
