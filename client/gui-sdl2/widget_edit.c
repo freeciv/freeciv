@@ -699,7 +699,7 @@ enum edit_return_codes edit_field(struct widget *edit_widget)
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif /* 0 */
 
-  edt.bg = create_bcgnd_surf(edit_widget->theme, 2,
+  edt.bg = create_bcgnd_surf(edit_widget->theme, FC_WS_PRESSED,
                              edit_widget->size.w, edit_widget->size.h);
 
   /* Creating Chain */

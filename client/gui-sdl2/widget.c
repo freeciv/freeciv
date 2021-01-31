@@ -74,12 +74,8 @@ void correct_size_bcgnd_surf(SDL_Surface *ptheme,
   Graphic is taken from ptheme surface and blit to new created image.
 
   Type of image depend of "state" parameter.
-    state = 0 - normal
-    state = 1 - selected
-    state = 2 - pressed
-    state = 3 - disabled
 **************************************************************************/
-SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
+SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
                                Uint16 width, Uint16 height)
 {
   bool zoom;
