@@ -23,7 +23,7 @@ struct scroll_bar {
   struct widget *down_right_button;
   Uint8 active;		/* used by scroll: numbers of displayed rows */
   Uint8 step;		/* used by scroll: numbers of displayed columns */
-  /* total dispalyed widget = active * step */
+  /* total displayed widget = active * step */
   Uint16 count;		/* total size of scroll list */
   Sint16 min;		/* used by scroll: min pixel position */
   Sint16 max;		/* used by scroll: max pixel position */
