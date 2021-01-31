@@ -2599,7 +2599,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
 
       switch (preq->source.value.citystatus) {
       case CITYS_OWNED_BY_ORIGINAL:
-        city_property = "owned by original";
+        city_property = _("owned by original");
         break;
       case CITYS_LAST:
         fc_assert(preq->source.value.citystatus != CITYS_LAST);
