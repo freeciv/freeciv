@@ -175,7 +175,6 @@ class fc_client : public QMainWindow,
 
   QGridLayout *pages_layout[PAGE_GAME + 2];
   QStackedLayout *central_layout;
-  QGridLayout *game_layout;
 
   QTextEdit *output_window;
   QTextEdit *scenarios_view;

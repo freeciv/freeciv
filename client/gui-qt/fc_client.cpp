@@ -121,7 +121,6 @@ fc_client::fc_client() : QMainWindow()
   x_vote = NULL;
   gtd = NULL;
   update_info_timer = nullptr;
-  game_layout = nullptr;
   unitinfo_wdg = nullptr;
   battlelog_wdg = nullptr;
   interface_locked = false;
