@@ -273,15 +273,21 @@ fc_shortcuts *fc_shortcuts::sc()
 void fc_shortcuts::init_default(bool read)
 {
   int i;
-  fc_shortcut *s;
   bool suc = false;
+
   hash.clear();
 
   if (read) {
     suc = read_shortcuts();
   }
-  if (!suc) {
-    for (i = 0 ; i < num_shortcuts; i++) {
+
+  for (i = 0 ; i < num_shortcuts; i++) {
+    fc_shortcut *s = nullptr;
+
+    if (suc) {
+      s = fc_shortcuts::hash.value(static_cast<shortcut_id>(i + 1));
+    }
+    if (s == nullptr) {
       s = new fc_shortcut();
       s->id = default_shortcuts[i].id;
       s->key = default_shortcuts[i].key;
@@ -794,9 +800,11 @@ bool read_shortcuts()
     }
   } else {
     s.endArray();
+
     return false;
   }
   s.endArray();
+
   return true;
 }
 
