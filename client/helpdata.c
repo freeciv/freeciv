@@ -2890,10 +2890,10 @@ static bool insert_requirement(char *buf, size_t bufsz,
 
       switch (preq->source.value.citytile) {
       case CITYT_CENTER:
-        tile_property = "city centers";
+        tile_property = _("city centers");
         break;
       case CITYT_CLAIMED:
-        tile_property = "claimed tiles";
+        tile_property = _("claimed tiles");
         break;
       case CITYT_LAST:
         fc_assert(preq->source.value.citytile != CITYT_LAST);
