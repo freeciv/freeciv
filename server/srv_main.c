@@ -570,7 +570,7 @@ bool check_for_game_over(void)
       const struct player_list *members;
       bool win;
 
-      if (game.info.year < (int)spaceship_arrival(pplayer)) {
+      if (game.info.year32 < (int)spaceship_arrival(pplayer)) {
         /* We are into the future arrivals */
         break;
       }
@@ -632,7 +632,7 @@ bool check_for_game_over(void)
       /* Advance the calendar in a throwaway copy of game.info. */
       game_next_year(&next_info);
 
-      if (next_info.year < (int)spaceship_arrival(pplayer)) {
+      if (next_info.year32 < (int)spaceship_arrival(pplayer)) {
         /* Even further in the future */
         break;
       }
@@ -1067,7 +1067,7 @@ static void begin_turn(bool is_new_turn)
   if (is_new_turn) {
     script_server_signal_emit("turn_started", 2,
                               API_TYPE_INT, game.info.turn,
-                              API_TYPE_INT, game.info.year);
+                              API_TYPE_INT, game.info.year32);
 
     /* We build scores at the beginning of every turn.  We have to
      * build them at the beginning so that the AI can use the data,
@@ -3039,7 +3039,8 @@ static void srv_ready(void)
 #endif
 
   if (game.info.is_new_game) {
-    game.info.year = game.server.start_year;
+    game.info.year32 = game.server.start_year;
+    game.info.year16 = game.server.start_year;
     /* Must come before assign_player_colors() */
     generate_players();
     final_ruleset_adjustments();

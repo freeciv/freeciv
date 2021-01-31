@@ -1802,7 +1802,7 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
 
       switch (propid) {
       case OPID_GAME_YEAR:
-        pv->data.v_int = pgame->info.year;
+        pv->data.v_int = pgame->info.year32;
         break;
       case OPID_GAME_SCENARIO:
         pv->data.v_bool = pgame->scenario.is_scenario;
@@ -2323,7 +2323,8 @@ static void objbind_pack_current_values(struct objbind *ob,
         return;
       }
 
-      packet->year = pgame->info.year;
+      packet->year32 = pgame->info.year32;
+      packet->year16 = pgame->info.year32;
       packet->scenario = pgame->scenario.is_scenario;
       sz_strlcpy(packet->scenario_name, pgame->scenario.name);
       sz_strlcpy(packet->scenario_authors, pgame->scenario.authors);
@@ -2557,7 +2558,8 @@ static void objbind_pack_modified_value(struct objbind *ob,
 
       switch (propid) {
       case OPID_GAME_YEAR:
-        packet->year = pv->data.v_int;
+        packet->year32 = pv->data.v_int;
+        packet->year16 = pv->data.v_int;
         return;
       case OPID_GAME_SCENARIO:
         packet->scenario = pv->data.v_bool;

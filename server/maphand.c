@@ -1193,7 +1193,7 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
   if (!game.server.last_updated_year) {
     plrtile->last_updated = game.info.turn;
   } else {
-    plrtile->last_updated = game.info.year;
+    plrtile->last_updated = game.info.year32;
   }
 
   plrtile->seen_count[V_MAIN] = !game.server.fogofwar_old;
@@ -1320,7 +1320,7 @@ void update_player_tile_last_seen(struct player *pplayer,
   if (!game.server.last_updated_year) {
     map_get_player_tile(ptile, pplayer)->last_updated = game.info.turn;
   } else {
-    map_get_player_tile(ptile, pplayer)->last_updated = game.info.year;
+    map_get_player_tile(ptile, pplayer)->last_updated = game.info.year32;
   }
 }
 

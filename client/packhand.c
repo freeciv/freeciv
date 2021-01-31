@@ -1179,9 +1179,15 @@ void handle_worker_task(const struct packet_worker_task *packet)
 /**************************************************************************
   Handle turn and year advancement.
 **************************************************************************/
-void handle_new_year(int year, int fragments, int turn)
+void handle_new_year(int year16, int year32, int fragments, int turn)
 {
-  game.info.year = year;
+  if (has_capability("year32", client.conn.capability)) {
+    game.info.year32 = year32;
+    game.info.year16 = year32;
+  } else {
+    game.info.year32 = year16;
+    game.info.year16 = year16;
+  }
   game.info.fragment_count = fragments;
   /*
    * The turn was increased in handle_end_turn()
@@ -2032,6 +2038,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
     game.info.techloss_forgiveness = techloss_forgiveness;
   }
 
+  if (!has_capability("year32", client.conn.capability)) {
+    game.info.year32 = game.info.year16;
+  }
+
   /* check the values! */
 #define VALIDATE(_count, _maximum, _string)                                 \
   if (game.info._count > _maximum) {                                        \
@@ -2759,7 +2769,11 @@ void handle_spaceship_info(const struct packet_spaceship_info *p)
   ship->habitation   = p->habitation;
   ship->life_support = p->life_support;
   ship->solar_panels = p->solar_panels;
-  ship->launch_year  = p->launch_year;
+  if (has_capability("year32", client.conn.capability)) {
+    ship->launch_year = p->launch_year32;
+  } else {
+    ship->launch_year = p->launch_year16;
+  }
   ship->population   = p->population;
   ship->mass         = p->mass;
   ship->support_rate = p->support_rate;

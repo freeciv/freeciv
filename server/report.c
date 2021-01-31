@@ -1388,7 +1388,7 @@ void log_civ_score_now(void)
   }
 
   if (!score_log->fp) {
-    if (game.info.year == GAME_START_YEAR) {
+    if (game.info.year32 == GAME_START_YEAR) {
       oper = SL_CREATE;
     } else {
       score_log->fp = fc_fopen(game.server.scorefile, "r");
@@ -1440,7 +1440,7 @@ void log_civ_score_now(void)
   }
 
   if (game.info.turn > score_log->last_turn) {
-    fprintf(score_log->fp, "turn %d %d %s\n", game.info.turn, game.info.year,
+    fprintf(score_log->fp, "turn %d %d %s\n", game.info.turn, game.info.year32,
             calendar_text());
     score_log->last_turn = game.info.turn;
   }

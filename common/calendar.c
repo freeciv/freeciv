@@ -37,7 +37,7 @@ void game_next_year(struct packet_game_info *info)
 
   if (info->year_0_hack) {
     /* hacked it to get rid of year 0 */
-    info->year = 0;
+    info->year32 = 0;
     info->year_0_hack = FALSE;
   }
 
@@ -78,12 +78,13 @@ void game_next_year(struct packet_game_info *info)
     info->fragment_count -= fragment_years * info->calendar_fragments;
   }
 
-  info->year += increase;
+  info->year32 += increase;
 
-  if (info->year == 0 && info->calendar_skip_0) {
-    info->year = 1;
+  if (info->year32 == 0 && info->calendar_skip_0) {
+    info->year32 = 1;
     info->year_0_hack = TRUE;
   }
+  info->year16 = info->year32;
 }
 
 /***************************************************************
@@ -126,16 +127,16 @@ const char *calendar_text(void)
     static char buffer[128];
 
     if (game.info.calendar_fragment_name[game.info.fragment_count][0] != '\0') {
-      fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year),
+      fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year32),
                   _(game.info.calendar_fragment_name[game.info.fragment_count]));
     } else {
       /* Human readable fragment count starts from 1, not 0 */
-      fc_snprintf(buffer, sizeof(buffer), "%s/%d", textyear(game.info.year),
+      fc_snprintf(buffer, sizeof(buffer), "%s/%d", textyear(game.info.year32),
                   game.info.fragment_count + 1);
     }
 
     return buffer;
   } else {
-    return textyear(game.info.year);
+    return textyear(game.info.year32);
   }
 }

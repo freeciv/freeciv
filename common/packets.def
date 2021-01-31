@@ -305,7 +305,8 @@ type MOVEFRAGS          = UINT16  # units of TERRAIN_CONTROL.move_fragments
 type PHASE              = SINT16
 type TURN               = SINT16
 type XYSIZE             = UINT16
-type YEAR               = SINT16
+type YEAR16             = SINT16
+type YEAR32             = SINT32
 type CITIZENS           = UINT8
 
 /****************************************************
@@ -540,7 +541,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL trading_tech;
   TURN turn;
   UINT32 warminglevel;
-  YEAR year;
+  YEAR16 year16;
+  YEAR32 year32; add-cap(year32)
   BOOL year_0_hack;
   UINT16 calendar_fragments;
   UINT16 fragment_count;
@@ -1226,7 +1228,8 @@ end
 
 # send to each client whenever the turn has ended.
 PACKET_NEW_YEAR = 127; sc, lsend
-  YEAR year;
+  YEAR16 year16; remove-cap(year32)
+  YEAR32 year32; add-cap(year32)
   UINT16 fragments;
   TURN turn;
 end
@@ -1277,7 +1280,8 @@ PACKET_SPACESHIP_INFO = 137; sc, lsend, is-game-info
   UINT8 habitation;
   UINT8 life_support;
   UINT8 solar_panels;
-  YEAR launch_year;
+  YEAR16 launch_year16; remove-cap(year32)
+  YEAR32 launch_year32; add-cap(year32)
   UINT32 population;
   UINT32 mass;
   BV_SPACESHIP_STRUCT structure;
@@ -2133,7 +2137,8 @@ end
  * the client, so that the test in server/srv_main.c in
  * the function is_client_edit_packet() is easy to write. */
 PACKET_EDIT_GAME = 218; cs, handle-per-conn, handle-via-packet
-  YEAR year;
+  YEAR16 year16; remove-cap(year32)
+  YEAR32 year32; add-cap(year32)
   BOOL scenario;
   STRING scenario_name[256];
   STRING scenario_authors[MAX_LEN_PACKET / 3];

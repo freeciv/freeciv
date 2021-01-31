@@ -2837,7 +2837,7 @@ bool is_req_active(const struct player *target_player,
                                  req->source.value.extraflag);
     break;
   case VUT_MINYEAR:
-    eval = BOOL_TO_TRISTATE(game.info.year >= req->source.value.minyear);
+    eval = BOOL_TO_TRISTATE(game.info.year32 >= req->source.value.minyear);
     break;
   case VUT_TOPO:
     eval = BOOL_TO_TRISTATE(current_topo_has_flag(req->source.value.topo_property));
@@ -2976,7 +2976,7 @@ bool is_req_unchanging(const struct requirement *req)
     return TRUE;
   case VUT_MINYEAR:
     /* Once year is reached, it does not change again */
-    return req->source.value.minyear > game.info.year;
+    return req->source.value.minyear > game.info.year32;
   case VUT_COUNT:
     break;
   }

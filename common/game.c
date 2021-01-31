@@ -335,7 +335,8 @@ static void game_defaults(void)
   game.info.turn             = 0;
   game.info.warminglevel     = 0; /* set later */
   game.info.year_0_hack      = FALSE;
-  game.info.year             = GAME_START_YEAR;
+  game.info.year32           = GAME_START_YEAR;
+  game.info.year16           = GAME_START_YEAR;
 
   /* The scenario packets. */
   game.scenario.is_scenario = FALSE;
@@ -738,7 +739,7 @@ static char *year_suffix(void)
   const char *max = safe_year_suffix + MAX_LEN_NAME - 1;
   char *c = safe_year_suffix;
 
-  if (game.info.year < 0) {
+  if (game.info.year32 < 0) {
     suffix = game.info.negative_year_label;
   } else {
     suffix = game.info.positive_year_label;
@@ -787,7 +788,7 @@ int generate_save_name(const char *format, char *buf, int buflen,
   };
 
   cf_int_seq('T', game.info.turn, &sequences[2]);
-  cf_int_seq('Y', game.info.year, &sequences[3]);
+  cf_int_seq('Y', game.info.year32, &sequences[3]);
 
   fc_vsnprintcf(buf, buflen, format, sequences, -1);
 
