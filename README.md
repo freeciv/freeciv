@@ -12,7 +12,7 @@ Links
 =====
 Freeciv website: [Freeciv.org](http://www.freeciv.org/) 
 
-Submit patches: [Hostedredmine](http://www.hostedredmine.com/projects/freeciv/) 
+Submit patches: [OSDN](https://osdn.net/projects/freeciv/ticket/)
 
 Community forum: [forum.freeciv.org](http://forum.freeciv.org/) 
 
