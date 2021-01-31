@@ -304,7 +304,7 @@ static struct intel_dialog *create_intel_dialog(struct player *p)
 }
 
 /**********************************************************************//**
-  Update the intelligence dialog for the given player.  This is called by
+  Update the intelligence dialog for the given player. This is called by
   the core client code when that player's information changes.
 **************************************************************************/
 void update_intel_dialog(struct player *p)
@@ -315,6 +315,10 @@ void update_intel_dialog(struct player *p)
     const struct research *mresearch, *presearch;
     GtkTreeIter diplstates[DS_LAST];
     int i;
+    bool global_observer = client_is_global_observer();
+    struct player *me = client_player();
+    bool embassy_knowledge = global_observer || team_has_embassy(me->team, p);
+    bool trade_knowledge = global_observer || p == me || could_intel_with_player(me, p);
 
     /* window title. */
     gchar *title = g_strdup_printf(_("Foreign Intelligence: %s Empire"),
@@ -387,24 +391,44 @@ void update_intel_dialog(struct player *p)
           buf = g_strdup(tbuf);
           break;
         case LABEL_GOVERNMENT:
-          buf = g_strdup(government_name_for_player(p));
+          if (trade_knowledge) {
+            buf = g_strdup(government_name_for_player(p));
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         case LABEL_CAPITAL:
           pcity = player_primary_capital(p);
           /* TRANS: "unknown" location */
-          buf = g_strdup((!pcity) ? _("(unknown)") : city_name_get(pcity));
+          buf = g_strdup((!pcity) ? _("(Unknown)") : city_name_get(pcity));
           break;
         case LABEL_GOLD:
-          buf = g_strdup_printf("%d", p->economic.gold);
+          if (trade_knowledge) {
+            buf = g_strdup_printf("%d", p->economic.gold);
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         case LABEL_TAX:
-          buf = g_strdup_printf("%d%%", p->economic.tax);
+          if (embassy_knowledge) {
+            buf = g_strdup_printf("%d%%", p->economic.tax);
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         case LABEL_SCIENCE:
-          buf = g_strdup_printf("%d%%", p->economic.science);
+          if (embassy_knowledge) {
+            buf = g_strdup_printf("%d%%", p->economic.science);
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         case LABEL_LUXURY:
-          buf = g_strdup_printf("%d%%", p->economic.luxury);
+          if (embassy_knowledge) {
+            buf = g_strdup_printf("%d%%", p->economic.luxury);
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         case LABEL_RESEARCHING:
           {
@@ -416,8 +440,12 @@ void update_intel_dialog(struct player *p)
               buf = g_strdup(_("(Unknown)"));
               break;
             case A_UNSET:
-              /* TRANS: missing value */
-              buf = g_strdup(_("(none)"));
+              if (embassy_knowledge) {
+                /* TRANS: missing value */
+                buf = g_strdup(_("(none)"));
+              } else {
+                buf = g_strdup(_("(Unknown)"));
+              }
               break;
             default:
               buf = g_strdup_printf("%s(%d/%d)",
@@ -430,7 +458,11 @@ void update_intel_dialog(struct player *p)
             break;
           }
         case LABEL_CULTURE:
-          buf = g_strdup_printf("%d", p->client.culture);
+          if (embassy_knowledge) {
+            buf = g_strdup_printf("%d", p->client.culture);
+          } else {
+            buf = g_strdup(_("(Unknown)"));
+          }
           break;
         }
 
