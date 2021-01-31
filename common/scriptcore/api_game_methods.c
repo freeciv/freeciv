@@ -74,7 +74,7 @@ int api_methods_game_year_fragment(lua_State *L)
 }
 
 /*****************************************************************************
-  Return the current year fragment.
+  Return textual representation of the current calendar time.
 *****************************************************************************/
 const char *api_methods_game_year_text(lua_State *L)
 {
