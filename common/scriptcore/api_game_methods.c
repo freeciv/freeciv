@@ -60,7 +60,7 @@ int api_methods_game_year(lua_State *L)
 {
   LUASCRIPT_CHECK_STATE(L, 0);
 
-  return game.info.year;
+  return game.info.year32;
 }
 
 /*****************************************************************************

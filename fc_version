@@ -60,7 +60,7 @@ DEFAULT_FOLLOW_TAG=S3_0
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv-3.0-network"
-NETWORK_CAPSTRING_OPTIONAL=""
+NETWORK_CAPSTRING_OPTIONAL="year32"
 
 FREECIV_DISTRIBUTOR=""
 

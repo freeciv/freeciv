@@ -36,7 +36,7 @@ void game_next_year(struct packet_game_info *info)
 
   if (info->year_0_hack) {
     /* hacked it to get rid of year 0 */
-    info->year = 0;
+    info->year32 = 0;
     info->year_0_hack = FALSE;
   }
 
@@ -77,12 +77,14 @@ void game_next_year(struct packet_game_info *info)
     info->fragment_count -= fragment_years * game.calendar.calendar_fragments;
   }
 
-  info->year += increase;
+  info->year32 += increase;
 
-  if (info->year == 0 && game.calendar.calendar_skip_0) {
-    info->year = 1;
+  if (info->year32 == 0 && game.calendar.calendar_skip_0) {
+    info->year32 = 1;
     info->year_0_hack = TRUE;
   }
+
+  info->year16 = info->year32;
 }
 
 /***************************************************************
@@ -143,10 +145,10 @@ const char *calendar_text(void)
   if (game.calendar.calendar_fragments) {
     static char buffer[128];
 
-    fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year),
+    fc_snprintf(buffer, sizeof(buffer), "%s/%s", textyear(game.info.year32),
                 textcalfrag(game.info.fragment_count));
     return buffer;
   } else {
-    return textyear(game.info.year);
+    return textyear(game.info.year32);
   }
 }

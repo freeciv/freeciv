@@ -147,7 +147,8 @@ void send_spaceship_info(struct player *src, struct conn_list *dest)
       info.habitation = ship->habitation;
       info.life_support = ship->life_support;
       info.solar_panels = ship->solar_panels;
-      info.launch_year = ship->launch_year;
+      info.launch_year32 = ship->launch_year;
+      info.launch_year16 = ship->launch_year;
       info.population = ship->population;
       info.mass = ship->mass;
       info.support_rate = ship->support_rate;
@@ -188,7 +189,7 @@ void handle_spaceship_launch(struct player *pplayer)
   }
 
   ship->state = SSHIP_LAUNCHED;
-  ship->launch_year = game.info.year;
+  ship->launch_year = game.info.year32;
   arrival = ship->launch_year + (int) ship->travel_time;
 
   notify_player(NULL, NULL, E_SPACESHIP, ftc_server,
