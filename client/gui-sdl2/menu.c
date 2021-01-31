@@ -998,25 +998,6 @@ void undraw_order_widgets(void)
   }
 }
 
-/**********************************************************************//**
-  Free surfaces of the unit order widgets.
-  TODO: Unused -> Remove
-**************************************************************************/
-void free_bcgd_order_widgets(void)
-{
-  struct widget *tmp_widget = begin_order_widget_list;
-
-  while (TRUE) {
-    FREESURFACE(tmp_widget->gfx);
-
-    if (tmp_widget == end_order_widget_list) {
-      break;
-    }
-
-    tmp_widget = tmp_widget->next;
-  }
-}
-
 /* ============================== Native =============================== */
 
 /**********************************************************************//**
