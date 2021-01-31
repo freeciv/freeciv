@@ -956,26 +956,6 @@ void undraw_order_widgets(void)
   }
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-void free_bcgd_order_widgets(void)
-{
-  struct widget *pTmpWidget = pBeginOrderWidgetList;
-
-  while (TRUE) {
-
-    FREESURFACE(pTmpWidget->gfx);
-
-    if (pTmpWidget == pEndOrderWidgetList) {
-      break;
-    }
-
-    pTmpWidget = pTmpWidget->next;
-  }
-}
-
-
 /* ============================== Native =============================== */
 
 /**************************************************************************
