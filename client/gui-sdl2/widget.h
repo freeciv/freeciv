@@ -410,7 +410,7 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
                                                  struct widget *pWidget);
 
 /* misc */
-SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, Uint8 state,
+SDL_Surface *create_bcgnd_surf(SDL_Surface *ptheme, enum widget_state state,
                                Uint16 width, Uint16 height);
 void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
                 Uint16 w, Uint16 h);

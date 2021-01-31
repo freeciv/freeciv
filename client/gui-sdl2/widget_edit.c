@@ -703,7 +703,7 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 #endif /* 0 */
 
-  pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, 2,
+  pEdt.pBg = create_bcgnd_surf(pEdit_Widget->theme, FC_WS_PRESSED,
                                pEdit_Widget->size.w, pEdit_Widget->size.h);
 
   /* Creating Chain */

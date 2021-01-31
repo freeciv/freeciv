@@ -891,12 +891,13 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
     *progress = 100;
   }
 
-  pIcon = create_bcgnd_surf(current_theme->Edit, 0, adj_size(120), adj_size(30));
+  pIcon = create_bcgnd_surf(current_theme->Edit, FC_WS_NORMAL, adj_size(120),
+                            adj_size(30));
 
   if (width) {
     SDL_Rect dst = {2,1,0,0};
-    SDL_Surface *pBuf = create_bcgnd_surf(current_theme->Button, 3, width,
-                                          adj_size(28));
+    SDL_Surface *pBuf = create_bcgnd_surf(current_theme->Button, FC_WS_DISABLED,
+                                          width, adj_size(28));
 
     alphablit(pBuf, NULL, pIcon, &dst);
     FREESURFACE(pBuf);
