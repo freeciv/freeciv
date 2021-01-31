@@ -1507,7 +1507,7 @@ Once you learn the Railroad technology, you may upgrade your roads\
  to railroads. Units expend no movement points when moving along a\
  railroad; you may ride a railroad indefinitely. (As may your enemies!)\
 "), _("\
-A railroad also increases any shield resources produced by a tile.\
+A railroad also increases any shield resources produced by a tile by half.\
  A tile whose road is upgraded to a railroad retains any trade bonus\
  from the road as well.\
 "), _("\
