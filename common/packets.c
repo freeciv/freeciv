@@ -437,7 +437,7 @@ void *get_packet_from_connection(struct connection *pc,
     uLong compressed_size = whole_packet_len - header_size;
     int decompress_factor = 80;
     unsigned long int decompressed_size = decompress_factor * compressed_size;
-    int error = Z_DATA_ERROR;
+    int error = Z_BUF_ERROR;
     struct socket_packet_buffer *buffer = pc->buffer;
     void *decompressed = fc_malloc(decompressed_size);
 
@@ -447,14 +447,14 @@ void *get_packet_from_connection(struct connection *pc,
                    ADD_TO_POINTER(buffer->data, header_size),
                    compressed_size);
 
-      if (error == Z_DATA_ERROR) {
+      if (error == Z_BUF_ERROR) {
         decompress_factor += 50;
         decompressed_size = decompress_factor * compressed_size;
         decompressed = fc_realloc(decompressed, decompressed_size);
       }
 
       if (error != Z_OK) {
-        if (error != Z_DATA_ERROR || decompress_factor > MAX_DECOMPRESSION ) {
+        if (error != Z_BUF_ERROR || decompress_factor > MAX_DECOMPRESSION ) {
           log_verbose("Uncompressing of the packet stream failed. "
                       "The connection will be closed now.");
           connection_close(pc, _("decoding error"));
