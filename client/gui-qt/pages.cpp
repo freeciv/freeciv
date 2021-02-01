@@ -1132,7 +1132,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
   QVariant qvar;
   QString str_pixmap;
 
-  client_pages i = current_page();
+  client_pages cpage = current_page();
   const char *terr_name;
   const struct server *pserver = NULL;
   int ii = 0;
@@ -1145,7 +1145,7 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
     return;
   }
 
-  switch (i) {
+  switch (cpage) {
   case PAGE_NETWORK:
     index = indexes.at(0);
     connect_host_edit->setText(index.data().toString());
@@ -1331,12 +1331,14 @@ void fc_client::slot_selection_changed(const QItemSelection &selected,
           for (int b = 0; b < nat_y; b++) {
             struct terrain *tr;
             struct rgbcolor *rgb;
+
             tr = char2terrain(str_pixmap.at(b * nat_x + a).toLatin1());
             if (tr != nullptr) {
               rgb = tr->rgb;
-              QColor col;
-              col.setRgb(rgb->r, rgb->g, rgb->b);
-              img.setPixel(a, b, col.rgb());
+              QColor color;
+
+              color.setRgb(rgb->r, rgb->g, rgb->b);
+              img.setPixel(a, b, color.rgb());
             }
           }
         }
@@ -1431,7 +1433,6 @@ void fc_client::update_scenarios_page(void)
       QTableWidgetItem *item;
       QString format;
       QString st;
-      QStringList sl;
       int fcver;
       int current_ver = MAJOR_VERSION * 1000000 + MINOR_VERSION * 10000;
 
