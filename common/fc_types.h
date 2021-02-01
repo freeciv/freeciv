@@ -98,52 +98,76 @@ enum output_type_id {
  * values in doc/README.effects and the list of invalid requirement
  * "Activity" values in activity_is_valid_in_requirement(). */
 #define SPECENUM_NAME unit_activity
+/* Not performing any activity right now */
 #define SPECENUM_VALUE0 ACTIVITY_IDLE
 #define SPECENUM_VALUE0NAME N_("Idle")
+/* Action with the result ACTRES_CLEAN_POLLUTION */
 #define SPECENUM_VALUE1 ACTIVITY_POLLUTION
 #define SPECENUM_VALUE1NAME N_("Pollution")
+/* Savegame compatibility */
 #define SPECENUM_VALUE2 ACTIVITY_OLD_ROAD
 #define SPECENUM_VALUE2NAME "Unused Road"
+/* Action with the result ACTRES_CULTIVATE */
 #define SPECENUM_VALUE3 ACTIVITY_MINE
 #define SPECENUM_VALUE3NAME N_("Mine")
+/* Action with the result ACTRES_IRRIGATE */
 #define SPECENUM_VALUE4 ACTIVITY_IRRIGATE
 #define SPECENUM_VALUE4NAME N_("Irrigate")
+/* Has completed ACTIVITY_FORTIFYING */
 #define SPECENUM_VALUE5 ACTIVITY_FORTIFIED
 #define SPECENUM_VALUE5NAME N_("Fortified")
+/* Savegame compatibility */
 #define SPECENUM_VALUE6 ACTIVITY_FORTRESS
 #define SPECENUM_VALUE6NAME "Fortress"
+/* Server side client state (UI) */
 #define SPECENUM_VALUE7 ACTIVITY_SENTRY
 #define SPECENUM_VALUE7NAME "Sentry"
+/* Savegame compatibility */
 #define SPECENUM_VALUE8 ACTIVITY_OLD_RAILROAD
 #define SPECENUM_VALUE8NAME "Unused Railroad"
+/* Action with the result ACTRES_PILLAGE */
 #define SPECENUM_VALUE9 ACTIVITY_PILLAGE
 #define SPECENUM_VALUE9NAME N_("Pillage")
+/* AI compatibility. Is not orders' goto. */
 #define SPECENUM_VALUE10 ACTIVITY_GOTO
 #define SPECENUM_VALUE10NAME "Goto"
+/* Server side agent */
 #define SPECENUM_VALUE11 ACTIVITY_EXPLORE
 #define SPECENUM_VALUE11NAME "Explore"
+/* Action with the result ACTRES_TRANSFORM_TERRAIN */
 #define SPECENUM_VALUE12 ACTIVITY_TRANSFORM
 #define SPECENUM_VALUE12NAME N_("Transform")
+/* Unused */
 #define SPECENUM_VALUE13 ACTIVITY_UNKNOWN
 #define SPECENUM_VALUE13NAME "Unused"
+/* Savegame compatibility */
 #define SPECENUM_VALUE14 ACTIVITY_AIRBASE
 #define SPECENUM_VALUE14NAME "Unused Airbase"
+/* Action with the result ACTRES_FORTIFY */
 #define SPECENUM_VALUE15 ACTIVITY_FORTIFYING
 #define SPECENUM_VALUE15NAME N_("Fortifying")
+/* Action with the result ACTRES_CLEAN_FALLOUT */
 #define SPECENUM_VALUE16 ACTIVITY_FALLOUT
 #define SPECENUM_VALUE16NAME N_("Fallout")
+/* Unused */
 #define SPECENUM_VALUE17 ACTIVITY_PATROL_UNUSED
 #define SPECENUM_VALUE17NAME "Unused Patrol"
+/* Action with the result ACTRES_BASE */
 #define SPECENUM_VALUE18 ACTIVITY_BASE
 #define SPECENUM_VALUE18NAME N_("Base")
+/* Action with the result ACTRES_ROAD */
 #define SPECENUM_VALUE19 ACTIVITY_GEN_ROAD
 #define SPECENUM_VALUE19NAME N_("Road")
+/* Action with the result ACTRES_CONVERT */
 #define SPECENUM_VALUE20 ACTIVITY_CONVERT
 #define SPECENUM_VALUE20NAME N_("Convert")
+/* Action with the result ACTRES_CULTIVATE */
 #define SPECENUM_VALUE21 ACTIVITY_CULTIVATE
 #define SPECENUM_VALUE21NAME N_("Cultivate")
+/* Action with the result ACTRES_PLANT */
 #define SPECENUM_VALUE22 ACTIVITY_PLANT
 #define SPECENUM_VALUE22NAME N_("Plant")
+/* Number of activities */
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
