@@ -2798,6 +2798,38 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
           }
         }
         break;
+      case ACTRES_CONQUER_EXTRAS:
+        {
+          const char *targets[extra_count()];
+          int j = 0;
+
+          extra_type_by_cause_iterate(EC_BASE, pextra) {
+            fc_assert_action(pextra->data.base, continue);
+            if (!territory_claiming_base(pextra->data.base)) {
+              /* Hard requirement */
+              continue;
+            }
+
+            if (!is_native_extra_to_uclass(pextra,
+                                           utype_class(utype))) {
+              /* Hard requirement */
+              continue;
+            }
+
+            targets[j++] = extra_name_translation(pextra);
+          } extra_type_by_cause_iterate_end;
+
+          if (j > 0) {
+            struct astring list = ASTRING_INIT;
+            /* TRANS: indented unit action property, preserve
+             * leading spaces.
+             * %s is a list of extra types separated by "and". */
+            cat_snprintf(buf, bufsz, _("  * done to %s.\n"),
+                         astr_build_and_list(&list, targets, j));
+            astr_free(&list);
+          }
+        }
+        break;
       default:
         /* No action specific details. */
         break;
