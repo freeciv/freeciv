@@ -3877,17 +3877,6 @@ static bool sg_load_player_unit(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, game.info.turn,
                                  "%s.born", unitstr);
 
-  if (activity == ACTIVITY_PATROL_UNUSED) {
-    /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
-     * client-side goto. Now client-side goto is handled by setting
-     * a special flag, and units with orders generally have ACTIVITY_IDLE.
-     * Old orders are lost. Old client-side goto units will still have
-     * ACTIVITY_GOTO and will goto the correct position via server goto.
-     * Old client-side patrol units lose their patrol routes and are put
-     * into idle mode. */
-    activity = ACTIVITY_IDLE;
-  }
-
   extra_id = secfile_lookup_int_default(loading->file, -2,
                                         "%s.activity_tgt", unitstr);
 
