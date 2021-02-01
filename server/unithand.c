@@ -846,6 +846,13 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     }
     target_player = tile_owner(target_tile);
     break;
+  case ATK_EXTRAS:
+    if (target_tile == NULL) {
+      /* No target tile. */
+      return NULL;
+    }
+    target_player = target_tile->owner;
+    break;
   case ATK_SELF:
     /* Can't declare war on itself. */
     return NULL;
@@ -1051,6 +1058,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     case ATK_UNITS:
     case ATK_TILE:
+    case ATK_EXTRAS:
       if (target_tile == NULL) {
         explnat->kind = ANEK_MISSING_TARGET;
       }
@@ -1092,6 +1100,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       break;
     case ATK_TILE:
       tgt_player = tile_owner(target_tile);
+      break;
+    case ATK_EXTRAS:
+      tgt_player = target_tile->extras_owner;
       break;
     case ATK_UNITS:
       /* A unit stack may contain units with multiple owners. Pick the
@@ -1916,6 +1927,17 @@ void handle_unit_get_actions(struct connection *pc,
         probabilities[act] = ACTPROB_IMPOSSIBLE;
       }
       break;
+    case ATK_EXTRAS:
+      if (target_tile) {
+        /* Calculate the probabilities. */
+        probabilities[act] = action_prob_vs_extras(actor_unit, act,
+                                                   target_tile,
+                                                   target_extra);
+      } else {
+        /* No target to act against. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+      break;
     case ATK_SELF:
       if (actor_target_distance == 0) {
         /* Calculate the probabilities. */
@@ -1960,6 +1982,7 @@ void handle_unit_get_actions(struct connection *pc,
         target_unit_id = target_unit->id;
         break;
       case ATK_TILE:
+      case ATK_EXTRAS:
         /* The target tile isn't selected here so it hasn't changed. */
         fc_assert(target_tile != NULL);
 
@@ -3004,6 +3027,30 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
+#define ACTION_STARTED_UNIT_EXTRAS(action, actor, target, action_performer)\
+  if (target_tile                                                         \
+      && is_action_enabled_unit_on_extras(action_type,                    \
+                                          actor_unit, target_tile,        \
+                                          target_extra)) {                \
+    bool success;                                                         \
+    script_server_signal_emit("action_started_unit_extras",               \
+                              action_by_number(action), actor, target);   \
+    if (!actor || !unit_is_alive(actor_id)) {                             \
+      /* Actor unit was destroyed during pre action Lua. */               \
+      return FALSE;                                                       \
+    }                                                                     \
+    success = action_performer;                                           \
+    if (success) {                                                        \
+      action_success_actor_price(paction, actor_id, actor);               \
+    }                                                                     \
+    return success;                                                       \
+  } else {                                                                \
+    illegal_action(pplayer, actor_unit, action_type,                      \
+                   target_tile ? target_tile->extras_owner : NULL,        \
+                   target_tile, NULL, NULL,                               \
+                   TRUE, requester);                                      \
+  }
+
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
@@ -3322,6 +3369,10 @@ bool unit_perform_action(struct player *pplayer,
       break;
     case ATK_TILE:
       ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile, TRUE);
+      break;
+    case ATK_EXTRAS:
+      ACTION_STARTED_UNIT_EXTRAS(action_type, actor_unit, target_tile,
+                                 TRUE);
       break;
     case ATK_SELF:
       ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);

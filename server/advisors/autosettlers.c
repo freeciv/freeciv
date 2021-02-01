@@ -1280,6 +1280,12 @@ bool auto_settlers_speculate_can_act_at(const struct unit *punit,
                                     punit, unit_home(punit), ptile,
                                     omniscient_cheat,
                                     ptile, target));
+    case ATK_EXTRAS:
+      return action_prob_possible(action_speculate_unit_on_extras(
+                                    paction->id,
+                                    punit, unit_home(punit), ptile,
+                                    omniscient_cheat,
+                                    ptile, target));
     case ATK_SELF:
       return action_prob_possible(action_speculate_unit_on_self(
                                     paction->id,

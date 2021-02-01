@@ -2728,6 +2728,7 @@ blocked_find_target_tile(const action_id act_id,
     }
     /* Fall through. */
   case ATK_TILE:
+  case ATK_EXTRAS:
     fc_assert_ret_val(target_tile_arg, NULL);
     return target_tile_arg;
   case ATK_SELF:
@@ -2780,6 +2781,7 @@ blocked_find_target_city(const action_id act_id,
     }
     /* Fall through. */
   case ATK_TILE:
+  case ATK_EXTRAS:
     fc_assert_ret_val(target_tile, NULL);
     return tile_city(target_tile);
   case ATK_SELF:
@@ -2864,6 +2866,16 @@ struct action *action_is_blocked_by(const action_id act_id,
       }
       if (is_action_enabled_unit_on_tile(blocker_id,
                                          actor_unit, target_tile, NULL)) {
+        return action_by_number(blocker_id);
+      }
+      break;
+    case ATK_EXTRAS:
+      if (!target_tile) {
+        /* Can't be enabled. No target. */
+        continue;
+      }
+      if (is_action_enabled_unit_on_extras(blocker_id,
+                                           actor_unit, target_tile, NULL)) {
         return action_by_number(blocker_id);
       }
       break;
@@ -3265,6 +3277,8 @@ is_action_possible(const action_id wanted_action,
                  && target_city != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_TILE
                     && target_tile != NULL)
+                || (action_id_get_target_kind(wanted_action) == ATK_EXTRAS
+                    && target_tile != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_UNIT
                     && target_unit != NULL)
                 || (action_id_get_target_kind(wanted_action) == ATK_UNITS
@@ -3324,6 +3338,7 @@ is_action_possible(const action_id wanted_action,
     break;
   case ATK_UNITS:
   case ATK_TILE:
+  case ATK_EXTRAS:
   case ATK_SELF:
     /* No special player knowledge checks. */
     break;
@@ -4462,6 +4477,76 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
 }
 
 /**********************************************************************//**
+  Returns TRUE if actor_unit can do wanted_action to the extras at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+static bool
+is_action_enabled_unit_on_extras_full(const action_id wanted_action,
+                                      const struct unit *actor_unit,
+                                      const struct city *actor_home,
+                                      const struct tile *actor_tile,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra)
+{
+  if (actor_unit == NULL || target_tile == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return FALSE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(wanted_action),
+                        FALSE, "Action %s is performed by %s not %s",
+                        action_id_rule_name(wanted_action),
+                        action_actor_kind_name(
+                          action_id_get_actor_kind(wanted_action)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_EXTRAS
+                        == action_id_get_target_kind(wanted_action),
+                        FALSE, "Action %s is against %s not %s",
+                        action_id_rule_name(wanted_action),
+                        action_target_kind_name(
+                          action_id_get_target_kind(wanted_action)),
+                        action_target_kind_name(ATK_EXTRAS));
+
+  fc_assert_ret_val(actor_tile, FALSE);
+
+  if (!unit_can_do_action(actor_unit, wanted_action)) {
+    /* No point in continuing. */
+    return FALSE;
+  }
+
+  return is_action_enabled(wanted_action,
+                           unit_owner(actor_unit), tile_city(actor_tile),
+                           NULL, actor_tile,
+                           actor_unit, unit_type_get(actor_unit),
+                           NULL, NULL,
+                           target_tile->extras_owner,
+                           tile_city(target_tile),
+                           NULL, target_tile, NULL, NULL, NULL, NULL,
+                           target_extra,
+                           actor_home);
+}
+
+/**********************************************************************//**
+  Returns TRUE if actor_unit can do wanted_action to the extras at
+  target_tile as far as action enablers are concerned.
+
+  See note in is_action_enabled for why the action may still be disabled.
+**************************************************************************/
+bool is_action_enabled_unit_on_extras(const action_id wanted_action,
+                                      const struct unit *actor_unit,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra)
+{
+  return is_action_enabled_unit_on_extras_full(wanted_action, actor_unit,
+                                               unit_home(actor_unit),
+                                               unit_tile(actor_unit),
+                                               target_tile, target_extra);
+}
+
+/**********************************************************************//**
   Returns TRUE if actor_unit can do wanted_action to itself as far as
   action enablers are concerned.
 
@@ -5498,6 +5583,79 @@ struct act_prob action_prob_vs_tile(const struct unit *actor_unit,
 
 /**********************************************************************//**
   Get the actor unit's probability of successfully performing the chosen
+  action on the extras at the target tile.
+**************************************************************************/
+static struct act_prob
+action_prob_vs_extras_full(const struct unit *actor_unit,
+                           const struct city *actor_home,
+                           const struct tile *actor_tile,
+                           const action_id act_id,
+                           const struct tile *target_tile,
+                           const struct extra_type *target_extra)
+{
+  if (actor_unit == NULL || target_tile == NULL) {
+    /* Can't do an action when actor or target are missing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  fc_assert_ret_val_msg(AAK_UNIT == action_id_get_actor_kind(act_id),
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is performed by %s not %s",
+                        action_id_rule_name(act_id),
+                        action_actor_kind_name(
+                          action_id_get_actor_kind(act_id)),
+                        action_actor_kind_name(AAK_UNIT));
+
+  fc_assert_ret_val_msg(ATK_EXTRAS == action_id_get_target_kind(act_id),
+                        ACTPROB_IMPOSSIBLE,
+                        "Action %s is against %s not %s",
+                        action_id_rule_name(act_id),
+                        action_target_kind_name(
+                          action_id_get_target_kind(act_id)),
+                        action_target_kind_name(ATK_EXTRAS));
+
+  fc_assert_ret_val(actor_tile, ACTPROB_IMPOSSIBLE);
+
+  if (!unit_can_do_action(actor_unit, act_id)) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  /* Doesn't leak information about tile position since an unknown tile's
+   * position is known. */
+  if (!action_id_distance_accepted(act_id,
+                                   real_map_distance(actor_tile,
+                                                     target_tile))) {
+    /* No point in continuing. */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
+  return action_prob(act_id,
+                     unit_owner(actor_unit), tile_city(actor_tile),
+                     NULL, actor_tile, actor_unit, NULL,
+                     NULL, NULL, actor_home,
+                     target_tile->extras_owner, tile_city(target_tile),
+                     NULL,
+                     target_tile, NULL, NULL, NULL, NULL, target_extra);
+}
+
+/**********************************************************************//**
+  Get the actor unit's probability of successfully performing the chosen
+  action on the extras at the target tile.
+**************************************************************************/
+struct act_prob action_prob_vs_extras(const struct unit *actor_unit,
+                                      const action_id act_id,
+                                      const struct tile *target_tile,
+                                      const struct extra_type *target_extra)
+{
+  return action_prob_vs_extras_full(actor_unit,
+                                    unit_home(actor_unit),
+                                    unit_tile(actor_unit),
+                                    act_id, target_tile, target_extra);
+}
+
+/**********************************************************************//**
+  Get the actor unit's probability of successfully performing the chosen
   action on itself.
 **************************************************************************/
 static struct act_prob
@@ -5590,6 +5748,12 @@ struct act_prob action_prob_unit_vs_tgt(const struct action *paction,
   case ATK_TILE:
     if (tgt_tile) {
       prob = action_prob_vs_tile(act_unit, paction->id, tgt_tile, extra_tgt);
+    }
+    break;
+  case ATK_EXTRAS:
+    if (tgt_tile) {
+      prob = action_prob_vs_extras(act_unit, paction->id,
+                                   tgt_tile, extra_tgt);
     }
     break;
   case ATK_CITY:
@@ -5738,6 +5902,39 @@ action_speculate_unit_on_tile(action_id act_id,
   } else {
     return action_prob_vs_tile_full(actor, actor_home, actor_tile,
                                     act_id, target_tile, target_extra);
+  }
+}
+
+/**********************************************************************//**
+  Returns a speculation about the actor unit's probability of successfully
+  performing the chosen action to the extras at the target tile (and, if
+  specified, specific extra) given the specified game state changes.
+**************************************************************************/
+struct act_prob
+action_speculate_unit_on_extras(action_id act_id,
+                                const struct unit *actor,
+                                const struct city *actor_home,
+                                const struct tile *actor_tile,
+                                bool omniscient_cheat,
+                                const struct tile *target_tile,
+                                const struct extra_type *target_extra)
+{
+  /* FIXME: some unit state requirements still depend on the actor unit's
+   * current position rather than on actor_tile. Maybe this function should
+   * return ACTPROB_NOT_IMPLEMENTED when one of those is detected and no
+   * other requirement makes the action ACTPROB_IMPOSSIBLE? */
+
+  if (omniscient_cheat) {
+    if (is_action_enabled_unit_on_extras_full(act_id,
+                                              actor, actor_home, actor_tile,
+                                              target_tile, target_extra)) {
+      return ACTPROB_CERTAIN;
+    } else {
+      return ACTPROB_IMPOSSIBLE;
+    }
+  } else {
+    return action_prob_vs_extras_full(actor, actor_home, actor_tile,
+                                      act_id, target_tile, target_extra);
   }
 }
 

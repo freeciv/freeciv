@@ -278,6 +278,7 @@ static void simple_action_callback(GtkWidget *w, gpointer data)
     break;
   case ATK_UNITS:
   case ATK_TILE:
+  case ATK_EXTRAS:
     target_id = args->target_tile_id;
     if (NULL == index_to_tile(&(wld.map), target_id)) {
       /* TODO: Should this be possible at all? If not: add assertion. */
@@ -384,6 +385,7 @@ static void request_action_details_callback(GtkWidget *w, gpointer data)
     break;
   case ATK_UNITS:
   case ATK_TILE:
+  case ATK_EXTRAS:
     target_id = args->target_tile_id;
     if (NULL == index_to_tile(&(wld.map), target_id)) {
       /* TODO: Should this be possible at all? If not: add assertion. */
@@ -1417,6 +1419,9 @@ void popup_action_selection(struct unit *actor_unit,
   target_ids[ATK_TILE] = target_tile ?
                          tile_index(target_tile) :
                          TILE_INDEX_NONE;
+  target_ids[ATK_EXTRAS] = target_tile ?
+                           tile_index(target_tile) :
+                           TILE_INDEX_NONE;
   target_extra_id      = target_extra ?
                          extra_number(target_extra) :
                          EXTRA_NONE;
@@ -1503,6 +1508,20 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
+      action_entry(shl, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   act);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against a tile's extras */
+
+  action_iterate(act) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_EXTRAS) {
       action_entry(shl, act, act_probs,
                    get_act_sel_action_custom_text(action_by_number(act),
                                                   act_probs[act],

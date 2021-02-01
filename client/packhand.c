@@ -4914,6 +4914,7 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
       switch (action_id_get_target_kind(auto_action)) {
       case ATK_TILE:
       case ATK_UNITS:
+      case ATK_EXTRAS:
         request_do_action(auto_action,
                           packet->actor_unit_id, packet->target_tile_id,
                           0, "");

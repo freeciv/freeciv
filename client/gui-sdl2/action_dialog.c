@@ -766,6 +766,7 @@ static int simple_action_callback(struct widget *pwidget)
     break;
   case ATK_UNITS:
   case ATK_TILE:
+  case ATK_EXTRAS:
     target_id = diplomat_dlg->target_ids[ATK_TILE];
     if (NULL == index_to_tile(&(wld.map), target_id)) {
       /* TODO: Should this be possible at all? If not: add assertion. */
@@ -933,6 +934,7 @@ static void action_entry(const action_id act,
     buf->data.unit = tgt_unit;
     break;
   case ATK_TILE:
+  case ATK_EXTRAS:
   case ATK_UNITS:
     buf->data.tile = tgt_tile;
     break;
@@ -1023,6 +1025,7 @@ void popup_action_selection(struct unit *actor_unit,
 
   diplomat_dlg->target_ids[ATK_UNITS] = tile_index(target_tile);
   diplomat_dlg->target_ids[ATK_TILE] = tile_index(target_tile);
+  diplomat_dlg->target_ids[ATK_EXTRAS] = tile_index(target_tile);
 
   /* No target building or target tech supplied. (Feb 2020) */
   diplomat_dlg->sub_target_id[ASTK_BUILDING] = B_LAST;
@@ -1078,6 +1081,17 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
+      action_entry(act, act_probs,
+                   actor_unit, target_tile, NULL, NULL,
+                   pwindow, &area);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against a tile's extras. */
+
+  action_iterate(act) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_EXTRAS) {
       action_entry(act, act_probs,
                    actor_unit, target_tile, NULL, NULL,
                    pwindow, &area);

@@ -2086,6 +2086,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                               : tile_link(ptile);
         break;
       case ATK_TILE:
+      case ATK_EXTRAS:
         victim_link = tile_link(ptile);
         break;
       case ATK_SELF:

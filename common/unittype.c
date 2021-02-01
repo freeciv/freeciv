@@ -629,7 +629,8 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
       if (requirement_fulfilled_by_unit_type(putype,
                                              &(enabler->actor_reqs))
           && action_id_get_actor_kind(enabler->action) == AAK_UNIT
-          && (action_id_get_target_kind(enabler->action) != ATK_TILE
+          && ((action_id_get_target_kind(enabler->action) != ATK_TILE
+               && action_id_get_target_kind(enabler->action) != ATK_EXTRAS)
               /* No diplomatic relation to Nature */
               || !does_req_contradicts_reqs(&tile_is_claimed,
                                             &enabler->target_reqs))) {

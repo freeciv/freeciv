@@ -1924,6 +1924,13 @@ static void do_disband_alternative(void *p)
       request_do_action(act, punit->id, ptile->index, 0, "");
     }
     break;
+  case ATK_EXTRAS:
+    if ((ptile = unit_tile(punit))
+        && action_prob_possible(action_prob_vs_extras(punit, act,
+                                                      ptile, NULL))) {
+      request_do_action(act, punit->id, ptile->index, 0, "");
+    }
+    break;
   case ATK_SELF:
     if (action_prob_possible(action_prob_self(punit, act))) {
       request_do_action(act, punit->id, punit->id, 0, "");

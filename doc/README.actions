@@ -147,6 +147,7 @@ signal.connect("action_started_unit_city", "action_started_callback")
 signal.connect("action_started_unit_unit", "action_started_callback")
 signal.connect("action_started_unit_units", "action_started_callback")
 signal.connect("action_started_unit_tile", "action_started_callback")
+signal.connect("action_started_unit_extras", "action_started_callback")
 signal.connect("action_started_unit_self", "action_started_callback")
 
 Example 2
@@ -911,6 +912,9 @@ Actions done by a unit against a tile
 * UI name can be set using ui_name_transport_disembark_2
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
+
+Actions done by a unit against all extras at a tile
+===================================================
 
 Actions done by a unit to it self
 =================================

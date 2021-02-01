@@ -38,9 +38,11 @@ extern "C" {
 #define SPECENUM_VALUE2NAME N_("unit stacks")
 #define SPECENUM_VALUE3 ATK_TILE
 #define SPECENUM_VALUE3NAME N_("tiles")
+#define SPECENUM_VALUE4 ATK_EXTRAS
+#define SPECENUM_VALUE4NAME N_("tile extras")
 /* No target except the actor itself. */
-#define SPECENUM_VALUE4 ATK_SELF
-#define SPECENUM_VALUE4NAME N_("itself")
+#define SPECENUM_VALUE5 ATK_SELF
+#define SPECENUM_VALUE5NAME N_("itself")
 #define SPECENUM_COUNT ATK_COUNT
 #include "specenum_gen.h"
 
@@ -671,6 +673,11 @@ bool is_action_enabled_unit_on_tile(const action_id wanted_action,
                                     const struct tile *target_tile,
                                     const struct extra_type *target_extra);
 
+bool is_action_enabled_unit_on_extras(const action_id wanted_action,
+                                      const struct unit *actor_unit,
+                                      const struct tile *target,
+                                      const struct extra_type *tgt_extra);
+
 bool is_action_enabled_unit_on_self(const action_id wanted_action,
                                     const struct unit *actor_unit);
 
@@ -690,6 +697,11 @@ struct act_prob action_prob_vs_tile(const struct unit *actor,
                                     const action_id act_id,
                                     const struct tile *victims,
                                     const struct extra_type *target_extra);
+
+struct act_prob action_prob_vs_extras(const struct unit *actor,
+                                      const action_id act_id,
+                                      const struct tile *target,
+                                      const struct extra_type *tgt_extra);
 
 struct act_prob action_prob_self(const struct unit *actor,
                                  const action_id act_id);
@@ -733,6 +745,15 @@ action_speculate_unit_on_tile(action_id act_id,
                               bool omniscient_cheat,
                               const struct tile *target_tile,
                               const struct extra_type *target_extra);
+
+struct act_prob
+action_speculate_unit_on_extras(action_id act_id,
+                                const struct unit *actor,
+                                const struct city *actor_home,
+                                const struct tile *actor_tile,
+                                bool omniscient_cheat,
+                                const struct tile *target_tile,
+                                const struct extra_type *target_extra);
 
 struct act_prob
 action_speculate_unit_on_self(action_id act_id,

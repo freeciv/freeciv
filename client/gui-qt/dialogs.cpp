@@ -1340,6 +1340,7 @@ choice_dialog::choice_dialog(const QString title, const QString text,
   target_id[ATK_UNIT] = IDENTITY_NUMBER_ZERO;
   target_id[ATK_UNITS] = TILE_INDEX_NONE;
   target_id[ATK_TILE] = TILE_INDEX_NONE;
+  target_id[ATK_EXTRAS] = TILE_INDEX_NONE;
   sub_target_id[ASTK_BUILDING] = B_LAST;
   sub_target_id[ASTK_TECH] = A_UNSET;
   sub_target_id[ASTK_EXTRA] = EXTRA_NONE;
@@ -2025,6 +2026,12 @@ void popup_action_selection(struct unit *actor_unit,
     cd->target_id[ATK_TILE] = TILE_INDEX_NONE;
   }
 
+  if (target_tile) {
+    cd->target_id[ATK_EXTRAS] = tile_index(target_tile);
+  } else {
+    cd->target_id[ATK_EXTRAS] = TILE_INDEX_NONE;
+  }
+
   /* No target building or target tech supplied. (Feb 2020) */
   cd->sub_target_id[ASTK_BUILDING] = B_LAST;
   cd->sub_target_id[ASTK_TECH] = A_UNSET;
@@ -2096,6 +2103,23 @@ void popup_action_selection(struct unit *actor_unit,
   action_iterate(act) {
     if (action_id_get_actor_kind(act) == AAK_UNIT
         && action_id_get_target_kind(act) == ATK_TILE) {
+      action_entry(cd, act, act_probs,
+                   get_act_sel_action_custom_text(action_by_number(act),
+                                                  act_probs[act],
+                                                  actor_unit,
+                                                  target_city),
+                   qv1, qv2);
+    }
+  } action_iterate_end;
+
+  /* Unit acting against a tile's extras. */
+
+  /* Set the correct target for the following actions. */
+  qv2 = cd->target_id[ATK_EXTRAS];
+
+  action_iterate(act) {
+    if (action_id_get_actor_kind(act) == AAK_UNIT
+        && action_id_get_target_kind(act) == ATK_EXTRAS) {
       action_entry(cd, act, act_probs,
                    get_act_sel_action_custom_text(action_by_number(act),
                                                   act_probs[act],
@@ -3885,6 +3909,7 @@ void action_selection_refresh(struct unit *actor_unit,
       }
       break;
     case ATK_TILE:
+    case ATK_EXTRAS:
     case ATK_UNITS:
       if (target_tile != NULL) {
         qv2 = tile_index(target_tile);
