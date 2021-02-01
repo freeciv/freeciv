@@ -597,7 +597,7 @@ void audio_stop_usage(void)
 }
 
 /**************************************************************************
-  Stop looping sound. Music should die down in a few seconds.
+  Get sound volume currently in use.
 **************************************************************************/
 double audio_get_volume(void)
 {
@@ -605,7 +605,7 @@ double audio_get_volume(void)
 }
 
 /**************************************************************************
-  Stop looping sound. Music should die down in a few seconds.
+  Set sound volume to use.
 **************************************************************************/
 void audio_set_volume(double volume)
 {
