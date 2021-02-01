@@ -1549,9 +1549,10 @@ actor_reqs    =
 [actionenabler_claim_extra_war]
 action        = "Conquer Extras"
 actor_reqs    =
-    { "type",         "name",       "range"
-      "MinMoveFrags", "1",          "Local"
-      "DiplRel",      "War",        "Local"
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "War",        "Local", TRUE
+      "UnitFlag",     "NonMil",     "Local", FALSE
     }
 
 [actionenabler_claim_extra_unowned]
@@ -1559,6 +1560,7 @@ action        = "Conquer Extras"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"

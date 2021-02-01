@@ -83,3 +83,4 @@ Differences compared to the classic ruleset are:
 - Some units can disrupt the supply lines of enemy units. This removes 1 MP
   from the target unit at the cost of one move fragment for the unit doing
   the disrupting.
+- Civilians can't capture fortresses.
