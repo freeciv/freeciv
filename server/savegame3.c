@@ -818,20 +818,14 @@ static char activity2char(enum unit_activity activity)
     return 'w';
   case ACTIVITY_POLLUTION:
     return 'p';
-  case ACTIVITY_OLD_ROAD:
-    return 'r';
   case ACTIVITY_MINE:
     return 'm';
   case ACTIVITY_IRRIGATE:
     return 'i';
   case ACTIVITY_FORTIFIED:
     return 'f';
-  case ACTIVITY_FORTRESS:
-    return 't';
   case ACTIVITY_SENTRY:
     return 's';
-  case ACTIVITY_OLD_RAILROAD:
-    return 'l';
   case ACTIVITY_PILLAGE:
     return 'e';
   case ACTIVITY_GOTO:
@@ -840,8 +834,6 @@ static char activity2char(enum unit_activity activity)
     return 'x';
   case ACTIVITY_TRANSFORM:
     return 'o';
-  case ACTIVITY_AIRBASE:
-    return 'a';
   case ACTIVITY_FORTIFYING:
     return 'y';
   case ACTIVITY_FALLOUT:
@@ -852,6 +844,10 @@ static char activity2char(enum unit_activity activity)
     return 'R';
   case ACTIVITY_CONVERT:
     return 'c';
+  case ACTIVITY_OLD_ROAD:
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_OLD_RAILROAD:
+  case ACTIVITY_AIRBASE:
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_PATROL_UNUSED:
     return '?';
