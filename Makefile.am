@@ -22,6 +22,16 @@ endif
 
 SUBDIRS = gen_headers $(DSUBDIRS) dependencies utility common tests windows $(SSUBDIRS) $(CSUBDIRS) translations doc tools lua bootstrap
 
+docs =			\
+	ABOUT-NLS	\
+	AUTHORS		\
+	ChangeLog	\
+	ChangeLog-1.0-S3_0 \
+	COPYING		\
+	INSTALL		\
+	NEWS
+# On branch: add NEWS-x.x here and remove this comment
+
 EXTRA_DIST =	autogen.sh 			\
 		configure.ac			\
 		m4/c99.m4			\
@@ -79,20 +89,10 @@ EXTRA_DIST =	autogen.sh 			\
 		scripts/setup_auth_server.sh	\
 		scripts/replace			\
 		scripts/diff_ignore		\
-		scripts/freeciv.supp
-# On branch: add NEWS-x.x here and remove this comment (1 of 2)
+		scripts/freeciv.supp		\
+		$(docs)
 
-noinst_HEADERS= fc_version
-
-docs =			\
-	ABOUT-NLS	\
-	AUTHORS		\
-	ChangeLog	\
-	ChangeLog-1.0-S3_0 \
-	COPYING		\
-	INSTALL		\
-	NEWS
-# On branch: add NEWS-x.x here and remove this comment (2 of 2)
+noinst_HEADERS = fc_version
 
 doc_DATA = $(docs)
 
