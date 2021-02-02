@@ -374,7 +374,34 @@ function place_map_labels()
   return false
 end
 
-signal.connect("map_generated", "place_map_labels")
+-- Add random castles at mountain tops.
+function place_ancient_castle_ruins()
+  -- Test castle storming in autogames even if the AI won't build them.
+  -- Narrative excuse: The game starts in 4000 BC. The builders of the
+  -- castles must have drowned - taking their advanced technology with them.
+
+  for place in whole_map_iterate() do
+    local terr = place.terrain
+    local tname = terr:rule_name()
+
+    if (tname == "Mountains") and (random(1, 100) <= 5) then
+      place:create_extra("Fort")
+      place:create_extra("Fortress")
+      place:create_extra("Castle")
+    end
+  end
+
+  return false
+end
+
+-- Modify the generated map
+function modify_generated_map()
+  place_map_labels()
+  place_ancient_castle_ruins()
+  return false
+end
+
+signal.connect("map_generated", "modify_generated_map")
 
 -- Only notifications needs Lua
 function notify_unit_unit(action, actor, target)
