@@ -1,6 +1,6 @@
 #!/bin/bash
 
-domains="freeciv nations ruledit"
+domains="core nations ruledit"
 
 if test "$1" == "" ; then 
   echo Usage: $0 '<path to source root directory with trailing slash>'
