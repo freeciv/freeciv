@@ -470,6 +470,9 @@ ui_name_conquer_city = _("%sConquer City%s")
 ; /* TRANS: _Conquer City from non native (100% chance of success). */
 ui_name_conquer_city_2 = _("%sConquer City from non native%s")
 
+; /* TRANS: _Storm the Castle (100% chance of success). */
+ui_name_conquer_extras = _("%sStorm the Castle%s")
+
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
@@ -1476,6 +1479,30 @@ actor_reqs    =
 target_reqs    =
     { "type",    "name",            "range",  "present"
       "Terrain", "Deep Ocean",      "Local",  TRUE
+    }
+
+[actionenabler_claim_extra_foreign]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "Foreign",    "Local", TRUE
+      "DiplRel",      "Peace",      "Local", FALSE
+      "DiplRel",      "Alliance",   "Local", FALSE
+      "DiplRel",      "Team",       "Local", FALSE
+      "UnitFlag",     "NonMil",     "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
     }
 
 ; Prevent building farmland on bare deserts. It does not yield any bonus

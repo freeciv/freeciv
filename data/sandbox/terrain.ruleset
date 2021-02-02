@@ -1550,6 +1550,7 @@ removal_time   = 0
 unit_seen      = "Hidden"
 native_to      = "Land", "Small Land", "Big Land"
 conflicts      = "Airstrip", "Airbase"
+hidden_by      = "Castle"
 flags          = "NativeTile", "DiplomatDefense", "NoAggressive"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
@@ -1566,6 +1567,45 @@ moving recovers a quarter of its hit points.\
 "), _("\
 With Astronomy, fortresses gain watchtowers from which units can see \
 further afield.\
+")
+
+[extra_castle]
+name           = _("Castle")
+category       = "Infra"
+causes         = "Base"
+rmcauses       = "Pillage"
+graphic        = "base.castle"
+graphic_alt    = "base.fortress"
+activity_gfx   = "unit.castle"
+act_gfx_alt    = "unit.fortress"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range", "present", "quiet"
+      "Extra", "Fortress", "Local", TRUE, FALSE
+      "Tech", "Construction", "Player", TRUE, FALSE
+      "Tech", "Feudalism", "Player", TRUE, FALSE
+      "TerrainClass", "Land", "Local", TRUE, FALSE
+      "UnitFlag", "Settlers", "Local", TRUE, FALSE
+      "UnitClass", "Sea", "Local", FALSE, TRUE
+      "CityTile", "Center", "Local", FALSE, TRUE
+      "Extra", "River", "Local", FALSE, FALSE
+    }
+build_time     = 1
+removal_time   = 0
+unit_seen      = "Hidden"
+native_to      = "Land", "Small Land", "Big Land"
+conflicts      = "Airstrip", "Airbase"
+flags          = "NativeTile", "DiplomatDefense", "NoAggressive"
+helptext       = _("\
+Castles are fortresses with an administration center; construction on them \
+can only begin once the underlying fortress is complete.\
+"), _("\
+The castle and its surrounding area is ruled by a vassal with a high \
+degree of autonomy. \
+This makes a castle able to control terrain far from the borders of \
+its nation's cities.\
 ")
 
 [extra_airstrip]
@@ -1590,7 +1630,7 @@ reqs           =
 build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
-conflicts      = "Fort", "Fortress"
+conflicts      = "Fort", "Fortress", "Castle"
 hidden_by      = "Airbase"
 flags          = "Refuel", "ParadropFrom"
 helptext       = _("\
@@ -1633,7 +1673,7 @@ build_time     = 2
 removal_time   = 0
 unit_seen      = "Hidden"
 native_to      = "Air", "Helicopter", "Missile"
-conflicts      = "Fort", "Fortress"
+conflicts      = "Fort", "Fortress", "Castle"
 flags          = "Refuel", "ParadropFrom", "NoAggressive"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
@@ -2151,6 +2191,12 @@ border_sq      = -1
 extra          = "Fortress"
 gui_type       = "Fortress"
 border_sq      = -1
+
+[base_castle]
+extra          = "Castle"
+gui_type       = "Fortress"
+border_sq      = 5
+vision_main_sq = 1
 
 [base_airstrip]
 extra          = "Airstrip"

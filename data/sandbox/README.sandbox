@@ -116,6 +116,11 @@ Custom policy "Personal Freedom":
 You can trade off a science bonus against extra unhappiness from your
 aggressive military units.
 
+Castle fortress add on
+A castle allows a fortress to claim territory and to see cardinally
+adjacent tiles even when empty. But beware: foreign military units able to
+enter your castle may capture it - even during an armistice.
+
 Opponents not seeing units in fortress or airbase:
 Opponents can't see units that are inside fortress or airbase.
 Units inside fort and airstrip can still be seen.
