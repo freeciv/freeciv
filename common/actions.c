@@ -311,6 +311,37 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CAPTURE_UNITS,
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
+  /* The same for tile targeted actions that also can be done to unclaimed
+   * tiles. */
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE, DRO_FOREIGN),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CLAIMED),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require a "
+                        "non domestic target."),
+                     ACTRES_NONE);
+  /* The same for tile extras targeted actions that also can be done to
+   * unowned extras. */
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE, DRO_FOREIGN),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_EXTRAS_OWNED),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require a "
+                        "non domestic target."),
+                     ACTRES_CONQUER_EXTRAS,
+                     ACTRES_NONE);
 
   /* Why this is a hard requirement: There is currently no point in
    * establishing an embassy when a real embassy already exists.
