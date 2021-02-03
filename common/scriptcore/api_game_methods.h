@@ -136,6 +136,8 @@ bool api_methods_tile_city_exists_within_max_city_map(lua_State *L,
 bool api_methods_tile_has_extra(lua_State *L, Tile *ptile, const char *name);
 bool api_methods_tile_has_base(lua_State *L, Tile *ptile, const char *name);
 bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name);
+Player *api_methods_tile_extra_owner(lua_State *L,
+                                     Tile *ptile, const char *extra_name);
 bool api_methods_enemy_tile(lua_State *L, Tile *ptile, Player *against);
 int api_methods_tile_num_units(lua_State *L, Tile *ptile);
 int api_methods_tile_sq_distance(lua_State *L, Tile *ptile1, Tile *ptile2);

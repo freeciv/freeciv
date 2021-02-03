@@ -296,6 +296,8 @@ module Tile {
     @ has_base(lua_State *L, Tile *self, const char *name);
   bool api_methods_tile_has_road
     @ has_road(lua_State *L, Tile *self, const char *name);
+  Player *api_methods_tile_extra_owner
+    @ extra_owner(lua_State *L, Tile *self, const char *extra_name);
   bool api_methods_enemy_tile
     @ is_enemy(lua_State *L, Tile *self, Player *against);
   int api_methods_tile_num_units

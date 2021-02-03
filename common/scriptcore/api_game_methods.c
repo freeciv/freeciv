@@ -894,6 +894,42 @@ bool api_methods_tile_has_road(lua_State *L, Tile *ptile, const char *name)
   }
 }
 
+/**********************************************************************//**
+  Return the extra owner for the specified extra on ptile or NULL if the
+  extra isn't there.
+  If no name is specified the owner of the first owned extra at the tile
+  is returned.
+**************************************************************************/
+Player *api_methods_tile_extra_owner(lua_State *L,
+                                     Tile *ptile, const char *extra_name)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, ptile, NULL);
+
+  if (extra_name) {
+    struct extra_type *pextra;
+
+    pextra = extra_type_by_rule_name(extra_name);
+    LUASCRIPT_CHECK_ARG(L, pextra != NULL, 3, "unknown extra type", NULL);
+
+    if (tile_has_extra(ptile, pextra)) {
+      /* All extras have the same owner. */
+      return extra_owner(ptile);
+    } else {
+      /* The extra isn't there. */
+      return NULL;
+    }
+  } else {
+    extra_type_iterate(pextra) {
+      if (tile_has_extra(ptile, pextra)) {
+        /* All extras have the same owner. */
+        return extra_owner(ptile);
+      }
+    } extra_type_iterate_end;
+    return NULL;
+  }
+}
+
 /*************************************************************************//**
   Is tile occupied by enemies
 *****************************************************************************/
