@@ -435,6 +435,8 @@ module Action {
     @ rule_name (lua_State *L, Action *self);
   const char *api_methods_action_name_translation
     @ name_translation (lua_State *L, Action *self);
+  const char *api_methods_action_target_kind
+    @ target_kind (lua_State *L, Action *self);
 }
 
 /* Module Unit_List_Link. */

@@ -730,6 +730,22 @@ const char *api_methods_action_name_translation(lua_State *L, Action *pact)
   return action_id_name_translation(pact->id);
 }
 
+/**********************************************************************//**
+  Return target kind for Action
+**************************************************************************/
+const char *api_methods_action_target_kind(lua_State *L, Action *pact)
+{
+  struct action *paction;
+
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_SELF(L, pact, NULL);
+
+  paction = action_by_number(pact->id);
+  fc_assert_ret_val(paction, "error: no action");
+
+  return action_target_kind_name(action_get_target_kind(paction));
+}
+
 /*************************************************************************//**
   Return the native x coordinate of the tile.
 *****************************************************************************/
