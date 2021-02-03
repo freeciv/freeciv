@@ -593,9 +593,6 @@ bool action_distance_inside_max(const struct action *action,
 
 bool action_would_be_blocked_by(const struct action *blocked,
                                 const struct action *blocker);
-#define action_id_would_be_blocked_by(blocked_id, blocker_id)             \
-  action_would_be_blocked_by(action_by_number(blocked_id),                \
-                             action_by_number(blocker_id))
 
 int action_get_role(const struct action *paction);
 #define action_id_get_role(act_id)                                        \
