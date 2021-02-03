@@ -28,7 +28,7 @@ priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 priv_conf_data.set('DATADIR',
                    join_paths(get_option('prefix'), get_option('datadir')))
-priv_conf_data.set('DATASUBDIR', 'dev')
+priv_conf_data.set('DATASUBDIR', 'test')
 
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 
