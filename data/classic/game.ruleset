@@ -271,6 +271,9 @@ force_bombard = FALSE
 ; in stead.
 force_explode_nuclear = TRUE
 
+; Forbid regular unit move if one of the actions below is legal.
+move_is_blocked_by = "Transport Disembark", "Transport Disembark 2", "Conquer Extras"
+
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
 ; or "Poison City Escape" will empty the food stock.
 poison_empties_food_stock = FALSE

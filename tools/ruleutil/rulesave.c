@@ -909,7 +909,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   const char *tnames[game.server.ruledit.named_teams];
   enum trade_route_type trt;
   int i;
-  enum gen_action quiet_actions[MAX_NUM_ACTIONS];
+  enum gen_action action_vec[MAX_NUM_ACTIONS];
   bool locks;
   int force_capture_units, force_bombard, force_explode_nuclear;
 
@@ -1151,6 +1151,21 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
                     "actions.force_explode_nuclear", NULL);
 
+  i = 0;
+  action_iterate(act_id) {
+    if (BV_ISSET(game.info.move_is_blocked_by, act_id)) {
+      action_vec[i] = act_id;
+      i++;
+    }
+  } action_iterate_end;
+
+  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
+                              "actions.move_is_blocked_by") != i) {
+    log_error("Didn't save all move blocking actions.");
+
+    return FALSE;
+  }
+
   save_default_bool(sfile, game.info.poison_empties_food_stock,
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);
@@ -1170,12 +1185,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   i = 0;
   action_iterate(act) {
     if (action_by_number(act)->quiet) {
-      quiet_actions[i] = act;
+      action_vec[i] = act;
       i++;
     }
   } action_iterate_end;
 
-  if (secfile_insert_enum_vec(sfile, &quiet_actions, i, gen_action,
+  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
                               "actions.quiet_actions") != i) {
     log_error("Didn't save all quiet actions.");
 

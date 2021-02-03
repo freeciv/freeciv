@@ -1077,6 +1077,15 @@ void rscompat_postprocess(struct rscompat_info *info)
         cinfo->enabled = TRUE;
       }
     }
+
+    /* Used to live in unit_move() and new in 3.1 so they should be non
+     * controversial enough. */
+    action_iterate(act_id) {
+      if (action_id_has_result_safe(act_id, ACTRES_TRANSPORT_DISEMBARK)
+          || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)) {
+        BV_SET(game.info.move_is_blocked_by, act_id);
+      }
+    } action_iterate_end;
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

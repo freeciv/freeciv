@@ -1233,6 +1233,9 @@ void actions_init(void)
     }
   }
 
+  /* Regular move isn't an action yet. Allow it to be blocked by actions. */
+  BV_CLR_ALL(game.info.move_is_blocked_by);
+
   /* The actions them self are now initialized. */
   actions_initialized = TRUE;
 }
@@ -2753,6 +2756,10 @@ blocked_find_target_tile(const struct action *act,
     return target_tile_arg;
   }
 
+  /* target_tile_arg should be set when used to fake regular unit moves
+   * being enabler controlled */
+  fc_assert_ret_val(act, NULL);
+
   switch (action_get_target_kind(act)) {
   case ATK_CITY:
     fc_assert_ret_val(target_city, NULL);
@@ -2802,6 +2809,11 @@ blocked_find_target_city(const struct action *act,
   if (target_city_arg != NULL) {
     /* Trust the caller. */
     return target_city_arg;
+  }
+
+  if (act == NULL) {
+    /* Regular moves finds the city itself. */
+    return NULL;
   }
 
   switch (action_get_target_kind(act)) {
@@ -2857,12 +2869,21 @@ struct action *action_is_blocked_by(const struct action *act,
                                  target_city_arg, target_unit);
 
   action_iterate(blocker_id) {
+    bool would_be_blocked_by;
     struct action *blocker = action_by_number(blocker_id);
 
     fc_assert_action(action_get_actor_kind(blocker) == AAK_UNIT,
                      continue);
 
-    if (!action_would_be_blocked_by(act, blocker)) {
+    if (act == NULL) {
+      /* Regular move isn't action enabler controlled yet. */
+      would_be_blocked_by = BV_ISSET(game.info.move_is_blocked_by,
+                                     blocker->id);
+    } else {
+      would_be_blocked_by = action_would_be_blocked_by(act, blocker);
+    }
+
+    if (!would_be_blocked_by) {
       /* It doesn't matter if it is legal. It won't block the action. */
       continue;
     }

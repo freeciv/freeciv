@@ -4903,6 +4903,22 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     } unit_list_iterate_end;
   }
 
+  {
+    const struct action *blocking_action;
+
+    /* Can't move if an action that block moves is legal */
+    if ((blocking_action = action_is_blocked_by(
+           NULL, punit, pdesttile, tile_city(pdesttile), NULL))) {
+      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                    /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
+                    _("Your %s can't do %s when %s is legal."),
+                    unit_name_translation(punit),
+                    _("regular unit move"),
+                    action_name_translation(blocking_action));
+      return FALSE;
+    }
+  }
+
   if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
                                         NULL, FALSE)
       /* Don't override "Transport Embark" */
