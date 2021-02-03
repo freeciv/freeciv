@@ -3,7 +3,7 @@ BUGS
 ====
 
 Freeciv 2.6 certainly contains some bugs. Please report all
-you find to https://www.freelists.org/list/freeciv-dev.
+you find to https://osdn.net/projects/freeciv/ticket/
 
 
 REPORTING A BUG:
@@ -21,7 +21,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        https://www.hostedredmine.com/projects/freeciv
+        https://osdn.net/projects/freeciv/ticket/
 
    to see if the bug has already been reported.
 
