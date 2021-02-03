@@ -1359,6 +1359,11 @@ bool autoadjust_ruleset_data(void)
        * target tile has no non allied units remains hard coded. Kept "just
        * in case" that changes. */
       { ACTRES_CONQUER_EXTRAS, ACTRES_ATTACK },
+
+      /* Hard code that the ability to enter or frighten a hut blocks
+       * regular disembarking. */
+      { ACTRES_TRANSPORT_DISEMBARK, ACTRES_HUT_ENTER },
+      { ACTRES_TRANSPORT_DISEMBARK, ACTRES_HUT_FRIGHTEN },
     };
 
     int i;

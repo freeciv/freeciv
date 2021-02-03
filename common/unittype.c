@@ -364,6 +364,8 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
+  case ACTRES_HUT_ENTER:
+  case ACTRES_HUT_FRIGHTEN:
     return FALSE;
   case ACTRES_NONE:
     /* Assume they are up to something. */
@@ -1114,6 +1116,16 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
 
   if (action_has_result(paction, ACTRES_CONQUER_EXTRAS)) {
     /* Moves into the tile with the extras to capture them. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTRES_HUT_ENTER)) {
+    /* Moves into the tile with the hut to enter it. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTRES_HUT_FRIGHTEN)) {
+    /* Moves into the tile with the hut to frighten it. */
     return TRUE;
   }
 

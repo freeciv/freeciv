@@ -158,6 +158,22 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                             punit, ptile, NULL)) {
     /* "Transport Disembark 2". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK2);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+                                            punit, ptile, NULL)) {
+    /* "Enter Hut". */
+    paction = action_by_number(ACTION_HUT_ENTER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+                                            punit, ptile, NULL)) {
+    /* "Enter Hut 2". */
+    paction = action_by_number(ACTION_HUT_ENTER2);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+                                            punit, ptile, NULL)) {
+    /* "Frighten Hut". */
+    paction = action_by_number(ACTION_HUT_FRIGHTEN);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+                                            punit, ptile, NULL)) {
+    /* "Frighten Hut 2". */
+    paction = action_by_number(ACTION_HUT_FRIGHTEN2);
   } else {
     /* Other move. */
     paction = NULL;
@@ -207,8 +223,13 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                      0, "", action_number(paction));
     } else if (paction
                && (action_has_result(paction,
-                                     ACTRES_TRANSPORT_DISEMBARK))) {
-    /* "Transport Disembark" or "Transport Disembark 2". */
+                                     ACTRES_TRANSPORT_DISEMBARK)
+                   || action_has_result(paction,
+                                        ACTRES_HUT_ENTER)
+                   || action_has_result(paction,
+                                        ACTRES_HUT_FRIGHTEN))) {
+    /* "Transport Disembark", "Transport Disembark 2", "Enter Hut" or
+     * "Frighten Hut". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", action_number(paction));
   } else {

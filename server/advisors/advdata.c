@@ -896,6 +896,11 @@ void adv_best_government(struct player *pplayer)
           case ACTRES_PILLAGE:
             bonus += 0.2;
             break;
+          case ACTRES_HUT_ENTER:
+          case ACTRES_HUT_FRIGHTEN:
+            /* It is mine. My own. My precious. */
+            bonus += 0.1;
+            break;
           case ACTRES_SPY_INVESTIGATE_CITY:
           case ACTRES_SPY_POISON:
           case ACTRES_SPY_SPREAD_PLAGUE:

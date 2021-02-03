@@ -482,7 +482,8 @@ static bool do_conquer_extras(struct player *act_player,
   fc_assert_ret_val(act_unit, FALSE);
   fc_assert_ret_val(tgt_tile, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE, TRUE);
+  unit_move(act_unit, tgt_tile, move_cost,
+            NULL, FALSE, FALSE, TRUE, FALSE);
 
   success = extra_owner(tgt_tile) == act_player;
 
@@ -654,7 +655,33 @@ static bool do_disembark(struct player *act_player,
   fc_assert_ret_val(tgt_tile, FALSE);
   fc_assert_ret_val(paction, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, FALSE, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost,
+            NULL, FALSE, FALSE, FALSE, FALSE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
+  Enter a hut at the target tile.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_hut(struct player *act_player,
+                        struct unit *act_unit,
+                        struct tile *tgt_tile,
+                        const struct action *paction)
+{
+  int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
+
+  /* Sanity checks */
+  fc_assert_ret_val(act_player, FALSE);
+  fc_assert_ret_val(act_unit, FALSE);
+  fc_assert_ret_val(tgt_tile, FALSE);
+  fc_assert_ret_val(paction, FALSE);
+
+  unit_move(act_unit, tgt_tile, move_cost,
+            NULL, FALSE, FALSE, FALSE, TRUE);
 
   return TRUE;
 }
@@ -689,7 +716,8 @@ static bool do_unit_embark(struct player *act_player,
   /* Do it. */
   tgt_tile = unit_tile(tgt_unit);
   move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
-  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE, FALSE, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE,
+            FALSE, FALSE, FALSE);
 
   return TRUE;
 }
@@ -837,6 +865,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_SPY_ATTACK:
+  case ACTRES_HUT_ENTER:
+  case ACTRES_HUT_FRIGHTEN:
   case ACTRES_NONE:
     /* No special help. */
     break;
@@ -1194,6 +1224,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       }
       break;
     case ACTRES_TRANSPORT_DISEMBARK:
+    case ACTRES_HUT_ENTER:
+    case ACTRES_HUT_FRIGHTEN:
     case ACTRES_CONQUER_EXTRAS:
       if (target_tile) {
         action_custom = unit_move_to_tile_test(&(wld.map), punit,
@@ -1448,6 +1480,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
   } else if ((action_has_result_safe(paction, ACTRES_CONQUER_CITY)
               || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
+              || action_id_has_result_safe(act_id, ACTRES_HUT_ENTER)
+              || action_id_has_result_safe(act_id, ACTRES_HUT_FRIGHTEN)
               || action_has_result_safe(paction,
                                         ACTRES_TRANSPORT_EMBARK)
               || action_has_result_safe(paction,
@@ -3373,6 +3407,16 @@ bool unit_perform_action(struct player *pplayer,
                              do_disembark(pplayer, actor_unit,
                                           target_tile, paction));
     break;
+  case ACTRES_HUT_ENTER:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             do_unit_hut(pplayer, actor_unit,
+                                         target_tile, paction));
+    break;
+  case ACTRES_HUT_FRIGHTEN:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             do_unit_hut(pplayer, actor_unit,
+                                         target_tile, paction));
+    break;
   case ACTRES_TRANSFORM_TERRAIN:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity(actor_unit, paction));
@@ -4487,6 +4531,36 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                                    tile_index(def_tile), 0, "",
                                    ACTION_CONQUER_EXTRAS,
                                    ACT_REQ_RULES))
+        || (unit_can_enter_hut(punit, def_tile)
+            && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+                                              punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_HUT_ENTER,
+                                   ACT_REQ_RULES))
+        || (unit_can_enter_hut(punit, def_tile)
+            && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+                                              punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_HUT_ENTER2,
+                                   ACT_REQ_RULES))
+        || (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
+            && unit_can_displace_hut(punit, def_tile)
+            && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+                                              punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_HUT_FRIGHTEN,
+                                   ACT_REQ_RULES))
+        || (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
+            && unit_can_displace_hut(punit, def_tile)
+            && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+                                              punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_HUT_FRIGHTEN2,
+                                   ACT_REQ_RULES))
         || (unit_move_handling(punit, def_tile, FALSE, TRUE))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
@@ -4699,7 +4773,7 @@ static bool do_unit_conquer_city(struct player *act_player,
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE, TRUE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE, TRUE, FALSE);
 
   /* The city may have been destroyed during the conquest. */
   success = (!city_exist(tgt_city_id)
@@ -4943,6 +5017,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
               /* Don't override "Conquer City" */
               FALSE,
               /* Don't override "Conquer Extras" */
+              FALSE,
+              /* Don't override "Enter Hut" */
               FALSE);
 
     return TRUE;

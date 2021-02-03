@@ -926,6 +926,70 @@ Actions done by a unit against a tile
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
 
+"Enter Hut" - Enter a Hut, destroying it in the process.
+* UI name can be set using ui_name_enter_hut
+* the actor unit must be on a tile next to the target.
+* the actor unit must have a hut_behavior of "Normal"
+* the actor unit has at least one move fragment left (!)
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to move to the target tile.
+* the actor unit's current transport, if the actor unit is transported,
+  must be in a city or in a base native to the current transport if the
+  current transport's unit class has the Unreachable unit class flag and
+  the actor's unit type doesn't list the current transport's unit class in
+  disembarks.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the target tile has an extra with "Enter" in its rmcauses (a Hut)
+* the target tile's Hut's rmreqs must be fulfilled
+* the target tile can't contain any city or units not allied to the actor
+  unit and all its cargo.
+* the target tile isn't blocked for the actor unit by some other unit's
+  zone of control (ZOC)
+
+"Enter Hut 2" - Enter a Hut, destroying it in the process.
+* UI name can be set using ui_name_enter_hut_2
+* A copy of "Enter Hut"
+* See "Enter Hut" for everything else.
+
+"Frighten Hut" - Frighten a Hut, destroying it in the process.
+* UI name can be set using ui_name_frighten_hut
+* the actor unit must be on a tile next to the target.
+* the actor unit must have a hut_behavior of "Frighten"
+* the actor unit has at least one move fragment left (!)
+* the actor unit's type must be the target tile's terrain animal if the
+  player's nation is an animal barbarian.
+* the actor unit must be able to move to the target tile.
+* the actor unit's current transport, if the actor unit is transported,
+  must be in a city or in a base native to the current transport if the
+  current transport's unit class has the Unreachable unit class flag and
+  the actor's unit type doesn't list the current transport's unit class in
+  disembarks.
+* the actor unit must be able to exist outside of a transport at the target
+  tile.
+* the actor unit doesn't have the "CoastStrict" unit type flag or the
+  target tile is on or adjacent to a tile that doesn't have the
+  "UnsafeCoast" terrain flag.
+* the actor unit can't be diplomatically forbidden from entering the target
+  tile.
+* the target tile has an extra with "Enter" in its rmcauses (a Hut)
+* the target tile's Hut's rmreqs must be fulfilled
+* the target tile can't contain any city or units not allied to the actor
+  unit and all its cargo.
+* the target tile isn't blocked for the actor unit by some other unit's
+  zone of control (ZOC)
+
+"Frighten Hut 2" - Frighten a Hut, destroying it in the process.
+* UI name can be set using ui_name_frighten_hut_2
+* A copy of "Frighten Hut"
+* See "Frighten Hut" for everything else.
+
 Actions done by a unit against all extras at a tile
 ===================================================
 "Conquer Extras" - Claim ownership of an extra.

@@ -1082,7 +1082,9 @@ void rscompat_postprocess(struct rscompat_info *info)
      * controversial enough. */
     action_iterate(act_id) {
       if (action_id_has_result_safe(act_id, ACTRES_TRANSPORT_DISEMBARK)
-          || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)) {
+          || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
+          || action_id_has_result_safe(act_id, ACTRES_HUT_ENTER)
+          || action_id_has_result_safe(act_id, ACTRES_HUT_FRIGHTEN)) {
         BV_SET(game.info.move_is_blocked_by, act_id);
       }
     } action_iterate_end;
@@ -1260,7 +1262,8 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
 {
   if (compat->ver_effects < 20 && compat->ver_game < 20) {
     /* BeachLander and slow_invasions has moved to the ruleset. Use a "fake
-     * generalized" Transport Disembark and Conquer City to handle it. */
+     * generalized" Transport Disembark, Conquer City, Enter Hut and
+     * Frighten Hut to handle it. */
 
     struct action_enabler *enabler;
 
@@ -1269,14 +1272,47 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
 
     action_enabler_add(enabler);
 
+    /* Hut entry and frightening is enabler controlled in 3.1. They can
+     * involve disembarking. */
+    unit_class_iterate(uclass) {
+      /* Add one enabler for each unit class that can do one of the
+       * actions. */
+      struct requirement e_req;
+      if (uclass->hut_behavior == HUT_NORMAL) {
+        enabler = action_enabler_new();
+        enabler->action = ACTION_HUT_ENTER;
+        e_req = req_from_values(VUT_UCLASS, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE,
+                                uclass_number(uclass));
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+        action_enabler_add(enabler);
+      } else if (uclass->hut_behavior == HUT_FRIGHTEN) {
+        enabler = action_enabler_new();
+        enabler->action = ACTION_HUT_FRIGHTEN;
+        e_req = req_from_values(VUT_UCLASS, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE,
+                                uclass_number(uclass));
+        requirement_vector_append(&enabler->actor_reqs, e_req);
+        action_enabler_add(enabler);
+      }
+    } unit_class_iterate_end;
+
     if (slow_invasions) {
       /* Make disembarking from non native terrain a different action. */
 
       struct action *paction;
 
+      /* Add the enablers */
+      /* The city conquest enablers are really from 3.0 */
       slow_invasion_enablers(ACTION_CONQUER_CITY, ACTION_CONQUER_CITY2);
+
+      /* Enablers for entering and frightening huts and for disembarking
+       * were added in a slow invasion neutral way.
+       * Make them slow invasion friendly. */
       slow_invasion_enablers(ACTION_TRANSPORT_DISEMBARK1,
                              ACTION_TRANSPORT_DISEMBARK2);
+      slow_invasion_enablers(ACTION_HUT_ENTER, ACTION_HUT_ENTER2);
+      slow_invasion_enablers(ACTION_HUT_FRIGHTEN, ACTION_HUT_FRIGHTEN2);
 
       /* Add the actions */
 
@@ -1301,11 +1337,33 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
       /* TRANS: _Conquer City from non native (100% chance of success). */
       sz_strlcpy(paction->ui_name, N_("%sConquer City from non native%s"));
 
-      /* Take movement for disembarking and conquering native terrain from
-       * non native terrain */
 
+      /* Use "Enter Hut 2" for conquring from non native. */
+      paction = action_by_number(ACTION_HUT_ENTER2);
+      /* "Enter Hut" and "Enter Hut 2" won't appear in
+       * the same action selection dialog given their opposite
+       * requirements. */
+      paction->quiet = TRUE;
+      /* Make what is happening clear. */
+      /* TRANS: _Enter Hut from non native (100% chance of success). */
+      sz_strlcpy(paction->ui_name, N_("%sEnter Hut from non native%s"));
+
+      /* Use "Frighten Hut 2" for conquring from non native. */
+      paction = action_by_number(ACTION_HUT_FRIGHTEN2);
+      /* "Frighten Hut" and "Frighten Hut 2" won't appear in
+       * the same action selection dialog given their opposite
+       * requirements. */
+      paction->quiet = TRUE;
+      /* Make what is happening clear. */
+      /* TRANS: _Frighten Hut from non native (100% chance of success). */
+      sz_strlcpy(paction->ui_name, N_("%sFrighten Hut from non native%s"));
+
+      /* Take movement for disembarking, conquering and hut popping to
+       * native terrain from non native terrain */
       slow_invasion_effects("Transport Disembark 2");
       slow_invasion_effects("Conquer City 2");
+      slow_invasion_effects("Enter Hut 2");
+      slow_invasion_effects("Frighten Hut 2");
     }
   }
 

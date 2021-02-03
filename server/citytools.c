@@ -1686,6 +1686,44 @@ void remove_city(struct city *pcity)
                                         ptrans->id, 0, "",
                                         ACTION_TRANSPORT_EMBARK,
                                         ACT_REQ_RULES);
+          } else if (unit_can_enter_hut(punit, tile1)
+                     && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+                                                       punit,
+                                                       tile1, NULL)) {
+            /* "Enter Hut". */
+            moved = unit_perform_action(unit_owner(punit), punit->id,
+                                        tile_index(tile1), 0, "",
+                                        ACTION_HUT_ENTER,
+                                        ACT_REQ_RULES);
+          } else if (unit_can_enter_hut(punit, tile1)
+                     && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+                                                       punit,
+                                                       tile1, NULL)) {
+            /* "Enter Hut 2". */
+            moved = unit_perform_action(unit_owner(punit), punit->id,
+                                        tile_index(tile1), 0, "",
+                                        ACTION_HUT_ENTER2,
+                                        ACT_REQ_RULES);
+          } else if (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
+                     && unit_can_displace_hut(punit, tile1)
+                     && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+                                                       punit,
+                                                       tile1, NULL)) {
+            /* "Frighten Hut". */
+            moved = unit_perform_action(unit_owner(punit), punit->id,
+                                        tile_index(tile1), 0, "",
+                                        ACTION_HUT_FRIGHTEN,
+                                        ACT_REQ_RULES);
+          } else if (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
+                     && unit_can_displace_hut(punit, tile1)
+                     && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+                                                       punit,
+                                                       tile1, NULL)) {
+            /* "Frighten Hut 2". */
+            moved = unit_perform_action(unit_owner(punit), punit->id,
+                                        tile_index(tile1), 0, "",
+                                        ACTION_HUT_FRIGHTEN2,
+                                        ACT_REQ_RULES);
           } else {
             moved = unit_move_handling(punit, tile1, FALSE, TRUE);
           }
