@@ -1484,7 +1484,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                               can_upgrade_unittype(
                                                   act_player, act_utype));
   } else if (paction
-             && (blocker = action_is_blocked_by(act_id, punit,
+             && (blocker = action_is_blocked_by(paction, punit,
                                                 target_tile, target_city,
                                                 target_unit))) {
     explnat->kind = ANEK_ACTION_BLOCKS;

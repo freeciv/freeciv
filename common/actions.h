@@ -652,7 +652,7 @@ action_enabler_vector_by_number(const void *enabler,
                                 req_vec_num_in_item vec);
 const char *action_enabler_vector_by_number_name(req_vec_num_in_item vec);
 
-struct action *action_is_blocked_by(const action_id act_id,
+struct action *action_is_blocked_by(const struct action *act,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile,
                                     const struct city *target_city,

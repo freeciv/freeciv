@@ -2742,7 +2742,7 @@ tgt_city_local_utype(const struct city *target_city)
   ATK_CITY action ACTION_RECYCLE_UNIT.
 **************************************************************************/
 static const struct tile *
-blocked_find_target_tile(const action_id act_id,
+blocked_find_target_tile(const struct action *act,
                          const struct unit *actor_unit,
                          const struct tile *target_tile_arg,
                          const struct city *target_city,
@@ -2753,7 +2753,7 @@ blocked_find_target_tile(const action_id act_id,
     return target_tile_arg;
   }
 
-  switch (action_id_get_target_kind(act_id)) {
+  switch (action_get_target_kind(act)) {
   case ATK_CITY:
     fc_assert_ret_val(target_city, NULL);
     return city_tile(target_city);
@@ -2778,8 +2778,8 @@ blocked_find_target_tile(const action_id act_id,
     break;
   }
 
-  fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
-                action_id_get_target_kind(act_id), act_id);
+  fc_assert_msg(FALSE, "Bad action target kind %d for action %s",
+                action_get_target_kind(act), action_rule_name(act));
   return NULL;
 }
 
@@ -2793,7 +2793,7 @@ blocked_find_target_tile(const action_id act_id,
   ATK_CITY action ACTION_RECYCLE_UNIT.
 **************************************************************************/
 static const struct city *
-blocked_find_target_city(const action_id act_id,
+blocked_find_target_city(const struct action *act,
                          const struct unit *actor_unit,
                          const struct tile *target_tile,
                          const struct city *target_city_arg,
@@ -2804,7 +2804,7 @@ blocked_find_target_city(const action_id act_id,
     return target_city_arg;
   }
 
-  switch (action_id_get_target_kind(act_id)) {
+  switch (action_get_target_kind(act)) {
   case ATK_CITY:
     fc_assert_ret_val(target_city_arg, NULL);
     return target_city_arg;
@@ -2832,8 +2832,8 @@ blocked_find_target_city(const action_id act_id,
     break;
   }
 
-  fc_assert_msg(FALSE, "Bad action target kind %d for action %d",
-                action_id_get_target_kind(act_id), act_id);
+  fc_assert_msg(FALSE, "Bad action target kind %d for action %s",
+                action_get_target_kind(act), action_rule_name(act));
   return NULL;
 }
 
@@ -2843,39 +2843,39 @@ blocked_find_target_city(const action_id act_id,
 
   An action that can block another blocks when it is forced and possible.
 **************************************************************************/
-struct action *action_is_blocked_by(const action_id act_id,
+struct action *action_is_blocked_by(const struct action *act,
                                     const struct unit *actor_unit,
                                     const struct tile *target_tile_arg,
                                     const struct city *target_city_arg,
                                     const struct unit *target_unit)
 {
-
-
   const struct tile *target_tile
-      = blocked_find_target_tile(act_id, actor_unit, target_tile_arg,
+      = blocked_find_target_tile(act, actor_unit, target_tile_arg,
                                  target_city_arg, target_unit);
   const struct city *target_city
-      = blocked_find_target_city(act_id, actor_unit, target_tile,
+      = blocked_find_target_city(act, actor_unit, target_tile,
                                  target_city_arg, target_unit);
 
   action_iterate(blocker_id) {
-    fc_assert_action(action_id_get_actor_kind(blocker_id) == AAK_UNIT,
+    struct action *blocker = action_by_number(blocker_id);
+
+    fc_assert_action(action_get_actor_kind(blocker) == AAK_UNIT,
                      continue);
 
-    if (!action_id_would_be_blocked_by(act_id, blocker_id)) {
+    if (!action_would_be_blocked_by(act, blocker)) {
       /* It doesn't matter if it is legal. It won't block the action. */
       continue;
     }
 
-    switch (action_id_get_target_kind(blocker_id)) {
+    switch (action_get_target_kind(blocker)) {
     case ATK_CITY:
       if (!target_city) {
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_city(blocker_id,
+      if (is_action_enabled_unit_on_city(blocker->id,
                                          actor_unit, target_city)) {
-        return action_by_number(blocker_id);
+        return blocker;
       }
       break;
     case ATK_UNIT:
@@ -2883,9 +2883,9 @@ struct action *action_is_blocked_by(const action_id act_id,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_unit(blocker_id,
+      if (is_action_enabled_unit_on_unit(blocker->id,
                                          actor_unit, target_unit)) {
-        return action_by_number(blocker_id);
+        return blocker;
       }
       break;
     case ATK_UNITS:
@@ -2893,9 +2893,9 @@ struct action *action_is_blocked_by(const action_id act_id,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_units(blocker_id,
+      if (is_action_enabled_unit_on_units(blocker->id,
                                           actor_unit, target_tile)) {
-        return action_by_number(blocker_id);
+        return blocker;
       }
       break;
     case ATK_TILE:
@@ -2903,9 +2903,9 @@ struct action *action_is_blocked_by(const action_id act_id,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_tile(blocker_id,
+      if (is_action_enabled_unit_on_tile(blocker->id,
                                          actor_unit, target_tile, NULL)) {
-        return action_by_number(blocker_id);
+        return blocker;
       }
       break;
     case ATK_EXTRAS:
@@ -2913,18 +2913,18 @@ struct action *action_is_blocked_by(const action_id act_id,
         /* Can't be enabled. No target. */
         continue;
       }
-      if (is_action_enabled_unit_on_extras(blocker_id,
+      if (is_action_enabled_unit_on_extras(blocker->id,
                                            actor_unit, target_tile, NULL)) {
-        return action_by_number(blocker_id);
+        return blocker;
       }
       break;
     case ATK_SELF:
-      if (is_action_enabled_unit_on_self(blocker_id, actor_unit)) {
-        return action_by_number(blocker_id);
+      if (is_action_enabled_unit_on_self(blocker->id, actor_unit)) {
+        return blocker;
       }
       break;
     case ATK_COUNT:
-      fc_assert_action(action_id_get_target_kind(blocker_id) != ATK_COUNT,
+      fc_assert_action(action_id_get_target_kind(blocker->id) != ATK_COUNT,
                        continue);
       break;
     }
@@ -3414,7 +3414,7 @@ is_action_possible(const action_id wanted_action,
     break;
   }
 
-  if (action_is_blocked_by(wanted_action, actor_unit,
+  if (action_is_blocked_by(paction, actor_unit,
                            target_tile, target_city, target_unit)) {
     /* Allows an action to block an other action. If a blocking action is
      * legal the actions it blocks becomes illegal. */
@@ -5275,6 +5275,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
 {
   const struct impr_type *target_building;
   const struct unit_type *target_utype;
+  const struct action *act = action_by_number(act_id);
 
   if (actor_unit == NULL || target_city == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -5315,7 +5316,7 @@ action_prob_vs_city_full(const struct unit* actor_unit,
 
   /* Doesn't leak information since it must be 100% certain from the
    * player's perspective that the blocking action is legal. */
-  if (action_is_blocked_by(act_id, actor_unit,
+  if (action_is_blocked_by(act, actor_unit,
                            city_tile(target_city), target_city, NULL)) {
     /* Don't offer to perform an action known to be blocked. */
     return ACTPROB_IMPOSSIBLE;
@@ -5439,6 +5440,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
                           const struct tile* target_tile)
 {
   struct act_prob prob_all;
+  const struct action *act = action_by_number(act_id);
 
   if (actor_unit == NULL || target_tile == NULL) {
     /* Can't do an action when actor or target are missing. */
@@ -5492,7 +5494,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
   /* Doesn't leak information since it must be 100% certain from the
    * player's perspective that the blocking action is legal. */
   unit_list_iterate(target_tile->units, target_unit) {
-    if (action_is_blocked_by(act_id, actor_unit,
+    if (action_is_blocked_by(act, actor_unit,
                              target_tile, tile_city(target_tile),
                              target_unit)) {
       /* Don't offer to perform an action known to be blocked. */
