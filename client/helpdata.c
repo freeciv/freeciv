@@ -2836,20 +2836,23 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       }
 
       i = 0;
-      action_iterate(blocker) {
-        if (!utype_can_do_action(utype, blocker)) {
+      action_iterate(blocker_id) {
+        const struct action *blocker = action_by_number(blocker_id);
+
+        if (!utype_can_do_action(utype, blocker->id)) {
           /* Can't block since never legal. */
           continue;
         }
 
-        if (action_id_would_be_blocked_by(act, blocker)) {
-          /* action name alone can be MAX_LEN_NAME, leave space for extra characters */
+        if (action_would_be_blocked_by(paction, blocker)) {
+          /* action name alone can be MAX_LEN_NAME, leave space for extra
+           * characters */
           int maxlen = MAX_LEN_NAME + 16;
           char *quoted = fc_malloc(maxlen);
 
           fc_snprintf(quoted, maxlen,
                       /* TRANS: %s is an action that can block another. */
-                      _("\'%s\'"), action_id_name_translation(blocker));
+                      _("\'%s\'"), action_name_translation(blocker));
           blockers[i] = quoted;
 
           i++;
