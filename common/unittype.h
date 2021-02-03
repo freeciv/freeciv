@@ -95,6 +95,9 @@ struct ai_type;
 #define SPECENUM_VALUE20 UCF_USER_FLAG_10
 #define SPECENUM_VALUE21 UCF_USER_FLAG_11
 #define SPECENUM_VALUE22 UCF_USER_FLAG_12
+#define SPECENUM_VALUE23 UCF_USER_FLAG_13
+#define SPECENUM_VALUE24 UCF_USER_FLAG_14
+#define SPECENUM_VALUE25 UCF_USER_FLAG_15
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
@@ -102,7 +105,7 @@ struct ai_type;
 #define SPECENUM_BITVECTOR bv_unit_class_flags
 #include "specenum_gen.h"
 
-#define UCF_LAST_USER_FLAG UCF_USER_FLAG_12
+#define UCF_LAST_USER_FLAG UCF_USER_FLAG_15
 #define MAX_NUM_USER_UCLASS_FLAGS (UCF_LAST_USER_FLAG                     \
                                    - UCF_USER_FLAG_1 + 1)
 
