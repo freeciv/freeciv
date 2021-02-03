@@ -4841,6 +4841,10 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_BASE:
       case ACTION_MINE:
       case ACTION_IRRIGATE:
+      case ACTION_HUT_ENTER:
+      case ACTION_HUT_ENTER2:
+      case ACTION_HUT_FRIGHTEN:
+      case ACTION_HUT_FRIGHTEN2:
         /* An interesting non attack action has been found. */
         return ACTION_NONE;
         break;

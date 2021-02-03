@@ -1000,7 +1000,9 @@ void rscompat_postprocess(struct rscompat_info *info)
      * controversial enough. */
     action_iterate(act_id) {
       if (action_id_has_result_safe(act_id, ACTRES_TRANSPORT_DISEMBARK)
-          || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)) {
+          || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
+          || action_id_has_result_safe(act_id, ACTRES_HUT_ENTER)
+          || action_id_has_result_safe(act_id, ACTRES_HUT_FRIGHTEN)) {
         BV_SET(game.info.move_is_blocked_by, act_id);
       }
     } action_iterate_end;

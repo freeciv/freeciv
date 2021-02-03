@@ -1203,7 +1203,8 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
     if (move_cost == -1) {
       move_cost = punit->moves_left;
     }
-    unit_move(punit, dst_tile, move_cost, NULL, FALSE, FALSE, FALSE);
+    unit_move(punit, dst_tile, move_cost,
+              NULL, FALSE, FALSE, FALSE, FALSE);
 
     return TRUE;
   }
@@ -1266,7 +1267,7 @@ void bounce_unit(struct unit *punit, bool verbose)
      * because the transport is Unreachable and the unit doesn't have it in
      * its embarks field or because "Transport Embark" isn't enabled? Kept
      * like it was to preserve the old rules for now. -- Sveinung */
-    unit_move(punit, ptile, 0, NULL, TRUE, FALSE, FALSE);
+    unit_move(punit, ptile, 0, NULL, TRUE, FALSE, FALSE, FALSE);
     return;
   }
 
@@ -2337,7 +2338,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
             /* FIXME: Shouldn't unit_move_handling() be used here? This is
              * the unit escaping by moving itself. It should therefore
              * respect movement rules. */
-            unit_move(vunit, dsttile, move_cost, NULL, FALSE, FALSE, FALSE);
+            unit_move(vunit, dsttile, move_cost,
+                      NULL, FALSE, FALSE, FALSE, FALSE);
             num_escaped[player_index(vplayer)]++;
             escaped = TRUE;
             unitcount--;
@@ -2781,7 +2783,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city,
 
   unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
             /* Can only airlift to allied and domestic cities */
-            FALSE, FALSE, FALSE);
+            FALSE, FALSE, FALSE, FALSE);
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2925,7 +2927,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                  && is_non_allied_city_tile(ptile, pplayer)),
                 (extra_owner(ptile) == NULL
                  || pplayers_at_war(extra_owner(ptile), unit_owner(punit)))
-                && tile_has_claimable_base(ptile, unit_type_get(punit)))) {
+                && tile_has_claimable_base(ptile, unit_type_get(punit)),
+                unit_class_get(punit)->hut_behavior != HUT_NOTHING)) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));
@@ -2977,9 +2980,7 @@ static void unit_enter_hut(struct unit *punit)
   struct tile *ptile = unit_tile(punit);
   bool hut = FALSE;
 
-  if (behavior == HUT_NOTHING) {
-    return;
-  }
+  fc_assert_ret(behavior != HUT_NOTHING);
 
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)
@@ -3617,7 +3618,8 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
 **************************************************************************/
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
                struct unit *embark_to, bool find_embark_target,
-               bool conquer_city_allowed, bool conquer_extras_allowed)
+               bool conquer_city_allowed, bool conquer_extras_allowed,
+               bool enter_hut_allowed)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -4006,7 +4008,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     unit_lives = unit_survive_autoattack(punit);
   }
 
-  if (unit_lives) {
+  if (unit_lives && enter_hut_allowed) {
     /* Is there a hut? */
     unit_enter_hut(punit);
     unit_lives = unit_is_alive(saved_id);

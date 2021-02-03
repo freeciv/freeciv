@@ -2971,6 +2971,24 @@ reqs    =
       "UnitState", "OnNativeTile",   "Local", TRUE
     }
 
+[effect_action_success_move_cost_hut_entry_from_non_native]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",      "name",                  "range", "present"
+      "Action",    "Enter Hut 2",           "Local", TRUE
+      "UnitState", "OnNativeTile",          "Local", TRUE
+    }
+
+[effect_action_success_move_cost_hut_frighten_from_non_native]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",      "name",                  "range", "present"
+      "Action",    "Frighten Hut 2",        "Local", TRUE
+      "UnitState", "OnNativeTile",          "Local", TRUE
+    }
+
 [effect_unit_shield_value_recycle]
 type    = "Unit_Shield_Value_Pct"
 value   = -50

@@ -134,6 +134,10 @@ static void suicide_attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
 static void disembark1(QVariant data1, QVariant data2);
 static void disembark2(QVariant data1, QVariant data2);
+static void enter_hut(QVariant data1, QVariant data2);
+static void enter_hut2(QVariant data1, QVariant data2);
+static void frighten_hut(QVariant data1, QVariant data2);
+static void frighten_hut2(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
@@ -257,6 +261,10 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
+  action_function[ACTION_HUT_ENTER] = enter_hut;
+  action_function[ACTION_HUT_ENTER2] = enter_hut2;
+  action_function[ACTION_HUT_FRIGHTEN] = frighten_hut;
+  action_function[ACTION_HUT_FRIGHTEN2] = frighten_hut2;
 
   /* Unit acting against all tile extras. */
   action_function[ACTION_CONQUER_EXTRAS] = conquer_extras;
@@ -2461,6 +2469,66 @@ static void disembark2(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
     request_do_action(ACTION_TRANSPORT_DISEMBARK2,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Enter Hut" for choice dialog
+***************************************************************************/
+static void enter_hut(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_HUT_ENTER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Enter Hut 2" for choice dialog
+***************************************************************************/
+static void enter_hut2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_HUT_ENTER2,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Frighten Hut" for choice dialog
+***************************************************************************/
+static void frighten_hut(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_HUT_FRIGHTEN,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Frighten Hut 2" for choice dialog
+***************************************************************************/
+static void frighten_hut2(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_HUT_FRIGHTEN2,
                       actor_id, target_id, 0, "");
   }
 }

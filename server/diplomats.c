@@ -727,6 +727,52 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                                       ACT_REQ_RULES)))
       /* May have died while trying to conquer extra. */
       && unit_is_alive(diplomat_id)
+      /* Post bribe hut entry. */
+      && (!unit_can_enter_hut(pdiplomat, victim_tile)
+          || !(is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
+                                              pdiplomat, victim_tile,
+                                              NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(victim_tile), 0, "",
+                                      ACTION_HUT_ENTER,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to enter hut. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe hut entry. */
+      && (!unit_can_enter_hut(pdiplomat, victim_tile)
+          || !(is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
+                                              pdiplomat, victim_tile,
+                                              NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(victim_tile), 0, "",
+                                      ACTION_HUT_ENTER2,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to enter hut. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe hut frightening. */
+      && (!(unit_can_enter_hut(pdiplomat, victim_tile)
+            && HUT_FRIGHTEN == unit_class_get(pdiplomat)->hut_behavior)
+          || !(is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
+                                              pdiplomat, victim_tile,
+                                              NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(victim_tile), 0, "",
+                                      ACTION_HUT_FRIGHTEN,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to frighten hut. */
+      && unit_is_alive(diplomat_id)
+      /* Post bribe hut frightening. */
+      && (!(unit_can_enter_hut(pdiplomat, victim_tile)
+            && HUT_FRIGHTEN == unit_class_get(pdiplomat)->hut_behavior)
+          || !(is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
+                                              pdiplomat, victim_tile,
+                                              NULL)
+               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
+                                      tile_index(victim_tile), 0, "",
+                                      ACTION_HUT_FRIGHTEN2,
+                                      ACT_REQ_RULES)))
+      /* May have died while trying to frighten hut. */
+      && unit_is_alive(diplomat_id)
       /* Post bribe move. */
       && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE)
       /* May have died while trying to move. */

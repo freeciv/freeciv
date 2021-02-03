@@ -287,6 +287,10 @@ enum output_type_id {
 #define SPECENUM_VALUE55NAME "Spy Attack"
 #define SPECENUM_VALUE56 ACTRES_CONQUER_EXTRAS
 #define SPECENUM_VALUE56NAME "Conquer Extras"
+#define SPECENUM_VALUE57 ACTRES_HUT_ENTER
+#define SPECENUM_VALUE57NAME "Enter Hut"
+#define SPECENUM_VALUE58 ACTRES_HUT_FRIGHTEN
+#define SPECENUM_VALUE58NAME "Frighten Hut"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"

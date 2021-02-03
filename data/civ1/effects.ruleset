@@ -1474,6 +1474,15 @@ reqs    =
       "Action", "Transport Disembark", "Local", TRUE
     }
 
+; Entering a hut from a ship is a form of disembarkment
+[effect_action_success_move_cost_disembark_to_hut]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Enter Hut 2", "Local", TRUE
+    }
+
 ; Civilization 1 took all remaining move fragments when a land unit
 ; embarked to a ship. It didn't take all remaining more fragments when the
 ; same land unit boarded a ship in the city it was in.

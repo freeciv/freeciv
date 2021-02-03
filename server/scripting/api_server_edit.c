@@ -187,7 +187,8 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
                     (extra_owner(dest) == NULL
                      || pplayers_at_war(extra_owner(dest),
                                         unit_owner(punit)))
-                    && tile_has_claimable_base(dest, unit_type_get(punit)));
+                    && tile_has_claimable_base(dest, unit_type_get(punit)),
+                    unit_class_get(punit)->hut_behavior != HUT_FRIGHTEN);
   if (alive) {
     struct player *owner = unit_owner(punit);
 
@@ -603,7 +604,8 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                    (extra_owner(ptile) == NULL
                     || pplayers_at_war(extra_owner(ptile),
                                        unit_owner(punit)))
-                   && tile_has_claimable_base(ptile, unit_type_get(punit)));
+                   && tile_has_claimable_base(ptile, unit_type_get(punit)),
+                   unit_class_get(punit)->hut_behavior != HUT_FRIGHTEN);
 }
 
 /*************************************************************************//**
