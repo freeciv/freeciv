@@ -121,26 +121,54 @@ show to players use name_translation().
 Example 1
 =========
 The following Lua code will log all actions done by any unit to a city, to
-another unit, to a unit stack, to a tile or to itself:
+another unit, to a unit stack, to a tile, to a tile's extras or to itself:
 
-function action_started_callback(action, actor, target)
-  local target_owner
-  if target == nil then
-    target_owner = "it self"
-  elseif target.owner == nil then
-    target_owner = "unowned"
-  else
-    target_owner = target.owner.nation:plural_translation()
+-- Returns a function that describes a tile target
+function tile_desc_func_gen(kind, owner_getter)
+  return function (target)
+    local owner
+    if owner_getter(target) == nil then
+      owner = _("unowned")
+    else
+      owner = owner_getter(target).nation:name_translation()
+    end
+    return _("%s %s (%d, %d)"):format(owner, kind, target.x, target.y)
   end
+end
 
+-- Describe the target based on its kind
+target_describer = {
+  ["individual cities"] = function (target)
+    return _("%s city %s (id: %d)"):format(
+        target.owner.nation:name_translation(), target.name, target.id)
+  end,
+  ["individual units"] = function (target)
+    return _("%s %s (id: %d)"):format(
+      target.owner.nation:name_translation(),
+      target.utype:name_translation(), target.id)
+  end,
+  ["unit stacks"] = function (target)
+    return _("unit stack at (%d, %d)"):format(target.x, target.y)
+  end,
+  ["tiles"] = tile_desc_func_gen("tile", function (target)
+    return target.owner
+  end),
+  ["tile extras"] = tile_desc_func_gen("tile extras", function (target)
+    return target:extra_owner(Nil)
+  end),
+  ["itself"] = function (target) return "it self" end,
+}
+
+-- Log all performed actions
+function action_started_callback(action, actor, target)
   log.normal(_("%d: %s (rule name: %s) performed by %s %s (id: %d) on %s"),
              game.current_turn(),
              action:name_translation(),
              action:rule_name(),
-             actor.owner.nation:plural_translation(),
-             actor.utype:rule_name(),
+             actor.owner.nation:name_translation(),
+             actor.utype:name_translation(),
              actor.id,
-             target_owner)
+             target_describer[action:target_kind()](target))
 end
 
 signal.connect("action_started_unit_city", "action_started_callback")
