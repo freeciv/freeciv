@@ -37,8 +37,14 @@ const char *freeciv_name_version(void)
   static char msgbuf[256];
 
 #if IS_BETA_VERSION
+#if defined(GITREV) && !defined(FC_GITREV_OFF)
+  fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s %s (%s)"),
+              VERSION_STRING, _("(beta version)"),
+              fc_git_revision());
+#else
   fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s %s"),
               VERSION_STRING, _("(beta version)"));
+#endif
 #elif defined(GITREV) && !defined(FC_GITREV_OFF)
   fc_snprintf(msgbuf, sizeof (msgbuf), _("Freeciv version %s (%s)"),
               VERSION_STRING, fc_git_revision());
