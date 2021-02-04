@@ -235,25 +235,18 @@ if_attacker =
     }
 
 [actions]
-; If force_trade_route is set to TRUE it is illegal for an actor unit to
-; enter the marketplace of a city if it can establish a trade route to it
-; in stead.
-force_trade_route = TRUE
+; Forbid "Enter Marketplace" if any one of the listed actions are legal.
+enter_marketplace_blocked_by = "Establish Trade Route"
 
-; If force_capture_units is set to TRUE it is illegal for an actor unit to
-; bombard, explode nuclear or perform a regular attack against a tile if
-; it can capture units on it in stead.
-force_capture_units = FALSE
+; Forbid "Attack" if any one of the listed actions are legal.
+attack_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units"
 
-; If force_bombard is set to TRUE it is illegal for an actor unit to
-; explode nuclear or perform a regular attack against a tile if it can
-; bombard it in stead.
-force_bombard = FALSE
+; Forbid "Suicide Attack" if any one of the listed actions are legal.
+suicide_attack_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units"
 
-; If force_explode_nuclear is set to TRUE it is illegal for an actor unit
-; to perform a regular attack against a tile if it can do explode nuclear
-; in stead.
-force_explode_nuclear = TRUE
+; Forbid "Conquer City" if any one of the listed actions are legal.
+conquer_city_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
+                          "Attack", "Suicide Attack"
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_is_blocked_by = "Transport Disembark"
