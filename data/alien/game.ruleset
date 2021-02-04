@@ -478,6 +478,9 @@ ui_name_transport_embark = _("%sEmbark%s")
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile.
+; The version from the non native tile and the native tile version won't
+; appear in the same action selection dialog given their opposite
+; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2"
 
 ; /* <-- avoid gettext warnings
