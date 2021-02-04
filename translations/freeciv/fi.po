@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2021-02-02 18:05+0200\n"
-"PO-Revision-Date: 2021-02-02 18:25+0200\n"
+"POT-Creation-Date: 2021-02-04 04:30+0200\n"
+"PO-Revision-Date: 2021-02-04 04:31+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -4949,7 +4949,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:116 client/gui-gtk-2.0/pages.c:139
 #: client/gui-gtk-3.0/menu.c:120 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:565 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:812 client/gui-qt/menu.cpp:827
+#: client/gui-qt/fc_client.cpp:811 client/gui-qt/menu.cpp:827
 #: data/Freeciv.in:1246
 msgid "Set local options"
 msgstr "Muokkaa paikallisia asetuksia"
@@ -5697,7 +5697,7 @@ msgstr "Mene %stä rakentaen"
 
 #: client/gui-gtk-2.0/menu.c:2319 client/gui-gtk-3.0/menu.c:2307
 #: client/gui-gtk-3.22/menu.c:2323 client/gui-qt/menu.cpp:2021
-#: client/gui-sdl/menu.c:1084 client/gui-sdl2/menu.c:1079
+#: client/gui-sdl/menu.c:1064 client/gui-sdl2/menu.c:1060
 #: client/gui-xaw/menu.c:171
 msgid "Add to City"
 msgstr "Lisää kaupunkiin"
@@ -6152,7 +6152,7 @@ msgstr "<%s AI>"
 
 #: client/gui-gtk-2.0/pages.c:2326 client/gui-gtk-3.0/pages.c:2397
 #: client/gui-gtk-3.22/pages.c:2397 client/gui-qt/dialogs.cpp:385
-#: client/gui-qt/fc_client.cpp:1223 client/gui-qt/pages.cpp:1669
+#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1669
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Satunnainen"
@@ -7807,44 +7807,44 @@ msgstr "Myönnä lähetystö"
 msgid "Pacts"
 msgstr "Sopimukset"
 
-#: client/gui-qt/fc_client.cpp:155
+#: client/gui-qt/fc_client.cpp:154
 msgid "Welcome to Freeciv"
 msgstr "Tervetuloa pelaamaan Freeciviä"
 
-#: client/gui-qt/fc_client.cpp:249
+#: client/gui-qt/fc_client.cpp:248
 msgid "This is Qt-client for Freeciv."
 msgstr "Freecivin Qt-pohjainen asiakasohjelma."
 
-#: client/gui-qt/fc_client.cpp:514 client/gui-qt/pages.cpp:1847
+#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1847
 msgid "Don't Observe"
 msgstr "Älä tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:517 client/gui-qt/pages.cpp:673
+#: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:673
 #: client/gui-qt/pages.cpp:1849 client/gui-qt/pages.cpp:1951
 msgid "Observe"
 msgstr "Tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:1122
+#: client/gui-qt/fc_client.cpp:1121
 msgid "Client Options"
 msgstr "Asiakasohjelman asetukset"
 
-#: client/gui-qt/fc_client.cpp:1150
+#: client/gui-qt/fc_client.cpp:1149
 msgid "More Game Options"
 msgstr "Enemmän peliasetuksia..."
 
-#: client/gui-qt/fc_client.cpp:1156
+#: client/gui-qt/fc_client.cpp:1155
 msgid "Nation:"
 msgstr "Kansakunta:"
 
-#: client/gui-qt/fc_client.cpp:1157
+#: client/gui-qt/fc_client.cpp:1156
 msgid "Rules:"
 msgstr "Säännöt:"
 
-#: client/gui-qt/fc_client.cpp:1162
+#: client/gui-qt/fc_client.cpp:1161
 msgid "Players:"
 msgstr "Pelaajat:"
 
-#: client/gui-qt/fc_client.cpp:1298
+#: client/gui-qt/fc_client.cpp:1297
 msgid "Set server options"
 msgstr "Muuta palvelimen asetuksia."
 
@@ -8393,8 +8393,8 @@ msgstr "Työt"
 
 #: client/gui-qt/menu.cpp:1137 client/gui-qt/menu.cpp:2023
 #: client/gui-qt/shortcuts.cpp:122 client/gui-sdl/mapctrl.c:2550
-#: client/gui-sdl/menu.c:1086 client/gui-sdl2/mapctrl.c:2758
-#: client/gui-sdl2/menu.c:1081 client/gui-xaw/menu.c:170
+#: client/gui-sdl/menu.c:1066 client/gui-sdl2/mapctrl.c:2758
+#: client/gui-sdl2/menu.c:1062 client/gui-xaw/menu.c:170
 msgid "Build City"
 msgstr "Perusta kaupunki"
 
@@ -9317,25 +9317,25 @@ msgstr "Kaupunki kutistuu: %d %s"
 
 #: client/gui-sdl/citydlg.c:2998 client/gui-sdl/citydlg.c:3002
 #: client/gui-sdl/citydlg.c:3326 client/gui-sdl/cityrep.c:558
-#: client/gui-sdl/cityrep.c:1090 client/gui-sdl/menu.c:1114
-#: client/gui-sdl/menu.c:1168 client/gui-sdl/menu.c:1182
-#: client/gui-sdl/menu.c:1188 client/gui-sdl/menu.c:1210
-#: client/gui-sdl/menu.c:1221 client/gui-sdl/menu.c:1227
-#: client/gui-sdl/menu.c:1250 client/gui-sdl/menu.c:1265
-#: client/gui-sdl/menu.c:1286 client/gui-sdl/menu.c:1302
-#: client/gui-sdl/menu.c:1324 client/gui-sdl/plrdlg.c:675
+#: client/gui-sdl/cityrep.c:1090 client/gui-sdl/menu.c:1094
+#: client/gui-sdl/menu.c:1148 client/gui-sdl/menu.c:1162
+#: client/gui-sdl/menu.c:1168 client/gui-sdl/menu.c:1190
+#: client/gui-sdl/menu.c:1201 client/gui-sdl/menu.c:1207
+#: client/gui-sdl/menu.c:1230 client/gui-sdl/menu.c:1245
+#: client/gui-sdl/menu.c:1266 client/gui-sdl/menu.c:1282
+#: client/gui-sdl/menu.c:1304 client/gui-sdl/plrdlg.c:675
 #: client/gui-sdl/repodlgs.c:564 client/gui-sdl/repodlgs.c:954
 #: client/gui-sdl/wldlg.c:936 client/gui-sdl/wldlg.c:1142
 #: client/gui-sdl/wldlg.c:1445 client/gui-sdl/wldlg.c:1451
 #: client/gui-sdl/wldlg.c:1573 client/gui-sdl2/citydlg.c:2975
 #: client/gui-sdl2/citydlg.c:2979 client/gui-sdl2/citydlg.c:3300
 #: client/gui-sdl2/cityrep.c:570 client/gui-sdl2/cityrep.c:1105
-#: client/gui-sdl2/menu.c:1109 client/gui-sdl2/menu.c:1163
-#: client/gui-sdl2/menu.c:1177 client/gui-sdl2/menu.c:1183
-#: client/gui-sdl2/menu.c:1205 client/gui-sdl2/menu.c:1216
-#: client/gui-sdl2/menu.c:1222 client/gui-sdl2/menu.c:1244
-#: client/gui-sdl2/menu.c:1259 client/gui-sdl2/menu.c:1280
-#: client/gui-sdl2/menu.c:1296 client/gui-sdl2/menu.c:1318
+#: client/gui-sdl2/menu.c:1090 client/gui-sdl2/menu.c:1144
+#: client/gui-sdl2/menu.c:1158 client/gui-sdl2/menu.c:1164
+#: client/gui-sdl2/menu.c:1186 client/gui-sdl2/menu.c:1197
+#: client/gui-sdl2/menu.c:1203 client/gui-sdl2/menu.c:1225
+#: client/gui-sdl2/menu.c:1240 client/gui-sdl2/menu.c:1261
+#: client/gui-sdl2/menu.c:1277 client/gui-sdl2/menu.c:1299
 #: client/gui-sdl2/plrdlg.c:739 client/gui-sdl2/repodlgs.c:587
 #: client/gui-sdl2/repodlgs.c:976 client/gui-sdl2/wldlg.c:958
 #: client/gui-sdl2/wldlg.c:1162 client/gui-sdl2/wldlg.c:1470
@@ -10254,26 +10254,26 @@ msgstr "Jätä vartioimaan"
 #. TRANS: "Build Mine (M) 5 turns"
 #. TRANS: "Build Fortress (Shift+F) 5 turns"
 #. TRANS: "Build Airbase (Shift+E) 5 turns"
-#: client/gui-sdl/menu.c:1111 client/gui-sdl/menu.c:1166
-#: client/gui-sdl/menu.c:1208 client/gui-sdl/menu.c:1263
-#: client/gui-sdl/menu.c:1284 client/gui-sdl2/menu.c:1106
-#: client/gui-sdl2/menu.c:1161 client/gui-sdl2/menu.c:1203
-#: client/gui-sdl2/menu.c:1257 client/gui-sdl2/menu.c:1278
+#: client/gui-sdl/menu.c:1091 client/gui-sdl/menu.c:1146
+#: client/gui-sdl/menu.c:1188 client/gui-sdl/menu.c:1243
+#: client/gui-sdl/menu.c:1264 client/gui-sdl2/menu.c:1087
+#: client/gui-sdl2/menu.c:1142 client/gui-sdl2/menu.c:1184
+#: client/gui-sdl2/menu.c:1238 client/gui-sdl2/menu.c:1259
 #, c-format
 msgid "Build %s (%s) %d %s"
 msgstr "Rakenna %s (%s) %d %s"
 
-#: client/gui-sdl/menu.c:1137 client/gui-sdl2/menu.c:1132
+#: client/gui-sdl/menu.c:1117 client/gui-sdl2/menu.c:1113
 #, c-format
 msgid "%s With %s ( %d one time bonus + %d trade ) (R)"
 msgstr "%s kohteena %s ( %d kertakorvaus + %d säännöllistä kauppaa ) (R)"
 
-#: client/gui-sdl/menu.c:1145 client/gui-sdl2/menu.c:1140
+#: client/gui-sdl/menu.c:1125 client/gui-sdl2/menu.c:1121
 #, c-format
 msgid "%s Of %s ( %d one time bonus ) (R)"
 msgstr "%s kohteessa %s ( %d kertakorvaus) (R)"
 
-#: client/gui-sdl/menu.c:1180 client/gui-sdl2/menu.c:1175
+#: client/gui-sdl/menu.c:1160 client/gui-sdl2/menu.c:1156
 msgid "Cut Down to"
 msgstr "Hakkaa tästä"
 
@@ -10281,17 +10281,17 @@ msgstr "Hakkaa tästä"
 #. TRANS: "Change to Swamp (M) 10 turns"
 #. TRANS: "Change to Grassland (I) 10 turns"
 #. TRANS: "Change to Swamp (M) 10 turns"
-#: client/gui-sdl/menu.c:1186 client/gui-sdl/menu.c:1225
-#: client/gui-sdl2/menu.c:1181 client/gui-sdl2/menu.c:1220
+#: client/gui-sdl/menu.c:1166 client/gui-sdl/menu.c:1205
+#: client/gui-sdl2/menu.c:1162 client/gui-sdl2/menu.c:1201
 #, c-format
 msgid "Change to %s (%s) %d %s"
 msgstr "Tee tästä %s (%s) %d %s"
 
-#: client/gui-sdl/menu.c:1220 client/gui-sdl2/menu.c:1215
+#: client/gui-sdl/menu.c:1200 client/gui-sdl2/menu.c:1196
 msgid "Plant Forest"
 msgstr "Istuta metsää"
 
-#: client/gui-sdl/menu.c:1247 client/gui-sdl2/menu.c:1242
+#: client/gui-sdl/menu.c:1227 client/gui-sdl2/menu.c:1223
 msgid "Transform to"
 msgstr "Muuta maastotyypiksi"
 
@@ -10299,8 +10299,8 @@ msgstr "Muuta maastotyypiksi"
 #. TRANS: "Clean Fallout (N) 3 turns"
 #. TRANS: "Clean Pollution (P) 3 turns"
 #. TRANS: "Clean Fallout (N) 3 turns"
-#: client/gui-sdl/menu.c:1300 client/gui-sdl/menu.c:1322
-#: client/gui-sdl2/menu.c:1294 client/gui-sdl2/menu.c:1316
+#: client/gui-sdl/menu.c:1280 client/gui-sdl/menu.c:1302
+#: client/gui-sdl2/menu.c:1275 client/gui-sdl2/menu.c:1297
 #, c-format
 msgid "Clean %s (%s) %d %s"
 msgstr "Siivoa %s (%s) %d %s"
@@ -18281,6 +18281,24 @@ msgstr "ei mikään"
 #: common/fc_types.h:693
 msgid "passive"
 msgstr "passiivinen"
+
+#. TRANS: " and achieved the rank of <veteran level>";
+#. * preserve leading space
+#: common/featured_text.c:1148
+#, c-format
+msgid " and achieved the rank of %s"
+msgstr " ja ylennettiin arvoon %s"
+
+#. TRANS: tired; note trailing space
+#: common/featured_text.c:1165
+msgid "tired "
+msgstr "väsynyt "
+
+#. TRANS: FP = Firepower of a unit; note trailing space
+#: common/featured_text.c:1188
+#, c-format
+msgid "FP:%d "
+msgstr "TV:%d "
 
 #. TRANS: year label (Anno Domini)
 #: common/game.h:665 data/civ1/game.ruleset:439 data/civ2/game.ruleset:506
@@ -47563,7 +47581,9 @@ msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunu
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
-msgstr "Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi surkeasta %shyökkäyksestä, jonka teki %s %s %s [id:%d %sH:%.1f OP:%d]."
+msgstr ""
+"Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi "
+"surkeasta %shyökkäyksestä, jonka teki %s %s %s [id:%d %sH:%.1f OP:%d]."
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Greek Polish Destroyer [id:200 lost
@@ -47574,7 +47594,9 @@ msgstr "Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvis
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
 "%d lost %d HP, %d HP remaining%s]!"
-msgstr "Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. Puolustaja oli %s %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
+msgstr ""
+"Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. "
+"Puolustaja oli %s %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -47585,7 +47607,9 @@ msgstr "Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. P
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
-msgstr "Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s %s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
+msgstr ""
+"Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s "
+"%s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -47595,7 +47619,9 @@ msgstr "Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka te
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
 "succeeded against the %s %s %s [id:%d HP:%d]."
-msgstr "Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
+msgstr ""
+"Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi "
+"voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
 
 #: server/unithand.c:2555
 msgid "This type of troops cannot take over a city."
