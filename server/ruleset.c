@@ -6773,7 +6773,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     }
   }
 
-  if (compat->compat_mode) {
+  if (compat->compat_mode && compat->ver_game < 20) {
     bool slow_invasions
       = secfile_lookup_bool_default(file, TRUE,
                                     "global_unit_options.slow_invasions");
