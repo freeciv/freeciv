@@ -5963,6 +5963,49 @@ static bool load_action_actor_consuming_always(struct section_file *file,
 }
 
 /**********************************************************************//**
+  Load what actions can block the action
+**************************************************************************/
+static bool load_action_blocked_by_list(struct section_file *file,
+                                        const char *filename,
+                                        struct action *paction)
+{
+  if (action_blocked_by_ruleset_var_name(paction) != NULL) {
+    /* Action blocking can be loaded from the ruleset. */
+
+    char fullpath[1024];
+
+    fc_snprintf(fullpath, sizeof(fullpath), "actions.%s",
+                action_blocked_by_ruleset_var_name(paction));
+
+    if (secfile_entry_by_path(file, fullpath)) {
+      enum gen_action *blocking_actions;
+      size_t asize;
+      int j;
+
+      blocking_actions =
+          secfile_lookup_enum_vec(file, &asize, gen_action, "%s", fullpath);
+
+      if (!blocking_actions) {
+        /* Entity exists but couldn't read it. */
+        ruleset_error(LOG_ERROR,
+                      "\"%s\": %s: bad action list",
+                      filename, fullpath);
+
+        return FALSE;
+      }
+
+      for (j = 0; j < asize; j++) {
+        BV_SET(paction->blocked_by, blocking_actions[j]);
+      }
+
+      free(blocking_actions);
+    }
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6455,128 +6498,138 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     /* section: actions */
     if (ok) {
-      int force_capture_units, force_bombard, force_explode_nuclear;
+      if (compat->compat_mode && compat->ver_game < 20) {
+        int force_capture_units, force_bombard, force_explode_nuclear;
 
-      if (secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_TRADE_ROUTE,
-                                      "actions.force_trade_route")) {
-        /* Forbid entering the marketplace when a trade route can be
+        if (secfile_lookup_bool_default(file, FALSE,
+                                        "actions.force_trade_route")) {
+          /* Forbid entering the marketplace when a trade route can be
          * established. */
-        BV_SET(action_by_number(ACTION_MARKETPLACE)->blocked_by,
-               ACTION_TRADE_ROUTE);
-      }
+          BV_SET(action_by_number(ACTION_MARKETPLACE)->blocked_by,
+                 ACTION_TRADE_ROUTE);
+        }
 
-      /* Forbid bombarding, exploading nuclear or attacking when it is
+        /* Forbid bombarding, exploading nuclear or attacking when it is
        * legal to capture units. */
-      force_capture_units
-        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_CAPTURE_UNITS,
-                                      "actions.force_capture_units");
+        force_capture_units
+            = secfile_lookup_bool_default(file,
+                                          FALSE,
+                                          "actions.force_capture_units");
 
-      if (force_capture_units) {
-        BV_SET(action_by_number(ACTION_BOMBARD)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_BOMBARD2)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_BOMBARD3)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_CAPTURE_UNITS);
-      }
+        if (force_capture_units) {
+          BV_SET(action_by_number(ACTION_BOMBARD)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_BOMBARD2)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_BOMBARD3)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+        }
 
-      /* Forbid exploding nuclear or attacking when it is legal to
+        /* Forbid exploding nuclear or attacking when it is legal to
        * bombard. */
-      force_bombard
-        = secfile_lookup_bool_default(file, RS_DEFAULT_FORCE_BOMBARD,
-                                      "actions.force_bombard");
+        force_bombard
+            = secfile_lookup_bool_default(file, FALSE,
+                                          "actions.force_bombard");
 
-      if (force_bombard) {
-        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_BOMBARD);
-        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_BOMBARD2);
-        BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_BOMBARD3);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_BOMBARD3);
+        if (force_bombard) {
+          BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_NUKE_UNITS)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_BOMBARD3);
+        }
+
+        /* Forbid attacking when it is legal to do explode nuclear. */
+        force_explode_nuclear
+            = secfile_lookup_bool_default(file,
+                                          FALSE,
+                                          "actions.force_explode_nuclear");
+
+        if (force_explode_nuclear) {
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
+                 ACTION_NUKE_UNITS);
+          BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
+                 ACTION_NUKE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
+                 ACTION_NUKE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_NUKE_UNITS);
+        }
       }
 
-      /* Forbid attacking when it is legal to do explode nuclear. */
-      force_explode_nuclear
-        = secfile_lookup_bool_default(file,
-                                      RS_DEFAULT_FORCE_EXPLODE_NUCLEAR,
-                                      "actions.force_explode_nuclear");
-
-      if (force_explode_nuclear) {
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_NUKE);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_NUKE);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_NUKE);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_NUKE);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_NUKE_CITY);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_NUKE_CITY);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_NUKE_CITY);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_NUKE_CITY);
-        BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
-               ACTION_NUKE_UNITS);
-        BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
-               ACTION_NUKE_UNITS);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
-               ACTION_NUKE_UNITS);
-        BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
-               ACTION_NUKE_UNITS);
-      }
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
+        if (!load_action_blocked_by_list(file, filename, paction)) {
+          ok = FALSE;
+        }
+      } action_iterate_end;
 
       if (secfile_entry_by_path(file, "actions.move_is_blocked_by")) {
         enum gen_action *blocking_actions;

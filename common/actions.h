@@ -627,6 +627,8 @@ int action_max_range_default(int act);
 const char *action_target_kind_ruleset_var_name(int act);
 const char *action_actor_consuming_always_ruleset_var_name(action_id act);
 
+const char *action_blocked_by_ruleset_var_name(const struct action *act);
+
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
 
