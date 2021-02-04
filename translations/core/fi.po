@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-02 18:03+0200\n"
-"PO-Revision-Date: 2021-02-02 18:52+0200\n"
+"POT-Creation-Date: 2021-02-04 04:26+0200\n"
+"PO-Revision-Date: 2021-02-04 05:10+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -4888,7 +4888,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:116 client/gui-gtk-2.0/pages.c:139
 #: client/gui-gtk-3.0/menu.c:560 client/gui-gtk-3.0/pages.c:140
 #: client/gui-gtk-3.22/menu.c:559 client/gui-gtk-3.22/pages.c:140
-#: client/gui-qt/fc_client.cpp:812 client/gui-qt/menu.cpp:1021
+#: client/gui-qt/fc_client.cpp:811 client/gui-qt/menu.cpp:1021
 msgid "Set local options"
 msgstr "Muokkaa paikallisia asetuksia"
 
@@ -6073,7 +6073,7 @@ msgstr "<%s AI>"
 
 #: client/gui-gtk-2.0/pages.c:2327 client/gui-gtk-3.0/pages.c:2398
 #: client/gui-gtk-3.22/pages.c:2398 client/gui-qt/dialogs.cpp:452
-#: client/gui-qt/fc_client.cpp:1223 client/gui-qt/pages.cpp:1676
+#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1676
 msgid "Random"
 msgstr "Satunnainen"
 
@@ -7655,44 +7655,44 @@ msgstr "Myönnä lähetystö"
 msgid "Pacts"
 msgstr "Sopimukset"
 
-#: client/gui-qt/fc_client.cpp:155
+#: client/gui-qt/fc_client.cpp:154
 msgid "Welcome to Freeciv"
 msgstr "Tervetuloa pelaamaan Freeciviä"
 
-#: client/gui-qt/fc_client.cpp:249
+#: client/gui-qt/fc_client.cpp:248
 msgid "This is Qt-client for Freeciv."
 msgstr "Freecivin Qt-pohjainen asiakasohjelma."
 
-#: client/gui-qt/fc_client.cpp:514 client/gui-qt/pages.cpp:1854
+#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1854
 msgid "Don't Observe"
 msgstr "Älä tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:517 client/gui-qt/pages.cpp:673
+#: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:673
 #: client/gui-qt/pages.cpp:1856 client/gui-qt/pages.cpp:1958
 msgid "Observe"
 msgstr "Tarkkaile"
 
-#: client/gui-qt/fc_client.cpp:1122
+#: client/gui-qt/fc_client.cpp:1121
 msgid "Client Options"
 msgstr "Asiakasohjelman asetukset"
 
-#: client/gui-qt/fc_client.cpp:1150
+#: client/gui-qt/fc_client.cpp:1149
 msgid "More Game Options"
 msgstr "Enemmän peliasetuksia..."
 
-#: client/gui-qt/fc_client.cpp:1156
+#: client/gui-qt/fc_client.cpp:1155
 msgid "Nation:"
 msgstr "Kansakunta:"
 
-#: client/gui-qt/fc_client.cpp:1157
+#: client/gui-qt/fc_client.cpp:1156
 msgid "Rules:"
 msgstr "Säännöt:"
 
-#: client/gui-qt/fc_client.cpp:1162
+#: client/gui-qt/fc_client.cpp:1161
 msgid "Players:"
 msgstr "Pelaajat:"
 
-#: client/gui-qt/fc_client.cpp:1298
+#: client/gui-qt/fc_client.cpp:1297
 msgid "Set server options"
 msgstr "Muuta palvelimen asetuksia."
 
@@ -9123,13 +9123,13 @@ msgstr "Kaupunki kutistuu: %d %s"
 
 #: client/gui-sdl2/citydlg.c:2972 client/gui-sdl2/citydlg.c:2976
 #: client/gui-sdl2/citydlg.c:3297 client/gui-sdl2/cityrep.c:570
-#: client/gui-sdl2/cityrep.c:1105 client/gui-sdl2/menu.c:1113
-#: client/gui-sdl2/menu.c:1168 client/gui-sdl2/menu.c:1182
-#: client/gui-sdl2/menu.c:1188 client/gui-sdl2/menu.c:1210
-#: client/gui-sdl2/menu.c:1221 client/gui-sdl2/menu.c:1227
-#: client/gui-sdl2/menu.c:1249 client/gui-sdl2/menu.c:1264
-#: client/gui-sdl2/menu.c:1285 client/gui-sdl2/menu.c:1301
-#: client/gui-sdl2/menu.c:1323 client/gui-sdl2/plrdlg.c:739
+#: client/gui-sdl2/cityrep.c:1105 client/gui-sdl2/menu.c:1094
+#: client/gui-sdl2/menu.c:1149 client/gui-sdl2/menu.c:1163
+#: client/gui-sdl2/menu.c:1169 client/gui-sdl2/menu.c:1191
+#: client/gui-sdl2/menu.c:1202 client/gui-sdl2/menu.c:1208
+#: client/gui-sdl2/menu.c:1230 client/gui-sdl2/menu.c:1245
+#: client/gui-sdl2/menu.c:1266 client/gui-sdl2/menu.c:1282
+#: client/gui-sdl2/menu.c:1304 client/gui-sdl2/plrdlg.c:739
 #: client/gui-sdl2/repodlgs.c:587 client/gui-sdl2/repodlgs.c:976
 #: client/gui-sdl2/wldlg.c:957 client/gui-sdl2/wldlg.c:1161
 #: client/gui-sdl2/wldlg.c:1469 client/gui-sdl2/wldlg.c:1475
@@ -9950,45 +9950,45 @@ msgstr "Jätä vartioimaan"
 #. TRANS: "Build Mine (M) 5 turns"
 #. TRANS: "Build Fortress (Shift+F) 5 turns"
 #. TRANS: "Build Airbase (Shift+E) 5 turns"
-#: client/gui-sdl2/menu.c:1110 client/gui-sdl2/menu.c:1166
-#: client/gui-sdl2/menu.c:1208 client/gui-sdl2/menu.c:1262
-#: client/gui-sdl2/menu.c:1283
+#: client/gui-sdl2/menu.c:1091 client/gui-sdl2/menu.c:1147
+#: client/gui-sdl2/menu.c:1189 client/gui-sdl2/menu.c:1243
+#: client/gui-sdl2/menu.c:1264
 #, c-format
 msgid "Build %s (%s) %d %s"
 msgstr "Rakenna %s (%s) %d %s"
 
-#: client/gui-sdl2/menu.c:1137
+#: client/gui-sdl2/menu.c:1118
 #, c-format
 msgid "%s With %s ( %d one time bonus + %d trade ) (R)"
 msgstr "%s kohteena %s ( %d kertakorvaus + %d säännöllistä kauppaa ) (R)"
 
-#: client/gui-sdl2/menu.c:1145
+#: client/gui-sdl2/menu.c:1126
 #, c-format
 msgid "%s Of %s ( %d one time bonus ) (R)"
 msgstr "%s kohteessa %s ( %d kertakorvaus) (R)"
 
-#: client/gui-sdl2/menu.c:1180
+#: client/gui-sdl2/menu.c:1161
 msgid "Cut Down to"
 msgstr "Hakkaa tästä"
 
 #. TRANS: "Change to Grassland (I) 10 turns"
 #. TRANS: "Change to Swamp (M) 10 turns"
-#: client/gui-sdl2/menu.c:1186 client/gui-sdl2/menu.c:1225
+#: client/gui-sdl2/menu.c:1167 client/gui-sdl2/menu.c:1206
 #, c-format
 msgid "Change to %s (%s) %d %s"
 msgstr "Tee tästä %s (%s) %d %s"
 
-#: client/gui-sdl2/menu.c:1220
+#: client/gui-sdl2/menu.c:1201
 msgid "Plant Forest"
 msgstr "Istuta metsää"
 
-#: client/gui-sdl2/menu.c:1247
+#: client/gui-sdl2/menu.c:1228
 msgid "Transform to"
 msgstr "Muuta maastotyypiksi"
 
 #. TRANS: "Clean Pollution (P) 3 turns"
 #. TRANS: "Clean Fallout (N) 3 turns"
-#: client/gui-sdl2/menu.c:1299 client/gui-sdl2/menu.c:1321
+#: client/gui-sdl2/menu.c:1280 client/gui-sdl2/menu.c:1302
 #, c-format
 msgid "Clean %s (%s) %d %s"
 msgstr "Siivoa %s (%s) %d %s"
@@ -11230,16 +11230,16 @@ msgstr "ulkomainen "
 #. * includes a space). The next is the name of its
 #. * target kind.
 #: client/helpdata.c:2460
-#, fuzzy, c-format
+#, c-format
 msgid "  * is done to %s%s.\n"
-msgstr "Pätee vain kun kyseessä on %s.\n"
+msgstr "  · tehdään kohteelle %s%s.\n"
 
 #. TRANS: said about an action. %s is a unit type
 #. * name.
 #: client/helpdata.c:2470
-#, fuzzy, c-format
+#, c-format
 msgid "  * uses up the %s.\n"
-msgstr "%s sai johtaakseen %s."
+msgstr "  · kuluttaa yksikön %s.\n"
 
 #. TRANS: The %s is a kind of battle defined in
 #. * actions.h. Example: "diplomatic battle".
@@ -11285,11 +11285,11 @@ msgstr[1] "  · Kohteen täytyy olla vähintään %d ruudun päässä.\n"
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
 #: client/helpdata.c:2543
-#, fuzzy, c-format
+#, c-format
 msgid "  * target can be max %d tile away.\n"
 msgid_plural "  * target can be max %d tiles away.\n"
-msgstr[0] "· Voi puhdistaa lisän \"%s\" ruuduista.\n"
-msgstr[1] "· Voi puhdistaa lisän \"%s\" ruuduista.\n"
+msgstr[0] "  · kohde voi olla korkeintaan %d ruudun päässä.\n"
+msgstr[1] "  · kohde voi olla korkeintaan %d ruudun päässä.\n"
 
 #. TRANS: distance between an actor unit and its
 #. * target when performing a specific action.
@@ -11367,11 +11367,11 @@ msgstr[1] "  · Kohteen suurin mahdollinen koko: %d.\n"
 
 #. TRANS: the %d is the population added.
 #: client/helpdata.c:2676
-#, fuzzy, c-format
+#, c-format
 msgid "  * adds %d population.\n"
 msgid_plural "  * adds %d population.\n"
-msgstr[0] "· Tuottaminen pienentää kaupungin väkilukua %d pisteen.\n"
-msgstr[1] "· Tuottaminen pienentää kaupungin väkilukua %d pistettä.\n"
+msgstr[0] "  · Lisää väkilukua %d pisteen.\n"
+msgstr[1] "  · Lisää väkilukua %d pistettä.\n"
 
 #. TRANS: %d is bombard rate.
 #: client/helpdata.c:2684
@@ -16653,6 +16653,24 @@ msgstr "ei mikään"
 #: common/fc_types.h:821
 msgid "passive"
 msgstr "passiivinen"
+
+#. TRANS: " and achieved the rank of <veteran level>";
+#. * preserve leading space
+#: common/featured_text.c:1148
+#, c-format
+msgid " and achieved the rank of %s"
+msgstr " ja ylennettiin arvoon %s"
+
+#. TRANS: tired; note trailing space
+#: common/featured_text.c:1165
+msgid "tired "
+msgstr "väsynyt "
+
+#. TRANS: FP = Firepower of a unit; note trailing space
+#: common/featured_text.c:1188
+#, c-format
+msgid "FP:%d "
+msgstr "TV:%d "
 
 #. TRANS: year label (Anno Domini)
 #: common/game.h:707 data/civ1/game.ruleset:627 data/civ2/game.ruleset:855
@@ -22872,8 +22890,7 @@ msgstr ""
 msgid ""
 "The pollution can only be cleared by dispatching Settlers with the \"clean "
 "pollution\" order."
-msgstr ""
-"Saasteen voi poistaa vain komentamalla uudisraivaaja siivoamaan saastetta."
+msgstr "Saasteen voi poistaa vain määräämällä uudisraivaaja puhdistamaan se komennolla \"siivoa saasteita\"."
 
 #: data/civ1/terrain.ruleset:955
 msgid ""
@@ -25311,9 +25328,7 @@ msgstr "Rakenna ilmavoimien tukikohta"
 msgid ""
 "The pollution can only be cleared by dispatching Settlers or Engineers with "
 "the \"clean pollution\" order."
-msgstr ""
-"Saaste voidaan poistaa vain komentamalla uudisraivaajat tai teknikot "
-"\"siivoamaan\" sitä."
+msgstr "Saaste voidaan poistaa vain määräämällä uudisraivaajat tai teknikot puhdistamaan se komennolla \"siivoa saasteita\"."
 
 #: data/civ2/terrain.ruleset:1027 data/classic/terrain.ruleset:1240
 #: data/sandbox/terrain.ruleset:1298 data/experimental/terrain.ruleset:1216
@@ -31576,10 +31591,9 @@ msgid ""
 "\n"
 "Engineers can build Force Fortresses."
 msgstr ""
-"Säteily on meille haitta, mutta nyt myös voimanlähde. Tiedämme kuinka "
-"kanavoida Deneb seitsemän voimaa omaan käyttöömme.\n"
+"Säteily on meille haitta, mutta nyt myös voimanlähde. Tiedämme kuinka kanavoida Deneb seitsemän voimaa omaan käyttöömme.\n"
 "\n"
-"Insinöörit voivat rakentaa voimalinnoituksia."
+"Teknikot voivat rakentaa voimalinnoituksia."
 
 #: data/alien/techs.ruleset:384
 msgid "Gravity Manipulation"
@@ -31828,8 +31842,7 @@ msgid ""
 msgstr ""
 "Me voimme tehdä vieraista eliömuodoista syötäviä.\n"
 "\n"
-"Insinöörit voivat rakentaa proteiinihuoneita, jotka lisäävät ruudun "
-"ruoantuotantoa 50%."
+"Teknikot voivat rakentaa proteiinihuoneita, jotka lisäävät ruudun ruoantuotantoa 50%."
 
 #: data/alien/techs.ruleset:583
 msgid "Radiation Resistance"
@@ -31962,10 +31975,9 @@ msgid ""
 "\n"
 "Allows Engineers to build Towers instead of Force Fortresses."
 msgstr ""
-"Olemme varsin kykeneviä tekemään erilaisia energiakenttiä säteilystä. Voimme "
-"silti yhä kehittyä.\n"
+"Olemme varsin kykeneviä tekemään erilaisia energiakenttiä säteilystä. Voimme silti yhä kehittyä.\n"
 "\n"
-"Mahdollistaa insinöörien rakentaa torneja voimalinnoitusten sijaan."
+"Mahdollistaa teknikoiden rakentaa torneja voimalinnoitusten sijaan."
 
 #: data/alien/techs.ruleset:682
 msgid "Strong Resistance"
@@ -32033,7 +32045,9 @@ msgid ""
 "\n"
 "Cities can work Boiling Ocean tiles."
 msgstr ""
-"Tehokas toiminta kiehuvissa vesissä vaatii hyvää aluksen ulkopuolisen lämpötilan säätelyä. Perusmoduliteknologian tuntemus myös mahdollistaa tulevaisuudessa edistyneemmät modulit.\n"
+"Tehokas toiminta kiehuvissa vesissä vaatii hyvää aluksen ulkopuolisen "
+"lämpötilan säätelyä. Perusmoduliteknologian tuntemus myös mahdollistaa "
+"tulevaisuudessa edistyneemmät modulit.\n"
 "\n"
 "Kaupungit voivat käyttää kiehuvan meren ruutuja."
 
@@ -32119,7 +32133,10 @@ msgid ""
 "We understand Deneb 7 fluid dynamics and can get water to flow where we "
 "want. Building Greenhouses becomes possible in tiles adjacent to cities and "
 "rivers."
-msgstr "Ymmärrämme nesteiden käytöstä Deneb seitsemällä, ja saamme veden virtaamaan minne haluamme. Kasvihuoneiden rakentaminen tulee mahdolliseksi kaupunkien ja jokien viereisiin ruutuihin."
+msgstr ""
+"Ymmärrämme nesteiden käytöstä Deneb seitsemällä, ja saamme veden virtaamaan "
+"minne haluamme. Kasvihuoneiden rakentaminen tulee mahdolliseksi kaupunkien "
+"ja jokien viereisiin ruutuihin."
 
 #: data/alien/terrain.ruleset:27
 msgid "Radiating"
@@ -32152,9 +32169,12 @@ msgid ""
 "Cities can work these tiles only when Organic Structures is known. Inventing "
 "Alien Rights gives +1 production bonus to Alien Forest tiles."
 msgstr ""
-"Nämä metsät ovat täynnä outoja muukalaisorganismeja. Planeetan säteilyn takia maan teknologian yksiköt eivät selviä täällä.\n"
+"Nämä metsät ovat täynnä outoja muukalaisorganismeja. Planeetan säteilyn "
+"takia maan teknologian yksiköt eivät selviä täällä.\n"
 "\n"
-"Kaupungit voivat käyttää näitä ruutuja vasta kun orgaaniset rakenteet teknologia tunnetaan. Olentojen oikeudet teknologian tuntemuksen myötä oudoista metsistä saadaan yksi piste enemmän tuotantoa."
+"Kaupungit voivat käyttää näitä ruutuja vasta kun orgaaniset rakenteet "
+"teknologia tunnetaan. Olentojen oikeudet teknologian tuntemuksen myötä "
+"oudoista metsistä saadaan yksi piste enemmän tuotantoa."
 
 #: data/alien/terrain.ruleset:337
 msgid "Radiating Rocks"
@@ -32168,7 +32188,8 @@ msgid ""
 msgstr ""
 "Planeetan säteilyn takia maan teknologian yksiköt eivät selviä täällä.\n"
 "\n"
-"Kaupungit voivat käyttää näitä ruutuja vasta kun orgaaniset rakenteet teknologia tunnetaan."
+"Kaupungit voivat käyttää näitä ruutuja vasta kun orgaaniset rakenteet "
+"teknologia tunnetaan."
 
 #: data/alien/terrain.ruleset:417
 msgid "Hills just like on Earth."
@@ -32240,20 +32261,20 @@ msgstr ""
 msgid ""
 "Pollution appears on tiles around cities with high production. It halves all "
 "output from its tile."
-msgstr ""
+msgstr "Saastetta ilmestyy ruuduille sellaisten kaupunkien ympärillä joissa on korkea tuotanto. Se puolittaa kaiken tuotannon ruudultaan."
 
 #: data/alien/terrain.ruleset:810
 msgid ""
 "The pollution can only be cleared by dispatching Engineer or Hunter units "
 "with the \"clean pollution\" order."
-msgstr ""
+msgstr "Saaste voidaan poistaa vain määräämällä teknikot tai metsästäjät puhdistamaan se komennolla \"siivoa saasteita\"."
 
 #: data/alien/terrain.ruleset:813
 msgid ""
 "The contribution of production to pollution can be seen in the city dialog; "
 "once it exceeds a threshold, the excess is the percent chance of pollution "
 "appearing each turn."
-msgstr ""
+msgstr "Tuotannon vaikutus saastumiseen näytetään kaupunki-ikkunasta. Kun se ylittää tietyn rajan, ylittävä osa lasketaan saasteen ilmestymistodennäköisyydeksi joka vuorolla."
 
 #: data/alien/terrain.ruleset:820
 msgid "Space Capsule"
@@ -32267,7 +32288,7 @@ msgid ""
 "unit, or it can even provide starting kit for a new base on the spot. "
 "Unfortunately it's also possible that Madmen or Lunatics have already found "
 "the capsule, and are there ready to kill anybody who enters."
-msgstr ""
+msgstr "Avaruuskapseleita on laskeutunut Deneb seitsemän pinnalle. Mikä hyvänsä yksikkö voi mennä kapselin ruutuun avatakseen sen. Kapseli katoaa, kun se on avattu. Se saattaa sisältää kultaa, tietoja uusista teknologioista, varusteita uudelle yksikölle, tai siellä saattaa olla varusteet jopa uuden tukikohtakaupungin perustamiseksi kapselin ruutuun. Ikävä kyllä on myös mahdollista että hullut tai seonneet ovat jo löytäneet kapselin ja odottavat siellä tappaakseen saapuvan yksikön."
 
 #: data/alien/terrain.ruleset:846
 msgid "Protein Houses"
@@ -32280,7 +32301,7 @@ msgid ""
 "Protein Houses, giving 50% more food. Once Food Regeneration is known, "
 "Protein Houses give a further 50% food. City center tiles automatically get "
 "Protein Houses as soon as they are available."
-msgstr ""
+msgstr "Kun proteiinimuokkaus tunnetaan, kasvihuoneet voidaan päivittää proteiinihuoneiksi, jotka antavat 50% enemmän ruokaa. Kun ruoan uudistaminen tunnetaan, proteiinihuoneet antavan toisen 50% lisää ruokaa. Kaupunkien keskusruudut saavat proteiinihuoneet automaattisesti heti kun ne ovat saatavilla."
 
 #: data/alien/terrain.ruleset:892
 msgid ""
@@ -32294,7 +32315,7 @@ msgstr ""
 msgid ""
 "Fallout can only be cleared by dispatching Engineer or Hunter units with the "
 "\"clean fallout\" order."
-msgstr ""
+msgstr "Laskeuma voidaan poistaa vain määräämällä teknikot tai metsästäjät puhdistamaan se komennolla \"siivoa laskeumaa\"."
 
 #: data/alien/terrain.ruleset:901
 msgid "Tower"
@@ -32642,6 +32663,9 @@ msgid ""
 "It's also an settler type unit for hostile areas, well capable of defending "
 "itself."
 msgstr ""
+"Kaivautuva yksikkö, jolla on kyky hyökätä myös antigravitaatioyksiköiden kimppuun omien miniohjustensa avulla.\n"
+"\n"
+"Se toimii myös maanmuokkauksia tekevänä yksikkönä vihamielisillä alueilla, hyvin kykenevänä puolustamaan itseään."
 
 #: data/alien/units.ruleset:926
 msgid "Light Saucer"
@@ -32651,7 +32675,10 @@ msgstr "Kevyt lautanen"
 msgid ""
 "Nobody, but some of the other Antigravity units and Hunters can attack this "
 "unit. This unit itself can attack other Antigravity units."
-msgstr "Vain toiset antigravitaation yksiköt ja metsästäjät voivat hyökätä tämän yksikön kimppuun. Yksikkö itse voi hyökätä toisia antigravitaatioyksiköitä vastaan."
+msgstr ""
+"Vain toiset antigravitaation yksiköt ja metsästäjät voivat hyökätä tämän "
+"yksikön kimppuun. Yksikkö itse voi hyökätä toisia antigravitaatioyksiköitä "
+"vastaan."
 
 #: data/alien/units.ruleset:957
 msgid "Bomb Saucer"
@@ -32702,7 +32729,10 @@ msgstr ""
 msgid ""
 "Like all Earthly units, Explorer are unable to enter radiating tiles. They "
 "can maintain themselves, no upkeep cost to homecity."
-msgstr "Samoin kuin muutkaan maan teknologian yksiköt, tutkimusmatkailijat eivät voi kulkea säteilevissä ruuduissa. Ne kykynevät huolehtimaan itsestään, eivätkä tarvitse ylläpitoa kotikaupungistaan."
+msgstr ""
+"Samoin kuin muutkaan maan teknologian yksiköt, tutkimusmatkailijat eivät voi "
+"kulkea säteilevissä ruuduissa. Ne kykynevät huolehtimaan itsestään, eivätkä "
+"tarvitse ylläpitoa kotikaupungistaan."
 
 #: data/alien/units.ruleset:1113
 msgid "Scout Animal"
@@ -32762,13 +32792,18 @@ msgstr ""
 msgid ""
 "Earth technology unit that can establish trade routes and transfer goods to "
 "help build wonders in other cities."
-msgstr "Maan teknologian yksikkö, joka voi perustaa kauppareittejä ja kuljettaa tarvikkeita auttaakseen ihmeen rakentamista toisessa kaupungissa."
+msgstr ""
+"Maan teknologian yksikkö, joka voi perustaa kauppareittejä ja kuljettaa "
+"tarvikkeita auttaakseen ihmeen rakentamista toisessa kaupungissa."
 
 #: data/alien/units.ruleset:1329 data/alien/units.ruleset:1364
 msgid ""
 "Trade routes with other factions provide three times as much ongoing trade "
 "as routes within your faction. Each city can support up to four trade routes."
-msgstr "Kauppareitit toisten ryhmittymien kanssa tuottavat kolminkertaisesti sen määrän kauppaa kuin ryhmittymän sisäiset kauppareitit. Jokainen kaupunki voi ylläpitää neljää kauppareittiä."
+msgstr ""
+"Kauppareitit toisten ryhmittymien kanssa tuottavat kolminkertaisesti sen "
+"määrän kauppaa kuin ryhmittymän sisäiset kauppareitit. Jokainen kaupunki voi "
+"ylläpitää neljää kauppareittiä."
 
 #: data/alien/units.ruleset:1362
 msgid "Native caravan unit, that can move on all land terrains."
@@ -32802,7 +32837,9 @@ msgstr "Antikaivautujaohjus"
 msgid ""
 "Missile that can attack also against burrowing units. Since more expensive "
 "than normal Teleporting Missile, does not completely replace it."
-msgstr "Ohjus, joka voi hyökätä myös kaivautuvia yksiköitä vastaan. Tavallista teleporttaavaa ohjusta kalliimpana ei täysin korvaa sitä."
+msgstr ""
+"Ohjus, joka voi hyökätä myös kaivautuvia yksiköitä vastaan. Tavallista "
+"teleporttaavaa ohjusta kalliimpana ei täysin korvaa sitä."
 
 #: data/alien/nation/adventurers.ruleset:5
 msgid "Adventurers"
@@ -32835,7 +32872,8 @@ msgid ""
 "\n"
 "* Three unhappy citizens in each city becomes content"
 msgstr ""
-"Laivallinen musiikkifaneja, jotka olivat alunperin matkalla suureen konserttiin.\n"
+"Laivallinen musiikkifaneja, jotka olivat alunperin matkalla suureen "
+"konserttiin.\n"
 "\n"
 " · Kolme tyytymätöntä asukasta tulee tyytyväiseksi kussakin kaupungissa"
 
@@ -32874,6 +32912,9 @@ msgid ""
 "\n"
 "* Granary is not emptied when city grows, but set to 25% full"
 msgstr ""
+"Lasten ja heidän vanhempiensa lomamatka päättyi Deneb seitsemälle. Kaikilla mukana olleilla oli lapsia, joten kukaan ei kannata lapsettomuutta.\n"
+"\n"
+" · Ruokavarasto ei tyhjene kokonaan kaupungin kasvaessa, vaan se jää 25% täydeksi"
 
 #: data/alien/nation/lunatics.ruleset:5
 msgid "Lunatic"
@@ -32919,7 +32960,8 @@ msgid ""
 "\n"
 "* 30% bonus to science output"
 msgstr ""
-"Matematiikkakerho oli matkalla kotiin matematiikkakilpailuista kun Deneb seitsemän sieppasi heidän aluksensa.\n"
+"Matematiikkakerho oli matkalla kotiin matematiikkakilpailuista kun Deneb "
+"seitsemän sieppasi heidän aluksensa.\n"
 "\n"
 " · 30% bonus tieteeseen"
 
@@ -43989,29 +44031,29 @@ msgstr ""
 msgid "Saved game is too old, at least version 2.0.0 required."
 msgstr "Tallennettu peli on liian vanha, tarvitaan vähintään versio 2.0.0."
 
-#: server/legacysave.c:4093 server/savegame2.c:2609 server/savegame3.c:3458
+#: server/legacysave.c:4093 server/savegame2.c:2609 server/savegame3.c:3454
 #: server/srv_main.c:2389 server/srv_main.c:2394
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr "%s on lisätty vaikeustason %s AI-pelaajaksi (%s)."
 
-#: server/legacysave.c:4098 server/savegame2.c:2614 server/savegame3.c:3463
+#: server/legacysave.c:4098 server/savegame2.c:2614 server/savegame3.c:3459
 #, c-format
 msgid "%s has been added as human player."
 msgstr "%s on lisätty tavalliseksi pelaajaksi."
 
-#: server/legacysave.c:4151 server/savegame2.c:5161 server/savegame3.c:7034
+#: server/legacysave.c:4151 server/savegame2.c:5161 server/savegame3.c:7030
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "Pelaajan %s tutkimuskohde oli virheellinen."
 
-#: server/legacysave.c:4162 server/savegame2.c:5171 server/savegame3.c:7044
+#: server/legacysave.c:4162 server/savegame2.c:5171 server/savegame3.c:7040
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "Pelaajan %s tutkimustavoite oli virheellinen."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/legacysave.c:4180 server/savegame2.c:2638 server/savegame3.c:3487
+#: server/legacysave.c:4180 server/savegame2.c:2638 server/savegame3.c:3483
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s johtama kansakunta ei kelpaa; vaihdetaan tilalle %s."
@@ -44863,12 +44905,12 @@ msgstr "Peli tallennettu tiedostoon %s"
 msgid "Unsupported compression type %d."
 msgstr "Pakkaustyyppiä %d ei tueta"
 
-#: server/savegame2.c:1123 server/savegame3.c:1302
+#: server/savegame2.c:1123 server/savegame3.c:1298
 #, c-format
 msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr "Virhe tallennetun pelin tarvitseman sääntökokoelman '%s' lataamisessa."
 
-#: server/savegame2.c:5196 server/savegame3.c:7062
+#: server/savegame2.c:5196 server/savegame3.c:7058
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -44877,22 +44919,22 @@ msgstr ""
 "%s omistaa monta %s yksikköä, vaikka sellaisia pitäisi voida olla vain yksi "
 "kullakin pelaajalla."
 
-#: server/savegame3.c:1305
+#: server/savegame3.c:1301
 #, fuzzy, c-format
 msgid "Failed to load ruleset '%s'."
 msgstr "Virhe sääntökokoelman lataamisessa"
 
-#: server/savegame3.c:1324
+#: server/savegame3.c:1320
 #, fuzzy, c-format
 msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Tiedoston toimintomuuttuja: %s"
 
-#: server/savegame3.c:1325
+#: server/savegame3.c:1321
 #, fuzzy, c-format
 msgid "Ruleset has capabilities: %s"
 msgstr "Tiedoston toimintomuuttuja: %s"
 
-#: server/savegame3.c:1326
+#: server/savegame3.c:1322
 #, fuzzy
 msgid "Current ruleset not compatible with the scenario."
 msgstr "Tämänhetkisestä sääntökokoelmasta puuttuu yhteenveto."
@@ -44988,7 +45030,7 @@ msgstr "Freecivin perinteinen"
 
 #: server/settings.c:225
 msgid "Log^2 N style"
-msgstr ""
+msgstr "Log^2 N kaava"
 
 #: server/settings.c:238
 msgid "Number of tiles"
@@ -46559,7 +46601,7 @@ msgid ""
 "proportional to distance and trade of source and destination with "
 "multipliers for overseas and international destinations. LOGARITHMIC bonuses "
 "are proportional to log^2(distance + trade)."
-msgstr ""
+msgstr "Kaava kertaluontoisen bonuksen laskemiseen kun karavaani saapuu kaupunkiin. CLASSIC bonus on suhteessa kaupunkien väliseen etäisyyteen ja niiden tuottamaan peruskauppaan, lisäkertoimilla mikäli kauppareitti on meren yli tai kahden eri valtion välillä. LOGARITHMIC bonus on suhteessa kaavaan log^2(etäisyys + kauppa)."
 
 #: server/settings.c:2140
 msgid "Trade revenue style"
@@ -46571,7 +46613,7 @@ msgid ""
 "revenues depend on distance and trade with multipliers for overseas and "
 "international routes. SIMPLE revenues are proportional to the average trade "
 "of the two cities."
-msgstr ""
+msgstr "Kaava kauppareitistä jatkuvasti saatavan tuoton laskemiseen. CLASSIC tuotto riippuu kauppareitin pituudesta ja kaupunkien peruskaupasta, lisäkertoimin mikäli reitti on meren yli tai kahden eri valtion välillä. SIMPLE tuotto on suhteessa kaupunkien peruskauppaan."
 
 #: server/settings.c:2151
 msgid "Minimum distance for trade routes"
@@ -50938,7 +50980,9 @@ msgstr "Ohjustentorjuntajärjestelmäsi torjui ydiniskun – %s ei vahingoittunu
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
-msgstr "Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi surkeasta %shyökkäyksestä, jonka teki %s %s %s [id:%d %sH:%.1f OP:%d]."
+msgstr ""
+"Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvisi "
+"surkeasta %shyökkäyksestä, jonka teki %s %s %s [id:%d %sH:%.1f OP:%d]."
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Greek Polish Destroyer [id:200 lost
@@ -50949,7 +50993,9 @@ msgstr "Omistamasi %s %s [id:%d %sP:%.1f menetti %d OP, %d OP jäljellä] selvis
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
 "%d lost %d HP, %d HP remaining%s]!"
-msgstr "Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. Puolustaja oli %s %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
+msgstr ""
+"Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. "
+"Puolustaja oli %s %s %s [id:%d menetti %d OP, %d OP jäljellä%s]!"
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -50960,7 +51006,9 @@ msgstr "Omistamasi %s %s [id:%d %sH:%.1f OP:%d] epäonnistui hyökkäyksessä. P
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
-msgstr "Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s %s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
+msgstr ""
+"Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka teki %s "
+"%s %s [id:%d %sH:%.1f menetti %d OP, %d OP jäljellä%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -50970,7 +51018,9 @@ msgstr "Omistamasi %s %s [id:%d %sP:%.1f OP:%d] kuoli hyökkäyksessä, jonka te
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
 "succeeded against the %s %s %s [id:%d HP:%d]."
-msgstr "Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
+msgstr ""
+"Omistamasi %s %s [id:%d %s%sH:%.1f menetti %d OP, %d OP jäljellä] hyökkäsi "
+"voitokkaasti. Puolustautuja oli %s %s %s [id:%d OP:%d]."
 
 #: server/unithand.c:4186 server/unittools.c:2844
 msgid "Cannot attack unless you declare war first."
