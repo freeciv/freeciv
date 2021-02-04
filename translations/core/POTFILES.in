@@ -177,6 +177,7 @@ common/events.c
 common/extras.h
 common/fc_cmdhelp.c
 common/fc_types.h
+common/featured_text.c
 common/game.h
 common/government.c
 common/mapimg.c
