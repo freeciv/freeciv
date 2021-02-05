@@ -214,12 +214,6 @@ void save_game(const char *orig_filename, const char *save_reason,
       sz_strlcat(stdata->filepath, ".gz");
       break;
 #endif
-#ifdef FREECIV_HAVE_LIBBZ2
-    case FZ_BZIP2:
-      /* Append ".bz2" to filename. */
-      sz_strlcat(stdata->filepath, ".bz2");
-      break;
-#endif
 #ifdef FREECIV_HAVE_LIBLZMA
    case FZ_XZ:
       /* Append ".xz" to filename. */

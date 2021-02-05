@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -38,11 +38,13 @@ enum fz_method {
 #ifdef FREECIV_HAVE_LIBZ
   FZ_ZLIB,
 #endif
-#ifdef FREECIV_HAVE_LIBBZ2
-  FZ_BZIP2,
-#endif
 #ifdef FREECIV_HAVE_LIBLZMA
   FZ_XZ,
+#endif
+  /* Deprecated FZ_BZIP2 moved last, so getting NULL setting name for it
+   * won't terminate some iterations in the middle of the valid values. */
+#ifdef FREECIV_HAVE_LIBBZ2
+  FZ_BZIP2,
 #endif
 };
 
