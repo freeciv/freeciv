@@ -49,8 +49,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.3.0\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2017-01-01 22:01+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-02-06 00:29+0200\n"
 "PO-Revision-Date: 2013-09-09 10:00+0300\n"
 "Last-Translator: Goran Rakic <grakic@devbase.net>\n"
 "Language-Team: Serbian (sr) <gnu@prevod.org>\n"
@@ -3991,7 +3991,7 @@ msgstr "Летонаца"
 #: data/nation/cuyavian.ruleset:6
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
-"West by Masovia, on the East by Greater Poland and on the North by Pomerania."
+"East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 
 #: data/nation/cypriot.ruleset:3
@@ -5943,7 +5943,7 @@ msgstr "Краљ"
 
 #: data/nation/israeli.ruleset:22
 #, fuzzy, c-format
-msgid "?female:Kibbutznik %s"
+msgid "?female:Kibbutznikit %s"
 msgstr "Поглавица"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
@@ -7888,10 +7888,6 @@ msgstr "мускетар"
 #, fuzzy
 msgid "?plural:Muskogee"
 msgstr "Бурмежана"
-
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "амерички"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -10395,7 +10391,7 @@ msgstr "Срба"
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
-"included the Germanic tribes from the the Elbe river basin belonging to the "
+"included the Germanic tribes from the Elbe river basin belonging to the "
 "Herminonic language group, such as the Marcomanni and Quadi. Between the "
 "first and fourth centuries CE they were a threat to Rome, often encroaching "
 "on the Danube provinces of the empire. In 405-406 CE the Suebians were "
@@ -11932,6 +11928,9 @@ msgid ""
 "1980 the country has been governed by Robert Mugabe, who has received an "
 "equally poor reputation internationally as the previous regime."
 msgstr ""
+
+#~ msgid "American"
+#~ msgstr "амерички"
 
 #, fuzzy
 #~ msgid "Canari"

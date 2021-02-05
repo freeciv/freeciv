@@ -14,8 +14,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-02-14 16:21+0500\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-02-06 00:29+0200\n"
 "PO-Revision-Date: 2020-02-13 10:52+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -29,7 +29,8 @@ msgstr ""
 "X-Generator: Lokalize 2.0\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:100
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:130
+#: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/req_edit.cpp:133
 msgid "Close"
 msgstr "Закрыть"
 
@@ -37,11 +38,11 @@ msgstr "Закрыть"
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
 
-#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:63
+#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Тип:"
 
-#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:81
+#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Значение:"
 
@@ -55,10 +56,71 @@ msgstr "Требования"
 msgid "Effect #%d: %s"
 msgstr "Эффект №%d: %s"
 
-#: tools/ruledit/effect_edit.cpp:266
+#: tools/ruledit/effect_edit.cpp:269
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s эффект №%d"
+
+#. TRANS: Trying to fix a requirement vector problem but can't find
+#. * any.
+#: tools/ruledit/req_vec_fix.cpp:79
+msgid "No problem found"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but
+#. * don't know how to solve it.
+#: tools/ruledit/req_vec_fix.cpp:92
+#, c-format
+msgid "Don't know how to fix %s: %s"
+msgstr ""
+
+#. TRANS: Apply the selected requirement vector problem fix.
+#: tools/ruledit/req_vec_fix.cpp:120
+msgid "Accept selected solution"
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:158
+#, fuzzy
+#| msgid "Requirements"
+msgid "Requirement problem"
+msgstr "Требования"
+
+#. TRANS: Button text in the requirement vector fixer dialog. Cancels all
+#. * changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:168
+msgid "Undo all"
+msgstr ""
+
+#. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
+#. * all changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:171
+msgid ""
+"Undo all accepted solutions since you started or since last time you ordered "
+"all accepted changes done."
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Button text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:179
+msgid "Do accepted changes"
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Tool tip text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:182
+msgid ""
+"Perform all the changes you have accepted to the ruleset item. You can then "
+"fix the current issue by hand and come back here to find the next issue."
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:276
+msgid "Unable to apply solution"
+msgstr ""
+
+#. TRANS: requirement vector fix failed to apply
+#: tools/ruledit/req_vec_fix.cpp:280
+msgid "Failed to apply solution %1 for %2 to %3."
+msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -123,7 +185,7 @@ msgstr "Попробуйте использовать --help.\n"
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Неопознанный параметр: \"%s\"\n"
 
-#: tools/ruledit/ruledit_qt.cpp:127
+#: tools/ruledit/ruledit_qt.cpp:128
 #, c-format
 msgid ""
 "%s%s\n"
@@ -132,79 +194,79 @@ msgstr ""
 "%s%s\n"
 "commit: %s"
 
-#: tools/ruledit/ruledit_qt.cpp:138
+#: tools/ruledit/ruledit_qt.cpp:139
 msgid "Give ruleset to use as starting point."
 msgstr "Выберите набор правил, который будет стартовым."
 
-#: tools/ruledit/ruledit_qt.cpp:150
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Start editing"
 msgstr "Начать редактирование"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:161
 msgid "Misc"
 msgstr "Параметры"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:163
 msgid "Tech"
 msgstr "Открытия"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:167
 msgid "Units"
 msgstr "Соединения"
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:169
 msgid "Goods"
 msgstr "Товары"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:171
 msgid "Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:173
 msgid "Enablers"
 msgstr "Действия"
 
-#: tools/ruledit/ruledit_qt.cpp:174
+#: tools/ruledit/ruledit_qt.cpp:175
 msgid "Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/ruledit_qt.cpp:176
+#: tools/ruledit/ruledit_qt.cpp:177
 msgid "Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/ruledit_qt.cpp:178
+#: tools/ruledit/ruledit_qt.cpp:179
 msgid "Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/ruledit_qt.cpp:180
+#: tools/ruledit/ruledit_qt.cpp:181
 msgid "Nations"
 msgstr "Народы"
 
-#: tools/ruledit/ruledit_qt.cpp:189
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Welcome to freeciv-ruledit"
 msgstr "Добро пожаловать в редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:220
+#: tools/ruledit/ruledit_qt.cpp:225
 msgid "Ruleset loaded"
 msgstr "Набор правил загружен"
 
-#: tools/ruledit/ruledit_qt.cpp:242
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:368
+#: tools/ruledit/ruledit_qt.cpp:422
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:384
+#: tools/ruledit/ruledit_qt.cpp:438
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:388
+#: tools/ruledit/ruledit_qt.cpp:442
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -233,45 +295,63 @@ msgstr "Добавить Здание"
 msgid "Remove this Building"
 msgstr "Удалить это Здание"
 
-#: tools/ruledit/tab_building.cpp:174
+#: tools/ruledit/tab_building.cpp:181
 msgid "A building with that rule name already exists!"
 msgstr "Здание с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_enablers.cpp:65
+#: tools/ruledit/tab_enablers.cpp:114
 msgid "Type"
 msgstr "Тип"
 
-#: tools/ruledit/tab_enablers.cpp:86
+#: tools/ruledit/tab_enablers.cpp:137
 msgid "Actor Requirements"
 msgstr "Требования к Деятелю"
 
-#: tools/ruledit/tab_enablers.cpp:90
+#: tools/ruledit/tab_enablers.cpp:144
 msgid "Target Requirements"
 msgstr "Требования к цели"
 
-#: tools/ruledit/tab_enablers.cpp:94
+#: tools/ruledit/tab_enablers.cpp:151
 msgid "Add Enabler"
 msgstr "Добавить Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:99
+#: tools/ruledit/tab_enablers.cpp:156
 msgid "Remove this Enabler"
 msgstr "Удалить этот Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:240
-msgid "Obligatory hard requirements"
-msgstr "Жёсткие обязательные требования"
+#. TRANS: Fix an error in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:226
+#, fuzzy
+#| msgid "Remove this Enabler"
+msgid "Repair Enabler"
+msgstr "Удалить этот Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:243
-msgid "Changing action to %1 will modify enabler requirements. Continue?"
-msgstr "Смена действия на %1 изменит требования включателя. Продолжить?"
+#. TRANS: Fix a non error issue in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:231
+#, fuzzy
+#| msgid "Remove this Enabler"
+msgid "Improve Enabler"
+msgstr "Удалить этот Включатель"
 
-#: tools/ruledit/tab_enablers.cpp:277
+#: tools/ruledit/tab_enablers.cpp:235 tools/ruledit/tab_enablers.cpp:247
+#, fuzzy
+#| msgid "Enablers"
+msgid "Enabler Issues"
+msgstr "Действия"
+
+#: tools/ruledit/tab_enablers.cpp:388
 msgid "Enabler (target)"
 msgstr "Действие (цель)"
 
-#: tools/ruledit/tab_enablers.cpp:288
+#: tools/ruledit/tab_enablers.cpp:399
 msgid "Enabler (actor)"
 msgstr "Деятель"
+
+#: tools/ruledit/tab_enablers.cpp:418
+#, fuzzy, c-format
+#| msgid "Action Enabler"
+msgid "action enabler for %s"
+msgstr "Включатель Действия"
 
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
@@ -281,7 +361,7 @@ msgstr "Добавить товар"
 msgid "Remove this Good"
 msgstr "Удалить этот товар"
 
-#: tools/ruledit/tab_good.cpp:176
+#: tools/ruledit/tab_good.cpp:183
 msgid "A good with that rule name already exists!"
 msgstr "Товар с этим названием правила уже существует!"
 
@@ -389,15 +469,15 @@ msgstr "Множители"
 msgid "Refresh Stats"
 msgstr "Обновить статистику"
 
-#: tools/ruledit/tab_misc.cpp:243
+#: tools/ruledit/tab_misc.cpp:247
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
-#: tools/ruledit/tab_misc.cpp:363
+#: tools/ruledit/tab_misc.cpp:367
 msgid "Always active"
 msgstr "Постоянно действующий"
 
-#: tools/ruledit/tab_misc.cpp:372
+#: tools/ruledit/tab_misc.cpp:376
 msgid "All effects"
 msgstr "Все эффекты"
 
@@ -409,7 +489,7 @@ msgstr "Добавить Множитель"
 msgid "Remove this Multiplier"
 msgstr "Удалить этот Множитель"
 
-#: tools/ruledit/tab_multiplier.cpp:171
+#: tools/ruledit/tab_multiplier.cpp:178
 msgid "A multiplier with that rule name already exists!"
 msgstr "Множитель с этим названием правила уже существует!"
 
@@ -445,7 +525,7 @@ msgstr "Удалить эту технологию"
 msgid "Never"
 msgstr "Никогда"
 
-#: tools/ruledit/tab_tech.cpp:336
+#: tools/ruledit/tab_tech.cpp:355
 msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 
@@ -461,19 +541,19 @@ msgstr "Добавить Соединение"
 msgid "Remove this Unit"
 msgstr "Удалить это Соединение"
 
-#: tools/ruledit/tab_unit.cpp:175
+#: tools/ruledit/tab_unit.cpp:182
 msgid "A unit type with that rule name already exists!"
 msgstr "Соединение с этим названием правила уже существует!"
 
-#: tools/ruledit/req_edit.cpp:97
+#: tools/ruledit/req_edit.cpp:100
 msgid "Range:"
 msgstr "Диапазон:"
 
-#: tools/ruledit/req_edit.cpp:122
+#: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Добавить Требование"
 
-#: tools/ruledit/req_edit.cpp:126
+#: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Удалить Требование"
 
@@ -496,3 +576,9 @@ msgstr "Конфликтующее сооружение"
 #: tools/ruledit/validity.c:259
 msgid "Hidden extra"
 msgstr "Скрытое сооружение"
+
+#~ msgid "Obligatory hard requirements"
+#~ msgstr "Жёсткие обязательные требования"
+
+#~ msgid "Changing action to %1 will modify enabler requirements. Continue?"
+#~ msgstr "Смена действия на %1 изменит требования включателя. Продолжить?"

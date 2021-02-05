@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.0\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2017-01-01 22:01+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-02-06 00:29+0200\n"
 "PO-Revision-Date: 2013-09-09 09:59+0300\n"
 "Last-Translator: Jos Maalderink <josmaalderink@hotmail.com>\n"
 "Language-Team: Nederlands <nl@li.org>\n"
@@ -4476,9 +4476,14 @@ msgid "?plural:Cuyavians"
 msgstr "Koejaviërs"
 
 #: data/nation/cuyavian.ruleset:6
+#, fuzzy
+#| msgid ""
+#| "Cuyavia is a historical region in Northern-Central Poland, bordered to "
+#| "the West by Masovia, on the East by Greater Poland and on the North by "
+#| "Pomerania."
 msgid ""
 "Cuyavia is a historical region in Northern-Central Poland, bordered to the "
-"West by Masovia, on the East by Greater Poland and on the North by Pomerania."
+"East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 "Koejavië is een historische regio in Noord-Centraal Polen, in het westen "
 "begrensd door Mazovië, in het oosten door Groot-Polen en in het noorden door "
@@ -6744,7 +6749,7 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:22
 #, fuzzy, c-format
-msgid "?female:Kibbutznik %s"
+msgid "?female:Kibbutznikit %s"
 msgstr "?female:Encik"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
@@ -8712,10 +8717,6 @@ msgstr "Musketiers"
 #, fuzzy
 msgid "?plural:Muskogee"
 msgstr "?plural:Birmezen"
-
-#: data/nation/muskogee.ruleset:5
-msgid "American"
-msgstr "Amerikaanse"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -11298,7 +11299,7 @@ msgstr "?plural:Serven"
 msgid ""
 "The Suebians were an ancient West Germanic tribal confederation, which may "
 "have been formed by Ariovistus for his expedition to Gaul. The Suebians "
-"included the Germanic tribes from the the Elbe river basin belonging to the "
+"included the Germanic tribes from the Elbe river basin belonging to the "
 "Herminonic language group, such as the Marcomanni and Quadi. Between the "
 "first and fourth centuries CE they were a threat to Rome, often encroaching "
 "on the Danube provinces of the empire. In 405-406 CE the Suebians were "
@@ -12988,6 +12989,9 @@ msgstr ""
 "waren van de macht. Een burgeroorlog dwong Smith in 1979 een einde te maken "
 "aan het blanke minderheidsbestuur. Since 1980 wordt het land bestuurd door "
 "Robert Mugabe, die net zo'n slechte reputatie heeft als het vorige regime."
+
+#~ msgid "American"
+#~ msgstr "Amerikaanse"
 
 #~ msgid "Canari"
 #~ msgstr "Cañari"

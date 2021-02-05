@@ -18,8 +18,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
-"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-12-06 11:05+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-02-06 00:29+0200\n"
 "PO-Revision-Date: 2020-12-06 11:16+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
@@ -96,7 +96,9 @@ msgstr "Peru kaikki"
 msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
-msgstr "Peru kaikki ratkaisut, jotka on hyväksytty sitten edellisen kerran kun käskit toteuttaa kaikki hyväksytyt muutokset."
+msgstr ""
+"Peru kaikki ratkaisut, jotka on hyväksytty sitten edellisen kerran kun "
+"käskit toteuttaa kaikki hyväksytyt muutokset."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
@@ -110,7 +112,10 @@ msgstr "Toteuta hyväksytyt muutokset"
 msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
-msgstr "Toteuta kaikki muutokset jotka olet hyväksynyt kohteelle. Sen jälkeen voit korjata nykyisen ongelman käsin, ja lopuksi palata tänne jatkamaan seuraavan ongelman parissa."
+msgstr ""
+"Toteuta kaikki muutokset jotka olet hyväksynyt kohteelle. Sen jälkeen voit "
+"korjata nykyisen ongelman käsin, ja lopuksi palata tänne jatkamaan seuraavan "
+"ongelman parissa."
 
 #: tools/ruledit/req_vec_fix.cpp:276
 msgid "Unable to apply solution"

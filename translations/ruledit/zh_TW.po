@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.4.99-dev\n"
-"Report-Msgid-Bugs-To: http://gna.org/projects/freeciv/\n"
-"POT-Creation-Date: 2017-01-01 22:01+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-02-06 00:29+0200\n"
 "PO-Revision-Date: 2015-03-30 14:26+0800\n"
 "Last-Translator: Zhang Xiaowei <zero00072@gmail.com>\n"
 "Language-Team: Chinese (Traditional) <zero00072@gmail.com>\n"
@@ -16,9 +16,98 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:131
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:100
+#: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
+#: tools/ruledit/req_edit.cpp:133
 msgid "Close"
 msgstr "關閉"
+
+#: tools/ruledit/conversion_log.cpp:46
+msgid "Old ruleset to a new format"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
+msgid "Type:"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:84
+msgid "Value:"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:96 tools/ruledit/tab_building.cpp:84
+#: tools/ruledit/tab_good.cpp:85 tools/ruledit/tab_multiplier.cpp:84
+msgid "Requirements"
+msgstr ""
+
+#: tools/ruledit/effect_edit.cpp:173
+#, fuzzy, c-format
+#| msgid "Effect"
+msgid "Effect #%d: %s"
+msgstr "有效"
+
+#: tools/ruledit/effect_edit.cpp:269
+#, c-format
+msgid "%s effect #%d"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but can't find
+#. * any.
+#: tools/ruledit/req_vec_fix.cpp:79
+msgid "No problem found"
+msgstr ""
+
+#. TRANS: Trying to fix a requirement vector problem but
+#. * don't know how to solve it.
+#: tools/ruledit/req_vec_fix.cpp:92
+#, c-format
+msgid "Don't know how to fix %s: %s"
+msgstr ""
+
+#. TRANS: Apply the selected requirement vector problem fix.
+#: tools/ruledit/req_vec_fix.cpp:120
+msgid "Accept selected solution"
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:158
+msgid "Requirement problem"
+msgstr ""
+
+#. TRANS: Button text in the requirement vector fixer dialog. Cancels all
+#. * changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:168
+msgid "Undo all"
+msgstr ""
+
+#. TRANS: Tool tip text in the requirement vector fixer dialog. Cancels
+#. * all changes done since the last time all accepted changes were done.
+#: tools/ruledit/req_vec_fix.cpp:171
+msgid ""
+"Undo all accepted solutions since you started or since last time you ordered "
+"all accepted changes done."
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Button text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:179
+msgid "Do accepted changes"
+msgstr ""
+
+#. TRANS: Perform all the changes to the ruleset item the user has
+#. * accepted. Tool tip text in the requirement vector fixer dialog.
+#: tools/ruledit/req_vec_fix.cpp:182
+msgid ""
+"Perform all the changes you have accepted to the ruleset item. You can then "
+"fix the current issue by hand and come back here to find the next issue."
+msgstr ""
+
+#: tools/ruledit/req_vec_fix.cpp:276
+msgid "Unable to apply solution"
+msgstr ""
+
+#. TRANS: requirement vector fix failed to apply
+#: tools/ruledit/req_vec_fix.cpp:280
+msgid "Failed to apply solution %1 for %2 to %3."
+msgstr ""
 
 #: tools/ruledit/requirers_dlg.cpp:57
 #, c-format
@@ -32,39 +121,60 @@ msgstr ""
 msgid "Needed by %s"
 msgstr "%s需要"
 
-#: tools/ruledit/ruledit.cpp:108
-msgid "Failed to load comments.txt"
+#. TRANS: 'Failed to load comments-x.y.txt' where x.y is
+#. * freeciv version
+#: tools/ruledit/ruledit.cpp:120
+#, c-format
+msgid "Failed to load %s."
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:142
+#: tools/ruledit/ruledit.cpp:154
 msgid "Print a summary of the options"
 msgstr "顯示選項的摘要"
 
-#: tools/ruledit/ruledit.cpp:144
+#: tools/ruledit/ruledit.cpp:156
 msgid "Print the version number"
 msgstr "顯示版本號碼"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:147
+#: tools/ruledit/ruledit.cpp:159
 msgid "ruleset RULESET"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:148
+#: tools/ruledit/ruledit.cpp:160
 #, fuzzy
 #| msgid "Give ruleset to use as starting point."
 msgid "Ruleset to use as the starting point."
 msgstr "設為劇本的起點。"
 
-#: tools/ruledit/ruledit.cpp:161
+#. TRANS: "Fatal" is exactly what user must type, do not translate.
+#: tools/ruledit/ruledit.cpp:164
+msgid "Fatal [SIGNAL]"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:165
+msgid "Raise a signal on failed assertion"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:179
 msgid "Can only edit one ruleset at a time.\n"
 msgstr ""
 
-#: tools/ruledit/ruledit.cpp:168
+#: tools/ruledit/ruledit.cpp:190
+#, c-format
+msgid "Invalid signal number \"%s\".\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:192
+msgid "Try using --help.\n"
+msgstr ""
+
+#: tools/ruledit/ruledit.cpp:199
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "未確認的選項：「%s」\n"
 
-#: tools/ruledit/ruledit_qt.cpp:121
+#: tools/ruledit/ruledit_qt.cpp:128
 #, c-format
 msgid ""
 "%s%s\n"
@@ -73,245 +183,370 @@ msgstr ""
 "%s%s\n"
 "提交：%s"
 
-#: tools/ruledit/ruledit_qt.cpp:136
+#: tools/ruledit/ruledit_qt.cpp:139
 msgid "Give ruleset to use as starting point."
 msgstr "設為劇本的起點。"
 
-#: tools/ruledit/ruledit_qt.cpp:148
+#: tools/ruledit/ruledit_qt.cpp:151
 msgid "Start editing"
 msgstr "開始編輯"
 
-#: tools/ruledit/ruledit_qt.cpp:158
+#: tools/ruledit/ruledit_qt.cpp:161
 msgid "Misc"
 msgstr "雜項"
 
-#: tools/ruledit/ruledit_qt.cpp:160
+#: tools/ruledit/ruledit_qt.cpp:163
 msgid "Tech"
 msgstr "科技"
 
-#: tools/ruledit/ruledit_qt.cpp:162
+#: tools/ruledit/ruledit_qt.cpp:165
 msgid "Buildings"
 msgstr "建築"
 
-#: tools/ruledit/ruledit_qt.cpp:164
+#: tools/ruledit/ruledit_qt.cpp:167
 msgid "Units"
 msgstr "單位"
 
-#: tools/ruledit/ruledit_qt.cpp:166
+#: tools/ruledit/ruledit_qt.cpp:169
 msgid "Goods"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:168
+#: tools/ruledit/ruledit_qt.cpp:171
 #, fuzzy
 #| msgid "Governments"
 msgid "Governments"
 msgstr "政府"
 
-#: tools/ruledit/ruledit_qt.cpp:170
+#: tools/ruledit/ruledit_qt.cpp:173
 #, fuzzy
 #| msgid "Action Enabler"
 msgid "Enablers"
 msgstr "行為啟用者"
 
-#: tools/ruledit/ruledit_qt.cpp:172
+#: tools/ruledit/ruledit_qt.cpp:175
+#, fuzzy
+#| msgid "Extras"
+msgid "Extras"
+msgstr "額外"
+
+#: tools/ruledit/ruledit_qt.cpp:177
+#, fuzzy
+#| msgid "Terrains"
+msgid "Terrains"
+msgstr "地形"
+
+#: tools/ruledit/ruledit_qt.cpp:179
+msgid "Multipliers"
+msgstr ""
+
+#: tools/ruledit/ruledit_qt.cpp:181
 msgid "Nations"
 msgstr "國族"
 
-#: tools/ruledit/ruledit_qt.cpp:181
+#: tools/ruledit/ruledit_qt.cpp:190
 msgid "Welcome to freeciv-ruledit"
 msgstr "歡迎來到 Freeciv 劇本編輯器"
 
-#: tools/ruledit/ruledit_qt.cpp:199
+#: tools/ruledit/ruledit_qt.cpp:225
 msgid "Ruleset loaded"
 msgstr "已載入劇本"
 
-#: tools/ruledit/ruledit_qt.cpp:218
+#: tools/ruledit/ruledit_qt.cpp:247
 msgid "Ruleset loading failed!"
 msgstr "載入劇本失敗！"
 
-#: tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:422
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv 劇本編輯器"
 
-#: tools/ruledit/ruledit_qt.cpp:284
+#: tools/ruledit/ruledit_qt.cpp:438
 msgid "Are you sure you want to quit?"
 msgstr ""
 
-#: tools/ruledit/ruledit_qt.cpp:288
+#: tools/ruledit/ruledit_qt.cpp:442
 msgid "Quit?"
 msgstr ""
 
-#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
+#: tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "規則名稱"
 
-#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
+#: tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "名稱"
 
-#: tools/ruledit/tab_building.cpp:84 tools/ruledit/tab_good.cpp:84
-msgid "Requirements"
-msgstr ""
+#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_unit.cpp:89
+#, fuzzy
+#| msgid "Effect"
+msgid "Effects"
+msgstr "有效"
 
-#: tools/ruledit/tab_building.cpp:89
+#: tools/ruledit/tab_building.cpp:92
 msgid "Add Building"
 msgstr "加入建築"
 
-#: tools/ruledit/tab_building.cpp:94
+#: tools/ruledit/tab_building.cpp:97
 msgid "Remove this Building"
 msgstr "移除這個建築"
 
-#: tools/ruledit/tab_building.cpp:171
-msgid "Building with that rule name already exist!"
+#: tools/ruledit/tab_building.cpp:181
+#, fuzzy
+#| msgid "Building with that rule name already exist!"
+msgid "A building with that rule name already exists!"
 msgstr "已存在以此命名的建築！"
 
-#: tools/ruledit/tab_good.cpp:89
+#: tools/ruledit/tab_enablers.cpp:114
+msgid "Type"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:137
+msgid "Actor Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:144
+msgid "Target Requirements"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:151
+#, fuzzy
+#| msgid "Action Enabler"
+msgid "Add Enabler"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_enablers.cpp:156
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Enabler"
+msgstr "移除這項科技"
+
+#. TRANS: Fix an error in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:226
+#, fuzzy
+#| msgid "Action Enabler"
+msgid "Repair Enabler"
+msgstr "行為啟用者"
+
+#. TRANS: Fix a non error issue in an action enabler.
+#: tools/ruledit/tab_enablers.cpp:231
+#, fuzzy
+#| msgid "Action Enabler"
+msgid "Improve Enabler"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_enablers.cpp:235 tools/ruledit/tab_enablers.cpp:247
+#, fuzzy
+#| msgid "Action Enabler"
+msgid "Enabler Issues"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_enablers.cpp:388
+msgid "Enabler (target)"
+msgstr ""
+
+#: tools/ruledit/tab_enablers.cpp:399
+#, fuzzy
+#| msgid "Action Enabler"
+msgid "Enabler (actor)"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_enablers.cpp:418
+#, fuzzy, c-format
+#| msgid "Action Enabler"
+msgid "action enabler for %s"
+msgstr "行為啟用者"
+
+#: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
 msgstr ""
 
-#: tools/ruledit/tab_good.cpp:94
+#: tools/ruledit/tab_good.cpp:98
 #, fuzzy
 #| msgid "Remove this tech"
 msgid "Remove this Good"
 msgstr "移除這項科技"
 
-#: tools/ruledit/tab_good.cpp:172
+#: tools/ruledit/tab_good.cpp:183
 #, fuzzy
 #| msgid "Tech with that rule name already exist!"
-msgid "Good with that rule name already exist!"
+msgid "A good with that rule name already exists!"
 msgstr "已存在以此命名的科技！"
 
-#: tools/ruledit/tab_misc.cpp:67
+#: tools/ruledit/tab_misc.cpp:69
 msgid "Ruleset name"
 msgstr "劇本名稱"
 
-#: tools/ruledit/tab_misc.cpp:72
+#: tools/ruledit/tab_misc.cpp:74
 msgid "Ruleset version"
 msgstr "劇本版本"
 
-#: tools/ruledit/tab_misc.cpp:77
+#: tools/ruledit/tab_misc.cpp:79
 msgid "Save to directory"
 msgstr "儲存至目錄"
 
-#: tools/ruledit/tab_misc.cpp:84
+#: tools/ruledit/tab_misc.cpp:86
 msgid "Version suffix to directory name"
 msgstr ""
 
-#: tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:91
 msgid "Save now"
 msgstr "立即儲存"
 
-#: tools/ruledit/tab_misc.cpp:96
+#: tools/ruledit/tab_misc.cpp:94
+msgid "Always active Effects"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:97
+#, fuzzy
+#| msgid "Effect"
+msgid "All Effects"
+msgstr "有效"
+
+#: tools/ruledit/tab_misc.cpp:104
 #, fuzzy
 #| msgid "Terrains"
 msgid "?stat:Terrains"
 msgstr "地形"
 
-#: tools/ruledit/tab_misc.cpp:100
+#: tools/ruledit/tab_misc.cpp:108
 #, fuzzy
 #| msgid "Resources"
 msgid "?stat:Resources"
 msgstr "資源"
 
-#: tools/ruledit/tab_misc.cpp:104
+#: tools/ruledit/tab_misc.cpp:112
 #, fuzzy
 #| msgid "Unit Classes"
 msgid "?stat:Tech Classes"
 msgstr "單位類別"
 
-#: tools/ruledit/tab_misc.cpp:108
+#: tools/ruledit/tab_misc.cpp:116
 #, fuzzy
 #| msgid "Techs"
 msgid "?stat:Techs"
 msgstr "科技"
 
-#: tools/ruledit/tab_misc.cpp:112
+#: tools/ruledit/tab_misc.cpp:120
 #, fuzzy
 #| msgid "Unit Classes"
 msgid "?stat:Unit Classes"
 msgstr "單位類別"
 
-#: tools/ruledit/tab_misc.cpp:116
+#: tools/ruledit/tab_misc.cpp:124
 #, fuzzy
 #| msgid "Unit Types"
 msgid "?stat:Unit Types"
 msgstr "單位類型"
 
-#: tools/ruledit/tab_misc.cpp:120
+#: tools/ruledit/tab_misc.cpp:128
 #, fuzzy
 #| msgid "Buildings"
 msgid "?stat:Buildings"
 msgstr "建築"
 
-#: tools/ruledit/tab_misc.cpp:124
+#: tools/ruledit/tab_misc.cpp:132
 #, fuzzy
 #| msgid "Nations"
 msgid "?stat:Nations"
 msgstr "國族"
 
-#: tools/ruledit/tab_misc.cpp:128
+#: tools/ruledit/tab_misc.cpp:136
 #, fuzzy
 #| msgid "Styles"
 msgid "?stat:Styles"
 msgstr "樣式"
 
-#: tools/ruledit/tab_misc.cpp:132
+#: tools/ruledit/tab_misc.cpp:140
 #, fuzzy
 #| msgid "Specialists"
 msgid "?stat:Specialists"
 msgstr "專家"
 
-#: tools/ruledit/tab_misc.cpp:136
+#: tools/ruledit/tab_misc.cpp:144
 #, fuzzy
 #| msgid "Governments"
 msgid "?stat:Governments"
 msgstr "政府"
 
-#: tools/ruledit/tab_misc.cpp:140
+#: tools/ruledit/tab_misc.cpp:148
 #, fuzzy
 #| msgid "Disasters"
 msgid "?stat:Disasters"
 msgstr "天災"
 
-#: tools/ruledit/tab_misc.cpp:144
+#: tools/ruledit/tab_misc.cpp:152
 #, fuzzy
 #| msgid "Achievements"
 msgid "?stat:Achievements"
 msgstr "成就"
 
-#: tools/ruledit/tab_misc.cpp:148
+#: tools/ruledit/tab_misc.cpp:156
 #, fuzzy
 #| msgid "Extras"
 msgid "?stat:Extras"
 msgstr "額外"
 
-#: tools/ruledit/tab_misc.cpp:152
+#: tools/ruledit/tab_misc.cpp:160
 #, fuzzy
 #| msgid "Bases"
 msgid "?stat:Bases"
 msgstr "基礎"
 
-#: tools/ruledit/tab_misc.cpp:156
+#: tools/ruledit/tab_misc.cpp:164
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Roads"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:160
+#: tools/ruledit/tab_misc.cpp:168
 #, fuzzy
 #| msgid "Roads"
 msgid "?stat:Goods"
 msgstr "道路"
 
-#: tools/ruledit/tab_misc.cpp:168
+#: tools/ruledit/tab_misc.cpp:172
+#, fuzzy
+#| msgid "Styles"
+msgid "?stat:Multipliers"
+msgstr "樣式"
+
+#: tools/ruledit/tab_misc.cpp:180
 msgid "Refresh Stats"
 msgstr "更新狀態"
 
-#: tools/ruledit/tab_misc.cpp:231
+#: tools/ruledit/tab_misc.cpp:247
 msgid "Ruleset saved"
 msgstr "已儲存劇本"
+
+#: tools/ruledit/tab_misc.cpp:367
+msgid "Always active"
+msgstr ""
+
+#: tools/ruledit/tab_misc.cpp:376
+msgid "All effects"
+msgstr ""
+
+#: tools/ruledit/tab_multiplier.cpp:88
+#, fuzzy
+#| msgid "Add Building"
+msgid "Add Multiplier"
+msgstr "加入建築"
+
+#: tools/ruledit/tab_multiplier.cpp:93
+#, fuzzy
+#| msgid "Remove this Building"
+msgid "Remove this Multiplier"
+msgstr "移除這個建築"
+
+#: tools/ruledit/tab_multiplier.cpp:178
+#, fuzzy
+#| msgid "Building with that rule name already exist!"
+msgid "A multiplier with that rule name already exists!"
+msgstr "已存在以此命名的建築！"
 
 #: tools/ruledit/tab_nation.cpp:49
 msgid "Use nationlist"
@@ -321,80 +556,84 @@ msgstr "使用國族列表"
 msgid "Nationlist"
 msgstr "國族列表"
 
-#: tools/ruledit/tab_tech.cpp:82
+#: tools/ruledit/tab_tech.cpp:83
 msgid "Req1"
 msgstr "需求一"
 
-#: tools/ruledit/tab_tech.cpp:91
+#: tools/ruledit/tab_tech.cpp:92
 msgid "Req2"
 msgstr "需求二"
 
-#: tools/ruledit/tab_tech.cpp:99
+#: tools/ruledit/tab_tech.cpp:100
 msgid "Root Req"
 msgstr "基本需求"
 
-#: tools/ruledit/tab_tech.cpp:108
+#: tools/ruledit/tab_tech.cpp:114
 msgid "Add tech"
 msgstr "加入科技"
 
-#: tools/ruledit/tab_tech.cpp:113
+#: tools/ruledit/tab_tech.cpp:119
 msgid "Remove this tech"
 msgstr "移除這項科技"
 
-#: tools/ruledit/tab_tech.cpp:194
+#: tools/ruledit/tab_tech.cpp:200
 msgid "Never"
 msgstr "從未"
 
-#: tools/ruledit/tab_tech.cpp:330
-msgid "Tech with that rule name already exist!"
+#: tools/ruledit/tab_tech.cpp:355
+#, fuzzy
+#| msgid "Tech with that rule name already exist!"
+msgid "A tech with that rule name already exists!"
 msgstr "已存在以此命名的科技！"
 
-#: tools/ruledit/tab_unit.cpp:84
+#: tools/ruledit/tab_unit.cpp:85
 #, fuzzy
 #| msgid "Add Unit"
 msgid "Edit Unit"
 msgstr "加入單位"
 
-#: tools/ruledit/tab_unit.cpp:88
+#: tools/ruledit/tab_unit.cpp:93
 msgid "Add Unit"
 msgstr "加入單位"
 
-#: tools/ruledit/tab_unit.cpp:93
+#: tools/ruledit/tab_unit.cpp:98
 msgid "Remove this Unit"
 msgstr "移除這個單位"
 
-#: tools/ruledit/tab_unit.cpp:170
-msgid "Unit type with that rule name already exist!"
+#: tools/ruledit/tab_unit.cpp:182
+#, fuzzy
+#| msgid "Unit type with that rule name already exist!"
+msgid "A unit type with that rule name already exists!"
 msgstr "已存在以此命名的單位類型！"
 
-#: tools/ruledit/req_edit.cpp:62
-msgid "Type:"
-msgstr ""
-
-#: tools/ruledit/req_edit.cpp:80
-msgid "Value:"
-msgstr ""
-
-#: tools/ruledit/req_edit.cpp:96
+#: tools/ruledit/req_edit.cpp:100
 msgid "Range:"
 msgstr ""
 
-#: tools/ruledit/req_edit.cpp:121
+#: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr ""
 
-#: tools/ruledit/req_edit.cpp:126
+#: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr ""
 
-#: tools/ruledit/validity.c:65
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:311
 msgid "Effect"
 msgstr "有效"
 
-#: tools/ruledit/validity.c:134
+#: tools/ruledit/validity.c:122
 msgid "Action Enabler"
 msgstr "行為啟用者"
 
-#: tools/ruledit/validity.c:154
+#: tools/ruledit/validity.c:142
 msgid "Music Style"
 msgstr "音樂風格"
+
+#: tools/ruledit/validity.c:256
+msgid "Conflicting extra"
+msgstr ""
+
+#: tools/ruledit/validity.c:259
+msgid "Hidden extra"
+msgstr ""
