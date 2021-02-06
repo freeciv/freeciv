@@ -3086,6 +3086,38 @@ bool unit_perform_action(struct player *pplayer,
                    TRUE, requester);                                      \
   }
 
+#define ACTION_STARTED_UNIT_ANY(paction, actor,                           \
+                                target_city, target_unit, target_tile,    \
+                                action_performer)                         \
+  switch (action_get_target_kind(paction)) {                              \
+  case ATK_CITY:                                                          \
+    ACTION_STARTED_UNIT_CITY(paction->id, actor, target_city,             \
+                             action_performer);                           \
+    break;                                                                \
+  case ATK_UNIT:                                                          \
+    ACTION_STARTED_UNIT_UNIT(paction->id, actor, target_unit,             \
+                             action_performer);                           \
+    break;                                                                \
+  case ATK_UNITS:                                                         \
+    ACTION_STARTED_UNIT_UNITS(paction->id, actor, target_tile,            \
+                              action_performer);                          \
+    break;                                                                \
+  case ATK_TILE:                                                          \
+    ACTION_STARTED_UNIT_TILE(paction->id, actor, target_tile,             \
+                             action_performer);                           \
+    break;                                                                \
+  case ATK_EXTRAS:                                                        \
+    ACTION_STARTED_UNIT_EXTRAS(paction->id, actor, target_tile,           \
+                               action_performer);                         \
+    break;                                                                \
+  case ATK_SELF:                                                          \
+    ACTION_STARTED_UNIT_SELF(paction->id, actor, TRUE);                   \
+    break;                                                                \
+  case ATK_COUNT:                                                         \
+    fc_assert(action_get_target_kind(paction) != ATK_COUNT);              \
+    break;                                                                \
+  }
+
   switch (paction->result) {
   case ACTRES_SPY_BRIBE_UNIT:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
@@ -3397,30 +3429,8 @@ bool unit_perform_action(struct player *pplayer,
     break;
   case ACTRES_NONE:
     /* 100% ruleset defined. */
-    switch (action_get_target_kind(paction)) {
-    case ATK_CITY:
-      ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity, TRUE);
-      break;
-    case ATK_UNIT:
-      ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit, TRUE);
-      break;
-    case ATK_UNITS:
-      ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile, TRUE);
-      break;
-    case ATK_TILE:
-      ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile, TRUE);
-      break;
-    case ATK_EXTRAS:
-      ACTION_STARTED_UNIT_EXTRAS(action_type, actor_unit, target_tile,
-                                 TRUE);
-      break;
-    case ATK_SELF:
-      ACTION_STARTED_UNIT_SELF(action_type, actor_unit, TRUE);
-      break;
-    case ATK_COUNT:
-      fc_assert(action_get_target_kind(paction) != ATK_COUNT);
-      break;
-    }
+    ACTION_STARTED_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
+                            TRUE);
     break;
   }
 
