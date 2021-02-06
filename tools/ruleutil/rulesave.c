@@ -853,9 +853,7 @@ static bool save_action_kind(struct section_file *sfile, action_id act)
 {
   if (action_target_kind_ruleset_var_name(act) != NULL) {
     /* Target kind can be loaded from the ruleset. */
-    if ((action_by_number(act)->target_kind
-         == RS_DEFAULT_USER_ACTION_TARGET_KIND)
-        && action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
       /* Don't save the default for actions that aren't enabled. */
       return TRUE;
     }
