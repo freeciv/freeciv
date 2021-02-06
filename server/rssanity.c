@@ -1047,6 +1047,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   action_iterate(act) {
     struct action *paction = action_by_number(act);
 
+    if (!action_result_legal_target_kind(paction->result,
+                                         paction->target_kind)) {
+      ruleset_error(LOG_ERROR, "Action \"%s\": unsupported target kind %s.",
+                    action_id_rule_name(act),
+                    action_target_kind_name(paction->target_kind));
+      ok = FALSE;
+    }
+
     if (paction->min_distance < 0) {
       ruleset_error(LOG_ERROR, "Action %s: negative min distance (%d).",
                     action_id_rule_name(act), paction->min_distance);
