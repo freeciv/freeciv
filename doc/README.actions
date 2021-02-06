@@ -777,6 +777,7 @@ Actions done by a unit against a tile
 
 "Pillage"           - Pillage extra from tile
  * UI name can be set using ui_name_pillage
+ * target kind can be changed with pillage_target_kind
  * terrain type must be one where pillaging is possible
  * the target extra must be present at the target tile
  * the terrain of the target tile must have a non 0 pillage_time

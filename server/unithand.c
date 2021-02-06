@@ -3386,10 +3386,10 @@ bool unit_perform_action(struct player *pplayer,
                              do_action_activity(actor_unit, paction));
     break;
   case ACTRES_PILLAGE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             do_action_activity_targeted(actor_unit,
-                                                         paction,
-                                                         &target_extra));
+    ACTION_STARTED_UNIT_ANY(paction, actor_unit, pcity, punit, target_tile,
+                            do_action_activity_targeted(actor_unit,
+                                                        paction,
+                                                        &target_extra));
     break;
   case ACTRES_CLEAN_POLLUTION:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,

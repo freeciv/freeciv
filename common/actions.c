@@ -7463,7 +7463,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
-  case ACTION_PILLAGE:
   case ACTION_CLEAN_POLLUTION:
   case ACTION_CLEAN_FALLOUT:
   case ACTION_FORTIFY:
@@ -7486,6 +7485,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CONQUER_EXTRAS:
     /* Target kind is not ruleset changeable */
     return NULL;
+  case ACTION_PILLAGE:
+    return "pillage_target_kind";
   case ACTION_USER_ACTION1:
     return "user_action_1_target_kind";
   case ACTION_USER_ACTION2:
@@ -7647,7 +7648,6 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
-  case ACTRES_PILLAGE:
   case ACTRES_CLEAN_POLLUTION:
   case ACTRES_CLEAN_FALLOUT:
   case ACTRES_ROAD:
@@ -7662,6 +7662,8 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_CONVERT:
   case ACTRES_FORTIFY:
     return tgt_kind == ATK_SELF;
+  case ACTRES_PILLAGE:
+    return (tgt_kind == ATK_TILE || tgt_kind == ATK_EXTRAS);
   case ACTRES_NONE:
     switch (tgt_kind) {
     case ATK_CITY:

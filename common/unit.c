@@ -980,8 +980,29 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     /* The call below doesn't support actor tile speculation. */
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(ACTION_PILLAGE,
-                                          punit, ptile, target);
+    {
+      struct action *paction = action_by_number(ACTION_PILLAGE);
+
+      switch (action_get_target_kind(paction)) {
+      case ATK_TILE:
+        return is_action_enabled_unit_on_tile(paction->id,
+                                              punit, ptile, target);
+      case ATK_EXTRAS:
+        return is_action_enabled_unit_on_extras(paction->id,
+                                                punit, ptile, target);
+      case ATK_CITY:
+      case ATK_UNIT:
+      case ATK_UNITS:
+      case ATK_SELF:
+        return FALSE;
+        break;
+      case ATK_COUNT:
+        fc_assert(action_target_kind_is_valid(
+                    action_get_target_kind(paction)));
+        return FALSE;
+        break;
+      }
+    }
 
   case ACTIVITY_EXPLORE:
     return (!unit_type_get(punit)->fuel && !is_losing_hp(punit));
