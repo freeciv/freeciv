@@ -807,11 +807,33 @@ static bool may_unit_act_vs_tile_extra(const struct unit *actor,
       continue;
     }
 
-    if (action_prob_possible(action_prob_vs_tile(actor, act,
-                                                 tgt_tile, tgt_extra))) {
-      /* The actor unit may be able to do this action to the target
-       * extra. */
-      return TRUE;
+    switch (action_id_get_target_kind(act)) {
+    case ATK_TILE:
+      if (action_prob_possible(action_prob_vs_tile(actor, act,
+                                                   tgt_tile, tgt_extra))) {
+        /* The actor unit may be able to do this action to the target
+         * extra. */
+        return TRUE;
+      }
+      break;
+    case ATK_EXTRAS:
+      if (action_prob_possible(action_prob_vs_extras(actor, act,
+                                                     tgt_tile,
+                                                     tgt_extra))) {
+        /* The actor unit may be able to do this action to the target
+         * extra. */
+        return TRUE;
+      }
+      break;
+    case ATK_CITY:
+    case ATK_UNIT:
+    case ATK_UNITS:
+    case ATK_SELF:
+      /* Not supported. */
+      break;
+    case ATK_COUNT:
+      fc_assert(action_id_get_target_kind(act) != ATK_COUNT);
+      break;
     }
   } action_iterate_end;
 

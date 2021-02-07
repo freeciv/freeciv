@@ -2364,9 +2364,19 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
         sub_target_text[0] = '\0';
         if (action_get_sub_target_kind(paction) != ASTK_NONE) {
-          cat_snprintf(sub_target_text, sizeof(sub_target_text), _("%s "),
-                       _(action_sub_target_kind_name(
-                           action_get_sub_target_kind(paction))));
+          if (action_get_target_kind(paction) == ATK_EXTRAS
+              && action_get_sub_target_kind(paction) == ASTK_EXTRA) {
+            cat_snprintf(sub_target_text, sizeof(sub_target_text),
+                         /* TRANS: action sub target extras with tile
+                          * extras target. */
+                         _("extras among "));
+          } else {
+            cat_snprintf(sub_target_text, sizeof(sub_target_text),
+                         /* TRANS: action sub target kind. */
+                         _("%s "),
+                         _(action_sub_target_kind_name(
+                             action_get_sub_target_kind(paction))));
+          }
         }
 
         cat_snprintf(buf, bufsz,
