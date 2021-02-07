@@ -622,6 +622,8 @@ const char *action_max_range_ruleset_var_name(int act);
 int action_max_range_default(int act);
 
 const char *action_target_kind_ruleset_var_name(int act);
+enum action_target_kind
+action_target_kind_default(enum action_result result);
 bool action_result_legal_target_kind(enum action_result result,
                                      enum action_target_kind tgt_kind);
 
