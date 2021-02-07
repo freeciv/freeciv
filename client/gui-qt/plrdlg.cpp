@@ -815,7 +815,7 @@ void plr_report::toggle_ai_mode()
   }
   ai_menu->setAttribute(Qt::WA_DeleteOnClose);
   connect(ai_menu, &QMenu::triggered, [=](QAction *act) {
-    int level;
+    int lvl;
 
     if (act == toggle_ai_act) {
       send_chat_printf("/aitoggle \"%s\"",
@@ -823,12 +823,12 @@ void plr_report::toggle_ai_mode()
       return;
     }
     if (act && act->isVisible()) {
-      level = act->data().toInt();
+      lvl = act->data().toInt();
       if (is_human(plr_wdg->other_player)) {
         send_chat_printf("/aitoggle \"%s\"",
                          player_name(plr_wdg->other_player));
       }
-      send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(level)),
+      send_chat_printf("/%s %s", ai_level_cmd(static_cast<ai_level>(lvl)),
                        player_name(plr_wdg->other_player));
     }
   });
