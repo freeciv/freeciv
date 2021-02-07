@@ -107,15 +107,19 @@ static struct astring ui_name_str = ASTRING_INIT;
 static struct action *
 unit_action_new(action_id id,
                 enum action_result result,
-                enum action_target_kind target_kind,
-                enum action_sub_target_kind sub_target_kind,
-                enum act_tgt_compl tgt_compl,
                 bool rare_pop_up,
                 bool unitwaittime_controlled,
                 enum moves_actor_kind moves_actor,
                 const int min_distance,
                 const int max_distance,
                 bool actor_consuming_always);
+
+static enum action_sub_target_kind
+action_sub_target_kind_default(enum action_result result);
+static enum act_tgt_compl
+action_target_compl_calc(enum action_result result,
+                         enum action_target_kind tgt_kind,
+                         enum action_sub_target_kind sub_tgt_kind);
 
 static bool is_enabler_active(const struct action_enabler *enabler,
 			      const struct player *actor_player,
@@ -702,28 +706,23 @@ static void hard_code_actions(void)
 {
   actions[ACTION_SPY_POISON] =
       unit_action_new(ACTION_SPY_POISON, ACTRES_SPY_POISON,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_POISON_ESC] =
       unit_action_new(ACTION_SPY_POISON_ESC, ACTRES_SPY_POISON,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_UNIT] =
       unit_action_new(ACTION_SPY_SABOTAGE_UNIT, ACTRES_SPY_SABOTAGE_UNIT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_SABOTAGE_UNIT_ESC] =
       unit_action_new(ACTION_SPY_SABOTAGE_UNIT_ESC, ACTRES_SPY_SABOTAGE_UNIT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_BRIBE_UNIT] =
       unit_action_new(ACTION_SPY_BRIBE_UNIT, ACTRES_SPY_BRIBE_UNIT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       /* Tries a forced move if the target unit is alone at
                        * its tile and not in a city. Takes all movement if
                        * the forced move fails. */
@@ -731,133 +730,110 @@ static void hard_code_actions(void)
                       0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY, ACTRES_SPY_SABOTAGE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_SABOTAGE_CITY_ESC] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY_ESC, ACTRES_SPY_SABOTAGE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY] =
       unit_action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY,
                       ACTRES_SPY_TARGETED_SABOTAGE_CITY,
-                      ATK_CITY, ASTK_BUILDING,
-                      ACT_TGT_COMPL_MANDATORY, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_SABOTAGE_CITY_PRODUCTION] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY_PRODUCTION,
                       ACTRES_SPY_SABOTAGE_CITY_PRODUCTION,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC] =
       unit_action_new(ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC,
                       ACTRES_SPY_TARGETED_SABOTAGE_CITY,
-                      ATK_CITY, ASTK_BUILDING,
-                      ACT_TGT_COMPL_MANDATORY, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC] =
       unit_action_new(ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC,
                       ACTRES_SPY_SABOTAGE_CITY_PRODUCTION,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_INCITE_CITY] =
       unit_action_new(ACTION_SPY_INCITE_CITY, ACTRES_SPY_INCITE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_INCITE_CITY_ESC] =
       unit_action_new(ACTION_SPY_INCITE_CITY_ESC, ACTRES_SPY_INCITE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY] =
       unit_action_new(ACTION_ESTABLISH_EMBASSY,
                       ACTRES_ESTABLISH_EMBASSY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY_STAY] =
       unit_action_new(ACTION_ESTABLISH_EMBASSY_STAY,
                       ACTRES_ESTABLISH_EMBASSY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_TECH] =
       unit_action_new(ACTION_SPY_STEAL_TECH,
                       ACTRES_SPY_STEAL_TECH,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_TECH_ESC] =
       unit_action_new(ACTION_SPY_STEAL_TECH_ESC,
                       ACTRES_SPY_STEAL_TECH,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH] =
       unit_action_new(ACTION_SPY_TARGETED_STEAL_TECH,
                       ACTRES_SPY_TARGETED_STEAL_TECH,
-                      ATK_CITY, ASTK_TECH,
-                      ACT_TGT_COMPL_MANDATORY, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_TARGETED_STEAL_TECH_ESC] =
       unit_action_new(ACTION_SPY_TARGETED_STEAL_TECH_ESC,
                       ACTRES_SPY_TARGETED_STEAL_TECH,
-                      ATK_CITY, ASTK_TECH,
-                      ACT_TGT_COMPL_MANDATORY, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_INVESTIGATE_CITY] =
       unit_action_new(ACTION_SPY_INVESTIGATE_CITY,
                       ACTRES_SPY_INVESTIGATE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_INV_CITY_SPEND] =
       unit_action_new(ACTION_INV_CITY_SPEND,
                       ACTRES_SPY_INVESTIGATE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_GOLD] =
       unit_action_new(ACTION_SPY_STEAL_GOLD,
                       ACTRES_SPY_STEAL_GOLD,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_GOLD_ESC] =
       unit_action_new(ACTION_SPY_STEAL_GOLD_ESC,
                       ACTRES_SPY_STEAL_GOLD,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_SPY_SPREAD_PLAGUE] =
       unit_action_new(ACTION_SPY_SPREAD_PLAGUE,
                       ACTRES_SPY_SPREAD_PLAGUE,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_TRADE_ROUTE] =
       unit_action_new(ACTION_TRADE_ROUTE, ACTRES_TRADE_ROUTE,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_MARKETPLACE] =
       unit_action_new(ACTION_MARKETPLACE, ACTRES_MARKETPLACE,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_HELP_WONDER] =
       unit_action_new(ACTION_HELP_WONDER, ACTRES_HELP_WONDER,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_CAPTURE_UNITS] =
       unit_action_new(ACTION_CAPTURE_UNITS, ACTRES_CAPTURE_UNITS,
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE, MAK_STAYS,
+                      FALSE, TRUE, MAK_STAYS,
                       /* A single domestic unit at the target tile will make
                        * the action illegal. It must therefore be performed
                        * from another tile. */
@@ -865,8 +841,7 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_FOUND_CITY] =
       unit_action_new(ACTION_FOUND_CITY, ACTRES_FOUND_CITY,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE, MAK_STAYS,
+                      TRUE, TRUE, MAK_STAYS,
                       /* Illegal to perform to a target on another tile.
                        * Reason: The Freeciv code assumes that the city
                        * founding unit is located at the tile were the new
@@ -875,24 +850,19 @@ static void hard_code_actions(void)
                       TRUE);
   actions[ACTION_JOIN_CITY] =
       unit_action_new(ACTION_JOIN_CITY, ACTRES_JOIN_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_STEAL_MAPS] =
       unit_action_new(ACTION_STEAL_MAPS, ACTRES_STEAL_MAPS,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_STEAL_MAPS_ESC] =
       unit_action_new(ACTION_STEAL_MAPS_ESC, ACTRES_STEAL_MAPS,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_BOMBARD] =
       unit_action_new(ACTION_BOMBARD, ACTRES_BOMBARD,
-                      /* FIXME: Target is actually Units + City */
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE, MAK_STAYS,
+                      FALSE, TRUE, MAK_STAYS,
                       /* A single domestic unit at the target tile will make
                        * the action illegal. It must therefore be performed
                        * from another tile. */
@@ -902,9 +872,7 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_BOMBARD2] =
       unit_action_new(ACTION_BOMBARD2, ACTRES_BOMBARD,
-                      /* FIXME: Target is actually Units + City */
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS,
                       /* A single domestic unit at the target tile will make
                        * the action illegal. It must therefore be performed
@@ -915,9 +883,7 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_BOMBARD3] =
       unit_action_new(ACTION_BOMBARD3, ACTRES_BOMBARD,
-                      /* FIXME: Target is actually Units + City */
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE, MAK_STAYS,
+                      FALSE, TRUE, MAK_STAYS,
                       /* A single domestic unit at the target tile will make
                        * the action illegal. It must therefore be performed
                        * from another tile. */
@@ -926,18 +892,16 @@ static void hard_code_actions(void)
                       1,
                       FALSE);
   actions[ACTION_SPY_NUKE] =
-      unit_action_new(ACTION_SPY_NUKE, ACTRES_SPY_NUKE, ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+      unit_action_new(ACTION_SPY_NUKE, ACTRES_SPY_NUKE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, TRUE);
   actions[ACTION_SPY_NUKE_ESC] =
       unit_action_new(ACTION_SPY_NUKE_ESC, ACTRES_SPY_NUKE,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_NUKE] =
       unit_action_new(ACTION_NUKE, ACTRES_NUKE,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE,  TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 0,
                       /* Overwritten by the ruleset's
                        * explode_nuclear_max_range */
@@ -945,28 +909,23 @@ static void hard_code_actions(void)
                       TRUE);
   actions[ACTION_NUKE_CITY] =
       unit_action_new(ACTION_NUKE_CITY, ACTRES_NUKE_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE,  TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 1, 1, TRUE);
   actions[ACTION_NUKE_UNITS] =
       unit_action_new(ACTION_NUKE_UNITS, ACTRES_NUKE_UNITS,
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE,  TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 1, 1, TRUE);
   actions[ACTION_DESTROY_CITY] =
       unit_action_new(ACTION_DESTROY_CITY, ACTRES_DESTROY_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE,  TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_EXPEL_UNIT] =
       unit_action_new(ACTION_EXPEL_UNIT, ACTRES_EXPEL_UNIT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_RECYCLE_UNIT] =
       unit_action_new(ACTION_RECYCLE_UNIT, ACTRES_RECYCLE_UNIT,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE, MAK_STAYS,
+                      TRUE, TRUE, MAK_STAYS,
                       /* Illegal to perform to a target on another tile to
                        * keep the rules exactly as they were for now. */
                       0, 1,
@@ -977,28 +936,24 @@ static void hard_code_actions(void)
                        * action_success_actor_consume() sets unit lost
                        * reason based on action result. */
                       ACTRES_DISBAND_UNIT,
-                      ATK_SELF, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_STAYS, 0, 0, TRUE);
   actions[ACTION_HOME_CITY] =
       unit_action_new(ACTION_HOME_CITY, ACTRES_HOME_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       /* Illegal to perform to a target on another tile to
                        * keep the rules exactly as they were for now. */
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_UPGRADE_UNIT] =
       unit_action_new(ACTION_UPGRADE_UNIT, ACTRES_UPGRADE_UNIT,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE, MAK_STAYS,
+                      TRUE, TRUE, MAK_STAYS,
                       /* Illegal to perform to a target on another tile to
                        * keep the rules exactly as they were for now. */
                       0, 0,
                       FALSE);
   actions[ACTION_PARADROP] =
       unit_action_new(ACTION_PARADROP, ACTRES_PARADROP,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_TELEPORT,
                       1,
                       /* Still limited by each unit type's
@@ -1007,8 +962,7 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_AIRLIFT] =
       unit_action_new(ACTION_AIRLIFT, ACTRES_AIRLIFT,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, TRUE,
+                      TRUE, TRUE,
                       MAK_TELEPORT,
                       1,
                       /* Overwritten by the ruleset's airlift_max_range. */
@@ -1016,12 +970,7 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_ATTACK] =
       unit_action_new(ACTION_ATTACK, ACTRES_ATTACK,
-                      /* FIXME: Target is actually City, each unit at the
-                       * target tile (Units) and, depending on the
-                       * unreachable_protects setting, each or any
-                       * *non transported* unit at the target tile. */
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       /* Tries a forced move if the target unit's tile has
                        * no non allied units and the occupychance dice roll
                        * tells it to move. */
@@ -1029,163 +978,125 @@ static void hard_code_actions(void)
                       1, 1, FALSE);
   actions[ACTION_SUICIDE_ATTACK] =
       unit_action_new(ACTION_SUICIDE_ATTACK, ACTRES_ATTACK,
-                      /* FIXME: Target is actually City, each unit at the
-                       * target tile (Units) and, depending on the
-                       * unreachable_protects setting, each or any
-                       * *non transported* unit at the target tile. */
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_FORCED, 1, 1, TRUE);
   actions[ACTION_STRIKE_BUILDING] =
       unit_action_new(ACTION_STRIKE_BUILDING, ACTRES_STRIKE_BUILDING,
-                      ATK_CITY, ASTK_BUILDING,
-                      ACT_TGT_COMPL_MANDATORY, FALSE, FALSE,
+                      FALSE, FALSE,
                       MAK_STAYS, 1, 1, FALSE);
   actions[ACTION_STRIKE_PRODUCTION] =
       unit_action_new(ACTION_STRIKE_PRODUCTION, ACTRES_STRIKE_PRODUCTION,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, FALSE,
+                      FALSE, FALSE,
                       MAK_STAYS, 1, 1, FALSE);
   actions[ACTION_CONQUER_CITY] =
       unit_action_new(ACTION_CONQUER_CITY, ACTRES_CONQUER_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_CONQUER_CITY2] =
       unit_action_new(ACTION_CONQUER_CITY2, ACTRES_CONQUER_CITY,
-                      ATK_CITY, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_CONQUER_EXTRAS] =
       unit_action_new(ACTION_CONQUER_EXTRAS, ACTRES_CONQUER_EXTRAS,
-                      ATK_EXTRAS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_HEAL_UNIT] =
       unit_action_new(ACTION_HEAL_UNIT, ACTRES_HEAL_UNIT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_TRANSFORM_TERRAIN] =
       unit_action_new(ACTION_TRANSFORM_TERRAIN, ACTRES_TRANSFORM_TERRAIN,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CULTIVATE] =
       unit_action_new(ACTION_CULTIVATE, ACTRES_CULTIVATE,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_PLANT] =
-      unit_action_new(ACTION_PLANT, ACTRES_PLANT, ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+      unit_action_new(ACTION_PLANT, ACTRES_PLANT,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_PILLAGE] =
       unit_action_new(ACTION_PILLAGE, ACTRES_PILLAGE,
-                      ATK_TILE, ASTK_EXTRA,
-                      ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CLEAN_POLLUTION] =
       unit_action_new(ACTION_CLEAN_POLLUTION, ACTRES_CLEAN_POLLUTION,
-                      ATK_TILE, ASTK_EXTRA,
-                      ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CLEAN_FALLOUT] =
       unit_action_new(ACTION_CLEAN_FALLOUT, ACTRES_CLEAN_FALLOUT,
-                      ATK_TILE, ASTK_EXTRA,
-                      ACT_TGT_COMPL_FLEXIBLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_FORTIFY] =
       unit_action_new(ACTION_FORTIFY, ACTRES_FORTIFY,
-                      ATK_SELF, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_ROAD] =
       unit_action_new(ACTION_ROAD, ACTRES_ROAD,
-                      ATK_TILE, ASTK_EXTRA_NOT_THERE,
-                      ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_CONVERT] =
       unit_action_new(ACTION_CONVERT, ACTRES_CONVERT,
-                      ATK_SELF, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_BASE] =
       unit_action_new(ACTION_BASE, ACTRES_BASE,
-                      ATK_TILE, ASTK_EXTRA_NOT_THERE,
-                      ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_MINE] =
       unit_action_new(ACTION_MINE, ACTRES_MINE,
-                      ATK_TILE, ASTK_EXTRA_NOT_THERE,
-                      ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_IRRIGATE] =
       unit_action_new(ACTION_IRRIGATE, ACTRES_IRRIGATE,
-                      ATK_TILE, ASTK_EXTRA_NOT_THERE,
-                      ACT_TGT_COMPL_MANDATORY, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_ALIGHT] =
       unit_action_new(ACTION_TRANSPORT_ALIGHT, ACTRES_TRANSPORT_ALIGHT,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_BOARD] =
       unit_action_new(ACTION_TRANSPORT_BOARD, ACTRES_TRANSPORT_BOARD,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_UNLOAD] =
       unit_action_new(ACTION_TRANSPORT_UNLOAD, ACTRES_TRANSPORT_UNLOAD,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, TRUE, FALSE,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_DISEMBARK1] =
       unit_action_new(ACTION_TRANSPORT_DISEMBARK1,
                       ACTRES_TRANSPORT_DISEMBARK,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_DISEMBARK2] =
       unit_action_new(ACTION_TRANSPORT_DISEMBARK2,
                       ACTRES_TRANSPORT_DISEMBARK,
-                      ATK_TILE, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK] =
       unit_action_new(ACTION_TRANSPORT_EMBARK, ACTRES_TRANSPORT_EMBARK,
-                      ATK_UNIT, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_SPY_ATTACK] =
       unit_action_new(ACTION_SPY_ATTACK, ACTRES_SPY_ATTACK,
-                      ATK_UNITS, ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_STAYS, 1, 1, FALSE);
   actions[ACTION_USER_ACTION1] =
       unit_action_new(ACTION_USER_ACTION1, ACTRES_NONE,
-                      /* Overwritten by the ruleset */
-                      ATK_CITY,
-                      ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_UNREPRESENTABLE,
                       /* Overwritten by the ruleset */
                       0, 1, FALSE);
   actions[ACTION_USER_ACTION2] =
       unit_action_new(ACTION_USER_ACTION2, ACTRES_NONE,
-                      /* Overwritten by the ruleset */
-                      ATK_CITY,
-                      ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_UNREPRESENTABLE,
                       /* Overwritten by the ruleset */
                       0, 1, FALSE);
   actions[ACTION_USER_ACTION3] =
       unit_action_new(ACTION_USER_ACTION3, ACTRES_NONE,
-                      /* Overwritten by the ruleset */
-                      ATK_CITY,
-                      ASTK_NONE,
-                      ACT_TGT_COMPL_SIMPLE, FALSE, TRUE,
+                      FALSE, TRUE,
                       MAK_UNREPRESENTABLE,
                       /* Overwritten by the ruleset */
                       0, 1, FALSE);
@@ -1319,9 +1230,6 @@ bool actions_are_ready(void)
 **************************************************************************/
 static struct action *action_new(action_id id,
                                  enum action_result result,
-                                 enum action_target_kind target_kind,
-                                 enum action_sub_target_kind sub_target_kind,
-                                 enum act_tgt_compl tgt_compl,
                                  const int min_distance,
                                  const int max_distance,
                                  bool actor_consuming_always)
@@ -1335,22 +1243,23 @@ static struct action *action_new(action_id id,
   action->result = result;
 
   action->actor_kind = AAK_UNIT;
-  action->target_kind = target_kind;
-  action->sub_target_kind = sub_target_kind;
+  action->target_kind = action_target_kind_default(result);
+  action->sub_target_kind = action_sub_target_kind_default(result);
+  action->target_complexity
+      = action_target_compl_calc(result, action->target_kind,
+                                 action->sub_target_kind);
 
   /* ASTK_NONE implies ACT_TGT_COMPL_SIMPLE and
    * !ASTK_NONE implies !ACT_TGT_COMPL_SIMPLE */
-  fc_assert_msg(((sub_target_kind == ASTK_NONE
-                  && tgt_compl == ACT_TGT_COMPL_SIMPLE)
-                 || (sub_target_kind != ASTK_NONE
-                     && tgt_compl != ACT_TGT_COMPL_SIMPLE)),
+  fc_assert_msg(((action->sub_target_kind == ASTK_NONE
+                  && action->target_complexity == ACT_TGT_COMPL_SIMPLE)
+                 || (action->sub_target_kind != ASTK_NONE
+                     && action->target_complexity != ACT_TGT_COMPL_SIMPLE)),
                 "%s contradicts itself regarding sub targets.",
                 action_rule_name(action));
 
-  action->target_complexity = tgt_compl;
-
   /* The distance between the actor and itself is always 0. */
-  fc_assert(target_kind != ATK_SELF
+  fc_assert(action->target_kind != ATK_SELF
             || (min_distance == 0 && max_distance == 0));
 
   action->min_distance = min_distance;
@@ -1373,9 +1282,6 @@ static struct action *action_new(action_id id,
 static struct action *
 unit_action_new(action_id id,
                 enum action_result result,
-                enum action_target_kind target_kind,
-                enum action_sub_target_kind sub_target_kind,
-                enum act_tgt_compl tgt_compl,
                 bool rare_pop_up,
                 bool unitwaittime_controlled,
                 enum moves_actor_kind moves_actor,
@@ -1384,8 +1290,6 @@ unit_action_new(action_id id,
                 bool actor_consuming_always)
 {
   struct action *act = action_new(id, result,
-                                  target_kind, sub_target_kind,
-                                  tgt_compl,
                                   min_distance, max_distance,
                                   actor_consuming_always);
 
@@ -7597,6 +7501,92 @@ const char *action_target_kind_ruleset_var_name(int act)
 }
 
 /**********************************************************************//**
+  Return default target kind for the action with the specified result.
+**************************************************************************/
+enum action_target_kind
+action_target_kind_default(enum action_result result)
+{
+  fc_assert_ret_val(action_result_is_valid(result) || result == ACTRES_NONE,
+                    RS_DEFAULT_USER_ACTION_TARGET_KIND);
+
+  switch (result) {
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_AIRLIFT:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+    return ATK_CITY;
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+    return ATK_UNIT;
+  case ACTRES_BOMBARD:
+    /* FIXME: Target is actually Units + City */
+  case ACTRES_ATTACK:
+    /* FIXME: Target is actually City, each unit at the
+     * target tile (Units) and, depending on the
+     * unreachable_protects setting, each or any
+     * *non transported* unit at the target tile. */
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_SPY_ATTACK:
+    return ATK_UNITS;
+  case ACTRES_FOUND_CITY:
+  case ACTRES_NUKE:
+  case ACTRES_PARADROP:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+  case ACTRES_ROAD:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+  case ACTRES_TRANSPORT_DISEMBARK:
+    return ATK_TILE;
+  case ACTRES_CONQUER_EXTRAS:
+    return ATK_EXTRAS;
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_CONVERT:
+  case ACTRES_FORTIFY:
+    return ATK_SELF;
+  case ACTRES_NONE:
+    return RS_DEFAULT_USER_ACTION_TARGET_KIND;
+  }
+
+  /* Should never be reached. */
+  return RS_DEFAULT_USER_ACTION_TARGET_KIND;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified action result works with the specified
   action target kind.
 **************************************************************************/
@@ -7691,6 +7681,178 @@ bool action_result_legal_target_kind(enum action_result result,
 
   /* Should never be reached. */
   return FALSE;
+}
+
+/**********************************************************************//**
+  Return default sub target kind for the action with the specified result.
+**************************************************************************/
+static enum action_sub_target_kind
+action_sub_target_kind_default(enum action_result result)
+{
+  fc_assert_ret_val(action_result_is_valid(result) || result == ACTRES_NONE,
+                    ASTK_NONE);
+
+  switch (result) {
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_AIRLIFT:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+    return ASTK_NONE;
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_STRIKE_BUILDING:
+    return ASTK_BUILDING;
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+    return ASTK_TECH;
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+    return ASTK_NONE;
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_BOMBARD:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_ATTACK:
+  case ACTRES_SPY_ATTACK:
+    return ASTK_NONE;
+  case ACTRES_FOUND_CITY:
+  case ACTRES_NUKE:
+  case ACTRES_PARADROP:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_TRANSPORT_DISEMBARK:
+    return ASTK_NONE;
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+    return ASTK_EXTRA;
+  case ACTRES_ROAD:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+    return ASTK_EXTRA_NOT_THERE;
+  case ACTRES_CONQUER_EXTRAS:
+    return ASTK_NONE;
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_CONVERT:
+  case ACTRES_FORTIFY:
+    return ASTK_NONE;
+  case ACTRES_NONE:
+    return ASTK_NONE;
+  }
+
+  /* Should never be reached. */
+  return ASTK_NONE;
+}
+
+/**********************************************************************//**
+  Returns the sub target complexity for the action with the specified
+  result when it has the specified target kind and sub target kind.
+**************************************************************************/
+static enum act_tgt_compl
+action_target_compl_calc(enum action_result result,
+                         enum action_target_kind tgt_kind,
+                         enum action_sub_target_kind sub_tgt_kind)
+{
+  fc_assert_ret_val(action_result_is_valid(result) || result == ACTRES_NONE,
+                    ACT_TGT_COMPL_SIMPLE);
+
+  switch (result) {
+  case ACTRES_ESTABLISH_EMBASSY:
+  case ACTRES_SPY_INVESTIGATE_CITY:
+  case ACTRES_SPY_POISON:
+  case ACTRES_SPY_STEAL_GOLD:
+  case ACTRES_SPY_SABOTAGE_CITY:
+  case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTRES_SPY_STEAL_TECH:
+  case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_TRADE_ROUTE:
+  case ACTRES_MARKETPLACE:
+  case ACTRES_HELP_WONDER:
+  case ACTRES_JOIN_CITY:
+  case ACTRES_STEAL_MAPS:
+  case ACTRES_SPY_NUKE:
+  case ACTRES_NUKE_CITY:
+  case ACTRES_DESTROY_CITY:
+  case ACTRES_RECYCLE_UNIT:
+  case ACTRES_HOME_CITY:
+  case ACTRES_UPGRADE_UNIT:
+  case ACTRES_AIRLIFT:
+  case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_CONQUER_CITY:
+  case ACTRES_SPY_SPREAD_PLAGUE:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTRES_STRIKE_BUILDING:
+  case ACTRES_SPY_TARGETED_STEAL_TECH:
+    return ACT_TGT_COMPL_MANDATORY;
+  case ACTRES_SPY_BRIBE_UNIT:
+  case ACTRES_SPY_SABOTAGE_UNIT:
+  case ACTRES_EXPEL_UNIT:
+  case ACTRES_HEAL_UNIT:
+  case ACTRES_TRANSPORT_ALIGHT:
+  case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_EMBARK:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_CAPTURE_UNITS:
+  case ACTRES_BOMBARD:
+  case ACTRES_NUKE_UNITS:
+  case ACTRES_ATTACK:
+  case ACTRES_SPY_ATTACK:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_FOUND_CITY:
+  case ACTRES_NUKE:
+  case ACTRES_PARADROP:
+  case ACTRES_TRANSFORM_TERRAIN:
+  case ACTRES_CULTIVATE:
+  case ACTRES_PLANT:
+  case ACTRES_TRANSPORT_DISEMBARK:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_PILLAGE:
+  case ACTRES_CLEAN_POLLUTION:
+  case ACTRES_CLEAN_FALLOUT:
+    return ACT_TGT_COMPL_FLEXIBLE;
+  case ACTRES_ROAD:
+  case ACTRES_BASE:
+  case ACTRES_MINE:
+  case ACTRES_IRRIGATE:
+    return ACT_TGT_COMPL_MANDATORY;
+  case ACTRES_CONQUER_EXTRAS:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_DISBAND_UNIT:
+  case ACTRES_CONVERT:
+  case ACTRES_FORTIFY:
+    return ACT_TGT_COMPL_SIMPLE;
+  case ACTRES_NONE:
+    return ACT_TGT_COMPL_SIMPLE;
+  }
+
+  /* Should never be reached. */
+  return ACT_TGT_COMPL_SIMPLE;
 }
 
 /**********************************************************************//**
