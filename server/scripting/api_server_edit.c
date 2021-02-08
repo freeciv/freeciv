@@ -16,7 +16,6 @@
 #endif
 
 /* utility */
-#include "deprecations.h"
 #include "rand.h"
 
 /* common */
@@ -51,21 +50,6 @@
 
 #include "api_server_edit.h"
 
-
-/**********************************************************************//**
-  Warn about use of a deprecated number of arguments.
-**************************************************************************/
-static void deprecated_semantic_warning(const char *call, const char *aka,
-                                        const char *deprecated_since)
-{
-  if (are_deprecation_warnings_enabled()) {
-    log_deprecation_always(
-        "Deprecated: Lua call %s aka %s filling out the remaining"
-        " parameters based on the old rules is deprecated"
-        " since Freeciv %s.",
-        call, aka, deprecated_since);
-  }
-}
 
 /*************************************************************************//**
   Unleash barbarians on a tile, for example from a hut
@@ -201,68 +185,6 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
 
     if (!can_unit_exist_at_tile(&(wld.map), punit, dest)
         && !unit_transported(punit)) {
-      wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
-      return FALSE;
-    }
-    if (is_non_allied_unit_tile(dest, owner)
-        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
-      wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
-      return FALSE;
-    }
-  }
-
-  return alive;
-}
-
-/*************************************************************************//**
-  Teleport unit to destination tile
-*****************************************************************************/
-bool api_edit_unit_teleport_old(lua_State *L, Unit *punit, Tile *dest)
-{
-  bool alive;
-  struct city *pcity;
-
-  deprecated_semantic_warning("edit.unit_teleport(unit, dest)",
-                              "Unit:teleport(dest)", "3.1");
-
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
-  LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
-
-  /* Teleport first so destination is revealed even if unit dies */
-  alive = unit_move(punit, dest, 0,
-                    /* Auto embark kept for backward compatibility. I have
-                     * no objection if you see the old behavior as a bug and
-                     * remove auto embarking completely or for transports
-                     * the unit can't legally board. -- Sveinung */
-                    NULL, TRUE,
-                    /* Backwards compatibility for old scripts in rulesets
-                     * and (scenario) savegames. I have no objection if you
-                     * see the old behavior as a bug and remove auto
-                     * conquering completely or for cities the unit can't
-                     * legally conquer. -- Sveinung */
-                    ((pcity = tile_city(dest))
-                     && (unit_owner(punit)->ai_common.barbarian_type
-                         != ANIMAL_BARBARIAN)
-                     && uclass_has_flag(unit_class_get(punit),
-                                        UCF_CAN_OCCUPY_CITY)
-                     && !unit_has_type_flag(punit, UTYF_CIVILIAN)
-                     && pplayers_at_war(unit_owner(punit),
-                                        city_owner(pcity))),
-                    (extra_owner(dest) == NULL
-                     || pplayers_at_war(extra_owner(dest),
-                                        unit_owner(punit)))
-                    && tile_has_claimable_base(dest, unit_type_get(punit)),
-                    /* Backwards compatibility: unit_enter_hut() would
-                     * return without doing anything if the unit was
-                     * HUT_NOTHING. Setting this parameter to FALSE makes
-                     * sure unit_enter_hut() isn't called. */
-                    unit_can_do_action_result(punit, ACTRES_HUT_ENTER),
-                    unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN));
-  if (alive) {
-    struct player *owner = unit_owner(punit);
-
-    if (!can_unit_exist_at_tile(&(wld.map), punit, dest)) {
       wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
       return FALSE;
     }
@@ -902,53 +824,6 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                    embark_to, embark_to != NULL,
                    conquer_city, conquer_extra,
                    enter_hut, frighten_hut);
-}
-
-/*************************************************************************//**
-  Move a unit.
-*****************************************************************************/
-bool api_edit_unit_move_old(lua_State *L, Unit *punit, Tile *ptile,
-                            int movecost)
-{
-  struct city *pcity;
-
-  deprecated_semantic_warning("edit.unit_move(unit, moveto, movecost)",
-                              "Unit:move(moveto, movecost)", "3.1");
-
-  LUASCRIPT_CHECK_STATE(L, FALSE);
-  LUASCRIPT_CHECK_SELF(L, punit, FALSE);
-  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
-  LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
-
-  return unit_move(punit, ptile, movecost,
-                   /* Auto embark kept for backward compatibility. I have
-                    * no objection if you see the old behavior as a bug and
-                    * remove auto embarking completely or for transports
-                    * the unit can't legally board. -- Sveinung */
-                   NULL, TRUE,
-                   /* Backwards compatibility for old scripts in rulesets
-                    * and (scenario) savegames. I have no objection if you
-                    * see the old behavior as a bug and remove auto
-                    * conquering completely or for cities the unit can't
-                    * legally conquer. -- Sveinung */
-                   ((pcity = tile_city(ptile))
-                    && (unit_owner(punit)->ai_common.barbarian_type
-                        != ANIMAL_BARBARIAN)
-                    && uclass_has_flag(unit_class_get(punit),
-                                       UCF_CAN_OCCUPY_CITY)
-                    && !unit_has_type_flag(punit, UTYF_CIVILIAN)
-                    && pplayers_at_war(unit_owner(punit),
-                                       city_owner(pcity))),
-                   (extra_owner(ptile) == NULL
-                    || pplayers_at_war(extra_owner(ptile),
-                                       unit_owner(punit)))
-                   && tile_has_claimable_base(ptile, unit_type_get(punit)),
-                   /* Backwards compatibility: unit_enter_hut() would
-                    * return without doing anything if the unit was
-                    * HUT_NOTHING. Setting this parameter to FALSE makes
-                    * sure unit_enter_hut() isn't called. */
-                   unit_can_do_action_result(punit, ACTRES_HUT_ENTER),
-                   unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN));
 }
 
 /*************************************************************************//**

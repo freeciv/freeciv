@@ -39,7 +39,6 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
                             Unit *embark_to, bool allow_disembark,
                             bool conquer_city, bool conquer_extra,
                             bool enter_hut, bool frighten_hut);
-bool api_edit_unit_teleport_old(lua_State *L, Unit *punit, Tile *dest);
 
 bool api_edit_perform_action_unit_vs_city(lua_State *L, Unit *punit,
                                           Action *paction, City *tgt);
@@ -98,8 +97,6 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                         Unit *embark_to, bool allow_disembark,
                         bool conquer_city, bool conquer_extra,
                         bool enter_hut, bool frighten_hut);
-bool api_edit_unit_move_old(lua_State *L, Unit *punit, Tile *ptile,
-                            int movecost);
 void api_edit_unit_moving_disallow(lua_State *L, Unit *punit);
 void api_edit_unit_moving_allow(lua_State *L, Unit *punit);
 

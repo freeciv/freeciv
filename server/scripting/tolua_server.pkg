@@ -116,8 +116,6 @@ module edit {
     @ create_unit_full (lua_State *L, Player *pplayer, Tile *ptile,
                         Unit_Type *ptype, int veteran_level, City *homecity,
                         int moves_left, int hp_left, Unit *ptransport);
-  bool api_edit_unit_teleport_old
-    @ unit_teleport(lua_State *L, Unit *self, Tile *dest);
   bool api_edit_unit_teleport
     @ unit_teleport(lua_State *L, Unit *self, Tile *dest,
                     Unit *embark_to, bool allow_disembark,
@@ -181,8 +179,6 @@ module edit {
     @ unit_turn(lua_State *L, Unit *punit, Direction dir);
   void api_edit_player_victory
     @ player_victory (lua_State *L, Player *self);
-  bool api_edit_unit_move_old
-    @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost);
   bool api_edit_unit_move
     @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost,
                 Unit *embark_to, bool allow_disembark,
@@ -366,7 +362,8 @@ function Unit:teleport(dest,
                        conquer_city, conquer_extra,
                        enter_hut, frighten_hut)
   if allow_disembark == nil then
-    return edit.unit_teleport(self, dest)
+    return edit.unit_teleport(self, dest, nil, false,
+                              false, false, false, false)
   else
     return edit.unit_teleport(self, dest, 
                               embark_to, allow_disembark,
@@ -398,7 +395,8 @@ function Unit:move(moveto, movecost,
                    conquer_city, conquer_extra,
                    enter_hut, frighten_hut)
   if allow_disembark == nil then
-    return edit.unit_move(self, moveto, movecost)
+    return edit.unit_move(self, moveto, movecost, nil, false,
+                          false, false, false, false)
   else
     return edit.unit_move(self, moveto, movecost,
                           embark_to, allow_disembark,
