@@ -1362,6 +1362,7 @@ bool autoadjust_ruleset_data(void)
 
       /* Hard code that the ability to enter or frighten a hut blocks
        * regular disembarking. */
+      { ACTRES_TRANSPORT_DISEMBARK, ACTRES_CONQUER_EXTRAS },
       { ACTRES_TRANSPORT_DISEMBARK, ACTRES_HUT_ENTER },
       { ACTRES_TRANSPORT_DISEMBARK, ACTRES_HUT_FRIGHTEN },
     };

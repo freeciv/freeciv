@@ -287,7 +287,8 @@ conquer_city_2_blocked_by = "Capture Units", "Bombard",
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_is_blocked_by = "Transport Disembark", "Transport Disembark 2",
-                     "Conquer Extras", "Enter Hut", "Enter Hut 2",
+                     "Conquer Extras", "Conquer Extras 2",
+                     "Enter Hut", "Enter Hut 2",
                      "Frighten Hut", "Frighten Hut 2"
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
@@ -488,6 +489,9 @@ ui_name_conquer_city_2 = _("%sConquer City from non native%s")
 ; /* TRANS: _Storm the Castle (100% chance of success). */
 ui_name_conquer_extras = _("%sStorm the Castle%s")
 
+; /* TRANS: _Storm the Castle from non native (100% chance of success). */
+ui_name_conquer_extras_2 = _("%sStorm the Castle from non native%s")
+
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
@@ -575,12 +579,13 @@ user_action_1_actor_consuming_always = FALSE
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile. "Conquer City 2" has the same relation to "Conquer City". So is
-; "Enter Hut 2" for "Enter Hut" and "Frighten Hut 2" for "Frighten Hut".
+; "Enter Hut 2" for "Enter Hut", "Frighten Hut 2" for "Frighten Hut" and
+; "Conquer Extras" for "Conquer Extras 2".
 ; The version from the non native tile and the native tile version won't
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2", "Conquer City 2", "Enter Hut 2",
-                "Frighten Hut 2"
+                "Frighten Hut 2", "Conquer Extras 2"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1513,7 +1518,20 @@ target_reqs    =
       "Terrain", "Deep Ocean",      "Local",  TRUE
     }
 
-[actionenabler_claim_extra_foreign]
+[actionenabler_claim_extra_foreign_from_native_tile]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "DiplRel",      "Foreign",      "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "Alliance",     "Local", FALSE
+      "DiplRel",      "Team",         "Local", FALSE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", TRUE
+    }
+
+[actionenabler_claim_extra_foreign_from_native_city]
 action        = "Conquer Extras"
 actor_reqs    =
     { "type",         "name",       "range", "present"
@@ -1523,14 +1541,57 @@ actor_reqs    =
       "DiplRel",      "Alliance",   "Local", FALSE
       "DiplRel",      "Team",       "Local", FALSE
       "UnitFlag",     "NonMil",     "Local", FALSE
+      "CityTile",     "Center",     "Local", TRUE
     }
 
-[actionenabler_claim_extra_unowned]
+[actionenabler_claim_extra_foreign_from_non_native]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "DiplRel",      "Foreign",      "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "Alliance",     "Local", FALSE
+      "DiplRel",      "Team",         "Local", FALSE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_tile]
 action        = "Conquer Extras"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_city]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_non_native]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"

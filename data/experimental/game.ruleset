@@ -275,7 +275,8 @@ conquer_city_2_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_is_blocked_by = "Transport Disembark", "Transport Disembark 2",
-                     "Conquer Extras", "Enter Hut", "Enter Hut 2",
+                     "Conquer Extras", "Conquer Extras 2",
+                     "Enter Hut", "Enter Hut 2",
                      "Frighten Hut", "Frighten Hut 2"
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
@@ -464,6 +465,9 @@ ui_name_conquer_city_2 = _("%sConquer City from non native%s")
 ; /* TRANS: _Capture Fortress (100% chance of success). */
 ui_name_conquer_extras = _("%sCapture Fortress%s")
 
+; /* TRANS: _Capture Fortress from non native (100% chance of success). */
+ui_name_conquer_extras_2 = _("%sCapture Fortress from non native%s")
+
 ; /* TRANS: _Transform Terrain (3% chance of success). */
 ui_name_transform_terrain = _("%sTransform Terrain%s")
 
@@ -543,12 +547,13 @@ ui_name_frighten_hut_2 = _("Frighten %sHut%s")
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile. "Conquer City 2" has the same relation to "Conquer City". So is
-; "Enter Hut 2" for "Enter Hut" and "Frighten Hut 2" for "Frighten Hut".
+; "Enter Hut 2" for "Enter Hut" and "Frighten Hut 2" for "Frighten Hut" and
+; "Conquer Extras" for "Conquer Extras 2".
 ; The version from the non native tile and the native tile version won't
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2", "Conquer City 2", "Enter Hut 2",
-                "Frighten Hut 2"
+                "Frighten Hut 2", "Conquer Extras 2"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1341,19 +1346,65 @@ actor_reqs    =
       "DiplRel",      "Never met",  "Local", FALSE
     }
 
-[actionenabler_claim_extra_war]
+[actionenabler_claim_extra_war_from_native_tile]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "MinMoveFrags", "1",            "Local"
+      "DiplRel",      "War",          "Local"
+      "UnitState",    "OnNativeTile", "Local"
+    }
+
+[actionenabler_claim_extra_war_from_native_city]
 action        = "Conquer Extras"
 actor_reqs    =
     { "type",         "name",       "range"
       "MinMoveFrags", "1",          "Local"
       "DiplRel",      "War",        "Local"
+      "CityTile",     "Center",     "Local"
     }
 
-[actionenabler_claim_extra_unowned]
+[actionenabler_claim_extra_war_from_non_native]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_tile]
 action        = "Conquer Extras"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "MinMoveFrags", "1",            "Local", TRUE
+      "UnitState",    "OnNativeTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_city]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "CityTile",     "Center",       "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_non_native]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
