@@ -2409,7 +2409,7 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
     save_reqs_vector(sfile, &(pextra->appearance_reqs), path, "appearance_reqs");
     save_reqs_vector(sfile, &(pextra->disappearance_reqs), path, "disappearance_reqs");
 
-    if (!pextra->buildable) {
+    if (!pextra->buildable || !is_extra_caused_by_worker_action(pextra)) {
       secfile_insert_bool(sfile, pextra->buildable, "%s.buildable", path);
     }
     if (!pextra->generated) {
