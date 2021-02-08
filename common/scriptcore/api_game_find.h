@@ -58,6 +58,9 @@ Terrain *api_find_terrain_by_name(lua_State *L, const char *name_orig);
 
 const Direction *api_find_direction (lua_State *L, int id);
 
+Action *api_find_action_type_by_id(lua_State *L, int id);
+Action *api_find_action_type_by_name(lua_State *L, const char *name);
+
 Nonexistent *api_find_nonexistent(lua_State *L);
 
 #ifdef __cplusplus

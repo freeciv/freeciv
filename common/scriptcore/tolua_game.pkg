@@ -509,6 +509,10 @@ module find {
     @ direction (lua_State *L, const char *str);
   Direction *api_find_direction
     @ direction (lua_State *L, int id);
+  Action *api_find_action_type_by_name
+    @ action (lua_State *L, const char *name);
+  Action *api_find_action_type_by_id
+    @ action (lua_State *L, int id);
   Nonexistent *api_find_nonexistent
     @ nonexistent (lua_State *L);
 }
