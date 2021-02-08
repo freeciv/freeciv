@@ -1018,6 +1018,11 @@ Actions done by a unit against all extras at a tile
 * the target tile isn't blocked for the actor unit by some other unit's
   zone of control (ZOC)
 
+"Conquer Extras 2" - Claim ownership of an extra.
+* UI name can be set using ui_name_conquer_extras
+* A copy of "Conquer Extras"
+* See "Conquer Extras" for everything else.
+
 Actions done by a unit to it self
 =================================
 "Disband Unit" - Disband the unit.

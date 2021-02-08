@@ -1003,6 +1003,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_CONQUER_EXTRAS, ACTRES_CONQUER_EXTRAS,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_EXTRAS2] =
+      unit_action_new(ACTION_CONQUER_EXTRAS2, ACTRES_CONQUER_EXTRAS,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_HEAL_UNIT] =
       unit_action_new(ACTION_HEAL_UNIT, ACTRES_HEAL_UNIT,
                       FALSE, TRUE,
@@ -6755,6 +6759,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_conquer_city_2";
   case ACTION_CONQUER_EXTRAS:
     return "ui_name_conquer_extras";
+  case ACTION_CONQUER_EXTRAS2:
+    return "ui_name_conquer_extras_2";
   case ACTION_HEAL_UNIT:
     return "ui_name_heal_unit";
   case ACTION_TRANSFORM_TERRAIN:
@@ -6989,6 +6995,9 @@ const char *action_ui_name_default(int act)
   case ACTION_CONQUER_EXTRAS:
     /* TRANS: _Conquer Extras (100% chance of success). */
     return N_("%sConquer Extras%s");
+  case ACTION_CONQUER_EXTRAS2:
+    /* TRANS: _Conquer Extras 2 (100% chance of success). */
+    return N_("%sConquer Extras 2%s");
   case ACTION_HEAL_UNIT:
     /* TRANS: Heal _Unit (3% chance of success). */
     return N_("Heal %sUnit%s");
@@ -7155,6 +7164,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -7256,6 +7266,7 @@ int action_min_range_default(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -7350,6 +7361,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -7460,6 +7472,7 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -7576,6 +7589,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -8046,6 +8060,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
@@ -8166,6 +8181,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:

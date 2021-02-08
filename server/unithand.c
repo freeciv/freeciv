@@ -4531,6 +4531,13 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                                    tile_index(def_tile), 0, "",
                                    ACTION_CONQUER_EXTRAS,
                                    ACT_REQ_RULES))
+        || (tile_has_claimable_base(def_tile, unit_type_get(punit))
+            && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS2,
+                                                punit, def_tile, NULL)
+            && unit_perform_action(unit_owner(punit), punit->id,
+                                   tile_index(def_tile), 0, "",
+                                   ACTION_CONQUER_EXTRAS2,
+                                   ACT_REQ_RULES))
         || (unit_can_enter_hut(punit, def_tile)
             && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
                                               punit, def_tile, NULL)
