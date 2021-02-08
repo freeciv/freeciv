@@ -294,6 +294,27 @@ const Direction *api_find_direction(lua_State *L, int id)
   return luascript_dir((enum direction8) id);
 }
 
+/**********************************************************************//**
+  Returns the action with the specified id.
+**************************************************************************/
+Action *api_find_action_type_by_id(lua_State *L, int id)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+
+  return action_by_number(id);
+}
+
+/**********************************************************************//**
+  Returns the action with the specified name.
+**************************************************************************/
+Action *api_find_action_type_by_name(lua_State *L, const char *name)
+{
+  LUASCRIPT_CHECK_STATE(L, NULL);
+  LUASCRIPT_CHECK_ARG_NIL(L, name, 2, string, NULL);
+
+  return action_by_rule_name(name);
+}
+
 /*************************************************************************//**
   Return a dummy pointer.
 *****************************************************************************/
