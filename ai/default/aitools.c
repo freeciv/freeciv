@@ -926,6 +926,12 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Conquer Extras". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CONQUER_EXTRAS);
+  } else if (tile_has_claimable_base(ptile, unit_type_get(punit))
+             && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS2,
+                                                 punit, ptile, NULL)) {
+    /* Choose "Conquer Extras 2". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_CONQUER_EXTRAS2);
   } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
                                             punit, ptile, NULL)) {
     /* Choose "Enter Hut". */
