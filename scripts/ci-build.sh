@@ -127,6 +127,10 @@ echo "Checking ruleset upgrade"
 FREECIV_DATA_PATH="../tests/rs_test_res/upgrade_rulesets:$FREECIV_DATA_PATH" \
  ./tests/rulesets_save.sh `cat ../tests/rs_test_res/upgrade_ruleset_list.txt`
 
+# Check ruleset autohelp generation
+echo "Checking ruleset auto help generation"
+./tests/rulesets_autohelp.sh
+
 echo "Running Freeciv server autogame"
 cd ${HOME}/freeciv/default/bin/
 ./freeciv-server --Announce none -e --read ${basedir}/scripts/test-autogame.serv

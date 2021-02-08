@@ -1829,6 +1829,8 @@ AC_CONFIG_FILES([tests/rulesets_save.sh],
                 [chmod +x tests/rulesets_save.sh])
 AC_CONFIG_FILES([tests/rs_test_res/ruleset_loads.sh],
                 [chmod +x tests/rs_test_res/ruleset_loads.sh])
+AC_CONFIG_FILES([tests/rulesets_autohelp.sh],
+                [chmod +x tests/rulesets_autohelp.sh])
 
 AC_OUTPUT
 
