@@ -866,21 +866,6 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_TRANSPORT_UNLOAD;
     action_enabler_add(enabler);
 
-    enabler = action_enabler_new();
-    enabler->action = ACTION_CONQUER_EXTRAS;
-    e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
-                            FALSE, TRUE, TRUE, DS_WAR);
-    requirement_vector_append(&enabler->actor_reqs, e_req);
-    action_enabler_add(enabler);
-
-    enabler = action_enabler_new();
-    enabler->action = ACTION_CONQUER_EXTRAS;
-    e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
-                            FALSE, FALSE, TRUE,
-                            CITYT_EXTRAS_OWNED);
-    requirement_vector_append(&enabler->target_reqs, e_req);
-    action_enabler_add(enabler);
-
     /* Update action enablers. */
     rscompat_enablers_add_obligatory_hard_reqs();
     action_enablers_iterate(ae) {
@@ -1266,10 +1251,25 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
      * Frighten Hut to handle it. */
 
     struct action_enabler *enabler;
+    struct requirement e_req;
 
     enabler = action_enabler_new();
     enabler->action = ACTION_TRANSPORT_DISEMBARK1;
+    action_enabler_add(enabler);
 
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CONQUER_EXTRAS;
+    e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                            FALSE, TRUE, TRUE, DS_WAR);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_CONQUER_EXTRAS;
+    e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                            FALSE, FALSE, TRUE,
+                            CITYT_EXTRAS_OWNED);
+    requirement_vector_append(&enabler->target_reqs, e_req);
     action_enabler_add(enabler);
 
     /* Hut entry and frightening is enabler controlled in 3.1. They can
@@ -1277,7 +1277,6 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
     unit_class_iterate(uclass) {
       /* Add one enabler for each unit class that can do one of the
        * actions. */
-      struct requirement e_req;
       if (uclass->hut_behavior == HUT_NORMAL) {
         enabler = action_enabler_new();
         enabler->action = ACTION_HUT_ENTER;
@@ -1311,6 +1310,7 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
        * Make them slow invasion friendly. */
       slow_invasion_enablers(ACTION_TRANSPORT_DISEMBARK1,
                              ACTION_TRANSPORT_DISEMBARK2);
+      slow_invasion_enablers(ACTION_CONQUER_EXTRAS, ACTION_CONQUER_EXTRAS2);
       slow_invasion_enablers(ACTION_HUT_ENTER, ACTION_HUT_ENTER2);
       slow_invasion_enablers(ACTION_HUT_FRIGHTEN, ACTION_HUT_FRIGHTEN2);
 
@@ -1338,6 +1338,17 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
       sz_strlcpy(paction->ui_name, N_("%sConquer City from non native%s"));
 
 
+      /* Use "Conquer Extras 2" for conquring from non native. */
+      paction = action_by_number(ACTION_CONQUER_EXTRAS2);
+      /* "Conquer Extras" and "Conquer Extras 2" won't appear in
+       * the same action selection dialog given their opposite
+       * requirements. */
+      paction->quiet = TRUE;
+      /* Make what is happening clear. */
+      /* TRANS: _Enter Hut from non native (100% chance of success). */
+      sz_strlcpy(paction->ui_name, N_("%sConquer Extras from non native%s"));
+
+
       /* Use "Enter Hut 2" for conquring from non native. */
       paction = action_by_number(ACTION_HUT_ENTER2);
       /* "Enter Hut" and "Enter Hut 2" won't appear in
@@ -1362,6 +1373,7 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
        * native terrain from non native terrain */
       slow_invasion_effects("Transport Disembark 2");
       slow_invasion_effects("Conquer City 2");
+      slow_invasion_effects("Conquer Extras 2");
       slow_invasion_effects("Enter Hut 2");
       slow_invasion_effects("Frighten Hut 2");
     }
