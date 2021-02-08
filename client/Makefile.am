@@ -213,7 +213,6 @@ freeciv_gtk3_22_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_3d_libs) \
  $(gui_gtk3_22_libs)
 endif
 
@@ -229,7 +228,6 @@ freeciv_gtk3x_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  $(INTLLIBS) $(CLIENT_LIBS) $(CLIENTICON) \
  $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
- $(gui_3d_libs) \
  $(gui_gtk3x_libs)
 endif
 
