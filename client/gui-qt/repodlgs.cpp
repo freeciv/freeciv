@@ -1514,7 +1514,6 @@ void eco_report::sell_redundant()
 {
   struct universal selected;
   char buf[1024];
-  QString s;
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
   const struct impr_type *pimprove;
   Impr_type_id impr_id;
@@ -1528,7 +1527,7 @@ void eco_report::sell_redundant()
                 "every redundant %s (%d total)?"),
               improvement_name_translation(pimprove), counter);
 
-  ask->set_text_title(s, _("Sell Improvements"));
+  ask->set_text_title(buf, _("Sell Improvements"));
   ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask->setDefaultButton(QMessageBox::Cancel);
   ask->setAttribute(Qt::WA_DeleteOnClose);
