@@ -269,6 +269,11 @@ static bool edit_tile_extra_handling(struct tile *ptile,
     if (!tile_extra_apply(ptile, pextra)) {
       return FALSE;
     }
+
+    if (is_extra_caused_by(pextra, EC_RESOURCE)
+        && terrain_has_resource(ptile->terrain, pextra)) {
+      tile_set_resource(ptile, pextra);
+    }
   }
 
   if (send_info) {
