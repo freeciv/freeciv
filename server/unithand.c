@@ -5573,6 +5573,30 @@ void handle_unit_sscs_set(struct player *pplayer,
     punit->battlegroup = CLIP(-1, value, MAX_NUM_BATTLEGROUPS);
 
     break;
+  case USSDT_SENTRY:
+    if (value == 0) {
+      if (punit->activity != ACTIVITY_SENTRY) {
+        return;
+      }
+
+      if (!unit_activity_internal(punit, ACTIVITY_IDLE)) {
+        /* Impossible to set to Idle? */
+        fc_assert(FALSE);
+      }
+    } else if (value == 1) {
+      if (!can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
+        return;
+      }
+
+      if (!unit_activity_internal(punit, ACTIVITY_SENTRY)) {
+        /* Should have been caught above */
+        fc_assert(FALSE);
+      }
+    } else {
+      log_verbose("handle_unit_sscs_set(): illegal sentry state for %s %d",
+                  unit_rule_name(punit), punit->id);
+    }
+    break;
   }
 }
 
