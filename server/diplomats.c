@@ -686,103 +686,12 @@ bool diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   /* Try to move the briber onto the victim's square unless the victim has
    * been bounced because it couldn't share tile with a unit or city. */
   if (!bounce
-      /* Post bribe embark. */
-      && (can_unit_exist_at_tile(&(wld.map), pdiplomat, victim_tile)
-          || !(is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
-                                              pdiplomat, pvictim)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      pvictim->id, 0, "",
-                                      ACTION_TRANSPORT_EMBARK,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to embark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe disembark. */
-      && (!unit_transported(pdiplomat)
-          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                              pdiplomat, victim_tile, NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_TRANSPORT_DISEMBARK1,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to disembark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe disembark 2. */
-      && (!unit_transported(pdiplomat)
-          || !(is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
-                                              pdiplomat, victim_tile, NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_TRANSPORT_DISEMBARK2,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to disembark. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe extras conquest. */
-      && (!tile_has_claimable_base(victim_tile, unit_type_get(pdiplomat))
-          || !(is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
-                                                pdiplomat, victim_tile,
-                                                NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_CONQUER_EXTRAS,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to conquer extra. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe extras conquest. */
-      && (!tile_has_claimable_base(victim_tile, unit_type_get(pdiplomat))
-          || !(is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS2,
-                                                pdiplomat, victim_tile,
-                                                NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_CONQUER_EXTRAS2,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to conquer extra. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe hut entry. */
-      && (!unit_can_enter_hut(pdiplomat, victim_tile)
-          || !(is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
-                                              pdiplomat, victim_tile,
-                                              NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_HUT_ENTER,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to enter hut. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe hut entry. */
-      && (!unit_can_enter_hut(pdiplomat, victim_tile)
-          || !(is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
-                                              pdiplomat, victim_tile,
-                                              NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_HUT_ENTER2,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to enter hut. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe hut frightening. */
-      && (!(unit_can_enter_hut(pdiplomat, victim_tile)
-            && HUT_FRIGHTEN == unit_class_get(pdiplomat)->hut_behavior)
-          || !(is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
-                                              pdiplomat, victim_tile,
-                                              NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_HUT_FRIGHTEN,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to frighten hut. */
-      && unit_is_alive(diplomat_id)
-      /* Post bribe hut frightening. */
-      && (!(unit_can_enter_hut(pdiplomat, victim_tile)
-            && HUT_FRIGHTEN == unit_class_get(pdiplomat)->hut_behavior)
-          || !(is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
-                                              pdiplomat, victim_tile,
-                                              NULL)
-               && unit_perform_action(unit_owner(pdiplomat), pdiplomat->id,
-                                      tile_index(victim_tile), 0, "",
-                                      ACTION_HUT_FRIGHTEN2,
-                                      ACT_REQ_RULES)))
-      /* May have died while trying to frighten hut. */
+      /* Try to perform post move forced actions. */
+      && (NULL == action_auto_perf_unit_do(AAPC_POST_ACTION, pdiplomat,
+                                           uplayer, NULL, paction,
+                                           victim_tile, pcity, pvictim,
+                                           NULL))
+      /* May have died while trying to do forced actions. */
       && unit_is_alive(diplomat_id)
       /* Post bribe move. */
       && !unit_move_handling(pdiplomat, victim_tile, FALSE, TRUE)

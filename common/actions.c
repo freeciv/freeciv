@@ -8198,3 +8198,114 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
 
   return NULL;
 }
+
+/**********************************************************************//**
+  Return action post success forced action ruleset variable name for the
+  action or NULL if it can't be set in the ruleset.
+**************************************************************************/
+const char *
+action_post_success_forced_ruleset_var_name(const struct action *act)
+{
+  fc_assert_ret_val(act != NULL, NULL);
+
+  if (!(action_has_result(act, ACTRES_SPY_BRIBE_UNIT)
+        ||action_has_result(act, ACTRES_ATTACK))) {
+    /* No support in the action performer function */
+    return NULL;
+  }
+
+  switch ((enum gen_action)action_number(act)) {
+  case ACTION_SPY_BRIBE_UNIT:
+    return "bribe_unit_post_success_forced_actions";
+  case ACTION_ATTACK:
+    return "attack_post_success_forced_actions";
+  case ACTION_MARKETPLACE:
+  case ACTION_BOMBARD:
+  case ACTION_BOMBARD2:
+  case ACTION_BOMBARD3:
+  case ACTION_NUKE:
+  case ACTION_NUKE_CITY:
+  case ACTION_NUKE_UNITS:
+  case ACTION_SUICIDE_ATTACK:
+  case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY2:
+  case ACTION_SPY_POISON:
+  case ACTION_SPY_POISON_ESC:
+  case ACTION_SPY_SABOTAGE_UNIT:
+  case ACTION_SPY_SABOTAGE_UNIT_ESC:
+  case ACTION_SPY_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION:
+  case ACTION_SPY_TARGETED_SABOTAGE_CITY_ESC:
+  case ACTION_SPY_SABOTAGE_CITY_PRODUCTION_ESC:
+  case ACTION_SPY_INCITE_CITY:
+  case ACTION_SPY_INCITE_CITY_ESC:
+  case ACTION_ESTABLISH_EMBASSY:
+  case ACTION_ESTABLISH_EMBASSY_STAY:
+  case ACTION_SPY_STEAL_TECH:
+  case ACTION_SPY_STEAL_TECH_ESC:
+  case ACTION_SPY_TARGETED_STEAL_TECH:
+  case ACTION_SPY_TARGETED_STEAL_TECH_ESC:
+  case ACTION_SPY_INVESTIGATE_CITY:
+  case ACTION_INV_CITY_SPEND:
+  case ACTION_SPY_STEAL_GOLD:
+  case ACTION_SPY_STEAL_GOLD_ESC:
+  case ACTION_STEAL_MAPS:
+  case ACTION_STEAL_MAPS_ESC:
+  case ACTION_TRADE_ROUTE:
+  case ACTION_HELP_WONDER:
+  case ACTION_CAPTURE_UNITS:
+  case ACTION_EXPEL_UNIT:
+  case ACTION_FOUND_CITY:
+  case ACTION_JOIN_CITY:
+  case ACTION_SPY_NUKE:
+  case ACTION_SPY_NUKE_ESC:
+  case ACTION_DESTROY_CITY:
+  case ACTION_RECYCLE_UNIT:
+  case ACTION_DISBAND_UNIT:
+  case ACTION_HOME_CITY:
+  case ACTION_UPGRADE_UNIT:
+  case ACTION_PARADROP:
+  case ACTION_AIRLIFT:
+  case ACTION_STRIKE_BUILDING:
+  case ACTION_STRIKE_PRODUCTION:
+  case ACTION_HEAL_UNIT:
+  case ACTION_TRANSFORM_TERRAIN:
+  case ACTION_CULTIVATE:
+  case ACTION_PLANT:
+  case ACTION_PILLAGE:
+  case ACTION_CLEAN_POLLUTION:
+  case ACTION_CLEAN_FALLOUT:
+  case ACTION_FORTIFY:
+  case ACTION_ROAD:
+  case ACTION_CONVERT:
+  case ACTION_BASE:
+  case ACTION_MINE:
+  case ACTION_IRRIGATE:
+  case ACTION_TRANSPORT_ALIGHT:
+  case ACTION_TRANSPORT_BOARD:
+  case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_SPY_SPREAD_PLAGUE:
+  case ACTION_SPY_ATTACK:
+  case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS2:
+  case ACTION_HUT_ENTER:
+  case ACTION_HUT_ENTER2:
+  case ACTION_HUT_FRIGHTEN:
+  case ACTION_HUT_FRIGHTEN2:
+  case ACTION_USER_ACTION1:
+  case ACTION_USER_ACTION2:
+  case ACTION_USER_ACTION3:
+    /* not ruleset changeable */
+    return NULL;
+  case ACTION_COUNT:
+    fc_assert_ret_val(action_number(act) != ACTION_COUNT, NULL);
+    break;
+  }
+
+  return NULL;
+}
