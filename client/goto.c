@@ -346,11 +346,18 @@ static bool update_last_part(struct goto_map *goto_map,
       }
 
       p->path = old_path;
-      p->end_tile = pf_path_last_position(old_path)->tile;
-      p->end_moves_left = pf_path_last_position(old_path)->moves_left;
-      p->end_fuel_left = pf_path_last_position(old_path)->fuel_left;
+
+      if (p->path != NULL) {
+        const struct pf_position *pos = pf_path_last_position(old_path);
+
+        p->end_tile = pos->tile;
+        p->end_moves_left = pos->moves_left;
+        p->end_fuel_left = pos->fuel_left;
+      }
+
       pf_path_destroy(new_path);
       reset_last_part(goto_map);
+
       return FALSE;
     }
 
