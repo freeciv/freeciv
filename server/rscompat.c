@@ -1073,6 +1073,39 @@ void rscompat_postprocess(struct rscompat_info *info)
         BV_SET(game.info.move_is_blocked_by, act_id);
       }
     } action_iterate_end;
+
+    {
+      /* The forced post successful action move action list has moved to the
+       * ruleset. */
+      struct action_auto_perf *auto_perf;
+
+      /* "Bribe Unit" */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_BRIBE);
+      auto_perf->alternatives[0] = ACTION_TRANSPORT_EMBARK;
+      auto_perf->alternatives[1] = ACTION_TRANSPORT_DISEMBARK1;
+      auto_perf->alternatives[2] = ACTION_TRANSPORT_DISEMBARK2;
+      auto_perf->alternatives[3] = ACTION_CONQUER_EXTRAS;
+      auto_perf->alternatives[4] = ACTION_CONQUER_EXTRAS2;
+      auto_perf->alternatives[5] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[6] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[7] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN2;
+      action_list_end(auto_perf->alternatives, 9);
+
+      /* "Attack" */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_ATTACK);
+      auto_perf->alternatives[0] = ACTION_CONQUER_CITY;
+      auto_perf->alternatives[1] = ACTION_CONQUER_CITY2;
+      auto_perf->alternatives[2] = ACTION_TRANSPORT_DISEMBARK1;
+      auto_perf->alternatives[3] = ACTION_TRANSPORT_DISEMBARK2;
+      auto_perf->alternatives[4] = ACTION_CONQUER_EXTRAS;
+      auto_perf->alternatives[5] = ACTION_CONQUER_EXTRAS2;
+      auto_perf->alternatives[6] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[7] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN2;
+      action_list_end(auto_perf->alternatives, 10);
+    }
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

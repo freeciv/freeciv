@@ -6008,6 +6008,44 @@ static bool load_action_blocked_by_list(struct section_file *file,
 }
 
 /**********************************************************************//**
+  Load what actions an actor under certain circumstances will be forced to
+  perform after successfully performing this action.
+**************************************************************************/
+static bool load_action_post_success_force(struct section_file *file,
+                                           const char *filename,
+                                           int performer_slot,
+                                           struct action *paction)
+{
+  struct action_auto_perf *auto_perf;
+  char action_list_path[100];
+
+  if (action_post_success_forced_ruleset_var_name(paction) == NULL) {
+    /* Not relevant. */
+    return TRUE;
+  }
+
+  auto_perf = action_auto_perf_slot_number(performer_slot);
+  auto_perf->cause = AAPC_POST_ACTION;
+
+  /* Limit auto performer to this action. */
+  requirement_vector_append(&auto_perf->reqs,
+                            req_from_values(VUT_ACTION, REQ_RANGE_LOCAL,
+                                            FALSE, TRUE, TRUE,
+                                            paction->id));
+
+  /* Load the list of actions. */
+  fc_snprintf(action_list_path, sizeof(action_list_path),
+              "actions.%s",
+              action_post_success_forced_ruleset_var_name(paction));
+  if (!load_action_auto_actions(file, auto_perf,
+                                action_list_path, filename)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6718,6 +6756,28 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
         free(quiet_actions);
       }
+    }
+
+    if (ok) {
+      /* Forced actions after another action was successfully performed. */
+
+      /* "Bribe Unit" */
+      if (!load_action_post_success_force(file, filename,
+                                          ACTION_AUTO_POST_BRIBE,
+                                          action_by_number(
+                                            ACTION_SPY_BRIBE_UNIT))) {
+        ok = FALSE;
+      }
+
+      /* "Attack" */
+      if (!load_action_post_success_force(file, filename,
+                                          ACTION_AUTO_POST_ATTACK,
+                                          action_by_number(
+                                            ACTION_ATTACK))) {
+        ok = FALSE;
+      }
+
+      /* No "Suicide Attack". Can't act when dead. */
     }
 
     if (ok) {

@@ -953,6 +953,37 @@ static bool save_action_blocked_by(struct section_file *sfile,
 }
 
 /**********************************************************************//**
+  Save what actions an actor under certain circumstances will be forced to
+  perform after successfully performing this action.
+**************************************************************************/
+static bool save_action_post_success_force(struct section_file *sfile,
+                                           int performer_slot,
+                                           struct action *paction)
+{
+  char action_list_path[100];
+
+  if (action_post_success_forced_ruleset_var_name(paction) == NULL) {
+    /* Not relevant. */
+    return TRUE;
+  }
+
+  if (action_enabler_list_size(action_enablers_for_action(paction->id))
+      == 0) {
+    /* Don't save value for actions that aren't enabled. */
+    return TRUE;
+  }
+
+  fc_snprintf(action_list_path, sizeof(action_list_path),
+              "actions.%s",
+              action_post_success_forced_ruleset_var_name(paction));
+  if (!save_action_auto_actions(sfile, performer_slot, action_list_path)) {
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Save game.ruleset
 **************************************************************************/
 static bool save_game_ruleset(const char *filename, const char *name)
@@ -1195,6 +1226,19 @@ static bool save_game_ruleset(const char *filename, const char *name)
                               "actions.move_is_blocked_by") != i) {
     log_error("Didn't save all move blocking actions.");
 
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE,
+                                      action_by_number(
+                                        ACTION_SPY_BRIBE_UNIT))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_ATTACK,
+                                      action_by_number(ACTION_ATTACK))) {
+    log_error("Didn't save all post success forced actions.");
     return FALSE;
   }
 

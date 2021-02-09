@@ -4498,77 +4498,12 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
 
     punit->moves_left = full_moves;
     /* Post attack occupy move. */
-    if (((pcity = tile_city(def_tile))
-         && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY,
-                                           punit, pcity)
-         && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
-                                0, "",
-                                ACTION_CONQUER_CITY, ACT_REQ_RULES))
-        || ((pcity = tile_city(def_tile))
-            && is_action_enabled_unit_on_city(ACTION_CONQUER_CITY2,
-                                              punit, pcity)
-            && unit_perform_action(unit_owner(punit), punit->id, pcity->id,
-                                   0, "",
-                                   ACTION_CONQUER_CITY2, ACT_REQ_RULES))
-        || (unit_transported(punit)
-            && is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_TRANSPORT_DISEMBARK1,
-                                   ACT_REQ_RULES))
-        || (unit_transported(punit)
-            && is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_TRANSPORT_DISEMBARK2,
-                                   ACT_REQ_RULES))
-        || (tile_has_claimable_base(def_tile, unit_type_get(punit))
-            && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS,
-                                                punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_CONQUER_EXTRAS,
-                                   ACT_REQ_RULES))
-        || (tile_has_claimable_base(def_tile, unit_type_get(punit))
-            && is_action_enabled_unit_on_extras(ACTION_CONQUER_EXTRAS2,
-                                                punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_CONQUER_EXTRAS2,
-                                   ACT_REQ_RULES))
-        || (unit_can_enter_hut(punit, def_tile)
-            && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_HUT_ENTER,
-                                   ACT_REQ_RULES))
-        || (unit_can_enter_hut(punit, def_tile)
-            && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_HUT_ENTER2,
-                                   ACT_REQ_RULES))
-        || (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
-            && unit_can_displace_hut(punit, def_tile)
-            && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_HUT_FRIGHTEN,
-                                   ACT_REQ_RULES))
-        || (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
-            && unit_can_displace_hut(punit, def_tile)
-            && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
-                                              punit, def_tile, NULL)
-            && unit_perform_action(unit_owner(punit), punit->id,
-                                   tile_index(def_tile), 0, "",
-                                   ACTION_HUT_FRIGHTEN2,
-                                   ACT_REQ_RULES))
-        || (unit_move_handling(punit, def_tile, FALSE, TRUE))) {
+    if ((NULL != action_auto_perf_unit_do(AAPC_POST_ACTION, punit,
+                                          NULL, NULL, paction,
+                                          def_tile, tile_city(def_tile),
+                                          NULL, NULL))
+        || (unit_is_alive(winner_id)
+            && unit_move_handling(punit, def_tile, FALSE, TRUE))) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
       /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.

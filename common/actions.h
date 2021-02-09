@@ -467,6 +467,10 @@ struct action_enabler
 /* A unit moved to an adjacent tile (auto attack). */
 #define SPECENUM_VALUE1 AAPC_UNIT_MOVED_ADJ
 #define SPECENUM_VALUE1NAME N_("Moved Adjacent")
+/* An action was successfully performed and the (action specific) conditions
+ * for forcing a post action move are fulfilled. */
+#define SPECENUM_VALUE2 AAPC_POST_ACTION
+#define SPECENUM_VALUE2NAME N_("After Successful Action")
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
@@ -532,6 +536,8 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_UPKEEP_GOLD   1
 #define ACTION_AUTO_UPKEEP_SHIELD 2
 #define ACTION_AUTO_MOVED_ADJ     3
+#define ACTION_AUTO_POST_BRIBE    4
+#define ACTION_AUTO_POST_ATTACK   5
 
 /* Initialization */
 void actions_init(void);
@@ -640,6 +646,9 @@ bool action_result_legal_target_kind(enum action_result result,
 const char *action_actor_consuming_always_ruleset_var_name(action_id act);
 
 const char *action_blocked_by_ruleset_var_name(const struct action *act);
+
+const char *
+action_post_success_forced_ruleset_var_name(const struct action *act);
 
 struct action_enabler_list *
 action_enablers_for_action(action_id action);
