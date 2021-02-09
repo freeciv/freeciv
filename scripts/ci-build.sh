@@ -73,7 +73,7 @@ cd build
  --enable-sys-lua \
  --enable-sys-tolua-cmd \
  --disable-fcdb \
- --enable-client=gtk3.22,gtk3,qt,sdl2,stub \
+ --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
  --enable-ai-static=classic,threaded,tex,stub \
@@ -96,7 +96,7 @@ cd build
 ../autogen.sh \
  CFLAGS="-O3" \
  CXXFLAGS="-O3" \
- --enable-client=gtk3.22,gtk3,qt,sdl2,stub \
+ --enable-client=gtk3.22,qt,sdl2,stub \
  --enable-fcmp=cli,gtk3,qt \
  --enable-freeciv-manual \
  --enable-ruledit=experimental \
