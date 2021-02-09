@@ -1432,17 +1432,17 @@ void eco_report::selection_changed(const QItemSelection & sl,
 void eco_report::disband_units()
 {
   struct universal selected;
-  char buf[1024];
+  char title[1024];
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
   Unit_type_id utype;
 
   selected = cid_decode(uid);
   utype = utype_number(selected.value.utype);
-  fc_snprintf(buf, ARRAY_SIZE(buf),
+  fc_snprintf(title, ARRAY_SIZE(title),
               _("Do you really wish to disband every %s (%d total)?"),
               utype_name_translation(utype_by_number(utype)), counter);
 
-  ask->set_text_title(buf, _("Disband Units"));
+  ask->set_text_title(title, _("Disband Units"));
   ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask->setDefaultButton(QMessageBox::Cancel);
   ask->setAttribute(Qt::WA_DeleteOnClose);
@@ -1469,21 +1469,21 @@ void eco_report::disband_units()
 void eco_report::sell_buildings()
 {
   struct universal selected;
-  char buf[1024];
+  char title[1024];
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
-  const struct impr_type *pimprove;
+  const struct impr_type *pimpr;
   Impr_type_id impr_id;
 
   selected = cid_decode(uid);
-  pimprove = selected.value.building;
-  impr_id = improvement_number(pimprove);
+  pimpr = selected.value.building;
+  impr_id = improvement_number(pimpr);
 
-  fc_snprintf(buf, ARRAY_SIZE(buf),
+  fc_snprintf(title, ARRAY_SIZE(title),
               _("Do you really wish to sell "
                 "every %s (%d total)?"),
-              improvement_name_translation(pimprove), counter);
+              improvement_name_translation(pimpr), counter);
 
-  ask->set_text_title(buf, _("Sell Improvements"));
+  ask->set_text_title(title, _("Sell Improvements"));
   ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask->setDefaultButton(QMessageBox::Cancel);
   ask->setAttribute(Qt::WA_DeleteOnClose);
@@ -1513,21 +1513,21 @@ void eco_report::sell_buildings()
 void eco_report::sell_redundant()
 {
   struct universal selected;
-  char buf[1024];
+  char title[1024];
   hud_message_box *ask = new hud_message_box(gui()->central_wdg);
-  const struct impr_type *pimprove;
+  const struct impr_type *pimpr;
   Impr_type_id impr_id;
 
   selected = cid_decode(uid);
-  pimprove = selected.value.building;
-  impr_id = improvement_number(pimprove);
+  pimpr = selected.value.building;
+  impr_id = improvement_number(pimpr);
 
-  fc_snprintf(buf, ARRAY_SIZE(buf),
+  fc_snprintf(title, ARRAY_SIZE(title),
               _("Do you really wish to sell "
                 "every redundant %s (%d total)?"),
-              improvement_name_translation(pimprove), counter);
+              improvement_name_translation(pimpr), counter);
 
-  ask->set_text_title(buf, _("Sell Improvements"));
+  ask->set_text_title(title, _("Sell Improvements"));
   ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Ok);
   ask->setDefaultButton(QMessageBox::Cancel);
   ask->setAttribute(Qt::WA_DeleteOnClose);
