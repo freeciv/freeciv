@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -64,13 +64,13 @@ static int redraw_window(struct widget *pWindow)
   /* window has title string == has title bar */
   if (pWindow->string16) {
     
-    /* Draw Window's TitelBar */
+    /* Draw Window's TitleBar */
     dst = pWindow->area;
     dst.y -= (WINDOW_TITLE_HEIGHT + 1);
     dst.h = WINDOW_TITLE_HEIGHT;
     SDL_FillRectAlpha(pWindow->dst->surface, &dst, &title_bg_color);
     
-    /* Draw Text on Window's TitelBar */
+    /* Draw Text on Window's TitleBar */
     pTmp = create_text_surf_from_str16(pWindow->string16);
     dst.x += adj_size(4);
     if(pTmp) {
@@ -172,7 +172,7 @@ static void set_client_area(struct widget *pWindow)
 
 /**************************************************************************
   Allocate Widow Widget Structute.
-  Text to titelbar is taken from 'pTitle'.
+  Text to titlebar is taken from 'pTitle'.
 **************************************************************************/
 struct widget *create_window_skeleton(struct gui_layer *pDest,
                                       SDL_String16 *pTitle, Uint32 flags)
