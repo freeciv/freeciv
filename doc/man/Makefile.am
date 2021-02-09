@@ -9,7 +9,6 @@ MAN_PAGES = 			\
 	freeciv-ruleup.6
 
 MAN_LINKS = 			\
-	freeciv-gtk3.6		\
 	freeciv-gtk3.22.6	\
 	freeciv-sdl2.6		\
 	freeciv-qt.6		\

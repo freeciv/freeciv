@@ -439,7 +439,7 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE([client],
-  AS_HELP_STRING([--enable-client=auto/all/gtk3/gtk3.22/sdl2/qt/stub],
+  AS_HELP_STRING([--enable-client=auto/all/gtk3.22/sdl2/qt/stub],
                  [clients to compile [auto](list for multiple)]),
 [clients=${enableval}],
 [client=auto])
@@ -448,7 +448,6 @@ if test "x$fcweb" = "xtrue" && test "x$client" = "xauto" ; then
   clients=no
 fi
 
-gui_gtk3=no
 gui_gtk3_22=no
 gui_gtk3x=no
 gui_sdl2=no
@@ -463,12 +462,7 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
   elif test "x$gui" = "xall" ; then
     client=all
   else
-    if test "x$gui" = "xgtk3"   ||
-        test "x$gui" = "xgtk3.0" ||
-        test "x$gui" = "xgtk30"  ||
-        test "x$gui" = "xgtk-3.0" ; then
-      gui_gtk3=yes
-    elif test "x$gui" = "xgtk3.22" ; then
+    if test "x$gui" = "xgtk3.22" ; then
       gui_gtk3_22=yes
     elif test "x$gui" = "xgtk3x" ; then
       gui_gtk3x=yes
@@ -1048,9 +1042,6 @@ if test "x$client" != "xno"; then
   dnl Gtk-3.22-specific overrides
   FC_GTK3_22_CLIENT
 
-  dnl Gtk-3.0-specific overrides
-  FC_GTK3_CLIENT
-
   dnl QT-specific overrides
   FC_QT_CLIENT
 
@@ -1076,8 +1067,7 @@ if test "x$client" != "xno"; then
 fi
 
 if test "x$client" = "xall" ; then
-  if test "x$gui_gtk3" = "xyes" ||
-     test "x$gui_gtk3_22" = "xyes" ||
+  if test "x$gui_gtk3_22" = "xyes" ||
      test "x$gui_gtk3x" = "xyes" ||
      test "x$gui_sdl2" = "xyes" ||
      test "x$gui_qt" = "xyes" ||
@@ -1313,9 +1303,6 @@ AM_CONDITIONAL([SRV_LIB],
   [test "x$server" = "xyes" || test "x$fcmanual" = "xyes" || test "x$ruledit" = "xyes" || test "x$fcruleup" = "xyes"])
 
 AC_SUBST([gui_3d_libs])
-AC_SUBST([gui_gtk3_cflags])
-AC_SUBST([gui_gtk3_libs])
-AC_SUBST([gui_gtk3_ldflags])
 AC_SUBST([gui_gtk3_22_cflags])
 AC_SUBST([gui_gtk3_22_libs])
 AC_SUBST([gui_gtk3_22_ldflags])
@@ -1356,7 +1343,6 @@ AC_SUBST([HOST_DIR_SEPARATOR])
 AC_SUBST([FREECIV_STORAGE_DIR])
 AM_CONDITIONAL(AUDIO_SDL, test "x$SDL_mixer" != "xno")
 AM_CONDITIONAL(CLIENT_GUI_SDL2, test "x$gui_sdl2" = "xyes")
-AM_CONDITIONAL(CLIENT_GUI_GTK_3_0, test "x$gui_gtk3" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3_22, test "x$gui_gtk3_22" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_GTK_3X, test "x$gui_gtk3x" = "xyes")
 AM_CONDITIONAL(CLIENT_GUI_QT, test "x$gui_qt" = "xyes")
@@ -1719,9 +1705,6 @@ AC_CONFIG_FILES([Makefile
 	  data/nation/Makefile
           data/ruledit/Makefile
 	  data/themes/Makefile
-	  data/themes/gtk3/Makefile
-	  data/themes/gtk3/Freeciv/Makefile
-	  data/themes/gtk3/Freeciv/gtk-3.0/Makefile
 	  data/themes/gtk3.22/Makefile
 	  data/themes/gtk3.22/Freeciv/Makefile
 	  data/themes/gtk3.22/Freeciv/gtk-3.0/Makefile
@@ -1801,7 +1784,6 @@ AC_CONFIG_FILES([Makefile
 	  doc/sv/Makefile
           bootstrap/Makefile
           lua/Makefile
-          client/org.freeciv.gtk3.desktop:bootstrap/org.freeciv.gtk3.desktop.in
           client/org.freeciv.gtk322.desktop:bootstrap/org.freeciv.gtk322.desktop.in
           client/org.freeciv.sdl2.desktop:bootstrap/org.freeciv.sdl2.desktop.in
           client/org.freeciv.qt.desktop:bootstrap/org.freeciv.qt.desktop.in
@@ -1810,7 +1792,6 @@ AC_CONFIG_FILES([Makefile
 	  tools/fcmp/org.freeciv.mp.gtk4.desktop:bootstrap/org.freeciv.mp.gtk4.desktop.in
 	  tools/fcmp/org.freeciv.mp.qt.desktop:bootstrap/org.freeciv.mp.qt.desktop.in
 	  tools/ruledit/org.freeciv.ruledit.desktop:bootstrap/org.freeciv.ruledit.desktop.in
-          client/freeciv-gtk3.appdata.xml:bootstrap/freeciv-gtk3.appdata.xml.in
           client/freeciv-gtk3.22.appdata.xml:bootstrap/freeciv-gtk3.22.appdata.xml.in
           client/freeciv-sdl2.appdata.xml:bootstrap/freeciv-sdl2.appdata.xml.in
           client/freeciv-qt.appdata.xml:bootstrap/freeciv-qt.appdata.xml.in
@@ -1860,7 +1841,6 @@ AC_MSG_NOTICE([
 
   Maintained client frontends:
     Gtk-3.22 $gui_gtk3_22
-    Gtk-3.0: $gui_gtk3
     SDL2:    $gui_sdl2
     QT:      $gui_qt
     Stub:    $gui_stub

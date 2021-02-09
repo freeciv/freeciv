@@ -9,7 +9,7 @@ using MSYS2 from http://msys2.github.io
  Status
 ====================================
 
-- Buildable clients are gtk3, gtk3.22, sdl2, and Qt
+- Buildable clients are gtk3.22, sdl2, and Qt
 
 
  Setup
@@ -79,7 +79,7 @@ using MSYS2 from http://msys2.github.io
  - mingw-w64-i686-meson / mingw-w64-x86_64-meson
  - mingw-w64-i686-tolua / mingw-w64-x86_64-tolua
 
-2.1.2.2) Arch-specific packages for building gtk3-client
+2.1.2.2) Arch-specific packages for building gtk3.22-client
  - mingw-w64-i686-gtk3 / mingw-w64-x86_64-gtk3
 
 2.1.2.3) Arch-specific packages for buildind Qt-client and/or Ruledit

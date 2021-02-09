@@ -33,10 +33,7 @@ endif
 
 
 # by default build all installers
-all: gtk3-installer sdl2-installer qt-installer ruledit-installer
-
-gtk3-installer:
-	make GUI=gtk3 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-gtk3
+all: sdl2-installer qt-installer ruledit-installer
 
 sdl2-installer:
 	make GUI=sdl2 FCMP=gtk3 EXTRA_CONFIG="--disable-ruledit $(EXTRA_CONFIG)" wrap-sdl2
@@ -74,8 +71,6 @@ build-freeciv-ruledit:
 	make -C build-ruledit/translations/ruledit update-po
 	make -C build-ruledit/bootstrap langstat_ruledit.txt
 
-build-freeciv-gtk3: build-freeciv-common
-
 build-freeciv-sdl2: build-freeciv-common
 
 build-freeciv-qt: build-freeciv-common
@@ -102,8 +97,6 @@ install-freeciv-common:
 	strip install-$(GUI)/freeciv-m*
 	# add start menu files
 	cp freeciv-server.cmd freeciv-mp-$(FCMP).cmd freeciv-$(GUI).cmd Freeciv.url install-$(GUI)/
-
-install-freeciv-gtk3: install-freeciv-common
 
 install-freeciv-sdl2: install-freeciv-common
 	# add CJK fonts
@@ -265,8 +258,6 @@ installer-ruledit: clean-install-ruledit install-ruledit install-env-ruledit
 	mkdir -p Output
 	makensis Freeciv-$(FREECIV_VERSION)-ruledit.nsi
 
-wrap-gtk3: build-freeciv-gtk3 installer-common
-
 wrap-sdl2: build-freeciv-sdl2 installer-common
 
 wrap-qt: build-freeciv-qt installer-common
@@ -299,7 +290,6 @@ clean-installer-ruledit:
 	rm -f Freeciv-*-ruledit.nsi
 
 clean:
-	make GUI=gtk3 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit clean-install-ruledit clean-installer-ruledit
