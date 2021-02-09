@@ -175,7 +175,7 @@ static void set_client_area(struct widget *pwindow)
 
 /**********************************************************************//**
   Allocate Window Widget Structute.
-  Text to titelbar is taken from 'pTitle'.
+  Text to titlebar is taken from 'title'.
 **************************************************************************/
 struct widget *create_window_skeleton(struct gui_layer *pdest,
                                       utf8_str *title, Uint32 flags)
