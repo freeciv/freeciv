@@ -111,6 +111,12 @@ struct unit_order {
 /* The player wants to record that the unit now belongs to the specified
  * battle group. */
 #define SPECENUM_VALUE2 USSDT_BATTLE_GROUP
+/* The player wants the unit to stop bothering him unless:
+ *  - a hostile units comes within 3 tiles
+ *  - the unit has its hitpoints restored
+ *  - the unit is bounced
+ * if 1, 0 to still be bothered. */
+#define SPECENUM_VALUE3 USSDT_SENTRY
 #include "specenum_gen.h"
 
 /* Used in the network protocol */
