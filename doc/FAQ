@@ -86,8 +86,8 @@
 1.1 OK, so I installed Freeciv. How do I play?
 
    Start the client. Depending on your system, you might choose it from a
-   menu, double-click on the freeciv-gtk3 executable program, or type
-   freeciv-gtk3 in a terminal (to start the default "gtk3" client).
+   menu, double-click on the freeciv-gtk3.22 executable program, or type
+   freeciv-gtk3.22 in a terminal (to start the default "gtk3.22" client).
 
    Once the client starts, to begin a single-player game, select Start new
    game. Now edit your game settings (the defaults should be fine for a
@@ -670,7 +670,7 @@ Starting game.
    contributed binaries. If you have a working client, and you don't know
    its version, start it, load a game or scenario, or just start a new
    game, click on Help for the help menu, and on About Freeciv to see the
-   version and the client type (GTK2, GTK3, QT, SDL2, …).
+   version and the client type (GTK2, GTK3.22, QT, SDL2, …).
 
    It's possible that not all precompiled binaries and ports have been
    updated to 2.6.0 yet. If you can contribute, please do! Prepare a
@@ -713,7 +713,7 @@ Starting game.
    If for some reason you can't use the start-screen interface for loading
    a game, you can load one directly through the client or server command
    line (see Command-line options). You can start a client such as
-   freeciv-gtk3, or freeciv-server, with the -f option, for example:
+   freeciv-gtk3.22, or freeciv-server, with the -f option, for example:
 freeciv-server -f freeciv-T0175-Y01250-auto.sav.bz2
 
    Or you can use the /load command inside the server before starting the
@@ -782,7 +782,7 @@ types, and technologies?
    The recommended client is the Gtk client. There are a range of
    different Gtk clients for different versions of the Gtk
    library—Gtk2/3/etc—but they all support more or less the same feature
-   set. If in doubt, pick the Gtk3 client.
+   set. If in doubt, pick the Gtk3.22 client.
 
    The Qt client is a newer client using the Qt toolkit. It has a more
    immersive interface. It supports most features, with the notable
@@ -826,7 +826,7 @@ types, and technologies?
    Further instructions are in ./doc/README.sound in the source tarball.
 
    If sound does not work, try:
-freeciv-gtk3 -d 3 -P <plugin> -S stdsounds
+freeciv-gtk3.22 -d 3 -P <plugin> -S stdsounds
 
    This will help you get some debug information, which might give a clue
    why the sound does not work.
@@ -1019,9 +1019,9 @@ or add cities to the list for an existing nation?
    you start it to force use of a specific tileset. This also requires
    that the tileset has been installed in a correct place. Open a Command
    Prompt, find the client executable, and start the client with the
-   --tiles tilesetname option. For example for the gtk3 client, you might
+   --tiles tilesetname option. For example for the gtk3.22 client, you might
    start
-freeciv-gtk3 --tiles hexemplio
+freeciv-gtk3.22 --tiles hexemplio
 
 -------
 

@@ -109,11 +109,11 @@ Starting a game:
 
   NOTE:
   The following examples assume that Freeciv has been installed on
-  your system, and that the directory containing the "freeciv-gtk3"
+  your system, and that the directory containing the "freeciv-gtk3.22"
   and "freeciv-server" programs is in your PATH.  If Freeciv is not
   installed, then you may want to use the "fcgui" and "fcser" programs,
   which can be found in the top Freeciv directory.  They are used
-  in exactly the same fashion as "freeciv-gtk3" and "freeciv-server".
+  in exactly the same fashion as "freeciv-gtk3.22" and "freeciv-server".
 
 Running Freeciv involves starting the server, then the client(s)
 and AI(s), then telling the server to start the game.  Here are the
@@ -183,7 +183,7 @@ Client:
   Now all the human players should join, by running the Freeciv
   client:
 
-  |  % freeciv-gtk3
+  |  % freeciv-gtk3.22
 
   This assumes the server is running on the same machine.  If not, you
   can either specify it on the command line with the '--server' option,
@@ -192,13 +192,13 @@ Client:
   For example, suppose the server is running on a different machine
   called 'neptune'.  Then players would join with a command like:
 
-  |  % freeciv-gtk3 --server neptune
+  |  % freeciv-gtk3.22 --server neptune
 
   If you're the only human player, then only one client needs to be
   started.  In standard Unix fashion you can start the client
   "in the background" by appending an ampersand:
 
-  |  % freeciv-gtk3 &
+  |  % freeciv-gtk3.22 &
 
   Another option for the client you may like to try is the '--tiles'
   option, which can be used to select different "tilesets" (that is,
@@ -222,7 +222,7 @@ Client:
   To try another one, for instance the trident tileset, start the
   client with:
 
-  |  % freeciv-gtk3 --tiles trident
+  |  % freeciv-gtk3.22 --tiles trident
 
   Other tilesets are available from http://www.freeciv.org/wiki/Tilesets
 
@@ -300,7 +300,7 @@ Caveats:
     incompatible with any 2.4.x or earlier versions.
 
  2) If the Metaserver button in the connection dialog doesn't work,
-    check if your ISP uses a mandatory WWW proxy and make freeciv-gtk3
+    check if your ISP uses a mandatory WWW proxy and make freeciv-gtk3.22
     use it through the $http_proxy environment variable.  For instance,
     if the proxy is proxy.myisp.com port 8888, set $http_proxy
     to http://proxy.myisp.com:8888/ before starting the client.
@@ -421,7 +421,7 @@ or, if the save-file was created by a server that compressed it:
 
 Now the players can rejoin the game:
 
-  |  % freeciv-gtk3 -n Alexander
+  |  % freeciv-gtk3.22 -n Alexander
 
 Notice how the player-name is specified with the -n option. It's vital
 that the player uses the same name as they had when the game was running,
@@ -439,7 +439,7 @@ You may choose which local language to use by specifying a "locale".
 Each locale has a standard name (e.g., 'de' for German).  If you have
 installed Freeciv, you may choose a locale by setting the environment
 variable LANG to that locale's standard name before running freeciv-server
-and freeciv-gtk3.
+and freeciv-gtk3.22.
 
 For example, assuming you wish to use the German localization, you
 would do:
@@ -500,7 +500,7 @@ level messages.
 
 Example:
 
-  |  % freeciv-gtk3 --debug fatal
+  |  % freeciv-gtk3.22 --debug fatal
 
 This suppresses all non-fatal client log messages.
 
