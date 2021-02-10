@@ -1,6 +1,7 @@
 # List of source files containing translatable strings.
 # (Filenames are sorted alphabetically and relative to top-level directory.)
 tools/ruledit/conversion_log.cpp
+tools/ruledit/edit_utype.cpp
 tools/ruledit/effect_edit.cpp
 tools/ruledit/req_vec_fix.cpp
 tools/ruledit/requirers_dlg.cpp
@@ -8,11 +9,14 @@ tools/ruledit/ruledit.cpp
 tools/ruledit/ruledit_qt.cpp
 tools/ruledit/tab_building.cpp
 tools/ruledit/tab_enablers.cpp
+tools/ruledit/tab_extras.cpp
 tools/ruledit/tab_good.cpp
+tools/ruledit/tab_gov.cpp
 tools/ruledit/tab_misc.cpp
 tools/ruledit/tab_multiplier.cpp
 tools/ruledit/tab_nation.cpp
 tools/ruledit/tab_tech.cpp
+tools/ruledit/tab_terrains.cpp
 tools/ruledit/tab_unit.cpp
 tools/ruledit/req_edit.cpp
 tools/ruledit/validity.c
