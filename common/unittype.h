@@ -362,7 +362,7 @@ struct unit_class {
 #define SPECENUM_VALUE87NAME N_("?unitflag:BarbarianBoat")
 /* what barbarians should build */
 #define SPECENUM_VALUE88 L_BARBARIAN_BUILD
-#define SPECENUM_VALUE88NAME N_("BarbarianBuild")
+#define SPECENUM_VALUE88NAME N_("?unitflag:BarbarianBuild")
 /* barbarians build when global tech */
 #define SPECENUM_VALUE89 L_BARBARIAN_BUILD_TECH
 #define SPECENUM_VALUE89NAME N_("?unitflag:BarbarianBuildTech")
