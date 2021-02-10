@@ -235,13 +235,13 @@ nuke_defender_survival_chance_pct = 0
 ;   if_attacker    - this requirement vector must be true before a unit even
 ;                    considers to auto attack.
 
-attack_actions= "Capture Units", "Bombard", "Attack", "Suicide Attack"
+;attack_actions = "Capture Units", "Bombard", "Attack", "Suicide Attack"
 
-if_attacker =
-    { "type",         "name",    "range", "present"
-      "DiplRel",      "War",     "Local", TRUE
-      "MinMoveFrags", "1",       "Local", TRUE
-    }
+;if_attacker =
+;    { "type",         "name",    "range", "present"
+;      "DiplRel",      "War",     "Local", TRUE
+;      "MinMoveFrags", "1",       "Local", TRUE
+;    }
 
 [actions]
 ; Forbid regular unit move if one of the actions below is legal.
