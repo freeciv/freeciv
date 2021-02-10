@@ -251,10 +251,9 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
 
   if ((!is_ai(pplayer) || !has_handicap(pplayer, H_HUTS))
       && map_is_known(ptile, pplayer)
-      && unit_can_displace_hut(punit, ptile)) {
+      && unit_can_enter_hut(punit, ptile)) {
     /* we want to explore huts whenever we can,
      * even if doing so will not uncover any tiles. */
-    /* FIXME: should HUT_FRIGHTEN explorer strive to destroy huts? */
     desirable += HUT_SCORE;
   }
 
