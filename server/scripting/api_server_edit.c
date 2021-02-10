@@ -189,7 +189,12 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
                      || pplayers_at_war(extra_owner(dest),
                                         unit_owner(punit)))
                     && tile_has_claimable_base(dest, unit_type_get(punit)),
-                    unit_class_get(punit)->hut_behavior != HUT_FRIGHTEN);
+                    /* Backwards compatibility: unit_enter_hut() would
+                     * return without doing anything if the unit was
+                     * HUT_NOTHING. Setting this parameter to FALSE makes
+                     * sure unit_enter_hut() isn't called. */
+                    unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
+                    || unit_can_do_action_result(punit, ACTRES_HUT_ENTER));
   if (alive) {
     struct player *owner = unit_owner(punit);
 
@@ -839,7 +844,12 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                     || pplayers_at_war(extra_owner(ptile),
                                        unit_owner(punit)))
                    && tile_has_claimable_base(ptile, unit_type_get(punit)),
-                   unit_class_get(punit)->hut_behavior != HUT_FRIGHTEN);
+                   /* Backwards compatibility: unit_enter_hut() would
+                    * return without doing anything if the unit was
+                    * HUT_NOTHING. Setting this parameter to FALSE makes
+                    * sure unit_enter_hut() isn't called. */
+                   unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
+                   || unit_can_do_action_result(punit, ACTRES_HUT_ENTER));
 }
 
 /*************************************************************************//**
