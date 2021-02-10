@@ -523,6 +523,18 @@ Actions done by a unit against a tile
    - the actor don't have the "NonMil" unit type flag
    - the actor's relationship to the target is War
    - the target city contains 0 units
+ * can result in the conquest of the extras at the target tile if
+   - one of the extras at the target tile claims territory and is native to
+     the actor unit.
+   - the actor's relationship to the target is War or the target is unowned
+ * can result in hut entry if
+   - the actor unit has a hut_behavior of "Normal"
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+ * can result in hut frightening if
+   - the actor unit has a hut_behavior of "Frighten"
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
  * the distance between actor and target is from 1 to paratroopers_range
  * the actor unit hasn't paradropped this turn
  * the actor unit has paratroopers_mr_req moves left
