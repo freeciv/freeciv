@@ -100,6 +100,12 @@ actor requirements.
 
 Actions and Lua
 ===============
+Lua has some integration with enabler controlled actions. This integration
+allows both to implement (parts of) an action in Lua and to perform an
+action from Lua.
+
+The action started signals
+==========================
 Right before an action is executed, but after it is known to be legal, a
 signal is emitted to Lua. It has access to the same information as the
 server. It obviously don't have access to the result of the action since it
@@ -190,6 +196,38 @@ function action_started_callback(action, actor, target)
 end
 
 signal.connect("action_started_unit_city", "action_started_callback")
+
+Forcing a unit to (try to) perform an action from Lua
+=====================================================
+A unit can be forced to try to perform an enabler controlled action from
+Lua. The action is subject to the same rules as if the player ordered it
+performed himself. This respects the ruleset rules about when an action is
+enabled and what consequences performing the action has.
+
+actor_unit:perform_action(action[, target[, sub_target]])
+Units have a perform_action() method. This takes the action to perform as a
+parameter. Depending on the action's target and sub target kind it may also
+require a target parameter and a sub target parameter.
+
+The action parameter is an action. You can use find.action(rule_name) to
+get a reference to an action.
+
+The target parameter is the target unit, city or - for unit stacks, tiles
+and tile extras - tile the actor unit should perform the action to.
+
+The sub_target parameter is the last part of the target "address" for
+actions performed against a target and a sub target. It can be the name of
+an extra, a Building_Type or a Tech_Type.
+
+Examples:
+=========
+actor:perform_action(find.action("Disband Unit"))
+actor:perform_action(find.action("Establish Embassy Stay"), target)
+actor:perform_action(find.action("Targeted Sabotage City Escape"),
+                     target, find.building_type("City Walls"))
+actor:perform_action(find.action("Targeted Steal Tech Escape Expected"),
+                     target, find.tech_type("Banking"))
+actor:perform_action(find.action("Build Road"), target, "Road")
 
 Actions and their hard requirements
 ===================================
