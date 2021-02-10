@@ -2810,9 +2810,9 @@ enabler_first_clarification(const struct action_enabler *enabler)
            * the target but doesn't require that the target tile is claimed.
            * (DiplRel requirements to an unclaimed tile are never fulfilled
            * so this is implicit.) */
-          N_("Possible clarification: Requirement {%s} implies a claimed "
-             "tile. No diplomatic relation to Nature."),
-          req_to_fstring(local_diplrel));
+          N_("Possible clarification: Requirement {%s} of action \"%s\" "
+             "implies a claimed tile. No diplomatic relation to Nature."),
+          req_to_fstring(local_diplrel), action_rule_name(paction));
 
   /* The solution is to add the requirement that the tile is claimed */
   out->suggested_solutions[0].req = tile_is_claimed;
