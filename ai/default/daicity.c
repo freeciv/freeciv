@@ -1205,6 +1205,11 @@ static int action_target_neg_util(action_id act_id,
   fc_assert_msg(action_id_exists(act_id),
                 "Action %d don't exist.", act_id);
 
+  if (action_get_target_kind(paction) != ATK_CITY) {
+    /* Not city targeted in this ruleset. */
+    return 0;
+  }
+
   switch (paction->result) {
   case ACTRES_SPY_INCITE_CITY:
     /* Copied from the evaluation of the No_Incite effect */
