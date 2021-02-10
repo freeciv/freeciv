@@ -934,13 +934,14 @@ const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,
                           const struct player *other_player,
-                          const struct output_type *output)
+                          const struct output_type *eval_output,
+                          const struct action *eval_action)
 {
   action_auto_perf_by_cause_iterate(cause, autoperformer) {
     if (are_reqs_active(unit_owner(actor), other_player,
                         NULL, NULL, unit_tile(actor),
                         actor, unit_type_get(actor),
-                        output, NULL, NULL,
+                        eval_output, NULL, eval_action,
                         &autoperformer->reqs, RPT_CERTAIN)) {
       /* Select this action auto performer. */
       return autoperformer;
@@ -975,7 +976,8 @@ const struct action *
 action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          struct unit *actor,
                          const struct player *other_player,
-                         const struct output_type *output,
+                         const struct output_type *eval_output,
+                         const struct action *eval_action,
                          const struct tile *target_tile,
                          const struct city *target_city,
                          const struct unit *target_unit,
@@ -988,7 +990,8 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
   const struct unit *tgt_unit;
 
   const struct action_auto_perf *autoperf
-      = action_auto_perf_unit_sel(cause, actor, other_player, output);
+      = action_auto_perf_unit_sel(cause, actor, other_player,
+                                  eval_output, eval_action);
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */
@@ -1073,7 +1076,8 @@ struct act_prob
 action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            struct unit *actor,
                            const struct player *other_player,
-                           const struct output_type *output,
+                           const struct output_type *eval_output,
+                           const struct action *eval_action,
                            const struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
@@ -1086,7 +1090,8 @@ action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
   const struct unit *tgt_unit;
 
   const struct action_auto_perf *autoperf
-      = action_auto_perf_unit_sel(cause, actor, other_player, output);
+      = action_auto_perf_unit_sel(cause, actor, other_player,
+                                  eval_output, eval_action);
 
   if (!autoperf) {
     /* No matching Action Auto Performer. */

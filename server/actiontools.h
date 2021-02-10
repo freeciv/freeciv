@@ -66,13 +66,15 @@ const struct action_auto_perf *
 action_auto_perf_unit_sel(const enum action_auto_perf_cause cause,
                           const struct unit *actor,
                           const struct player *other_player,
-                          const struct output_type *output);
+                          const struct output_type *eval_output,
+                          const struct action *eval_action);
 
 const struct action *
 action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
                          struct unit *actor,
                          const struct player *other_player,
-                         const struct output_type *output,
+                         const struct output_type *eval_output,
+                         const struct action *eval_action,
                          const struct tile *target_tile,
                          const struct city *target_city,
                          const struct unit *target_unit,
@@ -82,7 +84,8 @@ struct act_prob
 action_auto_perf_unit_prob(const enum action_auto_perf_cause cause,
                            struct unit *actor,
                            const struct player *other_player,
-                           const struct output_type *output,
+                           const struct output_type *eval_output,
+                           const struct action *eval_action,
                            const struct tile *target_tile,
                            const struct city *target_city,
                            const struct unit *target_unit,
