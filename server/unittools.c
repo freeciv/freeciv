@@ -3176,7 +3176,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 
       probability->prob =
           action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
-                                     penemy, unit_owner(punit), NULL,
+                                     penemy, unit_owner(punit), NULL, NULL,
                                      tgt_tile, tile_city(tgt_tile),
                                      punit, NULL);
 
@@ -3220,7 +3220,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     /* Previous attacks may have changed the odds. Recalculate. */
     peprob->prob =
         action_auto_perf_unit_prob(AAPC_UNIT_MOVED_ADJ,
-                                   penemy, unit_owner(punit), NULL,
+                                   penemy, unit_owner(punit), NULL, NULL,
                                    tgt_tile, tile_city(tgt_tile),
                                    punit, NULL);
 
@@ -3245,7 +3245,7 @@ static bool unit_survive_autoattack(struct unit *punit)
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
       action_auto_perf_unit_do(AAPC_UNIT_MOVED_ADJ,
-                               penemy, unit_owner(punit), NULL,
+                               penemy, unit_owner(punit), NULL, NULL,
                                tgt_tile, tile_city(tgt_tile), punit, NULL);
     } else {
 #ifdef REALLY_DEBUG_THIS
