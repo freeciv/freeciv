@@ -241,6 +241,7 @@ client/helpdata.c
 client/include/helpdlg_g.h
 client/luaconsole_common.c
 client/mapctrl_common.c
+client/mapview_common.c
 client/options.c
 client/packhand.c
 client/plrdlg_common.c
@@ -248,9 +249,11 @@ client/repodlgs_common.c
 client/servers.c
 client/text.c
 client/tilespec.c
+client/tilespec.h
 common/actions.c
 common/actions.h
 common/ai.c
+common/base.h
 common/calendar.c
 common/city.c
 common/clientutils.c
@@ -269,6 +272,7 @@ common/player.c
 common/player.h
 common/research.c
 common/requirements.c
+common/road.h
 common/team.c
 common/tech.c
 common/tech.h
