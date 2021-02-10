@@ -322,7 +322,6 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -1718,8 +1717,7 @@ bool can_player_build_unit_direct(const struct player *p,
     return FALSE;
   }
 
-  if ((utype_can_do_action_result(punittype, ACTRES_NUKE_CITY)
-       || utype_can_do_action_result(punittype, ACTRES_NUKE_UNITS)
+  if ((utype_can_do_action_result(punittype, ACTRES_NUKE_UNITS)
        || utype_can_do_action_result(punittype, ACTRES_NUKE))
       && get_player_bonus(p, EFT_ENABLE_NUKE) <= 0) {
     return FALSE;

@@ -1911,7 +1911,6 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     switch (paction->result) {
     case ACTRES_SPY_NUKE:
     case ACTRES_NUKE:
-    case ACTRES_NUKE_CITY:
     case ACTRES_NUKE_UNITS:
       if (receiver == victim) {
         /* Tell the victim */

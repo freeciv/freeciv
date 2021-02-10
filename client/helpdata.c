@@ -1331,7 +1331,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       int i = 0;
 
       action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
-      action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_CITY);
       action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
 
       action_list_end(nuke_actions, i);
@@ -2676,7 +2675,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case ACTRES_SPY_NUKE:
       case ACTRES_NUKE:
-      case ACTRES_NUKE_CITY:
       case ACTRES_NUKE_UNITS:
         if (game.info.nuke_pop_loss_pct > 0) {
           cat_snprintf(buf, bufsz,

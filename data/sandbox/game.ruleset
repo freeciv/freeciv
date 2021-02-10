@@ -373,6 +373,12 @@ explode_nuclear_max_range = "unlimited"
 ; the minimum distance.
 nuke_city_max_range = 1
 
+; The kind of target the "Nuke City" action has. The target requirements of
+; its enablers are evaluated against the target. The target owner is the one
+; that gets a Casus Belli if the ruleset has a Casus Belli for this action.
+; Supported values are "individual cities" and "tiles".
+nuke_city_target_kind = "individual cities"
+
 ; The maximum distance from the actor unit to the target of the
 ; "Nuke Units" action. The value 1 means that the tile must be a tile
 ; adjacent to the actor unit. The special value "unlimited" lifts the

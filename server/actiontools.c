@@ -49,7 +49,6 @@ static void action_success_actor_consume(struct action *paction,
         || action_has_result(paction, ACTRES_RECYCLE_UNIT)) {
       wipe_unit(actor, ULR_DISBANDED, NULL);
     } else if (action_has_result(paction, ACTRES_NUKE)
-               || action_has_result(paction, ACTRES_NUKE_CITY)
                || action_has_result(paction, ACTRES_NUKE_UNITS)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
     } else if (action_has_result(paction, ACTRES_ATTACK)) {
