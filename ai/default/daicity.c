@@ -1235,7 +1235,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_SPY_STEAL_GOLD:
-  case ACTRES_NUKE_CITY:
+  case ACTRES_NUKE:
     /* TODO: Individual and well balanced values */
     return 10;
 
@@ -1277,7 +1277,6 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_BOMBARD:
   case ACTRES_FOUND_CITY:
-  case ACTRES_NUKE:
   case ACTRES_NUKE_UNITS:
   case ACTRES_PARADROP:
   case ACTRES_ATTACK:

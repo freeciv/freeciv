@@ -834,7 +834,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -3399,11 +3398,6 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              do_airline(actor_unit, pcity, paction));
     break;
-  case ACTRES_NUKE_CITY:
-    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
-                             unit_nuke(pplayer, actor_unit, city_tile(pcity),
-                                       paction));
-    break;
   case ACTRES_CAPTURE_UNITS:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_capture_units(pplayer, actor_unit,
@@ -3436,9 +3430,10 @@ bool unit_perform_action(struct player *pplayer,
                                         target_tile, name, paction));
     break;
   case ACTRES_NUKE:
-    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
-                             unit_nuke(pplayer, actor_unit, target_tile,
-                                       paction));
+    ACTION_STARTED_UNIT_ANY(paction, actor_unit,
+                            pcity, punit, target_tile,
+                            unit_nuke(pplayer, actor_unit, target_tile,
+                                      paction));
     break;
   case ACTRES_PARADROP:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,

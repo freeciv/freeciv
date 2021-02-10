@@ -702,6 +702,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* New enablers */
     struct action_enabler *enabler;
     struct requirement e_req;
+    struct action *paction;
+
+    paction = action_by_number(ACTION_NUKE_CITY);
+    paction->target_kind = ATK_CITY;
 
     enabler = action_enabler_new();
     enabler->action = ACTION_PILLAGE;

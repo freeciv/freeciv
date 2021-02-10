@@ -265,7 +265,6 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
 
     /* Conventional nukes */
     action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE);
-    action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_CITY);
     action_list_add_all_by_result(nuke_actions, &i, ACTRES_NUKE_UNITS);
     /* TODO: worry about spy nuking too? */
     action_list_end(nuke_actions, i);
@@ -916,7 +915,6 @@ void adv_best_government(struct player *pplayer)
           case ACTRES_BOMBARD:
           case ACTRES_SPY_NUKE:
           case ACTRES_NUKE:
-          case ACTRES_NUKE_CITY:
           case ACTRES_NUKE_UNITS:
           case ACTRES_DESTROY_CITY:
           case ACTRES_EXPEL_UNIT:

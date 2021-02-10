@@ -911,7 +911,7 @@ static void hard_code_actions(void)
                       0,
                       TRUE);
   actions[ACTION_NUKE_CITY] =
-      unit_action_new(ACTION_NUKE_CITY, ACTRES_NUKE_CITY,
+      unit_action_new(ACTION_NUKE_CITY, ACTRES_NUKE,
                       TRUE, TRUE,
                       MAK_STAYS, 1, 1, TRUE);
   actions[ACTION_NUKE_UNITS] =
@@ -1928,7 +1928,6 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -2011,7 +2010,6 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -3044,7 +3042,6 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -3223,7 +3220,6 @@ action_hard_reqs_actor(enum action_result result,
   case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -4137,7 +4133,6 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_DISBAND_UNIT:
@@ -5105,9 +5100,6 @@ action_prob(const action_id wanted_action,
      *   calculation function yet. */
     break;
   case ACTRES_NUKE:
-    /* TODO */
-    break;
-  case ACTRES_NUKE_CITY:
     /* TODO */
     break;
   case ACTRES_NUKE_UNITS:
@@ -6341,7 +6333,6 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_JOIN_CITY:
   case ACTRES_BOMBARD:
   case ACTRES_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
@@ -7550,7 +7541,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_JOIN_CITY:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE_CITY:
   case ACTION_NUKE_UNITS:
   case ACTION_DESTROY_CITY:
   case ACTION_RECYCLE_UNIT:
@@ -7586,7 +7576,6 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
-  case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -7596,6 +7585,10 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_HUT_FRIGHTEN2:
     /* Target kind is not ruleset changeable */
     return NULL;
+  case ACTION_NUKE:
+    return "explode_nuclear_target_kind";
+  case ACTION_NUKE_CITY:
+    return "nuke_city_target_kind";
   case ACTION_PILLAGE:
     return "pillage_target_kind";
   case ACTION_USER_ACTION1:
@@ -7638,7 +7631,6 @@ action_target_kind_default(enum action_result result)
   case ACTRES_JOIN_CITY:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:
@@ -7729,7 +7721,6 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_JOIN_CITY:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:
@@ -7756,7 +7747,6 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_SPY_ATTACK:
     return tgt_kind == ATK_UNITS;
   case ACTRES_FOUND_CITY:
-  case ACTRES_NUKE:
   case ACTRES_PARADROP:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -7779,6 +7769,8 @@ bool action_result_legal_target_kind(enum action_result result,
     return tgt_kind == ATK_SELF;
   case ACTRES_PILLAGE:
     return (tgt_kind == ATK_TILE || tgt_kind == ATK_EXTRAS);
+  case ACTRES_NUKE:
+    return (tgt_kind == ATK_TILE || tgt_kind == ATK_CITY);
   case ACTRES_NONE:
     switch (tgt_kind) {
     case ATK_CITY:
@@ -7824,7 +7816,6 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_JOIN_CITY:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:
@@ -7914,7 +7905,6 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_JOIN_CITY:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE_CITY:
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:

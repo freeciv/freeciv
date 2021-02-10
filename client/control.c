@@ -1240,7 +1240,6 @@ void control_mouse_cursor(struct tile *ptile)
     /* Determine if the goto is valid, invalid, nuke or will attack. */
     if (is_valid_goto_destination(ptile)) {
       if (action_id_has_result_safe(goto_last_action, ACTRES_NUKE_UNITS)
-          || action_id_has_result_safe(goto_last_action, ACTRES_NUKE_CITY)
           || action_id_has_result_safe(goto_last_action, ACTRES_NUKE)) {
         /* Goto results in nuclear attack. */
         mouse_cursor_type = CURSOR_NUKE;
