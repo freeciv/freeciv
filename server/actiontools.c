@@ -1025,15 +1025,16 @@ action_auto_perf_unit_do(const enum action_auto_perf_cause cause,
         if (tgt_tile
             && is_action_enabled_unit_on_tile(act, actor, tgt_tile,
                                               target_extra)) {
-          perform_action_to(act, actor, tgt_tile->index, extra_number(target_extra));
+          perform_action_to(act, actor, tgt_tile->index,
+                            target_extra ? extra_number(target_extra) : -1);
         }
         break;
       case ATK_EXTRAS:
         if (tgt_tile
             && is_action_enabled_unit_on_extras(act, actor,
                                                 tgt_tile, target_extra)) {
-          perform_action_to(act, actor,
-                            tgt_tile->index, extra_number(target_extra));
+          perform_action_to(act, actor, tgt_tile->index,
+                            target_extra ? extra_number(target_extra) : -1);
         }
         break;
       case ATK_CITY:
