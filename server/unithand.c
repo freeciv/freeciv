@@ -2922,10 +2922,10 @@ bool unit_perform_action(struct player *pplayer,
   struct action *paction;
   int sub_tgt_id;
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
-  struct tile *target_tile = index_to_tile(&(wld.map), target_id);
+  struct tile *target_tile = NULL;
   struct extra_type *target_extra;
-  struct unit *punit = game_unit_by_number(target_id);
-  struct city *pcity = game_city_by_number(target_id);
+  struct unit *punit = NULL;
+  struct city *pcity = NULL;
 
   if (!action_id_exists(action_type)) {
     /* Non existing action */
@@ -2936,6 +2936,56 @@ bool unit_perform_action(struct player *pplayer,
   }
 
   paction = action_by_number(action_type);
+
+  if (NULL == actor_unit) {
+    /* Probably died or bribed. */
+    log_verbose("unit_perform_action() invalid actor %d",
+                actor_id);
+    return FALSE;
+  }
+
+  switch (action_get_target_kind(paction)) {
+  case ATK_CITY:
+    pcity = game_city_by_number(target_id);
+    if (pcity == NULL) {
+      log_verbose("unit_perform_action() invalid target city %d",
+                  target_id);
+      return FALSE;
+    }
+    target_tile = city_tile(pcity);
+    fc_assert_ret_val(target_tile != NULL, FALSE);
+    break;
+  case ATK_UNIT:
+    punit = game_unit_by_number(target_id);
+    if (punit == NULL) {
+      log_verbose("unit_perform_action() invalid target unit %d",
+                  target_id);
+      return FALSE;
+    }
+    target_tile = unit_tile(punit);
+    fc_assert_ret_val(target_tile != NULL, FALSE);
+    pcity = tile_city(target_tile);
+    break;
+  case ATK_UNITS:
+  case ATK_TILE:
+  case ATK_EXTRAS:
+    target_tile = index_to_tile(&(wld.map), target_id);
+    if (target_tile == NULL) {
+      log_verbose("unit_perform_action() invalid target tile %d",
+                  target_id);
+      return FALSE;
+    }
+    pcity = tile_city(target_tile);
+    break;
+  case ATK_SELF:
+    target_tile = unit_tile(actor_unit);
+    fc_assert_ret_val(target_tile != NULL, FALSE);
+    pcity = tile_city(target_tile);
+    break;
+  case ATK_COUNT:
+    fc_assert_ret_val(action_get_target_kind(paction) != ATK_COUNT, FALSE);
+    break;
+  }
 
   /* Server side sub target assignment */
   if (paction->target_complexity == ACT_TGT_COMPL_FLEXIBLE
@@ -2961,13 +3011,6 @@ bool unit_perform_action(struct player *pplayer,
     log_verbose("unit_perform_action() action %d requires action "
                 "but extra id %d is invalid.",
                 action_type, sub_tgt_id);
-    return FALSE;
-  }
-
-  if (NULL == actor_unit) {
-    /* Probably died or bribed. */
-    log_verbose("handle_unit_do_action() invalid actor %d",
-                actor_id);
     return FALSE;
   }
 
