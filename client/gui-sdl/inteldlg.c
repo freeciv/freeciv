@@ -301,40 +301,54 @@ void update_intel_dialog(struct player *p)
     pStr->style &= ~TTF_STYLE_BOLD;
 
     /* FIXME: these should use common gui code, and avoid duplication! */
-    switch (research->researching) {
-    case A_UNKNOWN:
-    case A_UNSET:
+    if (client_is_global_observer() || player_has_embassy(client_player(), p)) {
+      switch (research->researching) {
+      case A_UNKNOWN:
+      case A_UNSET:
+        fc_snprintf(cBuf, sizeof(cBuf),
+                    _("Ruler: %s  Government: %s\n"
+                      "Capital: %s  Gold: %d\n"
+                      "Tax: %d%% Science: %d%% Luxury: %d%%\n"
+                      "Researching: %s"),
+                    ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
+                    government_name_for_player(p),
+                    /* TRANS: "unknown" location */
+                    NULL != pCapital ? city_name_get(pCapital) : _("(Unknown)"),
+                    p->economic.gold, p->economic.tax,
+                    p->economic.science, p->economic.luxury,
+                    research->researching == A_UNSET ? _("(none)") : _("(Unknown)"));
+        break;
+      default:
+        fc_snprintf(cBuf, sizeof(cBuf),
+                    _("Ruler: %s  Government: %s\n"
+                      "Capital: %s  Gold: %d\n"
+                      "Tax: %d%% Science: %d%% Luxury: %d%%\n"
+                      "Researching: %s(%d/%d)"),
+                    ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
+                    government_name_for_player(p),
+                    /* TRANS: "unknown" location */
+                    NULL != pCapital ? city_name_get(pCapital) : _("(Unknown)"),
+                    p->economic.gold, p->economic.tax, p->economic.science,
+                    p->economic.luxury,
+                    research_advance_name_translation(research,
+                                                      research->researching),
+                    research->bulbs_researched,
+                    research->client.researching_cost);
+        break;
+      };
+    } else {
       fc_snprintf(cBuf, sizeof(cBuf),
                   _("Ruler: %s  Government: %s\n"
                     "Capital: %s  Gold: %d\n"
-                    "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-                    "Researching: unknown"),
+                    "Tax rates unknown\n"
+                    "Researching: (Unknown)"),
                   ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
                   government_name_for_player(p),
                   /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
-                  p->economic.gold, p->economic.tax,
-                  p->economic.science, p->economic.luxury);
-      break;
-    default:
-      fc_snprintf(cBuf, sizeof(cBuf),
-                  _("Ruler: %s  Government: %s\n"
-                    "Capital: %s  Gold: %d\n"
-                    "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-                    "Researching: %s(%d/%d)"),
-                  ruler_title_for_player(p, plr_buf, sizeof(plr_buf)),
-                  government_name_for_player(p),
-                  /* TRANS: "unknown" location */
-                  NULL != pCapital ? city_name_get(pCapital) : _("(unknown)"),
-                  p->economic.gold, p->economic.tax, p->economic.science,
-                  p->economic.luxury,
-                  research_advance_name_translation(research,
-                                                    research->researching),
-                  research->bulbs_researched,
-                  research->client.researching_cost);
-      break;
-    };
-    
+                  NULL != pCapital ? city_name_get(pCapital) : _("(Unknown)"),
+                  p->economic.gold);
+    }
+
     copy_chars_to_string16(pStr, cBuf);
     pInfo = create_text_surf_from_str16(pStr);
     area.w = MAX(area.w, pLogo->w + adj_size(10) + pInfo->w + adj_size(20));
