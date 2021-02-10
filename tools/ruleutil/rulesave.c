@@ -561,27 +561,36 @@ static bool save_action_auto_uflag_block(struct section_file *sfile,
   order they should be tried.
 **************************************************************************/
 static bool save_action_auto_actions(struct section_file *sfile,
-                                         const int aap,
-                                         const char *actions_path)
+                                     const int aap,
+                                     const char *actions_path)
 {
   enum gen_action unit_acts[MAX_NUM_ACTIONS];
-  size_t i;
+  size_t i, j;
   size_t ret;
 
   const struct action_auto_perf *auto_perf =
       action_auto_perf_by_number(aap);
 
-  i = 0;
+  i = j = 0;
   for (i = 0;
        i < NUM_ACTIONS && auto_perf->alternatives[i] != ACTION_NONE;
        i++) {
-    unit_acts[i] = auto_perf->alternatives[i];
+    if (action_enabler_list_size(action_enablers_for_action(
+                                 auto_perf->alternatives[i])) == 0) {
+      /* Don't mention non enabled actions. */
+      continue;
+    }
+
+    /* This action is included in the output. */
+    unit_acts[j] = auto_perf->alternatives[i];
+    j++;
   }
 
-  ret = secfile_insert_enum_vec(sfile, &unit_acts, i, gen_action,
+  action_list_end((action_id *)unit_acts, j);
+  ret = secfile_insert_enum_vec(sfile, &unit_acts, j, gen_action,
                                 "%s", actions_path);
 
-  if (ret != i) {
+  if (ret != j) {
     log_error("%s: didn't save all actions.", actions_path);
 
     return FALSE;
