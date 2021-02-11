@@ -165,16 +165,16 @@ void effect_edit::refresh()
   Add entry to effect list.
 **************************************************************************/
 void effect_edit::add_effect_to_list(struct effect *peffect,
-                                     struct effect_list_fill_data *data)
+                                     struct effect_list_fill_data *fill_data)
 {
   char buf[512];
   QListWidgetItem *item;
 
   fc_snprintf(buf, sizeof(buf), R__("Effect #%d: %s"),
-              data->num + 1, effect_type_name(peffect->type));
+              fill_data->num + 1, effect_type_name(peffect->type));
 
   item = new QListWidgetItem(QString::fromUtf8(buf));
-  list_widget->insertItem(data->num++, item);
+  list_widget->insertItem(fill_data->num++, item);
   effect_list_append(effects, peffect);
   if (selected == peffect) {
     item->setSelected(true);
