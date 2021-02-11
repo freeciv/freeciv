@@ -4475,6 +4475,16 @@ reqs    =
       "Action", "User Action 1", "Local", TRUE
     }
 
+; The initiates of The School of Amêzârâk refuses to state where they got
+; their knowledge, from who or what was expected in return.
+[effect_action_illegal_use_ancient_transportation_network]
+type    = "Illegal_Action_HP_Cost"
+value   = 10
+reqs    =
+    { "type",   "name",          "range", "present"
+      "Action", "User Action 2", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_bombard]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

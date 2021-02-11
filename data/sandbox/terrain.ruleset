@@ -1746,6 +1746,32 @@ Ruins mark the former site of a city that was destroyed or abandoned. \
 They have no effect on gameplay.\
 ")
 
+[extra_transport_hub]
+name           = _("Ancient Transport Hub")
+category       = "Bonus"
+rmcauses       = "Pillage"
+rmreqs         =
+    { "type", "name",       "range",  "present", "quiet"
+      "Tech", "Polytheism", "Player", TRUE,      FALSE
+    }
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+graphic        = "extra.transport_hub"
+graphic_alt    = "extra.ruins"
+activity_gfx   = "None"
+visibility_req = "Polytheism"
+; Can't be reverse engineered and built by players.
+buildable      = FALSE
+removal_time   = 3
+helptext       = _("\
+An Ancient Transport Hub can transport units to any other Ancient Transport \
+Hub on the map.\
+"), _("\
+Using an Ancient Transport Hub to move to an Ancient Transport Hub known \
+to exist, to be free from non allied units and on native terrain should be \
+reasonably safe.\
+")
+
 [extra_road]
 name           = _("Road")
 category       = "Infra"

@@ -395,10 +395,31 @@ function place_ancient_castle_ruins()
   return false
 end
 
+-- Add random Ancient Transport Hub
+function place_ancient_transport_hub()
+  -- Narrative excuse: The game starts in 4000 BC. Who knows what came
+  -- before the dark, formless void?
+
+  for place in whole_map_iterate() do
+    local terr = place.terrain
+    local tname = terr:rule_name()
+
+    if (tname == "Glacier") and (random(1, 1000) <= 9) then
+      -- adds up to 1% with the throw below
+      place:create_extra("Ancient Transport Hub")
+    elseif (not (tname == "Inaccessible")) and (random(1, 1000) <= 1) then
+      place:create_extra("Ancient Transport Hub")
+    end
+  end
+
+  return false
+end
+
 -- Modify the generated map
 function modify_generated_map()
   place_map_labels()
   place_ancient_castle_ruins()
+  place_ancient_transport_hub()
   return false
 end
 
@@ -436,3 +457,37 @@ function action_started_unit_unit_callback(action, actor, target)
 end
 
 signal.connect("action_started_unit_unit", "action_started_unit_unit_callback")
+
+-- Use Ancient Transportation Network
+function transport_network(action, actor, target)
+  local actor_name = actor.utype:name_translation()
+  local survived = actor:teleport(target)
+
+  if not survived then
+    notify.event(actor.owner, target,
+                 E.UNIT_ACTION_ACTOR_FAILURE,
+                 -- /* TRANS: Your Marines didn't survive doing
+                 --  * Use Ancient Transportation Network. */
+                 _("Your %s didn't survive doing %s."),
+                 actor_name,
+                 action:name_translation())
+    notify.event(actor.owner, target,
+                 E.UNIT_ACTION_ACTOR_FAILURE,
+                 _("Be more careful the next time you select a target."))
+    -- Kept out to keep the game family friendly:
+    -- Sounds similar to those heard during their spring sacrifices are
+    -- rumored to have been coming from the closed chamber of the
+    -- Amêzârâkian Mysteries at the time of the accident.
+  end
+end
+
+-- Handle tile targeted unit action start
+function action_started_unit_tile_callback(action, actor, target)
+  if action:rule_name() == "User Action 2" then
+    -- Use Ancient Transportation Network
+    transport_network(action, actor, target)
+  end
+end
+
+signal.connect("action_started_unit_tile",
+"action_started_unit_tile_callback")

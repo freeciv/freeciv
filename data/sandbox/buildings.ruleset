@@ -826,6 +826,31 @@ Under Despotism the city containing the palace gains a +75% \
 gold bonus, and under Monarchy a +50% gold bonus.\
 ")
 
+; "Amêzârâk taught all the conjurers and root-cutters," Book of Enok 8:3a
+; (The Tewahedo Orthodox view The Book of Enok as a part of the Bible.)
+[building_mystery_school]
+name            = _("Amêzârâkian Mysteries")
+rule_name       = "Mysteries"
+genus           = "SmallWonder"
+reqs            =
+    { "type", "name",       "range"
+      "Tech", "Polytheism", "Player"
+    }
+graphic	        = "b.mystery_school"
+graphic_alt     = "b.temple"
+obsolete_by     =
+    { "type", "name", "range"
+    }
+build_cost      = 200
+upkeep          = 0
+sabotage        = 0
+sound           = "b_mystery_school"
+sound_alt       = "b_temple"
+helptext        = _("\
+Initiates of The School of Amêzârâk knows how to operate an \
+Ancient Transport Hub.\
+")
+
 [building_police_station]
 name		= _("Police Station")
 genus		= "Improvement"
