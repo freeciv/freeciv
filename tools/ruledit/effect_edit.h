@@ -54,7 +54,7 @@ class effect_edit : public QDialog
     void refresh();
     void add(const char *msg);
     void add_effect_to_list(struct effect *peffect,
-                            struct effect_list_fill_data *data);
+                            struct effect_list_fill_data *fill_data);
 
     struct universal *filter_get();
 
