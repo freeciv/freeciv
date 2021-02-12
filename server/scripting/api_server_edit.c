@@ -215,7 +215,7 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
 /***********************************************************************//**
   Force a unit to perform an action against a city.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_city(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_city(lua_State *L, Unit *punit,
                                           Action *paction, City *tgt)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
@@ -223,6 +223,7 @@ bool api_edit_unit_perform_action_vs_city(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
@@ -238,7 +239,7 @@ bool api_edit_unit_perform_action_vs_city(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against a city and a building.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_city_impr(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_city_impr(lua_State *L, Unit *punit,
                                                Action *paction, City *tgt,
                                                Building_Type *sub_tgt)
 {
@@ -248,6 +249,7 @@ bool api_edit_unit_perform_action_vs_city_impr(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Building_Type, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
@@ -263,7 +265,7 @@ bool api_edit_unit_perform_action_vs_city_impr(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against a city and a tech.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_city_tech(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_city_tech(lua_State *L, Unit *punit,
                                                Action *paction, City *tgt,
                                                Tech_Type *sub_tgt)
 {
@@ -273,6 +275,7 @@ bool api_edit_unit_perform_action_vs_city_tech(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, City, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, sub_tgt, 5, Tech_Type, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_CITY, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_city(paction->id, punit, tgt)) {
@@ -288,7 +291,7 @@ bool api_edit_unit_perform_action_vs_city_tech(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against a unit.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_unit(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_unit(lua_State *L, Unit *punit,
                                           Action *paction, Unit *tgt)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
@@ -296,6 +299,7 @@ bool api_edit_unit_perform_action_vs_unit(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Unit, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_UNIT, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_unit(paction->id, punit, tgt)) {
@@ -311,7 +315,7 @@ bool api_edit_unit_perform_action_vs_unit(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against a tile.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_tile(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_tile(lua_State *L, Unit *punit,
                                           Action *paction, Tile *tgt)
 {
   bool enabled = FALSE;
@@ -321,6 +325,7 @@ bool api_edit_unit_perform_action_vs_tile(lua_State *L, Unit *punit,
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, tgt, 4, Tile, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
   case ATK_UNITS:
     enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
@@ -365,7 +370,7 @@ bool api_edit_unit_perform_action_vs_tile(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against a tile and an extra.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_tile_extra(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_tile_extra(lua_State *L, Unit *punit,
                                                 Action *paction, Tile *tgt,
                                                 const char *sub_tgt)
 {
@@ -381,6 +386,7 @@ bool api_edit_unit_perform_action_vs_tile_extra(lua_State *L, Unit *punit,
   sub_target = extra_type_by_rule_name(sub_tgt);
   LUASCRIPT_CHECK_ARG(L, sub_target != NULL, 5, "No such extra", FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   switch (action_get_target_kind(paction)) {
   case ATK_UNITS:
     enabled = is_action_enabled_unit_on_units(paction->id, punit, tgt);
@@ -425,13 +431,14 @@ bool api_edit_unit_perform_action_vs_tile_extra(lua_State *L, Unit *punit,
 /***********************************************************************//**
   Force a unit to perform an action against it self.
 ***************************************************************************/
-bool api_edit_unit_perform_action_vs_self(lua_State *L, Unit *punit,
+bool api_edit_perform_action_unit_vs_self(lua_State *L, Unit *punit,
                                           Action *paction)
 {
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, paction, 3, Action, FALSE);
 
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
   fc_assert_ret_val(action_get_target_kind(paction) == ATK_SELF, FALSE);
   fc_assert_ret_val(!action_has_result(paction, ACTRES_FOUND_CITY), FALSE);
   if (is_action_enabled_unit_on_self(paction->id, punit)) {
