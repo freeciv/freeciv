@@ -4852,8 +4852,6 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
   to pdesttile. If it can the player will be asked to choose what to do. If
   it can't and punit is unable to move (or perform another non enabler
   controlled action) to pdesttile the game will try to explain why.
-
-  FIXME: This function needs a good cleaning.
 **************************************************************************/
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool igzoc, bool move_do_not_act)
