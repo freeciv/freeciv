@@ -136,6 +136,10 @@ static bool unit_do_help_build(struct player *pplayer,
                                struct unit *punit,
                                struct city *pcity_dest,
                                const struct action *paction);
+static bool unit_do_regular_move(struct player *actor_player,
+                                 struct unit *actor_unit,
+                                 struct tile *target_tile,
+                                 const struct action *paction);
 static bool unit_bombard(struct unit *punit, struct tile *ptile,
                          const struct action *paction);
 static bool unit_nuke(struct player *pplayer, struct unit *punit,
@@ -4837,6 +4841,32 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 }
 
 /**********************************************************************//**
+  Moves the unit from one tile to another.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool unit_do_regular_move(struct player *actor_player,
+                                 struct unit *actor_unit,
+                                 struct tile *target_tile,
+                                 const struct action *paction)
+{
+  int move_cost = map_move_cost_unit(&(wld.map), actor_unit, target_tile);
+
+  unit_move(actor_unit, target_tile, move_cost,
+            /* Don't override "Transport Embark" */
+            NULL, FALSE,
+            /* Don't override "Conquer City" */
+            FALSE,
+            /* Don't override "Conquer Extras" */
+            FALSE,
+            /* Don't override "Enter Hut" */
+            FALSE);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Will try to move to/attack the tile dest_x,dest_y.  Returns TRUE if this
   was done, FALSE if it wasn't for some reason. Even if this returns TRUE,
   the unit may have died upon arrival to new tile.
@@ -4987,19 +5017,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       && can_unit_exist_at_tile(&(wld.map), punit, pdesttile)
       /* Don't override "Transport Disembark" or "Transport Disembark 2" */
       && !unit_transported(punit)) {
-    int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
-
-    unit_move(punit, pdesttile, move_cost,
-              /* Don't override "Transport Embark" */
-              NULL, FALSE,
-              /* Don't override "Conquer City" */
-              FALSE,
-              /* Don't override "Conquer Extras" */
-              FALSE,
-              /* Don't override "Enter Hut" */
-              FALSE);
-
-    return TRUE;
+    return unit_do_regular_move(pplayer, punit, pdesttile, NULL);
   } else {
     return FALSE;
   }
