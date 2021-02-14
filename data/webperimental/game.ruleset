@@ -278,19 +278,21 @@ move_is_blocked_by = "Transport Disembark", "Conquer Extras", "Enter Hut",
 bribe_unit_post_success_forced_actions = "Transport Embark",
                                          "Transport Disembark",
                                          "Conquer Extras",
-                                         "Enter Hut", "Frighten Hut"
+                                         "Enter Hut", "Frighten Hut",
+                                         "Unit Move"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
 attack_post_success_forced_actions = "Conquer City", "Transport Disembark",
                                      "Conquer Extras",
-                                     "Enter Hut","Frighten Hut"
+                                     "Enter Hut","Frighten Hut",
+                                     "Unit Move"
 
 ; The city that made the unit's current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an
 ; adjacent tile. Currently only able to target native tiles.
-escape_city = "Transport Embark", "Enter Hut", "Frighten Hut"
+escape_city = "Transport Embark", "Enter Hut", "Frighten Hut", "Unit Move"
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
 ; or "Poison City Escape" will empty the food stock.
@@ -534,6 +536,9 @@ ui_name_enter_hut = _("Enter %sHut%s")
 ; /* TRANS: Frighten _Hut (100% chance of success). */
 ui_name_frighten_hut = _("Frighten %sHut%s")
 
+; /* TRANS: Regular _Move (100% chance of success). */
+ui_name_unit_move = _("%sKeep moving%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 
@@ -563,7 +568,7 @@ diplchance_initial_odds = "Steal Gold", "Steal Gold Escape",
 ; disables the following actions.
 ;
 ; Can make the help text less redundant when you document it your self.
-quiet_actions = "Heal Unit"
+quiet_actions = "Heal Unit", "Unit Move"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1623,6 +1628,14 @@ action        = "Frighten Hut"
 actor_reqs    =
     { "type",         "name",         "range"
       "MinMoveFrags", "1",            "Local"
+    }
+
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
     }
 
 [borders]

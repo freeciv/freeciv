@@ -6547,11 +6547,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         }
       } action_iterate_end;
 
-      if (!lookup_bv_actions(file, filename, &game.info.move_is_blocked_by,
-                             "actions.move_is_blocked_by")) {
-        ok = FALSE;
-      }
-
       if (!lookup_bv_actions(file, filename,
                              &game.info.diplchance_initial_odds,
                              "actions.diplchance_initial_odds")) {

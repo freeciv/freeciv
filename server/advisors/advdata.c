@@ -926,6 +926,7 @@ void adv_best_government(struct player *pplayer)
             bonus += 0.1;
             break;
 
+          case ACTRES_UNIT_MOVE:
           case ACTRES_MARKETPLACE:
           case ACTRES_FOUND_CITY:
           case ACTRES_DISBAND_UNIT:

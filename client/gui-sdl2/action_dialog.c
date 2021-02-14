@@ -628,27 +628,6 @@ static int spy_incite_callback(struct widget *pwidget)
 }
 
 /**********************************************************************//**
-  Callback from action selection dialog for "keep moving".
-  (This should only occur when entering a tile with an allied city
-  or an allied unit.)
-**************************************************************************/
-static int act_sel_keep_moving_callback(struct widget *pwidget)
-{
-  if (PRESSED_EVENT(main_data.event)) {
-    struct unit *punit;
-
-    if ((punit = game_unit_by_number(diplomat_dlg->actor_unit_id))
-        && !same_pos(unit_tile(punit), pwidget->data.tile)) {
-      request_unit_non_action_move(punit, pwidget->data.tile);
-    }
-
-    popdown_diplomat_dialog();
-  }
-
-  return -1;
-}
-
-/**********************************************************************//**
   Delay selection of what action to take.
 **************************************************************************/
 static int act_sel_wait_callback(struct widget *pwidget)
@@ -1108,23 +1087,6 @@ void popup_action_selection(struct unit *actor_unit,
                    pwindow, &area);
     }
   } action_iterate_end;
-
-  /* ---------- */
-  if (unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                            FALSE, FALSE)) {
-    create_active_iconlabel(buf, pwindow->dst, pstr,
-                            _("Keep moving"),
-                            act_sel_keep_moving_callback);
-
-    buf->data.tile = target_tile;
-
-    set_wstate(buf, FC_WS_NORMAL);
-
-    add_to_gui_list(MAX_ID - actor_unit->id, buf);
-
-    area.w = MAX(area.w, buf->size.w);
-    area.h += buf->size.h;
-  }
 
   /* ---------- */
   create_active_iconlabel(buf, pwindow->dst, pstr,

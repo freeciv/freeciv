@@ -1248,11 +1248,6 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      "auto_attack", "if_attacker");
   }
 
-  if (!save_bv_actions(sfile, game.info.move_is_blocked_by,
-                       "actions.move_is_blocked_by")) {
-    return FALSE;
-  }
-
   if (!save_bv_actions(sfile, game.info.diplchance_initial_odds,
                        "actions.diplchance_initial_odds")) {
     return FALSE;

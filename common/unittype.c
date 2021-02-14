@@ -365,6 +365,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
     return FALSE;
   case ACTRES_NONE:
     /* Assume they are up to something. */
@@ -1135,6 +1136,11 @@ bool utype_pays_for_regular_move_to_tgt(const struct action *paction,
 
   if (action_has_result(paction, ACTRES_TRANSPORT_EMBARK)) {
     /* Moves into the transport to embark. */
+    return TRUE;
+  }
+
+  if (action_has_result(paction, ACTRES_UNIT_MOVE)) {
+    /* Is a regular move. */
     return TRUE;
   }
 

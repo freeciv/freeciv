@@ -870,6 +870,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
   case ACTRES_NONE:
     /* No special help. */
     break;
@@ -1230,6 +1231,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ACTRES_HUT_ENTER:
     case ACTRES_HUT_FRIGHTEN:
     case ACTRES_CONQUER_EXTRAS:
+    case ACTRES_UNIT_MOVE:
       if (target_tile) {
         action_custom = unit_move_to_tile_test(&(wld.map), punit,
                                                punit->activity,
@@ -1485,6 +1487,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
               || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
               || action_id_has_result_safe(act_id, ACTRES_HUT_ENTER)
               || action_id_has_result_safe(act_id, ACTRES_HUT_FRIGHTEN)
+              || action_id_has_result_safe(act_id, ACTRES_UNIT_MOVE)
               || action_has_result_safe(paction,
                                         ACTRES_TRANSPORT_EMBARK)
               || action_has_result_safe(paction,
@@ -3459,6 +3462,11 @@ bool unit_perform_action(struct player *pplayer,
                              do_unit_hut(pplayer, actor_unit,
                                          target_tile, paction));
     break;
+  case ACTRES_UNIT_MOVE:
+    ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
+                             unit_do_regular_move(pplayer, actor_unit,
+                                                  target_tile, paction));
+    break;
   case ACTRES_TRANSFORM_TERRAIN:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_action_activity(actor_unit, paction));
@@ -4540,12 +4548,10 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
 
     punit->moves_left = full_moves;
     /* Post attack occupy move. */
-    if ((NULL != action_auto_perf_unit_do(AAPC_POST_ACTION, punit,
-                                          NULL, NULL, paction,
-                                          def_tile, tile_city(def_tile),
-                                          NULL, NULL))
-        || (unit_is_alive(winner_id)
-            && unit_move_handling(punit, def_tile, FALSE, TRUE))) {
+    if (NULL != action_auto_perf_unit_do(AAPC_POST_ACTION, punit,
+                                         NULL, NULL, paction,
+                                         def_tile, tile_city(def_tile),
+                                         NULL, NULL)) {
       int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
       /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
@@ -4978,6 +4984,24 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   }
 
   /*** Phase 3: OK now move the unit ***/
+  if (!igzoc) {
+    /* This is a regular move, subject to the rules. */
+    if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE,
+                                       punit, pdesttile, NULL)) {
+      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                                 NO_TARGET, "", ACTION_UNIT_MOVE,
+                                 ACT_REQ_PLAYER);
+    } else {
+      /* TODO: Extend the action not enabled explanation system to cover all
+       * existing reasons and switch to using it. See hrm Feature #920229 */
+      can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
+                                        NULL, FALSE);
+      return FALSE;
+    }
+  }
+
+
+  /* Compatibility for when igzoc is TRUE */
 
   /* We cannot move a transport into a tile that holds
    * units or cities not allied with all of our cargo. */

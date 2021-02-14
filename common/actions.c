@@ -572,6 +572,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CONQUER_EXTRAS,
                           ACTRES_HUT_ENTER,
                           ACTRES_HUT_FRIGHTEN,
+                          ACTRES_UNIT_MOVE,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: this eliminates the need to
@@ -668,6 +669,17 @@ static void hard_code_oblig_hard_reqs(void)
                           N_("All action enablers for %s must require"
                              " that the target is on a livable tile."),
                           ACTRES_TRANSPORT_UNLOAD, ACTRES_NONE);
+
+  /* Why this is a hard requirement: Use ACTRES_TRANSPORT_DISEMBARK to
+   * disembark. Assumed by the Freeciv code. */
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, TRUE, TRUE,
+                                          USP_TRANSPORTED),
+                          FALSE,
+                          N_("All action enablers for %s must require"
+                             " that the actor isn't transported."),
+                          ACTRES_UNIT_MOVE,
+                          ACTRES_NONE);
 
   /* Why this is a hard requirement: assumed by the Freeciv code. */
   oblig_hard_req_register(req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
@@ -1105,6 +1117,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_HUT_FRIGHTEN2, ACTRES_HUT_FRIGHTEN,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_UNIT_MOVE] =
+      unit_action_new(ACTION_UNIT_MOVE, ACTRES_UNIT_MOVE,
+                      TRUE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_USER_ACTION1] =
       unit_action_new(ACTION_USER_ACTION1, ACTRES_NONE,
                       FALSE, TRUE,
@@ -1166,9 +1182,6 @@ void actions_init(void)
       auto_perfs[i].alternatives[j] = ACTION_NONE;
     }
   }
-
-  /* Regular move isn't an action yet. Allow it to be blocked by actions. */
-  BV_CLR_ALL(game.info.move_is_blocked_by);
 
   /* The actions them self are now initialized. */
   actions_initialized = TRUE;
@@ -1960,6 +1973,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
   case ACTRES_NONE:
     break;
   }
@@ -2041,6 +2055,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_SPY_ATTACK:
   case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_UNIT_MOVE:
   case ACTRES_NONE:
     break;
   }
@@ -2686,8 +2701,7 @@ blocked_find_target_tile(const struct action *act,
     return target_tile_arg;
   }
 
-  /* target_tile_arg should be set when used to fake regular unit moves
-   * being enabler controlled */
+  /* action should always be set */
   fc_assert_ret_val(act, NULL);
 
   switch (action_get_target_kind(act)) {
@@ -2741,10 +2755,8 @@ blocked_find_target_city(const struct action *act,
     return target_city_arg;
   }
 
-  if (act == NULL) {
-    /* Regular moves finds the city itself. */
-    return NULL;
-  }
+  /* action should always be set */
+  fc_assert_ret_val(act, NULL);
 
   switch (action_get_target_kind(act)) {
   case ATK_CITY:
@@ -2799,21 +2811,12 @@ struct action *action_is_blocked_by(const struct action *act,
                                  target_city_arg, target_unit);
 
   action_iterate(blocker_id) {
-    bool would_be_blocked_by;
     struct action *blocker = action_by_number(blocker_id);
 
     fc_assert_action(action_get_actor_kind(blocker) == AAK_UNIT,
                      continue);
 
-    if (act == NULL) {
-      /* Regular move isn't action enabler controlled yet. */
-      would_be_blocked_by = BV_ISSET(game.info.move_is_blocked_by,
-                                     blocker->id);
-    } else {
-      would_be_blocked_by = action_would_be_blocked_by(act, blocker);
-    }
-
-    if (!would_be_blocked_by) {
+    if (!action_would_be_blocked_by(act, blocker)) {
       /* It doesn't matter if it is legal. It won't block the action. */
       continue;
     }
@@ -3066,6 +3069,7 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
   case ACTRES_SPY_ATTACK:
+  case ACTRES_UNIT_MOVE:
   case ACTRES_NONE:
     /* No hard unit type requirements. */
     break;
@@ -3197,6 +3201,7 @@ action_hard_reqs_actor(enum action_result result,
     }
     break;
 
+  case ACTRES_UNIT_MOVE:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -4115,6 +4120,32 @@ is_action_possible(const action_id wanted_action,
     if (!unit_can_displace_hut(actor_unit, target_tile)) {
       /* Reason: keep extra rmreqs working. */
       return TRI_NO;
+    }
+    break;
+
+  case ACTRES_UNIT_MOVE:
+    /* Reason: is moving to the tile. */
+    if (!unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
+                               FALSE, FALSE)) {
+      return TRI_NO;
+    }
+
+    /* Reason: Don't override "Transport Embark" */
+    if (!can_unit_exist_at_tile(&(wld.map), actor_unit, target_tile)) {
+      return TRI_NO;
+    }
+
+    /* We cannot move a transport into a tile that holds
+     * units or cities not allied with all of our cargo. */
+    if (get_transporter_capacity(actor_unit) > 0) {
+      unit_list_iterate(unit_tile(actor_unit)->units, pcargo) {
+        if (unit_contained_in(pcargo, actor_unit)
+            && (is_non_allied_unit_tile(target_tile, unit_owner(pcargo))
+                || is_non_allied_city_tile(target_tile,
+                                           unit_owner(pcargo)))) {
+           return TRI_NO;
+        }
+      } unit_list_iterate_end;
     }
     break;
 
@@ -5207,6 +5238,9 @@ action_prob(const action_id wanted_action,
     /* Entering the hut happens with a probability of 100%. What happens
      * next is probably up to dice rolls in Lua. */
     chance = ACTPROB_NOT_IMPLEMENTED;
+    break;
+  case ACTRES_UNIT_MOVE:
+    chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_NONE:
     /* Accommodate ruleset authors that wishes to roll the dice in Lua.
@@ -6369,6 +6403,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
   case ACTRES_NONE:
     /* No additional dice roll. */
     break;
@@ -6803,6 +6838,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_frighten_hut_2";
   case ACTION_SPY_ATTACK:
     return "ui_name_spy_attack";
+  case ACTION_UNIT_MOVE:
+    return "ui_name_unit_move";
   case ACTION_USER_ACTION1:
     return "ui_name_user_action_1";
   case ACTION_USER_ACTION2:
@@ -7060,6 +7097,9 @@ const char *action_ui_name_default(int act)
   case ACTION_HUT_FRIGHTEN2:
     /* TRANS: Frighten _Hut (100% chance of success). */
     return N_("Frighten %sHut%s");
+  case ACTION_UNIT_MOVE:
+    /* TRANS: Regular _Move (100% chance of success). */
+    return N_("Regular %sMove%s");
   case ACTION_USER_ACTION1:
     /* TRANS: _User Action 1 (100% chance of success). */
     return N_("%sUser Action 1%s");
@@ -7163,6 +7203,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -7265,6 +7306,7 @@ int action_min_range_default(int act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -7360,6 +7402,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -7471,6 +7514,7 @@ int action_max_range_default(int act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -7586,6 +7630,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -7680,6 +7725,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
     return ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return ATK_EXTRAS;
@@ -7763,6 +7809,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
     return tgt_kind == ATK_TILE;
   case ACTRES_CONQUER_EXTRAS:
     return tgt_kind == ATK_EXTRAS;
@@ -7857,6 +7904,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
     return ASTK_NONE;
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN_POLLUTION:
@@ -7945,6 +7993,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
+  case ACTRES_UNIT_MOVE:
     return ACT_TGT_COMPL_SIMPLE;
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN_POLLUTION:
@@ -8058,6 +8107,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
     /* actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_SPY_SPREAD_PLAGUE:
@@ -8110,6 +8160,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "conquer_city_blocked_by";
   case ACTION_CONQUER_CITY2:
     return "conquer_city_2_blocked_by";
+  case ACTION_UNIT_MOVE:
+    return "move_is_blocked_by";
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -8290,6 +8342,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_HUT_ENTER2:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_UNIT_MOVE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

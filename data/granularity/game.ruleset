@@ -250,17 +250,17 @@ move_is_blocked_by = "Transport Disembark", "Transport Disembark 2"
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
 ; performing "Bribe Unit".
-;bribe_unit_post_success_forced_actions = "Transport Embark"
+bribe_unit_post_success_forced_actions = "Unit Move"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
 ; performing "Attack".
-;attack_post_success_forced_actions = "Conquer City", "Conquer City 2"
+attack_post_success_forced_actions = "Unit Move"
 
 ; The city that made the unit's current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an
 ; adjacent tile. Currently only able to target native tiles.
-escape_city = "Transport Embark"
+escape_city = "Transport Embark", "Unit Move"
 
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
 ; or "Poison City Escape" will empty the food stock.
@@ -367,6 +367,9 @@ ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+; /* TRANS: Regular _Move (100% chance of success). */
+ui_name_unit_move = _("%sKeep moving%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 ; Example: set up "User Action 1"
@@ -393,7 +396,7 @@ ui_name_transport_embark = _("%sEmbark%s")
 ; The version from the non native tile and the native tile version won't
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
-quiet_actions = "Transport Disembark 2"
+quiet_actions = "Transport Disembark 2", "Unit Move"
 
 [actionenabler_found_city]
 action = "Found City"
@@ -495,6 +498,14 @@ action        = "Plant"
 actor_reqs    =
     { "type",          "name",         "range", "present"
       "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
     }
 
 [borders]
