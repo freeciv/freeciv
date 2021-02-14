@@ -63,8 +63,7 @@
 #include "sprite.h"
 
 /* Locations for non action enabler controlled buttons. */
-#define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_WAIT (BUTTON_MOVE + 1)
+#define BUTTON_WAIT (ACTION_COUNT + 1)
 #define BUTTON_CANCEL (BUTTON_WAIT + 1)
 #define BUTTON_COUNT (BUTTON_CANCEL + 1)
 
@@ -76,7 +75,6 @@ extern void popdown_science_report();
 extern void popdown_city_report();
 extern void popdown_endgame_report();
 
-static void act_sel_keep_moving(QVariant data1, QVariant data2);
 static void spy_request_strike_bld_list(QVariant data1, QVariant data2);
 static void diplomat_incite(QVariant data1, QVariant data2);
 static void diplomat_incite_escape(QVariant data1, QVariant data2);
@@ -138,6 +136,7 @@ static void enter_hut(QVariant data1, QVariant data2);
 static void enter_hut2(QVariant data1, QVariant data2);
 static void frighten_hut(QVariant data1, QVariant data2);
 static void frighten_hut2(QVariant data1, QVariant data2);
+static void regular_move(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
@@ -266,6 +265,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_HUT_ENTER2] = enter_hut2;
   action_function[ACTION_HUT_FRIGHTEN] = frighten_hut;
   action_function[ACTION_HUT_FRIGHTEN2] = frighten_hut2;
+  action_function[ACTION_UNIT_MOVE] = regular_move;
 
   /* Unit acting against all tile extras. */
   action_function[ACTION_CONQUER_EXTRAS] = conquer_extras;
@@ -2188,15 +2188,6 @@ void popup_action_selection(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                            FALSE, FALSE)) {
-    qv2 = target_tile->index;
-
-    func = act_sel_keep_moving;
-    cd->add_item(QString(_("Keep moving")), func, qv1, qv2,
-                 "", BUTTON_MOVE);
-  }
-
   func = act_sel_wait;
   cd->add_item(QString(_("&Wait")), func, qv1, qv2,
                "", BUTTON_WAIT);
@@ -3367,19 +3358,17 @@ static void diplomat_incite_escape(QVariant data1, QVariant data2)
 }
 
 /***********************************************************************//**
-  Action keep moving with actor unit for choice dialog
+  Action "Unit Move" for choice dialog
 ***************************************************************************/
-static void act_sel_keep_moving(QVariant data1, QVariant data2)
+static void regular_move(QVariant data1, QVariant data2)
 {
-  struct unit *punit;
-  struct tile *ptile;
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
 
-  if ((punit = game_unit_by_number(diplomat_id))
-      && (ptile = index_to_tile(&(wld.map), diplomat_target_id))
-      && !same_pos(unit_tile(punit), ptile)) {
-    request_unit_non_action_move(punit, ptile);
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_UNIT_MOVE,
+                      actor_id, target_id, 0, "");
   }
 }
 
@@ -3932,7 +3921,6 @@ void action_selection_refresh(struct unit *actor_unit,
                               const struct act_prob *act_probs)
 {
   choice_dialog *asd;
-  Choice_dialog_button *keep_moving_button;
   Choice_dialog_button *wait_button;
   Choice_dialog_button *cancel_button;
   QVariant qv1, qv2;
@@ -3964,13 +3952,6 @@ void action_selection_refresh(struct unit *actor_unit,
     /* Temporary remove the Wait button so it won't end up above
      * any added buttons. */
     asd->stack_button(wait_button);
-  }
-
-  keep_moving_button = asd->get_identified_button(BUTTON_MOVE);
-  if (keep_moving_button != NULL) {
-    /* Temporary remove the Keep moving button so it won't end up above
-     * any added buttons. */
-    asd->stack_button(keep_moving_button);
   }
 
   action_iterate(act) {
@@ -4045,8 +4026,7 @@ void action_selection_refresh(struct unit *actor_unit,
     }
   } action_iterate_end;
 
-  if (keep_moving_button != NULL
-      || wait_button != NULL || cancel_button != NULL) {
+  if (wait_button != NULL || cancel_button != NULL) {
     /* Reinsert the non action buttons below any potential
      * buttons recently added. */
     asd->unstack_all_buttons();

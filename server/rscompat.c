@@ -870,6 +870,21 @@ void rscompat_postprocess(struct rscompat_info *info)
     enabler->action = ACTION_TRANSPORT_UNLOAD;
     action_enabler_add(enabler);
 
+    /* Assume the player knows that the unit is able to move */
+    paction = action_by_number(ACTION_UNIT_MOVE);
+    paction->quiet = TRUE;
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_UNIT_MOVE;
+    e_req = req_from_values(VUT_MINMOVES, REQ_RANGE_LOCAL,
+                            FALSE, TRUE, FALSE, 1);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    e_req = req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                            FALSE, FALSE, FALSE,
+                            USP_TRANSPORTED);
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
     /* Update action enablers. */
     rscompat_enablers_add_obligatory_hard_reqs();
     action_enablers_iterate(ae) {
@@ -1074,7 +1089,7 @@ void rscompat_postprocess(struct rscompat_info *info)
           || action_id_has_result_safe(act_id, ACTRES_CONQUER_EXTRAS)
           || action_id_has_result_safe(act_id, ACTRES_HUT_ENTER)
           || action_id_has_result_safe(act_id, ACTRES_HUT_FRIGHTEN)) {
-        BV_SET(game.info.move_is_blocked_by, act_id);
+        BV_SET(action_by_number(ACTION_UNIT_MOVE)->blocked_by, act_id);
       }
     } action_iterate_end;
 
@@ -1095,7 +1110,8 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[6] = ACTION_HUT_ENTER2;
       auto_perf->alternatives[7] = ACTION_HUT_FRIGHTEN;
       auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN2;
-      action_list_end(auto_perf->alternatives, 9);
+      auto_perf->alternatives[9] = ACTION_UNIT_MOVE;
+      action_list_end(auto_perf->alternatives, 10);
 
       /* "Attack" */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_ATTACK);
@@ -1109,7 +1125,8 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[7] = ACTION_HUT_ENTER2;
       auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN;
       auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN2;
-      action_list_end(auto_perf->alternatives, 10);
+      auto_perf->alternatives[10] = ACTION_UNIT_MOVE;
+      action_list_end(auto_perf->alternatives, 11);
 
 
       /* The city that made the unit's current tile native is gone.
@@ -1120,7 +1137,8 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[2] = ACTION_HUT_ENTER2;
       auto_perf->alternatives[3] = ACTION_HUT_FRIGHTEN;
       auto_perf->alternatives[4] = ACTION_HUT_FRIGHTEN2;
-      action_list_end(auto_perf->alternatives, 5);
+      auto_perf->alternatives[5] = ACTION_UNIT_MOVE;
+      action_list_end(auto_perf->alternatives, 6);
     }
 
     /* diplchance setting control over initial dice roll odds has moved to

@@ -960,8 +960,9 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_HUT_FRIGHTEN2);
   } else {
-    /* Other move. */
-    (void) unit_move_handling(punit, ptile, FALSE, TRUE);
+    /* Choose "Unit Move". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_UNIT_MOVE);
   }
   alive = (game_unit_by_number(sanity) != NULL);
 
@@ -1068,12 +1069,12 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
     /* "Frighten Hut 2". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN2);
   } else {
-    /* Other move. */
-    paction = NULL;
+    /* "Unit Move". */
+    paction = action_by_number(ACTION_UNIT_MOVE);
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
-  if (paction == NULL /* Regular move */
+  if (action_has_result(paction, ACTRES_UNIT_MOVE)
       || action_has_result(paction, ACTRES_TRANSPORT_DISEMBARK)) {
     /* The unit will have to move it self rather than being moved. */
     int mcost = map_move_cost_unit(&(wld.map), punit, ptile);
@@ -1114,17 +1115,15 @@ bool dai_unit_move(struct ai_type *ait, struct unit *punit, struct tile *ptile)
     } else if (paction
                && (action_has_result(paction,
                                      ACTRES_TRANSPORT_DISEMBARK)
+                   || action_has_result(paction, ACTRES_UNIT_MOVE)
                    || action_has_result(paction,
                                         ACTRES_HUT_ENTER)
                    || action_has_result(paction,
                                         ACTRES_HUT_FRIGHTEN))) {
-    /* "Transport Disembark", "Transport Disembark 2", "Enter Hut" or
-     * "Frighten Hut". */
+    /* "Transport Disembark", "Transport Disembark 2", "Enter Hut",
+     * "Frighten Hut" or "Unit Move". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", action_number(paction));
-  } else {
-    /* Other move. */
-    (void) unit_move_handling(punit, ptile, FALSE, TRUE);
   }
 
   /* handle the results */

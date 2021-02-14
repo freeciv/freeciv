@@ -52,8 +52,7 @@
 #include "wldlg.h"
 
 /* Locations for non action enabler controlled buttons. */
-#define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_NEW_UNIT_TGT (BUTTON_MOVE + 1)
+#define BUTTON_NEW_UNIT_TGT (ACTION_COUNT + 1)
 #define BUTTON_NEW_EXTRA_TGT (BUTTON_NEW_UNIT_TGT + 1)
 #define BUTTON_LOCATION (BUTTON_NEW_EXTRA_TGT + 1)
 #define BUTTON_WAIT (BUTTON_LOCATION + 1)
@@ -1192,28 +1191,6 @@ static void act_sel_location_callback(GtkWidget *w, gpointer data)
 }
 
 /**********************************************************************//**
-  Callback from action selection dialog for "keep moving".
-  (This should only occur when entering a tile that has an allied city or
-  an allied unit.)
-**************************************************************************/
-static void act_sel_keep_moving_callback(GtkWidget *w, gpointer data)
-{
-  struct action_data *args = act_sel_dialog_data;
-
-  struct unit *punit;
-  struct tile *ptile;
-
-  if ((punit = game_unit_by_number(args->actor_unit_id))
-      && (ptile = index_to_tile(&(wld.map), args->target_tile_id))
-      && !same_pos(unit_tile(punit), ptile)) {
-    request_unit_non_action_move(punit, ptile);
-  }
-
-  gtk_widget_destroy(act_sel_dialog);
-  free(args);
-}
-
-/**********************************************************************//**
   Delay selection of what action to take.
 **************************************************************************/
 static void act_sel_wait_callback(GtkWidget *w, gpointer data)
@@ -1538,15 +1515,6 @@ void popup_action_selection(struct unit *actor_unit,
                    act);
     }
   } action_iterate_end;
-
-  if (unit_can_move_to_tile(&(wld.map), actor_unit, target_tile,
-                            FALSE, FALSE)) {
-    action_button_map[BUTTON_MOVE] =
-        choice_dialog_get_number_of_buttons(shl);
-    choice_dialog_add(shl, _("_Keep moving"),
-                      (GCallback)act_sel_keep_moving_callback,
-                      GINT_TO_POINTER(ACTION_NONE), FALSE, NULL);
-  }
 
   if (target_unit != NULL
       && unit_list_size(target_tile->units) > 1) {

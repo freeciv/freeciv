@@ -1977,6 +1977,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
       /* Extra loss */
       dai_incident_simple(receiver, violator, victim, scope, 2);
       break;
+    case ACTRES_UNIT_MOVE:
     case ACTRES_TRADE_ROUTE:
     case ACTRES_MARKETPLACE:
     case ACTRES_HELP_WONDER:

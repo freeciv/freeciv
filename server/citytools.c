@@ -1689,8 +1689,6 @@ void remove_city(struct city *pcity)
                                        tile_owner(tile1), NULL, NULL,
                                        tile1, NULL, ptrans, NULL) != NULL) {
             moved = TRUE;
-          } else {
-            moved = unit_move_handling(punit, tile1, FALSE, TRUE);
           }
           if (moved) {
             notify_player(unit_owner(punit), tile1,
