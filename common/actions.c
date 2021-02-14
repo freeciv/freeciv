@@ -5027,6 +5027,33 @@ static struct act_prob act_prob_unseen_target(action_id act_id,
 }
 
 /**********************************************************************//**
+  Returns the action probability of an action not failing its dice roll
+  without leaking information.
+**************************************************************************/
+static struct act_prob
+action_prob_pre_action_dice_roll(const struct player *act_player,
+                                 const struct unit *act_unit,
+                                 const struct city *tgt_city,
+                                 const struct player *tgt_player,
+                                 const struct action *paction)
+{
+  int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
+                                          tgt_player, paction);
+  struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
+                             .max = unconverted * ACTPROB_VAL_1_PCT };
+
+  if (is_effect_val_known(EFT_ACTION_ODDS_PCT, act_player,
+                          tgt_player, tgt_player, tgt_city,
+                          NULL, NULL, act_unit, NULL, NULL)) {
+      return result;
+    } else {
+      /* Could be improved to include probability in cases not covered
+       * here. */
+      return ACTPROB_NOT_KNOWN;
+    }
+}
+
+/**********************************************************************//**
   An action's probability of success.
 
   "Success" indicates that the action achieves its goal, not that the
@@ -5269,6 +5296,9 @@ action_prob(const action_id wanted_action,
     /* TODO: not implemented yet because:
      * - dice roll 100% * Action_Odds_Pct has no action probability
      *   calculation function yet. */
+    chance = action_prob_pre_action_dice_roll(actor_player, actor_unit,
+                                              target_city, target_player,
+                                              paction);
     break;
   case ACTRES_CONQUER_CITY:
     /* No battle is fought first. */
