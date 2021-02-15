@@ -1490,7 +1490,8 @@ struct unit *request_unit_unload_all(struct unit *punit)
       request_unit_unload(pcargo);
 
       if (pcargo->activity == ACTIVITY_SENTRY) {
-	request_new_unit_activity(pcargo, ACTIVITY_IDLE);
+        dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+                                   USSDT_SENTRY, 0);
       }
 
       if (unit_owner(pcargo) == unit_owner(punit)) {
@@ -2064,8 +2065,8 @@ void request_unit_load(struct unit *pcargo, struct unit *ptrans,
     /* Sentry the unit. */
     /* FIXME: Should not sentry if above loading fails (transport moved away,
      *        or filled already in server side) */
-    request_new_unit_activity_targeted(game_unit_by_number(pcargo->id),
-                                       ACTIVITY_SENTRY, NULL);
+    dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+                               USSDT_SENTRY, 1);
   }
 }
 
@@ -2092,8 +2093,8 @@ void request_unit_unload(struct unit *pcargo)
     if (unit_owner(pcargo) == client.conn.playing
         && pcargo->activity == ACTIVITY_SENTRY) {
       /* Activate the unit. */
-      request_new_unit_activity_targeted(game_unit_by_number(pcargo->id),
-                                         ACTIVITY_IDLE, NULL);
+      dsend_packet_unit_sscs_set(&client.conn, pcargo->id,
+                                 USSDT_SENTRY, 0);
     }
   }
 }
