@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2021-02-05 10:48+0100\n"
-"PO-Revision-Date: 2021-02-05 10:48+0100\n"
+"POT-Creation-Date: 2021-02-15 15:11+0100\n"
+"PO-Revision-Date: 2021-02-15 16:39+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -555,10 +555,10 @@ msgstr "réglable"
 #: client/citydlg_common.c:446 client/gui-gtk-2.0/citydlg.c:1578
 #: client/gui-gtk-3.0/citydlg.c:1820 client/gui-gtk-3.22/citydlg.c:1852
 #: client/gui-qt/citydlg.cpp:3018 client/gui-sdl/cityrep.c:555
-#: client/gui-sdl/cityrep.c:1087 client/gui-sdl/wldlg.c:1431
-#: client/gui-sdl/wldlg.c:1436 client/gui-sdl2/cityrep.c:567
-#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1456
-#: client/gui-sdl2/wldlg.c:1461 client/gui-xaw/citydlg.c:252 client/text.c:905
+#: client/gui-sdl/cityrep.c:1087 client/gui-sdl/wldlg.c:1432
+#: client/gui-sdl/wldlg.c:1437 client/gui-sdl2/cityrep.c:567
+#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1457
+#: client/gui-sdl2/wldlg.c:1462 client/gui-xaw/citydlg.c:252 client/text.c:905
 msgid "never"
 msgstr "jamais"
 
@@ -764,31 +764,31 @@ msgid "%d/turn"
 msgstr "%d/tour"
 
 #: client/citydlg_common.c:399 client/citydlg_common.c:409
-#: client/gui-sdl/wldlg.c:1398 client/gui-sdl2/wldlg.c:1423
+#: client/gui-sdl/wldlg.c:1399 client/gui-sdl2/wldlg.c:1424
 msgid "Obsolete"
 msgstr "Obsolète"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
-#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1401
-#: client/gui-sdl/wldlg.c:1409 client/gui-sdl2/repodlgs.c:2102
-#: client/gui-sdl2/wldlg.c:1426 client/gui-sdl2/wldlg.c:1434 common/events.c:93
+#: client/gui-sdl/repodlgs.c:2050 client/gui-sdl/wldlg.c:1402
+#: client/gui-sdl/wldlg.c:1410 client/gui-sdl2/repodlgs.c:2102
+#: client/gui-sdl2/wldlg.c:1427 client/gui-sdl2/wldlg.c:1435 common/events.c:93
 #: common/events.c:166
 msgid "Built"
 msgstr "Construit"
 
 # AR j'ai rien trouve de mieux
-#: client/citydlg_common.c:403 client/gui-sdl/wldlg.c:1403
-#: client/gui-sdl2/wldlg.c:1428
+#: client/citydlg_common.c:403 client/gui-sdl/wldlg.c:1404
+#: client/gui-sdl2/wldlg.c:1429
 msgid "Destroyed"
 msgstr "Détruit"
 
-#: client/citydlg_common.c:405 client/gui-sdl/wldlg.c:1405
-#: client/gui-sdl2/wldlg.c:1430
+#: client/citydlg_common.c:405 client/gui-sdl/wldlg.c:1406
+#: client/gui-sdl2/wldlg.c:1431
 msgid "Great Wonder"
 msgstr "Grande Merveille"
 
-#: client/citydlg_common.c:413 client/gui-sdl/wldlg.c:1411
-#: client/gui-sdl2/wldlg.c:1436
+#: client/citydlg_common.c:413 client/gui-sdl/wldlg.c:1412
+#: client/gui-sdl2/wldlg.c:1437
 msgid "Small Wonder"
 msgstr "Petite Merveille"
 
@@ -919,9 +919,7 @@ msgstr "Taxes commerciales"
 #. TRANS: "unknown" city name
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
-#: client/citydlg_common.c:899 client/gui-sdl/inteldlg.c:315
-#: client/gui-sdl/inteldlg.c:328 client/gui-sdl2/inteldlg.c:335
-#: client/gui-sdl2/inteldlg.c:348 client/gui-xaw/inteldlg.c:283
+#: client/citydlg_common.c:899 client/gui-xaw/inteldlg.c:283
 #: server/stdinhand.c:332
 msgid "(unknown)"
 msgstr "(inconnu)"
@@ -4774,6 +4772,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-3.0/helpdlg.c:1320 client/gui-gtk-3.0/inteldlg.c:437
 #: client/gui-gtk-3.22/helpdlg.c:1246 client/gui-gtk-3.22/helpdlg.c:1354
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:452
+#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
 #: client/gui-xaw/helpdlg.c:1031 client/gui-xaw/helpdlg.c:1116
 #: common/requirements.c:3224
 #, c-format
@@ -4890,6 +4889,8 @@ msgstr "Rapport sur l'étranger : empire %s"
 #. TRANS: "Unknown" advance/technology
 #. TRANS: "unknown" location
 #. TRANS: "Unknown" advance/technology
+#. TRANS: "unknown" location
+#. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:395 client/gui-gtk-2.0/inteldlg.c:401
 #: client/gui-gtk-2.0/inteldlg.c:407 client/gui-gtk-2.0/inteldlg.c:414
 #: client/gui-gtk-2.0/inteldlg.c:421 client/gui-gtk-2.0/inteldlg.c:428
@@ -4906,6 +4907,10 @@ msgstr "Rapport sur l'étranger : empire %s"
 #: client/gui-qt/plrdlg.cpp:469 client/gui-qt/plrdlg.cpp:470
 #: client/gui-qt/plrdlg.cpp:471 client/gui-qt/plrdlg.cpp:478
 #: client/gui-qt/plrdlg.cpp:479 client/gui-qt/plrdlg.cpp:493
+#: client/gui-sdl/inteldlg.c:316 client/gui-sdl/inteldlg.c:319
+#: client/gui-sdl/inteldlg.c:330 client/gui-sdl/inteldlg.c:348
+#: client/gui-sdl2/inteldlg.c:336 client/gui-sdl2/inteldlg.c:339
+#: client/gui-sdl2/inteldlg.c:350 client/gui-sdl2/inteldlg.c:368
 #: common/research.c:86
 msgid "(Unknown)"
 msgstr "(Inconnu)"
@@ -5918,7 +5923,7 @@ msgid "_Browse..."
 msgstr "_Parcourir..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
-#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1587
+#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1589
 #: client/gui-sdl/connectdlg.c:940 client/gui-sdl2/connectdlg.c:934
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
@@ -6060,7 +6065,7 @@ msgid "Toggle player ready"
 msgstr "Permuter joueur prêt"
 
 #: client/gui-gtk-2.0/pages.c:1744 client/gui-gtk-3.0/pages.c:1815
-#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1978
+#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1980
 msgid "Pick nation"
 msgstr "Choisir la nation"
 
@@ -6070,7 +6075,7 @@ msgid "Observe this player"
 msgstr "Observer ce joueur"
 
 #: client/gui-gtk-2.0/pages.c:1759 client/gui-gtk-3.0/pages.c:1830
-#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1968
+#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1970
 msgid "Take this player"
 msgstr "Prendre ce joueur"
 
@@ -6080,12 +6085,12 @@ msgid "Cut connection"
 msgstr "Couper la connexion"
 
 #: client/gui-gtk-2.0/pages.c:1782 client/gui-gtk-3.0/pages.c:1853
-#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2040
+#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2042
 msgid "Aitoggle player"
 msgstr "Permuter entre IA et jouer"
 
 #: client/gui-gtk-2.0/pages.c:1790 client/gui-gtk-3.0/pages.c:1861
-#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1960
+#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1962
 msgid "Remove player"
 msgstr "Retirer le Joueur"
 
@@ -6163,7 +6168,7 @@ msgstr "<IA %s>"
 
 #: client/gui-gtk-2.0/pages.c:2326 client/gui-gtk-3.0/pages.c:2397
 #: client/gui-gtk-3.22/pages.c:2397 client/gui-qt/dialogs.cpp:385
-#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1669
+#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1671
 #: client/gui-xaw/pages.c:255
 msgid "Random"
 msgstr "Aléatoire"
@@ -6171,12 +6176,12 @@ msgstr "Aléatoire"
 #: client/gui-gtk-2.0/pages.c:2375 client/gui-gtk-2.0/pages.c:2435
 #: client/gui-gtk-3.0/pages.c:2446 client/gui-gtk-3.0/pages.c:2506
 #: client/gui-gtk-3.22/pages.c:2446 client/gui-gtk-3.22/pages.c:2506
-#: client/gui-qt/pages.cpp:1765 client/gui-qt/pages.cpp:1796
+#: client/gui-qt/pages.cpp:1767 client/gui-qt/pages.cpp:1798
 msgid "Observer"
 msgstr "Observateur"
 
 #: client/gui-gtk-2.0/pages.c:2460 client/gui-gtk-3.0/pages.c:2531
-#: client/gui-gtk-3.22/pages.c:2531 client/gui-qt/pages.cpp:1816
+#: client/gui-gtk-3.22/pages.c:2531 client/gui-qt/pages.cpp:1818
 msgid "Detached"
 msgstr "Détaché"
 
@@ -6208,7 +6213,7 @@ msgstr "_Plus d'options..."
 #: client/gui-gtk-2.0/pages.c:2663 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2730 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-gtk-3.22/pages.c:2730 client/gui-gtk-3.22/unitselect.c:475
-#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1867
+#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1869
 #: tools/mpgui_gtk2.c:269 tools/mpgui_gtk3.c:267 tools/mpgui_qt_worker.cpp:54
 msgid "Ready"
 msgstr "Prêt"
@@ -6246,7 +6251,7 @@ msgstr "Choisissez _la partie à charger :"
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
 #: client/gui-gtk-2.0/pages.c:2918 client/gui-gtk-3.0/pages.c:2996
-#: client/gui-gtk-3.22/pages.c:2995 client/gui-qt/pages.cpp:1451
+#: client/gui-gtk-3.22/pages.c:2995 client/gui-qt/pages.cpp:1453
 msgid "pre-2.6"
 msgstr "pré-2.6"
 
@@ -6267,7 +6272,7 @@ msgstr "Nom du fichier :"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-2.0/pages.c:3135 client/gui-gtk-3.0/pages.c:3250
-#: client/gui-gtk-3.22/pages.c:3249 client/gui-qt/pages.cpp:1477
+#: client/gui-gtk-3.22/pages.c:3249 client/gui-qt/pages.cpp:1479
 msgid "Format:"
 msgstr "Format :"
 
@@ -6410,7 +6415,7 @@ msgid "Research"
 msgstr "Recherche"
 
 #: client/gui-gtk-2.0/repodlgs.c:547 client/gui-gtk-3.0/repodlgs.c:569
-#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1354
+#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1357
 msgid "Researching"
 msgstr "Recherche"
 
@@ -6458,7 +6463,7 @@ msgid "U Total"
 msgstr "Total"
 
 #: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:900
-#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2119
+#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2121
 #: client/gui-qt/repodlgs.cpp:1383
 #, c-format
 msgid "Income: %d    Total Costs: %d"
@@ -7691,7 +7696,7 @@ msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Êtes-vous sûr de vouloir congédier cette unité ?"
 msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 
-#: client/gui-qt/dialogs.cpp:2460 client/gui-qt/pages.cpp:1710
+#: client/gui-qt/dialogs.cpp:2460 client/gui-qt/pages.cpp:1712
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl/action_dialog.c:1618
 #: client/gui-sdl/action_dialog.c:1845 client/gui-sdl/citydlg.c:1213
 #: client/gui-sdl/cma_fe.c:345 client/gui-sdl/diplodlg.c:1410
@@ -7710,7 +7715,7 @@ msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 msgid "Yes"
 msgstr "Oui"
 
-#: client/gui-qt/dialogs.cpp:2461 client/gui-qt/pages.cpp:1712
+#: client/gui-qt/dialogs.cpp:2461 client/gui-qt/pages.cpp:1714
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl/action_dialog.c:1629
 #: client/gui-sdl/action_dialog.c:1855 client/gui-sdl/citydlg.c:1202
 #: client/gui-sdl/cma_fe.c:354 client/gui-sdl/diplodlg.c:1399
@@ -7830,12 +7835,12 @@ msgstr "Bienvenue à Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Client Qt pour Freeciv"
 
-#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1847
+#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1849
 msgid "Don't Observe"
 msgstr "Ne pas observer"
 
 #: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:673
-#: client/gui-qt/pages.cpp:1849 client/gui-qt/pages.cpp:1951
+#: client/gui-qt/pages.cpp:1851 client/gui-qt/pages.cpp:1953
 msgid "Observe"
 msgstr "Observer"
 
@@ -8565,7 +8570,7 @@ msgid "Policies..."
 msgstr "Politiques..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:1334 client/gui-qt/pages.cpp:1637
+#: client/gui-qt/menu.cpp:1334 client/gui-qt/pages.cpp:1639
 #: client/gui-sdl/plrdlg.c:340 client/gui-sdl2/connectdlg.c:337
 #: client/gui-sdl2/plrdlg.c:388
 msgid "?header:Players"
@@ -8748,7 +8753,7 @@ msgstr "Charger le scenario"
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1875
+#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1877
 #: client/gui-sdl/chatline.c:801 client/gui-sdl2/chatline.c:806
 #: data/Freeciv.in:3404
 msgid "Start"
@@ -8778,31 +8783,31 @@ msgstr "Tour"
 msgid "Players"
 msgstr "Joueurs"
 
-#: client/gui-qt/pages.cpp:1480
+#: client/gui-qt/pages.cpp:1482
 msgid "Authors: "
 msgstr "Auteurs : "
 
-#: client/gui-qt/pages.cpp:1781
+#: client/gui-qt/pages.cpp:1783
 msgid "Global observers"
 msgstr "Observateurs globaux"
 
-#: client/gui-qt/pages.cpp:1856
+#: client/gui-qt/pages.cpp:1858
 msgid "Not ready"
 msgstr "Pas prêt"
 
-#: client/gui-qt/pages.cpp:1993
+#: client/gui-qt/pages.cpp:1995
 msgid "Set difficulty"
 msgstr "Choisir la difficulté"
 
-#: client/gui-qt/pages.cpp:2016
+#: client/gui-qt/pages.cpp:2018
 msgid "Put on team"
 msgstr "Mettre en équipe"
 
-#: client/gui-qt/pages.cpp:2107
+#: client/gui-qt/pages.cpp:2109
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr "Taxe : %1% Science : %2% Luxe : %3%\n"
 
-#: client/gui-qt/pages.cpp:2112 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2114 client/gui-qt/ratesdlg.cpp:66
 msgid "%1 - max rate: %2%"
 msgstr "%1 - Taux maximum : %2%"
 
@@ -9345,9 +9350,9 @@ msgstr "Réduction de la ville : %d %s"
 #: client/gui-sdl/menu.c:1266 client/gui-sdl/menu.c:1282
 #: client/gui-sdl/menu.c:1304 client/gui-sdl/plrdlg.c:675
 #: client/gui-sdl/repodlgs.c:564 client/gui-sdl/repodlgs.c:954
-#: client/gui-sdl/wldlg.c:936 client/gui-sdl/wldlg.c:1142
-#: client/gui-sdl/wldlg.c:1445 client/gui-sdl/wldlg.c:1451
-#: client/gui-sdl/wldlg.c:1573 client/gui-sdl2/citydlg.c:2975
+#: client/gui-sdl/wldlg.c:937 client/gui-sdl/wldlg.c:1143
+#: client/gui-sdl/wldlg.c:1446 client/gui-sdl/wldlg.c:1452
+#: client/gui-sdl/wldlg.c:1574 client/gui-sdl2/citydlg.c:2975
 #: client/gui-sdl2/citydlg.c:2979 client/gui-sdl2/citydlg.c:3300
 #: client/gui-sdl2/cityrep.c:570 client/gui-sdl2/cityrep.c:1105
 #: client/gui-sdl2/menu.c:1090 client/gui-sdl2/menu.c:1144
@@ -9357,9 +9362,9 @@ msgstr "Réduction de la ville : %d %s"
 #: client/gui-sdl2/menu.c:1240 client/gui-sdl2/menu.c:1261
 #: client/gui-sdl2/menu.c:1277 client/gui-sdl2/menu.c:1299
 #: client/gui-sdl2/plrdlg.c:739 client/gui-sdl2/repodlgs.c:587
-#: client/gui-sdl2/repodlgs.c:976 client/gui-sdl2/wldlg.c:958
-#: client/gui-sdl2/wldlg.c:1162 client/gui-sdl2/wldlg.c:1470
-#: client/gui-sdl2/wldlg.c:1476 client/gui-sdl2/wldlg.c:1599
+#: client/gui-sdl2/repodlgs.c:976 client/gui-sdl2/wldlg.c:959
+#: client/gui-sdl2/wldlg.c:1163 client/gui-sdl2/wldlg.c:1471
+#: client/gui-sdl2/wldlg.c:1477 client/gui-sdl2/wldlg.c:1600
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "tour"
@@ -9858,16 +9863,16 @@ msgid "Help : Units"
 msgstr "Aide : Unités"
 
 #: client/gui-sdl/helpdlg.c:795 client/gui-sdl/helpdlg.c:807
-#: client/gui-sdl/wldlg.c:1429 client/gui-sdl/wldlg.c:1435
-#: client/gui-sdl/wldlg.c:1443 client/gui-sdl/wldlg.c:1449
-#: client/gui-sdl/wldlg.c:1468 client/gui-sdl/wldlg.c:1473
-#: client/gui-sdl/wldlg.c:1564 client/gui-sdl/wldlg.c:1572
-#: client/gui-sdl/wldlg.c:1582 client/gui-sdl2/helpdlg.c:798
-#: client/gui-sdl2/helpdlg.c:810 client/gui-sdl2/wldlg.c:1454
-#: client/gui-sdl2/wldlg.c:1460 client/gui-sdl2/wldlg.c:1468
-#: client/gui-sdl2/wldlg.c:1474 client/gui-sdl2/wldlg.c:1493
-#: client/gui-sdl2/wldlg.c:1498 client/gui-sdl2/wldlg.c:1590
-#: client/gui-sdl2/wldlg.c:1598 client/gui-sdl2/wldlg.c:1608
+#: client/gui-sdl/wldlg.c:1430 client/gui-sdl/wldlg.c:1436
+#: client/gui-sdl/wldlg.c:1444 client/gui-sdl/wldlg.c:1450
+#: client/gui-sdl/wldlg.c:1469 client/gui-sdl/wldlg.c:1474
+#: client/gui-sdl/wldlg.c:1565 client/gui-sdl/wldlg.c:1573
+#: client/gui-sdl/wldlg.c:1583 client/gui-sdl2/helpdlg.c:798
+#: client/gui-sdl2/helpdlg.c:810 client/gui-sdl2/wldlg.c:1455
+#: client/gui-sdl2/wldlg.c:1461 client/gui-sdl2/wldlg.c:1469
+#: client/gui-sdl2/wldlg.c:1475 client/gui-sdl2/wldlg.c:1494
+#: client/gui-sdl2/wldlg.c:1499 client/gui-sdl2/wldlg.c:1591
+#: client/gui-sdl2/wldlg.c:1599 client/gui-sdl2/wldlg.c:1609
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "Production"
@@ -9926,20 +9931,20 @@ msgstr "Renseignements sur le vaisseau spatial %s"
 msgid "Intelligence Information for the %s Empire"
 msgstr "Connaissances sur l'empire %s"
 
-#: client/gui-sdl/inteldlg.c:308 client/gui-sdl2/inteldlg.c:328
+#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:329
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-"Researching: unknown"
+"Researching: %s"
 msgstr ""
 "Chef : %s  Gouvernement : %s\n"
 "Capitale : %s  Or : %d\n"
 "Taxe : %d%% Science : %d%% Luxe : %d%%\n"
-"Recherche : Inconnu"
+"Recherche : %s"
 
-#: client/gui-sdl/inteldlg.c:321 client/gui-sdl2/inteldlg.c:341
+#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:343
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -9952,7 +9957,20 @@ msgstr ""
 "Taxe : %d%% Science : %d%% Luxe : %d%%\n"
 "Recherche : %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:395 client/gui-sdl2/inteldlg.c:415
+#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
+#, c-format
+msgid ""
+"Ruler: %s  Government: %s\n"
+"Capital: %s  Gold: %d\n"
+"Tax rates unknown\n"
+"Researching: (Unknown)"
+msgstr ""
+"Chef : %s  Gouvernement : %s\n"
+"Capitale : %s  Or : %d\n"
+"Taux de taxe inconnu\n"
+"Recherche : Inconnu"
+
+#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:429
 msgid "Their techs that we don't have :"
 msgstr "Leurs technologies que nous n'avons pas :"
 
@@ -10597,8 +10615,8 @@ msgstr ""
 "Impossible d'ouvrir '%s' :\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:925 client/gui-sdl/wldlg.c:1132
-#: client/gui-sdl2/wldlg.c:947 client/gui-sdl2/wldlg.c:1152
+#: client/gui-sdl/wldlg.c:926 client/gui-sdl/wldlg.c:1133
+#: client/gui-sdl2/wldlg.c:948 client/gui-sdl2/wldlg.c:1153
 #, c-format
 msgid ""
 "%s\n"
@@ -10613,8 +10631,8 @@ msgstr[1] ""
 "%s\n"
 "%d or par tour"
 
-#: client/gui-sdl/wldlg.c:933 client/gui-sdl/wldlg.c:1139
-#: client/gui-sdl2/wldlg.c:955 client/gui-sdl2/wldlg.c:1159
+#: client/gui-sdl/wldlg.c:934 client/gui-sdl/wldlg.c:1140
+#: client/gui-sdl2/wldlg.c:956 client/gui-sdl2/wldlg.c:1160
 #, c-format
 msgid ""
 "%s\n"
@@ -10623,8 +10641,8 @@ msgstr ""
 "%s\n"
 "bloqué !"
 
-#: client/gui-sdl/wldlg.c:935 client/gui-sdl/wldlg.c:1141
-#: client/gui-sdl2/wldlg.c:957 client/gui-sdl2/wldlg.c:1161
+#: client/gui-sdl/wldlg.c:936 client/gui-sdl/wldlg.c:1142
+#: client/gui-sdl2/wldlg.c:958 client/gui-sdl2/wldlg.c:1162
 #, c-format
 msgid ""
 "%s\n"
@@ -10633,8 +10651,8 @@ msgstr ""
 "%s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:939 client/gui-sdl/wldlg.c:1145
-#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
+#: client/gui-sdl/wldlg.c:940 client/gui-sdl/wldlg.c:1146
+#: client/gui-sdl2/wldlg.c:962 client/gui-sdl2/wldlg.c:1166
 #, c-format
 msgid ""
 "%s\n"
@@ -10644,15 +10662,15 @@ msgstr ""
 "terminé !"
 
 #. TRANS: length of worklist
-#: client/gui-sdl/wldlg.c:993 client/gui-sdl/wldlg.c:1111
-#: client/gui-sdl2/wldlg.c:1015 client/gui-sdl2/wldlg.c:1131
+#: client/gui-sdl/wldlg.c:994 client/gui-sdl/wldlg.c:1112
+#: client/gui-sdl2/wldlg.c:1016 client/gui-sdl2/wldlg.c:1132
 #, c-format
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
 msgstr[0] "(%d entrée)"
 msgstr[1] "(%d entrées)"
 
-#: client/gui-sdl/wldlg.c:1095 client/gui-sdl2/wldlg.c:1115
+#: client/gui-sdl/wldlg.c:1096 client/gui-sdl2/wldlg.c:1116
 #, c-format
 msgid ""
 "Worklist of\n"
@@ -10661,7 +10679,7 @@ msgstr ""
 "Liste de travail de\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1426 client/gui-sdl2/wldlg.c:1451
+#: client/gui-sdl/wldlg.c:1427 client/gui-sdl2/wldlg.c:1452
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10672,7 +10690,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1433 client/gui-sdl2/wldlg.c:1458
+#: client/gui-sdl/wldlg.c:1434 client/gui-sdl2/wldlg.c:1459
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -10681,7 +10699,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1440 client/gui-sdl2/wldlg.c:1465
+#: client/gui-sdl/wldlg.c:1441 client/gui-sdl2/wldlg.c:1466
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10692,7 +10710,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1447 client/gui-sdl2/wldlg.c:1472
+#: client/gui-sdl/wldlg.c:1448 client/gui-sdl2/wldlg.c:1473
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -10701,14 +10719,14 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1458 client/gui-sdl2/wldlg.c:1483
+#: client/gui-sdl/wldlg.c:1459 client/gui-sdl2/wldlg.c:1484
 #, c-format
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
 msgstr[0] "%d or par tour"
 msgstr[1] "%d or par tour"
 
-#: client/gui-sdl/wldlg.c:1466 client/gui-sdl2/wldlg.c:1491
+#: client/gui-sdl/wldlg.c:1467 client/gui-sdl2/wldlg.c:1492
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10719,17 +10737,17 @@ msgstr ""
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: client/gui-sdl/wldlg.c:1471 client/gui-sdl2/wldlg.c:1496
+#: client/gui-sdl/wldlg.c:1472 client/gui-sdl2/wldlg.c:1497
 #: common/calendar.c:109 common/calendar.c:113
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: client/gui-sdl/wldlg.c:1477 client/gui-sdl2/wldlg.c:1502
+#: client/gui-sdl/wldlg.c:1478 client/gui-sdl2/wldlg.c:1503
 msgid "shields into gold"
 msgstr "production en or"
 
-#: client/gui-sdl/wldlg.c:1559 client/gui-sdl2/wldlg.c:1585
+#: client/gui-sdl/wldlg.c:1560 client/gui-sdl2/wldlg.c:1586
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -10740,7 +10758,7 @@ msgstr ""
 "%d/%d %s\n"
 "jamais"
 
-#: client/gui-sdl/wldlg.c:1567 client/gui-sdl2/wldlg.c:1593
+#: client/gui-sdl/wldlg.c:1568 client/gui-sdl2/wldlg.c:1594
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -10751,7 +10769,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1577 client/gui-sdl2/wldlg.c:1603
+#: client/gui-sdl/wldlg.c:1578 client/gui-sdl2/wldlg.c:1604
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
