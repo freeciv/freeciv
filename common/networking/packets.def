@@ -497,6 +497,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT8 citymindist;
   UINT32 cooling;
   UINT32 coolinglevel;
+  BV_ACTIONS diplchance_initial_odds;
   DIPLOMACY_MODE diplomacy;
   BOOL fogofwar;
   UINT16 food_cost;

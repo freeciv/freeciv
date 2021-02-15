@@ -1163,6 +1163,31 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         }
       }
     } action_enabler_list_iterate_end;
+
+    if (BV_ISSET(game.info.diplchance_initial_odds, paction->id)
+        /* The action performer, action_dice_roll_initial_odds() and the
+         * action probability calculation in action_prob() must probably all
+         * be updated to add a new action here. */
+        && !(action_has_result_safe(paction, ACTRES_STRIKE_BUILDING)
+             || action_has_result_safe(paction, ACTRES_STRIKE_PRODUCTION)
+             || action_has_result_safe(paction, ACTRES_SPY_SPREAD_PLAGUE)
+             || action_has_result_safe(paction, ACTRES_SPY_STEAL_TECH)
+             || action_has_result_safe(paction,
+                                       ACTRES_SPY_TARGETED_STEAL_TECH)
+             || action_has_result_safe(paction, ACTRES_SPY_INCITE_CITY)
+             || action_has_result_safe(paction, ACTRES_SPY_SABOTAGE_CITY)
+             || action_has_result_safe(paction,
+                                       ACTRES_SPY_TARGETED_SABOTAGE_CITY)
+             || action_has_result_safe(paction,
+                                       ACTRES_SPY_SABOTAGE_CITY_PRODUCTION)
+             || action_has_result_safe(paction, ACTRES_SPY_STEAL_GOLD)
+             || action_has_result_safe(paction, ACTRES_STEAL_MAPS)
+             || action_has_result_safe(paction, ACTRES_SPY_NUKE))) {
+      ruleset_error(LOG_ERROR,
+                    "diplchance_initial_odds: \"%s\" not supported.",
+                    action_rule_name(paction));
+      ok = FALSE;
+    }
   } action_iterate_end;
 
   /* Auto attack */

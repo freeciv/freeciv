@@ -6710,6 +6710,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         ok = FALSE;
       }
 
+      if (!lookup_bv_actions(file, filename,
+                             &game.info.diplchance_initial_odds,
+                             "actions.diplchance_initial_odds")) {
+        ok = FALSE;
+      }
+
       /* If the "Poison City" action or the "Poison City Escape" action
        * should empty the granary. */
       /* TODO: empty granary and reduce population should become separate
