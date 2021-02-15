@@ -994,6 +994,12 @@ static bool save_bv_actions(struct section_file *sfile,
   int i = 0;
 
   action_iterate(act_id) {
+    if (action_enabler_list_size(action_enablers_for_action(act_id))
+        == 0) {
+      /* Don't save value for actions that aren't enabled. */
+      continue;
+    }
+
     if (BV_ISSET(content, act_id)) {
       action_vec[i] = act_id;
       i++;
