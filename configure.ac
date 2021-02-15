@@ -1746,7 +1746,6 @@ AC_CONFIG_FILES([Makefile
 	  client/agents/Makefile
 	  client/include/Makefile
           client/gui-sdl2/Makefile
-	  client/gui-gtk-3.0/Makefile
 	  client/gui-gtk-3.22/Makefile
           client/gui-gtk-4.0/Makefile
           client/gui-qt/Makefile
