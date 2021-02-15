@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-05 10:49+0100\n"
-"PO-Revision-Date: 2021-02-05 10:37+0100\n"
+"POT-Creation-Date: 2021-02-15 15:12+0100\n"
+"PO-Revision-Date: 2021-02-15 16:38+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -572,8 +572,8 @@ msgstr "réglable"
 #: client/citydlg_common.c:446 client/gui-gtk-2.0/citydlg.c:1578
 #: client/gui-gtk-3.0/citydlg.c:1815 client/gui-gtk-3.22/citydlg.c:1849
 #: client/gui-qt/citydlg.cpp:3018 client/gui-sdl2/cityrep.c:567
-#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1455
-#: client/gui-sdl2/wldlg.c:1460 client/text.c:905
+#: client/gui-sdl2/cityrep.c:1102 client/gui-sdl2/wldlg.c:1456
+#: client/gui-sdl2/wldlg.c:1461 client/text.c:905
 msgid "never"
 msgstr "jamais"
 
@@ -779,26 +779,26 @@ msgid "%d/turn"
 msgstr "%d/tour"
 
 #: client/citydlg_common.c:399 client/citydlg_common.c:409
-#: client/gui-sdl2/wldlg.c:1422
+#: client/gui-sdl2/wldlg.c:1423
 msgid "Obsolete"
 msgstr "Obsolète"
 
 #: client/citydlg_common.c:401 client/citydlg_common.c:411
-#: client/gui-sdl2/repodlgs.c:2102 client/gui-sdl2/wldlg.c:1425
-#: client/gui-sdl2/wldlg.c:1433 common/events.c:93 common/events.c:170
+#: client/gui-sdl2/repodlgs.c:2102 client/gui-sdl2/wldlg.c:1426
+#: client/gui-sdl2/wldlg.c:1434 common/events.c:93 common/events.c:170
 msgid "Built"
 msgstr "Construit"
 
 # AR j'ai rien trouve de mieux
-#: client/citydlg_common.c:403 client/gui-sdl2/wldlg.c:1427
+#: client/citydlg_common.c:403 client/gui-sdl2/wldlg.c:1428
 msgid "Destroyed"
 msgstr "Détruit"
 
-#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1429
+#: client/citydlg_common.c:405 client/gui-sdl2/wldlg.c:1430
 msgid "Great Wonder"
 msgstr "Grande Merveille"
 
-#: client/citydlg_common.c:413 client/gui-sdl2/wldlg.c:1435
+#: client/citydlg_common.c:413 client/gui-sdl2/wldlg.c:1436
 msgid "Small Wonder"
 msgstr "Petite Merveille"
 
@@ -927,10 +927,8 @@ msgid "?city_surplus:Taxed from trade"
 msgstr "Taxes commerciales"
 
 #. TRANS: Trade partner unknown to client
-#. TRANS: "unknown" location
 #. TRANS: unrecognized command
-#: client/citydlg_common.c:891 client/gui-sdl2/inteldlg.c:336
-#: client/gui-sdl2/inteldlg.c:350 server/stdinhand.c:333
+#: client/citydlg_common.c:891 server/stdinhand.c:333
 msgid "(unknown)"
 msgstr "(inconnu)"
 
@@ -2048,7 +2046,7 @@ msgstr ""
 #: client/gui-gtk-3.22/citydlg.c:2985 client/gui-qt/citydlg.cpp:1316
 #: common/unit.c:552 data/civ1/terrain.ruleset:1050
 #: data/civ2/terrain.ruleset:1187 data/classic/terrain.ruleset:1482
-#: data/sandbox/terrain.ruleset:1676 data/experimental/terrain.ruleset:1457
+#: data/sandbox/terrain.ruleset:1716 data/experimental/terrain.ruleset:1457
 #: data/civ2civ3/terrain.ruleset:1639 data/alien/terrain.ruleset:978
 #: data/multiplayer/terrain.ruleset:1454
 msgid "Road"
@@ -2789,7 +2787,7 @@ msgstr "Recherche"
 #: client/gui-gtk-3.22/repodlgs.c:1287 client/gui-qt/citydlg.cpp:1882
 #: client/gui-qt/pages.cpp:1291 common/city.c:86 data/civ1/terrain.ruleset:1140
 #: data/civ2/terrain.ruleset:1281 data/classic/terrain.ruleset:1575
-#: data/sandbox/terrain.ruleset:1823 data/experimental/terrain.ruleset:1594
+#: data/sandbox/terrain.ruleset:1863 data/experimental/terrain.ruleset:1594
 #: data/civ2civ3/terrain.ruleset:1782 data/multiplayer/terrain.ruleset:1547
 msgid "Gold"
 msgstr "Or"
@@ -4713,7 +4711,7 @@ msgstr "?techhelp:"
 #: client/gui-gtk-3.0/helpdlg.c:1357 client/gui-gtk-3.0/inteldlg.c:439
 #: client/gui-gtk-3.22/helpdlg.c:1242 client/gui-gtk-3.22/helpdlg.c:1356
 #: client/gui-gtk-3.22/inteldlg.c:438 client/gui-qt/plrdlg.cpp:455
-#: common/requirements.c:3472
+#: client/gui-sdl2/inteldlg.c:340 common/requirements.c:3472
 #, c-format
 msgid "(none)"
 msgstr "(aucun)"
@@ -4834,6 +4832,8 @@ msgstr "Rapport sur l'étranger : empire %s"
 #. TRANS: "Unknown" advance/technology
 #. TRANS: "unknown" location
 #. TRANS: "Unknown" advance/technology
+#. TRANS: "unknown" location
+#. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:397 client/gui-gtk-2.0/inteldlg.c:403
 #: client/gui-gtk-2.0/inteldlg.c:409 client/gui-gtk-2.0/inteldlg.c:416
 #: client/gui-gtk-2.0/inteldlg.c:423 client/gui-gtk-2.0/inteldlg.c:430
@@ -4852,6 +4852,8 @@ msgstr "Rapport sur l'étranger : empire %s"
 #: client/gui-qt/plrdlg.cpp:474 client/gui-qt/plrdlg.cpp:475
 #: client/gui-qt/plrdlg.cpp:476 client/gui-qt/plrdlg.cpp:483
 #: client/gui-qt/plrdlg.cpp:484 client/gui-qt/plrdlg.cpp:498
+#: client/gui-sdl2/inteldlg.c:337 client/gui-sdl2/inteldlg.c:340
+#: client/gui-sdl2/inteldlg.c:353 client/gui-sdl2/inteldlg.c:372
 #: common/research.c:89
 msgid "(Unknown)"
 msgstr "(Inconnu)"
@@ -5848,7 +5850,7 @@ msgid "_Browse..."
 msgstr "_Parcourir..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
-#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1593
+#: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1595
 #: client/gui-sdl2/connectdlg.c:933
 msgid "Passwords don't match, enter password."
 msgstr "Les mots de passe ne correspondent pas, entrez le mot de passe."
@@ -5987,7 +5989,7 @@ msgid "Toggle player ready"
 msgstr "Permuter joueur prêt"
 
 #: client/gui-gtk-2.0/pages.c:1744 client/gui-gtk-3.0/pages.c:1815
-#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1985
+#: client/gui-gtk-3.22/pages.c:1816 client/gui-qt/pages.cpp:1987
 msgid "Pick nation"
 msgstr "Choisir la nation"
 
@@ -5997,7 +5999,7 @@ msgid "Observe this player"
 msgstr "Observer ce joueur"
 
 #: client/gui-gtk-2.0/pages.c:1759 client/gui-gtk-3.0/pages.c:1830
-#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1975
+#: client/gui-gtk-3.22/pages.c:1831 client/gui-qt/pages.cpp:1977
 msgid "Take this player"
 msgstr "Prendre ce joueur"
 
@@ -6007,12 +6009,12 @@ msgid "Cut connection"
 msgstr "Couper la connexion"
 
 #: client/gui-gtk-2.0/pages.c:1782 client/gui-gtk-3.0/pages.c:1853
-#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2046
+#: client/gui-gtk-3.22/pages.c:1854 client/gui-qt/pages.cpp:2048
 msgid "Aitoggle player"
 msgstr "Permuter entre IA et jouer"
 
 #: client/gui-gtk-2.0/pages.c:1790 client/gui-gtk-3.0/pages.c:1861
-#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1967
+#: client/gui-gtk-3.22/pages.c:1862 client/gui-qt/pages.cpp:1969
 msgid "Remove player"
 msgstr "Retirer le Joueur"
 
@@ -6090,19 +6092,19 @@ msgstr "<IA %s>"
 
 #: client/gui-gtk-2.0/pages.c:2327 client/gui-gtk-3.0/pages.c:2398
 #: client/gui-gtk-3.22/pages.c:2398 client/gui-qt/dialogs.cpp:452
-#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1676
+#: client/gui-qt/fc_client.cpp:1222 client/gui-qt/pages.cpp:1678
 msgid "Random"
 msgstr "Aléatoire"
 
 #: client/gui-gtk-2.0/pages.c:2376 client/gui-gtk-2.0/pages.c:2437
 #: client/gui-gtk-3.0/pages.c:2447 client/gui-gtk-3.0/pages.c:2508
 #: client/gui-gtk-3.22/pages.c:2447 client/gui-gtk-3.22/pages.c:2508
-#: client/gui-qt/pages.cpp:1771 client/gui-qt/pages.cpp:1803
+#: client/gui-qt/pages.cpp:1773 client/gui-qt/pages.cpp:1805
 msgid "Observer"
 msgstr "Observateur"
 
 #: client/gui-gtk-2.0/pages.c:2462 client/gui-gtk-3.0/pages.c:2533
-#: client/gui-gtk-3.22/pages.c:2533 client/gui-qt/pages.cpp:1823
+#: client/gui-gtk-3.22/pages.c:2533 client/gui-qt/pages.cpp:1825
 msgid "Detached"
 msgstr "Détaché"
 
@@ -6134,7 +6136,7 @@ msgstr "_Plus d'options..."
 #: client/gui-gtk-2.0/pages.c:2665 client/gui-gtk-2.0/unitselect.c:473
 #: client/gui-gtk-3.0/pages.c:2732 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-gtk-3.22/pages.c:2732 client/gui-gtk-3.22/unitselect.c:475
-#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1874
+#: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1876
 #: tools/mpgui_gtk2.c:269 tools/mpgui_gtk3.c:267 tools/mpgui_gtk4.c:273
 #: tools/mpgui_qt_worker.cpp:54
 msgid "Ready"
@@ -6172,7 +6174,7 @@ msgstr "Choisissez _la partie à charger :"
 #. TRANS: Old scenario format version
 #. TRANS: Unknown scenario format
 #: client/gui-gtk-2.0/pages.c:2920 client/gui-gtk-3.0/pages.c:2998
-#: client/gui-gtk-3.22/pages.c:2997 client/gui-qt/pages.cpp:1457
+#: client/gui-gtk-3.22/pages.c:2997 client/gui-qt/pages.cpp:1459
 msgid "pre-2.6"
 msgstr "pré-2.6"
 
@@ -6193,7 +6195,7 @@ msgstr "Nom du fichier :"
 
 #. TRANS: Scenario format version
 #: client/gui-gtk-2.0/pages.c:3143 client/gui-gtk-3.0/pages.c:3258
-#: client/gui-gtk-3.22/pages.c:3257 client/gui-qt/pages.cpp:1483
+#: client/gui-gtk-3.22/pages.c:3257 client/gui-qt/pages.cpp:1485
 msgid "Format:"
 msgstr "Format :"
 
@@ -6327,7 +6329,7 @@ msgid "Research"
 msgstr "Recherche"
 
 #: client/gui-gtk-2.0/repodlgs.c:547 client/gui-gtk-3.0/repodlgs.c:569
-#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1354
+#: client/gui-gtk-3.22/repodlgs.c:568 client/gui-qt/pages.cpp:1357
 msgid "Researching"
 msgstr "Recherche"
 
@@ -6373,7 +6375,7 @@ msgid "U Total"
 msgstr "Total"
 
 #: client/gui-gtk-2.0/repodlgs.c:865 client/gui-gtk-3.0/repodlgs.c:900
-#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2125
+#: client/gui-gtk-3.22/repodlgs.c:899 client/gui-qt/pages.cpp:2127
 #: client/gui-qt/repodlgs.cpp:1382
 #, c-format
 msgid "Income: %d    Total Costs: %d"
@@ -7571,7 +7573,7 @@ msgid_plural "Are you sure you want to disband those %1 units?"
 msgstr[0] "Êtes-vous sûr de vouloir congédier cette unité ?"
 msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 
-#: client/gui-qt/dialogs.cpp:3083 client/gui-qt/pages.cpp:1716
+#: client/gui-qt/dialogs.cpp:3083 client/gui-qt/pages.cpp:1718
 #: client/gui-qt/voteinfo_bar.cpp:39 client/gui-sdl2/action_dialog.c:2296
 #: client/gui-sdl2/action_dialog.c:2525 client/gui-sdl2/citydlg.c:1213
 #: client/gui-sdl2/cma_fe.c:353 client/gui-sdl2/diplodlg.c:1419
@@ -7580,7 +7582,7 @@ msgstr[1] "Êtes-vous sûr de vouloir congédier ces %1 unités ?"
 msgid "Yes"
 msgstr "Oui"
 
-#: client/gui-qt/dialogs.cpp:3084 client/gui-qt/pages.cpp:1718
+#: client/gui-qt/dialogs.cpp:3084 client/gui-qt/pages.cpp:1720
 #: client/gui-qt/voteinfo_bar.cpp:40 client/gui-sdl2/action_dialog.c:2307
 #: client/gui-sdl2/action_dialog.c:2535 client/gui-sdl2/citydlg.c:1202
 #: client/gui-sdl2/cma_fe.c:362 client/gui-sdl2/diplodlg.c:1408
@@ -7684,12 +7686,12 @@ msgstr "Bienvenue à Freeciv"
 msgid "This is Qt-client for Freeciv."
 msgstr "Client Qt pour Freeciv"
 
-#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1854
+#: client/gui-qt/fc_client.cpp:513 client/gui-qt/pages.cpp:1856
 msgid "Don't Observe"
 msgstr "Ne pas observer"
 
 #: client/gui-qt/fc_client.cpp:516 client/gui-qt/pages.cpp:673
-#: client/gui-qt/pages.cpp:1856 client/gui-qt/pages.cpp:1958
+#: client/gui-qt/pages.cpp:1858 client/gui-qt/pages.cpp:1960
 msgid "Observe"
 msgstr "Observer"
 
@@ -8408,7 +8410,7 @@ msgid "Policies..."
 msgstr "Politiques..."
 
 #. TRANS: Also menu item, but 'headers' should be good enough.
-#: client/gui-qt/menu.cpp:1566 client/gui-qt/pages.cpp:1643
+#: client/gui-qt/menu.cpp:1566 client/gui-qt/pages.cpp:1645
 #: client/gui-sdl2/connectdlg.c:336 client/gui-sdl2/plrdlg.c:388
 msgid "?header:Players"
 msgstr "Joueurs"
@@ -8583,7 +8585,7 @@ msgstr "Charger le scenario"
 msgid "Disconnect"
 msgstr "Se déconnecter"
 
-#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1882
+#: client/gui-qt/pages.cpp:679 client/gui-qt/pages.cpp:1884
 #: client/gui-sdl2/chatline.c:805
 msgid "Start"
 msgstr "Démarrer"
@@ -8608,31 +8610,31 @@ msgstr "Ouvrir le scenario"
 msgid "Turn"
 msgstr "Tour"
 
-#: client/gui-qt/pages.cpp:1486
+#: client/gui-qt/pages.cpp:1488
 msgid "Authors: "
 msgstr "Auteurs : "
 
-#: client/gui-qt/pages.cpp:1788
+#: client/gui-qt/pages.cpp:1790
 msgid "Global observers"
 msgstr "Observateurs globaux"
 
-#: client/gui-qt/pages.cpp:1863
+#: client/gui-qt/pages.cpp:1865
 msgid "Not ready"
 msgstr "Pas prêt"
 
-#: client/gui-qt/pages.cpp:1999
+#: client/gui-qt/pages.cpp:2001
 msgid "Set difficulty"
 msgstr "Choisir la difficulté"
 
-#: client/gui-qt/pages.cpp:2022
+#: client/gui-qt/pages.cpp:2024
 msgid "Put on team"
 msgstr "Mettre en équipe"
 
-#: client/gui-qt/pages.cpp:2113
+#: client/gui-qt/pages.cpp:2115
 msgid "Tax: %1% Science: %2% Luxury: %3%\n"
 msgstr "Taxe : %1% Science : %2% Luxe : %3%\n"
 
-#: client/gui-qt/pages.cpp:2118 client/gui-qt/ratesdlg.cpp:66
+#: client/gui-qt/pages.cpp:2120 client/gui-qt/ratesdlg.cpp:66
 msgid "%1 - max rate: %2%"
 msgstr "%1 - Taux maximum : %2%"
 
@@ -9158,9 +9160,9 @@ msgstr "Réduction de la ville : %d %s"
 #: client/gui-sdl2/menu.c:1266 client/gui-sdl2/menu.c:1282
 #: client/gui-sdl2/menu.c:1304 client/gui-sdl2/plrdlg.c:739
 #: client/gui-sdl2/repodlgs.c:587 client/gui-sdl2/repodlgs.c:976
-#: client/gui-sdl2/wldlg.c:957 client/gui-sdl2/wldlg.c:1161
-#: client/gui-sdl2/wldlg.c:1469 client/gui-sdl2/wldlg.c:1475
-#: client/gui-sdl2/wldlg.c:1598
+#: client/gui-sdl2/wldlg.c:958 client/gui-sdl2/wldlg.c:1162
+#: client/gui-sdl2/wldlg.c:1470 client/gui-sdl2/wldlg.c:1476
+#: client/gui-sdl2/wldlg.c:1599
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "tour"
@@ -9589,11 +9591,11 @@ msgid "Help : Units"
 msgstr "Aide : Unités"
 
 #: client/gui-sdl2/helpdlg.c:798 client/gui-sdl2/helpdlg.c:810
-#: client/gui-sdl2/wldlg.c:1453 client/gui-sdl2/wldlg.c:1459
-#: client/gui-sdl2/wldlg.c:1467 client/gui-sdl2/wldlg.c:1473
-#: client/gui-sdl2/wldlg.c:1492 client/gui-sdl2/wldlg.c:1497
-#: client/gui-sdl2/wldlg.c:1589 client/gui-sdl2/wldlg.c:1597
-#: client/gui-sdl2/wldlg.c:1607
+#: client/gui-sdl2/wldlg.c:1454 client/gui-sdl2/wldlg.c:1460
+#: client/gui-sdl2/wldlg.c:1468 client/gui-sdl2/wldlg.c:1474
+#: client/gui-sdl2/wldlg.c:1493 client/gui-sdl2/wldlg.c:1498
+#: client/gui-sdl2/wldlg.c:1590 client/gui-sdl2/wldlg.c:1598
+#: client/gui-sdl2/wldlg.c:1608
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "Production"
@@ -9649,22 +9651,22 @@ msgstr "Renseignements sur le vaisseau spatial %s"
 msgid "Intelligence Information for the %s Empire"
 msgstr "Connaissances sur l'empire %s"
 
-#: client/gui-sdl2/inteldlg.c:328
+#: client/gui-sdl2/inteldlg.c:329
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-"Researching: unknown\n"
+"Researching: %s\n"
 "Culture: %d"
 msgstr ""
 "Chef : %s  Gouvernement : %s\n"
 "Capitale : %s  Or : %d\n"
 "Taxe : %d%% Science : %d%% Luxe : %d%%\n"
-"Recherche : Inconnu\n"
+"Recherche : %s\n"
 "Culture : %d"
 
-#: client/gui-sdl2/inteldlg.c:342
+#: client/gui-sdl2/inteldlg.c:345
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -9679,7 +9681,22 @@ msgstr ""
 "Recherche : %s(%d/%d)\n"
 "Culture : %d"
 
-#: client/gui-sdl2/inteldlg.c:417
+#: client/gui-sdl2/inteldlg.c:364
+#, c-format
+msgid ""
+"Ruler: %s  Government: %s\n"
+"Capital: %s  Gold: %d\n"
+"Tax rates unknown\n"
+"Researching: (Unknown)\n"
+"Culture: (Unknown)"
+msgstr ""
+"Chef : %s  Gouvernement : %s\n"
+"Capitale : %s  Or : %d\n"
+"Taux de taxe inconnu\n"
+"Recherche : Inconnu\n"
+"Culture : Inconnu"
+
+#: client/gui-sdl2/inteldlg.c:433
 msgid "Their techs that we don't have :"
 msgstr "Leurs technologies que nous n'avons pas :"
 
@@ -10276,7 +10293,7 @@ msgstr ""
 "Impossible d'ouvrir '%s' :\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:946 client/gui-sdl2/wldlg.c:1151
+#: client/gui-sdl2/wldlg.c:947 client/gui-sdl2/wldlg.c:1152
 #, c-format
 msgid ""
 "%s\n"
@@ -10291,7 +10308,7 @@ msgstr[1] ""
 "%s\n"
 "%d or par tour"
 
-#: client/gui-sdl2/wldlg.c:954 client/gui-sdl2/wldlg.c:1158
+#: client/gui-sdl2/wldlg.c:955 client/gui-sdl2/wldlg.c:1159
 #, c-format
 msgid ""
 "%s\n"
@@ -10300,7 +10317,7 @@ msgstr ""
 "%s\n"
 "bloqué !"
 
-#: client/gui-sdl2/wldlg.c:956 client/gui-sdl2/wldlg.c:1160
+#: client/gui-sdl2/wldlg.c:957 client/gui-sdl2/wldlg.c:1161
 #, c-format
 msgid ""
 "%s\n"
@@ -10309,7 +10326,7 @@ msgstr ""
 "%s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:960 client/gui-sdl2/wldlg.c:1164
+#: client/gui-sdl2/wldlg.c:961 client/gui-sdl2/wldlg.c:1165
 #, c-format
 msgid ""
 "%s\n"
@@ -10319,14 +10336,14 @@ msgstr ""
 "terminé !"
 
 #. TRANS: length of worklist
-#: client/gui-sdl2/wldlg.c:1014 client/gui-sdl2/wldlg.c:1130
+#: client/gui-sdl2/wldlg.c:1015 client/gui-sdl2/wldlg.c:1131
 #, c-format
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
 msgstr[0] "(%d entrée)"
 msgstr[1] "(%d entrées)"
 
-#: client/gui-sdl2/wldlg.c:1114
+#: client/gui-sdl2/wldlg.c:1115
 #, c-format
 msgid ""
 "Worklist of\n"
@@ -10335,7 +10352,7 @@ msgstr ""
 "Liste de travail de\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1450
+#: client/gui-sdl2/wldlg.c:1451
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10346,7 +10363,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1457
+#: client/gui-sdl2/wldlg.c:1458
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -10355,7 +10372,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl2/wldlg.c:1464
+#: client/gui-sdl2/wldlg.c:1465
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10366,7 +10383,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1471
+#: client/gui-sdl2/wldlg.c:1472
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -10375,14 +10392,14 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1482
+#: client/gui-sdl2/wldlg.c:1483
 #, c-format
 msgid "%d gold per turn"
 msgid_plural "%d gold per turn"
 msgstr[0] "%d or par tour"
 msgstr[1] "%d or par tour"
 
-#: client/gui-sdl2/wldlg.c:1490
+#: client/gui-sdl2/wldlg.c:1491
 #, c-format
 msgid ""
 "(%s)\n"
@@ -10393,16 +10410,16 @@ msgstr ""
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: client/gui-sdl2/wldlg.c:1495 common/calendar.c:128 common/calendar.c:132
+#: client/gui-sdl2/wldlg.c:1496 common/calendar.c:128 common/calendar.c:132
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1501
+#: client/gui-sdl2/wldlg.c:1502
 msgid "shields into gold"
 msgstr "production en or"
 
-#: client/gui-sdl2/wldlg.c:1584
+#: client/gui-sdl2/wldlg.c:1585
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -10413,7 +10430,7 @@ msgstr ""
 "%d/%d %s\n"
 "jamais"
 
-#: client/gui-sdl2/wldlg.c:1592
+#: client/gui-sdl2/wldlg.c:1593
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -10424,7 +10441,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl2/wldlg.c:1602
+#: client/gui-sdl2/wldlg.c:1603
 #, c-format
 msgid ""
 "(%d/%d/%s)\n"
@@ -15616,11 +15633,9 @@ msgstr ""
 #: common/actions.c:2813
 #, c-format
 msgid ""
-"Possible clarification: Requirement {%s} implies a claimed tile. No "
-"diplomatic relation to Nature."
-msgstr ""
-"Explication possible : L'exigence {%s} impose une case revendiquée. Pas de "
-"relations diplomatiques avec la Nature."
+"Possible clarification: Requirement {%s} of action \"%s\" implies a claimed "
+"tile. No diplomatic relation to Nature."
+msgstr "Explication possible : L'exigence {%s} de l'action \"%s\" impose une case revendiquée. Pas de relations diplomatiques avec la Nature."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2863
@@ -16721,7 +16736,7 @@ msgstr " et a atteint le rang de %s"
 #. TRANS: tired; note trailing space
 #: common/featured_text.c:1165
 msgid "tired "
-msgstr " fatigué"
+msgstr "fatigué "
 
 #. TRANS: FP = Firepower of a unit; note trailing space
 #: common/featured_text.c:1188
@@ -19839,83 +19854,88 @@ msgstr "UnitéDépartAttaqueForte"
 msgid "?unitflag:Hunter"
 msgstr "Chasseur"
 
-#: common/version.c:40
+#: common/version.c:41
+#, c-format
+msgid "Freeciv version %s %s (%s)"
+msgstr "Freeciv version %s %s (%s)"
+
+#: common/version.c:42 common/version.c:46
+msgid "(beta version)"
+msgstr "(version bêta)"
+
+#: common/version.c:45
 #, c-format
 msgid "Freeciv version %s %s"
 msgstr "Freeciv version %s %s"
 
-#: common/version.c:41
-msgid "(beta version)"
-msgstr "(version bêta)"
-
-#: common/version.c:43
+#: common/version.c:49
 #, c-format
 msgid "Freeciv version %s (%s)"
 msgstr "Freeciv version %s (%s)"
 
-#: common/version.c:46
+#: common/version.c:52
 #, c-format
 msgid "Freeciv version %s"
 msgstr "Freeciv version %s"
 
-#: common/version.c:59
+#: common/version.c:65
 msgid "betatest version "
 msgstr "version de bêta test"
 
-#: common/version.c:61
+#: common/version.c:67
 msgid "version "
 msgstr "version "
 
-#: common/version.c:105
+#: common/version.c:111
 msgid "January"
 msgstr "Janvier"
 
-#: common/version.c:106
+#: common/version.c:112
 msgid "February"
 msgstr "Février"
 
-#: common/version.c:107
+#: common/version.c:113
 msgid "March"
 msgstr "Mars"
 
-#: common/version.c:108
+#: common/version.c:114
 msgid "April"
 msgstr "Avril"
 
-#: common/version.c:109
+#: common/version.c:115
 msgid "May"
 msgstr "Mai"
 
-#: common/version.c:110
+#: common/version.c:116
 msgid "June"
 msgstr "Juin"
 
-#: common/version.c:111
+#: common/version.c:117
 msgid "July"
 msgstr "Juillet"
 
-#: common/version.c:112
+#: common/version.c:118
 msgid "August"
 msgstr "Août"
 
-#: common/version.c:113
+#: common/version.c:119
 msgid "September"
 msgstr "Septembre"
 
-#: common/version.c:114
+#: common/version.c:120
 msgid "October"
 msgstr "Octobre"
 
-#: common/version.c:115
+#: common/version.c:121
 msgid "November"
 msgstr "Novembre"
 
-#: common/version.c:116
+#: common/version.c:122
 msgid "December"
 msgstr "Décembre"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: common/version.c:122
+#: common/version.c:128
 #, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -19924,7 +19944,7 @@ msgstr ""
 "CECI EST UNE VERSION BÊTA\n"
 "Freeciv %s sortira en %s, sur %s"
 
-#: common/version.c:127
+#: common/version.c:133
 #, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
@@ -19933,7 +19953,7 @@ msgstr ""
 "CECI EST UNE VERSION BÊTA\n"
 "Freeciv %s sortira sur %s"
 
-#: common/version.c:145
+#: common/version.c:151
 msgid "'Cause civilization should be free!"
 msgstr "Car la civilisation devrait être libre !"
 
@@ -23165,7 +23185,7 @@ msgstr ""
 "automatiquement des Routes, et sont une exception à cette exigence."
 
 #: data/civ1/terrain.ruleset:1081 data/civ2/terrain.ruleset:1218
-#: data/classic/terrain.ruleset:1513 data/sandbox/terrain.ruleset:1712
+#: data/classic/terrain.ruleset:1513 data/sandbox/terrain.ruleset:1752
 #: data/experimental/terrain.ruleset:1490 data/civ2civ3/terrain.ruleset:1673
 #: data/multiplayer/terrain.ruleset:1485
 msgid "Railroad"
@@ -23195,7 +23215,7 @@ msgstr ""
 "Route."
 
 #: data/civ1/terrain.ruleset:1114 data/civ2/terrain.ruleset:1254
-#: data/classic/terrain.ruleset:1549 data/sandbox/terrain.ruleset:1788
+#: data/classic/terrain.ruleset:1549 data/sandbox/terrain.ruleset:1828
 #: data/experimental/terrain.ruleset:1563 data/civ2civ3/terrain.ruleset:1749
 #: data/multiplayer/terrain.ruleset:1521
 msgid "River"
@@ -23225,21 +23245,21 @@ msgstr ""
 "nourriture stockée. Des Remparts éliminent ce risque."
 
 #: data/civ1/terrain.ruleset:1153 data/civ2/terrain.ruleset:1307
-#: data/classic/terrain.ruleset:1601 data/sandbox/terrain.ruleset:1849
+#: data/classic/terrain.ruleset:1601 data/sandbox/terrain.ruleset:1889
 #: data/experimental/terrain.ruleset:1620 data/civ2civ3/terrain.ruleset:1808
 #: data/multiplayer/terrain.ruleset:1573
 msgid "?animals:Game"
 msgstr "Gibier"
 
 #: data/civ1/terrain.ruleset:1166 data/civ2/terrain.ruleset:1333
-#: data/classic/terrain.ruleset:1627 data/sandbox/terrain.ruleset:1875
+#: data/classic/terrain.ruleset:1627 data/sandbox/terrain.ruleset:1915
 #: data/experimental/terrain.ruleset:1646 data/civ2civ3/terrain.ruleset:1834
 #: data/multiplayer/terrain.ruleset:1599
 msgid "Coal"
 msgstr "Charbon"
 
 #: data/civ1/terrain.ruleset:1179 data/civ2/terrain.ruleset:1346
-#: data/classic/terrain.ruleset:1640 data/sandbox/terrain.ruleset:1888
+#: data/classic/terrain.ruleset:1640 data/sandbox/terrain.ruleset:1928
 #: data/experimental/terrain.ruleset:1659 data/civ2civ3/terrain.ruleset:1847
 #: data/alien/terrain.ruleset:1244 data/multiplayer/terrain.ruleset:1612
 msgid "Fish"
@@ -23247,7 +23267,7 @@ msgstr "Poisson"
 
 #: data/civ1/terrain.ruleset:1192 data/civ2/terrain.ruleset:1372
 #: data/classic/terrain.ruleset:1666 data/sandbox/game.ruleset:1346
-#: data/sandbox/terrain.ruleset:1914 data/experimental/terrain.ruleset:1685
+#: data/sandbox/terrain.ruleset:1954 data/experimental/terrain.ruleset:1685
 #: data/civ2civ3/terrain.ruleset:1873 data/multiplayer/terrain.ruleset:1638
 msgid "Gems"
 msgstr "Diamants"
@@ -23257,7 +23277,7 @@ msgid "Horses"
 msgstr "Chevaux"
 
 #: data/civ1/terrain.ruleset:1218 data/civ2/terrain.ruleset:1411
-#: data/classic/terrain.ruleset:1705 data/sandbox/terrain.ruleset:1953
+#: data/classic/terrain.ruleset:1705 data/sandbox/terrain.ruleset:1993
 #: data/experimental/terrain.ruleset:1724 data/civ2civ3/terrain.ruleset:1912
 #: data/multiplayer/terrain.ruleset:1677
 msgid "Oasis"
@@ -23266,7 +23286,7 @@ msgstr "Oasis"
 #: data/civ1/terrain.ruleset:1231 data/civ2/terrain.ruleset:1528
 #: data/civ2/terrain.ruleset:1542 data/classic/terrain.ruleset:26
 #: data/classic/terrain.ruleset:1822 data/sandbox/terrain.ruleset:26
-#: data/sandbox/terrain.ruleset:2071 data/experimental/terrain.ruleset:28
+#: data/sandbox/terrain.ruleset:2111 data/experimental/terrain.ruleset:28
 #: data/experimental/terrain.ruleset:1841 data/civ2civ3/terrain.ruleset:26
 #: data/civ2civ3/terrain.ruleset:2030 data/multiplayer/terrain.ruleset:26
 #: data/multiplayer/terrain.ruleset:1794
@@ -23274,7 +23294,7 @@ msgid "Oil"
 msgstr "Pétrole"
 
 #: data/civ1/terrain.ruleset:1244 data/civ2/terrain.ruleset:1450
-#: data/classic/terrain.ruleset:1744 data/sandbox/terrain.ruleset:1993
+#: data/classic/terrain.ruleset:1744 data/sandbox/terrain.ruleset:2033
 #: data/experimental/terrain.ruleset:1763 data/civ2civ3/terrain.ruleset:1952
 #: data/alien/terrain.ruleset:1172 data/multiplayer/terrain.ruleset:1716
 #: tools/civmanual.c:392
@@ -25539,7 +25559,7 @@ msgstr ""
 
 #: data/civ2/terrain.ruleset:1156 data/civ2/units.ruleset:24
 #: data/classic/terrain.ruleset:1400 data/classic/units.ruleset:30
-#: data/sandbox/terrain.ruleset:1578 data/sandbox/units.ruleset:30
+#: data/sandbox/terrain.ruleset:1618 data/sandbox/units.ruleset:30
 #: data/experimental/terrain.ruleset:1375 data/experimental/units.ruleset:33
 #: data/civ2civ3/terrain.ruleset:1546 data/civ2civ3/units.ruleset:30
 #: data/multiplayer/terrain.ruleset:1372 data/multiplayer/units.ruleset:30
@@ -25564,7 +25584,7 @@ msgid "Units can paradrop from this tile."
 msgstr "Les unités peuvent sauter en parachute depuis cette case."
 
 #: data/civ2/terrain.ruleset:1244 data/classic/terrain.ruleset:1539
-#: data/sandbox/terrain.ruleset:1740 data/experimental/terrain.ruleset:1517
+#: data/sandbox/terrain.ruleset:1780 data/experimental/terrain.ruleset:1517
 #: data/civ2civ3/terrain.ruleset:1701 data/multiplayer/terrain.ruleset:1511
 msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
@@ -25576,7 +25596,7 @@ msgstr ""
 "commerce obtenu gâce à la Route."
 
 #: data/civ2/terrain.ruleset:1248 data/classic/terrain.ruleset:1543
-#: data/sandbox/terrain.ruleset:1744 data/experimental/terrain.ruleset:1521
+#: data/sandbox/terrain.ruleset:1784 data/experimental/terrain.ruleset:1521
 #: data/civ2civ3/terrain.ruleset:1705 data/multiplayer/terrain.ruleset:1515
 msgid ""
 "City center tiles with roads are automatically upgraded to railroads when "
@@ -25601,74 +25621,74 @@ msgstr ""
 "voyager rapidement."
 
 #: data/civ2/terrain.ruleset:1294 data/classic/terrain.ruleset:1588
-#: data/sandbox/terrain.ruleset:1836 data/experimental/terrain.ruleset:1607
+#: data/sandbox/terrain.ruleset:1876 data/experimental/terrain.ruleset:1607
 #: data/civ2civ3/terrain.ruleset:1795 data/multiplayer/terrain.ruleset:1560
 msgid "Iron"
 msgstr "Fer"
 
 #: data/civ2/terrain.ruleset:1320 data/classic/terrain.ruleset:1614
-#: data/sandbox/terrain.ruleset:1862 data/experimental/terrain.ruleset:1633
+#: data/sandbox/terrain.ruleset:1902 data/experimental/terrain.ruleset:1633
 #: data/civ2civ3/terrain.ruleset:1821 data/multiplayer/terrain.ruleset:1586
 msgid "Furs"
 msgstr "Fourrures"
 
 #: data/civ2/terrain.ruleset:1359 data/classic/terrain.ruleset:1653
-#: data/sandbox/terrain.ruleset:1901 data/experimental/terrain.ruleset:1672
+#: data/sandbox/terrain.ruleset:1941 data/experimental/terrain.ruleset:1672
 #: data/civ2civ3/terrain.ruleset:1860 data/multiplayer/terrain.ruleset:1625
 msgid "Fruit"
 msgstr "Fruit"
 
 #: data/civ2/terrain.ruleset:1385 data/classic/terrain.ruleset:1679
-#: data/sandbox/terrain.ruleset:1927 data/experimental/terrain.ruleset:1698
+#: data/sandbox/terrain.ruleset:1967 data/experimental/terrain.ruleset:1698
 #: data/civ2civ3/terrain.ruleset:1886 data/multiplayer/terrain.ruleset:1651
 msgid "Buffalo"
 msgstr "Bison"
 
 #: data/civ2/terrain.ruleset:1398 data/classic/terrain.ruleset:1692
-#: data/sandbox/terrain.ruleset:1940 data/experimental/terrain.ruleset:1711
+#: data/sandbox/terrain.ruleset:1980 data/experimental/terrain.ruleset:1711
 #: data/civ2civ3/terrain.ruleset:1899 data/multiplayer/terrain.ruleset:1664
 msgid "Wheat"
 msgstr "Blé"
 
 #: data/civ2/terrain.ruleset:1424 data/classic/terrain.ruleset:1718
-#: data/sandbox/terrain.ruleset:1967 data/experimental/terrain.ruleset:1737
+#: data/sandbox/terrain.ruleset:2007 data/experimental/terrain.ruleset:1737
 #: data/civ2civ3/terrain.ruleset:1926 data/multiplayer/terrain.ruleset:1690
 msgid "Peat"
 msgstr "Tourbe"
 
 #: data/civ2/terrain.ruleset:1437 data/classic/terrain.ruleset:1731
-#: data/sandbox/terrain.ruleset:1980 data/experimental/terrain.ruleset:1750
+#: data/sandbox/terrain.ruleset:2020 data/experimental/terrain.ruleset:1750
 #: data/civ2civ3/terrain.ruleset:1939 data/multiplayer/terrain.ruleset:1703
 msgid "Pheasant"
 msgstr "Faisan"
 
 #: data/civ2/terrain.ruleset:1463 data/classic/terrain.ruleset:1757
-#: data/sandbox/terrain.ruleset:2006 data/experimental/terrain.ruleset:1776
+#: data/sandbox/terrain.ruleset:2046 data/experimental/terrain.ruleset:1776
 #: data/civ2civ3/terrain.ruleset:1965 data/multiplayer/terrain.ruleset:1729
 msgid "Ivory"
 msgstr "Ivoire"
 
 #: data/civ2/terrain.ruleset:1476 data/classic/terrain.ruleset:1770
-#: data/sandbox/terrain.ruleset:2019 data/experimental/terrain.ruleset:1789
+#: data/sandbox/terrain.ruleset:2059 data/experimental/terrain.ruleset:1789
 #: data/civ2civ3/terrain.ruleset:1978 data/multiplayer/terrain.ruleset:1742
 msgid "Silk"
 msgstr "Soie"
 
 #: data/civ2/terrain.ruleset:1489 data/classic/terrain.ruleset:1783
-#: data/sandbox/game.ruleset:1336 data/sandbox/terrain.ruleset:2032
+#: data/sandbox/game.ruleset:1336 data/sandbox/terrain.ruleset:2072
 #: data/experimental/terrain.ruleset:1802 data/civ2civ3/terrain.ruleset:1991
 #: data/multiplayer/terrain.ruleset:1755
 msgid "Spice"
 msgstr "Épice"
 
 #: data/civ2/terrain.ruleset:1502 data/classic/terrain.ruleset:1796
-#: data/sandbox/terrain.ruleset:2045 data/experimental/terrain.ruleset:1815
+#: data/sandbox/terrain.ruleset:2085 data/experimental/terrain.ruleset:1815
 #: data/civ2civ3/terrain.ruleset:2004 data/multiplayer/terrain.ruleset:1768
 msgid "Whales"
 msgstr "Baleines"
 
 #: data/civ2/terrain.ruleset:1515 data/classic/terrain.ruleset:1809
-#: data/sandbox/terrain.ruleset:2058 data/experimental/terrain.ruleset:1828
+#: data/sandbox/terrain.ruleset:2098 data/experimental/terrain.ruleset:1828
 #: data/civ2civ3/terrain.ruleset:2017 data/multiplayer/terrain.ruleset:1781
 msgid "Wine"
 msgstr "Vin"
@@ -27130,13 +27150,13 @@ msgstr ""
 "vie. Avec Invention, les Forteresses gagnent des tours de guet, à partir "
 "desquelles les unités terrestres peuvent voir des territoires plus lointains."
 
-#: data/classic/terrain.ruleset:1430 data/sandbox/terrain.ruleset:1619
+#: data/classic/terrain.ruleset:1430 data/sandbox/terrain.ruleset:1659
 #: data/experimental/terrain.ruleset:1405 data/civ2civ3/terrain.ruleset:1586
 #: data/multiplayer/terrain.ruleset:1402
 msgid "Buoy"
 msgstr "Bouée"
 
-#: data/classic/terrain.ruleset:1451 data/sandbox/terrain.ruleset:1642
+#: data/classic/terrain.ruleset:1451 data/sandbox/terrain.ruleset:1682
 #: data/experimental/terrain.ruleset:1426 data/civ2civ3/terrain.ruleset:1608
 #: data/multiplayer/terrain.ruleset:1423
 msgid ""
@@ -27146,13 +27166,13 @@ msgstr ""
 "Des Bouées peuvent être construites sur l'Océan (par des unités à bord d'un "
 "navire) pour permettre à leur propriétaire de voir les cases alentours."
 
-#: data/classic/terrain.ruleset:1457 data/sandbox/terrain.ruleset:1651
+#: data/classic/terrain.ruleset:1457 data/sandbox/terrain.ruleset:1691
 #: data/experimental/terrain.ruleset:1432 data/civ2civ3/terrain.ruleset:1614
 #: data/multiplayer/terrain.ruleset:1429
 msgid "Ruins"
 msgstr "Ruines"
 
-#: data/classic/terrain.ruleset:1476 data/sandbox/terrain.ruleset:1670
+#: data/classic/terrain.ruleset:1476 data/sandbox/terrain.ruleset:1710
 #: data/experimental/terrain.ruleset:1451 data/civ2civ3/terrain.ruleset:1633
 #: data/multiplayer/terrain.ruleset:1448
 msgid ""
@@ -29677,7 +29697,7 @@ msgstr ""
 "défense (+50%) contre les unités terrestres et les navires. Un Fort est "
 "également nécessaire pour commencer à construire une Forteresse."
 
-#: data/sandbox/terrain.ruleset:1520 data/civ2civ3/terrain.ruleset:1488
+#: data/sandbox/terrain.ruleset:1521 data/civ2civ3/terrain.ruleset:1488
 msgid ""
 "Fortresses are more permanent forts; construction on them can only begin "
 "once the underlying fort is complete. Forts on River tiles cannot be "
@@ -29687,7 +29707,7 @@ msgstr ""
 "commencer que lorsque le Fort sous-jacent est terminé. Les Forts sur des "
 "cases de Rivière ne peuvent pas être améliorés en Forteresses."
 
-#: data/sandbox/terrain.ruleset:1526 data/civ2civ3/terrain.ruleset:1494
+#: data/sandbox/terrain.ruleset:1527 data/civ2civ3/terrain.ruleset:1494
 #, no-c-format
 msgid ""
 "Compared to a fort, units in a fortress receive extra defense (+50%) against "
@@ -29703,7 +29723,7 @@ msgstr ""
 "Tout type d'unité terrestre qui reste dans une Forteresse sans bouger "
 "pendant un tour récupère un quart de ses points de vie."
 
-#: data/sandbox/terrain.ruleset:1532 data/civ2civ3/terrain.ruleset:1500
+#: data/sandbox/terrain.ruleset:1533 data/civ2civ3/terrain.ruleset:1500
 msgid ""
 "With Astronomy, fortresses gain watchtowers from which units can see further "
 "afield."
@@ -29711,11 +29731,28 @@ msgstr ""
 "Avec Astronomie, les Forteresses gagnent des tours de guet, à partir "
 "desquelles les unités peuvent voir plus loin."
 
-#: data/sandbox/terrain.ruleset:1538 data/civ2civ3/terrain.ruleset:1506
+#: data/sandbox/terrain.ruleset:1539
+msgid "Castle"
+msgstr "Château"
+
+#: data/sandbox/terrain.ruleset:1567
+msgid ""
+"Castles are fortresses with an administration center; construction on them "
+"can only begin once the underlying fortress is complete."
+msgstr "Les Châteaux sont des Forteresses avec un centre administratif ; leur construction ne peut commencer que lorsque la Forteresse sous-jacente est terminée."
+
+#: data/sandbox/terrain.ruleset:1570
+msgid ""
+"The castle and its surrounding area is ruled by a vassal with a high degree "
+"of autonomy. This makes a castle able to control terrain far from the "
+"borders of its nation's cities."
+msgstr "Le Château et ses environs sont dirigés par un vassal avec un haut degré d'autonomie. Cela permet à un château de contrôler du terrain loin des frontières des villes de sa nation."
+
+#: data/sandbox/terrain.ruleset:1578 data/civ2civ3/terrain.ruleset:1506
 msgid "Airstrip"
 msgstr "Aérodrome"
 
-#: data/sandbox/terrain.ruleset:1562 data/civ2civ3/terrain.ruleset:1530
+#: data/sandbox/terrain.ruleset:1602 data/civ2civ3/terrain.ruleset:1530
 msgid ""
 "Airstrips are rapidly-built runways allowing air units to land, refuel, and "
 "recover outside cities; an aircraft remaining on an airstrip for a whole "
@@ -29731,7 +29768,7 @@ msgstr ""
 "aériennes sur un Aérodrome sont vulnérables aux attaques par les unités "
 "terrestres."
 
-#: data/sandbox/terrain.ruleset:1570 data/civ2civ3/terrain.ruleset:1538
+#: data/sandbox/terrain.ruleset:1610 data/civ2civ3/terrain.ruleset:1538
 #, no-c-format
 msgid ""
 "Any units on an airstrip receive extra defense (+50%) against enemy aircraft."
@@ -29739,12 +29776,12 @@ msgstr ""
 "Toute unité sur un Aérodrome reçoit une défense supplémentaire (+50%) contre "
 "les avions ennemis."
 
-#: data/sandbox/terrain.ruleset:1573 data/civ2civ3/terrain.ruleset:1541
+#: data/sandbox/terrain.ruleset:1613 data/civ2civ3/terrain.ruleset:1541
 msgid "An airstrip is necessary to start building an airbase."
 msgstr ""
 "Un Aérodrome est nécessaire pour commencer à construire une Base Aérienne."
 
-#: data/sandbox/terrain.ruleset:1604 data/civ2civ3/terrain.ruleset:1571
+#: data/sandbox/terrain.ruleset:1644 data/civ2civ3/terrain.ruleset:1571
 msgid ""
 "Airbases are more permanent airstrips; construction on them can only begin "
 "once the underlying airstrip is complete. Airstrips on River tiles cannot be "
@@ -29755,7 +29792,7 @@ msgstr ""
 "Aérodromes sur des cases de Rivière ne peuvent pas être améliorés en Bases "
 "Aériennes."
 
-#: data/sandbox/terrain.ruleset:1610 data/civ2civ3/terrain.ruleset:1577
+#: data/sandbox/terrain.ruleset:1650 data/civ2civ3/terrain.ruleset:1577
 #, no-c-format
 msgid ""
 "Compared to an airstrip, units in an airbase receive extra defense (+50%) "
@@ -29772,14 +29809,14 @@ msgstr ""
 "plus de points de vie (un tiers par tour, comme dans une ville sans "
 "Aéroport)."
 
-#: data/sandbox/terrain.ruleset:1645
+#: data/sandbox/terrain.ruleset:1685
 msgid ""
 "Only those players that already know Radio can see Buoys of any players."
 msgstr ""
 "Seuls les joueurs qui connaissent déjà la Radio peuvent voir les Bouées de "
 "tous les joueurs."
 
-#: data/sandbox/terrain.ruleset:1698
+#: data/sandbox/terrain.ruleset:1738
 msgid ""
 "Roads allow your land units to move more quickly, allow wheeled Big Land "
 "units such as Chariots and Catapults to travel through otherwise difficult "
@@ -29793,12 +29830,12 @@ msgstr ""
 "et Fret) ne peuvent se déplacer que sur des Routes, des Chemins de Fer, des "
 "Rivières ou par bateaux."
 
-#: data/sandbox/terrain.ruleset:1704 data/civ2civ3/terrain.ruleset:1665
+#: data/sandbox/terrain.ruleset:1744 data/civ2civ3/terrain.ruleset:1665
 msgid "On some terrains, roads also provide a trade bonus."
 msgstr ""
 "Sur certains terrains, les Routes fournissent également un bonus de commerce."
 
-#: data/sandbox/terrain.ruleset:1706 data/civ2civ3/terrain.ruleset:1667
+#: data/sandbox/terrain.ruleset:1746 data/civ2civ3/terrain.ruleset:1667
 msgid ""
 "Building roads on river tiles requires knowledge of Bridge Building. City "
 "center tiles automatically get roads (even on a river tile)."
@@ -29807,7 +29844,7 @@ msgstr ""
 "connaissance de Construction de Ponts. Les cases de villes obtiennent "
 "automatiquement des Routes (même sur une case de Rivière)."
 
-#: data/sandbox/terrain.ruleset:1736 data/experimental/terrain.ruleset:1513
+#: data/sandbox/terrain.ruleset:1776 data/experimental/terrain.ruleset:1513
 #: data/civ2civ3/terrain.ruleset:1697
 msgid ""
 "Once you learn the Railroad technology, you may upgrade your roads to "
@@ -29817,13 +29854,13 @@ msgstr ""
 "améliorer vos Routes en Chemins de Fer. Les unités se déplacent nettement "
 "plus vite sur des Chemins de Fer que sur des Routes."
 
-#: data/sandbox/terrain.ruleset:1750 data/experimental/terrain.ruleset:1527
+#: data/sandbox/terrain.ruleset:1790 data/experimental/terrain.ruleset:1527
 #: data/civ2civ3/terrain.ruleset:1711 data/alien/techs.ruleset:435
 #: data/alien/terrain.ruleset:1034
 msgid "Maglev"
 msgstr "Maglev"
 
-#: data/sandbox/terrain.ruleset:1773 data/civ2civ3/terrain.ruleset:1734
+#: data/sandbox/terrain.ruleset:1813 data/civ2civ3/terrain.ruleset:1734
 msgid ""
 "With sufficient technology, you may build magnetic levitation systems along "
 "your railroad routes. Land and Small Land units expend no movement points "
@@ -29835,7 +29872,7 @@ msgstr ""
 "déplacent le long d'un Maglev ; vous pouvez vous déplacer indéfiniment "
 "dessus (et vos ennemis aussi !)."
 
-#: data/sandbox/terrain.ruleset:1778 data/civ2civ3/terrain.ruleset:1739
+#: data/sandbox/terrain.ruleset:1818 data/civ2civ3/terrain.ruleset:1739
 msgid ""
 "Your regular railroads are still used to carry heavy Big Land and Merchant "
 "units for which the maglev system is unsuitable, and they continue to "
@@ -29845,7 +29882,7 @@ msgstr ""
 "unités Terrestres Lourdes et Marchandes, qui ne conviennent pas au Maglev, "
 "et ils continuent de fournir des bonus de production et de commerce."
 
-#: data/sandbox/terrain.ruleset:1782 data/experimental/terrain.ruleset:1557
+#: data/sandbox/terrain.ruleset:1822 data/experimental/terrain.ruleset:1557
 #: data/civ2civ3/terrain.ruleset:1743
 msgid ""
 "City center tiles with railroads are automatically upgraded to maglev when "
@@ -29854,7 +29891,7 @@ msgstr ""
 "Les centres-villes avec des Chemins de Fer sont automatiquement améliorés en "
 "Maglev quand vous découvrez les Supraconducteurs."
 
-#: data/sandbox/terrain.ruleset:1804 data/civ2civ3/terrain.ruleset:1765
+#: data/sandbox/terrain.ruleset:1844 data/civ2civ3/terrain.ruleset:1765
 #, no-c-format
 msgid ""
 "Any land terrain type may have a River on it. A River adds 1 trade to the "
@@ -29865,7 +29902,7 @@ msgstr ""
 "ajoute un point de commerce aux ressources produites par cette case. Elle "
 "augmente également le facteur de défense de la case de 25%."
 
-#: data/sandbox/terrain.ruleset:1808
+#: data/sandbox/terrain.ruleset:1848
 msgid ""
 "Land units may move along rivers for faster travel (but not diagonally), and "
 "Merchant units (Caravans and Freight) may require rivers to travel along in "
@@ -29878,7 +29915,7 @@ msgstr ""
 "Route. Les Trirèmes peuvent également remonter les Rivières (bien que les "
 "bateaux ultérieurs ne le puissent plus)."
 
-#: data/sandbox/terrain.ruleset:1813 data/civ2civ3/terrain.ruleset:1772
+#: data/sandbox/terrain.ruleset:1853 data/civ2civ3/terrain.ruleset:1772
 msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology. Fortresses and Airbases cannot be "
@@ -29889,7 +29926,7 @@ msgstr ""
 "Construction de Ponts. Les Forteresses et les Bases Aériennes ne peuvent "
 "être construites sur des cases de Rivière."
 
-#: data/sandbox/terrain.ruleset:1817 data/civ2civ3/terrain.ruleset:1776
+#: data/sandbox/terrain.ruleset:1857 data/civ2civ3/terrain.ruleset:1776
 msgid ""
 "Cities built on or next to rivers incur a small risk of flooding, which will "
 "destroy stored food."
@@ -44186,7 +44223,7 @@ msgstr " *** Serveur passé en mode édition par %s ! *** "
 msgid " *** Edit mode canceled by %s. *** "
 msgstr " *** Mode édition annulé par %s. *** "
 
-#: server/edithand.c:294 server/edithand.c:331 server/edithand.c:372
+#: server/edithand.c:299 server/edithand.c:336 server/edithand.c:377
 #, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
 msgstr ""
@@ -44194,7 +44231,7 @@ msgstr ""
 "cette carte !"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:303
+#: server/edithand.c:308
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
@@ -44203,7 +44240,7 @@ msgstr ""
 "type de terrain valide."
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:339
+#: server/edithand.c:344
 #, c-format
 msgid ""
 "Cannot modify extras for the tile %s because %d is not a valid extra id."
@@ -44211,7 +44248,7 @@ msgstr ""
 "Impossible de modifier les extras de la case %s parce que %d n'est pas un "
 "type d'extra valide."
 
-#: server/edithand.c:431
+#: server/edithand.c:436
 #, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -44219,7 +44256,7 @@ msgstr ""
 "valide sur cette carte !"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:440
+#: server/edithand.c:445
 #, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
@@ -44228,7 +44265,7 @@ msgstr ""
 "valide."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:450
+#: server/edithand.c:455
 #, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -44239,19 +44276,19 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:463
+#: server/edithand.c:468
 #, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "Impossible de créer des unités de type %s sur une case ennemie à %s."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:473
+#: server/edithand.c:478
 #, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "Impossible de créer des unités de type %s sur ce terrain à %s."
 
-#: server/edithand.c:516
+#: server/edithand.c:521
 #, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
 msgstr ""
@@ -44259,7 +44296,7 @@ msgstr ""
 "sur cette carte !"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:525
+#: server/edithand.c:530
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -44269,7 +44306,7 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:536
+#: server/edithand.c:541
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
@@ -44278,17 +44315,17 @@ msgstr ""
 "Impossible de retirer une unité de type %s de %s parce que %d n'est pas un "
 "joueur valide."
 
-#: server/edithand.c:567 server/edithand.c:590
+#: server/edithand.c:572 server/edithand.c:595
 #, c-format
 msgid "No such unit (ID %d)."
 msgstr "Unité inconnue (ID %d)."
 
-#: server/edithand.c:627
+#: server/edithand.c:632
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "Niveau de vétéran %d invalide pour l'unité %d (%s)."
 
-#: server/edithand.c:663
+#: server/edithand.c:668
 #, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
 msgstr ""
@@ -44296,7 +44333,7 @@ msgstr ""
 "cette carte !"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:672
+#: server/edithand.c:677
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
@@ -44304,32 +44341,32 @@ msgstr ""
 "Impossible de créer une ville à %s parce que %d n'est pas un joueur valide."
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:684
+#: server/edithand.c:689
 #, c-format
 msgid "A city may not be built at %s."
 msgstr "Une ville ne peut pas être construite à %s."
 
-#: server/edithand.c:732
+#: server/edithand.c:737
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "Impossible d'éditer une ville avec un ID %d invalide."
 
-#: server/edithand.c:745
+#: server/edithand.c:750
 #, c-format
 msgid "Cannot edit city name: %s"
 msgstr "Impossible d'éditer le nom de la ville : %s"
 
-#: server/edithand.c:756
+#: server/edithand.c:761
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr "Taille de ville incorrecte (%d) pour la ville %s."
 
-#: server/edithand.c:778
+#: server/edithand.c:783
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr "Il est impossible pour une ville d'avoir %s !"
 
-#: server/edithand.c:827
+#: server/edithand.c:832
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
@@ -44337,7 +44374,7 @@ msgstr ""
 "Stock de nourriture invalide (%d) pour %s (valeurs entre %d et %d "
 "autorisées)."
 
-#: server/edithand.c:841
+#: server/edithand.c:846
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
@@ -44345,7 +44382,7 @@ msgstr ""
 "Stock de production invalide (%d) pour %s (valeurs entre %d et %d "
 "autorisées)."
 
-#: server/edithand.c:889
+#: server/edithand.c:894
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
@@ -44354,7 +44391,7 @@ msgstr ""
 "Plus aucun joueur ne peut être ajouté parce que le nombre maximum (%d) a "
 "déjà été atteint."
 
-#: server/edithand.c:897
+#: server/edithand.c:902
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
@@ -44363,32 +44400,32 @@ msgstr ""
 "Plus aucun joueur ne peut être ajouté parce qu'il n'y a plus de nations "
 "disponibles (%d utilisées)."
 
-#: server/edithand.c:906
+#: server/edithand.c:911
 msgid "Player cannot be created because random nation selection failed."
 msgstr ""
 "Impossible de créer un joueur parce que la sélection automatique d'une "
 "nation a échoué."
 
-#: server/edithand.c:915
+#: server/edithand.c:920
 msgid "Player creation failed."
 msgstr "La création du joueur a échoué."
 
-#: server/edithand.c:957
+#: server/edithand.c:962
 #, c-format
 msgid "No such player (ID %d)."
 msgstr "Joueur inconnu (ID %d)."
 
-#: server/edithand.c:987
+#: server/edithand.c:992
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "Impossible d'éditer un joueur avec un ID invalide (%d)."
 
-#: server/edithand.c:1004
+#: server/edithand.c:1009
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': %s"
 msgstr "Impossible de changer le nom du joueur (%d) de '%s' à '%s' : %s."
 
-#: server/edithand.c:1015
+#: server/edithand.c:1020
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
@@ -44397,7 +44434,7 @@ msgstr ""
 "Impossible de changer la nation du joueur %d (%s) parce que %d n'est pas un "
 "ID de nation valide."
 
-#: server/edithand.c:1021
+#: server/edithand.c:1026
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44406,7 +44443,7 @@ msgstr ""
 "Impossible de changer de nation du joueur %d (%s) pour %d (%s) parce que "
 "cette nation a déjà été assignée au joueur %d (%s)."
 
-#: server/edithand.c:1030
+#: server/edithand.c:1035
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44415,7 +44452,7 @@ msgstr ""
 "Impossible de changer la nation du joueur %d (%s) en nation %d (%s) parce "
 "que cette nation n'est pas dans la liste des nations courante."
 
-#: server/edithand.c:1039
+#: server/edithand.c:1044
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
@@ -44424,7 +44461,7 @@ msgstr ""
 "Impossible de changer la nation du joueur %d (%s) en nation %d (%s) parce "
 "que cette nation ne convient pas à ce joueur."
 
-#: server/edithand.c:1079
+#: server/edithand.c:1084
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
@@ -44433,7 +44470,7 @@ msgstr ""
 "Impossible de régler l'or du joueur %d (%s) parce que la valeur %d n'est pas "
 "autorisée."
 
-#: server/edithand.c:1179
+#: server/edithand.c:1184
 #, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
 msgstr ""
@@ -44441,7 +44478,7 @@ msgstr ""
 "cette carte !"
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1188
+#: server/edithand.c:1193
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
@@ -44449,29 +44486,29 @@ msgstr ""
 "Impossible d'éditer la vision de la case %s parce que le joueur %d n'est pas "
 "valide."
 
-#: server/edithand.c:1257
+#: server/edithand.c:1262
 #, c-format
 msgid "No such city (ID %d)."
 msgstr "Ville inconnue (ID %d)."
 
-#: server/edithand.c:1283
+#: server/edithand.c:1288
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr ""
 "Impossible de basculer le brouillard de guerre lorsqu'il est déjà désactivé."
 
-#: server/edithand.c:1291
+#: server/edithand.c:1296
 #, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr ""
 "Impossible de basculer le brouillard de guerre pour un joueur d'ID %d non-"
 "valide."
 
-#: server/edithand.c:1319 server/edithand.c:1358
+#: server/edithand.c:1324 server/edithand.c:1363
 #, c-format
 msgid "Invalid tile index %d for start position."
 msgstr "Index de case %d invalide comme position de départ."
 
-#: server/edithand.c:1366
+#: server/edithand.c:1371
 #, c-format
 msgid ""
 "Cannot edit start position nations at (%d, %d) because there is no start "
@@ -44480,11 +44517,11 @@ msgstr ""
 "Impossible d'éditer les nations à la position de départ en (%d, %d) parce "
 "qu'il n'y a pas de position de départ là."
 
-#: server/edithand.c:1465
+#: server/edithand.c:1470
 msgid "No permissions to remotely save scenario."
 msgstr "Vous n'avez pas de permission de sauvegarder le scenario à distance."
 
-#: server/edithand.c:1472
+#: server/edithand.c:1477
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 "Les informations du scenario n'ont pas été remplies. Impossible de "
@@ -52763,9 +52800,6 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "Editing Mode"
 #~ msgstr "Mode édition"
-
-#~ msgid "Coastline"
-#~ msgstr "Littoral"
 
 #~ msgid "Paths"
 #~ msgstr "Chemins"
