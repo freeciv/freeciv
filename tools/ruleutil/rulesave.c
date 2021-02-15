@@ -1253,6 +1253,11 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  if (!save_bv_actions(sfile, game.info.diplchance_initial_odds,
+                       "actions.diplchance_initial_odds")) {
+    return FALSE;
+  }
+
   if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_BRIBE,
                                       action_by_number(
                                         ACTION_SPY_BRIBE_UNIT))) {

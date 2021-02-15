@@ -1028,6 +1028,26 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN2;
       action_list_end(auto_perf->alternatives, 10);
     }
+
+    /* diplchance setting control over initial dice roll odds has moved to
+     * the ruleset. */
+    action_iterate(act_id) {
+      struct action *act = action_by_number(act_id);
+
+      if (action_has_result_safe(act, ACTRES_SPY_SPREAD_PLAGUE)
+          || action_has_result_safe(act, ACTRES_SPY_STEAL_TECH)
+          || action_has_result_safe(act, ACTRES_SPY_TARGETED_STEAL_TECH)
+          || action_has_result_safe(act, ACTRES_SPY_INCITE_CITY)
+          || action_has_result_safe(act, ACTRES_SPY_SABOTAGE_CITY)
+          || action_has_result_safe(act, ACTRES_SPY_TARGETED_SABOTAGE_CITY)
+          || action_has_result_safe(act,
+                                    ACTRES_SPY_SABOTAGE_CITY_PRODUCTION)
+          || action_has_result_safe(act, ACTRES_SPY_STEAL_GOLD)
+          || action_has_result_safe(act, ACTRES_STEAL_MAPS)
+          || action_has_result_safe(act, ACTRES_SPY_NUKE)) {
+        BV_SET(game.info.diplchance_initial_odds, act->id);
+      }
+    } action_iterate_end;
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility

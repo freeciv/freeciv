@@ -6305,8 +6305,6 @@ int action_dice_roll_initial_odds(const struct action *paction)
   switch (paction->result) {
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
-    /* No initial odds. */
-    return 100;
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
@@ -6317,9 +6315,14 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SPY_STEAL_GOLD:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
-    /* Take the initial odds from the diplchance setting. */
-    return server_setting_value_int_get(
-               server_setting_by_name("diplchance"));
+    if (BV_ISSET(game.info.diplchance_initial_odds, paction->id)) {
+      /* Take the initial odds from the diplchance setting. */
+      return server_setting_value_int_get(
+            server_setting_by_name("diplchance"));
+    } else {
+      /* No initial odds. */
+      return 100;
+    }
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:

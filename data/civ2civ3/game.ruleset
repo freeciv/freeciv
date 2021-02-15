@@ -579,6 +579,18 @@ ui_name_frighten_hut_2 = _("Frighten %sHut%s")
 ;user_action_1_max_range              = 3
 ;user_action_1_actor_consuming_always = FALSE
 
+; Some actions have a action dice roll before the action starts where it can
+; fail. The initial probability of success is 100% unless the action appears
+; in the following list. Then the initial probability comes from the setting
+; diplchance. The initial probability of success is modified by the
+; Action_Odds_Pct effect before the roll happens.
+diplchance_initial_odds = "Sabotage City", "Sabotage City Escape",
+                          "Targeted Sabotage City Escape",
+                          "Sabotage City Production Escape",
+                          "Steal Tech", "Steal Tech Escape Expected",
+                          "Targeted Steal Tech Escape Expected",
+                          "Incite City", "Incite City Escape"
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
