@@ -49,7 +49,6 @@ pkgdata_DATA = $(SERVER_FILES) $(CLIENT_FILES)
 
 EXTRA_DIST = \
 	freeciv-client.png \
-	gtk3_menus.xml	\
 	gtk3.22_menus.xml	\
 	gtk4_menus.xml	\
 	amplio2.tilespec \
