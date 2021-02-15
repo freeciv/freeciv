@@ -59,6 +59,7 @@
 #include "luascript_types.h"
 
 /* server */
+#include "actiontools.h"
 #include "barbarian.h"
 #include "citizenshand.h"
 #include "cityturn.h"
@@ -1677,53 +1678,17 @@ void remove_city(struct city *pcity)
       if (!moved && is_native_tile(punittype, tile1)) {
         if (adv_could_unit_move_to_tile(punit, tile1) == 1) {
           /* Move */
-          if (!can_unit_survive_at_tile(&(wld.map), punit, tile1)
-              && ((ptrans = transporter_for_unit_at(punit, tile1)))
-              && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
-                                                punit, ptrans)) {
-            /* "Transport Embark". */
-            moved = unit_perform_action(unit_owner(punit), punit->id,
-                                        ptrans->id, 0, "",
-                                        ACTION_TRANSPORT_EMBARK,
-                                        ACT_REQ_RULES);
-          } else if (unit_can_enter_hut(punit, tile1)
-                     && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
-                                                       punit,
-                                                       tile1, NULL)) {
-            /* "Enter Hut". */
-            moved = unit_perform_action(unit_owner(punit), punit->id,
-                                        tile_index(tile1), 0, "",
-                                        ACTION_HUT_ENTER,
-                                        ACT_REQ_RULES);
-          } else if (unit_can_enter_hut(punit, tile1)
-                     && is_action_enabled_unit_on_tile(ACTION_HUT_ENTER2,
-                                                       punit,
-                                                       tile1, NULL)) {
-            /* "Enter Hut 2". */
-            moved = unit_perform_action(unit_owner(punit), punit->id,
-                                        tile_index(tile1), 0, "",
-                                        ACTION_HUT_ENTER2,
-                                        ACT_REQ_RULES);
-          } else if (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
-                     && unit_can_displace_hut(punit, tile1)
-                     && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
-                                                       punit,
-                                                       tile1, NULL)) {
-            /* "Frighten Hut". */
-            moved = unit_perform_action(unit_owner(punit), punit->id,
-                                        tile_index(tile1), 0, "",
-                                        ACTION_HUT_FRIGHTEN,
-                                        ACT_REQ_RULES);
-          } else if (HUT_FRIGHTEN == unit_class_get(punit)->hut_behavior
-                     && unit_can_displace_hut(punit, tile1)
-                     && is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN2,
-                                                       punit,
-                                                       tile1, NULL)) {
-            /* "Frighten Hut 2". */
-            moved = unit_perform_action(unit_owner(punit), punit->id,
-                                        tile_index(tile1), 0, "",
-                                        ACTION_HUT_FRIGHTEN2,
-                                        ACT_REQ_RULES);
+          if (!can_unit_survive_at_tile(&(wld.map), punit, tile1)) {
+            /* It may be impossible to survive at the tile even if it is
+             * native. See UTYF_COAST_STRICT */
+            ptrans = transporter_for_unit_at(punit, tile1);
+          } else {
+            ptrans = NULL;
+          }
+          if (action_auto_perf_unit_do(AAPC_CITY_GONE, punit,
+                                       tile_owner(tile1), NULL, NULL,
+                                       tile1, NULL, ptrans, NULL) != NULL) {
+            moved = TRUE;
           } else {
             moved = unit_move_handling(punit, tile1, FALSE, TRUE);
           }

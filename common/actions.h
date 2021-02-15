@@ -471,6 +471,10 @@ struct action_enabler
  * for forcing a post action move are fulfilled. */
 #define SPECENUM_VALUE2 AAPC_POST_ACTION
 #define SPECENUM_VALUE2NAME N_("After Successful Action")
+/* The city that made the unit's current tile native is gone. Evaluated
+ * against an adjacent tile. */
+#define SPECENUM_VALUE3 AAPC_CITY_GONE
+#define SPECENUM_VALUE3NAME N_("City Gone ")
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
@@ -538,6 +542,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_MOVED_ADJ     3
 #define ACTION_AUTO_POST_BRIBE    4
 #define ACTION_AUTO_POST_ATTACK   5
+#define ACTION_AUTO_ESCAPE_CITY   6
 
 /* Initialization */
 void actions_init(void);
