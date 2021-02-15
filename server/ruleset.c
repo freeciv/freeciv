@@ -6023,6 +6023,40 @@ static bool load_action_post_success_force(struct section_file *file,
 }
 
 /**********************************************************************//**
+  Load a list of actions from the ruleset to a bv_actions bit vector.
+**************************************************************************/
+static bool lookup_bv_actions(struct section_file *file,
+                              const char *filename,
+                              bv_actions *target,
+                              const char *path)
+{
+  if (secfile_entry_by_path(file, path)) {
+    enum gen_action *listed_actions;
+    size_t asize;
+    int j;
+
+    listed_actions = secfile_lookup_enum_vec(file, &asize, gen_action,
+                                             "%s", path);
+
+    if (!listed_actions) {
+      /* Entity exists but couldn't read it. */
+      ruleset_error(LOG_ERROR, "\"%s\": %s: bad action list",
+                    filename, path);
+
+      return FALSE;
+    }
+
+    for (j = 0; j < asize; j++) {
+      BV_SET(*target, listed_actions[j]);
+    }
+
+    free(listed_actions);
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Load ruleset file.
 **************************************************************************/
 static bool load_ruleset_game(struct section_file *file, bool act,
@@ -6513,29 +6547,9 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         }
       } action_iterate_end;
 
-      if (secfile_entry_by_path(file, "actions.move_is_blocked_by")) {
-        enum gen_action *blocking_actions;
-        size_t asize;
-        int j;
-
-        blocking_actions =
-            secfile_lookup_enum_vec(file, &asize, gen_action,
-                                    "actions.move_is_blocked_by");
-
-        if (!blocking_actions) {
-          /* Entity exists but couldn't read it. */
-          ruleset_error(LOG_ERROR,
-                        "\"%s\": actions.move_is_blocked_by: bad action list",
-                        filename);
-
-          ok = FALSE;
-        }
-
-        for (j = 0; j < asize; j++) {
-          BV_SET(game.info.move_is_blocked_by, blocking_actions[j]);
-        }
-
-        free(blocking_actions);
+      if (!lookup_bv_actions(file, filename, &game.info.move_is_blocked_by,
+                             "actions.move_is_blocked_by")) {
+        ok = FALSE;
       }
 
       /* If the "Poison City" action or the "Poison City Escape" action

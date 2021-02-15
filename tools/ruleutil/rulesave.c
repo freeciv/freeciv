@@ -985,6 +985,33 @@ static bool save_action_post_success_force(struct section_file *sfile,
 }
 
 /**********************************************************************//**
+  Save a bv_actions to the ruleset as a list of actions.
+**************************************************************************/
+static bool save_bv_actions(struct section_file *sfile,
+                            bv_actions content,
+                            const char *path)
+{
+  enum gen_action action_vec[MAX_NUM_ACTIONS];
+  int i = 0;
+
+  action_iterate(act_id) {
+    if (BV_ISSET(content, act_id)) {
+      action_vec[i] = act_id;
+      i++;
+    }
+  } action_iterate_end;
+
+  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
+                              "%s", path) != i) {
+    log_error("Didn't save all of %s.", path);
+
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Save game.ruleset
 **************************************************************************/
 static bool save_game_ruleset(const char *filename, const char *name)
@@ -1215,18 +1242,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                      "auto_attack", "if_attacker");
   }
 
-  i = 0;
-  action_iterate(act_id) {
-    if (BV_ISSET(game.info.move_is_blocked_by, act_id)) {
-      action_vec[i] = act_id;
-      i++;
-    }
-  } action_iterate_end;
-
-  if (secfile_insert_enum_vec(sfile, &action_vec, i, gen_action,
-                              "actions.move_is_blocked_by") != i) {
-    log_error("Didn't save all move blocking actions.");
-
+  if (!save_bv_actions(sfile, game.info.move_is_blocked_by,
+                       "actions.move_is_blocked_by")) {
     return FALSE;
   }
 
