@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2021-02-10 06:20+0200\n"
-"PO-Revision-Date: 2021-02-10 06:24+0200\n"
+"POT-Creation-Date: 2021-02-15 05:24+0200\n"
+"PO-Revision-Date: 2021-02-15 05:31+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -931,9 +931,7 @@ msgstr "Verotettu kaupasta"
 #. TRANS: "unknown" city name
 #. TRANS: "unknown" location
 #. TRANS: unrecognized command
-#: client/citydlg_common.c:899 client/gui-sdl/inteldlg.c:315
-#: client/gui-sdl/inteldlg.c:328 client/gui-sdl2/inteldlg.c:335
-#: client/gui-sdl2/inteldlg.c:348 client/gui-xaw/inteldlg.c:283
+#: client/citydlg_common.c:899 client/gui-xaw/inteldlg.c:283
 #: server/stdinhand.c:332
 msgid "(unknown)"
 msgstr "(tuntematon)"
@@ -4772,6 +4770,7 @@ msgstr " kanssa)"
 #: client/gui-gtk-3.0/helpdlg.c:1320 client/gui-gtk-3.0/inteldlg.c:437
 #: client/gui-gtk-3.22/helpdlg.c:1246 client/gui-gtk-3.22/helpdlg.c:1354
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:452
+#: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
 #: client/gui-xaw/helpdlg.c:1031 client/gui-xaw/helpdlg.c:1116
 #: common/requirements.c:3224
 #, c-format
@@ -4890,6 +4889,8 @@ msgstr "Ulkomaantiedustelu: %s valtakunta"
 #. TRANS: "Unknown" advance/technology
 #. TRANS: "unknown" location
 #. TRANS: "Unknown" advance/technology
+#. TRANS: "unknown" location
+#. TRANS: "Unknown" advance/technology
 #: client/gui-gtk-2.0/inteldlg.c:395 client/gui-gtk-2.0/inteldlg.c:401
 #: client/gui-gtk-2.0/inteldlg.c:407 client/gui-gtk-2.0/inteldlg.c:414
 #: client/gui-gtk-2.0/inteldlg.c:421 client/gui-gtk-2.0/inteldlg.c:428
@@ -4906,6 +4907,10 @@ msgstr "Ulkomaantiedustelu: %s valtakunta"
 #: client/gui-qt/plrdlg.cpp:469 client/gui-qt/plrdlg.cpp:470
 #: client/gui-qt/plrdlg.cpp:471 client/gui-qt/plrdlg.cpp:478
 #: client/gui-qt/plrdlg.cpp:479 client/gui-qt/plrdlg.cpp:493
+#: client/gui-sdl/inteldlg.c:316 client/gui-sdl/inteldlg.c:319
+#: client/gui-sdl/inteldlg.c:330 client/gui-sdl/inteldlg.c:348
+#: client/gui-sdl2/inteldlg.c:336 client/gui-sdl2/inteldlg.c:339
+#: client/gui-sdl2/inteldlg.c:350 client/gui-sdl2/inteldlg.c:368
 #: common/research.c:86
 msgid "(Unknown)"
 msgstr "(Ei tiedossa)"
@@ -9917,20 +9922,20 @@ msgstr "Tiedusteluraportti %s avaruusaluksesta"
 msgid "Intelligence Information for the %s Empire"
 msgstr "Tiedusteluraportti %s valtakunnasta"
 
-#: client/gui-sdl/inteldlg.c:308 client/gui-sdl2/inteldlg.c:328
+#: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:329
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
 "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-"Researching: unknown"
+"Researching: %s"
 msgstr ""
 "Hallitsija: %s  Valtiomuoto: %s\n"
 "Pääkaupunki: %s  Kultaa: %d\n"
 "Vero: %d%% Tiede: %d%% Luksus: %d%%\n"
-"Tutkii: (ei tiedossa)"
+"Tutkii: %s"
 
-#: client/gui-sdl/inteldlg.c:321 client/gui-sdl2/inteldlg.c:341
+#: client/gui-sdl/inteldlg.c:323 client/gui-sdl2/inteldlg.c:343
 #, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
@@ -9943,7 +9948,20 @@ msgstr ""
 "Vero: %d%% Tiede: %d%% Luksus: %d%%\n"
 "Tutkii: %s(%d/%d)"
 
-#: client/gui-sdl/inteldlg.c:395 client/gui-sdl2/inteldlg.c:415
+#: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
+#, c-format, fuzzy
+msgid ""
+"Ruler: %s  Government: %s\n"
+"Capital: %s  Gold: %d\n"
+"Tax rates unknown\n"
+"Researching: (Unknown)"
+msgstr ""
+"Hallitsija: %s  Valtiomuoto: %s\n"
+"Pääkaupunki: %s  Kultaa: %d\n"
+"Vero, tiede, luksus: ei tiedossa\n"
+"Tutkii: (ei tiedossa)"
+
+#: client/gui-sdl/inteldlg.c:409 client/gui-sdl2/inteldlg.c:429
 msgid "Their techs that we don't have :"
 msgstr "Meiltä puuttuvat edistysaskeleet:"
 
@@ -25174,7 +25192,9 @@ msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
 "tile whose road is upgraded to a railroad retains any trade bonus from the "
 "road as well."
-msgstr "Rautatie lisää ruudun tuotantoa 50%. Myös jo ennen rautatietä rakennetun tien mahdollisesti kauppaan tarjoamat bonukset säilyvät."
+msgstr ""
+"Rautatie lisää ruudun tuotantoa 50%. Myös jo ennen rautatietä rakennetun "
+"tien mahdollisesti kauppaan tarjoamat bonukset säilyvät."
 
 #: data/civ2/terrain.ruleset:1248 data/classic/terrain.ruleset:1541
 #: data/experimental/terrain.ruleset:1519 data/civ2civ3/terrain.ruleset:1703
