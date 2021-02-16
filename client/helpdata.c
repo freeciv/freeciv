@@ -2418,6 +2418,26 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
 
+      if (utype_is_consumed_by_action(paction, utype)) {
+        /* The dead don't care about movement loss. */
+      } else if (utype_action_takes_all_mp(utype, paction)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: said about an action.
+                      * "MP" = movement points. */
+                     _("  * takes all remaining MP.\n"));
+      } else if (utype_action_takes_all_mp_if_ustate_is(utype, paction,
+                                                        USP_NATIVE_TILE)) {
+        /* Used in the implementation of slow_invasion in many of the
+         * bundled rulesets and in rulesets upgraded with rscompat from 3.0
+         * to 3.1. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: said about an action.
+                      * "MP" = movement points. */
+                     _("  * ending up on a native tile"
+                       " after the action has been performed"
+                       " takes all remaining MP.\n"));
+      }
+
       if (!utype_is_consumed_by_action(paction, utype)
           && paction->actor.is_unit.moves_actor == MAK_ESCAPE) {
         cat_snprintf(buf, bufsz,

@@ -646,6 +646,13 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
                                  const enum citytile_type prop,
                                  const bool is_there);
 
+bool utype_action_takes_all_mp(const struct unit_type *putype,
+                               struct action *paction);
+
+bool utype_action_takes_all_mp_if_ustate_is(const struct unit_type *putype,
+                                            struct action *paction,
+                                            const enum ustate_prop prop);
+
 bool utype_is_consumed_by_action(const struct action *paction,
                                  const struct unit_type *utype);
 
