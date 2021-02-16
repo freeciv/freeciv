@@ -987,6 +987,54 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff performing the specified action always will consume all
+  remaining MP of an actor unit of the specified type.
+  @param putype  the unit type performing the action
+  @param paction the action that is performed
+  @return if all remaining MP is guaranteed to be consumed given the above
+**************************************************************************/
+bool utype_action_takes_all_mp(const struct unit_type *putype,
+                               struct action *paction)
+{
+  /* TODO: cache the value of this function at game start.
+   * See hrm Feature #875954 https://www.hostedredmine.com/issues/875954 */
+  struct universal unis[] = {
+    { .kind = VUT_ACTION, .value = {.action = (paction)} },
+    { .kind = VUT_UTYPE,  .value = {.utype  = (putype)}  }
+  };
+
+  return effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
+                                             unis, ARRAY_SIZE(unis),
+                                             MAX_MOVE_FRAGS);
+}
+
+/**********************************************************************//**
+  Returns TRUE iff performing the specified action always will consume all
+  remaining MP of an actor unit of the specified type when the specified
+  unit state property is true *after* the action has been performed.
+  @param putype  the unit type performing the action
+  @param paction the action that is performed
+  @param prop    the unit state property
+  @return if all remaining MP is guaranteed to be consumed given the above
+**************************************************************************/
+bool utype_action_takes_all_mp_if_ustate_is(const struct unit_type *putype,
+                                            struct action *paction,
+                                            const enum ustate_prop prop)
+{
+  /* TODO: cache the value of this function at game start.
+   * See hrm Feature #875954 https://www.hostedredmine.com/issues/875954 */
+  struct universal unis[] = {
+    { .kind = VUT_ACTION,    .value = {.action     = (paction)} },
+    { .kind = VUT_UTYPE,     .value = {.utype      = (putype)}  },
+    { .kind = VUT_UNITSTATE, .value = {.unit_state = (prop)}    }
+  };
+
+  return effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
+                                             unis, ARRAY_SIZE(unis),
+                                             MAX_MOVE_FRAGS);
+}
+
+/**********************************************************************//**
   Returns TRUE iff performing the specified action will consume an actor
   unit of the specified type.
 **************************************************************************/
