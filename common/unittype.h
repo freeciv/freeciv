@@ -176,8 +176,8 @@ struct unit_class {
 #define SPECENUM_VALUE4 UTYF_IGTER
 /* TRANS: unit type flag (rarely shown): "ignore terrain" */
 #define SPECENUM_VALUE4NAME N_("?unitflag:IgTer")
-#define SPECENUM_VALUE5 UTYF_ONEATTACK
-#define SPECENUM_VALUE5NAME N_("?unitflag:OneAttack")
+#define SPECENUM_VALUE5 UTYF_RESERVED_3
+#define SPECENUM_VALUE5NAME N_("Reserved 3")
 #define SPECENUM_VALUE6 UTYF_FIELDUNIT
 #define SPECENUM_VALUE6NAME N_("?unitflag:FieldUnit")
 /* autoattack: a unit will choose to attack this unit even if defending

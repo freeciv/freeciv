@@ -433,7 +433,6 @@ utypes = "\
 ; \"IgTer\"       = use constant move cost defined in igter_cost (terrain.ruleset)\n\
 ;                 rather than terrain/road etc cost, unless terrain cost is\n\
 ;                 less\n\
-; \"OneAttack\" = can only make a single attack, regardless of movement points\n\
 ; \"FieldUnit\" = cause unhappiness even when not being aggressive\n\
 ; \"Settlers\"  = can irrigate and build roads\n\
 ; \"Diplomat\"  = can defend against diplomat actions (see diplchance\n\

@@ -49,6 +49,7 @@ flags =
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
     _("Cant_Fortify")
+    _("OneAttack")
   }
 
 ; Names for custom unit class flags. There can be up to 12 of these.
@@ -323,7 +324,6 @@ flags         = "Unreachable", "DoesntOccupyTile"
 ; "IgTer"       = use constant move cost defined in igter_cost (terrain.ruleset)
 ;                 rather than terrain/road etc cost, unless terrain cost is
 ;                 less
-; "OneAttack"	= can only make a single attack, regardless of movement points
 ; "FieldUnit"	= cause unhappiness even when not being aggressive
 ; "Settlers"	= can irrigate and build roads
 ; "Diplomat"	= can defend against diplomat actions (see diplchance

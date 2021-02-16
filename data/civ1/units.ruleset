@@ -27,6 +27,7 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("Cant_Fortify")
+    _("OneAttack")
   }
 
 ; Names for custom unit class flags. There can be up to 12 of these.

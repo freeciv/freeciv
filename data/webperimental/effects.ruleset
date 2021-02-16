@@ -2797,6 +2797,15 @@ reqs    =
       "Action", "Surgical Strike Building", "Local", TRUE
     }
 
+[effect_action_success_attack_one_attack]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",     "name",      "range", "quiet"
+      "Action",   "Attack",    "Local", TRUE
+      "UnitFlag", "OneAttack", "Local", TRUE
+    }
+
 [effect_strike_half_chance]
 type	= "Action_Odds_Pct"
 value	= -50
