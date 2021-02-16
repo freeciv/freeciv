@@ -51,10 +51,10 @@
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_LOCATION BUTTON_MOVE + 1
-#define BUTTON_WAIT BUTTON_MOVE + 2
-#define BUTTON_CANCEL BUTTON_MOVE + 3
-#define BUTTON_COUNT BUTTON_MOVE + 4
+#define BUTTON_LOCATION (BUTTON_MOVE + 1)
+#define BUTTON_WAIT (BUTTON_LOCATION + 1)
+#define BUTTON_CANCEL (BUTTON_WAIT + 1)
+#define BUTTON_COUNT (BUTTON_CANCEL + 1)
 
 #define BUTTON_NOT_THERE -1
 
