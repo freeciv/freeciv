@@ -4047,7 +4047,7 @@ void action_selection_refresh(struct unit *actor_unit,
 
   if (keep_moving_button != NULL
       || wait_button != NULL || cancel_button != NULL) {
-    /* Reinsert the "Keep moving" button below any potential
+    /* Reinsert the non action buttons below any potential
      * buttons recently added. */
     asd->unstack_all_buttons();
   }
