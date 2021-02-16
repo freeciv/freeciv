@@ -2337,7 +2337,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
             move_cost = map_move_cost_unit(&(wld.map), vunit, dsttile);
             /* FIXME: Shouldn't unit_move_handling() be used here? This is
              * the unit escaping by moving itself. It should therefore
-             * respect movement rules. */
+             * respect movement rules. See hrm Bug #920206 */
             unit_move(vunit, dsttile, move_cost,
                       NULL, FALSE, FALSE, FALSE, FALSE);
             num_escaped[player_index(vplayer)]++;
