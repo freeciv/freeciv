@@ -279,6 +279,9 @@ bool universal_fulfills_requirements(bool check_necessary,
                                      const struct universal *source);
 bool universal_is_relevant_to_requirement(const struct requirement *req,
                                           const struct universal *source);
+bool universals_mean_unfulfilled(struct requirement_vector *reqs,
+                                 struct universal *unis,
+                                 size_t n_unis);
 
 #define universals_iterate(_univ_) \
   {                                \

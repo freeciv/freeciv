@@ -4051,6 +4051,34 @@ bool universal_is_mentioned_by_requirements(
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the presence of any of the specified universals is
+  enough to guarantee that the specified requirement vector never will be
+  fulfilled.
+  @param reqs   the requirement vector that never should be fulfilled
+  @param unis   the universals that are present
+  @param n_unis the number of universals in unis
+  @return if the universals blocks fulfillment of the req vector
+**************************************************************************/
+bool universals_mean_unfulfilled(struct requirement_vector *reqs,
+                                 struct universal *unis,
+                                 size_t n_unis)
+{
+  int i;
+
+  for (i = 0; i < n_unis; i++) {
+    if (!universal_fulfills_requirements(FALSE, reqs, &unis[i])) {
+      /* This universal makes it impossible to fulfill the specified
+       * requirement vector */
+      return TRUE;
+    }
+  }
+
+  /* No specified universal is known to guarantee that the requirement
+   * vector never will be fulfilled. */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Will the universal 'source' fulfill this requirement?
 **************************************************************************/
 enum req_item_found
