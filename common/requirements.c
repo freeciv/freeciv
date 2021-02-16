@@ -4397,6 +4397,40 @@ static enum req_item_found output_type_found(const struct requirement *preq,
   }
 }
 
+/**********************************************************************//**
+  Find if a unit state property fulfills a requirement.
+**************************************************************************/
+static enum req_item_found ustate_found(const struct requirement *preq,
+                                        const struct universal *source)
+{
+  fc_assert_ret_val(preq->range == REQ_RANGE_LOCAL, ITF_NOT_APPLICABLE);
+
+  if (preq->source.kind == VUT_UNITSTATE) {
+    switch (source->value.unit_state) {
+    case USP_TRANSPORTED:
+    case USP_TRANSPORTING:
+      /* USP_TRANSPORTED and USP_TRANSPORTING don't exclude each other. */
+    case USP_LIVABLE_TILE:
+    case USP_NATIVE_TILE:
+    /* USP_NATIVE_TILE isn't a strict subset of USP_LIVABLE_TILE. See
+     * UTYF_COAST_STRICT. */
+    case USP_DOMESTIC_TILE:
+    case USP_HAS_HOME_CITY:
+      if (source->value.unit_state == preq->source.value.unit_state) {
+        /* The other unit states doesn't contradict */
+        return ITF_YES;
+      }
+      break;
+    case USP_COUNT:
+      fc_assert_ret_val(source->value.unit_state != USP_COUNT,
+                        ITF_NOT_APPLICABLE);
+    }
+  }
+
+  /* Not found and not relevant. */
+  return ITF_NOT_APPLICABLE;
+}
+
 /************************************************************************
   Initialise universal_found_function array.
 *************************************************************************/
@@ -4413,6 +4447,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_OTYPE] = &output_type_found;
   universal_found_function[VUT_ACTION] = &action_found;
   universal_found_function[VUT_DIPLREL] = &diplrel_found;
+  universal_found_function[VUT_UNITSTATE] = &ustate_found;
 }
 
 /**************************************************************************
