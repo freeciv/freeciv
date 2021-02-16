@@ -64,9 +64,9 @@
 
 /* Locations for non action enabler controlled buttons. */
 #define BUTTON_MOVE ACTION_COUNT
-#define BUTTON_WAIT BUTTON_MOVE + 1
-#define BUTTON_CANCEL BUTTON_MOVE + 2
-#define BUTTON_COUNT BUTTON_MOVE + 3
+#define BUTTON_WAIT (BUTTON_MOVE + 1)
+#define BUTTON_CANCEL (BUTTON_WAIT + 1)
+#define BUTTON_COUNT (BUTTON_CANCEL + 1)
 
 extern void popdown_all_spaceships_dialogs();
 extern void popdown_players_report();
