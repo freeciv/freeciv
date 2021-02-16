@@ -1207,11 +1207,7 @@ int utype_pays_mp_for_action_base(const struct action *paction,
 
   if (action_has_result(paction, ACTRES_ATTACK)
       && !utype_is_consumed_by_action(paction, putype)) {
-    if (utype_has_flag(putype, UTYF_ONEATTACK)) {
-      mpco += MAX_MOVE_FRAGS;
-    } else {
-      mpco += SINGLE_MOVE;
-    }
+    mpco += SINGLE_MOVE;
   }
 
   return mpco;

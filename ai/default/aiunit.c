@@ -1002,7 +1002,8 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
       int attacks;
       struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
-      if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
+      if (utype_action_takes_all_mp(unit_type_get(punit),
+                                    action_by_number(ACTION_ATTACK))) {
         attacks = 1;
       } else {
         attacks = unit_type_get(punit)->move_rate;
@@ -1377,7 +1378,8 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
 
       if (punit->id == 0) {
         /* Real unit would add to reserves once built. */
-        if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
+        if (utype_action_takes_all_mp(unit_type_get(punit),
+                                      action_by_number(ACTION_ATTACK))) {
           reserves++;
         } else {
           reserves += punit_type->move_rate;

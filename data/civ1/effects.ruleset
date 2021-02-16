@@ -1497,6 +1497,15 @@ reqs    =
       "Action", "Transport Embark", "Local", TRUE
     }
 
+[effect_action_success_attack_one_attack]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",     "name",      "range", "quiet"
+      "Action",   "Attack",    "Local", TRUE
+      "UnitFlag", "OneAttack", "Local", TRUE
+    }
+
 [effect_unit_shield_value_recycle]
 type    = "Unit_Shield_Value_Pct"
 value   = -50

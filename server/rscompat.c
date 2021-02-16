@@ -335,6 +335,7 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("BeachLander"), N_("Won't lose all movement when moving from"
                               " non-native terrain to native terrain.") },
       { N_("Cant_Fortify"), NULL },
+      { N_("OneAttack"),    NULL },
     };
     enough_new_user_flags(new_flags_31, unit_type,
                           UTYF_LAST_USER_FLAG, UTYF_LAST_USER_FLAG_3_0);
@@ -626,6 +627,17 @@ void rscompat_postprocess(struct rscompat_info *info)
     /* The reduction only applies to "Expel Unit". */
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             TRUE, "Expel Unit"));
+
+    /* Post successful action move fragment loss for "OneAttack"
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                         MAX_MOVE_FRAGS, NULL);
+    /* The reduction only applies to "Attack". */
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            TRUE, "Attack"));
+    /* The reduction only applies to "OneAttack". */
+    effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, TRUE,
+                                            TRUE, "OneAttack"));
 
     /* Post successful action move fragment loss for targets of
      * "Paradrop Unit" has moved to the Action_Success_Actor_Move_Cost

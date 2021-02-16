@@ -668,7 +668,8 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
         }
         /* action move cost depends on action and unit type. */
         if (node1->action == PF_ACTION_ATTACK
-            && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+            && (utype_action_takes_all_mp(params->utype,
+                                          action_by_number(ACTION_ATTACK))
                 || utype_can_do_action(params->utype,
                                        ACTION_SUICIDE_ATTACK))) {
           /* Assume that the attack will be a suicide attack even if a
@@ -1563,7 +1564,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
           }
           /* action move cost depends on action and unit type. */
           if (node1->action == PF_ACTION_ATTACK
-              && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+              && (utype_action_takes_all_mp(params->utype,
+                                            action_by_number(ACTION_ATTACK))
                   || utype_can_do_action(params->utype,
                                          ACTION_SUICIDE_ATTACK))) {
             /* Assume that the attack will be a suicide attack even if a
@@ -2558,7 +2560,8 @@ pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
   if (utype_can_do_action(param->utype, ACTION_SUICIDE_ATTACK)) {
     /* Case missile */
     return TRUE;
-  } else if (utype_has_flag(param->utype, UTYF_ONEATTACK)) {
+  } else if (utype_action_takes_all_mp(param->utype,
+                                       action_by_number(ACTION_ATTACK))) {
     /* Case Bombers */
     if (moves_left <= param->move_rate) {
       /* We are in the last turn of fuel, don't attack */
@@ -2708,7 +2711,9 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
             }
             /* action move cost depends on action and unit type. */
             if (node1->action == PF_ACTION_ATTACK
-                && (utype_has_flag(params->utype, UTYF_ONEATTACK)
+                && (utype_action_takes_all_mp(params->utype,
+                                              action_by_number(
+                                                ACTION_ATTACK))
                     || utype_can_do_action(params->utype,
                                            ACTION_SUICIDE_ATTACK))) {
               /* Assume that the attack will be a suicide attack even if a
