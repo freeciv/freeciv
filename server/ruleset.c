@@ -6807,12 +6807,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
        * Evaluated against an adjacent tile. */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_CITY);
       auto_perf->cause = AAPC_CITY_GONE;
-      auto_perf->alternatives[0] = ACTION_TRANSPORT_EMBARK;
-      auto_perf->alternatives[1] = ACTION_HUT_ENTER;
-      auto_perf->alternatives[2] = ACTION_HUT_ENTER2;
-      auto_perf->alternatives[3] = ACTION_HUT_FRIGHTEN;
-      auto_perf->alternatives[4] = ACTION_HUT_FRIGHTEN2;
-      action_list_end(auto_perf->alternatives, 5);
+
+      /* I have no objections to moving this out of game's actions to
+       * cities.ruleset, units.ruleset or an other location in game.ruleset
+       * you find more suitable. -- Sveinung */
+      if (!load_action_auto_actions(file, auto_perf,
+                                    "actions.escape_city", filename)) {
+        ok = FALSE;
+      }
     }
 
     if (ok) {

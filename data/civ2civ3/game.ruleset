@@ -312,6 +312,12 @@ attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
                                      "Enter Hut", "Enter Hut 2",
                                      "Frighten Hut", "Frighten Hut 2"
 
+; The city that made the unit's current tile native is gone. This is a Hail
+; Mary attempt at survival by performing an action. Evaluated against an
+; adjacent tile. Currently only able to target native tiles.
+escape_city = "Transport Embark", "Enter Hut", "Enter Hut 2",
+              "Frighten Hut", "Frighten Hut 2"
+
 ; If poison_empties_food_stock is set to TRUE a successful "Poison City"
 ; or "Poison City Escape" will empty the food stock.
 poison_empties_food_stock = FALSE

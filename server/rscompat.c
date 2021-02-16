@@ -1079,9 +1079,10 @@ void rscompat_postprocess(struct rscompat_info *info)
     } action_iterate_end;
 
     {
+      struct action_auto_perf *auto_perf;
+
       /* The forced post successful action move action list has moved to the
        * ruleset. */
-      struct action_auto_perf *auto_perf;
 
       /* "Bribe Unit" */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_BRIBE);
@@ -1109,6 +1110,17 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN;
       auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN2;
       action_list_end(auto_perf->alternatives, 10);
+
+
+      /* The city that made the unit's current tile native is gone.
+       * Evaluated against an adjacent tile. */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_CITY);
+      auto_perf->alternatives[0] = ACTION_TRANSPORT_EMBARK;
+      auto_perf->alternatives[1] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[2] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[3] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[4] = ACTION_HUT_FRIGHTEN2;
+      action_list_end(auto_perf->alternatives, 5);
     }
 
     /* diplchance setting control over initial dice roll odds has moved to
