@@ -437,6 +437,54 @@ int effect_value_from_universals(enum effect_type type,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified effect type is guaranteed to always have
+  a value at or above the specified value given the presence of the
+  specified list of universals.
+  Note that it may be true that the effect type always will be at or above
+  the specified value a even if this function refuses to guarantee it by
+  returning FALSE. It may simply be unable to detect that it is so.
+  @param type      the effect type
+  @param unis      the list of present universals
+  @param n_unis    the number of universals in unis
+  @param min_value the value the effect always should be at or above
+  @return TRUE iff the function promises that the value of the effect type
+               never will be below min_value given the specified
+               universals.
+**************************************************************************/
+bool effect_universals_value_never_below(enum effect_type type,
+                                         struct universal *unis,
+                                         size_t n_unis,
+                                         int min_value)
+{
+  int guaranteed_min_effect_value = 0;
+
+  effect_list_iterate(get_effects(type), peffect) {
+    if (universals_mean_unfulfilled(&peffect->reqs, unis, n_unis)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (peffect->multiplier) {
+      /* Multipliers may change during the game. */
+      return FALSE;
+    }
+
+    if (universals_say_everything(&peffect->reqs, unis, n_unis)) {
+      /* This value is guaranteed to be there since the universals alone
+       * fulfill all the requirements in the vector. */
+      guaranteed_min_effect_value += peffect->value;
+    } else if (peffect->value < 0) {
+      /* Can't be ignored. It may apply. It subtracts. */
+      guaranteed_min_effect_value += peffect->value;
+    }
+  } effect_list_iterate_end;
+
+  /* The value of this effect type is never below the guaranteed
+   * minimum. */
+  return guaranteed_min_effect_value >= min_value;
+}
+
+/**********************************************************************//**
   Receives a new effect.  This is called by the client when the packet
   arrives.
 **************************************************************************/
