@@ -557,14 +557,14 @@ ui_name_transport_embark = _("%sEmbark%s")
 ; /* TRANS: Enter _Hut (100% chance of success). */
 ui_name_enter_hut = _("Enter %sHut%s")
 
-; /* TRANS: Enter _Hut (100% chance of success). */
-ui_name_enter_hut_2 = _("Enter %sHut%s")
+; /* TRANS: Enter _Hut from non native (100% chance of success). */
+ui_name_enter_hut_2 = _("Enter %sHut from non native%s")
 
 ; /* TRANS: Frighten _Hut (100% chance of success). */
 ui_name_frighten_hut = _("Frighten %sHut%s")
 
-; /* TRANS: Frighten _Hut (100% chance of success). */
-ui_name_frighten_hut_2 = _("Frighten %sHut%s")
+; /* TRANS: Frighten _Hut from non native (100% chance of success). */
+ui_name_frighten_hut_2 = _("Frighten %sHut from non native%s")
 
 ; /* TRANS: Regular _Move (100% chance of success). */
 ui_name_unit_move = _("%sKeep moving%s")

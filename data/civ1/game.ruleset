@@ -465,8 +465,8 @@ ui_name_transport_embark = _("%sEmbark%s")
 ; /* TRANS: Enter _Hut (100% chance of success). */
 ui_name_enter_hut = _("Enter %sHut%s")
 
-; /* TRANS: Enter _Hut (100% chance of success). */
-ui_name_enter_hut_2 = _("Enter %sHut%s")
+; /* TRANS: Enter _Hut from transport (100% chance of success). */
+ui_name_enter_hut_2 = _("Enter %sHut from transport%s")
 
 ; /* TRANS: Regular _Move (100% chance of success). */
 ui_name_unit_move = _("%sKeep moving%s")
