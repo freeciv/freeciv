@@ -4079,6 +4079,53 @@ bool universals_mean_unfulfilled(struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the presence of the specified universals is enough to
+  know if the specified requirement vector is fulfilled. This means that
+  the requirement vector can't check anything it can't find in the listed
+  universals.
+  Note that TRUE is returned both when the requirement vector is known to
+  be fulfilled and when it is known to be unfulfilled.
+  @param reqs   the requirement vector certainty is wanted about
+  @param unis   the universals that are present
+  @param n_unis the number of universals in unis
+  @return TRUE iff the specified universals is everything required to find
+               out whether the specified requirement vector is fulfilled or
+               not
+**************************************************************************/
+bool universals_say_everything(struct requirement_vector *reqs,
+                               struct universal *unis,
+                               size_t n_unis)
+{
+  requirement_vector_iterate(reqs, preq) {
+    int i;
+    bool req_mentioned_a_source = FALSE;
+
+    for (i = 0; i < n_unis; i++) {
+      switch (universal_fulfills_requirement(preq, &(unis[i]))) {
+      case ITF_NO:
+      case ITF_YES:
+        /* this req matched this source */
+        req_mentioned_a_source = TRUE;
+        break;
+      case ITF_NOT_APPLICABLE:
+        /* Not a mention. */
+        break;
+      }
+    }
+
+    if (!req_mentioned_a_source) {
+      /* A requirement not relevant to any of the specified universals was
+       * found in the requirement vector. */
+      return FALSE;
+    }
+  } requirement_vector_iterate_end;
+
+  /* No requirement not relevant to any of the specified universals was
+   * found in the requirement vector. */
+  return TRUE;
+}
+
+/**********************************************************************//**
   Will the universal 'source' fulfill this requirement?
 **************************************************************************/
 enum req_item_found

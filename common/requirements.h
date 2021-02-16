@@ -282,6 +282,9 @@ bool universal_is_relevant_to_requirement(const struct requirement *req,
 bool universals_mean_unfulfilled(struct requirement_vector *reqs,
                                  struct universal *unis,
                                  size_t n_unis);
+bool universals_say_everything(struct requirement_vector *reqs,
+                               struct universal *unis,
+                               size_t n_unis);
 
 #define universals_iterate(_univ_) \
   {                                \
