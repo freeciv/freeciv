@@ -487,6 +487,100 @@ bool utype_acts_hostile(const struct unit_type *putype)
   return utype_can_do_action(putype, ACTION_HOSTILE);
 }
 
+/* Cache of if a generalized (ruleset defined) action enabler controlled
+ * action always spends all remaining movement of a unit of the specified
+ * unit type. */
+static bv_unit_types utype_act_takes_all_mp_cache[ACTION_COUNT];
+
+/**********************************************************************//**
+  Cache what generalized (ruleset defined) action enabler controlled
+  actions spends all remaining MP for a given unit type.
+**************************************************************************/
+static void utype_act_takes_all_mp_cache_set(struct unit_type *putype)
+{
+  action_iterate(act_id) {
+    /* See if the unit type has all remaining MP spent by the specified
+     * action. */
+
+    struct action *paction = action_by_number(act_id);
+    struct universal unis[] = {
+      { .kind = VUT_ACTION, .value = {.action = (paction)} },
+      { .kind = VUT_UTYPE,  .value = {.utype  = (putype)}  }
+    };
+
+    if (!utype_can_do_action(putype, paction->id)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
+                                            unis, ARRAY_SIZE(unis),
+                                            MAX_MOVE_FRAGS)) {
+      /* Guaranteed to always consume all remaining MP of an actor unit of
+       * this type. */
+      log_debug("unit_act_takes_all_mp_cache_set: %s takes all MP from %s",
+                utype_rule_name(putype), action_rule_name(paction));
+      BV_SET(utype_act_takes_all_mp_cache[paction->id], utype_index(putype));
+    } else {
+      /* Clear old value in case it was set. */
+      BV_CLR(utype_act_takes_all_mp_cache[paction->id], utype_index(putype));
+    }
+  } action_iterate_end;
+}
+
+/* Cache of if a generalized (ruleset defined) action enabler controlled
+ * action always spends all remaining movement of a unit of the specified
+ * unit type given the specified unit state property. */
+static bv_unit_types
+utype_act_takes_all_mp_ustate_cache[ACTION_COUNT][USP_COUNT];
+
+/**********************************************************************//**
+  Cache what generalized (ruleset defined) action enabler controlled
+  actions spends all remaining MP for a given unit type given the
+  specified unit state property.
+**************************************************************************/
+static void utype_act_takes_all_mp_ustate_cache_set(struct unit_type *putype)
+{
+  action_iterate(act_id) {
+    /* See if the unit type has all remaining MP spent by the specified
+     * action given the specified unit state property. */
+
+    enum ustate_prop prop = ustate_prop_begin();
+    struct action *paction = action_by_number(act_id);
+    struct universal unis[] = {
+      { .kind = VUT_ACTION,    .value = {.action     = (paction)} },
+      { .kind = VUT_UTYPE,     .value = {.utype      = (putype)}  },
+      { .kind = VUT_UNITSTATE, .value = {.unit_state = (prop)}    }
+    };
+
+    if (!utype_can_do_action(putype, paction->id)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    for (prop = ustate_prop_begin(); prop != ustate_prop_end();
+         prop = ustate_prop_next(prop)) {
+      unis[2].value.unit_state = prop;
+      if (effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
+                                              unis, ARRAY_SIZE(unis),
+                                              MAX_MOVE_FRAGS)) {
+        /* Guaranteed to always consume all remaining MP of an actor unit of
+         * this type given the specified unit state property. */
+        log_debug("unit_act_takes_all_mp_cache_set: %s takes all MP from %s"
+                  " when unit state is %s",
+                  utype_rule_name(putype), action_rule_name(paction),
+                  ustate_prop_name(prop));
+        BV_SET(utype_act_takes_all_mp_ustate_cache[paction->id][prop],
+            utype_index(putype));
+      } else {
+        /* Clear old value in case it was set. */
+        BV_CLR(utype_act_takes_all_mp_ustate_cache[paction->id][prop],
+               utype_index(putype));
+      }
+    }
+  } action_iterate_end;
+}
+
 /* Cache if any action at all may be possible when the actor unit's state
  * is...
  * bit 0 to USP_COUNT - 1: Possible when the corresponding property is TRUE
@@ -771,6 +865,9 @@ void unit_type_action_cache_set(struct unit_type *ptype)
   unit_state_action_cache_set(ptype);
   local_dipl_rel_action_cache_set(ptype);
   tgt_citytile_act_cache_set(ptype);
+
+  utype_act_takes_all_mp_cache_set(ptype);
+  utype_act_takes_all_mp_ustate_cache_set(ptype);
 }
 
 /**********************************************************************//**
@@ -996,16 +1093,8 @@ bool utype_may_act_tgt_city_tile(const struct unit_type *punit_type,
 bool utype_action_takes_all_mp(const struct unit_type *putype,
                                struct action *paction)
 {
-  /* TODO: cache the value of this function at game start.
-   * See hrm Feature #875954 https://www.hostedredmine.com/issues/875954 */
-  struct universal unis[] = {
-    { .kind = VUT_ACTION, .value = {.action = (paction)} },
-    { .kind = VUT_UTYPE,  .value = {.utype  = (putype)}  }
-  };
-
-  return effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
-                                             unis, ARRAY_SIZE(unis),
-                                             MAX_MOVE_FRAGS);
+  return BV_ISSET(utype_act_takes_all_mp_cache[paction->id],
+                  utype_index(putype));
 }
 
 /**********************************************************************//**
@@ -1021,17 +1110,8 @@ bool utype_action_takes_all_mp_if_ustate_is(const struct unit_type *putype,
                                             struct action *paction,
                                             const enum ustate_prop prop)
 {
-  /* TODO: cache the value of this function at game start.
-   * See hrm Feature #875954 https://www.hostedredmine.com/issues/875954 */
-  struct universal unis[] = {
-    { .kind = VUT_ACTION,    .value = {.action     = (paction)} },
-    { .kind = VUT_UTYPE,     .value = {.utype      = (putype)}  },
-    { .kind = VUT_UNITSTATE, .value = {.unit_state = (prop)}    }
-  };
-
-  return effect_universals_value_never_below(EFT_ACTION_SUCCESS_MOVE_COST,
-                                             unis, ARRAY_SIZE(unis),
-                                             MAX_MOVE_FRAGS);
+  return BV_ISSET(utype_act_takes_all_mp_ustate_cache[paction->id][prop],
+                  utype_index(putype));
 }
 
 /**********************************************************************//**
