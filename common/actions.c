@@ -1011,12 +1011,28 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_CONQUER_CITY2, ACTRES_CONQUER_CITY,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_CITY3] =
+      unit_action_new(ACTION_CONQUER_CITY3, ACTRES_CONQUER_CITY,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_CITY4] =
+      unit_action_new(ACTION_CONQUER_CITY4, ACTRES_CONQUER_CITY,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_CONQUER_EXTRAS] =
       unit_action_new(ACTION_CONQUER_EXTRAS, ACTRES_CONQUER_EXTRAS,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_CONQUER_EXTRAS2] =
       unit_action_new(ACTION_CONQUER_EXTRAS2, ACTRES_CONQUER_EXTRAS,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_EXTRAS3] =
+      unit_action_new(ACTION_CONQUER_EXTRAS3, ACTRES_CONQUER_EXTRAS,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_CONQUER_EXTRAS4] =
+      unit_action_new(ACTION_CONQUER_EXTRAS4, ACTRES_CONQUER_EXTRAS,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_HEAL_UNIT] =
@@ -1097,8 +1113,26 @@ static void hard_code_actions(void)
                       ACTRES_TRANSPORT_DISEMBARK,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TRANSPORT_DISEMBARK3] =
+      unit_action_new(ACTION_TRANSPORT_DISEMBARK3,
+                      ACTRES_TRANSPORT_DISEMBARK,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TRANSPORT_DISEMBARK4] =
+      unit_action_new(ACTION_TRANSPORT_DISEMBARK4,
+                      ACTRES_TRANSPORT_DISEMBARK,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK] =
       unit_action_new(ACTION_TRANSPORT_EMBARK, ACTRES_TRANSPORT_EMBARK,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TRANSPORT_EMBARK2] =
+      unit_action_new(ACTION_TRANSPORT_EMBARK2, ACTRES_TRANSPORT_EMBARK,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_TRANSPORT_EMBARK3] =
+      unit_action_new(ACTION_TRANSPORT_EMBARK3, ACTRES_TRANSPORT_EMBARK,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_SPY_ATTACK] =
@@ -1113,6 +1147,14 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_HUT_ENTER2, ACTRES_HUT_ENTER,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_HUT_ENTER3] =
+      unit_action_new(ACTION_HUT_ENTER3, ACTRES_HUT_ENTER,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_HUT_ENTER4] =
+      unit_action_new(ACTION_HUT_ENTER4, ACTRES_HUT_ENTER,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_HUT_FRIGHTEN] =
       unit_action_new(ACTION_HUT_FRIGHTEN, ACTRES_HUT_FRIGHTEN,
                       FALSE, TRUE,
@@ -1121,8 +1163,24 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_HUT_FRIGHTEN2, ACTRES_HUT_FRIGHTEN,
                       FALSE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_HUT_FRIGHTEN3] =
+      unit_action_new(ACTION_HUT_FRIGHTEN3, ACTRES_HUT_FRIGHTEN,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_HUT_FRIGHTEN4] =
+      unit_action_new(ACTION_HUT_FRIGHTEN4, ACTRES_HUT_FRIGHTEN,
+                      FALSE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_UNIT_MOVE] =
       unit_action_new(ACTION_UNIT_MOVE, ACTRES_UNIT_MOVE,
+                      TRUE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_UNIT_MOVE2] =
+      unit_action_new(ACTION_UNIT_MOVE2, ACTRES_UNIT_MOVE,
+                      TRUE, TRUE,
+                      MAK_REGULAR, 1, 1, FALSE);
+  actions[ACTION_UNIT_MOVE3] =
+      unit_action_new(ACTION_UNIT_MOVE3, ACTRES_UNIT_MOVE,
                       TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_USER_ACTION1] =
@@ -6796,10 +6854,18 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_conquer_city";
   case ACTION_CONQUER_CITY2:
     return "ui_name_conquer_city_2";
+  case ACTION_CONQUER_CITY3:
+    return "ui_name_conquer_city_3";
+  case ACTION_CONQUER_CITY4:
+    return "ui_name_conquer_city_4";
   case ACTION_CONQUER_EXTRAS:
     return "ui_name_conquer_extras";
   case ACTION_CONQUER_EXTRAS2:
     return "ui_name_conquer_extras_2";
+  case ACTION_CONQUER_EXTRAS3:
+    return "ui_name_conquer_extras_3";
+  case ACTION_CONQUER_EXTRAS4:
+    return "ui_name_conquer_extras_4";
   case ACTION_HEAL_UNIT:
     return "ui_name_heal_unit";
   case ACTION_HEAL_UNIT2:
@@ -6834,24 +6900,44 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport_board";
   case ACTION_TRANSPORT_EMBARK:
     return "ui_name_transport_embark";
+  case ACTION_TRANSPORT_EMBARK2:
+    return "ui_name_transport_embark_2";
+  case ACTION_TRANSPORT_EMBARK3:
+    return "ui_name_transport_embark_3";
   case ACTION_TRANSPORT_UNLOAD:
     return "ui_name_transport_unload";
   case ACTION_TRANSPORT_DISEMBARK1:
     return "ui_name_transport_disembark";
   case ACTION_TRANSPORT_DISEMBARK2:
     return "ui_name_transport_disembark_2";
+  case ACTION_TRANSPORT_DISEMBARK3:
+    return "ui_name_transport_disembark_3";
+  case ACTION_TRANSPORT_DISEMBARK4:
+    return "ui_name_transport_disembark_4";
   case ACTION_HUT_ENTER:
     return "ui_name_enter_hut";
   case ACTION_HUT_ENTER2:
     return "ui_name_enter_hut_2";
+  case ACTION_HUT_ENTER3:
+    return "ui_name_enter_hut_3";
+  case ACTION_HUT_ENTER4:
+    return "ui_name_enter_hut_4";
   case ACTION_HUT_FRIGHTEN:
     return "ui_name_frighten_hut";
   case ACTION_HUT_FRIGHTEN2:
     return "ui_name_frighten_hut_2";
+  case ACTION_HUT_FRIGHTEN3:
+    return "ui_name_frighten_hut_3";
+  case ACTION_HUT_FRIGHTEN4:
+    return "ui_name_frighten_hut_4";
   case ACTION_SPY_ATTACK:
     return "ui_name_spy_attack";
   case ACTION_UNIT_MOVE:
     return "ui_name_unit_move";
+  case ACTION_UNIT_MOVE2:
+    return "ui_name_unit_move_2";
+  case ACTION_UNIT_MOVE3:
+    return "ui_name_unit_move_3";
   case ACTION_USER_ACTION1:
     return "ui_name_user_action_1";
   case ACTION_USER_ACTION2:
@@ -7030,12 +7116,16 @@ const char *action_ui_name_default(int act)
     /* TRANS: Surgical Str_ike Production (100% chance of success). */
     return N_("Surgical Str%sike Production%s");
   case ACTION_CONQUER_CITY:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
     /* TRANS: _Conquer City (100% chance of success). */
     return N_("%sConquer City%s");
   case ACTION_CONQUER_CITY2:
     /* TRANS: _Conquer City 2 (100% chance of success). */
     return N_("%sConquer City 2%s");
   case ACTION_CONQUER_EXTRAS:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
     /* TRANS: _Conquer Extras (100% chance of success). */
     return N_("%sConquer Extras%s");
   case ACTION_CONQUER_EXTRAS2:
@@ -7088,12 +7178,16 @@ const char *action_ui_name_default(int act)
     /* TRANS: _Board (100% chance of success). */
     return N_("%sBoard%s");
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
     /* TRANS: _Embark (100% chance of success). */
     return N_("%sEmbark%s");
   case ACTION_TRANSPORT_UNLOAD:
     /* TRANS: _Unload (100% chance of success). */
     return N_("%sUnload%s");
   case ACTION_TRANSPORT_DISEMBARK1:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
     /* TRANS: _Disembark (100% chance of success). */
     return N_("%sDisembark%s");
   case ACTION_TRANSPORT_DISEMBARK2:
@@ -7104,13 +7198,19 @@ const char *action_ui_name_default(int act)
     return N_("%sEliminate Diplomat%s");
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
     /* TRANS: Enter _Hut (100% chance of success). */
     return N_("Enter %sHut%s");
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
     /* TRANS: Frighten _Hut (100% chance of success). */
     return N_("Frighten %sHut%s");
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* TRANS: Regular _Move (100% chance of success). */
     return N_("Regular %sMove%s");
   case ACTION_USER_ACTION1:
@@ -7186,6 +7286,8 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7203,9 +7305,13 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
@@ -7213,11 +7319,19 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN4:
+  case ACTION_HUT_FRIGHTEN3:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_USER_ACTION1:
@@ -7290,6 +7404,8 @@ int action_min_range_default(int act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7307,9 +7423,13 @@ int action_min_range_default(int act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
@@ -7317,11 +7437,19 @@ int action_min_range_default(int act)
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -7391,6 +7519,8 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7408,17 +7538,29 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -7504,6 +7646,8 @@ int action_max_range_default(int act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7521,17 +7665,29 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -7619,6 +7775,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -7635,20 +7793,32 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -8095,6 +8265,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_HEAL_UNIT:
   case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
@@ -8112,9 +8284,13 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
@@ -8122,11 +8298,19 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
     /* actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_SPY_SPREAD_PLAGUE:
@@ -8179,8 +8363,16 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "conquer_city_blocked_by";
   case ACTION_CONQUER_CITY2:
     return "conquer_city_2_blocked_by";
+  case ACTION_CONQUER_CITY3:
+    return "conquer_city_3_blocked_by";
+  case ACTION_CONQUER_CITY4:
+    return "conquer_city_4_blocked_by";
   case ACTION_UNIT_MOVE:
     return "move_is_blocked_by";
+  case ACTION_UNIT_MOVE2:
+    return "move_2_is_blocked_by";
+  case ACTION_UNIT_MOVE3:
+    return "move_3_is_blocked_by";
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -8240,17 +8432,27 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:
@@ -8294,6 +8496,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_SUICIDE_ATTACK:
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
+  case ACTION_CONQUER_CITY3:
+  case ACTION_CONQUER_CITY4:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -8352,18 +8556,30 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_TRANSPORT_ALIGHT:
   case ACTION_TRANSPORT_BOARD:
   case ACTION_TRANSPORT_EMBARK:
+  case ACTION_TRANSPORT_EMBARK2:
+  case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
+  case ACTION_TRANSPORT_DISEMBARK3:
+  case ACTION_TRANSPORT_DISEMBARK4:
   case ACTION_SPY_SPREAD_PLAGUE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
+  case ACTION_CONQUER_EXTRAS3:
+  case ACTION_CONQUER_EXTRAS4:
   case ACTION_HUT_ENTER:
   case ACTION_HUT_ENTER2:
+  case ACTION_HUT_ENTER3:
+  case ACTION_HUT_ENTER4:
   case ACTION_HUT_FRIGHTEN:
   case ACTION_HUT_FRIGHTEN2:
+  case ACTION_HUT_FRIGHTEN3:
+  case ACTION_HUT_FRIGHTEN4:
   case ACTION_UNIT_MOVE:
+  case ACTION_UNIT_MOVE2:
+  case ACTION_UNIT_MOVE3:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

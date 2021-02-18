@@ -6611,6 +6611,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACTION_CAPTURE_UNITS);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                  ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
+                 ACTION_CAPTURE_UNITS);
         }
 
         /* Forbid exploding nuclear or attacking when it is legal to
@@ -6634,6 +6638,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACTION_BOMBARD);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                  ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_BOMBARD);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
+                 ACTION_BOMBARD);
           BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                  ACTION_BOMBARD2);
           BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
@@ -6648,6 +6656,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACTION_BOMBARD2);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                  ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_BOMBARD2);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
+                 ACTION_BOMBARD2);
           BV_SET(action_by_number(ACTION_NUKE)->blocked_by,
                  ACTION_BOMBARD3);
           BV_SET(action_by_number(ACTION_NUKE_CITY)->blocked_by,
@@ -6661,6 +6673,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
                  ACTION_BOMBARD3);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_BOMBARD3);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
                  ACTION_BOMBARD3);
         }
 
@@ -6679,6 +6695,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACTION_NUKE);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                  ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_NUKE);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
+                 ACTION_NUKE);
           BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
                  ACTION_NUKE_CITY);
           BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
@@ -6687,6 +6707,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                  ACTION_NUKE_CITY);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
                  ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_NUKE_CITY);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
+                 ACTION_NUKE_CITY);
           BV_SET(action_by_number(ACTION_SUICIDE_ATTACK)->blocked_by,
                  ACTION_NUKE_UNITS);
           BV_SET(action_by_number(ACTION_ATTACK)->blocked_by,
@@ -6694,6 +6718,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           BV_SET(action_by_number(ACTION_CONQUER_CITY)->blocked_by,
                  ACTION_NUKE_UNITS);
           BV_SET(action_by_number(ACTION_CONQUER_CITY2)->blocked_by,
+                 ACTION_NUKE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY3)->blocked_by,
+                 ACTION_NUKE_UNITS);
+          BV_SET(action_by_number(ACTION_CONQUER_CITY4)->blocked_by,
                  ACTION_NUKE_UNITS);
         }
       }

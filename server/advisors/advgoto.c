@@ -150,6 +150,18 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                         punit, ptrans)) {
     /* "Transport Embark". */
     paction = action_by_number(ACTION_TRANSPORT_EMBARK);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+             && ptrans != NULL
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+                                               punit, ptrans)) {
+    /* "Transport Embark 2". */
+    paction = action_by_number(ACTION_TRANSPORT_EMBARK2);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, ptile)
+             && ptrans != NULL
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+                                               punit, ptrans)) {
+    /* "Transport Embark 3". */
+    paction = action_by_number(ACTION_TRANSPORT_EMBARK3);
   } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
                                             punit, ptile, NULL)) {
     /* "Transport Disembark". */
@@ -158,6 +170,14 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                             punit, ptile, NULL)) {
     /* "Transport Disembark 2". */
     paction = action_by_number(ACTION_TRANSPORT_DISEMBARK2);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK3,
+                                            punit, ptile, NULL)) {
+    /* "Transport Disembark 3". */
+    paction = action_by_number(ACTION_TRANSPORT_DISEMBARK3);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK4,
+                                            punit, ptile, NULL)) {
+    /* "Transport Disembark 4". */
+    paction = action_by_number(ACTION_TRANSPORT_DISEMBARK4);
   } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER,
                                             punit, ptile, NULL)) {
     /* "Enter Hut". */
@@ -166,6 +186,14 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                             punit, ptile, NULL)) {
     /* "Enter Hut 2". */
     paction = action_by_number(ACTION_HUT_ENTER2);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER3,
+                                            punit, ptile, NULL)) {
+    /* "Enter Hut 3". */
+    paction = action_by_number(ACTION_HUT_ENTER3);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_ENTER4,
+                                            punit, ptile, NULL)) {
+    /* "Enter Hut 4". */
+    paction = action_by_number(ACTION_HUT_ENTER4);
   } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN,
                                             punit, ptile, NULL)) {
     /* "Frighten Hut". */
@@ -174,9 +202,25 @@ static bool adv_unit_move(struct unit *punit, struct tile *ptile)
                                             punit, ptile, NULL)) {
     /* "Frighten Hut 2". */
     paction = action_by_number(ACTION_HUT_FRIGHTEN2);
-  } else {
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN3,
+                                            punit, ptile, NULL)) {
+    /* "Frighten Hut 3". */
+    paction = action_by_number(ACTION_HUT_FRIGHTEN3);
+  } else if (is_action_enabled_unit_on_tile(ACTION_HUT_FRIGHTEN4,
+                                            punit, ptile, NULL)) {
+    /* "Frighten Hut 4". */
+    paction = action_by_number(ACTION_HUT_FRIGHTEN4);
+  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE,
+                                            punit, ptile, NULL)) {
     /* "Unit Move". */
     paction = action_by_number(ACTION_UNIT_MOVE);
+  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+                                            punit, ptile, NULL)) {
+    /* "Unit Move 2". */
+    paction = action_by_number(ACTION_UNIT_MOVE2);
+  } else {
+    /* "Unit Move 3". */
+    paction = action_by_number(ACTION_UNIT_MOVE3);
   }
 
   /* Try not to end move next to an enemy if we can avoid it by waiting */
