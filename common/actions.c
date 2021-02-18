@@ -3024,6 +3024,13 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
     }
     break;
 
+  case ACTRES_PARADROP:
+    if (actor_unittype->paratroopers_range <= 0) {
+      /* Reason: Can't pardrop 0 tiles. */
+      return FALSE;
+    }
+    break;
+
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -3051,7 +3058,6 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
-  case ACTRES_PARADROP:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
