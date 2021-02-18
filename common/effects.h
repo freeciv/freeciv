@@ -371,9 +371,9 @@ int effect_value_from_universals(enum effect_type type,
                                  struct universal *unis, size_t n_unis);
 
 bool effect_universals_value_never_below(enum effect_type type,
-                                             struct universal *unis,
-                                             size_t n_unis,
-                                             int min_value);
+                                         struct universal *unis,
+                                         size_t n_unis,
+                                         int min_value);
 
 bool is_building_replaced(const struct city *pcity,
                           const struct impr_type *pimprove,
