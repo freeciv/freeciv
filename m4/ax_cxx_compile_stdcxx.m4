@@ -16,7 +16,7 @@
 #   The second argument, if specified, indicates whether you insist on an
 #   extended mode (e.g. -std=gnu++11) or a strict conformance mode (e.g.
 #   -std=c++11).  If neither is specified, you get whatever works, with
-#   preference for an extended mode.
+#   preference for no added switch, and then for an extended mode.
 #
 #   The third argument, if specified 'mandatory' or if left unspecified,
 #   indicates that baseline support for the specified C++ standard is
@@ -33,14 +33,16 @@
 #   Copyright (c) 2014, 2015 Google Inc.; contributed by Alexey Sokolov <sokolov@google.com>
 #   Copyright (c) 2015 Paul Norman <penorman@mac.com>
 #   Copyright (c) 2015 Moritz Klammler <moritz@klammler.eu>
-#   Copyright (c) 2016 Krzesimir Nowak <qdlacz@gmail.com>
+#   Copyright (c) 2016, 2018 Krzesimir Nowak <qdlacz@gmail.com>
+#   Copyright (c) 2019 Enji Cooper <yaneurabeya@gmail.com>
+#   Copyright (c) 2020 Jason Merrill <jason@redhat.com>
 #
 #   Copying and distribution of this file, with or without modification, are
 #   permitted in any medium without royalty provided the copyright notice
 #   and this notice are preserved.  This file is offered as-is, without any
 #   warranty.
 
-#serial 8
+#serial 12
 
 dnl  This macro is based on the code from the AX_CXX_COMPILE_STDCXX_11 macro
 dnl  (serial version number 13).
@@ -60,14 +62,16 @@ AC_DEFUN([AX_CXX_COMPILE_STDCXX], [dnl
         [m4_fatal([invalid third argument `$3' to AX_CXX_COMPILE_STDCXX])])
   AC_LANG_PUSH([C++])dnl
   ac_success=no
-  AC_CACHE_CHECK(whether $CXX supports C++$1 features by default,
-  ax_cv_cxx_compile_cxx$1,
-  [AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
-    [ax_cv_cxx_compile_cxx$1=yes],
-    [ax_cv_cxx_compile_cxx$1=no])])
-  if test x$ax_cv_cxx_compile_cxx$1 = xyes; then
-    ac_success=yes
-  fi
+
+  m4_if([$2], [], [dnl
+    AC_CACHE_CHECK(whether $CXX supports C++$1 features by default,
+		   ax_cv_cxx_compile_cxx$1,
+      [AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_testbody_$1])],
+        [ax_cv_cxx_compile_cxx$1=yes],
+        [ax_cv_cxx_compile_cxx$1=no])])
+    if test x$ax_cv_cxx_compile_cxx$1 = xyes; then
+      ac_success=yes
+    fi])
 
   m4_if([$2], [noext], [], [dnl
   if test x$ac_success = xno; then
@@ -197,11 +201,13 @@ namespace cxx11
 
     struct Base
     {
+      virtual ~Base() {}
       virtual void f() {}
     };
 
     struct Derived : public Base
     {
+      virtual ~Derived() override {}
       virtual void f() override {}
     };
 
@@ -585,19 +591,11 @@ m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_17], [[
 
 #error "This is not a C++ compiler"
 
-#elif __cplusplus <= 201402L
+#elif __cplusplus < 201703L
 
 #error "This is not a C++17 compiler"
 
 #else
-
-#if defined(__clang__)
-  #define REALLY_CLANG
-#else
-  #if defined(__GNUC__)
-    #define REALLY_GCC
-  #endif
-#endif
 
 #include <initializer_list>
 #include <utility>
@@ -606,16 +604,12 @@ m4_define([_AX_CXX_COMPILE_STDCXX_testbody_new_in_17], [[
 namespace cxx17
 {
 
-#if !defined(REALLY_CLANG)
   namespace test_constexpr_lambdas
   {
-
-    // TODO: test it with clang++ from git
 
     constexpr int foo = [](){return 42;}();
 
   }
-#endif // !defined(REALLY_CLANG)
 
   namespace test::nested_namespace::definitions
   {
@@ -850,11 +844,8 @@ namespace cxx17
 
   }
 
-#if !defined(REALLY_CLANG)
   namespace test_template_argument_deduction_for_class_templates
   {
-
-    // TODO: test it with clang++ from git
 
     template <typename T1, typename T2>
     struct pair
@@ -874,7 +865,6 @@ namespace cxx17
     }
 
   }
-#endif // !defined(REALLY_CLANG)
 
   namespace test_non_type_auto_template_parameters
   {
@@ -888,11 +878,8 @@ namespace cxx17
 
   }
 
-#if !defined(REALLY_CLANG)
   namespace test_structured_bindings
   {
-
-    // TODO: test it with clang++ from git
 
     int arr[2] = { 1, 2 };
     std::pair<int, int> pr = { 1, 2 };
@@ -925,13 +912,9 @@ namespace cxx17
     const auto [ x3, y3 ] = f3();
 
   }
-#endif // !defined(REALLY_CLANG)
 
-#if !defined(REALLY_CLANG)
   namespace test_exception_spec_type_system
   {
-
-    // TODO: test it with clang++ from git
 
     struct Good {};
     struct Bad {};
@@ -950,7 +933,6 @@ namespace cxx17
     static_assert (std::is_same_v<Good, decltype(f(g1, g2))>);
 
   }
-#endif // !defined(REALLY_CLANG)
 
   namespace test_inline_variables
   {
@@ -975,6 +957,6 @@ namespace cxx17
 
 }  // namespace cxx17
 
-#endif  // __cplusplus <= 201402L
+#endif  // __cplusplus < 201703L
 
 ]])
