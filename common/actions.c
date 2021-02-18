@@ -1023,6 +1023,10 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_HEAL_UNIT, ACTRES_HEAL_UNIT,
                       FALSE, TRUE,
                       MAK_STAYS, 0, 1, FALSE);
+  actions[ACTION_HEAL_UNIT2] =
+      unit_action_new(ACTION_HEAL_UNIT2, ACTRES_HEAL_UNIT,
+                      FALSE, TRUE,
+                      MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_TRANSFORM_TERRAIN] =
       unit_action_new(ACTION_TRANSFORM_TERRAIN, ACTRES_TRANSFORM_TERRAIN,
                       TRUE, FALSE,
@@ -6798,6 +6802,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_conquer_extras_2";
   case ACTION_HEAL_UNIT:
     return "ui_name_heal_unit";
+  case ACTION_HEAL_UNIT2:
+    return "ui_name_heal_unit_2";
   case ACTION_TRANSFORM_TERRAIN:
     return "ui_name_transform_terrain";
   case ACTION_CULTIVATE:
@@ -7036,6 +7042,7 @@ const char *action_ui_name_default(int act)
     /* TRANS: _Conquer Extras 2 (100% chance of success). */
     return N_("%sConquer Extras 2%s");
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
     /* TRANS: Heal _Unit (3% chance of success). */
     return N_("Heal %sUnit%s");
   case ACTION_TRANSFORM_TERRAIN:
@@ -7180,6 +7187,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -7283,6 +7291,7 @@ int action_min_range_default(int act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -7383,6 +7392,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -7495,6 +7505,7 @@ int action_max_range_default(int act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -7609,6 +7620,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -8084,6 +8096,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_CONQUER_CITY:
   case ACTION_CONQUER_CITY2:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -8211,6 +8224,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:
@@ -8322,6 +8336,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_HEAL_UNIT:
+  case ACTION_HEAL_UNIT2:
   case ACTION_TRANSFORM_TERRAIN:
   case ACTION_CULTIVATE:
   case ACTION_PLANT:

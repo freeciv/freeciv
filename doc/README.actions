@@ -583,6 +583,12 @@ Actions done by a unit against another unit
  * actor must be on the same tile as the target or on the tile next to it.
  * target must be visible for the actor.
 
+"Heal Unit 2" - Restore the target unit's health.
+ * UI name can be set using ui_name_heal_unit_2
+ * actor must be on the same tile as the target or on the tile next to it.
+ * target must be visible for the actor.
+ * A copy of "Heal Unit"
+
 "Transport Alight" - Exit target transport to same tile.
  * UI name can be set using ui_name_transport_alight
  * actor must be on the same tile as the target
