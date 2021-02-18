@@ -4833,6 +4833,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_PARADROP:
       case ACTION_AIRLIFT:
       case ACTION_HEAL_UNIT:
+      case ACTION_HEAL_UNIT2:
       case ACTION_TRANSFORM_TERRAIN:
       case ACTION_CULTIVATE:
       case ACTION_PLANT:

@@ -232,6 +232,8 @@ extern "C" {
 #define SPECENUM_VALUE82NAME "User Action 2"
 #define SPECENUM_VALUE83 ACTION_USER_ACTION3
 #define SPECENUM_VALUE83NAME "User Action 3"
+#define SPECENUM_VALUE84 ACTION_HEAL_UNIT2
+#define SPECENUM_VALUE84NAME "Heal Unit 2"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
