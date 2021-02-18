@@ -1867,6 +1867,13 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
     }
     break;
 
+  case ACTION_PARADROP:
+    if (actor_unittype->paratroopers_range <= 0) {
+      /* Reason: Can't pardrop 0 tiles. */
+      return FALSE;
+    }
+    break;
+
   case ACTION_ESTABLISH_EMBASSY:
   case ACTION_ESTABLISH_EMBASSY_STAY:
   case ACTION_SPY_INVESTIGATE_CITY:
@@ -1903,7 +1910,6 @@ action_actor_utype_hard_reqs_ok(const action_id wanted_action,
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
-  case ACTION_PARADROP:
   case ACTION_AIRLIFT:
   case ACTION_CONQUER_CITY:
   case ACTION_HEAL_UNIT:
