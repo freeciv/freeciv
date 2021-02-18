@@ -1032,43 +1032,75 @@ void rscompat_postprocess(struct rscompat_info *info)
       /* "Bribe Unit" */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_BRIBE);
       auto_perf->alternatives[0] = ACTION_TRANSPORT_EMBARK;
-      auto_perf->alternatives[1] = ACTION_TRANSPORT_DISEMBARK1;
-      auto_perf->alternatives[2] = ACTION_TRANSPORT_DISEMBARK2;
-      auto_perf->alternatives[3] = ACTION_CONQUER_EXTRAS;
-      auto_perf->alternatives[4] = ACTION_CONQUER_EXTRAS2;
-      auto_perf->alternatives[5] = ACTION_HUT_ENTER;
-      auto_perf->alternatives[6] = ACTION_HUT_ENTER2;
-      auto_perf->alternatives[7] = ACTION_HUT_FRIGHTEN;
-      auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN2;
-      auto_perf->alternatives[9] = ACTION_UNIT_MOVE;
-      action_list_end(auto_perf->alternatives, 10);
+      auto_perf->alternatives[1] = ACTION_TRANSPORT_EMBARK2;
+      auto_perf->alternatives[2] = ACTION_TRANSPORT_EMBARK3;
+      auto_perf->alternatives[3] = ACTION_TRANSPORT_DISEMBARK1;
+      auto_perf->alternatives[4] = ACTION_TRANSPORT_DISEMBARK2;
+      auto_perf->alternatives[5] = ACTION_TRANSPORT_DISEMBARK3;
+      auto_perf->alternatives[6] = ACTION_TRANSPORT_DISEMBARK4;
+      auto_perf->alternatives[7] = ACTION_CONQUER_EXTRAS;
+      auto_perf->alternatives[8] = ACTION_CONQUER_EXTRAS2;
+      auto_perf->alternatives[9] = ACTION_CONQUER_EXTRAS3;
+      auto_perf->alternatives[10] = ACTION_CONQUER_EXTRAS4;
+      auto_perf->alternatives[11] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[12] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[13] = ACTION_HUT_ENTER3;
+      auto_perf->alternatives[14] = ACTION_HUT_ENTER4;
+      auto_perf->alternatives[15] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[16] = ACTION_HUT_FRIGHTEN2;
+      auto_perf->alternatives[17] = ACTION_HUT_FRIGHTEN3;
+      auto_perf->alternatives[18] = ACTION_HUT_FRIGHTEN4;
+      auto_perf->alternatives[19] = ACTION_UNIT_MOVE;
+      auto_perf->alternatives[20] = ACTION_UNIT_MOVE2;
+      auto_perf->alternatives[21] = ACTION_UNIT_MOVE3;
+      action_list_end(auto_perf->alternatives, 22);
 
       /* "Attack" */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_POST_ATTACK);
       auto_perf->alternatives[0] = ACTION_CONQUER_CITY;
       auto_perf->alternatives[1] = ACTION_CONQUER_CITY2;
-      auto_perf->alternatives[2] = ACTION_TRANSPORT_DISEMBARK1;
-      auto_perf->alternatives[3] = ACTION_TRANSPORT_DISEMBARK2;
-      auto_perf->alternatives[4] = ACTION_CONQUER_EXTRAS;
-      auto_perf->alternatives[5] = ACTION_CONQUER_EXTRAS2;
-      auto_perf->alternatives[6] = ACTION_HUT_ENTER;
-      auto_perf->alternatives[7] = ACTION_HUT_ENTER2;
-      auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN;
-      auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN2;
-      auto_perf->alternatives[10] = ACTION_UNIT_MOVE;
-      action_list_end(auto_perf->alternatives, 11);
+      auto_perf->alternatives[2] = ACTION_CONQUER_CITY3;
+      auto_perf->alternatives[3] = ACTION_CONQUER_CITY4;
+      auto_perf->alternatives[4] = ACTION_TRANSPORT_DISEMBARK1;
+      auto_perf->alternatives[5] = ACTION_TRANSPORT_DISEMBARK2;
+      auto_perf->alternatives[6] = ACTION_TRANSPORT_DISEMBARK3;
+      auto_perf->alternatives[7] = ACTION_TRANSPORT_DISEMBARK4;
+      auto_perf->alternatives[8] = ACTION_CONQUER_EXTRAS;
+      auto_perf->alternatives[9] = ACTION_CONQUER_EXTRAS2;
+      auto_perf->alternatives[10] = ACTION_CONQUER_EXTRAS3;
+      auto_perf->alternatives[11] = ACTION_CONQUER_EXTRAS4;
+      auto_perf->alternatives[12] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[13] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[14] = ACTION_HUT_ENTER3;
+      auto_perf->alternatives[15] = ACTION_HUT_ENTER4;
+      auto_perf->alternatives[16] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[17] = ACTION_HUT_FRIGHTEN2;
+      auto_perf->alternatives[18] = ACTION_HUT_FRIGHTEN3;
+      auto_perf->alternatives[19] = ACTION_HUT_FRIGHTEN4;
+      auto_perf->alternatives[20] = ACTION_UNIT_MOVE;
+      auto_perf->alternatives[21] = ACTION_UNIT_MOVE2;
+      auto_perf->alternatives[22] = ACTION_UNIT_MOVE3;
+      action_list_end(auto_perf->alternatives, 23);
 
 
       /* The city that made the unit's current tile native is gone.
        * Evaluated against an adjacent tile. */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_CITY);
       auto_perf->alternatives[0] = ACTION_TRANSPORT_EMBARK;
-      auto_perf->alternatives[1] = ACTION_HUT_ENTER;
-      auto_perf->alternatives[2] = ACTION_HUT_ENTER2;
-      auto_perf->alternatives[3] = ACTION_HUT_FRIGHTEN;
-      auto_perf->alternatives[4] = ACTION_HUT_FRIGHTEN2;
-      auto_perf->alternatives[5] = ACTION_UNIT_MOVE;
-      action_list_end(auto_perf->alternatives, 6);
+      auto_perf->alternatives[1] = ACTION_TRANSPORT_EMBARK2;
+      auto_perf->alternatives[2] = ACTION_TRANSPORT_EMBARK3;
+      auto_perf->alternatives[3] = ACTION_HUT_ENTER;
+      auto_perf->alternatives[4] = ACTION_HUT_ENTER2;
+      auto_perf->alternatives[5] = ACTION_HUT_ENTER3;
+      auto_perf->alternatives[6] = ACTION_HUT_ENTER4;
+      auto_perf->alternatives[7] = ACTION_HUT_FRIGHTEN;
+      auto_perf->alternatives[8] = ACTION_HUT_FRIGHTEN2;
+      auto_perf->alternatives[9] = ACTION_HUT_FRIGHTEN3;
+      auto_perf->alternatives[10] = ACTION_HUT_FRIGHTEN4;
+      auto_perf->alternatives[11] = ACTION_UNIT_MOVE;
+      auto_perf->alternatives[12] = ACTION_UNIT_MOVE2;
+      auto_perf->alternatives[13] = ACTION_UNIT_MOVE3;
+      action_list_end(auto_perf->alternatives, 14);
     }
 
     /* diplchance setting control over initial dice roll odds has moved to

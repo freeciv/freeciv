@@ -4757,10 +4757,16 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_TRANSPORT_ALIGHT:
       case ACTION_TRANSPORT_BOARD:
       case ACTION_TRANSPORT_EMBARK:
+      case ACTION_TRANSPORT_EMBARK2:
+      case ACTION_TRANSPORT_EMBARK3:
       case ACTION_TRANSPORT_UNLOAD:
       case ACTION_TRANSPORT_DISEMBARK1:
       case ACTION_TRANSPORT_DISEMBARK2:
+      case ACTION_TRANSPORT_DISEMBARK3:
+      case ACTION_TRANSPORT_DISEMBARK4:
       case ACTION_UNIT_MOVE:
+      case ACTION_UNIT_MOVE2:
+      case ACTION_UNIT_MOVE3:
         /* Not interesting. */
         break;
       case ACTION_USER_ACTION1:
@@ -4779,9 +4785,13 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SUICIDE_ATTACK:
       case ACTION_CONQUER_CITY:
       case ACTION_CONQUER_CITY2:
+      case ACTION_CONQUER_CITY3:
+      case ACTION_CONQUER_CITY4:
       case ACTION_STRIKE_PRODUCTION:
       case ACTION_CONQUER_EXTRAS:
       case ACTION_CONQUER_EXTRAS2:
+      case ACTION_CONQUER_EXTRAS3:
+      case ACTION_CONQUER_EXTRAS4:
         /* An attack. */
         if (attack_action == ACTION_NONE) {
           /* No previous attack action found. */
@@ -4846,8 +4856,12 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_IRRIGATE:
       case ACTION_HUT_ENTER:
       case ACTION_HUT_ENTER2:
+      case ACTION_HUT_ENTER3:
+      case ACTION_HUT_ENTER4:
       case ACTION_HUT_FRIGHTEN:
       case ACTION_HUT_FRIGHTEN2:
+      case ACTION_HUT_FRIGHTEN3:
+      case ACTION_HUT_FRIGHTEN4:
         /* An interesting non attack action has been found. */
         return ACTION_NONE;
         break;

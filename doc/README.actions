@@ -542,6 +542,18 @@ Actions done by a unit against a city
 * A copy of "Conquer City".
 * See "Conquer City" for everything else.
 
+"Conquer City 3" - Conquer the target city.
+* UI name can be set using ui_name_conquer_city_3
+* any action listed in conquer_city_3_blocked_by must be impossible
+* A copy of "Conquer City".
+* See "Conquer City" for everything else.
+
+"Conquer City 4" - Conquer the target city.
+* UI name can be set using ui_name_conquer_city_4
+* any action listed in conquer_city_4_blocked_by must be impossible
+* A copy of "Conquer City".
+* See "Conquer City" for everything else.
+
 "Surgical Strike Building" - Destroy a specific building.
  * UI name can be set using ui_name_surgical_strike_building
  * actor must be aware that the target exists
@@ -670,6 +682,16 @@ Actions done by a unit against another unit
  * the target tile can't contain any city or units not allied to the actor
    unit and all its cargo.
  * target must be visible to the actor.
+
+"Transport Embark 2" - Enter target transport on a different tile.
+ * UI name can be set using ui_name_transport_embark_2
+ * A copy of "Transport Embark".
+ * See "Transport Embark" for everything else.
+
+"Transport Embark 3" - Enter target transport on a different tile.
+ * UI name can be set using ui_name_transport_embark_3
+ * A copy of "Transport Embark".
+ * See "Transport Embark" for everything else.
 
 Actions done by a unit against all units at a tile
 ==================================================
@@ -989,6 +1011,16 @@ Actions done by a unit against a tile
 * A copy of "Transport Disembark".
 * See "Transport Disembark" for everything else.
 
+"Transport Disembark 3" - Exit transport to target tile.
+* UI name can be set using ui_name_transport_disembark_3
+* A copy of "Transport Disembark".
+* See "Transport Disembark" for everything else.
+
+"Transport Disembark 4" - Exit transport to target tile.
+* UI name can be set using ui_name_transport_disembark_4
+* A copy of "Transport Disembark".
+* See "Transport Disembark" for everything else.
+
 "Enter Hut" - Enter a Hut, destroying it in the process.
 * UI name can be set using ui_name_enter_hut
 * the actor unit must be on a tile next to the target.
@@ -1018,6 +1050,16 @@ Actions done by a unit against a tile
 
 "Enter Hut 2" - Enter a Hut, destroying it in the process.
 * UI name can be set using ui_name_enter_hut_2
+* A copy of "Enter Hut"
+* See "Enter Hut" for everything else.
+
+"Enter Hut 3" - Enter a Hut, destroying it in the process.
+* UI name can be set using ui_name_enter_hut_3
+* A copy of "Enter Hut"
+* See "Enter Hut" for everything else.
+
+"Enter Hut 4" - Enter a Hut, destroying it in the process.
+* UI name can be set using ui_name_enter_hut_4
 * A copy of "Enter Hut"
 * See "Enter Hut" for everything else.
 
@@ -1053,6 +1095,16 @@ Actions done by a unit against a tile
 * A copy of "Frighten Hut"
 * See "Frighten Hut" for everything else.
 
+"Frighten Hut 3" - Frighten a Hut, destroying it in the process.
+* UI name can be set using ui_name_frighten_hut_3
+* A copy of "Frighten Hut"
+* See "Frighten Hut" for everything else.
+
+"Frighten Hut 4" - Frighten a Hut, destroying it in the process.
+* UI name can be set using ui_name_frighten_hut_4
+* A copy of "Frighten Hut"
+* See "Frighten Hut" for everything else.
+
 "Unit Move" - a regular move to the target tile.
 * UI name can be set using ui_name_unit_move
 * any action listed in move_is_blocked_by must be impossible
@@ -1072,6 +1124,18 @@ Actions done by a unit against a tile
   unit and all its cargo.
 * the target tile isn't blocked for the actor unit by some other unit's
   zone of control (ZOC)
+
+"Unit Move 2" - a regular move to the target tile.
+* UI name can be set using ui_name_unit_move_2
+* any action listed in move_2_is_blocked_by must be impossible
+* A copy of "Unit Move"
+* See "Unit Move" for everything else.
+
+"Unit Move 3" - a regular move to the target tile.
+* UI name can be set using ui_name_unit_move_3
+* any action listed in move_3_is_blocked_by must be impossible
+* A copy of "Unit Move"
+* See "Unit Move" for everything else.
 
 Actions done by a unit against all extras at a tile
 ===================================================
@@ -1103,6 +1167,16 @@ Actions done by a unit against all extras at a tile
 
 "Conquer Extras 2" - Claim ownership of an extra.
 * UI name can be set using ui_name_conquer_extras_2
+* A copy of "Conquer Extras"
+* See "Conquer Extras" for everything else.
+
+"Conquer Extras 3" - Claim ownership of an extra.
+* UI name can be set using ui_name_conquer_extras_3
+* A copy of "Conquer Extras"
+* See "Conquer Extras" for everything else.
+
+"Conquer Extras 4" - Claim ownership of an extra.
+* UI name can be set using ui_name_conquer_extras_4
 * A copy of "Conquer Extras"
 * See "Conquer Extras" for everything else.
 

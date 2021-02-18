@@ -4991,6 +4991,16 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                  NO_TARGET, "", ACTION_UNIT_MOVE,
                                  ACT_REQ_PLAYER);
+    } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+                                              punit, pdesttile, NULL)) {
+      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                                 NO_TARGET, "", ACTION_UNIT_MOVE2,
+                                 ACT_REQ_PLAYER);
+    } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
+                                              punit, pdesttile, NULL)) {
+      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                                 NO_TARGET, "", ACTION_UNIT_MOVE3,
+                                 ACT_REQ_PLAYER);
     } else {
       /* TODO: Extend the action not enabled explanation system to cover all
        * existing reasons and switch to using it. See hrm Feature #920229 */
