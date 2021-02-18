@@ -1101,7 +1101,7 @@ Actions done by a unit against all extras at a tile
   zone of control (ZOC)
 
 "Conquer Extras 2" - Claim ownership of an extra.
-* UI name can be set using ui_name_conquer_extras
+* UI name can be set using ui_name_conquer_extras_2
 * A copy of "Conquer Extras"
 * See "Conquer Extras" for everything else.
 
