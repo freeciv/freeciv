@@ -1269,6 +1269,8 @@ static int action_target_neg_util(action_id act_id,
     return 0;
 
   /* Shouldn't happen. */
+  case ACTRES_PARADROP_CONQUER:
+    /* Against the tile so potential city effects are overlooked for now. */
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_SPY_ATTACK:

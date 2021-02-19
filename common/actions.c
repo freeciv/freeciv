@@ -329,6 +329,7 @@ static void hard_code_oblig_hard_reqs(void)
                      /* TRANS: error message for ruledit */
                      N_("All action enablers for %s must require a "
                         "non domestic target."),
+                     ACTRES_PARADROP_CONQUER,
                      ACTRES_NONE);
   /* The same for tile extras targeted actions that also can be done to
    * unowned extras. */
@@ -508,6 +509,7 @@ static void hard_code_oblig_hard_reqs(void)
                         " or that the diplomatic relation to"
                         " the target tile owner isn't peace."),
                      ACTRES_PARADROP,
+                     ACTRES_PARADROP_CONQUER,
                      ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of NonMil
@@ -522,6 +524,22 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_ATTACK,
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE, UTYF_CIVILIAN),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CENTER),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require"
+                        " no city at the target tile or"
+                        " that the actor doesn't have"
+                        " the NonMil utype flag."),
+                     ACTRES_PARADROP_CONQUER,
+                     ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of
    * CanOccupyCity unit class flag. */
@@ -534,6 +552,23 @@ static void hard_code_oblig_hard_reqs(void)
                              " the CanOccupyCity uclass flag."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE,
+                                       UCF_CAN_OCCUPY_CITY),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CENTER),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require"
+                        " no city at the target tile or"
+                        " that the actor has"
+                        " the CanOccupyCity uclass flag."),
+                     ACTRES_PARADROP_CONQUER,
+                     ACTRES_NONE);
 
   /* Why this is a hard requirement: Consistency with ACTRES_ATTACK.
    * Assumed by other locations in the Freeciv code. Examples:
@@ -545,6 +580,21 @@ static void hard_code_oblig_hard_reqs(void)
                              " that the actor is at war with the target."),
                           ACTRES_CONQUER_CITY,
                           ACTRES_NONE);
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE, DS_WAR),
+                       FALSE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CENTER),
+                       TRUE),
+                     /* TRANS: error message for ruledit */
+                     N_("All action enablers for %s must require"
+                        " no city at the target tile or"
+                        " that the actor is at war with the target."),
+                     ACTRES_PARADROP_CONQUER,
+                     ACTRES_NONE);
 
   /* Why this is a hard requirement: a unit must move into a city to
    * conquer it, move into a transport to embark, move out of a transport
@@ -599,7 +649,10 @@ static void hard_code_oblig_hard_reqs(void)
                           N_("All action enablers for %s must require"
                              " that the actor isn't transporting"
                              " another unit."),
-                          ACTRES_PARADROP, ACTRES_AIRLIFT, ACTRES_NONE);
+                          ACTRES_PARADROP,
+                          ACTRES_PARADROP_CONQUER,
+                          ACTRES_AIRLIFT,
+                          ACTRES_NONE);
 
   /* Why this is a hard requirement: Assumed in the code. */
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
@@ -699,6 +752,22 @@ static void hard_code_oblig_hard_reqs_ruleset(void)
                                  " a non animal player actor."),
                               ACTRES_CONQUER_CITY,
                               ACTRES_NONE);
+      oblig_hard_req_reg(req_contradiction_or(
+                           2,
+                           req_from_values(VUT_NATION, REQ_RANGE_PLAYER,
+                                           FALSE, TRUE, TRUE,
+                                           nation_number(pnation)),
+                           FALSE,
+                           req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                           FALSE, TRUE, TRUE,
+                                           CITYT_CENTER),
+                           TRUE),
+                         /* TRANS: error message for ruledit */
+                         N_("All action enablers for %s must require"
+                            " no city at the target tile or"
+                            " a non animal player actor."),
+                         ACTRES_PARADROP_CONQUER,
+                         ACTRES_NONE);
     }
   } nations_iterate_end;
 }
@@ -957,6 +1026,53 @@ static void hard_code_actions(void)
                       FALSE);
   actions[ACTION_PARADROP] =
       unit_action_new(ACTION_PARADROP, ACTRES_PARADROP,
+                      TRUE, TRUE,
+                      MAK_TELEPORT,
+                      1,
+                      /* Still limited by each unit type's
+                       * paratroopers_range field. */
+                      ACTION_DISTANCE_MAX,
+                      FALSE);
+  actions[ACTION_PARADROP_CONQUER] =
+      unit_action_new(ACTION_PARADROP_CONQUER, ACTRES_PARADROP_CONQUER,
+                      TRUE, TRUE,
+                      MAK_TELEPORT,
+                      1,
+                      /* Still limited by each unit type's
+                       * paratroopers_range field. */
+                      ACTION_DISTANCE_MAX,
+                      FALSE);
+  actions[ACTION_PARADROP_FRIGHTEN] =
+      unit_action_new(ACTION_PARADROP_FRIGHTEN, ACTRES_PARADROP,
+                      TRUE, TRUE,
+                      MAK_TELEPORT,
+                      1,
+                      /* Still limited by each unit type's
+                       * paratroopers_range field. */
+                      ACTION_DISTANCE_MAX,
+                      FALSE);
+  actions[ACTION_PARADROP_FRIGHTEN_CONQUER] =
+      unit_action_new(ACTION_PARADROP_FRIGHTEN_CONQUER,
+                      ACTRES_PARADROP_CONQUER,
+                      TRUE, TRUE,
+                      MAK_TELEPORT,
+                      1,
+                      /* Still limited by each unit type's
+                       * paratroopers_range field. */
+                      ACTION_DISTANCE_MAX,
+                      FALSE);
+  actions[ACTION_PARADROP_ENTER] =
+      unit_action_new(ACTION_PARADROP_ENTER, ACTRES_PARADROP,
+                      TRUE, TRUE,
+                      MAK_TELEPORT,
+                      1,
+                      /* Still limited by each unit type's
+                       * paratroopers_range field. */
+                      ACTION_DISTANCE_MAX,
+                      FALSE);
+  actions[ACTION_PARADROP_ENTER_CONQUER] =
+      unit_action_new(ACTION_PARADROP_ENTER_CONQUER,
+                      ACTRES_PARADROP_CONQUER,
                       TRUE, TRUE,
                       MAK_TELEPORT,
                       1,
@@ -2002,6 +2118,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
@@ -2085,6 +2202,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
@@ -3093,6 +3211,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
     break;
 
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     if (actor_unittype->paratroopers_range <= 0) {
       /* Reason: Can't pardrop 0 tiles. */
       return FALSE;
@@ -3210,6 +3329,7 @@ action_hard_reqs_actor(const struct action *paction,
 
   switch (result) {
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if his unit already has paradropped this
      * turn. */
@@ -3712,6 +3832,7 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     /* Reason: Keep the old rules. */
     /* Info leak: The player knows if he knows the target tile. */
     if (!plr_knows_tile(actor_player, target_tile)) {
@@ -5268,6 +5389,7 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     /* TODO */
     break;
   case ACTRES_AIRLIFT:
@@ -6491,6 +6613,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_AIRLIFT:
   case ACTRES_ATTACK:
   case ACTRES_CONQUER_CITY:
@@ -7000,6 +7123,16 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_upgrade_unit";
   case ACTION_PARADROP:
     return "ui_name_paradrop_unit";
+  case ACTION_PARADROP_CONQUER:
+    return "ui_name_paradrop_unit_conquer";
+  case ACTION_PARADROP_FRIGHTEN:
+    return "ui_name_paradrop_unit_frighten";
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+    return "ui_name_paradrop_unit_frighten_conquer";
+  case ACTION_PARADROP_ENTER:
+    return "ui_name_paradrop_unit_enter";
+  case ACTION_PARADROP_ENTER_CONQUER:
+    return "ui_name_paradrop_unit_enter_conquer";
   case ACTION_AIRLIFT:
     return "ui_name_airlift_unit";
   case ACTION_ATTACK:
@@ -7260,6 +7393,21 @@ const char *action_ui_name_default(int act)
   case ACTION_PARADROP:
     /* TRANS: Drop _Paratrooper (100% chance of success). */
     return N_("Drop %sParatrooper%s");
+  case ACTION_PARADROP_CONQUER:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
+  case ACTION_PARADROP_FRIGHTEN:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
+  case ACTION_PARADROP_ENTER:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
+  case ACTION_PARADROP_ENTER_CONQUER:
+    /* TRANS: Drop _Paratrooper (100% chance of success). */
+    return N_("Drop %sParatrooper%s");
   case ACTION_AIRLIFT:
     /* TRANS: _Airlift to City (100% chance of success). */
     return N_("%sAirlift to City%s");
@@ -7437,6 +7585,11 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
@@ -7545,6 +7698,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
@@ -7636,6 +7790,11 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
   case ACTION_STRIKE_BUILDING:
@@ -7749,6 +7908,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
@@ -7850,6 +8010,11 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
@@ -7982,6 +8147,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_FOUND_CITY:
   case ACTRES_NUKE:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
@@ -8067,6 +8233,7 @@ bool action_result_legal_target_kind(enum action_result result,
     return tgt_kind == ATK_UNITS;
   case ACTRES_FOUND_CITY:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
@@ -8168,6 +8335,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_FOUND_CITY:
   case ACTRES_NUKE:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
@@ -8257,6 +8425,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_FOUND_CITY:
   case ACTRES_NUKE:
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
   case ACTRES_PLANT:
@@ -8338,6 +8507,11 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
@@ -8497,6 +8671,11 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
@@ -8621,6 +8800,11 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_HOME_CITY:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
+  case ACTION_PARADROP_CONQUER:
+  case ACTION_PARADROP_FRIGHTEN:
+  case ACTION_PARADROP_FRIGHTEN_CONQUER:
+  case ACTION_PARADROP_ENTER:
+  case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_AIRLIFT:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:

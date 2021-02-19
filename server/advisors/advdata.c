@@ -218,7 +218,12 @@ static void count_my_units(struct player *pplayer)
     if (utype_can_do_action(unit_type_get(punit), ACTION_SUICIDE_ATTACK)) {
       adv->stats.units.suicide_attackers++;
     }
-    if (unit_can_do_action(punit, ACTION_PARADROP)) {
+    if (unit_can_do_action(punit, ACTION_PARADROP)
+        || unit_can_do_action(punit, ACTION_PARADROP_CONQUER)
+        || unit_can_do_action(punit, ACTION_PARADROP_FRIGHTEN)
+        || unit_can_do_action(punit, ACTION_PARADROP_FRIGHTEN_CONQUER)
+        || unit_can_do_action(punit, ACTION_PARADROP_ENTER)
+        || unit_can_do_action(punit, ACTION_PARADROP_ENTER_CONQUER)) {
       adv->stats.units.paratroopers++;
     }
     if (utype_can_do_action(punit->utype, ACTION_AIRLIFT)) {
@@ -932,6 +937,7 @@ void adv_best_government(struct player *pplayer)
           case ACTRES_FOUND_CITY:
           case ACTRES_DISBAND_UNIT:
           case ACTRES_PARADROP:
+          case ACTRES_PARADROP_CONQUER:
           case ACTRES_FORTIFY:
             /* Wants the ability to do this to it self. Don't want others
              * to target it. Do nothing since action_immune_government()

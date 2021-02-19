@@ -1987,6 +1987,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_HOME_CITY:
     case ACTRES_UPGRADE_UNIT:
     case ACTRES_PARADROP:
+    case ACTRES_PARADROP_CONQUER: /* TODO: bigger incident */
     case ACTRES_AIRLIFT:
     case ACTRES_HEAL_UNIT:
     case ACTRES_TRANSFORM_TERRAIN:

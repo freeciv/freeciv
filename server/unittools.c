@@ -2915,22 +2915,11 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                 /* Done by Action_Success_Actor_Move_Cost */
                 0,
                 NULL, game.info.paradrop_to_transport,
-                /* A paradrop into a non allied city results in a city
-                 * occupation. */
-                /* FIXME: move the following actor requirements to the
-                 * ruleset. One alternative is to split "Paradrop Unit".
-                 * Another is to use different enablers. */
-                (pplayer->ai_common.barbarian_type != ANIMAL_BARBARIAN
-                 && uclass_has_flag(unit_class_get(punit),
-                                    UCF_CAN_OCCUPY_CITY)
-                 && !unit_has_type_flag(punit, UTYF_CIVILIAN)
-                 && is_non_allied_city_tile(ptile, pplayer)),
-                (extra_owner(ptile) == NULL
-                 || pplayers_at_war(extra_owner(ptile), unit_owner(punit)))
-                && tile_has_claimable_base(ptile, unit_type_get(punit)),
-                /* TODO: Split "Paradrop Unit" so hut entry / frightening
-                 * action sub results can be set for it. */
-                unit_class_get(punit)->hut_behavior != HUT_NOTHING)) {
+                paction->result == ACTRES_PARADROP_CONQUER,
+                paction->result == ACTRES_PARADROP_CONQUER,
+                BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)
+                || BV_ISSET(paction->sub_results,
+                            ACT_SUB_RES_HUT_FRIGHTEN))) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));

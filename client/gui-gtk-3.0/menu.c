@@ -2572,7 +2572,9 @@ void real_menus_update(void)
   menus_rename("PLANT", plantext);
   menus_rename("TRANSFORM_TERRAIN", transtext);
 
-  if (units_can_do_action(punits, ACTION_PARADROP, TRUE)) {
+  if (units_can_do_action_with_result(punits, ACTRES_PARADROP, TRUE)
+      || units_can_do_action_with_result(punits, ACTRES_PARADROP_CONQUER,
+                                         TRUE)) {
     menus_rename("CLEAN_POLLUTION",
                  action_get_ui_name_mnemonic(ACTION_PARADROP, "_"));
   } else {

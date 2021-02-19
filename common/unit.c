@@ -793,7 +793,18 @@ bool can_unit_alight_or_be_unloaded(const struct unit *pcargo,
 **************************************************************************/
 bool can_unit_paradrop(const struct unit *punit)
 {
-  return action_maybe_possible_actor_unit(ACTION_PARADROP, punit);
+  action_by_result_iterate(paction, act_id, ACTRES_PARADROP) {
+    if (action_maybe_possible_actor_unit(act_id, punit)) {
+      return TRUE;
+    }
+  } action_by_result_iterate_end;
+  action_by_result_iterate(paction, act_id, ACTRES_PARADROP_CONQUER) {
+    if (action_maybe_possible_actor_unit(act_id, punit)) {
+      return TRUE;
+    }
+  } action_by_result_iterate_end;
+
+  return FALSE;
 }
 
 /**********************************************************************//**

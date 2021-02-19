@@ -231,7 +231,8 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
         struct action *paction = action_by_number(act_id);
         bool possible;
 
-        if (!action_has_result(paction, ACTRES_PARADROP)) {
+        if (!(action_has_result(paction, ACTRES_PARADROP)
+              || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
           /* Not relevant. */
           continue;
         }
@@ -393,7 +394,8 @@ void dai_choose_paratrooper(struct ai_type *ait,
   unit_type_iterate(u_type) {
     struct unit *virtual_unit;
 
-    if (!utype_can_do_action(u_type, ACTION_PARADROP)) {
+    if (!utype_can_do_action(u_type, ACTION_PARADROP)
+        && !utype_can_do_action(u_type, ACTION_PARADROP_CONQUER)) {
       continue;
     }
     if (A_NEVER == u_type->require_advance) {

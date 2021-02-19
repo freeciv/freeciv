@@ -463,6 +463,18 @@ bool rscompat_names(struct rscompat_info *info)
 }
 
 /**********************************************************************//**
+  Copy the ui_name of an existing action to the ui_name of its copy by
+  inserting it at the first %s in name_modification string.
+**************************************************************************/
+static void split_action_name_update(struct action *original,
+                                     struct action *copy,
+                                     const char *name_modification)
+{
+  fc_snprintf(copy->ui_name, MAX_LEN_NAME,
+              name_modification, original->ui_name);
+}
+
+/**********************************************************************//**
   Handle a universal being separated from an original universal.
 
   A universal may be split into two new universals. An effect may mention
@@ -542,10 +554,51 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
                                               FALSE, FALSE,
                                               "Transport Disembark 2"));
     }
+
+    /* "Paradrop Unit" has been split by side effects. */
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_PARADROP),
+        universal_by_number(VUT_ACTION, ACTION_PARADROP_CONQUER));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_PARADROP),
+        universal_by_number(VUT_ACTION, ACTION_PARADROP_ENTER));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_PARADROP),
+        universal_by_number(VUT_ACTION, ACTION_PARADROP_ENTER_CONQUER));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_PARADROP),
+        universal_by_number(VUT_ACTION, ACTION_PARADROP_FRIGHTEN));
+    effect_handle_split_universal(peffect,
+        universal_by_number(VUT_ACTION, ACTION_PARADROP),
+        universal_by_number(VUT_ACTION, ACTION_PARADROP_FRIGHTEN_CONQUER));
   }
 
   /* Go to the next effect. */
   return TRUE;
+}
+
+/**********************************************************************//**
+  Turn paratroopers_mr_sub into the Action_Success_Actor_Move_Cost effect
+**************************************************************************/
+static void paratroopers_mr_sub_to_effect(struct unit_type *putype,
+                                          struct action *paction)
+{
+  struct effect *peffect;
+
+  /* Subtract the value via the Action_Success_Actor_Move_Cost effect */
+  peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                       putype->rscompat_cache.paratroopers_mr_sub,
+                       NULL);
+
+  /* The reduction only applies to this action. */
+  effect_req_append(peffect,
+                    req_from_str("Action", "Local", FALSE, TRUE, FALSE,
+                                 action_rule_name(paction)));
+
+  /* The reduction only applies to this unit type. */
+  effect_req_append(peffect,
+                    req_from_str("UnitType", "Local", FALSE, TRUE, FALSE,
+                                 utype_rule_name(putype)));
 }
 
 /**********************************************************************//**
@@ -773,20 +826,12 @@ void rscompat_postprocess(struct rscompat_info *info)
         continue;
       }
 
-      /* Subtract the value via the Action_Success_Actor_Move_Cost effect */
-      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
-                           putype->rscompat_cache.paratroopers_mr_sub,
-                           NULL);
-
-      /* The reduction only applies to "Paradrop Unit". */
-      effect_req_append(peffect,
-                        req_from_str("Action", "Local", FALSE, TRUE, FALSE,
-                                     "Paradrop Unit"));
-
-      /* The reduction only applies to this unit type. */
-      effect_req_append(peffect,
-                        req_from_str("UnitType", "Local", FALSE, TRUE, FALSE,
-                                     utype_rule_name(putype)));
+      action_by_result_iterate(paction, act_id, ACTRES_PARADROP) {
+        paratroopers_mr_sub_to_effect(putype, paction);
+      } action_by_result_iterate_end;
+      action_by_result_iterate(paction, act_id, ACTRES_PARADROP_CONQUER) {
+        paratroopers_mr_sub_to_effect(putype, paction);
+      } action_by_result_iterate_end;
     } unit_type_iterate_end;
 
     /* Fortifying rules have been unhardcoded to effects. */
@@ -1272,6 +1317,139 @@ void rscompat_postprocess(struct rscompat_info *info)
         BV_SET(game.info.diplchance_initial_odds, act->id);
       }
     } action_iterate_end;
+
+
+    /* "Paradrop Unit" has been split by side effects. */
+    split_action_name_update(action_by_number(ACTION_PARADROP),
+                             action_by_number(ACTION_PARADROP_CONQUER),
+                             "Contested %s");
+    split_action_name_update(action_by_number(ACTION_PARADROP),
+                             action_by_number(ACTION_PARADROP_ENTER),
+                             "Enter Hut %s");
+    split_action_name_update(action_by_number(ACTION_PARADROP),
+                             action_by_number(
+                               ACTION_PARADROP_ENTER_CONQUER),
+                             "Enter Hut Contested %s");
+    split_action_name_update(action_by_number(ACTION_PARADROP),
+                             action_by_number(ACTION_PARADROP_FRIGHTEN),
+                             "Frighten Hut %s");
+    split_action_name_update(action_by_number(ACTION_PARADROP),
+                             action_by_number(
+                               ACTION_PARADROP_FRIGHTEN_CONQUER),
+                             "Frighten Hut Contested %s");
+
+    action_enabler_list_iterate(
+          action_enablers_for_action(ACTION_PARADROP), ae) {
+      struct action_enabler *edit;
+
+      action_by_result_iterate(para_action, para_id,
+                               ACTRES_PARADROP_CONQUER) {
+        /* Conquer City and/or owned Extra during war if one is there */
+        edit = action_enabler_copy(ae);
+        edit->action = para_action->id;
+        e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE, DS_WAR);
+        requirement_vector_append(&edit->actor_reqs, e_req);
+        e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE, CITYT_CLAIMED);
+        if (!is_req_in_vec(&e_req, &ae->target_reqs)) {
+          requirement_vector_append(&edit->target_reqs, e_req);
+        }
+        e_req = req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE,
+                                UCF_CAN_OCCUPY_CITY);
+        requirement_vector_append(&edit->actor_reqs, e_req);
+        e_req = req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
+                                FALSE, FALSE, TRUE,
+                                UTYF_CIVILIAN);
+        requirement_vector_append(&edit->actor_reqs, e_req);
+        action_enabler_add(edit);
+
+        /* Conquer owned Extra during war if there */
+        edit = action_enabler_copy(ae);
+        edit->action = para_action->id;
+        e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE, DS_WAR);
+        requirement_vector_append(&edit->actor_reqs, e_req);
+        e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                FALSE, TRUE, TRUE, CITYT_CLAIMED);
+        if (!is_req_in_vec(&e_req, &ae->target_reqs)) {
+          requirement_vector_append(&edit->target_reqs, e_req);
+        }
+        e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                FALSE, FALSE, TRUE, CITYT_CENTER);
+        requirement_vector_append(&edit->target_reqs, e_req);
+        action_enabler_add(edit);
+
+        /* Unowned Extra conquest */
+        extra_type_by_cause_iterate(EC_BASE, pextra) {
+          if (!territory_claiming_base(extra_base_get(pextra))) {
+            /* Only territory claiming bases can be conquered in 3.0 */
+            continue;
+          }
+
+          edit = action_enabler_copy(ae);
+          edit->action = para_action->id;
+          e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                  FALSE, FALSE, TRUE, CITYT_CLAIMED);
+          if (!is_req_in_vec(&e_req, &ae->target_reqs)) {
+            requirement_vector_append(&edit->target_reqs, e_req);
+          }
+          e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                  FALSE, FALSE, TRUE, CITYT_CENTER);
+          requirement_vector_append(&edit->target_reqs, e_req);
+          e_req = req_from_values(VUT_EXTRA, REQ_RANGE_LOCAL,
+                                  FALSE, TRUE, TRUE, pextra->id);
+          requirement_vector_append(&edit->target_reqs, e_req);
+          action_enabler_add(edit);
+        } extra_type_by_cause_iterate_end;
+      } action_by_result_iterate_end;
+
+      action_by_result_iterate(para_action, para_id, ACTRES_PARADROP) {
+        if (para_action->id == ACTION_PARADROP) {
+          /* Use when not at war and against unclaimed tiles. */
+          e_req = req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                  FALSE, FALSE, TRUE, CITYT_CLAIMED);
+          if (is_req_in_vec(&e_req, &ae->target_reqs)) {
+            /* Use Conquer version for unowned Extras */
+            extra_type_by_cause_iterate(EC_BASE, pextra) {
+              if (!territory_claiming_base(extra_base_get(pextra))) {
+                /* Only territory claiming bases can be conquered in 3.0 */
+                continue;
+              }
+
+              e_req = req_from_values(VUT_EXTRA, REQ_RANGE_LOCAL,
+                                      FALSE, FALSE, TRUE, pextra->id);
+              requirement_vector_append(&ae->target_reqs, e_req);
+            } extra_type_by_cause_iterate_end;
+          } else {
+            /* Use Conquer version during war. */
+            e_req = req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
+                                    FALSE, FALSE, TRUE, DS_WAR);
+            requirement_vector_append(&ae->actor_reqs, e_req);
+          }
+        } else {
+          /* !War req requirement added before the copy. */
+          edit = action_enabler_copy(ae);
+          edit->action = para_action->id;
+          action_enabler_add(edit);
+        }
+      } action_by_result_iterate_end;
+    } action_enabler_list_iterate_end;
+
+    /* The non hut popping version is only legal when hut_behavior is
+     * "Nothing". */
+    action_enablers_iterate(ae) {
+      if (ae->action != ACTION_PARADROP
+          && ae->action != ACTION_PARADROP_CONQUER) {
+        /* Not relevant. */
+        continue;
+      }
+
+      e_req = req_from_str("UnitClassFlag", "local",
+                           FALSE, TRUE, FALSE, "HutNothing");
+      requirement_vector_append(&ae->actor_reqs, e_req);
+    } action_enablers_iterate_end;
   }
 
   if (info->ver_units < 20) {
@@ -1284,6 +1462,10 @@ void rscompat_postprocess(struct rscompat_info *info)
       }
     } unit_class_iterate_end;
   }
+
+  /* Make sure that all action enablers added or modified by the
+   * compatibility post processing fulfills all hard action requirements. */
+  rscompat_enablers_add_obligatory_hard_reqs();
 
   /* The ruleset may need adjustments it didn't need before compatibility
    * post processing.

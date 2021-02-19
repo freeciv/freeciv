@@ -1389,7 +1389,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 happy_cost;   # unhappy people in home city
   UINT8 upkeep[O_LAST]; # normal upkeep cost (food, gold, shields)
 
-  UINT16 paratroopers_range; # max range of paratroopers, ACTION_PARADROP
+  UINT16 paratroopers_range; # max range of paratroopers, ACTION_PARADROP*
 
   UINT8 veteran_levels;
   STRING veteran_name[MAX_VET_LEVELS:veteran_levels][MAX_LEN_NAME];

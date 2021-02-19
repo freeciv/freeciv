@@ -1900,7 +1900,11 @@ bool unit_conquer_city(struct unit *punit, struct city *pcity)
    * effects below. */
   fc_assert_ret_val_msg(unit_can_take_over(punit)
                         || utype_can_do_action(unit_type_get(punit),
-                                               ACTION_PARADROP),
+                                               ACTION_PARADROP_CONQUER)
+                        || utype_can_do_action(unit_type_get(punit),
+                                               ACTION_PARADROP_FRIGHTEN_CONQUER)
+                        || utype_can_do_action(unit_type_get(punit),
+                                               ACTION_PARADROP_ENTER_CONQUER),
                         FALSE, "Bad unit for city occupation.");
 
   /* A transported unit trying to conquer a city should already have been

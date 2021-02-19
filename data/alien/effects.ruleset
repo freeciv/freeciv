@@ -1049,8 +1049,16 @@ reqs    =
 type    = "Action_Success_Actor_Move_Cost"
 value   = 4
 reqs    =
-    { "type",   "name",          "range", "present"
-      "Action", "Paradrop Unit", "Local", TRUE
+    { "type",   "name",                "range", "present"
+      "Action", "Paradrop Unit Enter", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_paradrop_conquer]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 4
+reqs    =
+    { "type",   "name",                        "range", "present"
+      "Action", "Paradrop Unit Enter Conquer", "Local", TRUE
     }
 
 [effect_fortified]
