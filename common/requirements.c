@@ -3394,6 +3394,105 @@ bool req_vec_wants_type(const struct requirement_vector *reqs,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified universal is known to never be there.
+  Note that this function may return FALSE even when it is impossible for
+  the universal to appear in the game if that can't be detected.
+  @param source the universal to check the absence of.
+  @return TRUE iff the universal never will appear.
+**************************************************************************/
+bool universal_never_there(const struct universal *source)
+{
+  switch (source->kind) {
+  case VUT_ACTION:
+    return !action_is_in_use(source->value.action);
+  case VUT_UTFLAG:
+    return !utype_flag_is_in_use(source->value.unitflag);
+  case VUT_UCFLAG:
+    return !uclass_flag_is_in_use(source->value.unitclassflag);
+  case VUT_OTYPE:
+  case VUT_SPECIALIST:
+  case VUT_AI_LEVEL:
+  case VUT_CITYTILE:
+  case VUT_CITYSTATUS:
+  case VUT_STYLE:
+  case VUT_TOPO:
+  case VUT_SERVERSETTING:
+  case VUT_NATION:
+  case VUT_NATIONGROUP:
+  case VUT_ADVANCE:
+  case VUT_TECHFLAG:
+  case VUT_GOVERNMENT:
+  case VUT_ACHIEVEMENT:
+  case VUT_IMPROVEMENT:
+  case VUT_IMPR_GENUS:
+  case VUT_MINSIZE:
+  case VUT_MINCULTURE:
+  case VUT_MINFOREIGNPCT:
+  case VUT_MINTECHS:
+  case VUT_NATIONALITY:
+  case VUT_DIPLREL:
+  case VUT_MAXTILEUNITS:
+  case VUT_UTYPE:
+  case VUT_UCLASS:
+  case VUT_MINVETERAN:
+  case VUT_UNITSTATE:
+  case VUT_ACTIVITY:
+  case VUT_MINMOVES:
+  case VUT_MINHP:
+  case VUT_AGE:
+  case VUT_ROADFLAG:
+  case VUT_EXTRAFLAG:
+  case VUT_MINCALFRAG:
+  case VUT_TERRAIN:
+  case VUT_EXTRA:
+  case VUT_GOOD:
+  case VUT_TERRAINCLASS:
+  case VUT_TERRFLAG:
+  case VUT_TERRAINALTER:
+  case VUT_MINYEAR:
+  case VUT_NONE:
+  case VUT_UNUSED:
+  case VUT_COUNT:
+    /* Not implemented. */
+    break;
+  }
+
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the specified requirement is known to be impossible to
+  fulfill. Note that this function may return FALSE even when it is
+  impossible to fulfill a requirement if it can't detect it.
+  @param req the requirement to check the possibility of.
+  @return TRUE iff the requirement never can be fulfilled.
+**************************************************************************/
+bool req_is_impossible_to_fulfill(const struct requirement *req)
+{
+  /* Not known to be impossible to fulfill */
+  return req->present && universal_never_there(&req->source);
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the specified requirement vector is known to be
+  impossible to fulfill. Note that this function may return FALSE even when
+  it is impossible to fulfill a requirement if it can't detect it.
+  @param reqs the requirement vector to check the possibility of.
+  @return TRUE iff the requirement vector never can be fulfilled.
+**************************************************************************/
+bool req_vec_is_impossible_to_fulfill(const struct requirement_vector *reqs)
+{
+  requirement_vector_iterate(reqs, preq) {
+    if (req_is_impossible_to_fulfill(preq)) {
+      return TRUE;
+    }
+  } requirement_vector_iterate_end;
+
+  /* Not known to be impossible to fulfill */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns the requirement vector number of the specified requirement
   vector in the specified requirement vector.
   @param parent_item the item that may own the vector.

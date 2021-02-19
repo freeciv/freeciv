@@ -141,6 +141,9 @@ bool is_req_in_vec(const struct requirement *req,
 bool req_vec_wants_type(const struct requirement_vector *reqs,
                         enum universals_n kind);
 
+bool universal_never_there(const struct universal *source);
+bool req_is_impossible_to_fulfill(const struct requirement *req);
+bool req_vec_is_impossible_to_fulfill(const struct requirement_vector *reqs);
 
 /**
  * @brief req_vec_num_in_item a requirement vectors number in an item.
