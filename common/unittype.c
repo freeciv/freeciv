@@ -2760,3 +2760,41 @@ bool utype_is_cityfounder(const struct unit_type *utype)
 
   return utype_can_do_action_result(utype, ACTRES_FOUND_CITY);
 }
+
+/**********************************************************************//**
+  Returns TRUE iff the specified unit class flag is in use by any unit
+  class.
+  @param ucflag the unit class flag to check if is in use.
+  @returns TRUE if the unit class flag is used in the current ruleset.
+**************************************************************************/
+bool uclass_flag_is_in_use(enum unit_class_flag_id ucflag)
+{
+  unit_class_iterate(uclass) {
+    if (uclass_has_flag(uclass, ucflag)) {
+      /* Found a user. */
+      return TRUE;
+    }
+  } unit_class_iterate_end;
+
+  /* No users detected. */
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the specified unit type flag is in use by any unit
+  type.
+  @param uflag the unit type flag to check if is in use.
+  @returns TRUE if the unit type flag is used in the current ruleset.
+**************************************************************************/
+bool utype_flag_is_in_use(enum unit_type_flag_id uflag)
+{
+  unit_type_iterate(putype) {
+    if (utype_has_flag(putype, uflag)) {
+      /* Found a user. */
+      return TRUE;
+    }
+  } unit_type_iterate_end;
+
+  /* No users detected. */
+  return FALSE;
+}
