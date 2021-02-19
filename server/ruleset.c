@@ -6755,8 +6755,8 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                                       RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
                                       "actions.steal_maps_reveals_all_cities");
 
-      /* Allow setting required distance for some actions before generalized
-       * actions. */
+      /* Allow setting certain properties for some actions before
+       * generalized actions. */
       action_iterate(act_id) {
         if (!load_action_range(file, act_id)) {
           ok = FALSE;
