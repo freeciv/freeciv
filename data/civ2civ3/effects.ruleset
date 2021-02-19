@@ -3844,14 +3844,6 @@ reqs    =
       "Tech", "Railroad", "Player"
     }
 
-[effect_enter_marketplace_bonus_reduction]
-type	= "Trade_Revenue_Bonus"
-value	= -1585
-reqs	=
-    { "type", "name", "range"
-      "Action", "Enter Marketplace", "Local"
-    }
-
 ; Fudge factor to more closely approximate Civ2 behavior. (Civ2 is
 ; really very different -- this just fakes it a little better)
 [effect_bonus_fudge_factor]
