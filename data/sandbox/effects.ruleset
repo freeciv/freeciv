@@ -4382,6 +4382,36 @@ reqs	=
       "Action", "Explode Nuclear", "Local", TRUE
     }
 
+; The treasury is better guarded than the drinking water
+; See "Poison City Escape"
+[effect_steal_gold_escape_lower_chance]
+type    = "Action_Odds_Pct"
+value   = -25
+reqs    =
+    { "type",   "name",              "range", "present"
+      "Action", "Steal Gold Escape", "Local", TRUE
+    }
+
+; Stealing money isn't nice
+[effect_steal_gold_escape_incident_success]
+type    = "Casus_Belli_Success"
+value   = 1
+reqs    =
+    { "type",    "name",              "range", "present"
+      "Action",  "Steal Gold Escape", "Local", TRUE
+      "DiplRel", "War",               "Local", FALSE
+    }
+
+; Cap the amount possible to steal at 30% of the treasury
+[effect_steal_gold_max_stolen_base]
+type    = "Max_Stolen_Gold_Pm"
+value   = 300
+
+; The Spy is honest enough to only steal 5% of the loot it stole
+[effect_steal_gold_thiefs_share_base]
+type    = "Thiefs_Share_Pm"
+value   = 50
+
 ; Double (+100%) buy cost for Great Wonders
 [effect_great_wonder_buy_cost]
 type    = "Building_Buy_Cost_Pct"

@@ -496,6 +496,22 @@ target_reqs  =
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
+; Give spies the ability to steal gold
+[actionenabler_steal_gold]
+action = "Steal Gold Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "Tech",         "Banking",       "Player"
+      "DiplRel",      "Is Foreign",    "Local"
+    }
+target_reqs  =
+    { "type",        "name",      "range",  "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
 [actionenabler_steal_tech_random]
 action = "Steal Tech"
 actor_reqs    =
