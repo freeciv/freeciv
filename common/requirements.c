@@ -3748,6 +3748,61 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec,
 }
 
 /**********************************************************************//**
+  Returns the first universal known to always be absent in the specified
+  requirement vector with suggested solutions or NULL if no missing
+  universals were found.
+  It is the responsibility of the caller to free the suggestion when it is
+  done with it.
+  @param vec the requirement vector to look in.
+  @param get_num function that returns the requirement vector's number in
+                 the parent item.
+  @param parent_item the item that owns the vector.
+  @return the first missing universal found.
+**************************************************************************/
+struct req_vec_problem *
+req_vec_get_first_missing_univ(const struct requirement_vector *vec,
+                               requirement_vector_number get_num,
+                               const void *parent_item)
+{
+  int i;
+  req_vec_num_in_item vec_num;
+
+  if (vec == NULL || requirement_vector_size(vec) == 0) {
+    /* No vector. */
+    return NULL;
+  }
+
+  if (get_num == NULL || parent_item == NULL) {
+    vec_num = 0;
+  } else {
+    vec_num = get_num(parent_item, vec);
+  }
+
+  /* Look for contradictions */
+  for (i = 0; i < requirement_vector_size(vec); i++) {
+    struct requirement *preq = requirement_vector_get(vec, i);
+    if (universal_never_there(&preq->source)) {
+      struct req_vec_problem *problem;
+
+      problem = req_vec_problem_new(1,
+          N_("Requirement {%s} mentions %s but it will never be there."),
+          req_to_fstring(preq), universal_rule_name(&preq->source));
+
+      /* The solution is to remove the reference to the missing
+       * universal. */
+      problem->suggested_solutions[0].operation = RVCO_REMOVE;
+      problem->suggested_solutions[0].vector_number = vec_num;
+      problem->suggested_solutions[0].req = *preq;
+
+      /* Only the first missing universal is reported. */
+      return problem;
+    }
+  }
+
+  return NULL;
+}
+
+/**********************************************************************//**
   Return TRUE iff the two sources are equivalent.  Note this isn't the
   same as an == or memcmp check.
 ***************************************************************************/

@@ -235,6 +235,10 @@ struct req_vec_problem *
 req_vec_get_first_contradiction(const struct requirement_vector *vec,
                                 requirement_vector_number get_num,
                                 const void *parent_item);
+struct req_vec_problem *
+req_vec_get_first_missing_univ(const struct requirement_vector *vec,
+                               requirement_vector_number get_num,
+                               const void *parent_item);
 
 
 /* General universal functions. */
