@@ -767,7 +767,6 @@ target_reqs    =
 action = "Home City"
 actor_reqs    =
     { "type",      "name",        "range", "present"
-      "UnitFlag",  "NoHome",      "Local", FALSE
       "UnitState", "HasHomeCity", "Local", TRUE
       "DiplRel",   "Foreign",  "Local", FALSE
     }
