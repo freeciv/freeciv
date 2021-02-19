@@ -2573,6 +2573,20 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
 
   paction = action_by_number(enabler->action);
 
+  /* Check if a universal that never will appear in the game is checked. */
+  out = req_vec_get_first_missing_univ(&enabler->actor_reqs,
+                                       action_enabler_vector_number,
+                                       enabler);
+  if (out) {
+    return out;
+  }
+  out = req_vec_get_first_missing_univ(&enabler->target_reqs,
+                                       action_enabler_vector_number,
+                                       enabler);
+  if (out) {
+    return out;
+  }
+
   /* Detect unused action enablers. */
   if (action_get_actor_kind(paction) == AAK_UNIT) {
     bool has_user = FALSE;
