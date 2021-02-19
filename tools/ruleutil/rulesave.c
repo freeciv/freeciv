@@ -762,6 +762,11 @@ static bool effect_save(struct effect *peffect, void *data)
   effect_cb_data *cbdata = (effect_cb_data *)data;
   char path[512];
 
+  if (peffect->ruledit_do_not_save) {
+    /* Is supposed to be skipped. */
+    return TRUE;
+  }
+
   fc_snprintf(path, sizeof(path), "effect_%d", cbdata->idx++);
 
   secfile_insert_str(cbdata->sfile,

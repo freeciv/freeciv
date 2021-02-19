@@ -185,6 +185,9 @@ struct effect *effect_new(enum effect_type type, int value,
   effect_list_append(ruleset_cache.tracker, peffect);
   effect_list_append(get_effects(type), peffect);
 
+  /* Only relevant for ruledit and other rulesave users. */
+  peffect->ruledit_do_not_save = FALSE;
+
   return peffect;
 }
 
