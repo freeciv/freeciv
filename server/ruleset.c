@@ -260,6 +260,29 @@ static int ruleset_purge_unused_enablers(void)
 }
 
 /**********************************************************************//**
+  Purge unused effects from the ruleset.
+**************************************************************************/
+static int ruleset_purge_unused_effects(void)
+{
+  int purged = 0;
+  enum effect_type type;
+
+  for (type = effect_type_begin(); type != effect_type_end();
+       type = effect_type_next(type)) {
+    effect_list_iterate(get_effects(type), eft) {
+      if (req_vec_is_impossible_to_fulfill(&eft->reqs)) {
+        eft->ruledit_do_not_save = TRUE;
+        purged++;
+        log_normal("Purged unused effect for %s",
+                   effect_type_name(eft->type));
+      }
+    } effect_list_iterate_end;
+  }
+
+  return purged;
+}
+
+/**********************************************************************//**
   Purge unused entities from the ruleset.
 **************************************************************************/
 int ruleset_purge_unused_entities(void)
@@ -267,6 +290,7 @@ int ruleset_purge_unused_entities(void)
   int purged = 0;
 
   purged += ruleset_purge_unused_enablers();
+  purged += ruleset_purge_unused_effects();
 
   return purged;
 }

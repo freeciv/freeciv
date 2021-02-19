@@ -335,6 +335,10 @@ struct effect {
   /* An effect can have multiple requirements.  The effect will only be
    * active if all of these requirement are met. */
   struct requirement_vector reqs;
+
+  /* Only relevant for rueldit and other rulesave users. Indicates that
+   * this effect is deleted and shouldn't saved. */
+  bool ruledit_do_not_save;
 };
 
 /* An effect_list is a list of effects. */
