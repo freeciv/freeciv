@@ -220,6 +220,58 @@ void ruleset_error_real(const char *file, const char *function,
 }
 
 /**********************************************************************//**
+  Purge unused action enablers from the ruleset.
+**************************************************************************/
+static int ruleset_purge_unused_enablers(void)
+{
+  int purged = 0;
+
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+
+    /* Impossible hard requirement. */
+    if (!action_is_in_use(paction)) {
+      /* Make sure that all action enablers are disabled. */
+      action_enabler_list_iterate(action_enablers_for_action(paction->id),
+                                  ae) {
+        ae->disabled = TRUE;
+        purged++;
+      } action_enabler_list_iterate_end;
+
+      log_normal("Purged all action enablers for %s",
+                 action_rule_name(paction));
+    }
+
+    /* Impossible requirement vector requirement. */
+    action_enabler_list_iterate(action_enablers_for_action(paction->id),
+                                ae) {
+      if (!ae->disabled
+          && (req_vec_is_impossible_to_fulfill(&ae->actor_reqs)
+              || req_vec_is_impossible_to_fulfill(&ae->target_reqs))) {
+        ae->disabled = TRUE;
+        purged++;
+        log_normal("Purged unused action enabler for %s",
+                   action_rule_name(paction));
+      }
+    } action_enabler_list_iterate_end;
+  } action_iterate_end;
+
+  return purged;
+}
+
+/**********************************************************************//**
+  Purge unused entities from the ruleset.
+**************************************************************************/
+int ruleset_purge_unused_entities(void)
+{
+  int purged = 0;
+
+  purged += ruleset_purge_unused_enablers();
+
+  return purged;
+}
+
+/**********************************************************************//**
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
