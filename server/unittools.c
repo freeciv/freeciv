@@ -2928,6 +2928,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                 (extra_owner(ptile) == NULL
                  || pplayers_at_war(extra_owner(ptile), unit_owner(punit)))
                 && tile_has_claimable_base(ptile, unit_type_get(punit)),
+                /* TODO: Split "Paradrop Unit" so hut entry / frightening
+                 * action sub results can be set for it. */
                 unit_class_get(punit)->hut_behavior != HUT_NOTHING)) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))

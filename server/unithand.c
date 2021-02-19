@@ -1430,7 +1430,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->distance = paction->min_distance;
   } else if (target_city
              && (action_has_result_safe(paction, ACTRES_JOIN_CITY)
-                 && action_actor_utype_hard_reqs_ok(ACTRES_JOIN_CITY,
+                 && action_actor_utype_hard_reqs_ok(paction,
                                                     unit_type_get(punit))
                  && (city_size_get(target_city) + unit_pop_value(punit)
                      > game.info.add_to_size_limit))) {
@@ -1439,7 +1439,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     explnat->kind = ANEK_CITY_TOO_BIG;
   } else if (target_city
              && (action_has_result_safe(paction, ACTRES_JOIN_CITY)
-                 && action_actor_utype_hard_reqs_ok(ACTRES_JOIN_CITY,
+                 && action_actor_utype_hard_reqs_ok(paction,
                                                     unit_type_get(punit))
                  && (!city_can_grow_to(target_city,
                                        city_size_get(target_city)

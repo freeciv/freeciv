@@ -4156,6 +4156,7 @@ void handle_ruleset_action(const struct packet_ruleset_action *p)
   act->quiet = p->quiet;
 
   act->result = p->result;
+  act->sub_results = p->sub_results;
   act->actor_consuming_always = p->actor_consuming_always;
 
   act->actor_kind  = p->act_kind;

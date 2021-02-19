@@ -1188,6 +1188,14 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                     action_rule_name(paction));
       ok = FALSE;
     }
+
+    if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)
+        && BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN)) {
+      ruleset_error(LOG_ERROR,
+                    "%s both enters and frightens a hut at the same time.",
+                    action_rule_name(paction));
+      ok = FALSE;
+    }
   } action_iterate_end;
 
   /* Auto attack */

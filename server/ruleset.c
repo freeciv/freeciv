@@ -6799,6 +6799,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
         free(quiet_actions);
       }
+
+      /* Hard code action sub results for now. */
+      action_by_result_iterate(paction, act_id, ACTRES_HUT_ENTER) {
+        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_ENTER);
+      } action_by_result_iterate_end;
+      action_by_result_iterate(paction, act_id, ACTRES_HUT_FRIGHTEN) {
+        BV_SET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN);
+      } action_by_result_iterate_end;
     }
 
     if (ok) {
@@ -8170,6 +8178,7 @@ static void send_ruleset_actions(struct conn_list *dest)
     packet.quiet = action_by_number(act)->quiet;
 
     packet.result = paction->result;
+    packet.sub_results = paction->sub_results;
     packet.actor_consuming_always = paction->actor_consuming_always;
 
     packet.act_kind = action_by_number(act)->actor_kind;
