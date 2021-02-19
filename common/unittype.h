@@ -789,6 +789,9 @@ bool can_player_build_unit_now(const struct player *p,
 
 bool utype_is_cityfounder(const struct unit_type *utype);
 
+bool uclass_flag_is_in_use(enum unit_class_flag_id ucflag);
+bool utype_flag_is_in_use(enum unit_type_flag_id uflag);
+
 /* Initialization and iteration */
 void unit_types_init(void);
 void unit_types_free(void);
