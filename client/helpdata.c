@@ -1490,6 +1490,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
 
   /* Building protects against action. */
   action_iterate(act) {
+    struct action *paction = action_by_number(act);
     /* Nothing is found yet. */
     bool vulnerable = FALSE;
     enum req_range min_range = REQ_RANGE_COUNT;
@@ -1499,7 +1500,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       continue;
     }
 
-    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    if (!action_is_in_use(paction)) {
       /* This action isn't enabled at all. */
       continue;
     }
@@ -2909,6 +2910,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   } action_iterate_end;
   action_iterate(act) {
+    struct action *paction = action_by_number(act);
     bool vulnerable;
 
     if (action_by_number(act)->quiet) {
@@ -2924,7 +2926,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
 
     /* All units are immune to this since its not enabled */
-    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    if (!action_is_in_use(paction)) {
       continue;
     }
 

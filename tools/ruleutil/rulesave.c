@@ -575,8 +575,9 @@ static bool save_action_auto_actions(struct section_file *sfile,
   for (i = 0;
        i < NUM_ACTIONS && auto_perf->alternatives[i] != ACTION_NONE;
        i++) {
-    if (action_enabler_list_size(action_enablers_for_action(
-                                 auto_perf->alternatives[i])) == 0) {
+    struct action *paction = action_by_number(auto_perf->alternatives[i]);
+
+    if (!action_is_in_use(paction)) {
       /* Don't mention non enabled actions. */
       continue;
     }
@@ -862,8 +863,10 @@ static bool save_action_range(struct section_file *sfile, action_id act)
 static bool save_action_kind(struct section_file *sfile, action_id act)
 {
   if (action_target_kind_ruleset_var_name(act) != NULL) {
+    struct action *paction = action_by_number(act);
+
     /* Target kind can be loaded from the ruleset. */
-    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    if (!action_is_in_use(paction)) {
       /* Don't save the default for actions that aren't enabled. */
       return TRUE;
     }
@@ -885,8 +888,10 @@ static bool save_action_actor_consuming_always(struct section_file *sfile,
                                                action_id act)
 {
   if (action_actor_consuming_always_ruleset_var_name(act) != NULL) {
+    struct action *paction = action_by_number(act);
+
     /* Actor consumption can be loaded from the ruleset. */
-    if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+    if (!action_is_in_use(paction)) {
       /* Don't save value for actions that aren't enabled. */
       return TRUE;
     }
@@ -917,8 +922,7 @@ static bool save_action_blocked_by(struct section_file *sfile,
     return TRUE;
   }
 
-  if (action_enabler_list_size(action_enablers_for_action(paction->id))
-      == 0) {
+  if (!action_is_in_use(paction)) {
     /* Don't save value for actions that aren't enabled. */
     return TRUE;
   }
@@ -928,8 +932,9 @@ static bool save_action_blocked_by(struct section_file *sfile,
               action_rule_name(paction));
 
   action_iterate(blocker_id) {
-    if (action_enabler_list_size(action_enablers_for_action(blocker_id))
-        == 0) {
+    struct action *pblocker = action_by_number(blocker_id);
+
+    if (!action_is_in_use(pblocker)) {
       /* Don't save value for actions that aren't enabled. */
       continue;
     }
@@ -968,8 +973,7 @@ static bool save_action_post_success_force(struct section_file *sfile,
     return TRUE;
   }
 
-  if (action_enabler_list_size(action_enablers_for_action(paction->id))
-      == 0) {
+  if (!action_is_in_use(paction)) {
     /* Don't save value for actions that aren't enabled. */
     return TRUE;
   }
@@ -995,8 +999,9 @@ static bool save_bv_actions(struct section_file *sfile,
   int i = 0;
 
   action_iterate(act_id) {
-    if (action_enabler_list_size(action_enablers_for_action(act_id))
-        == 0) {
+    struct action *paction = action_by_number(act_id);
+
+    if (!action_is_in_use(paction)) {
       /* Don't save value for actions that aren't enabled. */
       continue;
     }

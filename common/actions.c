@@ -6515,8 +6515,10 @@ int action_dice_roll_odds(const struct player *act_player,
 **************************************************************************/
 bool action_immune_government(struct government *gov, action_id act)
 {
+  struct action *paction = action_by_number(act);
+
   /* Always immune since its not enabled. Doesn't count. */
-  if (action_enabler_list_size(action_enablers_for_action(act)) == 0) {
+  if (!action_is_in_use(paction)) {
     return FALSE;
   }
 
@@ -6648,6 +6650,59 @@ bool action_mp_full_makes_legal(const struct unit *actor,
       && utype_may_act_move_frags(unit_type_get(actor),
                                   act_id,
                                   unit_move_rate(actor));
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the specified action has an actor that fulfills its
+  hard requirements in the current ruleset.
+  @param paction the action to check
+  @returns TRUE if the action's hard requirement may be fulfilled in
+                the current ruleset.
+**************************************************************************/
+static bool action_has_possible_actor_hard_reqs(struct action *paction)
+{
+  switch (action_get_actor_kind(paction)) {
+  case AAK_UNIT:
+    unit_type_iterate(putype) {
+      if (action_actor_utype_hard_reqs_ok(paction, putype)) {
+        return TRUE;
+      }
+    } unit_type_iterate_end;
+    break;
+  case AAK_COUNT:
+    fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
+    break;
+  }
+
+  /* No actor detected. */
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Returns TRUE if the specified action may be enabled in the current
+  ruleset.
+  @param paction the action to check if is in use.
+  @returns TRUE if the action could be enabled in the current ruleset.
+**************************************************************************/
+bool action_is_in_use(struct action *paction)
+{
+  struct action_enabler_list *enablers;
+
+  if (!action_has_possible_actor_hard_reqs(paction)) {
+    /* Hard requirements not fulfilled. */
+    return FALSE;
+  }
+
+  enablers = action_enablers_for_action(paction->id);
+
+  action_enabler_list_iterate(enablers, ae) {
+    if (!ae->disabled) {
+      return TRUE;
+    }
+  } action_enabler_list_iterate_end;
+
+  /* No non deleted action enabler. */
+  return FALSE;
 }
 
 /**********************************************************************//**
