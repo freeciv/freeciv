@@ -1328,6 +1328,8 @@ static struct action *action_new(action_id id,
   action->id = id;
 
   action->result = result;
+  /* Not set here */
+  BV_CLR_ALL(action->sub_results);
 
   action->actor_kind = AAK_UNIT;
   action->target_kind = action_target_kind_default(result);
@@ -2576,7 +2578,7 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
     bool has_user = FALSE;
 
     unit_type_iterate(pactor) {
-      if (action_actor_utype_hard_reqs_ok(paction->result, pactor)
+      if (action_actor_utype_hard_reqs_ok(paction, pactor)
           && requirement_fulfilled_by_unit_type(pactor,
                                                 &(enabler->actor_reqs))) {
         has_user = TRUE;
@@ -2940,8 +2942,8 @@ struct action *action_is_blocked_by(const struct action *act,
 }
 
 /**********************************************************************//**
-  Returns TRUE if the specified unit type can perform an action with the
-  wanted result given that an action enabler later will enable it.
+  Returns TRUE if the specified unit type can perform the specified action
+  given that an action enabler later will enable it.
 
   This is done by checking the action result's hard requirements. Hard
   requirements must be TRUE before an action can be done. The reason why
@@ -2960,11 +2962,25 @@ struct action *action_is_blocked_by(const struct action *act,
           given that an action enabler later will enable it.
 **************************************************************************/
 static bool
-action_actor_utype_hard_reqs_ok_full(enum action_result result,
+action_actor_utype_hard_reqs_ok_full(const struct action *paction,
                                      const struct unit_type *actor_unittype,
                                      bool ignore_third_party)
 {
-  switch (result) {
+  if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)) {
+    if (utype_class(actor_unittype)->hut_behavior != HUT_NORMAL) {
+      /* Reason: Keep hut_behavior working. */
+      return FALSE;
+    }
+  }
+
+  if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN)) {
+    if (utype_class(actor_unittype)->hut_behavior != HUT_FRIGHTEN) {
+      /* Reason: Keep hut_behavior working. */
+      return FALSE;
+    }
+  }
+
+  switch (paction->result) {
   case ACTRES_JOIN_CITY:
     if (actor_unittype->pop_cost <= 0) {
       /* Reason: Must have population to add. */
@@ -3061,20 +3077,6 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
     }
     break;
 
-  case ACTRES_HUT_ENTER:
-    if (utype_class(actor_unittype)->hut_behavior != HUT_NORMAL) {
-      /* Reason: Keep hut_behavior working. */
-      return FALSE;
-    }
-    break;
-
-  case ACTRES_HUT_FRIGHTEN:
-    if (utype_class(actor_unittype)->hut_behavior != HUT_FRIGHTEN) {
-      /* Reason: Keep hut_behavior working. */
-      return FALSE;
-    }
-    break;
-
   case ACTRES_PARADROP:
     if (actor_unittype->paratroopers_range <= 0) {
       /* Reason: Can't pardrop 0 tiles. */
@@ -3082,6 +3084,8 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
     }
     break;
 
+  case ACTRES_HUT_ENTER:
+  case ACTRES_HUT_FRIGHTEN:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
   case ACTRES_SPY_POISON:
@@ -3136,8 +3140,8 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
 }
 
 /**********************************************************************//**
-  Returns TRUE if the specified unit type can perform an action with the
-  wanted result given that an action enabler later will enable it.
+  Returns TRUE if the specified unit type can perform the specified action
+  given that an action enabler later will enable it.
 
   This is done by checking the action result's hard requirements. Hard
   requirements must be TRUE before an action can be done. The reason why
@@ -3152,11 +3156,11 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
           given that an action enabler later will enable it.
 **************************************************************************/
 bool
-action_actor_utype_hard_reqs_ok(enum action_result result,
+action_actor_utype_hard_reqs_ok(const struct action *paction,
                                 const struct unit_type *actor_unittype)
 {
-  return action_actor_utype_hard_reqs_ok_full(result, actor_unittype,
-                                              FALSE);
+  return action_actor_utype_hard_reqs_ok_full(paction,
+                                              actor_unittype, FALSE);
 }
 
 /**********************************************************************//**
@@ -3168,7 +3172,7 @@ action_actor_utype_hard_reqs_ok(enum action_result result,
   omniscient.
 **************************************************************************/
 static enum fc_tristate
-action_hard_reqs_actor(enum action_result result,
+action_hard_reqs_actor(const struct action *paction,
                        const struct player *actor_player,
                        const struct city *actor_city,
                        const struct impr_type *actor_building,
@@ -3180,7 +3184,9 @@ action_hard_reqs_actor(enum action_result result,
                        const bool omniscient,
                        const struct city *homecity)
 {
-  if (!action_actor_utype_hard_reqs_ok_full(result, actor_unittype, TRUE)) {
+  enum action_result result = paction->result;
+
+  if (!action_actor_utype_hard_reqs_ok_full(paction, actor_unittype, TRUE)) {
     /* Info leak: The actor player knows the type of his unit. */
     /* The actor unit type can't perform the action because of hard
      * unit type requirements. */
@@ -3449,7 +3455,7 @@ is_action_possible(const action_id wanted_action,
   }
 
   /* Actor specific hard requirements. */
-  out = action_hard_reqs_actor(paction->result,
+  out = action_hard_reqs_actor(paction,
                                actor_player, actor_city, actor_building,
                                actor_tile, actor_unit, actor_unittype,
                                actor_output, actor_specialist,
@@ -6593,7 +6599,7 @@ bool action_maybe_possible_actor_unit(const action_id act_id,
     return FALSE;
   }
 
-  result = action_hard_reqs_actor(paction->result,
+  result = action_hard_reqs_actor(paction,
                                   actor_player, actor_city, NULL,
                                   actor_tile, actor_unit, actor_unittype,
                                   NULL, NULL, FALSE,

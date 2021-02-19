@@ -276,6 +276,18 @@ extern "C" {
 #define MAX_NUM_ACTIONS ACTION_COUNT
 #define NUM_ACTIONS MAX_NUM_ACTIONS
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME action_sub_result
+/* Will enter each enterable hut at the target tile */
+#define SPECENUM_VALUE0 ACT_SUB_RES_HUT_ENTER
+#define SPECENUM_VALUE0NAME "Unit Enter Hut"
+/* Will frighten each frightenable hut at the target tile */
+#define SPECENUM_VALUE1 ACT_SUB_RES_HUT_FRIGHTEN
+#define SPECENUM_VALUE1NAME "Unit Frighten Hut"
+#define SPECENUM_BITVECTOR bv_action_sub_results
+#define SPECENUM_COUNT ACT_SUB_RES_COUNT
+#include "specenum_gen.h"
+
 /* A battle is against a defender that tries to stop the action where the
  * defender is in danger. A dice roll without a defender risking anything,
  * like the roll controlled by EFT_ACTION_ODDS_PCT, isn't a battle. */
@@ -360,6 +372,7 @@ struct action
   action_id id;
 
   enum action_result result;
+  bv_action_sub_results sub_results;
 
   enum action_actor_kind actor_kind;
   enum action_target_kind target_kind;
@@ -865,7 +878,7 @@ int action_dice_roll_odds(const struct player *act_player,
                           const struct action *paction);
 
 bool
-action_actor_utype_hard_reqs_ok(enum action_result result,
+action_actor_utype_hard_reqs_ok(const struct action *result,
                                 const struct unit_type *actor_unittype);
 
 /* Reasoning about actions */
