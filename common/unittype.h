@@ -511,7 +511,7 @@ struct unit_type {
   int happy_cost;  /* unhappy people in home city */
   int upkeep[O_LAST];
 
-  /* Only valid for ACTION_PARADROP */
+  /* Only valid for ACTION_PARADROP* */
   int paratroopers_range;
 
   /* Additional values for the expanded veteran system */

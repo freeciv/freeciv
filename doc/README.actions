@@ -819,22 +819,55 @@ Actions done by a unit against a tile
 
 "Paradrop Unit" - move the actor unit to the target tile.
  * UI name can be set using ui_name_paradrop_unit
- * can result in the conquest of the city at the target tile if
-   - the actor player isn't an animal barbarian.
-   - the actor unit has the "CanOccupyCity" unit class flag
-   - the actor don't have the "NonMil" unit type flag
-   - the actor's relationship to the target is War
-   - the target city contains 0 units
+ * the distance between actor and target is from 1 to paratroopers_range
+ * the actor unit hasn't paradropped this turn
+ * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
+ * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
+
+"Paradrop Unit Conquer" - move the actor unit to the target tile.
+ * UI name can be set using ui_name_paradrop_unit_conquer
+ * can result in the conquest of the city at the target tile
+   if the target tile has a city
  * can result in the conquest of the extras at the target tile if
-   - one of the extras at the target tile claims territory and is native to
-     the actor unit.
-   - the actor's relationship to the target is War or the target is unowned
- * can result in hut entry if
-   - the actor unit has a hut_behavior of "Normal"
-   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
-   - the target tile's Hut's rmreqs are fulfilled
+   one of the extras at the target tile claims territory and is native to
+   the actor unit.
+ * the distance between actor and target is from 1 to paratroopers_range
+ * the actor unit hasn't paradropped this turn
+ * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
+ * the actor unit doesn't have the NonMil unit type flag unless the target
+   tile doesn't have a city. (!)
+ * the actor unit has the CanOccupyCity unit class flag unless the target
+   tile doesn't have a city. (!)
+ * the actor owner must be at war with the target owner unless the target
+   tile doesn't have a city. (!)
+ * the actor owner can't be an animal unless the target tile doesn't have a
+   city. (!)
+ * the target tile is foreign or unclaimed. (!)
+ * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
+
+"Paradrop Unit Frighten" - move the actor unit to the target tile.
+ * UI name can be set using ui_name_paradrop_unit_frighten
  * can result in hut frightening if
-   - the actor unit has a hut_behavior of "Frighten"
    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
    - the target tile's Hut's rmreqs are fulfilled
  * the distance between actor and target is from 1 to paratroopers_range
@@ -842,6 +875,98 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
+ * the actor unit has the hut_behavior "Frighten"
+ * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
+
+"Paradrop Unit Frighten Conquer" - move the actor unit to the target tile.
+ * UI name can be set using ui_name_paradrop_unit_frighten_conquer
+ * can result in the conquest of the city at the target tile
+   if the target tile has a city
+ * can result in the conquest of the extras at the target tile if
+   one of the extras at the target tile claims territory and is native to
+   the actor unit.
+ * can result in hut frightening if
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+ * the distance between actor and target is from 1 to paratroopers_range
+ * the actor unit hasn't paradropped this turn
+ * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
+ * the actor unit has the hut_behavior "Frighten"
+ * the actor unit doesn't have the NonMil unit type flag unless the target
+   tile doesn't have a city. (!)
+ * the actor unit has the CanOccupyCity unit class flag unless the target
+   tile doesn't have a city. (!)
+ * the actor owner must be at war with the target owner unless the target
+   tile doesn't have a city. (!)
+ * the actor owner can't be an animal unless the target tile doesn't have a
+   city. (!)
+ * the target tile is foreign or unclaimed. (!)
+ * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
+
+"Paradrop Unit Enter" - move the actor unit to the target tile.
+ * UI name can be set using ui_name_paradrop_unit_enter
+ * can result in hut entry if
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+ * the distance between actor and target is from 1 to paratroopers_range
+ * the actor unit hasn't paradropped this turn
+ * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
+ * the actor unit has the hut_behavior "Normal"
+ * the target tile is known (doesn't have to be seen) by the actor
+ * if the target tile is seen:
+   - the actor unit must be able to exist outside a transport on the target
+     tile if the target tile doesn't have a visible transport the actor unit
+     is able to load into on landing
+   - the target tile can't contain a city belonging to a player the actor
+     has peace, cease-fire or armistice with.
+   - the target tile can't contain any seen unit belonging to a player the
+     actor player has peace, cease-fire or armistice with.
+
+"Paradrop Unit Enter Conquer" - move the actor unit to the target tile.
+ * UI name can be set using ui_name_paradrop_unit_enter_conquer
+ * can result in the conquest of the city at the target tile
+   if the target tile has a city
+ * can result in the conquest of the extras at the target tile if
+   one of the extras at the target tile claims territory and is native to
+   the actor unit.
+ * can result in hut entry if
+   - the target tile has an extra with "Enter" in its rmcauses (a Hut)
+   - the target tile's Hut's rmreqs are fulfilled
+ * the distance between actor and target is from 1 to paratroopers_range
+ * the actor unit hasn't paradropped this turn
+ * the actor unit isn't transporting another unit (!)
+ * the actor unit can't be diplomatically forbidden from entering the target
+   tile. (!)
+ * the actor unit has the hut_behavior "Normal"
+ * the actor unit doesn't have the NonMil unit type flag unless the target
+   tile doesn't have a city. (!)
+ * the actor unit has the CanOccupyCity unit class flag unless the target
+   tile doesn't have a city. (!)
+ * the actor owner must be at war with the target owner unless the target
+   tile doesn't have a city. (!)
+ * the actor owner can't be an animal unless the target tile doesn't have a
+   city. (!)
+ * the target tile is foreign or unclaimed. (!)
  * the target tile is known (doesn't have to be seen) by the actor
  * if the target tile is seen:
    - the actor unit must be able to exist outside a transport on the target

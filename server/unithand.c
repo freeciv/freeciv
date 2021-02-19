@@ -807,6 +807,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     break;
 
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     /* Target is a tile but a city or unit can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_TILE, break);
     if (target_tile
@@ -1293,7 +1294,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                  TER_NO_CITIES)) {
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
     explnat->no_act_terrain = tile_terrain(target_tile);
-  } else if (action_has_result_safe(paction, ACTRES_PARADROP)
+  } else if ((action_has_result_safe(paction, ACTRES_PARADROP)
+              || action_has_result_safe(paction, ACTRES_PARADROP_CONQUER))
              && target_tile
              && map_is_known_and_seen(target_tile, unit_owner(punit),
                                       V_MAIN)
@@ -1420,7 +1422,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                            unit_tile(target_unit)))))) {
     explnat->kind = ANEK_DISTANCE_FAR;
     explnat->distance = paction->max_distance;
-  } else if (action_has_result_safe(paction, ACTRES_PARADROP)
+  } else if ((action_has_result_safe(paction, ACTRES_PARADROP_CONQUER)
+              || action_has_result_safe(paction, ACTRES_PARADROP))
              && punit && target_tile
              && real_map_distance(unit_tile(punit), target_tile)
                 > unit_type_get(punit)->paratroopers_range) {
@@ -1491,7 +1494,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   } else if (action_has_result_safe(paction, ACTRES_FOUND_CITY)
              && citymindist_prevents_city_on_tile(target_tile)) {
     explnat->kind = ANEK_CITY_TOO_CLOSE_TGT;
-  } else if (action_has_result_safe(paction, ACTRES_PARADROP)
+  } else if ((action_has_result_safe(paction, ACTRES_PARADROP_CONQUER)
+              || action_has_result_safe(paction, ACTRES_PARADROP))
              && target_tile
              && !map_is_known(target_tile, unit_owner(punit))) {
     explnat->kind = ANEK_TGT_TILE_UNKNOWN;
@@ -3455,6 +3459,7 @@ bool unit_perform_action(struct player *pplayer,
                                       paction));
     break;
   case ACTRES_PARADROP:
+  case ACTRES_PARADROP_CONQUER:
     ACTION_STARTED_UNIT_TILE(action_type, actor_unit, target_tile,
                              do_paradrop(actor_unit, target_tile, paction));
     break;

@@ -528,7 +528,10 @@ ui_name_home_city = _("Set %sHome City%s")
 ui_name_upgrade_unit = _("%sUpgrade Unit%s")
 
 ; /* TRANS: Drop _Paratrooper (100% chance of success). */
-ui_name_paradrop_unit = _("Drop %sParatrooper%s")
+ui_name_paradrop_unit_enter = _("Drop %sParatrooper%s")
+
+; /* TRANS: _Paradrop to Contested Landing (100% chance of success). */
+ui_name_paradrop_unit_enter_conquer = _("%sParadrop to Contested Landing%s")
 
 ; /* TRANS: _Airlift to City (100% chance of success). */
 ui_name_airlift_unit = _("%sAirlift to City%s")
@@ -1132,7 +1135,7 @@ actor_reqs    =
     }
 
 [actionenabler_paradrop_base_to_claimed]
-action = "Paradrop Unit"
+action = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "UnitFlag",     "Paratroopers", "Local", TRUE
@@ -1140,6 +1143,7 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "War",          "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1147,7 +1151,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_base_to_unclaimed]
-action = "Paradrop Unit"
+action = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "UnitFlag",     "Paratroopers", "Local", TRUE
@@ -1160,8 +1164,25 @@ target_reqs   =
       "CityTile", "Claimed", "Local", FALSE
     }
 
+[actionenabler_paradrop_base_to_war_conquer]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
 [actionenabler_paradrop_city_to_claimed]
-action = "Paradrop Unit"
+action = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "UnitFlag",     "Paratroopers", "Local", TRUE
@@ -1169,6 +1190,7 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "CityTile",     "Center",       "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "War",          "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1176,7 +1198,7 @@ target_reqs   =
     }
 
 [actionenabler_paradrop_city_to_unclaimed]
-action = "Paradrop Unit"
+action = "Paradrop Unit Enter"
 actor_reqs    =
     { "type",         "name",         "range", "present"
       "UnitFlag",     "Paratroopers", "Local", TRUE
@@ -1187,6 +1209,23 @@ actor_reqs    =
 target_reqs   =
     { "type",     "name",    "range", "present"
       "CityTile", "Claimed", "Local", FALSE
+    }
+
+[actionenabler_paradrop_city_to_war_conquer]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
     }
 
 [actionenabler_upgrade_unit]

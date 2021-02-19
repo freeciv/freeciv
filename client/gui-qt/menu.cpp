@@ -2335,7 +2335,11 @@ void mr_menu::menus_sensitive()
             || can_units_do(punits, can_unit_paradrop)) {
           i.value()->setEnabled(true);
         }
-        if (units_can_do_action(punits, ACTION_PARADROP, true)) {
+        if (units_can_do_action_with_result(punits, ACTRES_PARADROP,
+                                            true)
+            || units_can_do_action_with_result(punits,
+                                               ACTRES_PARADROP_CONQUER,
+                                               true)) {
           i.value()->setText(
             QString(action_id_name_translation(ACTION_PARADROP))
             .replace("&", "&&"));

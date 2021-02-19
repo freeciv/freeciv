@@ -130,6 +130,11 @@ static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
 static void suicide_attack(QVariant data1, QVariant data2);
 static void paradrop(QVariant data1, QVariant data2);
+static void paradrop_conquer(QVariant data1, QVariant data2);
+static void paradrop_frighten(QVariant data1, QVariant data2);
+static void paradrop_frighten_conquer(QVariant data1, QVariant data2);
+static void paradrop_enter(QVariant data1, QVariant data2);
+static void paradrop_enter_conquer(QVariant data1, QVariant data2);
 static void disembark1(QVariant data1, QVariant data2);
 static void disembark2(QVariant data1, QVariant data2);
 static void enter_hut(QVariant data1, QVariant data2);
@@ -249,6 +254,12 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_FOUND_CITY] = found_city;
   action_function[ACTION_NUKE] = nuke;
   action_function[ACTION_PARADROP] = paradrop;
+  action_function[ACTION_PARADROP_CONQUER] = paradrop_conquer;
+  action_function[ACTION_PARADROP_ENTER] = paradrop_enter;
+  action_function[ACTION_PARADROP_ENTER_CONQUER] = paradrop_enter_conquer;
+  action_function[ACTION_PARADROP_FRIGHTEN] = paradrop_frighten;
+  action_function[ACTION_PARADROP_FRIGHTEN_CONQUER]
+      = paradrop_frighten_conquer;
   action_function[ACTION_ATTACK] = attack;
   action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
@@ -2881,6 +2892,81 @@ static void paradrop(QVariant data1, QVariant data2)
   if (NULL != game_unit_by_number(actor_id)
       && NULL != index_to_tile(&(wld.map), target_id)) {
     request_do_action(ACTION_PARADROP,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Paradrop Unit Conquer" for choice dialog
+***************************************************************************/
+static void paradrop_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_PARADROP_CONQUER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Paradrop Unit Frighten" for choice dialog
+***************************************************************************/
+static void paradrop_frighten(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_PARADROP_FRIGHTEN,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Paradrop Unit Frighten Conquer" for choice dialog
+***************************************************************************/
+static void paradrop_frighten_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_PARADROP_FRIGHTEN_CONQUER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Paradrop Unit Enter" for choice dialog
+***************************************************************************/
+static void paradrop_enter(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_PARADROP_ENTER,
+                      actor_id, target_id, 0, "");
+  }
+}
+
+/***********************************************************************//**
+  Action "Paradrop Unit Enter Conquer" for choice dialog
+***************************************************************************/
+static void paradrop_enter_conquer(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)
+      && NULL != index_to_tile(&(wld.map), target_id)) {
+    request_do_action(ACTION_PARADROP_ENTER_CONQUER,
                       actor_id, target_id, 0, "");
   }
 }

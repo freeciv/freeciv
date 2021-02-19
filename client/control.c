@@ -2985,7 +2985,8 @@ void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
   action_iterate(act_id) {
     struct action *paction = action_by_number(act_id);
 
-    if (!action_has_result(paction, ACTRES_PARADROP)) {
+    if (!(action_has_result(paction, ACTRES_PARADROP_CONQUER)
+          || action_has_result(paction, ACTRES_PARADROP))) {
       /* Not relevant. */
       continue;
     }
