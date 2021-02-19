@@ -628,7 +628,8 @@ diplchance_initial_odds = "Sabotage City", "Sabotage City Escape",
                           "Steal Tech", "Steal Tech Escape Expected",
                           "Targeted Steal Tech Escape Expected",
                           "Incite City", "Incite City Escape",
-                          "Steal Maps Escape", "Spread Plague"
+                          "Steal Maps Escape", "Spread Plague",
+                          "Steal Gold Escape"
 
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
@@ -835,6 +836,22 @@ actor_reqs    =
     }
 target_reqs  =
     { "type",   "name", "range", "present"
+      "NationGroup", "Barbarian", "Player", FALSE
+    }
+
+; Give spies the ability to steal gold
+[actionenabler_steal_gold]
+action = "Steal Gold Escape"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+      "MinMoveFrags", "1",             "Local"
+      "Tech",         "Banking",       "Player"
+      "DiplRel",      "Foreign",       "Local"
+    }
+target_reqs  =
+    { "type",        "name",      "range",  "present"
       "NationGroup", "Barbarian", "Player", FALSE
     }
 
