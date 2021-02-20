@@ -1954,7 +1954,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
   if (utype_has_flag(utype, UTYF_NOHOME)) {
-    CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
+    if (utype_can_do_action_result(utype, ACTRES_HOME_CITY)) {
+      CATLSTR(buf, bufsz, _("* Built without a home city.\n"));
+    } else {
+      CATLSTR(buf, bufsz, _("* Never has a home city.\n"));
+    }
   }
   if (utype_has_flag(utype, UTYF_GAMELOSS)) {
     CATLSTR(buf, bufsz, _("* Losing this unit will lose you the game!\n"));

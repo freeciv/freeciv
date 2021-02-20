@@ -486,17 +486,6 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_MARKETPLACE,
                           ACTRES_NONE);
 
-  /* Why this is a hard requirement: Preserve semantics of NoHome
-   * flag. Need to replace other uses in game engine before this can
-   * be demoted to a regular unit flag. */
-  oblig_hard_req_register(req_from_values(VUT_UTFLAG, REQ_RANGE_LOCAL,
-                                          FALSE, TRUE, TRUE, UTYF_NOHOME),
-                          FALSE,
-                          N_("All action enablers for %s must require"
-                             " that the actor doesn't have"
-                             " the NoHome utype flag."),
-                          ACTRES_HOME_CITY, ACTRES_NONE);
-
   /* Why this is a hard requirement:
    * - preserve the semantics of the NonMil unit type flag. */
   oblig_hard_req_reg(req_contradiction_or(

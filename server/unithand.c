@@ -3589,12 +3589,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   }
 
   if (rehome) {
-    fc_assert(!unit_has_type_flag(punit, UTYF_NOHOME));
-
-    /* Remove from old city first and add to new city only after that.
-     * This is more robust in case old_city == new_city (currently
-     * prohibited by fc_assert in the beginning of the function).
-     */
+    /* Remove from old city first and add to new city only after that. */
     if (old_pcity) {
       /* Even if unit is dead, we have to unlink unit pointer (punit). */
       unit_list_remove(old_pcity->units_supported, punit);
