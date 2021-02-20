@@ -458,7 +458,7 @@ utypes = "\
 ;                 it encounters another SuperSpy, in which case defender wins;\n\
 ;                 can also be used on non-diplomat units, in which case it can\n\
 ;                 protect cities from diplomats; also 100% spy survival chance\n\
-; \"NoHome\"    = this unit has no homecity and will be free of all upkeep, and\n\
+; \"NoHome\"    = this unit is built with no homecity, free of all upkeep, and\n\
 ;                 therefore will not revolt along with its city of origin should\n\
 ;                 it be incited\n\
 ; \"NoVeteran\"   = this unit cannot gain veteran levels through experience\n\

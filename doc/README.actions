@@ -478,7 +478,6 @@ Actions done by a unit against a city
  * UI name can be set using ui_name_home_city
  * actor must be aware that the target exists
  * actor must be on the same tile as the target
- * actor must not have the "NoHome" unit type flag. (!)
  * can't set existing home city as new home city
  * target city has enough unused unit maintenance slots to support the actor
    unit. (No problem if the actor unit spends 0 city slots)

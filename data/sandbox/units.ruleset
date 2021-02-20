@@ -380,7 +380,7 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "MediumWeight"
 ;		  it encounters another SuperSpy, in which case defender wins;
 ;		  can also be used on non-diplomat units, in which case it can
 ;		  protect cities from diplomats; also 100% spy survival chance
-; "NoHome"	= this unit has no homecity and will be free of all upkeep, and
+; "NoHome"	= this unit is built with no homecity, free of all upkeep, and
 ;		  therefore will not revolt along with its city of origin should
 ;		  it be incited
 ; "NoVeteran"   = this unit cannot gain veteran levels through experience
