@@ -2504,16 +2504,17 @@ action_enabler_suggest_repair(const struct action_enabler *enabler)
     return out;
   }
 
-  out = req_vec_get_first_contradiction(&enabler->actor_reqs,
-                                        action_enabler_vector_number,
-                                        enabler);
+  /* Look for errors in the requirement vectors. */
+  out = req_vec_suggest_repair(&enabler->actor_reqs,
+                               action_enabler_vector_number,
+                               enabler);
   if (out != NULL) {
     return out;
   }
 
-  out = req_vec_get_first_contradiction(&enabler->target_reqs,
-                                        action_enabler_vector_number,
-                                        enabler);
+  out = req_vec_suggest_repair(&enabler->target_reqs,
+                               action_enabler_vector_number,
+                               enabler);
   if (out != NULL) {
     return out;
   }
@@ -2573,16 +2574,16 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
 
   paction = action_by_number(enabler->action);
 
-  /* Check if a universal that never will appear in the game is checked. */
-  out = req_vec_get_first_missing_univ(&enabler->actor_reqs,
-                                       action_enabler_vector_number,
-                                       enabler);
+  /* Look for improvement suggestions to the requirement vectors. */
+  out = req_vec_suggest_improvement(&enabler->actor_reqs,
+                                    action_enabler_vector_number,
+                                    enabler);
   if (out) {
     return out;
   }
-  out = req_vec_get_first_missing_univ(&enabler->target_reqs,
-                                       action_enabler_vector_number,
-                                       enabler);
+  out = req_vec_suggest_improvement(&enabler->target_reqs,
+                                    action_enabler_vector_number,
+                                    enabler);
   if (out) {
     return out;
   }

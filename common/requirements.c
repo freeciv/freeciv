@@ -3748,6 +3748,25 @@ req_vec_get_first_contradiction(const struct requirement_vector *vec,
 }
 
 /**********************************************************************//**
+  Returns a suggestion to fix the specified requirement vector or NULL if
+  no fix is found to be needed. It is the responsibility of the caller to
+  free the suggestion when it is done with it.
+  @param vec the requirement vector to look in.
+  @param get_num function that returns the requirement vector's number in
+                 the parent item.
+  @param parent_item the item that owns the vector.
+  @return the first error found.
+**************************************************************************/
+struct req_vec_problem *
+req_vec_suggest_repair(const struct requirement_vector *vec,
+                       requirement_vector_number get_num,
+                       const void *parent_item)
+{
+  /* Check for self contradictins. */
+  return req_vec_get_first_contradiction(vec, get_num, parent_item);
+}
+
+/**********************************************************************//**
   Returns the first universal known to always be absent in the specified
   requirement vector with suggested solutions or NULL if no missing
   universals were found.
@@ -3800,6 +3819,26 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
   }
 
   return NULL;
+}
+
+/**********************************************************************//**
+  Returns a suggestion to improve the specified requirement vector or NULL
+  if nothing to improve is found. It is the responsibility of the caller to
+  free the suggestion when it is done with it. A possible improvement isn't
+  always an error.
+  @param vec the requirement vector to look in.
+  @param get_num function that returns the requirement vector's number in
+                 the parent item.
+  @param parent_item the item that owns the vector.
+  @return the first improvement suggestion found.
+**************************************************************************/
+struct req_vec_problem *
+req_vec_suggest_improvement(const struct requirement_vector *vec,
+                            requirement_vector_number get_num,
+                            const void *parent_item)
+{
+  /* Check if a universal that never will appear in the game is checked. */
+  return req_vec_get_first_missing_univ(vec, get_num, parent_item);
 }
 
 /**********************************************************************//**
