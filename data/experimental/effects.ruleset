@@ -2816,15 +2816,6 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_unit]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage Unit Escape", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
 [effect_incident_success_incite]
 type	= "Casus_Belli_Success"
 value	= 1
@@ -2843,57 +2834,12 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_poison]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Poison City Escape", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
-[effect_incident_success_sabotage_city]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage City", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
-[effect_incident_success_sabotage_city_esc]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage City Escape", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
-[effect_incident_success_tgt_sabotage_city]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Targeted Sabotage City Escape", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
 [effect_tgt_sabotage_city_half_chance]
 type	= "Action_Odds_Pct"
 value	= -50
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Targeted Sabotage City Escape", "Local", TRUE
-    }
-
-[effect_incident_success_sabotage_city_production]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage City Production Escape", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
     }
 
 [effect_sabotage_city_production_city_half_chance]

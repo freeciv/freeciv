@@ -1012,15 +1012,6 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_city]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage City", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
 ; Double (+100%) buy cost for Great Wonders
 [effect_great_wonder_buy_cost]
 type    = "Building_Buy_Cost_Pct"

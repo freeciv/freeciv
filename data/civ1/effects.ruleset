@@ -1420,15 +1420,6 @@ reqs	=
       "DiplRel", "War", "Local", FALSE
     }
 
-[effect_incident_success_sabotage_city]
-type	= "Casus_Belli_Success"
-value	= 1
-reqs	=
-    { "type", "name", "range", "present"
-      "Action", "Sabotage City", "Local", TRUE
-      "DiplRel", "War", "Local", FALSE
-    }
-
 [effect_incident_success_explode_nuke]
 type	= "Casus_Belli_Success"
 value	= 1
