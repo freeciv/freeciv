@@ -2839,7 +2839,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                  const struct action *paction)
 {
   struct player *pplayer = unit_owner(punit);
-
+  struct player *tgt_player = tile_owner(ptile);
+  const struct unit_type *act_utype = unit_type_get(punit);
 
   /* Hard requirements */
   /* FIXME: hard requirements belong in common/actions's
@@ -2934,6 +2935,10 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));
   }
+
+  /* May cause an incident */
+  action_consequence_success(paction, pplayer, act_utype, tgt_player,
+                             ptile, tile_link(ptile));
 
   return TRUE;
 }
