@@ -3822,6 +3822,68 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
 }
 
 /**********************************************************************//**
+  Returns the first redundant requirement in the specified requirement
+  vector with suggested solutions or NULL if no redundant requirements were
+  found.
+  It is the responsibility of the caller to free the suggestion when it is
+  done with it.
+  @param vec the requirement vector to look in.
+  @param get_num function that returns the requirement vector's number in
+                 the parent item.
+  @param parent_item the item that owns the vector.
+  @return the first redundant requirement found.
+**************************************************************************/
+struct req_vec_problem *
+req_vec_get_first_redundant_req(const struct requirement_vector *vec,
+                                requirement_vector_number get_num,
+                                const void *parent_item)
+{
+  int i, j;
+  req_vec_num_in_item vec_num;
+
+  if (vec == NULL || requirement_vector_size(vec) == 0) {
+    /* No vector. */
+    return NULL;
+  }
+
+  if (get_num == NULL || parent_item == NULL) {
+    vec_num = 0;
+  } else {
+    vec_num = get_num(parent_item, vec);
+  }
+
+  /* Look for repeated requirements */
+  for (i = 0; i < requirement_vector_size(vec) - 1; i++) {
+    struct requirement *preq = requirement_vector_get(vec, i);
+    for (j = i + 1; j < requirement_vector_size(vec); j++) {
+      struct requirement *nreq = requirement_vector_get(vec, j);
+
+      if (are_requirements_equal(preq, nreq)) {
+        struct req_vec_problem *problem;
+
+        problem = req_vec_problem_new(2,
+            N_("Requirements {%s} and {%s} are the same."),
+            req_to_fstring(preq), req_to_fstring(nreq));
+
+        /* The solution is to remove one of the redundant requirements. */
+        problem->suggested_solutions[0].operation = RVCO_REMOVE;
+        problem->suggested_solutions[0].vector_number = vec_num;
+        problem->suggested_solutions[0].req = *preq;
+
+        problem->suggested_solutions[1].operation = RVCO_REMOVE;
+        problem->suggested_solutions[1].vector_number = vec_num;
+        problem->suggested_solutions[1].req = *nreq;
+
+        /* Only the first redundancy is reported. */
+        return problem;
+      }
+    }
+  }
+
+  return NULL;
+}
+
+/**********************************************************************//**
   Returns a suggestion to improve the specified requirement vector or NULL
   if nothing to improve is found. It is the responsibility of the caller to
   free the suggestion when it is done with it. A possible improvement isn't
@@ -3837,8 +3899,17 @@ req_vec_suggest_improvement(const struct requirement_vector *vec,
                             requirement_vector_number get_num,
                             const void *parent_item)
 {
+  struct req_vec_problem *out;
+
   /* Check if a universal that never will appear in the game is checked. */
-  return req_vec_get_first_missing_univ(vec, get_num, parent_item);
+  out = req_vec_get_first_missing_univ(vec, get_num, parent_item);
+  if (out != NULL) {
+    return out;
+  }
+
+  /* Check if a requirement is redundant. */
+  out = req_vec_get_first_redundant_req(vec, get_num, parent_item);
+  return out;
 }
 
 /**********************************************************************//**
