@@ -64,6 +64,7 @@ int main(int argc, char **argv)
 {
   enum log_level loglevel = LOG_NORMAL;
   int ui_options;
+  int exit_status = EXIT_SUCCESS;
 
   /* Load win32 post-crash debugger */
 #ifdef FREECIV_MSWINDOWS
@@ -118,6 +119,8 @@ int main(int argc, char **argv)
       /* TRANS: 'Failed to load comments-x.y.txt' where x.y is
        * freeciv version */
       log_error(R__("Failed to load %s."), COMMENTS_FILE_NAME);
+
+      exit_status = EXIT_FAILURE;
     }
   }
 
@@ -129,7 +132,7 @@ int main(int argc, char **argv)
   /* Clean up command line arguments. */
   cmdline_option_values_free();
 
-  return EXIT_SUCCESS;
+  return exit_status;
 }
 
 /**********************************************************************//**
