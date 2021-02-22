@@ -62,11 +62,13 @@ bool comments_load(void)
   fullpath = fileinfoname(get_data_dirs(), "ruledit/" COMMENTS_FILE_NAME);
 
   if (fullpath == NULL) {
+    log_normal("Can't find the comments file");
     return FALSE;
   }
 
   comment_file = secfile_load(fullpath, FALSE);
   if (comment_file == NULL) {
+    log_normal("Can't parse the comments file");
     return FALSE;
   }
 
