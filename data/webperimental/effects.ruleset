@@ -2717,6 +2717,97 @@ reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
+[effect_action_success_move_cost_establish_embassy]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Establish Embassy","Local",TRUE
+}
+
+[effect_action_success_move_cost_investigate_city]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Investigate City","Local",TRUE
+}
+
+[effect_action_success_move_cost_poison_city_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Poison City Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_steal_gold_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Steal Gold Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_sabotage_city_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Sabotage City Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_targeted_sabotage_city_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Targeted Sabotage City Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_sabotage_city_production_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Sabotage City Production Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_steal_tech_escape_expected]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Steal Tech Escape Expected","Local",TRUE
+}
+
+[effect_action_success_move_cost_targeted_steal_tech_escape_expected]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Targeted Steal Tech Escape Expected","Local",TRUE
+}
+
+[effect_action_success_move_cost_incite_city_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Incite City Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_sabotage_unit_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Sabotage Unit Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_steal_maps_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Steal Maps Escape","Local",TRUE
+}
+
+[effect_action_success_move_cost_suitcase_nuke_escape]
+type="Action_Success_Actor_Move_Cost"
+value=65535
+reqs={"type","name","range","quiet"
+  "Action","Suitcase Nuke Escape","Local",TRUE
+}
+
 [effect_action_success_move_cost_embassy]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 1

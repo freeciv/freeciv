@@ -2163,8 +2163,10 @@ static void diplomat_escape_full(struct player *pplayer,
       notify_unit_experience(pdiplomat);
     }
 
-    /* being teleported costs all movement */
-    if (!teleport_unit_to_city (pdiplomat, spyhome, -1, FALSE)) {
+    if (!teleport_unit_to_city (pdiplomat, spyhome,
+                                /* Handled by the ruleset. */
+                                0,
+                                FALSE)) {
       send_unit_info(NULL, pdiplomat);
       log_error("Bug in diplomat_escape: Spy can't teleport.");
       return;
