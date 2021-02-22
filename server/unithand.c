@@ -4864,6 +4864,10 @@ static bool unit_do_regular_move(struct player *actor_player,
             /* Don't override "Enter Hut" */
             FALSE);
 
+  /* May cause an incident */
+  action_consequence_success(paction, actor_player, tile_owner(target_tile),
+                             target_tile, tile_link(target_tile));
+
   return TRUE;
 }
 
