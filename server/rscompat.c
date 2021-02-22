@@ -639,6 +639,25 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, TRUE,
                                             TRUE, "OneAttack"));
 
+    /* Post successful action move fragment loss for spy post action escape
+     * has moved to the ruleset. */
+    action_iterate(act_id) {
+      struct action *paction = action_by_number(act_id);
+
+      if (paction->actor.is_unit.moves_actor != MAK_ESCAPE
+          || paction->actor_consuming_always) {
+        /* Not relevant. */
+        continue;
+      }
+
+      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                           MAX_MOVE_FRAGS, NULL);
+      /* The reduction only applies to this action. */
+      effect_req_append(peffect, req_from_str("Action", "Local",
+                                              FALSE, TRUE, TRUE,
+                                              action_rule_name(paction)));
+    } action_iterate_end;
+
     /* Post successful action move fragment loss for targets of
      * "Paradrop Unit" has moved to the Action_Success_Actor_Move_Cost
      * effect. */
