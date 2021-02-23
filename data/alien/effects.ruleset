@@ -1037,6 +1037,14 @@ reqs    =
       "Action", "Bombard", "Local", TRUE
     }
 
+[effect_action_success_move_cost_attack]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 4
+reqs    =
+    { "type",   "name",   "range", "present"
+      "Action", "Attack", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_paradrop]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 4

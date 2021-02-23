@@ -2897,6 +2897,15 @@ reqs    =
       "UnitFlag", "OneAttack", "Local", TRUE
     }
 
+[effect_action_success_attack_normal]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 3
+reqs    =
+    { "type",     "name",      "range", "present"
+      "Action",   "Attack",    "Local", TRUE
+      "UnitFlag", "OneAttack", "Local", FALSE
+    }
+
 [effect_strike_half_chance]
 type	= "Action_Odds_Pct"
 value	= -50
