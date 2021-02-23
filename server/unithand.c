@@ -4876,11 +4876,7 @@ static bool unit_do_regular_move(struct player *actor_player,
   was done, FALSE if it wasn't for some reason. Even if this returns TRUE,
   the unit may have died upon arrival to new tile.
 
-  'igzoc' means ignore ZOC rules - not necessary for igzoc units etc, but
-  done in some special cases (moving barbarians out of initial hut).
-  Should normally be FALSE.
-
-  'move_do_not_act' is another special case which should normally be
+  'move_do_not_act' is a special case which should normally be
   FALSE.  If TRUE any enabler controlled actions punit can perform to
   pdesttile it self or something located at it will be ignored. If FALSE
   the system will check if punit can perform any enabler controlled action
@@ -4889,30 +4885,11 @@ static bool unit_do_regular_move(struct player *actor_player,
   controlled action) to pdesttile the game will try to explain why.
 **************************************************************************/
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
-                        bool igzoc, bool move_do_not_act)
+                        bool move_do_not_act)
 {
   struct player *pplayer = unit_owner(punit);
 
-  /*** Phase 1: Basic checks ***/
-
-  /* this occurs often during lag, and to the AI due to some quirks -- Syela */
-  if (!is_tiles_adjacent(unit_tile(punit), pdesttile)) {
-    log_debug("tiles not adjacent in move request");
-    return FALSE;
-  }
-
-
-  if (punit->moves_left <= 0) {
-    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                  _("This unit has no moves left."));
-    return FALSE;
-  }
-
-  if (!unit_can_do_action_now(punit)) {
-    return FALSE;
-  }
-
-  /*** Phase 2: Attempted action interpretation checks ***/
+  /*** Phase 1: Attempted action interpretation checks ***/
 
   /* Check if the move should be interpreted as an attempt to perform an
    * enabler controlled action to the target tile. When the move may be an
@@ -4947,7 +4924,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   if (!move_do_not_act) {
     const bool can_not_move = !unit_can_move_to_tile(&(wld.map),
                                                      punit, pdesttile,
-                                                     igzoc, FALSE);
+                                                     FALSE, FALSE);
     bool one_action_may_be_legal
         =  action_tgt_unit(punit, pdesttile, can_not_move)
         || action_tgt_city(punit, pdesttile, can_not_move)
@@ -4982,35 +4959,63 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     }
   }
 
-  /*** Phase 3: OK now move the unit ***/
-  if (!igzoc) {
-    /* This is a regular move, subject to the rules. */
-    if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE,
-                                       punit, pdesttile, NULL)) {
-      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
-                                 NO_TARGET, "", ACTION_UNIT_MOVE,
-                                 ACT_REQ_PLAYER);
-    } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
-                                              punit, pdesttile, NULL)) {
-      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
-                                 NO_TARGET, "", ACTION_UNIT_MOVE2,
-                                 ACT_REQ_PLAYER);
-    } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
-                                              punit, pdesttile, NULL)) {
-      return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
-                                 NO_TARGET, "", ACTION_UNIT_MOVE3,
-                                 ACT_REQ_PLAYER);
-    } else {
-      /* TODO: Extend the action not enabled explanation system to cover all
-       * existing reasons and switch to using it. See hrm Feature #920229 */
-      can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
-                                        NULL, FALSE);
-      return FALSE;
-    }
+  /*** Phase 2: OK now move the unit ***/
+  /* This is a regular move, subject to the rules. */
+  if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE,
+                                     punit, pdesttile, NULL)) {
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_UNIT_MOVE,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE2,
+                                            punit, pdesttile, NULL)) {
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_UNIT_MOVE2,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_UNIT_MOVE3,
+                                            punit, pdesttile, NULL)) {
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_UNIT_MOVE3,
+                               ACT_REQ_PLAYER);
+  } else {
+    /* TODO: Extend the action not enabled explanation system to cover all
+     * existing reasons and switch to using it. See hrm Feature #920229 */
+    can_unit_move_to_tile_with_notify(punit, pdesttile, FALSE,
+                                      NULL, FALSE);
+    return FALSE;
+  }
+}
+
+/**********************************************************************//**
+  Will try to move to/attack the tile dest_x,dest_y.  Returns TRUE if this
+  was done, FALSE if it wasn't for some reason. Even if this returns TRUE,
+  the unit may have died upon arrival to new tile.
+
+  igzoc means ignore ZOC rules - not necessary for igzoc units etc, but
+  done in some special cases (moving barbarians out of initial hut).
+**************************************************************************/
+bool unit_move_igzoc(struct unit *punit, struct tile *pdesttile)
+{
+  struct player *pplayer = unit_owner(punit);
+
+  /*** Phase 1: Basic checks ***/
+
+  /* this occurs often during lag, and to the AI due to some quirks -- Syela */
+  if (!is_tiles_adjacent(unit_tile(punit), pdesttile)) {
+    log_debug("tiles not adjacent in move request");
+    return FALSE;
   }
 
+  if (punit->moves_left <= 0) {
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  _("This unit has no moves left."));
+    return FALSE;
+  }
 
-  /* Compatibility for when igzoc is TRUE */
+  if (!unit_can_do_action_now(punit)) {
+    return FALSE;
+  }
+
+  /*** Phase 2: OK now move the unit ***/
 
   /* We cannot move a transport into a tile that holds
    * units or cities not allied with all of our cargo. */
@@ -5033,7 +5038,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
     /* Can't move if an action that block moves is legal */
     if ((blocking_action = action_is_blocked_by(
-           NULL, punit, pdesttile, tile_city(pdesttile), NULL))) {
+           action_by_number(ACTION_UNIT_MOVE), punit, pdesttile,
+           tile_city(pdesttile), NULL))) {
       notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                     /* TRANS: Freight ... Recycle Unit ... Help Wonder ... */
                     _("Your %s can't do %s when %s is legal."),
@@ -5044,13 +5050,25 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
     }
   }
 
-  if (can_unit_move_to_tile_with_notify(punit, pdesttile, igzoc,
+  if (can_unit_move_to_tile_with_notify(punit, pdesttile, TRUE,
                                         NULL, FALSE)
       /* Don't override "Transport Embark" */
       && can_unit_exist_at_tile(&(wld.map), punit, pdesttile)
       /* Don't override "Transport Disembark" or "Transport Disembark 2" */
       && !unit_transported(punit)) {
-    return unit_do_regular_move(pplayer, punit, pdesttile, NULL);
+    int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
+
+    unit_move(punit, pdesttile, move_cost,
+              /* Don't override "Transport Embark" */
+              NULL, FALSE,
+              /* Don't override "Conquer City" */
+              FALSE,
+              /* Don't override "Conquer Extras" */
+              FALSE,
+              /* Don't override "Enter Hut" */
+              FALSE);
+
+    return TRUE;
   } else {
     return FALSE;
   }
