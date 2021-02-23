@@ -3801,8 +3801,24 @@ req_vec_get_first_missing_univ(const struct requirement_vector *vec,
   /* Look for contradictions */
   for (i = 0; i < requirement_vector_size(vec); i++) {
     struct requirement *preq = requirement_vector_get(vec, i);
+
     if (universal_never_there(&preq->source)) {
       struct req_vec_problem *problem;
+
+      if (preq->present) {
+        /* The requirement vector can never be fulfilled. Removing the
+         * requirement makes it possible to fulfill it. This is a rule
+         * change and shouldn't be "fixed" without thinking. Don't offer any
+         * automatic solution to prevent mindless "fixes". */
+        /* TRANS: ruledit warns a user about an unused requirement vector
+         * that never can be fulfilled because it asks for something that
+         * never will be there. */
+        req_vec_problem_new(0,
+                  N_("Requirement {%s} requires %s but it will never be"
+                     " there."),
+                  req_to_fstring(preq), universal_rule_name(&preq->source));
+        continue;
+      }
 
       problem = req_vec_problem_new(1,
           N_("Requirement {%s} mentions %s but it will never be there."),
