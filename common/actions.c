@@ -6703,6 +6703,32 @@ bool action_mp_full_makes_legal(const struct unit *actor,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified action enabler may be active for an actor
+  of the specified unit type in the current ruleset.
+  Note that the answer may be "no" even if this function returns TRUE. It
+  may just be unable to detect it.
+  @param ae        the action enabler to check
+  @param act_utype the candidate actor unit type
+  @returns TRUE if the enabler may be active for act_utype
+**************************************************************************/
+bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
+                                         const struct unit_type *act_utype)
+{
+  const struct action *paction = action_by_number(ae->action);
+  struct universal actor_univ = { .kind = VUT_UTYPE,
+                                  .value.utype = act_utype };
+
+  fc_assert_ret_val(paction != NULL, FALSE);
+  fc_assert_ret_val(action_get_actor_kind(paction) == AAK_UNIT, FALSE);
+  fc_assert_ret_val(act_utype != NULL, FALSE);
+
+  return (action_actor_utype_hard_reqs_ok(paction, act_utype)
+          && !req_vec_is_impossible_to_fulfill(&ae->actor_reqs)
+          && universal_fulfills_requirements(FALSE, &ae->actor_reqs,
+                                             &actor_univ));
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified action has an actor that fulfills its
   hard requirements in the current ruleset.
   @param paction the action to check
