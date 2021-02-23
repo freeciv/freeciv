@@ -2423,28 +2423,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
         }
       }
 
-      if (utype_is_consumed_by_action(paction, utype)) {
-        /* The dead don't care about movement loss. */
-      } else if (utype_action_takes_all_mp(utype, paction)) {
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: Indented unit action property, preserve
-                      * leading spaces.
-                      * "MP" = movement points. */
-                     _("  * spends all remaining MP.\n"));
-      } else if (utype_action_takes_all_mp_if_ustate_is(utype, paction,
-                                                        USP_NATIVE_TILE)) {
-        /* Used in the implementation of slow_invasion in many of the
-         * bundled rulesets and in rulesets upgraded with rscompat from 3.0
-         * to 3.1. */
-        cat_snprintf(buf, bufsz,
-                     /* TRANS: Indented unit action property, preserve
-                      * leading spaces.
-                      * "MP" = movement points. */
-                     _("  * ending up on a native tile"
-                       " after this action has been performed"
-                       " spends all remaining MP.\n"));
-      }
-
       if (!utype_is_consumed_by_action(paction, utype)
           && paction->actor.is_unit.moves_actor == MAK_ESCAPE) {
         cat_snprintf(buf, bufsz,
@@ -2455,26 +2433,24 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_name_translation(utype));
       }
 
-      {
-        struct universal req_pattern[] = {
-          { .kind = VUT_ACTION, .value.action = paction },
-          { .kind = VUT_UTYPE,  .value.utype = utype },
-        };
-        int success_move_frag_cost = effect_value_from_universals(
-            EFT_ACTION_SUCCESS_MOVE_COST,
-            req_pattern, ARRAY_SIZE(req_pattern));
-
-        success_move_frag_cost += utype_pays_mp_for_action_base(paction,
-                                                                utype);
-
-        /* Can't print the exact amount of move fragments. It isn't known.
-         * The action performer function may subtract some movement itself
-         * on top of what EFT_ACTION_SUCCESS_MOVE_COST takes. */
-        if (MAX_MOVE_FRAGS <= success_move_frag_cost) {
-          /* A value this size takes all the actor unit's move fragments. */
-          cat_snprintf(buf, bufsz,
-                       _("  * ends this unit's turn.\n"));
-        }
+      if (utype_is_consumed_by_action(paction, utype)) {
+        /* The dead don't care about movement loss. */
+      } else if (utype_action_takes_all_mp(utype, paction)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Indented unit action property, preserve
+                      * leading spaces. */
+                     _("  * ends this unit's turn.\n"));
+      } else if (utype_action_takes_all_mp_if_ustate_is(utype, paction,
+                                                        USP_NATIVE_TILE)) {
+        /* Used in the implementation of slow_invasion in many of the
+         * bundled rulesets and in rulesets upgraded with rscompat from 3.0
+         * to 3.1. */
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: Indented unit action property, preserve
+                      * leading spaces. */
+                     _("  * ending up on a native tile"
+                       " after this action has been performed"
+                       " ends this unit's turn.\n"));
       }
 
       if (action_id_get_target_kind(act) != ATK_SELF) {
