@@ -255,6 +255,7 @@ void set_user_extra_flag_name(enum extra_flag_id id,
                               const char *name,
                               const char *helptxt);
 const char *extra_flag_helptxt(enum extra_flag_id id);
+bool extra_flag_is_in_use(enum extra_flag_id id);
 
 bool extra_causes_env_upset(struct extra_type *pextra,
                             enum environment_upset_type upset);

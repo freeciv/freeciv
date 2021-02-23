@@ -863,6 +863,25 @@ const char *extra_flag_helptxt(enum extra_flag_id id)
   return user_extra_flags[id - EF_USER_FLAG_1].helptxt;
 }
 
+/**********************************************************************//**
+  Returns TRUE iff the specified extra type flag is in use by any extra
+  type.
+  @param id the extra type flag to check if is in use.
+  @returns TRUE if the extra type flag is used in the current ruleset.
+**************************************************************************/
+bool extra_flag_is_in_use(enum extra_flag_id id)
+{
+  extra_type_re_active_iterate(pextra) {
+    if (extra_has_flag(pextra, id)) {
+      /* Found a user. */
+      return TRUE;
+    }
+  } extra_type_re_active_iterate_end;
+
+  /* No users detected. */
+  return FALSE;
+}
+
 /************************************************************************//**
   Can two extras coexist in same tile?
 ****************************************************************************/
