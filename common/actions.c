@@ -5047,8 +5047,12 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                           NULL, NULL, act_unit, NULL, NULL)) {
       return result;
     } else {
-      /* Could be improved to include probability in cases not covered
-       * here. */
+      /* Could be improved to return a more exact probability in some cases.
+       * Example: The player has enough information to know that the
+       * probability always will be above 25% and always under 75% because
+       * the only effect with unknown requirements that may apply adds (or
+       * subtracts) 50% while all the requirements of the other effects that
+       * may apply are known. */
       return ACTPROB_NOT_KNOWN;
     }
 }
