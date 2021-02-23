@@ -3918,6 +3918,12 @@ req_vec_suggest_improvement(const struct requirement_vector *vec,
 {
   struct req_vec_problem *out;
 
+  out = req_vec_suggest_repair(vec, get_num, parent_item);
+  if (out != NULL) {
+    /* A bug, not just a potential improvement */
+    return out;
+  }
+
   /* Check if a universal that never will appear in the game is checked. */
   out = req_vec_get_first_missing_univ(vec, get_num, parent_item);
   if (out != NULL) {
