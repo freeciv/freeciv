@@ -1285,11 +1285,6 @@ int utype_pays_mp_for_action_base(const struct action *paction,
 {
   int mpco = 0;
 
-  if (action_has_result(paction, ACTRES_ATTACK)
-      && !utype_is_consumed_by_action(paction, putype)) {
-    mpco += SINGLE_MOVE;
-  }
-
   return mpco;
 }
 

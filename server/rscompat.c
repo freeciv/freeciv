@@ -639,6 +639,24 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("UnitFlag", "Local", FALSE, TRUE,
                                             TRUE, "OneAttack"));
 
+    action_by_result_iterate(paction, act_id, ACTRES_ATTACK) {
+      if (paction->actor_consuming_always) {
+        /* Not relevant. */
+        continue;
+      }
+
+      peffect = effect_new(EFT_ACTION_SUCCESS_MOVE_COST,
+                           SINGLE_MOVE, NULL);
+      /* The reduction only applies to this action. */
+      effect_req_append(peffect, req_from_str("Action", "Local",
+                                              FALSE, TRUE, TRUE,
+                                              action_rule_name(paction)));
+      /* The reduction doesn't apply to "OneAttack". */
+      effect_req_append(peffect, req_from_str("UnitFlag", "Local",
+                                              FALSE, FALSE, TRUE,
+                                              "OneAttack"));
+    } action_by_result_iterate_end;
+
     /* Post successful action move fragment loss for spy post action escape
      * has moved to the ruleset. */
     action_iterate(act_id) {

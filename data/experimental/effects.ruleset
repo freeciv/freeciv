@@ -2953,6 +2953,15 @@ reqs    =
       "UnitFlag", "OneAttack", "Local", TRUE
     }
 
+[effect_action_success_attack_normal]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 9
+reqs    =
+    { "type",     "name",      "range", "present"
+      "Action",   "Attack",    "Local", TRUE
+      "UnitFlag", "OneAttack", "Local", FALSE
+    }
+
 [effect_action_success_establish_embassy]
 type="Action_Success_Actor_Move_Cost"
 value=65535
