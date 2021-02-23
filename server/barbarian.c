@@ -341,8 +341,7 @@ bool unleash_barbarians(struct tile *ptile)
           if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
                                     TRUE, FALSE)) {
             /* Move */
-            (void) unit_move_handling(punit2, dir_tiles[rdir],
-                                      TRUE, TRUE);
+            (void) unit_move_igzoc(punit2, dir_tiles[rdir]);
             log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
                       TILE_XY(ptile), TILE_XY(dir_tiles[rdir]));
             dest_found = TRUE;
@@ -422,8 +421,7 @@ bool unleash_barbarians(struct tile *ptile)
             if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
                                       TRUE, FALSE)) {
               /* Move */
-              (void) unit_move_handling(punit2, dir_tiles[rdir],
-                                        TRUE, TRUE);
+              (void) unit_move_igzoc(punit2, dir_tiles[rdir]);
               dest_found = TRUE;
             }
 

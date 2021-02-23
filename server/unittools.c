@@ -4257,7 +4257,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       }
 
       log_debug("  moving to %d,%d", TILE_XY(dst_tile));
-      res = unit_move_handling(punit, dst_tile, FALSE,
+      res = unit_move_handling(punit, dst_tile,
                                order.order != ORDER_ACTION_MOVE);
       if (!player_unit_by_number(pplayer, unitid)) {
         log_debug("  unit died while moving.");
