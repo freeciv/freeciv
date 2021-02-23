@@ -6729,6 +6729,40 @@ bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified action enabler may have an actor that it
+  may be enabled for in the current ruleset. An enabler can't be enabled if
+  no potential actor fulfills both its action's hard requirements and its
+  own actor requirement vector, actor_reqs.
+  Note that the answer may be "no" even if this function returns TRUE. It
+  may just be unable to detect it.
+  @param ae        the action enabler to check
+  @returns TRUE if the enabler may be enabled at all
+**************************************************************************/
+bool action_enabler_possible_actor(const struct action_enabler *ae)
+{
+  const struct action *paction = action_by_number(ae->action);
+
+  switch (action_get_actor_kind(paction)) {
+  case AAK_UNIT:
+    unit_type_iterate(putype) {
+      if (action_enabler_utype_possible_actor(ae, putype)) {
+        /* A possible actor unit type has been found. */
+        return TRUE;
+      }
+    } unit_type_iterate_end;
+
+    /* No actor detected. */
+    return FALSE;
+  case AAK_COUNT:
+    fc_assert(action_get_actor_kind(paction) != AAK_COUNT);
+    break;
+  }
+
+  /* No actor detected. */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified action has an actor that fulfills its
   hard requirements in the current ruleset.
   @param paction the action to check
