@@ -3409,6 +3409,8 @@ bool universal_never_there(const struct universal *source)
     return !utype_flag_is_in_use(source->value.unitflag);
   case VUT_UCFLAG:
     return !uclass_flag_is_in_use(source->value.unitclassflag);
+  case VUT_EXTRAFLAG:
+    return !extra_flag_is_in_use(source->value.extraflag);
   case VUT_OTYPE:
   case VUT_SPECIALIST:
   case VUT_AI_LEVEL:
@@ -3441,7 +3443,6 @@ bool universal_never_there(const struct universal *source)
   case VUT_MINHP:
   case VUT_AGE:
   case VUT_ROADFLAG:
-  case VUT_EXTRAFLAG:
   case VUT_MINCALFRAG:
   case VUT_TERRAIN:
   case VUT_EXTRA:
