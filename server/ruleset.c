@@ -296,6 +296,132 @@ int ruleset_purge_unused_entities(void)
 }
 
 /**********************************************************************//**
+  Purge the first redundant requirement in a requirement vector.
+  @return TRUE if a requirement was purged.
+**************************************************************************/
+static bool purge_redundant_req_vec(const struct requirement_vector *reqs,
+                                    const char *msg)
+{
+  struct req_vec_problem *problem;
+  bool result;
+
+  problem = req_vec_get_first_redundant_req(reqs, req_vec_vector_number,
+                                            reqs);
+
+  if (problem == NULL) {
+    /* No problem. */
+    return FALSE;
+  }
+
+  if (problem->num_suggested_solutions == 0) {
+    /* No solution. */
+    req_vec_problem_free(problem);
+    return FALSE;
+  }
+
+  if (problem->num_suggested_solutions == 2
+      && problem->suggested_solutions[0].operation == RVCO_REMOVE
+      && problem->suggested_solutions[1].operation == RVCO_REMOVE
+      && are_requirements_equal(&problem->suggested_solutions[0].req,
+                                &problem->suggested_solutions[1].req)) {
+    /* Simple duplication is handled. */
+    log_normal("%s", msg);
+    result = req_vec_change_apply(&problem->suggested_solutions[1],
+                                  req_vec_by_number, reqs);
+    req_vec_problem_free(problem);
+    return result;
+  }
+
+  /* Requirements of different kinds making each other redundant isn't
+   * supported yet. It could be done by always removing the most general
+   * requirement. So unit type is kept when redundant with unit flag, unit
+   * class and unit class flag etc. */
+  req_vec_problem_free(problem);
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Purge redundant requirements from action enablers.
+  @return the number of purged requirements.
+**************************************************************************/
+static int ruleset_purge_redundant_reqs_enablers(void)
+{
+  int purged = 0;
+
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+    char actor_reqs[MAX_LEN_NAME * 2];
+    char target_reqs[MAX_LEN_NAME * 2];
+
+    /* Error log text */
+    fc_snprintf(actor_reqs, sizeof(actor_reqs),
+                "Purged redundant requirement in"
+                " %s in action enabler for %s",
+                "actor_reqs", action_rule_name(paction));
+    fc_snprintf(target_reqs, sizeof(target_reqs),
+                "Purged redundant requirement in"
+                " %s in action enabler for %s",
+                "target_reqs", action_rule_name(paction));
+
+    /* Do the purging. */
+    action_enabler_list_iterate(action_enablers_for_action(paction->id),
+                                ae) {
+      while (!ae->disabled
+             && (purge_redundant_req_vec(&ae->actor_reqs, actor_reqs)
+                 || purge_redundant_req_vec(&ae->target_reqs,
+                                            target_reqs))) {
+        purged++;
+      }
+    } action_enabler_list_iterate_end;
+  } action_iterate_end;
+
+  return purged;
+}
+
+/**********************************************************************//**
+  Purge redundant requirements from effects.
+  @return the number of purged requirements.
+**************************************************************************/
+static int ruleset_purge_redundant_reqs_effects(void)
+{
+  int purged = 0;
+  enum effect_type type;
+
+  for (type = effect_type_begin(); type != effect_type_end();
+       type = effect_type_next(type)) {
+    char msg[MAX_LEN_NAME * 2];
+
+    /* Error log text */
+    fc_snprintf(msg, sizeof(msg),
+                "Purged redundant requirement in effect of type %s",
+                effect_type_name(type));
+
+    /* Do the purging. */
+    effect_list_iterate(get_effects(type), eft) {
+      while (purge_redundant_req_vec(&eft->reqs, msg)) {
+        purged++;
+      }
+    } effect_list_iterate_end;
+  }
+
+  return purged;
+}
+
+/**********************************************************************//**
+  Purge redundant requirement in requirement vectors.
+  @return the number of purged requirements.
+**************************************************************************/
+int ruleset_purge_redundant_reqs(void)
+{
+  int purged = 0;
+
+  purged += ruleset_purge_redundant_reqs_enablers();
+  purged += ruleset_purge_redundant_reqs_effects();
+
+  return purged;
+}
+
+/**********************************************************************//**
   datafilename() wrapper: tries to match in two ways.
   Returns NULL on failure, the (statically allocated) filename on success.
 **************************************************************************/
