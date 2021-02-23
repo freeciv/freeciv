@@ -61,6 +61,7 @@ char *get_script_buffer(void);
 char *get_parser_buffer(void);
 
 int ruleset_purge_unused_entities(void);
+int ruleset_purge_redundant_reqs(void);
 
 /* Default ruleset values that are not settings (in game.h) */
 

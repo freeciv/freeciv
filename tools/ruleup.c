@@ -207,6 +207,12 @@ int main(int argc, char **argv)
         log_normal("Purged %d unused entities after the ruleset upgrade",
                    purged);
       }
+
+      purged = ruleset_purge_redundant_reqs();
+      if (purged > 0) {
+        log_normal("Purged %d redundant requirements after the ruleset"
+                   " upgrade", purged);
+      }
     }
 
     save_ruleset(tgt_dir, game.control.name, &data);
