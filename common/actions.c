@@ -5229,11 +5229,13 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_SPY_NUKE:
-    /* TODO: not implemented yet because:
+    /* TODO: not implemented yet:
      * - possible diplomatic battle could be handled with
      *   ap_diplomat_battle() so not a problem.
-     * - dice roll diplchance * Action_Odds_Pct has no action probability
-     *   calculation function yet. */
+     * - diplchance * Action_Odds_Pct could be handled with
+     *   action_prob_pre_action_dice_roll().
+     * - the result of two functions mentioned above needs to be combined.
+     *   See hrm Feature #920121 */
     break;
   case ACTRES_NUKE:
     /* TODO */
@@ -5286,16 +5288,15 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_STRIKE_BUILDING:
     /* TODO: not implemented yet because:
-     * - dice roll 100% * Action_Odds_Pct has no action probability
-     *   calculation function yet.
+     * - dice roll 100% * Action_Odds_Pct could be handled with
+     *   action_prob_pre_action_dice_roll().
      * - sub target building may be missing. May be missing without player
      *   knowledge if it isn't visible. See is_improvement_visible() and
      *   can_player_see_city_internals(). */
     break;
   case ACTRES_STRIKE_PRODUCTION:
-    /* TODO: not implemented yet because:
-     * - dice roll 100% * Action_Odds_Pct has no action probability
-     *   calculation function yet. */
+    /* All uncertainty comes from the (diplchance server setting and the)
+     * Action_Odds_Pct effect controlled dice roll before the action. */
     chance = action_prob_pre_action_dice_roll(actor_player, actor_unit,
                                               target_city, target_player,
                                               paction);
