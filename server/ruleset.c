@@ -229,6 +229,12 @@ static int ruleset_purge_unused_enablers(void)
   action_iterate(act_id) {
     struct action *paction = action_by_number(act_id);
 
+    if (action_enabler_list_size(action_enablers_for_action(paction->id))
+        == 0) {
+      /* Not relevant. */
+      continue;
+    }
+
     /* Impossible hard requirement. */
     if (!action_is_in_use(paction)) {
       /* Make sure that all action enablers are disabled. */
