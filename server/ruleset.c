@@ -302,10 +302,50 @@ int ruleset_purge_unused_entities(void)
 }
 
 /**********************************************************************//**
-  Purge the first redundant requirement in a requirement vector.
+  Purge the first unused requirement in a requirement vector.
   @return TRUE if a requirement was purged.
 **************************************************************************/
-static bool purge_redundant_req_vec(const struct requirement_vector *reqs,
+static bool purge_unused_req_vec(const struct requirement_vector *reqs,
+                                 const char *msg)
+{
+  struct req_vec_problem *problem;
+  bool result;
+
+  problem = req_vec_get_first_missing_univ(reqs, req_vec_vector_number,
+                                           reqs);
+
+  if (problem == NULL) {
+    /* No problem. */
+    return FALSE;
+  }
+
+  if (problem->num_suggested_solutions == 0) {
+    /* No solution. */
+    req_vec_problem_free(problem);
+    return FALSE;
+  }
+
+  if (problem->num_suggested_solutions == 1
+      && problem->suggested_solutions[0].operation == RVCO_REMOVE) {
+    /* Remove !present req that never is there. */
+    log_normal("%s", msg);
+    result = req_vec_change_apply(&problem->suggested_solutions[0],
+                                  req_vec_by_number, reqs);
+    req_vec_problem_free(problem);
+    return result;
+  }
+
+  /* Not handled. Don't know what this is. */
+  fc_assert(problem->num_suggested_solutions == 1);
+  req_vec_problem_free(problem);
+  return FALSE;
+}
+
+/**********************************************************************//**
+  Purge the first duplicate requirement in a requirement vector.
+  @return TRUE if a requirement was purged.
+**************************************************************************/
+static bool purge_duplicate_req_vec(const struct requirement_vector *reqs,
                                     const char *msg)
 {
   struct req_vec_problem *problem;
@@ -344,6 +384,17 @@ static bool purge_redundant_req_vec(const struct requirement_vector *reqs,
    * class and unit class flag etc. */
   req_vec_problem_free(problem);
   return FALSE;
+}
+
+/**********************************************************************//**
+  Purge the first redundant requirement in a requirement vector.
+  @return TRUE if a requirement was purged.
+**************************************************************************/
+static bool purge_redundant_req_vec(const struct requirement_vector *reqs,
+                                    const char *msg)
+{
+  return (purge_unused_req_vec(reqs, msg)
+          || purge_duplicate_req_vec(reqs, msg));
 }
 
 /**********************************************************************//**
@@ -423,6 +474,11 @@ int ruleset_purge_redundant_reqs(void)
 
   purged += ruleset_purge_redundant_reqs_enablers();
   purged += ruleset_purge_redundant_reqs_effects();
+
+  if (purged > 0) {
+    /* An unused requirement may be an obligatory hard requirement. */
+    rscompat_enablers_add_obligatory_hard_reqs();
+  }
 
   return purged;
 }
