@@ -727,6 +727,7 @@ const char *action_enabler_vector_by_number_name(req_vec_num_in_item vec);
 
 bool action_enabler_utype_possible_actor(const struct action_enabler *ae,
                                          const struct unit_type *act_utype);
+bool action_enabler_possible_actor(const struct action_enabler *ae);
 
 struct action *action_is_blocked_by(const struct action *act,
                                     const struct unit *actor_unit,

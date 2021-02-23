@@ -252,7 +252,7 @@ static int ruleset_purge_unused_enablers(void)
     action_enabler_list_iterate(action_enablers_for_action(paction->id),
                                 ae) {
       if (!ae->disabled
-          && (req_vec_is_impossible_to_fulfill(&ae->actor_reqs)
+          && (!action_enabler_possible_actor(ae)
               || req_vec_is_impossible_to_fulfill(&ae->target_reqs))) {
         ae->disabled = TRUE;
         purged++;
