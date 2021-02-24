@@ -519,7 +519,7 @@ struct action_enabler
 /* The city that made the unit's current tile native is gone. Evaluated
  * against an adjacent tile. */
 #define SPECENUM_VALUE3 AAPC_CITY_GONE
-#define SPECENUM_VALUE3NAME N_("City Gone ")
+#define SPECENUM_VALUE3NAME N_("City Gone")
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
