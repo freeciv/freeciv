@@ -520,6 +520,11 @@ struct action_enabler
  * against an adjacent tile. */
 #define SPECENUM_VALUE3 AAPC_CITY_GONE
 #define SPECENUM_VALUE3NAME N_("City Gone")
+/* The unit's stack has been defeated and is scheduled for execution but the
+ * unit has the CanEscape unit type flag.
+ * Evaluated against an adjacent tile. */
+#define SPECENUM_VALUE4 AAPC_UNIT_STACK_DEATH
+#define SPECENUM_VALUE4NAME N_("Unit Stack Dead")
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
@@ -588,6 +593,7 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 #define ACTION_AUTO_POST_BRIBE    4
 #define ACTION_AUTO_POST_ATTACK   5
 #define ACTION_AUTO_ESCAPE_CITY   6
+#define ACTION_AUTO_ESCAPE_STACK  7
 
 /* Initialization */
 void actions_init(void);

@@ -7113,6 +7113,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     }
 
     if (ok) {
+      struct action_auto_perf *auto_perf;
+      int pos = 0;
+
+      /* The unit's stack has been defeated and is scheduled for execution
+       * but the unit has the CanEscape unit type flag.
+       * Evaluated against an adjacent tile. */
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
+      auto_perf->cause = AAPC_UNIT_STACK_DEATH;
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_UNIT_MOVE);
+      action_list_end(auto_perf->alternatives, pos);
+    }
+
+    if (ok) {
       sec = secfile_sections_by_name_prefix(file,
                                             ACTION_ENABLER_SECTION_PREFIX);
 
