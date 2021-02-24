@@ -1687,7 +1687,8 @@ void remove_city(struct city *pcity)
           }
           if (action_auto_perf_unit_do(AAPC_CITY_GONE, punit,
                                        tile_owner(tile1), NULL, NULL,
-                                       tile1, NULL, ptrans, NULL) != NULL) {
+                                       tile1, tile_city(tile1), ptrans,
+                                       NULL) != NULL) {
             moved = TRUE;
           }
           if (moved) {
