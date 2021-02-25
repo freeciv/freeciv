@@ -3090,7 +3090,7 @@ void dai_units_ruleset_init(struct ai_type *ait)
             }
           }
 
-          if (uclass_has_flag(pcargo, UCF_CAN_OCCUPY_CITY)) {
+          if (utype_can_take_over(pctype)) {
             utai->carries_occupiers = TRUE;
           }
         }
