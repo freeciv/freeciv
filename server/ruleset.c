@@ -6936,6 +6936,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
       auto_perf->cause = AAPC_UNIT_STACK_DEATH;
       action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_TRANSPORT_EMBARK);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_CONQUER_EXTRAS);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_HUT_ENTER);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_HUT_FRIGHTEN);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
                                     ACTRES_UNIT_MOVE);
       action_list_end(auto_perf->alternatives, pos);
     }
