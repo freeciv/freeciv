@@ -317,18 +317,19 @@ bool adv_data_phase_init(struct player *pplayer, bool is_new_phase)
       if (pclass->adv.sea_move != MOVE_NONE) {
         /* If the enemy has not started sailing yet, or we have total
          * control over the seas, don't worry, keep attacking. */
-        if (uclass_has_flag(pclass, UCF_CAN_OCCUPY_CITY)) {
+        if (unit_can_take_over(punit)) {
           /* Enemy represents a cross-continental threat! */
           adv->threats.invasions = TRUE;
         } else if (get_transporter_capacity(punit) > 0) {
-          unit_class_iterate(cargoclass) {
-            if (uclass_has_flag(cargoclass, UCF_CAN_OCCUPY_CITY)
-                && can_unit_type_transport(unit_type_get(punit), cargoclass)) {
+          unit_type_iterate(cargotype) {
+            if (can_unit_type_transport(unit_type_get(punit),
+                                        cargotype->uclass)
+                && utype_can_take_over(cargotype)) {
               /* Enemy can transport some threatening units! */
               adv->threats.invasions = TRUE;
               break;
             }
-          } unit_class_iterate_end;
+          } unit_type_iterate_end;
         }
 
         /* The idea is that while our enemies don't have any offensive
