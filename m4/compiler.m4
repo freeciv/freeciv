@@ -99,7 +99,7 @@ AC_DEFUN([FC_WORKING_CXX],
 [
 if test "x$qt_ver" = "xQt5" ; then
   AX_CXX_COMPILE_STDCXX([11], [], [optional])
-elif test "x$qt_ver" = "xQt5x" ; then
+elif test "x$qt_ver" = "xQt6" ; then
   AX_CXX_COMPILE_STDCXX([17], [], [optional])
 fi
 
@@ -121,7 +121,7 @@ if test "x$qt_ver" = "xQt5" && test "x$HAVE_CXX11" = "x" ; then
   dnl Qt5 requires C++11.
   AC_MSG_WARN([The C++ compiler doesn't support C++11])
   cxx_works=no
-elif test "x$qt_ver" = "xQt5x" && test "x$HAVE_CXX17" = "x" ; then
+elif test "x$qt_ver" = "xQt6" && test "x$HAVE_CXX17" = "x" ; then
   dnl Qt6 requires C++17.
   AC_MSG_WARN([The C++ compiler doesn't support C++17])
   cxx_works=no
