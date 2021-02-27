@@ -276,7 +276,7 @@ enum unit_move_result manage_auto_explorer(struct unit *punit)
   double log_most_desirable = -FC_INFINITY;
 
   /* The maximum distance we are willing to search. It decreases depending
-   * on the want of already discovered tagets.  It is defined as the distance
+   * on the want of already discovered targets. It is defined as the distance
    * at which a tile with BEST_POSSIBLE_SCORE would have to be found in
    * order to be better than the current most_desirable tile. */
   int max_dist = FC_INFINITY;
