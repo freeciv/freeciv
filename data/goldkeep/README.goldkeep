@@ -1,18 +1,17 @@
 ----------------------------------------------------------------------
-                   Experimental Freeciv Ruleset
+                   Goldkeep Freeciv Ruleset
 ----------------------------------------------------------------------
 
-This ruleset tries to use the new features available in freeciv that
-are not yet in use in default rulesets. It is based on the classic ruleset.
+This ruleset is based on the classic ruleset.
 The changes can be extracted by
 
-#> diff -ur data/classic/ data/experimental/
+#> diff -ur data/classic/ data/goldkeep/
 
 If the changes in this ruleset result in a working game (especially with
 regard to the AI) they could be included in the default ruleset for next
 major release.
 
-If you change the experimental ruleset, please include a short comment in
+If you change the goldkeep ruleset, please include a short comment in
 this file.
 
 
@@ -130,10 +129,10 @@ this file.
 2. Use the new ruleset
    -------------------
 
-To play a game with the experimental rules, start the server with:
-       ./fcser -r data/experimental.serv
+To play a game with the goldkeep rules, start the server with:
+       ./fcser -r data/goldkeep.serv
 or a single player game with
-       ./freeciv-gtk3 -r data/experimental.serv
+       ./freeciv-gtk3 -r data/goldkeep.serv
 (and any other command-line arguments you normally use)
 
 Start the client normally.  The client must be network-compatible

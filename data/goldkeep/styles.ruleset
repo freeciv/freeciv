@@ -1,4 +1,4 @@
-; This is the experimental ruleset. See doc/README.experimental
+; This is the goldkeep ruleset. See doc/README.goldkeep
 ; for a detailed description.
 
 ; Modifying this file:
@@ -10,7 +10,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Experimental nation theme data for Freeciv"
+description="Goldkeep nation theme data for Freeciv"
 options="+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version=30
 

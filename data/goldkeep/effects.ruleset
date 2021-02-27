@@ -1,4 +1,4 @@
-; This is the experimental ruleset. See README.experimental
+; This is the goldkeep ruleset. See README.goldkeep
 ; for a detailed description.
 
 ; Modifying this file:
@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Experimental effects data for Freeciv"
+description="Goldkeep effects data for Freeciv"
 options="+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version=30
 

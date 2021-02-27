@@ -1,4 +1,4 @@
-; This is the experimental ruleset. See README.experimental
+; This is the goldkeep ruleset. See README.goldkeep
 ; for a detailed description.
 
 ; Modifying this file:
@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Experimental game rules for Freeciv"
+description="Goldkeep game rules for Freeciv"
 options="+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version=30
 
@@ -22,11 +22,11 @@ format_version=30
 [ruledit]
 
 ; Which file to read description in from.
-description_file = "experimental/README.experimental"
+description_file = "goldkeep/README.goldkeep"
 
 [about]
 ; Ruleset name
-name = _("Experimental ruleset")
+name = _("Goldkeep ruleset")
 
 ; There`s no separate versioning in rulesets part of main freeciv distribution
 ;version = ""
@@ -44,17 +44,16 @@ alt_dir = "goldkeep"
 
 ; Summary of the ruleset
 ; /* TRANS: In the client, this is displayed alongside the contents of
-;    README.experimental, which are not localized. */
+;    README.goldkeep, which are not localized. */
 summary = _("\
-You are playing with the experimental ruleset. This showcases new or \
-unusual features available in Freeciv without regard for strict game \
-balancing or playability. A description of the differences from the \
-classic ruleset can be found in README.experimental.\
+You are playing with the experimental goldkeep ruleset. \
+A description of the differences from the \
+classic ruleset can be found in README.goldkeep.\
 ")
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-description = *experimental/README.experimental*
+description = *goldkeep/README.goldkeep*
 
 ; What capabilities ruleset provides for the scenarios.
 ; See doc/README.rulesets for definitions of official capabilities
@@ -1852,7 +1851,7 @@ colorlist =
 ; etc...
 
 [settings]
-; freeciv game settings for the experimental ruleset
+; freeciv game settings for the goldkeep ruleset
 ;
 ; set =
 ;     { "name", "value", "lock"
