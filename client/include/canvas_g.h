@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -32,6 +32,8 @@ GUI_FUNC_PROTO(void, canvas_free, struct canvas *store)
 
 GUI_FUNC_PROTO(void, canvas_set_zoom, struct canvas *store, float zoom)
 GUI_FUNC_PROTO(bool, has_zoom_support, void)
+
+GUI_FUNC_PROTO(void, canvas_mapview_init, struct canvas *store);
 
 /* Drawing functions */
 GUI_FUNC_PROTO(void, canvas_copy, struct canvas *dest, struct canvas *src,

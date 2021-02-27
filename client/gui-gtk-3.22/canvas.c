@@ -64,6 +64,13 @@ bool has_zoom_support(void)
 }
 
 /****************************************************************************
+  Initialize canvas as mapview.
+****************************************************************************/
+void canvas_mapview_init(struct canvas *store)
+{
+}
+
+/****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,

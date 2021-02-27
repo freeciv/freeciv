@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996-2005 - Freeciv Development Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -61,6 +61,13 @@ void canvas_set_zoom(struct canvas *store, float zoom)
 bool has_zoom_support(void)
 {
   return TRUE;
+}
+
+/****************************************************************************
+  Initialize canvas as mapview.
+****************************************************************************/
+void canvas_mapview_init(struct canvas *store)
+{
 }
 
 /****************************************************************************

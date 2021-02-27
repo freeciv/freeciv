@@ -66,6 +66,13 @@ bool qtg_has_zoom_support()
 }
 
 /****************************************************************************
+  Initialize canvas as mapview.
+****************************************************************************/
+void qtg_canvas_mapview_init(struct canvas *store)
+{
+}
+
+/****************************************************************************
   Copies an area from the source canvas to the destination canvas.
 ****************************************************************************/
 void qtg_canvas_copy(struct canvas *dest, struct canvas *src,
