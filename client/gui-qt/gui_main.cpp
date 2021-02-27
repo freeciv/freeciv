@@ -547,7 +547,7 @@ void qtg_insert_client_build_info(char *outbuf, size_t outlen)
                QT_VERSION_STR, qVersion());
 
 #ifdef FC_QT6_MODE
-  cat_snprintf(outbuf, outlen, _("\nBuilt in Qt5x mode."));
+  cat_snprintf(outbuf, outlen, _("\nBuilt in Qt6 mode."));
 #else  /* FC_QT6_MODE */
   cat_snprintf(outbuf, outlen, _("\nBuilt in Qt5 mode."));
 #endif /* FC_QT6_MODE */

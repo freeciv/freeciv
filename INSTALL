@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 23-Nov-20.
+Last minor update was 28-Feb-21.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -314,12 +314,13 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    Qt-client is written in C++, so you need appropriate compiler.
    In Freeciv development, g++ has been used.
    Compiler needs to support c++11 standard, or,
-   in case of --with-qt5x build, c++17 standard
+   in case of --with-qt6 build, c++17 standard
 
  - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
    At least version 5.11 is required.
-   If one builds with configure option --with-qt5x,
-   at least version 5.15 is required.
+   If one builds with configure option --with-qt6,
+   required libraries and headers are Qt6Core, Qt6Gui, and Qt6Widgets
+   and at least version 6.0 of Qt is required.
 
 
 2. Generating Makefiles

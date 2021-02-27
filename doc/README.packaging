@@ -29,9 +29,7 @@ Updating from 3.0 to 3.1
   implementation supports it.
 * Minimum Qt5 requirement for Qt-client, Qt modpack installer, and
   Ruledit is 5.11.
-* New configure option --with-qt5x builds versions of Qt programs
-  that require and take advantage of newer Qt versions. With it
-  minimum Qt5 requirement is 5.15.
+* New configure option --with-qt6 builds Qt6 versions of Qt programs
 
 ----------------------------------------------------------------------
 Compatibility of modified versions
