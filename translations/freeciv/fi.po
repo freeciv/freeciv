@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
 "POT-Creation-Date: 2021-02-15 05:24+0200\n"
-"PO-Revision-Date: 2021-02-15 05:31+0200\n"
+"PO-Revision-Date: 2021-02-27 08:42+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -9949,7 +9949,7 @@ msgstr ""
 "Tutkii: %s(%d/%d)"
 
 #: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
-#, c-format, fuzzy
+#, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
