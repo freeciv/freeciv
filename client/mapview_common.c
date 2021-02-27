@@ -3578,12 +3578,14 @@ bool map_canvas_resized(int width, int height)
     }
     mapview.store = canvas_create(full_width, full_height);
     canvas_set_zoom(mapview.store, map_zoom);
+    canvas_mapview_init(mapview.store);
     canvas_put_rectangle(mapview.store,
                          get_color(tileset, COLOR_MAPVIEW_UNKNOWN),
                          0, 0, full_width / map_zoom, full_height / map_zoom);
 
     mapview.tmp_store = canvas_create(full_width, full_height);
     canvas_set_zoom(mapview.tmp_store, map_zoom);
+    canvas_mapview_init(mapview.tmp_store);
   }
 
   if (map_exists() && can_client_change_view()) {

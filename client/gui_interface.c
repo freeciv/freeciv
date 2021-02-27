@@ -210,6 +210,14 @@ bool has_zoom_support(void)
 }
 
 /**************************************************************************
+  Call canvas_mapview_init callback
+**************************************************************************/
+void canvas_mapview_init(struct canvas *store)
+{
+  funcs.canvas_mapview_init(store);
+}
+
+/**************************************************************************
   Call canvas_copy callback
 **************************************************************************/
 void canvas_copy(struct canvas *dest, struct canvas *src,

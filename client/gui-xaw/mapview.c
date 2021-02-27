@@ -135,6 +135,13 @@ bool has_zoom_support(void)
 }
 
 /****************************************************************************
+  Initialize canvas as mapview.
+****************************************************************************/
+void canvas_mapview_init(struct canvas *store)
+{
+}
+
+/****************************************************************************
   Return a canvas that is the overview window.
 ****************************************************************************/
 struct canvas *get_overview_window(void)
