@@ -356,7 +356,7 @@ struct action;
 
 /* Changing these will break network compatibility. */
 #define SP_MAX 20
-#define MAX_NUM_REQS 20
+#define MAX_NUM_REQS 40
 
 #define MAX_NUM_RULESETS 63 /* Used in the network protocol. */
 #define MAX_RULESET_NAME_LENGTH 64 /* Used in the network protocol. */
