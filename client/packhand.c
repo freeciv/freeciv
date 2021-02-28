@@ -2352,8 +2352,13 @@ void handle_player_info(const struct packet_player_info *pinfo)
     }
   }
 
-  pplayer->history = pinfo->history;
-  pplayer->client.culture = pinfo->culture;
+  if (has_capability("plrculture32", client.conn.capability)) {
+    pplayer->history = pinfo->history32;
+    pplayer->client.culture = pinfo->culture32;
+  } else {
+    pplayer->history = pinfo->history16;
+    pplayer->client.culture = pinfo->culture16;
+  }
 
   /* Don't use player_iterate or player_slot_count here, because we ignore
    * the real number of players and we want to read all the datas. */

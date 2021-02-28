@@ -1225,14 +1225,16 @@ static void package_player_info(struct player *plr,
     packet->science         = plr->economic.science;
     packet->luxury          = plr->economic.luxury;
     packet->revolution_finishes = plr->revolution_finishes;
-    packet->culture         = player_culture(plr);
+    packet->culture32       = player_culture(plr);
   } else {
     packet->tax             = 0;
     packet->science         = 0;
     packet->luxury          = 0;
     packet->revolution_finishes = -1;
-    packet->culture         = 0;
+    packet->culture32       = 0;
   }
+
+  packet->culture16 = packet->culture32;
 
   if (info_level >= INFO_FULL
       || (receiver
@@ -1243,10 +1245,12 @@ static void package_player_info(struct player *plr,
   }
 
   if (info_level >= INFO_FULL) {
-    packet->history         = plr->history;
+    packet->history32       = plr->history;
   } else {
-    packet->history         = 0;
+    packet->history32       = 0;
   }
+
+  packet->history16 = packet->history32;
 }
 
 /**************************************************************************
