@@ -1282,6 +1282,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_STACK,
+                                "actions.unit_stack_death")) {
+    log_error("Didn't save all escape unit stack death forced actions.");
+    return FALSE;
+  }
+
   save_default_bool(sfile, game.info.poison_empties_food_stock,
                     RS_DEFAULT_POISON_EMPTIES_FOOD_STOCK,
                     "actions.poison_empties_food_stock", NULL);

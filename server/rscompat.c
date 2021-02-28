@@ -1062,6 +1062,7 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     {
       struct action_auto_perf *auto_perf;
+      int pos;
 
       /* The forced post successful action move action list has moved to the
        * ruleset. */
@@ -1138,6 +1139,24 @@ void rscompat_postprocess(struct rscompat_info *info)
       auto_perf->alternatives[12] = ACTION_UNIT_MOVE2;
       auto_perf->alternatives[13] = ACTION_UNIT_MOVE3;
       action_list_end(auto_perf->alternatives, 14);
+
+
+      /* The unit's stack has been defeated and is scheduled for execution
+       * but the unit has the CanEscape unit type flag.
+       * Evaluated against an adjacent tile. */
+      pos = 0;
+      auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_TRANSPORT_EMBARK);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_CONQUER_EXTRAS);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_HUT_ENTER);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_HUT_FRIGHTEN);
+      action_list_add_all_by_result(auto_perf->alternatives, &pos,
+                                    ACTRES_UNIT_MOVE);
+      action_list_end(auto_perf->alternatives, pos);
     }
 
     /* diplchance setting control over initial dice roll odds has moved to
