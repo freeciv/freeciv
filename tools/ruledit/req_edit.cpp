@@ -116,8 +116,8 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   edit_present_button->setPopupMode(QToolButton::MenuButtonPopup);
   connect(menu, SIGNAL(triggered(QAction *)), this, SLOT(req_present_menu(QAction *)));
   edit_present_button->setMenu(menu);
-  menu->addAction("Allows");
-  menu->addAction("Prevents");
+  menu->addAction(R__("Allows"));
+  menu->addAction(R__("Prevents"));
   active_layout->addWidget(edit_present_button, 7);
 
   main_layout->addLayout(active_layout);
@@ -163,7 +163,7 @@ void req_edit::refresh()
         char buf2[256];
 
         universal_name_translation(&preq->source, buf2, sizeof(buf2));
-        fc_snprintf(buf, sizeof(buf), "%s prevents", buf2);
+        fc_snprintf(buf, sizeof(buf), R__("%s prevents"), buf2);
       }
     }
     item = new QListWidgetItem(QString::fromUtf8(buf));
@@ -278,9 +278,9 @@ void req_edit::fill_active()
     universal_kind_values(&selected->source, universal_value_cb, &data);
     edit_range_button->setText(req_range_name(selected->range));
     if (selected->present) {
-      edit_present_button->setText("Allows");
+      edit_present_button->setText(R__("Allows"));
     } else {
-      edit_present_button->setText("Prevents");
+      edit_present_button->setText(R__("Prevents"));
     }
   }
 }
@@ -330,7 +330,9 @@ void req_edit::req_range_menu(QAction *action)
 void req_edit::req_present_menu(QAction *action)
 {
   if (selected != nullptr) {
-    if (action->text() == "Prevents") {
+    /* FIXME: Should have more reliable implementation than checking
+     *        against *translated* text */
+    if (action->text() == R__("Prevents")) {
       selected->present = FALSE;
     } else {
       selected->present = TRUE;
