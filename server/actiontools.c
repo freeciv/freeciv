@@ -142,6 +142,7 @@ static void action_give_casus_belli(struct player *offender,
 **************************************************************************/
 static void action_consequence_common(const struct action *paction,
                                       struct player *offender,
+                                      const struct unit_type *offender_utype,
                                       struct player *victim_player,
                                       const struct tile *victim_tile,
                                       const char *victim_link,
@@ -152,7 +153,7 @@ static void action_consequence_common(const struct action *paction,
 {
   enum casus_belli_range cbr;
 
-  cbr = casus_belli_range_for(offender, victim_player,
+  cbr = casus_belli_range_for(offender, offender_utype, victim_player,
                               eft, paction, victim_tile);
 
   if (cbr >= CBR_VICTIM_ONLY) {
@@ -365,12 +366,13 @@ static void notify_global_caught(struct player *receiver,
 **************************************************************************/
 void action_consequence_caught(const struct action *paction,
                                struct player *offender,
+                               const struct unit_type *offender_utype,
                                struct player *victim_player,
                                const struct tile *victim_tile,
                                const char *victim_link)
 {
 
-  action_consequence_common(paction, offender,
+  action_consequence_common(paction, offender, offender_utype,
                             victim_player, victim_tile, victim_link,
                             notify_actor_caught,
                             notify_victim_caught,
@@ -542,11 +544,12 @@ static void notify_global_success(struct player *receiver,
 **************************************************************************/
 void action_consequence_success(const struct action *paction,
                                 struct player *offender,
+                                const struct unit_type *offender_utype,
                                 struct player *victim_player,
                                 const struct tile *victim_tile,
                                 const char *victim_link)
 {
-  action_consequence_common(paction, offender,
+  action_consequence_common(paction, offender, offender_utype,
                             victim_player, victim_tile, victim_link,
                             notify_actor_success,
                             notify_victim_success,
@@ -562,11 +565,12 @@ void action_consequence_success(const struct action *paction,
 **************************************************************************/
 void action_consequence_complete(const struct action *paction,
                                  struct player *offender,
+                                 const struct unit_type *offender_utype,
                                  struct player *victim_player,
                                  const struct tile *victim_tile,
                                  const char *victim_link)
 {
-  action_consequence_common(paction, offender,
+  action_consequence_common(paction, offender, offender_utype,
                             victim_player, victim_tile, victim_link,
                             notify_actor_success,
                             notify_victim_success,

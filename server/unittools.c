@@ -828,6 +828,7 @@ static void update_unit_activity(struct unit *punit)
   bool unit_activity_done = FALSE;
   enum unit_activity activity = punit->activity;
   struct tile *ptile = unit_tile(punit);
+  const struct unit_type *act_utype = unit_type_get(punit);
   
   switch (activity) {
   case ACTIVITY_IDLE:
@@ -1040,6 +1041,7 @@ static void update_unit_activity(struct unit *punit)
        * trigger it when an activity successfully has began? */
       action_consequence_complete(action_by_number(ACTION_PILLAGE),
                                   unit_owner(punit),
+                                  act_utype,
                                   tile_owner(unit_tile(punit)),
                                   unit_tile(punit),
                                   tile_link(unit_tile(punit)));

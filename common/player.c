@@ -1563,6 +1563,7 @@ const char *diplrel_name_translation(int value)
   at tgt_tile and the outcome is outcome.
 **************************************************************************/
 enum casus_belli_range casus_belli_range_for(const struct player *offender,
+                                             const struct unit_type *off_ut,
                                              const struct player *tgt_plr,
                                              const enum effect_type outcome,
                                              const struct action *paction,
@@ -1578,7 +1579,7 @@ enum casus_belli_range casus_belli_range_for(const struct player *offender,
                                tile_city(tgt_tile),
                                NULL,
                                tgt_tile,
-                               NULL, NULL,
+                               NULL, off_ut,
                                NULL, NULL,
                                paction,
                                outcome);

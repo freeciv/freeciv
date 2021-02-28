@@ -502,6 +502,7 @@ const char *diplrel_rule_name(int value);
 const char *diplrel_name_translation(int value);
 
 enum casus_belli_range casus_belli_range_for(const struct player *offender,
+                                             const struct unit_type *off_ut,
                                              const struct player *tgt_plr,
                                              const enum effect_type outcome,
                                              const struct action *paction,

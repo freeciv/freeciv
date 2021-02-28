@@ -285,10 +285,13 @@ static bool do_capture_units(struct player *pplayer,
   char capturer_link[MAX_LEN_LINK];
   const char *capturer_nation = nation_plural_for_player(pplayer);
   bv_unit_types unique_on_tile;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
+
+  act_utype = unit_type_get(punit);
 
   /* Sanity check: make sure that the capture won't result in the actor
    * ending up with more than one unit of each unique unit type. */
@@ -362,7 +365,7 @@ static bool do_capture_units(struct player *pplayer,
                   victim_link, capturer_nation);
 
     /* May cause an incident */
-    action_consequence_success(paction, pplayer, uplayer,
+    action_consequence_success(paction, pplayer, act_utype, uplayer,
                                pdesttile, victim_link);
 
     if (NULL != pcity) {
@@ -394,6 +397,7 @@ static bool do_expel_unit(struct player *pplayer,
   struct player *uplayer;
   struct tile *target_tile;
   struct city *pcity;
+  const struct unit_type *act_utype;
 
   /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
    * the caller? Check in the code that emits the signal. */
@@ -407,6 +411,7 @@ static bool do_expel_unit(struct player *pplayer,
   /* Maybe it didn't survive the Lua call back. Why wasn't this caught by
    * the caller? Check in the code that emits the signal. */
   fc_assert_ret_val(actor, FALSE);
+  act_utype = unit_type_get(actor);
 
   /* Where is the actor player? */
   fc_assert_ret_val(pplayer, FALSE);
@@ -460,7 +465,7 @@ static bool do_expel_unit(struct player *pplayer,
   }
 
   /* This may cause a diplomatic incident */
-  action_consequence_success(paction, pplayer, uplayer,
+  action_consequence_success(paction, pplayer, act_utype, uplayer,
                              target_tile, target_link);
 
   /* Mission accomplished. */
@@ -479,12 +484,15 @@ static bool do_conquer_extras(struct player *act_player,
                               const struct action *paction)
 {
   bool success;
+  const struct unit_type *act_utype;
   int move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
   struct player *tgt_player = extra_owner(tgt_tile);
 
   /* Sanity check */
   fc_assert_ret_val(act_unit, FALSE);
   fc_assert_ret_val(tgt_tile, FALSE);
+
+  act_utype = unit_type_get(act_unit);
 
   unit_move(act_unit, tgt_tile, move_cost,
             NULL, FALSE, FALSE, TRUE, FALSE);
@@ -493,7 +501,8 @@ static bool do_conquer_extras(struct player *act_player,
 
   if (success) {
     /* May cause an incident */
-    action_consequence_success(paction, act_player, tgt_player, tgt_tile,
+    action_consequence_success(paction, act_player, act_utype,
+                               tgt_player, tgt_tile,
                                tile_link(tgt_tile));
   }
 
@@ -518,11 +527,14 @@ static bool do_heal_unit(struct player *act_player,
   char act_unit_link[MAX_LEN_LINK];
   char tgt_unit_link[MAX_LEN_LINK];
   const char *tgt_unit_owner;
+  const struct unit_type *act_utype;
 
   /* Sanity checks: got all the needed input. */
   fc_assert_ret_val(act_player, FALSE);
   fc_assert_ret_val(act_unit, FALSE);
   fc_assert_ret_val(tgt_unit, FALSE);
+
+  act_utype = unit_type_get(act_unit);
 
   /* The target unit can't have more HP than this. */
   tgt_hp_max = unit_type_get(tgt_unit)->hp;
@@ -577,7 +589,7 @@ static bool do_heal_unit(struct player *act_player,
   }
 
   /* This may have diplomatic consequences. */
-  action_consequence_success(paction, act_player, tgt_player,
+  action_consequence_success(paction, act_player, act_utype, tgt_player,
                              tgt_tile, unit_link(tgt_unit));
 
   return TRUE;
@@ -3671,9 +3683,12 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                           struct city *pcity, const struct action *paction)
 {
   int amount = unit_pop_value(punit);
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor is still alive. */
   fc_assert_ret_val(punit, FALSE);
+
+  act_utype = unit_type_get(punit);
 
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity, FALSE);
@@ -3703,7 +3718,7 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
                   city_link(pcity));;
   }
 
-  action_consequence_success(paction, pplayer,
+  action_consequence_success(paction, pplayer, act_utype,
                              city_owner(pcity), city_tile(pcity),
                              city_link(pcity));
 
@@ -3733,11 +3748,13 @@ static bool city_build(struct player *pplayer, struct unit *punit,
   int size;
   struct player *nationality;
   struct player *towner;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
 
+  act_utype = unit_type_get(punit);
   towner = tile_owner(ptile);
 
   if (!is_allowed_city_name(pplayer, name, message, sizeof(message))) {
@@ -3762,7 +3779,7 @@ static bool city_build(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the city founder. A rule
    * like that would make sense in a story where deep ecology is on the
    * table. (See also Voluntary Human Extinction Movement) */
-  action_consequence_success(paction, pplayer, towner,
+  action_consequence_success(paction, pplayer, act_utype, towner,
                              ptile, tile_link(ptile));
 
   return TRUE;
@@ -3997,10 +4014,13 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
 {
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
+
+  act_utype = unit_type_get(punit);
 
   log_debug("Start bombard: %s %s to %d, %d.",
             nation_rule_name(nation_of_player(pplayer)),
@@ -4065,7 +4085,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
       send_unit_info(NULL, pdefender);
 
       /* May cause an incident */
-      action_consequence_success(paction, unit_owner(punit),
+      action_consequence_success(paction,
+                                 unit_owner(punit), act_utype,
                                  unit_owner(pdefender),
                                  unit_tile(pdefender),
                                  unit_link(pdefender));
@@ -4105,10 +4126,13 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
                       struct tile *def_tile, const struct action *paction)
 {
   struct city *pcity;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
   fc_assert_ret_val(punit, FALSE);
+
+  act_utype = unit_type_get(punit);
 
   log_debug("Start nuclear attack: %s %s against (%d, %d).",
             nation_rule_name(nation_of_player(pplayer)),
@@ -4125,7 +4149,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
                     " your SDI defense."), city_link(pcity));
 
     /* Trying to nuke something this close can be... unpopular. */
-    action_consequence_caught(paction, pplayer,
+    action_consequence_caught(paction, pplayer, act_utype,
                               city_owner(pcity),
                               def_tile, unit_tile_link(punit));
 
@@ -4150,7 +4174,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
    * could give everyone a casus belli against the tile nuker. A rule
    * like that would make sense in a story where detonating any nuke at all
    * could be forbidden. */
-  action_consequence_success(paction, pplayer,
+  action_consequence_success(paction, pplayer, act_utype,
                              tile_owner(def_tile),
                              def_tile,
                              tile_link(def_tile));
@@ -4176,10 +4200,13 @@ static bool unit_do_destroy_city(struct player *act_player,
   struct player *tgt_player;
   bool capital;
   bool try_civil_war = FALSE;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(act_player, FALSE);
   fc_assert_ret_val(act_unit, FALSE);
+
+  act_utype = unit_type_get(act_unit);
 
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(tgt_city, FALSE);
@@ -4225,7 +4252,7 @@ static bool unit_do_destroy_city(struct player *act_player,
   }
 
   /* May cause an incident */
-  action_consequence_success(paction, act_player,
+  action_consequence_success(paction, act_player, act_utype,
                              tgt_player, city_tile(tgt_city),
                              city_link(tgt_city));
 
@@ -4275,6 +4302,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   int att_hp_start, def_hp_start;
   int def_power, att_power;
   struct unit *pdefender;
+  const struct unit_type *act_utype = unit_type_get(punit);
 
   if (!(pdefender = get_defender(punit, def_tile))) {
     /* Can't fight air... */
@@ -4366,7 +4394,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   unit_forget_last_activity(punit);
 
   /* This may cause a diplomatic incident. */
-  action_consequence_success(paction, pplayer, unit_owner(pdefender),
+  action_consequence_success(paction, pplayer, act_utype,
+                             unit_owner(pdefender),
                              def_tile, unit_link(pdefender));
 
   if (pdefender->hp <= 0
@@ -4754,6 +4783,7 @@ static bool do_unit_conquer_city(struct player *act_player,
   int tgt_city_id = tgt_city->id;
   struct player *tgt_player = city_owner(tgt_city);
   const char *victim_link = city_link(tgt_city);
+  const struct unit_type *act_utype = unit_type_get(act_unit);
 
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
@@ -4766,7 +4796,8 @@ static bool do_unit_conquer_city(struct player *act_player,
 
   if (success) {
     /* May cause an incident */
-    action_consequence_success(paction, act_player, tgt_player, tgt_tile,
+    action_consequence_success(paction, act_player, act_utype,
+                               tgt_player, tgt_tile,
                                victim_link);
   }
 
@@ -4852,6 +4883,7 @@ static bool unit_do_regular_move(struct player *actor_player,
                                  struct tile *target_tile,
                                  const struct action *paction)
 {
+  const struct unit_type *act_utype = unit_type_get(actor_unit);
   int move_cost = map_move_cost_unit(&(wld.map), actor_unit, target_tile);
 
   unit_move(actor_unit, target_tile, move_cost,
@@ -4865,7 +4897,8 @@ static bool unit_do_regular_move(struct player *actor_player,
             FALSE);
 
   /* May cause an incident */
-  action_consequence_success(paction, actor_player, tile_owner(target_tile),
+  action_consequence_success(paction, actor_player, act_utype,
+                             tile_owner(target_tile),
                              target_tile, tile_link(target_tile));
 
   return TRUE;
@@ -5092,6 +5125,7 @@ static bool unit_do_help_build(struct player *pplayer,
   const char *work;
   const char *prod;
   int shields;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -5100,6 +5134,7 @@ static bool unit_do_help_build(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity_dest, FALSE);
 
+  act_utype = unit_type_get(punit);
   shields = unit_shield_value(punit, unit_type_get(punit), paction);
 
   if (action_has_result(paction, ACTRES_HELP_WONDER)) {
@@ -5160,7 +5195,8 @@ static bool unit_do_help_build(struct player *pplayer,
                 work);
 
   /* May cause an incident */
-  action_consequence_success(paction, pplayer, city_owner(pcity_dest),
+  action_consequence_success(paction, pplayer, act_utype,
+                             city_owner(pcity_dest),
                              city_tile(pcity_dest), city_link(pcity_dest));
 
   if (city_owner(pcity_dest) != unit_owner(punit)) {
@@ -5214,6 +5250,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   enum traderoute_bonus_type bonus_type;
   struct goods_type *goods;
   const char *goods_str;
+  const struct unit_type *act_utype;
 
   /* Sanity check: The actor still exists. */
   fc_assert_ret_val(pplayer, FALSE);
@@ -5222,6 +5259,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
   /* Sanity check: The target city still exists. */
   fc_assert_ret_val(pcity_dest, FALSE);
 
+  act_utype = unit_type_get(punit);
   pcity_homecity = player_city_by_number(pplayer, punit->homecity);
 
   if (!pcity_homecity) {
@@ -5543,7 +5581,7 @@ static bool do_unit_establish_trade(struct player *pplayer,
 
   /* May cause an incident */
   action_consequence_success(paction,
-                             pplayer, city_owner(pcity_dest),
+                             pplayer, act_utype, city_owner(pcity_dest),
                              city_tile(pcity_dest),
                              city_link(pcity_dest));
 
@@ -5930,7 +5968,7 @@ static bool unit_activity_targeted_internal(struct unit *punit,
         /* TODO: is it more logical to change Casus_Belli_Complete to
          * Casus_Belli_Successful_Beginning and trigger it here? */
         action_consequence_success(action_by_number(ACTION_PILLAGE),
-                                   unit_owner(punit),
+                                   unit_owner(punit), unit_type_get(punit),
                                    tile_owner(unit_tile(punit)),
                                    unit_tile(punit),
                                    tile_link(unit_tile(punit)));
