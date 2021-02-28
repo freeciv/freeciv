@@ -7114,24 +7114,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     if (ok) {
       struct action_auto_perf *auto_perf;
-      int pos = 0;
 
       /* The unit's stack has been defeated and is scheduled for execution
        * but the unit has the CanEscape unit type flag.
        * Evaluated against an adjacent tile. */
       auto_perf = action_auto_perf_slot_number(ACTION_AUTO_ESCAPE_STACK);
       auto_perf->cause = AAPC_UNIT_STACK_DEATH;
-      action_list_add_all_by_result(auto_perf->alternatives, &pos,
-                                    ACTRES_TRANSPORT_EMBARK);
-      action_list_add_all_by_result(auto_perf->alternatives, &pos,
-                                    ACTRES_CONQUER_EXTRAS);
-      action_list_add_all_by_result(auto_perf->alternatives, &pos,
-                                    ACTRES_HUT_ENTER);
-      action_list_add_all_by_result(auto_perf->alternatives, &pos,
-                                    ACTRES_HUT_FRIGHTEN);
-      action_list_add_all_by_result(auto_perf->alternatives, &pos,
-                                    ACTRES_UNIT_MOVE);
-      action_list_end(auto_perf->alternatives, pos);
+
+      /* I have no objections to moving this out of game's actions to
+       * cities.ruleset, units.ruleset or an other location in game.ruleset
+       * you find more suitable. -- Sveinung */
+      if (!load_action_auto_actions(file, auto_perf,
+                                    "actions.unit_stack_death", filename)) {
+        ok = FALSE;
+      }
     }
 
     if (ok) {
