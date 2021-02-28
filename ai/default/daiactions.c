@@ -232,7 +232,8 @@ adv_want dai_action_value_unit_vs_city(struct action *paction,
     };
 
     for (i = 0; i < ARRAY_SIZE(casus_belli_eft); i++) {
-      switch (casus_belli_range_for(actor_player, target_player,
+      switch (casus_belli_range_for(actor_player, unit_type_get(actor_unit),
+                                    target_player,
                                     casus_belli_eft[i], paction,
                                     city_tile(target_city))) {
       case CBR_NONE:
