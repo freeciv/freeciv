@@ -376,7 +376,7 @@ end
 
 -- Add random castles at mountain tops.
 function place_ancient_castle_ruins()
-  -- Test castle storming in autogames even if the AI won't build them.
+  -- Test castle storming in autogames even if the AI won`t build them.
   -- Narrative excuse: The game starts in 4000 BC. The builders of the
   -- castles must have drowned in the dark, formless void - taking
   -- their advanced technology with them.
