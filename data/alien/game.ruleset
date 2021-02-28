@@ -289,7 +289,7 @@ attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
                                      "Enter Hut", "Enter Hut 2",
                                      "Unit Move"
 
-; The city that made the unit's current tile native is gone. This is a Hail
+; The city that made the unit`s current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an
 ; adjacent tile. Currently only able to target native tiles.
 escape_city = "Transport Embark", "Enter Hut", "Enter Hut 2", "Unit Move"
@@ -527,7 +527,7 @@ diplchance_initial_odds = "Sabotage City", "Steal Tech", "Incite City"
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile. "Enter Hut 2" is the same for "Enter Hut".
-; The version from the non native tile and the native tile version won't
+; The version from the non native tile and the native tile version won`t
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2", "Enter Hut 2", "Unit Move"

@@ -1760,7 +1760,7 @@ graphic        = "extra.transport_hub"
 graphic_alt    = "extra.ruins"
 activity_gfx   = "None"
 visibility_req = "Polytheism"
-; Can't be reverse engineered and built by players.
+; Can`t be reverse engineered and built by players.
 buildable      = FALSE
 removal_time   = 3
 helptext       = _("\
