@@ -36,11 +36,7 @@ name = _("Goldkeep ruleset")
 ; version of freeciv can find the ruleset from the correct place when loading
 ; the savegame to the future version.
 ;
-; This ruleset will be renamed as "goldkeep" in a future version.
-; Set information of the future name so that once someone tries to load
-; savegame saved with this version to that future version, ruleset is
-; found from the directory it`s in.
-alt_dir = "goldkeep"
+;alt_dir = ""
 
 ; Summary of the ruleset
 ; /* TRANS: In the client, this is displayed alongside the contents of
