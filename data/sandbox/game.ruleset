@@ -416,6 +416,9 @@ ui_name_sabotage_unit_escape = _("%sSabotage Enemy Unit%s")
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
+; /* TRANS: _Cut Root (3% chance of success). */
+ui_name_heal_unit_2 = _("%sCut Root%s")
+
 ; /* TRANS: _Sabotage City (3% chance of success). */
 ui_name_sabotage_city = _("%sSabotage City%s")
 
@@ -711,6 +714,24 @@ actor_reqs    =
 target_reqs  =
     { "type",           "name",                  "range", "present"
       "Extra",          "Ancient Transport Hub", "Local", TRUE
+    }
+
+[actionenabler_cut_root]
+action = "Heal Unit 2"
+actor_reqs    =
+    { "type",         "name",       "range",  "present"
+      "Building",     "Mysteries",  "Player", TRUE
+      "UnitFlag",     "FleshBased", "Local",  TRUE
+      "MinMoveFrags", 1,            "Local",  TRUE
+      "DiplRel",      "Armistice",  "Local",  FALSE
+      "DiplRel",      "War",        "Local",  FALSE
+      "DiplRel",      "Cease-fire", "Local",  FALSE
+      "DiplRel",      "Peace",      "Local",  FALSE
+      "DiplRel",      "Never met",  "Local",  FALSE
+    }
+target_reqs  =
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "FleshBased", "Local", TRUE
     }
 
 [actionenabler_sabotage_city]

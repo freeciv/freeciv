@@ -4586,6 +4586,22 @@ reqs    =
       "UnitFlag", "OneAttack", "Local", FALSE
     }
 
+[effect_action_success_move_cost_cut_root]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit 2", "Local", TRUE
+    }
+
+[effect_action_success_move_cost_healed]
+type    = "Action_Success_Target_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit 2", "Local", TRUE
+    }
+
 ; The treasury is better guarded than the drinking water
 ; See "Poison City Escape"
 [effect_steal_gold_escape_lower_chance]
