@@ -292,16 +292,17 @@ SDL2_DLLS := \
 	libjpeg-8.dll \
 	libtiff-5.dll \
 	libwebp-7.dll \
-	libzstd.dll
+	libzstd.dll \
+	libdeflate.dll
 
 install-env-sdl2: install-env-default-fcmp
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(SDL2_DLLS)) install-$(WINARCH)-$(GUI)/
 
 QT_DLLS := \
-	libicuin67.dll \
-	libicuuc67.dll \
-	libicudt67.dll \
+	libicuin68.dll \
+	libicuuc68.dll \
+	libicudt68.dll \
 	libpcre16-0.dll \
 	libharfbuzz-0.dll \
 	libsqlite3-0.dll \

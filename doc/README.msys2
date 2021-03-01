@@ -27,7 +27,7 @@ using MSYS2 from http://msys2.github.io
 1) Install MSYS2 following the documentation on their homepage
 
 1.1) Download
- https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20201109.exe
+ https://sourceforge.net/projects/msys2/files/Base/x86_64/msys2-x86_64-20210215.exe
  for win64 host
 
 1.2) Run it to install MSYS2 on build system
@@ -71,8 +71,6 @@ using MSYS2 from http://msys2.github.io
 2.1.2.1) Arch-specific packages for building common parts
  - mingw-w64-i686-gcc / mingw-w64-x86_64-gcc
  - mingw-w64-i686-curl / mingw-w64-x86_64-curl
- - mingw-w64-i686-bzip2 / mingw-w64-x86_64-bzip2
- - mingw-w64-i686-readline / mingw-w64-x86_64-readline
  - mingw-w64-i686-imagemagick / mingw-w64-x86_64-imagemagick
  - mingw-w64-i686-SDL2_mixer / mingw-w64-x86_64-SDL2_mixer
 
@@ -114,9 +112,9 @@ Current version is
 
 win64 host:
 -----------
-msys2-freeciv-win64-201212.7z, based on
-https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20201109.exe
-with packages updated to 12-Dec-2020 level.
+msys2-freeciv-win64-210226.7z, based on
+https://sourceforge.net/projects/msys2/files/Base/x86-64/msys2-x86_64-20210215.exe
+with packages updated to 26-Feb-2021 level.
 
 Both win32 and win64 targets are included. For each package listed below with <arch>
 in the name, actually two packages is installed; one with a name where <arch> is
