@@ -5184,7 +5184,7 @@ static const char *get_last_option_file_name(bool *allow_digital_boolean)
   static int last_minors[] = {
     0,  /* There was no 0.x releases */
     14, /* 1.14 */
-    7   /* 2.7 */
+    6   /* 2.6 */
   };
 
 #if MINOR_VERSION >= 90
