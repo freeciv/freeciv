@@ -841,7 +841,7 @@ graphic_alt     = "b.temple"
 obsolete_by     =
     { "type", "name", "range"
     }
-build_cost      = 200
+build_cost      = 400
 upkeep          = 0
 sabotage        = 0
 sound           = "b_mystery_school"
@@ -849,6 +849,8 @@ sound_alt       = "b_temple"
 helptext        = _("\
 Initiates of The School of Amêzârâk knows how to operate an \
 Ancient Transport Hub.\
+"), _("\
+Initiates of The School of Amêzârâk know how to heal wounded flesh.\
 ")
 
 [building_police_station]
