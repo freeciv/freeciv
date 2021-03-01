@@ -175,7 +175,8 @@ AC_DEFUN([FC_QT5_VALIDATE_MOC], [
   AS_IF([test "x$MOCCMD" = "x"],
     [FC_QT5_TRY_MOC([moc],
       [FC_QT5_TRY_MOC([qtchooser -run-tool=moc -qt=5],
-        [MOCCMD=""])])],
+        [FC_QT5_TRY_MOC([moc-qt5],
+          [MOCCMD=""])])])],
     [FC_QT5_TRY_MOC([$MOCCMD],
       AC_MSG_ERROR(["MOCCMD set to a bad value ($MOCCMD)"]))])
 
