@@ -56,8 +56,7 @@ b) Get a Freeciv source tree (the doc/ directory this INSTALL.Cygwin is in,
       ./configure --enable-client=<gui> [any other options e.g. --prefix=...]
    where <gui> is either "gtk2", "gtk3.22", "qt", or list like "gtk2,gtk3.22,qt".
    If you didn't install gettext-devel, you have to give also configure option
-   --disable-nls to disable Native Language Support. If you're building
-   Qt-client, you also need option "MOCCMD=/usr/bin/moc-qt5"
+   --disable-nls to disable Native Language Support.
 
    If you are building directly from version control, and not from
    tarball that has some files, including ./configure, pregenerated,
