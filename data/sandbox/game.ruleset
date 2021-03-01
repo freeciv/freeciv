@@ -955,11 +955,27 @@ target_reqs  =
 [actionenabler_poison_city]
 action = "Poison City Escape"
 actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+target_reqs    =
     { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
+      "MinSize", "2", "City"
+    }
+
+[actionenabler_poison_city_despite_treuga_dei]
+action = "Poison City Escape"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Tech",         "Communism",     "World", TRUE
     }
 target_reqs    =
     { "type",   "name", "range"
@@ -977,6 +993,27 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local", TRUE
       "MinMoveFrags", "1",             "Local", TRUE
       "Tech",         "Medicine",      "Player", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+      "Building", "Research Lab", "City"
+    }
+
+[actionenabler_release_plague_from_bio_lab_despite_treuga_dei]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "Alliance",      "Local", FALSE
+      "DiplRel",      "Team",          "Local", FALSE
+      "DiplRel",      "Foreign",       "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Tech",         "Medicine",      "Player", TRUE
+      "Tech",         "Communism",     "World", TRUE
     }
 target_reqs    =
     { "type",     "name",         "range"
@@ -1048,11 +1085,28 @@ target_reqs    =
 [actionenabler_sabotage_unit]
 action = "Sabotage Unit Escape"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "CityTile", "Center", "Local", FALSE
+      "MinHitPoints", "2", "Local", TRUE
+    }
+
+[actionenabler_sabotage_unit_despite_treuga_dei]
+action = "Sabotage Unit Escape"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "Spy",           "Local", TRUE
+      "DiplRel",      "War",           "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "Tech",         "Communism",     "World", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -1168,6 +1222,24 @@ actor_reqs    =
       "DiplRel", "War", "Local", TRUE
       "MinMoveFrags", "1", "Local", TRUE
       "DiplRel", "Foreign", "Local", TRUE
+      "Building", "Treuga Dei", "World", FALSE
+    }
+target_reqs    =
+    { "type",      "name",         "range", "present"
+      "UnitFlag",  "Capturable",   "Local", TRUE
+      "UnitState", "Transporting", "Local", FALSE
+      "CityTile",  "Center",       "Local", FALSE
+    }
+
+[actionenabler_capture_despite_treuga_dei]
+action = "Capture Units"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "Capturer", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+      "MinMoveFrags", "1", "Local", TRUE
+      "DiplRel", "Foreign", "Local", TRUE
+      "Tech", "Communism", "World", TRUE
     }
 target_reqs    =
     { "type",      "name",         "range", "present"
@@ -1184,6 +1256,22 @@ actor_reqs    =
       "UnitState",    "Transported", "Local", FALSE
       "MinMoveFrags", "1",           "Local", TRUE
       "DiplRel",      "War",         "Local", TRUE
+      "Building",     "Treuga Dei",  "World", FALSE
+    }
+target_reqs    =
+    { "type",   "name", "range", "present"
+      "TerrainClass", "Oceanic", "Local", FALSE
+    }
+
+[actionenabler_bombard_despite_treuga_dei]
+action = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
+      "Tech",         "Communism",   "World", TRUE
     }
 target_reqs    =
     { "type",   "name", "range", "present"
@@ -1251,24 +1339,55 @@ action = "Explode Nuclear"
 actor_reqs    =
     { "type",   "name", "range", "present"
       "UnitFlag", "NuclearOP", "Local", TRUE
+      "Building", "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_nuke_despite_treuga_dei]
+action = "Explode Nuclear"
+actor_reqs    =
+    { "type",   "name", "range", "present"
+      "UnitFlag", "NuclearOP", "Local", TRUE
+      "Tech", "Communism", "World", TRUE
     }
 
 [actionenabler_nuke_city]
 action     = "Nuke City"
 actor_reqs =
-    { "type",         "name",    "range"
-      "UnitFlag",     "Nuclear", "Local"
-      "MinMoveFrags", "1",       "Local"
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "Nuclear",    "Local", TRUE
+      "MinMoveFrags", "1",          "Local", TRUE
+      "Building",     "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_nuke_city_despite_treuga_dei]
+action     = "Nuke City"
+actor_reqs =
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "Nuclear",    "Local", TRUE
+      "MinMoveFrags", "1",          "Local", TRUE
+      "Tech",         "Communism",  "World", TRUE
     }
 
 [actionenabler_nuke_units]
 action     = "Nuke Units"
 actor_reqs =
-    { "type",         "name",         "range"
-      "UnitFlag",     "TacticalNuke", "Local"
-      "Tech",         "Rocketry",     "Player"
-      "MinMoveFrags", "1",            "Local"
-      "DiplRel",      "War",          "Local"
+    { "type",         "name",         "range",  "present"
+      "UnitFlag",     "TacticalNuke", "Local",  TRUE
+      "Tech",         "Rocketry",     "Player", TRUE
+      "MinMoveFrags", "1",            "Local",  TRUE
+      "DiplRel",      "War",          "Local",  TRUE
+      "Building",     "Treuga Dei",   "World",  FALSE
+    }
+
+[actionenabler_nuke_units_despite_treuga_dei]
+action     = "Nuke Units"
+actor_reqs =
+    { "type",         "name",         "range",  "present"
+      "UnitFlag",     "TacticalNuke", "Local",  TRUE
+      "Tech",         "Rocketry",     "Player", TRUE
+      "MinMoveFrags", "1",            "Local",  TRUE
+      "DiplRel",      "War",          "Local",  TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 
 ; The GameLoss unit requirement makes sending units on a suicide mission to
@@ -1294,6 +1413,18 @@ actor_reqs    =
       "DiplRel",      "Foreign",    "Local", FALSE
       "MinMoveFrags", "1",             "Local", TRUE
       "UnitState",    "OnLivableTile", "Local", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+
+[actionenabler_scorched_earth_despite_treuga_dei]
+action = "Destroy City"
+actor_reqs    =
+    { "type",         "name",          "range", "present"
+      "UnitFlag",     "GameLoss",      "Local", TRUE
+      "DiplRel",      "Foreign",    "Local", FALSE
+      "MinMoveFrags", "1",             "Local", TRUE
+      "UnitState",    "OnLivableTile", "Local", TRUE
+      "Tech",         "Communism",     "World", TRUE
     }
 
 [actionenabler_attack_native]
@@ -1305,17 +1436,43 @@ actor_reqs    =
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", TRUE
       "DiplRel",       "War",          "Local", TRUE
+      "Building",     "Treuga Dei",    "World", FALSE
+    }
+
+[actionenabler_attack_native_despite_treuga_dei]
+action = "Attack"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "Missile",      "Local", FALSE
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+      "Tech",          "Communism",    "World", TRUE
     }
 
 [actionenabler_attack_marines]
 action = "Attack"
 actor_reqs    =
-    { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
-      "UnitClassFlag", "Missile", "Local", FALSE
-      "MinMoveFrags",  "1",       "Local", TRUE
-      "UnitFlag",      "Marines", "Local", TRUE
-      "DiplRel",       "War",     "Local", TRUE
+    { "type",          "name",       "range", "present"
+      "UnitFlag",      "NonMil",     "Local", FALSE
+      "UnitClassFlag", "Missile",    "Local", FALSE
+      "MinMoveFrags",  "1",          "Local", TRUE
+      "UnitFlag",      "Marines",    "Local", TRUE
+      "DiplRel",       "War",        "Local", TRUE
+      "Building",      "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_attack_marines_despite_treuga_dei]
+action = "Attack"
+actor_reqs    =
+    { "type",          "name",       "range", "present"
+      "UnitFlag",      "NonMil",     "Local", FALSE
+      "UnitClassFlag", "Missile",    "Local", FALSE
+      "MinMoveFrags",  "1",          "Local", TRUE
+      "UnitFlag",      "Marines",    "Local", TRUE
+      "DiplRel",       "War",        "Local", TRUE
+      "Tech",          "Communism",   "World", TRUE
     }
 
 [actionenabler_attack_att_from_non_native]
@@ -1327,16 +1484,41 @@ actor_reqs    =
       "MinMoveFrags",  "1",                "Local", TRUE
       "UnitClassFlag", "AttFromNonNative", "Local", TRUE
       "DiplRel",       "War",              "Local", TRUE
+      "Building",      "Treuga Dei",       "World", FALSE
+    }
+
+[actionenabler_attack_att_from_non_native_despite_treuga_dei]
+action = "Attack"
+actor_reqs    =
+    { "type",          "name",             "range", "present"
+      "UnitFlag",      "NonMil",           "Local", FALSE
+      "UnitClassFlag", "Missile",          "Local", FALSE
+      "MinMoveFrags",  "1",                "Local", TRUE
+      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
+      "DiplRel",       "War",              "Local", TRUE
+      "Tech",          "Communism",        "World", TRUE
     }
 
 [actionenabler_explode_missile]
 action = "Suicide Attack"
 actor_reqs    =
-    { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
-      "UnitClassFlag", "Missile", "Local", TRUE
-      "MinMoveFrags",  "1",       "Local", TRUE
-      "DiplRel",       "War",     "Local", TRUE
+    { "type",          "name",       "range", "present"
+      "UnitFlag",      "NonMil",     "Local", FALSE
+      "UnitClassFlag", "Missile",    "Local", TRUE
+      "MinMoveFrags",  "1",          "Local", TRUE
+      "DiplRel",       "War",        "Local", TRUE
+      "Building",      "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_explode_missile_despite_treuga_dei]
+action = "Suicide Attack"
+actor_reqs    =
+    { "type",          "name",       "range", "present"
+      "UnitFlag",      "NonMil",     "Local", FALSE
+      "UnitClassFlag", "Missile",    "Local", TRUE
+      "MinMoveFrags",  "1",          "Local", TRUE
+      "DiplRel",       "War",        "Local", TRUE
+      "Tech",          "Communism",  "World", TRUE
     }
 
 [actionenabler_conquer_city_native]
@@ -1348,6 +1530,23 @@ actor_reqs    =
       "DiplRel",        "War",           "Local", TRUE
       "MinMoveFrags",   "1",             "Local", TRUE
       "UnitState",      "OnLivableTile", "Local", TRUE
+      "Building",       "Treuga Dei",    "World", FALSE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
+    }
+
+[actionenabler_conquer_city_native_despite_treuga_dei]
+action = "Conquer City"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", TRUE
+      "Tech",           "Communism",     "World", TRUE
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
@@ -1364,6 +1563,24 @@ actor_reqs    =
       "MinMoveFrags",   "1",             "Local", TRUE
       "UnitFlag",       "Marines",       "Local", TRUE
       "UnitState",      "OnLivableTile", "Local", FALSE
+      "Building",       "Treuga Dei",    "World", FALSE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
+    }
+
+[actionenabler_conquer_city_marines_despite_treuga_dei]
+action = "Conquer City 2"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitFlag",       "Marines",       "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", FALSE
+      "Tech",           "Communism",     "World", TRUE
     }
 target_reqs    =
     { "type",           "name",          "range", "present"
@@ -1423,6 +1640,26 @@ actor_reqs    =
       "DiplRel",      "War",          "Local", TRUE
       "UnitClassFlag","CanOccupyCity","Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
+      "Building",      "Treuga Dei",  "World", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Local", TRUE
+    }
+
+[actionenabler_paradrop_base_to_war_conquer_not_forest_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1438,6 +1675,25 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Claimed",          "Local", FALSE
+      "CityTile",    "Center",           "Local", FALSE
+      "Extra",       "Castle",           "Local", TRUE
+    }
+
+[actionenabler_paradrop_base_to_unclaimed_base_not_forest_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1492,6 +1748,26 @@ actor_reqs    =
       "DiplRel",      "War",          "Local", TRUE
       "UnitClassFlag","CanOccupyCity","Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_base_to_war_conquer_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "MinVeteran",    1,             "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1507,6 +1783,25 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",    1,             "Local", TRUE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
+      "CityTile", "Center",  "Local", FALSE
+      "Extra",    "Castle",  "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_base_to_unclaimed_base_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "MinVeteran",    1,             "Local", TRUE
+      "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1559,6 +1854,26 @@ actor_reqs    =
       "DiplRel",      "War",          "Local", TRUE
       "UnitClassFlag","CanOccupyCity","Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", TRUE
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+    }
+
+[actionenabler_paradrop_city_to_war_conquer_not_forest_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1574,6 +1889,25 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "CityTile",     "Center",       "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",        "name",             "range", "present"
+      "CityTile",    "Claimed",          "Local", FALSE
+      "TerrainFlag", "DifficultLanding", "Local", FALSE
+      "CityTile",    "Center",           "Local", FALSE
+      "Extra",       "Castle",           "Local", TRUE
+    }
+
+[actionenabler_paradrop_city_to_unclaimed_base_not_forest_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1628,6 +1962,26 @@ actor_reqs    =
       "DiplRel",      "War",          "Local", TRUE
       "UnitClassFlag","CanOccupyCity","Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_city_to_war_conquer_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "MinVeteran",   1,              "Local", TRUE
+      "CityTile",     "Center",       "Local", TRUE
+      "DiplRel",      "War",          "Local", TRUE
+      "UnitClassFlag","CanOccupyCity","Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1643,6 +1997,25 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",   1,              "Local", TRUE
       "CityTile",     "Center",       "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs   =
+    { "type",     "name",    "range", "present"
+      "CityTile", "Claimed", "Local", FALSE
+      "CityTile", "Center",  "Local", FALSE
+      "Extra",    "Castle",  "Local", TRUE
+    }
+
+[actionenabler_paradrop_veteran_city_to_unclaimed_base_despite_treuga_dei]
+action = "Paradrop Unit Enter Conquer"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "UnitFlag",     "Paratroopers", "Local", TRUE
+      "MinMoveFrags", "6",            "Local", TRUE
+      "UnitState",    "Transporting", "Local", FALSE
+      "MinVeteran",   1,              "Local", TRUE
+      "CityTile",     "Center",       "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1815,6 +2188,21 @@ actor_reqs    =
       "DiplRel",      "Team",         "Local", FALSE
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+
+[actionenabler_claim_extra_foreign_from_native_tile_despite_treuga_dei]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "DiplRel",      "Foreign",      "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "Alliance",     "Local", FALSE
+      "DiplRel",      "Team",         "Local", FALSE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 
 [actionenabler_claim_extra_foreign_from_native_city]
@@ -1828,6 +2216,21 @@ actor_reqs    =
       "DiplRel",      "Team",       "Local", FALSE
       "UnitFlag",     "NonMil",     "Local", FALSE
       "CityTile",     "Center",     "Local", TRUE
+      "Building",     "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_claim_extra_foreign_from_native_city_despite_treuga_dei]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "Foreign",    "Local", TRUE
+      "DiplRel",      "Peace",      "Local", FALSE
+      "DiplRel",      "Alliance",   "Local", FALSE
+      "DiplRel",      "Team",       "Local", FALSE
+      "UnitFlag",     "NonMil",     "Local", FALSE
+      "CityTile",     "Center",     "Local", TRUE
+      "Tech",         "Communism",  "World", TRUE
     }
 
 [actionenabler_claim_extra_foreign_from_non_native]
@@ -1842,6 +2245,22 @@ actor_reqs    =
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE
       "CityTile",     "Center",       "Local", FALSE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+
+[actionenabler_claim_extra_foreign_from_non_native_despite_treuga_dei]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "DiplRel",      "Foreign",      "Local", TRUE
+      "DiplRel",      "Peace",        "Local", FALSE
+      "DiplRel",      "Alliance",     "Local", FALSE
+      "DiplRel",      "Team",         "Local", FALSE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 
 [actionenabler_claim_extra_unowned_from_native_tile]
@@ -1851,6 +2270,21 @@ actor_reqs    =
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_tile_despite_treuga_dei]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
@@ -1864,6 +2298,21 @@ actor_reqs    =
       "MinMoveFrags", "1",            "Local", TRUE
       "UnitFlag",     "NonMil",       "Local", FALSE
       "CityTile",     "Center",       "Local", TRUE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_native_city_despite_treuga_dei]
+action        = "Conquer Extras"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "CityTile",     "Center",       "Local", TRUE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
@@ -1878,6 +2327,22 @@ actor_reqs    =
       "UnitFlag",     "NonMil",       "Local", FALSE
       "UnitState",    "OnNativeTile", "Local", FALSE
       "CityTile",     "Center",       "Local", FALSE
+      "Building",     "Treuga Dei",   "World", FALSE
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "CityTile",     "Extras Owned", "Local", FALSE
+    }
+
+[actionenabler_claim_extra_unowned_from_non_native_despite_treuga_dei]
+action        = "Conquer Extras 2"
+actor_reqs    =
+    { "type",         "name",         "range", "present"
+      "MinMoveFrags", "1",            "Local", TRUE
+      "UnitFlag",     "NonMil",       "Local", FALSE
+      "UnitState",    "OnNativeTile", "Local", FALSE
+      "CityTile",     "Center",       "Local", FALSE
+      "Tech",         "Communism",    "World", TRUE
     }
 target_reqs    =
     { "type",         "name",         "range", "present"

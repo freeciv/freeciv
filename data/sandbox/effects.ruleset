@@ -4640,6 +4640,166 @@ value   = 300
 type    = "Thiefs_Share_Pm"
 value   = 50
 
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_poison_city_escape]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Poison City Escape",   "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_spread_plague]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Spread Plague",        "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_sabotage_unit_escape]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Sabotage Unit Escape", "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_capture_units]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Capture Units",        "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_bombard]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Bombard",              "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_explode_nuclear]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Explode Nuclear",      "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_nuke_city]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Nuke City",            "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_nuke_units]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Nuke Units",           "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_destroy_city]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Destroy City",         "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_attack]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Attack",               "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_suicide_attack]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Suicide Attack",       "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_conquer_city]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Conquer City",         "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_conquer_city_2]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Conquer City 2",       "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_paradrop_conquer]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                        "range", "survives"
+      "Action",   "Paradrop Unit Enter Conquer", "Local", FALSE
+      "Building", "Treuga Dei",                  "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_conquer_extras]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Conquer Extras",       "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_conquer_extras_2]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Conquer Extras 2",     "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
 [effect_unit_shield_value_recycle]
 type    = "Unit_Shield_Value_Pct"
 value   = -50
