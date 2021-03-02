@@ -947,6 +947,8 @@ void redraw_unit_info_label(struct unit_list *punitlist)
         alphablit(buf_surf, NULL, pInfo_Window->dst->surface, &area, 255);
         FREESURFACE(buf_surf);
         FREEUTF8STR(pstr);
+        /* fix the bug of child dialogues not showing up when player's turn ends */
+        flush_all();
       }
     }
 
