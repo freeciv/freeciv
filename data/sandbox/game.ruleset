@@ -2045,10 +2045,10 @@ free_tech_method = "Cheapest"
 
 [culture]
 ; Minimum culture points for cultural domination victory
-victory_min_points = 18000
+victory_min_points = 20000
 
 ; How big lead relative to second best player is needed for victory
-victory_lead_pct   = 200
+victory_lead_pct   = 33
 
 ; How much existing history grows each turn. This makes older history
 ; of the same original value more valuable as newer history, as it has
