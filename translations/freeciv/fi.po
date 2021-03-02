@@ -28,9 +28,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
-"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2021-02-15 05:24+0200\n"
-"PO-Revision-Date: 2021-02-27 08:42+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-03-02 20:08+0200\n"
+"PO-Revision-Date: 2021-03-02 20:16+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -579,12 +579,12 @@ msgstr "ei koskaan"
 
 #: client/agents/cma_fec.c:277 client/agents/cma_fec.c:314
 #: client/citydlg_common.c:352 client/gui-gtk-2.0/citydlg.c:1584
-#: client/gui-gtk-2.0/helpdlg.c:1196 client/gui-gtk-2.0/helpdlg.c:1208
-#: client/gui-gtk-2.0/helpdlg.c:1219 client/gui-gtk-3.0/citydlg.c:1826
-#: client/gui-gtk-3.0/helpdlg.c:1223 client/gui-gtk-3.0/helpdlg.c:1235
-#: client/gui-gtk-3.0/helpdlg.c:1246 client/gui-gtk-3.22/citydlg.c:1858
-#: client/gui-gtk-3.22/helpdlg.c:1257 client/gui-gtk-3.22/helpdlg.c:1269
-#: client/gui-gtk-3.22/helpdlg.c:1280 client/gui-qt/citydlg.cpp:3024
+#: client/gui-gtk-2.0/helpdlg.c:1197 client/gui-gtk-2.0/helpdlg.c:1209
+#: client/gui-gtk-2.0/helpdlg.c:1220 client/gui-gtk-3.0/citydlg.c:1826
+#: client/gui-gtk-3.0/helpdlg.c:1224 client/gui-gtk-3.0/helpdlg.c:1236
+#: client/gui-gtk-3.0/helpdlg.c:1247 client/gui-gtk-3.22/citydlg.c:1858
+#: client/gui-gtk-3.22/helpdlg.c:1258 client/gui-gtk-3.22/helpdlg.c:1270
+#: client/gui-gtk-3.22/helpdlg.c:1281 client/gui-qt/citydlg.cpp:3024
 #: client/gui-qt/helpdlg.cpp:1324 client/gui-qt/helpdlg.cpp:1349
 #: client/gui-qt/helpdlg.cpp:1373 client/gui-xaw/citydlg.c:257
 #: client/helpdata.c:5230 client/text.c:903 client/text.c:1377
@@ -1508,13 +1508,13 @@ msgid "Skip connect dialog"
 msgstr "Ohita liittymisikkuna"
 
 #. TRANS: "debug" is exactly what user must type, do not translate.
-#: client/client_main.c:390 client/client_main.c:397 tools/civmanual.c:679
-#: tools/civmanual.c:685 tools/mpcmdline.c:77 tools/mpcmdline.c:84
+#: client/client_main.c:390 client/client_main.c:397 tools/civmanual.c:680
+#: tools/civmanual.c:686 tools/mpcmdline.c:77 tools/mpcmdline.c:84
 #: server/civserver.c:368 server/civserver.c:374
 msgid "debug NUM"
 msgstr "debug TASO"
 
-#: client/client_main.c:391 tools/civmanual.c:680 tools/mpcmdline.c:78
+#: client/client_main.c:391 tools/civmanual.c:681 tools/mpcmdline.c:78
 #: server/civserver.c:369
 #, c-format
 msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
@@ -1522,18 +1522,18 @@ msgstr ""
 "Aseta debug-lokitaso (%d..%d tai\n"
 "\t\t\t%d:tiedosto1,min,max:...)"
 
-#: client/client_main.c:398 tools/civmanual.c:686 tools/mpcmdline.c:85
+#: client/client_main.c:398 tools/civmanual.c:687 tools/mpcmdline.c:85
 #: server/civserver.c:375
 #, c-format
 msgid "Set debug log level (%d to %d)"
 msgstr "Aseta debug-lokitaso (%d..%d)"
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: client/client_main.c:404 tools/civmanual.c:692 server/civserver.c:380
+#: client/client_main.c:404 tools/civmanual.c:693 server/civserver.c:380
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAALI]"
 
-#: client/client_main.c:405 tools/civmanual.c:693 server/civserver.c:381
+#: client/client_main.c:405 tools/civmanual.c:694 server/civserver.c:381
 msgid "Raise a signal on failed assertion"
 msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
 
@@ -1546,7 +1546,7 @@ msgstr "file TIEDOSTO"
 msgid "Load saved game FILE"
 msgstr "Lataa tallennettu peli tiedostosta TIEDOSTO"
 
-#: client/client_main.c:412 tools/civmanual.c:696 tools/mpcmdline.c:61
+#: client/client_main.c:412 tools/civmanual.c:697 tools/mpcmdline.c:61
 #: server/civserver.c:388
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
@@ -1558,7 +1558,7 @@ msgstr ""
 "asiakasohjelman itse käynnistämältä, palvelimelta"
 
 #. TRANS: "log" is exactly what user must type, do not translate.
-#: client/client_main.c:419 tools/civmanual.c:699 server/civserver.c:395
+#: client/client_main.c:419 tools/civmanual.c:700 server/civserver.c:395
 msgid "log FILE"
 msgstr "log TIEDOSTO"
 
@@ -1648,7 +1648,7 @@ msgstr "tiles TIEDOSTO"
 msgid "Use data file FILE.tilespec for tiles"
 msgstr "Käytä tiedostoa TIEDOSTO.tilespec kuvitustyylinä"
 
-#: client/client_main.c:459 tools/civmanual.c:706 tools/mpcmdline.c:89
+#: client/client_main.c:459 tools/civmanual.c:707 tools/mpcmdline.c:89
 #: server/civserver.c:449
 msgid "Print the version number"
 msgstr "Näytä versionumero"
@@ -1657,7 +1657,7 @@ msgstr "Näytä versionumero"
 msgid "Warn about deprecated modpack constructs"
 msgstr "Varoita muunnospakettien käyttämistä vanhentuneista ominaisuuksista"
 
-#: client/client_main.c:485 tools/civmanual.c:629 server/civserver.c:219
+#: client/client_main.c:485 tools/civmanual.c:630 server/civserver.c:219
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
@@ -1684,7 +1684,7 @@ msgstr "Epäkelpo ilmoituskäytäntö \"%s\".\n"
 
 #: client/client_main.c:556 client/gui-sdl/gui_main.c:199
 #: client/gui-sdl2/gui_main.c:201 client/gui-xaw/gui_main.c:282
-#: tools/civmanual.c:642 tools/mpcmdline.c:118
+#: tools/civmanual.c:643 tools/mpcmdline.c:118
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
@@ -4687,7 +4687,7 @@ msgstr "Bonus (R/T/K):"
 #: client/gui-sdl2/helpdlg.c:855 client/gui-sdl2/mapview.c:346
 #: client/gui-xaw/helpdlg.c:837 client/gui-xaw/helpdlg.c:883
 #: client/gui-xaw/helpdlg.c:902 common/research.c:83 common/tech.c:393
-#: tools/civmanual.c:524
+#: tools/civmanual.c:525
 msgid "?tech:None"
 msgstr "ei mikään"
 
@@ -4721,35 +4721,35 @@ msgid "Collapse All"
 msgstr "Piilota kaikki"
 
 #: client/gui-gtk-2.0/helpdlg.c:991 client/gui-gtk-2.0/helpdlg.c:1007
-#: client/gui-gtk-2.0/helpdlg.c:1040 client/gui-gtk-2.0/helpdlg.c:1052
-#: client/gui-gtk-2.0/helpdlg.c:1060 client/gui-gtk-2.0/helpdlg.c:1077
+#: client/gui-gtk-2.0/helpdlg.c:1041 client/gui-gtk-2.0/helpdlg.c:1053
+#: client/gui-gtk-2.0/helpdlg.c:1061 client/gui-gtk-2.0/helpdlg.c:1078
 #: client/gui-gtk-3.0/helpdlg.c:1018 client/gui-gtk-3.0/helpdlg.c:1034
-#: client/gui-gtk-3.0/helpdlg.c:1067 client/gui-gtk-3.0/helpdlg.c:1079
-#: client/gui-gtk-3.0/helpdlg.c:1087 client/gui-gtk-3.0/helpdlg.c:1104
+#: client/gui-gtk-3.0/helpdlg.c:1068 client/gui-gtk-3.0/helpdlg.c:1080
+#: client/gui-gtk-3.0/helpdlg.c:1088 client/gui-gtk-3.0/helpdlg.c:1105
 #: client/gui-gtk-3.22/helpdlg.c:1049 client/gui-gtk-3.22/helpdlg.c:1065
-#: client/gui-gtk-3.22/helpdlg.c:1098 client/gui-gtk-3.22/helpdlg.c:1110
-#: client/gui-gtk-3.22/helpdlg.c:1118 client/gui-gtk-3.22/helpdlg.c:1135
+#: client/gui-gtk-3.22/helpdlg.c:1099 client/gui-gtk-3.22/helpdlg.c:1111
+#: client/gui-gtk-3.22/helpdlg.c:1119 client/gui-gtk-3.22/helpdlg.c:1136
 #: client/gui-qt/helpdlg.cpp:1098 client/gui-qt/helpdlg.cpp:1113
 #: client/gui-qt/helpdlg.cpp:1153 client/gui-sdl/helpdlg.c:1050
 #: client/gui-sdl2/helpdlg.c:1055
 msgid "Allows"
 msgstr "Mahdollistaa:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1022 client/gui-gtk-3.0/helpdlg.c:1049
-#: client/gui-gtk-3.22/helpdlg.c:1080 client/gui-qt/helpdlg.cpp:1132
+#: client/gui-gtk-2.0/helpdlg.c:1023 client/gui-gtk-3.0/helpdlg.c:1050
+#: client/gui-gtk-3.22/helpdlg.c:1081 client/gui-qt/helpdlg.cpp:1132
 msgid "Obsoletes"
 msgstr "Vanhentaa:"
 
 # TODO: original msgid should have been built with %s, not from pieces of strings like this.
-#: client/gui-gtk-2.0/helpdlg.c:1064 client/gui-gtk-2.0/helpdlg.c:1081
-#: client/gui-gtk-3.0/helpdlg.c:1091 client/gui-gtk-3.0/helpdlg.c:1108
-#: client/gui-gtk-3.22/helpdlg.c:1122 client/gui-gtk-3.22/helpdlg.c:1139
+#: client/gui-gtk-2.0/helpdlg.c:1065 client/gui-gtk-2.0/helpdlg.c:1082
+#: client/gui-gtk-3.0/helpdlg.c:1092 client/gui-gtk-3.0/helpdlg.c:1109
+#: client/gui-gtk-3.22/helpdlg.c:1123 client/gui-gtk-3.22/helpdlg.c:1140
 msgid "with"
 msgstr "(yhdessä askeleen"
 
-#: client/gui-gtk-2.0/helpdlg.c:1069 client/gui-gtk-2.0/helpdlg.c:1086
-#: client/gui-gtk-3.0/helpdlg.c:1096 client/gui-gtk-3.0/helpdlg.c:1113
-#: client/gui-gtk-3.22/helpdlg.c:1127 client/gui-gtk-3.22/helpdlg.c:1144
+#: client/gui-gtk-2.0/helpdlg.c:1070 client/gui-gtk-2.0/helpdlg.c:1087
+#: client/gui-gtk-3.0/helpdlg.c:1097 client/gui-gtk-3.0/helpdlg.c:1114
+#: client/gui-gtk-3.22/helpdlg.c:1128 client/gui-gtk-3.22/helpdlg.c:1145
 msgid "?techhelp:"
 msgstr " kanssa)"
 
@@ -4765,10 +4765,10 @@ msgstr " kanssa)"
 #. TRANS: "Resources: (none)".
 #. TRANS: "Conflicts with: (none)" (extras)
 #. TRANS: missing value
-#: client/gui-gtk-2.0/helpdlg.c:1185 client/gui-gtk-2.0/helpdlg.c:1293
-#: client/gui-gtk-2.0/inteldlg.c:443 client/gui-gtk-3.0/helpdlg.c:1212
-#: client/gui-gtk-3.0/helpdlg.c:1320 client/gui-gtk-3.0/inteldlg.c:437
-#: client/gui-gtk-3.22/helpdlg.c:1246 client/gui-gtk-3.22/helpdlg.c:1354
+#: client/gui-gtk-2.0/helpdlg.c:1186 client/gui-gtk-2.0/helpdlg.c:1294
+#: client/gui-gtk-2.0/inteldlg.c:443 client/gui-gtk-3.0/helpdlg.c:1213
+#: client/gui-gtk-3.0/helpdlg.c:1321 client/gui-gtk-3.0/inteldlg.c:437
+#: client/gui-gtk-3.22/helpdlg.c:1247 client/gui-gtk-3.22/helpdlg.c:1355
 #: client/gui-gtk-3.22/inteldlg.c:436 client/gui-qt/plrdlg.cpp:452
 #: client/gui-sdl/inteldlg.c:319 client/gui-sdl2/inteldlg.c:339
 #: client/gui-xaw/helpdlg.c:1031 client/gui-xaw/helpdlg.c:1116
@@ -4777,45 +4777,45 @@ msgstr " kanssa)"
 msgid "(none)"
 msgstr "(ei mitään)"
 
-#: client/gui-gtk-2.0/helpdlg.c:1198 client/gui-gtk-3.0/helpdlg.c:1225
-#: client/gui-gtk-3.22/helpdlg.c:1259
+#: client/gui-gtk-2.0/helpdlg.c:1199 client/gui-gtk-3.0/helpdlg.c:1226
+#: client/gui-gtk-3.22/helpdlg.c:1260
 msgid "Irrig. Rslt/Time"
 msgstr "Kastelu saanto/aika"
 
-#: client/gui-gtk-2.0/helpdlg.c:1210 client/gui-gtk-3.0/helpdlg.c:1237
-#: client/gui-gtk-3.22/helpdlg.c:1271
+#: client/gui-gtk-2.0/helpdlg.c:1211 client/gui-gtk-3.0/helpdlg.c:1238
+#: client/gui-gtk-3.22/helpdlg.c:1272
 msgid "Mine Rslt/Time"
 msgstr "Kaivos saanto/aika"
 
-#: client/gui-gtk-2.0/helpdlg.c:1221 client/gui-gtk-3.0/helpdlg.c:1248
-#: client/gui-gtk-3.22/helpdlg.c:1282
+#: client/gui-gtk-2.0/helpdlg.c:1222 client/gui-gtk-3.0/helpdlg.c:1249
+#: client/gui-gtk-3.22/helpdlg.c:1283
 msgid "Trans. Rslt/Time"
 msgstr "Muunnos saanto/aika"
 
 #. TRANS: this and similar literal strings interpreted as (Qt) HTML
-#: client/gui-gtk-2.0/helpdlg.c:1229 client/gui-gtk-3.0/helpdlg.c:1256
-#: client/gui-gtk-3.22/helpdlg.c:1290 client/gui-qt/helpdlg.cpp:1394
+#: client/gui-gtk-2.0/helpdlg.c:1230 client/gui-gtk-3.0/helpdlg.c:1257
+#: client/gui-gtk-3.22/helpdlg.c:1291 client/gui-qt/helpdlg.cpp:1394
 msgid "Build as irrigation"
 msgstr "Rakenna kuin viljely"
 
-#: client/gui-gtk-2.0/helpdlg.c:1234 client/gui-gtk-3.0/helpdlg.c:1261
-#: client/gui-gtk-3.22/helpdlg.c:1295 client/gui-qt/helpdlg.cpp:1399
+#: client/gui-gtk-2.0/helpdlg.c:1235 client/gui-gtk-3.0/helpdlg.c:1262
+#: client/gui-gtk-3.22/helpdlg.c:1296 client/gui-qt/helpdlg.cpp:1399
 msgid "Build as mine"
 msgstr "Rakenna kuin kaivos"
 
-#: client/gui-gtk-2.0/helpdlg.c:1237 client/gui-gtk-3.0/helpdlg.c:1264
-#: client/gui-gtk-3.22/helpdlg.c:1298 client/gui-qt/helpdlg.cpp:1402
+#: client/gui-gtk-2.0/helpdlg.c:1238 client/gui-gtk-3.0/helpdlg.c:1265
+#: client/gui-gtk-3.22/helpdlg.c:1299 client/gui-qt/helpdlg.cpp:1402
 msgid "Build as road"
 msgstr "Rakenna kuin polku"
 
-#: client/gui-gtk-2.0/helpdlg.c:1240 client/gui-gtk-3.0/helpdlg.c:1267
-#: client/gui-gtk-3.22/helpdlg.c:1301 client/gui-qt/helpdlg.cpp:1405
+#: client/gui-gtk-2.0/helpdlg.c:1241 client/gui-gtk-3.0/helpdlg.c:1268
+#: client/gui-gtk-3.22/helpdlg.c:1302 client/gui-qt/helpdlg.cpp:1405
 msgid "Build as base"
 msgstr "Rakenna kuin tukikohta"
 
 #. TRANS: "MP" = movement points
-#: client/gui-gtk-2.0/helpdlg.c:1273 client/gui-gtk-3.0/helpdlg.c:1300
-#: client/gui-gtk-3.22/helpdlg.c:1334
+#: client/gui-gtk-2.0/helpdlg.c:1274 client/gui-gtk-3.0/helpdlg.c:1301
+#: client/gui-gtk-3.22/helpdlg.c:1335
 #, c-format
 msgid "%d MP"
 msgstr "%d lp"
@@ -4826,17 +4826,17 @@ msgstr "%d lp"
 #. TRANS: Road bonus depends on terrain.
 #. TRANS: Build time depends on terrain.
 #. TRANS: Road bonus depends on terrain.
-#: client/gui-gtk-2.0/helpdlg.c:1276 client/gui-gtk-2.0/helpdlg.c:1302
-#: client/gui-gtk-3.0/helpdlg.c:1303 client/gui-gtk-3.0/helpdlg.c:1329
-#: client/gui-gtk-3.22/helpdlg.c:1337 client/gui-gtk-3.22/helpdlg.c:1363
+#: client/gui-gtk-2.0/helpdlg.c:1277 client/gui-gtk-2.0/helpdlg.c:1303
+#: client/gui-gtk-3.0/helpdlg.c:1304 client/gui-gtk-3.0/helpdlg.c:1330
+#: client/gui-gtk-3.22/helpdlg.c:1338 client/gui-gtk-3.22/helpdlg.c:1364
 #, c-format
 msgid "Terrain specific"
 msgstr "Maastosta riippuva"
 
 #. TRANS: No output bonus from a road
-#: client/gui-gtk-2.0/helpdlg.c:1311 client/gui-gtk-2.0/helpdlg.c:1315
-#: client/gui-gtk-3.0/helpdlg.c:1338 client/gui-gtk-3.0/helpdlg.c:1342
-#: client/gui-gtk-3.22/helpdlg.c:1372 client/gui-gtk-3.22/helpdlg.c:1376
+#: client/gui-gtk-2.0/helpdlg.c:1312 client/gui-gtk-2.0/helpdlg.c:1316
+#: client/gui-gtk-3.0/helpdlg.c:1339 client/gui-gtk-3.0/helpdlg.c:1343
+#: client/gui-gtk-3.22/helpdlg.c:1373 client/gui-gtk-3.22/helpdlg.c:1377
 msgid "?bonus:None"
 msgstr "ei mitään"
 
@@ -9843,7 +9843,7 @@ msgid "Help : Improvements"
 msgstr "Ohje : Rakennushankkeet"
 
 #: client/gui-sdl/helpdlg.c:405 client/gui-sdl2/helpdlg.c:408
-#: tools/civmanual.c:510
+#: tools/civmanual.c:511
 msgid "?req:None"
 msgstr "Ei mitään"
 
@@ -14635,6 +14635,22 @@ msgstr "Kopioi %s leikepöydälle."
 msgid "Clipboard is empty."
 msgstr "Leikepöytä on tyhjä."
 
+#: client/mapview_common.c:4019
+msgid "ISO|Hex"
+msgstr "isometrinen|heksa"
+
+#: client/mapview_common.c:4021 common/fc_types.h:309
+msgid "ISO"
+msgstr "isometrinen"
+
+#: client/mapview_common.c:4024 common/fc_types.h:311
+msgid "Hex"
+msgstr "heksa"
+
+#: client/mapview_common.c:4027 client/tilespec.h:49
+msgid "Overhead"
+msgstr "Ylhäältä katsottu"
+
 #. TRANS: enum value for 'gui_gtk2/gtk3_message_chat_location'
 #: client/options.c:1781
 msgid "Split"
@@ -17549,6 +17565,10 @@ msgstr ""
 "Kaupunkityylille \"%s\" ei löydy grafiikka, joka osoittaa kaupungissa olevan "
 "miehitystä."
 
+#: client/tilespec.h:51 server/settings.c:235
+msgid "Isometric"
+msgstr "Isometrinen"
+
 #: common/actions.c:336
 #, c-format
 msgid "%s%s (name may be wrong)"
@@ -17647,6 +17667,24 @@ msgstr "yksittäinen yksikkö"
 #, c-format
 msgid "Too many AI modules. Max is %d."
 msgstr "Liian monta AI modulia. Suurin sallittu määrä on %d."
+
+#. TRANS: this and following strings are 'base flags', which may rarely
+#. * be presented to the player in ruleset help text
+#: common/base.h:45
+msgid "NoAggressive"
+msgstr "EiAggressiota"
+
+#: common/base.h:48
+msgid "NoStackDeath"
+msgstr "EiPinonKuolemaa"
+
+#: common/base.h:51
+msgid "DiplomatDefense"
+msgstr "DiplomaattiPuolustus"
+
+#: common/base.h:54
+msgid "ParadropFrom"
+msgstr "LähdeLaskuvarjohyppyyn"
 
 #: common/city.c:651
 msgid "?wonder:W"
@@ -18297,14 +18335,6 @@ msgstr "kiertyy horisontaalisti"
 #: common/fc_types.h:307
 msgid "WrapY"
 msgstr "kiertyy vertikaalisti"
-
-#: common/fc_types.h:309
-msgid "ISO"
-msgstr "isometrinen"
-
-#: common/fc_types.h:311
-msgid "Hex"
-msgstr "heksa"
 
 #. TRANS: in place of player name or "global observer"
 #: common/fc_types.h:690 server/stdinhand.c:5306
@@ -19029,6 +19059,35 @@ msgstr "Kaupungin keskusta"
 #: common/requirements.c:3412
 msgid "Tile claimed"
 msgstr "Ruudulla hallitsija"
+
+#. TRANS: this and following strings are 'road flags', which may rarely
+#. * be presented to the player in ruleset help text
+#: common/road.h:25
+msgid "RequiresBridge"
+msgstr "TarviiSillan"
+
+#: common/road.h:27
+msgid "PreventsOtherRoads"
+msgstr "EstääMuutTiet"
+
+#: common/road.h:29 data/civ1/terrain.ruleset:1094
+#: data/civ2/terrain.ruleset:1254 data/classic/terrain.ruleset:1547
+#: data/experimental/terrain.ruleset:1561 data/civ2civ3/terrain.ruleset:1747
+#: data/multiplayer/terrain.ruleset:1519 data/sandbox/terrain.ruleset:1749
+msgid "River"
+msgstr "joki"
+
+#: common/road.h:31
+msgid "UnrestrictedInfra"
+msgstr "RajoittamatonInfra"
+
+#: common/road.h:33
+msgid "JumpFrom"
+msgstr "HyppyLähde"
+
+#: common/road.h:35
+msgid "JumpTo"
+msgstr "HyppyKohde"
 
 #: common/team.c:221
 #, c-format
@@ -22849,13 +22908,6 @@ msgstr ""
 "Rautatie lisää kaikkea ruudun tuottoa 50% (alas pyöristäen). Kun rautatie "
 "rakennetaan tavallisen tien päälle, myös tien mahdollisesti tarjoamat "
 "kauppabonukset säilyvät."
-
-#: data/civ1/terrain.ruleset:1094 data/civ2/terrain.ruleset:1254
-#: data/classic/terrain.ruleset:1547 data/experimental/terrain.ruleset:1561
-#: data/civ2civ3/terrain.ruleset:1747 data/multiplayer/terrain.ruleset:1519
-#: data/sandbox/terrain.ruleset:1749
-msgid "River"
-msgstr "joki"
 
 #: data/civ1/terrain.ruleset:1108
 msgid "A grassland tile may have a River on it."
@@ -34238,11 +34290,8 @@ msgstr ""
 #: data/helpdata.txt:2309
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
-"by sending email to freeciv-dev mailing list, at:"
-msgstr ""
-"Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
-"Parhaiten tämä onnistuu lähettämällä sähköpostia freeciv-dev "
-"sähköpostilistalle, osoitteessa"
+"by visiting the Freeciv Bug Tracking System, at:"
+msgstr "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. Parhaiten tämä onnistuu Freecivin vikaraportointisivuston kautta, osoitteessa"
 
 #: data/helpdata.txt:2314
 msgid ""
@@ -37056,12 +37105,12 @@ msgid "More info"
 msgstr "Lisätietoja"
 
 #. TRANS: improvement requires a feature to be absent.
-#: tools/civmanual.c:506
+#: tools/civmanual.c:507
 #, c-format
 msgid "no %s"
 msgstr "kun ei %s"
 
-#: tools/civmanual.c:532
+#: tools/civmanual.c:533
 #, c-format
 msgid ""
 "<h1>Freeciv %s governments help</h1>\n"
@@ -37070,7 +37119,7 @@ msgstr ""
 "<h1>Freeciv %s valtiomuotojen ohje</h1>\n"
 "\n"
 
-#: tools/civmanual.c:544
+#: tools/civmanual.c:545
 #, c-format
 msgid ""
 "<h1>Freeciv %s unit types help</h1>\n"
@@ -37079,71 +37128,71 @@ msgstr ""
 "<h1>Freeciv %s yksikkötyyppien ohje</h1>\n"
 "\n"
 
-#: tools/civmanual.c:551
+#: tools/civmanual.c:552
 #, c-format
 msgid "Cost: %d shield\n"
 msgid_plural "Cost: %d shields\n"
 msgstr[0] "Hinta: %d tuotanto\n"
 msgstr[1] "Hinta: %d tuotantoa\n"
 
-#: tools/civmanual.c:555
+#: tools/civmanual.c:556
 #, c-format
 msgid "Upkeep: %s\n"
 msgstr "Rakennusten ylläpito: %s\n"
 
 # *** '(s/he/it) moves' ***
-#: tools/civmanual.c:557
+#: tools/civmanual.c:558
 #, c-format
 msgid "Moves: %s\n"
 msgstr "Liikkuu: %s\n"
 
-#: tools/civmanual.c:559
+#: tools/civmanual.c:560
 #, c-format
 msgid "Vision: %d\n"
 msgstr "Näkökyky: %d\n"
 
-#: tools/civmanual.c:561
+#: tools/civmanual.c:562
 #, c-format
 msgid "Attack: %d\n"
 msgstr "Hyökkäys: %d\n"
 
-#: tools/civmanual.c:563
+#: tools/civmanual.c:564
 #, c-format
 msgid "Defense: %d\n"
 msgstr "Puolustus: %d\n"
 
-#: tools/civmanual.c:565
+#: tools/civmanual.c:566
 #, c-format
 msgid "Firepower: %d\n"
 msgstr "Tulivoima: %d\n"
 
 # Eri roolipelien suomennoksista tutut...
-#: tools/civmanual.c:567
+#: tools/civmanual.c:568
 #, c-format
 msgid "Hitpoints: %d\n"
 msgstr "Voimapisteet: %d\n"
 
-#: tools/civmanual.c:581
+#: tools/civmanual.c:582
 #, c-format
 msgid "Manual file %s successfully written."
 msgstr "Ohjetiedosto %s kirjoitettu onnistuneesti."
 
-#: tools/civmanual.c:610
+#: tools/civmanual.c:611
 msgid "Multiple rulesets requested. Only one ruleset at a time is supported.\n"
 msgstr ""
 "Useita sääntökokoelmia pyydetty. Vain yhtä sääntökokoelmaa voidaan tukea "
 "kerrallaan\n"
 
-#: tools/civmanual.c:700 server/civserver.c:396
+#: tools/civmanual.c:701 server/civserver.c:396
 msgid "Use FILE as logfile"
 msgstr "Käytä tiedostoa TIEDOSTO lokia varten"
 
 #. TRANS: "ruleset" is exactly what user must type, do not translate.
-#: tools/civmanual.c:703
+#: tools/civmanual.c:704
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNNÖT"
 
-#: tools/civmanual.c:704
+#: tools/civmanual.c:705
 msgid "Make manual for RULESET"
 msgstr "Rakenna opaskirja sääntökokoelmalle SÄÄNNÖT"
 
@@ -42222,10 +42271,6 @@ msgstr "Yhdistä kartan itä- ja länsireunat"
 msgid "Wrap North-South"
 msgstr "Yhdistä kartan pohjois- ja eteläreunat"
 
-#: server/settings.c:235
-msgid "Isometric"
-msgstr "Isometrinen"
-
 #: server/settings.c:236
 msgid "Hexagonal"
 msgstr "Heksagoninen"
@@ -47205,12 +47250,12 @@ msgstr ""
 msgid "?fromeffect:The %s have acquired %s from %s."
 msgstr "Tiedonjanoiset %s saivat edistysaskeleen %s, opettajina %s."
 
-#: server/techtools.c:350
+#: server/techtools.c:351
 #, c-format
 msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "%s on opittu, joten %s VANHENTUU kaupungissa %s!"
 
-#: server/techtools.c:435
+#: server/techtools.c:436
 #, c-format
 msgid ""
 "Discovery of %s makes the government form %s available. You may want to "
@@ -47219,22 +47264,22 @@ msgstr ""
 "Edistysaskel %s mahdollistaa valtiomuodon %s. Voit halutessasi polkaista "
 "vallankumouksen käyntiin."
 
-#: server/techtools.c:481
+#: server/techtools.c:482
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s, tavoitteena %s."
 
-#: server/techtools.c:505
+#: server/techtools.c:506
 #, c-format
 msgid "Learned %s. Scientists do not know what to research next."
 msgstr "%s opittu. Tiedemiehet eivät tiedä, mitä tutkisivat seuraavaksi."
 
-#: server/techtools.c:510
+#: server/techtools.c:511
 #, c-format
 msgid "Learned %s. Scientists choose to research %s."
 msgstr "%s opittu. Tutkimuksen seuraavana kohteena %s."
 
-#: server/techtools.c:549
+#: server/techtools.c:550
 #, c-format
 msgid ""
 "Great scientists from all the world join your civilization: you learn %s "
@@ -47243,24 +47288,24 @@ msgstr ""
 "Suuret tiedemiehet ympäri maailmaa liittyvät riveihisi; saavutat "
 "välittömästi edistysaskeleen %s."
 
-#: server/techtools.c:555
+#: server/techtools.c:556
 #, c-format
 msgid "%s acquire %s as a result of learning %s."
 msgstr "%s oppivat tekniikan %s kaupanpäällisiksi saatuaan tekniikan %s."
 
-#: server/techtools.c:640
+#: server/techtools.c:641
 #, c-format
 msgid "Insufficient science output. We lost %s."
 msgstr "Olematon tutkimuspanostus saa meidät menettämään teknologian %s."
 
 # TODO: needs capitalization tag
 #. TRANS: technology loss
-#: server/techtools.c:761 server/techtools.c:773
+#: server/techtools.c:762 server/techtools.c:774
 #, c-format
 msgid "The %s have lost %s."
 msgstr "Diplomaatit raportoivat, että %s ovat menettäneet edistysaskeleen %s."
 
-#: server/techtools.c:795
+#: server/techtools.c:796
 #, c-format
 msgid ""
 "The required technology for our government '%s' was lost. The citizens have "
@@ -47269,7 +47314,7 @@ msgstr ""
 "Valtiomuotomme %s vaatima teknologia menetettiin. Kansa on noussut ja "
 "vallankumous tähtää valtiomuotoon %s."
 
-#: server/techtools.c:811
+#: server/techtools.c:812
 #, c-format
 msgid ""
 "The required technology for our new government '%s' was lost. The citizens "
@@ -47278,47 +47323,47 @@ msgstr ""
 "Tulevan valtiomuotomme %s vaatima teknologia menetettiin. Kansa tähtää nyt "
 "valtiomuotoon %s."
 
-#: server/techtools.c:839 server/techtools.c:852
+#: server/techtools.c:840 server/techtools.c:853
 #, c-format
 msgid "%s can't build %s. The required technology was lost."
 msgstr "%s ei voi rakentaa hanketta %s. Vaadittu teknologia on menetetty."
 
-#: server/techtools.c:990
+#: server/techtools.c:991
 #, c-format
 msgid "Technology goal is %s."
 msgstr "Teknologiatavoitteena on %s."
 
-#: server/techtools.c:1200
+#: server/techtools.c:1201
 #, c-format
 msgid "You steal %s from the %s."
 msgstr "Varastat edistysaskeleen %s kohteelta %s."
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1204
+#: server/techtools.c:1205
 #, c-format
 msgid "The %s stole %s from the %s and shared it with you."
 msgstr "Saamme teknologian %2$s, koska %1$s varastivat sen kansalta %3$s."
 
-#: server/techtools.c:1210
+#: server/techtools.c:1211
 #, c-format
 msgid "The %s stole %s from you!"
 msgstr ""
 "%2$s on vuotanut vieraalle vallalle - %1$s varastivat teknologian sinulta!"
 
 # TODO: Needs capitalization tag.
-#: server/techtools.c:1215
+#: server/techtools.c:1216
 #, c-format
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 "Diplomaattien mukaan %1$s ovat varastaneet teknologian %2$s kansalta %3$s."
 
-#: server/techtools.c:1323
+#: server/techtools.c:1324
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
 msgstr ""
 "Ikävä juttu! Teit virheen kun yritit siirtää teknologiaa %s - menetit sen."
 
-#: server/techtools.c:1327
+#: server/techtools.c:1328
 #, c-format
 msgid "Too bad! The %s made a mistake transferring the tech %s and lost it."
 msgstr ""
