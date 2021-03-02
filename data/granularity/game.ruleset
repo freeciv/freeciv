@@ -257,7 +257,7 @@ bribe_unit_post_success_forced_actions = "Unit Move"
 ; performing "Attack".
 attack_post_success_forced_actions = "Unit Move"
 
-; The city that made the unit's current tile native is gone. This is a Hail
+; The city that made the unit`s current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an
 ; adjacent tile. Currently only able to target native tiles.
 escape_city = "Transport Embark", "Unit Move"
@@ -421,7 +421,7 @@ ui_name_unit_move = _("%sKeep moving%s")
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile.
-; The version from the non native tile and the native tile version won't
+; The version from the non native tile and the native tile version won`t
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
 quiet_actions = "Transport Disembark 2", "Unit Move"
