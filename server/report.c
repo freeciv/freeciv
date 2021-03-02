@@ -550,7 +550,7 @@ static int get_pollution(const struct player *pplayer)
 ****************************************************************************/
 static int get_mil_service(const struct player *pplayer)
 {
-  return (pplayer->score.units * 5000) / (10 + civ_population(pplayer));
+  return (pplayer->score.units * 5000) / (10 + pplayer->score.population);
 }
 
 /****************************************************************************
