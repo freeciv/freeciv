@@ -125,8 +125,7 @@ echo "Ruleset upgrade"
 echo "Preparing test data"
 ../tests/rs_test_res/upgrade_ruleset_sync.bash
 echo "Checking ruleset upgrade"
-FREECIV_DATA_PATH="../tests/rs_test_res/upgrade_rulesets:$FREECIV_DATA_PATH" \
- ./tests/rulesets_save.sh `cat ../tests/rs_test_res/upgrade_ruleset_list.txt`
+./tests/rulesets_upgrade.sh
 
 # Check ruleset autohelp generation
 echo "Checking ruleset auto help generation"
