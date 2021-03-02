@@ -3669,7 +3669,6 @@ bool load_command(struct connection *caller, const char *filename, bool check,
   if (S_S_INITIAL != server_state()) {
     cmd_reply(CMD_LOAD, caller, C_FAIL,
               _("Cannot load a game while another is running."));
-    dlsend_packet_game_load(game.est_connections, TRUE, filename);
     return FALSE;
   }
   if (!is_safe_filename(filename) && is_restricted(caller)) {
