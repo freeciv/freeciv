@@ -1150,7 +1150,8 @@ static void begin_phase(bool is_new_phase)
 
   dlsend_packet_start_phase(game.est_connections, game.info.phase);
 
-  if (!is_new_phase) {
+  if (!is_new_phase || game.info.turn == FIRST_TURN) {
+    /* Starting from a savegame or from the very beginning */
     conn_list_iterate(game.est_connections, pconn) {
       send_diplomatic_meetings(pconn);
     } conn_list_iterate_end;
