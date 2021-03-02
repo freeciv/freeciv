@@ -3264,6 +3264,9 @@ static void popup_change_research_goal_dialog(void)
   widget_flush(pWindow);
 }
 
+/**************************************************************************
+  User interacted with science dialog window.
+**************************************************************************/
 static int science_dialog_callback(struct widget *pWindow)
 {
   if (PRESSED_EVENT(Main.event)) {
