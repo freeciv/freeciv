@@ -868,6 +868,11 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       }
       if (bodyguard) {
         fc_assert(same_pos(unit_tile(punit), unit_tile(bodyguard)));
+
+        /* We don't need to check if this is legal beforehand.
+         * It fails if it fails, and there's no other things we would
+         * want to do in that case - bodyguard either uses the same boat
+         * or none at all. */
         handle_unit_load(pplayer, bodyguard->id, ferryboat->id,
                          ferryboat->tile->index);
       }
