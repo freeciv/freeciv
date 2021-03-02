@@ -2046,7 +2046,7 @@ enum unit_upgrade_result unit_upgrade_test(const struct unit *punit,
 
   if (punit->transporter != NULL) {
     if (!can_unit_type_transport(unit_type_get(punit->transporter),
-                                 unit_class_get(punit))) {
+                                 utype_class(to_unittype))) {
       return UU_UNSUITABLE_TRANSPORT;
     }
   } else if (!can_exist_at_tile(to_unittype, unit_tile(punit))) {
