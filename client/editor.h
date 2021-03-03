@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2005 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ extern "C" {
 
 #include "fc_types.h"
 
-/* See client/gui-gtk-3.0/editprop.c for instructions
+/* See client/gui-gtk-3.22/editprop.c for instructions
  * on how to add more object types. */
 enum editor_object_type {
   OBJTYPE_TILE = 0,
