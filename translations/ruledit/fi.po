@@ -18,9 +18,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
-"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-11-18 23:58+0200\n"
-"PO-Revision-Date: 2020-12-06 11:17+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-03-03 02:45+0200\n"
+"PO-Revision-Date: 2021-03-03 02:49+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -37,6 +37,10 @@ msgstr "Sulje"
 #: tools/ruledit/conversion_log.cpp:46
 msgid "Old ruleset to a new format"
 msgstr "Vanha sääntökokoelma uuteen muotoon"
+
+#: tools/ruledit/edit_utype.cpp:48
+msgid "Requirement"
+msgstr "Vaadittava"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -72,7 +76,9 @@ msgstr "Peru kaikki"
 msgid ""
 "Undo all accepted solutions since you started or since last time you ordered "
 "all accepted changes done."
-msgstr "Peru kaikki ratkaisut, jotka on hyväksytty sitten edellisen kerran kun käskit toteuttaa kaikki hyväksytyt muutokset."
+msgstr ""
+"Peru kaikki ratkaisut, jotka on hyväksytty sitten edellisen kerran kun "
+"käskit toteuttaa kaikki hyväksytyt muutokset."
 
 #. TRANS: Perform all the changes to the ruleset item the user has
 #. * accepted. Button text in the requirement vector fixer dialog.
@@ -86,7 +92,10 @@ msgstr "Toteuta hyväksytyt muutokset"
 msgid ""
 "Perform all the changes you have accepted to the ruleset item. You can then "
 "fix the current issue by hand and come back here to find the next issue."
-msgstr "Toteuta kaikki muutokset jotka olet hyväksynyt kohteelle. Sen jälkeen voit korjata nykyisen ongelman käsin, ja lopuksi palata tänne jatkamaan seuraavan ongelman parissa."
+msgstr ""
+"Toteuta kaikki muutokset jotka olet hyväksynyt kohteelle. Sen jälkeen voit "
+"korjata nykyisen ongelman käsin, ja lopuksi palata tänne jatkamaan seuraavan "
+"ongelman parissa."
 
 #: tools/ruledit/req_vec_fix.cpp:276
 msgid "Unable to apply solution"
@@ -239,17 +248,22 @@ msgstr "Oletko varma että haluat sulkea ohjelman?"
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
-#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_extras.cpp:64
+#: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Sääntönimi"
 
-#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_extras.cpp:72
+#: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_good.cpp:84
+#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_extras.cpp:83
+#: tools/ruledit/tab_good.cpp:84 tools/ruledit/tab_gov.cpp:83
 msgid "Requirements"
 msgstr "Vaadittavat"
 
@@ -312,6 +326,18 @@ msgstr "Mahdollistin (toimija)"
 msgid "action enabler for %s"
 msgstr "mahdollistin toiminnalle %s"
 
+#: tools/ruledit/tab_extras.cpp:87
+msgid "Add Extra"
+msgstr "Lisää ekstra"
+
+#: tools/ruledit/tab_extras.cpp:92
+msgid "Remove this Extra"
+msgstr "Poista tämä ekstra"
+
+#: tools/ruledit/tab_extras.cpp:177
+msgid "An extra with that rule name already exists!"
+msgstr "Ekstra samalla sääntönimellä on jo olemassa!"
+
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
 msgstr "Lisää artikkeli"
@@ -323,6 +349,18 @@ msgstr "Poista tämä artikkeli"
 #: tools/ruledit/tab_good.cpp:178
 msgid "A good with that rule name already exists!"
 msgstr "Artikkeli samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_gov.cpp:87
+msgid "Add Government"
+msgstr "Lisää hallitusmuoto"
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Remove this Government"
+msgstr "Poista tämä hallitusmuoto"
+
+#: tools/ruledit/tab_gov.cpp:177
+msgid "A government with that rule name already exists!"
+msgstr "Hallitusmuoto samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
@@ -459,6 +497,18 @@ msgstr "Ei koskaan"
 #: tools/ruledit/tab_tech.cpp:349
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_terrains.cpp:83
+msgid "Add Terrain"
+msgstr "Lisää maastotyyppi"
+
+#: tools/ruledit/tab_terrains.cpp:88
+msgid "Remove this Terrain"
+msgstr "Poista tämä maastotyyppi"
+
+#: tools/ruledit/tab_terrains.cpp:173
+msgid "A terrain with that rule name already exists!"
+msgstr "Maastotyyppi samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
