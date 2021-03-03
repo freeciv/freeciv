@@ -1368,9 +1368,7 @@ AC_CHECK_LIB(nls,main)
 
 dnl Checks for header files.
 AC_HEADER_SYS_WAIT
-AC_CHECK_HEADERS([fcntl.h sys/utsname.h \
-                  sys/file.h signal.h strings.h execinfo.h \
-                  libgen.h time.h])
+AC_CHECK_HEADERS([fcntl.h sys/utsname.h sys/file.h signal.h strings.h execinfo.h libgen.h time.h])
 AC_CHECK_HEADERS([sys/time.h], [AC_DEFINE([FREECIV_HAVE_SYS_TIME_H], [1], [sys/time.h available])])
 AC_CHECK_HEADERS([unistd.h], [AC_DEFINE([FREECIV_HAVE_UNISTD_H], [1], [unistd.h available])])
 AC_CHECK_HEADERS([locale.h], [AC_DEFINE([FREECIV_HAVE_LOCALE_H], [1], [locale.h available])])
@@ -1389,9 +1387,7 @@ AC_CHECK_FUNCS([opendir], [
 dnl Avoid including the unix emulation layer if we build mingw executables
 dnl There would be type conflicts between winsock and bsd/unix includes
 if test "x$MINGW" != "xyes"; then
-  AC_CHECK_HEADERS([arpa/inet.h netdb.h sys/ioctl.h \
-                    sys/signal.h sys/termio.h \
-                    sys/uio.h termios.h])
+  AC_CHECK_HEADERS([arpa/inet.h netdb.h sys/ioctl.h sys/signal.h sys/termio.h sys/uio.h termios.h])
   AC_CHECK_HEADERS([sys/select.h], [AC_DEFINE([FREECIV_HAVE_SYS_SELECT_H], [1], [sys/select.h available])])
   AC_CHECK_HEADERS([netinet/in.h], [AC_DEFINE([FREECIV_HAVE_NETINET_IN_H], [1], [netinet/in.h available])])
 fi
@@ -1432,11 +1428,11 @@ FC_FUNC_VSNPRINTF
 AC_CHECK_FUNCS([vsnprintf])
 fi
 
-AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname \
-		getpwuid inet_aton select snooze strcasestr \
-		strerror strstr uname nanosleep usleep \
-                getline _strcoll stricoll _stricoll strcasecoll \
-                backtrace setenv putenv])
+AC_CHECK_FUNCS([bind connect fileno flock ftime gethostbyname gethostname])
+AC_CHECK_FUNCS([getpwuid inet_aton select snooze strcasestr])
+AC_CHECK_FUNCS([strerror strstr uname nanosleep usleep])
+AC_CHECK_FUNCS([getline _strcoll stricoll _stricoll strcasecoll])
+AC_CHECK_FUNCS([backtrace setenv putenv])
 
 AC_CHECK_FUNCS([_mkdir])
 
