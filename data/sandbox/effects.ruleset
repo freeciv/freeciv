@@ -4356,6 +4356,14 @@ reqs	=
       "Action", "Nuke Units", "Local", TRUE
     }
 
+[effect_nuke_units_move_price]
+type	= "Action_Success_Actor_Move_Cost"
+value	= 65535
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke Units", "Local", TRUE
+    }
+
 ; Double (+100%) buy cost for Great Wonders
 [effect_great_wonder_buy_cost]
 type    = "Building_Buy_Cost_Pct"

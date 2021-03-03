@@ -404,10 +404,10 @@ nuke_city_target_kind = "tiles"
 ; adjacent to the actor unit. The special value "unlimited" lifts the
 ; maximum distance restriction. The maximum distance can`t be smaller than
 ; the minimum distance.
-nuke_units_max_range = 1
+nuke_units_max_range = 10
 
 ; Will performing this action always consume the actor unit?
-nuke_units_consuming_always = TRUE;
+nuke_units_consuming_always = FALSE;
 
 ; The maximum distance from the actor unit to the target of the "Airlift Unit"
 ; action. The value 1 means that the targets must be on a tile adjacent to
@@ -512,8 +512,8 @@ ui_name_explode_nuclear = _("%sNuke Target Tile%s")
 ; /* TRANS: _Nuke (100% chance of success). */
 ui_name_nuke_city = _("%sNuke%s")
 
-; /* TRANS: _Nuke Units (100% chance of success). */
-ui_name_nuke_units = _("%sNuke Units%s")
+; /* TRANS: Tactical _Nuke (100% chance of success). */
+ui_name_nuke_units = _("Tactical %sNuke%s")
 
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
@@ -1241,6 +1241,16 @@ actor_reqs =
     { "type",         "name",    "range"
       "UnitFlag",     "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
+    }
+
+[actionenabler_nuke_units]
+action     = "Nuke Units"
+actor_reqs =
+    { "type",         "name",         "range"
+      "UnitFlag",     "TacticalNuke", "Local"
+      "Tech",         "Rocketry",     "Player"
+      "MinMoveFrags", "1",            "Local"
+      "DiplRel",      "War",          "Local"
     }
 
 ; The GameLoss unit requirement makes sending units on a suicide mission to
