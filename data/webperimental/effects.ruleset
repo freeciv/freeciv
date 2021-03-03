@@ -2405,7 +2405,7 @@ reqs	=
 
 [effect_suitcase_nuke_blast_size]
 type   = "Nuke_Blast_Radius_1_Sq"
-value   = 2
+value   = 0
 reqs   =
     { "type", "name", "range"
       "Action", "Suitcase Nuke", "Local"
@@ -2433,7 +2433,7 @@ reqs	=
 
 [effect_suitcase_nuke_escape_blast_size]
 type   = "Nuke_Blast_Radius_1_Sq"
-value   = 2
+value   = 0
 reqs   =
     { "type", "name", "range"
       "Action", "Suitcase Nuke Escape", "Local"
