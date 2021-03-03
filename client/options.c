@@ -2420,7 +2420,7 @@ static struct client_option client_options[] = {
                  COC_MAPIMG, GUI_STUB, GUI_DEFAULT_MAPIMG_FILENAME, NULL, 0),
 
   /* gui-gtk-2.0 client specific options.
-   * These are still kept just so users can migrate them to gtk3-client */
+   * These are still kept just so users can migrate them to later gtk-clients */
   GEN_BOOL_OPTION(gui_gtk2_map_scrollbars, NULL, NULL,
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_dialogs_on_top, NULL, NULL,
@@ -2511,224 +2511,110 @@ static struct client_option client_options[] = {
                   COC_FONT, GUI_GTK2,
                   "Serif 10", NULL),
 
-  /* gui-gtk-3.0 client specific options. */
-  GEN_BOOL_OPTION(gui_gtk3_fullscreen, N_("Fullscreen"),
-                  N_("If this option is set the client will use the "
-                     "whole screen area for drawing."),
+  /* gui-gtk-3.0 client specific options.
+   * These are still kept just so users can migrate them to later gtk-clients */
+  GEN_BOOL_OPTION(gui_gtk3_fullscreen, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk3_map_scrollbars, N_("Show map scrollbars"),
                   N_("Disable this option to hide the scrollbars on the "
                      "map view."),
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_dialogs_on_top, N_("Keep dialogs on top"),
-                  N_("If this option is set then dialog windows will always "
-                     "remain in front of the main Freeciv window. "
-                     "Disabling this has no effect in fullscreen mode."),
+  GEN_BOOL_OPTION(gui_gtk3_dialogs_on_top, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_show_task_icons, N_("Show worklist task icons"),
-                  N_("Disabling this will turn off the unit and building "
-                     "icons in the worklist dialog and the production "
-                     "tab of the city dialog."),
+  GEN_BOOL_OPTION(gui_gtk3_show_task_icons, NULL, NULL,
                   COC_GRAPHICS, GUI_GTK3, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_enable_tabs, N_("Enable status report tabs"),
-                  N_("If this option is enabled then report dialogs will "
-                     "be shown as separate tabs rather than in popup "
-                     "dialogs."),
+  GEN_BOOL_OPTION(gui_gtk3_enable_tabs, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_show_chat_message_time,
-                  N_("Show time for each chat message"),
-                  N_("If this option is enabled then all chat messages "
-                     "will be prefixed by a time string of the form "
-                     "[hour:minute:second]."),
+  GEN_BOOL_OPTION(gui_gtk3_show_chat_message_time, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_new_messages_go_to_top,
-                  N_("New message events go to top of list"),
-                  N_("If this option is enabled, new events in the "
-                     "message window will appear at the top of the list, "
-                     "rather than being appended at the bottom."),
+  GEN_BOOL_OPTION(gui_gtk3_new_messages_go_to_top, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_show_message_window_buttons,
-                  N_("Show extra message window buttons"),
-                  N_("If this option is enabled, there will be two "
-                     "buttons displayed in the message window for "
-                     "inspecting a city and going to a location. If this "
-                     "option is disabled, these buttons will not appear "
-                     "(you can still double-click with the left mouse "
-                     "button or right-click on a row to inspect or goto "
-                     "respectively). This option will only take effect "
-                     "once the message window is closed and reopened."),
+  GEN_BOOL_OPTION(gui_gtk3_show_message_window_buttons, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_metaserver_tab_first,
-                  N_("Metaserver tab first in network page"),
-                  N_("If this option is enabled, the metaserver tab will "
-                     "be the first notebook tab in the network page. This "
-                     "option requires a restart in order to take effect."),
+  GEN_BOOL_OPTION(gui_gtk3_metaserver_tab_first, NULL, NULL,
                   COC_NETWORK, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_allied_chat_only,
-                  N_("Plain chat messages are sent to allies only"),
-                  N_("If this option is enabled, then plain messages "
-                     "typed into the chat entry while the game is "
-                     "running will only be sent to your allies. "
-                     "Otherwise plain messages will be sent as "
-                     "public chat messages. To send a public chat "
-                     "message with this option enabled, prefix the "
-                     "message with a single colon ':'. This option "
-                     "can also be set using a toggle button beside "
-                     "the chat entry (only visible in multiplayer "
-                     "games)."),
+  GEN_BOOL_OPTION(gui_gtk3_allied_chat_only, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_ENUM_OPTION(gui_gtk3_message_chat_location,
-                  N_("Messages and Chat reports location"),
-                  /* TRANS: The strings used in the UI for 'Split' etc are
-                   * tagged 'gui_gtk2/gtk3/gtk3x_message_chat_location' */
-                  N_("Controls where the Messages and Chat reports "
-                     "appear relative to the main view containing the map.\n"
-                     "'Split' allows all three to be seen simultaneously, "
-                     "which is best for multiplayer, but requires a large "
-                     "window to be usable.\n"
-                     "'Separate' puts Messages and Chat in a notebook "
-                     "separate from the main view, so that one of them "
-                     "can always be seen alongside the main view.\n"
-                     "'Merged' makes the Messages and Chat reports into "
-                     "tabs alongside the map and other reports; this "
-                     "allows a larger map view on small screens.\n"
-                     "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3,
+  GEN_ENUM_OPTION(gui_gtk3_message_chat_location, NULL, NULL,
+                  COC_INTERFACE, GUI_GTK3,
                   GUI_GTK_MSGCHAT_SEPARATE,
                   gui_gtk_message_chat_location_name, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_small_display_layout,
-                  N_("Arrange widgets for small displays"),
-                  N_("If this option is enabled, widgets in the main "
-                     "window will be arranged so that they take up the "
-                     "least amount of total screen space. Specifically, "
-                     "the left panel containing the overview, player "
-                     "status, and the unit information box will be "
-                     "extended over the entire left side of the window. "
-                     "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_mouse_over_map_focus,
-                  N_("Mouse over the map widget selects it automatically"),
-                  N_("If this option is enabled, then the map will be "
-                     "focused when the mouse hovers over it."),
+  GEN_BOOL_OPTION(gui_gtk3_small_display_layout, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk3_chatline_autocompletion,
-                  N_("Player or user name autocompletion"),
-                  N_("If this option is turned on, the tabulation key "
-                     "will be used in the chatline to complete the word you "
-                     "are typing with the name of a player or a user."),
+  GEN_BOOL_OPTION(gui_gtk3_mouse_over_map_focus, NULL, NULL,
+                  COC_INTERFACE, GUI_GTK3, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk3_chatline_autocompletion, NULL, NULL,
                   COC_INTERFACE, GUI_GTK3, TRUE, NULL),
-  GEN_INT_OPTION(gui_gtk3_citydlg_xsize,
-                 N_("Width of the city dialog"),
-                 N_("This value is only used if the width of the city "
-                    "dialog is saved."),
+  GEN_INT_OPTION(gui_gtk3_citydlg_xsize, NULL, NULL,
                  COC_INTERFACE, GUI_GTK3, GUI_GTK3_CITYDLG_DEFAULT_XSIZE,
                  GUI_GTK3_CITYDLG_MIN_XSIZE, GUI_GTK3_CITYDLG_MAX_XSIZE,
                  NULL),
-  GEN_INT_OPTION(gui_gtk3_citydlg_ysize,
-                 N_("Height of the city dialog"),
-                 N_("This value is only used if the height of the city "
-                    "dialog is saved."),
+  GEN_INT_OPTION(gui_gtk3_citydlg_ysize, NULL, NULL,
                  COC_INTERFACE, GUI_GTK3, GUI_GTK3_CITYDLG_DEFAULT_YSIZE,
                  GUI_GTK3_CITYDLG_MIN_YSIZE, GUI_GTK3_CITYDLG_MAX_YSIZE,
                  NULL),
-  GEN_ENUM_OPTION(gui_gtk3_popup_tech_help,
-                  N_("Popup tech help when gained"),
-                  N_("Controls if tech help should be opened when "
-                     "new tech has been gained.\n"
-                     "'Ruleset' means that behavior suggested by "
-                     "current ruleset is used."), COC_INTERFACE, GUI_GTK3,
+  GEN_ENUM_OPTION(gui_gtk3_popup_tech_help, NULL, NULL,
+                  COC_INTERFACE, GUI_GTK3,
                   GUI_POPUP_TECH_HELP_RULESET,
                   gui_popup_tech_help_name, NULL),
-  GEN_INT_OPTION(gui_gtk3_governor_range_min,
-                 N_("Minimum surplus for a governor"),
-                 N_("The lower limit of the range for requesting surpluses "
-                    "from the governor."),
+  GEN_INT_OPTION(gui_gtk3_governor_range_min, NULL, NULL,
                  COC_INTERFACE, GUI_GTK3, GUI_GTK3_GOV_RANGE_MIN_DEFAULT,
                  GUI_GTK3_GOV_RANGE_MIN_MIN, GUI_GTK3_GOV_RANGE_MIN_MAX,
                  NULL),
-  GEN_INT_OPTION(gui_gtk3_governor_range_max,
-                 N_("Maximum surplus for a governor"),
-                 N_("The higher limit of the range for requesting surpluses "
-                    "from the governor."),
+  GEN_INT_OPTION(gui_gtk3_governor_range_max, NULL, NULL,
                  COC_INTERFACE, GUI_GTK3, GUI_GTK3_GOV_RANGE_MAX_DEFAULT,
                  GUI_GTK3_GOV_RANGE_MAX_MIN, GUI_GTK3_GOV_RANGE_MAX_MAX,
                  NULL),
   GEN_FONT_OPTION(gui_gtk3_font_city_label, "city_label",
-                  N_("City Label"),
-                  N_("This font is used to display the city labels on city "
-                     "dialogs."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Monospace 8", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_notify_label, "notify_label",
-                  N_("Notify Label"),
-                  N_("This font is used to display server reports such "
-                     "as the demographic report or historian publications."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Monospace Bold 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_spaceship_label, "spaceship_label",
-                  N_("Spaceship Label"),
-                  N_("This font is used to display the spaceship widgets."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Monospace 8", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_help_label, "help_label",
-                  N_("Help Label"),
-                  N_("This font is used to display the help headers in the "
-                     "help window."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans Bold 10", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_help_link, "help_link",
-                  N_("Help Link"),
-                  N_("This font is used to display the help links in the "
-                     "help window."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_help_text, "help_text",
-                  N_("Help Text"),
-                  N_("This font is used to display the help body text in "
-                     "the help window."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Monospace 8", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_chatline, "chatline",
-                  N_("Chatline Area"),
-                  N_("This font is used to display the text in the "
-                     "chatline area."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Monospace 8", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_beta_label, "beta_label",
-                  N_("Beta Label"),
-                  N_("This font is used to display the beta label."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans Italic 10", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_small, "small_font",
-                  N_("Small Font"),
-                  N_("This font is used for any small font request.  For "
-                     "example, it is used for display the building lists "
-                     "in the city dialog, the Economy report or the Units "
-                     "report."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans 9", NULL),
   GEN_FONT_OPTION(gui_gtk3_font_comment_label, "comment_label",
-                  N_("Comment Label"),
-                  N_("This font is used to display comment labels, such as "
-                     "in the governor page of the city dialogs."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans Italic 9", font_changed_callback),
   GEN_FONT_OPTION(gui_gtk3_font_city_names, "city_names",
-                  N_("City Names"),
-                  N_("This font is used to the display the city names "
-                     "on the map."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Sans Bold 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_font_city_productions, "city_productions",
-                  N_("City Productions"),
-                  N_("This font is used to display the city production "
-                     "on the map."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
   GEN_FONT_OPTION(gui_gtk3_font_reqtree_text, "reqtree_text",
-                  N_("Requirement Tree"),
-                  N_("This font is used to the display the requirement tree "
-                     "in the Research report."),
+                  NULL, NULL,
                   COC_FONT, GUI_GTK3,
                   "Serif 10", NULL),
 

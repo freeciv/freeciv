@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -219,7 +219,7 @@ struct client_options
   float zoom_default_level;
 
 /* gui-gtk-2.0 client specific options.
- * These are still kept just so users can migrate them to gtk3-client */
+ * These are still kept just so users can migrate them to later gtk-clients */
 #define FC_GTK2_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk2_default_theme_name[512];
   bool gui_gtk2_map_scrollbars;
@@ -251,7 +251,8 @@ struct client_options
   char gui_gtk2_font_city_productions[512];
   char gui_gtk2_font_reqtree_text[512];
 
-/* gui-gtk-3.0 client specific options. */
+/* gui-gtk-3.0 client specific options.
+ * These are still kept just so users can migrate them to later gtk-clients */
 #define FC_GTK3_DEFAULT_THEME_NAME "Freeciv"
   char gui_gtk3_default_theme_name[512];
   bool gui_gtk3_fullscreen;
