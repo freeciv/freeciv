@@ -1097,8 +1097,9 @@ reqs	=
 type    = "Visible_Walls"
 value	= 1
 reqs	=
-    { "type", "name", "range"
-      "Building", "City Walls", "City"
+    { "type",     "name",       "range",  "present"
+      "Building", "City Walls", "City",   TRUE
+      "Building", "Great Wall", "Player", FALSE
     }
 
 [effect_coastal_defense]
