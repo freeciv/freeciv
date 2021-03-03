@@ -29,7 +29,7 @@ utility: utility functionality that is not freeciv-specific
 common: data structures and code used by both the client and server.
 server: (duh)
 client: common client code
-client/* (fx gui-gtk-3.0): a specific gui implementation of the client.
+client/* (fx gui-gtk-3.22): a specific gui implementation of the client.
 data: graphics, rulesets and stuff
 translations: localization files
 ai: the ai, later linked into the server
