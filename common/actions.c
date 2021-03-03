@@ -8410,8 +8410,6 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_JOIN_CITY:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE_CITY:
-  case ACTION_NUKE_UNITS:
   case ACTION_DESTROY_CITY:
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
@@ -8454,7 +8452,6 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
-  case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -8473,6 +8470,12 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE3:
     /* actor consuming always is not ruleset changeable */
     return NULL;
+  case ACTION_NUKE:
+    return "explode_nuclear_consuming_always";
+  case ACTION_NUKE_CITY:
+    return "nuke_city_consuming_always";
+  case ACTION_NUKE_UNITS:
+    return "nuke_units_consuming_always";
   case ACTION_SPY_SPREAD_PLAGUE:
     return "spread_plague_actor_consuming_always";
   case ACTION_USER_ACTION1:
