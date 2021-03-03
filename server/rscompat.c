@@ -837,6 +837,13 @@ void rscompat_postprocess(struct rscompat_info *info)
 
     paction = action_by_number(ACTION_NUKE_CITY);
     paction->target_kind = ATK_CITY;
+    paction->actor_consuming_always = TRUE;
+
+    paction = action_by_number(ACTION_NUKE);
+    paction->actor_consuming_always = TRUE;
+
+    paction = action_by_number(ACTION_NUKE_UNITS);
+    paction->actor_consuming_always = TRUE;
 
     enabler = action_enabler_new();
     enabler->action = ACTION_PILLAGE;

@@ -769,6 +769,7 @@ Actions done by a unit against all units at a tile
 
 "Nuke Units" - Detonate at the target unit stack. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_units
+ * set if the actor unit is spent with nuke_units_consuming_always
  * any action listed in nuke_units_blocked_by must be impossible
  * the actor unit must be on a tile next to the target unless
    nuke_units_max_range allows it to be further away.
@@ -797,6 +798,7 @@ Actions done by a unit against a tile
 
 "Explode Nuclear" - Detonate at the target tile. Cause a nuclear explosion.
  * UI name can be set using ui_name_explode_nuclear
+ * set if the actor unit is spent with explode_nuclear_consuming_always
  * target kind can be changed with explode_nuclear_target_kind
  * any action listed in explode_nuclear_blocked_by must be impossible
  * actor must be on the same tile as the target unless
@@ -804,6 +806,7 @@ Actions done by a unit against a tile
 
 "Nuke City" - Detonate in the target city. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_city
+ * set if the actor unit is spent with nuke_city_consuming_always
  * target kind can be changed with nuke_city_target_kind
  * any action listed in nuke_city_blocked_by must be impossible
  * the actor unit must be on a tile next to the target unless

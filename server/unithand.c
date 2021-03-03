@@ -4161,12 +4161,12 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
 
   dlsend_packet_nuke_tile_info(game.est_connections, tile_index(def_tile));
 
-  /* A nuke is always consumed when it detonates. See below. */
-  fc_assert(paction->actor_consuming_always);
 
   /* The nuke must be wiped here so it won't be seen as a victim of its own
    * detonation. */
-  wipe_unit(punit, ULR_DETONATED, NULL);
+  if (paction->actor_consuming_always) {
+    wipe_unit(punit, ULR_DETONATED, NULL);
+  }
 
   do_nuclear_explosion(pplayer, def_tile);
 
