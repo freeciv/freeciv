@@ -377,7 +377,7 @@ void popup_impr_info(Impr_type_id impr)
   widget_add_as_prev(impr_name_label, dock);
   dock = impr_name_label;
 
-  if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
+  if (!is_convert_improvement(pimpr_type)) {
     sprintf(buffer, "%s %d", _("Base Cost:"),
             impr_base_build_shield_cost(pimpr_type));
     cost_label = create_iconlabel_from_chars(NULL, pwindow->dst,
@@ -529,7 +529,7 @@ void popup_impr_info(Impr_type_id impr)
 
   start_y = impr_name_label->size.y + impr_name_label->size.h + adj_size(10);
 
-  if (!improvement_has_flag(pimpr_type, IF_GOLD)) {
+  if (!is_convert_improvement(pimpr_type)) {
     cost_label = impr_name_label->prev;
     widget_set_position(cost_label, start_x, start_y);
     if (!is_wonder(pimpr_type)) {

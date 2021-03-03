@@ -548,6 +548,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE2NAME "Improvement"
 #define SPECENUM_VALUE3 IG_SPECIAL
 #define SPECENUM_VALUE3NAME "Special"
+#define SPECENUM_VALUE4 IG_CONVERT
+#define SPECENUM_VALUE4NAME "Convert"
 #define SPECENUM_COUNT  IG_COUNT
 #include "specenum_gen.h"
 

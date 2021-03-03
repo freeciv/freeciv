@@ -2686,6 +2686,10 @@ static bool load_ruleset_buildings(struct section_file *file,
         break;
       }
 
+      if (compat->compat_mode) {
+        b->genus = rscompat_genus_3_2(compat, b->flags, b->genus);
+      }
+
       requirement_vector_copy(&b->reqs, reqs);
 
       {

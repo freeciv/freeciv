@@ -62,6 +62,9 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
                                            const char *rfor);
 
 /* Functions specific to 3.1 -> 3.2 transition */
+enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
+                                      const bv_impr_flags flags,
+                                      enum impr_genus_id old_genus);
 
 #ifdef __cplusplus
 }

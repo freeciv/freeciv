@@ -628,9 +628,9 @@ static bool rs_buildings(void)
   /* Special Genus */
   improvement_iterate(pimprove) {
     if (improvement_has_flag(pimprove, IF_GOLD)
-        && pimprove->genus != IG_SPECIAL) {
+        && pimprove->genus != IG_CONVERT) {
       ruleset_error(LOG_ERROR,
-                    "Gold producing improvement with genus other than \"Special\"");
+                    "Gold producing improvement with genus other than \"Convert\"");
 
       return FALSE;
     }

@@ -703,6 +703,16 @@ const char *city_production_name_translation(const struct city *pcity)
 }
 
 /**********************************************************************//**
+  Return TRUE when the current production is of this genus.
+**************************************************************************/
+bool city_production_is_genus(const struct city *pcity,
+                              enum impr_genus_id genus)
+{
+  return VUT_IMPROVEMENT == pcity->production.kind
+      && (pcity->production.value.building->genus == genus);
+}
+
+/**********************************************************************//**
   Return TRUE when the current production has this flag.
 **************************************************************************/
 bool city_production_has_flag(const struct city *pcity,

@@ -3253,7 +3253,7 @@ static void redraw_city_dialog(struct city *pcity)
   } else {
     const struct impr_type *pimprove = pcity->production.value.building;
 
-    if (improvement_has_flag(pimprove, IF_GOLD)) {
+    if (is_convert_improvement(pimprove)) {
 
       if (pcity_dlg->buy_button
           && get_wstate(pcity_dlg->buy_button) != FC_WS_DISABLED) {

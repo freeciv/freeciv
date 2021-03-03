@@ -2241,11 +2241,16 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   const struct impr_type *pimprove = pcity->production.value.building;
   int saved_id = pcity->id;
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (is_convert_improvement(pimprove)) {
+    /* Coinage-like improvements that convert production */
     fc_assert(pcity->surplus[O_SHIELD] >= 0);
+
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
-    pplayer->economic.gold += pcity->before_change_shields;
+    if (city_production_has_flag(pcity, IF_GOLD)) {
+      pplayer->economic.gold += pcity->before_change_shields;
+    }
+
     pcity->before_change_shields = 0;
     pcity->shield_stock = 0;
     choose_build_target(pplayer, pcity);

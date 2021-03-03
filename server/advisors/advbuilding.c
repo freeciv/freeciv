@@ -131,18 +131,13 @@ static void ba_human_wants(struct player *pplayer, struct city *wonder_city)
   } city_list_iterate_end;
 
   improvement_iterate(pimprove) {
-    const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
-
-    /* Handle coinage specially because you can never complete coinage */
-    if (is_coinage
-     || can_player_build_improvement_later(pplayer, pimprove)) {
+    if (can_player_build_improvement_later(pplayer, pimprove)) {
       city_list_iterate(pplayer->cities, pcity) {
         if (pcity != wonder_city && is_wonder(pimprove)) {
           /* Only wonder city should build wonders! */
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
-        } else if (!is_coinage
-                    && (!can_city_build_improvement_later(pcity, pimprove)
-                        || (!is_improvement_productive(pcity, pimprove)))) {
+        } else if (!can_city_build_improvement_later(pcity, pimprove)
+                   || (!is_improvement_productive(pcity, pimprove))) {
           /* Don't consider impossible or unproductive buildings */
           pcity->server.adv->building_want[improvement_index(pimprove)] = 0;
         } else if (city_has_building(pcity, pimprove)) {

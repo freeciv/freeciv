@@ -1216,3 +1216,19 @@ void rscompat_postprocess(struct rscompat_info *info)
    * using it risks an unexpected change on the next load and save. */
   autoadjust_ruleset_data();
 }
+
+/**********************************************************************//**
+  Update improvement genus for coinage improvements.
+**************************************************************************/
+enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
+                                      const bv_impr_flags flags,
+                                      enum impr_genus_id old_genus)
+{
+  if (compat->compat_mode && compat->ver_buildings < 30) {
+    if (BV_ISSET(flags, IF_GOLD) && IG_SPECIAL == old_genus) {
+      return IG_CONVERT;
+    }
+  }
+
+  return old_genus;
+}

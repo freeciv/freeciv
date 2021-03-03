@@ -1561,7 +1561,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     .kind = VUT_IMPROVEMENT,
     .value = {.building = pimprove}
   };
-  const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
+  const bool is_convert = is_convert_improvement(pimprove);
   int turns = 9999;
   int place = tile_continent(pcity->tile);
 
@@ -1574,14 +1574,17 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     }
   } players_iterate_end;
 
-  if (is_coinage) {
-    /* Since coinage contains some entirely spurious ruleset values,
-     * we need to hard-code a sensible want.
-     * We must otherwise handle the special IF_GOLD improvement
-     * like the others, so the AI will research techs that make it available,
+  if (is_convert) {
+    /* Since coinage-like improvements contains some entirely spurious
+     * ruleset values, we need to hard-code a sensible want.
+     * We must otherwise handle IG_CONVERT improvements like the others,
+     * so the AI will research techs that make it available,
      * for rulesets that do not provide it from the start.
      */
-    v += TRADE_WEIGHTING / 10;
+    if (improvement_has_flag(pimprove, IF_GOLD)) {
+      v += TRADE_WEIGHTING / 10;
+    }
+    /* Without relevant flags, base want remains 0. */
   } else {
     /* Base want is calculated above using a more direct approach. */
     v += base_want(ait, pplayer, pcity, pimprove);
@@ -1593,7 +1596,7 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     }
   }
 
-  if (!is_coinage) {
+  if (!is_convert) {
     /* Adjust by building cost */
     /* FIXME: ought to reduce by upkeep cost and amortise by building cost */
     v -= (impr_build_shield_cost(pcity, pimprove)
@@ -1810,8 +1813,8 @@ static void adjust_improvement_wants_by_effects(struct ai_type *ait,
     can_build = can_build && all_met;
   }
 
-  if (is_coinage && can_build) {
-    /* Could have a negative want for coinage,
+  if (is_convert && can_build) {
+    /* Could have a negative want for coinage-like improvements,
      * if we have some stock in a building already. */
     pcity->server.adv->building_want[improvement_index(pimprove)] += v;
   } else if (!already && can_build) {
@@ -1867,7 +1870,7 @@ static bool should_force_recalc(struct city *pcity)
 {
   return city_built_last_turn(pcity)
       || (VUT_IMPROVEMENT == pcity->production.kind
-       && !improvement_has_flag(pcity->production.value.building, IF_GOLD)
+       && !is_convert_improvement(pcity->production.value.building)
        && !can_city_build_improvement_later(pcity, pcity->production.value.building));
 }
 
@@ -1920,11 +1923,7 @@ void dai_build_adv_adjust(struct ai_type *ait, struct player *pplayer,
   } city_list_iterate_end;
 
   improvement_iterate(pimprove) {
-    const bool is_coinage = improvement_has_flag(pimprove, IF_GOLD);
-
-    /* Handle coinage specially because you can never complete coinage */
-    if (is_coinage
-        || can_player_build_improvement_later(pplayer, pimprove)) {
+    if (can_player_build_improvement_later(pplayer, pimprove)) {
       city_list_iterate(pplayer->cities, pcity) {
         struct ai_city *city_data = def_ai_city_data(pcity, ait);
 

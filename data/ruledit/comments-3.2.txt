@@ -38,7 +38,8 @@ buildings = "\
 ;                 to rename an item after a ruleset has been released, you\n\
 ;                 should set \"rule_name\" to the original value of \"name\".\n\
 ; genus         = genus; one of:\n\
-;                 \"GreatWonder\", \"SmallWonder\", \"Improvement\", \"Special\".\n\
+;                 \"GreatWonder\", \"SmallWonder\", \"Improvement\", \"Special\",\n\
+;                 or \"Convert\".\n\
 ; reqs          = requirements to build the building (see effects.ruleset\n\
 ;                 and README.effects for help on requirements)\n\
 ; graphic       = icon of improvement (used in city dialog)\n\
@@ -59,7 +60,7 @@ buildings = "\
 ;                      Should only be used with genus \"SmallWonder\".\n\
 ; \"Gold\"             = Not a real building; production turned into gold\n\
 ;                      indefinitely (capitalization/coinage).\n\
-;                      Genus should be \"Special\".\n\
+;                      Genus should be \"Convert\".\n\
 ; \"DisasterProof\"    = Disasters never destroy this building. Is meaningful\n\
 ;                      only for genus \"Improvement\" buildings as others are\n\
 ;                      automatically disaster proof.\n\

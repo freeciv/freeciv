@@ -937,18 +937,23 @@ static void refresh_production_label(int stock)
   int cost, turns;
   char cbuf[64];
   SDL_Rect area;
-  bool gold_prod = improvement_has_flag(editor->currently_building.value.building,
-                                        IF_GOLD);
+  bool convert_prod = (VUT_IMPROVEMENT == editor->currently_building.kind)
+      && is_convert_improvement(editor->currently_building.value.building);
   const char *name = get_production_name(editor->pcity,
                                          editor->currently_building, &cost);
 
-  if (VUT_IMPROVEMENT == editor->currently_building.kind && gold_prod) {
-    int gold = MAX(0, editor->pcity->surplus[O_SHIELD]);
+  if (convert_prod) {
+    if (improvement_has_flag(editor->currently_building.value.building,
+                             IF_GOLD)) {
+      int gold = MAX(0, editor->pcity->surplus[O_SHIELD]);
 
-    fc_snprintf(cbuf, sizeof(cbuf),
-                PL_("%s\n%d gold per turn",
-                    "%s\n%d gold per turn", gold),
-                name, gold);
+      fc_snprintf(cbuf, sizeof(cbuf),
+                  PL_("%s\n%d gold per turn",
+                      "%s\n%d gold per turn", gold),
+                  name, gold);
+    } else {
+      fc_snprintf(cbuf, sizeof(cbuf), "%s\n-", name);
+    }
   } else {
     if (stock < cost) {
       turns = city_turns_to_build(editor->pcity,
@@ -989,7 +994,7 @@ static void refresh_production_label(int stock)
   editor->production_progress->theme =
     get_progress_icon(stock, cost, &cost);
 
-  if (!gold_prod) {
+  if (!convert_prod) {
     fc_snprintf(cbuf, sizeof(cbuf), "%d%%" , cost);
   } else {
     fc_snprintf(cbuf, sizeof(cbuf), "-");
@@ -1143,17 +1148,21 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
     /* count == cost */
     /* turns == progress */
     const char *name = city_production_name_translation(pcity);
-    bool gold_prod = city_production_has_flag(pcity, IF_GOLD);
+    bool convert_prod = city_production_is_genus(pcity, IG_CONVERT);
 
     count = city_production_build_shield_cost(pcity);
 
-    if (gold_prod) {
-      int gold = MAX(0, pcity->surplus[O_SHIELD]);
+    if (convert_prod) {
+      if (city_production_has_flag(pcity, IF_GOLD)) {
+        int gold = MAX(0, pcity->surplus[O_SHIELD]);
 
-      fc_snprintf(cbuf, sizeof(cbuf),
-                  PL_("%s\n%d gold per turn",
-                      "%s\n%d gold per turn", gold),
-                  name, gold);
+        fc_snprintf(cbuf, sizeof(cbuf),
+                    PL_("%s\n%d gold per turn",
+                        "%s\n%d gold per turn", gold),
+                    name, gold);
+      } else {
+        fc_snprintf(cbuf, sizeof(cbuf), "%s\n-", name);
+      }
     } else {
       if (pcity->shield_stock < count) {
         turns = city_production_turns_to_build(pcity, TRUE);
@@ -1176,7 +1185,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
 
     icon = get_progress_icon(pcity->shield_stock, count, &turns);
 
-    if (!gold_prod) {
+    if (!convert_prod) {
       fc_snprintf(cbuf, sizeof(cbuf), "%d%%" , turns);
     } else {
       fc_snprintf(cbuf, sizeof(cbuf), "-");
@@ -1443,7 +1452,7 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
       }
 
       if (pcity) {
-        if (!improvement_has_flag(pimprove, IF_GOLD)) {
+        if (!is_convert_improvement(pimprove)) {
           struct universal univ = cid_production(cid_encode_building(pimprove));
           int cost = impr_build_shield_cost(pcity, pimprove);
 
@@ -1474,16 +1483,20 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
             }
           }
         } else {
-          /* capitalization */
-          int gold = MAX(0, pcity->surplus[O_SHIELD]);
+          /* coinage-like */
+          if (improvement_has_flag(pimprove, IF_GOLD)) {
+            int gold = MAX(0, pcity->surplus[O_SHIELD]);
 
-          fc_snprintf(cbuf, sizeof(cbuf), PL_("%d gold per turn",
-                                              "%d gold per turn", gold),
-                      gold);
+            fc_snprintf(cbuf, sizeof(cbuf), PL_("%d gold per turn",
+                                                "%d gold per turn", gold),
+                        gold);
+          } else {
+            fc_strlcpy(cbuf, "-", sizeof(cbuf));
+          }
         }
       } else {
         /* non city mode */
-        if (!improvement_has_flag(pimprove, IF_GOLD)) {
+        if (!is_convert_improvement(pimprove)) {
           int cost = impr_build_shield_cost(NULL, pimprove);
 
           if (state) {
@@ -1496,7 +1509,11 @@ void popup_worklist_editor(struct city *pcity, struct global_worklist *gwl)
                         PL_("shield", "shields", cost));
           }
         } else {
-          fc_snprintf(cbuf, sizeof(cbuf), _("shields into gold"));
+          if (improvement_has_flag(pimprove, IF_GOLD)) {
+            fc_strlcpy(cbuf, _("shields into gold"), sizeof(cbuf));
+          } else {
+            fc_strlcpy(cbuf, "-", sizeof(cbuf));
+          }
         }
       }
 

@@ -129,6 +129,7 @@ bool is_small_wonder(const struct impr_type *pimprove);
 bool is_wonder(const struct impr_type *pimprove);
 bool is_improvement(const struct impr_type *pimprove);
 bool is_special_improvement(const struct impr_type *pimprove);
+bool is_convert_improvement(const struct impr_type *pimprove);
 
 bool can_improvement_go_obsolete(const struct impr_type *pimprove);
 

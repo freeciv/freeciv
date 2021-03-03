@@ -292,7 +292,7 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
     return buffer;
   }
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_is_genus(pcity, IG_CONVERT)) {
     fc_strlcpy(buffer, improvement_name_translation
                (pcity->production.value.building), sizeof(buffer));
     return buffer;

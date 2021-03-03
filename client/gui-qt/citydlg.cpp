@@ -3411,7 +3411,7 @@ void city_dialog::update_improvements()
       tooltip = get_tooltip_improvement(target.value.building,
                                         dlgcity, true).trimmed();
 
-      if (improvement_has_flag(target.value.building, IF_GOLD)) {
+      if (is_convert_improvement(target.value.building)) {
         cost = -1;
       } else {
         cost = impr_build_shield_cost(dlgcity, target.value.building);
@@ -3974,7 +3974,7 @@ QString get_tooltip(QVariant qvar)
     str = helptext_unit(buffer, sizeof(buffer), client.conn.playing,
                         buf2, target->value.utype);
   } else {
-    if (!improvement_has_flag(target->value.building, IF_GOLD)) {
+    if (!is_convert_improvement(target->value.building)) {
       def_str = get_tooltip_improvement(target->value.building);
     }
 
@@ -4306,9 +4306,9 @@ void city_production_model::populate()
 
         if ((is_wonder(renegade->value.building) && show_wonders)
             || (is_improvement(renegade->value.building) && show_buildings)
-            || (improvement_has_flag(renegade->value.building, IF_GOLD))
+            || (is_convert_improvement(renegade->value.building))
             || (is_special_improvement(renegade->value.building)
-            && show_buildings)) {
+                && show_buildings)) {
           pi = new production_item(renegade, this);
           city_target_list << pi;
         }

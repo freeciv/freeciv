@@ -295,8 +295,8 @@ int impr_buy_gold_cost(const struct city *pcity,
   int cost = 0;
   const int missing = impr_build_shield_cost(pcity, pimprove) - shields_in_stock;
 
-  if (improvement_has_flag(pimprove, IF_GOLD)) {
-    /* Can't buy capitalization. */
+  if (is_convert_improvement(pimprove)) {
+    /* Can't buy coinage-like improvements. */
     return 0;
   }
 
@@ -738,7 +738,21 @@ bool is_improvement(const struct impr_type *pimprove)
 **************************************************************************/
 bool is_special_improvement(const struct impr_type *pimprove)
 {
-  return pimprove->genus == IG_SPECIAL;
+  /* TODO: Find either a new term for traditional "special" improvements
+   * (maybe "project"?), or a new umbrella term for all improvements that
+   * can't be present in the city as a finished building (including special
+   * and convert improvements). */
+  return (pimprove->genus == IG_SPECIAL)
+      || is_convert_improvement(pimprove);
+}
+
+/**********************************************************************//**
+  Is this a coinage-like improvement that converts production into some
+  other form of output?
+**************************************************************************/
+bool is_convert_improvement(const struct impr_type *pimprove)
+{
+  return (pimprove->genus == IG_CONVERT);
 }
 
 /**********************************************************************//**

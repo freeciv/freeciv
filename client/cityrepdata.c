@@ -569,10 +569,16 @@ static const char *cr_entry_building(const struct city *pcity,
     worklist_is_empty(&pcity->worklist) ? "" :
     gui_options.concise_city_production ? "+" : _("(worklist)");
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
-    fc_snprintf(buf, sizeof(buf), "%s (%d)%s",
-                city_production_name_translation(pcity),
-                MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
+  if (city_production_is_genus(pcity, IG_CONVERT)) {
+    if (city_production_has_flag(pcity, IF_GOLD)) {
+      fc_snprintf(buf, sizeof(buf), "%s (%d)%s",
+                  city_production_name_translation(pcity),
+                  MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
+    } else {
+      fc_snprintf(buf, sizeof(buf), "%s (--)%s",
+                  city_production_name_translation(pcity),
+                  from_worklist);
+    }
   } else {
     fc_snprintf(buf, sizeof(buf), "%s (%d/%s)%s",
                 city_production_name_translation(pcity),
@@ -598,7 +604,7 @@ static const char *cr_entry_build_cost(const struct city *pcity,
   int price;
   int turns;
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_is_genus(pcity, IG_CONVERT)) {
     fc_snprintf(buf, sizeof(buf), "*");
     return buf;
   }

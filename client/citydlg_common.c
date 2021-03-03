@@ -278,10 +278,16 @@ void get_city_dialog_production(struct city *pcity,
     return;
   }
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
-    int gold = MAX(0, pcity->surplus[O_SHIELD]);
-    fc_snprintf(buffer, buffer_len, PL_("%3d gold per turn",
-                                        "%3d gold per turn", gold), gold);
+  if (city_production_is_genus(pcity, IG_CONVERT)) {
+    if (city_production_has_flag(pcity, IF_GOLD)) {
+      int gold = MAX(0, pcity->surplus[O_SHIELD]);
+
+      fc_snprintf(buffer, buffer_len,
+                  PL_("%3d gold per turn", "%3d gold per turn", gold),
+                  gold);
+    } else {
+      fc_strlcpy(buffer, "---", buffer_len);
+    }
     return;
   }
 
@@ -334,10 +340,14 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
                city_improvement_name_translation(pcity, target->value.building),
                buffer_len);
 
-    if (improvement_has_flag(target->value.building, IF_GOLD)) {
-      cat_snprintf(buffer, buffer_len, " (--) ");
-      cat_snprintf(buffer, buffer_len, _("%d/turn"),
-                   MAX(0, pcity->surplus[O_SHIELD]));
+    if (is_convert_improvement(target->value.building)) {
+      fc_strlcat(buffer, " (--) ", buffer_len);
+      if (improvement_has_flag(target->value.building, IF_GOLD)) {
+        cat_snprintf(buffer, buffer_len, _("%d/turn"),
+                     MAX(0, pcity->surplus[O_SHIELD]));
+      } else {
+        fc_strlcat(buffer, "---", buffer_len);
+      }
       return;
     }
     break;
@@ -383,8 +393,8 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   {
     const struct impr_type *pimprove = target->value.building;
 
-    /* Total & turns left meaningless on capitalization */
-    if (improvement_has_flag(pimprove, IF_GOLD)) {
+    /* Total & turns left meaningless on coinage-like improvements */
+    if (is_convert_improvement(pimprove)) {
       buf[1][0] = '\0';
       fc_snprintf(buf[2], column_size, "---");
     } else {
@@ -441,9 +451,14 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   /* Add the turns-to-build entry in the 4th position */
   if (pcity) {
     if (VUT_IMPROVEMENT == target->kind
-        && improvement_has_flag(target->value.building, IF_GOLD)) {
-      fc_snprintf(buf[3], column_size, _("%d/turn"),
-                  MAX(0, pcity->surplus[O_SHIELD]));
+        && is_convert_improvement(target->value.building)) {
+      /* Coinage-like improvements: print yield-per-turn instead */
+      if (improvement_has_flag(target->value.building, IF_GOLD)) {
+        fc_snprintf(buf[3], column_size, _("%d/turn"),
+                    MAX(0, pcity->surplus[O_SHIELD]));
+      } else {
+        buf[3][0] = '\0';
+      }
     } else {
       int turns = city_turns_to_build(pcity, target, FALSE);
 
@@ -1507,7 +1522,7 @@ bool city_can_buy(const struct city *pcity)
           && pcity->turn_founded != game.info.turn
           && !pcity->did_buy
           && (VUT_UTYPE == pcity->production.kind
-              || !improvement_has_flag(pcity->production.value.building, IF_GOLD))
+              || !is_convert_improvement(pcity->production.value.building))
           && !(VUT_UTYPE == pcity->production.kind
                && pcity->anarchy != 0)
           && pcity->client.buy_cost > 0);

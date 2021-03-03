@@ -602,6 +602,8 @@ bool city_production_build_units(const struct city *pcity,
 int city_production_unit_veteran_level(struct city *pcity,
                                        const struct unit_type *punittype);
 
+bool city_production_is_genus(const struct city *pcity,
+                              enum impr_genus_id genus);
 bool city_production_has_flag(const struct city *pcity,
                               enum impr_flag_id flag);
 int city_production_turns_to_build(const struct city *pcity,
