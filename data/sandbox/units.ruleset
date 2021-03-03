@@ -44,6 +44,7 @@ flags =
     _("AddToCity")
     _("Nuclear")
     _("NuclearOP")
+    _("TacticalNuke")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
     _("Cant_Fortify")
@@ -2031,6 +2032,42 @@ helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
  a very high strategic value, but a weak defense if caught\
  off guard.\
+")
+
+[unit_SSBN]
+name          = _("SSBN")
+class         = "Sea"
+tech_req      = "Nuclear Fission"
+obsolete_by   = "None"
+graphic       = "u.ssbn"
+graphic_alt   = "u.submarine"
+sound_move    = "m_ssbm"
+sound_move_alt = "m_generic"
+sound_fight   = "f_ssbm"
+sound_fight_alt = "f_generic"
+build_cost    = 320
+pop_cost      = 0
+attack        = 12
+defense       = 5
+hitpoints     = 20
+firepower     = 1
+move_rate     = 5
+vision_radius_sq = 8
+transport_cap = 16
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 1
+uk_gold       = 1
+cargo         = "Missile"
+vision_layer  = "Subsurface"
+flags         = "BadCityDefender", "Only_Native_Attack",
+                "Submarine", "Provoking", "TacticalNuke"
+roles         = "Hunter"
+helptext      = _("\
+A SSBN is a nuclear submarine.\
+"), _("\
+It gets tactical nukes once you discover Rocketry.\
 ")
 
 [unit_carrier]
