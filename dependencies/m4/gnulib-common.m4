@@ -1,5 +1,5 @@
-# gnulib-common.m4 serial 62
-dnl Copyright (C) 2007-2020 Free Software Foundation, Inc.
+# gnulib-common.m4 serial 63
+dnl Copyright (C) 2007-2021 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
 dnl with or without modifications, as long as this notice is preserved.
@@ -39,11 +39,12 @@ AC_DEFUN([gl_COMMON_BODY], [
        this syntax with 'extern'.  */
 #  define _Noreturn [[noreturn]]
 # elif ((!defined __cplusplus || defined __clang__) \
-        && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0)  \
-            || _GL_GNUC_PREREQ (4, 7) \
-            || (defined __apple_build_version__ \
-                ? 6000000 <= __apple_build_version__ \
-                : 3 < __clang_major__ + (5 <= __clang_minor__))))
+        && (201112 <= (defined __STDC_VERSION__ ? __STDC_VERSION__ : 0) \
+            || (!defined __STRICT_ANSI__ \
+                && (_GL_GNUC_PREREQ (4, 7) \
+                    || (defined __apple_build_version__ \
+                        ? 6000000 <= __apple_build_version__ \
+                        : 3 < __clang_major__ + (5 <= __clang_minor__))))))
    /* _Noreturn works as-is.  */
 # elif _GL_GNUC_PREREQ (2, 8) || defined __clang__ || 0x5110 <= __SUNPRO_C
 #  define _Noreturn __attribute__ ((__noreturn__))
@@ -66,7 +67,9 @@ AC_DEFUN([gl_COMMON_BODY], [
 #endif])
   AH_VERBATIM([attribute],
 [/* Attributes.  */
-#ifdef __has_attribute
+#if (defined __has_attribute \
+     && (!defined __clang_minor__ \
+         || 3 < __clang_major__ + (5 <= __clang_minor__)))
 # define _GL_HAS_ATTRIBUTE(attr) __has_attribute (__##attr##__)
 #else
 # define _GL_HAS_ATTRIBUTE(attr) _GL_ATTR_##attr
@@ -489,9 +492,9 @@ AC_DEFUN([gl_PROG_CC_C99],
   dnl When AC_PROG_CC_C99 and AC_PROG_CC_STDC are used together, the substituted
   dnl value of CC will contain the C99 enabling options twice. But this is only
   dnl a cosmetic problem.
-  dnl With Autoconf >= 2.69c, use AC_PROG_CC since it implies AC_PROG_CC_C99;
+  dnl With Autoconf >= 2.70, use AC_PROG_CC since it implies AC_PROG_CC_C99;
   dnl this avoids a "warning: The macro `AC_PROG_CC_C99' is obsolete."
-  m4_version_prereq([2.69c],
+  m4_version_prereq([2.70],
     [AC_REQUIRE([AC_PROG_CC])],
     [AC_REQUIRE([AC_PROG_CC_C99])])
 ])
@@ -567,16 +570,16 @@ Amsterdam
 ])
 
 # AC_C_RESTRICT
-# This definition is copied from post-2.69 Autoconf and overrides the
-# AC_C_RESTRICT macro from autoconf 2.60..2.69.  It can be removed
-# once autoconf >= 2.70 can be assumed.  It's painful to check version
-# numbers, and in practice this macro is more up-to-date than Autoconf
-# is, so override Autoconf unconditionally.
+# This definition is copied from post-2.70 Autoconf and overrides the
+# AC_C_RESTRICT macro from autoconf 2.60..2.70.
+m4_version_prereq([2.70.1], [], [
 AC_DEFUN([AC_C_RESTRICT],
 [AC_CACHE_CHECK([for C/C++ restrict keyword], [ac_cv_c_restrict],
   [ac_cv_c_restrict=no
-   # The order here caters to the fact that C++ does not require restrict.
-   for ac_kw in __restrict __restrict__ _Restrict restrict; do
+   # Put '__restrict__' first, to avoid problems with glibc and non-GCC; see:
+   # https://lists.gnu.org/archive/html/bug-autoconf/2016-02/msg00006.html
+   # Put 'restrict' last, because C++ lacks it.
+   for ac_kw in __restrict__ __restrict _Restrict restrict; do
      AC_COMPILE_IFELSE(
       [AC_LANG_PROGRAM(
          [[typedef int *int_ptr;
@@ -596,7 +599,7 @@ AC_DEFUN([AC_C_RESTRICT],
  AH_VERBATIM([restrict],
 [/* Define to the equivalent of the C99 'restrict' keyword, or to
    nothing if this is not supported.  Do not define if restrict is
-   supported directly.  */
+   supported only directly.  */
 #undef restrict
 /* Work around a bug in older versions of Sun C++, which did not
    #define __restrict__ or support _Restrict or __restrict__
@@ -614,6 +617,7 @@ AC_DEFUN([AC_C_RESTRICT],
    *)  AC_DEFINE_UNQUOTED([restrict], [$ac_cv_c_restrict]) ;;
  esac
 ])# AC_C_RESTRICT
+])
 
 # gl_BIGENDIAN
 # is like AC_C_BIGENDIAN, except that it can be AC_REQUIREd.
