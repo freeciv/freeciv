@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.1\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-06 00:29+0200\n"
-"PO-Revision-Date: 2020-12-06 11:16+0200\n"
+"POT-Creation-Date: 2021-03-03 02:44+0200\n"
+"PO-Revision-Date: 2021-03-03 02:49+0200\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -39,6 +39,10 @@ msgstr "Sulje"
 msgid "Old ruleset to a new format"
 msgstr "Vanha sääntökokoelma uuteen muotoon"
 
+#: tools/ruledit/edit_utype.cpp:48
+msgid "Requirement"
+msgstr "Vaadittava"
+
 #: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Tyyppi:"
@@ -48,7 +52,8 @@ msgid "Value:"
 msgstr "Arvo:"
 
 #: tools/ruledit/effect_edit.cpp:96 tools/ruledit/tab_building.cpp:84
-#: tools/ruledit/tab_good.cpp:85 tools/ruledit/tab_multiplier.cpp:84
+#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Vaadittavat"
 
@@ -141,51 +146,51 @@ msgstr "%s tarvitsee"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:121
 #, c-format
 msgid "Failed to load %s."
 msgstr "Kommenttitiedoston %s lataaminen epäonnistui."
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:157
 msgid "Print a summary of the options"
 msgstr "Näytä yhteenveto valitsimista"
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:159
 msgid "Print the version number"
 msgstr "Näytä versionumero"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:159
+#: tools/ruledit/ruledit.cpp:162
 msgid "ruleset RULESET"
 msgstr "ruleset SÄÄNTÖKOKOELMA"
 
-#: tools/ruledit/ruledit.cpp:160
+#: tools/ruledit/ruledit.cpp:163
 msgid "Ruleset to use as the starting point."
 msgstr "Lähtökohtana käytettävä sääntökokoelma."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:164
+#: tools/ruledit/ruledit.cpp:167
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SIGNAALI]"
 
-#: tools/ruledit/ruledit.cpp:165
+#: tools/ruledit/ruledit.cpp:168
 msgid "Raise a signal on failed assertion"
 msgstr "Lähetä signaali hylätystä oikeellisuustarkistuksesta"
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:182
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Voi yhtä sääntökokoelmaa voidaan muokata samanaikaisesti.\n"
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:193
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Signaalin numero \"%s\" ei kelpaa.\n"
 
-#: tools/ruledit/ruledit.cpp:192
+#: tools/ruledit/ruledit.cpp:195
 msgid "Try using --help.\n"
 msgstr "Kokeile parametriä --help.\n"
 
-#: tools/ruledit/ruledit.cpp:199
+#: tools/ruledit/ruledit.cpp:202
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Tunnistamaton asetus: \"%s\"\n"
@@ -275,20 +280,24 @@ msgstr "Oletko varma että haluat sulkea ohjelman?"
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
-#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_extras.cpp:65
+#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_unit.cpp:66
+#: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "Sääntönimi"
 
-#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_extras.cpp:73
+#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_unit.cpp:74
+#: tools/ruledit/tab_terrains.cpp:73 tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Nimi"
 
-#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_good.cpp:89
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_unit.cpp:89
+#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_extras.cpp:88
+#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
+#: tools/ruledit/tab_unit.cpp:89
 msgid "Effects"
 msgstr "Vaikutukset"
 
@@ -351,6 +360,18 @@ msgstr "Mahdollistin (toimija)"
 msgid "action enabler for %s"
 msgstr "mahdollistin toiminnalle %s"
 
+#: tools/ruledit/tab_extras.cpp:92
+msgid "Add Extra"
+msgstr "Lisää ekstra"
+
+#: tools/ruledit/tab_extras.cpp:97
+msgid "Remove this Extra"
+msgstr "Poista tämä ekstra"
+
+#: tools/ruledit/tab_extras.cpp:182
+msgid "An extra with that rule name already exists!"
+msgstr "Ekstra samalla sääntönimellä on jo olemassa!"
+
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
 msgstr "Lisää artikkeli"
@@ -362,6 +383,18 @@ msgstr "Poista tämä artikkeli"
 #: tools/ruledit/tab_good.cpp:183
 msgid "A good with that rule name already exists!"
 msgstr "Artikkeli samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Add Government"
+msgstr "Lisää hallitusmuoto"
+
+#: tools/ruledit/tab_gov.cpp:97
+msgid "Remove this Government"
+msgstr "Poista tämä hallitusmuoto"
+
+#: tools/ruledit/tab_gov.cpp:182
+msgid "A government with that rule name already exists!"
+msgstr "Hallitusmuoto samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_misc.cpp:69
 msgid "Ruleset name"
@@ -526,6 +559,18 @@ msgstr "Ei koskaan"
 #: tools/ruledit/tab_tech.cpp:355
 msgid "A tech with that rule name already exists!"
 msgstr "Teknologia samalla sääntönimellä on jo olemassa!"
+
+#: tools/ruledit/tab_terrains.cpp:88
+msgid "Add Terrain"
+msgstr "Lisää maastotyyppi"
+
+#: tools/ruledit/tab_terrains.cpp:93
+msgid "Remove this Terrain"
+msgstr "Poista tämä maastotyyppi"
+
+#: tools/ruledit/tab_terrains.cpp:178
+msgid "A terrain with that rule name already exists!"
+msgstr "Maastotyyppi samalla sääntönimellä on jo olemassa!"
 
 #: tools/ruledit/tab_unit.cpp:85
 msgid "Edit Unit"
