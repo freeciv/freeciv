@@ -2700,6 +2700,21 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("  * all units caught in the nuclear blast"
                          " dies.\n"));
         }
+        {
+          struct universal req_pattern[] = {
+            { .kind = VUT_ACTION, .value.action = paction },
+            { .kind = VUT_UTYPE,  .value.utype = utype },
+          };
+
+          int blast_radius_1 =
+              effect_value_from_universals(EFT_NUKE_BLAST_RADIUS_1_SQ,
+                                           req_pattern,
+                                           ARRAY_SIZE(req_pattern));
+
+          cat_snprintf(buf, bufsz,
+                       _("  * has a squared blast radius of %d.\n"),
+                       blast_radius_1);
+        }
 
         break;
       case ACTRES_PLANT:

@@ -293,6 +293,10 @@ DiplRel reqs are unit owner to city owner.
 Requirements evaluated against tile or city not supported.
 Default value: 100%
 
+Nuke_Blast_Radius_1_Sq
+    The size of the radius of the blast area in squared distance from ground
+zero in amount tiles.
+
 Illegal_Action_Move_Cost
     The number of move fragments lost when the player tries to do an action
 that turns out to be illegal. Only applied when the player wasn't aware that

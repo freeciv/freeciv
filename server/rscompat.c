@@ -562,6 +562,27 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
+  if (info->ver_effects < 30) {
+    struct effect *peffect;
+
+    /* Nuke blast radius has moved to the ruleset. */
+    action_iterate(act_id) {
+      const struct action *paction = action_by_number(act_id);
+
+      if (!(action_has_result(paction, ACTRES_NUKE)
+            || action_has_result(paction, ACTRES_NUKE_UNITS)
+            || action_has_result(paction, ACTRES_SPY_NUKE))) {
+        /* Not relevant. */
+        continue;
+      }
+
+      peffect = effect_new(EFT_NUKE_BLAST_RADIUS_1_SQ, 2, NULL);
+      effect_req_append(peffect, req_from_str("Action", "Local",
+                                              FALSE, TRUE, FALSE,
+                                              action_rule_name(paction)));
+    } action_iterate_end;
+  }
+
   if (info->ver_effects < 20) {
     struct effect *peffect;
 

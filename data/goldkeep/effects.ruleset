@@ -2858,6 +2858,14 @@ reqs	=
       "Action", "Explode Nuclear", "Local", TRUE
     }
 
+[effect_explode_nuke_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Explode Nuclear", "Local", TRUE
+    }
+
 [effect_incident_success_explode_nuke_city]
 type	= "Casus_Belli_Success"
 value	= 1
@@ -2866,9 +2874,25 @@ reqs	=
       "Action", "Nuke City", "Local", TRUE
     }
 
+[effect_nuke_city_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke City", "Local", TRUE
+    }
+
 [effect_incident_success_explode_nuke_units]
 type	= "Casus_Belli_Success"
 value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke Units", "Local", TRUE
+    }
+
+[effect_nuke_units_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Nuke Units", "Local", TRUE

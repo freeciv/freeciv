@@ -2750,14 +2750,31 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Nuke all the squares in a 3x3 square around the center of the explosion
-  pplayer is the player that caused the explosion.
+  Nuke all the squares in a the specified radius around the center of the
+  explosion.
+  @param paction the action that caused the explosion
+  @param act_utype the type of the unit that caused to explosionn.
+  @param pplayer the player that caused the explosion.
+  @param ptile the tile at the center of the explosion.
 **************************************************************************/
-void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
+void do_nuclear_explosion(const struct action *paction,
+                          const struct unit_type *act_utype,
+                          struct player *pplayer, struct tile *ptile)
 {
-  square_iterate(&(wld.map), ptile, 1, ptile1) {
+  int nuke_radius_size
+      = get_target_bonus_effects(NULL,
+                                 pplayer, NULL,
+                                 /* Wait for users before choosing home city
+                                  * or target tile city */
+                                 NULL,
+                                 NULL, ptile,
+                                 NULL, act_utype,
+                                 NULL, NULL, paction,
+                                 EFT_NUKE_BLAST_RADIUS_1_SQ);
+
+  circle_iterate(&(wld.map), ptile, nuke_radius_size, ptile1) {
     do_nuke_tile(pplayer, ptile1);
-  } square_iterate_end;
+  } circle_iterate_end;
 
   script_server_signal_emit("nuke_exploded", 2, API_TYPE_TILE, ptile,
                             API_TYPE_PLAYER, pplayer);

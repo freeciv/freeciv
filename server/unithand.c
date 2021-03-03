@@ -4168,7 +4168,7 @@ static bool unit_nuke(struct player *pplayer, struct unit *punit,
     wipe_unit(punit, ULR_DETONATED, NULL);
   }
 
-  do_nuclear_explosion(pplayer, def_tile);
+  do_nuclear_explosion(paction, act_utype, pplayer, def_tile);
 
   /* May cause an incident even if the target tile is unclaimed. A ruleset
    * could give everyone a casus belli against the tile nuker. A rule

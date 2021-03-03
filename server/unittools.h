@@ -149,7 +149,9 @@ void send_all_known_units(struct conn_list *dest);
 void unit_goes_out_of_sight(struct player *pplayer, struct unit *punit);
 
 /* doing a unit activity */
-void do_nuclear_explosion(struct player *pplayer, struct tile *ptile);
+void do_nuclear_explosion(const struct action *paction,
+                          const struct unit_type *act_utype,
+                          struct player *pplayer, struct tile *ptile);
 bool do_airline(struct unit *punit, struct city *city2,
                 const struct action *paction);
 void do_explore(struct unit *punit);

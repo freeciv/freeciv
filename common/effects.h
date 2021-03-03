@@ -314,6 +314,8 @@ extern "C" {
 #define SPECENUM_VALUE125NAME "Illegal_Action_HP_Cost"
 #define SPECENUM_VALUE126 EFT_POPCOST_FREE
 #define SPECENUM_VALUE126NAME "Popcost_Free"
+#define SPECENUM_VALUE127 EFT_NUKE_BLAST_RADIUS_1_SQ
+#define SPECENUM_VALUE127NAME "Nuke_Blast_Radius_1_Sq"
 /* keep this last */
 #define SPECENUM_COUNT EFT_COUNT
 #include "specenum_gen.h"

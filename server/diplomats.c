@@ -1840,13 +1840,9 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
     wipe_unit(act_unit, ULR_USED, NULL);
   }
 
-  /* TODO: In real life a suitcase nuke is way less powerful than an ICBM.
-   * Maybe the size of the suitcase nuke explosion should be ruleset
-   * configurable? */
-
   /* Detonate the nuke. */
   dlsend_packet_nuke_tile_info(game.est_connections, tile_index(tgt_tile));
-  do_nuclear_explosion(act_player, tgt_tile);
+  do_nuclear_explosion(paction, act_utype, act_player, tgt_tile);
 
   /* This may cause a diplomatic incident. */
   action_consequence_success(paction, act_player, act_utype,

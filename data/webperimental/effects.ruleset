@@ -2403,6 +2403,14 @@ reqs	=
       "MinVeteran", "1",             "Local"
     }
 
+[effect_suitcase_nuke_blast_size]
+type   = "Nuke_Blast_Radius_1_Sq"
+value   = 2
+reqs   =
+    { "type", "name", "range"
+      "Action", "Suitcase Nuke", "Local"
+    }
+
 ; agent (veteran level 2) and spymaster (veteran level 3) does the
 ; escape version
 [effect_suitcase_nuke_esc_odds_base]
@@ -2421,6 +2429,14 @@ reqs	=
     { "type",       "name",                 "range"
       "Action",     "Suitcase Nuke Escape", "Local"
       "MinVeteran", "3",                    "Local"
+    }
+
+[effect_suitcase_nuke_escape_blast_size]
+type   = "Nuke_Blast_Radius_1_Sq"
+value   = 2
+reqs   =
+    { "type", "name", "range"
+      "Action", "Suitcase Nuke Escape", "Local"
     }
 
 [effect_steal_gold_base]
@@ -2656,9 +2672,25 @@ reqs	=
       "Action", "Explode Nuclear", "Local", TRUE
     }
 
+[effect_explode_nuke_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Explode Nuclear", "Local", TRUE
+    }
+
 [effect_incident_success_explode_nuke_city]
 type	= "Casus_Belli_Success"
 value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke City", "Local", TRUE
+    }
+
+[effect_nuke_city_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Nuke City", "Local", TRUE
@@ -2706,6 +2738,14 @@ reqs	=
     { "type", "name", "range", "present"
       "Action", "Suitcase Nuke Escape", "Local", TRUE
       "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_nuke_units_blast_radius]
+type	= "Nuke_Blast_Radius_1_Sq"
+value	= 2
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Nuke Units", "Local", TRUE
     }
 
 ; Double (+100%) buy cost for Great Wonders
