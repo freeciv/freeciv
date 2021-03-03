@@ -397,7 +397,7 @@ nuke_city_consuming_always = TRUE;
 ; its enablers are evaluated against the target. The target owner is the one
 ; that gets a Casus Belli if the ruleset has a Casus Belli for this action.
 ; Supported values are "individual cities" and "tiles".
-nuke_city_target_kind = "individual cities"
+nuke_city_target_kind = "tiles"
 
 ; The maximum distance from the actor unit to the target of the
 ; "Nuke Units" action. The value 1 means that the tile must be a tile
@@ -509,8 +509,8 @@ ui_name_destroy_city = _("Destroy %sCity%s")
 ; /* TRANS: _Nuke Target Tile (100% chance of success). */
 ui_name_explode_nuclear = _("%sNuke Target Tile%s")
 
-; /* TRANS: _Nuke City (100% chance of success). */
-ui_name_nuke_city = _("%sNuke City%s")
+; /* TRANS: _Nuke (100% chance of success). */
+ui_name_nuke_city = _("%sNuke%s")
 
 ; /* TRANS: _Nuke Units (100% chance of success). */
 ui_name_nuke_units = _("%sNuke Units%s")
@@ -1236,25 +1236,11 @@ actor_reqs    =
     }
 
 [actionenabler_nuke_city]
-action="Nuke City"
-actor_reqs=
+action     = "Nuke City"
+actor_reqs =
     { "type",         "name",    "range"
       "UnitFlag",     "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
-      "DiplRel",      "War",     "Local"
-    }
-
-[actionenabler_nuke_units]
-action="Nuke Units"
-actor_reqs=
-    { "type",         "name",    "range"
-      "UnitFlag",     "Nuclear", "Local"
-      "MinMoveFrags", "1",       "Local"
-      "DiplRel",      "War",     "Local"
-    }
-target_reqs=
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", FALSE
     }
 
 ; The GameLoss unit requirement makes sending units on a suicide mission to
