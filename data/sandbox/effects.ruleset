@@ -4342,7 +4342,7 @@ reqs	=
 
 [effect_explode_nuke_blast_radius]
 type	= "Nuke_Blast_Radius_1_Sq"
-value	= 2
+value	= 5
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Explode Nuclear", "Local", TRUE
