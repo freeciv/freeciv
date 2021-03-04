@@ -34,6 +34,8 @@ a) Install or update your Cygwin by downloading and running installer
   Install development packages for the guis you want to compile, one or more of
   - libgtk3-devel (Libs)
   - libQt5Core-devel (Libs) + libQt5Gui-devel (Libs)
+    Note: As Of 04-Mar-21 Cygwin does not have new enough version of Qt for
+    building Qt-client of Freeciv-3.1 or later.
 
   For additional functionality install also:
    - libreadline-devel (Libs) (for server command history & completion)
