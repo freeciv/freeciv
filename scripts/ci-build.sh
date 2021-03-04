@@ -43,9 +43,9 @@ ninja install
 "os_x")
 # gcc is an alias for clang on OS X
 
-export PATH="/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$(brew --prefix qt)/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include $CPPFLAGS"
-export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib"
+export PATH="/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$(brew --prefix qt@5)/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include -I/usr/local/opt/qt@5/include $CPPFLAGS"
+export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib -L/usr/local/opt/qt@5/lib"
 export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 mkdir build
