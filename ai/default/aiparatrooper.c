@@ -219,9 +219,33 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
     ptile_dest = find_best_tile_to_paradrop_to(ait, punit);
 
     if (ptile_dest) {
-      if (unit_perform_action(unit_owner(punit),
-                              punit->id, tile_index(ptile_dest), 0, "",
-                              ACTION_PARADROP, ACT_REQ_PLAYER)) {
+      bool jump_performed = FALSE;
+
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
+
+        if (!action_has_result(paction, ACTRES_PARADROP)) {
+          /* Not relevant. */
+          continue;
+        }
+
+        if (action_prob_possible(
+              action_prob_unit_vs_tgt(paction, punit,
+                                      tile_city(ptile_dest), NULL,
+                                      ptile_dest, NULL))) {
+          jump_performed
+              = unit_perform_action(unit_owner(punit), punit->id,
+                                    tile_index(ptile_dest), NO_TARGET, "",
+                                    paction->id, ACT_REQ_PLAYER);
+        }
+
+        if (jump_performed || NULL == game_unit_by_number(sanity)) {
+          /* Finished or finished. */
+          break;
+        }
+      } action_iterate_end;
+
+      if (jump_performed) {
 	/* successfull! */
         if (NULL == game_unit_by_number(sanity)) {
 	  /* the unit did not survive the move */
