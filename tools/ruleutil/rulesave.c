@@ -825,14 +825,15 @@ static bool save_action_ui_name(struct section_file *sfile,
 static bool save_action_max_range(struct section_file *sfile,
                                   action_id act)
 {
-  if (action_by_number(act)->max_distance
-      == ACTION_DISTANCE_UNLIMITED) {
+  struct action *paction = action_by_number(act);
+
+  if (paction->max_distance == ACTION_DISTANCE_UNLIMITED) {
     return secfile_insert_str(sfile, RS_ACTION_NO_MAX_DISTANCE,
                               "actions.%s",
                               action_max_range_ruleset_var_name(act)) != NULL;
   } else {
     return save_default_int(sfile, action_by_number(act)->max_distance,
-                            action_max_range_default(act),
+                            action_max_range_default(paction->result),
                             "actions",
                             action_max_range_ruleset_var_name(act));
   }
@@ -843,12 +844,15 @@ static bool save_action_max_range(struct section_file *sfile,
 **************************************************************************/
 static bool save_action_range(struct section_file *sfile, action_id act)
 {
+  struct action *paction = action_by_number(act);
+
   if (action_min_range_ruleset_var_name(act) != NULL) {
     /* Min range can be loaded from the ruleset. */
     save_default_int(sfile,
-                     action_by_number(act)->min_distance,
-                     action_min_range_default(act),
-                     "actions", action_min_range_ruleset_var_name(act));
+                     paction->min_distance,
+                     action_min_range_default(paction->result),
+                     "actions",
+                     action_min_range_ruleset_var_name(act));
   }
 
   if (action_max_range_ruleset_var_name(act) != NULL) {
