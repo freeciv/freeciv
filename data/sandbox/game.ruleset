@@ -391,7 +391,7 @@ explode_nuclear_consuming_always = TRUE;
 ; The minimal distance from the actor unit to the target. The value 0 means
 ; that the target must be at the tile of the actor unit. The value 1 means
 ; that the tile must be a tile adjacent to the actor unit.
-nuke_city_min_range = 1
+nuke_city_min_range = 0
 
 ; The maximum distance from the actor unit to the target of the
 ; "Nuke City" action. The value 1 means that the tile must be a tile
