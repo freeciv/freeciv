@@ -2980,7 +2980,38 @@ void do_unit_goto(struct tile *ptile)
 **************************************************************************/
 void do_unit_paradrop_to(struct unit *punit, struct tile *ptile)
 {
-  request_do_action(ACTION_PARADROP, punit->id, tile_index(ptile), 0 , "");
+  struct action *paradrop_action = NULL;
+
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+
+    if (!action_has_result(paction, ACTRES_PARADROP)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    if (action_prob_possible(
+          action_prob_unit_vs_tgt(paction, punit,
+                                  tile_city(ptile), NULL,
+                                  ptile, NULL))) {
+      if (paradrop_action == NULL) {
+        /* This is the first possible paradrop action. */
+        paradrop_action = paction;
+      } else {
+        /* More than one paradrop action may be possible. The user must
+         * choose. Have the server record that an action decision is wanted
+         * for this unit so the dialog will be brought up. */
+        dsend_packet_unit_sscs_set(&client.conn, punit->id,
+                                   USSDT_QUEUE, tile_index(ptile));
+        return;
+      }
+    }
+  } action_iterate_end;
+
+  if (paradrop_action != NULL) {
+    request_do_action(paradrop_action->id, punit->id,
+                      tile_index(ptile), 0 , "");
+  }
 }
 
 /**********************************************************************//**
