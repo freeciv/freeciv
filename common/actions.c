@@ -7431,8 +7431,6 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_JOIN_CITY:
   case ACTION_SPY_NUKE:
   case ACTION_SPY_NUKE_ESC:
-  case ACTION_NUKE_CITY:
-  case ACTION_NUKE_UNITS:
   case ACTION_DESTROY_CITY:
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
@@ -7475,7 +7473,6 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
-  case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -7494,6 +7491,12 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE3:
     /* Min range is not ruleset changeable */
     return NULL;
+  case ACTION_NUKE:
+    return "explode_nuclear_min_range";
+  case ACTION_NUKE_CITY:
+    return "nuke_city_min_range";
+  case ACTION_NUKE_UNITS:
+    return "nuke_units_min_range";
   case ACTION_USER_ACTION1:
     return "user_action_1_min_range";
   case ACTION_USER_ACTION2:
@@ -7535,8 +7538,6 @@ int action_min_range_default(enum action_result result)
   case ACTRES_STEAL_MAPS:
   case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
-  case ACTRES_NUKE:
-  case ACTRES_NUKE_UNITS:
   case ACTRES_DESTROY_CITY:
   case ACTRES_EXPEL_UNIT:
   case ACTRES_RECYCLE_UNIT:
@@ -7575,6 +7576,9 @@ int action_min_range_default(enum action_result result)
   case ACTRES_UNIT_MOVE:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
+    return RS_DEFAULT_ACTION_MIN_RANGE;
+  case ACTRES_NUKE:
+  case ACTRES_NUKE_UNITS:
     return RS_DEFAULT_ACTION_MIN_RANGE;
   case ACTRES_NONE:
     return RS_DEFAULT_ACTION_MIN_RANGE;
