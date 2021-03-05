@@ -296,16 +296,8 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
     idex_register_unit(&texai_world, punit);
     unit_list_prepend(ptile->units, punit);
     unit_list_prepend(plr_data->units, punit);
-  } else if (msgtype == TEXAI_MSG_UNIT_MOVED) {
-    struct tile *old_tile;
 
-    punit = idex_lookup_unit(&texai_world, info->id);
-
-    old_tile = punit->tile;
-    if (old_tile != ptile) {
-      unit_list_remove(old_tile->units, punit);
-      unit_list_prepend(ptile->units, punit);
-    }
+    unit_tile_set(punit, ptile);
   } else {
     fc_assert(msgtype == TEXAI_MSG_UNIT_CHANGED);
 
@@ -313,8 +305,6 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
 
     punit->utype = type;
   }
-
-  unit_tile_set(punit, ptile);
 }
 
 /**********************************************************************//**
