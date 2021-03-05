@@ -840,11 +840,11 @@ static void set_global_worklist(struct widget *pWidget)
   left mouse button -> add global worklist to current city list
   right mouse button -> clear city worklist and copy here global worklist.
 
-  There are problems with impv./wonder targets because those can't be doubled
-  on worklist and adding/seting can give you situation that global worklist
+  There are problems with imprv./wonder targets because those can't be doubled
+  on worklist and adding/setting can give you situation that global worklist
   have imprv./wonder entry that exist on city worklist or in building state.
   I don't make such check here and allow this "functionality" because doubled
-  impov./wonder entry are removed from city worklist during "commit" phase.
+  imprv./wonder entry are removed from city worklist during "commit" phase.
 **************************************************************************/
 static int global_worklist_callback(struct widget *pWidget)
 {
