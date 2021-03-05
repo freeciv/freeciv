@@ -777,6 +777,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     paction = action_by_number(ACTION_NUKE_CITY);
     paction->target_kind = ATK_CITY;
     paction->actor_consuming_always = TRUE;
+    paction->max_distance = RS_DEFAULT_ACTION_MAX_RANGE;
 
     paction = action_by_number(ACTION_NUKE);
     paction->actor_consuming_always = TRUE;
