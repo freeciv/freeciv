@@ -7878,8 +7878,8 @@ int action_max_range_default(int act)
 }
 
 /**********************************************************************//**
-  Return target kind ruleset variable name for the action or NULL if min
-  range can't be set in the ruleset.
+  Return target kind ruleset variable name for the action or NULL if
+  target kind can't be set in the ruleset.
 
   TODO: make actions generic and put target_kind in a field of the action.
 **************************************************************************/
