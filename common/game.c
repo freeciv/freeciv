@@ -91,13 +91,14 @@ void i_am_client(void)
 **************************************************************************/
 int civ_population(const struct player *pplayer)
 {
-  int ppl=0;
-  city_list_iterate(pplayer->cities, pcity)
-    ppl+=city_population(pcity);
-  city_list_iterate_end;
+  int ppl = 0;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    ppl += city_population(pcity);
+  } city_list_iterate_end;
+
   return ppl;
 }
-
 
 /**********************************************************************//**
   Find city with given name from any player.
