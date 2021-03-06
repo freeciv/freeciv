@@ -15,8 +15,8 @@ but wars are fought over the silliest things ...
   guide applies to C++ parts too. Headers that are included to both
   C and C++ source files follow C style.
 
-- C++-style comments (i.e., // comments) are forbidden in C code.
-  They should be used for single-line comments in C++ code.
+- C++-style comments (i.e., // comments) should be used for
+  single-line comments in C++ code. They may be used in C code.
 
 - C++11 Lambda Expressions are allowed in C++ code, and encouraged for short
   callbacks in Qt slot connections.
