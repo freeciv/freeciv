@@ -920,7 +920,7 @@ void city_widget::select_building_something()
     if (NULL != pcity) {
       if (str == "impr" && VUT_IMPROVEMENT == pcity->production.kind
           && !is_wonder(pcity->production.value.building)
-          && !is_convert_improvenemt(pcity->production.value.building)) {
+          && !is_convert_improvement(pcity->production.value.building)) {
         selection.append(QItemSelectionRange(i));
       } else if (str == "unit" && VUT_UTYPE == pcity->production.kind) {
         selection.append(QItemSelectionRange(i));
