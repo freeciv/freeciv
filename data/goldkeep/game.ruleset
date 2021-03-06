@@ -42,7 +42,7 @@ name = _("Goldkeep ruleset")
 ; /* TRANS: In the client, this is displayed alongside the contents of
 ;    README.goldkeep, which are not localized. */
 summary = _("\
-You are playing with the experimental goldkeep ruleset. \
+You are playing with the goldkeep ruleset, formerly known as 'experimental'. \
 A description of the differences from the \
 classic ruleset can be found in README.goldkeep.\
 ")
