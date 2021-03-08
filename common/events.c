@@ -223,6 +223,7 @@ static struct {
   GEN_EV(E_UNIT_ACTION_ACTOR_FAILURE,  E_S_UNIT, N_("Your unit failed")),
   GEN_EV(E_UNIT_ACTION_TARGET_HOSTILE, E_S_UNIT, N_("Unit did to you")),
   GEN_EV(E_UNIT_ACTION_TARGET_OTHER,   E_S_UNIT, N_("Unit did")),
+  GEN_EV(E_INFRAPOINTS,         E_S_NATION,      N_("Infrapoints")),
   /* The sound system also generates "e_game_quit", although there's no
    * corresponding identifier E_GAME_QUIT. */
 };
