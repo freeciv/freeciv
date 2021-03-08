@@ -39,6 +39,7 @@ flags =
     _("Nuclear")
     _("Paratroopers"), _("Can be paradropped from a friendly city or suitable base.")
     _("Marines"), _("Can launch attack from non-native tiles.")
+    _("Bomber"), _("Bad at attacking Fighters")
   }
 
 ; Names for custom unit class flags. There can be up to 8 of these.
@@ -1418,6 +1419,7 @@ bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
      "Helicopter", "Firepower1", 1
+     "Bomber", "DefenseMultiplier", 1
    }
 flags         = "AirAttacker"
 roles         = ""
@@ -1451,7 +1453,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
-flags         = "FieldUnit", "OneAttack", "AirAttacker", "HasNoZOC"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "HasNoZOC", "Bomber"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1524,6 +1526,7 @@ bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
      "Helicopter", "Firepower1", 1
+     "Bomber", "DefenseMultiplier", 1
    }
 flags         = "Partial_Invis", "AirAttacker"
 roles         = ""
@@ -1558,7 +1561,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker",
-                "HasNoZOC"
+                "HasNoZOC", "Bomber"
 roles         = ""
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
