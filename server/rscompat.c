@@ -352,6 +352,7 @@ bool rscompat_names(struct rscompat_info *info)
       { N_("CanPillage"), N_("Can pillage tile improvements.") },
       { N_("CanFortify"), N_("Gets a 50% defensive bonus while"
                              " in cities.") },
+      { N_("HutNothing"), N_("Does nothing to huts.") },
     };
     enough_new_user_flags(new_class_flags_31, unit_class,
                           UCF_LAST_USER_FLAG, UCF_LAST_USER_FLAG_3_0);
@@ -1271,6 +1272,17 @@ void rscompat_postprocess(struct rscompat_info *info)
         BV_SET(game.info.diplchance_initial_odds, act->id);
       }
     } action_iterate_end;
+  }
+
+  if (info->ver_units < 20) {
+    enum unit_class_flag_id nothing
+        = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
+
+    unit_class_iterate(uc) {
+      if (uc->hut_behavior == HUT_NOTHING) {
+        BV_SET(uc->flags, nothing);
+      }
+    } unit_class_iterate_end;
   }
 
   /* The ruleset may need adjustments it didn't need before compatibility
