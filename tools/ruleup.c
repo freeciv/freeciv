@@ -46,7 +46,7 @@
 static char *rs_selected = NULL;
 static char *od_selected = NULL;
 static int fatal_assertions = -1;
-static bool dirty = FALSE;
+static bool dirty = TRUE;
 
 /**********************************************************************//**
   Parse freeciv-ruleup commandline parameters.
@@ -77,8 +77,8 @@ static void rup_parse_cmdline(int argc, char *argv[])
 		  /* TRANS: "output" is exactly what user must type, do not translate. */
 		  _("output DIRECTORY"),
 		  _("Create directory DIRECTORY for output"));
-      cmdhelp_add(help, "d", "dirty",
-                  _("Don't clean up the ruleset before saving it"));
+      cmdhelp_add(help, "c", "clean",
+                  _("Clean up the ruleset before saving it."));
 
       /* The function below prints a header and footer for the options.
        * Furthermore, the options are sorted. */
@@ -115,8 +115,8 @@ static void rup_parse_cmdline(int argc, char *argv[])
         exit(EXIT_FAILURE);
       }
 #endif /* FREECIV_NDEBUG */
-    } else if (is_option("--dirty", argv[i])) {
-      dirty = TRUE;
+    } else if (is_option("--clean", argv[i])) {
+      dirty = FALSE;
     } else {
       fc_fprintf(stderr, _("Unrecognized option: \"%s\"\n"), argv[i]);
       cmdline_option_values_free();
