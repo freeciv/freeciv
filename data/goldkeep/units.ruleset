@@ -45,6 +45,7 @@ flags =
     _("Marines"), _("Can launch attack from non-native tiles.")
     _("Cant_Fortify")
     _("OneAttack")
+    _("Bomber"), _("Bad at attacking Fighters")
   }
 
 ; Names for custom unit class flags. There can be up to 15 of these.
@@ -1350,6 +1351,7 @@ bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
      "Helicopter", "Firepower1", 1
+     "Bomber", "DefenseMultiplier", 1
    }
 flags         = "AirAttacker", "Shield2Gold"
 roles         = ""
@@ -1384,7 +1386,7 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 flags         = "FieldUnit", "OneAttack", "AirAttacker", "Shield2Gold",
-                "HasNoZOC"
+                "HasNoZOC", "Bomber"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1458,6 +1460,7 @@ bonuses       =
    { "flag", "type", "value"
      "Helicopter", "DefenseDivider", 1
      "Helicopter", "Firepower1", 1
+     "Bomber", "DefenseMultiplier", 1
    }
 vision_layer  = "Stealth"
 flags         = "AirAttacker", "Shield2Gold"
@@ -1493,8 +1496,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 0
 vision_layer  = "Stealth"
-flags         = "FieldUnit", "OneAttack", "AirAttacker",
-                "Shield2Gold", "HasNoZOC"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "Shield2Gold",
+                 "HasNoZOC", "Bomber"
 roles         = ""
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
