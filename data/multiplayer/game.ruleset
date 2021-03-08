@@ -36,7 +36,7 @@ You are playing Freeciv with rules designed for multiplayer gaming. \
 The biggest differences from the classic ruleset are that trade routes \
 are disabled, and that most wonders can be built once by each player, \
 and affect only cities on the same continent. A full description of \
-the differences can be found in README.multiplayer.\
+the differences from the classic ruleset can be found in README.multiplayer.\
 ")
 
 ; Detailed description
