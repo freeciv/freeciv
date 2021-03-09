@@ -231,6 +231,25 @@ bool units_can_do_action(const struct unit_list *punits,
 }
 
 /************************************************************************//**
+  If has_flag is true, returns true iff any of the units are able to do
+  any action with the specified result.
+
+  If has_flag is false, returns true iff any of the units are unable do
+  any action with the specified result.
+****************************************************************************/
+bool units_can_do_action_with_result(const struct unit_list *punits,
+                                     enum action_result result, bool can_do)
+{
+  unit_list_iterate(punits, punit) {
+    if (EQ(can_do, unit_can_do_action_result(punit, result))) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/************************************************************************//**
   Return TRUE iff any of the units is a transporter that is occupied.
 ****************************************************************************/
 bool units_are_occupied(const struct unit_list *punits)
