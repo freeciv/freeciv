@@ -9,3 +9,4 @@ for file in $files; do
     echo $file
   fi
 done
+echo
