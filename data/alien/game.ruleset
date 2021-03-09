@@ -800,7 +800,7 @@ actor_reqs    =
       "DiplRel",   "Foreign",  "Local", FALSE
     }
 
-[actionenabler_paradrop_base_to_foreign]
+[actionenabler_paradrop_base_to_claimed]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",         "name",         "range", "present"
@@ -829,7 +829,7 @@ target_reqs   =
       "CityTile", "Claimed", "Local", FALSE
     }
 
-[actionenabler_paradrop_city_to_foreign]
+[actionenabler_paradrop_city_to_claimed]
 action = "Paradrop Unit"
 actor_reqs    =
     { "type",         "name",         "range", "present"
