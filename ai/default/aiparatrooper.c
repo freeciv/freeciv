@@ -130,8 +130,14 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
     if (is_ocean(pterrain)) {
       continue;
     }
-    if (!map_is_known(ptile, pplayer)) {
-      continue;
+    if (has_handicap(pplayer, H_FOG)) {
+      if (!map_is_known_and_seen(ptile, pplayer, V_MAIN)) {
+        continue;
+      }
+    } else {
+      if (!map_is_known(ptile, pplayer)) {
+        continue;
+      }
     }
     acity = tile_city(ptile);
     if (acity && !pplayers_allied(city_owner(acity), pplayer)) {
@@ -223,16 +229,24 @@ void dai_manage_paratrooper(struct ai_type *ait, struct player *pplayer,
 
       action_iterate(act_id) {
         struct action *paction = action_by_number(act_id);
+        bool possible;
 
         if (!action_has_result(paction, ACTRES_PARADROP)) {
           /* Not relevant. */
           continue;
         }
 
-        if (action_prob_possible(
-              action_prob_unit_vs_tgt(paction, punit,
-                                      tile_city(ptile_dest), NULL,
-                                      ptile_dest, NULL))) {
+        if (has_handicap(pplayer, H_FOG)) {
+          possible = action_prob_possible(
+                       action_prob_unit_vs_tgt(paction, punit,
+                                               tile_city(ptile_dest), NULL,
+                                               ptile_dest, NULL));
+        } else {
+          possible = is_action_enabled_unit_on_tile(paction->id, punit,
+                                                    ptile_dest, NULL);
+        }
+
+        if (possible) {
           jump_performed
               = unit_perform_action(unit_owner(punit), punit->id,
                                     tile_index(ptile_dest), NO_TARGET, "",
