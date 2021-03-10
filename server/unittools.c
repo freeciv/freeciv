@@ -1206,7 +1206,7 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
       move_cost = punit->moves_left;
     }
     unit_move(punit, dst_tile, move_cost,
-              NULL, FALSE, FALSE, FALSE, FALSE);
+              NULL, FALSE, FALSE, FALSE, FALSE, FALSE);
 
     return TRUE;
   }
@@ -1269,7 +1269,7 @@ void bounce_unit(struct unit *punit, bool verbose)
      * because the transport is Unreachable and the unit doesn't have it in
      * its embarks field or because "Transport Embark" isn't enabled? Kept
      * like it was to preserve the old rules for now. -- Sveinung */
-    unit_move(punit, ptile, 0, NULL, TRUE, FALSE, FALSE, FALSE);
+    unit_move(punit, ptile, 0, NULL, TRUE, FALSE, FALSE, FALSE, FALSE);
     return;
   }
 
@@ -2782,7 +2782,9 @@ bool do_airline(struct unit *punit, struct city *pdest_city,
 
   unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
             /* Can only airlift to allied and domestic cities */
-            FALSE, FALSE, FALSE, FALSE);
+            FALSE, FALSE, FALSE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   /* Update airlift fields. */
   if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
@@ -2917,9 +2919,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
                 NULL, game.info.paradrop_to_transport,
                 paction->result == ACTRES_PARADROP_CONQUER,
                 paction->result == ACTRES_PARADROP_CONQUER,
-                BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)
-                || BV_ISSET(paction->sub_results,
-                            ACT_SUB_RES_HUT_FRIGHTEN))) {
+                BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+                BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN))) {
     /* Ensure we finished on valid state. */
     fc_assert(can_unit_exist_at_tile(&(wld.map), punit, unit_tile(punit))
               || unit_transported(punit));
@@ -2967,15 +2968,12 @@ static bool hut_get_limited(struct unit *punit)
   Due to the effects in the scripted hut behavior can not be predicted,
   unit_enter_hut returns nothing.
 **************************************************************************/
-static void unit_enter_hut(struct unit *punit)
+static void unit_enter_hut(struct unit *punit, bool frighten_hut)
 {
   struct player *pplayer = unit_owner(punit);
   int id = punit->id;
-  enum hut_behavior behavior = unit_class_get(punit)->hut_behavior;
   struct tile *ptile = unit_tile(punit);
   bool hut = FALSE;
-
-  fc_assert_ret(behavior != HUT_NOTHING);
 
   extra_type_by_rmcause_iterate(ERM_ENTER, pextra) {
     if (tile_has_extra(ptile, pextra)
@@ -2992,7 +2990,7 @@ static void unit_enter_hut(struct unit *punit)
 
       /* FIXME: enable different classes
        * to behave differently with different huts */
-      if (behavior == HUT_FRIGHTEN) {
+      if (frighten_hut) {
         script_server_signal_emit("hut_frighten", punit,
                                   extra_rule_name(pextra));
       } else if (is_ai(pplayer) && has_handicap(pplayer, H_LIMITEDHUTS)) {
@@ -3614,7 +3612,7 @@ static void unit_move_data_unref(struct unit_move_data *pdata)
 bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
                struct unit *embark_to, bool find_embark_target,
                bool conquer_city_allowed, bool conquer_extras_allowed,
-               bool enter_hut_allowed)
+               bool enter_hut, bool frighten_hut)
 {
   struct player *pplayer;
   struct tile *psrctile;
@@ -4003,9 +4001,9 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
     unit_lives = unit_survive_autoattack(punit);
   }
 
-  if (unit_lives && enter_hut_allowed) {
+  if (unit_lives && (enter_hut || frighten_hut)) {
     /* Is there a hut? */
-    unit_enter_hut(punit);
+    unit_enter_hut(punit, frighten_hut);
     unit_lives = unit_is_alive(saved_id);
   }
 
