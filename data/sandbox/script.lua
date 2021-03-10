@@ -461,7 +461,17 @@ signal.connect("action_started_unit_unit", "action_started_unit_unit_callback")
 -- Use Ancient Transportation Network
 function transport_network(action, actor, target)
   local actor_name = actor.utype:name_translation()
-  local survived = actor:teleport(target)
+  local survived = actor:teleport(target,
+                                  -- allow transport to transport
+                                  find.transport_unit(actor.owner,
+                                                      actor.utype, target),
+                                  true,
+                                  -- assume cities and castles considered
+                                  -- the ancient hub when they were built
+                                  false, false,
+                                  -- a unit appearing from the Ancient
+                                  -- Transportation Network is scary to see
+                                  false, true)
 
   if not survived then
     notify.event(actor.owner, target,
