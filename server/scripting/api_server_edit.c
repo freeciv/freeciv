@@ -193,8 +193,8 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
                      * return without doing anything if the unit was
                      * HUT_NOTHING. Setting this parameter to FALSE makes
                      * sure unit_enter_hut() isn't called. */
-                    unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
-                    || unit_can_do_action_result(punit, ACTRES_HUT_ENTER));
+                    unit_can_do_action_result(punit, ACTRES_HUT_ENTER),
+                    unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN));
   if (alive) {
     struct player *owner = unit_owner(punit);
 
@@ -855,8 +855,8 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
                     * return without doing anything if the unit was
                     * HUT_NOTHING. Setting this parameter to FALSE makes
                     * sure unit_enter_hut() isn't called. */
-                   unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
-                   || unit_can_do_action_result(punit, ACTRES_HUT_ENTER));
+                   unit_can_do_action_result(punit, ACTRES_HUT_ENTER),
+                   unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN));
 }
 
 /*************************************************************************//**

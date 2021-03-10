@@ -495,7 +495,9 @@ static bool do_conquer_extras(struct player *act_player,
   act_utype = unit_type_get(act_unit);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, TRUE, FALSE);
+            NULL, FALSE, FALSE, TRUE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   success = extra_owner(tgt_tile) == act_player;
 
@@ -672,7 +674,9 @@ static bool do_disembark(struct player *act_player,
   fc_assert_ret_val(paction, FALSE);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, FALSE, FALSE);
+            NULL, FALSE, FALSE, FALSE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   return TRUE;
 }
@@ -697,7 +701,9 @@ static bool do_unit_hut(struct player *act_player,
   fc_assert_ret_val(paction, FALSE);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, FALSE, TRUE);
+            NULL, FALSE, FALSE, FALSE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   return TRUE;
 }
@@ -733,7 +739,9 @@ static bool do_unit_embark(struct player *act_player,
   tgt_tile = unit_tile(tgt_unit);
   move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
   unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE,
-            FALSE, FALSE, FALSE);
+            FALSE, FALSE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   return TRUE;
 }
@@ -4793,7 +4801,9 @@ static bool do_unit_conquer_city(struct player *act_player,
   /* Sanity check */
   fc_assert_ret_val(tgt_tile, FALSE);
 
-  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE, TRUE, FALSE);
+  unit_move(act_unit, tgt_tile, move_cost, NULL, FALSE, TRUE, TRUE,
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   /* The city may have been destroyed during the conquest. */
   success = (!city_exist(tgt_city_id)
@@ -4898,8 +4908,8 @@ static bool unit_do_regular_move(struct player *actor_player,
             FALSE,
             /* Don't override "Conquer Extras" */
             FALSE,
-            /* Don't override "Enter Hut" */
-            FALSE);
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
+            BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
   /* May cause an incident */
   action_consequence_success(paction, actor_player, act_utype,
@@ -5104,6 +5114,8 @@ bool unit_move_igzoc(struct unit *punit, struct tile *pdesttile)
               /* Don't override "Conquer Extras" */
               FALSE,
               /* Don't override "Enter Hut" */
+              FALSE,
+              /* Don't override "Frighten Hut" */
               FALSE);
 
     return TRUE;
