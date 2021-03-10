@@ -116,8 +116,13 @@ module edit {
     @ create_unit_full (lua_State *L, Player *pplayer, Tile *ptile,
                         Unit_Type *ptype, int veteran_level, City *homecity,
                         int moves_left, int hp_left, Unit *ptransport);
-  bool api_edit_unit_teleport
+  bool api_edit_unit_teleport_old
     @ unit_teleport(lua_State *L, Unit *self, Tile *dest);
+  bool api_edit_unit_teleport
+    @ unit_teleport(lua_State *L, Unit *self, Tile *dest,
+                    Unit *embark_to, bool allow_disembark,
+                    bool conquer_city, bool conquer_extra,
+                    bool enter_hut, bool frighten_hut);
   void api_edit_unit_kill
     @ unit_kill(lua_State *L, Unit *self, const char *reason,
                 Player *killer);
@@ -176,8 +181,13 @@ module edit {
     @ unit_turn(lua_State *L, Unit *punit, Direction dir);
   void api_edit_player_victory
     @ player_victory (lua_State *L, Player *self);
-  bool api_edit_unit_move
+  bool api_edit_unit_move_old
     @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost);
+  bool api_edit_unit_move
+    @ unit_move(lua_State *L, Unit *self, Tile *moveto, int movecost,
+                Unit *embark_to, bool allow_disembark,
+                bool conquer_city, bool conquer_extra,
+                bool enter_hut, bool frighten_hut);
   void api_edit_unit_moving_disallow
     @ movement_disallow(lua_State *L, Unit *self);
   void api_edit_unit_moving_allow
@@ -351,8 +361,18 @@ function City:add_history(amount)
 end
 
 -- Server functions for Unit module
-function Unit:teleport(dest)
-  return edit.unit_teleport(self, dest)
+function Unit:teleport(dest,
+                       embark_to, allow_disembark,
+                       conquer_city, conquer_extra,
+                       enter_hut, frighten_hut)
+  if allow_disembark == nil then
+    return edit.unit_teleport(self, dest)
+  else
+    return edit.unit_teleport(self, dest, 
+                              embark_to, allow_disembark,
+                              conquer_city, conquer_extra,
+                              enter_hut, frighten_hut)
+  end
 end
 
 function Unit:perform_action(action, target, sub_target)
@@ -373,8 +393,18 @@ function Unit:kill(reason, killer)
   edit.unit_kill(self, reason, killer)
 end
 
-function Unit:move(moveto, movecost)
-  return edit.unit_move(self, moveto, movecost)
+function Unit:move(moveto, movecost,
+                   embark_to, allow_disembark,
+                   conquer_city, conquer_extra,
+                   enter_hut, frighten_hut)
+  if allow_disembark == nil then
+    return edit.unit_move(self, moveto, movecost)
+  else
+    return edit.unit_move(self, moveto, movecost,
+                          embark_to, allow_disembark,
+                          conquer_city, conquer_extra,
+                          enter_hut, frighten_hut)
+  end
 end
 
 function Unit:movement_disallow()
