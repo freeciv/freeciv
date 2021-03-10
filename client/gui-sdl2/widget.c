@@ -59,7 +59,7 @@ static struct widget *pBeginMainWidgetList;
 static SDL_Surface *info_label = NULL;
 
 /**************************************************************************
-  Correct backgroud size ( set min size ). Used in create widget
+  Correct background size ( set min size ). Used in create widget
   functions.
 **************************************************************************/
 void correct_size_bcgnd_surf(SDL_Surface *ptheme,

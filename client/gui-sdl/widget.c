@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ static struct widget *pBeginMainWidgetList;
 static SDL_Surface *pInfo_Label = NULL;
 
 /**************************************************************************
-  Correct backgroud size ( set min size ). Used in create widget
+  Correct background size ( set min size ). Used in create widget
   functions.
 **************************************************************************/
 void correct_size_bcgnd_surf(SDL_Surface *ptheme,
