@@ -156,7 +156,52 @@ Unit *api_edit_create_unit_full(lua_State *L, Player *pplayer, Tile *ptile,
 /*************************************************************************//**
   Teleport unit to destination tile
 *****************************************************************************/
-bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest)
+bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
+                            Unit *embark_to, bool allow_disembark,
+                            bool conquer_city, bool conquer_extra,
+                            bool enter_hut, bool frighten_hut)
+{
+  bool alive;
+  struct city *pcity;
+
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
+
+  if (!allow_disembark && unit_transported(punit)) {
+    /* Can't leave the transport. */
+    return TRUE;
+  }
+
+  pcity = tile_city(dest);
+
+  /* Teleport first so destination is revealed even if unit dies */
+  alive = unit_move(punit, dest, 0,
+                    embark_to, embark_to != NULL,
+                    conquer_city, conquer_extra,
+                    enter_hut, frighten_hut);
+  if (alive) {
+    struct player *owner = unit_owner(punit);
+
+    if (!can_unit_exist_at_tile(&(wld.map), punit, dest)
+        && !unit_transported(punit)) {
+      wipe_unit(punit, ULR_NONNATIVE_TERR, NULL);
+      return FALSE;
+    }
+    if (is_non_allied_unit_tile(dest, owner)
+        || (pcity && !pplayers_allied(city_owner(pcity), owner))) {
+      wipe_unit(punit, ULR_STACK_CONFLICT, NULL);
+      return FALSE;
+    }
+  }
+
+  return alive;
+}
+
+/*************************************************************************//**
+  Teleport unit to destination tile
+*****************************************************************************/
+bool api_edit_unit_teleport_old(lua_State *L, Unit *punit, Tile *dest)
 {
   bool alive;
   struct city *pcity;
@@ -819,7 +864,32 @@ void api_edit_player_victory(lua_State *L, Player *pplayer)
   Move a unit.
 *****************************************************************************/
 bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
-                        int movecost)
+                        int movecost,
+                        Unit *embark_to, bool disembark,
+                        bool conquer_city, bool conquer_extra,
+                        bool enter_hut, bool frighten_hut)
+{
+  LUASCRIPT_CHECK_STATE(L, FALSE);
+  LUASCRIPT_CHECK_SELF(L, punit, FALSE);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
+  LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
+
+  if (!disembark && unit_transported(punit)) {
+    /* Can't leave the transport. */
+    return TRUE;
+  }
+
+  return unit_move(punit, ptile, movecost,
+                   embark_to, embark_to != NULL,
+                   conquer_city, conquer_extra,
+                   enter_hut, frighten_hut);
+}
+
+/*************************************************************************//**
+  Move a unit.
+*****************************************************************************/
+bool api_edit_unit_move_old(lua_State *L, Unit *punit, Tile *ptile,
+                            int movecost)
 {
   struct city *pcity;
 
