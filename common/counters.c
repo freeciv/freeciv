@@ -20,7 +20,7 @@
 
 static struct counter counters[MAX_COUNTERS] =
 {
-  { "Owned", COUNTER_OWNED, 0, 0 }
+  { "Owned", COUNTER_OWNED, CTGT_CITY, 0, 0 }
 };
 
 static struct counter *counters_city[MAX_COUNTERS];
