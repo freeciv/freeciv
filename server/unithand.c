@@ -960,6 +960,11 @@ static bool foreign_tgt_tile_makes_illegal(const struct action *paction,
                                            const struct unit *act_unit,
                                            const struct tile *tgt_tile)
 {
+  if (paction == NULL) {
+    /* Only a specific action, not any action, is supported right now. */
+    return FALSE;
+  }
+
   if (action_get_target_kind(paction) != ATK_TILE || tgt_tile == NULL) {
     /* Not relevant */
     return FALSE;
