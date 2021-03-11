@@ -3845,7 +3845,7 @@ is_action_possible(const action_id wanted_action,
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees the target tile. */
       if (!can_unit_exist_at_tile(&(wld.map), actor_unit, target_tile)
-          && (!game.info.paradrop_to_transport
+          && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
               || !unit_could_load_at(actor_unit, target_tile))) {
         return TRI_NO;
       }

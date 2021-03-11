@@ -2797,9 +2797,10 @@ bool do_airline(struct unit *punit, struct city *pdest_city,
                 _("%s transported successfully."),
                 unit_link(punit));
 
-  unit_move(punit, pdest_city->tile, punit->moves_left, NULL,
+  unit_move(punit, pdest_city->tile, punit->moves_left,
+            NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
             /* Can only airlift to allied and domestic cities */
-            FALSE, FALSE, FALSE,
+            FALSE, FALSE,
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
@@ -2894,7 +2895,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
 
   /* Safe terrain, really? Not transformed since player last saw it. */
   if (!can_unit_exist_at_tile(&(wld.map), punit, ptile)
-      && (!game.info.paradrop_to_transport
+      && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
           || !unit_could_load_at(punit, ptile))) {
     map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
@@ -2933,7 +2934,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
   if (unit_move(punit, ptile,
                 /* Done by Action_Success_Actor_Move_Cost */
                 0,
-                NULL, game.info.paradrop_to_transport,
+                NULL, BV_ISSET(paction->sub_results,
+                               ACT_SUB_RES_MAY_EMBARK),
                 paction->result == ACTRES_PARADROP_CONQUER,
                 paction->result == ACTRES_PARADROP_CONQUER,
                 BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),

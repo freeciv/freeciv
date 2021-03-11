@@ -6541,10 +6541,6 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_int_default(file, RS_DEFAULT_CIVIL_WAR_UNHAPPY,
                                    "civstyle.civil_war_bonus_unhappy");
 
-    game.info.paradrop_to_transport
-      = secfile_lookup_bool_default(file, FALSE,
-                                    "civstyle.paradrop_to_transport");
-
     /* TODO: move to global_unit_options */
     game.info.base_bribe_cost
       = secfile_lookup_int_default_min_max(file,
@@ -6905,6 +6901,20 @@ static bool load_ruleset_game(struct section_file *file, bool act,
              ACT_SUB_RES_HUT_FRIGHTEN);
       BV_SET(action_by_number(ACTION_PARADROP_FRIGHTEN_CONQUER)->sub_results,
              ACT_SUB_RES_HUT_FRIGHTEN);
+
+      /* Unit May Embark */
+      action_iterate(act_id) {
+        struct action *paction = action_by_number(act_id);
+
+        if (secfile_lookup_bool_default(file, FALSE,
+                                        "civstyle.paradrop_to_transport")
+            && (action_has_result(paction, ACTRES_PARADROP)
+                || action_has_result(paction, ACTRES_PARADROP_CONQUER))) {
+          BV_SET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK);
+        }
+
+        /* Embark actions will always embark, not maybe embark. */
+      } action_iterate_end;
     }
 
     if (ok) {
