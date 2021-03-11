@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-01-27 09:49+0100\n"
-"PO-Revision-Date: 2020-08-02 17:15+0200\n"
+"POT-Creation-Date: 2021-03-08 12:50+0100\n"
+"PO-Revision-Date: 2021-03-11 08:31+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -25,6 +25,10 @@ msgstr "Fermer"
 #: tools/ruledit/conversion_log.cpp:46
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
+
+#: tools/ruledit/edit_utype.cpp:48
+msgid "Requirement"
+msgstr "Prérequis"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -232,17 +236,22 @@ msgstr "Êtes-vous sûr(e) que vous voulez quitter ?"
 msgid "Quit?"
 msgstr "Quitter ?"
 
-#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_extras.cpp:64
+#: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Nom dans les règles"
 
-#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_extras.cpp:72
+#: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nom"
 
-#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_good.cpp:84
+#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_extras.cpp:83
+#: tools/ruledit/tab_good.cpp:84 tools/ruledit/tab_gov.cpp:83
 msgid "Requirements"
 msgstr "Prérequis"
 
@@ -305,6 +314,18 @@ msgstr "Activateur (acteur)"
 msgid "action enabler for %s"
 msgstr "activateur d'action pour %s"
 
+#: tools/ruledit/tab_extras.cpp:87
+msgid "Add Extra"
+msgstr "Ajouter Extra"
+
+#: tools/ruledit/tab_extras.cpp:92
+msgid "Remove this Extra"
+msgstr "Supprimer cet extra"
+
+#: tools/ruledit/tab_extras.cpp:177
+msgid "An extra with that rule name already exists!"
+msgstr "Un extra avec ce nom existe déjà dans les règles !"
+
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
 msgstr "Ajouter un bien"
@@ -315,7 +336,19 @@ msgstr "Supprimer ce bien"
 
 #: tools/ruledit/tab_good.cpp:178
 msgid "A good with that rule name already exists!"
-msgstr "Un bien avec ce nom de règle existe déjà !"
+msgstr "Un bien avec ce nom existe déjà dans les règles !"
+
+#: tools/ruledit/tab_gov.cpp:87
+msgid "Add Government"
+msgstr "Ajouter un Gouvernement"
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Remove this Government"
+msgstr "Supprimer ce Gouvernement"
+
+#: tools/ruledit/tab_gov.cpp:177
+msgid "A government with that rule name already exists!"
+msgstr "Un gouvernement avec ce nom existe déjà dans les règles !"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
@@ -453,6 +486,18 @@ msgstr "Jamais"
 msgid "A tech with that rule name already exists!"
 msgstr "Une technologie avec ce nom existe déjà dans les règles !"
 
+#: tools/ruledit/tab_terrains.cpp:83
+msgid "Add Terrain"
+msgstr "Ajouter un Terrain"
+
+#: tools/ruledit/tab_terrains.cpp:88
+msgid "Remove this Terrain"
+msgstr "Supprimer ce Terrain"
+
+#: tools/ruledit/tab_terrains.cpp:173
+msgid "A terrain with that rule name already exists!"
+msgstr "Un terrain avec ce nom existe déjà dans les règles !"
+
 #: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
 msgstr "Éditer l'unité"
@@ -481,6 +526,15 @@ msgstr "Valeur :"
 msgid "Range:"
 msgstr "Plage :"
 
+#: tools/ruledit/req_edit.cpp:119 tools/ruledit/req_edit.cpp:281
+msgid "Allows"
+msgstr "Permet"
+
+#: tools/ruledit/req_edit.cpp:120 tools/ruledit/req_edit.cpp:283
+#: tools/ruledit/req_edit.cpp:335
+msgid "Prevents"
+msgstr "Empêche"
+
 #: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Ajouter prerequis"
@@ -488,6 +542,11 @@ msgstr "Ajouter prerequis"
 #: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Supprimer prérequis"
+
+#: tools/ruledit/req_edit.cpp:166
+#, c-format
+msgid "%s prevents"
+msgstr "%s empêche"
 
 #: tools/ruledit/validity.c:50
 msgid "Effect"
