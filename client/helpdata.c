@@ -2863,6 +2863,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("  * if a suitable hut is at the targetet tile it"
                        " will be frightened.\n"));
       }
+      if (BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: indented unit action property, preserve
+                      * leading spaces.
+                      * The %s is the unit type name */
+                     _("  * the %s may end up loaded into a transport if it"
+                       " can't survive on its own at the target tile.\n"),
+                     utype_name_translation(utype));
+      }
 
       i = 0;
       action_iterate(blocker_id) {

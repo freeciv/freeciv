@@ -592,7 +592,6 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL civil_war_enabled;
   SINT16 civil_war_bonus_celebrating;
   SINT16 civil_war_bonus_unhappy;
-  BOOL paradrop_to_transport;
   UINT16 granularity;
 end
 

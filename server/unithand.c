@@ -495,7 +495,8 @@ static bool do_conquer_extras(struct player *act_player,
   act_utype = unit_type_get(act_unit);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, TRUE,
+            NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
+            FALSE, TRUE,
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
@@ -674,7 +675,8 @@ static bool do_disembark(struct player *act_player,
   fc_assert_ret_val(paction, FALSE);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, FALSE,
+            NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
+            FALSE, FALSE,
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
@@ -701,7 +703,8 @@ static bool do_unit_hut(struct player *act_player,
   fc_assert_ret_val(paction, FALSE);
 
   unit_move(act_unit, tgt_tile, move_cost,
-            NULL, FALSE, FALSE, FALSE,
+            NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
+            FALSE, FALSE,
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
 
@@ -738,7 +741,9 @@ static bool do_unit_embark(struct player *act_player,
   /* Do it. */
   tgt_tile = unit_tile(tgt_unit);
   move_cost = map_move_cost_unit(&(wld.map), act_unit, tgt_tile);
-  unit_move(act_unit, tgt_tile, move_cost, tgt_unit, FALSE,
+  unit_move(act_unit, tgt_tile, move_cost,
+            tgt_unit, BV_ISSET(paction->sub_results,
+                               ACT_SUB_RES_MAY_EMBARK),
             FALSE, FALSE,
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER),
             BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN));
@@ -1308,7 +1313,7 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
              && map_is_known_and_seen(target_tile, unit_owner(punit),
                                       V_MAIN)
              && (!can_unit_exist_at_tile(&(wld.map), punit, target_tile)
-                 && (!game.info.paradrop_to_transport
+                 && (!BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK)
                      || !unit_could_load_at(punit, target_tile)))) {
     explnat->kind = ANEK_BAD_TERRAIN_TGT;
     explnat->no_act_terrain = tile_terrain(target_tile);
@@ -4902,8 +4907,7 @@ static bool unit_do_regular_move(struct player *actor_player,
   int move_cost = map_move_cost_unit(&(wld.map), actor_unit, target_tile);
 
   unit_move(actor_unit, target_tile, move_cost,
-            /* Don't override "Transport Embark" */
-            NULL, FALSE,
+            NULL, BV_ISSET(paction->sub_results, ACT_SUB_RES_MAY_EMBARK),
             /* Don't override "Conquer City" */
             FALSE,
             /* Don't override "Conquer Extras" */
