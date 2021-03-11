@@ -2865,16 +2865,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
       /* Custom action sub result specific information. */
       if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)) {
-        /* TRANS: indented unit action property, preserve
-         * leading spaces. */
         cat_snprintf(buf, bufsz,
+                     /* TRANS: indented unit action property, preserve
+                      * leading spaces. */
                      _("  * if a suitable hut is at the targetet tile it"
                        " will be entered.\n"));
       }
       if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN)) {
-        /* TRANS: indented unit action property, preserve
-         * leading spaces. */
         cat_snprintf(buf, bufsz,
+                     /* TRANS: indented unit action property, preserve
+                      * leading spaces. */
                      _("  * if a suitable hut is at the targetet tile it"
                        " will be frightened.\n"));
       }
