@@ -58,6 +58,7 @@ A Spy can steal gold from other players (unless you forget Banking).
 Paradropping:
 It's impossible for green Paratroopers to land on Forest and Jungle
 tiles. Veteran, hardened and elite Paratroopers can still do it.
+It is possible to paradrop to a transport.
 
 Unit Disbanding:
 A unit can be Disbandable, Undisbandable or ConsensusUndisbandable. The
