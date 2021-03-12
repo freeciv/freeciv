@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "deprecations.h"
 #include "rand.h"
 
 /* common */
@@ -50,6 +51,21 @@
 
 #include "api_server_edit.h"
 
+
+/**********************************************************************//**
+  Warn about use of a deprecated number of arguments.
+**************************************************************************/
+static void deprecated_semantic_warning(const char *call, const char *aka,
+                                        const char *deprecated_since)
+{
+  if (are_deprecation_warnings_enabled()) {
+    log_deprecation_always(
+        "Deprecated: Lua call %s aka %s filling out the remaining"
+        " parameters based on the old rules is deprecated"
+        " since Freeciv %s.",
+        call, aka, deprecated_since);
+  }
+}
 
 /*************************************************************************//**
   Unleash barbarians on a tile, for example from a hut
@@ -205,6 +221,9 @@ bool api_edit_unit_teleport_old(lua_State *L, Unit *punit, Tile *dest)
 {
   bool alive;
   struct city *pcity;
+
+  deprecated_semantic_warning("edit.unit_teleport(unit, dest)",
+                              "Unit:teleport(dest)", "3.1");
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
@@ -892,6 +911,9 @@ bool api_edit_unit_move_old(lua_State *L, Unit *punit, Tile *ptile,
                             int movecost)
 {
   struct city *pcity;
+
+  deprecated_semantic_warning("edit.unit_move(unit, moveto, movecost)",
+                              "Unit:move(moveto, movecost)", "3.1");
 
   LUASCRIPT_CHECK_STATE(L, FALSE);
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
