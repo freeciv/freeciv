@@ -105,3 +105,26 @@ int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
                                   NULL,
                                   etype);
 }
+
+/***********************************************************************//**
+  Returns the effect bonus at a tile and the specified unit.
+  Unlike effects.unit_bonus() the city the effect is evaluated against is
+  the city at ptile tile rather than the city at the unit's tile.
+***************************************************************************/
+int api_effects_unit_vs_tile_bonus(lua_State *L, Unit *punit, Tile *ptile,
+                                   const char *effect_type)
+{
+  enum effect_type etype = EFT_COUNT;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, effect_type, 4, string, 0);
+
+  etype = effect_type_by_name(effect_type, fc_strcasecmp);
+  if (!effect_type_is_valid(etype)) {
+    return 0;
+  }
+
+  return get_unit_vs_tile_bonus(ptile, punit, etype);
+}
