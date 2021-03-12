@@ -76,3 +76,32 @@ int api_effects_city_bonus(lua_State *L, City *pcity, const char *effect_type)
   }
   return get_city_bonus(pcity, etype);
 }
+
+/**********************************************************************//**
+  Returns the effect bonus at a unit.
+  Can take other_player to support local DiplRel requirements.
+**************************************************************************/
+int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
+                           const char *effect_type)
+{
+  enum effect_type etype = EFT_COUNT;
+
+  LUASCRIPT_CHECK_STATE(L, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, 0);
+  LUASCRIPT_CHECK_ARG_NIL(L, effect_type, 4, string, 0);
+
+  etype = effect_type_by_name(effect_type, fc_strcasecmp);
+  if (!effect_type_is_valid(etype)) {
+    return 0;
+  }
+
+  return get_target_bonus_effects(NULL,
+                                  unit_owner(punit),
+                                  other_player,
+                                  unit_tile(punit)
+                                    ? tile_city(unit_tile(punit)) : NULL,
+                                  NULL, unit_tile(punit),
+                                  punit, unit_type_get(punit), NULL, NULL,
+                                  NULL,
+                                  etype);
+}

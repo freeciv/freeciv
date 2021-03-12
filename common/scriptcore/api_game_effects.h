@@ -28,6 +28,8 @@ int api_effects_player_bonus(lua_State *L, Player *pplayer,
                              const char *effect_type);
 int api_effects_city_bonus(lua_State *L, City *pcity,
                            const char *effect_type);
+int api_effects_unit_bonus(lua_State *L, Unit *punit, Player *other_player,
+                           const char *effect_type);
 
 #ifdef __cplusplus
 }
