@@ -10,7 +10,557 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 2.6.x to 3.0.0
 ---------------------------------
 
-[TODO]
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-03-12)
+
+   The major changes in Freeciv 3.0 are civ2civ3 being the default ruleset,
+   addition of the alien ruleset, hex maps as the default topology on
+   new installations, and a whole lot of extra flexibility to
+   create custom rulesets.
+
+   As is usual for major releases, 3.0 clients cannot interoperate with
+   pre-3.0 servers, and vice versa. Most pre-3.0 savegames can however
+   be loaded into 3.0, and in most cases, the supplied rulesets have not
+   changed so much as to make it difficult to complete a game started
+   with 2.6.x's rules.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+     * civ2civ3 is now the default ruleset GNAPATCH#4739
+     * Alien ruleset, and related Alio tileset, are included in
+       Freeciv distribution.
+       They have been separately available already for earlier versions.
+     * Hex topology is the default in new installations.
+       Old installations may have saved preferences that make them
+       still to use iso topology. GNAPATCH#7915
+
+Miscellaneous rule changes affecting all or most rulesets:
+
+     * Number of the first turn is now T1. T0 refers only to pre-game.
+       GNAPATCH#6599
+     * Attempt to steal a tech causes incident also if it fails
+       because of lost diplomatic battle. In earlier versions there
+       was no incident if diplomat died already in the battle.
+       GNAPATCH#6101
+     * First default team name is "Team 1", no longer "Team 0"
+       GNAPATCH#7506
+     * Attack and following automatic move when occupychance is
+       above zero no longer have double move cost GNA#20945
+     * Caravans can no longer help build Palace in supplied rulesets
+       HRM#705580
+     * Map is revealed to a team when all members have died
+       and REVEAL_MAP_DEAD is set. Old behavior was never to reveal map
+       for a teams with multiple members. HRM#658081
+     * Possibility to set game start year in editor has been removed.
+       It always was a broken feature HRM#767130
+     * One now gets to know culture value of another player,
+       if there's an embassy HRM#820730
+     * Supplied scenarios can now be played with any compatible ruleset,
+       not only with the default one HRM#821962
+     * Editor has rudimentary support for owned extras HRM#851220
+     * There's no longer move cost for an attempt to do an illegal action
+       when it was clear beforehand that it's illegal, i.e.,
+       when user request an action by accident HRM#879104
+     * Intelligence gained from an embassy is shared between team members
+       HRM#878898
+
+     * New / Changed game settings
+          + There's a new fracture map generator GNAPATCH#6882
+          + New caravan_bonus_style and trade_revenue_style
+            server settings HRM#765978
+          + Tech leakage rate can be controlled by new techleak
+            server setting HRM#764944
+          + New multiresearch server setting can be used to enable mode
+            where switching research target does not move bulbs to
+            new research, but they will be there when researching that
+            original tech again HRM#769897
+          + Global Warming and Nuclear Winter accumulation rates can be
+            adjused by new globalwarming_percent and
+            nuclearwinter_percent server settings HRM#770804
+          + Spaceship Travel Time can be adjusted with the
+            new spaceship_travel_time server settting HRM#800950
+
+Rule changes to specific rulesets:
+
+     * civ2civ3 ruleset
+          + Agents investigating cities or establishing embassies
+            survive the mission HRM#683542
+          + Future techs cost less as a result of ruleset now using
+            Linear tech cost HRM#731498
+          + Culture victory values tweaked. You now need only
+            33% more culture points than second best player,
+            but a minimum of 20000 points, to win by culture victory.
+            Culture victory is not enabled by default. HRM#830181
+
+     * All of classic / multiplayer / experimental rulesets
+          + Fighters' defense has been doubled against bombers HRM#922015
+
+     * multiplayer ruleset
+          + Buy cost of Small Wonders doubled, like they were
+            in freeciv-2.5. The difference to freeciv-2.5 is that
+            Palace is handled like regular building, not a wonder
+            HRM#767397
+
+     * experimental ruleset
+          + Marco Polo grants embassies to met players only GNAPATCH#5889
+
+     * civ1 / civ2 rulesets
+          + There is only one barbarian type that attacks both from
+            land and sea in new games started with 3.0 GNAPATCH#5522
+          + (civ2) Added Plant Nuclear Device diplomat action GNAPATCH#5627
+          + Triremes may leave coast temporarily, but will sink if not at
+            coast on turn change GNAPATCH#7350
+          + (civ2) Airbase hides units inside from non-allied players
+            GNAPATCH#7983
+          + (civ1) Units cannot be upgraded HRM#741525
+          + (civ2) Fighters have defense bonuses against Bombers to
+            mimic civ2 scramble mechanics HRM#865085
+
+     * sandbox
+          + Barbarians have been enabled. There is one barbarian type that
+            attacks both from land and sea GNAPATCH#6532
+          + Battleships and Carriers are disbandable under some
+            governments only GNAPATCH#6596
+          + Nukes for which upkeep is not met, explode GNAPATCH#6637
+          + Learning Electricity will give vision everywhere within
+            ones borders when the borders setting does not give it from
+            the beginning of the game GNAPATCH#6782
+          + Spies can Steal Maps GNAPATCH#6783
+          + Green Paratroopers cannot land on Forest or Jungle tiles.
+            More experiences one still can. GNAPATCH#6982
+          + Airlifting heavier units requires more advanced technology
+            GNAPATCH#7045
+          + Infantry and mounted units can expel foreign civilian units
+            within ones borders GNAPATCH#7117
+          + Leader unit can Destroy own cities GNAPATCH#7204
+          + There's extra Hermit's Place appearing spontaneously during
+            early game, and can give tech when entered GNAPATCH#6616
+          + There's several Goods that traderoutes can carry.
+            Some of them are chained so that a city can export
+            certain good only if it imports something else. GNAPATCH#7687
+          + Republic corruption increase by the distance from capital
+            depends on total map size GNAPATCH#7597
+          + Fortress and Airbase hide units inside from non-allied players
+            GNAPATCH#7984
+          + Buoys are visible only to players who know Radio HRM#658922
+          + City conquest is no longer guaranteed to give a tech.
+            After University is known, techs are not got from conquest.
+            Before that the chance is 50% HRM#732488
+          + 25% of the citizens of the conquered city are immediately
+            converted to the nationality of the conqueror HRM#733781
+          + Combat lasts 15 rounds at max, even if neither party dies in
+            that time HRM#735849
+          + Chance of gaining veterancy levels from combat reduced
+            HRM#804128
+          + Caravel needs to visit some safe coast at least every
+            third turn to get supplies, or to be lost HRM#732562
+          + Bulbs are not carried from a research to another when
+            changing it, but are kept towards the original until one
+            switches back to it HRM#820915
+          + Chance of Plague from trade route has been doubled HRM#877397
+          + Fortresses can be updated by building Castle as their
+            administrative center, to claim terrain osdn#41433
+          + A Spy can Steal Gold after Banking is discovered osdn#41609
+          + Culture victory values tweaked. You now need only 33% more
+            culture points than second best player, but a minimum of
+            20000 points, to win by culture victory.
+            Culture victory is not enabled by default. HRM#830181
+
+Changes affecting other rulesets / modders
+
+     * Maximum number of achievements defined in a ruleset has been
+       increased to 40 GNAPATCH#7097
+     * New barbarian type LandAndSea makes it possible to define just
+       one barbarian nation in a ruleset instead of separate Land and
+       Sea barbarians. GNAPATCH#5521
+     * Have_Embassies effect has been split to two; new Have_Contacts
+       provides contact with all the nations, reworked Have_Embassies
+       provides embassies only with those nations the owner has
+       had contact with. GNAPATCH#5832
+     * Techs can have requirements for them to become available
+       for research. Only such requirements that are not switching
+       during the game are supported; such as player's nation.
+       GNAPATCH#5944
+     * What actions provide Casus Belli is now more under ruleset control,
+       with new Casus_Belli_Caught and Casus_Belli_Success effects.
+       GNAPATCH#6099 GNAPATCH#6107
+     * For a number of actions, ruleset can now control success odds with
+       new Action_Odds_Pct effect. GNAPATCH#5642
+     * Buildings can be made immune to disaster effects with
+       a new DisasterProof flag GNAPATCH#5819
+     * Some actions can require any buildings of a given genus instead of
+       specific building as a target by new BuildingGenus requirement type
+       GNAPATCH#6341
+     * New requirement type MinTechs can be used to track how far player
+       or world has proceeded in the tech tree GNAPATCH#6460
+     * New requirement type MinCalFrag can be used to change things
+       depending on current calendar fragment, such as seasonal changes
+       GNAPATCH#7751
+     * With a new BeachLander unit type flag some units can be made
+       immune to slow_invasions setting. GNAPATCH#6212
+     * Extras can be defined to appear or disappear with a random chance
+       GNAPATCH#5730 GNAPATCH#5888 GNAPATCH#5941 GNAPATCH#6243
+     * Tile Resources are now extras, having all the
+       configurability of extras GNAPATCH#6624
+     * Extras default to "buildable = TRUE" only if they have a build cause,
+       "buildable = FALSE" otherwise GNAPATCH#6770
+     * Extras can be defined to be invisible to player until s/he has
+       required tech GNAPATCH#4392
+     * New Unit State properties for requirement vectors to rely on
+          + OnDomesticTile to check if unit is within owner's borders.
+            GNAPATCH#6323
+          + Transporting to check if the unit has cargo GNAPATCH#6975
+          + HasHomeCity to check if the unit has a homecity assigned
+            GNAPATCH#7062
+          + OnNativeTile to check if unit is on Native Tile GNAPATCH#7267
+     * New Border_Vison effect can be used to enable vision of all
+       tiles within ones border when borders setting is enabled
+       GNAPATCH#6331
+     * More ruleset control over immediate unit wiping on unmet upkeep
+       GNAPATCH#6632 GNAPATCH#6633
+     * Some units can be given ability to escape stack death.
+       This is controlled by CanEscape and CanKillEscaping unit type flags
+       GNAPATCH#6104
+     * User defined ruleset flags are supported for unit classes too
+       GNAPATCH#6957
+     * User defined ruleset flags are supported for extras GNAPATCH#7055
+     * Requirement for sea units to visit coast regularly can be created by
+       new Coast unit type flag and setting fuel for the unit GNAPATCH#6979
+     * Techs can belong to ruleset defined tech classes GNAPATCH#7354
+          + Class can define cost percent adjustment for the techs
+            belonging to it GNAPATCH#7497
+     * With the new Stealings_Ignore effect one can adjust the number of
+       techs diplomats can steal from a city before it becomes impossible,
+       and how difficult it is for Spies GNAPATCH#4787
+     * For the ruleset to better adjust to different map sizes,
+       some things can now be controlled relative to map size
+          + New Output_Waste_By_Rel_Distance effect defines waste by
+            distance relative to map size GNAPATCH#7566
+          + New tradeworldrelpct server setting tells how much map size
+            affects trade between cities GNAPATCH#6884
+     * Cities can have limited unit slots for acting as a homecity with
+       the new Unit_Slots effect. Ruleset defines how many slots each
+       unit type takes GNAPATCH#1936
+     * New Attack_Bonus effect. It differs from a negative Defend_Bonus in
+       that requirements are about attacking unit and player GNAPATCH#7894
+     * Extras can be defined to hide units inside them from
+       non-allied players GNAPATCH#4101
+     * Ruleset can depend on boolean server settings with the
+       new ServerSetting requirement type HRM#648804
+     * Ruleset can control how likely city conqueror is to get tech from
+       the victim by new Conquest_Tech_Pct effect HRM#699156
+     * Added new Linear tech_cost_style HRM#695972
+     * Ruleset can define certain percentage of the inhabitants to
+       convert to conqueror's nationality when city is conquered HRM#657145
+     * New ruleset effect Combat_Rounds can define maximum number of
+       rounds combat lasts, even if that means that neither party dies
+       HRM#729194
+     * Granularity of Output_Waste_By_Distance has been increased
+       100 fold HRM#733815
+     * Buy costs can be adjusted by new effects, especially useful in
+       defining Wonder (Small and Great) buy cost rules
+          + Building_Buy_Cost_Pct HRM#756718
+          + Unit_Buy_Cost_Pct HRM#767932
+     * Caravans can now be allowed to help any production,
+       not just Great Wonders GNAPATCH#6362
+     * Effects of some of the former base flags have been
+       made configurable, and thus the base flags have been removed.
+       One can still reimplemtent them as user base flags
+          + DiplomatDefense GNAPATCH#7081
+     * NoStackDeath base flag has been reimplemented as extra flags,
+       making it available for any extra type GNAPATCH#7209
+     * Ruleset can make Poison City actions to empty food stock
+       via poison_empties_food_stock setting GNAPATCH#7241
+     * New unit flag Provoking makes unit target to autoattack even
+       when autoattack would not otherwise be executed. Supplied rulesets
+       use this for diplomats, transports, and GameLoss units.
+       GNAPATCH#7943
+     * Action_Odds_Pct effect can now control also chances of
+       Tech Stealing actions HRM#764943
+     * Extras have new generated property. It can be used to prevent
+       map generator for generating extras that have a cause like
+       Resource or Hut to get other properties of that cause HRM#775424
+
+Action Enablers
+
+     * Many more actions are now action enablers controlled:
+          + Capture Unit GNAPATCH#5604
+          + Found City, Join to City GNAPATCH#5606
+          + Bombard GNAPATCH#5610
+          + Explode Nuclear GNAPATCH#6139
+          + Disband Unit GNAPATCH#6573
+          + Home City GNAPATCH#6801
+          + Upgrade Unit GNAPATCH#6830
+          + Paradrop Unit GNAPATCH#6949
+          + Airlift Unit GNAPATCH#7008
+          + Attack GNAPATCH#7260
+          + Conquer City GNAPATCH#7261
+     * New actions added:
+          + Steal Maps GNAPATCH#6120
+          + Steal Maps Escape HRM#662943
+          + Suitcase Nuke GNAPATCH#5536
+          + Suitcase Nuke Escape HRM#661654
+          + Destroy City GNAPATCH#6248
+          + Expel Unit GNAPATCH#5306
+          + Recycle Unit GNAPATCH#6389
+          + Heal Unit' GNAPATCH#7774
+     * Unhardcoded actor consuming rules of some diplomat and spy actions
+       by splitting them to consuming and non-consuming actions
+          + Investigate City Spend Unit split from Investigate City
+            HRM#655676
+          + Establish Embassy Stay split from Establish Embassy HRM#656188
+          + Incity City Escape split from Incite City HRM#660927
+          + Steal Gold Escape split from Steal Gold HRM#679864
+          + Sabotage City Escape split from Sabotage City and
+            Targeted Sabotage City Escape split from Targeted Sabotage City
+            HRM#682342
+          + Steal Tech Escape split from Steal Tech and
+            Targeted Steal Tech Escape split from Targeted Steal Tech
+            HRM#689526
+        Sabotage Unit Escape split from Sabotage Unit HRM#691360
+        Poison City Escape split from Poison City HRM#691637
+
+Traderoutes
+
+     * Traderoutes can be directional, in which case source and
+       target city are not considered equal
+     * Traderoutes now carry ruleset defined Goods GNAPATCH#5971
+     * Goods can act as requirements GNAPATCH#6888
+     * Hardcoded Enter Marketplace action trade reduction removed.
+       Ruleset can implement equivalent, or adjusted, penalty
+       via Trade_Revenue_Bonus effect.
+
+Changes affecting custom scenarios
+
+     * Scenarios can be made not to lock on to specific ruleset,
+       but to be usable with any compatible ruleset GNAPATCH#5787
+           + Lua functions game.rulesetdir() and game.ruleset_name()
+             can be used to get current ruleset
+     * New player flag ScenarioReserved can be used in a scenario
+       to mark players that are not supposed to be picked by human player.
+       This rule is not very hard - clients do not list such players
+       in the beginning, but it's possibly to /take them regardless
+       GNAPATCH#6688
+     * Individual units can be given boolean stay property that prevents
+       AI from moving them. They defend the spot where scenario author
+       has placed them. HRM#661437
+     * Other new lua functions
+          + find.action() GNAPATCH#7973
+          + Calendar access functions HRM#656845
+          + Player:controlling_gui GNAPATCH#7500
+          + edit.change_terrain() HRM#657140
+          + Tile:is_enemy() HRM#661538
+     * New lua signals
+          + building_lost HRM#695007
+          + nuke_exploded HRM#771917
+          + hut_frighten HRM#780730
+     * Changed lua signals
+          + hut_enter gives name of the extra entered as second parameter
+            HRM#780730
+     * Max length of map label increased HRM#722788
+
+Changes affecting server operators
+
+     * Default savegame compression method is now xz GNAPATCH#6087
+     * FREECIV_PATH environment variable has been obsoleted.
+       It no longer does anything. Use FREECIV_DATA_PATH and
+       friends instead. GNAPATCH#6279
+     * Game can now be set to proceed in parallel to compressing savegame
+       and writing it to disk, to minimize the wait while saving.
+       This is controlled by a new server setting threaded_save
+       GNAPATCH#6802
+     * Metaserver message is now set by a new server setting metamessage
+       GNAPATCH#6876
+     * Log levels can be given by their name, and that's recommended
+       over use of old numeric levels. Numbers may refer to different
+       levels at different freeciv versions GNAPATCH#6947
+     * Remaining turn timeout gets saved to savegame, and restored
+       when savegame is loaded. It used to always give full timeout
+       after loading a savegame. HRM#662023
+     * database.lua API has been improved a bit
+          + Functions should raise exception instead of returning
+            FCDB_ERROR. Most functions should not return anything.
+            HRM#769078
+          + New user_delegate_to() can be defined to control when
+            player delegation is allowed HRM#766520
+          + New user_take() can be defined to control when player
+            can be taken HRM#778018
+          + Moved some formerly hardcoded login logic to database.lua;
+            user_load() removed and new user_exists() and user_verify()
+            to be used instead. user_save() is expected to actually
+            save the user, not only check if it succeeded HRM#802523
+     * Deprecation warnings mode now shows also suggestions for
+       action enabler improvements HRM#879228
+
+Low-level changes
+
+     * New major version 3 of the savegame format has been introduced.
+       Saving always happens with that format, older savegames can
+       still be loaded. GNAPATCH#4928
+     * Made codebase generally more robust when strings contain multibyte
+       (international) characters GNAPATCH#3930
+
+AI
+
+     * AI's want for various things is now tracked with much higher
+       resolution. This affects especially situations where the want
+       is very low, and used to round to zero. GNAPATCH#4999
+     * Hard and Cheating level AI may bribe also Workers and Settlers
+       GNAPATCH#6255
+     * Novice and Handicapped AI levels suffer penalty to production change
+       GNAPATCH#7342
+     * There'a new tex AI module/type GNAPATCH#7380
+     * Handicapped AI suffers attack penalty in all supplied rulesets
+       GNAPATCH#7924
+     * AI builds only limited number of units with gold upkeep,
+       if ruleset has those HRM#696007
+     * AI is more likely to choose building up offensive instead
+       of just defensive buildings HRM#825079
+     * AI now considers boats able to make multiple trips when
+       estimating their lifetime value HRM#869673
+     * AI builds units just to chase enemy diplomats HRM#877541
+
+Clients
+
+     * Xaw-client has been dropped GNAPATCH#6164
+     * Sdl-client has been dropped. Use newer sdl2-client instead of it
+       GNAPATCH#6245
+     * Units wanting user action decisions have a graphical marker
+       showing it GNAPATCH#7049
+     * New client option for the messages display to show messages also
+       from the previous turn and not only from current turn.
+       This should help when one was not logged to server at the end
+       of the turn and missed messages when they first appeared
+       GNAPATCH#7498
+     * New client event type Beginner Help for showing beginner friendly
+       messages that experienced players can turn off from
+       Messages settings GNAPATCH#7601
+     * Maximum number of rulesets listed at the client end increased
+       to 63 (from 16) HRM#854627
+
+     * Qt-client improvements
+          + User configurable shortcuts for Go And Build City and
+            Go And Join City HRM#743990
+          + New -- --shortcutreset command line option can be used
+            to clear corrupted shortcuts HRM#905784
+
+     * sdl2-client improvements
+          + City Size and Production Text font sizes are configurable
+            HRM#760428
+
+Tools
+Ruledit
+
+     * Ruledit can load also 2.6 rulesets in addition to 3.0 ones.
+       It always saves in 3.0 format. GNAPATCH#5308 GNAPATCH#5671
+     * Unit type tech requirement can be changed GNAPATCH#5967
+     * Some standard comments, mostly documentation about the
+       ruleset item types, are written to the rulesets saved GNAPATCH#6872
+     * New tabs for handling major ruleset item types added
+          + Goods GNAPATCH#7308
+          + Governments GNAPATCH#7628
+          + Action Enablers GNAPATCH#7682
+          + Extras HRM#656692
+          + Terrains HRM#657637
+     * Dialog for editing requirements has been added GNAPATCH#7319
+     * Support for --Fatal commandline option has been added HRM#853490
+
+Modpack Installer
+
+     * Added support for new modpack type Group that can be used for
+       sort of meta modpacks that just install set of other modpacks
+       GNAPATCH#6899
+     * Modpack file suffix has been changed from .modpack to .mpdl
+       GNAPATCH#7641
+     * New modpack installer that uses gtk4 gui added GNAPATCH#7846
+
+Ruleup
+
+     * New tool to update ruleset from the format of previous
+       freeciv version to current one GNAPATCH#7171
+
+Manual generator
+
+     * Rearranged output to clearer sections GNAPATCH#7832
+     * Generate page about techs GNAPATCH#7863
+
+Tilesets, Art, etc
+
+     * Improvements to handling of tileset and map topology compatibility
+          + Tileset topology is no longer considered incompatible with
+            map topology if one is overhead one and one is isometric one
+            HRM#653727
+          + Former client settings for Overhead and Iso tilesets have been
+            combined to one Square setting HRM#776792
+     * Tilesets with orientation units no longer show units with
+       random orientation in dialogs. Tileset author must provide
+       what sprite is used in those cases. GNAPATCH#7243
+     * Hex tilesets with oriented units are no longer required to
+       provide orientation sprites for directions not present
+       in the topology GNAPATCH#7431
+     * Tileset can tell which ruleset it is for, and the client will
+       start the server with that ruleset. This removes the need to
+       work around the incompatibilities of custom tilesets,
+       such as that of ancients modpack, and default ruleset,
+       by starting server manually. GNAPATCH#7577
+     * Tileset can now define the drawing order of the graphics layers
+       GNAPATCH#7667
+     * Tileset has offsets for more sprite types
+          + Selected unit sprites GNAPATCH#7923
+          + City size number GNAPATCH#7946
+     * River outlet sprites for all directions are now mandatory HRM#657130
+     * Improved specialists graphics tags support HRM#738278
+     * Graphics for number of extra units not used by any of the supplied
+       rulesets provided for the benefit of custom rulesets on some
+       supplied tilesets
+          + Trident (and derivatives) HRM#823068
+          +  Amplio2 (and derivatives) HRM#822790
+     * Number of alternative music tracks for the same style and mood
+       increased to 25 HRM#905821
+
+Help / Documentation
+
+     * Added new README.scenarios document to describe scenario file format
+       HRM#822122
+
+Translations
+
+     * Updated translations: Catalan, Finnish, French, Polish, Russian,
+                             Traditional Chinese
+
+Build/portability
+
+     * Msys2 is now the official Windows build environment.
+       Support for msys1 has been dropped GNAPATCH#7631
+          + 64bit builds in addition to 32bit ones
+          + IPv6 supported
+          + Latest toolchain and components
+          + Installers for gtk3.22-, Qt-, and sdl2-clients and ruledit
+          + Windows 7 as minimum requirement
+     * Support for experimental Crosser-based Windows installers
+       cross-compiled in linux GNAPATCH#7905
+     * gtk3.22-client is now the client built by default GNAPATCH#7970
+     * Source code is now distributed in xz compressed tarball instead of
+       bzip2 compressed one. Gzip and zip compressed ones remain in use
+       as well. GNAPATCH#3301
+     * Tinycthread can be used as the threading implementation freeciv uses.
+       It's in use in official Windows builds. GNAPATCH#5703
+     * Freeciv can be built to use json based protocol between
+       server and client.
+       Such a build is incompatible with normal builds. GNAPATCH#5737
+     * libicu is a new requirement GNAPATCH#3838
+     * To support projects that fork freeciv, support for
+       a project definition file containing things like metaserver URL
+       of the project added.
+       This obsoletes --with-modlist configure option.
+       GNAPATCH#5746 GNAPATCH#6056
+     * Inability to build IPv6 support is now considered an error
+       by default. If you really want, you can still explicitly request
+       build without IPv6 with --disable-ipv6 GNAPATCH#7185
+     * C11 threads support added, and it's used as the threading model
+       by default HRM#852681
+
+  See doc/README.packaging for more information.
 
 
 MAJOR CHANGES FROM 2.5.x to 2.6.0
