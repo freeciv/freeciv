@@ -654,6 +654,15 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_AIRLIFT,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: sanity. */
+  oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, FALSE,
+                                          USP_HAS_HOME_CITY),
+                          FALSE,
+                          N_("All action enablers for %s must require"
+                             " that the actor has a home city."),
+                          ACTRES_HOMELESS, ACTRES_NONE);
+
   /* Why this is a hard requirement: Assumed in the code. */
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE,
@@ -1016,6 +1025,10 @@ static void hard_code_actions(void)
                       TRUE, FALSE,
                       /* Illegal to perform to a target on another tile to
                        * keep the rules exactly as they were for now. */
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_HOMELESS] =
+      unit_action_new(ACTION_HOMELESS, ACTRES_HOMELESS,
+                      TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_UPGRADE_UNIT] =
       unit_action_new(ACTION_UPGRADE_UNIT, ACTRES_UPGRADE_UNIT,
@@ -2116,6 +2129,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -2200,6 +2214,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -3247,6 +3262,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
@@ -3399,6 +3415,7 @@ action_hard_reqs_actor(const struct action *paction,
     }
     break;
 
+  case ACTRES_HOMELESS:
   case ACTRES_UNIT_MOVE:
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
@@ -4370,6 +4387,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_FORTIFY:
+  case ACTRES_HOMELESS:
   case ACTRES_NONE:
     /* No known hard coded requirements. */
     break;
@@ -5381,6 +5399,10 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_HOME_CITY:
+    /* No battle is fought first. */
+    chance = ACTPROB_CERTAIN;
+    break;
+  case ACTRES_HOMELESS:
     /* No battle is fought first. */
     chance = ACTPROB_CERTAIN;
     break;
@@ -6611,6 +6633,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -7119,6 +7142,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_disband_unit";
   case ACTION_HOME_CITY:
     return "ui_name_home_city";
+  case ACTION_HOMELESS:
+    return "ui_name_homeless";
   case ACTION_UPGRADE_UNIT:
     return "ui_name_upgrade_unit";
   case ACTION_PARADROP:
@@ -7387,6 +7412,9 @@ const char *action_ui_name_default(int act)
   case ACTION_HOME_CITY:
     /* TRANS: Set _Home City (100% chance of success). */
     return N_("Set %sHome City%s");
+  case ACTION_HOMELESS:
+    /* TRANS: Make _Homeless (100% chance of success). */
+    return N_("Make %sHomeless%s");
   case ACTION_UPGRADE_UNIT:
     /* TRANS: _Upgrade Unit (100% chance of success). */
     return N_("%sUpgrade Unit%s");
@@ -7583,6 +7611,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:
@@ -7696,6 +7725,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -7788,6 +7818,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_DESTROY_CITY:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:
@@ -7906,6 +7937,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_EXPEL_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_PARADROP:
   case ACTRES_PARADROP_CONQUER:
@@ -8008,6 +8040,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:
@@ -8168,6 +8201,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_DISBAND_UNIT:
   case ACTRES_CONVERT:
   case ACTRES_FORTIFY:
+  case ACTRES_HOMELESS:
     return ATK_SELF;
   case ACTRES_NONE:
     return RS_DEFAULT_USER_ACTION_TARGET_KIND;
@@ -8253,6 +8287,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_DISBAND_UNIT:
   case ACTRES_CONVERT:
   case ACTRES_FORTIFY:
+  case ACTRES_HOMELESS:
     return tgt_kind == ATK_SELF;
   case ACTRES_PILLAGE:
     return (tgt_kind == ATK_TILE || tgt_kind == ATK_EXTRAS);
@@ -8306,6 +8341,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_PRODUCTION:
@@ -8397,6 +8433,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_DESTROY_CITY:
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_AIRLIFT:
   case ACTRES_STRIKE_PRODUCTION:
@@ -8505,6 +8542,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:
@@ -8669,6 +8707,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:
@@ -8798,6 +8837,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_RECYCLE_UNIT:
   case ACTION_DISBAND_UNIT:
   case ACTION_HOME_CITY:
+  case ACTION_HOMELESS:
   case ACTION_UPGRADE_UNIT:
   case ACTION_PARADROP:
   case ACTION_PARADROP_CONQUER:

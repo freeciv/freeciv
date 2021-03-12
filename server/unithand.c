@@ -752,6 +752,19 @@ static bool do_unit_embark(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Deletes a unit's home city making it unhomed.
+
+  Returns TRUE iff the action could be done, FALSE if it couldn't.
+**************************************************************************/
+static bool do_unit_make_homeless(struct unit *punit,
+                                  const struct action *paction)
+{
+  unit_change_homecity_handling(punit, NULL, TRUE);
+
+  return punit->homecity == IDENTITY_NUMBER_ZERO;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the player is able to change his diplomatic
   relationship to the other player to war.
 
@@ -870,6 +883,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_RECYCLE_UNIT:
   case ACTRES_DISBAND_UNIT:
   case ACTRES_HOME_CITY:
+  case ACTRES_HOMELESS:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_AIRLIFT:
   case ACTRES_HEAL_UNIT:
@@ -3284,6 +3298,10 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              do_action_activity(actor_unit, paction));
     break;
+  case ACTRES_HOMELESS:
+    ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
+                             do_unit_make_homeless(actor_unit, paction));
+    break;
   case ACTRES_SPY_SABOTAGE_CITY:
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
@@ -3574,7 +3592,8 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
 {
   struct city *old_pcity = game_city_by_number(punit->homecity);
   struct player *old_owner = unit_owner(punit);
-  struct player *new_owner = city_owner(new_pcity);
+  struct player *new_owner = (new_pcity == NULL ? old_owner
+                                                : city_owner(new_pcity));
 
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
@@ -3627,12 +3646,16 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
       city_units_upkeep(old_pcity);
     }
 
-    unit_list_prepend(new_pcity->units_supported, punit);
+    if (new_pcity != NULL) {
+      unit_list_prepend(new_pcity->units_supported, punit);
 
-    /* update unit upkeep */
-    city_units_upkeep(new_pcity);
+      /* update unit upkeep */
+      city_units_upkeep(new_pcity);
 
-    punit->homecity = new_pcity->id;
+      punit->homecity = new_pcity->id;
+    } else {
+      punit->homecity = IDENTITY_NUMBER_ZERO;
+    }
   }
 
   if (!can_unit_continue_current_activity(punit)) {
@@ -3644,8 +3667,11 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   /* Send info to players and observers. */
   send_unit_info(NULL, punit);
 
-  city_refresh(new_pcity);
-  send_city_info(new_owner, new_pcity);
+  if (new_pcity != NULL) {
+    city_refresh(new_pcity);
+    send_city_info(new_owner, new_pcity);
+    fc_assert(unit_owner(punit) == city_owner(new_pcity));
+  }
 
   if (old_pcity) {
     fc_assert(city_owner(old_pcity) == old_owner);
@@ -3654,8 +3680,6 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
   }
 
   unit_get_goods(punit);
-
-  fc_assert(unit_owner(punit) == city_owner(new_pcity));
 }
 
 /**********************************************************************//**
