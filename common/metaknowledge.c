@@ -454,6 +454,9 @@ static bool is_req_knowable(const struct player *pow_player,
       }
 
       return can_see_techs_of_target(pow_player, target_player);
+    } else if (req->range == REQ_RANGE_WORLD && req->survives) {
+      /* game.info.global_advances is sent to each player */
+      return TRUE;
     }
   }
 
