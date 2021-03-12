@@ -4840,6 +4840,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_EXPEL_UNIT:
       case ACTION_RECYCLE_UNIT:
       case ACTION_HOME_CITY:
+      case ACTION_HOMELESS:
       case ACTION_UPGRADE_UNIT:
       case ACTION_PARADROP:
       case ACTION_PARADROP_CONQUER:

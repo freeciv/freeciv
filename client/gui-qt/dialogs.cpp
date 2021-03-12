@@ -145,6 +145,7 @@ static void regular_move(QVariant data1, QVariant data2);
 static void convert_unit(QVariant data1, QVariant data2);
 static void fortify(QVariant data1, QVariant data2);
 static void disband_unit(QVariant data1, QVariant data2);
+static void homeless(QVariant data1, QVariant data2);
 static void join_city(QVariant data1, QVariant data2);
 static void unit_home_city(QVariant data1, QVariant data2);
 static void unit_upgrade(QVariant data1, QVariant data2);
@@ -288,6 +289,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_DISBAND_UNIT] = disband_unit;
   action_function[ACTION_FORTIFY] = fortify;
   action_function[ACTION_CONVERT] = convert_unit;
+  action_function[ACTION_HOMELESS] = homeless;
 
   return action_function;
 }
@@ -2364,6 +2366,20 @@ static void convert_unit(QVariant data1, QVariant data2)
 
   request_do_action(ACTION_CONVERT, actor_id,
                     target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Unit Make Homeless" for choice dialog
+***************************************************************************/
+static void homeless(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (NULL != game_unit_by_number(actor_id)) {
+    request_do_action(ACTION_HOMELESS, actor_id,
+                      target_id, 0, "");
+  }
 }
 
 /***********************************************************************//**

@@ -954,6 +954,7 @@ void adv_best_government(struct player *pplayer)
           case ACTRES_HELP_WONDER:
           case ACTRES_RECYCLE_UNIT:
           case ACTRES_HOME_CITY:
+          case ACTRES_HOMELESS:
           case ACTRES_UPGRADE_UNIT:
           case ACTRES_AIRLIFT:
           case ACTRES_HEAL_UNIT:
