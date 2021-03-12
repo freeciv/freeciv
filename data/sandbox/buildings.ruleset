@@ -2097,6 +2097,11 @@ sabotage    = 0
 sound       = "w_treuga_dei"
 sound_alt   = "w_generic"
 helptext    = _("\
+Historical note: The real Treuga Dei was far less extreme. \
+Fighting was allowed around 80 days each year. \
+It also both began and ended during the middle ages \
+- long before communism.\
+"), _("\
 Makes violence impossible before Communism is discovered. \
 Makes every violent action a Casus Belli after Communism is discovered.\
 ")
