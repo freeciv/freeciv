@@ -4523,6 +4523,66 @@ reqs    =
       "Action", "User Action 2", "Local", TRUE
     }
 
+[effect_use_ancient_transportation_network_can_conquer_city]
+type    = "User_Effect_1"
+value   = 1
+reqs    =
+    { "type",           "name",          "range", "present"
+      ; sandbox doesn't have animal barbarians yet
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "Building",       "Treuga Dei",    "World", FALSE
+    }
+
+[effect_use_ancient_transportation_network_can_conquer_city_despite_treuga_dei]
+type    = "User_Effect_1"
+value   = 1
+reqs    =
+    { "type",           "name",          "range", "present", "survives"
+      ; sandbox doesn't have animal barbarians yet
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE,      FALSE
+      "UnitFlag",       "NonMil",        "Local", FALSE,     FALSE
+      "DiplRel",        "War",           "Local", TRUE,      FALSE
+      "Tech",           "Communism",     "World", TRUE,      TRUE
+    }
+
+[effect_use_ancient_transportation_network_can_conquer_extra_war]
+type    = "User_Effect_2"
+value   = 1
+reqs    =
+    { "type",     "name",       "range", "present"
+      "DiplRel",  "War",        "Local", TRUE
+      "Building", "Treuga Dei", "World", FALSE
+    }
+
+[effect_use_ancient_transportation_network_can_conquer_extra_war_despite_treuga_dei]
+type    = "User_Effect_2"
+value   = 1
+reqs    =
+    { "type",     "name",       "range", "present", "survives"
+      "DiplRel",  "War",        "Local", TRUE,      FALSE
+      "Tech",     "Communism",  "World", TRUE,      TRUE
+    }
+
+[effect_use_ancient_transportation_network_can_conquer_extra_unowned]
+type    = "User_Effect_2"
+value   = 1
+reqs    =
+    { "type",     "name",         "range", "present"
+      "CityTile", "Extras Owned", "Local", FALSE
+      "Building", "Treuga Dei",   "World", FALSE
+    }
+
+[effect_use_ancient_transportation_network_can_conquer_extra_unowned_despite_treuga_dei]
+type    = "User_Effect_2"
+value   = 1
+reqs    =
+    { "type",     "name",         "range", "present", "survives"
+      "CityTile", "Extras Owned", "Local", FALSE,     FALSE
+      "Tech",     "Communism",    "World", TRUE,      TRUE
+    }
+
 [effect_action_success_move_cost_bombard]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

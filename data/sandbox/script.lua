@@ -461,14 +461,18 @@ signal.connect("action_started_unit_unit", "action_started_unit_unit_callback")
 -- Use Ancient Transportation Network
 function transport_network(action, actor, target)
   local actor_name = actor.utype:name_translation()
+  local invade_city_val = effects.unit_bonus(actor, target.owner,
+                                             "User_Effect_1")
+  local invade_extra_val = effects.unit_vs_tile_bonus(actor, target,
+                                                      "User_Effect_2")
   local survived = actor:teleport(target,
                                   -- allow transport to transport
                                   find.transport_unit(actor.owner,
                                                       actor.utype, target),
                                   true,
-                                  -- assume cities and castles considered
-                                  -- the ancient hub when they were built
-                                  false, false,
+                                  -- take city and castle conquest from
+                                  -- boolean user effects
+                                  invade_city_val > 0, invade_extra_val > 0,
                                   -- a unit appearing from the Ancient
                                   -- Transportation Network is scary to see
                                   false, true)
