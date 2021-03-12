@@ -939,7 +939,7 @@ int get_tile_bonus(const struct tile *ptile, const struct unit *punit,
 
   return get_target_bonus_effects(NULL,
                                   pplayer,
-                                  NULL,
+                                  tile_owner(ptile),
                                   tile_city(ptile),
                                   NULL,
                                   ptile,
