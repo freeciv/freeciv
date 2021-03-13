@@ -867,7 +867,8 @@ void city_repair_size(struct city *pcity, int change)
 }
 
 /**********************************************************************//**
-  Return the percentage of food that is lost in this city.
+  Return the percentage of food that is kept in this city after city
+  size changes.
 
   Normally this value is 0% but this can be increased by EFT_GROWTH_FOOD
   effects.
