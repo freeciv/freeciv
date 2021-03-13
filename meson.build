@@ -35,6 +35,8 @@ priv_conf_data.set('IS_DEVEL_VERSION', 1)
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
+else
+  add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
 
 c_compiler = meson.get_compiler('c')
