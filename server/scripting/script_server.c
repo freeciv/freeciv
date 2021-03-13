@@ -506,7 +506,7 @@ static void script_server_signals_create(void)
   luascript_signal_create(fcl_main, "nuke_exploded", 2, API_TYPE_TILE,
                           API_TYPE_PLAYER);
 
-  /* Deprecated form of the 'disaster_occurred' signal without 'had_internal_effct'
+  /* Deprecated form of the 'disaster_occurred' signal without 'had_internal_effect'
    * support. */
   depr = luascript_signal_create(fcl_main, "disaster", 2,
                           API_TYPE_DISASTER, API_TYPE_CITY);
