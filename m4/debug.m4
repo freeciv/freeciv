@@ -61,7 +61,7 @@ fi
 dnl ==========================================================================
 dnl debug level >= checks
 if test "x$enable_debug" = "xchecks"; then
-  dnl Add additional flags as stated in ./doc/HACKING.
+  dnl Add additional flags for 'checks' debug level
   FC_C_FLAGS([-Wstrict-prototypes], [], [EXTRA_DEBUG_CFLAGS])
 fi
 
