@@ -235,7 +235,7 @@ if_attacker =
 enter_marketplace_blocked_by = "Establish Trade Route"
 
 ; Forbid "Attack" if any one of the listed actions are legal.
-attack_blocked_by="Explode Nuclear","Nuke City","Nuke Units"
+attack_blocked_by = "Explode Nuclear","Nuke City","Nuke Units"
 
 ; Forbid "Suicide Attack" if any one of the listed actions are legal.
 suicide_attack_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units"

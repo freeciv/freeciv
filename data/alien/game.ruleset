@@ -257,10 +257,10 @@ bombard_blocked_by = "Capture Units"
 ; Forbid "Attack" if any one of the listed actions are legal.
 attack_blocked_by = "Capture Units", "Bombard"
 
-; # Forbid "Suicide Attack" if any one of the listed actions are legal.
+; Forbid "Suicide Attack" if any one of the listed actions are legal.
 suicide_attack_blocked_by = "Capture Units", "Bombard"
 
-; # Forbid "Conquer City" if any one of the listed actions are legal.
+; Forbid "Conquer City" if any one of the listed actions are legal.
 conquer_city_blocked_by = "Capture Units", "Bombard", "Attack",
                           "Suicide Attack"
 
