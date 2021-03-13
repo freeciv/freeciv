@@ -2811,10 +2811,10 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
   if (citystatus == CITYS_OWNED_BY_ORIGINAL) {
     switch (range) {
     case REQ_RANGE_CITY:
-      return city_owner(target_city) == target_city->original;
+      return BOOL_TO_TRISTATE(city_owner(target_city) == target_city->original);
     case REQ_RANGE_TRADEROUTE:
       {
-        bool found = FALSE;
+        bool found = (city_owner(target_city) == target_city->original);
 
         trade_partners_iterate(target_city, trade_partner) {
           if (city_owner(trade_partner) == trade_partner->original) {
