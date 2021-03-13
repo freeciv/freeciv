@@ -80,8 +80,8 @@ There are four file/filesets involved in the delta protocol:
  1) the definition file (common/packets.def).
  2) the generator (common/generate_packets.py).
  3) the generated files (*/*_gen.[ch] or as a list
- client/civclient_gen.c, client/packhand_gen.h, common/packets_gen.c,
- common/packets_gen.h, server/hand_gen.h and server/srv_main_gen.c).
+ client/packhand_gen.c, client/packhand_gen.h, common/packets_gen.c,
+ common/packets_gen.h, server/hand_gen.c and server/hand_gen.h).
  4) the overview (README.delta, this file)
 
 The definition file lists all valid packet types with their

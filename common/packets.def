@@ -108,7 +108,7 @@ Syntax:
      function. Currently only used by packet_generic_empty.
 
      no-handle: don't generate handle_* prototypes. The generated
-     switch statements (server/srv_main_gen.c, client/civclient_gen.c)
+     switch statements (server/hand_gen.c, client/packhand_gen.c)
      doesn't include code for this packet. You have to handle this by
      yourself. This may be required for special packets which are
      handled early in the sequence.
