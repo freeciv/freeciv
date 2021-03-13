@@ -35,7 +35,7 @@ flags =
     _("Marines"), _("Can launch attack from non-native tiles.")
     _("Cant_Fortify")
     _("OneAttack")
-    ;flags to approximate fighters' "scramble" mechanics
+    ;flags to approximate fighters` "scramble" mechanics
     _("Bomber"), _("Bad at attacking Fighters")
     _("Stealth Bomber"), _("Bad at attacking Fighters")
     _("EarlyFighter"), _("250% defense against Stealth Bombers")
