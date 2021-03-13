@@ -731,7 +731,7 @@ void handle_city_info(const struct packet_city_info *packet)
     need_science_dialog_update = TRUE;
   }
 
-  pcity->food_stock=packet->food_stock;
+  pcity->food_stock = packet->food_stock;
   if (pcity->shield_stock != packet->shield_stock) {
     shield_stock_changed = TRUE;
     pcity->shield_stock = packet->shield_stock;
@@ -775,9 +775,9 @@ void handle_city_info(const struct packet_city_info *packet)
   worklist_copy(&pcity->worklist, &packet->worklist);
 
   pcity->airlift = packet->airlift;
-  pcity->did_buy=packet->did_buy;
-  pcity->did_sell=packet->did_sell;
-  pcity->was_happy=packet->was_happy;
+  pcity->did_buy = packet->did_buy;
+  pcity->did_sell = packet->did_sell;
+  pcity->was_happy = packet->was_happy;
 
   pcity->turn_founded = packet->turn_founded;
   pcity->turn_last_built = packet->turn_last_built;
@@ -797,9 +797,9 @@ void handle_city_info(const struct packet_city_info *packet)
   }
   pcity->changed_from = product;
 
-  pcity->before_change_shields=packet->before_change_shields;
-  pcity->disbanded_shields=packet->disbanded_shields;
-  pcity->caravan_shields=packet->caravan_shields;
+  pcity->before_change_shields = packet->before_change_shields;
+  pcity->disbanded_shields = packet->disbanded_shields;
+  pcity->caravan_shields = packet->caravan_shields;
   pcity->last_turns_shield_surplus = packet->last_turns_shield_surplus;
 
   improvement_iterate(pimprove) {

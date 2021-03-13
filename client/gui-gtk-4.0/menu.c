@@ -2144,7 +2144,8 @@ void real_menus_update(void)
 
     punits = get_units_in_focus();
     unit_list_iterate(punits, punit) {
-      fc_assert((ptile==NULL) == (ptype==NULL));
+      fc_assert((ptile == NULL) == (ptype == NULL));
+
       if (ptile || ptype) {
         if (unit_tile(punit) != ptile) {
           units_all_same_tile = FALSE;

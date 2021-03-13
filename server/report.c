@@ -74,14 +74,14 @@ static void plrdata_slot_replace(struct plrdata_slot *plrdata,
 static void plrdata_slot_free(struct plrdata_slot *plrdata);
 
 static void page_conn_etype(struct conn_list *dest, const char *caption,
-			    const char *headline, const char *lines,
-			    enum event_type event);
+                            const char *headline, const char *lines,
+                            enum event_type event);
 enum historian_type {
-        HISTORIAN_RICHEST=0, 
-        HISTORIAN_ADVANCED=1,
-        HISTORIAN_MILITARY=2,
-        HISTORIAN_HAPPIEST=3,
-        HISTORIAN_LARGEST=4};
+        HISTORIAN_RICHEST  = 0,
+        HISTORIAN_ADVANCED = 1,
+        HISTORIAN_MILITARY = 2,
+        HISTORIAN_HAPPIEST = 3,
+        HISTORIAN_LARGEST  = 4};
 
 #define HISTORIAN_FIRST		HISTORIAN_RICHEST
 #define HISTORIAN_LAST 		HISTORIAN_LARGEST

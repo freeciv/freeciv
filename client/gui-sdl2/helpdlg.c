@@ -782,7 +782,7 @@ void popup_unit_info(Unit_type_id type_id)
   }
 
   punittype = utype_by_number(type_id);
-  unit_name_label= create_iconlabel_from_chars(
+  unit_name_label = create_iconlabel_from_chars(
                 adj_surf(get_unittype_surface(punittype, direction8_invalid())),
                 pwindow->dst, utype_name_translation(punittype),
                 adj_font(24), WF_FREE_THEME);

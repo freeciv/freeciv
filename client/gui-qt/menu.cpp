@@ -1725,7 +1725,7 @@ void mr_menu::setup_menus()
 **************************************************************************/
 void mr_menu::set_tile_for_order(tile *ptile)
 {
-  for (int i=0; i < units_list.nr_units; i++) {
+  for (int i = 0; i < units_list.nr_units; i++) {
     units_list.unit_list.at(units_list.unit_list.count() - i -1)->ptile = ptile;
   }
 }

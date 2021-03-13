@@ -6377,7 +6377,7 @@ static void show_help_command_list(struct connection *caller,
     int j;
 
     buf[0] = '\0';
-    for (i=0, j=0; i<CMD_NUM; i++) {
+    for (i = 0, j = 0; i < CMD_NUM; i++) {
       if (may_use(caller, i)) {
         cat_snprintf(buf, sizeof(buf), "%-19s", command_name_by_number(i));
         if ((++j % 4) == 0) {

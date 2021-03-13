@@ -5964,10 +5964,11 @@ static void options_init_names(const struct copt_val_name *(*acc)(int),
 {
   int val;
   const struct copt_val_name *name;
+
   fc_assert_ret(NULL != acc);
   *support = strvec_new();
   *pretty = strvec_new();
-  for (val=0; (name = acc(val)); val++) {
+  for (val = 0; (name = acc(val)); val++) {
     strvec_append(*support, name->support);
     strvec_append(*pretty, name->pretty);
   }

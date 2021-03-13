@@ -165,7 +165,7 @@ void climate_change(bool warming, int effect)
     /* If the preferred transformation is ruled out for some exceptional reason
      * specific to this tile, fall back to the other, rather than letting this
      * tile be immune to change. */
-    for (i=0; i<2; i++) {
+    for (i = 0; i < 2; i++) {
       new = candidates[i];
 
       /* If the preferred transformation simply hasn't been specified

@@ -1299,9 +1299,10 @@ static GtkListStore *units_report_store_new(void)
 {
   int i;
   GType cols[URD_COL_NUM];
+
   fc_assert(ARRAY_SIZE(unit_report_columns) == URD_COL_NUM);
 
-  for (i=0; i<URD_COL_NUM; i++) {
+  for (i = 0; i < URD_COL_NUM; i++) {
     cols[i] = unit_report_columns[i].type;
   }
   

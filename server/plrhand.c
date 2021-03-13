@@ -1134,7 +1134,7 @@ static void package_player_common(struct player *plr,
   packet->barbarian_type = plr->ai_common.barbarian_type;
 
   packet->phase_done = plr->phase_done;
-  packet->nturns_idle=plr->nturns_idle;
+  packet->nturns_idle = plr->nturns_idle;
 
   for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
     packet->wonders[i] = plr->wonders[i];

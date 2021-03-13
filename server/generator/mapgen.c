@@ -2222,7 +2222,7 @@ static void initworld(struct gen234_state *pstate)
 #define DMSIS 10
 
 /**********************************************************************//**
-  island base map generators
+  Island base map generators
 **************************************************************************/
 static void mapgenerator2(void)
 {
@@ -2231,7 +2231,7 @@ static void mapgenerator2(void)
   struct gen234_state *pstate = &state;
   int i;
   bool done = FALSE;
-  int spares= 1; 
+  int spares = 1;
   /* constant that makes up that an island actually needs additional space */
 
   /* put 70% of land in big continents, 
@@ -2346,7 +2346,7 @@ static void mapgenerator3(void)
   pstate->totalmass = (((wld.map.ysize - 6 - spares) * wld.map.server.landpercent
                         * (wld.map.xsize - spares)) / 100);
 
-  bigislands= player_count();
+  bigislands = player_count();
 
   landmass = (wld.map.xsize * (wld.map.ysize - 6) * wld.map.server.landpercent)/100;
   /* subtracting the arctics */
@@ -2360,7 +2360,7 @@ static void mapgenerator3(void)
     islandmass = (landmass)/(2 * bigislands);
   }
   if (islandmass < 3 * maxmassdiv6 && player_count() * 2 < landmass) {
-    islandmass= (landmass)/(bigislands);
+    islandmass = (landmass)/(bigislands);
   }
 
   if (islandmass < 2) {
@@ -2394,7 +2394,7 @@ static void mapgenerator3(void)
       size = fc_rand((islandmass + 1) / 2 + 1);
     }
     if (size < 2) {
-      size=2;
+      size = 2;
     }
 
     make_island(size, (pstate->isleindex - 2 <= player_count()) ? 1 : 0,
@@ -2435,11 +2435,11 @@ static void mapgenerator4(void)
   }
 
   if (wld.map.server.landpercent > 60) {
-    bigweight=30;
+    bigweight = 30;
   } else if (wld.map.server.landpercent > 40) {
-    bigweight=50;
+    bigweight = 50;
   } else {
-    bigweight=70;
+    bigweight = 70;
   }
 
   spares = (wld.map.server.landpercent - 5) / 30;

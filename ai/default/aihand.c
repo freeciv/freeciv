@@ -229,7 +229,7 @@ static void dai_manage_taxes(struct ai_type *ait, struct player *pplayer)
   int delta_tax = 0, delta_sci = 0;
 
 #ifdef DEBUG_TIMERS
-  struct timer *taxtimer= NULL;
+  struct timer *taxtimer = NULL;
 #endif
 
   struct cm_parameter cmp;

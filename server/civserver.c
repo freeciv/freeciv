@@ -507,7 +507,7 @@ static void Mac_options(int argc)
     short the_type;
     Handle the_handle;
     Rect the_rect;
-    short the_item, old_item=16;
+    short the_item, old_item = 16;
     int done = false;
     Str255 the_string;
 
@@ -532,11 +532,11 @@ static void Mac_options(int argc)
       exit(EXIT_FAILURE);
     }
     /* insert default highlight draw code? */
-    err=SetDialogCancelItem(optptr, 2);
+    err = SetDialogCancelItem(optptr, 2);
     if (err != 0) {
       exit(EXIT_FAILURE);
     }
-    err=SetDialogTracksCursor(optptr, true);
+    err = SetDialogTracksCursor(optptr, true);
     if (err != 0) {
       exit(EXIT_FAILURE);
     }
@@ -557,7 +557,7 @@ static void Mac_options(int argc)
         break;
         case 13:
           GetDItem(optptr, 13, &the_type, &the_handle, &the_rect);
-          srvarg.metaserver_no_send=GetCtlValue((ControlHandle)the_handle);
+          srvarg.metaserver_no_send = GetCtlValue((ControlHandle)the_handle);
           SetCtlValue((ControlHandle)the_handle, !srvarg.metaserver_no_send);
         break;
         case 15:
@@ -565,7 +565,7 @@ static void Mac_options(int argc)
         case 17:
           GetDItem(optptr, old_item, &the_type, &the_handle, &the_rect);
           SetCtlValue((ControlHandle)the_handle, false);
-          old_item=the_item;
+          old_item = the_item;
           GetDItem(optptr, the_item, &the_type, &the_handle, &the_rect);
           SetCtlValue((ControlHandle)the_handle, true);
         break;

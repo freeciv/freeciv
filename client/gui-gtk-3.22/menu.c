@@ -2154,9 +2154,11 @@ void real_menus_update(void)
   if (get_num_units_in_focus() > 0) {
     const struct tile *ptile = NULL;
     const struct unit_type *ptype = NULL;
+
     punits = get_units_in_focus();
     unit_list_iterate(punits, punit) {
-      fc_assert((ptile==NULL) == (ptype==NULL));
+      fc_assert((ptile == NULL) == (ptype == NULL));
+
       if (ptile || ptype) {
         if (unit_tile(punit) != ptile) {
           units_all_same_tile = FALSE;

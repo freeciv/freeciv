@@ -197,7 +197,7 @@ static int write_socket_data(struct connection *pc,
     }
 
     if (FD_ISSET(pc->sock, &writefs)) {
-      nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
+      nblock = MIN(buf->ndata-start, MAX_LEN_PACKET);
       log_debug("trying to write %d limit=%d", nblock, limit);
       if ((nput = fc_writesocket(pc->sock, 
                                  (const char *)buf->data+start, nblock)) == -1) {

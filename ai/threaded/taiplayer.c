@@ -96,7 +96,7 @@ static void tai_thread_start(void *arg)
 **************************************************************************/
 static enum tai_abort_msg_class tai_check_messages(struct ai_type *ait)
 {
-  enum tai_abort_msg_class ret_abort= TAI_ABORT_NONE;
+  enum tai_abort_msg_class ret_abort = TAI_ABORT_NONE;
 
   taimsg_list_allocate_mutex(thrai.msgs_to.msglist);
   while (taimsg_list_size(thrai.msgs_to.msglist) > 0) {

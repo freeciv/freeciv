@@ -3120,8 +3120,8 @@ static void define_orig_production_values(struct city *pcity)
 **************************************************************************/
 static void nullify_caravan_and_disband_plus(struct city *pcity)
 {
-  pcity->disbanded_shields=0;
-  pcity->caravan_shields=0;
+  pcity->disbanded_shields = 0;
+  pcity->caravan_shields = 0;
 }
 
 /**********************************************************************//**
@@ -3131,7 +3131,7 @@ static void nullify_caravan_and_disband_plus(struct city *pcity)
 void nullify_prechange_production(struct city *pcity)
 {
   nullify_caravan_and_disband_plus(pcity);
-  pcity->before_change_shields=0;
+  pcity->before_change_shields = 0;
 }
 
 /**********************************************************************//**
@@ -3320,7 +3320,7 @@ static bool disband_city(struct city *pcity)
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *ptile = pcity->tile;
-  struct city *rcity=NULL;
+  struct city *rcity = NULL;
   const struct unit_type *utype = pcity->production.value.utype;
   struct unit *punit;
   int saved_id = pcity->id;

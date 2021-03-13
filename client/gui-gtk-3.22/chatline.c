@@ -163,7 +163,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
     }
 
     genlist_prepend(history_list, fc_strdup(theinput));
-    history_pos=-1;
+    history_pos = -1;
   }
 
   gtk_entry_set_text(w, "");

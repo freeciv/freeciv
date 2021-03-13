@@ -1539,7 +1539,7 @@ static void help_item_zoom(GtkTreePath *path)
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(help_view));
   gtk_tree_model_get_iter(model, &item, path);
 
-  for (child=item; gtk_tree_model_iter_parent(model, &it, &child); child=it) {
+  for (child = item; gtk_tree_model_iter_parent(model, &it, &child); child=it) {
     GtkTreePath *it_path;
 
     it_path = gtk_tree_model_get_path(model, &it);

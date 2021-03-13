@@ -1984,7 +1984,7 @@ void request_unit_disband(struct unit *punit)
 **************************************************************************/
 void request_unit_change_homecity(struct unit *punit)
 {
-  struct city *pcity=tile_city(unit_tile(punit));
+  struct city *pcity = tile_city(unit_tile(punit));
 
   if (pcity) {
     request_do_action(ACTION_HOME_CITY, punit->id, pcity->id, 0, "");
@@ -1996,7 +1996,7 @@ void request_unit_change_homecity(struct unit *punit)
 **************************************************************************/
 void request_unit_upgrade(struct unit *punit)
 {
-  struct city *pcity=tile_city(unit_tile(punit));
+  struct city *pcity = tile_city(unit_tile(punit));
 
   if (pcity) {
     request_do_action(ACTION_UPGRADE_UNIT, punit->id, pcity->id, 0, "");

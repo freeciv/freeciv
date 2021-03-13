@@ -1115,7 +1115,7 @@ void boot_help_texts(void)
       }
       free(paras);
       paras = NULL;
-      pitem->text=fc_strdup(long_buffer);
+      pitem->text = fc_strdup(long_buffer);
       help_list_append(help_nodes, pitem);
     } section_list_iterate_end;
 

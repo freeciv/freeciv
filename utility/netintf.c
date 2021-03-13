@@ -245,7 +245,7 @@ void fc_nonblock(int sockfd)
   }
 #else  /* HAVE_FCNTL */
 #ifdef HAVE_IOCTL
-  long value=1;
+  long value = 1;
 
   if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
     log_error("ioctl failed: %s", fc_strerror(fc_get_errno()));

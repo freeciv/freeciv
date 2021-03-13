@@ -165,7 +165,7 @@ struct unit_list *texai_player_units(struct player *pplayer)
 **************************************************************************/
 static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
 {
-  enum texai_abort_msg_class ret_abort= TEXAI_ABORT_NONE;
+  enum texai_abort_msg_class ret_abort = TEXAI_ABORT_NONE;
 
   texaimsg_list_allocate_mutex(exthrai.msgs_to.msglist);
   while (texaimsg_list_size(exthrai.msgs_to.msglist) > 0) {

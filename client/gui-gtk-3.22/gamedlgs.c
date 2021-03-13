@@ -503,9 +503,9 @@ static GtkWidget *create_rates_dialog(void)
 
   gtk_widget_show_all(shell);
 
-  rates_tax_value=-1;
-  rates_lux_value=-1;
-  rates_sci_value=-1;
+  rates_tax_value = -1;
+  rates_lux_value = -1;
+  rates_sci_value = -1;
 
   rates_tax_sig =
     g_signal_connect_after(rates_tax_scale, "value-changed",

@@ -2489,19 +2489,19 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->production_kind = pcity->production.kind;
   packet->production_value = universal_number(&pcity->production);
 
-  packet->turn_last_built=pcity->turn_last_built;
+  packet->turn_last_built = pcity->turn_last_built;
   packet->turn_founded = pcity->turn_founded;
 
   packet->changed_from_kind = pcity->changed_from.kind;
   packet->changed_from_value = universal_number(&pcity->changed_from);
 
-  packet->before_change_shields=pcity->before_change_shields;
-  packet->disbanded_shields=pcity->disbanded_shields;
-  packet->caravan_shields=pcity->caravan_shields;
+  packet->before_change_shields = pcity->before_change_shields;
+  packet->disbanded_shields = pcity->disbanded_shields;
+  packet->caravan_shields = pcity->caravan_shields;
   packet->last_turns_shield_surplus = pcity->last_turns_shield_surplus;
 
   worklist_copy(&packet->worklist, &pcity->worklist);
-  packet->diplomat_investigate=dipl_invest;
+  packet->diplomat_investigate = dipl_invest;
 
   packet->airlift = pcity->airlift;
   packet->did_buy = pcity->did_buy;
