@@ -43,7 +43,7 @@ struct name_translation {
 /* Inititalization macro. */
 #define NAME_INIT { NULL, "\0", "\0" }
 
-/****************************************************************************
+/************************************************************************//**
   Initializes a name translation structure.
 ****************************************************************************/
 static inline void name_init(struct name_translation *ptrans)
@@ -52,7 +52,7 @@ static inline void name_init(struct name_translation *ptrans)
   ptrans->translated = NULL;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the untranslated and rule names of the name translation structure.
   If rule_name is NULL, use vernacular_name for it (after removing any i18n
   qualifier).
@@ -81,7 +81,7 @@ static inline void names_set(struct name_translation *ptrans,
   }
 }
 
-/****************************************************************************
+/************************************************************************//**
   Set the untranslated name of the name translation structure.
   Assumes the rule name should be based on the vernacular.
 ****************************************************************************/
@@ -92,7 +92,7 @@ static inline void name_set(struct name_translation *ptrans,
   names_set(ptrans, domain, vernacular_name, NULL);
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the untranslated (vernacular) name of the name translation
   structure.
   Rarely used; you usually want name_translation() or rule_name().
@@ -106,7 +106,7 @@ static inline const char *
   return ptrans->vernacular;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the rule name of the name translation structure.
 ****************************************************************************/
 static inline const char *rule_name_get(const struct name_translation *ptrans)
@@ -114,7 +114,7 @@ static inline const char *rule_name_get(const struct name_translation *ptrans)
   return ptrans->rulename;
 }
 
-/****************************************************************************
+/************************************************************************//**
   Return the translated name of the name translation structure.
 ****************************************************************************/
 static inline const char *
