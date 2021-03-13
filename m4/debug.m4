@@ -61,7 +61,7 @@ fi
 dnl ==========================================================================
 dnl debug level >= checks
 if test "x$enable_debug" = "xchecks"; then
-  dnl Add additional flags as stated in ./doc/HACKING. Compiling the
+  dnl Add additional flags for 'checks' debug level. Compiling the
   dnl server is OK but there are problems in a external library (gtk2)
   dnl which prevent the compilation of the client using this extended
   dnl flags (see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=148766)
