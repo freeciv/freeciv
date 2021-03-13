@@ -2478,71 +2478,80 @@ reqs    =
     }
 
 [effect_action_success_establish_embassy]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Establish Embassy","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",              "range", "quiet"
+      "Action", "Establish Embassy", "Local", TRUE
+    }
 
 [effect_action_success_investigate_city]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Investigate City","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",             "range", "quiet"
+      "Action", "Investigate City", "Local", TRUE
+    }
 
 [effect_action_success_poison_city_escape]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Poison City Escape","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",               "range", "quiet"
+      "Action", "Poison City Escape", "Local", TRUE
+    }
 
 [effect_action_success_sabotage_city_escape]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Sabotage City Escape","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                 "range", "quiet"
+      "Action", "Sabotage City Escape", "Local", TRUE
+    }
 
 [effect_action_success_targeted_sabotage_city_escape]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Targeted Sabotage City Escape","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                          "range", "quiet"
+      "Action", "Targeted Sabotage City Escape", "Local", TRUE
+    }
 
 [effect_action_success_sabotage_city_production_escape]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Sabotage City Production Escape","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                            "range", "quiet"
+      "Action", "Sabotage City Production Escape", "Local", TRUE
+    }
 
 [effect_action_success_steal_tech_escape_expected]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Steal Tech Escape Expected","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                       "range", "quiet"
+      "Action", "Steal Tech Escape Expected", "Local", TRUE
+    }
 
 [effect_action_success_targeted_steal_tech_escape_expected]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Targeted Steal Tech Escape Expected","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                                "range", "quiet"
+      "Action", "Targeted Steal Tech Escape Expected", "Local", TRUE
+    }
 
 [effect_action_success_incite_city_escape]
-type="Action_Success_Actor_Move_Cost"
-value=65535
-reqs={"type","name","range","quiet"
-  "Action","Incite City Escape","Local",TRUE
-}
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",               "range", "quiet"
+      "Action", "Incite City Escape", "Local", TRUE
+    }
 
 [effect_action_success_unit_sabotage]
-type="Action_Success_Actor_Move_Cost"
-value=65535
+type  = "Action_Success_Actor_Move_Cost"
+value = 65535
 reqs  =
     {
       "type",   "name",                 "range", "quiet"
