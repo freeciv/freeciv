@@ -27,7 +27,7 @@ AC_DEFUN([FC_CHECK_POSTGRES],
 
     postgresql_cflags="-I`$PG_CONFIG --includedir`"
     postgresql_ldflags="-L`$PG_CONFIG --libdir` -lpq"
-    POSTGRESQL_VERSION=`$PG_CONFIG --version | sed -e 's#PostgreSQL ##'`
+    POSTGRESQL_VERSION=`$PG_CONFIG --version | $SED -e 's#PostgreSQL ##'`
 
     found_postgresql="yes"
     AC_MSG_RESULT([yes])
