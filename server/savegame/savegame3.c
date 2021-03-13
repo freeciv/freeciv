@@ -4824,6 +4824,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   pcity->was_happy =
     secfile_lookup_bool_default(loading->file, FALSE, "%s.was_happy",
                                 citystr);
+  pcity->had_famine =
+    secfile_lookup_bool_default(loading->file, FALSE, "%s.had_famine",
+                                citystr);
 
   pcity->turn_plague =
     secfile_lookup_int_default(loading->file, 0, "%s.turn_plague", citystr);
@@ -5286,6 +5289,8 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, pcity->airlift, "%s.airlift",
                        buf);
     secfile_insert_bool(saving->file, pcity->was_happy, "%s.was_happy",
+                        buf);
+    secfile_insert_bool(saving->file, pcity->had_famine, "%s.had_famine",
                         buf);
     secfile_insert_int(saving->file, pcity->turn_plague, "%s.turn_plague",
                        buf);

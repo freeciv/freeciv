@@ -103,7 +103,7 @@ AI is ai player difficulty level.
 TerrainClass is either "Land" or "Oceanic".
 CityTile is "Center" (city center), "Claimed" (tile owned) or
 "Extras Owned" (extra on tile owned).
-CityStatus is "OwnedByOriginal"
+CityStatus is "OwnedByOriginal", or "Starved"
 DiplRel is a diplomatic relationship.
 MaxUnitsOnTile is about the number of units present on a tile.
 UnitState is "Transported", "Transporting", "OnNativeTile", "OnLivableTile",

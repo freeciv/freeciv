@@ -499,6 +499,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_NAME citystatus_type
 #define SPECENUM_VALUE0 CITYS_OWNED_BY_ORIGINAL
 #define SPECENUM_VALUE0NAME "OwnedByOriginal"
+#define SPECENUM_VALUE1 CITYS_STARVED
+#define SPECENUM_VALUE1NAME "Starved"
 #define SPECENUM_COUNT CITYS_LAST
 #include "specenum_gen.h"
 

@@ -778,6 +778,7 @@ void handle_city_info(const struct packet_city_info *packet)
   pcity->did_buy = packet->did_buy;
   pcity->did_sell = packet->did_sell;
   pcity->was_happy = packet->was_happy;
+  pcity->had_famine = packet->had_famine;
 
   pcity->turn_founded = packet->turn_founded;
   pcity->turn_last_built = packet->turn_last_built;

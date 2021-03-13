@@ -3449,6 +3449,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   pcity->was_happy =
     secfile_lookup_bool_default(loading->file, FALSE, "%s.was_happy",
                                 citystr);
+  pcity->had_famine = FALSE;
 
   pcity->turn_plague =
     secfile_lookup_int_default(loading->file, 0, "%s.turn_plague", citystr);

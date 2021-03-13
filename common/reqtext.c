@@ -2604,6 +2604,9 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case CITYS_OWNED_BY_ORIGINAL:
         city_property = _("owned by original");
         break;
+      case CITYS_STARVED:
+        city_property = _("starved");
+        break;
       case CITYS_LAST:
         fc_assert(preq->source.value.citystatus != CITYS_LAST);
         break;

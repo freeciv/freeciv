@@ -732,6 +732,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
 
   UINT8 airlift;
   BOOL did_buy, did_sell, was_happy;
+  BOOL had_famine;
 
   BOOL diplomat_investigate;
   UINT8 walls;
@@ -2243,6 +2244,7 @@ PACKET_EDIT_CITY = 213; cs, handle-per-conn, handle-via-packet
   BOOL did_buy;
   BOOL did_sell;
   BOOL was_happy;
+  BOOL had_famine;
   UINT8 anarchy;
   UINT8 rapture;
   UINT8 steal;

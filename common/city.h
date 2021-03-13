@@ -356,6 +356,7 @@ struct city {
   bool did_buy;
   bool did_sell;
   bool was_happy;
+  bool had_famine;
 
   int anarchy;                  /* anarchy rounds count */ 
   int rapture;                  /* rapture rounds count */ 

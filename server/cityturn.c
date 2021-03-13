@@ -1104,6 +1104,7 @@ static void city_populate(struct city *pcity, struct player *nationality)
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
     city_reduce_size(pcity, 1, NULL, "famine");
+    pcity->had_famine = TRUE;
   }
 }
 
@@ -3206,6 +3207,7 @@ static void update_city_activity(struct city *pcity)
 
     /* City population updated here, after the rapture stuff above. --Jing */
     saved_id = pcity->id;
+    pcity->had_famine = FALSE;
     city_populate(pcity, pplayer);
     if (NULL == player_city_by_number(pplayer, saved_id)) {
       return;
