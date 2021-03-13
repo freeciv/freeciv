@@ -960,6 +960,14 @@ target_reqs    =
       "CityTile", "Center", "Local", FALSE
     }
 
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
 [actionenabler_hut_enter_from_native]
 action        = "Enter Hut"
 actor_reqs    =
@@ -974,14 +982,6 @@ actor_reqs    =
   { "type",         "name",         "range", "present"
     "MinMoveFrags", "1",            "Local", TRUE
     "UnitState",    "Transported",  "Local", TRUE
-    }
-
-[actionenabler_regular_move]
-action     = "Unit Move"
-actor_reqs =
-    { "type",         "name",        "range", "present"
-      "MinMoveFrags", "1",           "Local", TRUE
-      "UnitState",    "Transported", "Local", FALSE
     }
 
 [borders]

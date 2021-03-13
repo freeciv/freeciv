@@ -1697,6 +1697,28 @@ actor_reqs    =
       "DiplRel",      "Never met",  "Local", FALSE
     }
 
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
+[actionenabler_hut_enter]
+action        = "Enter Hut"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "MinMoveFrags", "1",            "Local"
+    }
+
+[actionenabler_hut_frighten]
+action        = "Frighten Hut"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "MinMoveFrags", "1",            "Local"
+    }
+
 [actionenabler_claim_extra_war]
 action        = "Conquer Extras"
 actor_reqs    =
@@ -1716,28 +1738,6 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",         "range", "present"
       "CityTile",     "Extras Owned", "Local", FALSE
-    }
-
-[actionenabler_hut_enter]
-action        = "Enter Hut"
-actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
-    }
-
-[actionenabler_hut_frighten]
-action        = "Frighten Hut"
-actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
-    }
-
-[actionenabler_regular_move]
-action     = "Unit Move"
-actor_reqs =
-    { "type",         "name",        "range", "present"
-      "MinMoveFrags", "1",           "Local", TRUE
-      "UnitState",    "Transported", "Local", FALSE
     }
 
 [borders]

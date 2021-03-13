@@ -1264,14 +1264,6 @@ actor_reqs    =
       "Activity",      "Fortified",    "Local", FALSE
     }
 
-[actionenabler_regular_move]
-action     = "Unit Move"
-actor_reqs =
-    { "type",         "name",        "range", "present"
-      "MinMoveFrags", "1",           "Local", TRUE
-      "UnitState",    "Transported", "Local", FALSE
-    }
-
 [actionenabler_fortify_city]
 action        = "Fortify"
 actor_reqs    =
@@ -1417,6 +1409,26 @@ actor_reqs    =
       "UnitState",      "OnNativeTile", "Local", FALSE
     }
 
+[actionenabler_embark]
+action        = "Transport Embark"
+actor_reqs    =
+    { "type",         "name",       "range", "present"
+      "MinMoveFrags", "1",          "Local", TRUE
+      "DiplRel",      "Armistice",  "Local", FALSE
+      "DiplRel",      "War",        "Local", FALSE
+      "DiplRel",      "Cease-fire", "Local", FALSE
+      "DiplRel",      "Peace",      "Local", FALSE
+      "DiplRel",      "Never met",  "Local", FALSE
+    }
+
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
 [actionenabler_hut_enter_from_native_tile]
 action        = "Enter Hut"
 actor_reqs    =
@@ -1447,18 +1459,6 @@ actor_reqs    =
     { "type",           "name",         "range", "present"
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
-    }
-
-[actionenabler_embark]
-action        = "Transport Embark"
-actor_reqs    =
-    { "type",         "name",       "range", "present"
-      "MinMoveFrags", "1",          "Local", TRUE
-      "DiplRel",      "Armistice",  "Local", FALSE
-      "DiplRel",      "War",        "Local", FALSE
-      "DiplRel",      "Cease-fire", "Local", FALSE
-      "DiplRel",      "Peace",      "Local", FALSE
-      "DiplRel",      "Never met",  "Local", FALSE
     }
 
 [actionenabler_claim_extra_war_from_native_tile]

@@ -439,6 +439,20 @@ target_reqs    =
       "TerrainFlag","NoCities","Local",FALSE
     }
 
+[actionenabler_cultivate]
+action        = "Cultivate"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
+[actionenabler_plant]
+action        = "Plant"
+actor_reqs    =
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Settlers",     "Local", TRUE
+    }
+
 [actionenabler_alight]
 action        = "Transport Alight"
 actor_reqs    =
@@ -512,20 +526,6 @@ actor_reqs    =
       "DiplRel",      "Cease-fire", "Local", FALSE
       "DiplRel",      "Peace",      "Local", FALSE
       "DiplRel",      "Never met",  "Local", FALSE
-    }
-
-[actionenabler_cultivate]
-action        = "Cultivate"
-actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
-    }
-
-[actionenabler_plant]
-action        = "Plant"
-actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "Settlers",     "Local", TRUE
     }
 
 [actionenabler_regular_move]

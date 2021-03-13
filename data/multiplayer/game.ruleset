@@ -1397,6 +1397,14 @@ actor_reqs    =
       "DiplRel",      "Never met",  "Local", FALSE
     }
 
+[actionenabler_regular_move]
+action     = "Unit Move"
+actor_reqs =
+    { "type",         "name",        "range", "present"
+      "MinMoveFrags", "1",           "Local", TRUE
+      "UnitState",    "Transported", "Local", FALSE
+    }
+
 [actionenabler_claim_extra_war_from_native_tile]
 action        = "Conquer Extras"
 actor_reqs    =
@@ -1437,14 +1445,6 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",         "range", "present"
       "CityTile",     "Extras Owned", "Local", FALSE
-    }
-
-[actionenabler_regular_move]
-action     = "Unit Move"
-actor_reqs =
-    { "type",         "name",        "range", "present"
-      "MinMoveFrags", "1",           "Local", TRUE
-      "UnitState",    "Transported", "Local", FALSE
     }
 
 [borders]
