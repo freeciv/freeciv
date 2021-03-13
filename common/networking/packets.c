@@ -53,7 +53,7 @@
 #define JUMBO_SIZE		0xffff
 
 /*
- * All values 0<=size<COMPRESSION_BORDER are uncompressed packets.
+ * All values 0 <= size < COMPRESSION_BORDER are uncompressed packets.
  */
 #define COMPRESSION_BORDER	(16*1024+1)
 
@@ -146,6 +146,7 @@ static bool conn_compression_flush(struct connection *pconn)
 
     if (!jumbo) {
       unsigned char header[2];
+
       FC_STATIC_ASSERT(COMPRESSION_BORDER > MAX_LEN_PACKET,
                        uncompressed_compressed_packet_len_overlap);
 
@@ -157,6 +158,7 @@ static bool conn_compression_flush(struct connection *pconn)
       connection_send_data(pconn, compressed, compressed_size);
     } else {
       unsigned char header[6];
+
       FC_STATIC_ASSERT(JUMBO_SIZE >= JUMBO_BORDER+COMPRESSION_BORDER,
                        compressed_normal_jumbo_packet_len_overlap);
 
@@ -176,6 +178,7 @@ static bool conn_compression_flush(struct connection *pconn)
                          pconn->compression.queue.size);
     stat_size_no_compression += pconn->compression.queue.size;
   }
+
   return pconn->used;
 }
 #endif /* USE_COMPRESSION */
@@ -197,9 +200,9 @@ bool conn_compression_thaw(struct connection *pconn)
     return conn_compression_flush(pconn);
   }
 #endif /* USE_COMPRESSION */
+
   return pconn->used;
 }
-
 
 /**********************************************************************//**
   It returns the request id of the outgoing packet (or 0 if is_server()).
@@ -209,7 +212,6 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
 {
   /* default for the server */
   int result = 0;
-
 
   log_packet("sending packet type=%s(%d) len=%d to %s",
              packet_name(packet_type), packet_type, len,
@@ -293,8 +295,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
       int i;
 
       for (i = 0; i < PACKET_LAST; i++) {
-	packets_stats[i].counter = 0;
-	packets_stats[i].size = 0;
+        packets_stats[i].counter = 0;
+        packets_stats[i].size = 0;
       }
     }
 
@@ -303,14 +305,14 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
 
     packet_counter++;
     if (packet_type == PACKET_START_TURN
-	&& last_start_turn_seen != game.turn) {
-	start_turn_seen=TRUE;
+        && last_start_turn_seen != game.turn) {
+      start_turn_seen = TRUE;
       last_start_turn_seen = game.turn;
     }
 
     if ((packet_type ==
-	 PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT)
-	&& start_turn_seen) {
+         PACKET_PROCESSING_FINISHED || packet_type == PACKET_THAW_HINT)
+        && start_turn_seen) {
       start_turn_seen = FALSE;
       print = TRUE;
       clear = TRUE;
@@ -327,10 +329,10 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
       log_ll("%8s %8s %8s %s", "Packets", "Bytes", "Byt/Pac", "Name");
 
       for (i = 0; i < PACKET_LAST; i++) {
-	if (packets_stats[i].counter == 0) {
-	  continue;
-	}
-	sum += packets_stats[i].size;
+        if (packets_stats[i].counter == 0) {
+          continue;
+        }
+        sum += packets_stats[i].size;
         log_ll("%8d %8d %8d %s(%i)",
                packets_stats[i].counter, packets_stats[i].size,
                packets_stats[i].size / packets_stats[i].counter,
@@ -346,8 +348,8 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len,
       int i;
 
       for (i = 0; i < PACKET_LAST; i++) {
-	packets_stats[i].counter = 0;
-	packets_stats[i].size = 0;
+        packets_stats[i].counter = 0;
+        packets_stats[i].size = 0;
       }
       packet_counter = 0;
       pc->statistics.bytes_send = 0;
@@ -383,7 +385,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
   void *(*receive_handler)(struct connection *);
 
   if (!pc->used) {
-    return NULL;		/* connection was closed, stop reading */
+    return NULL; /* connection was closed, stop reading */
   }
   
   if (pc->buffer->ndata < data_type_size(pc->packet_header.length)) {
@@ -422,7 +424,7 @@ void *get_packet_from_connection_raw(struct connection *pc,
 #endif /* USE_COMPRESSION */
 
   if ((unsigned)whole_packet_len > pc->buffer->ndata) {
-    return NULL;		/* not all data has been read */
+    return NULL; /* not all data has been read */
   }
 
 #ifdef USE_COMPRESSION
@@ -548,8 +550,8 @@ void *get_packet_from_connection_raw(struct connection *pc,
       int i;
 
       for (i = 0; i < PACKET_LAST; i++) {
-	packets_stats[i].counter = 0;
-	packets_stats[i].size = 0;
+        packets_stats[i].counter = 0;
+        packets_stats[i].size = 0;
       }
     }
 
@@ -562,9 +564,10 @@ void *get_packet_from_connection_raw(struct connection *pc,
 
       log_test("Received packets:");
       for (i = 0; i < PACKET_LAST; i++) {
-	if (packets_stats[i].counter == 0)
-	  continue;
-	sum += packets_stats[i].size;
+        if (packets_stats[i].counter == 0) {
+          continue;
+        }
+        sum += packets_stats[i].size;
         log_test("  [%-25.25s %3d]: %6d packets; %8d bytes total; "
                  "%5d bytes/packet average",
                  packet_name(i), i, packets_stats[i].counter,
@@ -674,16 +677,17 @@ bool packet_check(struct data_in *din, struct connection *pc)
                conn_description (pc));
     return FALSE;
   }
+
   return TRUE;
 }
 
 /**********************************************************************//**
- Updates pplayer->attribute_block according to the given packet.
+  Updates pplayer->attribute_block according to the given packet.
 **************************************************************************/
 void generic_handle_player_attribute_chunk(struct player *pplayer,
-					   const struct
-					   packet_player_attribute_chunk
-					   *chunk)
+                                           const struct
+                                           packet_player_attribute_chunk
+                                           *chunk)
 {
   log_packet("received attribute chunk %u/%u %u",
              (unsigned int) chunk->offset,
@@ -718,7 +722,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
     pplayer->attribute_block_buffer.length = chunk->total_length;
   }
   memcpy((char *) (pplayer->attribute_block_buffer.data) + chunk->offset,
-	 chunk->data, chunk->chunk_length);
+         chunk->data, chunk->chunk_length);
   
   if (chunk->offset + chunk->chunk_length == chunk->total_length) {
     /* Received full attribute block */
@@ -734,10 +738,10 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 }
 
 /**********************************************************************//**
- Split the attribute block into chunks and send them over pconn.
+  Split the attribute block into chunks and send them over pconn.
 **************************************************************************/
 void send_attribute_block(const struct player *pplayer,
-			  struct connection *pconn)
+                          struct connection *pconn)
 {
   struct packet_player_attribute_chunk packet;
   int current_chunk, chunks, bytes_left;
@@ -763,8 +767,8 @@ void send_attribute_block(const struct player *pplayer,
     packet.chunk_length = size_of_current_chunk;
 
     memcpy(packet.data,
-	   (char *) (pplayer->attribute_block.data) + packet.offset,
-	   packet.chunk_length);
+           (char *) (pplayer->attribute_block.data) + packet.offset,
+           packet.chunk_length);
     bytes_left -= packet.chunk_length;
 
     if (packet.chunk_length < ATTRIBUTE_CHUNK_SIZE) {
@@ -797,7 +801,6 @@ void pre_send_packet_player_attribute_chunk(struct connection *pc,
 
   log_packet("sending attribute chunk %d/%d %d",
              packet->offset, packet->total_length, packet->chunk_length);
-
 }
 
 /**********************************************************************//**
@@ -871,6 +874,7 @@ const struct packet_handlers *packet_handlers_get(const char *capability)
   }
 
   fc_assert(phandlers != NULL);
+
   return phandlers;
 }
 
