@@ -1420,7 +1420,7 @@ PACKET_RULESET_UNIT_BONUS = 228; sc, lsend
   UNIT_TYPE   unit;
   UTYF        flag;
   CBONUS_TYPE type;
-  UINT8       value;
+  SINT16      value;
   BOOL        quiet;
 end
 
