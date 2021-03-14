@@ -19,7 +19,6 @@
 .deps
 .libs
 .git
-Freeciv.h
 Makefile
 Makefile.in
 POTFILES
