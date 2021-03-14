@@ -38,7 +38,9 @@ flags =
     ;flags to approximate fighters` "scramble" mechanics
     _("Bomber"), _("Bad at attacking Fighters")
     _("Stealth Bomber"), _("Bad at attacking Fighters")
-    _("EarlyFighter"), _("250% defense against Stealth Bombers")
+    _("EarlyFighter"),
+    ; /* xgettext:no-c-format */
+                 _("250% defense against Stealth Bombers")
   }
 
 ; Names for custom unit class flags. There can be up to 15 of these.
