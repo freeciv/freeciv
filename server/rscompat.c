@@ -873,6 +873,14 @@ void rscompat_postprocess(struct rscompat_info *info)
     peffect = effect_new(EFT_UNIT_SHIELD_VALUE_PCT, -50, NULL);
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             FALSE, "Upgrade Unit"));
+
+    /* The rule that "Heal Unit" heals up to 25% has moved to the
+     * ruleset. */
+    peffect = effect_new(EFT_HEAL_UNIT_PCT, -75, NULL);
+    effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
+                                            FALSE, "Heal Unit"));
+
+
   }
 
   if (info->ver_game < 20) {

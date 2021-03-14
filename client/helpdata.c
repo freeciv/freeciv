@@ -2611,9 +2611,20 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype_build_shield_cost_base(utype));
         break;
       case ACTRES_HEAL_UNIT:
-        cat_snprintf(buf, bufsz,
-                     _("  * restores up to 25%% of the target unit's"
-                       " hit points.\n"));
+        {
+          struct universal req_pattern[] = {
+            { .kind = VUT_ACTION, .value.action = paction },
+            { .kind = VUT_UTYPE,  .value.utype = utype },
+          };
+
+          cat_snprintf(buf, bufsz,
+                       _("  * restores up to %d%% of the target unit's"
+                         " hit points.\n"),
+                       effect_value_from_universals(
+                         EFT_HEAL_UNIT_PCT,
+                         req_pattern, ARRAY_SIZE(req_pattern))
+                       + 100);
+        }
         break;
       case ACTRES_FOUND_CITY:
         if (game.scenario.prevent_new_cities) {

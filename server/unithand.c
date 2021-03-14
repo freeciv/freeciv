@@ -555,7 +555,17 @@ static bool do_heal_unit(struct player *act_player,
   fc_assert_ret_val(tgt_tile, FALSE);
 
   /* The max amount of HP that can be added. */
-  healing_limit = tgt_hp_max / 4;
+  healing_limit = ((get_target_bonus_effects(NULL,
+                                             unit_owner(act_unit),
+                                             unit_owner(tgt_unit),
+                                             tile_city(unit_tile(act_unit)),
+                                             NULL, unit_tile(act_unit),
+                                             act_unit,
+                                             unit_type_get(act_unit),
+                                             NULL, NULL, paction,
+                                             EFT_HEAL_UNIT_PCT)
+                    + 100)
+                   * tgt_hp_max) / 100;
 
   /* Heal the target unit. */
   tgt_unit->hp = MIN(tgt_unit->hp + healing_limit, tgt_hp_max);

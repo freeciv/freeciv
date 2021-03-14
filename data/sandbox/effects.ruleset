@@ -4682,6 +4682,14 @@ reqs    =
       "Action", "Heal Unit 2", "Local", TRUE
     }
 
+[effect_heal_2_amount]
+type    = "Heal_Unit_Pct"
+value   = -75
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit 2", "Local", TRUE
+    }
+
 ; The treasury is better guarded than the drinking water
 ; See "Poison City Escape"
 [effect_steal_gold_escape_lower_chance]
