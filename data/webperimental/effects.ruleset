@@ -2933,6 +2933,14 @@ reqs    =
       "Action", "Heal Unit", "Local", TRUE
     }
 
+[effect_heal_amount]
+type    = "Heal_Unit_Pct"
+value   = -75
+reqs    =
+    { "type", "name", "range", "present"
+      "Action", "Heal Unit", "Local", TRUE
+    }
+
 [effect_action_success_move_cost_royal_sapper]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535

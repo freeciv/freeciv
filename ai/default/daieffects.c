@@ -561,6 +561,7 @@ adv_want dai_effect_value(struct player *pplayer, struct government *gov,
   case EFT_MAPS_STOLEN_PCT:
   case EFT_UNIT_SHIELD_VALUE_PCT:
   case EFT_NUKE_BLAST_RADIUS_1_SQ:
+  case EFT_HEAL_UNIT_PCT:
     break;
     /* This has no effect for AI */
   case EFT_VISIBLE_WALLS:

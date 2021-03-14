@@ -293,6 +293,11 @@ DiplRel reqs are unit owner to city owner.
 Requirements evaluated against tile or city not supported.
 Default value: 100%
 
+Heal_Unit_Pct
+    The amount of the units full health the heal unit action will restore.
+Will not "heal" the unit to more than 100% of its health.
+Default value: 100%
+
 Nuke_Blast_Radius_1_Sq
     The size of the radius of the blast area in squared distance from ground
 zero in amount tiles.
