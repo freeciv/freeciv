@@ -473,6 +473,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   PLAYER aifill;
   PERSISTENT_READY persistent_ready;
   AIRLIFTING_STYLE airlifting_style;
+  BOOL airlift_from_always_enabled;
+  BOOL airlift_to_always_enabled;
   UINT8 angrycitizen;
   SINT16 base_pollution;
   UINT16 base_tech_cost;

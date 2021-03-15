@@ -2442,13 +2442,13 @@ static struct setting settings[] = {
                  "- \"Allows units to be airlifted to allied cities\" "
                  "(TO_ALLIES).\n"
                  "- \"Unlimited units from source city\" (SRC_UNLIMITED): "
-                 "note that airlifting from a city doesn't reduce the "
-                 "airlifted counter, but still needs airlift capacity of "
-                 "at least 1.\n"
+                 "airlifting from a city doesn't reduce the "
+                 "airlifted counter. It depends on the ruleset whether "
+                 "this is possible even with zero airlift capacity.\n"
                  "- \"Unlimited units to destination city\" "
-                 "(DEST_UNLIMITED): note that airlifting to a city doesn't "
-                 "reduce the airlifted counter, and doesn't need any "
-                 "airlift capacity."),
+                 "(DEST_UNLIMITED): airlifting to a city doesn't "
+                 "reduce the airlifted counter. It depends on the ruleset "
+                 "whether this is possible even with zero airlift capacity."),
               NULL, NULL, airliftingstyle_name, GAME_DEFAULT_AIRLIFTINGSTYLE)
 
   GEN_INT("diplchance", game.server.diplchance,

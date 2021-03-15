@@ -3521,13 +3521,12 @@ action_hard_reqs_actor(const struct action *paction,
         return TRI_MAYBE;
       }
 
-      if (0 >= actor_city->airlift) {
+      if (0 >= actor_city->airlift
+          && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+              || !game.info.airlift_from_always_enabled)) {
         /* The source cannot airlift for this turn (maybe already airlifted
          * or no airport).
          *
-         * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-         * is not handled here because it applies only when the source city
-         * has at least one remaining airlift.
          * See also do_airline() in server/unittools.h. */
         return TRI_NO;
       }

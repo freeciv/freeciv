@@ -179,6 +179,11 @@ gold_upkeep_style = "City"
 ; want this to be some 10^n.
 output_granularity = 1
 
+; Is it possible to airlift even with zero airlift capacity when
+; airliftingstyle server setting has been set to unlimited airlifts?
+airlift_from_always_enabled = FALSE
+airlift_to_always_enabled = TRUE
+
 [illness]
 ; Whether plagues (illness) are possible
 ; There are some latent building effects in effects.ruleset which affect
