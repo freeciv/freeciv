@@ -1211,9 +1211,6 @@ static void hard_code_actions(void)
   actions[ACTION_WIPE_UNITS] =
       unit_action_new(ACTION_WIPE_UNITS, ACTRES_WIPE_UNITS,
                       FALSE, TRUE,
-                      /* Tries a forced move if the target unit's tile has
-                       * no non allied units and the occupychance dice roll
-                       * tells it to move. */
                       MAK_FORCED,
                       1, 1, FALSE);
   actions[ACTION_STRIKE_BUILDING] =

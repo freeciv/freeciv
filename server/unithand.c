@@ -383,6 +383,38 @@ static bool do_capture_units(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Occupying move after an action.
+**************************************************************************/
+static void occupy_move(struct tile *def_tile, struct unit *punit,
+                        const struct action *paction)
+{
+  if (!is_non_allied_unit_tile(def_tile, unit_owner(punit))) {
+    /* Hack: make sure the unit has enough moves_left for the move to succeed,
+     * and adjust moves_left to afterward (if successful). */
+    int old_moves = punit->moves_left;
+    int full_moves = unit_move_rate(punit);
+
+    punit->moves_left = full_moves;
+    /* Post attack occupy move. */
+    if (NULL != action_auto_perf_unit_do(AAPC_POST_ACTION, punit,
+                                         NULL, NULL, paction,
+                                         def_tile, tile_city(def_tile),
+                                         NULL, NULL)) {
+      int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
+
+      /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
+       * Attack SINGLE_COST is already calculated in to old_moves. */
+      punit->moves_left = old_moves - mcost;
+      if (punit->moves_left < 0) {
+        punit->moves_left = 0;
+      }
+    } else {
+      punit->moves_left = old_moves;
+    }
+  }
+}
+
+/**********************************************************************//**
   Wipe all units at target tile.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -423,6 +455,8 @@ static bool do_wipe_units(struct unit *punit,
                                pdesttile, victim_link);
 
   } unit_list_iterate_safe_end;
+
+  occupy_move(pdesttile, punit, paction);
 
   unit_did_action(punit);
   unit_forget_last_activity(punit);
@@ -4691,32 +4725,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
    * multiple defenders and unstacked combat). Note that this could mean 
    * capturing (or destroying) a city. */
 
-  if (pwinner == punit && fc_rand(100) < game.server.occupychance
-      && !is_non_allied_unit_tile(def_tile, pplayer)) {
-
-    /* Hack: make sure the unit has enough moves_left for the move to succeed,
-       and adjust moves_left to afterward (if successful). */
-
-    int old_moves = punit->moves_left;
-    int full_moves = unit_move_rate(punit);
-
-    punit->moves_left = full_moves;
-    /* Post attack occupy move. */
-    if (NULL != action_auto_perf_unit_do(AAPC_POST_ACTION, punit,
-                                         NULL, NULL, paction,
-                                         def_tile, tile_city(def_tile),
-                                         NULL, NULL)) {
-      int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
-
-      /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move costs.
-       * Attack SINGLE_COST is already calculated in to old_moves. */
-      punit->moves_left = old_moves - mcost;
-      if (punit->moves_left < 0) {
-        punit->moves_left = 0;
-      }
-    } else {
-      punit->moves_left = old_moves;
-    }
+  if (pwinner == punit && fc_rand(100) < game.server.occupychance) {
+    occupy_move(def_tile, punit, paction);
   }
 
   /* The attacker may have died for many reasons */
