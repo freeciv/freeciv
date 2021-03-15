@@ -4023,6 +4023,7 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (unit_lives && (enter_hut || frighten_hut)) {
     /* Is there a hut? */
     unit_enter_hut(punit, frighten_hut);
+    fc_assert(!(enter_hut && frighten_hut));
     unit_lives = unit_is_alive(saved_id);
   }
 

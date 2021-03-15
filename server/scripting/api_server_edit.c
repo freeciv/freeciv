@@ -168,6 +168,10 @@ bool api_edit_unit_teleport(lua_State *L, Unit *punit, Tile *dest,
   LUASCRIPT_CHECK_ARG_NIL(L, punit, 2, Unit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, dest, 3, Tile, FALSE);
 
+  LUASCRIPT_CHECK(L, !(enter_hut && frighten_hut),
+                  "Can't both enter and frighten a hut at the same time",
+                  TRUE);
+
   if (!allow_disembark && unit_transported(punit)) {
     /* Can't leave the transport. */
     return TRUE;
@@ -814,6 +818,10 @@ bool api_edit_unit_move(lua_State *L, Unit *punit, Tile *ptile,
   LUASCRIPT_CHECK_SELF(L, punit, FALSE);
   LUASCRIPT_CHECK_ARG_NIL(L, ptile, 3, Tile, FALSE);
   LUASCRIPT_CHECK_ARG(L, movecost >= 0, 4, "Negative move cost!", FALSE);
+
+  LUASCRIPT_CHECK(L, !(enter_hut && frighten_hut),
+                  "Can't both enter and frighten a hut at the same time",
+                  TRUE);
 
   if (!disembark && unit_transported(punit)) {
     /* Can't leave the transport. */
