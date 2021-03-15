@@ -53,6 +53,7 @@
 #include "mem.h"
 #include "netintf.h"
 #include "rand.h"
+#include "randseed.h"
 #include "registry.h"
 #include "support.h"
 #include "timing.h"
@@ -197,7 +198,7 @@ void init_game_seed(void)
   if (game.server.seed_setting == 0) {
     /* We strip the high bit for now because neither game file nor
        server options can handle unsigned ints yet. - Cedric */
-    game.server.seed = time(NULL) & (MAX_UINT32 >> 1);
+    game.server.seed = generate_game_seed() & (MAX_UINT32 >> 1);
 #ifdef FREECIV_TESTMATIC
      /* Log command to reproduce the gameseed */
     log_testmatic("set gameseed %d", game.server.seed);

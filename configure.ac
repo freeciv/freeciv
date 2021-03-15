@@ -1416,6 +1416,12 @@ AC_CHECK_FUNCS([strerror strstr uname nanosleep usleep])
 AC_CHECK_FUNCS([getline _strcoll stricoll _stricoll strcasecoll])
 AC_CHECK_FUNCS([backtrace setenv putenv])
 
+dnl Possible random sources on Unixen
+AC_CHECK_FUNCS([getentropy clock_gettime])
+
+dnl TODO: Reimplement this check, in a cross-compiling friendly way
+dnl AC_CHECK_FILES([/dev/urandom])
+
 dnl Possible "-Wmissing-declarations" and "-Werror" will prune out
 dnl cases where we should not use _mkdir() even if it's possible to link against it
 fc_save_CPPFLAGS="$CPPFLAGS"
