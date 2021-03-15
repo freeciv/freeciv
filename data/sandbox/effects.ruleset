@@ -4397,7 +4397,7 @@ reqs    =
       "BuildingGenus", "GreatWonder", "Local"
     }
 
-[effect_success_move_cost_establish_embassy]
+[effect_action_establish_embassy_success_move_cost]
 type    = "Action_Success_Actor_Move_Cost"
 value   = 65535
 reqs    =
@@ -4491,14 +4491,6 @@ value   = 65535
 reqs    =
     { "type",   "name",              "range", "quiet"
       "Action", "Steal Gold Escape", "Local", TRUE
-    }
-
-[effect_action_success_move_cost_embassy]
-type    = "Action_Success_Actor_Move_Cost"
-value   = 1
-reqs    =
-    { "type", "name", "range", "present"
-      "Action", "Establish Embassy", "Local", TRUE
     }
 
 [effect_action_success_move_cost_investigate]
