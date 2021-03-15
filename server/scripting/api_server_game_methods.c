@@ -26,9 +26,9 @@
 
 #include "api_server_game_methods.h"
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the current value of an AI trait in force (base+mod)
-*****************************************************************************/
+**************************************************************************/
 int api_methods_player_trait(lua_State *L, Player *pplayer,
                              const char *tname)
 {
@@ -45,9 +45,9 @@ int api_methods_player_trait(lua_State *L, Player *pplayer,
   return ai_trait_get_value(tr, pplayer);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the current base value of an AI trait (not including Lua mod)
-*****************************************************************************/
+**************************************************************************/
 int api_methods_player_trait_base(lua_State *L, Player *pplayer,
                                   const char *tname)
 {
@@ -64,10 +64,10 @@ int api_methods_player_trait_base(lua_State *L, Player *pplayer,
   return pplayer->ai_common.traits[tr].val;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the current Lua increment to an AI trait
   (can be changed with api_edit_trait_mod_set())
-*****************************************************************************/
+**************************************************************************/
 int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
                                          const char *tname)
 {
@@ -84,9 +84,9 @@ int api_methods_player_trait_current_mod(lua_State *L, Player *pplayer,
   return pplayer->ai_common.traits[tr].mod;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the minimum random trait value that will be allocated for a nation
-*****************************************************************************/
+**************************************************************************/
 int api_methods_nation_trait_min(lua_State *L, Nation_Type *pnation,
                                  const char *tname)
 {
@@ -103,9 +103,9 @@ int api_methods_nation_trait_min(lua_State *L, Nation_Type *pnation,
   return pnation->server.traits[tr].min;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the maximum random trait value that will be allocated for a nation
-*****************************************************************************/
+**************************************************************************/
 int api_methods_nation_trait_max(lua_State *L, Nation_Type *pnation,
                                  const char *tname)
 {
@@ -122,9 +122,9 @@ int api_methods_nation_trait_max(lua_State *L, Nation_Type *pnation,
   return pnation->server.traits[tr].max;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the default trait value that will be allocated for a nation
-*****************************************************************************/
+**************************************************************************/
 int api_methods_nation_trait_default(lua_State *L, Nation_Type *pnation,
                                      const char *tname)
 {

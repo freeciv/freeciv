@@ -75,12 +75,12 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
                                   const char *format, ...)
             fc__attribute((__format__ (__printf__, 3, 4)));
 
-/*************************************************************************//**
+/**********************************************************************//**
   Lua virtual machine state.
-*****************************************************************************/
+**************************************************************************/
 static struct fc_lua *fcl = NULL;
 
-/*************************************************************************//**
+/**********************************************************************//**
   Add fcdb callback functions; these must be defined in the lua script
   'database.lua':
 
@@ -103,9 +103,9 @@ static struct fc_lua *fcl = NULL;
             Bool observer):
     - returns Bool, whether requester is allowed to attach taker to pplayer.
 
-  If an error occurred, the functions return a non-NULL string error message
-  as the last return value.
-*****************************************************************************/
+  If an error occurred, the functions return a non-NULL string error
+  message as the last return value.
+**************************************************************************/
 static void script_fcdb_functions_define(void)
 {
   luascript_func_add(fcl, "database_init", TRUE, 0, 0);
@@ -127,9 +127,9 @@ static void script_fcdb_functions_define(void)
                      API_TYPE_BOOL);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Check the existence of all needed functions.
-*****************************************************************************/
+**************************************************************************/
 static bool script_fcdb_functions_check(const char *fcdb_luafile)
 {
   bool ret = TRUE;
@@ -155,9 +155,9 @@ static bool script_fcdb_functions_check(const char *fcdb_luafile)
   return ret;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Send the message via cmd_reply().
-*****************************************************************************/
+**************************************************************************/
 static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
                                   const char *format, ...)
 {
@@ -192,9 +192,9 @@ static void script_fcdb_cmd_reply(struct fc_lua *lfcl, enum log_level level,
   cmd_reply(CMD_FCDB, lfcl->caller, rfc_status, "%s", buf);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   MD5 checksum function for lua environment.
-*****************************************************************************/
+**************************************************************************/
 static int md5sum(lua_State *L)
 {
    int n = lua_gettop(L);
@@ -215,10 +215,10 @@ static int md5sum(lua_State *L)
 }
 #endif /* HAVE_FCDB */
 
-/*************************************************************************//**
-  Initialize the scripting state. Returns the status of the freeciv database
-  lua state.
-*****************************************************************************/
+/**********************************************************************//**
+  Initialize the scripting state. Returns the status of the freeciv
+  database lua state.
+**************************************************************************/
 bool script_fcdb_init(const char *fcdb_luafile)
 {
 #ifdef HAVE_FCDB
@@ -284,12 +284,12 @@ bool script_fcdb_init(const char *fcdb_luafile)
   return TRUE;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Call a lua function.
 
   Example call to the lua function 'user_load()':
     success = script_fcdb_call("user_load", pconn);
-*****************************************************************************/
+**************************************************************************/
 bool script_fcdb_call(const char *func_name, ...)
 {
   bool success = TRUE;
@@ -305,9 +305,9 @@ bool script_fcdb_call(const char *func_name, ...)
   return success;
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Free the scripting data.
-*****************************************************************************/
+**************************************************************************/
 void script_fcdb_free(void)
 {
 #ifdef HAVE_FCDB
@@ -323,10 +323,10 @@ void script_fcdb_free(void)
 #endif /* HAVE_FCDB */
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Parse and execute the script in str in the lua instance for the freeciv
   database.
-*****************************************************************************/
+**************************************************************************/
 bool script_fcdb_do_string(struct connection *caller, const char *str)
 {
 #ifdef HAVE_FCDB
