@@ -328,6 +328,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_PILLAGE:
   case ACTRES_SPY_ATTACK:

@@ -2684,6 +2684,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                          "is reduced accordingly.\n"));
         }
         break;
+      case ACTRES_WIPE_UNITS:
+        cat_snprintf(buf, bufsz,
+                     _("  * can wipe stack of units with zero defense.\n"));
+        break;
       case ACTRES_CONVERT:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is a unit type. "MP" = movement points. */

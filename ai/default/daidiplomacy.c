@@ -1945,6 +1945,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_CAPTURE_UNITS:
     case ACTRES_BOMBARD:
     case ACTRES_ATTACK:
+    case ACTRES_WIPE_UNITS:
     case ACTRES_SPY_ATTACK:
       /* Unit loss */
       dai_incident_simple(receiver, violator, victim, scope, 5);

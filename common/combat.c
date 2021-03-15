@@ -237,6 +237,45 @@ enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *puni
 }
 
 /*******************************************************************//**
+  Check if unit can wipe unit stack from tile.
+***********************************************************************/
+enum unit_attack_result unit_wipe_units_at_tile_result(const struct unit *punit,
+                                                       const struct tile *ptile)
+{
+  /* Can unit wipe in general? */
+  if (!utype_can_do_action(unit_type_get(punit), ACTION_WIPE_UNITS)) {
+    return ATT_NON_ATTACK;
+  }
+
+  unit_list_iterate(ptile->units, target) {
+    if (get_total_defense_power(punit, target) > 0) {
+      return ATT_NOT_WIPABLE;
+    }
+
+    /* Can't wipe with ground unit from ocean, except for marines */
+    if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
+        && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_WIPE_UNITS,
+                                         USP_NATIVE_TILE, FALSE)) {
+      return ATT_NONNATIVE_SRC;
+    }
+
+    /* Most units can not wipe on non-native terrain.
+     * Most ships can wipe on land tiles (shore bombardment) */
+    if (!is_native_tile(unit_type_get(punit), ptile)
+        && !can_attack_non_native(unit_type_get(punit))) {
+      return ATT_NONNATIVE_DST;
+    }
+
+    /* Only fighters can wipe planes, except in city or airbase attacks */
+    if (!is_unit_reachable_at(target, punit, ptile)) {
+      return ATT_UNREACHABLE;
+    }
+  } unit_list_iterate_end;
+
+  return ATT_OK;
+}
+
+/*******************************************************************//**
   Is unit (1) diplomatically allowed to attack and (2) physically able
   to do so?
 ***********************************************************************/

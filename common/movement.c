@@ -187,21 +187,22 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 }
 
 /************************************************************************//**
- This unit can attack non-native tiles (eg. Ships ability to
- shore bombardment)
+  This unit can attack non-native tiles (eg. Ships ability to
+  shore bombardment)
 ****************************************************************************/
 bool can_attack_non_native(const struct unit_type *utype)
 {
   return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
          && (utype_can_do_action_result(utype, ACTRES_ATTACK)
-             || utype_can_do_action_result(utype, ACTRES_BOMBARD))
+             || utype_can_do_action_result(utype, ACTRES_BOMBARD)
+             || utype_can_do_action_result(utype, ACTRES_WIPE_UNITS))
          && utype->attack_strength > 0
          && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
 }
 
 /************************************************************************//**
- This unit can attack from non-native tiles (Marines can attack from
- transport, ships from harbour cities)
+  This unit can attack from non-native tiles (Marines can attack from
+  transport, ships from harbour cities)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
@@ -209,6 +210,8 @@ bool can_attack_from_non_native(const struct unit_type *utype)
                                        USP_NATIVE_TILE, FALSE)
           || utype_can_do_act_when_ustate(utype, ACTION_SUICIDE_ATTACK,
                                           USP_NATIVE_TILE, FALSE)
+          || utype_can_do_act_when_ustate(utype, ACTION_WIPE_UNITS,
+                                          USP_LIVABLE_TILE, FALSE)
           || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY4,
                                           USP_LIVABLE_TILE, FALSE)
           || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY3,

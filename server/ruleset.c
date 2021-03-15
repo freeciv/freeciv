@@ -6908,6 +6908,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
         ok = FALSE;
       }
 
+      /* "Wipe Units" */
+      if (!load_action_post_success_force(file, filename,
+                                          ACTION_AUTO_POST_WIPE_UNITS,
+                                          action_by_number(
+                                            ACTION_WIPE_UNITS))) {
+        ok = FALSE;
+      }
+
       /* No "Suicide Attack". Can't act when dead. */
     }
 

@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2014-2020 - The Freeciv Project contributors.
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -94,6 +94,8 @@ enum ane_kind {
   ANEK_ACT_NOT_ENOUGH_MONEY,
   /* Explanation: the action is blocked by another action. */
   ANEK_ACTION_BLOCKS,
+  /* Explanation: the target unit is not wipable. */
+  ANEK_NOT_WIPABLE,
   /* Explanation not detected. */
   ANEK_UNKNOWN,
 };

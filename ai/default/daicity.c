@@ -1282,6 +1282,7 @@ static int action_target_neg_util(action_id act_id,
   case ACTRES_NUKE_UNITS:
   case ACTRES_PARADROP:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:

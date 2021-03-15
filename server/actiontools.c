@@ -51,7 +51,8 @@ static void action_success_actor_consume(struct action *paction,
     } else if (action_has_result(paction, ACTRES_NUKE)
                || action_has_result(paction, ACTRES_NUKE_UNITS)) {
       wipe_unit(actor, ULR_DETONATED, NULL);
-    } else if (action_has_result(paction, ACTRES_ATTACK)) {
+    } else if (action_has_result(paction, ACTRES_ATTACK)
+               || action_has_result(paction, ACTRES_WIPE_UNITS)) {
       wipe_unit(actor, ULR_MISSILE, NULL);
     } else {
       wipe_unit(actor, ULR_USED, NULL);

@@ -453,6 +453,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " that the actor is at war with the target."),
                           ACTRES_BOMBARD,
                           ACTRES_ATTACK,
+                          ACTRES_WIPE_UNITS,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
@@ -588,6 +589,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " the NonMil utype flag."),
                           ACTRES_ATTACK,
                           ACTRES_CONQUER_CITY,
+                          ACTRES_WIPE_UNITS,
                           ACTRES_NONE);
   oblig_hard_req_reg(req_contradiction_or(
                        2,
@@ -1206,6 +1208,14 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_SUICIDE_ATTACK, ACTRES_ATTACK,
                       FALSE, TRUE,
                       MAK_FORCED, 1, 1, TRUE);
+  actions[ACTION_WIPE_UNITS] =
+      unit_action_new(ACTION_WIPE_UNITS, ACTRES_WIPE_UNITS,
+                      FALSE, TRUE,
+                      /* Tries a forced move if the target unit's tile has
+                       * no non allied units and the occupychance dice roll
+                       * tells it to move. */
+                      MAK_FORCED,
+                      1, 1, FALSE);
   actions[ACTION_STRIKE_BUILDING] =
       unit_action_new(ACTION_STRIKE_BUILDING, ACTRES_STRIKE_BUILDING,
                       FALSE, FALSE,
@@ -1713,6 +1723,7 @@ enum action_battle_kind action_get_battle_kind(const struct action *pact)
 {
   switch (pact->result) {
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
     return ABK_STANDARD;
   case ACTRES_SPY_ATTACK:
   case ACTRES_SPY_POISON:
@@ -2241,6 +2252,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
@@ -2326,6 +2338,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
@@ -3302,6 +3315,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
     break;
 
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
     if (actor_unittype->attack_strength <= 0) {
       /* Reason: Can't attack without strength. */
       return FALSE;
@@ -3592,6 +3606,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_HOME_CITY:
   case ACTRES_UPGRADE_UNIT:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_CONQUER_CITY:
@@ -4066,6 +4081,18 @@ is_action_possible(const action_id wanted_action,
     if (!can_unit_attack_tile(actor_unit, target_tile)) {
       return TRI_NO;
     }
+    break;
+
+  case ACTRES_WIPE_UNITS:
+    if (!can_unit_attack_tile(actor_unit, target_tile)) {
+      return TRI_NO;
+    }
+
+    unit_list_iterate(target_tile->units, punit) {
+      if (get_total_defense_power(actor_unit, punit) > 0) {
+        return TRI_NO;
+      }
+    } unit_list_iterate_end;
     break;
 
   case ACTRES_CONQUER_CITY:
@@ -5578,6 +5605,9 @@ action_prob(const action_id wanted_action,
       }
     }
     break;
+  case ACTRES_WIPE_UNITS:
+    chance = ACTPROB_CERTAIN;
+    break;
   case ACTRES_STRIKE_BUILDING:
     /* TODO: not implemented yet because:
      * - dice roll 100% * Action_Odds_Pct could be handled with
@@ -5933,7 +5963,8 @@ action_prob_vs_units_full(const struct unit* actor_unit,
   }
 
   if ((action_id_has_result_safe(act_id, ACTRES_ATTACK)
-       || action_id_has_result_safe(act_id, ACTRES_BOMBARD))
+       || action_id_has_result_safe(act_id, ACTRES_BOMBARD)
+       || action_id_has_result_safe(act_id, ACTRES_WIPE_UNITS))
       && tile_city(target_tile) != NULL
       && !pplayers_at_war(city_owner(tile_city(target_tile)),
                           unit_owner(actor_unit))) {
@@ -6783,6 +6814,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_PARADROP_CONQUER:
   case ACTRES_AIRLIFT:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_CONQUER_EXTRAS:
   case ACTRES_HEAL_UNIT:
@@ -7308,6 +7340,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_attack";
   case ACTION_SUICIDE_ATTACK:
     return "ui_name_suicide_attack";
+  case ACTION_WIPE_UNITS:
+    return "ui_name_wipe_units";
   case ACTION_STRIKE_BUILDING:
     return "ui_name_surgical_strike_building";
   case ACTION_STRIKE_PRODUCTION:
@@ -7589,6 +7623,9 @@ const char *action_ui_name_default(int act)
   case ACTION_SUICIDE_ATTACK:
     /* TRANS: _Suicide Attack (100% chance of success). */
     return N_("%sSuicide Attack%s");
+  case ACTION_WIPE_UNITS:
+    /* TRANS: _Wipe Units (100% chance of success). */
+    return N_("%sWipe Units%s");
   case ACTION_STRIKE_BUILDING:
     /* TRANS: Surgical Str_ike Building (100% chance of success). */
     return N_("Surgical Str%sike Building%s");
@@ -7766,6 +7803,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
@@ -7877,6 +7915,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
@@ -7972,6 +8011,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_PARADROP_ENTER_CONQUER:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
@@ -8088,6 +8128,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CONQUER_CITY:
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSFORM_TERRAIN:
@@ -8195,6 +8236,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
@@ -8317,6 +8359,7 @@ action_target_kind_default(enum action_result result)
      * target tile (Units) and, depending on the
      * unreachable_protects setting, each or any
      * *non transported* unit at the target tile. */
+  case ACTRES_WIPE_UNITS:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_NUKE_UNITS:
   case ACTRES_SPY_ATTACK:
@@ -8407,6 +8450,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_BOMBARD:
   case ACTRES_NUKE_UNITS:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_SPY_ATTACK:
     return tgt_kind == ATK_UNITS;
   case ACTRES_FOUND_CITY:
@@ -8510,6 +8554,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_BOMBARD:
   case ACTRES_NUKE_UNITS:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_SPY_ATTACK:
     return ASTK_NONE;
   case ACTRES_FOUND_CITY:
@@ -8601,6 +8646,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_BOMBARD:
   case ACTRES_NUKE_UNITS:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
   case ACTRES_SPY_ATTACK:
     return ACT_TGT_COMPL_SIMPLE;
   case ACTRES_FOUND_CITY:
@@ -8697,6 +8743,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_AIRLIFT:
   case ACTION_ATTACK:
   case ACTION_SUICIDE_ATTACK:
+  case ACTION_WIPE_UNITS:
   case ACTION_STRIKE_BUILDING:
   case ACTION_STRIKE_PRODUCTION:
   case ACTION_CONQUER_CITY:
@@ -8800,6 +8847,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "attack_blocked_by";
   case ACTION_SUICIDE_ATTACK:
     return "suicide_attack_blocked_by";
+  case ACTION_WIPE_UNITS:
+    return "wipe_units_blocked_by";
   case ACTION_CONQUER_CITY:
     return "conquer_city_blocked_by";
   case ACTION_CONQUER_CITY2:
@@ -8923,7 +8972,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   fc_assert_ret_val(act != NULL, NULL);
 
   if (!(action_has_result(act, ACTRES_SPY_BRIBE_UNIT)
-        ||action_has_result(act, ACTRES_ATTACK))) {
+        || action_has_result(act, ACTRES_ATTACK)
+        || action_has_result(act, ACTRES_WIPE_UNITS))) {
     /* No support in the action performer function */
     return NULL;
   }
@@ -8933,6 +8983,8 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
     return "bribe_unit_post_success_forced_actions";
   case ACTION_ATTACK:
     return "attack_post_success_forced_actions";
+  case ACTION_WIPE_UNITS:
+    return "wipe_units_post_success_forced_actions";
   case ACTION_MARKETPLACE:
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:

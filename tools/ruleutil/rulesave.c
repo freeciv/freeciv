@@ -1286,6 +1286,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
     return FALSE;
   }
 
+  if (!save_action_post_success_force(sfile, ACTION_AUTO_POST_WIPE_UNITS,
+                                      action_by_number(ACTION_WIPE_UNITS))) {
+    log_error("Didn't save all post success forced actions.");
+    return FALSE;
+  }
+
   if (!save_action_auto_actions(sfile, ACTION_AUTO_ESCAPE_CITY,
                                 "actions.escape_city")) {
     log_error("Didn't save all escape city forced actions.");

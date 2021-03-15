@@ -111,6 +111,7 @@ static void caravan_help_build(QVariant data1, QVariant data2);
 static void unit_recycle(QVariant data1, QVariant data2);
 static void capture_units(QVariant data1, QVariant data2);
 static void nuke_units(QVariant data1, QVariant data2);
+static void wipe_units(QVariant data1, QVariant data2);
 static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void bombard2(QVariant data1, QVariant data2);
@@ -263,6 +264,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
       = paradrop_frighten_conquer;
   action_function[ACTION_ATTACK] = attack;
   action_function[ACTION_SUICIDE_ATTACK] = suicide_attack;
+  action_function[ACTION_WIPE_UNITS] = wipe_units;
   action_function[ACTION_TRANSFORM_TERRAIN] = transform_terrain;
   action_function[ACTION_CULTIVATE] = cultivate;
   action_function[ACTION_PLANT] = plant;
@@ -2589,6 +2591,18 @@ static void nuke_units(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_NUKE_UNITS, actor_id,
+                    target_id, 0, "");
+}
+
+/**********************************************************************//**
+  Action "Wipe Units" for choice dialog
+***************************************************************************/
+static void wipe_units(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_WIPE_UNITS, actor_id,
                     target_id, 0, "");
 }
 

@@ -274,6 +274,8 @@ extern "C" {
 #define SPECENUM_VALUE103NAME "Paradrop Unit Enter Conquer"
 #define SPECENUM_VALUE104 ACTION_HOMELESS
 #define SPECENUM_VALUE104NAME "Unit Make Homeless"
+#define SPECENUM_VALUE105 ACTION_WIPE_UNITS
+#define SPECENUM_VALUE105NAME "Wipe Units"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
@@ -586,14 +588,15 @@ action_auto_perf_iterate(_act_perf_) {                                    \
 
 /* Hard coded location of action auto performers. Used for conversion while
  * action auto performers aren't directly exposed to the ruleset. */
-#define ACTION_AUTO_UPKEEP_FOOD   0
-#define ACTION_AUTO_UPKEEP_GOLD   1
-#define ACTION_AUTO_UPKEEP_SHIELD 2
-#define ACTION_AUTO_MOVED_ADJ     3
-#define ACTION_AUTO_POST_BRIBE    4
-#define ACTION_AUTO_POST_ATTACK   5
-#define ACTION_AUTO_ESCAPE_CITY   6
-#define ACTION_AUTO_ESCAPE_STACK  7
+#define ACTION_AUTO_UPKEEP_FOOD     0
+#define ACTION_AUTO_UPKEEP_GOLD     1
+#define ACTION_AUTO_UPKEEP_SHIELD   2
+#define ACTION_AUTO_MOVED_ADJ       3
+#define ACTION_AUTO_POST_BRIBE      4
+#define ACTION_AUTO_POST_ATTACK     5
+#define ACTION_AUTO_ESCAPE_CITY     6
+#define ACTION_AUTO_ESCAPE_STACK    7
+#define ACTION_AUTO_POST_WIPE_UNITS 8
 
 /* Initialization */
 void actions_init(void);

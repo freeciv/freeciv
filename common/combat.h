@@ -34,7 +34,8 @@ enum unit_attack_result {
   ATT_NON_ATTACK,
   ATT_UNREACHABLE,
   ATT_NONNATIVE_SRC,
-  ATT_NONNATIVE_DST
+  ATT_NONNATIVE_DST,
+  ATT_NOT_WIPABLE
 };
 
 bool is_unit_reachable_at(const struct unit *defender,
@@ -45,6 +46,8 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
                                                         const struct tile *dest_tile);
 enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *punit,
                                                          const struct tile *ptile);
+enum unit_attack_result unit_wipe_units_at_tile_result(const struct unit *punit,
+                                                       const struct tile *ptile);
 bool can_unit_attack_tile(const struct unit *punit,
                           const struct tile *ptile);
 

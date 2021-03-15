@@ -383,6 +383,56 @@ static bool do_capture_units(struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Wipe all units at target tile.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_wipe_units(struct unit *punit,
+                          struct tile *pdesttile,
+                          const struct action *paction)
+{
+  struct player *wiper = unit_owner(punit);
+  char wiper_link[MAX_LEN_LINK];
+  const char *wiper_nation = nation_plural_for_player(wiper);
+  const struct unit_type *act_utype = unit_type_get(punit);
+
+  /* N.B: unit_link() always returns the same pointer. */
+  sz_strlcpy(wiper_link, unit_link(punit));
+
+  unit_list_iterate_safe(pdesttile->units, to_wipe) {
+    struct player *owner = unit_owner(to_wipe);
+    const char *victim_link = unit_link(to_wipe);
+
+    wipe_unit(to_wipe, ULR_KILLED, wiper);
+
+    /* Notify players */
+    notify_player(wiper, pdesttile, E_UNIT_WIN_ATT, ftc_server,
+                  /* TRANS: <unit> ... <unit> */
+                  _("Your %s wiped the %s %s."),
+                  wiper_link, nation_adjective_for_player(owner),
+                  victim_link);
+    notify_player(owner, pdesttile,
+                  E_UNIT_LOST_DEF, ftc_server,
+                  /* TRANS: <unit> ... <Poles> */
+                  _("Your %s was wiped by the %s."),
+                  victim_link, wiper_nation);
+
+    /* May cause an incident */
+    action_consequence_success(paction, wiper, act_utype, owner,
+                               pdesttile, victim_link);
+
+  } unit_list_iterate_safe_end;
+
+  unit_did_action(punit);
+  unit_forget_last_activity(punit);
+
+  send_unit_info(NULL, punit);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Expel the target unit to his owner's capital.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -830,8 +880,10 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   switch (paction->result) {
   case ACTRES_BOMBARD:
   case ACTRES_ATTACK:
+  case ACTRES_WIPE_UNITS:
     /* Target is a unit stack but a city can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
+
     if (target_tile) {
       struct city *tcity;
 
@@ -1255,6 +1307,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ACTRES_ATTACK:
       action_custom = unit_attack_units_at_tile_result(punit, target_tile);
       break;
+    case ACTRES_WIPE_UNITS:
+      action_custom = unit_wipe_units_at_tile_result(punit, target_tile);
+      break;
     case ACTRES_CONQUER_CITY:
       if (target_city) {
         action_custom = unit_move_to_tile_test(&(wld.map), punit,
@@ -1498,7 +1553,8 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
                                        + unit_pop_value(punit))))) {
     explnat->kind = ANEK_CITY_POP_LIMIT;
   } else if ((action_has_result_safe(paction, ACTRES_NUKE_UNITS)
-              || action_has_result_safe(paction, ACTRES_ATTACK))
+              || action_has_result_safe(paction, ACTRES_ATTACK)
+              || action_has_result_safe(paction, ACTRES_WIPE_UNITS))
              && action_custom != ATT_OK) {
     switch (action_custom) {
     case ATT_NON_ATTACK:
@@ -1514,6 +1570,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case ATT_NONNATIVE_DST:
       explnat->kind = ANEK_BAD_TERRAIN_TGT;
       explnat->no_act_terrain = tile_terrain(target_tile);
+      break;
+    case ATT_NOT_WIPABLE:
+      explnat->kind = ANEK_NOT_WIPABLE;
       break;
     default:
       fc_assert(action_custom != ATT_OK);
@@ -1869,6 +1928,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
                   _("%s can't do anything since there is an unreachable "
                     "unit."),
+                  unit_name_translation(punit));
+    break;
+  case ANEK_NOT_WIPABLE:
+    notify_player(pplayer, target_tile, E_BAD_COMMAND, ftc_server,
+                  _("%s can't do anything since there is unit with a positive "
+                    "defense value."),
                   unit_name_translation(punit));
     break;
   case ANEK_TGT_IS_UNIQUE_ACT_HAS:
@@ -2570,6 +2635,15 @@ void illegal_action_msg(struct player *pplayer,
                   /* TRANS: "Your Spy can't do Bribe Enemy Unit there ..." */
                   _("Your %s can't do %s there since there's an "
                     "unreachable unit."),
+                  unit_name_translation(actor),
+                  action_id_name_translation(stopped_action));
+    break;
+  case ANEK_NOT_WIPABLE:
+    notify_player(pplayer, target_tile,
+                  event, ftc_server,
+                  /* TRANS: "Your Legion can't do Wipe Units there ..." */
+                  _("Your %s can't do %s there since there's an "
+                    "unit with positive defense value."),
                   unit_name_translation(actor),
                   action_id_name_translation(stopped_action));
     break;
@@ -3477,6 +3551,10 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
                               do_attack(actor_unit, target_tile, paction));
+    break;
+  case ACTRES_WIPE_UNITS:
+    ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
+                              do_wipe_units(actor_unit, target_tile, paction));
     break;
   case ACTRES_NUKE_UNITS:
     ACTION_STARTED_UNIT_UNITS(action_type, actor_unit, target_tile,
