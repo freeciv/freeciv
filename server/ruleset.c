@@ -6704,6 +6704,12 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.granularity = secfile_lookup_int_default(file, 1,
                                                        "civstyle.output_granularity");
 
+    game.info.airlift_from_always_enabled
+      = secfile_lookup_bool_default(file, FALSE, "civstyle.airlift_from_always_enabled");
+
+    game.info.airlift_to_always_enabled
+      = secfile_lookup_bool_default(file, TRUE, "civstyle.airlift_to_always_enabled");
+
     /* section: illness */
     game.info.illness_on
       = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,

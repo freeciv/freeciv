@@ -1044,10 +1044,8 @@ void get_city_dialog_airlift_text(const struct city *pcity,
   char dest[512];
   int unlimited = 0;
 
-  if (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC
-      && pcity->airlift >= 1) {
-    /* AIRLIFTING_UNLIMITED_SRC applies only when the source city has
-     * remaining airlift. */
+  if ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+      && (pcity->airlift >= 1 || game.info.airlift_from_always_enabled)) {
 
     unlimited++;
 
@@ -1070,9 +1068,8 @@ void get_city_dialog_airlift_text(const struct city *pcity,
                 pcity->airlift);
   }
 
-  if (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST) {
-    /* AIRLIFTING_UNLIMITED_DEST works even if the source city has no
-     * remaining airlift. */
+  if ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
+      && (pcity->airlift >= 1 || game.info.airlift_to_always_enabled)){
 
     unlimited++;
 
@@ -1117,10 +1114,8 @@ void get_city_dialog_airlift_value(const struct city *pcity,
   char dest[512];
   int unlimited = 0;
 
-  if (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC
-      && pcity->airlift >= 1) {
-    /* AIRLIFTING_UNLIMITED_SRC applies only when the source city has
-     * remaining airlift. */
+  if ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+      && (pcity->airlift >= 1 || game.info.airlift_from_always_enabled)) {
 
     unlimited++;
 
@@ -1138,9 +1133,8 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     fc_snprintf(src, sizeof(src), _("%d"), pcity->airlift);
   }
 
-  if (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST) {
-    /* AIRLIFTING_UNLIMITED_DEST works even if the source city has no
-     * remaining airlift. */
+  if ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
+      && (pcity->airlift >= 1 || game.info.airlift_to_always_enabled)){
 
     unlimited++;
 

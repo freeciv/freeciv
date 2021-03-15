@@ -1212,6 +1212,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
   save_default_int(sfile, game.info.granularity,
                    1, "civstyle.output_granularity", NULL);
+  save_default_bool(sfile, game.info.airlift_from_always_enabled,
+                    FALSE, "civstyle.airlift_from_always_enabled", NULL);
+  save_default_bool(sfile, game.info.airlift_to_always_enabled,
+                    TRUE, "civstyle.airlift_to_always_enabled", NULL);
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);

@@ -145,13 +145,11 @@ enum unit_airlift_result
 
   if (NULL == restriction || city_owner(psrc_city) == restriction) {
     /* We know for sure whether or not src can airlift this turn. */
-    if (0 >= psrc_city->airlift) {
+    if (0 >= psrc_city->airlift
+        && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+            || !game.info.airlift_from_always_enabled)) {
       /* The source cannot airlift for this turn (maybe already airlifted
        * or no airport).
-       *
-       * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
-       * is not handled here because it applies only when the source city
-       * has at least one remaining airlift.
        * See also do_airline() in server/unittools.h. */
       return AR_SRC_NO_FLIGHTS;
     } /* else, there is capacity; continue to other checks */
@@ -164,7 +162,8 @@ enum unit_airlift_result
   if (pdest_city) {
     if (NULL == restriction || city_owner(pdest_city) == restriction) {
       if (0 >= pdest_city->airlift
-          && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+          && (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
+              || !game.info.airlift_to_always_enabled)) {
         /* The destination cannot support airlifted units for this turn
          * (maybe already airlifed or no airport).
          * See also do_airline() in server/unittools.h. */

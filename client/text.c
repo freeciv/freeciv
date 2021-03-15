@@ -602,9 +602,13 @@ const char *get_airlift_text(const struct unit_list *punits,
         const struct city *pcity = src ? tile_city(unit_tile(punit)) : pdest;
 
         fc_assert_ret_val(pcity != NULL, fc_strdup("-"));
-        if (!src && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+        if (!src && ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)
+                     && game.info.airlift_to_always_enabled)) {
           /* No restrictions on destination (and we can infer this even for
            * other players' cities). */
+          this = AL_INFINITE;
+        } else if (src && ((game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+                           && game.info.airlift_from_always_enabled)) {
           this = AL_INFINITE;
         } else if (client_player() == city_owner(pcity)) {
           /* A city we know about. */
@@ -617,6 +621,9 @@ const char *get_airlift_text(const struct unit_list *punits,
             if (src
                 && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
               /* Unlimited capacity. */
+              this = AL_INFINITE;
+            } else if (!src
+                       && (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
               this = AL_INFINITE;
             } else {
               /* Limited capacity (possibly zero right now). */
