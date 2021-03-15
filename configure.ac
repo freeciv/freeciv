@@ -1438,6 +1438,12 @@ AC_CHECK_FUNCS([strerror strstr uname nanosleep usleep])
 AC_CHECK_FUNCS([getline _strcoll stricoll _stricoll strcasecoll])
 AC_CHECK_FUNCS([backtrace setenv putenv])
 
+dnl Possible random sources on Unixen
+AC_CHECK_FUNCS([getentropy clock_gettime])
+
+dnl TODO: Reimplement this check, in a cross-compiling friendly way
+dnl AC_CHECK_FILES([/dev/urandom])
+
 AC_CHECK_FUNCS([_mkdir])
 
 AC_MSG_CHECKING(for working gettimeofday)

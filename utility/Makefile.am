@@ -55,6 +55,8 @@ libcivutility_la_SOURCES = \
 		netintf.h	\
 		rand.c		\
 		rand.h		\
+		randseed.c	\
+		randseed.h	\
 		registry.c	\
 		registry.h	\
 		registry_ini.c	\
