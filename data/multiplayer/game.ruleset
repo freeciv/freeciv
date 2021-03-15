@@ -270,7 +270,9 @@ conquer_city_2_blocked_by = "Explode Nuclear", "Nuke City", "Nuke Units",
 
 ; Forbid regular unit move if one of the actions below is legal.
 move_is_blocked_by = "Transport Disembark", "Transport Disembark 2",
-                     "Conquer Extras", "Conquer Extras 2"
+                     "Conquer Extras", "Conquer Extras 2",
+                     "Enter Hut", "Enter Hut 2",
+                     "Frighten Hut", "Frighten Hut 2"
 
 ; Actor units will - under certain circumstances - be forced to try
 ; performing the following actions in the specified order after successfully
@@ -575,6 +577,18 @@ ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+; /* TRANS: Enter _Hut (100% chance of success). */
+ui_name_enter_hut = _("Enter %sHut%s")
+
+; /* TRANS: Enter _Hut (100% chance of success). */
+ui_name_enter_hut_2 = _("Enter %sHut%s")
+
+; /* TRANS: Frighten _Hut (100% chance of success). */
+ui_name_frighten_hut = _("Frighten %sHut%s")
+
+; /* TRANS: Frighten _Hut (100% chance of success). */
+ui_name_frighten_hut_2 = _("Frighten %sHut%s")
+
 ; /* TRANS: Regular _Move (100% chance of success). */
 ui_name_unit_move = _("%sKeep moving%s")
 
@@ -606,12 +620,13 @@ diplchance_initial_odds = "Sabotage City", "Sabotage City Escape",
 
 ; "Transport Disembark 2" is "Transport Disembark" but from a non native
 ; tile. "Conquer City 2" has the same relation to "Conquer City". So is
+; "Enter Hut 2" for "Enter Hut", "Frighten Hut 2" for "Frighten Hut" and
 ; "Conquer Extras" for "Conquer Extras 2".
 ; The version from the non native tile and the native tile version won`t
 ; appear in the same action selection dialog given their opposite
 ; requirements. Avoid double entries in the auto help by silencing it.
-quiet_actions = "Transport Disembark 2", "Conquer City 2",
-                "Conquer Extras 2", "Unit Move"
+quiet_actions = "Transport Disembark 2", "Conquer City 2", "Enter Hut 2",
+                "Frighten Hut 2", "Conquer Extras 2", "Unit Move"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -1381,6 +1396,38 @@ action        = "Transport Disembark 2"
 actor_reqs    =
     { "type",           "name",         "range", "present"
       "UnitState",      "Transported",  "Local", TRUE
+      "MinMoveFrags",   "1",            "Local", TRUE
+      "UnitState",      "OnNativeTile", "Local", FALSE
+    }
+
+[actionenabler_hut_enter_from_native_tile]
+action        = "Enter Hut"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "MinMoveFrags", "1",            "Local"
+      "UnitState",    "OnNativeTile", "Local"
+    }
+
+[actionenabler_hut_enter_from_non_native]
+action        = "Enter Hut 2"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
+      "MinMoveFrags",   "1",            "Local", TRUE
+      "UnitState",      "OnNativeTile", "Local", FALSE
+    }
+
+[actionenabler_hut_from_native_tile]
+action        = "Frighten Hut"
+actor_reqs    =
+    { "type",         "name",         "range"
+      "MinMoveFrags", "1",            "Local"
+      "UnitState",    "OnNativeTile", "Local"
+    }
+
+[actionenabler_hut_from_non_native]
+action        = "Frighten Hut 2"
+actor_reqs    =
+    { "type",           "name",         "range", "present"
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
     }
