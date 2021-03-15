@@ -21,9 +21,9 @@
 
 #include "api_signal_base.h"
 
-/*************************************************************************//**
+/**********************************************************************//**
   Connects a callback function to a certain signal.
-*****************************************************************************/
+**************************************************************************/
 void api_signal_connect(lua_State *L, const char *signal_name,
                                const char *callback_name)
 {
@@ -40,9 +40,9 @@ void api_signal_connect(lua_State *L, const char *signal_name,
   luascript_signal_callback(fcl, signal_name, callback_name, TRUE);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Removes a callback function to a certain signal.
-*****************************************************************************/
+**************************************************************************/
 void api_signal_remove(lua_State *L, const char *signal_name,
                        const char *callback_name)
 {
@@ -59,9 +59,9 @@ void api_signal_remove(lua_State *L, const char *signal_name,
   luascript_signal_callback(fcl, signal_name, callback_name, FALSE);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Returns if a callback function to a certain signal is defined.
-*****************************************************************************/
+**************************************************************************/
 bool api_signal_defined(lua_State *L, const char *signal_name,
                         const char *callback_name)
 {
@@ -78,11 +78,12 @@ bool api_signal_defined(lua_State *L, const char *signal_name,
   return luascript_signal_callback_defined(fcl, signal_name, callback_name);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the name of the signal with the given index.
-*****************************************************************************/
+**************************************************************************/
 const char *api_signal_callback_by_index(lua_State *L,
-                                         const char *signal_name, int sindex)
+                                         const char *signal_name,
+                                         int sindex)
 {
   struct fc_lua *fcl;
 
@@ -96,10 +97,10 @@ const char *api_signal_callback_by_index(lua_State *L,
   return luascript_signal_callback_by_index(fcl, signal_name, sindex);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Return the name of the 'index' callback function of the signal with the
   name 'signal_name'.
-*****************************************************************************/
+**************************************************************************/
 const char *api_signal_by_index(lua_State *L, int sindex)
 {
   struct fc_lua *fcl;

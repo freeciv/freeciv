@@ -23,9 +23,9 @@
 
 #include "api_game_effects.h"
 
-/*************************************************************************//**
+/**********************************************************************//**
   Returns the effect bonus in the world
-*****************************************************************************/
+**************************************************************************/
 int api_effects_world_bonus(lua_State *L, const char *effect_type)
 {
   enum effect_type etype = EFT_COUNT;
@@ -40,9 +40,9 @@ int api_effects_world_bonus(lua_State *L, const char *effect_type)
   return get_world_bonus(etype);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Returns the effect bonus for a player
-*****************************************************************************/
+**************************************************************************/
 int api_effects_player_bonus(lua_State *L, Player *pplayer,
                              const char *effect_type)
 {
@@ -59,10 +59,11 @@ int api_effects_player_bonus(lua_State *L, Player *pplayer,
   return get_player_bonus(pplayer, etype);
 }
 
-/*************************************************************************//**
+/**********************************************************************//**
   Returns the effect bonus at a city.
-*****************************************************************************/
-int api_effects_city_bonus(lua_State *L, City *pcity, const char *effect_type)
+**************************************************************************/
+int api_effects_city_bonus(lua_State *L, City *pcity,
+                           const char *effect_type)
 {
   enum effect_type etype = EFT_COUNT;
 
