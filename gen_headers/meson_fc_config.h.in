@@ -203,6 +203,9 @@
 /* bind() available */
 #mesondefine HAVE_BIND
 
+/* clock_gettime() available */
+#mesondefine HAVE_CLOCK_GETTIME
+
 /* connect() available */
 #mesondefine HAVE_CONNECT
 
@@ -223,6 +226,9 @@
 
 /* getaddrinfo() available */
 #mesondefine HAVE_GETADDRINFO
+
+/* getentropy() available */
+#mesondefine HAVE_GETENTROPY
 
 /* gethostbyname() available */
 #mesondefine HAVE_GETHOSTBYNAME
