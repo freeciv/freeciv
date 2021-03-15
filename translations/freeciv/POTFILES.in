@@ -482,6 +482,7 @@ utility/inputfile.c
 utility/log.c
 utility/netfile.c
 utility/netintf.c
+utility/randseed.c
 utility/registry_ini.c
 utility/registry_xml.c
 utility/shared.c
