@@ -1057,7 +1057,6 @@ value	= 1
 reqs	=
     { "type", "name", "range", "present"
       "Action", "Found City", "Local", FALSE
-      "Action", "Join City", "Local", FALSE
     }
 
 [effect_incident_success_steal_tech]
