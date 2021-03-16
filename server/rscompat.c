@@ -1635,6 +1635,10 @@ static bool slow_invasion_effects(const char *action_rule_name)
                                              REQ_RANGE_LOCAL,
                                              FALSE, TRUE, TRUE,
                                              USP_NATIVE_TILE));
+  /* Doesn't apply to non TerrainSpeed. */
+  effect_req_append(peffect, req_from_str("UnitClassFlag", "Local",
+                                          FALSE, TRUE, FALSE,
+                                          "TerrainSpeed"));
 
   return TRUE;
 }
