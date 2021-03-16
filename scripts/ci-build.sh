@@ -20,16 +20,12 @@ case $1 in
 mkdir build
 cd build
 ../autogen.sh \
- --disable-client \
- --disable-fcmp \
- --disable-ruledit \
- --disable-server \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
      && exit $config_exit_status)
-make -s -j$(nproc) dist
-echo "Freeciv distribution build successful!"
+make -s -j$(nproc) distcheck
+echo "Freeciv distribution check successful!"
 ;;
 
 "meson")
