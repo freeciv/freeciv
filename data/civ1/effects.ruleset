@@ -1381,7 +1381,6 @@ reqs	=
       "Action", "Transport Board", "Local", FALSE
       "Action", "Transport Alight", "Local", FALSE
       "Action", "Transport Disembark", "Local", FALSE
-      "Action", "Transport Disembark 2", "Local", FALSE
     }
 
 [effect_incident_success_steal_tech]
