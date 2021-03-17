@@ -31,7 +31,7 @@ Requirement range may be one of: "None", "Local",
 certain ranges; this is not yet documented. In particular, at present, 
 "Continent" effects can affect only cities and units in cities.
 
-A requirement may have a 'survives' field, and if this 'TRUE', the effect
+A requirement may have a 'survives' field, and if this is 'TRUE', the effect
 survives destruction. This is supported for only a few conditions and
 ranges: wonders (at world or player range), nations, and advances
 (both at world range only).
