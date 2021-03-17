@@ -3886,7 +3886,7 @@ bool req_vec_change_apply(const struct req_vec_change *modification,
 /**********************************************************************//**
   Returns a new requirement vector problem with the specified number of
   suggested solutions and the specified description. The suggestions are
-  added by the caller. The description
+  added by the caller.
   @param num_suggested_solutions the number of suggested solutions.
   @param descr the description of the problem as a format string
   @return the new requirement vector problem.
