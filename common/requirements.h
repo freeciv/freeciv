@@ -229,6 +229,10 @@ bool req_vec_change_apply(const struct req_vec_change *modification,
 
 struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
                                             const char *description, ...);
+struct req_vec_problem *
+req_vec_problem_new_transl(int num_suggested_solutions,
+                           const char *description,
+                           const char *description_translated);
 void req_vec_problem_free(struct req_vec_problem *issue);
 
 struct req_vec_problem *
