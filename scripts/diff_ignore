@@ -37,6 +37,7 @@ freeciv-qt
 *.sav.gz
 civgame.log
 freeciv-server
+freeciv-web
 config.cache
 config.guess
 fc_config.h
@@ -69,6 +70,7 @@ undep.sh
 freeciv-manual
 freeciv-mp-*
 freeciv-ruledit
+freeciv-ruleup
 freeciv.spec
 libtool
 tolua
