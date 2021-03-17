@@ -3641,27 +3641,23 @@ bool req_vec_change_apply(const struct req_vec_change *modification,
   suggested solutions and the specified description. The suggestions are
   added by the caller.
   @param num_suggested_solutions the number of suggested solutions.
-  @param descr the description of the problem as a format string
+  @param description the description of the problem.
+  @param description_translated the translated description of the problem.
   @return the new requirement vector problem.
 **************************************************************************/
-struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
-                                            const char *descr, ...)
+struct req_vec_problem *
+req_vec_problem_new_transl(int num_suggested_solutions,
+                           const char *description,
+                           const char *description_translated)
 {
   struct req_vec_problem *out;
   int i;
-  va_list ap;
 
   out = fc_malloc(sizeof(*out));
 
-  va_start(ap, descr);
-  fc_vsnprintf(out->description, sizeof(out->description),
-               descr, ap);
-  va_end(ap);
-
-  va_start(ap, descr);
-  fc_vsnprintf(out->description_translated, sizeof(out->description_translated),
-               _(descr), ap);
-  va_end(ap);
+  fc_strlcpy(out->description, description, sizeof(out->description));
+  fc_strlcpy(out->description_translated, _(description_translated),
+             sizeof(out->description_translated));
 
   out->num_suggested_solutions = num_suggested_solutions;
   out->suggested_solutions = fc_malloc(out->num_suggested_solutions
@@ -3674,6 +3670,34 @@ struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
   }
 
   return out;
+}
+
+/**********************************************************************//**
+  Returns a new requirement vector problem with the specified number of
+  suggested solutions and the specified description. The suggestions are
+  added by the caller.
+  @param num_suggested_solutions the number of suggested solutions.
+  @param descr the description of the problem as a format string
+  @return the new requirement vector problem.
+**************************************************************************/
+struct req_vec_problem *req_vec_problem_new(int num_suggested_solutions,
+                                            const char *descr, ...)
+{
+  char description[500];
+  char description_translated[500];
+  va_list ap;
+
+  va_start(ap, descr);
+  fc_vsnprintf(description, sizeof(description), descr, ap);
+  va_end(ap);
+
+  va_start(ap, descr);
+  fc_vsnprintf(description_translated, sizeof(description_translated),
+               _(descr), ap);
+  va_end(ap);
+
+  return req_vec_problem_new_transl(num_suggested_solutions,
+                                    description, description_translated);
 }
 
 /**********************************************************************//**
