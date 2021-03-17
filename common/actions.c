@@ -210,7 +210,7 @@ static void hard_code_oblig_hard_reqs(void)
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
                           N_("All action enablers for %s must require"
-                             " a target the actor is at war with."),
+                             " that the actor is at war with the target."),
                           ACTION_BOMBARD, ACTION_ATTACK, ACTION_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
