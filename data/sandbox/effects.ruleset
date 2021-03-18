@@ -4877,6 +4877,110 @@ reqs    =
       "Building", "Treuga Dei",           "World", TRUE
     }
 
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_suitcase_nuke]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Suitcase Nuke",        "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; Treuga Dei Casus Belli
+[effect_treuga_dei_casus_belli_suitcase_nuke_escape]
+type    = "Casus_Belli_Success"
+value   = 1000
+reqs    =
+    { "type",     "name",                 "range", "survives"
+      "Action",   "Suitcase Nuke Escape", "Local", FALSE
+      "Building", "Treuga Dei",           "World", TRUE
+    }
+
+; informant (veteran level 0) and handler (veteran level 1) does the
+; non escape version
+[effect_suitcase_nuke_odds_base]
+type	= "Action_Odds_Pct"
+value	= -69
+reqs	=
+    { "type",   "name",          "range"
+      "Action", "Suitcase Nuke", "Local"
+    }
+
+; give handler (veteran leven 2) better odds
+[effect_suitcase_nuke_odds_first_veteran]
+type	= "Action_Odds_Pct"
+value	= 6
+reqs	=
+    { "type",       "name",          "range"
+      "Action",     "Suitcase Nuke", "Local"
+      "MinVeteran", "1",             "Local"
+    }
+
+; agent (veteran level 2) and spymaster (veteran level 3) does the
+; escape version
+[effect_suitcase_nuke_esc_odds_base]
+type	= "Action_Odds_Pct"
+value	= -57
+reqs	=
+    { "type",   "name",                 "range"
+      "Action", "Suitcase Nuke Escape", "Local"
+    }
+
+; give spymaster (veteran leven 3) better odds
+[effect_suitcase_nuke_esc_odds_last_veteran]
+type	= "Action_Odds_Pct"
+value	= 6
+reqs	=
+    { "type",       "name",                 "range"
+      "Action",     "Suitcase Nuke Escape", "Local"
+      "MinVeteran", "3",                    "Local"
+    }
+
+[effect_action_suitcase_nuke_escape_success_move_cost]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",                 "range", "quiet"
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke_terrorist_state]
+type	= "Casus_Belli_Success"
+value	= 1000
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
+[effect_incident_success_suitcase_nuke_veteran]
+type	= "Casus_Belli_Success"
+value	= 1
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
+      "DiplRel", "War", "Local", TRUE
+    }
+
+[effect_incident_success_suitcase_nuke_veteran_terrorist_state]
+type	= "Casus_Belli_Success"
+value	= 1000
+reqs	=
+    { "type", "name", "range", "present"
+      "Action", "Suitcase Nuke Escape", "Local", TRUE
+      "DiplRel", "War", "Local", FALSE
+    }
+
 [effect_unit_shield_value_recycle]
 type    = "Unit_Shield_Value_Pct"
 value   = -50
