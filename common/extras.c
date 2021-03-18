@@ -637,7 +637,8 @@ bool hut_on_tile(const struct tile *ptile)
 bool unit_can_enter_hut(const struct unit *punit,
                         const struct tile *ptile)
 {
-  if (HUT_NORMAL != unit_class_get(punit)->hut_behavior) {
+  if (!(unit_can_do_action_result(punit, ACTRES_HUT_ENTER)
+        || unit_can_do_action_sub_result(punit, ACT_SUB_RES_HUT_ENTER))) {
     return FALSE;
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
@@ -658,7 +659,10 @@ bool unit_can_enter_hut(const struct unit *punit,
 bool unit_can_displace_hut(const struct unit *punit,
                            const struct tile *ptile)
 {
-  if (HUT_NOTHING == unit_class_get(punit)->hut_behavior) {
+  if (!(unit_can_do_action_result(punit, ACTRES_HUT_FRIGHTEN)
+        || unit_can_do_action_sub_result(punit, ACT_SUB_RES_HUT_FRIGHTEN)
+        || unit_can_do_action_result(punit, ACTRES_HUT_ENTER)
+        || unit_can_do_action_sub_result(punit, ACT_SUB_RES_HUT_ENTER))) {
     return FALSE;
   }
   extra_type_by_rmcause_iterate(ERM_ENTER, extra) {
