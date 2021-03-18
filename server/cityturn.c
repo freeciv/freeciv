@@ -786,7 +786,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
   auto_arrange_workers(pcity);
 
   /* Send city data. */
-  sync_cities();
+  send_city_info(NULL, pcity);
 
   fc_assert_ret_val_msg(0 == loss_remain, TRUE,
                         "city_reduce_size() has remaining"
