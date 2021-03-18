@@ -9,14 +9,14 @@
 #   Egor Vyscrebentov <evyscr@murom.net>, 2003-2008.
 #   Alexandr Menovchicov <orders@kypi.ru>, 2003-2006.
 #   Andrej Svininykh <svininykh@gmail.com>, 2009-2011.
-#   Konstantin Vedeneev <konved@gmail.com>, 2011-2020.
+#   Konstantin Vedeneev <konved@gmail.com>, 2011-2021.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
-"Report-Msgid-Bugs-To: https://www.hostedredmine.com/projects/freeciv\n"
-"POT-Creation-Date: 2020-12-29 23:07+0500\n"
-"PO-Revision-Date: 2020-12-29 21:34+0500\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-03-19 04:36+0500\n"
+"PO-Revision-Date: 2021-03-17 10:08+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Poedit-Language: Russian\n"
-"X-Generator: Lokalize 20.08.2\n"
+"X-Generator: Lokalize 20.12.0\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/req_vec_fix.cpp:190
 #: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:133
@@ -36,6 +36,10 @@ msgstr "Закрыть"
 #: tools/ruledit/conversion_log.cpp:46
 msgid "Old ruleset to a new format"
 msgstr "Преобразование набора в новый формат"
+
+#: tools/ruledit/edit_utype.cpp:48
+msgid "Requirement"
+msgstr "Требование"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -242,17 +246,22 @@ msgstr "Вы действительно хотите выйти?"
 msgid "Quit?"
 msgstr "Выйти?"
 
-#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_extras.cpp:64
+#: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Название Правила"
 
-#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_extras.cpp:72
+#: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Название"
 
-#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_good.cpp:84
+#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_extras.cpp:83
+#: tools/ruledit/tab_good.cpp:84 tools/ruledit/tab_gov.cpp:83
 msgid "Requirements"
 msgstr "Требования"
 
@@ -315,6 +324,18 @@ msgstr "Включатель (деятель)"
 msgid "action enabler for %s"
 msgstr "включатель действия для %s"
 
+#: tools/ruledit/tab_extras.cpp:87
+msgid "Add Extra"
+msgstr "Добавить Сооружение"
+
+#: tools/ruledit/tab_extras.cpp:92
+msgid "Remove this Extra"
+msgstr "Удалить это Сооружение"
+
+#: tools/ruledit/tab_extras.cpp:177
+msgid "An extra with that rule name already exists!"
+msgstr "Сооружение с этим названием правила уже существует!"
+
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
 msgstr "Добавить товар"
@@ -326,6 +347,18 @@ msgstr "Удалить этот товар"
 #: tools/ruledit/tab_good.cpp:178
 msgid "A good with that rule name already exists!"
 msgstr "Товар с этим названием правила уже существует!"
+
+#: tools/ruledit/tab_gov.cpp:87
+msgid "Add Government"
+msgstr "Добавить Форму правления"
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Remove this Government"
+msgstr "Удалить эту Форму правления"
+
+#: tools/ruledit/tab_gov.cpp:177
+msgid "A government with that rule name already exists!"
+msgstr "Форма правления с этим названием правила уже существует!"
 
 #: tools/ruledit/tab_misc.cpp:67
 msgid "Ruleset name"
@@ -463,6 +496,18 @@ msgstr "Никогда"
 msgid "A tech with that rule name already exists!"
 msgstr "Технология с этим названием правила уже существует!"
 
+#: tools/ruledit/tab_terrains.cpp:83
+msgid "Add Terrain"
+msgstr "Добавить Рельеф"
+
+#: tools/ruledit/tab_terrains.cpp:88
+msgid "Remove this Terrain"
+msgstr "Удалить этот Рельеф"
+
+#: tools/ruledit/tab_terrains.cpp:173
+msgid "A terrain with that rule name already exists!"
+msgstr "Рельеф с этим названием правила уже существует!"
+
 #: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
 msgstr "Редактировать Соединение"
@@ -491,6 +536,15 @@ msgstr "Значение:"
 msgid "Range:"
 msgstr "Диапазон:"
 
+#: tools/ruledit/req_edit.cpp:119 tools/ruledit/req_edit.cpp:281
+msgid "Allows"
+msgstr "Позволяет"
+
+#: tools/ruledit/req_edit.cpp:120 tools/ruledit/req_edit.cpp:283
+#: tools/ruledit/req_edit.cpp:335
+msgid "Prevents"
+msgstr "Препятствует"
+
 #: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Добавить Требование"
@@ -498,6 +552,11 @@ msgstr "Добавить Требование"
 #: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Удалить Требование"
+
+#: tools/ruledit/req_edit.cpp:166
+#, c-format
+msgid "%s prevents"
+msgstr "%s не допускается"
 
 #: tools/ruledit/validity.c:50
 msgid "Effect"
