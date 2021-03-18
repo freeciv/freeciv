@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-11 07:56+0100\n"
+"POT-Creation-Date: 2021-03-16 19:02+0100\n"
 "PO-Revision-Date: 2021-03-11 16:13+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -1944,14 +1944,14 @@ msgstr ""
 #. TRANS: Only Nuclear or ICBM can do Explode
 #. * Nuclear.
 #. TRANS: Only Diplomat or Spy can do Steal Gold.
-#: client/control.c:1128 server/unithand.c:1969
+#: client/control.c:1128 server/unithand.c:1974
 #, c-format
 msgid "Only %s can do %s."
 msgstr "Seul %s peut faire %s."
 
 #. TRANS: Spy can't do Explode Nuclear.
 #. TRANS: Spy can't do Capture Units.
-#: client/control.c:1136 server/unithand.c:1977
+#: client/control.c:1136 server/unithand.c:1982
 #, c-format
 msgid "%s can't do %s."
 msgstr "%s ne peut pas faire %s."
@@ -2228,7 +2228,7 @@ msgstr "(sans-nom)"
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2225
 #: client/gui-sdl2/action_dialog.c:2488 client/gui-sdl2/citydlg.c:1145
 #: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1976
-#: server/unithand.c:1650 server/unithand.c:2314
+#: server/unithand.c:1655 server/unithand.c:2319
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -23395,99 +23395,99 @@ msgid "AddToCity"
 msgstr "AjouterALaVille"
 
 #: data/civ1/units.ruleset:28 data/civ1/units.ruleset:1158
-#: data/civ2/units.ruleset:33 data/civ2/units.ruleset:1877
-#: data/classic/units.ruleset:40 data/classic/units.ruleset:1912
+#: data/civ2/units.ruleset:33 data/civ2/units.ruleset:1879
+#: data/classic/units.ruleset:40 data/classic/units.ruleset:1915
 #: data/sandbox/units.ruleset:43 data/sandbox/units.ruleset:2142
-#: data/experimental/units.ruleset:43 data/experimental/units.ruleset:1939
+#: data/experimental/units.ruleset:43 data/experimental/units.ruleset:1942
 #: data/civ2civ3/units.ruleset:42 data/civ2civ3/units.ruleset:2125
-#: data/multiplayer/units.ruleset:39 data/multiplayer/units.ruleset:2010
+#: data/multiplayer/units.ruleset:39 data/multiplayer/units.ruleset:2013
 #: server/rscompat.c:185
 msgid "Nuclear"
 msgstr "Missile Nucléaire"
 
 #: data/civ1/units.ruleset:43 data/civ1/units.ruleset:1232
-#: data/civ2/units.ruleset:54 data/civ2/units.ruleset:1951
-#: data/civ2/units.ruleset:2046 data/classic/units.ruleset:58
-#: data/classic/units.ruleset:453 data/classic/units.ruleset:498
-#: data/classic/units.ruleset:539 data/classic/units.ruleset:1938
-#: data/classic/units.ruleset:2289 data/classic/units.ruleset:2329
+#: data/civ2/units.ruleset:56 data/civ2/units.ruleset:1953
+#: data/civ2/units.ruleset:2048 data/classic/units.ruleset:59
+#: data/classic/units.ruleset:454 data/classic/units.ruleset:499
+#: data/classic/units.ruleset:540 data/classic/units.ruleset:1941
+#: data/classic/units.ruleset:2292 data/classic/units.ruleset:2332
 #: data/sandbox/units.ruleset:66 data/sandbox/units.ruleset:487
 #: data/sandbox/units.ruleset:531 data/sandbox/units.ruleset:574
 #: data/sandbox/units.ruleset:2088 data/sandbox/units.ruleset:2168
 #: data/sandbox/units.ruleset:2540 data/sandbox/units.ruleset:2580
-#: data/experimental/units.ruleset:62 data/experimental/units.ruleset:465
-#: data/experimental/units.ruleset:1965 data/experimental/units.ruleset:2321
-#: data/experimental/units.ruleset:2361 data/civ2civ3/units.ruleset:61
+#: data/experimental/units.ruleset:63 data/experimental/units.ruleset:466
+#: data/experimental/units.ruleset:1968 data/experimental/units.ruleset:2324
+#: data/experimental/units.ruleset:2364 data/civ2civ3/units.ruleset:61
 #: data/civ2civ3/units.ruleset:477 data/civ2civ3/units.ruleset:521
 #: data/civ2civ3/units.ruleset:564 data/civ2civ3/units.ruleset:2071
 #: data/civ2civ3/units.ruleset:2151 data/civ2civ3/units.ruleset:2519
-#: data/civ2civ3/units.ruleset:2559 data/multiplayer/units.ruleset:57
-#: data/multiplayer/units.ruleset:452 data/multiplayer/units.ruleset:498
-#: data/multiplayer/units.ruleset:539 data/multiplayer/units.ruleset:2036
-#: data/multiplayer/units.ruleset:2375 data/multiplayer/units.ruleset:2415
+#: data/civ2civ3/units.ruleset:2559 data/multiplayer/units.ruleset:58
+#: data/multiplayer/units.ruleset:453 data/multiplayer/units.ruleset:499
+#: data/multiplayer/units.ruleset:540 data/multiplayer/units.ruleset:2039
+#: data/multiplayer/units.ruleset:2378 data/multiplayer/units.ruleset:2418
 msgid "green"
 msgstr "vert"
 
 #: data/civ1/units.ruleset:43 data/civ1/units.ruleset:1232
-#: data/civ2/units.ruleset:54 data/civ2/units.ruleset:1951
-#: data/civ2/units.ruleset:2046 data/classic/units.ruleset:58
+#: data/civ2/units.ruleset:56 data/civ2/units.ruleset:1953
+#: data/civ2/units.ruleset:2048 data/classic/units.ruleset:59
 #: data/sandbox/units.ruleset:66 data/sandbox/units.ruleset:2088
-#: data/experimental/units.ruleset:62 data/civ2civ3/units.ruleset:61
-#: data/civ2civ3/units.ruleset:2071 data/multiplayer/units.ruleset:57
+#: data/experimental/units.ruleset:63 data/civ2civ3/units.ruleset:61
+#: data/civ2civ3/units.ruleset:2071 data/multiplayer/units.ruleset:58
 msgid "veteran"
 msgstr "vétéran"
 
 #. TRANS: Unit class: used adjectivally
-#: data/civ1/units.ruleset:125 data/civ2/units.ruleset:144
-#: data/classic/units.ruleset:148 data/sandbox/units.ruleset:156
-#: data/experimental/units.ruleset:152 data/civ2civ3/units.ruleset:151
-#: data/multiplayer/units.ruleset:147
+#: data/civ1/units.ruleset:125 data/civ2/units.ruleset:146
+#: data/classic/units.ruleset:149 data/sandbox/units.ruleset:156
+#: data/experimental/units.ruleset:153 data/civ2civ3/units.ruleset:151
+#: data/multiplayer/units.ruleset:148
 msgid "?unitclass:Land"
 msgstr "Terrestre"
 
 #. TRANS: Unit class: used adjectivally
-#: data/civ1/units.ruleset:134 data/civ2/units.ruleset:156
-#: data/classic/units.ruleset:160 data/sandbox/units.ruleset:191
-#: data/experimental/units.ruleset:172 data/civ2civ3/units.ruleset:184
-#: data/alien/units.ruleset:146 data/multiplayer/units.ruleset:159
+#: data/civ1/units.ruleset:134 data/civ2/units.ruleset:158
+#: data/classic/units.ruleset:161 data/sandbox/units.ruleset:191
+#: data/experimental/units.ruleset:173 data/civ2civ3/units.ruleset:184
+#: data/alien/units.ruleset:146 data/multiplayer/units.ruleset:160
 msgid "?unitclass:Sea"
 msgstr "Maritime"
 
 #: data/civ1/units.ruleset:138 data/civ2/units.ruleset:35
-#: data/civ2/units.ruleset:160 data/classic/units.ruleset:42
-#: data/classic/units.ruleset:53 data/sandbox/units.ruleset:45
+#: data/civ2/units.ruleset:162 data/classic/units.ruleset:42
+#: data/classic/units.ruleset:54 data/sandbox/units.ruleset:45
 #: data/sandbox/units.ruleset:61 data/experimental/units.ruleset:45
-#: data/experimental/units.ruleset:57 data/civ2civ3/units.ruleset:44
+#: data/experimental/units.ruleset:58 data/civ2civ3/units.ruleset:44
 #: data/civ2civ3/units.ruleset:56 data/alien/units.ruleset:150
-#: data/multiplayer/units.ruleset:41 data/multiplayer/units.ruleset:52
+#: data/multiplayer/units.ruleset:41 data/multiplayer/units.ruleset:53
 #: server/rscompat.c:188 server/rscompat.c:200
 msgid "Can launch attack from non-native tiles."
 msgstr "Peut lancer une attaque depuis une case inaccessible."
 
 #. TRANS: Unit class: used adjectivally
-#: data/civ1/units.ruleset:144 data/civ2/units.ruleset:173
-#: data/classic/units.ruleset:181 data/sandbox/units.ruleset:215
-#: data/experimental/units.ruleset:193 data/civ2civ3/units.ruleset:205
-#: data/multiplayer/units.ruleset:180
+#: data/civ1/units.ruleset:144 data/civ2/units.ruleset:175
+#: data/classic/units.ruleset:182 data/sandbox/units.ruleset:215
+#: data/experimental/units.ruleset:194 data/civ2civ3/units.ruleset:205
+#: data/multiplayer/units.ruleset:181
 msgid "?unitclass:Air"
 msgstr "Aérienne"
 
 #. TRANS: Unit class: used adjectivally
-#: data/civ1/units.ruleset:152 data/civ2/units.ruleset:136
-#: data/classic/units.ruleset:140 data/sandbox/units.ruleset:148
-#: data/experimental/units.ruleset:144 data/civ2civ3/units.ruleset:143
-#: data/alien/units.ruleset:175 data/multiplayer/units.ruleset:139
+#: data/civ1/units.ruleset:152 data/civ2/units.ruleset:138
+#: data/classic/units.ruleset:141 data/sandbox/units.ruleset:148
+#: data/experimental/units.ruleset:145 data/civ2civ3/units.ruleset:143
+#: data/alien/units.ruleset:175 data/multiplayer/units.ruleset:140
 msgid "?unitclass:Missile"
 msgstr "Missile"
 
-#: data/civ1/units.ruleset:331 data/civ2/units.ruleset:342
-#: data/classic/units.ruleset:427 data/sandbox/units.ruleset:461
-#: data/experimental/units.ruleset:439 data/civ2civ3/units.ruleset:451
-#: data/alien/units.ruleset:421 data/multiplayer/units.ruleset:426
+#: data/civ1/units.ruleset:331 data/civ2/units.ruleset:344
+#: data/classic/units.ruleset:428 data/sandbox/units.ruleset:461
+#: data/experimental/units.ruleset:440 data/civ2civ3/units.ruleset:451
+#: data/alien/units.ruleset:421 data/multiplayer/units.ruleset:427
 msgid "Settlers"
 msgstr "Colons"
 
-#: data/civ1/units.ruleset:357 data/civ2/units.ruleset:368
+#: data/civ1/units.ruleset:357 data/civ2/units.ruleset:370
 msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities, and can also improve terrain; see the help on "
@@ -23497,8 +23497,8 @@ msgstr ""
 "moyen de fonder de nouvelles villes, et peuvent aussi améliorer le terrain - "
 "voir l'aide sur les Terrains et les Altérations de Terrains."
 
-#: data/civ1/units.ruleset:361 data/classic/units.ruleset:465
-#: data/experimental/units.ruleset:477
+#: data/civ1/units.ruleset:361 data/classic/units.ruleset:466
+#: data/experimental/units.ruleset:478
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -23513,10 +23513,10 @@ msgstr ""
 msgid "Militia"
 msgstr "Milice"
 
-#: data/civ1/units.ruleset:394 data/civ2/units.ruleset:448
-#: data/classic/units.ruleset:589 data/sandbox/units.ruleset:661
-#: data/experimental/units.ruleset:611 data/civ2civ3/units.ruleset:651
-#: data/multiplayer/units.ruleset:589
+#: data/civ1/units.ruleset:394 data/civ2/units.ruleset:450
+#: data/classic/units.ruleset:590 data/sandbox/units.ruleset:661
+#: data/experimental/units.ruleset:612 data/civ2civ3/units.ruleset:651
+#: data/multiplayer/units.ruleset:590
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
@@ -23524,32 +23524,32 @@ msgstr ""
 "Cette unité peut être construite dès le début de la partie. C'est l'unité "
 "offensive la plus faible."
 
-#: data/civ1/units.ruleset:400 data/civ2/units.ruleset:454
-#: data/classic/units.ruleset:595 data/sandbox/units.ruleset:667
-#: data/experimental/units.ruleset:617 data/civ2civ3/units.ruleset:657
-#: data/multiplayer/units.ruleset:595
+#: data/civ1/units.ruleset:400 data/civ2/units.ruleset:456
+#: data/classic/units.ruleset:596 data/sandbox/units.ruleset:667
+#: data/experimental/units.ruleset:618 data/civ2civ3/units.ruleset:657
+#: data/multiplayer/units.ruleset:596
 msgid "Phalanx"
 msgstr "Phalange"
 
-#: data/civ1/units.ruleset:426 data/civ2/units.ruleset:480
-#: data/classic/units.ruleset:621 data/sandbox/units.ruleset:693
-#: data/experimental/units.ruleset:643 data/civ2civ3/units.ruleset:683
-#: data/multiplayer/units.ruleset:621
+#: data/civ1/units.ruleset:426 data/civ2/units.ruleset:482
+#: data/classic/units.ruleset:622 data/sandbox/units.ruleset:693
+#: data/experimental/units.ruleset:644 data/civ2civ3/units.ruleset:683
+#: data/multiplayer/units.ruleset:622
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
 msgstr ""
 "Les Phalanges sont des unités d'infanterie capables de défendre vos villes."
 
-#: data/civ1/units.ruleset:431 data/civ2/units.ruleset:517
-#: data/classic/units.ruleset:658 data/sandbox/units.ruleset:730
-#: data/experimental/units.ruleset:680 data/civ2civ3/units.ruleset:720
-#: data/multiplayer/units.ruleset:658
+#: data/civ1/units.ruleset:431 data/civ2/units.ruleset:519
+#: data/classic/units.ruleset:659 data/sandbox/units.ruleset:730
+#: data/experimental/units.ruleset:681 data/civ2civ3/units.ruleset:720
+#: data/multiplayer/units.ruleset:659
 msgid "Legion"
 msgstr "Légion"
 
-#: data/civ1/units.ruleset:457 data/civ2/units.ruleset:543
-#: data/classic/units.ruleset:684 data/sandbox/units.ruleset:756
-#: data/experimental/units.ruleset:706 data/civ2civ3/units.ruleset:746
-#: data/multiplayer/units.ruleset:684
+#: data/civ1/units.ruleset:457 data/civ2/units.ruleset:545
+#: data/classic/units.ruleset:685 data/sandbox/units.ruleset:756
+#: data/experimental/units.ruleset:707 data/civ2civ3/units.ruleset:746
+#: data/multiplayer/units.ruleset:685
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
@@ -23557,10 +23557,10 @@ msgstr ""
 "Les Légions sont des unités d'infanterie très disciplinées et lourdement "
 "armées avec une excellente valeur offensive."
 
-#: data/civ1/units.ruleset:463 data/civ2/units.ruleset:585
-#: data/classic/units.ruleset:726 data/sandbox/units.ruleset:794
-#: data/experimental/units.ruleset:748 data/civ2civ3/units.ruleset:784
-#: data/multiplayer/units.ruleset:726
+#: data/civ1/units.ruleset:463 data/civ2/units.ruleset:587
+#: data/classic/units.ruleset:727 data/sandbox/units.ruleset:794
+#: data/experimental/units.ruleset:749 data/civ2civ3/units.ruleset:784
+#: data/multiplayer/units.ruleset:727
 msgid "Musketeers"
 msgstr "Mousquetaires"
 
@@ -23572,27 +23572,27 @@ msgstr ""
 "Les Mousquetaires sont des unités d'infanterie équipés d'armes à feu "
 "primitives. Ils remplacent les Phalanges comme défenseurs de ville préférés."
 
-#: data/civ1/units.ruleset:497 data/civ2/units.ruleset:726
-#: data/classic/units.ruleset:832 data/sandbox/units.ruleset:828
-#: data/experimental/units.ruleset:854 data/civ2civ3/units.ruleset:818
-#: data/multiplayer/units.ruleset:867
+#: data/civ1/units.ruleset:497 data/civ2/units.ruleset:728
+#: data/classic/units.ruleset:833 data/sandbox/units.ruleset:828
+#: data/experimental/units.ruleset:855 data/civ2civ3/units.ruleset:818
+#: data/multiplayer/units.ruleset:868
 msgid "Riflemen"
 msgstr "Fusiliers"
 
-#: data/civ1/units.ruleset:523 data/civ2/units.ruleset:752
-#: data/classic/units.ruleset:858 data/sandbox/units.ruleset:854
-#: data/experimental/units.ruleset:880 data/civ2civ3/units.ruleset:844
-#: data/multiplayer/units.ruleset:893
+#: data/civ1/units.ruleset:523 data/civ2/units.ruleset:754
+#: data/classic/units.ruleset:859 data/sandbox/units.ruleset:854
+#: data/experimental/units.ruleset:881 data/civ2civ3/units.ruleset:844
+#: data/multiplayer/units.ruleset:894
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 "Les Fusiliers sont des unités de l'époque de la Grande Guerre, très bonnes "
 "pour défendre vos villes."
 
-#: data/civ1/units.ruleset:529 data/civ2/units.ruleset:828
-#: data/classic/units.ruleset:934 data/sandbox/units.ruleset:1048
-#: data/experimental/units.ruleset:956 data/civ2civ3/units.ruleset:1038
-#: data/multiplayer/units.ruleset:969
+#: data/civ1/units.ruleset:529 data/civ2/units.ruleset:830
+#: data/classic/units.ruleset:935 data/sandbox/units.ruleset:1048
+#: data/experimental/units.ruleset:957 data/civ2civ3/units.ruleset:1038
+#: data/multiplayer/units.ruleset:970
 msgid "Mech. Inf."
 msgstr "Infanterie mobile"
 
@@ -23605,10 +23605,10 @@ msgstr ""
 "unités terrestres, mais elle n'est disponible qu'avec les dernières "
 "technologies."
 
-#: data/civ1/units.ruleset:562 data/civ2/units.ruleset:1054
-#: data/classic/units.ruleset:1096 data/sandbox/units.ruleset:1279
-#: data/experimental/units.ruleset:1119 data/civ2civ3/units.ruleset:1269
-#: data/multiplayer/units.ruleset:1195
+#: data/civ1/units.ruleset:562 data/civ2/units.ruleset:1056
+#: data/classic/units.ruleset:1097 data/sandbox/units.ruleset:1279
+#: data/experimental/units.ruleset:1120 data/civ2civ3/units.ruleset:1269
+#: data/multiplayer/units.ruleset:1196
 msgid "Cavalry"
 msgstr "Cavalerie"
 
@@ -23620,10 +23620,10 @@ msgstr ""
 "La Cavalerie sont des guerriers montés et une ancienne troupe de choc qui "
 "peut pénétrer en profondeur dans les territoires ennemis."
 
-#: data/civ1/units.ruleset:595 data/civ2/units.ruleset:894
-#: data/classic/units.ruleset:1000 data/sandbox/units.ruleset:1116
-#: data/experimental/units.ruleset:1023 data/civ2civ3/units.ruleset:1106
-#: data/multiplayer/units.ruleset:1035
+#: data/civ1/units.ruleset:595 data/civ2/units.ruleset:896
+#: data/classic/units.ruleset:1001 data/sandbox/units.ruleset:1116
+#: data/experimental/units.ruleset:1024 data/civ2civ3/units.ruleset:1106
+#: data/multiplayer/units.ruleset:1036
 msgid "Chariot"
 msgstr "Char"
 
@@ -23635,30 +23635,30 @@ msgstr ""
 "Les Chars sont des attelages de guerre tirés par des chevaux, plus forts "
 "mais plus chers que les Cavaliers."
 
-#: data/civ1/units.ruleset:627 data/civ2/units.ruleset:990
-#: data/classic/units.ruleset:1032 data/sandbox/units.ruleset:1216
-#: data/experimental/units.ruleset:1055 data/civ2civ3/units.ruleset:1206
-#: data/multiplayer/units.ruleset:1131
+#: data/civ1/units.ruleset:627 data/civ2/units.ruleset:992
+#: data/classic/units.ruleset:1033 data/sandbox/units.ruleset:1216
+#: data/experimental/units.ruleset:1056 data/civ2civ3/units.ruleset:1206
+#: data/multiplayer/units.ruleset:1132
 msgid "Knights"
 msgstr "Chevaliers"
 
-#: data/civ1/units.ruleset:654 data/civ2/units.ruleset:1017
-#: data/classic/units.ruleset:1059 data/sandbox/units.ruleset:1243
-#: data/experimental/units.ruleset:1082 data/civ2civ3/units.ruleset:1233
-#: data/multiplayer/units.ruleset:1158
+#: data/civ1/units.ruleset:654 data/civ2/units.ruleset:1019
+#: data/classic/units.ruleset:1060 data/sandbox/units.ruleset:1243
+#: data/experimental/units.ruleset:1083 data/civ2civ3/units.ruleset:1233
+#: data/multiplayer/units.ruleset:1159
 msgid "Knights are mounted and heavily armored warriors."
 msgstr "Les Chevaliers sont des guerriers montés et lourdement protégés."
 
-#: data/civ1/units.ruleset:659 data/civ2/units.ruleset:1085
-#: data/classic/units.ruleset:1127 data/sandbox/units.ruleset:1310
-#: data/experimental/units.ruleset:1150 data/civ2civ3/units.ruleset:1300
-#: data/multiplayer/units.ruleset:1226
+#: data/civ1/units.ruleset:659 data/civ2/units.ruleset:1087
+#: data/classic/units.ruleset:1128 data/sandbox/units.ruleset:1310
+#: data/experimental/units.ruleset:1151 data/civ2civ3/units.ruleset:1300
+#: data/multiplayer/units.ruleset:1227
 msgid "Armor"
 msgstr "Tank"
 
-#: data/civ1/units.ruleset:685 data/civ2/units.ruleset:1111
-#: data/classic/units.ruleset:1153 data/experimental/units.ruleset:1176
-#: data/multiplayer/units.ruleset:1252
+#: data/civ1/units.ruleset:685 data/civ2/units.ruleset:1113
+#: data/classic/units.ruleset:1154 data/experimental/units.ruleset:1177
+#: data/multiplayer/units.ruleset:1253
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
@@ -23666,17 +23666,17 @@ msgstr ""
 "Les Tanks sont des engins de guerre motorisés qui sont plus rapides, plus "
 "forts et plus résistants que n'importe quelle autre unité montée."
 
-#: data/civ1/units.ruleset:692 data/civ2/units.ruleset:1118
-#: data/classic/units.ruleset:1160 data/sandbox/units.ruleset:1345
-#: data/experimental/units.ruleset:1183 data/civ2civ3/units.ruleset:1335
-#: data/multiplayer/units.ruleset:1259
+#: data/civ1/units.ruleset:692 data/civ2/units.ruleset:1120
+#: data/classic/units.ruleset:1161 data/sandbox/units.ruleset:1345
+#: data/experimental/units.ruleset:1184 data/civ2civ3/units.ruleset:1335
+#: data/multiplayer/units.ruleset:1260
 msgid "Catapult"
 msgstr "Catapulte"
 
-#: data/civ1/units.ruleset:718 data/civ2/units.ruleset:1144
-#: data/classic/units.ruleset:1186 data/sandbox/units.ruleset:1371
-#: data/experimental/units.ruleset:1209 data/civ2civ3/units.ruleset:1361
-#: data/multiplayer/units.ruleset:1285
+#: data/civ1/units.ruleset:718 data/civ2/units.ruleset:1146
+#: data/classic/units.ruleset:1187 data/sandbox/units.ruleset:1371
+#: data/experimental/units.ruleset:1210 data/civ2civ3/units.ruleset:1361
+#: data/multiplayer/units.ruleset:1286
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
@@ -23685,16 +23685,16 @@ msgstr ""
 "Ce sont des attanquants très forts, mais également de faibles défenseurs, et "
 "elles auront besoin d'une escorte afin d'être efficaces."
 
-#: data/civ1/units.ruleset:725 data/civ2/units.ruleset:1151
-#: data/classic/units.ruleset:1193 data/sandbox/units.ruleset:1383
-#: data/experimental/units.ruleset:1216 data/civ2civ3/units.ruleset:1373
-#: data/multiplayer/units.ruleset:1292
+#: data/civ1/units.ruleset:725 data/civ2/units.ruleset:1153
+#: data/classic/units.ruleset:1194 data/sandbox/units.ruleset:1383
+#: data/experimental/units.ruleset:1217 data/civ2civ3/units.ruleset:1373
+#: data/multiplayer/units.ruleset:1293
 msgid "Cannon"
 msgstr "Canon"
 
-#: data/civ1/units.ruleset:751 data/civ2/units.ruleset:1177
-#: data/classic/units.ruleset:1219 data/experimental/units.ruleset:1242
-#: data/multiplayer/units.ruleset:1318
+#: data/civ1/units.ruleset:751 data/civ2/units.ruleset:1179
+#: data/classic/units.ruleset:1220 data/experimental/units.ruleset:1243
+#: data/multiplayer/units.ruleset:1319
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. They are very strong attackers but equally weak defenders and "
@@ -23705,10 +23705,10 @@ msgstr ""
 "également de faibles défenseurs, et ils auront besoin d'une escorte afin "
 "d'être efficaces."
 
-#: data/civ1/units.ruleset:759 data/civ2/units.ruleset:1185
-#: data/classic/units.ruleset:1227 data/sandbox/units.ruleset:1417
-#: data/experimental/units.ruleset:1250 data/civ2civ3/units.ruleset:1407
-#: data/multiplayer/units.ruleset:1326
+#: data/civ1/units.ruleset:759 data/civ2/units.ruleset:1187
+#: data/classic/units.ruleset:1228 data/sandbox/units.ruleset:1417
+#: data/experimental/units.ruleset:1251 data/civ2civ3/units.ruleset:1407
+#: data/multiplayer/units.ruleset:1327
 msgid "Artillery"
 msgstr "Artillerie"
 
@@ -23720,17 +23720,17 @@ msgstr ""
 "L'Artillerie est un Canon amélioré avec de meilleures capacités défensives "
 "et offensives. Elle peut tirer par dessus les Remparts, ignorant leur effet."
 
-#: data/civ1/units.ruleset:792 data/civ2/units.ruleset:1251
-#: data/classic/units.ruleset:1293 data/sandbox/units.ruleset:1483
-#: data/experimental/units.ruleset:1316 data/civ2civ3/units.ruleset:1473
-#: data/multiplayer/units.ruleset:1392
+#: data/civ1/units.ruleset:792 data/civ2/units.ruleset:1253
+#: data/classic/units.ruleset:1294 data/sandbox/units.ruleset:1483
+#: data/experimental/units.ruleset:1317 data/civ2civ3/units.ruleset:1473
+#: data/multiplayer/units.ruleset:1393
 msgid "Fighter"
 msgstr "Chasseur"
 
-#: data/civ1/units.ruleset:819 data/civ2/units.ruleset:1285
-#: data/classic/units.ruleset:1325 data/sandbox/units.ruleset:1510
-#: data/experimental/units.ruleset:1348 data/civ2civ3/units.ruleset:1500
-#: data/multiplayer/units.ruleset:1424
+#: data/civ1/units.ruleset:819 data/civ2/units.ruleset:1287
+#: data/classic/units.ruleset:1327 data/sandbox/units.ruleset:1510
+#: data/experimental/units.ruleset:1350 data/civ2civ3/units.ruleset:1500
+#: data/multiplayer/units.ruleset:1426
 msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
@@ -23739,16 +23739,18 @@ msgstr ""
 "n'importe où et attaquer n'importe quelle autre unité."
 
 #: data/civ1/units.ruleset:825 data/civ2/units.ruleset:37
-#: data/civ2/units.ruleset:1291 data/classic/units.ruleset:1331
-#: data/sandbox/units.ruleset:1521 data/experimental/units.ruleset:1354
-#: data/civ2civ3/units.ruleset:1511 data/multiplayer/units.ruleset:1430
+#: data/civ2/units.ruleset:1293 data/classic/units.ruleset:43
+#: data/classic/units.ruleset:1333 data/sandbox/units.ruleset:1521
+#: data/experimental/units.ruleset:46 data/experimental/units.ruleset:1356
+#: data/civ2civ3/units.ruleset:1511 data/multiplayer/units.ruleset:42
+#: data/multiplayer/units.ruleset:1432
 msgid "Bomber"
 msgstr "Bombardier"
 
-#: data/civ1/units.ruleset:851 data/civ2/units.ruleset:1317
-#: data/classic/units.ruleset:1357 data/sandbox/units.ruleset:1547
-#: data/experimental/units.ruleset:1381 data/civ2civ3/units.ruleset:1537
-#: data/multiplayer/units.ruleset:1456
+#: data/civ1/units.ruleset:851 data/civ2/units.ruleset:1319
+#: data/classic/units.ruleset:1359 data/sandbox/units.ruleset:1547
+#: data/experimental/units.ruleset:1383 data/civ2civ3/units.ruleset:1537
+#: data/multiplayer/units.ruleset:1458
 msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
@@ -23757,14 +23759,14 @@ msgstr ""
 "uniquement les cibles au sol et non les autres unités aériennes."
 
 #. TRANS: unit type
-#: data/civ1/units.ruleset:859 data/civ2/units.ruleset:1437
-#: data/classic/units.ruleset:1472 data/sandbox/units.ruleset:1674
-#: data/experimental/units.ruleset:1496 data/civ2civ3/units.ruleset:1664
-#: data/multiplayer/units.ruleset:1570
+#: data/civ1/units.ruleset:859 data/civ2/units.ruleset:1439
+#: data/classic/units.ruleset:1475 data/sandbox/units.ruleset:1674
+#: data/experimental/units.ruleset:1499 data/civ2civ3/units.ruleset:1664
+#: data/multiplayer/units.ruleset:1573
 msgid "Trireme"
 msgstr "Trirème"
 
-#: data/civ1/units.ruleset:886 data/civ2/units.ruleset:1464
+#: data/civ1/units.ruleset:886 data/civ2/units.ruleset:1466
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
@@ -23782,16 +23784,16 @@ msgid ""
 "The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr "Le Voilier remplace la Trirème et est bien plus fiable en pleine mer."
 
-#: data/civ1/units.ruleset:926 data/civ2/units.ruleset:1538
-#: data/classic/units.ruleset:1573 data/sandbox/units.ruleset:1778
-#: data/experimental/units.ruleset:1598 data/civ2civ3/units.ruleset:1767
-#: data/multiplayer/units.ruleset:1671
+#: data/civ1/units.ruleset:926 data/civ2/units.ruleset:1540
+#: data/classic/units.ruleset:1576 data/sandbox/units.ruleset:1778
+#: data/experimental/units.ruleset:1601 data/civ2civ3/units.ruleset:1767
+#: data/multiplayer/units.ruleset:1674
 msgid "Frigate"
 msgstr "Frégate"
 
-#: data/civ1/units.ruleset:953 data/civ2/units.ruleset:1565
-#: data/classic/units.ruleset:1600 data/experimental/units.ruleset:1625
-#: data/multiplayer/units.ruleset:1698
+#: data/civ1/units.ruleset:953 data/civ2/units.ruleset:1567
+#: data/classic/units.ruleset:1603 data/experimental/units.ruleset:1628
+#: data/multiplayer/units.ruleset:1701
 msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
@@ -23799,16 +23801,16 @@ msgstr ""
 "La Frégate est un navire très polyvalent, qui possède à la fois de bonnes "
 "qualités offensives et des capacités de transport décentes."
 
-#: data/civ1/units.ruleset:960 data/civ2/units.ruleset:1572
-#: data/classic/units.ruleset:1607 data/sandbox/units.ruleset:1810
-#: data/experimental/units.ruleset:1632 data/civ2civ3/units.ruleset:1799
-#: data/multiplayer/units.ruleset:1705
+#: data/civ1/units.ruleset:960 data/civ2/units.ruleset:1574
+#: data/classic/units.ruleset:1610 data/sandbox/units.ruleset:1810
+#: data/experimental/units.ruleset:1635 data/civ2civ3/units.ruleset:1799
+#: data/multiplayer/units.ruleset:1708
 msgid "Ironclad"
 msgstr "Patrouilleur"
 
-#: data/civ1/units.ruleset:986 data/civ2/units.ruleset:1598
-#: data/classic/units.ruleset:1633 data/experimental/units.ruleset:1658
-#: data/multiplayer/units.ruleset:1731
+#: data/civ1/units.ruleset:986 data/civ2/units.ruleset:1600
+#: data/classic/units.ruleset:1636 data/experimental/units.ruleset:1661
+#: data/multiplayer/units.ruleset:1734
 msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
@@ -23816,31 +23818,31 @@ msgstr ""
 "Le Patrouilleur est un navire blindé bien plus robuste que la Frégate mais "
 "qui perd la capacité de transport de cette dernière."
 
-#: data/civ1/units.ruleset:993 data/civ2/units.ruleset:1639
-#: data/classic/units.ruleset:1674 data/sandbox/units.ruleset:1881
-#: data/experimental/units.ruleset:1699 data/civ2civ3/units.ruleset:1870
-#: data/multiplayer/units.ruleset:1772
+#: data/civ1/units.ruleset:993 data/civ2/units.ruleset:1641
+#: data/classic/units.ruleset:1677 data/sandbox/units.ruleset:1881
+#: data/experimental/units.ruleset:1702 data/civ2civ3/units.ruleset:1870
+#: data/multiplayer/units.ruleset:1775
 msgid "Cruiser"
 msgstr "Croiseur"
 
-#: data/civ1/units.ruleset:1019 data/civ2/units.ruleset:1665
-#: data/classic/units.ruleset:1700 data/sandbox/units.ruleset:1907
-#: data/experimental/units.ruleset:1725 data/civ2civ3/units.ruleset:1896
-#: data/multiplayer/units.ruleset:1798
+#: data/civ1/units.ruleset:1019 data/civ2/units.ruleset:1667
+#: data/classic/units.ruleset:1703 data/sandbox/units.ruleset:1907
+#: data/experimental/units.ruleset:1728 data/civ2civ3/units.ruleset:1896
+#: data/multiplayer/units.ruleset:1801
 msgid "The Cruiser is a strong offensive boat unit."
 msgstr "Le Croiseur est un navire de guerre très offensif."
 
-#: data/civ1/units.ruleset:1024 data/civ2/units.ruleset:1706
-#: data/classic/units.ruleset:1741 data/sandbox/units.ruleset:1948
-#: data/experimental/units.ruleset:1766 data/civ2civ3/units.ruleset:1937
-#: data/multiplayer/units.ruleset:1839
+#: data/civ1/units.ruleset:1024 data/civ2/units.ruleset:1708
+#: data/classic/units.ruleset:1744 data/sandbox/units.ruleset:1948
+#: data/experimental/units.ruleset:1769 data/civ2civ3/units.ruleset:1937
+#: data/multiplayer/units.ruleset:1842
 msgid "Battleship"
 msgstr "Cuirassé"
 
-#: data/civ1/units.ruleset:1050 data/civ2/units.ruleset:1732
-#: data/classic/units.ruleset:1767 data/sandbox/units.ruleset:1978
-#: data/experimental/units.ruleset:1792 data/civ2civ3/units.ruleset:1963
-#: data/multiplayer/units.ruleset:1865
+#: data/civ1/units.ruleset:1050 data/civ2/units.ruleset:1734
+#: data/classic/units.ruleset:1770 data/sandbox/units.ruleset:1978
+#: data/experimental/units.ruleset:1795 data/civ2civ3/units.ruleset:1963
+#: data/multiplayer/units.ruleset:1868
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
@@ -23848,18 +23850,18 @@ msgstr ""
 "Le Cuirassé est le navire de guerre suprême avec d'excellentes valeurs "
 "offensives et défensives."
 
-#: data/civ1/units.ruleset:1056 data/civ2/units.ruleset:1738
-#: data/classic/units.ruleset:1773 data/sandbox/units.ruleset:33
-#: data/sandbox/units.ruleset:1984 data/experimental/units.ruleset:1798
+#: data/civ1/units.ruleset:1056 data/civ2/units.ruleset:1740
+#: data/classic/units.ruleset:1776 data/sandbox/units.ruleset:33
+#: data/sandbox/units.ruleset:1984 data/experimental/units.ruleset:1801
 #: data/civ2civ3/units.ruleset:33 data/civ2civ3/units.ruleset:1969
-#: data/multiplayer/units.ruleset:1871
+#: data/multiplayer/units.ruleset:1874
 msgid "Submarine"
 msgstr "Sous-marin"
 
-#: data/civ1/units.ruleset:1082 data/civ2/units.ruleset:1766
-#: data/classic/units.ruleset:1801 data/sandbox/units.ruleset:2012
-#: data/experimental/units.ruleset:1826 data/civ2civ3/units.ruleset:1997
-#: data/multiplayer/units.ruleset:1899
+#: data/civ1/units.ruleset:1082 data/civ2/units.ruleset:1768
+#: data/classic/units.ruleset:1804 data/sandbox/units.ruleset:2012
+#: data/experimental/units.ruleset:1829 data/civ2civ3/units.ruleset:1997
+#: data/multiplayer/units.ruleset:1902
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
@@ -23868,24 +23870,24 @@ msgstr ""
 "valeur stratégique mais une faible défense s'ils sont pris au dépourvu."
 
 # AR
-#: data/civ1/units.ruleset:1089 data/civ2/units.ruleset:1773
-#: data/classic/units.ruleset:1808 data/sandbox/units.ruleset:2019
-#: data/experimental/units.ruleset:1833 data/civ2civ3/units.ruleset:2004
-#: data/multiplayer/units.ruleset:1906
+#: data/civ1/units.ruleset:1089 data/civ2/units.ruleset:1775
+#: data/classic/units.ruleset:1811 data/sandbox/units.ruleset:2019
+#: data/experimental/units.ruleset:1836 data/civ2civ3/units.ruleset:2004
+#: data/multiplayer/units.ruleset:1909
 msgid "Carrier"
 msgstr "Porte-avions"
 
-#: data/civ1/units.ruleset:1116 data/civ2/units.ruleset:1800
-#: data/classic/units.ruleset:1835 data/sandbox/units.ruleset:2048
-#: data/experimental/units.ruleset:1861 data/civ2civ3/units.ruleset:2031
-#: data/multiplayer/units.ruleset:1933
+#: data/civ1/units.ruleset:1116 data/civ2/units.ruleset:1802
+#: data/classic/units.ruleset:1838 data/sandbox/units.ruleset:2048
+#: data/experimental/units.ruleset:1864 data/civ2civ3/units.ruleset:2031
+#: data/multiplayer/units.ruleset:1936
 msgid "The Carrier is a mobile airport."
 msgstr "Le Porte-avion est un aéroport mobile."
 
-#: data/civ1/units.ruleset:1118 data/civ2/units.ruleset:1802
-#: data/classic/units.ruleset:1837 data/sandbox/units.ruleset:2054
-#: data/experimental/units.ruleset:1863 data/civ2civ3/units.ruleset:2037
-#: data/multiplayer/units.ruleset:1935
+#: data/civ1/units.ruleset:1118 data/civ2/units.ruleset:1804
+#: data/classic/units.ruleset:1840 data/sandbox/units.ruleset:2054
+#: data/experimental/units.ruleset:1866 data/civ2civ3/units.ruleset:2037
+#: data/multiplayer/units.ruleset:1938
 msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -23894,17 +23896,17 @@ msgstr ""
 "Cuirassé car la perte d'un Porte-avion tout équipé est TRÈS douloureuse et "
 "coûteuse."
 
-#: data/civ1/units.ruleset:1125 data/civ2/units.ruleset:1809
-#: data/classic/units.ruleset:1844 data/sandbox/units.ruleset:2061
-#: data/experimental/units.ruleset:1870 data/civ2civ3/units.ruleset:2044
-#: data/multiplayer/units.ruleset:1942
+#: data/civ1/units.ruleset:1125 data/civ2/units.ruleset:1811
+#: data/classic/units.ruleset:1847 data/sandbox/units.ruleset:2061
+#: data/experimental/units.ruleset:1873 data/civ2civ3/units.ruleset:2044
+#: data/multiplayer/units.ruleset:1945
 msgid "Transport"
 msgstr "Transporteur"
 
-#: data/civ1/units.ruleset:1152 data/civ2/units.ruleset:1836
-#: data/classic/units.ruleset:1871 data/sandbox/units.ruleset:2094
-#: data/experimental/units.ruleset:1897 data/civ2civ3/units.ruleset:2077
-#: data/multiplayer/units.ruleset:1969
+#: data/civ1/units.ruleset:1152 data/civ2/units.ruleset:1838
+#: data/classic/units.ruleset:1874 data/sandbox/units.ruleset:2094
+#: data/experimental/units.ruleset:1900 data/civ2civ3/units.ruleset:2077
+#: data/multiplayer/units.ruleset:1972
 msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
@@ -23912,9 +23914,9 @@ msgstr ""
 "Le Transporteur ne peut pas attaquer par lui-même mais peut se défendre "
 "quand il est attaqué."
 
-#: data/civ1/units.ruleset:1184 data/civ2/units.ruleset:1903
-#: data/classic/units.ruleset:1944 data/experimental/units.ruleset:1971
-#: data/multiplayer/units.ruleset:2042
+#: data/civ1/units.ruleset:1184 data/civ2/units.ruleset:1905
+#: data/classic/units.ruleset:1947 data/experimental/units.ruleset:1974
+#: data/multiplayer/units.ruleset:2045
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player."
@@ -23923,7 +23925,7 @@ msgstr ""
 "l'avancée nécessaire, et que la merveille Projet Manhattan a été construite "
 "par l'un des joueurs."
 
-#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1906
+#: data/civ1/units.ruleset:1187 data/civ2/units.ruleset:1908
 msgid ""
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
 "squares for rectangular grids), including friendly units. Any city within "
@@ -23938,9 +23940,9 @@ msgstr ""
 "nucléaires, qui apparaissent comme de la pollution et contribuent au "
 "réchauffement climatique."
 
-#: data/civ1/units.ruleset:1193 data/civ2/units.ruleset:1912
-#: data/classic/units.ruleset:1955 data/experimental/units.ruleset:1982
-#: data/multiplayer/units.ruleset:2053
+#: data/civ1/units.ruleset:1193 data/civ2/units.ruleset:1914
+#: data/classic/units.ruleset:1958 data/experimental/units.ruleset:1985
+#: data/multiplayer/units.ruleset:2056
 msgid ""
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships."
@@ -23964,17 +23966,17 @@ msgstr ""
 "de réchauffement climatique. Une attaque nucléaire écologique, en quelque "
 "sorte !"
 
-#: data/civ1/units.ruleset:1207 data/civ2/units.ruleset:1926
-#: data/classic/units.ruleset:1969 data/sandbox/units.ruleset:2203
-#: data/experimental/units.ruleset:1996 data/civ2civ3/units.ruleset:2183
-#: data/multiplayer/units.ruleset:2067
+#: data/civ1/units.ruleset:1207 data/civ2/units.ruleset:1928
+#: data/classic/units.ruleset:1972 data/sandbox/units.ruleset:2203
+#: data/experimental/units.ruleset:1999 data/civ2civ3/units.ruleset:2183
+#: data/multiplayer/units.ruleset:2070
 msgid "Diplomat"
 msgstr "Diplomate"
 
-#: data/civ1/units.ruleset:1238 data/civ2/units.ruleset:1957
-#: data/classic/units.ruleset:2008 data/sandbox/units.ruleset:2243
-#: data/experimental/units.ruleset:2035 data/civ2civ3/units.ruleset:2223
-#: data/multiplayer/units.ruleset:2106
+#: data/civ1/units.ruleset:1238 data/civ2/units.ruleset:1959
+#: data/classic/units.ruleset:2011 data/sandbox/units.ruleset:2243
+#: data/experimental/units.ruleset:2038 data/civ2civ3/units.ruleset:2223
+#: data/multiplayer/units.ruleset:2109
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
@@ -23986,9 +23988,9 @@ msgstr ""
 "opérations secrètes dans l'intention de nuire à vos opposants. Des "
 "Diplomates dans vos propres villes les protègent contre de telles actions."
 
-#: data/civ1/units.ruleset:1244 data/civ2/units.ruleset:1963
-#: data/classic/units.ruleset:2014 data/experimental/units.ruleset:2041
-#: data/multiplayer/units.ruleset:2112
+#: data/civ1/units.ruleset:1244 data/civ2/units.ruleset:1965
+#: data/classic/units.ruleset:2017 data/experimental/units.ruleset:2044
+#: data/multiplayer/units.ruleset:2115
 msgid ""
 "Many covert actions may be attempted even in peacetime, but the more "
 "aggressive actions will be discovered and cause diplomatic incidents, which "
@@ -23999,9 +24001,9 @@ msgstr ""
 "incidents diplomatiques, ce qui peut permettre aux républiques et aux "
 "démocraties de rompre des traités."
 
-#: data/civ1/units.ruleset:1248 data/civ2/units.ruleset:1967
-#: data/classic/units.ruleset:2018 data/experimental/units.ruleset:2045
-#: data/multiplayer/units.ruleset:2116
+#: data/civ1/units.ruleset:1248 data/civ2/units.ruleset:1969
+#: data/classic/units.ruleset:2021 data/experimental/units.ruleset:2048
+#: data/multiplayer/units.ruleset:2119
 msgid ""
 "If a foreign unit is alone on a tile, you may attempt to bribe it with your "
 "Diplomat. By paying a sum of gold the unit will immediately become yours; "
@@ -24016,7 +24018,7 @@ msgstr ""
 "gouvernements Démocratiques ne peuvent pas être corrompues. Corrompre une "
 "unité sans être en guerre causera un incident diplomatique."
 
-#: data/civ1/units.ruleset:1255 data/civ2/units.ruleset:1974
+#: data/civ1/units.ruleset:1255 data/civ2/units.ruleset:1976
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -24033,16 +24035,16 @@ msgstr ""
 "l'unité défendante meurt, vous perdez un point de mouvement et pouvez "
 "réessayer."
 
-#: data/civ1/units.ruleset:1262 data/civ2/units.ruleset:1981
-#: data/classic/units.ruleset:2033 data/sandbox/units.ruleset:2270
-#: data/experimental/units.ruleset:2060 data/civ2civ3/units.ruleset:2250
-#: data/multiplayer/units.ruleset:2131
+#: data/civ1/units.ruleset:1262 data/civ2/units.ruleset:1983
+#: data/classic/units.ruleset:2036 data/sandbox/units.ruleset:2270
+#: data/experimental/units.ruleset:2063 data/civ2civ3/units.ruleset:2250
+#: data/multiplayer/units.ruleset:2134
 msgid "The actions available to Diplomats in a city are:"
 msgstr "Les actions accessibles aux Diplomates dans une ville sont :"
 
-#: data/civ1/units.ruleset:1264 data/civ2/units.ruleset:1983
-#: data/classic/units.ruleset:2035 data/experimental/units.ruleset:2062
-#: data/multiplayer/units.ruleset:2133
+#: data/civ1/units.ruleset:1264 data/civ2/units.ruleset:1985
+#: data/classic/units.ruleset:2038 data/experimental/units.ruleset:2065
+#: data/multiplayer/units.ruleset:2136
 msgid ""
 " - \"Establish Embassy\": This action always succeeds, and gives permanent "
 "contact with the city's owner, as well as intelligence on their tax rates "
@@ -24052,11 +24054,11 @@ msgstr ""
 "contact permanent avec le possesseur de la ville, ainsi que la connaissance "
 "de son taux de taxes et de technologie."
 
-#: data/civ1/units.ruleset:1268 data/civ2/units.ruleset:1987
-#: data/classic/units.ruleset:2039 data/sandbox/units.ruleset:2278
-#: data/sandbox/units.ruleset:2505 data/experimental/units.ruleset:2066
+#: data/civ1/units.ruleset:1268 data/civ2/units.ruleset:1989
+#: data/classic/units.ruleset:2042 data/sandbox/units.ruleset:2278
+#: data/sandbox/units.ruleset:2505 data/experimental/units.ruleset:2069
 #: data/civ2civ3/units.ruleset:2258 data/civ2civ3/units.ruleset:2484
-#: data/multiplayer/units.ruleset:2137
+#: data/multiplayer/units.ruleset:2140
 msgid ""
 " - \"Investigate City\": Your unit attempts to report detailed information "
 "about the city: its status, what buildings and units are within, and what it "
@@ -24066,10 +24068,10 @@ msgstr ""
 "détaillées sur la ville :  son état, les bâtiments et les unités à "
 "l'intérieur et ce qu'elle produit actuellement."
 
-#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1991
-#: data/classic/units.ruleset:2043 data/sandbox/units.ruleset:2282
-#: data/experimental/units.ruleset:2070 data/civ2civ3/units.ruleset:2262
-#: data/multiplayer/units.ruleset:2141
+#: data/civ1/units.ruleset:1272 data/civ2/units.ruleset:1993
+#: data/classic/units.ruleset:2046 data/sandbox/units.ruleset:2282
+#: data/experimental/units.ruleset:2073 data/civ2civ3/units.ruleset:2262
+#: data/multiplayer/units.ruleset:2144
 msgid ""
 " - \"Sabotage City\": Your unit attempts either to disrupt all the city's "
 "work so far towards its current project, or to destroy an existing building "
@@ -24085,10 +24087,10 @@ msgstr ""
 "des chances de réussite. Le sabotage ne peut être tenté que lorsque vous "
 "êtes ouvertement en guerre."
 
-#: data/civ1/units.ruleset:1279 data/civ2/units.ruleset:1998
-#: data/classic/units.ruleset:2050 data/sandbox/units.ruleset:2289
-#: data/experimental/units.ruleset:2077 data/civ2civ3/units.ruleset:2269
-#: data/multiplayer/units.ruleset:2148
+#: data/civ1/units.ruleset:1279 data/civ2/units.ruleset:2000
+#: data/classic/units.ruleset:2053 data/sandbox/units.ruleset:2289
+#: data/experimental/units.ruleset:2080 data/civ2civ3/units.ruleset:2269
+#: data/multiplayer/units.ruleset:2151
 msgid ""
 " - \"Steal Technology\": Your unit attempts to learn the secrets of a random "
 "technology known to the city's owner but not to you. Technology may only be "
@@ -24101,9 +24103,9 @@ msgstr ""
 "d'une ville ennemie donnée. Cette action peut être tentée même sans être en "
 "guerre, mais causera un incident diplomatique."
 
-#: data/civ1/units.ruleset:1285 data/civ2/units.ruleset:2004
-#: data/classic/units.ruleset:2056 data/experimental/units.ruleset:2083
-#: data/multiplayer/units.ruleset:2154
+#: data/civ1/units.ruleset:1285 data/civ2/units.ruleset:2006
+#: data/classic/units.ruleset:2059 data/experimental/units.ruleset:2086
+#: data/multiplayer/units.ruleset:2157
 msgid ""
 " - \"Incite a Revolt\": In return for gold a foreign city will change "
 "allegiance and join your empire, bringing along all nearby units that call "
@@ -24124,10 +24126,10 @@ msgstr ""
 "gouvernée par une démocratie. L'incitation peut être tentée par temps de "
 "paix, mais causera un incident diplomatique."
 
-#: data/civ1/units.ruleset:1295 data/civ2/units.ruleset:2014
-#: data/classic/units.ruleset:2066 data/sandbox/units.ruleset:2305
-#: data/experimental/units.ruleset:2093 data/civ2civ3/units.ruleset:2285
-#: data/multiplayer/units.ruleset:2164
+#: data/civ1/units.ruleset:1295 data/civ2/units.ruleset:2016
+#: data/classic/units.ruleset:2069 data/sandbox/units.ruleset:2305
+#: data/experimental/units.ruleset:2096 data/civ2civ3/units.ruleset:2285
+#: data/multiplayer/units.ruleset:2167
 msgid ""
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
@@ -24137,15 +24139,15 @@ msgstr ""
 "utilisées pour dévaster l'ennemi. Il n'est pas étonnant que les Diplomates "
 "soient souvent vus avec méfiance et peur !"
 
-#: data/civ1/units.ruleset:1302 data/civ2/units.ruleset:2081
-#: data/classic/units.ruleset:2146 data/sandbox/units.ruleset:2385
-#: data/experimental/units.ruleset:2173 data/civ2civ3/units.ruleset:2365
-#: data/alien/units.ruleset:1336 data/multiplayer/units.ruleset:2244
+#: data/civ1/units.ruleset:1302 data/civ2/units.ruleset:2083
+#: data/classic/units.ruleset:2149 data/sandbox/units.ruleset:2385
+#: data/experimental/units.ruleset:2176 data/civ2civ3/units.ruleset:2365
+#: data/alien/units.ruleset:1336 data/multiplayer/units.ruleset:2247
 msgid "Caravan"
 msgstr "Caravane"
 
-#: data/civ1/units.ruleset:1328 data/civ2/units.ruleset:2107
-#: data/classic/units.ruleset:2172 data/experimental/units.ruleset:2199
+#: data/civ1/units.ruleset:1328 data/civ2/units.ruleset:2109
+#: data/classic/units.ruleset:2175 data/experimental/units.ruleset:2202
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities."
@@ -24154,7 +24156,7 @@ msgstr ""
 "villes éloignées et des pays étrangers, ou pour aider à la construction des "
 "merveilles dans vos villes."
 
-#: data/civ1/units.ruleset:1331 data/civ2/units.ruleset:2110
+#: data/civ1/units.ruleset:1331 data/civ2/units.ruleset:2112
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -24178,8 +24180,8 @@ msgstr ""
 "commerciale. Chaque ville peut soutenir un maximum de trois routes "
 "commerciales."
 
-#: data/civ1/units.ruleset:1341 data/civ2/units.ruleset:2120
-#: data/classic/units.ruleset:2188 data/experimental/units.ruleset:2215
+#: data/civ1/units.ruleset:1341 data/civ2/units.ruleset:2122
+#: data/classic/units.ruleset:2191 data/experimental/units.ruleset:2218
 msgid ""
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder."
@@ -24187,10 +24189,10 @@ msgstr ""
 "Toute Caravane qui est utilisée pour construire une merveille ajoutera 50 "
 "points de production à la construction de la merveille."
 
-#: data/civ1/units.ruleset:1344 data/civ2/units.ruleset:2123
-#: data/classic/units.ruleset:2191 data/sandbox/units.ruleset:2427
-#: data/experimental/units.ruleset:2218 data/civ2civ3/units.ruleset:2406
-#: data/multiplayer/units.ruleset:2276
+#: data/civ1/units.ruleset:1344 data/civ2/units.ruleset:2125
+#: data/classic/units.ruleset:2194 data/sandbox/units.ruleset:2427
+#: data/experimental/units.ruleset:2221 data/civ2civ3/units.ruleset:2406
+#: data/multiplayer/units.ruleset:2279
 msgid ""
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all "
 "into a city where you have started to build a wonder, and finish it in only "
@@ -24200,17 +24202,17 @@ msgstr ""
 "temps vers une ville où vous avez commencé à contruire une merveille, ce qui "
 "peut vous permettre de la finir en un tour seulement !"
 
-#: data/civ1/units.ruleset:1351 data/civ2/units.ruleset:2193
-#: data/classic/units.ruleset:2302 data/sandbox/units.ruleset:2553
-#: data/experimental/units.ruleset:2334 data/civ2civ3/units.ruleset:2532
-#: data/multiplayer/units.ruleset:2388
+#: data/civ1/units.ruleset:1351 data/civ2/units.ruleset:2195
+#: data/classic/units.ruleset:2305 data/sandbox/units.ruleset:2553
+#: data/experimental/units.ruleset:2337 data/civ2civ3/units.ruleset:2532
+#: data/multiplayer/units.ruleset:2391
 msgid "Barbarian Leader"
 msgstr "Chef des Barbares"
 
-#: data/civ1/units.ruleset:1377 data/civ2/units.ruleset:2219
-#: data/classic/units.ruleset:2335 data/sandbox/units.ruleset:2586
-#: data/experimental/units.ruleset:2367 data/civ2civ3/units.ruleset:2565
-#: data/multiplayer/units.ruleset:2421
+#: data/civ1/units.ruleset:1377 data/civ2/units.ruleset:2221
+#: data/classic/units.ruleset:2338 data/sandbox/units.ruleset:2586
+#: data/experimental/units.ruleset:2370 data/civ2civ3/units.ruleset:2565
+#: data/multiplayer/units.ruleset:2424
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world."
@@ -25775,11 +25777,11 @@ msgid "Attack value halved when attacking Pikemen."
 msgstr "Score d'attaque réduit de moitié lorsqu'il attaque des Gardes."
 
 #. TRANS: unit type
-#: data/civ2/units.ruleset:28 data/civ2/units.ruleset:1325
-#: data/classic/units.ruleset:34 data/classic/units.ruleset:1365
+#: data/civ2/units.ruleset:28 data/civ2/units.ruleset:1327
+#: data/classic/units.ruleset:34 data/classic/units.ruleset:1367
 #: data/sandbox/units.ruleset:1563 data/experimental/units.ruleset:37
-#: data/experimental/units.ruleset:1389 data/civ2civ3/units.ruleset:1553
-#: data/multiplayer/units.ruleset:34 data/multiplayer/units.ruleset:1464
+#: data/experimental/units.ruleset:1391 data/civ2civ3/units.ruleset:1553
+#: data/multiplayer/units.ruleset:34 data/multiplayer/units.ruleset:1466
 msgid "Helicopter"
 msgstr "Hélicoptère"
 
@@ -25788,13 +25790,13 @@ msgstr "Hélicoptère"
 msgid "Defends very badly against Fighters."
 msgstr "Se défend très mal contre des Chasseurs."
 
-#: data/civ2/units.ruleset:34 data/civ2/units.ruleset:789
-#: data/classic/units.ruleset:41 data/classic/units.ruleset:895
+#: data/civ2/units.ruleset:34 data/civ2/units.ruleset:791
+#: data/classic/units.ruleset:41 data/classic/units.ruleset:896
 #: data/sandbox/units.ruleset:44 data/sandbox/units.ruleset:1007
-#: data/experimental/units.ruleset:44 data/experimental/units.ruleset:917
+#: data/experimental/units.ruleset:44 data/experimental/units.ruleset:918
 #: data/civ2civ3/units.ruleset:43 data/civ2civ3/units.ruleset:997
 #: data/alien/units.ruleset:33 data/multiplayer/units.ruleset:40
-#: data/multiplayer/units.ruleset:930 server/rscompat.c:186
+#: data/multiplayer/units.ruleset:931 server/rscompat.c:186
 msgid "Paratroopers"
 msgstr "Parachutistes"
 
@@ -25805,24 +25807,26 @@ msgstr "Parachutistes"
 msgid "Can be paradropped from a friendly city or suitable base."
 msgstr "Peut être parachuté depuis une ville amie ou une base convenable."
 
-#: data/civ2/units.ruleset:35 data/civ2/units.ruleset:758
-#: data/classic/units.ruleset:42 data/classic/units.ruleset:864
+#: data/civ2/units.ruleset:35 data/civ2/units.ruleset:760
+#: data/classic/units.ruleset:42 data/classic/units.ruleset:865
 #: data/sandbox/units.ruleset:45 data/sandbox/units.ruleset:974
-#: data/experimental/units.ruleset:45 data/experimental/units.ruleset:886
+#: data/experimental/units.ruleset:45 data/experimental/units.ruleset:887
 #: data/civ2civ3/units.ruleset:44 data/civ2civ3/units.ruleset:964
-#: data/multiplayer/units.ruleset:41 data/multiplayer/units.ruleset:899
+#: data/multiplayer/units.ruleset:41 data/multiplayer/units.ruleset:900
 #: server/rscompat.c:188
 msgid "Marines"
 msgstr "Fusiliers Marins"
 
 #: data/civ2/units.ruleset:37 data/civ2/units.ruleset:38
+#: data/classic/units.ruleset:43 data/experimental/units.ruleset:46
+#: data/multiplayer/units.ruleset:42
 msgid "Bad at attacking Fighters"
 msgstr "Mauvaise attaque contre les Chasseurs"
 
-#: data/civ2/units.ruleset:38 data/civ2/units.ruleset:1400
-#: data/classic/units.ruleset:1438 data/sandbox/units.ruleset:1641
-#: data/experimental/units.ruleset:1462 data/civ2civ3/units.ruleset:1631
-#: data/multiplayer/units.ruleset:1536
+#: data/civ2/units.ruleset:38 data/civ2/units.ruleset:1402
+#: data/classic/units.ruleset:1441 data/sandbox/units.ruleset:1641
+#: data/experimental/units.ruleset:1465 data/civ2civ3/units.ruleset:1631
+#: data/multiplayer/units.ruleset:1539
 msgid "Stealth Bomber"
 msgstr "Bombardier Furtif"
 
@@ -25830,24 +25834,24 @@ msgstr "Bombardier Furtif"
 msgid "EarlyFighter"
 msgstr "ChasseurPrécoce"
 
-#: data/civ2/units.ruleset:39
-#, c-format
+#: data/civ2/units.ruleset:41
+#, no-c-format
 msgid "250% defense against Stealth Bombers"
 msgstr "250% de défense contre les Bombardiers Furtifs"
 
-#: data/civ2/units.ruleset:150 data/classic/units.ruleset:154
-#: data/multiplayer/units.ruleset:153
+#: data/civ2/units.ruleset:152 data/classic/units.ruleset:155
+#: data/multiplayer/units.ruleset:154
 msgid "  * Can be airlifted from a suitable city."
 msgstr "  * Peut être aéroporté depuis une ville convenable."
 
 #. TRANS: Unit class: used adjectivally
-#: data/civ2/units.ruleset:166 data/classic/units.ruleset:174
-#: data/sandbox/units.ruleset:208 data/experimental/units.ruleset:186
-#: data/civ2civ3/units.ruleset:198 data/multiplayer/units.ruleset:173
+#: data/civ2/units.ruleset:168 data/classic/units.ruleset:175
+#: data/sandbox/units.ruleset:208 data/experimental/units.ruleset:187
+#: data/civ2civ3/units.ruleset:198 data/multiplayer/units.ruleset:174
 msgid "?unitclass:Helicopter"
 msgstr "Hélicoptère"
 
-#: data/civ2/units.ruleset:372
+#: data/civ2/units.ruleset:374
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers require twice as much food "
@@ -25858,13 +25862,13 @@ msgstr ""
 "Les Colons sous un régime Républicain, Démocrate, Communiste ou "
 "Fondamentaliste nécessitent deux fois plus de nourriture par tour."
 
-#: data/civ2/units.ruleset:380 data/classic/units.ruleset:513
-#: data/sandbox/units.ruleset:589 data/experimental/units.ruleset:530
-#: data/civ2civ3/units.ruleset:579 data/multiplayer/units.ruleset:513
+#: data/civ2/units.ruleset:382 data/classic/units.ruleset:514
+#: data/sandbox/units.ruleset:589 data/experimental/units.ruleset:531
+#: data/civ2civ3/units.ruleset:579 data/multiplayer/units.ruleset:514
 msgid "Engineers"
 msgstr "Ingénieurs"
 
-#: data/civ2/units.ruleset:406
+#: data/civ2/units.ruleset:408
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -25878,7 +25882,7 @@ msgstr ""
 "par exemple) qui sont hors des possibilités des Colons. Voir la section sur "
 "les Altérations de Terrain pour plus de détails."
 
-#: data/civ2/units.ruleset:412
+#: data/civ2/units.ruleset:414
 msgid ""
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers."
@@ -25886,7 +25890,7 @@ msgstr ""
 "ASTUCE 1 : Transformez vos Colons en Ingénieurs dès que possible car ces "
 "derniers requièrent les mêmes ressources que des Colons ordinaires."
 
-#: data/civ2/units.ruleset:415
+#: data/civ2/units.ruleset:417
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
@@ -25896,20 +25900,20 @@ msgstr ""
 "les Explosifs avant que ce dernier ne soit obsolète. Ainsi, vos Colons "
 "seront promus gratuitement."
 
-#: data/civ2/units.ruleset:422 data/classic/units.ruleset:563
-#: data/sandbox/units.ruleset:635 data/experimental/units.ruleset:585
-#: data/civ2civ3/units.ruleset:625 data/multiplayer/units.ruleset:563
+#: data/civ2/units.ruleset:424 data/classic/units.ruleset:564
+#: data/sandbox/units.ruleset:635 data/experimental/units.ruleset:586
+#: data/civ2civ3/units.ruleset:625 data/multiplayer/units.ruleset:564
 msgid "Warriors"
 msgstr "Guerriers"
 
-#: data/civ2/units.ruleset:485 data/classic/units.ruleset:626
-#: data/sandbox/units.ruleset:698 data/experimental/units.ruleset:648
-#: data/civ2civ3/units.ruleset:688 data/multiplayer/units.ruleset:626
+#: data/civ2/units.ruleset:487 data/classic/units.ruleset:627
+#: data/sandbox/units.ruleset:698 data/experimental/units.ruleset:649
+#: data/civ2civ3/units.ruleset:688 data/multiplayer/units.ruleset:627
 msgid "Archers"
 msgstr "Archers"
 
-#: data/civ2/units.ruleset:511 data/classic/units.ruleset:652
-#: data/experimental/units.ruleset:674 data/multiplayer/units.ruleset:652
+#: data/civ2/units.ruleset:513 data/classic/units.ruleset:653
+#: data/experimental/units.ruleset:675 data/multiplayer/units.ruleset:653
 msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
@@ -25917,15 +25921,15 @@ msgstr ""
 "Les Archers se battent avec des arcs et des flèches et ont une bonne valeur "
 "offensive ainsi qu'une défense correcte."
 
-#: data/civ2/units.ruleset:549 data/classic/units.ruleset:690
-#: data/sandbox/units.ruleset:762 data/experimental/units.ruleset:712
-#: data/civ2civ3/units.ruleset:752 data/multiplayer/units.ruleset:690
+#: data/civ2/units.ruleset:551 data/classic/units.ruleset:691
+#: data/sandbox/units.ruleset:762 data/experimental/units.ruleset:713
+#: data/civ2civ3/units.ruleset:752 data/multiplayer/units.ruleset:691
 msgid "Pikemen"
 msgstr "Gardes"
 
-#: data/civ2/units.ruleset:579 data/classic/units.ruleset:720
-#: data/sandbox/units.ruleset:788 data/experimental/units.ruleset:742
-#: data/civ2civ3/units.ruleset:778 data/multiplayer/units.ruleset:720
+#: data/civ2/units.ruleset:581 data/classic/units.ruleset:721
+#: data/sandbox/units.ruleset:788 data/experimental/units.ruleset:743
+#: data/civ2civ3/units.ruleset:778 data/multiplayer/units.ruleset:721
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
@@ -25933,9 +25937,9 @@ msgstr ""
 "Équipés de longs pics, les Gardes remplacent les Phalanges grâce à leur "
 "meilleure capacité à défendre les villes."
 
-#: data/civ2/units.ruleset:612 data/classic/units.ruleset:753
-#: data/sandbox/units.ruleset:821 data/experimental/units.ruleset:775
-#: data/civ2civ3/units.ruleset:811 data/multiplayer/units.ruleset:753
+#: data/civ2/units.ruleset:614 data/classic/units.ruleset:754
+#: data/sandbox/units.ruleset:821 data/experimental/units.ruleset:776
+#: data/civ2civ3/units.ruleset:811 data/multiplayer/units.ruleset:754
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
@@ -25943,18 +25947,18 @@ msgstr ""
 "Les Mousquetaires sont des unités d'infanterie équipés d'armes à feu "
 "primitives. Ils remplacent les Gardes comme défenseurs de ville préférés."
 
-#: data/civ2/units.ruleset:619 data/sandbox/units.ruleset:936
-#: data/civ2civ3/units.ruleset:926 data/multiplayer/units.ruleset:760
+#: data/civ2/units.ruleset:621 data/sandbox/units.ruleset:936
+#: data/civ2civ3/units.ruleset:926 data/multiplayer/units.ruleset:761
 msgid "Fanatics"
 msgstr "Fanatiques"
 
-#: data/civ2/units.ruleset:646 data/sandbox/units.ruleset:965
-#: data/civ2civ3/units.ruleset:955 data/multiplayer/units.ruleset:787
+#: data/civ2/units.ruleset:648 data/sandbox/units.ruleset:965
+#: data/civ2civ3/units.ruleset:955 data/multiplayer/units.ruleset:788
 msgid "Fanatics are warriors extremely devoted to a higher cause."
 msgstr ""
 "Les Fanatiques sont des guerriers extrêment dévoués à une cause supérieure."
 
-#: data/civ2/units.ruleset:648 data/multiplayer/units.ruleset:789
+#: data/civ2/units.ruleset:650 data/multiplayer/units.ruleset:790
 msgid ""
 "Fundamentalist nations can maintain Fanatic units without having to pay any "
 "shields for upkeep."
@@ -25962,15 +25966,15 @@ msgstr ""
 "Les nations Fondamentalistes peuvent entretenir des Fanatiques sans avoir à "
 "payer de production pour le support."
 
-#: data/civ2/units.ruleset:654 data/classic/units.ruleset:760
-#: data/sandbox/units.ruleset:894 data/experimental/units.ruleset:782
-#: data/civ2civ3/units.ruleset:884 data/multiplayer/units.ruleset:795
+#: data/civ2/units.ruleset:656 data/classic/units.ruleset:761
+#: data/sandbox/units.ruleset:894 data/experimental/units.ruleset:783
+#: data/civ2civ3/units.ruleset:884 data/multiplayer/units.ruleset:796
 msgid "Partisan"
 msgstr "Partisan"
 
-#: data/civ2/units.ruleset:680 data/classic/units.ruleset:786
-#: data/sandbox/units.ruleset:922 data/experimental/units.ruleset:808
-#: data/civ2civ3/units.ruleset:912 data/multiplayer/units.ruleset:821
+#: data/civ2/units.ruleset:682 data/classic/units.ruleset:787
+#: data/sandbox/units.ruleset:922 data/experimental/units.ruleset:809
+#: data/civ2civ3/units.ruleset:912 data/multiplayer/units.ruleset:822
 msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage."
@@ -25978,8 +25982,8 @@ msgstr ""
 "Les Partisans sont des combattants de guérilla qui excellent à utiliser les "
 "terrains à leur avantage."
 
-#: data/civ2/units.ruleset:683 data/classic/units.ruleset:789
-#: data/multiplayer/units.ruleset:824
+#: data/civ2/units.ruleset:685 data/classic/units.ruleset:790
+#: data/multiplayer/units.ruleset:825
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
 "they automatically assume defensive positions in the surrounding countryside "
@@ -25998,30 +26002,30 @@ msgstr ""
 " - Vous devez connaître le Communisme et la Poudre à Canon.\n"
 " - Vous devez être sous un régime Démocratique ou Communiste."
 
-#: data/civ2/units.ruleset:694 data/classic/units.ruleset:800
-#: data/sandbox/units.ruleset:860 data/experimental/units.ruleset:822
-#: data/civ2civ3/units.ruleset:850 data/multiplayer/units.ruleset:835
+#: data/civ2/units.ruleset:696 data/classic/units.ruleset:801
+#: data/sandbox/units.ruleset:860 data/experimental/units.ruleset:823
+#: data/civ2civ3/units.ruleset:850 data/multiplayer/units.ruleset:836
 msgid "Alpine Troops"
 msgstr "Chasseurs Alpins"
 
-#: data/civ2/units.ruleset:720 data/classic/units.ruleset:826
-#: data/sandbox/units.ruleset:888 data/experimental/units.ruleset:848
-#: data/civ2civ3/units.ruleset:878 data/multiplayer/units.ruleset:861
+#: data/civ2/units.ruleset:722 data/classic/units.ruleset:827
+#: data/sandbox/units.ruleset:888 data/experimental/units.ruleset:849
+#: data/civ2civ3/units.ruleset:878 data/multiplayer/units.ruleset:862
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
 msgstr ""
 "Les Chasseurs Alpins sont des unités à la fois très mobiles et excellentes "
 "en défense."
 
-#: data/civ2/units.ruleset:784 data/classic/units.ruleset:890
-#: data/sandbox/units.ruleset:1002 data/experimental/units.ruleset:912
-#: data/civ2civ3/units.ruleset:992 data/multiplayer/units.ruleset:925
+#: data/civ2/units.ruleset:786 data/classic/units.ruleset:891
+#: data/sandbox/units.ruleset:1002 data/experimental/units.ruleset:913
+#: data/civ2civ3/units.ruleset:992 data/multiplayer/units.ruleset:926
 msgid "Marines are infantry who are experts at marine warfare."
 msgstr ""
 "Les Fusiliers Marins sont des unités d'infanterie qui excellent dans les "
 "attaques par voie marine."
 
-#: data/civ2/units.ruleset:815 data/classic/units.ruleset:921
-#: data/multiplayer/units.ruleset:956
+#: data/civ2/units.ruleset:817 data/classic/units.ruleset:922
+#: data/multiplayer/units.ruleset:957
 msgid ""
 "Paratroopers are experts at airborne attacks. From a friendly city or "
 "airbase, Paratroopers who have not expended any movement points can paradrop "
@@ -26037,8 +26041,8 @@ msgstr ""
 "Parachutistes qui atterrissent sur une case occupé par des unités ennemies "
 "font des cibles faciles !)"
 
-#: data/civ2/units.ruleset:854 data/classic/units.ruleset:960
-#: data/experimental/units.ruleset:983 data/multiplayer/units.ruleset:995
+#: data/civ2/units.ruleset:856 data/classic/units.ruleset:961
+#: data/experimental/units.ruleset:984 data/multiplayer/units.ruleset:996
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
@@ -26046,15 +26050,15 @@ msgstr ""
 "L'Infanterie Mobile est la plus forte unité de défense de toutes les unités "
 "terrestres, mais elle n'est disponible qu'avec les dernières technologies."
 
-#: data/civ2/units.ruleset:861 data/classic/units.ruleset:967
-#: data/sandbox/units.ruleset:1083 data/experimental/units.ruleset:990
-#: data/civ2civ3/units.ruleset:1073 data/multiplayer/units.ruleset:1002
+#: data/civ2/units.ruleset:863 data/classic/units.ruleset:968
+#: data/sandbox/units.ruleset:1083 data/experimental/units.ruleset:991
+#: data/civ2civ3/units.ruleset:1073 data/multiplayer/units.ruleset:1003
 msgid "Horsemen"
 msgstr "Cavaliers"
 
-#: data/civ2/units.ruleset:887 data/classic/units.ruleset:993
-#: data/sandbox/units.ruleset:1109 data/experimental/units.ruleset:1016
-#: data/civ2civ3/units.ruleset:1099 data/multiplayer/units.ruleset:1028
+#: data/civ2/units.ruleset:889 data/classic/units.ruleset:994
+#: data/sandbox/units.ruleset:1109 data/experimental/units.ruleset:1017
+#: data/civ2civ3/units.ruleset:1099 data/multiplayer/units.ruleset:1029
 msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -26062,8 +26066,8 @@ msgstr ""
 "Les Cavaliers sont des guerriers montés et une ancienne troupe de choc qui "
 "peut pénétrer profondément en territoire ennemi."
 
-#: data/civ2/units.ruleset:920 data/classic/units.ruleset:1026
-#: data/experimental/units.ruleset:1049 data/multiplayer/units.ruleset:1061
+#: data/civ2/units.ruleset:922 data/classic/units.ruleset:1027
+#: data/experimental/units.ruleset:1050 data/multiplayer/units.ruleset:1062
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
@@ -26071,12 +26075,12 @@ msgstr ""
 "Les Chars sont des attelages de guerre tirés par des chevaux, plus forts "
 "mais plus chers que les Cavaliers."
 
-#: data/civ2/units.ruleset:926 data/sandbox/units.ruleset:1152
-#: data/civ2civ3/units.ruleset:1142 data/multiplayer/units.ruleset:1067
+#: data/civ2/units.ruleset:928 data/sandbox/units.ruleset:1152
+#: data/civ2civ3/units.ruleset:1142 data/multiplayer/units.ruleset:1068
 msgid "Elephants"
 msgstr "Éléphants"
 
-#: data/civ2/units.ruleset:952 data/multiplayer/units.ruleset:1093
+#: data/civ2/units.ruleset:954 data/multiplayer/units.ruleset:1094
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
@@ -26085,39 +26089,39 @@ msgstr ""
 "souvent utilisés comme troupes de choc puissantes, mais qui se défendent mal "
 "contre la plupart des autres unités."
 
-#: data/civ2/units.ruleset:958 data/sandbox/units.ruleset:1184
-#: data/civ2civ3/units.ruleset:1174 data/multiplayer/units.ruleset:1099
+#: data/civ2/units.ruleset:960 data/sandbox/units.ruleset:1184
+#: data/civ2civ3/units.ruleset:1174 data/multiplayer/units.ruleset:1100
 msgid "Crusaders"
 msgstr "Croisés"
 
-#: data/civ2/units.ruleset:984 data/sandbox/units.ruleset:1210
-#: data/civ2civ3/units.ruleset:1200 data/multiplayer/units.ruleset:1125
+#: data/civ2/units.ruleset:986 data/sandbox/units.ruleset:1210
+#: data/civ2civ3/units.ruleset:1200 data/multiplayer/units.ruleset:1126
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
 "Les Croisés sont des guerriers montés très disciplinés inspirés par une "
 "cause supérieure."
 
-#: data/civ2/units.ruleset:1022 data/classic/units.ruleset:1064
-#: data/sandbox/units.ruleset:1248 data/experimental/units.ruleset:1087
-#: data/civ2civ3/units.ruleset:1238 data/multiplayer/units.ruleset:1163
+#: data/civ2/units.ruleset:1024 data/classic/units.ruleset:1065
+#: data/sandbox/units.ruleset:1248 data/experimental/units.ruleset:1088
+#: data/civ2civ3/units.ruleset:1238 data/multiplayer/units.ruleset:1164
 msgid "Dragoons"
 msgstr "Dragons"
 
-#: data/civ2/units.ruleset:1049 data/classic/units.ruleset:1091
-#: data/sandbox/units.ruleset:1274 data/experimental/units.ruleset:1114
-#: data/civ2civ3/units.ruleset:1264 data/multiplayer/units.ruleset:1190
+#: data/civ2/units.ruleset:1051 data/classic/units.ruleset:1092
+#: data/sandbox/units.ruleset:1274 data/experimental/units.ruleset:1115
+#: data/civ2civ3/units.ruleset:1264 data/multiplayer/units.ruleset:1191
 msgid "Dragoons are mounted warriors carrying early firearms."
 msgstr "Les Dragons sont des guerriers montés équipés d'armes à feu anciennes."
 
-#: data/civ2/units.ruleset:1080 data/classic/units.ruleset:1122
-#: data/sandbox/units.ruleset:1305 data/experimental/units.ruleset:1145
-#: data/civ2civ3/units.ruleset:1295 data/multiplayer/units.ruleset:1221
+#: data/civ2/units.ruleset:1082 data/classic/units.ruleset:1123
+#: data/sandbox/units.ruleset:1305 data/experimental/units.ruleset:1146
+#: data/civ2civ3/units.ruleset:1295 data/multiplayer/units.ruleset:1222
 msgid "Cavalry are mounted and highly trained soldiers."
 msgstr "La Cavalerie sont des soldats montés et très entraînés."
 
-#: data/civ2/units.ruleset:1211 data/classic/units.ruleset:1253
-#: data/experimental/units.ruleset:1276 data/multiplayer/units.ruleset:1352
+#: data/civ2/units.ruleset:1213 data/classic/units.ruleset:1254
+#: data/experimental/units.ruleset:1277 data/multiplayer/units.ruleset:1353
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
@@ -26126,14 +26130,14 @@ msgstr ""
 "également un faible défenseur et elle aura besoin d'une escorte afin d'être "
 "efficace."
 
-#: data/civ2/units.ruleset:1218 data/classic/units.ruleset:1260
-#: data/sandbox/units.ruleset:1450 data/experimental/units.ruleset:1283
-#: data/civ2civ3/units.ruleset:1440 data/multiplayer/units.ruleset:1359
+#: data/civ2/units.ruleset:1220 data/classic/units.ruleset:1261
+#: data/sandbox/units.ruleset:1450 data/experimental/units.ruleset:1284
+#: data/civ2civ3/units.ruleset:1440 data/multiplayer/units.ruleset:1360
 msgid "Howitzer"
 msgstr "Obusier"
 
-#: data/civ2/units.ruleset:1244 data/classic/units.ruleset:1286
-#: data/experimental/units.ruleset:1309 data/multiplayer/units.ruleset:1385
+#: data/civ2/units.ruleset:1246 data/classic/units.ruleset:1287
+#: data/experimental/units.ruleset:1310 data/multiplayer/units.ruleset:1386
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities. They can shoot over city walls, ignoring their "
@@ -26143,8 +26147,8 @@ msgstr ""
 "défensives et offensives. Ils peuvent tirer par dessus les Remparts, "
 "ignorant leur effet."
 
-#: data/civ2/units.ruleset:1351 data/classic/units.ruleset:1391
-#: data/experimental/units.ruleset:1415
+#: data/civ2/units.ruleset:1353 data/classic/units.ruleset:1393
+#: data/experimental/units.ruleset:1417
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -26158,48 +26162,48 @@ msgstr ""
 "Aérienne ou d'un Porte-Avions, à moins de posséder les Nations Unies. Les "
 "Hélicoptères peuvent être attaqués par des unités au sol."
 
-#: data/civ2/units.ruleset:1360 data/classic/units.ruleset:1400
-#: data/sandbox/units.ruleset:1608 data/experimental/units.ruleset:1424
-#: data/civ2civ3/units.ruleset:1598 data/multiplayer/units.ruleset:1498
+#: data/civ2/units.ruleset:1362 data/classic/units.ruleset:1402
+#: data/sandbox/units.ruleset:1608 data/experimental/units.ruleset:1426
+#: data/civ2civ3/units.ruleset:1598 data/multiplayer/units.ruleset:1500
 msgid "Stealth Fighter"
 msgstr "Chasseur Furtif"
 
-#: data/civ2/units.ruleset:1394 data/classic/units.ruleset:1432
-#: data/sandbox/units.ruleset:1635 data/experimental/units.ruleset:1456
-#: data/civ2civ3/units.ruleset:1625 data/multiplayer/units.ruleset:1530
+#: data/civ2/units.ruleset:1396 data/classic/units.ruleset:1435
+#: data/sandbox/units.ruleset:1635 data/experimental/units.ruleset:1459
+#: data/civ2civ3/units.ruleset:1625 data/multiplayer/units.ruleset:1533
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Un Chasseur amélioré, avec une attaque améliorée et un rayon d'action plus "
 "élevé."
 
-#: data/civ2/units.ruleset:1430 data/classic/units.ruleset:1465
-#: data/sandbox/units.ruleset:1667 data/experimental/units.ruleset:1489
-#: data/civ2civ3/units.ruleset:1657 data/multiplayer/units.ruleset:1563
+#: data/civ2/units.ruleset:1432 data/classic/units.ruleset:1468
+#: data/sandbox/units.ruleset:1667 data/experimental/units.ruleset:1492
+#: data/civ2civ3/units.ruleset:1657 data/multiplayer/units.ruleset:1566
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Un Bombardier amélioré avec une attaque améliorée et un rayon d'action plus "
 "élevé."
 
-#: data/civ2/units.ruleset:1471 data/classic/units.ruleset:1506
-#: data/sandbox/units.ruleset:1709 data/experimental/units.ruleset:1531
-#: data/civ2civ3/units.ruleset:1699 data/multiplayer/units.ruleset:1604
+#: data/civ2/units.ruleset:1473 data/classic/units.ruleset:1509
+#: data/sandbox/units.ruleset:1709 data/experimental/units.ruleset:1534
+#: data/civ2civ3/units.ruleset:1699 data/multiplayer/units.ruleset:1607
 msgid "Caravel"
 msgstr "Caravelle"
 
-#: data/civ2/units.ruleset:1498
+#: data/civ2/units.ruleset:1500
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
 "La Caravelle remplace la Trirème et est bien plus fiable en pleine mer."
 
-#: data/civ2/units.ruleset:1504 data/classic/units.ruleset:1539
-#: data/sandbox/units.ruleset:1744 data/experimental/units.ruleset:1564
-#: data/civ2civ3/units.ruleset:1733 data/multiplayer/units.ruleset:1637
+#: data/civ2/units.ruleset:1506 data/classic/units.ruleset:1542
+#: data/sandbox/units.ruleset:1744 data/experimental/units.ruleset:1567
+#: data/civ2civ3/units.ruleset:1733 data/multiplayer/units.ruleset:1640
 msgid "Galleon"
 msgstr "Galion"
 
-#: data/civ2/units.ruleset:1531 data/classic/units.ruleset:1566
-#: data/experimental/units.ruleset:1591 data/multiplayer/units.ruleset:1664
+#: data/civ2/units.ruleset:1533 data/classic/units.ruleset:1569
+#: data/experimental/units.ruleset:1594 data/multiplayer/units.ruleset:1667
 msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
@@ -26208,20 +26212,20 @@ msgstr ""
 "navires, bien qu'il soit capable de défendre lorsqu'il est attaqué."
 
 # AR j'ai rien trouve de mieux
-#: data/civ2/units.ruleset:1605 data/classic/units.ruleset:1640
-#: data/sandbox/units.ruleset:1842 data/experimental/units.ruleset:1665
+#: data/civ2/units.ruleset:1607 data/classic/units.ruleset:1643
+#: data/sandbox/units.ruleset:1842 data/experimental/units.ruleset:1668
 #: data/civ2civ3/units.ruleset:1831 data/alien/units.ruleset:1209
-#: data/multiplayer/units.ruleset:1738
+#: data/multiplayer/units.ruleset:1741
 msgid "Destroyer"
 msgstr "Destroyer"
 
-#: data/civ2/units.ruleset:1631 data/classic/units.ruleset:1666
-#: data/experimental/units.ruleset:1691 data/multiplayer/units.ruleset:1764
+#: data/civ2/units.ruleset:1633 data/classic/units.ruleset:1669
+#: data/experimental/units.ruleset:1694 data/multiplayer/units.ruleset:1767
 msgid "An improved Ironclad, with better move rate and vision."
 msgstr "Un Patrouilleur amélioré, plus rapide et avec une meilleure vision."
 
-#: data/civ2/units.ruleset:1633 data/classic/units.ruleset:1668
-#: data/experimental/units.ruleset:1693 data/multiplayer/units.ruleset:1766
+#: data/civ2/units.ruleset:1635 data/classic/units.ruleset:1671
+#: data/experimental/units.ruleset:1696 data/multiplayer/units.ruleset:1769
 msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
@@ -26229,30 +26233,30 @@ msgstr ""
 "CONSEIL : Une unité très rapide, très utile pour éliminer les Transporteurs "
 "ennemis."
 
-#: data/civ2/units.ruleset:1670 data/classic/units.ruleset:1705
-#: data/sandbox/units.ruleset:1912 data/experimental/units.ruleset:1730
-#: data/civ2civ3/units.ruleset:1901 data/multiplayer/units.ruleset:1803
+#: data/civ2/units.ruleset:1672 data/classic/units.ruleset:1708
+#: data/sandbox/units.ruleset:1912 data/experimental/units.ruleset:1733
+#: data/civ2civ3/units.ruleset:1901 data/multiplayer/units.ruleset:1806
 msgid "AEGIS Cruiser"
 msgstr "Croiseur EGIDE"
 
-#: data/civ2/units.ruleset:1700 data/classic/units.ruleset:1735
-#: data/sandbox/units.ruleset:1942 data/experimental/units.ruleset:1760
-#: data/civ2civ3/units.ruleset:1931 data/multiplayer/units.ruleset:1833
+#: data/civ2/units.ruleset:1702 data/classic/units.ruleset:1738
+#: data/sandbox/units.ruleset:1942 data/experimental/units.ruleset:1763
+#: data/civ2civ3/units.ruleset:1931 data/multiplayer/units.ruleset:1836
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
 "Le Croiseur EGIDE est équipé d'un système de défense anti-missile "
 "perfectionné."
 
-#: data/civ2/units.ruleset:1842 data/classic/units.ruleset:1877
-#: data/sandbox/units.ruleset:2106 data/experimental/units.ruleset:1903
-#: data/civ2civ3/units.ruleset:2089 data/multiplayer/units.ruleset:1975
+#: data/civ2/units.ruleset:1844 data/classic/units.ruleset:1880
+#: data/sandbox/units.ruleset:2106 data/experimental/units.ruleset:1906
+#: data/civ2civ3/units.ruleset:2089 data/multiplayer/units.ruleset:1978
 msgid "Cruise Missile"
 msgstr "Missile de Croisière"
 
-#: data/civ2/units.ruleset:1868 data/classic/units.ruleset:1903
-#: data/sandbox/units.ruleset:2133 data/experimental/units.ruleset:1930
-#: data/civ2civ3/units.ruleset:2116 data/multiplayer/units.ruleset:2001
+#: data/civ2/units.ruleset:1870 data/classic/units.ruleset:1906
+#: data/sandbox/units.ruleset:2133 data/experimental/units.ruleset:1933
+#: data/civ2civ3/units.ruleset:2116 data/multiplayer/units.ruleset:2004
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into "
 "enemy territory."
@@ -26260,9 +26264,9 @@ msgstr ""
 "Le Missile de Croisière est un missile longue distance qui peut frapper "
 "profondément en territoire ennemi."
 
-#: data/civ2/units.ruleset:1871 data/classic/units.ruleset:1906
-#: data/sandbox/units.ruleset:2136 data/experimental/units.ruleset:1933
-#: data/civ2civ3/units.ruleset:2119 data/multiplayer/units.ruleset:2004
+#: data/civ2/units.ruleset:1873 data/classic/units.ruleset:1909
+#: data/sandbox/units.ruleset:2136 data/experimental/units.ruleset:1936
+#: data/civ2civ3/units.ruleset:2119 data/multiplayer/units.ruleset:2007
 msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -26270,7 +26274,7 @@ msgstr ""
 "ASTUCE : Une poignée d'entre eux peuvent protéger efficacement vos eaux "
 "territoriales des navires ennemis."
 
-#: data/civ2/units.ruleset:1916
+#: data/civ2/units.ruleset:1918
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -26286,24 +26290,24 @@ msgstr ""
 "minimise le risque de réchauffement climatique. Une attaque nucléaire "
 "écologique, en quelque sorte !"
 
-#: data/civ2/units.ruleset:2021 data/classic/units.ruleset:2076
-#: data/sandbox/units.ruleset:2315 data/experimental/units.ruleset:2103
-#: data/civ2civ3/units.ruleset:2295 data/multiplayer/units.ruleset:2174
+#: data/civ2/units.ruleset:2023 data/classic/units.ruleset:2079
+#: data/sandbox/units.ruleset:2315 data/experimental/units.ruleset:2106
+#: data/civ2civ3/units.ruleset:2295 data/multiplayer/units.ruleset:2177
 msgid "Spy"
 msgstr "Espion"
 
-#: data/civ2/units.ruleset:2052 data/classic/units.ruleset:2116
-#: data/sandbox/units.ruleset:2355 data/experimental/units.ruleset:2143
-#: data/civ2civ3/units.ruleset:2335 data/multiplayer/units.ruleset:2214
+#: data/civ2/units.ruleset:2054 data/classic/units.ruleset:2119
+#: data/sandbox/units.ruleset:2355 data/experimental/units.ruleset:2146
+#: data/civ2civ3/units.ruleset:2335 data/multiplayer/units.ruleset:2217
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat predecessor."
 msgstr ""
 "Un Espion est plus compétent dans les arts de l'espionage que son "
 "prédécesseur, le Diplomate."
 
-#: data/civ2/units.ruleset:2054 data/classic/units.ruleset:2118
-#: data/sandbox/units.ruleset:2357 data/experimental/units.ruleset:2145
-#: data/civ2civ3/units.ruleset:2337 data/multiplayer/units.ruleset:2216
+#: data/civ2/units.ruleset:2056 data/classic/units.ruleset:2121
+#: data/sandbox/units.ruleset:2357 data/experimental/units.ruleset:2148
+#: data/civ2civ3/units.ruleset:2337 data/multiplayer/units.ruleset:2219
 msgid ""
 "She can perform all the functions of the Diplomat; refer to the Diplomat "
 "entry for more details. Unlike a Diplomat, a Spy may also survive an "
@@ -26317,9 +26321,9 @@ msgstr ""
 "expérimenté. Les Espions sont aussi plus efficaces que les Diplomates pour "
 "défendre les villes contre les Diplomates et Espions étrangers."
 
-#: data/civ2/units.ruleset:2060 data/classic/units.ruleset:2124
-#: data/sandbox/units.ruleset:2363 data/experimental/units.ruleset:2151
-#: data/civ2civ3/units.ruleset:2343 data/multiplayer/units.ruleset:2222
+#: data/civ2/units.ruleset:2062 data/classic/units.ruleset:2127
+#: data/sandbox/units.ruleset:2363 data/experimental/units.ruleset:2154
+#: data/civ2civ3/units.ruleset:2343 data/multiplayer/units.ruleset:2225
 msgid ""
 "A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
@@ -26344,9 +26348,9 @@ msgstr ""
 " - saboter dans la ville une cible déterminée (avec une chance réduite de "
 "succès)."
 
-#: data/civ2/units.ruleset:2072 data/classic/units.ruleset:2136
-#: data/sandbox/units.ruleset:2375 data/experimental/units.ruleset:2163
-#: data/civ2civ3/units.ruleset:2355 data/multiplayer/units.ruleset:2234
+#: data/civ2/units.ruleset:2074 data/classic/units.ruleset:2139
+#: data/sandbox/units.ruleset:2375 data/experimental/units.ruleset:2166
+#: data/civ2civ3/units.ruleset:2355 data/multiplayer/units.ruleset:2237
 msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
@@ -26355,35 +26359,35 @@ msgstr ""
 "incitation à la rébellion et empoisonnement) se met en sûreté en s'échappant "
 "vers la ville amicale la plus proche."
 
-#: data/civ2/units.ruleset:2076
+#: data/civ2/units.ruleset:2078
 msgid "Spies built under a Communist government will be built as veteran."
 msgstr ""
 "Les Espions construits par un gouvernement Communiste seront automatiquement "
 "vétérans."
 
-#: data/civ2/units.ruleset:2130 data/classic/units.ruleset:2198
-#: data/sandbox/units.ruleset:2434 data/experimental/units.ruleset:2225
+#: data/civ2/units.ruleset:2132 data/classic/units.ruleset:2201
+#: data/sandbox/units.ruleset:2434 data/experimental/units.ruleset:2228
 #: data/civ2civ3/units.ruleset:2413 data/alien/units.ruleset:1300
-#: data/multiplayer/units.ruleset:2283
+#: data/multiplayer/units.ruleset:2286
 msgid "Freight"
 msgstr "Fret"
 
-#: data/civ2/units.ruleset:2156 data/classic/units.ruleset:2224
+#: data/civ2/units.ruleset:2158 data/classic/units.ruleset:2227
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "L'unité de Fret remplace la Caravane, et se déplace deux fois plus "
 "rapidement."
 
-#: data/civ2/units.ruleset:2161 data/classic/units.ruleset:2229
-#: data/sandbox/units.ruleset:2466 data/experimental/units.ruleset:2257
+#: data/civ2/units.ruleset:2163 data/classic/units.ruleset:2232
+#: data/sandbox/units.ruleset:2466 data/experimental/units.ruleset:2260
 #: data/civ2civ3/units.ruleset:2445 data/alien/units.ruleset:1081
-#: data/multiplayer/units.ruleset:2315
+#: data/multiplayer/units.ruleset:2318
 msgid "Explorer"
 msgstr "Explorateur"
 
-#: data/civ2/units.ruleset:2187 data/classic/units.ruleset:2255
-#: data/sandbox/units.ruleset:2492 data/experimental/units.ruleset:2283
-#: data/civ2civ3/units.ruleset:2471 data/multiplayer/units.ruleset:2341
+#: data/civ2/units.ruleset:2189 data/classic/units.ruleset:2258
+#: data/sandbox/units.ruleset:2492 data/experimental/units.ruleset:2286
+#: data/civ2civ3/units.ruleset:2471 data/multiplayer/units.ruleset:2344
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
@@ -26391,9 +26395,9 @@ msgstr ""
 "Les Explorateurs sont de courageux solitaires qui sont très utiles pour "
 "cartographier un territoire inconnu."
 
-#: data/civ2/units.ruleset:2222 data/classic/units.ruleset:2338
-#: data/sandbox/units.ruleset:2589 data/experimental/units.ruleset:2370
-#: data/civ2civ3/units.ruleset:2568 data/multiplayer/units.ruleset:2424
+#: data/civ2/units.ruleset:2224 data/classic/units.ruleset:2341
+#: data/sandbox/units.ruleset:2589 data/experimental/units.ruleset:2373
+#: data/civ2civ3/units.ruleset:2568 data/multiplayer/units.ruleset:2427
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
@@ -27273,36 +27277,36 @@ msgstr ""
 msgid "Unbribable"
 msgstr "Incorruptible"
 
-#: data/classic/units.ruleset:53 data/sandbox/units.ruleset:61
-#: data/experimental/units.ruleset:57 data/civ2civ3/units.ruleset:56
-#: data/multiplayer/units.ruleset:52 server/rscompat.c:200
+#: data/classic/units.ruleset:54 data/sandbox/units.ruleset:61
+#: data/experimental/units.ruleset:58 data/civ2civ3/units.ruleset:56
+#: data/multiplayer/units.ruleset:53 server/rscompat.c:200
 msgid "AttFromNonNative"
 msgstr "AttaqueDepuisInaccessible"
 
-#: data/classic/units.ruleset:58 data/sandbox/units.ruleset:66
-#: data/sandbox/units.ruleset:2088 data/experimental/units.ruleset:62
+#: data/classic/units.ruleset:59 data/sandbox/units.ruleset:66
+#: data/sandbox/units.ruleset:2088 data/experimental/units.ruleset:63
 #: data/civ2civ3/units.ruleset:61 data/civ2civ3/units.ruleset:2071
-#: data/multiplayer/units.ruleset:57
+#: data/multiplayer/units.ruleset:58
 msgid "hardened"
 msgstr "aguerri"
 
-#: data/classic/units.ruleset:58 data/sandbox/units.ruleset:66
-#: data/sandbox/units.ruleset:2088 data/experimental/units.ruleset:62
+#: data/classic/units.ruleset:59 data/sandbox/units.ruleset:66
+#: data/sandbox/units.ruleset:2088 data/experimental/units.ruleset:63
 #: data/civ2civ3/units.ruleset:61 data/civ2civ3/units.ruleset:2071
-#: data/multiplayer/units.ruleset:57
+#: data/multiplayer/units.ruleset:58
 msgid "elite"
 msgstr "élite"
 
 #. TRANS: Unit class: used adjectivally
-#: data/classic/units.ruleset:167 data/sandbox/units.ruleset:200
-#: data/experimental/units.ruleset:179 data/civ2civ3/units.ruleset:191
-#: data/multiplayer/units.ruleset:166
+#: data/classic/units.ruleset:168 data/sandbox/units.ruleset:200
+#: data/experimental/units.ruleset:180 data/civ2civ3/units.ruleset:191
+#: data/multiplayer/units.ruleset:167
 msgid "?unitclass:Trireme"
 msgstr "Trirème"
 
-#: data/classic/units.ruleset:459 data/sandbox/units.ruleset:493
-#: data/experimental/units.ruleset:471 data/civ2civ3/units.ruleset:483
-#: data/multiplayer/units.ruleset:458
+#: data/classic/units.ruleset:460 data/sandbox/units.ruleset:493
+#: data/experimental/units.ruleset:472 data/civ2civ3/units.ruleset:483
+#: data/multiplayer/units.ruleset:459
 msgid ""
 "Settlers are one of the key units in the game, as they are your main means "
 "of founding new cities."
@@ -27310,7 +27314,7 @@ msgstr ""
 "Les Colons sont l'une des unités clé du jeu, car elles sont votre principal "
 "moyen pour fonder des villes."
 
-#: data/classic/units.ruleset:462 data/multiplayer/units.ruleset:461
+#: data/classic/units.ruleset:463 data/multiplayer/units.ruleset:462
 msgid ""
 "Settlers can also perform most of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
@@ -27319,15 +27323,15 @@ msgstr ""
 "des Travailleurs (mais ne peuvent pas construire de Bases Aériennes ou de "
 "Bouées)."
 
-#: data/classic/units.ruleset:472 data/sandbox/units.ruleset:548
-#: data/experimental/units.ruleset:484 data/civ2civ3/units.ruleset:538
-#: data/multiplayer/units.ruleset:472
+#: data/classic/units.ruleset:473 data/sandbox/units.ruleset:548
+#: data/experimental/units.ruleset:485 data/civ2civ3/units.ruleset:538
+#: data/multiplayer/units.ruleset:473
 msgid "?unit:Workers"
 msgstr "Travailleurs"
 
-#: data/classic/units.ruleset:504 data/sandbox/units.ruleset:580
-#: data/experimental/units.ruleset:521 data/civ2civ3/units.ruleset:570
-#: data/multiplayer/units.ruleset:504
+#: data/classic/units.ruleset:505 data/sandbox/units.ruleset:580
+#: data/experimental/units.ruleset:522 data/civ2civ3/units.ruleset:570
+#: data/multiplayer/units.ruleset:505
 msgid ""
 "Workers have the ability to improve terrain tiles. See the help on Terrain "
 "and Terrain Alterations for the effects of their actions."
@@ -27336,8 +27340,8 @@ msgstr ""
 "l'aide sur le Terrain et les Altérations de Terrain pour les effets de leurs "
 "actions."
 
-#: data/classic/units.ruleset:507 data/experimental/units.ruleset:524
-#: data/multiplayer/units.ruleset:507
+#: data/classic/units.ruleset:508 data/experimental/units.ruleset:525
+#: data/multiplayer/units.ruleset:508
 msgid ""
 "Workers can build airbases and buoys, which Settlers cannot. Workers must be "
 "on board a ship to build buoys."
@@ -27346,8 +27350,8 @@ msgstr ""
 "qui est impossible aux Colons. Les Travailleurs doivent être sur un bateau "
 "pour construire des Bouées."
 
-#: data/classic/units.ruleset:545 data/experimental/units.ruleset:567
-#: data/multiplayer/units.ruleset:545
+#: data/classic/units.ruleset:546 data/experimental/units.ruleset:568
+#: data/multiplayer/units.ruleset:546
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast. Engineers may also perform major terrain transformations which are "
@@ -27364,8 +27368,8 @@ msgstr ""
 "entourée de suffisament de terres). Voir la section sur les Altérations de "
 "Terrain pour plus de détails."
 
-#: data/classic/units.ruleset:553 data/experimental/units.ruleset:575
-#: data/multiplayer/units.ruleset:553
+#: data/classic/units.ruleset:554 data/experimental/units.ruleset:576
+#: data/multiplayer/units.ruleset:554
 msgid ""
 "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the "
 "same resources as ordinary Workers."
@@ -27373,8 +27377,8 @@ msgstr ""
 "ASTUCE 1 : Transformez vos Travailleurs en Ingénieurs dès que possible car "
 "ces derniers requièrent les mêmes ressources que des Travailleurs ordinaires."
 
-#: data/classic/units.ruleset:556 data/experimental/units.ruleset:578
-#: data/multiplayer/units.ruleset:556
+#: data/classic/units.ruleset:557 data/experimental/units.ruleset:579
+#: data/multiplayer/units.ruleset:557
 msgid ""
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
@@ -27384,7 +27388,7 @@ msgstr ""
 "les Explosifs avant que ce dernier ne soit obsolète. Ainsi, vos Travailleurs "
 "seront gratuitement mis à jour en Ingénieurs."
 
-#: data/classic/units.ruleset:1499 data/multiplayer/units.ruleset:1597
+#: data/classic/units.ruleset:1502 data/multiplayer/units.ruleset:1600
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
@@ -27393,16 +27397,16 @@ msgstr ""
 "transport et a des capacités offensives rudimentaires mais ne peut pas "
 "entrer sur des cases d'Océan Profond."
 
-#: data/classic/units.ruleset:1533 data/experimental/units.ruleset:1558
-#: data/multiplayer/units.ruleset:1631
+#: data/classic/units.ruleset:1536 data/experimental/units.ruleset:1561
+#: data/multiplayer/units.ruleset:1634
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
 msgstr ""
 "Les Caravelles remplacent les Trirèmes et peuvent explorer n'importe quel "
 "océan."
 
-#: data/classic/units.ruleset:1947 data/sandbox/units.ruleset:2182
-#: data/experimental/units.ruleset:1974 data/civ2civ3/units.ruleset:2165
-#: data/multiplayer/units.ruleset:2045
+#: data/classic/units.ruleset:1950 data/sandbox/units.ruleset:2182
+#: data/experimental/units.ruleset:1977 data/civ2civ3/units.ruleset:2165
+#: data/multiplayer/units.ruleset:2048
 msgid ""
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
 "squares for rectangular grids), including friendly units. Any city within "
@@ -27415,9 +27419,9 @@ msgstr ""
 "terrestres dans la zone de l'explosion sont sujettes aux retombées "
 "nucléaires."
 
-#: data/classic/units.ruleset:1952 data/sandbox/units.ruleset:2187
-#: data/experimental/units.ruleset:1979 data/civ2civ3/units.ruleset:2170
-#: data/multiplayer/units.ruleset:2050
+#: data/classic/units.ruleset:1955 data/sandbox/units.ruleset:2187
+#: data/experimental/units.ruleset:1982 data/civ2civ3/units.ruleset:2170
+#: data/multiplayer/units.ruleset:2053
 msgid ""
 "Nuclear fallout reduces tile output and increases the risk of global nuclear "
 "winter; see the help on Fallout."
@@ -27425,8 +27429,8 @@ msgstr ""
 "Les retombées nucléaires réduisent la production de la case et augmentent le "
 "risque d'hiver nucléaire global ; voir l'aide sur les Retombées."
 
-#: data/classic/units.ruleset:1959 data/experimental/units.ruleset:1986
-#: data/multiplayer/units.ruleset:2057
+#: data/classic/units.ruleset:1962 data/experimental/units.ruleset:1989
+#: data/multiplayer/units.ruleset:2060
 msgid ""
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
@@ -27443,36 +27447,36 @@ msgstr ""
 "attaque nucléaire écologique, en quelque sorte !"
 
 #. TRANS: diplomatic rank.
-#: data/classic/units.ruleset:1996 data/sandbox/units.ruleset:2231
-#: data/experimental/units.ruleset:2023 data/civ2civ3/units.ruleset:2211
-#: data/multiplayer/units.ruleset:2094
+#: data/classic/units.ruleset:1999 data/sandbox/units.ruleset:2231
+#: data/experimental/units.ruleset:2026 data/civ2civ3/units.ruleset:2211
+#: data/multiplayer/units.ruleset:2097
 msgid "?diplomatic_rank:attaché"
 msgstr "attaché"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:1998 data/sandbox/units.ruleset:2233
-#: data/experimental/units.ruleset:2025 data/civ2civ3/units.ruleset:2213
-#: data/multiplayer/units.ruleset:2096
+#: data/classic/units.ruleset:2001 data/sandbox/units.ruleset:2233
+#: data/experimental/units.ruleset:2028 data/civ2civ3/units.ruleset:2213
+#: data/multiplayer/units.ruleset:2099
 msgid "?diplomatic_rank:secretary"
 msgstr "secrétaire"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:2000 data/sandbox/units.ruleset:2235
-#: data/experimental/units.ruleset:2027 data/civ2civ3/units.ruleset:2215
-#: data/multiplayer/units.ruleset:2098
+#: data/classic/units.ruleset:2003 data/sandbox/units.ruleset:2235
+#: data/experimental/units.ruleset:2030 data/civ2civ3/units.ruleset:2215
+#: data/multiplayer/units.ruleset:2101
 msgid "?diplomatic_rank:envoy"
 msgstr "envoyé"
 
 #. TRANS: diplomatic rank
-#: data/classic/units.ruleset:2002 data/sandbox/units.ruleset:2237
-#: data/experimental/units.ruleset:2029 data/civ2civ3/units.ruleset:2217
-#: data/multiplayer/units.ruleset:2100
+#: data/classic/units.ruleset:2005 data/sandbox/units.ruleset:2237
+#: data/experimental/units.ruleset:2032 data/civ2civ3/units.ruleset:2217
+#: data/multiplayer/units.ruleset:2103
 msgid "?diplomatic_rank:ambassador"
 msgstr "ambassadeur"
 
-#: data/classic/units.ruleset:2025 data/sandbox/units.ruleset:2262
-#: data/experimental/units.ruleset:2052 data/civ2civ3/units.ruleset:2242
-#: data/multiplayer/units.ruleset:2123
+#: data/classic/units.ruleset:2028 data/sandbox/units.ruleset:2262
+#: data/experimental/units.ruleset:2055 data/civ2civ3/units.ruleset:2242
+#: data/multiplayer/units.ruleset:2126
 msgid ""
 "Diplomats can also perform a number of actions in another player's city, "
 "although each Diplomat may attempt only one action. Most of these actions "
@@ -27492,8 +27496,8 @@ msgstr ""
 "l'unité défendante meurt, vous perdez un point de mouvement et pouvez "
 "réessayer."
 
-#: data/classic/units.ruleset:2070 data/experimental/units.ruleset:2097
-#: data/multiplayer/units.ruleset:2168
+#: data/classic/units.ruleset:2073 data/experimental/units.ruleset:2100
+#: data/multiplayer/units.ruleset:2171
 msgid ""
 "Diplomats built under a Communist government will start at the first veteran "
 "level (secretary)."
@@ -27502,35 +27506,35 @@ msgstr ""
 "premier niveau de vétérance (secrétaire)."
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2104 data/sandbox/units.ruleset:2343
-#: data/experimental/units.ruleset:2131 data/civ2civ3/units.ruleset:2323
-#: data/multiplayer/units.ruleset:2202
+#: data/classic/units.ruleset:2107 data/sandbox/units.ruleset:2343
+#: data/experimental/units.ruleset:2134 data/civ2civ3/units.ruleset:2323
+#: data/multiplayer/units.ruleset:2205
 msgid "?spy_level:informant"
 msgstr "informateur"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2106 data/sandbox/units.ruleset:2345
-#: data/experimental/units.ruleset:2133 data/civ2civ3/units.ruleset:2325
-#: data/multiplayer/units.ruleset:2204
+#: data/classic/units.ruleset:2109 data/sandbox/units.ruleset:2345
+#: data/experimental/units.ruleset:2136 data/civ2civ3/units.ruleset:2325
+#: data/multiplayer/units.ruleset:2207
 msgid "?spy_level:handler"
 msgstr "contact"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2108 data/sandbox/units.ruleset:2347
-#: data/experimental/units.ruleset:2135 data/civ2civ3/units.ruleset:2327
-#: data/multiplayer/units.ruleset:2206
+#: data/classic/units.ruleset:2111 data/sandbox/units.ruleset:2347
+#: data/experimental/units.ruleset:2138 data/civ2civ3/units.ruleset:2327
+#: data/multiplayer/units.ruleset:2209
 msgid "?spy_level:agent"
 msgstr "agent"
 
 #. TRANS: Spy veteran level
-#: data/classic/units.ruleset:2110 data/sandbox/units.ruleset:2349
-#: data/experimental/units.ruleset:2137 data/civ2civ3/units.ruleset:2329
-#: data/multiplayer/units.ruleset:2208
+#: data/classic/units.ruleset:2113 data/sandbox/units.ruleset:2349
+#: data/experimental/units.ruleset:2140 data/civ2civ3/units.ruleset:2329
+#: data/multiplayer/units.ruleset:2211
 msgid "?spy_level:spymaster"
 msgstr "maître espion"
 
-#: data/classic/units.ruleset:2140 data/experimental/units.ruleset:2167
-#: data/multiplayer/units.ruleset:2238
+#: data/classic/units.ruleset:2143 data/experimental/units.ruleset:2170
+#: data/multiplayer/units.ruleset:2241
 msgid ""
 "Spies built under a Communist government will start at the first veteran "
 "level (handler)."
@@ -27538,7 +27542,7 @@ msgstr ""
 "Les Espions construits sous un gouvernement Communiste commencent au premier "
 "niveau de vétérance (contact)."
 
-#: data/classic/units.ruleset:2175 data/experimental/units.ruleset:2202
+#: data/classic/units.ruleset:2178 data/experimental/units.ruleset:2205
 msgid ""
 "Caravans can establish trade routes with your own cities or those of other "
 "nations (even enemies) by traveling to them. A route's ongoing revenue is "
@@ -27560,7 +27564,7 @@ msgstr ""
 "bénéficiez de l'avantage que d'une seule des extrémités de la route "
 "commerciale."
 
-#: data/classic/units.ruleset:2184 data/experimental/units.ruleset:2211
+#: data/classic/units.ruleset:2187 data/experimental/units.ruleset:2214
 msgid ""
 "Initially cities can support a maximum of two trade routes. Knowledge of the "
 "technologies Magnetism and The Corporation each increase this limit by one; "
@@ -27571,35 +27575,35 @@ msgstr ""
 "Corporations augmentent chacun cette limite d'un ; la connaissance des deux "
 "permet aux villes de supporter quatre routes commerciales chacune."
 
-#: data/classic/units.ruleset:2261 data/sandbox/units.ruleset:2512
-#: data/experimental/units.ruleset:2293 data/civ2civ3/units.ruleset:2491
-#: data/multiplayer/units.ruleset:2347
+#: data/classic/units.ruleset:2264 data/sandbox/units.ruleset:2512
+#: data/experimental/units.ruleset:2296 data/civ2civ3/units.ruleset:2491
+#: data/multiplayer/units.ruleset:2350
 msgid "?unit:Leader"
 msgstr "Dirigeant"
 
-#: data/classic/units.ruleset:2295 data/sandbox/units.ruleset:2546
-#: data/experimental/units.ruleset:2327 data/civ2civ3/units.ruleset:2525
-#: data/multiplayer/units.ruleset:2381
+#: data/classic/units.ruleset:2298 data/sandbox/units.ruleset:2546
+#: data/experimental/units.ruleset:2330 data/civ2civ3/units.ruleset:2525
+#: data/multiplayer/units.ruleset:2384
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "C'est vous. Si vous perdez cette unité, vous perdez la partie. Faites y "
 "attention."
 
-#: data/classic/units.ruleset:2297 data/sandbox/units.ruleset:2548
-#: data/experimental/units.ruleset:2329 data/civ2civ3/units.ruleset:2527
-#: data/multiplayer/units.ruleset:2383
+#: data/classic/units.ruleset:2300 data/sandbox/units.ruleset:2548
+#: data/experimental/units.ruleset:2332 data/civ2civ3/units.ruleset:2527
+#: data/multiplayer/units.ruleset:2386
 msgid "Won't unleash barbarians from huts."
 msgstr "Des barbares ne sortiront pas de huttes."
 
-#: data/classic/units.ruleset:2344 data/sandbox/units.ruleset:2595
-#: data/experimental/units.ruleset:2376 data/civ2civ3/units.ruleset:2574
-#: data/multiplayer/units.ruleset:2430
+#: data/classic/units.ruleset:2347 data/sandbox/units.ruleset:2595
+#: data/experimental/units.ruleset:2379 data/civ2civ3/units.ruleset:2574
+#: data/multiplayer/units.ruleset:2433
 msgid "AWACS"
 msgstr "SDCA"
 
-#: data/classic/units.ruleset:2370 data/sandbox/units.ruleset:2621
-#: data/experimental/units.ruleset:2402 data/civ2civ3/units.ruleset:2600
-#: data/multiplayer/units.ruleset:2456
+#: data/classic/units.ruleset:2373 data/sandbox/units.ruleset:2621
+#: data/experimental/units.ruleset:2405 data/civ2civ3/units.ruleset:2600
+#: data/multiplayer/units.ruleset:2459
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -30091,7 +30095,7 @@ msgstr "Terrestre Légère"
 #. TRANS: cannot move into rough terrain. Unit class names are used
 #. TRANS: adjectivally.
 #. TRANS: Unit class: used adjectivally
-#: data/sandbox/units.ruleset:174 data/experimental/units.ruleset:163
+#: data/sandbox/units.ruleset:174 data/experimental/units.ruleset:164
 #: data/civ2civ3/units.ruleset:168
 msgid "?unitclass:Big Land"
 msgstr "Terrestre Lourde"
@@ -30200,7 +30204,7 @@ msgstr ""
 "Les Archers se battent avec arcs et des flèches et ont un bon score "
 "d'attaque."
 
-#: data/sandbox/units.ruleset:925 data/experimental/units.ruleset:811
+#: data/sandbox/units.ruleset:925 data/experimental/units.ruleset:812
 #: data/civ2civ3/units.ruleset:915
 msgid ""
 "A number of Partisans are granted free when an enemy conquers your city -- "
@@ -30408,7 +30412,7 @@ msgstr ""
 "de tours ; cependant, il faut faire attention, à cause des points de vie "
 "qu'ils perdent tous les tours."
 
-#: data/sandbox/units.ruleset:1701 data/experimental/units.ruleset:1523
+#: data/sandbox/units.ruleset:1701 data/experimental/units.ruleset:1526
 #: data/civ2civ3/units.ruleset:1691
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
@@ -30894,17 +30898,17 @@ msgstr ""
 "les cases possédant une Rivière que si votre civilisation a appris la "
 "technologie Construction de Ponts."
 
-#: data/experimental/units.ruleset:56 data/civ2civ3/units.ruleset:55
+#: data/experimental/units.ruleset:57 data/civ2civ3/units.ruleset:55
 #: data/alien/units.ruleset:44 server/rscompat.c:199
 msgid "Airliftable"
 msgstr "Aéroportable"
 
-#: data/experimental/units.ruleset:56 data/civ2civ3/units.ruleset:55
+#: data/experimental/units.ruleset:57 data/civ2civ3/units.ruleset:55
 #: data/alien/units.ruleset:44 server/rscompat.c:199
 msgid "Can be airlifted from a suitable city."
 msgstr "Peut être aéroporté depuis une ville convenable."
 
-#: data/experimental/units.ruleset:474
+#: data/experimental/units.ruleset:475
 msgid ""
 "Settlers can also perform some of the same terrain alterations as Workers "
 "(but cannot build Airbases or Buoys)."
@@ -30914,21 +30918,21 @@ msgstr ""
 "Aériennes ou de Bouées)."
 
 #. TRANS: Worker veteran level
-#: data/experimental/units.ruleset:511 data/experimental/units.ruleset:557
+#: data/experimental/units.ruleset:512 data/experimental/units.ruleset:558
 msgid "?worker_level:apprentice"
 msgstr "apprenti"
 
 #. TRANS: Worker veteran level
-#: data/experimental/units.ruleset:513 data/experimental/units.ruleset:559
+#: data/experimental/units.ruleset:514 data/experimental/units.ruleset:560
 msgid "?worker_level:journeyman"
 msgstr "compagnon"
 
 #. TRANS: Worker veteran level
-#: data/experimental/units.ruleset:515 data/experimental/units.ruleset:561
+#: data/experimental/units.ruleset:516 data/experimental/units.ruleset:562
 msgid "?worker_level:master"
 msgstr "maître"
 
-#: data/experimental/units.ruleset:943
+#: data/experimental/units.ruleset:944
 msgid ""
 "Paratroopers are experts at airborne attacks. From a friendly city or "
 "airbase, Paratroopers who have not expended any movement points can paradrop "
@@ -30944,7 +30948,7 @@ msgstr ""
 "vue, car les Parachutistes qui atterrissent sur une case occupée par des "
 "unités ennemies sont des cibles faciles !)"
 
-#: data/experimental/units.ruleset:2251
+#: data/experimental/units.ruleset:2254
 msgid ""
 "The Freight is twice as fast alternative to the Caravan, but unable to move "
 "at all outside flat terrains and roads."
@@ -30952,7 +30956,7 @@ msgstr ""
 "Le Fret est une alternative deux fois plus rapide à la Caravane, mais ne "
 "peut pas se déplacer en dehors des terrains plats et des Routes."
 
-#: data/experimental/units.ruleset:2286
+#: data/experimental/units.ruleset:2289
 msgid ""
 "An explorer can be ordered to remain in a foreign city as an ambassador "
 "after Writing is discovered. This gives permanent contact with the city's "
@@ -37462,7 +37466,9 @@ msgstr ""
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
-msgstr "Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'aller sur le site \"Freeciv Bug Tracking System\" :"
+msgstr ""
+"Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'aller "
+"sur le site \"Freeciv Bug Tracking System\" :"
 
 #: data/helpdata.txt:2335
 msgid ""
@@ -38047,7 +38053,7 @@ msgstr ""
 "ville qui travaille la case dispose d'un Supermarché, la case de Champs "
 "fournit deux fois plus de nourriture."
 
-#: data/multiplayer/units.ruleset:464
+#: data/multiplayer/units.ruleset:465
 msgid ""
 "Upkeep for Settlers is in food as well as production, and a Settler can die "
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
@@ -38060,7 +38066,7 @@ msgstr ""
 "plus de nourriture par tour ; trois fois même dans les sociétés Communistes "
 "ou Fondamentalistes."
 
-#: data/multiplayer/units.ruleset:1490
+#: data/multiplayer/units.ruleset:1492
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -38073,14 +38079,14 @@ msgstr ""
 "Base Aérienne ou d'un Porte-Avions. Les Hélicoptères peuvent être attaqués "
 "par des unités au sol."
 
-#: data/multiplayer/units.ruleset:2270
+#: data/multiplayer/units.ruleset:2273
 msgid ""
 "A Caravan carries goods or material to help build wonders in your cities."
 msgstr ""
 "Une Caravane transporte des biens et du matériel pour aider à la "
 "construction des merveilles dans vos villes."
 
-#: data/multiplayer/units.ruleset:2273
+#: data/multiplayer/units.ruleset:2276
 msgid ""
 "Every Caravan that is used to build a wonder will add 30 shields towards the "
 "production of the wonder."
@@ -38088,7 +38094,7 @@ msgstr ""
 "Chaque Caravane qui est utilisée pour construire une merveille ajoutera 30 "
 "production à la construction de la merveille."
 
-#: data/multiplayer/units.ruleset:2309
+#: data/multiplayer/units.ruleset:2312
 msgid ""
 "The Freight unit replaces the Caravan, and moves at twice the speed. Each "
 "Freight used to build a wonder will add 50 shields."
@@ -41287,12 +41293,12 @@ msgstr ""
 "Quand votre %s a été congédiée, votre %s dans %s a été piégé(e) et a donc "
 "été perdu(e)."
 
-#: server/citytools.c:1910 server/unithand.c:3766
+#: server/citytools.c:1910 server/unithand.c:3771
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Vous détruisez intégralement %s."
 
-#: server/citytools.c:1913 server/unithand.c:3773
+#: server/citytools.c:1913 server/unithand.c:3778
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s a été détruite par %s."
@@ -47827,7 +47833,14 @@ msgid ""
 "Not all the mission types use diplchance as a base chance; City Poisoning, "
 "Unit Bribing, and Unit Sabotaging do not. Non-aggressive missions typically "
 "have no base chance at all, but always success."
-msgstr "La probabilité de base qu'un espion revienne d'une mission réussie, et la probabilité de succès pour les diplomates et les espions pour les types de missions agressives. Tous les types de mission n'utilisent pas diplchance comme probabilité de base ; Empoisonner la Ville, Corrompre l'Unité et Saboter l'Unité ne le font pas. Les missions non-agressives n'ont généralement pas de probabilité de base du tout, mais réussissent automatiquement."
+msgstr ""
+"La probabilité de base qu'un espion revienne d'une mission réussie, et la "
+"probabilité de succès pour les diplomates et les espions pour les types de "
+"missions agressives. Tous les types de mission n'utilisent pas diplchance "
+"comme probabilité de base ; Empoisonner la Ville, Corrompre l'Unité et "
+"Saboter l'Unité ne le font pas. Les missions non-agressives n'ont "
+"généralement pas de probabilité de base du tout, mais réussissent "
+"automatiquement."
 
 #: server/settings.c:2438
 msgid "What kinds of victories are possible"
@@ -51290,11 +51303,11 @@ msgstr "Votre %s soigne %s %s."
 msgid "%s %s heals your %s."
 msgstr "Le %2$s %1$s soigne votre %3$s."
 
-#: server/unithand.c:1446
+#: server/unithand.c:1451
 msgid "Unit cannot do anything."
 msgstr "L'unité ne peut rien faire."
 
-#: server/unithand.c:1450 server/unithand.c:1460
+#: server/unithand.c:1455 server/unithand.c:1465
 #, c-format
 msgid "Your %s found no suitable target."
 msgstr "Votre %s n'a pas pu trouver de cible convenable."
@@ -51302,7 +51315,7 @@ msgstr "Votre %s n'a pas pu trouver de cible convenable."
 #. TRANS: terrain name
 #. * "Your Diplomat cannot act from Ocean. Only
 #. * Spy or Partisan ...
-#: server/unithand.c:1488
+#: server/unithand.c:1493
 #, c-format
 msgid "Your %s cannot act from %s. Only %s can act from a non livable tile."
 msgstr ""
@@ -51310,138 +51323,138 @@ msgstr ""
 "case non viable."
 
 #. TRANS: terrain name
-#: server/unithand.c:1498
+#: server/unithand.c:1503
 #, c-format
 msgid "Unit cannot act from %s."
 msgstr "L'unité ne peut pas agir depuis %s."
 
 #. TRANS: terrain name
-#: server/unithand.c:1506
+#: server/unithand.c:1511
 #, c-format
 msgid "Unit cannot act against %s."
 msgstr "L'unité ne peut pas agir contre %s."
 
-#: server/unithand.c:1511
+#: server/unithand.c:1516
 msgid "This unit is being transported, and so cannot act."
 msgstr "Cette unité est transportée et donc ne peut pas agir."
 
-#: server/unithand.c:1516
+#: server/unithand.c:1521
 msgid "This unit cannot act when it isn't being transported."
 msgstr "Cette unité ne peut pas agir si elle n'est pas transportée."
 
-#: server/unithand.c:1521
+#: server/unithand.c:1526
 msgid "This unit is transporting, and so cannot act."
 msgstr "Cette unité transporte et donc ne peut pas agir."
 
-#: server/unithand.c:1526
+#: server/unithand.c:1531
 msgid "This unit cannot act when it isn't transporting."
 msgstr "Cette unité ne peut pas agir quand elle ne transporte pas."
 
-#: server/unithand.c:1530
+#: server/unithand.c:1535
 msgid "This unit has a home city, and so cannot act."
 msgstr "Cette unité a une ville de rattachement, et donc ne peut pas agir."
 
-#: server/unithand.c:1534
+#: server/unithand.c:1539
 msgid "This unit cannot act unless it has a home city."
 msgstr "Cette unité ne peut pas agir sans ville de rattachement."
 
-#: server/unithand.c:1538
+#: server/unithand.c:1543
 #, c-format
 msgid "You must declare war on %s first.  Try using the Nations report (F3)."
 msgstr ""
 "Vous devez d'abord déclarer la guerre à %s. Essayez d'utiliser le dialogue "
 "des nations (F3)."
 
-#: server/unithand.c:1544
+#: server/unithand.c:1549
 #, c-format
 msgid "You must break peace with %s first.  Try using the Nations report (F3)."
 msgstr ""
 "Vous devez d'abord rompre la paix avec %s. Essayez d'utiliser le dialogue "
 "des nations (F3)."
 
-#: server/unithand.c:1554
+#: server/unithand.c:1559
 msgid "This unit cannot act against domestic targets."
 msgstr "Cette unité ne peut agir contre des unités intérieures."
 
-#: server/unithand.c:1558
+#: server/unithand.c:1563
 msgid "This unit cannot act against foreign targets."
 msgstr "Cette unité ne peut pas agir contre des unités étrangères."
 
 #. TRANS: Swedish ... Riflemen
-#: server/unithand.c:1563
+#: server/unithand.c:1568
 #, c-format
 msgid "%s %s cannot act."
 msgstr "%2$s %1$s ne peut pas agir."
 
 #. TRANS: ... Pirate ...
-#: server/unithand.c:1570
+#: server/unithand.c:1575
 #, c-format
 msgid "This unit cannot act against %s targets."
 msgstr "Cette unité ne peut pas agir contre les cibles %s."
 
-#: server/unithand.c:1575
+#: server/unithand.c:1580
 msgid "This unit has too few moves left to act."
 msgstr "Cette unité a trop peu de points de mouvement pour agir."
 
-#: server/unithand.c:1579
+#: server/unithand.c:1584
 msgid "This unit cannot act against city centers."
 msgstr "Cette unité ne peut pas agir contre les centres-villes."
 
-#: server/unithand.c:1583
+#: server/unithand.c:1588
 msgid "This unit cannot act against non city centers."
 msgstr "Cette unité ne peut pas agir en dehors des centres-villes."
 
-#: server/unithand.c:1587
+#: server/unithand.c:1592
 msgid "This unit cannot act against claimed tiles."
 msgstr "Cette unité ne peut pas agir contre des cases revendiquées."
 
-#: server/unithand.c:1591
+#: server/unithand.c:1596
 msgid "This unit cannot act against unclaimed tiles."
 msgstr "Cette unité ne peut pas agir contre des cases non-revendiquées."
 
-#: server/unithand.c:1595
+#: server/unithand.c:1600
 msgid "This unit is too near its target to act."
 msgstr "Cette unité est trop proche de sa cible pour agir."
 
-#: server/unithand.c:1599
+#: server/unithand.c:1604
 msgid "This unit is too far away from its target to act."
 msgstr "Cette unité est trop loin de sa cible pour agir."
 
-#: server/unithand.c:1603
+#: server/unithand.c:1608
 msgid "Can't perform any action this scenario permits."
 msgstr "Impossible de faire une action permise par ce scénario."
 
-#: server/unithand.c:1607
+#: server/unithand.c:1612
 msgid "Can't perform any action this close to a city."
 msgstr "Impossible de faire toute action aussi près d'une ville."
 
 #. TRANS: Settler ... Berlin
-#: server/unithand.c:1612
+#: server/unithand.c:1617
 #, c-format
 msgid "%s can't do anything to %s. It is too big."
 msgstr "%s ne peut rien faire à %s. C'est trop grand."
 
 #. TRANS: London ... Settlers
-#: server/unithand.c:1619
+#: server/unithand.c:1624
 #, c-format
 msgid "%s needs an improvement to grow, so %s cannot do anything to it."
 msgstr ""
 "%s a besoin d'un bâtiment pour se développer, donc %s ne peut rien y faire."
 
 #. TRANS: Paris ... Warriors (think: airlift)
-#: server/unithand.c:1627
+#: server/unithand.c:1632
 #, c-format
 msgid "%s don't have enough capacity, so %s cannot do anything."
 msgstr "%s n'a pas une capacité suffisante, donc %s ne peut rien y faire."
 
 #. TRANS: Paratroopers ...
-#: server/unithand.c:1635
+#: server/unithand.c:1640
 #, c-format
 msgid "%s can't do anything to an unknown target tile."
 msgstr "%s ne peut rien faire sur une case cible inconnue."
 
 #. TRANS: Spy ... 154
-#: server/unithand.c:1641
+#: server/unithand.c:1646
 #, c-format
 msgid "You can't afford having your %s do anything. %d gold needed."
 msgstr ""
@@ -51450,7 +51463,7 @@ msgstr ""
 
 #. TRANS: "Spy can't do anything. 154 gold may help.
 #. * Treasury contains 100 gold."
-#: server/unithand.c:1658
+#: server/unithand.c:1663
 #, c-format
 msgid "%s can't do anything. %d gold may help. %s"
 msgid_plural "%s can't do anything. %d gold may help. %s"
@@ -51458,47 +51471,47 @@ msgstr[0] "%s ne peut rien faire. %d lingot pourrait aider. %s"
 msgstr[1] "%s ne peut rien faire. %d lingots pourraient aider. %s"
 
 #. TRANS: "Trireme cannot move ..."
-#: server/unithand.c:1666 server/unithand.c:2334 server/unithand.c:4197
+#: server/unithand.c:1671 server/unithand.c:2339 server/unithand.c:4202
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne peut pas naviguer si loin de la côte."
 
 #. TRANS: "Riflemen cannot disembark ... native base
 #. * for Helicopter."
-#: server/unithand.c:1671 server/unithand.c:2341 server/unithand.c:4212
+#: server/unithand.c:1676 server/unithand.c:2346 server/unithand.c:4217
 #, c-format
 msgid "%s cannot disembark outside of a city or a native base for %s."
 msgstr ""
 "%s ne peut pas débarquer hors d'une ville ou d'une base accessible pour %s."
 
-#: server/unithand.c:1679
+#: server/unithand.c:1684
 #, c-format
 msgid "%s can't do anything since there is an unreachable unit."
 msgstr "%s ne peut rien faire car il y a une unité inatteignable."
 
-#: server/unithand.c:1685
+#: server/unithand.c:1690
 #, c-format
 msgid "%s can't do anything since you already have a %s."
 msgstr "%s ne peut rien faire car vous avez déjà un(e) %s."
 
-#: server/unithand.c:1696
+#: server/unithand.c:1701
 msgid "No action possible."
 msgstr "Pas d'action possible."
 
-#: server/unithand.c:1773
+#: server/unithand.c:1778
 msgid "Target not at target tile."
 msgstr "La cible n'est pas à la case destination."
 
 #. TRANS: "Your Spy found ... suitable for
 #. * Bribe Enemy Unit."
-#: server/unithand.c:1987
+#: server/unithand.c:1992
 #, c-format
 msgid "Your %s found no target suitable for %s."
 msgstr "Votre %s n'a pas pu trouver de cible convenable pour %s."
 
 #. TRANS: "Having your Spy do Bribe Enemy Unit to
 #. * this target ..."
-#: server/unithand.c:1995
+#: server/unithand.c:2000
 #, c-format
 msgid "Having your %s do %s to this target is redundant."
 msgstr "Il est redondant que votre %s fasse %s à cette cible."
@@ -51506,7 +51519,7 @@ msgstr "Il est redondant que votre %s fasse %s à cette cible."
 #. TRANS: action name.
 #. * "Your Spy can't do Steal Gold from Ocean.
 #. * Only Explorer or Partisan can do Steal Gold ..."
-#: server/unithand.c:2024
+#: server/unithand.c:2029
 #, c-format
 msgid "Your %s can't do %s from %s. Only %s can do %s from a non livable tile."
 msgstr ""
@@ -51515,56 +51528,56 @@ msgstr ""
 
 #. TRANS: action name.
 #. * "Your Spy can't do Steal Gold from Ocean."
-#: server/unithand.c:2038
+#: server/unithand.c:2043
 #, c-format
 msgid "Your %s can't do %s from %s."
 msgstr "Votre %s ne peut pas faire %s à partir de %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage to Mountains."
-#: server/unithand.c:2050
+#: server/unithand.c:2055
 #, c-format
 msgid "Your %s can't do %s to %s."
 msgstr "Votre %s ne peut pas faire %s à %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
-#: server/unithand.c:2060
+#: server/unithand.c:2065
 #, c-format
 msgid "Your %s can't do %s while being transported."
 msgstr "Votre %s ne peut pas faire %s en étant transporté."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
-#: server/unithand.c:2069
+#: server/unithand.c:2074
 #, c-format
 msgid "Your %s can't do %s while not being transported."
 msgstr "Votre %s ne peut pas faire %s tant qu'il n'est pas transporté."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
-#: server/unithand.c:2078
+#: server/unithand.c:2083
 #, c-format
 msgid "Your %s can't do %s while transporting."
 msgstr "Votre %s ne peut pas faire %s en transportant."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
-#: server/unithand.c:2087
+#: server/unithand.c:2092
 #, c-format
 msgid "Your %s can't do %s while not transporting."
 msgstr "Votre %s ne peut pas faire %s tant qu'il ne transporte pas."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage because ..."
-#: server/unithand.c:2096
+#: server/unithand.c:2101
 #, c-format
 msgid "Your %s can't do %s because it has a home city."
 msgstr "Votre %s ne peut pas faire %s car il a une ville de rattachement."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage because ..."
-#: server/unithand.c:2105
+#: server/unithand.c:2110
 #, c-format
 msgid "Your %s can't do %s because it is homeless."
 msgstr "Votre %s ne peut pas faire %s car il n'a pas de ville de rattachement."
@@ -51572,7 +51585,7 @@ msgstr "Votre %s ne peut pas faire %s car il n'a pas de ville de rattachement."
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while you
 #. * aren't at war with Prester John."
-#: server/unithand.c:2115
+#: server/unithand.c:2120
 #, c-format
 msgid "Your %s can't do %s while you aren't at war with %s."
 msgstr "Votre %s ne peut faire %s tant que vous n'êtes pas en guerre avec %s."
@@ -51581,7 +51594,7 @@ msgstr "Votre %s ne peut faire %s tant que vous n'êtes pas en guerre avec %s."
 #. * "Your Spy can't do Industrial Sabotage while you
 #. * are at peace with Prester John. Try using the
 #. * Nations report (F3)."
-#: server/unithand.c:2128
+#: server/unithand.c:2133
 #, c-format
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
@@ -51593,7 +51606,7 @@ msgstr ""
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
 #. * unit stacks."
-#: server/unithand.c:2145
+#: server/unithand.c:2150
 #, c-format
 msgid "Your %s can't do %s to domestic %s."
 msgstr "Votre %s ne peut pas faire %s à un %s compatriote."
@@ -51601,35 +51614,35 @@ msgstr "Votre %s ne peut pas faire %s à un %s compatriote."
 #. TRANS: action name.
 #. * "Your Leader can't do Use Court Physician to foreign
 #. * unit stacks."
-#: server/unithand.c:2157
+#: server/unithand.c:2162
 #, c-format
 msgid "Your %s can't do %s to foreign %s."
 msgstr "Votre %s ne peut pas faire %s à un %s étranger."
 
 #. TRANS: action name.
 #. * "Swedish Riflemen can't do Expel Unit."
-#: server/unithand.c:2168
+#: server/unithand.c:2173
 #, c-format
 msgid "%s %s can't do %s."
 msgstr "%2$s %1$s ne peut pas faire %3$s."
 
 #. TRANS: action name.
 #. * "Riflemen... Expel Unit... Pirate Migrants."
-#: server/unithand.c:2178
+#: server/unithand.c:2183
 #, c-format
 msgid "Your %s can't do %s to %s %s."
 msgstr "Votre %1$s ne peut pas faire %2$s à %4$s %3$s."
 
 #. TRANS: action name.
 #. * "Your Spy has ... to do Bribe Enemy Unit."
-#: server/unithand.c:2190
+#: server/unithand.c:2195
 #, c-format
 msgid "Your %s has too few moves left to do %s."
 msgstr "Votre %s a trop peu de points de mouvement pour faire %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Bribe Enemy Unit to city centers."
-#: server/unithand.c:2199
+#: server/unithand.c:2204
 #, c-format
 msgid "Your %s can't do %s to city centers."
 msgstr "Votre %s ne peut pas faire %s aux centres-villes."
@@ -51637,14 +51650,14 @@ msgstr "Votre %s ne peut pas faire %s aux centres-villes."
 #. TRANS: action name.
 #. * "Your Spy can only do Investigate City to
 #. * city centers."
-#: server/unithand.c:2209
+#: server/unithand.c:2214
 #, c-format
 msgid "Your %s can only do %s to city centers."
 msgstr "Votre %s ne peut faire %s qu'aux centres-villes."
 
 #. TRANS: action name.
 #. * "Your Settlers can't do Build City to claimed tiles."
-#: server/unithand.c:2218
+#: server/unithand.c:2223
 #, c-format
 msgid "Your %s can't do %s to claimed tiles."
 msgstr "Votre %s ne peut faire %s aux cases revendiquées."
@@ -51652,7 +51665,7 @@ msgstr "Votre %s ne peut faire %s aux cases revendiquées."
 #. TRANS: action name.
 #. * "Your Spy can't do Bribe Enemy Unit to
 #. * unclaimed tiles."
-#: server/unithand.c:2228
+#: server/unithand.c:2233
 #, c-format
 msgid "Your %s can't do %s to unclaimed tiles."
 msgstr "Votre %s ne peut faire %s aux cases non-revendiquées."
@@ -51660,7 +51673,7 @@ msgstr "Votre %s ne peut faire %s aux cases non-revendiquées."
 #. TRANS: action name.
 #. * "Your Spy must be at least 2 tiles away to do
 #. * Incite a Revolt and Escape."
-#: server/unithand.c:2238
+#: server/unithand.c:2243
 #, c-format
 msgid "Your %s must be at least %d tile away to do %s."
 msgid_plural "Your %s must be at least %d tiles away to do %s."
@@ -51670,7 +51683,7 @@ msgstr[1] "Votre %s doit être éloigné d'au moins %d cases pour faire %s."
 #. TRANS: action name.
 #. * "Your Diplomat can't be more than 1 tile away to do
 #. * Establish Embassy."
-#: server/unithand.c:2251
+#: server/unithand.c:2256
 #, c-format
 msgid "Your %s can't be more than %d tile away to do %s."
 msgid_plural "Your %s can't be more than %d tiles away to do %s."
@@ -51679,45 +51692,45 @@ msgstr[1] ""
 "Votre %s ne peut pas être distant de plus de %d cases pour faire %s."
 
 #. TRANS: Can't do Build City in this scenario.
-#: server/unithand.c:2262
+#: server/unithand.c:2267
 #, c-format
 msgid "Can't do %s in this scenario."
 msgstr "Impossible de faire %s dans ce scénario."
 
 #. TRANS: Can't do Build City this close to a city.
-#: server/unithand.c:2269
+#: server/unithand.c:2274
 #, c-format
 msgid "Can't do %s this close to a city."
 msgstr "Impossible de faire %s aussi près d'une ville."
 
 #. TRANS: Settlers ... Join City ... London
-#: server/unithand.c:2276
+#: server/unithand.c:2281
 #, c-format
 msgid "%s can't do %s to %s. It is too big."
 msgstr "%s ne peut pas faire %s à %s. C'est trop grand."
 
 #. TRANS: London ... Settlers ... Join City
-#: server/unithand.c:2285
+#: server/unithand.c:2290
 #, c-format
 msgid "%s needs an improvement to grow, so %s cannot do %s."
 msgstr ""
 "%s a besoin d'un bâtiment pour se développer, %s ne peut donc pas faire %s."
 
 #. TRANS: Paris ... Airlift to City ... Warriors
-#: server/unithand.c:2295
+#: server/unithand.c:2300
 #, c-format
 msgid "%s has no capacity to %s %s."
 msgstr "%s n'a pas la capacité de %s %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
-#: server/unithand.c:2304
+#: server/unithand.c:2309
 #, c-format
 msgid "%s can't do %s to an unknown tile."
 msgstr "%s ne peut faire %s sur une case inconnue."
 
 #. TRANS: "Spy can't do Bribe Unit for 154 gold.
 #. * Treasury contains 100 gold."
-#: server/unithand.c:2323
+#: server/unithand.c:2328
 #, c-format
 msgid "%s can't do %s for %d gold. %s"
 msgid_plural "%s can't do %s for %d gold. %s"
@@ -51725,38 +51738,38 @@ msgstr[0] "%s ne peut pas faire %s pour %d lingot. %s"
 msgstr[1] "%s ne peut pas faire %s pour %d lingots. %s"
 
 #. TRANS: "Your Spy can't do Bribe Enemy Unit there ..."
-#: server/unithand.c:2351
+#: server/unithand.c:2356
 #, c-format
 msgid "Your %s can't do %s there since there's an unreachable unit."
 msgstr "Votre %s ne peut pas faire %s ici car il y a une unité inatteignable."
 
 #. TRANS: "You already have a Leader."
-#: server/unithand.c:2359
+#: server/unithand.c:2364
 #, c-format
 msgid "You already have a %s."
 msgstr "Vous avez déjà un %s."
 
 #. TRANS: Freight ... Recycle Unit ... Help Wonder ...
-#: server/unithand.c:2366
+#: server/unithand.c:2371
 #, c-format
 msgid "Your %s can't do %s when %s is legal."
 msgstr "Votre %s ne peut pas faire %s quand %s est autorisé."
 
 #. TRANS: action name.
 #. * "Your Spy was unable to do Bribe Enemy Unit."
-#: server/unithand.c:2376
+#: server/unithand.c:2381
 #, c-format
 msgid "Your %s was unable to do %s."
 msgstr "Votre %s a été incapable de faire %s."
 
 #. TRANS: Spy ... movement point text that may include
 #. * fractions.
-#: server/unithand.c:2449
+#: server/unithand.c:2454
 #, c-format
 msgid "Your %s lost %s MP for attempting an illegal action."
 msgstr "Votre %s a perdu %s PM pour avoir tenté une action illégale."
 
-#: server/unithand.c:2509
+#: server/unithand.c:2514
 #, c-format
 msgid ""
 "No explanation why you couldn't do %s. This is a bug. Sorry about that. -- "
@@ -51766,47 +51779,47 @@ msgstr ""
 "Désolé. -- Sveinung"
 
 #. TRANS: other player ... unit type ... city name.
-#: server/unithand.c:3143
+#: server/unithand.c:3148
 #, c-format
 msgid "%s transferred control over a %s to you in %s."
 msgstr "%s vous délègue le controle sur un '%s' à %s."
 
 #. TRANS: ... Ironclad ... New York
-#: server/unithand.c:3186
+#: server/unithand.c:3191
 #, c-format
 msgid "Recycled your %s to help the current production in %s."
 msgstr "Recyclage de votre %s pour aider la production courante à %s."
 
-#: server/unithand.c:3225
+#: server/unithand.c:3230
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr "Ajout de %s pour aider le développement de %s."
 
 #. TRANS: another player had his unit joint your city.
-#: server/unithand.c:3233
+#: server/unithand.c:3238
 #, c-format
 msgid "%s adds %s to your city %s."
 msgstr "%s a ajouté %s à votre ville %s."
 
 # AR : problème de a/an
 #. TRANS: Your Bomber bombards the English Rifleman.
-#: server/unithand.c:3597
+#: server/unithand.c:3602
 #, c-format
 msgid "Your %s bombards the %s %s."
 msgstr "Votre %1$s a bombardé le %3$s %2$s."
 
 #. TRANS: Your Rifleman is bombarded by the French Bomber.
-#: server/unithand.c:3605
+#: server/unithand.c:3610
 #, c-format
 msgid "Your %s is bombarded by the %s %s."
 msgstr "Votre %1$s a été bombardé par le %3$s %2$s."
 
-#: server/unithand.c:3675
+#: server/unithand.c:3680
 #, c-format
 msgid "Your %s was shot down by SDI defenses, what a waste."
 msgstr "Votre %s a été abattu par les défenses SDI, quel gâchis."
 
-#: server/unithand.c:3678
+#: server/unithand.c:3683
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr "L'attaque nucléaire sur %s a été évitée grâce à votre défense SDI."
@@ -51814,7 +51827,7 @@ msgstr "L'attaque nucléaire sur %s a été évitée grâce à votre défense SD
 #. TRANS: "Your green Legion [id:100 ...D:4.0 lost 1 HP,
 #. * 9 HP remaining] survived the pathetic ...attack from the
 #. * green Greek Warriors [id:90 ...A:1.0 HP:10].
-#: server/unithand.c:3969
+#: server/unithand.c:3974
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
@@ -51828,7 +51841,7 @@ msgstr ""
 #. * failed against the Greek Polish Destroyer [id:200 lost
 #. * 27 HP, 3 HP remaining%s]!";
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:3997
+#: server/unithand.c:4002
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
@@ -51841,7 +51854,7 @@ msgstr ""
 #. * lost to an attack by the Greek green Legion
 #. * [id:200 ...A:4.0 lost 1 HP, has 9 HP remaining%s]."
 #. * last %s is either "and ..." or empty string
-#: server/unithand.c:4030
+#: server/unithand.c:4035
 #, c-format
 msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
@@ -51854,7 +51867,7 @@ msgstr ""
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
 #. * Greek green Warriors [id:100 HP:10]."
-#: server/unithand.c:4054
+#: server/unithand.c:4059
 #, c-format
 msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
@@ -51863,32 +51876,32 @@ msgstr ""
 "L'attaque de votre %2$s %1$s [id:%3$d %4$s%5$sD:%6$.1f %7$d PV perdus, %8$d "
 "PV restants] a réussi contre %11$s %10$s %9$s [id:%12$d PV:%13$d]."
 
-#: server/unithand.c:4186 server/unittools.c:2844
+#: server/unithand.c:4191 server/unittools.c:2844
 msgid "Cannot attack unless you declare war first."
 msgstr "Impossible d'attaquer tant que vous n'avez pas déclaré la guerre."
 
-#: server/unithand.c:4191
+#: server/unithand.c:4196
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s ne peut se déplacer qu'à l'intérieur de votre zone de contrôle."
 
-#: server/unithand.c:4204 server/unittools.c:2822 server/unittools.c:2852
+#: server/unithand.c:4209 server/unittools.c:2822 server/unittools.c:2852
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 "Impossible d'envahir ce territoire tant que vous n'avez pas annulé le traité "
 "de Paix avec %s."
 
-#: server/unithand.c:4221
+#: server/unithand.c:4226
 #, c-format
 msgid "Terrain is unsuitable for %s units."
 msgstr "Ce terrain ne convient pas aux unités %s."
 
-#: server/unithand.c:4269
+#: server/unithand.c:4274
 msgid "This unit has no moves left."
 msgstr "Cette unité n'a plus de déplacement."
 
-#: server/unithand.c:4355
+#: server/unithand.c:4360
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Une des unités transportées n'est pas alliée à toutes les unités ou la ville "
@@ -51897,32 +51910,32 @@ msgstr ""
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * remaining). You can reorder '4' and 'remaining' in the actual
 #. * format string.
-#: server/unithand.c:4404
+#: server/unithand.c:4409
 msgid "remaining"
 msgstr "restant"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen (4
 #. * surplus). You can reorder '4' and 'surplus' in the actual
 #. * format string.
-#: server/unithand.c:4409
+#: server/unithand.c:4414
 msgid "surplus"
 msgstr "surplus"
 
 #. TRANS: Your Caravan helps build the Pyramids in Bergen
 #. * (4 surplus).
-#: server/unithand.c:4418
+#: server/unithand.c:4423
 #, c-format
 msgid "Your %s helps build the %s in %s (%d %s)."
 msgstr "Votre %s aide à la construction de %s à %s (%d %s)."
 
 #. TRANS: Help building the Pyramids in Bergen received
 #. * from Persian Caravan (4 surplus).
-#: server/unithand.c:4437
+#: server/unithand.c:4442
 #, c-format
 msgid "Help building the %s in %s received from %s %s (%d %s)."
 msgstr "Aide à la construction de %1s dans %2s reçue de %4s %3s (%5d %6s)."
 
-#: server/unithand.c:4492
+#: server/unithand.c:4497
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city."
@@ -51930,7 +51943,7 @@ msgstr ""
 "Désolé, sans ville de rattachement, votre %s ne peut établir une route "
 "commerciale"
 
-#: server/unithand.c:4505
+#: server/unithand.c:4510
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it's not carrying any "
@@ -51939,17 +51952,17 @@ msgstr ""
 "Désolé, votre %s ne peut établir une route commerciale car il ne transporte "
 "pas de marchandises."
 
-#: server/unithand.c:4516
+#: server/unithand.c:4521
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s."
 msgstr "Désolé, votre %s ne peut établir une route commerciale entre %s et %s"
 
-#: server/unithand.c:4552 server/unithand.c:4576
+#: server/unithand.c:4557 server/unithand.c:4581
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Désolé, votre %s ne peut établir une route commerciale ici !"
 
-#: server/unithand.c:4558 server/unithand.c:4582
+#: server/unithand.c:4563 server/unithand.c:4587
 #, c-format
 msgid "      The city of %s already has %d better trade route!"
 msgid_plural "      The city of %s already has %d better trade routes!"
@@ -51957,13 +51970,13 @@ msgstr[0] "      La ville de %s a déjà %d meilleure route commerciale !"
 msgstr[1] "      La ville de %s a déjà %d meilleures routes commerciales !"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
-#: server/unithand.c:4613
+#: server/unithand.c:4618
 #, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
 msgstr "Votre %s de %s est arrivé(e) à %s en transportant %s."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4623
+#: server/unithand.c:4628
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -51979,7 +51992,7 @@ msgstr[1] ""
 "montent à %d en or."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4638
+#: server/unithand.c:4643
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -51995,7 +52008,7 @@ msgstr[1] ""
 "montent à %d en recherche."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
-#: server/unithand.c:4653
+#: server/unithand.c:4658
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
@@ -52010,12 +52023,12 @@ msgstr[1] ""
 "Votre %s de %s est arrivé(e) à %s en transportant %s, et les revenus se "
 "montent à %d en or et en recherche."
 
-#: server/unithand.c:4695
+#: server/unithand.c:4700
 #, c-format
 msgid "New trade route established from %s to %s."
 msgstr "Nouvelle route commerciale établie entre %s et %s."
 
-#: server/unithand.c:4701
+#: server/unithand.c:4706
 #, c-format
 msgid "The %s established a trade route between their city %s and %s."
 msgstr "Les %s ont établi une route commerciale entre leur ville %s et %s."
