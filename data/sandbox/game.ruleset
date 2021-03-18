@@ -1390,6 +1390,66 @@ actor_reqs =
       "Tech",         "Communism",    "World",  TRUE,      TRUE
     }
 
+[actionenabler_suitcase_nuke]
+action = "Suitcase Nuke"
+actor_reqs    =
+    { "type",         "name",              "range",  "present"
+      "UnitFlag",     "Spy",               "Local",  TRUE
+      "MinVeteran",   "2",                 "Local",  FALSE
+      "DiplRel",      "Alliance",          "Local",  FALSE
+      "DiplRel",      "Team",              "Local",  FALSE
+      "DiplRel",      "Foreign",           "Local",  TRUE
+      "UnitState",    "OnLivableTile",     "Local",  TRUE
+      "MinMoveFrags", "1",                 "Local",  TRUE
+      "Building",     "Manhattan Project", "Player", TRUE
+      "Building",     "Treuga Dei",        "World",  FALSE
+    }
+
+[actionenabler_suitcase_nuke_despite_treuga_dei]
+action = "Suitcase Nuke"
+actor_reqs    =
+    { "type",         "name",              "range",  "present", "survives"
+      "UnitFlag",     "Spy",               "Local",  TRUE,      FALSE
+      "MinVeteran",   "2",                 "Local",  FALSE,     FALSE
+      "DiplRel",      "Alliance",          "Local",  FALSE,     FALSE
+      "DiplRel",      "Team",              "Local",  FALSE,     FALSE
+      "DiplRel",      "Foreign",           "Local",  TRUE,      FALSE
+      "UnitState",    "OnLivableTile",     "Local",  TRUE,      FALSE
+      "MinMoveFrags", "1",                 "Local",  TRUE,      FALSE
+      "Building",     "Manhattan Project", "Player", TRUE,      FALSE
+      "Tech",         "Communism",         "World",  TRUE,      TRUE
+    }
+
+[actionenabler_suitcase_nuke_escape]
+action = "Suitcase Nuke Escape"
+actor_reqs    =
+    { "type",         "name",              "range",  "present"
+      "UnitFlag",     "Spy",               "Local",  TRUE
+      "MinVeteran",   "2",                 "Local",  TRUE
+      "DiplRel",      "Alliance",          "Local",  FALSE
+      "DiplRel",      "Team",              "Local",  FALSE
+      "DiplRel",      "Foreign",           "Local",  TRUE
+      "UnitState",    "OnLivableTile",     "Local",  TRUE
+      "MinMoveFrags", "1",                 "Local",  TRUE
+      "Building",     "Manhattan Project", "Player", TRUE
+      "Building",     "Treuga Dei",        "World",  FALSE
+    }
+
+[actionenabler_suitcase_nuke_escape_despite_treuga_dei]
+action = "Suitcase Nuke Escape"
+actor_reqs    =
+    { "type",         "name",              "range",  "present", "survives"
+      "UnitFlag",     "Spy",               "Local",  TRUE,      FALSE
+      "MinVeteran",   "2",                 "Local",  TRUE,      FALSE
+      "DiplRel",      "Alliance",          "Local",  FALSE,     FALSE
+      "DiplRel",      "Team",              "Local",  FALSE,     FALSE
+      "DiplRel",      "Foreign",           "Local",  TRUE,      FALSE
+      "UnitState",    "OnLivableTile",     "Local",  TRUE,      FALSE
+      "MinMoveFrags", "1",                 "Local",  TRUE,      FALSE
+      "Building",     "Manhattan Project", "Player", TRUE,      FALSE
+      "Tech",         "Communism",         "World",  TRUE,      TRUE
+    }
+
 ; The GameLoss unit requirement makes sending units on a suicide mission to
 ; capture and destroy cities deep inside enemy terrain national suicide.
 ; The risk of moving a GameLoss unit to the target city increases the cost
