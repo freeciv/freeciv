@@ -28,13 +28,32 @@ tilesets, so substitutes may be used.
 Main features relative to civ2civ3 ruleset
 ------------------------------------------
 
-Nukes:
-The Nuclear has lost its Explode Nuclear In Place ability. It can still do
-Nuke Units and Nuke City.
+Nuke overhaul:
+More variation has been added to the nuclear bomb rules.
+
+ICBM
 The new unit type ICBM has been added. It requires Fusion Power.
 ICBM can do Nuke Target Tile - targeting any tile at the map no matter how
-distant.
+distant. It has - from Freeciv 3.2 - the largest blast radius of all nukes.
 If ICBM upkeep cannot be paid, they explode in place.
+
+Nuclear
+The traditional nuke is still there.
+
+SSBN
+The new unit type SSBN is a special submarine. In addition to being able to
+carry Nuclear and ICBM it gets to fire one tactical nuke each turn. This
+costs the SSBN all its movement. The blast radius of a tactical nuke is -
+from Freeciv 3.2 - smaller than the one you get from a Nuclear. Only for use
+against unit stacks. Max distance to target is 10.
+
+Spy
+Spies belonging to the owner of the Manhattan Project can suitcase nuke
+cities. A higher veteran level gives a higher chance of success. A high
+enough veteran level even gives the spy a chance to escape. Be aware that
+doing this to someone you aren't at war with causes international outrage:
+everyone, not just the victim, gets a Casus Belli against you. Has - from
+Freeciv 3.2 - a blast radius only covering the target city.
 
 Airlifting:
 Light weight units can be airlifted once Flight is known. Medium weight
