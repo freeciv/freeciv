@@ -107,8 +107,6 @@ veteran_move_bonus = 0, 0, 0, 0
 ; hp_loss_pct         = Hitpoints lost each turn if unit not in city or native base
 ; non_native_def_pct  = Defense power percentage applying when defending on
 ;                       non-native terrain (such as ship in harbour)
-; hut_behavior        = What happens to huts when unit enters tile:
-;                       "Normal", "Nothing", or "Frighten"
 ; flags               = List of unit class flags (from the following list; you
 ;                       cannot add custom unit class flags)
 ; helptext            = optional help text string; should escape all raw newlines
@@ -136,6 +134,7 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "KillCitizen"       = Upon successful attack against a city, unit kills one
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
+; "HutFrighten"       = Will frighten rather than enter huts.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -144,8 +143,8 @@ veteran_move_bonus = 0, 0, 0, 0
 name          = _("?unitclass:Missile")
 min_speed     = 0
 hp_loss_pct   = 0
-hut_behavior  = "Frighten"
-flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable"
+flags         = "Missile", "Unreachable", "DoesntOccupyTile", "Airliftable",
+                "HutFrighten"
 
 [unitclass_land]
 ; /* TRANS: Unit class: used adjectivally */
@@ -206,8 +205,8 @@ flags         = "Unreachable", "DoesntOccupyTile", "CanOccupyCity", "CollectRans
 name          = _("?unitclass:Air")
 min_speed     = 1
 hp_loss_pct   = 10
-hut_behavior  = "Frighten"
-flags         = "Unreachable", "DoesntOccupyTile", "CanPillage", "Airliftable"
+flags         = "Unreachable", "DoesntOccupyTile", "CanPillage",
+                "Airliftable", "HutFrighten"
 
 ; /* <-- avoid gettext warnings
 ;

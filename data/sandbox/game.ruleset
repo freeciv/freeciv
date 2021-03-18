@@ -1606,6 +1606,7 @@ actor_reqs    =
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1621,6 +1622,7 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1632,15 +1634,16 @@ target_reqs    =
 [actionenabler_paradrop_base_to_war_conquer_not_forest]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
-      "Building",      "Treuga Dei",  "World", FALSE
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "MinMoveFrags",  "6",             "Local", TRUE
+      "UnitState",     "Transporting",  "Local", FALSE
+      "ExtraFlag",     "ParadropFrom",  "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
+      "Building",      "Treuga Dei",    "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1651,15 +1654,16 @@ target_reqs    =
 [actionenabler_paradrop_base_to_war_conquer_not_forest_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE,      FALSE
-      "DiplRel",      "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",          "range", "present", "survives"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
+      "UnitState",     "Transporting",  "Local", FALSE,     FALSE
+      "ExtraFlag",     "ParadropFrom",  "Local", TRUE,      FALSE
+      "DiplRel",       "War",           "Local", TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
+      "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE,     FALSE
+      "Tech",          "Communism",     "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1670,12 +1674,13 @@ target_reqs    =
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "ExtraFlag",     "ParadropFrom", "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+      "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1688,12 +1693,13 @@ target_reqs    =
 [actionenabler_paradrop_base_to_unclaimed_base_not_forest_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE,      FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "ExtraFlag",     "ParadropFrom", "Local", TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1714,6 +1720,7 @@ actor_reqs    =
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1729,6 +1736,7 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",    1,             "Local", TRUE
       "ExtraFlag",    "ParadropFrom", "Local", TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1739,16 +1747,17 @@ target_reqs   =
 [actionenabler_paradrop_veteran_base_to_war_conquer]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",    1,             "Local", TRUE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "MinMoveFrags",  "6",             "Local", TRUE
+      "UnitState",     "Transporting",  "Local", FALSE
+      "MinVeteran",     1,              "Local", TRUE
+      "ExtraFlag",     "ParadropFrom",  "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
+      "Building",      "Treuga Dei",    "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1758,16 +1767,17 @@ target_reqs    =
 [actionenabler_paradrop_veteran_base_to_war_conquer_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",    1,             "Local", TRUE,      FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE,      FALSE
-      "DiplRel",      "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",          "range", "present", "survives"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",             "Local", TRUE,      FALSE
+      "UnitState",     "Transporting",  "Local", FALSE,     FALSE
+      "MinVeteran",     1,              "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom",  "Local", TRUE,      FALSE
+      "DiplRel",       "War",           "Local", TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE,      FALSE
+      "UnitFlag",      "NonMil",        "Local", FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
+      "Tech",          "Communism",     "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1777,13 +1787,14 @@ target_reqs    =
 [actionenabler_paradrop_veteran_base_to_unclaimed_base]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",    1,             "Local", TRUE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "MinVeteran",     1,             "Local", TRUE
+      "ExtraFlag",     "ParadropFrom", "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+      "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1795,13 +1806,14 @@ target_reqs   =
 [actionenabler_paradrop_veteran_base_to_unclaimed_base_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",    1,             "Local", TRUE,      FALSE
-      "ExtraFlag",    "ParadropFrom", "Local", TRUE,      FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "MinVeteran",     1,             "Local", TRUE,      FALSE
+      "ExtraFlag",     "ParadropFrom", "Local", TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1820,6 +1832,7 @@ actor_reqs    =
       "CityTile",     "Center",       "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1835,6 +1848,7 @@ actor_reqs    =
       "MinMoveFrags", "6",            "Local", TRUE
       "UnitState",    "Transporting", "Local", FALSE
       "CityTile",     "Center",       "Local", TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1846,15 +1860,16 @@ target_reqs    =
 [actionenabler_paradrop_city_to_war_conquer_not_forest]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "MinMoveFrags",  "6",             "Local", TRUE
+      "UnitState",     "Transporting",  "Local", FALSE
+      "CityTile",      "Center",        "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
+      "Building",      "Treuga Dei",    "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1865,15 +1880,16 @@ target_reqs    =
 [actionenabler_paradrop_city_to_war_conquer_not_forest_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "CityTile",     "Center",       "Local", TRUE,      FALSE
-      "DiplRel",      "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "DiplRel",       "War",          "Local", TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
+      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1884,12 +1900,13 @@ target_reqs    =
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "CityTile",      "Center",       "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+      "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1902,12 +1919,13 @@ target_reqs    =
 [actionenabler_paradrop_city_to_unclaimed_base_not_forest_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "CityTile",     "Center",       "Local", TRUE,      FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs    =
     { "type",        "name",             "range", "present"
@@ -1928,6 +1946,7 @@ actor_reqs    =
       "CityTile",     "Center",       "Local", TRUE
       "DiplRel",      "Peace",        "Local", FALSE
       "DiplRel",      "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1943,6 +1962,7 @@ actor_reqs    =
       "UnitState",    "Transporting", "Local", FALSE
       "MinVeteran",   1,              "Local", TRUE
       "CityTile",     "Center",       "Local", TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1953,16 +1973,17 @@ target_reqs   =
 [actionenabler_paradrop_veteran_city_to_war_conquer]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",   1,              "Local", TRUE
-      "CityTile",     "Center",       "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "MinVeteran",    1,              "Local", TRUE
+      "CityTile",      "Center",       "Local", TRUE
+      "DiplRel",       "War",          "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity","Local", TRUE
+      "UnitFlag",      "NonMil",       "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+      "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1972,16 +1993,17 @@ target_reqs   =
 [actionenabler_paradrop_veteran_city_to_war_conquer_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",   1,              "Local", TRUE,      FALSE
-      "CityTile",     "Center",       "Local", TRUE,      FALSE
-      "DiplRel",      "War",          "Local", TRUE,      FALSE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE,      FALSE
-      "UnitFlag",     "NonMil",       "Local", FALSE,     FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "MinVeteran",    1,              "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "DiplRel",       "War",          "Local", TRUE,      FALSE
+      "UnitClassFlag", "CanOccupyCity","Local", TRUE,      FALSE
+      "UnitFlag",      "NonMil",       "Local", FALSE,     FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1991,13 +2013,14 @@ target_reqs   =
 [actionenabler_paradrop_veteran_city_to_unclaimed_base]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "6",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "MinVeteran",   1,              "Local", TRUE
-      "CityTile",     "Center",       "Local", TRUE
-      "Building",     "Treuga Dei",   "World", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "6",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "MinVeteran",    1,              "Local", TRUE
+      "CityTile",      "Center",       "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
+      "Building",      "Treuga Dei",   "World", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -2009,13 +2032,14 @@ target_reqs   =
 [actionenabler_paradrop_veteran_city_to_unclaimed_base_despite_treuga_dei]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present", "survives"
-      "UnitFlag",     "Paratroopers", "Local", TRUE,      FALSE
-      "MinMoveFrags", "6",            "Local", TRUE,      FALSE
-      "UnitState",    "Transporting", "Local", FALSE,     FALSE
-      "MinVeteran",   1,              "Local", TRUE,      FALSE
-      "CityTile",     "Center",       "Local", TRUE,      FALSE
-      "Tech",         "Communism",    "World", TRUE,      TRUE
+    { "type",          "name",         "range", "present", "survives"
+      "UnitFlag",      "Paratroopers", "Local", TRUE,      FALSE
+      "MinMoveFrags",  "6",            "Local", TRUE,      FALSE
+      "UnitState",     "Transporting", "Local", FALSE,     FALSE
+      "MinVeteran",    1,              "Local", TRUE,      FALSE
+      "CityTile",      "Center",       "Local", TRUE,      FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE,     FALSE
+      "Tech",          "Communism",    "World", TRUE,      TRUE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -2564,42 +2588,47 @@ actor_reqs =
 [actionenabler_hut_enter_from_native_tile]
 action        = "Enter Hut"
 actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
-      "UnitState",    "OnNativeTile", "Local"
+    { "type",          "name",         "range", "present"
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 
 [actionenabler_hut_enter_from_native_city]
 action        = "Enter Hut"
 actor_reqs    =
-    { "type",         "name",        "range"
-      "MinMoveFrags", "1",           "Local"
-      "CityTile",     "Center",      "Local"
+    { "type",          "name",        "range", "present"
+      "MinMoveFrags",  "1",           "Local", TRUE
+      "CityTile",      "Center",      "Local", TRUE
+      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 
 [actionenabler_hut_enter_from_non_native]
 action        = "Enter Hut 2"
 actor_reqs    =
-    { "type",           "name",         "range", "present"
-      "MinMoveFrags",   "1",            "Local", TRUE
-      "UnitState",      "OnNativeTile", "Local", FALSE
-      "CityTile",       "Center",       "Local", FALSE
+    { "type",          "name",         "range", "present"
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitState",     "OnNativeTile", "Local", FALSE
+      "CityTile",      "Center",       "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 
 [actionenabler_hut_frighten_from_native_tile]
 action        = "Frighten Hut"
 actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
-      "UnitState",    "OnNativeTile", "Local"
+    { "type",          "name",         "range"
+      "MinMoveFrags",  "1",            "Local"
+      "UnitState",     "OnNativeTile", "Local"
+      "UnitClassFlag", "HutFrighten",  "Local"
     }
 
 [actionenabler_hut_frighten_from_native_city]
 action        = "Frighten Hut"
 actor_reqs    =
-    { "type",         "name",        "range"
-      "MinMoveFrags", "1",           "Local"
-      "CityTile",     "Center",      "Local"
+    { "type",          "name",        "range"
+      "MinMoveFrags",  "1",           "Local"
+      "CityTile",      "Center",      "Local"
+      "UnitClassFlag", "HutFrighten", "Local"
     }
 
 [actionenabler_hut_frighten_from_non_native]
@@ -2609,6 +2638,7 @@ actor_reqs    =
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
       "CityTile",       "Center",       "Local", FALSE
+      "UnitClassFlag",  "HutFrighten",  "Local", TRUE
     }
 
 [borders]

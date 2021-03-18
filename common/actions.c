@@ -288,6 +288,70 @@ static void oblig_hard_req_register(struct requirement contradiction,
 }
 
 /**********************************************************************//**
+  Register an obligatory hard requirement for the specified action sub
+  results.
+  @param contras if one alternative here doesn't contradict the enabler it
+                 is accepted.
+  @param error_message error message if an enabler contradicts all contras.
+  @param args list of action sub results that should be unable to
+              contradict all specified contradictions.
+**************************************************************************/
+static void voblig_hard_req_reg_sub_res(struct ae_contra_or *contras,
+                                        const char *error_message,
+                                        va_list args)
+{
+  struct obligatory_req oreq;
+  enum action_sub_result res;
+
+  /* A non null action message is used to indicate that an obligatory hard
+   * requirement is missing. */
+  fc_assert_ret(error_message);
+
+  /* Pack the obligatory hard requirement. */
+  oreq.contras = contras;
+  oreq.error_msg = error_message;
+
+  /* Add the obligatory hard requirement to each action sub result it
+   * applies to. */
+  while (ACT_SUB_RES_COUNT != (res = va_arg(args,
+                                            enum action_sub_result))) {
+    /* Any invalid action sub result should terminate the loop before this
+     * assertion. */
+    fc_assert_ret_msg(action_sub_result_is_valid(res),
+                      "Invalid action result %d", res);
+
+    /* Add to list for action result */
+    obligatory_req_vector_append(&oblig_hard_reqs_sr[res], oreq);
+
+    /* Register the new user. */
+    oreq.contras->users++;
+  }
+}
+
+/**********************************************************************//**
+  Register an obligatory hard requirement for the specified action sub
+  results.
+  @param contras if one alternative here doesn't contradict the enabler it
+                 is accepted.
+  @param error_message error message if an enabler contradicts all contras.
+                       Followed by a list of action sub results that should
+                       be unable to contradict all specified
+                       contradictions.
+**************************************************************************/
+static void oblig_hard_req_reg_sub_res(struct ae_contra_or *contras,
+                                       const char *error_message,
+                                       ...)
+{
+  va_list args;
+
+  /* Add the obligatory hard requirement to each action result it applies
+   * to. */
+  va_start(args, error_message);
+  voblig_hard_req_reg_sub_res(contras, error_message, args);
+  va_end(args);
+}
+
+/**********************************************************************//**
   Hard code the obligatory hard requirements that don't depend on the rest
   of the ruleset. They are sorted by requirement to make it easy to read,
   modify and explain them.
@@ -742,6 +806,33 @@ static void hard_code_oblig_hard_reqs(void)
                              " that the actor unit is in a city."),
                           ACTRES_AIRLIFT,
                           ACTRES_NONE);
+
+  /* Why this is a hard requirement: Give meaning to the HutFrighten unit
+   * class flag. The point of it is to keep our options open for how both
+   * entering and frightening a hut at the same tile should be handled.
+   * See hrm Feature #920427 */
+  oblig_hard_req_reg_sub_res(req_contradiction_or(
+                               1,
+                               req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                               FALSE, TRUE, FALSE,
+                                               UCF_HUT_FRIGHTEN),
+                               FALSE),
+                             N_("All action enablers for %s must require"
+                                " that the actor unit doesn't have the"
+                                " HutFrighten unit class flag."),
+                             ACT_SUB_RES_HUT_ENTER,
+                             ACT_SUB_RES_COUNT);
+  oblig_hard_req_reg_sub_res(req_contradiction_or(
+                               1,
+                               req_from_values(VUT_UCFLAG, REQ_RANGE_LOCAL,
+                                               FALSE, FALSE, FALSE,
+                                               UCF_HUT_FRIGHTEN),
+                               FALSE),
+                             N_("All action enablers for %s must require"
+                                " that the actor unit has the HutFrighten"
+                                " unit class flag."),
+                             ACT_SUB_RES_HUT_FRIGHTEN,
+                             ACT_SUB_RES_COUNT);
 }
 
 /**********************************************************************//**
@@ -3179,20 +3270,6 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
                                      const struct unit_type *actor_unittype,
                                      bool ignore_third_party)
 {
-  if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_ENTER)) {
-    if (utype_class(actor_unittype)->hut_behavior != HUT_NORMAL) {
-      /* Reason: Keep hut_behavior working. */
-      return FALSE;
-    }
-  }
-
-  if (BV_ISSET(paction->sub_results, ACT_SUB_RES_HUT_FRIGHTEN)) {
-    if (utype_class(actor_unittype)->hut_behavior != HUT_FRIGHTEN) {
-      /* Reason: Keep hut_behavior working. */
-      return FALSE;
-    }
-  }
-
   switch (paction->result) {
   case ACTRES_JOIN_CITY:
     if (actor_unittype->pop_cost <= 0) {

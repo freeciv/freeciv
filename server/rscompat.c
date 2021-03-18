@@ -1465,8 +1465,10 @@ void rscompat_postprocess(struct rscompat_info *info)
         = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
 
     unit_class_iterate(uc) {
-      if (uc->hut_behavior == HUT_NOTHING) {
+      if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_NOTHING) {
         BV_SET(uc->flags, nothing);
+      } else if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_FRIGHTEN) {
+        BV_SET(uc->flags, UCF_HUT_FRIGHTEN);
       }
     } unit_class_iterate_end;
   }
@@ -1678,27 +1680,19 @@ bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
 
     /* Hut entry and frightening is enabler controlled in 3.1. They can
      * involve disembarking. */
-    unit_class_iterate(uclass) {
-      /* Add one enabler for each unit class that can do one of the
-       * actions. */
-      if (uclass->hut_behavior == HUT_NORMAL) {
-        enabler = action_enabler_new();
-        enabler->action = ACTION_HUT_ENTER;
-        e_req = req_from_values(VUT_UCLASS, REQ_RANGE_LOCAL,
-                                FALSE, TRUE, TRUE,
-                                uclass_number(uclass));
-        requirement_vector_append(&enabler->actor_reqs, e_req);
-        action_enabler_add(enabler);
-      } else if (uclass->hut_behavior == HUT_FRIGHTEN) {
-        enabler = action_enabler_new();
-        enabler->action = ACTION_HUT_FRIGHTEN;
-        e_req = req_from_values(VUT_UCLASS, REQ_RANGE_LOCAL,
-                                FALSE, TRUE, TRUE,
-                                uclass_number(uclass));
-        requirement_vector_append(&enabler->actor_reqs, e_req);
-        action_enabler_add(enabler);
-      }
-    } unit_class_iterate_end;
+    enabler = action_enabler_new();
+    enabler->action = ACTION_HUT_ENTER;
+    e_req = req_from_str("UnitClassFlag", "Local", FALSE, FALSE, FALSE,
+                         "HutNothing");
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
+
+    enabler = action_enabler_new();
+    enabler->action = ACTION_HUT_FRIGHTEN;
+    e_req = req_from_str("UnitClassFlag", "Local", FALSE, FALSE, FALSE,
+                         "HutNothing");
+    requirement_vector_append(&enabler->actor_reqs, e_req);
+    action_enabler_add(enabler);
 
     if (slow_invasions) {
       /* Make disembarking from non native terrain a different action. */

@@ -82,19 +82,22 @@ struct ai_type;
 /* Kills citizens upon successful attack against a city */
 #define SPECENUM_VALUE10 UCF_KILLCITIZEN
 #define SPECENUM_VALUE10NAME N_("?uclassflag:KillCitizen")
+/* Frightens the huts it pops. */
+#define SPECENUM_VALUE11 UCF_HUT_FRIGHTEN
+#define SPECENUM_VALUE11NAME N_("?uclassflag:HutFrighten")
 
-#define SPECENUM_VALUE11 UCF_USER_FLAG_1
-#define SPECENUM_VALUE12 UCF_USER_FLAG_2
-#define SPECENUM_VALUE13 UCF_USER_FLAG_3
-#define SPECENUM_VALUE14 UCF_USER_FLAG_4
-#define SPECENUM_VALUE15 UCF_USER_FLAG_5
-#define SPECENUM_VALUE16 UCF_USER_FLAG_6
-#define SPECENUM_VALUE17 UCF_USER_FLAG_7
-#define SPECENUM_VALUE18 UCF_USER_FLAG_8
-#define SPECENUM_VALUE19 UCF_USER_FLAG_9
-#define SPECENUM_VALUE20 UCF_USER_FLAG_10
-#define SPECENUM_VALUE21 UCF_USER_FLAG_11
-#define SPECENUM_VALUE22 UCF_USER_FLAG_12
+#define SPECENUM_VALUE12 UCF_USER_FLAG_1
+#define SPECENUM_VALUE13 UCF_USER_FLAG_2
+#define SPECENUM_VALUE14 UCF_USER_FLAG_3
+#define SPECENUM_VALUE15 UCF_USER_FLAG_4
+#define SPECENUM_VALUE16 UCF_USER_FLAG_5
+#define SPECENUM_VALUE17 UCF_USER_FLAG_6
+#define SPECENUM_VALUE18 UCF_USER_FLAG_7
+#define SPECENUM_VALUE19 UCF_USER_FLAG_8
+#define SPECENUM_VALUE20 UCF_USER_FLAG_9
+#define SPECENUM_VALUE21 UCF_USER_FLAG_10
+#define SPECENUM_VALUE22 UCF_USER_FLAG_11
+#define SPECENUM_VALUE23 UCF_USER_FLAG_12
 
 /* keep this last */
 #define SPECENUM_COUNT UCF_COUNT
@@ -134,7 +137,6 @@ struct unit_class {
   int min_speed;           /* Minimum speed after damage and effects */
   int hp_loss_pct;         /* Percentage of hitpoints lost each turn not in city or airbase */
   int non_native_def_pct;
-  enum hut_behavior hut_behavior;
   bv_unit_class_flags flags;
 
   struct strvec *helptext;
@@ -150,6 +152,11 @@ struct unit_class {
     struct extra_type_list *bonus_roads;
     struct unit_class_list *subset_movers;
   } cache;
+
+  /* Used to upgrade the ruleset format version. */
+  struct {
+    enum hut_behavior hut_behavior;
+  } rscompat_cache_from_3_0;
 };
 
 /* Unit "special effects" flags:
