@@ -73,8 +73,8 @@ EXTRA_DIST =	autogen.sh 			\
 		scripts/mapimg2anim		\
 		scripts/setup_auth_server.sh	\
 		scripts/diff_ignore		\
-		scripts/freeciv.supp
-# On branch: add NEWS-x.x here and remove this comment (1 of 2)
+		scripts/freeciv.supp		\
+		NEWS-3.0
 
 noinst_HEADERS= fc_version
 
@@ -84,8 +84,8 @@ docs =			\
 	ChangeLog	\
 	COPYING		\
 	INSTALL		\
-	NEWS
-# On branch: add NEWS-x.x here and remove this comment (2 of 2)
+	NEWS		\
+	NEWS-3.0
 
 doc_DATA = $(docs)
 
