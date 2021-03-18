@@ -2034,7 +2034,6 @@ static bool load_ruleset_units(struct section_file *file,
   if (ok) {
     unit_class_iterate(uc) {
       int i = uclass_index(uc);
-      const char *hut_str;
       const char *sec_name = section_name(section_list_get(csec, i));
 
       if (secfile_lookup_int(file, &uc->min_speed, "%s.min_speed", sec_name)) {
@@ -2055,22 +2054,27 @@ static bool load_ruleset_units(struct section_file *file,
                                                           "%s.non_native_def_pct",
                                                           sec_name);
 
-      hut_str = secfile_lookup_str_default(file, "Normal", "%s.hut_behavior", sec_name);
-      if (fc_strcasecmp(hut_str, "Normal") == 0) {
-        uc->hut_behavior = HUT_NORMAL;
-      } else if (fc_strcasecmp(hut_str, "Nothing") == 0) {
-        uc->hut_behavior = HUT_NOTHING;
-      } else if (fc_strcasecmp(hut_str, "Frighten") == 0) {
-        uc->hut_behavior = HUT_FRIGHTEN;
-      } else {
-        ruleset_error(LOG_ERROR,
-                      "\"%s\" unit_class \"%s\":"
-                      " Illegal hut behavior \"%s\".",
-                      filename,
-                      uclass_rule_name(uc),
-                      hut_str);
-        ok = FALSE;
-        break;
+      if (compat->compat_mode && compat->ver_units < 20) {
+        const char *hut_str;
+
+        hut_str = secfile_lookup_str_default(file, "Normal",
+                                             "%s.hut_behavior", sec_name);
+        if (fc_strcasecmp(hut_str, "Normal") == 0) {
+          uc->rscompat_cache_from_3_0.hut_behavior = HUT_NORMAL;
+        } else if (fc_strcasecmp(hut_str, "Nothing") == 0) {
+          uc->rscompat_cache_from_3_0.hut_behavior = HUT_NOTHING;
+        } else if (fc_strcasecmp(hut_str, "Frighten") == 0) {
+          uc->rscompat_cache_from_3_0.hut_behavior = HUT_FRIGHTEN;
+        } else {
+          ruleset_error(LOG_ERROR,
+                        "\"%s\" unit_class \"%s\":"
+                        " Illegal hut behavior \"%s\".",
+                        filename,
+                        uclass_rule_name(uc),
+                        hut_str);
+          ok = FALSE;
+          break;
+        }
       }
 
       BV_CLR_ALL(uc->flags);
@@ -7573,7 +7577,6 @@ static void send_ruleset_unit_classes(struct conn_list *dest)
     sz_strlcpy(packet.rule_name, rule_name_get(&c->name));
     packet.min_speed = c->min_speed;
     packet.hp_loss_pct = c->hp_loss_pct;
-    packet.hut_behavior = c->hut_behavior;
     packet.non_native_def_pct = c->non_native_def_pct;
     packet.flags = c->flags;
 

@@ -2833,7 +2833,6 @@ static bool save_units_ruleset(const char *filename, const char *name)
   sect_idx = 0;
   unit_class_re_active_iterate(puc) {
     char path[512];
-    char *hut_str = NULL;
     const char *flag_names[UCF_COUNT];
     int flagi;
     int set_count;
@@ -2848,21 +2847,6 @@ static bool save_units_ruleset(const char *filename, const char *name)
     if (puc->non_native_def_pct != 100) {
       secfile_insert_int(sfile, puc->non_native_def_pct,
                          "%s.non_native_def_pct", path);
-    }
-    if (puc->hut_behavior != HUT_NORMAL) {
-      switch (puc->hut_behavior) {
-      case HUT_NORMAL:
-        hut_str = "Normal";
-        break;
-      case HUT_NOTHING:
-        hut_str = "Nothing";
-        break;
-      case HUT_FRIGHTEN:
-        hut_str = "Frighten";
-        break;
-      }
-      fc_assert(hut_str != NULL);
-      secfile_insert_str(sfile, hut_str, "%s.hut_behavior", path);
     }
 
     set_count = 0;

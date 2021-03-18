@@ -994,13 +994,14 @@ actor_reqs    =
 [actionenabler_paradrop_base_to_claimed]
 action = "Paradrop Unit Enter"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "Extra",        "Airbase",      "Local", TRUE
-      "DiplRel",      "Peace",        "Local", FALSE
-      "DiplRel",      "War",          "Local", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "3",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "Extra",         "Airbase",      "Local", TRUE
+      "DiplRel",       "Peace",        "Local", FALSE
+      "DiplRel",       "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1010,11 +1011,12 @@ target_reqs   =
 [actionenabler_paradrop_base_to_unclaimed]
 action = "Paradrop Unit Enter"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "Extra",        "Airbase",      "Local", TRUE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "3",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "Extra",         "Airbase",      "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1024,14 +1026,15 @@ target_reqs   =
 [actionenabler_paradrop_base_to_war_conquer]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "Extra",        "Airbase",      "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "MinMoveFrags",  "3",             "Local", TRUE
+      "UnitState",     "Transporting",  "Local", FALSE
+      "Extra",         "Airbase",       "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1041,13 +1044,14 @@ target_reqs   =
 [actionenabler_paradrop_city_to_claimed]
 action = "Paradrop Unit Enter"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
-      "DiplRel",      "Peace",        "Local", FALSE
-      "DiplRel",      "War",          "Local", FALSE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "3",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "CityTile",      "Center",       "Local", TRUE
+      "DiplRel",       "Peace",        "Local", FALSE
+      "DiplRel",       "War",          "Local", FALSE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1057,11 +1061,12 @@ target_reqs   =
 [actionenabler_paradrop_city_to_unclaimed]
 action = "Paradrop Unit Enter"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
+    { "type",          "name",         "range", "present"
+      "UnitFlag",      "Paratroopers", "Local", TRUE
+      "MinMoveFrags",  "3",            "Local", TRUE
+      "UnitState",     "Transporting", "Local", FALSE
+      "CityTile",      "Center",       "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1071,14 +1076,15 @@ target_reqs   =
 [actionenabler_paradrop_city_to_war_conquer]
 action = "Paradrop Unit Enter Conquer"
 actor_reqs    =
-    { "type",         "name",         "range", "present"
-      "UnitFlag",     "Paratroopers", "Local", TRUE
-      "MinMoveFrags", "3",            "Local", TRUE
-      "UnitState",    "Transporting", "Local", FALSE
-      "CityTile",     "Center",       "Local", TRUE
-      "DiplRel",      "War",          "Local", TRUE
-      "UnitClassFlag","CanOccupyCity","Local", TRUE
-      "UnitFlag",     "NonMil",       "Local", FALSE
+    { "type",          "name",          "range", "present"
+      "UnitFlag",      "Paratroopers",  "Local", TRUE
+      "MinMoveFrags",  "3",             "Local", TRUE
+      "UnitState",     "Transporting",  "Local", FALSE
+      "CityTile",      "Center",        "Local", TRUE
+      "DiplRel",       "War",           "Local", TRUE
+      "UnitClassFlag", "CanOccupyCity", "Local", TRUE
+      "UnitFlag",      "NonMil",        "Local", FALSE
+      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1285,8 +1291,9 @@ actor_reqs =
 [actionenabler_hut_enter]
 action        = "Enter Hut"
 actor_reqs    =
-    { "type",         "name",         "range"
-      "MinMoveFrags", "1",            "Local"
+    { "type",          "name",         "range", "present"
+      "MinMoveFrags",  "1",            "Local", TRUE
+      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 
 [actionenabler_hut_frighten]
@@ -1294,6 +1301,7 @@ action        = "Frighten Hut"
 actor_reqs    =
     { "type",         "name",         "range"
       "MinMoveFrags", "1",            "Local"
+      "UnitClassFlag", "HutFrighten", "Local"
     }
 
 [borders]

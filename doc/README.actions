@@ -877,7 +877,7 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
- * the actor unit has the hut_behavior "Frighten"
+ * the actor unit has the unit class flag "HutFrighten" (!)
  * the target tile is known (doesn't have to be seen) by the actor
  * if the target tile is seen:
    - the actor unit must be able to exist outside a transport on the target
@@ -903,7 +903,7 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
- * the actor unit has the hut_behavior "Frighten"
+ * the actor unit has the unit class flag "HutFrighten" (!)
  * the actor unit doesn't have the NonMil unit type flag unless the target
    tile doesn't have a city. (!)
  * the actor unit has the CanOccupyCity unit class flag unless the target
@@ -933,7 +933,6 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
- * the actor unit has the hut_behavior "Normal"
  * the target tile is known (doesn't have to be seen) by the actor
  * if the target tile is seen:
    - the actor unit must be able to exist outside a transport on the target
@@ -959,7 +958,6 @@ Actions done by a unit against a tile
  * the actor unit isn't transporting another unit (!)
  * the actor unit can't be diplomatically forbidden from entering the target
    tile. (!)
- * the actor unit has the hut_behavior "Normal"
  * the actor unit doesn't have the NonMil unit type flag unless the target
    tile doesn't have a city. (!)
  * the actor unit has the CanOccupyCity unit class flag unless the target
@@ -1158,7 +1156,6 @@ Actions done by a unit against a tile
 "Enter Hut" - Enter a Hut, destroying it in the process.
 * UI name can be set using ui_name_enter_hut
 * the actor unit must be on a tile next to the target.
-* the actor unit must have a hut_behavior of "Normal"
 * the actor unit has at least one move fragment left (!)
 * the actor unit's type must be the target tile's terrain animal if the
   player's nation is an animal barbarian.
@@ -1200,7 +1197,7 @@ Actions done by a unit against a tile
 "Frighten Hut" - Frighten a Hut, destroying it in the process.
 * UI name can be set using ui_name_frighten_hut
 * the actor unit must be on a tile next to the target.
-* the actor unit must have a hut_behavior of "Frighten"
+* the actor unit has the unit class flag "HutFrighten" (!)
 * the actor unit has at least one move fragment left (!)
 * the actor unit's type must be the target tile's terrain animal if the
   player's nation is an animal barbarian.

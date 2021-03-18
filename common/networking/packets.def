@@ -1700,7 +1700,6 @@ PACKET_RULESET_UNIT_CLASS = 152; sc, lsend
   STRING rule_name[MAX_LEN_NAME];
   MOVEFRAGS min_speed;
   UINT8 hp_loss_pct;
-  UINT8 hut_behavior;
   UINT16 non_native_def_pct;
   BV_UCLASS_FLAGS flags;
 

@@ -1404,8 +1404,10 @@ void rscompat_postprocess(struct rscompat_info *info)
         = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
 
     unit_class_iterate(uc) {
-      if (uc->hut_behavior == HUT_NOTHING) {
+      if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_NOTHING) {
         BV_SET(uc->flags, nothing);
+      } else if (uc->rscompat_cache_from_3_0.hut_behavior == HUT_FRIGHTEN) {
+        BV_SET(uc->flags, UCF_HUT_FRIGHTEN);
       }
     } unit_class_iterate_end;
   }
