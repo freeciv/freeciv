@@ -471,6 +471,34 @@ bool utype_can_do_action_result(const struct unit_type *putype,
 }
 
 /**********************************************************************//**
+  Return TRUE iff units of the given type can do any enabler controlled
+  action with the specified action sub result.
+
+  Note that a specific unit in a specific situation still may be unable to
+  perform the specified action.
+**************************************************************************/
+bool utype_can_do_action_sub_result(const struct unit_type *putype,
+                                    enum action_sub_result sub_result)
+{
+  fc_assert_ret_val(putype, FALSE);
+
+  action_iterate(act_id) {
+    struct action *paction = action_by_number(act_id);
+
+    if (!BV_ISSET(paction->sub_results, sub_result)) {
+      /* Not relevant */
+      continue;
+    }
+
+    if (utype_can_do_action(putype, paction->id)) {
+      return TRUE;
+    }
+  } action_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Return TRUE iff the unit type can perform the action corresponding to
   the unit type role.
 **************************************************************************/

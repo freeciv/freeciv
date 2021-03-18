@@ -617,6 +617,8 @@ bool utype_can_do_action(const struct unit_type *putype,
                          const action_id act_id);
 bool utype_can_do_action_result(const struct unit_type *putype,
                                 enum action_result result);
+bool utype_can_do_action_sub_result(const struct unit_type *putype,
+                                    enum action_sub_result sub_result);
 bool utype_acts_hostile(const struct unit_type *putype);
 
 bool can_unit_act_when_ustate_is(const struct unit_type *punit_type,
