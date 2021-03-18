@@ -100,7 +100,8 @@ static bool actions_initialized = FALSE;
 static struct action_enabler_list *action_enablers_by_action[MAX_NUM_ACTIONS];
 
 /* Hard requirements relates to action result. */
-static struct obligatory_req_vector obligatory_hard_reqs[ACTRES_NONE];
+static struct obligatory_req_vector oblig_hard_reqs_r[ACTRES_NONE];
+static struct obligatory_req_vector oblig_hard_reqs_sr[ACT_SUB_RES_COUNT];
 
 static struct astring ui_name_str = ASTRING_INIT;
 
@@ -233,7 +234,7 @@ static void voblig_hard_req_reg(struct ae_contra_or *contras,
                       "Invalid action result %d", res);
 
     /* Add to list for action result */
-    obligatory_req_vector_append(&obligatory_hard_reqs[res], oreq);
+    obligatory_req_vector_append(&oblig_hard_reqs_r[res], oreq);
 
     /* Register the new user. */
     oreq.contras->users++;
@@ -1338,11 +1339,16 @@ void actions_init(void)
 
   /* Initialize action obligatory hard requirements. */
 
-  /* Obligatory hard requirements are sorted by action result in memory.
-   * This makes it easy to access the data. */
+  /* Obligatory hard requirements sorted by action result in memory. */
   for (i = 0; i < ACTRES_NONE; i++) {
     /* Prepare each action result's storage area. */
-    obligatory_req_vector_init(&obligatory_hard_reqs[i]);
+    obligatory_req_vector_init(&oblig_hard_reqs_r[i]);
+  }
+
+  /* Obligatory hard requirements sorted by action sub result in memory. */
+  for (i = 0; i < ACT_SUB_RES_COUNT; i++) {
+    /* Prepare each action sub result's storage area. */
+    obligatory_req_vector_init(&oblig_hard_reqs_sr[i]);
   }
 
   /* Obligatory hard requirements are sorted by requirement in the source
@@ -1401,10 +1407,16 @@ void actions_free(void)
 
   /* Free the obligatory hard action requirements. */
   for (i = 0; i < ACTRES_NONE; i++) {
-    obligatory_req_vector_iterate(&obligatory_hard_reqs[i], oreq) {
+    obligatory_req_vector_iterate(&oblig_hard_reqs_r[i], oreq) {
       ae_contra_close(oreq->contras);
     } obligatory_req_vector_iterate_end;
-    obligatory_req_vector_free(&obligatory_hard_reqs[i]);
+    obligatory_req_vector_free(&oblig_hard_reqs_r[i]);
+  }
+  for (i = 0; i < ACT_SUB_RES_COUNT; i++) {
+    obligatory_req_vector_iterate(&oblig_hard_reqs_sr[i], oreq) {
+      ae_contra_close(oreq->contras);
+    } obligatory_req_vector_iterate_end;
+    obligatory_req_vector_free(&oblig_hard_reqs_sr[i]);
   }
 
   /* Free the action auto performers. */
@@ -2345,30 +2357,29 @@ action_enablers_for_action(action_id action)
   responsibility of the caller to free the suggestion when it is done with
   it.
   @param enabler the action enabler to suggest a fix for.
+  @param oblig   hard obligatory requirements to check
   @return a problem with fix suggestions or NULL if no obligatory hard
           requirement problems were detected.
 **************************************************************************/
-struct req_vec_problem *
-action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
+static struct req_vec_problem *
+ae_suggest_repair_if_no_oblig(const struct action_enabler *enabler,
+                              const struct obligatory_req_vector *oblig)
 {
   struct action *paction;
 
   /* Sanity check: a non existing action enabler is missing but it doesn't
    * miss any obligatory hard requirements. */
-  fc_assert_ret_val(enabler, FALSE);
+  fc_assert_ret_val(enabler, NULL);
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
+  fc_assert_ret_val(action_id_exists(enabler->action), NULL);
   paction = action_by_number(enabler->action);
 
-  if (paction->result == ACTRES_NONE) {
-    /* No hard coded results means no obiligatory requirements. */
-    return NULL;
-  }
+  /* No obligatory hard requirements. */
+  fc_assert_ret_val(oblig, NULL);
 
-  obligatory_req_vector_iterate(&obligatory_hard_reqs[paction->result],
-      obreq) {
+  obligatory_req_vector_iterate(oblig, obreq) {
     struct req_vec_problem *out;
     int i;
     bool fulfilled = FALSE;
@@ -2435,6 +2446,60 @@ action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
      * during the next call. */
     return out;
   } obligatory_req_vector_iterate_end;
+
+  /* No obligatory req problems found. */
+  return NULL;
+}
+
+/**********************************************************************//**
+  Returns a suggestion to add an obligatory hard requirement to an action
+  enabler or NULL if no hard obligatory reqs were missing. It is the
+  responsibility of the caller to free the suggestion when it is done with
+  it.
+  @param enabler the action enabler to suggest a fix for.
+  @return a problem with fix suggestions or NULL if no obligatory hard
+          requirement problems were detected.
+**************************************************************************/
+struct req_vec_problem *
+action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
+{
+  struct action *paction;
+  enum action_sub_result sub_res;
+  struct req_vec_problem *out;
+
+  /* Sanity check: a non existing action enabler is missing but it doesn't
+   * miss any obligatory hard requirements. */
+  fc_assert_ret_val(enabler, FALSE);
+
+  /* Sanity check: a non existing action doesn't have any obligatory hard
+   * requirements. */
+  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
+  paction = action_by_number(enabler->action);
+
+  if (paction->result != ACTRES_NONE) {
+    /* A hard coded action result may mean obiligatory requirements. */
+    out = ae_suggest_repair_if_no_oblig(enabler,
+                                        &oblig_hard_reqs_r[paction->result]);
+    if (out != NULL) {
+      return out;
+    }
+  }
+
+  for (sub_res = action_sub_result_begin();
+       sub_res != action_sub_result_end();
+       sub_res = action_sub_result_next(sub_res)) {
+    if (!BV_ISSET(paction->sub_results, sub_res)) {
+      /* Not relevant */
+      continue;
+    }
+
+    /* The action has this sub result. Check its hard requirements. */
+    out = ae_suggest_repair_if_no_oblig(enabler,
+                                        &oblig_hard_reqs_sr[sub_res]);
+    if (out != NULL) {
+      return out;
+    }
+  }
 
   /* No obligatory req problems found. */
   return NULL;
