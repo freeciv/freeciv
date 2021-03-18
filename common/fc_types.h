@@ -299,6 +299,22 @@ enum output_type_id {
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME action_sub_result
+/* Will enter each enterable hut at the target tile */
+#define SPECENUM_VALUE0 ACT_SUB_RES_HUT_ENTER
+#define SPECENUM_VALUE0NAME "Unit Enter Hut"
+/* Will frighten each frightenable hut at the target tile */
+#define SPECENUM_VALUE1 ACT_SUB_RES_HUT_FRIGHTEN
+#define SPECENUM_VALUE1NAME "Unit Frighten Hut"
+/* The actor may load into a transport if it can't survive on its own at the
+ * target tile. */
+#define SPECENUM_VALUE2 ACT_SUB_RES_MAY_EMBARK
+#define SPECENUM_VALUE2NAME "Unit May Embark"
+#define SPECENUM_BITVECTOR bv_action_sub_results
+#define SPECENUM_COUNT ACT_SUB_RES_COUNT
+#include "specenum_gen.h"
+
 /* Happens at once, not during turn change. */
 #define ACT_TIME_INSTANTANEOUS (-1)
 
