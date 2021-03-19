@@ -880,7 +880,69 @@ void rscompat_postprocess(struct rscompat_info *info)
     effect_req_append(peffect, req_from_str("Action", "Local", FALSE, TRUE,
                                             FALSE, "Heal Unit"));
 
+    /* Help ruleset authors specify the new arguments to unit_move() and
+     * unit_teleport() by introducing boolean effects */
+    log_normal(_("Preparing user effects to help you port edit.unit_move()"
+                 " and edit.unit_teleport() Lua calls."));
+    log_normal(_("It is safe to delete the effects if you don't use"
+                 " unit_move() or unit_teleport() or if you want to fill"
+                 " in the new parameters with your own values."));
+    log_normal(_("Use effects.unit_bonus() and effects.unit_vs_tile_bonus()"
+                 " to get the value of the user effects"
+                 " if you wish to use them."));
 
+    /* EFT_USER_EFFECT_1 is if a unit may occupy a city */
+    log_normal(_("User_Effect_1 is now if a unit can conquer a city."));
+    peffect = effect_new(EFT_USER_EFFECT_1, 1, NULL);
+    effect_req_append(peffect,
+                      req_from_str("UnitClassFlag", "Local",
+                                   FALSE, TRUE, FALSE, "CanOccupyCity"));
+    effect_req_append(peffect,
+                      req_from_str("UnitFlag", "Local",
+                                   FALSE, FALSE, FALSE, "NonMil"));
+    effect_req_append(peffect,
+                      req_from_str("DiplRel", "Local",
+                                   FALSE, TRUE, FALSE, "War"));
+    nations_iterate(pnation) {
+      if (nation_barbarian_type(pnation) == ANIMAL_BARBARIAN) {
+        effect_req_append(peffect,
+                          req_from_str("Nation", "Local",
+                                       FALSE, FALSE, FALSE,
+                                       nation_rule_name(pnation)));
+      }
+    } nations_iterate_end;
+
+    /* EFT_USER_EFFECT_2 is if a unit may occupy an extra */
+    log_normal(_("User_Effect_2 is now if a unit can conquer an extra."));
+    peffect = effect_new(EFT_USER_EFFECT_2, 1, NULL);
+    effect_req_append(peffect,
+                      req_from_str("DiplRel", "Local",
+                                   FALSE, TRUE, FALSE, "War"));
+
+    peffect = effect_new(EFT_USER_EFFECT_2, 1, NULL);
+    effect_req_append(peffect,
+                      req_from_str("CityTile", "Local",
+                                   FALSE, FALSE, FALSE, "Extras Owned"));
+
+    /* EFT_USER_EFFECT_3 is if a unit may enter a hut */
+    log_normal(_("User_Effect_3 is now if a unit can enter a hut."));
+    peffect = effect_new(EFT_USER_EFFECT_3, 1, NULL);
+    effect_req_append(peffect,
+                      req_from_str("UnitClassFlag", "Local",
+                                   FALSE, FALSE, FALSE, "HutFrighten"));
+    effect_req_append(peffect,
+                      req_from_str("UnitClassFlag", "Local",
+                                   FALSE, FALSE, FALSE, "HutNothing"));
+
+    /* EFT_USER_EFFECT_4 is if a unit may frighten a hut */
+    log_normal(_("User_Effect_4 is now if a unit can frighten a hut."));
+    peffect = effect_new(EFT_USER_EFFECT_4, 1, NULL);
+    effect_req_append(peffect,
+                      req_from_str("UnitClassFlag", "Local",
+                                   FALSE, TRUE, FALSE, "HutFrighten"));
+    effect_req_append(peffect,
+                      req_from_str("UnitClassFlag", "Local",
+                                   FALSE, FALSE, FALSE, "HutNothing"));
   }
 
   if (info->ver_game < 20) {
