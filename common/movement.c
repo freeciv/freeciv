@@ -103,6 +103,7 @@ int utype_unknown_move_cost(const struct unit_type *utype)
 {
   const struct unit_class *uclass = utype_class(utype);
   int move_cost;
+  int worst_effect_mc;
 
   if (!uclass_has_flag(uclass, UCF_TERRAIN_SPEED)) {
     /* Unit is not subject to terrain movement costs. */
@@ -123,6 +124,29 @@ int utype_unknown_move_cost(const struct unit_type *utype)
     } terrain_type_iterate_end;
     move_cost *= SINGLE_MOVE; /* Real value. */
   }
+
+  /* Move cost from effects. */
+  worst_effect_mc = 0;
+  action_by_result_iterate(paction, act_id, ACTRES_UNIT_MOVE) {
+    struct universal req_pattern[] = {
+      { .kind = VUT_ACTION, .value.action = paction },
+      { .kind = VUT_UTYPE,  .value.utype = utype },
+    };
+    int max_effect_mc;
+
+    if (!utype_can_do_action(utype, paction->id)) {
+      /* Not relevant. */
+      continue;
+    }
+
+    max_effect_mc = effect_cumulative_max(EFT_ACTION_SUCCESS_MOVE_COST,
+                                          req_pattern, ARRAY_SIZE(req_pattern));
+
+    if (max_effect_mc > worst_effect_mc) {
+      worst_effect_mc = max_effect_mc;
+    }
+  } action_by_result_iterate_end;
+  move_cost += worst_effect_mc;
 
   /* Let's see if we can cross over all terrain types, else apply a malus.
    * We want units that may encounter unsuitable terrain explore less.
