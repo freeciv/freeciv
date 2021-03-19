@@ -1503,8 +1503,9 @@ enabler_first_self_contradiction(const struct action_enabler *enabler)
            * action requires that the target tile is unclaimed and that the
            * actor has a diplomatic relationship to the target. (DiplRel
            * requirements to an unclaimed tile are never fulfilled.) */
-          N_("No diplomatic relation to Nature."
+          N_("In enabler for \"%s\": No diplomatic relation to Nature."
              " Requirements {%s} and {%s} contradict each other."),
+          action_rule_name(paction),
           req_to_fstring(local_diplrel), req_to_fstring(unclaimed_req));
 
   /* The first suggestion is to remove the diplrel */
@@ -2866,8 +2867,9 @@ action_enabler_suggest_improvement(const struct action_enabler *enabler)
 
     if (!has_user) {
       /* TRANS: ruledit warns a user about an unused action enabler */
-      out = req_vec_problem_new(0, N_("This action enabler is never used"
-                                      " by any unit."));
+      out = req_vec_problem_new(0, N_("Action enabler for \"%s\" is never"
+                                      " used by any unit."),
+                                action_rule_name(paction));
     }
   }
   if (out != NULL) {
