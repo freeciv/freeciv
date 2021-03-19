@@ -250,14 +250,14 @@ void tab_enabler::update_enabler_info(struct action_enabler *enabler)
   }
 
   /* The enabler may have gotten (rid of) a problem. */
-  action_enablers_iterate(enabler) {
+  action_enablers_iterate(other_enabler) {
     QListWidgetItem *item = enabler_list->item(i++);
 
     if (item == nullptr) {
       continue;
     }
 
-    mark_item(item, enabler_problem_level(enabler));
+    mark_item(item, enabler_problem_level(other_enabler));
   } action_enablers_iterate_end;
 }
 
