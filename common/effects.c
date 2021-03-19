@@ -311,17 +311,21 @@ void ruleset_cache_free(void)
   mutually exclusive effects).
   for_uni can be NULL to get max effect value ignoring requirements.
 **************************************************************************/
-int effect_cumulative_max(enum effect_type type, struct universal *for_uni)
+int effect_cumulative_max(enum effect_type type, struct universal *unis,
+                          size_t n_unis)
 {
   struct effect_list *plist = ruleset_cache.tracker;
   int value = 0;
 
+  fc_assert_ret_val(((unis == NULL && n_unis == 0)
+                     || (unis != NULL && n_unis > 0)),
+                    0);
+
   if (plist) {
     effect_list_iterate(plist, peffect) {
       if (peffect->type == type && peffect->value > 0) {
-        if (for_uni == NULL
-            || universal_fulfills_requirements(FALSE, &(peffect->reqs),
-                                               for_uni)) {
+        if (unis == NULL
+            || !universals_mean_unfulfilled(&(peffect->reqs), unis, n_unis)) {
           value += peffect->value;
         }
       }

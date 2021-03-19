@@ -2807,7 +2807,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
               || (effect_cumulative_max(EFT_FORTIFY_DEFENSE_BONUS,
                                         &(struct universal){
                                           .kind = VUT_UTYPE,
-                                          .value = { .utype = utype }})
+                                          .value = { .utype = utype }},
+                                        1)
                   <= 0)) {
             cat_snprintf(buf, bufsz,
                          /* TRANS: indented unit action property, preserve
