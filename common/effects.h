@@ -381,7 +381,8 @@ void ruleset_cache_free(void);
 void recv_ruleset_effect(const struct packet_ruleset_effect *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
-int effect_cumulative_max(enum effect_type type, struct universal *for_uni);
+int effect_cumulative_max(enum effect_type type, struct universal *unis,
+                          size_t n_unis);
 int effect_cumulative_min(enum effect_type type, struct universal *for_uni);
 
 int effect_value_from_universals(enum effect_type type,

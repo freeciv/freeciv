@@ -611,7 +611,7 @@ static bool rs_common_units(void)
   }
 
   if (num_role_units(L_PARTISAN) == 0
-      && effect_cumulative_max(EFT_INSPIRE_PARTISANS, NULL) > 0) {
+      && effect_cumulative_max(EFT_INSPIRE_PARTISANS, NULL, 0) > 0) {
     ruleset_error(LOG_ERROR,
                   "Inspire_Partisans effect present, but no units with partisan role.");
     return FALSE;
@@ -683,7 +683,7 @@ static bool sanity_check_boolean_effects(void)
 
   for (i = 0; boolean_effects[i] != EFT_COUNT; i++) {
     if (effect_cumulative_min(boolean_effects[i], NULL) < 0
-        && effect_cumulative_max(boolean_effects[i], NULL) == 0) {
+        && effect_cumulative_max(boolean_effects[i], NULL, 0) == 0) {
       ruleset_error(LOG_ERROR, "Boolean effect %s can get disabled, but it can't get "
                     "enabled before that.", effect_type_name(boolean_effects[i]));
       ret = FALSE;
