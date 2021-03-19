@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
-"Report-Msgid-Bugs-To: https://www.freelists.org/list/freeciv-dev\n"
-"POT-Creation-Date: 2020-12-18 03:56+0200\n"
+"Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
+"POT-Creation-Date: 2021-03-04 20:22+0200\n"
 "PO-Revision-Date: 2020-12-19 11:10+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -23,6 +23,12 @@ msgstr "Zamknij"
 #: tools/ruledit/conversion_log.cpp:46
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
+
+#: tools/ruledit/edit_utype.cpp:48
+#, fuzzy
+#| msgid "Requirements"
+msgid "Requirement"
+msgstr "Wymagania"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -229,17 +235,22 @@ msgstr "Na pewno chcesz zakończyć?"
 msgid "Quit?"
 msgstr "Zakończyć?"
 
-#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_good.cpp:65
-#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_unit.cpp:65
+#: tools/ruledit/tab_building.cpp:64 tools/ruledit/tab_extras.cpp:64
+#: tools/ruledit/tab_good.cpp:65 tools/ruledit/tab_gov.cpp:64
+#: tools/ruledit/tab_tech.cpp:63 tools/ruledit/tab_terrains.cpp:64
+#: tools/ruledit/tab_unit.cpp:65
 msgid "Rule Name"
 msgstr "Nazwa zasady"
 
-#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_good.cpp:73
-#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_unit.cpp:73
+#: tools/ruledit/tab_building.cpp:72 tools/ruledit/tab_extras.cpp:72
+#: tools/ruledit/tab_good.cpp:73 tools/ruledit/tab_gov.cpp:72
+#: tools/ruledit/tab_tech.cpp:71 tools/ruledit/tab_terrains.cpp:72
+#: tools/ruledit/tab_unit.cpp:73
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_good.cpp:84
+#: tools/ruledit/tab_building.cpp:83 tools/ruledit/tab_extras.cpp:83
+#: tools/ruledit/tab_good.cpp:84 tools/ruledit/tab_gov.cpp:83
 msgid "Requirements"
 msgstr "Wymagania"
 
@@ -302,6 +313,24 @@ msgstr "Aktywator (agent)"
 msgid "action enabler for %s"
 msgstr "aktywator dla %s"
 
+#: tools/ruledit/tab_extras.cpp:87
+#, fuzzy
+#| msgid "Extras"
+msgid "Add Extra"
+msgstr "Usprawnienia"
+
+#: tools/ruledit/tab_extras.cpp:92
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Extra"
+msgstr "Usuń tą technologię"
+
+#: tools/ruledit/tab_extras.cpp:177
+#, fuzzy
+#| msgid "A tech with that rule name already exists!"
+msgid "An extra with that rule name already exists!"
+msgstr "Technologia o tej nazwie reguły istnieje!"
+
 #: tools/ruledit/tab_good.cpp:88
 msgid "Add Good"
 msgstr "Dodaj dobro"
@@ -312,6 +341,24 @@ msgstr "Usuń to dobro"
 
 #: tools/ruledit/tab_good.cpp:178
 msgid "A good with that rule name already exists!"
+msgstr "Gracz o tej nazwie już bierze udział w grze!"
+
+#: tools/ruledit/tab_gov.cpp:87
+#, fuzzy
+#| msgid "Governments"
+msgid "Add Government"
+msgstr "Ustroje"
+
+#: tools/ruledit/tab_gov.cpp:92
+#, fuzzy
+#| msgid "Remove this Good"
+msgid "Remove this Government"
+msgstr "Usuń to dobro"
+
+#: tools/ruledit/tab_gov.cpp:177
+#, fuzzy
+#| msgid "A good with that rule name already exists!"
+msgid "A government with that rule name already exists!"
 msgstr "Gracz o tej nazwie już bierze udział w grze!"
 
 #: tools/ruledit/tab_misc.cpp:67
@@ -450,6 +497,24 @@ msgstr "Nigdy"
 msgid "A tech with that rule name already exists!"
 msgstr "Technologia o tej nazwie reguły istnieje!"
 
+#: tools/ruledit/tab_terrains.cpp:83
+#, fuzzy
+#| msgid "Terrains"
+msgid "Add Terrain"
+msgstr "Tereny"
+
+#: tools/ruledit/tab_terrains.cpp:88
+#, fuzzy
+#| msgid "Remove this tech"
+msgid "Remove this Terrain"
+msgstr "Usuń tą technologię"
+
+#: tools/ruledit/tab_terrains.cpp:173
+#, fuzzy
+#| msgid "A tech with that rule name already exists!"
+msgid "A terrain with that rule name already exists!"
+msgstr "Technologia o tej nazwie reguły istnieje!"
+
 #: tools/ruledit/tab_unit.cpp:84
 msgid "Edit Unit"
 msgstr "Edytuj jednostkę"
@@ -478,6 +543,17 @@ msgstr "Wartość:"
 msgid "Range:"
 msgstr "Zasięg:"
 
+#: tools/ruledit/req_edit.cpp:119 tools/ruledit/req_edit.cpp:281
+msgid "Allows"
+msgstr ""
+
+#: tools/ruledit/req_edit.cpp:120 tools/ruledit/req_edit.cpp:283
+#: tools/ruledit/req_edit.cpp:335
+#, fuzzy
+#| msgid "Requirements"
+msgid "Prevents"
+msgstr "Wymagania"
+
 #: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Dodaj wymaganie"
@@ -485,6 +561,11 @@ msgstr "Dodaj wymaganie"
 #: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Usuń wymaganie"
+
+#: tools/ruledit/req_edit.cpp:166
+#, c-format
+msgid "%s prevents"
+msgstr ""
 
 #: tools/ruledit/validity.c:50
 msgid "Effect"
