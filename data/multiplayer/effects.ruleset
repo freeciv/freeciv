@@ -2623,18 +2623,10 @@ reqs    =
 
 [effect_action_establish_embassy_success_move_cost]
 type    = "Action_Success_Actor_Move_Cost"
-value   = 65535
+value   = 1
 reqs    =
     { "type",   "name",              "range", "quiet"
       "Action", "Establish Embassy", "Local", TRUE
-    }
-
-[effect_action_success_investigate_city]
-type    = "Action_Success_Actor_Move_Cost"
-value   = 65535
-reqs    =
-    { "type",   "name",             "range", "quiet"
-      "Action", "Investigate City", "Local", TRUE
     }
 
 [effect_action_success_poison_city_escape]

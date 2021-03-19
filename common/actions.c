@@ -942,12 +942,12 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_ESTABLISH_EMBASSY,
                       ACTRES_ESTABLISH_EMBASSY,
                       FALSE, TRUE,
-                      MAK_ESCAPE, 0, 1, FALSE);
+                      MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_ESTABLISH_EMBASSY_STAY] =
       unit_action_new(ACTION_ESTABLISH_EMBASSY_STAY,
                       ACTRES_ESTABLISH_EMBASSY,
                       FALSE, TRUE,
-                      MAK_ESCAPE, 0, 1, TRUE);
+                      MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_TECH] =
       unit_action_new(ACTION_SPY_STEAL_TECH,
                       ACTRES_SPY_STEAL_TECH,
@@ -972,12 +972,12 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_SPY_INVESTIGATE_CITY,
                       ACTRES_SPY_INVESTIGATE_CITY,
                       FALSE, TRUE,
-                      MAK_ESCAPE, 0, 1, FALSE);
+                      MAK_STAYS, 0, 1, FALSE);
   actions[ACTION_INV_CITY_SPEND] =
       unit_action_new(ACTION_INV_CITY_SPEND,
                       ACTRES_SPY_INVESTIGATE_CITY,
                       FALSE, TRUE,
-                      MAK_ESCAPE, 0, 1, TRUE);
+                      MAK_STAYS, 0, 1, TRUE);
   actions[ACTION_SPY_STEAL_GOLD] =
       unit_action_new(ACTION_SPY_STEAL_GOLD,
                       ACTRES_SPY_STEAL_GOLD,
