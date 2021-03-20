@@ -141,7 +141,7 @@ void req_vec_fix_problem::accept_solution()
                    destructor calls close() on it.
 **************************************************************************/
 req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
-                         req_vec_fix_item *item_info) : QWidget()
+                         req_vec_fix_item *item) : QWidget()
 {
   QVBoxLayout *layout_main = new QVBoxLayout();
   QHBoxLayout *layout_buttons = new QHBoxLayout();
@@ -150,7 +150,7 @@ req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
   connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
           this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
 
-  this->item_info = item_info;
+  this->item_info = item;
 
   this->current_problem = nullptr;
   this->did_apply_a_solution = false;
@@ -214,7 +214,8 @@ req_vec_fix::~req_vec_fix()
   Returns the item this dialog is trying to fix.
   @return the item this dialog is trying to fix.
 **************************************************************************/
-const void *req_vec_fix::item() {
+const void *req_vec_fix::item()
+{
   return this->item_info->item();
 }
 
@@ -222,7 +223,8 @@ const void *req_vec_fix::item() {
   Find the next requirement vector problem and its suggested solutions.
   @return true iff a new problem was found.
 **************************************************************************/
-bool req_vec_fix::refresh() {
+bool req_vec_fix::refresh()
+{
   if (current_problem != nullptr) {
     /* The old problem is hopefully solved. If it isn't it will probably be
      * returned again. */
