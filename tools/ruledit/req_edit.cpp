@@ -265,17 +265,17 @@ static void universal_value_cb(const char *value, bool current, void *cbdata)
 void req_edit::fill_active()
 {
   if (selected != nullptr) {
-    struct uvb_data data;
+    struct uvb_data udata;
 
     edit_type_button->setText(universals_n_name(selected->source.kind));
-    data.number = edit_value_nbr_field;
-    data.enum_button = edit_value_enum_button;
-    data.menu = edit_value_enum_menu;
-    data.univ = &selected->source;
+    udata.number = edit_value_nbr_field;
+    udata.enum_button = edit_value_enum_button;
+    udata.menu = edit_value_enum_menu;
+    udata.univ = &selected->source;
     edit_value_enum_menu->clear();
     edit_value_enum_button->setVisible(false);
     edit_value_nbr_field->setVisible(false);
-    universal_kind_values(&selected->source, universal_value_cb, &data);
+    universal_kind_values(&selected->source, universal_value_cb, &udata);
     edit_range_button->setText(req_range_name(selected->range));
     if (selected->present) {
       edit_present_button->setText(R__("Allows"));
