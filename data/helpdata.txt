@@ -2334,9 +2334,10 @@ project's mailing lists:\
 ", _("\
   Present administrators: \
 "), "\
-    Marko Lindqvist      - cazfi74@gmail.com\n\
-    Christian Prochaska  - cp.ml.freeciv.dev@googlemail.com\n\
-    Jacob Nevins         - 0jacobnk.fca@chiark.greenend.org.uk\
+    Marko Lindqvist       - cazfi74@gmail.com\n\
+    Christian Prochaska   - cp.ml.freeciv.dev@googlemail.com\n\
+    Jacob Nevins          - 0jacobnk.fca@chiark.greenend.org.uk\n\
+    Sveinung Kvilhaugsvik - sveinung84@users.sourceforge.net\
 ", _("\
 For more information in general, visit the Freeciv website, at:\
 "), "\
