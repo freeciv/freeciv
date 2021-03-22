@@ -62,7 +62,7 @@ AC_DEFUN([FC_QT6_GENERIC],
 
   if test "x$qt6_libs" = "xyes" ; then
     AC_MSG_RESULT([found])
-    AC_MSG_CHECKING([for Qt >= 6.0])
+    AC_MSG_CHECKING([for Qt6 >= 6.0])
     FC_QT6_VERSION_CHECK
   fi
 
