@@ -51,6 +51,8 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   req = new QMenu();
   req_button = new QToolButton();
   req_button->setParent(this);
+  req_button->setToolButtonStyle(Qt::ToolButtonTextOnly);
+  req_button->setPopupMode(QToolButton::MenuButtonPopup);
   req_button->setMenu(req);
   tab_tech::techs_to_menu(req);
   connect(req_button, SIGNAL(triggered(QAction *)), this, SLOT(req_menu(QAction *)));
