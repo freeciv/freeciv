@@ -637,7 +637,7 @@ static void hard_code_oblig_hard_reqs(void)
 
   /* Why this is a hard requirement: Consistency with ACTRES_ATTACK.
    * Assumed by other locations in the Freeciv code. Examples:
-   * unit_move_to_tile_test() and unit_conquer_city(). */
+   * unit_move_to_tile_test(), unit_conquer_city() and do_paradrop(). */
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
