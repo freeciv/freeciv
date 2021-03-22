@@ -1720,11 +1720,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   } else {
     CATLSTR(buf, bufsz, "\n");
   }
-  if (uclass_has_flag(pclass, UCF_CAN_OCCUPY_CITY)
-      && !utype_has_flag(utype, UTYF_CIVILIAN)) {
-    /* TRANS: indented unit class property, preserve leading spaces */
-    CATLSTR(buf, bufsz, _("  * Can occupy empty enemy cities.\n"));
-  }
   if (!uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     /* TRANS: indented unit class property, preserve leading spaces */
     CATLSTR(buf, bufsz, _("  * Speed is not affected by terrain.\n"));
