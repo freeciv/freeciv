@@ -518,6 +518,12 @@ Actions done by a unit against a tile
 
 "Paradrop Unit" - move the actor unit to the target tile.
  * UI name can be set using ui_name_paradrop_unit
+ * kills the actor unit if the target tile has a terrain type the actor unit
+   can't exist on and - if paradrop_to_transport is set - it couldn't load
+   into a transport at the target tile.
+ * kills the actor unit if the target tile has a non allied unit
+ * kills the actor unit if the target tile has a non allied city that can't
+   be occupied by the actor unit.
  * can result in the conquest of the city at the target tile if
    - the actor player isn't an animal barbarian.
    - the actor unit has the "CanOccupyCity" unit class flag
