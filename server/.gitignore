@@ -2,6 +2,7 @@
 /Makefile.in
 /civserver
 /freeciv-server
+/freeciv-web
 /.deps
 /libcivserver.a
 /hand_gen.c
