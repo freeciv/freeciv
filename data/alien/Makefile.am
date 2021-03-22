@@ -3,6 +3,8 @@
 ## Override automake so that "make install" puts these in proper place:
 pkgdatadir = $(datadir)/$(PACKAGE)/alien
 
+SUBDIRS = nation
+
 pkgdata_DATA =          	\
 	buildings.ruleset 	\
 	cities.ruleset		\
@@ -16,15 +18,6 @@ pkgdata_DATA =          	\
 	techs.ruleset		\
 	terrain.ruleset		\
 	units.ruleset		\
-	README.alien		\
-	nation/adventurers.ruleset	\
-	nation/galacticsound.ruleset	\
-	nation/jw.ruleset		\
-	nation/kindergarden.ruleset	\
-	nation/lunatics.ruleset		\
-	nation/madmen.ruleset		\
-	nation/mathclub.ruleset		\
-	nation/secretsociety.ruleset	\
-	nation/teamgladiators.ruleset
+	README.alien
 
 EXTRA_DIST = $(pkgdata_DATA)
