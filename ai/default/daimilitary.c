@@ -494,6 +494,9 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   int total_danger = 0;
   int defense_bonuses_pct[U_LAST];
   bool defender_type_handled[U_LAST];
+  int best_non_scramble[U_LAST];
+  bool sth_does_not_scramble = FALSE;
+  int city_def_against[U_LAST];
   int assess_turns;
   bool omnimap;
 
@@ -511,10 +514,18 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   city_data->has_diplomat = FALSE;
 
   unit_type_iterate(utype) {
-    defense_bonuses_pct[utype_index(utype)] = 0;
-    defender_type_handled[utype_index(utype)] = FALSE;
+    int idx = utype_index(utype);
+    defense_bonuses_pct[idx] = 0;
+    defender_type_handled[idx] = FALSE;
+    best_non_scramble[idx] = -1;
+    /* FIXME: cache it somewhere? */
+    city_def_against[idx]
+      = 100 + get_unittype_bonus(pplayer, ptile, utype, EFT_DEFEND_BONUS);
+    city_def_against[idx] = MAX(city_def_against[idx], 1);
   } unit_type_iterate_end;
 
+  /* What flag-specific bonuses do our units have. */
+  /* We value them less than general defense increment */
   unit_list_iterate(ptile->units, punit) {
     const struct unit_type *def = unit_type_get(punit);
 
@@ -531,18 +542,41 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       if (def->cache.max_defense_mp_pct > 0) {
         unit_type_iterate(utype) {
           int idx = utype_index(utype);
+          int coeff = def->cache.scramble_coeff[idx];
+          int bonus;
 
-          if (def->cache.defense_mp_bonuses_pct[idx]
-              > defense_bonuses_pct[idx]) {
-            defense_bonuses_pct[idx] =
-                def->cache.defense_mp_bonuses_pct[idx];
+          /* FIXME: consider EFT_FORTIFY_DEFENSE_BONUS */
+          if (coeff) {
+            bonus = coeff / city_def_against[idx] - 100;
+          } else {
+            bonus = def->cache.defense_mp_bonuses_pct[idx];
+          }
+
+          if (bonus > defense_bonuses_pct[idx]) {
+            if (!coeff) {
+              best_non_scramble[idx] = bonus;
+            }
+            defense_bonuses_pct[idx] = bonus;
+          } else if (!coeff) {
+            best_non_scramble[idx] = MAX(best_non_scramble[idx], bonus);
           }
         } unit_type_iterate_end;
+      } else {
+        /* Just remember that such a unit exists and hope its bonuses are just 0 */
+        sth_does_not_scramble = TRUE;
       }
 
       defender_type_handled[utype_index(def)] = TRUE;
     }
   } unit_list_iterate_end;
+  if (sth_does_not_scramble || unit_list_size(ptile->units) <= 0) {
+    /* Scrambling units tend to be expensive. If we have a barenaked city, we'll
+     * need at least a cheap unit. If we have only scramblers,
+     * maybe it's OK. */
+    for (i = 0; i < U_LAST; i++) {
+      best_non_scramble[i] = MAX(best_non_scramble[i], 0);
+    }
+  }
 
   if (player_is_cpuhog(pplayer)) {
     assess_turns = 6;
@@ -597,6 +631,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
         continue;
       }
 
+      /* Defender unspecific vulnerability and potential move time */
       vulnerability = assess_danger_unit(pcity, pcity_map,
                                          punit, &move_time);
 
@@ -618,7 +653,10 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       if (defbonus_pct > 100) {
         defbonus_pct = (defbonus_pct + 100) / 2;
       }
+      /* Reduce vulnerability for specific bonuses we do have */
       vulnerability = vulnerability * 100 / (defbonus_pct + 100);
+      /* Pass the order for a new defender type against it
+       * to the scientific advisor, urgency considered */
       (void) dai_wants_defender_against(ait, pplayer, pcity, utype,
                                         vulnerability / MAX(move_time, 1));
 
@@ -634,16 +672,26 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       if (unit_can_do_action(punit, ACTION_NUKE)
           || unit_can_do_action(punit, ACTION_NUKE_CITY)
           || unit_can_do_action(punit, ACTION_NUKE_UNITS)) {
-        defender = dai_find_source_building(pcity, EFT_NUKE_PROOF,
-                                            unit_type_get(punit));
+        defender = dai_find_source_building(pcity, EFT_NUKE_PROOF, utype);
         if (defender != B_LAST) {
           danger_reduced[defender] += vulnerability / MAX(move_time, 1);
         }
-      } else {
-        defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS,
-                                            unit_type_get(punit));
+      } else if (best_non_scramble[utype_index(utype)] >= 0) {
+        /* To consider building a defensive building,
+         * build first a defender that gets any profit of it */
+        defender = dai_find_source_building(pcity, EFT_DEFEND_BONUS, utype);
         if (defender != B_LAST) {
-          danger_reduced[defender] += vulnerability / MAX(move_time, 1);
+          int danred = vulnerability / MAX(move_time, 1);
+          /* Maybe we can build an improvement
+           * that gets normal defender over scrambling one?
+           * Effectively a sqrt-scale because we don't test how high
+           * the effect is. */
+          if (best_non_scramble[utype_index(utype)]
+              < defense_bonuses_pct[utype_index(utype)]) {
+            danred = danred * (100 + best_non_scramble[utype_index(utype)])
+                     / (100 + defense_bonuses_pct[utype_index(utype)]);
+          }
+          danger_reduced[defender] += danred;
         }
       }
 
@@ -655,6 +703,9 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   } players_iterate_end;
 
   if (total_danger) {
+    /* If any hostile player has any dangerous unit that can in any time
+     * reach the city, we consider building walls here, if none yet.
+     * FIXME: this value assumes that walls give x3 defense. */
     city_data->wallvalue = 90;
   } else {
     /* No danger.
@@ -671,6 +722,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
    * this effect. */
   /* FIXME: Accept only buildings helping unit classes we actually use.
    *        Now we consider any land mover helper suitable. */
+  /* Sum of squared defense ratings */
   defense = assess_defense_igwall(ait, pcity);
 
   for (i = 0; i < B_LAST; i++) {

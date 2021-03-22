@@ -378,16 +378,22 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
   int best_cost = FC_INFINITY;
   struct advance *best_tech = A_NEVER;
   struct unit_type *best_unit = NULL;
+  struct tile *ptile = city_tile(pcity);
   int def_values[U_LAST];
   int att_idx = utype_index(att);
+  int defbonus = 100
+    + get_unittype_bonus(pplayer, ptile, att, EFT_DEFEND_BONUS);
 
   unit_type_iterate(deftype) {
     int mp_pct = deftype->cache.defense_mp_bonuses_pct[att_idx] + 100;
+    int scramble = deftype->cache.scramble_coeff[att_idx];
     int div_bonus_pct = 100 + combat_bonus_against(att->bonuses, deftype,
                                                CBONUS_DEFENSE_DIVIDER_PCT)
         + 100 * combat_bonus_against(att->bonuses, deftype,
                                      CBONUS_DEFENSE_DIVIDER);
-    int def = deftype->defense_strength * mp_pct / div_bonus_pct;
+    /* Either the unit uses city defense bonus, or scrambles with its own one */
+    int def = deftype->defense_strength
+        * (scramble ? scramble : defbonus * mp_pct) / div_bonus_pct;
 
     def_values[utype_index(deftype)] = def;
 

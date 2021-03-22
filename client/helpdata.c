@@ -1867,6 +1867,15 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      ((float) cbonus->value + 100.0f) / 100.0f,
                      astr_build_or_list(&list, against, targets));
         break;
+      case CBONUS_SCRAMBLES_PCT:
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: percentage ... or-list of unit types */
+                     _("* %d%% defense bonus "
+                       "instead of any bonuses from city improvements "
+                       "if attacked by %s in a city.\n"),
+                     cbonus->value,
+                     astr_build_or_list(&list, against, targets));
+        break;
       }
 
       astr_free(&list);

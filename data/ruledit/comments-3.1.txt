@@ -419,6 +419,9 @@ utypes = "\
 ; \"FirePower1\"           = Defender firepower is reduced to value 1 when\n\
 ;                          ever this has non-zero value.\n\
 ;                          Bonus is defined in attackers entry.\n\
+; \"CityDefensePct\"       = In a city, instead of \"Defend_Bonus\" effect\n\
+;                          uses this bonus.\n\
+;                          Bonus is defined in defenders entry.\n\
 ;\n\
 ;\n\
 ; ** Flags **\n\
