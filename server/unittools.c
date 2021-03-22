@@ -2883,7 +2883,24 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
 
     if (NULL != plrtile->site
         && plrtile->owner != NULL
-        && pplayers_non_attack(pplayer, plrtile->owner)) {
+        && !pplayers_allied(pplayer, plrtile->owner)
+        && !action_has_result(paction, ACTRES_PARADROP_CONQUER)) {
+      notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                    /* Trans: Paratroopers ... Paradrop Unit */
+                    _("%s cannot conquer a city with \"%s\"."),
+                    unit_name_translation(punit),
+                    action_name_translation(paction));
+      return FALSE;
+    }
+
+    if (NULL != plrtile->site
+        && plrtile->owner != NULL
+        && (pplayers_non_attack(pplayer, plrtile->owner)
+            || (player_diplstate_get(pplayer, plrtile->owner)->type
+                == DS_ALLIANCE)
+            || (player_diplstate_get(pplayer, plrtile->owner)->type
+                == DS_TEAM))
+        && action_has_result(paction, ACTRES_PARADROP_CONQUER)) {
       notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                     _("Cannot attack unless you declare war first."));
       return FALSE;
@@ -2907,12 +2924,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile,
     return TRUE;
   }
 
-  if (is_non_attack_city_tile(ptile, pplayer)
-      || (is_non_allied_city_tile(ptile, pplayer)
-          && (pplayer->ai_common.barbarian_type == ANIMAL_BARBARIAN
-              || !uclass_has_flag(unit_class_get(punit),
-                               UCF_CAN_OCCUPY_CITY)
-              || unit_has_type_flag(punit, UTYF_CIVILIAN)))
+  if ((is_non_allied_city_tile(ptile, pplayer)
+       && !action_has_result(paction, ACTRES_PARADROP_CONQUER))
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type_get(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
