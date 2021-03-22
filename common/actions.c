@@ -728,7 +728,8 @@ static void hard_code_oblig_hard_reqs(void)
                              " that the actor has a home city."),
                           ACTRES_HOMELESS, ACTRES_NONE);
 
-  /* Why this is a hard requirement: Assumed in the code. */
+  /* Why this is a hard requirement: Assumed in the code.
+   * See hrm Bug #772516 - https://www.hostedredmine.com/issues/772516 */
   oblig_hard_req_register(req_from_values(VUT_UNITSTATE, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE,
                                           USP_TRANSPORTING),
