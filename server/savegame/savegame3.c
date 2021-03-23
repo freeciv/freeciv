@@ -7446,20 +7446,11 @@ static void sg_load_sanitycheck(struct loaddata *loading)
    * This also changes the game state if you save the game directly after
    * loading it and compare the results. */
   players_iterate(pplayer) {
-    bool saved_ai_control = is_ai(pplayer);
-
-    /* Recalculate for all players. */
-    set_as_human(pplayer);
-
     /* Building advisor needs data phase open in order to work */
     adv_data_phase_init(pplayer, FALSE);
     building_advisor(pplayer);
     /* Close data phase again so it can be opened again when game starts. */
     adv_data_phase_done(pplayer);
-
-    if (saved_ai_control) {
-      set_as_ai(pplayer);
-    }
   } players_iterate_end;
 
   /* Prevent a buggy or intentionally crafted save game from crashing
