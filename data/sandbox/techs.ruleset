@@ -728,6 +728,16 @@ graphic     = "a.rocketry"
 graphic_alt = "-"
 helptext = _("Doubles movement of nuclear units.")
 
+; We now know that there may be other gods, my lord. I suggest that we now
+; seek to find out if you are a god yourself. You are after all extremely
+; powerful.
+[advance_ruler_apotheosis]
+name        = _("Ruler Apotheosis")
+req1        = "Polytheism"
+req2        = "Mysticism"
+graphic     = "a.apotheosis"
+graphic_alt = "a.polytheism"
+
 [advance_sanitation]
 name     = _("Sanitation")
 req1     = "Bridge Building"

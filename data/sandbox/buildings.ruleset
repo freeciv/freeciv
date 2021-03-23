@@ -1337,6 +1337,34 @@ together in the same city, increasing to 200% once the Great Library and \
 Isaac Newton's College have both been built.\
 ")
 
+; The consensus among the wise men you have licensed and granted a generous
+; regular allowance is that you are divine or that the commoners should
+; believe that you are divine. What better way to honor this consensus than
+; to build an altar to yourself?
+[building_altar_to_the_divine_ruler]
+name            = _("Altar to The Divine Ruler")
+genus           = "GreatWonder"
+reqs            =
+    { "type", "name",             "range"
+      "Tech", "Ruler Apotheosis", "Player"
+    }
+graphic     = "b.altar"
+graphic_alt = "b.oracle"
+obsolete_by =
+    { "type", "name",     "range"
+      "Tech", "Theology", "Player"
+    }
+build_cost  = 300
+upkeep      = 0
+sabotage    = 0
+sound       = "w_altar"
+sound_alt   = "w_generic"
+helptext    = _("\
+Makes it possible to receive sacrifices from your subjects.\
+ A Sacrifice of Work makes the unit unhomed and therefore without material\
+ or happyness upkeep.\
+")
+
 [building_apollo_program]
 name		= _("Apollo Program")
 genus		= "GreatWonder"
