@@ -2054,29 +2054,6 @@ static bool load_ruleset_units(struct section_file *file,
                                                           "%s.non_native_def_pct",
                                                           sec_name);
 
-      if (compat->compat_mode && compat->ver_units < 20) {
-        const char *hut_str;
-
-        hut_str = secfile_lookup_str_default(file, "Normal",
-                                             "%s.hut_behavior", sec_name);
-        if (fc_strcasecmp(hut_str, "Normal") == 0) {
-          uc->rscompat_cache_from_3_0.hut_behavior = HUT_NORMAL;
-        } else if (fc_strcasecmp(hut_str, "Nothing") == 0) {
-          uc->rscompat_cache_from_3_0.hut_behavior = HUT_NOTHING;
-        } else if (fc_strcasecmp(hut_str, "Frighten") == 0) {
-          uc->rscompat_cache_from_3_0.hut_behavior = HUT_FRIGHTEN;
-        } else {
-          ruleset_error(LOG_ERROR,
-                        "\"%s\" unit_class \"%s\":"
-                        " Illegal hut behavior \"%s\".",
-                        filename,
-                        uclass_rule_name(uc),
-                        hut_str);
-          ok = FALSE;
-          break;
-        }
-      }
-
       BV_CLR_ALL(uc->flags);
       slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
       for (j = 0; j < nval; j++) {
@@ -2445,17 +2422,7 @@ static bool load_ruleset_units(struct section_file *file,
 
       u->paratroopers_range = secfile_lookup_int_default(file,
           0, "%s.paratroopers_range", sec_name);
-      if (compat->compat_mode && compat->ver_units  < 20) {
-        u->rscompat_cache.paratroopers_mr_req
-            = SINGLE_MOVE * secfile_lookup_int_default(
-                  file, 0, "%s.paratroopers_mr_req", sec_name);
-        u->rscompat_cache.paratroopers_mr_sub
-            = SINGLE_MOVE * secfile_lookup_int_default(
-                file, 0, "%s.paratroopers_mr_sub", sec_name);
-      } else {
-        u->rscompat_cache.paratroopers_mr_req = 0;
-        u->rscompat_cache.paratroopers_mr_sub = 0;
-      }
+
       u->bombard_rate = secfile_lookup_int_default(file, 0,
                                                    "%s.bombard_rate", sec_name);
       u->city_slots = secfile_lookup_int_default(file, 0,

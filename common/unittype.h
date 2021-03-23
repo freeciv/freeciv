@@ -155,11 +155,6 @@ struct unit_class {
     struct extra_type_list *bonus_roads;
     struct unit_class_list *subset_movers;
   } cache;
-
-  /* Used to upgrade the ruleset format version. */
-  struct {
-    enum hut_behavior hut_behavior;
-  } rscompat_cache_from_3_0;
 };
 
 /* Unit "special effects" flags:
@@ -560,12 +555,6 @@ struct unit_type {
                              * merely means that there's no POSITIVE one */
     int defense_mp_bonuses_pct[U_LAST];
   } cache;
-
-  /* Used to upgrade the ruleset format version. */
-  struct {
-    int paratroopers_mr_req;
-    int paratroopers_mr_sub;
-  } rscompat_cache;
 
   void *ais[FREECIV_AI_MOD_LAST];
 };
