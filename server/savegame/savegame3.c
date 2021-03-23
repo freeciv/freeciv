@@ -3966,6 +3966,10 @@ static void sg_load_player_main(struct loaddata *loading,
     CALL_FUNC_EACH_AI(player_load_relations, plr, aplayer, loading->file, plrno);
   } players_iterate_end;
 
+  plr->server.adv->wonder_city = secfile_lookup_int_default(loading->file, 0,
+                                                            "player%d.wonder_city",
+                                                            plrno);
+
   CALL_FUNC_EACH_AI(player_load, plr, loading->file, plrno);
 
   /* Some sane defaults */
@@ -4427,6 +4431,9 @@ static void sg_save_player_main(struct savedata *saving,
     CALL_FUNC_EACH_AI(player_save_relations, plr, aplayer, saving->file, plrno);
   } players_iterate_end;
 
+  secfile_insert_int(saving->file, plr->server.adv->wonder_city,
+                     "player%d.wonder_city", plrno);
+
   CALL_FUNC_EACH_AI(player_save, plr, saving->file, plrno);
 
   /* Multipliers (policies) */
@@ -4739,6 +4746,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   citizens size;
   const char *stylename;
   int partner = 1;
+  int want;
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -4859,6 +4867,14 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(pcity->production.kind != universals_n_invalid(), FALSE,
                   "%s.currently_building: unknown \"%s\" \"%s\".",
                   citystr, kind, name);
+
+  want = secfile_lookup_int_default(loading->file, 0,
+                                    "%s.current_want", citystr);
+  if (pcity->production.kind == VUT_IMPROVEMENT) {
+    pcity->server.adv->
+      building_want[improvement_index(pcity->production.value.building)]
+      = want;
+  }
 
   kind = secfile_lookup_str(loading->file, "%s.changed_from_kind",
                             citystr);
@@ -5312,6 +5328,16 @@ static void sg_save_player_cities(struct savedata *saving,
                        "%s.currently_building_kind", buf);
     secfile_insert_str(saving->file, universal_rule_name(&pcity->production),
                        "%s.currently_building_name", buf);
+
+    if (pcity->production.kind == VUT_IMPROVEMENT) {
+      secfile_insert_int(saving->file,
+                         pcity->server.adv->
+                               building_want[improvement_index(pcity->production.value.building)],
+                         "%s.current_want", buf);
+    } else {
+      secfile_insert_int(saving->file, 0,
+                         "%s.current_want", buf);
+    }
 
     secfile_insert_str(saving->file, universal_type_rule_name(&pcity->changed_from),
                        "%s.changed_from_kind", buf);
