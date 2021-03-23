@@ -243,6 +243,26 @@ static int random_unchecked_direction(int possibilities, const bool *checked)
 }
 
 /**********************************************************************//**
+  Move to the tile pdesttile.
+**************************************************************************/
+static void unit_move_pay(struct unit *punit, struct tile *pdesttile)
+{
+  int move_cost = map_move_cost_unit(&(wld.map), punit, pdesttile);
+
+  unit_move(punit, pdesttile, move_cost,
+            /* Don't override "Transport Embark" */
+            NULL, FALSE,
+            /* Don't override "Conquer City" */
+            FALSE,
+            /* Don't override "Conquer Extras" */
+            FALSE,
+            /* Don't override "Enter Hut" */
+            FALSE,
+            /* Don't override "Frighten Hut" */
+            FALSE);
+}
+
+/**********************************************************************//**
   Unleash barbarians means give barbarian player some units and move them 
   out of the hut, unless there's no place to go.
 
@@ -341,7 +361,7 @@ bool unleash_barbarians(struct tile *ptile)
           if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
                                     TRUE, FALSE)) {
             /* Move */
-            (void) unit_move_igzoc(punit2, dir_tiles[rdir]);
+            (void) unit_move_pay(punit2, dir_tiles[rdir]);
             log_debug("Moved barbarian unit from (%d, %d) to (%d, %d)", 
                       TILE_XY(ptile), TILE_XY(dir_tiles[rdir]));
             dest_found = TRUE;
@@ -421,7 +441,7 @@ bool unleash_barbarians(struct tile *ptile)
             if (unit_can_move_to_tile(&(wld.map), punit2, dir_tiles[rdir],
                                       TRUE, FALSE)) {
               /* Move */
-              (void) unit_move_igzoc(punit2, dir_tiles[rdir]);
+              (void) unit_move_pay(punit2, dir_tiles[rdir]);
               dest_found = TRUE;
             }
 

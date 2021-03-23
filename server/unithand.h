@@ -29,7 +29,6 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity,
 
 bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool move_diplomat_city);
-bool unit_move_igzoc(struct unit *punit, struct tile *pdesttile);
 
 void unit_do_action(struct player *pplayer,
                     const int actor_id,
