@@ -112,6 +112,9 @@
 /* sys/ioctl.h available */
 #mesondefine HAVE_SYS_IOCTL_H
 
+/* sys/random.h available */
+#mesondefine HAVE_SYS_RANDOM_H
+
 /* sys/signal.h available */
 #mesondefine HAVE_SYS_SIGNAL_H
 

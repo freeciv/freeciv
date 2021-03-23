@@ -76,6 +76,7 @@ priv_headers = [
   'string.h',
   'sys/file.h',
   'sys/ioctl.h',
+  'sys/random.h',
   'sys/signal.h',
   'sys/stat.h',
   'sys/termio.h',
