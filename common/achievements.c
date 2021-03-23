@@ -325,6 +325,8 @@ bool achievement_check(struct achievement *ach, struct player *pplayer)
       free(seen);
       return FALSE;
     }
+  case ACHIEVEMENT_KILLER:
+    return pplayer->score.units_killed >= ach->value;
   case ACHIEVEMENT_COUNT:
     break;
   }

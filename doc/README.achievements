@@ -50,3 +50,7 @@ Land_Ahoy
     Achievement is granted when player has seen <value> different
     islands/continents. Home continent counts, so to give achievements
     for finding first other continent, use value 2.
+
+Killer
+    Achievement is granted when player has caused death of
+    <value> enemy units.
