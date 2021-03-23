@@ -480,7 +480,7 @@ struct veteran_system {
 struct unit_type {
   Unit_type_id item_number;
   struct name_translation name;
-  bool ruledit_disabled;              /* Does not really exist - hole in improvments array */
+  bool ruledit_disabled;              /* Does not really exist - hole in units array */
   char graphic_str[MAX_LEN_NAME];
   char graphic_alt[MAX_LEN_NAME];
   char sound_move[MAX_LEN_NAME];
