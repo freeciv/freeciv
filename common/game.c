@@ -317,8 +317,8 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.turn             = 0;
   game.info.warminglevel     = 0; /* set later */
   game.info.year_0_hack      = FALSE;
-  game.info.year32           = GAME_START_YEAR;
-  game.info.year16           = GAME_START_YEAR;
+  game.info.year32           = GAME_DEFAULT_START_YEAR;
+  game.info.year16           = GAME_DEFAULT_START_YEAR;
 
   /* The scenario packets. */
   game.scenario.is_scenario = FALSE;
@@ -420,7 +420,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.seed              = GAME_DEFAULT_SEED;
     sz_strlcpy(game.server.start_units, GAME_DEFAULT_START_UNITS);
     game.server.spaceship_travel_time = GAME_DEFAULT_SPACESHIP_TRAVEL_TIME;
-    game.server.start_year        = GAME_START_YEAR;
+    game.server.start_year        = GAME_DEFAULT_START_YEAR;
     game.server.tcptimeout        = GAME_DEFAULT_TCPTIMEOUT;
     game.server.techlost_donor    = GAME_DEFAULT_TECHLOST_DONOR;
     game.server.techlost_recv     = GAME_DEFAULT_TECHLOST_RECV;
