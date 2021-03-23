@@ -201,6 +201,11 @@ Unit healing
 All flesh based units can heal all other flesh based units if you build the
 small wonder "Amêzârâkian Mysteries".
 
+Units can be made homeless
+The new wonder "Altar to The Divine Ruler" makes it possible to make a unit
+that has a home city become unhomed by performing the action "Make Sacrifice
+of Work".
+
 Casus belli
 Starting to do Pillage to a tile gives the tile owner (not the extra owner) a
 casus belli against you.

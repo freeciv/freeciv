@@ -538,6 +538,9 @@ ui_name_nuke_units = _("Tactical %sNuke%s")
 ; /* TRANS: Set _Home City (100% chance of success). */
 ui_name_home_city = _("Set %sHome City%s")
 
+; /* TRANS: Make _Sacrifice of Work (100% chance of success). */
+ui_name_homeless = _("Make %sSacrifice of Work%s")
+
 ; /* TRANS: _Upgrade Unit (100% chance of success). */
 ui_name_upgrade_unit = _("%sUpgrade Unit%s")
 
@@ -1659,6 +1662,14 @@ actor_reqs    =
       "UnitFlag",  "NoHome",      "Local", FALSE
       "UnitState", "HasHomeCity", "Local", TRUE
       "DiplRel",   "Foreign",  "Local", FALSE
+    }
+
+[actionenabler_no_home_city]
+action = "Unit Make Homeless"
+actor_reqs    =
+    { "type",      "name",                      "range", "present"
+      "UnitState", "HasHomeCity",               "Local", TRUE
+      "Building",  "Altar to The Divine Ruler", "City",  TRUE
     }
 
 [actionenabler_paradrop_base_to_claimed_not_forest]
