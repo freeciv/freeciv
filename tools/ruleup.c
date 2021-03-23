@@ -67,7 +67,7 @@ static void rup_parse_cmdline(int argc, char *argv[])
       cmdhelp_add(help, "F",
                   /* TRANS: "Fatal" is exactly what user must type, do not translate. */
                   _("Fatal [SIGNAL]"),
-                  _("Raise a signal on failed assertion"));
+                  _("Raise a signal on failed assertion or broken data"));
 #endif /* FREECIV_NDEBUG */
       cmdhelp_add(help, "r",
                   /* TRANS: "ruleset" is exactly what user must type, do not translate. */
@@ -141,6 +141,7 @@ static void conv_log(const char *msg)
 int main(int argc, char **argv)
 {
   enum log_level loglevel = LOG_NORMAL;
+  int exit_status = EXIT_SUCCESS;
 
   /* Load win32 post-crash debugger */
 #ifdef FREECIV_MSWINDOWS
@@ -197,6 +198,12 @@ int main(int argc, char **argv)
       /* TRANS: 'Failed to load comments-x.y.txt' where x.y is
        * freeciv version */
       log_error(R__("Failed to load %s."), COMMENTS_FILE_NAME);
+
+      /* Reuse fatal_assertions for failed comment loading. */
+      if (0 <= fatal_assertions) {
+        /* Emit a signal. */
+        raise(fatal_assertions);
+      }
     }
 
     /* Clean up unused entities added during the ruleset upgrade. */
@@ -220,6 +227,9 @@ int main(int argc, char **argv)
     comments_free();
   } else {
     log_error(_("Can't load ruleset %s"), rs_selected);
+
+    /* Failed to upgrade the ruleset */
+    exit_status = EXIT_FAILURE;
   }
 
   registry_module_close();
@@ -228,5 +238,5 @@ int main(int argc, char **argv)
   free_nls();
   cmdline_option_values_free();
 
-  return EXIT_SUCCESS;
+  return exit_status;
 }
