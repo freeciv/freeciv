@@ -4,7 +4,10 @@ AC_DEFUN([FC_QT6],
 [
   if test "x$fc_qt6_usable" = "x" ; then
     FC_QT6_CPPFLAGS="-DQT_DISABLE_DEPRECATED_BEFORE=0x050f00"
-    FC_QT6_GENERIC
+    case $host_os in
+    darwin*) FC_QT6_DARWIN;;
+    *) FC_QT6_GENERIC;;
+    esac
   fi
 ])
 

@@ -73,6 +73,7 @@ EXTRA_DIST =	autogen.sh 			\
 		m4/qt5.m4			\
 		m4/qt6.m4			\
 		m4/qt5-darwin.m4		\
+		m4/qt6-darwin.m4		\
 		m4/qt-client.m4			\
 		m4/readline.m4			\
 		m4/sdl2-client.m4		\
