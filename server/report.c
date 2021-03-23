@@ -1387,7 +1387,7 @@ void log_civ_score_now(void)
   }
 
   if (!score_log->fp) {
-    if (game.info.year == GAME_START_YEAR) {
+    if (game.info.year == GAME_DEFAULT_START_YEAR) {
       oper = SL_CREATE;
     } else {
       score_log->fp = fc_fopen(game.server.scorefile, "r");

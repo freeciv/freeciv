@@ -7148,7 +7148,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,
                                     "calendar.skip_year_0");
     game.server.start_year
-      = secfile_lookup_int_default(file, GAME_START_YEAR,
+      = secfile_lookup_int_default(file, GAME_DEFAULT_START_YEAR,
                                    "calendar.start_year");
     game.calendar.calendar_fragments
       = secfile_lookup_int_default(file, 0, "calendar.fragments");
