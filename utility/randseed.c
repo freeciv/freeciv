@@ -23,6 +23,9 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <string.h>
+#ifdef HAVE_SYS_RANDOM_H
+#include <sys/random.h>
+#endif
 #include <sys/stat.h>
 #include <time.h>
 #ifdef HAVE_UNISTD_H

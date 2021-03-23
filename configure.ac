@@ -1320,6 +1320,8 @@ AC_CHECK_FUNCS([usleep getline _strcoll stricoll _stricoll strcasecoll backtrace
 dnl Possible random sources on Unixen
 AC_CHECK_FUNCS([getentropy clock_gettime])
 
+AC_CHECK_HEADERS([sys/random.h])
+
 dnl TODO: Reimplement this check, in a cross-compiling friendly way
 dnl AC_CHECK_FILES([/dev/urandom])
 
