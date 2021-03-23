@@ -933,7 +933,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_CALENDAR_SKIP_0,
                     "calendar.skip_year_0", NULL);
   save_default_int(sfile, game.server.start_year,
-                   GAME_START_YEAR,
+                   GAME_DEFAULT_START_YEAR,
                    "calendar.start_year", NULL);
   save_default_int(sfile, game.info.calendar_fragments,
                    0, "calendar.fragments", NULL);
