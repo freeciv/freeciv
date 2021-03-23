@@ -2607,6 +2607,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
       case CITYS_STARVED:
         city_property = _("starved");
         break;
+      case CITYS_DISORDER:
+        city_property = _("disorder");
+        break;
+      case CITYS_CELEBRATION:
+        city_property = _("celebration");
+        break;
       case CITYS_LAST:
         fc_assert(preq->source.value.citystatus != CITYS_LAST);
         break;

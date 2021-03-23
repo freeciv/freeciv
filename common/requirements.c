@@ -2875,6 +2875,72 @@ static enum fc_tristate is_citystatus_in_range(const struct city *target_city,
 
     return TRI_MAYBE;
 
+  case CITYS_DISORDER:
+    switch (range) {
+    case REQ_RANGE_CITY:
+      return BOOL_TO_TRISTATE(target_city->anarchy > 0);
+    case REQ_RANGE_TRADEROUTE:
+      {
+        bool found = (target_city->anarchy > 0);
+
+        trade_partners_iterate(target_city, trade_partner) {
+          if (trade_partner->anarchy > 0) {
+            found = TRUE;
+            break;
+          }
+        } trade_partners_iterate_end;
+
+        return BOOL_TO_TRISTATE(found);
+      }
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus Disorder.", range);
+
+    return TRI_MAYBE;
+
+  case CITYS_CELEBRATION:
+    switch (range) {
+    case REQ_RANGE_CITY:
+      return BOOL_TO_TRISTATE(target_city->rapture > 0);
+    case REQ_RANGE_TRADEROUTE:
+      {
+        bool found = (target_city->rapture > 0);
+
+        trade_partners_iterate(target_city, trade_partner) {
+          if (trade_partner->rapture > 0) {
+            found = TRUE;
+            break;
+          }
+        } trade_partners_iterate_end;
+
+        return BOOL_TO_TRISTATE(found);
+      }
+    case REQ_RANGE_LOCAL:
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_PLAYER:
+    case REQ_RANGE_TEAM:
+    case REQ_RANGE_ALLIANCE:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      break;
+    }
+
+    fc_assert_msg(FALSE, "Invalid range %d for citystatus Celebration.", range);
+
+    return TRI_MAYBE;
+
   case CITYS_LAST:
     break;
   }
@@ -4517,6 +4583,12 @@ const char *universal_name_translation(const struct universal *psource,
       break;
     case CITYS_STARVED:
       fc_strlcat(buf, _("Starved"), bufsz);
+      break;
+    case CITYS_DISORDER:
+      fc_strlcat(buf, _("Disorder"), bufsz);
+      break;
+    case CITYS_CELEBRATION:
+      fc_strlcat(buf, _("Celebration"), bufsz);
       break;
     case CITYS_LAST:
       fc_assert(psource->value.citystatus != CITYS_LAST);
