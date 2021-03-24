@@ -128,3 +128,13 @@ ruledit (boolean):
 
 nls (boolean):
   Build in Native Language Support. Defaults to true.
+
+
+run.sh
+------
+
+One of the build results is script named 'run.sh' in the build directory -
+it does not get installed to the installation directory. This script can
+be used to run freeciv executables from the build directory.
+Give the executable name and parameters as parameters to ./run.sh, e.g.,
+./run.sh freeciv-server --help

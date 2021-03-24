@@ -13,6 +13,7 @@ EXTRA_DIST =	freeciv.project		\
 		fc_gitrev_gen.h.tmpl	\
 		generate_gitrev.sh	\
 		generate_langstat.sh	\
+		generate_meson_run.sh	\
 		langstat_core.txt	\
 		langstat_nations.txt	\
 		langstat_ruledit.txt	\
