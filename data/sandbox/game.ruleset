@@ -629,6 +629,9 @@ ui_name_spy_attack = _("Eliminate %sSpy%s")
 ui_name_spread_plague = _("Release %sPlague%s")
 spread_plague_actor_consuming_always = TRUE
 
+; /* TRANS: _Repair (100% chance of success). */
+ui_name_heal_unit = _("%sRepair%s")
+
 ; /* TRANS: Enter _Hut (100% chance of success). */
 ui_name_enter_hut = _("Enter %sHut%s")
 
@@ -1028,6 +1031,23 @@ target_reqs    =
       ; matches illness.illness_min_size
       "MinSize",  "5",            "City"
       "Building", "Research Lab", "City"
+    }
+
+[actionenabler_mechanic]
+action = "Heal Unit"
+actor_reqs    =
+    { "type",         "name",       "range",  "present"
+      "UnitType",     "Mechanic",   "Local",  TRUE
+      "MinMoveFrags", 1,            "Local",  TRUE
+      "DiplRel",      "Armistice",  "Local",  FALSE
+      "DiplRel",      "War",        "Local",  FALSE
+      "DiplRel",      "Cease-fire", "Local",  FALSE
+      "DiplRel",      "Peace",      "Local",  FALSE
+      "DiplRel",      "Never met",  "Local",  FALSE
+    }
+target_reqs  =
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "IronBased",  "Local", TRUE
     }
 
 [actionenabler_incite_city]
