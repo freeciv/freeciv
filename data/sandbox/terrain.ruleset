@@ -1768,7 +1768,7 @@ An Ancient Transport Hub can transport units to any other Ancient Transport \
 Hub on the map.\
 "), _("\
 Using an Ancient Transport Hub to move to an Ancient Transport Hub known \
-to exist, to be free from non allied units and on native terrain should be \
+to exist, to be free from non-allied units and on native terrain should be \
 reasonably safe.\
 ")
 

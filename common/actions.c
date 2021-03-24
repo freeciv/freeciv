@@ -687,7 +687,7 @@ static void hard_code_oblig_hard_reqs(void)
    *
    * This makes an implicit rule explicit:
    * 1. A unit must move into a city to conquer it.
-   * 2. It can't move into the city if the tile contains a non allied
+   * 2. It can't move into the city if the tile contains a non-allied
    *    unit (see unit_move_to_tile_test()).
    * 3. A city could, at the time this rule was made explicit, only
    *    contain units allied to its owner.
@@ -1200,7 +1200,7 @@ static void hard_code_actions(void)
       unit_action_new(ACTION_ATTACK, ACTRES_ATTACK,
                       FALSE, TRUE,
                       /* Tries a forced move if the target unit's tile has
-                       * no non allied units and the occupychance dice roll
+                       * no non-allied units and the occupychance dice roll
                        * tells it to move. */
                       MAK_FORCED,
                       1, 1, FALSE);

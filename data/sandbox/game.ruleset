@@ -1289,7 +1289,7 @@ target_reqs    =
 
 ; A pacifist wanting to end violence or a neocon looking forward to the
 ; Casus Belli against terrorist states once Treuga Dei is finished may wish
-; to help a non allied player to complete Treuga Dei.
+; to help a non-allied player to complete Treuga Dei.
 [actionenabler_help_build_wonder_treuga_dei]
 action = "Help Wonder"
 actor_reqs    =

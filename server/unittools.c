@@ -1293,7 +1293,7 @@ void bounce_unit(struct unit *punit, bool verbose)
 
 
 /**********************************************************************//**
-  Throw pplayer's units from non allied cities
+  Throw pplayer's units from non-allied cities
 
   If verbose is true, pplayer gets messages about where each units goes.
 **************************************************************************/
