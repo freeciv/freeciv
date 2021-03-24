@@ -32,6 +32,7 @@ flags =
     _("AirAttacker"), _("Very bad at attacking AEGIS.")
     _("Submarine"), _("Attack value halved when attacking Destroyer.")
     _("Consensus"), _("Undisbandable when your bureaucracy has a veto.")
+    _("IronBased")
     _("Unbribable")
     _("TradeRoute"), _("Can establish trade routes (must travel to target city).")
     _("HelpWonder")
@@ -610,7 +611,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Airbase", "Transform"
+flags         = "Settlers", "Cant_Fortify", "NonMil", "HasNoZOC", "Airbase",
+                "Transform", "IronBased"
 veteran_names = _("beginner"), _("seasoned"), _("senior"), _("expert")
 veteran_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 3, 2, 1, 0
@@ -629,6 +631,42 @@ Tundra into Plains, or even Ocean into Swamp in some circumstances \
 (when on board an ocean-going vessel, on a tile surrounded by \
 sufficient existing land). See the Terrain Alterations section \
 for more details.\
+")
+
+[unit_mechanic]
+name          = _("Mechanic")
+class         = "Small Land"
+tech_req      = "Engineering"
+obsolete_by   = "None"
+graphic       = "u.mechanic"
+graphic_alt   = "u.engineers"
+sound_move    = "m_mechanic"
+sound_move_alt = "m_generic"
+sound_fight   = "f_mechanic"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 2
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 1
+flags         = "Cant_Fortify", "NonMil", "HasNoZOC"
+; No veteran levels (level name is never displayed)
+veteran_names = _("green")
+veteran_raise_chance = 0
+veteran_work_raise_chance = 0
+veteran_power_fact = 100
+veteran_move_bonus = 0
+helptext      = _("\
+A Mechanic can repair machines in the field.\
 ")
 
 [unit_warriors]
@@ -1069,7 +1107,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "IronBased"
 roles         = "DefendGood", "DefendGoodStartUnit", "FirstBuild"
 helptext      = _("\
 The Mechanized Infantry has the strongest inherent defensive strength \
@@ -1331,7 +1369,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "IronBased"
 roles         = "DefendOk", "DefendOkStartUnit", "AttackFastStartUnit", "Hunter"
 helptext      = _("\
 Armors are motorized war wagons that are faster, stronger, and can take \
@@ -1366,7 +1404,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "IronBased"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 Catapults are large rock-throwing machines of war.\
@@ -1404,7 +1442,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = ""
+flags         = "IronBased"
 roles         = "AttackStrongStartUnit", "BarbarianTech", "BarbarianBuildTech"
 helptext      = _("\
 Cannons are large firearms that can fire heavy projectiles over long \
@@ -1438,7 +1476,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "CityBuster"
+flags         = "CityBuster", "IronBased"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 The artillery is an upgraded cannon. As with its predecessors, it is a \
@@ -1471,7 +1509,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "CityBuster"
+flags         = "CityBuster", "IronBased"
 roles         = "AttackStrongStartUnit"
 helptext      = _("\
 Howitzers are upgraded artillery with improved defensive as well as \
@@ -1505,7 +1543,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "AirAttacker", "HasNoZOC"
+flags         = "AirAttacker", "HasNoZOC", "IronBased"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 Fighters are your first airborne units. They can\
@@ -1542,7 +1580,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
+flags         = "FieldUnit", "OneAttack", "AirAttacker", "Bombarder",
+                "HasNoZOC", "IronBased"
 roles         = ""
 helptext      = _("\
 Bombers are specialized airborne units that may\
@@ -1586,7 +1625,7 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Land"
 flags         = "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC",
-                "Provoking"
+                "Provoking", "IronBased"
 roles         = ""
 helptext      = _("\
 A Helicopter's attack against units on land is a bombard attack; against \
@@ -1630,7 +1669,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "Partial_Invis", "AirAttacker", "HasNoZOC"
+flags         = "Partial_Invis", "AirAttacker", "HasNoZOC", "IronBased"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 An improved Fighter, with improved attack and a higher movement\
@@ -1662,7 +1701,8 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker", "Bombarder", "HasNoZOC"
+flags         = "Partial_Invis", "FieldUnit", "OneAttack", "AirAttacker",
+                "Bombarder", "HasNoZOC", "IronBased"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 An improved Bomber, with improved attack and a higher movement\
@@ -1696,7 +1736,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Merchant"
-flags         = "BadCityDefender", "HasNoZOC", "Provoking"
+flags         = "BadCityDefender", "HasNoZOC", "Provoking", "IronBased"
 roles         = "Ferryboat", "FerryStartUnit"
 helptext      = _("\
 The Trireme is your first boat unit. It can act\
@@ -1732,7 +1772,7 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Merchant"
 flags         = "BadCityDefender", "Only_Native_Attack", "HasNoZOC",
-                "Provoking", "Coast"
+                "Provoking", "Coast", "IronBased"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Caravel is a sailing ship that can enter\
@@ -1766,7 +1806,7 @@ uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
-flags         = "BadCityDefender", "HasNoZOC", "Provoking"
+flags         = "BadCityDefender", "HasNoZOC", "Provoking", "IronBased"
 roles         = "Ferryboat", "FerryStartUnit", "BarbarianBoat"
 helptext      = _("\
 The Galleon is a pure transport ship, the first which can\
@@ -1799,7 +1839,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "IronBased"
 roles         = "Hunter"
 helptext      = _("\
 The Frigate is a specialized ship with a strong offensive value,\
@@ -1831,7 +1871,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "IronBased"
 roles         = "Hunter"
 helptext      = _("\
 The Ironclad is an armored ship,\
@@ -1867,7 +1907,7 @@ bonuses       =
    { "flag", "type", "value"
      "Submarine", "DefenseMultiplier", 1
    }
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "IronBased"
 roles         = "Hunter"
 helptext      = _("\
 An improved Ironclad, with better move rate and vision.\
@@ -1902,7 +1942,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 1
 uk_gold       = 1
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "IronBased"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 The Cruiser is a strong offensive boat unit.\
@@ -1937,7 +1977,7 @@ bonuses       =
    { "flag", "type", "value"
      "AirAttacker", "DefenseMultiplier", 4
    }
-flags         = "BadCityDefender"
+flags         = "BadCityDefender", "IronBased"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 The AEGIS Cruiser is equipped with an advanced\
@@ -1973,7 +2013,7 @@ uk_gold       = 1
 ; Consensus historical article: "Airplanes Sink a Battleship?
 ; No, Sir! Declares President" Chicago Daily Tribune, Feb. 26, 1938.
 ; */ <-- avoid gettext warnings
-flags         = "BadCityDefender", "Consensus"
+flags         = "BadCityDefender", "Consensus", "IronBased"
 roles         = "DefendOk", "DefendOkStartUnit"
 helptext      = _("\
 The Battleship is the supreme naval unit with\
@@ -2007,7 +2047,7 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Missile"
 flags         = "Partial_Invis", "BadCityDefender", "Only_Native_Attack",
-                "Submarine", "Provoking"
+                "Submarine", "Provoking", "IronBased"
 roles         = "Hunter"
 helptext      = _("\
 Traveling under the surface of the ocean, Submarines have\
@@ -2043,7 +2083,8 @@ uk_gold       = 1
 cargo         = "Land", "Air", "Missile", "Helicopter"
 ; Consensus historical article: Julian Borger. "Wake-up call"
 ; The Guardian, Sep. 6, 2002.
-flags         = "BadCityDefender", "HasNoZOC", "Consensus", "Provoking"
+flags         = "BadCityDefender", "HasNoZOC", "Consensus", "Provoking",
+                "IronBased"
 roles         = "DefendGood", "DefendGoodStartUnit"
 helptext      = _("\
 The Carrier is a mobile airport.\
@@ -2084,7 +2125,7 @@ uk_food       = 1
 uk_gold       = 1
 cargo         = "Land", "Small Land", "Big Land", "Merchant"
 flags         = "Settlers", "BadCityDefender", "HasNoZOC",
-                "Provoking"
+                "Provoking", "IronBased"
 veteran_names = _("green"), _("veteran"), _("hardened"), _("elite")
 veteran_raise_chance      = 50, 33, 20, 0
 veteran_work_raise_chance = 0, 0, 0, 0
@@ -2128,7 +2169,8 @@ uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
 targets       = "Air", "Missile", "Helicopter"
-flags         = "OneAttack", "AirAttacker", "CityBuster", "HasNoZOC"
+flags         = "OneAttack", "AirAttacker", "CityBuster", "HasNoZOC",
+                "IronBased"
 roles         = ""
 helptext      = _("\
 The Cruise Missile is a long-distance missile\
@@ -2163,7 +2205,7 @@ uk_happy      = 1
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "FieldUnit", "OneAttack", "Nuclear", "HasNoZOC"
+flags         = "FieldUnit", "OneAttack", "Nuclear", "HasNoZOC", "IronBased"
 ; No veteran levels (level name is never displayed)
 veteran_names = _("green")
 veteran_raise_chance = 0
@@ -2455,7 +2497,8 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "TradeRoute", "HelpWonder", "NonMil", "HasNoZOC", "Capturable"
+flags         = "TradeRoute", "HelpWonder", "NonMil", "HasNoZOC",
+                "Capturable", "IronBased"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
@@ -2616,7 +2659,7 @@ uk_happy      = 0
 uk_shield     = 1
 uk_food       = 0
 uk_gold       = 1
-flags         = "HasNoZOC"
+flags         = "HasNoZOC", "IronBased"
 roles         = ""
 helptext      = _("\
 The AWACS (Airborne Warning and Control System) is an airplane with an \

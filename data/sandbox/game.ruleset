@@ -361,6 +361,9 @@ ui_name_attack = _("%sAttack%s")
 ; /* TRANS: _Conquer City (100% chance of success). */
 ui_name_conquer_city = _("%sConquer City%s")
 
+; /* TRANS: _Repair (100% chance of success). */
+ui_name_heal_unit = _("%sRepair%s")
+
 ; Suppress automatic help text generation about what enables and/or
 ; disables the following actions.
 ;
@@ -567,6 +570,23 @@ actor_reqs    =
 target_reqs    =
     { "type",   "name", "range"
       "MinSize", "2", "City"
+    }
+
+[actionenabler_mechanic]
+action = "Heal Unit"
+actor_reqs    =
+    { "type",         "name",       "range",  "present"
+      "UnitType",     "Mechanic",   "Local",  TRUE
+      "MinMoveFrags", 1,            "Local",  TRUE
+      "DiplRel",      "Armistice",  "Local",  FALSE
+      "DiplRel",      "War",        "Local",  FALSE
+      "DiplRel",      "Cease-fire", "Local",  FALSE
+      "DiplRel",      "Peace",      "Local",  FALSE
+      "DiplRel",      "Never met",  "Local",  FALSE
+    }
+target_reqs  =
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "IronBased",  "Local", TRUE
     }
 
 [actionenabler_incite_city]
