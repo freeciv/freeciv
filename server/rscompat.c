@@ -294,7 +294,7 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
-  if (info->ver_effects < 30) {
+  if (info->ver_effects < RSFORMAT_3_2) {
     struct effect *peffect;
 
     /* Nuke blast radius has moved to the ruleset. */
@@ -335,7 +335,7 @@ enum impr_genus_id rscompat_genus_3_2(struct rscompat_info *compat,
                                       const bv_impr_flags flags,
                                       enum impr_genus_id old_genus)
 {
-  if (compat->compat_mode && compat->ver_buildings < 30) {
+  if (compat->compat_mode && compat->ver_buildings < RSFORMAT_3_2) {
     if (BV_ISSET(flags, IF_GOLD) && IG_SPECIAL == old_genus) {
       return IG_CONVERT;
     }

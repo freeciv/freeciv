@@ -33,6 +33,8 @@ extern "C" {
  *    - ruleset of the development version at the given data
  */
 
+#define RSFORMAT_3_2  30
+
 struct conn_list;
 
 typedef void (*rs_conversion_logger)(const char *msg);
