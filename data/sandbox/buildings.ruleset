@@ -1569,6 +1569,34 @@ reduces the pollution caused by the population; it counteracts the \
 pollution associated with a single building in each of your cities.\
 ")
 
+; This is in no way, shape or form an accusation that the USA was behind
+; the COVID-19 pandemic. I had planned this rule as a part of a new ruleset,
+; "Too Much Detail", long before the Corona pandemic. The rule was inspired
+; by conspiracy theories.
+; I delayed introducing this rule until 2021 because of COVID-19.
+; -- Sveinung
+[building_georgia_guidestones]
+name        = _("Guidestones")
+genus       = "GreatWonder"
+reqs        =
+    { "type", "name",             "range"
+      "Tech", "Environmentalism", "Player"
+    }
+graphic     = "b.georgia_guidestones"
+graphic_alt = "b.port_facility"
+obsolete_by =
+    { "type", "name",      "range"
+    }
+build_cost  = 400
+upkeep      = 0
+sabotage    = 0
+sound       = "w_georgia_guidestones"
+sound_alt   = "w_generic"
+helptext    = _("\
+Allows releasing plauge against any city as this helps maintain humanity \
+under 500,000,000.\
+")
+
 [building_great_library]
 name		= _("Great Library")
 genus		= "GreatWonder"

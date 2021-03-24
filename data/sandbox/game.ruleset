@@ -993,6 +993,96 @@ target_reqs    =
       "MinSize", "2", "City"
     }
 
+; This is in no way, shape or form an accusation that the USA was behind
+; the COVID-19 pandemic. I had planned this rule as a part of a new ruleset,
+; "Too Much Detail", long before the Corona pandemic. The rule was inspired
+; by conspiracy theories.
+; I delayed introducing this rule until 2021 because of COVID-19.
+; -- Sveinung
+[actionenabler_release_plague_from_georgia_guidestones]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",                "range",  "present"
+      "UnitFlag",     "Spy",                 "Local",  TRUE
+      "UnitState",    "OnLivableTile",       "Local",  TRUE
+      "MinMoveFrags", "1",                   "Local",  TRUE
+      "Tech",         "Medicine",            "Player", TRUE
+      "Building",     "Guidestones",         "Player", TRUE
+      "Building",     "Treuga Dei",          "World",  FALSE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+    }
+
+; This is in no way, shape or form an accusation that the USA was behind
+; the COVID-19 pandemic. I had planned this rule as a part of a new ruleset,
+; "Too Much Detail", long before the Corona pandemic. The rule was inspired
+; by conspiracy theories.
+; I delayed introducing this rule until 2021 because of COVID-19.
+; -- Sveinung
+[actionenabler_release_plague_from_georgia_guidestones_despite_treuga_dei]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",                "range",  "present", "survives"
+      "UnitFlag",     "Spy",                 "Local",  TRUE,      FALSE
+      "UnitState",    "OnLivableTile",       "Local",  TRUE,      FALSE
+      "MinMoveFrags", "1",                   "Local",  TRUE,      FALSE
+      "Tech",         "Medicine",            "Player", TRUE,      FALSE
+      "Building",     "Guidestones",         "Player", TRUE,      FALSE
+      "Tech",         "Communism",           "World",  TRUE,      TRUE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+    }
+
+; This is in no way, shape or form an accusation that China was behind the
+; COVID-19 pandemic. I had planned this rule as a part of a new ruleset,
+; "Too Much Detail", long before the Corona pandemic.
+; I delayed introducing this rule until 2021 because of COVID-19.
+; -- Sveinung
+[actionenabler_release_plague_from_domestic]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",          "range",  "present"
+      "UnitFlag",     "Spy",           "Local",  TRUE
+      "DiplRel",      "Foreign",       "Local",  FALSE
+      "UnitState",    "OnLivableTile", "Local",  TRUE
+      "MinMoveFrags", "1",             "Local",  TRUE
+      "Tech",         "Medicine",      "Player", TRUE
+      "Building",     "Treuga Dei",    "World",  FALSE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+    }
+
+; This is in no way, shape or form an accusation that China was behind the
+; COVID-19 pandemic. I had planned this rule as a part of a new ruleset,
+; "Too Much Detail", long before the Corona pandemic.
+; I delayed introducing this rule until 2021 because of COVID-19.
+; -- Sveinung
+[actionenabler_release_plague_from_domestic_despite_treuga_dei]
+action = "Spread Plague"
+actor_reqs    =
+    { "type",         "name",          "range",  "present", "survives"
+      "UnitFlag",     "Spy",           "Local",  TRUE,      FALSE
+      "DiplRel",      "Foreign",       "Local",  FALSE,     FALSE
+      "UnitState",    "OnLivableTile", "Local",  TRUE,      FALSE
+      "MinMoveFrags", "1",             "Local",  TRUE,      FALSE
+      "Tech",         "Medicine",      "Player", TRUE,      FALSE
+      "Tech",         "Communism",     "World",  TRUE,      TRUE
+    }
+target_reqs    =
+    { "type",     "name",         "range"
+      ; matches illness.illness_min_size
+      "MinSize",  "5",            "City"
+    }
+
 [actionenabler_release_plague_from_bio_lab]
 action = "Spread Plague"
 actor_reqs    =
