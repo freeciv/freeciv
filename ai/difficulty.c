@@ -314,12 +314,12 @@ char *ai_level_help(const char *cmdname)
     if (ai_fuzzy(pplayer, condition)) { action }
   to sometimes flip a decision, to simulate an AI with some confusion,
   indecisiveness, forgetfulness etc. In practice its often safer to use
-    if (condition && ai_fuzzy(pplayer,1)) { action }
+    if (condition && ai_fuzzy(pplayer, TRUE)) { action }
   for an action which only makes sense if condition holds, but which a
   fuzzy AI can safely "forget".  Note that for a non-fuzzy AI, or for a
   human player being helped by the AI (eg, autosettlers), you can ignore
   the "ai_fuzzy(pplayer," part, and read the previous example as:
-    if (condition && 1) { action }
+    if (condition && TRUE) { action }
   --dwp
 **************************************************************************/
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
