@@ -2395,7 +2395,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
       recursion = FALSE;
     } else {
       /* Note: If you get this error and try to debug the cause, you may find
-       *       using sanity_check_feelings() in some key points useful. */
+       *       using check_city_feelings() in some key points useful. */
       /* Have this as an fc_assert() first, so one can use '-F' to caught these in
        * debugger. */
       fc_assert(packet->size == ppl);
