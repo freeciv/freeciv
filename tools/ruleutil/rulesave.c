@@ -46,7 +46,7 @@
  * 10 - Freeciv-3.0
  * 20 - Freeciv-3.1
  */
-#define FORMAT_VERSION 20
+#define FORMAT_VERSION RSFORMAT_3_1
 
 /**********************************************************************//**
   Create new ruleset section file with common header.

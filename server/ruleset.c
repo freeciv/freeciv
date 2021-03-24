@@ -2070,7 +2070,7 @@ static bool load_ruleset_units(struct section_file *file,
                                                           "%s.non_native_def_pct",
                                                           sec_name);
 
-      if (compat->compat_mode && compat->ver_units < 20) {
+      if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
         const char *hut_str;
 
         hut_str = secfile_lookup_str_default(file, "Normal",
@@ -2462,7 +2462,7 @@ static bool load_ruleset_units(struct section_file *file,
 
       u->paratroopers_range = secfile_lookup_int_default(file,
           0, "%s.paratroopers_range", sec_name);
-      if (compat->compat_mode && compat->ver_units  < 20) {
+      if (compat->compat_mode && compat->ver_units < RSFORMAT_3_1) {
         u->rscompat_cache.paratroopers_mr_req
             = SINGLE_MOVE * secfile_lookup_int_default(
                   file, 0, "%s.paratroopers_mr_req", sec_name);
@@ -6846,7 +6846,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     /* section: actions */
     if (ok) {
-      if (compat->compat_mode && compat->ver_game < 20) {
+      if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
         int force_capture_units, force_bombard, force_explode_nuclear;
 
         if (secfile_lookup_bool_default(file, FALSE,
@@ -7223,7 +7223,7 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     }
   }
 
-  if (compat->compat_mode && compat->ver_game < 20) {
+  if (compat->compat_mode && compat->ver_game < RSFORMAT_3_1) {
     bool slow_invasions
       = secfile_lookup_bool_default(file, TRUE,
                                     "global_unit_options.slow_invasions");

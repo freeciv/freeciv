@@ -323,7 +323,7 @@ static int first_free_terrain_user_flag(void)
 **************************************************************************/
 bool rscompat_names(struct rscompat_info *info)
 {
-  if (info->ver_units < 20) {
+  if (info->ver_units < RSFORMAT_3_1) {
     /* Some unit type flags moved to the ruleset between 3.0 and 3.1.
      * Add them back as user flags.
      * XXX: ruleset might not need all of these, and may have enough
@@ -414,7 +414,7 @@ bool rscompat_names(struct rscompat_info *info)
     }
   }
 
-  if (info->ver_terrain < 20) {
+  if (info->ver_terrain < RSFORMAT_3_1) {
     /* Some terrain flags moved to the ruleset between 3.0 and 3.1.
      * Add them back as user flags.
      * XXX: ruleset might not need all of these, and may have enough
@@ -509,7 +509,7 @@ static bool effect_list_compat_cb(struct effect *peffect, void *data)
 {
   struct rscompat_info *info = (struct rscompat_info *)data;
 
-  if (info->ver_effects < 20) {
+  if (info->ver_effects < RSFORMAT_3_1) {
     /* Attack has been split in regular "Attack" and "Suicide Attack". */
     effect_handle_split_universal(peffect,
         universal_by_number(VUT_ACTION, ACTION_ATTACK),
@@ -657,7 +657,7 @@ static void effect_to_enabler(action_id action, struct section_file *file,
 bool rscompat_old_effect_3_1(const char *type, struct section_file *file,
                              const char *sec_name, struct rscompat_info *compat)
 {
-  if (compat->ver_effects < 20) {
+  if (compat->ver_effects < RSFORMAT_3_1) {
     if (!fc_strcasecmp(type, "Transform_Possible")) {
       effect_to_enabler(ACTION_TRANSFORM_TERRAIN, file, sec_name, compat, type);
       return TRUE;
@@ -698,7 +698,7 @@ void rscompat_postprocess(struct rscompat_info *info)
    * the new effects from being upgraded by accident. */
   iterate_effect_cache(effect_list_compat_cb, info);
 
-  if (info->ver_effects < 20) {
+  if (info->ver_effects < RSFORMAT_3_1) {
     struct effect *peffect;
 
     /* Post successful action move fragment loss for "Bombard"
@@ -945,7 +945,7 @@ void rscompat_postprocess(struct rscompat_info *info)
                                    FALSE, FALSE, FALSE, "HutNothing"));
   }
 
-  if (info->ver_game < 20) {
+  if (info->ver_game < RSFORMAT_3_1) {
     /* New enablers */
     struct action_enabler *enabler;
     struct requirement e_req;
@@ -1522,7 +1522,7 @@ void rscompat_postprocess(struct rscompat_info *info)
     } action_enablers_iterate_end;
   }
 
-  if (info->ver_units < 20) {
+  if (info->ver_units < RSFORMAT_3_1) {
     enum unit_class_flag_id nothing
         = unit_class_flag_id_by_name("HutNothing", fc_strcasecmp);
 
@@ -1558,7 +1558,7 @@ bool rscompat_auto_attack_3_1(struct rscompat_info *compat,
 {
   int i;
 
-  if (compat->ver_game < 20) {
+  if (compat->ver_game < RSFORMAT_3_1) {
     /* Auto attack happens during war. */
     requirement_vector_append(&auto_perf->reqs,
                               req_from_values(VUT_DIPLREL,
@@ -1713,7 +1713,7 @@ static bool slow_invasion_effects(const char *action_rule_name)
 bool rscompat_old_slow_invasions_3_1(struct rscompat_info *compat,
                                      bool slow_invasions)
 {
-  if (compat->ver_effects < 20 && compat->ver_game < 20) {
+  if (compat->ver_effects < RSFORMAT_3_1 && compat->ver_game < RSFORMAT_3_1) {
     /* BeachLander and slow_invasions has moved to the ruleset. Use a "fake
      * generalized" Transport Disembark, Conquer City, Enter Hut and
      * Frighten Hut to handle it. */
@@ -1895,7 +1895,7 @@ const char *rscompat_utype_flag_name_3_1(struct rscompat_info *compat,
 void rscompat_extra_adjust_3_1(struct rscompat_info *compat,
                                struct extra_type *pextra)
 {
-  if (compat->compat_mode && compat->ver_terrain < 20) {
+  if (compat->compat_mode && compat->ver_terrain < RSFORMAT_3_1) {
 
     /* Give remove cause ERM_ENTER for huts */
     if (is_extra_caused_by(pextra, EC_HUT)) {
