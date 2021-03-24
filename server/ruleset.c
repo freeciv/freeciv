@@ -2447,26 +2447,21 @@ static bool load_ruleset_units(struct section_file *file,
         if (0 == strcmp(sval, "")) {
           continue;
         }
-        if (compat->compat_mode && !fc_strcasecmp("Partial_Invis", sval)) {
-          u->vlayer = V_INVIS;
-        } else {
-          ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
-          if (!unit_type_flag_id_is_valid(ival)) {
-            ok = FALSE;
-            ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
-            if (unit_class_flag_id_is_valid(ival)) {
-              ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": unit_class flag!",
-                            filename, utype_rule_name(u));
-            } else {
-              ruleset_error(LOG_ERROR,
-                            "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
-                            filename, utype_rule_name(u),  sval);
-            }
-            break;
+        ival = unit_type_flag_id_by_name(sval, fc_strcasecmp);
+        if (!unit_type_flag_id_is_valid(ival)) {
+          ok = FALSE;
+          ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
+          if (unit_class_flag_id_is_valid(ival)) {
+            ruleset_error(LOG_ERROR, "\"%s\" unit_type \"%s\": unit_class flag!",
+                          filename, utype_rule_name(u));
           } else {
-            BV_SET(u->flags, ival);
+            ruleset_error(LOG_ERROR,
+                          "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
+                          filename, utype_rule_name(u),  sval);
           }
-          fc_assert(utype_has_flag(u, ival));
+          break;
+        } else {
+          BV_SET(u->flags, ival);
         }
       }
       free(slist);
