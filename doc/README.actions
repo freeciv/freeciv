@@ -819,8 +819,8 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
- * kills the actor unit if the target tile has a non allied city
+ * kills the actor unit if the target tile has a non-allied unit
+ * kills the actor unit if the target tile has a non-allied city
  * the distance between actor and target is from 1 to paratroopers_range
  * the actor unit hasn't paradropped this turn
  * the actor unit isn't transporting another unit (!)
@@ -841,7 +841,7 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
+ * kills the actor unit if the target tile has a non-allied unit
  * can result in the conquest of the city at the target tile
    if the target tile has a city
  * can result in the conquest of the extras at the target tile if
@@ -876,8 +876,8 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
- * kills the actor unit if the target tile has a non allied city
+ * kills the actor unit if the target tile has a non-allied unit
+ * kills the actor unit if the target tile has a non-allied city
  * can result in hut frightening if
    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
    - the target tile's Hut's rmreqs are fulfilled
@@ -902,7 +902,7 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
+ * kills the actor unit if the target tile has a non-allied unit
  * can result in the conquest of the city at the target tile
    if the target tile has a city
  * can result in the conquest of the extras at the target tile if
@@ -941,8 +941,8 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
- * kills the actor unit if the target tile has a non allied city
+ * kills the actor unit if the target tile has a non-allied unit
+ * kills the actor unit if the target tile has a non-allied city
  * can result in hut entry if
    - the target tile has an extra with "Enter" in its rmcauses (a Hut)
    - the target tile's Hut's rmreqs are fulfilled
@@ -966,7 +966,7 @@ Actions done by a unit against a tile
  * kills the actor unit if the target tile has a terrain type the actor unit
    can't exist on and - if paradrop_to_transport is set - it couldn't load
    into a transport at the target tile.
- * kills the actor unit if the target tile has a non allied unit
+ * kills the actor unit if the target tile has a non-allied unit
  * can result in the conquest of the city at the target tile
    if the target tile has a city
  * can result in the conquest of the extras at the target tile if

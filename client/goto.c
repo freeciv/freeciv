@@ -1435,7 +1435,7 @@ static void make_path_orders(struct unit *punit, struct pf_path *path,
        * caller hope that the situation would change before the unit got
        * there? */
 
-      /* It's currently illegal to walk into tiles with non allied units or
+      /* It's currently illegal to walk into tiles with non-allied units or
        * cities. Some actions causes the actor to enter the target tile but
        * that is a part of the action it self, not a regular pre action
        * move. */
