@@ -4709,6 +4709,30 @@ value   = 300
 type    = "Thiefs_Share_Pm"
 value   = 50
 
+[effect_action_repair_success_actor_move_cost]
+type    = "Action_Success_Actor_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit",   "Local", TRUE
+    }
+
+[effect_action_repair_success_target_move_cost]
+type    = "Action_Success_Target_Move_Cost"
+value   = 65535
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit",   "Local", TRUE
+    }
+
+[effect_action_repair_amount]
+type    = "Heal_Unit_Pct"
+value   = -50
+reqs    =
+    { "type",   "name",        "range", "present"
+      "Action", "Heal Unit",   "Local", TRUE
+    }
+
 ; Treuga Dei Casus Belli
 [effect_treuga_dei_casus_belli_poison_city_escape]
 type    = "Casus_Belli_Success"
