@@ -1371,11 +1371,11 @@ action_enabler_suggest_repair_oblig(const struct action_enabler *enabler)
 
   /* Sanity check: a non existing action enabler is missing but it doesn't
    * miss any obligatory hard requirements. */
-  fc_assert_ret_val(enabler, FALSE);
+  fc_assert_ret_val(enabler, NULL);
 
   /* Sanity check: a non existing action doesn't have any obligatory hard
    * requirements. */
-  fc_assert_ret_val(action_id_exists(enabler->action), FALSE);
+  fc_assert_ret_val(action_id_exists(enabler->action), NULL);
   paction = action_by_number(enabler->action);
 
   obligatory_req_vector_iterate(&obligatory_hard_reqs[enabler->action],
