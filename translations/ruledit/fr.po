@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-08 12:57+0100\n"
+"POT-Creation-Date: 2021-03-25 03:14+0100\n"
 "PO-Revision-Date: 2021-03-11 08:18+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -111,12 +111,12 @@ msgstr ""
 "du jeu. Après, vous pourrez réparer manuellement le procblème actuel et "
 "revenir ici pour trouver le problème suivant."
 
-#: tools/ruledit/req_vec_fix.cpp:276
+#: tools/ruledit/req_vec_fix.cpp:278
 msgid "Unable to apply solution"
 msgstr "Impossible d'appliquer la solution"
 
 #. TRANS: requirement vector fix failed to apply
-#: tools/ruledit/req_vec_fix.cpp:280
+#: tools/ruledit/req_vec_fix.cpp:282
 msgid "Failed to apply solution %1 for %2 to %3."
 msgstr "Échec dans l'application de la solution %1 pour %2 à %3."
 
