@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-08 12:46+0100\n"
-"PO-Revision-Date: 2021-03-11 16:13+0100\n"
+"POT-Creation-Date: 2021-03-24 20:10+0100\n"
+"PO-Revision-Date: 2021-03-25 12:10+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -530,7 +530,7 @@ msgstr "Le gouverneur s'est embrouillé en gérant %s. Vous devriez intervenir."
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:426 client/gui-sdl/mapview.c:153
-#: client/gui-sdl2/mapview.c:164 server/console.c:72 server/srv_main.c:3144
+#: client/gui-sdl2/mapview.c:164 server/console.c:72 server/srv_main.c:3145
 #: utility/log.c:520 utility/netintf.c:93 utility/registry_ini.c:742
 #, c-format
 msgid "Please report this message at %s"
@@ -34686,7 +34686,9 @@ msgstr ""
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
-msgstr "Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'aller sur le site \"Freeciv Bug Tracking System\" :"
+msgstr ""
+"Si vous trouvez un bogue, merci de nous le signaler. Le mieux est d'aller "
+"sur le site \"Freeciv Bug Tracking System\" :"
 
 #: data/helpdata.txt:2314
 msgid ""
@@ -34733,7 +34735,7 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Administrateurs actuels: "
 
-#: data/helpdata.txt:2340
+#: data/helpdata.txt:2341
 msgid "For more information in general, visit the Freeciv website, at:"
 msgstr ""
 "Pour plus d'informations en général, visitez le site web de Freeciv, sur :"
@@ -38570,45 +38572,45 @@ msgstr "Attention : Famine crainte à %s."
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATTENTION, nous n'avons PRESQUE PLUS de FONDS %s."
 
-#: server/cityturn.c:830
+#: server/cityturn.c:831
 #, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr ""
 "%s a besoin de %s (en construction) pour pouvoir se développer au-delà de la "
 "taille %d."
 
-#: server/cityturn.c:836
+#: server/cityturn.c:837
 #, c-format
 msgid "%s needs an improvement to grow beyond size %d."
 msgstr ""
 "%s a besoin d'un bâtiment pour pouvoir se développer au-delà de la taille %d."
 
-#: server/cityturn.c:897
+#: server/cityturn.c:898
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s atteint la taille %d."
 
-#: server/cityturn.c:972
+#: server/cityturn.c:973
 #, c-format
 msgid "A recent plague outbreak prevents growth in %s."
 msgstr "La récente éruption d'une épidémie empêche la croissance dans %s."
 
-#: server/cityturn.c:1003
+#: server/cityturn.c:1004
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "La famine fait rage dans %s, %s perdus !"
 
-#: server/cityturn.c:1017
+#: server/cityturn.c:1018
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "La famine a provoqué une perte de population à %s."
 
-#: server/cityturn.c:1022
+#: server/cityturn.c:1023
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "La famine détruit entièrement %s."
 
-#: server/cityturn.c:1087 server/cityturn.c:1261
+#: server/cityturn.c:1088 server/cityturn.c:1262
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government. Postponing..."
@@ -38616,7 +38618,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; cela nécessite un "
 "gouvernent \"%s\". Différé..."
 
-#: server/cityturn.c:1099 server/cityturn.c:1232
+#: server/cityturn.c:1100 server/cityturn.c:1233
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first. Postponing..."
@@ -38624,7 +38626,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail; %s et nécessaire avant. "
 "Différé..."
 
-#: server/cityturn.c:1114 server/cityturn.c:1194
+#: server/cityturn.c:1115 server/cityturn.c:1195
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -38632,25 +38634,25 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la technologie %s "
 "n'est pas encore disponible. Différé..."
 
-#: server/cityturn.c:1126 server/cityturn.c:1874
+#: server/cityturn.c:1127 server/cityturn.c:1875
 #, c-format
 msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; raison inconnue ! "
 "Différé..."
 
-#: server/cityturn.c:1139 server/cityturn.c:1893
+#: server/cityturn.c:1140 server/cityturn.c:1894
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s ne peut pas construire %s de la liste de travail. Supprimé..."
 
-#: server/cityturn.c:1160 server/cityturn.c:1882 server/cityturn.c:2017
-#: server/cityturn.c:2063
+#: server/cityturn.c:1161 server/cityturn.c:1883 server/cityturn.c:2018
+#: server/cityturn.c:2064
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "La production de %s mise à jour en %s dans %s."
 
-#: server/cityturn.c:1213
+#: server/cityturn.c:1214
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; no tech with flag \"%s\" yet available. "
@@ -38659,14 +38661,14 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; pas encore de "
 "technologie avec l'indicateur \"%s\" disponible. Différé..."
 
-#: server/cityturn.c:1245
+#: server/cityturn.c:1246
 #, c-format
 msgid "%s can't build %s from the worklist; need to not have %s. Postponing..."
 msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; ne doit pas avoir %s. "
 "Différé..."
 
-#: server/cityturn.c:1273
+#: server/cityturn.c:1274
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it cannot have %s government. "
@@ -38675,7 +38677,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; ne doit pas avoir un "
 "gouvernent %s. Différé..."
 
-#: server/cityturn.c:1288
+#: server/cityturn.c:1289
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs \"%s\" achievement. "
@@ -38684,7 +38686,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; cela nécessite le "
 "succès \"%s\". Différé..."
 
-#: server/cityturn.c:1306
+#: server/cityturn.c:1307
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is required. Postponing..."
@@ -38692,7 +38694,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; %s est nécessaire. "
 "Différé..."
 
-#: server/cityturn.c:1318
+#: server/cityturn.c:1319
 #, c-format
 msgid ""
 "?extra:%s can't build %s from the worklist; %s is prohibited. Postponing..."
@@ -38700,7 +38702,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; %s l'en empêche. "
 "Différé..."
 
-#: server/cityturn.c:1333
+#: server/cityturn.c:1334
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is required. "
@@ -38709,7 +38711,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; le terrain %s est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1345
+#: server/cityturn.c:1346
 #, c-format
 msgid ""
 "?terrain:%s can't build %s from the worklist; %s terrain is prohibited. "
@@ -38718,7 +38720,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; le terrain %s l'en "
 "empêche. Différé..."
 
-#: server/cityturn.c:1360
+#: server/cityturn.c:1361
 #, c-format
 msgid ""
 "?resource:%s can't build %s from the worklist; %s is required. Postponing..."
@@ -38726,7 +38728,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ressource %s est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1375
+#: server/cityturn.c:1376
 #, c-format
 msgid ""
 "?resource:%s can't build %s from the worklist; %s is prohibited. "
@@ -38736,7 +38738,7 @@ msgstr ""
 "empêche. Différé..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1392
+#: server/cityturn.c:1393
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is required. "
@@ -38745,7 +38747,7 @@ msgstr ""
 "%s ne peuvent pas construire %s de la liste de travail ; la nation %s est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1404
+#: server/cityturn.c:1405
 #, c-format
 msgid ""
 "?nation:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -38755,7 +38757,7 @@ msgstr ""
 "l'interdit. Différé..."
 
 #. TRANS: "%s nation" is adjective
-#: server/cityturn.c:1422
+#: server/cityturn.c:1423
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is required. "
@@ -38764,7 +38766,7 @@ msgstr ""
 "%s ne peuvent pas construire %s de la liste de travail ; une nation %s est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1434
+#: server/cityturn.c:1435
 #, c-format
 msgid ""
 "?ngroup:%s can't build %s from the worklist; %s nation is prohibited. "
@@ -38773,7 +38775,7 @@ msgstr ""
 "%s ne peuvent pas construire %s de la liste de travail ; une nation %s "
 "l'interdit. Différé..."
 
-#: server/cityturn.c:1452
+#: server/cityturn.c:1453
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s style cities may build this. "
@@ -38782,7 +38784,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; seules les villes de "
 "style %s peuvent construire ceci. Différé..."
 
-#: server/cityturn.c:1464
+#: server/cityturn.c:1465
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s style cities may not build this. "
@@ -38792,7 +38794,7 @@ msgstr ""
 "ne peuvent pas construire ceci. Différé..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1482
+#: server/cityturn.c:1483
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city with %s may build this. "
@@ -38802,7 +38804,7 @@ msgstr ""
 "%s peut construire ceci. Différé..."
 
 #. TRANS: Latter %s is citizen nationality
-#: server/cityturn.c:1495
+#: server/cityturn.c:1496
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only city without %s may build this. "
@@ -38814,7 +38816,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Is foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1513
+#: server/cityturn.c:1514
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -38823,7 +38825,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la relation '%s' est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1528
+#: server/cityturn.c:1529
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -38832,7 +38834,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la relation '%s' est "
 "interdite. Différé..."
 
-#: server/cityturn.c:1546
+#: server/cityturn.c:1547
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -38841,7 +38843,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit être de "
 "taille %d ou plus. Différé..."
 
-#: server/cityturn.c:1559
+#: server/cityturn.c:1560
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or smaller."
@@ -38850,7 +38852,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit être de "
 "taille %d ou moins. Différé..."
 
-#: server/cityturn.c:1575
+#: server/cityturn.c:1576
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -38859,7 +38861,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit avoir "
 "une culture de %d. Différé..."
 
-#: server/cityturn.c:1593
+#: server/cityturn.c:1594
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -38874,7 +38876,7 @@ msgstr[1] ""
 "%s ne peut pas construire %s de la liste de travail ; plus de %d unités sur "
 "la case ! Différé..."
 
-#: server/cityturn.c:1611
+#: server/cityturn.c:1612
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -38889,7 +38891,7 @@ msgstr[1] ""
 "%s ne peut pas construire %s de la liste de travail ; moins de %d unités sur "
 "la case. Différé..."
 
-#: server/cityturn.c:1636
+#: server/cityturn.c:1637
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is required.  "
@@ -38898,7 +38900,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain de type %s "
 "est nécessaire. Différé..."
 
-#: server/cityturn.c:1649
+#: server/cityturn.c:1650
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is "
@@ -38907,7 +38909,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain de type %s "
 "est interdit. Différé..."
 
-#: server/cityturn.c:1665
+#: server/cityturn.c:1666
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -38916,7 +38918,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain avec "
 "l'indicateur \"%s\" est nécessaire. Différé..."
 
-#: server/cityturn.c:1678
+#: server/cityturn.c:1679
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -38925,7 +38927,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain avec "
 "l'indicateur \"%s\" est interdit. Différé..."
 
-#: server/cityturn.c:1694
+#: server/cityturn.c:1695
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; base with \"%s\" flag is required. "
@@ -38934,7 +38936,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une base avec "
 "l'indicateur %s est nécessaire. Différé..."
 
-#: server/cityturn.c:1707
+#: server/cityturn.c:1708
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; base with \"%s\" flag is prohibited. "
@@ -38943,7 +38945,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une base avec "
 "l'indicateur %s est interdite. Différé..."
 
-#: server/cityturn.c:1723
+#: server/cityturn.c:1724
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
@@ -38952,7 +38954,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une route avec "
 "l'indicateur %s est nécessaire. Différé..."
 
-#: server/cityturn.c:1736
+#: server/cityturn.c:1737
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -38961,7 +38963,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une route avec "
 "l'indicateur %s est interdite. Différé..."
 
-#: server/cityturn.c:1752
+#: server/cityturn.c:1753
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -38970,7 +38972,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un extra avec "
 "l'indicateur \"%s\" est nécessaire. Différé..."
 
-#: server/cityturn.c:1765
+#: server/cityturn.c:1766
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -38980,7 +38982,7 @@ msgstr ""
 "l'indicateur %s est interdite. Différé..."
 
 #. TRANS: last %s is a date
-#: server/cityturn.c:1797
+#: server/cityturn.c:1798
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -38990,7 +38992,7 @@ msgstr ""
 
 #. TRANS: third %s is topology flag name
 #. * ("WrapX", "ISO", etc)
-#: server/cityturn.c:1817
+#: server/cityturn.c:1818
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -38998,7 +39000,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; seulement disponible "
 "dans les mondes avec une carte %s. Différé..."
 
-#: server/cityturn.c:1833
+#: server/cityturn.c:1834
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
@@ -39008,37 +39010,37 @@ msgstr ""
 "après %d tours. Différé..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1933
+#: server/cityturn.c:1934
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "La liste de travail de %s est à présent vide."
 
-#: server/cityturn.c:2085
+#: server/cityturn.c:2086
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ne peut plus entretenir %s, unité congédiée."
 
-#: server/cityturn.c:2106
+#: server/cityturn.c:2107
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Les citoyens à %s ont péri pour leur manquement à l'entretien de %s !"
 
-#: server/cityturn.c:2151 server/cityturn.c:2332
+#: server/cityturn.c:2152 server/cityturn.c:2333
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s construit %s, qui n'est plus disponible."
 
-#: server/cityturn.c:2190
+#: server/cityturn.c:2191
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Les %s ont fini de construire %s dans %s."
 
-#: server/cityturn.c:2197
+#: server/cityturn.c:2198
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s a fini de construire %s."
 
-#: server/cityturn.c:2220
+#: server/cityturn.c:2221
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -39046,25 +39048,25 @@ msgstr[0] "%s accélère la recherche, vous obtenez %d découverte immédiate."
 msgstr[1] "%s accélère la recherche, vous obtenez %d découvertes immédiates."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2234
+#: server/cityturn.c:2235
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "Acquis %s de %s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2240
+#: server/cityturn.c:2241
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "Les %s ont acquis %s de %s."
 
-#: server/cityturn.c:2247
+#: server/cityturn.c:2248
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Les %s ont commencé la construction d'un vaisseau spatial !"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2359
+#: server/cityturn.c:2360
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -39072,80 +39074,80 @@ msgstr ""
 "population de l'unité : %d)."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2394
+#: server/cityturn.c:2395
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s a achevé la construction de %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2419
+#: server/cityturn.c:2420
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s a coûté %d population. %s décroit à la taille %d."
 msgstr[1] "%s a coûté %d populations. %s décroit à la taille %d."
 
-#: server/cityturn.c:2495
+#: server/cityturn.c:2496
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Impossible d'entretenir %s dans %s : bâtiment vendu!"
 
-#: server/cityturn.c:2584
+#: server/cityturn.c:2585
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Par assez d'or. %s congédié."
 
-#: server/cityturn.c:2830 server/cityturn.c:3635
+#: server/cityturn.c:2831 server/cityturn.c:3636
 #, c-format
 msgid "Pollution near %s."
 msgstr "Pollution près de %s."
 
-#: server/cityturn.c:3002
+#: server/cityturn.c:3003
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Célébrations en votre honneur à %s."
 
-#: server/cityturn.c:3008
+#: server/cityturn.c:3009
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Les célébrations se sont achevées dans %s."
 
-#: server/cityturn.c:3025
+#: server/cityturn.c:3026
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s a été frappée par une épidémie ! Des citoyens ont été perdus !"
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3084
+#: server/cityturn.c:3085
 msgid " Unrest threatens to spread beyond the city."
 msgstr " L'agitation menace de se répandre au delà de la ville."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3091
+#: server/cityturn.c:3092
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "Émeutes à %s.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3096
+#: server/cityturn.c:3097
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "LES ÉMEUTES CONTINUENT à %s.%s"
 
-#: server/cityturn.c:3102
+#: server/cityturn.c:3103
 #, c-format
 msgid "Order restored in %s."
 msgstr "L'ordre est rétabli à %s."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3114
+#: server/cityturn.c:3115
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Le peuple a renversé votre %s, le trouble règne sur votre pays."
 
-#: server/cityturn.c:3158
+#: server/cityturn.c:3159
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -39153,13 +39155,13 @@ msgstr ""
 "notre seule ville."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3189
+#: server/cityturn.c:3190
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s est démantelée en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3397
+#: server/cityturn.c:3398
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -39168,7 +39170,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3404
+#: server/cityturn.c:3405
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -39178,7 +39180,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3409
+#: server/cityturn.c:3410
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -39188,7 +39190,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3424
+#: server/cityturn.c:3425
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -39197,7 +39199,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3431
+#: server/cityturn.c:3432
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -39206,7 +39208,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3436
+#: server/cityturn.c:3437
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -39214,81 +39216,81 @@ msgstr ""
 "Les émigrants de %s (%s) ne peuvent aller à %s car une construction y est "
 "nécessaire pour que la ville puisse se développer !"
 
-#: server/cityturn.c:3489
+#: server/cityturn.c:3490
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s a été démantelée par ses habitants."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3527
+#: server/cityturn.c:3528
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Des émigrants de %s sont partis en quête d'une vie meilleure à %s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3533
+#: server/cityturn.c:3534
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 "Des émigrants de %s sont partis en quête d'une vie meilleure à %s (%s)."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3538
+#: server/cityturn.c:3539
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 "Des émigrants de %s (%s) sont partis en quête d'une vie meilleure à %s."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3629
+#: server/cityturn.c:3630
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%s a été atteinte par un(e) %s."
 
-#: server/cityturn.c:3643
+#: server/cityturn.c:3644
 #, c-format
 msgid "Fallout near %s."
 msgstr "Retombées près de %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3654
+#: server/cityturn.c:3655
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s détruit entièrement %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3660
+#: server/cityturn.c:3661
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s a provoqué une perte de population à %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3684
+#: server/cityturn.c:3685
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s a détruit %s à %s."
 
 # AR : problème de a/an
 #. TRANS: %s is a city name
-#: server/cityturn.c:3699
+#: server/cityturn.c:3700
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Toute la nourriture stockée à %s a été détruite."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3715
+#: server/cityturn.c:3716
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "La production de %s a été détruite à %s."
 
-#: server/cityturn.c:3889
+#: server/cityturn.c:3890
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 "Des citoyens de %s envisagent d'émigrer vers %s en quête d'une vie meilleure."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3911
+#: server/cityturn.c:3912
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -42663,8 +42665,8 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Impossible de charger les règles du jeu '%s', nécessaires pour la sauvegarde."
 
-#: server/savegame2.c:3911 server/savegame.c:4050 server/srv_main.c:2391
-#: server/srv_main.c:2396
+#: server/savegame2.c:3911 server/savegame.c:4050 server/srv_main.c:2392
+#: server/srv_main.c:2397
 #, c-format
 msgid "%s has been added as %s level AI-controlled player (%s)."
 msgstr ""
@@ -44721,7 +44723,14 @@ msgid ""
 "Not all the mission types use diplchance as a base chance; City Poisoning, "
 "Unit Bribing, and Unit Sabotaging do not. Non-aggressive missions typically "
 "have no base chance at all, but always success."
-msgstr "La probabilité de base qu'un espion revienne d'une mission réussie, et la probabilité de succès pour les diplomates et les espions pour les types de missions agressives. Tous les types de mission n'utilisent pas diplchance comme probabilité de base ; Empoisonner la Ville, Corrompre l'Unité et Saboter l'Unité ne le font pas. Les missions non-agressives n'ont généralement pas de probabilité de base du tout, mais réussissent automatiquement."
+msgstr ""
+"La probabilité de base qu'un espion revienne d'une mission réussie, et la "
+"probabilité de succès pour les diplomates et les espions pour les types de "
+"missions agressives. Tous les types de mission n'utilisent pas diplchance "
+"comme probabilité de base ; Empoisonner la Ville, Corrompre l'Unité et "
+"Saboter l'Unité ne le font pas. Les missions non-agressives n'ont "
+"généralement pas de probabilité de base du tout, mais réussissent "
+"automatiquement."
 
 #: server/settings.c:2251
 msgid "What kinds of victories are possible"
@@ -45761,53 +45770,53 @@ msgstr ""
 "Sans les instructions de la capitale, le vaisseau spatial des %s est perdu !"
 
 #. TRANS: Another entry in winners list (", the Tibetans")
-#: server/srv_main.c:350 server/srv_main.c:475
+#: server/srv_main.c:351 server/srv_main.c:476
 #, c-format
 msgid "?winners:, the %s"
 msgstr ", les %s"
 
 #. TRANS: Beginning of the winners list ("the French")
-#: server/srv_main.c:354 server/srv_main.c:470
+#: server/srv_main.c:355 server/srv_main.c:471
 #, c-format
 msgid "?winners:the %s"
 msgstr "les %s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:364
+#: server/srv_main.c:365
 #, c-format
 msgid "Scenario victory to %s."
 msgstr "Victoire du scenario à %s."
 
-#: server/srv_main.c:392 server/stdinhand.c:4464
+#: server/srv_main.c:393 server/stdinhand.c:4464
 msgid "Game is over."
 msgstr "Partie terminée"
 
-#: server/srv_main.c:425 server/srv_main.c:607
+#: server/srv_main.c:426 server/srv_main.c:608
 #, c-format
 msgid "Team victory to %s."
 msgstr "Victoire d'équipe à %s"
 
 #. TRANS: There can be several winners listed
-#: server/srv_main.c:482
+#: server/srv_main.c:483
 #, c-format
 msgid "Allied victory to %s."
 msgstr "Victoire d'alliés à %s"
 
-#: server/srv_main.c:508
+#: server/srv_main.c:509
 #, c-format
 msgid "Game ended in conquest victory for %s."
 msgstr "Partie s'est terminée par une victoire de conquête de %s"
 
-#: server/srv_main.c:538
+#: server/srv_main.c:539
 #, c-format
 msgid "Game ended in cultural domination victory for %s."
 msgstr "Partie s'est terminée par une domination culturelle de %s"
 
-#: server/srv_main.c:549
+#: server/srv_main.c:550
 msgid "Game ended as the turn limit was exceeded."
 msgstr "Partie terminée après le tour fixé de fin de partie"
 
-#: server/srv_main.c:554
+#: server/srv_main.c:555
 msgid ""
 "Notice: game will end at the end of this turn due to 'endturn' server "
 "setting."
@@ -45815,12 +45824,12 @@ msgstr ""
 "Avertissement : La partie se terminera à la fin de ce tour, suite à l'option "
 "'endturn' du serveur."
 
-#: server/srv_main.c:615
+#: server/srv_main.c:616
 #, c-format
 msgid "Game ended in victory for %s."
 msgstr "Partie s'est terminée par une victoire de %s"
 
-#: server/srv_main.c:641
+#: server/srv_main.c:642
 #, c-format
 msgid ""
 "Notice: the %s spaceship will likely arrive at Alpha Centauri next turn."
@@ -45829,7 +45838,7 @@ msgstr ""
 "du Centaure au prochain tour."
 
 #. TRANS: "... 2 military units in Norwegian territory."
-#: server/srv_main.c:778
+#: server/srv_main.c:779
 #, c-format
 msgid "Warning: you still have %d military unit in %s territory."
 msgid_plural "Warning: you still have %d military units in %s territory."
@@ -45840,7 +45849,7 @@ msgstr[1] ""
 
 #. TRANS: %s is another, separately translated sentence,
 #. * ending in a full stop.
-#: server/srv_main.c:787
+#: server/srv_main.c:788
 #, c-format
 msgid ""
 "%s Any such units will be disbanded in %d turn, in accordance with peace "
@@ -45855,12 +45864,12 @@ msgstr[1] ""
 "%s Toutes les unités semblables seront congédiées dans %d tours, "
 "conformément au traité de Paix."
 
-#: server/srv_main.c:807 server/srv_main.c:818
+#: server/srv_main.c:808 server/srv_main.c:819
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr "Votre %s a été congédié conformément au traité de Paix avec les %s."
 
-#: server/srv_main.c:868
+#: server/srv_main.c:869
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
@@ -45869,14 +45878,14 @@ msgstr ""
 "fin."
 
 # AR
-#: server/srv_main.c:877 server/srv_main.c:882
+#: server/srv_main.c:878 server/srv_main.c:883
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "Le Cessez-le-feu avec %s a pris fin. Vos relations avec les %s sont "
 "désormais à la Guerre."
 
-#: server/srv_main.c:922 server/srv_main.c:932
+#: server/srv_main.c:923 server/srv_main.c:933
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -45885,7 +45894,7 @@ msgstr ""
 "Le Cessez-le-feu entre %s et %s est terminé. Ils sont en Guerre. Vous "
 "annulez votre Alliance avec %s."
 
-#: server/srv_main.c:942
+#: server/srv_main.c:943
 #, c-format
 msgid ""
 "The cease-fire between %s and %s has run out. They are at war. You cancel "
@@ -45895,64 +45904,64 @@ msgstr ""
 "annulez votre Alliance avec les deux."
 
 #. TRANS: %s is a unit type
-#: server/srv_main.c:1089
+#: server/srv_main.c:1090
 #, c-format
 msgid "%s retired!"
 msgstr "%s a quitté la partie !"
 
-#: server/srv_main.c:1317
+#: server/srv_main.c:1318
 msgid "Automatically placed spaceship parts that were still not placed."
 msgstr ""
 "Placement automatique des parties de vaisseau spatial qui n'étaient toujours "
 "pas placées."
 
-#: server/srv_main.c:1603 server/srv_main.c:1606
+#: server/srv_main.c:1604 server/srv_main.c:1607
 #, c-format
 msgid "Unsupported compression type %d."
 msgstr "Type de compression non supporté %d."
 
 # AR
-#: server/srv_main.c:1636
+#: server/srv_main.c:1637
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Échec dans la sauvegarde de la partie sous %s"
 
 # AR
-#: server/srv_main.c:1638
+#: server/srv_main.c:1639
 msgid "Failed saving game."
 msgstr "Échec de sauvegarde de la partie."
 
-#: server/srv_main.c:1640
+#: server/srv_main.c:1641
 #, c-format
 msgid "Game saved as %s"
 msgstr "Partie sauvegardée sous %s"
 
-#: server/srv_main.c:1701
+#: server/srv_main.c:1702
 msgid "The game is already running."
 msgstr "La partie est déjà en cours."
 
-#: server/srv_main.c:1709
+#: server/srv_main.c:1710
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s a perdu le niveau de contrôle cmdlevel suite au début de la partie. "
 "Utilisation du vote dorénavant."
 
-#: server/srv_main.c:1717
+#: server/srv_main.c:1718
 msgid "Starting game."
 msgstr "Démarrage du jeu."
 
-#: server/srv_main.c:1833
+#: server/srv_main.c:1834
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "requête d'un rapport inconnu (type %d)"
 
-#: server/srv_main.c:1923
+#: server/srv_main.c:1924
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Attention : rejet d'un ancien client %s"
 
-#: server/srv_main.c:1934
+#: server/srv_main.c:1935
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -45960,51 +45969,51 @@ msgstr ""
 "Votre client est trop vieux. Pour utiliser ce serveur veuillez mettre votre "
 "client à jour avec une version Freeciv 2.2 ou ultérieure."
 
-#: server/srv_main.c:1993
+#: server/srv_main.c:1994
 msgid "You are not allowed to edit."
 msgstr "Vous n'êtes pas autorisé à éditer."
 
-#: server/srv_main.c:2204
+#: server/srv_main.c:2205
 #, c-format
 msgid "%s nation is not available for user selection."
 msgstr "La nation %s n'est pas disponible comme choix utilisateur."
 
-#: server/srv_main.c:2210
+#: server/srv_main.c:2211
 #, c-format
 msgid "%s nation is already in use."
 msgstr "La nation %s est déjà prise."
 
-#: server/srv_main.c:2226
+#: server/srv_main.c:2227
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s est le chef %s %s."
 
-#: server/srv_main.c:2301
+#: server/srv_main.c:2302
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "En attente du démarrage de la partie : %d joueurs sur %d sont prêts."
 
-#: server/srv_main.c:2327
+#: server/srv_main.c:2328
 msgid "requested more than 'maxplayers' setting"
 msgstr "demande supérieure à l'option 'maxplayers'"
 
-#: server/srv_main.c:2334
+#: server/srv_main.c:2335
 msgid ""
 "not enough playable nations in this nation set (see 'nationset' setting)"
 msgstr ""
 "pas assez de nations jouables dans ce jeu de nations (voir l'option "
 "'nationset')"
 
-#: server/srv_main.c:2337
+#: server/srv_main.c:2338
 msgid "not enough playable nations"
 msgstr "pas assez de nations jouables."
 
-#: server/srv_main.c:2683 server/srv_main.c:2687
+#: server/srv_main.c:2684 server/srv_main.c:2688
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s dirige les %s."
 
-#: server/srv_main.c:2887
+#: server/srv_main.c:2888
 msgid ""
 "This freeciv-server program has player authentication support, but it's "
 "currently not in use."
@@ -46012,41 +46021,41 @@ msgstr ""
 "Ce serveur Freeciv a un support d'authentification des joueurs, mais il est "
 "actuellement désactivé."
 
-#: server/srv_main.c:2954
+#: server/srv_main.c:2955
 #, c-format
 msgid "Sending info to metaserver <%s>."
 msgstr "Envoi d'informations au méta-serveur <%s>."
 
-#: server/srv_main.c:2958
+#: server/srv_main.c:2959
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 "Impossible de démarrer sans connexion au méta-serveur explicitement demandée."
 
-#: server/srv_main.c:2981
+#: server/srv_main.c:2982
 msgid "The game is over..."
 msgstr "La partie est terminée..."
 
-#: server/srv_main.c:3108
+#: server/srv_main.c:3109
 msgid "Failed to create suitable map, retrying with another mapseed."
 msgstr ""
 "Impossible de créer une carte convenable, nouvel essai avec une autre clé de "
 "génération."
 
-#: server/srv_main.c:3114
+#: server/srv_main.c:3115
 #, c-format
 msgid "Attempt %d/%d"
 msgstr "Tentative %d/%d"
 
-#: server/srv_main.c:3142
+#: server/srv_main.c:3143
 msgid "Cannot create suitable map with given settings."
 msgstr "Impossible de créer une carte convenable avec les paramètres donnés."
 
-#: server/srv_main.c:3166 server/srv_main.c:3170
+#: server/srv_main.c:3167 server/srv_main.c:3171
 #, c-format
 msgid "Setting '%s' has been adjusted from %s to %s."
 msgstr "L'option '%s' a été modifiée de %s à %s."
 
-#: server/srv_main.c:3369
+#: server/srv_main.c:3370
 #, c-format
 msgid "Now accepting new client connections on port %d."
 msgstr "Accepte dorénavant la connexion de nouveaux clients sur le port %d."
@@ -49086,6 +49095,42 @@ msgstr "Impossible d'aller chercher %s : %s"
 #, c-format
 msgid "Could not open %s for writing"
 msgstr "Impossible d'ouvrir %s en écriture"
+
+#: utility/randseed.c:59
+#, c-format
+msgid "getentropy() failed: %s"
+msgstr "Échec de getentropy() : %s"
+
+#: utility/randseed.c:92
+#, c-format
+msgid "Opening %s failed: %s"
+msgstr "Échec de l'ouverture de %s : %s"
+
+#: utility/randseed.c:97
+#, c-format
+msgid "Reading %s failed: %s"
+msgstr "Échec de lecture de %s : %s"
+
+#: utility/randseed.c:99
+#, c-format
+msgid "Reading %s: short read without error"
+msgstr "Lecture de %s : Lecture tronquée sans erreur"
+
+#: utility/randseed.c:141
+#, c-format
+msgid "clock_gettime(CLOCK_REALTIME) failed: %s"
+msgstr "Échec de clock_gettime(CLOCK_REALTIME) : %s"
+
+#: utility/randseed.c:180
+msgid ""
+"No good random source usable. Falling back to time-based random seeding."
+msgstr "Aucune bonne source aléatoire utilisable. Repli sur une graine basée sur le temps."
+
+#: utility/randseed.c:189
+msgid ""
+"Warning: Falling back to predictable random seed from current coarse-"
+"granularity time."
+msgstr "Repli sur une graine prédictible à partir de l'heure courante grossière."
 
 #. TRANS: do not translate <Freeciv>
 #: utility/registry_xml.c:46
@@ -70223,9 +70268,6 @@ msgstr "erreur %d (compilation sans strerror)"
 
 #~ msgid "Make Trade Route"
 #~ msgstr "Créer une route commerciale"
-
-#~ msgid "Failed reading PNG file: %s"
-#~ msgstr "Lecture du fichier PNG %s impossible"
 
 #~ msgid "Failed creating PNG struct"
 #~ msgstr "Création de la structure PNG impossible"
