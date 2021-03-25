@@ -161,6 +161,9 @@ bool wonder_is_built(const struct player *pplayer,
                      const struct impr_type *pimprove);
 struct city *city_from_wonder(const struct player *pplayer,
                               const struct impr_type *pimprove);
+bool wonder_visible_to_player(const struct impr_type *wonder,
+                              const struct player *pplayer,
+                              const struct player *owner);
 
 bool great_wonder_is_built(const struct impr_type *pimprove);
 bool great_wonder_is_destroyed(const struct impr_type *pimprove);

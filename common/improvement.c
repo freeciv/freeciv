@@ -856,6 +856,31 @@ struct city *city_from_wonder(const struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Can the player see wonder owned by the other player?
+**************************************************************************/
+bool wonder_visible_to_player(const struct impr_type *wonder,
+                              const struct player *pplayer,
+                              const struct player *owner)
+{
+  if (pplayer == owner) {
+    /* Can see all own wonders,
+     * even improvements if that matters. */
+    return TRUE;
+  }
+
+  if (is_great_wonder(wonder)) {
+    return TRUE;
+  }
+
+  if (is_small_wonder(wonder)) {
+    return TRUE;
+  }
+
+  /* Now a wonder, but regular improvement */
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns whether this wonder is currently built.
 **************************************************************************/
 bool great_wonder_is_built(const struct impr_type *pimprove)
