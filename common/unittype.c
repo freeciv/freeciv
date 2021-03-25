@@ -2651,16 +2651,35 @@ void set_unit_type_caches(struct unit_type *ptype)
 
   unit_type_iterate(utype) {
     int idx = utype_index(utype);
-
-    ptype->cache.defense_mp_bonuses_pct[idx] = combat_bonus_against(
+    int bonus = combat_bonus_against(
         ptype->bonuses, utype, CBONUS_DEFENSE_MULTIPLIER_PCT)
         + 100 * combat_bonus_against(ptype->bonuses, utype,
                                     CBONUS_DEFENSE_MULTIPLIER);
+    int scramble_bonus =
+      combat_bonus_against(ptype->bonuses, utype,
+                           CBONUS_SCRAMBLES_PCT);
 
-    if (ptype->cache.defense_mp_bonuses_pct[idx]
-        > ptype->cache.max_defense_mp_pct) {
-      ptype->cache.max_defense_mp_pct =
-         ptype->cache.defense_mp_bonuses_pct[idx];
+    ptype->cache.defense_mp_bonuses_pct[idx] = bonus;
+    /* max value is for city defenders, so it considers scrambling */
+    /* FIXME: if the unit's fuel != 1, scrambling is not so useful */
+    if (scramble_bonus) {
+      /* Guess about city defense effect value */
+      struct universal u
+        = { .kind = VUT_UTYPE,  .value = {.utype  = utype}  };
+      int emax = effect_cumulative_max(EFT_DEFEND_BONUS, &u, 1);
+
+      emax = CLIP(0, emax, 300); /* Likely sth wrong if more */
+      emax -= emax >> 2; /* Might be no such building yet */
+      bonus
+      = (ptype->cache.scramble_coeff[idx]
+         = (bonus + 100) * (scramble_bonus + 100)
+        ) / (100 + emax) - 100;
+      bonus = MAX(bonus, 1); /* to look better in assess_danger() */
+    } else {
+      ptype->cache.scramble_coeff[idx] = 0;
+    }
+    if (bonus > ptype->cache.max_defense_mp_pct) {
+      ptype->cache.max_defense_mp_pct = bonus;
     }
   } unit_type_iterate_end;
 }

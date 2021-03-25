@@ -439,6 +439,8 @@ BV_DEFINE(bv_unit_type_roles, L_MAX);
 #define SPECENUM_VALUE3NAME "DefenseMultiplierPct"
 #define SPECENUM_VALUE4 CBONUS_DEFENSE_DIVIDER_PCT
 #define SPECENUM_VALUE4NAME "DefenseDividerPct"
+#define SPECENUM_VALUE5 CBONUS_SCRAMBLES_PCT
+#define SPECENUM_VALUE5NAME "CityDefensePct"
 #include "specenum_gen.h"
 
 struct combat_bonus {
@@ -554,6 +556,9 @@ struct unit_type {
                              * never has CBONUS_DEFENSE_MULTIPLIER, it
                              * merely means that there's no POSITIVE one */
     int defense_mp_bonuses_pct[U_LAST];
+    int scramble_coeff[U_LAST]; /* for scrambling units, 10000 x defense factor
+                                 * in cities (includes common type defense
+                                 * bonus multiplier), for other 0 */
   } cache;
 
   void *ais[FREECIV_AI_MOD_LAST];

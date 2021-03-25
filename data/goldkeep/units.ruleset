@@ -316,6 +316,9 @@ flags         = "Unreachable", "DoesntOccupyTile", "HutFrighten"
 ; "FirePower1"           = Defender firepower is reduced to value 1 when
 ;                          ever this has non-zero value.
 ;                          Bonus is defined in attackers entry.
+; "CityDefensePct"       = In a city, instead of "Defend_Bonus" effect
+;                          uses this bonus.
+;                          Bonus is defined in defenders entry.
 ;
 ;
 ; ** Flags **
