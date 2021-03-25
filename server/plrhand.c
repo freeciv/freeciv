@@ -1081,11 +1081,7 @@ static void package_player_common(struct player *plr,
   packet->barbarian_type = plr->ai_common.barbarian_type;
 
   packet->phase_done = plr->phase_done;
-  packet->nturns_idle=plr->nturns_idle;
-
-  for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
-    packet->wonders[i] = plr->wonders[i];
-  }
+  packet->nturns_idle = plr->nturns_idle;
   packet->science_cost = plr->ai_common.science_cost;
 }
 
@@ -1106,6 +1102,7 @@ static void package_player_info(struct player *plr,
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
   struct government *pgov = NULL;
+  Impr_type_id imp;
 
   if (receiver) {
     info_level = player_info_level(plr, receiver);
@@ -1150,6 +1147,7 @@ static void package_player_info(struct player *plr,
     /* In pregame, send the color we expect to use, for consistency with
      * '/list colors' etc. */
     const struct rgbcolor *preferred = player_preferred_color(plr);
+
     if (preferred != NULL) {
       packet->color_valid = TRUE;
       packet->color_red = preferred->r;
@@ -1251,6 +1249,19 @@ static void package_player_info(struct player *plr,
   }
 
   packet->history16 = packet->history32;
+
+  for (imp = 0; imp < B_LAST; imp++) {
+    if (plr->wonders[imp] != WONDER_NOT_BUILT) {
+      if (wonder_visible_to_player(improvement_by_number(imp),
+                                   receiver, plr)) {
+        packet->wonders[imp] = plr->wonders[imp];
+      } else {
+        packet->wonders[imp] = WONDER_NOT_BUILT;
+      }
+    } else {
+      packet->wonders[imp] = WONDER_NOT_BUILT;
+    }
+  }
 }
 
 /**************************************************************************
