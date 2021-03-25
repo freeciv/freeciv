@@ -688,7 +688,7 @@ fragments = 4
 
 ; Calendar fragment names. If name is missing, only a fragment number +1 (so human readable
 ; numbers begin from 1 and not 0) is shown.
-
+; /* TRANS: Quarters */
 fragment_name0 = _("Q1")
 fragment_name1 = _("Q2")
 fragment_name2 = _("Q3")
