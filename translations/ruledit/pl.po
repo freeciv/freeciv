@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-06 00:29+0200\n"
-"PO-Revision-Date: 2020-12-19 11:10+0100\n"
+"POT-Creation-Date: 2021-03-25 14:19+0200\n"
+"PO-Revision-Date: 2021-03-19 13:46+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -25,6 +25,10 @@ msgstr "Zamknij"
 msgid "Old ruleset to a new format"
 msgstr "Stary zestaw zasad na nowy format"
 
+#: tools/ruledit/edit_utype.cpp:48
+msgid "Requirement"
+msgstr "Wymagania"
+
 #: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Typ:"
@@ -34,7 +38,8 @@ msgid "Value:"
 msgstr "Wartość:"
 
 #: tools/ruledit/effect_edit.cpp:96 tools/ruledit/tab_building.cpp:84
-#: tools/ruledit/tab_good.cpp:85 tools/ruledit/tab_multiplier.cpp:84
+#: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
+#: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Wymagania"
 
@@ -104,12 +109,12 @@ msgstr ""
 "ręcznie naprawić dany problem i wrócić tu, aby przejść do następnego "
 "problemu."
 
-#: tools/ruledit/req_vec_fix.cpp:276
+#: tools/ruledit/req_vec_fix.cpp:278
 msgid "Unable to apply solution"
 msgstr "Nie można zastosować rozwiązania"
 
 #. TRANS: requirement vector fix failed to apply
-#: tools/ruledit/req_vec_fix.cpp:280
+#: tools/ruledit/req_vec_fix.cpp:282
 msgid "Failed to apply solution %1 for %2 to %3."
 msgstr "Nie udało się zastosować rozwiązania %1 dla %2, aby %3."
 
@@ -127,52 +132,52 @@ msgstr "Wymagane przez %s"
 
 #. TRANS: 'Failed to load comments-x.y.txt' where x.y is
 #. * freeciv version
-#: tools/ruledit/ruledit.cpp:120
+#: tools/ruledit/ruledit.cpp:121
 #, fuzzy, c-format
 #| msgid "Failed to load comments.txt"
 msgid "Failed to load %s."
 msgstr "Nie udało się wczytać comments.txt"
 
-#: tools/ruledit/ruledit.cpp:154
+#: tools/ruledit/ruledit.cpp:157
 msgid "Print a summary of the options"
 msgstr "Pokaż podsumowanie opcji"
 
-#: tools/ruledit/ruledit.cpp:156
+#: tools/ruledit/ruledit.cpp:159
 msgid "Print the version number"
 msgstr "Pokaż nazwę wersji"
 
 #. TRANS: argument (don't translate) VALUE (translate)
-#: tools/ruledit/ruledit.cpp:159
+#: tools/ruledit/ruledit.cpp:162
 msgid "ruleset RULESET"
 msgstr "ruleset ZESTAW ZASAD"
 
-#: tools/ruledit/ruledit.cpp:160
+#: tools/ruledit/ruledit.cpp:163
 msgid "Ruleset to use as the starting point."
 msgstr "Zestaw zasad będący punktem wyjścia."
 
 #. TRANS: "Fatal" is exactly what user must type, do not translate.
-#: tools/ruledit/ruledit.cpp:164
+#: tools/ruledit/ruledit.cpp:167
 msgid "Fatal [SIGNAL]"
 msgstr "Fatal [SYGNAŁ]"
 
-#: tools/ruledit/ruledit.cpp:165
+#: tools/ruledit/ruledit.cpp:168
 msgid "Raise a signal on failed assertion"
 msgstr "Zwróć sygnał w przypadku błędnej asercji"
 
-#: tools/ruledit/ruledit.cpp:179
+#: tools/ruledit/ruledit.cpp:182
 msgid "Can only edit one ruleset at a time.\n"
 msgstr "Można edytować tylko jeden zestaw zasad na raz.\n"
 
-#: tools/ruledit/ruledit.cpp:190
+#: tools/ruledit/ruledit.cpp:193
 #, c-format
 msgid "Invalid signal number \"%s\".\n"
 msgstr "Nieprawidłowy numer sygnału \"%s\".\n"
 
-#: tools/ruledit/ruledit.cpp:192
+#: tools/ruledit/ruledit.cpp:195
 msgid "Try using --help.\n"
 msgstr "Spróbuj --help.\n"
 
-#: tools/ruledit/ruledit.cpp:199
+#: tools/ruledit/ruledit.cpp:202
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Nierozpoznana opcja: \"%s\"\n"
@@ -264,20 +269,24 @@ msgstr "Na pewno chcesz zakończyć?"
 msgid "Quit?"
 msgstr "Zakończyć?"
 
-#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_good.cpp:66
+#: tools/ruledit/tab_building.cpp:65 tools/ruledit/tab_extras.cpp:65
+#: tools/ruledit/tab_good.cpp:66 tools/ruledit/tab_gov.cpp:65
 #: tools/ruledit/tab_multiplier.cpp:65 tools/ruledit/tab_tech.cpp:64
-#: tools/ruledit/tab_unit.cpp:66
+#: tools/ruledit/tab_terrains.cpp:65 tools/ruledit/tab_unit.cpp:66
 msgid "Rule Name"
 msgstr "Nazwa zasady"
 
-#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_good.cpp:74
+#: tools/ruledit/tab_building.cpp:73 tools/ruledit/tab_extras.cpp:73
+#: tools/ruledit/tab_good.cpp:74 tools/ruledit/tab_gov.cpp:73
 #: tools/ruledit/tab_multiplier.cpp:73 tools/ruledit/tab_tech.cpp:72
-#: tools/ruledit/tab_unit.cpp:74
+#: tools/ruledit/tab_terrains.cpp:73 tools/ruledit/tab_unit.cpp:74
 msgid "Name"
 msgstr "Nazwa"
 
-#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_good.cpp:89
-#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_unit.cpp:89
+#: tools/ruledit/tab_building.cpp:88 tools/ruledit/tab_extras.cpp:88
+#: tools/ruledit/tab_good.cpp:89 tools/ruledit/tab_gov.cpp:88
+#: tools/ruledit/tab_tech.cpp:109 tools/ruledit/tab_terrains.cpp:84
+#: tools/ruledit/tab_unit.cpp:89
 #, fuzzy
 #| msgid "Effect"
 msgid "Effects"
@@ -342,6 +351,18 @@ msgstr "Aktywator (agent)"
 msgid "action enabler for %s"
 msgstr "aktywator dla %s"
 
+#: tools/ruledit/tab_extras.cpp:92
+msgid "Add Extra"
+msgstr "Wstaw dodatek"
+
+#: tools/ruledit/tab_extras.cpp:97
+msgid "Remove this Extra"
+msgstr "Usuń ten dodatek"
+
+#: tools/ruledit/tab_extras.cpp:182
+msgid "An extra with that rule name already exists!"
+msgstr "Dodatek o tej nazwie już istnieje!"
+
 #: tools/ruledit/tab_good.cpp:93
 msgid "Add Good"
 msgstr "Dodaj dobro"
@@ -353,6 +374,18 @@ msgstr "Usuń to dobro"
 #: tools/ruledit/tab_good.cpp:183
 msgid "A good with that rule name already exists!"
 msgstr "Gracz o tej nazwie już bierze udział w grze!"
+
+#: tools/ruledit/tab_gov.cpp:92
+msgid "Add Government"
+msgstr "Dodaj ustrój"
+
+#: tools/ruledit/tab_gov.cpp:97
+msgid "Remove this Government"
+msgstr "Usuń ten ustrój"
+
+#: tools/ruledit/tab_gov.cpp:182
+msgid "A government with that rule name already exists!"
+msgstr "Ustrój o tej nazwie już istnieje!"
 
 #: tools/ruledit/tab_misc.cpp:69
 msgid "Ruleset name"
@@ -526,6 +559,18 @@ msgstr "Nigdy"
 msgid "A tech with that rule name already exists!"
 msgstr "Technologia o tej nazwie reguły istnieje!"
 
+#: tools/ruledit/tab_terrains.cpp:88
+msgid "Add Terrain"
+msgstr "Wstaw teren"
+
+#: tools/ruledit/tab_terrains.cpp:93
+msgid "Remove this Terrain"
+msgstr "Usuń ten teren"
+
+#: tools/ruledit/tab_terrains.cpp:178
+msgid "A terrain with that rule name already exists!"
+msgstr "Teren o tej nazwie już istnieje!"
+
 #: tools/ruledit/tab_unit.cpp:85
 msgid "Edit Unit"
 msgstr "Edytuj jednostkę"
@@ -546,6 +591,15 @@ msgstr "Typ jednostki o tej nazwie reguły już istnieje!"
 msgid "Range:"
 msgstr "Zasięg:"
 
+#: tools/ruledit/req_edit.cpp:119 tools/ruledit/req_edit.cpp:281
+msgid "Allows"
+msgstr "Pozwala na"
+
+#: tools/ruledit/req_edit.cpp:120 tools/ruledit/req_edit.cpp:283
+#: tools/ruledit/req_edit.cpp:335
+msgid "Prevents"
+msgstr "Uniemożliwia"
+
 #: tools/ruledit/req_edit.cpp:125
 msgid "Add Requirement"
 msgstr "Dodaj wymaganie"
@@ -553,6 +607,11 @@ msgstr "Dodaj wymaganie"
 #: tools/ruledit/req_edit.cpp:129
 msgid "Delete Requirement"
 msgstr "Usuń wymaganie"
+
+#: tools/ruledit/req_edit.cpp:166
+#, c-format
+msgid "%s prevents"
+msgstr "%s uniemożliwia"
 
 #: tools/ruledit/validity.c:50 tools/ruledit/validity.c:311
 msgid "Effect"
