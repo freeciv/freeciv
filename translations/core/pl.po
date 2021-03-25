@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-19 14:23+0200\n"
-"PO-Revision-Date: 2020-12-19 10:58+0100\n"
+"POT-Creation-Date: 2021-03-14 20:31+0200\n"
+"PO-Revision-Date: 2021-03-19 13:38+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -7755,6 +7755,7 @@ msgstr ""
 #: client/gui-qt/gui_main.cpp:121
 msgid "-s, --shortcutreset\tReset shortcut keys to default values\n"
 msgstr ""
+"-s, --shortcutreset\tResetuje skróty klawiszowe do wartości domyślnych\n"
 
 #: client/gui-qt/gui_main.cpp:160
 msgid "Migrating Qt-client options from freeciv-2.5 options."
@@ -8488,13 +8489,13 @@ msgstr "Zapisz gry"
 
 #: client/gui-qt/menu.cpp:3667
 msgid "Selection will cancel current assignments!"
-msgstr ""
+msgstr "Wybór anuluje bieżące przydziały!"
 
 #: client/gui-qt/menu.cpp:3668
 #, fuzzy
 #| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
-msgstr "Wybór jednostki"
+msgstr "Potwierdź hasło"
 
 #: client/gui-qt/optiondlg.cpp:93
 msgid "... read more in help"
@@ -9661,13 +9662,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "Informacje wywiadu o państwie %sm"
 
 #: client/gui-sdl2/inteldlg.c:329
-#, fuzzy, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: %s(%d/%d)\n"
-#| "Culture: %d"
+#, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -9678,7 +9673,7 @@ msgstr ""
 "Władca: %s  Ustrój: %s\n"
 "Stolica: %s  Złoto: %d\n"
 "Podatek: %d%% Nauka: %d%% Luksus: %d%%\n"
-"Badania: %s(%d/%d)\n"
+"Badania: %s\n"
 "Kultura: %d"
 
 #: client/gui-sdl2/inteldlg.c:345
@@ -9697,13 +9692,7 @@ msgstr ""
 "Kultura: %d"
 
 #: client/gui-sdl2/inteldlg.c:364
-#, fuzzy, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: unknown\n"
-#| "Culture: %d"
+#, c-format
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -9713,9 +9702,9 @@ msgid ""
 msgstr ""
 "Władca: %s  Ustrój: %s\n"
 "Stolica: %s  Złoto: %d\n"
-"Podatek: %d%% Nauka: %d%% Luksus: %d%%\n"
-"Badania: nieznane\n"
-"Kultura: %d"
+"Podatek: nieznane\n"
+"Nauka: nieznane\n"
+"Kultura: nieznane"
 
 #: client/gui-sdl2/inteldlg.c:433
 msgid "Their techs that we don't have :"
@@ -12501,7 +12490,7 @@ msgstr "Schowek jest pusty."
 
 #: client/mapview_common.c:4010
 msgid "ISO|Hex"
-msgstr ""
+msgstr "ISO|Hex"
 
 #: client/mapview_common.c:4012 common/fc_types.h:357
 msgid "ISO"
@@ -12512,8 +12501,6 @@ msgid "Hex"
 msgstr "Hex"
 
 #: client/mapview_common.c:4018 client/tilespec.h:49
-#, fuzzy
-#| msgid "overhead"
 msgid "Overhead"
 msgstr "\"lotniczy\""
 
@@ -15709,16 +15696,13 @@ msgstr ""
 #. * (DiplRel requirements to an unclaimed tile are never fulfilled
 #. * so this is implicit.)
 #: common/actions.c:2819
-#, fuzzy, c-format
-#| msgid ""
-#| "Possible clarification: Requirement {%s} implies a claimed tile. No "
-#| "diplomatic relation to Nature."
+#, c-format
 msgid ""
 "Possible clarification: Requirement {%s} of action \"%s\" implies a claimed "
 "tile. No diplomatic relation to Nature."
 msgstr ""
-"Wyjaśnienie: Wymóg {%s} zakłada przejęte pole. Brak stosunków "
-"dyplomatycznych z Naturą."
+"Wyjaśnienie: Wymóg {%s} dla działania \"%s\" zakłada przejęte pole. Brak "
+"relacji dyplomatycznych z Naturą."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2869
@@ -16085,8 +16069,13 @@ msgid "tiles"
 msgstr "pola"
 
 #: common/actions.h:43
+#, fuzzy
 msgid "itself"
 msgstr ""
+"Korupcja i straty (produkcji i żywności) w pozostałych miastach jest "
+"obliczana na podstawie odległości od najbliższej stolicy. Ponadto korupcja i "
+"straty w samej stolicy jest o połowę niższa w porównaniu z miastem innym "
+"miastem (a Sąd eliminuje ją całkowicie)."
 
 #: common/actions.h:159
 msgid "no battle"
@@ -16129,10 +16118,8 @@ msgstr "Zbyt wiele modułów AI. Maksymalna liczba to %d."
 #. TRANS: this and following strings are 'base flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/base.h:45
-#, fuzzy
-#| msgid "No progress"
 msgid "NoAggressive"
-msgstr "Brak postępu"
+msgstr "NieAgresywna"
 
 #: common/base.h:51 common/extras.h:60
 msgid "NoStackDeath"
@@ -16819,21 +16806,20 @@ msgstr "pasywne"
 #. TRANS: " and achieved the rank of <veteran level>";
 #. * preserve leading space
 #: common/featured_text.c:1148
-#, fuzzy, c-format
-#| msgid "Your %s became more experienced and achieved the rank of %s."
+#, c-format
 msgid " and achieved the rank of %s"
-msgstr "Twoja jednostka %s jest teraz bardziej doświadczona i została %s."
+msgstr " i osiągnęła rangę %s"
 
 #. TRANS: tired; note trailing space
 #: common/featured_text.c:1165
 msgid "tired "
-msgstr ""
+msgstr "zmęczony"
 
 #. TRANS: FP = Firepower of a unit; note trailing space
 #: common/featured_text.c:1188
 #, c-format
 msgid "FP:%d "
-msgstr ""
+msgstr "SO:%d "
 
 #. TRANS: year label (Anno Domini)
 #: common/game.h:707 data/civ1/game.ruleset:627 data/civ2/game.ruleset:855
@@ -19164,16 +19150,12 @@ msgid "Prevented by terrain on which alteration %s can be made."
 msgstr "Niemożliwe, jeśli teren można przekształcić na %s."
 
 #: common/reqtext.c:2531
-#, fuzzy
-#| msgid "City center"
 msgid "city centers"
-msgstr "Centrum miasta"
+msgstr "centra miast."
 
 #: common/reqtext.c:2534
-#, fuzzy
-#| msgid "Reload tileset"
 msgid "claimed tiles"
-msgstr "Wczytaj ponownie zestaw graficzny"
+msgstr "przejęte pola"
 
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2547
@@ -19431,28 +19413,22 @@ msgid "Requirements {%s} and {%s} contradict each other."
 msgstr "Wymagania {%s} i {%s} wzajemnie się wykluczają."
 
 #: common/requirements.h:199
-#, fuzzy
-#| msgid "Removed"
 msgid "Remove"
-msgstr "Usunięte"
+msgstr "Usuń"
 
 #: common/requirements.h:201
-#, fuzzy
-#| msgid "Append focus"
 msgid "Append"
-msgstr "Dodaj zaznaczenie"
+msgstr "Dodaj"
 
 #. TRANS: this and following strings are 'road flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/road.h:25
-#, fuzzy
-#| msgid "Requires"
 msgid "RequiresBridge"
-msgstr "Wymaga"
+msgstr "WymagaMostu"
 
 #: common/road.h:27
 msgid "PreventsOtherRoads"
-msgstr ""
+msgstr "BlokujInneDrogi"
 
 #: common/road.h:29 data/civ1/terrain.ruleset:1114
 #: data/civ2/terrain.ruleset:1254 data/classic/terrain.ruleset:1549
@@ -19463,17 +19439,15 @@ msgstr "Rzeka"
 
 #: common/road.h:31
 msgid "UnrestrictedInfra"
-msgstr ""
+msgstr "NieograniczInfra"
 
 #: common/road.h:33
-#, fuzzy
-#| msgid "From:"
 msgid "JumpFrom"
-msgstr "Z:"
+msgstr "SkoczZ"
 
 #: common/road.h:35
 msgid "JumpTo"
-msgstr ""
+msgstr "SkoczDo"
 
 #. TRANS: the first %s is a server setting, the second %s is it's value.
 #. * Example: killstack is enabled
@@ -20013,10 +19987,9 @@ msgid "?unitflag:Hunter"
 msgstr "?unitflag:Łowca"
 
 #: common/version.c:41
-#, fuzzy, c-format
-#| msgid "Freeciv version %s (%s)"
+#, c-format
 msgid "Freeciv version %s %s (%s)"
-msgstr "Freeciv wersja %s (%s)"
+msgstr "Freeciv wersja %s %s (%s)"
 
 #: common/version.c:42 common/version.c:46
 msgid "(beta version)"
@@ -25622,11 +25595,6 @@ msgstr "Jednostki mogą być zrzucane z tego pola."
 #: data/civ2/terrain.ruleset:1244 data/classic/terrain.ruleset:1539
 #: data/sandbox/terrain.ruleset:1780 data/experimental/terrain.ruleset:1517
 #: data/civ2civ3/terrain.ruleset:1701 data/multiplayer/terrain.ruleset:1511
-#, fuzzy
-#| msgid ""
-#| "A railroad also increases any shield resources produced by a tile. A tile "
-#| "whose road is upgraded to a railroad retains any trade bonus from the "
-#| "road as well."
 msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
 "tile whose road is upgraded to a railroad retains any trade bonus from the "
@@ -25798,10 +25766,8 @@ msgstr "Piechota Morska"
 #: data/civ2/units.ruleset:37 data/civ2/units.ruleset:38
 #: data/classic/units.ruleset:43 data/experimental/units.ruleset:46
 #: data/multiplayer/units.ruleset:42
-#, fuzzy
-#| msgid "Best attacking units"
 msgid "Bad at attacking Fighters"
-msgstr "Najlepsze jednostki zaczepne"
+msgstr "Słaba do atakowania Myśliwców"
 
 #: data/civ2/units.ruleset:38 data/civ2/units.ruleset:1402
 #: data/classic/units.ruleset:1441 data/sandbox/units.ruleset:1641
@@ -25811,15 +25777,13 @@ msgid "Stealth Bomber"
 msgstr "Bombowiec Stealth"
 
 #: data/civ2/units.ruleset:39
-#, fuzzy
-#| msgid "Fighter"
 msgid "EarlyFighter"
-msgstr "Myśliwiec"
+msgstr "WczesnaWalka"
 
 #: data/civ2/units.ruleset:41
 #, no-c-format
 msgid "250% defense against Stealth Bombers"
-msgstr ""
+msgstr "250% obrony przed Bombowcami Stealth"
 
 #: data/civ2/units.ruleset:152 data/classic/units.ruleset:155
 #: data/multiplayer/units.ruleset:154
@@ -29620,22 +29584,16 @@ msgstr ""
 "dzięki którym zwiększa się pole widzenia stacjonujących jednostek."
 
 #: data/sandbox/terrain.ruleset:1539
-#, fuzzy
-#| msgid "Coastline"
 msgid "Castle"
-msgstr "Linia brzegu"
+msgstr "Zamek"
 
 #: data/sandbox/terrain.ruleset:1567
-#, fuzzy
-#| msgid ""
-#| "Fortresses are more permanent forts; construction on them can only begin "
-#| "once the underlying fort is complete; and cannot be built on River tiles."
 msgid ""
 "Castles are fortresses with an administration center; construction on them "
 "can only begin once the underlying fortress is complete."
 msgstr ""
-"Forteca jest bardziej solidna niż fort i można rozpocząć jej budowę dopiero, "
-"gdy na polu powstał już fort. Nie można ich budować na rzekach."
+"Zamki to fortece a ośrodkiem władzy; można je budować jedynie gdy wybudowano "
+"najpierw fortecę."
 
 #: data/sandbox/terrain.ruleset:1570
 msgid ""
@@ -29643,6 +29601,8 @@ msgid ""
 "of autonomy. This makes a castle able to control terrain far from the "
 "borders of its nation's cities."
 msgstr ""
+"Zamek i jego okolica rządzone są przez wasal cieszącego się dużą autonomią. "
+"Dzięki temu zamek może kontrolować obszar daleko od granic własnego narodu."
 
 #: data/sandbox/terrain.ruleset:1578 data/civ2civ3/terrain.ruleset:1506
 msgid "Airstrip"
@@ -30779,18 +30739,13 @@ msgstr ""
 "znajdziecie w pliku README.civ2civ3."
 
 #: data/civ2civ3/script.lua:346
-#, fuzzy
-#| msgid ""
-#| "Welcome to civ2civ3, the new default ruleset in freeciv-3.0.\n"
-#| "(If you'd like rules more similar to ones in previous versions,start a "
-#| "new game with 'classic' ruleset.)"
 msgid ""
 "Welcome to civ2civ3, the new default ruleset in freeciv-3.0.\n"
 "(If you'd like rules more similar to ones in previous versions,\n"
 "start a new game with 'classic' ruleset.)"
 msgstr ""
 "Witamy w civ2civ3, nowym domyślnym zestawie zasad we freeciv-3.0.\n"
-"(Jeśli wolisz zasady bardziej zbliżone do tych w poprzednich wersjach, "
+"(Jeśli wolisz zasady bardziej zbliżone do tych w poprzednich wersjach,\n"
 "rozpocznij grę z klasycznym zestawem zasad.)"
 
 #: data/civ2civ3/terrain.ruleset:1661
@@ -36989,18 +36944,12 @@ msgstr ""
 
 #. TRANS: followed by a URL
 #: data/helpdata.txt:2330
-#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 "Jeżeli znajdziesz bład w programie wyślij nam raport.  Najlepiej to zrobić "
-"przez odwiedzenie systemu zgłaszania błędów Freeciv, pod adresem:\n"
-"\n"
-"  http://bugs.freeciv.org\n"
-"\n"
-"Jeżeli błąd dotyczy tłumaczenia, najlepiej poinformować o nim aktualnego "
-"tłumacza."
+"przez odwiedzenie systemu zgłaszania błędów Freeciv, pod adresem:"
 
 #: data/helpdata.txt:2335
 msgid ""
@@ -40210,10 +40159,8 @@ msgid "Freeciv modpack installer (gtk3)"
 msgstr "Instalator dodatków Freeciv (gtk3)"
 
 #: tools/mpgui_gtk4.c:579
-#, fuzzy
-#| msgid "Freeciv modpack installer (gtk2)"
 msgid "Freeciv modpack installer (gtk4)"
-msgstr "Instalator dodatków Freeciv (gtk2)"
+msgstr "Instalator dodatków Freeciv (gtk4)"
 
 #: tools/mpgui_qt.cpp:98
 msgid ""
@@ -47161,6 +47108,12 @@ msgid ""
 "Unit Bribing, and Unit Sabotaging do not. Non-aggressive missions typically "
 "have no base chance at all, but always success."
 msgstr ""
+"Podstawowa szansa na powrót szpiega z udanej misji i podstawowa szansa na "
+"sukces dyplomaty i szpiega dla większości działań zaczepnych. Nie wszystkie "
+"działania wykorzystują diplchance jako podstawową szansę; zatrucie miasta, "
+"przekupienie i sabotaż jednostki nie wykorzystują tego współczynnika. "
+"Działania niezaczepne zazwyczaj nie mają podstawowej szansy na sukces i "
+"zawsze kończą się powodzeniem."
 
 #: server/settings.c:2438
 msgid "What kinds of victories are possible"
@@ -51113,6 +51066,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
 msgstr ""
+"Twoja jednostka %s %s [id:%d %sO:%.1f utracone %d PO, pozostało %d PO] "
+"przeżyła żałosny atak %s ze strony %s %s %s [id:%d %sA:%.1f PO:%d]."
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Greek Polish Destroyer [id:200 lost
@@ -51124,6 +51079,8 @@ msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
 "%d lost %d HP, %d HP remaining%s]!"
 msgstr ""
+"Twoja jednostka %s %s [id:%d %sA:%.1f PO:%d] poniosła klęskę atakując %s %s "
+"%s [id:%d utracone %d PO, pozostało %d PO%s]!"
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -51135,6 +51092,8 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
+"Twoja jednostka %s %s [id:%d %sO:%.1f PO:%d] utracona w wyniku ataku %s %s "
+"%s [id:%d%sA:%.1f utracone %d, pozostało %d PO%s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -51145,6 +51104,8 @@ msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
+"Twoja jednostka %s %s [id:%d %s%sA:%.1f utracone %d PO, pozostało %d] "
+"odniosła sukces, atakując %s %s %s [id:%d PO:%d]."
 
 #: server/unithand.c:4191 server/unittools.c:2844
 msgid "Cannot attack unless you declare war first."
@@ -51985,15 +51946,12 @@ msgstr "błąd %d (skompilowano bez strerror)"
 #~ "Szansa na powrót Szpiega z udanej misji oraz szansa powodzenia różnych "
 #~ "działań podejmowanych przez Dyplomatów i Szpiegów."
 
-#, c-format
 #~ msgid "Your %s survived the pathetic attack from the %s %s."
 #~ msgstr "Twoja jednostka %s odparła żałosny atak %s %s."
 
-#, c-format
 #~ msgid "Your attacking %s failed against the %s %s!"
 #~ msgstr "Twoja jednostka %s zawiodła podczas ataku przeciwko %s %s!"
 
-#, c-format
 #~ msgid "Your attacking %s succeeded against the %s %s!"
 #~ msgstr "Twoja jednostka %s przeprowadziła udany atak na %s %s!"
 
