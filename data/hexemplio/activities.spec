@@ -10,6 +10,7 @@ artists = "
 	Hogne Håskjold <hogne@freeciv.org>[HH]
 	Eleazar[El]
 	GriffonSpade[GS]
+        Sveinung Kvilhaugsvik (action_decision_want)
 "
 
 [file]
@@ -34,6 +35,7 @@ tiles = { "row", "column", "tag"
   0, 4, "unit.goto"                     ;[?]
 ;  0, 5, "unit.patrol"                   ;[?]
   0, 6, "unit.convert"                  ;[?][GS]
+  0, 7, "unit.action_decision_want"
 
 ; Unit activity letters: tile commands
 
