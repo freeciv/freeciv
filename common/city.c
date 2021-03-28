@@ -29,6 +29,7 @@
 /* common */
 #include "ai.h"
 #include "citizens.h"
+#include "counters.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
@@ -3280,7 +3281,7 @@ void city_styles_free(void)
 struct city *create_city_virtual(struct player *pplayer,
                                  struct tile *ptile, const char *name)
 {
-  int i;
+  int i,len;
 
   /* Make sure that contents of city structure are correctly initialized,
    * if you ever allocate it by some other mean than fc_calloc() */
@@ -3341,6 +3342,13 @@ struct city *create_city_virtual(struct player *pplayer,
      * collecting_info_units_present set by fc_calloc(). */
   }
 
+  len = counters_get_city_counters_count();
+  pcity->counter_values = fc_malloc(sizeof(int) * len);
+
+  for (i = 0; i < len; i++) {
+    pcity->counter_values[i] = counter_by_index(i, CTGT_CITY)->def;
+  }
+
   return pcity;
 }
 
@@ -3375,6 +3383,10 @@ void destroy_city_virtual(struct city *pcity)
 
   if (pcity->cm_parameter) {
     free(pcity->cm_parameter);
+  }
+
+  if (pcity->counter_values) {
+    free(pcity->counter_values);
   }
 
   if (!is_server()) {

@@ -387,6 +387,8 @@ struct city {
 
   struct unit_list *units_supported;
 
+  int *counter_values;
+
   int history;                 /* Cumulative culture */
 
   struct worker_task_list *task_reqs;

@@ -29,6 +29,9 @@ struct counter
   const char *rule_name;
   enum counter_type type;
   enum counter_target target;
+  int def;    /* default value for each entity of given type
+               * for this counter */
+
   int index;  /* index in specific (city/player/world) array */
 };
 
@@ -43,6 +46,7 @@ const char *counter_rule_name(struct counter *pcount);
 
 int counter_index(struct counter *pcount);
 struct counter *counter_by_index(int index, enum counter_target target);
+int counters_get_city_counters_count(void);
 
 #ifdef __cplusplus
 }

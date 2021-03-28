@@ -29,6 +29,7 @@ static struct counter counters[MAX_COUNTERS] =
 };
 
 static struct counter *counters_city[MAX_COUNTERS];
+static int number_city_counters;
 
 /************************************************************************//**
   Initialize counters system
@@ -36,15 +37,17 @@ static struct counter *counters_city[MAX_COUNTERS];
 void counters_init(void)
 {
   int i;
-  int city_i = 0;
+
+  number_city_counters = 0;
 
   for (i = 0; i < MAX_COUNTERS; i++) {
 
     if (counters[i].type == COUNTER_OWNED) {
       /* City counter type */
-      counters_city[city_i] = &counters[i];
-      counters[i].index = city_i++;
+      counters_city[number_city_counters] = &counters[i];
+      counters[i].index = number_city_counters;
       counters[i].target = CTGT_CITY;
+      number_city_counters++;
     }
   }
 }
@@ -54,6 +57,15 @@ void counters_init(void)
 ****************************************************************************/
 void counters_free(void)
 {
+  number_city_counters = 0;
+}
+
+/************************************************************************//**
+  Return number of city counters.
+****************************************************************************/
+int counters_get_city_counters_count(void)
+{
+  return number_city_counters;
 }
 
 /************************************************************************//**
