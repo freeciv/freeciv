@@ -5,9 +5,9 @@ options = "+Freeciv-spec-Devel-2019-Jul-03"
 
 [info]
 
-; ampilo2 oil rig became thermal vent
-; ampilo2 coal became glowing rocks
-; ampilo2 tundra became radiating rocks and alien forest bg
+; amplio2 oil rig became thermal vent
+; amplio2 coal became glowing rocks
+; amplio2 tundra became radiating rocks and alien forest bg
 ; Wesnoth graphic became huge plant, alien mine and alien forest fg
 ; TODO: add individual artists if they are identified
 artists = "
