@@ -10,6 +10,7 @@ artists = "
     Eleazar [El](buoy)
     Anton Ecker (Kaldred) (ruins)
     GriffonSpade [GS]
+    Sveinung Kvilhaugsvik [SK]
 "
 
 [file]
@@ -39,6 +40,8 @@ tiles = { "row", "column", "tag"
 ;[HH][GS]
  1,  3, "base.outpost_fg"
  1,  4, "base.outpost_bg"
+; [SK]
+ 1,  5, "extra.transport_hub_mg"
 ;[HH]
  0,  2, "cd.occupied",
       "city.european_occupied_0",
