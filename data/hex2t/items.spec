@@ -15,6 +15,7 @@ artists = "
     Tommy <yobbo3@hotmail.com>
     Eleazar (buoy)
     Vincent Croisier <vincent.croisier@advalvas.be> (ruins)
+    Sveinung Kvilhaugsvik (action_decision_want)
 "
 
 [file]
@@ -211,6 +212,7 @@ tiles = { "row", "column", "tag"
 
 ; Unit activity letters:  (note unit icons have just "u.")
 
+  0, 12, "unit.action_decision_want"
   0, 13, "unit.convert"
   0, 14, "unit.auto_attack",
          "unit.auto_settler"
