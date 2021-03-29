@@ -635,7 +635,7 @@ fi
 
 if test "x$emscripten" != "xyes" ; then
   PKG_CHECK_MODULES([ICU], [icu-uc],,
-      [AC_MSG_ERROR([icu development files required])])
+      [AC_MSG_ERROR([icu development files not found. Adjusting PKG_CONFIG_PATH may help])])
   UTILITY_CFLAGS="${UTILITY_CFLAGS} ${ICU_CFLAGS}"
   UTILITY_LIBS="${UTILITY_LIBS} ${ICU_LIBS}"
 else
