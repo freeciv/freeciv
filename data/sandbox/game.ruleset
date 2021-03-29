@@ -676,6 +676,7 @@ diplchance_initial_odds = "Sabotage City", "Sabotage City Escape",
                           "Targeted Steal Tech Escape Expected",
                           "Incite City", "Incite City Escape",
                           "Steal Maps Escape", "Spread Plague",
+                          "Suitcase Nuke", "Suitcase Nuke Escape",
                           "Steal Gold Escape"
 
 ; Suppress automatic help text generation about what enables and/or
