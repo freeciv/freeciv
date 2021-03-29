@@ -49,15 +49,15 @@
   (Linux, FreeBSD, OpenBSD, macOS)
   Return FALSE on error, otherwise return TRUE and store seed in *ret.
 **************************************************************************/
-static bool generate_seed_getentropy(uint32_t *ret)
+static bool generate_seed_getentropy(randseed *ret)
 {
 #if HAVE_GETENTROPY
   /* getentropy() is from OpenBSD, and should be supported on at least
    * FreeBSD and glibc on Linux (as a wrapper to getrandom()) as well.
    */
-  uint32_t seed = 0;
+  randseed seed = 0;
   
-  if (getentropy(&seed, 4) == 0) {
+  if (getentropy(&seed, sizeof(seed)) == 0) {
     *ret = seed;
 
     return TRUE;
@@ -74,12 +74,12 @@ static bool generate_seed_getentropy(uint32_t *ret)
   (Windows)
   Return FALSE on error, otherwise return TRUE and store seed in *ret.
 **************************************************************************/
-static bool generate_seed_bcryptgenrandom(uint32_t *ret)
+static bool generate_seed_bcryptgenrandom(randseed *ret)
 {
 #ifdef HAVE_BCRYPTGENRANDOM
   NTSTATUS Status;
 
-  Status = BCryptGenRandom(NULL, (PUCHAR)ret, sizeof(uint32_t),
+  Status = BCryptGenRandom(NULL, (PUCHAR)ret, sizeof(randseed),
                            BCRYPT_USE_SYSTEM_PREFERRED_RNG);
 
   if (NT_SUCCESS(Status)) {
@@ -95,7 +95,7 @@ static bool generate_seed_bcryptgenrandom(uint32_t *ret)
   (Most Unix-like systems)
   Return FALSE on error, otherwise return TRUE and store seed in *ret.
 **************************************************************************/
-static bool generate_seed_urandom(uint32_t *ret)
+static bool generate_seed_urandom(randseed *ret)
 {
 #if HAVE__DEV_URANDOM   /* the first slash turns to an extra underline */
   /*
@@ -109,7 +109,7 @@ static bool generate_seed_urandom(uint32_t *ret)
    */
   static const char *random_device = "/dev/urandom";
   int fd = 0;
-  uint32_t seed = 0;
+  randseed seed = 0;
   bool ok = FALSE;
 
   /* stdio would read an unnecessarily large block, which may mess up users
@@ -119,11 +119,11 @@ static bool generate_seed_urandom(uint32_t *ret)
     /* Only warning as we fallback to other randseed generation methods */
     log_warn(_("Opening %s failed: %s"), random_device, strerror(errno));
   } else {
-    int n = read(fd, &seed, 4);
+    int n = read(fd, &seed, sizeof(seed));
 
     if (n == -1) {
       log_warn(_("Reading %s failed: %s"), random_device, strerror(errno));
-    } else if (n != 4) {
+    } else if (n != sizeof(seed)) {
       log_warn(_("Reading %s: short read without error"), random_device);
     } else {
       ok = 1;
@@ -145,7 +145,7 @@ static bool generate_seed_urandom(uint32_t *ret)
   clock_gettime(), if available. (POSIX-compatible systems.)
   Return FALSE on error, otherwise return TRUE and store seed in *ret.
 **************************************************************************/
-static bool generate_seed_clock_gettime(uint32_t *ret)
+static bool generate_seed_clock_gettime(randseed *ret)
 {
 #if HAVE_CLOCK_GETTIME
   /* 
@@ -155,7 +155,7 @@ static bool generate_seed_clock_gettime(uint32_t *ret)
    * Xor them together to hopefully get something relatively unpredictable in the
    * bottom 30 bits. 
    */
-  uint32_t seed = 0;
+  randseed seed = 0;
   struct timespec tp;
 
   if (clock_gettime(CLOCK_REALTIME, &tp) == 0) {
@@ -177,23 +177,22 @@ static bool generate_seed_clock_gettime(uint32_t *ret)
   Generate a lousy 32-bit random-ish value from the current time.
   Return TRUE and store seed in *ret.
 **************************************************************************/
-static bool generate_seed_time(uint32_t *ret)
+static bool generate_seed_time(randseed *ret)
 {
   /* No reasonable way this can fail */
-  *ret = (uint32_t) time(NULL);
+  *ret = (randseed) time(NULL);
 
   return TRUE;
 }
-
 
 /**********************************************************************//**
   Return a random 32-bit value to use as game seed, by whatever means
   the underlying system provides. 
 **************************************************************************/
-unsigned int generate_game_seed(void)
+randseed generate_game_seed(void)
 {
-  uint32_t seed = 0;
-  
+  randseed seed = 0;
+
   /* Good random sources */
   if (generate_seed_getentropy(&seed)) {
     log_debug("Got random seed from getentropy()");

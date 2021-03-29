@@ -20,7 +20,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
-unsigned int generate_game_seed(void);
+typedef unsigned int randseed;
+
+randseed generate_game_seed(void);
 
 #ifdef __cplusplus
 }

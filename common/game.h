@@ -25,6 +25,7 @@ extern "C" {
 
 /* utility */
 #include "fcthread.h"
+#include "randseed.h"
 #include "shared.h"
 #include "timing.h"
 
@@ -219,8 +220,8 @@ struct civ_game {
       enum scorelog_level scoreloglevel;
       char scorefile[MAX_LEN_NAME];
       int scoreturn;    /* next make_history_report() */
-      int seed_setting;
-      int seed;
+      randseed seed_setting;
+      randseed seed;
 
       bool global_warming;
       int global_warming_percent;
