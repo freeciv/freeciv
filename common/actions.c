@@ -5341,6 +5341,47 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
 }
 
 /**********************************************************************//**
+  Returns the action probability of an action winning a potential pre
+  action battle - like a diplomatic battle - and then not failing its dice
+  roll. Shouldn't leak information.
+**************************************************************************/
+static struct act_prob
+action_prob_battle_then_dice_roll(const struct player *act_player,
+                                 const struct unit *act_unit,
+                                 const struct city *tgt_city,
+                                 const struct unit *tgt_unit,
+                                 const struct tile *tgt_tile,
+                                 const struct player *tgt_player,
+                                 const struct action *paction)
+{
+  struct act_prob battle;
+  struct act_prob dice_roll;
+
+  battle = ACTPROB_CERTAIN;
+  switch (action_get_battle_kind(paction)) {
+  case ABK_NONE:
+    /* No pre action battle. */
+    break;
+  case ABK_DIPLOMATIC:
+    battle = ap_diplomat_battle(act_unit, tgt_unit, tgt_tile);
+    break;
+  case ABK_STANDARD:
+    /* Not supported here yet. Implement when users appear. */
+    fc_assert(action_get_battle_kind(paction) != ABK_STANDARD);
+    break;
+  case ABK_COUNT:
+    fc_assert(action_get_battle_kind(paction) != ABK_COUNT);
+    break;
+  }
+
+  dice_roll = action_prob_pre_action_dice_roll(act_player, act_unit,
+                                               tgt_city, tgt_player,
+                                               paction);
+
+  return action_prob_and(&battle, &dice_roll);
+}
+
+/**********************************************************************//**
   An action's probability of success.
 
   "Success" indicates that the action achieves its goal, not that the
@@ -5516,13 +5557,13 @@ action_prob(const action_id wanted_action,
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_SPY_NUKE:
-    /* TODO: not implemented yet:
-     * - possible diplomatic battle could be handled with
-     *   ap_diplomat_battle() so not a problem.
-     * - diplchance * Action_Odds_Pct could be handled with
-     *   action_prob_pre_action_dice_roll().
-     * - the result of two functions mentioned above needs to be combined.
-     *   See hrm Feature #920121 */
+    /* All uncertainty comes from potential diplomatic battles and the
+     * (diplchance server setting and the) Action_Odds_Pct effect controlled
+     * dice roll before the action. */
+    chance = action_prob_battle_then_dice_roll(actor_player, actor_unit,
+                                               target_city, target_unit,
+                                               target_tile, target_player,
+                                               paction);
     break;
   case ACTRES_NUKE:
     /* TODO */
