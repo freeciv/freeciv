@@ -14,6 +14,7 @@
 #define FC__AIPLAYER_H
 
 /* common */
+#include "city.h"
 #include "player.h"
 
 struct player;
