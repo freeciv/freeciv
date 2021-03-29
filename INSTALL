@@ -473,6 +473,12 @@ local installation.
 8. Mac OS X and Darwin notes:
 =============================
 
+Pkg-config files installed with icu4c homebrew package are not found
+from normal path. This shows up as a configure error:
+"icu development files not found. Adjusting PKG_CONFIG_PATH may help"
+One needs to adjust PKG_CONFIG_PATH before configure, like this:
+> export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
+
 Apple's version of GCC uses precompiled headers that does not support
 vararg macros (a GCC extension).  This causes GCC to fail when
 compiling Freeciv since the compiler is otherwise (mostly)
