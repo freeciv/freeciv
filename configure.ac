@@ -1317,10 +1317,12 @@ AC_CHECK_FUNCS([getpwuid inet_aton select snooze strcasecmp strcasestr])
 AC_CHECK_FUNCS([strerror strlcat strlcpy strncasecmp strstr uname nanosleep])
 AC_CHECK_FUNCS([usleep getline _strcoll stricoll _stricoll strcasecoll backtrace])
 
-dnl Possible random sources on Unixen
+dnl Possible random sources
+AC_CHECK_HEADERS([sys/random.h bcrypt.h])
+AC_CHECK_LIB([bcrypt], [BCryptGenRandom], [
+  AC_DEFINE([HAVE_BCRYPTGENRANDOM], [1], [BCryptGenRandom() available])
+  UTILITY_LIBS="${UTILITY_LIBS} -lbcrypt" ])
 AC_CHECK_FUNCS([getentropy clock_gettime])
-
-AC_CHECK_HEADERS([sys/random.h])
 
 dnl TODO: Reimplement this check, in a cross-compiling friendly way
 dnl AC_CHECK_FILES([/dev/urandom])

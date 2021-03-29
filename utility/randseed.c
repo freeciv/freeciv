@@ -19,6 +19,9 @@
 
 #include "fc_prehdrs.h"
 
+#ifdef HAVE_BCRYPT_H
+#include <bcrypt.h>
+#endif
 #include <errno.h>
 #include <fcntl.h>
 #include <stdint.h>
@@ -30,6 +33,9 @@
 #include <time.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
+#endif
+#ifdef FREECIV_MSWINDOWS
+#include <ntdef.h>
 #endif
 
 /* utility */
@@ -59,6 +65,27 @@ static bool generate_seed_getentropy(uint32_t *ret)
     log_error(_("getentropy() failed: %s"), strerror(errno));
   }
 #endif /* HAVE_GETENTROPY */
+
+  return FALSE;
+}
+
+/**************************************************************************
+  Read a 32-bit random value using BCryptGenRandom(), if available.
+  (Windows)
+  Return FALSE on error, otherwise return TRUE and store seed in *ret.
+**************************************************************************/
+static bool generate_seed_bcryptgenrandom(uint32_t *ret)
+{
+#ifdef HAVE_BCRYPTGENRANDOM
+  NTSTATUS Status;
+
+  Status = BCryptGenRandom(NULL, (PUCHAR)ret, sizeof(uint32_t),
+                           BCRYPT_USE_SYSTEM_PREFERRED_RNG);
+
+  if (NT_SUCCESS(Status)) {
+    return TRUE;
+  }
+#endif /* HAVE_BCRYPTGENRANDOM */
 
   return FALSE;
 }
@@ -169,6 +196,10 @@ unsigned int generate_game_seed(void)
   /* Good random sources */
   if (generate_seed_getentropy(&seed)) {
     log_debug("Got random seed from getentropy()");
+    return seed;
+  }
+  if (generate_seed_bcryptgenrandom(&seed)) {
+    log_debug("Got random seed from BCryptGenRandom()");
     return seed;
   }
   if (generate_seed_urandom(&seed)) {
