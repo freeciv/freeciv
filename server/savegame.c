@@ -3814,7 +3814,7 @@ static void game_load_internal(struct section_file *file)
       if (!secfile_lookup_int(file, &game.map.server.riches, "map.riches")
           || !secfile_lookup_int(file, &game.map.server.huts, "map.huts")
           || !secfile_lookup_int(file, &ei, "map.generator")
-          || !secfile_lookup_int(file, &game.map.server.seed_setting,
+          || !secfile_lookup_int(file, (int *)&game.map.server.seed_setting,
                                  "map.seed")
           || !secfile_lookup_int(file, &game.map.server.landpercent,
                                  "map.landpercent")) {

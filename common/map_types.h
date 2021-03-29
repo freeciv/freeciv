@@ -17,6 +17,9 @@
 extern "C" {
 #endif /* __cplusplus */
 
+/* utility */
+#include "randseed.h"
+
 /****************************************************************
   Miscellaneous terrain information
 *****************************************************************/
@@ -78,8 +81,8 @@ struct civ_map {
       enum mapsize_type mapsize; /* how the map size is defined */
       int size; /* used to calculate [xy]size */
       int tilesperplayer; /* tiles per player; used to calculate size */
-      int seed_setting;
-      int seed;
+      randseed seed_setting;
+      randseed seed;
       int riches;
       int huts;
       int huts_absolute; /* For compatibility conversion from pre-2.6 savegames */
