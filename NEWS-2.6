@@ -1,10 +1,145 @@
 ========================
-Welcome to Freeciv 2.6.3
+Welcome to Freeciv 2.6.4
 ========================
 
 The changes in the 2.6.x series are summarised below.
 For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
+
+
+CHANGES FROM 2.6.3 to 2.6.4
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.4>, 2022-03-29)
+
+2.6.4 is a generic bugfix release.
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Made automatic selling of coastal improvements from a city that
+      gets landlocked to work better HRM#880455
+    * Adjusted formula for barbarian band size. For nations with less
+      than 32 cities there is no change, but bigger empires get bigger
+      barbarian bands than they used to HRM#767126
+    * Fixed postponing buildings from worklist. They were never really postponed
+      HRM#912972
+    * Combat messages show more detailed information about combatants HRM#913055
+    * Fixed display of game years above 32768 HRM#918800
+    * Players no longer need hack access to disable timeout any more than
+      they need for enabling it HRM#647101
+    * Fixed crash, seen on client side, when receiving extremely well
+      compressed network packets HRM#918726
+    * Send meetings initiated by AIs player is in contact with initially
+      (thanks to dispersion server setting) to client when it is ready to
+      handle them. Not only did the bug prevent those meetings from opening
+      in the client, but it prevented player from ever opening a meeting
+      with that AI. HRM#764968
+    * Corrected check that the upgraded unit will fit to its transport before
+      upgrading it HRM#921691
+    * Clients connected to the server are no longer sent to the pre-game screen
+      when there's an (failing) attempt to load a savegame when game is
+      already running HRM#767358
+    * Corrected calculation of nation's literacy value when number of citizens
+      has changed during the turn, e.g., by losing cities HRM#880780
+    * Update a city also on other player's clients when its size get reduced
+      because of a nuke osdn#41810 osdn#41860
+    * Made generated random seed less predictable on most platforms.
+      Windows is a notable exception HRM#914184 osdn#41838
+
+    * civ2civ3 ruleset:
+        + Fixed tile output penalties not to apply to Luxury or Science bonuses
+          provided by wonders like Hanging Gardens HRM#908518
+
+Changes affecting other rulesets / modders
+
+    * Fixed messages claiming that a tech obsoletes a wonder, when in fact
+      the tech was negated obsoletion requirement HRM#874192
+
+General
+
+    * Appdata files use https for screenshot URLs HRM#921959
+    * Minor optimizations HRM#905143 HRM#911970
+    * Various internal changes which should only affect developers.
+      HRM#851202 HRM#911183 HRM#902490 HRM#899230 HRM#898088 HRM#915700
+      HRM#918815 HRM#918801 HRM#900470 HRM#910927 HRM#918990 HRM#911733
+      HRM#849990 HRM#922008 HRM#922145 HRM#922785
+
+AI
+
+    * When considering building unit for city bashing, use its actual
+      attack count instead of assuming it to be one. This makes AI
+      to understand e.g. that unit with movement 2 can both attack and
+      conquer at the same turn HRM#872218
+
+Clients
+
+    * Fixed issues in music track selection HRM#910919 HRM#910605 HRM#683570
+    * Fixed client crash on setting up patrol for fuel > 1 unit HRM#919308
+
+    * Fixes to the Qt client:
+        + Confirmation dialog added for disruptive unit selection HRM#907806
+        + Close goto dialog when leaving the game. Related crash fixed HRM#911885
+        + Fixed crash after loading of some shortcuts has failed HRM#909515
+
+    * Fixes to the gtk clients:
+        + (gtk3.22 only) Terrain help shows terrain image HRM#912939
+        + Intelligence dialog now shows "(Unknown)" for information player
+          doesn't know about, instead of dummy values HRM#765366
+
+    * Fixes to the sdl clients:
+        + Intelligence dialog now shows "(Unknown)" for information player
+          doesn't know about, instead of dummy values HRM#918827
+        + (sdl2 only) Fixed border graphics getting messed up when
+          recentering map osdn#41629
+
+
+Help / Documentation
+
+    * Point to osdn.net as the bug reporting address. HRM#896778
+    * List Sveinung Kvilhaugsvik in present maintainers osdn#41820
+    * Miscellaneous other improvements to in-game text and user documentation.
+      HRM#699165 HRM#918741 osdn#41630 HRM#870009
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#41676 osdn#41744 osdn#41779 osdn#41776 osdn#41803 HRM#923438
+
+Translations
+
+    * Updated translations:
+        + Complete translations: Spanish, French, Polish
+        + Incomplete translations:
+          Finnish (100% core, 91% nations, 100% ruledit),
+          Russian (99% core, 100% nations, 100% ruledit)
+    * Marked some strings for translation which were erronously not collected
+      for translation HRM#918816 HRM#918937
+
+Build/portability
+
+    * Fixed Qt-client deprecation warnings HRM#910441 HRM#910460 HRM#910547
+    * Deprecation warnings are again enabled for C++ code also in
+      --enable-debug builds HRM#896335
+    * Support MagicWand-7 HRM#905573
+    * Reworked gtk3-client to fix gcc-11 compile errors
+      HRM#904733 HRM#905530 HRM#906210 HRM#906539 HRM#906866 HRM#908748
+      HRM#910393 HRM#900565
+    * Fixed other compiler warnings seen with various setups
+      HRM#899569 HRM#900975 HRM#899574 HRM#912464 HRM#901860 HRM#914093
+      HRM#916123 HRM#918786 HRM#918824 HRM#918890
+    * Improved Haiku support:
+        + Made ~/config/settings/freeciv the storage directory HRM#911958
+        + Fixed IPv6 support HRM#912369
+    * Windows specific changes:
+        + Windows msys2 environment updated to snapshot of 2021-02-26
+          HRM#853127 HRM#912492 HRM#918825
+        + Ruledit no longer opens up console window in addition to the GUI window
+          HRM#681310
+    * Fixed configure time error when sqlite header is in nonstandard location
+      HRM#913433
+    * Added --enable-patient-connect configure option for supporting
+      low-end embedded devices HRM#899259
+    * Configure now automatically detects if moc command is called moc-qt5.
+      It's no longer necessary to manually set MOCCMD in platforms where
+      that is the case, such as Cygwin osdn#41674
+    * Fixed bootstrapping failure in some setups with autoconf-2.71 HRM#921737
 
 
 CHANGES FROM 2.6.2.1 to 2.6.3
