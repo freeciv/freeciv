@@ -82,6 +82,7 @@ static void diplomat_escape_full(struct player *pplayer,
   Poison a city's water supply.
 
   - Check for infiltration success.  Our poisoner may not survive this.
+  - Check for basic success.  Again, our poisonner may not survive this.
   - If successful, reduces population by one point.
 
   - The poisoner may be captured and executed, or escape to its home town.
@@ -123,6 +124,34 @@ bool spy_poison(struct player *pplayer, struct unit *pdiplomat,
   }
 
   log_debug("poison: infiltrated");
+
+  /* The Spy may get caught while trying to poison the city. */
+  if (action_failed_dice_roll(pplayer, pdiplomat, pcity, cplayer,
+                              paction)) {
+    notify_player(pplayer, ctile, E_MY_DIPLOMAT_FAILED, ftc_server,
+                  /* TRANS: unit, action */
+                  _("Your %s was caught attempting to do %s!"),
+                  unit_tile_link(pdiplomat),
+                  action_name_translation(paction));
+    notify_player(cplayer, ctile, E_ENEMY_DIPLOMAT_FAILED,
+                  ftc_server,
+                  /* TRANS: nation, unit, action, city */
+                  _("You caught %s %s attempting to do %s in %s!"),
+                  nation_adjective_for_player(pplayer),
+                  unit_tile_link(pdiplomat),
+                  action_name_translation(paction),
+                  clink);
+
+    /* This may cause a diplomatic incident */
+    action_consequence_caught(paction, pplayer, act_utype,
+                              cplayer, ctile, clink);
+
+    /* Execute the caught Spy. */
+    wipe_unit(pdiplomat, ULR_CAUGHT, cplayer);
+
+    return FALSE;
+  }
+
   log_debug("poison: succeeded");
 
   /* Poison people! */

@@ -1170,6 +1170,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
         && !(action_has_result_safe(paction, ACTRES_STRIKE_BUILDING)
              || action_has_result_safe(paction, ACTRES_STRIKE_PRODUCTION)
              || action_has_result_safe(paction, ACTRES_SPY_SPREAD_PLAGUE)
+             || action_has_result_safe(paction, ACTRES_SPY_POISON)
              || action_has_result_safe(paction, ACTRES_SPY_STEAL_TECH)
              || action_has_result_safe(paction,
                                        ACTRES_SPY_TARGETED_STEAL_TECH)
