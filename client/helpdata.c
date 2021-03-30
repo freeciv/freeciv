@@ -2417,11 +2417,18 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       }
 
       {
+        struct universal req_pattern[] = {
+          { .kind = VUT_ACTION, .value.action = paction },
+          { .kind = VUT_UTYPE,  .value.utype = utype },
+        };
         int odds = action_dice_roll_initial_odds(paction);
 
-        if (odds != ACTION_ODDS_PCT_DICE_ROLL_NA) {
-          /* TODO: try to detect that the odds always will be 100% because
-           * of the Action_Odds_Pct effect. */
+        if (odds != ACTION_ODDS_PCT_DICE_ROLL_NA
+            && !effect_universals_value_never_below(EFT_ACTION_ODDS_PCT,
+                                                    req_pattern,
+                                                    ARRAY_SIZE(req_pattern),
+                                                    ((100 - odds) * 100
+                                                     / odds))) {
           cat_snprintf(buf, bufsz,
                        _("  * may fail because of a dice throw.\n"));
         }
