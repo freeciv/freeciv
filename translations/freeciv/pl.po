@@ -39,7 +39,7 @@ msgstr ""
 "Project-Id-Version: Freeciv S2_6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-03-23 21:11+0200\n"
-"PO-Revision-Date: 2021-03-25 17:06+0100\n"
+"PO-Revision-Date: 2021-03-29 18:40+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -2816,7 +2816,7 @@ msgstr "zakładkę Produkcja"
 #: client/gui-gtk-2.0/citydlg.c:1165 client/gui-gtk-3.0/citydlg.c:1378
 #: client/gui-gtk-3.22/citydlg.c:1415
 msgid "Happiness page"
-msgstr "zakładkę Szczęścia"
+msgstr "zakładkę Zadowolenie"
 
 #: client/gui-gtk-2.0/citydlg.c:1166 client/gui-gtk-3.0/citydlg.c:1379
 #: client/gui-gtk-3.22/citydlg.c:1416
@@ -29596,15 +29596,15 @@ msgstr ""
 
 #: data/civ2civ3/units.ruleset:573 data/sandbox/units.ruleset:575
 msgid "beginner"
-msgstr "początkujący"
+msgstr "początkująca"
 
 #: data/civ2civ3/units.ruleset:573 data/sandbox/units.ruleset:575
 msgid "seasoned"
-msgstr "doświadczony"
+msgstr "doświadczona"
 
 #: data/civ2civ3/units.ruleset:573 data/sandbox/units.ruleset:575
 msgid "senior"
-msgstr "wytrawny"
+msgstr "wytrawna"
 
 #: data/civ2civ3/units.ruleset:573 data/sandbox/units.ruleset:575
 msgid "expert"
