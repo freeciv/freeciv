@@ -360,7 +360,8 @@ actions "Incite City", "Incite City Escape", "Steal Gold",
 "Sabotage City Production", "Sabotage City Production Escape",
 "Surgical Strike Building", "Surgical Strike Production",
 "Steal Tech", "Steal Tech Escape Expected", "Targeted Steal Tech",
-"Targeted Steal Tech Escape Expected" and "Spread Plague".
+"Targeted Steal Tech Escape Expected", "Spread Plague", "Poison City" and
+"Poison City Escape".
 
 Size_Adj
     Increase maximum size of a city by amount.

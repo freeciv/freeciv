@@ -5464,8 +5464,13 @@ action_prob(const action_id wanted_action,
 
   switch (paction->result) {
   case ACTRES_SPY_POISON:
-    /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
+    /* All uncertainty comes from potential diplomatic battles and the
+     * (diplchance server setting and the) Action_Odds_Pct effect controlled
+     * dice roll before the action. */
+    chance = action_prob_battle_then_dice_roll(actor_player, actor_unit,
+                                               target_city, target_unit,
+                                               target_tile, target_player,
+                                               paction);
     break;
   case ACTRES_SPY_STEAL_GOLD:
     /* TODO */
@@ -6858,6 +6863,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SPY_STEAL_GOLD:
   case ACTRES_STEAL_MAPS:
   case ACTRES_SPY_NUKE:
+  case ACTRES_SPY_POISON:
     if (BV_ISSET(game.info.diplchance_initial_odds, paction->id)) {
       /* Take the initial odds from the diplchance setting. */
       return server_setting_value_int_get(
@@ -6868,7 +6874,6 @@ int action_dice_roll_initial_odds(const struct action *paction)
     }
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_SPY_INVESTIGATE_CITY:
-  case ACTRES_SPY_POISON:
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:

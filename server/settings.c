@@ -2474,7 +2474,7 @@ static struct setting settings[] = {
           N_("The base chance of a spy returning from a successful mission and "
              "the base chance of success for diplomats and spies for most "
              "aggressive mission types. Not all the mission types use diplchance "
-             "as a base chance; City Poisoning, Unit Bribing, and Unit Sabotaging "
+             "as a base chance; Unit Bribing, and Unit Sabotaging "
              "do not. Non-aggressive missions typically have no base chance "
              "at all, but always success."),
           NULL, NULL, NULL,
