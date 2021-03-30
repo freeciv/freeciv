@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-03-14 20:31+0200\n"
-"PO-Revision-Date: 2021-03-19 13:38+0100\n"
+"PO-Revision-Date: 2021-03-29 18:51+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -2809,27 +2809,27 @@ msgstr "Pozwól na produkcję, która zlikwiduje miasto"
 #: client/gui-gtk-2.0/citydlg.c:1163 client/gui-gtk-3.0/citydlg.c:1376
 #: client/gui-gtk-3.22/citydlg.c:1414
 msgid "Overview page"
-msgstr "Zakładkę ogólne"
+msgstr "zakładkę Ogólne"
 
 #: client/gui-gtk-2.0/citydlg.c:1164 client/gui-gtk-3.0/citydlg.c:1377
 #: client/gui-gtk-3.22/citydlg.c:1415
 msgid "Production page"
-msgstr "Zakładkę produkcji"
+msgstr "zakładkę Produkcja"
 
 #: client/gui-gtk-2.0/citydlg.c:1165 client/gui-gtk-3.0/citydlg.c:1378
 #: client/gui-gtk-3.22/citydlg.c:1416
 msgid "Happiness page"
-msgstr "Zakładkę szczęścia"
+msgstr "zakładkę Zadowolenie"
 
 #: client/gui-gtk-2.0/citydlg.c:1166 client/gui-gtk-3.0/citydlg.c:1379
 #: client/gui-gtk-3.22/citydlg.c:1417
 msgid "Governor page"
-msgstr "Stronę zarządcy"
+msgstr "zakładkę Zarządca"
 
 #: client/gui-gtk-2.0/citydlg.c:1167 client/gui-gtk-3.0/citydlg.c:1380
 #: client/gui-gtk-3.22/citydlg.c:1418
 msgid "This Settings page"
-msgstr "Stronę różne"
+msgstr "zakładkę Ustawienia"
 
 #: client/gui-gtk-2.0/citydlg.c:1168 client/gui-gtk-3.0/citydlg.c:1381
 #: client/gui-gtk-3.22/citydlg.c:1419
@@ -8492,10 +8492,8 @@ msgid "Selection will cancel current assignments!"
 msgstr "Wybór anuluje bieżące przydziały!"
 
 #: client/gui-qt/menu.cpp:3668
-#, fuzzy
-#| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
-msgstr "Potwierdź hasło"
+msgstr "Potwierdź zaznaczenie przerywające działanie"
 
 #: client/gui-qt/optiondlg.cpp:93
 msgid "... read more in help"
@@ -9510,7 +9508,7 @@ msgstr ""
 
 #: client/gui-sdl2/diplodlg.c:1554
 msgid "Declare WAR"
-msgstr "Wypowiedz wojnę"
+msgstr "Wypowiedz WOJNĘ"
 
 #
 #: client/gui-sdl2/diplodlg.c:1582
@@ -11300,12 +11298,12 @@ msgstr "* Może wykonać '%s'.\n"
 #. TRANS: describes the target of an action.
 #: client/helpdata.c:2446
 msgid "domestic "
-msgstr "krajowe "
+msgstr "krajowa "
 
 #. TRANS: describes the target of an action.
 #: client/helpdata.c:2450
 msgid "foreign "
-msgstr "zagraniczne "
+msgstr "obca "
 
 #. TRANS: The first %s may be an adjective (that
 #. * includes a space). The next is the name of its
@@ -11313,14 +11311,14 @@ msgstr "zagraniczne "
 #: client/helpdata.c:2460
 #, c-format
 msgid "  * is done to %s%s.\n"
-msgstr "  * wyrządza się %s%s.\n"
+msgstr "  * dotyczy %s%s.\n"
 
 #. TRANS: said about an action. %s is a unit type
 #. * name.
 #: client/helpdata.c:2470
 #, c-format
 msgid "  * uses up the %s.\n"
-msgstr "  * traci się %s.\n"
+msgstr "  * zużywa %s.\n"
 
 #. TRANS: The %s is a kind of battle defined in
 #. * actions.h. Example: "diplomatic battle".
@@ -16069,13 +16067,8 @@ msgid "tiles"
 msgstr "pola"
 
 #: common/actions.h:43
-#, fuzzy
 msgid "itself"
-msgstr ""
-"Korupcja i straty (produkcji i żywności) w pozostałych miastach jest "
-"obliczana na podstawie odległości od najbliższej stolicy. Ponadto korupcja i "
-"straty w samej stolicy jest o połowę niższa w porównaniu z miastem innym "
-"miastem (a Sąd eliminuje ją całkowicie)."
+msgstr "samej sobie"
 
 #: common/actions.h:159
 msgid "no battle"
@@ -19372,10 +19365,8 @@ msgstr "Pole przywłaszczone"
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
 #: common/requirements.c:3804
-#, fuzzy
-#| msgid "Requirement Tree"
 msgid "the requirement vector"
-msgstr "Wymagania:"
+msgstr "ścieżka wymagań"
 
 #. TRANS: remove a requirement from a requirement vector
 #. * (in ruledit).
@@ -29847,7 +29838,7 @@ msgstr "PatrolGraniczny"
 
 #: data/sandbox/units.ruleset:59
 msgid "Can peacefully expel certain foreign units."
-msgstr "Może pokojowo wyrzucić niektóre zagraniczne jednostki."
+msgstr "Może pokojowo wyrzucić niektóre obce jednostki."
 
 #: data/sandbox/units.ruleset:60
 msgid "Expellable"
@@ -29855,7 +29846,7 @@ msgstr "MożeByćWyrzucona"
 
 #: data/sandbox/units.ruleset:60
 msgid "Can be peacefully expelled from foreign tiles."
-msgstr "Może być pokojowo wyrzucona z zagranicznych pól."
+msgstr "Może być pokojowo wyrzucona z obcych pól."
 
 #. TRANS: Unit class: used adjectivally
 #: data/sandbox/units.ruleset:165 data/civ2civ3/units.ruleset:160
@@ -29926,15 +29917,15 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:614 data/civ2civ3/units.ruleset:604
 msgid "beginner"
-msgstr "początkujący"
+msgstr "początkująca"
 
 #: data/sandbox/units.ruleset:614 data/civ2civ3/units.ruleset:604
 msgid "seasoned"
-msgstr "doświadczony"
+msgstr "doświadczona"
 
 #: data/sandbox/units.ruleset:614 data/civ2civ3/units.ruleset:604
 msgid "senior"
-msgstr "wytrawny"
+msgstr "wytrawna"
 
 #: data/sandbox/units.ruleset:614 data/civ2civ3/units.ruleset:604
 msgid "expert"
@@ -31169,19 +31160,19 @@ msgstr "Spienięż pojemniki (%sC)%s"
 
 #: data/alien/game.ruleset:692
 msgid "Q1"
-msgstr ""
+msgstr "Kw1"
 
 #: data/alien/game.ruleset:693
 msgid "Q2"
-msgstr ""
+msgstr "Kw2"
 
 #: data/alien/game.ruleset:694
 msgid "Q3"
-msgstr ""
+msgstr "Kw3"
 
 #: data/alien/game.ruleset:695
 msgid "Q4"
-msgstr ""
+msgstr "Kw4"
 
 #: data/alien/game.ruleset:698
 msgid "GE"
@@ -45927,7 +45918,7 @@ msgstr ""
 "- \"Rozmieszczenie poziome\" (HORIZONTAL): gracze z tej samej drużyny "
 "zostaną rozmieszczeniu poziomo.\n"
 "- \"Rozmieszczenie pionowe\" (VERTICAL): gracze z tej samej drużyny zostaną "
-"rozmieszczeniu poziomo."
+"rozmieszczeniu pionowo."
 
 #: server/settings.c:1553
 msgid "Presence of 1x1 islands"
@@ -46703,7 +46694,7 @@ msgid ""
 msgstr ""
 "Wzór na dodatek, gdy karawana wjeżdża do miasta. Dodatki CLASSIC są "
 "proporcjonalne do odległości i handlu miast źródłowego i docelowego oraz "
-"mnożników dla miast zagranicznych i zamorskich. Dodatki LOGARITHMIC są "
+"mnożników dla miast obcych i zamorskich. Dodatki LOGARITHMIC są "
 "proporcjonalne do log^2(odległość + handel)."
 
 #: server/settings.c:2140
@@ -46718,8 +46709,9 @@ msgid ""
 "of the two cities."
 msgstr ""
 "Wzór na handel, gdy miasto ustanawia szlak handlowy. Zyski CLASSIC zależą od "
-"odległości i handlu oraz mnożników dla szlaków zagranicznych i zamorskich. "
-"Dodatki SIMPLE są proporcjonalne do uśrednionego handlu obu miast."
+"odległości i handlu oraz mnożników dla szlaków międzynarodowych i "
+"zamorskich. Dodatki SIMPLE są proporcjonalne do uśrednionego handlu obu "
+"miast."
 
 #: server/settings.c:2151
 msgid "Minimum distance for trade routes"
@@ -50587,7 +50579,7 @@ msgstr "Ta jednostka nie może działać w odniesieniu do celów własnego kraju
 
 #: server/unithand.c:1563
 msgid "This unit cannot act against foreign targets."
-msgstr "Ta jednostka nie może działać w odniesieniu do celów zagranicznych."
+msgstr "Ta jednostka nie może działać w odniesieniu do celów obcych."
 
 #. TRANS: Swedish ... Riflemen
 #: server/unithand.c:1568
@@ -50838,8 +50830,7 @@ msgstr "Twoja jednostka %s nie może wykonać %s w odniesieniu do krajowego %s."
 #: server/unithand.c:2162
 #, c-format
 msgid "Your %s can't do %s to foreign %s."
-msgstr ""
-"Twoja jednostka %s nie może wykonać %s w odniesieniu do zagranicznego %s."
+msgstr "Twoja jednostka %s nie może wykonać %s w odniesieniu do obcego %s."
 
 #. TRANS: action name.
 #. * "Swedish Riflemen can't do Expel Unit."
