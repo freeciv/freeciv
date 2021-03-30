@@ -105,6 +105,22 @@ if ! ninja install; then
   exit 1
 fi
 
+if ! cp fc_config.h ${MESON_INSTALL_DIR}/share/freeciv/ ; then
+  echo "Storing fc_config.h failed" >&2
+  exit 1
+fi
+
+if ! cp ${DLLSPATH}/crosser.txt ${MESON_INSTALL_DIR}/share/freeciv/ ; then
+  echo "Storing crosser.txt failed" >&2
+  exit 1
+fi
+
+if ! cp ${DLLSPATH}/ComponentVersions.txt ${MESON_INSTALL_DIR}/share/freeciv/CrosserComponents.txt
+then
+  echo "Storing CrosserComponents.txt failed" >&2
+  exit 1
+fi
+
 ) then
   exit 1
 fi
