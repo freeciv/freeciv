@@ -71,6 +71,10 @@ Spy elimination:
 A Spy can eliminate non-allied spies and diplomats out in the open without
 also trying to perform any other action.
 
+Poison City:
+A Spy attempting Poison City Escape gets caught if a pre action dice roll
+doesn't beat diplchance.
+
 Border Vision:
 Border Vision is gained mid-game once Electricity is known
 
