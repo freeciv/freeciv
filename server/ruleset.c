@@ -194,7 +194,7 @@ static void send_ruleset_team_names(struct conn_list *dest);
 static bool load_ruleset_veteran(struct section_file *file,
                                  const char *path,
                                  struct veteran_system **vsystem, char *err,
-                                 size_t err_len, bool compat);
+                                 size_t err_len);
 
 char *script_buffer = NULL;
 char *parser_buffer = NULL;
@@ -1884,7 +1884,7 @@ static bool load_unit_names(struct section_file *file,
 static bool load_ruleset_veteran(struct section_file *file,
                                  const char *path,
                                  struct veteran_system **vsystem, char *err,
-                                 size_t err_len, bool compat)
+                                 size_t err_len)
 {
   const char **vlist_name;
   int *vlist_power, *vlist_raise, *vlist_wraise, *vlist_move;
@@ -1905,10 +1905,6 @@ static bool load_ruleset_veteran(struct section_file *file,
                                       "%s.veteran_power_fact", path);
   vlist_raise = secfile_lookup_int_vec(file, &count_raise,
                                        "%s.veteran_base_raise_chance", path);
-  if (vlist_raise == NULL && compat) {
-    vlist_raise = secfile_lookup_int_vec(file, &count_raise,
-                                         "%s.veteran_raise_chance", path);
-  }
   vlist_wraise = secfile_lookup_int_vec(file, &count_wraise,
                                         "%s.veteran_work_raise_chance",
                                         path);
@@ -2018,7 +2014,7 @@ static bool load_ruleset_units(struct section_file *file,
   bool ok = TRUE;
 
   if (!load_ruleset_veteran(file, "veteran_system", &game.veteran, msg,
-                            sizeof(msg), compat->compat_mode)
+                            sizeof(msg))
       || game.veteran == NULL) {
     ruleset_error(LOG_ERROR, "Error loading the default veteran system: %s",
                   msg);
@@ -2140,7 +2136,7 @@ static bool load_ruleset_units(struct section_file *file,
       }
 
       if (!load_ruleset_veteran(file, sec_name, &u->veteran,
-                                msg, sizeof(msg), compat->compat_mode)) {
+                                msg, sizeof(msg))) {
         ruleset_error(LOG_ERROR, "Error loading the veteran system: %s",
                       msg);
         ok = FALSE;
