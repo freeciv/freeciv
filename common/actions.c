@@ -5320,14 +5320,14 @@ action_prob_pre_action_dice_roll(const struct player *act_player,
                                  const struct player *tgt_player,
                                  const struct action *paction)
 {
-  int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
-                                          tgt_player, paction);
-  struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
-                             .max = unconverted * ACTPROB_VAL_1_PCT };
-
   if (is_effect_val_known(EFT_ACTION_ODDS_PCT, act_player,
                           tgt_player, tgt_player, tgt_city,
                           NULL, NULL, act_unit, NULL, NULL)) {
+      int unconverted = action_dice_roll_odds(act_player, act_unit, tgt_city,
+                                              tgt_player, paction);
+      struct act_prob result = { .min = unconverted * ACTPROB_VAL_1_PCT,
+                                 .max = unconverted * ACTPROB_VAL_1_PCT };
+
       return result;
     } else {
       /* Could be improved to return a more exact probability in some cases.
