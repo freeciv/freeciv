@@ -387,15 +387,7 @@ void dai_manage_airunit(struct ai_type *ait, struct player *pplayer,
         return; /* The unit died. */
       }
       pf_path_destroy(path);
-
-      /* goto would be aborted: "Aborting GOTO for AI attack procedures"
-       * now actually need to attack */
-      /* We could use ai_military_findvictim here, but I don't trust it... */
       unit_activity_handling(punit, ACTIVITY_IDLE);
-      if (is_tiles_adjacent(unit_tile(punit), dst_tile)) {
-        /* Regular attack. */
-        (void) unit_move_handling(punit, dst_tile, TRUE, TRUE, NULL);
-      }
     } else if ((dst_tile = dai_find_strategic_airbase(ait, punit, &path))) {
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
