@@ -33,6 +33,7 @@
 #include "improvement.h"
 
 // ruledit
+#include "edit_impr.h"
 #include "ruledit.h"
 #include "ruledit_qt.h"
 #include "validity.h"
@@ -50,6 +51,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   QPushButton *add_button;
   QPushButton *delete_button;
   QPushButton *reqs_button;
+  QPushButton *edit_button;
 
   ui = ui_in;
   selected = 0;
@@ -84,14 +86,18 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
   bldg_layout->addWidget(reqs_button, 2, 2);
 
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  bldg_layout->addWidget(edit_button, 3, 2);
+
   add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
-  bldg_layout->addWidget(add_button, 3, 0);
+  bldg_layout->addWidget(add_button, 4, 0);
   show_experimental(add_button);
 
   delete_button = new QPushButton(QString::fromUtf8(R__("Remove this Building")), this);
   connect(delete_button, SIGNAL(pressed()), this, SLOT(delete_now()));
-  bldg_layout->addWidget(delete_button, 3, 2);
+  bldg_layout->addWidget(delete_button, 4, 2);
   show_experimental(delete_button);
 
   refresh();
@@ -282,5 +288,17 @@ void tab_building::edit_reqs()
   if (selected != nullptr) {
     ui->open_req_edit(QString::fromUtf8(improvement_rule_name(selected)),
                       &selected->reqs);
+  }
+}
+
+/**************************************************************************
+  User requested building edit dialog
+**************************************************************************/
+void tab_building::edit_now()
+{
+  if (selected != nullptr) {
+    edit_impr *edit = new edit_impr(ui, selected);
+
+    edit->show();
   }
 }
