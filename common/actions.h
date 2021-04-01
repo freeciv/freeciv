@@ -508,23 +508,23 @@ struct action_enabler
 /* Can't pay the unit's upkeep. */
 /* (Can be triggered by food, shield or gold upkeep) */
 #define SPECENUM_VALUE0 AAPC_UNIT_UPKEEP
-#define SPECENUM_VALUE0NAME N_("Unit Upkeep")
+#define SPECENUM_VALUE0NAME "Unit Upkeep"
 /* A unit moved to an adjacent tile (auto attack). */
 #define SPECENUM_VALUE1 AAPC_UNIT_MOVED_ADJ
-#define SPECENUM_VALUE1NAME N_("Moved Adjacent")
+#define SPECENUM_VALUE1NAME "Moved Adjacent"
 /* An action was successfully performed and the (action specific) conditions
  * for forcing a post action move are fulfilled. */
 #define SPECENUM_VALUE2 AAPC_POST_ACTION
-#define SPECENUM_VALUE2NAME N_("After Successful Action")
+#define SPECENUM_VALUE2NAME "After Successful Action"
 /* The city that made the unit's current tile native is gone. Evaluated
  * against an adjacent tile. */
 #define SPECENUM_VALUE3 AAPC_CITY_GONE
-#define SPECENUM_VALUE3NAME N_("City Gone")
+#define SPECENUM_VALUE3NAME "City Gone"
 /* The unit's stack has been defeated and is scheduled for execution but the
  * unit has the CanEscape unit type flag.
  * Evaluated against an adjacent tile. */
 #define SPECENUM_VALUE4 AAPC_UNIT_STACK_DEATH
-#define SPECENUM_VALUE4NAME N_("Unit Stack Dead")
+#define SPECENUM_VALUE4NAME "Unit Stack Dead"
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
