@@ -88,6 +88,7 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   lbl = new QLabel(R__("Value:"));
   active_layout->addWidget(lbl, 2);
   value_box = new QSpinBox(this);
+  value_box->setRange(-1000, 1000);
   active_layout->addWidget(value_box, 3);
   connect(value_box, SIGNAL(valueChanged(int)), this, SLOT(set_value(int)));
 
