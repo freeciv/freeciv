@@ -1026,7 +1026,7 @@ void set_units_in_combat(struct unit *pattacker, struct unit *pdefender)
 
 /**********************************************************************//**
   The action selection process is no longer in progres for the specified
-  unit. It is safe to let another unit enter it.
+  unit. It is safe to let another unit enter action selection.
 **************************************************************************/
 void action_selection_no_longer_in_progress(const int old_actor_id)
 {
