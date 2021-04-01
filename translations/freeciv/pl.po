@@ -38,7 +38,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S2_6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-23 21:11+0200\n"
+"POT-Creation-Date: 2021-03-28 16:15+0300\n"
 "PO-Revision-Date: 2021-03-29 18:40+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -25951,7 +25951,7 @@ msgstr ""
 "dostaniesz 100 sztuk złota, ale tylko jeśli atakowała jednostka lądowa lub "
 "Helikopter."
 
-#: data/default/default.lua:22 server/unittools.c:2837
+#: data/default/default.lua:22 server/unittools.c:2840
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -25988,7 +25988,7 @@ msgstr "Znalazłeś/aś przyjazne miasto."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Przyjaźni koczownicy są zachwyceni tobą i przyłączają się."
 
-#: data/default/default.lua:114 server/unittools.c:2844
+#: data/default/default.lua:114 server/unittools.c:2847
 msgid "An abandoned village is here."
 msgstr "Ta wioska jest opuszczona."
 
@@ -25996,7 +25996,7 @@ msgstr "Ta wioska jest opuszczona."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Sprowokowałeś/aś barbarzyńców do ataku!"
 
-#: data/default/default.lua:124 server/unittools.c:2847
+#: data/default/default.lua:124 server/unittools.c:2850
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Twoja jednostka %s została zabita przez barbarzyńców!"
@@ -47680,8 +47680,8 @@ msgstr "Tylko jednostki %s mogą podbijać z pól nienatywnych."
 msgid "Cannot conquer from a non-native tile."
 msgstr "Nie może podbijać z pól nienatywnych."
 
-#: server/unithand.c:2587 server/unittools.c:2726 server/unittools.c:2734
-#: server/unittools.c:2764
+#: server/unithand.c:2587 server/unittools.c:2729 server/unittools.c:2737
+#: server/unittools.c:2767
 msgid "Cannot attack unless you declare war first."
 msgstr "Nie możesz atakować, jeśli nie wypowiedziałeś/aś wojny."
 
@@ -47695,7 +47695,7 @@ msgstr "Jednostka %s może się poruszać tylko we własnej strefie kontroli."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s nie może odpłynąć tak daleko od wybrzeża."
 
-#: server/unithand.c:2605 server/unittools.c:2742 server/unittools.c:2772
+#: server/unithand.c:2605 server/unittools.c:2745 server/unittools.c:2775
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Nie możesz atakować, jeśli nie wypowiedziałeś/aś wojny %s."
@@ -48053,140 +48053,140 @@ msgstr "Miasto %s zostało zniszczone Bombą Atomową przez %s."
 msgid "You nuked %s."
 msgstr "Zbombardowałeś/aś miasto %s."
 
-#: server/unittools.c:2563
+#: server/unittools.c:2566
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s użył/a Bomby Atomowej!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2587 server/unittools.c:2595
+#: server/unittools.c:2590 server/unittools.c:2598
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s nie może transportować %s."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2606
+#: server/unittools.c:2609
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "Jednostka %s nie może być przetransportowana do %s."
 
-#: server/unittools.c:2616
+#: server/unittools.c:2619
 #, c-format
 msgid "%s transported successfully."
 msgstr "Jednostka %s została przetransportowana."
 
-#: server/unittools.c:2679
+#: server/unittools.c:2682
 msgid "This unit type can not be paradropped."
 msgstr "Ta jednostka nie może być przetransportowana."
 
 #
-#: server/unittools.c:2689
+#: server/unittools.c:2692
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Nie możesz przerzucać jednostki transportującej inne jednostki."
 
-#: server/unittools.c:2696
+#: server/unittools.c:2699
 msgid "The destination location is not known."
 msgstr "Cel nie jest znany."
 
-#: server/unittools.c:2704
+#: server/unittools.c:2707
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Odległość od celu (%i) jest większa niż zasięg danej jednostki (%i)."
 
-#: server/unittools.c:2710
+#: server/unittools.c:2713
 msgid "Already there."
 msgstr "Już tam jestem."
 
-#: server/unittools.c:2719 server/unittools.c:2755
+#: server/unittools.c:2722 server/unittools.c:2758
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Jednostki nie można przerzucić do %s."
 
-#: server/unittools.c:2784
+#: server/unittools.c:2787
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Twoja jednostka %s została zrzucona do %s i zginęła."
 
-#: server/unittools.c:2803
+#: server/unittools.c:2806
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Twoja jednostka %s została zniszczona przez wroga podczas lądowania."
 
-#: server/unittools.c:2883
+#: server/unittools.c:2886
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Twój przelot wystraszył tubylców, którzy uciekli w popłochu."
 
-#: server/unittools.c:3225
+#: server/unittools.c:3228
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Jednostka %s przerwała wykonywanie rozkazu, gdy dostrzegła ruch wroga."
 
-#: server/unittools.c:4018
+#: server/unittools.c:4021
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki."
 
-#: server/unittools.c:4095
+#: server/unittools.c:4098
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Jednostka %s nie wykonała rozkazu, gdyż nie udało się zbudować miasta."
 
-#: server/unittools.c:4172
+#: server/unittools.c:4175
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ wymaga podjęcia nieprawidłowej "
 "czynności."
 
-#: server/unittools.c:4182
+#: server/unittools.c:4185
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ zawiera on nieprawidłowe "
 "położenie."
 
-#: server/unittools.c:4193
+#: server/unittools.c:4196
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki "
 "na swojej drodze."
 
-#: server/unittools.c:4238
+#: server/unittools.c:4241
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Jednostka %s nie wykonała rozkazu z powodu niemożności wykonania ruchu."
 
-#: server/unittools.c:4257
+#: server/unittools.c:4260
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Nie udało się zmienić miasta pochodzenia jednostki %s."
 
-#: server/unittools.c:4271 server/unittools.c:4298
+#: server/unittools.c:4274 server/unittools.c:4301
 #, c-format
 msgid "Orders for %s aborted since they give a location without a city."
 msgstr "Anulowano rozkaz dla jednostki %s, uwzględnia położenie bez miasta."
 
-#: server/unittools.c:4283
+#: server/unittools.c:4286
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Nie udało się ustanowić szlaku handlowego za pomocą %s."
 
-#: server/unittools.c:4311
+#: server/unittools.c:4314
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Nie udało się wspomóc budowy cudu za pomocą %s."
 
-#: server/unittools.c:4320
+#: server/unittools.c:4323
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Twoja jednostka %s ma nieprawidłowe rozkazy."
 
-#: server/unittools.c:4419
+#: server/unittools.c:4422
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""

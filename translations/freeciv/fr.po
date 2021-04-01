@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-24 20:10+0100\n"
+"POT-Creation-Date: 2021-03-28 16:15+0300\n"
 "PO-Revision-Date: 2021-03-25 12:10+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -26017,7 +26017,7 @@ msgstr ""
 "unité défensive, une rançon de 100 lingots est payée, mais seulement aux "
 "unités terrestres et aux Hélicoptères."
 
-#: data/default/default.lua:22 server/unittools.c:2837
+#: data/default/default.lua:22 server/unittools.c:2840
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26053,7 +26053,7 @@ msgstr "Vous avez trouvé une ville amicale."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Vous impressionnez des nomades amicaux, et ils se joignent à vous."
 
-#: data/default/default.lua:114 server/unittools.c:2844
+#: data/default/default.lua:114 server/unittools.c:2847
 msgid "An abandoned village is here."
 msgstr "Il y a ici un village abandonné."
 
@@ -26061,7 +26061,7 @@ msgstr "Il y a ici un village abandonné."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Vous avez découvert une horde de barbares !"
 
-#: data/default/default.lua:124 server/unittools.c:2847
+#: data/default/default.lua:124 server/unittools.c:2850
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Votre %s a été tué(e) par les barbares !"
@@ -48378,8 +48378,8 @@ msgstr "Seulement %s peut conquérir depuis une case non-native."
 msgid "Cannot conquer from a non-native tile."
 msgstr "Impossible de conquérir depuis une case non-native."
 
-#: server/unithand.c:2587 server/unittools.c:2726 server/unittools.c:2734
-#: server/unittools.c:2764
+#: server/unithand.c:2587 server/unittools.c:2729 server/unittools.c:2737
+#: server/unittools.c:2767
 msgid "Cannot attack unless you declare war first."
 msgstr "Impossible d'attaquer tant que vous n'avez pas déclaré la guerre."
 
@@ -48393,7 +48393,7 @@ msgstr "%s ne peut se déplacer qu'à l'intérieur de votre zone de contrôle."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne peut pas naviguer si loin de la côte."
 
-#: server/unithand.c:2605 server/unittools.c:2742 server/unittools.c:2772
+#: server/unithand.c:2605 server/unittools.c:2745 server/unittools.c:2775
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -48728,136 +48728,136 @@ msgstr "%s a été atomisé(e) par %s."
 msgid "You nuked %s."
 msgstr "Vous avez atomisé %s."
 
-#: server/unittools.c:2563
+#: server/unittools.c:2566
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "Les %s ont fait exploser une bombe atomique !"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2587 server/unittools.c:2595
+#: server/unittools.c:2590 server/unittools.c:2598
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s ne peut pas transporter %s"
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2606
+#: server/unittools.c:2609
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s ne peut pas être transporté vers %s."
 
-#: server/unittools.c:2616
+#: server/unittools.c:2619
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s transporté avec succès."
 
-#: server/unittools.c:2679
+#: server/unittools.c:2682
 msgid "This unit type can not be paradropped."
 msgstr "Ce type d'unité ne peut pas être parachuté."
 
-#: server/unittools.c:2689
+#: server/unittools.c:2692
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Une unité transportant des unités ne peut pas être parachutée."
 
-#: server/unittools.c:2696
+#: server/unittools.c:2699
 msgid "The destination location is not known."
 msgstr "L'endroit de destination n'est pas connu."
 
-#: server/unittools.c:2704
+#: server/unittools.c:2707
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "La distance à la cible (%i) est supérieure à la portée de l'unité (%i)."
 
-#: server/unittools.c:2710
+#: server/unittools.c:2713
 msgid "Already there."
 msgstr "Déjà là."
 
-#: server/unittools.c:2719 server/unittools.c:2755
+#: server/unittools.c:2722 server/unittools.c:2758
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Cette unité ne peut pas être parachutée dans %s."
 
-#: server/unittools.c:2784
+#: server/unittools.c:2787
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Votre %s a été parachuté dans %s et a été perdu."
 
-#: server/unittools.c:2803
+#: server/unittools.c:2806
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Votre %s a été tué par des unités ennemies au point de parachutage."
 
-#: server/unittools.c:2883
+#: server/unittools.c:2886
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Votre survol effraie la tribu ; prise de terreur, elle s'enfuit."
 
-#: server/unittools.c:3225
+#: server/unittools.c:3228
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "Les ordres de %s ont été annulés car des mouvements ennemis ont été aperçus."
 
-#: server/unittools.c:4018
+#: server/unittools.c:4021
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Les ordres de %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:4095
+#: server/unittools.c:4098
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Les ordres pour %s ont été annulés car la fondation de la ville a échoué."
 
-#: server/unittools.c:4172
+#: server/unittools.c:4175
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Les ordres pour %s ont été annulés car l'activité est invalide."
 
-#: server/unittools.c:4182
+#: server/unittools.c:4185
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Les ordres pour %s ont été annulés car ils pointent sur un lieu invalide."
 
-#: server/unittools.c:4193
+#: server/unittools.c:4196
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Les ordres pour %s ont été annulés car il y a des unités à proximité."
 
-#: server/unittools.c:4238
+#: server/unittools.c:4241
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres pour %s ont été annulés à cause de l'échec d'un mouvement."
 
-#: server/unittools.c:4257
+#: server/unittools.c:4260
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "La tentative de changer la ville de support de %s a échoué."
 
-#: server/unittools.c:4271 server/unittools.c:4298
+#: server/unittools.c:4274 server/unittools.c:4301
 #, c-format
 msgid "Orders for %s aborted since they give a location without a city."
 msgstr ""
 "Les ordres pour %s ont été annulés car ils indiquent un endroit sans ville."
 
-#: server/unittools.c:4283
+#: server/unittools.c:4286
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "La tentative de créer une route commerciale pour %s a échoué."
 
-#: server/unittools.c:4311
+#: server/unittools.c:4314
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "La tentative de construction de merveille à %s a échoué."
 
-#: server/unittools.c:4320
+#: server/unittools.c:4323
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Votre %s a des ordres invalides."
 
-#: server/unittools.c:4419
+#: server/unittools.c:4422
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
@@ -49124,13 +49124,16 @@ msgstr "Échec de clock_gettime(CLOCK_REALTIME) : %s"
 #: utility/randseed.c:180
 msgid ""
 "No good random source usable. Falling back to time-based random seeding."
-msgstr "Aucune bonne source aléatoire utilisable. Repli sur une graine basée sur le temps."
+msgstr ""
+"Aucune bonne source aléatoire utilisable. Repli sur une graine basée sur le "
+"temps."
 
 #: utility/randseed.c:189
 msgid ""
 "Warning: Falling back to predictable random seed from current coarse-"
 "granularity time."
-msgstr "Repli sur une graine prédictible à partir de l'heure courante grossière."
+msgstr ""
+"Repli sur une graine prédictible à partir de l'heure courante grossière."
 
 #. TRANS: do not translate <Freeciv>
 #: utility/registry_xml.c:46

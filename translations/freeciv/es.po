@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-27 12:46+0100\n"
+"POT-Creation-Date: 2021-03-28 16:15+0300\n"
 "PO-Revision-Date: 2021-03-29 01:30+0200\n"
 "Last-Translator: Jordi Negrevernis <jorneg4@gmail.com>\n"
 "Language-Team: Español; Castellano <>\n"
@@ -9912,11 +9912,6 @@ msgstr "Información sobre la Civilización %s"
 
 #: client/gui-sdl/inteldlg.c:309 client/gui-sdl2/inteldlg.c:329
 #, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: %s(%d/%d)"
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -9943,11 +9938,6 @@ msgstr ""
 
 #: client/gui-sdl/inteldlg.c:341 client/gui-sdl2/inteldlg.c:361
 #, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: unknown"
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -13035,12 +13025,10 @@ msgid "Prevented by terrain on which alteration %s can be made.\n"
 msgstr "Impedido por un terreno que se pueda alterar a %s.\n"
 
 #: client/helpdata.c:2893
-#| msgid "City center"
 msgid "city centers"
 msgstr "centros de ciudad"
 
 #: client/helpdata.c:2896
-#| msgid "Reload tileset"
 msgid "claimed tiles"
 msgstr "casillas reclamadas"
 
@@ -14619,7 +14607,6 @@ msgid "Hex"
 msgstr "Hex"
 
 #: client/mapview_common.c:4027 client/tilespec.h:49
-#| msgid "overhead"
 msgid "Overhead"
 msgstr "Overhead"
 
@@ -17676,7 +17663,6 @@ msgstr "Demasiados módulos de Ordenador(IA). Máx es %d."
 #. TRANS: this and following strings are 'base flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/base.h:45
-#| msgid "No progress"
 msgid "NoAggressive"
 msgstr "NoAgresiva"
 
@@ -17685,12 +17671,10 @@ msgid "NoStackDeath"
 msgstr "NoMuerteDePila"
 
 #: common/base.h:51
-#| msgid "Diplomat"
 msgid "DiplomatDefense"
 msgstr "DefensaDiplomático"
 
 #: common/base.h:54
-#| msgid "Paradrop here"
 msgid "ParadropFrom"
 msgstr "LanzarseDesde"
 
@@ -18356,7 +18340,6 @@ msgstr "pasivo"
 #. * preserve leading space
 #: common/featured_text.c:1148
 #, c-format
-#| msgid "Your %s became more experienced and achieved the rank of %s."
 msgid " and achieved the rank of %s"
 msgstr " y consiguió el rango de %s"
 
@@ -19069,7 +19052,6 @@ msgstr "Casilla reclamada"
 #. TRANS: this and following strings are 'road flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/road.h:25
-#| msgid "Requires"
 msgid "RequiresBridge"
 msgstr "RequierePuente"
 
@@ -19089,7 +19071,6 @@ msgid "UnrestrictedInfra"
 msgstr "NoRestringidoInfra"
 
 #: common/road.h:33
-#| msgid "From:"
 msgid "JumpFrom"
 msgstr "SaltaDesde"
 
@@ -25267,10 +25248,6 @@ msgstr ""
 #: data/civ2/terrain.ruleset:1244 data/classic/terrain.ruleset:1537
 #: data/experimental/terrain.ruleset:1515 data/civ2civ3/terrain.ruleset:1699
 #: data/multiplayer/terrain.ruleset:1509 data/sandbox/terrain.ruleset:1701
-#| msgid ""
-#| "A railroad also increases any shield resources produced by a tile. A tile "
-#| "whose road is upgraded to a railroad retains any trade bonus from the "
-#| "road as well."
 msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
 "tile whose road is upgraded to a railroad retains any trade bonus from the "
@@ -25908,7 +25885,7 @@ msgstr ""
 "Cuando una unidad terrestre o un Helicóptero mata a un Jefe Bárbaro en una "
 "casilla sin unidades defensivas, se obtiene un rescate de 100 monedas de oro."
 
-#: data/default/default.lua:22 server/unittools.c:2837
+#: data/default/default.lua:22 server/unittools.c:2840
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -25946,7 +25923,7 @@ msgstr ""
 "Estos nómadas amistosos se sienten impresionados por ti, y se unen a tu "
 "causa."
 
-#: data/default/default.lua:114 server/unittools.c:2844
+#: data/default/default.lua:114 server/unittools.c:2847
 msgid "An abandoned village is here."
 msgstr "Encuentras una aldea abandonada."
 
@@ -25954,7 +25931,7 @@ msgstr "Encuentras una aldea abandonada."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Has desatado a una horda de bárbaros!"
 
-#: data/default/default.lua:124 server/unittools.c:2847
+#: data/default/default.lua:124 server/unittools.c:2850
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "¡Los bárbaros han destruido tu %s!"
@@ -44927,14 +44904,6 @@ msgstr "Duración máxima en segundos de un turno"
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
 #: server/settings.c:2514
-#| msgid ""
-#| "If all players have not hit \"Turn Done\" before this time is up, then "
-#| "the turn ends automatically. Zero means there is no timeout. In servers "
-#| "compiled with debugging, a timeout of -1 sets the autogame test mode. "
-#| "Only connections with hack level access may set the timeout to lower than "
-#| "30 seconds. Use this with the command \"timeoutincrease\" to have a "
-#| "dynamic timer. The first turn is treated as a special case and is "
-#| "controlled by the 'first_timeout' setting."
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -48183,8 +48152,8 @@ msgstr "Sólo %s puede conquistar desde una casilla no nativa."
 msgid "Cannot conquer from a non-native tile."
 msgstr "No se puede conquistar desde una casilla no nativa."
 
-#: server/unithand.c:2587 server/unittools.c:2726 server/unittools.c:2734
-#: server/unittools.c:2764
+#: server/unithand.c:2587 server/unittools.c:2729 server/unittools.c:2737
+#: server/unittools.c:2767
 msgid "Cannot attack unless you declare war first."
 msgstr "No puedes atacar si no declaras primero la guerra."
 
@@ -48198,7 +48167,7 @@ msgstr "Sólo puedes mover tu %s a tu propia zona de control."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s no puede ir tan lejos de la costa."
 
-#: server/unithand.c:2605 server/unittools.c:2742 server/unittools.c:2772
+#: server/unithand.c:2605 server/unittools.c:2745 server/unittools.c:2775
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "No puedes invadir si no rompes antes el tratado de paz con %s."
@@ -48527,138 +48496,137 @@ msgstr "%2$s ha lanzado una bomba atómica sobre %1$s."
 msgid "You nuked %s."
 msgstr "Has lanzado una bomba atómica sobre %s."
 
-#: server/unittools.c:2563
+#: server/unittools.c:2566
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "¡Los %s han detonado una bomba atómica!"
 
 #. TRANS: Airlift failure message.
 #. * "Paris has no capacity to transport Warriors."
-#: server/unittools.c:2587 server/unittools.c:2595
+#: server/unittools.c:2590 server/unittools.c:2598
 #, c-format
 msgid "%s has no capacity to transport %s."
 msgstr "%s no tiene capacidad de transporte para %s."
 
 #. TRANS: Airlift failure message.
 #. * "Warriors cannot be transported to Paris."
-#: server/unittools.c:2606
+#: server/unittools.c:2609
 #, c-format
 msgid "%s cannot be transported to %s."
 msgstr "%s no se puede transportar a %s."
 
-#: server/unittools.c:2616
+#: server/unittools.c:2619
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s fue transportado con éxito."
 
-#: server/unittools.c:2679
+#: server/unittools.c:2682
 msgid "This unit type can not be paradropped."
 msgstr "Este tipo de unidad no se puede tirar en paracaídas."
 
-#: server/unittools.c:2689
+#: server/unittools.c:2692
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 "Esta unidad que está transportando otras unidades no se puede tirar en "
 "paracaídas."
 
-#: server/unittools.c:2696
+#: server/unittools.c:2699
 msgid "The destination location is not known."
 msgstr "Posición de destino desconocida."
 
-#: server/unittools.c:2704
+#: server/unittools.c:2707
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 "La distancia al objetivo (%i) es mayor que el alcance de la unidad (%i)."
 
-#: server/unittools.c:2710
-#| msgid "Already here."
+#: server/unittools.c:2713
 msgid "Already there."
 msgstr "Ya está aquí."
 
-#: server/unittools.c:2719 server/unittools.c:2755
+#: server/unittools.c:2722 server/unittools.c:2758
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Esta unidad no se puede tirar en paracaídas sobre %s."
 
-#: server/unittools.c:2784
+#: server/unittools.c:2787
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Tu %s se ha tirado en paracaídas sobre %s y ha desaparecido."
 
-#: server/unittools.c:2803
+#: server/unittools.c:2806
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Unidades enemigas han destruido tu %s nada más aterrizar."
 
-#: server/unittools.c:2883
+#: server/unittools.c:2886
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 "Has asustado a los indígenas al sobrevolarlos, y se han marchado "
 "aterrorizados."
 
-#: server/unittools.c:3225
+#: server/unittools.c:3228
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Órdenes de %s abortadas después de intuir un movimiento enemigo."
 
-#: server/unittools.c:4018
+#: server/unittools.c:4021
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "Órdenes de %s abortadas porque hay unidades cerca."
 
-#: server/unittools.c:4095
+#: server/unittools.c:4098
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "Órdenes de %s abortadas porque la construcción de la ciudad fue imposible."
 
-#: server/unittools.c:4172
+#: server/unittools.c:4175
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "Órdenes de %s abortadas porque especifican una actividad inválida."
 
-#: server/unittools.c:4182
+#: server/unittools.c:4185
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "Órdenes de %s abortadas porque especifican una localización inválida."
 
-#: server/unittools.c:4193
+#: server/unittools.c:4196
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "Órdenes de %s abortadas porque hay unidades en el camino."
 
-#: server/unittools.c:4238
+#: server/unittools.c:4241
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "Órdenes de %s abortadas porque ha habido un movimiento fallido."
 
-#: server/unittools.c:4257
+#: server/unittools.c:4260
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Falló el intento de asociar %s a la ciudad de origen."
 
-#: server/unittools.c:4271 server/unittools.c:4298
+#: server/unittools.c:4274 server/unittools.c:4301
 #, c-format
 msgid "Orders for %s aborted since they give a location without a city."
 msgstr "Órdenes de %s abortadas porque tienen una ubicación sin una ciudad."
 
-#: server/unittools.c:4283
+#: server/unittools.c:4286
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Falló el intento de establecer una ruta comercial por %s."
 
-#: server/unittools.c:4311
+#: server/unittools.c:4314
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Falló el intento de construir una maravilla por %s."
 
-#: server/unittools.c:4320
+#: server/unittools.c:4323
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Tu %s tiene órdenes inválidas."
 
-#: server/unittools.c:4419
+#: server/unittools.c:4422
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
@@ -48900,13 +48868,11 @@ msgstr "getentropy() falló: %s"
 
 #: utility/randseed.c:92
 #, c-format
-#| msgid "Modpack install failed: %s"
 msgid "Opening %s failed: %s"
 msgstr "La apertura de %s falló: %s"
 
 #: utility/randseed.c:97
 #, c-format
-#| msgid "Researching %s: %s"
 msgid "Reading %s failed: %s"
 msgstr "La lectura de %s falló: %s"
 
