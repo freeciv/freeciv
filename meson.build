@@ -2542,6 +2542,7 @@ endif
 mocced_ruledit = qt5_mod.preprocess(
   moc_headers: [
    'tools/ruledit/conversion_log.h',
+   'tools/ruledit/edit_impr.h',
    'tools/ruledit/edit_utype.h',
    'tools/ruledit/effect_edit.h',
    'tools/ruledit/req_edit.h',
@@ -2563,6 +2564,7 @@ mocced_ruledit = qt5_mod.preprocess(
 
 executable('freeciv-ruledit',
   'tools/ruledit/conversion_log.cpp',
+  'tools/ruledit/edit_impr.cpp',
   'tools/ruledit/edit_utype.cpp',
   'tools/ruledit/effect_edit.cpp',
   'tools/ruledit/req_edit.cpp',

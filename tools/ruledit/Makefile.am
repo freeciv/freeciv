@@ -27,6 +27,7 @@ freeciv_ruledit_CXXFLAGS = $(ruledit_cxxflags)
 
 MOC_FILES = \
             meta_conversion_log.cpp \
+            meta_edit_impr.cpp \
             meta_edit_utype.cpp \
 	    meta_effect_edit.cpp \
 	    meta_req_edit.cpp	\
@@ -48,6 +49,8 @@ MOC_FILES = \
 freeciv_ruledit_SOURCES =	\
 		conversion_log.cpp \
 		conversion_log.h \
+		edit_impr.cpp	\
+		edit_impr.h	\
 		edit_utype.cpp	\
 		edit_utype.h	\
 		effect_edit.cpp	\
