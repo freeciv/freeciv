@@ -300,10 +300,10 @@ struct action_enabler
 /* Can't pay the unit's upkeep. */
 /* (Can be triggered by food, shield or gold upkeep) */
 #define SPECENUM_VALUE0 AAPC_UNIT_UPKEEP
-#define SPECENUM_VALUE0NAME N_("Unit Upkeep")
+#define SPECENUM_VALUE0NAME "Unit Upkeep"
 /* A unit moved to an adjacent tile (auto attack). */
 #define SPECENUM_VALUE1 AAPC_UNIT_MOVED_ADJ
-#define SPECENUM_VALUE1NAME N_("Moved Adjacent")
+#define SPECENUM_VALUE1NAME "Moved Adjacent"
 /* Number of forced action auto performer causes. */
 #define SPECENUM_COUNT AAPC_COUNT
 #include "specenum_gen.h"
