@@ -205,8 +205,9 @@ void del_main_list(void);
 struct widget *find_next_widget_at_pos(struct widget *pStartWidget, int x, int y);
 struct widget *find_next_widget_for_key(struct widget *pStartWidget, SDL_keysym key);
 
-struct widget *get_widget_pointer_from_id(const struct widget *pGUI_List, Uint16 ID,
-                                       enum scan_direction direction);
+struct widget *get_widget_pointer_from_id(const struct widget *gui_list,
+                                          Uint16 id,
+                                          enum scan_direction direction);
 
 struct widget *get_widget_pointer_from_main_list(Uint16 ID);
 
