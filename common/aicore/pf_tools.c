@@ -167,7 +167,6 @@ static inline bool pf_transport_check(const struct pf_parameter *param,
                                       const struct unit_type *trans_utype)
 {
   if (!pplayers_allied(unit_owner(ptrans), param->owner)
-      || unit_has_orders(ptrans)
       || param->utype == trans_utype
       || !can_unit_type_transport(trans_utype, utype_class(param->utype))
       || can_unit_type_transport(param->utype, utype_class(trans_utype))
@@ -260,7 +259,10 @@ pf_get_move_scope(const struct tile *ptile,
       if (allied_city_tile
           || tile_has_native_base(ptile, utype)) {
         scope |= PF_MS_TRANSPORT;
-        *can_disembark = TRUE;
+
+        /* If transport is moving, we are not going to continue where we expected
+         * through it. */
+        *can_disembark = !unit_has_orders(punit);
         break;
       }
 
@@ -271,7 +273,10 @@ pf_get_move_scope(const struct tile *ptile,
       scope |= PF_MS_TRANSPORT;
 
       if (utype_can_freely_unload(param->utype, utype)) {
-        *can_disembark = TRUE;
+
+        /* If transport is moving, we are not going to continue where we expected
+         * through it. */
+        *can_disembark = !unit_has_orders(punit);
         break;
       }
     } unit_list_iterate_end;
@@ -567,6 +572,7 @@ static bool is_possible_base_fuel(const struct tile *ptile,
     const struct unit_type *trans_utype = unit_type_get(ptrans);
 
     if (pf_transport_check(param, ptrans, trans_utype)
+        && !unit_has_orders(ptrans) /* Don't load to moving carrier */
         && (utype_can_freely_load(param->utype, trans_utype)
             || tile_has_native_base(ptile, trans_utype))) {
       return TRUE;
