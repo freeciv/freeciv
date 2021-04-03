@@ -428,11 +428,11 @@ void connectdlg_connect_callback(Widget w, XtPointer client_data,
     break;
   case NEW_PASSWORD_TYPE:
     XtVaGetValues(connectdlg_password_text, XtNstring, &pxp, NULL);
-    sz_strlcpy(password, (char *)pxp);
+    sz_strlcpy(fc_password, (char *)pxp);
     XtVaGetValues(connectdlg_verify_text, XtNstring, &pxp, NULL);
     sz_strlcpy(reply.password, (char *)pxp);
-    if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
-      password[0] = '\0';
+    if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
+      fc_password[0] = '\0';
       send_packet_authentication_reply(&client.conn, &reply);
       XtVaSetValues(connectdlg_message_label, XtNlabel, "", NULL);
       XtVaSetValues(connectdlg_password_text, XtNsensitive, False, NULL);
@@ -513,12 +513,12 @@ void handle_authentication_req(enum authentication_type type,
     connection_status = NEW_PASSWORD_TYPE;
     break;
   case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
+    /* if we magically have a password already present in 'fc_password'
      * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
+    if (fc_password[0] != '\0') {
       struct packet_authentication_reply reply;
 
-      sz_strlcpy(reply.password, password);
+      sz_strlcpy(reply.password, fc_password);
       send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {

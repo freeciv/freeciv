@@ -732,8 +732,9 @@ static int convert_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *tmp = convert_to_chars(pWidget->string16->text);
-    if(tmp) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+
+    if (tmp) {
+      fc_snprintf(fc_password, MAX_LEN_NAME, "%s", tmp);
       FC_FREE(tmp);
     }
   }
@@ -747,12 +748,12 @@ static int send_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     struct packet_authentication_reply reply;
-      
-    sz_strlcpy(reply.password, password);
-    
-    memset(password, 0, MAX_LEN_NAME);
-    password[0] = '\0';
-    
+
+    sz_strlcpy(reply.password, fc_password);
+
+    memset(fc_password, 0, MAX_LEN_NAME);
+    fc_password[0] = '\0';
+
     set_wstate(pWidget, FC_WS_DISABLED);
     
     widget_redraw(pWidget);
@@ -771,9 +772,10 @@ static int send_passwd_callback(struct widget *pWidget)
 **************************************************************************/
 static int cancel_passwd_callback(struct widget *pWidget)
 {
-  memset(password, 0, MAX_LEN_NAME);
-  password[0] = '\0';
+  memset(fc_password, 0, MAX_LEN_NAME);
+  fc_password[0] = '\0';
   disconnect_from_server();
+
   return cancel_connect_dlg_callback(pWidget);
 }
 
@@ -906,9 +908,9 @@ static int convert_first_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *tmp = convert_to_chars(pWidget->string16->text);
-    
-    if(tmp) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+
+    if (tmp) {
+      fc_snprintf(fc_password, MAX_LEN_NAME, "%s", tmp);
       FC_FREE(tmp);
       set_wstate(pWidget->prev, FC_WS_NORMAL);
       widget_redraw(pWidget->prev);
@@ -925,17 +927,17 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *tmp = convert_to_chars(pWidget->string16->text);
-    
-    if (tmp && strncmp(password, tmp, MAX_LEN_NAME) == 0) {
+
+    if (tmp && strncmp(fc_password, tmp, MAX_LEN_NAME) == 0) {
       set_wstate(pWidget->prev, FC_WS_NORMAL); /* next button */
       widget_redraw(pWidget->prev);
       widget_flush(pWidget->prev);
     } else {
-      memset(password, 0, MAX_LEN_NAME);
-      password[0] = '\0';
-      
-      FC_FREE(pWidget->next->string16->text);/* first edit */
-      FC_FREE(pWidget->string16->text); /* secound edit */
+      memset(fc_password, 0, MAX_LEN_NAME);
+      fc_password[0] = '\0';
+
+      FC_FREE(pWidget->next->string16->text); /* first edit */
+      FC_FREE(pWidget->string16->text); /* second edit */
 
       popup_new_user_passwd_dialog(_("Passwords don't match, enter password."));
     }
@@ -1115,12 +1117,12 @@ void handle_authentication_req(enum authentication_type type,
     popup_new_user_passwd_dialog(message);
     return;
   case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
+    /* if we magically have a password already present in 'fc_password'
      * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
+    if (fc_password[0] != '\0') {
       struct packet_authentication_reply reply;
 
-      sz_strlcpy(reply.password, password);
+      sz_strlcpy(reply.password, fc_password);
       send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {

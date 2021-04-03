@@ -1526,12 +1526,12 @@ void fc_client::handle_authentication_req(enum authentication_type type,
     set_connection_state(NEW_PASSWORD_TYPE);
     return;
   case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
+    /* if we magically have a password already present in 'fc_password'
      * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
+    if (fc_password[0] != '\0') {
       struct packet_authentication_reply reply;
 
-      sz_strlcpy(reply.password, password);
+      sz_strlcpy(reply.password, fc_password);
       send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
@@ -1576,13 +1576,13 @@ void fc_client::slot_connect()
     return;
   case NEW_PASSWORD_TYPE:
     ba_bytes = connect_password_edit->text().toLatin1();
-    sz_strlcpy(password, ba_bytes.data());
+    sz_strlcpy(fc_password, ba_bytes.data());
     ba_bytes = connect_confirm_password_edit->text().toLatin1();
     sz_strlcpy(reply.password,
                ba_bytes.data());
 
-    if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
-      password[0] = '\0';
+    if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
+      fc_password[0] = '\0';
       send_packet_authentication_reply(&client.conn, &reply);
       set_connection_state(WAITING_TYPE);
     } else {

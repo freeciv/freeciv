@@ -5766,7 +5766,7 @@ void options_load(void)
   secfile_allow_digital_boolean(sf, allow_digital_boolean);
 
   /* a "secret" option for the lazy. TODO: make this saveable */
-  sz_strlcpy(password,
+  sz_strlcpy(fc_password,
              secfile_lookup_str_default(sf, "", "%s.password", prefix));
 
   gui_options.save_options_on_exit =
