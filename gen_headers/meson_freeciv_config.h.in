@@ -104,6 +104,9 @@
 /* Readline support */
 #mesondefine FREECIV_HAVE_LIBREADLINE
 
+/* liblzma is available */
+#mesondefine FREECIV_HAVE_LIBLZMA
+
 /* winsock2.h available */
 #mesondefine FREECIV_HAVE_WINSOCK2_H
 
