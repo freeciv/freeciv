@@ -40,7 +40,8 @@ tiles = { "row", "column", "tag"
 ; Unit activity letters: tile commands
 
   1, 0, "unit.rest"                     ;[?]
-  1, 1, "unit.irrigate"                 ;[?]
+  1, 1, "unit.cultivate",               ;[?]
+        "unit.irrigate" ; For rulesets still using this tag
   1, 2, "unit.plant"                    ;[?]
   1, 3, "unit.transform"                ;[?]
   1, 4, "unit.pillage"                  ;[?]
