@@ -407,7 +407,7 @@ void handle_unit_remove(int unit_id)
     return;
   }
 
-  /* Close diplomat dialog if the diplomat is lost */
+  /* Close the action selection dialog if the actor unit is lost. */
   if (action_selection_actor_unit() == punit->id) {
     action_selection_close();
     /* Open another action selection dialog if there are other actors in the
