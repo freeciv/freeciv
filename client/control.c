@@ -2949,11 +2949,6 @@ void key_unit_action_select(void)
 {
   struct tile *ptile;
 
-  if (!can_ask_server_for_actions()) {
-    /* Looks like another action selection dialog is open. */
-    return;
-  }
-
   unit_list_iterate(get_units_in_focus(), punit) {
     if (utype_may_act_at_all(unit_type_get(punit))
         && (ptile = unit_tile(punit))) {
