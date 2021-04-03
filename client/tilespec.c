@@ -268,7 +268,7 @@ struct named_sprites {
       *fortified,
       *fortifying,
       *go_to,			/* goto is a C keyword :-) */
-      *irrigate,
+      *cultivate,
       *plant,
       *pillage,
       *sentry,
@@ -3033,7 +3033,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.fortified,	"unit.fortified");     
   SET_SPRITE(unit.fortifying,	"unit.fortifying");
   SET_SPRITE(unit.go_to,	"unit.goto");
-  SET_SPRITE(unit.irrigate,     "unit.irrigate"); 
+  SET_SPRITE(unit.cultivate,    "unit.cultivate");
   SET_SPRITE(unit.plant,        "unit.plant");
   SET_SPRITE(unit.pillage,	"unit.pillage");
   SET_SPRITE(unit.sentry,	"unit.sentry");
@@ -4297,13 +4297,13 @@ static int fill_unit_sprite_array(const struct tileset *t,
       break;
     case ACTIVITY_IRRIGATE:
      if (punit->activity_target == NULL) {
-        s = t->sprites.unit.irrigate;
+        s = t->sprites.unit.cultivate;
       } else {
         s = t->sprites.extras[extra_index(punit->activity_target)].activity;
       }
       break;
     case ACTIVITY_CULTIVATE:
-      s = t->sprites.unit.irrigate;
+      s = t->sprites.unit.cultivate;
       break;
     case ACTIVITY_POLLUTION:
     case ACTIVITY_FALLOUT:
@@ -6008,7 +6008,7 @@ int fill_sprite_array(struct tileset *t,
             break;
           case ACTIVITY_IRRIGATE:
             if (ptask->tgt == NULL) {
-              ADD_SPRITE(t->sprites.unit.irrigate,
+              ADD_SPRITE(t->sprites.unit.cultivate,
                          TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
                          FULL_TILE_Y_OFFSET + t->activity_offset_y);
             } else {
@@ -6018,7 +6018,7 @@ int fill_sprite_array(struct tileset *t,
             }
             break;
           case ACTIVITY_CULTIVATE:
-            ADD_SPRITE(t->sprites.unit.irrigate,
+            ADD_SPRITE(t->sprites.unit.cultivate,
                        TRUE, FULL_TILE_X_OFFSET + t->activity_offset_x,
                        FULL_TILE_Y_OFFSET + t->activity_offset_y);
             break;

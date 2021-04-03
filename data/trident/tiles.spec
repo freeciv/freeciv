@@ -599,7 +599,8 @@ tiles = { "row", "column", "tag"
   7, 19, "unit.patrol"
 
   8, 16, "unit.plant"
-  8, 17, "unit.irrigate"
+  8, 17, "unit.cultivate",
+         "unit.irrigate" ; For rulesets still using this tag
   8, 18, "unit.transform"
   8, 19, "unit.pillage"
 
