@@ -814,7 +814,7 @@ extern struct world wld;
 
 #define RS_DEFAULT_TIRED_ATTACK                  FALSE
 #define RS_DEFAULT_ONLY_KILLING_VETERAN          FALSE
-#define RS_DEFAULT_NUKE_POP_LOSS_PCT             50
+#define RS_DEFAULT_NUKE_POP_LOSS_PCT             49
 #define RS_MIN_NUKE_POP_LOSS_PCT                 0
 #define RS_MAX_NUKE_POP_LOSS_PCT                 100
 #define RS_DEFAULT_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT 0

@@ -2734,7 +2734,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     city_link(pcity));
     }
 
-    pop_loss = (game.info.nuke_pop_loss_pct * city_size_get(pcity)) / 100;
+    pop_loss = round((game.info.nuke_pop_loss_pct * city_size_get(pcity)) / 100.0);
     if (city_reduce_size(pcity, pop_loss, pplayer, "nuke")) {
       /* Send city size reduction to everyone seeing it */
       send_city_info(NULL, pcity);
