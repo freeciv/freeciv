@@ -165,6 +165,12 @@ if readline_dep.found()
   pub_conf_data.set('FREECIV_HAVE_LIBREADLINE', 1)
 endif
 
+lzma_dep = c_compiler.find_library('lzma', required:false)
+
+if lzma_dep.found()
+  pub_conf_data.set('FREECIV_HAVE_LIBLZMA', 1)
+endif
+
 syslua = get_option('syslua')
 lua_dep_tmp = dependency('lua-5.4', required:false)
 
@@ -528,7 +534,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 ws2_dep, jansson_dep, lua_dep, dependency('threads')],
+                 ws2_dep, jansson_dep, lua_dep, lzma_dep, dependency('threads')],
   install : true
   )
 
