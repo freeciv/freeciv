@@ -724,7 +724,7 @@ static int convert_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pwidget->string_utf8->text != NULL) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
+      fc_snprintf(fc_password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
     }
   }
 
@@ -739,10 +739,10 @@ static int send_passwd_callback(struct widget *pwidget)
   if (PRESSED_EVENT(main_data.event)) {
     struct packet_authentication_reply reply;
 
-    sz_strlcpy(reply.password, password);
+    sz_strlcpy(reply.password, fc_password);
 
-    memset(password, 0, MAX_LEN_NAME);
-    password[0] = '\0';
+    memset(fc_password, 0, MAX_LEN_NAME);
+    fc_password[0] = '\0';
 
     set_wstate(pwidget, FC_WS_DISABLED);
 
@@ -763,8 +763,8 @@ static int send_passwd_callback(struct widget *pwidget)
 **************************************************************************/
 static int cancel_passwd_callback(struct widget *pwidget)
 {
-  memset(password, 0, MAX_LEN_NAME);
-  password[0] = '\0';
+  memset(fc_password, 0, MAX_LEN_NAME);
+  fc_password[0] = '\0';
   disconnect_from_server();
 
   return cancel_connect_dlg_callback(pwidget);
@@ -899,7 +899,7 @@ static int convert_first_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pwidget->string_utf8->text != NULL) {
-      fc_snprintf(password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
+      fc_snprintf(fc_password, MAX_LEN_NAME, "%s", pwidget->string_utf8->text);
       set_wstate(pwidget->prev, FC_WS_NORMAL);
       widget_redraw(pwidget->prev);
       widget_flush(pwidget->prev);
@@ -916,13 +916,13 @@ static int convert_second_passwd_callback(struct widget *pwidget)
 {
   if (PRESSED_EVENT(main_data.event)) {
     if (pwidget->string_utf8->text != NULL
-        && !strncmp(password, pwidget->string_utf8->text, MAX_LEN_NAME)) {
+        && !strncmp(fc_password, pwidget->string_utf8->text, MAX_LEN_NAME)) {
       set_wstate(pwidget->prev, FC_WS_NORMAL); /* next button */
       widget_redraw(pwidget->prev);
       widget_flush(pwidget->prev);
     } else {
-      memset(password, 0, MAX_LEN_NAME);
-      password[0] = '\0';
+      memset(fc_password, 0, MAX_LEN_NAME);
+      fc_password[0] = '\0';
 
       FC_FREE(pwidget->next->string_utf8->text);/* first edit */
       FC_FREE(pwidget->string_utf8->text); /* second edit */
@@ -1109,12 +1109,12 @@ void handle_authentication_req(enum authentication_type type,
     popup_new_user_passwd_dialog(message);
     return;
   case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
+    /* if we magically have a password already present in 'fc_password'
      * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
+    if (fc_password[0] != '\0') {
       struct packet_authentication_reply reply;
 
-      sz_strlcpy(reply.password, password);
+      sz_strlcpy(reply.password, fc_password);
       send_packet_authentication_reply(&client.conn, &reply);
 
       return;
