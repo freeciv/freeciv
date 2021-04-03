@@ -90,6 +90,26 @@ bool adv_unit_execute_path(struct unit *punit, struct pf_path *path)
     int id = punit->id;
 
     if (same_pos(unit_tile(punit), ptile)) {
+#ifdef PF_WAIT_DEBUG
+      fc_assert_msg(
+#if PF_WAIT_DEBUG & 1
+                    punit->moves_left < unit_move_rate(punit)
+#if PF_WAIT_DEBUG & (2 | 4)
+                   ||
+#endif
+#endif
+#if PF_WAIT_DEBUG & 2
+                   punit->fuel < utype_fuel(unit_type_get(punit))
+#if PF_WAIT_DEBUG & 4
+                   ||
+#endif
+#endif
+#if PF_WAIT_DEBUG & 4
+                   punit->hp < unit_type_get(punit)->hp
+#endif
+                    , "%s waits at %d,%d for no visible profit",
+                    unit_rule_name(punit), TILE_XY(ptile));
+#endif
       UNIT_LOG(LOG_DEBUG, punit, "execute_path: waiting this turn");
       return TRUE;
     }
