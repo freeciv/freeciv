@@ -271,6 +271,15 @@ extern "C" {
  * than MAX_INT (and a power of 2 for easy multiplication). */
 #define PF_TURN_FACTOR  65536
 
+/* Debugging control if we arrange waits sanely in advisor paths
+ * value & 1 means checking move costs
+ * value & 2 means checking fuel left
+ * value & 4 means checking health */
+#ifndef PF_WAIT_DEBUG
+#ifdef FREECIV_DEBUG
+#define PF_WAIT_DEBUG 3
+#endif
+#endif
 /* =========================== Structures ================================ */
 
 /* Specifies the type of the action. */
