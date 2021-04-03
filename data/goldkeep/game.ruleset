@@ -974,15 +974,15 @@ actor_reqs    =
     }
 
 [actionenabler_nuke]
-action = "Explode Nuclear"
-actor_reqs    =
-    { "type",   "name", "range", "present"
+action      = "Explode Nuclear"
+actor_reqs  =
+    { "type",     "name",    "range", "present"
       "UnitFlag", "Nuclear", "Local", TRUE
     }
 
 [actionenabler_nuke_city]
-action="Nuke City"
-actor_reqs=
+action      = "Nuke City"
+actor_reqs  =
     { "type",         "name",    "range"
       "UnitFlag",     "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
@@ -990,14 +990,14 @@ actor_reqs=
     }
 
 [actionenabler_nuke_units]
-action="Nuke Units"
-actor_reqs=
+action      = "Nuke Units"
+actor_reqs  =
     { "type",         "name",    "range"
       "UnitFlag",     "Nuclear", "Local"
       "MinMoveFrags", "1",       "Local"
       "DiplRel",      "War",     "Local"
     }
-target_reqs=
+target_reqs =
     { "type",     "name",   "range", "present"
       "CityTile", "Center", "Local", FALSE
     }
