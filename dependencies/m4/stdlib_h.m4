@@ -1,4 +1,4 @@
-# stdlib_h.m4 serial 55
+# stdlib_h.m4 serial 59
 dnl Copyright (C) 2007-2021 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -28,7 +28,7 @@ AC_DEFUN([gl_STDLIB_H],
     posix_memalign posix_openpt ptsname ptsname_r qsort_r
     random random_r reallocarray realpath rpmatch secure_getenv setenv
     setstate setstate_r srandom srandom_r
-    strtod strtold strtoll strtoull unlockpt unsetenv])
+    strtod strtol strtold strtoll strtoul strtoull unlockpt unsetenv])
 
   AC_REQUIRE([AC_C_RESTRICT])
 
@@ -88,8 +88,10 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   GNULIB_SECURE_GETENV=0; AC_SUBST([GNULIB_SECURE_GETENV])
   GNULIB_SETENV=0;        AC_SUBST([GNULIB_SETENV])
   GNULIB_STRTOD=0;        AC_SUBST([GNULIB_STRTOD])
+  GNULIB_STRTOL=0;        AC_SUBST([GNULIB_STRTOL])
   GNULIB_STRTOLD=0;       AC_SUBST([GNULIB_STRTOLD])
   GNULIB_STRTOLL=0;       AC_SUBST([GNULIB_STRTOLL])
+  GNULIB_STRTOUL=0;       AC_SUBST([GNULIB_STRTOUL])
   GNULIB_STRTOULL=0;      AC_SUBST([GNULIB_STRTOULL])
   GNULIB_SYSTEM_POSIX=0;  AC_SUBST([GNULIB_SYSTEM_POSIX])
   GNULIB_UNLOCKPT=0;      AC_SUBST([GNULIB_UNLOCKPT])
@@ -137,8 +139,10 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   HAVE_SETSTATE=1;           AC_SUBST([HAVE_SETSTATE])
   HAVE_DECL_SETSTATE=1;      AC_SUBST([HAVE_DECL_SETSTATE])
   HAVE_STRTOD=1;             AC_SUBST([HAVE_STRTOD])
+  HAVE_STRTOL=1;             AC_SUBST([HAVE_STRTOL])
   HAVE_STRTOLD=1;            AC_SUBST([HAVE_STRTOLD])
   HAVE_STRTOLL=1;            AC_SUBST([HAVE_STRTOLL])
+  HAVE_STRTOUL=1;            AC_SUBST([HAVE_STRTOUL])
   HAVE_STRTOULL=1;           AC_SUBST([HAVE_STRTOULL])
   HAVE_STRUCT_RANDOM_DATA=1; AC_SUBST([HAVE_STRUCT_RANDOM_DATA])
   HAVE_SYS_LOADAVG_H=0;      AC_SUBST([HAVE_SYS_LOADAVG_H])
@@ -164,7 +168,11 @@ AC_DEFUN([gl_STDLIB_H_DEFAULTS],
   REPLACE_SETENV=0;          AC_SUBST([REPLACE_SETENV])
   REPLACE_SETSTATE=0;        AC_SUBST([REPLACE_SETSTATE])
   REPLACE_STRTOD=0;          AC_SUBST([REPLACE_STRTOD])
+  REPLACE_STRTOL=0;          AC_SUBST([REPLACE_STRTOL])
   REPLACE_STRTOLD=0;         AC_SUBST([REPLACE_STRTOLD])
+  REPLACE_STRTOLL=0;         AC_SUBST([REPLACE_STRTOLL])
+  REPLACE_STRTOUL=0;         AC_SUBST([REPLACE_STRTOUL])
+  REPLACE_STRTOULL=0;        AC_SUBST([REPLACE_STRTOULL])
   REPLACE_UNSETENV=0;        AC_SUBST([REPLACE_UNSETENV])
   REPLACE_WCTOMB=0;          AC_SUBST([REPLACE_WCTOMB])
 ])
