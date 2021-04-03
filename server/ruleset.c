@@ -3207,19 +3207,11 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       if (!lookup_terrain(file, "cultivate_result", filename, pterrain,
                           &pterrain->cultivate_result, FALSE)) {
-        if (compat->compat_mode) {
-          if (!lookup_terrain(file, "irrigation_result", filename, pterrain,
-                              &pterrain->cultivate_result, TRUE)) {
-            ok = FALSE;
-            break;
-          }
-        } else {
-          ruleset_error(LOG_ERROR, "%s: No cultivate_result", tsection);
-          ok = FALSE;
-          break;
-        }
+        ruleset_error(LOG_ERROR, "%s: No cultivate_result", tsection);
+        ok = FALSE;
+        break;
       }
-      if (!compat->compat_mode && pterrain->cultivate_result == pterrain) {
+      if (pterrain->cultivate_result == pterrain) {
         ruleset_error(LOG_ERROR, "%s: Cultivating result in terrain itself.",
                       tsection);
         ok = FALSE;
@@ -3236,19 +3228,11 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       if (!lookup_terrain(file, "plant_result", filename, pterrain,
                           &pterrain->plant_result, FALSE)) {
-        if (compat->compat_mode) {
-          if (!lookup_terrain(file, "mining_result", filename, pterrain,
-                              &pterrain->plant_result, TRUE)) {
-            ok = FALSE;
-            break;
-          }
-        } else {
-          ruleset_error(LOG_ERROR, "%s: No plant_result", tsection);
-          ok = FALSE;
-          break;
-        }
+        ruleset_error(LOG_ERROR, "%s: No plant_result", tsection);
+        ok = FALSE;
+        break;
       }
-      if (!compat->compat_mode && pterrain->plant_result == pterrain) {
+      if (pterrain->plant_result == pterrain) {
         ruleset_error(LOG_ERROR, "%s: Planting result in terrain itself.",
                       tsection);
         ok = FALSE;
@@ -3265,37 +3249,16 @@ static bool load_ruleset_terrain(struct section_file *file,
 
       if (!lookup_time(file, &pterrain->cultivate_time,
                        tsection, "cultivate_time", filename, NULL, &ok)) {
-        if (compat->compat_mode) {
-          if (pterrain->cultivate_result != pterrain) {
-            pterrain->cultivate_time = pterrain->irrigation_time;
-            pterrain->irrigation_time = 0;
-          } else {
-            pterrain->cultivate_time = 0;
-            pterrain->cultivate_result = NULL;
-          }
-        } else {
-          ruleset_error(LOG_ERROR, "%s: Missing cultivate_time", tsection);
-          ok = FALSE;
-          break;
-        }
+        ruleset_error(LOG_ERROR, "%s: Missing cultivate_time", tsection);
+        ok = FALSE;
+        break;
       }
 
       if (!lookup_time(file, &pterrain->plant_time,
                        tsection, "plant_time", filename, NULL, &ok)) {
-        if (compat->compat_mode) {
-          if (pterrain->plant_result != pterrain) {
-            pterrain->plant_time = pterrain->mining_time;
-            pterrain->mining_time = 0;
-          } else {
-            pterrain->plant_time = 0;
-            pterrain->plant_result = NULL;
-          }
-        } else {
-          ruleset_error(LOG_ERROR, "%s: Missing plant_time", tsection);
-          ok = FALSE;
-          break;
-        }
-
+        ruleset_error(LOG_ERROR, "%s: Missing plant_time", tsection);
+        ok = FALSE;
+        break;
       }
 
       if (!lookup_unit_type(file, tsection, "animal",
