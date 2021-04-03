@@ -1,6 +1,6 @@
 diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
---- lua-5.4/src/ldo.c	2020-12-11 16:39:32.993735065 +0200
-+++ lua-5.4/src/ldo.c	2020-12-11 16:38:20.605260988 +0200
+--- lua-5.4/src/ldo.c	2021-04-03 09:20:29.638531774 +0300
++++ lua-5.4/src/ldo.c	2021-04-03 09:18:54.445608290 +0300
 @@ -60,7 +60,7 @@
  	try { a } catch(...) { if ((c)->status == 0) (c)->status = -1; }
  #define luai_jmpbuf		int  /* dummy variable */
@@ -11,9 +11,9 @@ diff -Nurd lua-5.4/src/ldo.c lua-5.4/src/ldo.c
  /* in POSIX, try _longjmp/_setjmp (more efficient) */
  #define LUAI_THROW(L,c)		_longjmp((c)->b, 1)
 diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
---- lua-5.4/src/liolib.c	2020-12-11 16:39:32.993735065 +0200
-+++ lua-5.4/src/liolib.c	2020-11-06 15:53:04.296997133 +0200
-@@ -60,7 +60,7 @@
+--- lua-5.4/src/liolib.c	2021-04-03 09:20:29.638531774 +0300
++++ lua-5.4/src/liolib.c	2021-04-03 09:18:54.445608290 +0300
+@@ -54,7 +54,7 @@
  
  #if !defined(l_popen)		/* { */
  
@@ -22,7 +22,7 @@ diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
  
  #define l_popen(L,c,m)		(fflush(NULL), popen(c,m))
  #define l_pclose(L,file)	(pclose(file))
-@@ -109,7 +109,7 @@
+@@ -115,7 +115,7 @@
  
  #if !defined(l_fseek)		/* { */
  
@@ -32,8 +32,8 @@ diff -Nurd lua-5.4/src/liolib.c lua-5.4/src/liolib.c
  #include <sys/types.h>
  
 diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
---- lua-5.4/src/loslib.c	2020-12-11 16:39:32.997735091 +0200
-+++ lua-5.4/src/loslib.c	2020-11-06 15:53:04.296997133 +0200
+--- lua-5.4/src/loslib.c	2021-04-03 09:20:29.638531774 +0300
++++ lua-5.4/src/loslib.c	2021-04-03 09:18:54.445608290 +0300
 @@ -83,7 +83,7 @@
  ** where it uses gmtime_r/localtime_r
  */
@@ -52,20 +52,9 @@ diff -Nurd lua-5.4/src/loslib.c lua-5.4/src/loslib.c
  
  #include <unistd.h>
  
-diff -Nurd lua-5.4/src/lstrlib.c lua-5.4/src/lstrlib.c
---- lua-5.4/src/lstrlib.c	2020-12-11 16:39:18.297637204 +0200
-+++ lua-5.4/src/lstrlib.c	2020-12-11 16:40:05.433953802 +0200
-@@ -1716,6 +1716,7 @@
-       case Kfloat: {
-         Ftypes u;
-         lua_Number num;
-+        u.n = 0; /* Silence compiler warning */
-         copywithendian((char *)&u, data + pos, size, h.islittle);
-         if (size == sizeof(u.f)) num = (lua_Number)u.f;
-         else if (size == sizeof(u.d)) num = (lua_Number)u.d;
 diff -Nurd lua-5.4/src/luaconf.h lua-5.4/src/luaconf.h
---- lua-5.4/src/luaconf.h	2020-12-11 16:39:32.997735091 +0200
-+++ lua-5.4/src/luaconf.h	2020-12-11 16:38:22.269271653 +0200
+--- lua-5.4/src/luaconf.h	2021-04-03 09:20:29.638531774 +0300
++++ lua-5.4/src/luaconf.h	2021-04-03 09:18:56.217625481 +0300
 @@ -11,6 +11,7 @@
  #include <limits.h>
  #include <stddef.h>
