@@ -996,12 +996,12 @@ void handle_authentication_req(enum authentication_type type,
     set_connection_state(NEW_PASSWORD_TYPE);
     return;
   case AUTH_LOGIN_FIRST:
-    /* if we magically have a password already present in 'password'
+    /* if we magically have a password already present in 'fc_password'
      * then, use that and skip the password entry dialog */
-    if (password[0] != '\0') {
+    if (fc_password[0] != '\0') {
       struct packet_authentication_reply reply;
 
-      sz_strlcpy(reply.password, password);
+      sz_strlcpy(reply.password, fc_password);
       send_packet_authentication_reply(&client.conn, &reply);
       return;
     } else {
@@ -1042,18 +1042,18 @@ static void connect_callback(GtkWidget *w, gpointer data)
     return; 
   case NEW_PASSWORD_TYPE:
     if (w != network_password) {
-      sz_strlcpy(password,
+      sz_strlcpy(fc_password,
 	  gtk_entry_get_text(GTK_ENTRY(network_password)));
       sz_strlcpy(reply.password,
 	  gtk_entry_get_text(GTK_ENTRY(network_confirm_password)));
-      if (strncmp(reply.password, password, MAX_LEN_NAME) == 0) {
-	password[0] = '\0';
+      if (strncmp(reply.password, fc_password, MAX_LEN_NAME) == 0) {
+	fc_password[0] = '\0';
 	send_packet_authentication_reply(&client.conn, &reply);
 
 	set_connection_state(WAITING_TYPE);
       } else { 
 	append_network_statusbar(_("Passwords don't match, enter password."),
-	    TRUE);
+                                 TRUE);
 
 	set_connection_state(NEW_PASSWORD_TYPE);
       }
