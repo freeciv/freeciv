@@ -762,8 +762,7 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
 /**********************************************************************//**
   Load combat bonus list
 **************************************************************************/
-static bool lookup_cbonus_list(struct rscompat_info *compat,
-                               struct combat_bonus_list *list,
+static bool lookup_cbonus_list(struct combat_bonus_list *list,
                                struct section_file *file,
                                const char *sec,
                                const char *sub)
@@ -2265,7 +2264,7 @@ static bool load_ruleset_units(struct section_file *file,
         break;
       }
 
-      lookup_cbonus_list(compat, u->bonuses, file, sec_name, "bonuses");
+      lookup_cbonus_list(u->bonuses, file, sec_name, "bonuses");
 
       output_type_iterate(o) {
         u->upkeep[o] = secfile_lookup_int_default(file, 0, "%s.uk_%s",
