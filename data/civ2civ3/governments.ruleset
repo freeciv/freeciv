@@ -86,11 +86,12 @@ _("\
 * Military units do not cause unhappiness even when deployed aggressively.\n\
 * Military units impose martial law. Up to 3 military units inside a city\
  will each force 1 unhappy citizen to become content.\n\
-* You have no control over tax rates. Half of the trade income is\
- simply lost to your economy (less if you have luxury-promoting buildings),\
- and the remainder all goes to luxuries.\
+* You have no control over tax rates. All trade income is\
+ converted to luxuries.\
  Conventional corruption increases with distance from the capital\
  (half as fast with knowledge of The Corporation).\n\
+* Half of the luxuries, including those converted from other\
+ trade income, are wasted.\
 * Base production waste is 30%. This increases with distance from the\
  capital (half as fast with knowledge of Trade).\
 ")
