@@ -283,8 +283,8 @@ static void multiplier_dialog_update_values(bool set_positions)
     gtk_scale_add_mark(GTK_SCALE(multipliers_scale[multiplier]),
                        mult_to_scale(pmul, val), GTK_POS_BOTTOM,
                        /* TRANS: current value of policy in force */
-                       Q_("?multiplier:Cur"));
-#endif
+                       Q_("?multiplier:Now"));
+#endif /* GTK >= 2.16 */
 
     if (set_positions) {
       gtk_range_set_value(GTK_RANGE(multipliers_scale[multiplier]),
