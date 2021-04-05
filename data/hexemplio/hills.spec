@@ -2,6 +2,8 @@
 
 options = "+Freeciv-spec-Devel-2019-Jul-03"
 
+[info]
+
 artists = "
 	 Peter Arbor <peter.arbor@gmail.com> (original terrain)
 	 GriffonSpade
