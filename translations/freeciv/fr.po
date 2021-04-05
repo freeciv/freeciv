@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-28 16:15+0300\n"
+"POT-Creation-Date: 2021-04-05 12:59+0200\n"
 "PO-Revision-Date: 2021-03-25 12:10+0100\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -5924,7 +5924,7 @@ msgstr "_Parcourir..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
 #: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1589
-#: client/gui-sdl/connectdlg.c:940 client/gui-sdl2/connectdlg.c:934
+#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:934
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Les mots de passe ne correspondent pas, entrez le mot de passe."
@@ -7558,7 +7558,7 @@ msgstr "Rendu obsolète par %1."
 #: client/gui-qt/shortcuts.cpp:596 client/gui-sdl/action_dialog.c:1062
 #: client/gui-sdl/citydlg.c:527 client/gui-sdl/citydlg.c:1419
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/connectdlg.c:637
-#: client/gui-sdl/connectdlg.c:830 client/gui-sdl/connectdlg.c:1003
+#: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:706 client/gui-sdl/dialogs.c:900
 #: client/gui-sdl/dialogs.c:3272 client/gui-sdl/mapctrl.c:2570
 #: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:528
@@ -9565,7 +9565,7 @@ msgstr "Serveur Freeciv :"
 msgid "Port :"
 msgstr "Port :"
 
-#: client/gui-sdl/connectdlg.c:822 client/gui-sdl/connectdlg.c:996
+#: client/gui-sdl/connectdlg.c:824 client/gui-sdl/connectdlg.c:998
 #: client/gui-sdl2/connectdlg.c:820 client/gui-sdl2/connectdlg.c:991
 msgid "Next"
 msgstr "Suivant"
@@ -49096,39 +49096,39 @@ msgstr "Impossible d'aller chercher %s : %s"
 msgid "Could not open %s for writing"
 msgstr "Impossible d'ouvrir %s en écriture"
 
-#: utility/randseed.c:59
+#: utility/randseed.c:65
 #, c-format
 msgid "getentropy() failed: %s"
 msgstr "Échec de getentropy() : %s"
 
-#: utility/randseed.c:92
+#: utility/randseed.c:119
 #, c-format
 msgid "Opening %s failed: %s"
 msgstr "Échec de l'ouverture de %s : %s"
 
-#: utility/randseed.c:97
+#: utility/randseed.c:124
 #, c-format
 msgid "Reading %s failed: %s"
 msgstr "Échec de lecture de %s : %s"
 
-#: utility/randseed.c:99
+#: utility/randseed.c:126
 #, c-format
 msgid "Reading %s: short read without error"
 msgstr "Lecture de %s : Lecture tronquée sans erreur"
 
-#: utility/randseed.c:141
+#: utility/randseed.c:168
 #, c-format
 msgid "clock_gettime(CLOCK_REALTIME) failed: %s"
 msgstr "Échec de clock_gettime(CLOCK_REALTIME) : %s"
 
-#: utility/randseed.c:180
+#: utility/randseed.c:211
 msgid ""
 "No good random source usable. Falling back to time-based random seeding."
 msgstr ""
 "Aucune bonne source aléatoire utilisable. Repli sur une graine basée sur le "
 "temps."
 
-#: utility/randseed.c:189
+#: utility/randseed.c:220
 msgid ""
 "Warning: Falling back to predictable random seed from current coarse-"
 "granularity time."
