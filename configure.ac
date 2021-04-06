@@ -1446,8 +1446,16 @@ if test "x$bcrypt_h_found" = "xyes" ; then
 fi
 AC_CHECK_FUNCS([getentropy clock_gettime])
 
-dnl TODO: Reimplement this check, in a cross-compiling friendly way
-dnl AC_CHECK_FILES([/dev/urandom])
+AC_CACHE_VAL([ac_cv_dev_urandom],
+  [if test "x$cross_compiling" != "xyes" ; then
+     AC_CHECK_FILES([/dev/urandom], [ac_cv_dev_urandom=yes], [ac_cv_dev_urandom=no])
+   else
+     dnl Pessimistic default when cross-compiling
+     ac_cv_dev_urandom=no
+   fi])
+if test "x${ac_cv_dev_urandom}" = "xyes" ; then
+  AC_DEFINE([HAVE_USABLE_URANDOM], [1], [Build in /dev/urandom support])
+fi
 
 AC_CHECK_FUNCS([_mkdir])
 
