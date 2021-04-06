@@ -1877,14 +1877,10 @@ static bool worklist_change_build_target(struct player *pplayer,
 	} requirement_vector_iterate_end;
 
 	if (!known) {
-	  /* This shouldn't happen...
-	     FIXME: make can_city_build_improvement_now() return a reason enum. */
-          notify_player(pplayer, city_tile(pcity),
-                        E_CITY_CANTBUILD, ftc_server,
-                        _("%s can't build %s from the worklist; "
-                          "reason unknown! Postponing..."),
-                        city_link(pcity),
-                        city_improvement_name_translation(pcity, ptarget));
+          /* FIXME: make can_city_build_improvement_now() return a reason enum,
+           *        so we can notify user with it.
+           *        Likely the building already exist. */
+          purge = TRUE;
 	}
       } else if (success) {
 	/* Hey, we can upgrade the improvement! */
