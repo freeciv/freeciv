@@ -1119,9 +1119,9 @@ static void city_populate(struct city *pcity, struct player *nationality)
 
 /**********************************************************************//**
   Examine an unbuildable build target from a city's worklist to see if it
-  can be postponed. Returns TRUE if it never can't be build and should be
-  purged or if the city is gone. Handles the postponing and returns TRUE
-  if the item can be posponed.
+  can be postponed. Returns TRUE if it never can be build and should be
+  purged or if the city is gone.
+  Returns FALSE if the item can be postponed.
 **************************************************************************/
 static bool worklist_item_postpone_req_vec(struct universal *target,
                                            struct city *pcity,
