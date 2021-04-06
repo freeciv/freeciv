@@ -2824,6 +2824,15 @@ inline void set_city_production(struct city *pcity)
     struct city *tcity = game_city_by_number(proute->partner);
     bool can_trade;
 
+    /* Partner city may have not yet been sent to the client, or
+     * there's just a placeholder city with a placeholder owner
+     * created for some tile->worked. */
+    if (!is_server()
+        && (tcity == NULL
+            || city_owner(tcity)->slot == NULL)) {
+      continue;
+    }
+
     fc_assert_action(tcity != NULL, continue);
 
     can_trade = can_cities_trade(pcity, tcity);
