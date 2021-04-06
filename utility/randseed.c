@@ -97,7 +97,7 @@ static bool generate_seed_bcryptgenrandom(randseed *ret)
 **************************************************************************/
 static bool generate_seed_urandom(randseed *ret)
 {
-#if HAVE__DEV_URANDOM   /* the first slash turns to an extra underline */
+#if HAVE_USABLE_URANDOM
   /*
    * /dev/urandom should be available on most Unixen. The Wikipedia page
    * mentions Linux, FreeBSD, OpenBSD, macOS as well as Solaris, NetBSD,
@@ -135,7 +135,7 @@ static bool generate_seed_urandom(randseed *ret)
 
     return TRUE;
   }
-#endif /* HAVE__DEV_URANDOM */
+#endif /* HAVE_USABLE_URANDOM */
 
   return FALSE;
 }
