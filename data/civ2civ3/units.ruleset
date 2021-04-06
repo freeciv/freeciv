@@ -2259,6 +2259,7 @@ The actions available to Diplomats in a city are:\
  - \"Investigate City\": Your unit attempts to report detailed\
  information about the city: its status, what buildings and units are\
  within, and what it is currently producing.\
+ The unit is not consumed by this action.\
 "), _("\
  - \"Sabotage City\": Your unit attempts either to disrupt all the\
  city's work so far towards its current project, or to destroy an\
@@ -2472,9 +2473,7 @@ helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
 "), _("\
-Explorers can also perform some actions in another player's city,\
- and like Diplomats and Spies, the unit is not consumed by these\
- harmless actions:\
+Explorers can also perform some actions in another player's city:\
 "), _("\
  - \"Establish Embassy\": This action always succeeds, and gives\
  permanent contact with the city's owner, as well as intelligence\
@@ -2485,6 +2484,7 @@ Explorers can also perform some actions in another player's city,\
  - \"Investigate City\": Your unit attempts to report detailed\
  information about the city: its status, what buildings and units are\
  within, and what it is currently producing.\
+ The unit is not consumed by this action.\
 ")
 
 [unit_leader]
