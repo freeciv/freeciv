@@ -1658,6 +1658,9 @@ CFLAGS="$EXTRA_DEBUG_CFLAGS $CFLAGS"
 CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 LDFLAGS="$EXTRA_DEBUG_LDFLAGS $LDFLAGS"
 
+dnl Check this when -Werror is already set, if we're going to set it
+FC_VALUE_AFTER_EXIT
+
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
 AC_SUBST([CONFIG_STATUS_DEPENDENCIES], ["${project_definition_dyn_rel}"])
