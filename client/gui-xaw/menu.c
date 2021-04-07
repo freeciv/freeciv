@@ -1170,10 +1170,10 @@ void create_menu(enum MenuIndex menu, char *name, struct MenuEntry entries[],
 					   mymenu->shell, NULL, 0);
     } else {
       xlt=menu_entry_text(menu, i, 0, "");
-      entries[i].w = XtCreateManagedWidget(xlt, smeBSBObjectClass, 
-					   mymenu->shell, NULL, 0);
-      XtAddCallback(entries[i].w, XtNcallback, menucallback, 
-		    (XtPointer)entries[i].id );
+      entries[i].w = XtCreateManagedWidget(xlt, smeBSBObjectClass,
+                                           mymenu->shell, NULL, 0);
+      XtAddCallback(entries[i].w, XtNcallback, menucallback,
+                    INT_TO_XTPOINTER(entries[i].id));
     }
   }
 
