@@ -529,6 +529,8 @@ double try_to_autoconnect(void)
               server_host, server_port, user_name, errbuf);
     exit(EXIT_FAILURE);
   }
+
+  RETURN_VALUE_AFTER_EXIT(1.0);
 }
 
 /**************************************************************************

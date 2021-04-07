@@ -114,6 +114,12 @@ typedef long int fc_errno;
 typedef int fc_errno;
 #endif
 
+#ifdef FREECIV_RETURN_VALUE_AFTER_EXIT
+#define RETURN_VALUE_AFTER_EXIT(_val_) return _val_ ;
+#else
+#define RETURN_VALUE_AFTER_EXIT(_val_)
+#endif
+
 int fc_strcasecmp(const char *str0, const char *str1);
 int fc_strncasecmp(const char *str0, const char *str1, size_t n);
 int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);

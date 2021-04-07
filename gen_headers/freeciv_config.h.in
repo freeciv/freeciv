@@ -50,6 +50,9 @@
 /* MagickWand version 7 API in use */
 #undef FREECIV_MWAND7
 
+/* Returning a value is expected even after exit() call */
+#undef FREECIV_RETURN_VALUE_AFTER_EXIT
+
 /* locale.h available */
 #undef FREECIV_HAVE_LOCALE_H
 

@@ -6975,6 +6975,8 @@ bool load_rulesets(const char *restore, bool act, bool buffer_script)
 
   /* Cannot load even default ruleset, we're in completely unusable state */
   exit(EXIT_FAILURE);
+
+  RETURN_VALUE_AFTER_EXIT(FALSE);
 }
 
 /**************************************************************************
