@@ -9034,6 +9034,8 @@ bool load_rulesets(const char *restore, const char *alt, bool compat_mode,
 
   /* Cannot load even default ruleset, we're in completely unusable state */
   exit(EXIT_FAILURE);
+
+  RETURN_VALUE_AFTER_EXIT(FALSE);
 }
 
 /**********************************************************************//**
