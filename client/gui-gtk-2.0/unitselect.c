@@ -413,9 +413,9 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   g_object_unref(store);
 
   g_signal_connect(view, "row-activated", G_CALLBACK(usdlg_cmd_row_activated),
-                   (gpointer *)loc);
+                   GINT_TO_POINTER(loc));
   g_signal_connect(view, "cursor-changed",
-                   G_CALLBACK(usdlg_cmd_cursor_changed), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_cursor_changed), GINT_TO_POINTER(loc));
 
   /* Translate titles. */
   intl_slist(ARRAY_SIZE(usdlg_col_titles), usdlg_col_titles, &titles_done);
@@ -474,7 +474,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_READY],
                      FALSE, TRUE, 0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_READY], "clicked",
-                   G_CALLBACK(usdlg_cmd_ready), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_ready), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_READY]), FALSE);
 
@@ -483,7 +483,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY],
                      FALSE, TRUE, 0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY], "clicked",
-                   G_CALLBACK(usdlg_cmd_sentry), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_sentry), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_SENTRY]), FALSE);
 
@@ -496,7 +496,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_SELECT],
                      FALSE, TRUE, 0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_SELECT], "clicked",
-                   G_CALLBACK(usdlg_cmd_select), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_select), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_SELECT]), FALSE);
 
@@ -506,7 +506,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
                      pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT], FALSE, TRUE,
                      0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT], "clicked",
-                   G_CALLBACK(usdlg_cmd_deselect), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_deselect), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_DESELECT]), FALSE);
 
@@ -519,7 +519,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_CENTER],
                      FALSE, TRUE, 0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_CENTER], "clicked",
-                   G_CALLBACK(usdlg_cmd_center), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_center), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_CENTER]), FALSE);
 
@@ -528,7 +528,7 @@ static void usdlg_tab_select(struct unit_select_dialog *pdialog,
   gtk_box_pack_start(GTK_BOX(bbox), pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS],
                      FALSE, TRUE, 0);
   g_signal_connect(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS], "clicked",
-                   G_CALLBACK(usdlg_cmd_focus), (gpointer *)loc);
+                   G_CALLBACK(usdlg_cmd_focus), GINT_TO_POINTER(loc));
   gtk_widget_set_sensitive(
     GTK_WIDGET(pdialog->tabs[loc].cmd[USDLG_CMD_FOCUS]), FALSE);
 }
