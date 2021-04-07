@@ -229,7 +229,7 @@ function user_verify(conn, plaintext)
   return row.password == md5sum(plaintext)
 end
 
--- save a user to the database
+-- Save a new user to the database
 function user_save(conn, password)
   local table_user = get_option("table_user")
 
@@ -252,7 +252,7 @@ function user_save(conn, password)
   user_log(conn, true)
 end
 
--- log the session
+-- Log the connection attempt (success is boolean)
 function user_log(conn, success)
   local query   -- sql query
 
@@ -286,7 +286,7 @@ end
 -- freeciv database entry functions
 -- **************************************************************************
 
--- test and initialise the database connection
+-- Test and initialise the database connection
 function database_init()
   options_init()
 
@@ -307,7 +307,7 @@ function database_init()
     backend))
 end
 
--- free the database connection
+-- Free the database connection
 function database_free()
   log.verbose('Closing database connection...')
 
