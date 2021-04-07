@@ -1187,3 +1187,16 @@ clauses = "\
 ;\n\
 ; */ <-- avoid gettext warnings\n\
 "
+
+
+[entrydoc]
+; This section has comments documenting individual entries
+
+granary = "\n\
+; Parameters used to generalize the calculation of city granary size:\n\
+;   if city_size <= num_inis:\n\
+;     city_granary_size = (granary_food_ini[city_size] * foodbox / 100)\n\
+;   if city_size > num_inis;\n\
+;     city_granary_size = (granary_food_ini[num_inis] +\n\
+;        granary_food_inc * (city_size - num_inis)) * foodbox / 100\
+"

@@ -24,6 +24,8 @@ struct section_file;
 bool comments_load(void);
 void comments_free(void);
 
+
+/* Section comments */
 void comment_file_header(struct section_file *sfile);
 
 void comment_buildings(struct section_file *sfile);
@@ -51,6 +53,9 @@ void comment_nationsets(struct section_file *sfile);
 void comment_nationgroups(struct section_file *sfile);
 void comment_nations(struct section_file *sfile);
 void comment_clauses(struct section_file *sfile);
+
+/* Entry comments */
+void comment_civstyle_granary(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

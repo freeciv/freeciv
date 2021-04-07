@@ -23,6 +23,7 @@
 #include "comments.h"
 
 static struct {
+  /* Comment sections */
   char *file_header;
   char *buildings;
   char *tech_classes;
@@ -49,6 +50,9 @@ static struct {
   char *nationgroups;
   char *nationsets;
   char *clauses;
+
+  /* Comment entries */
+  char *civstyle_granary;
 } comments_storage;
 
 /**********************************************************************//**
@@ -120,6 +124,9 @@ bool comments_load(void)
                comment_file, "typedoc.nationsets");
   comment_load(comments_storage.clauses, comment_file, "typedoc.clauses");
 
+  comment_load(comments_storage.civstyle_granary, comment_file,
+               "entrydoc.granary");
+
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
 
@@ -135,7 +142,7 @@ void comments_free(void)
 }
 
 /**********************************************************************//**
-  Generic comment writing function with some error checking.
+  Generic comment section writing function with some error checking.
 **************************************************************************/
 static void comment_write(struct section_file *sfile, const char *comment,
                           const char *name)
@@ -146,6 +153,20 @@ static void comment_write(struct section_file *sfile, const char *comment,
   }
 
   secfile_insert_long_comment(sfile, comment);
+}
+
+/**********************************************************************//**
+  Generic comment entry writing function with some error checking.
+**************************************************************************/
+static void comment_entry_write(struct section_file *sfile,
+                                const char *comment, const char *section)
+{
+  if (comment == NULL) {
+    log_error("Comment to section %s missing.", section);
+    return;
+  }
+
+  secfile_insert_comment(sfile, comment, "%s", section);
 }
 
 /**********************************************************************//**
@@ -354,4 +375,13 @@ void comment_nationsets(struct section_file *sfile)
 void comment_clauses(struct section_file *sfile)
 {
   comment_write(sfile, comments_storage.clauses, "Clauses");
+}
+
+/**********************************************************************//**
+  Write civstyle granary settings header.
+**************************************************************************/
+void comment_civstyle_granary(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.civstyle_granary,
+                      "civstyle");
 }
