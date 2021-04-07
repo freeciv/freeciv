@@ -176,29 +176,29 @@ If that's sufficient for you, it's not necessary to read on.
 
 Freeciv expects the following lua functions to be defined in database.lua:
 
-  -- try to load data for an existing user
-  -- return TRUE if user exists, FALSE otherwise
-  function user_load(conn)
-  -- save a new user to the database
-  function user_save(conn)
-  -- log the connection attempt (success is boolean)
+  -- Check if user exists.
+  -- return TRUE if user from connection exist in the auth system
+  function user_exists(conn)
+
+  -- Check use password.
+  -- return TRUE if user exist and password is correct, nil otherwise
+  function user_verify(conn, plaintext)
+
+  -- Save a new user to the database
+  function user_save(conn, password)
+
+  -- Log the connection attempt (success is boolean)
   function user_log(conn, success)
 
-  -- test and initialise the database connection
+  -- Test and initialise the database connection
   function database_init()
-  -- free the database connection
+
+  -- Free the database connection
   function database_free()
 
 Where 'conn' is on object representing the connection to the client which
 requests access.
 
-The return status of all of these functions should be one of
-
-  fcdb.status.ERROR
-  fcdb.status.TRUE
-  fcdb.status.FALSE
-
-indicating an error, a positive or a negative result.
 
 The following lua functions are provided by Freeciv:
 
@@ -206,13 +206,6 @@ The following lua functions are provided by Freeciv:
   auth.get_username(conn)
   -- return the client IP address (string)
   auth.get_ipaddr(conn)
-  -- tell the server (the MD5 hash of) the correct password to check against
-  -- for this connection (usually to be called by user_load())
-  -- returns whether this succeeded
-  auth.set_password(conn, password)
-  -- return (the MD5 hash of) the password for this connection (as specified
-  -- by the client in user_save(), or as previously set by set_password()).
-  auth.get_password(conn)
 
   -- return a value from the --Database configuration file
   fcdb.option(type)
@@ -233,8 +226,6 @@ data, etc.
 
 * Move password comparison / policy to Lua script
   <http://www.hostedredmine.com/issues/660267>
-* Give database.lua access to do more stuff
-  <https://www.hostedredmine.com/issues/657141>
 * Allow setting cmdlevel per-user, etc
   <https://www.hostedredmine.com/issues/657143>
 * Give database.lua access to game signals and events
