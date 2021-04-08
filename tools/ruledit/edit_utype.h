@@ -20,6 +20,7 @@
 
 // Qt
 #include <QDialog>
+#include <QSpinBox>
 
 class QToolButton;
 
@@ -37,9 +38,11 @@ class edit_utype : public QDialog
     ruledit_gui *ui;
     struct unit_type *utype;
     QToolButton *req_button;
+    QSpinBox *bcost;
 
   private slots:
     void req_menu(QAction *action);
+    void set_bcost_value(int value);
 };
 
 
