@@ -41,6 +41,13 @@ else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
 
+if get_option('freeciv-web')
+  priv_conf_data.set('FREECIV_WEB', 1)
+  server_binary_name = 'freeciv-web'
+else
+  server_binary_name = 'freeciv-server'
+endif
+
 c_compiler = meson.get_compiler('c')
 
 pub_headers = [
@@ -652,7 +659,7 @@ server_lib = static_library('fc_server',
   dependencies: lua_dep
   )
 
-executable('freeciv-server',
+executable(server_binary_name,
   'server/civserver.c',
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
