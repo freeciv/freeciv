@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QHeaderView>
 #include <QLineEdit>
@@ -48,6 +49,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
 {
   QGridLayout *main_layout = new QGridLayout(this);
   QLabel *save_label;
+  QLabel *label;
   QLabel *name_label;
   QLabel *version_label;
   QPushButton *save_button;
@@ -78,6 +80,19 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   save_button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));
   main_layout->addWidget(save_button, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Description from file")));
+  label->setParent(this);
+  main_layout->addWidget(label, row, 0);
+  desc_via_file = new QCheckBox(this);
+  connect(desc_via_file, SIGNAL(toggled(bool)), this, SLOT(desc_file_toggle(bool)));
+  main_layout->addWidget(desc_via_file, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Description file")));
+  label->setParent(this);
+  main_layout->addWidget(label, row, 0);
+  desc_file = new QLineEdit(this);
+  main_layout->addWidget(desc_file, row++, 1);
 
   stats = new QTableWidget(this);
   stats->setColumnCount(8);
@@ -154,6 +169,21 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   refresh();
 
   setLayout(main_layout);
+}
+
+/**************************************************************************
+  Setup the information from loaded ruleset
+**************************************************************************/
+void tab_misc::ruleset_loaded()
+{
+  if (game.server.ruledit.description_file != NULL) {
+    desc_via_file->setChecked(true);
+    desc_file->setText(game.server.ruledit.description_file);
+  } else {
+    desc_file->setEnabled(false);
+  }
+
+  refresh();
 }
 
 /**************************************************************************
@@ -254,4 +284,30 @@ void tab_misc::refresh_stats()
   stats->item(row++, 7)->setText(QString::number(game.control.num_multipliers));
 
   stats->resizeColumnsToContents();
+}
+
+/**************************************************************************
+  Flush information from widgets to stores where it can be saved from.
+**************************************************************************/
+void tab_misc::flush_widgets()
+{
+  if (desc_via_file->isChecked()) {
+    QByteArray df_bytes;
+
+    df_bytes = desc_file->text().toUtf8();
+    game.server.ruledit.description_file = fc_strdup(df_bytes.data());
+  } else {
+    if (game.server.ruledit.description_file != NULL) {
+      free(game.server.ruledit.description_file);
+    }
+    game.server.ruledit.description_file = NULL;
+  }
+}
+
+/**************************************************************************
+  Toggled description from file setting
+**************************************************************************/
+void tab_misc::desc_file_toggle(bool checked)
+{
+  desc_file->setEnabled(checked);
 }
