@@ -24,12 +24,12 @@
 // common
 #include "tech.h"
 
+class QCheckBox;
 class QGridLayout;
 class QLabel;
 class QLineEdit;
 class QListWidget;
 class QMenu;
-class QRadioButton;
 class QToolButton;
 
 class ruledit_gui;
@@ -59,7 +59,7 @@ class tab_tech : public QWidget
     QMenu *req2;
     QMenu *root_req;
     QListWidget *tech_list;
-    QRadioButton *same_name;
+    QCheckBox *same_name;
 
     struct advance *selected;
 

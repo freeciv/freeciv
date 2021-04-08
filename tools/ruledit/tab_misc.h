@@ -19,7 +19,6 @@
 
 class QCheckBox;
 class QLineEdit;
-class QRadioButton;
 class QTableWidget;
 
 class ruledit_gui;
@@ -46,7 +45,7 @@ class tab_misc : public QWidget
     QLineEdit *name;
     QLineEdit *version;
     QLineEdit *savedir;
-    QRadioButton *savedir_version;
+    QCheckBox *savedir_version;
     QTableWidget *stats;
     QCheckBox *desc_via_file;
     QLineEdit *desc_file;
