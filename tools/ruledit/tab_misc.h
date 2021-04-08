@@ -17,6 +17,7 @@
 // Qt
 #include <QWidget>
 
+class QCheckBox;
 class QLineEdit;
 class QRadioButton;
 class QTableWidget;
@@ -29,12 +30,14 @@ class tab_misc : public QWidget
 
   public:
     explicit tab_misc(ruledit_gui *ui_in);
+    void ruleset_loaded();
     void refresh();
     void flush_widgets();
 
   private slots:
     void save_now();
     void refresh_stats();
+    void desc_file_toggle(bool checked);
 
   private:
     ruledit_gui *ui;
@@ -43,6 +46,8 @@ class tab_misc : public QWidget
     QLineEdit *savedir;
     QRadioButton *savedir_version;
     QTableWidget *stats;
+    QCheckBox *desc_via_file;
+    QLineEdit *desc_file;
 };
 
 
