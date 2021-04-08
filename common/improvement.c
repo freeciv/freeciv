@@ -122,6 +122,14 @@ void improvement_feature_cache_init(void)
       }
     } action_enablers_iterate_end;
 
+    pimprove->allows_actions = FALSE;
+    action_enablers_iterate(act) {
+      if (requirement_needs_improvement(pimprove, &act->actor_reqs)) {
+        pimprove->allows_actions = TRUE;
+        break;
+      }
+    } action_enablers_iterate_end;
+
   } improvement_iterate_end;
 }
 
@@ -471,6 +479,47 @@ static bool impr_protects_vs_actions(const struct city *pcity,
   return FALSE;
 }
 
+/**********************************************************************//**
+  Returns TRUE iff improvement allows its owner to perform an action
+**************************************************************************/
+static bool impr_allows_actions(const struct city *pcity,
+                                struct impr_type *pimprove)
+{
+  /* Fast check */
+  if (!pimprove->allows_actions) {
+    return FALSE;
+  }
+
+  action_enablers_iterate(act) {
+    if (requirement_needs_improvement(pimprove, &act->actor_reqs)) {
+      switch (action_id_get_actor_kind(act->action)) {
+      case AAK_UNIT:
+        unit_type_iterate(ut) {
+          if (!utype_can_do_action(ut, act->action)) {
+            /* Not relevant */
+            continue;
+          }
+
+          if (utype_player_already_has_this(city_owner(pcity), ut)) {
+            /* The player has a unit that may use the buidling */
+            return TRUE;
+          }
+
+          if (can_city_build_unit_now(pcity, ut)) {
+            /* This city can build a unit that uses the building */
+            return TRUE;
+          }
+        } unit_type_iterate_end;
+        break;
+      case AAK_COUNT:
+        fc_assert(action_id_get_actor_kind(act->action) != AAK_COUNT);
+        break;
+      }
+    }
+  } action_enablers_iterate_end;
+
+  return FALSE;
+}
 
 /**************************************************************************
   Check if an improvement has side effects for a city.  Side effects
@@ -485,13 +534,10 @@ static bool impr_protects_vs_actions(const struct city *pcity,
 static bool improvement_has_side_effects(const struct city *pcity,
                                          struct impr_type *pimprove)
 {
-    /* FIXME: There should probably also be a test as to whether
-     *        the improvement *enables* an action (somewhere else),
-     *        but this is hard to determine at city scope. */
-
     return (impr_provides_buildable_units(pcity, pimprove)
             || impr_provides_buildable_extras(pcity, pimprove)
             || impr_prevents_disaster(pcity, pimprove)
+            || impr_allows_actions(pcity, pimprove)
             || impr_protects_vs_actions(pcity, pimprove));
 }
 
