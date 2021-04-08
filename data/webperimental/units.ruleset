@@ -2433,7 +2433,9 @@ One Barbarian Leader appears every time there is a barbarian uprising\
  somewhere in the world.\
 "), _("\
 When a Barbarian Leader is killed on a tile without any defending units,\
- the 100 gold ransom is paid, but only to land units and helicopters.\
+ the ransom is paid, but only to land units and helicopters.\
+ Usually the ransom is 100 gold, but can be less if the barbarian has\
+ less money.\
 ")
 
 [unit_awacs]
