@@ -132,6 +132,9 @@ nls (boolean):
 gitrev (boolean):
   Include git commit id to the version string.
 
+freeciv-web (boolean):
+  Build freeciv-web version instead of normal one.
+
 
 run.sh
 ------

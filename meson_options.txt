@@ -49,3 +49,8 @@ option('gitrev',
        type: 'boolean',
        value: false,
        description: 'Include git commit id to the version string')
+
+option('freeciv-web',
+       type: 'boolean',
+       value: false,
+       description: 'Make a freeciv-web server build instead of normal one')
