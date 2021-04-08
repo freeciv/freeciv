@@ -291,6 +291,12 @@ enum city_updates {
   CU_POPUP_DIALOG       = 1 << 2
 };
 
+enum city_needs_arrange {
+  CNA_NOT = 0,
+  CNA_NORMAL,
+  CNA_BROADCAST_PENDING
+};
+
 struct tile_cache; /* defined and only used within city.c */
 
 struct adv_city; /* defined in ./server/advisors/infracache.h */
@@ -412,7 +418,7 @@ struct city {
 
       /* If set, workers need to be arranged when the city is unfrozen.
        * Set inside auto_arrange_workers() and city_freeze_workers_queue(). */
-      bool needs_arrange;
+      enum city_needs_arrange needs_arrange;
 
       /* If set, city needs to be refreshed at a later time.
        * Set inside city_refresh() and city_refresh_queue_add(). */
