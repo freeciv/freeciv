@@ -301,24 +301,29 @@ void auto_arrange_workers(struct city *pcity)
 {
   struct cm_parameter cmp;
   struct cm_result *cmr;
+  bool broadcast_needed;
 
   /* See comment in freeze_workers(): we can't rearrange while
    * workers are frozen (i.e. multiple updates need to be done). */
   if (pcity->server.workers_frozen > 0) {
-    pcity->server.needs_arrange = TRUE;
+    if (pcity->server.needs_arrange == CNA_NOT) {
+      pcity->server.needs_arrange = CNA_NORMAL;
+    }
     return;
   }
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_START);
+
+  broadcast_needed = (pcity->server.needs_arrange == CNA_BROADCAST_PENDING);
 
   /* Freeze the workers and make sure all the tiles around the city
    * are up to date.  Then thaw, but hackishly make sure that thaw
    * doesn't call us recursively, which would waste time. */
   city_freeze_workers(pcity);
-  pcity->server.needs_arrange = FALSE;
+  pcity->server.needs_arrange = CNA_NOT;
 
   city_map_update_all(pcity);
 
-  pcity->server.needs_arrange = FALSE;
+  pcity->server.needs_arrange = CNA_NOT;
   city_thaw_workers(pcity);
 
   /* Now start actually rearranging. */
@@ -415,6 +420,10 @@ void auto_arrange_workers(struct city *pcity)
      * by trying to arrange workers more. */
   }
   sanity_check_city(pcity);
+
+  if (broadcast_needed) {
+    broadcast_city_info(pcity);
+  }
 
   cm_result_destroy(cmr);
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);

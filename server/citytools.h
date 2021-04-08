@@ -43,6 +43,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
 			    struct city *pcity, struct tile *ptile);
 void send_all_known_cities(struct conn_list *dest);
 void send_player_cities(struct player *pplayer);
+void broadcast_city_info(struct city *pcity);
 void package_city(struct city *pcity, struct packet_city_info *packet,
 		  bool dipl_invest);
 

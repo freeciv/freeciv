@@ -141,7 +141,8 @@ void city_thaw_workers(struct city *pcity)
 {
   pcity->server.workers_frozen--;
   fc_assert(pcity->server.workers_frozen >= 0);
-  if (pcity->server.workers_frozen == 0 && pcity->server.needs_arrange) {
+  if (pcity->server.workers_frozen == 0
+      && pcity->server.needs_arrange != CNA_NOT) {
     city_refresh(pcity); /* Citizen count sanity */
     auto_arrange_workers(pcity);
   }
@@ -160,7 +161,9 @@ void city_freeze_workers_queue(struct city *pcity)
 
   city_list_prepend(arrange_workers_queue, pcity);
   city_freeze_workers(pcity);
-  pcity->server.needs_arrange = TRUE;
+  if (pcity->server.needs_arrange == CNA_NOT) {
+    pcity->server.needs_arrange = CNA_NORMAL;
+  }
 }
 
 /****************************************************************************
@@ -2079,14 +2082,23 @@ void refresh_dumb_city(struct city *pcity)
   (Split off from send_city_info_at_tile() because that was getting
   too difficult for me to understand... --dwp)
 **************************************************************************/
-static void broadcast_city_info(struct city *pcity)
+void broadcast_city_info(struct city *pcity)
 {
   struct packet_city_info packet;
   struct packet_city_short_info sc_pack;
   struct player *powner = city_owner(pcity);
 
   /* Send to everyone who can see the city. */
-  package_city(pcity, &packet, FALSE);
+  if (pcity->server.needs_arrange == CNA_NOT) {
+    /* Send city only when it's in sane state.
+     * If it's not, it will be sent to everyone once
+     * rearrangement has been finished. */
+    package_city(pcity, &packet, FALSE);
+  } else {
+    pcity->server.needs_arrange = CNA_BROADCAST_PENDING;
+
+    return;
+  }
   players_iterate(pplayer) {
     if (can_player_see_city_internals(pplayer, pcity)) {
       if (!send_city_suppressed || pplayer != powner) {
@@ -2217,6 +2229,11 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   if (!pcity) {
     pcity = tile_city(ptile);
   }
+  if (pcity->server.needs_arrange != CNA_NOT) {
+    pcity->server.needs_arrange = CNA_BROADCAST_PENDING;
+
+    return;
+  }
   if (pcity) {
     powner = city_owner(pcity);
   }
@@ -2224,7 +2241,10 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
     /* send info to owner */
     /* This case implies powner non-NULL which means pcity non-NULL */
     if (!send_city_suppressed) {
-      /* send all info to the owner */
+      /* Send all info to the owner.
+       * Wait that city has been rearranged, if it's currently
+       * not in sane state.
+       */
       update_dumb_city(powner, pcity);
       package_city(pcity, &packet, FALSE);
       lsend_packet_city_info(dest, &packet, FALSE);
