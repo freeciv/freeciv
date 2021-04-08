@@ -82,7 +82,7 @@ tab_unit::tab_unit(ruledit_gui *ui_in) : QWidget()
   unit_layout->addWidget(same_name, 1, 1);
   unit_layout->addWidget(name, 1, 2);
 
-  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Unit")), this);
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
   connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
   unit_layout->addWidget(edit_button, 2, 2);
 
