@@ -2619,7 +2619,10 @@ inline void set_city_production(struct city *pcity)
   for (i = 0; i < MAX_TRADE_ROUTES; i++) {
     struct city *tcity = game_city_by_number(pcity->trade[i]);
 
-    if (tcity != NULL) {
+    /* Partner city may have not yet been sent to the client, or
+     * there's just a placeholder city with a placeholder owner
+     * created for some tile->worked. */
+    if (tcity != NULL && city_owner(tcity)->slot != NULL) {
       bool can_trade = can_cities_trade(pcity, tcity);
 
       if (!can_trade) {
