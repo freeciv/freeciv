@@ -13,7 +13,7 @@
 ; Note: The list is based on Civ2-ToT.
 
 [datafile]
-description="Civ2-equivalent nations data for Freeciv"
+description = "Civ2-equivalent nations data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

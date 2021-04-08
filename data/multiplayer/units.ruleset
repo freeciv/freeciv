@@ -15,7 +15,7 @@
 ; then the first unit with this role will be chosen.
 
 [datafile]
-description="Unit definitions for the multiplayer ruleset."
+description = "Unit definitions for the multiplayer ruleset."
 options = "+Freeciv-ruleset-Devel-2021.Feb.06 web-compatible"
 format_version = 30
 

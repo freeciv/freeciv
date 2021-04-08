@@ -11,7 +11,7 @@
 ; than minor changes.
 
 [datafile]
-description="Multiplayer terrain data for Freeciv"
+description = "Multiplayer terrain data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06 web-compatible"
 format_version = 30
 

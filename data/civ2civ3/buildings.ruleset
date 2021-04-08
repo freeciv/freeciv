@@ -11,7 +11,7 @@
 ; than minor changes.
 
 [datafile]
-description="Civ2Civ3 buildings data for Freeciv"
+description = "Civ2Civ3 buildings data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06 web-compatible"
 format_version = 30
 

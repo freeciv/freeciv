@@ -18,7 +18,7 @@
 ; then the first unit with this role will be chosen.
 
 [datafile]
-description="Goldkeep unit data for Freeciv"
+description = "Goldkeep unit data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

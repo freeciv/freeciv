@@ -10,7 +10,7 @@
 ; than minor changes.
 
 [datafile]
-description="Sandbox game rules for Freeciv"
+description = "Sandbox game rules for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

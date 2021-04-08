@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Goldkeep game rules for Freeciv"
+description = "Goldkeep game rules for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

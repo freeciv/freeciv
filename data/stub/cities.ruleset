@@ -2,7 +2,7 @@
 ; description.
 
 [datafile]
-description="<modpack> cities data for Freeciv"
+description = "<modpack> cities data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

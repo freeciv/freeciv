@@ -13,7 +13,7 @@
 ; than minor changes.
 
 [datafile]
-description="Goldkeep governments data for Freeciv"
+description = "Goldkeep governments data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

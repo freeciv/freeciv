@@ -13,7 +13,7 @@
 ; TODO: check values really match Civ1!
 
 [datafile]
-description="Civilization I governments data for Freeciv"
+description = "Civilization I governments data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

@@ -9,7 +9,7 @@
 ; See classic/units.ruleset for more information.
 
 [datafile]
-description="Civ2 unit_type data for Freeciv (approximate)"
+description = "Civ2 unit_type data for Freeciv (approximate)"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

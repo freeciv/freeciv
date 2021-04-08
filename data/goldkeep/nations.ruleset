@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Goldkeep nations data for Freeciv"
+description = "Goldkeep nations data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

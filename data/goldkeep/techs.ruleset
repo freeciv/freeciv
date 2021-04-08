@@ -10,7 +10,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Goldkeep technology data for Freeciv"
+description = "Goldkeep technology data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 

@@ -15,7 +15,7 @@
 ; then the first unit with this role will be chosen.
 
 [datafile]
-description="Sandbox Units data for Freeciv"
+description = "Sandbox Units data for Freeciv"
 options = "+Freeciv-ruleset-Devel-2021.Feb.06"
 format_version = 30
 
