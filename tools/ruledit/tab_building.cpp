@@ -16,12 +16,12 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QListWidget>
 #include <QMenu>
 #include <QPushButton>
-#include <QRadioButton>
 #include <QToolButton>
 
 // utility
@@ -68,7 +68,7 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
 
   label = new QLabel(QString::fromUtf8(R__("Name")));
   label->setParent(this);
-  same_name = new QRadioButton();
+  same_name = new QCheckBox();
   connect(same_name, SIGNAL(toggled(bool)), this, SLOT(same_name_toggle(bool)));
   name = new QLineEdit(this);
   name->setText("None");
