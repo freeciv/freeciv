@@ -22,7 +22,6 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QRadioButton>
 #include <QToolButton>
 
 // utility

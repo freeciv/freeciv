@@ -16,6 +16,7 @@
 #endif
 
 // Qt
+#include <QCheckBox>
 #include <QGridLayout>
 #include <QLineEdit>
 #include <QPushButton>
@@ -46,7 +47,7 @@ tab_nation::tab_nation(ruledit_gui *ui_in) : QWidget()
 
   main_layout->setSizeConstraint(QLayout::SetMaximumSize);
 
-  via_include = new QRadioButton(QString::fromUtf8(R__("Use nationlist")));
+  via_include = new QCheckBox(QString::fromUtf8(R__("Use nationlist")));
   main_layout->addWidget(via_include, row++, 0);
   connect(via_include, SIGNAL(toggled(bool)), this, SLOT(nationlist_toggle(bool)));
 

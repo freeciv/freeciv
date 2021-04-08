@@ -21,9 +21,9 @@
 // Qt
 #include <QWidget>
 
+class QCheckBox;
 class QLineEdit;
 class QListWidget;
-class QRadioButton;
 
 class ruledit_gui;
 
@@ -43,7 +43,7 @@ class tab_good : public QWidget
     QLineEdit *name;
     QLineEdit *rname;
     QListWidget *good_list;
-    QRadioButton *same_name;
+    QCheckBox *same_name;
 
     struct goods_type *selected;
 

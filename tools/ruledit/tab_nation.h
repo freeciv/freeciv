@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -16,8 +16,9 @@
 
 // Qt
 #include <QLineEdit>
-#include <QRadioButton>
 #include <QWidget>
+
+class QCheckBox;
 
 class ruledit_gui;
 
@@ -36,7 +37,7 @@ class tab_nation : public QWidget
   private:
     ruledit_gui *ui;
 
-    QRadioButton *via_include;
+    QCheckBox *via_include;
     QLineEdit *nationlist;
 };
 
