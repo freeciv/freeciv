@@ -6,13 +6,13 @@
 # See fc_gitrev_gen.h.tmpl for details.
 
 # Parameters - $1 - top srcdir
-#              $2 - top builddir
+#              $2 - output file
 #
 
 # Absolete paths
 SRCROOT="$(cd "$1" ; pwd)"
 INPUTDIR="$(cd "$1/bootstrap" ; pwd)"
-OUTPUTDIR="$(cd "$2/common" ; pwd)"
+OUTPUTFILE="$2"
 
 REVSTATE="OFF"
 REV1=""
@@ -37,11 +37,11 @@ REV2="dist"
    fi
  fi
 
- sed -e "s,<GITREV1>,$REV1," -e "s,<GITREV2>,$REV2," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
- if ! test -f "$OUTPUTDIR/fc_gitrev_gen.h" ||
-    ! cmp "$OUTPUTDIR/fc_gitrev_gen.h" "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
+ sed -e "s,<GITREV1>,$REV1," -e "s,<GITREV2>,$REV2," -e "s,<GITREVSTATE>,$REVSTATE," fc_gitrev_gen.h.tmpl > "${OUTPUTFILE}.tmp"
+ if ! test -f "${OUTPUTFILE}" ||
+    ! cmp "${OUTPUTFILE}" "${OUTPUTFILE}.tmp"
  then
-   mv "$OUTPUTDIR/fc_gitrev_gen.h.tmp" "$OUTPUTDIR/fc_gitrev_gen.h"
+   mv "${OUTPUTFILE}.tmp" "${OUTPUTFILE}"
  fi
- rm -f "$OUTPUTDIR/fc_gitrev_gen.h.tmp"
+ rm -f "${OUTPUTFILE}.tmp"
 ) > /dev/null

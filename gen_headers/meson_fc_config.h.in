@@ -49,6 +49,9 @@
 /* Native language support enabled */
 #mesondefine ENABLE_NLS
 
+/* Include git commit id to version string */
+#mesondefine GITREV
+
 /* Can run programs as root */
 #mesondefine ALWAYS_ROOT
 
