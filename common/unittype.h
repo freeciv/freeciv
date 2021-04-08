@@ -729,6 +729,8 @@ int unit_upgrade_price(const struct player *pplayer,
 		       const struct unit_type *from,
 		       const struct unit_type *to);
 
+bool utype_player_already_has_this(const struct player *pplayer,
+                                   const struct unit_type *putype);
 bool utype_player_already_has_this_unique(const struct player *pplayer,
                                           const struct unit_type *putype);
 
