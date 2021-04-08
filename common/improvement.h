@@ -69,6 +69,7 @@ struct impr_type {
   Impr_type_id item_number;
   struct name_translation name;
   bool disabled;                        /* Does not really exist - hole in improvements array */
+  void *ruledit_dlg;
   char graphic_str[MAX_LEN_NAME];	/* city icon of improv. */
   char graphic_alt[MAX_LEN_NAME];	/* city icon of improv. */
   struct requirement_vector reqs;

@@ -297,8 +297,13 @@ void tab_building::edit_reqs()
 void tab_building::edit_now()
 {
   if (selected != nullptr) {
-    edit_impr *edit = new edit_impr(ui, selected);
+    if (selected->ruledit_dlg == nullptr) {
+      edit_impr *edit = new edit_impr(ui, selected);
 
-    edit->show();
+      edit->show();
+      selected->ruledit_dlg = edit;
+    } else {
+      ((edit_impr *)selected->ruledit_dlg)->raise();
+    }
   }
 }

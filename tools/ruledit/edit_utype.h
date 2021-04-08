@@ -40,6 +40,9 @@ class edit_utype : public QDialog
     QToolButton *req_button;
     QSpinBox *bcost;
 
+  protected:
+    void closeEvent(QCloseEvent *cevent);
+
   private slots:
     void req_menu(QAction *action);
     void set_bcost_value(int value);

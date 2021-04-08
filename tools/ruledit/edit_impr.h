@@ -37,6 +37,9 @@ class edit_impr : public QDialog
     struct impr_type *impr;
     QSpinBox *bcost;
 
+  protected:
+    void closeEvent(QCloseEvent *cevent);
+
   private slots:
     void set_bcost_value(int value);
 };

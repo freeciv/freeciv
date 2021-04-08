@@ -56,6 +56,7 @@ void improvements_init(void)
     requirement_vector_init(&p->reqs);
     requirement_vector_init(&p->obsolete_by);
     p->disabled = FALSE;
+    p->ruledit_dlg = NULL;
   }
 }
 

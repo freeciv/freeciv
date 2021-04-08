@@ -61,6 +61,14 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
 }
 
 /**************************************************************************
+  User is closing dialog.
+**************************************************************************/
+void edit_impr::closeEvent(QCloseEvent *cevent)
+{
+  impr->ruledit_dlg = nullptr;
+}
+
+/**************************************************************************
   Refresh the information.
 **************************************************************************/
 void edit_impr::refresh()
