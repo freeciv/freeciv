@@ -22,7 +22,6 @@
 #include <QLineEdit>
 #include <QMessageBox>
 #include <QPushButton>
-#include <QRadioButton>
 #include <QTableWidget>
 
 // utility
@@ -86,7 +85,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   save_ver_label = new QLabel(QString::fromUtf8(R__("Version suffix to directory name")));
   save_ver_label->setParent(this);
   main_layout->addWidget(save_ver_label, row, 0);
-  savedir_version = new QRadioButton(this);
+  savedir_version = new QCheckBox(this);
   main_layout->addWidget(savedir_version, row++, 1);
   save_button = new QPushButton(QString::fromUtf8(R__("Save now")), this);
   connect(save_button, SIGNAL(pressed()), this, SLOT(save_now()));

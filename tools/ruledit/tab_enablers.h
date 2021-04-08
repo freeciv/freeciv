@@ -29,7 +29,6 @@ class QLabel;
 class QLineEdit;
 class QListWidget;
 class QMenu;
-class QRadioButton;
 class QToolButton;
 
 class ruledit_gui;
