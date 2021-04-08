@@ -232,7 +232,7 @@ void ruledit_gui::launch_now()
     }
 
     bldg->refresh();
-    misc->refresh();
+    misc->ruleset_loaded();
     nation->refresh();
     tech->refresh();
     unit->refresh();
@@ -295,6 +295,7 @@ void ruledit_gui::show_required(requirers_dlg *requirers, const char *msg)
 **************************************************************************/
 void ruledit_gui::flush_widgets()
 {
+  misc->flush_widgets();
   nation->flush_widgets();
 }
 
