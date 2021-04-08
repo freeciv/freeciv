@@ -83,17 +83,17 @@ tab_building::tab_building(ruledit_gui *ui_in) : QWidget()
   bldg_layout->addWidget(same_name, 1, 1);
   bldg_layout->addWidget(name, 1, 2);
 
+  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
+  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
+  bldg_layout->addWidget(edit_button, 2, 2);
+
   reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
   connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
-  bldg_layout->addWidget(reqs_button, 2, 2);
+  bldg_layout->addWidget(reqs_button, 3, 2);
 
   effects_button = new QPushButton(QString::fromUtf8(R__("Effects")), this);
   connect(effects_button, SIGNAL(pressed()), this, SLOT(edit_effects()));
-  bldg_layout->addWidget(effects_button, 3, 2);
-
-  edit_button = new QPushButton(QString::fromUtf8(R__("Edit Values")), this);
-  connect(edit_button, SIGNAL(pressed()), this, SLOT(edit_now()));
-  bldg_layout->addWidget(edit_button, 4, 2);
+  bldg_layout->addWidget(effects_button, 4, 2);
 
   add_button = new QPushButton(QString::fromUtf8(R__("Add Building")), this);
   connect(add_button, SIGNAL(pressed()), this, SLOT(add_now2()));
