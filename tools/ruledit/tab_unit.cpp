@@ -225,9 +225,14 @@ void tab_unit::delete_now()
 void tab_unit::edit_now()
 {
   if (selected != nullptr) {
-    edit_utype *edit = new edit_utype(ui, selected);
+    if (selected->ruledit_dlg == nullptr) {
+      edit_utype *edit = new edit_utype(ui, selected);
 
-    edit->show();
+      edit->show();
+      selected->ruledit_dlg = edit;
+    } else {
+      ((edit_utype *)selected->ruledit_dlg)->raise();
+    }
   }
 }
 

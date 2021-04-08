@@ -2264,6 +2264,7 @@ void unit_types_init(void)
     unit_types[i].veteran = NULL;
     unit_types[i].bonuses = combat_bonus_list_new();
     unit_types[i].ruledit_disabled = FALSE;
+    unit_types[i].ruledit_dlg = NULL;
   }
 }
 

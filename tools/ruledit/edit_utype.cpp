@@ -78,6 +78,14 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 }
 
 /**********************************************************************//**
+  User is closing dialog.
+**************************************************************************/
+void edit_utype::closeEvent(QCloseEvent *cevent)
+{
+  utype->ruledit_dlg = nullptr;
+}
+
+/**********************************************************************//**
   Refresh the information.
 **************************************************************************/
 void edit_utype::refresh()
