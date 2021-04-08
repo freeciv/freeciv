@@ -1023,6 +1023,15 @@ bool utype_player_already_has_this_unique(const struct player *pplayer,
     return FALSE;
   }
 
+  return utype_player_already_has_this(pplayer, putype);
+}
+
+/**********************************************************************//**
+  Returns TRUE iff the player already has a unit of this type.
+**************************************************************************/
+bool utype_player_already_has_this(const struct player *pplayer,
+                                   const struct unit_type *putype)
+{
   unit_list_iterate(pplayer->units, existing_unit) {
     if (putype == unit_type_get(existing_unit)) {
       /* FIXME: This could be slow if we have lots of units. We could
