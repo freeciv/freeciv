@@ -199,7 +199,7 @@ void tab_unit::name_given()
 **************************************************************************/
 void tab_unit::delete_now()
 {
-  if (selected != 0) {
+  if (selected != nullptr) {
     requirers_dlg *requirers;
 
     requirers = ui->create_requirers(utype_rule_name(selected));
@@ -208,6 +208,10 @@ void tab_unit::delete_now()
     }
 
     selected->disabled = true;
+
+    if (selected->ruledit_dlg != nullptr) {
+      ((edit_utype *)selected->ruledit_dlg)->done(0);
+    }
 
     refresh();
     update_utype_info(nullptr);

@@ -204,7 +204,7 @@ void tab_building::name_given()
 **************************************************************************/
 void tab_building::delete_now()
 {
-  if (selected != 0) {
+  if (selected != nullptr) {
     requirers_dlg *requirers;
 
     requirers = ui->create_requirers(improvement_rule_name(selected));
@@ -213,6 +213,10 @@ void tab_building::delete_now()
     }
 
     selected->disabled = true;
+
+    if (selected->ruledit_dlg != nullptr) {
+      ((edit_impr *)selected->ruledit_dlg)->done(0);
+    }
 
     refresh();
     update_bldg_info(nullptr);
