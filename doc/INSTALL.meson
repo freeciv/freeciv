@@ -129,6 +129,9 @@ ruledit (boolean):
 nls (boolean):
   Build in Native Language Support. Defaults to true.
 
+gitrev (boolean):
+  Include git commit id to the version string.
+
 
 run.sh
 ------

@@ -44,3 +44,8 @@ option('nls',
        type: 'boolean',
        value: true,
        description: 'Native Language Support')
+
+option('gitrev',
+       type: 'boolean',
+       value: false,
+       description: 'Include git commit id to the version string')

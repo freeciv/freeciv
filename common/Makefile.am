@@ -174,4 +174,4 @@ endif
 .PHONY : fc_gitrev_gen.h
 
 fc_gitrev_gen.h :
-	"$(top_srcdir)/bootstrap/generate_gitrev.sh" "$(top_srcdir)" "$(top_builddir)"
+	"$(top_srcdir)/bootstrap/generate_gitrev.sh" "$(top_srcdir)" "$(top_builddir)/common/fc_gitrev_gen.h"

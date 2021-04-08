@@ -275,6 +275,10 @@ if get_option('nls')
   priv_conf_data.set('ENABLE_NLS', 1)
 endif
 
+if get_option('gitrev')
+  priv_conf_data.set('GITREV', 1)
+endif
+
 configure_file(input : 'gen_headers/meson_fc_config.h.in',
                output : 'fc_config.h',
                configuration: priv_conf_data)
@@ -337,6 +341,10 @@ pack_client = custom_target('packets_client', output: ['packhand_gen.h',
                             command: ['python3', files('common/generate_packets.py'),
                                       '', '', '@OUTPUT0@', '@OUTPUT1@', '', ''],
                             depend_files: files('common/networking/packets.def'))
+
+gitrev = custom_target('gitrev', output: 'fc_gitrev_gen.h',
+                       command: ['sh', files('bootstrap/generate_gitrev.sh'), meson.source_root(), '@OUTPUT@'],
+                       build_by_default: get_option('gitrev'))
 
 tolua_cmd = find_program('tolua')
 
