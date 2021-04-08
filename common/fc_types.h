@@ -944,7 +944,9 @@ typedef int server_setting_id;
 #include "specenum_gen.h"
 #define ECAT_NONE ECAT_COUNT
 
-/* Used in the network protocol. */
+/* Used in the network protocol.
+ * When adding new cause types here, consider also adding them to the
+ * order of pillage preference in get_preferred_pillage() */
 #define SPECENUM_NAME extra_cause
 #define SPECENUM_VALUE0 EC_IRRIGATION
 #define SPECENUM_VALUE0NAME "Irrigation"
