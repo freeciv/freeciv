@@ -89,6 +89,11 @@ init_city_radius_sq     = 5
 ; Square of initially visible radius (true distance).
 init_vis_radius_sq      = 5
 
+; Barbarian leader ransom in gold. The ransom is taken from
+; the victim (typically a barbarian player), and it's possible
+; they cannot pay this in full.
+ransom_gold      = 100
+
 ; Number of veteran levels lost when upgrading a unit
 upgrade_veteran_loss     = 10
 
