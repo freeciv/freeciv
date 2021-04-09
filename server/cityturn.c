@@ -3030,7 +3030,11 @@ static void update_city_activity(struct city *pcity)
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
                       _("%s has been struck by a plague! Population lost!"), 
                       city_link(pcity));
-        city_reduce_size(pcity, 1, NULL, "plague");
+        if (!city_reduce_size(pcity, 1, NULL, "plague")) {
+          /* City destroyed completely. */
+          return;
+        }
+
         pcity->turn_plague = game.info.turn;
 
         /* recalculate illness */
