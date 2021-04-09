@@ -3207,7 +3207,10 @@ static void update_city_activity(struct city *pcity)
         = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
 
       if (city_illness_check(pcity)) {
-        city_illness_strike(pcity);
+        if (!city_illness_strike(pcity)) {
+          /* Illness destroyed the city */
+          return;
+        }
       }
     }
 

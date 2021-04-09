@@ -278,11 +278,11 @@ bool spy_spread_plague(struct player *act_player, struct unit *act_unit,
   log_debug("spread plague: succeeded");
 
   /* Commit bio-terrorism. */
-  city_illness_strike(tgt_city);
-
-  /* Update the clients. */
-  city_refresh(tgt_city);
-  send_city_info(NULL, tgt_city);
+  if (city_illness_strike(tgt_city)) {
+    /* Update the clients. */
+    city_refresh(tgt_city);
+    send_city_info(NULL, tgt_city);
+  }
 
   /* Notify everyone involved. */
   notify_player(act_player, tgt_tile, E_UNIT_ACTION_ACTOR_SUCCESS,
