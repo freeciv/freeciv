@@ -2721,23 +2721,38 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
 
 
   if (pcity) {
-    notify_player(city_owner(pcity), ptile, E_CITY_NUKED, ftc_server,
+    struct player *owner = city_owner(pcity);
+    char city_name[MAX_LEN_LINK];
+
+    sz_strlcpy(city_name, city_link(pcity));
+
+    notify_player(owner, ptile, E_CITY_NUKED, ftc_server,
                   _("%s was nuked by %s."),
-                  city_link(pcity),
-                  pplayer == city_owner(pcity)
+                  city_name,
+                  pplayer == owner
                   ? _("yourself")
                   : nation_plural_for_player(pplayer));
 
-    if (city_owner(pcity) != pplayer) {
+    if (owner != pplayer) {
       notify_player(pplayer, ptile, E_CITY_NUKED, ftc_server,
                     _("You nuked %s."),
-                    city_link(pcity));
+                    city_name);
     }
 
     pop_loss = round((game.info.nuke_pop_loss_pct * city_size_get(pcity)) / 100.0);
     if (city_reduce_size(pcity, pop_loss, pplayer, "nuke")) {
       /* Send city size reduction to everyone seeing it */
       send_city_info(NULL, pcity);
+    } else {
+      /* City was destroyed */
+      notify_player(owner, ptile, E_CITY_NUKED, ftc_server,
+                    _("%s was destroyed by the nuke."),
+                    city_name);
+      if (owner != pplayer) {
+        notify_player(pplayer, ptile, E_CITY_NUKED, ftc_server,
+                      _("Your nuke destroyed %s."),
+                      city_name);
+      }
     }
   }
 
