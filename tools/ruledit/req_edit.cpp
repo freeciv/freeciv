@@ -18,9 +18,9 @@
 // Qt
 #include <QGridLayout>
 #include <QLabel>
-#include <QLineEdit>
 #include <QMenu>
 #include <QPushButton>
+#include <QSpinBox>
 
 // utility
 #include "fcintl.h"
@@ -92,9 +92,11 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   edit_value_enum_button->setMenu(edit_value_enum_menu);
   edit_value_enum_menu->setVisible(false);
   active_layout->addWidget(edit_value_enum_button, 3);
-  edit_value_nbr_field = new QLineEdit();
+  edit_value_nbr_field = new QSpinBox();
+  edit_value_nbr_field->setRange(-100000, 100000);
   edit_value_nbr_field->setVisible(false);
-  connect(edit_value_nbr_field, SIGNAL(returnPressed()), this, SLOT(univ_value_edit()));
+  connect(edit_value_nbr_field, SIGNAL(valueChanged(int)), this,
+          SLOT(univ_value_edit(int)));
   active_layout->addWidget(edit_value_nbr_field, 4);
 
   lbl = new QLabel(R__("Range:"));
@@ -143,6 +145,45 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
 }
 
 /**************************************************************************
+  Refresh information in list widget item.
+**************************************************************************/
+void req_edit::refresh_item(QListWidgetItem *item, struct requirement *preq)
+{
+  char buf[512];
+
+  buf[0] = '\0';
+  if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL, "")) {
+    if (preq->present) {
+      universal_name_translation(&preq->source, buf, sizeof(buf));
+    } else {
+      char buf2[256];
+
+      universal_name_translation(&preq->source, buf2, sizeof(buf2));
+      fc_snprintf(buf, sizeof(buf), R__("%s prevents"), buf2);
+    }
+  }
+
+  item->setText(QString::fromUtf8(buf));
+}
+
+/**************************************************************************
+  Refresh the row of currently selected item.
+**************************************************************************/
+void req_edit::refresh_selected()
+{
+  if (selected != nullptr) {
+    int i;
+    QListWidgetItem *item;
+
+    for (i = 0; (item = req_list->item(i)) != nullptr; i++) {
+      if (item->isSelected()) {
+        refresh_item(item, selected);
+      }
+    }
+  }
+}
+
+/**************************************************************************
   Refresh the information.
 **************************************************************************/
 void req_edit::refresh()
@@ -152,21 +193,9 @@ void req_edit::refresh()
   req_list->clear();
 
   requirement_vector_iterate(req_vector, preq) {
-    char buf[512];
-    QListWidgetItem *item;
+    QListWidgetItem *item = new QListWidgetItem();
 
-    buf[0] = '\0';
-    if (!req_text_insert(buf, sizeof(buf), NULL, preq, VERB_ACTUAL, "")) {
-      if (preq->present) {
-        universal_name_translation(&preq->source, buf, sizeof(buf));
-      } else {
-        char buf2[256];
-
-        universal_name_translation(&preq->source, buf2, sizeof(buf2));
-        fc_snprintf(buf, sizeof(buf), R__("%s prevents"), buf2);
-      }
-    }
-    item = new QListWidgetItem(QString::fromUtf8(buf));
+    refresh_item(item, preq);
     req_list->insertItem(i++, item);
     if (selected == preq) {
       item->setSelected(true);
@@ -231,7 +260,7 @@ void req_edit::select_req()
 
 struct uvb_data
 {
-  QLineEdit *number;
+  QSpinBox *number;
   QToolButton *enum_button;
   QMenu *menu;
   struct universal *univ;
@@ -248,7 +277,7 @@ static void universal_value_cb(const char *value, bool current, void *cbdata)
     int kind, val;
 
     universal_extraction(data->univ, &kind, &val);
-    data->number->setText(QString::number(val));
+    data->number->setValue(val);
     data->number->setVisible(true);
   } else {
     data->enum_button->setVisible(true);
@@ -301,8 +330,6 @@ void req_edit::req_type_menu(QAction *action)
   }
 
   refresh();
-
-  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**************************************************************************
@@ -320,8 +347,6 @@ void req_edit::req_range_menu(QAction *action)
   }
 
   refresh();
-
-  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**************************************************************************
@@ -341,8 +366,6 @@ void req_edit::req_present_menu(QAction *action)
   }
 
   refresh();
-
-  emit rec_vec_may_have_changed(req_vector);
 }
 
 /**************************************************************************
@@ -357,26 +380,27 @@ void req_edit::univ_value_enum_menu(QAction *action)
 
     update_selected();
     refresh();
-
-    emit rec_vec_may_have_changed(req_vector);
   }
 }
 
 /**************************************************************************
   User entered numerical requirement value.
 **************************************************************************/
-void req_edit::univ_value_edit()
+void req_edit::univ_value_edit(int value)
 {
   if (selected != nullptr) {
-    QByteArray num_bytes = edit_value_nbr_field->text().toUtf8();
+    char buf[32];
+
+    fc_snprintf(buf, sizeof(buf), "%d", value);
 
     universal_value_from_str(&selected->source,
-                             num_bytes.data());
+                             buf);
 
     update_selected();
-    refresh();
 
-    emit rec_vec_may_have_changed(req_vector);
+    /* No full refresh() with fill_selected()
+     * as that would take focus out after every digit user types */
+    refresh_selected();
   }
 }
 
