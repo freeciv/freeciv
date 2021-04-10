@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-28 16:15+0300\n"
-"PO-Revision-Date: 2021-03-23 21:19+0200\n"
+"POT-Creation-Date: 2021-04-10 23:32+0300\n"
+"PO-Revision-Date: 2021-04-10 23:43+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -5929,7 +5929,7 @@ msgstr "_Selaa..."
 
 #: client/gui-gtk-2.0/pages.c:972 client/gui-gtk-3.0/pages.c:1054
 #: client/gui-gtk-3.22/pages.c:1055 client/gui-qt/pages.cpp:1589
-#: client/gui-sdl/connectdlg.c:940 client/gui-sdl2/connectdlg.c:934
+#: client/gui-sdl/connectdlg.c:942 client/gui-sdl2/connectdlg.c:934
 #: client/gui-xaw/connectdlg.c:444 client/gui-xaw/connectdlg.c:446
 msgid "Passwords don't match, enter password."
 msgstr "Salasanat eivät täsmää, anna salasana."
@@ -7558,7 +7558,7 @@ msgstr "Vanhentuu %1 keksimisen myötä"
 #: client/gui-qt/shortcuts.cpp:596 client/gui-sdl/action_dialog.c:1062
 #: client/gui-sdl/citydlg.c:527 client/gui-sdl/citydlg.c:1419
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/connectdlg.c:637
-#: client/gui-sdl/connectdlg.c:830 client/gui-sdl/connectdlg.c:1003
+#: client/gui-sdl/connectdlg.c:832 client/gui-sdl/connectdlg.c:1005
 #: client/gui-sdl/dialogs.c:706 client/gui-sdl/dialogs.c:900
 #: client/gui-sdl/dialogs.c:3272 client/gui-sdl/mapctrl.c:2570
 #: client/gui-sdl2/action_dialog.c:1014 client/gui-sdl2/citydlg.c:528
@@ -9560,7 +9560,7 @@ msgstr "Freeciv-palvelin :"
 msgid "Port :"
 msgstr "Portti :"
 
-#: client/gui-sdl/connectdlg.c:822 client/gui-sdl/connectdlg.c:996
+#: client/gui-sdl/connectdlg.c:824 client/gui-sdl/connectdlg.c:998
 #: client/gui-sdl2/connectdlg.c:820 client/gui-sdl2/connectdlg.c:991
 msgid "Next"
 msgstr "Seuraava"
@@ -18364,12 +18364,12 @@ msgid "FP:%d "
 msgstr "TV:%d "
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:665 data/civ1/game.ruleset:439 data/civ2/game.ruleset:506
+#: common/game.h:666 data/civ1/game.ruleset:439 data/civ2/game.ruleset:506
 msgid "AD"
 msgstr "jaa."
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:667 data/civ1/game.ruleset:441 data/civ2/game.ruleset:508
+#: common/game.h:668 data/civ1/game.ruleset:441 data/civ2/game.ruleset:508
 msgid "BC"
 msgstr "eaa."
 
@@ -20812,18 +20812,18 @@ msgstr "Anarkia"
 
 #: data/civ1/governments.ruleset:69 data/civ2/governments.ruleset:67
 #: data/classic/governments.ruleset:68 data/experimental/governments.ruleset:70
-#: data/civ2civ3/governments.ruleset:68 data/civ2civ3/governments.ruleset:106
+#: data/civ2civ3/governments.ruleset:68 data/civ2civ3/governments.ruleset:107
 #: data/multiplayer/governments.ruleset:68 data/sandbox/governments.ruleset:68
-#: data/sandbox/governments.ruleset:106
+#: data/sandbox/governments.ruleset:107
 #, c-format
 msgid "Warlord %s"
 msgstr "Sotapäällikkö %s"
 
 #: data/civ1/governments.ruleset:70 data/civ2/governments.ruleset:68
 #: data/classic/governments.ruleset:69 data/experimental/governments.ruleset:71
-#: data/civ2civ3/governments.ruleset:69 data/civ2civ3/governments.ruleset:107
+#: data/civ2civ3/governments.ruleset:69 data/civ2civ3/governments.ruleset:108
 #: data/multiplayer/governments.ruleset:69 data/sandbox/governments.ruleset:69
-#: data/sandbox/governments.ruleset:107
+#: data/sandbox/governments.ruleset:108
 #, c-format
 msgid "Warlady %s"
 msgstr "Sotapäällikkö %s"
@@ -20854,31 +20854,31 @@ msgstr ""
 
 #: data/civ1/governments.ruleset:85 data/civ2/governments.ruleset:83
 #: data/classic/governments.ruleset:84 data/experimental/governments.ruleset:88
-#: data/civ2civ3/governments.ruleset:139
-#: data/multiplayer/governments.ruleset:84 data/sandbox/governments.ruleset:139
+#: data/civ2civ3/governments.ruleset:140
+#: data/multiplayer/governments.ruleset:84 data/sandbox/governments.ruleset:140
 msgid "Despotism"
 msgstr "Yksinvalta"
 
 #: data/civ1/governments.ruleset:91 data/civ2/governments.ruleset:89
 #: data/classic/governments.ruleset:90 data/experimental/governments.ruleset:94
-#: data/civ2civ3/governments.ruleset:145
-#: data/multiplayer/governments.ruleset:90 data/sandbox/governments.ruleset:145
+#: data/civ2civ3/governments.ruleset:146
+#: data/multiplayer/governments.ruleset:90 data/sandbox/governments.ruleset:146
 #, c-format
 msgid "Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:92 data/civ2/governments.ruleset:90
 #: data/classic/governments.ruleset:91 data/experimental/governments.ruleset:95
-#: data/civ2civ3/governments.ruleset:146
-#: data/multiplayer/governments.ruleset:91 data/sandbox/governments.ruleset:146
+#: data/civ2civ3/governments.ruleset:147
+#: data/multiplayer/governments.ruleset:91 data/sandbox/governments.ruleset:147
 #, c-format
 msgid "?female:Chief %s"
 msgstr "Päällikkö %s"
 
 #: data/civ1/governments.ruleset:94 data/civ2/governments.ruleset:92
 #: data/classic/governments.ruleset:93 data/experimental/governments.ruleset:97
-#: data/civ2civ3/governments.ruleset:148
-#: data/multiplayer/governments.ruleset:93 data/sandbox/governments.ruleset:148
+#: data/civ2civ3/governments.ruleset:149
+#: data/multiplayer/governments.ruleset:93 data/sandbox/governments.ruleset:149
 msgid ""
 "Under Despotism, you are the absolute ruler of your people.  Your control "
 "over your citizens is maintained largely by martial law."
@@ -20898,9 +20898,9 @@ msgstr ""
 #: data/civ2/governments.ruleset:103 data/civ2/techs.ruleset:499
 #: data/classic/governments.ruleset:104 data/classic/techs.ruleset:508
 #: data/experimental/governments.ruleset:108
-#: data/experimental/techs.ruleset:556 data/civ2civ3/governments.ruleset:176
+#: data/experimental/techs.ruleset:556 data/civ2civ3/governments.ruleset:177
 #: data/civ2civ3/techs.ruleset:572 data/multiplayer/governments.ruleset:104
-#: data/multiplayer/techs.ruleset:516 data/sandbox/governments.ruleset:176
+#: data/multiplayer/techs.ruleset:516 data/sandbox/governments.ruleset:177
 #: data/sandbox/techs.ruleset:572
 msgid "Monarchy"
 msgstr "Monarkia"
@@ -20908,9 +20908,9 @@ msgstr "Monarkia"
 #: data/civ1/governments.ruleset:113 data/civ2/governments.ruleset:111
 #: data/classic/governments.ruleset:112
 #: data/experimental/governments.ruleset:116
-#: data/civ2civ3/governments.ruleset:183
+#: data/civ2civ3/governments.ruleset:184
 #: data/multiplayer/governments.ruleset:112
-#: data/sandbox/governments.ruleset:183
+#: data/sandbox/governments.ruleset:184
 #, c-format
 msgid "King %s"
 msgstr "Kuningas %s"
@@ -20918,9 +20918,9 @@ msgstr "Kuningas %s"
 #: data/civ1/governments.ruleset:114 data/civ2/governments.ruleset:112
 #: data/classic/governments.ruleset:113
 #: data/experimental/governments.ruleset:117
-#: data/civ2civ3/governments.ruleset:184
+#: data/civ2civ3/governments.ruleset:185
 #: data/multiplayer/governments.ruleset:113
-#: data/sandbox/governments.ruleset:184
+#: data/sandbox/governments.ruleset:185
 #, c-format
 msgid "Queen %s"
 msgstr "Kuningatar %s"
@@ -20928,9 +20928,9 @@ msgstr "Kuningatar %s"
 #: data/civ1/governments.ruleset:116 data/civ2/governments.ruleset:114
 #: data/classic/governments.ruleset:115
 #: data/experimental/governments.ruleset:119
-#: data/civ2civ3/governments.ruleset:186
+#: data/civ2civ3/governments.ruleset:187
 #: data/multiplayer/governments.ruleset:115
-#: data/sandbox/governments.ruleset:186
+#: data/sandbox/governments.ruleset:187
 msgid ""
 "Under Monarchy, a king or queen serves as a hereditary figurehead for your "
 "government."
@@ -20951,9 +20951,9 @@ msgstr ""
 #: data/civ2/governments.ruleset:125 data/civ2/techs.ruleset:191
 #: data/classic/governments.ruleset:126 data/classic/techs.ruleset:203
 #: data/experimental/governments.ruleset:130
-#: data/experimental/techs.ruleset:217 data/civ2civ3/governments.ruleset:213
+#: data/experimental/techs.ruleset:217 data/civ2civ3/governments.ruleset:214
 #: data/civ2civ3/techs.ruleset:220 data/multiplayer/governments.ruleset:126
-#: data/multiplayer/techs.ruleset:203 data/sandbox/governments.ruleset:213
+#: data/multiplayer/techs.ruleset:203 data/sandbox/governments.ruleset:214
 #: data/sandbox/techs.ruleset:220
 msgid "Communism"
 msgstr "Kommunismi"
@@ -20961,9 +20961,9 @@ msgstr "Kommunismi"
 #: data/civ1/governments.ruleset:134 data/civ2/governments.ruleset:132
 #: data/classic/governments.ruleset:133
 #: data/experimental/governments.ruleset:137
-#: data/civ2civ3/governments.ruleset:220
+#: data/civ2civ3/governments.ruleset:221
 #: data/multiplayer/governments.ruleset:133
-#: data/sandbox/governments.ruleset:220
+#: data/sandbox/governments.ruleset:221
 #, c-format
 msgid "Comrade %s"
 msgstr "Toveri %s"
@@ -20971,9 +20971,9 @@ msgstr "Toveri %s"
 #: data/civ1/governments.ruleset:135 data/civ2/governments.ruleset:133
 #: data/classic/governments.ruleset:134
 #: data/experimental/governments.ruleset:138
-#: data/civ2civ3/governments.ruleset:221
+#: data/civ2civ3/governments.ruleset:222
 #: data/multiplayer/governments.ruleset:134
-#: data/sandbox/governments.ruleset:221
+#: data/sandbox/governments.ruleset:222
 #, c-format
 msgid "?female:Comrade %s"
 msgstr "Toveri %s"
@@ -20981,9 +20981,9 @@ msgstr "Toveri %s"
 #: data/civ1/governments.ruleset:137 data/civ2/governments.ruleset:135
 #: data/classic/governments.ruleset:136
 #: data/experimental/governments.ruleset:140
-#: data/civ2civ3/governments.ruleset:223
+#: data/civ2civ3/governments.ruleset:224
 #: data/multiplayer/governments.ruleset:136
-#: data/sandbox/governments.ruleset:223
+#: data/sandbox/governments.ruleset:224
 msgid ""
 "A Communist government is based on the ideal that all people are equal.  All "
 "goods are owned by the state, rather than by private citizens.  Communism "
@@ -21008,21 +21008,21 @@ msgstr ""
 #: data/civ1/governments.ruleset:151 data/civ2/governments.ruleset:177
 #: data/classic/governments.ruleset:150
 #: data/experimental/governments.ruleset:154
-#: data/civ2civ3/governments.ruleset:332
+#: data/civ2civ3/governments.ruleset:333
 #: data/multiplayer/governments.ruleset:150
-#: data/sandbox/governments.ruleset:332
+#: data/sandbox/governments.ruleset:333
 msgid "Republic"
 msgstr "Tasavalta"
 
 #: data/civ1/governments.ruleset:158 data/civ2/governments.ruleset:184
-#: data/civ2civ3/governments.ruleset:303 data/sandbox/governments.ruleset:303
+#: data/civ2civ3/governments.ruleset:304 data/sandbox/governments.ruleset:304
 #: data/nation/byzantium.ruleset:32 data/nation/roman.ruleset:53
 #, c-format
 msgid "Consul %s"
 msgstr "Konsuli %s"
 
 #: data/civ1/governments.ruleset:159 data/civ2/governments.ruleset:185
-#: data/civ2civ3/governments.ruleset:304 data/sandbox/governments.ruleset:304
+#: data/civ2civ3/governments.ruleset:305 data/sandbox/governments.ruleset:305
 #: data/nation/byzantium.ruleset:32 data/nation/roman.ruleset:53
 #, c-format
 msgid "?female:Consul %s"
@@ -21031,9 +21031,9 @@ msgstr "Konsuli %s"
 #: data/civ1/governments.ruleset:161 data/civ2/governments.ruleset:187
 #: data/classic/governments.ruleset:160
 #: data/experimental/governments.ruleset:164
-#: data/civ2civ3/governments.ruleset:342
+#: data/civ2civ3/governments.ruleset:343
 #: data/multiplayer/governments.ruleset:160
-#: data/sandbox/governments.ruleset:342
+#: data/sandbox/governments.ruleset:343
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
 "representative who will govern them; since elected leaders must remain "
@@ -21051,9 +21051,9 @@ msgstr ""
 #: data/civ2/governments.ruleset:199 data/civ2/techs.ruleset:233
 #: data/classic/governments.ruleset:172 data/classic/techs.ruleset:248
 #: data/experimental/governments.ruleset:176
-#: data/experimental/techs.ruleset:267 data/civ2civ3/governments.ruleset:370
+#: data/experimental/techs.ruleset:267 data/civ2civ3/governments.ruleset:371
 #: data/civ2civ3/techs.ruleset:270 data/multiplayer/governments.ruleset:172
-#: data/multiplayer/techs.ruleset:248 data/sandbox/governments.ruleset:370
+#: data/multiplayer/techs.ruleset:248 data/sandbox/governments.ruleset:371
 #: data/sandbox/techs.ruleset:270
 msgid "Democracy"
 msgstr "Demokratia"
@@ -21061,9 +21061,9 @@ msgstr "Demokratia"
 #: data/civ1/governments.ruleset:180 data/civ2/governments.ruleset:206
 #: data/classic/governments.ruleset:157
 #: data/experimental/governments.ruleset:161
-#: data/civ2civ3/governments.ruleset:339
+#: data/civ2civ3/governments.ruleset:340
 #: data/multiplayer/governments.ruleset:157
-#: data/sandbox/governments.ruleset:339
+#: data/sandbox/governments.ruleset:340
 #, c-format
 msgid "President %s"
 msgstr "Presidentti %s"
@@ -21071,9 +21071,9 @@ msgstr "Presidentti %s"
 #: data/civ1/governments.ruleset:181 data/civ2/governments.ruleset:207
 #: data/classic/governments.ruleset:158
 #: data/experimental/governments.ruleset:162
-#: data/civ2civ3/governments.ruleset:340
+#: data/civ2civ3/governments.ruleset:341
 #: data/multiplayer/governments.ruleset:158
-#: data/sandbox/governments.ruleset:340
+#: data/sandbox/governments.ruleset:341
 #, c-format
 msgid "?female:President %s"
 msgstr "Presidentti %s"
@@ -21344,9 +21344,9 @@ msgstr ""
 #: data/civ2/nations.ruleset:1423 data/civ2/nations.ruleset:1935
 #: data/civ2/nations.ruleset:2009 data/classic/governments.ruleset:179
 #: data/experimental/governments.ruleset:183
-#: data/civ2civ3/governments.ruleset:377
+#: data/civ2civ3/governments.ruleset:378
 #: data/multiplayer/governments.ruleset:179
-#: data/sandbox/governments.ruleset:377
+#: data/sandbox/governments.ruleset:378
 #, c-format
 msgid "Prime Minister %s"
 msgstr "Pääministeri %s"
@@ -21356,9 +21356,9 @@ msgstr "Pääministeri %s"
 #: data/civ2/nations.ruleset:1423 data/civ2/nations.ruleset:1935
 #: data/civ2/nations.ruleset:2009 data/classic/governments.ruleset:180
 #: data/experimental/governments.ruleset:184
-#: data/civ2civ3/governments.ruleset:378
+#: data/civ2civ3/governments.ruleset:379
 #: data/multiplayer/governments.ruleset:180
-#: data/sandbox/governments.ruleset:378
+#: data/sandbox/governments.ruleset:379
 #, c-format
 msgid "?female:Prime Minister %s"
 msgstr "Pääministeri %s"
@@ -24507,29 +24507,29 @@ msgstr ""
 "siitä kohtuullisessa määrin."
 
 #: data/civ2/governments.ruleset:149 data/civ2/techs.ruleset:315
-#: data/civ2civ3/governments.ruleset:250
+#: data/civ2civ3/governments.ruleset:251
 #: data/multiplayer/governments.ruleset:193 data/multiplayer/techs.ruleset:331
-#: data/sandbox/governments.ruleset:250
+#: data/sandbox/governments.ruleset:251
 msgid "Fundamentalism"
 msgstr "Fundamentalismi"
 
-#: data/civ2/governments.ruleset:156 data/civ2civ3/governments.ruleset:257
+#: data/civ2/governments.ruleset:156 data/civ2civ3/governments.ruleset:258
 #: data/multiplayer/governments.ruleset:200
-#: data/sandbox/governments.ruleset:257
+#: data/sandbox/governments.ruleset:258
 #, c-format
 msgid "High Priest %s"
 msgstr "Ylipappi %s"
 
-#: data/civ2/governments.ruleset:157 data/civ2civ3/governments.ruleset:258
+#: data/civ2/governments.ruleset:157 data/civ2civ3/governments.ruleset:259
 #: data/multiplayer/governments.ruleset:201
-#: data/sandbox/governments.ruleset:258
+#: data/sandbox/governments.ruleset:259
 #, c-format
 msgid "High Priestess %s"
 msgstr "Ylipapitar %s"
 
-#: data/civ2/governments.ruleset:159 data/civ2civ3/governments.ruleset:260
+#: data/civ2/governments.ruleset:159 data/civ2civ3/governments.ruleset:261
 #: data/multiplayer/governments.ruleset:203
-#: data/sandbox/governments.ruleset:260
+#: data/sandbox/governments.ruleset:261
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
 "beliefs. The beliefs, usually religious in nature, form a rigid guideline "
@@ -24540,9 +24540,9 @@ msgstr ""
 "sekä hallitsijan että kansalaisten toimintaa säätelevän jäykän sääntöjen "
 "verkoston."
 
-#: data/civ2/governments.ruleset:164 data/civ2civ3/governments.ruleset:265
+#: data/civ2/governments.ruleset:164 data/civ2civ3/governments.ruleset:266
 #: data/multiplayer/governments.ruleset:208
-#: data/sandbox/governments.ruleset:265
+#: data/sandbox/governments.ruleset:266
 msgid ""
 "In a fundamentalist society, the people and the rulers are entirely devoted "
 "to their beliefs, and are usually willing to die to preserve them."
@@ -24551,9 +24551,9 @@ msgstr ""
 "omistautuneita uskomuksilleen ja ovat usein valmiita kuolemaan uskonsa "
 "puolesta."
 
-#: data/civ2/governments.ruleset:168 data/civ2civ3/governments.ruleset:269
+#: data/civ2/governments.ruleset:168 data/civ2civ3/governments.ruleset:270
 #: data/multiplayer/governments.ruleset:212
-#: data/sandbox/governments.ruleset:269
+#: data/sandbox/governments.ruleset:270
 msgid ""
 "Improvements that normally convert unhappy citizens to content citizens, "
 "produce `tithes' (gold) equivalent to the number of people they would "
@@ -27211,12 +27211,12 @@ msgid "Under Anarchy, technology cannot be lost due to lack of upkeep."
 msgstr "Anarkiassa teknologiota ei voi menettää ylläpidon puutteen takia."
 
 #: data/experimental/governments.ruleset:220
-#: data/sandbox/governments.ruleset:430
+#: data/sandbox/governments.ruleset:431
 msgid "Personal Freedom"
 msgstr "Henkilökohtainen vapaus"
 
 #: data/experimental/governments.ruleset:226
-#: data/sandbox/governments.ruleset:436
+#: data/sandbox/governments.ruleset:437
 #, no-c-format
 msgid ""
 "Each step of personal freedom you allow your citizens yields a 10% increase "
@@ -28483,37 +28483,27 @@ msgid ""
 "* Military units do not cause unhappiness even when deployed aggressively.\n"
 "* Military units impose martial law. Up to 3 military units inside a city "
 "will each force 1 unhappy citizen to become content.\n"
-"* You have no control over tax rates. Half of the trade income is simply "
-"lost to your economy (less if you have luxury-promoting buildings), and the "
-"remainder all goes to luxuries. Conventional corruption increases with "
-"distance from the capital (half as fast with knowledge of The Corporation).\n"
-"* Base production waste is 30%. This increases with distance from the "
-"capital (half as fast with knowledge of Trade)."
+"* You have no control over tax rates. All trade income is converted to "
+"luxuries. Conventional corruption increases with distance from the capital "
+"(half as fast with knowledge of The Corporation).\n"
+"* Half of the luxuries, including those converted from other trade income, "
+"are wasted.* Base production waste is 30%. This increases with distance from "
+"the capital (half as fast with knowledge of Trade)."
 msgstr ""
 "· Rakennukset tai teknologiat eivät tarvitse laisinkaan ylläpitoa\n"
-"· Jokainen ruutu josta saadaan yli 2 ruokaa, tuotantoa tai kauppaa kärsii -1 "
-"menetyksen ellei sillä työskentelevä kaupunki juhli. (Kaupungit joiden koko "
-"on alle 3 eivät juhli.)\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
-"ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes "
-"hyökkäyskäytössä..\n"
-"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä "
-"kaupngissa pakottaa kukin 1 tyytymättömän kansalaisen rauhalliseksi.\n"
-"· Hallitsijalla ei ole veroasteiden hallintaa. Puolet tuotosta kuluu "
-"talouteen (vähemmän, mikäli käytössä on luksusta tuottavia rakennuksia), ja "
-"loput menevät luksukseen. Korruptio on sitä suurempi mitä kauempana "
-"pääkaupungista ollaan, etäisyyden vaikutus puolittuu osakeyhtiöiden "
-"keksimisen myötä.\n"
-"· Perustaso tuotantohävikille on 30%. Vaikutus on sitä suurempi mitä "
-"kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu kaupan "
-"keksimisen myötä."
+"· Jokainen ruutu josta saadaan yli 2 ruokaa, tuotantoa tai kauppaa kärsii -1 menetyksen ellei sillä työskentelevä kaupunki juhli. (Kaupungit joiden koko on alle 3 eivät juhli.)\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes hyökkäyskäytössä..\n"
+"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä kaupngissa pakottaa kukin 1 tyytymättömän kansalaisen rauhalliseksi.\n"
+"· Hallitsijalla ei ole veroasteiden hallintaa. Kaikki kauppa muutetaan luksukseksi. Korruptio on sitä suurempi mitä kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu osakeyhtiöiden keksimisen myötä.\n"
+"· Puolet luksuksesta, mukaanlukien kaupasta muutetusta osuudesta, menetetään tehottomuuden vuoksi.\n"
+"· Perustaso tuotantohävikille on 30%. Vaikutus on sitä suurempi mitä kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu kaupan keksimisen myötä."
 
-#: data/civ2civ3/governments.ruleset:100 data/sandbox/governments.ruleset:100
+#: data/civ2civ3/governments.ruleset:101 data/sandbox/governments.ruleset:101
 msgid "Tribal"
 msgstr "Heimojärjestelmä"
 
-#: data/civ2civ3/governments.ruleset:109 data/sandbox/governments.ruleset:109
+#: data/civ2civ3/governments.ruleset:110 data/sandbox/governments.ruleset:110
 msgid ""
 "Under a Tribal government, you are part ruler of your people. Your control "
 "over your citizens is maintained largely by spiritual counsel."
@@ -28521,7 +28511,7 @@ msgstr ""
 "Heimojärjestelmässä olet absoluuttinen hallitsija niin kauan kun kansa uskoo "
 "sinuun. Valtasi perustuu pääosin henkiseen neuvonantoon."
 
-#: data/civ2civ3/governments.ruleset:112 data/sandbox/governments.ruleset:112
+#: data/civ2civ3/governments.ruleset:113 data/sandbox/governments.ruleset:113
 msgid ""
 "Compared to Despotism, a Tribal economy is more shield-oriented. Its bonuses "
 "to veterancy can be an advantage in wartime, but it lacks the martial law of "
@@ -28531,7 +28521,7 @@ msgstr ""
 "Bonukset yksiköiden ylenemiseen ovat etu sota-aikana, mutta siltä puuttuu "
 "monien muiden varhaisten hallintojen mahdollisuus sotatilan julistamiseen."
 
-#: data/civ2civ3/governments.ruleset:118 data/sandbox/governments.ruleset:118
+#: data/civ2civ3/governments.ruleset:119 data/sandbox/governments.ruleset:119
 #, no-c-format
 msgid ""
 "* Increases by half the chance of land units getting the next veteran level "
@@ -28566,13 +28556,13 @@ msgstr ""
 "· Tuotantohävikin perustaso on 0%, mutta se kasvaa mentäessä kauemmas "
 "pääkaupungista (puolta hitaammin jos tunnetaan kauppa)."
 
-#: data/civ2civ3/governments.ruleset:151 data/sandbox/governments.ruleset:151
+#: data/civ2civ3/governments.ruleset:152 data/sandbox/governments.ruleset:152
 msgid "Compared to Tribalism, a Despotic economy is more trade-oriented."
 msgstr ""
 "Heimojärjestelmään verrattuna yksinvalta on enemmän kaupankäyntiin "
 "suuntautunut."
 
-#: data/civ2civ3/governments.ruleset:155 data/sandbox/governments.ruleset:155
+#: data/civ2civ3/governments.ruleset:156 data/sandbox/governments.ruleset:156
 #, no-c-format
 msgid ""
 "* Your centers of government (cities with Palace and Ecclesiastical Palace) "
@@ -28605,11 +28595,11 @@ msgstr ""
 "· Tuotantohävikin perustaso on 10%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)."
 
-#: data/civ2civ3/governments.ruleset:189 data/sandbox/governments.ruleset:189
+#: data/civ2civ3/governments.ruleset:190 data/sandbox/governments.ruleset:190
 msgid "Monarchy gives low unit upkeep costs."
 msgstr "Monarkiassa yksiköillä on matalat ylläpitokustannukset."
 
-#: data/civ2civ3/governments.ruleset:193 data/sandbox/governments.ruleset:193
+#: data/civ2civ3/governments.ruleset:194 data/sandbox/governments.ruleset:194
 #, no-c-format
 msgid ""
 "* Your centers of government (cities with Palace and Ecclesiastical Palace) "
@@ -28643,7 +28633,7 @@ msgstr ""
 "· Tuotantohävikin perustaso on 20%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)."
 
-#: data/civ2civ3/governments.ruleset:228 data/sandbox/governments.ruleset:228
+#: data/civ2civ3/governments.ruleset:229 data/sandbox/governments.ruleset:229
 msgid ""
 "Communism is a good government for maximizing shield production, and for "
 "large empires."
@@ -28651,7 +28641,7 @@ msgstr ""
 "Kommunismi on hyvä valtiomuoto tuotannon maksimoimiseksi ja suurille "
 "valtakunnille."
 
-#: data/civ2civ3/governments.ruleset:233 data/sandbox/governments.ruleset:233
+#: data/civ2civ3/governments.ruleset:234 data/sandbox/governments.ruleset:234
 #, no-c-format
 msgid ""
 "* City improvements which would normally have an upkeep of 1 gold are free "
@@ -28677,7 +28667,7 @@ msgstr ""
 "· Korruption perustaso on 30%, eikä etäisyys pääkaupunkiin vaikuta siihen.\n"
 "· Tuotantohävikkiä ei ole."
 
-#: data/civ2civ3/governments.ruleset:273 data/sandbox/governments.ruleset:273
+#: data/civ2civ3/governments.ruleset:274 data/sandbox/governments.ruleset:274
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
@@ -28686,7 +28676,7 @@ msgstr ""
 "yksiköt ovat hyödyllisiä sodankäynnissä. Heikkous on teknologisen "
 "tutkimuksen tukahtuminen."
 
-#: data/civ2civ3/governments.ruleset:279 data/sandbox/governments.ruleset:279
+#: data/civ2civ3/governments.ruleset:280 data/sandbox/governments.ruleset:280
 #, no-c-format
 msgid ""
 "* Base science production is half that of other governments. (A "
@@ -28713,11 +28703,11 @@ msgstr ""
 "· Tuotantohävikin perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
-#: data/civ2civ3/governments.ruleset:296 data/sandbox/governments.ruleset:296
+#: data/civ2civ3/governments.ruleset:297 data/sandbox/governments.ruleset:297
 msgid "Federation"
 msgstr "Federaatio"
 
-#: data/civ2civ3/governments.ruleset:306 data/sandbox/governments.ruleset:306
+#: data/civ2civ3/governments.ruleset:307 data/sandbox/governments.ruleset:307
 msgid ""
 "Federalism is a system in which the power to govern is shared between "
 "national and provincial governments.  This decentralization minimizes the "
@@ -28728,7 +28718,7 @@ msgstr ""
 "hallinnon välillä. Hajauttaminen vähentää korruptiota ja hävikkiä, eikä "
 "provosoi alueiden eroamista ajavien liikkeiden syntymistä."
 
-#: data/civ2civ3/governments.ruleset:313 data/sandbox/governments.ruleset:313
+#: data/civ2civ3/governments.ruleset:314 data/sandbox/governments.ruleset:314
 #, no-c-format
 msgid ""
 "* Each city gets 2 extra luxury points.\n"
@@ -28759,7 +28749,7 @@ msgstr ""
 "siihen.\n"
 "· Senaatti voi estää sodan julistamisen."
 
-#: data/civ2civ3/governments.ruleset:351 data/sandbox/governments.ruleset:351
+#: data/civ2civ3/governments.ruleset:352 data/sandbox/governments.ruleset:352
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -28789,7 +28779,7 @@ msgstr ""
 "· Tuotantohävikin perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
-#: data/civ2civ3/governments.ruleset:380 data/sandbox/governments.ruleset:380
+#: data/civ2civ3/governments.ruleset:381 data/sandbox/governments.ruleset:381
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -28799,7 +28789,7 @@ msgstr ""
 "asioista. Demokratia tarjoaa korkeimman mahdollisen kaupan tason, mutta myös "
 "suurimman tyytymättömyyden; kansalaiset eivät alkuunkaan pidä sotatilasta."
 
-#: data/civ2civ3/governments.ruleset:387 data/sandbox/governments.ruleset:387
+#: data/civ2civ3/governments.ruleset:388 data/sandbox/governments.ruleset:388
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -48434,39 +48424,39 @@ msgstr "Virhe noudettaessa tiedostoa osoitteesta %s: %s"
 msgid "Could not open %s for writing"
 msgstr "Tiedostoa %s ei voitu avata kirjoitusta varten."
 
-#: utility/randseed.c:59
+#: utility/randseed.c:65
 #, c-format
 msgid "getentropy() failed: %s"
 msgstr "getentropy() ei onnistunut: %s"
 
-#: utility/randseed.c:92
+#: utility/randseed.c:119
 #, c-format
 msgid "Opening %s failed: %s"
 msgstr "%s avaaminen epäonnistui: %s"
 
-#: utility/randseed.c:97
+#: utility/randseed.c:124
 #, c-format
 msgid "Reading %s failed: %s"
 msgstr "%s lukeminen epäonnistui: %s"
 
-#: utility/randseed.c:99
+#: utility/randseed.c:126
 #, c-format
 msgid "Reading %s: short read without error"
 msgstr "%s lukeminen: lyhyeksi jäänyt luku"
 
-#: utility/randseed.c:141
+#: utility/randseed.c:168
 #, c-format
 msgid "clock_gettime(CLOCK_REALTIME) failed: %s"
 msgstr "clock_gettime(CLOCK_REALTIME) epäonnistui: %s"
 
-#: utility/randseed.c:180
+#: utility/randseed.c:211
 msgid ""
 "No good random source usable. Falling back to time-based random seeding."
 msgstr ""
 "Hyvää satunnaislähdettä ei käytettävissä. Käytän aikaan perustuvaa "
 "satunnaissiementä."
 
-#: utility/randseed.c:189
+#: utility/randseed.c:220
 msgid ""
 "Warning: Falling back to predictable random seed from current coarse-"
 "granularity time."
