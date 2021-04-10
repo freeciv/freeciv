@@ -1932,7 +1932,7 @@ static void diplomat_queue_handle_primary(int actor_unit_id)
 
 /***********************************************************************//**
   Move the queue of units that need user input forward since the
-  current unit got the extra input that was required.
+  current unit doesn't require the extra input any more.
 ***************************************************************************/
 static void diplomat_queue_handle_secondary(int actor_id)
 {
