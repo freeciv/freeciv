@@ -60,6 +60,16 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   unit_layout->addWidget(label, 0, 0);
   unit_layout->addWidget(req_button, 0, 1);
 
+  label = new QLabel(QString::fromUtf8(R__("Build Cost")));
+  label->setParent(this);
+
+  bcost = new QSpinBox(this);
+  bcost->setRange(0, 10000);
+  connect(bcost, SIGNAL(valueChanged(int)), this, SLOT(set_bcost_value(int)));
+
+  unit_layout->addWidget(label, 1, 0);
+  unit_layout->addWidget(bcost, 1, 1);
+
   refresh();
 
   main_layout->addLayout(unit_layout);
@@ -73,6 +83,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
 void edit_utype::refresh()
 {
   req_button->setText(tab_tech::tech_name(utype->require_advance));
+  bcost->setValue(utype->build_cost);
 }
 
 /**************************************************************************
@@ -91,4 +102,12 @@ void edit_utype::req_menu(QAction *action)
 
     refresh();
   }
+}
+
+/**************************************************************************
+  Read build cost value from spinbox
+**************************************************************************/
+void edit_utype::set_bcost_value(int value)
+{
+  utype->build_cost = value;
 }
