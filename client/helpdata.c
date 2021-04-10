@@ -2757,6 +2757,17 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        _("  %s %d%% of the population of each city inside"
                          " the nuclear blast dies.\n"), BULLET,
                          game.info.nuke_pop_loss_pct);
+          if (game.info.nuke_pop_loss_pct < 50) {
+            cat_snprintf(buf, bufsz,
+                         _("  %s can never destroy city completely "
+                           "(%d%% of size 1 rounds down to 0).\n"), BULLET,
+                         game.info.nuke_pop_loss_pct);
+          } else {
+            cat_snprintf(buf, bufsz,
+                         _("  %s can even destroy city completely "
+                           "(%d%% of size 1 rounds up to 1).\n"), BULLET,
+                         game.info.nuke_pop_loss_pct);
+          }
         }
         if (game.info.nuke_defender_survival_chance_pct > 0) {
           cat_snprintf(buf, bufsz,
