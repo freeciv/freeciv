@@ -158,6 +158,12 @@ The script lives in data/database.lua in the source tree, and is installed
 to 'sysconfdir'; depending on the options given to 'configure' at build
 time, this may be a location like /usr/local/etc/freeciv/database.lua.
 
+To use custom database.lua, give name of the file with its full path
+in the conf file entry "lua" in [meta] section, e.g.:
+
+  [meta]
+  lua="/etc/freeciv/local_database.lua"
+
 The supplied version supports basic authentication against a SQLite or
 MySQL database; it supports configuration as shown in the following
 example (for MySQL; SQLite does not need all of these options).
