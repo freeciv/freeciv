@@ -138,7 +138,7 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
 
 /**********************************************************************//**
   Return the AI fuzziness (0 to 1000) corresponding to a given skill
-  level (1 to 10).  See ai_fuzzy() in common/player.c
+  level (1 to 10). See ai_fuzzy()
 **************************************************************************/
 static int fuzzy_of_skill_level(enum ai_level level)
 {
