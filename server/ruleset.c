@@ -3836,33 +3836,6 @@ static bool load_ruleset_terrain(struct section_file *file,
                                                           "%s.vision_subs_sq",
                                                           section);
 
-      if (compat->compat_mode) {
-	int bj;
-	const char **slist;
-
-	slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-	for (bj = 0; bj < nval; bj++) {
-	  const char *sval = slist[bj];
-
-	  if (fc_strcasecmp("NoAggressive", sval)) {
-	    ruleset_error(LOG_ERROR, "\"%s\" base \"%s\": unknown flag \"%s\".",
-			  filename,
-			  extra_rule_name(pextra),
-			  sval);
-	    ok = FALSE;
-	    break;
-	  } else {
-	    if (!BV_ISSET(pextra->flags, EF_NOT_AGGRESSIVE)) {
-	      /* We would not be adding extra to caused_by_list second time. */
-	      BV_SET(pextra->flags, EF_NOT_AGGRESSIVE);
-	      extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
-	    }
-	  }
-	}
-
-	free(slist);
-      }
-
       if (!ok) {
         break;
       }
