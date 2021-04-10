@@ -1891,8 +1891,8 @@ void revolution_response(struct government *gov)
 }
 
 /***********************************************************************//**
-  Move the queue of diplomats that need user input forward unless the
-  current diplomat will need more input.
+  Move the queue of units that need user input forward unless the
+  current unit will need more input.
 ***************************************************************************/
 static void diplomat_queue_handle_primary(int actor_unit_id)
 {
@@ -1931,12 +1931,12 @@ static void diplomat_queue_handle_primary(int actor_unit_id)
 }
 
 /***********************************************************************//**
-  Move the queue of diplomats that need user input forward since the
-  current diplomat got the extra input that was required.
+  Move the queue of units that need user input forward since the
+  current unit got the extra input that was required.
 ***************************************************************************/
 static void diplomat_queue_handle_secondary(int actor_id)
 {
-  /* Stop waiting. Move on to the next queued diplomat. */
+  /* Stop waiting. Move on to the next queued unit. */
   is_more_user_input_needed = FALSE;
   diplomat_queue_handle_primary(actor_id);
 }
