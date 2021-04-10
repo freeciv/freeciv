@@ -121,7 +121,7 @@ static struct action_data *act_data(action_id act_id,
 
 /**********************************************************************//**
   Move the queue of units that need user input forward unless the current
-  unit are going to need more input.
+  unit is going to need more input.
 **************************************************************************/
 static void diplomat_queue_handle_primary(void)
 {
