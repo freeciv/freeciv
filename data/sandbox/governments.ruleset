@@ -90,7 +90,7 @@ _("\
  Conventional corruption increases with distance from the capital\
  (half as fast with knowledge of The Corporation).\n\
 * Half of the luxuries, including those converted from other\
- trade income, are wasted.\
+ trade income, are wasted.\n\
 * Base production waste is 30%. This increases with distance from the\
  capital (half as fast with knowledge of Trade).\
 ")
