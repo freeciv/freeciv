@@ -3874,24 +3874,6 @@ static bool load_ruleset_terrain(struct section_file *file,
   }
 
   if (ok) {
-    bv_extras compat_bridged;
-
-    if (compat->compat_mode) {
-      BV_CLR_ALL(compat_bridged);
-      extra_type_by_cause_iterate(EC_ROAD, pextra) {
-        struct road_type *proad = extra_road_get(pextra);
-        const char *section = &road_sections[road_number(proad) * MAX_SECTION_LABEL];
-        const char **slist;
-
-        slist = secfile_lookup_str_vec(file, &nval, "%s.flags", section);
-
-        for (j = 0; j < nval; j++) {
-          if (!fc_strcasecmp("PreventsOtherRoads", slist[j])) {
-            BV_SET(compat_bridged, pextra->id);
-          }
-        }
-      } extra_type_by_cause_iterate_end;
-    }
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       struct road_type *proad = extra_road_get(pextra);
       const char *section;
@@ -4012,28 +3994,17 @@ static bool load_ruleset_terrain(struct section_file *file,
       BV_CLR_ALL(proad->flags);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
+        enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
 
-        if (compat->compat_mode && !fc_strcasecmp("PreventsOtherRoads", sval)) {
-          /* Nothing to do here */
-        } else if (compat->compat_mode && !fc_strcasecmp("RequiresBridge", sval)) {
-          extra_type_iterate(pbridged) {
-            if (BV_ISSET(compat_bridged, pbridged->id)) {
-              BV_SET(pextra->bridged_over, pbridged->id);
-            }
-          } extra_type_iterate_end;
+        if (!road_flag_id_is_valid(flag)) {
+          ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown flag \"%s\".",
+                        filename,
+                        extra_rule_name(pextra),
+                        sval);
+          ok = FALSE;
+          break;
         } else {
-          enum road_flag_id flag = road_flag_id_by_name(sval, fc_strcasecmp);
-
-          if (!road_flag_id_is_valid(flag)) {
-            ruleset_error(LOG_ERROR, "\"%s\" road \"%s\": unknown flag \"%s\".",
-                          filename,
-                          extra_rule_name(pextra),
-                          sval);
-            ok = FALSE;
-            break;
-          } else {
-            BV_SET(proad->flags, flag);
-          }
+          BV_SET(proad->flags, flag);
         }
       }
       free(slist);
