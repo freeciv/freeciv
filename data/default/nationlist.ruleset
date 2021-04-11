@@ -20,26 +20,26 @@
 ; description   = Optional short user description of this set.
 
 [nset_core]
-name=_("?nationset:Core")
-rule_name="core"
+name      = _("?nationset:Core")
+rule_name = "core"
 ; /* TRANS: Description of 'Core' nation set in default rulesets.
 ; If you have translated all of the nations in the extended set, not
 ; just these core nations, feel free to discard the words about
 ; localization, rather than translating literally. */
-description=_("\
+description = _("\
 A small set of playable nations that should be fully localized into \
 languages other than English.\
 ")
 [nset_extended]
-name=_("?nationset:Extended")
-rule_name="all"
+name      = _("?nationset:Extended")
+rule_name = "all"
 ; /* TRANS: Description of the 'Extended' nation set in default rulesets,
 ; which contains all nations that come with Freeciv.
 ; If you have only translated the Core nations, replace this
 ; description to say so rather than making it a literal translation.
 ; Conversely, if you have translated everything, you can get rid of the
 ; caveat about localization. */
-description=_("\
+description = _("\
 The complete set of playable nations; this allows for larger games or more \
 variety, but not all of these may have been localized into languages other \
 than English.\
@@ -57,39 +57,39 @@ than English.\
 ;                 group
 
 [ngroup_ancient]
-name=_("?nationgroup:Ancient")
-match=2
+name  = _("?nationgroup:Ancient")
+match = 2
 [ngroup_medieval]
-name=_("?nationgroup:Medieval")
-match=2
+name  = _("?nationgroup:Medieval")
+match = 2
 [ngroup_earlymodern]
-name=_("?nationgroup:Early Modern")
-match=2
+name  = _("?nationgroup:Early Modern")
+match = 2
 [ngroup_modern]
-name=_("?nationgroup:Modern")
-match=1
+name  = _("?nationgroup:Modern")
+match = 1
 [ngroup_african]
-name=_("?nationgroup:African")
-match=0
+name  = _("?nationgroup:African")
+match = 0
 [ngroup_american]
-name=_("?nationgroup:American")
-match=0
+name  = _("?nationgroup:American")
+match = 0
 [ngroup_asian]
-name=_("?nationgroup:Asian")
-match=0
+name  = _("?nationgroup:Asian")
+match = 0
 [ngroup_european]
-name=_("?nationgroup:European")
-match=0
+name  = _("?nationgroup:European")
+match = 0
 [ngroup_oceanian]
-name=_("?nationgroup:Oceanian")
-match=0
+name  = _("?nationgroup:Oceanian")
+match = 0
 [ngroup_imaginary]
-name=_("?nationgroup:Imaginary")
-match=2
+name  = _("?nationgroup:Imaginary")
+match = 2
 [ngroup_barbarian]
-name=_("?nationgroup:Barbarian")
-match=0
-hidden=true
+name  = _("?nationgroup:Barbarian")
+match = 0
+hidden = true
 
 [compatibility]
 
