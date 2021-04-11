@@ -2229,7 +2229,7 @@ void send_city_info_at_tile(struct player *pviewer, struct conn_list *dest,
   if (!pcity) {
     pcity = tile_city(ptile);
   }
-  if (pcity->server.needs_arrange != CNA_NOT) {
+  if (pcity != NULL && pcity->server.needs_arrange != CNA_NOT) {
     pcity->server.needs_arrange = CNA_BROADCAST_PENDING;
 
     return;
