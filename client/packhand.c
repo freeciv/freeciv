@@ -1336,6 +1336,9 @@ void handle_end_turn(void)
    * the game.info.turn in handle_new_year() we will check it.
    */
   game.info.turn++;
+
+  log_verbose(_("Beginning turn %d"), game.info.turn);
+
   agents_before_new_turn();
 }
 
