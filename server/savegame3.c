@@ -1264,6 +1264,7 @@ static void sg_load_savefile(struct loaddata *loading)
   int i;
   const char *terr_name;
   const char *ruleset = NULL;
+  bool current_ruleset_rejected;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -1277,7 +1278,39 @@ static void sg_load_savefile(struct loaddata *loading)
   (void) secfile_entry_by_path(loading->file, "savefile.reason");
   (void) secfile_entry_by_path(loading->file, "savefile.revision");
 
-  if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
+  current_ruleset_rejected = FALSE;
+  if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
+    const char *req_caps;
+
+    if (!load_rulesets(NULL, FALSE, NULL, TRUE, FALSE)) {
+      /* Failed to load correct ruleset */
+      sg_failure_ret(FALSE, _("Failed to load ruleset '%s'."),
+                     game.server.rulesetdir);
+    }
+
+    req_caps = secfile_lookup_str_default(loading->file, "",
+                                          "scenario.ruleset_caps");
+    strncpy(game.scenario.req_caps, req_caps,
+            sizeof(game.scenario.req_caps) - 1);
+    game.scenario.req_caps[sizeof(game.scenario.req_caps) - 1] = '\0';
+
+    if (!has_capabilities(req_caps, game.ruleset_capabilities)) {
+      /* Current ruleset lacks required capabilities. */
+      log_normal(_("Scenario requires ruleset capabilities: %s"), req_caps);
+      log_normal(_("Ruleset has capabilities: %s"),
+                 game.ruleset_capabilities);
+      /* TRANS: ... ruleset dir ... scenario name ... */
+      log_error(_("Current ruleset %s not compatible with the scenario %s."
+                  " Trying to switch to the ruleset specified by the"
+                  " scenario."),
+                game.server.rulesetdir, game.scenario.name);
+
+      current_ruleset_rejected = TRUE;
+    }
+  }
+
+  if (!game.scenario.is_scenario || game.scenario.ruleset_locked
+      || current_ruleset_rejected) {
     ruleset = secfile_lookup_str_default(loading->file,
                                          GAME_DEFAULT_RULESETDIR,
                                          "savefile.rulesetdir");
@@ -1306,27 +1339,14 @@ static void sg_load_savefile(struct loaddata *loading)
     }
   }
 
+  if (current_ruleset_rejected) {
+    /* TRANS: ruleset dir */
+    log_normal(_("Successfully loaded the scenario's ruleset %s."), ruleset);
+  }
+
   /* Remove all aifill players. Correct number of them get created later
    * with correct skill level etc. */
   (void) aifill(0);
-
-  if (game.scenario.is_scenario && !game.scenario.ruleset_locked) {
-    const char *req_caps;
-
-    req_caps = secfile_lookup_str_default(loading->file, "",
-                                          "scenario.ruleset_caps");
-    strncpy(game.scenario.req_caps, req_caps, sizeof(game.scenario.req_caps) - 1);
-    game.scenario.req_caps[sizeof(game.scenario.req_caps) - 1] = '\0';
-
-    if (!has_capabilities(req_caps, game.ruleset_capabilities)) {
-      /* Current ruleset lacks required capabilities. */
-      log_normal(_("Scenario requires ruleset capabilities: %s"), req_caps);
-      log_normal(_("Ruleset has capabilities: %s"), game.ruleset_capabilities);
-      log_error(_("Current ruleset not compatible with the scenario."));
-      sg_success = FALSE;
-      return;
-    }
-  }
 
   /* This is in the savegame only if the game has been started before savegame3.c time,
    * and in that case it's TRUE. If it's missing, it's to be considered FALSE. */
