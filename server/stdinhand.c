@@ -3890,6 +3890,14 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
   if (game_was_started() || !map_is_empty()) {
     cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
               _("This setting can't be modified after the game has started."));
+    if (game.scenario.is_scenario && !game.scenario.ruleset_locked
+        && !game_was_started()) {
+      cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
+                /* TRANS: scenario name */
+                _("The ruleset of \"%s\" can be changed by switching to a"
+                  " compatible ruleset before loading it."),
+                game.scenario.name);
+    }
     return FALSE;
   }
 
