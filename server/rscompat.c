@@ -161,10 +161,21 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
     for (i = 0; i < problem->num_suggested_solutions; i++) {
       if (problem->suggested_solutions[i].operation != RVCO_APPEND) {
         /* A problem that isn't caused by missing obligatory hard
-         * requirements has been detected. Probably an old requirement that
-         * contradicted a hard requirement that wasn't documented by making
-         * it obligatory. In that case the enabler was never in use. The
-         * action it self would have blocked it. */
+         * requirements has been detected.
+         *
+         * Probably an old requirement that contradicted a hard requirement
+         * that wasn't documented by making it obligatory. In that case all
+         * suggested solutions has been applied to the enabler creating a
+         * new copy for each possible fulfillment of the new obligatory hard
+         * requirement.
+         *
+         * If another copy of the original enabler has survived this isn't
+         * an error. It probably isn't event an indication of a potential
+         * problem.
+         *
+         * If no possible solution survives the enabler was never in use
+         * because the action it self would have blocked it. In that case
+         * this is an error. */
 
         log_error("While adding hard obligatory reqs to action enabler"
                   " for %s: %s Dropping it.",
