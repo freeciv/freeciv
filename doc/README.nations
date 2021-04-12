@@ -165,6 +165,11 @@ data/flags/<flagname>-shield.png
   will need to install Inkscape, ImageMagick, and (optionally) pngquant.
   Once these are installed change to the data/flags directory and run
   ./convert_png <nationname>.svg.
+  There is two versions of the conversion script. ./convert_png is a
+  new version that is compatible with modern versions of inkscape.
+  The old version ./convert_png_legacy is the version that has
+  been used to make any flag conversions before April 2021; at the time
+  of writing all png-files in data/flags are still ones created with it.
 
 data/misc/flags.spec
 
