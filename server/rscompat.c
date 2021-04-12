@@ -144,8 +144,10 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
     if (problem->num_suggested_solutions == 0) {
       /* Didn't get any suggestions about how to solve this. */
 
-      log_error("Dropping an action enabler for %s."
-                " Don't know how to fix: %s.",
+      log_error("While adding hard obligatory reqs to action enabler"
+                 " for %s: %s"
+                 " Don't know how to fix it."
+                 " Dropping it.",
                 action_rule_name(paction), problem->description);
       ae->disabled = TRUE;
 
@@ -178,7 +180,8 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
          * this is an error. */
 
         log_error("While adding hard obligatory reqs to action enabler"
-                  " for %s: %s Dropping it.",
+                  " for %s: %s"
+                  " Dropping it.",
                   action_rule_name(paction), problem->description);
         ae->disabled = TRUE;
         req_vec_problem_free(problem);
@@ -198,12 +201,14 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
       if (!req_vec_change_apply(&problem->suggested_solutions[i],
                                 action_enabler_vector_by_number,
                                 new_enabler)) {
-        log_error("Failed to apply solution %s for %s to action enabler"
-                  " for %s. Dropping it.",
+        log_error("While adding hard obligatory reqs to action enabler"
+                  " for %s: %s"
+                  "Failed to apply solution %s."
+                  " Dropping it.",
+                  action_rule_name(paction), problem->description,
                   req_vec_change_translation(
                     &problem->suggested_solutions[i],
-                    action_enabler_vector_by_number_name),
-                  problem->description, action_rule_name(paction));
+                    action_enabler_vector_by_number_name));
         new_enabler->disabled = TRUE;
         req_vec_problem_free(problem);
         return TRUE;
