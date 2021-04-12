@@ -137,8 +137,8 @@ void req_vec_fix_problem::accept_solution()
   Set up a widget for displaying and fixing requirement vector problems
   for a specific ruleset entity item.
   @param ui_in ruledit instance this is for.
-  @param item_info ruleset entity item specific helpers. req_vec_fix's
-                   destructor calls close() on it.
+  @param item ruleset entity item specific helpers. req_vec_fix's
+              destructor calls close() on it.
 **************************************************************************/
 req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
                          req_vec_fix_item *item) : QWidget()
