@@ -3272,7 +3272,7 @@ struct action *action_is_blocked_by(const struct action *act,
   When adding a new hard requirement here:
    * explain why it is a hard requirement in a comment.
 
-  @param result the action result to check the hard reqs for
+  @param paction the action to check the hard reqs for
   @param actor_unittype the unit type that may be able to act
   @param ignore_third_party ignore if potential targets etc exists
   @return TRUE iff the specified unit type can perform the wanted action
@@ -3456,7 +3456,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   expressed in a requirement vector or if its absence makes the action
   pointless.
 
-  @param result the action result to check the hard reqs for
+  @param paction the action to check the hard reqs for
   @param actor_unittype the unit type that may be able to act
   @return TRUE iff the specified unit type can perform the wanted action
           given that an action enabler later will enable it.
