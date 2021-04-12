@@ -350,7 +350,7 @@ struct effect {
   struct requirement_vector reqs;
 
   /* Only relevant for ruledit and other rulesave users. Indicates that
-   * this effect is deleted and shouldn't saved. */
+   * this effect is deleted and shouldn't be saved. */
   bool ruledit_do_not_save;
 };
 
