@@ -430,10 +430,13 @@ struct action
 
 struct action_enabler
 {
-  bool disabled;
   action_id action;
   struct requirement_vector actor_reqs;
   struct requirement_vector target_reqs;
+
+  /* Only relevant for ruledit and other rulesave users. Indicates that
+   * this action enabler is deleted and shouldn't be saved. */
+  bool disabled;
 };
 
 #define enabler_get_action(_enabler_) action_by_number(_enabler_->action)
