@@ -179,10 +179,10 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
          * because the action it self would have blocked it. In that case
          * this is an error. */
 
-        log_error("While adding hard obligatory reqs to action enabler"
-                  " for %s: %s"
-                  " Dropping it.",
-                  action_rule_name(paction), problem->description);
+        log_warn("While adding hard obligatory reqs to action enabler"
+                 " for %s: %s"
+                 " Dropping it.",
+                 action_rule_name(paction), problem->description);
         ae->disabled = TRUE;
         req_vec_problem_free(problem);
         return TRUE;
@@ -249,6 +249,16 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
 **************************************************************************/
 void rscompat_enablers_add_obligatory_hard_reqs(void)
 {
+  log_normal("action enablers: adding obligatory hard requirements.");
+  log_warn("More than one way to fulfill a new obligatory hard requirement"
+           " may exist."
+           " In that case the enabler is copied so each alternative"
+           " solution is applied to a copy of the enabler."
+           " If an action enabler becomes self contradicting after applying"
+           " a solution it is dropped."
+           " Note that other copies of the original enabler may have"
+           " survived even if one copy is dropped.");
+
   action_iterate(act_id) {
     bool restart_enablers_for_action;
     do {
