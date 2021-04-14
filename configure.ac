@@ -1318,8 +1318,8 @@ AC_CHECK_FUNCS([strerror strlcat strlcpy strncasecmp strstr uname nanosleep])
 AC_CHECK_FUNCS([usleep getline _strcoll stricoll _stricoll strcasecoll backtrace])
 
 dnl Possible random sources
-AC_CHECK_HEADER([sys/random.h])
-AC_CHECK_HEADER([bcrypt.h], [bcrypt_h_found=yes], [bcrypt_h_found=no])
+AC_CHECK_HEADERS([sys/random.h])
+AC_CHECK_HEADERS([bcrypt.h], [bcrypt_h_found=yes], [bcrypt_h_found=no])
 if test "x$bcrypt_h_found" = "xyes" ; then
   dnl Cygwin would find the symbol in library despite not finding the header,
   dnl leading to compile time error if we set HAVE_BCRYPTGENRANDOM
