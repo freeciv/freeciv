@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 30-Mar-21.
+Last minor update was 14-Apr-21.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -53,7 +53,7 @@ out whether your system is suitable.  If in doubt, just try it.
 
    Development of Freeciv is primarily done with "gcc", the GNU
    project's excellent C compiler.  Releases can be compiled with gcc
-   or most other compilers (such as the unbundled Solaris C compiler).
+   or most other compilers (such as clang or the unbundled Solaris C compiler).
    Note that there have been reports that gcc with -O3 miscompiled
    freeciv.
 
@@ -377,7 +377,16 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
  - C++ compiler.
 
    Qt-client is written in C++, so you need appropriate compiler.
-   In Freeciv development, g++ has been used.
+
+   In Freeciv development, g++ has been the primary C++ compiler.
+   Also clang++ has been used.
+
+ - Qt Meta Object Compiler (moc)
+
+   Qt's Meta Object Compiler is a command usually called 'moc', or
+   'moc-qt5' in some systems. Freeciv needs Qt5 version.
+   You may want install 'qtchooser' to find correct moc version for you
+   when you have both multiple Qt versions installed in parallel.
 
  - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
    At least version 5.2 is required.
