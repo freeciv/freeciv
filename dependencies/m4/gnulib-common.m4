@@ -1,4 +1,4 @@
-# gnulib-common.m4 serial 63
+# gnulib-common.m4 serial 65
 dnl Copyright (C) 2007-2021 Free Software Foundation, Inc.
 dnl This file is free software; the Free Software Foundation
 dnl gives unlimited permission to copy and/or distribute it,
@@ -357,6 +357,16 @@ AC_DEFUN([gl_COMMON_BODY], [
   export LIBC_FATAL_STDERR_
 ])
 
+# gl_MODULE_INDICATOR_INIT_VARIABLE([variablename])
+# gl_MODULE_INDICATOR_INIT_VARIABLE([variablename], [initialvalue])
+# initializes the shell variable that indicates the presence of the given module
+# as a C preprocessor expression.
+AC_DEFUN([gl_MODULE_INDICATOR_INIT_VARIABLE],
+[
+  GL_MODULE_INDICATOR_PREFIX[]_[$1]=m4_if([$2], , [0], [$2])
+  AC_SUBST(GL_MODULE_INDICATOR_PREFIX[]_[$1])
+])
+
 # gl_MODULE_INDICATOR_CONDITION
 # expands to a C preprocessor expression that evaluates to 1 or 0, depending
 # whether a gnulib module that has been requested shall be considered present
@@ -369,9 +379,9 @@ m4_define([gl_MODULE_INDICATOR_CONDITION], [1])
 AC_DEFUN([gl_MODULE_INDICATOR_SET_VARIABLE],
 [
   gl_MODULE_INDICATOR_SET_VARIABLE_AUX(
-    [GNULIB_[]m4_translit([[$1]],
-                          [abcdefghijklmnopqrstuvwxyz./-],
-                          [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])],
+    [GL_MODULE_INDICATOR_PREFIX[]_GNULIB_[]m4_translit([[$1]],
+                                                       [abcdefghijklmnopqrstuvwxyz./-],
+                                                       [ABCDEFGHIJKLMNOPQRSTUVWXYZ___])],
     [gl_MODULE_INDICATOR_CONDITION])
 ])
 
