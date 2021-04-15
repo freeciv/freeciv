@@ -1250,10 +1250,12 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
       action_custom = test_unit_can_airlift_to(NULL, punit, target_city);
       break;
     case ACTRES_NUKE_UNITS:
-      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+      action_custom = unit_attack_units_at_tile_result(punit, paction,
+                                                       target_tile);
       break;
     case ACTRES_ATTACK:
-      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+      action_custom = unit_attack_units_at_tile_result(punit, paction,
+                                                       target_tile);
       break;
     case ACTRES_CONQUER_CITY:
       if (target_city) {
