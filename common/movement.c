@@ -187,17 +187,27 @@ bool unit_can_defend_here(const struct civ_map *nmap, const struct unit *punit)
 }
 
 /************************************************************************//**
+  Returns TRUE iff a unit of this type can attack non-native tiles (eg.
+  Ships ability to shore bombardment) given that it can perform an attack
+  action.
+****************************************************************************/
+bool can_attack_non_native_hard_reqs(const struct unit_type *utype)
+{
+  return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
+         && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
+}
+
+/************************************************************************//**
   This unit can attack non-native tiles (eg. Ships ability to
   shore bombardment)
 ****************************************************************************/
 bool can_attack_non_native(const struct unit_type *utype)
 {
-  return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
+  return can_attack_non_native_hard_reqs(utype)
          && (utype_can_do_action_result(utype, ACTRES_ATTACK)
              || utype_can_do_action_result(utype, ACTRES_BOMBARD)
              || utype_can_do_action_result(utype, ACTRES_WIPE_UNITS)
-             || utype_can_do_action_result(utype, ACTRES_NUKE_UNITS))
-         && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
+             || utype_can_do_action_result(utype, ACTRES_NUKE_UNITS));
 }
 
 /************************************************************************//**

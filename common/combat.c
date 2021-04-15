@@ -164,7 +164,7 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
   /* 3. Most units can not attack non-native terrain.
    *    Most ships can attack land tiles (shore bombardment) */
   if (!is_native_tile(unit_type_get(punit), dest_tile)
-      && !can_attack_non_native(unit_type_get(punit))) {
+      && !can_attack_non_native_hard_reqs(unit_type_get(punit))) {
     return ATT_NONNATIVE_DST;
   }
 
@@ -291,7 +291,7 @@ unit_wipe_units_at_tile_result(const struct unit *punit,
     /* Most units can not wipe on non-native terrain.
      * Most ships can wipe on land tiles (shore bombardment) */
     if (!is_native_tile(unit_type_get(punit), ptile)
-        && !can_attack_non_native(unit_type_get(punit))) {
+        && !can_attack_non_native_hard_reqs(unit_type_get(punit))) {
       return ATT_NONNATIVE_DST;
     }
 
