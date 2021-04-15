@@ -775,6 +775,9 @@ Actions done by a unit against all units at a tile
  * any action listed in nuke_units_blocked_by must be impossible
  * the range of legal distance between actor unit and target the actor units
    must be between nuke_units_min_range and nuke_units_max_range
+ * the actor must be native to the target tile unless it has the
+   "AttackNonNative" unit class flag and not the "Only_Native_Attack" unit
+   type flag.
  * one or all (unreachableprotects) non transported units at the target
    tile must be reachable. A unit is reachable if any of the following is
    true:
