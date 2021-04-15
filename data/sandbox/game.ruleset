@@ -1644,7 +1644,7 @@ actor_reqs    =
       "Tech",         "Communism",     "World", TRUE,      TRUE
     }
 
-[actionenabler_attack_native]
+[actionenabler_attack_from_native]
 action = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present"
@@ -1656,7 +1656,7 @@ actor_reqs    =
       "Building",     "Treuga Dei",    "World", FALSE
     }
 
-[actionenabler_attack_native_despite_treuga_dei]
+[actionenabler_attack_from_native_despite_treuga_dei]
 action = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present", "survives"

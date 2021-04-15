@@ -1064,7 +1064,7 @@ target_reqs =
       "CityTile", "Center", "Local", FALSE
     }
 
-[actionenabler_attack_native]
+[actionenabler_attack_from_native]
 action = "Attack"
 actor_reqs    =
     { "type",          "name",         "range", "present"
