@@ -43,15 +43,18 @@ bool is_unit_reachable_at(const struct unit *defender,
                           const struct tile *location);
 enum unit_attack_result
 unit_attack_unit_at_tile_result(const struct unit *punit,
+                                const struct action *paction,
                                 const struct unit *pdefender,
                                 const struct tile *dest_tile);
 enum unit_attack_result
 unit_attack_units_at_tile_result(const struct unit *punit,
+                                 const struct action *paction,
                                  const struct tile *ptile);
 enum unit_attack_result
 unit_wipe_units_at_tile_result(const struct unit *punit,
                                const struct tile *ptile);
 bool can_unit_attack_tile(const struct unit *punit,
+                          const struct action *paction,
                           const struct tile *ptile);
 
 double win_chance(int as, int ahp, int afp, int ds, int dhp, int dfp);
