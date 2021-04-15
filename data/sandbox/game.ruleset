@@ -865,7 +865,7 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local", TRUE
     }
 
-[actionenabler_attack_native]
+[actionenabler_attack_from_native]
 action = "Attack"
 actor_reqs    =
     { "type",         "name",         "range", "present"

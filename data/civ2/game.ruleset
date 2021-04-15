@@ -653,7 +653,7 @@ actor_reqs    =
       "UnitFlag", "Nuclear", "Local", TRUE
     }
 
-[actionenabler_attack_native]
+[actionenabler_attack_from_native]
 action = "Attack"
 actor_reqs    =
     { "type",         "name",         "range", "present"
@@ -673,7 +673,7 @@ actor_reqs    =
       "DiplRel",      "War",     "Local", TRUE
     }
 
-[actionenabler_attack_att_from_non_native]
+[actionenabler_attack_uclass_sea]
 action = "Attack"
 actor_reqs    =
     { "type",         "name",   "range", "present"
