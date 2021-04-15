@@ -195,8 +195,8 @@ bool can_attack_non_native(const struct unit_type *utype)
   return uclass_has_flag(utype_class(utype), UCF_ATTACK_NON_NATIVE)
          && (utype_can_do_action_result(utype, ACTRES_ATTACK)
              || utype_can_do_action_result(utype, ACTRES_BOMBARD)
-             || utype_can_do_action_result(utype, ACTRES_WIPE_UNITS))
-         && utype->attack_strength > 0
+             || utype_can_do_action_result(utype, ACTRES_WIPE_UNITS)
+             || utype_can_do_action_result(utype, ACTRES_NUKE_UNITS))
          && !utype_has_flag(utype, UTYF_ONLY_NATIVE_ATTACK);
 }
 
