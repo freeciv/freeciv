@@ -118,9 +118,10 @@ bool is_unit_reachable_at(const struct unit *defender,
   2) Adjacency
   3) Diplomatic status
 ***********************************************************************/
-enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit,
-                                                        const struct unit *pdefender,
-                                                        const struct tile *dest_tile)
+enum unit_attack_result
+unit_attack_unit_at_tile_result(const struct unit *punit,
+                                const struct unit *pdefender,
+                                const struct tile *dest_tile)
 {
   /* 1. Can we attack _anything_ ? */
   if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
@@ -164,8 +165,9 @@ enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit
   To attack a stack, unit must be able to attack every unit there (not
   including transported units and UTYF_NEVER_PROTECTS units).
 ************************************************************************/
-static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit *punit,
-                                                              const struct tile *ptile)
+static enum unit_attack_result
+unit_attack_all_at_tile_result(const struct unit *punit,
+                               const struct tile *ptile)
 {
   bool any_reachable_unit = FALSE;
   bool any_neverprotect_unit = FALSE;
@@ -202,8 +204,9 @@ static enum unit_attack_result unit_attack_all_at_tile_result(const struct unit 
   To attack a stack, unit must be able to attack some unit there (not
   including transported units).
 ************************************************************************/
-static enum unit_attack_result unit_attack_any_at_tile_result(const struct unit *punit,
-                                                              const struct tile *ptile)
+static enum unit_attack_result
+unit_attack_any_at_tile_result(const struct unit *punit,
+                               const struct tile *ptile)
 {
   enum unit_attack_result result = ATT_OK;
 
@@ -226,8 +229,9 @@ static enum unit_attack_result unit_attack_any_at_tile_result(const struct unit 
 /*******************************************************************//**
   Check if unit can attack unit stack at tile.
 ***********************************************************************/
-enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *punit,
-                                                         const struct tile *ptile)
+enum unit_attack_result
+unit_attack_units_at_tile_result(const struct unit *punit,
+                                 const struct tile *ptile)
 {
   if (game.info.unreachable_protects) {
     return unit_attack_all_at_tile_result(punit, ptile);
@@ -239,8 +243,9 @@ enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *puni
 /*******************************************************************//**
   Check if unit can wipe unit stack from tile.
 ***********************************************************************/
-enum unit_attack_result unit_wipe_units_at_tile_result(const struct unit *punit,
-                                                       const struct tile *ptile)
+enum unit_attack_result
+unit_wipe_units_at_tile_result(const struct unit *punit,
+                               const struct tile *ptile)
 {
   /* Can unit wipe in general? */
   if (!utype_can_do_action(unit_type_get(punit), ACTION_WIPE_UNITS)) {
