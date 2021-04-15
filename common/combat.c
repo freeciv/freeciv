@@ -120,15 +120,22 @@ bool is_unit_reachable_at(const struct unit *defender,
 ***********************************************************************/
 enum unit_attack_result
 unit_attack_unit_at_tile_result(const struct unit *punit,
+                                const struct action *paction,
                                 const struct unit *pdefender,
                                 const struct tile *dest_tile)
 {
   /* 1. Can we attack _anything_ ? */
-  if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
-        /* Needed because ACTION_NUKE uses this when evaluating its hard
-         * requirements. */
-        || utype_can_do_action(unit_type_get(punit), ACTION_NUKE))) {
-    return ATT_NON_ATTACK;
+  if (paction == NULL) {
+    if (!(utype_can_do_action(unit_type_get(punit), ACTION_ATTACK)
+          /* Needed because ACTION_NUKE uses this when evaluating its hard
+           * requirements. */
+          || utype_can_do_action(unit_type_get(punit), ACTION_NUKE))) {
+      return ATT_NON_ATTACK;
+    }
+  } else {
+    if (!utype_can_do_action(unit_type_get(punit), paction->id)) {
+      return ATT_NON_ATTACK;
+    }
   }
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
@@ -137,10 +144,20 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
   }
 
   /* 3. Can't attack with ground unit from ocean, except for marines */
-  if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
-      && !utype_can_do_act_when_ustate(unit_type_get(punit), ACTION_ATTACK,
-                                       USP_NATIVE_TILE, FALSE)) {
-    return ATT_NONNATIVE_SRC;
+  if (paction == NULL) {
+    if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
+        && !utype_can_do_act_when_ustate(unit_type_get(punit),
+                                         ACTION_ATTACK,
+                                         USP_NATIVE_TILE, FALSE)) {
+      return ATT_NONNATIVE_SRC;
+    }
+  } else {
+    if (!is_native_tile(unit_type_get(punit), unit_tile(punit))
+        && !utype_can_do_act_when_ustate(unit_type_get(punit),
+                                         paction->id,
+                                         USP_NATIVE_TILE, FALSE)) {
+      return ATT_NONNATIVE_SRC;
+    }
   }
 
   /* 4. Most units can not attack non-native terrain.
@@ -160,6 +177,7 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
 ************************************************************************/
 static enum unit_attack_result
 unit_attack_all_at_tile_result(const struct unit *punit,
+                               const struct action *paction,
                                const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, aunit) {
@@ -171,7 +189,8 @@ unit_attack_all_at_tile_result(const struct unit *punit,
     if (!unit_transported(aunit)) {
         enum unit_attack_result result;
 
-        result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
+        result = unit_attack_unit_at_tile_result(punit, paction,
+                                                 aunit, ptile);
         if (result != ATT_OK) {
           return result;
         }
@@ -188,6 +207,7 @@ unit_attack_all_at_tile_result(const struct unit *punit,
 ************************************************************************/
 static enum unit_attack_result
 unit_attack_any_at_tile_result(const struct unit *punit,
+                               const struct action *paction,
                                const struct tile *ptile)
 {
   enum unit_attack_result result = ATT_OK;
@@ -196,7 +216,8 @@ unit_attack_any_at_tile_result(const struct unit *punit,
     /* HACK: we don't count transported units here.  This prevents some
      * bugs like a cargoplane carrying a land unit being vulnerable. */
     if (!unit_transported(aunit)) {
-      result = unit_attack_unit_at_tile_result(punit, aunit, ptile);
+      result = unit_attack_unit_at_tile_result(punit, paction,
+                                               aunit, ptile);
       if (result == ATT_OK) {
         return result;
       }
@@ -213,12 +234,13 @@ unit_attack_any_at_tile_result(const struct unit *punit,
 ***********************************************************************/
 enum unit_attack_result
 unit_attack_units_at_tile_result(const struct unit *punit,
+                                 const struct action *paction,
                                  const struct tile *ptile)
 {
   if (game.info.unreachable_protects) {
-    return unit_attack_all_at_tile_result(punit, ptile);
+    return unit_attack_all_at_tile_result(punit, paction, ptile);
   } else {
-    return unit_attack_any_at_tile_result(punit, ptile);
+    return unit_attack_any_at_tile_result(punit, paction, ptile);
   }
 }
 
@@ -227,10 +249,12 @@ unit_attack_units_at_tile_result(const struct unit *punit,
   to do so?
 ***********************************************************************/
 bool can_unit_attack_tile(const struct unit *punit,
+                          const struct action *paction,
                           const struct tile *dest_tile)
 {
   return (can_player_attack_tile(unit_owner(punit), dest_tile)
-          && unit_attack_units_at_tile_result(punit, dest_tile) == ATT_OK);
+          && (unit_attack_units_at_tile_result(punit, paction, dest_tile)
+              == ATT_OK));
 }
 
 /***********************************************************************
@@ -686,7 +710,9 @@ struct unit *get_defender(const struct unit *attacker,
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
     if (unit_can_defend_here(defender)
-        && unit_attack_unit_at_tile_result(attacker, defender, ptile) == ATT_OK) {
+        && (unit_attack_unit_at_tile_result(attacker, NULL,
+                                            defender, ptile)
+            == ATT_OK)) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost(defender);
       int defense_rating = get_defense_rating(attacker, defender);

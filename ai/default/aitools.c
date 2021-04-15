@@ -990,11 +990,14 @@ int stack_cost(struct unit *pattacker, struct unit *pdefender)
   if (is_stack_vulnerable(ptile)) {
     /* lotsa people die */
     unit_list_iterate(ptile->units, aunit) {
-      if (unit_attack_unit_at_tile_result(pattacker, aunit, ptile) == ATT_OK) {
+      if (unit_attack_unit_at_tile_result(pattacker, NULL, aunit, ptile)
+          == ATT_OK) {
         victim_cost += unit_build_shield_cost(aunit);
       }
     } unit_list_iterate_end;
-  } else if (unit_attack_unit_at_tile_result(pattacker, pdefender, ptile) == ATT_OK) {
+  } else if (unit_attack_unit_at_tile_result(pattacker, NULL,
+                                             pdefender, ptile)
+             == ATT_OK) {
     /* Only one unit dies if attack is successful */
     victim_cost = unit_build_shield_cost(pdefender);
   }

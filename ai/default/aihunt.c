@@ -333,7 +333,7 @@ static void dai_hunter_try_launch(struct ai_type *ait,
           break;
         }
         if (tile_city(ptile)
-            || !can_unit_attack_tile(punit, ptile)) {
+            || !can_unit_attack_tile(punit, NULL, ptile)) {
           continue;
         }
         unit_list_iterate(ptile->units, victim) {
@@ -461,7 +461,7 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
     }
 
     if (tile_city(ptile)
-        || !can_unit_attack_tile(punit, ptile)) {
+        || !can_unit_attack_tile(punit, NULL, ptile)) {
       continue;
     }
 

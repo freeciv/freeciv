@@ -1101,13 +1101,15 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   case ACTION_NUKE:
     if (target_tile != unit_tile(punit)) {
       /* unit_attack_units_at_tile_result() matters for neighbor tiles. */
-      action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+      action_custom = unit_attack_units_at_tile_result(punit, paction,
+                                                       target_tile);
     } else {
       action_custom = ATT_OK;
     }
     break;
   case ACTION_ATTACK:
-    action_custom = unit_attack_units_at_tile_result(punit, target_tile);
+    action_custom = unit_attack_units_at_tile_result(punit, paction,
+                                                     target_tile);
     break;
   case ACTION_CONQUER_CITY:
     if (target_city) {

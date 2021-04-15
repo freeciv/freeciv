@@ -2439,7 +2439,8 @@ is_action_possible(const action_id wanted_action,
       }
 
       if (!tcity
-          && (unit_attack_units_at_tile_result(actor_unit, target_tile)
+          && (unit_attack_units_at_tile_result(actor_unit, paction,
+                                               target_tile)
               != ATT_OK)) {
         return TRI_NO;
       }
@@ -2554,7 +2555,7 @@ is_action_possible(const action_id wanted_action,
 
   case ACTION_ATTACK:
     /* Reason: Keep the old rules. */
-    if (!can_unit_attack_tile(actor_unit, target_tile)) {
+    if (!can_unit_attack_tile(actor_unit, paction, target_tile)) {
       return TRI_NO;
     }
     break;
