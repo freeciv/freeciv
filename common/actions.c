@@ -5988,6 +5988,16 @@ action_prob_vs_units_full(const struct unit* actor_unit,
     return ACTPROB_IMPOSSIBLE;
   }
 
+  if ((action_id_has_result_safe(act_id, ACTRES_ATTACK)
+       || action_id_has_result_safe(act_id, ACTRES_NUKE_UNITS))
+      && !is_native_tile(unit_type_get(actor_unit), target_tile)
+      && !can_attack_non_native(unit_type_get(actor_unit))) {
+    /* Hard coded rule: can't "Nuke Units", "Suicide Attack", or "Attack"
+     * units on non native tile without "AttackNonNative" and not
+     * "Only_Native_Attack". */
+    return ACTPROB_IMPOSSIBLE;
+  }
+
   /* Invisible units at this tile can make the action legal or illegal.
    * Invisible units can be stacked with visible units. The possible
    * existence of invisible units therefore makes the result uncertain. */
