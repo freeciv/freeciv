@@ -39,11 +39,13 @@ enum unit_attack_result {
 bool is_unit_reachable_at(const struct unit *defender,
                           const struct unit *attacker,
                           const struct tile *location);
-enum unit_attack_result unit_attack_unit_at_tile_result(const struct unit *punit,
-                                                        const struct unit *pdefender,
-                                                        const struct tile *dest_tile);
-enum unit_attack_result unit_attack_units_at_tile_result(const struct unit *punit,
-                                                         const struct tile *ptile);
+enum unit_attack_result
+unit_attack_unit_at_tile_result(const struct unit *punit,
+                                const struct unit *pdefender,
+                                const struct tile *dest_tile);
+enum unit_attack_result
+unit_attack_units_at_tile_result(const struct unit *punit,
+                                 const struct tile *ptile);
 bool can_unit_attack_tile(const struct unit *punit,
 			  const struct tile *ptile);
 
