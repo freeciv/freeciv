@@ -6658,39 +6658,13 @@ static bool load_ruleset_game(struct section_file *file, bool act,
                       filename, "auto_attack", "attack_actions");
         ok = FALSE;
       }
-
-      if (compat->compat_mode) {
-        enum unit_type_flag_id *protecor_flag;
-        size_t psize;
-
-        if (secfile_entry_lookup(file, "%s", "auto_attack.will_never")) {
-          protecor_flag =
-              secfile_lookup_enum_vec(file, &psize, unit_type_flag_id,
-                                      "%s", "auto_attack.will_never");
-
-          if (!protecor_flag) {
-            /* Entity exists but couldn't read it. */
-            ruleset_error(LOG_ERROR,
-                          "\"%s\": %s: bad unit type flag list.",
-                          filename, "auto_attack.will_never");
-
-            ok = FALSE;
-          }
-        } else {
-          psize = 0;
-          protecor_flag = NULL;
-        }
-
-        if (psize) {
-          FC_FREE(protecor_flag);
-        }
-      }
     }
 
     /* section: actions */
     if (ok) {
       action_iterate(act_id) {
         struct action *paction = action_by_number(act_id);
+
         if (!load_action_blocked_by_list(file, filename, paction)) {
           ok = FALSE;
         }
