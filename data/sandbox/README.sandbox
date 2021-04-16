@@ -224,3 +224,11 @@ casus belli against you.
 Chichen Itza wonder
 City with Chichen Itza wonder can build citybuilder units without paying
 any population cost for them.
+
+Wiping Defenders
+When military unit attacks unit stack that has only defenseless
+(defense power 0) units, the attacker moves like there was no fight at
+all, wiping the entire defending stack while doing so.
+This happens even in situations where normal fight would kill just
+one of the defenders. For example city that has number of diplomats in
+it can be conquered with just one move.

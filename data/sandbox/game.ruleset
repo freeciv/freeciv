@@ -274,7 +274,8 @@ nuke_units_blocked_by = "Capture Units", "Bombard"
 
 ; Forbid "Attack" if any one of the listed actions are legal.
 attack_blocked_by = "Capture Units", "Bombard",
-                    "Explode Nuclear", "Nuke City", "Nuke Units"
+                    "Explode Nuclear", "Nuke City", "Nuke Units",
+                    "Wipe Units"
 
 ; Forbid "Suicide Attack" if any one of the listed actions are legal.
 suicide_attack_blocked_by = "Capture Units", "Bombard",
@@ -318,6 +319,16 @@ attack_post_success_forced_actions = "Conquer City", "Conquer City 2",
                                      "Enter Hut", "Enter Hut 2",
                                      "Frighten Hut", "Frighten Hut 2",
                                      "Unit Move"
+
+; Actor units will be forced to try performing the following actions
+; in the specified order after successfully performing "Wipe Units".
+wipe_units_post_success_forced_actions = "Conquer City", "Conquer City 2",
+                                         "Transport Disembark",
+                                         "Transport Disembark 2",
+                                         "Conquer Extras", "Conquer Extras 2",
+                                         "Enter Hut", "Enter Hut 2",
+                                         "Frighten Hut", "Frighten Hut 2",
+                                         "Unit Move"
 
 ; The city that made the unit`s current tile native is gone. This is a Hail
 ; Mary attempt at survival by performing an action. Evaluated against an
@@ -646,6 +657,9 @@ ui_name_frighten_hut_2 = _("Frighten %sHut from non native%s")
 
 ; /* TRANS: Regular _Move (100% chance of success). */
 ui_name_unit_move = _("%sKeep moving%s")
+
+; /* TRANS: _Wipe Defenders (100% chance of success). */
+ui_name_wipe_units = _("%sWipe Defenders%s")
 
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
@@ -1714,6 +1728,26 @@ actor_reqs    =
       "MinMoveFrags",  "1",          "Local", TRUE,      FALSE
       "DiplRel",       "War",        "Local", TRUE,      FALSE
       "Tech",          "Communism",  "World", TRUE,      TRUE
+    }
+
+[actionenabler_wipe_units]
+action      = "Wipe Units"
+actor_reqs  =
+    { "type",         "name",       "range", "present"
+      "UnitFlag",     "NonMil",     "Local", FALSE
+      "DiplRel",      "War",        "Local", TRUE
+      "MinMoveFrags", "1",          "Local", TRUE
+      "Building",     "Treuga Dei", "World", FALSE
+    }
+
+[actionenabler_wipe_units_communism]
+action      = "Wipe Units"
+actor_reqs  =
+    { "type",         "name",       "range", "present", "survives"
+      "UnitFlag",     "NonMil",     "Local", FALSE,     FALSE
+      "DiplRel",      "War",        "Local", TRUE,      FALSE
+      "MinMoveFrags", "1",          "Local", TRUE,      FALSE
+      "Tech",         "Communism",  "World", TRUE,      TRUE
     }
 
 [actionenabler_conquer_city_native]
