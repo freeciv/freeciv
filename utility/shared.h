@@ -27,7 +27,7 @@ extern "C" {
 #include "log.h"
 #include "support.h" /* bool, fc__attribute */
 
-/* Changing these will break network compatability! */
+/* Changing these will break network compatibility! */
 #define MAX_LEN_ADDR     256	/* see also MAXHOSTNAMELEN and RFC 1123 2.1 */
 #define MAX_LEN_PATH    4095
 
