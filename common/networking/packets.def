@@ -2284,7 +2284,6 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   BOOL is_alive;
   TURN revolution_finishes;
 
-  BOOL capital;
   BV_PLAYER embassy;
   GOLD gold;
   PERCENT tax, science, luxury;
