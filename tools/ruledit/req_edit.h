@@ -20,12 +20,15 @@
 
 // Qt
 #include <QDialog>
-#include <QListWidget>
-#include <QSpinBox>
-#include <QToolButton>
 
 // common
 #include "requirements.h"
+
+class QListWidget;
+class QListWidgetItem;
+class QMenu;
+class QSpinBox;
+class QToolButton;
 
 class ruledit_gui;
 
