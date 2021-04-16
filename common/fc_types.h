@@ -61,7 +61,7 @@ extern "C" {
 #define MAX_NUM_STARTPOS_NATIONS 1024 /* Used in the network protocol. */
 #define MAX_CALENDAR_FRAGMENTS 52     /* Used in the network protocol. */
 
-/* Changing these will probably break network compatability. */
+/* Changing these will probably break network compatibility. */
 #define MAX_LEN_NAME     48
 #define MAX_LEN_DEMOGRAPHY 16
 #define MAX_LEN_ALLOW_TAKE 16
@@ -86,7 +86,7 @@ enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
 };
 
-/* Changing this enum will break savegame and network compatability. */
+/* Changing this enum will break savegame and network compatibility. */
 #define SPECENUM_NAME unit_activity
 #define SPECENUM_VALUE0 ACTIVITY_IDLE
 #define SPECENUM_VALUE0NAME "Idle"
@@ -188,7 +188,7 @@ typedef int Unit_Class_id;
 /* The DIR8/direction8 naming system is used to avoid conflict with
  * DIR4/direction4 in client/tilespec.h
  *
- * Changing the order of the directions will break network compatability.
+ * Changing the order of the directions will break network compatibility.
  *
  * Some code assumes that the first 4 directions are the reverses of the
  * last 4 (in no particular order).  See client/goto.c and

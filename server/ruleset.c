@@ -4479,7 +4479,7 @@ static bool load_ruleset_nations(struct section_file *file)
           nation_list_append(pconflict->server.parent_nations, pnation);
         } else {
           /* For nation authors, this would probably be considered an error.
-           * But it can happen normally. The civ1 compatability ruleset only
+           * But it can happen normally. The civ1 compatibility ruleset only
            * uses the nations that were in civ1, so not all of the links will
            * exist. */
           log_verbose("Nation %s: civil war nation \"%s\" is unknown.",

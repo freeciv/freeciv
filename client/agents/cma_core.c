@@ -563,7 +563,7 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   struct data_in din;
   int version, dummy;
 
-  /* Changing this function is likely to break compatability with old
+  /* Changing this function is likely to break compatibility with old
    * savegames that store these values. */
 
   len = attr_city_get(attr, city_id, sizeof(buffer), buffer);
@@ -602,7 +602,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   char buffer[SAVED_PARAMETER_SIZE];
   struct data_out dout;
 
-  /* Changing this function is likely to break compatability with old
+  /* Changing this function is likely to break compatibility with old
    * savegames that store these values. */
 
   dio_output_init(&dout, buffer, sizeof(buffer));
