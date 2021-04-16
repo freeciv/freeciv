@@ -174,7 +174,7 @@ governments = "\
 ; output when reading this file.\n\
 ;\n\
 ; For the \"official\" rulesets, the order of these sections should not\n\
-; be changed because that would break backward compatability with\n\
+; be changed because that would break backward compatibility with\n\
 ; savegames.  (In particular, if Fundamentalism is added to default\n\
 ; ruleset, should be added at end.)\n\
 ;\n\
@@ -305,7 +305,7 @@ utypes = "\
 ;\n\
 ; The number can be variable, up to 200.\n\
 ; However for the \"official\" rulesets, units should not be removed\n\
-; because that would break backward compatability with savegames.\n\
+; because that would break backward compatibility with savegames.\n\
 ;\n\
 ; The order here matters: later units are considered \"better\" for\n\
 ; a given flag or role.\n\
