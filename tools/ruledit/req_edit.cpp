@@ -18,9 +18,11 @@
 // Qt
 #include <QGridLayout>
 #include <QLabel>
+#include <QListWidget>
 #include <QMenu>
 #include <QPushButton>
 #include <QSpinBox>
+#include <QToolButton>
 
 // utility
 #include "fcintl.h"
