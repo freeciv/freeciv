@@ -6058,17 +6058,6 @@ static bool load_ruleset_effects(struct section_file *file,
       effect_req_append(peffect, *preq);
     } requirement_vector_iterate_end;
 
-    if (compat->compat_mode) {
-      reqs = lookup_req_list(file, compat, sec_name, "nreqs", type);
-      if (reqs == NULL) {
-        ok = FALSE;
-        break;
-      }
-      requirement_vector_iterate(reqs, preq) {
-        preq->present = !preq->present;
-        effect_req_append(peffect, *preq);
-      } requirement_vector_iterate_end;
-    }
   } section_list_iterate_end;
   section_list_destroy(sec);
 
