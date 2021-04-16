@@ -120,7 +120,7 @@ flags         = ""
 ;
 ; The number can be variable, up to 200.
 ; However for the "official" rulesets, units should not be removed
-; because that would break backward compatability with savegames.
+; because that would break backward compatibility with savegames.
 ;
 ; The order here matters: later units are considered "better" for
 ; a given flag or role.

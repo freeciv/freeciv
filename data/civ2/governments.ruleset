@@ -26,7 +26,7 @@ during_revolution="Anarchy"
 ; output when reading this file.
 ;
 ; For the "official" rulesets, the order of these sections should not
-; be changed because that would break backward compatability with 
+; be changed because that would break backward compatibility with 
 ; savegames.
 ;
 ; Notes on fields:
