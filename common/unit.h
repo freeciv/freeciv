@@ -30,7 +30,7 @@ extern "C" {
 struct road_type;
 struct unit_move_data; /* Actually defined in "server/unittools.c". */
 
-/* Changing this enum will break network compatability. */
+/* Changing this enum will break network compatibility. */
 enum unit_orders {
   ORDER_MOVE = 0,
   ORDER_ACTIVITY = 1,
