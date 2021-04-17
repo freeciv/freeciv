@@ -1192,6 +1192,9 @@ static void compat_load_020600(struct loaddata *loading,
         case ENTRY_FILEREFERENCE:
           fc_assert(entries[j].type != ENTRY_FILEREFERENCE);
           break;
+        case ENTRY_LONG_COMMENT:
+          fc_assert(entries[j].type != ENTRY_LONG_COMMENT);
+          break;
         case ENTRY_ILLEGAL:
           fc_assert(entries[j].type != ENTRY_ILLEGAL);
           break;

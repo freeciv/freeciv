@@ -391,6 +391,11 @@ struct entry *secfile_insert_filereference(struct section_file *secfile,
                                            char *filename, char *path, ...)
                               fc__attribute((__format__ (__printf__, 3, 4)));
 
+struct entry *secfile_insert_comment(struct section_file *secfile,
+                                     const char *str,
+                                     const char *path, ...)
+                              fc__attribute((__format__ (__printf__, 3, 4)));
+
 /* Deletion function. */
 bool secfile_entry_delete(struct section_file *secfile,
                           const char *path, ...)
@@ -619,6 +624,7 @@ enum entry_type {
   ENTRY_FLOAT,
   ENTRY_STR,
   ENTRY_FILEREFERENCE,
+  ENTRY_LONG_COMMENT,
   ENTRY_ILLEGAL
 };
 

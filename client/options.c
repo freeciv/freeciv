@@ -5336,6 +5336,9 @@ static void settable_options_load(struct section_file *sf)
     case ENTRY_FILEREFERENCE:
       /* Not supported yet */
       break;
+    case ENTRY_LONG_COMMENT:
+      fc_assert(entry_type_get(pentry) != ENTRY_LONG_COMMENT);
+      break;
     case ENTRY_ILLEGAL:
       fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;

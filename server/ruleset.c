@@ -694,6 +694,9 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
     case ENTRY_FILEREFERENCE:
       fc_assert(entry_type_get(pentry) != ENTRY_FILEREFERENCE);
       break;
+    case ENTRY_LONG_COMMENT:
+      fc_assert(entry_type_get(pentry) != ENTRY_LONG_COMMENT);
+      break;
     case ENTRY_ILLEGAL:
       fc_assert(entry_type_get(pentry) != ENTRY_ILLEGAL);
       break;

@@ -221,7 +221,10 @@ struct entry {
 };
 
 static struct entry *section_entry_filereference_new(struct section *psection,
-                                                     const char *name, const char *value);
+                                                     const char *name,
+                                                     const char *value);
+static struct entry *section_entry_comment_new(struct section *psection,
+                                               const char *comment);
 
 /**********************************************************************//**
   Simplification of fileinfoname().
@@ -707,6 +710,10 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
             break;
           }
 
+          if (pentry->type == ENTRY_LONG_COMMENT) {
+            break;
+          }
+
           sz_strlcpy(pentry_name, entry_name(pentry));
           c = first = pentry_name;
           if (*c == '\0' || !is_legal_table_entry_name(*c, FALSE)) {
@@ -739,6 +746,9 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           col_iter = save_iter;
           for (; (col_pentry = entry_list_link_data(col_iter));
                col_iter = entry_list_link_next(col_iter)) {
+            if (col_pentry->type == ENTRY_LONG_COMMENT) {
+              continue;
+            }
             col_entry_name = entry_name(col_pentry);
             if (strncmp(col_entry_name, first, offset) != 0) {
               break;
@@ -761,31 +771,44 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
             pentry = entry_list_link_data(ent_iter);
             col_pentry = entry_list_link_data(col_iter);
 
-            fc_snprintf(expect, sizeof(expect), "%s%d.%s",
-                        base, irow, entry_name(col_pentry) + offset);
-
-            /* break out of tabular if doesn't match: */
-            if ((!pentry) || (strcmp(entry_name(pentry), expect) != 0)) {
-              if (icol != 0) {
-                /* If the second or later row of a table is missing some
-                 * entries that the first row had, we drop out of the tabular
-                 * format.  This is inefficient so we print a warning message;
-                 * the calling code probably needs to be fixed so that it can
-                 * use the more efficient tabular format.
-                 *
-                 * FIXME: If the first row is missing some entries that the
-                 * second or later row has, then we'll drop out of tabular
-                 * format without an error message. */
-                bugreport_request("In file %s, there is no entry in the registry for\n"
-                                  "%s.%s (or the entries are out of order). This means\n"
-                                  "a less efficient non-tabular format will be used.\n"
-                                  "To avoid this make sure all rows of a table are\n"
-                                  "filled out with an entry for every column.",
-                                  real_filename, section_name(psection), expect);
-                fz_fprintf(fs, "\n");
+            if (pentry && pentry->type == ENTRY_LONG_COMMENT) {
+              if (icol == 0) {
+                entry_to_file(pentry, fs);
+              } else {
+                bugreport_request("In file %s, section %s there was\n"
+                                  "an attempt to insert comment in the middle of table row.",
+                                  real_filename, section_name(psection));
               }
-              fz_fprintf(fs, "}\n");
-              break;
+              ent_iter = entry_list_link_next(ent_iter);
+              continue;
+            } else {
+
+              fc_snprintf(expect, sizeof(expect), "%s%d.%s",
+                          base, irow, entry_name(col_pentry) + offset);
+
+              /* break out of tabular if doesn't match: */
+              if ((!pentry) || (strcmp(entry_name(pentry), expect) != 0)) {
+                if (icol != 0) {
+                  /* If the second or later row of a table is missing some
+                   * entries that the first row had, we drop out of the tabular
+                   * format.  This is inefficient so we print a warning message;
+                   * the calling code probably needs to be fixed so that it can
+                   * use the more efficient tabular format.
+                   *
+                   * FIXME: If the first row is missing some entries that the
+                   * second or later row has, then we'll drop out of tabular
+                   * format without an error message. */
+                  bugreport_request("In file %s, there is no entry in the registry for\n"
+                                    "%s.%s (or the entries are out of order). This means\n"
+                                    "a less efficient non-tabular format will be used.\n"
+                                    "To avoid this make sure all rows of a table are\n"
+                                    "filled out with an entry for every column.",
+                                    real_filename, section_name(psection), expect);
+                  fz_fprintf(fs, "\n");
+                }
+                fz_fprintf(fs, "}\n");
+                break;
+              }
             }
 
             if (icol > 0) {
@@ -812,33 +835,37 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           break;
         }
 
-        /* Classic entry. */
-        col_entry_name = entry_name(pentry);
-        fz_fprintf(fs, "%s=", col_entry_name);
-        entry_to_file(pentry, fs);
-
-        /* Check for vector. */
-        for (i = 1;; i++) {
-          col_iter = entry_list_link_next(ent_iter);
-          col_pentry = entry_list_link_data(col_iter);
-          if (NULL == col_pentry) {
-            break;
-          }
-          fc_snprintf(pentry_name, sizeof(pentry_name),
-                      "%s,%d", col_entry_name, i);
-          if (0 != strcmp(pentry_name, entry_name(col_pentry))) {
-            break;
-          }
-          fz_fprintf(fs, ",");
-          entry_to_file(col_pentry, fs);
-          ent_iter = col_iter;
-        }
-
-        comment = entry_comment(pentry);
-        if (comment) {
-          fz_fprintf(fs, "  # %s\n", comment);
+        if (pentry->type == ENTRY_LONG_COMMENT) {
+          entry_to_file(pentry, fs);
         } else {
-          fz_fprintf(fs, "\n");
+          /* Classic entry. */
+          col_entry_name = entry_name(pentry);
+          fz_fprintf(fs, "%s=", col_entry_name);
+          entry_to_file(pentry, fs);
+
+          /* Check for vector. */
+          for (i = 1;; i++) {
+            col_iter = entry_list_link_next(ent_iter);
+            col_pentry = entry_list_link_data(col_iter);
+            if (NULL == col_pentry || col_pentry->type == ENTRY_LONG_COMMENT) {
+              break;
+            }
+            fc_snprintf(pentry_name, sizeof(pentry_name),
+                        "%s,%d", col_entry_name, i);
+            if (0 != strcmp(pentry_name, entry_name(col_pentry))) {
+              break;
+            }
+            fz_fprintf(fs, ",");
+            entry_to_file(col_pentry, fs);
+            ent_iter = col_iter;
+          }
+
+          comment = entry_comment(pentry);
+          if (comment) {
+            fz_fprintf(fs, "  # %s\n", comment);
+          } else {
+            fz_fprintf(fs, "\n");
+          }
         }
       }
     }
@@ -1192,7 +1219,7 @@ struct section *secfile_insert_include(struct section_file *secfile,
 }
 
 /**********************************************************************//**
-  Insert a long comment entry.
+  Insert a long comment section.
 **************************************************************************/
 struct section *secfile_insert_long_comment(struct section_file *secfile,
                                             const char *comment)
@@ -1273,6 +1300,42 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
   if (stype == EST_COMMENT) {
     pentry->string.raw = TRUE;
   }
+
+  return pentry;
+}
+
+/**********************************************************************//**
+  Insert a comment entry.
+**************************************************************************/
+struct entry *secfile_insert_comment(struct section_file *secfile,
+                                     const char *str,
+                                     const char *path, ...)
+{
+  char fullpath[MAX_LEN_SECPATH];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  sz_strlcat(fullpath, ".#");
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (psection->special != EST_NORMAL) {
+    log_error("Tried to insert wrong type of entry to section");
+    return NULL;
+  }
+
+  pentry = section_entry_comment_new(psection, str);
 
   return pentry;
 }
@@ -3027,6 +3090,7 @@ static struct entry *entry_new(struct section *psection, const char *name)
 {
   struct section_file *secfile;
   struct entry *pentry;
+  bool long_comment = !strcmp("#", name);
 
   SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, NULL);
 
@@ -3036,7 +3100,7 @@ static struct entry *entry_new(struct section *psection, const char *name)
     return NULL;
   }
 
-  if (!is_secfile_entry_name_valid(name)) {
+  if (!is_secfile_entry_name_valid(name) && !long_comment) {
     SECFILE_LOG(secfile, psection, "\"%s\" is not a valid entry name.",
                 name);
     return NULL;
@@ -3049,7 +3113,11 @@ static struct entry *entry_new(struct section *psection, const char *name)
   }
 
   pentry = fc_malloc(sizeof(struct entry));
-  pentry->name = fc_strdup(name);
+  if (long_comment) {
+    pentry->name = NULL;
+  } else {
+    pentry->name = fc_strdup(name);
+  }
   pentry->type = -1;    /* Invalid case. */
   pentry->used = 0;
   pentry->comment = NULL;
@@ -3137,13 +3205,30 @@ struct entry *section_entry_str_new(struct section *psection,
   Returns a new entry of type ENTRY_FILEREFERENCE.
 **************************************************************************/
 static struct entry *section_entry_filereference_new(struct section *psection,
-                                                     const char *name, const char *value)
+                                                     const char *name,
+                                                     const char *value)
 {
   struct entry *pentry = entry_new(psection, name);
 
   if (NULL != pentry) {
     pentry->type = ENTRY_FILEREFERENCE;
     pentry->string.value = fc_strdup(NULL != value ? value : "");
+  }
+
+  return pentry;
+}
+
+/**********************************************************************//**
+  Returns a new entry of type ENTRY_LONG_COMMENT.
+**************************************************************************/
+static struct entry *section_entry_comment_new(struct section *psection,
+                                               const char *comment)
+{
+  struct entry *pentry = entry_new(psection, "#");
+
+  if (NULL != pentry) {
+    pentry->type = ENTRY_LONG_COMMENT;
+    pentry->comment = fc_strdup(NULL != comment ? comment : "");
   }
 
   return pentry;
@@ -3179,6 +3264,7 @@ void entry_destroy(struct entry *pentry)
   case ENTRY_BOOL:
   case ENTRY_INT:
   case ENTRY_FLOAT:
+  case ENTRY_LONG_COMMENT:
     break;
 
   case ENTRY_STR:
@@ -3542,6 +3628,9 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
     break;
   case ENTRY_FILEREFERENCE:
     fz_fprintf(fs, "*%s*", pentry->string.value);
+    break;
+  case ENTRY_LONG_COMMENT:
+    fz_fprintf(fs, "%s\n", pentry->comment);
     break;
   case ENTRY_ILLEGAL:
     fc_assert(pentry->type != ENTRY_ILLEGAL);
