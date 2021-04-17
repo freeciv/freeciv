@@ -964,6 +964,26 @@ static void dai_military_defend(struct ai_type *ait, struct player *pplayer,
   }
 }
 
+/**************************************************************************
+  Mark invasion possibilities of single unit in a city.
+**************************************************************************/
+static void single_invader(struct ai_city *city_data,
+                           const struct unit_type *utype,
+                           int which)
+{
+  int attacks;
+
+  if (utype_has_flag(utype, UTYF_ONEATTACK)) {
+    attacks = 1;
+  } else {
+    attacks = utype->move_rate;
+  }
+  city_data->invasion.attack += attacks;
+  if (which == INVASION_OCCUPY) {
+    city_data->invasion.occupy++;
+  }
+}
+
 /*************************************************************************
   Mark invasion possibilities of punit in the surrounding cities. The
   given radius limites the area which is searched for cities. The
@@ -994,18 +1014,21 @@ static void invasion_funct(struct ai_type *ait, struct unit *punit,
     if (pcity
         && POTENTIALLY_HOSTILE_PLAYER(ait, pplayer, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
-      int attacks;
       struct ai_city *city_data = def_ai_city_data(pcity, ait);
 
-      if (unit_has_type_flag(punit, UTYF_ONEATTACK)) {
-        attacks = 1;
-      } else {
-        attacks = unit_type_get(punit)->move_rate;
-      }
-      city_data->invasion.attack += attacks;
-      if (which == INVASION_OCCUPY) {
-        city_data->invasion.occupy++;
-      }
+      /* Unit itself */
+      single_invader(city_data, unit_type_get(punit), which);
+
+      /* Cargo */
+      unit_cargo_iterate(punit, cargo) {
+        const struct unit_type *utype = unit_type_get(cargo);
+
+        if (IS_ATTACKER(utype)) {
+          single_invader(city_data, utype,
+                         unit_can_take_over(cargo)
+                         ? INVASION_OCCUPY : INVASION_ATTACK);
+        }
+      } unit_cargo_iterate_end;
     }
   } square_iterate_end;
 }
