@@ -1124,6 +1124,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
 
   if (set_count > 0) {
+    comment_civstyle_gameloss_style(sfile);
+
     secfile_insert_str_vec(sfile, style_names, set_count,
                            "civstyle.gameloss_style");
   }
