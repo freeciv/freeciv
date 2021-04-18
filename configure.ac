@@ -1428,15 +1428,20 @@ if test "x$bcrypt_h_found" = "xyes" ; then
 fi
 AC_CHECK_FUNCS([getentropy clock_gettime])
 
-AC_CACHE_VAL([ac_cv_dev_urandom],
-  [if test "x$cross_compiling" != "xyes" ; then
-     AC_CHECK_FILES([/dev/urandom], [ac_cv_dev_urandom=yes], [ac_cv_dev_urandom=no])
-   else
-     dnl Pessimistic default when cross-compiling
-     ac_cv_dev_urandom=no
-   fi])
-if test "x${ac_cv_dev_urandom}" = "xyes" ; then
-  AC_DEFINE([HAVE_USABLE_URANDOM], [1], [Build in /dev/urandom support])
+if test "x$MINGW" != "xyes" ; then
+  dnl /dev/urandom could be found within msys2 environment, but it would not
+  dnl be available in the final target environment when freeciv gets installed.
+  dnl Just don't check for it in Windows.
+  AC_CACHE_VAL([ac_cv_dev_urandom],
+    [if test "x$cross_compiling" != "xyes" ; then
+       AC_CHECK_FILES([/dev/urandom], [ac_cv_dev_urandom=yes], [ac_cv_dev_urandom=no])
+     else
+       dnl Pessimistic default when cross-compiling
+       ac_cv_dev_urandom=no
+     fi])
+  if test "x${ac_cv_dev_urandom}" = "xyes" ; then
+    AC_DEFINE([HAVE_USABLE_URANDOM], [1], [Build in /dev/urandom support])
+  fi
 fi
 
 dnl Possible "-Wmissing-declarations" and "-Werror" will prune out
