@@ -1951,7 +1951,12 @@ bool unit_can_convert(const struct unit *punit)
     return FALSE;
   }
 
-  if (!can_exist_at_tile(tgt, unit_tile(punit))) {
+  if (punit->transporter != NULL) {
+    if (!can_unit_type_transport(unit_type_get(punit->transporter),
+                                 utype_class(tgt))) {
+      return FALSE;
+    }
+  } else if (!can_exist_at_tile(tgt, unit_tile(punit))) {
     return FALSE;
   }
 
