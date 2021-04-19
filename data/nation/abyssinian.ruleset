@@ -1,9 +1,9 @@
 [nation_abyssinian]
 
-name=_("Abyssinian")
-plural=_("?plural:Abyssinians")
-groups="Ancient", "Medieval", "Early Modern", "African"
-legend=_("Abyssinians - also known as Habesha or Ethiopians - are a\
+name   = _("Abyssinian")
+plural = _("?plural:Abyssinians")
+groups = "Ancient", "Medieval", "Early Modern", "African"
+legend = _("Abyssinians - also known as Habesha or Ethiopians - are a\
  Semitic people who ruled historical states in the Horn of Africa, the\
  most prominent being the Aksumite Kingdom and the Ethiopian Empire.")
 
@@ -24,16 +24,16 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),    _("Empress %s")
 }
 
-flag="ethiopia_old"
-flag_alt="-"
+flag = "ethiopia_old"
+flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Ethiopian", "Eritrean", "Nubian"
-conflicts_with="Ethiopian", "Eritrean"
+civilwar_nations = "Ethiopian", "Eritrean", "Nubian"
+conflicts_with = "Ethiopian", "Eritrean"
 
 cities =
  "Yeha",

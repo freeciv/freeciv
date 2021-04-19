@@ -1,11 +1,11 @@
 [nation_arab]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Arab")
-plural=_("?plural:Arabs")
-groups="Medieval", "Asian", "African", "Core"
-legend=_("The Arab/Islamic civilization of 622 to 1495 CE.")
+name   = _("Arab")
+plural = _("?plural:Arabs")
+groups = "Medieval", "Asian", "African", "Core"
+legend = _("The Arab/Islamic civilization of 622 to 1495 CE.")
 
 leaders = {
  "name",                "sex"
@@ -25,22 +25,23 @@ ruler_titles = {
  "Fundamentalism",  _("Caliph %s"),    _("Calipha %s")
 }
 
-flag ="arab"
+flag = "arab"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Should not appear with other Arabic nations from the beginning but...
-conflicts_with="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
+conflicts_with = "Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "South Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani",
  "Sahrawi", "Mauritanian", "Kuwaiti", "Qatari", "Bahraini", "Mamluk",
  "Cyrenaican"
+
 ; ...civil war to them.
-civilwar_nations="Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
+civilwar_nations = "Iraqi", "Libyan", "Sudanese", "Syrian", "Egyptian Arab",
  "Moroccan", "Tunisian", "Algerian", "Andalusi", "Saudi", "Palestinian",
  "Yemeni", "Lebanese", "Emirati", "Jordanian", "Omani", "Sahrawi",
  "Mauritanian", "Kuwaiti", "Qatari", "Bahraini"

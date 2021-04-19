@@ -1,9 +1,9 @@
 [nation_antiguan]
 
-name=_("Antiguan and Barbudan")
-plural=_("?plural:Antiguans and Barbudans")
-groups="Modern", "American"
-legend=_("Antigua and Barbuda is a country in the Eastern Caribbean\
+name   = _("Antiguan and Barbudan")
+plural = _("?plural:Antiguans and Barbudans")
+groups = "Modern", "American"
+legend = _("Antigua and Barbuda is a country in the Eastern Caribbean\
  consisting of the two eponymous islands as well as a number of smaller\
  islets. The country has been independent from the United Kingdom since\
  1981.")
@@ -21,15 +21,16 @@ ruler_titles = {
  "government",      "male_title",            "female_title"
  "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
 }
-flag="antigua_and_barbuda"
+
+flag = "antigua_and_barbuda"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Dominican", "kittitian and nevisian"
+civilwar_nations = "Dominican", "kittitian and nevisian"
 
 cities =
  "Saint John's",

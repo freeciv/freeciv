@@ -1,9 +1,9 @@
 [nation_amazigh]
 
-name=_("Amazigh")
-plural=_("?plural:Imazighen")
-groups="Medieval", "African"
-legend=_("The Amazigh civilization is one of the oldest in the Mediterranean\
+name   = _("Amazigh")
+plural = _("?plural:Imazighen")
+groups = "Medieval", "African"
+legend = _("The Amazigh civilization is one of the oldest in the Mediterranean\
  Basin, co-existing with ancient Egypt. The Imazighen people, which means\
  \"free men\", are sturdy and strong but cheerful and\
  generous with a great consideration for family and tribe.\
@@ -72,101 +72,103 @@ ruler_titles = {
  "Fundamentalism",  _("Caliph %s"),          _("Calipha %s")
 }
 
-flag= "amazigh"
+flag = "amazigh"
 flag_alt = "morocco"
 style = "Classical"
-init_techs=""
-init_buildings=""
-init_units=""
 
-conflicts_with="Numidian", "Guanche", "Riffian", "Tuareg"
-civilwar_nations="Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche",
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "Numidian", "Guanche", "Riffian", "Tuareg"
+
+civilwar_nations = "Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche",
  "Riffian", "Tuareg"
 
 cities =
-"Tingis (mountains, ocean)",
-"Volubilis (plains)",
-"Lixus (ocean)",
-"Sala (river, ocean)",
-"Tamesna (plains)",
-"Banasa (plains)",
-"Sutar (river, ocean)",
-"Sabta (ocean)",
-"Russaddir (ocean)", 	;Melilya
-"Frates",
-"Pomaria",
+ "Tingis (mountains, ocean)",
+ "Volubilis (plains)",
+ "Lixus (ocean)",
+ "Sala (river, ocean)",
+ "Tamesna (plains)",
+ "Banasa (plains)",
+ "Sutar (river, ocean)",
+ "Sabta (ocean)",
+ "Russaddir (ocean)", 	;Melilya
+ "Frates",
+ "Pomaria",
 
-"Siga (mountains, ocean)",		; capital of king Syphax.
-"Cartennas (mountains, ocean)",
-"Caesarea (mountains, ocean)",
-"Castellum Tingitanum (mountains)",
-"Tipasa (ocean)",
-"Zucchabar (mountains, river)",
-"Icosium (mountains, ocean)",
-"Sitifis (river,desert)",
-"Tubunaf (river,desert)",
-"Rusuxuru (ocean)",
-"Iomnium (ocean)",
-"Avzia (desert, mountains)",
-"Rapidum (desert)",
-"Thanaramusa (desert)",
-"Rusuxurrum (mountains, ocean)",
-"Saldae (mountains, ocean)",
-"Kaputtasaxura (desert)",
-"Tasaxura (desert)",
-"Portus Divini (ocean)",
-"Portus Magnus (ocean)",
-"Castra Nova  (Desert)",
-"Mina (desert)",
-"Castellum Dimmidi (desert)",
-"Gemellae (desert)",
-"Masarfelia (desert)",
-"Ausum (desert)",
+ "Siga (mountains, ocean)",            ; capital of king Syphax.
+ "Cartennas (mountains, ocean)",
+ "Caesarea (mountains, ocean)",
+ "Castellum Tingitanum (mountains)",
+ "Tipasa (ocean)",
+ "Zucchabar (mountains, river)",
+ "Icosium (mountains, ocean)",
+ "Sitifis (river,desert)",
+ "Tubunaf (river,desert)",
+ "Rusuxuru (ocean)",
+ "Iomnium (ocean)",
+ "Avzia (desert, mountains)",
+ "Rapidum (desert)",
+ "Thanaramusa (desert)",
+ "Rusuxurrum (mountains, ocean)",
+ "Saldae (mountains, ocean)",
+ "Kaputtasaxura (desert)",
+ "Tasaxura (desert)",
+ "Portus Divini (ocean)",
+ "Portus Magnus (ocean)",
+ "Castra Nova  (Desert)",
+ "Mina (desert)",
+ "Castellum Dimmidi (desert)",
+ "Gemellae (desert)",
+ "Masarfelia (desert)",
+ "Ausum (desert)",
 
-"Cirta (mountains)",		; capital of king Massinissa
-"Carthago (mountains, ocean)",
-"Igigil (mountains, ocean)",
-"Hippo Regius (ocean)",
-"Rusicade (mountains, ocean)",
-"Cvicul (river)",
-"Milev (river, plains)",
-"Thabraca (ocean)",
-"Chullu (ocean)",
-"Hippo Diapphutus (ocean)",
-"Thugga (plains)",
-"Calama (plains)",
-"Thagaste (plains)",
-"Sixa Veneria (plains)",
-"Mactaris (mountains)",
-"Madavros (mountains)",
-"Thamugadi (desert)",
-"Lambaese (plains)",
-"Capsa (desert)",
-"Mascula (river, desert)",
-"Theveste (plains,river)",
-"Thelepte (mountains, river)",
-"Hadrumetum (ocean)",
-"Thysdrus (plains)",
-"Taparura (ocean)",
-"Tacape (ocean)",
-"Kerkenna (ocean)",
-"Tacapitanae (plains)",
-"Turris Tamallen (plains)",
-"Gigthis (ocean)",
-"Tusoros (desert)",
-"Sufes (plains, river, mountains)",
-"Vescera (desert)",
-"Thabudeos (desert, river)",
-"Badias (desert)",
-"Ad Maiores  (desert)",
-"Bulla (plains, river)",
-"Sdean (ocean)",
-"Tipasa (plains)",
-"Bagrudas (plains)",
-"Neapolis (mountains, ocean)",
-"Thapsus (ocean)",
-"Thanae (ocean)",
-"Meninx (ocean)",
-"Aurasurs (mountains)",
-"Nepte (desert)",
-"Fritania (desert)"
+ "Cirta (mountains)",             ; capital of king Massinissa
+ "Carthago (mountains, ocean)",
+ "Igigil (mountains, ocean)",
+ "Hippo Regius (ocean)",
+ "Rusicade (mountains, ocean)",
+ "Cvicul (river)",
+ "Milev (river, plains)",
+ "Thabraca (ocean)",
+ "Chullu (ocean)",
+ "Hippo Diapphutus (ocean)",
+ "Thugga (plains)",
+ "Calama (plains)",
+ "Thagaste (plains)",
+ "Sixa Veneria (plains)",
+ "Mactaris (mountains)",
+ "Madavros (mountains)",
+ "Thamugadi (desert)",
+ "Lambaese (plains)",
+ "Capsa (desert)",
+ "Mascula (river, desert)",
+ "Theveste (plains,river)",
+ "Thelepte (mountains, river)",
+ "Hadrumetum (ocean)",
+ "Thysdrus (plains)",
+ "Taparura (ocean)",
+ "Tacape (ocean)",
+ "Kerkenna (ocean)",
+ "Tacapitanae (plains)",
+ "Turris Tamallen (plains)",
+ "Gigthis (ocean)",
+ "Tusoros (desert)",
+ "Sufes (plains, river, mountains)",
+ "Vescera (desert)",
+ "Thabudeos (desert, river)",
+ "Badias (desert)",
+ "Ad Maiores  (desert)",
+ "Bulla (plains, river)",
+ "Sdean (ocean)",
+ "Tipasa (plains)",
+ "Bagrudas (plains)",
+ "Neapolis (mountains, ocean)",
+ "Thapsus (ocean)",
+ "Thanae (ocean)",
+ "Meninx (ocean)",
+ "Aurasurs (mountains)",
+ "Nepte (desert)",
+ "Fritania (desert)"

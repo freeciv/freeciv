@@ -1,11 +1,11 @@
 [nation_alander]
 
-name=_("Ålander")
+name      = _("Ålander")
 ; pre-2.6 had plain ASCII names
-rule_name="Alander"
-plural=_("?plural:Ålanders")
-groups="European"
-legend=_("Åland is an archipelago in the Baltic Sea, located between\
+rule_name = "Alander"
+plural    = _("?plural:Ålanders")
+groups    = "European"
+legend    = _("Åland is an archipelago in the Baltic Sea, located between\
  Sweden and Finland. The islands' inhabitants are Swedish speaking, but\
  Åland is an autonomous province in Finland, a status that was reached\
  in 1921 after a long period in which the islands were contested between\
@@ -22,6 +22,7 @@ leaders = {
  "Carl Björkman",            "Male"
  "Fanny Sundström",          "Female"
 }
+
 ruler_titles = {
  "government",     "male_title",     "female_title"
  "Democracy",      _("Premier %s"),  _("Premiere %s")
@@ -29,30 +30,31 @@ ruler_titles = {
  "Fundamentalism", _("Vicar %s"),    _("?female:Vicar %s")
  "Republic",       _("Governor %s"), _("?female:Governor %s")
 }
-flag="aland"
+
+flag = "aland"
 flag_alt = ""
 style = "celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "swedish", "finnish"
 
 cities =
  "Mariehamn",
- "Kyrkby",	;Jomala
- "Godby",	;Finström
- "Söderby",     ;Lemland
- "Ödkarby",     ;Saltvik
- "Kattby",	;Hammarland
- "Björby",	;Sund
- "Storby",	;Eckerö
- "Degerby", 	;Föglö
- "Åva",		;Brändö
- "Vestergeta",	;Geta
- "Strömsby",	;Vårdö
- "Klemetsby",	;Lumparland
+ "Kyrkby",      ; Jomala
+ "Godby",       ; Finström
+ "Söderby",     ; Lemland
+ "Ödkarby",     ; Saltvik
+ "Kattby",      ; Hammarland
+ "Björby",      ; Sund
+ "Storby",      ; Eckerö
+ "Degerby",     ; Föglö
+ "Åva",         ; Brändö
+ "Vestergeta",  ; Geta
+ "Strömsby",    ; Vårdö
+ "Klemetsby",   ; Lumparland
  "Kumlinge",
  "Kökar",
  "Sottunga",

@@ -1,9 +1,9 @@
 [nation_aleut]
 
-name=_("Aleut")
-plural=_("?plural:Aleuts")
-groups="American", "Asian"
-legend=_("The Unangan, or Aleut, lived in permanent subterranean homes\
+name   = _("Aleut")
+plural = _("?plural:Aleuts")
+groups = "American", "Asian"
+legend = _("The Unangan, or Aleut, lived in permanent subterranean homes\
  in their hunting and fishing villages. They lived in the Aleutian\
  islands for thousands of years prior to European contact. Unangan people\
  developed ties to Russian missionaries and traders many converting to\
@@ -23,34 +23,34 @@ ruler_titles = {
  "Fundamentalism", _("Shaman %s"),   _("?female:Shaman %s")
 }
 
-flag="aleut" 
+flag = "aleut"
 flag_alt = "-" 
 style = "celtic" 
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "inuit", "nuu-chah-nulth", "cree"
 
-cities = 
-"Akutan", 
-"Unalaska", 
-"Sanak", 
-"Mackushin", 
-"Kashega", 
-"Adaq", 
-"Umnak", ; Nikolski 
-"Qagun Tayagungin", 
-"Akun", 
-"Unimak", 
-"Aikhag", 
-"Aiaialgutak", ; Avatanak 
-"Ugamak", 
-"Tigalda", 
-"Agattu", 
-"Attu", 
-"Amchitka", 
-"Ulak", 
-"Amatignak", 
-"Atka"
+cities =
+ "Akutan",
+ "Unalaska",
+ "Sanak",
+ "Mackushin",
+ "Kashega",
+ "Adaq",
+ "Umnak", ; Nikolski
+ "Qagun Tayagungin",
+ "Akun",
+ "Unimak",
+ "Aikhag",
+ "Aiaialgutak", ; Avatanak
+ "Ugamak",
+ "Tigalda",
+ "Agattu",
+ "Attu",
+ "Amchitka",
+ "Ulak",
+ "Amatignak",
+ "Atka"

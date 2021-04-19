@@ -1,9 +1,9 @@
 [nation_assamese]
 
-name=_("Assamese")
-plural=_("?plural:Assamese")
-groups="Asian", "Early Modern", "Medieval"
-legend=_("The Assam (Ahom) kingdom was founded in 1228 on the southeastern\
+name   = _("Assamese")
+plural = _("?plural:Assamese")
+groups = "Asian", "Early Modern", "Medieval"
+legend = _("The Assam (Ahom) kingdom was founded in 1228 on the southeastern\
  foothills of the Himalayas by a group of Shan people emigrating from what\
  is today northeastern Burma. The Assamese kings famously defeated several\
  expeditions by the mighty Mughal Empire, effectively halting the Mughals'\
@@ -19,15 +19,15 @@ leaders = {
  "Sukaphaa",     "Male"
 }
 
-flag="assam"
-flag_alt="-"
+flag = "assam"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Shan", "Bengali"
+civilwar_nations = "Shan", "Bengali"
 
 cities =
  "Charaideo",

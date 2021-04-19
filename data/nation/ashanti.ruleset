@@ -1,9 +1,9 @@
 [nation_ashanti] 
 
-name=_("Ashanti") 
-plural=_("?plural:Ashantis") 
-groups="African", "Medieval", "Early Modern" 
-legend=_("The Ashanti were an ancient kingdom in a region that is\
+name   = _("Ashanti")
+plural = _("?plural:Ashantis")
+groups = "African", "Medieval", "Early Modern"
+legend = _("The Ashanti were an ancient kingdom in a region that is\
  currently a part of Ghana. The first Ashanti kingdom was founded in the\
  11th century.")
 
@@ -36,17 +36,17 @@ ruler_titles = {
  "Monarchy",    _("Asantehene %s"), _("?female:Asantehene %s")  
 }
 
-flag= "ashanti" 
-flag_alt = "-" 
-style = "Celtic" 
+flag = "ashanti"
+flag_alt = "-"
+style = "Celtic"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="dahomean", "malian"
+civilwar_nations = "dahomean", "malian"
 
-cities=
+cities =
   "Kumasi",
   "Bono Mansu",
   "Bekwai",

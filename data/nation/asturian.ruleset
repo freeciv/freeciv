@@ -1,9 +1,9 @@
 [nation_asturian]
 
-name=_("Asturian")
-plural=_("?plural:Asturians")
-groups="Ancient", "European"
-legend=_("The Astures were a Celtic people which occupied most of the northern\
+name   = _("Asturian")
+plural = _("?plural:Asturians")
+groups = "Ancient", "European"
+legend = _("The Astures were a Celtic people which occupied most of the northern\
  coast of Spain. They battled against the Roman Empire until their defeat by\
  Caesar Augustus' legions between 29 and 19 BCE. Under the Visigothic kingdom of\
  Toledo, there were uneasy relations between Visigoths and Asturians. In 722 CE,\
@@ -30,15 +30,16 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
 }
 
-flag="asturias"
+flag = "asturias"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
-conflicts_with="spanish"
-civilwar_nations="galician", "basque", "gallic", "leonese"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+conflicts_with = "spanish"
+civilwar_nations = "galician", "basque", "gallic", "leonese"
 
 cities =
   "Xixón", "Uviéu", "Avilés", "Cangues d'Onís", "La Pola Siero", "Grau",

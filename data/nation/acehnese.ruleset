@@ -1,9 +1,9 @@
 [nation_acehnese]
 
-name=_("Acehnese")
-plural=_("?plural:Acehnese")
-groups="Asian", "Early Modern"
-legend=_("The Sultanate of Aceh located on the western tip of the island of\
+name   = _("Acehnese")
+plural = _("?plural:Acehnese")
+groups = "Asian", "Early Modern"
+legend = _("The Sultanate of Aceh located on the western tip of the island of\
  Sumatra was a regional power in the 16th and 17th centuries, controlling\
  much of the trade through the Strait of Malacca. Aceh was subjugated by\
  the Dutch in the bloody Aceh War of 1873-1903.")
@@ -29,15 +29,15 @@ ruler_titles = {
  "Fundamentalism",  _("Imam %s"),            _("Imama %s")
 }
 
-flag="aceh"
-flag_alt="-"
+flag = "aceh"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Indonesian", "Malaysian"
+civilwar_nations = "Indonesian", "Malaysian"
 
 cities =
  "Kutaraja",

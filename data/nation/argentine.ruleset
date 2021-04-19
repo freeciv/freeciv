@@ -1,9 +1,9 @@
 [nation_argentine]
 
-name=_("Argentine")
-plural=_("?plural:Argentines")
-groups="Modern", "American"
-legend=_("Argentina is located on the south-eastern coast of South America.\
+name   = _("Argentine")
+plural = _("?plural:Argentines")
+groups = "Modern", "American"
+legend = _("Argentina is located on the south-eastern coast of South America.\
  Since independence from Spain in 1816, it has been plagued by several\
  internal and external conflicts. In the decades after World War II, the\
  country's politics was dominated by Juan Perón and his charismatic wife Eva\
@@ -28,13 +28,14 @@ ruler_titles = {
  "Monarchy",       _("Viceroy %s"),     _("Vicereine %s")
 }
 
-flag="argentina"
+flag = "argentina"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "paraguayan", "uruguayan", "mapuche"
 
 cities =

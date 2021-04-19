@@ -1,10 +1,10 @@
 [nation_akwe]
 
-name=_("Akwe")
-plural=_("?plural:Akwe")
-groups="American"
+name   = _("Akwe")
+plural = _("?plural:Akwe")
+groups = "American"
 
-legend=_("The Akwe are also known by three different tribal names in\
+legend = _("The Akwe are also known by three different tribal names in\
  Portuguese, Xavante, Xakriaba and Xerente. They have a patrilineal clan\
  system and live in Mato Grosso and Tocantins states of Brazil, though\
  they have been forced to move by Brazilians several times through their\
@@ -21,7 +21,7 @@ leaders = {
 }
 
 ruler_titles = {
- "government",      "male_title",         "female_title"
+ "government",      "male_title",            "female_title"
  "Democracy",      _("Principal Chief %s"),  _("?female:Principal Chief %s")
  "Monarchy",       _("Great Chief %s"),      _("?female:Great Chief %s")
 }
@@ -30,11 +30,11 @@ flag         = "akwe"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="tupi", "tairona", "brazilian"
+civilwar_nations = "tupi", "tairona", "brazilian"
 
 cities =
  "Parawadzaradze",

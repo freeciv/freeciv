@@ -1,10 +1,10 @@
 [nation_aborigines]
 
-name=_("Australian Aboriginal")
-plural=_("?plural:Aborigines")
-groups="Oceanian"
+name   = _("Australian Aboriginal")
+plural = _("?plural:Aborigines")
+groups = "Oceanian"
 
-legend=_("Australian Aborigines is a collective term for the original\
+legend = _("Australian Aborigines is a collective term for the original\
  inhabitants of the Australian continent. Aborigines from different parts of\
  Australia refer to themselves with different names, including Koori,\
  Yamaji, Nunga, and Murri.")
@@ -18,20 +18,20 @@ leaders = {
  "Pearl Gibbs",         "Female"
 }
 
-flag="aborigines"
+flag = "aborigines"
 flag_alt = "-"
 style = "Tropical"
 
 ruler_titles = {
- "government",      "male_title",         "female_title"
+ "government",     "male_title",             "female_title"
  "Democracy",      _("Principal Chief %s"),  _("?female:Principal Chief %s")
  "Fundamentalism", _("Elder %s"),            _("?female:Elder %s")
  "Monarchy",       _("Great Chief %s"),      _("?female:Great Chief %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 civilwar_nations = "australian", "papuan"
 
 ; City names are a more or less random selection of Aboriginal place names

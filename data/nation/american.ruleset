@@ -1,11 +1,11 @@
 [nation_american]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("American")
-plural=_("?plural:Americans")
-groups="Early Modern", "Modern", "American", "Core"
-legend=_("The United States of America achieved its independence from\
+name   = _("American")
+plural = _("?plural:Americans")
+groups = "Early Modern", "Modern", "American", "Core"
+legend = _("The United States of America achieved its independence from\
  Great Britain after a revolution in 1776-1783 CE. Its constitution was\
  proclaimed in 1789, making the country one of the first modern\
  representative republics. The United States then started to expand its\
@@ -50,13 +50,13 @@ ruler_titles = {
  "Fundamentalism",  _("Reverend %s"),     _("?female:Reverend %s")
 }
 
-flag="usa"
+flag = "usa"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "confederate"
 

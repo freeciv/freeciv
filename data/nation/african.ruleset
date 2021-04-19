@@ -1,9 +1,9 @@
 [nation_african]
 
-name=_("African")
-plural=_("?plural:Africans")
-groups="Imaginary"
-legend=_("Africa: the cradle of humanity. It is the world's second largest\
+name   = _("African")
+plural = _("?plural:Africans")
+groups = "Imaginary"
+legend = _("Africa: the cradle of humanity. It is the world's second largest\
  continent and also its second most populous.")
 
 leaders = {
@@ -19,15 +19,15 @@ leaders = {
  "Nelson Mandela",       "Male"
 }
 
-flag="africa"
+flag = "africa"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="algerian", "angolan", "beninese", "bissau-guinean",
+conflicts_with = "algerian", "angolan", "beninese", "bissau-guinean",
  "botswanan", "brazzaville-congolese", "burkinabe", "burundian",
  "cameroonian", "cape verdean", "central african", "comorian", "congolese",
  "djiboutian", "egyptian arab", "equatoguinean", "eritrean", "ethiopian",
@@ -38,7 +38,8 @@ conflicts_with="algerian", "angolan", "beninese", "bissau-guinean",
  "sierra leonean", "somali", "south african", "sudanese", "swazi",
  "tanzanian", "togolese", "tunisian", "ugandan", "sahrawi", "zambian",
  "zimbabwean"
-civilwar_nations="algerian", "angolan", "beninese", "bissau-guinean",
+
+civilwar_nations = "algerian", "angolan", "beninese", "bissau-guinean",
  "botswanan", "brazzaville-congolese", "burkinabe", "burundian",
  "cameroonian", "cape verdean", "central african", "comorian", "congolese",
  "djiboutian", "egyptian arab", "equatoguinean", "eritrean", "ethiopian",
@@ -49,7 +50,8 @@ civilwar_nations="algerian", "angolan", "beninese", "bissau-guinean",
  "sierra leonean", "somali", "south african", "sudanese", "swazi",
  "tanzanian", "togolese", "tunisian", "ugandan", "sahrawi", "zambian",
  "zimbabwean"
-cities=
+
+cities =
 ; Sites of AU institutions
  "Addis Abeba",
  "Mitrand",

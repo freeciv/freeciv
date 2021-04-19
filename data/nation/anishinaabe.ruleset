@@ -1,9 +1,9 @@
 [nation_anishinaabe]
 
-name=_("Anishinaabe")
-plural=_("?plural:Anishinaabeg")
-groups="American", "Early Modern"
-legend=_("The Anishinaabeg are a group of closely related Native American\
+name   = _("Anishinaabe")
+plural = _("?plural:Anishinaabeg")
+groups = "American", "Early Modern"
+legend = _("The Anishinaabeg are a group of closely related Native American\
  tribes in the North American Great Lakes region, including the Ottawa,\
  Ojibwe, Algonkin and Potawatomi. They speak Algonquian languages.\
  Together they are one of the most numerous indigenous peoples of North\
@@ -30,13 +30,14 @@ ruler_titles = {
  "Monarchy",        _("Great Chief %s"),     _("?female:Great Chief %s")
 }
 
-flag="anishinaabe"
+flag = "anishinaabe"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "cree", "quebecois"
 
 cities =

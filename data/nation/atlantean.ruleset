@@ -1,9 +1,9 @@
 [nation_atlantean]
 
-name=_("Atlantean")
-plural=_("?plural:Atlantean")
-groups="Imaginary"
-legend=_("The mythical continent of Atlantis")
+name   = _("Atlantean")
+plural = _("?plural:Atlantean")
+groups = "Imaginary"
+legend = _("The mythical continent of Atlantis")
 
 leaders = {
  "name",        "sex"
@@ -23,15 +23,16 @@ ruler_titles = {
  "Monarchy",       _("High King %s"),   _("High Queen %s")
 }
 
-flag="atlantis"
+flag = "atlantis"
 flag_alt = "-"
 style = "Classical"
 
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="martian", "antarctican", "guanche"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "martian", "antarctican", "guanche"
 
 cities =
  "Atlantipolis",

@@ -1,9 +1,9 @@
 [nation_australian]
 
-name=_("Australian")
-plural=_("?plural:Australians")
-groups="Modern", "Oceanian"
-legend=_("Australia was founded as a British penal colony in 1788 CE.\
+name   = _("Australian")
+plural = _("?plural:Australians")
+groups = "Modern", "Oceanian"
+legend = _("Australia was founded as a British penal colony in 1788 CE.\
  Originally comprising several colonies (New South Wales, Victoria,\
  Queensland, South Australia, Western Australia and Tasmania) it\
  became a single country in 1902.\
@@ -26,14 +26,15 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"), _("?female:Bishop %s")
 }
 
-flag="australia"
+flag = "australia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="Australian Aboriginal", "Nauruan"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Australian Aboriginal", "Nauruan"
 
 cities =
  "Canberra (river, hills, forest, !desert, !ocean)",

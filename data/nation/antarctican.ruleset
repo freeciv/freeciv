@@ -1,9 +1,9 @@
 [nation_antarctican]
 
-name=_("Antarctican")
-plural=_("?plural:Antarcticans")
-groups="Imaginary"
-legend=_("Independent South Pole, land of penguins.")
+name   = _("Antarctican")
+plural = _("?plural:Antarcticans")
+groups = "Imaginary"
+legend = _("Independent South Pole, land of penguins.")
 
 leaders = {
  "name",                "sex"
@@ -17,15 +17,15 @@ ruler_titles = {
 }
 ; emperor penguins
 
-flag="antarctica"
+flag = "antarctica"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="atlantean"
+civilwar_nations = "atlantean"
 
 ; Cities are Antarctic research stations
 cities =

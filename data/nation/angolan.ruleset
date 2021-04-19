@@ -1,9 +1,9 @@
 [nation_angolan]
 
-name=_("Angolan")
-plural=_("?plural:Angolans")
-groups="Modern", "African"
-legend=_("When the Portuguese arrived in Angola in the 15th century the\
+name   = _("Angolan")
+plural = _("?plural:Angolans")
+groups = "Modern", "African"
+legend = _("When the Portuguese arrived in Angola in the 15th century the\
  region was controlled by several Bantu kingdoms. Angola became an\
  important source of slave traders until well into the 19th century.\
  After two decades of guerrilla war against the Portuguese colonial\
@@ -19,15 +19,15 @@ leaders = {
  "José Eduardo dos Santos",     "Male"
 }
 
-flag= "angola"
+flag = "angola"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="kongo", "namibian", "santomean"
+civilwar_nations = "kongo", "namibian", "santomean"
 
 cities =
  "Luanda",

@@ -1,12 +1,12 @@
 [nation_austrian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Austrian")
-plural=_("?plural:Austrians")
-groups="Medieval", "Early Modern", "Modern", "European", "Core"
+name   = _("Austrian")
+plural = _("?plural:Austrians")
+groups = "Medieval", "Early Modern", "Modern", "European", "Core"
 ; /* TRANS: Legend for nation in "core" set */
-legend=_("The origins of Austria date back to the time of the Roman\
+legend = _("The origins of Austria date back to the time of the Roman\
  Empire when a Celtic kingdom was conquered by the Romans in\
  approximately 15 BCE, and later became Noricum, a Roman province, in the\
  mid 1st century CE - an area which mostly encloses today's Austria. In\
@@ -53,14 +53,15 @@ ruler_titles = {
  "Communism",       _("First Secretary %s"), _("?female:First Secretary %s")
 }
 
-flag="austria"
+flag = "austria"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="swiss", "hungarian", "tyrolian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "swiss", "hungarian", "tyrolian"
 
 cities =
   "Wien",

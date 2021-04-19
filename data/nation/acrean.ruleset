@@ -1,9 +1,9 @@
 [nation_acrean]
 
-name=_("Acrean")
-plural=_("?plural:Acreans")
-groups="American"
-legend=_("Acre is the westernmost state of Brazil. The region was part\
+name   = _("Acrean")
+plural = _("?plural:Acreans")
+groups = "American"
+legend = _("Acre is the westernmost state of Brazil. The region was part\
  of Bolivia until 1899, when Brazilian settlers revolted and declared an\
  Independent State of Acre. Bolivia gave up its claims to the territory\
  in the Treaty of Petropolis of 1903, after which Acre was annexed to\
@@ -22,7 +22,7 @@ leaders = {
  "Iolanda Fleming",                "Female"
 }
 
-flag="acre"
+flag = "acre"
 flag_alt = "-"
 style = "Tropical"
 
@@ -32,9 +32,9 @@ ruler_titles = {
  "Fundamentalism", _("Padre %s"), _("Madre %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "brazilian", "bolivian"
 

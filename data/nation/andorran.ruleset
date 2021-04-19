@@ -1,9 +1,9 @@
 [nation_andorran]
 
-name=_("Andorran")
-plural=_("?plural:Andorrans")
-groups="Modern", "Early Modern", "Medieval", "European"
-legend=_("Andorra is a small country in the eastern Pyrenees. In 1278,\
+name   = _("Andorran")
+plural = _("?plural:Andorrans")
+groups = "Modern", "Early Modern", "Medieval", "European"
+legend = _("Andorra is a small country in the eastern Pyrenees. In 1278,\
  a dispute between the bishop of Urgell and the Count of Foix ended with\
  an agreement to share the sovereignty of Andorra. This arrangement is\
  still in effect and their successors - the current bishop of Urgell and\
@@ -25,13 +25,13 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),           _("?female:Bishop %s")
 }
 
-flag="andorra"
+flag = "andorra"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "Catalan", "French"
 

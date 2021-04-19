@@ -1,10 +1,10 @@
 [nation_ainu]
 
-name=_("Ainu")
-plural=_("?plural:Ainu")
-groups="Asian"
+name   = _("Ainu")
+plural = _("?plural:Ainu")
+groups = "Asian"
 
-legend=_("The Ainu are the indigenous people of northern Japan, the\
+legend = _("The Ainu are the indigenous people of northern Japan, the\
  Kuril islands, Sakhalin, and the southern part of the Kamchatka peninsula.")
 
 leaders = {
@@ -15,15 +15,15 @@ leaders = {
  "Tsukinoe",            "Male"
 }
 
-flag="ainu"
+flag = "ainu"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="japanese", "russian"
+civilwar_nations = "japanese", "russian"
 
 ; Sources for city names:
 ; Hokkaido: http://kam-r.sub.jp/ainu/index.html
