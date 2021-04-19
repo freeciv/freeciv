@@ -277,7 +277,8 @@ extern "C" {
  * value & 4 means checking health */
 #ifndef PF_WAIT_DEBUG
 #ifdef FREECIV_DEBUG
-#define PF_WAIT_DEBUG 3
+/* Disabled by default - the assert enabled can be overzealous with some rulesets */
+/* #define PF_WAIT_DEBUG 3 */
 #endif
 #endif
 /* =========================== Structures ================================ */
