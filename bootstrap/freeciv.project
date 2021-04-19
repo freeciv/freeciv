@@ -15,3 +15,8 @@ if test "x$HAIKU" != "xyes" ; then
 else
   FREECIV_STORAGE_DIR="~/config/settings/freeciv"
 fi
+
+# Default ports
+FREECIV_DEFAULT_PORT=5556
+# Default + 1000
+FREECIV_JSON_PORT=6556
