@@ -69,6 +69,7 @@ pub_headers = [
 
 priv_headers = [
   'arpa/inet.h',
+  'bcrypt.h',
   'bzlib.h',
   'direct.h',
   'dlfcn.h',
@@ -167,6 +168,13 @@ foreach func : priv_functions
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
+
+if c_compiler.has_function('BCryptGenRandom', args: '-lbcrypt')
+  bcrypt_lib_dep = c_compiler.find_library('bcrypt')
+  priv_conf_data.set('HAVE_BCRYPTGENRANDOM', 1)
+else
+  bcrypt_lib_dep = []
+endif
 
 readline_dep = c_compiler.find_library('readline', required:false)
 
@@ -543,7 +551,8 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 ws2_dep, jansson_dep, lua_dep, lzma_dep, dependency('threads')],
+                 ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep,
+                 dependency('threads')],
   install : true
   )
 

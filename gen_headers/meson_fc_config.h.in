@@ -69,6 +69,9 @@
 /* arpa/inet.h available */
 #mesondefine HAVE_ARPA_INET_H
 
+/* bcrypt.h available */
+#mesondefine HAVE_BCRYPT_H
+
 /* bzlib.h available */
 #mesondefine HAVE_BZLIB_H
 
@@ -243,6 +246,11 @@
 
 /* getentropy() available */
 #mesondefine HAVE_GETENTROPY
+
+#ifdef HAVE_BCRYPT_H
+/* BCryptGenRandom() available */
+#mesondefine HAVE_BCRYPTGENRANDOM
+#endif
 
 /* gethostbyname() available */
 #mesondefine HAVE_GETHOSTBYNAME
