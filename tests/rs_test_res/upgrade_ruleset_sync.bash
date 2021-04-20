@@ -44,5 +44,6 @@ done
 
 rm -r ${tmpdir}
 
+DESCRIPTION=`../../scripts/revision_describer.bash ${REVISION} ../../data`
 echo "Most recent sync from $PREVIOUS_BRANCH" > upgrade_ruleset_version.txt
-git log ${REVISION} -1 -- ../../data >> upgrade_ruleset_version.txt
+echo "$DESCRIPTION" >> upgrade_ruleset_version.txt
