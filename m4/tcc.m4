@@ -1,4 +1,4 @@
-# Check for the presence of behavior usualy seen with tcc
+# Check for the presence of behavior usually seen with tcc
 
 # Check if valure must be returned even after exit()
 #
