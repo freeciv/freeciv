@@ -6612,6 +6612,23 @@ static bool load_ruleset_game(struct section_file *file, bool act,
     game.info.airlift_to_always_enabled
       = secfile_lookup_bool_default(file, TRUE, "civstyle.airlift_to_always_enabled");
 
+    /* section: wonder_visibility */
+    if (ok) {
+      const char *text;
+
+      text = secfile_lookup_str_default(file,
+                                        RS_DEFAULT_SMALL_WONDER_VISIBILITY,
+                                        "wonder_visibility.small_wonders");
+
+      game.info.small_wonder_visibility = wonder_visib_type_by_name(text,
+                                                                fc_strcasecmp);
+      if (!wonder_visib_type_is_valid(game.info.small_wonder_visibility)) {
+        ruleset_error(LOG_ERROR, "Unknown wonder visibility typpe \"%s\"",
+                      text);
+        ok = FALSE;
+      }
+    }
+
     /* section: illness */
     game.info.illness_on
       = secfile_lookup_bool_default(file, RS_DEFAULT_ILLNESS_ON,

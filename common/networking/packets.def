@@ -265,6 +265,7 @@ type EUS                = uint8(enum extra_unit_seen_type)
 type VLAYER             = uint8(enum vision_layer)
 type SETDEFLVL          = uint8(enum setting_default_level)
 type CAPITAL            = uint8(enum capital_type)
+type WONDER_VISIB       = uint8(enum wonder_visib_type)
 
 # typedefs for bit vectors
 type BV_ACTIONS         = bitvector(bv_actions)
@@ -595,6 +596,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   SINT16 civil_war_bonus_celebrating;
   SINT16 civil_war_bonus_unhappy;
   UINT16 granularity;
+  WONDER_VISIB small_wonder_visibility;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet

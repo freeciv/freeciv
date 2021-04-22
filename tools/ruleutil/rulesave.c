@@ -1219,6 +1219,14 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     FALSE, "civstyle.airlift_from_always_enabled", NULL);
   save_default_bool(sfile, game.info.airlift_to_always_enabled,
                     TRUE, "civstyle.airlift_to_always_enabled", NULL);
+
+  if (fc_strcasecmp(wonder_visib_type_name(game.info.small_wonder_visibility),
+                    RS_DEFAULT_SMALL_WONDER_VISIBILITY)) {
+    secfile_insert_str(sfile,
+                       wonder_visib_type_name(game.info.small_wonder_visibility),
+                       "wonder_visibility.small_wonders");
+  }
+
   save_default_bool(sfile, game.info.illness_on,
                     RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", NULL);
