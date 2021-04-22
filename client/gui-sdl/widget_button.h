@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2006 - The Freeciv Project
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,10 +21,6 @@
 	create_icon_button(pIcon, pDest,                                        \
 			   create_str16_from_char(pCharString, iPtsize),  \
 			   flags)
-
-#define create_themeicon_button_from_unichar(pIcon_theme, pDest, pUniChar, pUniCharSize, iPtsize, flags) \
-	create_themeicon_button(pIcon, pDest, create_string16(pUniChar, pUniCharSize, iPtsize), \
-				flags)
 
 #define create_themeicon_button_from_chars(pIcon_theme, pDest, pCharString, iPtsize, flags) \
 	create_themeicon_button(pIcon_theme, pDest,                 \
