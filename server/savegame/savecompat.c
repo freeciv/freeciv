@@ -2192,6 +2192,12 @@ static void compat_load_dev(struct loaddata *loading)
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_1 */
 
 #ifdef FREECIV_DEV_SAVE_COMPAT_3_2
+
+  if (game_version < 3019100) {
+    /* Before version number bump to 3.1.91 */
+
+  } /* Version < 3.1.91 */
+
 #endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
 
@@ -2261,6 +2267,15 @@ static void compat_post_load_dev(struct loaddata *loading)
       } unit_list_iterate_end;
     } players_iterate_alive_end;
   } /* Version < 3.0.93 */
+
+#ifdef FREECIV_DEV_SAVE_COMPAT_3_2
+
+  if (game_version < 3019100) {
+    /* Before version number bump to 3.1.91 */
+
+  } /* Version < 3.1.91 */
+
+#endif /* FREECIV_DEV_SAVE_COMPAT_3_2 */
 }
 #endif /* FREECIV_DEV_SAVE_COMPAT */
 
