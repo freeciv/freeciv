@@ -24,8 +24,14 @@ priv_conf_data.set('LOCALEDIR',
 priv_conf_data.set('BINDIR',
                    join_paths(get_option('prefix'), get_option('bindir')))
 
-priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
-pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+if host_system == 'windows'
+  priv_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+  pub_conf_data.set('FREECIV_STORAGE_DIR', '~\\\\.freeciv')
+else
+  priv_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+  pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
+endif
+
 priv_conf_data.set('DATADIR',
                    join_paths(get_option('prefix'), get_option('datadir')))
 priv_conf_data.set('DATASUBDIR', 'dev')
