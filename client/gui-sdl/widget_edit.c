@@ -715,9 +715,9 @@ enum Edit_Return_Codes edit_field(struct widget *pEdit_Widget)
     } else {
       ret = (enum Edit_Return_Codes) rety;
       
-      /* this is here becouse we have no knowladge that pEdit_Widget exist
+      /* this is here because we have no knowledge that pEdit_Widget exist
          or nor in force exit mode from gui loop */
-  
+
       /* reset font settings */
       if (!((pEdit_Widget->string16->style & 0x0F) & TTF_STYLE_NORMAL)) {
         TTF_SetFontStyle(pEdit_Widget->string16->font, TTF_STYLE_NORMAL);
