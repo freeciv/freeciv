@@ -1565,6 +1565,25 @@ LDFLAGS="$EXTRA_DEBUG_LDFLAGS $LDFLAGS"
 dnl Check this when -Werror is already set, if we're going to set it
 FC_VALUE_AFTER_EXIT
 
+if test "x$gui_xaw" = "xyes" ; then
+  AC_CACHE_CHECK([['const' for XawListChange()]], [ac_cv_const_for_xaw_list_change],
+    [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <X11/Xaw/List.h>
+]],
+      [char *test_strings[[2]];
+XawListChange(NULL, test_strings, 0, 0, False);])],
+      [ac_cv_const_for_xaw_list_change=no],
+      [AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[#include <X11/Xaw/List.h>
+]],
+        [const char *test_strings[[2]];
+XawListChange(NULL, test_strings, 0, 0, False);])],
+        [ac_cv_const_for_xaw_list_change=yes], [ac_cv_const_for_xaw_list_change=unknown])])])
+  if test "x${ac_cv_const_for_xaw_list_change}" = "xyes" ; then
+    AC_DEFINE([CONST_FOR_XAW_LIST_CHANGE], [const], [[Use const for XawListChange() parameter]])
+  else
+    AC_DEFINE([CONST_FOR_XAW_LIST_CHANGE], [], [[Do not use const for XawListChange() parameter]])
+  fi
+fi
+
 dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
 AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
 

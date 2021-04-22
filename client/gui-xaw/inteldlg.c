@@ -492,7 +492,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
 {
   int i;
   Dimension width;
-  static char *namelist_ptrs[MAX_NUM_PLAYERS];
+  static CONST_FOR_XAW_LIST_CHANGE char *namelist_ptrs[MAX_NUM_PLAYERS];
   static char namelist_text[MAX_NUM_PLAYERS][72];
   const struct player_diplstate *state;
 

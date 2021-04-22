@@ -130,9 +130,9 @@ struct city_dialog {
   int support_unit_base;
   int present_unit_base;
   char improvlist_names[B_LAST+1][64];
-  char *improvlist_names_ptrs[B_LAST+1];
-  
-  char *change_list_names_ptrs[B_LAST+1+U_LAST+1+1];
+  CONST_FOR_XAW_LIST_CHANGE char *improvlist_names_ptrs[B_LAST + 1];
+
+  CONST_FOR_XAW_LIST_CHANGE char *change_list_names_ptrs[B_LAST + 1 + U_LAST + 1 + 1];
   char change_list_names[B_LAST+1+U_LAST+1][200];
   int change_list_ids[B_LAST+1+U_LAST+1];
   int change_list_num_improvements;

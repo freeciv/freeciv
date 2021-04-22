@@ -212,7 +212,7 @@ void real_players_dialog_update(void *unused)
   if (players_dialog_shell) {
     int j = 0;
     Dimension width;
-    static char *namelist_ptrs[MAX_NUM_PLAYERS];
+    static CONST_FOR_XAW_LIST_CHANGE char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     const struct player_diplstate *pds;
 

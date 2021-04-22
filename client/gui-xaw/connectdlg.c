@@ -615,7 +615,7 @@ static void server_list_timer(XtPointer meta_list, XtIntervalId * id)
   }
 
   if (get_server_list(servers_list, errbuf, sizeof(errbuf)) != -1)  {
-    XawListChange(meta_list, servers_list, 0, 0, True);
+    XawListChange(meta_list, (CONST_FOR_XAW_LIST_CHANGE char **)servers_list, 0, 0, True);
   }
 /*
   else if (!lan_mode) {

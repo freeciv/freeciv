@@ -79,7 +79,7 @@ void goto_list_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 static void cleanup_goto_list(void);
 
-static char *dummy_city_list[]={ 
+static CONST_FOR_XAW_LIST_CHANGE char *dummy_city_list[] = { 
   "                                ",
   "                                ",
   "                                ",
@@ -249,7 +249,8 @@ void update_goto_dialog(Widget goto_cities)
 
   if (ncities_total) {
     qsort(city_name_ptrs, ncities_total, sizeof(char *), compare_strings_ptrs);
-    XawListChange(goto_cities, city_name_ptrs, ncities_total, 0, True);
+    XawListChange(goto_cities, (CONST_FOR_XAW_LIST_CHANGE char **) city_name_ptrs,
+                  ncities_total, 0, True);
   }
 }
 

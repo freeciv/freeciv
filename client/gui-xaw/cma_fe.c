@@ -79,7 +79,7 @@ Widget surplus_slider[O_LAST], factor_slider[O_LAST + 1];
 
 int minimal_surplus[O_LAST], factors[O_LAST + 1];
 struct city *current_city;
-char *initial_preset_list[] = {
+CONST_FOR_XAW_LIST_CHANGE char *initial_preset_list[] = {
 	N_("For information on\n"
            "the citizen governor and governor presets,\n"
            "including sample presets,\n"
@@ -379,7 +379,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
 **************************************************************************/
 static void update_cma_preset_list(void) 
 {
-  static char *preset_lines[256];
+  static CONST_FOR_XAW_LIST_CHANGE char *preset_lines[256];
   static char preset_text[256][256];
   int i;
 

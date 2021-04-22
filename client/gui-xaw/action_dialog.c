@@ -536,8 +536,9 @@ static int create_advances_list(struct player *pplayer,
   advances_can_steal[j] = NULL; 
   
   XtSetSensitive(spy_steal_command, FALSE);
-  
-  XawListChange(spy_advances_list, (char **)advances_can_steal, 0, 0, 1);
+
+  XawListChange(spy_advances_list,
+                (CONST_FOR_XAW_LIST_CHANGE char **)advances_can_steal, 0, 0, 1);
   XtVaGetValues(spy_advances_list, XtNwidth, &width1, NULL);
   XtVaGetValues(spy_advances_list_label, XtNwidth, &width2, NULL);
   XtVaSetValues(spy_advances_list, XtNwidth, MAX(width1,width2), NULL); 
@@ -629,9 +630,10 @@ static int create_improvements_list(struct player *pplayer,
   improvements_can_sabotage[j] = NULL;
   
   XtSetSensitive(spy_sabotage_command, FALSE);
-  
-  XawListChange(spy_improvements_list, (String *) improvements_can_sabotage,
-		0, 0, 1);
+
+  XawListChange(spy_improvements_list,
+                (CONST_FOR_XAW_LIST_CHANGE char**) improvements_can_sabotage,
+                0, 0, 1);
   XtVaGetValues(spy_improvements_list, XtNwidth, &width1, NULL);
   XtVaGetValues(spy_improvements_list_label, XtNwidth, &width2, NULL);
   XtVaSetValues(spy_improvements_list, XtNwidth, MAX(width1,width2), NULL); 

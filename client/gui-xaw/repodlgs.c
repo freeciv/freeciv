@@ -519,7 +519,9 @@ void real_science_report_dialog_update(void *unused)
     tech_list_names_ptrs[j]=0;
     qsort(tech_list_names_ptrs, j, sizeof(char *), compare_strings_ptrs);
 
-    XawListChange(science_list, (char **)tech_list_names_ptrs, 0/*j*/, 0, 1);
+    XawListChange(science_list,
+                  (CONST_FOR_XAW_LIST_CHANGE char **)tech_list_names_ptrs,
+                  0/*j*/, 0, 1);
 
     XtDestroyWidget(popupmenu);
     
@@ -773,7 +775,7 @@ void real_economy_report_dialog_update(void *unused)
   if(economy_dialog_shell) {
     int i, entries_used, tax, total;
     Dimension width; 
-    static char *economy_list_names_ptrs[B_LAST+1];
+    static CONST_FOR_XAW_LIST_CHANGE char *economy_list_names_ptrs[B_LAST + 1];
     static char economy_list_names[B_LAST][200];
     const char *report_title;
     char economy_total[48];
@@ -1075,7 +1077,7 @@ void real_units_report_dialog_update(void *unused)
   if (activeunits_dialog_shell) {
     int k;
     Dimension width; 
-    static char *activeunits_list_names_ptrs[U_LAST+1];
+    static CONST_FOR_XAW_LIST_CHANGE char *activeunits_list_names_ptrs[U_LAST + 1];
     static char activeunits_list_names[U_LAST][200];
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;

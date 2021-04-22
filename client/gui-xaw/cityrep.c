@@ -569,7 +569,7 @@ void real_city_report_dialog_update(void *unused)
     }
 
     XawFormDoLayout(city_form, False);
-    XawListChange(city_list, city_list_text, i, 0, True);
+    XawListChange(city_list, (CONST_FOR_XAW_LIST_CHANGE char **)city_list_text, i, 0, True);
 
     XtVaGetValues(city_list, XtNlongest, &i, NULL);
     width=i+10;
@@ -601,7 +601,7 @@ void real_city_report_update_city(struct city *pcity)
   for(i=0; cities_in_list[i]; i++)  {
     if(cities_in_list[i]==pcity)  {
       int n;
-      String *list;
+      char **list;
       Dimension w;
       char new_city_line[MAX_LEN_CITY_TEXT];
 
@@ -621,7 +621,7 @@ void real_city_report_update_city(struct city *pcity)
          change one line.  It's also annoying to have to set the size
 	 of each widget explicitly, since Xt is supposed to handle that. */
       XawFormDoLayout(city_form, False);
-      XawListChange(city_list, list, n, 0, False);
+      XawListChange(city_list, (CONST_FOR_XAW_LIST_CHANGE char **)list, n, 0, False);
       XtVaGetValues(city_list, XtNlongest, &n, NULL);
       w=n+10;
       XtVaSetValues(city_viewport, XtNwidth, w+15, NULL);
@@ -1079,7 +1079,8 @@ static void chgall_refresh_command_callback(Widget w,
     state->fr_list[i] = fc_strdup(items[i].descr);
     state->fr_cids[i] = cid_encode(items[i].item);
   }
-  XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
+  XawListChange(state->w.fr, (CONST_FOR_XAW_LIST_CHANGE char **)state->fr_list,
+                state->fr_count, 0, FALSE);
 
   state->to_count = collect_buildable_targets(targets);
   name_and_sort_items(targets, state->to_count, items, TRUE, NULL);
@@ -1087,7 +1088,8 @@ static void chgall_refresh_command_callback(Widget w,
     state->to_list[i] = fc_strdup(items[i].descr);
     state->to_cids[i] = cid_encode(items[i].item);
   }
-  XawListChange(state->w.to, state->to_list, state->to_count, 0, FALSE);
+  XawListChange(state->w.to, (CONST_FOR_XAW_LIST_CHANGE char **)state->to_list,
+                state->to_count, 0, FALSE);
 
   chgall_update_widgets_state(state);
 }

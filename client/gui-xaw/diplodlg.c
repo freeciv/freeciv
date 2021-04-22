@@ -100,7 +100,7 @@ struct Diplomacy_dialog {
   Widget dip_erase_clause_command;
   
   char clauselist_strings[MAX_NUM_CLAUSES+1][128];
-  char *clauselist_strings_ptrs[MAX_NUM_CLAUSES+1];
+  CONST_FOR_XAW_LIST_CHANGE char *clauselist_strings_ptrs[MAX_NUM_CLAUSES + 1];
 };
 
 static char *dummy_clause_list_strings[]

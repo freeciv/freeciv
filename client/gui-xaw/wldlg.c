@@ -66,7 +66,7 @@ struct worklist_report_dialog {
   Widget list;
   struct player *pplr;
   char worklist_names[MAX_NUM_WORKLISTS][MAX_LEN_NAME];
-  char *worklist_names_ptrs[MAX_NUM_WORKLISTS+1];
+  CONST_FOR_XAW_LIST_CHANGE char *worklist_names_ptrs[MAX_NUM_WORKLISTS+1];
   struct global_worklist *worklist_ptr[MAX_NUM_WORKLISTS];
   int wl_idx;
 };
@@ -90,10 +90,10 @@ struct worklist_dialog {
   WorklistOkCallback ok_callback;
   WorklistCancelCallback cancel_callback;
   
-  char *worklist_names_ptrs[MAX_LEN_WORKLIST+1];
+  CONST_FOR_XAW_LIST_CHANGE char *worklist_names_ptrs[MAX_LEN_WORKLIST+1];
   char worklist_names[MAX_LEN_WORKLIST][200];
   int worklist_ids[MAX_LEN_WORKLIST];
-  char *worklist_avail_names_ptrs[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1+1];
+  CONST_FOR_XAW_LIST_CHANGE char *worklist_avail_names_ptrs[B_LAST + 1 +U_LAST + 1 + MAX_NUM_WORKLISTS + 1 + 1];
   char worklist_avail_names[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1][200];
   int worklist_avail_ids[B_LAST+1+U_LAST+1+MAX_NUM_WORKLISTS+1];
   int worklist_avail_num_improvements;

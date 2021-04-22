@@ -64,7 +64,7 @@ static void meswin_goto_callback(Widget w, XtPointer client_data,
 static void meswin_popcity_callback(Widget w, XtPointer client_data,
 				    XtPointer call_data);
 
-static char *dummy_message_list[] = {
+static CONST_FOR_XAW_LIST_CHANGE char *dummy_message_list[] = {
   "                                                        ", 0 };
 
 #define N_MSG_VIEW 24 		/* max before scrolling happens */
@@ -245,7 +245,7 @@ void real_meswin_dialog_update(void *unused)
     XawListChange(meswin_list, dummy_message_list, 1, 0, True);
   } else {
     /* strings will not be freed */
-    static char **strings = NULL;
+    static CONST_FOR_XAW_LIST_CHANGE char **strings = NULL;
 
     strings = fc_realloc(strings, num * sizeof(char *));
 

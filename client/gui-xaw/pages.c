@@ -235,7 +235,7 @@ void real_update_start_page(void)
     bool is_ready;
     const char *nation, *leader;
     char name[MAX_LEN_NAME + 8];
-    static char *namelist_ptrs[MAX_NUM_PLAYERS];
+    static CONST_FOR_XAW_LIST_CHANGE char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     int j;
     Dimension width, height;
