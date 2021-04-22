@@ -921,7 +921,16 @@ bool wonder_visible_to_player(const struct impr_type *wonder,
   }
 
   if (is_small_wonder(wonder)) {
-    return TRUE;
+    switch (game.info.small_wonder_visibility) {
+    case WV_ALWAYS:
+      return TRUE;
+    case WV_NEVER:
+      return FALSE;
+    }
+
+    fc_assert(FALSE);
+
+    return FALSE;
   }
 
   /* Now a wonder, but regular improvement */

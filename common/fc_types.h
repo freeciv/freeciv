@@ -1211,6 +1211,14 @@ enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
 #define SPECENUM_VALUE2NAME "Primary"
 #include "specenum_gen.h"
 
+/* Used in the network protocol. */
+#define SPECENUM_NAME wonder_visib_type
+#define SPECENUM_VALUE0 WV_ALWAYS
+#define SPECENUM_VALUE0NAME "Always"
+#define SPECENUM_VALUE1 WV_NEVER
+#define SPECENUM_VALUE1NAME "Never"
+#include "specenum_gen.h"
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
