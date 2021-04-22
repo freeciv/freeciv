@@ -4,7 +4,7 @@ Installing Freeciv:
 
 This file describes how to compile and install Freeciv. Last time we
 made sure this file is up to date was 16-Jul-06.
-Last minor update was 14-Apr-21.
+Last minor update was 23-Apr-21.
 
 There may be a localized version of this file in the ./doc directory,
 named INSTALL.<locale> (e.g., INSTALL.de).
@@ -255,6 +255,10 @@ following order: pkg-config, Glib, Atk, Pango, Gdk-Pixbuf, Gtk+.
    'moc-qt5' or 'moc-qt6' depending on Qt version in some systems.
    You may want install 'qtchooser' to find correct moc version for you
    when you have both multiple Qt versions installed in parallel.
+
+   If configure does not find (correct) moc, you can give it with
+   environment variable MOCCMD, e.g.,
+   ./configure MOCCMD="/home/freeciv/local-qt/bin/moc" --enable-client=qt
 
  - Qt5Core, Qt5Gui, and Qt5Widgets libraries and headers.
    At least version 5.11 is required.
