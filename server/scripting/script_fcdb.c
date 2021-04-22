@@ -241,7 +241,15 @@ bool script_fcdb_init(const char *fcdb_luafile)
 
   tolua_common_a_open(fcl->state);
   tolua_game_open(fcl->state);
+
+#ifdef MESON_BUILD
+  /* Tolua adds 'tolua_' prefix to _open() function names,
+   * and we can't pass it a basename where the original
+   * 'tolua_' has been stripped when generating from meson. */
+  tolua_tolua_fcdb_open(fcl->state);
+#else  /* MESON_BUILD */
   tolua_fcdb_open(fcl->state);
+#endif /* MESON_BUILD */
   lua_register(fcl->state, "md5sum", md5sum);
 #ifdef HAVE_FCDB_MYSQL
   luaL_requiref(fcl->state, "ls_mysql", luaopen_luasql_mysql, 1);

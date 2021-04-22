@@ -29,6 +29,8 @@ pub_conf_data.set('FREECIV_STORAGE_DIR', '~/.freeciv')
 priv_conf_data.set('DATADIR',
                    join_paths(get_option('prefix'), get_option('datadir')))
 priv_conf_data.set('DATASUBDIR', 'dev')
+priv_conf_data.set('SYSCONFDIR',
+                   join_paths(get_option('prefix'), get_option('sysconfdir')))
 
 priv_conf_data.set('IS_DEVEL_VERSION', 1)
 
@@ -304,7 +306,7 @@ if get_option('nls')
 endif
 
 common_inc = include_directories(cross_inc_path,
-  lua_inc_path, 'dependencies/tinycthread',
+  lua_inc_path, 'dependencies/luasql/src', 'dependencies/tinycthread',
   'dependencies/tolua-5.2/include', 'dependencies/cvercmp',
   'utility', 'common', 'common/networking', 'common/scriptcore',
   'common/aicore')
@@ -660,6 +662,10 @@ executable('freeciv-server',
   install: true
   )
 
+install_data(
+  'lua/database.lua',
+  install_dir : join_paths(get_option('sysconfdir'), 'freeciv')
+  )
 
 install_data(
   'data/ruledit/comments-3.2.txt',

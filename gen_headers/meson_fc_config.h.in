@@ -33,9 +33,17 @@
 
 #define BINDIR "@BINDIR@"
 
+#define FC_CONF_PATH "@SYSCONFDIR@/freeciv"
+
 #ifndef _GNU_SOURCE
 #define _GNU_SOURCE
 #endif
+
+/* Database backend available */
+#define HAVE_FCDB 1
+
+/* Have Sqlite3 database backend */
+#define HAVE_FCDB_SQLITE3 1
 
 /* Release cycle information */
 #mesondefine IS_DEVEL_VERSION
