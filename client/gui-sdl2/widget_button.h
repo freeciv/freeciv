@@ -19,10 +19,6 @@
                            create_utf8_from_char(char_string, ptsize),          \
                            flags)
 
-#define create_themeicon_button_from_unichar(icon_theme, pdest, unichar, unichar_size, ptsize, flags) \
-  create_themeicon_button(icon, pdest, create_utf8(unichar, unichar_size, ptsize), \
-                          flags)
-
 #define create_themeicon_button_from_chars(icon_theme, pdest, char_string, ptsize, flags) \
   create_themeicon_button(icon_theme, pdest,                           \
                           create_utf8_from_char(char_string,            \
