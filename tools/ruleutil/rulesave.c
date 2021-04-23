@@ -1209,6 +1209,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.init_city_radius_sq,
                    RS_DEFAULT_CITY_RADIUS_SQ,
                    "civstyle.init_city_radius_sq", NULL);
+
+  comment_civstyle_gold_upkeep_style(sfile);
+
   if (0 != fc_strcasecmp(gold_upkeep_style_name(game.info.gold_upkeep_style),
                          RS_DEFAULT_GOLD_UPKEEP_STYLE)) {
     secfile_insert_str(sfile,

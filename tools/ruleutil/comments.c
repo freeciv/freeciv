@@ -54,6 +54,7 @@ static struct {
   /* Comment entries */
   char *civstyle_granary;
   char *civstyle_gameloss_style;
+  char *civstyle_gold_upkeep_style;
 } comments_storage;
 
 /**********************************************************************//**
@@ -129,6 +130,8 @@ bool comments_load(void)
                "entrydoc.granary");
   comment_load(comments_storage.civstyle_gameloss_style, comment_file,
                "entrydoc.gameloss_style");
+  comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
+               "entrydoc.gold_upkeep_style");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -395,5 +398,14 @@ void comment_civstyle_granary(struct section_file *sfile)
 void comment_civstyle_gameloss_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_gameloss_style,
+                      "civstyle");
+}
+
+/**********************************************************************//**
+  Write civstyle gold_upkeep_style settings header.
+**************************************************************************/
+void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.civstyle_gold_upkeep_style,
                       "civstyle");
 }
