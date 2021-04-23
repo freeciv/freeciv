@@ -208,8 +208,20 @@ static struct tile *find_dispersed_position(struct player *pplayer,
 {
   struct tile *ptile;
   int x, y;
+  int bailout;
+
+  if (game.server.dispersion == 0) {
+    bailout = 1; /* One attempt is guaranteed to cover single tile */
+  } else {
+    bailout = game.server.dispersion * 2 + 1; /* Side of the area */
+    bailout *= bailout;                       /* Area */
+    bailout *= 5;                             /* Likely to hit each tile at least once */
+  }
 
   do {
+    if (!bailout--) {
+      return NULL;
+    }
     index_to_map_pos(&x, &y, tile_index(pcenter));
     x += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
     y += fc_rand(2 * game.server.dispersion + 1) - game.server.dispersion;
@@ -808,8 +820,9 @@ void init_new_game(void)
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
       /* Create the unit of an appropriate type. */
-      if (place_starting_unit(rand_tile, pplayer, NULL,
-                              game.server.start_units[i]) != NULL) {
+      if (rand_tile != NULL
+          && place_starting_unit(rand_tile, pplayer, NULL,
+                                 game.server.start_units[i]) != NULL) {
         placed_units[player_index(pplayer)]++;
       }
     }
@@ -819,8 +832,9 @@ void init_new_game(void)
     while (NULL != nation->init_units[i] && MAX_NUM_UNIT_LIST > i) {
       struct tile *rand_tile = find_dispersed_position(pplayer, ptile);
 
-      if (place_starting_unit(rand_tile, pplayer,
-                              nation->init_units[i], '\0') != NULL) {
+      if (rand_tile != NULL
+          && place_starting_unit(rand_tile, pplayer,
+                                 nation->init_units[i], '\0') != NULL) {
         placed_units[player_index(pplayer)]++;
       }
       i++;
