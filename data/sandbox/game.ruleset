@@ -41,7 +41,7 @@ become the default ruleset in a future release).\
 ")
 
 ; Detailed description
-; When updating this, update also desciption_file in [ruledit] section to match
+; When updating this, update also description_file in [ruledit] section to match
 description = *sandbox/README.sandbox*
 
 [options]

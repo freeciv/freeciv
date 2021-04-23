@@ -41,7 +41,7 @@ classic ruleset can be found in README.experimental.\
 ")
 
 ; Detailed description
-; When updating this, update also desciption_file in [ruledit] section to match
+; When updating this, update also description_file in [ruledit] section to match
 description = *experimental/README.experimental*
 
 [options]
