@@ -42,7 +42,7 @@ as it stood in 2.6.\
 ")
 
 ; Detailed description
-; When updating this, update also desciption_file in [ruledit] section to match
+; When updating this, update also description_file in [ruledit] section to match
 description = *sandbox/README.sandbox*
 
 ; What capabilities ruleset provides for the scenarios.

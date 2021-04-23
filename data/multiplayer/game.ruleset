@@ -40,7 +40,7 @@ the differences from the classic ruleset can be found in README.multiplayer.\
 ")
 
 ; Detailed description
-; When updating this, update also desciption_file in [ruledit] section to match
+; When updating this, update also description_file in [ruledit] section to match
 description = *multiplayer/README.multiplayer*
 
 ; What capabilities ruleset provides for the scenarios.
