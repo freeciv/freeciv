@@ -42,7 +42,7 @@ You are playing with civ2 style rules. These are\
 ")
 
 ; Detailed description
-; When updating this, update also desciption_file in [ruledit] section to match
+; When updating this, update also description_file in [ruledit] section to match
 ; description = ""
 
 ; What capabilities ruleset provides for the scenarios.
