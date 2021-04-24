@@ -1740,11 +1740,13 @@ static bool save_traits(struct trait_limits *traits,
   enum trait tr;
 
  /* FIXME: Use specenum trait names without duplicating them here.
-   *        Just needs to take care of case. */
+  *        Just needs to take care of case.
+  *        This list is also duplicated in ruleset.c:ruleset_load_traits() */
   const char *trait_names[] = {
     "expansionist",
     "trader",
     "aggressive",
+    "builder",
     NULL
   };
 
