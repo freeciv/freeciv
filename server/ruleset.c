@@ -1288,7 +1288,8 @@ static void ruleset_load_traits(struct trait_limits *out,
   enum trait tr;
 
   /* FIXME: Use specenum trait names without duplicating them here.
-   *        Just needs to take care of case. */
+   *        Just needs to take care of case.
+   *        This list is also duplicated in rulesave.c:save_traits() */
   const char *trait_names[] = {
     "expansionist",
     "trader",
