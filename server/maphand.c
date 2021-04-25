@@ -150,6 +150,7 @@ void climate_change(bool warming, int effect)
      * but be prepared to fall back in exceptional circumstances */
     {
       struct terrain *wetter, *drier;
+
       wetter = warming ? old->warmer_wetter_result : old->cooler_wetter_result;
       drier  = warming ? old->warmer_drier_result  : old->cooler_drier_result;
       if (is_terrain_ecologically_wet(ptile)) {
@@ -164,7 +165,7 @@ void climate_change(bool warming, int effect)
     /* If the preferred transformation is ruled out for some exceptional reason
      * specific to this tile, fall back to the other, rather than letting this
      * tile be immune to change. */
-    for (i=0; i<2; i++) {
+    for (i = 0; i < 2; i++) {
       new = candidates[i];
 
       /* If the preferred transformation simply hasn't been specified
@@ -184,7 +185,7 @@ void climate_change(bool warming, int effect)
       if (!terrain_surroundings_allow_change(ptile, new)) {
         continue;
       }
-      
+
       /* OK! */
       break;
     }
@@ -195,6 +196,23 @@ void climate_change(bool warming, int effect)
 
     if (new != T_NONE && old != new) {
       effect--;
+
+      /* Check terrain changing activities.
+         These would not be caught by the check if unit can continue activity
+         after the terrain change has taken place, as the activity itself is still
+         legal, but would be towards different terrain, and terrain types are not
+         activity targets (target is NULL) */
+      unit_list_iterate(ptile->units, punit) {
+        if (punit->activity_target == NULL) {
+          /* Target is always NULL for terrain changing activities, and that sometimes
+             distinguish terrain changing activities from extra building activities. */
+          if (punit->activity == ACTIVITY_IRRIGATE
+              || punit->activity == ACTIVITY_MINE
+              || punit->activity == ACTIVITY_TRANSFORM) {
+            unit_activity_handling(punit, ACTIVITY_IDLE);
+          }
+        }
+      } unit_list_iterate_end;
 
       /* Really change the terrain. */
       tile_change_terrain(ptile, new);
