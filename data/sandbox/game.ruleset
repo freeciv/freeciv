@@ -103,7 +103,7 @@ init_vis_radius_sq      = 5
 base_bribe_cost  = 750
 
 ; Barbarian leader ransom in gold. The ransom is taken from
-; the victim (typically a barbarian player), and it's possible
+; the victim (typically a barbarian player), and it`s possible
 ; they cannot pay this in full.
 ransom_gold      = 100
 
