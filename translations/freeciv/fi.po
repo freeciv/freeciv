@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-04-16 04:01+0300\n"
-"PO-Revision-Date: 2021-04-16 04:09+0300\n"
+"POT-Creation-Date: 2021-04-25 08:24+0300\n"
+"PO-Revision-Date: 2021-04-25 08:31+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -1234,7 +1234,7 @@ msgstr "Parhaat puolustusyksiköt"
 #: client/gui-sdl2/helpdlg.c:750 client/gui-sdl2/mapctrl.c:1710
 #: client/gui-sdl2/repodlgs.c:391 client/gui-xaw/menu.c:161
 #: client/gui-xaw/menu.c:223 client/gui-xaw/menu.c:255
-#: client/gui-xaw/repodlgs.c:891 client/gui-xaw/repodlgs.c:1086
+#: client/gui-xaw/repodlgs.c:893 client/gui-xaw/repodlgs.c:1088
 #: client/include/helpdlg_g.h:45 data/Freeciv.in:1913 data/helpdata.txt:1018
 msgid "Units"
 msgstr "Yksiköt"
@@ -1328,8 +1328,8 @@ msgstr "Korruptio"
 #: client/gui-gtk-3.22/repodlgs.c:1083 client/gui-qt/menu.cpp:1342
 #: client/gui-qt/pages.cpp:738 client/gui-sdl/mapctrl.c:1383
 #: client/gui-sdl2/mapctrl.c:1480 client/gui-xaw/menu.c:227
-#: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:654
-#: client/gui-xaw/repodlgs.c:782 client/include/helpdlg_g.h:42
+#: client/gui-xaw/menu.c:251 client/gui-xaw/repodlgs.c:656
+#: client/gui-xaw/repodlgs.c:784 client/include/helpdlg_g.h:42
 #: data/Freeciv.in:1837 data/helpdata.txt:443
 msgid "Economy"
 msgstr "Talous"
@@ -2183,8 +2183,8 @@ msgstr "(nimetön)"
 #: client/gui-sdl/repodlgs.c:189 client/gui-sdl2/action_dialog.c:1492
 #: client/gui-sdl2/action_dialog.c:1753 client/gui-sdl2/citydlg.c:1146
 #: client/gui-sdl2/repodlgs.c:211 client/gui-xaw/citydlg.c:1953
-#: client/gui-xaw/action_dialog.c:181 client/gui-xaw/action_dialog.c:768
-#: client/gui-xaw/repodlgs.c:1012 client/text.c:1289 common/unit.c:2097
+#: client/gui-xaw/action_dialog.c:181 client/gui-xaw/action_dialog.c:770
+#: client/gui-xaw/repodlgs.c:1014 client/text.c:1289 common/unit.c:2097
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -2287,7 +2287,7 @@ msgstr "_Edistysaskeleet:"
 #: client/gui-qt/dialogs.cpp:2395 client/gui-sdl/action_dialog.c:572
 #: client/gui-sdl/action_dialog.c:1334 client/gui-sdl2/action_dialog.c:574
 #: client/gui-sdl2/action_dialog.c:1284 client/gui-xaw/action_dialog.c:528
-#: client/gui-xaw/action_dialog.c:621
+#: client/gui-xaw/action_dialog.c:622
 #, c-format
 msgid "At %s's Discretion"
 msgstr "%s päättäköön itse"
@@ -2322,7 +2322,7 @@ msgstr "Valmistuneet _rakennushankkeet:"
 #: client/gui-gtk-3.0/action_dialog.c:735
 #: client/gui-gtk-3.22/action_dialog.c:729 client/gui-qt/dialogs.cpp:2380
 #: client/gui-sdl/action_dialog.c:1275 client/gui-sdl2/action_dialog.c:1226
-#: client/gui-xaw/action_dialog.c:608
+#: client/gui-xaw/action_dialog.c:609
 msgid "City Production"
 msgstr "Kaupungin tuotanto"
 
@@ -2330,7 +2330,7 @@ msgstr "Kaupungin tuotanto"
 #: client/gui-gtk-3.0/action_dialog.c:902
 #: client/gui-gtk-3.22/action_dialog.c:896 client/gui-qt/dialogs.cpp:2222
 #: client/gui-sdl/action_dialog.c:1584 client/gui-sdl2/action_dialog.c:1530
-#: client/gui-xaw/action_dialog.c:774
+#: client/gui-xaw/action_dialog.c:776
 #, c-format
 msgid "You can't incite a revolt in %s."
 msgstr "Et voi lietsoa kapinaa kaupungissa %s."
@@ -2347,7 +2347,7 @@ msgstr "Kaupungissa ei voi lietsoa kapinaa!"
 #: client/gui-gtk-3.0/action_dialog.c:910
 #: client/gui-gtk-3.22/action_dialog.c:904 client/gui-qt/dialogs.cpp:2230
 #: client/gui-sdl/action_dialog.c:1605 client/gui-sdl2/action_dialog.c:1551
-#: client/gui-xaw/action_dialog.c:781
+#: client/gui-xaw/action_dialog.c:783
 #, c-format
 msgid ""
 "Incite a revolt for %d gold?\n"
@@ -2375,7 +2375,7 @@ msgstr "Lietso kapinaa!"
 #: client/gui-gtk-3.0/action_dialog.c:919
 #: client/gui-gtk-3.22/action_dialog.c:913 client/gui-qt/dialogs.cpp:2248
 #: client/gui-sdl/action_dialog.c:1657 client/gui-sdl2/action_dialog.c:1602
-#: client/gui-xaw/action_dialog.c:791
+#: client/gui-xaw/action_dialog.c:793
 #, c-format
 msgid ""
 "Inciting a revolt costs %d gold.\n"
@@ -2402,7 +2402,7 @@ msgstr "Anna toimintaohjeet yksiköllesi %s"
 #: client/gui-gtk-2.0/action_dialog.c:1145
 #: client/gui-gtk-3.0/action_dialog.c:1239
 #: client/gui-gtk-3.22/action_dialog.c:1233 client/gui-qt/dialogs.cpp:1744
-#: client/gui-xaw/action_dialog.c:882
+#: client/gui-xaw/action_dialog.c:884
 #, c-format
 msgid ""
 "Your %s from %s reaches the city of %s.\n"
@@ -2414,7 +2414,7 @@ msgstr ""
 #: client/gui-gtk-2.0/action_dialog.c:1151
 #: client/gui-gtk-3.0/action_dialog.c:1245
 #: client/gui-gtk-3.22/action_dialog.c:1239 client/gui-qt/dialogs.cpp:1750
-#: client/gui-xaw/action_dialog.c:888
+#: client/gui-xaw/action_dialog.c:890
 #, c-format
 msgid ""
 "Your %s has arrived at %s.\n"
@@ -2435,7 +2435,7 @@ msgstr "Lähettämäsi %s on valmis toimimaan %s yksikköä %s vastaan."
 #: client/gui-gtk-2.0/action_dialog.c:1166
 #: client/gui-gtk-3.0/action_dialog.c:1260
 #: client/gui-gtk-3.22/action_dialog.c:1254 client/gui-qt/dialogs.cpp:1766
-#: client/gui-xaw/action_dialog.c:894
+#: client/gui-xaw/action_dialog.c:896
 #, c-format
 msgid "Your %s is waiting for your command."
 msgstr "%ssi odottaa toimintaohjeita"
@@ -3286,7 +3286,7 @@ msgid "Ne_w"
 msgstr "_Uusi"
 
 #: client/gui-gtk-2.0/cma_fe.c:307 client/gui-gtk-3.0/cma_fe.c:321
-#: client/gui-gtk-3.22/cma_fe.c:320 client/gui-xaw/repodlgs.c:765
+#: client/gui-gtk-3.22/cma_fe.c:320 client/gui-xaw/repodlgs.c:767
 msgid "Results"
 msgstr "Lopputulos"
 
@@ -4285,7 +4285,7 @@ msgstr "Kaupungit:"
 #. TRANS: current value of policy in force
 #: client/gui-gtk-2.0/gamedlgs.c:286 client/gui-gtk-3.0/gamedlgs.c:281
 #: client/gui-gtk-3.22/gamedlgs.c:281
-msgid "?multiplier:Cur"
+msgid "?multiplier:Now"
 msgstr "Nyt"
 
 #: client/gui-gtk-2.0/gamedlgs.c:320 client/gui-gtk-3.0/gamedlgs.c:314
@@ -6586,7 +6586,7 @@ msgstr "Yhteensä:"
 #: client/gui-gtk-2.0/repodlgs.c:1541 client/gui-gtk-3.0/repodlgs.c:1577
 #: client/gui-gtk-3.22/repodlgs.c:1577 client/gui-qt/repodlgs.cpp:219
 #: client/gui-sdl/repodlgs.c:196 client/gui-sdl2/repodlgs.c:218
-#: client/gui-xaw/repodlgs.c:1019
+#: client/gui-xaw/repodlgs.c:1021
 #, c-format
 msgid ""
 "Upgrade as many %s to %s as possible for %d gold each?\n"
@@ -10548,7 +10548,7 @@ msgstr[0] "vaihe"
 msgstr[1] "vaihetta"
 
 #: client/gui-sdl/repodlgs.c:3428 client/gui-sdl2/repodlgs.c:3497
-#: client/gui-xaw/repodlgs.c:1195
+#: client/gui-xaw/repodlgs.c:1197
 #, c-format
 msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
@@ -10556,12 +10556,12 @@ msgstr[0] "%2d: %s hallitsija %s sai %d pisteen\n"
 msgstr[1] "%2d: %s hallitsija %s sai %d pistettä\n"
 
 #: client/gui-sdl/repodlgs.c:3435 client/gui-sdl2/repodlgs.c:3504
-#: client/gui-xaw/repodlgs.c:1202
+#: client/gui-xaw/repodlgs.c:1204
 msgid "Final Report:"
 msgstr "Lopullinen raportti:"
 
 #: client/gui-sdl/repodlgs.c:3436 client/gui-sdl2/repodlgs.c:3505
-#: client/gui-xaw/repodlgs.c:1203
+#: client/gui-xaw/repodlgs.c:1205
 msgid "The Greatest Civilizations in the world."
 msgstr "Maailman mahtavimmat sivilisaatiot."
 
@@ -11231,20 +11231,20 @@ msgstr "Tutkittavana %s: %d/%d"
 msgid "Goal: %s (%d steps)"
 msgstr "Tavoite: %s (%d askelta)"
 
-#: client/gui-xaw/repodlgs.c:765
+#: client/gui-xaw/repodlgs.c:767
 msgid "Sell-Off:"
 msgstr "Myyty:"
 
-#: client/gui-xaw/repodlgs.c:809
+#: client/gui-xaw/repodlgs.c:811
 #, c-format
 msgid "Income:%6d    Total Costs: %6d"
 msgstr "Tulot: %6d   Kokonaismenot: %6d"
 
-#: client/gui-xaw/repodlgs.c:914
+#: client/gui-xaw/repodlgs.c:916
 msgid "Totals: ..."
 msgstr "Yhteensä: ..."
 
-#: client/gui-xaw/repodlgs.c:1152
+#: client/gui-xaw/repodlgs.c:1154
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
 msgstr "Yhteensä:                     %9d%9d%9d%9d"
@@ -17885,7 +17885,7 @@ msgstr "Juhlii"
 msgid "Civil Disorder"
 msgstr "Levottomuuksia"
 
-#: common/events.c:101 data/civ1/game.ruleset:472
+#: common/events.c:101 data/civ1/game.ruleset:477
 msgid "Famine"
 msgstr "Nälänhätä"
 
@@ -18364,12 +18364,12 @@ msgid "FP:%d "
 msgstr "TV:%d "
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:666 data/civ1/game.ruleset:439 data/civ2/game.ruleset:506
+#: common/game.h:666 data/civ1/game.ruleset:444 data/civ2/game.ruleset:511
 msgid "AD"
 msgstr "jaa."
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:668 data/civ1/game.ruleset:441 data/civ2/game.ruleset:508
+#: common/game.h:668 data/civ1/game.ruleset:446 data/civ2/game.ruleset:513
 msgid "BC"
 msgstr "eaa."
 
@@ -20656,150 +20656,150 @@ msgstr ""
 "täysissä voimissa.\n"
 
 #. TRANS: _Bribe Enemy Unit (3% chance of success).
-#: data/civ1/game.ruleset:195 data/civ2/game.ruleset:217
-#: data/classic/game.ruleset:223 data/experimental/game.ruleset:227
-#: data/civ2civ3/game.ruleset:229 data/multiplayer/game.ruleset:227
-#: data/sandbox/game.ruleset:227
+#: data/civ1/game.ruleset:200 data/civ2/game.ruleset:222
+#: data/classic/game.ruleset:225 data/experimental/game.ruleset:229
+#: data/civ2civ3/game.ruleset:231 data/multiplayer/game.ruleset:229
+#: data/sandbox/game.ruleset:229
 #, c-format
 msgid "%sBribe Enemy Unit%s"
 msgstr "%sLahjo vihollisen yksikkö%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: data/civ1/game.ruleset:198 data/civ2/game.ruleset:220
-#: data/classic/game.ruleset:226 data/experimental/game.ruleset:230
-#: data/civ2civ3/game.ruleset:232 data/multiplayer/game.ruleset:230
-#: data/sandbox/game.ruleset:230 server/ruleset.c:5462
+#: data/civ1/game.ruleset:203 data/civ2/game.ruleset:225
+#: data/classic/game.ruleset:228 data/experimental/game.ruleset:232
+#: data/civ2civ3/game.ruleset:234 data/multiplayer/game.ruleset:232
+#: data/sandbox/game.ruleset:232 server/ruleset.c:5462
 #, c-format
 msgid "%sSabotage City%s"
 msgstr "%sSabotoi kaupunkia%s"
 
 #. TRANS: Incite a _Revolt (3% chance of success).
-#: data/civ1/game.ruleset:201 data/civ2/game.ruleset:226
-#: data/classic/game.ruleset:232 data/experimental/game.ruleset:236
-#: data/civ2civ3/game.ruleset:238 data/multiplayer/game.ruleset:236
-#: data/sandbox/game.ruleset:236
+#: data/civ1/game.ruleset:206 data/civ2/game.ruleset:231
+#: data/classic/game.ruleset:234 data/experimental/game.ruleset:238
+#: data/civ2civ3/game.ruleset:240 data/multiplayer/game.ruleset:238
+#: data/sandbox/game.ruleset:238
 #, c-format
 msgid "Incite a %sRevolt%s"
 msgstr "%sYllytä kapinaan%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: data/civ1/game.ruleset:204 data/civ2/game.ruleset:229
-#: data/classic/game.ruleset:235 data/experimental/game.ruleset:239
-#: data/civ2civ3/game.ruleset:241 data/multiplayer/game.ruleset:239
-#: data/sandbox/game.ruleset:239 server/ruleset.c:5484
+#: data/civ1/game.ruleset:209 data/civ2/game.ruleset:234
+#: data/classic/game.ruleset:237 data/experimental/game.ruleset:241
+#: data/civ2civ3/game.ruleset:243 data/multiplayer/game.ruleset:241
+#: data/sandbox/game.ruleset:241 server/ruleset.c:5484
 #, c-format
 msgid "Establish %sEmbassy%s"
 msgstr "%sPerusta lähetystö%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: data/civ1/game.ruleset:207 data/civ2/game.ruleset:232
-#: data/classic/game.ruleset:238 data/experimental/game.ruleset:242
-#: data/civ2civ3/game.ruleset:244 data/multiplayer/game.ruleset:242
-#: data/sandbox/game.ruleset:242 server/ruleset.c:5491
+#: data/civ1/game.ruleset:212 data/civ2/game.ruleset:237
+#: data/classic/game.ruleset:240 data/experimental/game.ruleset:244
+#: data/civ2civ3/game.ruleset:246 data/multiplayer/game.ruleset:244
+#: data/sandbox/game.ruleset:244 server/ruleset.c:5491
 #, c-format
 msgid "Steal %sTechnology%s"
 msgstr "%sVarasta teknologia%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: data/civ1/game.ruleset:210 data/civ2/game.ruleset:238
-#: data/classic/game.ruleset:244 data/experimental/game.ruleset:248
-#: data/civ2civ3/game.ruleset:250 data/multiplayer/game.ruleset:248
-#: data/sandbox/game.ruleset:248 server/ruleset.c:5505
+#: data/civ1/game.ruleset:215 data/civ2/game.ruleset:243
+#: data/classic/game.ruleset:246 data/experimental/game.ruleset:250
+#: data/civ2civ3/game.ruleset:252 data/multiplayer/game.ruleset:250
+#: data/sandbox/game.ruleset:250 server/ruleset.c:5505
 #, c-format
 msgid "%sInvestigate City%s"
 msgstr "%sTutki kaupunkia%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: data/civ1/game.ruleset:213 data/civ2/game.ruleset:241
-#: data/classic/game.ruleset:247 data/experimental/game.ruleset:251
-#: data/civ2civ3/game.ruleset:253 data/sandbox/game.ruleset:251
+#: data/civ1/game.ruleset:218 data/civ2/game.ruleset:246
+#: data/classic/game.ruleset:249 data/experimental/game.ruleset:253
+#: data/civ2civ3/game.ruleset:255 data/sandbox/game.ruleset:253
 #: server/ruleset.c:5519
 #, c-format
 msgid "Establish Trade %sRoute%s"
 msgstr "%sPerusta kauppareitti%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: data/civ1/game.ruleset:216 data/civ2/game.ruleset:244
-#: data/civ2civ3/game.ruleset:256 data/sandbox/game.ruleset:254
+#: data/civ1/game.ruleset:221 data/civ2/game.ruleset:249
+#: data/civ2civ3/game.ruleset:258 data/sandbox/game.ruleset:256
 #: server/ruleset.c:5526
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "%sAstu torille%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: data/civ1/game.ruleset:219 data/civ2/game.ruleset:247
-#: data/classic/game.ruleset:253 data/experimental/game.ruleset:257
-#: data/civ2civ3/game.ruleset:259 data/multiplayer/game.ruleset:251
-#: data/sandbox/game.ruleset:257 server/ruleset.c:5533
+#: data/civ1/game.ruleset:224 data/civ2/game.ruleset:252
+#: data/classic/game.ruleset:255 data/experimental/game.ruleset:259
+#: data/civ2civ3/game.ruleset:261 data/multiplayer/game.ruleset:253
+#: data/sandbox/game.ruleset:259 server/ruleset.c:5533
 #, c-format
 msgid "Help %sbuild Wonder%s"
 msgstr "%sAuta ihmeen rakentamisessa%s"
 
 # *** -kuu can be removed from months to produce shortenings. ***
-#: data/civ1/game.ruleset:433 data/civ2/game.ruleset:500
-#: data/classic/game.ruleset:527 data/experimental/game.ruleset:543
-#: data/civ2civ3/game.ruleset:553 data/multiplayer/game.ruleset:511
-#: data/sandbox/game.ruleset:561
+#: data/civ1/game.ruleset:438 data/civ2/game.ruleset:505
+#: data/classic/game.ruleset:529 data/experimental/game.ruleset:545
+#: data/civ2civ3/game.ruleset:555 data/multiplayer/game.ruleset:513
+#: data/sandbox/game.ruleset:563
 msgid "Jan"
 msgstr "tam"
 
-#: data/civ1/game.ruleset:434 data/civ2/game.ruleset:501
-#: data/classic/game.ruleset:528 data/experimental/game.ruleset:544
-#: data/civ2civ3/game.ruleset:554 data/multiplayer/game.ruleset:512
-#: data/sandbox/game.ruleset:562
+#: data/civ1/game.ruleset:439 data/civ2/game.ruleset:506
+#: data/classic/game.ruleset:530 data/experimental/game.ruleset:546
+#: data/civ2civ3/game.ruleset:556 data/multiplayer/game.ruleset:514
+#: data/sandbox/game.ruleset:564
 msgid "Feb"
 msgstr "hel"
 
-#: data/civ1/game.ruleset:463 data/classic/game.ruleset:557
-#: data/experimental/game.ruleset:573 data/civ2civ3/game.ruleset:583
-#: data/sandbox/game.ruleset:591
+#: data/civ1/game.ruleset:468 data/classic/game.ruleset:559
+#: data/experimental/game.ruleset:575 data/civ2civ3/game.ruleset:585
+#: data/sandbox/game.ruleset:593
 msgid "Earthquake"
 msgstr "Maanjäristys"
 
-#: data/civ1/game.ruleset:481 data/classic/game.ruleset:567
-#: data/experimental/game.ruleset:578 data/civ2civ3/game.ruleset:601
-#: data/sandbox/game.ruleset:609
+#: data/civ1/game.ruleset:486 data/classic/game.ruleset:569
+#: data/experimental/game.ruleset:580 data/civ2civ3/game.ruleset:603
+#: data/sandbox/game.ruleset:611
 msgid "Fire"
 msgstr "Tuli"
 
-#: data/civ1/game.ruleset:490 data/civ2civ3/game.ruleset:592
-#: data/sandbox/game.ruleset:600
+#: data/civ1/game.ruleset:495 data/civ2civ3/game.ruleset:594
+#: data/sandbox/game.ruleset:602
 msgid "Flood"
 msgstr "Tulva"
 
-#: data/civ1/game.ruleset:500
+#: data/civ1/game.ruleset:505
 msgid "Piracy"
 msgstr "Piratismi"
 
-#: data/civ1/game.ruleset:512
+#: data/civ1/game.ruleset:517
 msgid "Plague"
 msgstr "Rutto"
 
-#: data/civ1/game.ruleset:522
+#: data/civ1/game.ruleset:527
 msgid "Volcano"
 msgstr "Tulivuorenpurkaus"
 
-#: data/civ1/game.ruleset:649 data/civ2/game.ruleset:648
-#: data/classic/game.ruleset:699 data/experimental/game.ruleset:730
-#: data/civ2civ3/game.ruleset:807 data/sandbox/game.ruleset:815
+#: data/civ1/game.ruleset:654 data/civ2/game.ruleset:653
+#: data/classic/game.ruleset:701 data/experimental/game.ruleset:732
+#: data/civ2civ3/game.ruleset:809 data/sandbox/game.ruleset:817
 msgid "Team 0"
 msgstr "Joukkue 0"
 
-#: data/civ1/game.ruleset:650 data/civ2/game.ruleset:649
-#: data/classic/game.ruleset:700 data/experimental/game.ruleset:731
-#: data/civ2civ3/game.ruleset:808 data/sandbox/game.ruleset:816
+#: data/civ1/game.ruleset:655 data/civ2/game.ruleset:654
+#: data/classic/game.ruleset:702 data/experimental/game.ruleset:733
+#: data/civ2civ3/game.ruleset:810 data/sandbox/game.ruleset:818
 msgid "Team 1"
 msgstr "Joukkue 1"
 
-#: data/civ1/game.ruleset:651 data/civ2/game.ruleset:650
-#: data/classic/game.ruleset:701 data/experimental/game.ruleset:732
-#: data/civ2civ3/game.ruleset:809 data/sandbox/game.ruleset:817
+#: data/civ1/game.ruleset:656 data/civ2/game.ruleset:655
+#: data/classic/game.ruleset:703 data/experimental/game.ruleset:734
+#: data/civ2civ3/game.ruleset:811 data/sandbox/game.ruleset:819
 msgid "Team 2"
 msgstr "Joukkue 2"
 
-#: data/civ1/game.ruleset:652 data/civ2/game.ruleset:651
-#: data/classic/game.ruleset:702 data/experimental/game.ruleset:733
-#: data/civ2civ3/game.ruleset:810 data/sandbox/game.ruleset:818
+#: data/civ1/game.ruleset:657 data/civ2/game.ruleset:656
+#: data/classic/game.ruleset:704 data/experimental/game.ruleset:735
+#: data/civ2civ3/game.ruleset:812 data/sandbox/game.ruleset:820
 msgid "Team 3"
 msgstr "Joukkue 3"
 
@@ -23759,10 +23759,9 @@ msgstr ""
 #: data/civ1/units.ruleset:1360
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
-"100 gold ransom is paid, but only to land units."
-msgstr ""
-"Kun barbaarijohtaja siepataan ruudulta, jolla ei ole puolustavia yksiköitä, "
-"maksetaan hänestä sadan yksikön lunnaat, mutta vain maavoimien yksiköille."
+"ransom is paid, but only to land units. Usually the ransom is 100 gold, but "
+"can be less if the barbarian has less money."
+msgstr "Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia yksiköitä, ja hyökkäjä on maavoimien yksikkö, maksetaan hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
 #: data/civ2/buildings.ruleset:44 data/classic/buildings.ruleset:77
 #: data/experimental/buildings.ruleset:79 data/civ2civ3/buildings.ruleset:77
@@ -24440,34 +24439,34 @@ msgstr ""
 "oletussääntöjä, mutta sisältävät pieniä lisäyksiä."
 
 #. TRANS: _Poison City (3% chance of success).
-#: data/civ2/game.ruleset:211 data/classic/game.ruleset:217
-#: data/experimental/game.ruleset:221 data/civ2civ3/game.ruleset:223
-#: data/multiplayer/game.ruleset:221 data/sandbox/game.ruleset:221
+#: data/civ2/game.ruleset:216 data/classic/game.ruleset:219
+#: data/experimental/game.ruleset:223 data/civ2civ3/game.ruleset:225
+#: data/multiplayer/game.ruleset:223 data/sandbox/game.ruleset:223
 #: server/ruleset.c:5441
 #, c-format
 msgid "%sPoison City%s"
 msgstr "%sMyrkytä kaupunki%s"
 
 #. TRANS: _Sabotage Enemy Unit (3% chance of success).
-#: data/civ2/game.ruleset:214 data/classic/game.ruleset:220
-#: data/experimental/game.ruleset:224 data/civ2civ3/game.ruleset:226
-#: data/multiplayer/game.ruleset:224 data/sandbox/game.ruleset:224
+#: data/civ2/game.ruleset:219 data/classic/game.ruleset:222
+#: data/experimental/game.ruleset:226 data/civ2civ3/game.ruleset:228
+#: data/multiplayer/game.ruleset:226 data/sandbox/game.ruleset:226
 #, c-format
 msgid "%sSabotage Enemy Unit%s"
 msgstr "%sSabotoi vihollisen yksikkö%s"
 
 #. TRANS: Industrial _Sabotage (3% chance of success).
-#: data/civ2/game.ruleset:223 data/classic/game.ruleset:229
-#: data/experimental/game.ruleset:233 data/civ2civ3/game.ruleset:235
-#: data/multiplayer/game.ruleset:233 data/sandbox/game.ruleset:233
+#: data/civ2/game.ruleset:228 data/classic/game.ruleset:231
+#: data/experimental/game.ruleset:235 data/civ2civ3/game.ruleset:237
+#: data/multiplayer/game.ruleset:235 data/sandbox/game.ruleset:235
 #, c-format
 msgid "Industrial %sSabotage%s"
 msgstr "%sSabotoi tuotantoa%s"
 
 #. TRANS: Indus_trial Espionage (3% chance of success).
-#: data/civ2/game.ruleset:235 data/classic/game.ruleset:241
-#: data/experimental/game.ruleset:245 data/civ2civ3/game.ruleset:247
-#: data/multiplayer/game.ruleset:245 data/sandbox/game.ruleset:245
+#: data/civ2/game.ruleset:240 data/classic/game.ruleset:243
+#: data/experimental/game.ruleset:247 data/civ2civ3/game.ruleset:249
+#: data/multiplayer/game.ruleset:247 data/sandbox/game.ruleset:247
 #, c-format
 msgid "Indus%strial Espionage%s"
 msgstr "%sTeollisuusvakoilu%s"
@@ -25870,11 +25869,9 @@ msgstr ""
 #: data/multiplayer/units.ruleset:2392 data/sandbox/units.ruleset:2532
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
-"100 gold ransom is paid, but only to land units and helicopters."
-msgstr ""
-"Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia "
-"yksiköitä, maksetaan hänestä 100 yksikön lunnaat kultana, mutta vain "
-"maavoimien yksiköille ja helikoptereille."
+"ransom is paid, but only to land units and helicopters. Usually the ransom "
+"is 100 gold, but can be less if the barbarian has less money."
+msgstr "Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia yksiköitä, ja hyökkäjä on maavoimien yksikkö tai helikopteri, maksetaan hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
 #: data/default/default.lua:22 server/unittools.c:2840
 #, c-format
@@ -26319,36 +26316,36 @@ msgstr ""
 "sääntöihin."
 
 #. TRANS: Sell _Goods (100% chance of success).
-#: data/classic/game.ruleset:250 data/experimental/game.ruleset:254
+#: data/classic/game.ruleset:252 data/experimental/game.ruleset:256
 #, c-format
 msgid "Sell %sGoods%s"
 msgstr "%sMyy kauppatavarat%s"
 
 #. TRANS: year label (Common Era)
-#: data/classic/game.ruleset:533 data/experimental/game.ruleset:549
-#: data/civ2civ3/game.ruleset:559 data/multiplayer/game.ruleset:517
-#: data/sandbox/game.ruleset:567
+#: data/classic/game.ruleset:535 data/experimental/game.ruleset:551
+#: data/civ2civ3/game.ruleset:561 data/multiplayer/game.ruleset:519
+#: data/sandbox/game.ruleset:569
 msgid "CE"
 msgstr "jaa."
 
 #. TRANS: year label (Before Common Era)
-#: data/classic/game.ruleset:535 data/experimental/game.ruleset:551
-#: data/civ2civ3/game.ruleset:561 data/multiplayer/game.ruleset:519
-#: data/sandbox/game.ruleset:569
+#: data/classic/game.ruleset:537 data/experimental/game.ruleset:553
+#: data/civ2civ3/game.ruleset:563 data/multiplayer/game.ruleset:521
+#: data/sandbox/game.ruleset:571
 msgid "BCE"
 msgstr "eaa."
 
-#: data/classic/game.ruleset:562
+#: data/classic/game.ruleset:564
 msgid "Pestilence"
 msgstr "Kulkutauti"
 
-#: data/classic/game.ruleset:572 data/experimental/game.ruleset:583
-#: data/civ2civ3/game.ruleset:610 data/sandbox/game.ruleset:618
+#: data/classic/game.ruleset:574 data/experimental/game.ruleset:585
+#: data/civ2civ3/game.ruleset:612 data/sandbox/game.ruleset:620
 msgid "Industrial Accident"
 msgstr "Tehdasonnettomuus"
 
-#: data/classic/game.ruleset:581 data/civ2civ3/game.ruleset:619
-#: data/sandbox/game.ruleset:627
+#: data/classic/game.ruleset:583 data/civ2civ3/game.ruleset:621
+#: data/sandbox/game.ruleset:629
 msgid "Nuclear Accident"
 msgstr "Ydinonnettomuus"
 
@@ -27025,15 +27022,15 @@ msgstr ""
 msgid "Won't unleash barbarians from huts."
 msgstr "· Ei vapauta barbaareita mökeistä."
 
-#: data/classic/units.ruleset:2312 data/experimental/units.ruleset:2345
-#: data/civ2civ3/units.ruleset:2535 data/multiplayer/units.ruleset:2398
-#: data/sandbox/units.ruleset:2538
+#: data/classic/units.ruleset:2314 data/experimental/units.ruleset:2347
+#: data/civ2civ3/units.ruleset:2537 data/multiplayer/units.ruleset:2400
+#: data/sandbox/units.ruleset:2540
 msgid "AWACS"
 msgstr "Tutkakone"
 
-#: data/classic/units.ruleset:2338 data/experimental/units.ruleset:2371
-#: data/civ2civ3/units.ruleset:2561 data/multiplayer/units.ruleset:2424
-#: data/sandbox/units.ruleset:2564
+#: data/classic/units.ruleset:2340 data/experimental/units.ruleset:2373
+#: data/civ2civ3/units.ruleset:2563 data/multiplayer/units.ruleset:2426
+#: data/sandbox/units.ruleset:2566
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -27146,63 +27143,63 @@ msgstr ""
 "tasapainottamista tai pelattavuuden hiomista. Kuvaus eroista perinteisiin "
 "sääntöihin on tiedostossa \"README.experimental\"."
 
-#: data/experimental/game.ruleset:616 data/civ2civ3/game.ruleset:652
-#: data/sandbox/game.ruleset:660
+#: data/experimental/game.ruleset:618 data/civ2civ3/game.ruleset:654
+#: data/sandbox/game.ruleset:662
 msgid "Spaceship Launch"
 msgstr "Avaruusalus laukaistu"
 
-#: data/experimental/game.ruleset:618 data/civ2civ3/game.ruleset:656
-#: data/sandbox/game.ruleset:664
+#: data/experimental/game.ruleset:620 data/civ2civ3/game.ruleset:658
+#: data/sandbox/game.ruleset:666
 msgid "You're the first one to launch a spaceship towards Alpha Centauri!"
 msgstr "Olet ensimmäinen avaruusaluksen kohti Alpha Centauria laukaissut!"
 
-#: data/experimental/game.ruleset:619 data/civ2civ3/game.ruleset:657
-#: data/sandbox/game.ruleset:665
+#: data/experimental/game.ruleset:621 data/civ2civ3/game.ruleset:659
+#: data/sandbox/game.ruleset:667
 msgid "You have launched a spaceship towards Alpha Centauri!"
 msgstr "Olet laukaissut avaruusaluksen kohti Alpha Centauria!"
 
-#: data/experimental/game.ruleset:622 data/civ2civ3/game.ruleset:660
-#: data/sandbox/game.ruleset:668
+#: data/experimental/game.ruleset:624 data/civ2civ3/game.ruleset:662
+#: data/sandbox/game.ruleset:670
 msgid "Entire Map Known"
 msgstr "Koko kartta tunnettu"
 
-#: data/experimental/game.ruleset:625 data/civ2civ3/game.ruleset:665
-#: data/sandbox/game.ruleset:673
+#: data/experimental/game.ruleset:627 data/civ2civ3/game.ruleset:667
+#: data/sandbox/game.ruleset:675
 msgid "You're the first one to have mapped the entire world!"
 msgstr "Ensimmäisenä olet kartoittanut koko maailman!"
 
-#: data/experimental/game.ruleset:626 data/civ2civ3/game.ruleset:666
-#: data/sandbox/game.ruleset:674
+#: data/experimental/game.ruleset:628 data/civ2civ3/game.ruleset:668
+#: data/sandbox/game.ruleset:676
 msgid "You have mapped the entire world!"
 msgstr "Olet kartoittanut koko maailman!"
 
-#: data/experimental/game.ruleset:630
+#: data/experimental/game.ruleset:632
 #, no-c-format
 msgid "Map Known 20%"
 msgstr "Kartasta 20% tunnettu"
 
-#: data/experimental/game.ruleset:635
+#: data/experimental/game.ruleset:637
 #, no-c-format
 msgid "You're the first one to have 20% of the world mapped!"
 msgstr "Olet ensimmäisenä kartoittanut maailmasta 20%!"
 
-#: data/experimental/game.ruleset:637
+#: data/experimental/game.ruleset:639
 #, no-c-format
 msgid "You have 20% of the world mapped!"
 msgstr "Olet kartoittanut maailmasta 20%!"
 
-#: data/experimental/game.ruleset:640 data/civ2civ3/game.ruleset:669
-#: data/sandbox/game.ruleset:677
+#: data/experimental/game.ruleset:642 data/civ2civ3/game.ruleset:671
+#: data/sandbox/game.ruleset:679
 msgid "Land Ahoy"
 msgstr "Maata näkyvissä"
 
-#: data/experimental/game.ruleset:643 data/civ2civ3/game.ruleset:674
-#: data/sandbox/game.ruleset:682
+#: data/experimental/game.ruleset:645 data/civ2civ3/game.ruleset:676
+#: data/sandbox/game.ruleset:684
 msgid "Your people were the first in history to sight a foreign shore!"
 msgstr "Olitte ensimmäinen itsellensä vieraan rannan löytänyt kansa!"
 
-#: data/experimental/game.ruleset:644 data/civ2civ3/game.ruleset:675
-#: data/sandbox/game.ruleset:683
+#: data/experimental/game.ruleset:646 data/civ2civ3/game.ruleset:677
+#: data/sandbox/game.ruleset:685
 msgid "You sighted your first foreign shore!"
 msgstr "Näitte ensi kertaa vieraan saaren rannan!"
 
@@ -28406,68 +28403,68 @@ msgstr ""
 "Tarkat erot klassisiin sääntöihin nähden on selitetty tiedostossa README."
 "civ2civ3."
 
-#: data/civ2civ3/game.ruleset:678 data/sandbox/game.ruleset:686
+#: data/civ2civ3/game.ruleset:680 data/sandbox/game.ruleset:688
 msgid "Literate"
 msgstr "Lukutaitoisuus"
 
-#: data/civ2civ3/game.ruleset:684 data/sandbox/game.ruleset:692
+#: data/civ2civ3/game.ruleset:686 data/sandbox/game.ruleset:694
 #, no-c-format
 msgid "Your nation is the first to reach 100% literacy!"
 msgstr "Kansasi on ensimmäisenä saavuttanut 100% lukutaidon!"
 
-#: data/civ2civ3/game.ruleset:686 data/sandbox/game.ruleset:694
+#: data/civ2civ3/game.ruleset:688 data/sandbox/game.ruleset:696
 #, no-c-format
 msgid "Your nation has reached 100% literacy!"
 msgstr "Kansasi on saavuttanut 100% lukutaidon!"
 
-#: data/civ2civ3/game.ruleset:689 data/sandbox/game.ruleset:697
+#: data/civ2civ3/game.ruleset:691 data/sandbox/game.ruleset:699
 msgid "Multicultural"
 msgstr "Monikulttuurinen"
 
-#: data/civ2civ3/game.ruleset:694 data/sandbox/game.ruleset:702
+#: data/civ2civ3/game.ruleset:696 data/sandbox/game.ruleset:704
 msgid "You're the first nation to have citizens of multiple nationalities!"
 msgstr ""
 "Olette ensimmänen kansakunta, jonka väestössä on useampaa eri kansalaisuutta!"
 
-#: data/civ2civ3/game.ruleset:695 data/sandbox/game.ruleset:703
+#: data/civ2civ3/game.ruleset:697 data/sandbox/game.ruleset:705
 msgid "Your nation now has citizens of multiple nationalities!"
 msgstr "Kansakuntasi väestössä on nyt useampaa eri kansalaisuutta!"
 
-#: data/civ2civ3/game.ruleset:698 data/sandbox/game.ruleset:706
+#: data/civ2civ3/game.ruleset:700 data/sandbox/game.ruleset:708
 msgid "Metropolis"
 msgstr "Metropoli"
 
-#: data/civ2civ3/game.ruleset:703 data/sandbox/game.ruleset:711
+#: data/civ2civ3/game.ruleset:705 data/sandbox/game.ruleset:713
 msgid "Your nation is the first with a city of population 20!"
 msgstr "Yksi kaupungeistasi saavuttaa ensimmäisenä maailmassa koon 20!"
 
-#: data/civ2civ3/game.ruleset:704 data/sandbox/game.ruleset:712
+#: data/civ2civ3/game.ruleset:706 data/sandbox/game.ruleset:714
 msgid "One of your cities has reached population 20!"
 msgstr "Yksi kaupungeistasi on saavuttanut koon 20!"
 
-#: data/civ2civ3/game.ruleset:707 data/sandbox/game.ruleset:715
+#: data/civ2civ3/game.ruleset:709 data/sandbox/game.ruleset:717
 msgid "Cultured City"
 msgstr "Kulttuurikaupunki"
 
-#: data/civ2civ3/game.ruleset:712 data/sandbox/game.ruleset:720
+#: data/civ2civ3/game.ruleset:714 data/sandbox/game.ruleset:722
 msgid "Your nation is the first with a city of 1000 culture points!"
 msgstr ""
 "Yksi kaupungeistasi on ensimmäinen 1000 kultturipistettä saavuttanut "
 "kaupunki maailmassa!"
 
-#: data/civ2civ3/game.ruleset:713 data/sandbox/game.ruleset:721
+#: data/civ2civ3/game.ruleset:715 data/sandbox/game.ruleset:723
 msgid "One of your cities has 1000 culture points!"
 msgstr "Yksi kaupungeistasi on saavuttanut 1000 kulttuuripistettä!"
 
-#: data/civ2civ3/game.ruleset:716 data/sandbox/game.ruleset:724
+#: data/civ2civ3/game.ruleset:718 data/sandbox/game.ruleset:726
 msgid "Cultured Nation"
 msgstr "Kulttuurivaltio"
 
-#: data/civ2civ3/game.ruleset:720 data/sandbox/game.ruleset:728
+#: data/civ2civ3/game.ruleset:722 data/sandbox/game.ruleset:730
 msgid "Your nation is the first one to achieve 10000 culture points!"
 msgstr "Valtiosi on ensimmäinen 10000 kultturipistettä saavuttanut valtio!"
 
-#: data/civ2civ3/game.ruleset:721 data/sandbox/game.ruleset:729
+#: data/civ2civ3/game.ruleset:723 data/sandbox/game.ruleset:731
 msgid "Your nation has achieved 10000 culture points!"
 msgstr "Valtiosi on saavuttanut 10000 kulttuuripistettä!"
 
@@ -34590,163 +34587,163 @@ msgstr ""
 #. TRANS: With this and other color team names, uniqueness is more
 #. TRANS: important than precise translation. To see the colors, start a
 #. TRANS: multiplayer game with 32 players and look at the Nations report.
-#: data/multiplayer/game.ruleset:656
+#: data/multiplayer/game.ruleset:658
 msgid "?team name:Red"
 msgstr "Punaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:658
+#: data/multiplayer/game.ruleset:660
 msgid "?team name:Yellow"
 msgstr "Keltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:660
+#: data/multiplayer/game.ruleset:662
 msgid "?team name:Blue"
 msgstr "Siniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:662
+#: data/multiplayer/game.ruleset:664
 msgid "?team name:Purple"
 msgstr "Purppurat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:664
+#: data/multiplayer/game.ruleset:666
 msgid "?team name:Orange"
 msgstr "Oranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:666
+#: data/multiplayer/game.ruleset:668
 msgid "?team name:Magenta"
 msgstr "Magentat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:668
+#: data/multiplayer/game.ruleset:670
 msgid "?team name:Cornflower"
 msgstr "Ruiskaunokinsiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:670
+#: data/multiplayer/game.ruleset:672
 msgid "?team name:Emerald"
 msgstr "Smaragdinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:672
+#: data/multiplayer/game.ruleset:674
 msgid "?team name:Salmon"
 msgstr "Lohenpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:674
+#: data/multiplayer/game.ruleset:676
 msgid "?team name:Green"
 msgstr "Vihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:676
+#: data/multiplayer/game.ruleset:678
 msgid "?team name:Burgundy"
 msgstr "Burgundinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:678
+#: data/multiplayer/game.ruleset:680
 msgid "?team name:Pink"
 msgstr "Pinkit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:680
+#: data/multiplayer/game.ruleset:682
 msgid "?team name:Silver"
 msgstr "Hopeanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:682
+#: data/multiplayer/game.ruleset:684
 msgid "?team name:Heliotrope"
 msgstr "Auringonkeltaiset"
 
 # Ei jumalauta
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:684
+#: data/multiplayer/game.ruleset:686
 msgid "?team name:Fuchsia"
 msgstr "Fuksiat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:686
+#: data/multiplayer/game.ruleset:688
 msgid "?team name:Azure"
 msgstr "Taivaansiniset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:688
+#: data/multiplayer/game.ruleset:690
 msgid "?team name:Gold"
 msgstr "Kullanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:690
+#: data/multiplayer/game.ruleset:692
 msgid "?team name:Khaki"
 msgstr "Khakinruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:692
+#: data/multiplayer/game.ruleset:694
 msgid "?team name:Butter"
 msgstr "Voinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:694
+#: data/multiplayer/game.ruleset:696
 msgid "?team name:Mint"
 msgstr "Mintunvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:696
+#: data/multiplayer/game.ruleset:698
 msgid "?team name:Lime"
 msgstr "Limetinvihreät"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:698
+#: data/multiplayer/game.ruleset:700
 msgid "?team name:Peach"
 msgstr "Persikanväriset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:700
+#: data/multiplayer/game.ruleset:702
 msgid "?team name:Vermilion"
 msgstr "Oranssinpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:702
+#: data/multiplayer/game.ruleset:704
 msgid "?team name:Puce"
 msgstr "Punaisenruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:704
+#: data/multiplayer/game.ruleset:706
 msgid "?team name:Mustard"
 msgstr "Sinapinkeltaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:706
+#: data/multiplayer/game.ruleset:708
 msgid "?team name:Aubergine"
 msgstr "Munakoisonvioletit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:708
+#: data/multiplayer/game.ruleset:710
 msgid "?team name:Brown"
 msgstr "Ruskeat"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:710
+#: data/multiplayer/game.ruleset:712
 msgid "?team name:Pumpkin"
 msgstr "Kurpitsanoranssit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:712
+#: data/multiplayer/game.ruleset:714
 msgid "?team name:Turquoise"
 msgstr "Turkoosit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:714
+#: data/multiplayer/game.ruleset:716
 msgid "?team name:Crimson"
 msgstr "Crimsoninpunaiset"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:716
+#: data/multiplayer/game.ruleset:718
 msgid "?team name:Lavender"
 msgstr "Laventelit"
 
 #. TRANS: Name of a color; used as unique identifier for a team
-#: data/multiplayer/game.ruleset:718
+#: data/multiplayer/game.ruleset:720
 msgid "?team name:Cream"
 msgstr "Kermanväriset"
 
@@ -38172,18 +38169,18 @@ msgstr ""
 "%s lykkää työlistan hanketta %s, koska tarvittavaa teknologiaa %s ei vielä "
 "ole saatavilla."
 
-#: server/cityturn.c:1136 server/cityturn.c:1884
+#: server/cityturn.c:1136
 #, c-format
 msgid "%s can't build %s from the worklist; reason unknown! Postponing..."
 msgstr "%s lykkää työlistan hanketta %s tuntemattomasta syystä."
 
-#: server/cityturn.c:1149 server/cityturn.c:1903
+#: server/cityturn.c:1149 server/cityturn.c:1899
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s poistaa hankkeen %s työlistalta koska sitä ei voi rakentaa."
 
-#: server/cityturn.c:1170 server/cityturn.c:1892 server/cityturn.c:2027
-#: server/cityturn.c:2073
+#: server/cityturn.c:1170 server/cityturn.c:1888 server/cityturn.c:2023
+#: server/cityturn.c:2069
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Tuotantoa uudistetaan: %s korvattu tavoitteella %s kaupungissa %s."
@@ -38512,37 +38509,37 @@ msgstr ""
 "vanhoille kaupungeille."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1943
+#: server/cityturn.c:1939
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "%s pääsi työlistansa loppuun."
 
-#: server/cityturn.c:2095
+#: server/cityturn.c:2091
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ei voi ylläpitää kaikkia yksikköjään, %s hajotettu."
 
-#: server/cityturn.c:2116
+#: server/cityturn.c:2112
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Kaupungin %s asukkaat kuolevat, kun %s rapistuu ylläpidon puutteesta!"
 
-#: server/cityturn.c:2161 server/cityturn.c:2342
+#: server/cityturn.c:2157 server/cityturn.c:2338
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s: rakenteilla on %s, joka ei enää ole saatavilla."
 
-#: server/cityturn.c:2200
+#: server/cityturn.c:2196
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s ehtivät ensin: %s on valmistunut kaupungissa %s."
 
-#: server/cityturn.c:2207
+#: server/cityturn.c:2203
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s sai valmiiksi hankkeen %s."
 
-#: server/cityturn.c:2230
+#: server/cityturn.c:2226
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -38550,26 +38547,26 @@ msgstr[0] "%s tehostaa tutkimusta, harppaat %d edistysaskeleen."
 msgstr[1] "%s tehostaa tutkimusta, harppaat %d edistysaskelta."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2244
+#: server/cityturn.c:2240
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "%s saatu, sen tuotti %s!"
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2250
+#: server/cityturn.c:2246
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr ""
 "Tiedonjanoiset %1$s saivat edistysaskeleen. %3$s tuotti teknologian %2$s."
 
-#: server/cityturn.c:2257
+#: server/cityturn.c:2253
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s rakentavat jo avaruusalusta!"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2369
+#: server/cityturn.c:2365
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -38577,46 +38574,46 @@ msgstr ""
 "väkilukukustannus: %d)"
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2404
+#: server/cityturn.c:2400
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s sai valmiiksi hankkeensa %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2429
+#: server/cityturn.c:2425
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s vaatii väestöä %d kokoluokan, %s kutistuu kokoon %d."
 msgstr[1] "%s vaatii väestöä %d kokoluokkaa, %s kutistuu kokoon %d."
 
-#: server/cityturn.c:2505
+#: server/cityturn.c:2501
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "%s myyty kaupungissa %s, koska ylläpitoon ei ollut varaa!"
 
-#: server/cityturn.c:2594
+#: server/cityturn.c:2590
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Rahasi eivät riitä. %s hajotettiin."
 
-#: server/cityturn.c:2840 server/cityturn.c:3645
+#: server/cityturn.c:2836 server/cityturn.c:3645
 #, c-format
 msgid "Pollution near %s."
 msgstr "%s raportoi saasteista lähistöllään."
 
-#: server/cityturn.c:3012
+#: server/cityturn.c:3008
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "%s järjestää villiä juhlintaa kunniaksesi."
 
-#: server/cityturn.c:3018
+#: server/cityturn.c:3014
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "%s palaa arkeen, juhlallisuudet peruttu."
 
-#: server/cityturn.c:3035
+#: server/cityturn.c:3031
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s on ruton riipimä! Väestöä kuolee!"
@@ -48606,6 +48603,14 @@ msgstr "virhe %ld (FormatMessage() epäonnistui)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "virhe %d (funktio strerror() ei ole käytössä)"
+
+#~ msgid ""
+#~ "When a Barbarian Leader is killed on a tile without any defending units, "
+#~ "the 100 gold ransom is paid, but only to land units."
+#~ msgstr ""
+#~ "Kun barbaarijohtaja siepataan ruudulta, jolla ei ole puolustavia "
+#~ "yksiköitä, maksetaan hänestä sadan yksikön lunnaat, mutta vain maavoimien "
+#~ "yksiköille."
 
 #~ msgid ""
 #~ "The base chance of a spy returning from a successful mission and the base "
