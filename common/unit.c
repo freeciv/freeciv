@@ -1275,9 +1275,11 @@ void unit_tile_set(struct unit *punit, struct tile *ptile)
 }
 
 /**********************************************************************//**
-  Returns true if the tile contains an allied unit and only allied units.
+  Returns one of the units, if the tile contains an allied unit and
+  only allied units. Returns NULL if there is no units, or some of them
+  are not allied.
   (ie, if your nation A is allied with B, and B is allied with C, a tile
-  containing units from B and C will return false)
+  containing units from B and C will return NULL)
 **************************************************************************/
 struct unit *is_allied_unit_tile(const struct tile *ptile,
                                  const struct player *pplayer)
