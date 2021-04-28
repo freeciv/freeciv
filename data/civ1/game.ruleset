@@ -990,7 +990,6 @@ actor_reqs    =
     { "type",          "name",        "range", "present"
       "MinMoveFrags",  "1",           "Local", TRUE
       "UnitState",     "Transported", "Local", FALSE
-      "UnitClassFlag", "HutFrighten", "Local", FALSE
       "UnitClassFlag", "HutNothing",  "Local", FALSE
     }
 
@@ -1000,7 +999,6 @@ actor_reqs    =
   { "type",         "name",         "range", "present"
     "MinMoveFrags", "1",            "Local", TRUE
     "UnitState",    "Transported",  "Local", TRUE
-    "UnitClassFlag", "HutFrighten", "Local", FALSE
     "UnitClassFlag", "HutNothing",  "Local", FALSE
     }
 

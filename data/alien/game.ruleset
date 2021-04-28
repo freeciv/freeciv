@@ -826,7 +826,6 @@ actor_reqs    =
       "Extra",         "Antigrav Base", "Local", TRUE
       "DiplRel",       "Peace",         "Local", FALSE
       "DiplRel",       "War",           "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -841,7 +840,6 @@ actor_reqs    =
       "MinMoveFrags",  "4",             "Local", TRUE
       "UnitState",     "Transporting",  "Local", FALSE
       "Extra",         "Antigrav Base", "Local", TRUE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -859,7 +857,6 @@ actor_reqs    =
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
       "UnitFlag",      "NonMil",        "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -876,7 +873,6 @@ actor_reqs    =
       "CityTile",      "Center",       "Local", TRUE
       "DiplRel",       "Peace",        "Local", FALSE
       "DiplRel",       "War",          "Local", FALSE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -891,7 +887,6 @@ actor_reqs    =
       "MinMoveFrags",  "4",            "Local", TRUE
       "UnitState",     "Transporting", "Local", FALSE
       "CityTile",      "Center",       "Local", TRUE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -909,7 +904,6 @@ actor_reqs    =
       "DiplRel",       "War",           "Local", TRUE
       "UnitClassFlag", "CanOccupyCity", "Local", TRUE
       "UnitFlag",      "NonMil",        "Local", FALSE
-      "UnitClassFlag", "HutFrighten",   "Local", FALSE
     }
 target_reqs   =
     { "type",     "name",    "range", "present"
@@ -1194,7 +1188,6 @@ actor_reqs    =
     { "type",          "name",         "range", "present"
       "MinMoveFrags",  "1",            "Local", TRUE
       "UnitState",     "OnNativeTile", "Local", TRUE
-      "UnitClassFlag", "HutFrighten",  "Local", FALSE
     }
 
 [actionenabler_hut_enter_from_native_city]
@@ -1203,7 +1196,6 @@ actor_reqs    =
     { "type",          "name",        "range", "present"
       "MinMoveFrags",  "1",           "Local", TRUE
       "CityTile",      "Center",      "Local", TRUE
-      "UnitClassFlag", "HutFrighten", "Local", FALSE
     }
 
 [actionenabler_hut_enter_from_non_native]
@@ -1213,7 +1205,6 @@ actor_reqs    =
       "MinMoveFrags",   "1",            "Local", TRUE
       "UnitState",      "OnNativeTile", "Local", FALSE
       "CityTile",       "Center",       "Local", FALSE
-      "UnitClassFlag",  "HutFrighten",  "Local", FALSE
     }
 
 [borders]
