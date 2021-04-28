@@ -875,6 +875,19 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose "Nuke Units". */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_NUKE_UNITS);
+  } else if (action_id_get_target_kind(ACTION_NUKE) == ATK_TILE
+             && is_action_enabled_unit_on_tile(ACTION_NUKE,
+                                               punit, ptile, NULL)) {
+    /* Choose "Explode Nuclear". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_NUKE);
+  } else if (action_id_get_target_kind(ACTION_NUKE) == ATK_CITY
+             && (tcity = tile_city(ptile))
+             && is_action_enabled_unit_on_city(ACTION_NUKE,
+                                               punit, tcity)) {
+    /* Choose "Explode Nuclear". */
+    unit_do_action(unit_owner(punit), punit->id, tcity->id,
+                   0, "", ACTION_NUKE);
   } else if (action_id_get_target_kind(ACTION_NUKE_CITY) == ATK_TILE
              && is_action_enabled_unit_on_tile(ACTION_NUKE_CITY,
                                                punit, ptile, NULL)) {
