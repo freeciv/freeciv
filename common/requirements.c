@@ -3634,6 +3634,10 @@ static enum req_item_found terrain_type_found(const struct requirement *preq,
   case VUT_TERRFLAG:
     return terrain_has_flag(source->value.terrain,
                             preq->source.value.terrainflag) ? ITF_YES : ITF_NO;
+  case VUT_TERRAINALTER:
+    return (terrain_can_support_alteration(source->value.terrain,
+                                           preq->source.value.terrainalter)
+            ? ITF_YES : ITF_NO);
   default:
     /* Not found and not relevant. */
     return ITF_NOT_APPLICABLE;
