@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-28 18:44+0200\n"
-"PO-Revision-Date: 2020-02-11 17:54+0200\n"
+"POT-Creation-Date: 2021-04-28 03:32+0300\n"
+"PO-Revision-Date: 2021-04-28 03:35+0300\n"
 "Last-Translator: Marko Lindqvist <cazfi74@gmail.com>\n"
 "Language-Team: Finnish <laatu@lokalisointi.org>\n"
 "Language: fi\n"
@@ -122,15 +122,15 @@ msgstr "Sääntökokoelma ladattu"
 msgid "Ruleset loading failed!"
 msgstr "Sääntökokoelman lataaminen epäonnistui!"
 
-#: tools/ruledit/ruledit_qt.cpp:248
+#: tools/ruledit/ruledit_qt.cpp:249
 msgid "Freeciv Ruleset Editor"
 msgstr "Freeciv-sääntökokoelmien muokkaustyökalu"
 
-#: tools/ruledit/ruledit_qt.cpp:264
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Are you sure you want to quit?"
 msgstr "Oletko varma että haluat sulkea ohjelman?"
 
-#: tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:269
 msgid "Quit?"
 msgstr "Sulje ohjelma?"
 
@@ -148,95 +148,103 @@ msgstr "Nimi"
 msgid "A building with that rule name already exists!"
 msgstr "Rakennus samalla sääntönimellä on jo olemassa!"
 
-#: tools/ruledit/tab_misc.cpp:61
+#: tools/ruledit/tab_misc.cpp:63
 msgid "Ruleset name"
 msgstr "Sääntökokoelman nimi"
 
-#: tools/ruledit/tab_misc.cpp:66
+#: tools/ruledit/tab_misc.cpp:68
 msgid "Ruleset version"
 msgstr "Sääntökokoelman versio"
 
-#: tools/ruledit/tab_misc.cpp:71
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Save to directory"
 msgstr "Tallenna hakemistoon"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:80
 msgid "Save now"
 msgstr "Tallenna nyt"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:84
+msgid "Description from file"
+msgstr "Kuvaus tiedostosta"
+
+#: tools/ruledit/tab_misc.cpp:91
+msgid "Description file"
+msgstr "Kuvaustiedosto"
+
+#: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Terrains"
 msgstr "Maastotyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:104
 msgid "?stat:Resources"
 msgstr "Luonnonvaroja"
 
-#: tools/ruledit/tab_misc.cpp:93
+#: tools/ruledit/tab_misc.cpp:108
 msgid "?stat:Techs"
 msgstr "Teknologioita"
 
-#: tools/ruledit/tab_misc.cpp:97
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Unit Classes"
 msgstr "Yksikköluokkia"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Unit Types"
 msgstr "Yksikkötyyppejä"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Buildings"
 msgstr "Rakennuksia"
 
-#: tools/ruledit/tab_misc.cpp:109
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Nations"
 msgstr "Kansoja"
 
-#: tools/ruledit/tab_misc.cpp:113
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Styles"
 msgstr "Tyylejä"
 
-#: tools/ruledit/tab_misc.cpp:117
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Specialists"
 msgstr "Erikoisosaajia"
 
-#: tools/ruledit/tab_misc.cpp:121
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Governments"
 msgstr "Hallitusmuotoja"
 
-#: tools/ruledit/tab_misc.cpp:125
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Disasters"
 msgstr "Onnettomuuksia"
 
-#: tools/ruledit/tab_misc.cpp:129
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Achievements"
 msgstr "Saavutuksia"
 
-#: tools/ruledit/tab_misc.cpp:133
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Extras"
 msgstr "Ekstroja"
 
-#: tools/ruledit/tab_misc.cpp:137
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Bases"
 msgstr "Tukikohtia"
 
-#: tools/ruledit/tab_misc.cpp:141
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Roads"
 msgstr "Kulkuväyliä"
 
-#: tools/ruledit/tab_misc.cpp:145
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Multipliers"
 msgstr "Kertoimia"
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:236
 msgid "Ruleset saved"
 msgstr "Sääntökokoelma tallennettu"
 
-#: tools/ruledit/tab_nation.cpp:49
+#: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
 msgstr "Käytä kansalistaa"
 
-#: tools/ruledit/tab_nation.cpp:53
+#: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
 msgstr "Kansalista"
 
