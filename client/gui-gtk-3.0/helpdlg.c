@@ -1249,7 +1249,6 @@ static void help_update_terrain(const struct help_item *pitem,
     gtk_container_foreach(GTK_CONTAINER(help_vbox), (GtkCallback)gtk_widget_destroy, NULL);
 
     if (pterrain->cultivate_result != T_NONE
-        && pterrain->cultivate_time != 0
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                         NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
@@ -1261,7 +1260,6 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     if (pterrain->plant_result != T_NONE
-        && pterrain->plant_time != 0
         && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
                   PL_("%d turn", "%d turns", pterrain->plant_time),
@@ -1272,7 +1270,6 @@ static void help_update_terrain(const struct help_item *pitem,
     }
 
     if (pterrain->transform_result != T_NONE
-        && pterrain->transform_time != 0
         && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                         NULL, &for_terr)) {
       fc_snprintf(buf, sizeof(buf),
