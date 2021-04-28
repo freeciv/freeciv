@@ -581,10 +581,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
   if (player_is_cpuhog(pplayer)) {
     assess_turns = 6;
   } else {
-    assess_turns = 3;
-#ifdef FREECIV_WEB
     assess_turns = has_handicap(pplayer, H_ASSESS_DANGER_LIMITED) ? 2 : 3;
-#endif
   }
 
   omnimap = !has_handicap(pplayer, H_MAP);
@@ -616,14 +613,19 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       struct unit_type_ai *utai = utype_ai_data(utype, ait);
 
 #ifdef FREECIV_WEB
+      /* freeciv-web ignores danger that is far in distance,
+       * no matter how quickly it would reach us; even if
+       * that's *immediately* over a road type that allows
+       * unlimited movement. */
       int unit_distance = real_map_distance(ptile, unit_tile(punit));
+
       if (unit_distance > ASSESS_DANGER_MAX_DISTANCE
           || (has_handicap(pplayer, H_ASSESS_DANGER_LIMITED)
               && unit_distance > AI_HANDICAP_DISTANCE_LIMIT)) {
         /* Too far away. */
         continue;
       }
-#endif
+#endif /* FREECIV_WEB */
 
       if (!utai->carries_occupiers
           && !utype_acts_hostile(utype)) {

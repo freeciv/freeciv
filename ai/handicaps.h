@@ -33,9 +33,7 @@ enum handicap_type {
   H_CEASEFIRE,
   H_NOBRIBE_WF,
   H_PRODCHGPEN,
-#ifdef FREECIV_WEB
   H_ASSESS_DANGER_LIMITED,
-#endif
   H_LAST
 };
 
