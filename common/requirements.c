@@ -4989,7 +4989,9 @@ static enum req_item_found output_type_found(const struct requirement *preq,
 static enum req_item_found ustate_found(const struct requirement *preq,
                                         const struct universal *source)
 {
-  fc_assert_ret_val(preq->range == REQ_RANGE_LOCAL, ITF_NOT_APPLICABLE);
+  if (preq->range != REQ_RANGE_LOCAL) {
+    return ITF_NOT_APPLICABLE;
+  }
 
   if (preq->source.kind == VUT_UNITSTATE) {
     switch (source->value.unit_state) {
