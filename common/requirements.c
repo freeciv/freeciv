@@ -1114,6 +1114,49 @@ static bool nation_contra_group(const struct requirement *nation_req,
 }
 
 /**********************************************************************//**
+  Returns TRUE if req1 and req2 contradicts each other because a present
+  requirement implies the presence of a !present requirement according to
+  the knowledge about implications in universal_found_function.
+**************************************************************************/
+static bool present_implies_not_present(const struct requirement *req1,
+                                        const struct requirement *req2)
+{
+  const struct requirement *absent, *present;
+
+  if (req1->present == req2->present) {
+    /* Can't use the knowledge in universal_found_function when both are
+     * required to be absent or when both are required to be present.
+     * It is no contradiction to require !Spy unit and !Missile unit class.
+     * It is no contradiction to require River and Irrigation at the same
+     * tile. */
+    return FALSE;
+  }
+
+  if (req1->present) {
+    absent = req2;
+    present = req1;
+  } else {
+    absent = req1;
+    present = req2;
+  }
+
+  if (!universal_found_function[present->source.kind]) {
+    /* No knowledge to exploit. */
+    return FALSE;
+  }
+
+  if (present->range != absent->range) {
+    /* Larger ranges are not always strict supersets of smaller ranges.
+     * Example: Traderoute > CAdjacent but something may be in CAdjacent
+     * but not in Traderoute. */
+    return FALSE;
+  }
+
+  return ITF_YES == universal_fulfills_requirement(absent,
+                                                   &present->source);
+}
+
+/**********************************************************************//**
   Returns TRUE if req1 and req2 contradicts each other.
 
   TODO: If information about what entity each requirement type will be
@@ -1125,6 +1168,10 @@ bool are_requirements_contradictions(const struct requirement *req1,
 {
   if (are_requirements_opposites(req1, req2)) {
     /* The exact opposite. */
+    return TRUE;
+  }
+
+  if (present_implies_not_present(req1, req2)) {
     return TRUE;
   }
 
