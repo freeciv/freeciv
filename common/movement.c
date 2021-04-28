@@ -640,7 +640,7 @@ unit_move_to_tile_test(const struct civ_map *nmap,
     /* You can't move into a non-allied tile.
      *
      * FIXME: this should never happen since it should be caught by check
-     * #3. */
+     * #4. */
     return MR_NO_WAR;
   }
 
