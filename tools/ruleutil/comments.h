@@ -58,6 +58,7 @@ void comment_clauses(struct section_file *sfile);
 void comment_civstyle_granary(struct section_file *sfile);
 void comment_civstyle_gameloss_style(struct section_file *sfile);
 void comment_civstyle_gold_upkeep_style(struct section_file *sfile);
+void comment_combat_rules_tired_attack(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

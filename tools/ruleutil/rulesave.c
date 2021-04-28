@@ -1371,6 +1371,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
     save_reqs_vector(sfile, &(pae->target_reqs), path, "target_reqs");
   } action_enablers_iterate_end;
 
+  if (game.info.tired_attack != RS_DEFAULT_TIRED_ATTACK) {
+    comment_combat_rules_tired_attack(sfile);
+  }
   save_default_bool(sfile, game.info.tired_attack,
                     RS_DEFAULT_TIRED_ATTACK,
                     "combat_rules.tired_attack", NULL);

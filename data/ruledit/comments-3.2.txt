@@ -1232,3 +1232,12 @@ gold_upkeep_style = "\n\
 ;            If still more gold is needed, then random units with gold\n\
 ;            upkeep are disbanded.\
 "
+
+tired_attack = "\
+; If tired_attack is set to TRUE, units that attack with less than a single\n\
+; move point (per move_fragments in terrain.ruleset) will have their attack\n\
+; power reduced accordingly. For instance, if move_fragments = 3, a unit with\n\
+; 2/3 move points will have attack power 2/3 of normal.\n\
+; If this is set to FALSE units will attack with full strength even if they\n\
+; have only fractional moves left.\
+"

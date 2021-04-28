@@ -55,6 +55,7 @@ static struct {
   char *civstyle_granary;
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
+  char *combat_rules_tired_attack;
 } comments_storage;
 
 /**********************************************************************//**
@@ -132,6 +133,8 @@ bool comments_load(void)
                "entrydoc.gameloss_style");
   comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
                "entrydoc.gold_upkeep_style");
+  comment_load(comments_storage.combat_rules_tired_attack, comment_file,
+               "entrydoc.tired_attack");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -408,4 +411,13 @@ void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_gold_upkeep_style,
                       "civstyle");
+}
+
+/**********************************************************************//**
+  Write combat_rules tired_attack settings header.
+**************************************************************************/
+void comment_combat_rules_tired_attack(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.combat_rules_tired_attack,
+                      "combat_rules");
 }
