@@ -1317,7 +1317,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
     add_info_separator();
 
     if (pterrain->cultivate_result != T_NONE
-        && pterrain->cultivate_time != 0
         && action_id_univs_not_blocking(ACTION_CULTIVATE,
                                         NULL, &for_terr)) {
       QLabel *tb;
@@ -1342,7 +1341,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->plant_result != T_NONE
-        && pterrain->plant_time != 0
         && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
       QLabel *tb;
       char plant_buffer[1024];
@@ -1366,7 +1364,6 @@ void help_widget::set_topic_terrain(const help_item *topic,
     }
 
     if (pterrain->transform_result != T_NONE
-        && pterrain->transform_time != 0
         && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
                                         NULL, &for_terr)) {
       QLabel *tb;
