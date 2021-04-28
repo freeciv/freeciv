@@ -527,6 +527,20 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_CLEAN_FALLOUT,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: Preserve semantics of the rule that a
+     *_time of 0 disables the action. */
+  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, FALSE,
+                                          TA_CAN_MINE),
+                          TRUE,
+                          N_("All action enablers for %s must require"
+                             " that the target"
+                             " tile's terrain's mining_time"
+                             " is above 0. (See \"TerrainAlter\"'s"
+                             " \"CanMine\")"),
+                          ACTRES_MINE,
+                          ACTRES_NONE);
+
   /* Why this is a hard requirement: Preserve semantics of the NoCities
    * terrain flag. */
   oblig_hard_req_register(req_from_values(VUT_TERRFLAG, REQ_RANGE_LOCAL,
@@ -4177,11 +4191,6 @@ is_action_possible(const action_id wanted_action,
     }
     if (!is_extra_caused_by(target_extra, EC_MINE)) {
       /* Reason: This is not a mine. */
-      return TRI_NO;
-    }
-
-    pterrain = tile_terrain(target_tile);
-    if (pterrain->mining_time == 0) {
       return TRI_NO;
     }
 

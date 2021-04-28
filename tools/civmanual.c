@@ -527,8 +527,7 @@ static bool manual_command(struct tag_types *tag_info)
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->mining_time != 0
-            && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
+        if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
           fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->mining_shield_incr, pterrain->mining_time);
         } else {

@@ -1383,9 +1383,7 @@ void city_map::context_menu(QPoint point)
       && action_id_univs_not_blocking(ACTION_PLANT, NULL, &for_terr)) {
     con_plant = con_menu->addAction(_("Plant"));
   }
-  if (pterr->mining_time != 0
-      && action_id_univs_not_blocking(ACTION_MINE,
-                                      NULL, &for_terr)) {
+  if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
     con_mine = con_menu->addAction(_("Mine"));
   }
 

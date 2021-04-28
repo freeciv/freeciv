@@ -1200,6 +1200,10 @@ actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Settlers",     "Local"
     }
+target_reqs    =
+    { "type",         "name",    "range"
+      "TerrainAlter", "CanMine", "Local"
+    }
 
 [actionenabler_irrigate_src_ocean]
 action        = "Build Irrigation"

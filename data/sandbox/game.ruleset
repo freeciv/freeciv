@@ -2396,8 +2396,9 @@ actor_reqs    =
       "UnitClass", "Sea",      "Local", FALSE
     }
 target_reqs    =
-    { "type",      "name",       "range", "present"
-      "Terrain",   "Deep Ocean", "Local", FALSE
+    { "type",         "name",       "range", "present"
+      "Terrain",      "Deep Ocean", "Local", FALSE
+      "TerrainAlter", "CanMine",    "Local", TRUE
     }
 
 [actionenabler_mining_ocean]
