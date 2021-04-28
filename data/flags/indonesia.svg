@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0.00000000"
    y="0.00000000"
-   width="450.00000pt"
-   height="375.000000"
+   width="562.50018"
+   height="374.99982"
    id="svg548"
    sodipodi:version="0.32"
-   inkscape:version="0.42"
-   sodipodi:docname="indonesia.svg"
-   sodipodi:docbase="/Users/daniel/Desktop">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="indonesia.svg">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -30,8 +28,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="507"
-     inkscape:window-width="701"
+     inkscape:window-height="730"
+     inkscape:window-width="980"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -39,32 +37,35 @@
      pagecolor="#ffffff"
      id="base"
      inkscape:zoom="0.91733333"
-     inkscape:cx="250.00000"
-     inkscape:cy="187.50000"
-     inkscape:window-x="20"
-     inkscape:window-y="42"
-     inkscape:current-layer="svg548" />
+     inkscape:cx="250"
+     inkscape:cy="187.49982"
+     inkscape:window-x="443"
+     inkscape:window-y="72"
+     inkscape:current-layer="svg548"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs550" />
   <g
-     style="font-size:12.000000px"
+     style="font-size:12px"
      id="g554"
-     transform="matrix(1.123274,0.000000,0.000000,0.995364,1.314253,2.902984)">
+     transform="matrix(1.123274,0,0,0.995364,1.3142527,2.9028083)">
     <rect
        width="499.59839"
        height="377.91632"
        x="-1.1700196"
        y="-2.9163361"
-       transform="matrix(1.002342,0.000000,0.000000,0.517028,2.740150e-3,-1.408501)"
-       style="fill:#e70011;fill-rule:evenodd;stroke-width:1.0000000pt"
+       transform="matrix(1.002342,0,0,0.517028,0.00274015,-1.408501)"
+       style="fill:#e70011;fill-rule:evenodd;stroke-width:1pt"
        id="rect551" />
     <rect
        width="499.59839"
        height="377.91632"
        x="-1.1700196"
        y="-2.9163361"
-       transform="matrix(1.002342,0.000000,0.000000,0.498452,2.740150e-3,186.9106)"
-       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
+       transform="matrix(1.002342,0,0,0.498452,0.00274015,186.9106)"
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
        id="rect553" />
   </g>
 </svg>
