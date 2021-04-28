@@ -3373,7 +3373,8 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 	    _("%s You cannot build cities on this terrain.\n"),
             BULLET);
   }
-  if (pterrain->road_time == 0) {
+  if (pterrain->road_time == 0
+      || !action_id_univs_not_blocking(ACTION_ROAD, NULL, &source)) {
     /* Can't build roads; only mention if ruleset has buildable roads */
     extra_type_by_cause_iterate(EC_ROAD, pextra) {
       if (pextra->buildable) {
@@ -3384,7 +3385,8 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       }
     } extra_type_by_cause_iterate_end;
   }
-  if (pterrain->base_time == 0) {
+  if (pterrain->base_time == 0
+      || !action_id_univs_not_blocking(ACTION_BASE, NULL, &source)) {
     /* Can't build bases; only mention if ruleset has buildable bases */
     extra_type_by_cause_iterate(EC_BASE, pextra) {
       if (pextra->buildable) {
