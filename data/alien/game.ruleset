@@ -1003,8 +1003,9 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs    =
-    { "type",    "name",            "range", "present"
-      "Terrain", "Thick Mountains", "Local", FALSE
+    { "type",         "name",            "range", "present"
+      "Terrain",      "Thick Mountains", "Local", FALSE
+      "TerrainAlter", "CanMine",         "Local", TRUE
     }
 
 [actionenabler_mine_mountains]

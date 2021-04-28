@@ -1307,8 +1307,9 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs    =
-    { "type",        "name", "range", "present"
-      "TerrainFlag", "Oil",  "Local", FALSE
+    { "type",         "name",    "range", "present"
+      "TerrainFlag",  "Oil",     "Local", FALSE
+      "TerrainAlter", "CanMine", "Local", TRUE
     }
 
 [actionenabler_desert_oil]

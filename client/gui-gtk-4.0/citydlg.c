@@ -2967,8 +2967,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         GINT_TO_POINTER(ACTIVITY_LAST), FALSE, NULL);
     }
 
-    if (pterr->mining_time != 0
-        && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
       choice_dialog_add(shl, _("Mine"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_MINE), FALSE, NULL);
