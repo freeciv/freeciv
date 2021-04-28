@@ -479,6 +479,8 @@ static bool manual_command(struct tag_types *tag_info)
       fprintf(doc, "</tr>\n\n");
       terrain_type_iterate(pterrain) {
         struct extra_type **r;
+        struct universal for_terr
+            = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
 
         if (0 == strlen(terrain_rule_name(pterrain))) {
           /* Must be a disabled piece of terrain */
@@ -508,26 +510,33 @@ static bool manual_command(struct tag_types *tag_info)
                 pterrain->movement_cost, pterrain->defense_bonus);
 
         fprintf(doc, "<td><table width=\"100%%\">\n");
-        if (pterrain->irrigation_time != 0) {
+        if (pterrain->irrigation_time != 0
+            && action_id_univs_not_blocking(ACTION_IRRIGATE,
+                                            NULL, &for_terr)) {
           fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->irrigation_food_incr, pterrain->irrigation_time);
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->cultivate_result != NULL) {
+        if (pterrain->cultivate_result != NULL
+            && action_id_univs_not_blocking(ACTION_CULTIVATE,
+                                            NULL, &for_terr)) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
                   terrain_name_translation(pterrain->cultivate_result),
                   pterrain->cultivate_time);
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->mining_time != 0) {
+        if (pterrain->mining_time != 0
+            && action_id_univs_not_blocking(ACTION_MINE, NULL, &for_terr)) {
           fprintf(doc, "<tr><td>+%d P</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->mining_shield_incr, pterrain->mining_time);
         } else {
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
-        if (pterrain->plant_result != NULL) {
+        if (pterrain->plant_result != NULL
+            && action_id_univs_not_blocking(ACTION_PLANT,
+                                            NULL, &for_terr)) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
                   terrain_name_translation(pterrain->plant_result),
                   pterrain->plant_time);
@@ -535,7 +544,9 @@ static bool manual_command(struct tag_types *tag_info)
           fprintf(doc, "<tr><td>%s</td></tr>\n", _("impossible"));
         }
 
-        if (pterrain->transform_result) {
+        if (pterrain->transform_result
+            && action_id_univs_not_blocking(ACTION_TRANSFORM_TERRAIN,
+                                            NULL, &for_terr)) {
           fprintf(doc, "<tr><td>%s</td><td align=\"right\">(%d)</td></tr>\n",
                   terrain_name_translation(pterrain->transform_result),
                   pterrain->transform_time);
