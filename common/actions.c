@@ -2496,7 +2496,12 @@ ae_suggest_repair_if_no_oblig(const struct action_enabler *enabler,
                 : &enabler->actor_reqs);
 
       if (does_req_contradicts_reqs(&obreq->contras->alternative[i].req,
-                                    ae_vec)) {
+                                    ae_vec)
+          /* Consider the hard requirement fulfilled since a universal that
+           * never is there always will be absent in this ruleset. */
+          || (obreq->contras->alternative[i].req.present
+              && universal_never_there(
+                  &obreq->contras->alternative[i].req.source))) {
         /* It is enough that one alternative accepts the enabler. */
         fulfilled = TRUE;
         break;
