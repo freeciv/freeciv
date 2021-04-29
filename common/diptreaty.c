@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 #include "diptreaty.h"
 
 /****************************************************************************
-  Returns TRUE iff pplayer could do diplomancy in the game at all.
+  Returns TRUE iff pplayer could do diplomacy in the game at all.
 ****************************************************************************/
 bool diplomacy_possible(const struct player *pplayer1,
                         const struct player *pplayer2)
