@@ -28,7 +28,7 @@
 static struct clause_info clause_infos[CLAUSE_COUNT];
 
 /**********************************************************************//**
-  Returns TRUE iff pplayer could do diplomancy in the game at all.
+  Returns TRUE iff pplayer could do diplomacy in the game at all.
 **************************************************************************/
 bool diplomacy_possible(const struct player *pplayer1,
                         const struct player *pplayer2)
