@@ -1,9 +1,9 @@
 [nation_basque]
 
-name=_("Basque")
-plural=_("?plural:Basques")
-groups="Medieval", "European"
-legend=_("The Basques have lived since ancient times by the western\
+name   = _("Basque")
+plural = _("?plural:Basques")
+groups = "Medieval", "European"
+legend = _("The Basques have lived since ancient times by the western\
  foothills of the Pyrenees. The Kingdom of Navarre was the last\
  independent Basque state, which fell to Aragon in the 16th century.\
  Today, the Basque Country, or \"Euskal Herria\", lays right in the\
@@ -33,46 +33,46 @@ ruler_titles = {
  "Republic",       _("Lehendakari %s"),   _("?female:Lehendakari %s")
 }
 
-flag="euskadi"
-flag_alt="-"
+flag = "euskadi"
+flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Spanish", "French"
+civilwar_nations = "Spanish", "French"
 
 cities =
 ;Spanish or French names in comment
- "Iruñea",			;Pamplona
+ "Iruñea",                      ; Pamplona
  "Bilbao (ocean, river)",
- "Gasteiz",			;Vitoria
- "Donostia (ocean, river)",	;San Sebastián
- "Baiona (ocean, river)",	;Bayonne
- "Donibane Garazi",		;Saint-Jean-Pied-de-Port
- "Maule", 			;Mauléon-Licharre
- "Barakaldo",			;Baracaldo
- "Getxo",			;Guecho
- "Irun",			;Irún
+ "Gasteiz",                     ; Vitoria
+ "Donostia (ocean, river)",     ; San Sebastián
+ "Baiona (ocean, river)",       ; Bayonne
+ "Donibane Garazi",             ; Saint-Jean-Pied-de-Port
+ "Maule",                       ; Mauléon-Licharre
+ "Barakaldo",                   ; Baracaldo
+ "Getxo",                       ; Guecho
+ "Irun",                        ; Irún
  "Portugalete",
- "Santurtzi (ocean)",		;Santurce
+ "Santurtzi (ocean)",           ; Santurce
  "Basauri",
- "Errenteria",			;Rentería
- "Angelu (ocean)",		;Anglet
- "Leioa",			;Lejoa
+ "Errenteria",                  ; Rentería
+ "Angelu (ocean)",              ; Anglet
+ "Leioa",                       ; Lejoa
  "Sestao",
- "Galdakao",			;Galdácano
+ "Galdakao",                    ; Galdácano
  "Durango",
- "Eibar",			;Éibar
+ "Eibar",                       ; Éibar
  "Biarritz (ocean)",
  "Erandio",
- "Zarautz (ocean)",		;Zarauz
- "Barañain",			;Barañain
- "Arrasate",			;Mondragón
+ "Zarautz (ocean)",             ; Zarauz
+ "Barañain",                    ; Barañain
+ "Arrasate",                    ; Mondragón
  "Hernani",
- "Burlata",			;Burlada
- "Gernika",			;Guernica
+ "Burlata",                     ; Burlada
+ "Gernika",                     ; Guernica
  "Lasarte-Oria",
  "Hondarribia (ocean)",
  "Bergara",

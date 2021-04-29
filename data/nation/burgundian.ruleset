@@ -1,9 +1,9 @@
 [nation_burgundian]
 
-name=_("Burgundian")
-plural=_("?plural:Burgundians")
-groups="Medieval", "European"
-legend=_("After the fall of the Western Roman Empire, a Germanic people\
+name   = _("Burgundian")
+plural = _("?plural:Burgundians")
+groups = "Medieval", "European"
+legend = _("After the fall of the Western Roman Empire, a Germanic people\
  known as the Burgundians settled in the river valleys of eastern Gaul,\
  lending their name to the region. Centuries later, the Duchy of Burgundy\
  was a prosperous country with the court in Dijon outshining that of\
@@ -35,11 +35,11 @@ flag = "burgundy"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Flemish", "Savoyard", "Luxembourgish", "Lorrain"
+civilwar_nations = "Flemish", "Savoyard", "Luxembourgish", "Lorrain"
 
 cities =
 ; Bourgogne

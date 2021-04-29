@@ -1,9 +1,9 @@
 [nation_buryat]
 
-name=_("Buryat")
-plural=_("?plural:Buryats")
-groups="Asian"
-legend=_("According to Mongolian historical annals, the Buryats were\
+name   = _("Buryat")
+plural = _("?plural:Buryats")
+groups = "Asian"
+legend = _("According to Mongolian historical annals, the Buryats were\
  forest dwelling Mongolian tribes living around Lake Baikal. In 1207 they\
  were subjugated by Jochi, the eldest son of Genghis Khan. When\
  the Buryat homeland was annexed to Russia through treaties in 1689 and\
@@ -28,15 +28,15 @@ ruler_titles = {
  "Fundamentalism",  _("Lama %s"),      _("?female:Lama %s")
 }
 
-flag="buryatia"
-flag_alt=""
+flag = "buryatia"
+flag_alt = ""
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Mongol", "Kalmyk", "Tuvan"
+civilwar_nations = "Mongol", "Kalmyk", "Tuvan"
 
 cities =
  "Ulaan-Üde", ; Улаан-Үдэ, Ulan-Ude

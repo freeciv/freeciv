@@ -1,9 +1,9 @@
 [nation_bulgarian]
 
-name=_("Bulgarian")
-plural=_("?plural:Bulgarians")
-groups="Modern", "Medieval", "European"
-legend=_("Bulgar leader Khan Asparukh led his people into the northern\
+name   = _("Bulgarian")
+plural = _("?plural:Bulgarians")
+groups = "Modern", "Medieval", "European"
+legend = _("Bulgar leader Khan Asparukh led his people into the northern\
  Balkans, and founded Bulgaria in 681. This was the first Slavic\
  nation-state in history.")
 
@@ -31,15 +31,15 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"),    _("Matriarch %s")
 }
 
-flag="bulgaria"
+flag = "bulgaria"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="romanian", "macedonian"
+civilwar_nations = "romanian", "macedonian"
 
 cities =
  "Sofia",

@@ -1,11 +1,11 @@
 [nation_brazilian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Brazilian")
-plural=_("?plural:Brazilians")
-groups="Modern", "American", "Core"
-legend=_("Brazil was founded as a colony of Portugal but became\
+name   = _("Brazilian")
+plural = _("?plural:Brazilians")
+groups = "Modern", "American", "Core"
+legend = _("Brazil was founded as a colony of Portugal but became\
  independent in 1822 as a result of Portugal's occupation by Napoleonic\
  France. The country was first established as an empire under the exiled\
  Portuguese royal family. The empire lasted until the establishment of a\
@@ -36,9 +36,10 @@ flag = "brasil"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "akwe", "tupi", "acrean", "rio-grandense"
 
 cities =

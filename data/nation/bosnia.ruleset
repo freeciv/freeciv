@@ -1,9 +1,9 @@
 [nation_bosnia]
 
-name=_("Bosnian-Herzegovinian")
-plural=_("?plural:Bosnians")
-groups="Modern", "European"
-legend=_("Bosnia and Herzegovina is a country in south-east Europe, and the\
+name   = _("Bosnian-Herzegovinian")
+plural = _("?plural:Bosnians")
+groups = "Modern", "European"
+legend = _("Bosnia and Herzegovina is a country in south-east Europe, and the\
  home of three constituent peoples: Bosniaks, Serbs, and Croats.")
 
 leaders = {
@@ -25,15 +25,15 @@ ruler_titles = {
  "Despotism",       _("Ban %s"),       _("?female:Ban %s")
 }
 
-flag="bosnia"
+flag = "bosnia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="croatian", "serbian"
+civilwar_nations = "croatian", "serbian"
 
 cities =
  "Sarajevo",

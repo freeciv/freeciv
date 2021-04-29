@@ -1,9 +1,9 @@
 [nation_bissauguinean]
 
-name = _("Bissau-Guinean")
+name   = _("Bissau-Guinean")
 plural = _("?plural:Bissau-Guineans")
-groups="African", "Modern"
-legend=_("Guinea-Bissau is a country in West Africa. Formerly known as\
+groups = "African", "Modern"
+legend = _("Guinea-Bissau is a country in West Africa. Formerly known as\
  Portuguese Guinea, it declared independence in 1973.")
 
 leaders = {
@@ -27,11 +27,11 @@ flag = "guinea-bissau"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="guinean", "cape verdean"
+civilwar_nations = "guinean", "cape verdean"
 
 cities =
  "Bissau",
@@ -75,4 +75,3 @@ cities =
  "Tite",
  "Canfate",
  "Utia"
-

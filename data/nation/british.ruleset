@@ -1,9 +1,9 @@
 [nation_british]
 
-name=_("British")
-plural=_("?plural:British")
-groups="Early Modern", "Modern", "European"
-legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
+name   = _("British")
+plural = _("?plural:British")
+groups = "Early Modern", "Modern", "European"
+legend = _("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\
  also known as Great Britain - became the leading industrial and maritime\
  power in the 19th century.")
@@ -26,18 +26,18 @@ ruler_titles = {
  "Republic",        _("Lord Protector %s"), _("Lady Protector %s")
 }
 
-flag="united_kingdom"
+flag = "united_kingdom"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; We do not want British nation in the same game with English or any of the
 ; other nations within modern Great Britain.
-conflicts_with="english", "scottish", "welsh", "cornish", "northumbrian"
-civilwar_nations=
+conflicts_with = "english", "scottish", "welsh", "cornish", "northumbrian"
+civilwar_nations =
 ; Sub-national nations
  "english", "scottish", "welsh", "cornish",
 ; Northern Ireland
@@ -47,7 +47,7 @@ civilwar_nations=
 
 ; Cities listed roughly in order from south to north
 cities =
- "London", 
+ "London",
  "Bristol",
  "Southampton",
  "Portsmouth",

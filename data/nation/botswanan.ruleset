@@ -1,9 +1,9 @@
 [nation_botswanan]
 
-name=_("Botswanan")
-plural=_("?plural:Botswanans")
-groups="Modern", "African"
-legend=_("The Republic of Botswana is a country in Southern Africa.\
+name   = _("Botswanan")
+plural = _("?plural:Botswanans")
+groups = "Modern", "African"
+legend = _("The Republic of Botswana is a country in Southern Africa.\
  It gained independence from the UK in 1966. Botswana is considered\
  the least corrupt country in Africa and it has a rapidly developing\
  economy.")
@@ -18,15 +18,15 @@ leaders = {
  "Festus Mogae",        "Male" ; President from 1998 - 2008
 }
 
-flag="botswana"
+flag = "botswana"
 flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Boer", "khoisan"
+civilwar_nations = "Boer", "khoisan"
 
 cities =
  "Gaborone",

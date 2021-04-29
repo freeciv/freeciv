@@ -1,9 +1,9 @@
 [nation_belizean]
 
-name=_("Belizean")
-plural=_("?plural:Belizeans")
-groups="American", "Modern"
-legend=_("Belize is the smallest country of Central America. Once part\
+name   = _("Belizean")
+plural = _("?plural:Belizeans")
+groups = "American", "Modern"
+legend = _("Belize is the smallest country of Central America. Once part\
  of the Maya region, it was settled by British pirates and loggers in the\
  17th century. Belize, then known as British Honduras, became a crown\
  colony in 1862. It has been an independent country since 1981. Belize\
@@ -26,13 +26,13 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("?female:Bishop %s")
 }
 
-flag="belize"
+flag = "belize"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mayan", "jamaican", "miskito"
 

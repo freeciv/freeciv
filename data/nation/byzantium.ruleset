@@ -1,11 +1,11 @@
 [nation_byzantine]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Byzantine")
-plural=_("?plural:Byzantines")
-groups="Medieval", "Asian", "European", "Core"
-legend=_("At the time of the decline of the old Roman empire, the Emperor\
+name   = _("Byzantine")
+plural = _("?plural:Byzantines")
+groups = "Medieval", "Asian", "European", "Core"
+legend = _("At the time of the decline of the old Roman empire, the Emperor\
  Constantine moved the empire's capital to Byzantium and formed a new empire\
  mostly known as the Eastern Roman empire or the Byzantine empire. This\
  empire lasted until 1453 when its capital fell to the Ottomans. At the time\
@@ -32,58 +32,58 @@ ruler_titles = {
  "Republic",        _("Consul %s"),      _("?female:Consul %s")
 }
 
-flag="byzantium"
+flag = "byzantium"
 flag_alt = "greek"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Byzantium was a successor-empire of the Hellenic culture
 conflicts_with = "greek"
 civilwar_nations = "greek", "italian", "turkish", "latin", "pontic"
 
 cities =
- "Konstantinoupolis (ocean)",	; Constantinople / Istanbul
- "Efesos",			; Ephesus
- "Ikonio",			; Iconium
- "Romi",			; Rome
- "Trapezounta",			; Trapezus
- "Dyrrachio (ocean)",		; Dyrrachium
- "Antiocheia",			; Antioch
- "Nikaia",			; Nicaea
+ "Konstantinoupolis (ocean)",   ; Constantinople / Istanbul
+ "Efesos",                      ; Ephesus
+ "Ikonio",                      ; Iconium
+ "Romi",                        ; Rome
+ "Trapezounta",                 ; Trapezus
+ "Dyrrachio (ocean)",           ; Dyrrachium
+ "Antiocheia",                  ; Antioch
+ "Nikaia",                      ; Nicaea
  "Thessaloniki (ocean)",
- "Rodos (ocean)",		; Rhodes
- "Tarsos",			; Tarsus
- "Kaisareia",			; Caesarea
+ "Rodos (ocean)",               ; Rhodes
+ "Tarsos",                      ; Tarsus
+ "Kaisareia",                   ; Caesarea
  "Monemvasia",
- "Irakleia",			; Heraclea
+ "Irakleia",                    ; Heraclea
  "Samosata",
- "Filadelfeia",			; Philadelphia
- "Syrakousa",			; Syracuse
- "Napoli",			; Naples
- "Karchidon",			; Carthage
- "Ierousalim",			; Jerusalem
- "Edessa",			; Edessa
- "Adrianoupoli",		; Adrianople
- "Kyrini",			; Cyrene
- "Ankyra",			; Ankara
- "Nikomideia",			; Nicomedia
- "Mystras",			; Myzethras
+ "Filadelfeia",                 ; Philadelphia
+ "Syrakousa",                   ; Syracuse
+ "Napoli",                      ; Naples
+ "Karchidon",                   ; Carthage
+ "Ierousalim",                  ; Jerusalem
+ "Edessa",                      ; Edessa
+ "Adrianoupoli",                ; Adrianople
+ "Kyrini",                      ; Cyrene
+ "Ankyra",                      ; Ankara
+ "Nikomideia",                  ; Nicomedia
+ "Mystras",                     ; Myzethras
  "Ravenna",
- "Germaniceia",			; Marash
- "Chersonesos",			; Sevastopol
- "Prousa",			; Bursa
- "Athina",			; Athens
+ "Germaniceia",                 ; Marash
+ "Chersonesos",                 ; Sevastopol
+ "Prousa",                      ; Bursa
+ "Athina",                      ; Athens
  "Ioannina",
  "Pella",
  "Doryleo",
- "Lefkosia",			; Nicosia
- "Smyrni (ocean)",		; Smyrna
- "Alexandreia (ocean)",		; Alexandria
- "Virytos",			; Beirut
+ "Lefkosia",                    ; Nicosia
+ "Smyrni (ocean)",              ; Smyrna
+ "Alexandreia (ocean)",         ; Alexandria
+ "Virytos",                     ; Beirut
  "Palmyra",
- "Pantikapaio",			; Panticapaeum / Kerch
- "Sougdeia",			; Sudak
+ "Pantikapaio",                 ; Panticapaeum / Kerch
+ "Sougdeia",                    ; Sudak
  "Theodosia"

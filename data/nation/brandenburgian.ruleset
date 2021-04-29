@@ -1,14 +1,15 @@
 [nation_brandenburgian]
 
-name=_("Brandenburgian")
-plural=_("?plural:Brandenburgians")
-groups="Medieval", "Early Modern", "European"
-legend=_("Formerly the Northern March of East Francia, Brandenburg became\
+name   = _("Brandenburgian")
+plural = _("?plural:Brandenburgians")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Formerly the Northern March of East Francia, Brandenburg became\
  an electorate of the Holy Roman Empire in the 12th century. The rulers of\
  Brandenburg acquired Prussia in 1618 and was absorbed by Prussia in 1701.\
  Brandenburg kept its nominal independence until 1806, when it became\
  a province of Prussia. Currently it is one of the states of the Federal\
  Republic of Germany.")
+
 leaders = {
 "name",			"sex"
 "Gero",			"male"
@@ -30,66 +31,63 @@ ruler_titles = {
  "Democracy",  _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-flag="brandenburg" 
-flag_alt = "-" 
-style = "european" 
+flag = "brandenburg"
+flag_alt = "-"
+style = "european"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "hessian" ;similar flag
 civilwar_nations = "prussian", "sorbian", "veletian"
 
-cities = 
-"Brandenburg an der Havel (river)",
-"Potsdam",
-"Berlin",
-"Frankfurt/Oder (river)",
-"Spandau",
-"Cottbus",
-"Eberswalde",
-"Forst",
-"Rathenow",
-"Guben",
-"Wittenberge",
-"Landsberg",
-"Cölln",
-"Neubrandenburg",
-"Köpenick",
-"Prenzlau",
-"Schwedt/Oder (river)",
-"Charlottenburg",
-"Neuruppin",
-"Soldin",
-"Torgau",
-"Bautzen",
-"Merseburg",
-"Bernstein",
-"Oranienburg",
-"Driesen",
-"Wittstock",
-"Lübben",
-"Herzberg",
-"Seelow",
-"Senftenberg",
-"Beeskow",
-"Bad Belzig",
-"Perleberg",
-"Luckenwalde",
-"Bernau",
-"Königs Wusterhausen",
-"Pasewalk",
-"Dramburg",
-"Tempelburg",
-"Angermünde",
-"Strausberg",
-"Liebenwalde",
-"Wolmirstedt",
-"Havelberg",
-"Vorsfelde",
-"Zossen",
-"Spremberg"
-
-
-
+cities =
+ "Brandenburg an der Havel (river)",
+ "Potsdam",
+ "Berlin",
+ "Frankfurt/Oder (river)",
+ "Spandau",
+ "Cottbus",
+ "Eberswalde",
+ "Forst",
+ "Rathenow",
+ "Guben",
+ "Wittenberge",
+ "Landsberg",
+ "Cölln",
+ "Neubrandenburg",
+ "Köpenick",
+ "Prenzlau",
+ "Schwedt/Oder (river)",
+ "Charlottenburg",
+ "Neuruppin",
+ "Soldin",
+ "Torgau",
+ "Bautzen",
+ "Merseburg",
+ "Bernstein",
+ "Oranienburg",
+ "Driesen",
+ "Wittstock",
+ "Lübben",
+ "Herzberg",
+ "Seelow",
+ "Senftenberg",
+ "Beeskow",
+ "Bad Belzig",
+ "Perleberg",
+ "Luckenwalde",
+ "Bernau",
+ "Königs Wusterhausen",
+ "Pasewalk",
+ "Dramburg",
+ "Tempelburg",
+ "Angermünde",
+ "Strausberg",
+ "Liebenwalde",
+ "Wolmirstedt",
+ "Havelberg",
+ "Vorsfelde",
+ "Zossen",
+ "Spremberg"

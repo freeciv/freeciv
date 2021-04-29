@@ -1,9 +1,9 @@
 [nation_briton]
 
-name=_("Briton")
-plural=_("?plural:Britons")
-groups="Ancient", "European"
-legend=_("The Britons were the inhabitants of most of Great Britain\
+name   = _("Briton")
+plural = _("?plural:Britons")
+groups = "Ancient", "European"
+legend = _("The Britons were the inhabitants of most of Great Britain\
  during the Iron Age. They spoke Brythonic Celtic languages and are the\
  ancestors of the modern Welsh, Cornish and Breton people.")
 
@@ -23,16 +23,16 @@ ruler_titles = {
  "Monarchy",       _("High King %s"),  _("High Queen %s")
 } 
 
-flag="britannia"
+flag = "britannia"
 flag_alt = "gaul"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="british", "welsh", "cornish", "breton"
-civilwar_nations="welsh", "cornish", "breton", "galician"
+conflicts_with = "british", "welsh", "cornish", "breton"
+civilwar_nations = "welsh", "cornish", "breton", "galician"
 
 cities =
  "Werulamion",

@@ -1,9 +1,9 @@
 [nation_bavarian]
 
-name=_("Bavarian")
-plural=_("?plural:Bavarians")
-groups="Medieval", "Early Modern", "European"
-legend=_("Bavaria, before national unification in 1870 CE, was one of the\
+name   = _("Bavarian")
+plural = _("?plural:Bavarians")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Bavaria, before national unification in 1870 CE, was one of the\
  largest of the German kingdoms.") 
 
 leaders = {
@@ -25,12 +25,14 @@ ruler_titles = {
  "Democracy",       _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-flag="bavarian"
+flag = "bavarian"
 flag_alt = "-"
 style = "European"
-init_techs=""
-init_buildings=""
-init_units=""
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "franconian", "austrian", "tyrolian", "palatinate"
 
 cities =
@@ -80,6 +82,3 @@ cities =
  "Berchtesgaden",
  "Landau an der Isar",
  "Neustadt an der Aisch"
-
-
-

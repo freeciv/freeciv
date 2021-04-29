@@ -1,9 +1,9 @@
 [nation_bolivian]
 
-name=_("Bolivian")
-plural=_("?plural:Bolivians")
-groups="Modern", "American"
-legend=_("Bolivia is a landlocked country in South America with a large\
+name   = _("Bolivian")
+plural = _("?plural:Bolivians")
+groups = "Modern", "American"
+legend = _("Bolivia is a landlocked country in South America with a large\
  indigenous heritage. The country is named after Simón Bolivar.\
  Independent since 1825, the country was wrecked by instability and lost\
  its Pacific coast to Chile. The 1932-1936 Chaco war against Paraguay\
@@ -38,13 +38,13 @@ ruler_titles = {
  "Fundamentalism", _("Archbishop %s"),   _("Mother Superior %s")
 }
 
-flag="bolivia"
+flag = "bolivia"
 flag_alt = "aymara"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "aymara", "inca", "peruvian", "acrean"
 

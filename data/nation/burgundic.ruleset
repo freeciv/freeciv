@@ -1,9 +1,9 @@
 [nation_burgundic]
 
-name=_("Burgundic")
-plural=_("?plural:Burgunds")
-groups="Ancient", "European"
-legend=_("The Burgundians were an ancient East Germanic people who\
+name   = _("Burgundic")
+plural = _("?plural:Burgunds")
+groups = "Ancient", "European"
+legend = _("The Burgundians were an ancient East Germanic people who\
  probably originated on Bornholm island. After leaving Bornholm they\
  lived between the Oder and Vistula rivers. During the Migration Period,\
  along with other Germanic peoples they invaded the Roman Empire, and in\
@@ -12,6 +12,7 @@ legend=_("The Burgundians were an ancient East Germanic people who\
  Savoy and Burgundy, where they founded their second kingdom.\
  Eventually they were subordinated by the Frankish Kingdom. The Burgundians\
  gave their name to the later Romance nation and region of Burgundy.")
+
 leaders = {
  "name",                "sex"
  "Brunhild",            "Female"
@@ -25,51 +26,52 @@ leaders = {
  "Sigismund",           "Male"
  "Godomar",             "Male"
 }
-flag="burgundic"
+
+flag = "burgundic"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Burgundian", "French", "Swiss", "Savoyard"
+conflicts_with = "Burgundian", "French", "Swiss", "Savoyard"
 civilwar_nations = "Frankish", "Ostrogothic", "Visigothic", "Western Roman" ; Alemannic
 
 cities =
- "Borbetomagus",            ;Wormatia, Worms
- "Moguntiacum",             ;Mainz
- "Lugdunum",                ;Lyon
- "Vienna",                  ;Vienne
- "Valentia",                ;Valence
- "Vesontio",                ;Besançon
- "Darantasia",              ;Tarantaise 
- "Genava",                  ;Genéve
- "Octodurus",               ;Martigny
- "Augustodunum",            ;Autun
- "Eburodunum",              ;Embrun
- "Divio",                   ;Dijon
- "Lausona",                 ;Lausanne
- "Sedunum",                 ;Sion
- "Augusta Praetoria",       ;Aosta
- "Basilia",                 ;Basel
- "Dola",                    ;Dole
- "Gratianopolis",           ;Grenoble
- "Cluniacum",               ;Cluny
- "Cabillonum",              ;Chalon-sur-Saône
- "Brigantium",              ;Briançon
- "Ariolica",                ;Pontarlier
- "Aventicum",               ;Avenches
- "Argentoratum",            ;Strasbourg
- "Arelate",                 ;Arles
- "Spira",                   ;Speyer
- "Autessiodurum",           ;Auxerre
- "Lingones",                ;Langres
- "Avennio",                 ;Avignon
- "Arausio",                 ;Orange
- "Vivisco",                 ;Vevey
- "Acaunus",                 ;Saint-Maurice
- "Nivernum",                ;Nevers
- "Tullum",                  ;Toul
- "Salodurum",               ;Solothurn
- "Veseruntia"               ;Vézeronce
+ "Borbetomagus",            ; Wormatia, Worms
+ "Moguntiacum",             ; Mainz
+ "Lugdunum",                ; Lyon
+ "Vienna",                  ; Vienne
+ "Valentia",                ; Valence
+ "Vesontio",                ; Besançon
+ "Darantasia",              ; Tarantaise
+ "Genava",                  ; Genéve
+ "Octodurus",               ; Martigny
+ "Augustodunum",            ; Autun
+ "Eburodunum",              ; Embrun
+ "Divio",                   ; Dijon
+ "Lausona",                 ; Lausanne
+ "Sedunum",                 ; Sion
+ "Augusta Praetoria",       ; Aosta
+ "Basilia",                 ; Basel
+ "Dola",                    ; Dole
+ "Gratianopolis",           ; Grenoble
+ "Cluniacum",               ; Cluny
+ "Cabillonum",              ; Chalon-sur-Saône
+ "Brigantium",              ; Briançon
+ "Ariolica",                ; Pontarlier
+ "Aventicum",               ; Avenches
+ "Argentoratum",            ; Strasbourg
+ "Arelate",                 ; Arles
+ "Spira",                   ; Speyer
+ "Autessiodurum",           ; Auxerre
+ "Lingones",                ; Langres
+ "Avennio",                 ; Avignon
+ "Arausio",                 ; Orange
+ "Vivisco",                 ; Vevey
+ "Acaunus",                 ; Saint-Maurice
+ "Nivernum",                ; Nevers
+ "Tullum",                  ; Toul
+ "Salodurum",               ; Solothurn
+ "Veseruntia"               ; Vézeronce

@@ -1,9 +1,9 @@
 [nation_bahamian]
 
-name=_("Bahamian")
-plural=_("?plural:Bahamians")
-groups="Modern", "American"
-legend=_("The Bahamas are an island group in North America. It was\
+name   = _("Bahamian")
+plural = _("?plural:Bahamians")
+groups = "Modern", "American"
+legend = _("The Bahamas are an island group in North America. It was\
  somewhere in the Bahamas that Columbus first set foot on American soil.\
  The Islands were subsequently depopulated and mostly ignored until they\
  were settled by British colonists in the 17th century. The Bahamas have\
@@ -27,13 +27,13 @@ ruler_titles = {
  "Fundamentalism", _("Bishop %s"),         _("?female:Bishop %s")
 }
 
-flag="bahamas"
+flag = "bahamas"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 civilwar_nations = "jamaican"
 
 cities =

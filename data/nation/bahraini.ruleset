@@ -1,9 +1,9 @@
 [nation_bahraini]
 
-name=_("Bahraini")
-plural=_("?plural:Bahrainis")
-groups="Asian", "Modern"
-legend=_("Bahrain is an island country in the Persian Gulf and the\
+name   = _("Bahraini")
+plural = _("?plural:Bahrainis")
+groups = "Asian", "Modern"
+legend = _("Bahrain is an island country in the Persian Gulf and the\
  smallest country of the Middle East. Bahrain has been independent from\
  Persia since the 18th century, although it was a British protectorate\
  until 1971. The country became a constitutional monarchy in 2001 but a\
@@ -28,13 +28,13 @@ ruler_titles = {
  "Republic",       _("Vizier %s"),      _("?female:Vizier %s")
 }
 
-flag="bahrain"
+flag = "bahrain"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "iranian", "saudi"
 

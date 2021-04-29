@@ -1,11 +1,11 @@
 [nation_babylonian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Babylonian")
-plural=_("?plural:Babylonians")
-groups="Ancient", "Asian", "Core"
-legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
+name   = _("Babylonian")
+plural = _("?plural:Babylonians")
+groups = "Ancient", "Asian", "Core"
+legend = _("Babylon was the dominant city of Mesopotamia from the 18th to\
  7th centuries BCE under a succession of peoples including Amorites,\
  Kassites, Assyrians, and Chaldeans.")
 
@@ -29,9 +29,9 @@ flag = "babylon"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 civilwar_nations = "israelite", "persian", "aramean", "sumerian", "assyrian"
 
 cities =

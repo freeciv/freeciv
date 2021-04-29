@@ -1,9 +1,9 @@
 [nation_boer]
 
-name=_("Boer")
-plural=_("?plural:Boers")
-groups= "African"
-legend=_("The Boers were descendants of Dutch colonists who settled in\
+name   = _("Boer")
+plural = _("?plural:Boers")
+groups = "African"
+legend = _("The Boers were descendants of Dutch colonists who settled in\
  South Africa after 1650 CE. After migrating into the hinterland after the\
  British takeover of South Africa, they briefly controlled a number of\
  republics, including the Transvaal and the Orange Free State, before\
@@ -30,13 +30,14 @@ ruler_titles = {
  "Republic",        _("State President %s"), _("?female:State President %s")
 }
 
-flag="boer"
+flag = "boer"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "dutch"
 
 cities =

@@ -1,9 +1,9 @@
 [nation_bengali]
 
-name=_("Bengali")
-plural=_("?plural:Bengalis")
-groups="Asian", "Medieval"
-legend=_("Bengal is a region in the easternmost part of the Indian\
+name   = _("Bengali")
+plural = _("?plural:Bengalis")
+groups = "Asian", "Medieval"
+legend = _("Bengal is a region in the easternmost part of the Indian\
  subcontinent. The first recorded independent king of the Bengali is\
  Shashanka who reigned around 606 CE. Today the People's Republic of\
  Bangladesh occupies the eastern part of the region, while the western part\
@@ -27,13 +27,14 @@ ruler_titles = {
  "Republic",        _("Nabob %s"),       _("?female:Nabob %s")
 }
 
-flag="bengal"
+flag = "bengal"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "tibetan", "burmese", "bhutanese", "bangladeshi"
 
 cities =

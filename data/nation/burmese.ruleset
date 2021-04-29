@@ -1,9 +1,9 @@
 [nation_burmese]
 
-name=_("Burmese")
-plural=_("?plural:Burmese")
-groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("The Union of Burma (officially \"Myanmar\") is the largest country\
+name   = _("Burmese")
+plural = _("?plural:Burmese")
+groups = "Medieval", "Early Modern", "Modern", "Asian"
+legend = _("The Union of Burma (officially \"Myanmar\") is the largest country\
  in mainland Southeast Asia.")
 
 leaders = {
@@ -16,13 +16,13 @@ leaders = {
  "U Nu",        "Male"
 }
 
-flag="myanmar"
+flag = "myanmar"
 flag_alt = "myanmar_old"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mon", "shan", "karen"
 

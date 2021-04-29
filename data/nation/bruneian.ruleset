@@ -1,9 +1,9 @@
 [nation_bruneian]
 
-name=_("Bruneian")
-plural=_("?plural:Bruneians")
-groups="Medieval", "Early Modern", "Modern", "Asian"
-legend=_("Brunei Darussalam is a country on Borneo in the Malay achipelago.\
+name   = _("Bruneian")
+plural = _("?plural:Bruneians")
+groups = "Medieval", "Early Modern", "Modern", "Asian"
+legend = _("Brunei Darussalam is a country on Borneo in the Malay achipelago.\
  The sultanate dates from the 14th century and became a fairly powerful\
  state a century later thanks to its control of the maritime trade in much\
  of Southeast Asia. Brunei was a British protectorate from 1888 to 1984.")
@@ -24,13 +24,14 @@ ruler_titles = {
  "Monarchy",       _("Sultan %s"),      _("Sultana %s")
 }
 
-flag="brunei"
+flag = "brunei"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "malaysian", "majapahit"
 
 cities =
@@ -71,4 +72,3 @@ cities =
  "Kampong Sungai Mau",
  "Kampong Bukit Sawat",
  "Sungai Tujoh"
- 

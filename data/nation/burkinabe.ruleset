@@ -1,11 +1,11 @@
 [nation_burkinabe]
 
-name=_("Burkinabé")
+name      = _("Burkinabé")
 ; pre-2.6 had plain ASCII names
-rule_name="Burkinabe"
-plural=_("?plural:Burkinabés")
-groups="Modern", "African"
-legend=_("Formerly Upper Volta, Burkina Faso is a country in inland\
+rule_name = "Burkinabe"
+plural    = _("?plural:Burkinabés")
+groups    = "Modern", "African"
+legend    = _("Formerly Upper Volta, Burkina Faso is a country in inland\
  West Africa. It achieved its independence from France in 1960.")
 
 leaders = {
@@ -17,14 +17,15 @@ leaders = {
  "Blaise Compaoré",     "Male"
 }
 
-flag="burkina_faso"
+flag = "burkina_faso"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="fulani", "kanem-bornu", "ivoirian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "fulani", "kanem-bornu", "ivoirian"
 
 cities =
  "Ouagadougou",
