@@ -10,31 +10,38 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__LOCALLUACONF_H
-#define FC__LOCALLUACONF_H
 
-#ifdef HAVE_CONFIG_H
-#include <liblua_config.h>
-#endif
+/* This header is generated from gen_headers/liblua_config.h.in.
+   It includes definitions needed by the in-tree liblua compilation. */
 
-#if defined(HAVE_MKSTEMP) && defined(FREECIV_HAVE_UNISTD_H)
-#define LUA_USE_MKSTEMP
-#endif
-#if defined(HAVE_POPEN) && defined(HAVE_PCLOSE)
-#define LUA_USE_POPEN
-#endif
-#if defined(HAVE__LONGJMP) && defined(HAVE__SETJMP)
-#define LUA_USE_ULONGJMP
-#endif
-#if defined(HAVE_GMTIME_R) && defined(HAVE_LOCALTIME_R)
-#define LUA_USE_GMTIME_R
-#endif
-#if defined(HAVE_FSEEKO)
-#define LUA_USE_FSEEKO
-#endif
+#ifndef FC__LIBLUA_CONFIG_H
+#define FC__LIBLUA_CONFIG_H
 
-#ifdef FREECIV_HAVE_LIBREADLINE
-#define LUA_USE_READLINE
-#endif
+/* mkstemp() available */
+#undef HAVE_MKSTEMP
 
-#endif /* FC__LOCALLUACONF_H */
+/* unistd.h available */
+#undef FREECIV_HAVE_UNISTD_H
+
+/* popen() available */
+#undef HAVE_POPEN
+
+/* pclose() available */
+#undef HAVE_PCLOSE
+
+/* _longjmp() available */
+#undef HAVE__LONGJMP
+
+/* _setjmp() available */
+#undef HAVE__SETJMP
+
+/* gmtime_r() available */
+#undef HAVE_GMTIME_R
+
+/* localtime_r() available */
+#undef HAVE_LOCALTIME_R
+
+/* fseeko() available */
+#undef HAVE_FSEEKO
+
+#endif /* FC__LIBLUA_CONFIG_H */
