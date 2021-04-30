@@ -2673,6 +2673,14 @@ static bool load_ruleset_terrain(struct section_file *file)
         ok = FALSE;
         break;
       }
+      if (pterrain->transform_time <= 0) {
+        /* Transform time of zero is documented to disable the transform
+         * regardless of given transform result. That's fine, but in the
+         * future we may consider it an error to give combination of
+         * transform_result and transform_time where one indicates it's
+         * enabled and the other that it's not. */
+        pterrain->transform_result = NULL;
+      }
       pterrain->pillage_time = 1; /* default */
       lookup_time(file, &pterrain->pillage_time,
                   tsection, "pillage_time", filename, NULL, &ok);
