@@ -16,6 +16,7 @@ host_system = host_machine.system()
 
 priv_conf_data = configuration_data()
 pub_conf_data = configuration_data()
+liblua_conf_data = configuration_data()
 
 pub_conf_data.set('FREECIV_AI_MOD_LAST', 3)
 priv_conf_data.set('LOCALEDIR',
@@ -137,14 +138,10 @@ priv_functions = [
   'getline',
   'getnameinfo',
   'getpwuid',
-  'gmtime_r',
   'inet_aton',
   'inet_ntop',
   'inet_pton',
-  'localtime_r',
   'opendir',
-  'pclose',
-  'popen',
   'putenv',
   'select',
   'setenv',
@@ -160,9 +157,7 @@ priv_functions = [
   'usleep',
   'vprintf',
   'vsnprintf',
-  '_longjmp',
   '_mkdir',
-  '_setjmp',
   '_strcoll',
   '_stricoll',
   'fcntl',
@@ -174,6 +169,27 @@ foreach func : priv_functions
     priv_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
   endif
 endforeach
+
+liblua_functions = [
+  'mkstemp',
+  'popen',
+  'pclose',
+  '_longjmp',
+  '_setjmp',
+  'gmtime_r',
+  'localtime_r',
+  'fseeko'
+  ]
+
+foreach func : liblua_functions
+  if c_compiler.has_function(func)
+    liblua_conf_data.set('HAVE_' + func.underscorify().to_upper(), 1)
+  endif
+endforeach
+
+if c_compiler.has_header('unistd.h')
+  liblua_conf_data.set('FREECIV_HAVE_UNISTD_H', 1)
+endif
 
 if c_compiler.has_function('BCryptGenRandom', args: '-lbcrypt')
   bcrypt_lib_dep = c_compiler.find_library('bcrypt')
@@ -314,6 +330,9 @@ configure_file(input : 'gen_headers/meson_fc_config.h.in',
 configure_file(input : 'gen_headers/meson_freeciv_config.h.in',
                output : 'freeciv_config.h',
                configuration: pub_conf_data)
+configure_file(input : 'gen_headers/meson_liblua_config.h.in',
+               output : 'liblua_config.h',
+               configuration: liblua_conf_data)
 
 add_global_arguments('-DHAVE_CONFIG_H',
                      language: 'c')
