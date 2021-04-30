@@ -1,5 +1,6 @@
 /Makefile.in
 /Makefile
+/liblua_config.h
 /fc_config.h
 /fc_config.h.in
 /freeciv_config.h
