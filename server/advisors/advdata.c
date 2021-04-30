@@ -65,11 +65,11 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
 
 /**************************************************************************
   Precalculates some important data about the improvements in the game
-  that we use later in ai/aicity.c.  We mark improvements as 'calculate'
-  if we want to run a full test on them, as 'estimate' if we just want
-  to do some guesses on them, or as 'unused' is they are useless to us.
-  Then we find the largest range of calculatable effects in the
-  improvement and record it for later use.
+  that we use later in ai/default/aicity.c. We mark improvements as
+  'calculate' if we want to run a full test on them, as 'estimate' if
+  we just want to do some guesses on them, or as 'unused' is they are
+  useless to us. Then we find the largest range of calculatable effects
+  in the improvement and record it for later use.
 **************************************************************************/
 static void adv_data_city_impr_calc(struct player *pplayer,
                                     struct adv_data *adv)
