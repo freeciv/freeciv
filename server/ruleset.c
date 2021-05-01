@@ -3336,6 +3336,15 @@ static bool load_ruleset_terrain(struct section_file *file,
           break;
         }
       }
+      if ((pterrain->cultivate_result != NULL
+           && pterrain->cultivate_time <= 0)
+          || (pterrain->cultivate_result == NULL
+              && pterrain->cultivate_time > 0)) {
+        ruleset_error(LOG_ERROR, "%s: cultivate_result and cultivate_time disagree "
+                      "whether cultivating is enabled", tsection);
+        ok = FALSE;
+        break;
+      }
 
       if (!lookup_time(file, &pterrain->plant_time,
                        tsection, "plant_time", filename, NULL, &ok)) {
@@ -3353,6 +3362,15 @@ static bool load_ruleset_terrain(struct section_file *file,
           break;
         }
 
+      }
+      if ((pterrain->plant_result != NULL
+           && pterrain->plant_time <= 0)
+          || (pterrain->plant_result == NULL
+              && pterrain->plant_time > 0)) {
+        ruleset_error(LOG_ERROR, "%s: plant_result and plant_time disagree "
+                      "whether planting is enabled", tsection);
+        ok = FALSE;
+        break;
       }
 
       if (!lookup_unit_type(file, tsection, "animal",
