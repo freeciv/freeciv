@@ -2720,7 +2720,21 @@ install_data(
 
 install_data(
   'data/alien/README.alien',
+  'data/alien/nation_effects.ruleset',
   install_dir : join_paths(get_option('datadir'), 'freeciv/alien')
+  )
+
+install_data(
+  'data/alien/nation/adventurers.ruleset',
+  'data/alien/nation/galacticsound.ruleset',
+  'data/alien/nation/jw.ruleset',
+  'data/alien/nation/kindergarden.ruleset',
+  'data/alien/nation/lunatics.ruleset',
+  'data/alien/nation/madmen.ruleset',
+  'data/alien/nation/mathclub.ruleset',
+  'data/alien/nation/secretsociety.ruleset',
+  'data/alien/nation/teamgladiators.ruleset',
+  install_dir : join_paths(get_option('datadir'), 'freeciv/alien/nation')
   )
 
 install_data(
