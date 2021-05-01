@@ -2658,7 +2658,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
 
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 

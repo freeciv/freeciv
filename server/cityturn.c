@@ -1822,7 +1822,6 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         break;
       case VUT_NONE:
       case VUT_COUNT:
-      case VUT_UNUSED:
         fc_assert_ret_val_msg(FALSE, TRUE,
                               "worklist_change_build_target() "
                               "called with invalid preq");

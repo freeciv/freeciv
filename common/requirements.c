@@ -375,7 +375,6 @@ void universal_value_from_str(struct universal *source, const char *value)
     }
     break;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
@@ -573,7 +572,6 @@ struct universal universal_by_number(const enum universals_n kind,
     source.value.citystatus = value;
     return source;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
@@ -693,7 +691,6 @@ int universal_number(const struct universal *source)
   case VUT_CITYSTATUS:
     return source->value.citystatus;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
@@ -750,7 +747,6 @@ struct requirement req_from_str(const char *type, const char *range,
       switch (req.source.kind) {
       case VUT_NONE:
       case VUT_COUNT:
-      case VUT_UNUSED:
         break;
       case VUT_IMPROVEMENT:
       case VUT_IMPR_GENUS:
@@ -918,7 +914,6 @@ struct requirement req_from_str(const char *type, const char *range,
       invalid = FALSE;
       break;
     case VUT_COUNT:
-    case VUT_UNUSED:
       break;
     }
     if (invalid) {
@@ -983,7 +978,6 @@ struct requirement req_from_str(const char *type, const char *range,
       break;
     case VUT_NONE:
     case VUT_COUNT:
-    case VUT_UNUSED:
       break;
     }
     if (invalid) {
@@ -3333,7 +3327,6 @@ bool is_req_active(const struct player *target_player,
     }
     break;
   case VUT_COUNT:
-  case VUT_UNUSED:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
   }
@@ -3459,7 +3452,6 @@ bool is_req_unchanging(const struct requirement *req)
     /* Once year is reached, it does not change again */
     return req->source.value.minyear > game.info.year;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
   fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
@@ -3558,7 +3550,6 @@ bool universal_never_there(const struct universal *source)
   case VUT_TERRAINALTER:
   case VUT_MINYEAR:
   case VUT_NONE:
-  case VUT_UNUSED:
   case VUT_COUNT:
     /* Not implemented. */
     break;
@@ -4168,7 +4159,6 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_CITYSTATUS:
     return psource1->value.citystatus == psource2->value.citystatus;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
@@ -4298,7 +4288,6 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_TERRAINALTER:
     return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
@@ -4597,7 +4586,6 @@ const char *universal_name_translation(const struct universal *psource,
     }
     return buf;
   case VUT_COUNT:
-  case VUT_UNUSED:
     break;
   }
 
