@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv Ruledit\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-28 18:44+0200\n"
-"PO-Revision-Date: 2021-03-17 10:08+0500\n"
+"POT-Creation-Date: 2021-05-01 14:14+0500\n"
+"PO-Revision-Date: 2021-04-30 08:37+0500\n"
 "Last-Translator: Konstantin Vedeneev <konved@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
 "Language: ru\n"
@@ -114,15 +114,15 @@ msgstr "Набор правил загружен"
 msgid "Ruleset loading failed!"
 msgstr "Ошибка загрузки набора правил!"
 
-#: tools/ruledit/ruledit_qt.cpp:248
+#: tools/ruledit/ruledit_qt.cpp:249
 msgid "Freeciv Ruleset Editor"
 msgstr "Редактор наборов правил Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:264
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
-#: tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:269
 msgid "Quit?"
 msgstr "Выйти?"
 
@@ -140,95 +140,103 @@ msgstr "Название"
 msgid "A building with that rule name already exists!"
 msgstr "Здание с этим названием правила уже существует!"
 
-#: tools/ruledit/tab_misc.cpp:61
+#: tools/ruledit/tab_misc.cpp:63
 msgid "Ruleset name"
 msgstr "Название набора правил"
 
-#: tools/ruledit/tab_misc.cpp:66
+#: tools/ruledit/tab_misc.cpp:68
 msgid "Ruleset version"
 msgstr "Версия набора правил"
 
-#: tools/ruledit/tab_misc.cpp:71
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Save to directory"
 msgstr "Сохранить в каталог"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:80
 msgid "Save now"
 msgstr "Сохранить"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:84
+msgid "Description from file"
+msgstr "Описание из файла"
+
+#: tools/ruledit/tab_misc.cpp:91
+msgid "Description file"
+msgstr "Файл с описанием"
+
+#: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Terrains"
 msgstr "Рельефы"
 
-#: tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:104
 msgid "?stat:Resources"
 msgstr "Ресурсы"
 
-#: tools/ruledit/tab_misc.cpp:93
+#: tools/ruledit/tab_misc.cpp:108
 msgid "?stat:Techs"
 msgstr "Технологии"
 
-#: tools/ruledit/tab_misc.cpp:97
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Unit Classes"
 msgstr "Классы Соединений"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Unit Types"
 msgstr "Соединения"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Buildings"
 msgstr "Здания"
 
-#: tools/ruledit/tab_misc.cpp:109
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Nations"
 msgstr "Народы"
 
-#: tools/ruledit/tab_misc.cpp:113
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Styles"
 msgstr "Стили"
 
-#: tools/ruledit/tab_misc.cpp:117
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Specialists"
 msgstr "Специалисты"
 
-#: tools/ruledit/tab_misc.cpp:121
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Governments"
 msgstr "Формы Правления"
 
-#: tools/ruledit/tab_misc.cpp:125
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Disasters"
 msgstr "Бедствия"
 
-#: tools/ruledit/tab_misc.cpp:129
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Achievements"
 msgstr "Достижения"
 
-#: tools/ruledit/tab_misc.cpp:133
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Extras"
 msgstr "Сооружения"
 
-#: tools/ruledit/tab_misc.cpp:137
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Bases"
 msgstr "Базы"
 
-#: tools/ruledit/tab_misc.cpp:141
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Roads"
 msgstr "Дороги"
 
-#: tools/ruledit/tab_misc.cpp:145
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Multipliers"
 msgstr "Множители"
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:236
 msgid "Ruleset saved"
 msgstr "Набор правил сохранён"
 
-#: tools/ruledit/tab_nation.cpp:49
+#: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
 msgstr "Использовать набор народов"
 
-#: tools/ruledit/tab_nation.cpp:53
+#: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
 msgstr "Набор Народов"
 
