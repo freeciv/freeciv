@@ -377,7 +377,6 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
        /* Can have multiple requirements of these types */
        break;
      case VUT_COUNT:
-     case VUT_UNUSED:
        /* Should never be in requirement vector */
        fc_assert(FALSE);
        return FALSE;
