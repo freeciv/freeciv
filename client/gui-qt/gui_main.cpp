@@ -22,10 +22,10 @@
  * it can install SDL's own. */
 #ifdef SDL2_PLAIN_INCLUDE
 #include <SDL.h>
-#else  /* PLAIN_INCLUDE */
+#else  // PLAIN_INCLUDE
 #include <SDL2/SDL.h>
-#endif /* PLAIN_INCLUDE */
-#endif /* AUDIO_SDL */
+#endif // PLAIN_INCLUDE
+#endif // AUDIO_SDL
 
 #include <stdio.h>
 
@@ -104,7 +104,7 @@ int main(int argc, char **argv)
 **************************************************************************/
 static void print_usage()
 {
-  /* add client-specific usage information here */
+  // Add client-specific usage information here
   fc_fprintf(stderr,
              _("This client accepts the standard Qt command-line options\n"
                "after '--'. See the Qt documentation.\n\n"));
@@ -118,7 +118,7 @@ static void print_usage()
 
   fc_fprintf(stderr, "\n");
 
-  /* TRANS: No full stop after the URL, could cause confusion. */
+  // TRANS: No full stop after the URL, could cause confusion.
   fc_fprintf(stderr, _("Report bugs at %s\n"), BUG_URL);
 }
 
@@ -298,7 +298,7 @@ void qtg_remove_net_input()
 **************************************************************************/
 void qtg_set_unit_icon(int idx, struct unit *punit)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /**********************************************************************//**
@@ -310,7 +310,7 @@ void qtg_set_unit_icon(int idx, struct unit *punit)
 **************************************************************************/
 void qtg_set_unit_icons_more_arrow(bool onoff)
 {
-  /* PORTME */
+  // PORTME
 }
 
 /**********************************************************************//**
@@ -336,7 +336,7 @@ void qtg_real_focus_units_changed(void)
 **************************************************************************/
 void qtg_add_idle_callback(void (callback)(void *), void *data)
 {
-  call_me_back *cb = new call_me_back; /* removed in mr_idler:idling() */
+  call_me_back *cb = new call_me_back; // Removed in mr_idler:idling()
 
   cb->callback = callback;
   cb->data = data;
@@ -511,7 +511,7 @@ enum gui_type qtg_get_gui_type()
 **************************************************************************/
 void reset_unit_table(void)
 {
- /* FIXME */
+  // FIXME
 }
 
 /**********************************************************************//**
@@ -541,14 +541,14 @@ void popup_quit_dialog()
 **************************************************************************/
 void qtg_insert_client_build_info(char *outbuf, size_t outlen)
 {
-  /* There's also an separate entry about Qt in help menu. */
+  // There's also an separate entry about Qt in help menu.
 
   cat_snprintf(outbuf, outlen, _("\nBuilt against Qt %s, using %s"),
                QT_VERSION_STR, qVersion());
 
 #ifdef FC_QT6_MODE
   cat_snprintf(outbuf, outlen, _("\nBuilt in Qt6 mode."));
-#else  /* FC_QT6_MODE */
+#else  // FC_QT6_MODE
   cat_snprintf(outbuf, outlen, _("\nBuilt in Qt5 mode."));
-#endif /* FC_QT6_MODE */
+#endif // FC_QT6_MODE
 }
