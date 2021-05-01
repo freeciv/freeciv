@@ -114,6 +114,7 @@ void ruledit_gui::setup(QWidget *central_in)
   QLabel *version_label;
   char verbuf[2048];
   const char *rev_ver;
+  const char *mode;
 
   data.nationlist = NULL;
   data.nationlist_saved = NULL;
@@ -122,11 +123,18 @@ void ruledit_gui::setup(QWidget *central_in)
 
   rev_ver = fc_git_revision();
 
+#ifdef FC_QT6_MODE
+  mode = R__("built in Qt6 mode.");
+#else  // FC_QT6_MODE
+  mode = R__("built in Qt5 mode.");
+#endif // FC_QT6_MODE
+
   if (rev_ver == NULL) {
-    fc_snprintf(verbuf, sizeof(verbuf), "%s%s", word_version(), VERSION_STRING);
+    fc_snprintf(verbuf, sizeof(verbuf), "%s%s\n%s", word_version(),
+                VERSION_STRING, mode);
   } else {
-    fc_snprintf(verbuf, sizeof(verbuf), R__("%s%s\ncommit: %s"),
-                word_version(), VERSION_STRING, rev_ver);
+    fc_snprintf(verbuf, sizeof(verbuf), R__("%s%s\ncommit: %s\n%s"),
+                word_version(), VERSION_STRING, rev_ver, mode);
   }
 
   main_layout = new QStackedLayout();
