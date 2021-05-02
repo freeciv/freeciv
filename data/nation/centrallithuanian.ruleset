@@ -1,9 +1,9 @@
 [nation_centrallithuanian]
 
-name=_("Central Lithuanian")
-plural=_("?plural:Central Lithuanians")
-groups="European"
-legend=_("Lithuanian Poles are an ethnic minority in Lithuania, mainly in\
+name   = _("Central Lithuanian")
+plural = _("?plural:Central Lithuanians")
+groups = "European"
+legend = _("Lithuanian Poles are an ethnic minority in Lithuania, mainly in\
  the Aukshtota region. They are a remnant of the Polish-Lithuanian\
  Commonwealth - the Commonwealth of Two Nations, which was founded with\
  the Union of Lublin in 1569. This state united the Kingdom of Poland with\
@@ -19,6 +19,7 @@ legend=_("Lithuanian Poles are an ethnic minority in Lithuania, mainly in\
  of a Republic of Central Lithuania, which was then incorporated into\
  Poland. After World War II most of the Lithuanian Poles were displaced to\
  Poland's new western territories.")
+
 leaders = {
  "name",                "sex"
  "Gabriel Narutowicz",  "Male"
@@ -29,7 +30,8 @@ leaders = {
  "Jerzy Iwanowski",     "Male"
  "Stefan Mokrzecki",    "Male"
 }
-flag="central_lithuania"
+
+flag = "central_lithuania"
 flag_alt = "-"
 style = "Celtic"
 
@@ -41,9 +43,9 @@ ruler_titles = {
  "Fundamentalism",  _("Archbishop %s"),          _("Mother Superior %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "Lithuanian", "Polish", "Belarusian", "Lipka Tatar", "Mazovian"
 

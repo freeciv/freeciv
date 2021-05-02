@@ -1,9 +1,9 @@
 [nation_crusader]
 
-name=_("Crusader")
-plural=_("?plural:Crusaders")
-groups="Asian", "Medieval"
-legend=_("The Crusades were a series of wars in which European armies\
+name   = _("Crusader")
+plural = _("?plural:Crusaders")
+groups = "Asian", "Medieval"
+legend = _("The Crusades were a series of wars in which European armies\
  tried to re-establish Christian control over the Holy Land. The First\
  Crusade was called by Pope Urban II in 1095. The crusaders managed to\
  wrestle control of much of the Levant from Muslim hands and established\
@@ -36,17 +36,17 @@ ruler_titles = {
  "Fundamentalism", _("Patriarch %s"),           _("Matriarch %s")
 }
 
-flag="jerusalem"
+flag = "jerusalem"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Knights Templar", "Arab", "Mamluk", "Armenian", "Seljuk", "Latin", "Cypriot"
+civilwar_nations = "Knights Templar", "Arab", "Mamluk", "Armenian", "Seljuk", "Latin", "Cypriot"
 
-conflicts_with="Israeli", "Israelite", "Lebanese", "Syrian"
+conflicts_with = "Israeli", "Israelite", "Lebanese", "Syrian"
 
 cities =
 ; names in Old French
@@ -59,11 +59,11 @@ cities =
  "Tiberias",
  "Jaffa (ocean)",
  "Ascalon (ocean)",
- "Gibelet (ocean)",	; Byblos
+ "Gibelet (ocean)",     ; Byblos
  "Turbessel",
  "Sidon (ocean)",
  "Beyrout (ocean)",
- "Crac de l'Ospital",	; Krak des Chevaliers
+ "Crac de l'Ospital",   ; Krak des Chevaliers
  "Monréal",
  "Haifa (ocean)",
  "Nazareth",
@@ -78,7 +78,7 @@ cities =
  "Belvoir",
  "Crac des Moabites",
  "Ibelin",
- "Naples",		; Nablus
+ "Naples",              ; Nablus
  "Banias",
  "Maraclea",
  "Bethlehem",

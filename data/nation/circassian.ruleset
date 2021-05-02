@@ -1,10 +1,10 @@
 [nation_circassian]
 
-name=_("Circassian")
-plural=_("?plural:Circassians")
-groups="Ancient", "Medieval", "Early Modern", "European"
+name   = _("Circassian")
+plural = _("?plural:Circassians")
+groups = "Ancient", "Medieval", "Early Modern", "European"
 ; /* xgettext:no-c-format */
-legend=_("The Circassians are the indigenous peoples of the Northwest\
+legend = _("The Circassians are the indigenous peoples of the Northwest\
  Caucasus. The Circassian or Adyghe language is part of the Northwest\
  Caucasian language family, related to Kabardian, Abkhaz and Ubykh. The\
  Circassians first emerged as a coherent entity some 6000 years ago. They\
@@ -14,6 +14,7 @@ legend=_("The Circassians are the indigenous peoples of the Northwest\
  middle of the 19th century, when they were defeated and subjected to\
  genocide at the hands of the Russian Empire. Today less than 10% of the\
  Circassian population lives in their original homeland.")
+
 leaders = {
  "name",                  "sex"
  "Inal Teghen",		  "Male"   ; a.k.a Inal Tighen or Inal the Great
@@ -25,7 +26,8 @@ leaders = {
  "Qanoqwe",               "Male"
  "Gwascheney",            "Female" ; a.k.a Maria  
 }
-flag="adygea"
+
+flag = "adygea"
 flag_alt = "-"
 style = "Celtic"
 
@@ -36,11 +38,11 @@ ruler_titles = {
  "Fundamentalism",  _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="soviet"
+conflicts_with = "soviet"
 civilwar_nations = "abkhaz", "chechen", "ossetian", "cossack", "kalmyk",
  "crimean tatar", "golden horde"
 

@@ -1,9 +1,9 @@
 [nation_catalan]
 
-name=_("Catalan")
-plural=_("?plural:Catalans")
-groups="Medieval", "Early Modern", "European"
-legend=_("During the Middle Ages, Catalan kings conquered and presided over\
+name   = _("Catalan")
+plural = _("?plural:Catalans")
+groups = "Medieval", "Early Modern", "European"
+legend = _("During the Middle Ages, Catalan kings conquered and presided over\
  several kingdoms on the shores of the Mediterranean Sea, from the Iberian\
  peninsula to parts of Italy and Greece. This confederation/empire became a\
  major naval and trading power in the Mediterranean area. Catalans kept\
@@ -32,15 +32,15 @@ ruler_titles = {
  "Fundamentalism",  _("Archbishop %s"),      _("Mother Superior %s")
 }
 
-flag="catalan"
+flag = "catalan"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Spanish", "French", "Occitan", "Andorran"
+civilwar_nations = "Spanish", "French", "Occitan", "Andorran"
 
 ; This city list does not actually correspond to medieval Catalonia,
 ; but rather to all lands settled by Catalans, where Catalan is still spoken

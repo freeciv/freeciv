@@ -1,9 +1,9 @@
 [nation_chinook]
 
-name=_("Chinook")
-plural=_("?plural:Chinooks")
-groups="American", "Early Modern"
-legend=_("The Chinook Confederacy was a group of communities with common\
+name   = _("Chinook")
+plural = _("?plural:Chinooks")
+groups = "American", "Early Modern"
+legend = _("The Chinook Confederacy was a group of communities with common\
  customs and language. They were a sedentary people living along the\
  Columbia river in present-day Oregon and Washington in the United\
  States. Chinook regional influence can be seen in the fact that\
@@ -24,15 +24,15 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="clatsop"
-flag_alt="-"
+flag = "clatsop"
+flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Nimiipuu", "Salishan"
+civilwar_nations = "Nimiipuu", "Salishan"
 
 cities =
  "Multnomah",

@@ -1,9 +1,9 @@
 [nation_cuban]
 
-name=_("Cuban")
-plural=_("?plural:Cubans")
-groups="Modern", "American"
-legend=_("Cuba came under Spanish control in the 16th century. In the\
+name   = _("Cuban")
+plural = _("?plural:Cubans")
+groups = "Modern", "American"
+legend = _("Cuba came under Spanish control in the 16th century. In the\
  following centuries, the island became one of the leading producers of\
  tobacco, sugar and coffee in the world. Cuba was granted nominal\
  independence in 1902.")
@@ -24,13 +24,14 @@ ruler_titles = {
  "Fundamentalism", _("Cardinal %s"),   _("Mother Superior %s")
 }
 
-flag="cuba"
+flag = "cuba"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "dominicano", "venezuelan", "taino"
 
 cities =

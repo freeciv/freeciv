@@ -1,9 +1,9 @@
 [nation_californian]
 
-name=_("Californian")
-plural=_("?plural:Californians")
-groups="American"
-legend=_("California is the largest US state by population and economy.\
+name   = _("Californian")
+plural = _("?plural:Californians")
+groups = "American"
+legend = _("California is the largest US state by population and economy.\
  First populated by Native Americans, it was colonized by Spanish\
  missionaries in the 18th century. California became a territory of\
  Mexico upon that country's independence. During the Mexican-American War\
@@ -37,15 +37,15 @@ ruler_titles = {
  "Republic",        _("Governor %s"),  _("?female:Governor %s")
 }
 
-flag="california"
+flag = "california"
 flag_alt = "usa"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="mexican", "american", "chumash", "ohlone"
+civilwar_nations = "mexican", "american", "chumash", "ohlone"
 
 cities =
  "Sacramento (plains, grassland)", ;state capital
@@ -148,4 +148,3 @@ cities =
  "Willows",
  "Colusa",
  "Quincy"
-

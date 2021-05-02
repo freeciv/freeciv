@@ -1,10 +1,10 @@
 [nation_chechen]
 
-name=_("Chechen")
-plural=_("?plural:Chechens")
-groups="Asian", "European", "Early Modern"
+name   = _("Chechen")
+plural = _("?plural:Chechens")
+groups = "Asian", "European", "Early Modern"
 
-legend=_("Chechnya is an ancient nation in the Caucasus, currently part\
+legend = _("Chechnya is an ancient nation in the Caucasus, currently part\
  of the Russian Federation. In 1588, the Chechens voluntarily subjected\
  themselves as vassals to the Moscovite tsar. Nevertheless, they have\
  repeatedly waged war against Russia. In the 1990s, after the breakup\
@@ -31,55 +31,55 @@ ruler_titles = {
  "Fundamentalism",  _("Imam %s"),      _("Imama %s")
 }
 
-flag="chechnya"
+flag = "chechnya"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 
-conflicts_with= "soviet", "tatar" ;latter because of similar flag
+conflicts_with = "soviet", "tatar" ;latter because of similar flag
 civilwar_nations = "russian", "ossetian"
 
 cities =
-"Sölƶa-Ġala",		;Grozny
-"Ẋalxa-Marta",		;Urus-Martan
-"Şela-Ġala",		;Shali
-"Argun",		;Argun
-"Gümse",		;Gudermes
-"Evtara",		;Avtury
-"Vedana",		;Vedana
-"Thäẋa-Marta",		;Achkhoy-Martan
-"Terkathi",		;Znamenskoye
-"Dari-Ġala",		;Shelkovskaya
-"Şatoy",		;Shatoy
-"Ẋanġaala",		;Khankala
-"Yokka-Ataġla",		;Starye Atagi
-"Sämajaşka",		;Samashki
-"Jalaroy",		;Aleroy
-"Hosi-Yurt",		;Tsenteroy
-"Iton-Qäl",		;Itum-Kale
-"Kurşloy",		;Kurchaloy
-"Nevre",		;Naurskaya
-"Ena-Yurt",		;Sernovoskaya
-"Kotari-Yurt",		;Katyr-Yurt
-"Jalxan-Ġala",		;Alkhan-Kala
-"Oysungur",		;Oyskhara
-"Alroy",		;Alleroy
-"Galayn-Ç̇oƶ",		;Galanchozh
-"Exa-Barze",		;Assinovskaya
-"Ġoy",			;Goyty
-"Laxa-Njovre",		;Nadterechnoye
-"Doykur-Evl",		;Tolstoy-Yurt
-"Jälin-Yurt",		;Gvardeyskoye
-"Orazkey",		;Chervlyonnaya
-"Balargathi",		;Balerik
-"Çeçana",		;Chechen-Aul
-"Olxuzuri-Khuotar",	;Alkhazurovo
-"Bummat",		;Bamut
-"Zaki-Evla",		;Zakan-Yurt
-"Laqa-Njovre",		;Verkhyj Naur
-"Bepza-Böra",		;Koshkeldy
-"Obargye"		;Grebenskaya
+ "Sölƶa-Ġala",          ; Grozny
+ "Ẋalxa-Marta",         ; Urus-Martan
+ "Şela-Ġala",           ; Shali
+ "Argun",               ; Argun
+ "Gümse",               ; Gudermes
+ "Evtara",              ; Avtury
+ "Vedana",              ; Vedana
+ "Thäẋa-Marta",         ; Achkhoy-Martan
+ "Terkathi",            ; Znamenskoye
+ "Dari-Ġala",           ; Shelkovskaya
+ "Şatoy",               ; Shatoy
+ "Ẋanġaala",            ; Khankala
+ "Yokka-Ataġla",        ; Starye Atagi
+ "Sämajaşka",           ; Samashki
+ "Jalaroy",             ; Aleroy
+ "Hosi-Yurt",           ; Tsenteroy
+ "Iton-Qäl",            ; Itum-Kale
+ "Kurşloy",             ; Kurchaloy
+ "Nevre",               ; Naurskaya
+ "Ena-Yurt",            ; Sernovoskaya
+ "Kotari-Yurt",         ; Katyr-Yurt
+ "Jalxan-Ġala",         ; Alkhan-Kala
+ "Oysungur",            ; Oyskhara
+ "Alroy",               ; Alleroy
+ "Galayn-Ç̇oƶ",          ; Galanchozh
+ "Exa-Barze",           ; Assinovskaya
+ "Ġoy",                 ; Goyty
+ "Laxa-Njovre",         ; Nadterechnoye
+ "Doykur-Evl",          ; Tolstoy-Yurt
+ "Jälin-Yurt",          ; Gvardeyskoye
+ "Orazkey",             ; Chervlyonnaya
+ "Balargathi",          ; Balerik
+ "Çeçana",              ; Chechen-Aul
+ "Olxuzuri-Khuotar",    ; Alkhazurovo
+ "Bummat",              ; Bamut
+ "Zaki-Evla",           ; Zakan-Yurt
+ "Laqa-Njovre",         ; Verkhyj Naur
+ "Bepza-Böra",          ; Koshkeldy
+ "Obargye"              ; Grebenskaya

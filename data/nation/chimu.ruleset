@@ -1,9 +1,9 @@
 [nation_chimu] 
 
-name=_("Chimu") 
-plural=_("?plural:Chimu") 
-groups="Medieval", "American" 
-legend=_("Inheritors of the Moche cultural tradition, Chimor began\
+name   = _("Chimu")
+plural = _("?plural:Chimu")
+groups = "Medieval", "American"
+legend = _("Inheritors of the Moche cultural tradition, Chimor began\
  its expansion in the 12th century from the Moche river valley in\
  what is now northern Peru. Their expansion continued until they\
  were halted and conquered by the rising Inka Empire in 1470. Their\
@@ -26,37 +26,37 @@ ruler_titles = {
  "Despotism",       _("Lord %s"),      _("Lady %s")
 }
 
-flag= "chimu" 
-flag_alt = "-" 
-style = "Babylonian" 
+flag = "chimu"
+flag_alt = "-"
+style = "Babylonian"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="inca", "aymara", "mwiska"
+civilwar_nations = "inca", "aymara", "mwiska"
 
-cities = 
-"Chan Chan", 
-"Farfán", 
-"Pacatnamú", 
-"Sican", 
-"Manchán", 
-"Cinto", 
-"Túcume", 
-"Juayanca", 
-"Chotuna", 
-"Batan", 
-"Mocollope", 
-"Galindo", 
-"Huancaco", 
-"Panamarca", 
-"Cao", 
-"Piura", 
-"Chiclayo", 
-"Huamachuco", 
-"Apurlé", 
-"Piura", 
-"Payta", 
-"Pacasmayo", 
-"Viru"
+cities =
+ "Chan Chan",
+ "Farfán",
+ "Pacatnamú",
+ "Sican",
+ "Manchán",
+ "Cinto",
+ "Túcume",
+ "Juayanca",
+ "Chotuna",
+ "Batan",
+ "Mocollope",
+ "Galindo",
+ "Huancaco",
+ "Panamarca",
+ "Cao",
+ "Piura",
+ "Chiclayo",
+ "Huamachuco",
+ "Apurlé",
+ "Piura",
+ "Payta",
+ "Pacasmayo",
+ "Viru"

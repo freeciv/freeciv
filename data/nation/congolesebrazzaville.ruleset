@@ -1,9 +1,9 @@
 [nation_congolesebrazzaville]
 
-name=_("Brazzaville-Congolese")
-plural=_("?plural:Brazzaville-Congolese")
-groups="African", "Modern"
-legend=_("The Republic of the Congo is a country in Central Africa, not\
+name   = _("Brazzaville-Congolese")
+plural = _("?plural:Brazzaville-Congolese")
+groups = "African", "Modern"
+legend = _("The Republic of the Congo is a country in Central Africa, not\
  to be confused with the Democratic Republic of the Congo. Congo has been\
  independent from France since 1960. From 1970 to 1991 it was governed as\
  a Marxist-Leninist one party state; in this period the country was known\
@@ -28,13 +28,13 @@ ruler_titles = {
  "Fundamentalism", _("Bishop %s"),   _("Mother Superior %s")
 }
 
-flag="r_congo"
+flag = "r_congo"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "kongo"
 civilwar_nations = "congolese", "central african"
@@ -75,5 +75,3 @@ cities =
  "Gamboma",
  "Dia",
  "Gamakala"
-
-

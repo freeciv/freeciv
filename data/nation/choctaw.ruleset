@@ -1,9 +1,9 @@
 [nation_choctaw] 
 
-name=_("Choctaw") 
-plural=_("?plural:Choctaws") 
-groups="American", "Early Modern"
-legend=_("One of the so-called Five Civilized Tribes, the Choctaw\
+name   = _("Choctaw")
+plural = _("?plural:Choctaws")
+groups = "American", "Early Modern"
+legend = _("One of the so-called Five Civilized Tribes, the Choctaw\
  traditionally occupied much of the middle and south of today's U.S.\
  state of Mississippi. First encountered by Spanish explorers in the\
  16th century, they became long-time French allies before siding\
@@ -33,14 +33,15 @@ ruler_titles = {
  "Fundamentalism",  _("Shaman %s"),          _("?female:Shaman %s")
 }
 
-flag="choctaw"
-flag_alt="-"
+flag = "choctaw"
+flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="Muskogee", "Chickasaw", "Seminole" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Muskogee", "Chickasaw", "Seminole"
 
 cities =
 ; legendary origin location

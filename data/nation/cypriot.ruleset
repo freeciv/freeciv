@@ -1,9 +1,9 @@
 [nation_cypriot]
 
-name=_("Cypriot")
-plural=_("?plural:Cypriots")
-groups="Modern", "European"
-legend=_("Cyprus became an independent republic on 16th August 1960.\
+name   = _("Cypriot")
+plural = _("?plural:Cypriots")
+groups = "Modern", "European"
+legend = _("Cyprus became an independent republic on 16th August 1960.\
  It is a Eurasian island country located in the eastern Mediterranean,\
  south of Turkey and west of Syria and Lebanon.")
 
@@ -24,13 +24,13 @@ ruler_titles = {
  "Fundamentalism",  _("Archbishop %s"),        _("Matriarch %s")
 }
 
-flag="cyprus"
+flag = "cyprus"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "Turkish Cypriot", "Hellenic"
 

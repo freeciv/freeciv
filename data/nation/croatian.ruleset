@@ -1,9 +1,9 @@
 [nation_croatian]
 
-name=_("Croatian")
-plural=_("?plural:Croatians")
-groups="Modern", "European"
-legend=_("Croatia is the region of the Southern Slavs that was held by the\
+name   = _("Croatian")
+plural = _("?plural:Croatians")
+groups = "Modern", "European"
+legend = _("Croatia is the region of the Southern Slavs that was held by the\
  Austro-Hungarian Empire, rather than coming under Ottoman rule after the\
  collapse of Byzantium. During most of the 20th century it was part of the\
  Yugoslav Federation.")
@@ -26,6 +26,7 @@ leaders = {
  "Franjo Tuđman",               "Male"
  "Josip Jelačić",               "Male"
 }
+
 ruler_titles = {
  "government",      "male_title",      "female_title"
  ; /* TRANS: Ban = Duke */
@@ -33,14 +34,14 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),    _("Mother Superior %s")
 }
 
-flag="croatia"
+flag = "croatia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-init_units=""
 civilwar_nations = "slovenian"
 
 cities =

@@ -1,9 +1,9 @@
 [nation_cyrenaican]
 
-name=_("Cyrenaican")
-plural=_("?plural:Cyrenaicans")
-groups="African"
-legend=_("Cyrenaica is a historical region in Eastern Libya. In Classical\
+name   = _("Cyrenaican")
+plural = _("?plural:Cyrenaicans")
+groups = "African"
+legend = _("Cyrenaica is a historical region in Eastern Libya. In Classical\
  Antiquity the region was part of the Greek cultural realm. From the 7th\
  century onwards the region was controlled by various Arab dynasties.\
  Cyrenaica was occupied by Italy in 1911. After World War II a short-lived\
@@ -28,12 +28,13 @@ ruler_titles = {
  "Monarchy",        _("Emir %s"),      _("Emira %s")
 }
 
-flag ="cyrenaica"
+flag = "cyrenaica"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "amazigh", "libyan"
 
 cities =

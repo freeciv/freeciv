@@ -1,9 +1,9 @@
 [nation_chananean]
 
-name=_("Chananean")
-plural=_("?plural:Chananeans")
-groups="Imaginary"
-legend=_("Reports of chynocephaly (having the head of a dog or jackal)\
+name   = _("Chananean")
+plural = _("?plural:Chananeans")
+groups = "Imaginary"
+legend = _("Reports of chynocephaly (having the head of a dog or jackal)\
  can be traced to Greek Antiquity. The physician Ctesias and the traveler\
  Megasthenes placed them in India. In the middle ages, Giovanni da Pian\
  and Marco Polo made reference to them, while the theologian Ratramnus\
@@ -32,13 +32,13 @@ ruler_titles = {
  "Republic",        _("%s Alpha"),        _("?female:%s Alpha")
 }
 
-flag="chananea"
+flag = "chananea"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "werewolf", "alsatian"
 
@@ -56,19 +56,19 @@ cities =
  ; Varieties
  "Akita Inu",
  "Malamute",
- "Hound", 
- "Basenji", 
- "Chow Chow", 
- "Wolfhound", 
- "Lhasa Apso", 
- "Pekingese", 
- "Saluki", 
- "Samoyed", 
- "Shar Pei", 
- "Shiba Inu", 
- "Shih Tzu", 
- "Husky", 
- "Terrier", 
+ "Hound",
+ "Basenji",
+ "Chow Chow",
+ "Wolfhound",
+ "Lhasa Apso",
+ "Pekingese",
+ "Saluki",
+ "Samoyed",
+ "Shar Pei",
+ "Shiba Inu",
+ "Shih Tzu",
+ "Husky",
+ "Terrier",
  "Mastiff",
  "Jackal",
  "Jindo Gae",

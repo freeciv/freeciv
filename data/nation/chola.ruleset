@@ -1,10 +1,10 @@
 [nation_chola]
 
-name=_("Chola")
-plural=_("?plural:Cholas")
-groups="Asian", "Medieval"
+name   = _("Chola")
+plural = _("?plural:Cholas")
+groups = "Asian", "Medieval"
 
-legend=_("The Cholas were a Tamil dynasty centered in southern India that\
+legend = _("The Cholas were a Tamil dynasty centered in southern India that\
  was unusually influential in northern India. They began as a\
  tributary state to the Pallavas, but in the 9th century their power began\
  to grow. During the 11th century, they led expeditions against other\
@@ -30,9 +30,9 @@ flag         = "chola"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "gupta", "lankese", "maldivian"
 

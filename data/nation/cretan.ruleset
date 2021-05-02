@@ -1,9 +1,9 @@
 [nation_cretan]
 
-name=_("Cretan")
-plural=_("?plural:Cretans")
-groups="European"
-legend=_("Crete is an island in the Mediterranean Sea, the largest of the\
+name   = _("Cretan")
+plural = _("?plural:Cretans")
+groups = "European"
+legend = _("Crete is an island in the Mediterranean Sea, the largest of the\
  Greek Archipelago. In the 3rd and 2nd millennia BCE Crete was the site of\
  Europe's first advanced civilization, the Minoan culture. An eruption of\
  nearby Thera destroyed the Minoan civilization. Crete then became part of\
@@ -28,15 +28,15 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"),      _("Matriarch %s")
 }
 
-flag="crete"
+flag = "crete"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Hellenic", "Cypriot"
+civilwar_nations = "Hellenic", "Cypriot"
 
 cities =
  "Chania",

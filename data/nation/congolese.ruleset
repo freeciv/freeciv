@@ -1,10 +1,10 @@
 [nation_congolese]
 
-name=_("Congolese")
-plural=_("?plural:Congolese")
-groups="Modern", "African"
+name   = _("Congolese")
+plural = _("?plural:Congolese")
+groups = "Modern", "African"
 
-legend=_("The Democratic Republic of the Congo is a big country in\
+legend = _("The Democratic Republic of the Congo is a big country in\
  Central Africa. Despite (or because of) its wealth of natural\
  resources it has been in ruins for most of its modern history. In 1885\
  Congo was awarded to Léopold II of Belgium as his personal possession,\
@@ -26,13 +26,14 @@ leaders = {
  "Joseph Kabila",               "Male"
 }
 
-flag="dr_congo"
+flag = "dr_congo"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "kongo"
 civilwar_nations = "katangan", "rwandan", "burundian"
 

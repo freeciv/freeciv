@@ -1,13 +1,14 @@
 [nation_chuvash]
 
-name=_("Chuvash")
-plural=_("?plural:Chuvashes")
-groups="European"
-legend=_("Chuvashes are a Turkic ethnic group in Eastern European Russia\
+name   = _("Chuvash")
+plural = _("?plural:Chuvashes")
+groups = "European"
+legend = _("Chuvashes are a Turkic ethnic group in Eastern European Russia\
  and Western Siberia. They may be descendants of Old Bulgarian Turkic\
  tribes and possibly Huns. Today there are about 1.8 million Chuvashes,\
  about half of them in the Republic of Chuvashia, which is part of the\
  Russian Federation.")
+
 leaders = {
  "name",                         "sex"
  "Vakrim",                       "Male"
@@ -19,7 +20,8 @@ leaders = {
  "Tanil El'men",                 "Male"
  "Nikolay Vasilyevich Fyodorov", "Male"
 }
-flag="chuvashia"
+
+flag = "chuvashia"
 flag_alt = "-"
 style = "Celtic"
 
@@ -29,11 +31,11 @@ ruler_titles = {
  "Fundamentalism", _("Patriarch %s"),          _("Matriarch %s")
  }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="volga bulgar", "soviet", "golden horde", "russian", "gokturk"
+conflicts_with = "volga bulgar", "soviet", "golden horde", "russian", "gokturk"
 civilwar_nations = "tatar", "bashkir", "mordvin", "volga bulgar"
 
 cities =

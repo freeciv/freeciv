@@ -1,15 +1,16 @@
 [nation_chrobatian]
 
-name=_("Chrobatian")
-plural=_("?plural:Chrobatians")
-groups="European", "Medieval"
-legend=_("Chrobatia was an Early Medieval, semi-legendary Slavic\
+name   = _("Chrobatian")
+plural = _("?plural:Chrobatians")
+groups = "European", "Medieval"
+legend = _("Chrobatia was an Early Medieval, semi-legendary Slavic\
  state organized by the White Croats in a part of Central Europe that\
  can not be conclusively identified today. The main source of the\
  existence of a White Croatian state is a mention by the Byzantine\
  Emperor Constantine VII Porphyrogennetos. White Croatia is sometimes\
  associated with a prince Slavnik, lord of Libice, whose influence\
  extended to the region of Silesia and the land of Krakow.")
+
 leaders = {
  "name",                "sex"
  "Krok",                "Male"          ;semi-legendary prince or chieftain in Czech folklore
@@ -20,7 +21,8 @@ leaders = {
  "Vojtĕch",             "Male"          ;Saint Adalbert, son of prince Slavnik
  "Radim",               "Male"          ;archbishop Gaudentius, brother of Saint Adalbert
 }
-flag="chrobatian"
+
+flag = "chrobatian"
 flag_alt = "-"
 style = "Celtic"
 
@@ -31,11 +33,11 @@ ruler_titles = {
  "Monarchy",       _("Grand Prince %s"), _("Grand Princess %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="czech", "polish", "moravian", "silesian", "austrian", "prussian"
+conflicts_with = "czech", "polish", "moravian", "silesian", "austrian", "prussian"
 civilwar_nations = "czech", "vistulan", "silesian", "moravian"
 
 cities =

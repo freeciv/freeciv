@@ -1,11 +1,11 @@
 [nation_canari]
 
-name=_("Cañari")
+name      = _("Cañari")
 ; pre-2.6 had plain ASCII names
-rule_name="Canari"
-plural=_("?plural:Cañaris")
-groups="Medieval", "American"
-legend=_("The Cañaris were a pre-Columbian civilization in what is now\
+rule_name = "Canari"
+plural    = _("?plural:Cañaris")
+groups    = "Medieval", "American"
+legend    = _("The Cañaris were a pre-Columbian civilization in what is now\
  Ecuador, whose existence can be traced from the 6th century onwards.\
  They were one of the few Andean cultures not to worship the sun. The\
  Cañari language was probably related to the Mochica language of Peru,\
@@ -29,19 +29,20 @@ ruler_titles = {
  "Monarchy",   _("High King %s"), _("High Queen %s")
 }
 
-flag="canar"
+flag = "canar"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "ecuadorian"
 civilwar_nations = "tairona", "chimu", "inca"
 
 cities =
- "Guapdondelig",	;Tomebamba/Cuenca
- "Hatun Cañari",	;Ingapirca
+ "Guapdondelig",        ; Tomebamba/Cuenca
+ "Hatun Cañari",        ; Ingapirca
  "Chobshi",
  "Yacubiñay",
  "Shabalula",

@@ -1,9 +1,9 @@
 [nation_czech]
 
-name = _("Czech")
+name   = _("Czech")
 plural = _("?plural:Czechs")
-groups="Modern", "Medieval", "European"
-legend=_("Today's Czech Republic was until 1993 part of Czechoslovakia,\
+groups = "Modern", "Medieval", "European"
+legend = _("Today's Czech Republic was until 1993 part of Czechoslovakia,\
  which had been until 1918 part of the Austro-Hungarian Empire.")
 
 leaders = {
@@ -38,11 +38,11 @@ flag = "czech"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="slovakian", "silesian", "moravian", "sorbian"
+civilwar_nations = "slovakian", "silesian", "moravian", "sorbian"
 
 cities =
         "Praha", "Brno", "Ostrava", "Plzeň", "Hradec Králové",

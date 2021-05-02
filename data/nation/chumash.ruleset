@@ -1,9 +1,9 @@
 [nation_chumash] 
 
-name=_("Chumash") 
-plural=_("?plural:Chumash") 
-groups="American"
-legend=_("Inhabiting the Santa Barbara Channel Islands and the southern\
+name   = _("Chumash")
+plural = _("?plural:Chumash")
+groups = "American"
+legend = _("Inhabiting the Santa Barbara Channel Islands and the southern\
  California coastline between Malibu and Paso Robles inland towards the San\
  Joaquin valley, the Chumash lived in large permanent villages and maintained\
  a semi-monetized economy. These villages came to be ruled by hereditary\
@@ -26,42 +26,43 @@ ruler_titles = {
 }
 
 flag = "chumash"
-flag_alt = "-" 
-style = "Celtic" 
+flag_alt = "-"
+style = "Celtic"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
-civilwar_nations="hopi", "ohlone"
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-cities = 
-"Syuxtun", 
-"Xonxon’ata", 
-"Lompo’", 
-"Niaqla", 
-"Tuqan", 
-"Shawa", 
-"Xaxas", 
-"Lisiqishi", 
-"Sis’a", 
-"Kashtiq", 
-"Stuk", 
-"Texax", 
-"‘Ataxis", 
-"Chimimu’", 
-"Chihlkukunach", 
-"Wasna", 
-"Lalimanux", 
-"Nanawani", 
-"Heqep", 
-"Hawamiw", 
-"Washlayik", 
-"Tashlipun", 
-"Tso", 
-"Helewashkuy", 
-"Mikiw", 
-"Chanu", 
-"Kach’antuk’", 
-"Huwam", 
-"Achililiwo", 
-"Shnaxalyiwi"
+civilwar_nations = "hopi", "ohlone"
+
+cities =
+ "Syuxtun",
+ "Xonxon’ata",
+ "Lompo’",
+ "Niaqla",
+ "Tuqan",
+ "Shawa",
+ "Xaxas",
+ "Lisiqishi",
+ "Sis’a",
+ "Kashtiq",
+ "Stuk",
+ "Texax",
+ "‘Ataxis",
+ "Chimimu’",
+ "Chihlkukunach",
+ "Wasna",
+ "Lalimanux",
+ "Nanawani",
+ "Heqep",
+ "Hawamiw",
+ "Washlayik",
+ "Tashlipun",
+ "Tso",
+ "Helewashkuy",
+ "Mikiw",
+ "Chanu",
+ "Kach’antuk’",
+ "Huwam",
+ "Achililiwo",
+ "Shnaxalyiwi"

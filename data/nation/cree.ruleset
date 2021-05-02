@@ -1,10 +1,10 @@
 [nation_cree]
 
-name=_("Cree")
-plural=_("?plural:Cree")
-groups="American"
+name   = _("Cree")
+plural = _("?plural:Cree")
+groups = "American"
 
-legend=_("The Cree are the largest native group in Canada with over 200,000\
+legend = _("The Cree are the largest native group in Canada with over 200,000\
  members who speak an Algonquian language and often call themselves\
  \"Iiyiyuu\" or \"Iinuu,\" meaning \"people.\" They originally inhabited\
  much of Quebec, Labrador, Alberta, Saskatchewan, Ontario and Manitoba.")
@@ -16,15 +16,15 @@ leaders = {
  "Ominayak",    "Male"
 }
 
-flag="innu"
+flag = "innu"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="metis", "inuit", "anishinaabe"
+civilwar_nations = "metis", "inuit", "anishinaabe"
 
 cities =
  "Chisasibi",

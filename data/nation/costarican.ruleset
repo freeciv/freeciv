@@ -1,9 +1,9 @@
 [nation_costarican]
 
-name = _("Costa Rican")
+name   = _("Costa Rican")
 plural = _("?plural:Costa Ricans")
-groups= "Modern", "American"
-legend=_("Costa Rica became an independent republic in 1840. It has been\
+groups = "Modern", "American"
+legend = _("Costa Rica became an independent republic in 1840. It has been\
  without an army since 1949 and is one of the most democratic and wealthy\
  countries of Latin America.")
 
@@ -30,9 +30,10 @@ flag = "costa_rica"
 flag_alt = ""
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "cuban", "nicaraguan"
 
 cities =

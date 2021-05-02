@@ -1,9 +1,9 @@
 [nation_comorian]
 
-name=_("Comorian")
-plural=_("?plural:Comorians")
-groups="Modern", "African"
-legend=_("The Comoros is an island country in the Mozambique channel,\
+name   = _("Comorian")
+plural = _("?plural:Comorians")
+groups = "Modern", "African"
+legend = _("The Comoros is an island country in the Mozambique channel,\
  consisting of Grande Comore, Moheli and Anjouan, although the Comoran\
  government also claims Mayotte, which is currently a French overseas\
  departement. Having been under Arab influence since the 8th century,\
@@ -26,13 +26,13 @@ ruler_titles = {
  "Monarchy",       _("Sultan %s"),      _("Sultana %s")
 }
 
-flag="comoros"
+flag = "comoros"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "swahili", "arab" ; anjouan
 
@@ -82,4 +82,3 @@ cities =
  "Ivémbeni-Bandasamoulini",
  "Mbambao Mtsanga",
  "Hamavouna"
- 

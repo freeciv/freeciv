@@ -1,8 +1,8 @@
 [nation_chickasaw]
 
-name=_("Chickasaw")
-plural=_("?plural:Chickasaws")
-groups="Early Modern", "American"
+name   = _("Chickasaw")
+plural = _("?plural:Chickasaws")
+groups = "Early Modern", "American"
 legend=_("One of the so-called Five Civilized Tribes, the Chickasaw\
  occupied primarily what is today the northern part of the U.S. state of\
  Mississippi at the time of first contact with Europeans. The name\
@@ -18,8 +18,9 @@ leaders = {
  "Itawamba",                     "Male"
  "Taski Etoka",                  "Male"
 }
-flag="chickasaw"
-flag_alt="-"
+
+flag = "chickasaw"
+flag_alt = "-"
 style = "Celtic"
 
 ruler_titles = {
@@ -29,11 +30,11 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Cherokee", "Muskogee", "Choctaw"
+civilwar_nations = "Cherokee", "Muskogee", "Choctaw"
 
 cities =
 ; Old Mississippi settlements http://www.accessgenealogy.com/native/tribes/chickasaw/chickasawhist.htm

@@ -1,9 +1,9 @@
 [nation_chiapanec]
 
-name=_("Chiapanec")
-plural=_("?plural:Chiapanecs")
-groups="American"
-legend=_("Chiapas is a state in southern Mexico. It was governed from\
+name   = _("Chiapanec")
+plural = _("?plural:Chiapanecs")
+groups = "American"
+legend = _("Chiapas is a state in southern Mexico. It was governed from\
  Guatemala during the colonial era, but in 1824, after a brief\
  independence, it chose to join Mexico. Chiapas has a sizeable indigenous\
  (predominantly Mayan) population. Much of Chiapas' history has been\
@@ -24,7 +24,7 @@ leaders = {
  "Elba Esther Gordillo",   "Female"
 }
 
-flag="chiapas"
+flag = "chiapas"
 flag_alt = "-"
 style = "Tropical"
 
@@ -35,9 +35,9 @@ ruler_titles = {
  "Republic",       _("Governor %s"),   _("?female:Governor %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mayan", "guatemalan"
 

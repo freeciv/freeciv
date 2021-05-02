@@ -1,11 +1,11 @@
 [nation_chinese]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Chinese")
-plural=_("?plural:Chinese")
-groups="Modern", "Asian", "Core"
-legend=_("China is the oldest major civilization that is still in\
+name   = _("Chinese")
+plural = _("?plural:Chinese")
+groups = "Modern", "Asian", "Core"
+legend = _("China is the oldest major civilization that is still in\
  existence today, with written records dating back over 3,500 years.\
  After first being unified by the Qin dynasty in 221 BCE, China alternated\
  between periods of unity and disunity, and was occasionally conquered by\
@@ -30,14 +30,15 @@ ruler_titles = {
  "Communism",       _("Chairman %s"),  _("Chairwoman %s")
 }
 
-flag="china"
+flag = "china"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations=
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations =
 ; Technically Taiwan (ROC) is the site of government-in-exile of China proper
  "taiwanese",
 ; Nations part of modern PRC

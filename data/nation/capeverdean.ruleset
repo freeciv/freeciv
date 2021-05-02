@@ -1,9 +1,9 @@
 [nation_capeverdean]
 
-name = _("Cape Verdean")
+name   = _("Cape Verdean")
 plural = _("?plural:Cape Verdean")
-groups="African", "Modern"
-legend=_("Cape Verde is an archipelago off the coast of West Africa.\
+groups = "African", "Modern"
+legend = _("Cape Verde is an archipelago off the coast of West Africa.\
  Before the islands were settled by the Portuguese in the 15th century\
  they were probably uninhabited. Cape Verde subsequently became a major\
  center for the Atlantic slave trade. The islands declared independence\
@@ -29,11 +29,11 @@ flag = "cape_verde"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="bissau-guinean"
+civilwar_nations = "bissau-guinean"
 
 cities =
  "Praia",
