@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -39,11 +39,11 @@ typedef int (*plr_dlg_sort_func)(const struct player* p1,
 struct player_dlg_column {
   bool show;
   enum player_dlg_column_type type;
-  const char *title;				/* already translated */
-  const char *(*func)(const struct player *);	/* if type = COL_*TEXT */
-  bool (*bool_func)(const struct player *);	/* if type = COL_BOOLEAN */
+  const char *title;                            /* already translated */
+  const char *(*func)(const struct player *);   /* if type = COL_*TEXT */
+  bool (*bool_func)(const struct player *);     /* if type = COL_BOOLEAN */
   plr_dlg_sort_func sort_func;
-  const char *tagname;				/* for save_options */
+  const char *tagname;                          /* for save_options */
 };
 
 extern struct player_dlg_column player_dlg_columns[];
@@ -53,8 +53,6 @@ const char *plrdlg_col_state(const struct player *plr);
 
 void init_player_dlg_common(void);
 int player_dlg_default_sort_column(void);
-
-const char *player_addr_hack(const struct player *pplayer);
 
 #ifdef __cplusplus
 }

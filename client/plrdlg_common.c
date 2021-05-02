@@ -269,10 +269,19 @@ const char *plrdlg_col_state(const struct player *plr)
 /************************************************************************//**
   Returns a string telling the player's client's hostname (the
   machine from which he is connecting).
+
+  The host is kept as a blank address if no one is controlling the player,
+  even if there is observers.
 ****************************************************************************/
-static const char *col_host(const struct player *player)
+static const char *col_host(const struct player *pplayer)
 {
-  return player_addr_hack(player);
+  conn_list_iterate(pplayer->connections, pconn) {
+    if (!pconn->observer) {
+      return pconn->addr;
+    }
+  } conn_list_iterate_end;
+
+  return blank_addr_str;
 }
 
 /************************************************************************//**
@@ -345,24 +354,3 @@ void init_player_dlg_common(void)
     player_dlg_columns[i].title = Q_(player_dlg_columns[i].title);
   }
 }
-
-/************************************************************************//**
-  The only place where this is used is the player dialog.
-  Eventually this should go the way of the dodo with everything here
-  moved into col_host above, but some of the older clients (+win32) still
-  use this function directly.
-
-  This code in this function is only really needed so that the host is
-  kept as a blank address if no one is controlling a player, but there are
-  observers.
-****************************************************************************/
-const char *player_addr_hack(const struct player *pplayer)
-{ 
-  conn_list_iterate(pplayer->connections, pconn) {
-    if (!pconn->observer) {
-      return pconn->addr;
-    }
-  } conn_list_iterate_end;
-
-  return blank_addr_str;
-}   
