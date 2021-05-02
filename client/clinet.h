@@ -1,4 +1,4 @@
-/********************************************************************** 
+/***********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@ extern "C" {
 #endif /* __cplusplus */
 
 int connect_to_server(const char *username, const char *hostname, int port,
-		      char *errbuf, int errbufsize);
+                      char *errbuf, int errbufsize);
 
 void make_connection(int socket, const char *username);
 
 void input_from_server(int fd);
 void input_from_server_till_request_got_processed(int fd,
-						  int expected_request_id);
+                                                  int expected_request_id);
 void disconnect_from_server(void);
 
 double try_to_autoconnect(void);
