@@ -82,7 +82,7 @@ metaserver.
 The metaserver maintains several different versions to report here,
 distinguished by "follow tags". The default follow tag is "stable",
 updated when a new source release is made, but for instance Windows
-builds will follow a different tag such as "win32", which will only be
+builds will follow a different tag such as "windows", which will only be
 updated when a new Windows binary is available.
 
 This mechanism is primary intended for the Freeciv maintainers, since
