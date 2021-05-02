@@ -1380,6 +1380,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.only_killing_makes_veteran,
                     RS_DEFAULT_ONLY_KILLING_VETERAN,
                     "combat_rules.only_killing_makes_veteran", NULL);
+  if (game.info.nuke_pop_loss_pct != RS_DEFAULT_NUKE_POP_LOSS_PCT) {
+    comment_combat_rules_nuke_pop_loss(sfile);
+  }
   save_default_int(sfile, game.info.nuke_pop_loss_pct,
                     RS_DEFAULT_NUKE_POP_LOSS_PCT,
                     "combat_rules.nuke_pop_loss_pct", NULL);

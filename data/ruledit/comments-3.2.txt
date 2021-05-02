@@ -1241,3 +1241,10 @@ tired_attack = "\
 ; If this is set to FALSE units will attack with full strength even if they\n\
 ; have only fractional moves left.\
 "
+
+nuke_pop_loss_pct = "\n\
+; Percentage of population lost by a city after nuclear attak. If set to\n\
+; 100 city is destroyed along with all the units. If set to 0 city does not\n\
+; loose population. Any value below 50 means the city can never be\n\
+; destroyed completely using nuclear.\
+"

@@ -56,6 +56,7 @@ static struct {
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
   char *combat_rules_tired_attack;
+  char *combat_rules_nuke_pop_loss;
 } comments_storage;
 
 /**********************************************************************//**
@@ -135,6 +136,8 @@ bool comments_load(void)
                "entrydoc.gold_upkeep_style");
   comment_load(comments_storage.combat_rules_tired_attack, comment_file,
                "entrydoc.tired_attack");
+  comment_load(comments_storage.combat_rules_nuke_pop_loss, comment_file,
+               "entrydoc.nuke_pop_loss_pct");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -419,5 +422,14 @@ void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 void comment_combat_rules_tired_attack(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.combat_rules_tired_attack,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules nuke_pop_loss_pct settings header.
+**************************************************************************/
+void comment_combat_rules_nuke_pop_loss(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.combat_rules_nuke_pop_loss,
                       "combat_rules");
 }
