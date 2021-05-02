@@ -422,7 +422,9 @@ struct unit_type *dai_wants_defender_against(struct ai_type *ait,
         cost = research_goal_bulbs_required(presearch,
                                             advance_number(itech));
       }
-      if (((building = utype_needs_improvement(deftype, pcity)))
+
+      building = utype_needs_improvement(deftype, pcity);
+      if (building != NULL
           && !can_player_build_improvement_direct(pplayer, building)) {
         requirement_vector_iterate(&building->reqs, preq) {
           if (!is_req_active(pplayer, NULL, pcity, building, city_tile(pcity),
@@ -513,7 +515,9 @@ struct unit_type *dai_wants_role_unit(struct ai_type *ait, struct player *pplaye
         cost = research_goal_bulbs_required(presearch,
                                             advance_number(itech));
       }
-      if (((building = utype_needs_improvement(iunit, pcity)))
+
+      building = utype_needs_improvement(iunit, pcity);
+      if (building != NULL
           && !can_player_build_improvement_direct(pplayer, building)) {
         requirement_vector_iterate(&building->reqs, preq) {
           if (VUT_ADVANCE == preq->source.kind && preq->present) {
