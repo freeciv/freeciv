@@ -25,7 +25,7 @@ extern "C" {
  *    - basic ruleset format for Freeciv versions 2.6.x; required
  *
  * +Freeciv-ruleset-Devel-YYYY.MMM.DD
- *    - ruleset of the development version at the given data
+ *    - ruleset of the development version at the given date
  */
 
 struct conn_list;

@@ -84,7 +84,7 @@
  *    - basic format for Freeciv versions 2.6.x; required
  *
  * +Freeciv-tilespec-Devel-YYYY.MMM.DD
- *    - tilespec of the development version at the given data
+ *    - tilespec of the development version at the given date
  *
  * duplicates_ok
  *    - we can handle existence of duplicate tags (lattermost tag which
