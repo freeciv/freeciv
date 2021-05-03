@@ -942,6 +942,30 @@ bool utype_can_do_act_when_ustate(const struct unit_type *punit_type,
 }
 
 /**********************************************************************//**
+  Return TRUE iff units of the given type can do any enabler controlled
+  action with the specified action result while its unit state property
+  prop has the value is_there.
+
+  Note that a specific unit in a specific situation still may be unable to
+  perform the specified action.
+**************************************************************************/
+bool utype_can_do_action_result_when_ustate(const struct unit_type *putype,
+                                            enum action_result result,
+                                            const enum ustate_prop prop,
+                                            const bool is_there)
+{
+  fc_assert_ret_val(putype, FALSE);
+
+  action_by_result_iterate(paction, act_id, result) {
+    if (utype_can_do_act_when_ustate(putype, paction->id, prop, is_there)) {
+      return TRUE;
+    }
+  } action_by_result_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the unit type can do the specified (action enabler
   controlled) action while its target's CityTile property state has the
   value is_there.
