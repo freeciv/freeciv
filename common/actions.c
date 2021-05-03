@@ -528,7 +528,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of the rule that a
-     *_time of 0 disables the action. */
+   * *_time of 0 disables the action. */
   oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, FALSE,
                                           TA_CAN_MINE),
