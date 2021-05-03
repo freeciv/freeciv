@@ -817,7 +817,7 @@ static struct pf_path *pf_normal_map_path(struct pf_map *pfm,
 /************************************************************************//**
   Get info about position at ptile and put it in pos. If ptile has not been
   reached yet, iterate the map until we reach it. Should _always_ check the
-  return value, forthe position might be unreachable.
+  return value, for the position might be unreachable.
 ****************************************************************************/
 static bool pf_normal_map_position(struct pf_map *pfm, struct tile *ptile,
                                    struct pf_position *pos)
@@ -3044,7 +3044,7 @@ static struct pf_path *pf_fuel_map_path(struct pf_map *pfm,
 /************************************************************************//**
   Get info about position at ptile and put it in pos. If 'ptile' has not
   been reached yet, iterate the map until we reach it. Should _always_
-  check the return value, forthe position might be unreachable.
+  check the return value, for the position might be unreachable.
 ****************************************************************************/
 static bool pf_fuel_map_position(struct pf_map *pfm, struct tile *ptile,
                                  struct pf_position *pos)
@@ -3244,7 +3244,7 @@ struct pf_path *pf_map_path(struct pf_map *pfm, struct tile *ptile)
 /************************************************************************//**
   Get info about position at ptile and put it in pos. If ptile has not been
   reached yet, iterate the map until we reach it. Should _always_ check the
-  return value, forthe position might be unreachable.
+  return value, for the position might be unreachable.
 ****************************************************************************/
 bool pf_map_position(struct pf_map *pfm, struct tile *ptile,
                      struct pf_position *pos)
