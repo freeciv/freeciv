@@ -30,7 +30,7 @@ extern "C" {
  *    - basic ruleset format for Freeciv versions 3.1.x; required
  *
  * +Freeciv-ruleset-Devel-YYYY.MMM.DD
- *    - ruleset of the development version at the given data
+ *    - ruleset of the development version at the given date
  */
 
 #define RSFORMAT_3_1  20
