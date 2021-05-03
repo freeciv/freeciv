@@ -216,20 +216,15 @@ bool can_attack_non_native(const struct unit_type *utype)
 ****************************************************************************/
 bool can_attack_from_non_native(const struct unit_type *utype)
 {
-  return (utype_can_do_act_when_ustate(utype, ACTION_ATTACK,
-                                       USP_NATIVE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_SUICIDE_ATTACK,
-                                          USP_NATIVE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_WIPE_UNITS,
-                                          USP_LIVABLE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY4,
-                                          USP_LIVABLE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY3,
-                                          USP_LIVABLE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY2,
-                                          USP_LIVABLE_TILE, FALSE)
-          || utype_can_do_act_when_ustate(utype, ACTION_CONQUER_CITY,
-                                          USP_LIVABLE_TILE, FALSE));
+  return (utype_can_do_action_result_when_ustate(utype, ACTRES_ATTACK,
+                                                 USP_NATIVE_TILE, FALSE)
+          || utype_can_do_action_result_when_ustate(utype,
+                                                    ACTRES_WIPE_UNITS,
+                                                    USP_LIVABLE_TILE, FALSE)
+          || utype_can_do_action_result_when_ustate(utype,
+                                                    ACTRES_CONQUER_CITY,
+                                                    USP_LIVABLE_TILE,
+                                                    FALSE));
 }
 
 /************************************************************************//**
