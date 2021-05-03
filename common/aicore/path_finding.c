@@ -932,7 +932,7 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
 
 /* Danger path-finding maps are used for units which can cross some areas
  * but not ending their turn there. It used to be used for triremes notably.
- * But since Freeciv 2.2, units with the "Trireme" flag just have
+ * But since Freeciv 2.2, units with the "CoastStrict" flag just have
  * restricted moves, then it is not use anymore. */
 
 /* Node definition. Note we try to have the smallest data as possible. */
