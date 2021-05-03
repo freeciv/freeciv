@@ -1,4 +1,4 @@
-.TH FREECIV 6 "June 2019"
+.TH FREECIV 6 "May 2021"
 .SH NAME
 freeciv-ruleup - Update Freeciv rulesets
 .SH SYNOPSIS
@@ -16,6 +16,9 @@ Update RULESET
 .TP
 \fB\-o\fR, \fB\-\-output\fR DIRECTORY
 Create directory OUTPUT for output
+.TP
+\fB\-c\fR, \fB\-\-clean\fR
+Clean up the ruleset before saving it
 .SH DESCRIPTION
 \fBfreeciv-ruleup\fR updates rulesets compatible with previous
 .IR freeciv-server(6)
