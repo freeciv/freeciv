@@ -2603,8 +2603,9 @@ actor_reqs    =
       "UnitClass", "Sea",         "Local",  FALSE
     }
 target_reqs    =
-    { "type",  "name",    "range",    "present"
-      "Extra", "Irrigation", "Local", FALSE
+    { "type",         "name",        "range", "present"
+      "Extra",        "Irrigation",  "Local", FALSE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
     }
 
 [actionenabler_irrigate_src_ocean_basic_irrigation]
@@ -2615,9 +2616,10 @@ actor_reqs    =
       "UnitClass", "Sea",       "Local", FALSE
     }
 target_reqs    =
-    { "type",         "name",       "range",     "present"
-      "TerrainClass", "Oceanic",    "CAdjacent", TRUE
-      "Extra",        "Irrigation", "Local",     FALSE
+    { "type",         "name",        "range",     "present"
+      "TerrainClass", "Oceanic",     "CAdjacent", TRUE
+      "Extra",        "Irrigation",  "Local",     FALSE
+      "TerrainAlter", "CanIrrigate", "Local",     TRUE
     }
 
 [actionenabler_irrigate_src_extra_basic_irrigation]
@@ -2628,9 +2630,10 @@ actor_reqs    =
       "UnitClass", "Sea",      "Local", FALSE
     }
 target_reqs    =
-    { "type",      "name",             "range",     "present"
-      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
-      "Extra",     "Irrigation",       "Local",     FALSE
+    { "type",         "name",             "range",     "present"
+      "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
+      "Extra",        "Irrigation",       "Local",     FALSE
+      "TerrainAlter", "CanIrrigate",      "Local",     TRUE
     }
 
 [actionenabler_irrigate_src_tech_not_in_desert]
@@ -2642,8 +2645,9 @@ actor_reqs    =
       "UnitClass", "Sea",         "Local",  FALSE
     }
 target_reqs    =
-    { "type",         "name",    "range",    "present"
-      "Terrain",      "Desert",  "Local",    FALSE
+    { "type",         "name",        "range", "present"
+      "Terrain",      "Desert",      "Local", FALSE
+      "TerrainAlter", "CanIrrigate", "Local", TRUE
     }
 
 [actionenabler_irrigate_src_ocean_not_in_desert]
@@ -2654,9 +2658,10 @@ actor_reqs    =
       "UnitClass", "Sea",       "Local", FALSE
     }
 target_reqs    =
-    { "type",         "name",    "range",    "present"
-      "TerrainClass", "Oceanic", "CAdjacent", TRUE
-      "Terrain",      "Desert",  "Local",    FALSE
+    { "type",         "name",        "range",     "present"
+      "TerrainClass", "Oceanic",     "CAdjacent", TRUE
+      "Terrain",      "Desert",      "Local",     FALSE
+      "TerrainAlter", "CanIrrigate", "Local",     TRUE
     }
 
 [actionenabler_irrigate_src_extra_not_in_desert]
@@ -2667,9 +2672,10 @@ actor_reqs    =
       "UnitClass", "Sea",      "Local", FALSE
     }
 target_reqs    =
-    { "type",      "name",             "range",     "present"
-      "ExtraFlag", "IrrigationSource", "CAdjacent", TRUE
-      "Terrain",   "Desert",           "Local",     FALSE
+    { "type",         "name",             "range",     "present"
+      "ExtraFlag",    "IrrigationSource", "CAdjacent", TRUE
+      "Terrain",      "Desert",           "Local",     FALSE
+      "TerrainAlter", "CanIrrigate",      "Local",     TRUE
     }
 
 [actionenabler_irrigate_src_tech_desert_but_allowed]

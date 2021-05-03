@@ -2947,8 +2947,7 @@ static void popup_workertask_dlg(struct city *pcity, struct tile *ptile)
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_PLANT), FALSE, NULL);
     }
-    if (pterr->irrigation_time != 0
-        && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
       choice_dialog_add(shl, _("Irrigate"),
                         G_CALLBACK(set_city_workertask),
                         GINT_TO_POINTER(ACTIVITY_IRRIGATE), FALSE, NULL);

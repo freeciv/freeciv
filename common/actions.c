@@ -531,6 +531,17 @@ static void hard_code_oblig_hard_reqs(void)
    * *_time of 0 disables the action. */
   oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, FALSE,
+                                          TA_CAN_IRRIGATE),
+                          TRUE,
+                          N_("All action enablers for %s must require"
+                             " that the target"
+                             " tile's terrain's irrigation_time"
+                             " is above 0. (See \"TerrainAlter\"'s"
+                             " \"CanIrrigate\")"),
+                          ACTRES_IRRIGATE,
+                          ACTRES_NONE);
+  oblig_hard_req_register(req_from_values(VUT_TERRAINALTER, REQ_RANGE_LOCAL,
+                                          FALSE, FALSE, FALSE,
                                           TA_CAN_MINE),
                           TRUE,
                           N_("All action enablers for %s must require"
@@ -4205,11 +4216,6 @@ is_action_possible(const action_id wanted_action,
     }
     if (!is_extra_caused_by(target_extra, EC_IRRIGATION)) {
       /* Reason: This is not an irrigation. */
-      return TRI_NO;
-    }
-
-    pterrain = tile_terrain(target_tile);
-    if (pterrain->irrigation_time == 0) {
       return TRI_NO;
     }
 

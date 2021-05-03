@@ -1382,7 +1382,6 @@ bool can_unit_do_connect(struct unit *punit,
                          struct extra_type *tgt) 
 {
   struct tile *ptile = unit_tile(punit);
-  struct terrain *pterrain = tile_terrain(ptile);
   struct road_type *proad = NULL;
 
   /* HACK: This code duplicates that in
@@ -1430,8 +1429,7 @@ bool can_unit_do_connect(struct unit *punit,
                              &tgt->reqs, RPT_POSSIBLE);
     }
 
-    return pterrain->irrigation_time != 0
-      && can_be_irrigated(ptile, punit)
+    return can_be_irrigated(ptile, punit)
       && can_build_extra(tgt, punit, ptile)
       && !is_activity_on_tile(ptile,
                               ACTIVITY_MINE);

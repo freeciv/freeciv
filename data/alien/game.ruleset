@@ -1028,8 +1028,9 @@ actor_reqs    =
       "Tech",         "Manufacturing", "Player"
     }
 target_reqs    =
-    { "type",         "name",    "range"
-      "TerrainClass", "Oceanic", "CAdjacent"
+    { "type",         "name",        "range"
+      "TerrainClass", "Oceanic",     "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_green_river]
@@ -1040,8 +1041,9 @@ actor_reqs    =
       "Tech",     "Manufacturing", "Player"
     }
 target_reqs    =
-    { "type",  "name",        "range"
-      "Extra", "Green River", "Local"
+    { "type",         "name",        "range"
+      "Extra",        "Green River", "Local"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_brown_river]
@@ -1052,8 +1054,9 @@ actor_reqs    =
       "Tech",     "Manufacturing", "Player"
     }
 target_reqs    =
-    { "type",  "name",        "range"
-      "Extra", "Brown River", "Local"
+    { "type",         "name",        "range"
+      "Extra",        "Brown River", "Local"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_green_river_adjacent]
@@ -1064,8 +1067,9 @@ actor_reqs    =
       "Tech",          "Water Flow",   "Player"
     }
 target_reqs    =
-    { "type",  "name",        "range"
-      "Extra", "Green River", "CAdjacent"
+    { "type",         "name",        "range"
+      "Extra",        "Green River", "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_brown_river_adjacent]
@@ -1076,8 +1080,9 @@ actor_reqs    =
       "Tech",          "Water Flow",   "Player"
     }
 target_reqs    =
-    { "type",  "name",        "range"
-      "Extra", "Brown River", "CAdjacent"
+    { "type",         "name",        "range"
+      "Extra",        "Brown River", "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_citycenter]
@@ -1088,8 +1093,9 @@ actor_reqs    =
       "Tech",     "Water Flow", "Player"
     }
 target_reqs    =
-    { "type",     "name",   "range"
-      "CityTile", "Center", "Adjacent"
+    { "type",         "name",        "range"
+      "CityTile",     "Center",      "Adjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_deep_pumping]
@@ -1098,6 +1104,10 @@ actor_reqs    =
     { "type",     "name",         "range"
       "UnitFlag", "Settlers",     "Local"
       "Tech",     "Deep Pumping", "Player"
+    }
+target_reqs    =
+    { "type",         "name",        "range"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_alight]
