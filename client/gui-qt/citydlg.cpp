@@ -1391,9 +1391,7 @@ void city_map::context_menu(QPoint point)
       && action_id_univs_not_blocking(ACTION_CULTIVATE, NULL, &for_terr)) {
     con_cultivate = con_menu->addAction(_("Cultivate"));
   }
-  if (pterr->irrigation_time != 0
-      && action_id_univs_not_blocking(ACTION_IRRIGATE,
-                                      NULL, &for_terr)) {
+  if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
     con_irrig = con_menu->addAction(_("Irrigate"));
   }
 

@@ -510,9 +510,8 @@ static bool manual_command(struct tag_types *tag_info)
                 pterrain->movement_cost, pterrain->defense_bonus);
 
         fprintf(doc, "<td><table width=\"100%%\">\n");
-        if (pterrain->irrigation_time != 0
-            && action_id_univs_not_blocking(ACTION_IRRIGATE,
-                                            NULL, &for_terr)) {
+        if (action_id_univs_not_blocking(ACTION_IRRIGATE,
+                                         NULL, &for_terr)) {
           fprintf(doc, "<tr><td>+%d F</td><td align=\"right\">(%d)</td></tr>\n",
                   pterrain->irrigation_food_incr, pterrain->irrigation_time);
         } else {

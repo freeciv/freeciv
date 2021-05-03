@@ -1155,7 +1155,7 @@ Actions done by a unit against a tile
  * the target extra (the extra to be built) is an irrigation
  * the target tile doesn't already have the target extra
  * the target extra is buildable (see extra type's buildable)
- * the target tile's terrain's irrigation_time isn't 0
+ * the target tile's terrain's irrigation_time is above 0 (!)
  * if the target extra is both an irrigation and a base the target tile's
    terrain's base_time isn't 0
  * if the target extra is both an irrigation and a base the target extra

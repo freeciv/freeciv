@@ -1390,8 +1390,7 @@ void help_widget::set_topic_terrain(const help_item *topic,
       info_layout->addWidget(tb);
     }
 
-    if (pterrain->irrigation_time != 0
-        && action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
+    if (action_id_univs_not_blocking(ACTION_IRRIGATE, NULL, &for_terr)) {
       /* TRANS: this and similar literal strings interpreted as (Qt) HTML */
       add_extras_of_act_for_terrain(pterrain, ACTIVITY_IRRIGATE, _("Build as irrigation"));
     }

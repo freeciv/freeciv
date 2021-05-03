@@ -1352,8 +1352,9 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs    =
-    { "type",        "name",     "range"
-      "TerrainClass", "Oceanic", "CAdjacent"
+    { "type",         "name",        "range"
+      "TerrainClass", "Oceanic",     "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_river]
@@ -1363,8 +1364,9 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs    =
-    { "type",    "name",     "range"
-      "Extra",   "River",    "CAdjacent"
+    { "type",         "name",        "range"
+      "Extra",        "River",       "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_irrigate_src_irrigation]
@@ -1374,8 +1376,9 @@ actor_reqs    =
       "UnitFlag",      "Settlers",     "Local"
     }
 target_reqs    =
-    { "type",    "name",       "range"
-      "Extra",   "Irrigation", "CAdjacent"
+    { "type",         "name",        "range"
+      "Extra",        "Irrigation",  "CAdjacent"
+      "TerrainAlter", "CanIrrigate", "Local"
     }
 
 [actionenabler_alight]
