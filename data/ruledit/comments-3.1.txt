@@ -643,7 +643,7 @@ terrains = "\
 ;                        actual chance of river generation is controlled\n\
 ;                        separately).\n\
 ;   - UnsafeCoast      = This terrain does not provide a safe voyage for\n\
-;                        units with flag \"Trireme\"\n\
+;                        units with flag \"CoastStrict\"\n\
 ;   - FreshWater       = This terrain is used for small bodies of water.\n\
 ;                        If this becomes adjacent to non-FreshWater terrain,\n\
 ;                        the whole contiguous FreshWater area will be flooded\n\
