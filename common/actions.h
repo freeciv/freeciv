@@ -446,6 +446,14 @@ struct action_enabler
   TYPED_LIST_ITERATE(struct action_enabler, action_enabler_list, aenabler)
 #define action_enabler_list_iterate_end LIST_ITERATE_END
 
+#define action_enabler_list_re_iterate(action_enabler_list, aenabler) \
+  action_enabler_list_iterate(action_enabler_list, aenabler) {        \
+    if (!aenabler->disabled) {
+
+#define action_enabler_list_re_iterate_end                            \
+    }                                                                 \
+  } action_enabler_list_iterate_end
+
 #define action_iterate(_act_)                                             \
 {                                                                         \
   action_id _act_;                                                        \
