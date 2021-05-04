@@ -3,7 +3,10 @@
 EXTRA_DIST = \
 	generate_version_header.sh \
 	liblua_config.h.in \
-	freeciv_config.h.in
+	freeciv_config.h.in \
+	meson_fc_config.h.in \
+	meson_freeciv_config.h.in \
+	meson_liblua_config.h.in
 
 BUILT_SOURCES = version_gen.h
 
