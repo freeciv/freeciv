@@ -7276,11 +7276,10 @@ bool action_is_in_use(struct action *paction)
 
   enablers = action_enablers_for_action(paction->id);
 
-  action_enabler_list_iterate(enablers, ae) {
-    if (!ae->disabled) {
-      return TRUE;
-    }
-  } action_enabler_list_iterate_end;
+  action_enabler_list_re_iterate(enablers, ae) {
+    /* If this iteration finds any entries, action is enabled. */
+    return TRUE;
+  } action_enabler_list_re_iterate_end;
 
   /* No non deleted action enabler. */
   return FALSE;
