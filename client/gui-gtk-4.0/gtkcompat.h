@@ -13,6 +13,10 @@
 #ifndef FC__GTKCOMPAT_H
 #define FC__GTKCOMPAT_H
 
+#if GTK_CHECK_VERSION(4,0,0)
+#define GTKCOMPAT_GTK4_FINAL
+#endif
+
 #if !GTK_CHECK_VERSION(3,98,0)
 /* Compatibility mode */
 
