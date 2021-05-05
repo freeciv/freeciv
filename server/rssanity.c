@@ -653,7 +653,6 @@ static bool sanity_check_boolean_effects(void)
   enum effect_type boolean_effects[] =
     {
       EFT_ANY_GOVERNMENT,
-      EFT_CAPITAL_CITY,
       EFT_ENABLE_NUKE,
       EFT_ENABLE_SPACE,
       EFT_HAVE_EMBASSIES,
