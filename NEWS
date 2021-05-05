@@ -10,7 +10,7 @@ the detailed changes should check the ChangeLog file.
 MAJOR CHANGES FROM 2.6.x to 3.0.0
 ---------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-03-12)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0>, 2021-05-05)
 
    The major changes in Freeciv 3.0 are civ2civ3 being the default ruleset,
    addition of the alien ruleset, hex maps as the default topology on
@@ -78,13 +78,12 @@ Miscellaneous rule changes affecting all or most rulesets:
             adjused by new globalwarming_percent and
             nuclearwinter_percent server settings HRM#770804
           + Spaceship Travel Time can be adjusted with the
-            new spaceship_travel_time server settting HRM#800950
+            new spaceship_travel_time server setting HRM#800950
 
 Rule changes to specific rulesets:
 
      * civ2civ3 ruleset
-          + Agents investigating cities or establishing embassies
-            survive the mission HRM#683542
+          + Agents investigating cities survive the mission HRM#683542
           + Future techs cost less as a result of ruleset now using
             Linear tech cost HRM#731498
           + Culture victory values tweaked. You now need only
@@ -165,6 +164,8 @@ Rule changes to specific rulesets:
             culture points than second best player, but a minimum of
             20000 points, to win by culture victory.
             Culture victory is not enabled by default. HRM#830181
+          + Paradropping to a transport is made possible osdn#41740
+          + Added Mechanic unit that can fix certain other units osdn#41845
 
 Changes affecting other rulesets / modders
 
