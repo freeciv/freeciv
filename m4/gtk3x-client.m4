@@ -5,9 +5,9 @@
 
 AC_DEFUN([FC_GTK3X_CLIENT],
 [
-  # Add check "x$client" = "xauto"  when this becomes supported client
-  if test "x$gui_gtk3x" = "xyes" ||
-     test "x$client" = "xall" ; then
+  # Add checks "x$client" = "xauto" and "x$client" = "xall"
+  # when this becomes supported client
+  if test "x$gui_gtk3x" = "xyes" ; then
     PKG_CHECK_MODULES([GTK3X], [gtk4 >= 3.96.0],
       [
         GTK3X_CFLAGS="$GTK3X_CFLAGS -DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_94"
