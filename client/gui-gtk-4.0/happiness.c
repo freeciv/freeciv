@@ -76,9 +76,6 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity,
 static gboolean show_happiness_popup(GtkWidget *w,
                                      GdkEvent *ev,
                                      gpointer data);
-static gboolean show_happiness_button_release(GtkWidget *w,
-                                              GdkEvent *ev,
-                                              gpointer data);
 
 /**********************************************************************//**
   Create happiness dialog
@@ -170,31 +167,9 @@ static gboolean show_happiness_popup(GtkWidget *w,
     gtk_widget_set_margin_bottom(label, 4);
     gtk_container_add(GTK_CONTAINER(frame), label);
     gtk_widget_show(p);
-
-    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_surface(p),
-                  GDK_SEAT_CAPABILITY_ALL_POINTING,
-                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
-    gtk_grab_add(p);
-
-    g_signal_connect_after(p, "button_release_event",
-                           G_CALLBACK(show_happiness_button_release), NULL);
   }
 
   return TRUE;
-}
-
-/**********************************************************************//**
-  Clear the happiness popup.
-**************************************************************************/
-static gboolean show_happiness_button_release(GtkWidget *w, GdkEvent *ev,
-                                              gpointer data)
-{
-  gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
-  gtk_widget_destroy(w);
-
-  return FALSE;
 }
 
 /**********************************************************************//**

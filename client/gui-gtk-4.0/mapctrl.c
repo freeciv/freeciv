@@ -59,18 +59,6 @@
 extern gint cur_x, cur_y;
 
 /**********************************************************************//**
-  Button released when showing info label
-**************************************************************************/
-static gboolean popit_button_release(GtkWidget *w, GdkEvent *ev)
-{
-  gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
-  gtk_widget_destroy(w);
-
-  return FALSE;
-}
-
-/**********************************************************************//**
   Popup a label with information about the tile, unit, city, when the user
   used the middle mouse button on the map.
 **************************************************************************/
@@ -107,14 +95,6 @@ static void popit(GdkEvent *ev, struct tile *ptile)
     gdk_event_get_position(ev, &e_x, &e_y);
 
     gtk_widget_show(p);
-    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_surface(p),
-                  GDK_SEAT_CAPABILITY_ALL_POINTING,
-                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
-    gtk_grab_add(p);
-
-    g_signal_connect_after(p, "button_release_event",
-                           G_CALLBACK(popit_button_release), NULL);
   }
 }
 
