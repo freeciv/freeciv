@@ -121,7 +121,6 @@ int overview_canvas_store_width = OVERVIEW_CANVAS_STORE_WIDTH;
 int overview_canvas_store_height = OVERVIEW_CANVAS_STORE_HEIGHT;
 
 GtkWidget *toplevel;
-GdkSurface *root_window;
 GtkWidget *toplevel_tabs;
 GtkWidget *top_vbox;
 GtkWidget *top_notebook, *bottom_notebook, *right_notebook;
@@ -1850,7 +1849,6 @@ static void activate_gui(GtkApplication *app, gpointer data)
 
   gtk_widget_realize(toplevel);
   gtk_widget_set_name(toplevel, "Freeciv");
-  root_window = gtk_widget_get_surface(toplevel);
 
   dlg_tab_provider_prepare();
 
