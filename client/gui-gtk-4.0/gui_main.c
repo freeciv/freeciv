@@ -179,7 +179,6 @@ static bool gui_up = FALSE;
 
 static struct video_mode vmode = { -1, -1 };
 
-static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev, gpointer data);
 static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data);
 
 static void end_turn_callback(GtkWidget *w, gpointer data);
@@ -363,6 +362,7 @@ gboolean map_canvas_focus(void)
   gtk_window_present(GTK_WINDOW(toplevel));
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
   gtk_widget_grab_focus(map_canvas);
+
   return TRUE;
 }
 
@@ -2123,19 +2123,6 @@ static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
 }
 
 /**********************************************************************//**
-  Button released when showing info popup
-**************************************************************************/
-static gboolean show_info_button_release(GtkWidget *w, GdkEvent *ev,
-                                         gpointer data)
-{
-  gtk_grab_remove(w);
-  gdk_seat_ungrab(gdk_device_get_seat(gdk_event_get_device(ev)));
-  gtk_widget_destroy(w);
-
-  return FALSE;
-}
-
-/**********************************************************************//**
   Popup info box
 **************************************************************************/
 static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
@@ -2158,15 +2145,6 @@ static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data)
                    "GtkWidget::visible", TRUE,
                    NULL);
     gtk_widget_show(p);
-
-    gdk_seat_grab(gdk_device_get_seat(gdk_event_get_device(ev)),
-                  gtk_widget_get_surface(p),
-                  GDK_SEAT_CAPABILITY_ALL_POINTING,
-                  TRUE, NULL, (GdkEvent *)ev, NULL, NULL);
-    gtk_grab_add(p);
-
-    g_signal_connect_after(p, "button_release_event",
-                           G_CALLBACK(show_info_button_release), NULL);
   }
 
   return TRUE;
