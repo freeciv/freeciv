@@ -113,8 +113,8 @@ static void dai_manage_spaceship(struct player *pplayer)
 }
 
 /***************************************************************************
-  Returns the total amount of trade generated (trade) and total amount of
-  gold needed as upkeep (expenses).
+  Returns the total amount of trade generated (trade), total amount of
+  gold needed as upkeep (expenses), and total amount of gold gained (income).
 ***************************************************************************/
 void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
                    int *income)
@@ -129,7 +129,7 @@ void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
     *income = 0;
   }
 
-  /* Find total trade surplus and gold expenses */
+  /* Find total trade surplus, gold expenses, and gold income */
   city_list_iterate(pplayer->cities, pcity) {
     if (NULL != trade) {
       *trade += pcity->surplus[O_TRADE];
