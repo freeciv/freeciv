@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-04-25 08:24+0300\n"
-"PO-Revision-Date: 2021-04-25 08:31+0300\n"
+"POT-Creation-Date: 2021-05-07 05:49+0300\n"
+"PO-Revision-Date: 2021-05-07 05:51+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -2184,7 +2184,7 @@ msgstr "(nimetön)"
 #: client/gui-sdl2/action_dialog.c:1753 client/gui-sdl2/citydlg.c:1146
 #: client/gui-sdl2/repodlgs.c:211 client/gui-xaw/citydlg.c:1953
 #: client/gui-xaw/action_dialog.c:181 client/gui-xaw/action_dialog.c:770
-#: client/gui-xaw/repodlgs.c:1014 client/text.c:1289 common/unit.c:2097
+#: client/gui-xaw/repodlgs.c:1014 client/text.c:1289 common/unit.c:2102
 #, c-format
 msgid "Treasury contains %d gold."
 msgid_plural "Treasury contains %d gold."
@@ -16328,32 +16328,37 @@ msgstr "Palvelimen toimintomuuttuja: %s"
 msgid "Start of turn %d"
 msgstr "Vuoron %d alku"
 
-#: client/packhand.c:1394
+#: client/packhand.c:1340
+#, c-format
+msgid "Beginning turn %d"
+msgstr "Aloitetaan kierros %d"
+
+#: client/packhand.c:1397
 msgid "Welcome"
 msgstr "Tervetuloa"
 
-#: client/packhand.c:1979 client/tilespec.c:1366
+#: client/packhand.c:1982 client/tilespec.c:1366
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
 "Kartan topologia (%s) ja käytetty kuvitus (%s) eivät ole yhteensopivia."
 
-#: client/packhand.c:2023
+#: client/packhand.c:2026
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 "Tässä skenaariossa saattaa olla ominaisuuksia, joita editori ei pysty "
 "käsittelemään."
 
-#: client/packhand.c:2026
+#: client/packhand.c:2029
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr "Niitä ei talleta mikäli skenaario talletetaan editorista."
 
-#: client/packhand.c:2297
+#: client/packhand.c:2300
 msgid "AI mode is now ON."
 msgstr "AI-tila on nyt PÄÄLLÄ."
 
-#: client/packhand.c:2303
+#: client/packhand.c:2306
 msgid "AI mode is now OFF."
 msgstr "AI-tila on nyt POIS PÄÄLTÄ."
 
@@ -16874,7 +16879,7 @@ msgstr "(Napsauttamalla lisätietoa)"
 msgid "%s People"
 msgstr "%s kansalaista"
 
-#: client/text.c:982 server/gamehand.c:861
+#: client/text.c:982 server/gamehand.c:875
 #, c-format
 msgid "Year: %s"
 msgstr "Vuosi: %s"
@@ -19226,7 +19231,7 @@ msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2107
+#: common/unit.c:2112
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -19241,13 +19246,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2116
+#: common/unit.c:2121
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2122
+#: common/unit.c:2127
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -19262,24 +19267,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2132
+#: common/unit.c:2137
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2136
+#: common/unit.c:2141
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2141
+#: common/unit.c:2146
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2148
+#: common/unit.c:2153
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "
@@ -23761,7 +23766,11 @@ msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units. Usually the ransom is 100 gold, but "
 "can be less if the barbarian has less money."
-msgstr "Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia yksiköitä, ja hyökkäjä on maavoimien yksikkö, maksetaan hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
+msgstr ""
+"Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia "
+"yksiköitä, ja hyökkäjä on maavoimien yksikkö, maksetaan hänestä lunnaat. "
+"Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla vähäisempi mikäli "
+"barbaaripelaajalla ei ole riittävästi rahaa."
 
 #: data/civ2/buildings.ruleset:44 data/classic/buildings.ruleset:77
 #: data/experimental/buildings.ruleset:79 data/civ2civ3/buildings.ruleset:77
@@ -25871,7 +25880,11 @@ msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units and helicopters. Usually the ransom "
 "is 100 gold, but can be less if the barbarian has less money."
-msgstr "Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia yksiköitä, ja hyökkäjä on maavoimien yksikkö tai helikopteri, maksetaan hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
+msgstr ""
+"Kun barbaarijohtaja siepataan ruudulta, jolla ei ole lainkaan puolustavia "
+"yksiköitä, ja hyökkäjä on maavoimien yksikkö tai helikopteri, maksetaan "
+"hänestä lunnaat. Lunnaat ovat yleensä 100 kultaa, mutta summa voi olla "
+"vähäisempi mikäli barbaaripelaajalla ei ole riittävästi rahaa."
 
 #: data/default/default.lua:22 server/unittools.c:2840
 #, c-format
@@ -41119,22 +41132,22 @@ msgstr ""
 "En onnistu lataamaan fcdb-konfigurointitiedostoa '%s':\n"
 "%s"
 
-#: server/gamehand.c:410
+#: server/gamehand.c:422
 #, c-format
 msgid "Didn't find optimal solution for team placement in %d iterations."
 msgstr ""
 "Ei löytynyt kelvollista aloituspaikkojen jakoa joukkueille %d yrityksellä."
 
-#: server/gamehand.c:837
+#: server/gamehand.c:851
 #, c-format
 msgid "No units placed for %s!"
 msgstr "%s on jäänyt ilman sijoitettuja yksiköitä!"
 
-#: server/gamehand.c:962
+#: server/gamehand.c:976
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
 msgstr "Vuoron aikaraja on liian suuri ja palautetaan maksimiarvoon"
 
-#: server/gamehand.c:970
+#: server/gamehand.c:984
 msgid "The turn timeout is smaller than zero, fixing at zero."
 msgstr "Vuoron aikaraja on nollaa pienempi ja muutetaan nollaksi."
 
@@ -41272,7 +41285,7 @@ msgstr ""
 "Suoalueita on kuivunut ja tundra on levinnyt laajalti entisille "
 "ruohoalueille."
 
-#: server/maphand.c:296
+#: server/maphand.c:314
 msgid ""
 "New hope sweeps like fire through the country as the discovery of new "
 "infrastructure building technology is announced."
@@ -41280,7 +41293,7 @@ msgstr ""
 "Uusi toivo leviää läpi maan uuden infrastruktuurin rakentamistavan "
 "keksimisen myötä."
 
-#: server/maphand.c:303
+#: server/maphand.c:321
 msgid ""
 "The people are pleased to hear that your scientists finally know about new "
 "infrastructure building technology."
@@ -41288,7 +41301,7 @@ msgstr ""
 "Kansa ilahtuu saadessaan tietää että tiedemiehesi ovat vihdoin keksineet "
 "uuden infrastruktuurin rakennustekniikan."
 
-#: server/maphand.c:311
+#: server/maphand.c:329
 msgid ""
 "Workers spontaneously gather and upgrade all possible cities with better "
 "infrastructure."
@@ -41296,19 +41309,19 @@ msgstr ""
 "Työläiset kokoontuvat ja päättävät rakentaa talkoovoimin paremman "
 "infrastruktuurin kaikkiin mahdollisiin kaupunkeihin."
 
-#: server/maphand.c:315
+#: server/maphand.c:333
 #, c-format
 msgid "Workers spontaneously gather and upgrade all possible cities with %s."
 msgstr ""
 "Työläiset kokoontuvat ja kaikkiin mahdollisiin kaupunkeihin rakennetaan %s "
 "talkoovoimin."
 
-#: server/maphand.c:1671
+#: server/maphand.c:1689
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr "Yksikkösi %s on siirretty muuttuneen maaston takia."
 
-#: server/maphand.c:1688
+#: server/maphand.c:1706
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr "Yksikkösi %s on lakkautettu muuttuneen maaston takia."
