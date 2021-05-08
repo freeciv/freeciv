@@ -1,9 +1,9 @@
 [nation_dominican]
 
-name=_("Dominican")
-plural=_("?plural:Dominicans")
-groups="Modern", "American"
-legend=_("The island of Dominica was first sighted by Europeans, including\
+name   = _("Dominican")
+plural = _("?plural:Dominicans")
+groups = "Modern", "American"
+legend = _("The island of Dominica was first sighted by Europeans, including\
  Christopher Columbus, in 1493. Legend has it that the island was named so\
  since the day of its first sighting was a Sunday. Officially the\
  \"Commonwealth of Dominica\", the country should not be confused with the\
@@ -22,15 +22,15 @@ ruler_titles = {
  "Fundamentalism", _("Bishop %s"),         _("Mother Superior %s")
 }
 
-flag="dominica"
+flag = "dominica"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="cuban"
+civilwar_nations = "cuban"
 
 cities =
  "Roseau",

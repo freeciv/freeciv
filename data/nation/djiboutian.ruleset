@@ -1,9 +1,9 @@
 [nation_djiboutian]
 
-name=_("Djiboutian")
-plural=_("?plural:Djiboutians")
-groups="Modern", "African"
-legend=_("Djibouti is one of the smallest countries of Africa, located on\
+name   = _("Djiboutian")
+plural = _("?plural:Djiboutians")
+groups = "Modern", "African"
+legend = _("Djibouti is one of the smallest countries of Africa, located on\
  the Gulf of Aden. It has been independent from France since 1977.\
  Djibouti's main ethnic groups are the Afar and the Somalis. The country\
  has one of the hottest climates in the world.")
@@ -21,13 +21,14 @@ ruler_titles = {
  "Fundamentalism", _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
 
-flag="djibouti"
+flag = "djibouti"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "eritrean", "somali"
 
 cities =
@@ -60,4 +61,3 @@ cities =
  "Godoria",
  "Sagaliou",
  "Ras Siyyan"
-

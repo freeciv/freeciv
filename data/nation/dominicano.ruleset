@@ -1,9 +1,9 @@
 [nation_dominicano]
 
-name=_("Dominicano")
-plural=_("?plural:Dominicanos")
-groups="Modern", "American"
-legend=_("The Dominican Republic is located on the eastern two thirds of\
+name   = _("Dominicano")
+plural = _("?plural:Dominicanos")
+groups = "Modern", "American"
+legend = _("The Dominican Republic is located on the eastern two thirds of\
  the Caribbean island of Hispaniola. Its capital - Santo Domingo - became\
  the first permanent European settlement in the Americas when it was\
  founded by Bartholomew Columbus in 1498.")
@@ -28,15 +28,15 @@ ruler_titles = {
  "Monarchy",        _("Viceroy %s"),      _("Vicereine %s")
 }
 
-flag="dominican_republic"
+flag = "dominican_republic"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Haitian", "Puerto Rican"
+civilwar_nations = "Haitian", "Puerto Rican"
 
 cities =
  "Santo Domingo",
