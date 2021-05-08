@@ -60,6 +60,7 @@ void comment_civstyle_gameloss_style(struct section_file *sfile);
 void comment_civstyle_gold_upkeep_style(struct section_file *sfile);
 void comment_combat_rules_tired_attack(struct section_file *sfile);
 void comment_combat_rules_nuke_pop_loss(struct section_file *sfile);
+void comment_combat_rules_nuke_defender_survival(struct section_file *sfile);
 
 #ifdef __cplusplus
 }

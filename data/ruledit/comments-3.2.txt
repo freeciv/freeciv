@@ -1248,3 +1248,9 @@ nuke_pop_loss_pct = "\n\
 ; loose population. Any value below 50 means the city can never be\n\
 ; destroyed completely using nuclear.\
 "
+
+nuke_defender_survival_chance_pct = "\n\
+; Percentage chance of a city defender surviving nuclear attack. When set\n\
+; to 50 roughly half of defenders will survive nuclear attack. When set to\n\
+; 0 no defenders will survive. When set to 100 all defenders will survive.\
+"

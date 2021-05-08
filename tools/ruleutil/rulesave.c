@@ -1386,6 +1386,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.nuke_pop_loss_pct,
                     RS_DEFAULT_NUKE_POP_LOSS_PCT,
                     "combat_rules.nuke_pop_loss_pct", NULL);
+  if (game.info.nuke_defender_survival_chance_pct
+      != RS_DEFAULT_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT) {
+    comment_combat_rules_nuke_defender_survival(sfile);
+  }
   save_default_int(sfile, game.info.nuke_defender_survival_chance_pct,
                     RS_DEFAULT_NUKE_DEFENDER_SURVIVAL_CHANCE_PCT,
                     "combat_rules.nuke_defender_survival_chance_pct", NULL);

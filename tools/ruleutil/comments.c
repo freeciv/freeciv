@@ -57,6 +57,7 @@ static struct {
   char *civstyle_gold_upkeep_style;
   char *combat_rules_tired_attack;
   char *combat_rules_nuke_pop_loss;
+  char *combat_rules_nuke_defender_survival;
 } comments_storage;
 
 /**********************************************************************//**
@@ -138,6 +139,9 @@ bool comments_load(void)
                "entrydoc.tired_attack");
   comment_load(comments_storage.combat_rules_nuke_pop_loss, comment_file,
                "entrydoc.nuke_pop_loss_pct");
+  comment_load(comments_storage.combat_rules_nuke_defender_survival,
+               comment_file,
+               "entrydoc.nuke_defender_survival_chance_pct");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -431,5 +435,15 @@ void comment_combat_rules_tired_attack(struct section_file *sfile)
 void comment_combat_rules_nuke_pop_loss(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.combat_rules_nuke_pop_loss,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules nuke_defender_survival_chance_pct settings header.
+**************************************************************************/
+void comment_combat_rules_nuke_defender_survival(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_nuke_defender_survival,
                       "combat_rules");
 }
