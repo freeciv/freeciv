@@ -2169,6 +2169,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   struct player *pvictor = unit_owner(pkiller);
   int ransom, unitcount = 0;
   bool escaped;
+  bool collect_ransom = FALSE;
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
   sz_strlcpy(punit_link, unit_tile_link(punit));
@@ -2254,21 +2255,40 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   }
 
   /* barbarian leader ransom hack */
-  if (is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
-      && (unit_list_size(unit_tile(punit)->units) == 1)
+  if (is_barbarian(pvictim)
       && uclass_has_flag(unit_class_get(pkiller), UCF_COLLECT_RANSOM)) {
-    /* Occupying units can collect ransom if leader is alone in the tile */
-    ransom = (pvictim->economic.gold >= game.server.ransom_gold) 
-             ? game.server.ransom_gold : pvictim->economic.gold;
-    notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
-                  PL_("Barbarian leader captured; %d gold ransom paid.",
-                      "Barbarian leader captured; %d gold ransom paid.",
-                      ransom),
-                  ransom);
-    pvictor->economic.gold += ransom;
-    pvictim->economic.gold -= ransom;
-    send_player_info_c(pvictor, NULL);   /* let me see my new gold :-) */
-    unitcount = 1;
+    collect_ransom = TRUE;
+
+    unit_list_iterate(unit_tile(punit)->units, capture) {
+      if (!unit_has_type_role(capture, L_BARBARIAN_LEADER)) {
+        /* Cannot get ransom when there are other kind of units in the tile */
+        collect_ransom = FALSE;
+        break;
+      }
+    } unit_list_iterate_end;
+
+    if (collect_ransom) {
+      unitcount = unit_list_size(unit_tile(punit)->units);
+      ransom = unitcount * game.server.ransom_gold;
+
+      if (pvictim->economic.gold < ransom) {
+        ransom = pvictim->economic.gold;
+      }
+
+      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                    PL_("%d Barbarian leader captured.",
+                        "%d Barbarian leaders captured.",
+                        unitcount),
+                    unitcount);
+      notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
+                    PL_("%d gold ransom paid.",
+                        "%d gold ransom paid.",
+                        ransom),
+                    ransom);
+      pvictor->economic.gold += ransom;
+      pvictim->economic.gold -= ransom;
+      send_player_info_c(pvictor, NULL);   /* let me see my new gold :-) */
+    }
   }
 
   if (unitcount == 0) {
@@ -2363,7 +2383,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     } unit_list_iterate_end;
 
     /* Inform the destroyer again if more than one unit was killed */
-    if (unitcount > 1) {
+    if (unitcount > 1 && !collect_ransom) {
       notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
                     /* TRANS: "... Cannon ... the Polish Destroyer ...." */
                     PL_("Your attacking %s succeeded against the %s %s "
