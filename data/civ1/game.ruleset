@@ -175,8 +175,9 @@ airlift_to_always_enabled = TRUE
 
 [wonder_visibility]
 ; When do opponents know which city, if any, has built the Small Wonder
-; "Always" - Information is always sent
-; "Never"  - Information is never sent
+; "Always"  - Information is always sent
+; "Never"   - Information is never sent
+; "Embassy" - Information is sent when team has an embassy with Wonder owner
 small_wonders = "Always"
 
 [illness]

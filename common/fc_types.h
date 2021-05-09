@@ -1227,6 +1227,8 @@ enum setting_default_level { SETDEF_INTERNAL, SETDEF_RULESET, SETDEF_CHANGED };
 #define SPECENUM_VALUE0NAME "Always"
 #define SPECENUM_VALUE1 WV_NEVER
 #define SPECENUM_VALUE1NAME "Never"
+#define SPECENUM_VALUE2 WV_EMBASSY
+#define SPECENUM_VALUE2NAME "Embassy"
 #include "specenum_gen.h"
 
 #ifdef __cplusplus

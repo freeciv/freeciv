@@ -919,10 +919,15 @@ struct city *city_from_wonder(const struct player *pplayer,
 
 /**********************************************************************//**
   Can the player see wonder owned by the other player?
+
+  Embassy can be passed as parameter so that caller can make the somewhat
+  costly embassy detection just once even when calling this multiple
+  times (e.g. for number of different wonders)
 **************************************************************************/
 bool wonder_visible_to_player(const struct impr_type *wonder,
                               const struct player *pplayer,
-                              const struct player *owner)
+                              const struct player *owner,
+                              enum fc_tristate embassy)
 {
   if (pplayer == owner) {
     /* Can see all own wonders,
@@ -940,6 +945,9 @@ bool wonder_visible_to_player(const struct impr_type *wonder,
       return TRUE;
     case WV_NEVER:
       return FALSE;
+    case WV_EMBASSY:
+      return embassy == TRI_YES
+        || (embassy == TRI_MAYBE && team_has_embassy(pplayer->team, owner));
     }
 
     fc_assert(FALSE);

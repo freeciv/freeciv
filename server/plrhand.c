@@ -1314,7 +1314,8 @@ static void package_player_info(struct player *plr,
   for (imp = 0; imp < B_LAST; imp++) {
     if (plr->wonders[imp] != WONDER_NOT_BUILT) {
       if (wonder_visible_to_player(improvement_by_number(imp),
-                                   receiver, plr)) {
+                                   receiver, plr,
+                                   info_level >= INFO_EMBASSY ? TRI_YES : TRI_NO)) {
         packet->wonders[imp] = plr->wonders[imp];
       } else {
         packet->wonders[imp] = WONDER_NOT_BUILT;
