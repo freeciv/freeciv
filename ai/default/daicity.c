@@ -1411,7 +1411,7 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
 
   memset(prod, 0, O_LAST * sizeof(*prod));
   if (NULL != pimprove
-   && adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_CALCULATE_FULL) {
+      && adv->impr_calc[improvement_index(pimprove)] == ADV_IMPR_CALCULATE_FULL) {
     struct tile *acenter = city_tile(acity);
     bool celebrating = base_city_celebrating(acity);
 
@@ -1460,7 +1460,15 @@ adv_want dai_city_want(struct player *pplayer, struct city *acity,
   }
   want += prod[O_LUXURY] * adv->luxury_priority;
   want += prod[O_SCIENCE] * adv->science_priority;
-  want += prod[O_GOLD] * adv->gold_priority;
+  if (pplayer->economic.tax > 50) {
+    /* Increased tax rate indicates that we've had gold shortage which
+     * we are trying to fill with taxes. Consider gold more critical
+     * than usually.
+     * Smallest tax rate we can have here is 60% -> factor (60 - 40) / 14.0 = 1.43 */
+    want += prod[O_GOLD] * adv->gold_priority * (pplayer->economic.tax - 40) / 14.0;
+  } else {
+    want += prod[O_GOLD] * adv->gold_priority;
+  }
 
   return want;
 }
