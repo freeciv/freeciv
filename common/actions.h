@@ -438,7 +438,7 @@ struct action_enabler
 
   /* Only relevant for ruledit and other rulesave users. Indicates that
    * this action enabler is deleted and shouldn't be saved. */
-  bool disabled;
+  bool ruledit_disabled;
 };
 
 #define enabler_get_action(_enabler_) action_by_number(_enabler_->action)
@@ -452,7 +452,7 @@ struct action_enabler
 
 #define action_enabler_list_re_iterate(action_enabler_list, aenabler) \
   action_enabler_list_iterate(action_enabler_list, aenabler) {        \
-    if (!aenabler->disabled) {
+    if (!aenabler->ruledit_disabled) {
 
 #define action_enabler_list_re_iterate_end                            \
     }                                                                 \

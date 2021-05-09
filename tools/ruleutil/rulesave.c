@@ -1358,7 +1358,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   action_enablers_iterate(pae) {
     char path[512];
 
-    if (pae->disabled) {
+    if (pae->ruledit_disabled) {
       continue;
     }
 

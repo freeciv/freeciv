@@ -149,7 +149,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
                  " Don't know how to fix it."
                  " Dropping it.",
                 action_rule_name(paction), problem->description);
-      ae->disabled = TRUE;
+      ae->ruledit_disabled = TRUE;
 
       req_vec_problem_free(problem);
       return TRUE;
@@ -183,7 +183,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
                  " for %s: %s"
                  " Dropping it.",
                  action_rule_name(paction), problem->description);
-        ae->disabled = TRUE;
+        ae->ruledit_disabled = TRUE;
         req_vec_problem_free(problem);
         return TRUE;
       }
@@ -209,7 +209,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
                   req_vec_change_translation(
                     &problem->suggested_solutions[i],
                     action_enabler_vector_by_number_name));
-        new_enabler->disabled = TRUE;
+        new_enabler->ruledit_disabled = TRUE;
         req_vec_problem_free(problem);
         return TRUE;
       }
@@ -217,7 +217,7 @@ rscompat_enabler_add_obligatory_hard_reqs(struct action_enabler *ae)
       if (problem->num_suggested_solutions - 1 == i) {
         /* The last modification is to the original enabler. */
         ae->action = new_enabler->action;
-        ae->disabled = new_enabler->disabled;
+        ae->ruledit_disabled = new_enabler->ruledit_disabled;
         requirement_vector_copy(&ae->actor_reqs,
                                 &new_enabler->actor_reqs);
         requirement_vector_copy(&ae->target_reqs,
@@ -264,7 +264,7 @@ void rscompat_enablers_add_obligatory_hard_reqs(void)
     do {
       restart_enablers_for_action = FALSE;
       action_enabler_list_iterate(action_enablers_for_action(act_id), ae) {
-        if (ae->disabled) {
+        if (ae->ruledit_disabled) {
           /* Ignore disabled enablers */
           continue;
         }
