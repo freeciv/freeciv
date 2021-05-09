@@ -180,7 +180,7 @@ void tab_enabler::refresh()
   enabler_list->clear();
 
   action_enablers_iterate(enabler) {
-    if (!enabler->disabled) {
+    if (!enabler->ruledit_disabled) {
       char buffer[512];
       QListWidgetItem *item;
 
@@ -282,7 +282,7 @@ void tab_enabler::select_enabler()
 void tab_enabler::delete_now()
 {
   if (selected != nullptr) {
-    selected->disabled = true;
+    selected->ruledit_disabled = true;
 
     refresh();
     update_enabler_info(nullptr);
@@ -306,9 +306,9 @@ void tab_enabler::add_now()
 
   // Try to reuse freed enabler slot
   action_enablers_iterate(enabler) {
-    if (enabler->disabled) {
+    if (enabler->ruledit_disabled) {
       if (initialize_new_enabler(enabler)) {
-        enabler->disabled = false;
+        enabler->ruledit_disabled = false;
         update_enabler_info(enabler);
         refresh();
       }
