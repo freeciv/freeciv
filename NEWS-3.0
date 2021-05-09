@@ -9,3 +9,160 @@ see the ChangeLog file.
 
 CHANGES FROM 3.0.0-beta1 to 3.0.0-beta2
 ---------------------------------------
+3.0.0-beta2 fixes a number of issues seen with beta1. These include that
+alien ruleset gets correctly installed, and important change to
+civ2civ3 (default) ruleset that Diplomats or Explorers establishing
+an embassy are consumed in the process.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Update a city also on other player's clients when its size get
+      reduced because of a nuke osdn#41810 osdn#41860
+    * Made generated random seed less predictable on most platforms.
+      Compared to earlier released 2.6.4, here also Windows and
+      older Linux are supported. HRM#914184 osdn#41838 osdn#41842
+      osdn#41995 osdn#42000 osdn#41918 osdn#42024
+    * Allow goto to a moving transport (but not through one) HRM#647612
+    * Air unit goto avoids wait for refuel when it's not necessary
+      HRM#923677 osdn#42029
+    * Server does not send city info to clients in the middle of calculations
+      where the info might be inconsistent osdn#41851 osdn#41975
+    * When attempting to load a ruleset that is not locked to its ruleset,
+      still fallback to its own ruleset when the current one is incompatible
+      osdn#41994
+    * Already built buildings are purged from the worklist. They used to be
+      just postponed osdn#41925
+    * Terrain changing unit activities are cancelled when climate change
+      changes tile terrain. With the new terrain the target of those actions
+      is not what was started HRM#899919
+    * Avoid endless loop with scenarios having bad starting positions HRM#767127
+
+    * alien ruleset:
+         + Ruleset gets correctly installed osdn#41828
+
+    * civ2civ3 (default) ruleset:
+         + Diplomats or Explorers establishing embassy are consumed in the process
+           osdn#41929
+
+    * sandbox ruleset:
+         + Paradropping to transport is made possible osdn#41740
+         + Added Mechanic unit that can fix certain other units osdn#41845
+
+    * Europe 1900 WWI scenario:
+         + Finnish city of Tammerfors renamed as Tampere osdn#41777
+
+Changes affecting other rulesets / modders
+
+    * When calculating action success chance, surviving tech requirements on
+      World range are known to be known by everyone HRM#922369
+    * Fixed scorelog start check to work correctly with ruleset set start year
+      other than default HRM#820731
+    * Fixed nuking non-native tiles with units that have zero attack_strength
+      osdn#42008
+    * Fixed server crash when illness destroys a city. That can happen only
+      with rulesets that enable illness for size 1 cities osdn#41959
+    * Server now checks that unit's transport can hold the target unit before
+      converting unit HRM#921940
+
+Changes affecting server operators
+
+    * For servers with user authentication, supplied database.lua script uses
+      lua instead of dirty sql query to determine time osdn#41879
+
+General
+
+    * Minor optimizations HRM#921195
+    * Various internal changes which should only affect developers
+      osdn#41759 osdn#41797 HRM#923036 HRM#922785 osdn#41850 osdn#41773 osdn#41858
+      HRM#924387 osdn#41764 osdn#41852 HRM#923660 osdn#41772 HRM#923785 osdn#41873
+      osdn#41847 osdn#41953 osdn#41992 osdn#41931 osdn#41927 osdn#42006 osdn#42007
+      osdn#42010 osdn#41937 osdn#41964 osdn#42098 osdn#42099 osdn#42045 osdn#42053
+      osdn#42101
+
+AI
+
+    * Better air unit handling HRM#924327
+    * Better evaluate value of transports filled with cargo for the invasion attempt
+      HRM#872215
+
+Clients
+
+    * User is now allowed to open a new action selection dialog while another
+      is open osdn#41920
+    * Fixed a governor crash when client does not know the other end of
+      the trade route, but thinks it knows it osdn#41926
+    * Buildings that allow units to perform actions are no longer shown
+      as redundant osdn#41955
+    * Client now knows that attacking a city with units like standard rulesets'
+      Submarine is impossible osdn#42001
+    * Fixed over-zealous assert when action selection gets cancelled osdn#42042
+    * Client now logs about start of new turn on verbose log level osdn#41973
+
+    * sdl2
+         + Fixed screen refreshing when there's no active units osdn#41683
+
+Tools
+Ruledit
+
+    * Made unit tech requirement menu easier to use osdn#41832
+    * New editable properties:
+         + Building build cost osdn#41891
+         + Unit build cost osdn#41950
+         + Description file reference osdn#41946
+    * Allow only numbers to be entered for numeric requirement value osdn#41893
+    * Prevented opening multiple Edit Values dialogs for the same ruleset item
+      osdn#41951
+    * Edit Values dialog related to it is closed when ruleset item is deleted
+      osdn#41957
+    * Other minor fixes osdn#41944 osdn#41945
+
+Tilesets, Art, etc
+
+    * Visible_Walls effects from City Walls and Great Wall are no longer
+      cumulative in supplied rulesets, better supporting potential tilesets
+      with multiple Wall graphics HRM#823341
+    * Added icons for action_decision_want to most tilesets
+      HRM#924321 HRM#924326 HRM#924388
+    * Added Ancient Transport Hub graphics to amplio2 osdn#41868
+    * conver_png script used to generate flag images updated to work with
+      modern inkscape versions osdn#41884 osdn#42002
+    * Fix to hexemplio format osdn#41923
+    * Corrected/updated flag file formats
+      osdn#41966 osdn#42005 osdn#42012 osdn#42016 osdn#42019 osdn#42023 osdn#42022
+      osdn#42025 osdn#42027 osdn#42041 osdn#42050 osdn#42059 osdn#42065 osdn#42069
+      osdn#42076 osdn#42080 osdn#42108 osdn#42115 osdn#42094 osdn#42123 osdn#42132
+      osdn#42150
+
+Help / Documentation
+
+    * List Sveinung Kvilhaugsvik in present maintainers osdn#41820
+    * Miscellaneous other improvements to in-game text and user documentation
+      osdn#41712 osdn#41727 HRM#897730 HRM#892147 osdn#41826 HRM#811425 osdn#41969
+      HRM#727155 osdn#41938 osdn#41962
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#41776 osdn#41803 HRM#923438 osdn#41829 osdn#41872 osdn#41833 osdn#41887
+      osdn#41935 osdn#41998 osdn#41943 osdn#42071 osdn#42017 osdn#42049 osdn#42061
+      osdn#42158
+
+Translations
+
+    * Updated translations:
+         + Complete translations: Russian
+         + Incomplete translations:
+           Spanish (85% core, 100% nations, 44% ruledit),
+           Finnish (100% core, 91% nations, 100% ruledit),
+           French (99% core, 100% nations, 100% ruledit),
+           Polish (99% core, 100% nations, 96% ruledit)
+    * Changes to which strings are translatable osdn#41866
+
+Build/portability
+
+    * Updated bootstrap files from gnulib upstream
+      osdn#41758 osdn#41754 osdn#41755 osdn#41843 osdn#41818 osdn#41830 osdn#41889
+      osdn#41906 osdn#41999 osdn#42034
+    * Fixed build of tex/threaded AI osdn#41870
+    * Fixed compiler warnings seen with various setups
+      HRM#921179 HRM#921208 HRM#923440 osdn#41905 osdn#41932 osdn#41890 osdn#42021
+      osdn#42058
+    * Fixed false positive when configure looks for moc-qt5 command osdn#41997
