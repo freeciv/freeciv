@@ -3773,7 +3773,7 @@ bool load_command(struct connection *caller, const char *filename, bool check,
     log_error("Error loading savefile '%s': %s", arg, secfile_error());
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"),
               arg);
-    dlsend_packet_game_load(game.est_connections, TRUE, arg);
+    dlsend_packet_game_load(game.est_connections, FALSE, arg);
     return FALSE;
   }
 
