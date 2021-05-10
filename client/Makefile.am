@@ -59,7 +59,9 @@ else
 CLI_INCLUDE = 
 endif
 
+if CLIENT
 SUBDIRS = $(GUI_SUBDIRS) $(CLI_INCLUDE) agents luascript
+endif
 
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/utility \
@@ -108,8 +110,6 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	global_worklist.h	\
 	goto.c		\
 	goto.h		\
-	helpdata.c	\
-	helpdata.h	\
 	luaconsole_common.c	\
 	luaconsole_common.h	\
 	mapctrl_common.c \
@@ -171,13 +171,18 @@ gui_cbs_src = \
 MAINTAINERCLEANFILES = $(srcdir)/packhand_gen.c $(srcdir)/packhand_gen.h
 
 bin_PROGRAMS =
-noinst_LTLIBRARIES =
+noinst_LTLIBRARIES = libfc_helpdata.la
+
+libfc_helpdata_la_SOURCES =	\
+	helpdata.c		\
+	helpdata.h
 
 clientlibs = \
  $(top_builddir)/common/scriptcore/libscriptcore.la \
  $(top_builddir)/client/agents/libagents.la \
  $(top_builddir)/client/luascript/libscripting_client.la \
- $(top_builddir)/dependencies/cvercmp/libcvercmp.la
+ $(top_builddir)/dependencies/cvercmp/libcvercmp.la \
+ libfc_helpdata.la
 
 if CLIENT_GUI_GTK_3_22
 bin_PROGRAMS += freeciv-gtk3.22

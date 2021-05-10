@@ -51,7 +51,7 @@ freeciv_manual_SOURCES =                                                   \
 # but also uses some files from the client.
 freeciv_manual_LDADD = \
  $(top_builddir)/server/libfreeciv-srv.la \
- ../client/helpdata.lo \
+ $(top_builddir)/client/libfc_helpdata.la \
  $(top_builddir)/common/libfreeciv.la \
  $(top_builddir)/tools/shared/libtoolsshared.la \
  $(INTLLIBS) $(TINYCTHR_LIBS) $(MAPIMG_WAND_LIBS) \
