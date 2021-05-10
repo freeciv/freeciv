@@ -31,7 +31,7 @@ echo "Freeciv distribution check successful!"
 "meson")
 mkdir build
 cd build
-meson .. -Dprefix=${HOME}/freeciv/meson -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli'
+meson .. -Dprefix=${HOME}/freeciv/meson -Ddebug=true -Dack_experimental=true -Dclients='gtk3.22','qt','sdl2' -Dfcmp='gtk3','qt','cli'
 ninja
 ninja install
 ;;
