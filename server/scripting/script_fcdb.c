@@ -59,7 +59,7 @@
 
 /* server/scripting */
 #ifdef HAVE_FCDB
-#include "tolua_fcdb_gen.h"
+#include <tolua_fcdb_gen.h> /* <> so looked from the build directory first. */
 #endif /* HAVE_FCDB */
 
 #include "script_fcdb.h"
