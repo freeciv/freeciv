@@ -324,9 +324,10 @@ struct canvas *get_overview_window(void)
 {
 #if 0
   static struct canvas store;
+  GtkNative *nat = gtk_widget_get_native(overview_canvas);
 
   store.surface = NULL;
-  store.drawable = gdk_cairo_create(gtk_widget_get_surface(overview_canvas));
+  store.drawable = gdk_cairo_create(gtk_native_get_surface(nat));
 
   return &store;
 #endif /* 0 */
@@ -420,7 +421,9 @@ void dirty_rect(int canvas_x, int canvas_y,
   //  GdkRectangle rectangle = {canvas_x, canvas_y, pixel_width, pixel_height};
 
   if (gtk_widget_get_realized(map_canvas)) {
-    //    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), &rectangle);
+    // GtkNative *nat = gtk_widget_get_native(map_canvas);
+
+    //    gdk_surface_invalidate_rect(gtk_native_get_surface(nat), &rectangle);
   }
 }
 
@@ -430,7 +433,9 @@ void dirty_rect(int canvas_x, int canvas_y,
 void dirty_all(void)
 {
   if (gtk_widget_get_realized(map_canvas)) {
-    //    gdk_surface_invalidate_rect(gtk_widget_get_surface(map_canvas), NULL);
+    // GtkNative *nat = gtk_widget_get_native(map_canvas);
+
+    //    gdk_surface_invalidate_rect(gtk_native_get_surface(nat), NULL);
   }
 }
 
@@ -618,7 +623,9 @@ void put_cross_overlay_tile(struct tile *ptile)
   float canvas_x, canvas_y;
 
   if (tile_to_canvas_pos(&canvas_x, &canvas_y, ptile)) {
-    pixmap_put_overlay_tile(gtk_widget_get_surface(map_canvas), map_zoom,
+    GtkNative *nat = gtk_widget_get_native(map_canvas);
+
+    pixmap_put_overlay_tile(gtk_native_get_surface(nat), map_zoom,
 			    canvas_x / map_zoom, canvas_y / map_zoom,
 			    get_attention_crosshair_sprite(tileset));
   }
@@ -737,7 +744,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
     return;
   }
 
-  wndw = gtk_widget_get_surface(map_canvas);
+  wndw = gtk_native_get_surface(gtk_widget_get_native(map_canvas));
   ctx = gdk_window_begin_draw_frame(wndw, NULL,
                                     gdk_window_get_clip_region(wndw));
   cr = gdk_drawing_context_get_cairo_context(ctx);
