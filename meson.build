@@ -6,8 +6,6 @@ if not get_option('ack_experimental')
 endif
 
 add_global_arguments('-Wno-nonnull-compare', language : 'c')
-add_global_arguments('-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20', language : 'c')
-add_global_arguments('-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22', language : 'c')
 
 add_global_arguments('-fPIC', language : 'cpp')
 add_global_arguments('-DQT_DISABLE_DEPRECATED_BEFORE=0x050b00', language : 'cpp')
@@ -2160,6 +2158,8 @@ executable('freeciv-gtk3.22',
   'client/gui-gtk-3.22/unitselunitdlg.c',
   'client/gui-gtk-3.22/voteinfo_bar.c',
   'client/gui-gtk-3.22/wldlg.c',
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: client_inc,
   dependencies: [gtk322_dep, ws2_dep],
   link_with: client_common,
@@ -2531,6 +2531,8 @@ endif
 
 executable('freeciv-mp-gtk3',
   'tools/fcmp/mpgui_gtk3.c',
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_3_20',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: tool_inc,
   dependencies: [gtk322_dep,
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
