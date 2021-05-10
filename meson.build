@@ -42,6 +42,8 @@ priv_conf_data.set('IS_DEVEL_VERSION', 1)
 if get_option('debug')
   priv_conf_data.set('FREECIV_DEBUG', 1)
   pub_conf_data.set('FREECIV_DEBUG', 1)
+  add_global_arguments('-Werror', language: 'c')
+  add_global_arguments('-Werror', language: 'cpp')
 else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
