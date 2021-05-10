@@ -2037,6 +2037,37 @@ int unit_pays_mp_for_action(const struct action *paction,
 }
 
 /**********************************************************************//**
+  returns how many hp's a unit will gain standing still on current tile
+  depends on whether or not it's inside city or fortress.
+  barracks will regen landunits completely
+  airports will regen airunits  completely
+  ports    will regen navalunits completely
+  fortify will add a little extra.
+**************************************************************************/
+int hp_gain_coord(struct unit *punit)
+{
+  int hp = 0;
+  const int base = unit_type_get(punit)->hp;
+
+  /* Includes barracks (100%), fortress (25%), etc. */
+  hp += base * get_unit_bonus(punit, EFT_HP_REGEN) / 100;
+
+  if (tile_city(unit_tile(punit))) {
+    hp = MAX(hp, base / 3);
+  }
+
+  if (!unit_class_get(punit)->hp_loss_pct) {
+    hp += (base + 9) / 10;
+  }
+
+  if (punit->activity == ACTIVITY_FORTIFIED) {
+    hp += (base + 9) / 10;
+  }
+
+  return MAX(hp, 0);
+}
+
+/**********************************************************************//**
   Does unit lose hitpoints each turn?
 **************************************************************************/
 bool is_losing_hp(const struct unit *punit)
