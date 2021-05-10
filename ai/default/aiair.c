@@ -51,18 +51,49 @@
 #include "aiair.h"
 
 /******************************************************************//**
+  How fast does a unit regenerate at another tile after moves to it.
+  Kludgy function worth some generalization.
+**********************************************************************/
+static inline int regen_turns(struct unit *punit, struct tile *ptile,
+                              int lost_hp)
+{
+  struct tile *real_tile = unit_tile(punit);
+  int res, regen, recov;
+
+  punit->tile = ptile;
+  /* unit_list_prepend(ptile, punit); ... (handle "MaxUnitsOnTile" etc.) */
+  regen = hp_gain_coord(punit);
+  recov = get_unit_bonus(punit, EFT_UNIT_RECOVER);
+  if (lost_hp - recov <= 0) {
+    res = 0;
+  } else {
+    res = 1 + (lost_hp - recov) / (recov + regen);
+  }
+  punit->tile = real_tile;
+
+  return res;
+}
+
+/******************************************************************//**
   Looks for nearest airbase for punit reachable imediatly.
   Returns NULL if not found.  The path is stored in the path
   argument if not NULL.
+  If the unit is damaged, flies to an airbase that can repair
+  the unit in a minimal number of turns.
+  FIXME: consider airdrome safety. Can lure enemy bombers
+    to a spare airdrome next to our rifles.
   TODO: Special handicaps for planes running out of fuel
         IMO should be less restrictive than general H_MAP, H_FOG
 **********************************************************************/
-static struct tile *find_nearest_airbase(const struct unit *punit,
+static struct tile *find_nearest_airbase(struct unit *punit,
                                          struct pf_path **path)
 {
   struct player *pplayer = unit_owner(punit);
   struct pf_parameter parameter;
   struct pf_map *pfm;
+  struct tile *best = NULL;
+  int lost_hp = unit_type_get(punit)->hp - punit->hp;
+  int best_regt = FC_INFINITY;
 
   pft_fill_unit_parameter(&parameter, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
@@ -75,16 +106,30 @@ static struct tile *find_nearest_airbase(const struct unit *punit,
     }
 
     if (is_airunit_refuel_point(ptile, pplayer, punit)) {
-      if (path) {
-        *path = pf_map_path(pfm, ptile);
+      if (lost_hp > 0) {
+        int regt = regen_turns(punit, ptile, lost_hp);
+
+        if (regt <= 0) {
+          /* Nothing better to search */
+          best = ptile;
+          break;
+        } else if (!best || regt < best_regt) {
+          /* regenerates faster */
+          best_regt = regt;
+          best = ptile;
+        }
+      } else {
+        best = ptile;
+        break;
       }
-      pf_map_destroy(pfm);
-      return ptile;
     }
   } pf_map_move_costs_iterate_end;
 
+  if (path && best) {
+    *path = pf_map_path(pfm, best);
+  }
   pf_map_destroy(pfm);
-  return NULL;
+  return best;
 }
 
 /******************************************************************//**
@@ -256,12 +301,18 @@ static int find_something_to_bomb(struct ai_type *ait, struct unit *punit,
 } 
 
 /******************************************************************//**
-  Iterates through reachable cities and appraises them as a possible 
-  base for air operations by (air)unit punit.  Returns NULL if not
-  found.  The path is stored in the path argument if not NULL.
+  Iterates through reachable refuel points and appraises them
+  as a possible base for air operations by (air)unit punit.
+  Returns NULL if not found (or we just should stay here).
+  The path is stored in the path argument if not NULL.
+  1. If the unit is damaged, looks for the fastest full regeneration.
+  (Should we set the unit task to AIUNIT_RECOVER? Currently, no gain)
+  2. Goes to the nearest city that needs a defender immediately.
+  3. Evaluates bombing targets from the bases and chooses the best.
+  FIXME: consider airbase safety! Don't be lured to enemy airbases!
 **********************************************************************/
 static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
-                                               const struct unit *punit,
+                                               struct unit *punit,
                                                struct pf_path **path)
 {
   struct player *pplayer = unit_owner(punit);
@@ -271,11 +322,60 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
   struct city *pcity;
   struct unit *pvirtual = NULL;
   int best_worth = 0, target_worth;
+  int lost_hp = unit_type_get(punit)->hp - punit->hp;
+  int regen_turns_min = FC_INFINITY;
+  bool defend = FALSE; /* Used only for lost_hp > 0 */
+  bool refuel_start = FALSE; /* Used for not a "grave danger" start */
 
+  /* Consider staying at the current position
+   * before we generate the map, maybe we should not */
+  if (is_unit_being_refueled(punit)) {
+    /* We suppose here for speed that the recovery effect is global.
+     * It's so in the standard rulesets but might be not elsewhere */
+    int recov = get_unit_bonus(punit, EFT_UNIT_RECOVER);
+    int regen = hp_gain_coord(punit);
+    const struct tile *ptile = unit_tile(punit);
+
+    if (lost_hp > 0 && regen + recov > 0) {
+      regen_turns_min =
+        punit->moved ? lost_hp - recov : lost_hp - (regen + recov);
+      if (regen_turns_min <= 0) {
+        if (lost_hp - recov > 0) {
+          /* Probably, nothing can repair us faster */
+          log_debug("Repairment of %s is almost finished, stays here",
+                    unit_rule_name(punit));
+          def_ai_unit_data(punit, ait)->done = TRUE;
+          return NULL;
+        } else {
+          regen_turns_min = 0;
+        }
+      } else {
+        regen_turns_min /= regen + recov;
+        regen_turns_min += 1;
+      }
+    }
+    pcity = tile_city(ptile);
+    if (pcity
+        && def_ai_city_data(pcity, ait)->grave_danger
+           > (unit_list_size(ptile->units) - 1) << 1) {
+      if (lost_hp <= 0 || regen_turns_min <= 1) {
+        log_debug("%s stays defending %s",
+                  unit_rule_name(punit), city_name_get(pcity));
+        return NULL;
+      } else {
+        /* We may find a city in grave danger that restores faster */
+        defend = TRUE;
+      }
+    } else {
+      refuel_start = TRUE;
+    }
+  }
   pft_fill_unit_parameter(&parameter, punit);
   parameter.omniscience = !has_handicap(pplayer, H_MAP);
   pfm = pf_map_new(&parameter);
   pf_map_move_costs_iterate(pfm, ptile, move_cost, FALSE) {
+    bool chg_for_regen = FALSE;
+
     if (move_cost >= punit->moves_left) {
       break; /* Too far! */
     }
@@ -284,10 +384,47 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
       continue; /* Cannot refuel here. */
     }
 
+    if (lost_hp > 0) {
+      /* Don't fly to a point where we'll regenerate longer */
+      int regen_tn = regen_turns(punit, ptile, lost_hp);
+
+      if (regen_turns_min < regen_tn) {
+        log_debug("%s knows a better repair base than %d,%d",
+                  unit_rule_name(punit), TILE_XY(ptile));
+        continue;
+      } else if (regen_turns_min > regen_tn) {
+        regen_turns_min = regen_tn;
+        best_tile = ptile;
+        best_worth = 0; /* to be calculated if necessary */
+        chg_for_regen = TRUE;
+      }
+    }
+
     if ((pcity = tile_city(ptile))
-        && def_ai_city_data(pcity, ait)->grave_danger != 0) {
-      best_tile = ptile;
-      break; /* Fly there immediately!! */
+        /* Two defenders per attacker is enough,
+         * at least considering that planes are usually
+         * expensive and weak city defenders */
+        && def_ai_city_data(pcity, ait)->grave_danger
+           > unit_list_size(ptile->units) << 1) {
+      if (lost_hp <= 0) {
+        best_tile = ptile;
+        break; /* Fly there immediately!! */
+      } else {
+        if (!defend) {
+          /* We maybe have equally regenerating base but not in danger */
+          best_tile = ptile;
+          defend = TRUE;
+        }
+        continue;
+      }
+    } else if (defend) {
+      if (chg_for_regen) {
+        /* We better regenerate faster and take a revenge a bit later */
+        defend = FALSE;
+      } else {
+        /* We already have a base in grave danger that restores not worse */
+        continue;
+      }
     }
 
     if (!pvirtual) {
@@ -295,6 +432,13 @@ static struct tile *dai_find_strategic_airbase(struct ai_type *ait,
         unit_virtual_create(pplayer,
                             player_city_by_number(pplayer, punit->homecity),
                             unit_type_get(punit), punit->veteran);
+      if (refuel_start) {
+        /* What worth really worth moving out? */
+        int start_worth;
+        unit_tile_set(pvirtual, unit_tile(punit));
+        start_worth = find_something_to_bomb(ait, pvirtual, NULL, NULL);
+        best_worth = MAX(start_worth, 0);
+      }
     }
 
     unit_tile_set(pvirtual, ptile);

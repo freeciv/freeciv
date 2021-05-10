@@ -140,7 +140,6 @@ static void wakeup_neighbor_sentries(struct unit *punit);
 static void do_upgrade_effects(struct player *pplayer);
 
 static bool maybe_cancel_patrol_due_to_enemy(struct unit *punit);
-static int hp_gain_coord(struct unit *punit);
 
 static bool maybe_become_veteran_real(struct unit *punit, bool settler);
 
@@ -678,37 +677,6 @@ void finalize_unit_phase_beginning(struct player *pplayer)
     punit->changed_from_count = punit->activity_count;
     send_unit_info(NULL, punit);
   } unit_list_iterate_end;
-}
-
-/**********************************************************************//**
-  returns how many hp's a unit will gain on this square
-  depends on whether or not it's inside city or fortress.
-  barracks will regen landunits completely
-  airports will regen airunits  completely
-  ports    will regen navalunits completely
-  fortify will add a little extra.
-**************************************************************************/
-static int hp_gain_coord(struct unit *punit)
-{
-  int hp = 0;
-  const int base = unit_type_get(punit)->hp;
-
-  /* Includes barracks (100%), fortress (25%), etc. */
-  hp += base * get_unit_bonus(punit, EFT_HP_REGEN) / 100;
-
-  if (tile_city(unit_tile(punit))) {
-    hp = MAX(hp, base / 3);
-  }
-
-  if (!unit_class_get(punit)->hp_loss_pct) {
-    hp += (base + 9) / 10;
-  }
-
-  if (punit->activity == ACTIVITY_FORTIFIED) {
-    hp += (base + 9) / 10;
-  }
-
-  return MAX(hp, 0);
 }
 
 /**********************************************************************//**
