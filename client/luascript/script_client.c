@@ -44,7 +44,7 @@
 #include "luaconsole_common.h"
 
 /* client/luascript */
-#include "tolua_client_gen.h"
+#include <tolua_client_gen.h> /* <> so looked from the build directory first. */
 
 #include "script_client.h"
 

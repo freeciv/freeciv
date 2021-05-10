@@ -47,7 +47,7 @@
 #include "stdinhand.h"
 
 /* server/scripting */
-#include "tolua_server_gen.h"
+#include <tolua_server_gen.h> /* <> so looked from the build directory first. */
 
 #include "script_server.h"
 
