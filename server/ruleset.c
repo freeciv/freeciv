@@ -3324,7 +3324,23 @@ static bool load_ruleset_terrain(struct section_file *file,
                        tsection, "cultivate_time", filename, NULL, &ok)) {
         if (compat->compat_mode) {
           if (pterrain->cultivate_result != pterrain) {
-            pterrain->cultivate_time = pterrain->irrigation_time;
+            if (pterrain->cultivate_result == NULL && pterrain->irrigation_time != 0) {
+              /* Make sure cultivate_time is zero when cultivate_result is "no".
+               * In S3_0 it was legal to have any kind of _time value when _result was "no",
+               * it was just ignored. We no longer accept that. */
+              if (compat->log_cb != NULL) {
+                char buf[512];
+
+                fc_snprintf(buf, sizeof(buf),
+                            "Changed %s cultivate_time to zero, as it inconsistently had "
+                            "irrigation_result \"no\" and nonzero irrigation_time.",
+                            tsection);
+                compat->log_cb(buf);
+              }
+              pterrain->cultivate_time = 0;
+            } else {
+              pterrain->cultivate_time = pterrain->irrigation_time;
+            }
             pterrain->irrigation_time = 0;
           } else {
             pterrain->cultivate_time = 0;
@@ -3350,7 +3366,23 @@ static bool load_ruleset_terrain(struct section_file *file,
                        tsection, "plant_time", filename, NULL, &ok)) {
         if (compat->compat_mode) {
           if (pterrain->plant_result != pterrain) {
-            pterrain->plant_time = pterrain->mining_time;
+            if (pterrain->plant_result == NULL && pterrain->mining_time != 0) {
+              /* Make sure plant_time is zero when plant_result is "no".
+               * In S3_0 it was legal to have any kind of _time value when _result was "no",
+               * it was just ignored. We no longer accept that. */
+              if (compat->log_cb != NULL) {
+                char buf[512];
+
+                fc_snprintf(buf, sizeof(buf),
+                            "Changed %s plant_time to zero, as it inconsistently had "
+                            "mining_result \"no\" and nonzero mining_time.",
+                            tsection);
+                compat->log_cb(buf);
+              }
+              pterrain->plant_time = 0;
+            } else {
+              pterrain->plant_time = pterrain->mining_time;
+            }
             pterrain->mining_time = 0;
           } else {
             pterrain->plant_time = 0;
