@@ -311,9 +311,9 @@ void create_line_at_mouse_pos(void)
 
   window = gdk_device_get_surface_at_position(pointer, &x, &y);
   if (window) {
-    if (window == gtk_widget_get_surface(map_canvas)) {
+    if (window == gtk_native_get_surface(gtk_widget_get_native(map_canvas))) {
       update_line(x, y);
-    } else if (window == gtk_widget_get_surface(overview_canvas)) {
+    } else if (window == gtk_native_get_surface(gtk_widget_get_native(overview_canvas))) {
       overview_update_line(x, y);
     }
   }
@@ -337,7 +337,8 @@ void update_rect_at_mouse_pos(void)
   }
 
   window = gdk_device_get_surface_at_position(pointer, &x, &y);
-  if (window && window == gtk_widget_get_surface(map_canvas)) {
+  if (window
+      && window == gtk_native_get_surface(gtk_widget_get_native(map_canvas))) {
     gdk_device_get_state(pointer, window, NULL, &mask);
     if (mask & GDK_BUTTON3_MASK) {
       update_selection_rectangle(x, y);

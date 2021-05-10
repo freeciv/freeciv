@@ -31,6 +31,11 @@ GdkModifierType gdk_event_get_modifier_state(GdkEvent *ev);
 guint gdk_button_event_get_button(GdkEvent *ev);
 #define gdk_event_get_position(_ev_, _x_, _y_) gdk_event_get_coords(_ev_, _x_, _y_)
 
+/* Wrap GtkNative away */
+#define GtkNative GtkWidget
+#define gtk_widget_get_native(_wdg_) (_wdg_)
+#define gtk_native_get_surface(_nat_) gtk_widget_get_surface(_nat_)
+
 #endif  /* GTK version < 3.98 */
 
 #endif  /* FC__GTKCOMPAT_H */
