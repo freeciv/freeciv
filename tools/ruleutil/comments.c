@@ -55,6 +55,7 @@ static struct {
   char *civstyle_granary;
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
+  char *wonder_visibility_small_wonders;
   char *combat_rules_tired_attack;
   char *combat_rules_only_killing_veteran;
   char *combat_rules_nuke_pop_loss;
@@ -136,6 +137,8 @@ bool comments_load(void)
                "entrydoc.gameloss_style");
   comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
                "entrydoc.gold_upkeep_style");
+  comment_load(comments_storage.wonder_visibility_small_wonders, comment_file,
+               "entrydoc.wv_small_wonders");
   comment_load(comments_storage.combat_rules_tired_attack, comment_file,
                "entrydoc.tired_attack");
   comment_load(comments_storage.combat_rules_only_killing_veteran, comment_file,
@@ -421,6 +424,15 @@ void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_gold_upkeep_style,
                       "civstyle");
+}
+
+/**********************************************************************//**
+  Write wonder_visibility small_wonders settings header.
+**************************************************************************/
+void comment_wonder_visibility_small_wonders(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.wonder_visibility_small_wonders,
+                      "wonder_visibility");
 }
 
 /**********************************************************************//**

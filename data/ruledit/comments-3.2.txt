@@ -1233,6 +1233,13 @@ gold_upkeep_style = "\n\
 ;            upkeep are disbanded.\
 "
 
+wv_small_wonders = "\
+; When do opponents know which city, if any, has built the Small Wonder\n\
+; \"Always\"  - Information is always sent\n\
+; \"Never\"   - Information is never sent\n\
+; \"Embassy\" - Information is sent when team has an embassy with Wonder owner\
+"
+
 tired_attack = "\
 ; If tired_attack is set to TRUE, units that attack with less than a single\n\
 ; move point (per move_fragments in terrain.ruleset) will have their attack\n\

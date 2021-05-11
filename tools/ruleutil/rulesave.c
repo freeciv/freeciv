@@ -1227,6 +1227,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
 
   if (fc_strcasecmp(wonder_visib_type_name(game.info.small_wonder_visibility),
                     RS_DEFAULT_SMALL_WONDER_VISIBILITY)) {
+    comment_wonder_visibility_small_wonders(sfile);
     secfile_insert_str(sfile,
                        wonder_visib_type_name(game.info.small_wonder_visibility),
                        "wonder_visibility.small_wonders");
