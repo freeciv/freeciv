@@ -2693,7 +2693,8 @@ void send_all_known_units(struct conn_list *dest)
   If it isn't a city square or an ocean square then with 50% chance add
   some fallout, then notify the client about the changes.
 **************************************************************************/
-static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
+static void do_nuke_tile(struct player *pplayer, struct tile *ptile,
+                         const struct action *paction)
 {
   struct city *pcity = NULL;
   int pop_loss;
@@ -2793,7 +2794,7 @@ void do_nuclear_explosion(const struct action *paction,
                                  EFT_NUKE_BLAST_RADIUS_1_SQ);
 
   circle_iterate(&(wld.map), ptile, nuke_radius_size, ptile1) {
-    do_nuke_tile(pplayer, ptile1);
+    do_nuke_tile(pplayer, ptile1, paction);
   } circle_iterate_end;
 
   script_server_signal_emit("nuke_exploded", 2, API_TYPE_TILE, ptile,
