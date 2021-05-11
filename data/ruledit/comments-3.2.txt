@@ -1242,6 +1242,11 @@ tired_attack = "\
 ; have only fractional moves left.\
 "
 
+only_killing_makes_veteran = "\n\
+; With some rules it`s possible that neither side of a combat dies.\n\
+; Set this to TRUE if unit should never gain veterancy from such a combat.\
+"
+
 nuke_pop_loss_pct = "\n\
 ; Percentage of population lost by a city after nuclear attak. If set to\n\
 ; 100 city is destroyed along with all the units. If set to 0 city does not\n\

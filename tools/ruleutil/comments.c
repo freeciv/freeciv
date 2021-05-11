@@ -56,6 +56,7 @@ static struct {
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
   char *combat_rules_tired_attack;
+  char *combat_rules_only_killing_veteran;
   char *combat_rules_nuke_pop_loss;
   char *combat_rules_nuke_defender_survival;
 } comments_storage;
@@ -137,6 +138,8 @@ bool comments_load(void)
                "entrydoc.gold_upkeep_style");
   comment_load(comments_storage.combat_rules_tired_attack, comment_file,
                "entrydoc.tired_attack");
+  comment_load(comments_storage.combat_rules_only_killing_veteran, comment_file,
+               "entrydoc.only_killing_makes_veteran");
   comment_load(comments_storage.combat_rules_nuke_pop_loss, comment_file,
                "entrydoc.nuke_pop_loss_pct");
   comment_load(comments_storage.combat_rules_nuke_defender_survival,
@@ -426,6 +429,16 @@ void comment_civstyle_gold_upkeep_style(struct section_file *sfile)
 void comment_combat_rules_tired_attack(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.combat_rules_tired_attack,
+                      "combat_rules");
+}
+
+/**********************************************************************//**
+  Write combat_rules only_killing_makes_veteran settings header.
+**************************************************************************/
+void comment_combat_rules_only_killing_veteran(struct section_file *sfile)
+{
+  comment_entry_write(sfile,
+                      comments_storage.combat_rules_only_killing_veteran,
                       "combat_rules");
 }
 

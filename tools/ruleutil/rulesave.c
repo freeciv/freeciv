@@ -1377,6 +1377,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_bool(sfile, game.info.tired_attack,
                     RS_DEFAULT_TIRED_ATTACK,
                     "combat_rules.tired_attack", NULL);
+  if (game.info.only_killing_makes_veteran != RS_DEFAULT_ONLY_KILLING_VETERAN) {
+    comment_combat_rules_only_killing_veteran(sfile);
+  }
   save_default_bool(sfile, game.info.only_killing_makes_veteran,
                     RS_DEFAULT_ONLY_KILLING_VETERAN,
                     "combat_rules.only_killing_makes_veteran", NULL);
