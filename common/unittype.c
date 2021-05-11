@@ -1409,7 +1409,8 @@ int utype_build_shield_cost(const struct city *pcity,
   }
 
   base = punittype->build_cost
-    * (100 + get_unittype_bonus(owner, ptile, punittype, EFT_UNIT_BUILD_COST_PCT)) / 100;
+    * (100 + get_unittype_bonus(owner, ptile, punittype, NULL,
+                                EFT_UNIT_BUILD_COST_PCT)) / 100;
 
   return MAX(base * game.info.shieldbox / 100, 1);
 }
@@ -1467,7 +1468,8 @@ int utype_buy_gold_cost(const struct city *pcity,
   }
 
   cost = cost
-    * (100 + get_unittype_bonus(owner, ptile, punittype, EFT_UNIT_BUY_COST_PCT))
+    * (100 + get_unittype_bonus(owner, ptile, punittype, NULL,
+                                EFT_UNIT_BUY_COST_PCT))
     / 100;
 
   return cost;
@@ -1481,7 +1483,7 @@ int utype_pop_value(const struct unit_type *punittype, const struct city *pcity)
   int pop_cost = punittype->pop_cost;
 
   pop_cost -= get_unittype_bonus(city_owner(pcity), city_tile(pcity),
-                                 punittype, EFT_POPCOST_FREE);
+                                 punittype, NULL, EFT_POPCOST_FREE);
 
   return MAX(0, pop_cost);
 }
