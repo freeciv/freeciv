@@ -492,6 +492,15 @@ bool effect_universals_value_never_below(enum effect_type type,
 }
 
 /**********************************************************************//**
+  Returns a value that, if found in an effect value, always will make the
+  result of any evaluation where it is active positive.
+**************************************************************************/
+int effect_value_will_make_positive(enum effect_type type)
+{
+  return 1 + (effect_cumulative_min(type, NULL) * -1);
+}
+
+/**********************************************************************//**
   Receives a new effect.  This is called by the client when the packet
   arrives.
 **************************************************************************/
