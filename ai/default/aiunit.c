@@ -475,7 +475,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
 
     /* If we have non-zero attack rating... */
     if (attack > 0 && is_my_turn(punit, pdef)) {
-      double chance = unit_win_chance(punit, pdef);
+      double chance = unit_win_chance(punit, pdef, NULL);
       int desire = avg_benefit(benefit, loss, chance);
 
       /* No need to amortize, our operation takes one turn. */

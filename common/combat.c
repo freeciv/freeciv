@@ -464,7 +464,8 @@ Returns a double in the range [0;1] indicating the attackers chance of
 winning. The calculation takes all factors into account.
 ***********************************************************************/
 double unit_win_chance(const struct unit *attacker,
-		       const struct unit *defender)
+                       const struct unit *defender,
+                       const struct action *paction)
 {
   int def_power = get_total_defense_power(attacker, defender);
   int att_power = get_total_attack_power(attacker, defender);
@@ -822,7 +823,7 @@ struct unit *get_defender(const struct unit *attacker,
       int defense_rating = get_defense_rating(attacker, defender);
       /* This will make units roughly evenly good defenders look alike. */
       int unit_def 
-        = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
+        = (int) (100000 * (1 - unit_win_chance(attacker, defender, paction)));
 
       fc_assert_action(0 <= unit_def, continue);
 
@@ -875,7 +876,7 @@ struct unit *get_attacker(const struct unit *defender,
     if (pplayers_allied(unit_owner(defender), unit_owner(attacker))) {
       return NULL;
     }
-    unit_a = (int) (100000 * (unit_win_chance(attacker, defender)));
+    unit_a = (int) (100000 * (unit_win_chance(attacker, defender, NULL)));
     if (unit_a > bestvalue
         || (unit_a == bestvalue && build_cost < best_cost)) {
       bestvalue = unit_a;

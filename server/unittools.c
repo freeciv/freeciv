@@ -3257,7 +3257,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 
     if (NULL != enemy_defender) {
-      punitwin = unit_win_chance(punit, enemy_defender);
+      punitwin = unit_win_chance(punit, enemy_defender, NULL);
     } else {
       /* 'penemy' can attack 'punit' but it may be not reciproque. */
       punitwin = 1.0;

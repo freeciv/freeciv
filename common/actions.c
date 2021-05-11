@@ -5664,7 +5664,8 @@ action_prob(const action_id wanted_action,
                                                 paction);
 
       if (can_player_see_unit(actor_player, defender_unit)) {
-        double unconverted = unit_win_chance(actor_unit, defender_unit);
+        double unconverted = unit_win_chance(actor_unit, defender_unit,
+                                             paction);
 
         chance.min = MAX(ACTPROB_VAL_MIN,
                          floor((double)ACTPROB_VAL_MAX * unconverted));

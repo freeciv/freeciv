@@ -405,8 +405,9 @@ const char *popup_info_text(struct tile *ptile)
 
       unit_list_iterate(ptile->units, tile_unit) {
 	if (unit_owner(tile_unit) != unit_owner(pfocus_unit)) {
-	  int att = unit_win_chance(pfocus_unit, tile_unit) * 100;
-	  int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit)) * 100;
+          int att = unit_win_chance(pfocus_unit, tile_unit, NULL) * 100;
+          int def = (1.0 - unit_win_chance(tile_unit, pfocus_unit,
+                                           NULL)) * 100;
 
 	  found = TRUE;
 

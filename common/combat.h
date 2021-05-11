@@ -63,7 +63,8 @@ void get_modified_firepower(const struct unit *attacker,
                             const struct unit *defender,
                             int *att_fp, int *def_fp);
 double unit_win_chance(const struct unit *attacker,
-                       const struct unit *defender);
+                       const struct unit *defender,
+                       const struct action *paction);
 
 bool unit_really_ignores_citywalls(const struct unit *punit);
 struct city *sdi_try_defend(const struct player *owner,

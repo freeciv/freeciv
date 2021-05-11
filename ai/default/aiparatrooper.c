@@ -169,7 +169,8 @@ static struct tile *find_best_tile_to_paradrop_to(struct ai_type *ait,
       } else {
         val += get_defender(punit, target, NULL)->hp * 100;
       }
-      val *= unit_win_chance(punit, get_defender(punit, target, NULL));
+      val *= unit_win_chance(punit, get_defender(punit, target, NULL),
+                             NULL);
       val += pterrain->defense_bonus / 10;
       val -= punit->hp * 100;
       

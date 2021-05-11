@@ -156,7 +156,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
   }
 
   unit_attack = (int) (PROB_MULTIPLIER
-                       * unit_win_chance(punit, pdefender));
+                       * unit_win_chance(punit, pdefender, NULL));
 
   victim_defence = PROB_MULTIPLIER - unit_attack;
 
