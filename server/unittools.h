@@ -79,7 +79,8 @@ void notify_unit_experience(struct unit *punit);
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
                       int *att_hp, int *def_hp);
 void unit_bombs_unit(struct unit *attacker, struct unit *defender,
-                     int *att_hp, int *def_hp);
+                     int *att_hp, int *def_hp,
+                     const struct action *paction);
 void combat_veterans(struct unit *attacker, struct unit *defender);
 
 /* move check related */

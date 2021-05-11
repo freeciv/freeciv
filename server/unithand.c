@@ -4223,7 +4223,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
          * defenders when bombarding */
       }
 
-      unit_bombs_unit(punit, pdefender, &att_hp, &def_hp);
+      unit_bombs_unit(punit, pdefender, &att_hp, &def_hp, paction);
 
       notify_player(pplayer, ptile,
                     E_UNIT_WIN_ATT, ftc_server,
