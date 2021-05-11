@@ -845,7 +845,7 @@ void adv_best_government(struct player *pplayer)
         /* TODO: Individual and well balanced value. */
         action_iterate(act) {
           if (!action_immune_government(gov, act)) {
-            /* This government doesn't provide immunity againt this
+            /* This government doesn't provide immunity against this
              * action. */
             continue;
           }
