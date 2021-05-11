@@ -4180,7 +4180,10 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
 
   if (pcity
       && city_size_get(pcity) > 1
-      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
+      && get_target_bonus_effects(NULL,
+                                  city_owner(pcity), NULL, pcity, NULL,
+                                  city_tile(pcity), NULL, NULL, NULL, NULL,
+                                  paction, EFT_UNIT_NO_LOSE_POP) <= 0
       && kills_citizen_after_attack(punit)) {
     city_reduce_size(pcity, 1, pplayer, reason);
     city_refresh(pcity);
