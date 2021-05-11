@@ -391,6 +391,8 @@ bool effect_universals_value_never_below(enum effect_type type,
                                          size_t n_unis,
                                          int min_value);
 
+int effect_value_will_make_positive(enum effect_type type);
+
 bool is_building_replaced(const struct city *pcity,
                           const struct impr_type *pimprove,
                           const enum req_problem_type prob_type);
