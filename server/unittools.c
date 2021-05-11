@@ -277,7 +277,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
                       int *att_hp, int *def_hp,
                       const struct action *paction)
 {
-  int attackpower = get_total_attack_power(attacker, defender);
+  int attackpower = get_total_attack_power(attacker, defender, paction);
   int defensepower = get_total_defense_power(attacker, defender);
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);
@@ -333,7 +333,7 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
   int i;
   int rate = unit_type_get(attacker)->bombard_rate;
 
-  int attackpower = get_total_attack_power(attacker, defender);
+  int attackpower = get_total_attack_power(attacker, defender, paction);
   int defensepower = get_total_defense_power(attacker, defender);
   int attack_firepower, defense_firepower;
   struct player *plr1 = unit_owner(attacker);

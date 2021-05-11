@@ -456,7 +456,8 @@ Defend_Bonus
 
 Attack_Bonus
     Increases offensive bonuses of units. Unit requirements on this effect are
-    the attacking unit itself.
+    the attacking unit itself. Can be limited to only apply to some actions
+    via an Action requirement.
 
 Fortify_Defense_Bonus
     Percentage defense bonus multiplicative with Defend_Bonus, usually given

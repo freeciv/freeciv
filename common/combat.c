@@ -468,7 +468,7 @@ double unit_win_chance(const struct unit *attacker,
                        const struct action *paction)
 {
   int def_power = get_total_defense_power(attacker, defender);
-  int att_power = get_total_attack_power(attacker, defender);
+  int att_power = get_total_attack_power(attacker, defender, paction);
 
   double chance;
 
@@ -591,13 +591,14 @@ static int get_defense_power(const struct unit *punit)
   Return the modified attack power of a unit.
 ***********************************************************************/
 int get_total_attack_power(const struct unit *attacker,
-                           const struct unit *defender)
+                           const struct unit *defender,
+                           const struct action *paction)
 {
   int mod;
   int attackpower = get_attack_power(attacker);
 
   mod = 100 + get_unittype_bonus(unit_owner(attacker), unit_tile(defender),
-                                 unit_type_get(attacker), NULL,
+                                 unit_type_get(attacker), paction,
                                  EFT_ATTACK_BONUS);
 
   return attackpower * mod / 100;

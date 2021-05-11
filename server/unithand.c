@@ -4478,7 +4478,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   att_hp_start = punit->hp;
   def_hp_start = pdefender->hp;
   def_power = get_total_defense_power(punit, pdefender);
-  att_power = get_total_attack_power(punit, pdefender);
+  att_power = get_total_attack_power(punit, pdefender, paction);
   get_modified_firepower(punit, pdefender, &att_fp, &def_fp);
 
   log_debug("Start attack: %s %s against %s %s.",

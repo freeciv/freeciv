@@ -85,7 +85,8 @@ int get_virtual_defense_power(const struct unit_type *attacker,
                               struct tile *ptile,
                               bool fortified, int veteran);
 int get_total_attack_power(const struct unit *attacker,
-                           const struct unit *defender);
+                           const struct unit *defender,
+                           const struct action *paction);
 
 struct unit *get_defender(const struct unit *attacker,
                           const struct tile *ptile,

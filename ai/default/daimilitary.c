@@ -96,7 +96,7 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
 
       defender = unit_virtual_create(pplayer, pcity, punittype, veteran);
       defense = get_total_defense_power(attacker, defender);
-      attack = get_total_attack_power(attacker, defender);
+      attack = get_total_attack_power(attacker, defender, NULL);
       get_modified_firepower(attacker, defender, &fpatt, &fpdef);
 
       /* Greg's algorithm. loss is the average number of health lost by
