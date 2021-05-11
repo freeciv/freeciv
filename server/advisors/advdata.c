@@ -807,6 +807,146 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
 }
 
 /**********************************************************************//**
+  Get value of government provided action immunities.
+**************************************************************************/
+adv_want adv_gov_action_immunity_want(struct government *gov)
+{
+  adv_want bonus = 0;
+
+  /* TODO: Individual and well balanced value. */
+  action_iterate(act) {
+    struct action *paction = action_by_number(act);
+
+    if (!action_immune_government(gov, act)) {
+      /* This government doesn't provide immunity against this
+       * action. */
+      continue;
+    }
+
+    switch (paction->result) {
+    case ACTRES_ATTACK:
+    case ACTRES_SPY_INCITE_CITY:
+    case ACTRES_CONQUER_CITY:
+      bonus += 4;
+      break;
+    case ACTRES_SPY_BRIBE_UNIT:
+      bonus += 2;
+      break;
+    case ACTRES_TRANSFORM_TERRAIN:
+      bonus += 1.5;
+      break;
+    case ACTRES_CULTIVATE:
+    case ACTRES_PLANT:
+      bonus += 0.3;
+      break;
+    case ACTRES_CONQUER_EXTRAS:
+    case ACTRES_PILLAGE:
+    case ACTRES_WIPE_UNITS:
+      bonus += 0.2;
+      break;
+    case ACTRES_HUT_ENTER:
+    case ACTRES_HUT_FRIGHTEN:
+      /* It is mine. My own. My precious. */
+      bonus += 0.1;
+      break;
+    case ACTRES_SPY_INVESTIGATE_CITY:
+    case ACTRES_SPY_POISON:
+    case ACTRES_SPY_SPREAD_PLAGUE:
+    case ACTRES_SPY_STEAL_GOLD:
+    case ACTRES_SPY_SABOTAGE_CITY:
+    case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
+    case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
+    case ACTRES_SPY_STEAL_TECH:
+    case ACTRES_SPY_TARGETED_STEAL_TECH:
+    case ACTRES_SPY_SABOTAGE_UNIT:
+    case ACTRES_CAPTURE_UNITS:
+    case ACTRES_STEAL_MAPS:
+    case ACTRES_BOMBARD:
+    case ACTRES_SPY_NUKE:
+    case ACTRES_NUKE:
+    case ACTRES_NUKE_UNITS:
+    case ACTRES_DESTROY_CITY:
+    case ACTRES_EXPEL_UNIT:
+    case ACTRES_STRIKE_BUILDING:
+    case ACTRES_STRIKE_PRODUCTION:
+    case ACTRES_SPY_ATTACK:
+      /* Being a target of this is usually undesireable */
+      /* TODO: Individual and well balanced values. */
+      bonus += 0.1;
+      break;
+
+    case ACTRES_UNIT_MOVE:
+    case ACTRES_MARKETPLACE:
+    case ACTRES_FOUND_CITY:
+    case ACTRES_DISBAND_UNIT:
+    case ACTRES_PARADROP:
+    case ACTRES_PARADROP_CONQUER:
+    case ACTRES_FORTIFY:
+      /* Wants the ability to do this to it self. Don't want others
+       * to target it. Do nothing since action_immune_government()
+       * doesn't separate based on who the actor is. */
+      break;
+
+    case ACTRES_NONE:
+      /* Ruleset defined */
+      break;
+
+    case ACTRES_ESTABLISH_EMBASSY:
+    case ACTRES_TRADE_ROUTE:
+    case ACTRES_JOIN_CITY:
+    case ACTRES_HELP_WONDER:
+    case ACTRES_RECYCLE_UNIT:
+    case ACTRES_HOME_CITY:
+    case ACTRES_HOMELESS:
+    case ACTRES_UPGRADE_UNIT:
+    case ACTRES_AIRLIFT:
+    case ACTRES_HEAL_UNIT:
+    case ACTRES_ROAD:
+    case ACTRES_CONVERT:
+    case ACTRES_BASE:
+    case ACTRES_MINE:
+    case ACTRES_IRRIGATE:
+    case ACTRES_CLEAN_POLLUTION:
+    case ACTRES_CLEAN_FALLOUT:
+    case ACTRES_TRANSPORT_ALIGHT:
+    case ACTRES_TRANSPORT_UNLOAD:
+    case ACTRES_TRANSPORT_DISEMBARK:
+    case ACTRES_TRANSPORT_BOARD:
+    case ACTRES_TRANSPORT_EMBARK:
+      /* Could be good. An embassy gives permanent contact. A trade
+       * route gives gold per turn. Join city gives population. Help
+       * wonder gives shields. */
+      /* TODO: Individual and well balanced values. */
+      break;
+    }
+  } action_iterate_end;
+
+  return bonus;
+}
+
+/**********************************************************************//**
+  Get value of currently set government provided misc player bonuses.
+
+  Caller can set player's government temporarily to another one to
+  evaluate that government instead of the one player actually have.
+**************************************************************************/
+adv_want adv_gov_player_bonus_want(struct player *pplayer)
+{
+  adv_want bonus = 0;
+
+  /* Bonuses for non-economic abilities. We increase val by
+   * a very small amount here to choose govt in cases where
+   * we have no cities yet. */
+  bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
+  bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+
+  return bonus;
+}
+
+/**********************************************************************//**
   Find best government to aim for.
   We do it by setting our government to all possible values and calculating
   our GDP (total ai_eval_calc_city) under this government.  If the very
@@ -866,123 +1006,8 @@ void adv_best_government(struct player *pplayer)
           val += adv_eval_calc_city(pcity, adv);
         } city_list_iterate_end;
 
-        /* Bonuses for non-economic abilities. We increase val by
-         * a very small amount here to choose govt in cases where
-         * we have no cities yet. */
-        bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-
-        /* TODO: Individual and well balanced value. */
-        action_iterate(act) {
-          struct action *paction = action_by_number(act);
-
-          if (!action_immune_government(gov, act)) {
-            /* This government doesn't provide immunity against this
-             * action. */
-            continue;
-          }
-
-          switch (paction->result) {
-          case ACTRES_ATTACK:
-          case ACTRES_SPY_INCITE_CITY:
-          case ACTRES_CONQUER_CITY:
-            bonus += 4;
-            break;
-          case ACTRES_SPY_BRIBE_UNIT:
-            bonus += 2;
-            break;
-          case ACTRES_TRANSFORM_TERRAIN:
-            bonus += 1.5;
-            break;
-          case ACTRES_CULTIVATE:
-          case ACTRES_PLANT:
-            bonus += 0.3;
-            break;
-          case ACTRES_CONQUER_EXTRAS:
-          case ACTRES_PILLAGE:
-          case ACTRES_WIPE_UNITS:
-            bonus += 0.2;
-            break;
-          case ACTRES_HUT_ENTER:
-          case ACTRES_HUT_FRIGHTEN:
-            /* It is mine. My own. My precious. */
-            bonus += 0.1;
-            break;
-          case ACTRES_SPY_INVESTIGATE_CITY:
-          case ACTRES_SPY_POISON:
-          case ACTRES_SPY_SPREAD_PLAGUE:
-          case ACTRES_SPY_STEAL_GOLD:
-          case ACTRES_SPY_SABOTAGE_CITY:
-          case ACTRES_SPY_TARGETED_SABOTAGE_CITY:
-          case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
-          case ACTRES_SPY_STEAL_TECH:
-          case ACTRES_SPY_TARGETED_STEAL_TECH:
-          case ACTRES_SPY_SABOTAGE_UNIT:
-          case ACTRES_CAPTURE_UNITS:
-          case ACTRES_STEAL_MAPS:
-          case ACTRES_BOMBARD:
-          case ACTRES_SPY_NUKE:
-          case ACTRES_NUKE:
-          case ACTRES_NUKE_UNITS:
-          case ACTRES_DESTROY_CITY:
-          case ACTRES_EXPEL_UNIT:
-          case ACTRES_STRIKE_BUILDING:
-          case ACTRES_STRIKE_PRODUCTION:
-          case ACTRES_SPY_ATTACK:
-            /* Being a target of this is usually undesireable */
-            /* TODO: Individual and well balanced values. */
-            bonus += 0.1;
-            break;
-
-          case ACTRES_UNIT_MOVE:
-          case ACTRES_MARKETPLACE:
-          case ACTRES_FOUND_CITY:
-          case ACTRES_DISBAND_UNIT:
-          case ACTRES_PARADROP:
-          case ACTRES_PARADROP_CONQUER:
-          case ACTRES_FORTIFY:
-            /* Wants the ability to do this to it self. Don't want others
-             * to target it. Do nothing since action_immune_government()
-             * doesn't separate based on who the actor is. */
-            break;
-
-          case ACTRES_NONE:
-            /* Ruleset defined */
-            break;
-
-          case ACTRES_ESTABLISH_EMBASSY:
-          case ACTRES_TRADE_ROUTE:
-          case ACTRES_JOIN_CITY:
-          case ACTRES_HELP_WONDER:
-          case ACTRES_RECYCLE_UNIT:
-          case ACTRES_HOME_CITY:
-          case ACTRES_HOMELESS:
-          case ACTRES_UPGRADE_UNIT:
-          case ACTRES_AIRLIFT:
-          case ACTRES_HEAL_UNIT:
-          case ACTRES_ROAD:
-          case ACTRES_CONVERT:
-          case ACTRES_BASE:
-          case ACTRES_MINE:
-          case ACTRES_IRRIGATE:
-          case ACTRES_CLEAN_POLLUTION:
-          case ACTRES_CLEAN_FALLOUT:
-          case ACTRES_TRANSPORT_ALIGHT:
-          case ACTRES_TRANSPORT_UNLOAD:
-          case ACTRES_TRANSPORT_DISEMBARK:
-          case ACTRES_TRANSPORT_BOARD:
-          case ACTRES_TRANSPORT_EMBARK:
-            /* Could be good. An embassy gives permanent contact. A trade
-             * route gives gold per turn. Join city gives population. Help
-             * wonder gives shields. */
-            /* TODO: Individual and well balanced values. */
-            break;
-          }
-        } action_iterate_end;
-
-        bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
-        bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
-        bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
-        bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+        bonus += adv_gov_action_immunity_want(gov);
+        bonus += adv_gov_player_bonus_want(pplayer);
 
         revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
         if (revolution_turns > 0) {
