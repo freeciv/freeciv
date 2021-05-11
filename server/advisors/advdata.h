@@ -146,6 +146,8 @@ void adv_data_analyze_rulesets(struct player *pplayer);
 
 struct adv_data *adv_data_get(struct player *pplayer, bool *close);
 
+adv_want adv_gov_action_immunity_want(struct government *gov);
+adv_want adv_gov_player_bonus_want(struct player *pplayer);
 void adv_best_government(struct player *pplayer);
 
 bool adv_wants_science(struct player *pplayer);

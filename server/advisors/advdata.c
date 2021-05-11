@@ -774,12 +774,51 @@ static struct adv_dipl *adv_dipl_get(const struct player *plr1,
 }
 
 /**************************************************************************
+  Get value of government provided action immunities.
+**************************************************************************/
+adv_want adv_gov_action_immunity_want(struct government *gov)
+{
+  adv_want bonus = 0;
+
+  if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
+    bonus += 4;
+  }
+  if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
+    bonus += 2;
+  }
+
+  return bonus;
+}
+
+/**************************************************************************
+  Get value of currently set government provided misc player bonuses.
+
+  Caller can set player's government temporarily to another one to
+  evaluate that government instead of the one player actually have.
+**************************************************************************/
+adv_want adv_gov_player_bonus_want(struct player *pplayer)
+{
+  adv_want bonus = 0;
+
+  /* Bonuses for non-economic abilities. We increase val by
+   * a very small amount here to choose govt in cases where
+   * we have no cities yet. */
+  bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
+  bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
+  bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+
+  return bonus;
+}
+
+/**************************************************************************
   Find best government to aim for.
   We do it by setting our government to all possible values and calculating
   our GDP (total ai_eval_calc_city) under this government.  If the very
   best of the governments is not available to us (it is not yet discovered),
   we record it in the goal.gov structure with the aim of wanting the
-  necessary tech more.  The best of the available governments is recorded 
+  necessary tech more.  The best of the available governments is recorded
   in goal.revolution.  We record the want of each government, and only
   recalculate this data every ai->govt_reeval_turns turns.
 
@@ -833,20 +872,8 @@ void adv_best_government(struct player *pplayer)
           val += adv_eval_calc_city(pcity, adv);
         } city_list_iterate_end;
 
-        /* Bonuses for non-economic abilities. We increase val by
-         * a very small amount here to choose govt in cases where
-         * we have no cities yet. */
-        bonus += get_player_bonus(pplayer, EFT_VETERAN_BUILD) > 0 ? 3 : 0;
-        if (action_immune_government(gov, ACTION_SPY_INCITE_CITY)) {
-          bonus += 4;
-        }
-        if (action_immune_government(gov, ACTION_SPY_BRIBE_UNIT)) {
-          bonus += 2;
-        }
-        bonus += get_player_bonus(pplayer, EFT_INSPIRE_PARTISANS) > 0 ? 3 : 0;
-        bonus += get_player_bonus(pplayer, EFT_RAPTURE_GROW) > 0 ? 2 : 0;
-        bonus += get_player_bonus(pplayer, EFT_FANATICS) > 0 ? 3 : 0;
-        bonus += get_player_bonus(pplayer, EFT_OUTPUT_INC_TILE) * 8;
+        bonus += adv_gov_action_immunity_want(gov);
+        bonus += adv_gov_player_bonus_want(pplayer);
 
         revolution_turns = get_player_bonus(pplayer, EFT_REVOLUTION_UNHAPPINESS);
         if (revolution_turns > 0) {
