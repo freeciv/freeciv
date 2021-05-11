@@ -1,11 +1,11 @@
 [nation_ethiopian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Ethiopian")
-plural=_("?plural:Ethiopians")
-groups="African", "Modern", "Core"
-legend=_("Ethiopia is the oldest nation in Africa and the only one to\
+name   = _("Ethiopian")
+plural = _("?plural:Ethiopians")
+groups = "African", "Modern", "Core"
+legend = _("Ethiopia is the oldest nation in Africa and the only one to\
  remain independent during European colonialism.")
 
 leaders = {
@@ -27,15 +27,15 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),    _("Empress %s")
 }
 
-flag="ethiopia"
+flag = "ethiopia"
 flag_alt = "italy"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Sudanese", "Somali", "Eritrean"
+civilwar_nations = "Sudanese", "Somali", "Eritrean"
 
 cities =
  "Addis Abeba",

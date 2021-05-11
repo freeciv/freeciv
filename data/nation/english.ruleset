@@ -1,11 +1,11 @@
 [nation_english]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("English")
-plural=_("?plural:English")
-groups="Medieval", "Early Modern", "European", "Core"
-legend=_("England was unified by Alfred the Great of Wessex in the late\
+name   = _("English")
+plural = _("?plural:English")
+groups = "Medieval", "Early Modern", "European", "Core"
+legend = _("England was unified by Alfred the Great of Wessex in the late\
  9th century, only to be conquered by William of Normandy a century\
  later, in the last successful invasion of the country.")
 
@@ -30,13 +30,14 @@ ruler_titles = {
  "Republic",        _("Lord Protector %s"), _("Lady Protector %s")
 }
 
-flag="england"
+flag = "england"
 flag_alt = "united_kingdom"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "cornish", "british", "northumbrian"
 
 cities =

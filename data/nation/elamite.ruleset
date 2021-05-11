@@ -1,9 +1,9 @@
 [nation_elamite]
 
-name=_("Elamite")
-plural=_("?plural:Elamites")
-groups="Asian", "Ancient"
-legend=_("Elam was an ancient civilization located in the area of modern\
+name   = _("Elamite")
+plural = _("?plural:Elamites")
+groups = "Asian", "Ancient"
+legend = _("Elam was an ancient civilization located in the area of modern\
  southwest Iran, which arose around 3100 BCE. The Elamite language,\
  written in cuneiform, is of unknown origin. In 643 BCE the Elamite\
  civilization was destroyed by the Assyrians under Assurbanipal.")
@@ -27,6 +27,7 @@ leaders = {
  "Shilhana-Hamru-Lagamar",      "Male"
  "Tammaritu II",                "Male"
 }
+
 ruler_titles = {
  "government",      "male_title",          "female_title"
  "Anarchy",         _("Usurper %s"),       _("?female:Usurper %s")
@@ -36,9 +37,9 @@ flag = "elam"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "iranian"
 civilwar_nations = "assyrian", "sumerian", "babylonian", "persian"
@@ -67,4 +68,3 @@ cities =
  "Jiroft",
  "Zabol",
  "Marhasi"
-

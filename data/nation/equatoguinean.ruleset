@@ -1,9 +1,9 @@
 [nation_equatoguinean]
 
-name=_("Equatoguinean")
-plural=_("?plural:Equatoguineans")
-groups="African", "Modern"
-legend=_("Equatorial Guinea is a country in Africa. It is divided into a\
+name   = _("Equatoguinean")
+plural = _("?plural:Equatoguineans")
+groups = "African", "Modern"
+legend = _("Equatorial Guinea is a country in Africa. It is divided into a\
  mainland part (Rio Muni) and the islands of Bioko and Annobon. Formerly\
  Spanish Guinea, the country achieved independence in 1968. Equatorial\
  Guinea is one of the wealthier countries of Africa but also one of the\
@@ -18,13 +18,13 @@ leaders = {
  "Teodoro Obiang Nguema",   "Male"
 }
 
-flag="equatorial_guinea"
+flag = "equatorial_guinea"
 flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "cameroonian", "santomean"
 

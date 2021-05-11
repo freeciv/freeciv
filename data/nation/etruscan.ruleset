@@ -1,9 +1,9 @@
 [nation_etruscan]
 
-name=_("Etruscan")
-plural=_("?plural:Etruscans")
-groups="Ancient", "European"
-legend=_("The Etruscans were an ancient civilization in Etruria, Italy,\
+name   = _("Etruscan")
+plural = _("?plural:Etruscans")
+groups = "Ancient", "European"
+legend = _("The Etruscans were an ancient civilization in Etruria, Italy,\
  known for their artistic achievements and building of necropolises.\
  Their language is only partly deciphered and their origins are still\
  debated. They called themselves Rasna and formed a confederation of twelve\
@@ -33,14 +33,13 @@ ruler_titles = {
  "Republic",        _("Consul %s"),      _("?female:Consul %s")
 }
 
-
 flag = "etruscan"
 flag_alt = "italy"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "italian"
 civilwar_nations = "roman", "corsican", "gallic"
@@ -92,4 +91,3 @@ cities =
  "Campeva",
  "Tuscna",
  "Spica"
-

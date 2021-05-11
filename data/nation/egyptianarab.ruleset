@@ -1,9 +1,9 @@
 [nation_modernegyptian]
 
-name=_("Egyptian Arab")
-plural=_("?plural:Egyptian Arabs")
-groups="Modern", "African", "Asian"
-legend=_("Modern Egypt is the most populous Middle Eastern country as well\
+name   = _("Egyptian Arab")
+plural = _("?plural:Egyptian Arabs")
+groups = "Modern", "African", "Asian"
+legend = _("Modern Egypt is the most populous Middle Eastern country as well\
  as one of the most populous in Africa. It is located on the site of one\
  of the world's most ancient civilizations.")
 
@@ -27,26 +27,26 @@ ruler_titles = {
  "Fundamentalism",  _("Caliph %s"),         _("Calipha %s")
 }
 
-flag="egypt"
+flag = "egypt"
 flag_alt = "egypt_ancient"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="egyptian"
-civilwar_nations="palestinian", "sudanese", "libyan", "arab"
+conflicts_with = "egyptian"
+civilwar_nations = "palestinian", "sudanese", "libyan", "arab"
 
 cities =
- "Al-Qahira",			;Cairo
- "Eskendereyya",		;Alexandria
- "As-Suways",			;Suez
+ "Al-Qahira",                   ; Cairo
+ "Eskendereyya",                ; Alexandria
+ "As-Suways",                   ; Suez
  "Al-Mansura",
- "El-Giza",			;Gizeh
+ "El-Giza",                     ; Gizeh
  "Shubra el-Kheima",
- "Bur Sa'id",			;Port Said
- "Al-Uqsur",			;Luxor
+ "Bur Sa'id",                   ; Port Said
+ "Al-Uqsur",                    ; Luxor
  "El-Mahalla el-Kubra",
  "Tanta",
  "Asyut",

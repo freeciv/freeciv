@@ -1,9 +1,9 @@
 [nation_emirati]
 
-name=_("Emirati")
-plural=_("?plural:Emiratis")
-groups="Modern", "Asian"
-legend=_("The history of the United Arab Emirates goes back to the 7th\
+name   = _("Emirati")
+plural = _("?plural:Emiratis")
+groups = "Modern", "Asian"
+legend = _("The history of the United Arab Emirates goes back to the 7th\
  century. In the 19th century the Emirates became a\
  dependency of the United Kingdom. In 1971 six\
  emirates joined in a federative state as the United\
@@ -27,15 +27,15 @@ ruler_titles = {
  "Republic",        _("Vizier %s"),    _("?female:Vizier %s")
 }
 
-flag="uae"
+flag = "uae"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Saudi", "Omani", "Qatari"
+civilwar_nations = "Saudi", "Omani", "Qatari"
 
 cities =
  "Abu Zabi",

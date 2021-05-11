@@ -1,9 +1,9 @@
 [nation_eritrean]
 
-name=_("Eritrean")
-plural=_("?plural:Eritreans")
-groups="Modern", "African"
-legend=_("Eritrea is a country in eastern Africa which borders Sudan,\
+name   = _("Eritrean")
+plural = _("?plural:Eritreans")
+groups = "Modern", "African"
+legend = _("Eritrea is a country in eastern Africa which borders Sudan,\
  Ethiopia, and Djibouti. It was once the Kingdom of D'mt and was later\
  conquered by Italy. In 1951 it was federated with Ethiopia, which led to\
  the development of an independence movement in the 1960s. In 1991 the\
@@ -22,19 +22,19 @@ leaders = {
                                  ; (living).
 }
 
-flag="eritrea"
-flag_alt="-"
+flag = "eritrea"
+flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Ethiopian", "Italian"
+civilwar_nations = "Ethiopian", "Italian"
 
 cities =
-  "Asmara",	; capital
-  "Nakfa",	; associated with independence movement
+  "Asmara",     ; capital
+  "Nakfa",      ; associated with independence movement
   ; remaining cities seen on Google maps 
   "Hasta",
   "Agra",

@@ -1,9 +1,9 @@
 [nation_esperant]
 
-name=_("Esperant")
-plural=_("?plural:Esperants")
-groups= "Imaginary"
-legend=_("The Esperants are a world community united by the Esperanto\
+name   = _("Esperant")
+plural = _("?plural:Esperants")
+groups = "Imaginary"
+legend =_("The Esperants are a world community united by the Esperanto\
  language.")
 
 leaders = {
@@ -16,13 +16,13 @@ leaders = {
  "Frederic PUJULÀ I VALLÈS",    "Male"
 }
 
-flag="esperanto"
+flag = "esperanto"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "volapukan"
 

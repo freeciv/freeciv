@@ -1,9 +1,9 @@
 [nation_estonian]
 
-name=_("Estonian")
-plural=_("?plural:Estonians")
-groups="Modern", "European"
-legend=_("Estonia is a small country on the south shore of the eastern\
+name   = _("Estonian")
+plural = _("?plural:Estonians")
+groups = "Modern", "European"
+legend = _("Estonia is a small country on the south shore of the eastern\
  Baltic Sea.  Its people and language are closely related to those of\
  Finland.")
 
@@ -22,14 +22,15 @@ ruler_titles = {
  "Fundamentalism",  _("Elder %s"),       _("?female:Elder %s")
 }
 
-flag="estonia"
+flag = "estonia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="finnish", "latvian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "finnish", "latvian"
 ; Removed "danish", "dutch": No relation?
 
 cities =
