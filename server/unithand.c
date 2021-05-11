@@ -4169,6 +4169,26 @@ static void send_combat(struct unit *pattacker, struct unit *pdefender,
 }
 
 /**********************************************************************//**
+  Reduce the city's population after an attack action.
+**************************************************************************/
+static void unit_attack_civilian_casualties(const struct unit *punit,
+                                            struct city *pcity,
+                                            const struct action *paction,
+                                            const char *reason)
+{
+  struct player *pplayer = unit_owner(punit);
+
+  if (pcity
+      && city_size_get(pcity) > 1
+      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
+      && kills_citizen_after_attack(punit)) {
+    city_reduce_size(pcity, 1, pplayer, reason);
+    city_refresh(pcity);
+    send_city_info(NULL, pcity);
+  }
+}
+
+/**********************************************************************//**
   This function assumes the bombard is legal. The calling function should
   have already made all necessary checks.
 
@@ -4263,14 +4283,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
   unit_did_action(punit);
   unit_forget_last_activity(punit);
   
-  if (pcity
-      && city_size_get(pcity) > 1
-      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
-      && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity, 1, pplayer, "bombard");
-    city_refresh(pcity);
-    send_city_info(NULL, pcity);
-  }
+  unit_attack_civilian_casualties(punit, pcity, paction, "bombard");
 
   send_unit_info(NULL, punit);
 
@@ -4565,13 +4578,8 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
                              def_tile, unit_link(pdefender));
 
   if (pdefender->hp <= 0
-      && (pcity = tile_city(def_tile))
-      && city_size_get(pcity) > 1
-      && get_city_bonus(pcity, EFT_UNIT_NO_LOSE_POP) <= 0
-      && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity, 1, pplayer, "attack");
-    city_refresh(pcity);
-    send_city_info(NULL, pcity);
+      && (pcity = tile_city(def_tile))) {
+    unit_attack_civilian_casualties(punit, pcity, paction, "attack");
   }
   if (punit->hp > 0 && pdefender->hp > 0) {
     /* Neither died */
