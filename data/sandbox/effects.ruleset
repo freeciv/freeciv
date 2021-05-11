@@ -4201,8 +4201,9 @@ reqs	=
 type    = "Unit_No_Lose_Pop"
 value   = 1
 reqs    =
-    { "type",    "name",  "range", "present"
-      "MinSize", "2",     "City",  FALSE
+    { "type",           "name",  "range", "present"
+      "MaxUnitsOnTile", "1",     "Local", FALSE
+      "MinSize",        "2",     "City",  FALSE
     }
 
 [effect_incident_caught_steal_tech]
