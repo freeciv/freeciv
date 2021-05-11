@@ -274,7 +274,8 @@ static bool maybe_become_veteran_real(struct unit *punit, bool settler)
      is wiped, and the winner gets a chance of gaining veteran status
 **************************************************************************/
 void unit_versus_unit(struct unit *attacker, struct unit *defender,
-                      int *att_hp, int *def_hp)
+                      int *att_hp, int *def_hp,
+                      const struct action *paction)
 {
   int attackpower = get_total_attack_power(attacker, defender);
   int defensepower = get_total_defense_power(attacker, defender);

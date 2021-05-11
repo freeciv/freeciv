@@ -4524,7 +4524,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   /* Record tired attack string before attack */
   sz_strlcpy(attacker_tired, unit_tired_attack_string(punit));
 
-  unit_versus_unit(punit, pdefender, &att_hp, &def_hp);
+  unit_versus_unit(punit, pdefender, &att_hp, &def_hp, paction);
 
   if ((att_hp <= 0 || utype_is_consumed_by_action(paction, punit->utype))
       && unit_transported(punit)) {
