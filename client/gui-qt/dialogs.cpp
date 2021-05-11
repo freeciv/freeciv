@@ -116,6 +116,7 @@ static void expel_unit(QVariant data1, QVariant data2);
 static void bombard(QVariant data1, QVariant data2);
 static void bombard2(QVariant data1, QVariant data2);
 static void bombard3(QVariant data1, QVariant data2);
+static void bombard_lethal(QVariant data1, QVariant data2);
 static void found_city(QVariant data1, QVariant data2);
 static void transform_terrain(QVariant data1, QVariant data2);
 static void cultivate(QVariant data1, QVariant data2);
@@ -250,6 +251,7 @@ static const QHash<action_id, pfcn_void> af_map_init(void)
   action_function[ACTION_BOMBARD] = bombard;
   action_function[ACTION_BOMBARD2] = bombard2;
   action_function[ACTION_BOMBARD3] = bombard3;
+  action_function[ACTION_BOMBARD_LETHAL] = bombard_lethal;
   action_function[ACTION_NUKE_UNITS] = nuke_units;
 
   /* Unit acting against a tile. */
@@ -2663,6 +2665,18 @@ static void bombard3(QVariant data1, QVariant data2)
   int target_id = data2.toInt();
 
   request_do_action(ACTION_BOMBARD3, actor_id,
+                    target_id, 0, "");
+}
+
+/***********************************************************************//**
+  Action "Bombard Lethal" for choice dialog
+***************************************************************************/
+static void bombard_lethal(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  request_do_action(ACTION_BOMBARD_LETHAL, actor_id,
                     target_id, 0, "");
 }
 

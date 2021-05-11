@@ -4265,21 +4265,42 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
 
       unit_bombs_unit(punit, pdefender, &att_hp, &def_hp, paction);
 
-      notify_player(pplayer, ptile,
-                    E_UNIT_WIN_ATT, ftc_server,
-                    /* TRANS: Your Bomber bombards the English Rifleman.*/
-                    _("Your %s bombards the %s %s."),
-                    unit_name_translation(punit),
-                    nation_adjective_for_player(unit_owner(pdefender)),
-                    unit_name_translation(pdefender));
-
-      notify_player(unit_owner(pdefender), ptile,
-                    E_UNIT_WIN_DEF, ftc_server,
-                    /* TRANS: Your Rifleman is bombarded by the French Bomber.*/
-                    _("Your %s is bombarded by the %s %s."),
-                    unit_name_translation(pdefender),
-                    nation_adjective_for_player(pplayer),
-                    unit_name_translation(punit));
+      if (def_hp <= 0) {
+        notify_player(pplayer, ptile,
+                      E_UNIT_WIN_ATT, ftc_server,
+                      /* TRANS: Your Bomber killed the English Rifleman by
+                       * doing Bombard. */
+                      _("Your %s killed the %s %s by doing %s."),
+                      unit_name_translation(punit),
+                      nation_adjective_for_player(unit_owner(pdefender)),
+                      unit_name_translation(pdefender),
+                      action_name_translation(paction));
+        notify_player(unit_owner(pdefender), ptile,
+                      E_UNIT_WIN_DEF, ftc_server,
+                      /* TRANS: Your Rifleman was killed by the French
+                       * Bomber doing Bombard. */
+                      _("Your %s was killed by the %s %s doing %s."),
+                      unit_name_translation(pdefender),
+                      nation_adjective_for_player(pplayer),
+                      unit_name_translation(punit),
+                      action_name_translation(paction));
+      } else {
+        notify_player(pplayer, ptile,
+                      E_UNIT_WIN_ATT, ftc_server,
+                      /* TRANS: Your Bomber bombards the English Rifleman. */
+                      _("Your %s bombards the %s %s."),
+                      unit_name_translation(punit),
+                      nation_adjective_for_player(unit_owner(pdefender)),
+                      unit_name_translation(pdefender));
+        notify_player(unit_owner(pdefender), ptile,
+                      E_UNIT_WIN_DEF, ftc_server,
+                      /* TRANS: Your Rifleman is bombarded by the French
+                       * Bomber. */
+                      _("Your %s is bombarded by the %s %s."),
+                      unit_name_translation(pdefender),
+                      nation_adjective_for_player(pplayer),
+                      unit_name_translation(punit));
+      }
 
       see_combat(punit, pdefender);
 
@@ -4287,8 +4308,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
       pdefender->hp = def_hp;
 
       send_combat(punit, pdefender, 0, 0, 1);
-  
-      send_unit_info(NULL, pdefender);
 
       /* May cause an incident */
       action_consequence_success(paction,
@@ -4296,6 +4315,12 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
                                  unit_owner(pdefender),
                                  unit_tile(pdefender),
                                  unit_link(pdefender));
+
+      if (def_hp <= 0) {
+        wipe_unit(pdefender, ULR_KILLED, unit_owner(pdefender));
+      } else {
+        send_unit_info(NULL, pdefender);
+      }
     }
 
   } unit_list_iterate_safe_end;

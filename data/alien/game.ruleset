@@ -359,6 +359,13 @@ bombard_2_max_range = 1
 ; distance.
 bombard_3_max_range = 1
 
+; The maximum distance from the actor unit to the target of the
+; "Bombard Lethal" action. The value 1 means that the targets must be on a
+; tile adjacent to the actor unit. The special value "unlimited" lifts the
+; maximum distance restriction. The maximum distance can`t be smaller than
+; the minimum distance.
+bombard_lethal_max_range = 1
+
 ; The minimal distance from the actor unit to the target. The value 0 means
 ; that the target must be at the tile of the actor unit. The value 1 means
 ; that the tile must be a tile adjacent to the actor unit.

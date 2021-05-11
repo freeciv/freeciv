@@ -357,9 +357,13 @@ void unit_bombs_unit(struct unit *attacker, struct unit *defender,
     }
   }
 
-  /* Don't kill the target. */
   if (*def_hp <= 0) {
-    *def_hp = 1;
+    if (BV_ISSET(paction->sub_results, ACT_SUB_RES_NON_LETHAL)) {
+      /* Don't kill the target. */
+      *def_hp = 1;
+    } else {
+      *def_hp = 0;
+    }
   }
 }
 

@@ -855,6 +855,11 @@ bool dai_unit_attack(struct ai_type *ait, struct unit *punit, struct tile *ptile
     /* Choose capture. */
     unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
                    0, "", ACTION_CAPTURE_UNITS);
+  } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD_LETHAL,
+                                             punit, ptile)) {
+    /* Choose "Bombard Lethal". */
+    unit_do_action(unit_owner(punit), punit->id, tile_index(ptile),
+                   0, "", ACTION_BOMBARD_LETHAL);
   } else if (is_action_enabled_unit_on_units(ACTION_BOMBARD,
                                              punit, ptile)) {
     /* Choose "Bombard". */

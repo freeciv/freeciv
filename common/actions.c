@@ -1093,6 +1093,16 @@ static void hard_code_actions(void)
                       /* Overwritten by the ruleset's bombard_3_max_range */
                       1,
                       FALSE);
+  actions[ACTION_BOMBARD_LETHAL] =
+      unit_action_new(ACTION_BOMBARD_LETHAL, ACTRES_BOMBARD,
+                      FALSE, TRUE, MAK_STAYS,
+                      /* A single domestic unit at the target tile will make
+                       * the action illegal. It must therefore be performed
+                       * from another tile. */
+                      1,
+                      /* Overwritten by the ruleset's bombard_lethal_max_range */
+                      1,
+                      FALSE);
   actions[ACTION_SPY_NUKE] =
       unit_action_new(ACTION_SPY_NUKE, ACTRES_SPY_NUKE,
                       FALSE, TRUE,
@@ -7448,6 +7458,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_bombard_2";
   case ACTION_BOMBARD3:
     return "ui_name_bombard_3";
+  case ACTION_BOMBARD_LETHAL:
+    return "ui_name_bombard_lethal";
   case ACTION_SPY_NUKE:
     return "ui_name_suitcase_nuke";
   case ACTION_SPY_NUKE_ESC:
@@ -7711,6 +7723,9 @@ const char *action_ui_name_default(int act)
   case ACTION_BOMBARD3:
     /* TRANS: B_ombard 3 (100% chance of success). */
     return N_("B%sombard 3%s");
+  case ACTION_BOMBARD_LETHAL:
+    /* TRANS: Lethal B_ombard (100% chance of success). */
+    return N_("Lethal B%sombard%s");
   case ACTION_SPY_NUKE:
     /* TRANS: Suitcase _Nuke (100% chance of success). */
     return N_("Suitcase %sNuke%s");
@@ -7985,6 +8000,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
+  case ACTION_BOMBARD_LETHAL:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -8218,6 +8234,8 @@ const char *action_max_range_ruleset_var_name(int act)
     return "bombard_2_max_range";
   case ACTION_BOMBARD3:
     return "bombard_3_max_range";
+  case ACTION_BOMBARD_LETHAL:
+    return "bombard_lethal_max_range";
   case ACTION_NUKE:
     return "explode_nuclear_max_range";
   case ACTION_NUKE_CITY:
@@ -8417,6 +8435,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
+  case ACTION_BOMBARD_LETHAL:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -8925,6 +8944,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
+  case ACTION_BOMBARD_LETHAL:
   case ACTION_SPY_ATTACK:
   case ACTION_CONQUER_EXTRAS:
   case ACTION_CONQUER_EXTRAS2:
@@ -8985,6 +9005,8 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "bombard_2_blocked_by";
   case ACTION_BOMBARD3:
     return "bombard_3_blocked_by";
+  case ACTION_BOMBARD_LETHAL:
+    return "bombard_lethal_blocked_by";
   case ACTION_NUKE:
     return "explode_nuclear_blocked_by";
   case ACTION_NUKE_CITY:
@@ -9137,6 +9159,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_BOMBARD:
   case ACTION_BOMBARD2:
   case ACTION_BOMBARD3:
+  case ACTION_BOMBARD_LETHAL:
   case ACTION_NUKE:
   case ACTION_NUKE_CITY:
   case ACTION_NUKE_UNITS:
