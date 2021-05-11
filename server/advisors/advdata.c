@@ -876,7 +876,7 @@ void adv_best_government(struct player *pplayer)
           struct action *paction = action_by_number(act);
 
           if (!action_immune_government(gov, act)) {
-            /* This government doesn't provide immunity againt this
+            /* This government doesn't provide immunity against this
              * action. */
             continue;
           }
