@@ -1642,8 +1642,9 @@ struct city *find_nearest_safe_city(struct unit *punit)
     cur = move_cost;
 
     /* Note the unit owner may be different from the city owner. */
-    if (0 == get_unittype_bonus(unit_owner(punit), ptile, unit_type_get(punit),
-                               EFT_HP_REGEN)) {
+    if (0 == get_unittype_bonus(unit_owner(punit), ptile,
+                                unit_type_get(punit), NULL,
+                                EFT_HP_REGEN)) {
       /* If we cannot regen fast our hit points here, let's make some
        * penalty. */
       cur *= 3;

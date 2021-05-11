@@ -90,7 +90,8 @@ struct unit_type *dai_choose_defender_versus(struct city *pcity,
       int fpatt, fpdef, defense, attack;
       double want, loss, cost = utype_build_shield_cost(pcity, NULL, punittype);
       struct unit *defender;
-      int veteran = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
+      int veteran = get_unittype_bonus(city_owner(pcity), pcity->tile,
+                                       punittype, NULL,
                                        EFT_VETERAN_BUILD);
 
       defender = unit_virtual_create(pplayer, pcity, punittype, veteran);
@@ -404,7 +405,7 @@ static unsigned int assess_danger_unit(const struct city *pcity,
 
   danger = adv_unit_att_rating(punit);
   mod = 100 + get_unittype_bonus(city_owner(pcity), ptile,
-                                 punittype, EFT_DEFEND_BONUS);
+                                 punittype, NULL, EFT_DEFEND_BONUS);
   return danger * 100 / MAX(mod, 1);
 }
 
@@ -520,7 +521,8 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
     best_non_scramble[idx] = -1;
     /* FIXME: cache it somewhere? */
     city_def_against[idx]
-      = 100 + get_unittype_bonus(pplayer, ptile, utype, EFT_DEFEND_BONUS);
+      = 100 + get_unittype_bonus(pplayer, ptile, utype, NULL,
+                                 EFT_DEFEND_BONUS);
     city_def_against[idx] = MAX(city_def_against[idx], 1);
   } unit_type_iterate_end;
 

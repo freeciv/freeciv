@@ -878,6 +878,7 @@ int get_building_bonus(const struct city *pcity,
 int get_unittype_bonus(const struct player *pplayer,
                        const struct tile *ptile,
                        const struct unit_type *punittype,
+                       const struct action *paction,
                        enum effect_type effect_type)
 {
   struct city *pcity;
@@ -897,7 +898,7 @@ int get_unittype_bonus(const struct player *pplayer,
   return get_target_bonus_effects(NULL,
                                   pplayer, NULL, pcity, NULL, ptile,
                                   NULL, punittype, NULL,
-                                  NULL, NULL, effect_type);
+                                  NULL, paction, effect_type);
 }
 
 /**********************************************************************//**

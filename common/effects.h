@@ -423,6 +423,7 @@ int get_building_bonus(const struct city *pcity,
 int get_unittype_bonus(const struct player *pplayer,
 		       const struct tile *ptile, /* pcity is implied */
 		       const struct unit_type *punittype,
+                       const struct action *paction,
 		       enum effect_type effect_type);
 int get_unit_bonus(const struct unit *punit, enum effect_type effect_type);
 int get_unit_vs_tile_bonus(const struct tile *ptile,

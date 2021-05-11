@@ -786,7 +786,7 @@ int city_production_unit_veteran_level(struct city *pcity,
                                        const struct unit_type *punittype)
 {
   int levels = get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
-                                  EFT_VETERAN_BUILD);
+                                  NULL, EFT_VETERAN_BUILD);
   int max_levels = utype_veteran_levels(punittype) - 1;
 
   levels = CLIP(0, levels, max_levels);
@@ -1510,7 +1510,7 @@ bool city_got_defense_effect(const struct city *pcity,
   }
 
   return get_unittype_bonus(city_owner(pcity), pcity->tile, attacker,
-                            EFT_DEFEND_BONUS) > 0;
+                            NULL, EFT_DEFEND_BONUS) > 0;
 }
 
 /**********************************************************************//**

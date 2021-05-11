@@ -387,7 +387,8 @@ void get_modified_firepower(const struct unit *attacker,
    */
   if (unit_has_type_flag(attacker, UTYF_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), unit_tile(defender),
-                            unit_type_get(attacker), EFT_DEFEND_BONUS) > 0) {
+                            unit_type_get(attacker), NULL,
+                            EFT_DEFEND_BONUS) > 0) {
     *att_fp = 1;
   }
 
@@ -555,7 +556,8 @@ int get_total_attack_power(const struct unit *attacker,
   int attackpower = get_attack_power(attacker);
 
   mod = 100 + get_unittype_bonus(unit_owner(attacker), unit_tile(defender),
-                                 unit_type_get(attacker), EFT_ATTACK_BONUS);
+                                 unit_type_get(attacker), NULL,
+                                 EFT_ATTACK_BONUS);
 
   return attackpower * mod / 100;
 }
@@ -599,7 +601,7 @@ static int defense_multiplication(const struct unit_type *att_type,
       int defense_multiplier_pct = 100
         + def_type->cache.defense_mp_bonuses_pct[utype_index(att_type)];
       int mod = 100 + get_unittype_bonus(def_player, ptile,
-                                         att_type, EFT_DEFEND_BONUS);
+                                         att_type, NULL, EFT_DEFEND_BONUS);
 
       /* This applies even if pcity is NULL. */
       defensepower = defensepower * defense_multiplier_pct / 100;

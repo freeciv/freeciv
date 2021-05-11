@@ -2063,7 +2063,8 @@ bool is_losing_hp(const struct unit *punit)
 bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype)
 {
-  return get_unittype_bonus(pplayer, NULL, punittype, EFT_UNIT_RECOVER)
+  return get_unittype_bonus(pplayer, NULL, punittype, NULL,
+                            EFT_UNIT_RECOVER)
     < (punittype->hp *
        utype_class(punittype)->hp_loss_pct / 100);
 }

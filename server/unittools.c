@@ -4555,7 +4555,7 @@ int get_unit_vision_at(struct unit *punit, const struct tile *ptile,
 {
   const int base = (unit_type_get(punit)->vision_radius_sq
                     + get_unittype_bonus(unit_owner(punit), ptile,
-                                         unit_type_get(punit),
+                                         unit_type_get(punit), NULL,
                                          EFT_UNIT_VISION_RADIUS_SQ));
   switch (vlayer) {
   case V_MAIN:
