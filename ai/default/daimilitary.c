@@ -1321,7 +1321,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       def_vet = 0;
     }
 
-    pdef = get_defender(myunit, ptile);
+    pdef = get_defender(myunit, ptile, NULL);
     if (pdef) {
       int m = unittype_def_rating_squared(unit_type_get(myunit), unit_type_get(pdef),
                                           city_owner(acity), ptile, FALSE,
@@ -1353,7 +1353,7 @@ static struct adv_choice *kill_something_with(struct ai_type *ait, struct player
       ferry_map = NULL;
     }
 
-    pdef = get_defender(myunit, ptile);
+    pdef = get_defender(myunit, ptile, NULL);
     if (!pdef) {
       /* Nobody to attack! */
       goto cleanup;

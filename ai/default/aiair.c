@@ -131,7 +131,7 @@ static int dai_evaluate_tile_for_air_attack(struct unit *punit,
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
   if (!can_unit_attack_tile(punit, NULL, dst_tile)
-      || !(pdefender = get_defender(punit, dst_tile))) {
+      || !(pdefender = get_defender(punit, dst_tile, NULL))) {
     return 0;
   }
 

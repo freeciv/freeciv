@@ -796,7 +796,8 @@ static int get_defense_rating(const struct unit *attacker,
   this.
 ***********************************************************************/
 struct unit *get_defender(const struct unit *attacker,
-			  const struct tile *ptile)
+                          const struct tile *ptile,
+                          const struct action *paction)
 {
   struct unit *bestdef = NULL;
   int bestvalue = -99, best_cost = 0, rating_of_best = 0;

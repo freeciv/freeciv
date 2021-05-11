@@ -87,7 +87,8 @@ int get_total_attack_power(const struct unit *attacker,
                            const struct unit *defender);
 
 struct unit *get_defender(const struct unit *attacker,
-                          const struct tile *ptile);
+                          const struct tile *ptile,
+                          const struct action *paction);
 struct unit *get_attacker(const struct unit *defender,
                           const struct tile *ptile);
 

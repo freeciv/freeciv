@@ -4470,7 +4470,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   struct unit *pdefender;
   const struct unit_type *act_utype = unit_type_get(punit);
 
-  if (!(pdefender = get_defender(punit, def_tile))) {
+  if (!(pdefender = get_defender(punit, def_tile, paction))) {
     /* Can't fight air... */
     return FALSE;
   }

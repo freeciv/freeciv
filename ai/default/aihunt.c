@@ -529,7 +529,8 @@ int dai_hunter_manage(struct ai_type *ait, struct player *pplayer,
        * if any. */
       dai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
       stackcost *= unit_win_chance(punit, get_defender(punit,
-                                                       unit_tile(target)));
+                                                       unit_tile(target),
+                                                       NULL));
       if (stackcost < unit_build_shield_cost_base(punit)) {
         UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",
                  target->id, stackcost,

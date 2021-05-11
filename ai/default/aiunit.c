@@ -455,7 +455,7 @@ static int dai_rampage_want(struct unit *punit, struct tile *ptile)
   CHECK_UNIT(punit);
 
   if (can_unit_attack_tile(punit, NULL, ptile)
-      && (pdef = get_defender(punit, ptile))) {
+      && (pdef = get_defender(punit, ptile, NULL))) {
     /* See description of kill_desire() about these variables. */
     int attack = unit_att_rating_now(punit);
     int benefit = stack_cost(punit, pdef);
@@ -1373,7 +1373,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
       }
 
       if (can_unit_attack_tile(punit, NULL, city_tile(acity))
-          && (pdefender = get_defender(punit, city_tile(acity)))) {
+          && (pdefender = get_defender(punit, city_tile(acity), NULL))) {
         vulnerability = unit_def_rating_squared(punit, pdefender);
         benefit = unit_build_shield_cost_base(pdefender);
       } else {
@@ -1543,7 +1543,7 @@ int find_something_to_kill(struct ai_type *ait, struct player *pplayer,
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
       if (!can_unit_attack_tile(punit, NULL, atile)
-          || aunit != get_defender(punit, atile)) {
+          || aunit != get_defender(punit, atile, NULL)) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
       }

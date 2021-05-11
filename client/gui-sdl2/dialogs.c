@@ -1891,7 +1891,8 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
       #define ADV_NUM_SEEN  15
 
-      defender = (focus_unit ? get_defender(focus_unit, ptile) : NULL);
+      defender = (focus_unit ? get_defender(focus_unit, ptile, NULL)
+                             : NULL);
       attacker = (focus_unit ? get_attacker(focus_unit, ptile) : NULL);
       for (i = 0; i < n; i++) {
         punit = unit_list_get(ptile->units, i);

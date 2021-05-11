@@ -3244,7 +3244,7 @@ static bool unit_survive_autoattack(struct unit *punit)
   autoattack_prob_list_iterate_safe(autoattack, peprob, penemy) {
     int sanity2 = penemy->id;
     struct tile *ptile = unit_tile(penemy);
-    struct unit *enemy_defender = get_defender(punit, ptile);
+    struct unit *enemy_defender = get_defender(punit, ptile, NULL);
     double punitwin, penemywin;
     double threshold = 0.25;
     struct tile *tgt_tile = unit_tile(punit);
