@@ -94,7 +94,8 @@ struct unit *get_attacker(const struct unit *defender,
 
 struct unit *get_diplomatic_defender(const struct unit *act_unit,
                                      const struct unit *pvictim,
-                                     const struct tile *tgt_tile);
+                                     const struct tile *tgt_tile,
+                                     const struct action *paction);
 
 bool is_stack_vulnerable(const struct tile *ptile);
 

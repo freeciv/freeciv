@@ -5315,7 +5315,8 @@ static struct act_prob ap_dipl_battle_win(const struct unit *pattacker,
 **************************************************************************/
 static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
                                           const struct unit *pvictim,
-                                          const struct tile *tgt_tile)
+                                          const struct tile *tgt_tile,
+                                          const struct action *paction)
 {
   struct unit *pdefender;
 
@@ -5327,7 +5328,8 @@ static struct act_prob ap_diplomat_battle(const struct unit *pattacker,
     return ACTPROB_NOT_KNOWN;
   }
 
-  pdefender = get_diplomatic_defender(pattacker, pvictim, tgt_tile);
+  pdefender = get_diplomatic_defender(pattacker, pvictim, tgt_tile,
+                                      paction);
 
   if (pdefender) {
     /* There will be a diplomatic battle in stead of an action. */
@@ -5407,7 +5409,8 @@ action_prob_battle_then_dice_roll(const struct player *act_player,
     /* No pre action battle. */
     break;
   case ABK_DIPLOMATIC:
-    battle = ap_diplomat_battle(act_unit, tgt_unit, tgt_tile);
+    battle = ap_diplomat_battle(act_unit, tgt_unit, tgt_tile,
+                                paction);
     break;
   case ABK_STANDARD:
     /* Not supported here yet. Implement when users appear. */
@@ -5527,15 +5530,18 @@ action_prob(const action_id wanted_action,
     break;
   case ACTRES_SPY_SABOTAGE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
+    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile,
+                                paction);
     break;
   case ACTRES_SPY_BRIBE_UNIT:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile);
+    chance = ap_diplomat_battle(actor_unit, target_unit, target_tile,
+                                paction);
     break;
   case ACTRES_SPY_ATTACK:
     /* All uncertainty comes from potential diplomatic battles. */
-    chance = ap_diplomat_battle(actor_unit, NULL, target_tile);
+    chance = ap_diplomat_battle(actor_unit, NULL, target_tile,
+                                paction);
     break;
   case ACTRES_SPY_SABOTAGE_CITY:
     /* TODO */

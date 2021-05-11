@@ -1984,7 +1984,8 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
     sz_strlcpy(link_city, city_link(pcity));
   }
 
-  if ((punit = get_diplomatic_defender(pdiplomat, pvictim, ptile))) {
+  if ((punit = get_diplomatic_defender(pdiplomat, pvictim, ptile,
+                                       paction))) {
     struct player *uplayer = unit_owner(punit);
 
     if (defender_owner != NULL) {
