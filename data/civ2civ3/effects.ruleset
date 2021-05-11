@@ -4097,6 +4097,14 @@ reqs	=
       "OutputType", "Science", "Local", FALSE, TRUE
     }
 
+[effect_attack_bombard_no_city_destruction]
+type    = "Unit_No_Lose_Pop"
+value   = 1
+reqs    =
+    { "type",    "name",  "range", "present"
+      "MinSize", "2",     "City",  FALSE
+    }
+
 [effect_incident_caught_steal_tech]
 type	= "Casus_Belli_Caught"
 value	= 1

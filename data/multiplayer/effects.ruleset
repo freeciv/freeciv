@@ -2385,6 +2385,14 @@ reqs	=
       "Extra", "Pollution", "Local"
     }
 
+[effect_attack_bombard_no_city_destruction]
+type    = "Unit_No_Lose_Pop"
+value   = 1
+reqs    =
+    { "type",    "name",  "range", "present"
+      "MinSize", "2",     "City",  FALSE
+    }
+
 [effect_unit_bribe_cost_settlers]
 type	= "Unit_Bribe_Cost_Pct"
 value	= -50

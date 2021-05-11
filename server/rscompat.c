@@ -339,6 +339,15 @@ void rscompat_postprocess(struct rscompat_info *info)
                                               FALSE, TRUE, FALSE,
                                               action_rule_name(paction)));
     } action_iterate_end;
+
+    /* That Attack and Bombard can't destroy a city
+     * has moved to the ruleset. */
+    peffect = effect_new(EFT_UNIT_NO_LOSE_POP,
+                         effect_value_will_make_positive(
+                             EFT_UNIT_NO_LOSE_POP),
+                         NULL);
+    effect_req_append(peffect, req_from_str("MinSize", "City", FALSE, FALSE,
+                                            FALSE, "2"));
   }
 
   /* Make sure that all action enablers added or modified by the

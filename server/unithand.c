@@ -4179,15 +4179,31 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
   struct player *pplayer = unit_owner(punit);
 
   if (pcity
-      && city_size_get(pcity) > 1
       && get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
                                   city_tile(pcity), NULL, NULL, NULL, NULL,
                                   paction, EFT_UNIT_NO_LOSE_POP) <= 0
       && kills_citizen_after_attack(punit)) {
-    city_reduce_size(pcity, 1, pplayer, reason);
-    city_refresh(pcity);
-    send_city_info(NULL, pcity);
+    struct player *cplayer = city_owner(pcity);
+    struct tile *ctile = city_tile(pcity);
+    const char *clink = city_link(pcity);
+
+    if (city_reduce_size(pcity, 1, pplayer, reason)) {
+      city_refresh(pcity);
+      send_city_info(NULL, pcity);
+    } else {
+      notify_player(pplayer, ctile, E_UNIT_ACTION_ACTOR_SUCCESS, ftc_server,
+                    /* TRANS: Battleship ... Los Angeles ... Bombard */
+                    _("Your %s destroyed %s by doing %s."),
+                    unit_link(punit), clink,
+                    action_name_translation(paction));
+      notify_player(cplayer, ctile,
+                    E_UNIT_ACTION_TARGET_HOSTILE, ftc_server,
+                    /* TRANS: Sigurd I Magnusson ... Alkasse ... Attack */
+                    _("%s destroyed %s by doing %s."),
+                    player_name(pplayer), clink,
+                    action_name_translation(paction));
+    }
   }
 }
 
