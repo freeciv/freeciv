@@ -4183,7 +4183,8 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
                                   city_owner(pcity), NULL, pcity, NULL,
                                   city_tile(pcity), NULL, NULL, NULL, NULL,
                                   paction, EFT_UNIT_NO_LOSE_POP) <= 0
-      && kills_citizen_after_attack(punit)) {
+      && (game.info.killcitizen
+          && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN))) {
     struct player *cplayer = city_owner(pcity);
     struct tile *ctile = city_tile(pcity);
     const char *clink = city_link(pcity);

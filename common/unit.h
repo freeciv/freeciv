@@ -365,8 +365,6 @@ bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
 bool unit_can_add_or_build_city(const struct unit *punit);
 
-bool kills_citizen_after_attack(const struct unit *punit);
-
 struct astring; /* Forward declaration. */
 void unit_activity_astr(const struct unit *punit, struct astring *astr);
 void unit_upkeep_astr(const struct unit *punit, struct astring *astr);

@@ -408,16 +408,6 @@ bool is_hiding_unit(const struct unit *punit)
 }
 
 /**********************************************************************//**
-  Return TRUE iff an attack from this unit would kill a citizen in a city
-  (city walls protect against this).
-**************************************************************************/
-bool kills_citizen_after_attack(const struct unit *punit)
-{
-  return game.info.killcitizen
-    && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN);
-}
-
-/**********************************************************************//**
   Return TRUE iff this unit can add to a current city or build a new city
   at its current location.
 **************************************************************************/
