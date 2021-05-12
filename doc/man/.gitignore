@@ -1,6 +1,7 @@
 /Makefile
 /Makefile.in
 /.deps
+/freeciv.6
 /freeciv-server.6
 /freeciv-client.6
 /freeciv-modpack.6

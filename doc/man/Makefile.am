@@ -1,6 +1,7 @@
 ## Process this file with automake to produce Makefile.in
 
 MAN_PAGES = 			\
+	freeciv.6       	\
 	freeciv-server.6	\
 	freeciv-client.6	\
 	freeciv-modpack.6	\
