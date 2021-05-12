@@ -55,7 +55,7 @@ cd build
      && echo "Config exit status: $config_exit_status" \
      && cat config.log \
      && exit $config_exit_status)
-make -j$(nproc)
+make -j$(sysctl -n hw.logicalcpu)
 make install
 ;;
 
