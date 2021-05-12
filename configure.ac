@@ -1719,6 +1719,7 @@ AC_CONFIG_FILES([Makefile
           translations/ruledit/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
+          doc/man/freeciv.6
           doc/man/freeciv-client.6
           doc/man/freeciv-server.6
           doc/man/freeciv-manual.6
