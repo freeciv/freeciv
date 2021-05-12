@@ -39,16 +39,16 @@ ninja install
 "os_x")
 # gcc is an alias for clang on OS X
 
-export PATH="/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$(brew --prefix qt@6)/bin:$PATH"
-export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include -I$(brew --prefix qt@6)/include $CPPFLAGS"
-export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib -L$(brew --prefix qt@6)/lib"
+export PATH="/usr/local/opt/gettext/bin:/usr/local/opt/icu4c/bin:$(brew --prefix qt@5)/bin:$PATH"
+export CPPFLAGS="-I/usr/local/opt/gettext/include -I/usr/local/opt/icu4c/include -I$(brew --prefix qt@5)/include $CPPFLAGS"
+export LDFLAGS="-L/usr/local/opt/gettext/lib -L/usr/local/opt/icu4c/lib -L$(brew --prefix qt@5)/lib"
 export PKG_CONFIG_PATH="/usr/local/opt/icu4c/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 mkdir build
 cd build
 ../autogen.sh --no-configure-run
 ../configure \
- --enable-sys-lua --with-qt6 \
+ --enable-sys-lua \
  --enable-client=gtk3.22,sdl2,qt \
  --enable-freeciv-manual \
  || (let config_exit_status=$? \
