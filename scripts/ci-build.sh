@@ -50,6 +50,7 @@ cd build
 ../configure \
  --enable-sys-lua \
  --enable-client=gtk3.22,sdl2,qt \
+ --enable-fcmp=gtk3,qt,cli \
  --enable-freeciv-manual \
  || (let config_exit_status=$? \
      && echo "Config exit status: $config_exit_status" \
