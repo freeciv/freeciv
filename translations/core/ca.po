@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-03-19 14:23+0200\n"
-"PO-Revision-Date: 2019-07-30 20:15+0200\n"
+"PO-Revision-Date: 2021-05-13 19:56+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 18.12.3\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #: ai/default/aicity.c:963
 #, c-format
@@ -800,15 +800,15 @@ msgstr "Meravella Normal"
 #: client/citydlg_common.c:683
 #, c-format
 msgid "unlimited take offs%s"
-msgstr ""
+msgstr "enlairaments il·limitats%s"
 
 #. TRANS: airlift unlimited take offs proviso used above.
 #. * Plural based on remaining airlift capacity.
 #: client/citydlg_common.c:687
 msgid " (until the landing has been spent)"
 msgid_plural " (until all landings have been spent)"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "(fins que l'aterratge s'hagi consumit)"
+msgstr[1] "(fins que tots els aterratges s'hagin consumit)"
 
 #. TRANS: airlift. Possible take offs text. Number is
 #. * airlift capacity.
@@ -816,38 +816,37 @@ msgstr[1] ""
 #, c-format
 msgid "%d take off"
 msgid_plural "%d take offs"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d enlairament"
+msgstr[1] "%d enlairaments"
 
 #. TRANS: airlift. Possible landings text.
 #: client/citydlg_common.c:705
-#, fuzzy
 #| msgid "United Nations"
 msgid "unlimited landings"
-msgstr "Nacions Unides"
+msgstr "aterratges il·limitats"
 
 #. TRANS: airlift. Possible landings text.
 #. * Number is airlift capacity.
 #: client/citydlg_common.c:710
-#, fuzzy, c-format
+#, c-format
 #| msgid "Gold trading"
 msgid "%d landing"
 msgid_plural "%d landings"
-msgstr[0] "Intercanvi d'or"
-msgstr[1] "Intercanvi d'or"
+msgstr[0] "%d aterratge"
+msgstr[1] "%d aterratges"
 
 #. TRANS: airlift take offs and landings
 #: client/citydlg_common.c:717
 msgid "unlimited take offs and landings"
-msgstr ""
+msgstr "enlairaments i aterratges il·limitats"
 
 #. TRANS: airlift take offs and landings. One is unlimited. The first
 #. * string is the take offs text. The 2nd string is the landings text.
 #: client/citydlg_common.c:722
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s%d %s"
 msgid "%s and %s"
-msgstr "%s%d %s"
+msgstr "%s i %s"
 
 #. TRANS: airlift take offs or landings, no unlimited.
 #. * Number is airlift capacity.
@@ -855,8 +854,8 @@ msgstr "%s%d %s"
 #, c-format
 msgid "%d take off or landing"
 msgid_plural "%d take offs or landings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d enlairament o aterratge"
+msgstr[1] "%d enlairaments o aterratges"
 
 #. TRANS: airlift. Possible take offs text. String is a symbol that
 #. * indicates that terms and conditions apply when landings are limited
@@ -864,13 +863,13 @@ msgstr[1] ""
 #: client/citydlg_common.c:755
 #, c-format
 msgid "∞%s"
-msgstr ""
+msgstr "∞%s"
 
 #. TRANS: airlift unlimited take offs may be spent symbol
 #. * used above.
 #: client/citydlg_common.c:759
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #. TRANS: airlift. Possible take offs text. Number is
 #. * airlift capacity.
@@ -878,34 +877,33 @@ msgstr ""
 #: client/citydlg_common.c:763 client/citydlg_common.c:776
 #, c-format
 msgid "%d"
-msgstr ""
+msgstr "%d"
 
 #. TRANS: airlift. Possible landings text.
 #. TRANS: unlimited airlift take offs and landings
 #: client/citydlg_common.c:773 client/citydlg_common.c:782
 msgid "∞"
-msgstr ""
+msgstr "∞"
 
 #. TRANS: airlift take offs and landings. One is unlimited. The first
 #. * string is the take offs text. The 2nd string is the landings text.
 #. * For English, initials of d)epartures and a)rrivals were chosen.
 #: client/citydlg_common.c:788
-#, fuzzy, c-format
+#, c-format
 #| msgid "Command: %s  -  %s"
 msgid "d: %s a: %s"
-msgstr "Comanda: %s -  %s"
+msgstr "s: %s a: %s"
 
 #. TRANS: airlift take offs or landings, no unlimited
 #: client/citydlg_common.c:792
-#, fuzzy, c-format
+#, c-format
 #| msgid "\"%s\""
 msgid "%s"
-msgstr "\"%s\""
+msgstr "%s"
 
 #. TRANS: Client cannot explain some aspect of city
 #. * output. Should never happen.
 #: client/citydlg_common.c:830
-#, fuzzy
 #| msgid "(unknown)"
 msgid "?city_sum:(unknown)"
 msgstr "(desconegut)"
@@ -915,17 +913,16 @@ msgstr "(desconegut)"
 #: client/citydlg_common.c:870
 #, c-format
 msgid "?city_surplus:%+4.0f : %s"
-msgstr ""
+msgstr "%+4.0f : %s"
 
 #: client/citydlg_common.c:875
 msgid "?city_surplus:Citizens"
-msgstr ""
+msgstr "Ciutadans"
 
 #: client/citydlg_common.c:881
-#, fuzzy
 #| msgid "%+4d : Taxed from trade\n"
 msgid "?city_surplus:Taxed from trade"
-msgstr "%+4d : Impostos sobre el comerç\n"
+msgstr "Impostos sobre el comerç"
 
 #. TRANS: Trade partner unknown to client
 #. TRANS: unrecognized command
@@ -934,70 +931,68 @@ msgid "(unknown)"
 msgstr "(desconegut)"
 
 #: client/citydlg_common.c:897
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s with %s"
-msgstr "%+4d :  amb %s\n"
+msgstr "Comerç de %s amb els %s"
 
 #: client/citydlg_common.c:902
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s to %s"
-msgstr "%+4d : Ruta comercial amb %s\n"
+msgstr "Comerç de %s per als %s"
 
 #: client/citydlg_common.c:907
-#, fuzzy, c-format
+#, c-format
 msgid "?city_surplus:Trading %s from %s"
-msgstr "%+4d : Impostos sobre el comerç\n"
+msgstr "Comerç de %s dels %s"
 
 #: client/citydlg_common.c:917
-#, fuzzy
 #| msgid "%+4d : Building tithes\n"
 msgid "?city_surplus:Building tithes"
-msgstr "%+4d : Almoines per edificis\n"
+msgstr "Almoines per edificis"
 
 #. TRANS: percentage city output bonus/loss from
 #. * some source; preserve leading space
 #: client/citydlg_common.c:955
 #, c-format
 msgid "?city_surplus: (%+.0f%%)"
-msgstr ""
+msgstr " (%+.0f%%)"
 
 #: client/citydlg_common.c:956
 #, c-format
 msgid "?city_surplus:Bonus from %s"
-msgstr ""
+msgstr "Bonificacions per %s"
 
 #: client/citydlg_common.c:957
 #, c-format
 msgid "?city_surplus:Loss from %s"
-msgstr ""
+msgstr "Pèrdues per %s"
 
 #: client/citydlg_common.c:975
 msgid "?city_surplus:Size penalty"
-msgstr ""
+msgstr "Penalització per mida"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:991
 #, c-format
 msgid "?city_surplus:Waste%s"
-msgstr ""
+msgstr "Malbaratament%s"
 
 #. TRANS: %s is normally empty, but becomes '?' if client is
 #. * uncertain about its accounting (should never happen)
 #: client/citydlg_common.c:996
 #, c-format
 msgid "?city_surplus:Corruption%s"
-msgstr ""
+msgstr "Corrupció%s"
 
 #: client/citydlg_common.c:1004
-#, fuzzy
 #| msgid "?city_state:Disorder"
 msgid "?city_surplus:Disorder"
 msgstr "Desordre"
 
 #: client/citydlg_common.c:1008
 msgid "?city_surplus:Used"
-msgstr ""
+msgstr "Utilitzat"
 
 #: client/citydlg_common.c:1012
 #, c-format
@@ -1005,6 +1000,8 @@ msgid ""
 "?city_surplus:==== : Adds up to\n"
 "%4.0f : Total surplus"
 msgstr ""
+"==== : Fa un total de\n"
+"%4.0f : Excedent total"
 
 #: client/citydlg_common.c:1030
 msgid "Illness deactivated in ruleset."
@@ -1013,40 +1010,37 @@ msgstr "Malaltia desactivada al joc de regles."
 #: client/citydlg_common.c:1034
 #, c-format
 msgid "?city_plague:%+5.1f%% : %s"
-msgstr ""
+msgstr "%+5.1f%% : %s"
 
 #: client/citydlg_common.c:1040
-#, fuzzy
 #| msgid "%+5.1f : Risk from overcrowding\n"
 msgid "?city_plague:Risk from overcrowding"
-msgstr "%+5.1f : Risc per superpoblació\n"
+msgstr "Risc per superpoblació"
 
 #: client/citydlg_common.c:1042
-#, fuzzy
 #| msgid "?city_state:Disorder"
 msgid "?city_plague:Risk from trade"
-msgstr "Desordre"
+msgstr "Risc per comerç"
 
 #: client/citydlg_common.c:1044
-#, fuzzy
 #| msgid "%+5.1f : Risk from pollution\n"
 msgid "?city_plague:Risk from pollution"
-msgstr "%+5.1f : Risc per contaminació\n"
+msgstr "Risc per contaminació"
 
 #: client/citydlg_common.c:1072
 #, c-format
 msgid "?city_plague: (%+.0f%%)"
-msgstr ""
+msgstr " (%+.0f%%)"
 
 #: client/citydlg_common.c:1073
 #, c-format
 msgid "?city_plague:Risk from %s"
-msgstr ""
+msgstr "Risc per %s"
 
 #: client/citydlg_common.c:1074
 #, c-format
 msgid "?city_plague:Bonus from %s"
-msgstr ""
+msgstr "Bonificació per %s"
 
 #: client/citydlg_common.c:1083
 #, c-format
@@ -1054,29 +1048,28 @@ msgid ""
 "?city_plague:====== : Adds up to\n"
 "%5.1f%% : Plague chance per turn"
 msgstr ""
+"====== : Fa un total de\n"
+"%5.1f%% : Probabilitat d'epidèmia per torn"
 
 #: client/citydlg_common.c:1096
 #, c-format
 msgid "?city_pollution:%+4.0f : %s"
-msgstr ""
+msgstr "%+4.0f : %s"
 
 #: client/citydlg_common.c:1106
-#, fuzzy
 #| msgid "%+4d : Pollution from shields\n"
 msgid "?city_pollution:Pollution from shields"
-msgstr "%+4d : Contaminació per producció\n"
+msgstr "Contaminació per producció"
 
 #: client/citydlg_common.c:1107
-#, fuzzy
 #| msgid "%+4d : Pollution from citizens\n"
 msgid "?city_pollution:Pollution from citizens"
-msgstr "%+4d : Contaminació per ciutadans\n"
+msgstr "Contaminació per ciutadans"
 
 #: client/citydlg_common.c:1108
-#, fuzzy
 #| msgid "%+4d : Pollution modifier\n"
 msgid "?city_pollution:Pollution modifier"
-msgstr "%+4d : Modificador de contaminació\n"
+msgstr "Modificador de contaminació"
 
 #: client/citydlg_common.c:1110
 #, c-format
@@ -1084,23 +1077,25 @@ msgid ""
 "?city_pollution:==== : Adds up to\n"
 "%4.0f : Total surplus"
 msgstr ""
+"==== : Fa un total de\n"
+"%4.0f : Excedent total"
 
 #: client/citydlg_common.c:1122
 #, c-format
 msgid "?city_culture:%4.0f : %s"
-msgstr ""
+msgstr "%4.0f : %s"
 
 #: client/citydlg_common.c:1127
 #, c-format
 msgid "?city_culture:History (%+d/turn)"
-msgstr ""
+msgstr "Història (%+d/torn)"
 
 #. TRANS: text describing source of culture bonus ("Library+Republic")
 #: client/citydlg_common.c:1155
-#, fuzzy, c-format
+#, c-format
 #| msgid "%4d : Total culture"
 msgid "?city_culture:%s"
-msgstr "%4d : Cultura total"
+msgstr "%s"
 
 #: client/citydlg_common.c:1160
 #, c-format
@@ -1108,6 +1103,8 @@ msgid ""
 "?city_culture:==== : Adds up to\n"
 "%4.0f : Total culture"
 msgstr ""
+"==== : Fa un total de\n"
+"%4.0f : Total de cultura"
 
 #: client/cityrepdata.c:109
 msgid "?city_state:Celebrating"
@@ -1394,10 +1391,9 @@ msgid "?History:Hst"
 msgstr "Hst"
 
 #: client/cityrepdata.c:767
-#, fuzzy
 #| msgid "Culture: History"
 msgid "Culture: History (and gain per turn)"
-msgstr "Cultura: Història"
+msgstr "Cultura: Història (i guany per torn)"
 
 #: client/cityrepdata.c:769
 msgid "?Performance:Prf"
@@ -1449,10 +1445,9 @@ msgid "(%)"
 msgstr "(%)"
 
 #: client/cityrepdata.c:779
-#, fuzzy
 #| msgid "Plague risk"
 msgid "Plague risk per turn"
-msgstr "Risc d'epidèmia"
+msgstr "Risc d'epidèmia per torn"
 
 #: client/cityrepdata.c:781
 msgid "?cma:Governor"
@@ -1529,11 +1524,11 @@ msgstr "debug NIVELL"
 
 #: client/client_main.c:392 tools/civmanual.c:777 tools/mpcmdline.c:78
 #: server/civserver.c:371
-#, fuzzy
 #| msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgid "Set debug log level (one of f,e,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Fixar el nivell de registre de depuració (%d a %d, o %d:fitx1,mín,màx:...)"
+"Fixar el nivell de registre de depuració (algun de f,e,n,v,d, o"
+" d:fitx1,mín,màx:...)"
 
 #: client/client_main.c:398 tools/civmanual.c:783 tools/mpcmdline.c:84
 #: server/civserver.c:376
@@ -1925,9 +1920,8 @@ msgid "You'll have to start one manually. Sorry..."
 msgstr "N'hauràs d'engegar un manualment. Ho sento..."
 
 #: client/connectdlg_common.c:288 client/options.c:5160 client/options.c:5209
-#, fuzzy
 msgid "Cannot find freeciv storage directory"
-msgstr "No s'ha pogut trobar el teu directori d'inici"
+msgstr "No s'ha pogut trobar el directori d'emmagatzemament de freeciv"
 
 #: client/connectdlg_common.c:290
 msgid "You'll have to start server manually. Sorry..."
@@ -1975,9 +1969,9 @@ msgstr "Només es poden descarregar les unitats de transport."
 
 #. TRANS: Unable to get rid of Leader.
 #: client/control.c:1841
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to get rid of %s."
-msgstr "Càrrega de font fallida: %s"
+msgstr "No ens hem pogut desfer de %s."
 
 #: client/control.c:1971
 msgid "Only settler units can be put into auto mode."
@@ -2005,6 +1999,8 @@ msgstr "Bufa! Pel que sembla no tens capital!"
 msgid ""
 "Click on a tile to act against it. Press 'd' again to act against own tile."
 msgstr ""
+"Cliqueu una casella per actuar-hi contra. Torneu a prémer 'd' per actuar"
+" contra la pròpia casella."
 
 #: client/editor.c:199 client/gui-gtk-2.0/editprop.c:4333
 #: client/gui-gtk-2.0/menu.c:1470 client/gui-gtk-3.0/editprop.c:4392
@@ -2690,17 +2686,15 @@ msgstr "Contaminació:"
 
 #: client/gui-gtk-2.0/citydlg.c:700 client/gui-gtk-3.0/citydlg.c:753
 #: client/gui-gtk-3.22/citydlg.c:754 client/gui-qt/citydlg.h:79
-#, fuzzy
 #| msgid "Plague risk"
 msgid "Plague risk:"
-msgstr "Risc d'epidèmia"
+msgstr "Risc d'epidèmia:"
 
 #: client/gui-gtk-2.0/citydlg.c:701 client/gui-gtk-3.0/citydlg.c:754
 #: client/gui-gtk-3.22/citydlg.c:755 client/gui-qt/citydlg.h:81
-#, fuzzy
 #| msgid "Airlift"
 msgid "Airlift:"
-msgstr "Aerotransportar"
+msgstr "Aerotransport:"
 
 #. TRANS: Overview tab in city dialog
 #. TRANS: Overview tab of foreign intelligence report dialog
@@ -2808,7 +2802,7 @@ msgstr "Or"
 #: client/gui-gtk-2.0/citydlg.c:1160 client/gui-gtk-3.0/citydlg.c:1373
 #: client/gui-gtk-3.22/citydlg.c:1411
 msgid "Allow unit production to disband city"
-msgstr ""
+msgstr "Permetre que la producció d'una unitat desfaci la ciutat"
 
 #: client/gui-gtk-2.0/citydlg.c:1163 client/gui-gtk-3.0/citydlg.c:1376
 #: client/gui-gtk-3.22/citydlg.c:1414
@@ -2921,12 +2915,12 @@ msgstr "Polsa <b>Intro</b> o fes doble clic per vendre una millora."
 #: client/gui-gtk-2.0/citydlg.c:1796 client/gui-gtk-3.0/citydlg.c:2039
 #: client/gui-gtk-3.22/citydlg.c:2098
 msgid "Great Wonder - cannot be sold."
-msgstr ""
+msgstr "Gran Meravella - no es pot vendre."
 
 #: client/gui-gtk-2.0/citydlg.c:1797 client/gui-gtk-3.0/citydlg.c:2040
 #: client/gui-gtk-3.22/citydlg.c:2099
 msgid "Small Wonder - cannot be sold."
-msgstr ""
+msgstr "Meravella Normal - no es pot vendre."
 
 #: client/gui-gtk-2.0/citydlg.c:1948 client/gui-gtk-3.0/citydlg.c:2187
 #: client/gui-gtk-3.22/citydlg.c:2246 client/gui-qt/citydlg.cpp:3133
@@ -4145,9 +4139,8 @@ msgstr "Inundar Llacs amb Aigua Salada"
 
 #: client/gui-gtk-2.0/editprop.c:4488 client/gui-gtk-3.0/editprop.c:4564
 #: client/gui-gtk-3.22/editprop.c:4565
-#, fuzzy
 msgid "Lock to current Ruleset"
-msgstr "Sobre el Joc de Regles Actual"
+msgstr "Bloquejar al Joc de Regles actual"
 
 #: client/gui-gtk-2.0/editprop.c:4765 client/gui-gtk-3.0/editprop.c:4861
 #: client/gui-gtk-3.22/editprop.c:4861
@@ -6541,17 +6534,15 @@ msgstr "Joc de sons preferit"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:58 client/gui-gtk-3.0/soundset_dlg.c:63
 #: client/gui-gtk-3.22/soundset_dlg.c:63
-#, fuzzy
 #| msgid "Load soundset"
 msgid "_Load soundset"
-msgstr "Carregar joc de sons"
+msgstr "_Carregar joc de sons"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:60 client/gui-gtk-3.0/soundset_dlg.c:65
 #: client/gui-gtk-3.22/soundset_dlg.c:65
-#, fuzzy
 #| msgid "Keep current soundset"
 msgid "_Keep current soundset"
-msgstr "Mantenir el joc de sons actual"
+msgstr "_Mantenir el joc de sons actual"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:67 client/gui-gtk-3.0/soundset_dlg.c:73
 #: client/gui-gtk-3.22/soundset_dlg.c:73
@@ -6572,17 +6563,15 @@ msgstr "Joc de músiques preferit"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:111 client/gui-gtk-3.0/soundset_dlg.c:117
 #: client/gui-gtk-3.22/soundset_dlg.c:117
-#, fuzzy
 #| msgid "Load musicset"
 msgid "_Load musicset"
-msgstr "Carregar joc de músiques"
+msgstr "_Carregar joc de músiques"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:113 client/gui-gtk-3.0/soundset_dlg.c:119
 #: client/gui-gtk-3.22/soundset_dlg.c:119
-#, fuzzy
 #| msgid "Keep current musicset"
 msgid "_Keep current musicset"
-msgstr "Mantenir el joc de músiques actual"
+msgstr "_Mantenir el joc de músiques actual"
 
 #: client/gui-gtk-2.0/soundset_dlg.c:120 client/gui-gtk-3.0/soundset_dlg.c:126
 #: client/gui-gtk-3.22/soundset_dlg.c:126
@@ -6639,17 +6628,15 @@ msgstr "Joc de caselles preferit"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:61 client/gui-gtk-3.0/tileset_dlg.c:65
 #: client/gui-gtk-3.22/tileset_dlg.c:66
-#, fuzzy
 #| msgid "Load tileset"
 msgid "_Load tileset"
-msgstr "Carregar joc de caselles"
+msgstr "_Carregar joc de caselles"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:63 client/gui-gtk-3.0/tileset_dlg.c:67
 #: client/gui-gtk-3.22/tileset_dlg.c:68
-#, fuzzy
 #| msgid "Keep current tileset"
 msgid "_Keep current tileset"
-msgstr "Mantenir joc de caselles actual"
+msgstr "_Mantenir joc de caselles actual"
 
 #: client/gui-gtk-2.0/tileset_dlg.c:70 client/gui-gtk-3.0/tileset_dlg.c:75
 #: client/gui-gtk-3.22/tileset_dlg.c:76
@@ -6873,10 +6860,9 @@ msgstr "Canviar objectiu d'unitat"
 
 #: client/gui-gtk-3.0/citydlg.c:740 client/gui-gtk-3.22/citydlg.c:741
 #: client/gui-qt/citydlg.h:53
-#, fuzzy
 #| msgid "Size"
 msgid "Size:"
-msgstr "Mida"
+msgstr "Mida:"
 
 #: client/gui-gtk-3.0/citydlg.c:1098 client/gui-gtk-3.22/citydlg.c:1136
 msgid "Citymap"
@@ -6936,10 +6922,9 @@ msgstr "Netejar Radioactivitat"
 
 #. TRANS: Pillage dialog actor text.
 #: client/gui-gtk-3.0/dialogs.c:370 client/gui-gtk-3.22/dialogs.c:364
-#, fuzzy
 #| msgid "Looking for target unit:"
 msgid "Looking for target extra:"
-msgstr "Buscant unitat objectiu:"
+msgstr "Buscant extra objectiu:"
 
 #. TRANS: Pillage dialog do button text.
 #: client/gui-gtk-3.0/dialogs.c:374 client/gui-gtk-3.22/dialogs.c:368
@@ -6985,10 +6970,9 @@ msgid "Unit Selection Dialog"
 msgstr "Diàleg de Selecció d'Unitat"
 
 #: client/gui-gtk-3.0/menu.c:465 client/gui-gtk-3.22/menu.c:464
-#, fuzzy
 #| msgid "Go to and..."
 msgid "Go to a_nd..."
-msgstr "Anar a i ..."
+msgstr "Anar a _i ..."
 
 #: client/gui-gtk-3.0/pages.c:937 client/gui-gtk-3.22/pages.c:938
 msgid "New Pass_word:"
@@ -7023,14 +7007,14 @@ msgstr "Carregar"
 #: client/gui-gtk-3.22/unitselextradlg.c:59
 #, c-format
 msgid "?eowner:%s"
-msgstr ""
+msgstr "%s"
 
 #. TRANS: used below if the target tile has the target extra but it
 #. * doesn't have an owner.
 #: client/gui-gtk-3.0/unitselextradlg.c:64
 #: client/gui-gtk-3.22/unitselextradlg.c:64
 msgid "target"
-msgstr ""
+msgstr "objectiu"
 
 #. TRANS: used below if the target tile doesn't have the target
 #. * extra (so it is assumed that it will be created).
@@ -7062,10 +7046,9 @@ msgid "_Cancel"
 msgstr "_Cancel·lar"
 
 #: client/gui-gtk-3.22/chatline.c:1135 client/gui-gtk-3.22/optiondlg.c:329
-#, fuzzy
 #| msgid "Clear"
 msgid "C_lear"
-msgstr "Esborrar"
+msgstr "E_sborrar"
 
 #: client/gui-gtk-3.22/chatline.c:1136 client/gui-gtk-3.22/dialogs.c:867
 #: client/gui-gtk-3.22/editgui.c:1010 client/gui-gtk-3.22/gamedlgs.c:319
@@ -7073,10 +7056,9 @@ msgstr "Esborrar"
 #: client/gui-gtk-3.22/messagedlg.c:72 client/gui-gtk-3.22/optiondlg.c:330
 #: client/gui-gtk-3.22/optiondlg.c:365 client/gui-gtk-3.22/pages.c:2956
 #: client/gui-gtk-3.22/pages.c:3296
-#, fuzzy
 #| msgid "OK"
 msgid "_OK"
-msgstr "Bé"
+msgstr "_OK"
 
 #: client/gui-gtk-3.22/chatline.c:1343
 msgid "Bold"
@@ -7114,68 +7096,59 @@ msgstr "Bé"
 #: client/gui-gtk-3.22/repodlgs.c:1154 client/gui-gtk-3.22/repodlgs.c:1676
 #: client/gui-gtk-3.22/spaceshipdlg.c:230 client/gui-gtk-3.22/unitselect.c:281
 #: client/gui-gtk-3.22/wldlg.c:228 client/gui-gtk-3.22/wldlg.c:404
-#, fuzzy
 #| msgid "Close"
 msgid "_Close"
-msgstr "Tancar"
+msgstr "_Tancar"
 
 #: client/gui-gtk-3.22/cma_fe.c:306 client/gui-gtk-3.22/pages.c:582
 #: client/gui-gtk-3.22/wldlg.c:224
-#, fuzzy
 #| msgid "Delete"
 msgid "_Delete"
-msgstr "Esborrar"
+msgstr "_Esborrar"
 
 #: client/gui-gtk-3.22/editprop.c:4983 client/gui-gtk-3.22/optiondlg.c:362
-#, fuzzy
 #| msgid "Refresh"
 msgid "_Refresh"
-msgstr "Refrescar"
+msgstr "_Refrescar"
 
 #: client/gui-gtk-3.22/editprop.c:4993 client/gui-gtk-3.22/optiondlg.c:364
-#, fuzzy
 #| msgid "Apply"
 msgid "_Apply"
-msgstr "Aplicar"
+msgstr "_Aplicar"
 
 #: client/gui-gtk-3.22/finddlg.c:75
-#, fuzzy
 #| msgid "Find"
 msgid "_Find"
-msgstr "Cercar"
+msgstr "_Cercar"
 
 #: client/gui-gtk-3.22/gui_main.c:1732
 msgid "Migrating options from gtk3 to gtk3.22 client"
 msgstr "Migrant les opcions del client gtk3 al gtk3.22"
 
 #: client/gui-gtk-3.22/helpdlg.c:457
-#, fuzzy
 #| msgid "Back"
 msgid "_Back"
-msgstr "Enrere"
+msgstr "En_rere"
 
 #: client/gui-gtk-3.22/helpdlg.c:459
-#, fuzzy
 #| msgid "Forward"
 msgid "_Forward"
-msgstr "Endavant"
+msgstr "En_davant"
 
 #: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:455
-#, fuzzy
 #| msgid "Open"
 msgid "_Open"
-msgstr "Obrir"
+msgstr "_Obrir"
 
 #: client/gui-gtk-3.22/optiondlg.c:361 client/gui-gtk-3.22/pages.c:455
 #: client/gui-gtk-3.22/pages.c:584
-#, fuzzy
 #| msgid "Save"
 msgid "_Save"
-msgstr "Desar"
+msgstr "_Desar"
 
 #: client/gui-gtk-3.22/pages.c:340
 msgid "E_xit"
-msgstr ""
+msgstr "_Sortir"
 
 #: client/gui-gtk-3.22/pages.c:1225 client/gui-gtk-3.22/pages.c:1270
 #: client/gui-qt/pages.cpp:1242
@@ -7184,7 +7157,7 @@ msgstr "Jugadors"
 
 #: client/gui-gtk-3.22/wldlg.c:222
 msgid "_New"
-msgstr ""
+msgstr "_Nou"
 
 #: client/gui-qt/chatline.cpp:279
 msgid "Allies only"
@@ -7401,10 +7374,9 @@ msgid "Options"
 msgstr "Opcions"
 
 #: client/gui-qt/citydlg.cpp:2690
-#, fuzzy
 #| msgid "Go to and Join city"
 msgid "Allow disbanding city"
-msgstr "Anar a ciutat i Afegir-s'hi"
+msgstr "Permetre que es desfaci la ciutat"
 
 #: client/gui-qt/citydlg.cpp:2749
 msgid "Buy (%1 gold)"
@@ -7776,6 +7748,8 @@ msgstr ""
 #: client/gui-qt/gui_main.cpp:121
 msgid "-s, --shortcutreset\tReset shortcut keys to default values\n"
 msgstr ""
+"-s, --shortcutreset\tRetornar les tecles de drecera als valors"
+" predeterminats\n"
 
 #: client/gui-qt/gui_main.cpp:160
 msgid "Migrating Qt-client options from freeciv-2.5 options."
@@ -7791,6 +7765,8 @@ msgid ""
 "\n"
 "Built against Qt %s, using %s"
 msgstr ""
+"\n"
+"Muntat contra Qt %s, utilitzant %s"
 
 #: client/gui-qt/helpdlg.cpp:162
 msgid "About Qt"
@@ -7989,10 +7965,9 @@ msgstr "Població: %1"
 
 #. TRANS: current gold, then loss/gain per turn
 #: client/gui-qt/hudwidget.cpp:1687
-#, fuzzy
 #| msgid "Gold: %1 (+%2)"
 msgid "Gold: %1 (%2)"
-msgstr "Or: %1 (+%2)"
+msgstr "Or: %1 (%2)"
 
 #: client/gui-qt/luaconsole.cpp:78
 msgid "Lua scripts"
@@ -8017,16 +7992,14 @@ msgid "No city selected. Aborted"
 msgstr "Cap ciutat seleccionada. Avortem"
 
 #: client/gui-qt/mapctrl.cpp:278
-#, fuzzy
 #| msgid "This city isn't known!"
 msgid "This city doesn't exist!"
-msgstr "No es coneix aquesta ciutat!"
+msgstr "Aquesta ciutat no existeix!"
 
 #: client/gui-qt/mapctrl.cpp:286
-#, fuzzy
 #| msgid "There is no AI type %s."
 msgid "There is no tile here!"
-msgstr "No existeix el tipus d'IA %s."
+msgstr "Aquí no hi ha casella!"
 
 #: client/gui-qt/mapctrl.cpp:296
 #, c-format
@@ -8420,9 +8393,8 @@ msgid "Poison city"
 msgstr "Enverinar ciutat"
 
 #: client/gui-qt/menu.cpp:1535
-#, fuzzy
 msgid "Poison City Escape"
-msgstr "_Enverinar la Ciutat"
+msgstr "Enverinar Ciutat Escapar"
 
 #: client/gui-qt/menu.cpp:1543
 msgid "Civilization"
@@ -8512,13 +8484,12 @@ msgstr "Partides Desades"
 
 #: client/gui-qt/menu.cpp:3667
 msgid "Selection will cancel current assignments!"
-msgstr ""
+msgstr "La selecció cancel·larà les assignacions actuals!"
 
 #: client/gui-qt/menu.cpp:3668
-#, fuzzy
 #| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
-msgstr "Selecció d'unitat"
+msgstr "Confirmar Selecció Disruptiva"
 
 #: client/gui-qt/optiondlg.cpp:93
 msgid "... read more in help"
@@ -8832,9 +8803,8 @@ msgid "Go And Build City"
 msgstr "Anar a lloc i Fundar Ciutat"
 
 #: client/gui-qt/shortcuts.cpp:170
-#, fuzzy
 msgid "Go And Join City"
-msgstr "Anar a lloc i Fundar Ciutat"
+msgstr "Anar a ciutat i Afegir-s'hi"
 
 #: client/gui-qt/shortcuts.cpp:437
 msgid "NoButton"
@@ -8971,7 +8941,7 @@ msgstr "Llançar"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/gui-qt/themes.cpp:109
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "No Sdl-client theme was found. For instructions on how to get one, please "
 #| "visit %s"
@@ -8979,7 +8949,7 @@ msgid ""
 "No Qt-client theme was found. For instructions on how to get one, please "
 "visit %s"
 msgstr ""
-"No s'ha trobat cap tema per al client Sdl. Per instruccions sobre com "
+"No s'ha trobat cap tema per al client Qt. Per instruccions sobre com "
 "obtenir-ne, visiteu si us plau %s"
 
 #: client/gui-qt/voteinfo_bar.cpp:41
@@ -9050,6 +9020,8 @@ msgid ""
 "Allow unit production\n"
 "to disband city"
 msgstr ""
+"Permetre que la producció de la\n"
+"unitat desfaci la ciutat"
 
 #: client/gui-sdl2/citydlg.c:1169
 msgid "Sorry, you have already bought here in this turn."
@@ -9095,16 +9067,15 @@ msgid "Pollution: none"
 msgstr "Contaminació: gens"
 
 #: client/gui-sdl2/citydlg.c:1957
-#, fuzzy, c-format
+#, c-format
 #| msgid "Plague risk"
 msgid "Plague risk: %.1f%%"
-msgstr "Risc d'epidèmia"
+msgstr "Risc d'epidèmia: %.1f%%"
 
 #: client/gui-sdl2/citydlg.c:1960
-#, fuzzy
 #| msgid "Plague risk"
 msgid "Plague risk: none"
-msgstr "Risc d'epidèmia"
+msgstr "Risc d'epidèmia: cap"
 
 #: client/gui-sdl2/citydlg.c:1969
 msgid "Trade routes: "
@@ -9682,7 +9653,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "Informació d'Intel·ligència per l'Imperi %s"
 
 #: client/gui-sdl2/inteldlg.c:329
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Ruler: %s  Government: %s\n"
 #| "Capital: %s  Gold: %d\n"
@@ -9699,7 +9670,7 @@ msgstr ""
 "Dirigent: %s  Govern: %s\n"
 "Capital: %s  Or: %d\n"
 "Impostos: %d%% Ciència: %d%% Luxes: %d%%\n"
-"Investigant: %s(%d/%d)\n"
+"Investigant: %s\n"
 "Cultura: %d"
 
 #: client/gui-sdl2/inteldlg.c:345
@@ -9718,7 +9689,7 @@ msgstr ""
 "Cultura: %d"
 
 #: client/gui-sdl2/inteldlg.c:364
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "Ruler: %s  Government: %s\n"
 #| "Capital: %s  Gold: %d\n"
@@ -9734,9 +9705,9 @@ msgid ""
 msgstr ""
 "Dirigent: %s  Govern: %s\n"
 "Capital: %s  Or: %d\n"
-"Impostos: %d%% Ciència: %d%% Luxes: %d%%\n"
-"Investigant: desconegut\n"
-"Cultura: %d"
+"Taxes d'impostos desconegudes\n"
+"Investigant: (desconegut)\n"
+"Cultura: (desconegut)"
 
 #: client/gui-sdl2/inteldlg.c:433
 msgid "Their techs that we don't have :"
@@ -10063,10 +10034,10 @@ msgstr "Tallar a "
 #. TRANS: "Change to Grassland (I) 10 turns"
 #. TRANS: "Change to Swamp (M) 10 turns"
 #: client/gui-sdl2/menu.c:1167 client/gui-sdl2/menu.c:1206
-#, fuzzy, c-format
+#, c-format
 #| msgid "Change to %s (_I)"
 msgid "Change to %s (%s) %d %s"
-msgstr "Canviar a %s (_I)"
+msgstr "Canviar a %s (%s) %d %s"
 
 #: client/gui-sdl2/menu.c:1201
 msgid "Plant Forest"
@@ -10079,10 +10050,10 @@ msgstr "Transformar en"
 #. TRANS: "Clean Pollution (P) 3 turns"
 #. TRANS: "Clean Fallout (N) 3 turns"
 #: client/gui-sdl2/menu.c:1280 client/gui-sdl2/menu.c:1302
-#, fuzzy, c-format
+#, c-format
 #| msgid "Build %s (%s) %d %s"
 msgid "Clean %s (%s) %d %s"
-msgstr "Fer %s (%s) %d %s"
+msgstr "Netejar %s (%s) %d %s"
 
 #: client/gui-sdl2/optiondlg.c:318
 msgid "Local Options"
@@ -10381,11 +10352,11 @@ msgstr ""
 
 #. TRANS: length of worklist
 #: client/gui-sdl2/wldlg.c:1015 client/gui-sdl2/wldlg.c:1131
-#, fuzzy, c-format
+#, c-format
 #| msgid "( %d entries )"
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
-msgstr[0] "( %d elements )"
+msgstr[0] "( %d element )"
 msgstr[1] "( %d elements )"
 
 #: client/gui-sdl2/wldlg.c:1115
@@ -10544,7 +10515,7 @@ msgstr ""
 "Netejar radioactivitat    %3d"
 
 #: client/helpdata.c:447
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "\n"
 #| "Railroad           %3d"
@@ -10553,7 +10524,7 @@ msgid ""
 "Pillage            %3d"
 msgstr ""
 "\n"
-"Ferrocarril          %3d"
+"Saqueig          %3d"
 
 #: client/helpdata.c:474
 msgid "In this ruleset, the following veteran levels are defined:"
@@ -10574,52 +10545,52 @@ msgstr "Això és el %s, amb el client %s."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:597
-#, fuzzy, c-format
+#, c-format
 #| msgid "?gov:* Allows %s (with %s but no %s)."
 msgid "?gov:Allows %s (with %s but no %s)."
-msgstr "* Permet %s (amb %s però sense %s)."
+msgstr "Permet %s (amb %s però sense %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:599
-#, fuzzy, c-format
+#, c-format
 #| msgid "?gov:* Allows %s (with %s)."
 msgid "?gov:Allows %s (with %s)."
-msgstr "* Permet %s (amb %s)."
+msgstr "Permet %s (amb %s)."
 
 #. TRANS: First %s is a government name.
 #: client/helpdata.c:601
-#, fuzzy, c-format
+#, c-format
 #| msgid "?gov:* Allows %s (absent %s)."
 msgid "?gov:Allows %s (absent %s)."
-msgstr "* Permet %s (si no hi ha %s)."
+msgstr "Permet %s (si no hi ha %s)."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:603
-#, fuzzy, c-format
+#, c-format
 #| msgid "?gov:* Allows %s."
 msgid "?gov:Allows %s."
-msgstr "* Permet %s."
+msgstr "Permet %s."
 
 #. TRANS: %s is a government name.
 #: client/helpdata.c:605
-#, fuzzy, c-format
+#, c-format
 #| msgid "?gov:* Prevents %s."
 msgid "?gov:Prevents %s."
-msgstr "* Evita %s."
+msgstr "Evita %s."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:615
-#, fuzzy, c-format
+#, c-format
 #| msgid "?improvement:* Allows %s (with %s but no %s)."
 msgid "?improvement:Allows %s (with %s but no %s)."
-msgstr "* Permet %s (amb %s però sense %s)."
+msgstr "Permet %s (amb %s però sense %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:617
-#, fuzzy, c-format
+#, c-format
 #| msgid "?improvement:* Allows %s (with %s)."
 msgid "?improvement:Allows %s (with %s)."
-msgstr "* Permet %s (amb %s)."
+msgstr "Permet %s (amb %s)."
 
 #. TRANS: First %s is a building name.
 #: client/helpdata.c:619
