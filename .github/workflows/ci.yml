@@ -65,6 +65,7 @@ jobs:
             gettext \
             glib \
             gtk+3 \
+            gtk4 \
             icu4c \
             pango \
             sdl2_gfx \
