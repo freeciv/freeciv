@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-02-28 18:42+0200\n"
-"PO-Revision-Date: 2017-08-02 00:03-0800\n"
+"PO-Revision-Date: 2021-05-14 00:27+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #: data/nation/abkhaz.ruleset:3
 msgid "Abkhaz"
@@ -4438,7 +4438,6 @@ msgid "?plural:Cuyavians"
 msgstr "Cuiavians"
 
 #: data/nation/cuyavian.ruleset:6
-#, fuzzy
 #| msgid ""
 #| "Cuyavia is a historical region in Northern-Central Poland, bordered to "
 #| "the West by Masovia, on the East by Greater Poland and on the North by "
@@ -4448,7 +4447,7 @@ msgid ""
 "East by Masovia, on the West by Greater Poland and on the North by Pomerania."
 msgstr ""
 "Cuiàvia és una regió històrica del Centre-Nord de Polònia, que limita a "
-"l'oest amb Masòvia, a l'est amb la Gran Polònia, i al nord amb Pomerània."
+"l'est amb Masòvia, a l'oest amb la Gran Polònia, i al nord amb Pomerània."
 
 #: data/nation/cypriot.ruleset:3
 msgid "Cypriot"
@@ -6714,10 +6713,10 @@ msgid "Kibbutznik %s"
 msgstr "Kibbutznik %s"
 
 #: data/nation/israeli.ruleset:22
-#, fuzzy, c-format
+#, c-format
 #| msgid "?female:Kibbutznik %s"
 msgid "?female:Kibbutznikit %s"
-msgstr "Kibbutznik %s"
+msgstr "Kibbutznikit %s"
 
 #: data/nation/israeli.ruleset:24 data/nation/khazar.ruleset:35
 #, c-format
@@ -12006,7 +12005,6 @@ msgid "?plural:Suebians"
 msgstr "Sueus"
 
 #: data/nation/suebian.ruleset:6
-#, fuzzy
 #| msgid ""
 #| "The Suebians were an ancient West Germanic tribal confederation, which "
 #| "may have been formed by Ariovistus for his expedition to Gaul. The "
