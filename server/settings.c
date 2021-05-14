@@ -1695,8 +1695,9 @@ static struct setting settings[] = {
 #endif /* FREECIV_WEB */
           N_("Map generation random seed"),
           N_("The same seed will always produce the same map; "
-             "for zero (the default) a seed will be chosen based on "
-             "the time to give a random map."),
+             "for zero (the default) a seed will be generated randomly, "
+             "based on gameseed. If also gameseed is zero, "
+             "the map will be completely random."),
           NULL, NULL, NULL,
           MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED)
 
@@ -1714,7 +1715,7 @@ static struct setting settings[] = {
 #endif /* FREECIV_WEB */
           N_("Game random seed"),
           N_("For zero (the default) a seed will be chosen based "
-             "on the current time."),
+             "on system entropy or, failing that, the current time."),
           NULL, NULL, NULL,
           GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
