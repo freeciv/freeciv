@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-04-28 06:22+0300\n"
+"POT-Creation-Date: 2021-05-14 13:22+0300\n"
 "PO-Revision-Date: 2021-05-13 17:25+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -2224,7 +2224,7 @@ msgstr "(brak nazwy)"
 #: client/gui-qt/dialogs.cpp:2832 client/gui-qt/dialogs.cpp:2895
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2225
 #: client/gui-sdl2/action_dialog.c:2488 client/gui-sdl2/citydlg.c:1145
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1976
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1983
 #: server/unithand.c:1657 server/unithand.c:2321
 #, c-format
 msgid "Treasury contains %d gold."
@@ -14193,32 +14193,37 @@ msgstr "Napis określający funkcjonalność serwera: %s"
 msgid "Start of turn %d"
 msgstr "Początek %d tury"
 
-#: client/packhand.c:1456
+#: client/packhand.c:1402
+#, c-format
+msgid "Beginning turn %d"
+msgstr ""
+
+#: client/packhand.c:1459
 msgid "Welcome"
 msgstr "Witaj"
 
-#: client/packhand.c:2060 client/tilespec.c:1385
+#: client/packhand.c:2063 client/tilespec.c:1385
 #, c-format
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr "Topologia mapy (%s) i zestawu graficznego (%s) są niezgodne."
 
-#: client/packhand.c:2103
+#: client/packhand.c:2106
 msgid ""
 "This scenario may have manually set properties the editor cannot handle."
 msgstr ""
 "Ten scenariusz może mieć właściwości ustawione ręcznie, których nie da się "
 "zmienić z poziomu edytora."
 
-#: client/packhand.c:2106
+#: client/packhand.c:2109
 msgid "They won't be saved when scenario is saved from the editor."
 msgstr ""
 "Nie zostaną zapisane, kiedy scenariusz jest zapisany z poziomu edytora."
 
-#: client/packhand.c:2383
+#: client/packhand.c:2386
 msgid "AI mode is now ON."
 msgstr "Tryb AI jest teraz włączony."
 
-#: client/packhand.c:2389
+#: client/packhand.c:2392
 msgid "AI mode is now OFF."
 msgstr "Tryb AI jest teraz wyłączony."
 
@@ -19584,7 +19589,7 @@ msgid "Food/Shield/Gold:"
 msgstr "Żywność/Produkcja/Złoto:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1986
+#: common/unit.c:1993
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -19602,13 +19607,13 @@ msgstr[2] ""
 "Ulepszyć %s do %s za %d sztuk złota?\n"
 "%s"
 
-#: common/unit.c:1995
+#: common/unit.c:2002
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Niestety, nie można ulepszyć %s (jeszcze)."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2001
+#: common/unit.c:2008
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -19626,23 +19631,23 @@ msgstr[2] ""
 "Ulepszenie %s do %s kosztuje %d sztuk złota.\n"
 "%s"
 
-#: common/unit.c:2011
+#: common/unit.c:2018
 msgid "You can only upgrade units in your cities."
 msgstr "Możesz ulepszać jednostki jedynie we własnych miastach."
 
-#: common/unit.c:2015
+#: common/unit.c:2022
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Ulepszenie jednostki %s zniszczyłoby miejsce dla jednostek transportowanych."
 
-#: common/unit.c:2020
+#: common/unit.c:2027
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr "Ulepszenie jednostki %s dałoby %s, która nie może tu przebywać."
 
-#: common/unit.c:2027
+#: common/unit.c:2034
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "

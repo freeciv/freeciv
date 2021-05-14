@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-13 20:10+0200\n"
+"POT-Creation-Date: 2021-05-14 13:22+0300\n"
 "PO-Revision-Date: 2021-05-14 00:22+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
@@ -925,19 +925,16 @@ msgstr "(desconegut)"
 
 #: client/citydlg_common.c:897
 #, c-format
-#| msgid "?city_surplus:Trade route with %s"
 msgid "?city_surplus:Trading %s with %s"
 msgstr "Comerç de %s amb els %s"
 
 #: client/citydlg_common.c:902
 #, c-format
-#| msgid "?city_surplus:Trade route with %s"
 msgid "?city_surplus:Trading %s to %s"
 msgstr "Comerç de %s per als %s"
 
 #: client/citydlg_common.c:907
 #, c-format
-#| msgid "?city_surplus:Bonus from %s"
 msgid "?city_surplus:Trading %s from %s"
 msgstr "Comerç de %s dels %s"
 
@@ -1048,17 +1045,14 @@ msgid "?city_pollution:%+4.0f : %s"
 msgstr "%+4.0f : %s"
 
 #: client/citydlg_common.c:1106
-#| msgid "%+4d : Pollution from shields\n"
 msgid "?city_pollution:Pollution from shields"
 msgstr "Contaminació per producció"
 
 #: client/citydlg_common.c:1107
-#| msgid "%+4d : Pollution from citizens\n"
 msgid "?city_pollution:Pollution from citizens"
 msgstr "Contaminació per ciutadans"
 
 #: client/citydlg_common.c:1108
-#| msgid "%+4d : Pollution modifier\n"
 msgid "?city_pollution:Pollution modifier"
 msgstr "Modificador de contaminació"
 
@@ -1512,11 +1506,10 @@ msgstr "debug NIVELL"
 
 #: client/client_main.c:392 tools/civmanual.c:777 tools/mpcmdline.c:78
 #: server/civserver.c:371
-#| msgid "Set debug log level (%d to %d, or %d:file1,min,max:...)"
 msgid "Set debug log level (one of f,e,n,v,d, or d:file1,min,max:...)"
 msgstr ""
-"Fixar el nivell de registre de depuració (algun de f,e,n,v,d, o"
-" d:fitx1,mín,màx:...)"
+"Fixar el nivell de registre de depuració (algun de f,e,n,v,d, o d:fitx1,mín,"
+"màx:...)"
 
 #: client/client_main.c:398 tools/civmanual.c:783 tools/mpcmdline.c:84
 #: server/civserver.c:376
@@ -2674,7 +2667,6 @@ msgstr "Contaminació:"
 
 #: client/gui-gtk-2.0/citydlg.c:700 client/gui-gtk-3.0/citydlg.c:753
 #: client/gui-gtk-3.22/citydlg.c:754 client/gui-qt/citydlg.h:79
-#| msgid "Plague risk"
 msgid "Plague risk:"
 msgstr "Risc d'epidèmia:"
 
@@ -4247,7 +4239,6 @@ msgstr "Ciu_tats:"
 #. TRANS: current value of policy in force
 #: client/gui-gtk-2.0/gamedlgs.c:281 client/gui-gtk-3.0/gamedlgs.c:281
 #: client/gui-gtk-3.22/gamedlgs.c:281
-#| msgid "?multiplier:Cur"
 msgid "?multiplier:Now"
 msgstr "Ara"
 
@@ -6950,7 +6941,6 @@ msgid "Unit Selection Dialog"
 msgstr "Diàleg de Selecció d'Unitat"
 
 #: client/gui-gtk-3.0/menu.c:465 client/gui-gtk-3.22/menu.c:464
-#| msgid "Go to and..."
 msgid "Go to a_nd..."
 msgstr "Anar a _i ..."
 
@@ -7091,7 +7081,6 @@ msgid "_Apply"
 msgstr "_Aplicar"
 
 #: client/gui-gtk-3.22/finddlg.c:75
-#| msgid "Find"
 msgid "_Find"
 msgstr "_Cercar"
 
@@ -7104,12 +7093,10 @@ msgid "_Back"
 msgstr "En_rere"
 
 #: client/gui-gtk-3.22/helpdlg.c:459
-#| msgid "Forward"
 msgid "_Forward"
 msgstr "En_davant"
 
 #: client/gui-gtk-3.22/luaconsole.c:318 client/gui-gtk-3.22/pages.c:455
-#| msgid "Open"
 msgid "_Open"
 msgstr "_Obrir"
 
@@ -7719,8 +7706,8 @@ msgstr ""
 #: client/gui-qt/gui_main.cpp:121
 msgid "-s, --shortcutreset\tReset shortcut keys to default values\n"
 msgstr ""
-"-s, --shortcutreset\tRetornar les tecles de drecera als valors"
-" predeterminats\n"
+"-s, --shortcutreset\tRetornar les tecles de drecera als valors "
+"predeterminats\n"
 
 #: client/gui-qt/gui_main.cpp:160
 msgid "Migrating Qt-client options from freeciv-2.5 options."
@@ -7936,7 +7923,6 @@ msgstr "Població: %1"
 
 #. TRANS: current gold, then loss/gain per turn
 #: client/gui-qt/hudwidget.cpp:1687
-#| msgid "Gold: %1 (+%2)"
 msgid "Gold: %1 (%2)"
 msgstr "Or: %1 (%2)"
 
@@ -8456,7 +8442,6 @@ msgid "Selection will cancel current assignments!"
 msgstr "La selecció cancel·larà les assignacions actuals!"
 
 #: client/gui-qt/menu.cpp:3668
-#| msgid "Unit Selection"
 msgid "Confirm Disruptive Selection"
 msgstr "Confirmar Selecció Disruptiva"
 
@@ -9616,12 +9601,6 @@ msgstr "Informació d'Intel·ligència per l'Imperi %s"
 
 #: client/gui-sdl2/inteldlg.c:329
 #, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: %s(%d/%d)\n"
-#| "Culture: %d"
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -9652,12 +9631,6 @@ msgstr ""
 
 #: client/gui-sdl2/inteldlg.c:364
 #, c-format
-#| msgid ""
-#| "Ruler: %s  Government: %s\n"
-#| "Capital: %s  Gold: %d\n"
-#| "Tax: %d%% Science: %d%% Luxury: %d%%\n"
-#| "Researching: unknown\n"
-#| "Culture: %d"
 msgid ""
 "Ruler: %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -10313,7 +10286,6 @@ msgstr ""
 #. TRANS: length of worklist
 #: client/gui-sdl2/wldlg.c:1015 client/gui-sdl2/wldlg.c:1131
 #, c-format
-#| msgid "( %d entries )"
 msgid "( %d entry )"
 msgid_plural "( %d entries )"
 msgstr[0] "( %d element)"
@@ -11234,8 +11206,8 @@ msgid ""
 "* Will never be forced (by the autoattack server setting) to attack units "
 "moving to an adjacent tile.\n"
 msgstr ""
-"* No es forçarà mai (per la configuració de servidor sobre auto-atac) a"
-" atacar unitats que es moguin a una casella adjacent.\n"
+"* No es forçarà mai (per la configuració de servidor sobre auto-atac) a "
+"atacar unitats que es moguin a una casella adjacent.\n"
 
 #. TRANS: %s is the action's ruleset defined ui name
 #: client/helpdata.c:2430
@@ -11329,7 +11301,6 @@ msgstr[1] "* l'objectiu ha de ser entre %d i %d caselles de distància.\n"
 
 #. TRANS: ...performing this action ... Casus Belli
 #: client/helpdata.c:2562
-#| msgid "Success"
 msgid "successfully"
 msgstr "aconseguir"
 
@@ -11345,8 +11316,8 @@ msgid ""
 "  * %s performing this action during %s causes international outrage: the "
 "whole world gets Casus Belli against you.\n"
 msgstr ""
-"* %s dur a terme aquesta acció durant %s causa indignació internacional: tot"
-" el món passa a tenir Casus Belli en contra teu.\n"
+"* %s dur a terme aquesta acció durant %s causa indignació internacional: tot "
+"el món passa a tenir Casus Belli en contra teu.\n"
 
 #. TRANS: successfully ... Peace, or Alliance
 #: client/helpdata.c:2625
@@ -11355,8 +11326,8 @@ msgid ""
 "  * %s performing this action during %s gives the victim Casus Belli against "
 "you.\n"
 msgstr ""
-"* %s dur a terme aquesta acció durant %s dona a la víctima Casus Belli en"
-" contra teu.\n"
+"* %s dur a terme aquesta acció durant %s dona a la víctima Casus Belli en "
+"contra teu.\n"
 
 #. TRANS: the %d is the number of shields the unit can
 #. * contribute.
@@ -12407,7 +12378,6 @@ msgid "Hex"
 msgstr "Hex"
 
 #: client/mapview_common.c:4018 client/tilespec.h:49
-#| msgid "overhead"
 msgid "Overhead"
 msgstr "Vista superior"
 
@@ -12586,10 +12556,6 @@ msgid "Tileset (Square)"
 msgstr "Joc de caselles (Quadrat)"
 
 #: client/options.c:1925
-#| msgid ""
-#| "Select the tileset used with Square based maps. This may change currently "
-#| "active tileset, if you are playing on such a map, in which case this is "
-#| "the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Square based maps. This may change the "
 "currently active tileset, if you are playing on such a map, in which case "
@@ -12605,19 +12571,15 @@ msgid "Tileset (Hex)"
 msgstr "Joc de caselles (Hexa)"
 
 #: client/options.c:1933
-#| msgid ""
-#| "Select the tileset used with Iso-Hex maps. This may change the currently "
-#| "active tileset, if you are playing on such a map, in which case this is "
-#| "the same as using the -t command-line parameter."
 msgid ""
 "Select the tileset used with Hex maps. This may change the currently active "
 "tileset, if you are playing on such a map, in which case this is the same as "
 "using the -t command-line parameter."
 msgstr ""
-"Seleccionar el joc de caselles utilitzat amb mapes Hex. Això pot "
-"modificar el joc de caselles actiu actualment, si estàs jugant en aquest "
-"tipus de mapa; en aquest cas és el mateix que fer servir el paràmetre de "
-"línia de comandes -t."
+"Seleccionar el joc de caselles utilitzat amb mapes Hex. Això pot modificar "
+"el joc de caselles actiu actualment, si estàs jugant en aquest tipus de "
+"mapa; en aquest cas és el mateix que fer servir el paràmetre de línia de "
+"comandes -t."
 
 #: client/options.c:1940
 msgid "Tileset (Iso-Hex)"
@@ -14171,7 +14133,6 @@ msgstr "Benvingut"
 
 #: client/packhand.c:2063 client/tilespec.c:1385
 #, c-format
-#| msgid "Map topology and tileset incompatible."
 msgid "Map topology (%s) and tileset (%s) incompatible."
 msgstr ""
 "La topologia del mapa (%s) i el joc de caselles (%s) són incompatibles."
@@ -15435,8 +15396,8 @@ msgid ""
 "All action enablers for %s must require that the actor is at war with the "
 "target."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'actor estigui en"
-" guerra amb l'objectiu."
+"Tots els facilitadors d'acció per a %s han de requerir que l'actor estigui "
+"en guerra amb l'objectiu."
 
 #: common/actions.c:221
 #, c-format
@@ -15450,8 +15411,8 @@ msgid ""
 "All action enablers for %s must require that the actor doesn't have the "
 "NoHome utype flag."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'actor no tingui"
-" l'indicador utype NoHome."
+"Tots els facilitadors d'acció per a %s han de requerir que l'actor no tingui "
+"l'indicador utype NoHome."
 
 #: common/actions.c:242
 #, c-format
@@ -15459,8 +15420,8 @@ msgid ""
 "All action enablers for %s must require that the actor doesn't have the "
 "NonMil utype flag."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'actor no tingui"
-" l'indicador utype NonMil."
+"Tots els facilitadors d'acció per a %s han de requerir que l'actor no tingui "
+"l'indicador utype NonMil."
 
 #: common/actions.c:253
 #, c-format
@@ -15468,8 +15429,8 @@ msgid ""
 "All action enablers for %s must require that the actor has the CanOccupyCity "
 "uclass flag."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'actor tingui"
-" l'indicador uclass CanOccupyCity."
+"Tots els facilitadors d'acció per a %s han de requerir que l'actor tingui "
+"l'indicador uclass CanOccupyCity."
 
 #: common/actions.c:273
 #, c-format
@@ -15477,42 +15438,40 @@ msgid ""
 "All action enablers for %s must require that the actor has a movement point "
 "left."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que a l'actor li quedi"
-" un punt de moviment."
+"Tots els facilitadors d'acció per a %s han de requerir que a l'actor li "
+"quedi un punt de moviment."
 
 #: common/actions.c:296
 #, c-format
 msgid "All action enablers for %s must require that the target city is empty."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que la ciutat objectiu"
-" estigui buida."
+"Tots els facilitadors d'acció per a %s han de requerir que la ciutat "
+"objectiu estigui buida."
 
 #: common/actions.c:308
 #, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid ""
 "All action enablers for %s must require that the actor isn't transporting "
 "another unit."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'actor no estigui"
-" transportant una altra unitat."
+"Tots els facilitadors d'acció per a %s han de requerir que l'actor no "
+"estigui transportant una altra unitat."
 
 #: common/actions.c:319
 #, c-format
-#| msgid "You cannot paradrop a unit that is transporting other units."
 msgid ""
 "All action enablers for %s must require that the target isn't transporting "
 "another unit."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir que l'objectiu no"
-" estigui transportant una altra unitat."
+"Tots els facilitadors d'acció per a %s han de requerir que l'objectiu no "
+"estigui transportant una altra unitat."
 
 #: common/actions.c:339
 #, c-format
 msgid "All action enablers for %s must require a non animal player actor."
 msgstr ""
-"Tots els facilitadors d'acció per a %s han de requerir un actor jugador no"
-" animal."
+"Tots els facilitadors d'acció per a %s han de requerir un actor jugador no "
+"animal."
 
 #: common/actions.c:1010
 #, c-format
@@ -15607,9 +15566,8 @@ msgid ""
 "In enabler for \"%s\": No diplomatic relation to Nature. Requirements {%s} "
 "and {%s} contradict each other."
 msgstr ""
-"En facilitador per a \"%s\": No hi ha relació diplomàtica amb Natura. Els"
-" requeriments {%s} "
-"i {%s} es contradiuen entre si."
+"En facilitador per a \"%s\": No hi ha relació diplomàtica amb Natura. Els "
+"requeriments {%s} i {%s} es contradiuen entre si."
 
 #. TRANS: ruledit shows this when an enabler for a tile targeted
 #. * action requires that the actor has a diplomatic relationship to
@@ -15622,8 +15580,8 @@ msgid ""
 "Possible clarification: Requirement {%s} of action \"%s\" implies a claimed "
 "tile. No diplomatic relation to Nature."
 msgstr ""
-"Possible clarificació: el requeriment {%s} de l'acció \"%s\" implica una"
-" casella pretesa. No hi ha relació diplomàtica amb Natura."
+"Possible clarificació: el requeriment {%s} de l'acció \"%s\" implica una "
+"casella pretesa. No hi ha relació diplomàtica amb Natura."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2872
@@ -15633,13 +15591,11 @@ msgstr "El facilitador d'acció per a \"%s\" no l'utilitza mai cap unitat."
 
 #. TRANS: requirement vector in an action enabler (ruledit)
 #: common/actions.c:3092
-#| msgid "Factor"
 msgid "actor_reqs"
 msgstr "reqs_actor"
 
 #. TRANS: requirement vector in an action enabler (ruledit)
 #: common/actions.c:3095
-#| msgid "target"
 msgid "target_reqs"
 msgstr "reqs_objectiu"
 
@@ -16028,7 +15984,6 @@ msgstr "Massa mòduls IA. El màxim és %d."
 #. TRANS: this and following strings are 'base flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/base.h:45
-#| msgid "No progress"
 msgid "NoAggressive"
 msgstr "NoAggressiu"
 
@@ -16658,12 +16613,10 @@ msgid "Pass any following options to the UI."
 msgstr "Passar qualsevol opció que segueixi a la interfície d'usuari."
 
 #: common/fc_types.h:149
-#| msgid "Has Casus Belli"
 msgid "No Casus Belli"
 msgstr "Sense Casus Belli"
 
 #: common/fc_types.h:152
-#| msgid "Has Casus Belli"
 msgid "Victim Casus Belli"
 msgstr "Víctima de Casus Belli"
 
@@ -16720,7 +16673,6 @@ msgstr "passiu"
 #. * preserve leading space
 #: common/featured_text.c:1148
 #, c-format
-#| msgid "Your %s became more experienced and achieved the rank of %s."
 msgid " and achieved the rank of %s"
 msgstr "i han assolit el nivell de %s."
 
@@ -17341,9 +17293,8 @@ msgstr "No es pot fer si es coneix alguna tecnologia amb l'indicador \"%s\"."
 msgid ""
 "Requires that a player on your team knows a technology with the \"%s\" flag."
 msgstr ""
-"Requereix que algun jugador del teu equip conegui una tecnologia amb"
-" l'indicador "
-"\"%s\"."
+"Requereix que algun jugador del teu equip conegui una tecnologia amb "
+"l'indicador \"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:167
@@ -17352,9 +17303,8 @@ msgid ""
 "Prevented if any player on your team knows any technology with the \"%s\" "
 "flag."
 msgstr ""
-"S'evita si algun jugador del teu equip coneix alguna tecnologia amb"
-" l'indicador "
-"\"%s\"."
+"S'evita si algun jugador del teu equip coneix alguna tecnologia amb "
+"l'indicador \"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:177
@@ -17362,9 +17312,8 @@ msgstr ""
 msgid ""
 "Requires that a player allied to you knows a technology with the \"%s\" flag."
 msgstr ""
-"Requereix que algun jugador aliat amb tu conegui una tecnologia amb"
-" l'indicador "
-"\"%s\"."
+"Requereix que algun jugador aliat amb tu conegui una tecnologia amb "
+"l'indicador \"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:183
@@ -17373,9 +17322,8 @@ msgid ""
 "Prevented if any player allied to you knows any technology with the \"%s\" "
 "flag."
 msgstr ""
-"S'evita si algun jugador aliat amb tu coneix alguna tecnologia amb"
-" l'indicador "
-"\"%s\"."
+"S'evita si algun jugador aliat amb tu coneix alguna tecnologia amb "
+"l'indicador \"%s\"."
 
 #. TRANS: %s is a (translatable) tech flag.
 #: common/reqtext.c:193
@@ -17608,8 +17556,8 @@ msgid ""
 "Prevented if someone on your team has ever built %s, unless it would be "
 "obsolete."
 msgstr ""
-"S'evita si algú del teu equip ha construït %s en algun moment, si no fos que"
-" seria obsolet."
+"S'evita si algú del teu equip ha construït %s en algun moment, si no fos que "
+"seria obsolet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:517
@@ -17638,8 +17586,7 @@ msgstr "Requereix que algú del teu equip posseeixi %s."
 #, c-format
 msgid "Prevented if someone on your team owns %s, unless it is obsolete."
 msgstr ""
-"S'evita si algú del teu equip posseeix %s, a no ser que hagi quedat "
-"obsolet."
+"S'evita si algú del teu equip posseeix %s, a no ser que hagi quedat obsolet."
 
 #. TRANS: %s is a wonder
 #: common/reqtext.c:552
@@ -17737,9 +17684,8 @@ msgstr "S'evita si %s  és en una de les teves ciutats del mateix continent."
 #, c-format
 msgid "Requires %s in the city or a trade partner (and not yet obsolete)."
 msgstr ""
-"Requereix que hi hagi %s a la ciutat o en un soci comercial seu (i que encara"
-" no "
-"sigui obsolet)."
+"Requereix que hi hagi %s a la ciutat o en un soci comercial seu (i que "
+"encara no sigui obsolet)."
 
 #. TRANS: %s is a building or wonder
 #: common/reqtext.c:690
@@ -18103,8 +18049,8 @@ msgid ""
 "Requires that somebody on your team has the relationship '%s' with at least "
 "one other living player."
 msgstr ""
-"Requereix que algú del teu equip tingui la relació '%s' almenys amb un altre"
-" jugador viu."
+"Requereix que algú del teu equip tingui la relació '%s' almenys amb un altre "
+"jugador viu."
 
 #: common/reqtext.c:1210
 #, c-format
@@ -18112,8 +18058,8 @@ msgid ""
 "Requires that nobody on your team has the relationship '%s' with any living "
 "player."
 msgstr ""
-"Requereix que ningú del teu equip no tingui la relació '%s' amb cap altre"
-" jugador viu."
+"Requereix que ningú del teu equip no tingui la relació '%s' amb cap altre "
+"jugador viu."
 
 #: common/reqtext.c:1219
 #, c-format
@@ -18121,8 +18067,8 @@ msgid ""
 "Requires that somebody in your alliance has the relationship '%s' with at "
 "least one other living player."
 msgstr ""
-"Requereix que algú de la teva aliança tingui la relació '%s' almenys amb un"
-" altre jugador viu."
+"Requereix que algú de la teva aliança tingui la relació '%s' almenys amb un "
+"altre jugador viu."
 
 #: common/reqtext.c:1225
 #, c-format
@@ -18130,8 +18076,8 @@ msgid ""
 "Requires that nobody in your alliance has the relationship '%s' with any "
 "living player."
 msgstr ""
-"Requereix que ningú de la teva aliança no tingui la relació '%s' amb cap"
-" altre jugador viu."
+"Requereix que ningú de la teva aliança no tingui la relació '%s' amb cap "
+"altre jugador viu."
 
 #: common/reqtext.c:1234
 #, c-format
@@ -18142,8 +18088,8 @@ msgstr "Requereix que hi hagi la relació '%s' entre dos jugadors vius."
 #, c-format
 msgid "Requires that no two living players have the relationship '%s'."
 msgstr ""
-"Requereix que no hi hagi cap parell de jugadors vius que tinguin la relació '"
-"%s'."
+"Requereix que no hi hagi cap parell de jugadors vius que tinguin la relació "
+"'%s'."
 
 #: common/reqtext.c:1248
 #, c-format
@@ -18320,11 +18266,11 @@ msgid "Requires a minimum city size of %d for this city or a trade partner."
 msgid_plural ""
 "Requires a minimum city size of %d for this city or a trade partner."
 msgstr[0] ""
-"Requereix una mida de ciutat mínima de %d per a aquesta ciutat o un soci"
-" comercial."
+"Requereix una mida de ciutat mínima de %d per a aquesta ciutat o un soci "
+"comercial."
 msgstr[1] ""
-"Requereix una mida de ciutat mínima de %d per a aquesta ciutat o un soci"
-" comercial."
+"Requereix una mida de ciutat mínima de %d per a aquesta ciutat o un soci "
+"comercial."
 
 #: common/reqtext.c:1632
 #, c-format
@@ -18335,11 +18281,11 @@ msgid_plural ""
 "Requires the city size to be less than %d for this city and all trade "
 "partners."
 msgstr[0] ""
-"Requereix que la mida de ciutat sigui de menys de %d per a aquesta ciutat i"
-" tots els socis comercials."
+"Requereix que la mida de ciutat sigui de menys de %d per a aquesta ciutat i "
+"tots els socis comercials."
 msgstr[1] ""
-"Requereix que la mida de ciutat sigui de menys de %d per a aquesta ciutat i"
-" tots els socis comercials."
+"Requereix que la mida de ciutat sigui de menys de %d per a aquesta ciutat i "
+"tots els socis comercials."
 
 #: common/reqtext.c:1644
 #, c-format
@@ -18386,11 +18332,11 @@ msgid ""
 msgid_plural ""
 "Requires the culture in this city and all trade partners to be less than %d."
 msgstr[0] ""
-"Requereix que la cultura de la ciutat i de tots els socis comercials sigui de"
-" menys de %d."
+"Requereix que la cultura de la ciutat i de tots els socis comercials sigui "
+"de menys de %d."
 msgstr[1] ""
-"Requereix que la cultura de la ciutat i de tots els socis comercials sigui de"
-" menys de %d."
+"Requereix que la cultura de la ciutat i de tots els socis comercials sigui "
+"de menys de %d."
 
 #: common/reqtext.c:1714
 #, c-format
@@ -18427,11 +18373,11 @@ msgid ""
 msgid_plural ""
 "Requires someone in your current alliance to have culture of at least %d."
 msgstr[0] ""
-"Requereix que algú de la teva aliança actual tingui una cultura de com a"
-" mínim %d."
+"Requereix que algú de la teva aliança actual tingui una cultura de com a "
+"mínim %d."
 msgstr[1] ""
-"Requereix que algú de la teva aliança actual tingui una cultura de com a"
-" mínim %d."
+"Requereix que algú de la teva aliança actual tingui una cultura de com a "
+"mínim %d."
 
 #: common/reqtext.c:1762
 #, c-format
@@ -18479,11 +18425,11 @@ msgid_plural ""
 "The tile or at least one cardinally adjacent tile must have %d units or "
 "fewer."
 msgstr[0] ""
-"La casella o almenys una casella adjacent en el sentit dels punts cardinals"
-" ha de tenir %d unitat o menys."
+"La casella o almenys una casella adjacent en el sentit dels punts cardinals "
+"ha de tenir %d unitat o menys."
 msgstr[1] ""
-"La casella o almenys una casella adjacent en el sentit dels punts cardinals"
-" ha de tenir %d unitats o menys."
+"La casella o almenys una casella adjacent en el sentit dels punts cardinals "
+"ha de tenir %d unitats o menys."
 
 #: common/reqtext.c:1831
 #, c-format
@@ -18506,8 +18452,7 @@ msgid_plural ""
 msgstr[0] ""
 "La casella o almenys alguna casella adjacent ha de tenir %d unitat o menys."
 msgstr[1] ""
-"La casella o almenys alguna casella adjacent ha de tenir %d unitats o "
-"menys."
+"La casella o almenys alguna casella adjacent ha de tenir %d unitats o menys."
 
 #: common/reqtext.c:1851
 #, c-format
@@ -18582,8 +18527,7 @@ msgstr ""
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius."
 msgstr ""
-"Requereix terreny de classe %s en alguna casella dins del radi de la "
-"ciutat."
+"Requereix terreny de classe %s en alguna casella dins del radi de la ciutat."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1956
@@ -18601,8 +18545,8 @@ msgid ""
 "?terrainclass:Requires %s terrain on a tile within the city radius or the "
 "city radius of a trade partner."
 msgstr ""
-"Requereix terreny de classe %s en alguna casella dins del radi de la "
-"ciutat o dins del radi de la ciutat d'algun soci comercial."
+"Requereix terreny de classe %s en alguna casella dins del radi de la ciutat "
+"o dins del radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a terrain class
 #: common/reqtext.c:1975
@@ -18611,8 +18555,8 @@ msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius or "
 "the city radius of a trade partner."
 msgstr ""
-"S'evita si hi ha terreny de classe %s en alguna casella dins del radi "
-"de la ciutat o dins del radi de la ciutat d'algun soci comercial."
+"S'evita si hi ha terreny de classe %s en alguna casella dins del radi de la "
+"ciutat o dins del radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2000
@@ -18633,9 +18577,8 @@ msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
 msgstr ""
-"Requereix terreny amb l'indicador \"%s\" a la casella o en una d'adjacent en"
-" el "
-"sentit dels punts cardinals."
+"Requereix terreny amb l'indicador \"%s\" a la casella o en una d'adjacent en "
+"el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2021
@@ -18660,18 +18603,16 @@ msgstr ""
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile."
 msgstr ""
-"No es pot fer si hi ha terreny amb l'indicador \"%s\" a la casella o en"
-" alguna "
-"d'adjacent."
+"No es pot fer si hi ha terreny amb l'indicador \"%s\" a la casella o en "
+"alguna d'adjacent."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2047
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on a tile within the city radius."
 msgstr ""
-"Requereix terreny amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la "
-"ciutat."
+"Requereix terreny amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2053
@@ -18679,9 +18620,8 @@ msgstr ""
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius."
 msgstr ""
-"No es pot fer si hi ha terreny amb l'indicador \"%s\" en alguna casella dins"
-" del "
-"radi de la ciutat."
+"No es pot fer si hi ha terreny amb l'indicador \"%s\" en alguna casella dins "
+"del radi de la ciutat."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2063
@@ -18690,9 +18630,8 @@ msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius or "
 "the city radius of a trade partner."
 msgstr ""
-"Requereix terreny amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la "
-"ciutat o el radi de la ciutat d'un soci comercial."
+"Requereix terreny amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat o el radi de la ciutat d'un soci comercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
 #: common/reqtext.c:2070
@@ -18723,9 +18662,8 @@ msgid ""
 "Requires a base with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
 msgstr ""
-"Requereix una base amb l'indicador \"%s\" a la casella o en alguna d'adjacent"
-" en el sentit dels "
-"punts cardinals."
+"Requereix una base amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2115
@@ -18734,16 +18672,16 @@ msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
 msgstr ""
-"S'evita si hi ha una base amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent en el sentit dels "
-"punts cardinals."
+"S'evita si hi ha una base amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2125
 #, c-format
 msgid "Requires a base with the \"%s\" flag on the tile or an adjacent tile."
 msgstr ""
-"Requereix una base amb l'indicador \"%s\" a la casella o en alguna d'adjacent."
+"Requereix una base amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2131
@@ -18751,16 +18689,16 @@ msgstr ""
 msgid ""
 "Prevented by a base with the \"%s\" flag on the tile or any adjacent tile."
 msgstr ""
-"S'evita si hi ha una base amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent."
+"S'evita si hi ha una base amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2141
 #, c-format
 msgid "Requires a base with the \"%s\" flag on a tile within the city radius."
 msgstr ""
-"Requereix una base amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat."
+"Requereix una base amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2147
@@ -18768,8 +18706,8 @@ msgstr ""
 msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city radius."
 msgstr ""
-"S'evita si hi ha una base amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat."
+"S'evita si hi ha una base amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2157
@@ -18778,8 +18716,8 @@ msgid ""
 "Requires a base with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner."
 msgstr ""
-"Requereix una base amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat o el radi de la ciutat d'algun soci comercial."
+"Requereix una base amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) base flag.
 #: common/reqtext.c:2164
@@ -18788,8 +18726,8 @@ msgid ""
 "Prevented by a base with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
 msgstr ""
-"S'evita si hi ha una base amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat o el radi de la ciutat d'algun soci comercial."
+"S'evita si hi ha una base amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2188
@@ -18810,9 +18748,8 @@ msgid ""
 "Requires a road with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
 msgstr ""
-"Requereix un camí amb l'indicador \"%s\" a la casella o en alguna d'adjacent"
-" en el sentit dels "
-"punts cardinals."
+"Requereix un camí amb l'indicador \"%s\" a la casella o en alguna d'adjacent "
+"en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2209
@@ -18821,9 +18758,8 @@ msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
 msgstr ""
-"S'evita si hi ha un camí amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent en el sentit dels "
-"punts cardinals."
+"S'evita si hi ha un camí amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2219
@@ -18838,16 +18774,16 @@ msgstr ""
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any adjacent tile."
 msgstr ""
-"S'evita si hi ha un camí amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent."
+"S'evita si hi ha un camí amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2235
 #, c-format
 msgid "Requires a road with the \"%s\" flag on a tile within the city radius."
 msgstr ""
-"Requereix un camí amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat."
+"Requereix un camí amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2241
@@ -18855,8 +18791,8 @@ msgstr ""
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius."
 msgstr ""
-"S'evita si hi ha un camí amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat."
+"S'evita si hi ha un camí amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2251
@@ -18865,8 +18801,8 @@ msgid ""
 "Requires a road with the \"%s\" flag on a tile within the city radius or the "
 "city radius of a trade partner."
 msgstr ""
-"Requereix un camí amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat o el radi de la ciutat d'algun soci comercial."
+"Requereix un camí amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) road flag.
 #: common/reqtext.c:2258
@@ -18875,8 +18811,8 @@ msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius "
 "or the city radius of a trade partner."
 msgstr ""
-"S'evita si hi ha un camí amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat o el radi de la ciutat d'algun soci comercial."
+"S'evita si hi ha un camí amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2282
@@ -18897,9 +18833,8 @@ msgid ""
 "Requires an extra with the \"%s\" flag on the tile or a cardinally adjacent "
 "tile."
 msgstr ""
-"Requereix un extra amb l'indicador \"%s\" a la casella o en alguna d'adjacent"
-" en el sentit dels "
-"punts cardinals."
+"Requereix un extra amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2303
@@ -18908,16 +18843,16 @@ msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any cardinally "
 "adjacent tile."
 msgstr ""
-"S'evita si hi ha un extra amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent en el sentit dels "
-"punts cardinals."
+"S'evita si hi ha un extra amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent en el sentit dels punts cardinals."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2313
 #, c-format
 msgid "Requires an extra with the \"%s\" flag on the tile or an adjacent tile."
 msgstr ""
-"Requereix un extra amb l'indicador \"%s\" a la casella o en alguna d'adjacent."
+"Requereix un extra amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2319
@@ -18925,8 +18860,8 @@ msgstr ""
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any adjacent tile."
 msgstr ""
-"S'evita si hi ha un extra amb l'indicador \"%s\" a la casella o en alguna"
-" d'adjacent."
+"S'evita si hi ha un extra amb l'indicador \"%s\" a la casella o en alguna "
+"d'adjacent."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2329
@@ -18934,8 +18869,8 @@ msgstr ""
 msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius."
 msgstr ""
-"Requereix un extra amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat."
+"Requereix un extra amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2335
@@ -18944,8 +18879,8 @@ msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
 "radius."
 msgstr ""
-"S'evita si hi ha un extra amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat."
+"S'evita si hi ha un extra amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2345
@@ -18954,8 +18889,8 @@ msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius or "
 "the city radius of a trade partner."
 msgstr ""
-"Requereix un extra amb l'indicador \"%s\" en alguna casella dins del radi de"
-" la ciutat o el radi de la ciutat d'algun soci comercial."
+"Requereix un extra amb l'indicador \"%s\" en alguna casella dins del radi de "
+"la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #. TRANS: %s is a (translatable) extra flag.
 #: common/reqtext.c:2352
@@ -18964,8 +18899,8 @@ msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
 "radius or the city radius of a trade partner."
 msgstr ""
-"S'evita si hi ha un extra amb l'indicador \"%s\" en alguna casella dins del"
-" radi de la ciutat o el radi de la ciutat d'algun soci comercial."
+"S'evita si hi ha un extra amb l'indicador \"%s\" en alguna casella dins del "
+"radi de la ciutat o el radi de la ciutat d'algun soci comercial."
 
 #: common/reqtext.c:2376
 #, c-format
@@ -19053,12 +18988,10 @@ msgid "Prevented by terrain on which alteration %s can be made."
 msgstr "S'evita si hi ha terreny on es pot fer l'alteració %s."
 
 #: common/reqtext.c:2531
-#| msgid "City center"
 msgid "city centers"
 msgstr "centres de la ciutat"
 
 #: common/reqtext.c:2534
-#| msgid "Reload tileset"
 msgid "claimed tiles"
 msgstr "caselles preteses"
 
@@ -19079,16 +19012,16 @@ msgstr "No s'aplica a %s."
 #, c-format
 msgid "?tileprop:Applies only to %s and cardinally adjacent tiles."
 msgstr ""
-"S'aplica només als %s i a les caselles adjacents en el "
-"sentit dels punts cardinals."
+"S'aplica només als %s i a les caselles adjacents en el sentit dels punts "
+"cardinals."
 
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2563
 #, c-format
 msgid "?tileprop:Does not apply to %s or cardinally adjacent tiles."
 msgstr ""
-"No s'aplica als %s ni a les caselles adjacents en el "
-"sentit dels punts cardinals."
+"No s'aplica als %s ni a les caselles adjacents en el sentit dels punts "
+"cardinals."
 
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2572
@@ -19280,7 +19213,6 @@ msgstr "Casella reclamada"
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
 #: common/requirements.c:3804
-#| msgid "Requirement Tree"
 msgid "the requirement vector"
 msgstr "el vector de requeriments"
 
@@ -19292,7 +19224,6 @@ msgstr "el vector de requeriments"
 #. * like "actor_reqs"
 #: common/requirements.c:3818
 #, c-format
-#| msgid "%s from %s"
 msgid "%s %s from %s"
 msgstr "%s %s de %s"
 
@@ -19304,7 +19235,6 @@ msgstr "%s %s de %s"
 #. * like "actor_reqs"
 #: common/requirements.c:3831
 #, c-format
-#| msgid "%s %s (%s)"
 msgid "%s %s to %s"
 msgstr "%s %s a %s"
 
@@ -19313,7 +19243,6 @@ msgstr "%s %s a %s"
 #. * like "actor_reqs"
 #: common/requirements.c:3841
 #, c-format
-#| msgid "Do nothing"
 msgid "Do nothing to %s"
 msgstr "No fer res a %s"
 
@@ -19327,14 +19256,12 @@ msgid "Remove"
 msgstr "Eliminar"
 
 #: common/requirements.h:201
-#| msgid "Append focus"
 msgid "Append"
 msgstr "Afegir"
 
 #. TRANS: this and following strings are 'road flags', which may rarely
 #. * be presented to the player in ruleset help text
 #: common/road.h:25
-#| msgid "Requires"
 msgid "RequiresBridge"
 msgstr "RequereixPont"
 
@@ -19354,7 +19281,6 @@ msgid "UnrestrictedInfra"
 msgstr "UnrestrictedInfra"
 
 #: common/road.h:33
-#| msgid "From:"
 msgid "JumpFrom"
 msgstr "SaltarDes"
 
@@ -19896,7 +19822,6 @@ msgstr "Caçador"
 
 #: common/version.c:41
 #, c-format
-#| msgid "Freeciv version %s (%s)"
 msgid "Freeciv version %s %s (%s)"
 msgstr "Freeciv versió %s %s (%s)"
 
@@ -24169,17 +24094,14 @@ msgstr ""
 "Líder Bàrbar"
 
 #: data/civ1/units.ruleset:1380
-#| msgid ""
-#| "When a Barbarian Leader is killed on a tile without any defending units, "
-#| "the 100 gold ransom is paid, but only to land units and helicopters."
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units. Usually the ransom is 100 gold, but "
 "can be less if the barbarian has less money."
 msgstr ""
 "Quan el líder bàrbar es mata en una casella sense unitats defensives, es "
-"paga el rescat, però només a les unitats terrestres. Normalment el rescat és"
-" de 100 peces d'or, però en pot ser menys si el bàrbar té menys diners."
+"paga el rescat, però només a les unitats terrestres. Normalment el rescat és "
+"de 100 peces d'or, però en pot ser menys si el bàrbar té menys diners."
 
 #: data/civ2/buildings.ruleset:81 data/classic/buildings.ruleset:81
 #: data/sandbox/buildings.ruleset:81 data/experimental/buildings.ruleset:83
@@ -24846,8 +24768,8 @@ msgid ""
 "default) Freeciv rules, but with some additions."
 msgstr ""
 "Estàs jugant amb regles a l'estil de civ2. Aquestes s'assemblen força a les "
-"regles clàssiques (les antigues predeterminades) de Freeciv, però amb alguns"
-" afegitons."
+"regles clàssiques (les antigues predeterminades) de Freeciv, però amb alguns "
+"afegitons."
 
 #. TRANS: Plant _Nuclear Device (3% chance of success).
 #: data/civ2/game.ruleset:264
@@ -25587,19 +25509,14 @@ msgstr "Les unitats poden llançar-se en paracaigudes des d'aquesta casella."
 #: data/civ2/terrain.ruleset:1244 data/classic/terrain.ruleset:1539
 #: data/sandbox/terrain.ruleset:1780 data/experimental/terrain.ruleset:1517
 #: data/civ2civ3/terrain.ruleset:1701 data/multiplayer/terrain.ruleset:1511
-#| msgid ""
-#| "A railroad also increases any shield resources produced by a tile. A tile "
-#| "whose road is upgraded to a railroad retains any trade bonus from the "
-#| "road as well."
 msgid ""
 "A railroad also increases any shield resources produced by a tile by half. A "
 "tile whose road is upgraded to a railroad retains any trade bonus from the "
 "road as well."
 msgstr ""
-"Un ferrocarril també fa augmentar en la meitat els recursos d'escuts produïts"
-" per una "
-"casella. Una casella on el camí es transformi en ferrocarril també manté "
-"qualsevol bonificació en comerç que tingués el camí."
+"Un ferrocarril també fa augmentar en la meitat els recursos d'escuts "
+"produïts per una casella. Una casella on el camí es transformi en "
+"ferrocarril també manté qualsevol bonificació en comerç que tingués el camí."
 
 #: data/civ2/terrain.ruleset:1248 data/classic/terrain.ruleset:1543
 #: data/sandbox/terrain.ruleset:1784 data/experimental/terrain.ruleset:1521
@@ -25767,7 +25684,6 @@ msgstr "Marines"
 #: data/civ2/units.ruleset:37 data/civ2/units.ruleset:38
 #: data/classic/units.ruleset:43 data/experimental/units.ruleset:46
 #: data/multiplayer/units.ruleset:42
-#| msgid "Best attacking units"
 msgid "Bad at attacking Fighters"
 msgstr "No va bé per atacar Caces"
 
@@ -25779,7 +25695,6 @@ msgid "Stealth Bomber"
 msgstr "Bombarder Invisible"
 
 #: data/civ2/units.ruleset:39
-#| msgid "Fighter"
 msgid "EarlyFighter"
 msgstr "CaçaAntic"
 
@@ -26327,18 +26242,15 @@ msgstr ""
 #: data/civ2/units.ruleset:2224 data/classic/units.ruleset:2341
 #: data/sandbox/units.ruleset:2632 data/experimental/units.ruleset:2373
 #: data/civ2civ3/units.ruleset:2568 data/multiplayer/units.ruleset:2427
-#| msgid ""
-#| "When a Barbarian Leader is killed on a tile without any defending units, "
-#| "the 100 gold ransom is paid, but only to land units and helicopters."
 msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "ransom is paid, but only to land units and helicopters. Usually the ransom "
 "is 100 gold, but can be less if the barbarian has less money."
 msgstr ""
 "Quan el líder bàrbar es mata en una casella sense unitats defensives, es "
-"paga un rescat, però només a les unitats terrestres i "
-"helicòpters. Normalment el rescat és de 100 peces d'or, però pot ser menys si"
-" el bàrbar té menys diners."
+"paga un rescat, però només a les unitats terrestres i helicòpters. "
+"Normalment el rescat és de 100 peces d'or, però pot ser menys si el bàrbar "
+"té menys diners."
 
 #: data/default/default.lua:22 server/unittools.c:2936
 #, c-format
@@ -26795,9 +26707,9 @@ msgid ""
 "\n"
 "This was the default ruleset until Freeciv 2.6."
 msgstr ""
-"Esteu jugant amb el joc de regles clàssic de Freeciv per a partides amb un"
-" sol jugador. Observeu que a més del joc de regles, les opcions del servidor"
-" també afecten les regles del joc.\n"
+"Esteu jugant amb el joc de regles clàssic de Freeciv per a partides amb un "
+"sol jugador. Observeu que a més del joc de regles, les opcions del servidor "
+"també afecten les regles del joc.\n"
 "\n"
 "Aquest va ser el joc de regles predeterminat fins a Freeciv 2.6."
 
@@ -27538,20 +27450,19 @@ msgid ""
 "the unit's movement points. A unit must have some movement points left to be "
 "airlifted, and cannot carry cargo."
 msgstr ""
-"Una ciutat amb Aeroport pot aerotransportar una unitat addicional per torn."
-" Això "
-"transporta de forma instantània la unitat des d'una ciutat cap a una altra, "
-"i gastarà tots els punts de moviment de la unitat. A una unitat li ha de "
-"quedar algun punt de moviment per poder-se aerotransportar, i no pot portar"
-" càrrega."
+"Una ciutat amb Aeroport pot aerotransportar una unitat addicional per torn. "
+"Això transporta de forma instantània la unitat des d'una ciutat cap a una "
+"altra, i gastarà tots els punts de moviment de la unitat. A una unitat li ha "
+"de quedar algun punt de moviment per poder-se aerotransportar, i no pot "
+"portar càrrega."
 
 #: data/sandbox/buildings.ruleset:92
 msgid ""
 "Two cities with Airports can airlift medium and heavy weight units once "
 "Advanced Flight and Fusion Power are discovered."
 msgstr ""
-"Dues ciutats amb Aeroports poden aerotransportar unitats de pes mitjà i pesat"
-" quan es descobreixen Vol Avançat i Energia de Fusió."
+"Dues ciutats amb Aeroports poden aerotransportar unitats de pes mitjà i "
+"pesat quan es descobreixen Vol Avançat i Energia de Fusió."
 
 #: data/sandbox/buildings.ruleset:116 data/sandbox/buildings.ruleset:152
 #: data/sandbox/buildings.ruleset:189 data/civ2civ3/buildings.ruleset:113

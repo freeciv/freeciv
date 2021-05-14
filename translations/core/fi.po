@@ -29,7 +29,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-07 05:51+0300\n"
+"POT-Creation-Date: 2021-05-14 13:22+0300\n"
 "PO-Revision-Date: 2021-05-07 05:52+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
@@ -2225,7 +2225,7 @@ msgstr "(nimetön)"
 #: client/gui-qt/dialogs.cpp:2832 client/gui-qt/dialogs.cpp:2895
 #: client/gui-qt/repodlgs.cpp:214 client/gui-sdl2/action_dialog.c:2225
 #: client/gui-sdl2/action_dialog.c:2488 client/gui-sdl2/citydlg.c:1145
-#: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1981
+#: client/gui-sdl2/repodlgs.c:211 client/text.c:1289 common/unit.c:1983
 #: server/unithand.c:1657 server/unithand.c:2321
 #, c-format
 msgid "Treasury contains %d gold."
@@ -19437,7 +19437,7 @@ msgid "Food/Shield/Gold:"
 msgstr "Ruoka/Tuotanto/Kulta:"
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:1991
+#: common/unit.c:1993
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -19452,13 +19452,13 @@ msgstr[1] ""
 "Ajanmukaista %s yksiköksi %s, kustannus on %d kultaa?\n"
 "%s"
 
-#: common/unit.c:2000
+#: common/unit.c:2002
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Valitan: yksikköä %s ei voi (vielä) ajanmukaistaa."
 
 #. TRANS: Last %s is pre-pluralised "Treasury contains %d gold."
-#: common/unit.c:2006
+#: common/unit.c:2008
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -19473,24 +19473,24 @@ msgstr[1] ""
 "Yksikön %s ajanmukaistaminen yksiköksi %s maksaa %d kultaa.\n"
 "%s"
 
-#: common/unit.c:2016
+#: common/unit.c:2018
 msgid "You can only upgrade units in your cities."
 msgstr "Voit ajanmukaistaa yksiköitä vain omissa kaupungeissasi."
 
-#: common/unit.c:2020
+#: common/unit.c:2022
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 "Jos ajanmukaistaisit yksikön %s, sen kuljettamat yksiköt jäisivät rannalle."
 
-#: common/unit.c:2025
+#: common/unit.c:2027
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which can not survive at this place."
 msgstr ""
 "Ajanmukaistettu yksikkö %1$.0s%2$s ei tulisi toimeen tällaisessa maastossa."
 
-#: common/unit.c:2032
+#: common/unit.c:2034
 #, c-format
 msgid ""
 "Upgrading this %s would result in a %s which its current transport, %s, "

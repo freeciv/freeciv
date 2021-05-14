@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv (ruledit) S3_0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-04-28 03:32+0300\n"
+"POT-Creation-Date: 2021-05-14 13:23+0300\n"
 "PO-Revision-Date: 2021-05-13 17:27+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
@@ -16,7 +16,7 @@ msgstr ""
 "X-Generator: Poedit 2.3\n"
 
 #: tools/ruledit/conversion_log.cpp:41 tools/ruledit/req_vec_fix.cpp:190
-#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:135
+#: tools/ruledit/requirers_dlg.cpp:43 tools/ruledit/req_edit.cpp:137
 msgid "Close"
 msgstr "Zamknij"
 
@@ -523,36 +523,36 @@ msgstr "Usuń tą jednostkę"
 msgid "A unit type with that rule name already exists!"
 msgstr "Typ jednostki o tej nazwie reguły już istnieje!"
 
-#: tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/req_edit.cpp:68
 msgid "Type:"
 msgstr "Typ:"
 
-#: tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/req_edit.cpp:86
 msgid "Value:"
 msgstr "Wartość:"
 
-#: tools/ruledit/req_edit.cpp:102
+#: tools/ruledit/req_edit.cpp:104
 msgid "Range:"
 msgstr "Zasięg:"
 
-#: tools/ruledit/req_edit.cpp:121 tools/ruledit/req_edit.cpp:310
+#: tools/ruledit/req_edit.cpp:123 tools/ruledit/req_edit.cpp:312
 msgid "Allows"
 msgstr "Pozwala na"
 
-#: tools/ruledit/req_edit.cpp:122 tools/ruledit/req_edit.cpp:312
-#: tools/ruledit/req_edit.cpp:360
+#: tools/ruledit/req_edit.cpp:124 tools/ruledit/req_edit.cpp:314
+#: tools/ruledit/req_edit.cpp:362
 msgid "Prevents"
 msgstr "Uniemożliwia"
 
-#: tools/ruledit/req_edit.cpp:127
+#: tools/ruledit/req_edit.cpp:129
 msgid "Add Requirement"
 msgstr "Dodaj wymaganie"
 
-#: tools/ruledit/req_edit.cpp:131
+#: tools/ruledit/req_edit.cpp:133
 msgid "Delete Requirement"
 msgstr "Usuń wymaganie"
 
-#: tools/ruledit/req_edit.cpp:162
+#: tools/ruledit/req_edit.cpp:164
 #, c-format
 msgid "%s prevents"
 msgstr "%s uniemożliwia"
