@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0 (nations)\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-03-25 14:19+0200\n"
+"POT-Creation-Date: 2021-05-14 07:47+0300\n"
 "PO-Revision-Date: 2020-02-10 17:55+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: polski <hubkow@users.sourceforge.net>\n"
@@ -263,13 +263,13 @@ msgstr ""
 "kolonialne nie ufały im i wyparły ich w 1755 roku. Mieszkańcy Akadii "
 "powrócili jednak na swoje ziemie i odbudowali domostwa."
 
-#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:27
+#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, c-format
 msgid "Premier %s"
 msgstr "Premier %s"
 
-#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:27
+#: data/nation/acadian.ruleset:31 data/nation/alander.ruleset:28
 #: data/nation/quebecois.ruleset:20 data/nation/tahitian.ruleset:27
 #, c-format
 msgid "Premiere %s"
@@ -285,7 +285,7 @@ msgstr "Przeor %s"
 #: data/nation/argentine.ruleset:27 data/nation/asturian.ruleset:30
 #: data/nation/badian.ruleset:24 data/nation/bavarian.ruleset:24
 #: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:38
-#: data/nation/brandenburgian.ruleset:28 data/nation/burgundian.ruleset:30
+#: data/nation/brandenburgian.ruleset:29 data/nation/burgundian.ruleset:30
 #: data/nation/canadian.ruleset:26 data/nation/castilian.ruleset:32
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
 #: data/nation/centrallithuanian.ruleset:41 data/nation/chiapanec.ruleset:34
@@ -365,7 +365,7 @@ msgstr "Sułtan %s"
 msgid "Sultana %s"
 msgstr "Sułtan %s"
 
-#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
+#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
@@ -376,7 +376,7 @@ msgstr "Sułtan %s"
 msgid "Governor %s"
 msgstr "Gubernator %s"
 
-#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:30
+#: data/nation/acehnese.ruleset:28 data/nation/alander.ruleset:31
 #: data/nation/californian.ruleset:37 data/nation/chiapanec.ruleset:35
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
@@ -698,26 +698,26 @@ msgstr ""
 "po długim okresie, w którym o tereny te spierały się Szwecja i Finlandia. "
 "Alandy to strefa zdemilitaryzowana pod ochroną prawa międzynarodowego."
 
-#: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
+#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
 #, c-format
 msgid "Earl %s"
 msgstr "Kardynał %s"
 
-#: data/nation/alander.ruleset:28 data/nation/faroese.ruleset:31
+#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:31
 #: data/nation/icelandic.ruleset:22 data/nation/norwegian.ruleset:29
 #: data/nation/scanian.ruleset:26
 #, c-format
 msgid "?female:Earl %s"
 msgstr "?female:Ban %s"
 
-#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:32
+#: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
 #, c-format
 msgid "Vicar %s"
 msgstr "Wikariusz %s"
 
-#: data/nation/alander.ruleset:29 data/nation/faroese.ruleset:32
+#: data/nation/alander.ruleset:30 data/nation/faroese.ruleset:32
 #, c-format
 msgid "?female:Vicar %s"
 msgstr "?female:Wikariusz %s"
@@ -781,7 +781,7 @@ msgid "Princess %s"
 msgstr "Księżna %s"
 
 #: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
-#: data/nation/brandenburgian.ruleset:26 data/nation/catalan.ruleset:31
+#: data/nation/brandenburgian.ruleset:27 data/nation/catalan.ruleset:31
 #: data/nation/eastgerman.ruleset:28 data/nation/greaterpolish.ruleset:23
 #: data/nation/karabakhi.ruleset:28 data/nation/kazakh.ruleset:26
 #: data/nation/mazovian.ruleset:26 data/nation/mecklenburgian.ruleset:29
@@ -793,7 +793,7 @@ msgid "First Secretary %s"
 msgstr "Pierwszy Sekretarz %s"
 
 #: data/nation/albanian.ruleset:28 data/nation/anhaltian.ruleset:30
-#: data/nation/brandenburgian.ruleset:26 data/nation/catalan.ruleset:31
+#: data/nation/brandenburgian.ruleset:27 data/nation/catalan.ruleset:31
 #: data/nation/eastgerman.ruleset:28 data/nation/greaterpolish.ruleset:23
 #: data/nation/karabakhi.ruleset:28 data/nation/kazakh.ruleset:26
 #: data/nation/mazovian.ruleset:26 data/nation/mecklenburgian.ruleset:29
@@ -919,9 +919,9 @@ msgstr ""
 "najbardziej spornych obszarów Europy - w ciągu niecałych stu lat cztery razy "
 "przechodził w ręce Niemiec i Francji. Od 1944 roku należy do Francji."
 
-#: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
+#: data/nation/alsatian.ruleset:26 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
-#: data/nation/brandenburgian.ruleset:30 data/nation/germanbelgian.ruleset:26
+#: data/nation/brandenburgian.ruleset:31 data/nation/germanbelgian.ruleset:26
 #: data/nation/hanoverian.ruleset:24 data/nation/hessian.ruleset:30
 #: data/nation/lippe.ruleset:28 data/nation/mecklenburgian.ruleset:33
 #: data/nation/oldenburgian.ruleset:34 data/nation/palatinate.ruleset:32
@@ -932,9 +932,9 @@ msgstr ""
 msgid "Minister-President %s"
 msgstr "Dyrektor-Prezydent %s"
 
-#: data/nation/alsatian.ruleset:25 data/nation/anhaltian.ruleset:31
+#: data/nation/alsatian.ruleset:26 data/nation/anhaltian.ruleset:31
 #: data/nation/badian.ruleset:22 data/nation/bavarian.ruleset:25
-#: data/nation/brandenburgian.ruleset:30 data/nation/germanbelgian.ruleset:26
+#: data/nation/brandenburgian.ruleset:31 data/nation/germanbelgian.ruleset:26
 #: data/nation/hanoverian.ruleset:24 data/nation/hessian.ruleset:30
 #: data/nation/lippe.ruleset:28 data/nation/mecklenburgian.ruleset:33
 #: data/nation/oldenburgian.ruleset:34 data/nation/palatinate.ruleset:32
@@ -945,19 +945,19 @@ msgstr "Dyrektor-Prezydent %s"
 msgid "?female:Minister-President %s"
 msgstr "?female:Dyrektor-Prezydent %s"
 
-#: data/nation/alsatian.ruleset:26 data/nation/romansh.ruleset:28
+#: data/nation/alsatian.ruleset:27 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
 #, c-format
 msgid "Bailiff %s"
 msgstr "Baliw %s"
 
-#: data/nation/alsatian.ruleset:26 data/nation/romansh.ruleset:28
+#: data/nation/alsatian.ruleset:27 data/nation/romansh.ruleset:28
 #: data/nation/swiss.ruleset:37
 #, c-format
 msgid "?female:Bailiff %s"
 msgstr "?female:Baliw %s"
 
-#: data/nation/alsatian.ruleset:27 data/nation/andorran.ruleset:25
+#: data/nation/alsatian.ruleset:28 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
 #: data/nation/aragonese.ruleset:30 data/nation/asturian.ruleset:30
 #: data/nation/australian.ruleset:26 data/nation/badian.ruleset:24
@@ -996,7 +996,7 @@ msgstr "?female:Baliw %s"
 msgid "Bishop %s"
 msgstr "Biskup %s"
 
-#: data/nation/alsatian.ruleset:27 data/nation/andorran.ruleset:25
+#: data/nation/alsatian.ruleset:28 data/nation/andorran.ruleset:25
 #: data/nation/anhaltian.ruleset:33 data/nation/antiguan.ruleset:22
 #: data/nation/australian.ruleset:26 data/nation/bahamian.ruleset:27
 #: data/nation/barbadian.ruleset:27 data/nation/belizean.ruleset:26
@@ -1017,14 +1017,14 @@ msgstr "Biskup %s"
 msgid "?female:Bishop %s"
 msgstr "?female:Biskup %s"
 
-#: data/nation/alsatian.ruleset:28 data/nation/hansa.ruleset:29
+#: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:43 data/nation/rhenish.ruleset:40
 #: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:34
 #, c-format
 msgid "Burgomaster %s"
 msgstr "Burmistrz %s"
 
-#: data/nation/alsatian.ruleset:28 data/nation/hansa.ruleset:29
+#: data/nation/alsatian.ruleset:29 data/nation/hansa.ruleset:29
 #: data/nation/novgorodian.ruleset:43 data/nation/rhenish.ruleset:40
 #: data/nation/sorbian.ruleset:27 data/nation/westphalian.ruleset:34
 #, c-format
@@ -1669,7 +1669,7 @@ msgstr ""
 "tracili stopniowo znaczenie polityczne i ostatecznie zasymilowali się z "
 "Słowianami."
 
-#: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
+#: data/nation/avar.ruleset:34 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:40
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
@@ -1683,7 +1683,7 @@ msgstr ""
 msgid "%s Khan"
 msgstr "%s Chan"
 
-#: data/nation/avar.ruleset:32 data/nation/azeri.ruleset:35
+#: data/nation/avar.ruleset:34 data/nation/azeri.ruleset:35
 #: data/nation/bashkir.ruleset:24 data/nation/buryat.ruleset:26
 #: data/nation/crimeantatar.ruleset:39 data/nation/gokturk.ruleset:40
 #: data/nation/goldenhorde.ruleset:36 data/nation/hephthalite.ruleset:30
@@ -1697,7 +1697,7 @@ msgstr "%s Chan"
 msgid "%s Khatan"
 msgstr "%s Czatan"
 
-#: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
+#: data/nation/avar.ruleset:35 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
 #: data/nation/goldenhorde.ruleset:37 data/nation/hephthalite.ruleset:31
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
@@ -1708,7 +1708,7 @@ msgstr "%s Czatan"
 msgid "%s Khagan"
 msgstr "%s Khagan"
 
-#: data/nation/avar.ruleset:33 data/nation/buryat.ruleset:27
+#: data/nation/avar.ruleset:35 data/nation/buryat.ruleset:27
 #: data/nation/crimeantatar.ruleset:40 data/nation/gokturk.ruleset:41
 #: data/nation/goldenhorde.ruleset:37 data/nation/hephthalite.ruleset:31
 #: data/nation/kazakh.ruleset:25 data/nation/khazar.ruleset:36
@@ -1790,13 +1790,13 @@ msgstr ""
 "Światowej Badenia połączyła się z Wirtembergią i utworzyły one kraj "
 "związkowy Badenia-Wirtembergia."
 
-#: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:27
+#: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:28
 #: data/nation/friulian.ruleset:28
 #, c-format
 msgid "Margrave %s"
 msgstr "Margrabia %s"
 
-#: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:27
+#: data/nation/badian.ruleset:23 data/nation/brandenburgian.ruleset:28
 #: data/nation/friulian.ruleset:28
 #, c-format
 msgid "Margravine %s"
@@ -2177,19 +2177,19 @@ msgstr ""
 "Galii. Stawiali oni twardy opór legionom Cezara, lecz ostatecznie ulegli "
 "Rzymianom. Współczesna Belgia wzięła swą nazwę od tego plemienia."
 
-#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/belgic.ruleset:32 data/nation/boian.ruleset:24
 #: data/nation/helvetian.ruleset:29
 #, c-format
 msgid "High Druid %s"
 msgstr "Wysoki Druid %s"
 
-#: data/nation/belgic.ruleset:30 data/nation/boian.ruleset:22
+#: data/nation/belgic.ruleset:32 data/nation/boian.ruleset:24
 #: data/nation/helvetian.ruleset:29
 #, c-format
 msgid "?female:High Druid %s"
 msgstr "?female:Wysoka Druid %s"
 
-#: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
+#: data/nation/belgic.ruleset:33 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
 #: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
@@ -2198,7 +2198,7 @@ msgstr "?female:Wysoka Druid %s"
 msgid "Brother %s"
 msgstr "Brat %s"
 
-#: data/nation/belgic.ruleset:31 data/nation/cambodian.ruleset:25
+#: data/nation/belgic.ruleset:33 data/nation/cambodian.ruleset:25
 #: data/nation/crusader.ruleset:33 data/nation/holysee.ruleset:29
 #: data/nation/italiangreek.ruleset:46 data/nation/kushan.ruleset:42
 #: data/nation/latin.ruleset:40 data/nation/nestorian.ruleset:27
@@ -2207,7 +2207,7 @@ msgstr "Brat %s"
 msgid "Sister %s"
 msgstr "Siostra %s"
 
-#: data/nation/belgic.ruleset:32 data/nation/chickasaw.ruleset:28
+#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:28
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:43
 #: data/nation/hasinay.ruleset:30 data/nation/hopi.ruleset:28
 #: data/nation/inuit.ruleset:23 data/nation/ligurian.ruleset:24
@@ -2220,7 +2220,7 @@ msgstr "Siostra %s"
 msgid "Spokesman %s"
 msgstr "Rzecznik %s"
 
-#: data/nation/belgic.ruleset:32 data/nation/chickasaw.ruleset:28
+#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:28
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:43
 #: data/nation/hasinay.ruleset:30 data/nation/hopi.ruleset:28
 #: data/nation/inuit.ruleset:23 data/nation/ligurian.ruleset:24
@@ -2233,7 +2233,7 @@ msgstr "Rzecznik %s"
 msgid "Spokeswoman %s"
 msgstr "Rzeczniczka %s"
 
-#: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
+#: data/nation/belgic.ruleset:35 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
 #: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
 #: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
@@ -2243,7 +2243,7 @@ msgstr "Rzeczniczka %s"
 msgid "Speaker %s"
 msgstr "Mówca %s"
 
-#: data/nation/belgic.ruleset:33 data/nation/confederate.ruleset:34
+#: data/nation/belgic.ruleset:35 data/nation/confederate.ruleset:34
 #: data/nation/epirote.ruleset:29 data/nation/faroese.ruleset:30
 #: data/nation/gepid.ruleset:44 data/nation/italiangreek.ruleset:47
 #: data/nation/liberian.ruleset:30 data/nation/marshallese.ruleset:23
@@ -2588,7 +2588,7 @@ msgstr ""
 "Morales został pierwszym prezydentem Boliwii wywodzącym się z ludności "
 "rdzennej."
 
-#: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:28
+#: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:29
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
 #: data/nation/centrallithuanian.ruleset:41 data/nation/chilean.ruleset:31
 #: data/nation/chrobatian.ruleset:30 data/nation/colombian.ruleset:29
@@ -2729,13 +2729,13 @@ msgstr ""
 "się prowincją pruską. Dzisiaj Brandenburgia jest krajem związkowym Republiki "
 "Federalnej Niemiec."
 
-#: data/nation/brandenburgian.ruleset:29 data/nation/hessian.ruleset:29
+#: data/nation/brandenburgian.ruleset:30 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
 #, c-format
 msgid "Elector %s"
 msgstr "Wybrany %s"
 
-#: data/nation/brandenburgian.ruleset:29 data/nation/hessian.ruleset:29
+#: data/nation/brandenburgian.ruleset:30 data/nation/hessian.ruleset:29
 #: data/nation/palatinate.ruleset:31
 #, c-format
 msgid "Electress %s"
