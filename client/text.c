@@ -1708,28 +1708,42 @@ const char *get_act_sel_action_custom_text(struct action *paction,
                                                      actor_unit->carrying,
                                                      TRUE);
 
-    astr_set(&custom,
-             /* TRANS: Estimated one time bonus and recurring revenue for
-              * the Establish Trade _Route action. */
-             _("%d one time bonus + %d trade"),
-             revenue,
-             trade_base_between_cities(actor_homecity, target_city));
+    if (revenue > 0) {
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus and recurring revenue for
+                * the Establish Trade _Route action. */
+               _("%d one time bonus + %d trade"),
+               revenue,
+               trade_base_between_cities(actor_homecity, target_city));
+    } else {
+      astr_set(&custom,
+               /* TRANS: Estimated recurring revenue for
+                * the Establish Trade _Route action. */
+               _("%d trade"),
+               trade_base_between_cities(actor_homecity, target_city));
+    }
   } else if (action_has_result(paction, ACTRES_MARKETPLACE)) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      actor_unit->carrying,
                                                      FALSE);
 
-    astr_set(&custom,
-             /* TRANS: Estimated one time bonus for the Enter Marketplace
-              * action. */
-             _("%d one time bonus"), revenue);
+    if (revenue > 0) {
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus for the Enter Marketplace
+                * action. */
+               _("%d one time bonus"), revenue);
+    } else {
+      /* No info to add. */
+      return NULL;
+    }
   } else if ((action_has_result(paction, ACTRES_HELP_WONDER)
               || action_has_result(paction, ACTRES_RECYCLE_UNIT))
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
      * cities. */
     int cost = city_production_build_shield_cost(target_city);
+
     astr_set(&custom, _("%d remaining"), cost - target_city->shield_stock);
   } else {
     /* No info to add. */
