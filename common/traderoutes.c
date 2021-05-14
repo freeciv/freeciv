@@ -373,6 +373,11 @@ int get_caravan_enter_city_trade_bonus(const struct city *pc1,
                                        const bool establish_trade)
 {
   int tb, bonus;
+  enum trade_route_type trtype = cities_trade_route_type(pc1, pc2);
+
+  if (trtss[trtype].bonus_type == TBONUS_NONE) {
+    return 0;
+  }
 
   /* Should this be real_map_distance? */
   tb = map_distance(pc1->tile, pc2->tile) + 10;

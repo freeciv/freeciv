@@ -1697,21 +1697,34 @@ const char *get_act_sel_action_custom_text(struct action *paction,
                                                      target_city,
                                                      TRUE);
 
-    astr_set(&custom,
-             /* TRANS: Estimated one time bonus and recurring revenue for
-              * the Establish Trade _Route action. */
-             _("%d one time bonus + %d trade"),
-             revenue,
-             trade_between_cities(actor_homecity, target_city));
+    if (revenue > 0) {
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus and recurring revenue for
+                * the Establish Trade _Route action. */
+               _("%d one time bonus + %d trade"),
+               revenue,
+               trade_between_cities(actor_homecity, target_city));
+    } else {
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus for
+                * the Establish Trade _Route action. */
+               _("%d trade"),
+               trade_between_cities(actor_homecity, target_city));
+    }
   } else if (paction->id == ACTION_MARKETPLACE) {
     int revenue = get_caravan_enter_city_trade_bonus(actor_homecity,
                                                      target_city,
                                                      FALSE);
 
-    astr_set(&custom,
-             /* TRANS: Estimated one time bonus for the Enter Marketplace
-              * action. */
-             _("%d one time bonus"), revenue);
+    if (revenue > 0) {
+      astr_set(&custom,
+               /* TRANS: Estimated one time bonus for the Enter Marketplace
+                * action. */
+               _("%d one time bonus"), revenue);
+    } else {
+      /* No info to add. */
+      return NULL;
+    }
   } else if (paction->id == ACTION_HELP_WONDER
              && city_owner(target_city) == client.conn.playing) {
     /* Can only give remaining production for domestic and existing
