@@ -10,7 +10,7 @@ see the ChangeLog file.
 CHANGES FROM 3.0.0-beta1 to 3.0.0-beta2
 ---------------------------------------
 
-   (from <http://www.freeciv.org/wiki/NEWS-3.0.0-beta2>, 2022-05-14)
+   (from <http://www.freeciv.org/wiki/NEWS-3.0.0-beta2>, 2021-05-14)
 
 3.0.0-beta2 fixes a number of issues seen with beta1. These include that
 alien ruleset gets correctly installed, and important change to
