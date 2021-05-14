@@ -150,10 +150,11 @@ Translations
     * Updated translations:
          + Complete translations: Russian
          + Incomplete translations:
+           Catalan (92% core, 100% nations, 62% ruledit)
            Spanish (85% core, 100% nations, 44% ruledit),
            Finnish (100% core, 91% nations, 100% ruledit),
            French (99% core, 100% nations, 100% ruledit),
-           Polish (99% core, 100% nations, 96% ruledit)
+           Polish (99% core, 100% nations, 100% ruledit)
     * Changes to which strings are translatable osdn#41866
 
 Build/portability
