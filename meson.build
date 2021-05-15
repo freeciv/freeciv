@@ -2105,6 +2105,7 @@ install_data('data/stdsounds/foot3.ogg',
 endif
 
 gtk322_dep = dependency('gtk+-3.0', version : '>= 3.22', required : false)
+gtk4_dep = dependency('gtk4', version : '>= 4.0.0', required : false)
 
 if get_option('clients').contains('gtk3.22')
 
@@ -2537,6 +2538,26 @@ executable('freeciv-mp-gtk3',
             '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_3_22'],
   include_directories: tool_inc,
   dependencies: [gtk322_dep,
+                 c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
+  link_with: [common_lib, fcmp_common],
+  install: true
+  )
+
+endif
+
+
+if get_option('fcmp').contains('gtk4')
+
+if not gtk4_dep.found()
+  error('gtk-4 required for gtk4 modpack installer, but not found')
+endif
+
+executable('freeciv-mp-gtk4',
+  'tools/fcmp/mpgui_gtk4.c',
+  c_args: [ '-DGDK_VERSION_MIN_REQUIRED=GDK_VERSION_4_0',
+            '-DGDK_VERSION_MAX_ALLOWED=GDK_VERSION_4_0'],
+  include_directories: tool_inc,
+  dependencies: [gtk4_dep,
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path)],
   link_with: [common_lib, fcmp_common],
   install: true
