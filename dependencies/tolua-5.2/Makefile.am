@@ -1,6 +1,6 @@
 SUBDIRS = src
 
 EXTRA_DIST = README \
-	Version	\
+	Version.txt \
 	freeciv_tolua.patch \
 	include/tolua.h
