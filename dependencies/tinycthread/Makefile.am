@@ -5,4 +5,4 @@ libtinycthread_la_SOURCES = \
 	tinycthread.h
 
 EXTRA_DIST = README.txt \
-	Version
+	Version.txt
