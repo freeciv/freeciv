@@ -36,7 +36,7 @@ gboolean map_canvas_draw(GtkWidget *w, cairo_t *cr, gpointer data);
 gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
                               gpointer data);
 
-void put_unit_image(struct unit *punit, GtkImage *p);
+void put_unit_image(struct unit *punit, GtkImage *p, int height);
 
 void put_unit_image_city_overlays(struct unit *punit, GtkImage *p,
                                   int height, int *upkeep_cost, int happy_cost);

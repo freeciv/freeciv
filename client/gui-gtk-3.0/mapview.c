@@ -486,16 +486,30 @@ void update_city_descriptions(void)
 /**************************************************************************
   Fill image with unit gfx
 **************************************************************************/
-void put_unit_image(struct unit *punit, GtkImage *p)
+void put_unit_image(struct unit *punit, GtkImage *p, int height)
 {
   GdkPixbuf *pixbuf;
-  struct sprite *spr;
+  struct canvas store = FC_STATIC_CANVAS_INIT;
+  int width;
 
-  spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing, FALSE);
-  pixbuf = sprite_get_pixbuf(spr);
+  if (height <= 0) {
+    struct sprite *spr;
 
+    spr = get_unittype_sprite(tileset, unit_type_get(punit), punit->facing, FALSE);
+    get_sprite_dimensions(spr, &width, &height);
+  } else {
+    width = tileset_full_tile_width(tileset);
+  }
+
+  store.surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32,
+                                             width, height);
+
+  put_unit(punit, &store, 1.0, 0, 0);
+
+  pixbuf = surface_get_pixbuf(store.surface, width, height);
   gtk_image_set_from_pixbuf(p, pixbuf);
   g_object_unref(pixbuf);
+  cairo_surface_destroy(store.surface);
 }
 
 /**************************************************************************

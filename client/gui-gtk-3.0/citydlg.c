@@ -2260,7 +2260,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       cmd = pnode->cmd;
       pix = pnode->pix;
 
-      put_unit_image(punit, GTK_IMAGE(pix));
+      put_unit_image(punit, GTK_IMAGE(pix), pnode->height);
 
       g_signal_handlers_disconnect_matched(cmd,
 	  G_SIGNAL_MATCH_FUNC,
