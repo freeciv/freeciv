@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-04-18 19:22+0200\n"
+"POT-Creation-Date: 2021-04-21 13:45+0200\n"
 "PO-Revision-Date: 2021-04-19 01:34+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -221,11 +221,11 @@ msgstr "Multiplicateurs"
 msgid "Ruleset saved"
 msgstr "Règles du jeu sauvegardées"
 
-#: tools/ruledit/tab_nation.cpp:49
+#: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
 msgstr "Utiliser la liste des nations"
 
-#: tools/ruledit/tab_nation.cpp:53
+#: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
 msgstr "Liste des nations"
 
