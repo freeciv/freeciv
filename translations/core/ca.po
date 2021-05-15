@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-05-14 13:22+0300\n"
-"PO-Revision-Date: 2021-05-14 00:22+0200\n"
+"PO-Revision-Date: 2021-05-15 20:26+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -28265,7 +28265,6 @@ msgid "Statue of Zeus"
 msgstr "Estàtua de Zeus"
 
 #: data/sandbox/buildings.ruleset:1857 data/civ2civ3/buildings.ruleset:1854
-#, fuzzy
 msgid ""
 "Reduces by 1 the unhappiness caused by one aggressively deployed military "
 "unit per city -- in other words, in each city it neutralizes the unhappiness "
@@ -28440,7 +28439,6 @@ msgstr "Joc de regles de proves"
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.sandbox, which are not localized.
 #: data/sandbox/game.ruleset:34
-#, fuzzy
 msgid ""
 "You are playing Freeciv with sandbox ruleset. This showcases new or unusual "
 "features available in Freeciv without regard for strict game balancing, "
@@ -28450,11 +28448,14 @@ msgid ""
 "This ruleset was originally based on current default ruleset, civ2civ3, as "
 "it stood in 2.6."
 msgstr ""
-"Estàs jugant amb el joc de regles experimental. Aquest il·lustra "
+"Estàs jugant al Freeciv amb el joc de regles sandbox. Aquest il·lustra "
 "funcionalitats noves o inusuals disponibles a Freeciv sense miraments per "
-"l'equilibri estricte del joc ni per la jugabilitat. Es pot trobar una "
-"descripció de les diferències amb el joc de regles clàssic al fitxer README."
-"ruleset_experimental."
+"l'equilibri estricte del joc, per la jugabilitat, pel rendiment de l'IA, per"
+" la disponibilitat de gràfics ni per la compatibilitat entre versions de jocs"
+" desats.\n"
+"\n"
+"Aquest joc de regles es va basar originalment en el joc de regles que"
+" actualment és el predeterminat, civ2civ3, tal com era a la versió 2.6."
 
 #. TRANS: Steal _Map Fragments and Escape (3% chance of success).
 #: data/sandbox/game.ruleset:307
@@ -28465,15 +28466,15 @@ msgstr "Robar Fragments de %sMapa i Escapar%s"
 #. TRANS: _Bombard (100% chance of success).
 #: data/sandbox/game.ruleset:340 data/civ2civ3/game.ruleset:339
 #: data/alien/game.ruleset:303
-#, fuzzy, c-format
+#, c-format
 msgid "%sBombard%s"
-msgstr "Bombardejador"
+msgstr "%sBombardejar%s"
 
 #. TRANS: _Repair (100% chance of success).
 #: data/sandbox/game.ruleset:367
 #, c-format
 msgid "%sRepair%s"
-msgstr ""
+msgstr "%sReparar%s"
 
 #: data/sandbox/game.ruleset:1229 data/experimental/game.ruleset:962
 #: data/civ2civ3/game.ruleset:1036
@@ -28512,7 +28513,6 @@ msgstr "Terra a la Vista"
 
 #: data/sandbox/game.ruleset:1251 data/experimental/game.ruleset:989
 #: data/civ2civ3/game.ruleset:1058
-#, fuzzy
 msgid "Your people were the first in history to sight a foreign shore!"
 msgstr ""
 "La teva gent han estat els primers de la història a veure una costa "
@@ -28520,7 +28520,6 @@ msgstr ""
 
 #: data/sandbox/game.ruleset:1252 data/experimental/game.ruleset:990
 #: data/civ2civ3/game.ruleset:1059
-#, fuzzy
 msgid "You sighted your first foreign shore!"
 msgstr "Has vist per primera vegada una costa estrangera!"
 
@@ -28543,10 +28542,9 @@ msgid "Multicultural"
 msgstr "Multicultural"
 
 #: data/sandbox/game.ruleset:1271 data/civ2civ3/game.ruleset:1078
-#, fuzzy
 #| msgid "Your nation now has citizens of multiple nationalities!"
 msgid "You're the first nation to have citizens of multiple nationalities!"
-msgstr "La teva nació ara té ciutadans de múltiples nacionalitats!"
+msgstr "Ets la primera nació que té ciutadans de múltiples nacionalitats!"
 
 #: data/sandbox/game.ruleset:1272 data/civ2civ3/game.ruleset:1079
 msgid "Your nation now has citizens of multiple nationalities!"
@@ -28590,29 +28588,26 @@ msgstr "La teva nació ha aconseguit 10000 punts de cultura!"
 
 #: data/sandbox/game.ruleset:1370
 msgid "Wares"
-msgstr ""
+msgstr "Béns"
 
 #: data/sandbox/game.ruleset:1394
 msgid "Jewelry"
-msgstr ""
+msgstr "Joies"
 
 #: data/sandbox/game.ruleset:1404
-#, fuzzy
 msgid "Ore"
-msgstr "Oracle"
+msgstr "Mineral"
 
 #: data/sandbox/game.ruleset:1412
-#, fuzzy
 msgid "Metal"
-msgstr "Metal·lúrgia"
+msgstr "Metall"
 
 #: data/sandbox/game.ruleset:1433
-#, fuzzy
 msgid "Equipment"
-msgstr "Requisit"
+msgstr "Equipament"
 
 #: data/sandbox/governments.ruleset:79 data/civ2civ3/governments.ruleset:79
-#, fuzzy, no-c-format
+#, no-c-format
 #| msgid ""
 #| "* Buildings and technologies do not require any upkeep.\n"
 #| "* Each worked tile that gives more than 2 Food, Shield, or Trade will "
@@ -28660,11 +28655,12 @@ msgstr ""
 "* Les unitats militars imposen la llei marcial. Fins a 3 unitats militars "
 "dins d'una ciutat forçaran cadascuna que un ciutadà descontent passi a "
 "content.\n"
-"* No tens cap control sobre la taxa d'impostos. La meitat dels ingressos per "
-"comerç es perden del tot per a la teva economia (menys si tens edificis que "
-"promouen el luxe), i la resta va tot a luxes. La corrupció convencional "
+"* No tens cap control sobre la taxa d'impostos. Tots els ingressos per "
+"comerç es converteixen en luxes. La corrupció convencional "
 "augmenta amb la distància des de la capital (la meitat de ràpid quan "
 "coneixes la Corporació).\n"
+"* La meitat dels luxes, inclosos els que es converteixen d'altres ingressos"
+" per comerç, es malbaraten.\n"
 "* El malbaratament de producció bàsic és del 30%. Això augmenta amb la "
 "distància des de la capital (la meitat de ràpid quan coneixes Comerç)."
 
@@ -28847,7 +28843,7 @@ msgstr ""
 #: data/sandbox/governments.ruleset:247 data/sandbox/governments.ruleset:368
 #: data/sandbox/governments.ruleset:406
 msgid "* Your bureaucracy can prevent you from disbanding certain units."
-msgstr ""
+msgstr "* La teva burocràcia pot evitar que desmobilitzis certes unitats."
 
 #: data/sandbox/governments.ruleset:276 data/civ2civ3/governments.ruleset:275
 msgid ""
@@ -29026,23 +29022,22 @@ msgstr ""
 "addicional per cada unitat militar desplegada agressivament."
 
 #: data/sandbox/script.lua:33
-#, fuzzy
 msgid "You found Hermit's Place."
-msgstr "Has trobat %d peça d'or."
+msgstr "Has trobat la Casa de l'Ermità."
 
 #: data/sandbox/script.lua:38
 #, c-format
 msgid "Secluded studies have led the Hermit to the discovery of %s!"
-msgstr ""
+msgstr "Estudis en solitari han conduït l'Ermità a la descoberta de %s!"
 
 #: data/sandbox/script.lua:42
 msgid "The Hermit has left nothing useful."
-msgstr ""
+msgstr "L'Ermità no ha deixat res útil."
 
 #: data/sandbox/script.lua:54
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has overflied a Hermit's Place and destroyed it!"
-msgstr "Has trobat %d peça d'or."
+msgstr "El teu %s ha sobrevolat la Casa d'un Ermità i l'ha destruïda!"
 
 #: data/sandbox/script.lua:212 data/civ2civ3/script.lua:176
 msgid "Grand Canyon"
@@ -29242,9 +29237,8 @@ msgstr ""
 "Amfiteatres, i augmenta el radi de visió de la ciutat."
 
 #: data/sandbox/techs.ruleset:311
-#, fuzzy
 msgid "Grants you vision inside your borders."
-msgstr "No es pot ubicar una ciutat dins de territori estranger."
+msgstr "Et concedeix visió dins de les teves fronteres."
 
 #: data/sandbox/techs.ruleset:370
 msgid "Enables airlift of light weight units."
@@ -29365,21 +29359,19 @@ msgstr "Permet a les ciutats de construir Ports i meravelles de costa."
 
 #: data/sandbox/terrain.ruleset:29
 msgid "DifficultLanding"
-msgstr ""
+msgstr "AterratgePerillós"
 
 #: data/sandbox/terrain.ruleset:29
-#, fuzzy
 msgid "Only veterans can paradrop here."
-msgstr "Només les unitats nuclears poden fer això."
+msgstr "Només els veterans poden saltar en paracaigudes aquí."
 
 #: data/sandbox/terrain.ruleset:44 data/civ2civ3/terrain.ruleset:43
-#, fuzzy
 msgid "IrrigationSource"
-msgstr "Regadiu"
+msgstr "FontDeRegadiu"
 
 #: data/sandbox/terrain.ruleset:45 data/civ2civ3/terrain.ruleset:44
 msgid "AllowsFarmlandOnDesert"
-msgstr ""
+msgstr "PermetHortaAlDesert"
 
 #: data/sandbox/terrain.ruleset:476 data/civ2civ3/terrain.ruleset:475
 msgid ""
@@ -29551,7 +29543,7 @@ msgstr ""
 
 #: data/sandbox/terrain.ruleset:1364
 msgid "Hermit's Place"
-msgstr ""
+msgstr "Casa de l'Ermità"
 
 #: data/sandbox/terrain.ruleset:1385
 #, no-c-format
@@ -29561,6 +29553,10 @@ msgid ""
 "the cost of 20% of the normal price. After year 1000 there's no more such "
 "individuals figuring entire technologies out in the solitude. "
 msgstr ""
+"Es poden explorar les Cases dels Ermitans un cop el filòsof les ha"
+" abandonades. En la majoria dels casos s'hi pot aprendre part de la saviesa"
+" de l'antic habitant, al cost del 20% del preu normal. Després de l'any 1000"
+" ja no queden persones que descobreixin tecnologies estant aïllats."
 
 #: data/sandbox/terrain.ruleset:1422 data/civ2civ3/terrain.ruleset:1391
 msgid "Farmland on a tile prevents any trade bonus from Super Highways."
@@ -29634,13 +29630,11 @@ msgstr ""
 "unitats poden veure més lluny."
 
 #: data/sandbox/terrain.ruleset:1539
-#, fuzzy
 #| msgid "Coastline"
 msgid "Castle"
-msgstr "Línia de la costa"
+msgstr "Castell"
 
 #: data/sandbox/terrain.ruleset:1567
-#, fuzzy
 #| msgid ""
 #| "Fortresses are more permanent forts; construction on them can only begin "
 #| "once the underlying fort is complete. Forts on River tiles cannot be "
@@ -29649,9 +29643,9 @@ msgid ""
 "Castles are fortresses with an administration center; construction on them "
 "can only begin once the underlying fortress is complete."
 msgstr ""
-"Les Fortaleses són forts més permanents; només es poden començar a construir "
-"quan s'ha completat el Fort anterior. Els Forts en caselles de Riu no es "
-"poden millorar a Fortaleses."
+"Els Castells són fortaleses amb un centre administratiu; només es poden"
+" començar a construir "
+"quan s'ha completat la fortalesa anterior."
 
 #: data/sandbox/terrain.ruleset:1570
 msgid ""
@@ -29659,6 +29653,9 @@ msgid ""
 "of autonomy. This makes a castle able to control terrain far from the "
 "borders of its nation's cities."
 msgstr ""
+"El castell i l'àrea que el rodeja és governat per un vassall amb un alt grau"
+" d'autonomia. Això permet a un castell controlar terreny lluny de les"
+" fronteres de les ciutats de la seva nació."
 
 #: data/sandbox/terrain.ruleset:1578 data/civ2civ3/terrain.ruleset:1506
 msgid "Airstrip"
@@ -29850,19 +29847,17 @@ msgstr "Consens"
 
 #: data/sandbox/units.ruleset:34
 msgid "Undisbandable when your bureaucracy has a veto."
-msgstr ""
+msgstr "No es pot desmobilitzar quan la teva burocràcia té dret de veto."
 
 #: data/sandbox/units.ruleset:35
-#, fuzzy
 #| msgid "Ironclad"
 msgid "IronBased"
-msgstr "Patrullera"
+msgstr "BasatEnFerro"
 
 #: data/sandbox/units.ruleset:39 data/civ2civ3/units.ruleset:37
 #: data/alien/units.ruleset:29 server/rscompat.c:180
-#, fuzzy
 msgid "Capturer"
-msgstr "Cultura"
+msgstr "Captor"
 
 #: data/sandbox/units.ruleset:39 data/civ2civ3/units.ruleset:37
 #: data/alien/units.ruleset:29 server/rscompat.c:180
@@ -30036,14 +30031,13 @@ msgstr ""
 "Terreny per més detalls."
 
 #: data/sandbox/units.ruleset:637
-#, fuzzy
 #| msgid "Oceanic"
 msgid "Mechanic"
-msgstr "Oceà"
+msgstr "Mecànic"
 
 #: data/sandbox/units.ruleset:668
 msgid "A Mechanic can repair machines in the field."
-msgstr ""
+msgstr "Un Mecànic pot reparar màquines sobre el terreny."
 
 #: data/sandbox/units.ruleset:762 data/civ2civ3/units.ruleset:714
 msgid "Archers fight with bows and arrows and have a good offensive value."
@@ -30098,6 +30092,7 @@ msgstr ""
 #: data/sandbox/units.ruleset:1080
 msgid "Veteran Paratroopers can land on forest and jungle tiles."
 msgstr ""
+"Els Paracaigudistes veterans poden aterrar en caselles de bosc i jungla."
 
 #: data/sandbox/units.ruleset:1112 data/civ2civ3/units.ruleset:1064
 msgid ""
@@ -30268,6 +30263,9 @@ msgid ""
 "spend at least every third turn change next to land to load supplies for the "
 "crew."
 msgstr ""
+"La Caravel·la és un vaixell de vela que pot entrar en qualsevol casella"
+" d'oceà, però ha de passar com a mínim un canvi de torn de cada tres al"
+" costat de terra per carregar queviures per a la tripulació."
 
 #: data/sandbox/units.ruleset:1811 data/civ2civ3/units.ruleset:1760
 msgid ""
@@ -30413,7 +30411,6 @@ msgstr ""
 
 #: data/sandbox/units.ruleset:2320 data/sandbox/units.ruleset:2547
 #: data/civ2civ3/units.ruleset:2258 data/civ2civ3/units.ruleset:2483
-#, fuzzy
 #| msgid ""
 #| " - \"Investigate City\": Your unit attempts to report detailed "
 #| "information about the city: its status, what buildings and units are "
@@ -30425,7 +30422,7 @@ msgid ""
 msgstr ""
 " - \"Investigar Ciutat\": La teva unitat intenta donar informació detallada "
 "sobre la ciutat: el seu estat, quins edificis i unitats hi ha, i què està "
-"produint."
+"produint. La unitat no es gasta per aquesta acció."
 
 #: data/sandbox/units.ruleset:2338 data/civ2civ3/units.ruleset:2276
 msgid ""
@@ -30515,14 +30512,13 @@ msgstr ""
 "mateixos comportament i restriccions de moviment."
 
 #: data/sandbox/units.ruleset:2539 data/civ2civ3/units.ruleset:2475
-#, fuzzy
 #| msgid ""
 #| "Explorers can also perform some actions in another player's city, "
 #| "although the unit disappears after the action is complete."
 msgid "Explorers can also perform some actions in another player's city:"
 msgstr ""
-"Els Exploradors també poden dur a terme algunes accions en una ciutat d'un "
-"altre jugador, encara que la unitat desapareix després de completar l'acció."
+"Els Exploradors també poden dur a terme algunes accions en la ciutat d'un "
+"altre jugador:"
 
 #: data/experimental/buildings.ruleset:112
 msgid ""
@@ -30831,7 +30827,6 @@ msgstr "Joc de regles de Civ2Civ3"
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.civ2civ3, which are not localized.
 #: data/civ2civ3/game.ruleset:34
-#, fuzzy
 msgid ""
 "You are playing Freeciv with civ2civ3 rules:\n"
 "\n"
@@ -30850,8 +30845,8 @@ msgstr ""
 "Adaptat per a un sol jugador, amb l'IA menys agressiu al principi, però més "
 "difícil cap al final.\n"
 "\n"
-"Es pot trobar una descripció detallada de les diferències respecte el joc de "
-"regles clàssic a README.ruleset_civ2civ3."
+"Les diferències respecte el joc de "
+"regles predeterminat antic, el 'clàssic' es descriuen a README.civ2civ3."
 
 #: data/civ2civ3/script.lua:346
 msgid ""
@@ -30859,6 +30854,9 @@ msgid ""
 "(If you'd like rules more similar to ones in previous versions,\n"
 "start a new game with 'classic' ruleset.)"
 msgstr ""
+"Benvingut a civ2civ3, el nou joc de regles predeterminat de freeciv-3.0.\n"
+"(Si prefereixes regles més semblants a les de versions anteriors,\n"
+"comença una altra partida amb el joc de regles 'clàssic'.)"
 
 #: data/civ2civ3/terrain.ruleset:1661
 msgid ""
@@ -30896,7 +30894,7 @@ msgstr ""
 
 #: data/alien/buildings.ruleset:66
 msgid "Antigrav Port"
-msgstr ""
+msgstr "Port Antigrav"
 
 #: data/alien/buildings.ruleset:83
 #, no-c-format
@@ -30904,21 +30902,21 @@ msgid ""
 "Allows one unit airlift from and to city, increased to three once Low-Level "
 "Orbit is known."
 msgstr ""
+"Permet aerotransportar una unitat des de i cap a la ciutat, que augmenta a"
+" tres quan es coneix Òrbita de Baix Nivell."
 
 #: data/alien/buildings.ruleset:88
-#, fuzzy
 msgid "Archive"
-msgstr "Arquers"
+msgstr "Arxiu"
 
 #: data/alien/buildings.ruleset:105
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science production of a city by 75%."
-msgstr "Augmenta en un 50% la producció de ciència de la ciutat."
+msgstr "Augmenta la producció de ciència d'una ciutat en un 75%."
 
 #: data/alien/buildings.ruleset:109
-#, fuzzy
 msgid "Basic Infrastructure"
-msgstr "Infraestructures: %s"
+msgstr "Infraestructura Bàsica"
 
 #: data/alien/buildings.ruleset:122
 #, no-c-format
@@ -30928,55 +30926,60 @@ msgid ""
 "\n"
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
+"Infraestructura bàsica de la ciutat. Aquesta millora no té manteniment, i no"
+" pot sabotejar-se per un Espia Incògnit enemic.\n"
+"\n"
+"Sense aquesta millora la ciutat no pot créixer a més de mida 2."
 
 #: data/alien/buildings.ruleset:129
 msgid "Bunker"
-msgstr ""
+msgstr "Búnquer"
 
 #: data/alien/buildings.ruleset:148
 #, no-c-format
 msgid "Revolt cannot be incited in a city with bunker."
-msgstr ""
+msgstr "No es pot incitar una revolta en una ciutat amb búnquer."
 
 #: data/alien/buildings.ruleset:153
-#, fuzzy
 msgid "Central Mine"
-msgstr "Centreafricà"
+msgstr "Mina Central"
 
 #: data/alien/buildings.ruleset:171
 #, no-c-format
 msgid "City center tile produces three extra shields."
-msgstr ""
+msgstr "La casella del centre de la ciutat produeix tres escuts addicionals."
 
 #: data/alien/buildings.ruleset:176
 msgid "Cyberpart Factory"
-msgstr ""
+msgstr "Fàbrica de Ciberpeces"
 
 #: data/alien/buildings.ruleset:193
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the tax output in a city by 75%."
-msgstr "Augmenta en un 50% la producció de ciència de la ciutat."
+msgstr "Augmenta la producció d'impostos d'una ciutat en un 75%."
 
 #: data/alien/buildings.ruleset:214
 msgid ""
 "Factory produces spare parts for two units removing their production upkeep."
 msgstr ""
+"La Fàbrica produeix peces de recanvi per a dues unitats cancel·lant el seu"
+" manteniment de producció."
 
 #: data/alien/buildings.ruleset:219
-#, fuzzy
 msgid "Filter"
-msgstr "Filtre:"
+msgstr "Filtre"
 
 #: data/alien/buildings.ruleset:236
 msgid ""
 "Filter System gets 1 extra food and 1 extra production from each oceanic "
 "tile."
 msgstr ""
+"Un Sistema de Filtre obté un punt addicional de menjar i un punt addicional"
+" de producció de cada casella oceànica."
 
 #: data/alien/buildings.ruleset:241
-#, fuzzy
 msgid "Force Walls"
-msgstr "Gran muralla"
+msgstr "Muralles de Força"
 
 #: data/alien/buildings.ruleset:259
 #, no-c-format
@@ -30984,10 +30987,13 @@ msgid ""
 "Force Walls doubles city defense against all kind of attacks. Bonus is "
 "increased to 150% when Strong Force technology is known."
 msgstr ""
+"Les Muralles de Força dupliquen la defensa de la ciutat contra tota mena"
+" d'atacs. La bonificació puja fins a 150% quan es coneix la tecnologia de"
+" Força Forta."
 
 #: data/alien/buildings.ruleset:264
 msgid "Headquarters"
-msgstr ""
+msgstr "Seu Central"
 
 #: data/alien/buildings.ruleset:280
 #, no-c-format
@@ -30995,6 +31001,8 @@ msgid ""
 "Headquarters building marks city as your capital. City with headquarters is "
 "also safe from enemy's incite revolt attacks."
 msgstr ""
+"L'edifici de la Seu Central marca la ciutat com a capital. Una ciutat amb Seu"
+" Central també està segura contra els atacs enemics d'incitació a la revolta."
 
 #: data/alien/buildings.ruleset:302
 #, no-c-format
@@ -31002,11 +31010,12 @@ msgid ""
 "Damaged units which stay in city without moving, heal 50% of their hitpoints "
 "each turn."
 msgstr ""
+"Les unitats malmeses que es queden a la ciutat sense moure's, recuperen un 50"
+"% dels seus punts de vida a cada torn."
 
 #: data/alien/buildings.ruleset:307
-#, fuzzy
 msgid "Information Distillery"
-msgstr "Informe d'informació"
+msgstr "Destil·leria d'informació"
 
 #: data/alien/buildings.ruleset:324
 #, no-c-format
@@ -31014,29 +31023,28 @@ msgid ""
 "Improved information gathering. Only 2 other factions needs to know given "
 "technology before we gain access to it."
 msgstr ""
+"Recollida d'informació millorada. Només 2 altres faccions han de conèixer una"
+" tecnologia donada abans no hi aconseguim l'accés."
 
 #: data/alien/buildings.ruleset:329
-#, fuzzy
 msgid "Mood Center"
-msgstr "Centrar"
+msgstr "Centre d'Ànim"
 
 #: data/alien/buildings.ruleset:346
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Makes 3 unhappy citizens content."
-msgstr "Cada unitat militar fa content %d ciutadà descontent."
+msgstr "Fa contents 3 ciutadans infeliços."
 
 #: data/alien/buildings.ruleset:351
-#, fuzzy
 msgid "Training Facility"
-msgstr "Instal·lació de Port"
+msgstr "Centre de Formació"
 
 #: data/alien/buildings.ruleset:368
 #, no-c-format
 msgid "All new units are built as Elite ones."
-msgstr ""
+msgstr "Totes les unitats noves es construeixen com a Elit."
 
 #: data/alien/buildings.ruleset:373
-#, fuzzy
 msgid "Transportation"
 msgstr "Transport"
 
@@ -31047,36 +31055,40 @@ msgid ""
 "transported from further away to city center. On hex maps city radius grows "
 "to 2 tiles. On square based maps increases city area by 8 tiles."
 msgstr ""
+"Els treballadors de la ciutat poden desplaçar-se més lluny des del centre de"
+" la ciutat per treballar i els béns es poden transportar des de més lluny cap"
+" al centre de la ciutat. Als mapes hexa el radi de la ciutat creix a 2"
+" caselles. En mapes basats en quadrats, augmenta l'àrea de la ciutat en 8"
+" caselles."
 
 #: data/alien/buildings.ruleset:398
 msgid "Radar Tower"
-msgstr ""
+msgstr "Torre de Radar"
 
 #: data/alien/buildings.ruleset:414
 msgid "City with Radar Tower sees much further than one without."
-msgstr ""
+msgstr "Una ciutat amb Torre de Radar veu molt més lluny que una que no en té."
 
 #: data/alien/buildings.ruleset:418
 msgid "Radiation Resistor"
-msgstr ""
+msgstr "Resistor de Radiació"
 
 #: data/alien/buildings.ruleset:434
 msgid "Radiation Resistor increases maximum city size by 3."
-msgstr ""
+msgstr "Un Resistor de Radiació augmenta de 3 la mida màxima de la ciutat."
 
 #: data/alien/buildings.ruleset:439
-#, fuzzy
 msgid "Research Nest"
-msgstr "Recerca"
+msgstr "Niu de Recerca"
 
 #: data/alien/buildings.ruleset:456
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science production of a city by 100%."
-msgstr "Augmenta en un 100% l'aportació a ciència de la ciutat."
+msgstr "Augmenta la producció de ciència d'una ciutat en un 100%."
 
 #: data/alien/buildings.ruleset:460
 msgid "Secret Police"
-msgstr ""
+msgstr "Policia Secreta"
 
 #: data/alien/buildings.ruleset:476
 msgid ""
@@ -31085,10 +31097,14 @@ msgid ""
 "Makes martial law possible. Each military unit in city makes one unhappy "
 "citizen content, to the maximum of 2."
 msgstr ""
+"La Policia Secreta va bé per dirigir l'exèrcit.\n"
+"\n"
+"Fa possible la llei marcial. Cada unitat militar dins de la ciutat fa que un"
+" ciutadà infeliç es torni content, amb un màxim de 2."
 
 #: data/alien/buildings.ruleset:482
 msgid "Skyscraper"
-msgstr ""
+msgstr "Gratacels"
 
 #: data/alien/buildings.ruleset:498
 msgid ""
@@ -31097,82 +31113,90 @@ msgid ""
 "\n"
 "Cities can grow 5 sizes bigger."
 msgstr ""
+"La radiació és més dèbil uns quants quilòmetres cap dalt. Els nivells"
+" superiors d'edificis molt alts poden acollir més gent de forma segura.\n"
+"\n"
+"Les ciutats poden créixer 5 mides més."
 
 #: data/alien/buildings.ruleset:503
 msgid "Virtual Reality Theatre"
-msgstr ""
+msgstr "Teatre de Realitat Virtual"
 
 #: data/alien/buildings.ruleset:520
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Makes two unhappy citizens content."
-msgstr "* No té ciutadans descontents.\n"
+msgstr "Fa contents dos ciutadans infeliços."
 
 #: data/alien/buildings.ruleset:626
 msgid "Earth Monument"
-msgstr ""
+msgstr "Monument a la Terra"
 
 #: data/alien/buildings.ruleset:641
-#, fuzzy
 msgid ""
 "Monument to celebrate our true home planet, Earth.\n"
 "\n"
 "Each square around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
-"Cada casella del voltant de la ciutat on es construeix aquesta meravella que "
-"estigui generant comerç, genera un punt de comerç addicional."
+"Monument per celebrar el nostre autèntic planeta origen, la Terra.\n"
+"\n"
+"Cada quadrat del voltant de la ciutat on es construeix aquesta meravella que"
+" ja estigui generant comerç produeix un recurs de comerç addicional."
 
 #: data/alien/buildings.ruleset:648
-#, fuzzy
 msgid "Great Tunnel"
-msgstr "Gran Meravella"
+msgstr "Gran Túnel"
 
 #: data/alien/buildings.ruleset:664
-#, fuzzy
 msgid ""
 "Real deep mining.\n"
 "\n"
 "Each square around the city where this wonder is built that is already "
 "generating some production produces one extra shield resource."
 msgstr ""
-"Cada casella del voltant de la ciutat on es construeix aquesta meravella que "
-"estigui generant comerç, genera un punt de comerç addicional."
+"Mineria profunda de debò.\n"
+"\n"
+"Cada quadrat del voltant de la ciutat on es construeix aquesta meravella que"
+" ja estigui generant producció produeix un recurs d'escut addicional."
 
 #: data/alien/buildings.ruleset:671
 msgid "Antigrav Control Center"
-msgstr ""
+msgstr "Centre de Control Antigrav"
 
 #: data/alien/buildings.ruleset:688
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "All player's antigravity units will regenerate 50% of their hitpoints each "
 "turn."
-msgstr "Totes les teves unitats recuperen dos punts de vida extra per torn."
+msgstr ""
+"Totes les unitats antigravetat del jugador regeneraran un 50% dels seus punts"
+" de vida a cada torn."
 
 #: data/alien/buildings.ruleset:694
-#, fuzzy
 msgid "Oceanic Downtown"
-msgstr "Oceà"
+msgstr "Centre de Ciutat Oceànica"
 
 #: data/alien/buildings.ruleset:711
 msgid "Each oceanic city center generates 3 points more trade and production."
 msgstr ""
+"Cada centre de ciutat oceànica genera 3 punts més de comerç i producció."
 
 #: data/alien/buildings.ruleset:716
 msgid "Monument of Co-operation"
-msgstr ""
+msgstr "Monument a la Cooperació"
 
 #: data/alien/buildings.ruleset:733
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "All player's native alien units will regenerate 50% of their hitpoints each "
 "turn."
-msgstr "Totes les teves unitats recuperen dos punts de vida extra per torn."
+msgstr ""
+"Totes les unitats natives alienígenes del jugador regeneraran un 50% dels"
+" seus punts de vida a cada torn."
 
 #: data/alien/buildings.ruleset:739
-#, fuzzy
 msgid "Protector"
-msgstr "Protector %s"
+msgstr "Protector"
 
 #: data/alien/buildings.ruleset:755
 msgid ""
@@ -31180,49 +31204,54 @@ msgid ""
 "cities player owns to grow 2 sizes bigger, unless growth is blocked by lack "
 "of the Basic Infrastructure."
 msgstr ""
+"Proporciona protecció addicional contra la radiació fent possible que totes"
+" les ciutats del jugador creixin 2 mides més, si no és que el creixement està"
+" bloquejat per manca de la Infraestructura Bàsica."
 
 #: data/alien/cities.ruleset:52
-#, fuzzy
 msgid "Culturists"
-msgstr "Cultura"
+msgstr "Culturistes"
 
 #: data/alien/cities.ruleset:53
-#, fuzzy
 msgid "?Culturists:C"
-msgstr "Cultura:"
+msgstr "C"
 
 #: data/alien/cities.ruleset:60
 msgid ""
 "Culturists create works that keep people satisfied. They create two luxury "
 "points per turn, four if Specialist Training tech is known."
 msgstr ""
+"Els Culturistes creen obres que mantenen satisfeta la gent. Creen dos punts"
+" de luxe per torn, quatre si es coneix la tecnologia de Formació"
+" d'Especialistes."
 
 #: data/alien/cities.ruleset:73
 msgid ""
 "Scientist reseach two bulbs worth of science each turn, four bulbs when "
 "Specialist Training tech is known."
 msgstr ""
+"Els Científics recerquen dues bombetes de ciència a cada torn, quatre quan es"
+" coneix la tecnologia de Formació d'Especialistes."
 
 #: data/alien/cities.ruleset:78
-#, fuzzy
 msgid "Government Merchants"
-msgstr "Govern: %s"
+msgstr "Mercaders del Govern"
 
 #: data/alien/cities.ruleset:80
-#, fuzzy
 msgid "?Merchant:M"
-msgstr "Mercant"
+msgstr "M"
 
 #: data/alien/cities.ruleset:87
 msgid ""
 "Government Merchants produce two gold for the government each turn, four "
 "once Specialist Training tech is known."
 msgstr ""
+"Els Mercaders del Govern produeixen dues peces d'or per al govern a cada"
+" torn, quatre quan es coneix la tecnologia de Formació d'Especialistes."
 
 #: data/alien/game.ruleset:28
-#, fuzzy
 msgid "Alien World"
-msgstr "Afegir llista de treball"
+msgstr "Món Alienígena"
 
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.alien, which are not localized.
@@ -31235,66 +31264,71 @@ msgid ""
 "See http://www.freeciv.org/wiki/Alien_World and http://www.cazfi.net/freeciv/"
 "alien/ for additional ruleset info."
 msgstr ""
+"Un dels objectius de disseny d'aquest joc de regles era que havia de donar"
+" una manera de jugar diferent de les regles estàndard. No assumiu que cap de"
+" les regles que coneixeu de les clàssiques siguin iguals en aquest joc de"
+" regles.\n"
+"\n"
+"Vegeu http://www.freeciv.org/wiki/Alien_World i"
+" http://www.cazfi.net/freeciv/alien/ per informació addicional del joc de"
+" regles."
 
 #. TRANS: Copy Research _Data (3% chance of success).
 #: data/alien/game.ruleset:273
-#, fuzzy, c-format
+#, c-format
 msgid "Copy Research %sData%s"
-msgstr "Investigant %s: %s"
+msgstr "Copiar %sDades de Recerca%s"
 
 #. TRANS: Monetize Containers (100% chance of success).
 #: data/alien/game.ruleset:282
 #, c-format
 msgid "Monetize %sContainers%s"
-msgstr ""
+msgstr "Monetitzar %sContenidors%s"
 
 #. TRANS: Quarters
 #: data/alien/game.ruleset:694
 msgid "Q1"
-msgstr ""
+msgstr "T1"
 
 #: data/alien/game.ruleset:695
 msgid "Q2"
-msgstr ""
+msgstr "T2"
 
 #: data/alien/game.ruleset:696
 msgid "Q3"
-msgstr ""
+msgstr "T3"
 
 #: data/alien/game.ruleset:697
 msgid "Q4"
-msgstr ""
+msgstr "T4"
 
 #: data/alien/game.ruleset:700
 msgid "GE"
-msgstr ""
+msgstr "EG"
 
 #: data/alien/game.ruleset:701
-#, fuzzy
 msgid "BGE"
-msgstr "a.C."
+msgstr "AEG"
 
 #: data/alien/game.ruleset:733
-#, fuzzy
 msgid "Radiation Burst"
-msgstr "Joc de nacions"
+msgstr "Esclat de Radiació"
 
 #: data/alien/game.ruleset:738
 msgid "Rebels"
-msgstr ""
+msgstr "Rebels"
 
 #: data/alien/game.ruleset:743
 msgid "Alien Microbes"
-msgstr ""
+msgstr "Microbis alienígenes"
 
 #: data/alien/game.ruleset:843
-#, fuzzy
 msgid "Commodities"
-msgstr "Ciutats"
+msgstr "Matèries primeres"
 
 #: data/alien/governments.ruleset:73
 msgid "Anarchy happens between government changes."
-msgstr ""
+msgstr "Es produeix Anarquia entre canvis de govern."
 
 #: data/alien/governments.ruleset:88
 #, c-format
@@ -31313,6 +31347,9 @@ msgid ""
 "\n"
 "Max tax/science/lux rate is 40%."
 msgstr ""
+"Aquesta és l'única forma de govern disponible al principi.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 40%."
 
 #: data/alien/governments.ruleset:112
 #, no-c-format
@@ -31323,6 +31360,11 @@ msgid ""
 "\n"
 "Communism gains 20% bonus to production."
 msgstr ""
+"Tipus de govern per potència militar.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 60%.\n"
+"\n"
+"El Comunisme guanya una bonificació del 20% per a la producció."
 
 #: data/alien/governments.ruleset:133
 #, no-c-format
@@ -31333,11 +31375,15 @@ msgid ""
 "\n"
 "Democracy gains 20% bonus to trade."
 msgstr ""
+"Tipus de govern en llibertat.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 70%.\n"
+"\n"
+"La Democràcia guanya una bonificació del 20% per al comerç."
 
 #: data/alien/governments.ruleset:142
-#, fuzzy
 msgid "Dual Communism"
-msgstr "Comunisme"
+msgstr "Comunisme Dual"
 
 #: data/alien/governments.ruleset:154
 #, no-c-format
@@ -31348,11 +31394,16 @@ msgid ""
 "\n"
 "Dual Communism gains 40% production bonus, and 20% trade bonus."
 msgstr ""
+"Tipus de govern per potència militar tant per humans com per alienígenes.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 80%.\n"
+"\n"
+"El Comunisme Dual guanya una bonificació del 40% per a la producció, i un 20%"
+" per al comerç."
 
 #: data/alien/governments.ruleset:163
-#, fuzzy
 msgid "Dual Democracy"
-msgstr "Democràcia"
+msgstr "Democràcia Dual"
 
 #: data/alien/governments.ruleset:175
 #, no-c-format
@@ -31363,47 +31414,54 @@ msgid ""
 "\n"
 "Dual Democracy gains 40% trade bonus, and 20% production bonus."
 msgstr ""
+"Tipus de govern en llibertat tant per humans com per alienígenes.\n"
+"\n"
+"La taxa màxima d'impostos/ciència/luxe és del 90%.\n"
+"\n"
+"El Comunisme Dual guanya una bonificació del 40% per al comerç, i un 20% per"
+" a la producció."
 
 #: data/alien/script.lua:24
-#, fuzzy, c-format
+#, c-format
 msgid "It was a safe containing %d gold."
 msgid_plural "It was a safe containing %d gold."
-msgstr[0] "El tresor conté %d peça d'or."
-msgstr[1] "El tresor conté %d peces d'or."
+msgstr[0] "Era una caixa forta que contenia %d peça d'or."
+msgstr[1] "Era una caixa forta que contenia %d peces d'or."
 
 #: data/alien/script.lua:37
 #, c-format
 msgid "There was a datapod containing research info about %s."
-msgstr ""
+msgstr "Hi havia un punt de dades que contenia informació de recerca sobre %s."
 
 #: data/alien/script.lua:40
 #, c-format
 msgid "The %s found datapod containing research info about %s."
 msgstr ""
+"Els %s han trobat un punt de dades que contenia informació de recerca sobre "
+"%s."
 
 #. TRANS: first %s is nation plural or team name
 #: data/alien/script.lua:45
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have acquired %s from Space Capsule they found."
-msgstr "Els %s han adquirit %s d'antics pergamins."
+msgstr "Els %s han adquirit %s en una Càpsula Espacial que han trobat."
 
 #: data/alien/script.lua:61
-#, fuzzy
 msgid "You found a base starting kit."
-msgstr "Has trobat una ciutat amistosa."
+msgstr "Has trobat un kit d'inici per a una base."
 
 #: data/alien/script.lua:80
 msgid "The Space Capsule was already scavenged by someone."
-msgstr ""
+msgstr "Algú ja havia regirat la Càpsula Espacial."
 
 #: data/alien/script.lua:87
 msgid "It was a trap! Set by the outcasts."
-msgstr ""
+msgstr "Era una trampa! L'havien preparada els proscrits."
 
 #: data/alien/script.lua:90
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has been killed by outcasts!"
-msgstr "El teu %s ha mort a mans de bàrbars!"
+msgstr "El teu %s ha mort a mans de proscrits!"
 
 #: data/alien/script.lua:132
 msgid ""
@@ -31429,31 +31487,47 @@ msgid ""
 "You struggle to live on this planet, and read\n"
 "Roadside Picnic by Strugatsky brothers once more."
 msgstr ""
+"Se sabia que Deneb 7 tenia un camp de força estrany que el rodejava\n"
+"i que feia impossible d'apropar-s'hi amb la tecnologia terrestre\n"
+"de l'any 250 de l'Era Galàctica. No obstant, quan vas passar-hi\n"
+"volant a prop, el camp es va revertir sobtadament i et va xuclar\n"
+"cap al planeta.\n"
+"\n"
+"Et trobes en un món estrany, probablement tocat per tecnologia\n"
+"superior, on una bona part de la ciència de la Terra no és vàlida.\n"
+"Has d'aprendre noves regles,\n"
+"les regles d'aquest món.\n"
+"\n"
+"Hi ha radiació mortal que no pot aturar cap protecció coneguda.\n"
+"Hi ha vida alienígena, però encara és més sorprenent que\n"
+"també hi ha algunes plantes comestibles com a la Terra.\n"
+"\n"
+"La ràdio no funciona,\n"
+"l'aire no permet volar, hi ha Física bàsica que aquí no\n"
+"funciona.\n"
+"\n"
+"Lluites per viure en aquest planeta, i tornes a llegir\n"
+"Stalker, pícnic a la vora del camí dels germans Strugatsky."
 
 #: data/alien/styles.ruleset:30
-#, fuzzy
 msgid "?style:Human"
-msgstr "Asiàtic"
+msgstr "Humà"
 
 #: data/alien/styles.ruleset:52
-#, fuzzy
 msgid "?citystyle:Human"
-msgstr "Asiàtic"
+msgstr "Humà"
 
 #: data/alien/styles.ruleset:62
-#, fuzzy
 msgid "?citystyle:Dual"
-msgstr "Industrial"
+msgstr "Dual"
 
 #: data/alien/styles.ruleset:73
-#, fuzzy
 msgid "?citystyle:Oceanic"
-msgstr "Cèltic"
+msgstr "Oceànic"
 
 #: data/alien/techs.ruleset:121
-#, fuzzy
 msgid "Alien Rights"
-msgstr "Cavallers"
+msgstr "Drets Alienígenes"
 
 #: data/alien/techs.ruleset:127
 msgid ""
@@ -31461,47 +31535,49 @@ msgid ""
 "\n"
 "Alien Forest tiles produce +1 production."
 msgstr ""
+"Són llestos. També han de tenir drets?\n"
+"\n"
+"Les caselles de Bosc Alienígena fan +1 de producció.´"
 
 #: data/alien/techs.ruleset:132
 msgid "Alien Taming"
-msgstr ""
+msgstr "Domesticació d'Alienígenes"
 
 #: data/alien/techs.ruleset:138
 msgid "Some of the Alien lifeforms now work for us."
-msgstr ""
+msgstr "Algunes formes de vida alienígena ara treballen per a nosaltres."
 
 #: data/alien/techs.ruleset:141
-#, fuzzy
 msgid "Alien Training"
-msgstr "en queden %d"
+msgstr "Formació d'Alienígenes"
 
 #: data/alien/techs.ruleset:147
 msgid "Trained native lifeforms - deadly."
-msgstr ""
+msgstr "Formes de vida natives formades - mortíferes."
 
 #: data/alien/techs.ruleset:150
-#, fuzzy
 msgid "Amphibious Tactics"
-msgstr "Guerra Amfíbia"
+msgstr "Tàctica Amfíbia"
 
 #: data/alien/techs.ruleset:156
 msgid "Warfare with amphibious units."
-msgstr ""
+msgstr "Lluita amb unitats amfíbies"
 
 #: data/alien/techs.ruleset:159
-#, fuzzy
 msgid "Antigravity"
-msgstr "Qualsevol activitat"
+msgstr "Antigravetat"
 
 #: data/alien/techs.ruleset:165
 msgid ""
 "Even if normal method of flying is impossible in this world antigravity "
 "works. We just need to master it."
 msgstr ""
+"Encara que el mètode normal de volar és impossible en aquest món,"
+" l'antigravetat funciona. Només ens cal dominar-la."
 
 #: data/alien/techs.ruleset:169
 msgid "Burrowing"
-msgstr ""
+msgstr "Excavació"
 
 #: data/alien/techs.ruleset:175
 msgid ""
@@ -31511,44 +31587,49 @@ msgid ""
 " In addition to making first burrowing units available, knowledge of this "
 "tech allows mining of Thick Mountains."
 msgstr ""
+"Com que sembla impossible de volar en aquest món, ens dediquem a la direcció"
+" contrària. Moure's excavant la terra és possible.\n"
+"\n"
+"A més de fer disponibles les primeres unitats excavadores, el coneixement"
+" d'aquesta tecnologia permet la minera en Muntanyes Gruixudes."
 
 #: data/alien/techs.ruleset:183
 msgid "Brain Development"
-msgstr ""
+msgstr "Desenvolupament del Cervell"
 
 #: data/alien/techs.ruleset:191
-#, fuzzy
 msgid "Brute Force"
-msgstr "Cura del càncer"
+msgstr "Força Bruta"
 
 #: data/alien/techs.ruleset:197
 msgid "It's time to make more powerful weapons than ever before."
-msgstr ""
+msgstr "És hora de fer armes més potents que mai."
 
 #: data/alien/techs.ruleset:200
-#, fuzzy
 msgid "City Defense"
-msgstr "Defensa costanera"
+msgstr "Defensa de Ciutat"
 
 #: data/alien/techs.ruleset:206
 msgid ""
 "Advanced form of force channeling allows us to protect city size objects "
 "with channeled radiation energy."
 msgstr ""
+"Una forma avançada de canalització de la força ens permet objectes de la mida"
+" d'una ciutat amb energia de radiació canalitzada."
 
 #: data/alien/techs.ruleset:210
 msgid "Commercial Antigravity"
-msgstr ""
+msgstr "Antigravetat Comercial"
 
 #: data/alien/techs.ruleset:216
 msgid ""
 "Antigravity is not only for military. It has commercial applications as well."
 msgstr ""
+"L'antigravetat no és només per als militars. També té aplicacions comercials."
 
 #: data/alien/techs.ruleset:220
-#, fuzzy
 msgid "Communication"
-msgstr "Combustió"
+msgstr "Comunicació"
 
 #: data/alien/techs.ruleset:226
 msgid ""
@@ -31559,110 +31640,127 @@ msgid ""
 "Also your own bases can communicate more efficiently with each other, so "
 "number of bases you have is not causing as much unhappiness as before."
 msgstr ""
+"La ràdio convencional no funciona, aquí. Desenvolupar una alternativa"
+" funcional que aprofita la radiació local. Podràs contactar amb altres"
+" faccions i obtenir-ne molta més informació.\n"
+"\n"
+"A més, les teves pròpies bases es poden comunicar entre elles de forma més"
+" eficient, i així el nombre de bases que tens no causa tanta infelicitat com"
+" abans."
 
 #: data/alien/techs.ruleset:233
-#, fuzzy
 msgid "Composites"
-msgstr "Ordinadors"
+msgstr "Compòsits"
 
 #: data/alien/techs.ruleset:239
 msgid "Stronger materials mean stronger armors."
-msgstr ""
+msgstr "Materials més forts volen dir blindatges més forts."
 
 #: data/alien/techs.ruleset:242
-#, fuzzy
 msgid "Controlled Biomass"
-msgstr "Controls"
+msgstr "Biomassa Controlada"
 
 #: data/alien/techs.ruleset:248
 msgid ""
 "Bugs, Slimes, Molds. We can drive masses of them together and then control "
 "movement of that biomass to act like a one being."
 msgstr ""
+"Cuques, Fongs, Floridura. Poden ajuntar-ne masses i llavors controlar el"
+" moviment d'aquesta biomassa perquè actuï com un ésser."
 
 #: data/alien/techs.ruleset:252
-#, fuzzy
 msgid "Crust Defense"
-msgstr "Defensa costanera"
+msgstr "Defensa d'Escorça"
 
 #: data/alien/techs.ruleset:258
-#, fuzzy
 msgid "Defense against burrowing units."
-msgstr "Es defensa molt malament contra els Caces."
+msgstr "Defensa contra unitats excavadores."
 
 #: data/alien/techs.ruleset:261
 msgid "Cyber Aliens"
-msgstr ""
+msgstr "Ciberalienígenes"
 
 #: data/alien/techs.ruleset:267
 msgid "Alliance of the machine and alien organisms."
-msgstr ""
+msgstr "Aliança d'organismes mecànics i alienígenes."
 
 #: data/alien/techs.ruleset:270
 msgid "Cybermodules"
-msgstr ""
+msgstr "Cibermòduls"
 
 #: data/alien/techs.ruleset:276
 msgid ""
 "Standardized cyber units save money - or make money to those producing them."
 msgstr ""
+"Les unitats cíber estandarditzades estalvien diners - o en fan per als que"
+" les produeixen."
 
 #: data/alien/techs.ruleset:280
-#, fuzzy
 msgid "Cybernetics"
-msgstr "Venètic"
+msgstr "Cibernètica"
 
 #: data/alien/techs.ruleset:286
 msgid ""
 "Making old Earth technology better than before is relatively easy task to "
 "do. For small investment, cybernetics gives us much better attack units."
 msgstr ""
+"Millorar l'antiga tecnologia de la Terra és una tasca relativament fàcil. Per"
+" una inversió petita, la cibernètica ens dóna unitats d'atac molt millors."
 
 #: data/alien/techs.ruleset:290
 msgid "Data Storage"
-msgstr ""
+msgstr "Emmagatzemament de Dades"
 
 #: data/alien/techs.ruleset:296
 msgid ""
 "Needs to archive all the media produced for and by politics drive "
 "development of better data storage methods."
 msgstr ""
+"La necessitat d'arxivar tots els medis produïts per i per a la política"
+" estimula el desenvolupament de mètodes millors d'emmagatzemament de dades."
 
 #: data/alien/techs.ruleset:300
-#, fuzzy
 msgid "Deep Pumping"
-msgstr "Continuar movent-se"
+msgstr "Bombeig en Profunditat"
 
 #: data/alien/techs.ruleset:306
 msgid ""
 "We can pump water from the depths of the crust. We no longer need any of the "
 "adjacent tiles to have water in order to build Greenhouses."
 msgstr ""
+"Podem bombejar aigua des de les profunditats de l'escorça. Ja no necessitem"
+" cap de les caselles adjacents per tenir aigua i poder construir Hivernacles."
 
 #: data/alien/techs.ruleset:310
 msgid "Deneb Radar"
-msgstr ""
+msgstr "Radar Deneb"
 
 #: data/alien/techs.ruleset:316
 msgid ""
 "Not really an conventional radar, but named so as it fills similar role. "
 "It's based on Deneb 7 radiation and works on this planet."
 msgstr ""
+"En realitat no és un radar convencional, però se l'anomena així perquè té una"
+" utilitat similar. Està basat en la radiació de Deneb 7 i funciona en aquest"
+" planeta."
 
 #: data/alien/techs.ruleset:320
-#, fuzzy
 msgid "Dual Government"
-msgstr "Govern"
+msgstr "Govern Dual"
 
 #: data/alien/techs.ruleset:326
 msgid "Government should consider both Humans and Native aliens."
 msgstr ""
+"El govern hauria de tenir en consideració igualment els Humans i els Nadius"
+" alienígenes."
 
 #: data/alien/techs.ruleset:336
 msgid ""
 "We are finally able to escape force field surrounding Deneb 7. In addition "
 "to technical insight it requires correct attitude."
 msgstr ""
+"Finalment podem escapar del camp de força que rodeja Deneb 7. A més de la"
+" inspiració tècnica, requereix una orientació correcta."
 
 #: data/alien/techs.ruleset:340
 #, fuzzy
@@ -31671,7 +31769,7 @@ msgstr "Govern"
 
 #: data/alien/techs.ruleset:346
 msgid "Familiar government types adjusted to local environment."
-msgstr ""
+msgstr "Tipus de govern familiars ajustats a l'entorn local."
 
 #: data/alien/techs.ruleset:349
 #, fuzzy
@@ -31684,11 +31782,14 @@ msgid ""
 "to this strange planet, are quite unlike anything seen before. It very well "
 "deserves small study. Maybe we then can co-operate with other factions."
 msgstr ""
+"Les relacions humanes en aquesta situació, on faccions diverses viuen per"
+" força en aquest planeta estrany, són totalment inaudites. Això mereix"
+" clarament un petit estudi. Potser llavors podrem cooperar amb les altres"
+" faccions."
 
 #: data/alien/techs.ruleset:361
-#, fuzzy
 msgid "Food Regeneration"
-msgstr "Refrigeració"
+msgstr "Regeneració d'Aliments"
 
 #: data/alien/techs.ruleset:368
 #, no-c-format
@@ -31698,10 +31799,15 @@ msgid ""
 "\n"
 "Protein Houses tiles get additional 50% food production bonus."
 msgstr ""
+"Si el que collim torna a créixer més de pressa, tindrem més menjar. És així"
+" de senzill.\n"
+"\n"
+"Les caselles de Cases de Proteïnes obtenen una bonificació en la producció de"
+" menjar del 50%."
 
 #: data/alien/techs.ruleset:373
 msgid "Force Channeling"
-msgstr ""
+msgstr "Canalització de Força"
 
 #: data/alien/techs.ruleset:379
 msgid ""
@@ -31710,10 +31816,14 @@ msgid ""
 "\n"
 "Engineers can build Force Fortresses."
 msgstr ""
+"La radiació és un obstacle per a nosaltres, però ara també un recurs. Sabem"
+" canalitzar la força de Deneb 7 per a la nostra conveniència.\n"
+"\n"
+"Els Enginyers poden construir Fortaleses de Força."
 
 #: data/alien/techs.ruleset:384
 msgid "Gravity Manipulation"
-msgstr ""
+msgstr "Manipulació de la Gravetat"
 
 #: data/alien/techs.ruleset:390
 msgid ""
@@ -31722,18 +31832,19 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:394
-#, fuzzy
 msgid "Global Knowledge"
-msgstr "Observadors globals"
+msgstr "Coneixement global"
 
 #: data/alien/techs.ruleset:400
 msgid ""
 "Information flows to us. We learn any tech known by four other factions."
 msgstr ""
+"La informació flueix cap a nosaltres. Aprenem qualsevol tecnologia que sigui"
+" coneguda per quatre altres faccions."
 
 #: data/alien/techs.ruleset:404
 msgid "High-Tech Filtering"
-msgstr ""
+msgstr "Filtratge d'Alta Tecnologia"
 
 #: data/alien/techs.ruleset:410
 msgid "You can get a lot of things from ocean if you know how."
@@ -31763,9 +31874,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:445
-#, fuzzy
 msgid "Manufacturing"
-msgstr "Viatges Marítims"
+msgstr "Fabricació"
 
 #: data/alien/techs.ruleset:451
 msgid ""
