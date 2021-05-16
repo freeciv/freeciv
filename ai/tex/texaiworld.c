@@ -181,6 +181,9 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
   struct player *pplayer = player_by_number(info->owner);
 
   if (msgtype == TEXAI_MSG_CITY_CREATED) {
+    if (idex_lookup_city(&texai_world, info->id) != NULL) {
+      return;
+    }
     struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
     pcity = create_city_virtual(pplayer, ptile, "");
@@ -288,6 +291,9 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
   struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
   if (msgtype == TEXAI_MSG_UNIT_CREATED) {
+    if (idex_lookup_unit(&texai_world, info->id) != NULL) {
+      return;
+    }
     struct texai_plr *plr_data = player_ai_data(pplayer, texai_get_self());
 
     punit = unit_virtual_create(pplayer, NULL, type, 0);
