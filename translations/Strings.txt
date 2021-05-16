@@ -8,6 +8,9 @@ Version tags
 
 These are sent by metaserver
 
+While the follow tag compared to one received from the metaserver
+does not contain qualifiers, we do pass string with the qualifier
+added to gettext to get the translation.
 /* TRANS: Version tag name received from metaserver */
 _("?vertag:stable")
 _("?vertag:win32")
