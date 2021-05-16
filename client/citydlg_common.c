@@ -752,7 +752,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     /* TRANS: airlift. Possible take offs text. String is a symbol that
      * indicates that terms and conditions apply when landings are limited
      * and empty when they aren't limited. */
-    fc_snprintf(src, sizeof(src), _("∞%s"),
+    fc_snprintf(src, sizeof(src), _("   ∞%s"),
                 game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST
                 /* TRANS: airlift unlimited take offs may be spent symbol
                  * used above. */
@@ -760,7 +760,7 @@ void get_city_dialog_airlift_value(const struct city *pcity,
   } else {
     /* TRANS: airlift. Possible take offs text. Number is
      * airlift capacity. */
-    fc_snprintf(src, sizeof(src), _("%d"), pcity->airlift);
+    fc_snprintf(src, sizeof(src), _("%4d"), pcity->airlift);
   }
 
   if (game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST) {
@@ -770,16 +770,16 @@ void get_city_dialog_airlift_value(const struct city *pcity,
     unlimited++;
 
     /* TRANS: airlift. Possible landings text. */
-    fc_snprintf(dest, sizeof(dest), _("∞"));
+    fc_snprintf(dest, sizeof(dest), _("   ∞"));
   } else {
     /* TRANS: airlift. Possible landings text. */
-    fc_snprintf(dest, sizeof(dest), _("%d"), pcity->airlift);
+    fc_snprintf(dest, sizeof(dest), _("%4d"), pcity->airlift);
   }
 
   switch (unlimited) {
   case 2:
     /* TRANS: unlimited airlift take offs and landings */
-    fc_snprintf(buf, bufsz, _("∞"));
+    fc_snprintf(buf, bufsz, _("   ∞"));
     break;
   case 1:
     /* TRANS: airlift take offs and landings. One is unlimited. The first

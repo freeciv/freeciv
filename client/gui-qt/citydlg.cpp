@@ -3035,12 +3035,12 @@ void city_dialog::update_info_label()
               pcity->pollution);
 
   if (!game.info.illness_on) {
-    fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]), " -.-");
+    fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]), "  -.-");
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
-                "%4.1f%%", (float) illness / 10.0);
+                "%5.1f%%", (float) illness / 10.0);
   }
 
   get_city_dialog_airlift_value(pcity, buf_info[INFO_AIRLIFT],

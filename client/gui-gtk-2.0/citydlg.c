@@ -1593,11 +1593,11 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   fc_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
               pcity->pollution);
   if (!game.info.illness_on) {
-    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "  -.-");
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
-    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f%%",
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%5.1f%%",
                 (float)illness / 10.0);
   }
 
