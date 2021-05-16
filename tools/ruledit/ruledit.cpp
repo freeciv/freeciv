@@ -66,7 +66,7 @@ int main(int argc, char **argv)
   int ui_options;
   int exit_status = EXIT_SUCCESS;
 
-  /* Load win32 post-crash debugger */
+  // Load Windows post-crash debugger
 #ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
