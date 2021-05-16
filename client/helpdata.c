@@ -4030,7 +4030,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       case CBONUS_FIREPOWER1:
         cat_snprintf(buf, bufsz,
                      /* TRANS: or-list of unit types */
-                     _("* Reduces target's fire power to 1 when "
+                     _("* Reduces target's firepower to 1 when "
                        "attacking %s.\n"),
                      astr_build_and_list(&list, against, targets));
         break;
