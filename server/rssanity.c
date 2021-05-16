@@ -536,7 +536,7 @@ bool sanity_check_ruleset_data(void)
   if (game.info.tech_cost_style == TECH_COST_CIV1CIV2
       && game.info.free_tech_method == FTM_CHEAPEST) {
     ruleset_error(LOG_ERROR, "Cost based free tech method, but tech cost style "
-                  "1 so all techs cost the same.");
+                  "\"Civ I|II\" so all techs cost the same.");
     ok = FALSE;
   }
 
