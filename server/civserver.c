@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
   bool showvers = FALSE;
   char *option = NULL;
 
-  /* Load win32 post-crash debugger */
+  /* Load Windows post-crash debugger */
 #ifdef FREECIV_MSWINDOWS
 # ifndef FREECIV_NDEBUG
   if (LoadLibrary("exchndl.dll") == NULL) {
