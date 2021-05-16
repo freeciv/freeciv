@@ -147,7 +147,7 @@ SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
 	libFLAC-8.dll \
-	libfluidsynth-2.dll \
+	libfluidsynth-3.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
 	libvorbisenc-2.dll \
