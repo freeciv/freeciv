@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-05-14 13:22+0300\n"
-"PO-Revision-Date: 2021-05-15 20:26+0200\n"
+"PO-Revision-Date: 2021-05-17 00:20+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -30927,7 +30927,7 @@ msgid ""
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
 "Infraestructura bàsica de la ciutat. Aquesta millora no té manteniment, i no"
-" pot sabotejar-se per un Espia Incògnit enemic.\n"
+" pot sabotejar-se per un Espia Ocult enemic.\n"
 "\n"
 "Sense aquesta millora la ciutat no pot créixer a més de mida 2."
 
@@ -31763,18 +31763,16 @@ msgstr ""
 " inspiració tècnica, requereix una orientació correcta."
 
 #: data/alien/techs.ruleset:340
-#, fuzzy
 msgid "Faction Government"
-msgstr "Govern"
+msgstr "Govern de Faccions"
 
 #: data/alien/techs.ruleset:346
 msgid "Familiar government types adjusted to local environment."
 msgstr "Tipus de govern familiars ajustats a l'entorn local."
 
 #: data/alien/techs.ruleset:349
-#, fuzzy
 msgid "Faction Politics"
-msgstr "Posicions Inicials de les Nacions"
+msgstr "Política de Faccions"
 
 #: data/alien/techs.ruleset:355
 msgid ""
@@ -31830,6 +31828,8 @@ msgid ""
 "From inside the crust we gather information required to understand how "
 "gravity works and what one can do with it."
 msgstr ""
+"Des de dins de l'escorça recollim la informació que cal per entendre com"
+" funciona la gravetat i què s'hi pot fer."
 
 #: data/alien/techs.ruleset:394
 msgid "Global Knowledge"
@@ -31848,15 +31848,17 @@ msgstr "Filtratge d'Alta Tecnologia"
 
 #: data/alien/techs.ruleset:410
 msgid "You can get a lot of things from ocean if you know how."
-msgstr ""
+msgstr "Pots obtenir moltes coses de l'oceà si saps com fer-ho."
 
 #: data/alien/techs.ruleset:419
 msgid "Simply knowing this tech makes two content citizens happy in each city."
 msgstr ""
+"Només per conèixer aquesta tecnologia es fan feliços dos ciutadans contents a"
+" cada ciutat."
 
 #: data/alien/techs.ruleset:423
 msgid "Low-Level Orbit"
-msgstr ""
+msgstr "Òrbita de Baix Nivell"
 
 #: data/alien/techs.ruleset:429
 msgid ""
@@ -31866,12 +31868,19 @@ msgid ""
 "Makes Antigrav Ports more efficient. They can airlift three units instead of "
 "just one."
 msgstr ""
+"Amb nous avenços en antigravetat podem entrar en òrbita, tot i que encara som"
+" presoners del camp de força que rodeja Deneb 7.\n"
+"\n"
+"Fa més eficients els Ports Antigrav. Poden aerotransportar tres unitats en"
+" comptes de només una."
 
 #: data/alien/techs.ruleset:441
 msgid ""
 "Using Deneb 7's own power available everywhere land travel speeds can reach "
 "levels never seen before."
 msgstr ""
+"Utilitzant l'energia pròpia de Deneb 7, que és per tot arreu, les velocitats"
+" de viatge terrestre poden arribar a nivells que no s'havien vist mai."
 
 #: data/alien/techs.ruleset:445
 msgid "Manufacturing"
@@ -31881,11 +31890,11 @@ msgstr "Fabricació"
 msgid ""
 "It takes some research to even make basic manufacturing in this alien world."
 msgstr ""
+"Cal recerca fins i tot per fer manufactures bàsiques en aquest món estrany."
 
 #: data/alien/techs.ruleset:455
-#, fuzzy
 msgid "Martial Law"
-msgstr "Marcià"
+msgstr "Llei Marcial"
 
 #: data/alien/techs.ruleset:461
 msgid ""
@@ -31895,11 +31904,15 @@ msgid ""
 "Maximum martial law for cities with Secret Police is increased from two to "
 "five."
 msgstr ""
+"Una llei marcial efectiva requereix que puguem reaccionar ràpidament, per"
+" enviar forces on calen de forma immediata.\n"
+"\n"
+"La llei marcial màxima per a ciutats amb Policia Secreta augmenta de dos a"
+" cinc."
 
 #: data/alien/techs.ruleset:467
-#, fuzzy
 msgid "Mental Powers"
-msgstr "Energia Nuclear"
+msgstr "Poders Mentals"
 
 #: data/alien/techs.ruleset:473
 msgid ""
@@ -31909,9 +31922,14 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 3 sizes bigger."
 msgstr ""
+"VULL\n"
+"\n"
+"Una manera de resistir a la radiació és la força de voluntat.\n"
+"\n"
+"Tan sols conèixer aquesta tecnologia permet que les ciutats creixin 3 mides"
+" més."
 
 #: data/alien/techs.ruleset:478
-#, fuzzy
 msgid "?tech:Mining"
 msgstr "Mineria"
 
@@ -31920,6 +31938,8 @@ msgid ""
 "Earthly mining technologies were not sufficient for heavy scale mining on "
 "this planet."
 msgstr ""
+"Les tecnologies mineres de la Terra no eren suficients per fer mineria a gran"
+" escala en aquest planeta."
 
 #: data/alien/techs.ruleset:488
 #, fuzzy
@@ -31933,28 +31953,28 @@ msgid ""
 msgstr ""
 
 #: data/alien/techs.ruleset:498
-#, fuzzy
 msgid "Mood Manipulation"
-msgstr "Població"
+msgstr "Manipulació d'Estat d'Ànim"
 
 #: data/alien/techs.ruleset:504
 msgid "People are happy if they believe that they are happy."
-msgstr ""
+msgstr "La gent és feliç si creuen que són feliços."
 
 #: data/alien/techs.ruleset:507
 msgid "Naval Superiority"
-msgstr ""
+msgstr "Superioritat Naval"
 
 #: data/alien/techs.ruleset:513
 msgid ""
 "It's no longer enough to replicate old Earth technologies. We want "
 "superiority."
 msgstr ""
+"Ja no n'hi ha prou amb replicar les antigues tecnologies de la Terra. Volem"
+" superioritat."
 
 #: data/alien/techs.ruleset:517
-#, fuzzy
 msgid "New Frontier"
-msgstr "Nova votació"
+msgstr "Nova Frontera"
 
 #: data/alien/techs.ruleset:524
 #, no-c-format
@@ -31964,20 +31984,22 @@ msgid ""
 "\n"
 "Increases max tax/science/lux rate by 10%."
 msgstr ""
+"Finalment prenem consciència plena que no estem limitats al que teníem com a"
+" part de l'imperi Terrestre.\n"
+"\n"
+"Augmenta la taxa màxima d'impostos/ciència/luxe en un 10%."
 
 #: data/alien/techs.ruleset:529
-#, fuzzy
 msgid "Ocean Cities"
-msgstr "Cap ciutat"
+msgstr "Ciutats a l'Oceà"
 
 #: data/alien/techs.ruleset:535
 msgid "Cities on ocean. Why not?"
-msgstr ""
+msgstr "Ciutats a l'Oceà. Per què no?"
 
 #: data/alien/techs.ruleset:538
-#, fuzzy
 msgid "Organic Structures"
-msgstr "Estructura Espacial"
+msgstr "Estructures Orgàniques"
 
 #: data/alien/techs.ruleset:544
 msgid ""
@@ -31986,11 +32008,14 @@ msgid ""
 "\n"
 "Cities can work radiating tiles."
 msgstr ""
+"L'art de fer blindatge a partir d'organismes alienígenes resistents a"
+" l'estranya radiació de Deneb 7 ens permet d'entrar en noves zones.\n"
+"\n"
+"Les ciutats poden treballar en caselles amb radiació."
 
 #: data/alien/techs.ruleset:549
-#, fuzzy
 msgid "Paradrop"
-msgstr "Paracaigudistes aquí"
+msgstr "Salt en Paracaigudes"
 
 #: data/alien/techs.ruleset:554
 msgid ""
@@ -31998,11 +32023,13 @@ msgid ""
 "ready to act immediately after landing are hard for aliens. They need extra "
 "mental powers for that."
 msgstr ""
+"És fàcil caure des del capdamunt de l'òrbita, però encertar un objectiu petit"
+" i estar a punt per actuar de seguida que aterren és difícil per als"
+" alienígenes. Per fer això necessiten poders mentals addicionals."
 
 #: data/alien/techs.ruleset:559
-#, fuzzy
 msgid "Personal Contact"
-msgstr "Primer contacte"
+msgstr "Contacte Personal"
 
 #: data/alien/techs.ruleset:565
 #, no-c-format
@@ -32013,10 +32040,17 @@ msgid ""
 "Stealth Spies protecting your cities against enemy Spies will get 40% bonus. "
 "It also gets 40% harder for enemies to sabotage specific buildings."
 msgstr ""
+"Amb Realitat Virtual és com si l'actor fos de veritat amb tu. Quan permets"
+" que els actors es teleportin per conèixer el seu públic, potser sí que hi"
+" són.\n"
+"\n"
+"Els Espies Ocults que protegeixen les teves ciutats contra Espies enemics"
+" obtindran un 40% de bonificació. També passa a ser un 40% més difícil que"
+" els enemics sabotegin edificis concrets."
 
 #: data/alien/techs.ruleset:572
 msgid "Protein Modifications"
-msgstr ""
+msgstr "Modificacions de Proteïnes"
 
 #: data/alien/techs.ruleset:578
 #, no-c-format
@@ -32026,10 +32060,14 @@ msgid ""
 "Engineers can build Protein Houses, which increases tile food production by "
 "50%."
 msgstr ""
+"Resulta que podem fer que les formes de vida alienígenes siguin comestibles.\n"
+"\n"
+"Els Enginyers poden construir Cases de Proteïna, cosa que augmenta la"
+" producció de menjar de les caselles en un 50%."
 
 #: data/alien/techs.ruleset:583
 msgid "Radiation Resistance"
-msgstr ""
+msgstr "Resistència a la Radiació"
 
 #: data/alien/techs.ruleset:589
 msgid ""
@@ -32038,22 +32076,27 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 1 size bigger."
 msgstr ""
+"Examinant de prop les formes de vida alienígenes i com sobreviuen a la"
+" radiació, podem incorporar certa resistència a la radiació a les nostres"
+" ciutats.\n"
+"\n"
+"Conèixer aquesta tecnologia permet que les ciutats creixin una mida més."
 
 #: data/alien/techs.ruleset:594
-#, fuzzy
 msgid "Regeneration"
-msgstr "Refrigeració"
+msgstr "Regeneració"
 
 #: data/alien/techs.ruleset:600
 msgid ""
 "We know how aliens regenerate, we know how self-repairing machines "
 "regenerate, we know how Earth organisms regenerate."
 msgstr ""
+"Sabem com es regeneren els alienígenes, sabem com es regeneren les màquines"
+" autoreparables, sabem com es regeneren els organismes de la Terra."
 
 #: data/alien/techs.ruleset:604
-#, fuzzy
 msgid "Research Methods"
-msgstr "Velocitat de Recerca"
+msgstr "Mètodes de Recerca"
 
 #: data/alien/techs.ruleset:611
 #, no-c-format
@@ -32063,20 +32106,26 @@ msgid ""
 "\n"
 "Simply knowing this tech increases science output by 35%."
 msgstr ""
+"Els mètodes de recerca que siguin adequats per entomar els reptes d'aquí ens"
+" permeten d'obtenir coneixement molt més ràpid.\n"
+"\n"
+"Conèixer aquesta tecnologia augmenta la producció de ciència en un 35%."
 
 #: data/alien/techs.ruleset:616
 msgid "Smart Aliens"
-msgstr ""
+msgstr "Alienígenes Llestos"
 
 #: data/alien/techs.ruleset:622
 msgid ""
 "Once we have given some smarts, backed with some remote control, to them, "
 "they can work on more demanding tasks."
 msgstr ""
+"Un cop els hem donat algunes habilitats, i ajudant-nos amb una mica de"
+" control remot, ja poden treballar en tasques més exigents."
 
 #: data/alien/techs.ruleset:626
 msgid "Soul"
-msgstr ""
+msgstr "Ànima"
 
 #: data/alien/techs.ruleset:632
 msgid ""
@@ -32087,11 +32136,16 @@ msgid ""
 "citizens is converted to unhappy in every city in the world unless owner of "
 "the city also knows Soul."
 msgstr ""
+"Combinant el nostre coneixement sobre humans i alienígenes entenem finalment"
+" el concepte universal de l'ànima.\n"
+"\n"
+"Podem provocar terror en els nostres enemics. De seguida que algú coneix"
+" Ànima, dos ciutadans contents es converteixen en infeliços a cada ciutat del"
+" món, si no és que el propietari de la ciutat també coneix Ànima."
 
 #: data/alien/techs.ruleset:639
-#, fuzzy
 msgid "Specialist Training"
-msgstr "Especialistes: "
+msgstr "Formació d'Especialistes"
 
 #: data/alien/techs.ruleset:645
 msgid ""
@@ -32100,16 +32154,21 @@ msgid ""
 "\n"
 "Output of all specialists doubles."
 msgstr ""
+"Basant-nos en les nostres tècniques d'ensenyament de Tàctiques, podem"
+" ensenyar als nostres especialistes algun truc.\n"
+"\n"
+"La producció de tots els especialistes es duplica."
 
 #: data/alien/techs.ruleset:650
-#, fuzzy
 msgid "Spitter Control"
-msgstr "Controls"
+msgstr "Control d'Escopidors"
 
 #: data/alien/techs.ruleset:656
 msgid ""
 "Alien lifeforms spitting solid objects are interesting research subject."
 msgstr ""
+"Les formes de vida alienígenes que escupen objectes sòlids són un tema de"
+" recerca interessant."
 
 #: data/alien/techs.ruleset:660
 #, fuzzy
@@ -32125,7 +32184,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:671
 msgid "Strong Force"
-msgstr ""
+msgstr "Força Forta"
 
 #: data/alien/techs.ruleset:677
 msgid ""
@@ -32137,7 +32196,7 @@ msgstr ""
 
 #: data/alien/techs.ruleset:682
 msgid "Strong Resistance"
-msgstr ""
+msgstr "Resistència Forta"
 
 #: data/alien/techs.ruleset:688
 msgid ""
@@ -32145,19 +32204,22 @@ msgid ""
 "\n"
 "Simply knowing this tech allows cities to grow 2 sizes bigger."
 msgstr ""
+"Anem millorant la capacitat de crear resistència contra la radiació.\n"
+"\n"
+"Conèixer aquesta tecnologia permet que les ciutats creixin dues mides."
 
 #: data/alien/techs.ruleset:692
-#, fuzzy
 msgid "Supermodule"
-msgstr "Mòdul Espacial"
+msgstr "Supermòdul"
 
 #: data/alien/techs.ruleset:698
 msgid "Supermodule combines lesser modules in one extremely efficient pack."
 msgstr ""
+"El Supermòdul combina mòduls menors en un paquet extremadament eficient."
 
 #: data/alien/techs.ruleset:702
 msgid "Synthetic Food"
-msgstr ""
+msgstr "Menjar Sintètic"
 
 #: data/alien/techs.ruleset:708
 msgid ""
@@ -32167,22 +32229,26 @@ msgid ""
 "As their food consumption is no longer an problem, we can grow bigger, "
 "meaner, aliens."
 msgstr ""
+"Això és una manera totalment nova, i molt eficient, de fer menjar sintètic.\n"
+"\n"
+"Com que el seu consum de menjar ja no és cap problema, podem criar"
+" alienígenes més grossos, i més agressius."
 
 #: data/alien/techs.ruleset:714
-#, fuzzy
 msgid "Teleportation"
-msgstr "La Corporació"
+msgstr "Teletransport"
 
 #: data/alien/techs.ruleset:720
 msgid ""
 "We can teleport relatively small objects relatively short distances. This "
 "reduces problem of not being able to fly."
 msgstr ""
+"Podem teletransportar objectes relativament petits a distàncies relativament"
+" curtes. Això redueix el problema de no poder volar."
 
 #: data/alien/techs.ruleset:724
-#, fuzzy
 msgid "Thermal Module"
-msgstr "Mòdul Espacial"
+msgstr "Mòdul Tèrmic"
 
 #: data/alien/techs.ruleset:730
 msgid ""
@@ -32407,7 +32473,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:846
 msgid "Protein Houses"
-msgstr ""
+msgstr "Cases de Proteïna"
 
 #: data/alien/terrain.ruleset:867
 #, no-c-format
@@ -32417,6 +32483,11 @@ msgid ""
 "Protein Houses give a further 50% food. City center tiles automatically get "
 "Protein Houses as soon as they are available."
 msgstr ""
+"Quan s'entenen les Modificacions de Proteïnes, els Hivernacles es poden"
+" millorar a Cases de Proteïna, que proporcionen un 50% més de menjar. Quan es"
+" coneix la Regeneració de menjar, les Cases de Proteïna donen un altre 50%"
+" més de menjar. Les caselles del centre de la ciutat obtenen automàticament"
+" Cases de Proteïna de seguida que estan disponibles."
 
 #: data/alien/terrain.ruleset:892
 msgid ""
@@ -32838,11 +32909,12 @@ msgstr ""
 
 #: data/alien/units.ruleset:1144
 msgid "Raft"
-msgstr ""
+msgstr "Rai"
 
 #: data/alien/units.ruleset:1171
 msgid "  This vessel allows coastal travel, but not on Boiling Seas."
 msgstr ""
+" Aquest vaixell permet viatjar al llarg de la costa, però no en Mars Bullents."
 
 #: data/alien/units.ruleset:1176
 msgid "Ship"
@@ -32853,6 +32925,8 @@ msgid ""
 "  This is basic ship type. It has no any special equipment, so it cannot "
 "enter boiling seas."
 msgstr ""
+" Aquest és el tipus de vaixell bàsic. No porta cap equipament especial, i per"
+" tant no pot entrar en mars bullents."
 
 #: data/alien/units.ruleset:1234
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
