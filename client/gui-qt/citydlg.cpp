@@ -3065,12 +3065,13 @@ void city_dialog::update_info_label()
               dlgcity->pollution);
 
   if (!game.info.illness_on) {
-    fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]), " -.-");
+    fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
+                "  -.-");
   } else {
     illness = city_illness_calc(dlgcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
     fc_snprintf(buf_info[INFO_ILLNESS], sizeof(buf_info[INFO_ILLNESS]),
-                "%4.1f%%", (float) illness / 10.0);
+                "%5.1f%%", (float) illness / 10.0);
   }
   if (dlgcity->steal) {
     fc_snprintf(buf_info[INFO_STEAL], sizeof(buf_info[INFO_STEAL]),

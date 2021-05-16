@@ -1816,10 +1816,10 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 
   /* fill the buffers with the necessary info */
   if (non_workers) {
-	  fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d (%3d)",
-				  pcity->size, non_workers);
+    fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d (%3d)",
+                pcity->size, non_workers);
   } else {
-	  fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d", pcity->size);
+    fc_snprintf(buf[INFO_SIZE], sizeof(buf[INFO_SIZE]), "%3d", pcity->size);
   }
   fc_snprintf(buf[INFO_FOOD], sizeof(buf[INFO_FOOD]), "%3d (%+4d)",
               pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
@@ -1862,11 +1862,11 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   fc_snprintf(buf[INFO_POLLUTION], sizeof(buf[INFO_POLLUTION]), "%4d",
               pcity->pollution);
   if (!game.info.illness_on) {
-    fc_snprintf(buf[INFO_ILLNESS], sizeof(buf[INFO_ILLNESS]), " -.-");
+    fc_snprintf(buf[INFO_ILLNESS], sizeof(buf[INFO_ILLNESS]), "  -.-");
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
-    fc_snprintf(buf[INFO_ILLNESS], sizeof(buf[INFO_ILLNESS]), "%4.1f%%",
+    fc_snprintf(buf[INFO_ILLNESS], sizeof(buf[INFO_ILLNESS]), "%5.1f%%",
                 (float)illness / 10.0);
   }
   if (pcity->steal) {
