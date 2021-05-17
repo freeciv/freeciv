@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -8,17 +7,38 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="162.16pt"
+   height="152.718pt"
    id="svg559"
-   sodipodi:docbase="/home/krtx/Desktop/"
    sodipodi:docname="euskadi.svg"
    sodipodi:version="0.32"
    version="1"
-   width="243.24pt"
+   width="228.03746pt"
    x="0.00000000"
    y="0.00000000"
-   inkscape:version="0.46"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1278"
+     inkscape:window-height="909"
+     id="namedview10"
+     showgrid="false"
+     inkscape:zoom="2.799473"
+     inkscape:cx="162.14148"
+     inkscape:cy="108.1637"
+     inkscape:window-x="406"
+     inkscape:window-y="103"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg559" />
   <metadata
      id="metadata603">
     <rdf:RDF>
@@ -72,37 +92,37 @@
   </metadata>
   <g
      id="g571"
-     style="font-size:12;"
-     transform="matrix(0.782531,0,0,0.943774,-28.92742,-56.21791)">
+     style="font-size:12px"
+     transform="matrix(0.782531,0,0,0.943774,-28.945946,-56.160876)">
     <rect
-       height="214.789001"
+       height="214.789"
        id="rect564"
-       style="fill:#dc241f;fill-rule:evenodd;fill-opacity:1"
-       width="388.498199"
-       x="37.0035095"
-       y="59.6430397" />
+       style="fill:#dc241f;fill-opacity:1;fill-rule:evenodd"
+       width="388.4982"
+       x="37.00351"
+       y="59.64304" />
     <path
-       d="M 425.537 76.247 L 425.433 59.5067 L 388.53 59.6786 L 37.0391 257.413 L 37.0391 274.4 L 73.9753 274.156 L 425.537 76.247 z "
+       d="M 425.537,76.247 425.433,59.5067 388.53,59.6786 37.0391,257.413 V 274.4 l 36.9362,-0.244 z"
        id="path570"
-       style="fill:#009543;fill-rule:evenodd;fill-opacity:1" />
+       style="fill:#009543;fill-opacity:1;fill-rule:evenodd" />
     <path
-       d="M 37.1428 76.9732 L 37.1428 59.9218 L 72.8017 59.7826 L 425.33 257.621 L 425.33 274.296 L 387.252 274.157 L 37.1428 76.9732 z "
+       d="M 37.1428,76.9732 V 59.9218 L 72.8017,59.7826 425.33,257.621 v 16.675 l -38.078,-0.139 z"
        id="path568"
-       style="fill:#009543;fill-rule:evenodd;fill-opacity:1" />
+       style="fill:#009543;fill-opacity:1;fill-rule:evenodd" />
     <rect
-       height="215.618896"
+       height="215.6189"
        id="rect565"
-       style="fill:#ffffff;fill-rule:evenodd;stroke-width:0.890612;"
-       width="32.8639297"
-       x="213.060104"
-       y="59.6428490" />
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:0.890612"
+       width="32.86393"
+       x="213.0601"
+       y="59.642849" />
     <rect
-       height="388.476501"
+       height="388.4765"
        id="rect566"
-       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.19775;"
-       transform="matrix(-1.484370e-3,-0.999999,1.000000,-4.537714e-4,0.000000,0.000000)"
-       width="32.8639297"
-       x="-183.574402"
-       y="36.7664490" />
+       style="fill:#ffffff;fill-rule:evenodd;stroke-width:1.19775"
+       transform="matrix(-0.00148437,-0.999999,1,-4.537714e-4,0,0)"
+       width="32.86393"
+       x="-183.5744"
+       y="36.766449" />
   </g>
 </svg>
