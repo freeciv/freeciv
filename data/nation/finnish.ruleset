@@ -1,9 +1,9 @@
 [nation_finnish]
 
-name=_("Finnish")
-plural=_("?plural:Finns")
-groups="Modern", "European"
-legend=_("Finland is a small, cold country on the northern fringe of Europe,\
+name   = _("Finnish")
+plural = _("?plural:Finns")
+groups = "Modern", "European"
+legend = _("Finland is a small, cold country on the northern fringe of Europe,\
  noted for exporting timber, cellular phones, and world-class operating\
  systems.")
 
@@ -28,14 +28,15 @@ ruler_titles = {
  "Fundamentalism",  _("Archbishop %s"),    _("?female:Archbishop %s")
 }
 
-flag="finland"
+flag = "finland"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="Sami", "Karelian", "Mordvin", "Alander", "Estonian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Sami", "Karelian", "Mordvin", "Alander", "Estonian"
 
 ; /* <-- avoid gettext warnings
 ;
@@ -155,4 +156,3 @@ cities =
  "Paimio",
  "Nilsiä",
  "Juankoski (river, !ocean)"
-

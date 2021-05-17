@@ -1,8 +1,8 @@
 [nation_flemish]
 
-name=_("Flemish")
-plural=_("?plural:Flemings")
-groups="Medieval", "European"
+name   = _("Flemish")
+plural = _("?plural:Flemings")
+groups = "Medieval", "European"
 legend = _("In the Middle Ages, Flanders was a county on the border of\
  France and the Holy Roman Empire. In the 15th century, it came under\
  Habsburg domination and subsequently it became one of the Seventeen\
@@ -32,14 +32,15 @@ ruler_titles = {
  "Republic",	    _("Stadtholder %s"),    _("Stadtholdress %s")
 }
 
-flag="flanders"
+flag = "flanders"
 flag_alt = "belgium"
 style = "european"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="dutch", "walloon"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "dutch", "walloon"
 
 cities =
  "Antwerpen (river)",
@@ -114,4 +115,3 @@ cities =
  "Axel",
  "Saeftinge (swamp)",
  "Terneuzen (ocean)"
-

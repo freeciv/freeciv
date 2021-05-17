@@ -1,15 +1,16 @@
 [nation_fulani]
 
-name=_("Fulani")
-plural=_("?plural:Fulani")
-groups="African", "Early Modern"
-legend=_("The Fulani or Fulbe are an ethnic group in West Africa. Originally\
+name   = _("Fulani")
+plural = _("?plural:Fulani")
+groups = "African", "Early Modern"
+legend = _("The Fulani or Fulbe are an ethnic group in West Africa. Originally\
  pastoralists, in the 18th and 19th centuries they led the Fulani Jihads,\
  founding a number of states across the region. The biggest Fulani state was\
  the Sokoto Caliphate, founded by Usuman dan Fodio during the Fulani Jihad of\
  1809. It was one of the most powerful empires in Sub-Saharan Africa prior to\
  the European conquest and colonization. The caliphate remained extant through\
  the colonial period and afterwards, though with reduced power.")
+
 leaders = {
  "name",                            "sex"
  "Abdul Kaader",                    "Male"
@@ -24,7 +25,8 @@ leaders = {
  "Hasan dan Mu'azu Ahmadu",         "Male"
  "Ibrahim Dasuki dan Khaliru",      "Male"
 }
-flag="sokoto"
+
+flag = "sokoto"
 flag_alt = "-"
 style = "Tropical"
 
@@ -35,11 +37,11 @@ ruler_titles = {
  "Republic",        _("Vizier %s"),    _("?female:Vizier %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="nigerian", "nigerien"
+conflicts_with = "nigerian", "nigerien"
 civilwar_nations = "nigerian", "nigerien", "kanem-bornu"
 
 cities =

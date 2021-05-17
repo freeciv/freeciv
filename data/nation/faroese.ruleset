@@ -1,9 +1,9 @@
 [nation_faroese]
 
-name=_("Faroese")
-plural=_("?plural:Faroese")
-groups="European"
-legend=_("The Faroe Islands are an archipelago in the Northern Atlantic\
+name   = _("Faroese")
+plural = _("?plural:Faroese")
+groups = "European"
+legend = _("The Faroe Islands are an archipelago in the Northern Atlantic\
  ocean. According to the sagas, they were first settled by Norsemen who\
  fled the tyranny of Norway's king Harald Fairhair. The islands became\
  a Norwegian possession in 1035 and passed to Denmark in 1814. The Faroes\
@@ -32,13 +32,13 @@ ruler_titles = {
  "Fundamentalism",  _("Vicar %s"),     _("?female:Vicar %s")
 }
 
-flag="faroes"
+flag = "faroes"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "icelandic"
 
@@ -51,14 +51,14 @@ cities =
  "Miðvágur",
  "Sandur",
  "Runavík",
- "Leirvík",	;Eystur
+ "Leirvík",     ; Eystur
  "Tvøroyri",
  "Sunda",
  "Nes",
  "Vestmanna",
- "Norðskáli",	;Sunda
+ "Norðskáli",   ; Sunda
  "Sørvágur",
- "Strendur",	;Sjóvar
+ "Strendur",    ; Sjóvar
  "Hvalba",
  "Eiði",
  "Kvívík",
@@ -75,7 +75,7 @@ cities =
  "Fámjin",
  "Húsar",
  "Skúvoy",
- "Kirkja",	;Fugloy
+ "Kirkja",      ; Fugloy
  "Hoyvík",
  "Argir",
  "Funningur",

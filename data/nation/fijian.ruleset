@@ -1,9 +1,9 @@
 [nation_fijian]
 
-name=_("Fijian")
-plural=_("?plural:Fijians")
-groups="Oceanian", "Modern"
-legend=_("Fiji is the most populous of the small Oceanian island states.\
+name   = _("Fijian")
+plural = _("?plural:Fijians")
+groups = "Oceanian", "Modern"
+legend = _("Fiji is the most populous of the small Oceanian island states.\
  It consists of Viti Levu, Vanua Levu and hundreds of smaller islands.\
  Settled by Polynesians, it became a British colony in the 19th century.\
  Fiji has been independent from Britain since 1970. Since then the\
@@ -24,14 +24,14 @@ ruler_titles = {
  "Monarchy",        _("Paramount Chief %s"), _("?female:Paramount Chief %s")
 }
 
-flag="fiji"
+flag = "fiji"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-init_units=""
 civilwar_nations = "polynesian", "indian"
 
 cities =

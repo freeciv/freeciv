@@ -1,9 +1,9 @@
 [nation_friulian]
 
-name=_("Friulian")
-plural=_("?plural:Friulian")
-groups="European", "Medieval"
-legend=_("Friuli is a region in north-eastern Italy. A duchy of the Lombards\
+name   = _("Friulian")
+plural = _("?plural:Friulian")
+groups = "European", "Medieval"
+legend = _("Friuli is a region in north-eastern Italy. A duchy of the Lombards\
  and then a march of the Franks, it was ruled by the Patriarchs of Aquileia\
  from the 11th century onward. In the 15th century Friuli was divided between\
  Venice and Austria. The Friulian language is closely related to the Romansh\
@@ -20,7 +20,7 @@ leaders = {
  "Tiziano Tessitori",		 "Male"
 }
 
-flag="friuli"
+flag = "friuli"
 flag_alt = "-"
 style = "European"
 
@@ -29,9 +29,9 @@ ruler_titles = { "government",     "male_title",       "female_title"
                  "Fundamentalism", _("Patriarch %s"),  _("Matriarch %s")
 	       }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "venetian", "slovenian", "romansh"
 

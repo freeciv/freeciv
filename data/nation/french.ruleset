@@ -1,11 +1,11 @@
 [nation_french]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("French")
-plural=_("?plural:French")
-groups="Modern", "Early Modern", "Medieval", "European", "Core"
-legend=_("France has long been a major power in Europe. French conquerors\
+name   = _("French")
+plural = _("?plural:French")
+groups = "Modern", "Early Modern", "Medieval", "European", "Core"
+legend = _("France has long been a major power in Europe. French conquerors\
  like Emperor Napoleon and King Charlemagne united large parts of Europe\
  under the French flag. The country also built the world's second largest\
  colonial empire. The French kingdom first came into existence when it\
@@ -44,13 +44,13 @@ ruler_titles = {
  "Fundamentalism",  _("Cardinal %s"),     _("Mother Superior %s")
 }
 
-flag="france"
+flag = "france"
 flag_alt = "france_old"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations =
 ; sub-national nations

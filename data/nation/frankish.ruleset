@@ -1,9 +1,9 @@
 [nation_frankish]
 
-name=_("Frankish")
-plural=_("?plural:Franks")
-groups="European", "Ancient", "Medieval"
-legend=_("The Franks were a Germanic confederation that formed in what is\
+name   = _("Frankish")
+plural = _("?plural:Franks")
+groups = "European", "Ancient", "Medieval"
+legend = _("The Franks were a Germanic confederation that formed in what is\
  now Northwest Germany in the 3rd century CE. In the late 5th century their\
  leader Clovis converted to Christianity, united the Frankish tribes and\
  conquered much of Gaul. Clovis' successors expanded Frankish rule over much of\
@@ -43,101 +43,101 @@ ruler_titles = {
  "Republic",       _("Mayor of the Palace %s"), _("?female:Mayor of the Palace %s")
 }
 
-flag="france_old"
+flag = "france_old"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="French", "Holy Roman", "Lorrain", "Papal"
+civilwar_nations = "French", "Holy Roman", "Lorrain", "Papal"
 
-conflicts_with="Gallic", "French", "Dutch", "Belgian", "Luxembourgish",
+conflicts_with = "Gallic", "French", "Dutch", "Belgian", "Luxembourgish",
  "Swiss", "German", "Italian", "Andorran", "Holy Roman", "Lorrain", "Franconian"
 
 cities =
  ; Names in Medieval Latin rather than Classical Latin
- "Tornacum",			; Tournai
- "Parisii",			; Paris
- "Treveris",			; Trier
- "Aquisgranum", 		; Aachen
- "Suessonae",			; Soissons
- "Mettis",			; Metz
- "Remi",			; Rheims
- "Aurelianum",			; Orléans
- "Colonia",			; Cologne
- "Haristalius",			; Herstal
- "Camaracum",			; Cambrai
- "Tungris",			; Tongeren
- "Ratisbona",			; Regensburg
- "Tolosa",			; Toulouse
- "Noviomagus",			; Nijmegen
- "Wormatia",			; Worms
- "Vienna",			; Vienne
- "Lugdunum",			; Lyon
- "Arelate",			; Arles
- "Tervana",			; Thérouanne
- "Traiectum ad Rhenum (river)",	; Utrecht
- "Pruma",			; Prüm
- "Verodunum",			; Verdun
+ "Tornacum",                    ; Tournai
+ "Parisii",                     ; Paris
+ "Treveris",                    ; Trier
+ "Aquisgranum",                 ; Aachen
+ "Suessonae",                   ; Soissons
+ "Mettis",                      ; Metz
+ "Remi",                        ; Rheims
+ "Aurelianum",                  ; Orléans
+ "Colonia",                     ; Cologne
+ "Haristalius",                 ; Herstal
+ "Camaracum",                   ; Cambrai
+ "Tungris",                     ; Tongeren
+ "Ratisbona",                   ; Regensburg
+ "Tolosa",                      ; Toulouse
+ "Noviomagus",                  ; Nijmegen
+ "Wormatia",                    ; Worms
+ "Vienna",                      ; Vienne
+ "Lugdunum",                    ; Lyon
+ "Arelate",                     ; Arles
+ "Tervana",                     ; Thérouanne
+ "Traiectum ad Rhenum (river)", ; Utrecht
+ "Pruma",                       ; Prüm
+ "Verodunum",                   ; Verdun
  "Francofurtum ad Moenum  (river)", ; Frankfurt am Main
- "Sanctus Quintinus", 		; Saint-Quentin
- "Angulisamum",			; Ingelheim
- "Turones",			; Tours
- "Mosae Traiectum (river)",	; Maastricht
- "Stratisburgum",		; Strasbourg
- "Pictavium",			; Poitiers
- "Papia",			; Pavia
- "Cariciacum",			; Quierzy
- "Moguntiacum",			; Mainz
- "Bituriges",			; Bourges
- "Antunnacum",			; Andernach
- "Autessiodurum",		; Auxerre
- "Mediolanum",			; Milan
- "Brema",			; Bremen
- "Burdigala",			; Bordeaux
- "Ravenna",			; Ravenna
- "Divio",			; Dijon
- "Narbo",			; Narbonne
- "Spoletium",			; Spoleto
- "Roma",			; Rome
- "Andecavis",			; Angers
- "Spira",			; Speyer
- "Rotomagus",			; Rouen
- "Fulda",			; Fulda
- "Verona",			; Verona
- "Genava",			; Geneva
- "Brixia",			; Brescia
- "Theudonevilla",		; Thionville
- "Pisae",			; Pisa
- "Magdeburgum",			; Magdeburg
- "Taurinum",			; Turin
- "Santones",			; Saintes
- "Barcino",			; Barcelona
- "Vesontio",			; Besançon
- "Epternacus",			; Echternach
- "Massalia",			; Marseille
- "Bergomum",			; Bergamo
- "Ebrodunum",			; Embrun
- "Salisburgum",			; Salzburg
- "Paderbronna",			; Paderborn
- "Carnotes",			; Chartres
- "Genua",			; Genoa
- "Bonna",			; Bonn
- "Senones",			; Sens
- "Valentiana",			; Valenciennes
- "Auscum",			; Auch
- "Nemausus",			; Nîmes
- "Tridentum",			; Trent
- "Lemovices",			; Limoges
- "Clarus Mons",			; Clermont-Ferrand
- "Elusa",			; Éauze
- "Portus Namnetum (ocean)",	; Nantes
- "Telo",			; Toulon
- "Avenio",			; Avignon
- "Herbipolis",			; Würzburg
- "Gratianopolis",		; Grenoble
- "Ambianum",			; Amiens
- "Gerunda",			; Girona
- "Cenomanum"			; Le Mans
+ "Sanctus Quintinus",           ; Saint-Quentin
+ "Angulisamum",                 ; Ingelheim
+ "Turones",                     ; Tours
+ "Mosae Traiectum (river)",     ; Maastricht
+ "Stratisburgum",               ; Strasbourg
+ "Pictavium",                   ; Poitiers
+ "Papia",                       ; Pavia
+ "Cariciacum",                  ; Quierzy
+ "Moguntiacum",                 ; Mainz
+ "Bituriges",                   ; Bourges
+ "Antunnacum",                  ; Andernach
+ "Autessiodurum",               ; Auxerre
+ "Mediolanum",                  ; Milan
+ "Brema",                       ; Bremen
+ "Burdigala",                   ; Bordeaux
+ "Ravenna",                     ; Ravenna
+ "Divio",                       ; Dijon
+ "Narbo",                       ; Narbonne
+ "Spoletium",                   ; Spoleto
+ "Roma",                        ; Rome
+ "Andecavis",                   ; Angers
+ "Spira",                       ; Speyer
+ "Rotomagus",                   ; Rouen
+ "Fulda",                       ; Fulda
+ "Verona",                      ; Verona
+ "Genava",                      ; Geneva
+ "Brixia",                      ; Brescia
+ "Theudonevilla",               ; Thionville
+ "Pisae",                       ; Pisa
+ "Magdeburgum",                 ; Magdeburg
+ "Taurinum",                    ; Turin
+ "Santones",                    ; Saintes
+ "Barcino",                     ; Barcelona
+ "Vesontio",                    ; Besançon
+ "Epternacus",                  ; Echternach
+ "Massalia",                    ; Marseille
+ "Bergomum",                    ; Bergamo
+ "Ebrodunum",                   ; Embrun
+ "Salisburgum",                 ; Salzburg
+ "Paderbronna",                 ; Paderborn
+ "Carnotes",                    ; Chartres
+ "Genua",                       ; Genoa
+ "Bonna",                       ; Bonn
+ "Senones",                     ; Sens
+ "Valentiana",                  ; Valenciennes
+ "Auscum",                      ; Auch
+ "Nemausus",                    ; Nîmes
+ "Tridentum",                   ; Trent
+ "Lemovices",                   ; Limoges
+ "Clarus Mons",                 ; Clermont-Ferrand
+ "Elusa",                       ; Éauze
+ "Portus Namnetum (ocean)",     ; Nantes
+ "Telo",                        ; Toulon
+ "Avenio",                      ; Avignon
+ "Herbipolis",                  ; Würzburg
+ "Gratianopolis",               ; Grenoble
+ "Ambianum",                    ; Amiens
+ "Gerunda",                     ; Girona
+ "Cenomanum"                    ; Le Mans
