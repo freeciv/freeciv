@@ -124,6 +124,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
   struct sprite *spr;
   struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
+  const struct extra_type *default_extra;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -184,6 +185,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
     if (first_option == NULL) {
       first_option = radio;
       default_option = first_option;
+      default_extra = ptgt;
     }
     /* The lists must be the same length if they contain the same
      * elements. */
@@ -199,6 +201,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
                      G_CALLBACK(unit_sel_extra_destroyed), cbdata);
     if (ptgt == suggested_tgt_extra) {
       default_option = radio;
+      default_extra = suggested_tgt_extra;
     }
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
@@ -227,6 +230,7 @@ bool select_tgt_extra(struct unit *actor, struct tile *ptile,
 
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);
+  g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_extra->id));
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
