@@ -56,9 +56,6 @@
 /* Native language support enabled */
 #mesondefine FREECIV_ENABLE_NLS
 
-/* mkstemp() available */
-#define HAVE_MKSTEMP
-
 /* Produce debug version */
 #mesondefine FREECIV_DEBUG
 
