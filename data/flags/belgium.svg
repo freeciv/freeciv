@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
-<!-- /Creative Commons Public Domain -->
 <!--
 <rdf:RDF xmlns="http://web.resource.org/cc/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -25,19 +23,19 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
 -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg554"
    sodipodi:version="0.32"
-   width="165mm"
-   height="311.81000pt"
-   sodipodi:docbase="/Users/daniel/Desktop"
+   width="438.48422pt"
+   height="292.32187pt"
    sodipodi:docname="belgium.svg"
-   inkscape:version="0.42">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   version="1.1">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -55,34 +53,37 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
      id="base"
      inkscape:zoom="0.67891221"
      inkscape:cx="292.32285"
-     inkscape:cy="225.54068"
-     inkscape:window-width="701"
+     inkscape:cy="196.50346"
+     inkscape:window-width="750"
      inkscape:window-height="507"
-     inkscape:window-x="0"
-     inkscape:window-y="22"
-     inkscape:current-layer="svg554" />
+     inkscape:window-x="611"
+     inkscape:window-y="109"
+     inkscape:current-layer="svg554"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <rect
-     style="font-size:12.000000px;fill:#000000;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+     style="font-size:12px;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect558"
      width="194.88188"
      height="389.76248"
-     x="0.0000000"
-     y="3.0517578e-05"
+     x="0"
+     y="2.2888184e-05"
      sodipodi:fill-cmyk="(0 0 0 1)" />
   <rect
-     style="font-size:12.000000px;fill:#ffd90c;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+     style="font-size:12px;fill:#ffd90c;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect559"
      width="194.88188"
      height="389.76248"
      x="194.88188"
-     y="7.6293945e-06"
+     y="0"
      sodipodi:fill-cmyk="(0 0.15 0.95 0)" />
   <rect
-     style="font-size:12.000000px;fill:#f31830;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:1.0000000pt"
+     style="font-size:12px;fill:#f31830;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect560"
      width="194.88188"
      height="389.76248"
      x="389.76376"
-     y="7.6293945e-06"
+     y="0"
      sodipodi:fill-cmyk="(0 0.9 0.8 0.05)" />
 </svg>
