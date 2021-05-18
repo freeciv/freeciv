@@ -313,6 +313,9 @@ enum output_type_id {
  * target tile. */
 #define SPECENUM_VALUE2 ACT_SUB_RES_MAY_EMBARK
 #define SPECENUM_VALUE2NAME "Unit May Embark"
+/* Target units won't be killed by this action. */
+#define SPECENUM_VALUE3 ACT_SUB_RES_NON_LETHAL
+#define SPECENUM_VALUE3NAME "Non Lethal To Target Unit"
 #define SPECENUM_BITVECTOR bv_action_sub_results
 #define SPECENUM_COUNT ACT_SUB_RES_COUNT
 #include "specenum_gen.h"

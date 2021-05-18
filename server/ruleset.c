@@ -6799,6 +6799,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
         /* Embark actions will always embark, not maybe embark. */
       } action_iterate_end;
+
+      /* Non Lethal bombard */
+      BV_SET(action_by_number(ACTION_BOMBARD)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
+      BV_SET(action_by_number(ACTION_BOMBARD2)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
+      BV_SET(action_by_number(ACTION_BOMBARD3)->sub_results,
+             ACT_SUB_RES_NON_LETHAL);
     }
 
     if (ok) {

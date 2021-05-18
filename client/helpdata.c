@@ -2713,8 +2713,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      utype->bombard_rate);
         cat_snprintf(buf, bufsz,
                      /* TRANS: talking about bombard */
-                     _("  %s These attacks will only damage (never kill)"
-                       " defenders, but damage all"
+                     _("  %s Will damage all"
                        " defenders on a tile, and have no risk for the"
                        " attacker.\n"), BULLET);
         break;
@@ -2971,6 +2970,12 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      _("  %s the %s may end up loaded into a transport if it"
                        " can't survive on its own at the target tile.\n"),
                      BULLET, utype_name_translation(utype));
+      }
+      if (BV_ISSET(paction->sub_results, ACT_SUB_RES_NON_LETHAL)) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: talking about non lethal attacks */
+                     _("  %s These attacks will only damage (never kill)"
+                       " defenders.\n"), BULLET);
       }
 
       i = 0;
