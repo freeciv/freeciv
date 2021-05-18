@@ -43,7 +43,7 @@ actor_reqs    =
     { "type",    "name",                 "range", "present"
       "DiplRel", "Has Casus Belli",      "Local", TRUE
       "DiplRel", "Provided Casus Belli", "Local", FALSE
-      "DiplRel", "Is foreign",           "Local", TRUE
+      "DiplRel", "Foreign",              "Local", TRUE
     }
 
 [actionenabler_go_bind_your_sons_to_exile]
@@ -51,7 +51,7 @@ action = "Incite City"
 actor_reqs    =
     { "type",    "name",       "range",  "present"
       "Tech",    "Flight",     "Player", TRUE
-      "DiplRel", "Is foreign", "Local",  TRUE
+      "DiplRel", "Foreign",    "Local",  TRUE
     }
 target_reqs    =
     { "type",   "name",    "range",  "present"
@@ -92,7 +92,7 @@ actor requirements.
    action enablers to be simpler and faster.
  * If player A having a diplomatic relationship to player B implies that
    player B has the same relationship to player A the relationship is
-   symmetric. Examples: "Is foreign" and "War"
+   symmetric. Examples: "Foreign" and "War"
  * Symmetric local DiplRel requirements can be moved directly from the
    target requirement vector to the actor requirement vector.
  * Asymmetric local DiplRel requirements must test for the same thing in

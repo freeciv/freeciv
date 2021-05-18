@@ -1186,7 +1186,7 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
         cat_snprintf(buf, bufsz,
                      /* TRANS: in this and following strings, '%s' can be one
                       * of a wide range of relationships; e.g., 'Peace',
-                      * 'Never met', 'Is foreign', 'Hosts embassy',
+                      * 'Never met', 'Foreign', 'Hosts embassy',
                       * 'Provided Casus Belli' */
                      _("Requires that you have the relationship '%s' with at "
                        "least one other living player."),
