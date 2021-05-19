@@ -754,6 +754,7 @@ enum economy_report_columns {
   ERD_COL_COUNT,
   ERD_COL_COST,
   ERD_COL_TOTAL_COST,
+  ERD_COL_EMPTY,  /*  will make an empty space for scroll bar */
 
   /* Not visible. */
   ERD_COL_IS_IMPROVEMENT,
@@ -774,6 +775,7 @@ static GtkListStore *economy_report_store_new(void)
                             G_TYPE_INT,         /* ERD_COL_COUNT */
                             G_TYPE_INT,         /* ERD_COL_COST */
                             G_TYPE_INT,         /* ERD_COL_TOTAL_COST */
+                            G_TYPE_STRING,      /* ERD_COL_EMPTY */
                             G_TYPE_BOOLEAN,     /* ERD_COL_IS_IMPROVEMENT */
                             G_TYPE_INT,         /* ERD_COL_UNI_KIND */
                             G_TYPE_INT);        /* ERD_COL_UNI_VALUE_ID */
@@ -800,10 +802,13 @@ economy_report_column_name(enum economy_report_columns col)
   case ERD_COL_TOTAL_COST:
     /* TRANS: Upkeep total, count*cost. */
     return _("U Total");
+  case ERD_COL_EMPTY:
+    /* empty space for scrollbar*/
+    return "   ";
   case ERD_COL_IS_IMPROVEMENT:
   case ERD_COL_CID:
   case ERD_COL_NUM:
-    break;
+    break;	/* no more columns will be displayed after reaching this */
   }
 
   return NULL;
@@ -857,6 +862,7 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_COUNT, pentry->count,
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
+                       ERD_COL_EMPTY, " ",
                        ERD_COL_IS_IMPROVEMENT, TRUE,
                        ERD_COL_CID, id,
                        -1);
@@ -885,6 +891,7 @@ static void economy_report_update(struct economy_report *preport)
                        ERD_COL_COUNT, pentry->count,
                        ERD_COL_COST, pentry->cost,
                        ERD_COL_TOTAL_COST, pentry->total_cost,
+                       ERD_COL_EMPTY, " ",
                        ERD_COL_IS_IMPROVEMENT, FALSE,
                        ERD_COL_CID, id,
                        -1);
@@ -1252,6 +1259,7 @@ enum units_report_columns {
   URD_COL_SHIELD,
   URD_COL_FOOD,
   URD_COL_GOLD,
+  URD_COL_EMPTY,	/* empty space for scrollbar */
 
   /* Not visible. */
   URD_COL_TEXT_WEIGHT,
@@ -1286,6 +1294,9 @@ static const struct {
     N_("Total food upkeep"),      TRUE,   -1 },
   { /* URD_COL_GOLD */         G_TYPE_INT,     N_("Gold"),
     N_("Total gold upkeep"),      TRUE,   -1 },
+  { /* URD_COL_EMPTY */         G_TYPE_STRING, "   ",
+    " ", TRUE, -1 },
+
   { /* URD_COL_TEXT_WEIGHT */  G_TYPE_INT,     NULL /* ... */ },
   { /* URD_COL_UPG_VISIBLE */  G_TYPE_BOOLEAN, NULL /* ... */ },
   { /* URD_COL_NUPG_VISIBLE */ G_TYPE_BOOLEAN, NULL /* ... */ },
@@ -1399,6 +1410,7 @@ static void units_report_update(struct units_report *preport)
                        URD_COL_SHIELD, info->upkeep[O_SHIELD],
                        URD_COL_FOOD, info->upkeep[O_FOOD],
                        URD_COL_GOLD, info->upkeep[O_GOLD],
+                       URD_COL_EMPTY, " ",
                        URD_COL_TEXT_WEIGHT, PANGO_WEIGHT_NORMAL,
                        URD_COL_UPG_VISIBLE, TRUE,
                        URD_COL_NUPG_VISIBLE, FALSE,
@@ -1431,6 +1443,7 @@ static void units_report_update(struct units_report *preport)
                      URD_COL_SHIELD, unit_totals.upkeep[O_SHIELD],
                      URD_COL_FOOD, unit_totals.upkeep[O_FOOD],
                      URD_COL_GOLD, unit_totals.upkeep[O_GOLD],
+                     URD_COL_EMPTY, " ",
                      URD_COL_TEXT_WEIGHT, PANGO_WEIGHT_BOLD,
                      URD_COL_UPG_VISIBLE, FALSE,
                      URD_COL_NUPG_VISIBLE, TRUE,
