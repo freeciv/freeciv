@@ -752,18 +752,15 @@ freeciv-server -f freeciv-T0175-Y01250-auto.sav.xz
    C:\Users\username\AppData\Roaming\.freeciv\saves.
 
    On MacOS systems, it's "/Users/{username}/.freeciv/saves",
-   but the finder won't show you folders that start with "."
-   To get around that, launch the terminal app and enter these
-   command lines
-cd ~
-ln -s .freeciv dotfreeciv
+   but the finder won't show you folders that start with ".".
+   You can toggle that by entering CMD+Shift+. while in
+   a finder window. While the hidden stuff is visible you can
+   create an alias to the ".freeciv" folder which will always
+   be visible.
 
-   Now the finder will show you a "folder" named dotfreeciv in your
-   user folder, which is actually the ".freeciv" folder.
-
-   You can change the save game setting by setting the HOME
-   environment variable, or using the --saves command line argument
-   to the server (you would have to run it separately).
+   You could change the save games location by setting the
+   HOME environment variable, or using the --saves command line
+   argument to the server (you would have to run it separately).
 
 -------
 
