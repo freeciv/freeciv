@@ -772,22 +772,19 @@ effects        = "ReducePopulation"
 ;                "Science"  - Bonus to research
 ;                "Both"     - Bonus to gold and research
 ;
-; TODO: What`s correct "bonus" behavior for civ1? I don`t remember it having one-time
-;       bonuses at all, but they have always been present in freeciv.
-;
 [trade]
 settings =
   { "type",       "pct", "cancelling", "bonus"
-    "National",   100,   "Cancel",     "Both"
-    "NationalIC", 200,   "Cancel",     "Both"
-    "IN",         200,   "Cancel",     "Both"
-    "INIC",       400,   "Cancel",     "Both"
-    "Ally",       200,   "Cancel",     "Both"
-    "AllyIC",     400,   "Cancel",     "Both"
-    "Enemy",      200,   "Cancel",     "Both"
-    "EnemyIC",    400,   "Cancel",     "Both"
-    "Team",       200,   "Cancel",     "Both"
-    "TeamIC",     400,   "Cancel",     "Both"
+    "National",   100,   "Cancel",     "Gold"
+    "NationalIC", 200,   "Cancel",     "Gold"
+    "IN",         200,   "Cancel",     "Gold"
+    "INIC",       400,   "Cancel",     "Gold"
+    "Ally",       200,   "Cancel",     "Gold"
+    "AllyIC",     400,   "Cancel",     "Gold"
+    "Enemy",      200,   "Cancel",     "Gold"
+    "EnemyIC",    400,   "Cancel",     "Gold"
+    "Team",       200,   "Cancel",     "Gold"
+    "TeamIC",     400,   "Cancel",     "Gold"
   }
 
 ; When are goods for the trade route chosen.
