@@ -4181,7 +4181,8 @@ static void unit_attack_civilian_casualties(const struct unit *punit,
   if (pcity
       && get_target_bonus_effects(NULL,
                                   city_owner(pcity), NULL, pcity, NULL,
-                                  city_tile(pcity), NULL, NULL, NULL, NULL,
+                                  city_tile(pcity),
+                                  punit, unit_type_get(punit), NULL, NULL,
                                   paction, EFT_UNIT_NO_LOSE_POP) <= 0
       && (game.info.killcitizen
           && uclass_has_flag(unit_class_get(punit), UCF_KILLCITIZEN))) {

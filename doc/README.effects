@@ -407,7 +407,8 @@ Move_Bonus
 
 Unit_No_Lose_Pop
     No population lost when a city's defender is lost. Can be limited to
-only apply to some actions via an Action requirement.
+only apply to some actions via an Action requirement. Unit requirements are
+evaluated against the attacker.
 
 Unit_Recover
     Units recover amount extra hitpoints per turn.
