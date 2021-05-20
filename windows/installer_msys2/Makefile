@@ -65,7 +65,7 @@ snapshot:
 
 ci:
 	cd ../.. ; ./autogen.sh --no-configure-run
-	# make VERSION_REVTYPE="git" EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"-Werror $$CXXFLAGS\\\"" all
+	make VERSION_REVTYPE="git" CI=yes EXTRA_CONFIG="--enable-gitrev --with-project-definition=../../../bootstrap/snapshot.project CFLAGS=\\\"-Werror $$CFLAGS\\\" CXXFLAGS=\\\"-Werror $$CXXFLAGS\\\"" all
 
 # configure Freeciv
 
@@ -143,11 +143,16 @@ install-ruledit: configure-freeciv-ruledit install-ruledit-dir
 
 # install Freeciv environment
 
+ifeq ($(CI),yes)
+COND_SOUND_DLLS=libfluidsynth-2.dll
+else
+COND_SOUND_DLLS=libfluidsynth-3.dll
+endif
+
 SOUND_DLLS := \
 	SDL2.dll \
 	SDL2_mixer.dll \
 	libFLAC-8.dll \
-	libfluidsynth-3.dll \
 	libmodplug-1.dll \
 	libvorbis-0.dll \
 	libvorbisenc-2.dll \
@@ -222,6 +227,7 @@ COMMON_DLLS := \
 install-env-common:
 	# add DLLs
 	cp -R $(addprefix $(DLLPATH_PREFIX), $(COMMON_DLLS)) install-$(WINARCH)-$(GUI)/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(COND_SOUND_DLLS)) install-$(WINARCH)-$(GUI)
 	mkdir -p install-$(WINARCH)-$(GUI)/ssl/certs
 	cp -R /$(ARCHDIR)/ssl/certs/ca-bundle.crt install-$(WINARCH)-$(GUI)/ssl/certs/
 
