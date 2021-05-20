@@ -73,48 +73,46 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
     }
   } disaster_type_iterate_end;
 
-  improvement_iterate(pimprove) {
+  improvement_re_active_iterate(pimprove) {
     if (universal_is_mentioned_by_requirements(&pimprove->reqs, uni)
         || universal_is_mentioned_by_requirements(&pimprove->obsolete_by,
                                                   uni)) {
       cb(improvement_rule_name(pimprove), data);
       needed = TRUE;
     }
-  } improvement_iterate_end;
+  } improvement_re_active_iterate_end;
 
-  governments_iterate(pgov) {
+  governments_re_active_iterate(pgov) {
     if (universal_is_mentioned_by_requirements(&pgov->reqs, uni)) {
       cb(government_rule_name(pgov), data);
       needed = TRUE;
     }
-  } governments_iterate_end;
+  } governments_re_active_iterate_end;
 
-  specialist_type_iterate(sp) {
-    struct specialist *psp = specialist_by_number(sp);
-
+  specialist_type_re_active_iterate(psp) {
     if (universal_is_mentioned_by_requirements(&psp->reqs, uni)) {
       cb(specialist_rule_name(psp), data);
       needed = TRUE;
     }
-  } specialist_type_iterate_end;
+  } specialist_type_re_active_iterate_end;
 
-  extra_type_iterate(pextra) {
+  extra_type_re_active_iterate(pextra) {
     if (universal_is_mentioned_by_requirements(&pextra->reqs, uni)
         || universal_is_mentioned_by_requirements(&pextra->rmreqs, uni)) {
       cb(extra_rule_name(pextra), data);
       needed = TRUE;
     }
-  } extra_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
-  goods_type_iterate(pgood) {
+  goods_type_re_active_iterate(pgood) {
     if (universal_is_mentioned_by_requirements(&pgood->reqs, uni)) {
       cb(goods_rule_name(pgood), data);
       needed = TRUE;
     }
-  } goods_type_iterate_end;
+  } goods_type_re_active_iterate_end;
 
   action_iterate(act) {
-    action_enabler_list_iterate(action_enablers_for_action(act), enabler) {
+    action_enabler_list_re_iterate(action_enablers_for_action(act), enabler) {
       if (universal_is_mentioned_by_requirements(&(enabler->actor_reqs),
                                                  uni)
           || universal_is_mentioned_by_requirements(&(enabler->target_reqs),
@@ -122,7 +120,7 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
         cb(R__("Action Enabler"), data);
         needed = TRUE;
       }
-    } action_enabler_list_iterate_end;
+    } action_enabler_list_re_iterate_end;
   } action_iterate_end;
 
   for (i = 0; i < game.control.styles_count; i++) {
@@ -162,23 +160,23 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
   struct universal uni = { .value.advance = padv, .kind = VUT_ADVANCE };
   bool needed = FALSE;
 
-  advance_iterate(A_FIRST, pdependant) {
+  advance_re_active_iterate(pdependant) {
     if (pdependant->require[AR_ONE] == padv
         || pdependant->require[AR_TWO] == padv
         || pdependant->require[AR_ROOT] == padv) {
       cb(advance_rule_name(pdependant), data);
       needed = TRUE;
     }
-  } advance_iterate_end;
+  } advance_re_active_iterate_end;
 
-  unit_type_iterate(ptype) {
+  unit_type_re_active_iterate(ptype) {
     if (ptype->require_advance == padv) {
       cb(utype_rule_name(ptype), data);
       needed = TRUE;
     }
-  } unit_type_iterate_end;
+  } unit_type_re_active_iterate_end;
 
-  extra_type_iterate(pextra) {
+  extra_type_re_active_iterate(pextra) {
     if (pextra->visibility_req == advance_number(padv)) {
       char buf[512];
 
@@ -186,7 +184,7 @@ bool is_tech_needed(struct advance *padv, requirers_cb cb, void *data)
                   extra_rule_name(pextra));
       cb(buf, data);
     }
-  } extra_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
   needed |= is_universal_needed(&uni, cb, data);
 
@@ -247,10 +245,10 @@ bool is_extra_needed(struct extra_type *pextra, requirers_cb cb,
   bool hides = FALSE;
   int id = extra_index(pextra);
 
-  extra_type_iterate(requirer) {
+  extra_type_re_active_iterate(requirer) {
     conflicts |= BV_ISSET(requirer->conflicts, id);
     hides     |= BV_ISSET(requirer->hidden_by, id);
-  } extra_type_iterate_end;
+  } extra_type_re_active_iterate_end;
 
   if (conflicts) {
     cb(R__("Conflicting extra"), data);
