@@ -751,7 +751,7 @@ void gui_dialog_set_response_sensitive(struct gui_dialog *dlg,
 **************************************************************************/
 GtkWidget *gui_dialog_get_toplevel(struct gui_dialog *dlg)
 {
-  return gtk_widget_get_toplevel(dlg->vbox);
+  return gtk_widget_get_ancestor(dlg->vbox, GTK_TYPE_WINDOW);
 }
 
 /**********************************************************************//**
