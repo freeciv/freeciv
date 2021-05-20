@@ -2385,7 +2385,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       cat_snprintf(buf, bufsz,
                    /* TRANS: %s is the action's ruleset defined ui name */
                    _("%s Can do the action \'%s\'.\n"),
-                   action_id_name_translation(act), BULLET);
+                   BULLET, action_id_name_translation(act));
 
       switch (action_id_get_target_kind(act)) {
       case ATK_SELF:
