@@ -428,7 +428,7 @@ static void popdown_worklist(struct global_worklist *pgwl)
   if ((shell = get_worklist(global_worklist_id(pgwl)))) {
     GtkWidget *parent;
 
-    parent = gtk_widget_get_toplevel(shell);
+    parent = gtk_widget_get_ancestor(shell, GTK_TYPE_WINDOW);
     gtk_widget_destroy(parent);
   }
 }

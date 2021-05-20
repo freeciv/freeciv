@@ -564,7 +564,7 @@ static void cma_add_preset_callback(GtkWidget *w, gpointer data)
 {
   struct cma_dialog *pdialog = (struct cma_dialog *) data;
   const char *default_name;
-  GtkWidget *parent = gtk_widget_get_toplevel(pdialog->shell);
+  GtkWidget *parent = gtk_widget_get_ancestor(pdialog->shell, GTK_TYPE_WINDOW);
   int index;
 
   if ((index = gtk_tree_selection_get_row(pdialog->selection)) != -1) {
@@ -657,7 +657,8 @@ static void cma_del_preset_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void cma_preset_remove(struct cma_dialog *pdialog, int preset_index)
 {
-  GtkWidget *parent = gtk_widget_get_toplevel(pdialog->shell), *shl;
+  GtkWidget *parent = gtk_widget_get_ancestor(pdialog->shell, GTK_TYPE_WINDOW);
+  GtkWidget *shl;
 
   pdialog->id = preset_index;
   shl = gtk_message_dialog_new(NULL,
