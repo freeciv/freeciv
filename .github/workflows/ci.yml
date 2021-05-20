@@ -21,11 +21,11 @@ jobs:
           install: >
             make
             gettext
-            pkg-config
             git
-            automake
+            automake1.16
             libtool
             autoconf
+            mingw-w64-x86_64-pkgconf
             mingw-w64-x86_64-gcc
             mingw-w64-x86_64-icu
             mingw-w64-x86_64-curl
