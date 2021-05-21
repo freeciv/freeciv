@@ -27,7 +27,7 @@ AC_DEFUN([FC_QT5_DARWIN],
       AC_LANG_POP([C++])
 
       if test "x$qt5_libs" = "xyes" ; then
-        MOCCMD="$qt5_framework_bin/moc"
+        AS_IF([test "x$MOCCMD" = "x"], [MOCCMD="$qt5_framework_bin/moc"])
         AS_IF([test -x $MOCCMD], [fc_qt5_usable=true], [fc_qt5_usable=false])
       else
         fc_qt5_usable=false
