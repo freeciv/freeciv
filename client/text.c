@@ -1706,7 +1706,7 @@ const char *get_act_sel_action_custom_text(struct action *paction,
                trade_between_cities(actor_homecity, target_city));
     } else {
       astr_set(&custom,
-               /* TRANS: Estimated one time bonus for
+               /* TRANS: Estimated recurring revenue for
                 * the Establish Trade _Route action. */
                _("%d trade"),
                trade_between_cities(actor_homecity, target_city));
