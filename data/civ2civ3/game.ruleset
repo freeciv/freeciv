@@ -1944,14 +1944,14 @@ settings =
   { "type",       "pct", "cancelling", "bonus"
     "National",   0,     "Cancel",     "None"
     "NationalIC", 0,     "Cancel",     "None"
-    "IN",         100,   "Cancel",     "None"
-    "INIC",       200,   "Cancel",     "None"
-    "Ally",       100,   "Cancel",     "None"
-    "AllyIC",     200,   "Cancel",     "None"
-    "Enemy",      0,     "Cancel",     "None"
-    "EnemyIC",    0,     "Cancel",     "None"
-    "Team",       100,   "Cancel",     "None"
-    "TeamIC",     200,   "Cancel",     "None"
+    "IN",         100,   "Cancel",     "Gold"
+    "INIC",       200,   "Cancel",     "Gold"
+    "Ally",       100,   "Cancel",     "Gold"
+    "AllyIC",     200,   "Cancel",     "Gold"
+    "Enemy",      0,     "Cancel",     "Gold"
+    "EnemyIC",    0,     "Cancel",     "Gold"
+    "Team",       100,   "Cancel",     "Gold"
+    "TeamIC",     200,   "Cancel",     "Gold"
   }
 
 ; When are goods for the trade route chosen.
@@ -2116,4 +2116,5 @@ set =
       "techlossforgiveness", 0
       "techlossrestore", 50
       "revolentype", "RANDQUICK"
+      "tradeworldrelpct", 100
     }
