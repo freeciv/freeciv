@@ -118,15 +118,15 @@ static bv_handicap handicap_of_skill_level(enum ai_level level)
 
 #ifdef FREECIV_DEBUG
    case AI_LEVEL_EXPERIMENTAL:
+     /* H_EXPERIMENTAL + whatever Hard has */
      BV_SET(handicap, H_EXPERIMENTAL);
-     break;
+     fc__fallthrough; /* Falling through to hard */
 #endif /* FREECIV_DEBUG */
 
    case AI_LEVEL_CHEATING:
-     BV_SET(handicap, H_RATES);
-     break;
    case AI_LEVEL_HARD:
-     /* No handicaps */
+     /* No actual handicaps */
+     BV_SET(handicap, H_RATES);
      break;
   case AI_LEVEL_COUNT:
     fc_assert(level != AI_LEVEL_COUNT);
