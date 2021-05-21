@@ -660,6 +660,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                    * immediately so all errors get printed, not just first
                    * one. */
   bool default_gov_failed = FALSE;
+  bool obsoleted_by_loop = FALSE;
 
   if (!sanity_check_metadata()) {
     ok = FALSE;
@@ -826,7 +827,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
     int chain_length = 0;
     struct unit_type *upgraded = putype;
 
-    while (upgraded != NULL) {
+    while (upgraded != NULL && !obsoleted_by_loop) {
       upgraded = upgraded->obsoleted_by;
       chain_length++;
       if (chain_length > num_utypes) {
@@ -834,6 +835,7 @@ bool sanity_check_ruleset_data(bool ignore_retired)
                       "There seems to be obsoleted_by loop in update "
                       "chain that starts from %s", utype_rule_name(putype));
         ok = FALSE;
+        obsoleted_by_loop = TRUE;
       }
     }
   } unit_type_iterate_end;
