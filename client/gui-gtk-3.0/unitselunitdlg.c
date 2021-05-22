@@ -88,6 +88,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
   struct sprite *spr;
   struct unit_type *actor_type = unit_type_get(actor);
   int tcount;
+  const struct unit *default_unit;
 
   dlg = gtk_dialog_new_with_buttons(dlg_title, NULL, 0,
                                     _("Close"), GTK_RESPONSE_NO,
@@ -144,6 +145,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
     if (first_option == NULL) {
       first_option = radio;
       default_option = first_option;
+      default_unit = ptgt;
     }
     /* The lists must be the same length if they contain the same
      * elements. */
@@ -159,6 +161,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
                      G_CALLBACK(unit_sel_unit_destroyed), cbdata);
     if (ptgt == suggested_tgt_unit) {
       default_option = radio;
+      default_unit = suggested_tgt_unit;
     }
     gtk_grid_attach(GTK_GRID(box), radio, 0, tcount, 1, 1);
 
@@ -187,6 +190,7 @@ bool select_tgt_unit(struct unit *actor, struct tile *ptile,
 
   g_object_set_data(G_OBJECT(dlg), "actor", GINT_TO_POINTER(actor->id));
   g_object_set_data(G_OBJECT(dlg), "tile", ptile);
+  g_object_set_data(G_OBJECT(dlg), "target", GINT_TO_POINTER(default_unit->id));
 
   g_signal_connect(dlg, "response", do_callback, actor);
 
