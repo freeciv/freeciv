@@ -1,44 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
-<!-- /Creative Commons Public Domain -->
-<!--
-
-<rdf:RDF xmlns="http://web.resource.org/cc/"
-     xmlns:dc="http://purl.org/dc/elements/1.1/"
-     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
-<Work rdf:about="">
-    <dc:title>New Zealand, Australia, United Kingdom, United States, 
-Bosnia and Herzegovina, Azerbaijan, Armenia, Bahamas, Belgium, Benin, 
-Bulgaria, Estonia, Finland, Gabon, Gambia, Germany, Greece, Greenland, 
-Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
-    <dc:rights><Agent>
-       <dc:title>Daniel McRae</dc:title>
-    </Agent></dc:rights>
-    <license rdf:resource="http://web.resource.org/cc/PublicDomain" />
-</Work>
-
-<License rdf:about="http://web.resource.org/cc/PublicDomain">
-    <permits rdf:resource="http://web.resource.org/cc/Reproduction" />
-    <permits rdf:resource="http://web.resource.org/cc/Distribution" />
-    <permits rdf:resource="http://web.resource.org/cc/DerivativeWorks" />
-</License>
-</rdf:RDF>
--->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg1"
    sodipodi:version="0.32"
-   width="1000"
-   height="533.33000pt"
+   width="750.00012pt"
+   height="499.9968pt"
    sodipodi:docname="united_kingdom.svg"
-   inkscape:version="0.42"
-   sodipodi:docbase="/Users/daniel/Desktop/updated flags">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   version="1.1">
   <metadata
      id="metadata12">
     <rdf:RDF>
@@ -56,40 +31,43 @@ Guinea, Honduras, Israel, Jamaica, Jordan, and Romania Flags</dc:title>
      id="base"
      inkscape:zoom="0.42921382"
      inkscape:cx="468.95104"
-     inkscape:cy="290.09069"
-     inkscape:window-width="797"
+     inkscape:cy="290.09055"
+     inkscape:window-width="799"
      inkscape:window-height="687"
      inkscape:window-x="20"
      inkscape:window-y="42"
-     inkscape:current-layer="svg1" />
+     inkscape:current-layer="svg1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <g
      id="g578"
-     transform="matrix(16.66667,0.000000,0.000000,22.22208,0.000000,1.366211e-4)">
+     transform="scale(16.66667,22.22208)">
     <rect
-       style="font-size:12.000000px;fill:#000066;stroke-width:1.0000000pt"
+       style="font-size:12px;fill:#000066;stroke-width:1pt"
        id="rect124"
-       x="0.0000000"
-       width="60.000000"
-       height="30.000000"
-       y="0.0000000" />
+       x="0"
+       width="60"
+       height="30"
+       y="0" />
     <g
        id="g584"
-       style="font-size:12.000000px">
+       style="font-size:12px">
       <path
-         style="font-size:12.000000px;fill:#ffffff;stroke-width:1.0000000pt"
-         d="M 0.0000000,0.0000000 L 0.0000000,3.3541000 L 53.291800,30.000000 L 60.000000,30.000000 L 60.000000,26.645900 L 6.7082000,0.0000000 L 0.0000000,0.0000000 z M 60.000000,0.0000000 L 60.000000,3.3540500 L 6.7082000,30.000000 L 0.0000000,30.000000 L 0.0000000,26.645800 L 53.291800,0.0000000 L 60.000000,0.0000000 z "
+         style="font-size:12px;fill:#ffffff;stroke-width:1pt"
+         d="M 0,0 V 3.3541 L 53.2918,30 H 60 V 26.6459 L 6.7082,0 Z M 60,0 V 3.35405 L 6.7082,30 H 0 V 26.6458 L 53.2918,0 Z"
          id="path146" />
       <path
-         style="font-size:12.000000px;fill:#ffffff;stroke-width:1.0000000pt"
-         d="M 25.000000,0.0000000 L 25.000000,30.000000 L 35.000000,30.000000 L 35.000000,0.0000000 L 25.000000,0.0000000 z M 0.0000000,10.000000 L 0.0000000,20.000000 L 60.000000,20.000000 L 60.000000,10.000000 L 0.0000000,10.000000 z "
+         style="font-size:12px;fill:#ffffff;stroke-width:1pt"
+         d="M 25,0 V 30 H 35 V 0 Z M 0,10 V 20 H 60 V 10 Z"
          id="path136" />
       <path
-         style="font-size:12.000000px;fill:#cc0000;stroke-width:1.0000000pt"
-         d="M 0.0000000,12.000000 L 0.0000000,18.000000 L 60.000000,18.000000 L 60.000000,12.000000 L 0.0000000,12.000000 z M 27.000000,0.0000000 L 27.000000,30.000000 L 33.000000,30.000000 L 33.000000,0.0000000 L 27.000000,0.0000000 z "
+         style="font-size:12px;fill:#cc0000;stroke-width:1pt"
+         d="m 0,12 v 6 H 60 V 12 Z M 27,0 v 30 h 6 V 0 Z"
          id="path141" />
       <path
-         style="font-size:12.000000px;fill:#cc0000;stroke-width:1.0000000pt"
-         d="M 0.0000000,30.000000 L 20.000000,20.000000 L 24.472100,20.000000 L 4.4721400,30.000000 L 0.0000000,30.000000 z M 0.0000000,0.0000000 L 20.000000,10.000000 L 15.527900,10.000000 L 0.0000000,2.2360700 L 0.0000000,0.0000000 z M 35.527900,10.000000 L 55.527900,0.0000000 L 60.000000,0.0000000 L 40.000000,10.000000 L 35.527900,10.000000 z M 60.000000,30.000000 L 40.000000,20.000000 L 44.472100,20.000000 L 60.000000,27.763900 L 60.000000,30.000000 z "
+         style="font-size:12px;fill:#cc0000;stroke-width:1pt"
+         d="M 0,30 20,20 h 4.4721 L 4.47214,30 Z M 0,0 20,10 H 15.5279 L 0,2.23607 Z m 35.5279,10 20,-10 H 60 L 40,10 Z M 60,30 40,20 h 4.4721 L 60,27.7639 Z"
          id="path150" />
     </g>
   </g>
