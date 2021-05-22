@@ -1,9 +1,9 @@
 [nation_goldenhorde]
 
-name=_("Golden Horde")
-plural=_("?plural:Golden Horde")
-groups="European", "Asian", "Medieval"
-legend=_("The Golden Horde was a historical Mongol and Tatar state,\
+name   = _("Golden Horde")
+plural = _("?plural:Golden Horde")
+groups = "European", "Asian", "Medieval"
+legend = _("The Golden Horde was a historical Mongol and Tatar state,\
  founded around 1240 in the western part of the empire of Genghis Khan by\
  his grandson Batu Khan, with its capital at Sarai Batu. After the\
  conquests its greatest extent covered the territories from the Irtysh to\
@@ -12,6 +12,7 @@ legend=_("The Golden Horde was a historical Mongol and Tatar state,\
  became vassalized. From the 14th century the country gradually\
  descended into instability, which at the beginning of the 15th century\
  led to the complete disintegration of the state.")
+
 leaders ={
  "name",                "sex"
  "Orda",                "Male"
@@ -27,7 +28,8 @@ leaders ={
  "Toqtamish",           "Male"
  "Öz",                  "Male"
 }
-flag="golden_horde"
+
+flag = "golden_horde"
 flag_alt = "-"
 style = "Babylonian"
 
@@ -38,11 +40,11 @@ ruler_titles = {
  "Fundamentalism", _("Grand Mufti %s"), _("?female:Grand Mufti %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="tatar", "crimean tatar", "volga bulgar", "kazakh",
+conflicts_with = "tatar", "crimean tatar", "volga bulgar", "kazakh",
  "bashkir", "ukrainian"
 civilwar_nations = "tatar", "crimean tatar", "bashkir", "volga bulgar", "russian",
  "kazakh", "mordvin"

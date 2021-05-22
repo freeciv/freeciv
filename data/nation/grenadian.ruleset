@@ -1,9 +1,9 @@
 [nation_grenadian]
 
-name=_("Grenadian")
-plural=_("?plural:Grenadians")
-groups="American", "Modern"
-legend=_("Grenada is an island nation in the Caribbean. It gained\
+name   = _("Grenadian")
+plural = _("?plural:Grenadians")
+groups = "American", "Modern"
+legend = _("Grenada is an island nation in the Caribbean. It gained\
  independence from the United Kingdom in 1974. The main island was known\
  as Camahogne by the indigenous Caribs.")
 
@@ -21,17 +21,18 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"), _("?female:Bishop %s")
 }
 
-flag="grenada"
+flag = "grenada"
 flag_alt = "united_kingdom"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "vincentian"
 
 cities =
- "St. George's",	; Previously known as Fort Royal
+ "St. George's",       ; Previously known as Fort Royal
  "Grenville",
  "Gouyave",
  "Hillsborough",

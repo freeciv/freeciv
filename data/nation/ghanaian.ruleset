@@ -1,9 +1,9 @@
 [nation_ghanaian]
 
-name=_("Ghanaian")
-plural=_("?plural:Ghanaian")
-groups="African", "Modern"
-legend=_("Ghana takes its name from the old Ghana Empire. Known as the\
+name   = _("Ghanaian")
+plural = _("?plural:Ghanaian")
+groups = "African", "Modern"
+legend = _("Ghana takes its name from the old Ghana Empire. Known as the\
  Gold Coast by the Europeans, the Portuguese, Dutch and Swedes founded\
  outposts but in the 19th century Ghana became a British colony. In 1957\
  Kwame Nkrumah proclaimed Ghana's independence.")
@@ -18,15 +18,15 @@ leaders = {
  "Joyce Bamford-Addo",          "Female"
 }
 
-flag="ghana"
+flag = "ghana"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Ivoirian", "Burkinabe", "Togolese"
+civilwar_nations = "Ivoirian", "Burkinabe", "Togolese"
 
 cities =
  "Accra",

@@ -1,9 +1,9 @@
 [nation_germanbelgian]
 
-name=_("German Belgian")
-plural=_("?plural:German Belgians")
-groups= "European"
-legend=_("The German-speaking Community is one of the three federal\
+name   = _("German Belgian")
+plural = _("?plural:German Belgians")
+groups = "European"
+legend = _("The German-speaking Community is one of the three federal\
  communities of Belgium, part of the Walloon Region in the extreme east\
  of the country. The area was annexed by Belgium after the First World\
  War to compensate the country for the German occupation during that war.\
@@ -27,13 +27,13 @@ ruler_titles = {
  "Fundamentalism", _("Abbot %s"),               _("Mother Superior %s")
 }
 
-flag="dgb"
+flag = "dgb"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "walloon", "luxembourgish", "rhenish"
 

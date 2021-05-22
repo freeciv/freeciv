@@ -1,9 +1,9 @@
 [nation_galician]
 
-name=_("Galician")
-plural=_("?plural:Galicians")
-groups="Medieval", "European"
-legend=_("Galicia is a region in the northwest of Spain, just above\
+name   = _("Galician")
+plural = _("?plural:Galicians")
+groups = "Medieval", "European"
+legend = _("Galicia is a region in the northwest of Spain, just above\
  Portugal.")
 
 leaders = {
@@ -22,14 +22,15 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),         _("Mother Superior %s")
 }
 
-flag="galicia"
+flag = "galicia"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="portuguese", "asturian"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "portuguese", "asturian"
 
 cities =
   "Santiago de Compostela", "A Coruña", "Vigo", "Lugo", "Pontevedra",

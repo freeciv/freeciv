@@ -1,10 +1,10 @@
 [nation_guyanese]
 
-name=_("Guyanese")
-plural=_("?plural:Guyanese")
-groups="American", "Modern"
+name   = _("Guyanese")
+plural = _("?plural:Guyanese")
+groups = "American", "Modern"
 
-legend=_("Originally inhabited by the Arawk, Guyana was colonized by the\
+legend = _("Originally inhabited by the Arawk, Guyana was colonized by the\
  Dutch but became a British colony after the Napoleonic Wars. It gained\
  independence in 1966. Under Forbes Burnham Guyana became a Marxist\
  oriented country, but in the 1980s it started its transition to a market\
@@ -27,15 +27,15 @@ ruler_titles = {
  "Republic", _("Executive President %s"),_("?female:Executive President %s")
 }
 
-flag="guyana"
+flag = "guyana"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="venezuelan", "surinamese", "trinidadian and tobagonian"
+civilwar_nations = "venezuelan", "surinamese", "trinidadian and tobagonian"
 
 cities =
  "Georgetown",

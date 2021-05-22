@@ -1,9 +1,9 @@
 [nation_gabonese]
 
-name=_("Gabonese")
-plural=_("?plural:Gabonese")
-groups="African", "Modern"
-legend=_("Gabon is a country on the Atlantic coast of Central Africa.\
+name   = _("Gabonese")
+plural = _("?plural:Gabonese")
+groups = "African", "Modern"
+legend = _("Gabon is a country on the Atlantic coast of Central Africa.\
  Gabon, then inhabited by Bantu peoples, became a French protectorate\
  in the 19th century. It has been an independent republic since\
  1960. It is considered one of the most developed countries of Sub-Saharan\
@@ -18,15 +18,15 @@ leaders = {
  "Ali Bongo Ondimba",     "Male"
 }
 
-flag="gabon"
+flag = "gabon"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="brazzaville-congolese", "central african"
+civilwar_nations = "brazzaville-congolese", "central african"
 
 cities =
  "Libreville",

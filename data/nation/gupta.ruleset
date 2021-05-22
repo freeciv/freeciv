@@ -1,10 +1,10 @@
 [nation_gupta]
 
-name=_("Gupta")
-plural=_("?plural:Gupta")
-groups="Asian", "Ancient"
+name   = _("Gupta")
+plural = _("?plural:Gupta")
+groups = "Asian", "Ancient"
 
-legend=_("The Gupta Empire was one of the great classical empires. It\
+legend = _("The Gupta Empire was one of the great classical empires. It\
  ruled northern India from around 240 to 550 CE.")
 
 leaders = {
@@ -26,11 +26,11 @@ flag         = "gupta"
 flag_alt     = "-"
 style        = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="indian", "bengali"
+civilwar_nations = "indian", "bengali"
 
 cities =
  "Pataliputra",

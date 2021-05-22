@@ -1,9 +1,9 @@
 [nation_guatemalan]
 
-name=_("Guatemalan")
-plural=_("?plural:Guatemalans")
-groups="Modern","American"
-legend=_("The ancient heartland of the Mayas, Guatemala was conquered by\
+name   = _("Guatemalan")
+plural = _("?plural:Guatemalans")
+groups = "Modern","American"
+legend = _("The ancient heartland of the Mayas, Guatemala was conquered by\
  the Spanish in the 16th century. It became independent in 1821 but was\
  part of the United States of Central America until 1840. It has endured\
  political turmoil for much of its history. Guatemala lived through one\
@@ -33,30 +33,30 @@ ruler_titles = {
  "Fundamentalism",  _("Reverend %s"),    _("?female:Reverend %s")
 }
 
-flag="guatemala"
-flag_alt="-"
+flag = "guatemala"
+flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="chiapanec", "mayan", "belizean"
+civilwar_nations = "chiapanec", "mayan", "belizean"
 
 cities =
-  "Guatemala (mountains, hills)", 
-  "Huehuetenango (mountains)", 
-  "Quetzaltenango (mountains)", 
-  "Antigua (mountains)", 
-  "Escuintla (mountains, hills)", 
-  "Chimaltenango (mountains)", 
+  "Guatemala (mountains, hills)",
+  "Huehuetenango (mountains)",
+  "Quetzaltenango (mountains)",
+  "Antigua (mountains)",
+  "Escuintla (mountains, hills)",
+  "Chimaltenango (mountains)",
   "Flores (jungle, lake)",
-  "Mixco (mountains)", 
-  "Villa Nueva", 
+  "Mixco (mountains)",
+  "Villa Nueva",
   "Santa Lucía Cotzumalguapa (swamp)",
-  "Puerto Barrios (ocean, river, lake)", 
+  "Puerto Barrios (ocean, river, lake)",
   "Cobán (mountains, forest)",
-  "Chichicastenango (mountains)", 
+  "Chichicastenango (mountains)",
   "San Pedro Sacatepéquez (mountains, forest)",
   "Jalapa",
   "Totonicapán",
@@ -71,27 +71,27 @@ cities =
   "San Benito",
   "Santiago Atitlán (lake)",
   "San Cristóbal Verapaz (jungle, forest)",
-  "Monterrico (ocean)", 
+  "Monterrico (ocean)",
   "Retalhuleu (swamp, river)",
-  "Rabinal (mountains)", 
+  "Rabinal (mountains)",
   "Livingston (ocean)",
-  "Panajachel (lake)", 
-  "San Andrés Sajcabajá", 
+  "Panajachel (lake)",
+  "San Andrés Sajcabajá",
   "Santa Cruz del Quiché",
   "Petapa",
   "Santo Tomás de Castilla",
-  "Sololá", 
+  "Sololá",
   "Chinautla",
-  "Esquipulas", 
-  "Melchor de Mencos (jungle)", 
-  "Ciudad Tecún Umán (jungle, river, swamp)", 
-  "San Juan Sacatepéquez", 
+  "Esquipulas",
+  "Melchor de Mencos (jungle)",
+  "Ciudad Tecún Umán (jungle, river, swamp)",
+  "San Juan Sacatepéquez",
   "Villa Canales",
   "San Antonio Suchitepéquez",
   "Cuilapa",
   "Salamá",
   "Guastatoya",
-  "Amatitlán", 
+  "Amatitlán",
   "Nebaj",
   "Santa Catarina Pinula",
   "Palín",
@@ -102,5 +102,3 @@ cities =
   "La Mesilla",
   "Sayaxché",
   "Nahualá"
-
-

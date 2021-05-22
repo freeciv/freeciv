@@ -1,9 +1,9 @@
 [nation_gambian]
 
-name=_("Gambian")
-plural=_("?plural:Gambians")
-groups="African", "Modern"
-legend=_("The Gambia is a small country in West Africa, straddling both\
+name   = _("Gambian")
+plural = _("?plural:Gambians")
+groups = "African", "Modern"
+legend = _("The Gambia is a small country in West Africa, straddling both\
  banks of the Gambia river. It achieved independence from the United\
  Kingdom in 1965.")
 
@@ -19,15 +19,15 @@ ruler_titles = {
  "Monarchy",        _("Mansa %s"),       _("?female:Mansa %s")
 }
 
-flag="gambia"
+flag = "gambia"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="senegalese", "ghanaian"
+civilwar_nations = "senegalese", "ghanaian"
 
 cities =
  "Banjul",

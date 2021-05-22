@@ -1,11 +1,11 @@
 [nation_gokturk]
 
-name=_("Göktürk")
+name      = _("Göktürk")
 ; pre-2.6 had plain ASCII names
-rule_name="Gokturk"
-plural=_("?plural:Göktürks")
-groups="Medieval", "Asian"
-legend=_("The Göktürk or Old Turkic Khaganate was ruled by the Ashina dynasty\
+rule_name = "Gokturk"
+plural    = _("?plural:Göktürks")
+groups    = "Medieval", "Asian"
+legend    = _("The Göktürk or Old Turkic Khaganate was ruled by the Ashina dynasty\
  which derived its legendary origins from the red she-wolf. The Göktürks\
  were ancestors of the modern Turkic nations in Asia and Eastern Europe.\
  They were the creators of a vast military empire, which covered the\
@@ -46,50 +46,51 @@ flag = "gokturk"
 flag_alt = "-"
 style = "asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "kazakh", "uzbek", "kyrgyz", "uyghur", "khazar", "turkmen", "tatar", "crimean tatar", "turkish", "ottoman"
 civilwar_nations = "tocharian", "khazar", "uyghur", "avar"
 
 ; City names come from en.wikipedia and book Drevniye Tiurki by L. Gumilov
 
 cities =
-"Suyab",	; principal capital of Western Turkic Khaganate
-"Navekat",	; summer capital of Western Turkic Khaganate
-"Ashite",	; Old Turkic aristocratic tribe
-"Sir",		; main house of Siejento tribe
-"Semerkand",
-"Merv",
-"Chach",	;Tashkent
-"Qanqlis",
-"Khalkha",
-"Hohhot",
-"Tulu",
-"Nushipi",
-"Karluk",
-"Turgesh",
-"Ili",
-"Shutun",
-"Hochen",
-"Karaşar",
-"Nesef",
-"Derbent",
-"Chik",
-"Tuyuk",
-"Alashan",
-"Yaglakar",
-"Bayirku",
-"Tongra",
-"Bishbalyk",
-"Bukhara",
-"Paykend",
-"Badgis",
-"Balkh",
-"Kashgar",
-"Kucha",
-"Turfan",
-"Fergana",
-"Maymurg",
-"Kesh",
-"Usrushana"
+ "Suyab",        ; principal capital of Western Turkic Khaganate
+ "Navekat",      ; summer capital of Western Turkic Khaganate
+ "Ashite",       ; Old Turkic aristocratic tribe
+ "Sir",          ; main house of Siejento tribe
+ "Semerkand",
+ "Merv",
+ "Chach",        ;Tashkent
+ "Qanqlis",
+ "Khalkha",
+ "Hohhot",
+ "Tulu",
+ "Nushipi",
+ "Karluk",
+ "Turgesh",
+ "Ili",
+ "Shutun",
+ "Hochen",
+ "Karaşar",
+ "Nesef",
+ "Derbent",
+ "Chik",
+ "Tuyuk",
+ "Alashan",
+ "Yaglakar",
+ "Bayirku",
+ "Tongra",
+ "Bishbalyk",
+ "Bukhara",
+ "Paykend",
+ "Badgis",
+ "Balkh",
+ "Kashgar",
+ "Kucha",
+ "Turfan",
+ "Fergana",
+ "Maymurg",
+ "Kesh",
+ "Usrushana"

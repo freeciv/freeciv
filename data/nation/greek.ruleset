@@ -1,11 +1,11 @@
 [nation_greek]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Greek")
-plural=_("?plural:Greeks")
-groups="Ancient", "European", "Core"
-legend=_("The ancient Greeks, between Mycenae and the Roman conquest.")
+name   = _("Greek")
+plural = _("?plural:Greeks")
+groups = "Ancient", "European", "Core"
+legend = _("The ancient Greeks, between Mycenae and the Roman conquest.")
 
 leaders = {
  "name",                "sex"
@@ -25,14 +25,15 @@ ruler_titles = {
  "Fundamentalism",  _("Elder %s"),          _("?female:Elder %s")
 }
 
-flag="greece_ancient"
+flag = "greece_ancient"
 flag_alt = "greece"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="macedon", "epirote", "Byzantine", "Cretan", "Pontic", "italian greek"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "macedon", "epirote", "Byzantine", "Cretan", "Pontic", "italian greek"
 
 cities =
 ; Original city list with native Greek orthography

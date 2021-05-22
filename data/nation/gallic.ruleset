@@ -1,9 +1,9 @@
 [nation_gallic]
 
-name=_("Gallic")
-plural=_("?plural:Gauls")
-groups="Ancient", "European"
-legend=_("The Gauls were a Celtic people occupying what is now France and\
+name   = _("Gallic")
+plural = _("?plural:Gauls")
+groups = "Ancient", "European"
+legend = _("The Gauls were a Celtic people occupying what is now France and\
  Belgium. They lived in chiefdom-level societies that grew increasingly\
  centralized and stratified under the influence of the Greek and Roman\
  merchants and soldiers who came to Gaul. Julius Caesar launched his\
@@ -31,13 +31,13 @@ ruler_titles = {
  "Republic",       _("Consul %s"),     _("?female:Consul %s")
 } 
 
-flag="gaul"
+flag = "gaul"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "french", "belgian"
 civilwar_nations = "boian", "helvetian", "celtiberian", "belgic"
@@ -50,33 +50,33 @@ civilwar_nations = "boian", "helvetian", "celtiberian", "belgic"
 ; Modern French names in comment.
 
 cities =
- "Bibracte",		; (Mont) Beuvray
- "Durocortum",		; Reims
- "Avaricum",		; Bourges
+ "Bibracte",            ; (Mont) Beuvray
+ "Durocortum",          ; Reims
+ "Avaricum",            ; Bourges
  "Vesona",
- "Bagacum",		; Bavai
- "Cabillonum",		; Chalon-sur-Saône
- "Cenabum",		; Orléans
- "Autricum",		; Chartres
- "Vindinum",		; Le Mans
- "Aragenuae",		; Vieux
- "Gergovia Boiorum",	; Gergovie (the Romans called it "Gorgobina")
- "Aginnon",		; Agen
- "Nemetocenna",		; Arras (the Romans called it "Atrebatum")
- "Valentia",		; Valence
- "Nemausus",		; Nîmes
- "Noviodunum",		; Jublains
- "Narbo",		; Narbonne
- "Vienna",		; Vienne
- "Agedincum",		; Sens
- "Metiosedum",		; Melun
+ "Bagacum",             ; Bavai
+ "Cabillonum",          ; Chalon-sur-Saône
+ "Cenabum",             ; Orléans
+ "Autricum",            ; Chartres
+ "Vindinum",            ; Le Mans
+ "Aragenuae",           ; Vieux
+ "Gergovia Boiorum",    ; Gergovie (the Romans called it "Gorgobina")
+ "Aginnon",             ; Agen
+ "Nemetocenna",         ; Arras (the Romans called it "Atrebatum")
+ "Valentia",            ; Valence
+ "Nemausus",            ; Nîmes
+ "Noviodunum",          ; Jublains
+ "Narbo",               ; Narbonne
+ "Vienna",              ; Vienne
+ "Agedincum",           ; Sens
+ "Metiosedum",          ; Melun
  "Uxellodunum",
  "Vellaunodunum",
- "Nyrax",		; Nyons
- "Vesontio",		; Besançon
- "Arausio",		; Orange
+ "Nyrax",               ; Nyons
+ "Vesontio",            ; Besançon
+ "Arausio",             ; Orange
  "Alesia",
- "Arelate",		; Arles (founded by Greeks as "Theline")
+ "Arelate",             ; Arles (founded by Greeks as "Theline")
 
 ; Cities of the Belgae
  "Bratuspantium",
@@ -84,7 +84,7 @@ cities =
 
 ; Cities founded by Greeks or Romans
  "Limonium",
- "Massalia",		; Marseille
- "Genava",		; Genève (Switzerland)
+ "Massalia",            ; Marseille
+ "Genava",              ; Genève (Switzerland)
  "Agirinum",
- "Rotomagus"		; Rouen
+ "Rotomagus"            ; Rouen
