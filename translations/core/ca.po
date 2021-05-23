@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-05-14 13:22+0300\n"
-"PO-Revision-Date: 2021-05-17 00:20+0200\n"
+"PO-Revision-Date: 2021-05-23 17:46+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -30927,7 +30927,7 @@ msgid ""
 "Without this improvement city cannot grow bigger than size 2."
 msgstr ""
 "Infraestructura bàsica de la ciutat. Aquesta millora no té manteniment, i no"
-" pot sabotejar-se per un Espia Ocult enemic.\n"
+" pot sabotejar-se per un Espia Invisible enemic.\n"
 "\n"
 "Sense aquesta millora la ciutat no pot créixer a més de mida 2."
 
@@ -31942,15 +31942,16 @@ msgstr ""
 " escala en aquest planeta."
 
 #: data/alien/techs.ruleset:488
-#, fuzzy
 msgid "Modified Spitter"
-msgstr "modificat "
+msgstr "Escopidor modificat "
 
 #: data/alien/techs.ruleset:494
 msgid ""
 "We already know how to make modifications to alien lifeforms. Let's improve "
 "spitters."
 msgstr ""
+"Ja sabem fer modificacions a les formes de vida alienígenes. Millorem els"
+" escopidors."
 
 #: data/alien/techs.ruleset:498
 msgid "Mood Manipulation"
@@ -32044,7 +32045,7 @@ msgstr ""
 " que els actors es teleportin per conèixer el seu públic, potser sí que hi"
 " són.\n"
 "\n"
-"Els Espies Ocults que protegeixen les teves ciutats contra Espies enemics"
+"Els Espies Invisibles que protegeixen les teves ciutats contra Espies enemics"
 " obtindran un 40% de bonificació. També passa a ser un 40% més difícil que"
 " els enemics sabotegin edificis concrets."
 
@@ -32171,9 +32172,8 @@ msgstr ""
 " recerca interessant."
 
 #: data/alien/techs.ruleset:660
-#, fuzzy
 msgid "Stealth Module"
-msgstr "Bombarder Invisible"
+msgstr "Mòdul Invisible"
 
 #: data/alien/techs.ruleset:666
 msgid ""
@@ -32181,6 +32181,9 @@ msgid ""
 "expensive to be used for armies. It's perfect for individuals in espionage "
 "mission."
 msgstr ""
+"Fins i tot coneixent aquesta tecnologia que fa invisibles les nostres"
+" unitats, és de llarg massa cara per utilitzar-la per als exèrcits. És"
+" perfecta per a persones en missió d'espionatge."
 
 #: data/alien/techs.ruleset:671
 msgid "Strong Force"
@@ -32193,6 +32196,10 @@ msgid ""
 "\n"
 "Allows Engineers to build Towers instead of Force Fortresses."
 msgstr ""
+"Tenim dominada la capacitat de fer camps d'energia diferents a partir de la"
+" radiació. Encara podem millorar, però.\n"
+"\n"
+"Permet als Enginyers de construir Torres en comptes de Fortaleses de Força."
 
 #: data/alien/techs.ruleset:682
 msgid "Strong Resistance"
@@ -32258,61 +32265,71 @@ msgid ""
 "\n"
 "Cities can work Boiling Ocean tiles."
 msgstr ""
+"Ser competent en aigües bullents requereix un bon control de la temperatura"
+" que rodeja els vaixells. A més, el coneixement bàsic de la tecnologia de"
+" mòduls permet fer mòduls més avançats en el futur.\n"
+"\n"
+"Les ciutats poden treballar en caselles d'Oceà Bullent."
 
 #: data/alien/techs.ruleset:736
 msgid "Underground Habitat"
-msgstr ""
+msgstr "Hàbitat Subterrani"
 
 #: data/alien/techs.ruleset:742
 msgid ""
 "If needed, we can produce everything we need without ever leaving "
 "underground bunker."
 msgstr ""
+"Si cal, podem produir tot el que necessitem sense sortir mai del búnquer"
+" subterrani."
 
 #: data/alien/techs.ruleset:746
-#, fuzzy
 msgid "Travel"
-msgstr "Caravel·la"
+msgstr "Viatges"
 
 #: data/alien/techs.ruleset:752
 msgid ""
 "Once we master ship manufacturing, traveling more hospitable seas of Deneb 7 "
 "proved to be no different from other planets."
 msgstr ""
+"Un cop dominada la fabricació de vaixells, viatjar per les mars més"
+" hospitalàries de Deneb 7 no va ser gaire diferent dels altres planetes."
 
 #: data/alien/techs.ruleset:757
 msgid "Unified Theory"
-msgstr ""
+msgstr "Teoria Unificada"
 
 #: data/alien/techs.ruleset:763
 msgid ""
 "We now understand that radiation and antigravity are two sides of the same "
 "phenomenom."
 msgstr ""
+"Ara entenem que la radiació i l'antigravetat són dues cares del mateix"
+" fenomen."
 
 #: data/alien/techs.ruleset:767
-#, fuzzy
 msgid "Virtual Entertainment"
-msgstr "Artistes"
+msgstr "Entreteniment Virtual"
 
 #: data/alien/techs.ruleset:773
 msgid "Another tech that Earth has long been close to mastering."
-msgstr ""
+msgstr "Una altra tecnologia que la Terra fa temps que està a punt de dominar."
 
 #: data/alien/techs.ruleset:776
 msgid "Virtual Reality Training"
-msgstr ""
+msgstr "Entrenament en Realitat Virtual"
 
 #: data/alien/techs.ruleset:782
 msgid ""
 "Virtual Reality provides excellent way to train our forces, both infantry "
 "and naval forces."
 msgstr ""
+"La Realitat Virtual proporciona una forma excel·lent d'entrenar les nostres"
+" forces, tant les d'infanteria com les navals."
 
 #: data/alien/techs.ruleset:786
-#, fuzzy
 msgid "War Monsters"
-msgstr "Primer ministre %s"
+msgstr "Monstres de Guerra"
 
 #: data/alien/techs.ruleset:792
 msgid ""
@@ -32320,10 +32337,13 @@ msgid ""
 "they are the only thing that can wage war on radiating areas for the time "
 "being."
 msgstr ""
+"Podem domesticar mostres adequats per a la guerra. Poden ser relativament"
+" febles, però de moment són l'única cosa que pot fer la guerra en zones amb"
+" radiació."
 
 #: data/alien/techs.ruleset:797
 msgid "Water Flow"
-msgstr ""
+msgstr "Flux d'Aigua"
 
 #: data/alien/techs.ruleset:803
 msgid ""
@@ -32331,32 +32351,31 @@ msgid ""
 "want. Building Greenhouses becomes possible in tiles adjacent to cities and "
 "rivers."
 msgstr ""
+"Entenem la dinàmica de fluids de Deneb 7 i podem fer fluir l'aigua per on"
+" volem. Fa possible construir Hivernacles a les caselles adjacents a ciutats"
+" i rius."
 
 #: data/alien/terrain.ruleset:27
-#, fuzzy
 msgid "Radiating"
-msgstr "Valoració"
+msgstr "Radiant"
 
 #: data/alien/terrain.ruleset:27
-#, fuzzy
 msgid "Terrain has alien radiation."
-msgstr " Alteracions del terreny"
+msgstr "El terreny té radiació alienígena."
 
 #: data/alien/terrain.ruleset:245
-#, fuzzy
 msgid "No unit can enter this terrain, nor can city work the tile."
 msgstr ""
 "Cap unitat no pot entrar en aquest terreny, ni cap ciutat pot treballar-ne "
-"les caselles."
+"la casella."
 
 #: data/alien/terrain.ruleset:287
 msgid "For some reason, there is Earth like grass and animals around."
-msgstr ""
+msgstr "Per algun motiu, hi ha herba com a la Terra i animals voltant-hi."
 
 #: data/alien/terrain.ruleset:292
-#, fuzzy
 msgid "Alien Forest"
-msgstr "Plantar Bosc"
+msgstr "Bosc Alienígena"
 
 #: data/alien/terrain.ruleset:329
 msgid ""
@@ -32366,10 +32385,17 @@ msgid ""
 "Cities can work these tiles only when Organic Structures is known. Inventing "
 "Alien Rights gives +1 production bonus to Alien Forest tiles."
 msgstr ""
+"Aquests boscos són plens d'organismes alienígenes estranys. La radiació"
+" d'aquest planeta fa impossible que els organismes terrestres sobrevisquin"
+" aquí.\n"
+"\n"
+"Les ciutats només poden treballar en aquestes caselles quan es coneix"
+" Estructures Orgàniques. Inventar Drets Alienígenes dóna un punt de"
+" bonificació de producció a les caselles de Bosc Alienígena.´"
 
 #: data/alien/terrain.ruleset:337
 msgid "Radiating Rocks"
-msgstr ""
+msgstr "Roques Radiants"
 
 #: data/alien/terrain.ruleset:374
 msgid ""
@@ -32377,15 +32403,19 @@ msgid ""
 "\n"
 "Cities can work these tiles only when Organic Structures is known."
 msgstr ""
+"La radiació del planeta fa impossible que els organismes de la Terra"
+" sobrevisquin aquí.\n"
+"\n"
+"Les ciutats només poden treballar aquestes caselles quan es coneix"
+" Estructures Orgàniques."
 
 #: data/alien/terrain.ruleset:417
 msgid "Hills just like on Earth."
-msgstr ""
+msgstr "Turons igual que a la Terra."
 
 #: data/alien/terrain.ruleset:422
-#, fuzzy
 msgid "Thick Mountains"
-msgstr "Muntanyes"
+msgstr "Muntanyes Denses"
 
 #: data/alien/terrain.ruleset:457
 msgid ""
@@ -32394,16 +32424,19 @@ msgid ""
 "Burrowing units are unable to burrow through these mountains, but at least "
 "Burrowing technology makes mining them possible."
 msgstr ""
+"De què estan fetes aquestes muntanyes?!? La broca de diamant no hi fa cap"
+" rascada.\n"
+"\n"
+"Les unitats excavadores són incapaces de travessar-les, però com a mínim, la"
+" tecnologia d'Excavació fa possible fer-hi mines."
 
 #: data/alien/terrain.ruleset:500
-#, fuzzy
 msgid "This is normal oceanic terrain."
-msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
+msgstr "Això terreny normal oceànic."
 
 #: data/alien/terrain.ruleset:505
-#, fuzzy
 msgid "Boiling Ocean"
-msgstr "Construint Unitat"
+msgstr "Oceà Bullent"
 
 #: data/alien/terrain.ruleset:541
 msgid ""
@@ -32412,10 +32445,15 @@ msgid ""
 "Cities can work these tiles only when Thermal Module is known, and city can "
 "never be located on Boiling Ocean."
 msgstr ""
+"Aquest oceà està bullint. No hi pot entrar cap vaixell sense un equipament"
+" especial.\n"
+"\n"
+"Les ciutats només poden treballar aquestes caselles quan es coneix el Mòdul"
+" Tèrmic, i la ciutat no pot estar mai situada sobre Oceà Bullent."
 
 #: data/alien/terrain.ruleset:740
 msgid "Greenhouses"
-msgstr ""
+msgstr "Hivernacles"
 
 #: data/alien/terrain.ruleset:756
 msgid ""
@@ -32430,24 +32468,44 @@ msgid ""
 "- Deep Pumping allows water to be drawn from the depths of the crust, "
 "allowing Greenhouses to be built anywhere."
 msgstr ""
+"Es poden construir hivernacles sobre certs tipus de terreny per donar una"
+" bonificació de menjar. "
+"Per construir Hivernacles cal que la casella tingui una font d'aigua:\n"
+"- Les citats tenen incorporats Hivernacles, si no és que hi ha una Mina a la"
+" casella. No cal construir-los.\n"
+"- Amb Fabricació, els Hivernacles es poden construir fora de les ciutats"
+" directament en caselles de riu, o adjacents en la direcció dels punts"
+" cardinals a les caselles Oceàniques.\n"
+"- Amb Flux d'Aigua, es fa possible de construir Hivernacles també adjacents"
+" en la direcció dels punts cardinals a caselles de riu o centres de la"
+" ciutat. "
+"- El Bombeig Profund permet d'extreure aigua de les profunditats de"
+" l'escorça, de manera que es poden construir Hivernacles a tot arreu."
 
 #: data/alien/terrain.ruleset:784
 msgid ""
 "Mines can be built on Hills for an extra production point. Once Burrowing is "
 "known, Thick Mountains can also be mined."
 msgstr ""
+"Es poden construir Mines sobre Turons per obtenir un punt de producció"
+" addicional. Un cop es coneix Excavació, també es poden fer mines a les"
+" Muntanyes Denses."
 
 #: data/alien/terrain.ruleset:807
 msgid ""
 "Pollution appears on tiles around cities with high production. It halves all "
 "output from its tile."
 msgstr ""
+"La contaminació apareix al voltant de les ciutats amb producció alta. Redueix"
+" a la meitat tota la producció de la seva casella.´"
 
 #: data/alien/terrain.ruleset:810
 msgid ""
 "The pollution can only be cleared by dispatching Engineer or Hunter units "
 "with the \"clean pollution\" order."
 msgstr ""
+"La contaminació només es pot netejar enviant-hi unitats d'Enginyer o Caçador"
+" amb l'ordre de \"netejar contaminació\"."
 
 #: data/alien/terrain.ruleset:813
 msgid ""
@@ -32455,11 +32513,14 @@ msgid ""
 "once it exceeds a threshold, the excess is the percent chance of pollution "
 "appearing each turn."
 msgstr ""
+"La contribució de la producció a la contaminació es pot veure al diàleg de la"
+" ciutat; "
+"un cop passa d'un llindar, l'excés és la probabilitat que aparegui"
+" contaminació en percentatge a cada torn."
 
 #: data/alien/terrain.ruleset:820
-#, fuzzy
 msgid "Space Capsule"
-msgstr "Mòdul Espacial"
+msgstr "Càpsula Espacial"
 
 #: data/alien/terrain.ruleset:835
 msgid ""
@@ -32470,6 +32531,13 @@ msgid ""
 "Unfortunately it's also possible that Madmen or Lunatics have already found "
 "the capsule, and are there ready to kill anybody who enters."
 msgstr ""
+"Les Càpsules Espacials han aterrat a la superfície de Deneb Set. Qualsevol"
+" unitat pot entrar en una casella amb una càpsula per obrir-la. En el procés,"
+" la càpsula desapareix del mapa. Pot haver-hi or, plànols de noves"
+" tecnologies, equipament per a una unitat, o fins i tot pot proporcionar el"
+" material per crear una nova base allà mateix. Malauradament, també és"
+" possible que Bojos o Llunàtics ja hagin trobat la càpsula, i estiguin allà,"
+" preparats per matar qualsevol que hi entri."
 
 #: data/alien/terrain.ruleset:846
 msgid "Protein Houses"
@@ -32503,16 +32571,15 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:901
 msgid "Tower"
-msgstr ""
+msgstr "Torre"
 
 #: data/alien/terrain.ruleset:927
-#, fuzzy
 msgid "Force Fortress"
-msgstr "Fortificació"
+msgstr "Fortalesa de Força"
 
 #: data/alien/terrain.ruleset:952
 msgid "Antigrav Base"
-msgstr ""
+msgstr "Base Antigrav"
 
 #: data/alien/terrain.ruleset:999
 msgid ""
@@ -32522,9 +32589,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1006
-#, fuzzy
 msgid "Highway"
-msgstr "Autopistes"
+msgstr "Autopista"
 
 #: data/alien/terrain.ruleset:1029
 #, fuzzy
@@ -32542,7 +32608,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1065
 msgid "Tunnel"
-msgstr ""
+msgstr "Túnel"
 
 #: data/alien/terrain.ruleset:1089
 #, no-c-format
@@ -32550,6 +32616,10 @@ msgid ""
 "Earthly units can travel on radiating tiles with tunnel built on them. "
 "Tunnel provides no increase to unit speed, but they give 35% defense bonus."
 msgstr ""
+"Les unitats terrestres poden passar per caselles radiants si s'hi ha"
+" construït un túnel. "
+"El Túnel no fa augmentar la velocitat de les unitats, però dóna una"
+" bonificació defensiva del 35%."
 
 #: data/alien/terrain.ruleset:1095
 msgid "Burrow Tube"
@@ -32599,9 +32669,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1190
-#, fuzzy
 msgid "Alien Mine"
-msgstr "Construir Mina"
+msgstr "Mina Alienígena"
 
 #: data/alien/terrain.ruleset:1202
 #, no-c-format
@@ -32658,29 +32727,24 @@ msgid "Superb"
 msgstr "SuperEspia"
 
 #: data/alien/units.ruleset:130
-#, fuzzy
 msgid "?unitclass:Earthly"
-msgstr "Marítimes"
+msgstr "Terrestres"
 
 #: data/alien/units.ruleset:138
-#, fuzzy
 msgid "?unitclass:Native"
-msgstr "Marítimes"
+msgstr "Nadiues"
 
 #: data/alien/units.ruleset:155
-#, fuzzy
 msgid "?unitclass:Amphibious"
-msgstr "Aèries"
+msgstr "Amfíbies"
 
 #: data/alien/units.ruleset:163
-#, fuzzy
 msgid "?unitclass:Antigravity"
-msgstr "Aèries"
+msgstr "Antigravetat"
 
 #: data/alien/units.ruleset:169
-#, fuzzy
 msgid "?unitclass:Burrowing"
-msgstr "Terrestres Grans"
+msgstr "Excavadores"
 
 #: data/alien/units.ruleset:447
 msgid ""
@@ -32700,9 +32764,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/units.ruleset:484
-#, fuzzy
 msgid "Engineer"
-msgstr "Enginyers"
+msgstr "Enginyer"
 
 #: data/alien/units.ruleset:510
 #, fuzzy
@@ -32746,7 +32809,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:611
 msgid "Cyborgs"
-msgstr ""
+msgstr "Cyborgs"
 
 #: data/alien/units.ruleset:637
 msgid "Attack power to the early game."
@@ -32762,7 +32825,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:673
 msgid "War Monster"
-msgstr ""
+msgstr "Monstre de Guerra"
 
 #: data/alien/units.ruleset:699
 msgid "As a native unit, this can move and fight on radiating areas too."
@@ -32970,14 +33033,15 @@ msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
 
 #: data/alien/units.ruleset:1371
 msgid "Stealth Spy"
-msgstr "Espia Ocult"
+msgstr "Espia Invisible"
 
 #: data/alien/units.ruleset:1402
 msgid ""
 "Stealth Spy can make diplomatic actions, and is invisible until next to "
 "enemy unit or city."
 msgstr ""
-"L'Espia Ocult pot fer accions diplomàtiques, i és invisible fins que és al "
+"L'Espia Invisible pot fer accions diplomàtiques, i és invisible fins que és"
+" al "
 "costat de la unitat o ciutat enemigues."
 
 #: data/alien/units.ruleset:1407
@@ -33138,7 +33202,7 @@ msgstr ""
 "Són els rics de veritat, de qui ningú no en sap res perquè només es "
 "relacionen en els seus cercles.\n"
 "\n"
-"* Construeix Espies Ocults veterans\n"
+"* Construeix Espies Invisibles veterans\n"
 "* Té una bonificació de resistència als espies del 50%\n"
 "*  20% de bonificació al comerç"
 
