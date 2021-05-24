@@ -431,8 +431,10 @@ static void gui_dialog_switch_page_handler(GtkNotebook *notebook,
   n = gtk_notebook_page_num(GTK_NOTEBOOK(dlg->v.tab.notebook), dlg->vbox);
 
   if (n == num) {
-    gtk_style_context_remove_class(gtk_widget_get_style_context(dlg->v.tab.label),
-                                   "alert");
+    GtkStyleContext *context = gtk_widget_get_style_context(dlg->v.tab.label);
+
+    gtk_style_context_remove_class(context, "alert");
+    gtk_style_context_remove_class(context, "notice");
   }
 }
 
@@ -843,7 +845,7 @@ void gui_dialog_present(struct gui_dialog *dlg)
 	GtkWidget *label = dlg->v.tab.label;
 
         gtk_style_context_add_class(gtk_widget_get_style_context(label),
-                                    "alert");
+                                    "notice");
       }
     }
     break;
@@ -893,9 +895,11 @@ void gui_dialog_alert(struct gui_dialog *dlg)
 
       if (current != n) {
         GtkWidget *label = dlg->v.tab.label;
+        GtkStyleContext *context = gtk_widget_get_style_context(label);
 
-        gtk_style_context_add_class(gtk_widget_get_style_context(label),
-                                    "alert");
+        /* Have only alert - remove notice if it exist. */
+        gtk_style_context_remove_class(context, "notice");
+        gtk_style_context_add_class(context, "alert");
       }
     }
     break;
@@ -1143,6 +1147,9 @@ void dlg_tab_provider_prepare(void)
   gtk_css_provider_load_from_data(dlg_tab_provider,
                                   ".alert {\n"
                                   "color: rgba(255, 0, 0, 255);\n"
+                                  "}\n"
+                                  ".notice {\n"
+                                  "color: rgba(0, 0, 255, 255);\n"
                                   "}\n",
                                   -1, NULL);
 }
