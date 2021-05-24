@@ -141,6 +141,23 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
     needed = TRUE;
   }
 
+  for (i = 0; i < CLAUSE_COUNT; i++) {
+    struct clause_info *info = clause_info_get(i);
+
+    if (info->enabled) {
+      if (universal_is_mentioned_by_requirements(&info->giver_reqs, uni)
+          || universal_is_mentioned_by_requirements(&info->receiver_reqs, uni)) {
+        char buf[1024];
+
+        /* TRANS: e.g. "Advance clause" */
+        fc_snprintf(buf, sizeof(buf), R__("%s clause"),
+                    clause_type_name(info->type));
+        cb(buf, data);
+        needed = TRUE;
+      }
+    }
+  }
+
   cb_data.needed = FALSE;
   cb_data.uni = uni;
   cb_data.cb = cb;
