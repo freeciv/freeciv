@@ -155,7 +155,7 @@ static void create_goto_dialog(void)
                    G_CALLBACK(goto_cmd_callback), NULL);
 
   source = gtk_label_new("" /* filled in later */);
-  gtk_label_set_line_wrap(GTK_LABEL(source), TRUE);
+  gtk_label_set_wrap(GTK_LABEL(source), TRUE);
   gtk_label_set_justify(GTK_LABEL(source), GTK_JUSTIFY_CENTER);
   gtk_box_insert_child_after(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(dshell))),
                              source, NULL);

@@ -36,6 +36,8 @@ guint gdk_button_event_get_button(GdkEvent *ev);
 #define gtk_widget_get_native(_wdg_) (_wdg_)
 #define gtk_native_get_surface(_nat_) gtk_widget_get_surface(_nat_)
 
+#define gtk_label_set_wrap(_wdg_, _wrap_) gtk_label_set_line_wrap(_wdg_, _wrap_)
+
 #endif  /* GTK version < 3.98 */
 
 #endif  /* FC__GTKCOMPAT_H */
