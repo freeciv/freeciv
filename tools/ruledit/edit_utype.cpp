@@ -39,6 +39,7 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   QGridLayout *unit_layout = new QGridLayout();
   QLabel *label;
   QMenu *req;
+  int row = 0;
 
   ui = ui_in;
   utype = utype_in;
@@ -57,8 +58,8 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   tab_tech::techs_to_menu(req);
   connect(req_button, SIGNAL(triggered(QAction *)), this, SLOT(req_menu(QAction *)));
 
-  unit_layout->addWidget(label, 0, 0);
-  unit_layout->addWidget(req_button, 0, 1);
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(req_button, row++, 1);
 
   label = new QLabel(QString::fromUtf8(R__("Build Cost")));
   label->setParent(this);
@@ -67,8 +68,28 @@ edit_utype::edit_utype(ruledit_gui *ui_in, struct unit_type *utype_in) : QDialog
   bcost->setRange(0, 10000);
   connect(bcost, SIGNAL(valueChanged(int)), this, SLOT(set_bcost_value(int)));
 
-  unit_layout->addWidget(label, 1, 0);
-  unit_layout->addWidget(bcost, 1, 1);
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(bcost, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Attack Strength")));
+  label->setParent(this);
+
+  attack = new QSpinBox(this);
+  attack->setRange(0, 1000);
+  connect(attack, SIGNAL(valueChanged(int)), this, SLOT(set_attack_value(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(attack, row++, 1);
+
+  label = new QLabel(QString::fromUtf8(R__("Defense Strength")));
+  label->setParent(this);
+
+  defense = new QSpinBox(this);
+  defense->setRange(0, 1000);
+  connect(defense, SIGNAL(valueChanged(int)), this, SLOT(set_defense_value(int)));
+
+  unit_layout->addWidget(label, row, 0);
+  unit_layout->addWidget(defense, row++, 1);
 
   refresh();
 
@@ -92,6 +113,8 @@ void edit_utype::refresh()
 {
   req_button->setText(tab_tech::tech_name(utype->require_advance));
   bcost->setValue(utype->build_cost);
+  attack->setValue(utype->attack_strength);
+  defense->setValue(utype->defense_strength);
 }
 
 /**********************************************************************//**
@@ -118,4 +141,20 @@ void edit_utype::req_menu(QAction *action)
 void edit_utype::set_bcost_value(int value)
 {
   utype->build_cost = value;
+}
+
+/**********************************************************************//**
+  Read attack strength value from spinbox
+**************************************************************************/
+void edit_utype::set_attack_value(int value)
+{
+  utype->attack_strength = value;
+}
+
+/**********************************************************************//**
+  Read defense strength value from spinbox
+**************************************************************************/
+void edit_utype::set_defense_value(int value)
+{
+  utype->defense_strength = value;
 }
