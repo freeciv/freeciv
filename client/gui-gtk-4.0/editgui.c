@@ -1804,14 +1804,6 @@ gboolean handle_edit_key_press(GdkEvent *ev)
 }
 
 /************************************************************************//**
-  Key release handler.
-****************************************************************************/
-gboolean handle_edit_key_release(GdkEventKey *ev)
-{
-  return FALSE;
-}
-
-/************************************************************************//**
   Get the pointer for the editbar embedded in the client's GUI.
 ****************************************************************************/
 struct editbar *editgui_get_editbar(void)
