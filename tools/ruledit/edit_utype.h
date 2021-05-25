@@ -39,6 +39,8 @@ class edit_utype : public QDialog
     struct unit_type *utype;
     QToolButton *req_button;
     QSpinBox *bcost;
+    QSpinBox *attack;
+    QSpinBox *defense;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
@@ -46,7 +48,8 @@ class edit_utype : public QDialog
   private slots:
     void req_menu(QAction *action);
     void set_bcost_value(int value);
+    void set_attack_value(int value);
+    void set_defense_value(int value);
 };
-
 
 #endif // FC__EDIT_UTYPE_H
