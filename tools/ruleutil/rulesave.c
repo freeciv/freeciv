@@ -1277,6 +1277,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
     const struct action_auto_perf *auto_perf =
         action_auto_perf_by_number(ACTION_AUTO_MOVED_ADJ);
 
+    comment_auto_attack(sfile);
+
     save_action_auto_actions(sfile, ACTION_AUTO_MOVED_ADJ,
                              "auto_attack.attack_actions");
 

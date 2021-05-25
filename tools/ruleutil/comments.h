@@ -63,6 +63,7 @@ void comment_combat_rules_tired_attack(struct section_file *sfile);
 void comment_combat_rules_only_killing_veteran(struct section_file *sfile);
 void comment_combat_rules_nuke_pop_loss(struct section_file *sfile);
 void comment_combat_rules_nuke_defender_survival(struct section_file *sfile);
+void comment_auto_attack(struct section_file *sfile);
 
 #ifdef __cplusplus
 }
