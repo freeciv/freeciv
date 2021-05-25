@@ -40,7 +40,6 @@ gboolean handle_edit_mouse_button_press(GdkEvent *ev);
 gboolean handle_edit_mouse_button_release(GdkEvent *ev);
 gboolean handle_edit_mouse_move(GdkEvent *ev);
 gboolean handle_edit_key_press(GdkEvent *ev);
-gboolean handle_edit_key_release(GdkEventKey *ev);
 
 struct editinfobox {
   GtkWidget *widget;

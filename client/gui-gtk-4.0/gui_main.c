@@ -612,10 +612,6 @@ static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
 
-  if (editor_is_active()) {
-    return handle_edit_key_release(ev);
-  }
-
   return FALSE;
 }
 
