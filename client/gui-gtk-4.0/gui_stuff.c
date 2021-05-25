@@ -270,11 +270,6 @@ void setup_dialog(GtkWidget *shell, GtkWidget *parent)
   if (GUI_GTK_OPTION(dialogs_on_top) || GUI_GTK_OPTION(fullscreen)) {
     gtk_window_set_transient_for(GTK_WINDOW(shell),
                                  GTK_WINDOW(parent));
-    gtk_window_set_type_hint(GTK_WINDOW(shell),
-                             GDK_SURFACE_TYPE_HINT_DIALOG);
-  } else {
-    gtk_window_set_type_hint(GTK_WINDOW(shell),
-                             GDK_SURFACE_TYPE_HINT_NORMAL);
   }
 
   /* Close dialog window on Escape keypress. */
