@@ -107,7 +107,7 @@
 /* uses winsock2 */
 #undef FREECIV_HAVE_WINSOCK2
 
-/* socket zero isn't same stdin */
+/* socket zero isn't same as stdin */
 #undef FREECIV_SOCKET_ZERO_NOT_STDIN
 
 /* Extra debugging support */
