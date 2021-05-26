@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-14 21:44+0200\n"
+"POT-Creation-Date: 2021-05-20 09:53+0200\n"
 "PO-Revision-Date: 2019-08-05 15:55+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -88,7 +88,7 @@ msgstr ""
 "tels que Koori, Yamaji, Nunga, ou encore Murri."
 
 #: data/nation/aborigines.ruleset:27 data/nation/akwe.ruleset:25
-#: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:29
+#: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:30
 #: data/nation/chinook.ruleset:24 data/nation/choctaw.ruleset:32
 #: data/nation/chumash.ruleset:25 data/nation/hasinay.ruleset:27
 #: data/nation/hopi.ruleset:25 data/nation/inuit.ruleset:24
@@ -102,7 +102,7 @@ msgid "Principal Chief %s"
 msgstr "Chef principal %s"
 
 #: data/nation/aborigines.ruleset:27 data/nation/akwe.ruleset:25
-#: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:29
+#: data/nation/anishinaabe.ruleset:28 data/nation/chickasaw.ruleset:30
 #: data/nation/chinook.ruleset:24 data/nation/choctaw.ruleset:32
 #: data/nation/chumash.ruleset:25 data/nation/hasinay.ruleset:27
 #: data/nation/hopi.ruleset:25 data/nation/inuit.ruleset:24
@@ -136,7 +136,7 @@ msgid "?female:Elder %s"
 msgstr "Ancienne %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
-#: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:27
+#: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:28
 #: data/nation/chinook.ruleset:23 data/nation/choctaw.ruleset:30
 #: data/nation/chumash.ruleset:23 data/nation/comanche.ruleset:25
 #: data/nation/hasinay.ruleset:29 data/nation/hopi.ruleset:27
@@ -151,7 +151,7 @@ msgid "Great Chief %s"
 msgstr "Grand Chef %s"
 
 #: data/nation/aborigines.ruleset:29 data/nation/akwe.ruleset:26
-#: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:27
+#: data/nation/anishinaabe.ruleset:30 data/nation/chickasaw.ruleset:28
 #: data/nation/chinook.ruleset:23 data/nation/choctaw.ruleset:30
 #: data/nation/chumash.ruleset:23 data/nation/comanche.ruleset:25
 #: data/nation/hasinay.ruleset:29 data/nation/hopi.ruleset:27
@@ -185,7 +185,7 @@ msgstr ""
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
-#: data/nation/chuvash.ruleset:29 data/nation/cossack.ruleset:32
+#: data/nation/chuvash.ruleset:31 data/nation/cossack.ruleset:32
 #: data/nation/cretan.ruleset:28 data/nation/crusader.ruleset:36
 #: data/nation/friulian.ruleset:29 data/nation/georgian.ruleset:22
 #: data/nation/hellenic.ruleset:21 data/nation/karabakhi.ruleset:29
@@ -202,7 +202,7 @@ msgstr "Patriarche %s"
 
 #: data/nation/abyssinian.ruleset:23 data/nation/armenian.ruleset:25
 #: data/nation/belarusian.ruleset:34 data/nation/bulgarian.ruleset:31
-#: data/nation/chuvash.ruleset:29 data/nation/cossack.ruleset:32
+#: data/nation/chuvash.ruleset:31 data/nation/cossack.ruleset:32
 #: data/nation/cretan.ruleset:28 data/nation/crusader.ruleset:36
 #: data/nation/cypriot.ruleset:24 data/nation/friulian.ruleset:29
 #: data/nation/georgian.ruleset:22 data/nation/hellenic.ruleset:21
@@ -218,7 +218,7 @@ msgid "Matriarch %s"
 msgstr "Matriarche %s"
 
 #: data/nation/abyssinian.ruleset:24 data/nation/antarctican.ruleset:16
-#: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:22
+#: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:23
 #: data/nation/haitian.ruleset:27 data/nation/han.ruleset:26
 #: data/nation/holyroman.ruleset:35 data/nation/latin.ruleset:43
 #: data/nation/manchu.ruleset:26 data/nation/mexican.ruleset:53
@@ -230,7 +230,7 @@ msgid "Emperor %s"
 msgstr "Empereur %s"
 
 #: data/nation/abyssinian.ruleset:24 data/nation/antarctican.ruleset:16
-#: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:22
+#: data/nation/californian.ruleset:36 data/nation/centralafrican.ruleset:23
 #: data/nation/haitian.ruleset:27 data/nation/holyroman.ruleset:35
 #: data/nation/latin.ruleset:43 data/nation/mexican.ruleset:53
 #: data/nation/nestorian.ruleset:28 data/nation/southvietnamese.ruleset:25
@@ -289,14 +289,14 @@ msgstr "Abbé %s"
 #: data/nation/badian.ruleset:24 data/nation/bavarian.ruleset:24
 #: data/nation/belgian.ruleset:25 data/nation/bolivian.ruleset:38
 #: data/nation/brandenburgian.ruleset:29 data/nation/burgundian.ruleset:30
-#: data/nation/canadian.ruleset:26 data/nation/castilian.ruleset:32
+#: data/nation/canadian.ruleset:25 data/nation/castilian.ruleset:32
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
-#: data/nation/centrallithuanian.ruleset:41 data/nation/chiapanec.ruleset:34
+#: data/nation/centrallithuanian.ruleset:43 data/nation/chiapanec.ruleset:34
 #: data/nation/chilean.ruleset:31 data/nation/colombian.ruleset:29
 #: data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
 #: data/nation/cuban.ruleset:24 data/nation/curonian.ruleset:30
-#: data/nation/cuyavian.ruleset:27 data/nation/dominicano.ruleset:27
+#: data/nation/cuyavian.ruleset:29 data/nation/dominicano.ruleset:27
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/filipino.ruleset:22
 #: data/nation/flemish.ruleset:31 data/nation/franconian.ruleset:25
@@ -465,7 +465,7 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bahraini.ruleset:27 data/nation/bashkir.ruleset:25
-#: data/nation/chechen.ruleset:30 data/nation/circassian.ruleset:35
+#: data/nation/chechen.ruleset:30 data/nation/circassian.ruleset:37
 #: data/nation/cyrenaican.ruleset:28 data/nation/emirati.ruleset:26
 #: data/nation/ghaznavid.ruleset:32 data/nation/kurd.ruleset:29
 #: data/nation/kuwaiti.ruleset:29 data/nation/lebanese.ruleset:29
@@ -480,7 +480,7 @@ msgstr "Émir %s"
 
 #: data/nation/afghani.ruleset:23 data/nation/alandalus.ruleset:33
 #: data/nation/bahraini.ruleset:27 data/nation/bashkir.ruleset:25
-#: data/nation/chechen.ruleset:30 data/nation/circassian.ruleset:35
+#: data/nation/chechen.ruleset:30 data/nation/circassian.ruleset:37
 #: data/nation/cyrenaican.ruleset:28 data/nation/emirati.ruleset:26
 #: data/nation/ghaznavid.ruleset:32 data/nation/kurd.ruleset:29
 #: data/nation/kuwaiti.ruleset:29 data/nation/lebanese.ruleset:29
@@ -749,7 +749,7 @@ msgstr ""
 "dictateur communiste Envër Hoxha."
 
 #: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
-#: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
+#: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
 #: data/nation/lippe.ruleset:27 data/nation/mazovian.ruleset:23
@@ -767,7 +767,7 @@ msgid "Prince %s"
 msgstr "Prince %s"
 
 #: data/nation/albanian.ruleset:27 data/nation/asturian.ruleset:29
-#: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:25
+#: data/nation/cossack.ruleset:29 data/nation/cuyavian.ruleset:27
 #: data/nation/greaterpolish.ruleset:20 data/nation/kashubian.ruleset:28
 #: data/nation/lankese.ruleset:21 data/nation/liechtensteiner.ruleset:30
 #: data/nation/lippe.ruleset:27 data/nation/mazovian.ruleset:23
@@ -971,10 +971,10 @@ msgstr "Bailli %s"
 #: data/nation/bahamian.ruleset:27 data/nation/barbadian.ruleset:27
 #: data/nation/bavarian.ruleset:24 data/nation/belgian.ruleset:25
 #: data/nation/belizean.ruleset:26 data/nation/british.ruleset:25
-#: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:26
+#: data/nation/burgundian.ruleset:30 data/nation/canadian.ruleset:25
 #: data/nation/chiapanec.ruleset:34 data/nation/congolesebrazzaville.ruleset:28
-#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:33
-#: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:27
+#: data/nation/costarican.ruleset:26 data/nation/croatian.ruleset:34
+#: data/nation/curonian.ruleset:30 data/nation/cuyavian.ruleset:29
 #: data/nation/dominican.ruleset:22 data/nation/easttimorese.ruleset:22
 #: data/nation/ecuadorian.ruleset:34 data/nation/flemish.ruleset:31
 #: data/nation/galician.ruleset:22 data/nation/greenlander.ruleset:26
@@ -1212,7 +1212,7 @@ msgid "Countess %s"
 msgstr "Comtesse %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:40
+#: data/nation/carantanian.ruleset:32 data/nation/centrallithuanian.ruleset:42
 #: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
 #: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
 #: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
@@ -1225,7 +1225,7 @@ msgid "Grand Duke %s"
 msgstr "Grand Duc %s"
 
 #: data/nation/anhaltian.ruleset:34 data/nation/badian.ruleset:25
-#: data/nation/carantanian.ruleset:30 data/nation/centrallithuanian.ruleset:40
+#: data/nation/carantanian.ruleset:32 data/nation/centrallithuanian.ruleset:42
 #: data/nation/curonian.ruleset:31 data/nation/florentine.ruleset:41
 #: data/nation/lithuanian.ruleset:29 data/nation/luxembourgish.ruleset:30
 #: data/nation/mecklenburgian.ruleset:32 data/nation/milanese.ruleset:28
@@ -2032,13 +2032,13 @@ msgstr ""
 "historiques. Leur langue, l'Euskara, n'a pas de parenté connue et ses "
 "origines sont inconnues."
 
-#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:39
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:41
 #: data/nation/iranian.ruleset:40
 #, c-format
 msgid "Leader %s"
 msgstr "Dirigeant %s"
 
-#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:39
+#: data/nation/basque.ruleset:32 data/nation/centrallithuanian.ruleset:41
 #: data/nation/iranian.ruleset:40
 #, c-format
 msgid "?female:Leader %s"
@@ -2072,7 +2072,7 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/carantanian.ruleset:31 data/nation/curonian.ruleset:29
 #: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
 #: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
 #: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
@@ -2087,7 +2087,7 @@ msgstr "Duc %s"
 
 #: data/nation/bavarian.ruleset:23 data/nation/belarusian.ruleset:32
 #: data/nation/breton.ruleset:33 data/nation/burgundian.ruleset:29
-#: data/nation/carantanian.ruleset:29 data/nation/curonian.ruleset:29
+#: data/nation/carantanian.ruleset:31 data/nation/curonian.ruleset:29
 #: data/nation/franconian.ruleset:24 data/nation/hanoverian.ruleset:22
 #: data/nation/langobardic.ruleset:37 data/nation/lorrain.ruleset:30
 #: data/nation/moravian.ruleset:33 data/nation/muscovite.ruleset:23
@@ -2237,7 +2237,7 @@ msgstr "Frère %s"
 msgid "Sister %s"
 msgstr "Sœur %s"
 
-#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:28
+#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:29
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:43
 #: data/nation/hasinay.ruleset:30 data/nation/hopi.ruleset:28
 #: data/nation/inuit.ruleset:23 data/nation/ligurian.ruleset:24
@@ -2250,7 +2250,7 @@ msgstr "Sœur %s"
 msgid "Spokesman %s"
 msgstr "Porte-parole %s"
 
-#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:28
+#: data/nation/belgic.ruleset:34 data/nation/chickasaw.ruleset:29
 #: data/nation/choctaw.ruleset:31 data/nation/gepid.ruleset:43
 #: data/nation/hasinay.ruleset:30 data/nation/hopi.ruleset:28
 #: data/nation/inuit.ruleset:23 data/nation/ligurian.ruleset:24
@@ -2513,7 +2513,7 @@ msgstr ""
 "britanniques lors de la guerre de 1899-1902."
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2529,7 +2529,7 @@ msgid "General %s"
 msgstr "Général %s"
 
 #: data/nation/boer.ruleset:28 data/nation/bolivian.ruleset:37
-#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:17
+#: data/nation/centralamerican.ruleset:27 data/nation/chadian.ruleset:19
 #: data/nation/colombian.ruleset:28 data/nation/confederate.ruleset:35
 #: data/nation/costarican.ruleset:25 data/nation/dominicano.ruleset:26
 #: data/nation/ecuadorian.ruleset:33 data/nation/guatemalan.ruleset:31
@@ -2620,8 +2620,8 @@ msgstr ""
 
 #: data/nation/bolivian.ruleset:38 data/nation/brandenburgian.ruleset:29
 #: data/nation/catalan.ruleset:32 data/nation/centralamerican.ruleset:28
-#: data/nation/centrallithuanian.ruleset:41 data/nation/chilean.ruleset:31
-#: data/nation/chrobatian.ruleset:30 data/nation/colombian.ruleset:29
+#: data/nation/centrallithuanian.ruleset:43 data/nation/chilean.ruleset:31
+#: data/nation/chrobatian.ruleset:32 data/nation/colombian.ruleset:29
 #: data/nation/cypriot.ruleset:24 data/nation/dominicano.ruleset:27
 #: data/nation/finnish.ruleset:28 data/nation/genoese.ruleset:50
 #: data/nation/greaterpolish.ruleset:21 data/nation/irish.ruleset:42
@@ -2653,13 +2653,13 @@ msgstr ""
 "trois peuples qui la composent : les Bosniaques, les Croates et les Serbes."
 
 #. TRANS: Ban = Duke
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:32
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
 #: data/nation/slovenian.ruleset:18
 #, c-format
 msgid "Ban %s"
 msgstr "Ban %s"
 
-#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:32
+#: data/nation/bosnia.ruleset:25 data/nation/croatian.ruleset:33
 #: data/nation/slovenian.ruleset:18
 #, c-format
 msgid "?female:Ban %s"
@@ -2932,7 +2932,7 @@ msgstr ""
 "plus tard grâce à son contrôle du commerce maritime dans une bonne partie de "
 "l'Asie du Sud-Est. Brunéi fut un protectorat britannique de 1888 à 1984."
 
-#: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
+#: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:38
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
 #: data/nation/djiboutian.ruleset:21 data/nation/gambian.ruleset:18
 #: data/nation/ghaznavid.ruleset:33 data/nation/goldenhorde.ruleset:38
@@ -2945,7 +2945,7 @@ msgstr ""
 msgid "Grand Mufti %s"
 msgstr "Grand Mufti %s"
 
-#: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:36
+#: data/nation/bruneian.ruleset:23 data/nation/circassian.ruleset:38
 #: data/nation/comorian.ruleset:25 data/nation/crimeantatar.ruleset:41
 #: data/nation/djiboutian.ruleset:21 data/nation/gambian.ruleset:18
 #: data/nation/ghaznavid.ruleset:33 data/nation/goldenhorde.ruleset:38
@@ -3225,7 +3225,7 @@ msgstr "Canadien"
 msgid "?plural:Canadians"
 msgstr "Canadiens"
 
-#: data/nation/canadian.ruleset:7
+#: data/nation/canadian.ruleset:6
 msgid ""
 "Geographically, Canada is the second largest country in world. The magnetic "
 "north pole currently lies on Canadian territory."
@@ -3532,13 +3532,13 @@ msgstr ""
 "plupart des Polonais de Lituanie furent déplacés vers les nouveaux "
 "territoires occidentaux de la Pologne."
 
-#: data/nation/centrallithuanian.ruleset:38 data/nation/chuvash.ruleset:28
+#: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "People's Commissar %s"
 msgstr "Commissaire du Peuple %s"
 
-#: data/nation/centrallithuanian.ruleset:38 data/nation/chuvash.ruleset:28
+#: data/nation/centrallithuanian.ruleset:40 data/nation/chuvash.ruleset:30
 #: data/nation/rusyn.ruleset:35 data/nation/volgagerman.ruleset:37
 #, c-format
 msgid "?female:People's Commissar %s"
@@ -3873,7 +3873,7 @@ msgstr ""
 "associée avec un prince, Slavenic, Seigneur de Libice, dont l'influence "
 "s'étendait jusqu'à la région de Silésie et les terres de Cracovie."
 
-#: data/nation/chrobatian.ruleset:29 data/nation/czechoslovak.ruleset:31
+#: data/nation/chrobatian.ruleset:31 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:23
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
 #: data/nation/veletian.ruleset:29
@@ -3881,7 +3881,7 @@ msgstr ""
 msgid "Voivode %s"
 msgstr "Voïvode %s"
 
-#: data/nation/chrobatian.ruleset:29 data/nation/czechoslovak.ruleset:31
+#: data/nation/chrobatian.ruleset:31 data/nation/czechoslovak.ruleset:31
 #: data/nation/czech.ruleset:33 data/nation/macedonian.ruleset:23
 #: data/nation/slavic.ruleset:33 data/nation/slovakian.ruleset:23
 #: data/nation/veletian.ruleset:29
@@ -3889,13 +3889,13 @@ msgstr "Voïvode %s"
 msgid "?female:Voivode %s"
 msgstr "Voïvode %s"
 
-#: data/nation/chrobatian.ruleset:30 data/nation/slovakian.ruleset:24
+#: data/nation/chrobatian.ruleset:32 data/nation/slovakian.ruleset:24
 #, c-format
 msgid "Priestess %s"
 msgstr "Prêtresse %s"
 
-#: data/nation/chrobatian.ruleset:31 data/nation/cossack.ruleset:30
-#: data/nation/cuyavian.ruleset:26 data/nation/finnish.ruleset:27
+#: data/nation/chrobatian.ruleset:33 data/nation/cossack.ruleset:30
+#: data/nation/cuyavian.ruleset:28 data/nation/finnish.ruleset:27
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
@@ -3907,8 +3907,8 @@ msgstr "Prêtresse %s"
 msgid "Grand Prince %s"
 msgstr "Grand Prince %s"
 
-#: data/nation/chrobatian.ruleset:31 data/nation/cossack.ruleset:30
-#: data/nation/cuyavian.ruleset:26 data/nation/finnish.ruleset:27
+#: data/nation/chrobatian.ruleset:33 data/nation/cossack.ruleset:30
+#: data/nation/cuyavian.ruleset:28 data/nation/finnish.ruleset:27
 #: data/nation/greaterpolish.ruleset:22 data/nation/kashubian.ruleset:30
 #: data/nation/liechtensteiner.ruleset:31 data/nation/mazovian.ruleset:25
 #: data/nation/montenegrin.ruleset:29 data/nation/novgorodian.ruleset:41
@@ -4004,14 +4004,14 @@ msgstr ""
 "jours, moins de 10% de la population Circassienne vit dans leur terre "
 "d'origine."
 
-#: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
+#: data/nation/circassian.ruleset:36 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
 #: data/nation/tunisian.ruleset:28
 #, c-format
 msgid "%s Bey"
 msgstr "Bey %s"
 
-#: data/nation/circassian.ruleset:34 data/nation/ghaznavid.ruleset:31
+#: data/nation/circassian.ruleset:36 data/nation/ghaznavid.ruleset:31
 #: data/nation/lipkatatar.ruleset:28 data/nation/seljuk.ruleset:38
 #: data/nation/tunisian.ruleset:28
 #, c-format
