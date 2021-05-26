@@ -144,7 +144,7 @@ static enum texai_abort_msg_class texai_check_messages(struct ai_type *ait)
       new_abort = TEXAI_ABORT_EXIT;
       break;
     default:
-      log_error("Illegal message type %s (%d) for threaded ai!",
+      log_error("Illegal message type %s (%d) for tex ai!",
                 texaimsgtype_name(msg->type), msg->type);
       break;
     }
@@ -220,7 +220,7 @@ void texai_control_lost(struct ai_type *ait, struct player *pplayer)
 {
   exthrai.num_players--;
 
-  log_debug("%s no longer under threaded AI (%d)", pplayer->name,
+  log_debug("%s no longer under tex AI (%d)", pplayer->name,
             exthrai.num_players);
 
   if (exthrai.num_players <= 0) {
