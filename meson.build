@@ -122,7 +122,6 @@ endforeach
 priv_functions = [
   'fork',
   'vfork',
-  'iconv',
   'backtrace',
   'bind',
   'clock_gettime',
@@ -261,6 +260,16 @@ endif
 if c_compiler.compiles('''#include <netinet/in.h>
 int main(void) { struct ip_mreqn req; req.imr_ifindex = 0; return 0; }''')
   priv_conf_data.set('HAVE_IP_MREQN', 1)
+endif
+
+if c_compiler.has_function('iconv')
+  priv_conf_data.set('HAVE_ICONV', 1)
+  iconv_lib_dep = []
+elif c_compiler.has_header_symbol('iconv.h', 'iconv')
+  priv_conf_data.set('HAVE_ICONV', 1)
+  iconv_lib_dep = c_compiler.find_library('iconv')
+else
+  iconv_lib_dep = []
 endif
 
 if c_compiler.compiles('''#include <stddef.h>
@@ -576,7 +585,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('z', dirs: cross_lib_path),
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
-                 ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep,
+                 ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep, iconv_lib_dep,
                  dependency('threads')],
   install : true
   )
