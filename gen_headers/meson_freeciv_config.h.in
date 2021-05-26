@@ -120,4 +120,7 @@
 /* Json Connection TCP Port; Default of the raw-protocol + 1000 */
 #define FREECIV_JSON_PORT 6556
 
+/* Delta protocol enabled */
+#define FREECIV_DELTA_PROTOCOL
+
 #endif /* FC__FREECIV_CONFIG_H */
