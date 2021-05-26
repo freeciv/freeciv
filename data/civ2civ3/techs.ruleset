@@ -223,7 +223,6 @@ req2     = "Industrialization"
 flags    = ""
 graphic     = "a.communism"
 graphic_alt = "-"
-helptext = _("Reduces the effect of Cathedrals.")
 cost     = 420
 
 [advance_computers]

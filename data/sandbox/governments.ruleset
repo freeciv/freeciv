@@ -86,11 +86,11 @@ _("\
 * Military units impose martial law. Up to 3 military units inside a city\
  will each force 1 unhappy citizen to become content.\n\
 * You have no control over tax rates. All trade income is\
- converted to luxuries.\
- Conventional corruption increases with distance from the capital\
- (half as fast with knowledge of The Corporation).\n\
+ converted to luxuries.\n\
 * Half of the luxuries, including those converted from other\
  trade income, are wasted.\n\
+* Conventional corruption increases with distance from the capital\
+ (half as fast with knowledge of The Corporation).\n\
 * Base production waste is 30%. This increases with distance from the\
  capital (half as fast with knowledge of Trade).\
 ")
@@ -234,6 +234,7 @@ Communism is a good government for maximizing shield production, and\
 _("\
 * City improvements which would normally have an upkeep of 1 gold are\
  free of upkeep.\n\
+* Cancels the bonus from Mysticism and Theology (to Temples and Cathedrals).\n\
 * Each city can support up to 3 units for free (the maximum possible);\
  further units each cost 1 shield per turn.\n\
 * Each city tolerates up to 3 aggressively deployed military units;\
