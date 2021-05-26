@@ -1813,7 +1813,9 @@ void server_remove_player(struct player *pplayer)
   }
 
   /* AI type lost control of this player */
-  CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+  if (is_ai(pplayer)) {
+    CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+  }
 
   /* Clear all trade routes. This is needed for the other end not
    * to point to a city removed by player_clear() */
