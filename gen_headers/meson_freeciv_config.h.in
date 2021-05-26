@@ -114,6 +114,9 @@
 #define FREECIV_HAVE_WINSOCK2 1
 #endif
 
+/* socket zero isn't same as stdin */
+#mesondefine FREECIV_SOCKET_ZERO_NOT_STDIN
+
 /* jansson network protocol in use */
 #mesondefine FREECIV_JSON_CONNECTION
 
