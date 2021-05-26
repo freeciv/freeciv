@@ -1,9 +1,9 @@
 [nation_hungarian]
 
-name=_("Hungarian")
-plural=_("?plural:Hungarians")
-groups="Medieval", "Early Modern", "Modern", "European"
-legend=_("Legend says that Hungary was founded by Arpad in the 9th\
+name   = _("Hungarian")
+plural = _("?plural:Hungarians")
+groups = "Medieval", "Early Modern", "Modern", "European"
+legend = _("Legend says that Hungary was founded by Arpad in the 9th\
  century.")
 
 leaders = {
@@ -17,16 +17,15 @@ leaders = {
  "Béla IV",             "Male"
 }
 
-flag="hungary"
+flag = "hungary"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-init_units=""
-
-conflicts_with="indian"	; Similar flags
+conflicts_with = "indian" ; Similar flags
 civilwar_nations = "transylvanian", "croatian", "slovakian"
 
 cities =

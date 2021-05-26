@@ -1,10 +1,10 @@
 [nation_hopi]
 
-name=_("Hopi")
-plural=_("?plural:Hopis")
-groups="American"
+name   = _("Hopi")
+plural = _("?plural:Hopis")
+groups = "American"
 
-legend=_("A matrilineal culture in North America, who claim descent from the\
+legend = _("A matrilineal culture in North America, who claim descent from the\
  Hisatsinom. The Hopi live today on the Hopi Reservation in northeastern\
  Arizona.")
 
@@ -32,9 +32,9 @@ flag         = "hopi"
 flag_alt     = "-"
 style        = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "raramuri", "sioux"
 

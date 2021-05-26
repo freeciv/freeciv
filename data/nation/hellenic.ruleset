@@ -1,9 +1,9 @@
 [nation_hellenic]
 
-name=_("Hellenic")
-plural=_("?plural:Hellenes")
-groups="Modern", "European"
-legend=_("The Hellenic Republic - also known as Greece - was created when\
+name   = _("Hellenic")
+plural = _("?plural:Hellenes")
+groups = "Modern", "European"
+legend = _("The Hellenic Republic - also known as Greece - was created when\
  the Hellenic people gained independence from the Ottoman Empire in 1832.")
 
 leaders = {
@@ -21,13 +21,13 @@ ruler_titles = {
  "Fundamentalism",  _("Patriarch %s"),      _("Matriarch %s")
 }
 
-flag="greece"
+flag = "greece"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "greek", "byzantine"
 civilwar_nations = "cretan", "cypriot"

@@ -1,9 +1,9 @@
 [nation_holysee]
 
-name = _("Papal")
+name   = _("Papal")
 plural = _("?plural:Papal States")
-groups="Medieval", "Early Modern", "Modern", "European"
-legend=_("The Papal States were the territories on the Italian Peninsula\
+groups = "Medieval", "Early Modern", "Modern", "European"
+legend = _("The Papal States were the territories on the Italian Peninsula\
  and elsewhere under the direct sovereign rule by the Roman Catholic popes.\
  Established in the 8th century CE from territory donated to the Church by\
  the pious and the wealthy, the Papal States grew to become the dominant\
@@ -37,39 +37,39 @@ flag = "vatican"
 flag_alt = "constantine"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "Roman"
 civilwar_nations = "Roman", "Holy Roman", "Swiss"
 
 cities =
- "Civitas Vaticana",	; Vatican City
- "Viterbium",		; Viterbo
- "Interamna",		; Terni
- "Tholentinum",		; Tolentino
+ "Civitas Vaticana",    ; Vatican City
+ "Viterbium",           ; Viterbo
+ "Interamna",           ; Terni
+ "Tholentinum",         ; Tolentino
  "Ancona",
  "Ravenna",
- "Nomentum",		; Mentana
- "Reate",		; Rieti
+ "Nomentum",            ; Mentana
+ "Reate",               ; Rieti
 ; "Castelfidardo",
- "Velitrae",		; Velletri
- "Tarracina",		; Terracina
- "Centumcellae",	; Civitavecchia
- "Spoletium",		; Spoleto
+ "Velitrae",            ; Velletri
+ "Tarracina",           ; Terracina
+ "Centumcellae",        ; Civitavecchia
+ "Spoletium",           ; Spoleto
  "Macerata",
- "Urbinum",		; Urbino
- "Pisaurum",		; Pesaro
- "Ariminum",		; Rimini
- "Forum Livii",		; Forlì
- "Bononia",		; Bologna
- "Ferraria",		; Ferrara
- "Tuder",		; Todi
- "Sutrium",		; Sutri
- "Urbs Vetus",		; Orvieto
- "Beneventum",		; Benevento
+ "Urbinum",             ; Urbino
+ "Pisaurum",            ; Pesaro
+ "Ariminum",            ; Rimini
+ "Forum Livii",         ; Forlì
+ "Bononia",             ; Bologna
+ "Ferraria",            ; Ferrara
+ "Tuder",               ; Todi
+ "Sutrium",             ; Sutri
+ "Urbs Vetus",          ; Orvieto
+ "Beneventum",          ; Benevento
 ; "Pontecorvo",
 ; "Venasque",
- "Carpentoracte",	; Carpentras
- "Avennio"		; Avignon
+ "Carpentoracte",       ; Carpentras
+ "Avennio"              ; Avignon

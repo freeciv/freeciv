@@ -1,10 +1,10 @@
 [nation_hawaiian]
 
-name=_("Hawaiian")
-plural=_("?plural:Hawaiians")
-groups="Oceanian"
+name   = _("Hawaiian")
+plural = _("?plural:Hawaiians")
+groups = "Oceanian"
 
-legend=_("The Kingdom of Hawaii was established in 1810 by King Kamehameha\
+legend = _("The Kingdom of Hawaii was established in 1810 by King Kamehameha\
  the Great. Abolished in 1893, and subsequently annexed to the United\
  States, the former kingdom became the 50th state of the United States\
  on August 21, 1959.")
@@ -25,9 +25,9 @@ flag         = "hawaii"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "maori", "polynesian"
 

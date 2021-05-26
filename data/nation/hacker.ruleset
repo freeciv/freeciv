@@ -1,9 +1,9 @@
 [nation_hacker]
 
-name=_("Hacker")
-plural=_("?plural:Hackers")
-groups="Imaginary"
-legend=_("h4xx0r r0xx0rz!")
+name   = _("Hacker")
+plural = _("?plural:Hackers")
+groups = "Imaginary"
+legend = _("h4xx0r r0xx0rz!")
 
 leaders = {
  "name",                "sex"
@@ -36,15 +36,15 @@ ruler_titles = {
  "Monarchy",       _("?title:1337 %s"),    _("?female:1337 %s")
 }
 
-flag="hacker"
+flag = "hacker"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="antarctican", "martian"
+civilwar_nations = "antarctican", "martian"
 
 cities = 
  "Core Dump",
@@ -63,7 +63,7 @@ cities =
  "Compiler",
  "Kernel",
  "Shell",
- "Editor",	; Why not "Emacs" ;)
+ "Editor",          ; Why not "Emacs" ;)
  "Word Processor",
  "Program Counter",
  "Garbage Collection",

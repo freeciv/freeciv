@@ -1,9 +1,9 @@
 [nation_hansa]
 
-name=_("Hanseatic")
-plural=_("?plural:Hanseatic League")
-groups="Medieval", "Early Modern", "European"
-legend=_("The Hanseatic League was a powerful alliance of trading cities\
+name   = _("Hanseatic")
+plural = _("?plural:Hanseatic League")
+groups = "Medieval", "Early Modern", "European"
+legend = _("The Hanseatic League was a powerful alliance of trading cities\
  which existed from the 12th to the 19th century. Hanseatic cities were found\
  in the North Sea and Baltic regions. Members of the league had their own\
  law system and occasionally the Hansa went to war with rival powers.")
@@ -29,16 +29,16 @@ ruler_titles = {
  "Republic",       _("Burgomaster %s"), _("?female:Burgomaster %s") 
 }
 
-flag="hansa"
+flag = "hansa"
 flag_alt = "germany"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Knights Templar"
-civilwar_nations="Dutch", "Danish", "Westphalian", "Prussian", "Hanoverian",
+conflicts_with = "Knights Templar"
+civilwar_nations = "Dutch", "Danish", "Westphalian", "Prussian", "Hanoverian",
  "Polish", "Latvian", "Estonian", "Lithuanian", "Swedish", "Frisian",
  "Schleswig-Holsteinian", "Brandenburgian", "Novgorodian"
 

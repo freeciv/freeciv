@@ -1,9 +1,9 @@
 [nation_haitian]
 
-name=_("Haitian")
-plural=_("?plural:Haitians")
-groups="Modern", "American"
-legend=_("A slave rebellion led Haiti to independence in 1804. It was the\
+name   = _("Haitian")
+plural = _("?plural:Haitians")
+groups = "Modern", "American"
+legend = _("A slave rebellion led Haiti to independence in 1804. It was the\
  first independent black republic and the second independent country in\
  the Americas.")
 
@@ -27,13 +27,13 @@ ruler_titles = {
  "Monarchy",        _("Emperor %s"),      _("Empress %s")
 }
 
-flag="haiti"
+flag = "haiti"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations =  "dominicano", "taino"
 

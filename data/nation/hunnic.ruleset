@@ -1,11 +1,11 @@
 [nation_hunnic]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Hunnic")
-plural=_("?plural:Huns")
-groups="Ancient", "European", "Asian", "Core"
-legend=_("The European Huns were an ancient tribal confederation who first\
+name   = _("Hunnic")
+plural = _("?plural:Huns")
+groups = "Ancient", "European", "Asian", "Core"
+legend = _("The European Huns were an ancient tribal confederation who first\
  appeared in the 4th century. The Huns inhabited the Eurasian steppes and\
  were known as formidable horse archers. In the fifth century CE they\
  created a powerful military empire under the leadership of Attila,\
@@ -15,6 +15,7 @@ legend=_("The European Huns were an ancient tribal confederation who first\
  mentioned in Chinese sources, but that link has still not been\
  unequivocally proven. Hunnic ethnic relations and language are likewise\
  controversial.")
+
 leaders = {
  "name",                "sex"
  "Balamber",            "Male"
@@ -30,7 +31,8 @@ leaders = {
  "Dengizich",           "Male"
  "Ernac",               "Male"
 }
-flag="hunnic"
+
+flag = "hunnic"
 flag_alt = "-"
 style = "Celtic"
 
@@ -41,14 +43,14 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"),    _("?female:%s Khagan")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="hungarian", "bulgarian", "volga bulgar", "chuvash",
-               "russian", "soviet", "ukrainian", "cossack", "transylvanian"
+conflicts_with = "hungarian", "bulgarian", "volga bulgar", "chuvash",
+                 "russian", "soviet", "ukrainian", "cossack", "transylvanian"
 civilwar_nations = "avar", "volga bulgar", "slavic", "visigothic", "ostrogothic",
- "gepid"
+                   "gepid"
 
 cities =
 ;late classical settlements on the Pannonian Plain

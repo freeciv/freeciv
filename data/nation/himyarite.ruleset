@@ -1,10 +1,10 @@
 [nation_himyarite]
 
-name=_("Himyarite")
-plural=_("?plural:Himyar")
-groups="Ancient", "Asian"
+name   = _("Himyarite")
+plural = _("?plural:Himyar")
+groups = "Ancient", "Asian"
 
-legend=_("The Himyar were originally a mountain tribe in what is now Yemen\
+legend = _("The Himyar were originally a mountain tribe in what is now Yemen\
  that conquered the other South Arabian kingdoms, including Sabaea in\
  115 BCE, which were rich from the incense trade. The Himyar were castle-\
 builders, finding it necessary to erect citadels to protect against\
@@ -35,11 +35,11 @@ flag         = "himyar"
 flag_alt     = "-"
 style        = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="arab", "yemeni"
+civilwar_nations = "arab", "yemeni"
 
 cities =
  "Shabwa",

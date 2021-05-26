@@ -1,9 +1,9 @@
 [nation_helvetian]
 
-name=_("Helvetian")
-plural=_("?plural:Helvetians")
-groups="Ancient", "European"
-legend=_("The Helvetians (Latin: Helvetii) were an Ancient Celtic people,\
+name   = _("Helvetian")
+plural = _("?plural:Helvetians")
+groups = "Ancient", "European"
+legend = _("The Helvetians (Latin: Helvetii) were an Ancient Celtic people,\
  inhabiting what is now Switzerland and adjacent parts of France and\
  Germany. Helvetians sometimes helped in the internal conflicts of Rome,\
  for example, on the side of Cicero. They were a big, expansive tribe,\
@@ -11,6 +11,7 @@ legend=_("The Helvetians (Latin: Helvetii) were an Ancient Celtic people,\
  Helvetian chieftain Orgetorix were used by Caesar as a pretext to\
  conquer Helvetia and the rest of Gaul. The Helvetians succumbed to the\
  Romans and became Romanized during the following centuries.")
+
 leaders = {
  "name",                "sex"
  "Orgetorix",           "Male"
@@ -20,7 +21,8 @@ leaders = {
  "Verucloitios",        "Male"
  "Caburos",             "Male"
 }
-flag="helvetii"
+
+flag = "helvetii"
 flag_alt = "-"
 style = "Celtic"
 
@@ -29,12 +31,12 @@ ruler_titles = { "government",      "male_title",       "female_title"
                  "Fundamentalism",  _("High Druid %s"), _("?female:High Druid %s")
                }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="swiss", "french", "badian", "wuerttembergian", "burgundian"
-civilwar_nations="Gallic" ;Boian, Belgic
+conflicts_with = "swiss", "french", "badian", "wuerttembergian", "burgundian"
+civilwar_nations = "Gallic" ;Boian, Belgic
 
 cities =
  "Aventicum",

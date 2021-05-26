@@ -1,10 +1,10 @@
 [nation_honduran]
 
-name=_("Honduran")
-plural=_("?plural:Hondurans")
-groups="American", "Modern"
+name   = _("Honduran")
+plural = _("?plural:Hondurans")
+groups = "American", "Modern"
 
-legend=_("Honduras has been an independent republic since the dissolution\
+legend = _("Honduras has been an independent republic since the dissolution\
  of the Central American Federation in 1840. The archetypical 'banana\
  republic', periods of dictatorship and of more or less democratic rule\
  have followed each other. Its current constitution was adopted in 1982.")
@@ -34,9 +34,9 @@ flag         = "honduras"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 conflicts_with = "salvadoran", "nicaraguan" ;similar flags
 civilwar_nations = "miskito", "mayan", "salvadoran"
@@ -93,5 +93,3 @@ cities =
  "Brus Laguna",
  "Agua Blanca Sur",
  "José Santos Guardiola (ocean)"
-
-

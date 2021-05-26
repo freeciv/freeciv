@@ -1,9 +1,9 @@
 [nation_hessian]
 
-name=_("Hessian")
-plural=_("?plural:Hessians")
-groups="European", "Early Modern", "Medieval"
-legend=_("Hesse became a landgraviate of the Holy Roman Empire in the\
+name   = _("Hessian")
+plural = _("?plural:Hessians")
+groups = "European", "Early Modern", "Medieval"
+legend = _("Hesse became a landgraviate of the Holy Roman Empire in the\
  13th century. In the 16th century it splintered into a a number of\
  smaller territories. Many Hessians fought in the American Revolution as\
  mercenaries on both sides. Currently Hesse is one of the states of the\
@@ -30,15 +30,15 @@ ruler_titles = {
  "Democracy", _("Minister-President %s"), _("?female:Minister-President %s")
 }
 
-flag="hesse"
+flag = "hesse"
 flag_alt = "germany"
 style = "european"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="hanoverian", "badian", "palatinate", "rhenish"
+civilwar_nations = "hanoverian", "badian", "palatinate", "rhenish"
 
 cities =
  "Kassel",

@@ -1,9 +1,9 @@
 [nation_hephthalite]
 
-name=_("Hephthalite")
-plural=_("?plural:Hephthalites")
-groups="Asian", "Ancient", "Medieval"
-legend=_("The Hephthalites were a Central Asian nomadic confederation of\
+name   = _("Hephthalite")
+plural = _("?plural:Hephthalites")
+groups = "Asian", "Ancient", "Medieval"
+legend = _("The Hephthalites were a Central Asian nomadic confederation of\
  the 5th and 6th centuries CE. Their precise origins and composition remain\
  obscure. They may have been of mixed Iranic, Tocharian and Turkic origin,\
  but their main language is unknown. Although they were also known as the\
@@ -21,7 +21,7 @@ leaders = {
  "Yudhishthira",        "Male"
 }
 
-flag="hephthalite"
+flag = "hephthalite"
 flag_alt = "-"
 style = "Asian"
 
@@ -31,11 +31,11 @@ ruler_titles = {
  "Monarchy",        _("%s Khagan"), _("?female:%s Khagan")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="afghani", "pakistani", "indian", "sikh", "pashtun",
+conflicts_with = "afghani", "pakistani", "indian", "sikh", "pashtun",
  "uzbek", "uyghur", "tajik", "turkmen", "kashmiri",
  "ghaznavid", "kyrgyz" ; samanid
 civilwar_nations = "tocharian", "saka", "gokturk", "iranian", "pashtun"
