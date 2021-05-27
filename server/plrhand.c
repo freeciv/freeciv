@@ -1716,7 +1716,9 @@ void server_remove_player(struct player *pplayer)
   }
 
   /* AI type lost control of this player */
-  CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(lost_control, pplayer, pplayer);
+  }
 
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
