@@ -544,6 +544,8 @@ enum server_events server_sniff_all_input(void)
 #endif /* FREECIV_HAVE_LIBREADLINE */
 
   while (TRUE) {
+    int selret;
+
     con_prompt_on();   /* accepting new input */
 
     if (force_end_of_sniff) {
@@ -695,7 +697,8 @@ enum server_events server_sniff_all_input(void)
     }
     con_prompt_off();    /* output doesn't generate a new prompt */
 
-    if (fc_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv) == 0) {
+    selret = fc_select(max_desc + 1, &readfs, &writefs, &exceptfs, &tv);
+    if (selret == 0) {
       /* timeout */
       call_ai_refresh();
       script_server_signal_emit("pulse");
@@ -750,6 +753,8 @@ enum server_events server_sniff_all_input(void)
 #endif /* FREECIV_SOCKET_ZERO_NOT_STDIN */
 #endif /* !__VMS */
       }
+    } else if (selret < 0) {
+      log_error("fc_select() failed: %s", fc_strerror(fc_get_errno()));
     }
 
     excepting = FALSE;
