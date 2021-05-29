@@ -318,6 +318,8 @@ styles =
       "base.airstrip", "3Layer"
       "base.airbase",  "3Layer"
       "base.buoy",     "3Layer"
+      "base.castle",   "3Layer"
+      "base.castle2",  "3Layer"
       "extra.ruins",   "3Layer"
       "extra.transport_hub", "3Layer"
       "ts.gold",       "Single1"

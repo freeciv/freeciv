@@ -11,6 +11,7 @@ artists = "
     Anton Ecker (Kaldred) (ruins)
     GriffonSpade [GS]
     Sveinung Kvilhaugsvik [SK]
+    Lexxie L. [Lexxie]
 "
 
 [file]
@@ -42,6 +43,11 @@ tiles = { "row", "column", "tag"
  1,  4, "base.outpost_bg"
 ; [SK]
  1,  5, "extra.transport_hub_mg"
+ ;[Lexxie]
+ 2,  2, "base.castle2_fg"        ; alternate castle (larger 'closed' version which makes hidden units more plausible ...
+ 2,  3, "base.castle2_bg"        ; ... but also hides the terrain graphics)
+ 2,  4, "base.castle_fg"
+ 2,  5, "base.castle_bg"
 ;[HH]
  0,  2, "cd.occupied",
       "city.european_occupied_0",
