@@ -1378,15 +1378,15 @@ static void hard_code_actions(void)
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK] =
       unit_action_new(ACTION_TRANSPORT_EMBARK, ACTRES_TRANSPORT_EMBARK,
-                      FALSE, TRUE,
+                      TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK2] =
       unit_action_new(ACTION_TRANSPORT_EMBARK2, ACTRES_TRANSPORT_EMBARK,
-                      FALSE, TRUE,
+                      TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_TRANSPORT_EMBARK3] =
       unit_action_new(ACTION_TRANSPORT_EMBARK3, ACTRES_TRANSPORT_EMBARK,
-                      FALSE, TRUE,
+                      TRUE, TRUE,
                       MAK_REGULAR, 1, 1, FALSE);
   actions[ACTION_SPY_ATTACK] =
       unit_action_new(ACTION_SPY_ATTACK, ACTRES_SPY_ATTACK,
