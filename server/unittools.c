@@ -2700,9 +2700,13 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
     unit_list_iterate(ptile->units, pother) {
       if (can_player_see_unit(pplayer, pother)
-          && pplayers_non_attack(pplayer, unit_owner(pother))) {
+          && !pplayers_allied(pplayer, unit_owner(pother))) {
         notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
-                      _("Cannot attack unless you declare war first."));
+                      /* TRANS: Paratroopers ... Drop Paratrooper */
+                      _("Your %s can't do %s to tiles with non allied"
+                        " units."),
+                      unit_name_translation(punit),
+                      _("Drop Paratrooper"));
         return FALSE;
       }
     } unit_list_iterate_end;
