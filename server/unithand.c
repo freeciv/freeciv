@@ -692,7 +692,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     break;
 
   case ACTION_PARADROP:
-    /* Target is a tile but a city or unit can block it. */
+    /* Target is a tile but a city can block it. */
+    fc_assert_action(action_get_target_kind(paction) == ATK_TILE, break);
     if (target_tile
         && map_is_known_and_seen(target_tile, actor_player, V_MAIN)) {
       /* Seen tile unit savers */
@@ -702,13 +703,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
       if ((tcity = is_non_attack_city_tile(target_tile, actor_player))) {
         return city_owner(tcity);
       }
-
-      unit_list_iterate(target_tile->units, pother) {
-        if (can_player_see_unit(actor_player, pother)
-            && pplayers_non_attack(actor_player, unit_owner(pother))) {
-          return unit_owner(pother);
-        }
-      } unit_list_iterate_end;
     }
     break;
   case ACTION_ESTABLISH_EMBASSY:

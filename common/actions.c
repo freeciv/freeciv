@@ -2509,12 +2509,12 @@ is_action_possible(const action_id wanted_action,
         return TRI_NO;
       }
 
-      /* Reason: Keep the old rules. Be merciful. */
+      /* Reason: Be merciful. */
       /* Info leak: The player sees all units checked. Invisible units are
        * igonered. */
       unit_list_iterate(target_tile->units, pother) {
         if (can_player_see_unit(actor_player, pother)
-            && pplayers_non_attack(actor_player, unit_owner(pother))) {
+            && !pplayers_allied(actor_player, unit_owner(pother))) {
           return TRI_NO;
         }
       } unit_list_iterate_end;
