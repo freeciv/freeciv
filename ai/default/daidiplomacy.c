@@ -330,8 +330,16 @@ static int dai_goldequiv_clause(struct ai_type *ait,
          * - AI losses tech due to high upkeep. 
          * FIXME: Is there a better way for this? */
         struct research *research = research_get(pplayer);
-        int limit = MAX(1, player_tech_upkeep(pplayer)
-                           / research->techs_researched);
+        int limit;
+
+        /* Make sure there's no division by zero */
+        if (research->techs_researched > 0) {
+          limit = MAX(1, player_tech_upkeep(pplayer)
+                      / research->techs_researched);
+        } else {
+          limit = 1;
+          fc_assert(player_tech_upkeep(pplayer) == 0);
+        }
 
         if (pplayer->server.bulbs_last_turn < limit) {
           worth /= 2;
