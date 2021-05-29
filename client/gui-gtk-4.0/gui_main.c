@@ -176,6 +176,8 @@ gint cur_x, cur_y;
 
 static bool gui_up = FALSE;
 
+static GtkApplication *fc_app;
+
 static struct video_mode vmode = { -1, -1 };
 
 static gboolean show_info_popup(GtkWidget *w, GdkEvent *ev, gpointer data);
@@ -187,7 +189,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
                                          bool socket_writable);
 
 static void print_usage(void);
-static void activate_gui(GtkApplication* app, gpointer data);
+static void activate_gui(GtkApplication *app, gpointer data);
 static void parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
 static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
@@ -1796,8 +1798,6 @@ static void migrate_options_from_gtk3_22(void)
 **************************************************************************/
 void ui_main(int argc, char **argv)
 {
-  GtkApplication *app;
-
   parse_options(argc, argv);
 
   /* the locale has already been set in init_nls() and the Win32-specific
@@ -1807,9 +1807,9 @@ void ui_main(int argc, char **argv)
   gtk_init();
 
   gui_up = TRUE;
-  app = gtk_application_new(NULL, 0);
-  g_signal_connect(app, "activate", G_CALLBACK(activate_gui), NULL);
-  g_application_run(G_APPLICATION(app), 0, NULL);
+  fc_app = gtk_application_new(NULL, 0);
+  g_signal_connect(fc_app, "activate", G_CALLBACK(activate_gui), NULL);
+  g_application_run(G_APPLICATION(fc_app), 0, NULL);
   gui_up = FALSE;
 
   destroy_server_scans();
@@ -2219,7 +2219,7 @@ void quit_gtk_main(void)
   /* Quit gtk main loop. After this it will return to finish
    * ui_main() */
 
-  gtk_main_quit();
+  g_application_quit(G_APPLICATION(fc_app));
 }
 
 /**********************************************************************//**
