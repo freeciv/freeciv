@@ -49,6 +49,8 @@ struct fcmp_params fcmp = {
   .autoinstall = NULL
 };
 
+static GtkApplication *fcmp_app;
+
 static gboolean quit_dialog_callback(void);
 
 #define ML_COL_NAME    0
@@ -70,12 +72,7 @@ static gboolean quit_dialog_callback(void);
 ****************************************************************/
 static void modinst_quit(void)
 {
-  save_install_info_lists(&fcmp);
-
-  fcmp_deinit();
-  cmdline_option_values_free();
-
-  exit(EXIT_SUCCESS);
+  g_application_quit(G_APPLICATION(fcmp_app));
 }
 
 /****************************************************************
@@ -567,7 +564,7 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
 /**************************************************************************
   Run the gui
 **************************************************************************/
-static void activate_gui(GtkApplication* app, gpointer data)
+static void activate_gui(GtkApplication *app, gpointer data)
 {
   GtkWidget *toplevel;
 
@@ -634,15 +631,13 @@ int main(int argc, char *argv[])
   }
 
   if (ui_options != -1) {
-    GtkApplication *app;
-
     load_install_info_lists(&fcmp);
 
     gtk_init();
 
-    app = gtk_application_new(NULL, 0);
-    g_signal_connect(app, "activate", G_CALLBACK(activate_gui), NULL);
-    g_application_run(G_APPLICATION(app), 0, NULL);
+    fcmp_app = gtk_application_new(NULL, 0);
+    g_signal_connect(fcmp_app, "activate", G_CALLBACK(activate_gui), NULL);
+    g_application_run(G_APPLICATION(fcmp_app), 0, NULL);
 
     save_install_info_lists(&fcmp);
   }
