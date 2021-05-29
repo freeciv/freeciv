@@ -16,7 +16,7 @@ It comes with an X server, Xorg.
 To install Freeciv for Cygwin:
 
 a) Install or update your Cygwin by downloading and running installer
-   from http://www.cygwin.com/
+   from https://www.cygwin.com/
 
    In addition to default install, install at least following packages
    to build freeciv
