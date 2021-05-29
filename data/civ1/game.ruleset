@@ -1248,9 +1248,9 @@ effects        = "ReducePopulation"
 ;                "Inactive" - Keep them inactive
 ;                "Cancel"   - Cancel them altogether
 ;
-; TODO: What`s correct "cancelling" behavior for civ1? If you have established
-;       traderoute with enemy city nearby and conquer it -> what happens to traderoute
-;       between your cities with less than trademindist distance?
+; If you have established a traderoute with enemy city nearby, conquer it and
+; thus get traderoute between your cities with less than trademindist distance,
+; civ1 removes the traderoute completely.
 ;
 ; "bonus"      - One-time bonuses granted when traderoute established
 ;                "None"     - No one-time bonus
