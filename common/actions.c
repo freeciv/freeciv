@@ -4071,7 +4071,7 @@ is_action_possible(const action_id wanted_action,
 
       /* Reason: Keep the old rules. Be merciful. */
       /* Info leak: The player sees all units checked. Invisible units are
-       * igonered. */
+       * ignored. */
       unit_list_iterate(target_tile->units, pother) {
         if (can_player_see_unit(actor_player, pother)
             && pplayers_non_attack(actor_player, unit_owner(pother))) {
