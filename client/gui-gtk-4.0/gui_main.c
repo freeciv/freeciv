@@ -2446,7 +2446,7 @@ static bool monitor_size(GdkRectangle *rect_p)
     return FALSE;
   }
 
-  monitor = gdk_display_get_primary_monitor(display);
+  monitor = gdk_display_get_monitor(display, 0);
   if (!monitor) {
     return FALSE;
   }
