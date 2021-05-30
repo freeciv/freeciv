@@ -63,10 +63,10 @@
 #include "aiferry.h"
 #include "aiguard.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitech.h"
 #include "aiunit.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 
 #include "aitools.h"
 

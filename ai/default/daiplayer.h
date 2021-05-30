@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIPLAYER_H
-#define FC__AIPLAYER_H
+#ifndef FC__DAIPLAYER_H
+#define FC__DAIPLAYER_H
 
 /* common */
 #include "city.h"
@@ -62,4 +62,4 @@ struct dai_private_data
   bool contemplace_workers;
 };
 
-#endif /* FC__AIPLAYER_H */
+#endif /* FC__DAIPLAYER_H */

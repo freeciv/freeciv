@@ -61,12 +61,12 @@
 #include "aihunt.h"
 #include "ailog.h"
 #include "aiparatrooper.h"
-#include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daicity.h"
 #include "daieffects.h"
+#include "daiplayer.h"
 
 #include "daimilitary.h"
 

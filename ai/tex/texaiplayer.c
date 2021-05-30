@@ -30,8 +30,8 @@
 #include "infracache.h"
 
 /* ai/default */
-#include "aiplayer.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 
 /* ai/tex */
 #include "texaicity.h"

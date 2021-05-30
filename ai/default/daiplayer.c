@@ -28,7 +28,7 @@
 #include "aidata.h"
 #include "daimilitary.h"
 
-#include "aiplayer.h"
+#include "daiplayer.h"
 
 /**********************************************************************//**
   Initialize player for use with default AI. Note that this is called

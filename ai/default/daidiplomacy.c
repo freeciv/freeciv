@@ -58,11 +58,11 @@
 /* ai/default */
 #include "aidata.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aiunit.h"
 #include "aitools.h"
 #include "daicity.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 
 #include "daidiplomacy.h"
 

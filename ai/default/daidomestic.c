@@ -55,12 +55,12 @@
 /* ai/default */
 #include "aidata.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daicity.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 
 #include "daidomestic.h"
 

@@ -38,9 +38,9 @@
 /* ai/default */
 #include "aidata.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitools.h"
 #include "daieffects.h"
+#include "daiplayer.h"
 
 #include "aitech.h"
 

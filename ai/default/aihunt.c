@@ -49,10 +49,10 @@
 
 /* ai/default */
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daicity.h"
+#include "daiplayer.h"
 
 #include "aihunt.h"
 

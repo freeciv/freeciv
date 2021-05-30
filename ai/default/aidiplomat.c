@@ -64,12 +64,12 @@
 #include "aiguard.h"
 #include "aihand.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "daiactions.h"
 #include "daicity.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 
 #include "aidiplomat.h"
 

@@ -27,9 +27,9 @@
 
 /* ai/default */
 #include "aidata.h"
-#include "aiplayer.h"
 #include "aiunit.h"
 #include "daicity.h"
+#include "daiplayer.h"
 
 #include "ailog.h"
 

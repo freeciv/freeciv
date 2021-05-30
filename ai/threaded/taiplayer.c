@@ -28,7 +28,7 @@
 #include "infracache.h"
 
 /* ai/default */
-#include "aiplayer.h"
+#include "daiplayer.h"
 
 /* ai/threaded */
 #include "taicity.h"

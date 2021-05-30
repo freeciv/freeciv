@@ -23,12 +23,12 @@
 #include "aiferry.h"
 #include "aihand.h"
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitools.h"
 #include "daicity.h"
 #include "daidiplomacy.h"
 #include "daidomestic.h"
 #include "daimilitary.h"
+#include "daiplayer.h"
 #include "daisettler.h"
 
 /* tex ai */

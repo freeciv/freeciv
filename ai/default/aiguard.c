@@ -27,9 +27,9 @@
 
 /* ai */
 #include "ailog.h"
-#include "aiplayer.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "daiplayer.h"
 
 #include "aiguard.h"
 
