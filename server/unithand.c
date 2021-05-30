@@ -3018,6 +3018,7 @@ bool unit_perform_action(struct player *pplayer,
   struct unit *actor_unit = player_unit_by_number(pplayer, actor_id);
   struct tile *target_tile = NULL;
   struct extra_type *target_extra;
+  struct impr_type *sub_tgt_impr;
   struct unit *punit = NULL;
   struct city *pcity = NULL;
 
@@ -3096,6 +3097,8 @@ bool unit_perform_action(struct player *pplayer,
   } else {
     target_extra = NULL;
   }
+
+  sub_tgt_impr = improvement_by_number(sub_tgt_id);
 
   if (action_get_activity(paction) != ACTIVITY_LAST
       && unit_activity_needs_target_from_client(
@@ -3357,7 +3360,8 @@ bool unit_perform_action(struct player *pplayer,
     /* Difference is caused by data in the action structure. */
     ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
                              diplomat_sabotage(pplayer, actor_unit, pcity,
-                                               sub_tgt_id, paction));
+                                               sub_tgt_impr->item_number,
+                                               paction));
     break;
   case ACTRES_SPY_SABOTAGE_CITY_PRODUCTION:
     /* Difference is caused by data in the action structure. */
@@ -3478,7 +3482,7 @@ bool unit_perform_action(struct player *pplayer,
                              do_unit_strike_city_building(pplayer,
                                                           actor_unit,
                                                           pcity,
-                                                          sub_tgt_id,
+                                                          sub_tgt_impr->item_number,
                                                           paction));
     break;
   case ACTRES_STRIKE_PRODUCTION:
