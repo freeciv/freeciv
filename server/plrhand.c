@@ -1693,6 +1693,10 @@ void server_remove_player(struct player *pplayer)
     if (gives_shared_vision(aplayer, pplayer)) {
       remove_shared_vision(aplayer, pplayer);
     }
+    /* Also remove vision provided for the other players */
+    if (gives_shared_vision(pplayer, aplayer)) {
+      remove_shared_vision(pplayer, aplayer);
+    }
   } players_iterate_end;
 
   /* Remove citizens of this player from the cities of all other players. */
