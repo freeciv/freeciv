@@ -213,7 +213,7 @@ SDL_Surface *get_tech_icon(Tech_type_id tech);
 SDL_Color *get_tech_color(Tech_type_id tech_id);
 
 /**************************************************************************
-  Return a surface for the given citizen.  The citizen's type is given,
+  Return a surface for the given citizen. The citizen's type is given,
   as well as their index (in the range [0..city_size_get(pcity))).
 **************************************************************************/
 static inline SDL_Surface *get_citizen_surface(enum citizen_category type,
@@ -222,32 +222,50 @@ static inline SDL_Surface *get_citizen_surface(enum citizen_category type,
   return GET_SURF(get_citizen_sprite(tileset, type, 0, NULL));
 }
 
+/**************************************************************************
+  Return a surface for the flag of the given nation.
+**************************************************************************/
 static inline SDL_Surface *get_nation_flag_surface(const struct nation_type *pnation)
 {
   return GET_SURF(get_nation_flag_sprite(tileset, pnation));
 }
 
+/**************************************************************************
+  Return a surface for the given government icon.
+**************************************************************************/
 static inline SDL_Surface *get_government_surface(const struct government *gov)
 {
   return GET_SURF(get_government_sprite(tileset, gov));
 }
 
+/**************************************************************************
+  Return a sample surface of a city with the given city style
+**************************************************************************/
 static inline SDL_Surface *get_sample_city_surface(int city_style)
 {
   return GET_SURF(get_sample_city_sprite(tileset, city_style));
 }
 
+/**************************************************************************
+  Return a surface for the given building icon.
+**************************************************************************/
 static inline SDL_Surface *get_building_surface(struct impr_type *pimprove)
 {
   return GET_SURF(get_building_sprite(tileset, pimprove));
 }
 
+/**************************************************************************
+  Return a surface for the given unit type.
+**************************************************************************/
 static inline SDL_Surface *get_unittype_surface(const struct unit_type *punittype,
                                                 enum direction8 facing)
 {
   return GET_SURF(get_unittype_sprite(tileset, punittype, facing, TRUE));
 }
 
+/**************************************************************************
+  Return a surface for the tax icon of the given output type.
+**************************************************************************/
 static inline SDL_Surface *get_tax_surface(Output_type_id otype)
 {
   return adj_surf(GET_SURF(get_tax_sprite(tileset, otype)));
