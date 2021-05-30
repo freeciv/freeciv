@@ -26,7 +26,7 @@
 #include <fcntl.h>
 #include <stdint.h>
 #include <string.h>
-#ifdef HAVE_SYS_RANDOM_H
+#if defined(HAVE_SYS_RANDOM_H) && defined(HAVE_GETENTROPY)
 #include <sys/random.h>
 #endif
 #include <sys/stat.h>
