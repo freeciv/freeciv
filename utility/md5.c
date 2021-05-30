@@ -58,7 +58,7 @@
  *  - Optimized version of SET() has been dropped.
  *
  * Upstream version is revision 1.15 from:
- * http://cvsweb.openwall.com/cgi/cvsweb.cgi/Owl/packages/popa3d/popa3d/md5/md5.c
+ * https://cvsweb.openwall.com/cgi/cvsweb.cgi/Owl/packages/popa3d/popa3d/md5/md5.c
  */
 
 #ifdef HAVE_CONFIG_H
