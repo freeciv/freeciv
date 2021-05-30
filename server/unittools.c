@@ -3483,13 +3483,29 @@ static bool unit_move_consequences(struct unit *punit,
 
   /* entering/leaving a fortress or friendly territory */
   if (homecity_start_pos || homecity_end_pos) {
-    if ((game.info.happyborders != HB_DISABLED && tile_owner(src_tile) != tile_owner(dst_tile))
-        || (tile_has_not_aggressive_extra_for_unit(dst_tile,
-                                                   type_end_pos)
-            && is_friendly_city_near(pplayer_end_pos, dst_tile))
-        || (tile_has_not_aggressive_extra_for_unit(src_tile,
-                                                   type_start_pos)
-            && is_friendly_city_near(pplayer_start_pos, src_tile))) {
+    bool friendly_end = FALSE;
+
+    if (game.info.happyborders != HB_DISABLED && tile_owner(src_tile) != tile_owner(dst_tile)) {
+      friendly_end = TRUE;
+    } else {
+      int max_friendliness_range = tile_has_not_aggressive_extra_for_unit(dst_tile,
+                                                                          type_end_pos);
+
+      if (max_friendliness_range >= 0
+          && is_friendly_city_near(pplayer_end_pos, dst_tile, max_friendliness_range)) {
+        friendly_end = TRUE;
+      } else {
+        max_friendliness_range = tile_has_not_aggressive_extra_for_unit(src_tile,
+                                                                        type_start_pos);
+
+        if (max_friendliness_range >= 0
+            && is_friendly_city_near(pplayer_start_pos, src_tile, max_friendliness_range)) {
+          friendly_end = TRUE;
+        }
+      }
+    }
+
+    if (friendly_end) {
       refresh_homecity_start_pos = TRUE;
       refresh_homecity_end_pos = TRUE;
     }

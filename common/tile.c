@@ -183,19 +183,25 @@ const bv_extras *tile_extras_safe(const struct tile *ptile)
 }
 
 /************************************************************************//**
-  Check if tile contains extra making unit not aggressive
+  Check if tile contains extra making unit not aggressive.
+
+  Maximum distance to nearest friendly city to make extra effective returned.
+  Negative distance means that there's no such extra.
 ****************************************************************************/
-bool tile_has_not_aggressive_extra_for_unit(const struct tile *ptile,
-                                            const struct unit_type *punittype)
+int tile_has_not_aggressive_extra_for_unit(const struct tile *ptile,
+                                           const struct unit_type *punittype)
 {
+  int max_friendliness_range = -1;
+
   extra_type_by_cause_iterate(EC_NOT_AGGRESSIVE, pextra) {
     if (tile_has_extra(ptile, pextra)
-        && is_native_extra_to_utype(pextra, punittype)) {
-      return TRUE;
+        && is_native_extra_to_utype(pextra, punittype)
+        && pextra->no_aggr_near_city > max_friendliness_range) {
+      max_friendliness_range = pextra->no_aggr_near_city;
     }
   } extra_type_by_cause_iterate_end;
 
-  return FALSE;
+  return max_friendliness_range;
 }
 
 /************************************************************************//**

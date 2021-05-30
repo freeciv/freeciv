@@ -1145,6 +1145,8 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ;                           type not to show on UI if both present.
 ; bridged_over            = List of extra types that, if present in tile, will prevent
 ;                           building this extra if can't be bridged over
+; no_aggr_near_city       = When at least zero, units inside are not considered
+;                           aggressive when there`s a friendly city within this distance
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of
 ;                           terrain
@@ -1171,8 +1173,6 @@ ui_name_base_airbase = _("?gui_type:Build Airstrip/Airbase")
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "NoAggressive"      = Units inside are not considered aggressive if
-;                           there`s friendly city within 3 tiles
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -1519,7 +1519,8 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Land", "Small Land", "Merchant", "Big Land"
 conflicts      = "Airstrip", "Airbase"
-flags          = "NativeTile", "DiplomatDefense", "NoAggressive"
+no_aggr_near_city = 3
+flags          = "NativeTile", "DiplomatDefense"
 helptext       = _("\
 Fortresses are more permanent forts; construction on them can only begin \
 once the underlying fort is complete. Forts on River tiles cannot be \
@@ -1602,7 +1603,8 @@ build_time     = 2
 removal_time   = 0
 native_to      = "Air", "Helicopter", "Missile"
 conflicts      = "Fort", "Fortress"
-flags          = "Refuel", "ParadropFrom", "NoAggressive"
+no_aggr_near_city = 3
+flags          = "Refuel", "ParadropFrom"
 helptext       = _("\
 Airbases are more permanent airstrips; construction on them can only \
 begin once the underlying airstrip is complete. Airstrips on River tiles \

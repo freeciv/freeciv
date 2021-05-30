@@ -1443,14 +1443,17 @@ bool unit_type_really_ignores_zoc(const struct unit_type *punittype)
   A unit is *not* aggressive if one or more of following is true:
   - zero attack strength
   - inside a city
-  - ground unit inside a fortress within 3 squares of a friendly city
+  - near friendly city and in extra that provides "no aggressive"
 **************************************************************************/
 bool unit_being_aggressive(const struct unit *punit)
 {
+  const struct tile *ptile = unit_tile(punit);
+  int max_friendliness_range;
+
   if (!is_attack_unit(punit)) {
     return FALSE;
   }
-  if (tile_city(unit_tile(punit))) {
+  if (tile_city(ptile)) {
     return FALSE;
   }
   if (BORDERS_DISABLED != game.info.borders) {
@@ -1458,20 +1461,22 @@ bool unit_being_aggressive(const struct unit *punit)
     case HB_DISABLED:
       break;
     case HB_NATIONAL:
-      if (tile_owner(unit_tile(punit)) == unit_owner(punit)) {
+      if (tile_owner(ptile) == unit_owner(punit)) {
         return FALSE;
       }
       break;
     case HB_ALLIANCE:
-      if (pplayers_allied(tile_owner(unit_tile(punit)), unit_owner(punit))) {
+      if (pplayers_allied(tile_owner(ptile), unit_owner(punit))) {
         return FALSE;
       }
       break;
     }
   }
-  if (tile_has_not_aggressive_extra_for_unit(unit_tile(punit),
-                                             unit_type_get(punit))) {
-    return !is_unit_near_a_friendly_city(punit);
+
+  max_friendliness_range = tile_has_not_aggressive_extra_for_unit(ptile,
+                                                                  unit_type_get(punit));
+  if (max_friendliness_range >= 0) {
+    return !is_unit_near_a_friendly_city(punit, max_friendliness_range);
   }
 
   return TRUE;

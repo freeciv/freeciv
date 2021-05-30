@@ -3924,13 +3924,12 @@ void helptext_extra(char *buf, size_t bufsz, struct player *pplayer,
                   "not normally be suitable terrain.\n"), BULLET);
       }
 
-      if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
-	/* "3 tiles" is hardcoded in is_friendly_city_near() */
+      if (pextra->no_aggr_near_city >= 0) {
 	CATLSTR(buf, bufsz,
 		/* TRANS: indented; preserve leading spaces */
 		_("  %s Such units situated here are not considered aggressive "
-		  "if this tile is within 3 tiles of a friendly city.\n"),
-                BULLET);
+		  "if this tile is within %d tiles of a friendly city.\n"),
+                BULLET, pextra->no_aggr_near_city);
       }
 
       if (pextra->defense_bonus) {

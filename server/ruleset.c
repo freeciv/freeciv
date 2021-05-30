@@ -3601,6 +3601,10 @@ static bool load_ruleset_terrain(struct section_file *file,
                                                                 "%s.disappearance_chance",
                                                                 section);
 
+      pextra->no_aggr_near_city = secfile_lookup_int_default(file, -1,
+                                                             "%s.no_aggr_near_city",
+                                                             section);
+
       slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", section);
       BV_CLR_ALL(pextra->native_to);
       for (j = 0; j < nval; j++) {
@@ -3628,22 +3632,38 @@ static bool load_ruleset_terrain(struct section_file *file,
       BV_CLR_ALL(pextra->flags);
       for (j = 0; j < nval; j++) {
         const char *sval = slist[j];
-        enum extra_flag_id flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+        enum extra_flag_id flag;
 
-        if (!extra_flag_id_is_valid(flag)) {
-          ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
-                        filename,
-                        extra_rule_name(pextra),
-                        sval);
-          ok = FALSE;
-          break;
+        if (compat->compat_mode && !fc_strcasecmp("NoAggressive", sval)) {
+          if (pextra->no_aggr_near_city >= 0) {
+            ruleset_error(LOG_ERROR,
+                          "\"%s\" extra \"%s\" has both no_aggr_near_city set and old style "
+                          "NoAggressive flag",
+                          filename, extra_rule_name(pextra));
+            ok = FALSE;
+            break;
+          }
+          /* Old NoAggressive flag meant distance of 3. */
+          pextra->no_aggr_near_city = 3;
         } else {
-          BV_SET(pextra->flags, flag);
+
+          flag = extra_flag_id_by_name(sval, fc_strcasecmp);
+
+          if (!extra_flag_id_is_valid(flag)) {
+            ruleset_error(LOG_ERROR, "\"%s\" extra \"%s\": unknown flag \"%s\".",
+                          filename,
+                          extra_rule_name(pextra),
+                          sval);
+            ok = FALSE;
+            break;
+          } else {
+            BV_SET(pextra->flags, flag);
+          }
         }
       }
       free(slist);
 
-      if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
+      if (pextra->no_aggr_near_city >= 0) {
         extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
       }
 
@@ -8020,6 +8040,7 @@ static void send_ruleset_extras(struct conn_list *dest)
     packet.infracost = e->infracost;
     packet.defense_bonus = e->defense_bonus;
     packet.eus = e->eus;
+    packet.no_aggr_near_city = e->no_aggr_near_city;
 
     packet.native_to = e->native_to;
 

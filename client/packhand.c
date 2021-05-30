@@ -4022,6 +4022,8 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
     }
   }
 
+  pextra->no_aggr_near_city = p->no_aggr_near_city;
+
   pextra->eus = p->eus;
   if (pextra->eus == EUS_HIDDEN) {
     extra_type_list_append(extra_type_list_of_unit_hiders(), pextra);
@@ -4030,7 +4032,7 @@ void handle_ruleset_extra(const struct packet_ruleset_extra *p)
   pextra->native_to = p->native_to;
 
   pextra->flags = p->flags;
-  if (extra_has_flag(pextra, EF_NOT_AGGRESSIVE)) {
+  if (pextra->no_aggr_near_city >= 0) {
     extra_to_caused_by_list(pextra, EC_NOT_AGGRESSIVE);
   }
   pextra->hidden_by = p->hidden_by;

@@ -1749,6 +1749,7 @@ PACKET_RULESET_EXTRA = 232; sc, lsend
   BV_EXTRAS hidden_by;
   BV_EXTRAS bridged_over;
   BV_EXTRAS conflicts;
+  SINT8 no_aggr_near_city;
   STRVEC helptext[MAX_LEN_PACKET];
 end
 

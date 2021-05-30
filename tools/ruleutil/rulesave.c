@@ -2599,6 +2599,11 @@ static bool save_terrain_ruleset(const char *filename, const char *name)
                              "%s.native_to", path);
     }
 
+    if (pextra->no_aggr_near_city >= 0) {
+      secfile_insert_int(sfile, pextra->no_aggr_near_city,
+                         "%s.no_aggr_near_city", path);
+    }
+
     set_count = 0;
     for (flagi = 0; flagi < EF_COUNT; flagi++) {
       if (extra_has_flag(pextra, flagi)) {

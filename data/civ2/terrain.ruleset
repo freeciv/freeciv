@@ -936,6 +936,8 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           type not to show on UI if both present.
 ; bridged_over            = List of extra types that, if present in tile, will prevent
 ;                           building this extra if can't be bridged over
+; no_aggr_near_city       = When at least zero, units inside are not considered
+;                           aggressive when there`s a friendly city within this distance
 ; flags
 ;   - "NativeTile"        = Native units consider tile native regardless of
 ;                           terrain
@@ -962,8 +964,6 @@ ui_name_base_airbase = _("?gui_type:Build Airforce base")
 ;                           by the 1 + sum of bonuses from the extras on the
 ;                           "Natural" layer.
 ;   - "NoStackDeath"      = Units inside do not die all at once when attacked
-;   - "NoAggressive"      = Units inside are not considered aggressive if
-;                           there`s friendly city within 3 tiles
 ; helptext                = optional help text string; should escape all raw
 ;                           newlines so that xgettext parsing works
 ;
@@ -1170,7 +1170,8 @@ build_time     = 3
 removal_time   = 0
 defense_bonus  = 100
 native_to      = "Land"
-flags          = "NoStackDeath", "NoAggressive"
+no_aggr_near_city = 3
+flags          = "NoStackDeath"
 helptext       = _("\
 Fortresses improve defense for land units outside cities. Among other \
 effects, a land unit remaining in a fortress for a whole turn without \

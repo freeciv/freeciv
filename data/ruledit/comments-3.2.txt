@@ -800,6 +800,8 @@ extras = "\
 ;                           type not to show on UI if both present.\n\
 ; bridged_over            = List of extra types that, if present in tile, will prevent\n\
 ;                           building this extra if can't be bridged over\n\
+; no_aggr_near_city       = When at least zero, units inside are not considered\n\
+;                           aggressive when there`s a friendly city within this distance\n\
 ; flags\n\
 ;   - \"NativeTile\"        = Native units consider tile native regardless of\n\
 ;                           terrain\n\
@@ -826,8 +828,6 @@ extras = "\
 ;                           by the 1 + sum of bonuses from the extras on the\n\
 ;                           \"Natural\" layer.\n\
 ;   - \"NoStackDeath\"      = Units inside do not die all at once when attacked\n\
-;   - \"NoAggressive\"      = Units inside are not considered aggressive if\n\
-;                           there`s friendly city within 3 tiles\n\
 ; helptext                = optional help text string; should escape all raw\n\
 ;                           newlines so that xgettext parsing works\n\
 ;\n\
