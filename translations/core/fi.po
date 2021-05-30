@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-28 16:12+0300\n"
-"PO-Revision-Date: 2021-05-28 16:31+0300\n"
+"POT-Creation-Date: 2021-05-30 16:49+0300\n"
+"PO-Revision-Date: 2021-05-30 16:58+0300\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: None <freeciv-i18n@gna.org>\n"
 "Language: fi\n"
@@ -562,7 +562,7 @@ msgstr ""
 #. TRANS: No full stop after the URL, could cause confusion.
 #: client/agents/cma_core.c:428 client/gui-sdl2/mapview.c:164
 #: server/console.c:72 server/srv_main.c:3159 utility/log.c:566
-#: utility/netintf.c:93 utility/registry_ini.c:785
+#: utility/netintf.c:94 utility/registry_ini.c:785
 #, c-format
 msgid "Please report this message at %s"
 msgstr "Ole hyvä ja ilmoita tästä viestistä osoitteessa %s"
@@ -7028,9 +7028,9 @@ msgstr "kohde"
 msgid "create"
 msgstr "luo"
 
-#: client/gui-gtk-3.0/unitselextradlg.c:129
+#: client/gui-gtk-3.0/unitselextradlg.c:130
 #: client/gui-gtk-3.0/unitselunitdlg.c:93
-#: client/gui-gtk-3.22/unitselextradlg.c:129
+#: client/gui-gtk-3.22/unitselextradlg.c:130
 #: client/gui-gtk-3.22/unitselunitdlg.c:93 client/gui-qt/helpdlg.cpp:166
 msgid "Close"
 msgstr "Sulje"
@@ -7307,8 +7307,8 @@ msgstr "Tallenna"
 
 #: client/gui-qt/citydlg.cpp:1882 common/city.c:85 data/civ1/techs.ruleset:640
 #: data/civ2/techs.ruleset:808 data/classic/techs.ruleset:811
-#: data/sandbox/techs.ruleset:844 data/experimental/techs.ruleset:891
-#: data/civ2civ3/techs.ruleset:837 data/multiplayer/techs.ruleset:816
+#: data/sandbox/techs.ruleset:843 data/experimental/techs.ruleset:891
+#: data/civ2civ3/techs.ruleset:836 data/multiplayer/techs.ruleset:816
 msgid "Trade"
 msgstr "Kauppa"
 
@@ -10885,7 +10885,7 @@ msgstr ""
 #. TRANS: or-list of unit types
 #: client/helpdata.c:1835
 #, c-format
-msgid "* Reduces target's fire power to 1 when attacking %s.\n"
+msgid "* Reduces target's firepower to 1 when attacking %s.\n"
 msgstr "· kun hyökkäyksen kohteena %s, sen tulivoima on vain 1.\n"
 
 #: client/helpdata.c:1847
@@ -20545,9 +20545,9 @@ msgstr ""
 #: data/civ1/buildings.ruleset:739 data/civ1/techs.ruleset:648
 #: data/civ2/buildings.ruleset:1061 data/civ2/techs.ruleset:816
 #: data/classic/buildings.ruleset:1107 data/classic/techs.ruleset:819
-#: data/sandbox/buildings.ruleset:1287 data/sandbox/techs.ruleset:855
+#: data/sandbox/buildings.ruleset:1287 data/sandbox/techs.ruleset:854
 #: data/experimental/buildings.ruleset:1168 data/experimental/techs.ruleset:900
-#: data/civ2civ3/buildings.ruleset:1284 data/civ2civ3/techs.ruleset:848
+#: data/civ2civ3/buildings.ruleset:1284 data/civ2civ3/techs.ruleset:847
 #: data/multiplayer/buildings.ruleset:1082 data/multiplayer/techs.ruleset:824
 msgid "University"
 msgstr "Yliopisto"
@@ -21167,10 +21167,10 @@ msgstr ""
 #: data/civ1/governments.ruleset:107 data/civ1/techs.ruleset:450
 #: data/civ2/governments.ruleset:105 data/civ2/techs.ruleset:546
 #: data/classic/governments.ruleset:105 data/classic/techs.ruleset:543
-#: data/sandbox/governments.ruleset:178 data/sandbox/techs.ruleset:560
+#: data/sandbox/governments.ruleset:178 data/sandbox/techs.ruleset:559
 #: data/experimental/governments.ruleset:109
 #: data/experimental/techs.ruleset:591 data/civ2civ3/governments.ruleset:178
-#: data/civ2civ3/techs.ruleset:555 data/multiplayer/governments.ruleset:105
+#: data/civ2civ3/techs.ruleset:554 data/multiplayer/governments.ruleset:105
 #: data/multiplayer/techs.ruleset:551
 msgid "Monarchy"
 msgstr "Monarkia"
@@ -21270,31 +21270,31 @@ msgstr ""
 "kohtuullisessa määrin."
 
 #: data/civ1/governments.ruleset:153 data/civ2/governments.ruleset:179
-#: data/classic/governments.ruleset:151 data/sandbox/governments.ruleset:335
+#: data/classic/governments.ruleset:151 data/sandbox/governments.ruleset:336
 #: data/experimental/governments.ruleset:155
-#: data/civ2civ3/governments.ruleset:334
+#: data/civ2civ3/governments.ruleset:335
 #: data/multiplayer/governments.ruleset:151
 msgid "Republic"
 msgstr "Tasavalta"
 
 #: data/civ1/governments.ruleset:160 data/civ2/governments.ruleset:186
-#: data/sandbox/governments.ruleset:306 data/civ2civ3/governments.ruleset:305
+#: data/sandbox/governments.ruleset:307 data/civ2civ3/governments.ruleset:306
 #: data/nation/byzantium.ruleset:32 data/nation/roman.ruleset:53
 #, c-format
 msgid "Consul %s"
 msgstr "Konsuli %s"
 
 #: data/civ1/governments.ruleset:161 data/civ2/governments.ruleset:187
-#: data/sandbox/governments.ruleset:307 data/civ2civ3/governments.ruleset:306
+#: data/sandbox/governments.ruleset:308 data/civ2civ3/governments.ruleset:307
 #: data/nation/byzantium.ruleset:32 data/nation/roman.ruleset:53
 #, c-format
 msgid "?female:Consul %s"
 msgstr "Konsuli %s"
 
 #: data/civ1/governments.ruleset:163 data/civ2/governments.ruleset:189
-#: data/classic/governments.ruleset:161 data/sandbox/governments.ruleset:345
+#: data/classic/governments.ruleset:161 data/sandbox/governments.ruleset:346
 #: data/experimental/governments.ruleset:165
-#: data/civ2civ3/governments.ruleset:344
+#: data/civ2civ3/governments.ruleset:345
 #: data/multiplayer/governments.ruleset:161
 msgid ""
 "Under a Republican government, citizens hold an election to select a "
@@ -21312,27 +21312,27 @@ msgstr ""
 #: data/civ1/governments.ruleset:175 data/civ1/techs.ruleset:263
 #: data/civ2/governments.ruleset:201 data/civ2/techs.ruleset:280
 #: data/classic/governments.ruleset:173 data/classic/techs.ruleset:283
-#: data/sandbox/governments.ruleset:374 data/sandbox/techs.ruleset:286
+#: data/sandbox/governments.ruleset:375 data/sandbox/techs.ruleset:285
 #: data/experimental/governments.ruleset:177
-#: data/experimental/techs.ruleset:302 data/civ2civ3/governments.ruleset:372
-#: data/civ2civ3/techs.ruleset:285 data/alien/governments.ruleset:121
+#: data/experimental/techs.ruleset:302 data/civ2civ3/governments.ruleset:373
+#: data/civ2civ3/techs.ruleset:284 data/alien/governments.ruleset:121
 #: data/multiplayer/governments.ruleset:173 data/multiplayer/techs.ruleset:283
 msgid "Democracy"
 msgstr "Demokratia"
 
 #: data/civ1/governments.ruleset:182 data/civ2/governments.ruleset:208
-#: data/classic/governments.ruleset:158 data/sandbox/governments.ruleset:342
+#: data/classic/governments.ruleset:158 data/sandbox/governments.ruleset:343
 #: data/experimental/governments.ruleset:162
-#: data/civ2civ3/governments.ruleset:341 data/alien/governments.ruleset:129
+#: data/civ2civ3/governments.ruleset:342 data/alien/governments.ruleset:129
 #: data/alien/governments.ruleset:171 data/multiplayer/governments.ruleset:158
 #, c-format
 msgid "President %s"
 msgstr "Presidentti %s"
 
 #: data/civ1/governments.ruleset:183 data/civ2/governments.ruleset:209
-#: data/classic/governments.ruleset:159 data/sandbox/governments.ruleset:343
+#: data/classic/governments.ruleset:159 data/sandbox/governments.ruleset:344
 #: data/experimental/governments.ruleset:163
-#: data/civ2civ3/governments.ruleset:342 data/alien/governments.ruleset:130
+#: data/civ2civ3/governments.ruleset:343 data/alien/governments.ruleset:130
 #: data/alien/governments.ruleset:172 data/multiplayer/governments.ruleset:159
 #, c-format
 msgid "?female:President %s"
@@ -21603,9 +21603,9 @@ msgstr ""
 #: data/civ2/nations.ruleset:771 data/civ2/nations.ruleset:1170
 #: data/civ2/nations.ruleset:1424 data/civ2/nations.ruleset:1936
 #: data/civ2/nations.ruleset:2010 data/classic/governments.ruleset:180
-#: data/sandbox/governments.ruleset:381
+#: data/sandbox/governments.ruleset:382
 #: data/experimental/governments.ruleset:184
-#: data/civ2civ3/governments.ruleset:379
+#: data/civ2civ3/governments.ruleset:380
 #: data/multiplayer/governments.ruleset:180
 #, c-format
 msgid "Prime Minister %s"
@@ -21615,9 +21615,9 @@ msgstr "Pääministeri %s"
 #: data/civ2/nations.ruleset:771 data/civ2/nations.ruleset:1170
 #: data/civ2/nations.ruleset:1424 data/civ2/nations.ruleset:1936
 #: data/civ2/nations.ruleset:2010 data/classic/governments.ruleset:181
-#: data/sandbox/governments.ruleset:382
+#: data/sandbox/governments.ruleset:383
 #: data/experimental/governments.ruleset:185
-#: data/civ2civ3/governments.ruleset:380
+#: data/civ2civ3/governments.ruleset:381
 #: data/multiplayer/governments.ruleset:181
 #, c-format
 msgid "?female:Prime Minister %s"
@@ -22296,22 +22296,22 @@ msgid "Combustion"
 msgstr "Polttomoottori"
 
 #: data/civ1/techs.ruleset:230 data/civ2/techs.ruleset:247
-#: data/classic/techs.ruleset:247 data/sandbox/techs.ruleset:250
-#: data/experimental/techs.ruleset:262 data/civ2civ3/techs.ruleset:249
+#: data/classic/techs.ruleset:247 data/sandbox/techs.ruleset:249
+#: data/experimental/techs.ruleset:262 data/civ2civ3/techs.ruleset:248
 #: data/multiplayer/techs.ruleset:247
 msgid "Computers"
 msgstr "Tietokone"
 
 #: data/civ1/techs.ruleset:238 data/civ2/techs.ruleset:255
-#: data/classic/techs.ruleset:255 data/sandbox/techs.ruleset:258
-#: data/experimental/techs.ruleset:271 data/civ2civ3/techs.ruleset:257
+#: data/classic/techs.ruleset:255 data/sandbox/techs.ruleset:257
+#: data/experimental/techs.ruleset:271 data/civ2civ3/techs.ruleset:256
 #: data/multiplayer/techs.ruleset:255
 msgid "Conscription"
 msgstr "Asevelvollisuus"
 
 #: data/civ1/techs.ruleset:246 data/civ2/techs.ruleset:263
-#: data/classic/techs.ruleset:263 data/sandbox/techs.ruleset:266
-#: data/experimental/techs.ruleset:280 data/civ2civ3/techs.ruleset:265
+#: data/classic/techs.ruleset:263 data/sandbox/techs.ruleset:265
+#: data/experimental/techs.ruleset:280 data/civ2civ3/techs.ruleset:264
 #: data/multiplayer/techs.ruleset:263
 msgid "Construction"
 msgstr "Rakennustaito"
@@ -22321,50 +22321,50 @@ msgid "Allows Settlers to build fortresses."
 msgstr "Sallii työläisten rakentaa linnakkeita."
 
 #: data/civ1/techs.ruleset:255 data/civ2/techs.ruleset:272
-#: data/classic/techs.ruleset:275 data/sandbox/techs.ruleset:278
-#: data/experimental/techs.ruleset:293 data/civ2civ3/techs.ruleset:277
+#: data/classic/techs.ruleset:275 data/sandbox/techs.ruleset:277
+#: data/experimental/techs.ruleset:293 data/civ2civ3/techs.ruleset:276
 #: data/multiplayer/techs.ruleset:275
 msgid "Currency"
 msgstr "Rahajärjestelmä"
 
 #: data/civ1/techs.ruleset:271 data/civ2/techs.ruleset:296
-#: data/classic/techs.ruleset:299 data/sandbox/techs.ruleset:302
-#: data/experimental/techs.ruleset:320 data/civ2civ3/techs.ruleset:301
+#: data/classic/techs.ruleset:299 data/sandbox/techs.ruleset:301
+#: data/experimental/techs.ruleset:320 data/civ2civ3/techs.ruleset:300
 #: data/multiplayer/techs.ruleset:299
 msgid "Electricity"
 msgstr "Sähkö"
 
 #: data/civ1/techs.ruleset:279 data/civ2/techs.ruleset:305
-#: data/classic/techs.ruleset:308 data/sandbox/techs.ruleset:316
-#: data/experimental/techs.ruleset:330 data/civ2civ3/techs.ruleset:313
+#: data/classic/techs.ruleset:308 data/sandbox/techs.ruleset:315
+#: data/experimental/techs.ruleset:330 data/civ2civ3/techs.ruleset:312
 #: data/multiplayer/techs.ruleset:308
 msgid "Electronics"
 msgstr "Elektroniikka"
 
 #: data/civ1/techs.ruleset:287 data/civ2/techs.ruleset:313
-#: data/classic/techs.ruleset:316 data/sandbox/techs.ruleset:324
-#: data/experimental/techs.ruleset:339 data/civ2civ3/techs.ruleset:321
+#: data/classic/techs.ruleset:316 data/sandbox/techs.ruleset:323
+#: data/experimental/techs.ruleset:339 data/civ2civ3/techs.ruleset:320
 #: data/multiplayer/techs.ruleset:316
 msgid "Engineering"
 msgstr "Tekniikka"
 
 #: data/civ1/techs.ruleset:295 data/civ2/techs.ruleset:337
-#: data/classic/techs.ruleset:340 data/sandbox/techs.ruleset:348
-#: data/experimental/techs.ruleset:366 data/civ2civ3/techs.ruleset:345
+#: data/classic/techs.ruleset:340 data/sandbox/techs.ruleset:347
+#: data/experimental/techs.ruleset:366 data/civ2civ3/techs.ruleset:344
 #: data/multiplayer/techs.ruleset:342
 msgid "Explosives"
 msgstr "Räjähteet"
 
 #: data/civ1/techs.ruleset:303 data/civ2/techs.ruleset:345
-#: data/classic/techs.ruleset:348 data/sandbox/techs.ruleset:356
-#: data/experimental/techs.ruleset:375 data/civ2civ3/techs.ruleset:353
+#: data/classic/techs.ruleset:348 data/sandbox/techs.ruleset:355
+#: data/experimental/techs.ruleset:375 data/civ2civ3/techs.ruleset:352
 #: data/multiplayer/techs.ruleset:350
 msgid "Feudalism"
 msgstr "Feodalismi"
 
 #: data/civ1/techs.ruleset:311 data/civ2/techs.ruleset:353
-#: data/classic/techs.ruleset:356 data/sandbox/techs.ruleset:364
-#: data/experimental/techs.ruleset:384 data/civ2civ3/techs.ruleset:361
+#: data/classic/techs.ruleset:356 data/sandbox/techs.ruleset:363
+#: data/experimental/techs.ruleset:384 data/civ2civ3/techs.ruleset:360
 #: data/multiplayer/techs.ruleset:358
 msgid "Flight"
 msgstr "Lentokone"
@@ -22377,36 +22377,36 @@ msgid "Decreases one-time revenue from new trade routes."
 msgstr "Vähentää uusien kauppareittien avaamisesta saatavaa tuloa."
 
 #: data/civ1/techs.ruleset:320 data/civ2/techs.ruleset:370
-#: data/classic/techs.ruleset:365 data/sandbox/techs.ruleset:373
-#: data/experimental/techs.ruleset:394 data/civ2civ3/techs.ruleset:369
+#: data/classic/techs.ruleset:365 data/sandbox/techs.ruleset:372
+#: data/experimental/techs.ruleset:394 data/civ2civ3/techs.ruleset:368
 #: data/multiplayer/techs.ruleset:374
 msgid "Fusion Power"
 msgstr "Fuusiovoima"
 
 #: data/civ1/techs.ruleset:328 data/civ2/techs.ruleset:378
-#: data/classic/techs.ruleset:373 data/sandbox/techs.ruleset:383
-#: data/experimental/techs.ruleset:403 data/civ2civ3/techs.ruleset:378
+#: data/classic/techs.ruleset:373 data/sandbox/techs.ruleset:382
+#: data/experimental/techs.ruleset:403 data/civ2civ3/techs.ruleset:377
 #: data/multiplayer/techs.ruleset:382
 msgid "Genetic Engineering"
 msgstr "Geenisuunnittelu"
 
 #: data/civ1/techs.ruleset:336 data/civ2/techs.ruleset:394
-#: data/classic/techs.ruleset:389 data/sandbox/techs.ruleset:399
-#: data/experimental/techs.ruleset:421 data/civ2civ3/techs.ruleset:394
+#: data/classic/techs.ruleset:389 data/sandbox/techs.ruleset:398
+#: data/experimental/techs.ruleset:421 data/civ2civ3/techs.ruleset:393
 #: data/multiplayer/techs.ruleset:398
 msgid "Gunpowder"
 msgstr "Ruuti"
 
 #: data/civ1/techs.ruleset:344 data/civ2/techs.ruleset:402
-#: data/classic/techs.ruleset:397 data/sandbox/techs.ruleset:406
-#: data/experimental/techs.ruleset:430 data/civ2civ3/techs.ruleset:401
+#: data/classic/techs.ruleset:397 data/sandbox/techs.ruleset:405
+#: data/experimental/techs.ruleset:430 data/civ2civ3/techs.ruleset:400
 #: data/multiplayer/techs.ruleset:406
 msgid "Horseback Riding"
 msgstr "Ratsastaminen"
 
 #: data/civ1/techs.ruleset:352 data/civ2/techs.ruleset:410
-#: data/classic/techs.ruleset:405 data/sandbox/techs.ruleset:414
-#: data/experimental/techs.ruleset:438 data/civ2civ3/techs.ruleset:409
+#: data/classic/techs.ruleset:405 data/sandbox/techs.ruleset:413
+#: data/experimental/techs.ruleset:438 data/civ2civ3/techs.ruleset:408
 #: data/multiplayer/techs.ruleset:414
 msgid "Industrialization"
 msgstr "Teollistuminen"
@@ -22418,71 +22418,71 @@ msgid "Population will start contributing to pollution."
 msgstr "Väkiluku alkaa vaikuttaa saasteiden määrään."
 
 #: data/civ1/techs.ruleset:360 data/civ2/techs.ruleset:418
-#: data/classic/techs.ruleset:413 data/sandbox/techs.ruleset:421
-#: data/experimental/techs.ruleset:447 data/civ2civ3/techs.ruleset:416
+#: data/classic/techs.ruleset:413 data/sandbox/techs.ruleset:420
+#: data/experimental/techs.ruleset:447 data/civ2civ3/techs.ruleset:415
 #: data/multiplayer/techs.ruleset:422
 msgid "Invention"
 msgstr "Keksintötoiminta"
 
 #: data/civ1/techs.ruleset:368 data/civ2/techs.ruleset:426
-#: data/classic/techs.ruleset:422 data/sandbox/techs.ruleset:430
-#: data/experimental/techs.ruleset:457 data/civ2civ3/techs.ruleset:425
+#: data/classic/techs.ruleset:422 data/sandbox/techs.ruleset:429
+#: data/experimental/techs.ruleset:457 data/civ2civ3/techs.ruleset:424
 #: data/multiplayer/techs.ruleset:431
 msgid "Iron Working"
 msgstr "Rauta"
 
 #: data/civ1/techs.ruleset:376 data/civ2/techs.ruleset:434
-#: data/classic/techs.ruleset:430 data/sandbox/techs.ruleset:438
-#: data/experimental/techs.ruleset:466 data/civ2civ3/techs.ruleset:433
+#: data/classic/techs.ruleset:430 data/sandbox/techs.ruleset:437
+#: data/experimental/techs.ruleset:466 data/civ2civ3/techs.ruleset:432
 #: data/multiplayer/techs.ruleset:439
 msgid "Labor Union"
 msgstr "Ammattiyhdistys"
 
 #: data/civ1/techs.ruleset:384 data/civ2/techs.ruleset:458
-#: data/classic/techs.ruleset:454 data/sandbox/techs.ruleset:462
-#: data/experimental/techs.ruleset:493 data/civ2civ3/techs.ruleset:457
+#: data/classic/techs.ruleset:454 data/sandbox/techs.ruleset:461
+#: data/experimental/techs.ruleset:493 data/civ2civ3/techs.ruleset:456
 #: data/multiplayer/techs.ruleset:463
 msgid "Literacy"
 msgstr "Kirjallisuus"
 
 #: data/civ1/techs.ruleset:392 data/civ2/techs.ruleset:474
-#: data/classic/techs.ruleset:470 data/sandbox/techs.ruleset:478
-#: data/experimental/techs.ruleset:511 data/civ2civ3/techs.ruleset:473
+#: data/classic/techs.ruleset:470 data/sandbox/techs.ruleset:477
+#: data/experimental/techs.ruleset:511 data/civ2civ3/techs.ruleset:472
 #: data/multiplayer/techs.ruleset:479
 msgid "Magnetism"
 msgstr "Magnetismi"
 
 #: data/civ1/techs.ruleset:400 data/civ2/techs.ruleset:482
-#: data/classic/techs.ruleset:479 data/sandbox/techs.ruleset:486
-#: data/experimental/techs.ruleset:520 data/civ2civ3/techs.ruleset:481
+#: data/classic/techs.ruleset:479 data/sandbox/techs.ruleset:485
+#: data/experimental/techs.ruleset:520 data/civ2civ3/techs.ruleset:480
 #: data/multiplayer/techs.ruleset:487
 msgid "Map Making"
 msgstr "Kartoittaminen"
 
 #: data/civ1/techs.ruleset:408 data/civ2/techs.ruleset:490
-#: data/classic/techs.ruleset:487 data/sandbox/techs.ruleset:494
-#: data/experimental/techs.ruleset:529 data/civ2civ3/techs.ruleset:489
+#: data/classic/techs.ruleset:487 data/sandbox/techs.ruleset:493
+#: data/experimental/techs.ruleset:529 data/civ2civ3/techs.ruleset:488
 #: data/multiplayer/techs.ruleset:495
 msgid "Masonry"
 msgstr "Muuraus"
 
 #: data/civ1/techs.ruleset:416 data/civ2/techs.ruleset:498
-#: data/classic/techs.ruleset:495 data/sandbox/techs.ruleset:502
-#: data/experimental/techs.ruleset:537 data/civ2civ3/techs.ruleset:497
+#: data/classic/techs.ruleset:495 data/sandbox/techs.ruleset:501
+#: data/experimental/techs.ruleset:537 data/civ2civ3/techs.ruleset:496
 #: data/multiplayer/techs.ruleset:503
 msgid "Mass Production"
 msgstr "Massatuotanto"
 
 #: data/civ1/techs.ruleset:424 data/civ2/techs.ruleset:506
-#: data/classic/techs.ruleset:503 data/sandbox/techs.ruleset:510
-#: data/experimental/techs.ruleset:546 data/civ2civ3/techs.ruleset:505
+#: data/classic/techs.ruleset:503 data/sandbox/techs.ruleset:509
+#: data/experimental/techs.ruleset:546 data/civ2civ3/techs.ruleset:504
 #: data/multiplayer/techs.ruleset:511
 msgid "Mathematics"
 msgstr "Matematiikka"
 
 #: data/civ1/techs.ruleset:432 data/civ2/techs.ruleset:514
-#: data/classic/techs.ruleset:511 data/sandbox/techs.ruleset:518
-#: data/experimental/techs.ruleset:555 data/civ2civ3/techs.ruleset:513
+#: data/classic/techs.ruleset:511 data/sandbox/techs.ruleset:517
+#: data/experimental/techs.ruleset:555 data/civ2civ3/techs.ruleset:512
 #: data/multiplayer/techs.ruleset:519
 msgid "Medicine"
 msgstr "Lääketiede"
@@ -22492,78 +22492,78 @@ msgid "Eliminates the risk of population loss from plague in all your cities."
 msgstr "Suojaa väestön vähenemiseltä ruton johdosta kaikissa kaupungeissasi."
 
 #: data/civ1/techs.ruleset:442 data/civ2/techs.ruleset:522
-#: data/classic/techs.ruleset:519 data/sandbox/techs.ruleset:531
-#: data/experimental/techs.ruleset:564 data/civ2civ3/techs.ruleset:526
+#: data/classic/techs.ruleset:519 data/sandbox/techs.ruleset:530
+#: data/experimental/techs.ruleset:564 data/civ2civ3/techs.ruleset:525
 #: data/multiplayer/techs.ruleset:527
 msgid "Metallurgy"
 msgstr "Metallurgia"
 
 #: data/civ1/techs.ruleset:458 data/civ2/techs.ruleset:562
-#: data/classic/techs.ruleset:559 data/sandbox/techs.ruleset:576
-#: data/experimental/techs.ruleset:609 data/civ2civ3/techs.ruleset:571
+#: data/classic/techs.ruleset:559 data/sandbox/techs.ruleset:575
+#: data/experimental/techs.ruleset:609 data/civ2civ3/techs.ruleset:570
 #: data/multiplayer/techs.ruleset:567
 msgid "Mysticism"
 msgstr "Mystiikka"
 
 #: data/civ1/techs.ruleset:464 data/civ2/techs.ruleset:568
-#: data/classic/techs.ruleset:565 data/sandbox/techs.ruleset:582
-#: data/experimental/techs.ruleset:616 data/civ2civ3/techs.ruleset:577
+#: data/classic/techs.ruleset:565 data/sandbox/techs.ruleset:581
+#: data/experimental/techs.ruleset:616 data/civ2civ3/techs.ruleset:576
 #: data/multiplayer/techs.ruleset:573
 msgid "Improves the effect of Temples."
 msgstr "Lisää temppelien vaikutusta."
 
 #: data/civ1/techs.ruleset:467 data/civ2/techs.ruleset:571
-#: data/classic/techs.ruleset:568 data/sandbox/techs.ruleset:585
-#: data/experimental/techs.ruleset:619 data/civ2civ3/techs.ruleset:580
+#: data/classic/techs.ruleset:568 data/sandbox/techs.ruleset:584
+#: data/experimental/techs.ruleset:619 data/civ2civ3/techs.ruleset:579
 #: data/multiplayer/techs.ruleset:576
 msgid "Navigation"
 msgstr "Navigointi"
 
 #: data/civ1/techs.ruleset:475 data/civ2/techs.ruleset:579
-#: data/classic/techs.ruleset:576 data/sandbox/techs.ruleset:593
-#: data/experimental/techs.ruleset:628 data/civ2civ3/techs.ruleset:588
+#: data/classic/techs.ruleset:576 data/sandbox/techs.ruleset:592
+#: data/experimental/techs.ruleset:628 data/civ2civ3/techs.ruleset:587
 #: data/multiplayer/techs.ruleset:584
 msgid "Nuclear Fission"
 msgstr "Ydinreaktio"
 
 #: data/civ1/techs.ruleset:483 data/civ2/techs.ruleset:587
-#: data/classic/techs.ruleset:584 data/sandbox/techs.ruleset:601
-#: data/experimental/techs.ruleset:637 data/civ2civ3/techs.ruleset:596
+#: data/classic/techs.ruleset:584 data/sandbox/techs.ruleset:600
+#: data/experimental/techs.ruleset:637 data/civ2civ3/techs.ruleset:595
 #: data/multiplayer/techs.ruleset:592
 msgid "Nuclear Power"
 msgstr "Ydinvoima"
 
 #: data/civ1/techs.ruleset:491 data/civ2/techs.ruleset:596
-#: data/classic/techs.ruleset:593 data/sandbox/techs.ruleset:610
-#: data/experimental/techs.ruleset:647 data/civ2civ3/techs.ruleset:605
+#: data/classic/techs.ruleset:593 data/sandbox/techs.ruleset:609
+#: data/experimental/techs.ruleset:647 data/civ2civ3/techs.ruleset:604
 #: data/multiplayer/techs.ruleset:601
 msgid "Philosophy"
 msgstr "Filosofia"
 
 #: data/civ1/techs.ruleset:499 data/civ2/techs.ruleset:606
-#: data/classic/techs.ruleset:603 data/sandbox/techs.ruleset:620
-#: data/experimental/techs.ruleset:658 data/civ2civ3/techs.ruleset:615
+#: data/classic/techs.ruleset:603 data/sandbox/techs.ruleset:619
+#: data/experimental/techs.ruleset:658 data/civ2civ3/techs.ruleset:614
 #: data/multiplayer/techs.ruleset:611
 msgid "Physics"
 msgstr "Fysiikka"
 
 #: data/civ1/techs.ruleset:507 data/civ2/techs.ruleset:614
-#: data/classic/techs.ruleset:611 data/sandbox/techs.ruleset:628
-#: data/experimental/techs.ruleset:667 data/civ2civ3/techs.ruleset:623
+#: data/classic/techs.ruleset:611 data/sandbox/techs.ruleset:627
+#: data/experimental/techs.ruleset:667 data/civ2civ3/techs.ruleset:622
 #: data/multiplayer/techs.ruleset:619
 msgid "Plastics"
 msgstr "Muovi"
 
 #: data/civ1/techs.ruleset:515 data/civ2/techs.ruleset:630
-#: data/classic/techs.ruleset:627 data/sandbox/techs.ruleset:644
-#: data/experimental/techs.ruleset:685 data/civ2civ3/techs.ruleset:639
+#: data/classic/techs.ruleset:627 data/sandbox/techs.ruleset:643
+#: data/experimental/techs.ruleset:685 data/civ2civ3/techs.ruleset:638
 #: data/multiplayer/techs.ruleset:635
 msgid "Pottery"
 msgstr "Keramiikka"
 
 #: data/civ1/techs.ruleset:523 data/civ2/techs.ruleset:647
-#: data/classic/techs.ruleset:644 data/sandbox/techs.ruleset:663
-#: data/experimental/techs.ruleset:703 data/civ2civ3/techs.ruleset:658
+#: data/classic/techs.ruleset:644 data/sandbox/techs.ruleset:662
+#: data/experimental/techs.ruleset:703 data/civ2civ3/techs.ruleset:657
 #: data/multiplayer/techs.ruleset:652
 msgid "?tech:Railroad"
 msgstr "Rautatiet"
@@ -22573,8 +22573,8 @@ msgid "Allows Settlers to upgrade roads to railroads."
 msgstr "Sallii uudisasukkaiden parantaa tiet rautateiksi."
 
 #: data/civ1/techs.ruleset:536 data/civ2/techs.ruleset:660
-#: data/classic/techs.ruleset:657 data/sandbox/techs.ruleset:681
-#: data/experimental/techs.ruleset:717 data/civ2civ3/techs.ruleset:674
+#: data/classic/techs.ruleset:657 data/sandbox/techs.ruleset:680
+#: data/experimental/techs.ruleset:717 data/civ2civ3/techs.ruleset:673
 #: data/multiplayer/techs.ruleset:663
 msgid "Recycling"
 msgstr "Kierrätys"
@@ -22582,8 +22582,8 @@ msgstr "Kierrätys"
 # "Öljyn" causes problems in alphabetisation, but I couldn't
 # avoid it. --Juhani
 #: data/civ1/techs.ruleset:544 data/civ2/techs.ruleset:668
-#: data/classic/techs.ruleset:665 data/sandbox/techs.ruleset:689
-#: data/experimental/techs.ruleset:726 data/civ2civ3/techs.ruleset:682
+#: data/classic/techs.ruleset:665 data/sandbox/techs.ruleset:688
+#: data/experimental/techs.ruleset:726 data/civ2civ3/techs.ruleset:681
 #: data/multiplayer/techs.ruleset:671
 msgid "Refining"
 msgstr "Öljynjalostus"
@@ -22593,78 +22593,78 @@ msgid "Religion"
 msgstr "Uskonto"
 
 #: data/civ1/techs.ruleset:560 data/civ2/techs.ruleset:687
-#: data/classic/techs.ruleset:689 data/sandbox/techs.ruleset:714
-#: data/experimental/techs.ruleset:752 data/civ2civ3/techs.ruleset:707
+#: data/classic/techs.ruleset:689 data/sandbox/techs.ruleset:713
+#: data/experimental/techs.ruleset:752 data/civ2civ3/techs.ruleset:706
 #: data/multiplayer/techs.ruleset:695
 msgid "Robotics"
 msgstr "Robotti"
 
 #: data/civ1/techs.ruleset:568 data/civ2/techs.ruleset:695
-#: data/classic/techs.ruleset:697 data/sandbox/techs.ruleset:722
-#: data/experimental/techs.ruleset:761 data/civ2civ3/techs.ruleset:715
+#: data/classic/techs.ruleset:697 data/sandbox/techs.ruleset:721
+#: data/experimental/techs.ruleset:761 data/civ2civ3/techs.ruleset:714
 #: data/multiplayer/techs.ruleset:703
 msgid "Rocketry"
 msgstr "Rakettitiede"
 
 #: data/civ1/techs.ruleset:576 data/civ2/techs.ruleset:719
-#: data/classic/techs.ruleset:721 data/sandbox/techs.ruleset:747
-#: data/experimental/techs.ruleset:788 data/civ2civ3/techs.ruleset:740
+#: data/classic/techs.ruleset:721 data/sandbox/techs.ruleset:746
+#: data/experimental/techs.ruleset:788 data/civ2civ3/techs.ruleset:739
 #: data/multiplayer/techs.ruleset:727
 msgid "Space Flight"
 msgstr "Avaruuslento"
 
 #: data/civ1/techs.ruleset:584 data/civ2/techs.ruleset:735
-#: data/classic/techs.ruleset:737 data/sandbox/techs.ruleset:763
-#: data/experimental/techs.ruleset:806 data/civ2civ3/techs.ruleset:756
+#: data/classic/techs.ruleset:737 data/sandbox/techs.ruleset:762
+#: data/experimental/techs.ruleset:806 data/civ2civ3/techs.ruleset:755
 #: data/multiplayer/techs.ruleset:743
 msgid "Steam Engine"
 msgstr "Höyrykone"
 
 #: data/civ1/techs.ruleset:592 data/civ2/techs.ruleset:743
-#: data/classic/techs.ruleset:745 data/sandbox/techs.ruleset:771
-#: data/experimental/techs.ruleset:815 data/civ2civ3/techs.ruleset:764
+#: data/classic/techs.ruleset:745 data/sandbox/techs.ruleset:770
+#: data/experimental/techs.ruleset:815 data/civ2civ3/techs.ruleset:763
 #: data/multiplayer/techs.ruleset:751
 msgid "Steel"
 msgstr "Teräs"
 
 #: data/civ1/techs.ruleset:600 data/civ2/techs.ruleset:751
-#: data/classic/techs.ruleset:753 data/sandbox/techs.ruleset:779
-#: data/experimental/techs.ruleset:824 data/civ2civ3/techs.ruleset:772
+#: data/classic/techs.ruleset:753 data/sandbox/techs.ruleset:778
+#: data/experimental/techs.ruleset:824 data/civ2civ3/techs.ruleset:771
 #: data/multiplayer/techs.ruleset:759
 msgid "Superconductors"
 msgstr "Suprajohteet"
 
 #: data/civ1/techs.ruleset:608 data/civ2/techs.ruleset:767
-#: data/classic/techs.ruleset:769 data/sandbox/techs.ruleset:799
-#: data/experimental/techs.ruleset:845 data/civ2civ3/techs.ruleset:792
+#: data/classic/techs.ruleset:769 data/sandbox/techs.ruleset:798
+#: data/experimental/techs.ruleset:845 data/civ2civ3/techs.ruleset:791
 #: data/multiplayer/techs.ruleset:775
 msgid "The Corporation"
 msgstr "Osakeyhtiö"
 
 #: data/civ1/techs.ruleset:616 data/civ2/techs.ruleset:775
-#: data/classic/techs.ruleset:778 data/sandbox/techs.ruleset:811
-#: data/experimental/techs.ruleset:854 data/civ2civ3/techs.ruleset:804
+#: data/classic/techs.ruleset:778 data/sandbox/techs.ruleset:810
+#: data/experimental/techs.ruleset:854 data/civ2civ3/techs.ruleset:803
 #: data/multiplayer/techs.ruleset:783
 msgid "The Republic"
 msgstr "Tasavalta"
 
 #: data/civ1/techs.ruleset:624 data/civ2/techs.ruleset:783
-#: data/classic/techs.ruleset:786 data/sandbox/techs.ruleset:819
-#: data/experimental/techs.ruleset:863 data/civ2civ3/techs.ruleset:812
+#: data/classic/techs.ruleset:786 data/sandbox/techs.ruleset:818
+#: data/experimental/techs.ruleset:863 data/civ2civ3/techs.ruleset:811
 #: data/multiplayer/techs.ruleset:791
 msgid "The Wheel"
 msgstr "Pyörä"
 
 #: data/civ1/techs.ruleset:632 data/civ2/techs.ruleset:800
-#: data/classic/techs.ruleset:803 data/sandbox/techs.ruleset:836
-#: data/experimental/techs.ruleset:882 data/civ2civ3/techs.ruleset:829
+#: data/classic/techs.ruleset:803 data/sandbox/techs.ruleset:835
+#: data/experimental/techs.ruleset:882 data/civ2civ3/techs.ruleset:828
 #: data/multiplayer/techs.ruleset:808
 msgid "Theory of Gravity"
 msgstr "Painovoimateoria"
 
 #: data/civ1/techs.ruleset:656 data/civ2/techs.ruleset:832
-#: data/classic/techs.ruleset:835 data/sandbox/techs.ruleset:871
-#: data/experimental/techs.ruleset:917 data/civ2civ3/techs.ruleset:864
+#: data/classic/techs.ruleset:835 data/sandbox/techs.ruleset:870
+#: data/experimental/techs.ruleset:917 data/civ2civ3/techs.ruleset:863
 #: data/multiplayer/techs.ruleset:840
 msgid "Writing"
 msgstr "Kirjoitus"
@@ -24817,27 +24817,27 @@ msgstr ""
 "siitä kohtuullisessa määrin."
 
 #: data/civ2/governments.ruleset:151 data/civ2/techs.ruleset:362
-#: data/sandbox/governments.ruleset:253 data/civ2civ3/governments.ruleset:252
+#: data/sandbox/governments.ruleset:254 data/civ2civ3/governments.ruleset:253
 #: data/multiplayer/governments.ruleset:194 data/multiplayer/techs.ruleset:366
 msgid "Fundamentalism"
 msgstr "Fundamentalismi"
 
-#: data/civ2/governments.ruleset:158 data/sandbox/governments.ruleset:260
-#: data/civ2civ3/governments.ruleset:259
+#: data/civ2/governments.ruleset:158 data/sandbox/governments.ruleset:261
+#: data/civ2civ3/governments.ruleset:260
 #: data/multiplayer/governments.ruleset:201
 #, c-format
 msgid "High Priest %s"
 msgstr "Ylipappi %s"
 
-#: data/civ2/governments.ruleset:159 data/sandbox/governments.ruleset:261
-#: data/civ2civ3/governments.ruleset:260
+#: data/civ2/governments.ruleset:159 data/sandbox/governments.ruleset:262
+#: data/civ2civ3/governments.ruleset:261
 #: data/multiplayer/governments.ruleset:202
 #, c-format
 msgid "High Priestess %s"
 msgstr "Ylipapitar %s"
 
-#: data/civ2/governments.ruleset:161 data/sandbox/governments.ruleset:263
-#: data/civ2civ3/governments.ruleset:262
+#: data/civ2/governments.ruleset:161 data/sandbox/governments.ruleset:264
+#: data/civ2civ3/governments.ruleset:263
 #: data/multiplayer/governments.ruleset:204
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
@@ -24849,8 +24849,8 @@ msgstr ""
 "sekä hallitsijan että kansalaisten toimintaa säätelevän jäykän sääntöjen "
 "verkoston."
 
-#: data/civ2/governments.ruleset:166 data/sandbox/governments.ruleset:268
-#: data/civ2civ3/governments.ruleset:267
+#: data/civ2/governments.ruleset:166 data/sandbox/governments.ruleset:269
+#: data/civ2civ3/governments.ruleset:268
 #: data/multiplayer/governments.ruleset:209
 msgid ""
 "In a fundamentalist society, the people and the rulers are entirely devoted "
@@ -24860,8 +24860,8 @@ msgstr ""
 "omistautuneita uskomuksilleen ja ovat usein valmiita kuolemaan uskonsa "
 "puolesta."
 
-#: data/civ2/governments.ruleset:170 data/sandbox/governments.ruleset:272
-#: data/civ2civ3/governments.ruleset:271
+#: data/civ2/governments.ruleset:170 data/sandbox/governments.ruleset:273
+#: data/civ2civ3/governments.ruleset:272
 #: data/multiplayer/governments.ruleset:213
 msgid ""
 "Improvements that normally convert unhappy citizens to content citizens, "
@@ -25188,8 +25188,7 @@ msgid "Combined Arms"
 msgstr "Helikopteri"
 
 #: data/civ2/techs.ruleset:244 data/classic/techs.ruleset:244
-#: data/sandbox/techs.ruleset:247 data/experimental/techs.ruleset:259
-#: data/civ2civ3/techs.ruleset:246 data/multiplayer/techs.ruleset:244
+#: data/experimental/techs.ruleset:259 data/multiplayer/techs.ruleset:244
 msgid "Reduces the effect of Cathedrals."
 msgstr "Vähentää tuomiokirkkojen vaikutusta."
 
@@ -25199,8 +25198,8 @@ msgstr "Sallii Uudisraivaajien ja Teknikkoryhmien rakentaa linnoituksia."
 
 # Kauppa, taloustiede (teknologia)
 #: data/civ2/techs.ruleset:288 data/classic/techs.ruleset:291
-#: data/sandbox/techs.ruleset:294 data/experimental/techs.ruleset:311
-#: data/civ2civ3/techs.ruleset:293 data/multiplayer/techs.ruleset:291
+#: data/sandbox/techs.ruleset:293 data/experimental/techs.ruleset:311
+#: data/civ2civ3/techs.ruleset:292 data/multiplayer/techs.ruleset:291
 #: server/report.c:174
 msgid "Economics"
 msgstr "Talous"
@@ -25211,68 +25210,68 @@ msgid "Improves the effect of Colosseums."
 msgstr "Lisää areenojen vaikutusta."
 
 #: data/civ2/techs.ruleset:321 data/classic/techs.ruleset:324
-#: data/sandbox/techs.ruleset:332 data/experimental/techs.ruleset:348
-#: data/civ2civ3/techs.ruleset:329 data/multiplayer/techs.ruleset:324
+#: data/sandbox/techs.ruleset:331 data/experimental/techs.ruleset:348
+#: data/civ2civ3/techs.ruleset:328 data/multiplayer/techs.ruleset:324
 msgid "Environmentalism"
 msgstr "Ympäristötietoisuus"
 
 #: data/civ2/techs.ruleset:329 data/classic/techs.ruleset:332
-#: data/sandbox/techs.ruleset:340 data/experimental/techs.ruleset:357
-#: data/civ2civ3/techs.ruleset:337 data/multiplayer/techs.ruleset:334
+#: data/sandbox/techs.ruleset:339 data/experimental/techs.ruleset:357
+#: data/civ2civ3/techs.ruleset:336 data/multiplayer/techs.ruleset:334
 msgid "Espionage"
 msgstr "Vakoilu"
 
 #: data/civ2/techs.ruleset:386 data/classic/techs.ruleset:381
-#: data/sandbox/techs.ruleset:391 data/experimental/techs.ruleset:412
-#: data/civ2civ3/techs.ruleset:386 data/multiplayer/techs.ruleset:390
+#: data/sandbox/techs.ruleset:390 data/experimental/techs.ruleset:412
+#: data/civ2civ3/techs.ruleset:385 data/multiplayer/techs.ruleset:390
 msgid "Guerilla Warfare"
 msgstr "Sissisota"
 
 #: data/civ2/techs.ruleset:442 data/classic/techs.ruleset:438
-#: data/sandbox/techs.ruleset:446 data/experimental/techs.ruleset:475
-#: data/civ2civ3/techs.ruleset:441 data/multiplayer/techs.ruleset:447
+#: data/sandbox/techs.ruleset:445 data/experimental/techs.ruleset:475
+#: data/civ2civ3/techs.ruleset:440 data/multiplayer/techs.ruleset:447
 msgid "Laser"
 msgstr "Laser"
 
 #: data/civ2/techs.ruleset:450 data/classic/techs.ruleset:446
-#: data/sandbox/techs.ruleset:454 data/experimental/techs.ruleset:484
-#: data/civ2civ3/techs.ruleset:449 data/multiplayer/techs.ruleset:455
+#: data/sandbox/techs.ruleset:453 data/experimental/techs.ruleset:484
+#: data/civ2civ3/techs.ruleset:448 data/multiplayer/techs.ruleset:455
 msgid "Leadership"
 msgstr "Johtamistaito"
 
 #: data/civ2/techs.ruleset:466 data/classic/techs.ruleset:462
-#: data/sandbox/techs.ruleset:470 data/experimental/techs.ruleset:502
-#: data/civ2civ3/techs.ruleset:465 data/multiplayer/techs.ruleset:471
+#: data/sandbox/techs.ruleset:469 data/experimental/techs.ruleset:502
+#: data/civ2civ3/techs.ruleset:464 data/multiplayer/techs.ruleset:471
 msgid "Machine Tools"
 msgstr "Teollisuusautomaatio"
 
 #: data/civ2/techs.ruleset:530 data/classic/techs.ruleset:527
-#: data/sandbox/techs.ruleset:539 data/experimental/techs.ruleset:573
-#: data/civ2civ3/techs.ruleset:534 data/multiplayer/techs.ruleset:535
+#: data/sandbox/techs.ruleset:538 data/experimental/techs.ruleset:573
+#: data/civ2civ3/techs.ruleset:533 data/multiplayer/techs.ruleset:535
 msgid "Miniaturization"
 msgstr "Pientekniikka"
 
 #: data/civ2/techs.ruleset:538 data/classic/techs.ruleset:535
-#: data/sandbox/techs.ruleset:552 data/experimental/techs.ruleset:582
-#: data/civ2civ3/techs.ruleset:547 data/multiplayer/techs.ruleset:543
+#: data/sandbox/techs.ruleset:551 data/experimental/techs.ruleset:582
+#: data/civ2civ3/techs.ruleset:546 data/multiplayer/techs.ruleset:543
 msgid "Mobile Warfare"
 msgstr "Panssarivaunu"
 
 #: data/civ2/techs.ruleset:554 data/classic/techs.ruleset:551
-#: data/sandbox/techs.ruleset:568 data/experimental/techs.ruleset:600
-#: data/civ2civ3/techs.ruleset:563 data/multiplayer/techs.ruleset:559
+#: data/sandbox/techs.ruleset:567 data/experimental/techs.ruleset:600
+#: data/civ2civ3/techs.ruleset:562 data/multiplayer/techs.ruleset:559
 msgid "Monotheism"
 msgstr "Yksijumalaisuus"
 
 #: data/civ2/techs.ruleset:593 data/classic/techs.ruleset:590
-#: data/sandbox/techs.ruleset:607 data/experimental/techs.ruleset:644
-#: data/civ2civ3/techs.ruleset:602 data/multiplayer/techs.ruleset:598
+#: data/sandbox/techs.ruleset:606 data/experimental/techs.ruleset:644
+#: data/civ2civ3/techs.ruleset:601 data/multiplayer/techs.ruleset:598
 msgid "Gives sea units one extra move."
 msgstr "Merivoimien yksiköt saavat ylimääräisen liikepisteen."
 
 #: data/civ2/techs.ruleset:600 data/classic/techs.ruleset:597
-#: data/sandbox/techs.ruleset:614 data/experimental/techs.ruleset:652
-#: data/civ2civ3/techs.ruleset:609
+#: data/sandbox/techs.ruleset:613 data/experimental/techs.ruleset:652
+#: data/civ2civ3/techs.ruleset:608
 #, c-format
 msgid ""
 "Great philosophers from all the world join your civilization: you learn %s "
@@ -25282,14 +25281,14 @@ msgstr ""
 "edistysaskeleen %s."
 
 #: data/civ2/techs.ruleset:622 data/classic/techs.ruleset:619
-#: data/sandbox/techs.ruleset:636 data/experimental/techs.ruleset:676
-#: data/civ2civ3/techs.ruleset:631 data/multiplayer/techs.ruleset:627
+#: data/sandbox/techs.ruleset:635 data/experimental/techs.ruleset:676
+#: data/civ2civ3/techs.ruleset:630 data/multiplayer/techs.ruleset:627
 msgid "Polytheism"
 msgstr "Monijumalaisuus"
 
 #: data/civ2/techs.ruleset:638 data/classic/techs.ruleset:635
-#: data/sandbox/techs.ruleset:652 data/experimental/techs.ruleset:693
-#: data/civ2civ3/techs.ruleset:647 data/multiplayer/techs.ruleset:643
+#: data/sandbox/techs.ruleset:651 data/experimental/techs.ruleset:693
+#: data/civ2civ3/techs.ruleset:646 data/multiplayer/techs.ruleset:643
 msgid "Radio"
 msgstr "Radio"
 
@@ -25304,8 +25303,8 @@ msgstr ""
 "joissa on jo tie."
 
 #: data/civ2/techs.ruleset:676 data/classic/techs.ruleset:677
-#: data/sandbox/techs.ruleset:702 data/experimental/techs.ruleset:739
-#: data/civ2civ3/techs.ruleset:695 data/multiplayer/techs.ruleset:683
+#: data/sandbox/techs.ruleset:701 data/experimental/techs.ruleset:739
+#: data/civ2civ3/techs.ruleset:694 data/multiplayer/techs.ruleset:683
 msgid "Refrigeration"
 msgstr "Kylmäsäilytys"
 
@@ -25317,44 +25316,44 @@ msgstr ""
 "on jo kasteluverkosto."
 
 #: data/civ2/techs.ruleset:703 data/classic/techs.ruleset:705
-#: data/sandbox/techs.ruleset:731 data/experimental/techs.ruleset:770
-#: data/civ2civ3/techs.ruleset:724 data/multiplayer/techs.ruleset:711
+#: data/sandbox/techs.ruleset:730 data/experimental/techs.ruleset:770
+#: data/civ2civ3/techs.ruleset:723 data/multiplayer/techs.ruleset:711
 msgid "Sanitation"
 msgstr "Puhtaanapito"
 
 #: data/civ2/techs.ruleset:711 data/classic/techs.ruleset:713
-#: data/sandbox/techs.ruleset:739 data/experimental/techs.ruleset:779
-#: data/civ2civ3/techs.ruleset:732 data/multiplayer/techs.ruleset:719
+#: data/sandbox/techs.ruleset:738 data/experimental/techs.ruleset:779
+#: data/civ2civ3/techs.ruleset:731 data/multiplayer/techs.ruleset:719
 msgid "Seafaring"
 msgstr "Merenkulku"
 
 #: data/civ2/techs.ruleset:727 data/classic/techs.ruleset:729
-#: data/sandbox/techs.ruleset:755 data/experimental/techs.ruleset:797
-#: data/civ2civ3/techs.ruleset:748 data/multiplayer/techs.ruleset:735
+#: data/sandbox/techs.ruleset:754 data/experimental/techs.ruleset:797
+#: data/civ2civ3/techs.ruleset:747 data/multiplayer/techs.ruleset:735
 msgid "Stealth"
 msgstr "Tutkanharhautus"
 
 #: data/civ2/techs.ruleset:759 data/classic/techs.ruleset:761
-#: data/sandbox/techs.ruleset:791 data/experimental/techs.ruleset:836
-#: data/civ2civ3/techs.ruleset:784 data/multiplayer/techs.ruleset:767
+#: data/sandbox/techs.ruleset:790 data/experimental/techs.ruleset:836
+#: data/civ2civ3/techs.ruleset:783 data/multiplayer/techs.ruleset:767
 msgid "Tactics"
 msgstr "Taktiikka"
 
 #: data/civ2/techs.ruleset:791 data/classic/techs.ruleset:794
-#: data/sandbox/techs.ruleset:827 data/experimental/techs.ruleset:872
-#: data/civ2civ3/techs.ruleset:820 data/multiplayer/techs.ruleset:799
+#: data/sandbox/techs.ruleset:826 data/experimental/techs.ruleset:872
+#: data/civ2civ3/techs.ruleset:819 data/multiplayer/techs.ruleset:799
 msgid "Theology"
 msgstr "Teologia"
 
 #: data/civ2/techs.ruleset:797 data/classic/techs.ruleset:800
-#: data/sandbox/techs.ruleset:833 data/experimental/techs.ruleset:879
-#: data/civ2civ3/techs.ruleset:826 data/multiplayer/techs.ruleset:805
+#: data/sandbox/techs.ruleset:832 data/experimental/techs.ruleset:879
+#: data/civ2civ3/techs.ruleset:825 data/multiplayer/techs.ruleset:805
 msgid "Improves the effect of Cathedrals."
 msgstr "Lisää tuomiokirkkojen vaikutusta."
 
 #: data/civ2/techs.ruleset:824 data/classic/techs.ruleset:827
-#: data/sandbox/techs.ruleset:863 data/experimental/techs.ruleset:909
-#: data/civ2civ3/techs.ruleset:856 data/multiplayer/techs.ruleset:832
+#: data/sandbox/techs.ruleset:862 data/experimental/techs.ruleset:909
+#: data/civ2civ3/techs.ruleset:855 data/multiplayer/techs.ruleset:832
 msgid "Warrior Code"
 msgstr "Sotaoppi"
 
@@ -28561,31 +28560,23 @@ msgid ""
 "* Military units impose martial law. Up to 3 military units inside a city "
 "will each force 1 unhappy citizen to become content.\n"
 "* You have no control over tax rates. All trade income is converted to "
-"luxuries. Conventional corruption increases with distance from the capital "
-"(half as fast with knowledge of The Corporation).\n"
+"luxuries.\n"
 "* Half of the luxuries, including those converted from other trade income, "
 "are wasted.\n"
+"* Conventional corruption increases with distance from the capital (half as "
+"fast with knowledge of The Corporation).\n"
 "* Base production waste is 30%. This increases with distance from the "
 "capital (half as fast with knowledge of Trade)."
 msgstr ""
 "· Rakennukset tai teknologiat eivät tarvitse laisinkaan ylläpitoa\n"
-"· Jokainen ruutu josta saadaan yli 2 ruokaa, tuotantoa tai kauppaa kärsii -1 "
-"menetyksen ellei sillä työskentelevä kaupunki juhli. (Kaupungit joiden koko "
-"on alle 3 eivät juhli.)\n"
-"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden "
-"ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes "
-"hyökkäyskäytössä..\n"
-"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä "
-"kaupngissa pakottaa kukin 1 tyytymättömän kansalaisen rauhalliseksi.\n"
-"· Hallitsijalla ei ole veroasteiden hallintaa. Kaikki kauppa muutetaan "
-"luksukseksi. Korruptio on sitä suurempi mitä kauempana pääkaupungista "
-"ollaan, etäisyyden vaikutus puolittuu osakeyhtiöiden keksimisen myötä.\n"
-". Puolet luksuksesta, mukaanlukien kaupasta muutetusta osuudesta, menetetään "
-"tehottomuuden vuoksi.\n"
-"· Perustaso tuotantohävikille on 30%. Vaikutus on sitä suurempi mitä "
-"kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu kaupan "
-"keksimisen myötä."
+"· Jokainen ruutu josta saadaan yli 2 ruokaa, tuotantoa tai kauppaa kärsii -1 menetyksen ellei sillä työskentelevä kaupunki juhli. (Kaupungit joiden koko on alle 3 eivät juhli.)\n"
+"· Kukin kaupunki voi ylläpitää 2 yksikköä ilmaiseksi; lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Sotilasyksiköt eivät aiheuta kotirintamalle tyytymättömyyttä edes hyökkäyskäytössä..\n"
+"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä kaupngissa pakottaa kukin 1 tyytymättömän kansalaisen rauhalliseksi.\n"
+"· Hallitsijalla ei ole veroasteiden hallintaa. Kaikki kauppa muutetaan luksukseksi.\n"
+". Puolet luksuksesta, mukaanlukien kaupasta muutetusta osuudesta, menetetään tehottomuuden vuoksi.\n"
+". Korruptio on sitä suurempi mitä kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu osakeyhtiöiden keksimisen myötä.\n"
+"· Perustaso tuotantohävikille on 30%. Vaikutus on sitä suurempi mitä kauempana pääkaupungista ollaan, etäisyyden vaikutus puolittuu kaupan keksimisen myötä."
 
 #: data/sandbox/governments.ruleset:102 data/civ2civ3/governments.ruleset:102
 msgid "Tribal"
@@ -28734,6 +28725,8 @@ msgstr ""
 msgid ""
 "* City improvements which would normally have an upkeep of 1 gold are free "
 "of upkeep.\n"
+"* Cancels the bonus from Mysticism and Theology (to Temples and "
+"Cathedrals).\n"
 "* Each city can support up to 3 units for free (the maximum possible); "
 "further units each cost 1 shield per turn.\n"
 "* Each city tolerates up to 3 aggressively deployed military units; each "
@@ -28744,23 +28737,20 @@ msgid ""
 "* Base corruption is 30%, but is not affected by distance to the capital.\n"
 "* There is no production waste."
 msgstr ""
-"· Normaalisti yhden pisteen kultaa ylläpitoonsa tarvitsevat rakennukset ovat "
-"ilmaisia ylläpitää.\n"
-"· Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen "
-"määrä); lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
-"· Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt "
-"tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
-"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä "
-"kaupngissa pakottaa kukin 2 tyytymätöntä kansalaista rauhalliseksi.\n"
+"· Normaalisti yhden pisteen kultaa ylläpitoonsa tarvitsevat rakennukset ovat ilmaisia ylläpitää.\n"
+"· Kumoaa mystiikan ja teologian bonukset temppeleille ja katedraaleille.\n"
+"· Kukin kaupunki voi ylläpitää 3 yksikköä ilmaiseksi (suurin mahdollinen määrä); lisäyksiköiden ylläpito maksaa 1 tuotantoa kierroksessa kukin.\n"
+"· Kukin kaupunki sietää 3 aggressiivista sotilasyksikköä; lisäyksiköt tekevät yhden kansalaisen kotirintamalla tyytymättömäksi kukin.\n"
+"· Sotilasyksiköt valvovat sotatilaa. Korkeintaan 3 sotilasyksikköä kaupngissa pakottaa kukin 2 tyytymätöntä kansalaista rauhalliseksi.\n"
 "· Korruption perustaso on 30%, eikä etäisyys pääkaupunkiin vaikuta siihen.\n"
 "· Tuotantohävikkiä ei ole."
 
-#: data/sandbox/governments.ruleset:247 data/sandbox/governments.ruleset:368
-#: data/sandbox/governments.ruleset:406
+#: data/sandbox/governments.ruleset:248 data/sandbox/governments.ruleset:369
+#: data/sandbox/governments.ruleset:407
 msgid "* Your bureaucracy can prevent you from disbanding certain units."
 msgstr "· Hallintokoneistosi voi estää sinua hajottamasta tiettyjä yksiköitä."
 
-#: data/sandbox/governments.ruleset:276 data/civ2civ3/governments.ruleset:275
+#: data/sandbox/governments.ruleset:277 data/civ2civ3/governments.ruleset:276
 msgid ""
 "Fundamentalism is a good government for maximizing gold, and its Fanatics "
 "are useful in wartime, but it has a heavy penalty to technological progress."
@@ -28769,7 +28759,7 @@ msgstr ""
 "yksiköt ovat hyödyllisiä sodankäynnissä. Heikkous on teknologisen "
 "tutkimuksen tukahtuminen."
 
-#: data/sandbox/governments.ruleset:282 data/civ2civ3/governments.ruleset:281
+#: data/sandbox/governments.ruleset:283 data/civ2civ3/governments.ruleset:282
 #, no-c-format
 msgid ""
 "* Base science production is half that of other governments. (A "
@@ -28796,11 +28786,11 @@ msgstr ""
 "· Tuotantohävikin perustaso on 15%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
-#: data/sandbox/governments.ruleset:299 data/civ2civ3/governments.ruleset:298
+#: data/sandbox/governments.ruleset:300 data/civ2civ3/governments.ruleset:299
 msgid "Federation"
 msgstr "Federaatio"
 
-#: data/sandbox/governments.ruleset:309 data/civ2civ3/governments.ruleset:308
+#: data/sandbox/governments.ruleset:310 data/civ2civ3/governments.ruleset:309
 msgid ""
 "Federalism is a system in which the power to govern is shared between "
 "national and provincial governments.  This decentralization minimizes the "
@@ -28811,7 +28801,7 @@ msgstr ""
 "hallinnon välillä. Hajauttaminen vähentää korruptiota ja hävikkiä, eikä "
 "provosoi alueiden eroamista ajavien liikkeiden syntymistä."
 
-#: data/sandbox/governments.ruleset:316 data/civ2civ3/governments.ruleset:315
+#: data/sandbox/governments.ruleset:317 data/civ2civ3/governments.ruleset:316
 #, no-c-format
 msgid ""
 "* Each city gets 2 extra luxury points.\n"
@@ -28842,7 +28832,7 @@ msgstr ""
 "siihen.\n"
 "· Senaatti voi estää sodan julistamisen."
 
-#: data/sandbox/governments.ruleset:354 data/civ2civ3/governments.ruleset:353
+#: data/sandbox/governments.ruleset:355 data/civ2civ3/governments.ruleset:354
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -28872,7 +28862,7 @@ msgstr ""
 "· Tuotantohävikin perustaso on 5%. Se kasvaa sitä mukaa mitä kauemmas "
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)"
 
-#: data/sandbox/governments.ruleset:384 data/civ2civ3/governments.ruleset:382
+#: data/sandbox/governments.ruleset:385 data/civ2civ3/governments.ruleset:383
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
@@ -28882,7 +28872,7 @@ msgstr ""
 "asioista. Demokratia tarjoaa korkeimman mahdollisen kaupan tason, mutta myös "
 "suurimman tyytymättömyyden; kansalaiset eivät alkuunkaan pidä sotatilasta."
 
-#: data/sandbox/governments.ruleset:391 data/civ2civ3/governments.ruleset:389
+#: data/sandbox/governments.ruleset:392 data/civ2civ3/governments.ruleset:390
 #, no-c-format
 msgid ""
 "* Cities produce an extra trade point for every worked land tile that is "
@@ -28914,12 +28904,12 @@ msgstr ""
 "pääkaupungista mennään (puolta hitaammin jos tunnetaan kauppa)\n"
 "· Senaatti voi estää sodan julistamisen."
 
-#: data/sandbox/governments.ruleset:435
+#: data/sandbox/governments.ruleset:436
 #: data/experimental/governments.ruleset:221
 msgid "Personal Freedom"
 msgstr "Henkilökohtainen vapaus"
 
-#: data/sandbox/governments.ruleset:441
+#: data/sandbox/governments.ruleset:442
 #: data/experimental/governments.ruleset:227
 #, no-c-format
 msgid ""
@@ -29133,7 +29123,7 @@ msgid "Enables airlift of medium weight units."
 msgstr ""
 "Mahdollistaa keskipainoisten yksiköiden lennättämisen ilmasiltaa pitkin."
 
-#: data/sandbox/techs.ruleset:272 data/civ2civ3/techs.ruleset:271
+#: data/sandbox/techs.ruleset:271 data/civ2civ3/techs.ruleset:270
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to build forts and "
 "fortresses."
@@ -29141,7 +29131,7 @@ msgstr ""
 "Uudisraivaajat, siirtolaiset, työläiset ja teknikot voivat rakentaa "
 "linnakkeita ja linnoituksia."
 
-#: data/sandbox/techs.ruleset:308 data/civ2civ3/techs.ruleset:307
+#: data/sandbox/techs.ruleset:307 data/civ2civ3/techs.ruleset:306
 msgid ""
 "Allows irrigation without an adjacent water source, improves the effect of "
 "Amphitheaters, and increases city vision radius."
@@ -29150,27 +29140,27 @@ msgstr ""
 "saatavaa vettä, parantaa amfiteatterien vaikutuksia ja lisää kaupunkien "
 "näkökykyä."
 
-#: data/sandbox/techs.ruleset:311
+#: data/sandbox/techs.ruleset:310
 msgid "Grants you vision inside your borders."
 msgstr "Antaa täyden näkökyvyn rajojesi sisällä."
 
-#: data/sandbox/techs.ruleset:370
+#: data/sandbox/techs.ruleset:369
 msgid "Enables airlift of light weight units."
 msgstr "Mahdollistaa keveiden yksiköiden lennättämisen ilmasiltaa pitkin."
 
-#: data/sandbox/techs.ruleset:379 data/civ2civ3/techs.ruleset:375
+#: data/sandbox/techs.ruleset:378 data/civ2civ3/techs.ruleset:374
 msgid "Makes it possible for Engineers to transform terrains."
 msgstr "Tekee maastonmuokkauksen mahdolliseksi teknikoille."
 
-#: data/sandbox/techs.ruleset:380
+#: data/sandbox/techs.ruleset:379
 msgid "Enables airlift of heavy weight units."
 msgstr "Mahdollistaa raskaiden yksiköiden lennättämisen ilmasiltaa pitkin."
 
-#: data/sandbox/techs.ruleset:427 data/civ2civ3/techs.ruleset:422
+#: data/sandbox/techs.ruleset:426 data/civ2civ3/techs.ruleset:421
 msgid "Halves the upgrade cost of your units."
 msgstr "Puolittaa yksiköiden ajantasaistamiskustannukset."
 
-#: data/sandbox/techs.ruleset:525 data/civ2civ3/techs.ruleset:520
+#: data/sandbox/techs.ruleset:524 data/civ2civ3/techs.ruleset:519
 #, no-c-format
 msgid ""
 "Reduces the risk of plague in your cities by 30% of the base chance (this is "
@@ -29179,7 +29169,7 @@ msgstr ""
 "Vähentää ruton vaaraa 30% perusmahdollisuudesta (tämä vaikuttaa "
 "rakennuksista mahdollisesti saatavien bonusten päälle)."
 
-#: data/sandbox/techs.ruleset:545 data/civ2civ3/techs.ruleset:540
+#: data/sandbox/techs.ruleset:544 data/civ2civ3/techs.ruleset:539
 msgid ""
 "Allows Settlers, Migrants, Workers, Engineers, and Transports to build oil "
 "platforms on Deep Ocean, required to get the bonus from Offshore Platforms."
@@ -29188,13 +29178,13 @@ msgstr ""
 "rakentaa porauspisteitä syvänmeren ruutuihin. Niitä tarvitaan, jotta "
 "kaupunki voisi hyötyä öljynporauslautasta."
 
-#: data/sandbox/techs.ruleset:658 data/civ2civ3/techs.ruleset:653
+#: data/sandbox/techs.ruleset:657 data/civ2civ3/techs.ruleset:652
 msgid "Allows Workers and Engineers to build airstrips, airbases and buoys."
 msgstr ""
 "Sallii Työläisten ja Teknikoiden rakentaa kiitoteitä, ilmatukikohtia ja "
 "poijuja."
 
-#: data/sandbox/techs.ruleset:669 data/civ2civ3/techs.ruleset:664
+#: data/sandbox/techs.ruleset:668 data/civ2civ3/techs.ruleset:663
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade roads to "
 "railroads."
@@ -29202,11 +29192,11 @@ msgstr ""
 "Uudisraivaajat, siirtolaiset, työläiset ja teknikot voivat rakentaa "
 "rautateitä ruutuihin, joissa on jo tie."
 
-#: data/sandbox/techs.ruleset:672
+#: data/sandbox/techs.ruleset:671
 msgid "Halves one-time revenue from new trade routes."
 msgstr "Puolittaa uusien kauppareittien avaamisesta saatavan kertamaksun."
 
-#: data/sandbox/techs.ruleset:674 data/civ2civ3/techs.ruleset:667
+#: data/sandbox/techs.ruleset:673 data/civ2civ3/techs.ruleset:666
 msgid ""
 "For Despotism or Tribal governments, cancels the penalty to worked tiles "
 "with output greater than 2 (as if all your cities were always celebrating)."
@@ -29215,7 +29205,7 @@ msgstr ""
 "edestä ruokaa, tuotantoa, tai kauppaa tuottavien ruutujen rangaistuksen, "
 "kuin kaupungit juhlisivat."
 
-#: data/sandbox/techs.ruleset:695 data/civ2civ3/techs.ruleset:688
+#: data/sandbox/techs.ruleset:694 data/civ2civ3/techs.ruleset:687
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade mines to oil "
 "wells on Desert and Glacier tiles, for an extra production point."
@@ -29224,7 +29214,7 @@ msgstr ""
 "aavikoiden ja jäätiköiden kaivokset öljynporaustorneiksi, josta saa yhden "
 "pisteen lisää tuotantoa."
 
-#: data/sandbox/techs.ruleset:708 data/civ2civ3/techs.ruleset:701
+#: data/sandbox/techs.ruleset:707 data/civ2civ3/techs.ruleset:700
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade irrigation "
 "systems to farmland."
@@ -29232,11 +29222,11 @@ msgstr ""
 "Uudisraivaajat, siirtolaiset, työläiset ja teknikot voivat muuttaa "
 "yksinkertaiset kastelujärjestelmät viljelysmaaksi."
 
-#: data/sandbox/techs.ruleset:728 data/civ2civ3/techs.ruleset:721
+#: data/sandbox/techs.ruleset:727 data/civ2civ3/techs.ruleset:720
 msgid "Doubles movement of nuclear units."
 msgstr "Kaksinkertaistaa ydinaseiden liikkumisnopeuden."
 
-#: data/sandbox/techs.ruleset:785 data/civ2civ3/techs.ruleset:778
+#: data/sandbox/techs.ruleset:784 data/civ2civ3/techs.ruleset:777
 msgid ""
 "Allows Settlers, Migrants, Workers and Engineers to upgrade railroads with "
 "maglev."
@@ -29244,7 +29234,7 @@ msgstr ""
 "Sallii uudisraivaajien, siirtolaisten, työläisten ja teknikoiden rakentaa "
 "maglevit ruutuihin, joissa on jo rautatie."
 
-#: data/sandbox/techs.ruleset:805 data/civ2civ3/techs.ruleset:798
+#: data/sandbox/techs.ruleset:804 data/civ2civ3/techs.ruleset:797
 msgid ""
 "Halves the corruption of trade related to distance from the capital (or "
 "eliminates it for Federation governments)."
@@ -29252,7 +29242,7 @@ msgstr ""
 "Puolittaa pääkaupungin etäisyydestä johtuvan korruption, federaatioiden "
 "tapauksessa poistaa sen kokonaan."
 
-#: data/sandbox/techs.ruleset:850 data/civ2civ3/techs.ruleset:843
+#: data/sandbox/techs.ruleset:849 data/civ2civ3/techs.ruleset:842
 msgid "Halves the waste of production related to distance from the capital."
 msgstr "Puolittaa pääkaupungin etäisyydestä johtuvan tuotantohävikin."
 
@@ -30741,7 +30731,8 @@ msgid ""
 "(If you'd like rules more similar to ones in previous versions,\n"
 "start a new game with 'classic' ruleset.)"
 msgstr ""
-"Tervetuloa civ2civ3 sääntökokoelman pariin. Tämä on uusi oletussääntökokoelma\n"
+"Tervetuloa civ2civ3 sääntökokoelman pariin. Tämä on uusi "
+"oletussääntökokoelma\n"
 "freeciv-3.0:ssa.\n"
 "Katso tarkemmat tiedot valikosta: Ohje -> Käytetty sääntökokoelma\n"
 "(Jos haluat enemmän vanhempien versioiden oletussääntökokoelman\n"
@@ -44467,74 +44458,74 @@ msgstr "Sinut on poistettu pelistä!"
 msgid "%s has been removed from the game."
 msgstr "%s on poistettu pelistä."
 
-#: server/plrhand.c:1854
+#: server/plrhand.c:1856
 msgid "Please choose a non-blank name."
 msgstr "Ole hyvä ja valitse nimi joka ei ole tyhjä."
 
-#: server/plrhand.c:1867
+#: server/plrhand.c:1869
 msgid "That nation is already in use."
 msgstr "Valitsemasi kansakunta on jo käytössä."
 
-#: server/plrhand.c:1872
+#: server/plrhand.c:1874
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr ""
 "Samanniminen ('%s') pelaaja on jo liittynyt peliin. Ole hyvä ja valitse "
 "toinen nimi."
 
-#: server/plrhand.c:1896
+#: server/plrhand.c:1898
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Ole hyvä ja valitse nimi jossa on vain ASCII-merkkejä."
 
-#: server/plrhand.c:1971 server/plrhand.c:1985
+#: server/plrhand.c:1973 server/plrhand.c:1987
 #, c-format
 msgid "Player no. %d"
 msgstr "Pelaaja %d"
 
-#: server/plrhand.c:2000
+#: server/plrhand.c:2002
 msgid "A poorly-named player"
 msgstr "Huonosti nimetty pelaaja"
 
-#: server/plrhand.c:2069 server/plrhand.c:2073
+#: server/plrhand.c:2071 server/plrhand.c:2075
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Olet kohdannut %s, joita hallitsee %s."
 
-#: server/plrhand.c:2751
+#: server/plrhand.c:2753
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "%s kansakunta ei voi vajota sisällissotaan - pelissä on liikaa pelaajia"
 
-#: server/plrhand.c:2757
+#: server/plrhand.c:2759
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "%s eivät voi vajota sisällissotaan - sopivia kansakuntia ei ole saatavilla"
 
-#: server/plrhand.c:2791
+#: server/plrhand.c:2793
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "%s eivät voi vajota sisällissotaan - ei ole sopivia kaupunkeja"
 
-#: server/plrhand.c:2824
+#: server/plrhand.c:2826
 msgid "Your nation is thrust into civil war."
 msgstr "Kansakunnassasi syttyy sisällissota."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2828
+#: server/plrhand.c:2830
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s on kapinajohtaja, jota %s seuraavat."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2850
+#: server/plrhand.c:2852
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s irtautuu emämaasta; nyt %s hallitsevat sitä."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2875
+#: server/plrhand.c:2877
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -44543,7 +44534,7 @@ msgstr[1] "Sisällissota jakaa %s kahtia; %s hallitsevat nyt %d kaupunkia."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:3017
+#: server/plrhand.c:3019
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -44552,14 +44543,14 @@ msgstr ""
 "Käyttäjä '%s' saa nykyasetuksilla ottaa pelaajasi haltuunsa kun olet poissa. "
 "Voit estää tämän komennolla '/delegate cancel'."
 
-#: server/plrhand.c:3029
+#: server/plrhand.c:3031
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Pelaajan '%s' hallinta on delegoitu sinulle."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:3038
+#: server/plrhand.c:3040
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Käytä komentoa '/delegate take <pelaaja>' ottaaksesi haltuun pelaaja jonka "
@@ -46186,7 +46177,11 @@ msgid ""
 "The same seed will always produce the same map; for zero (the default) a "
 "seed will be generated randomly, based on gameseed. If also gameseed is "
 "zero, the map will be completely random."
-msgstr "Sama siemenluku tuottaa aina saman kartan; valinnalla 0 (oletus) siemenluku valitaan satunnaislukugeneraattorilla, yleiseen siemenlukuun pohjautuen. Jos sekä kartan siemenluku että yleinen siemenluku ovat 0, kartan luonti on täysin sattumanvarainen."
+msgstr ""
+"Sama siemenluku tuottaa aina saman kartan; valinnalla 0 (oletus) siemenluku "
+"valitaan satunnaislukugeneraattorilla, yleiseen siemenlukuun pohjautuen. Jos "
+"sekä kartan siemenluku että yleinen siemenluku ovat 0, kartan luonti on "
+"täysin sattumanvarainen."
 
 #: server/settings.c:1698
 msgid "Game random seed"
@@ -46196,7 +46191,9 @@ msgstr "Yleinen siemenluku ('seed')"
 msgid ""
 "For zero (the default) a seed will be chosen based on system entropy or, "
 "failing that, the current time."
-msgstr "Asetuksen oletusarvolla 0 siemenluku valitaan järjestelmän entropian perusteella tai, sen ollessa mahdotonta, tarkan kellonajan perusteella."
+msgstr ""
+"Asetuksen oletusarvolla 0 siemenluku valitaan järjestelmän entropian "
+"perusteella tai, sen ollessa mahdotonta, tarkan kellonajan perusteella."
 
 # Not really specials, but resources, apparently.
 #: server/settings.c:1706
