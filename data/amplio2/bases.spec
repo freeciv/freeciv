@@ -63,6 +63,6 @@ tiles = { "row", "column", "tag"
 ;[HH]
  0,  5, "city.disorder"
 ;blank defaults
- 1,  5, "cd.city",
+ 0,  6, "cd.city",
       "cd.city_wall"
 }
