@@ -1836,6 +1836,12 @@ static void explain_why_no_action_enabled(struct unit *punit,
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit cannot act against foreign targets."));
     break;
+  case ANEK_TGT_NON_ALLIED_UNITS_ON_TILE:
+    notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                  /* TRANS: Riflemen */
+                  _("%s cannot act against tiles with non allied units."),
+                  unit_name_translation(punit));
+    break;
   case ANEK_NATION_ACT:
      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                    /* TRANS: Swedish ... Riflemen */
@@ -2473,6 +2479,14 @@ void illegal_action_msg(struct player *pplayer,
                   action_id_name_translation(stopped_action),
                   action_target_kind_translated_name(
                     action_id_get_target_kind(stopped_action)));
+    break;
+  case ANEK_TGT_NON_ALLIED_UNITS_ON_TILE:
+    notify_player(pplayer, unit_tile(actor),
+                  event, ftc_server,
+                  /* TRANS: Paratroopers ... Drop Paratrooper */
+                  _("Your %s can't do %s to tiles with non allied units."),
+                  unit_name_translation(actor),
+                  action_id_name_translation(stopped_action));
     break;
   case ANEK_NATION_ACT:
     notify_player(pplayer, unit_tile(actor),
