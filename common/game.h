@@ -306,6 +306,9 @@ static inline bool is_server(void)
 void i_am_server(void);
 void i_am_client(void);
 
+/**********************************************************************//**
+  Set program type to tool.
+**************************************************************************/
 static inline void i_am_tool(void)
 {
   i_am_server(); /* No difference between a tool and server at the moment */
