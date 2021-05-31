@@ -50,6 +50,8 @@ enum ane_kind {
   ANEK_DOMESTIC,
   /* Explanation: can't be done to foreign targets. */
   ANEK_FOREIGN,
+  /* Explanation: can't be done with non allied units at target tile. */
+  ANEK_TGT_NON_ALLIED_UNITS_ON_TILE,
   /* Explanation: this nation can't act. */
   ANEK_NATION_ACT,
   /* Explanation: this nation can't be targeted. */
