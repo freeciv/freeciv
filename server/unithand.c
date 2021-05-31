@@ -1641,6 +1641,9 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
     case MR_TRIREME:
       explnat->kind = ANEK_TRIREME_MOVE;
       break;
+    case MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT:
+      explnat->kind = ANEK_TGT_NON_ALLIED_UNITS_ON_TILE;
+      break;
     default:
       fc_assert(action_custom != MR_OK);
       explnat->kind = ANEK_UNKNOWN;
