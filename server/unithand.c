@@ -3208,6 +3208,31 @@ bool unit_perform_action(struct player *pplayer,
 
   sub_tgt_impr = improvement_by_number(sub_tgt_id);
 
+  /* Sub targets should now be assigned */
+  switch (paction->sub_target_kind) {
+  case ASTK_NONE:
+    /* No sub target. */
+    break;
+  case ASTK_BUILDING:
+    if (sub_tgt_impr == NULL) {
+      /* Missing sub target */
+      return FALSE;
+    }
+    break;
+  case ASTK_TECH:
+    /* Not handled here yet */
+    break;
+  case ASTK_EXTRA:
+  case ASTK_EXTRA_NOT_THERE:
+    if (target_extra == NULL) {
+      /* Missing sub target */
+      return FALSE;
+    }
+    break;
+  case ASTK_COUNT:
+    break;
+  }
+
   if (action_get_activity(paction) != ACTIVITY_LAST
       && unit_activity_needs_target_from_client(
            action_get_activity(paction))
