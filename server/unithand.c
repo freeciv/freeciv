@@ -1129,6 +1129,24 @@ static struct player *need_war_player(const struct unit *actor,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff the specified tile has a unit seen by and not allied to
+  the specified player.
+**************************************************************************/
+static bool
+tile_has_units_not_allied_to_but_seen_by(const struct tile *ptile,
+                                         const struct player *pplayer)
+{
+  unit_list_iterate(ptile->units, pother) {
+    if (can_player_see_unit(pplayer, pother)
+        && !pplayers_allied(pplayer, unit_owner(pother))) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/**********************************************************************//**
   Returns TRUE iff the specified terrain type blocks the specified action.
 
   If the "action" is ACTION_ANY all actions are checked.
@@ -1387,6 +1405,11 @@ static struct ane_expl *expl_act_not_enabl(struct unit *punit,
   } else if (action_has_result_safe(paction, ACTRES_FOUND_CITY)
              && tile_city(target_tile)) {
     explnat->kind = ANEK_BAD_TARGET;
+  } else if ((action_has_result_safe(paction, ACTRES_PARADROP_CONQUER)
+              || action_has_result_safe(paction, ACTRES_PARADROP))
+             && tile_has_units_not_allied_to_but_seen_by(target_tile,
+                                                         act_player)) {
+    explnat->kind = ANEK_TGT_NON_ALLIED_UNITS_ON_TILE;
   } else if ((!can_exist
        && !utype_can_do_act_when_ustate(unit_type_get(punit), act_id,
                                         USP_LIVABLE_TILE, FALSE))
