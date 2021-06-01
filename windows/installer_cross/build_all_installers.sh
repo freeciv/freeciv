@@ -41,9 +41,9 @@ fi
 
 RET=0
 
-if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
+if grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
 then
-  CROSSER_QT=yes
+  CROSSER_QT5=yes
 fi
 
 if ! ./installer_build.sh $DLLSPATH gtk3.22 ; then
@@ -53,7 +53,7 @@ else
   GTK322="Success"
 fi
 
-if test "x$CROSSER_QT" != "xyes" ; then
+if test "x$CROSSER_QT5" != "xyes" ; then
   QT="N/A"
 elif ! ./installer_build.sh $DLLSPATH qt ; then
   RET=1
@@ -69,7 +69,7 @@ else
   SDL2="Success"
 fi
 
-if test "x$CROSSER_QT" != "xyes" ; then
+if test "x$CROSSER_QT5" != "xyes" ; then
   RULEDIT="N/A"
 elif ! ./installer_build.sh $DLLSPATH ruledit ; then
   RET=1

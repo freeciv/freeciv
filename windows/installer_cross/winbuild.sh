@@ -7,9 +7,9 @@
 # This script is licensed under Gnu General Public License version 2 or later.
 # See COPYING available from the same location you got this script.
 
-# Version 2.3.3 (12-Nov-20)
+# Version 2.3.4 (01-Jun-21)
 
-WINBUILD_VERSION="2.3.3"
+WINBUILD_VERSION="2.3.4"
 MIN_WINVER=0x0601 # Windows 7
 CROSSER_FEATURE_LEVEL=2.0
 
@@ -122,7 +122,7 @@ else
 fi
 
 if test "x$SINGLE_GUI" != "xtrue" ; then
-  if grep "CROSSER_QT" $DLLSPATH/crosser.txt | grep yes > /dev/null
+  if grep "CROSSER_QT5" $DLLSPATH/crosser.txt | grep yes > /dev/null
   then
     CLIENTS="$CLIENTS,qt"
     FCMP="$FCMP,qt"
