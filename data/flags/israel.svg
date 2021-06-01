@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1"
    x="0"
    y="0"
-   width="892.92000pt"
-   height="210mm"
+   width="295.3147mm"
+   height="196.87498mm"
    id="svg378"
    sodipodi:version="0.32"
    sodipodi:docname="israel.svg"
-   sodipodi:docbase="/Users/daniel/Desktop"
-   inkscape:version="0.42">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)">
   <metadata
      id="metadata2102">
     <rdf:RDF>
@@ -32,82 +30,85 @@
   <sodipodi:namedview
      id="base"
      inkscape:zoom="0.46230688"
-     inkscape:cx="531.49426"
-     inkscape:cy="372.04724"
-     inkscape:window-width="701"
-     inkscape:window-height="507"
-     inkscape:window-x="33"
-     inkscape:window-y="84"
-     inkscape:current-layer="svg378" />
+     inkscape:cx="531.49499"
+     inkscape:cy="372.04718"
+     inkscape:window-width="887"
+     inkscape:window-height="623"
+     inkscape:window-x="405"
+     inkscape:window-y="44"
+     inkscape:current-layer="svg378"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     inkscape:window-maximized="0" />
   <defs
      id="defs380" />
   <rect
-     width="1116.1500"
+     width="1116.15"
      height="744.09442"
-     x="-1116.1493"
-     y="-744.09448"
-     style="font-size:12.000000px;fill:#ffffff;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0247000pt"
+     x="-1116.15"
+     y="-744.09442"
+     style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.0247pt"
      id="rect149"
-     transform="scale(-1.000000,-1.000000)" />
+     transform="scale(-1)" />
   <rect
-     width="1116.1500"
+     width="1116.15"
      height="97.702179"
-     x="-1116.1493"
-     y="-167.45839"
-     style="font-size:12.000000px;fill:#0000cc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt"
+     x="-1116.15"
+     y="-167.45833"
+     style="font-size:12px;fill:#0000cc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1pt"
      id="rect585"
-     transform="scale(-1.000000,-1.000000)" />
+     transform="scale(-1)" />
   <rect
-     width="1116.1500"
+     width="1116.15"
      height="97.702179"
-     x="-1116.1493"
-     y="-676.78308"
-     style="font-size:12.000000px;fill:#0000cc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt"
+     x="-1116.15"
+     y="-676.78302"
+     style="font-size:12px;fill:#0000cc;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1pt"
      id="rect688"
-     transform="scale(-1.000000,-1.000000)" />
+     transform="scale(-1)" />
   <path
-     style="font-size:12.000000px;fill:#0000cc;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 396.61457,277.26029 L 556.65709,555.62563 L 720.13173,278.40370 L 396.61457,277.26029 z "
+     style="font-size:12px;fill:#0000cc;fill-opacity:1;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="M 396.6153,277.26023 556.65782,555.62557 720.13246,278.40364 Z"
      id="path706"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 526.41982,461.87348 L 556.86728,513.47400 L 587.96872,462.08472 L 526.41982,461.87348 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 526.42055,461.87342 30.44746,51.60052 31.10144,-51.38928 z"
      id="path704"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#0000cc;fill-opacity:1.0000000;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 396.02500,465.89958 L 556.06752,187.53950 L 719.54226,464.75617 L 396.02500,465.89958 z "
+     style="font-size:12px;fill:#0000cc;fill-opacity:1;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="M 396.02573,465.89952 556.06825,187.53944 719.54299,464.75611 Z"
      id="path707"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 526.41982,278.46465 L 556.86728,226.86413 L 587.96872,278.25341 L 526.41982,278.46465 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 526.42055,278.46459 30.44746,-51.60052 31.10144,51.38928 z"
      id="path708"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 462.79565,394.00987 L 431.34561,446.30295 L 490.78393,446.11798 L 462.79565,394.00987 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 462.79638,394.00981 -31.45004,52.29308 59.43832,-0.18497 z"
      id="path709"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 431.89419,297.36347 L 491.80649,297.78384 L 462.98166,350.48363 L 431.89419,297.36347 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 431.89492,297.36341 59.9123,0.42037 -28.82483,52.69979 z"
      id="path710"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 651.68580,394.59944 L 681.95680,446.30295 L 621.33944,445.52841 L 651.68580,394.59944 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 651.68653,394.59938 30.271,51.70351 -60.61736,-0.77454 z"
      id="path711"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.96961203pt"
-     d="M 681.40822,297.36347 L 621.49592,297.78384 L 650.32075,350.48363 L 681.40822,297.36347 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:0.969612pt"
+     d="m 681.40895,297.36341 -59.9123,0.42037 28.82483,52.69979 z"
      id="path712"
      sodipodi:nodetypes="cccc" />
   <path
-     style="font-size:12.000000px;fill:#ffffff;fill-rule:evenodd;stroke-width:1.0000000pt"
-     d="M 515.33990,297.30252 L 474.07525,372.16950 L 515.92947,445.26673 L 592.56422,447.03544 L 639.13458,372.16950 L 596.10122,296.71400 L 515.33990,297.30252 z "
+     style="font-size:12px;fill:#ffffff;fill-rule:evenodd;stroke-width:1pt"
+     d="m 515.34063,297.30246 -41.26465,74.86698 41.85422,73.09723 76.63475,1.76871 46.57036,-74.86594 -43.03336,-75.4555 z"
      id="path716"
      sodipodi:nodetypes="ccccccc" />
 </svg>
