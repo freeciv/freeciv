@@ -73,6 +73,8 @@ libfreeciv_la_SOURCES = \
 		mapimg.h	\
 		metaknowledge.c \
 		metaknowledge.h \
+		modpack.c	\
+		modpack.h	\
 		movement.c	\
 		movement.h	\
 		multipliers.c   \
