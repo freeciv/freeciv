@@ -181,10 +181,13 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
   struct player *pplayer = player_by_number(info->owner);
 
   if (msgtype == TEXAI_MSG_CITY_CREATED) {
+    struct tile *ptile;
+
     if (idex_lookup_city(&texai_world, info->id) != NULL) {
       return;
     }
-    struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
+
+    ptile = index_to_tile(&(texai_world.map), info->tindex);
 
     pcity = create_city_virtual(pplayer, ptile, "");
     adv_city_alloc(pcity);
@@ -211,7 +214,7 @@ struct city *texai_map_city(int city_id)
 {
   return idex_lookup_city(&texai_world, city_id);
 }
-  
+
 /**********************************************************************//**
   City has been removed from the main map.
 **************************************************************************/
@@ -291,10 +294,13 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
   struct tile *ptile = index_to_tile(&(texai_world.map), info->tindex);
 
   if (msgtype == TEXAI_MSG_UNIT_CREATED) {
+    struct texai_plr *plr_data;
+
     if (idex_lookup_unit(&texai_world, info->id) != NULL) {
       return;
     }
-    struct texai_plr *plr_data = player_ai_data(pplayer, texai_get_self());
+
+    plr_data = player_ai_data(pplayer, texai_get_self());
 
     punit = unit_virtual_create(pplayer, NULL, type, 0);
     punit->id = info->id;
