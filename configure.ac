@@ -480,8 +480,8 @@ for gui in $(echo $clients | $SED 's/,/ /g') ; do
 done
 
 AC_ARG_WITH([zoom],
-  [AS_HELP_STRING([--with-zoom], [expose experimental/WIP zoom support on gtk3-clients to user])],
-  [AC_DEFINE([GTK3_ZOOM_ENABLED], [1], [Experimental zoom functionality exposed to user])])
+  [AS_HELP_STRING([--with-zoom], [expose experimental zoom levels support on gtk-clients to user])],
+  [AC_DEFINE([EXP_ZOOM_LEVELS], [1], [Experimental zoom levels (other than 1.0 and 2.0)])])
 
 AC_ARG_WITH([3d],
   [AS_HELP_STRING([--with-3d], [build WIP 3D support to gtk3.22-client])],
