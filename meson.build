@@ -48,6 +48,13 @@ else
   add_global_arguments('-DQT_NO_DEBUG', language : 'cpp')
 endif
 
+priv_conf_data.set('DEFAULT_DATA_PATH',
+  '".:data:@FREECIV_STORAGE_DIR@/@DATASUBDIR@:@DATADIR@/freeciv"')
+priv_conf_data.set('DEFAULT_SAVE_PATH',
+  '".:@FREECIV_STORAGE_DIR@/saves"')
+priv_conf_data.set('DEFAULT_SCENARIO_PATH',
+  '".:data/scenarios:@FREECIV_STORAGE_DIR@/@DATASUBDIR@/scenarios:@FREECIV_STORAGE_DIR@/scenarios:@DATADIR@/freeciv/scenarios"')
+
 if get_option('freeciv-web')
   priv_conf_data.set('FREECIV_WEB', 1)
   server_binary_name = 'freeciv-web'
