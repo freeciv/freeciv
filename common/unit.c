@@ -2176,7 +2176,7 @@ int unit_bribe_cost(struct unit *punit, struct player *briber)
   cost /= dist + 2;
 
   /* Consider the build cost. */
-  cost *= unit_build_shield_cost_base(punit) / 10;
+  cost *= unit_build_shield_cost_base(punit) / 10.0;
 
   /* Rule set specific cost modification */
   cost += (cost
