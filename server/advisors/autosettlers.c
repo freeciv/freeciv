@@ -678,7 +678,7 @@ int settler_evaluate_improvements(struct unit *punit,
                      * Here we set value to be sum of dependency
                      * road and target extra values, which increases want, and turns is sum
                      * of dependency and target build turns, which decreases want. This can
-                     * result in either bigger or lesser want than when checkin dependency
+                     * result in either bigger or lesser want than when checking dependency
                      * road for the sake of itself when its turn in extra_type_iterate() is. */
                     int dep_turns = turns + get_turns_for_activity_at(punit,
                                                                       ACTIVITY_GEN_ROAD,
