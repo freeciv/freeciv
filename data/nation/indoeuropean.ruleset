@@ -1,9 +1,9 @@
 [nation_indoeuropean]
 
-name=_("Indo-European")
-plural=_("?plural:Indo-Europeans")
-groups="Imaginary", "European", "Asian"
-legend=_("The Indo-Europeans were a hypothetical ancient people who were\
+name   = _("Indo-European")
+plural = _("?plural:Indo-Europeans")
+groups = "Imaginary", "European", "Asian"
+legend = _("The Indo-Europeans were a hypothetical ancient people who were\
  linguistically ancestral to modern peoples in Europe and South and West\
  Asia. They probably existed about 5000 years ago somewhere on the\
  Eurasian steppes, but their true origins remain a mystery. The existence\
@@ -11,6 +11,7 @@ legend=_("The Indo-Europeans were a hypothetical ancient people who were\
  on the basis of which attempts to reconstruct the Proto-Indo-European\
  language have been made. One of the first scientists who noted the\
  similarities between these languages was Sir William Jones.")
+
 leaders = {
  "name",                "sex"
  "William Jones",       "Male"
@@ -30,21 +31,21 @@ leaders = {
  "Friderik Kortlandt",  "Male"
 }
 
-flag="indoeuropean"
+flag = "indoeuropean"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="gallic", "briton", "roman", "western roman", "byzantine", "scythian",
-               "sarmatian", "celtiberian", "greek", "macedon", "thracian", "paeonian",
-		"illyrian", "persian", "tocharian", "saka", "hephthalite",
-		"slavic", "liburnian", "helvetian", "gaelic", "pictish", "viking",
-		"ostrogothic", "visigothic", "vandalic", "armenian", "hittite",
-		"epirote", "teutonic", "frankish", "boian", "phrygian", "dacian",
-		"belgic"
+conflicts_with = "gallic", "briton", "roman", "western roman", "byzantine",
+                 "scythian", "sarmatian", "celtiberian", "greek", "macedon",
+                 "thracian", "paeonian", "illyrian", "persian", "tocharian",
+                 "saka", "hephthalite", "slavic", "liburnian", "helvetian",
+                 "gaelic", "pictish", "viking", "ostrogothic", "visigothic",
+                 "vandalic", "armenian", "hittite", "epirote", "teutonic",
+                 "frankish", "boian", "phrygian", "dacian", "belgic"
 civilwar_nations =
 ; armenian
  "armenian",

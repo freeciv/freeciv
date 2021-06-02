@@ -1,11 +1,11 @@
 [nation_iroquois]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Iroquois")
-plural=_("?plural:Iroquois")
-groups="Medieval", "Early Modern", "American", "Core"
-legend=_("The Iroquois Confederacy - known as Haudenosaunee in their own\
+name   = _("Iroquois")
+plural = _("?plural:Iroquois")
+groups = "Medieval", "Early Modern", "American", "Core"
+legend = _("The Iroquois Confederacy - known as Haudenosaunee in their own\
  language - was a North American group of nations with common language and\
  culture. They were based in what is now upstate New York and consisted\
  originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk.\
@@ -30,70 +30,71 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="iroquois"
+flag = "iroquois"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "american", "quebecois", "sioux"
 
 cities =
- "Onondaga",		; (Onondaga)
- "Oneida",		; (Oneida)
- "Teyagon",		; (at Toronto) (Seneca)
- "Ganaraske (river)",	; (at Port Hope) (Cayuga)
- "Akwesasne",		; (=Saint Regis) (Mohawk)
- "Canienga",		; (Canienga=Mohawk)
- "Oswegatchie",		; (=Ogdensburgh) (Onondaga / Oneida)
- "Caughnawaga",		; (Mohawk)
- "Cattaraugus",		; (Seneca)
- "Kente",		; (Cayuga)
+ "Onondaga",            ; (Onondaga)
+ "Oneida",              ; (Oneida)
+ "Teyagon",             ; (at Toronto) (Seneca)
+ "Ganaraske (river)",   ; (at Port Hope) (Cayuga)
+ "Akwesasne",           ; (=Saint Regis) (Mohawk)
+ "Canienga",            ; (Canienga=Mohawk)
+ "Oswegatchie",         ; (=Ogdensburgh) (Onondaga / Oneida)
+ "Caughnawaga",         ; (Mohawk)
+ "Cattaraugus",         ; (Seneca)
+ "Kente",               ; (Cayuga)
 
- "Gandesetaiagon",	; (=Oshawa) (Seneca)
- "Tiohero",		; (Cayuga)
+ "Gandesetaiagon",      ; (=Oshawa) (Seneca)
+ "Tiohero",             ; (Cayuga)
  "Niagara Falls (river)", ; (Neutral / Tuscarora)
- "Tonawanda",		; (Seneca)
- "Owego",		; (Cayuga)
- "Kanagaro",		; (Mohawk)
- "Opolopong",		; (Oneida)
- "Grand River (river)",	; (Seneca)
- "Deseroken",		; (Onondaga)
- "Allegany",		; (Seneca)
+ "Tonawanda",           ; (Seneca)
+ "Owego",               ; (Cayuga)
+ "Kanagaro",            ; (Mohawk)
+ "Opolopong",           ; (Oneida)
+ "Grand River (river)", ; (Seneca)
+ "Deseroken",           ; (Onondaga)
+ "Allegany",            ; (Seneca)
 
- "Salamanca",		; (=Bucktooth) (Seneca)
- "Tuscarora",		; (Tuscarora)
- "Saratoga",		; (Mohawk)
- "Geneseo",		; (Seneca)
- "Chondote",		; (Cayuga)
- "Tyendinaga",		; (=Brantville) (Mohawk)
- "Tueadasso",		; (Onondaga)
- "Buckaloon",		; (Seneca)
- "Onnontare",		; (Cayuga)
- "Skohare",		; (Mohawk)
+ "Salamanca",           ; (=Bucktooth) (Seneca)
+ "Tuscarora",           ; (Tuscarora)
+ "Saratoga",            ; (Mohawk)
+ "Geneseo",             ; (Seneca)
+ "Chondote",            ; (Cayuga)
+ "Tyendinaga",          ; (=Brantville) (Mohawk)
+ "Tueadasso",           ; (Onondaga)
+ "Buckaloon",           ; (Seneca)
+ "Onnontare",           ; (Cayuga)
+ "Skohare",             ; (Mohawk)
 
- "Catherine's Town",	; (Seneca)
- "Ganogeh",		; (Cayuga)
- "Oka (mountains)",	; (=Lac des Deux-Montagnes) (Mohawk)
- "Skannayutenate",	; (Cayuga)
- "Oriska",		; (Oneida)
- "Canajoharie",		; (Mohawk)
- "Oil Springs",		; (Seneca)
- "Gannentaha",		; (Onondaga)
- "Buffalo Creek",	; (Seneca)
- "Neodakheat",		; (Cayuga)
+ "Catherine's Town",    ; (Seneca)
+ "Ganogeh",             ; (Cayuga)
+ "Oka (mountains)",     ; (=Lac des Deux-Montagnes) (Mohawk)
+ "Skannayutenate",      ; (Cayuga)
+ "Oriska",              ; (Oneida)
+ "Canajoharie",         ; (Mohawk)
+ "Oil Springs",         ; (Seneca)
+ "Gannentaha",          ; (Onondaga)
+ "Buffalo Creek",       ; (Seneca)
+ "Neodakheat",          ; (Cayuga)
 
- "Cowassalong",		; (Oneida)
- "Union Springs",  	; (Cayuga)
- "Venango",		; (Seneca)
- "Nowadaga",		; (Mohawk)
- "Chemung",		; (Seneca)
- "Osquake",		; (Mohawk)
- "Cittenango",		; (Oneida)
- "Gadoquat",		; (Onondaga)
- "Onnahee",		; (Seneca)
- "Mingo Town",		; (Iroquois)
+ "Cowassalong",         ; (Oneida)
+ "Union Springs",       ; (Cayuga)
+ "Venango",             ; (Seneca)
+ "Nowadaga",            ; (Mohawk)
+ "Chemung",             ; (Seneca)
+ "Osquake",             ; (Mohawk)
+ "Cittenango",          ; (Oneida)
+ "Gadoquat",            ; (Onondaga)
+ "Onnahee",             ; (Seneca)
+ "Mingo Town",          ; (Iroquois)
 
 ; More cities in alphabetical order. Source:
 ; http://www.accessgenealogy.com/native/tribes/iroquioi/iroquoisvillages.htm

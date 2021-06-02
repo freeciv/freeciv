@@ -1,9 +1,9 @@
 [nation_inuit]
 
-name=_("Inuit")
-plural=_("?plural:Inuits")
-groups="American"
-legend=_("The Inuits are a group of peoples inhabiting the Arctic areas\
+name   = _("Inuit")
+plural = _("?plural:Inuits")
+groups = "American"
+legend = _("The Inuits are a group of peoples inhabiting the Arctic areas\
  of North America and Siberia. The Canadian territory of Nunavut has a\
  majority population of Inuits; the name of the territory means \"our\
  land\" in Inuktitut.")
@@ -24,20 +24,21 @@ ruler_titles = {
  "Democracy",       _("Principal Chief %s"), _("?female:Principal Chief %s")
 }
 
-flag="nunavut"
+flag = "nunavut"
 flag_alt = "greenland" ; used previously
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="Canadian", "Aleut", "Greenlander"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "Canadian", "Aleut", "Greenlander"
 
 cities =
 ; Communities recognised by the Government of Nunavut
- "Iqaluit",		; Frobisher Bay
+ "Iqaluit",             ; Frobisher Bay
  "Kangiqiniq",
- "Arviat",		; Eskimo Point
+ "Arviat",              ; Eskimo Point
  "Qamani’tuaq",
  "Iglulik",
  "Iqaluktuuttiaq",
@@ -55,7 +56,7 @@ cities =
  "Arviligjuaq",
  "Sanirajak",
  "Qikiqtarjuaq",
- "Kimmirut",		; Lake Harbour
+ "Kimmirut",            ; Lake Harbour
  "Tikirarjuaq",
  "Igluligaarjuk",
  "Qausuittuq",

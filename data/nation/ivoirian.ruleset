@@ -1,14 +1,14 @@
 [nation_ivoirian]
 
-name=_("Ivoirian")
-plural=_("?plural:Ivoirian")
-groups="Modern", "African"
-legend=_("Ivory Coast or Côte d'Ivoire achieved independence in 1960. It\
+name   = _("Ivoirian")
+plural = _("?plural:Ivoirian")
+groups = "Modern", "African"
+legend = _("Ivory Coast or Côte d'Ivoire achieved independence in 1960. It\
  has been relatively stable compared to other West African countries, but\
  in the 2000s it lived through a civil war.")
 
 leaders = {
- "name",                "sex"
+ "name",                        "sex"
  "Félix Houphouët-Boigny",      "Male"
  "Henri Konan Bédié",           "Male"
  "Robert Guéï",                 "Male"
@@ -19,11 +19,11 @@ flag = "ivory_coast"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="malian", "burkinabe"
+civilwar_nations = "malian", "burkinabe"
 
 cities =
  "Abidjan",

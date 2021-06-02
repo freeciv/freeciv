@@ -1,9 +1,9 @@
 [nation_iranian]
 
-name=_("Iranian")
-plural=_("?plural:Iranians")
-groups="Modern", "Asian"
-legend=_("Iran means \"Land of the Aryans\" - long known as Persia in the\
+name   = _("Iranian")
+plural = _("?plural:Iranians")
+groups = "Modern", "Asian"
+legend = _("Iran means \"Land of the Aryans\" - long known as Persia in the\
  Western world. The country is today an Islamic Republic and a major\
  power in the Middle East.")
 
@@ -42,16 +42,16 @@ ruler_titles = {
  "Fundamentalism",  _("Ayatollah %s"),     _("?female:Ayatollah %s")
 }
 
-flag="iran"
+flag = "iran"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Persian"
-civilwar_nations="Tajik", "Pashtun", "Azeri"
+conflicts_with = "Persian"
+civilwar_nations = "Tajik", "Pashtun", "Azeri"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_im_Iran
 cities =

@@ -1,9 +1,9 @@
 [nation_irish]
 
-name = _("Irish")
+name   = _("Irish")
 plural = _("?plural:Irish")
-groups="Medieval", "Modern", "European"
-legend=_("Ireland held out against the Romans and Vikings but was\
+groups = "Medieval", "Modern", "European"
+legend = _("Ireland held out against the Romans and Vikings but was\
  conquered by the Normans in 1171.  It was ruled by the English until 1922\
  when most of the country was granted limited autonomy, becoming a republic\
  in 1949.  The North of Ireland was settled in the 17th century by Scottish\
@@ -44,16 +44,16 @@ ruler_titles = {
  "Democracy",       _("Taoiseach %s"),    _("?female:Taoiseach %s")
 }
 
-flag="ireland"
+flag = "ireland"
 flag_alt = "-"
 style = "Celtic"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 ; Similar flags
-conflicts_with="italian"
+conflicts_with = "italian"
 civilwar_nations = "scottish gaelic", "english", "scottish", "gaelic"
 
 cities =
@@ -166,4 +166,3 @@ cities =
   "Portarlington (swamp, !ocean)",
   "Cahir (hills)",
   "Trim (grassland, river)"
-

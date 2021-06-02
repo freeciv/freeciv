@@ -1,11 +1,11 @@
 [nation_indian]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Indian")
-plural=_("?plural:Indians")
-groups="Modern", "Asian", "Core"
-legend=_("The Republic of India was created in 1950 following a\
+name   = _("Indian")
+plural = _("?plural:Indians")
+groups = "Modern", "Asian", "Core"
+legend = _("The Republic of India was created in 1950 following a\
  non-violent independence movement led by Mahatma Gandhi. With more\
  than a billion inhabitants it is the world's second most populous\
  country as well as the world's largest democracy.")
@@ -29,33 +29,33 @@ ruler_titles = {
  "Republic",        _("Mahatma %s"),   _("?female:Mahatma %s")
 }
 
-flag="india"
+flag = "india"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Gupta", "Chola", "Mughal", "Marathi"
-civilwar_nations="Bengali", "Sikh", "Kashmiri", "Assamese", "Marathi"
+conflicts_with = "Gupta", "Chola", "Mughal", "Marathi"
+civilwar_nations = "Bengali", "Sikh", "Kashmiri", "Assamese", "Marathi"
 
 cities =
  "Delhi",
- "Mumbai",		; Bombay
- "Chennai",		; Madras
+ "Mumbai",              ; Bombay
+ "Chennai",             ; Madras
  "Bangalore",
- "Kolkata",		; Calcutta
- "Ahmedabad",		; Ahmadabad
+ "Kolkata",             ; Calcutta
+ "Ahmedabad",           ; Ahmadabad
  "Kanpur",
  "Hyderabad",
  "Lucknow",
- "Varanasi",		; Benares
+ "Varanasi",            ; Benares
  "Chandigarh",
  "Madurai",
  "Coimbatore",
- "Kozhikode",		; Calicut
- "Thiruvananthapuram",	; Trivandrum
+ "Kozhikode",           ; Calicut
+ "Thiruvananthapuram",  ; Trivandrum
  "Nagpur",
  "Amritsar",
  "Srinagar",
@@ -70,8 +70,8 @@ cities =
  "Mysore",
  "Raipur",
  "Gaya",
- "Kanpur",		; Cawnpore
- "Pune (hills)",	; Poona
+ "Kanpur",              ; Cawnpore
+ "Pune (hills)",        ; Poona
  "Ranchi",
  "Bhubaneswar",
  "Thiruvananthapuram",
