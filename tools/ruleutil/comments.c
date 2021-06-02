@@ -53,6 +53,7 @@ static struct {
 
   /* Comment entries */
   char *civstyle_granary;
+  char *civstyle_ransom_gold;
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
   char *wonder_visibility_small_wonders;
@@ -134,6 +135,8 @@ bool comments_load(void)
 
   comment_load(comments_storage.civstyle_granary, comment_file,
                "entrydoc.granary");
+  comment_load(comments_storage.civstyle_ransom_gold, comment_file,
+               "entrydoc.ransom_gold");
   comment_load(comments_storage.civstyle_gameloss_style, comment_file,
                "entrydoc.gameloss_style");
   comment_load(comments_storage.civstyle_gold_upkeep_style, comment_file,
@@ -408,6 +411,15 @@ void comment_clauses(struct section_file *sfile)
 void comment_civstyle_granary(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.civstyle_granary,
+                      "civstyle");
+}
+
+/**********************************************************************//**
+  Write civstyle ransom_gold settings header.
+**************************************************************************/
+void comment_civstyle_ransom_gold(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.civstyle_ransom_gold,
                       "civstyle");
 }
 

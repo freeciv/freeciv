@@ -1201,6 +1201,12 @@ granary = "\n\
 ;        granary_food_inc * (city_size - num_inis)) * foodbox / 100\
 "
 
+ransom_gold = "\n\
+; Barbarian leader ransom in gold. The ransom is taken from\n\
+; the victim (typically a barbarian player), and it`s possible\n\
+; they cannot pay this in full.\
+"
+
 gameloss_style = "\n\
 ; Comma separated list of things to happen, in addition to death\n\
 ; of owner, when gameloss unit dies\n\

@@ -1153,6 +1153,9 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.base_bribe_cost,
                    RS_DEFAULT_BASE_BRIBE_COST,
                    "civstyle.base_bribe_cost", NULL);
+  if (game.server.ransom_gold != RS_DEFAULT_RANSOM_GOLD) {
+    comment_civstyle_ransom_gold(sfile);
+  }
   save_default_int(sfile, game.server.ransom_gold,
                    RS_DEFAULT_RANSOM_GOLD,
                    "civstyle.ransom_gold", NULL);
