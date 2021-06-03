@@ -117,7 +117,11 @@ static bool is_universal_needed(struct universal *uni, requirers_cb cb,
                                                  uni)
           || universal_is_mentioned_by_requirements(&(enabler->target_reqs),
                                                     uni)) {
-        cb(R__("Action Enabler"), data);
+        char buf[1024];
+
+        fc_snprintf(buf, sizeof(buf), R__("%s action enabler"),
+                    action_id_rule_name(enabler->action));
+        cb(buf, data);
         needed = TRUE;
       }
     } action_enabler_list_re_iterate_end;
