@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-05-14 13:22+0300\n"
-"PO-Revision-Date: 2021-05-23 17:46+0200\n"
+"PO-Revision-Date: 2021-06-04 00:25+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -32562,12 +32562,16 @@ msgid ""
 "Fallout appears after Rebels strike a city. It halves all output from its "
 "tile."
 msgstr ""
+"La Radioactivitat apareix després que els Rebels ataquin una ciutat. Redueix"
+" a la meitat tota la producció de la casella."
 
 #: data/alien/terrain.ruleset:895
 msgid ""
 "Fallout can only be cleared by dispatching Engineer or Hunter units with the "
 "\"clean fallout\" order."
 msgstr ""
+"La Radioactivitat només es pot netejar enviant-hi unitats d'Enginyers o"
+" Caçadors amb l'ordre \"netejar radioactivitat\"."
 
 #: data/alien/terrain.ruleset:901
 msgid "Tower"
@@ -32587,15 +32591,18 @@ msgid ""
 "\n"
 "Having Road on Grassland tile provides increase of +1 to trade on that tile."
 msgstr ""
+"El Camí bàsic es pot construir des del principi de la partida.\n"
+"\n"
+"Tenir Camí en una casella de Prats proporciona un augment de +1 del comerç"
+" d'aquesta casella."
 
 #: data/alien/terrain.ruleset:1006
 msgid "Highway"
 msgstr "Autopista"
 
 #: data/alien/terrain.ruleset:1029
-#, fuzzy
 msgid "You can upgrade Roads to Highways."
-msgstr "Només es poden millorar unitats dins de les teves ciutats."
+msgstr "Pots millorar Camins a Autopistes."
 
 #: data/alien/terrain.ruleset:1057
 #, no-c-format
@@ -32605,6 +32612,10 @@ msgid ""
 "Units can move via Maglevs indefinitely, Shield production of any tile with "
 "Maglev is increased by 50%."
 msgstr ""
+"Pots millorar Autopistes a Maglevs.\n"
+"\n"
+"Les unitats es poden moure amb Maglevs indefinidament. La producció de"
+" qualsevol casella amb Maglev augmenta en un 50%."
 
 #: data/alien/terrain.ruleset:1065
 msgid "Tunnel"
@@ -32623,7 +32634,7 @@ msgstr ""
 
 #: data/alien/terrain.ruleset:1095
 msgid "Burrow Tube"
-msgstr ""
+msgstr "Tub d'Excavació"
 
 #: data/alien/terrain.ruleset:1116
 msgid ""
@@ -32633,40 +32644,38 @@ msgid ""
 msgstr ""
 
 #: data/alien/terrain.ruleset:1124
-#, fuzzy
 msgid "Green River"
-msgstr "Grenlandès"
+msgstr "Riu verd"
 
 #: data/alien/terrain.ruleset:1140 data/alien/terrain.ruleset:1164
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Any river increases a tile's natural defense factor by 50%. Native and "
 "Amphibious units may move along a River (but not diagonally) for fast travel."
 msgstr ""
-"Qualsevol tipus de terreny (excepte l'Oceà) pot tenir-hi un Riu. Un Riu "
-"afegeix 1 punt de comerç als recursos produïts per aquesta casella. També "
-"augmenta el factor defensiu de la casella en un 50%. Finalment, les unitats "
-"terrestres poden moure's al llarg d'un Riu (però no en diagonal) per viatjar "
-"més ràpidament."
+"Qualsevol riu augmenta el factor de defensa natural d'una casella en un 50%."
+" Les unitats Natives i Amfíbies es poden moure al llarg d'un Riu (però no en"
+" diagonal) per viatjar ràpidament."
 
 #: data/alien/terrain.ruleset:1143
 msgid "Green River increases also tile's food production by 1."
-msgstr ""
+msgstr "El Riu verd també augmenta la producció de menjar de la casella en 1."
 
 #: data/alien/terrain.ruleset:1148
-#, fuzzy
 msgid "Brown River"
-msgstr "Riu"
+msgstr "Riu marró"
 
 #: data/alien/terrain.ruleset:1167
 msgid "Brown River increases also tile's shield production by 1."
-msgstr ""
+msgstr "El Riu marró també augmenta la producció d'escuts de la casella en 1."
 
 #: data/alien/terrain.ruleset:1184
 #, no-c-format
 msgid ""
 "There is more than average amount of various resources, but nothing exciting."
 msgstr ""
+"Hi ha una quantitat superior a l'habitual de diferents recursos, però res de"
+" l'altre món."
 
 #: data/alien/terrain.ruleset:1190
 msgid "Alien Mine"
@@ -32678,11 +32687,12 @@ msgid ""
 "Mine run by superior alien technology ready to operate. We have no idea who "
 "built it nor where they went."
 msgstr ""
+"Una Mina dotada de tecnologia alienígena avançada a punt de funcionar. No"
+" tenim ni idea de qui la va construir ni d'on van anar."
 
 #: data/alien/terrain.ruleset:1208
-#, fuzzy
 msgid "Huge Plant"
-msgstr "Planta de Fab."
+msgstr "Planta Enorme"
 
 #: data/alien/terrain.ruleset:1220
 #, no-c-format
@@ -32690,11 +32700,15 @@ msgid ""
 "Entire forest seems to be of the single fast-growing organism with huge "
 "central blooming."
 msgstr ""
+"El bosc sencer sembla ser d'un únic organisme de creixement ràpid amb una"
+" florescència central gegant."
 
 #: data/alien/terrain.ruleset:1238
 #, no-c-format
 msgid "Where the heat from inside the planet escapes, mineral rich hills form."
 msgstr ""
+"Als llocs per on s'escapa l'escalfor de dins del planeta, es formen turons"
+" rics en minerals."
 
 #: data/alien/terrain.ruleset:1256
 #, no-c-format
@@ -32702,29 +32716,29 @@ msgid ""
 "Weird alien fish might look like something escaped from nightmares, but are "
 "in fact very tasty."
 msgstr ""
+"El peix alienígena és estrany i sembla que s'hagi escapat d'un malson, però"
+" de fet té molt bon gust."
 
 #: data/alien/terrain.ruleset:1262
 msgid "Glowing Rocks"
-msgstr ""
+msgstr "Roques Lluents"
 
 #: data/alien/terrain.ruleset:1274
 #, no-c-format
 msgid "Rocks in the area have unusually bright glow."
-msgstr ""
+msgstr "Les roques de la zona tenen una lluor estranyament brillant."
 
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
 msgid "Regular"
-msgstr ""
+msgstr "Normal"
 
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
-#, fuzzy
 msgid "Elite"
-msgstr "elit"
+msgstr "Elit"
 
 #: data/alien/units.ruleset:49 data/alien/units.ruleset:1396
-#, fuzzy
 msgid "Superb"
-msgstr "SuperEspia"
+msgstr "Superb"
 
 #: data/alien/units.ruleset:130
 msgid "?unitclass:Earthly"
@@ -32753,9 +32767,8 @@ msgid ""
 msgstr ""
 
 #: data/alien/units.ruleset:453
-#, fuzzy
 msgid "Native Settlers"
-msgstr "Caselles Natives"
+msgstr "Colons Natius"
 
 #: data/alien/units.ruleset:478
 msgid ""
@@ -32862,22 +32875,20 @@ msgstr ""
 "Terra."
 
 #: data/alien/units.ruleset:797
-#, fuzzy
 msgid "Paradropper"
-msgstr "Paracaigudistes aquí"
+msgstr "Paracaigudista"
 
 #: data/alien/units.ruleset:825
 msgid "Alien lifeform able to paradrop."
-msgstr ""
+msgstr "Forma de vida alienígena que pot saltar en paracaigudes."
 
 #: data/alien/units.ruleset:830
-#, fuzzy
 msgid "Turtle Defender"
-msgstr "Defensa costanera"
+msgstr "Defensor Tortuga"
 
 #: data/alien/units.ruleset:856
 msgid "This is excellent defense vehicle."
-msgstr ""
+msgstr "És un vehicle de defensa excel·lent."
 
 #: data/alien/units.ruleset:861
 #, fuzzy
@@ -32927,11 +32938,11 @@ msgstr ""
 
 #: data/alien/units.ruleset:987
 msgid "Spitter"
-msgstr ""
+msgstr "Escopidor"
 
 #: data/alien/units.ruleset:1013
 msgid "This alien lifeform is first bombarding unit."
-msgstr ""
+msgstr "Aquesta forma de vida alienígena és la primera unitat que bombardeja."
 
 #: data/alien/units.ruleset:1018
 msgid "Heavy Spitter"
@@ -32942,10 +32953,12 @@ msgid ""
 "This improved spitter can both make bombard attacks, and transport missiles "
 "next to targets."
 msgstr ""
+"Aquest escopidor millorat pot fer alhora atacs de bombardeig i transportar"
+" míssils al costat dels objectius."
 
 #: data/alien/units.ruleset:1050
 msgid "Biomass"
-msgstr ""
+msgstr "Biomassa"
 
 #: data/alien/units.ruleset:1076
 msgid ""
@@ -32981,7 +32994,7 @@ msgstr ""
 
 #: data/alien/units.ruleset:1176
 msgid "Ship"
-msgstr ""
+msgstr "Vaixell"
 
 #: data/alien/units.ruleset:1203
 msgid ""
@@ -32994,42 +33007,46 @@ msgstr ""
 #: data/alien/units.ruleset:1234
 msgid "This vessel is for battle! Too bad it cannot enter boiling oceans."
 msgstr ""
+"Aquest vaixell és per batalles! Llàstima que no pugui entrar en oceans"
+" bullents."
 
 #: data/alien/units.ruleset:1239
-#, fuzzy
 msgid "Battle Unit"
-msgstr "Cuirassat"
+msgstr "Unitat de Batalla"
 
 #: data/alien/units.ruleset:1264
-#, fuzzy
 msgid "Amphibious battle machine."
-msgstr "Guerra Amfíbia"
+msgstr "Màquina de batalla amfíbia"
 
 #: data/alien/units.ruleset:1268
-#, fuzzy
 msgid "Amphibious Transport"
-msgstr "Guerra Amfíbia"
+msgstr "Transport Amfibi"
 
 #: data/alien/units.ruleset:1295
 msgid "This is first unit that can enter boiling oceans - and more."
-msgstr ""
+msgstr "És la primera unitat que pot entrar en oceans bullents - i més."
 
 #: data/alien/units.ruleset:1326
 msgid ""
 "Earth technology unit that can establish trade routes and transfer goods to "
 "help build wonders in other cities."
 msgstr ""
+"Unitat amb tecnologia terrestre que pot establir rutes comercials i"
+" transferir béns per ajudar a construir meravelles en altres ciutats."
 
 #: data/alien/units.ruleset:1329 data/alien/units.ruleset:1364
 msgid ""
 "Trade routes with other factions provide three times as much ongoing trade "
 "as routes within your faction. Each city can support up to four trade routes."
 msgstr ""
+"Les rutes comercials amb altres faccions proporcionen el triple de comerç"
+" continu que les rutes dins de la teva facció. Cada ciutat pot suportar fins"
+" a quatre rutes comercials."
 
 #: data/alien/units.ruleset:1362
-#, fuzzy
 msgid "Native caravan unit, that can move on all land terrains."
-msgstr "* Les unitats terrestres no poden viatjar per terrenys oceànics."
+msgstr ""
+"Unitat de caravana nativa, que es pot moure per qualsevol casella de terra."
 
 #: data/alien/units.ruleset:1371
 msgid "Stealth Spy"
@@ -33045,9 +33062,8 @@ msgstr ""
 "costat de la unitat o ciutat enemigues."
 
 #: data/alien/units.ruleset:1407
-#, fuzzy
 msgid "Teleporting Missile"
-msgstr "Míssil de creuer"
+msgstr "Míssil Teletransportable"
 
 #: data/alien/units.ruleset:1431
 msgid "Teleporting Missile can teleport and attack to neighbour tile."
@@ -33087,12 +33103,11 @@ msgstr ""
 
 #: data/alien/nation/galacticsound.ruleset:5
 msgid "Galactic Sound"
-msgstr ""
+msgstr "So Galàctic"
 
 #: data/alien/nation/galacticsound.ruleset:6
-#, fuzzy
 msgid "?plural:Fans"
-msgstr "Francs"
+msgstr "Fans"
 
 #: data/alien/nation/galacticsound.ruleset:7
 msgid ""
@@ -33100,6 +33115,9 @@ msgid ""
 "\n"
 "* Three unhappy citizens in each city becomes content"
 msgstr ""
+"Vaixell ple de fans de música que en principi anaven a un gran concert.\n"
+"\n"
+"* Tres ciutadans infeliços de cada ciutat es converteixen en contents"
 
 #: data/alien/nation/jw.ruleset:5
 #, fuzzy
@@ -33121,12 +33139,11 @@ msgstr ""
 
 #: data/alien/nation/kindergarden.ruleset:5
 msgid "Kindergarden"
-msgstr ""
+msgstr "Jardí d'Infància"
 
 #: data/alien/nation/kindergarden.ruleset:6
-#, fuzzy
 msgid "?plural:Children"
-msgstr "Xilens"
+msgstr "Nens"
 
 #: data/alien/nation/kindergarden.ruleset:8
 #, no-c-format
@@ -33138,14 +33155,12 @@ msgid ""
 msgstr ""
 
 #: data/alien/nation/lunatics.ruleset:5
-#, fuzzy
 msgid "Lunatic"
-msgstr "Fanàtic"
+msgstr "Llunàtic"
 
 #: data/alien/nation/lunatics.ruleset:6
-#, fuzzy
 msgid "?plural:Lunatics"
-msgstr "Llatins"
+msgstr "Llunàtics"
 
 #: data/alien/nation/lunatics.ruleset:8
 msgid "Something drove them crazy, made them escape the society to seas."
@@ -33153,20 +33168,19 @@ msgstr ""
 
 #: data/alien/nation/madmen.ruleset:5
 msgid "Madmen"
-msgstr ""
+msgstr "Bojos"
 
 #: data/alien/nation/madmen.ruleset:6
-#, fuzzy
 msgid "?plural:Madmen"
-msgstr "Manx"
+msgstr "Bojos"
 
 #: data/alien/nation/madmen.ruleset:8
 msgid "They have escaped society, and attack it for no sane reason."
-msgstr ""
+msgstr "Han escapat de la societat, i l'ataquen per cap motiu assenyat."
 
 #: data/alien/nation/mathclub.ruleset:5
 msgid "Math Club"
-msgstr ""
+msgstr "Club de Matemàtiques"
 
 #: data/alien/nation/mathclub.ruleset:6
 msgid "?plural:Mathematicians"
@@ -33180,6 +33194,10 @@ msgid ""
 "\n"
 "* 30% bonus to science output"
 msgstr ""
+"El Club de Matemàtiques tornava a casa després d'una Competició Matemàtica"
+" quan Deneb 7 va capturar la seva nau.\n"
+"\n"
+"* 30% de bonificació a la producció de ciència."
 
 #: data/alien/nation/secretsociety.ruleset:5
 msgid "Secret Society"
@@ -33211,9 +33229,8 @@ msgid "Team Gladiators"
 msgstr ""
 
 #: data/alien/nation/teamgladiators.ruleset:6
-#, fuzzy
 msgid "?plural:Athletes"
-msgstr "Aleutians"
+msgstr "Atletes"
 
 #: data/alien/nation/teamgladiators.ruleset:7
 msgid ""
@@ -33423,7 +33440,6 @@ msgstr ""
 "millor que estigui disponible de la llista anterior. "
 
 #: data/helpdata.txt:138
-#, fuzzy
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -33446,8 +33462,9 @@ msgstr ""
 "construir millores agrícoles (veure la secció següent), és millor utilitzar "
 "Treballadors per això, quan estiguin disponibles, perquè, al contrari dels "
 "Colons, els Treballadors no consumeixen menjar de la seva ciutat origen. "
-"Recorda que com més població tens, més gran seran la teva producció i taxa "
-"de recerca, per no dir que les ciutats augmenten el territori del teu "
+"Recorda que com més població tens, més grans seran la productivitat i la taxa "
+"de recerca de la teva civilització, per no dir que les ciutats augmenten el"
+" territori del teu "
 "imperi; per tant, fundar ciutats noves ha de ser una prioritat alta, al "
 "principi."
 
@@ -34119,7 +34136,6 @@ msgid " Production"
 msgstr " Producció"
 
 #: data/helpdata.txt:492
-#, fuzzy
 msgid ""
 "Production points (also known as \"shields\") represent manufacturing "
 "output. In the classic ruleset, most units require production points as "
@@ -34464,13 +34480,12 @@ msgstr ""
 
 #. TRANS: Preserve the leading space: it controls nesting
 #: data/helpdata.txt:650
-#, fuzzy
 msgid " Goods"
-msgstr " M béns"
+msgstr " Béns"
 
 #: data/helpdata.txt:651
 msgid "Goods are carried via trade routes."
-msgstr ""
+msgstr "Els Béns es transporten per rutes comercials."
 
 #: data/helpdata.txt:660
 msgid ""
@@ -35251,7 +35266,6 @@ msgstr ""
 "obsoleta."
 
 #: data/helpdata.txt:1040
-#, fuzzy
 msgid ""
 "Units provide both the mobility your civilization needs, and the violence "
 "with which it will survive and expand. The available units may be classified "
@@ -35259,7 +35273,7 @@ msgid ""
 "few noncombatants which support expansion, diplomacy, and trade."
 msgstr ""
 "Les unitats proporcionen tant la mobilitat que li cal a la teva civilització "
-"i la violència amb la qual podrà sobreviure i expandir-se. Les unitats "
+"com la violència amb la qual podrà sobreviure i expandir-se. Les unitats "
 "disponibles es poden classificar en militars, els talents de les quals són "
 "la defensa i l'agressió, i algunes de no combatents que permeten l'expansió, "
 "la diplomàcia, i el comerç."
@@ -35477,7 +35491,6 @@ msgstr ""
 "del terreny que ocupa."
 
 #: data/helpdata.txt:1156
-#, fuzzy
 msgid ""
 " - If the defender is fortified, or is of a type that could fortify and is "
 "inside a city, its strength is multiplied by 1.5."
@@ -37435,7 +37448,6 @@ msgstr "Joc de regles multijugador"
 #. TRANS: In the client, this is displayed alongside the contents of
 #. ;    README.multiplayer, which are not localized.
 #: data/multiplayer/game.ruleset:34
-#, fuzzy
 #| msgid ""
 #| "You are playing Freeciv with rules designed for multiplayer gaming. The "
 #| "biggest differences from the classic ruleset are that trade routes are "
@@ -37453,7 +37465,8 @@ msgstr ""
 "diferències principals respecte el joc de regles clàssic són que les rutes "
 "comercials estan inhabilitades, i que la majoria de les meravelles les pot "
 "construir un cop cada jugador, i afecten només a ciutats del mateix "
-"continent. Es pot trobar una descripció completa de les diferències al "
+"continent. Es pot trobar una descripció completa de les diferències respecte"
+" el joc de regles clàssic al "
 "fitxer README.multiplayer."
 
 #. TRANS: Name of a color; used as unique identifier for a team
@@ -37631,7 +37644,7 @@ msgstr "%s dispara la recerca dels %s; obtens immediatament l'avenç %s."
 
 #. TRANS: 1st %s is nation or team name
 #: data/multiplayer/script.lua:62
-#, fuzzy, c-format
+#, c-format
 msgid "The %s gain %s from %s."
 msgstr "Els %s aconsegueixen %s dels %s."
 
@@ -37655,7 +37668,7 @@ msgstr ""
 
 #. TRANS: first %s is nation plural or team name
 #: data/multiplayer/script.lua:136
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Great philosophers from all the world join the %s: they get %s as an "
 "immediate advance."
@@ -38902,22 +38915,22 @@ msgstr ""
 #: data/alio.tilespec:18
 msgid "Tileset containing graphics suitable for playing with alien ruleset."
 msgstr ""
+"Joc de caselles que conté gràfics adequats per jugar amb el joc de regles"
+" alienígena."
 
 #: data/amplio2.tilespec:15
 msgid "Large isometric tileset."
 msgstr "Joc de caselles gran isomètric."
 
 #: data/cimpletoon.tilespec:15
-#, fuzzy
 msgid ""
 "Variant of Amplio2 isometric tileset with unit sprites showing the direction "
 "the unit is facing."
 msgstr ""
-"Variant del joc de caselles isomètric Amplio2 amb sprites d'unitat que "
+"Variant del joc de caselles isomètric Amplio2 amb sprites que "
 "mostren en quina direcció està orientada la unitat."
 
 #: data/hex2t.tilespec:15
-#, fuzzy
 msgid "Small hex tileset."
 msgstr "Joc de caselles hexa petites."
 
@@ -38942,7 +38955,6 @@ msgstr ""
 "unitats amb orientació de Cimpletoon."
 
 #: data/trident.tilespec:14
-#, fuzzy
 msgid "Small overhead tileset."
 msgstr "Joc de caselles de vista superior petit."
 
@@ -39018,7 +39030,7 @@ msgstr "França (clàssic/gran)"
 
 #: data/scenarios/france.sav:6
 msgid "Mathieu Roy"
-msgstr ""
+msgstr "Mathieu Roy"
 
 #: data/scenarios/france.sav:7
 msgid "Overhead 140x90 map of France."
@@ -39030,7 +39042,7 @@ msgstr "Terra (clàssic/mitjà)"
 
 #: data/scenarios/hagworld.sav:6
 msgid "Helge Arne Gudmestad, Daniel Markstedt"
-msgstr ""
+msgstr "Helge Arne Gudmestad, Daniel Markstedt"
 
 #: data/scenarios/hagworld.sav:7
 msgid "Overhead 120x60 map of the Earth."
@@ -39042,7 +39054,7 @@ msgstr "Península Ibèrica (clàssic/gran)"
 
 #: data/scenarios/iberian-peninsula.sav:6
 msgid "Miguel Farah, Daniel Markstedt"
-msgstr ""
+msgstr "Miguel Farah, Daniel Markstedt"
 
 # Crec que els jugadors en català no necessiten l'aclariment
 # de qué és la península ibèrica. David
@@ -39060,7 +39072,7 @@ msgstr "Itàlia (clàssic/mitjà)"
 
 #: data/scenarios/italy.sav:6
 msgid "Paolo Sammicheli"
-msgstr ""
+msgstr "Paolo Sammicheli"
 
 #: data/scenarios/italy.sav:7
 msgid "Overhead 100x100 map of Italy."
@@ -39072,7 +39084,7 @@ msgstr "Japó (clàssic/mitjà)"
 
 #: data/scenarios/japan.sav:6 data/scenarios/north_america.sav:6
 msgid "Robert Michael Best"
-msgstr ""
+msgstr "Robert Michael Best"
 
 #: data/scenarios/japan.sav:7
 msgid "Overhead 88x100 map of Japan (Mercator projection)."
@@ -40019,24 +40031,24 @@ msgid "Attack: %d"
 msgstr "Atac: %d"
 
 #: tools/civmanual.c:620
-#, fuzzy, c-format
+#, c-format
 msgid "Defense: %d"
-msgstr "Defensa:"
+msgstr "Defensa: %d"
 
 #: tools/civmanual.c:624
-#, fuzzy, c-format
+#, c-format
 msgid "Firepower: %d"
-msgstr "Potència de Foc:"
+msgstr "Potència de Foc: %d"
 
 #: tools/civmanual.c:628
-#, fuzzy, c-format
+#, c-format
 msgid "Hitpoints: %d"
-msgstr "Punts de Vida:"
+msgstr "Punts de Vida: %d"
 
 #: tools/civmanual.c:632
-#, fuzzy, c-format
+#, c-format
 msgid "Obsolete by: %s"
-msgstr "Substituïda per:"
+msgstr "Substituïda per: %s"
 
 #. TRANS: markup ... Freeciv version ... ruleset name ... markup
 #: tools/civmanual.c:648
@@ -40391,10 +40403,9 @@ msgid "Freeciv modpack installer (gtk3)"
 msgstr "Instal·lador de modpacks de Freeciv (gtk3)"
 
 #: tools/mpgui_gtk4.c:579
-#, fuzzy
 #| msgid "Freeciv modpack installer (gtk)"
 msgid "Freeciv modpack installer (gtk4)"
-msgstr "Instal·lador de modpacks de Freeciv (gtk)"
+msgstr "Instal·lador de modpacks de Freeciv (gtk4)"
 
 #: tools/mpgui_qt.cpp:98
 msgid ""
@@ -40433,9 +40444,9 @@ msgid "Multiple output directories given.\n"
 msgstr ""
 
 #: tools/ruleup.c:199
-#, fuzzy, c-format
+#, c-format
 msgid "Can't load ruleset %s"
-msgstr "No pots afegir %s a %s."
+msgstr "No es pot carregar el joc de regles %s."
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:224
@@ -40496,6 +40507,7 @@ msgstr ""
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s."
 msgstr ""
+"Ara tens un casus belli contra els %s. Els han enxampat provant de fer %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:354
@@ -40544,7 +40556,7 @@ msgstr "Els %s han provocat un incident en sabotejar %s."
 #: server/actiontools.c:507
 #, c-format
 msgid "Doing %s gives everyone a casus belli against you."
-msgstr ""
+msgstr "Fer %s dona a tothom un casus belli en contra teu.´"
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:513
@@ -42095,7 +42107,6 @@ msgstr "Mostrar una llista de coses diverses."
 
 #. TRANS: don't translate text in ''
 #: server/commands.c:103
-#, fuzzy
 msgid ""
 "Show a list of:\n"
 " - the player colors,\n"
@@ -43131,11 +43142,11 @@ msgstr "aicmd <jugador> <comanda>"
 
 #: server/commands.c:657
 msgid "Execute AI command"
-msgstr ""
+msgstr "Executar comanda d'IA"
 
 #: server/commands.c:658
 msgid "Execute a command in the context of the AI for the given player"
-msgstr ""
+msgstr "Executar una comanda en el context de l'IA per al jugador donat"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:664
@@ -44915,12 +44926,11 @@ msgid "%2d: The %s City of %s of size %d, "
 msgstr "%2d: La Ciutat %s de %s de mida %d, "
 
 #: server/report.c:387
-#, fuzzy
 msgid "with no Great Wonders\n"
 msgstr "sense cap Gran Meravella\n"
 
 #: server/report.c:390
-#, fuzzy, c-format
+#, c-format
 msgid "with %d Great Wonder\n"
 msgid_plural "with %d Great Wonders\n"
 msgstr[0] "amb %d Gran Meravella\n"
@@ -45240,9 +45250,9 @@ msgstr ""
 "ne una."
 
 #: server/savegame3.c:1287 server/savegame3.c:1337
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to load ruleset '%s'."
-msgstr "No s'ha pogut carregar el joc de regles"
+msgstr "No s'ha pogut carregar el joc de regles '%s'."
 
 #: server/savegame3.c:1299
 #, fuzzy, c-format
@@ -45250,23 +45260,25 @@ msgid "Scenario requires ruleset capabilities: %s"
 msgstr "Capacitats de fitxer: %s"
 
 #: server/savegame3.c:1300
-#, fuzzy, c-format
+#, c-format
 msgid "Ruleset has capabilities: %s"
-msgstr "Capacitats de fitxer: %s"
+msgstr "El joc de regles té les capacitats: %s"
 
 #. TRANS: ... ruleset dir ... scenario name ...
 #: server/savegame3.c:1303
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Current ruleset %s not compatible with the scenario %s. Trying to switch to "
 "the ruleset specified by the scenario."
-msgstr "El joc de regles actual no té descripció."
+msgstr ""
+"El joc de regles actual %s no és compatible amb l'escenari %s. Provant de"
+" canviar al joc de regles especificat per l'escenari."
 
 #. TRANS: ruleset dir
 #: server/savegame3.c:1344
 #, c-format
 msgid "Successfully loaded the scenario's ruleset %s."
-msgstr ""
+msgstr "S'ha carregat amb èxit el joc de regles %s de l'escenari."
 
 #: server/scripting/api_server_edit.c:377
 #, c-format
