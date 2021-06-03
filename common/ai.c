@@ -24,8 +24,9 @@
 #include "timing.h"
 
 /* common */
-#include "ai.h"
 #include "player.h"
+
+#include "ai.h"
 
 static struct ai_type ai_types[FREECIV_AI_MOD_LAST];
 
@@ -56,6 +57,7 @@ void ai_timer_init(void)
   aitimers = fc_calloc(FREECIV_AI_MOD_LAST, sizeof(*aitimers));
   for (i = 0; i < FREECIV_AI_MOD_LAST; i++) {
     struct ai_timer *aitimer = aitimers + i;
+
     aitimer->count = 0;
     aitimer->timer = NULL;
   }
@@ -64,6 +66,7 @@ void ai_timer_init(void)
                            sizeof(*aitimer_plrs));
   for (i = 0; i < FREECIV_AI_MOD_LAST * MAX_NUM_PLAYER_SLOTS; i++) {
     struct ai_timer *aitimer = aitimer_plrs + i;
+
     aitimer->count = 0;
     aitimer->timer = NULL;
   }
@@ -113,7 +116,6 @@ static struct ai_timer *ai_timer_get(const struct ai_type *ai)
   struct ai_timer *aitimer;
 
   fc_assert_ret_val(ai != NULL, NULL);
-
   fc_assert_ret_val(aitimers != NULL, NULL);
 
   aitimer = aitimers + ai_type_number(ai);
@@ -134,7 +136,6 @@ static struct ai_timer *ai_timer_player_get(const struct player *pplayer)
 
   fc_assert_ret_val(pplayer != NULL, NULL);
   fc_assert_ret_val(pplayer->ai != NULL, NULL);
-
   fc_assert_ret_val(aitimer_plrs != NULL, NULL);
 
   aitimer = aitimer_plrs + (player_index(pplayer) * FREECIV_AI_MOD_LAST

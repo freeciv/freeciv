@@ -97,7 +97,7 @@ struct ai_type
     /* Called for AI type of the player who gets split to two. */
     void (*split_by_civil_war)(struct player *original, struct player *created);
 
-   /* Called for AI type of the player who got created from the split. */
+    /* Called for AI type of the player who got created from the split. */
     void (*created_by_civil_war)(struct player *original, struct player *created);
 
     /* Called for player AI type when player phase begins. This is in the
