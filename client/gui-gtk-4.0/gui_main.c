@@ -192,7 +192,6 @@ static void print_usage(void);
 static void activate_gui(GtkApplication *app, gpointer data);
 static void parse_options(int argc, char **argv);
 static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEvent *ev, gpointer data);
-static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev, gpointer data);
 static gboolean mouse_scroll_mapcanvas(GtkWidget *w, GdkEvent *ev);
 
 static void tearoff_callback(GtkWidget *b, gpointer data);
@@ -599,20 +598,6 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEvent *ev,
   default:
     break;
   };
-
-  return FALSE;
-}
-
-/**********************************************************************//**
-  Handler for "key release" for toplevel window
-**************************************************************************/
-static gboolean toplevel_key_release_handler(GtkWidget *w, GdkEventKey *ev,
-                                             gpointer data)
-{
-  /* inputline history code */
-  if (!gtk_widget_get_mapped(top_vbox) || inputline_has_focus()) {
-    return FALSE;
-  }
 
   return FALSE;
 }
@@ -1514,9 +1499,6 @@ static void setup_widgets(void)
 
   g_signal_connect(toplevel, "key_press_event",
                    G_CALLBACK(toplevel_key_press_handler), NULL);
-
-  g_signal_connect(toplevel, "key_release_event",
-                   G_CALLBACK(toplevel_key_release_handler), NULL);
 
   /* *** The message window -- this is a detachable widget *** */
 
