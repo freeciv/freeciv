@@ -302,6 +302,7 @@ bool client_start_server(void)
     char dbg_lvl_buf[32]; /* Do not move this inside the block where it gets filled,
                            * it's needed via the argv[x] pointer later on, so must
                            * remain in scope. */
+    bool log_to_dev_null = FALSE;
 
     /* Set up the command-line parameters. */
     fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
@@ -376,16 +377,21 @@ bool client_start_server(void)
       fclose(stdout);
       fclose(stderr);
 
-      /* FIXME: include the port to avoid duplication? */
-      if (logfile) {
+      if (!logfile) {
+        log_to_dev_null = TRUE;
+        fd = open("/dev/null", O_WRONLY);
+      } else {
+        /* FIXME: include the port to avoid duplication? */
         fd = open(logfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+      }
 
-        if (fd != 1) {
-          dup2(fd, 1);
-        }
-        if (fd != 2) {
-          dup2(fd, 2);
-        }
+      if (fd != 1) {
+        dup2(fd, 1);
+      }
+      if (fd != 2) {
+        dup2(fd, 2);
+      }
+      if (!log_to_dev_null) {
         fchmod(1, 0644);
       }
 
