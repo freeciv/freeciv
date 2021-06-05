@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-06-04 23:16+0200\n"
-"PO-Revision-Date: 2021-06-05 00:19+0200\n"
+"PO-Revision-Date: 2021-06-05 11:10+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -31556,7 +31556,7 @@ msgid ""
 msgstr ""
 "Són llestos. També han de tenir drets?\n"
 "\n"
-"Les caselles de Bosc Alienígena fan +1 de producció.´"
+"Les caselles de Bosc Alienígena fan +1 de producció."
 
 #: data/alien/techs.ruleset:132
 msgid "Alien Taming"
@@ -32411,7 +32411,7 @@ msgstr ""
 "\n"
 "Les ciutats només poden treballar en aquestes caselles quan es coneix "
 "Estructures Orgàniques. Inventar Drets Alienígenes dóna un punt de "
-"bonificació de producció a les caselles de Bosc Alienígena.´"
+"bonificació de producció a les caselles de Bosc Alienígena."
 
 #: data/alien/terrain.ruleset:337
 msgid "Radiating Rocks"
@@ -32516,7 +32516,7 @@ msgid ""
 "output from its tile."
 msgstr ""
 "La contaminació apareix al voltant de les ciutats amb producció alta. "
-"Redueix a la meitat tota la producció de la seva casella.´"
+"Redueix a la meitat tota la producció de la seva casella."
 
 #: data/alien/terrain.ruleset:810
 msgid ""
@@ -32868,9 +32868,8 @@ msgstr ""
 " radiació."
 
 #: data/alien/units.ruleset:704
-#, fuzzy
 msgid "Crusher"
-msgstr "Croat"
+msgstr "Triturador"
 
 #: data/alien/units.ruleset:730
 msgid "Alien lifeform trained to be fast."
@@ -32947,26 +32946,28 @@ msgstr ""
 " defensar-se sola."
 
 #: data/alien/units.ruleset:926
-#, fuzzy
 msgid "Light Saucer"
-msgstr "Far"
+msgstr "Platet Lleuger"
 
 #: data/alien/units.ruleset:952
 msgid ""
 "Nobody, but some of the other Antigravity units and Hunters can attack this "
 "unit. This unit itself can attack other Antigravity units."
 msgstr ""
+"Només algunes unitats d'Antigravetat i els Caçadors poden atacar aquesta"
+" unitat. Aquesta unitat pot atacar les altres unitats d'Antigravetat."
 
 #: data/alien/units.ruleset:957
-#, fuzzy
 msgid "Bomb Saucer"
-msgstr "Bombarder"
+msgstr "Platet Bombarder"
 
 #: data/alien/units.ruleset:983
 msgid ""
 "Nobody, but some of the other Antigravity and Hunters units can attack this "
 "unit."
 msgstr ""
+"Només algunes unitats d'Antigravetat i els Caçadors poden atacar aquesta"
+" unitat."
 
 #: data/alien/units.ruleset:987
 msgid "Spitter"
@@ -40541,6 +40542,7 @@ msgid ""
 "Getting caught while trying to do %s gives everyone a casus belli against "
 "you."
 msgstr ""
+"Si t'enxampen provant de fer %s, tothom tindrà un casus belli en contra teu."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:338
@@ -40549,6 +40551,8 @@ msgid ""
 "Getting caught while trying to do %s to you gives everyone a casus belli "
 "against the %s."
 msgstr ""
+"Si els enxampen provant de fer %s, tothom tindrà un casus belli en contra"
+" dels %s."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:346
@@ -40560,70 +40564,72 @@ msgstr ""
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:354
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "You now have a casus belli against the %s. They got caught trying to do %s "
 "to the %s."
-msgstr "Has provocat un incident en sabotejar el %2$s dels %1$s."
+msgstr ""
+"Ara tens un casus belli contra els %s. Els han enxampat provant de fer %s als"
+" %s."
 
 #. TRANS: Suitcase Nuke ... San Francisco
 #: server/actiontools.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident doing %s to %s."
-msgstr "Has provocat un incident en enverinar %s."
+msgstr "Has provocat un incident fent %s a %s."
 
 #: server/actiontools.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident doing %s to %s %s."
-msgstr "Has provocat un incident en subornar el %2$s %1$s."
+msgstr "Has provocat un incident fent %1$s al %3$s %2$s."
 
 #. TRANS: Explode Nuclear ... (54, 26)
 #: server/actiontools.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "You have caused an incident doing %s at %s."
-msgstr "Has provocat un incident en sabotejar %s."
+msgstr "Has provocat un incident fent %s a %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... San Francisco
 #: server/actiontools.c:458
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident doing %s to %s."
-msgstr "Els %s han provocat un incident en enverinar %s."
+msgstr "Els %s han provocat un incident fent %s a %s."
 
 #. TRANS: Europeans ... Bribe Enemy Unit ... Partisan
 #: server/actiontools.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident doing %s to your %s."
-msgstr "Els %s han provocat un incident en sabotejar el teu %s."
+msgstr "Els %s han provocat un incident fent %s al teu %s."
 
 #. TRANS: Europeans ... Explode Nuclear ... (54, 26)
 #: server/actiontools.c:478
-#, fuzzy, c-format
+#, c-format
 msgid "The %s have caused an incident doing %s at %s."
-msgstr "Els %s han provocat un incident en sabotejar %s."
+msgstr "Els %s han provocat un incident fent %s a %s."
 
 #. TRANS: Suitcase Nuke
 #: server/actiontools.c:507
 #, c-format
 msgid "Doing %s gives everyone a casus belli against you."
-msgstr "Fer %s dona a tothom un casus belli en contra teu.´"
+msgstr "Fer %s dona a tothom un casus belli en contra teu."
 
 #. TRANS: Suitcase Nuke ... Europeans
 #: server/actiontools.c:513
 #, c-format
 msgid "Doing %s to you gives everyone a casus belli against the %s."
-msgstr ""
+msgstr "Fer-te %s dona a tothom un casus belli en contra dels %s."
 
 #. TRANS: Europeans ... Suitcase Nuke
 #: server/actiontools.c:521
 #, c-format
 msgid "You now have a casus belli against the %s. They did %s."
-msgstr ""
+msgstr "Ara tens un casus belli contra els %s. Han fet %s."
 
 #. TRANS: Europeans ... Suitcase Nuke ... Americans
 #: server/actiontools.c:529
-#, fuzzy, c-format
+#, c-format
 msgid "You now have a casus belli against the %s. They did %s to the %s."
-msgstr "Has provocat un incident en sabotejar el %2$s dels %1$s."
+msgstr "Ara tens un casus belli contra els %s. Han fet %s als %s."
 
 #: server/aiiface.c:91
 #, c-format
@@ -41405,12 +41411,12 @@ msgstr ""
 "cultura de %d.  S'ajorna..."
 
 #: server/cityturn.c:1491
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball, raó desconeguda!.  "
-"S'ajorna..."
+"%s no pot construir %s de la llista de treball; cal conèixer %d tecnologies."
+" S'ajorna..."
 
 #: server/cityturn.c:1506
 #, c-format
@@ -41546,11 +41552,11 @@ msgstr ""
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
 #: server/cityturn.c:1718
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
 msgstr ""
-"%s no pot construir %s de la llista de treball; només és disponible a partir "
+"%s no pot construir %s de la llista de treball; no és disponible a partir "
 "de %s. S'ajorna..."
 
 #. TRANS: third %s is topology flag name
@@ -41569,13 +41575,13 @@ msgstr ""
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
 #: server/cityturn.c:1751
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when the server setting "
 "%s."
 msgstr ""
-"%s no pot construir %s de la llista de treball; només és disponible a partir "
-"de %s. S'ajorna..."
+"%s no pot construir %s de la llista de treball; només és disponible amb la"
+" configuració de servidor %s."
 
 #: server/cityturn.c:1767
 #, c-format
@@ -41743,7 +41749,7 @@ msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "La gent ha destronat el teu %s, hi ha desordres al teu país."
 
 #: server/cityturn.c:3301
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
 "%s encara no pot construir %s, perquè no podem desmantellar l'única ciutat "
@@ -45304,9 +45310,9 @@ msgid "Failed to load ruleset '%s'."
 msgstr "No s'ha pogut carregar el joc de regles '%s'."
 
 #: server/savegame3.c:1299
-#, fuzzy, c-format
+#, c-format
 msgid "Scenario requires ruleset capabilities: %s"
-msgstr "Capacitats de fitxer: %s"
+msgstr "L'escenari requereix capacitats del joc de regles: %s"
 
 #: server/savegame3.c:1300
 #, c-format
@@ -45413,13 +45419,12 @@ msgstr "Partida acabada"
 #. TRANS: Description of caravan bonus style setting value.
 #. TRANS: Description of trade revenue style setting value.
 #: server/settings.c:224 server/settings.c:266
-#, fuzzy
 msgid "Classic Freeciv"
-msgstr "Joc de regles clàssic"
+msgstr "Freeciv clàssic"
 
 #: server/settings.c:225
 msgid "Log^2 N style"
-msgstr ""
+msgstr "Estil Log^2 N"
 
 #: server/settings.c:238
 msgid "Number of tiles"
@@ -45447,7 +45452,7 @@ msgstr "Hexagonal"
 
 #: server/settings.c:267
 msgid "Proportional to tile trade"
-msgstr ""
+msgstr "Proporcional al comerç de la casella"
 
 #: server/settings.c:279
 msgid "Scenario map"
@@ -45471,7 +45476,7 @@ msgstr "Illes justes"
 
 #: server/settings.c:284
 msgid "Fracture map"
-msgstr ""
+msgstr "Mapa de fractura"
 
 #: server/settings.c:296
 msgid "Generator's choice"
@@ -45895,7 +45900,7 @@ msgstr "La mida del mapa (%d * %d = %d) ha de ser de menys de %d caselles."
 
 #: server/settings.c:1255
 msgid "Freeciv-web doesn't support this topology."
-msgstr ""
+msgstr "Freeciv-web no suporta aquesta topologia."
 
 #: server/settings.c:1278
 msgid "No nations in the currently loaded ruleset have associated colors."
@@ -46013,7 +46018,6 @@ msgstr ""
 "\" ('mapsize') ha de ser \"Amplada i alçada\" (XYSIZE)."
 
 #: server/settings.c:1423
-#, fuzzy
 msgid "Map topology"
 msgstr "Topologia del mapa"
 
@@ -46023,10 +46027,11 @@ msgid ""
 "Freeciv-web maps are always two-dimensional. They may wrap at the east-west "
 "directions to form a flat map or a cylinder.\n"
 msgstr ""
+"Els mapes de Freeciv-web sempre són bidimensionals. Poden connectar-se en les"
+" direccions est-oest per formar un mapa pla o un cilindre.\n"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:1431
-#, fuzzy
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -46046,24 +46051,24 @@ msgid ""
 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
 "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
 msgstr ""
-"Els mapes de Freeciv sempre són en dues dimensions. Poden connectar-se en "
+"Els mapes de Freeciv sempre són bidimensionals. Poden connectar-se en "
 "les direccions nord-sud i est-oest per formar un mapa pla, un cilindre, o un "
 "tor (donut). Les caselles individuals poden ser rectangulars o hexagonals, "
 "amb l'alineació de vista superior (\"clàssica\") o la isomètrica.\n"
 "Per jugar amb una topologia concreta, els clients necessitaran un joc de "
 "caselles que s'hi adigui.\n"
 "Rectangular Superior:      Rectangular Isomètric:\n"
-"      _________               /\\/\\/\\/\\/\\ \n"
-"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
+"      _________               /\\/\\/\\/\\/\\\n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
 "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
-"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
-"                             \\/\\/\\/\\/\\/  \n"
+"     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+"                             \\/\\/\\/\\/\\/\n"
 "Hex:                       Iso-hex:\n"
-"  /\\/\\/\\/\\/\\/\\               _   _   _   _   _       \n"
-"  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\      \n"
-"  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
-"   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
-"   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
+"  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
+"  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
+"  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/\n"
+"   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
+"   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
 
 #: server/settings.c:1457
 msgid "Method used to generate map"
@@ -46075,7 +46080,6 @@ msgstr "Mètode usat per generar el mapa"
 #. * translated. The strings between parentheses and in uppercase
 #. * must stay as untranslated.
 #: server/settings.c:1463
-#, fuzzy
 msgid ""
 "Specifies the algorithm used to generate the map. If the default value of "
 "the 'startpos' option is used, then the chosen generator chooses an "
@@ -46102,7 +46106,7 @@ msgid ""
 msgstr ""
 "Especifica l'algorisme que s'utilitzarà per generar el mapa. Si s'utilitza "
 "el valor predeterminat de l'opció 'startpos', el generador triat escull un "
-"paràmetre 'starpos' apropiat; si no, el mapa generat intenta d'adaptar-se al "
+"paràmetre 'startpos' apropiat; si no, el mapa generat intenta d'adaptar-se al "
 "paràmetre 'startpos' que s'hagi escollit.\n"
 "- \"Mapa d'escenari\" (SCENARIO): indica un mapa generat prèviament. Per "
 "defecte, si l'escenari no especifica posicions d'inici, s'assignaran segons "
@@ -46119,6 +46123,9 @@ msgstr ""
 "illa per ell sol.\n"
 "- \"Illes justes\" (FAIR): genera una còpia idèntica de la mateixa illa per "
 "a cada jugador o cada equip.\n"
+"- \"Mapa de fractura\" (FRACTURE): genera mapes a partir d'un patró de"
+" fractura. Té tendència a col·locar turons i muntanyes al llarg de les vores"
+" dels continents.\n"
 "Si el generador sol·licitat no és compatible amb d'altres opcions del "
 "servidor, el servidor pot triar un altre generador."
 
@@ -46355,13 +46362,12 @@ msgstr ""
 "contaminació. Aquesta opció no afecta la contaminació."
 
 #: server/settings.c:1648
-#, fuzzy
 msgid "Global warming percent"
-msgstr "Escalfament global"
+msgstr "Percentatge d'escalfament global"
 
 #: server/settings.c:1649
 msgid "This is a multiplier for the rate of accumulation of global warming."
-msgstr ""
+msgstr "És un multiplicador per la taxa d'acumulació d'escalfament global."
 
 #: server/settings.c:1657
 msgid "Nuclear winter"
@@ -46375,20 +46381,18 @@ msgstr ""
 "guerra nuclear."
 
 #: server/settings.c:1664
-#, fuzzy
 msgid "Nuclear winter percent"
-msgstr "Hivern nuclear"
+msgstr "Percentatge d'hivern nuclear"
 
 #: server/settings.c:1665
 msgid "This is a multiplier for the rate of accumulation of nuclear winter."
-msgstr ""
+msgstr "És un multiplicador per la taxa d'acumulació d'hivern nuclear."
 
 #: server/settings.c:1678
 msgid "Map generation random seed"
 msgstr "Llavor aleatòria de generació de mapa"
 
 #: server/settings.c:1679
-#, fuzzy
 #| msgid ""
 #| "The same seed will always produce the same map; for zero (the default) a "
 #| "seed will be chosen based on the time to give a random map."
@@ -46398,21 +46402,22 @@ msgid ""
 "zero, the map will be completely random."
 msgstr ""
 "La mateixa llavor sempre produirà el mateix mapa; per a zero (predeterminat) "
-"es triarà una llavor en funció del temps, així s'obté un mapa aleatori."
+"es generarà una llavor aleatòriament, basada en la llavor de la partida. Si"
+" la llavor de la partida també eś zero, el mapa serà totalment aleatori."
 
 #: server/settings.c:1698
 msgid "Game random seed"
 msgstr "Llavor aleatòria de la partida"
 
 #: server/settings.c:1699
-#, fuzzy
 #| msgid ""
 #| "For zero (the default) a seed will be chosen based on the current time."
 msgid ""
 "For zero (the default) a seed will be chosen based on system entropy or, "
 "failing that, the current time."
 msgstr ""
-"Per a zero (predeterminat) es triarà una llavor en funció de l'hora actual."
+"Per a zero (predeterminat) es triarà una llavor en funció de l'entropia del"
+" sistema o, si no pot ser, l'hora actual."
 
 #: server/settings.c:1706
 msgid "Amount of \"special\" resource tiles"
@@ -46679,9 +46684,8 @@ msgstr ""
 "pel joc de regles (ruleset) o per altres opcions del joc."
 
 #: server/settings.c:1897
-#, fuzzy
 msgid "Allow researching multiple technologies"
-msgstr "No pots investigar aquesta tecnologia."
+msgstr "Permet de fer recerca en múltiples tecnologies."
 
 #: server/settings.c:1898
 msgid ""
@@ -46689,6 +46693,10 @@ msgid ""
 "never transfered to new technology. Techpenalty options are inefective after "
 "enabling that option."
 msgstr ""
+"Permet de canviar a qualsevol tecnologia sense malbaratar la recerca que"
+" portes feta. Les bombetes no es transfereixen mai a la nova tecnologia. Les"
+" opcions de penalització tecnològica no són efectives si s'habilita aquesta"
+" opció."
 
 #: server/settings.c:1906
 msgid "Percentage penalty when changing tech"
