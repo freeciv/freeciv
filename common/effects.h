@@ -363,6 +363,7 @@ struct effect {
 struct effect *effect_new(enum effect_type type, int value,
                           struct multiplier *pmul);
 struct effect *effect_copy(struct effect *old);
+void effect_remove(struct effect *peffect);
 void effect_req_append(struct effect *peffect, struct requirement req);
 
 struct astring;
