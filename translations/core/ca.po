@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
 "POT-Creation-Date: 2021-06-04 23:16+0200\n"
-"PO-Revision-Date: 2021-06-05 11:10+0200\n"
+"PO-Revision-Date: 2021-06-06 13:24+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -15592,7 +15592,7 @@ msgid ""
 "tile. No diplomatic relation to Nature."
 msgstr ""
 "Possible clarificació: el requeriment {%s} de l'acció \"%s\" implica una "
-"casella pretesa. No hi ha relació diplomàtica amb Natura."
+"casella reclamada. No hi ha relació diplomàtica amb Natura."
 
 #. TRANS: ruledit warns a user about an unused action enabler
 #: common/actions.c:2872
@@ -19004,7 +19004,7 @@ msgstr "centres de la ciutat"
 
 #: common/reqtext.c:2534
 msgid "claimed tiles"
-msgstr "caselles preteses"
+msgstr "caselles reclamades"
 
 #. TRANS: tile property ("city centers", etc)
 #: common/reqtext.c:2547
@@ -46735,12 +46735,11 @@ msgstr ""
 
 #: server/settings.c:1933
 msgid "Tech leakage percent"
-msgstr ""
+msgstr "Percentatge de filtració de tecnologia"
 
 #: server/settings.c:1934
-#, fuzzy
 msgid "The rate of the tech leakage."
-msgstr "El nom del fitxer de registre del xat"
+msgstr "La taxa de filtració de tecnologia."
 
 #: server/settings.c:1940
 msgid "Team pooled research"
@@ -46938,7 +46937,7 @@ msgstr ""
 
 #: server/settings.c:2081
 msgid "How largely trade distance is relative to world size"
-msgstr ""
+msgstr "Importància de la distància de comerç en relació a la mida del món"
 
 #. TRANS: The strings between single quotes are setting names and
 #. * shouldn't be translated.
@@ -46949,6 +46948,10 @@ msgid ""
 "the bonus calculation is relative to world size, and how much only absolute "
 "distance matters."
 msgstr ""
+"Quan es determina el comerç entre ciutats, el factor distància pot ser en"
+" part o totalment relatiu a la mida del món. Aquest paràmetre determina quin"
+" percentatge del càlcul de la bonificació és relatiu a la mida del món, i en"
+" quina part només importa la distància absoluta."
 
 #: server/settings.c:2096
 msgid "Minimum distance between cities"
@@ -47000,9 +47003,8 @@ msgstr ""
 "diplomàcia."
 
 #: server/settings.c:2130
-#, fuzzy
 msgid "Caravan bonus style"
-msgstr "Accions de caravana"
+msgstr "Estil de bonificació de Caravana"
 
 #: server/settings.c:2131
 msgid ""
@@ -47011,11 +47013,15 @@ msgid ""
 "multipliers for overseas and international destinations. LOGARITHMIC bonuses "
 "are proportional to log^2(distance + trade)."
 msgstr ""
+"La fórmula per a la bonificació quan una caravana entra en una ciutat. Les"
+" bonificacions CLÀSSIQUES són proporcionals a la distància i el comerç"
+" d'origen i destí amb multiplicadors per a destins transoceànics i"
+" estrangers. Les bonificacions LOGARÍTMIQUES són proporcionals al"
+" log^2(distància + comerç)."
 
 #: server/settings.c:2141
-#, fuzzy
 msgid "Trade revenue style"
-msgstr "Rutes comercials:"
+msgstr "Estil de renda per comerç"
 
 #: server/settings.c:2142
 msgid ""
@@ -47024,6 +47030,10 @@ msgid ""
 "international routes. SIMPLE revenues are proportional to the average trade "
 "of the two cities."
 msgstr ""
+"La fórmula per al comerç que rep una ciutat d'una ruta comercial. Les rendes"
+" CLÀSSIQUES depenen de la distància i el comerç amb multiplicadors per a"
+" rutes transoceàniques i internacionals. Les rendes SIMPLES són proporcionals"
+" al comerç mitjà de les dues ciutats."
 
 #: server/settings.c:2152
 msgid "Minimum distance for trade routes"
@@ -47171,7 +47181,6 @@ msgid "National borders"
 msgstr "Fronteres nacionals"
 
 #: server/settings.c:2251
-#, fuzzy
 msgid ""
 "If this is not disabled, then any land tiles around a city or border-"
 "claiming extra (like the classic ruleset's Fortress base) will be owned by "
@@ -47181,7 +47190,10 @@ msgid ""
 msgstr ""
 "Si això no es desactiva, llavors totes les caselles terrestres del voltant "
 "d'una ciutat o d'una base que modifica fronteres (com la Fortalesa del joc "
-"de regles clàssic) seran propietat d'aquella nació."
+"de regles clàssic) seran propietat d'aquella nació. SEE_INSIDE i EXPAND fan"
+" que tot el que hi ha dins de les fronteres d'un jugador sigui visible"
+" immediatament. ENABLED atorgarà, en alguns jocs de regles, la mateixa"
+" visibilitat si es compleixen certes condicions."
 
 #: server/settings.c:2262
 msgid "Units inside borders cause no unhappiness"
@@ -47419,6 +47431,12 @@ msgid ""
 "Unit Bribing, and Unit Sabotaging do not. Non-aggressive missions typically "
 "have no base chance at all, but always success."
 msgstr ""
+"La probabilitat base que un espia torni d'una missió reeixida i la"
+" probabilitat base d'èxit per a diplomàtics i espies per als tipus de missió"
+" més agressius. No tots els tipus de missió utilitzen diplchance com a"
+" probabilitat base; Enverinament de Ciutat, Suborn d'Unitats i Sabotatge"
+" d'Unitats no ho fan. Les missions no agressives típicament no tenen"
+" probabilitat base, sinó que sempre tenen èxit."
 
 #: server/settings.c:2439
 msgid "What kinds of victories are possible"
@@ -47464,16 +47482,15 @@ msgstr ""
 
 #: server/settings.c:2466
 msgid "Percentage to multiply spaceship travel time by"
-msgstr ""
+msgstr "Percentatge per multiplicar al temps de viatge de la nau espacial"
 
 #: server/settings.c:2467
-#, fuzzy
 msgid ""
 "This percentage is multiplied onto the time it will take for a spaceship to "
 "arrive at Alpha Centauri."
 msgstr ""
-"Si aquesta opció s'activa, el joc acabarà amb l'arribada d'una nau espacial "
-"a Alpha Centauri."
+"Aquest percentatge es multiplicarà pel temps que trigui una nau espacial a"
+" arribar a Alpha Centauri."
 
 #: server/settings.c:2475
 msgid "Minimum number of cities for civil war"
@@ -47652,7 +47669,6 @@ msgstr "Distància màxima a la qual poden emigrar els ciutadans"
 
 #. TRANS: Do not translate 'migration' setting name.
 #: server/settings.c:2598
-#, fuzzy
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -47825,7 +47841,6 @@ msgstr "Nombre màxim de segons per torn"
 #. * \"timeoutincrease\" is a command name and must not to be
 #. * translated.
 #: server/settings.c:2725
-#, fuzzy
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
@@ -47851,16 +47866,15 @@ msgstr "Temporitzador del primer torn"
 #. TRANS: The strings between single quotes are setting names and
 #. * should not be translated.
 #: server/settings.c:2742
-#, fuzzy
 msgid ""
 "If greater than 0, T1 will last for 'first_timeout' seconds.\n"
 "If set to 0, T1 will not have a timeout.\n"
 "If set to -1, the special treatment of T1 will be disabled.\n"
 "See also 'timeout'."
 msgstr ""
-"Si és més gran que 0, T0 durarà 'first_timeout' segons.\n"
-"Si és igual a 0, T0 no tindrà temporitzador.\n"
-"Si és igual a -1, es desactivarà el tractament especial de T0.\n"
+"Si és més gran que 0, T1 durarà 'first_timeout' segons.\n"
+"Si és igual a 0, T1 no tindrà temporitzador.\n"
+"Si és igual a -1, es desactivarà el tractament especial de T1.\n"
 "Vegeu també 'timeout'."
 
 #: server/settings.c:2752
@@ -48098,9 +48112,8 @@ msgstr ""
 "minuts."
 
 #: server/settings.c:2914
-#, fuzzy
 msgid "Whether to do saving in separate thread"
-msgstr "Si els pols són continents separats"
+msgstr "Si  s'ha de desar en un fil d'execució separat"
 
 #. TRANS: The string between single quotes is a setting name and
 #. * should not be translated.
@@ -48110,6 +48123,9 @@ msgid ""
 "game situation takes place in the background while game otherwise continues. "
 "This way users are not required to wait for the save to finish."
 msgstr ""
+"Si s'activa això, la compressió i el desat del fitxer que conté la situació"
+" del joc té lloc de fons mentre la partida continua. D'aquesta manera els"
+" usuaris no s'han d'esperar que acabi el desat."
 
 #: server/settings.c:2925
 msgid "Savegame compression level"
@@ -48239,22 +48255,21 @@ msgstr ""
 "usuaris expulsats en el passat."
 
 #: server/settings.c:3021
-#, fuzzy
 msgid "Metaserver info line"
-msgstr "Estableix la línia d'informació al metaservidor."
+msgstr "Línia d'informació al metaservidor."
 
 #: server/settings.c:3022
-#, fuzzy
 msgid ""
 "User defined metaserver info line. For most of the time a user defined "
 "metamessage will be used instead of an automatically generated message. Set "
 "to empty (\"\", not \"empty\") to always use an automatically generated meta "
 "server message."
 msgstr ""
-"Fixar la línia d'informació per al metaservidor definida per l'usuari. Si "
-"s'omet el paràmetre, es traurà el metamissatge anterior. La major part del "
-"temps s'utilitzarà el metamissatge definit per l'usuari en comptes de "
-"missatges generats automàticament, si és que està disponible."
+"Línia d'informació per al metaservidor definida per l'usuari. La major part"
+" del "
+"temps s'utilitzarà un metamissatge definit per l'usuari en comptes de "
+"missatges generats automàticament. Si es deixa buit (\"\", no \"buit\")"
+" s'utilitzarà sempre un missatge de metaservidor generat automàticament."
 
 #: server/settings.c:3142
 #, c-format
@@ -48622,9 +48637,9 @@ msgid "%s retired!"
 msgstr "%s retirats!"
 
 #: server/srv_main.c:1338
-#, fuzzy, c-format
+#, c-format
 msgid "%s now at value %d"
-msgstr "%s ha crescut a mida %d."
+msgstr "%s ara té valor %d"
 
 #: server/srv_main.c:1396
 msgid "Automatically placed spaceship parts that were still not placed."
@@ -48634,15 +48649,15 @@ msgstr ""
 
 #. TRANS: Small Fish disappears from (32, 72).
 #: server/srv_main.c:1577
-#, fuzzy, c-format
+#, c-format
 msgid "%s disappears from %s."
-msgstr "Desassociant %s de %s"
+msgstr "%s desapareix de %s."
 
 #. TRANS: Small Fish appears to (32, 72).
 #: server/srv_main.c:1608
-#, fuzzy, c-format
+#, c-format
 msgid "%s appears to %s."
-msgstr "%s convertit en %s."
+msgstr "%s apareix a %s."
 
 #: server/srv_main.c:1701
 msgid "The game is already running."
@@ -49791,6 +49806,8 @@ msgid ""
 "The ruleset of \"%s\" can be changed by switching to a compatible ruleset "
 "before loading it."
 msgstr ""
+"El joc de regles de \"%s\" es pot modificar canviant a un joc de regles"
+" compatible abans de carregar-lo."
 
 #: server/stdinhand.c:3906
 #, c-format
@@ -50070,12 +50087,13 @@ msgstr ""
 "Si us plau especifiqueu el jugador al qual se li ha de delegar el control."
 
 #: server/stdinhand.c:5085
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Command level '%s' or greater or special permission needed to modify others' "
 "delegations."
 msgstr ""
-"Cal nivell de comandes '%s' o superior per a modificar les delegacions dels "
+"Cal nivell de comandes '%s' o superior o un permís especial per a modificar"
+" les delegacions dels "
 "altres."
 
 #: server/stdinhand.c:5095
@@ -50283,26 +50301,26 @@ msgstr "Argument no vàlid per a 'mapimg create': '%s'."
 
 #: server/stdinhand.c:5626
 msgid "No player given for aicmd."
-msgstr ""
+msgstr "No s'ha donat jugador per a aicmd."
 
 #: server/stdinhand.c:5643
 msgid "No command for the AI console defined."
-msgstr ""
+msgstr "No s'ha definit cap comanda per a la consola IA."
 
 #: server/stdinhand.c:5657
 #, c-format
 msgid "AI console for player %s. Command: '%s'."
-msgstr ""
+msgstr "Consola IA per al jugador %s. Comanda: '%s'."
 
 #: server/stdinhand.c:5663
 #, c-format
 msgid "No AI console defined for the AI '%s' of player %s."
-msgstr ""
+msgstr "No s'ha definit cap consola per a l'IA '%s' del jugador %s."
 
 #: server/stdinhand.c:5667
-#, fuzzy, c-format
+#, c-format
 msgid "No AI defined for player %s."
-msgstr "No s'ha definit cap delegació per a '%s'."
+msgstr "No s'ha definit cap IA per al jugador %s."
 
 #: server/stdinhand.c:5707
 msgid "Freeciv database script deactivated at compile time."
@@ -50813,49 +50831,47 @@ msgstr "El teu %s ha estat capturat pels %s."
 #: server/unithand.c:420
 #, c-format
 msgid "The %s don't have a capital to expel their %s to."
-msgstr ""
+msgstr "Els %s no tenen una capital on expulsar el seu %s."
 
 #. TRANS: <Border Patrol> ... <Spy>
 #: server/unithand.c:434
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s succeeded in expelling the %s %s."
-msgstr "El teu %s ha reeixit a capturar el %s %s."
+msgstr "El teu %1$s ha reeixit a expular el %3$s %2$s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/unithand.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was expelled by the %s."
-msgstr "El teu %s ha estat capturat pels %s."
+msgstr "El teu %s ha estat expulsat pels %s."
 
 #. TRANS: used instead of nation adjective when the nation is
 #. * domestic.
 #: server/unithand.c:516
-#, fuzzy
 msgid "your"
-msgstr "tu mateix"
+msgstr "teu"
 
 #. TRANS: If foreign: Your Leader heals Finnish Warrior.
 #. * If domestic: Your Leader heals your Warrior.
 #: server/unithand.c:524
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s heals %s %s."
-msgstr "Els teus %s no poden fer %s a %s."
+msgstr "El teu %1$s cura el %3$s %2$s."
 
 #. TRANS: Norwegian ... Leader ... Warrior
 #: server/unithand.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s heals your %s."
-msgstr "%s és el dirigent %s %s."
+msgstr "El %2$s %1$s cura el teu %3$s."
 
 #: server/unithand.c:1472
-#, fuzzy
 msgid "Unit cannot do anything."
-msgstr "La unitat no pot dur a terme l'acció diplomàtica des de %s."
+msgstr "La unitat no pot fer res."
 
 #: server/unithand.c:1476 server/unithand.c:1486
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s found no suitable target."
-msgstr "El teu %1$s no ha pogut sabotejar el %3$s %2$s."
+msgstr "El teu %s no ha trobat cap objectiu adequat."
 
 #. TRANS: terrain name
 #. * "Your Diplomat cannot act from Ocean. Only
@@ -50888,24 +50904,20 @@ msgid "This unit cannot act when it isn't being transported."
 msgstr "Aquesta unitat no pot actuar quan no l'estan transportant."
 
 #: server/unithand.c:1547
-#, fuzzy
 msgid "This unit is transporting, and so cannot act."
-msgstr "Aquesta unitat està sent transportada, i per tant no pot bombardejar."
+msgstr "Aquesta unitat està transportant, i per tant no pot actuar."
 
 #: server/unithand.c:1552
-#, fuzzy
 msgid "This unit cannot act when it isn't transporting."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "Aquesta unitat no pot actuar quan no està transportant."
 
 #: server/unithand.c:1556
-#, fuzzy
 msgid "This unit has a home city, and so cannot act."
-msgstr "Aquesta unitat està sent transportada, i per tant no pot bombardejar."
+msgstr "Aquesta unitat té ciutat origen, i per tant no pot actuar."
 
 #: server/unithand.c:1560
-#, fuzzy
 msgid "This unit cannot act unless it has a home city."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "Aquesta unitat no pot actuar si no té ciutat origen."
 
 #: server/unithand.c:1564
 #, c-format
@@ -50915,35 +50927,33 @@ msgstr ""
 "(F3)."
 
 #: server/unithand.c:1570
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "You must declare war on %s first.  Try using the Nations report (F3)."
 msgid "You must break peace with %s first.  Try using the Nations report (F3)."
 msgstr ""
-"Primer has de declarar la guerra a %s. Prova-ho amb l'informe de Nacions "
+"Primer has de trencar la pau amb %s. Prova-ho amb l'informe de Nacions "
 "(F3)."
 
 #: server/unithand.c:1580
-#, fuzzy
 msgid "This unit cannot act against domestic targets."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "Aquesta unitat no pot actuar contra objectius nacionals."
 
 #: server/unithand.c:1584
-#, fuzzy
 msgid "This unit cannot act against foreign targets."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "Aquesta unitat no pot actuar contra objectius estrangers."
 
 #. TRANS: Riflemen
 #: server/unithand.c:1589
-#, fuzzy, c-format
+#, c-format
 msgid "%s cannot act against tiles with non allied units."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "%s no pot actuar contra caselles amb unitats no aliades."
 
 #. TRANS: Swedish ... Riflemen
 #: server/unithand.c:1595
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s cannot act."
-msgstr "%s no es pot convertir."
+msgstr "%2$s %1$s no poden actuar."
 
 #. TRANS: ... Pirate ...
 #: server/unithand.c:1602
@@ -50956,83 +50966,77 @@ msgid "This unit has too few moves left to act."
 msgstr "A aquesta unitat li queden massa pocs moviments per actuar."
 
 #: server/unithand.c:1611
-#, fuzzy
 msgid "This unit cannot act against city centers."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr "Aquesta unitat no pot actuar contra els centres de les ciutats."
 
 #: server/unithand.c:1615
-#, fuzzy
 msgid "This unit cannot act against non city centers."
-msgstr "Requereix que els %s no participin a la partida.\n"
+msgstr ""
+"Aquesta unitat no pot actuar contra el que no sigui centre de les ciutats."
 
 #: server/unithand.c:1619
-#, fuzzy
 msgid "This unit cannot act against claimed tiles."
-msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
+msgstr "Aquesta unitat no pot actuar contra caselles reclamades."
 
 #: server/unithand.c:1623
-#, fuzzy
 msgid "This unit cannot act against unclaimed tiles."
-msgstr "Aquesta unitat no es pot llançar en paracaigudes a %s."
+msgstr "Aquesta unitat no pot actuar contra caselles no reclamades."
 
 #: server/unithand.c:1627
-#, fuzzy
 msgid "This unit is too near its target to act."
-msgstr "A aquesta unitat no li queden moviments."
+msgstr "Aquesta unitat és massa a prop del seu objectiu per atacar."
 
 #: server/unithand.c:1631
-#, fuzzy
 msgid "This unit is too far away from its target to act."
-msgstr "A aquesta unitat no li queden moviments."
+msgstr "Aquesta unitat és massa lluny del seu objectiu per atacar."
 
 #: server/unithand.c:1635
 msgid "Can't perform any action this scenario permits."
-msgstr ""
+msgstr "No es pot fer cap acció permesa per aquest escenari."
 
 #: server/unithand.c:1639
 msgid "Can't perform any action this close to a city."
-msgstr ""
+msgstr "No es pot fer cap acció tan a prop d'una ciutat."
 
 #. TRANS: Settler ... Berlin
 #: server/unithand.c:1644
 #, c-format
 msgid "%s can't do anything to %s. It is too big."
-msgstr ""
+msgstr "%s no pot fer res a %s. És massa gran."
 
 #. TRANS: London ... Settlers
 #: server/unithand.c:1651
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow, so %s cannot do anything to it."
-msgstr "%s necessita alguna millora per créixer, no pots afegir %s."
+msgstr ""
+"%s necessita alguna millora per créixer, per tant %s no li pot fer res."
 
 #. TRANS: Paris ... Warriors (think: airlift)
 #: server/unithand.c:1659
 #, c-format
 msgid "%s don't have enough capacity, so %s cannot do anything."
-msgstr ""
+msgstr "%s no té prou capacitat, per tant %s no pot fer res."
 
 #. TRANS: Paratroopers ...
 #: server/unithand.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do anything to an unknown target tile."
-msgstr "El teu %s no ha trobat res per sabotejar a %s."
+msgstr "Els %s no poden fer res a una casella objectiu desconeguda."
 
 #. TRANS: Spy ... 154
 #: server/unithand.c:1673
 #, c-format
 msgid "You can't afford having your %s do anything. %d gold needed."
-msgstr ""
+msgstr "No pots pagar que el teu %s faci res. Et calen %d peces d'or."
 
 #. TRANS: "Spy can't do anything. 154 gold may help.
 #. * Treasury contains 100 gold."
 #: server/unithand.c:1690
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do anything. %d gold may help. %s"
 msgid_plural "%s can't do anything. %d gold may help. %s"
-msgstr[0] ""
-"No pots formar una aliança perquè estàs en guerra amb un aliat de %s."
-msgstr[1] ""
-"No pots formar una aliança perquè estàs en guerra amb un aliat de %s."
+msgstr[0] "El %s no pot fer res. %d peça d'or ajudaria. %s"
+msgstr[1] "El %s no pot fer res. %d peces d'or ajudarien. %s"
 
 #. TRANS: "Trireme cannot move ..."
 #: server/unithand.c:1698 server/unithand.c:2374 server/unithand.c:4237
@@ -51049,37 +51053,36 @@ msgstr ""
 "%s no poden desembarcar fora d'una ciutat o sense una base nativa per a %s."
 
 #: server/unithand.c:1711
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do anything since there is an unreachable unit."
-msgstr "No pots atacar allà perquè hi ha una unitat inabastable."
+msgstr "Els %s no poden fer res perquè hi ha una unitat inabastable."
 
 #: server/unithand.c:1717
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do anything since you already have a %s."
-msgstr "No pots formar una aliança perquè estàs en guerra amb un aliat de %s."
+msgstr "Els %s no poden fer res perquè ja tens %s."
 
 #: server/unithand.c:1728
 msgid "No action possible."
 msgstr "No hi ha cap acció possible."
 
 #: server/unithand.c:1805
-#, fuzzy
 msgid "Target not at target tile."
-msgstr "No estàs lligat amb cap jugador."
+msgstr "L'objectiu no és a la casella objectiu."
 
 #. TRANS: "Your Spy found ... suitable for
 #. * Bribe Enemy Unit."
 #: server/unithand.c:2019
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s found no target suitable for %s."
-msgstr "El teu %1$s no ha pogut sabotejar el %3$s %2$s."
+msgstr "El teu %s no ha trobat cap objectiu apropiat per %s."
 
 #. TRANS: "Having your Spy do Bribe Enemy Unit to
 #. * this target ..."
 #: server/unithand.c:2027
 #, c-format
 msgid "Having your %s do %s to this target is redundant."
-msgstr ""
+msgstr "Fer que el teu %s faci %s a aquest objectiu és redundant."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Steal Gold from Ocean.
@@ -51122,32 +51125,30 @@ msgstr "Els teus %s no poden fer %s mentre no els estan transportant."
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
 #: server/unithand.c:2110
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s while transporting."
-msgstr "El teu %1$s ha eliminat un %3$s %2$s quan s'infiltrava a %4$s."
+msgstr "El teu %s no pot fer %s mentre transporta."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while ..."
 #: server/unithand.c:2119
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s while not transporting."
-msgstr "%s no es poden transportar a %s."
+msgstr "El teu %s no pot fer %s mentre no transporta."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage because ..."
 #: server/unithand.c:2128
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s because it has a home city."
-msgstr ""
-"Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
-"d'origen."
+msgstr "El teu %s no pot fer %s perquè té ciutat origen."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage because ..."
 #: server/unithand.c:2137
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s because it is homeless."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s perquè no té casa."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Industrial Sabotage while you
@@ -51162,44 +51163,45 @@ msgstr "Els teus %s no poden fer %s mentre no estàs en guerra amb %s."
 #. * are at peace with Prester John. Try using the
 #. * Nations report (F3)."
 #: server/unithand.c:2160
-#, fuzzy, c-format
+#, c-format
 #| msgid ""
 #| "You must declare war on %s first.  Try using the Nations report (F3)."
 msgid ""
 "Your %s can't do %s while you are at peace with %s. Try using the Nations "
 "report (F3)."
 msgstr ""
-"Primer has de declarar la guerra a %s. Prova-ho amb l'informe de Nacions "
+"El teu %s no pot fer %s perquè estàs en pau amb %s. Prova-ho amb l'informe de"
+" Nacions "
 "(F3)."
 
 #. TRANS: action name.
 #. * "Your Riflemen can't do Expel Unit to domestic
 #. * unit stacks."
 #: server/unithand.c:2177
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to domestic %s."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a %s nacional."
 
 #. TRANS: action name.
 #. * "Your Leader can't do Use Court Physician to foreign
 #. * unit stacks."
 #: server/unithand.c:2189
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to foreign %s."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a %s estranger."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unithand.c:2199
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to tiles with non allied units."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a caselles amb unitats no aliades."
 
 #. TRANS: action name.
 #. * "Swedish Riflemen can't do Expel Unit."
 #: server/unithand.c:2208
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s can't do %s."
-msgstr "Els %s no poden atacar %s."
+msgstr "Els %2$s %1$s no poden fer %3$s."
 
 #. TRANS: action name.
 #. * "Riflemen... Expel Unit... Pirate Migrants."
@@ -51211,39 +51213,39 @@ msgstr "Els teus %1$s no poden fer %2$s als %4$s %3$s."
 #. TRANS: action name.
 #. * "Your Spy has ... to do Bribe Enemy Unit."
 #: server/unithand.c:2230
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has too few moves left to do %s."
-msgstr "Al teu %s li queden massa pocs moviments per poder %s."
+msgstr "Al teu %s li queden massa pocs moviments per fer %s."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Bribe Enemy Unit to city centers."
 #: server/unithand.c:2239
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to city centers."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a centres de ciutat."
 
 #. TRANS: action name.
 #. * "Your Spy can only do Investigate City to
 #. * city centers."
 #: server/unithand.c:2249
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can only do %s to city centers."
-msgstr "No s'aplica als centres de la ciutat.\n"
+msgstr "El teu %s només pot fer %s als centres de la ciutat."
 
 #. TRANS: action name.
 #. * "Your Settlers can't do Build City to claimed tiles."
 #: server/unithand.c:2258
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to claimed tiles."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a caselles reclamades."
 
 #. TRANS: action name.
 #. * "Your Spy can't do Bribe Enemy Unit to
 #. * unclaimed tiles."
 #: server/unithand.c:2268
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s to unclaimed tiles."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s a caselles no reclamades."
 
 #. TRANS: action name.
 #. * "Your Spy must be at least 2 tiles away to do
@@ -51253,74 +51255,74 @@ msgstr "Obtens %d peça d'or."
 msgid "Your %s must be at least %d tile away to do %s."
 msgid_plural "Your %s must be at least %d tiles away to do %s."
 msgstr[0] ""
+"El teu %s ha de ser com a mínim a una distància de %d casella per fer %s."
 msgstr[1] ""
+"El teu %s ha de ser com a mínim a una distància de %d caselles per fer %s."
 
 #. TRANS: action name.
 #. * "Your Diplomat can't be more than 1 tile away to do
 #. * Establish Embassy."
 #: server/unithand.c:2291
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't be more than %d tile away to do %s."
 msgid_plural "Your %s can't be more than %d tiles away to do %s."
-msgstr[0] ""
-"No pots formar una aliança perquè estàs en guerra amb un aliat de %s."
+msgstr[0] "El teu %s no pot estar a més de %d casella de distància per fer %s."
 msgstr[1] ""
-"No pots formar una aliança perquè estàs en guerra amb un aliat de %s."
+"El teu %s no pot estar a més de %d caselles de distància per fer %s."
 
 #. TRANS: Can't do Build City in this scenario.
 #: server/unithand.c:2302
-#, fuzzy, c-format
+#, c-format
 msgid "Can't do %s in this scenario."
-msgstr "* Les bases no es poden construir sobre aquest terreny."
+msgstr "No es pot fer %s en aquest escenari."
 
 #. TRANS: Can't do Build City this close to a city.
 #: server/unithand.c:2309
-#, fuzzy, c-format
+#, c-format
 msgid "Can't do %s this close to a city."
-msgstr "No es pot afegir a una ciutat."
+msgstr "No es pot fer %s tan a prop d'una ciutat."
 
 #. TRANS: Settlers ... Join City ... London
 #: server/unithand.c:2316
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do %s to %s. It is too big."
-msgstr "Obtens %d peça d'or."
+msgstr "Els %s no poden fer %s a %s. És massa gran."
 
 #. TRANS: London ... Settlers ... Join City
 #: server/unithand.c:2325
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow, so %s cannot do %s."
-msgstr "%s necessita alguna millora per créixer, no pots afegir %s."
+msgstr ""
+"%s necessita alguna millora per créixer, per tant els %s no poden fer %s."
 
 #. TRANS: Paris ... Airlift to City ... Warriors
 #: server/unithand.c:2335
-#, fuzzy, c-format
+#, c-format
 msgid "%s has no capacity to %s %s."
-msgstr "%s no té capacitat per transportar %s."
+msgstr "%s no té capacitat per %s %s."
 
 #. TRANS: Paratroopers ... Drop Paratrooper
 #: server/unithand.c:2344
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't do %s to an unknown tile."
-msgstr ""
-"%s no pot construir %s de la llista de treball, raó desconeguda!.  "
-"S'ajorna..."
+msgstr "%s no pot fer %s a una casella desconeguda."
 
 #. TRANS: "Spy can't do Bribe Unit for 154 gold.
 #. * Treasury contains 100 gold."
 #: server/unithand.c:2363
-#, fuzzy, c-format
+#, c-format
 #| msgid "%s upgraded to %s for %d gold."
 #| msgid_plural "%s upgraded to %s for %d gold."
 msgid "%s can't do %s for %d gold. %s"
 msgid_plural "%s can't do %s for %d gold. %s"
-msgstr[0] "%s millorat a %s per %d peça d'or."
-msgstr[1] "%s millorat a %s per %d peces d'or."
+msgstr[0] "%s no pot fer %s per %d peça d'or. %s"
+msgstr[1] "%s no pot fer %s per %d peces d'or. %s"
 
 #. TRANS: "Your Spy can't do Bribe Enemy Unit there ..."
 #: server/unithand.c:2391
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s there since there's an unreachable unit."
-msgstr "No pots atacar allà perquè hi ha una unitat inabastable."
+msgstr "El teu %s no pot fer %s allà perquè hi ha una unitat inabastable."
 
 #. TRANS: "You already have a Leader."
 #: server/unithand.c:2399
@@ -51330,16 +51332,16 @@ msgstr "Ja tens %s"
 
 #. TRANS: Freight ... Recycle Unit ... Help Wonder ...
 #: server/unithand.c:2406
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s can't do %s when %s is legal."
-msgstr "Obtens %d peça d'or."
+msgstr "El teu %s no pot fer %s quan %s és legal."
 
 #. TRANS: action name.
 #. * "Your Spy was unable to do Bribe Enemy Unit."
 #: server/unithand.c:2416
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was unable to do %s."
-msgstr "El teu %s no ha pogut %s."
+msgstr "El teu %s no ha pogut fer %s."
 
 #. TRANS: Spy ... movement point text that may include
 #. * fractions.
@@ -51354,18 +51356,21 @@ msgid ""
 "No explanation why you couldn't do %s. This is a bug. Sorry about that. -- "
 "Sveinung"
 msgstr ""
+"No hi ha cap explicació de per què no has pogut fer %s. És un error de"
+" programa. Ho sento. -- "
+"Sveinung"
 
 #. TRANS: other player ... unit type ... city name.
 #: server/unithand.c:3183
-#, fuzzy, c-format
+#, c-format
 msgid "%s transferred control over a %s to you in %s."
-msgstr "%s delega el control del jugador '%s' cap a l'usuari %s%s."
+msgstr "%s t'ha traspassat el control d'uns %s a %s."
 
 #. TRANS: ... Ironclad ... New York
 #: server/unithand.c:3226
-#, fuzzy, c-format
+#, c-format
 msgid "Recycled your %s to help the current production in %s."
-msgstr "Cliqueu el botó esquerre per canviar la producció actual"
+msgstr "S'ha reciclat el teu %s per ajudar la producció actual a %s."
 
 #: server/unithand.c:3265
 #, c-format
@@ -51374,9 +51379,9 @@ msgstr "%s afegits per ajudar al creixement de %s."
 
 #. TRANS: another player had his unit joint your city.
 #: server/unithand.c:3273
-#, fuzzy, c-format
+#, c-format
 msgid "%s adds %s to your city %s."
-msgstr "Has d'escollir un estil de ciutat."
+msgstr "%s afegeix %s a la teva ciutat %s."
 
 #. TRANS: Your Bomber bombards the English Rifleman.
 #: server/unithand.c:3637
@@ -51409,6 +51414,10 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f lost %d HP, %d HP remaining] survived the "
 "pathetic %sattack from the %s %s %s [id:%d %sA:%.1f HP:%d]."
 msgstr ""
+"Els teus %2$s %1$s [id:%3$d %4$sD:%5$.1f han perdut %6$d PV, els queden %7$d"
+" PV]"
+" han sobreviscut el patètic %8$satac dels %11$s %10$s %9$s [id:%12$d %13$sA:"
+"%14$.1f PF:%15$d]."
 
 #. TRANS: "Your attacking green Cannon [id:100 ...A:8.0
 #. * failed against the Greek Polish Destroyer [id:200 lost
@@ -51420,6 +51429,10 @@ msgid ""
 "Your attacking %s %s [id:%d %sA:%.1f HP:%d] failed against the %s %s %s [id:"
 "%d lost %d HP, %d HP remaining%s]!"
 msgstr ""
+"L'atac dels teus %2$s %1$s [id:%3$d %4$sA:%5$.1f PF:%6$d] ha fallat contra"
+" els "
+"%9$s %8$s %7$s [id:"
+"%10$d han perdut %11$d PV, els queden %12$d PV%13$s]!"
 
 #. TRANS: "Your green Warriors [id:100 ...D:1.0 HP:10]
 #. * lost to an attack by the Greek green Legion
@@ -51431,6 +51444,9 @@ msgid ""
 "Your %s %s [id:%d %sD:%.1f HP:%d] lost to an attack by the %s %s %s [id:%d "
 "%sA:%.1f lost %d HP, has %d HP remaining%s]."
 msgstr ""
+"Els teus %2$s %1$s [id:%3$d %4$sD:%5$.1f PV:%6$d] s'han perdut per un atac"
+" dels %9$s %8$s %7$s [id:%10$d %11$sA:"
+"%12$.1f ha perdut %13$d PV, els queda %14$d PV%15$s]."
 
 #. TRANS: "Your attacking green Legion [id:200 ...A:4.0
 #. * lost 1 HP, has 9 HP remaining] succeeded against the
@@ -51441,6 +51457,9 @@ msgid ""
 "Your attacking %s %s [id:%d %s%sA:%.1f lost %d HP, has %d remaining] "
 "succeeded against the %s %s %s [id:%d HP:%d]."
 msgstr ""
+"L'atac dels teus %2$s %1$s [id:%3$d %4$s%5$sA:%6$.1f han perdut %7$d PV, els"
+" en queda %8$d] ha tingut èxit contra els "
+"%11$s %10$s %9$s [id:%12$d PV:%13$d]."
 
 #: server/unithand.c:4226 server/unittools.c:2835
 msgid "Cannot attack unless you declare war first."
@@ -51509,13 +51528,13 @@ msgstr ""
 "d'origen."
 
 #: server/unithand.c:4545
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it's not carrying any "
 "goods."
 msgstr ""
-"Ho sento, el teu %s no pot establir una ruta comercial perquè no té ciutat "
-"d'origen."
+"Ho sento, el teu %s no pot establir una ruta comercial perquè no transporta"
+" béns."
 
 #: server/unithand.c:4556
 #, c-format
@@ -51536,13 +51555,13 @@ msgstr[1] "      La ciutat de %s ja té %d rutes comercials millors!"
 
 #. TRANS: ... Caravan ... Paris ... Stockholm ... Goods
 #: server/unithand.c:4653
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s from %s has arrived in %s carrying %s."
-msgstr "La teva %s ha arribat a %s"
+msgstr "La teva %s de %s ha arribat a %s portant %s."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4663
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold."
@@ -51550,15 +51569,15 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold."
 msgstr[0] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" peça d'or."
 msgstr[1] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" peces d'or."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4678
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "research."
@@ -51566,15 +51585,15 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "research."
 msgstr[0] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" punt de recerca."
 msgstr[1] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" punts de recerca."
 
 #. TRANS: ... Caravan ... Paris ... Stockholm, ... Goods...
 #: server/unithand.c:4693
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold and research."
@@ -51582,11 +51601,11 @@ msgid_plural ""
 "Your %s from %s has arrived in %s carrying %s, and revenues amount to %d in "
 "gold and research."
 msgstr[0] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" d'or i recerca."
 msgstr[1] ""
-"La teva %s de %s ha arribat a %s, i et dóna la quantitat de %d en or i "
-"recerca."
+"La teva %s de %s ha arribat a %s portant %s, i les rendes ascendeixen a %d"
+" d'or i recerca."
 
 #: server/unithand.c:4735
 #, c-format
@@ -51687,24 +51706,22 @@ msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s s'ha escapat de la destrucció de %s i s'ha refugiat a %s."
 
 #: server/unittools.c:2215
-#, fuzzy, c-format
+#, c-format
 #| msgid "Barbarian leader captured; %d gold ransom paid."
 #| msgid_plural "Barbarian leader captured; %d gold ransom paid."
 msgid "%d Barbarian leader captured."
 msgid_plural "%d Barbarian leaders captured."
-msgstr[0] ""
-"S'ha capturat el líder bàrbar; ens paguen un rescat de %d peça d'or."
-msgstr[1] ""
-"S'ha capturat el líder bàrbar; ens paguen un rescat de %d peces d'or."
+msgstr[0] "S'ha capturat %d líder bàrbar."
+msgstr[1] "S'han capturat %d líders bàrbars."
 
 #: server/unittools.c:2220
-#, fuzzy, c-format
+#, c-format
 #| msgid "%d gold required."
 #| msgid_plural "%d gold required."
 msgid "%d gold ransom paid."
 msgid_plural "%d gold ransom paid."
-msgstr[0] "Cal %d peça d'or."
-msgstr[1] "Calen %d peces d'or."
+msgstr[0] "S'ha pagat un rescat d'%d peça d'or."
+msgstr[1] "S'ha pagat un rescat de %d peces d'or."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:2320
@@ -51758,11 +51775,11 @@ msgstr[0] "%1$d unitat perduda quan el %3$s %2$s ha atacat el %5$s %4$s."
 msgstr[1] "%1$d unitats perdudes quan el %3$s %2$s ha atacat el %5$s %4$s."
 
 #: server/unittools.c:2416
-#, fuzzy, c-format
+#, c-format
 msgid "%d unit escaped from attack by %s %s"
 msgid_plural "%d units escaped from attack by %s %s"
-msgstr[0] "%1$d unitat perduda quan el %3$s %2$s ha atacat el %5$s %4$s."
-msgstr[1] "%1$d unitats perdudes quan el %3$s %2$s ha atacat el %5$s %4$s."
+msgstr[0] "%1$d unitat s'ha escapat de l'atac de %3$s %2$s"
+msgstr[1] "%1$d unitats s'han escapat de l'atac de %3$s %2$s"
 
 #: server/unittools.c:2664
 #, c-format
@@ -51846,15 +51863,14 @@ msgid "Orders for %s aborted because of failed move."
 msgstr "Les ordres per %s s'han avortat per moviment incorrecte."
 
 #: server/unittools.c:4418
-#, fuzzy, c-format
+#, c-format
 msgid "%s could not do %s to %s."
-msgstr "%s convertit en %s."
+msgstr "%s no ha pogut fer %s a %s."
 
 #: server/unittools.c:4456
-#, fuzzy, c-format
+#, c-format
 msgid "Orders for %s aborted because doing %s to %s failed."
-msgstr ""
-"Les ordres per %s s'han avortat perquè no s'ha pogut construir la ciutat."
+msgstr "Les ordres per a %s s'han avortat perquè ha fallat fer %s a %s."
 
 #: server/unittools.c:4469
 #, c-format
@@ -52036,6 +52052,8 @@ msgid ""
 "Do not provide log level with a numerical value. Use one of the levels "
 "Fatal, Error, Warning, Normal, Verbose, Debug"
 msgstr ""
+"No proporcioneu el nivell de registre amb un valor numèric. Utilitzeu un dels"
+" nivells Fatal, Error, Warning, Normal, Verbose, Debug"
 
 #: utility/log.c:135
 #, c-format
@@ -52043,17 +52061,18 @@ msgid "Bad log level %d in \"%s\".\n"
 msgstr "Nivell de registre %d incorrecte a \"%s\".\n"
 
 #: utility/log.c:140
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Freeciv must be compiled with the FREECIV_DEBUG flag to use debug level %d.\n"
 msgstr ""
-"S'ha de compilar Freeciv amb el flag DEBUG per poder usar el nivell de "
+"Freeciv s'ha de compilar amb el flag FREECIV_DEBUG per poder usar el nivell"
+" de "
 "depuració %d.\n"
 
 #: utility/log.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "Bad log level %c in \"%s\".\n"
-msgstr "Nivell de registre %d incorrecte a \"%s\".\n"
+msgstr "Nivell de registre %c incorrecte a \"%s\".\n"
 
 #: utility/log.c:167 utility/log.c:181 utility/log.c:224
 #, c-format
@@ -52061,7 +52080,7 @@ msgid "Badly formed log level argument \"%s\".\n"
 msgstr "Argument de nivell de registre mal format \"%s\".\n"
 
 #: utility/log.c:201 utility/log.c:206
-#, fuzzy, c-format
+#, c-format
 msgid "Not an unsigned integer: '%s'\n"
 msgstr "No és un enter sense signe: '%s'\n"
 
@@ -52071,12 +52090,12 @@ msgid "Empty filename in log level argument \"%s\".\n"
 msgstr "Nom de fitxer buit en l'argument de nivell de registre \"%s\".\n"
 
 #: utility/log.c:235
-#, fuzzy
 msgid ""
 "Freeciv must be compiled with the FREECIV_DEBUG flag to use advanced log "
 "levels based on files.\n"
 msgstr ""
-"S'ha de compilar Freeciv amb el flag DEBUG per poder utilitzar nivells de "
+"S'ha de compilar Freeciv amb el flag FREECIV_DEBUG per poder utilitzar"
+" nivells de "
 "depuració avançats basats en fitxers.\n"
 
 #: utility/log.c:448
@@ -52115,40 +52134,44 @@ msgstr "No s'ha pogut obrir %s per escriptura "
 #: utility/randseed.c:65
 #, c-format
 msgid "getentropy() failed: %s"
-msgstr ""
+msgstr "getentropy() ha fallat: %s"
 
 #: utility/randseed.c:119
-#, fuzzy, c-format
+#, c-format
 #| msgid "Modpack install failed: %s"
 msgid "Opening %s failed: %s"
-msgstr "La instal·lació del modpack ha fallat: %s"
+msgstr "Obrir %s ha fallat: %s"
 
 #: utility/randseed.c:124
-#, fuzzy, c-format
+#, c-format
 #| msgid "Researching %s: %s"
 msgid "Reading %s failed: %s"
-msgstr "Investigant %s: %s"
+msgstr "Llegir %s ha fallat: %s"
 
 #: utility/randseed.c:126
 #, c-format
 msgid "Reading %s: short read without error"
-msgstr ""
+msgstr "Llegint %s: lectura curta sense error"
 
 #: utility/randseed.c:168
 #, c-format
 msgid "clock_gettime(CLOCK_REALTIME) failed: %s"
-msgstr ""
+msgstr "clock_gettime(CLOCK_REALTIME) ha fallat: %s"
 
 #: utility/randseed.c:211
 msgid ""
 "No good random source usable. Falling back to time-based random seeding."
 msgstr ""
+"No hi ha cap font d'aleatorietat bona utilitzable. Passem a una llavor"
+" aleatòria basada en l'hora."
 
 #: utility/randseed.c:220
 msgid ""
 "Warning: Falling back to predictable random seed from current coarse-"
 "granularity time."
 msgstr ""
+"Avís: passem a una llavor aleatòria predictible a partir de l'hora actual amb"
+" poca granularitat."
 
 #. TRANS: do not translate <Freeciv>
 #: utility/registry_xml.c:46
@@ -52174,9 +52197,9 @@ msgid "File capabilities: %s"
 msgstr "Capacitats de fitxer: %s"
 
 #: utility/shared.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "Storage dir is \"%s\"."
-msgstr "S'està carregant el joc de caselles \"%s\"."
+msgstr "El directori d'emmagatzemament és \"%s\"."
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
 #: utility/shared.c:878
