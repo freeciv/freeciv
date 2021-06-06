@@ -246,9 +246,9 @@ void ruledit_gui::launch_now()
   A requirement vector may have been changed.
   @param vec the requirement vector that may have been changed.
 **************************************************************************/
-void ruledit_gui::incoming_rec_vec_change(const requirement_vector *vec)
+void ruledit_gui::incoming_req_vec_change(const requirement_vector *vec)
 {
-  emit rec_vec_may_have_changed(vec);
+  emit req_vec_may_have_changed(vec);
 }
 
 /**************************************************************************
@@ -312,8 +312,8 @@ void ruledit_gui::open_req_edit(QString target, struct requirement_vector *preqs
   redit->show();
 
   connect(redit,
-          SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
-          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+          SIGNAL(req_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_req_vec_change(const requirement_vector *)));
 
   req_edit_list_append(req_edits, redit);
 }
@@ -348,8 +348,8 @@ void ruledit_gui::open_req_vec_fix(req_vec_fix_item *item_info)
   fixer->show();
 
   connect(fixer,
-          SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
-          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+          SIGNAL(rec_veq_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_req_vec_change(const requirement_vector *)));
 
   req_vec_fix_list_append(req_vec_fixers, fixer);
 }

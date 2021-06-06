@@ -171,7 +171,7 @@ signals:
     A requirement vector may have been changed.
     @param vec the requirement vector that was changed.
   ************************************************************************/
-  void rec_vec_may_have_changed(const requirement_vector *);
+  void req_vec_may_have_changed(const requirement_vector *);
 
 private:
   struct req_vec_problem *current_problem;
@@ -189,7 +189,7 @@ private slots:
   void accept_applied_solutions();
   void reject_applied_solutions();
 
-  void incoming_rec_vec_change(const requirement_vector *vec);
+  void incoming_req_vec_change(const requirement_vector *vec);
 };
 
 #endif /* FC__REQ_VEC_FIX_H */

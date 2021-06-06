@@ -100,7 +100,7 @@ signals:
     A requirement vector may have been changed.
     @param vec the requirement vector that was changed.
   ************************************************************************/
-  void rec_vec_may_have_changed(const requirement_vector *vec);
+  void req_vec_may_have_changed(const requirement_vector *vec);
 
   private:
     QLabel *msg_dspl;
@@ -125,7 +125,7 @@ signals:
 
   private slots:
     void launch_now();
-    void incoming_rec_vec_change(const requirement_vector *vec);
+    void incoming_req_vec_change(const requirement_vector *vec);
 };
 
 int ruledit_qt_run(int argc, char **argv);
