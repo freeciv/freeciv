@@ -1000,6 +1000,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No special help. */
     break;
@@ -3482,6 +3483,11 @@ bool unit_perform_action(struct player *pplayer,
   case ACTRES_HOMELESS:
     ACTION_STARTED_UNIT_SELF(action_type, actor_unit,
                              do_unit_make_homeless(actor_unit, paction));
+    break;
+  case ACTRES_SPY_ESCAPE:
+    ACTION_STARTED_UNIT_CITY(action_type, actor_unit, pcity,
+                             spy_escape(pplayer, actor_unit,
+                                        pcity, target_tile, paction));
     break;
   case ACTRES_SPY_SABOTAGE_CITY:
     /* Difference is caused by data in the action structure. */

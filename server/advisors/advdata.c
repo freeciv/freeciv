@@ -882,6 +882,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_PARADROP:
     case ACTRES_PARADROP_CONQUER:
     case ACTRES_FORTIFY:
+    case ACTRES_SPY_ESCAPE:
       /* Wants the ability to do this to it self. Don't want others
        * to target it. Do nothing since action_immune_government()
        * doesn't separate based on who the actor is. */

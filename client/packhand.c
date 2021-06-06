@@ -4773,6 +4773,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_UNIT_MOVE:
       case ACTION_UNIT_MOVE2:
       case ACTION_UNIT_MOVE3:
+      case ACTION_SPY_ESCAPE:
         /* Not interesting. */
         break;
       case ACTION_USER_ACTION1:

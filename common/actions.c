@@ -379,6 +379,7 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_SPY_BRIBE_UNIT,
                           ACTRES_CAPTURE_UNITS,
                           ACTRES_CONQUER_CITY,
+                          ACTRES_SPY_ESCAPE,
                           ACTRES_NONE);
   /* The same for tile targeted actions that also can be done to unclaimed
    * tiles. */
@@ -1019,6 +1020,11 @@ static void hard_code_actions(void)
   actions[ACTION_SPY_SPREAD_PLAGUE] =
       unit_action_new(ACTION_SPY_SPREAD_PLAGUE,
                       ACTRES_SPY_SPREAD_PLAGUE,
+                      FALSE, TRUE,
+                      MAK_ESCAPE, 0, 1, FALSE);
+  actions[ACTION_SPY_ESCAPE] =
+      unit_action_new(ACTION_SPY_ESCAPE,
+                      ACTRES_SPY_ESCAPE,
                       FALSE, TRUE,
                       MAK_ESCAPE, 0, 1, FALSE);
   actions[ACTION_TRADE_ROUTE] =
@@ -2258,6 +2264,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
@@ -2344,6 +2351,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
@@ -3442,6 +3450,7 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
@@ -3623,6 +3632,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_SPY_STEAL_TECH:
   case ACTRES_SPY_TARGETED_STEAL_TECH:
   case ACTRES_SPY_INCITE_CITY:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_TRADE_ROUTE:
   case ACTRES_MARKETPLACE:
   case ACTRES_HELP_WONDER:
@@ -4560,6 +4570,14 @@ is_action_possible(const action_id wanted_action,
            return TRI_NO;
         }
       } unit_list_iterate_end;
+    }
+    break;
+
+  case ACTRES_SPY_ESCAPE:
+    /* Reason: Be merciful. */
+    /* Info leak: The player know if he has any cities. */
+    if (city_list_size(actor_player->cities) < 1) {
+      return TRI_NO;
     }
     break;
 
@@ -5589,6 +5607,9 @@ action_prob(const action_id wanted_action,
   case ACTRES_SPY_INVESTIGATE_CITY:
     /* There is no risk that the city won't get investigated. */
     chance = ACTPROB_CERTAIN;
+    break;
+  case ACTRES_SPY_ESCAPE:
+    /* TODO */
     break;
   case ACTRES_TRADE_ROUTE:
     /* TODO */
@@ -6998,6 +7019,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
   case ACTRES_NONE:
     /* No additional dice roll. */
     break;
@@ -7594,6 +7616,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_unit_move_2";
   case ACTION_UNIT_MOVE3:
     return "ui_name_unit_move_3";
+  case ACTION_SPY_ESCAPE:
+    return "ui_name_escape";
   case ACTION_USER_ACTION1:
     return "ui_name_user_action_1";
   case ACTION_USER_ACTION2:
@@ -7893,6 +7917,9 @@ const char *action_ui_name_default(int act)
   case ACTION_UNIT_MOVE3:
     /* TRANS: Regular _Move (100% chance of success). */
     return N_("Regular %sMove%s");
+  case ACTION_SPY_ESCAPE:
+    /* TRANS: _Escape To Nearest City (100% chance of success). */
+    return N_("%sEscape To Nearest City%s");
   case ACTION_USER_ACTION1:
     /* TRANS: _User Action 1 (100% chance of success). */
     return N_("%sUser Action 1%s");
@@ -8017,6 +8044,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_SPY_ESCAPE:
     /* Min range is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -8105,6 +8133,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
     /* Non ruleset defined action min range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -8222,6 +8251,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_SPY_ESCAPE:
     /* Max range is not ruleset changeable */
     return NULL;
   case ACTION_HELP_WONDER:
@@ -8320,6 +8350,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
     /* Non ruleset defined action max range not supported here */
     fc_assert_msg(FALSE, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -8452,6 +8483,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_SPY_ESCAPE:
     /* Target kind is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -8509,6 +8541,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_CONQUER_CITY:
   case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_ESCAPE:
     return ATK_CITY;
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_SABOTAGE_UNIT:
@@ -8603,6 +8636,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_CONQUER_CITY:
   case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SPY_ESCAPE:
     return tgt_kind == ATK_CITY;
   case ACTRES_SPY_BRIBE_UNIT:
   case ACTRES_SPY_SABOTAGE_UNIT:
@@ -8735,6 +8769,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
     return ASTK_NONE;
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN_POLLUTION:
@@ -8827,6 +8862,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
     return ACT_TGT_COMPL_SIMPLE;
   case ACTRES_PILLAGE:
   case ACTRES_CLEAN_POLLUTION:
@@ -8961,6 +8997,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_SPY_ESCAPE:
     /* actor consuming always is not ruleset changeable */
     return NULL;
   case ACTION_NUKE:
@@ -9033,6 +9070,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
     return "move_2_is_blocked_by";
   case ACTION_UNIT_MOVE3:
     return "move_3_is_blocked_by";
+  case ACTION_SPY_ESCAPE:
   case ACTION_SPY_POISON:
   case ACTION_SPY_POISON_ESC:
   case ACTION_SPY_SABOTAGE_UNIT:
@@ -9256,6 +9294,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_UNIT_MOVE:
   case ACTION_UNIT_MOVE2:
   case ACTION_UNIT_MOVE3:
+  case ACTION_SPY_ESCAPE:
   case ACTION_USER_ACTION1:
   case ACTION_USER_ACTION2:
   case ACTION_USER_ACTION3:

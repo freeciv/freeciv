@@ -278,6 +278,8 @@ extern "C" {
 #define SPECENUM_VALUE105NAME "Wipe Units"
 #define SPECENUM_VALUE106 ACTION_BOMBARD_LETHAL
 #define SPECENUM_VALUE106NAME "Bombard Lethal"
+#define SPECENUM_VALUE107 ACTION_SPY_ESCAPE
+#define SPECENUM_VALUE107NAME "Spy Escape"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"

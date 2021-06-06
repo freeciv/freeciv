@@ -2160,9 +2160,9 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
     - Escapes to home city.
     - Escapee may become a veteran.
 ****************************************************************************/
-static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
-                            const struct city *pcity,
-                            const struct action *paction)
+void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
+                     const struct city *pcity,
+                     const struct action *paction)
 {
   struct tile *ptile;
   const char *vlink;
@@ -2260,6 +2260,42 @@ static void diplomat_escape_full(struct player *pplayer,
      * hand. */
     wipe_unit(pdiplomat, ULR_CAUGHT, NULL);
   }
+}
+
+/************************************************************************//**
+  Attempt to escape without doing anything else first.
+
+  May be captured and executed, or escape to the nearest domeestic city.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+****************************************************************************/
+bool spy_escape(struct player *pplayer,
+                struct unit *actor_unit,
+                struct city *target_city,
+                struct tile *target_tile,
+                const struct action *paction)
+{
+  const char *vlink;
+  const struct unit_type *act_utype = unit_type_get(actor_unit);
+
+  if (target_city != NULL) {
+    fc_assert(city_tile(target_city) == target_tile);
+    vlink = city_link(target_city);
+  } else {
+    vlink = tile_link(target_tile);
+  }
+
+  /* this may cause a diplomatic incident */
+  action_consequence_success(paction, pplayer, act_utype,
+                             tile_owner(target_tile),
+                             target_tile, vlink);
+
+  /* Try to escape. */
+  diplomat_escape_full(pplayer, actor_unit, target_city != NULL,
+                       target_tile, vlink, paction);
+
+  return TRUE;
 }
 
 /************************************************************************//**

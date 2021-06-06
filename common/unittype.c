@@ -369,6 +369,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
   case ACTRES_UNIT_MOVE:
+  case ACTRES_SPY_ESCAPE:
     return FALSE;
   case ACTRES_NONE:
     /* Assume they are up to something. */

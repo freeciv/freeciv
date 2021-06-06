@@ -297,6 +297,8 @@ enum output_type_id {
 #define SPECENUM_VALUE60NAME "Unit Make Homeless"
 #define SPECENUM_VALUE61 ACTRES_WIPE_UNITS
 #define SPECENUM_VALUE61NAME "Wipe Units"
+#define SPECENUM_VALUE62 ACTRES_SPY_ESCAPE
+#define SPECENUM_VALUE62NAME "Unit Spy Escape"
 /* All consequences are handled as (ruleset) action data. */
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"

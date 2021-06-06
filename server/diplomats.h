@@ -53,6 +53,11 @@ bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                          const struct action *paction);
 bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                    struct city *tgt_city, const struct action *paction);
+bool spy_escape(struct player *pplayer,
+                struct unit *actor_unit,
+                struct city *target_city,
+                struct tile *target_tile,
+                const struct action *paction);
 
 int count_diplomats_on_tile(struct tile *ptile);
 
