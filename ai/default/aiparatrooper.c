@@ -409,7 +409,7 @@ void dai_choose_paratrooper(struct ai_type *ait,
       continue;
     }
 
-    /* Temporary hack because pathfinding can't handle Fighters. */
+    /* Temporary hack before we are smart enough to return such units */
     if (!utype_is_consumed_by_action_result(ACTRES_ATTACK, u_type)
         && 1 == utype_fuel(u_type)) {
       continue;
