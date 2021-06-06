@@ -401,18 +401,12 @@ bool dai_unit_goto_constrained(struct ai_type *ait, struct unit *punit,
 
   UNIT_LOG(LOG_DEBUG, punit, "constrained goto to %d,%d", TILE_XY(ptile));
 
-  ptile = immediate_destination(punit, ptile);
-
-  UNIT_LOG(LOG_DEBUG, punit, "constrained goto: let's go to %d,%d",
-           TILE_XY(ptile));
-
   if (same_pos(unit_tile(punit), ptile)) {
-    /* Not an error; sometimes immediate_destination instructs the unit
-     * to stay here. For example, to refuel.*/
+    /* Was not an error in previous versions but now is dubious... */
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: already there!");
     send_unit_info(NULL, punit);
     return TRUE;
-  } else if (!goto_is_sane(punit, ptile)) {
+  } else if (!goto_is_sane(punit, ptile)) {/* FIXME: why do we check it? */
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: 'insane' goto!");
     punit->activity = ACTIVITY_IDLE;
     send_unit_info(NULL, punit);
