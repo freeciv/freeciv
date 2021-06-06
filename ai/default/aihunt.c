@@ -98,12 +98,6 @@ static struct unit_type *dai_hunter_guess_best(struct city *pcity,
       continue;
     }
 
-    /* Temporary hack because pathfinding can't handle Fighters. */
-    if (!utype_is_consumed_by_action_result(ACTRES_ATTACK, ut)
-        && 1 == utype_fuel(ut)) {
-      continue;
-    }
-
     if (!can_city_build_unit_now(pcity, ut)
         || ut->attack_strength < ut->transport_capacity
         || (tc == TC_OCEAN && utype_class(ut)->adv.sea_move == MOVE_NONE)
