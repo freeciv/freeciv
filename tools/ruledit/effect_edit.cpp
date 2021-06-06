@@ -47,10 +47,11 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
   QGridLayout *effect_edit_layout = new QGridLayout();
   QHBoxLayout *active_layout = new QHBoxLayout();
   QPushButton *close_button;
-  QPushButton *reqs_button;
+  QPushButton *button;
   QMenu *menu;
   QLabel *lbl;
   enum effect_type eff;
+  int row;
 
   ui = ui_in;
   selected = nullptr;
@@ -94,13 +95,22 @@ effect_edit::effect_edit(ruledit_gui *ui_in, QString target,
 
   main_layout->addLayout(active_layout);
 
-  reqs_button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
-  connect(reqs_button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
-  effect_edit_layout->addWidget(reqs_button, 0, 0);
+  row = 0;
+  button = new QPushButton(QString::fromUtf8(R__("Requirements")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(edit_reqs()));
+  effect_edit_layout->addWidget(button, row++, 0);
+
+  button = new QPushButton(QString::fromUtf8(R__("Add Effect")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(add_now()));
+  effect_edit_layout->addWidget(button, row++, 0);
+
+  button = new QPushButton(QString::fromUtf8(R__("Delete Effect")), this);
+  connect(button, SIGNAL(pressed()), this, SLOT(delete_now()));
+  effect_edit_layout->addWidget(button, row++, 0);
 
   close_button = new QPushButton(QString::fromUtf8(R__("Close")), this);
   connect(close_button, SIGNAL(pressed()), this, SLOT(close_now()));
-  effect_edit_layout->addWidget(close_button, 1, 0);
+  effect_edit_layout->addWidget(close_button, row++, 0);
 
   refresh();
 
@@ -280,4 +290,37 @@ void effect_edit::edit_reqs()
 void effect_edit::closeEvent(QCloseEvent *event)
 {
   ui->unregister_effect_edit(this);
+}
+
+/**********************************************************************//**
+  User requested new effect
+**************************************************************************/
+void effect_edit::add_now()
+{
+  struct effect *peffect = effect_new((enum effect_type)0, 0, NULL);
+
+  if (filter.kind != VUT_NONE) {
+    struct requirement req;
+
+    req = req_from_str(universal_type_rule_name(&filter),
+                       nullptr, false, true, false,
+                       universal_rule_name(&filter));
+    effect_req_append(peffect, req);
+  }
+
+  refresh();
+}
+
+/**********************************************************************//**
+  User requested effect deletion
+**************************************************************************/
+void effect_edit::delete_now()
+{
+  if (selected != nullptr) {
+    effect_remove(selected);
+
+    selected = nullptr;
+
+    refresh();
+  }
 }

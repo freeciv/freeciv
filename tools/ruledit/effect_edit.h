@@ -78,6 +78,8 @@ class effect_edit : public QDialog
     void select_effect();
     void fill_active();
     void edit_reqs();
+    void add_now();
+    void delete_now();
     void close_now();
 
     void effect_type_menu(QAction *action);

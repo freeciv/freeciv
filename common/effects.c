@@ -192,6 +192,15 @@ struct effect *effect_new(enum effect_type type, int value,
 }
 
 /**********************************************************************//**
+  Remove effect from the caches.
+**************************************************************************/
+void effect_remove(struct effect *peffect)
+{
+  effect_list_remove(ruleset_cache.tracker, peffect);
+  effect_list_remove(get_effects(peffect->type), peffect);
+}
+
+/**********************************************************************//**
   Return new copy of the effect
 **************************************************************************/
 struct effect *effect_copy(struct effect *old)
