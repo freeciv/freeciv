@@ -98,8 +98,8 @@ tab_enabler::tab_enabler(ruledit_gui *ui_in) : QWidget()
   QPushButton *add_button;
 
   ui = ui_in;
-  connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
-          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+  connect(ui, SIGNAL(req_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_req_vec_change(const requirement_vector *)));
 
   selected = 0;
 
@@ -346,7 +346,7 @@ void tab_enabler::repair_now()
   A requirement vector may have been changed.
   @param vec the requirement vector that may have been changed.
 **************************************************************************/
-void tab_enabler::incoming_rec_vec_change(const requirement_vector *vec)
+void tab_enabler::incoming_req_vec_change(const requirement_vector *vec)
 {
   action_enablers_iterate(enabler) {
     if (&enabler->actor_reqs == vec || &enabler->target_reqs == vec) {

@@ -52,8 +52,8 @@ req_edit::req_edit(ruledit_gui *ui_in, QString target,
   QLabel *lbl;
 
   ui = ui_in;
-  connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
-          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+  connect(ui, SIGNAL(req_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_req_vec_change(const requirement_vector *)));
 
   clear_selected();
   req_vector = preqs;
@@ -419,7 +419,7 @@ void req_edit::add_now()
 
   refresh();
 
-  emit rec_vec_may_have_changed(req_vector);
+  emit req_vec_may_have_changed(req_vector);
 }
 
 /**********************************************************************//**
@@ -441,7 +441,7 @@ void req_edit::delete_now()
 
     refresh();
 
-    emit rec_vec_may_have_changed(req_vector);
+    emit req_vec_may_have_changed(req_vector);
   }
 }
 
@@ -449,7 +449,7 @@ void req_edit::delete_now()
   The requirement vector may have been changed.
   @param vec the requirement vector that may have been changed.
 **************************************************************************/
-void req_edit::incoming_rec_vec_change(const requirement_vector *vec)
+void req_edit::incoming_req_vec_change(const requirement_vector *vec)
 {
   if (req_vector == vec) {
     /* The selected requirement may be gone */
