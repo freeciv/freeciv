@@ -49,7 +49,7 @@ signals:
     A requirement vector may have been changed.
     @param vec the requirement vector that was changed.
   ************************************************************************/
-  void rec_vec_may_have_changed(const requirement_vector *vec);
+  void req_vec_may_have_changed(const requirement_vector *vec);
 
   private:
     ruledit_gui *ui;
@@ -83,7 +83,7 @@ signals:
     void univ_value_enum_menu(QAction *action);
     void univ_value_edit(int value);
 
-    void incoming_rec_vec_change(const requirement_vector *vec);
+    void incoming_req_vec_change(const requirement_vector *vec);
 
   protected:
     void closeEvent(QCloseEvent *event);

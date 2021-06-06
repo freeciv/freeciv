@@ -1,4 +1,4 @@
-/**********************************************************************
+/***********************************************************************
  Freeciv - Copyright (C) 2020 - The Freeciv Project contributors.
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -147,8 +147,8 @@ req_vec_fix::req_vec_fix(ruledit_gui *ui_in,
   QHBoxLayout *layout_buttons = new QHBoxLayout();
 
   this->ui = ui_in;
-  connect(ui, SIGNAL(rec_vec_may_have_changed(const requirement_vector *)),
-          this, SLOT(incoming_rec_vec_change(const requirement_vector *)));
+  connect(ui, SIGNAL(req_vec_may_have_changed(const requirement_vector *)),
+          this, SLOT(incoming_req_vec_change(const requirement_vector *)));
 
   this->item_info = item;
 
@@ -309,7 +309,7 @@ void req_vec_fix::accept_applied_solutions()
   this->refresh();
 
   for (i = 0; i < item_info->num_vectors(); i++) {
-    emit rec_vec_may_have_changed(item_info->vector_getter()
+    emit req_vec_may_have_changed(item_info->vector_getter()
                                   (item_info->item(), i));
   }
 }
@@ -332,7 +332,7 @@ void req_vec_fix::reject_applied_solutions()
   A requirement vector may have been changed.
   @param vec the requirement vector that may have been changed.
 **************************************************************************/
-void req_vec_fix::incoming_rec_vec_change(const requirement_vector *vec)
+void req_vec_fix::incoming_req_vec_change(const requirement_vector *vec)
 {
   if (this->item_info->vector_in_item(vec)) {
     /* Can't trust the changes done against a previous version. */
