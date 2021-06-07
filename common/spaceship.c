@@ -15,7 +15,8 @@
 #include <fc_config.h>
 #endif
 
-#include "shared.h"		/* TRUE, FALSE */
+/* utility */
+#include "shared.h"     /* TRUE, FALSE */
 
 #include "spaceship.h"
 
@@ -89,8 +90,8 @@ const struct sship_part_info modules_info[NUM_SS_MODULES] = {
 };
 
 /**********************************************************************
-Initialize spaceship struct; could also be used to "cancel" a
-spaceship (eg, if/when capital-capture effect implemented).
+Initialize spaceship struct; can also be used to "cancel" a
+spaceship (eg, when capital captured).
 **********************************************************************/
 void spaceship_init(struct player_spaceship *ship)
 {
