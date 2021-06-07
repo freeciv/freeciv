@@ -1,0 +1,34 @@
+#
+# Makefile for Freeciv Windows installer creation,
+# using meson.
+#
+# See doc/README.msys2
+#
+
+all: gtk3.22-installer
+
+gtk3.22-installer:
+	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
+
+installer-common: install-freeciv-$(GUI)
+
+install-freeciv-common:
+	# create build directory
+	mkdir -p meson-build-$(GUI)
+	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Dnls=false -Daudio=false $(EXTRA_CONFIG)
+	cd meson-build-$(GUI); ninja
+	cd meson-build-$(GUI); ninja install
+
+install-freeciv-gtk3.22: install-freeciv-common
+
+
+# cleanup
+
+clean-build-common:
+	rm -rf meson-build-$(GUI)
+
+clean-install-common:
+	rm -rf meson-install-$(GUI)
+
+clean:
+	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common
