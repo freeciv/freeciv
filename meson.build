@@ -64,6 +64,14 @@ endif
 
 c_compiler = meson.get_compiler('c')
 
+if meson.is_cross_build()
+  cross_inc_path = meson.get_cross_property('cross_inc_path')
+  cross_lib_path = meson.get_cross_property('cross_lib_path')
+else
+  cross_inc_path = []
+  cross_lib_path = []
+endif
+
 pub_headers = [
   'locale.h',
   'libintl.h',
@@ -113,15 +121,20 @@ priv_headers = [
   'vfork.h'
   ]
 
+if cross_inc_path == []
+  header_arg = []
+else
+  header_arg = '-I' + cross_inc_path
+endif
 foreach hdr : pub_headers
-  if c_compiler.has_header(hdr)
+  if c_compiler.has_header(hdr, args: header_arg)
     pub_conf_data.set('FREECIV_HAVE_' + hdr.underscorify().to_upper(), 1)
     priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
   endif
 endforeach
 
 foreach hdr : priv_headers
-  if c_compiler.has_header(hdr)
+  if c_compiler.has_header(hdr, args: header_arg)
     priv_conf_data.set('HAVE_' + hdr.underscorify().to_upper(), 1)
   endif
 endforeach
@@ -303,14 +316,6 @@ endif
 if get_option('cacert-path') != ''
   priv_conf_data.set('CUSTOM_CACERT_PATH',
                      '"' + get_option('cacert-path') + '"')
-endif
-
-if meson.is_cross_build()
-  cross_inc_path = meson.get_cross_property('cross_inc_path')
-  cross_lib_path = meson.get_cross_property('cross_lib_path')
-else
-  cross_inc_path = []
-  cross_lib_path = []
 endif
 
 if get_option('audio')
