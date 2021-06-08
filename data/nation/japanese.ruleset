@@ -1,11 +1,11 @@
 [nation_japanese]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Japanese")
-plural=_("?plural:Japanese")
-groups="Medieval", "Early Modern", "Modern", "Asian", "Core"
-legend=_("According to traditional Japanese mythology, Japan was founded\
+name   = _("Japanese")
+plural = _("?plural:Japanese")
+groups = "Medieval", "Early Modern", "Modern", "Asian", "Core"
+legend = _("According to traditional Japanese mythology, Japan was founded\
  in the 7th century BCE by the ancestral Emperor Jimmu.")
 
 leaders = {
@@ -24,14 +24,15 @@ ruler_titles = {
  "Republic",        _("Shogun %s"),         _("?female:Shogun %s")
 }
 
-flag="japan"
+flag = "japan"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="ryukyuan", "ainu"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "ryukyuan", "ainu"
 
 cities =
   "Tokyo (ocean)",
@@ -45,7 +46,7 @@ cities =
   "Hiroshima (ocean)",
   "Sendai (ocean)",
   "Kawasaki (ocean)",
-  "Kokura (ocean)",	; Modern-day "Kita-Kyushu"
+  "Kokura (ocean)",     ; Modern-day "Kita-Kyushu"
   "Saitama (!ocean)",
   "Yokohama (ocean)",
   "Chiba (ocean)",
@@ -101,7 +102,7 @@ cities =
   "Kawaguchi (!ocean)",
   "Kushiro (ocean)",
   "Chofu (!ocean)",
-  "Fuse (!ocean)",	; One of the old cities that now is "Higashi-Osaka"
+  "Fuse (!ocean)",      ; One of the old cities that now is "Higashi-Osaka"
   "Kumagaya (!ocean)",
   "Amagasaki (ocean)",
   "Ichikawa",

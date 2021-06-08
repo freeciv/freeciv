@@ -1,9 +1,9 @@
 [nation_jolof] 
 
-name=_("Jolof") 
-plural=_("?plural:Jolof") 
-groups="Medieval", "Early Modern", "African" 
-legend=_("Also called Wolof, the Kingdom was formed between the\
+name   = _("Jolof")
+plural = _("?plural:Jolof")
+groups = "Medieval", "Early Modern", "African"
+legend = _("Also called Wolof, the Kingdom was formed between the\
  Senegal and Gambia rivers in the 14th century. The King, or Burba\
  Jolof, was beholden to a handful of powerful regional noblemen who\
  acknowledged kinship with the king but developed personal power\
@@ -14,7 +14,7 @@ legend=_("Also called Wolof, the Kingdom was formed between the\
  unions with one another, with their heads assuming the powers of\
  Burba Jolof. The 19th century brought with it French colonization\
  and a conversion to Islam fueled in large part by anti-European\
- sentiment.") 
+ sentiment.")
 
 leaders = {
  "name",                "sex"
@@ -25,42 +25,42 @@ leaders = {
  "Lat-Koddu",           "Male"
 }
 
-flag= "jolof" 
-flag_alt = "-" 
-style = "Tropical" 
+flag = "jolof"
+flag_alt = "-"
+style = "Tropical"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="malian", "senegalese" 
+civilwar_nations = "malian", "senegalese"
 
-cities = 
-"Linguère", 
-"Kaolack", 
-"Louga", 
-"Dagana", 
-"Rosso", 
-"Dara", 
-"Kanifing", 
-"Koki", 
-"Mekhé", 
-"Mboro", 
-"Kébémèr", 
-"Mpal", 
-"Lagbar", 
-"Toubu", 
-"Gassane", 
-"Joal-Fadiat", 
-"Pikine", 
-"Vélingara", 
-"Tiel", 
-"Sokone", 
-"Mbour", 
-"Farafenni", 
-"Bambey", 
-"Bogué", 
-"Podor", 
-"Kerewan", 
-"Fatick", 
-"Yoff"
+cities =
+ "Linguère",
+ "Kaolack",
+ "Louga",
+ "Dagana",
+ "Rosso",
+ "Dara",
+ "Kanifing",
+ "Koki",
+ "Mekhé",
+ "Mboro",
+ "Kébémèr",
+ "Mpal",
+ "Lagbar",
+ "Toubu",
+ "Gassane",
+ "Joal-Fadiat",
+ "Pikine",
+ "Vélingara",
+ "Tiel",
+ "Sokone",
+ "Mbour",
+ "Farafenni",
+ "Bambey",
+ "Bogué",
+ "Podor",
+ "Kerewan",
+ "Fatick",
+ "Yoff"

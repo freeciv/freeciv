@@ -1,9 +1,9 @@
 [nation_jamaican]
 
-name=_("Jamaican")
-plural=_("?plural:Jamaicans")
-groups="Modern", "American"
-legend=_("Columbus landed on Jamaica in 1494. The island was colonized by\
+name   = _("Jamaican")
+plural = _("?plural:Jamaicans")
+groups = "Modern", "American"
+legend = _("Columbus landed on Jamaica in 1494. The island was colonized by\
  the Spanish but in 1655 it was conquered by the English, who turned the\
  island into a slave-based plantation economy. Slavery was abolished in\
  1834. The country became an independent country within the Commonwealth\
@@ -25,13 +25,14 @@ ruler_titles = {
  "Fundamentalism", _("Rasta %s"),           _("?female:Rasta %s")
 }
 
-flag="jamaica"
+flag = "jamaica"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "bahamian", "belizean"
 
 cities =
