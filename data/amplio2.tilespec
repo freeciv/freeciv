@@ -150,6 +150,7 @@ files =
   "misc/specialists.spec",
   "amplio2/units.spec",
   "amplio2/extra_units.spec",
+  "amplio2/animals.spec",
   "amplio2/veterancy.spec",
   "misc/flags-large.spec",
   "misc/buildings-large.spec",

@@ -157,6 +157,7 @@ files =
   "misc/editor.spec",
   "amplio2/units.spec",
   "amplio2/extra_units.spec",
+  "amplio2/animals.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
   "hexemplio/activities.spec",
