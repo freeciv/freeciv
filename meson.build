@@ -340,6 +340,10 @@ endif
 if get_option('nls')
   pub_conf_data.set('FREECIV_ENABLE_NLS', 1)
   priv_conf_data.set('ENABLE_NLS', 1)
+  gettext_dep = c_compiler.find_library('intl', dirs: cross_lib_path,
+                                        required: false)
+else
+  gettext_dep = []
 endif
 
 if get_option('gitrev')
@@ -598,6 +602,7 @@ common_lib = library('freeciv',
                  c_compiler.find_library('libcurl', dirs: cross_lib_path),
                  c_compiler.find_library('libsqlite3', dirs: cross_lib_path),
                  ws2_dep, jansson_dep, lua_dep, lzma_dep, bcrypt_lib_dep, iconv_lib_dep,
+                 gettext_dep,
                  dependency('threads')],
   install : true
   )
@@ -720,7 +725,7 @@ executable(server_binary_name,
   include_directories: server_inc,
   link_with: [server_lib, common_lib, ais],
   dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep],
+                 ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -2636,7 +2641,7 @@ executable('freeciv-ruleup',
   link_with: [common_lib, server_lib, tool_lib, ais],
   include_directories: tool_inc,
   dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep],
+                 ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
@@ -2695,7 +2700,7 @@ executable('freeciv-ruledit',
   mocced_ruledit,
   include_directories: tool_inc,
   dependencies: [qt5_dep, c_compiler.find_library('m'),
-                 ws2_dep, readline_dep],
+                 ws2_dep, readline_dep, gettext_dep],
   link_with: [common_lib, server_lib, ais, tool_lib],
   install: true
   )
@@ -2709,7 +2714,7 @@ executable('freeciv-manual',
   include_directories: [tool_inc,
                         include_directories('client', 'client/include')],
   dependencies: [c_compiler.find_library('m'),
-                 ws2_dep, readline_dep],
+                 ws2_dep, readline_dep, gettext_dep],
   install: true
   )
 
