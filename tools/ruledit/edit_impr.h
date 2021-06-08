@@ -36,12 +36,14 @@ class edit_impr : public QDialog
     ruledit_gui *ui;
     struct impr_type *impr;
     QSpinBox *bcost;
+    QSpinBox *upkeep;
 
   protected:
     void closeEvent(QCloseEvent *cevent);
 
   private slots:
     void set_bcost_value(int value);
+    void set_upkeep_value(int value);
 };
 
 
