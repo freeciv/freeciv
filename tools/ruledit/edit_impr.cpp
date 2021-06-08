@@ -37,6 +37,7 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   QVBoxLayout *main_layout = new QVBoxLayout(this);
   QGridLayout *impr_layout = new QGridLayout();
   QLabel *label;
+  int row;
 
   ui = ui_in;
   impr = impr_in;
@@ -50,8 +51,19 @@ edit_impr::edit_impr(ruledit_gui *ui_in, struct impr_type *impr_in) : QDialog()
   bcost->setRange(0, 10000);
   connect(bcost, SIGNAL(valueChanged(int)), this, SLOT(set_bcost_value(int)));
 
-  impr_layout->addWidget(label, 0, 0);
-  impr_layout->addWidget(bcost, 0, 2);
+  row = 0;
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(bcost, row++, 2);
+
+  label = new QLabel(QString::fromUtf8(R__("Upkeep")));
+  label->setParent(this);
+
+  upkeep = new QSpinBox(this);
+  upkeep->setRange(0, 1000);
+  connect(upkeep, SIGNAL(valueChanged(int)), this, SLOT(set_upkeep_value(int)));
+
+  impr_layout->addWidget(label, row, 0);
+  impr_layout->addWidget(upkeep, row++, 2);
 
   refresh();
 
@@ -74,6 +86,7 @@ void edit_impr::closeEvent(QCloseEvent *cevent)
 void edit_impr::refresh()
 {
   bcost->setValue(impr->build_cost);
+  upkeep->setValue(impr->upkeep);
 }
 
 /**********************************************************************//**
@@ -82,6 +95,16 @@ void edit_impr::refresh()
 void edit_impr::set_bcost_value(int value)
 {
   impr->build_cost = value;
+
+  refresh();
+}
+
+/**********************************************************************//**
+  Read upkeep value from spinbox
+**************************************************************************/
+void edit_impr::set_upkeep_value(int value)
+{
+  impr->upkeep = value;
 
   refresh();
 }
