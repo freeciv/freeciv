@@ -7034,7 +7034,6 @@ static void sg_load_researches(struct loaddata *loading)
   const char *str;
   int i, j;
   int *vlist_research;
-  size_t count_res;
 
   vlist_research = NULL;
   /* Check status and return if not OK (sg_success != TRUE). */
@@ -7106,14 +7105,19 @@ static void sg_load_researches(struct loaddata *loading)
     }
 
     if (game.server.multiresearch) {
-      vlist_research = fc_calloc(game.control.num_tech_types, sizeof(int));
+      size_t count_res;
+      int tn;
+
       vlist_research = secfile_lookup_int_vec(loading->file, &count_res,
                                               "research.r%d.vbs", i);
-      advance_index_iterate(A_FIRST, o) {
-        presearch->inventions[o].bulbs_researched_saved = vlist_research[o];
-      } advance_index_iterate_end;
-      if (vlist_research) {
-        free(vlist_research);
+
+      for (tn = 0; tn < count_res; tn++) {
+        struct advance *padvance = advance_by_rule_name(loading->technology.order[tn]);
+
+        if (padvance != NULL) {
+          presearch->inventions[advance_index(padvance)].bulbs_researched_saved
+            = vlist_research[tn];
+        }
       }
     }
   }
