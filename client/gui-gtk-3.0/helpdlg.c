@@ -132,7 +132,6 @@ static const char *help_elabel_name[6] =
 
 static void create_help_dialog(void);
 static void help_update_dialog(const struct help_item *pitem);
-static void create_help_page(enum help_page_type type);
 
 static void select_help_item_string(const char *item,
 				    enum help_page_type htype);
@@ -727,15 +726,6 @@ static void create_help_dialog(void)
   gtk_container_add(GTK_CONTAINER(help_tree_buttons_hbox), help_tree_collapse);
   gtk_container_add(GTK_CONTAINER(help_box), help_tree_buttons_hbox);
   gtk_widget_show_all(help_tree_buttons_hbox);
-
-  create_help_page(HELP_TEXT);
-}
-
-/**********************************************************************//**
-  Create page for help type
-**************************************************************************/
-static void create_help_page(enum help_page_type type)
-{
 }
 
 /**********************************************************************//**
@@ -791,9 +781,7 @@ static void help_update_improvement(const struct help_item *pitem,
   char buf[8192];
   struct impr_type *imp = improvement_by_translated_name(title);
 
-  create_help_page(HELP_IMPROVEMENT);
-
-  if (imp  &&  !is_great_wonder(imp)) {
+  if (imp && !is_great_wonder(imp)) {
     const char *req = skip_intl_qualifier_prefix(REQ_LABEL_NONE);
     char req_buf[512];
 
@@ -840,8 +828,6 @@ static void help_update_wonder(const struct help_item *pitem,
 {
   char buf[8192];
   struct impr_type *imp = improvement_by_translated_name(title);
-
-  create_help_page(HELP_WONDER);
 
   if (imp && is_great_wonder(imp)) {
     int i;
@@ -901,8 +887,6 @@ static void help_update_unit_type(const struct help_item *pitem,
 {
   char buf[8192];
   struct unit_type *utype = unit_type_by_translated_name(title);
-
-  create_help_page(HELP_UNIT);
 
   if (utype) {
     sprintf(buf, "%d", utype_build_shield_cost_base(utype));
@@ -990,8 +974,6 @@ static void help_update_tech(const struct help_item *pitem, char *title)
   GtkWidget *w, *hbox;
   char buf[8192];
   struct advance *padvance = advance_by_translated_name(title);
-
-  create_help_page(HELP_TECH);
 
   if (padvance && !is_future_tech(i = advance_number(padvance))) {
     GtkTextBuffer *txt;
@@ -1201,8 +1183,6 @@ static void help_update_terrain(const struct help_item *pitem,
   char buf[8192];
   struct terrain *pterrain = terrain_by_translated_name(title);
 
-  create_help_page(HELP_TERRAIN);
-
   if (pterrain) {
     struct universal for_terr = { .kind = VUT_TERRAIN, .value = { .terrain = pterrain }};
 
@@ -1313,8 +1293,6 @@ static void help_update_extra(const struct help_item *pitem, char *title)
   char buf[8192];
   struct extra_type *pextra = extra_type_by_translated_name(title);
 
-  create_help_page(HELP_EXTRA);
-
   buf[0] = '\0';
   if (pextra == NULL) {
     strcat(buf, pitem->text);
@@ -1393,15 +1371,13 @@ static void help_update_goods(const struct help_item *pitem,
   char buf[8192];
   struct goods_type *pgood = goods_by_translated_name(title);
 
-  create_help_page(HELP_GOODS);
-
   if (!pgood) {
     strcat(buf, pitem->text);
   } else {
     helptext_goods(buf, sizeof(buf), client.conn.playing, pitem->text,
                    pgood);
   }
-  create_help_page(HELP_GOODS);
+
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -1421,7 +1397,7 @@ static void help_update_specialist(const struct help_item *pitem,
     helptext_specialist(buf, sizeof(buf), client.conn.playing, pitem->text,
                         pspec);
   }
-  create_help_page(HELP_TEXT);
+
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -1440,7 +1416,7 @@ static void help_update_government(const struct help_item *pitem,
   } else {
     helptext_government(buf, sizeof(buf), client.conn.playing, pitem->text, gov);
   }
-  create_help_page(HELP_TEXT);
+
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -1458,7 +1434,7 @@ static void help_update_nation(const struct help_item *pitem, char *title,
   } else {
     helptext_nation(buf, sizeof(buf), pnation, pitem->text);
   }
-  create_help_page(HELP_TEXT);
+
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
@@ -1513,8 +1489,6 @@ static void help_update_dialog(const struct help_item *pitem)
   case HELP_TEXT:
   default:
     /* it was a pure text item */ 
-    create_help_page(HELP_TEXT);
-
     gtk_text_buffer_set_text(help_text, pitem->text, -1);
     gtk_widget_show(help_text_sw);
     break;
