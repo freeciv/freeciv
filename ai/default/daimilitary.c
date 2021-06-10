@@ -541,7 +541,7 @@ static unsigned int assess_danger(struct ai_type *ait, struct city *pcity,
       /* Skip defenders that have no bonuses at all. Acceptable
        * side-effect is that we can't consider negative bonuses at
        * all ("No bonuses" should be better than "negative bonus") */
-      if (def->cache.max_defense_mp_pct > 0) {
+      if (def->cache.max_defense_mp_bonus_pct > 0) {
         unit_type_iterate(utype) {
           int idx = utype_index(utype);
           int coeff = def->cache.scramble_coeff[idx];
@@ -774,7 +774,7 @@ int dai_unit_defence_desirability(struct ai_type *ait,
   desire += punittype->move_rate / SINGLE_MOVE;
   desire += attack;
 
-  maxbonus_pct = punittype->cache.max_defense_mp_pct;
+  maxbonus_pct = punittype->cache.max_defense_mp_bonus_pct;
   if (maxbonus_pct > 100) {
     maxbonus_pct = (maxbonus_pct + 100) / 2;
   }
