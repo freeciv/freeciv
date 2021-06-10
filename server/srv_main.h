@@ -76,11 +76,11 @@ extern struct civserver {
   int nbarbarians;
 
   /* this counter creates all the city and unit numbers used.
-   * arbitrarily starts at 101, but at 65K wraps to 1.
+   * arbitrarily starts at 101, but wraps to 1.
    * use identity_number()
    */
 #define IDENTITY_NUMBER_SKIP (100)
-  unsigned short identity_number;
+  unsigned identity_number;
 
   char game_identifier[MAX_LEN_GAME_IDENTIFIER];
 } server;
