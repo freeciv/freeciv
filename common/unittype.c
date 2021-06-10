@@ -2779,7 +2779,7 @@ void set_unit_class_caches(struct unit_class *pclass)
 **************************************************************************/
 void set_unit_type_caches(struct unit_type *ptype)
 {
-  ptype->cache.max_defense_mp_pct = -FC_INFINITY;
+  ptype->cache.max_defense_mp_bonus_pct = -FC_INFINITY;
 
   unit_type_iterate(utype) {
     int idx = utype_index(utype);
@@ -2810,8 +2810,8 @@ void set_unit_type_caches(struct unit_type *ptype)
     } else {
       ptype->cache.scramble_coeff[idx] = 0;
     }
-    if (bonus > ptype->cache.max_defense_mp_pct) {
-      ptype->cache.max_defense_mp_pct = bonus;
+    if (bonus > ptype->cache.max_defense_mp_bonus_pct) {
+      ptype->cache.max_defense_mp_bonus_pct = bonus;
     }
   } unit_type_iterate_end;
 }

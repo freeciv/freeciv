@@ -545,9 +545,9 @@ struct unit_type {
   } adv;
 
   struct {
-    int max_defense_mp_pct; /* Value 0 here does not guarantee that unit
-                             * never has CBONUS_DEFENSE_MULTIPLIER, it
-                             * merely means that there's no POSITIVE one */
+    int max_defense_mp_bonus_pct; /* Value 0 here does not guarantee that unit
+                                   * never has CBONUS_DEFENSE_MULTIPLIER, it
+                                   * merely means that there's no POSITIVE one */
     int defense_mp_bonuses_pct[U_LAST];
     int scramble_coeff[U_LAST]; /* for scrambling units, 10000 x defense factor
                                  * in cities (includes common type defense
