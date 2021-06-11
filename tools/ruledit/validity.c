@@ -277,6 +277,16 @@ bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data)
 
   needed |= is_universal_needed(&uni, cb, data);
 
+  terrain_active_iterate(pother) {
+    if (pother != pterr
+        && (pother->irrigation_result == pterr
+            || pother->mining_result == pterr
+            || pother->transform_result == pterr)) {
+      cb(terrain_rule_name(pother), data);
+      needed = TRUE;
+    }
+  } terrain_active_iterate_end;
+
   return needed;
 }
 
