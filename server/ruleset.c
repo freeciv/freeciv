@@ -751,6 +751,15 @@ struct requirement_vector *lookup_req_list(struct section_file *file,
       name = rscompat_req_name_3_1(type, name);
     }
 
+    if (compat->compat_mode) {
+      if (!fc_strcasecmp(type, "UnitState")
+          && !fc_strcasecmp(name, "OnDomesticTile")) {
+        type = "DiplRelTile";
+        name = "Foreign";
+        present = !present;
+      }
+    }
+
     req = req_from_str(type, range, survives, present, quiet, name);
     if (req.source.kind == universals_n_invalid()) {
       ruleset_error(LOG_ERROR, "\"%s\" [%s] has invalid or unknown req: "

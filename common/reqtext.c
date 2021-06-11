@@ -1546,18 +1546,6 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
                          _("Requires that the unit isn't on livable tile."));
           }
           return TRUE;
-        case USP_DOMESTIC_TILE:
-          fc_strlcat(buf, prefix, bufsz);
-          if (preq->present) {
-            cat_snprintf(buf, bufsz,
-                         _("Requires that the unit is on a domestic "
-                           "tile."));
-          } else {
-            cat_snprintf(buf, bufsz,
-                         _("Requires that the unit isn't on a domestic "
-                           "tile."));
-          }
-          return TRUE;
         case USP_TRANSPORTING:
           fc_strlcat(buf, prefix, bufsz);
           if (preq->present) {
