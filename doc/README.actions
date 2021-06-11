@@ -664,7 +664,7 @@ Actions done by a unit against another unit
  * the actor unit can't be diplomatically forbidden from entering the target
    tile.
  * the actor unit doesn't have the "CoastStrict" unit type flag or the
-   target city is on or adjacent to a tile that doesn't have the
+   target is on or adjacent to a tile that doesn't have the
    "UnsafeCoast" terrain flag.
  * actor unit must be able to move to the target tile.
  * the actor's unit class must appear in the target unit type's cargo field.
@@ -809,7 +809,7 @@ Actions done by a unit against a tile
  * the range of legal distance between actor unit and target the actor units
    must be between explode_nuclear_min_range and explode_nuclear_max_range
 
-"Nuke City" - Detonate in the target city. Cause a nuclear explosion.
+"Nuke City" - Detonate at the target tile. Cause a nuclear explosion.
  * UI name can be set using ui_name_nuke_city
  * set if the actor unit is spent with nuke_city_consuming_always
  * target kind can be changed with nuke_city_target_kind
@@ -1149,7 +1149,7 @@ Actions done by a unit against a tile
   transport's unit class has the Unreachable unit class flag and the
   actor's unit type doesn't list the target's unit class in disembarks.
 * the actor unit doesn't have the "CoastStrict" unit type flag or the
-  target city is on or adjacent to a tile that doesn't have the
+  target is on or adjacent to a tile that doesn't have the
   "UnsafeCoast" terrain flag.
 * the actor unit can't be diplomatically forbidden from entering the target
   tile.
