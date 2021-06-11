@@ -4978,7 +4978,10 @@ static enum req_item_found action_found(const struct requirement *preq,
 static enum req_item_found diplrel_found(const struct requirement *preq,
                                          const struct universal *source)
 {
-  if (preq->source.kind == VUT_DIPLREL) {
+  fc_assert_ret_val(source->kind == VUT_DIPLREL,
+                    ITF_NOT_APPLICABLE);
+
+  if (preq->source.kind == source->kind) {
     if (preq->source.value.diplrel == source->value.diplrel) {
       /* The diplrel itself. */
       return ITF_YES;
