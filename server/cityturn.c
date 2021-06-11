@@ -1457,6 +1457,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_DIPLREL:
+      case VUT_DIPLREL_TILE: /* The tile owner is the city owner */
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,

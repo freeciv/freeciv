@@ -1267,6 +1267,82 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_DIPLREL_TILE:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: in this and following strings, '%s' can be one
+                      * of a wide range of relationships; e.g., 'Peace',
+                      * 'Never met', 'Foreign', 'Hosts embassy',
+                      * 'Provided Casus Belli' */
+                     _("Requires that the tile owner has the relationship"
+                       " '%s' with at least one other living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that the tile owner does not have the"
+                       " relationship '%s' with any living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_TEAM:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that somebody on the tile owner's team"
+                       " has the relationship '%s' with at least one other"
+                       " living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that nobody on the tile owner's team has"
+                       " the relationship '%s' with any living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that somebody in the tile owner's alliance"
+                       " has the relationship '%s' with at least one other "
+                       "living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that nobody in the tile owner's alliance "
+                       "has the relationship '%s' with any living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that you have the relationship '%s' with"
+                       " the tile owner."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that you do not have the relationship '%s'"
+                       " with the tile owner."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_UTYPE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:

@@ -272,7 +272,8 @@ static bool is_req_knowable(const struct player *pow_player,
     return can_player_see_unit(pow_player, target_unit);
   }
 
-  if (req->source.kind == VUT_DIPLREL) {
+  if (req->source.kind == VUT_DIPLREL
+      || req->source.kind == VUT_DIPLREL_TILE) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       if (other_player == NULL

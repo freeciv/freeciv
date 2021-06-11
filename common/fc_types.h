@@ -737,6 +737,8 @@ typedef union {
 #define SPECENUM_VALUE43NAME "MinForeignPct"
 #define SPECENUM_VALUE44 VUT_ACTIVITY
 #define SPECENUM_VALUE44NAME "Activity"
+#define SPECENUM_VALUE45 VUT_DIPLREL_TILE
+#define SPECENUM_VALUE45NAME "DiplRelTile"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

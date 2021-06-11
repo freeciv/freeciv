@@ -152,6 +152,7 @@ bool universal_value_initial(struct universal *src)
     src->value.achievement = achievement_by_number(0);
     return TRUE;
   case VUT_DIPLREL:
+  case VUT_DIPLREL_TILE:
     src->value.diplrel = DS_WAR;
     return TRUE;
   case VUT_MAXTILEUNITS:
@@ -357,6 +358,7 @@ void universal_kind_values(struct universal *univ,
     } achievements_re_active_iterate_end;
     break;
   case VUT_DIPLREL:
+  case VUT_DIPLREL_TILE:
     for (i = 0; i < DS_LAST; i++) {
       cb(diplstate_type_name(i), univ->value.diplrel == i, data);
     }
