@@ -70,6 +70,7 @@ Nation:          World, Alliance, Team, Player
 NationGroup:     World, Alliance, Team, Player
 Nationality:     Traderoute, City
 DiplRel:         World, Alliance, Team, Player, Local
+DiplRelTile:     Alliance, Team, Player, Local
 Action:          Local
 OutputType:      Local
 Specialist:      Local
@@ -724,6 +725,12 @@ Requirement is                         fulfilled when the tile is
                                      | domestic | unclaimed | foreign
 "DiplRel", "Foreign", "Local", TRUE  | no       | no        | yes
 "DiplRel", "Foreign", "Local", FALSE | yes      | no        | no
+
+The DiplRelTile requirement type
+--------------------------------
+Mostly like the DiplRel requirement type.
+The player is the tile owner. The second player is DiplRel's player.
+Doesn't have the World requirement range as that would be redundant.
 
 The MaxUnitsOnTile requirement type
 -----------------------------------
