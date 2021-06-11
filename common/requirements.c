@@ -1193,7 +1193,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
     return FALSE;
     break;
   case VUT_DIPLREL:
-    if (req2->source.kind != VUT_DIPLREL) {
+    if (req2->source.kind != req1->source.kind) {
       /* Finding contradictions across requirement kinds aren't supported
        * for DiplRel requirements. */
       return FALSE;
