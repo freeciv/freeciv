@@ -208,7 +208,6 @@ static bool is_req_knowable(const struct player *pow_player,
     switch (req->source.value.unit_state) {
     case USP_TRANSPORTED:
     case USP_LIVABLE_TILE:
-    case USP_DOMESTIC_TILE:
     case USP_TRANSPORTING:
     case USP_NATIVE_TILE:
     case USP_NATIVE_EXTRA:

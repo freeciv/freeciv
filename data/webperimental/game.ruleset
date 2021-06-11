@@ -1184,8 +1184,8 @@ action = "Expel Unit"
 actor_reqs    =
     { "type",          "name",           "range", "present"
       "UnitFlag",      "BorderPolice",   "Local", TRUE
-      "UnitState",     "OnDomesticTile", "Local", TRUE
-      "DiplRel",       "Foreign",     "Local", TRUE
+      "DiplRelTile",   "Foreign",        "Local", FALSE
+      "DiplRel",       "Foreign",        "Local", TRUE
       "DiplRel",       "Team",           "Local", FALSE
       "DiplRel",       "Alliance",       "Local", FALSE
       "DiplRel",       "War",            "Local", FALSE
@@ -1194,7 +1194,7 @@ actor_reqs    =
 target_reqs    =
     { "type",          "name",           "range", "present"
       "UnitFlag",      "Expellable",     "Local", TRUE
-      "UnitState",     "OnDomesticTile", "Local", FALSE
+      "DiplRelTile",   "Foreign",        "Local", TRUE
     }
 
 ; The GameLoss unit requirement makes sending units on a suicide mission to

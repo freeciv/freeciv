@@ -2649,10 +2649,6 @@ static enum fc_tristate is_unit_state(const struct unit *target_unit,
           can_unit_exist_at_tile(&(wld.map), target_unit,
                                  unit_tile(target_unit)));
     break;
-  case USP_DOMESTIC_TILE:
-    return BOOL_TO_TRISTATE(
-          tile_owner(unit_tile(target_unit)) == unit_owner(target_unit));
-    break;
   case USP_TRANSPORTING:
     return BOOL_TO_TRISTATE(0 < get_transporter_occupancy(target_unit));
   case USP_HAS_HOME_CITY:
@@ -4498,12 +4494,6 @@ const char *universal_name_translation(const struct universal *psource,
                     * "Missile+On livable tile") */
                    _("On livable tile"));
       break;
-    case USP_DOMESTIC_TILE:
-      cat_snprintf(buf, bufsz,
-                   /* TRANS: unit state. (appears in strings like
-                    * "Missile+On domestic tile") */
-                   _("On domestic tile"));
-      break;
     case USP_TRANSPORTING:
       /* TRANS: unit state. (appears in strings like "Missile+Transported") */
       cat_snprintf(buf, bufsz, _("Transporting"));
@@ -5213,7 +5203,6 @@ static enum req_item_found ustate_found(const struct requirement *preq,
     case USP_NATIVE_TILE:
     /* USP_NATIVE_TILE isn't a strict subset of USP_LIVABLE_TILE. See
      * UTYF_COAST_STRICT. */
-    case USP_DOMESTIC_TILE:
     case USP_HAS_HOME_CITY:
     case USP_NATIVE_EXTRA:
     case USP_MOVED_THIS_TURN:
