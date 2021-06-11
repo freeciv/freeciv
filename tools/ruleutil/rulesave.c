@@ -1251,6 +1251,7 @@ static bool save_game_ruleset(const char *filename, const char *name)
   save_default_int(sfile, game.info.illness_pollution_factor,
                    RS_DEFAULT_ILLNESS_POLLUTION_PCT,
                    "illness.illness_pollution_factor", NULL);
+  comment_incite_cost(sfile);
   save_default_int(sfile, game.server.base_incite_cost,
                    RS_DEFAULT_INCITE_BASE_COST,
                    "incite_cost.base_incite_cost", NULL);

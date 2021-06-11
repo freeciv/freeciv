@@ -57,6 +57,7 @@ static struct {
   char *civstyle_gameloss_style;
   char *civstyle_gold_upkeep_style;
   char *wonder_visibility_small_wonders;
+  char *incite_cost;
   char *combat_rules_tired_attack;
   char *combat_rules_only_killing_veteran;
   char *combat_rules_nuke_pop_loss;
@@ -144,6 +145,8 @@ bool comments_load(void)
                "entrydoc.gold_upkeep_style");
   comment_load(comments_storage.wonder_visibility_small_wonders, comment_file,
                "entrydoc.wv_small_wonders");
+  comment_load(comments_storage.incite_cost, comment_file,
+               "entrydoc.incite_cost");
   comment_load(comments_storage.combat_rules_tired_attack, comment_file,
                "entrydoc.tired_attack");
   comment_load(comments_storage.combat_rules_only_killing_veteran, comment_file,
@@ -449,6 +452,15 @@ void comment_wonder_visibility_small_wonders(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.wonder_visibility_small_wonders,
                       "wonder_visibility");
+}
+
+/**********************************************************************//**
+  Write incite_cost settings header.
+**************************************************************************/
+void comment_incite_cost(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.incite_cost,
+                      "incite_cost");
 }
 
 /**********************************************************************//**

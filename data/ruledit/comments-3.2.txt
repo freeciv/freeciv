@@ -1246,6 +1246,14 @@ wv_small_wonders = "\
 ; \"Embassy\" - Information is sent when team has an embassy with Wonder owner\
 "
 
+incite_cost = "\
+; city_incite_cost = total_factor * (city_size) * (base_incite_cost\n\
+;                      + (units_cost) * unit_factor\n\
+;                      + (improvements_cost) * improvement_factor)\n\
+;                    / ((distance to capital) * 100)\n\
+; See city_incite_cost() for more details\n\
+"
+
 tired_attack = "\
 ; If tired_attack is set to TRUE, units that attack with less than a single\n\
 ; move point (per move_fragments in terrain.ruleset) will have their attack\n\
