@@ -34,6 +34,7 @@
 #include "events.h"
 #include "game.h"
 #include "improvement.h"
+#include "modpack.h"
 #include "movement.h"
 #include "packets.h"
 
@@ -1086,30 +1087,45 @@ const char *new_challenge_filename(struct connection *pc)
 ****************************************************************************/
 static void send_ruleset_choices(struct connection *pc)
 {
-  struct strvec *ruleset_choices;
+  struct fileinfo_list *ruleset_choices;
   struct packet_ruleset_choices packet;
   size_t i = 0;
 
-  ruleset_choices = get_init_script_choices();
+  ruleset_choices = get_modpacks_list();
 
-  strvec_iterate(ruleset_choices, s) {
-    const int maxlen = sizeof packet.rulesets[i];
+  fileinfo_list_iterate(ruleset_choices, pfile) {
+    const int maxlen = sizeof(packet.rulesets[i]);
+    struct section_file *sf;
+
     if (i >= MAX_NUM_RULESETS) {
       log_verbose("Can't send more than %d ruleset names to client, "
                   "skipping some", MAX_NUM_RULESETS);
       break;
     }
-    if (fc_strlcpy(packet.rulesets[i], s, maxlen) < maxlen) {
-      i++;
-    } else {
-      log_verbose("Ruleset name '%s' too long to send to client, skipped", s);
+
+    sf = secfile_load(pfile->fullname, FALSE);
+
+    if (sf != NULL) {
+      if (modpack_has_ruleset(sf) != NULL) {
+        const char *name = modpack_serv_file(sf);
+
+        if (name != NULL) {
+          if (fc_strlcpy(packet.rulesets[i], name, maxlen) < maxlen) {
+            i++;
+          } else {
+            log_verbose("Ruleset name '%s' too long to send to client, skipped", name);
+          }
+        }
+      }
+
+      secfile_destroy(sf);
     }
-  } strvec_iterate_end;
+  } fileinfo_list_iterate_end;
   packet.ruleset_count = i;
 
   send_packet_ruleset_choices(pc, &packet);
 
-  strvec_destroy(ruleset_choices);
+  fileinfo_list_destroy(ruleset_choices);
 }
 
 /************************************************************************//**
