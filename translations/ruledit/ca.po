@@ -6,13 +6,13 @@
 # David <david.gaya@terra.es>, 2003.
 # Joan Creus <joan.creusandreu at gmail dot com>, 2007, 2008, 2009, 2010, 2011.
 # David <david.gaya@gmail.com>, 2007.
-# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017, 2018.
+# Joan Creus <joan.creusandreu at gmail dot com>, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2021.
 msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-02-28 18:44+0200\n"
-"PO-Revision-Date: 2018-04-14 15:35+0100\n"
+"POT-Creation-Date: 2021-06-12 20:47+0200\n"
+"PO-Revision-Date: 2021-06-12 20:48+0200\n"
 "Last-Translator: Joan Creus <joan.creusandreu at gmail dot com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
-"X-Generator: Lokalize 2.0\n"
+"X-Generator: Lokalize 19.12.3\n"
 
 #: tools/ruledit/requirers_dlg.cpp:43
 msgid "Close"
@@ -108,15 +108,15 @@ msgstr "Joc de regles carregat"
 msgid "Ruleset loading failed!"
 msgstr "Ha fallat la càrrega del joc de regles!"
 
-#: tools/ruledit/ruledit_qt.cpp:248
+#: tools/ruledit/ruledit_qt.cpp:249
 msgid "Freeciv Ruleset Editor"
 msgstr "Editor de jocs de regles de Freeciv"
 
-#: tools/ruledit/ruledit_qt.cpp:264
+#: tools/ruledit/ruledit_qt.cpp:265
 msgid "Are you sure you want to quit?"
 msgstr "Segur que voleu sortir?"
 
-#: tools/ruledit/ruledit_qt.cpp:268
+#: tools/ruledit/ruledit_qt.cpp:269
 msgid "Quit?"
 msgstr "Sortir?"
 
@@ -134,95 +134,103 @@ msgstr "Nom"
 msgid "A building with that rule name already exists!"
 msgstr "Ja existeix un edifici amb aquest nom de regla!"
 
-#: tools/ruledit/tab_misc.cpp:61
+#: tools/ruledit/tab_misc.cpp:63
 msgid "Ruleset name"
 msgstr "Nom del Joc de Regles"
 
-#: tools/ruledit/tab_misc.cpp:66
+#: tools/ruledit/tab_misc.cpp:68
 msgid "Ruleset version"
 msgstr "Versió del Joc de Regles:"
 
-#: tools/ruledit/tab_misc.cpp:71
+#: tools/ruledit/tab_misc.cpp:73
 msgid "Save to directory"
 msgstr "Desar al directori"
 
-#: tools/ruledit/tab_misc.cpp:78
+#: tools/ruledit/tab_misc.cpp:80
 msgid "Save now"
 msgstr "Desar ara"
 
-#: tools/ruledit/tab_misc.cpp:85
+#: tools/ruledit/tab_misc.cpp:84
+msgid "Description from file"
+msgstr "Descripció des de fitxer"
+
+#: tools/ruledit/tab_misc.cpp:91
+msgid "Description file"
+msgstr "Fitxer de descripció"
+
+#: tools/ruledit/tab_misc.cpp:100
 msgid "?stat:Terrains"
 msgstr "Terrenys"
 
-#: tools/ruledit/tab_misc.cpp:89
+#: tools/ruledit/tab_misc.cpp:104
 msgid "?stat:Resources"
 msgstr "Recursos"
 
-#: tools/ruledit/tab_misc.cpp:93
+#: tools/ruledit/tab_misc.cpp:108
 msgid "?stat:Techs"
 msgstr "Tecnologies"
 
-#: tools/ruledit/tab_misc.cpp:97
+#: tools/ruledit/tab_misc.cpp:112
 msgid "?stat:Unit Classes"
 msgstr "Classes d'Unitats"
 
-#: tools/ruledit/tab_misc.cpp:101
+#: tools/ruledit/tab_misc.cpp:116
 msgid "?stat:Unit Types"
 msgstr "Tipus d'Unitats"
 
-#: tools/ruledit/tab_misc.cpp:105
+#: tools/ruledit/tab_misc.cpp:120
 msgid "?stat:Buildings"
 msgstr "Edificis"
 
-#: tools/ruledit/tab_misc.cpp:109
+#: tools/ruledit/tab_misc.cpp:124
 msgid "?stat:Nations"
 msgstr "Nacions"
 
-#: tools/ruledit/tab_misc.cpp:113
+#: tools/ruledit/tab_misc.cpp:128
 msgid "?stat:Styles"
 msgstr "Estils"
 
-#: tools/ruledit/tab_misc.cpp:117
+#: tools/ruledit/tab_misc.cpp:132
 msgid "?stat:Specialists"
 msgstr "Especialistes"
 
-#: tools/ruledit/tab_misc.cpp:121
+#: tools/ruledit/tab_misc.cpp:136
 msgid "?stat:Governments"
 msgstr "Governs"
 
-#: tools/ruledit/tab_misc.cpp:125
+#: tools/ruledit/tab_misc.cpp:140
 msgid "?stat:Disasters"
 msgstr "Desastres"
 
-#: tools/ruledit/tab_misc.cpp:129
+#: tools/ruledit/tab_misc.cpp:144
 msgid "?stat:Achievements"
 msgstr "Fites"
 
-#: tools/ruledit/tab_misc.cpp:133
+#: tools/ruledit/tab_misc.cpp:148
 msgid "?stat:Extras"
 msgstr "Extres"
 
-#: tools/ruledit/tab_misc.cpp:137
+#: tools/ruledit/tab_misc.cpp:152
 msgid "?stat:Bases"
 msgstr "Bases"
 
-#: tools/ruledit/tab_misc.cpp:141
+#: tools/ruledit/tab_misc.cpp:156
 msgid "?stat:Roads"
 msgstr "Camins"
 
-#: tools/ruledit/tab_misc.cpp:145
+#: tools/ruledit/tab_misc.cpp:160
 msgid "?stat:Multipliers"
 msgstr "Multiplicadors"
 
-#: tools/ruledit/tab_misc.cpp:206
+#: tools/ruledit/tab_misc.cpp:236
 msgid "Ruleset saved"
 msgstr "Joc de regles desat"
 
-#: tools/ruledit/tab_nation.cpp:49
+#: tools/ruledit/tab_nation.cpp:50
 msgid "Use nationlist"
 msgstr "Utilitzar llista de nacions"
 
-#: tools/ruledit/tab_nation.cpp:53
+#: tools/ruledit/tab_nation.cpp:54
 msgid "Nationlist"
 msgstr "Llista de nacions"
 
