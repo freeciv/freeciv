@@ -1755,7 +1755,8 @@ bv_diplrel_all_reqs diplrel_req_contradicts(const struct requirement *req)
   BV_CLR_ALL(known);
 
   if (!(req->source.kind == VUT_DIPLREL
-        || req->source.kind == VUT_DIPLREL_TILE)) {
+        || req->source.kind == VUT_DIPLREL_TILE
+        || req->source.kind == VUT_DIPLREL_TILE_O)) {
     /* No known contradiction of a requirement of any other kind. */
     fc_assert(req->source.kind == VUT_DIPLREL
               || req->source.kind == VUT_DIPLREL_TILE);

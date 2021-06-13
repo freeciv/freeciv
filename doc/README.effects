@@ -71,6 +71,7 @@ NationGroup:     World, Alliance, Team, Player
 Nationality:     Traderoute, City
 DiplRel:         World, Alliance, Team, Player, Local
 DiplRelTile:     Alliance, Team, Player, Local
+DiplRelTileOther:Local
 Action:          Local
 OutputType:      Local
 Specialist:      Local
@@ -731,6 +732,13 @@ The DiplRelTile requirement type
 Mostly like the DiplRel requirement type.
 The player is the tile owner. The second player is DiplRel's player.
 Doesn't have the World requirement range as that would be redundant.
+
+The DiplRelTileOther requirement type
+-------------------------------------
+Mostly like the DiplRel requirement type.
+The player is the tile owner. The second player is DiplRel's second player.
+Only works in the Local requirement range as DiplRel and DiplRelTile covers
+the rest.
 
 The MaxUnitsOnTile requirement type
 -----------------------------------
