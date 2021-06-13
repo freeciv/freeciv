@@ -237,6 +237,13 @@ bool is_utype_needed(struct unit_type *ptype, requirers_cb cb,
 
   needed |= is_universal_needed(&uni, cb, data);
 
+  terrain_re_active_iterate(pterr) {
+    if (pterr->animal == ptype) {
+      cb(terrain_rule_name(pterr), data);
+      needed = TRUE;
+    }
+  } terrain_re_active_iterate_end;
+
   return needed;
 }
 
