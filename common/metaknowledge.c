@@ -273,7 +273,8 @@ static bool is_req_knowable(const struct player *pow_player,
   }
 
   if (req->source.kind == VUT_DIPLREL
-      || req->source.kind == VUT_DIPLREL_TILE) {
+      || req->source.kind == VUT_DIPLREL_TILE
+      || req->source.kind == VUT_DIPLREL_TILE_O) {
     switch (req->range) {
     case REQ_RANGE_LOCAL:
       if (other_player == NULL
