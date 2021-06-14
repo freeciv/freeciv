@@ -909,8 +909,8 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     return NULL;
   }
 
-  /* Look for hard coded war requirements that can't be an action enabler
-   * requirement. */
+  /* Look for hard coded war requirements without support for looking up in
+   * an action enabler requirement. */
   switch (paction->result) {
   case ACTRES_BOMBARD:
   case ACTRES_ATTACK:

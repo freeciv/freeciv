@@ -441,12 +441,8 @@ static void hard_code_oblig_hard_reqs(void)
 
   /* Why this is a hard requirement: there is a hard requirement that
    * the actor player is at war with the owner of any city on the
-   * target tile. It can't move to the ruleset as long as Bombard and Attack
-   * are targeted at unit stacks only. Having the same requirement
-   * against each unit in the stack as against any city at the tile
-   * ensures compatibility with any future solution that allows the
-   * requirement against any city on the target tile to move to the
-   * ruleset. The Freeciv code assumes that ACTRES_ATTACK has this. */
+   * target tile.
+   * The Freeciv code assumes that ACTRES_ATTACK has this. */
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, FALSE, TRUE, DS_WAR),
                           FALSE,
@@ -3998,7 +3994,6 @@ is_action_possible(const action_id wanted_action,
     break;
 
   case ACTRES_BOMBARD:
-    /* FIXME: Target of Bombard should be city and units. */
     if (tile_city(target_tile)
         && !pplayers_at_war(city_owner(tile_city(target_tile)),
                             actor_player)) {
@@ -8553,12 +8548,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_TRANSPORT_EMBARK:
     return ATK_UNIT;
   case ACTRES_BOMBARD:
-    /* FIXME: Target is actually Units + City */
   case ACTRES_ATTACK:
-    /* FIXME: Target is actually City, each unit at the
-     * target tile (Units) and, depending on the
-     * unreachable_protects setting, each or any
-     * *non transported* unit at the target tile. */
   case ACTRES_WIPE_UNITS:
   case ACTRES_CAPTURE_UNITS:
   case ACTRES_NUKE_UNITS:
