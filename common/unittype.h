@@ -640,6 +640,12 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
                                      const int prop,
                                      const bool is_there);
 
+bool
+utype_can_act_if_tgt_diplrel_tile_other(const struct unit_type *punit_type,
+                                        const action_id act_id,
+                                        const int prop,
+                                        const bool is_there);
+
 bool utype_may_act_move_frags(const struct unit_type *punit_type,
                               const action_id act_id,
                               const int move_fragments);
