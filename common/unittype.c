@@ -636,6 +636,8 @@ BV_DEFINE(bv_citytile_cache, CITYT_LAST * 2);
 /* Caches for each unit type */
 static bv_ustate_act_cache ustate_act_cache[U_LAST][ACTION_AND_FAKES];
 static bv_diplrel_all_reqs dipl_rel_action_cache[U_LAST][ACTION_AND_FAKES];
+static bv_diplrel_all_reqs
+dipl_rel_tile_other_tgt_a_cache[U_LAST][ACTION_AND_FAKES];
 static bv_citytile_cache ctile_tgt_act_cache[U_LAST][ACTION_AND_FAKES];
 
 /**********************************************************************//**
@@ -786,6 +788,79 @@ static void local_dipl_rel_action_cache_set(struct unit_type *putype)
 }
 
 /**********************************************************************//**
+  Cache what actions may be possible for a unit of the type putype for
+  each local DiplRelTileOther variation. Since a diplomatic relationship
+  could be ignored both present and !present must be checked.
+**************************************************************************/
+static void
+local_dipl_rel_tile_other_tgt_action_cache_set(struct unit_type *putype)
+{
+  struct requirement req;
+  struct requirement tile_is_claimed;
+  int uidx = utype_index(putype);
+
+  /* The unit is not yet known to be allowed to perform any actions no
+   * matter what the diplomatic state is. */
+  action_iterate(act_id) {
+    BV_CLR_ALL(dipl_rel_tile_other_tgt_a_cache[uidx][act_id]);
+  } action_iterate_end;
+  BV_CLR_ALL(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_ANY]);
+  BV_CLR_ALL(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_HOSTILE]);
+
+  /* Tile is claimed as a requirement. */
+  tile_is_claimed.range = REQ_RANGE_LOCAL;
+  tile_is_claimed.survives = FALSE;
+  tile_is_claimed.source.kind = VUT_CITYTILE;
+  tile_is_claimed.present = TRUE;
+  tile_is_claimed.source.value.citytile = CITYT_CLAIMED;
+
+  /* Common for every situation */
+  req.range = REQ_RANGE_LOCAL;
+  req.survives = FALSE;
+  req.source.kind = VUT_DIPLREL_TILE_O;
+
+  /* DiplRel starts with diplstate_type and ends with diplrel_other */
+  for (req.source.value.diplrel = diplstate_type_begin();
+       req.source.value.diplrel != DRO_LAST;
+       req.source.value.diplrel++) {
+
+    /* No action will ever be possible in a specific diplomatic relation if
+     * its presence contradicts all action enablers.
+     * Everything was set to false above. It is therefore OK to only change
+     * the cache when units can do an action given a certain diplomatic
+     * relationship property value. */
+    action_enablers_iterate(enabler) {
+      if (requirement_fulfilled_by_unit_type(putype,
+                                             &(enabler->actor_reqs))
+          && action_id_get_actor_kind(enabler->action) == AAK_UNIT
+          /* No diplomatic relation to Nature */
+          && !does_req_contradicts_reqs(&tile_is_claimed,
+                                        &enabler->target_reqs)) {
+        bool present = TRUE;
+        do {
+          req.present = present;
+          if (!does_req_contradicts_reqs(&req, &(enabler->target_reqs))) {
+            BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][enabler->action],
+                requirement_diplrel_ereq(req.source.value.diplrel,
+                                         REQ_RANGE_LOCAL, req.present));
+            if (action_is_hostile(enabler->action)) {
+              BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_HOSTILE],
+                     requirement_diplrel_ereq(req.source.value.diplrel,
+                                              REQ_RANGE_LOCAL,
+                                              req.present));
+            }
+            BV_SET(dipl_rel_tile_other_tgt_a_cache[uidx][ACTION_ANY],
+                   requirement_diplrel_ereq(req.source.value.diplrel,
+                                            REQ_RANGE_LOCAL, req.present));
+          }
+          present = !present;
+        } while (!present);
+      }
+    } action_enablers_iterate_end;
+  }
+}
+
+/**********************************************************************//**
   Cache if any action may be possible for a unit of the type putype for
   each target local city tile property. Both present and !present must be
   checked since a city tile property could be ignored.
@@ -894,6 +969,7 @@ void unit_type_action_cache_set(struct unit_type *ptype)
   unit_can_act_cache_set(ptype);
   unit_state_action_cache_set(ptype);
   local_dipl_rel_action_cache_set(ptype);
+  local_dipl_rel_tile_other_tgt_action_cache_set(ptype);
   tgt_citytile_act_cache_set(ptype);
 
   utype_act_takes_all_mp_cache_set(ptype);
@@ -999,6 +1075,26 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
   fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
 
   return BV_ISSET(dipl_rel_action_cache[utype_index(punit_type)][act_id],
+      requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
+}
+
+/**********************************************************************//**
+  Return TRUE iff the given (action enabler controlled) action can be
+  performed by a unit of the given type while the given property of its
+  owner's diplomatic relationship to the target tile's owner has the given
+  value.
+**************************************************************************/
+bool
+utype_can_act_if_tgt_diplrel_tile_other(const struct unit_type *punit_type,
+                                        const action_id act_id,
+                                        const int prop,
+                                        const bool is_there)
+{
+  fc_assert_ret_val(punit_type, FALSE);
+  fc_assert_ret_val(act_id >= 0 && act_id < ACTION_AND_FAKES, FALSE);
+
+  return BV_ISSET(
+      dipl_rel_tile_other_tgt_a_cache[utype_index(punit_type)][act_id],
       requirement_diplrel_ereq(prop, REQ_RANGE_LOCAL, is_there));
 }
 
