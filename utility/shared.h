@@ -48,6 +48,7 @@ enum fc_tristate { TRI_NO, TRI_YES, TRI_MAYBE };
 
 enum fc_tristate fc_tristate_and(enum fc_tristate one,
                                  enum fc_tristate two);
+enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two);
 
 #ifndef MAX
 #define MAX(x,y) (((x)>(y))?(x):(y))

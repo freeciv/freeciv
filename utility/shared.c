@@ -201,6 +201,22 @@ char *create_centered_string(const char *s)
   return r;
 }
 
+/************************************************************************//**
+  An OR function for fc_tristate.
+****************************************************************************/
+enum fc_tristate fc_tristate_or(enum fc_tristate one, enum fc_tristate two)
+{
+  if (TRI_YES == one || TRI_YES == two) {
+    return TRI_YES;
+  }
+
+  if (TRI_MAYBE == one || TRI_MAYBE == two) {
+    return TRI_MAYBE;
+  }
+
+  return TRI_NO;
+}
+
 /***************************************************************
   Returns a statically allocated string containing a nicely-formatted
   version of the given number according to the user's locale.  (Only
