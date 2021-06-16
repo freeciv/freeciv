@@ -63,6 +63,7 @@ static struct {
   char *combat_rules_nuke_pop_loss;
   char *combat_rules_nuke_defender_survival;
   char *auto_attack;
+  char *actions_ui_names;
 } comments_storage;
 
 /**********************************************************************//**
@@ -158,6 +159,8 @@ bool comments_load(void)
                "entrydoc.nuke_defender_survival_chance_pct");
   comment_load(comments_storage.auto_attack, comment_file,
                "entrydoc.auto_attack");
+  comment_load(comments_storage.actions_ui_names, comment_file,
+               "entrydoc.ui_names");
 
   secfile_check_unused(comment_file);
   secfile_destroy(comment_file);
@@ -507,4 +510,12 @@ void comment_combat_rules_nuke_defender_survival(struct section_file *sfile)
 void comment_auto_attack(struct section_file *sfile)
 {
   comment_entry_write(sfile, comments_storage.auto_attack, "auto_attack");
+}
+
+/**********************************************************************//**
+  Write actions ui_name settings header.
+**************************************************************************/
+void comment_actions_ui_names(struct section_file *sfile)
+{
+  comment_entry_write(sfile, comments_storage.actions_ui_names, "actions");
 }

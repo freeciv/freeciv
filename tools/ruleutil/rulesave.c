@@ -1334,6 +1334,8 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
                     "actions.steal_maps_reveals_all_cities", NULL);
 
+  comment_actions_ui_names(sfile);
+
   action_iterate(act_id) {
     struct action *act = action_by_number(act_id);
 

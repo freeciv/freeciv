@@ -1290,3 +1290,11 @@ auto_attack = "\n\
 ;   if_attacker    - this requirement vector must be true before a unit even\n\
 ;                    considers to auto attack.\
 "
+
+ui_names = "\n\
+; What each action should be called when showing them to the player.\n\
+; The first \%s should be before the mnemonic of the action. A Freeciv client\n\
+; that supports mnemonics will replace it with the in-band signal that marks\n\
+; the following character as a mnemonic in its graphical toolkit.\n\
+; The second \%s marks where extra details should be inserted.\n\
+"
