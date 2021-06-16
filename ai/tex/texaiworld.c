@@ -205,6 +205,8 @@ void texai_city_info_recv(void *data, enum texaimsgtype msgtype)
                 info->id);
     }
   }
+
+  free(info);
 }
 
 /**********************************************************************//**
@@ -246,6 +248,8 @@ void texai_city_destruction_recv(void *data)
     log_error("Tex: requested removal of city id %d that's not known.",
               info->id);
   }
+
+  free(info);
 }
 
 /**********************************************************************//**
@@ -317,6 +321,8 @@ void texai_unit_info_recv(void *data, enum texaimsgtype msgtype)
 
     punit->utype = type;
   }
+
+  free(info);
 }
 
 /**********************************************************************//**
@@ -353,6 +359,8 @@ void texai_unit_destruction_recv(void *data)
     log_error("Tex: requested removal of unit id %d that's not known.",
               info->id);
   }
+
+  free(info);
 }
 
 /**********************************************************************//**
@@ -388,4 +396,6 @@ void texai_unit_moved_recv(void *data)
     log_error("Tex: requested moving of unit id %d that's not known.",
               info->id);
   }
+
+  free(info);
 }
