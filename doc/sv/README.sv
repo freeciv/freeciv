@@ -474,9 +474,9 @@ Internet Relay Chat (IRC)
 =========================
 
 Flera spelare och utvecklare håller till på #freeciv och #freeciv-dev
-på Freenode. Försök ansluta till servern:
+på Libera.Chat. Försök ansluta till servern:
 
-	irc.freenode.net
+	irc.libera.chat
 
 
 Slutligen:

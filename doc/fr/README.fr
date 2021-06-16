@@ -611,10 +611,10 @@ Internet Relay Chat (IRC)
 =========================
 
 Plusieurs joueurs et développeurs traînent sur les canaux #freeciv et
-#freeciv-dev sur le réseau freenode. Essayez de vous vous connecter
+#freeciv-dev sur le réseau Libera.Chat. Essayez de vous vous connecter
 sur le serveur : 
 
-        irc.freenode.net
+        irc.libera.chat
 
 
 Et pour conclure :
