@@ -468,10 +468,10 @@ doen.
 Internet Relay Chat (IRC)
 =========================
 
-Diverse spelers en ontwikkelaars hangen rond op #freeciv op het Freenode
+Diverse spelers en ontwikkelaars hangen rond op #freeciv op het Libera.Chat
 netwerk. Probeer verbinding te maken met de server
 
-	irc.freenode.net
+	irc.libera.chat
 
 
 Nieuwe versies:
