@@ -1,9 +1,9 @@
 [nation_kiribati]
 
-name = _("Kiribati")
+name   = _("Kiribati")
 plural = _("?plural:I-Kiribati")
-groups="Oceanian", "Modern"
-legend=_("The Gilbert Islands, known in Gilbertese as Tungaru, are an\
+groups = "Oceanian", "Modern"
+legend = _("The Gilbert Islands, known in Gilbertese as Tungaru, are an\
  island chain in the Pacific Ocean. Inhabited by Micronesians since\
  prehistoric times, they were united under a common chiefdom in the late\
  19th century. Together with the Ellice Islands they were annexed by the\
@@ -20,15 +20,15 @@ leaders = {
  "Teñkoruti ",            "Male"
 }
 
-flag="kiribati"
-flag_alt="-"
+flag = "kiribati"
+flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Papuan", "Micronesian"
+civilwar_nations = "Papuan", "Micronesian"
 
 cities =
  "Tarawa",

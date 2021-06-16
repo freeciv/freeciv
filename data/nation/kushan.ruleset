@@ -1,9 +1,9 @@
 [nation_kushan]
 
-name=_("Kushan")
-plural=_("?plural:Kushans")
-groups="Ancient", "Asian"
-legend=_("The Kushans were an ancient Indo-European people, perhaps of\
+name   = _("Kushan")
+plural = _("?plural:Kushans")
+groups = "Ancient", "Asian"
+legend = _("The Kushans were an ancient Indo-European people, perhaps of\
  Tocharian origin, originally leading a nomadic life in Central Asia.\
  Under pressure from Turkic peoples they left their old lands and migrated\
  to India. In India they founded a vast empire whose rulers converted to\
@@ -12,6 +12,7 @@ legend=_("The Kushans were an ancient Indo-European people, perhaps of\
  were subordinated to the Persian Sassanids and replaced by a Persian\
  vassal kingdom. The last remnants of the Kushans eventually succumbed\
  to the Hephthalites.")
+
 leaders = {
  "name",                "sex"
  "Sapadbizes",          "Male"
@@ -31,7 +32,8 @@ leaders = {
  "Shaka I",             "Male"
  "Kipunada",            "Male"
 }
-flag="kushan"
+
+flag = "kushan"
 flag_alt = "-"
 style = "European"
 
@@ -43,11 +45,11 @@ ruler_titles = {
  "Fundamentalism",  _("Guru %s"),         _("?female:Guru %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Indian", "Pakistani", "Afghani", "Uzbek" ; Bactrian
+conflicts_with = "Indian", "Pakistani", "Afghani", "Uzbek" ; Bactrian
 civilwar_nations = "Tocharian", "Gupta", "Persian", "Hephthalite" ; Bactrian
 
 cities =

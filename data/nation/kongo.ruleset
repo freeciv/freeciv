@@ -1,10 +1,10 @@
 [nation_kongo]
 
-name=_("Kongo")
-plural=_("?plural:Kongo")
-groups="Medieval", "Early Modern", "African"
+name   = _("Kongo")
+plural = _("?plural:Kongo")
+groups = "Medieval", "Early Modern", "African"
 
-legend=_("This Kingdom, lasting from roughly 1400 CE until the late 19th\
+legend = _("This Kingdom, lasting from roughly 1400 CE until the late 19th\
  century, existed in the present-day countries of Angola and the\
  Democratic Republic of the Congo. Soon after its formation, Portuguese\
  explorers, missionaries and slavers began to arrive and exerted\
@@ -24,9 +24,9 @@ flag         = "kongo"
 flag_alt     = "-"
 style        = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "congolese", "brazzaville-congolese"
 

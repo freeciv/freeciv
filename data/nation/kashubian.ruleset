@@ -1,9 +1,9 @@
 [nation_kashubian]
 
-name=_("Kashubian")
-plural=_("?plural:Kashubians")
-groups="European", "Medieval"
-legend=_("Kashubia is a historical region of north-central Poland.\
+name   = _("Kashubian")
+plural = _("?plural:Kashubians")
+groups = "European", "Medieval"
+legend = _("Kashubia is a historical region of north-central Poland.\
  The name of the land, whose etymology is still unknown, was first\
  mentioned in the 13th century. Considered as an ethnic group of\
  the Polish nation, Kashubians have language and culture that are\
@@ -34,9 +34,9 @@ flag = "kashubia"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "western pomeranian", "greater polish", "prussian"
 
@@ -82,4 +82,3 @@ cities =
  "Kònarzënë", ;Konarzyny
  "Przechlewò", ;Przechlewo
  "Parchòwò" ;Parchowo
-

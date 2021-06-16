@@ -1,11 +1,11 @@
 [nation_khmer]
 
-translation_domain="freeciv"
+translation_domain = "freeciv"
 
-name=_("Khmer")
-plural=_("?plural:Khmers")
-groups="Asian", "Medieval", "Core"
-legend=_("The Khmer Empire, established in 802 CE, dominated Southeast\
+name   = _("Khmer")
+plural = _("?plural:Khmers")
+groups = "Asian", "Medieval", "Core"
+legend = _("The Khmer Empire, established in 802 CE, dominated Southeast\
  Asia for many centuries during the Middle Ages. Heavily influenced by\
  Indian culture, the Khmers were great builders who erected innumerable\
  stone temples to Hindu deities. The Khmers today are the majority\
@@ -28,16 +28,16 @@ ruler_titles = {
  "Communism",       _("Brother %s"),     _("Sister %s")
 }
 
-flag="khmer"
+flag = "khmer"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Cambodian"
-civilwar_nations="Mon", "Cham"
+conflicts_with = "Cambodian"
+civilwar_nations = "Mon", "Cham"
 
 cities =
  "Shreshthapura",

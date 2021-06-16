@@ -1,15 +1,16 @@
 [nation_katangan]
 
-name=_("Katangan")
-plural=_("?plural:Katangans")
-groups="African"
-legend=_("Katanga, the southernmost part of the Democratic Republic of\
+name   = _("Katangan")
+plural = _("?plural:Katangans")
+groups = "African"
+legend = _("Katanga, the southernmost part of the Democratic Republic of\
  the Congo, rich in minerals and once home to the Yeke Kingdom. The\
  region seceded from Congo a few days after that country's independence\
  from Belgium in 1960. The state, protected by Belgian mining\
  industrialists and foreign mercenaries, was led by Moise Tshombe.\
  Katanga was reincorporated into Congo after a Congolese and UN military\
  campaign.")
+
 leaders = {
  "name",                "sex"
  "Msiri",	        "male"
@@ -17,26 +18,26 @@ leaders = {
  "Godefroid Munongo",   "male"
 }
 
-flag="katanga"
+flag = "katanga"
 flag_alt = "-"
 style = "tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "congolese", "angolan"
 
 cities =
- "Élisabethville",	;Lubumbashi
- "Albertville",		;Kalemie
+ "Élisabethville",      ; Lubumbashi
+ "Albertville",         ; Kalemie
  "Kolwezi",
  "Kamina",
  "Bunkeya",
- "Jadotville",		;Likasi
+ "Jadotville",          ; Likasi
  "Bukama",
  "Manono",
- "Baudouinville",	;Moba
+ "Baudouinville",       ; Moba
  "Kipushi",
  "Niemba",
  "Dilolo",

@@ -1,9 +1,9 @@
 [nation_kurd]
 
-name=_("Kurdish")
-plural=_("?plural:Kurds")
-groups="Asian", "Medieval"
-legend=_("The Kurds are a distinct ethno-linguistic group speaking an\
+name   = _("Kurdish")
+plural = _("?plural:Kurds")
+groups = "Asian", "Medieval"
+legend = _("The Kurds are a distinct ethno-linguistic group speaking an\
  Indo-Aryan language. Their traditional homeland Kurdistan is situated in\
  the northern Middle East and partitioned between Iraq, Turkey, Syria, and\
  Iran. The medieval era saw the rise of several principalities ruled by\
@@ -33,9 +33,9 @@ flag = "kurd"
 flag_alt = "-"
 style = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "iranian", "iraqi", "turkish", "syrian"
 

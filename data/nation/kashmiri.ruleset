@@ -1,9 +1,9 @@
 [nation_kashmiri]
 
-name=_("Kashmiri")
-plural=_("?plural:Kashmiris")
-groups="Medieval", "Early Modern", "Asian"
-legend=_("The Kashmir valley is situated by the western foothills of the\
+name   = _("Kashmiri")
+plural = _("?plural:Kashmiris")
+groups = "Medieval", "Early Modern", "Asian"
+legend = _("The Kashmir valley is situated by the western foothills of the\
  Himalayas. Having been inhabited for millennia, it is a melting pot of\
  Hindu, Tibetan, and Islamic culture.")
 
@@ -24,18 +24,18 @@ ruler_titles = {
  "Monarchy",        _("Maharaja %s"),  _("Maharani %s")
 }
 
-flag="kashmir"
-flag_alt="-"
+flag = "kashmir"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Indian", "Pakistani"
-civilwar_nations="Sikh", "Mughal"
+conflicts_with = "Indian", "Pakistani"
+civilwar_nations = "Sikh", "Mughal"
 
-cities=
+cities =
  "Rajapura", ; ancient capital
 ; Kashmir valley
  "Srinagar",
@@ -71,4 +71,3 @@ cities=
  "Samba",
  "Poonch",
  "Kathua"
- 

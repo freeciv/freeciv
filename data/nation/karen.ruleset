@@ -1,10 +1,10 @@
 [nation_karen]
 
-name=_("Karen")
-plural=_("?plural:Karens")
-groups="Asian", "Ancient", "Medieval"
+name   = _("Karen")
+plural = _("?plural:Karens")
+groups = "Asian", "Ancient", "Medieval"
 
-legend=_("Karens are a hardy mountain people who have lived on the western\
+legend = _("Karens are a hardy mountain people who have lived on the western\
  fringes of Burmese kingdoms throughout recorded history. Their own oral\
  history suggests that they at some point migrated southwards through the\
  Gobi Desert to reach their current homeland. With the independence of\
@@ -20,15 +20,15 @@ leaders = {
  "Bo Mya",               "Male"
 }
 
-flag="karen"
-flag_alt="-"
+flag = "karen"
+flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Burmese", "Mon", "Thai"
+civilwar_nations = "Burmese", "Mon", "Thai"
 
 cities =
 

@@ -1,9 +1,9 @@
 [nation_kuwaiti]
 
-name=_("Kuwaiti")
-plural=_("?plural:Kuwaitis")
-groups="Asian", "Early Modern", "Modern"
-legend=_("Kuwait is an Arab country, bordered by Iraq, Saudi Arabia and\
+name   = _("Kuwaiti")
+plural = _("?plural:Kuwaitis")
+groups = "Asian", "Early Modern", "Modern"
+legend = _("Kuwait is an Arab country, bordered by Iraq, Saudi Arabia and\
  the Persian Gulf. It was founded in 1756 by the Sabah dynasty, who has\
  ruled the country ever since. In 1990 the country was occupied by Iraqi\
  forces, who were subsequently ejected after an international military\
@@ -23,6 +23,7 @@ leaders = {
  "Jaber Al-Ahmad Al-Jaber Al-Sabah", "Male"
  "Sabah Al-Ahmad Al-Jaber Al-Sabah", "Male"
 }
+
 ruler_titles = { "government", "male_title",       "female_title"
                  "Despotism",      _("Sheikh %s"), _("Shaykha %s")
                  "Fundamentalism", _("Imam %s"),   _("Imama %s")
@@ -30,13 +31,13 @@ ruler_titles = { "government", "male_title",       "female_title"
                  "Republic",       _("Vizier %s"), _("?female:Vizier %s")
                }
 
-flag="kuwait"
+flag = "kuwait"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "iraqi", "saudi"
 

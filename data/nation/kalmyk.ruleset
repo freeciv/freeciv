@@ -1,9 +1,9 @@
 [nation_kalmyk]
 
-name=_("Kalmyk")
-plural=_("?plural:Kalmyks")
-groups="European", "Early Modern"
-legend=_("The Kalmyks are a Western Mongolian ethnic group living in\
+name   = _("Kalmyk")
+plural = _("?plural:Kalmyks")
+groups = "European", "Early Modern"
+legend = _("The Kalmyks are a Western Mongolian ethnic group living in\
  Kalmykia in southern Russia. They migrated to the Caspian plains in the\
  17th century and formed a khanate that was allied with Russia. The\
  Kalmyks are the only Buddhist nation of Europe.")
@@ -25,15 +25,15 @@ ruler_titles = {
  "Fundamentalism",   _("Lama %s"),     _("?female:Lama %s")
 }
 
-flag="kalmykia"
+flag = "kalmykia"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="mongol", "russian", "tibetan", "buryat"
+civilwar_nations = "mongol", "russian", "tibetan", "buryat"
 
 cities =
  "Elst",

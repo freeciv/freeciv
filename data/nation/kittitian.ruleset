@@ -1,9 +1,9 @@
 [nation_kittitian]
 
-name=_("Kittitian and Nevisian")
-plural=_("?plural:Kittitians and Nevisians")
-groups="Modern", "American"
-legend=_("Saint Kitts and Nevis is a nation in the Caribbean located on\
+name   = _("Kittitian and Nevisian")
+plural = _("?plural:Kittitians and Nevisians")
+groups = "Modern", "American"
+legend = _("Saint Kitts and Nevis is a nation in the Caribbean located on\
  the eponymous two islands. It is the smallest country in the Americas\
  and the world's smallest federation. Saint Kitts was the site of some of\
  the earliest French and English colonization attempts in the New World.")
@@ -21,15 +21,16 @@ ruler_titles = {
  "government",      "male_title",            "female_title"
  "Fundamentalism",  _("Bishop %s"),          _("?female:Bishop %s")
 }
-flag="saint_kitts_and_nevis"
+
+flag = "saint_kitts_and_nevis"
 flag_alt = "-"
 style = "Tropical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Dominican", "Antiguan and Barbudan"
+civilwar_nations = "Dominican", "Antiguan and Barbudan"
 
 cities =
  "Basseterre",

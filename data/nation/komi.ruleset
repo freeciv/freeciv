@@ -1,12 +1,13 @@
 [nation_komi] 
 
-name=_("Komi") 
-plural=_("?plural:Komi") 
-groups="European", "Medieval"
-legend=_("The Komi are a Finno-Ugric people living in the northern part of\
+name   = _("Komi")
+plural = _("?plural:Komi")
+groups = "European", "Medieval"
+legend = _("The Komi are a Finno-Ugric people living in the northern part of\
  European Russia. In the Middle Ages, the area inhabited by people of Komi\
  was dominated by the Republic of Novgorod. In the 15th century, the Komi\
  were subordinated to Moscow, becoming part of Russia.")
+
 leaders = {
  "name",                    "sex"
  "Perymsa Stefan",          "male"
@@ -17,17 +18,18 @@ leaders = {
  "Marina Istikhovskaya",    "female"
 }
 
-flag= "komi" 
-flag_alt = "-" 
+flag = "komi"
+flag_alt = "-"
 style = "Celtic"
 
 ruler_titles = {
  "government",      "male_title",         "female_title"
  "Fundamentalism",  _("Great Shaman %s"), _("?female:Great Shaman %s")
 }
-init_techs="" 
-init_buildings="" 
-init_units="" 
+
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "mordvin", "Muscovite" ;novgorodian
 

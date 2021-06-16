@@ -1,10 +1,10 @@
 [nation_khwarezmian]
 
-name=_("Khwarezmian")
-plural=_("?plural:Khwarezmians")
-groups="Asian", "Ancient", "Medieval"
+name   = _("Khwarezmian")
+plural = _("?plural:Khwarezmians")
+groups = "Asian", "Ancient", "Medieval"
 
-legend=_("Known by the Greeks as Chorasmia, Khwarezm was an urbanized,\
+legend = _("Known by the Greeks as Chorasmia, Khwarezm was an urbanized,\
  centralized, and militarized state south of the Aral sea in Central Asia,\
  controlling portions of the Silk Road. It was loosely controlled as a\
  satrapy under the Achaemenid and Sassanid Persian dynasties and was the\
@@ -32,11 +32,11 @@ flag         = "khwarezm"
 flag_alt     = "-"
 style        = "Babylonian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="Persian", "Tocharian"
+civilwar_nations = "Persian", "Tocharian"
 
 cities =
  "Gurganj",
