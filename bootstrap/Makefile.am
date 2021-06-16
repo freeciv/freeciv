@@ -39,13 +39,13 @@ EXTRA_DIST =	freeciv.project		\
 		langnames.txt
 
 langstat_core.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" core "$(top_srcdir)" "$(top_builddir)"
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" core "$(top_srcdir)" "$(top_builddir)/bootstrap"
 
 langstat_nations.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" nations "$(top_srcdir)" "$(top_builddir)"
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" nations "$(top_srcdir)" "$(top_builddir)/bootstrap"
 
 langstat_ruledit.txt:
-	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)"
+	"$(top_srcdir)/bootstrap/generate_langstat.sh" ruledit "$(top_srcdir)" "$(top_builddir)/bootstrap"
 
 .PHONY: langstat_core.txt langstat_nations.txt langstat_ruledit.txt
 

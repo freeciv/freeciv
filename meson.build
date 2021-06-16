@@ -395,6 +395,10 @@ verhdr = custom_target('verhdr', output: 'version_gen.h',
               command: ['sh', files('gen_headers/generate_version_header.sh'), '@OUTPUT@'],
               depend_files: files('fc_version'))
 
+ls_core = custom_target('langstat_core', output: 'langstat_core.txt',
+              command: ['sh', files('bootstrap/generate_langstat.sh'), 'core',
+                        meson.source_root(), meson.build_root()])
+
 specenum = custom_target('specenum_gen.h', output: 'specenum_gen.h',
                          command: ['python3', files('utility/generate_specenum.py'),
                                    '@OUTPUT@'])
