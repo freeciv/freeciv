@@ -15,7 +15,7 @@ installer-common: install-freeciv-$(GUI)
 install-freeciv-common:
 	# create build directory
 	mkdir -p meson-build-$(GUI)
-	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Dnls=false -Daudio=false $(EXTRA_CONFIG)
+	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Daudio=false $(EXTRA_CONFIG)
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
 
