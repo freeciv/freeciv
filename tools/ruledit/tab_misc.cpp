@@ -115,7 +115,7 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
 
   stats = new QTableWidget(this);
   stats->setColumnCount(8);
-  stats->setRowCount(6);
+  stats->setRowCount(7);
   item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Terrains")));
   stats->setItem(0, 0, item);
   item = new QTableWidgetItem("-");
@@ -140,6 +140,10 @@ tab_misc::tab_misc(ruledit_gui *ui_in) : QWidget()
   stats->setItem(5, 0, item);
   item = new QTableWidgetItem("-");
   stats->setItem(5, 1, item);
+  item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Enablers")));
+  stats->setItem(6, 0, item);
+  item = new QTableWidgetItem("-");
+  stats->setItem(6, 1, item);
   item = new QTableWidgetItem(QString::fromUtf8(RQ_("?stat:Buildings")));
   stats->setItem(0, 3, item);
   item = new QTableWidgetItem("-");
@@ -317,6 +321,14 @@ void tab_misc::refresh_stats()
   unit_type_re_active_iterate(ptype) {
     count++;
   } unit_type_re_active_iterate_end;
+  stats->item(row++, 1)->setText(QString::number(count));
+
+  count = 0;
+  action_iterate(act) {
+    action_enabler_list_re_iterate(action_enablers_for_action(act), enabler) {
+      count++;
+    } action_enabler_list_re_iterate_end;
+  } action_iterate_end;
   stats->item(row++, 1)->setText(QString::number(count));
 
   // Second column
