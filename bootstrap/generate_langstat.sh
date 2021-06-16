@@ -1,5 +1,5 @@
 #!/bin/bash
-#/**********************************************************************
+#/***********************************************************************
 # Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 #***********************************************************************/
 
 if test "x$1" = "x-h" || test "x$1" = "x--help" || test "x$1" = "x" ; then
-   echo "Usage: $(basename $0) <translation domain> <freeciv source root> <freeciv build root>"
+   echo "Usage: $(basename $0) <translation domain> <freeciv source root> <freeciv build>"
    exit
 fi
 
@@ -22,11 +22,11 @@ fi
     while read CODE PRCT ; do
         NLANG=$(grep "^$CODE " "$2/bootstrap/langnames.txt" 2>/dev/null | sed "s/$CODE //")
         echo "$CODE $PRCT $NLANG"
-    done ) > "$3/bootstrap/langstat_${1}.txt.tmp"
+    done ) > "$3/langstat_${1}.txt.tmp"
 
 if ! test -f "$2/bootstrap/langstat_${1}.txt" ||
-   ! cmp "$2/bootstrap/langstat_${1}.txt" "$3/bootstrap/langstat_${1}.txt.tmp" ; then
-    mv "$3/bootstrap/langstat_${1}.txt.tmp" "$2/bootstrap/langstat_${1}.txt"
+   ! cmp "$2/bootstrap/langstat_${1}.txt" "$3/langstat_${1}.txt.tmp" ; then
+    mv "$3/langstat_${1}.txt.tmp" "$2/bootstrap/langstat_${1}.txt"
 else
-    rm -f "$3/bootstrap/langstat_${1}.txt.tmp"
+    rm -f "$3/langstat_${1}.txt.tmp"
 fi
