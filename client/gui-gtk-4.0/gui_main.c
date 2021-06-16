@@ -243,11 +243,7 @@ static void print_usage(void)
 {
   /* add client-specific usage information here */
   fc_fprintf(stderr,
-             _("This client accepts the standard Gtk command-line options\n"
-               "after '--'. See the Gtk documentation.\n\n"));
-
-  fc_fprintf(stderr,
-             _("Other gui-specific options are:\n"));
+             _("gtk3x-client gui-specific options are:\n"));
 
   fc_fprintf(stderr,
              _("-r, --resolution WIDTHxHEIGHT\tAssume given resolution "
