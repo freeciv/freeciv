@@ -5,12 +5,22 @@
 # See doc/README.msys2
 #
 
+#
+# Make rules
+#
+
 all: gtk3.22-installer
 
 gtk3.22-installer:
 	make -f Makefile.meson GUI=gtk3.22 CLIENT=gtk3.22 FCMP=gtk3 installer-common
 
-installer-common: install-freeciv-$(GUI)
+installer-common: clean-install-common install-freeciv-$(GUI)
+	# extract Freeciv version
+	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	./create-freeciv-$(CLIENT)-nsi.sh meson-install-$(GUI) $(FREECIV_VERSION) win64 > Freeciv-meson-$(FREECIV_VERSION)-$(GUI).nsi
+	# create installer executable
+	mkdir -p Output
+	makensis Freeciv-meson-$(FREECIV_VERSION)-$(GUI).nsi
 
 install-freeciv-common:
 	# create build directory
@@ -18,6 +28,10 @@ install-freeciv-common:
 	cd meson-build-$(GUI); meson ../../.. -Dprefix=`pwd`/../meson-install-$(GUI) -Dclients=$(CLIENT) -Dfcmp=$(FCMP) -Daudio=false $(EXTRA_CONFIG)
 	cd meson-build-$(GUI); ninja
 	cd meson-build-$(GUI); ninja install
+	# reorder directory layout
+	mv meson-install-$(GUI)/share/freeciv meson-install-$(GUI)/data
+	mkdir -p meson-install-$(GUI)/doc/freeciv/installer
+	cp licenses/COPYING.installer meson-install-$(GUI)/doc/freeciv/installer/
 
 install-freeciv-gtk3.22: install-freeciv-common
 
@@ -30,5 +44,9 @@ clean-build-common:
 clean-install-common:
 	rm -rf meson-install-$(GUI)
 
+clean-installer-common:
+	rm -f Output/Freeciv-*-$(GUI)-setup.exe
+	rm -f Freeciv-meson-*-$(GUI).nsi
+
 clean:
-	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common
+	make -f Makefile.meson GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
