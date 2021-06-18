@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <!--
 On October 30, 2003, Brett Roper dedicated to the public domain the
 works "SVG graphic of Chad Flag.", "SVG graphic of El Salvador Flag.",
@@ -31,15 +30,15 @@ methods that have not yet been invented or conceived.
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   style="fill:#28ff09; fill-opacity:14.1176%; stroke:none; "
-   width="210mm"
-   height="140mm"
+   style="fill:#28ff09;fill-opacity:1;stroke:none"
+   width="196.87497mm"
+   height="131.25002mm"
    id="canada"
    sodipodi:docname="peru.svg"
    sodipodi:version="0.32"
-   sodipodi:docbase="/home/brett/flags"
-   inkscape:version="0.46"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.1">
   <metadata
      id="metadata8">
     <rdf:RDF>
@@ -55,10 +54,10 @@ methods that have not yet been invented or conceived.
      id="defs3">
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 248.03149 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="744.09448 : 248.03149 : 1"
-       inkscape:persp3d-origin="372.04724 : 165.35433 : 1"
+       inkscape:vp_x="0 : 231.49611 : 1"
+       inkscape:vp_y="0 : 1066.6667 : 0"
+       inkscape:vp_z="793.70078 : 231.49611 : 1"
+       inkscape:persp3d-origin="396.85039 : 143.30714 : 1"
        id="perspective10" />
   </defs>
   <sodipodi:namedview
@@ -72,20 +71,22 @@ methods that have not yet been invented or conceived.
      showgrid="true"
      snaptogrid="true"
      inkscape:zoom="0.73108995"
-     inkscape:cx="101.21873"
-     inkscape:cy="248.03149"
-     inkscape:window-width="1280"
-     inkscape:window-height="729"
+     inkscape:cx="367.67265"
+     inkscape:cy="248.03158"
+     inkscape:window-width="1003"
+     inkscape:window-height="745"
      inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:current-layer="canada">
+     inkscape:window-y="27"
+     inkscape:current-layer="canada"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0">
     <inkscape:grid
        id="GridFromPre046Settings"
        type="xygrid"
-       originx="0px"
-       originy="0.000000"
-       spacingx="52.5mm"
-       spacingy="17.5mm"
+       originx="0"
+       originy="9.0000001e-05"
+       spacingx="211.65354"
+       spacingy="70.551181"
        color="#000aff"
        empcolor="#0000ff"
        opacity="1.000000"
@@ -93,24 +94,24 @@ methods that have not yet been invented or conceived.
        empspacing="5" />
   </sodipodi:namedview>
   <rect
-     style="font-size:12;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt;"
+     style="font-size:12px;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect576"
-     width="248.750014"
-     height="496.062988"
-     x="247.500014"
-     y="-0.000090" />
+     width="248.75002"
+     height="496.06299"
+     x="247.50002"
+     y="0" />
   <rect
-     style="font-size:12;fill:#da121a;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+     style="font-size:12px;fill:#da121a;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect575"
-     width="247.500033"
-     height="496.062988"
-     x="0.000000"
-     y="-0.000046" />
+     width="247.50003"
+     height="496.06299"
+     x="0"
+     y="4.4e-05" />
   <rect
-     style="font-size:12;fill:#da121a;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
+     style="font-size:12px;fill:#da121a;fill-opacity:1;fill-rule:evenodd;stroke-width:1pt"
      id="rect577"
-     width="249.773622"
-     height="496.062988"
-     x="494.320781"
-     y="-0.000061" />
+     width="249.77362"
+     height="496.06299"
+     x="494.32077"
+     y="2.9000003e-05" />
 </svg>
