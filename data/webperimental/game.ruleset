@@ -1251,13 +1251,30 @@ target_reqs =
       "CityTile", "Center", "Local", FALSE
     }
 
-[actionenabler_bombard]
+[actionenabler_bombard_city]
 action = "Bombard"
 actor_reqs    =
     { "type",         "name",        "range", "present"
       "UnitFlag",     "Bombarder",   "Local", TRUE
       "MinMoveFrags", "1",           "Local", TRUE
       "DiplRel",      "War",         "Local", TRUE
+    }
+target_reqs    =
+    { "type",             "name",    "range", "present"
+      "DiplRelTileOther", "War",     "Local", TRUE
+    }
+
+[actionenabler_bombard_no_city]
+action = "Bombard"
+actor_reqs    =
+    { "type",         "name",        "range", "present"
+      "UnitFlag",     "Bombarder",   "Local", TRUE
+      "MinMoveFrags", "1",           "Local", TRUE
+      "DiplRel",      "War",         "Local", TRUE
+    }
+target_reqs    =
+    { "type",         "name",    "range", "present"
+      "CityTile",     "Center",  "Local", FALSE
     }
 
 [actionenabler_attack_from_native]
