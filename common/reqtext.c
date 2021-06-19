@@ -1374,6 +1374,88 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     }
     break;
 
+  case VUT_DIPLREL_UNITANY:
+    switch (preq->range) {
+    case REQ_RANGE_PLAYER:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     /* TRANS: in this and following strings, '%s' can be one
+                      * of a wide range of relationships; e.g., 'Peace',
+                      * 'Never met', 'Foreign', 'Hosts embassy',
+                      * 'Provided Casus Belli' */
+                     _("Requires that there exists a unit at the tile with"
+                       " an owner with the relationship"
+                       " '%s' with at least one other living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that no unit at the tile has an owner with"
+                       " the relationship '%s' with any living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_TEAM:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that there exists a unit at the tile with"
+                       " an owner on a team where a member"
+                       " has the relationship '%s' with at least one other"
+                       " living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that no unit at the tile has an owner"
+                       " on a team where a member"
+                       " has the relationship '%s' with at least one other"
+                       " living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_ALLIANCE:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that there exists a unit at the tile with"
+                       " an owner allied to someone that "
+                       " has the relationship '%s' with at least one other "
+                       "living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that no unit at the tile has an owner"
+                       " allied to someone that"
+                       " has the relationship '%s' with any living player."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_LOCAL:
+      fc_strlcat(buf, prefix, bufsz);
+      if (preq->present) {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that you have the relationship '%s' with"
+                       " the owner of at least one unit at the tile."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      } else {
+        cat_snprintf(buf, bufsz,
+                     _("Requires that you do not have the relationship '%s'"
+                       " with the owner of at least one unit at the tile."),
+                     diplrel_name_translation(preq->source.value.diplrel));
+      }
+      return TRUE;
+    case REQ_RANGE_CADJACENT:
+    case REQ_RANGE_ADJACENT:
+    case REQ_RANGE_CITY:
+    case REQ_RANGE_TRADEROUTE:
+    case REQ_RANGE_CONTINENT:
+    case REQ_RANGE_WORLD:
+    case REQ_RANGE_COUNT:
+      /* Not supported. */
+      break;
+    }
+    break;
+
   case VUT_UTYPE:
     switch (preq->range) {
     case REQ_RANGE_LOCAL:
