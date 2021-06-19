@@ -719,7 +719,6 @@ Actions done by a unit against all units at a tile
  * actor must have an attack > 0
  * actor must be on a tile next to the target or, if bombard_max_range
    allows it, futher away.
- * target can't be in a city the actor player isn't at war with. (!)
  * target owner must be at war with actor. (!)
 
 "Bombard 2" - bombard the units (and city) at the tile.
@@ -748,7 +747,6 @@ Actions done by a unit against all units at a tile
  * actor must have an attack > 0
  * actor must be on a tile next to the target or, if
    bombard_lethal_max_range allows it, futher away.
- * target can't be in a city the actor player isn't at war with. (!)
  * target owner must be at war with actor. (!)
 
 "Attack"

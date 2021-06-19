@@ -448,7 +448,6 @@ static void hard_code_oblig_hard_reqs(void)
                           FALSE,
                           N_("All action enablers for %s must require"
                              " that the actor is at war with the target."),
-                          ACTRES_BOMBARD,
                           ACTRES_ATTACK,
                           ACTRES_WIPE_UNITS,
                           ACTRES_NONE);
@@ -468,7 +467,6 @@ static void hard_code_oblig_hard_reqs(void)
                         " that the actor is at war with the owner of the"
                         " target tile or that the target tile doesn't have"
                         " a city."),
-                     ACTRES_BOMBARD,
                      ACTRES_NONE);
 
   /* Why this is a hard requirement: Keep the old rules. Need to work
