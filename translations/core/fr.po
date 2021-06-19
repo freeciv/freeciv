@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-14 17:11+0200\n"
-"PO-Revision-Date: 2021-06-14 17:17+0200\n"
+"POT-Creation-Date: 2021-06-19 09:24+0200\n"
+"PO-Revision-Date: 2021-06-15 10:20+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -3577,11 +3577,11 @@ msgstr "Joueur"
 msgid "?play:Game"
 msgstr "Jeu"
 
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2151
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2167
 msgid "TRUE"
 msgstr "VRAI"
 
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2151
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2167
 msgid "FALSE"
 msgstr "FAUX"
 
@@ -3665,7 +3665,7 @@ msgstr "ID"
 #: client/gui-gtk-3.22/pages.c:1393 client/gui-gtk-3.22/pages.c:2731
 #: client/gui-gtk-3.22/wldlg.c:997 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:642 tools/civmanual.c:596
-#: tools/fcmp/mpgui_gtk3.c:465 tools/fcmp/mpgui_gtk4.c:475
+#: tools/fcmp/mpgui_gtk3.c:465 tools/fcmp/mpgui_gtk4.c:472
 #: tools/fcmp/mpgui_qt.cpp:222
 msgid "Name"
 msgstr "Nom"
@@ -4119,7 +4119,7 @@ msgstr ""
 #: client/gui-gtk-3.22/gui_main.c:273 client/gui-qt/gui_main.cpp:122
 #: client/gui-sdl2/gui_main.c:173 common/fc_cmdhelp.c:139
 #: tools/fcmp/mpcli.c:115 tools/fcmp/mpgui_gtk3.c:584
-#: tools/fcmp/mpgui_gtk4.c:629 tools/fcmp/mpgui_qt.cpp:102
+#: tools/fcmp/mpgui_gtk4.c:626 tools/fcmp/mpgui_qt.cpp:102
 #, c-format
 msgid "Report bugs at %s\n"
 msgstr "Signaler les bogues à %s\n"
@@ -4392,7 +4392,7 @@ msgstr "?techhelp:"
 #. TRANS: missing value
 #: client/gui-gtk-3.22/helpdlg.c:1245 client/gui-gtk-3.22/helpdlg.c:1354
 #: client/gui-gtk-3.22/inteldlg.c:439 client/gui-qt/plrdlg.cpp:490
-#: client/gui-sdl2/inteldlg.c:340 common/requirements.c:4385
+#: client/gui-sdl2/inteldlg.c:340 common/requirements.c:4400
 #, c-format
 msgid "(none)"
 msgstr "(aucun)"
@@ -5347,7 +5347,7 @@ msgstr "Port"
 
 #: client/gui-gtk-3.22/pages.c:1223 client/gui-gtk-3.22/pages.c:1268
 #: client/gui-qt/pages.cpp:311 tools/fcmp/mpgui_gtk3.c:470
-#: tools/fcmp/mpgui_gtk4.c:480 tools/fcmp/mpgui_qt.cpp:222
+#: tools/fcmp/mpgui_gtk4.c:477 tools/fcmp/mpgui_qt.cpp:222
 msgid "Version"
 msgstr "Version"
 
@@ -5549,7 +5549,7 @@ msgstr "_Plus d'options..."
 
 #: client/gui-gtk-3.22/pages.c:2733 client/gui-gtk-3.22/unitselect.c:475
 #: client/gui-qt/pages.cpp:642 client/gui-qt/pages.cpp:1888
-#: tools/fcmp/mpgui_gtk3.c:267 tools/fcmp/mpgui_gtk4.c:273
+#: tools/fcmp/mpgui_gtk3.c:267 tools/fcmp/mpgui_gtk4.c:270
 #: tools/fcmp/mpgui_qt_worker.cpp:54
 msgid "Ready"
 msgstr "Prêt"
@@ -11697,11 +11697,11 @@ msgstr "Le presse-papiers est vide."
 msgid "ISO|Hex"
 msgstr "Iso|Hex"
 
-#: client/mapview_common.c:4013 common/fc_types.h:568
+#: client/mapview_common.c:4013 common/fc_types.h:566
 msgid "ISO"
 msgstr "Iso"
 
-#: client/mapview_common.c:4016 common/fc_types.h:570
+#: client/mapview_common.c:4016 common/fc_types.h:568
 msgid "Hex"
 msgstr "Hex"
 
@@ -14755,7 +14755,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'unité actrice "
 "ne soit pas déjà fortifiée."
 
-#: common/actions.c:453 common/actions.c:672
+#: common/actions.c:449 common/actions.c:668
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor is at war with the "
@@ -14764,22 +14764,22 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur soit "
 "en guerre avec la cible."
 
-#: common/actions.c:465
+#: common/actions.c:461
 #, c-format
 msgid "All action enablers for %s must require a domestic target."
 msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter une cible "
 "domestique."
 
-#: common/actions.c:474 common/actions.c:482 common/actions.c:490
-#: common/actions.c:498 common/actions.c:506
+#: common/actions.c:470 common/actions.c:478 common/actions.c:486
+#: common/actions.c:494 common/actions.c:502
 #, c-format
 msgid "All action enablers for %s must require a domestic or allied target."
 msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter une cible "
 "domestique ou alliée."
 
-#: common/actions.c:518
+#: common/actions.c:514
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor has the Settlers "
@@ -14788,7 +14788,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ait "
 "l'indicateur utype Colons."
 
-#: common/actions.c:538
+#: common/actions.c:534
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target tile's terrain's "
@@ -14798,7 +14798,7 @@ msgstr ""
 "l'irrigation_time du terrain de la case soit supérieur à 0 (Voir "
 "\"CanIrrigate\" dans \"Altérations de Terrain\")."
 
-#: common/actions.c:549
+#: common/actions.c:545
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target tile's terrain's "
@@ -14808,7 +14808,7 @@ msgstr ""
 "du terrain de la case soit supérieur à 0 (Voir \"CanMine\" dans "
 "\"Altérations de Terrain\")."
 
-#: common/actions.c:563
+#: common/actions.c:559
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target doesn't has the "
@@ -14817,7 +14817,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la cible n'ait "
 "pas l'indicateur de terrain NoCities."
 
-#: common/actions.c:576 common/actions.c:755
+#: common/actions.c:572 common/actions.c:751
 #, c-format
 msgid "All action enablers for %s must require that the actor has a home city."
 msgstr ""
@@ -14825,7 +14825,7 @@ msgstr ""
 "une ville de rattachement."
 
 #. TRANS: error message for ruledit
-#: common/actions.c:598
+#: common/actions.c:594
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor has the NonMil utype "
@@ -14837,7 +14837,7 @@ msgstr ""
 "ou que les relations diplomatiques avec le possesseur de la case ciblée ne "
 "soient pas à la paix."
 
-#: common/actions.c:613
+#: common/actions.c:609
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor doesn't have the "
@@ -14847,7 +14847,7 @@ msgstr ""
 "pas l'indicateur utype NonMilitaire."
 
 #. TRANS: error message for ruledit
-#: common/actions.c:630
+#: common/actions.c:626
 #, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
@@ -14857,7 +14857,7 @@ msgstr ""
 "de ville sur la case cible ou que l'acteur n'ait pas l'indicateur utype "
 "NonMilitaire."
 
-#: common/actions.c:643
+#: common/actions.c:639
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor has the CanOccupyCity "
@@ -14867,7 +14867,7 @@ msgstr ""
 "l'indicateur uclass PeutOccuperVille."
 
 #. TRANS: error message for ruledit
-#: common/actions.c:659
+#: common/actions.c:655
 #, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
@@ -14878,7 +14878,7 @@ msgstr ""
 "PeutOccuperVille."
 
 #. TRANS: error message for ruledit
-#: common/actions.c:686
+#: common/actions.c:682
 #, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or that "
@@ -14887,7 +14887,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter qu'il n'y ait pas "
 "de ville sur la case cible ou que l'acteur soit en guerre avec la cible."
 
-#: common/actions.c:699
+#: common/actions.c:695
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor has a movement point "
@@ -14896,14 +14896,14 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ait "
 "encore des points de mouvement."
 
-#: common/actions.c:729
+#: common/actions.c:725
 #, c-format
 msgid "All action enablers for %s must require that the target city is empty."
 msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la ville ciblée "
 "soit vide."
 
-#: common/actions.c:742
+#: common/actions.c:738
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor isn't transporting "
@@ -14912,7 +14912,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ne "
 "transporte pas une autre unité."
 
-#: common/actions.c:765
+#: common/actions.c:761
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target isn't transporting "
@@ -14921,7 +14921,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la cible ne "
 "transporte pas une autre unité."
 
-#: common/actions.c:775
+#: common/actions.c:771
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target is transporting a "
@@ -14930,14 +14930,14 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la cible "
 "transporte une autre unité."
 
-#: common/actions.c:782
+#: common/actions.c:778
 #, c-format
 msgid "All action enablers for %s must require that the actor is transported."
 msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur soit "
 "transporté."
 
-#: common/actions.c:791
+#: common/actions.c:787
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor is on a livable tile."
@@ -14945,7 +14945,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur soit "
 "sur une case viable."
 
-#: common/actions.c:800
+#: common/actions.c:796
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor is transporting a "
@@ -14954,14 +14954,14 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur "
 "transporte une unité."
 
-#: common/actions.c:807
+#: common/actions.c:803
 #, c-format
 msgid "All action enablers for %s must require that the target is transported."
 msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la cible soit "
 "transportée."
 
-#: common/actions.c:814
+#: common/actions.c:810
 #, c-format
 msgid ""
 "All action enablers for %s must require that the target is on a livable tile."
@@ -14969,7 +14969,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que la cible soit "
 "sur une case viable."
 
-#: common/actions.c:824
+#: common/actions.c:820
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor isn't transported."
@@ -14977,7 +14977,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ne "
 "soit pas transporté."
 
-#: common/actions.c:834
+#: common/actions.c:830
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit is in a city."
@@ -14985,7 +14985,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur soit "
 "dans une ville."
 
-#: common/actions.c:849
+#: common/actions.c:845
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit doesn't have the "
@@ -14994,7 +14994,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur n'ait "
 "pas l'indicateur de classe d'unité EffraieHuttes."
 
-#: common/actions.c:860
+#: common/actions.c:856
 #, c-format
 msgid ""
 "All action enablers for %s must require that the actor unit has the "
@@ -15003,7 +15003,7 @@ msgstr ""
 "Tous les activateurs d'action pour %s doivent nécessiter que l'acteur ait "
 "l'indicateur de classe d'unité EffraieHuttes."
 
-#: common/actions.c:881
+#: common/actions.c:877
 #, c-format
 msgid "All action enablers for %s must require a non animal player actor."
 msgstr ""
@@ -15011,7 +15011,7 @@ msgstr ""
 "non animal."
 
 #. TRANS: error message for ruledit
-#: common/actions.c:896
+#: common/actions.c:892
 #, c-format
 msgid ""
 "All action enablers for %s must require no city at the target tile or a non "
@@ -15022,19 +15022,19 @@ msgstr ""
 
 #. TRANS: the probability that an action will succeed. Given in
 #. * percentage. Resolution is 0.5%.
-#: common/actions.c:1958
+#: common/actions.c:1954
 #, c-format
 msgid "%.1f%%"
 msgstr "%.1f%%"
 
 #. TRANS: the interval (end points included) where the probability of
 #. * the action's success is. Given in percentage. Resolution is 0.5%.
-#: common/actions.c:1962
+#: common/actions.c:1958
 #, c-format
 msgid "[%.1f%%, %.1f%%]"
 msgstr "[%.1f%% ; %.1f%%]"
 
-#: common/actions.c:2004
+#: common/actions.c:2000
 #, c-format
 msgid "%s%s (name may be wrong)"
 msgstr "%s%s (le nom peut être erroné)"
@@ -15047,7 +15047,7 @@ msgstr "%s%s (le nom peut être erroné)"
 #. * name. To avoid a `()` when no UI name info part is added you have
 #. * to add the extra information to every action name or remove the
 #. * surrounding parens.
-#: common/actions.c:2023
+#: common/actions.c:2019
 #, c-format
 msgid " (%s; %s)"
 msgstr "(%s ; %s)"
@@ -15070,7 +15070,7 @@ msgstr "(%s ; %s)"
 #. * surrounding parens.
 #. TRANS: Appending the reason why a connection has closed.
 #. * Preserve leading space.
-#: common/actions.c:2033 common/actions.c:2043
+#: common/actions.c:2029 common/actions.c:2039
 #: common/networking/connection.c:488
 #, c-format
 msgid " (%s)"
@@ -15078,7 +15078,7 @@ msgstr " (%s)"
 
 #. TRANS: action probability of success. Given in percentage.
 #. * Resolution is 0.5%.
-#: common/actions.c:2103
+#: common/actions.c:2099
 #, c-format
 msgid "The probability of success is %.1f%%."
 msgstr "La probabilité de success est de %.1f%%."
@@ -15088,7 +15088,7 @@ msgstr "La probabilité de success est de %.1f%%."
 #. * shown when the interval is wide enough to not be caused by
 #. * rounding. It explains that the interval is imprecise because
 #. * the player doesn't have enough information.
-#: common/actions.c:2112
+#: common/actions.c:2108
 #, c-format
 msgid "The probability of success is %.1f%%, %.1f%% or somewhere in between.%s"
 msgstr ""
@@ -15097,7 +15097,7 @@ msgstr ""
 
 #. TRANS: explanation used in the action probability tooltip
 #. * above. Preserve leading space.
-#: common/actions.c:2119
+#: common/actions.c:2115
 msgid ""
 " (This is the most precise interval I can calculate given the information "
 "our nation has access to.)"
@@ -15110,7 +15110,7 @@ msgstr ""
 #. * the target but doesn't require that the target tile is claimed.
 #. * (DiplRel requirements to an unclaimed tile are never fulfilled
 #. * so this is implicit.)
-#: common/actions.c:2760
+#: common/actions.c:2756
 #, c-format
 msgid ""
 "Requirement {%s} of action \"%s\" implies a claimed tile. No diplomatic "
@@ -15123,7 +15123,7 @@ msgstr ""
 #. * action requires that the target tile is unclaimed and that the
 #. * actor has a diplomatic relationship to the target. (DiplRel
 #. * requirements to an unclaimed tile are never fulfilled.)
-#: common/actions.c:2821
+#: common/actions.c:2817
 #, c-format
 msgid ""
 "In enabler for \"%s\": No diplomatic relation to Nature. Requirements {%s} "
@@ -15133,24 +15133,24 @@ msgstr ""
 "Nature. Les exigences {%s} et {%s} se contredisent mutuellement."
 
 #. TRANS: ruledit warns a user about an unused action enabler
-#: common/actions.c:2955
+#: common/actions.c:2951
 #, c-format
 msgid "Action enabler for \"%s\" is never used by any unit."
 msgstr ""
 "L'activateur d'action pour \"%s\" n'est jamais utilisé, par aucune unité."
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3029
+#: common/actions.c:3025
 msgid "actor_reqs"
 msgstr "exig_acteur"
 
 #. TRANS: requirement vector in an action enabler (ruledit)
-#: common/actions.c:3032
+#: common/actions.c:3028
 msgid "target_reqs"
 msgstr "exig_cible"
 
 #. TRANS: _Poison City (3% chance of success).
-#: common/actions.c:7643 data/civ2/game.ruleset:420
+#: common/actions.c:7638 data/civ2/game.ruleset:420
 #: data/classic/game.ruleset:446 data/sandbox/game.ruleset:473
 #: data/civ2civ3/game.ruleset:462 data/multiplayer/game.ruleset:446
 #, c-format
@@ -15158,31 +15158,31 @@ msgid "%sPoison City%s"
 msgstr "%sEmpoisonner la ville%s"
 
 #. TRANS: _Poison City and Escape (3% chance of success).
-#: common/actions.c:7646
+#: common/actions.c:7641
 #, c-format
 msgid "%sPoison City and Escape%s"
 msgstr "Empoisonner la %sville et s'échapper%s"
 
 #. TRANS: S_abotage Enemy Unit (3% chance of success).
-#: common/actions.c:7649
+#: common/actions.c:7644
 #, c-format
 msgid "S%sabotage Enemy Unit%s"
 msgstr "%sSaboter l'unité ennemie%s"
 
 #. TRANS: S_abotage Enemy Unit and Escape (3% chance of success).
-#: common/actions.c:7652
+#: common/actions.c:7647
 #, c-format
 msgid "S%sabotage Enemy Unit and Escape%s"
 msgstr "Saboter l'%sunité ennemie et s'échapper%s"
 
 #. TRANS: Bribe Enemy _Unit (3% chance of success).
-#: common/actions.c:7655
+#: common/actions.c:7650
 #, c-format
 msgid "Bribe Enemy %sUnit%s"
 msgstr "%sCorrompre l'unité ennemie%s"
 
 #. TRANS: _Sabotage City (3% chance of success).
-#: common/actions.c:7658 data/civ1/game.ruleset:417 data/civ2/game.ruleset:432
+#: common/actions.c:7653 data/civ1/game.ruleset:417 data/civ2/game.ruleset:432
 #: data/classic/game.ruleset:455 data/sandbox/game.ruleset:485
 #: data/civ2civ3/game.ruleset:471 data/alien/game.ruleset:438
 #: data/multiplayer/game.ruleset:455
@@ -15191,44 +15191,44 @@ msgid "%sSabotage City%s"
 msgstr "S%saboter la ville%s"
 
 #. TRANS: _Sabotage City and Escape (3% chance of success).
-#: common/actions.c:7661
+#: common/actions.c:7656
 #, c-format
 msgid "%sSabotage City and Escape%s"
 msgstr "Sab%soter la ville et s'échapper%s"
 
 #. TRANS: Industria_l Sabotage (3% chance of success).
-#: common/actions.c:7664
+#: common/actions.c:7659
 #, c-format
 msgid "Industria%sl Sabotage%s"
 msgstr "Sabotage industrie%sl%s"
 
 #. TRANS: Industria_l Sabotage Production (3% chance of success).
-#: common/actions.c:7667
+#: common/actions.c:7662
 #, c-format
 msgid "Industria%sl Sabotage Production%s"
 msgstr "Sabotage industrie%sl de la Production%s"
 
 #. TRANS: Industria_l Sabotage and Escape (3% chance of success).
-#: common/actions.c:7670
+#: common/actions.c:7665
 #, c-format
 msgid "Industria%sl Sabotage and Escape%s"
 msgstr "Sa%sbotage industriel et s'échapper%s"
 
 #. TRANS: Industria_l Sabotage Production and Escape (3% chance of success).
-#: common/actions.c:7673
+#: common/actions.c:7668
 #, c-format
 msgid "Industria%sl Sabotage Production and Escape%s"
 msgstr "Sa%sbotage industriel de la Production et s'échapper%s"
 
 #. TRANS: Incite a Re_volt (3% chance of success).
-#: common/actions.c:7676
+#: common/actions.c:7671
 #, c-format
 msgid "Incite a Re%svolt%s"
 msgstr "%sInciter à la révolte%s"
 
 #. TRANS: Incite a Re_volt and Escape (3% chance of success).
 #. TRANS: Incite a _Revolt and Escape (3% chance of success).
-#: common/actions.c:7679 data/civ2/game.ruleset:447
+#: common/actions.c:7674 data/civ2/game.ruleset:447
 #: data/classic/game.ruleset:470 data/sandbox/game.ruleset:500
 #: data/civ2civ3/game.ruleset:486 data/multiplayer/game.ruleset:470
 #, c-format
@@ -15236,7 +15236,7 @@ msgid "Incite a Re%svolt and Escape%s"
 msgstr "Inciter %sà la révolte et s'échapper%s"
 
 #. TRANS: Establish _Embassy (100% chance of success).
-#: common/actions.c:7682 data/civ2/game.ruleset:450
+#: common/actions.c:7677 data/civ2/game.ruleset:450
 #: data/classic/game.ruleset:473 data/sandbox/game.ruleset:503
 #: data/civ2civ3/game.ruleset:489 data/multiplayer/game.ruleset:473
 #, c-format
@@ -15244,7 +15244,7 @@ msgid "Establish %sEmbassy%s"
 msgstr "%sÉtablir une ambassade%s"
 
 #. TRANS: Becom_e Ambassador (100% chance of success).
-#: common/actions.c:7685 data/civ1/game.ruleset:423 data/civ2/game.ruleset:453
+#: common/actions.c:7680 data/civ1/game.ruleset:423 data/civ2/game.ruleset:453
 #: data/classic/game.ruleset:476 data/sandbox/game.ruleset:506
 #: data/civ2civ3/game.ruleset:492 data/multiplayer/game.ruleset:476
 #, c-format
@@ -15252,7 +15252,7 @@ msgid "Becom%se Ambassador%s"
 msgstr "Devenir %sAmbassadeur%s"
 
 #. TRANS: Steal _Technology (3% chance of success).
-#: common/actions.c:7688 data/civ1/game.ruleset:426 data/civ2/game.ruleset:456
+#: common/actions.c:7683 data/civ1/game.ruleset:426 data/civ2/game.ruleset:456
 #: data/classic/game.ruleset:479 data/sandbox/game.ruleset:509
 #: data/civ2civ3/game.ruleset:495 data/multiplayer/game.ruleset:479
 #, c-format
@@ -15260,7 +15260,7 @@ msgid "Steal %sTechnology%s"
 msgstr "%sVoler une technologie%s"
 
 #. TRANS: Steal _Technology and Escape (3% chance of success).
-#: common/actions.c:7691 data/civ2/game.ruleset:459
+#: common/actions.c:7686 data/civ2/game.ruleset:459
 #: data/classic/game.ruleset:482 data/sandbox/game.ruleset:512
 #: data/civ2civ3/game.ruleset:498 data/multiplayer/game.ruleset:482
 #, c-format
@@ -15268,19 +15268,19 @@ msgid "Steal %sTechnology and Escape%s"
 msgstr "V%soler une technologie et s'échapper%s"
 
 #. TRANS: In_dustrial Espionage (3% chance of success).
-#: common/actions.c:7694
+#: common/actions.c:7689
 #, c-format
 msgid "In%sdustrial Espionage%s"
 msgstr "%sEspionnage industriel%s"
 
 #. TRANS: In_dustrial Espionage and Escape (3% chance of success).
-#: common/actions.c:7697
+#: common/actions.c:7692
 #, c-format
 msgid "In%sdustrial Espionage and Escape%s"
 msgstr "E%sspionnage industriel et s'échapper%s"
 
 #. TRANS: _Investigate City (100% chance of success).
-#: common/actions.c:7700 data/civ2/game.ruleset:465
+#: common/actions.c:7695 data/civ2/game.ruleset:465
 #: data/classic/game.ruleset:488 data/sandbox/game.ruleset:521
 #: data/civ2civ3/game.ruleset:504 data/multiplayer/game.ruleset:488
 #, c-format
@@ -15290,7 +15290,7 @@ msgstr "%sÉtudier la ville%s"
 #. TRANS: _Investigate City (spends the unit) (100% chance of
 #. * success).
 #. TRANS: _Investigate City (spends the unit) (100% chance of success).
-#: common/actions.c:7704 data/civ1/game.ruleset:429 data/civ2/game.ruleset:468
+#: common/actions.c:7699 data/civ1/game.ruleset:429 data/civ2/game.ruleset:468
 #: data/classic/game.ruleset:491 data/sandbox/game.ruleset:524
 #: data/civ2civ3/game.ruleset:507 data/alien/game.ruleset:447
 #: data/multiplayer/game.ruleset:491
@@ -15299,37 +15299,37 @@ msgid "%sInvestigate City (spends the unit)%s"
 msgstr "%sÉtudier la ville (consomme l'unité)%s"
 
 #. TRANS: Steal _Gold (100% chance of success).
-#: common/actions.c:7707
+#: common/actions.c:7702
 #, c-format
 msgid "Steal %sGold%s"
 msgstr "%sVoler de l'or%s"
 
 #. TRANS: Steal _Gold and Escape (100% chance of success).
-#: common/actions.c:7710
+#: common/actions.c:7705
 #, c-format
 msgid "Steal %sGold and Escape%s"
 msgstr "Vo%sler de l'or et s'échapper%s"
 
 #. TRANS: Spread _Plague (100% chance of success).
-#: common/actions.c:7713
+#: common/actions.c:7708
 #, c-format
 msgid "Spread %sPlague%s"
 msgstr "Répande une %sÉpidémie%s"
 
 #. TRANS: Steal _Maps (100% chance of success).
-#: common/actions.c:7716
+#: common/actions.c:7711
 #, c-format
 msgid "Steal %sMaps%s"
 msgstr "Voler des %scartes%s"
 
 #. TRANS: Steal _Maps and Escape (100% chance of success).
-#: common/actions.c:7719
+#: common/actions.c:7714
 #, c-format
 msgid "Steal %sMaps and Escape%s"
 msgstr "Voler des c%sartes et s'échapper%s"
 
 #. TRANS: Establish Trade _Route (100% chance of success).
-#: common/actions.c:7722 data/civ1/game.ruleset:432 data/civ2/game.ruleset:471
+#: common/actions.c:7717 data/civ1/game.ruleset:432 data/civ2/game.ruleset:471
 #: data/classic/game.ruleset:494 data/sandbox/game.ruleset:527
 #: data/civ2civ3/game.ruleset:510 data/alien/game.ruleset:450
 #, c-format
@@ -15337,14 +15337,14 @@ msgid "Establish Trade %sRoute%s"
 msgstr "Établir une %sroute commerciale%s"
 
 #. TRANS: Enter _Marketplace (100% chance of success).
-#: common/actions.c:7725 data/civ1/game.ruleset:435 data/civ2/game.ruleset:474
+#: common/actions.c:7720 data/civ1/game.ruleset:435 data/civ2/game.ruleset:474
 #: data/sandbox/game.ruleset:530 data/civ2civ3/game.ruleset:513
 #, c-format
 msgid "Enter %sMarketplace%s"
 msgstr "Mettre sur le %sMarché%s"
 
 #. TRANS: Help _build Wonder (100% chance of success).
-#: common/actions.c:7728 data/civ1/game.ruleset:438 data/civ2/game.ruleset:477
+#: common/actions.c:7723 data/civ1/game.ruleset:438 data/civ2/game.ruleset:477
 #: data/classic/game.ruleset:500 data/sandbox/game.ruleset:533
 #: data/civ2civ3/game.ruleset:516 data/alien/game.ruleset:456
 #: data/multiplayer/game.ruleset:494
@@ -15353,74 +15353,74 @@ msgid "Help %sbuild Wonder%s"
 msgstr "Aider à la %sconstruction de la merveille%s"
 
 #. TRANS: _Capture Units (100% chance of success).
-#: common/actions.c:7731 data/sandbox/game.ruleset:542
+#: common/actions.c:7726 data/sandbox/game.ruleset:542
 #: data/civ2civ3/game.ruleset:525 data/alien/game.ruleset:465
 #, c-format
 msgid "%sCapture Units%s"
 msgstr "%sCapturer les unités%s"
 
 #. TRANS: _Expel Unit (100% chance of success).
-#: common/actions.c:7734
+#: common/actions.c:7729
 #, c-format
 msgid "%sExpel Unit%s"
 msgstr "%sExpulser l'unité%s"
 
 #. TRANS: _Found City (100% chance of success).
-#: common/actions.c:7737
+#: common/actions.c:7732
 #, c-format
 msgid "%sFound City%s"
 msgstr "%sFonder une ville%s"
 
 #. TRANS: _Join City (100% chance of success).
-#: common/actions.c:7740
+#: common/actions.c:7735
 #, c-format
 msgid "%sJoin City%s"
 msgstr "Se %sjoindre à la ville%s"
 
 #. TRANS: B_ombard (100% chance of success).
-#: common/actions.c:7743
+#: common/actions.c:7738
 #, c-format
 msgid "B%sombard%s"
 msgstr "%sBombarder%s"
 
 #. TRANS: B_ombard 2 (100% chance of success).
-#: common/actions.c:7746
+#: common/actions.c:7741
 #, c-format
 msgid "B%sombard 2%s"
 msgstr "%sBombarder 2%s"
 
 #. TRANS: B_ombard 3 (100% chance of success).
-#: common/actions.c:7749
+#: common/actions.c:7744
 #, c-format
 msgid "B%sombard 3%s"
 msgstr "%sBombarder 3%s"
 
 #. TRANS: Lethal B_ombard (100% chance of success).
-#: common/actions.c:7752
+#: common/actions.c:7747
 #, c-format
 msgid "Lethal B%sombard%s"
 msgstr "%sBombardement mortel%s"
 
 #. TRANS: Suitcase _Nuke (100% chance of success).
-#: common/actions.c:7755
+#: common/actions.c:7750
 #, c-format
 msgid "Suitcase %sNuke%s"
 msgstr "Poser une %sMalette Nucléaire%s"
 
 #. TRANS: Suitcase _Nuke and Escape (100% chance of success).
-#: common/actions.c:7758
+#: common/actions.c:7753
 #, c-format
 msgid "Suitcase %sNuke and Escape%s"
 msgstr "Poser une Malette %sNucléaire et s'échapper%s"
 
 #. TRANS: Explode _Nuclear (100% chance of success).
-#: common/actions.c:7761
+#: common/actions.c:7756
 #, c-format
 msgid "Explode %sNuclear%s"
 msgstr "Explosion %sNucléaire%s"
 
 #. TRANS: _Nuke City (100% chance of success).
-#: common/actions.c:7764 data/civ1/game.ruleset:456 data/civ2/game.ruleset:495
+#: common/actions.c:7759 data/civ1/game.ruleset:456 data/civ2/game.ruleset:495
 #: data/classic/game.ruleset:518 data/civ2civ3/game.ruleset:540
 #: data/multiplayer/game.ruleset:512
 #, c-format
@@ -15428,7 +15428,7 @@ msgid "%sNuke City%s"
 msgstr "Lancer une bombe %satomique sur la ville%s"
 
 #. TRANS: _Nuke Units (100% chance of success).
-#: common/actions.c:7767 data/civ1/game.ruleset:459 data/civ2/game.ruleset:498
+#: common/actions.c:7762 data/civ1/game.ruleset:459 data/civ2/game.ruleset:498
 #: data/classic/game.ruleset:521 data/civ2civ3/game.ruleset:543
 #: data/multiplayer/game.ruleset:515
 #, c-format
@@ -15437,13 +15437,13 @@ msgstr "Lancer une bombe %satomique sur les unités%s"
 
 # AR j'ai rien trouve de mieux
 #. TRANS: Destroy _City (100% chance of success).
-#: common/actions.c:7770 data/sandbox/game.ruleset:554
+#: common/actions.c:7765 data/sandbox/game.ruleset:554
 #, c-format
 msgid "Destroy %sCity%s"
 msgstr "Détruire la %sVille%s"
 
 #. TRANS: Rec_ycle Unit (100% chance of success).
-#: common/actions.c:7773 data/civ1/game.ruleset:441 data/civ2/game.ruleset:480
+#: common/actions.c:7768 data/civ1/game.ruleset:441 data/civ2/game.ruleset:480
 #: data/classic/game.ruleset:503 data/sandbox/game.ruleset:536
 #: data/civ2civ3/game.ruleset:519 data/alien/game.ruleset:459
 #: data/multiplayer/game.ruleset:497
@@ -15452,7 +15452,7 @@ msgid "Rec%sycle Unit%s"
 msgstr "Rec%sycler l'unité%s"
 
 #. TRANS: _You're Fired (100% chance of success).
-#: common/actions.c:7776 data/civ1/game.ruleset:444 data/civ2/game.ruleset:483
+#: common/actions.c:7771 data/civ1/game.ruleset:444 data/civ2/game.ruleset:483
 #: data/classic/game.ruleset:506 data/sandbox/game.ruleset:539
 #: data/civ2civ3/game.ruleset:522 data/alien/game.ruleset:462
 #: data/multiplayer/game.ruleset:500
@@ -15461,7 +15461,7 @@ msgid "%sYou're Fired%s"
 msgstr "Vous êtes %sviré%s"
 
 #. TRANS: Set _Home City (100% chance of success).
-#: common/actions.c:7779 data/civ1/game.ruleset:462 data/civ2/game.ruleset:501
+#: common/actions.c:7774 data/civ1/game.ruleset:462 data/civ2/game.ruleset:501
 #: data/classic/game.ruleset:524 data/sandbox/game.ruleset:566
 #: data/civ2civ3/game.ruleset:546 data/alien/game.ruleset:477
 #: data/multiplayer/game.ruleset:518
@@ -15470,13 +15470,13 @@ msgid "Set %sHome City%s"
 msgstr "%sBaser ici%s"
 
 #. TRANS: Make _Homeless (100% chance of success).
-#: common/actions.c:7782
+#: common/actions.c:7777
 #, c-format
 msgid "Make %sHomeless%s"
 msgstr "%sCouper de sa ville de rattachement%s"
 
 #. TRANS: _Upgrade Unit (100% chance of success).
-#: common/actions.c:7785 data/civ2/game.ruleset:504
+#: common/actions.c:7780 data/civ2/game.ruleset:504
 #: data/classic/game.ruleset:527 data/sandbox/game.ruleset:572
 #: data/civ2civ3/game.ruleset:549 data/alien/game.ruleset:480
 #: data/multiplayer/game.ruleset:521
@@ -15485,8 +15485,8 @@ msgid "%sUpgrade Unit%s"
 msgstr "Mettre à %sjour%s"
 
 #. TRANS: Drop _Paratrooper (100% chance of success).
-#: common/actions.c:7788 common/actions.c:7791 common/actions.c:7794
-#: common/actions.c:7797 common/actions.c:7800 common/actions.c:7803
+#: common/actions.c:7783 common/actions.c:7786 common/actions.c:7789
+#: common/actions.c:7792 common/actions.c:7795 common/actions.c:7798
 #: data/civ2/game.ruleset:507 data/classic/game.ruleset:530
 #: data/sandbox/game.ruleset:575 data/civ2civ3/game.ruleset:552
 #: data/alien/game.ruleset:483 data/multiplayer/game.ruleset:524
@@ -15495,7 +15495,7 @@ msgid "Drop %sParatrooper%s"
 msgstr "%sParachuter%s"
 
 #. TRANS: _Airlift to City (100% chance of success).
-#: common/actions.c:7806 data/civ2/game.ruleset:513
+#: common/actions.c:7801 data/civ2/game.ruleset:513
 #: data/classic/game.ruleset:536 data/sandbox/game.ruleset:581
 #: data/civ2civ3/game.ruleset:558 data/alien/game.ruleset:489
 #: data/multiplayer/game.ruleset:530
@@ -15504,7 +15504,7 @@ msgid "%sAirlift to City%s"
 msgstr "%sAéroporter dans une ville%s"
 
 #. TRANS: _Attack (100% chance of success).
-#: common/actions.c:7809 data/civ1/game.ruleset:465 data/civ2/game.ruleset:516
+#: common/actions.c:7804 data/civ1/game.ruleset:465 data/civ2/game.ruleset:516
 #: data/classic/game.ruleset:539 data/sandbox/game.ruleset:584
 #: data/civ2civ3/game.ruleset:561 data/alien/game.ruleset:492
 #: data/multiplayer/game.ruleset:533
@@ -15513,31 +15513,31 @@ msgid "%sAttack%s"
 msgstr "%sAttaque%s"
 
 #. TRANS: _Suicide Attack (100% chance of success).
-#: common/actions.c:7812
+#: common/actions.c:7807
 #, c-format
 msgid "%sSuicide Attack%s"
 msgstr "Attaque %ssuicide%s"
 
 #. TRANS: _Wipe Units (100% chance of success).
-#: common/actions.c:7815
+#: common/actions.c:7810
 #, c-format
 msgid "%sWipe Units%s"
 msgstr "%sExterminer les unités%s"
 
 #. TRANS: Surgical Str_ike Building (100% chance of success).
-#: common/actions.c:7818
+#: common/actions.c:7813
 #, c-format
 msgid "Surgical Str%sike Building%s"
 msgstr "Attaque %schirurgicale d'un bâtiment%s"
 
 #. TRANS: Surgical Str_ike Production (100% chance of success).
-#: common/actions.c:7821
+#: common/actions.c:7816
 #, c-format
 msgid "Surgical Str%sike Production%s"
 msgstr "Attaque %schirurgicale de la production%s"
 
 #. TRANS: _Conquer City (100% chance of success).
-#: common/actions.c:7826 data/civ1/game.ruleset:471 data/civ2/game.ruleset:522
+#: common/actions.c:7821 data/civ1/game.ruleset:471 data/civ2/game.ruleset:522
 #: data/classic/game.ruleset:545 data/sandbox/game.ruleset:590
 #: data/civ2civ3/game.ruleset:567 data/alien/game.ruleset:498
 #: data/multiplayer/game.ruleset:539
@@ -15546,31 +15546,31 @@ msgid "%sConquer City%s"
 msgstr "%sConquérir la ville%s"
 
 #. TRANS: _Conquer City 2 (100% chance of success).
-#: common/actions.c:7829
+#: common/actions.c:7824
 #, c-format
 msgid "%sConquer City 2%s"
 msgstr "%sConquérir la ville 2%s"
 
 #. TRANS: _Conquer Extras (100% chance of success).
-#: common/actions.c:7834
+#: common/actions.c:7829
 #, c-format
 msgid "%sConquer Extras%s"
 msgstr "%sConquérir les Extras%s"
 
 #. TRANS: _Conquer Extras 2 (100% chance of success).
-#: common/actions.c:7837
+#: common/actions.c:7832
 #, c-format
 msgid "%sConquer Extras 2%s"
 msgstr "%sConquérir les Extras 2%s"
 
 #. TRANS: Heal _Unit (3% chance of success).
-#: common/actions.c:7841
+#: common/actions.c:7836
 #, c-format
 msgid "Heal %sUnit%s"
 msgstr "Soigner l'%sunité%s"
 
 #. TRANS: _Transform Terrain (3% chance of success).
-#: common/actions.c:7844 data/civ1/game.ruleset:474 data/civ2/game.ruleset:525
+#: common/actions.c:7839 data/civ1/game.ruleset:474 data/civ2/game.ruleset:525
 #: data/classic/game.ruleset:557 data/sandbox/game.ruleset:602
 #: data/civ2civ3/game.ruleset:573 data/alien/game.ruleset:501
 #: data/multiplayer/game.ruleset:551
@@ -15579,7 +15579,7 @@ msgid "%sTransform Terrain%s"
 msgstr "%sTransformer le terrain%s"
 
 #. TRANS: Transform by _Cultivating (3% chance of success).
-#: common/actions.c:7847 data/civ1/game.ruleset:477 data/civ2/game.ruleset:528
+#: common/actions.c:7842 data/civ1/game.ruleset:477 data/civ2/game.ruleset:528
 #: data/classic/game.ruleset:560 data/sandbox/game.ruleset:605
 #: data/civ2civ3/game.ruleset:576 data/alien/game.ruleset:504
 #: data/multiplayer/game.ruleset:554
@@ -15588,7 +15588,7 @@ msgid "Transform by %sCultivating%s"
 msgstr "Transformer par %sCulture%s"
 
 #. TRANS: Transform by _Planting (3% chance of success).
-#: common/actions.c:7850 data/civ1/game.ruleset:480 data/civ2/game.ruleset:531
+#: common/actions.c:7845 data/civ1/game.ruleset:480 data/civ2/game.ruleset:531
 #: data/classic/game.ruleset:563 data/sandbox/game.ruleset:608
 #: data/civ2civ3/game.ruleset:579 data/alien/game.ruleset:507
 #: data/multiplayer/game.ruleset:557
@@ -15597,7 +15597,7 @@ msgid "Transform by %sPlanting%s"
 msgstr "Transformer par %sPlantation%s"
 
 #. TRANS: Pilla_ge (100% chance of success).
-#: common/actions.c:7853 data/civ1/game.ruleset:483 data/civ2/game.ruleset:534
+#: common/actions.c:7848 data/civ1/game.ruleset:483 data/civ2/game.ruleset:534
 #: data/classic/game.ruleset:566 data/sandbox/game.ruleset:611
 #: data/civ2civ3/game.ruleset:582 data/alien/game.ruleset:510
 #: data/multiplayer/game.ruleset:560
@@ -15606,7 +15606,7 @@ msgid "Pilla%sge%s"
 msgstr "Pilla%sge%s"
 
 #. TRANS: Clean _Pollution (100% chance of success).
-#: common/actions.c:7856 data/civ1/game.ruleset:486 data/civ2/game.ruleset:537
+#: common/actions.c:7851 data/civ1/game.ruleset:486 data/civ2/game.ruleset:537
 #: data/classic/game.ruleset:569 data/sandbox/game.ruleset:614
 #: data/civ2civ3/game.ruleset:585 data/alien/game.ruleset:513
 #: data/multiplayer/game.ruleset:563
@@ -15615,7 +15615,7 @@ msgid "Clean %sPollution%s"
 msgstr "Dé%spolluer%s"
 
 #. TRANS: Clean _Fallout (100% chance of success).
-#: common/actions.c:7859 data/classic/game.ruleset:572
+#: common/actions.c:7854 data/classic/game.ruleset:572
 #: data/sandbox/game.ruleset:617 data/civ2civ3/game.ruleset:588
 #: data/alien/game.ruleset:516 data/multiplayer/game.ruleset:566
 #, c-format
@@ -15623,7 +15623,7 @@ msgid "Clean %sFallout%s"
 msgstr "Dé%scontaminer%s"
 
 #. TRANS: _Fortify (100% chance of success).
-#: common/actions.c:7862 data/civ1/game.ruleset:489 data/civ2/game.ruleset:540
+#: common/actions.c:7857 data/civ1/game.ruleset:489 data/civ2/game.ruleset:540
 #: data/classic/game.ruleset:575 data/sandbox/game.ruleset:620
 #: data/civ2civ3/game.ruleset:591 data/alien/game.ruleset:519
 #: data/multiplayer/game.ruleset:569
@@ -15632,7 +15632,7 @@ msgid "%sFortify%s"
 msgstr "Se re%strancher%s"
 
 #. TRANS: Build _Road (100% chance of success).
-#: common/actions.c:7865 data/civ1/game.ruleset:492 data/civ2/game.ruleset:543
+#: common/actions.c:7860 data/civ1/game.ruleset:492 data/civ2/game.ruleset:543
 #: data/classic/game.ruleset:578 data/sandbox/game.ruleset:623
 #: data/civ2civ3/game.ruleset:594 data/alien/game.ruleset:522
 #: data/multiplayer/game.ruleset:572
@@ -15641,13 +15641,13 @@ msgid "Build %sRoad%s"
 msgstr "Construire une %sroute%s"
 
 #. TRANS: _Convert Unit (100% chance of success).
-#: common/actions.c:7868
+#: common/actions.c:7863
 #, c-format
 msgid "%sConvert Unit%s"
 msgstr "%sConvertir l'unité%s"
 
 #. TRANS: _Build Base (100% chance of success).
-#: common/actions.c:7871 data/civ1/game.ruleset:495 data/civ2/game.ruleset:546
+#: common/actions.c:7866 data/civ1/game.ruleset:495 data/civ2/game.ruleset:546
 #: data/classic/game.ruleset:581 data/sandbox/game.ruleset:626
 #: data/civ2civ3/game.ruleset:597 data/alien/game.ruleset:525
 #: data/multiplayer/game.ruleset:575
@@ -15656,7 +15656,7 @@ msgid "%sBuild Base%s"
 msgstr "Construire une %sbase%s"
 
 #. TRANS: Build _Mine (100% chance of success).
-#: common/actions.c:7874 data/civ1/game.ruleset:498 data/civ2/game.ruleset:549
+#: common/actions.c:7869 data/civ1/game.ruleset:498 data/civ2/game.ruleset:549
 #: data/classic/game.ruleset:584 data/sandbox/game.ruleset:629
 #: data/civ2civ3/game.ruleset:600 data/alien/game.ruleset:528
 #: data/multiplayer/game.ruleset:578
@@ -15665,7 +15665,7 @@ msgid "Build %sMine%s"
 msgstr "%sMiner%s"
 
 #. TRANS: Build _Irrigation (100% chance of success).
-#: common/actions.c:7877 data/civ1/game.ruleset:501 data/civ2/game.ruleset:552
+#: common/actions.c:7872 data/civ1/game.ruleset:501 data/civ2/game.ruleset:552
 #: data/classic/game.ruleset:587 data/sandbox/game.ruleset:632
 #: data/civ2civ3/game.ruleset:603 data/alien/game.ruleset:531
 #: data/multiplayer/game.ruleset:581
@@ -15674,7 +15674,7 @@ msgid "Build %sIrrigation%s"
 msgstr "%sIrriguer%s"
 
 #. TRANS: _Alight (100% chance of success).
-#: common/actions.c:7880 data/civ1/game.ruleset:504 data/civ2/game.ruleset:555
+#: common/actions.c:7875 data/civ1/game.ruleset:504 data/civ2/game.ruleset:555
 #: data/classic/game.ruleset:590 data/sandbox/game.ruleset:635
 #: data/civ2civ3/game.ruleset:606 data/alien/game.ruleset:534
 #: data/multiplayer/game.ruleset:584
@@ -15683,7 +15683,7 @@ msgid "%sAlight%s"
 msgstr "%sDescendre%s"
 
 #. TRANS: _Board (100% chance of success).
-#: common/actions.c:7883 data/civ1/game.ruleset:507 data/civ2/game.ruleset:558
+#: common/actions.c:7878 data/civ1/game.ruleset:507 data/civ2/game.ruleset:558
 #: data/classic/game.ruleset:593 data/sandbox/game.ruleset:638
 #: data/civ2civ3/game.ruleset:609 data/alien/game.ruleset:537
 #: data/multiplayer/game.ruleset:587
@@ -15692,7 +15692,7 @@ msgid "%sBoard%s"
 msgstr "%sMonter%s"
 
 #. TRANS: _Embark (100% chance of success).
-#: common/actions.c:7888 data/civ1/game.ruleset:516 data/civ2/game.ruleset:567
+#: common/actions.c:7883 data/civ1/game.ruleset:516 data/civ2/game.ruleset:567
 #: data/classic/game.ruleset:605 data/sandbox/game.ruleset:650
 #: data/civ2civ3/game.ruleset:621 data/alien/game.ruleset:549
 #: data/multiplayer/game.ruleset:599
@@ -15701,7 +15701,7 @@ msgid "%sEmbark%s"
 msgstr "%sEmbarquer%s"
 
 #. TRANS: _Unload (100% chance of success).
-#: common/actions.c:7891 data/civ1/game.ruleset:510 data/civ2/game.ruleset:561
+#: common/actions.c:7886 data/civ1/game.ruleset:510 data/civ2/game.ruleset:561
 #: data/classic/game.ruleset:596 data/sandbox/game.ruleset:641
 #: data/civ2civ3/game.ruleset:612 data/alien/game.ruleset:540
 #: data/multiplayer/game.ruleset:590
@@ -15710,7 +15710,7 @@ msgid "%sUnload%s"
 msgstr "%sDécharger%s"
 
 #. TRANS: _Disembark (100% chance of success).
-#: common/actions.c:7896 data/civ1/game.ruleset:513 data/civ2/game.ruleset:564
+#: common/actions.c:7891 data/civ1/game.ruleset:513 data/civ2/game.ruleset:564
 #: data/classic/game.ruleset:599 data/sandbox/game.ruleset:644
 #: data/civ2civ3/game.ruleset:615 data/alien/game.ruleset:543
 #: data/multiplayer/game.ruleset:593
@@ -15719,19 +15719,19 @@ msgid "%sDisembark%s"
 msgstr "%sDébarquer%s"
 
 #. TRANS: _Disembark 2 (100% chance of success).
-#: common/actions.c:7899
+#: common/actions.c:7894
 #, c-format
 msgid "%sDisembark 2%s"
 msgstr "%sDébarquer 2%s"
 
 #. TRANS: _Eliminate Diplomat (100% chance of success).
-#: common/actions.c:7902
+#: common/actions.c:7897
 #, c-format
 msgid "%sEliminate Diplomat%s"
 msgstr "%sÉliminer un Diplomate%s"
 
 #. TRANS: Enter _Hut (100% chance of success).
-#: common/actions.c:7908 data/civ1/game.ruleset:519 data/civ2/game.ruleset:570
+#: common/actions.c:7903 data/civ1/game.ruleset:519 data/civ2/game.ruleset:570
 #: data/classic/game.ruleset:608 data/sandbox/game.ruleset:663
 #: data/civ2civ3/game.ruleset:624 data/alien/game.ruleset:552
 #: data/multiplayer/game.ruleset:602 data/multiplayer/game.ruleset:605
@@ -15740,7 +15740,7 @@ msgid "Enter %sHut%s"
 msgstr "Entrer dans la %sHutte%s"
 
 #. TRANS: Frighten _Hut (100% chance of success).
-#: common/actions.c:7914 data/civ2/game.ruleset:573
+#: common/actions.c:7909 data/civ2/game.ruleset:573
 #: data/classic/game.ruleset:614 data/sandbox/game.ruleset:669
 #: data/civ2civ3/game.ruleset:630 data/multiplayer/game.ruleset:608
 #: data/multiplayer/game.ruleset:611
@@ -15749,31 +15749,31 @@ msgid "Frighten %sHut%s"
 msgstr "Effrayer la %sHutte%s"
 
 #. TRANS: Regular _Move (100% chance of success).
-#: common/actions.c:7919
+#: common/actions.c:7914
 #, c-format
 msgid "Regular %sMove%s"
 msgstr "%sDéplacement normal%s"
 
 #. TRANS: _Escape To Nearest City (100% chance of success).
-#: common/actions.c:7922
+#: common/actions.c:7917
 #, c-format
 msgid "%sEscape To Nearest City%s"
 msgstr "S'%séchapper versà la ville la plus proche%s"
 
 #. TRANS: _User Action 1 (100% chance of success).
-#: common/actions.c:7925
+#: common/actions.c:7920
 #, c-format
 msgid "%sUser Action 1%s"
 msgstr "Action %sutilisateur 1%s"
 
 #. TRANS: _User Action 2 (100% chance of success).
-#: common/actions.c:7928
+#: common/actions.c:7923
 #, c-format
 msgid "%sUser Action 2%s"
 msgstr "Action %sutilisateur 2%s"
 
 #. TRANS: _User Action 3 (100% chance of success).
-#: common/actions.c:7931
+#: common/actions.c:7926
 #, c-format
 msgid "%sUser Action 3%s"
 msgstr "Action %sutilisateur 3%s"
@@ -15924,7 +15924,7 @@ msgstr "Piller %s (%d)"
 msgid "Clean %s(%d)"
 msgstr "Nettoyer %s (%d)"
 
-#: common/effects.c:1109
+#: common/effects.c:1118
 msgid "?req-list-separator:+"
 msgstr "+"
 
@@ -16585,11 +16585,11 @@ msgstr "Tricheur"
 msgid "Experimental"
 msgstr "Expérimental"
 
-#: common/fc_types.h:564
+#: common/fc_types.h:562
 msgid "WrapX"
 msgstr "EnrouleX"
 
-#: common/fc_types.h:566
+#: common/fc_types.h:564
 msgid "WrapY"
 msgstr "EnrouleY"
 
@@ -16616,12 +16616,12 @@ msgid "FP:%d "
 msgstr "PA:%d "
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:734 data/civ1/game.ruleset:1126 data/civ2/game.ruleset:1444
+#: common/game.h:737 data/civ1/game.ruleset:1126 data/civ2/game.ruleset:1444
 msgid "AD"
 msgstr "ap.JC"
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:736 data/civ1/game.ruleset:1128 data/civ2/game.ruleset:1446
+#: common/game.h:739 data/civ1/game.ruleset:1128 data/civ2/game.ruleset:1446
 msgid "BC"
 msgstr "av.JC"
 
@@ -18069,7 +18069,9 @@ msgstr ""
 msgid ""
 "Requires that nobody on the tile owner's team has the relationship '%s' with "
 "any living player."
-msgstr "Nécessite qu'aucun coéquipier du possesseur de la case n'ait de relations diplomatiques de '%s' avec un autre joueur en vie."
+msgstr ""
+"Nécessite qu'aucun coéquipier du possesseur de la case n'ait de relations "
+"diplomatiques de '%s' avec un autre joueur en vie."
 
 #: common/reqtext.c:1309
 #, c-format
@@ -18104,160 +18106,169 @@ msgstr ""
 "Nécessite que vos relations diplomatiques avec le possesseur de la case ne "
 "soient pas '%s'."
 
-#. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1352
+#, c-format
+msgid ""
+"Requires that the tile owner has the relationship '%s' with the other player."
+msgstr ""
+"Nécessite que le possesseur de la case ait des relations diplomatiques '%s' "
+"avec l'autre joueur."
+
+#: common/reqtext.c:1357
+#, c-format
+msgid ""
+"Requires that the tile owner does not have the relationship '%s' with the "
+"other player."
+msgstr ""
+"Nécessite que le possesseur de la case n'ait pas des relations diplomatiques "
+"'%s' avec l'autre joueur."
+
+#. TRANS: %s is a single kind of unit (e.g., "Settlers").
+#: common/reqtext.c:1383
 #, c-format
 msgid "?unit:Requires %s."
 msgstr "Nécessite %s."
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
-#: common/reqtext.c:1356
+#: common/reqtext.c:1387
 #, c-format
 msgid "?unit:Does not apply to %s."
 msgstr "Ne s'applique pas à %s."
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: common/reqtext.c:1388
+#: common/reqtext.c:1419
 #, c-format
 msgid "?ulist:Requires %s."
 msgstr "Nécessite %s."
 
 #. TRANS: %s is a list of unit types separated by "or".
-#: common/reqtext.c:1392
+#: common/reqtext.c:1423
 #, c-format
 msgid "?ulist:Does not apply to %s."
 msgstr "Ne s'applique pas aux %s."
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: common/reqtext.c:1421
+#: common/reqtext.c:1452
 #, c-format
 msgid "?uclass:Requires %s units."
 msgstr "Nécessite des unités %s."
 
 #. TRANS: %s is a single unit class (e.g., "Air").
-#: common/reqtext.c:1425
+#: common/reqtext.c:1456
 #, c-format
 msgid "?uclass:Does not apply to %s units."
 msgstr "Ne s'applique pas aux unités %s."
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: common/reqtext.c:1463
+#: common/reqtext.c:1494
 #, c-format
 msgid "?uclasslist:Requires %s units."
 msgstr "Nécessite des unités %s."
 
 #. TRANS: %s is a list of unit classes separated by "or".
-#: common/reqtext.c:1467
+#: common/reqtext.c:1498
 #, c-format
 msgid "?uclasslist:Does not apply to %s units."
 msgstr "Ne s'applique pas aux unités de type %s."
 
-#: common/reqtext.c:1502
+#: common/reqtext.c:1533
 msgid "Requires that the unit is transported."
 msgstr "Nécessite que l'unité soit transportée."
 
-#: common/reqtext.c:1505
+#: common/reqtext.c:1536
 msgid "Requires that the unit isn't transported."
 msgstr "Nécessite que l'unité ne soit pas transportée."
 
-#: common/reqtext.c:1512
+#: common/reqtext.c:1543
 msgid "Requires that the unit is on livable tile."
 msgstr "Nécessite que l'unité soit sur une case viable."
 
-#: common/reqtext.c:1515
+#: common/reqtext.c:1546
 msgid "Requires that the unit isn't on livable tile."
 msgstr "Nécessite que l'unité ne soit pas sur une case viable."
 
-#: common/reqtext.c:1522
-msgid "Requires that the unit is on a domestic tile."
-msgstr "Nécessite que l'unité soit sur une case nationale."
-
-#: common/reqtext.c:1526
-msgid "Requires that the unit isn't on a domestic tile."
-msgstr "Nécessite que l'unité ne soit pas sur une case nationale."
-
-#: common/reqtext.c:1534
+#: common/reqtext.c:1553
 msgid "Requires that the unit does transport one or more cargo units."
 msgstr "Nécessite que l'unité transporte une ou plusieurs unités cargo."
 
-#: common/reqtext.c:1538
+#: common/reqtext.c:1557
 msgid "Requires that the unit doesn't transport any cargo units."
 msgstr "Nécessite que l'unité ne transporte pas d'unité cargo."
 
-#: common/reqtext.c:1546
+#: common/reqtext.c:1565
 msgid "Requires that the unit has a home city."
 msgstr "Nécessite que l'unité soit rattachée à une ville."
 
-#: common/reqtext.c:1549
+#: common/reqtext.c:1568
 msgid "Requires that the unit is homeless."
 msgstr "Nécessite que l'unité n'ait pas de ville de rattachement."
 
-#: common/reqtext.c:1556
+#: common/reqtext.c:1575
 msgid "Requires that the unit is on native tile."
 msgstr "Nécessite que l'unité soit sur une case accessible."
 
-#: common/reqtext.c:1559
+#: common/reqtext.c:1578
 msgid "Requires that the unit isn't on native tile."
 msgstr "Nécessite que l'unité ne soit pas sur une case accessible."
 
-#: common/reqtext.c:1566
+#: common/reqtext.c:1585
 msgid "Requires that the unit is in a native extra."
 msgstr "Nécessite que l'unité soit sur un extra accessible."
 
-#: common/reqtext.c:1569
+#: common/reqtext.c:1588
 msgid "Requires that the unit isn't in a native extra."
 msgstr "Nécessite que l'unité ne soit pas sur un extra accessible."
 
-#: common/reqtext.c:1576
+#: common/reqtext.c:1595
 msgid "Requires that the unit has moved this turn."
 msgstr "Nécessite que l'unité ait été déplacée ce tour."
 
-#: common/reqtext.c:1579
+#: common/reqtext.c:1598
 msgid "Requires that the unit hasn't moved this turn."
 msgstr "Nécessite que l'unité n'ait pas été déplacée ce tour."
 
-#: common/reqtext.c:1610
+#: common/reqtext.c:1629
 #, c-format
 msgid "Requires that the unit is performing activity %s."
 msgstr "Nécessite que l'unité soit en train de réaliser l'activité %s."
 
-#: common/reqtext.c:1614
+#: common/reqtext.c:1633
 #, c-format
 msgid "Requires that the unit is not performing activity %s."
 msgstr "Nécessite que l'unité ne soit pas en train de réaliser l'activité %s."
 
-#: common/reqtext.c:1643
+#: common/reqtext.c:1662
 #, c-format
 msgid "Requires that the unit has at least %s MP left."
 msgstr "Nécessite que l'unité ait au moins %s points de mouvement restants."
 
-#: common/reqtext.c:1649
+#: common/reqtext.c:1668
 #, c-format
 msgid "Requires that the unit has less than %s MP left."
 msgstr "Nécessite que l'unité ait moins de %s points de mouvement restants."
 
-#: common/reqtext.c:1678
+#: common/reqtext.c:1697
 #, c-format
 msgid "Requires a unit with at least %d veteran level."
 msgid_plural "Requires a unit with at least %d veteran levels."
 msgstr[0] "Nécessite que l'unité ait au moins %d niveau de vétérance."
 msgstr[1] "Nécessite que l'unité ait au moins %d niveaux de vétérance."
 
-#: common/reqtext.c:1684
+#: common/reqtext.c:1703
 #, c-format
 msgid "Requires a unit with fewer than %d veteran level."
 msgid_plural "Requires a unit with fewer than %d veteran levels."
 msgstr[0] "Nécessite que l'unité ait moins de %d niveau de vétérance."
 msgstr[1] "Nécessite que l'unité ait moins de %d niveaux de vétérance."
 
-#: common/reqtext.c:1699
+#: common/reqtext.c:1718
 #, c-format
 msgid "Requires a unit with at least %d hit point left."
 msgid_plural "Requires a unit with at least %d hit points left."
 msgstr[0] "Nécessite une unité avec au moins %d point de vie restant."
 msgstr[1] "Nécessite une unité avec au moins %d points de vie restants."
 
-#: common/reqtext.c:1705
+#: common/reqtext.c:1724
 #, c-format
 msgid "Requires a unit with fewer than %d hit point left."
 msgid_plural "Requires a unit with fewer than %d hit points left."
@@ -18265,30 +18276,30 @@ msgstr[0] "Nécessite une unité avec moins de %d point de vie restant."
 msgstr[1] "Nécessite une unité avec moins de %d points de vie restants."
 
 #. TRANS: "Applies only to Food."
-#: common/reqtext.c:1721
+#: common/reqtext.c:1740
 #, c-format
 msgid "?output:Applies only to %s."
 msgstr "S'applique seulement à %s."
 
 #. TRANS: "Does not apply to Food."
-#: common/reqtext.c:1725
+#: common/reqtext.c:1744
 #, c-format
 msgid "?output:Does not apply to %s."
 msgstr "Ne s'applique pas à %s."
 
 #. TRANS: "Applies only to Scientists."
-#: common/reqtext.c:1737
+#: common/reqtext.c:1756
 #, c-format
 msgid "?specialist:Applies only to %s."
 msgstr "S'applique seulement aux %s."
 
 #. TRANS: "Does not apply to Scientists."
-#: common/reqtext.c:1741
+#: common/reqtext.c:1760
 #, c-format
 msgid "?specialist:Does not apply to %s."
 msgstr "Ne s'applique pas aux %s."
 
-#: common/reqtext.c:1752
+#: common/reqtext.c:1771
 #, c-format
 msgid "Requires a minimum city size of %d for this city or a trade partner."
 msgid_plural ""
@@ -18300,7 +18311,7 @@ msgstr[1] ""
 "Nécessite une taille de ville minimale de %d pour cette ville ou un "
 "partenaire commercial."
 
-#: common/reqtext.c:1760
+#: common/reqtext.c:1779
 #, c-format
 msgid ""
 "Requires the city size to be less than %d for this city and all trade "
@@ -18315,35 +18326,35 @@ msgstr[1] ""
 "Nécessite une taille de ville plus petite que %d pour cette ville et tous "
 "les partenaires commerciaux."
 
-#: common/reqtext.c:1772
+#: common/reqtext.c:1791
 #, c-format
 msgid "Requires a minimum city size of %d."
 msgid_plural "Requires a minimum city size of %d."
 msgstr[0] "Nécessite une taille de ville minimale de %d."
 msgstr[1] "Nécessite une taille de ville minimale de %d."
 
-#: common/reqtext.c:1778
+#: common/reqtext.c:1797
 #, c-format
 msgid "Requires the city size to be less than %d."
 msgid_plural "Requires the city size to be less than %d."
 msgstr[0] "Nécessite une ville plus petite que %d."
 msgstr[1] "Nécessite une ville plus petite que %d."
 
-#: common/reqtext.c:1804
+#: common/reqtext.c:1823
 #, c-format
 msgid "Requires a minimum culture of %d in the city."
 msgid_plural "Requires a minimum culture of %d in the city."
 msgstr[0] "Nécessite une culture minimale de %d dans la ville."
 msgstr[1] "Nécessite une culture minimale de %d dans la ville."
 
-#: common/reqtext.c:1810
+#: common/reqtext.c:1829
 #, c-format
 msgid "Requires the culture in the city to be less than %d."
 msgid_plural "Requires the culture in the city to be less than %d."
 msgstr[0] "Nécessite une culture dans la ville inférieure à %d."
 msgstr[1] "Nécessite une culture dans la ville inférieure à %d."
 
-#: common/reqtext.c:1822
+#: common/reqtext.c:1841
 #, c-format
 msgid "Requires a minimum culture of %d in this city or a trade partner."
 msgid_plural ""
@@ -18355,7 +18366,7 @@ msgstr[1] ""
 "Nécessite une culture minimale de %d dans la ville ou chez un partenaire "
 "commercial."
 
-#: common/reqtext.c:1830
+#: common/reqtext.c:1849
 #, c-format
 msgid ""
 "Requires the culture in this city and all trade partners to be less than %d."
@@ -18368,35 +18379,35 @@ msgstr[1] ""
 "Nécessite une culture inférieure à %d dans la ville et chez tous ses "
 "partenaires commerciaux."
 
-#: common/reqtext.c:1842
+#: common/reqtext.c:1861
 #, c-format
 msgid "Requires your nation to have culture of at least %d."
 msgid_plural "Requires your nation to have culture of at least %d."
 msgstr[0] "Nécessite que votre nation ait une culture minimale de %d."
 msgstr[1] "Nécessite que votre nation ait une culture minimale de %d."
 
-#: common/reqtext.c:1850
+#: common/reqtext.c:1869
 #, c-format
 msgid "Prevented if your nation has culture of %d or more."
 msgid_plural "Prevented if your nation has culture of %d or more."
 msgstr[0] "Impossible si votre nation a une culture de %d ou plus."
 msgstr[1] "Impossible si votre nation a une culture de %d ou plus."
 
-#: common/reqtext.c:1862
+#: common/reqtext.c:1881
 #, c-format
 msgid "Requires someone on your team to have culture of at least %d."
 msgid_plural "Requires someone on your team to have culture of at least %d."
 msgstr[0] "Nécessite qu'un coéquipier ait une culture d'au moins %d."
 msgstr[1] "Nécessite qu'un coéquipier ait une culture d'au moins %d."
 
-#: common/reqtext.c:1870
+#: common/reqtext.c:1889
 #, c-format
 msgid "Prevented if anyone on your team has culture of %d or more."
 msgid_plural "Prevented if anyone on your team has culture of %d or more."
 msgstr[0] "Impossible si un coéquipier a une culture de %d ou plus."
 msgstr[1] "Impossible si un coéquipier a une culture de %d ou plus."
 
-#: common/reqtext.c:1882
+#: common/reqtext.c:1901
 #, c-format
 msgid ""
 "Requires someone in your current alliance to have culture of at least %d."
@@ -18407,7 +18418,7 @@ msgstr[0] ""
 msgstr[1] ""
 "Nécessite qu'un membre de votre alliance ait une culture d'au moins %d."
 
-#: common/reqtext.c:1890
+#: common/reqtext.c:1909
 #, c-format
 msgid "Prevented if anyone in your current alliance has culture of %d or more."
 msgid_plural ""
@@ -18417,31 +18428,31 @@ msgstr[0] ""
 msgstr[1] ""
 "Impossible si un membre de votre alliance a une culture de %d ou plus."
 
-#: common/reqtext.c:1902
+#: common/reqtext.c:1921
 #, c-format
 msgid "Requires that some player has culture of at least %d."
 msgid_plural "Requires that some player has culture of at least %d."
 msgstr[0] "Nécessite qu'un joueur ait une culture d'au moins %d."
 msgstr[1] "Nécessite qu'un joueur ait une culture d'au moins %d."
 
-#: common/reqtext.c:1910
+#: common/reqtext.c:1929
 #, c-format
 msgid "Requires that no player has culture of %d or more."
 msgid_plural "Requires that no player has culture of %d or more."
 msgstr[0] "Nécessite qu'aucun joueur n'ait une culture de %d ou plus."
 msgstr[1] "Nécessite qu'aucun joueur n'ait une culture de %d ou plus."
 
-#: common/reqtext.c:1933
+#: common/reqtext.c:1952
 #, c-format
 msgid "At least %d%% of the citizens of the city must be foreign."
 msgstr "Au moins %d%% des citoyens doivent être étrangers."
 
-#: common/reqtext.c:1938
+#: common/reqtext.c:1957
 #, c-format
 msgid "Less than %d%% of the citizens of the city must be foreign."
 msgstr "Moins de %d%% des citoyens doivent être étrangers."
 
-#: common/reqtext.c:1947
+#: common/reqtext.c:1966
 #, c-format
 msgid ""
 "At least %d%% of the citizens of the city or some trade partner must be "
@@ -18450,7 +18461,7 @@ msgstr ""
 "Au moins %d%% des citoyens de la ville, ou partenaires commerciaux, doit "
 "être étranger."
 
-#: common/reqtext.c:1952
+#: common/reqtext.c:1971
 #, c-format
 msgid ""
 "Less than %d%% of the citizens of the city and each trade partner must be "
@@ -18459,21 +18470,21 @@ msgstr ""
 "Moins de %d%% des citoyens de la ville, ou partenaires commerciaux, doit "
 "être étranger."
 
-#: common/reqtext.c:1976
+#: common/reqtext.c:1995
 #, c-format
 msgid "At most %d unit may be present on the tile."
 msgid_plural "At most %d units may be present on the tile."
 msgstr[0] "Au plus %d unité peut être présente sur la case."
 msgstr[1] "Au plus %d unités peuvent être présentes sur la case."
 
-#: common/reqtext.c:1982
+#: common/reqtext.c:2001
 #, c-format
 msgid "There must be more than %d unit present on the tile."
 msgid_plural "There must be more than %d units present on the tile."
 msgstr[0] "Il doit y avoir plus de %d unité sur la case."
 msgstr[1] "Il doit y avoir plus de %d unités sur la case."
 
-#: common/reqtext.c:1994
+#: common/reqtext.c:2013
 #, c-format
 msgid ""
 "The tile or at least one cardinally adjacent tile must have %d unit or fewer."
@@ -18484,7 +18495,7 @@ msgstr[0] ""
 "La case ou une case adjacente cardinallement doit avoir %d unité ou moins."
 msgstr[1] "La case ou une case adjacente doit avoir %d unités ou moins."
 
-#: common/reqtext.c:2002
+#: common/reqtext.c:2021
 #, c-format
 msgid ""
 "The tile and all cardinally adjacent tiles must have more than %d unit each."
@@ -18497,7 +18508,7 @@ msgstr[1] ""
 "La case et toutes les cases adjacentes cardinallement ne doivent pas avoir "
 "plus de %d unités chacune."
 
-#: common/reqtext.c:2014
+#: common/reqtext.c:2033
 #, c-format
 msgid "The tile or at least one adjacent tile must have %d unit or fewer."
 msgid_plural ""
@@ -18507,7 +18518,7 @@ msgstr[0] ""
 msgstr[1] ""
 "La case ou au moins une case adjacente doit avoir %d unités ou moins."
 
-#: common/reqtext.c:2022
+#: common/reqtext.c:2041
 #, c-format
 msgid "The tile and all adjacent tiles must have more than %d unit each."
 msgid_plural ""
@@ -18520,31 +18531,31 @@ msgstr[1] ""
 "chacune."
 
 #. TRANS: AI level (e.g., "Handicapped")
-#: common/reqtext.c:2051
+#: common/reqtext.c:2070
 #, c-format
 msgid "Applies to %s AI players."
 msgstr "S'applique aux joueurs IA %s."
 
 #. TRANS: AI level (e.g., "Cheating")
-#: common/reqtext.c:2056
+#: common/reqtext.c:2075
 #, c-format
 msgid "Does not apply to %s AI players."
 msgstr "Ne s'applique pas aux joueurs IA %s."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2068
+#: common/reqtext.c:2087
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile."
 msgstr "Nécessite un terrain de type %s sur la case."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2074
+#: common/reqtext.c:2093
 #, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile."
 msgstr "Empêché par un terrain de type %s sur la case."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2084
+#: common/reqtext.c:2103
 #, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on the tile or a cardinally adjacent tile."
@@ -18553,7 +18564,7 @@ msgstr ""
 "cardinalement."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2091
+#: common/reqtext.c:2110
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on the tile or any cardinally adjacent "
@@ -18563,27 +18574,27 @@ msgstr ""
 "cardinalement."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2102
+#: common/reqtext.c:2121
 #, c-format
 msgid "?terrainclass:Requires %s terrain on the tile or an adjacent tile."
 msgstr "Nécessite un terrain de type %s sur la case ou sur une case adjacente."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2109
+#: common/reqtext.c:2128
 #, c-format
 msgid "?terrainclass:Prevented by %s terrain on the tile or any adjacent tile."
 msgstr ""
 "Empêché par un terrain de type %s sur la case ou sur une case adjacente."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2120
+#: common/reqtext.c:2139
 #, c-format
 msgid "?terrainclass:Requires %s terrain on a tile within the city radius."
 msgstr ""
 "Nécessite un terrain de type %s sur une case dans le rayon de la ville."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2127
+#: common/reqtext.c:2146
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius."
@@ -18591,7 +18602,7 @@ msgstr ""
 "Empêché par un terrain de type %s sur une case dans le rayon de la ville."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2138
+#: common/reqtext.c:2157
 #, c-format
 msgid ""
 "?terrainclass:Requires %s terrain on a tile within the city radius or the "
@@ -18601,7 +18612,7 @@ msgstr ""
 "dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a terrain class
-#: common/reqtext.c:2146
+#: common/reqtext.c:2165
 #, c-format
 msgid ""
 "?terrainclass:Prevented by %s terrain on any tile within the city radius or "
@@ -18611,19 +18622,19 @@ msgstr ""
 "dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2171
+#: common/reqtext.c:2190
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile."
 msgstr "Nécessite un terrain avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2176
+#: common/reqtext.c:2195
 #, c-format
 msgid "Prevented by terrain with the \"%s\" flag on the tile."
 msgstr "Empêché par un terrain avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2186
+#: common/reqtext.c:2205
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on the tile or a cardinally adjacent "
@@ -18633,7 +18644,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2192
+#: common/reqtext.c:2211
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any cardinally "
@@ -18643,7 +18654,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2202
+#: common/reqtext.c:2221
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on the tile or an adjacent tile."
 msgstr ""
@@ -18651,7 +18662,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2208
+#: common/reqtext.c:2227
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on the tile or any adjacent tile."
@@ -18660,7 +18671,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2218
+#: common/reqtext.c:2237
 #, c-format
 msgid "Requires terrain with the \"%s\" flag on a tile within the city radius."
 msgstr ""
@@ -18668,7 +18679,7 @@ msgstr ""
 "la ville."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2224
+#: common/reqtext.c:2243
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius."
@@ -18677,7 +18688,7 @@ msgstr ""
 "de la ville."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2234
+#: common/reqtext.c:2253
 #, c-format
 msgid ""
 "Requires terrain with the \"%s\" flag on a tile within the city radius or "
@@ -18687,7 +18698,7 @@ msgstr ""
 "la ville, ou le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) terrain flag.
-#: common/reqtext.c:2241
+#: common/reqtext.c:2260
 #, c-format
 msgid ""
 "Prevented by terrain with the \"%s\" flag on any tile within the city radius "
@@ -18697,19 +18708,19 @@ msgstr ""
 "de la ville, ou le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2265
+#: common/reqtext.c:2284
 #, c-format
 msgid "Requires a road with the \"%s\" flag on the tile."
 msgstr "Nécessite une route avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2270
+#: common/reqtext.c:2289
 #, c-format
 msgid "Prevented by a road with the \"%s\" flag on the tile."
 msgstr "Empêché par une route avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2280
+#: common/reqtext.c:2299
 #, c-format
 msgid ""
 "Requires a road with the \"%s\" flag on the tile or a cardinally adjacent "
@@ -18719,7 +18730,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2286
+#: common/reqtext.c:2305
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any cardinally "
@@ -18729,7 +18740,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2296
+#: common/reqtext.c:2315
 #, c-format
 msgid "Requires a road with the \"%s\" flag on the tile or an adjacent tile."
 msgstr ""
@@ -18737,7 +18748,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2302
+#: common/reqtext.c:2321
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on the tile or any adjacent tile."
@@ -18746,7 +18757,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2312
+#: common/reqtext.c:2331
 #, c-format
 msgid "Requires a road with the \"%s\" flag on a tile within the city radius."
 msgstr ""
@@ -18754,7 +18765,7 @@ msgstr ""
 "la ville."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2318
+#: common/reqtext.c:2337
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius."
@@ -18763,7 +18774,7 @@ msgstr ""
 "la ville."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2328
+#: common/reqtext.c:2347
 #, c-format
 msgid ""
 "Requires a road with the \"%s\" flag on a tile within the city radius or the "
@@ -18773,7 +18784,7 @@ msgstr ""
 "la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) road flag.
-#: common/reqtext.c:2335
+#: common/reqtext.c:2354
 #, c-format
 msgid ""
 "Prevented by a road with the \"%s\" flag on any tile within the city radius "
@@ -18783,19 +18794,19 @@ msgstr ""
 "la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2359
+#: common/reqtext.c:2378
 #, c-format
 msgid "Requires an extra with the \"%s\" flag on the tile."
 msgstr "Nécessite un extra avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2364
+#: common/reqtext.c:2383
 #, c-format
 msgid "Prevented by an extra with the \"%s\" flag on the tile."
 msgstr "Empêché par un extra avec l'indicateur \"%s\" sur la case."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2374
+#: common/reqtext.c:2393
 #, c-format
 msgid ""
 "Requires an extra with the \"%s\" flag on the tile or a cardinally adjacent "
@@ -18805,7 +18816,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2380
+#: common/reqtext.c:2399
 #, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any cardinally "
@@ -18815,7 +18826,7 @@ msgstr ""
 "adjacente cardinalement."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2390
+#: common/reqtext.c:2409
 #, c-format
 msgid "Requires an extra with the \"%s\" flag on the tile or an adjacent tile."
 msgstr ""
@@ -18823,7 +18834,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2396
+#: common/reqtext.c:2415
 #, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on the tile or any adjacent tile."
@@ -18832,7 +18843,7 @@ msgstr ""
 "adjacente."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2406
+#: common/reqtext.c:2425
 #, c-format
 msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius."
@@ -18841,7 +18852,7 @@ msgstr ""
 "ville."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2412
+#: common/reqtext.c:2431
 #, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
@@ -18851,7 +18862,7 @@ msgstr ""
 "la ville."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2422
+#: common/reqtext.c:2441
 #, c-format
 msgid ""
 "Requires an extra with the \"%s\" flag on a tile within the city radius or "
@@ -18861,7 +18872,7 @@ msgstr ""
 "ville, ou dans le rayon de la ville d'un partenaire commercial."
 
 #. TRANS: %s is a (translatable) extra flag.
-#: common/reqtext.c:2429
+#: common/reqtext.c:2448
 #, c-format
 msgid ""
 "Prevented by an extra with the \"%s\" flag on any tile within the city "
@@ -18870,38 +18881,38 @@ msgstr ""
 "Empêché par un extra avec l'indicateur \"%s\" sur une case dans le rayon de "
 "la ville, ou dans le rayon de la ville d'un partenaire commercial."
 
-#: common/reqtext.c:2453
+#: common/reqtext.c:2472
 #, c-format
 msgid "Requires the game to have reached the year %s."
 msgstr "Nécessite que le jeu ait atteint l'année %s."
 
-#: common/reqtext.c:2457
+#: common/reqtext.c:2476
 #, c-format
 msgid "Requires that the game has not yet reached the year %s."
 msgstr "Nécessite que le jeu n'ait pas atteint l'année %s."
 
 #. TRANS: %s is a representation of a calendar fragment,
 #. * from the ruleset. May be a bare number.
-#: common/reqtext.c:2472
+#: common/reqtext.c:2491
 #, c-format
 msgid "Requires the game to have reached %s."
 msgstr "Nécessite que le jeu ait atteint %s."
 
 #. TRANS: %s is a representation of a calendar fragment,
 #. * from the ruleset. May be a bare number.
-#: common/reqtext.c:2478
+#: common/reqtext.c:2497
 #, c-format
 msgid "Requires that the game has not yet reached %s."
 msgstr "Nécessite que le jeu n'ait pas atteint %s."
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/reqtext.c:2491
+#: common/reqtext.c:2510
 #, c-format
 msgid "Requires %s map."
 msgstr "Nécessite une carte %s."
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/reqtext.c:2496
+#: common/reqtext.c:2515
 #, c-format
 msgid "Prevented on %s map."
 msgstr "Impossible sur une carte %s."
@@ -18910,142 +18921,142 @@ msgstr "Impossible sur une carte %s."
 #. * required to be present or absent. The string's format
 #. * is specified in ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: common/reqtext.c:2511
+#: common/reqtext.c:2530
 #, c-format
 msgid "Requires that the server setting %s."
 msgstr "Nécessite que l'option du serveur %s."
 
-#: common/reqtext.c:2520
+#: common/reqtext.c:2539
 #, c-format
 msgid "Requires age of %d turns."
 msgstr "Nécessite un âge de %d tours."
 
-#: common/reqtext.c:2524
+#: common/reqtext.c:2543
 #, c-format
 msgid "Prevented if age is over %d turns."
 msgstr "Impossible si l'âge a dépassé %d tours."
 
-#: common/reqtext.c:2535
+#: common/reqtext.c:2554
 #, c-format
 msgid "Requires %d techs to be known in the world."
 msgstr "Nécessite que %d technologies soient connues dans le monde."
 
-#: common/reqtext.c:2539
+#: common/reqtext.c:2558
 #, c-format
 msgid "Prevented when %d techs are known in the world."
 msgstr "Impossible si %d technologies sont connues dans le monde."
 
-#: common/reqtext.c:2547
+#: common/reqtext.c:2566
 #, c-format
 msgid "Requires player to know %d techs."
 msgstr "Nécessite que le joueur connaisse %d technologies."
 
-#: common/reqtext.c:2551
+#: common/reqtext.c:2570
 #, c-format
 msgid "Prevented when player knows %d techs."
 msgstr "Impossible si le joueur connaît %dd technologies."
 
-#: common/reqtext.c:2575
+#: common/reqtext.c:2594
 #, c-format
 msgid "Requires terrain on which alteration %s is possible."
 msgstr "Nécessite un terrain sur lequel l'altération %s soit possible."
 
-#: common/reqtext.c:2580
+#: common/reqtext.c:2599
 #, c-format
 msgid "Prevented by terrain on which alteration %s can be made."
 msgstr "Empêché par un terrain sur lequel l'altération %s est possible."
 
-#: common/reqtext.c:2608
+#: common/reqtext.c:2627
 msgid "city centers"
 msgstr "centres ville"
 
-#: common/reqtext.c:2611
+#: common/reqtext.c:2630
 msgid "claimed tiles"
 msgstr "cases revendiquées"
 
-#: common/reqtext.c:2614
+#: common/reqtext.c:2633
 msgid "owned extras"
 msgstr "extras possédés"
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2627
+#: common/reqtext.c:2646
 #, c-format
 msgid "?tileprop:Applies only to %s."
 msgstr "S'applique seulement à %s."
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2631
+#: common/reqtext.c:2650
 #, c-format
 msgid "?tileprop:Does not apply to %s."
 msgstr "Ne s'applique seulement à %s."
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2638
+#: common/reqtext.c:2657
 #, c-format
 msgid "?tileprop:Applies only to %s and cardinally adjacent tiles."
 msgstr "Ne s'applique qu'à %s et aux cases adjacentes cardinalement."
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2643
+#: common/reqtext.c:2662
 #, c-format
 msgid "?tileprop:Does not apply to %s or cardinally adjacent tiles."
 msgstr "Ne s'applique pas à %s ou aux cases adjacentes cardinalement."
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2652
+#: common/reqtext.c:2671
 #, c-format
 msgid "?tileprop:Applies only to %s and adjacent tiles."
 msgstr "S'applique seulement à %s et aux cases adjacentes."
 
 #. TRANS: tile property ("city centers", etc)
-#: common/reqtext.c:2656
+#: common/reqtext.c:2675
 #, c-format
 msgid "?tileprop:Does not apply to %s or adjacent tiles."
 msgstr "Ne s'applique pas à %s ou aux cases adjacentes."
 
-#: common/reqtext.c:2681
+#: common/reqtext.c:2700
 msgid "owned by original"
 msgstr "possédée par l'original"
 
-#: common/reqtext.c:2684
+#: common/reqtext.c:2703
 msgid "starved"
 msgstr "affamé"
 
-#: common/reqtext.c:2687
+#: common/reqtext.c:2706
 msgid "disorder"
 msgstr "désordre"
 
-#: common/reqtext.c:2690
+#: common/reqtext.c:2709
 msgid "celebration"
 msgstr "en fête"
 
 #. TRANS: city property ("owned by original", etc)
-#: common/reqtext.c:2702
+#: common/reqtext.c:2721
 #, c-format
 msgid "?cityprop:Applies only to %s cities"
 msgstr "S'applique seulement aux villes %s."
 
 #. TRANS: city property ("owned by original", etc)
-#: common/reqtext.c:2706
+#: common/reqtext.c:2725
 #, c-format
 msgid "?cityprop:Does not apply to %s cities"
 msgstr "Ne s'applique seulement aux villes %s."
 
 #. TRANS: city property ("owned by original", etc)
-#: common/reqtext.c:2714
+#: common/reqtext.c:2733
 #, c-format
 msgid "?cityprop:Applies only to %s cities or their trade partners."
 msgstr "S'applique seulement aux villes %s ou à leurs partenaires commerciaux."
 
 #. TRANS: city property ("owned by original", etc)
-#: common/reqtext.c:2718
+#: common/reqtext.c:2737
 #, c-format
 msgid "?cityprop:Does not apply to %s cities or their trade partners."
 msgstr "Ne s'applique pas aux villes %s ou à leurs partenaires commerciaux."
 
 #. TRANS: default description of a requirement vector
 #. * (used in ruledit)
-#: common/requirements.c:3722
+#: common/requirements.c:3735
 msgid "the requirement vector"
 msgstr "le vecteur des exigences"
 
@@ -19055,7 +19066,7 @@ msgstr "le vecteur des exigences"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3736
+#: common/requirements.c:3749
 #, c-format
 msgid "%s %s from %s"
 msgstr "%s %s de %s"
@@ -19066,7 +19077,7 @@ msgstr "%s %s de %s"
 #. * The second %s is the requirement.
 #. * The third %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3749
+#: common/requirements.c:3762
 #, c-format
 msgid "%s %s to %s"
 msgstr "%s %s à %s"
@@ -19074,160 +19085,154 @@ msgstr "%s %s à %s"
 #. TRANS: do nothing to a requirement vector (in ruledit).
 #. * The first %s is a description of the requirement vector,
 #. * like "actor_reqs"
-#: common/requirements.c:3759
+#: common/requirements.c:3772
 #, c-format
 msgid "Do nothing to %s"
 msgstr "Ne rien faire à %s"
 
-#: common/requirements.c:3921
+#: common/requirements.c:3934
 #, c-format
 msgid "Requirements {%s} and {%s} contradict each other."
 msgstr "Les exigences {%s} et {%s} se contredisent mutuellement."
 
-#: common/requirements.c:4008
+#: common/requirements.c:4021
 #, c-format
 msgid "Requirement {%s} requires %s but it will never be there."
 msgstr "L'exigence {%s} nécessite %s, mais elle ne sera jamais là."
 
-#: common/requirements.c:4015
+#: common/requirements.c:4028
 #, c-format
 msgid "Requirement {%s} mentions %s but it will never be there."
 msgstr "L'exigence {%s} mentionne %s, mais elle ne sera jamais là."
 
-#: common/requirements.c:4073
+#: common/requirements.c:4086
 #, c-format
 msgid "Requirements {%s} and {%s} are the same."
 msgstr "Les exigences {%s} et {%s} sont les mêmes."
 
-#: common/requirements.c:4391
+#: common/requirements.c:4406
 #, c-format
 msgid "\"%s\" tech"
 msgstr "techno \"%s\""
 
-#: common/requirements.c:4433
+#: common/requirements.c:4448
 #, c-format
 msgid "%s citizens"
 msgstr "%s citoyens"
 
 #. TRANS: Unit type flag
-#: common/requirements.c:4447
+#: common/requirements.c:4463
 #, c-format
 msgid "?utflag:\"%s\" units"
 msgstr "unités \"%s\""
 
 #. TRANS: Unit class
-#: common/requirements.c:4454
+#: common/requirements.c:4470
 #, c-format
 msgid "%s units"
 msgstr "unités \"%s\""
 
 #. TRANS: Unit class flag
-#: common/requirements.c:4460
+#: common/requirements.c:4476
 #, c-format
 msgid "?ucflag:\"%s\" units"
 msgstr "unités \"%s\""
 
-#: common/requirements.c:4466
+#: common/requirements.c:4482
 #, c-format
 msgid "Veteran level >=%d"
 msgstr "Niveau de vétéran ≥ %d"
 
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:4473
+#: common/requirements.c:4489
 msgid "Transported"
 msgstr "Transporté"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On livable tile")
-#: common/requirements.c:4479
+#: common/requirements.c:4495
 msgid "On livable tile"
 msgstr "Sur une case viable"
 
-#. TRANS: unit state. (appears in strings like
-#. * "Missile+On domestic tile")
-#: common/requirements.c:4485
-msgid "On domestic tile"
-msgstr "Sur une case nationale"
-
 #. TRANS: unit state. (appears in strings like "Missile+Transported")
-#: common/requirements.c:4489
+#: common/requirements.c:4499
 msgid "Transporting"
 msgstr "Transportant"
 
 #. TRANS: unit state. (appears in strings like "Missile+Has a home city")
-#: common/requirements.c:4493
+#: common/requirements.c:4503
 msgid "Has a home city"
 msgstr "A ville d'origine"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+On native tile")
-#: common/requirements.c:4499
+#: common/requirements.c:4509
 msgid "On native tile"
 msgstr "Sur une case accessible"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+In native extra")
-#: common/requirements.c:4505
+#: common/requirements.c:4515
 msgid "In native extra"
 msgstr "Sur un extra accessible"
 
 #. TRANS: unit state. (appears in strings like
 #. * "Missile+Has moved this turn")
-#: common/requirements.c:4510
+#: common/requirements.c:4520
 msgid "Has moved this turn"
 msgstr "S'est déplacé ce tour"
 
-#: common/requirements.c:4519
+#: common/requirements.c:4529
 #, c-format
 msgid "%s activity"
 msgstr "activité %s"
 
 #. TRANS: Minimum unit movement points left for requirement to be met
 #. * (%s is a string like "1" or "2 1/3")
-#: common/requirements.c:4525
+#: common/requirements.c:4535
 #, c-format
 msgid "%s MP"
 msgstr "%s PM"
 
 #. TRANS: HP = hit points
-#: common/requirements.c:4530
+#: common/requirements.c:4540
 #, c-format
 msgid "%d HP"
 msgstr "%d PV"
 
-#: common/requirements.c:4534
+#: common/requirements.c:4544
 #, c-format
 msgid "Age %d"
 msgstr "Âge %d"
 
-#: common/requirements.c:4538
+#: common/requirements.c:4548
 #, c-format
 msgid "%d Techs"
 msgstr "%d Technos"
 
-#: common/requirements.c:4554
+#: common/requirements.c:4564
 #, c-format
 msgid "Size %d"
 msgstr "Taille %d"
 
-#: common/requirements.c:4558
+#: common/requirements.c:4568
 #, c-format
 msgid "Culture %d"
 msgstr "Culture %d"
 
-#: common/requirements.c:4562
+#: common/requirements.c:4572
 #, c-format
 msgid "%d%% Foreigners"
 msgstr "%d%% Étrangers"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:4567
+#: common/requirements.c:4577
 #, c-format
 msgid "%s AI"
 msgstr "IA %s"
 
 #. TRANS: here <= means 'less than or equal'
-#: common/requirements.c:4572
+#: common/requirements.c:4582
 #, c-format
 msgid "<=%d unit"
 msgid_plural "<=%d units"
@@ -19235,78 +19240,78 @@ msgstr[0] " ⩽ %d unité"
 msgstr[1] " ⩽ %d unités"
 
 #. TRANS: Terrain class: "Land terrain"
-#: common/requirements.c:4578
+#: common/requirements.c:4588
 #, c-format
 msgid "%s terrain"
 msgstr "terrain \"%s\""
 
 #. TRANS: Terrain flag
-#: common/requirements.c:4584
+#: common/requirements.c:4594
 #, c-format
 msgid "?terrflag:\"%s\" terrain"
 msgstr "terrain \"%s\""
 
 #. TRANS: Road flag
-#: common/requirements.c:4591
+#: common/requirements.c:4601
 #, c-format
 msgid "?roadflag:\"%s\" road"
 msgstr "route \"%s\""
 
 #. TRANS: Extra flag
-#: common/requirements.c:4597
+#: common/requirements.c:4607
 #, c-format
 msgid "?extraflag:\"%s\" extra"
 msgstr "extra \"%s\""
 
-#: common/requirements.c:4601
+#: common/requirements.c:4611
 #, c-format
 msgid "After %s"
 msgstr "Après %s"
 
 #. TRANS: here >= means 'greater than or equal'.
 #. * %s identifies a calendar fragment (may be bare number).
-#: common/requirements.c:4607
+#: common/requirements.c:4617
 #, c-format
 msgid ">=%s"
 msgstr " ⩾ %s"
 
 #. TRANS: topology flag name ("WrapX", "ISO", etc)
-#: common/requirements.c:4612
+#: common/requirements.c:4622
 #, c-format
 msgid "%s map"
 msgstr "carte %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:4621
+#: common/requirements.c:4631
 #, c-format
 msgid "%s possible"
 msgstr "%s possible"
 
-#: common/requirements.c:4627
+#: common/requirements.c:4637
 msgid "City center"
 msgstr "Centre ville"
 
-#: common/requirements.c:4630
+#: common/requirements.c:4640
 msgid "Tile claimed"
 msgstr "Case revendiquée"
 
-#: common/requirements.c:4633
+#: common/requirements.c:4643
 msgid "Extras owned"
 msgstr "Extras possédés"
 
-#: common/requirements.c:4644
+#: common/requirements.c:4654
 msgid "Owned by original"
 msgstr "Possédée par l'original"
 
-#: common/requirements.c:4647
+#: common/requirements.c:4657
 msgid "Starved"
 msgstr "Affamé"
 
-#: common/requirements.c:4650
+#: common/requirements.c:4660
 msgid "Disorder"
 msgstr "Désordre"
 
-#: common/requirements.c:4653
+#: common/requirements.c:4663
 msgid "Celebration"
 msgstr "En fête"
 
@@ -21826,25 +21831,25 @@ msgstr ""
 "implacabilité à la guerre."
 
 #: data/civ1/nations.ruleset:1284 data/civ2/nations.ruleset:1546
-#: data/nation/hunnic.ruleset:40 data/nation/mongol.ruleset:33
+#: data/nation/hunnic.ruleset:42 data/nation/mongol.ruleset:33
 #, c-format
 msgid "%s Khan"
 msgstr "%s Khan"
 
 #: data/civ1/nations.ruleset:1284 data/civ2/nations.ruleset:1546
-#: data/nation/hunnic.ruleset:40 data/nation/mongol.ruleset:33
+#: data/nation/hunnic.ruleset:42 data/nation/mongol.ruleset:33
 #, c-format
 msgid "%s Khatan"
 msgstr "%s Khatan"
 
 #: data/civ1/nations.ruleset:1285 data/civ2/nations.ruleset:1547
-#: data/nation/hunnic.ruleset:41 data/nation/mongol.ruleset:34
+#: data/nation/hunnic.ruleset:43 data/nation/mongol.ruleset:34
 #, c-format
 msgid "%s Khagan"
 msgstr "Khagan %s"
 
 #: data/civ1/nations.ruleset:1285 data/civ2/nations.ruleset:1547
-#: data/nation/hunnic.ruleset:41 data/nation/mongol.ruleset:34
+#: data/nation/hunnic.ruleset:43 data/nation/mongol.ruleset:34
 #, c-format
 msgid "?female:%s Khagan"
 msgstr "Khagan %s"
@@ -21894,7 +21899,7 @@ msgstr "Imperatrix %s"
 #: data/alien/governments.ruleset:70 data/nation/byzantium.ruleset:27
 #: data/nation/carthaginian.ruleset:22 data/nation/egyptian.ruleset:27
 #: data/nation/greek.ruleset:23 data/nation/hittite.ruleset:27
-#: data/nation/hunnic.ruleset:39 data/nation/roman.ruleset:49
+#: data/nation/hunnic.ruleset:41 data/nation/roman.ruleset:49
 #: data/nation/sumerian.ruleset:28
 #, c-format
 msgid "Usurper %s"
@@ -21904,7 +21909,7 @@ msgstr "Usurpateur %s"
 #: data/alien/governments.ruleset:71 data/nation/byzantium.ruleset:27
 #: data/nation/carthaginian.ruleset:22 data/nation/egyptian.ruleset:27
 #: data/nation/greek.ruleset:23 data/nation/hittite.ruleset:27
-#: data/nation/hunnic.ruleset:39 data/nation/roman.ruleset:49
+#: data/nation/hunnic.ruleset:41 data/nation/roman.ruleset:49
 #: data/nation/sumerian.ruleset:28
 #, c-format
 msgid "?female:Usurper %s"
@@ -40279,19 +40284,19 @@ msgstr "Groupe"
 
 #. TRANS: Unknown modpack type
 #: tools/fcmp/mpcli.c:67 tools/fcmp/mpgui_gtk3.c:383
-#: tools/fcmp/mpgui_gtk4.c:391 tools/fcmp/mpgui_qt.cpp:388
+#: tools/fcmp/mpgui_gtk4.c:388 tools/fcmp/mpgui_qt.cpp:388
 msgid "?"
 msgstr "?"
 
 #. TRANS: License of modpack is not known
 #: tools/fcmp/mpcli.c:74 tools/fcmp/mpgui_gtk3.c:390
-#: tools/fcmp/mpgui_gtk4.c:398 tools/fcmp/mpgui_qt.cpp:395
+#: tools/fcmp/mpgui_gtk4.c:395 tools/fcmp/mpgui_qt.cpp:395
 msgid "?license:Unknown"
 msgstr "inconnue"
 
 #: tools/fcmp/mpcli.c:79 tools/fcmp/mpgui_gtk3.c:236
-#: tools/fcmp/mpgui_gtk3.c:395 tools/fcmp/mpgui_gtk4.c:242
-#: tools/fcmp/mpgui_gtk4.c:403 tools/fcmp/mpgui_qt.cpp:353
+#: tools/fcmp/mpgui_gtk3.c:395 tools/fcmp/mpgui_gtk4.c:239
+#: tools/fcmp/mpgui_gtk4.c:400 tools/fcmp/mpgui_qt.cpp:353
 #: tools/fcmp/mpgui_qt.cpp:400
 msgid "Not installed"
 msgstr "Pas installé"
@@ -40405,7 +40410,7 @@ msgstr "Échec de l'ouverture de \"%s\" : %s"
 msgid "Failed to insert modpack '%s' information"
 msgstr "Impossible d'insérer l'information du modpack '%s'"
 
-#: tools/fcmp/mpgui_gtk3.c:107 tools/fcmp/mpgui_gtk4.c:115
+#: tools/fcmp/mpgui_gtk3.c:107 tools/fcmp/mpgui_gtk4.c:112
 #: tools/fcmp/mpgui_qt.cpp:487
 msgid ""
 "Modpack installation in progress.\n"
@@ -40414,16 +40419,16 @@ msgstr ""
 "Installation de modpack en cours.\n"
 "Voulez-vous vraiment quitter?"
 
-#: tools/fcmp/mpgui_gtk3.c:291 tools/fcmp/mpgui_gtk4.c:297
+#: tools/fcmp/mpgui_gtk3.c:291 tools/fcmp/mpgui_gtk4.c:294
 #: tools/fcmp/mpgui_qt.cpp:316
 msgid "Another download already active"
 msgstr "Un autre téléchargement est déjà actif."
 
-#: tools/fcmp/mpgui_gtk3.c:304 tools/fcmp/mpgui_gtk4.c:310
+#: tools/fcmp/mpgui_gtk3.c:304 tools/fcmp/mpgui_gtk4.c:307
 msgid "Failed to start downloader"
 msgstr "Impossible de lancer le téléchargement."
 
-#: tools/fcmp/mpgui_gtk3.c:455 tools/fcmp/mpgui_gtk4.c:465
+#: tools/fcmp/mpgui_gtk3.c:455 tools/fcmp/mpgui_gtk4.c:462
 #, c-format
 msgid ""
 "%s%s\n"
@@ -40432,48 +40437,48 @@ msgstr ""
 "%s%s\n"
 "commit : %s"
 
-#: tools/fcmp/mpgui_gtk3.c:475 tools/fcmp/mpgui_gtk4.c:485
+#: tools/fcmp/mpgui_gtk3.c:475 tools/fcmp/mpgui_gtk4.c:482
 #: tools/fcmp/mpgui_qt.cpp:223
 msgid "Installed"
 msgstr "Installé"
 
-#: tools/fcmp/mpgui_gtk3.c:480 tools/fcmp/mpgui_gtk4.c:490
+#: tools/fcmp/mpgui_gtk3.c:480 tools/fcmp/mpgui_gtk4.c:487
 #: tools/fcmp/mpgui_qt.cpp:223
 msgid "?modpack:Type"
 msgstr "Type"
 
-#: tools/fcmp/mpgui_gtk3.c:486 tools/fcmp/mpgui_gtk4.c:496
+#: tools/fcmp/mpgui_gtk3.c:486 tools/fcmp/mpgui_gtk4.c:493
 #: tools/fcmp/mpgui_qt.cpp:224
 msgid "Subtype"
 msgstr "Sous-type"
 
 #. TRANS: noun
-#: tools/fcmp/mpgui_gtk3.c:493 tools/fcmp/mpgui_gtk4.c:503
+#: tools/fcmp/mpgui_gtk3.c:493 tools/fcmp/mpgui_gtk4.c:500
 #: tools/fcmp/mpgui_qt.cpp:224
 msgid "License"
 msgstr "Licence"
 
-#: tools/fcmp/mpgui_gtk3.c:498 tools/fcmp/mpgui_gtk4.c:508
+#: tools/fcmp/mpgui_gtk3.c:498 tools/fcmp/mpgui_gtk4.c:505
 #: tools/fcmp/mpgui_qt.cpp:225
 msgid "URL"
 msgstr "URL"
 
-#: tools/fcmp/mpgui_gtk3.c:504 tools/fcmp/mpgui_gtk4.c:514
+#: tools/fcmp/mpgui_gtk3.c:504 tools/fcmp/mpgui_gtk4.c:511
 #: tools/fcmp/mpgui_qt.cpp:189
 msgid "Install modpack"
 msgstr "Installation du modpack"
 
-#: tools/fcmp/mpgui_gtk3.c:512 tools/fcmp/mpgui_gtk4.c:519
+#: tools/fcmp/mpgui_gtk3.c:512 tools/fcmp/mpgui_gtk4.c:516
 #: tools/fcmp/mpgui_qt.cpp:186
 msgid "Modpack URL"
 msgstr "URL du modpack"
 
-#: tools/fcmp/mpgui_gtk3.c:529 tools/fcmp/mpgui_gtk4.c:535
+#: tools/fcmp/mpgui_gtk3.c:529 tools/fcmp/mpgui_gtk4.c:532
 #: tools/fcmp/mpgui_qt.cpp:264
 msgid "Select modpack to install"
 msgstr "Choisissez le modpack à installer"
 
-#: tools/fcmp/mpgui_gtk3.c:580 tools/fcmp/mpgui_gtk4.c:625
+#: tools/fcmp/mpgui_gtk3.c:580 tools/fcmp/mpgui_gtk4.c:622
 msgid ""
 "This modpack installer accepts the standard Gtk command-line options\n"
 "after '--'. See the Gtk documentation.\n"
@@ -40487,7 +40492,7 @@ msgstr ""
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "Installateur de modpack de Freeciv (gtk3)"
 
-#: tools/fcmp/mpgui_gtk4.c:579
+#: tools/fcmp/mpgui_gtk4.c:576
 msgid "Freeciv modpack installer (gtk4)"
 msgstr "Installateur de modpack de Freeciv (gtk4)"
 
@@ -41248,7 +41253,7 @@ msgstr "La famine a provoqué une perte de population à %s."
 msgid "Famine destroys %s entirely."
 msgstr "La famine détruit entièrement %s."
 
-#: server/cityturn.c:1168 server/cityturn.c:1915
+#: server/cityturn.c:1168 server/cityturn.c:1916
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available. Postponing..."
@@ -41419,7 +41424,7 @@ msgstr ""
 #. TRANS: '%s' is a wide range of relationships;
 #. * e.g., 'Peace', 'Never met', 'Foreign',
 #. * 'Hosts embassy', 'Provided Casus Belli'
-#: server/cityturn.c:1468
+#: server/cityturn.c:1469
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is required.  "
@@ -41428,7 +41433,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la relation '%s' est "
 "nécessaire. Différé..."
 
-#: server/cityturn.c:1480
+#: server/cityturn.c:1481
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; the relationship '%s' is prohibited.  "
@@ -41437,7 +41442,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la relation '%s' est "
 "interdite. Différé..."
 
-#: server/cityturn.c:1495
+#: server/cityturn.c:1496
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or larger. "
@@ -41446,7 +41451,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit être de "
 "taille %d ou plus. Différé..."
 
-#: server/cityturn.c:1506
+#: server/cityturn.c:1507
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d or smaller."
@@ -41455,7 +41460,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit être de "
 "taille %d ou moins. Différé..."
 
-#: server/cityturn.c:1520
+#: server/cityturn.c:1521
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have culture of %d. "
@@ -41464,7 +41469,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit avoir "
 "une culture de %d. Différé..."
 
-#: server/cityturn.c:1536
+#: server/cityturn.c:1537
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% foreign population. "
@@ -41473,7 +41478,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit avoir %d"
 "%% de population étrangère. Différé..."
 
-#: server/cityturn.c:1546
+#: server/cityturn.c:1547
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must have %d%% native population. "
@@ -41482,7 +41487,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; la ville doit avoir %d"
 "%% de population native. Différé..."
 
-#: server/cityturn.c:1559
+#: server/cityturn.c:1560
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %d techs must be known. Postponing..."
@@ -41490,7 +41495,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; %d technologies "
 "doivent être connues. Différé..."
 
-#: server/cityturn.c:1574
+#: server/cityturn.c:1575
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; more than %d unit on tile.  "
@@ -41505,7 +41510,7 @@ msgstr[1] ""
 "%s ne peut pas construire %s de la liste de travail ; plus de %d unités sur "
 "la case ! Différé..."
 
-#: server/cityturn.c:1589
+#: server/cityturn.c:1590
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; fewer than %d unit on tile.  "
@@ -41520,7 +41525,7 @@ msgstr[1] ""
 "%s ne peut pas construire %s de la liste de travail ; moins de %d unités sur "
 "la case. Différé..."
 
-#: server/cityturn.c:1611
+#: server/cityturn.c:1612
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is required.  "
@@ -41529,7 +41534,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain de type %s "
 "est nécessaire. Différé..."
 
-#: server/cityturn.c:1622
+#: server/cityturn.c:1623
 #, c-format
 msgid ""
 "?terrainclass:%s can't build %s from the worklist; %s terrain is "
@@ -41538,7 +41543,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain de type %s "
 "est interdit. Différé..."
 
-#: server/cityturn.c:1636
+#: server/cityturn.c:1637
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is required. "
@@ -41547,7 +41552,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain avec "
 "l'indicateur \"%s\" est nécessaire. Différé..."
 
-#: server/cityturn.c:1647
+#: server/cityturn.c:1648
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; terrain with \"%s\" flag is prohibited. "
@@ -41556,7 +41561,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un terrain avec "
 "l'indicateur \"%s\" est interdit. Différé..."
 
-#: server/cityturn.c:1661
+#: server/cityturn.c:1662
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is required. "
@@ -41565,7 +41570,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une route avec "
 "l'indicateur %s est nécessaire. Différé..."
 
-#: server/cityturn.c:1672
+#: server/cityturn.c:1673
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; road with \"%s\" flag is prohibited. "
@@ -41574,7 +41579,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; une route avec "
 "l'indicateur %s est interdite. Différé..."
 
-#: server/cityturn.c:1686
+#: server/cityturn.c:1687
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is required. "
@@ -41583,7 +41588,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; un extra avec "
 "l'indicateur \"%s\" est nécessaire. Différé..."
 
-#: server/cityturn.c:1697
+#: server/cityturn.c:1698
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; extra with \"%s\" flag is prohibited. "
@@ -41595,7 +41600,7 @@ msgstr ""
 #. TRANS: last %s is a date
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1730 server/cityturn.c:1750
+#: server/cityturn.c:1731 server/cityturn.c:1751
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available from %s. Postponing..."
@@ -41605,7 +41610,7 @@ msgstr ""
 
 #. TRANS: last %s is a calendar fragment from
 #. * the ruleset; may be a bare number
-#: server/cityturn.c:1763
+#: server/cityturn.c:1764
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; not available after %s. Postponing..."
@@ -41615,7 +41620,7 @@ msgstr ""
 
 #. TRANS: third %s is topology flag name
 #. * ("WrapX", "ISO", etc)
-#: server/cityturn.c:1778
+#: server/cityturn.c:1779
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available in worlds with %s map."
@@ -41628,7 +41633,7 @@ msgstr ""
 #. * The string's format is specified in
 #. * ssetv_human_readable().
 #. * Example: "killstack is enabled".
-#: server/cityturn.c:1796
+#: server/cityturn.c:1797
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available when the server setting "
@@ -41637,7 +41642,7 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; seulement disponible "
 "quand l'option serveur %s."
 
-#: server/cityturn.c:1812
+#: server/cityturn.c:1813
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only available once %d turns old. "
@@ -41646,49 +41651,49 @@ msgstr ""
 "%s ne peut pas construire %s de la liste de travail ; seulement disponible "
 "après %d tours. Différé..."
 
-#: server/cityturn.c:1936 server/cityturn.c:2004
+#: server/cityturn.c:1937 server/cityturn.c:2005
 #, c-format
 msgid "%s can't build %s from the worklist. Purging..."
 msgstr "%s ne peut pas construire %s de la liste de travail. Supprimé..."
 
-#: server/cityturn.c:1955 server/cityturn.c:1993 server/cityturn.c:2126
-#: server/cityturn.c:2172
+#: server/cityturn.c:1956 server/cityturn.c:1994 server/cityturn.c:2127
+#: server/cityturn.c:2173
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "La production de %s mise à jour en %s dans %s."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:2042
+#: server/cityturn.c:2043
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "La liste de travail de %s est à présent vide."
 
-#: server/cityturn.c:2200
+#: server/cityturn.c:2201
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ne peut plus entretenir %s, unité congédiée."
 
-#: server/cityturn.c:2220
+#: server/cityturn.c:2221
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Les citoyens à %s ont péri pour leur manquement à l'entretien de %s !"
 
-#: server/cityturn.c:2270 server/cityturn.c:2459
+#: server/cityturn.c:2271 server/cityturn.c:2460
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s construit %s, qui n'est plus disponible."
 
-#: server/cityturn.c:2310
+#: server/cityturn.c:2311
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Les %s ont fini de construire %s dans %s."
 
-#: server/cityturn.c:2317
+#: server/cityturn.c:2318
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s a fini de construire %s."
 
-#: server/cityturn.c:2338
+#: server/cityturn.c:2339
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -41696,25 +41701,25 @@ msgstr[0] "%s accélère la recherche, vous obtenez %d découverte immédiate."
 msgstr[1] "%s accélère la recherche, vous obtenez %d découvertes immédiates."
 
 #. TRANS: Tech from building (Darwin's Voyage)
-#: server/cityturn.c:2352
+#: server/cityturn.c:2353
 #, c-format
 msgid "?frombldg:Acquired %s from %s."
 msgstr "Acquis %s de %s."
 
 #. TRANS: Tech from building (Darwin's
 #. * Voyage)
-#: server/cityturn.c:2358
+#: server/cityturn.c:2359
 #, c-format
 msgid "?frombldg:The %s have acquired %s from %s."
 msgstr "Les %s ont acquis %s de %s."
 
-#: server/cityturn.c:2365
+#: server/cityturn.c:2366
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "Les %s ont commencé la construction d'un vaisseau spatial !"
 
 #. TRANS: city ... utype ... size ... pop_cost
-#: server/cityturn.c:2484
+#: server/cityturn.c:2485
 #, c-format
 msgid "%s can't build %s yet. (city size: %d, unit population cost: %d)"
 msgstr ""
@@ -41722,75 +41727,75 @@ msgstr ""
 "population de l'unité : %d)."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:2517
+#: server/cityturn.c:2518
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s a achevé la construction de %s."
 
 #. TRANS: "<unit> cost... <city> shrinks..."
 #. * Plural in "%d population", not "size %d".
-#: server/cityturn.c:2542
+#: server/cityturn.c:2543
 #, c-format
 msgid "%s cost %d population. %s shrinks to size %d."
 msgid_plural "%s cost %d population. %s shrinks to size %d."
 msgstr[0] "%s a coûté %d population. %s décroit à la taille %d."
 msgstr[1] "%s a coûté %d populations. %s décroit à la taille %d."
 
-#: server/cityturn.c:2626
+#: server/cityturn.c:2627
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Impossible d'entretenir %s dans %s : bâtiment vendu!"
 
-#: server/cityturn.c:2773
+#: server/cityturn.c:2774
 #, c-format
 msgid "Not enough gold. %s disbanded."
 msgstr "Par assez d'or. %s congédié."
 
-#: server/cityturn.c:3014 server/cityturn.c:3835
+#: server/cityturn.c:3015 server/cityturn.c:3836
 #, c-format
 msgid "Pollution near %s."
 msgstr "Pollution près de %s."
 
-#: server/cityturn.c:3188
+#: server/cityturn.c:3189
 #, c-format
 msgid "Celebrations in your honor in %s."
 msgstr "Célébrations en votre honneur à %s."
 
-#: server/cityturn.c:3194
+#: server/cityturn.c:3195
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Les célébrations se sont achevées dans %s."
 
 #. TRANS: preserve leading space; this string will be appended to
 #. * another sentence
-#: server/cityturn.c:3272
+#: server/cityturn.c:3273
 msgid " Unrest threatens to spread beyond the city."
 msgstr " L'agitation menace de se répandre au delà de la ville."
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3279
+#: server/cityturn.c:3280
 #, c-format
 msgid "Civil disorder in %s.%s"
 msgstr "Émeutes à %s.%s"
 
 #. TRANS: second %s is an optional extra sentence
-#: server/cityturn.c:3284
+#: server/cityturn.c:3285
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s.%s"
 msgstr "LES ÉMEUTES CONTINUENT à %s.%s"
 
-#: server/cityturn.c:3290
+#: server/cityturn.c:3291
 #, c-format
 msgid "Order restored in %s."
 msgstr "L'ordre est rétabli à %s."
 
 #. TRANS: %s - government form, e.g., Democracy
-#: server/cityturn.c:3302
+#: server/cityturn.c:3303
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Le peuple a renversé votre %s, le trouble règne sur votre pays."
 
-#: server/cityturn.c:3346
+#: server/cityturn.c:3347
 #, c-format
 msgid "%s can't build %s yet, as we can't disband our only city."
 msgstr ""
@@ -41798,13 +41803,13 @@ msgstr ""
 "notre seule ville."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:3375
+#: server/cityturn.c:3376
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s est démantelée en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3580
+#: server/cityturn.c:3581
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -41813,7 +41818,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3587
+#: server/cityturn.c:3588
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -41823,7 +41828,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3592
+#: server/cityturn.c:3593
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -41833,7 +41838,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3607
+#: server/cityturn.c:3608
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -41842,7 +41847,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:3614
+#: server/cityturn.c:3615
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -41851,7 +41856,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3619
+#: server/cityturn.c:3620
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -41859,26 +41864,26 @@ msgstr ""
 "Les émigrants de %s (%s) ne peuvent aller à %s car une construction y est "
 "nécessaire pour que la ville puisse se développer !"
 
-#: server/cityturn.c:3668
+#: server/cityturn.c:3669
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s a été démantelée par ses habitants."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:3706
+#: server/cityturn.c:3707
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Des émigrants de %s sont partis en quête d'une vie meilleure à %s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:3712
+#: server/cityturn.c:3713
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 "Des émigrants de %s sont partis en quête d'une vie meilleure à %s (%s)."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:3717
+#: server/cityturn.c:3718
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
@@ -41886,54 +41891,54 @@ msgstr ""
 
 # AR : problème de a/an
 #. TRANS: %s is a city name
-#: server/cityturn.c:3807
+#: server/cityturn.c:3808
 #, c-format
 msgid "All stored food destroyed in %s."
 msgstr "Toute la nourriture stockée à %s a été détruite."
 
 #. TRANS: Disasters such as Earthquake
-#: server/cityturn.c:3829
+#: server/cityturn.c:3830
 #, c-format
 msgid "%s was hit by %s."
 msgstr "%s a été atteinte par un(e) %s."
 
-#: server/cityturn.c:3843
+#: server/cityturn.c:3844
 #, c-format
 msgid "Fallout near %s."
 msgstr "Retombées près de %s."
 
 #. TRANS: "Industrial Accident destroys Bogota entirely."
-#: server/cityturn.c:3854
+#: server/cityturn.c:3855
 #, c-format
 msgid "%s destroys %s entirely."
 msgstr "%s détruit entièrement %s."
 
 #. TRANS: "Nuclear Accident ... Montreal."
-#: server/cityturn.c:3860
+#: server/cityturn.c:3861
 #, c-format
 msgid "%s causes population loss in %s."
 msgstr "%s a provoqué une perte de population à %s."
 
 #. TRANS: second %s is the name of a city improvement
-#: server/cityturn.c:3885
+#: server/cityturn.c:3886
 #, c-format
 msgid "%s destroys %s in %s."
 msgstr "%s a détruit %s à %s."
 
 #. TRANS: "Production of Colossus in Rhodes destroyed."
-#: server/cityturn.c:3910
+#: server/cityturn.c:3911
 #, c-format
 msgid "Production of %s in %s destroyed."
 msgstr "La production de %s a été détruite à %s."
 
-#: server/cityturn.c:4080
+#: server/cityturn.c:4081
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 "Des citoyens de %s envisagent d'émigrer vers %s en quête d'une vie meilleure."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:4102
+#: server/cityturn.c:4103
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -45341,7 +45346,7 @@ msgstr "Unités tuées\n"
 msgid "Unit Losses\n"
 msgstr "Unités perdues\n"
 
-#: server/rssanity.c:1436
+#: server/rssanity.c:1437
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
 msgstr ""
 "Désactivation de l'option 'barbarians' par manque de types d'unités "
@@ -45445,17 +45450,17 @@ msgstr "%s a été ajouté en tant que joueur humain."
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s avait une nation invalide ; prenons %s en replacement."
 
-#: server/savegame/savegame2.c:5218 server/savegame/savegame3.c:7541
+#: server/savegame/savegame2.c:5218 server/savegame/savegame3.c:7545
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s avait une technologie recherchée invalide."
 
-#: server/savegame/savegame2.c:5228 server/savegame/savegame3.c:7551
+#: server/savegame/savegame2.c:5228 server/savegame/savegame3.c:7555
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s avait un but technologique invalide."
 
-#: server/savegame/savegame2.c:5263 server/savegame/savegame3.c:7569
+#: server/savegame/savegame2.c:5263 server/savegame/savegame3.c:7573
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -52649,13 +52654,13 @@ msgstr "Capacités de Freeciv : %s"
 msgid "File capabilities: %s"
 msgstr "Capacités du fichier : %s"
 
-#: utility/shared.c:663
+#: utility/shared.c:679
 #, c-format
 msgid "Storage dir is \"%s\"."
 msgstr "Le répertoire de stockage est \"%s\"."
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
-#: utility/shared.c:878
+#: utility/shared.c:894
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
@@ -52663,7 +52668,7 @@ msgstr ""
 "seront utilisés à la place."
 
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:914
+#: utility/shared.c:930
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
@@ -52671,7 +52676,7 @@ msgstr ""
 "\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_SCENARIO_PATH> configuration error
-#: utility/shared.c:951
+#: utility/shared.c:967
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -52680,65 +52685,65 @@ msgstr ""
 "\" seront utilisés à la place."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1000
+#: utility/shared.c:1016
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Impossible de lire le répertoire de données %s : %s."
 
-#: utility/shared.c:1502
+#: utility/shared.c:1518
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s : Erreur fatale : vous essayez de m'exécuter en tant que super-"
 "utilisateur !\n"
 
-#: utility/shared.c:1504
+#: utility/shared.c:1520
 msgid "Use a non-privileged account instead.\n"
 msgstr "Utilisez plutôt un compte non privilégié.\n"
 
-#: utility/shared.c:1520
+#: utility/shared.c:1536
 msgid "exact match"
 msgstr "correspondance exacte"
 
-#: utility/shared.c:1521
+#: utility/shared.c:1537
 msgid "only match"
 msgstr "correspondance unique"
 
-#: utility/shared.c:1522
+#: utility/shared.c:1538
 msgid "ambiguous"
 msgstr "ambigu"
 
-#: utility/shared.c:1523
+#: utility/shared.c:1539
 msgid "empty"
 msgstr "vide"
 
-#: utility/shared.c:1524
+#: utility/shared.c:1540
 msgid "too long"
 msgstr "trop long"
 
-#: utility/shared.c:1525
+#: utility/shared.c:1541
 msgid "non-match"
 msgstr "pas de correspondance"
 
-#: utility/shared.c:1868
+#: utility/shared.c:1884
 msgid "day"
 msgid_plural "days"
 msgstr[0] "jour"
 msgstr[1] "jours"
 
-#: utility/shared.c:1873
+#: utility/shared.c:1889
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: utility/shared.c:1879
+#: utility/shared.c:1895
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minute"
 msgstr[1] "minutes"
 
-#: utility/shared.c:1885
+#: utility/shared.c:1901
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "seconde"
@@ -52753,6 +52758,15 @@ msgstr "erreur %ld (échec FormatMessage)"
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "erreur %d (compilation sans strerror)"
+
+#~ msgid "Requires that the unit is on a domestic tile."
+#~ msgstr "Nécessite que l'unité soit sur une case nationale."
+
+#~ msgid "Requires that the unit isn't on a domestic tile."
+#~ msgstr "Nécessite que l'unité ne soit pas sur une case nationale."
+
+#~ msgid "On domestic tile"
+#~ msgstr "Sur une case nationale"
 
 #~ msgid "NoAggressive"
 #~ msgstr "NonAggressif"
