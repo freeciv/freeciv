@@ -1489,6 +1489,36 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
                                     pcity, "have_diplrel");
         }
         break;
+      case VUT_DIPLREL_UNITANY:
+        if (preq->present) {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        /* TRANS: '%s' is a wide range of relationships;
+                         * e.g., 'Peace', 'Never met', 'Foreign',
+                         * 'Hosts embassy', 'Provided Casus Belli' */
+                        _("%s can't build %s from the worklist; "
+                          "unit with the relationship '%s' is required."
+                          "  Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        diplrel_name_translation(
+                          preq->source.value.diplrel));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "need_diplrel");
+        } else {
+          notify_player(pplayer, city_tile(pcity),
+                        E_CITY_CANTBUILD, ftc_server,
+                        _("%s can't build %s from the worklist; "
+                          "unit with the relationship '%s' is prohibited."
+                          "  Postponing..."),
+                        city_link(pcity),
+                        tgt_name,
+                        diplrel_name_translation(
+                          preq->source.value.diplrel));
+          script_server_signal_emit(signal_name, ptarget,
+                                    pcity, "have_diplrel");
+        }
+        break;
       case VUT_MINSIZE:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),

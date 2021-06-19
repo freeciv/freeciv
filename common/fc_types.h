@@ -754,6 +754,8 @@ typedef union {
 #define SPECENUM_VALUE45NAME "DiplRelTile"
 #define SPECENUM_VALUE46 VUT_DIPLREL_TILE_O
 #define SPECENUM_VALUE46NAME "DiplRelTileOther"
+#define SPECENUM_VALUE47 VUT_DIPLREL_UNITANY
+#define SPECENUM_VALUE47NAME "DiplRelUnitAny"
 /* Keep this last. */
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"
