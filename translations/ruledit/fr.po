@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv trunk\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-14 11:53+0200\n"
-"PO-Revision-Date: 2021-06-14 14:27+0200\n"
+"POT-Creation-Date: 2021-06-19 08:19+0200\n"
+"PO-Revision-Date: 2021-06-19 23:25+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:101
+#: tools/ruledit/conversion_log.cpp:41 tools/ruledit/effect_edit.cpp:111
 #: tools/ruledit/req_vec_fix.cpp:190 tools/ruledit/requirers_dlg.cpp:43
 #: tools/ruledit/req_edit.cpp:135
 msgid "Close"
@@ -27,34 +27,50 @@ msgstr "Fermer"
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Coût de construction"
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
 msgstr "Prérequis"
 
-#: tools/ruledit/effect_edit.cpp:74 tools/ruledit/req_edit.cpp:66
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr "Force d'attaque"
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
+msgstr "Force de défense"
+
+#: tools/ruledit/effect_edit.cpp:75 tools/ruledit/req_edit.cpp:66
 msgid "Type:"
 msgstr "Type :"
 
-#: tools/ruledit/effect_edit.cpp:88 tools/ruledit/req_edit.cpp:84
+#: tools/ruledit/effect_edit.cpp:89 tools/ruledit/req_edit.cpp:84
 msgid "Value:"
 msgstr "Valeur :"
 
-#: tools/ruledit/effect_edit.cpp:97 tools/ruledit/tab_building.cpp:90
+#: tools/ruledit/effect_edit.cpp:99 tools/ruledit/tab_building.cpp:90
 #: tools/ruledit/tab_extras.cpp:84 tools/ruledit/tab_good.cpp:85
 #: tools/ruledit/tab_gov.cpp:84 tools/ruledit/tab_multiplier.cpp:84
 msgid "Requirements"
 msgstr "Prérequis"
 
-#: tools/ruledit/effect_edit.cpp:174
+#: tools/ruledit/effect_edit.cpp:103
+msgid "Add Effect"
+msgstr "Ajouter un effet"
+
+#: tools/ruledit/effect_edit.cpp:107
+msgid "Delete Effect"
+msgstr "Supprimer un effet"
+
+#: tools/ruledit/effect_edit.cpp:184
 #, c-format
 msgid "Effect #%d: %s"
 msgstr "Effet #%d : %s"
 
-#: tools/ruledit/effect_edit.cpp:270
+#: tools/ruledit/effect_edit.cpp:280
 #, c-format
 msgid "%s effect #%d"
 msgstr "%s effet #%d"
@@ -624,29 +640,30 @@ msgstr "Supprimer prérequis"
 msgid "%s prevents"
 msgstr "%s empêche"
 
-#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:326
+#: tools/ruledit/validity.c:50 tools/ruledit/validity.c:330
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:120
-msgid "Action Enabler"
-msgstr "Activateur d'action"
+#: tools/ruledit/validity.c:122
+#, c-format
+msgid "%s action enabler"
+msgstr "Activateur d'action %s"
 
-#: tools/ruledit/validity.c:140
+#: tools/ruledit/validity.c:144
 msgid "Music Style"
 msgstr "Style de musique"
 
 #. TRANS: e.g. "Advance clause"
-#: tools/ruledit/validity.c:153
+#: tools/ruledit/validity.c:157
 #, c-format
 msgid "%s clause"
 msgstr "Clause %s"
 
-#: tools/ruledit/validity.c:271
+#: tools/ruledit/validity.c:275
 msgid "Conflicting extra"
 msgstr "Extra en conflit"
 
-#: tools/ruledit/validity.c:274
+#: tools/ruledit/validity.c:278
 msgid "Hidden extra"
 msgstr "Extra caché"
 
