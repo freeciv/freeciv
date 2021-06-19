@@ -870,7 +870,6 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   /* Look for hard coded war requirements without support for looking up in
    * an action enabler requirement. */
   switch (paction->result) {
-  case ACTRES_BOMBARD:
   case ACTRES_ATTACK:
     /* Target is a unit stack but a city can block it. */
     fc_assert_action(action_get_target_kind(paction) == ATK_UNITS, break);
@@ -934,6 +933,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_HEAL_UNIT:
   case ACTRES_STRIKE_BUILDING:
   case ACTRES_STRIKE_PRODUCTION:
+  case ACTRES_BOMBARD:
   case ACTRES_CONQUER_CITY:
   case ACTRES_TRANSFORM_TERRAIN:
   case ACTRES_CULTIVATE:
@@ -4180,21 +4180,6 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile,
             unit_rule_name(punit), TILE_XY(ptile));
 
   unit_list_iterate_safe(ptile->units, pdefender) {
-
-    /* Sanity checks */
-    fc_assert_ret_val_msg(!pplayers_non_attack(unit_owner(punit),
-                                               unit_owner(pdefender)),
-                          FALSE,
-                          "Trying to attack a unit with which you have "
-                          "peace or cease-fire at (%d, %d).",
-                          TILE_XY(unit_tile(pdefender)));
-    fc_assert_ret_val_msg(!pplayers_allied(unit_owner(punit),
-                                           unit_owner(pdefender)),
-                          FALSE,
-                          "Trying to attack a unit with which you have "
-                          "alliance at (%d, %d).",
-                          TILE_XY(unit_tile(pdefender)));
-
     if (is_unit_reachable_at(pdefender, punit, ptile)) {
       bool adj;
       enum direction8 facing;

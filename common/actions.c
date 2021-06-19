@@ -451,6 +451,24 @@ static void hard_code_oblig_hard_reqs(void)
                           ACTRES_ATTACK,
                           ACTRES_NONE);
 
+  /* Why this is a hard requirement: assumed by the Freeciv code. */
+  oblig_hard_req_reg(req_contradiction_or(
+                       2,
+                       req_from_values(VUT_DIPLREL_TILE_O,
+                                       REQ_RANGE_LOCAL,
+                                       FALSE, FALSE, TRUE, DS_WAR),
+                       TRUE,
+                       req_from_values(VUT_CITYTILE, REQ_RANGE_LOCAL,
+                                       FALSE, TRUE, TRUE,
+                                       CITYT_CENTER),
+                       TRUE),
+                     N_("All action enablers for %s must require"
+                        " that the actor is at war with the owner of the"
+                        " target tile or that the target tile doesn't have"
+                        " a city."),
+                     ACTRES_BOMBARD,
+                     ACTRES_NONE);
+
   /* Why this is a hard requirement: Keep the old rules. Need to work
    * out corner cases. */
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
@@ -3961,16 +3979,6 @@ is_action_possible(const action_id wanted_action,
 
     break;
 
-  case ACTRES_BOMBARD:
-    if (tile_city(target_tile)
-        && !pplayers_at_war(city_owner(tile_city(target_tile)),
-                            actor_player)) {
-      return TRI_NO;
-    }
-
-    break;
-
-
   case ACTRES_NUKE_UNITS:
     if (unit_attack_units_at_tile_result(actor_unit, paction, target_tile)
         != ATT_OK) {
@@ -4537,6 +4545,7 @@ is_action_possible(const action_id wanted_action,
   case ACTRES_SPY_INCITE_CITY:
   case ACTRES_SPY_SABOTAGE_UNIT:
   case ACTRES_STEAL_MAPS:
+  case ACTRES_BOMBARD:
   case ACTRES_SPY_NUKE:
   case ACTRES_NUKE:
   case ACTRES_DESTROY_CITY:
@@ -5993,8 +6002,7 @@ action_prob_vs_units_full(const struct unit* actor_unit,
     }
   }
 
-  if ((action_id_has_result_safe(act_id, ACTRES_ATTACK)
-       || action_id_has_result_safe(act_id, ACTRES_BOMBARD))
+  if ((action_id_has_result_safe(act_id, ACTRES_ATTACK))
       && tile_city(target_tile) != NULL
       && !pplayers_at_war(city_owner(tile_city(target_tile)),
                           unit_owner(actor_unit))) {
