@@ -798,6 +798,48 @@ static bool rel_may_become_war(const struct player *pplayer,
 }
 
 /**********************************************************************//**
+  Returns TRUE iff player1 declaring war on player2 is possible and would
+  result in a unit of the specified type belonging to player1 going
+  from being unable to do the specified action to player2 to being able to
+  perform it.
+**************************************************************************/
+static bool
+need_war_enabler(const struct unit_type *actor_utype,
+                 const struct action *paction,
+                 struct player *player1,
+                 struct player *player2,
+                 bool act_if_diplrel_kind(const struct unit_type *,
+                                          const action_id,
+                                          const int,
+                                          const bool))
+{
+  if (player2 == NULL) {
+    /* No one to declare war on */
+    return FALSE;
+  }
+
+  if (!rel_may_become_war(player1, player2)) {
+    /* Can't declare war. */
+    return FALSE;
+  }
+
+  if (act_if_diplrel_kind(actor_utype, paction->id,
+                          player_diplstate_get(player1,
+                                               player2)->type,
+                          TRUE)) {
+    /* The current diplrel isn't the problem. */
+    return FALSE;
+  }
+
+  if (!act_if_diplrel_kind(actor_utype, paction->id, DS_WAR, TRUE)) {
+    /* War won't make this action legal. */
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Returns the first player that may enable the specified action if war is
   declared.
 
@@ -978,32 +1020,27 @@ static struct player *need_war_player_hlp(const struct unit *actor,
     return NULL;
   }
 
-  if (!rel_may_become_war(actor_player, target_player)) {
-    /* Can't declare war. */
-    return NULL;
+  /* Look for DiplRelTileOther war requirements from the action enablers. */
+  if (need_war_enabler(unit_type_get(actor), paction,
+                       actor_player, tile_owner(target_tile),
+                       utype_can_act_if_tgt_diplrel_tile_other)) {
+    return tile_owner(target_tile);
   }
 
-  if (can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
-                                      act,
-                                      player_diplstate_get(actor_player,
-                                                           target_player)
-                                      ->type,
-                                      TRUE)) {
-    /* The current diplrel isn't a problem. */
-    return NULL;
+  /* Look for DiplRel war requirements from the action enablers. */
+  if (need_war_enabler(unit_type_get(actor), paction,
+                       actor_player, target_player,
+                       can_utype_do_act_if_tgt_diplrel)) {
+    return target_player;
   }
-  if (!can_utype_do_act_if_tgt_diplrel(unit_type_get(actor),
-                                       act, DS_WAR, TRUE)) {
-    /* War won't make this action legal. */
-    return NULL;
-  }
+
   /* No check if other, non war, diplomatic states also could make the
    * action legal. This is need_war_player() so war is always the answer.
    * If you disagree and decide to add support please check that
    * webperimental's "can't found a city on a tile belonging to a non enemy"
    * rule still is detected. */
 
-  return target_player;
+  return NULL;
 }
 
 /**********************************************************************//**
