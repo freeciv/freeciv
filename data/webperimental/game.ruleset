@@ -1184,9 +1184,9 @@ actor_reqs    =
       "MinMoveFrags",  "1",              "Local", TRUE
     }
 target_reqs    =
-    { "type",          "name",           "range", "present"
-      "UnitFlag",      "Expellable",     "Local", TRUE
-      "DiplRelTile",   "Foreign",        "Local", TRUE
+    { "type",             "name",        "range", "present"
+      "UnitFlag",         "Expellable",  "Local", TRUE
+      "DiplRelTileOther", "Foreign",     "Local", FALSE
     }
 
 ; The GameLoss unit requirement makes sending units on a suicide mission to
