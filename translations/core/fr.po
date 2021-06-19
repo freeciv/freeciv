@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-14 11:50+0200\n"
+"POT-Creation-Date: 2021-06-19 09:19+0200\n"
 "PO-Revision-Date: 2021-06-14 17:13+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -3741,12 +3741,12 @@ msgid "?play:Game"
 msgstr "Jeu"
 
 #: client/gui-gtk-2.0/editprop.c:869 client/gui-gtk-3.0/editprop.c:873
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2151
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2167
 msgid "TRUE"
 msgstr "VRAI"
 
 #: client/gui-gtk-2.0/editprop.c:869 client/gui-gtk-3.0/editprop.c:873
-#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2151
+#: client/gui-gtk-3.22/editprop.c:873 utility/shared.c:2167
 msgid "FALSE"
 msgstr "FAUX"
 
@@ -3869,7 +3869,7 @@ msgstr "ID"
 #: client/gui-gtk-3.22/pages.c:1393 client/gui-gtk-3.22/pages.c:2730
 #: client/gui-gtk-3.22/wldlg.c:1000 client/gui-qt/pages.cpp:314
 #: client/gui-qt/pages.cpp:643 tools/civmanual.c:513 tools/mpgui_gtk2.c:462
-#: tools/mpgui_gtk3.c:465 tools/mpgui_gtk4.c:475 tools/mpgui_qt.cpp:214
+#: tools/mpgui_gtk3.c:465 tools/mpgui_gtk4.c:472 tools/mpgui_qt.cpp:214
 msgid "Name"
 msgstr "Nom"
 
@@ -4393,7 +4393,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:271 client/gui-gtk-3.0/gui_main.c:274
 #: client/gui-gtk-3.22/gui_main.c:270 client/gui-qt/gui_main.cpp:127
 #: client/gui-sdl2/gui_main.c:173 common/fc_cmdhelp.c:139 tools/mpcli.c:115
-#: tools/mpgui_gtk2.c:578 tools/mpgui_gtk3.c:584 tools/mpgui_gtk4.c:629
+#: tools/mpgui_gtk2.c:578 tools/mpgui_gtk3.c:584 tools/mpgui_gtk4.c:626
 #: tools/mpgui_qt.cpp:102
 #, c-format
 msgid "Report bugs at %s\n"
@@ -5874,7 +5874,7 @@ msgstr "Port"
 #: client/gui-gtk-3.0/pages.c:1222 client/gui-gtk-3.0/pages.c:1267
 #: client/gui-gtk-3.22/pages.c:1223 client/gui-gtk-3.22/pages.c:1268
 #: client/gui-qt/pages.cpp:311 tools/mpgui_gtk2.c:467 tools/mpgui_gtk3.c:470
-#: tools/mpgui_gtk4.c:480 tools/mpgui_qt.cpp:214
+#: tools/mpgui_gtk4.c:477 tools/mpgui_qt.cpp:214
 msgid "Version"
 msgstr "Version"
 
@@ -6137,7 +6137,7 @@ msgstr "_Plus d'options..."
 #: client/gui-gtk-3.0/pages.c:2732 client/gui-gtk-3.0/unitselect.c:475
 #: client/gui-gtk-3.22/pages.c:2732 client/gui-gtk-3.22/unitselect.c:475
 #: client/gui-qt/pages.cpp:643 client/gui-qt/pages.cpp:1876
-#: tools/mpgui_gtk2.c:269 tools/mpgui_gtk3.c:267 tools/mpgui_gtk4.c:273
+#: tools/mpgui_gtk2.c:269 tools/mpgui_gtk3.c:267 tools/mpgui_gtk4.c:270
 #: tools/mpgui_qt_worker.cpp:54
 msgid "Ready"
 msgstr "Prêt"
@@ -16768,12 +16768,12 @@ msgid "FP:%d "
 msgstr "PA:%d "
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:718 data/civ1/game.ruleset:632 data/civ2/game.ruleset:860
+#: common/game.h:721 data/civ1/game.ruleset:632 data/civ2/game.ruleset:860
 msgid "AD"
 msgstr "ap.JC"
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:720 data/civ1/game.ruleset:634 data/civ2/game.ruleset:862
+#: common/game.h:723 data/civ1/game.ruleset:634 data/civ2/game.ruleset:862
 msgid "BC"
 msgstr "av.JC"
 
@@ -18127,7 +18127,9 @@ msgstr "Nécessite qu'il n'y ait aucun citoyen %s dans la ville."
 msgid ""
 "Requires that you have the relationship '%s' with at least one other living "
 "player."
-msgstr "Nécessite que vos relations diplomatiques avec au moins un autre joueur en vie soit '%s'."
+msgstr ""
+"Nécessite que vos relations diplomatiques avec au moins un autre joueur en "
+"vie soit '%s'."
 
 #: common/reqtext.c:1195
 #, c-format
@@ -18151,7 +18153,9 @@ msgstr ""
 msgid ""
 "Requires that nobody on your team has the relationship '%s' with any living "
 "player."
-msgstr "Nécessite qu'aucun coéquipier n'ait de relations diplomatiques de '%s' avec un autre joueur en vie."
+msgstr ""
+"Nécessite qu'aucun coéquipier n'ait de relations diplomatiques de '%s' avec "
+"un autre joueur en vie."
 
 #: common/reqtext.c:1219
 #, c-format
@@ -18193,7 +18197,9 @@ msgstr ""
 #, c-format
 msgid ""
 "Requires that you do not have the relationship '%s' with the other player."
-msgstr "Nécessite que vos relations diplomatiques avec l'autre joueur ne soient pas %s."
+msgstr ""
+"Nécessite que vos relations diplomatiques avec l'autre joueur ne soient pas "
+"%s."
 
 #. TRANS: %s is a single kind of unit (e.g., "Settlers").
 #: common/reqtext.c:1275
@@ -40568,19 +40574,19 @@ msgstr "Groupe"
 
 #. TRANS: Unknown modpack type
 #: tools/mpcli.c:67 tools/mpgui_gtk2.c:383 tools/mpgui_gtk3.c:383
-#: tools/mpgui_gtk4.c:391 tools/mpgui_qt.cpp:380
+#: tools/mpgui_gtk4.c:388 tools/mpgui_qt.cpp:380
 msgid "?"
 msgstr "?"
 
 #. TRANS: License of modpack is not known
 #: tools/mpcli.c:74 tools/mpgui_gtk2.c:390 tools/mpgui_gtk3.c:390
-#: tools/mpgui_gtk4.c:398 tools/mpgui_qt.cpp:387
+#: tools/mpgui_gtk4.c:395 tools/mpgui_qt.cpp:387
 msgid "?license:Unknown"
 msgstr "inconnue"
 
 #: tools/mpcli.c:79 tools/mpgui_gtk2.c:237 tools/mpgui_gtk2.c:395
-#: tools/mpgui_gtk3.c:236 tools/mpgui_gtk3.c:395 tools/mpgui_gtk4.c:242
-#: tools/mpgui_gtk4.c:403 tools/mpgui_qt.cpp:345 tools/mpgui_qt.cpp:392
+#: tools/mpgui_gtk3.c:236 tools/mpgui_gtk3.c:395 tools/mpgui_gtk4.c:239
+#: tools/mpgui_gtk4.c:400 tools/mpgui_qt.cpp:345 tools/mpgui_qt.cpp:392
 msgid "Not installed"
 msgstr "Pas installé"
 
@@ -40672,7 +40678,7 @@ msgstr "install URL"
 msgid "Automatically install modpack from a given URL"
 msgstr "Installer automatiquement les modpacks depuis l'URL donné"
 
-#: tools/mpgui_gtk2.c:107 tools/mpgui_gtk3.c:107 tools/mpgui_gtk4.c:115
+#: tools/mpgui_gtk2.c:107 tools/mpgui_gtk3.c:107 tools/mpgui_gtk4.c:112
 #: tools/mpgui_qt.cpp:479
 msgid ""
 "Modpack installation in progress.\n"
@@ -40681,16 +40687,16 @@ msgstr ""
 "Installation de modpack en cours.\n"
 "Voulez-vous vraiment quitter?"
 
-#: tools/mpgui_gtk2.c:293 tools/mpgui_gtk3.c:291 tools/mpgui_gtk4.c:297
+#: tools/mpgui_gtk2.c:293 tools/mpgui_gtk3.c:291 tools/mpgui_gtk4.c:294
 #: tools/mpgui_qt.cpp:308
 msgid "Another download already active"
 msgstr "Un autre téléchargement est déjà actif."
 
-#: tools/mpgui_gtk2.c:306 tools/mpgui_gtk3.c:304 tools/mpgui_gtk4.c:310
+#: tools/mpgui_gtk2.c:306 tools/mpgui_gtk3.c:304 tools/mpgui_gtk4.c:307
 msgid "Failed to start downloader"
 msgstr "Impossible de lancer le téléchargement."
 
-#: tools/mpgui_gtk2.c:452 tools/mpgui_gtk3.c:455 tools/mpgui_gtk4.c:465
+#: tools/mpgui_gtk2.c:452 tools/mpgui_gtk3.c:455 tools/mpgui_gtk4.c:462
 #: tools/mpgui_qt.cpp:201
 #, c-format
 msgid ""
@@ -40700,48 +40706,48 @@ msgstr ""
 "%s%s\n"
 "commit : %s"
 
-#: tools/mpgui_gtk2.c:472 tools/mpgui_gtk3.c:475 tools/mpgui_gtk4.c:485
+#: tools/mpgui_gtk2.c:472 tools/mpgui_gtk3.c:475 tools/mpgui_gtk4.c:482
 #: tools/mpgui_qt.cpp:215
 msgid "Installed"
 msgstr "Installé"
 
-#: tools/mpgui_gtk2.c:477 tools/mpgui_gtk3.c:480 tools/mpgui_gtk4.c:490
+#: tools/mpgui_gtk2.c:477 tools/mpgui_gtk3.c:480 tools/mpgui_gtk4.c:487
 #: tools/mpgui_qt.cpp:215
 msgid "?modpack:Type"
 msgstr "Type"
 
-#: tools/mpgui_gtk2.c:483 tools/mpgui_gtk3.c:486 tools/mpgui_gtk4.c:496
+#: tools/mpgui_gtk2.c:483 tools/mpgui_gtk3.c:486 tools/mpgui_gtk4.c:493
 #: tools/mpgui_qt.cpp:216
 msgid "Subtype"
 msgstr "Sous-type"
 
 #. TRANS: noun
-#: tools/mpgui_gtk2.c:490 tools/mpgui_gtk3.c:493 tools/mpgui_gtk4.c:503
+#: tools/mpgui_gtk2.c:490 tools/mpgui_gtk3.c:493 tools/mpgui_gtk4.c:500
 #: tools/mpgui_qt.cpp:216
 msgid "License"
 msgstr "Licence"
 
-#: tools/mpgui_gtk2.c:495 tools/mpgui_gtk3.c:498 tools/mpgui_gtk4.c:508
+#: tools/mpgui_gtk2.c:495 tools/mpgui_gtk3.c:498 tools/mpgui_gtk4.c:505
 #: tools/mpgui_qt.cpp:217
 msgid "URL"
 msgstr "URL"
 
-#: tools/mpgui_gtk2.c:501 tools/mpgui_gtk3.c:504 tools/mpgui_gtk4.c:514
+#: tools/mpgui_gtk2.c:501 tools/mpgui_gtk3.c:504 tools/mpgui_gtk4.c:511
 #: tools/mpgui_qt.cpp:189
 msgid "Install modpack"
 msgstr "Installation du modpack"
 
-#: tools/mpgui_gtk2.c:507 tools/mpgui_gtk3.c:512 tools/mpgui_gtk4.c:519
+#: tools/mpgui_gtk2.c:507 tools/mpgui_gtk3.c:512 tools/mpgui_gtk4.c:516
 #: tools/mpgui_qt.cpp:186
 msgid "Modpack URL"
 msgstr "URL du modpack"
 
-#: tools/mpgui_gtk2.c:524 tools/mpgui_gtk3.c:529 tools/mpgui_gtk4.c:535
+#: tools/mpgui_gtk2.c:524 tools/mpgui_gtk3.c:529 tools/mpgui_gtk4.c:532
 #: tools/mpgui_qt.cpp:256
 msgid "Select modpack to install"
 msgstr "Choisissez le modpack à installer"
 
-#: tools/mpgui_gtk2.c:574 tools/mpgui_gtk3.c:580 tools/mpgui_gtk4.c:625
+#: tools/mpgui_gtk2.c:574 tools/mpgui_gtk3.c:580 tools/mpgui_gtk4.c:622
 msgid ""
 "This modpack installer accepts the standard Gtk command-line options\n"
 "after '--'. See the Gtk documentation.\n"
@@ -40759,7 +40765,7 @@ msgstr "Installateur de modpack de Freeciv (gtk2)"
 msgid "Freeciv modpack installer (gtk3)"
 msgstr "Installateur de modpack de Freeciv (gtk3)"
 
-#: tools/mpgui_gtk4.c:579
+#: tools/mpgui_gtk4.c:576
 msgid "Freeciv modpack installer (gtk4)"
 msgstr "Installateur de modpack de Freeciv (gtk4)"
 
@@ -44817,12 +44823,12 @@ msgstr ""
 msgid "%s has been added as human player."
 msgstr "%s a été ajouté en tant que joueur humain."
 
-#: server/legacysave.c:4154 server/savegame2.c:5164 server/savegame3.c:7053
+#: server/legacysave.c:4154 server/savegame2.c:5164 server/savegame3.c:7057
 #, c-format
 msgid "%s had invalid researching technology."
 msgstr "%s avait une technologie recherchée invalide."
 
-#: server/legacysave.c:4165 server/savegame2.c:5174 server/savegame3.c:7063
+#: server/legacysave.c:4165 server/savegame2.c:5174 server/savegame3.c:7067
 #, c-format
 msgid "%s had invalid technology goal."
 msgstr "%s avait un but technologique invalide."
@@ -45703,7 +45709,7 @@ msgid "Failed to load ruleset '%s' needed for savegame."
 msgstr ""
 "Impossible de charger les règles du jeu '%s', nécessaires pour la sauvegarde."
 
-#: server/savegame2.c:5199 server/savegame3.c:7081
+#: server/savegame2.c:5199 server/savegame3.c:7085
 #, c-format
 msgid ""
 "%s has multiple units of type %s though it should be possible to have only "
@@ -52673,13 +52679,13 @@ msgstr "Capacités de Freeciv : %s"
 msgid "File capabilities: %s"
 msgstr "Capacités du fichier : %s"
 
-#: utility/shared.c:663
+#: utility/shared.c:679
 #, c-format
 msgid "Storage dir is \"%s\"."
 msgstr "Le répertoire de stockage est \"%s\"."
 
 #. TRANS: <FREECIV_DATA_PATH> configuration error
-#: utility/shared.c:878
+#: utility/shared.c:894
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" data directories instead."
 msgstr ""
@@ -52687,7 +52693,7 @@ msgstr ""
 "seront utilisés à la place."
 
 #. TRANS: <FREECIV_SAVE_PATH> configuration error
-#: utility/shared.c:914
+#: utility/shared.c:930
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" save directories instead."
 msgstr ""
@@ -52695,7 +52701,7 @@ msgstr ""
 "\" seront utilisés à la place."
 
 #. TRANS: <FREECIV_SCENARIO_PATH> configuration error
-#: utility/shared.c:951
+#: utility/shared.c:967
 #, c-format
 msgid ""
 "\"%s\" is set but empty; using default \"%s\" scenario directories instead."
@@ -52704,65 +52710,65 @@ msgstr ""
 "\" seront utilisés à la place."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1000
+#: utility/shared.c:1016
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Impossible de lire le répertoire de données %s : %s."
 
-#: utility/shared.c:1502
+#: utility/shared.c:1518
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s : Erreur fatale : vous essayez de m'exécuter en tant que super-"
 "utilisateur !\n"
 
-#: utility/shared.c:1504
+#: utility/shared.c:1520
 msgid "Use a non-privileged account instead.\n"
 msgstr "Utilisez plutôt un compte non privilégié.\n"
 
-#: utility/shared.c:1520
+#: utility/shared.c:1536
 msgid "exact match"
 msgstr "correspondance exacte"
 
-#: utility/shared.c:1521
+#: utility/shared.c:1537
 msgid "only match"
 msgstr "correspondance unique"
 
-#: utility/shared.c:1522
+#: utility/shared.c:1538
 msgid "ambiguous"
 msgstr "ambigu"
 
-#: utility/shared.c:1523
+#: utility/shared.c:1539
 msgid "empty"
 msgstr "vide"
 
-#: utility/shared.c:1524
+#: utility/shared.c:1540
 msgid "too long"
 msgstr "trop long"
 
-#: utility/shared.c:1525
+#: utility/shared.c:1541
 msgid "non-match"
 msgstr "pas de correspondance"
 
-#: utility/shared.c:1868
+#: utility/shared.c:1884
 msgid "day"
 msgid_plural "days"
 msgstr[0] "jour"
 msgstr[1] "jours"
 
-#: utility/shared.c:1873
+#: utility/shared.c:1889
 msgid "hour"
 msgid_plural "hours"
 msgstr[0] "heure"
 msgstr[1] "heures"
 
-#: utility/shared.c:1879
+#: utility/shared.c:1895
 msgid "minute"
 msgid_plural "minutes"
 msgstr[0] "minute"
 msgstr[1] "minutes"
 
-#: utility/shared.c:1885
+#: utility/shared.c:1901
 msgid "second"
 msgid_plural "seconds"
 msgstr[0] "seconde"

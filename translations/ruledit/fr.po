@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 3.0\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-05 14:36+0200\n"
-"PO-Revision-Date: 2021-04-19 01:27+0200\n"
+"POT-Creation-Date: 2021-06-19 08:16+0200\n"
+"PO-Revision-Date: 2021-06-19 23:26+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "Language: fr\n"
@@ -26,13 +26,21 @@ msgstr "Fermer"
 msgid "Old ruleset to a new format"
 msgstr "Anciennes règles du jeu vers un nouveau format"
 
-#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:63
+#: tools/ruledit/edit_impr.cpp:46 tools/ruledit/edit_utype.cpp:64
 msgid "Build Cost"
 msgstr "Coût de construction"
 
-#: tools/ruledit/edit_utype.cpp:48
+#: tools/ruledit/edit_utype.cpp:49
 msgid "Requirement"
 msgstr "Prérequis"
+
+#: tools/ruledit/edit_utype.cpp:74
+msgid "Attack Strength"
+msgstr "Force d'attaque"
+
+#: tools/ruledit/edit_utype.cpp:84
+msgid "Defense Strength"
+msgstr "Force de défense"
 
 #. TRANS: Trying to fix a requirement vector problem but can't find
 #. * any.
@@ -564,19 +572,20 @@ msgstr "%s empêche"
 msgid "Effect"
 msgstr "Effet"
 
-#: tools/ruledit/validity.c:120
-msgid "Action Enabler"
-msgstr "Activateur d'action"
+#: tools/ruledit/validity.c:122
+#, c-format
+msgid "%s action enabler"
+msgstr "Activateur d'action %s"
 
-#: tools/ruledit/validity.c:140
+#: tools/ruledit/validity.c:144
 msgid "Music Style"
 msgstr "Style de musique"
 
-#: tools/ruledit/validity.c:254
+#: tools/ruledit/validity.c:258
 msgid "Conflicting extra"
 msgstr "Extra en conflit"
 
-#: tools/ruledit/validity.c:257
+#: tools/ruledit/validity.c:261
 msgid "Hidden extra"
 msgstr "Extra caché"
 
