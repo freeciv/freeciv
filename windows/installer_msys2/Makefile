@@ -30,6 +30,12 @@ ifeq ($(MAKE_PARAMS),)
 MAKE_PARAMS="-j$(shell nproc)"
 endif
 
+ifeq ($(MOCCMD),)
+QT6_MOCCMD="/$(ARCHDIR)/share/qt6/bin/moc.exe"
+else
+QT6_MOCCMD="$(MOCCMD)"
+endif
+
 INSTSUB=${ARCHDIR}
 
 # msys2 has dlls in...
@@ -53,12 +59,20 @@ qt-installer: qt5-installer
 qt5-installer:
 	make GUI=qt5 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" wrap-qt5
 
+qt6-installer:
+	make GUI=qt6 CLIENT=qt FCMP=qt EXTRA_CONFIG="--with-qt6 --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-qt6
+
 ruledit-installer: ruledit-installer-qt5
 
 ruledit-installer-qt5:
 	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
 	# of escapes, needed for snapshot builds.
 	make EXTRA_CONFIG="$(EXTRA_CONFIG)" wrap-ruledit-qt5
+
+ruledit-installer-qt6:
+	# EXTRA_CONFIG="$(EXTRA_CONFIG)" *does* make a difference - it unwraps one layer
+	# of escapes, needed for snapshot builds.
+	make EXTRA_CONFIG="$(EXTRA_CONFIG)" MOCCMD="$(QT6_MOCCMD)" wrap-ruledit-qt6
 
 # Autogen.sh here will make ./win_arch.sh to work.
 # The $(WINARCH) value we got for this run is not good. The new run
@@ -84,6 +98,12 @@ configure-freeciv-ruledit-qt5:
 	mkdir -p build-$(WINARCH)-ruledit-qt5
 	# configure
 	cd build-$(WINARCH)-ruledit-qt5; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt5-includes=/$(ARCHDIR)/include --with-qt5-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
+
+configure-freeciv-ruledit-qt6:
+	# create build directory
+	mkdir -p build-$(WINARCH)-ruledit-qt6
+	# configure
+	cd build-$(WINARCH)-ruledit-qt6; ../../../configure FREECIV_LABEL_FORCE="<base>-msys2" CPPFLAGS="-D_WIN32_WINNT=$(MIN_WIN_VER)" --with-qt6 --disable-client --disable-server --disable-fcmp --disable-freeciv-manual --disable-sys-lua --enable-ruledit --enable-ai-static=stub --with-cacert-path="./ssl/certs/ca-bundle.crt" --with-qt6-includes=/$(ARCHDIR)/include/qt6 --with-qt6-libs=/$(ARCHDIR)/lib $(EXTRA_CONFIG)
 
 # install Freeciv
 
@@ -120,8 +140,16 @@ install-freeciv-qt5: install-freeciv-common
 	strip install-$(WINARCH)-$(GUI)/freeciv-ruledit.exe
 	cp freeciv-ruledit.cmd install-$(WINARCH)-$(GUI)/
 
+install-freeciv-qt6: install-freeciv-common
+	# strip 'freeciv-ruledit' executable
+	strip install-$(WINARCH)-$(GUI)/freeciv-ruledit.exe
+	cp freeciv-ruledit.cmd install-$(WINARCH)-$(GUI)/
+
 install-ruledit-dir-qt5:
 	mkdir -p install-$(WINARCH)-ruledit-qt5/share
+
+install-ruledit-dir-qt6:
+	mkdir -p install-$(WINARCH)-ruledit-qt6/share
 
 install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 	# make langstat files
@@ -144,6 +172,28 @@ install-ruledit-qt5: configure-freeciv-ruledit-qt5 install-ruledit-dir-qt5
 	strip install-$(WINARCH)-ruledit-qt5/freeciv-ruledit.exe
 	# add start menu files
 	cp freeciv-ruledit.cmd Freeciv.url install-$(WINARCH)-ruledit-qt5/
+
+install-ruledit-qt6: configure-freeciv-ruledit-qt6 install-ruledit-dir-qt6
+	# make langstat files
+	make -C build-$(WINARCH)-ruledit-qt6/translations/ruledit update-po
+	make -C build-$(WINARCH)-ruledit-qt6/bootstrap langstat_ruledit.txt
+	# make install
+	make -C build-$(WINARCH)-ruledit-qt6 DESTDIR=`pwd`/install-$(WINARCH)-ruledit-qt6/ $(MAKE_PARAMS) install
+	# reorder directory layout
+	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/bin/* install-$(WINARCH)-ruledit-qt6/
+	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/freeciv install-$(WINARCH)-ruledit-qt6/data
+	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/locale install-$(WINARCH)-ruledit-qt6/share/
+	mv install-$(WINARCH)-ruledit-qt6/$(INSTSUB)/share/doc install-$(WINARCH)-ruledit-qt6/doc
+	mkdir -p install-$(WINARCH)-ruledit-qt6/debuginfo
+	cp build-$(WINARCH)-ruledit-qt6/gen_headers/fc_config.h install-$(WINARCH)-ruledit-qt6/debuginfo
+	mkdir -p install-$(WINARCH)-ruledit-qt6/doc/freeciv/installer
+	cp licenses/COPYING.installer install-$(WINARCH)-ruledit-qt6/doc/freeciv/installer/
+	# delete unneeded files
+	rm -r install-$(WINARCH)-ruledit-qt6/$(INSTSUB)
+	# strip 'freeciv-ruledit' executable
+	strip install-$(WINARCH)-ruledit-qt6/freeciv-ruledit.exe
+	# add start menu files
+	cp freeciv-ruledit.cmd Freeciv.url install-$(WINARCH)-ruledit-qt6/
 
 # install Freeciv environment
 
@@ -301,6 +351,19 @@ install-env-qt5: install-env-common
 	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
 	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
 
+QT6_DLLS := \
+	libicuin68.dll \
+	libicuuc68.dll \
+	libicudt68.dll
+
+install-env-qt6: install-env-common
+	# add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT6_DLLS)) install-$(WINARCH)-$(GUI)/
+	# add additional Qt6 files
+	cp -R /$(ARCHDIR)/share/qt6/plugins install-$(WINARCH)-$(GUI)/
+	cp -R /$(ARCHDIR)/share/locale install-$(WINARCH)-$(GUI)/share/
+	find install-$(WINARCH)-$(GUI)/share/locale -type f -not -name "freeciv*.mo" -delete
+
 RULEDIT_QT5_DLLS := \
         libstdc++-6.dll \
 	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
@@ -359,6 +422,64 @@ install-env-ruledit-qt5:
 	cp -R /usr/share/locale install-$(WINARCH)-ruledit-qt5/share/
 	find install-$(WINARCH)-ruledit-qt5/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
 
+RULEDIT_QT6_DLLS := \
+        libstdc++-6.dll \
+	libcrypto-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libpsl-5.dll \
+	libssl-1_1${CRYPTOLIB_SUFFIX}.dll \
+	libidn2-0.dll \
+	libnghttp2-14.dll \
+	libssh2-1.dll \
+	libcurl-4.dll \
+	libgmp-10.dll \
+	libp11-kit-0.dll \
+	libtasn1-6.dll \
+	libatk-1.0-0.dll \
+	libbz2-1.dll \
+	libcairo-2.dll \
+	libcairo-gobject-2.dll \
+	libffi-7.dll \
+	libfontconfig-1.dll \
+	libfreetype-6.dll \
+	$(LIBGCCDLL) \
+	libglib-2.0-0.dll \
+	libgdk_pixbuf-2.0-0.dll \
+	libgio-2.0-0.dll \
+	libiconv-2.dll \
+	libintl-8.dll \
+	liblzma-5.dll \
+	libpango-1.0-0.dll \
+	libpangocairo-1.0-0.dll \
+	libpangowin32-1.0-0.dll \
+	libpixman-1-0.dll \
+	libpng16-16.dll \
+	libxml2-2.dll \
+	zlib1.dll \
+	libwinpthread-1.dll \
+	libgraphite2.dll \
+	libpcre-1.dll \
+	libdouble-conversion.dll \
+	libzstd.dll \
+	libMagickWand-7.Q16HDRI-7.dll \
+	libMagickCore-7.Q16HDRI-7.dll \
+	libgomp-1.dll \
+	libfftw3-3.dll \
+	liblcms2-2.dll \
+	liblqr-1-0.dll \
+	libltdl-7.dll \
+	libraqm-0.dll \
+	libexpat-1.dll \
+	libfribidi-0.dll
+
+install-env-ruledit-qt6:
+	# add DLLs
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(RULEDIT_QT6_DLLS)) install-$(WINARCH)-ruledit-qt6/
+	cp -R $(addprefix $(DLLPATH_PREFIX), $(QT6_DLLS)) install-$(WINARCH)-ruledit-qt6/
+	# add additional Qt files
+	cp -R /$(ARCHDIR)/share/qt6/plugins install-$(WINARCH)-ruledit-qt6/
+	cp -R /usr/share/locale install-$(WINARCH)-ruledit-qt6/share/
+	find install-$(WINARCH)-ruledit-qt6/share/locale -type f -not -name "freeciv-ruledit.mo" -delete
+
 # build installer
 
 installer-common: clean-install-common install-freeciv-$(GUI) install-env-$(GUI)
@@ -379,14 +500,26 @@ installer-ruledit-qt5: clean-install-ruledit-qt5 install-ruledit-qt5 install-env
 	mkdir -p Output
 	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt5.nsi
 
+installer-ruledit-qt6: clean-install-ruledit-qt6 install-ruledit-qt6 install-env-ruledit-qt6
+	# extract Freeciv version
+	$(eval FREECIV_VERSION := $(shell ../../fc_version))
+	# create NSIS script
+	./create-freeciv-ruledit-nsi.sh install-$(WINARCH)-ruledit-qt6 $(FREECIV_VERSION) $(WINARCH) > Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
+	# create installer executable
+	mkdir -p Output
+	makensis Freeciv-$(WINARCH)-$(FREECIV_VERSION)-ruledit-qt6.nsi
+
 wrap-gtk3.22: installer-common
 
 wrap-sdl2: installer-common
 
 wrap-qt5: installer-common
 
+wrap-qt6: installer-common
+
 wrap-ruledit-qt5: installer-ruledit-qt5
 
+wrap-ruledit-qt6: installer-ruledit-qt6
 
 # cleanup
 
@@ -396,12 +529,19 @@ clean-build-common:
 clean-build-ruledit-qt5:
 	rm -rf build-*-ruledit-qt5
 
+clean-build-ruledit-qt6:
+	rm -rf build-*-ruledit-qt6
+
 clean-install-common:
 	rm -rf install-*-$(GUI)
 	./cleanup_checkout.sh ../..
 
 clean-install-ruledit-qt5:
 	rm -rf install-*-ruledit-qt5
+	./cleanup_checkout.sh ../..
+
+clean-install-ruledit-qt6:
+	rm -rf install-*-ruledit-qt6
 	./cleanup_checkout.sh ../..
 
 clean-installer-common:
@@ -412,8 +552,13 @@ clean-installer-ruledit-qt5:
 	rm -f Output/Freeciv-ruledit-*-setup.exe
 	rm -f Freeciv-*-ruledit-qt5.nsi
 
+clean-installer-ruledit-qt6:
+	rm -f Output/Freeciv-ruledit-*-setup.exe
+	rm -f Freeciv-*-ruledit-qt6.nsi
+
 clean:
 	make GUI=gtk3.22 clean-build-common clean-install-common clean-installer-common
 	make GUI=sdl2 clean-build-common clean-install-common clean-installer-common
 	make GUI=qt5 clean-build-common clean-install-common clean-installer-common
 	make clean-build-ruledit-qt5 clean-install-ruledit-qt5 clean-installer-ruledit-qt5
+	make clean-build-ruledit-qt6 clean-install-ruledit-qt6 clean-installer-ruledit-qt6
