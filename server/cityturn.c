@@ -1490,6 +1490,7 @@ static bool worklist_item_postpone_req_vec(struct universal *target,
         }
         break;
       case VUT_DIPLREL_UNITANY:
+      case VUT_DIPLREL_UNITANY_O:
         if (preq->present) {
           notify_player(pplayer, city_tile(pcity),
                         E_CITY_CANTBUILD, ftc_server,
