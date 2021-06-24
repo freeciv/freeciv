@@ -72,7 +72,7 @@ jobs:
             sdl2_image \
             sdl2_mixer \
             sdl2_ttf \
-            qt@5
+            qt@6
       - name: build
         shell: bash
         run: ./scripts/ci-build.sh os_x
