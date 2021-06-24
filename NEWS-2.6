@@ -7,6 +7,163 @@ For changes prior to 2.6, see NEWS. For more detailed changes,
 see the ChangeLog file.
 
 
+CHANGES FROM 2.6.4 to 2.6.5
+---------------------------
+
+   (from <http://www.freeciv.org/wiki/NEWS-2.6.5>, 2021-06-24)
+
+2.6.5 is a bugfix release. Notably it fixes regression in 2.6.4 gtk3-client that present units in city dialog had no overlays drawn at all.
+
+Server / General
+Changes affecting players (supplied rulesets)
+
+    * Allow goto to a moving transport (but not through one) HRM#647612
+    * Less predictable random seed supported on more platforms
+        + On experimental msys2 based builds on Windows.
+          Msys1 environment used for the official Windows builds
+          does not provide interfaces required for this support
+          osdn#41842 osdn#41995 osdn#42000
+        + Older Linux osdn#41918 osdn#42024
+    * Air unit goto avoids wait for refuel when it's not necessary
+      HRM#923677 osdn#42029
+    * Server does not send city info to clients in the middle of
+      calculations where the info might be inconsistent osdn#41851 osdn#41975
+    * Already built buildings are purged from the worklist.
+      They used to be just postponed osdn#41925
+    * Terrain changing unit activities are cancelled when climate change
+      changes tile terrain. With the new terrain the target of those actions
+      is not what was started HRM#899919
+    * Avoid endless loop with scenarios having bad starting positions HRM#767127
+    * Server correctly informs client when loading a savegame fails.
+      It used to always claim that load was succesfull to the client osdn#42189
+    * Game refuses paradropping to a tile with known enemy unit as
+      that would only be certain death for the paradropping unit HRM#869995
+    * Fixed a bug that when player providing shared vision was removed,
+      the vision would remain for the other players HRM#883225
+    * Corrected bribe cost of units with build cost not multiple of ten.
+      Especially this makes bribe cost of units with build cost
+      less than ten not to be zero. HRM#929034
+    * Avoid server getting stuck when loading ruleset that has unit
+      obsoletion loop osdn#42301
+
+    * civ1
+        + Made traderoute one-time-bonus gold only osdn#42317
+
+Changes affecting other rulesets / modders
+
+    * When calculating action success chance, surviving tech requirements
+      on World range are known to be known by everyone HRM#922369
+    * Fixed scorelog start check to work correctly with ruleset set
+      start year other than default HRM#820731
+    * Fixed server crash when illness destroys a city. That can happen only
+      with rulesets that enable illness for size 1 cities osdn#41959
+    * Server now checks that unit's transport can hold the target unit
+      before converting unit HRM#921940
+    * Terrain transform time of zero now really disables transforming,
+      as documented osdn#42120
+
+General
+
+    * Minor optimizations HRM#921195 osdn#42331
+    * Various internal changes which should only affect developers
+      osdn#41764 osdn#41852 HRM#923660 osdn#41772 osdn#41873 osdn#41847
+      osdn#41953 osdn#42006 osdn#41937 osdn#42098 osdn#42045 osdn#42053
+      osdn#42101 osdn#42117 osdn#42142 osdn#42192 osdn#42346 osdn#42325
+      osdn#42043 osdn#41947 osdn#42340 HRM#909607 osdn#42421 osdn#42461
+      osdn#42456
+
+AI
+
+    * Better air unit handling HRM#924327
+    * Better evaluate value of transports filled with cargo for
+      the invasion attempt HRM#872215
+    * AI puts more weight on potential improvement's gold effect
+      (including upkeep) when it's short of gold osdn#42195
+    * Corrected actual AI's use of advisor when it's evaluating governments
+      osdn#42231
+    * Stopped fueled units from unnecessary hopping between bases
+      when they should regenerate HRM#924328
+    * Fixed rare AI crash when tech upkeep was enabled and a player had
+      researched zero techs osdn#42409
+
+Clients
+
+    * User is now allowed to open a new action selection dialog while
+      another is open osdn#41920
+    * Fixed a governor crash when client does not know the other end
+      of the trade route, but thinks it knows it osdn#41926
+    * Buildings that allow units to perform actions are no longer
+      shown as redundant osdn#41955
+    * Client now logs about start of new turn on verbose log level osdn#41973
+    * Don't promise that there's a one time trade bonus when there is not
+      osdn#42087
+    * Improved indentation of entries in the left panel of the city dialog
+      osdn#42298
+
+    * gtk3 & gtk3.22
+        + Make sure scrollbar does not hide rightmost column in units and
+          economy reports osdn#42167
+        + (gtk3 only) Use proper overlays for units in citydlg
+          present units area osdn#42284
+        + (gtk3.22 only) Get information from correct display on multi-display
+          setup when user interacts with city's improvement list.
+          It used to always assume default display. osdn#42183
+        + (gtk3.22 only) Made tab notice color different from alert color osdn#42295
+        + Fixed pillaging of the default target osdn#42168
+        + Fixed loading unit to the default transport osdn#42303
+
+    * sdl2
+        + Fixed screen refreshing when there's no active units osdn#41683
+
+Tools
+Ruledit
+
+    * Support editing Description File Reference osdn#41946
+    * Other minor fixes osdn#41945
+
+Tilesets, Art, etc
+
+    * Visible_Walls effects from City Walls and Great Wall are no longer
+      cumulative in supplied rulesets, better supporting potential
+      tilesets with multiple Wall graphics HRM#823341
+    * Fix to hexemplio format osdn#41923
+
+Help / Documentation
+
+    * Freenode network has been replaced by Libera.Chat network as
+      the official freeciv IRC channel osdn#42541
+    * Made man page links to work in MacOS osdn#42178
+    * Added man page freeciv osdn#42138
+    * Miscellaneous improvements to in-game text and user documentation
+      HRM#811425 osdn#41969 HRM#727155 osdn#41938 osdn#42260 osdn#42207
+      osdn#42337 osdn#42119
+    * Miscellaneous changes to developer/install/ruleset docs
+      osdn#41833 osdn#41887 osdn#41998 osdn#41943 osdn#42071 osdn#42017
+      osdn#42049 osdn#42061 osdn#42126 osdn#42217 osdn#42405 osdn#42373
+      osdn#42411
+
+Translations
+
+    * Updated translations: Catalan, Finnish, French, Russian, Polish
+
+Build/portability
+
+    * Updated bootstrap files from gnulib upstream
+      osdn#41726 osdn#41758 osdn#41754 osdn#41818 osdn#41830 osdn#41889
+      osdn#41906 osdn#41999 osdn#42034
+    * Make sure that freeciv's configuration header does not cause trouble
+      when building liblua as part of freeciv. Problems were reported
+      specifically in MacOS build. By default liblua is not built,
+      but existing library is used from the system. osdn#42114
+    * Fixed MacOS build problem where files documenting Version of dependencies
+      was mistaken for a system header osdn#42271
+    * Respect user set MOCCMD on MacOS build osdn#42342
+    * Fixed build on older OSX versions osdn#42439
+    * Fixed compiler warnings seen with various setups
+      osdn#41905 osdn#41932 osdn#41933 osdn#41890 osdn#42021 osdn#42036 osdn#42058
+    * Fixed false positive when configure looks for moc-qt5 command osdn#41997
+
+
 CHANGES FROM 2.6.3 to 2.6.4
 ---------------------------
 
