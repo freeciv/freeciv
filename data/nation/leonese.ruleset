@@ -1,9 +1,9 @@
 [nation_leonese]
 
-name=_("Leonese")
-plural=_("?plural:Leonese")
-groups="European", "Medieval"
-legend=_("Leon was a medieval kingdom in the northwestern part of the\
+name   = _("Leonese")
+plural = _("?plural:Leonese")
+groups = "European", "Medieval"
+legend = _("Leon was a medieval kingdom in the northwestern part of the\
  Iberian peninsula. Currently Leon is part of the Spanish autonomous\
  community of Castile and Leon.")
 
@@ -22,15 +22,15 @@ ruler_titles = {
  "Fundamentalism", _("Bishop %s"), _("Mother Superior %s")
 }
 
-flag="leon"
+flag = "leon"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-civilwar_nations="asturian", "galician", "castilian"
+civilwar_nations = "asturian", "galician", "castilian"
 
 cities =
  "Llión",
@@ -85,4 +85,3 @@ cities =
  "San Xustu de la Veiga",
  "Valdeiras",
  "Valdefreisnu"
-

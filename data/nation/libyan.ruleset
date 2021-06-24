@@ -1,9 +1,9 @@
 [nation_libyan]
 
-name=_("Libyan")
-plural=_("?plural:Libyans")
-groups="Modern", "African"
-legend=_("The region that is now Libya was a Roman colony until it was\
+name   = _("Libyan")
+plural = _("?plural:Libyans")
+groups = "Modern", "African"
+legend = _("The region that is now Libya was a Roman colony until it was\
  conquered by the Arab civilization in the 7th century. In 1912 it came\
  under the control of Italy and after the Second World War Libya was granted\
  independence as a condition of the Allied peace treaty with Italy.")
@@ -23,17 +23,18 @@ ruler_titles = {
  "Despotism",        _("%s Dey"),         _("?female:%s Dey")
 }
 
-flag ="libya"
+flag = "libya"
 flag_alt = "libya_old"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "cyrenaican"
 
 cities =
- "Tarabulus",	; Also known as "Tripoli"
+ "Tarabulus",   ; Also known as "Tripoli"
  "Binghazi",
  "Tubruq",
  "Zuwara",

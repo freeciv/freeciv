@@ -1,9 +1,9 @@
 [nation_liechtensteiner]
 
-name=_("Liechtensteiner")
-plural=_("?plural:Liechtensteiners")
-groups="Early Modern", "Modern", "European"
-legend=_("The Principality of Liechtenstein is a tiny, doubly landlocked\
+name   = _("Liechtensteiner")
+plural = _("?plural:Liechtensteiners")
+groups = "Early Modern", "Modern", "European"
+legend = _("The Principality of Liechtenstein is a tiny, doubly landlocked\
  alpine country in Western Europe, bordered by Switzerland to its west\
  and by Austria to its east. The Principality was formed by the merger\
  of Vaduz and Schellenberg in 1719.")
@@ -32,13 +32,14 @@ ruler_titles = {
  "Fundamentalism",  _("Bishop %s"),          _("Mother Superior %s")
 }
 
-flag="liechtenstein"
+flag = "liechtenstein"
 flag_alt = "-"
 style = "European"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 conflicts_with = "haitian" ;similar flag
 civilwar_nations = "austrian", "swiss"
 

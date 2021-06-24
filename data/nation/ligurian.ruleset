@@ -1,11 +1,12 @@
 [nation_ligurian]
 
-name=_("Ligurian")
-plural=_("?plural:Ligurians")
-groups="Ancient", "European"
-legend=_("The Ligures were a pre-Roman tribal complex in what is now\
+name   = _("Ligurian")
+plural = _("?plural:Ligurians")
+groups = "Ancient", "European"
+legend = _("The Ligures were a pre-Roman tribal complex in what is now\
  Northwestern Italy and Southern France. Their language is of uncertain\
  origin, perhaps Para-Celtic or Pre-Indo-European.")
+
 leaders = {
  "name",                "sex"
  "Budincus",            "Male"
@@ -13,7 +14,8 @@ leaders = {
  "Donnus",              "Male"
  "Cottius",             "Male"
 }
-flag="ligurian"
+
+flag = "ligurian"
 flag_alt = "-"
 style = "Celtic"
 
@@ -24,11 +26,11 @@ ruler_titles = {
  "Democracy",       _("Spokesman %s"),         _("Spokeswoman %s")
                }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="Genoese", "Piedmontese", "Monegasque", "Western Roman"
+conflicts_with = "Genoese", "Piedmontese", "Monegasque", "Western Roman"
 civilwar_nations = "Etruscan", "Roman", "Gallic"
 
 cities =

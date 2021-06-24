@@ -1,9 +1,9 @@
 [nation_lojbanistani]
 
-name=_("Lojbanistani")
-plural=_("?plural:Lojbanistanis")
-groups="Imaginary"
-legend=_("Lojbanistan is a fictional place where people speak\
+name   = _("Lojbanistani")
+plural = _("?plural:Lojbanistanis")
+groups = "Imaginary"
+legend = _("Lojbanistan is a fictional place where people speak\
  Lojban. Lojban is a constructed language meant for human\
  communication. Lojban is syntactically unambiguous\
  (\"Time flies like an arrow. Fruit flies like a banana.\"),\
@@ -20,14 +20,15 @@ leaders = {
  "epkat",               "Male"
 }
 
-flag="jbonai"
+flag = "jbonai"
 flag_alt = "american"   ; Born there
 style = "European"
  
-init_techs=""
-init_buildings=""
-init_units=""
-civilwar_nations="american", "canadian", "argentine", "russian", "viking"
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
+civilwar_nations = "american", "canadian", "argentine", "russian", "viking"
 
 cities =
  "jbotcad",

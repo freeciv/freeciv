@@ -1,9 +1,9 @@
 [nation_liburnian]
 
-name=_("Liburnian")
-plural=_("?plural:Liburnians")
-groups="Ancient", "European"
-legend=_("The Liburnians were an ancient Indo-European tribe living along\
+name   = _("Liburnian")
+plural = _("?plural:Liburnians")
+groups = "Ancient", "European"
+legend = _("The Liburnians were an ancient Indo-European tribe living along\
  the Northeastern Adriatic coast in modern Croatia. They were probably\
  distinct from their neighbors, the Illyrians, and spoke an Italic\
  language. They were Romanized after the annexation of their land by\
@@ -21,18 +21,18 @@ leaders = {
  "Mamaester", "Male"
 }
 
-flag= "liburnian" 
-flag_alt = "-" 
-style = "Celtic" 
+flag= "liburnian"
+flag_alt = "-"
+style = "Celtic"
 
-init_techs="" 
-init_buildings="" 
-init_units="" 
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="yugoslav", "slovenian", "croatian", "italian", "venetian"
-civilwar_nations="illyrian", "roman", "venetic"
+conflicts_with = "yugoslav", "slovenian", "croatian", "italian", "venetian"
+civilwar_nations = "illyrian", "roman", "venetic"
 
-cities=
+cities =
  "Iadera",                ;Zadar
  "Scardona",              ;Skradin
  "Aenona",                ;Nin

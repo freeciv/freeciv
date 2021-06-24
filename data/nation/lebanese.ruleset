@@ -1,9 +1,9 @@
 [nation_lebanese]
 
-name = _("Lebanese")
+name   = _("Lebanese")
 plural = _("?plural:Lebanese")
-groups="Asian", "Modern"
-legend=_("Located in the Levant, the Eastern shore of the Mediterranean,\
+groups = "Asian", "Modern"
+legend = _("Located in the Levant, the Eastern shore of the Mediterranean,\
  Lebanon houses some of the oldest traces of human civilization. The old\
  homeland of the Phoenicians, Lebanon has since been ruled by many\
  empires. It was part of the Ottoman Empire for over four centuries and\
@@ -33,23 +33,23 @@ flag = "lebanon"
 flag_alt = "-"
 style = "Classical"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="phoenician"
-civilwar_nations="israeli", "syrian"
+conflicts_with = "phoenician"
+civilwar_nations = "israeli", "syrian"
 
 cities =
- "Bayrut",		;Beirut
- "Tarabulus",		;Tripoli
- "Ba'labakk",		;Baalbek
- "Sayda",		;Sidon
- "Al-Nabatiya",		;Nabatieh
- "Sur",			;Tyre
- "Juniya",		;Jounieh
- "Zahla",		;Zahlé
- "Jubayl",		;Byblos
+ "Bayrut",              ; Beirut
+ "Tarabulus",           ; Tripoli
+ "Ba'labakk",           ; Baalbek
+ "Sayda",               ; Sidon
+ "Al-Nabatiya",         ; Nabatieh
+ "Sur",                 ; Tyre
+ "Juniya",              ; Jounieh
+ "Zahla",               ; Zahlé
+ "Jubayl",              ; Byblos
  "Baabda",
  "Alayh",
  "Riyaq",

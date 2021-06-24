@@ -1,9 +1,9 @@
 [nation_lankese]
 
-name=_("Lankese")
-plural=_("?plural:Lankese")
-groups="Modern", "Asian"
-legend=_("Prince Vijaya came to Sri Lanka from Orissa, in north-eastern\
+name   = _("Lankese")
+plural = _("?plural:Lankese")
+groups = "Modern", "Asian"
+legend = _("Prince Vijaya came to Sri Lanka from Orissa, in north-eastern\
  India, during the 6th century BCE and founded the Sinhalese kingdom there.\
  During British colonialism the country was known as Ceylon.")
 
@@ -23,13 +23,14 @@ ruler_titles = {
  "Communism",    _("Supreme Commander %s"),   _("?female:Supreme Commander %s")
 }
 
-flag="srilanka"
+flag = "srilanka"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
+
 civilwar_nations = "indian", "sinhalese"
 
 cities =
@@ -66,4 +67,3 @@ cities =
  "Monaragala",
  "Vavuniya",
  "Kilinochchi"
-

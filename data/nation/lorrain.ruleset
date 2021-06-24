@@ -1,9 +1,9 @@
 [nation_lorrain]
 
-name=_("Lorrain")
-plural=_("?plural:Lorrains")
-groups="Medieval", "Early Modern", "European"
-legend=_("Lorraine or Lotharingia was formed as the middle kingdom when\
+name   = _("Lorrain")
+plural = _("?plural:Lorrains")
+groups = "Medieval", "Early Modern", "European"
+legend = _("Lorraine or Lotharingia was formed as the middle kingdom when\
  the Frankish empire was split in three in 843. Initially stretching from\
  the North Sea to the Mediterranean, its territory was mutilated during\
  the struggles between the various Frankish dynasties. What was left of\
@@ -31,14 +31,13 @@ ruler_titles = {
  "Fundamentalism",      _("Prince-Bishop %s"), _("Princess-Bishop %s")
 }
 
-flag="lorraine"
+flag = "lorraine"
 flag_alt = "france_old"
 style = "European"
 
-
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "walloon", "burgundian", "palatinate", "alsatian"
 
@@ -49,7 +48,7 @@ cities =
  "Bar-le-Duc",
  "Verdun",
  "Toul",
- "Sarrebruck",		;Saarbrücken
+ "Sarrebruck",          ; Saarbrücken
  "Thionville",
  "Saint-Dié",
  "Sarreguemines",
@@ -77,14 +76,14 @@ cities =
  "Saint-Mihiel",
  "Créhange",
  "Senones",
- "Deux-Ponts",		;Zweibrücken
+ "Deux-Ponts",          ; Zweibrücken
  "Badonviller",
  "Contrexéville",
  "Valmont",
  "Xertigny",
  "Cattenom",
  "Golbey",
- "Bliescastel",		;Blieskastel
+ "Bliescastel",         ; Blieskastel
  "Mirecourt",
  "Freyming-Merlebach",
  "Raon-l'Étape",

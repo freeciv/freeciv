@@ -1,15 +1,16 @@
 [nation_latin]
 
-name=_("Latin")
-plural=_("?plural:Latins")
-groups="Medieval", "European", "Asian"
-legend=_("The Latin Empire was a Medieval state created by Crusaders after\
+name   = _("Latin")
+plural = _("?plural:Latins")
+groups = "Medieval", "European", "Asian"
+legend = _("The Latin Empire was a Medieval state created by Crusaders after\
  their capture of Constantinople during the Fourth Crusade in 1204,\
  intended as a Roman Catholic-friendly replacement of the Byzantine\
  Empire. In Greek history the period of rule by the Latin Empire and its\
  successor splinter realms is known as the \"Frankokratia\", rule of the\
  Franks. The Empire ceased to exist when Constantinople was recaptured by\
  the Byzantines in 1261.")
+
 leaders = {
  "name",                       "sex"
  ;Emperors:
@@ -30,7 +31,8 @@ leaders = {
  "Philippus II Tarentinus",    "Male"
  "Iacobus de Baux",            "Male"
 }
-flag="latin_empire"
+
+flag = "latin_empire"
 flag_alt = "-"
 style = "European"
 
@@ -45,11 +47,11 @@ ruler_titles = {
  "Republic",        _("Consul %s"),      _("?female:Consul %s")
 }
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
-conflicts_with="roman", "thracian", "macedon", "greek", "hellenic"
+conflicts_with = "roman", "thracian", "macedon", "greek", "hellenic"
 civilwar_nations = "crusader", "papal", "holy roman", "venetian"
 
 cities =

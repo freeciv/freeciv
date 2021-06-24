@@ -1,9 +1,9 @@
 [nation_laotian]
 
-name=_("Laotian")
-plural=_("?plural:Laotians")
-groups="Modern", "Early Modern", "Medieval", "Asian"
-legend=_("The history of Laos starts with the Lan Xang kingdom\
+name   = _("Laotian")
+plural = _("?plural:Laotians")
+groups = "Modern", "Early Modern", "Medieval", "Asian"
+legend = _("The history of Laos starts with the Lan Xang kingdom\
  created in the 14th century and ended in late 18th century\
  with invasion of Siam (Thailand). In the end of the 19th\
  century, Laos became part of French Indochina.\
@@ -28,13 +28,13 @@ leaders = {
  "Souphanouvong",       "Male" ; president of Laos.
 }
 
-flag="laos"
+flag = "laos"
 flag_alt = "-"
 style = "Asian"
 
-init_techs=""
-init_buildings=""
-init_units=""
+init_techs = ""
+init_buildings = ""
+init_units = ""
 
 civilwar_nations = "thai", "cambodian", "burmese", "vietnamese"
 
