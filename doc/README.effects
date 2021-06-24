@@ -73,6 +73,7 @@ DiplRel:         World, Alliance, Team, Player, Local
 DiplRelTile:     Alliance, Team, Player, Local
 DiplRelTileOther:Local
 DiplRelUnitAny:  Alliance, Team, Player, Local
+DiplRelUnitAnyOther: Local
 Action:          Local
 OutputType:      Local
 Specialist:      Local
@@ -741,6 +742,15 @@ Note that it says any - not each. It being true for one unit is enough.
 The player is the owner of a unit at the tile.
 The second player is DiplRel's player.
 Doesn't have the World requirement range as that would be redundant.
+
+The DiplRelUnitAnyOther requirement type
+----------------------------------------
+Check if any unit at the tile has the specified diplomatic relationship.
+Note that it says any - not each. It being true for one unit is enough.
+The player is the owner of a unit at the tile.
+The second player is DiplRel's second player.
+Only works in the Local requirement range as DiplRel and DiplRelUnitAny
+covers the rest.
 
 The MaxUnitsOnTile requirement type
 -----------------------------------

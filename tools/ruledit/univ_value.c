@@ -155,6 +155,7 @@ bool universal_value_initial(struct universal *src)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     src->value.diplrel = DS_WAR;
     return TRUE;
   case VUT_MAXTILEUNITS:
@@ -363,6 +364,7 @@ void universal_kind_values(struct universal *univ,
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     for (i = 0; i < DS_LAST; i++) {
       cb(diplstate_type_name(i), univ->value.diplrel == i, data);
     }

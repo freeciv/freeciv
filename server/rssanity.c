@@ -377,6 +377,7 @@ static bool sanity_check_req_set(int reqs_of_type[], int local_reqs_of_type[],
      case VUT_DIPLREL_TILE:
      case VUT_DIPLREL_TILE_O:
      case VUT_DIPLREL_UNITANY:
+     case VUT_DIPLREL_UNITANY_O:
        /* Can have multiple requirements of these types */
        break;
      case VUT_COUNT:

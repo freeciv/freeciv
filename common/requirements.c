@@ -196,6 +196,7 @@ void universal_value_from_str(struct universal *source, const char *value)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     source->value.diplrel = diplrel_by_rule_name(value);
     if (source->value.diplrel != diplrel_other_invalid()) {
       return;
@@ -470,6 +471,7 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     source.value.diplrel = value;
     if (source.value.diplrel != diplrel_other_invalid()) {
       return source;
@@ -640,6 +642,7 @@ int universal_number(const struct universal *source)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     return source->value.diplrel;
   case VUT_UTYPE:
     return utype_number(source->value.utype);
@@ -783,6 +786,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_CITYTILE:
       case VUT_MAXTILEUNITS:
       case VUT_DIPLREL_TILE_O:
+      case VUT_DIPLREL_UNITANY_O:
         req.range = REQ_RANGE_LOCAL;
         break;
       case VUT_MINSIZE:
@@ -893,6 +897,9 @@ struct requirement req_from_str(const char *type, const char *range,
                 /* Non local foreign makes no sense. */
                 || (req.source.value.diplrel == DRO_FOREIGN
                     && req.range != REQ_RANGE_LOCAL);
+      break;
+    case VUT_DIPLREL_UNITANY_O:
+      invalid = (req.range != REQ_RANGE_LOCAL);
       break;
     case VUT_NATION:
     case VUT_NATIONGROUP:
@@ -1007,6 +1014,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_DIPLREL_TILE:
     case VUT_DIPLREL_TILE_O:
     case VUT_DIPLREL_UNITANY:
+    case VUT_DIPLREL_UNITANY_O:
     case VUT_MAXTILEUNITS:
     case VUT_MINTECHS:
       /* Most requirements don't support 'survives'. */
@@ -1232,6 +1240,7 @@ bool are_requirements_contradictions(const struct requirement *req1,
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     if (req2->source.kind != req1->source.kind) {
       /* Finding contradictions across requirement kinds aren't supported
        * for DiplRel requirements. */
@@ -3115,6 +3124,11 @@ bool is_req_active(const struct player *target_player,
                                        req->range,
                                        req->source.value.diplrel);
     break;
+  case VUT_DIPLREL_UNITANY_O:
+    eval = is_diplrel_unitany_in_range(target_tile, other_player,
+                                       req->range,
+                                       req->source.value.diplrel);
+    break;
   case VUT_UTYPE:
     if (target_unittype == NULL) {
       eval = TRI_MAYBE;
@@ -3445,6 +3459,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
   case VUT_MAXTILEUNITS:
   case VUT_UTYPE:	/* Not sure about this one */
   case VUT_UTFLAG:	/* Not sure about this one */
@@ -3557,6 +3572,7 @@ bool universal_never_there(const struct universal *source)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
   case VUT_MAXTILEUNITS:
   case VUT_UTYPE:
   case VUT_UCLASS:
@@ -4127,6 +4143,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     return psource1->value.diplrel == psource2->value.diplrel;
   case VUT_UTYPE:
     return psource1->value.utype == psource2->value.utype;
@@ -4253,6 +4270,7 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     return diplrel_rule_name(psource->value.diplrel);
   case VUT_NATIONALITY:
     return nation_rule_name(psource->value.nationality);
@@ -4397,6 +4415,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_DIPLREL_TILE:
   case VUT_DIPLREL_TILE_O:
   case VUT_DIPLREL_UNITANY:
+  case VUT_DIPLREL_UNITANY_O:
     fc_strlcat(buf, diplrel_name_translation(psource->value.diplrel),
                bufsz);
     return buf;
@@ -5067,7 +5086,8 @@ static enum req_item_found diplrel_found(const struct requirement *preq,
   fc_assert_ret_val((source->kind == VUT_DIPLREL
                      || source->kind == VUT_DIPLREL_TILE
                      || source->kind == VUT_DIPLREL_TILE_O
-                     || source->kind == VUT_DIPLREL_UNITANY),
+                     || source->kind == VUT_DIPLREL_UNITANY
+                     || source->kind == VUT_DIPLREL_UNITANY_O),
                     ITF_NOT_APPLICABLE);
 
   if (preq->source.kind == source->kind) {
@@ -5179,6 +5199,7 @@ void universal_found_functions_init(void)
   universal_found_function[VUT_DIPLREL_TILE] = &diplrel_found;
   universal_found_function[VUT_DIPLREL_TILE_O] = &diplrel_found;
   universal_found_function[VUT_DIPLREL_UNITANY] = &diplrel_found;
+  universal_found_function[VUT_DIPLREL_UNITANY_O] = &diplrel_found;
   universal_found_function[VUT_UNITSTATE] = &ustate_found;
 }
 
