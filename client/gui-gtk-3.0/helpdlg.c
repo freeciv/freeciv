@@ -819,7 +819,7 @@ static void help_update_improvement(const struct help_item *pitem,
   gtk_text_buffer_set_text(help_text, buf, -1);
   gtk_widget_show(help_text_sw);
 }
-  
+
 /**********************************************************************//**
   Display updated help about wonder
 **************************************************************************/
@@ -1037,37 +1037,39 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     } governments_iterate_end;
 
     improvement_iterate(pimprove) {
-      requirement_vector_iterate(&pimprove->reqs, preq) {
-	if (VUT_ADVANCE == preq->source.kind
-	    && preq->source.value.advance == padvance) {
-	  hbox = gtk_grid_new();
-	  gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-	  w = gtk_label_new(_("Allows"));
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  w = help_slink_new(improvement_name_translation(pimprove),
-			     is_great_wonder(pimprove)
-			     ? HELP_WONDER
-			     : HELP_IMPROVEMENT);
-	  gtk_container_add(GTK_CONTAINER(hbox), w);
-	  gtk_widget_show_all(hbox);
-	}
-      } requirement_vector_iterate_end;
-      requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-        if (pobs->source.kind == VUT_ADVANCE
-            && pobs->source.value.advance == padvance
-            && pobs->present) {
-          hbox = gtk_grid_new();
-          gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
-          w = gtk_label_new(_("Obsoletes"));
-          gtk_container_add(GTK_CONTAINER(hbox), w);
-          w = help_slink_new(improvement_name_translation(pimprove),
-                             is_great_wonder(pimprove)
-                             ? HELP_WONDER
-                             : HELP_IMPROVEMENT);
-          gtk_container_add(GTK_CONTAINER(hbox), w);
-          gtk_widget_show_all(hbox);
-        }
-      } requirement_vector_iterate_end;
+      if (valid_improvement(pimprove)) {
+        requirement_vector_iterate(&pimprove->reqs, preq) {
+          if (VUT_ADVANCE == preq->source.kind
+              && preq->source.value.advance == padvance) {
+            hbox = gtk_grid_new();
+            gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+            w = gtk_label_new(_("Allows"));
+            gtk_container_add(GTK_CONTAINER(hbox), w);
+            w = help_slink_new(improvement_name_translation(pimprove),
+                               is_great_wonder(pimprove)
+                               ? HELP_WONDER
+                               : HELP_IMPROVEMENT);
+            gtk_container_add(GTK_CONTAINER(hbox), w);
+            gtk_widget_show_all(hbox);
+          }
+        } requirement_vector_iterate_end;
+        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+          if (pobs->source.kind == VUT_ADVANCE
+              && pobs->source.value.advance == padvance
+              && pobs->present) {
+            hbox = gtk_grid_new();
+            gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
+            w = gtk_label_new(_("Obsoletes"));
+            gtk_container_add(GTK_CONTAINER(hbox), w);
+            w = help_slink_new(improvement_name_translation(pimprove),
+                               is_great_wonder(pimprove)
+                               ? HELP_WONDER
+                               : HELP_IMPROVEMENT);
+            gtk_container_add(GTK_CONTAINER(hbox), w);
+            gtk_widget_show_all(hbox);
+          }
+        } requirement_vector_iterate_end;
+      }
     } improvement_iterate_end;
 
     unit_type_iterate(punittype) {

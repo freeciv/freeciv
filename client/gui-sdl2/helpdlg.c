@@ -1223,33 +1223,35 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
   /* target improvements */
   imp_count = 0;
   improvement_iterate(pimprove) {
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
-     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-     * definition. */
-    requirement_vector_iterate(&(pimprove->reqs), preq) {
-      if (VUT_ADVANCE == preq->source.kind
-          && advance_number(preq->source.value.advance) == tech) {
-        surf = get_building_surface(pimprove);
-        pwidget = create_iconlabel_from_chars(
-                resize_surface_box(surf, adj_size(48), adj_size(48), 1, TRUE,
-                                   TRUE),
-                pwindow->dst,
-                improvement_name_translation(pimprove),
-                adj_font(14),
-                WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
-        set_wstate(pwidget, FC_WS_NORMAL);
-        if (is_wonder(pimprove)) {
-          pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+    if (valid_improvement(pimprove)) {
+      /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
+       * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+       * definition. */
+      requirement_vector_iterate(&(pimprove->reqs), preq) {
+        if (VUT_ADVANCE == preq->source.kind
+            && advance_number(preq->source.value.advance) == tech) {
+          surf = get_building_surface(pimprove);
+          pwidget = create_iconlabel_from_chars(
+                  resize_surface_box(surf, adj_size(48), adj_size(48), 1, TRUE,
+                                     TRUE),
+                  pwindow->dst,
+                  improvement_name_translation(pimprove),
+                  adj_font(14),
+                  WF_RESTORE_BACKGROUND | WF_SELECT_WITHOUT_BAR);
+          set_wstate(pwidget, FC_WS_NORMAL);
+          if (is_wonder(pimprove)) {
+            pwidget->string_utf8->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+          }
+          pwidget->action = change_impr_callback;
+          pwidget->id = MAX_ID - improvement_number(pimprove);
+          widget_add_as_prev(pwidget, dock);
+          dock = pwidget;
+          imp_count++;
         }
-        pwidget->action = change_impr_callback;
-        pwidget->id = MAX_ID - improvement_number(pimprove);
-        widget_add_as_prev(pwidget, dock);
-        dock = pwidget;
-        imp_count++;
-      }
 
-      break;
-    } requirement_vector_iterate_end;
+        break;
+      } requirement_vector_iterate_end;
+    }
   } improvement_iterate_end;
 
   unit_count = 0;
