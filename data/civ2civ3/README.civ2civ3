@@ -227,9 +227,8 @@ TERRAIN:
 - The discovery of Refining allows to upgrade the mines placed on
   Deserts and Glaciers to Oil Wells (+2 Shields in total).
 
-- Lake tiles receive for free +1 Food (2/0/2), while Harbours and
-  Offshore Platforms do not affect them. Lakes do not enable wonders
-  that needs a coastal city.
+- Lake tiles receive for free +1 Food (2/0/2), but Harbours do not affect
+  them. Lakes do not enable wonders that needs a coastal city.
 
 - Deep ocean tiles must be mined (resulting in an Oil Platform) in order to
   take advantage of the shield bonus from Offshore Platforms.
@@ -563,9 +562,9 @@ BUILDINGS:
   University, Research Lab and Factory present in the city in order to
   be built. 
 
-- Reduced by one the gold upkeep of Aqueduct, Colosseum (renamed to
-  Amphitheatre), University, Bank, Stock Exchange, Port Facility,
-  SDI Defense, Factory and Mfg Plant.
+- Reduced by one the upkeep of Aqueduct, Colosseum (renamed to
+  Amphitheatre), University, Bank, Stock Exchange, Port Facility, SDI
+  Defense, and Factory; reduced by two for Mass Transit and Mfg. Plant.
 
 - Pollution caused by population is increased by buildings instead of by
   techs:
