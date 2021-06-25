@@ -635,22 +635,24 @@ void research_diagram::create_tooltip_help()
           } unit_type_iterate_end;
 
           improvement_iterate(pimprove) {
-            requirement_vector_iterate(&(pimprove->reqs), preq) {
-              if (VUT_ADVANCE == preq->source.kind
-                  && advance_number(preq->source.value.advance) == node->tech) {
-                sprite = get_building_sprite(tileset, pimprove);
-                if (sprite) {
-                  get_sprite_dimensions(sprite, &swidth, &sheight);
-                  rttp = new req_tooltip_help();
-                  rttp->rect = QRect(icon_startx, starty + text_h + 4
-                                     + (nheight - text_h - 4 - sheight) / 2,
-                                     swidth, sheight);
-                  rttp->timpr = pimprove;
-                  tt_help.append(rttp);
-                  icon_startx += swidth + 2;
+            if (valid_improvement(pimprove)) {
+              requirement_vector_iterate(&(pimprove->reqs), preq) {
+                if (VUT_ADVANCE == preq->source.kind
+                    && advance_number(preq->source.value.advance) == node->tech) {
+                  sprite = get_building_sprite(tileset, pimprove);
+                  if (sprite) {
+                    get_sprite_dimensions(sprite, &swidth, &sheight);
+                    rttp = new req_tooltip_help();
+                    rttp->rect = QRect(icon_startx, starty + text_h + 4
+                                       + (nheight - text_h - 4 - sheight) / 2,
+                                       swidth, sheight);
+                    rttp->timpr = pimprove;
+                    tt_help.append(rttp);
+                    icon_startx += swidth + 2;
+                  }
                 }
-              }
-            } requirement_vector_iterate_end;
+              } requirement_vector_iterate_end;
+            }
           } improvement_iterate_end;
 
           governments_iterate(gov) {

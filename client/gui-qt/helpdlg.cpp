@@ -1108,43 +1108,45 @@ void help_widget::set_topic_tech(const help_item *topic,
       } governments_iterate_end;
 
       improvement_iterate(pimprove) {
-        requirement_vector_iterate(&pimprove->reqs, preq) {
-          if (VUT_ADVANCE == preq->source.kind
-              && preq->source.value.advance == padvance) {
-            str = _("Allows");
-            str = "<b>" + str + "</b> "
-                  + link_me(improvement_name_translation(pimprove),
-                            is_great_wonder(pimprove) ? HELP_WONDER
-                             : HELP_IMPROVEMENT);
-            tb = new QLabel(this);
-            tb->setProperty(fonts::help_label, "true");
-            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-            tb->setTextFormat(Qt::RichText);
-            tb->setText(str.trimmed());
-            connect(tb, &QLabel::linkActivated,
-                    this, &help_widget::anchor_clicked);
-            info_layout->addWidget(tb);
-          }
-        } requirement_vector_iterate_end;
+        if (valid_improvement(pimprove)) {
+          requirement_vector_iterate(&pimprove->reqs, preq) {
+            if (VUT_ADVANCE == preq->source.kind
+                && preq->source.value.advance == padvance) {
+              str = _("Allows");
+              str = "<b>" + str + "</b> "
+                + link_me(improvement_name_translation(pimprove),
+                          is_great_wonder(pimprove) ? HELP_WONDER
+                          : HELP_IMPROVEMENT);
+              tb = new QLabel(this);
+              tb->setProperty(fonts::help_label, "true");
+              tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+              tb->setTextFormat(Qt::RichText);
+              tb->setText(str.trimmed());
+              connect(tb, &QLabel::linkActivated,
+                      this, &help_widget::anchor_clicked);
+              info_layout->addWidget(tb);
+            }
+          } requirement_vector_iterate_end;
 
-        requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
-          if (pobs->source.kind == VUT_ADVANCE
-              && pobs->source.value.advance == padvance) {
-            str = _("Obsoletes");
-            str = "<b>" + str + "</b> "
-                  + link_me(improvement_name_translation(pimprove),
-                            is_great_wonder(pimprove) ? HELP_WONDER
-                            : HELP_IMPROVEMENT);
-            tb = new QLabel(this);
-            tb->setProperty(fonts::help_label, "true");
-            tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
-            tb->setTextFormat(Qt::RichText);
-            tb->setText(str.trimmed());
-            connect(tb, &QLabel::linkActivated,
-                    this, &help_widget::anchor_clicked);
-            info_layout->addWidget(tb);
-          }
-        } requirement_vector_iterate_end;
+          requirement_vector_iterate(&pimprove->obsolete_by, pobs) {
+            if (pobs->source.kind == VUT_ADVANCE
+                && pobs->source.value.advance == padvance) {
+              str = _("Obsoletes");
+              str = "<b>" + str + "</b> "
+                + link_me(improvement_name_translation(pimprove),
+                          is_great_wonder(pimprove) ? HELP_WONDER
+                          : HELP_IMPROVEMENT);
+              tb = new QLabel(this);
+              tb->setProperty(fonts::help_label, "true");
+              tb->setTextInteractionFlags(Qt::LinksAccessibleByMouse);
+              tb->setTextFormat(Qt::RichText);
+              tb->setText(str.trimmed());
+              connect(tb, &QLabel::linkActivated,
+                      this, &help_widget::anchor_clicked);
+              info_layout->addWidget(tb);
+            }
+          } requirement_vector_iterate_end;
+        }
       } improvement_iterate_end;
 
       unit_type_iterate(punittype) {
