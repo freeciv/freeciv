@@ -1215,33 +1215,35 @@ static struct widget *create_tech_info(Tech_type_id tech, int width,
 
   /* target improvements */
   imp_count = 0;
-  improvement_iterate(pImprove) {
-    /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
-     * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
-     * definition. */
-    requirement_vector_iterate(&(pImprove->reqs), preq) {
-      if (VUT_ADVANCE == preq->source.kind
-          && advance_number(preq->source.value.advance) == tech) {
-        pSurf = get_building_surface(pImprove);
-        pWidget = create_iconlabel_from_chars(
-                ResizeSurfaceBox(pSurf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
-                pWindow->dst,
-                improvement_name_translation(pImprove),
-                adj_font(14),
-                WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
-        set_wstate(pWidget, FC_WS_NORMAL);
-        if (is_wonder(pImprove)) {
-          pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+  improvement_iterate(pimprove) {
+    if (valid_improvement(pimprove)) {
+      /* FIXME: this should show ranges and all the MAX_NUM_REQS reqs.
+       * Currently it's limited to 1 req. Remember MAX_NUM_REQS is a compile-time
+       * definition. */
+      requirement_vector_iterate(&(pimprove->reqs), preq) {
+        if (VUT_ADVANCE == preq->source.kind
+            && advance_number(preq->source.value.advance) == tech) {
+          pSurf = get_building_surface(pimprove);
+          pWidget = create_iconlabel_from_chars(
+                  ResizeSurfaceBox(pSurf, adj_size(48), adj_size(48), 1, TRUE, TRUE),
+                  pWindow->dst,
+                  improvement_name_translation(pimprove),
+                  adj_font(14),
+                  WF_RESTORE_BACKGROUND|WF_SELLECT_WITHOUT_BAR);
+          set_wstate(pWidget, FC_WS_NORMAL);
+          if (is_wonder(pimprove)) {
+            pWidget->string16->fgcol = *get_theme_color(COLOR_THEME_CITYDLG_LUX);
+          }
+          pWidget->action = change_impr_callback;
+          pWidget->ID = MAX_ID - improvement_number(pimprove);
+          DownAdd(pWidget, pDock);
+          pDock = pWidget;
+          imp_count++;
         }
-        pWidget->action = change_impr_callback;
-        pWidget->ID = MAX_ID - improvement_number(pImprove);
-        DownAdd(pWidget, pDock);
-        pDock = pWidget;
-        imp_count++;
-      }
 
-      break;
-    } requirement_vector_iterate_end;
+        break;
+      } requirement_vector_iterate_end;
+    }
   } improvement_iterate_end;
 
   unit_count = 0;

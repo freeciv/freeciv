@@ -3085,21 +3085,23 @@ static void insert_allows(struct universal *psource,
   } governments_iterate_end;
 
   improvement_iterate(pimprove) {
-    static const char *const imprstrs[] = {
-      /* TRANS: First %s is a building name. */
-      N_("?improvement:Allows %s (with %s but no %s)."),
-      /* TRANS: First %s is a building name. */
-      N_("?improvement:Allows %s (with %s)."),
-      /* TRANS: First %s is a building name. */
-      N_("?improvement:Allows %s (absent %s)."),
-      /* TRANS: %s is a building name. */
-      N_("?improvement:Allows %s."),
-      /* TRANS: %s is a building name. */
-      N_("?improvement:Prevents %s.")
-    };
-    insert_allows_single(psource, &pimprove->reqs,
-                         improvement_name_translation(pimprove), imprstrs,
-                         buf, bufsz, prefix);
+    if (valid_improvement(pimprove)) {
+      static const char *const imprstrs[] = {
+        /* TRANS: First %s is a building name. */
+        N_("?improvement:Allows %s (with %s but no %s)."),
+        /* TRANS: First %s is a building name. */
+        N_("?improvement:Allows %s (with %s)."),
+        /* TRANS: First %s is a building name. */
+        N_("?improvement:Allows %s (absent %s)."),
+        /* TRANS: %s is a building name. */
+        N_("?improvement:Allows %s."),
+        /* TRANS: %s is a building name. */
+        N_("?improvement:Prevents %s.")
+      };
+      insert_allows_single(psource, &pimprove->reqs,
+                           improvement_name_translation(pimprove), imprstrs,
+                           buf, bufsz, prefix);
+    }
   } improvement_iterate_end;
 }
 
