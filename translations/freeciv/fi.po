@@ -48152,7 +48152,9 @@ msgstr "%s ei sovi yksikön maahanlaskupaikaksi."
 #: server/unittools.c:2706
 #, c-format
 msgid "Your %s can't do %s to tiles with non allied units."
-msgstr "Yksikkösi %s ei voi suorittaa toimintoa %s ruudulle, jossa on muita kuin liittolaisyksiköitä."
+msgstr ""
+"Yksikkösi %s ei voi suorittaa toimintoa %s ruudulle, jossa on muita kuin "
+"liittolaisyksiköitä."
 
 #: server/unittools.c:2759
 #, c-format
