@@ -38,8 +38,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S2_6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-05-30 16:49+0300\n"
-"PO-Revision-Date: 2021-06-08 17:31+0200\n"
+"POT-Creation-Date: 2021-06-24 13:23+0300\n"
+"PO-Revision-Date: 2021-06-24 17:35+0200\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: hubkow@users.sourceforge.net\n"
 "Language: pl\n"
@@ -58,79 +58,79 @@ msgstr[0] "Miasto %s sprzedało przestarzałe %s za %d sztukę złota."
 msgstr[1] "Miasto %s sprzedało przestarzałe %s za %d sztuki złota."
 msgstr[2] "Miasto %s sprzedało przestarzałe %s za %d sztuk złota."
 
-#: ai/default/daidiplomacy.c:350
+#: ai/default/daidiplomacy.c:358
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
 msgstr ""
 "*%s (AI)* W trybie 'nieobecny' AI nie może podpisywać takiego traktatu."
 
-#: ai/default/daidiplomacy.c:360
+#: ai/default/daidiplomacy.c:368
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (AI)* Zerwij najpierw sojusz z %s, %s."
 
-#: ai/default/daidiplomacy.c:370
+#: ai/default/daidiplomacy.c:378
 #, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, "
 "%s."
 msgstr "*%s (AI)* Zachowaj przez jakiś czas pewną odległość od %s, %s."
 
-#: ai/default/daidiplomacy.c:384
+#: ai/default/daidiplomacy.c:392
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilities, %s."
 msgstr "*%s (AI)* Przerwijmy na razie działania zbrojne, %s."
 
-#: ai/default/daidiplomacy.c:389
+#: ai/default/daidiplomacy.c:397
 #, c-format
 msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr "*%s (AI)* Najpierw spróbuj dotrzymać warunków zawieszenia broni, %s."
 
-#: ai/default/daidiplomacy.c:412
+#: ai/default/daidiplomacy.c:420
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
 msgstr ""
 "*%s (AI)* Po prostu nie ufamy ci jeszcze na tyle, by zawrzeć sojusz, %s."
 
-#: ai/default/daidiplomacy.c:506
+#: ai/default/daidiplomacy.c:514
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
 msgstr "*%s (AI)* Nic nie wiemy o mieście, o którym mówisz."
 
-#: ai/default/daidiplomacy.c:536
+#: ai/default/daidiplomacy.c:544
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
 msgstr ""
 "*%s (AI)* Niestety, dzielenie się z tobą widokiem jest zbyt niebezpieczne."
 
-#: ai/default/daidiplomacy.c:649
+#: ai/default/daidiplomacy.c:657
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
 msgstr "*%s (AI)* Ta propozycja nam się nie opłacała, %s!"
 
-#: ai/default/daidiplomacy.c:672
+#: ai/default/daidiplomacy.c:680
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
 msgstr "*%s (AI)* Witamy nowego sojusznika %s!"
 
-#: ai/default/daidiplomacy.c:676
+#: ai/default/daidiplomacy.c:684
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
 msgstr "*%s (AI)* Niech nasz sojusz przetrwa wieki, %s."
 
-#: ai/default/daidiplomacy.c:683
+#: ai/default/daidiplomacy.c:691
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
 msgstr "*%s (AI)* Tak, pokój to dobre rozwiązanie!"
 
-#: ai/default/daidiplomacy.c:688
+#: ai/default/daidiplomacy.c:696
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
 msgstr "*%s (AI)* Zgoda. Dość już rozlewu krwi, %s."
 
-#: ai/default/daidiplomacy.c:952
+#: ai/default/daidiplomacy.c:960
 #, c-format
 msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
@@ -139,7 +139,7 @@ msgstr ""
 "*%s (AI)* Pozdrowienia %s! Czy możemy zaproponować zawieszenie broni? Może "
 "poznamy się lepiej?"
 
-#: ai/default/daidiplomacy.c:959
+#: ai/default/daidiplomacy.c:967
 #, c-format
 msgid ""
 "*%s (AI)* I found you %s! Now make it worth my letting you live, or be "
@@ -148,22 +148,22 @@ msgstr ""
 "*%s (AI)* Znalazłem Cię %s! Albo wynagrodzisz mi to, że pozwolę Ci żyć, albo "
 "Cię zgładzę."
 
-#: ai/default/daidiplomacy.c:1274
+#: ai/default/daidiplomacy.c:1282
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
 msgstr "*%s (AI)* Kosmos nigdy nie będzie twój. "
 
-#: ai/default/daidiplomacy.c:1279
+#: ai/default/daidiplomacy.c:1287
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
 msgstr "*%s (AI)* Mamy już dość twoich brudnych sztuczek! WOJNA!"
 
-#: ai/default/daidiplomacy.c:1285
+#: ai/default/daidiplomacy.c:1293
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
 msgstr "*%s (AI)* Pokój? Raczej nie teraz."
 
-#: ai/default/daidiplomacy.c:1290
+#: ai/default/daidiplomacy.c:1298
 #, c-format
 msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
@@ -171,17 +171,17 @@ msgid ""
 msgstr ""
 "*%s (AI)* Mamy już ciebie dość! Nie możemy dłużej tolerować twoich zbrodni!"
 
-#: ai/default/daidiplomacy.c:1296
+#: ai/default/daidiplomacy.c:1304
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
 msgstr "*%s (AI)* Twoje podstępy doprowadziły do tej wojny!"
 
-#: ai/default/daidiplomacy.c:1303
+#: ai/default/daidiplomacy.c:1311
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
 msgstr "*%s (AI)* Atak na %s był twoim ostatnim błędem!"
 
-#: ai/default/daidiplomacy.c:1387
+#: ai/default/daidiplomacy.c:1395
 #, c-format
 msgid ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turn to stop "
@@ -199,14 +199,14 @@ msgstr[2] ""
 "*%s (AI)* Totalna wojna przeciwko %s rozpocznie się w ciągu %d tur. Musimy "
 "zatrzymać ich statek kosmiczny."
 
-#: ai/default/daidiplomacy.c:1398
+#: ai/default/daidiplomacy.c:1406
 #, c-format
 msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr "*%s (AI)* Oczekujemy twojej pomocy. Niech żyje nasz wspaniały sojusz!"
 
-#: ai/default/daidiplomacy.c:1405
+#: ai/default/daidiplomacy.c:1413
 #, c-format
 msgid ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
@@ -226,7 +226,7 @@ msgstr[2] ""
 "*%s (AI)* %s poważnie naruszyli nasze traktaty. Odpowiemy siłą w ciągu %d "
 "tur. Oczekujemy, że uszanujesz nasz sojusz i pomożesz nam!"
 
-#: ai/default/daidiplomacy.c:1419
+#: ai/default/daidiplomacy.c:1427
 #, c-format
 msgid ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
@@ -244,13 +244,13 @@ msgstr[2] ""
 "*%s (AI)* Zamierzamy złupić i zniszczyć cywilizację %s. Wojna rozpocznie się "
 "w ciągu %d tur."
 
-#: ai/default/daidiplomacy.c:1428
+#: ai/default/daidiplomacy.c:1436
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr "*%s (AI)* Jeśli zależy ci na łupach, przyłącz się do nas!"
 
-#: ai/default/daidiplomacy.c:1434
+#: ai/default/daidiplomacy.c:1442
 #, c-format
 msgid ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
@@ -268,13 +268,13 @@ msgstr[2] ""
 "*%s (AI)* Nie możemy dalej tolerować %s. Zniszczmy tą żałosną cywilizację. "
 "Wypowiemy wojnę w ciągu %d tur."
 
-#: ai/default/daidiplomacy.c:1445
+#: ai/default/daidiplomacy.c:1453
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
 msgstr ""
 "*%s (AI)* Jesteś naszym wielki przyjacielem, więc pewnie zechcesz nam pomóc."
 
-#: ai/default/daidiplomacy.c:1452
+#: ai/default/daidiplomacy.c:1460
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance and declare war on %s in %d turn.  Hold "
@@ -292,7 +292,7 @@ msgstr[2] ""
 "*%s (AI)* Dotrzymamy warunków sojuszu i wypowiemy wojnę %s w ciągu %d tur. "
 "Trzymaj się, przybywamy!"
 
-#: ai/default/daidiplomacy.c:1462
+#: ai/default/daidiplomacy.c:1470
 #, c-format
 msgid ""
 "*%s (AI)* We will honor our alliance with %s and declare war on %s in %d "
@@ -310,7 +310,7 @@ msgstr[2] ""
 "*%s (AI)* Dotrzymamy sojuszu z %s i wypowiemy wojnę przeciwko %s w ciągu %d "
 "tur. Oczekujemy twojej pomocy."
 
-#: ai/default/daidiplomacy.c:1541
+#: ai/default/daidiplomacy.c:1549
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betrays your true "
@@ -319,14 +319,14 @@ msgstr ""
 "*%s (AI)* Twoja próba podbicia kosmosu zdradziła twoje prawdziwe zamiary. "
 "Dalszy sojusz z tobą jest bezcelowy!"
 
-#: ai/default/daidiplomacy.c:1557
+#: ai/default/daidiplomacy.c:1565
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
 msgstr "*%s (AI)* Bardzo nas niepokoją twoje próby opanowania kosmosu."
 
-#: ai/default/daidiplomacy.c:1561
+#: ai/default/daidiplomacy.c:1569
 #, c-format
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
@@ -335,12 +335,12 @@ msgstr ""
 "*%s (AI)* Jeśli nie przerwiesz budowy statku kosmicznego, będziemy zmuszeni "
 "powstrzymać cię wszelkimi sposobami!"
 
-#: ai/default/daidiplomacy.c:1681
+#: ai/default/daidiplomacy.c:1689
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
 msgstr "*%s (AI)* Niestety, dzielenie widoku z tobą nie jest już bezpieczne."
 
-#: ai/default/daidiplomacy.c:1752
+#: ai/default/daidiplomacy.c:1760
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
@@ -349,7 +349,7 @@ msgstr ""
 "*%s (AI)* Mój najbardziej zaufany sojuszniku, wzywam cię do zniszczenia "
 "naszego wroga - %s."
 
-#: ai/default/daidiplomacy.c:1760
+#: ai/default/daidiplomacy.c:1768
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
@@ -358,7 +358,7 @@ msgstr ""
 "*%s (AI)* Pozdrowienia przyjacielu, widzę że jeszcze nie wypowiedzieliście "
 "wojny naszemu wrogowi %s. Czyżbyście zapomnieli o waszych zobowiązaniach?"
 
-#: ai/default/daidiplomacy.c:1770
+#: ai/default/daidiplomacy.c:1778
 #, c-format
 msgid ""
 "*%s (AI)* Dishonored one, we made a pact of alliance, and yet you remain at "
@@ -369,7 +369,7 @@ msgstr ""
 "utrzymujesz pokój z naszym największym wrogiem %s! Tak się nie postępuje, "
 "zrywamy sojusz!"
 
-#: ai/default/daidiplomacy.c:1803
+#: ai/default/daidiplomacy.c:1811
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
@@ -378,12 +378,12 @@ msgstr ""
 "*%s (AI)* Pozdrowienia przyjacielu, razem będziemy silniejsi. Co sądzisz o "
 "sojuszu?"
 
-#: ai/default/daidiplomacy.c:1820
+#: ai/default/daidiplomacy.c:1828
 #, c-format
 msgid "*%s (AI)* Greetings neighbor, may we suggest more peaceful relations?"
 msgstr "*%s (AI)* Pozdrowienia sąsiedzie, proponuję pokój dla wspólnego dobra."
 
-#: ai/default/daidiplomacy.c:1837
+#: ai/default/daidiplomacy.c:1845
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
@@ -392,7 +392,7 @@ msgstr ""
 "*%s (AI)* Obaj wiele wycierpieliśmy w tym konflikcie. Co sądzisz o "
 "przerwaniu rozlewu krwi?"
 
-#: ai/default/daidiplomacy.c:2000
+#: ai/default/daidiplomacy.c:2008
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honor "
@@ -903,7 +903,6 @@ msgstr "*"
 #. TRANS: airlift. Possible landings text.
 #: client/citydlg_common.c:763 client/citydlg_common.c:776
 #, c-format
-#| msgid "%d"
 msgid "%4d"
 msgstr "%4d"
 
@@ -7150,9 +7149,9 @@ msgid "create"
 msgstr "stwórz"
 
 #: client/gui-gtk-3.0/unitselextradlg.c:130
-#: client/gui-gtk-3.0/unitselunitdlg.c:93
+#: client/gui-gtk-3.0/unitselunitdlg.c:94
 #: client/gui-gtk-3.22/unitselextradlg.c:130
-#: client/gui-gtk-3.22/unitselunitdlg.c:93 client/gui-qt/helpdlg.cpp:166
+#: client/gui-gtk-3.22/unitselunitdlg.c:94 client/gui-qt/helpdlg.cpp:166
 #: client/gui-xaw/connectdlg.c:680 data/Freeciv.in:180 data/Freeciv.in:230
 #: data/Freeciv.in:255 data/Freeciv.in:559 data/Freeciv.in:578
 #: data/Freeciv.in:623 data/Freeciv.in:1467 data/Freeciv.in:1485
@@ -8647,7 +8646,7 @@ msgid "Build %1"
 msgstr "Zbuduj %1"
 
 #: client/gui-qt/menu.cpp:2076 client/gui-sdl/menu.c:738
-#: client/gui-sdl2/menu.c:735 client/gui-xaw/menu.c:184
+#: client/gui-sdl2/menu.c:735 client/gui-xaw/menu.c:184 server/unittools.c:2709
 msgid "Drop Paratrooper"
 msgstr "Zrzuć spadochroniarzy"
 
@@ -17367,8 +17366,6 @@ msgstr "Obserwator - %s"
 #. * the Establish Trade _Route action.
 #: client/text.c:1711
 #, c-format
-#| msgid ", +%d trade"
-#| msgid_plural ", +%d trade"
 msgid "%d trade"
 msgstr "%d do handlu"
 
@@ -17834,7 +17831,7 @@ msgstr "pojedyncze miasta"
 msgid "individual units"
 msgstr "pojedyncze jednostki"
 
-#: common/ai.c:300
+#: common/ai.c:301
 #, c-format
 msgid "Too many AI modules. Max is %d."
 msgstr "Zbyt wiele modułów AI. Maksymalna liczba to %d."
@@ -18534,12 +18531,12 @@ msgid "FP:%d "
 msgstr "SO:%d "
 
 #. TRANS: year label (Anno Domini)
-#: common/game.h:666 data/civ1/game.ruleset:444 data/civ2/game.ruleset:511
+#: common/game.h:675 data/civ1/game.ruleset:444 data/civ2/game.ruleset:511
 msgid "AD"
 msgstr "n.e."
 
 #. TRANS: year label (Before Christ)
-#: common/game.h:668 data/civ1/game.ruleset:446 data/civ2/game.ruleset:513
+#: common/game.h:677 data/civ1/game.ruleset:446 data/civ2/game.ruleset:513
 msgid "BC"
 msgstr "p.n.e."
 
@@ -20939,25 +20936,25 @@ msgstr "Epidemia"
 msgid "Volcano"
 msgstr "Wulkan"
 
-#: data/civ1/game.ruleset:654 data/civ2/game.ruleset:653
+#: data/civ1/game.ruleset:651 data/civ2/game.ruleset:653
 #: data/classic/game.ruleset:701 data/experimental/game.ruleset:732
 #: data/civ2civ3/game.ruleset:809 data/sandbox/game.ruleset:817
 msgid "Team 0"
 msgstr "Drużyna 0"
 
-#: data/civ1/game.ruleset:655 data/civ2/game.ruleset:654
+#: data/civ1/game.ruleset:652 data/civ2/game.ruleset:654
 #: data/classic/game.ruleset:702 data/experimental/game.ruleset:733
 #: data/civ2civ3/game.ruleset:810 data/sandbox/game.ruleset:818
 msgid "Team 1"
 msgstr "Drużyna 1"
 
-#: data/civ1/game.ruleset:656 data/civ2/game.ruleset:655
+#: data/civ1/game.ruleset:653 data/civ2/game.ruleset:655
 #: data/classic/game.ruleset:703 data/experimental/game.ruleset:734
 #: data/civ2civ3/game.ruleset:811 data/sandbox/game.ruleset:819
 msgid "Team 2"
 msgstr "Drużyna 2"
 
-#: data/civ1/game.ruleset:657 data/civ2/game.ruleset:656
+#: data/civ1/game.ruleset:654 data/civ2/game.ruleset:656
 #: data/classic/game.ruleset:704 data/experimental/game.ruleset:735
 #: data/civ2civ3/game.ruleset:812 data/sandbox/game.ruleset:820
 msgid "Team 3"
@@ -25970,7 +25967,7 @@ msgstr ""
 "Okup wynosi zazwyczaj 100 sztuk złota, lecz może być mniejszy, jeśli "
 "barbarzyńcy mają mniej pieniędzy."
 
-#: data/default/default.lua:22 server/unittools.c:2808
+#: data/default/default.lua:22 server/unittools.c:2812
 #, c-format
 msgid "You found %d gold."
 msgid_plural "You found %d gold."
@@ -26007,7 +26004,7 @@ msgstr "Znalazłeś/aś przyjazne miasto."
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr "Przyjaźni koczownicy są zachwyceni tobą i przyłączają się."
 
-#: data/default/default.lua:114 server/unittools.c:2815
+#: data/default/default.lua:114 server/unittools.c:2819
 msgid "An abandoned village is here."
 msgstr "Ta wioska jest opuszczona."
 
@@ -26015,7 +26012,7 @@ msgstr "Ta wioska jest opuszczona."
 msgid "You have unleashed a horde of barbarians!"
 msgstr "Sprowokowałeś/aś barbarzyńców do ataku!"
 
-#: data/default/default.lua:124 server/unittools.c:2818
+#: data/default/default.lua:124 server/unittools.c:2822
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Twoja jednostka %s została zabita przez barbarzyńców!"
@@ -41490,70 +41487,70 @@ msgstr "Zostałeś/aś usunięty/a z gry!"
 msgid "%s has been removed from the game."
 msgstr "%s został/a usunięty/a z gry."
 
-#: server/plrhand.c:1816
+#: server/plrhand.c:1820
 msgid "Please choose a non-blank name."
 msgstr "Proszę wybrać nazwę."
 
-#: server/plrhand.c:1829
+#: server/plrhand.c:1833
 msgid "That nation is already in use."
 msgstr "Naród jest już zajęty."
 
-#: server/plrhand.c:1834
+#: server/plrhand.c:1838
 #, c-format
 msgid "Another player already has the name '%s'. Please choose another name."
 msgstr "Inny gracz używa już nazwy '%s'. Proszę wybrać inną nazwę."
 
-#: server/plrhand.c:1858
+#: server/plrhand.c:1862
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Proszę wybrać nazwę zawierającą jedynie znaki ASCII."
 
-#: server/plrhand.c:1933 server/plrhand.c:1947
+#: server/plrhand.c:1937 server/plrhand.c:1951
 #, c-format
 msgid "Player no. %d"
 msgstr "Gracz nr %d"
 
-#: server/plrhand.c:1962
+#: server/plrhand.c:1966
 msgid "A poorly-named player"
 msgstr "Słabo nazwany gracz"
 
-#: server/plrhand.c:2031 server/plrhand.c:2035
+#: server/plrhand.c:2035 server/plrhand.c:2039
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Spotkałeś/aś %s! Rządzi nimi %s."
 
-#: server/plrhand.c:2709
+#: server/plrhand.c:2713
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nie można wzniecić wojny domowej u %s - za dużo graczy"
 
-#: server/plrhand.c:2715
+#: server/plrhand.c:2719
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma już dostępnych narodów"
 
-#: server/plrhand.c:2749
+#: server/plrhand.c:2753
 #, c-format
 msgid "Could not throw %s into civil war - no available cities"
 msgstr "Nie można wzniecić wojny domowej u %s - nie ma dostępnych miast"
 
-#: server/plrhand.c:2782
+#: server/plrhand.c:2786
 msgid "Your nation is thrust into civil war."
 msgstr "W twoim państwie wybuchła wojna domowa."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:2786
+#: server/plrhand.c:2790
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s jest przywódcą rebelii %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:2808
+#: server/plrhand.c:2812
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s deklaruje posłuszeństwo dla %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:2836
+#: server/plrhand.c:2840
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -41563,7 +41560,7 @@ msgstr[2] "Wojna domowa rozbija państwo %s; %s mają teraz %d miast."
 
 #. TRANS: '/delegate cancel' is a server command and must not
 #. * be translated
-#: server/plrhand.c:2978
+#: server/plrhand.c:2982
 #, c-format
 msgid ""
 "User '%s' is currently allowed to take control of your player while you are "
@@ -41573,14 +41570,14 @@ msgstr ""
 "uczestniczysz w rozgrywce. Użyj '/delegate cancel', by anulować "
 "pełnomocnictwo."
 
-#: server/plrhand.c:2990
+#: server/plrhand.c:2994
 #, c-format
 msgid "Control of player '%s' is delegated to you."
 msgstr "Przekazano ci kontrolę nad graczem '%s'."
 
 #. TRANS: '/delegate take' is a server command and must not
 #. * be translated; but <player> should be translated.
-#: server/plrhand.c:2999
+#: server/plrhand.c:3003
 msgid "Use '/delegate take <player>' to take control of a delegated player."
 msgstr ""
 "Użyj '/delegate take <gracz>' by przejąć kontrolę nad graczem z "
@@ -42010,7 +42007,7 @@ msgstr "Pokonane jednostki\n"
 msgid "Unit Losses\n"
 msgstr "Stracone jednostki\n"
 
-#: server/rssanity.c:973
+#: server/rssanity.c:975
 msgid "Disabling 'barbarians' setting for lack of suitable unit types."
 msgstr ""
 "Wyłączam opcję 'barbarians' z powodu braku odpowiednich typów jednostek."
@@ -47708,8 +47705,7 @@ msgstr "Tylko jednostki %s mogą podbijać z pól nienatywnych."
 msgid "Cannot conquer from a non-native tile."
 msgstr "Nie może podbijać z pól nienatywnych."
 
-#: server/unithand.c:2587 server/unittools.c:2697 server/unittools.c:2705
-#: server/unittools.c:2735
+#: server/unithand.c:2587 server/unittools.c:2697 server/unittools.c:2739
 msgid "Cannot attack unless you declare war first."
 msgstr "Nie możesz atakować, jeśli nie wypowiedziałeś/aś wojny."
 
@@ -47723,7 +47719,7 @@ msgstr "Jednostka %s może się poruszać tylko we własnej strefie kontroli."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s nie może odpłynąć tak daleko od wybrzeża."
 
-#: server/unithand.c:2605 server/unittools.c:2713 server/unittools.c:2743
+#: server/unithand.c:2605 server/unittools.c:2717 server/unittools.c:2747
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Nie możesz atakować, jeśli nie wypowiedziałeś/aś wojny %s."
@@ -48127,94 +48123,100 @@ msgstr "Odległość od celu (%i) jest większa niż zasięg danej jednostki (%i
 msgid "Already there."
 msgstr "Już tam jestem."
 
-#: server/unittools.c:2690 server/unittools.c:2726
+#: server/unittools.c:2690 server/unittools.c:2730
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Jednostki nie można przerzucić do %s."
 
-#: server/unittools.c:2755
+#. TRANS: Paratroopers ... Drop Paratrooper
+#: server/unittools.c:2706
+#, c-format
+msgid "Your %s can't do %s to tiles with non allied units."
+msgstr "Twoja jednostka %s nie może %s na pole z jednostką niesprzymierzoną."
+
+#: server/unittools.c:2759
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Twoja jednostka %s została zrzucona do %s i zginęła."
 
-#: server/unittools.c:2774
+#: server/unittools.c:2778
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "Twoja jednostka %s została zniszczona przez wroga podczas lądowania."
 
-#: server/unittools.c:2854
+#: server/unittools.c:2858
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Twój przelot wystraszył tubylców, którzy uciekli w popłochu."
 
-#: server/unittools.c:3196
+#: server/unittools.c:3200
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr "Jednostka %s przerwała wykonywanie rozkazu, gdy dostrzegła ruch wroga."
 
-#: server/unittools.c:3989
+#: server/unittools.c:3993
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki."
 
-#: server/unittools.c:4066
+#: server/unittools.c:4070
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "Jednostka %s nie wykonała rozkazu, gdyż nie udało się zbudować miasta."
 
-#: server/unittools.c:4143
+#: server/unittools.c:4147
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ wymaga podjęcia nieprawidłowej "
 "czynności."
 
-#: server/unittools.c:4153
+#: server/unittools.c:4157
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 "Anulowano rozkaz dla jednostki %s, ponieważ zawiera on nieprawidłowe "
 "położenie."
 
-#: server/unittools.c:4164
+#: server/unittools.c:4168
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 "Jednostka %s przerwała wykonywanie rozkazu, gdy napotkała wrogie jednostki "
 "na swojej drodze."
 
-#: server/unittools.c:4209
+#: server/unittools.c:4213
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 "Jednostka %s nie wykonała rozkazu z powodu niemożności wykonania ruchu."
 
-#: server/unittools.c:4228
+#: server/unittools.c:4232
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Nie udało się zmienić miasta pochodzenia jednostki %s."
 
-#: server/unittools.c:4242 server/unittools.c:4269
+#: server/unittools.c:4246 server/unittools.c:4273
 #, c-format
 msgid "Orders for %s aborted since they give a location without a city."
 msgstr "Anulowano rozkaz dla jednostki %s, uwzględnia położenie bez miasta."
 
-#: server/unittools.c:4254
+#: server/unittools.c:4258
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Nie udało się ustanowić szlaku handlowego za pomocą %s."
 
-#: server/unittools.c:4282
+#: server/unittools.c:4286
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Nie udało się wspomóc budowy cudu za pomocą %s."
 
-#: server/unittools.c:4291
+#: server/unittools.c:4295
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Twoja jednostka %s ma nieprawidłowe rozkazy."
 
-#: server/unittools.c:4390
+#: server/unittools.c:4394
 #, c-format
 msgid "Your unit may not act for another %s this turn. See /help unitwaittime."
 msgstr ""
