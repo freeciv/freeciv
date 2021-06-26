@@ -288,7 +288,11 @@ bool is_terrain_needed(struct terrain *pterr, requirers_cb cb, void *data)
     if (pother != pterr
         && (pother->irrigation_result == pterr
             || pother->mining_result == pterr
-            || pother->transform_result == pterr)) {
+            || pother->transform_result == pterr
+            || pother->warmer_wetter_result == pterr
+            || pother->warmer_drier_result == pterr
+            || pother->cooler_wetter_result == pterr
+            || pother->cooler_drier_result == pterr)) {
       cb(terrain_rule_name(pother), data);
       needed = TRUE;
     }
