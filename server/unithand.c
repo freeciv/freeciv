@@ -5060,6 +5060,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                         bool move_do_not_act)
 {
   struct player *pplayer = unit_owner(punit);
+  struct unit *ptrans;
 
   /*** Phase 1: Attempted action interpretation checks ***/
 
@@ -5147,6 +5148,54 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                                             punit, pdesttile, NULL)) {
     return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
                                NO_TARGET, "", ACTION_UNIT_MOVE3,
+                               ACT_REQ_PLAYER);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+             && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK,
+                                               punit, ptrans)) {
+    /* "Transport Embark". */
+    return unit_perform_action(pplayer, punit->id, ptrans->id,
+                               NO_TARGET, "", ACTION_TRANSPORT_EMBARK,
+                               ACT_REQ_PLAYER);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+             && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK2,
+                                               punit, ptrans)) {
+    /* "Transport Embark 2". */
+    return unit_perform_action(pplayer, punit->id, ptrans->id,
+                               NO_TARGET, "", ACTION_TRANSPORT_EMBARK2,
+                               ACT_REQ_PLAYER);
+  } else if (!can_unit_survive_at_tile(&(wld.map), punit, pdesttile)
+             && ((ptrans = transporter_for_unit_at(punit, pdesttile)))
+             && is_action_enabled_unit_on_unit(ACTION_TRANSPORT_EMBARK3,
+                                               punit, ptrans)) {
+    /* "Transport Embark 3". */
+    return unit_perform_action(pplayer, punit->id, ptrans->id,
+                               NO_TARGET, "", ACTION_TRANSPORT_EMBARK3,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK1,
+                                            punit, pdesttile, NULL)) {
+    /* "Transport Disembark". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK1,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2,
+                                            punit, pdesttile, NULL)) {
+    /* "Transport Disembark 2". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK2,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK3,
+                                            punit, pdesttile, NULL)) {
+    /* "Transport Disembark 3". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK3,
+                               ACT_REQ_PLAYER);
+  } else if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK4,
+                                            punit, pdesttile, NULL)) {
+    /* "Transport Disembark 4". */
+    return unit_perform_action(pplayer, punit->id, tile_index(pdesttile),
+                               NO_TARGET, "", ACTION_TRANSPORT_DISEMBARK4,
                                ACT_REQ_PLAYER);
   } else {
     /* TODO: Extend the action not enabled explanation system to cover all
