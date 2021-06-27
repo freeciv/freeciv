@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.6\n"
 "Report-Msgid-Bugs-To: https://osdn.net/projects/freeciv/ticket/\n"
-"POT-Creation-Date: 2021-06-24 13:23+0300\n"
+"POT-Creation-Date: 2021-06-27 08:19+0200\n"
 "PO-Revision-Date: 2021-06-14 17:10+0200\n"
 "Last-Translator: Igx <igx31 hotmail.com>\n"
 "Language-Team: French <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -1855,7 +1855,7 @@ msgstr "Déconnecté du serveur."
 msgid "server disconnected"
 msgstr "serveur déconnecté"
 
-#: client/clinet.c:428 client/clinet.c:477 server/sernet.c:874
+#: client/clinet.c:428 client/clinet.c:477 server/sernet.c:879
 msgid "read error"
 msgstr "Erreur de lecture"
 
@@ -17798,7 +17798,7 @@ msgstr "Piller %s (%d)"
 msgid "Clean %s(%d)"
 msgstr "Nettoyer %s (%d)"
 
-#: common/connection.c:193 server/sernet.c:400 server/sernet.c:794
+#: common/connection.c:193 server/sernet.c:400 server/sernet.c:799
 msgid "network exception"
 msgstr "anomalie réseau"
 
@@ -30729,7 +30729,7 @@ msgid "Popup City"
 msgstr "Fenêtre ville"
 
 #. TRANS: Game state for local server
-#: data/Freeciv.in:3341 data/Freeciv.in:3342 server/sernet.c:1569
+#: data/Freeciv.in:3341 data/Freeciv.in:3342 server/sernet.c:1574
 msgid "Pregame"
 msgstr "Avant-jeu"
 
@@ -42774,52 +42774,52 @@ msgstr "Le serveur ne peut pas lire l'entrée standard. Entrée ignorée."
 msgid "rejected"
 msgstr "rejeté"
 
-#: server/sernet.c:581
+#: server/sernet.c:583
 msgid "Shutting down for lack of players."
 msgstr "Arrêt pour manque de joueurs"
 
-#: server/sernet.c:584
+#: server/sernet.c:586
 msgid "Restarting for lack of players."
 msgstr "Redémarrage pour manque de joueurs"
 
-#: server/sernet.c:604
+#: server/sernet.c:606
 #, c-format
 msgid "Shutting down in %d seconds for lack of players."
 msgstr "Arrêt dans %d secondes pour manque de joueurs"
 
-#: server/sernet.c:607
+#: server/sernet.c:609
 msgid "shutting down soon for lack of players"
 msgstr "Arrêt imminent pour manque de joueurs"
 
-#: server/sernet.c:609
+#: server/sernet.c:611
 #, c-format
 msgid "Restarting in %d seconds for lack of players."
 msgstr "Redémarrage dans %d secondes pour manque de joueurs"
 
-#: server/sernet.c:612
+#: server/sernet.c:614
 msgid "restarting soon for lack of players"
 msgstr "Redémarrage imminent pour manque de joueurs"
 
-#: server/sernet.c:640
+#: server/sernet.c:642
 msgid "ping timeout"
 msgstr "délai d'attente maximum de réponse au ping"
 
-#: server/sernet.c:871
+#: server/sernet.c:876
 msgid "client disconnected"
 msgstr "client déconnecté"
 
-#: server/sernet.c:1128
+#: server/sernet.c:1133
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Serveur: mauvaise adresse : <%s:%d>."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1573
+#: server/sernet.c:1578
 msgid "Running"
 msgstr "En cours"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1577 server/settings.c:332
+#: server/sernet.c:1582 server/settings.c:332
 msgid "Game over"
 msgstr "Partie terminée"
 
