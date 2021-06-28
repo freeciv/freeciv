@@ -114,6 +114,10 @@ Terrains for more information.
 Sea Units in port:
 Sea Units in cities defend with 1/4 of their usual defense value.
 
+Transporters can Load
+Units capable of transporting other units can pick up domestic and allied
+cargo units located at the same tile.
+
 Goods:
 Trade routes can carry many kinds of goods. There is production chains
 like that city with Mine can trade Ore to a city that then can trade

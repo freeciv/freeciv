@@ -2830,6 +2830,17 @@ target_reqs    =
       "UnitState", "Transported",   "Local"
     }
 
+[actionenabler_load]
+action        = "Transport Load"
+actor_reqs    =
+    { "type",    "name",       "range", "present"
+      "DiplRel", "Armistice",  "Local", FALSE
+      "DiplRel", "War",        "Local", FALSE
+      "DiplRel", "Cease-fire", "Local", FALSE
+      "DiplRel", "Peace",      "Local", FALSE
+      "DiplRel", "Never met",  "Local", FALSE
+    }
+
 [actionenabler_disembark_from_native_tile]
 action        = "Transport Disembark"
 actor_reqs    =
