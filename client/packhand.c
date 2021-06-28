@@ -4766,6 +4766,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_TRANSPORT_EMBARK2:
       case ACTION_TRANSPORT_EMBARK3:
       case ACTION_TRANSPORT_UNLOAD:
+      case ACTION_TRANSPORT_LOAD:
       case ACTION_TRANSPORT_DISEMBARK1:
       case ACTION_TRANSPORT_DISEMBARK2:
       case ACTION_TRANSPORT_DISEMBARK3:

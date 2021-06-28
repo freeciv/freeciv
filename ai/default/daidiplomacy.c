@@ -2016,6 +2016,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_TRANSPORT_UNLOAD:
     case ACTRES_TRANSPORT_DISEMBARK:
     case ACTRES_TRANSPORT_BOARD:
+    case ACTRES_TRANSPORT_LOAD:
     case ACTRES_TRANSPORT_EMBARK:
     case ACTRES_HUT_ENTER:
     case ACTRES_HUT_FRIGHTEN:

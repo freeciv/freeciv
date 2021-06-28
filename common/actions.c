@@ -487,6 +487,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
+                          ACTRES_TRANSPORT_LOAD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_WAR),
@@ -495,6 +496,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
+                          ACTRES_TRANSPORT_LOAD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_CEASEFIRE),
@@ -503,6 +505,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
+                          ACTRES_TRANSPORT_LOAD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_PEACE),
@@ -511,6 +514,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
+                          ACTRES_TRANSPORT_LOAD,
                           ACTRES_NONE);
   oblig_hard_req_register(req_from_values(VUT_DIPLREL, REQ_RANGE_LOCAL,
                                           FALSE, TRUE, TRUE, DS_NO_CONTACT),
@@ -519,6 +523,7 @@ static void hard_code_oblig_hard_reqs(void)
                              " a domestic or allied target."),
                           ACTRES_TRANSPORT_EMBARK,
                           ACTRES_TRANSPORT_BOARD,
+                          ACTRES_TRANSPORT_LOAD,
                           ACTRES_NONE);
 
   /* Why this is a hard requirement: Preserve semantics of the Settlers
@@ -1372,6 +1377,10 @@ static void hard_code_actions(void)
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_UNLOAD] =
       unit_action_new(ACTION_TRANSPORT_UNLOAD, ACTRES_TRANSPORT_UNLOAD,
+                      TRUE, FALSE,
+                      MAK_STAYS, 0, 0, FALSE);
+  actions[ACTION_TRANSPORT_LOAD] =
+      unit_action_new(ACTION_TRANSPORT_LOAD, ACTRES_TRANSPORT_LOAD,
                       TRUE, FALSE,
                       MAK_STAYS, 0, 0, FALSE);
   actions[ACTION_TRANSPORT_DISEMBARK1] =
@@ -2317,6 +2326,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_CONVERT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
@@ -2405,6 +2415,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
@@ -3393,6 +3404,13 @@ action_actor_utype_hard_reqs_ok_full(const struct action *paction,
     }
     break;
 
+  case ACTRES_TRANSPORT_LOAD:
+    if (actor_unittype->transport_capacity < 1) {
+      /* Reason: can't transport anything to load. */
+      return FALSE;
+    }
+    break;
+
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_TRANSPORT_ALIGHT:
@@ -3684,6 +3702,7 @@ action_hard_reqs_actor(const struct action *paction,
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
   case ACTRES_HUT_FRIGHTEN:
@@ -4434,6 +4453,25 @@ is_action_possible(const action_id wanted_action,
     if (!could_unit_load(actor_unit, target_unit)) {
       /* Keep the old rules. */
       return TRI_NO;
+    }
+    break;
+
+  case ACTRES_TRANSPORT_LOAD:
+    if (unit_transported(target_unit)) {
+      if (actor_unit == unit_transport_get(target_unit)) {
+        /* Already transporting this unit. */
+        return TRI_NO;
+      }
+    }
+    if (!could_unit_load(target_unit, actor_unit)) {
+      /* Keep the old rules. */
+      return TRI_NO;
+    }
+    if (unit_transported(target_unit)) {
+      if (!can_unit_unload(target_unit, unit_transport_get(target_unit))) {
+        /* Can't leave current transport. */
+        return TRI_NO;
+      }
     }
     break;
 
@@ -5765,6 +5803,9 @@ action_prob(const action_id wanted_action,
   case ACTRES_TRANSPORT_UNLOAD:
     chance = ACTPROB_CERTAIN;
     break;
+  case ACTRES_TRANSPORT_LOAD:
+    chance = ACTPROB_CERTAIN;
+    break;
   case ACTRES_TRANSPORT_DISEMBARK:
     chance = ACTPROB_CERTAIN;
     break;
@@ -7013,6 +7054,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
@@ -7585,6 +7627,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport_embark_3";
   case ACTION_TRANSPORT_UNLOAD:
     return "ui_name_transport_unload";
+  case ACTION_TRANSPORT_LOAD:
+    return "ui_name_transport_load";
   case ACTION_TRANSPORT_DISEMBARK1:
     return "ui_name_transport_disembark";
   case ACTION_TRANSPORT_DISEMBARK2:
@@ -7890,6 +7934,9 @@ const char *action_ui_name_default(int act)
   case ACTION_TRANSPORT_UNLOAD:
     /* TRANS: _Unload (100% chance of success). */
     return N_("%sUnload%s");
+  case ACTION_TRANSPORT_LOAD:
+    /* TRANS: _Load (100% chance of success). */
+    return N_("%sLoad%s");
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK3:
   case ACTION_TRANSPORT_DISEMBARK4:
@@ -8021,6 +8068,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -8125,6 +8173,7 @@ int action_min_range_default(enum action_result result)
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
@@ -8232,6 +8281,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -8342,6 +8392,7 @@ int action_max_range_default(enum action_result result)
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
@@ -8460,6 +8511,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -8550,6 +8602,7 @@ action_target_kind_default(enum action_result result)
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return ATK_UNIT;
@@ -8640,6 +8693,7 @@ bool action_result_legal_target_kind(enum action_result result,
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return tgt_kind == ATK_UNIT;
@@ -8744,6 +8798,7 @@ action_sub_target_kind_default(enum action_result result)
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return ASTK_NONE;
@@ -8837,6 +8892,7 @@ action_target_compl_calc(enum action_result result,
   case ACTRES_HEAL_UNIT:
   case ACTRES_TRANSPORT_ALIGHT:
   case ACTRES_TRANSPORT_UNLOAD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
     return ACT_TGT_COMPL_SIMPLE;
@@ -8969,6 +9025,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -9135,6 +9192,7 @@ const char *action_blocked_by_ruleset_var_name(const struct action *act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:
@@ -9269,6 +9327,7 @@ action_post_success_forced_ruleset_var_name(const struct action *act)
   case ACTION_TRANSPORT_EMBARK2:
   case ACTION_TRANSPORT_EMBARK3:
   case ACTION_TRANSPORT_UNLOAD:
+  case ACTION_TRANSPORT_LOAD:
   case ACTION_TRANSPORT_DISEMBARK1:
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_TRANSPORT_DISEMBARK3:

@@ -913,6 +913,7 @@ adv_want adv_gov_action_immunity_want(struct government *gov)
     case ACTRES_TRANSPORT_UNLOAD:
     case ACTRES_TRANSPORT_DISEMBARK:
     case ACTRES_TRANSPORT_BOARD:
+    case ACTRES_TRANSPORT_LOAD:
     case ACTRES_TRANSPORT_EMBARK:
       /* Could be good. An embassy gives permanent contact. A trade
        * route gives gold per turn. Join city gives population. Help

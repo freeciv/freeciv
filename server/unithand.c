@@ -733,6 +733,29 @@ static bool do_unit_board(struct player *act_player,
 }
 
 /**********************************************************************//**
+  Load the target unit into the actor unit.
+
+  Assumes that all checks for action legality has been done.
+
+  Returns TRUE iff action could be done, FALSE if it couldn't. Even if
+  this returns TRUE, unit may have died during the action.
+**************************************************************************/
+static bool do_unit_load(struct player *act_player,
+                          struct unit *act_unit,
+                          struct unit *tgt_unit,
+                          const struct action *paction)
+{
+  if (unit_transported(tgt_unit)) {
+    unit_transport_unload(tgt_unit);
+  }
+
+  /* Load the unit and send out info to clients. */
+  unit_transport_load_send(tgt_unit, act_unit);
+
+  return TRUE;
+}
+
+/**********************************************************************//**
   Unload target unit from actor unit.
 
   Returns TRUE iff action could be done, FALSE if it couldn't. Even if
@@ -1037,6 +1060,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_TRANSPORT_DISEMBARK:
   case ACTRES_TRANSPORT_BOARD:
+  case ACTRES_TRANSPORT_LOAD:
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_SPY_ATTACK:
   case ACTRES_HUT_ENTER:
@@ -3499,6 +3523,11 @@ bool unit_perform_action(struct player *pplayer,
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
                              do_unit_board(pplayer, actor_unit, punit,
                                            paction));
+    break;
+  case ACTRES_TRANSPORT_LOAD:
+    ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,
+                             do_unit_load(pplayer, actor_unit, punit,
+                                          paction));
     break;
   case ACTRES_TRANSPORT_EMBARK:
     ACTION_STARTED_UNIT_UNIT(action_type, actor_unit, punit,

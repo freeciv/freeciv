@@ -635,6 +635,31 @@ Actions done by a unit against another unit
  * target must be on a livable tile (!)
  * target must be visible for the actor.
 
+"Transport Load" - Load the target unit into the actor unit.
+ * UI name can be set using ui_name_transport_load
+ * actor must be on the same tile as the target
+ * actor must have a transport_cap greater than 0
+ * the actor unit must be domestic, allied or on the same team as the
+   target unit is. (!)
+ * actor must be in a city or in a base native to it if the actor's unit
+   class has the Unreachable unit class flag and the target's unit type
+   doesn't list the actor's unit class in the embarks field.
+ * the actor must be transporting fewer units than its unit type's
+   transport_cap field.
+ * the target unit can't currently be transported by the actor unit.
+ * the target unit's current transport, if the target unit is transported,
+   must be in a city or in a base native to the current transport if the
+   current transport's unit class has the Unreachable unit class flag and
+   the target's unit type doesn't list the current transport's unit class in
+   the disembarks field.
+ * the target's unit class must appear in the target unit type's cargo field.
+ * the target unit unit type must be different from the actor unit type
+ * the target unit or its (recursive) cargo, if it has cargo, must be unable
+   to transport itself, the actor unit or the actor unit's transporters.
+   See unit_transport_check()
+ * loading won't cause a situation with more than 5 recursive transports
+ * target must be visible to the actor.
+
 "Transport Board" - Enter target transport on the same tile.
  * UI name can be set using ui_name_transport_board
  * the actor unit can't currently be transported by the target unit.
