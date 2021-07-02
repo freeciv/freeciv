@@ -289,7 +289,12 @@ void dio_put_unit_order_json(struct json_data_out *dout,
     json_object_set_new(obj, "target", json_integer(order->target));
     json_object_set_new(obj, "sub_target", json_integer(order->sub_target));
     json_object_set_new(obj, "action", json_integer(order->action));
-    json_object_set_new(obj, "dir", json_integer(order->dir));
+    if (order->dir == -1) {
+      /* Avoid integer underflow */
+      json_object_set_new(obj, "dir", json_integer(-1));
+    } else {
+      json_object_set_new(obj, "dir", json_integer(order->dir));
+    }
     plocation_write_data(dout->json, location, obj);
   } else {
     dio_put_unit_order_raw(&dout->raw, order);
