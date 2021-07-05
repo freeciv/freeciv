@@ -1132,9 +1132,10 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   }
 
   /* Look for DiplRelTileOther war requirements from the action enablers. */
-  if (need_war_enabler(unit_type_get(actor), paction,
-                       actor_player, tile_owner(target_tile),
-                       utype_can_act_if_tgt_diplrel_tile_other)) {
+  if (target_tile != NULL
+      && need_war_enabler(unit_type_get(actor), paction,
+                          actor_player, tile_owner(target_tile),
+                          utype_can_act_if_tgt_diplrel_tile_other)) {
     return tile_owner(target_tile);
   }
 
