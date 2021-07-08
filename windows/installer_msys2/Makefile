@@ -354,7 +354,15 @@ install-env-qt5: install-env-common
 QT6_DLLS := \
 	libicuin68.dll \
 	libicuuc68.dll \
-	libicudt68.dll
+	libicudt68.dll \
+	Qt6Core.dll \
+	Qt6Gui.dll \
+	Qt6Widgets.dll \
+	libunistring-2.dll \
+	libpcre2-16-0.dll \
+	libpcre-1.dll \
+	libharfbuzz-0.dll \
+	libgraphite2.dll
 
 install-env-qt6: install-env-common
 	# add DLLs
