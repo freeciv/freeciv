@@ -140,7 +140,8 @@ void dai_calc_data(const struct player *pplayer, int *trade, int *expenses,
     }
 
     if (NULL != income) {
-      *income += pcity->surplus[O_GOLD];
+      /* Also the immediately used gold is part of income, not only surplus */
+      *income += pcity->usage[O_GOLD] + pcity->surplus[O_GOLD];
     }
   } city_list_iterate_end;
 
